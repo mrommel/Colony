@@ -52,28 +52,28 @@ public class Operation: Codable, Equatable {
         case startPosition
         case musterPosition
         case targetPosition
-        
+
         case lastTurnMoved
     }
 
     let identifier: String
     let type: UnitOperationType
     var state: OperationStateType = .none
-    var player: AbstractPlayer? = nil
-    var enemy: AbstractPlayer? = nil
-    var area: HexArea? = nil
+    var player: AbstractPlayer?
+    var enemy: AbstractPlayer?
+    var area: HexArea?
     var moveType: OperationMoveType = .none
 
-    var army: Army? = nil
+    var army: Army?
 
     var listOfUnitsCitiesHaveCommittedToBuild: [OperationSlot] = []
     var listOfUnitsWeStillNeedToBuild: [OperationSlot] = []
     var shouldReplaceLossesWithReinforcements: Bool = false
 
-    var startPosition: HexPoint? = nil // Coordinates of start city
-    var musterPosition: HexPoint? = nil // Coordinates of muster plot
-    var targetPosition: HexPoint? = nil // Coordinates of target plot
-    
+    var startPosition: HexPoint? // Coordinates of start city
+    var musterPosition: HexPoint? // Coordinates of muster plot
+    var targetPosition: HexPoint? // Coordinates of target plot
+
     private var lastTurnMovedValue: Int = -1
 
     init(type: UnitOperationType) {
@@ -101,7 +101,7 @@ public class Operation: Codable, Equatable {
         self.startPosition = try container.decodeIfPresent(HexPoint.self, forKey: .startPosition)
         self.musterPosition = try container.decodeIfPresent(HexPoint.self, forKey: .musterPosition)
         self.targetPosition = try container.decodeIfPresent(HexPoint.self, forKey: .targetPosition)
-        
+
         self.lastTurnMovedValue = try container.decode(Int.self, forKey: .lastTurnMoved)
     }
 
@@ -114,7 +114,7 @@ public class Operation: Codable, Equatable {
         try container.encode(self.state, forKey: .state)
         try container.encode(self.area, forKey: .area)
         try container.encode(self.moveType, forKey: .moveType)
-        
+
         //self.army = nil // try container.decodeIfPresent(Army.self, forKey: .army)
 
         //self.listOfUnitsCitiesHaveCommittedToBuild = [] // try container.decode([OperationSlot].self, forKey: .army)
@@ -124,7 +124,7 @@ public class Operation: Codable, Equatable {
         try container.encodeIfPresent(self.startPosition, forKey: .startPosition)
         try container.encodeIfPresent(self.musterPosition, forKey: .musterPosition)
         try container.encodeIfPresent(self.targetPosition, forKey: .targetPosition)
-        
+
         try container.encode(self.lastTurnMovedValue, forKey: .lastTurnMoved)
     }
 
@@ -139,21 +139,21 @@ public class Operation: Codable, Equatable {
 
         // create the armies that are needed and set the state to ARMYAISTATE_WAITING_FOR_UNITS_TO_REINFORCE
         self.buildListOfUnitsWeStillNeedToBuild()
-        let _ = self.grabUnitsFromTheReserves(at: nil, for: nil, in: gameModel)
-        
+        _ = self.grabUnitsFromTheReserves(at: nil, for: nil, in: gameModel)
+
         //
         self.set(lastTurnMoved: gameModel?.currentTurn ?? -1)
     }
-    
+
     /// Delete allocated objects
     private func uninit() {
-        
+
         // hopefully if this has been init'ed this should not happen
         if let owner = self.player {
 
             // remove the army (which should, in turn, free up its units for other tasks)
             if let army = self.army {
-                
+
                 army.kill()
                 owner.armies?.remove(army: army)
             }
@@ -166,9 +166,9 @@ public class Operation: Codable, Equatable {
 
         // Reset();
     }
-    
+
     func formation(in gameModel: GameModel?) -> UnitFormationType {
-        
+
         return .none
     }
 
@@ -181,14 +181,14 @@ public class Operation: Codable, Equatable {
 
         return false
     }
-    
+
     func lastTurnMoved() -> Int {
-        
+
         return self.lastTurnMovedValue
     }
-    
+
     func set(lastTurnMoved: Int) {
-        
+
         self.lastTurnMovedValue = lastTurnMoved
     }
 
@@ -282,7 +282,7 @@ public class Operation: Codable, Equatable {
 
     func closestUnit(in searchList: [OperationSearchUnit], needToCheckTarget: Bool, in gameModel: GameModel?) -> AbstractUnit? {
 
-        var bestUnit: AbstractUnit? = nil
+        var bestUnit: AbstractUnit?
         var bestDistance: Double = UnitMovementType.max
 
         let sortetSearchList = searchList.sorted(by: { $0.distance < $1.distance })
@@ -490,9 +490,13 @@ public class Operation: Codable, Equatable {
                         break
 
                     case .gatheringForces:
-                        if let centerOfMass = army.centerOfMass(domain: self.isAllNavalOperation() || self.isMixedLandNavalOperation() ? .sea : .land, in: gameModel), let musterPosition = self.musterPosition {
+                        let domain: UnitDomainType = self.isAllNavalOperation() || self.isMixedLandNavalOperation() ? .sea : .land
+                        
+                        if let centerOfMass = army.centerOfMass(domain: domain, in: gameModel),
+                           let musterPosition = self.musterPosition {
 
-                            if centerOfMass.distance(to: musterPosition) <= gatheredTolerance && army.furthestUnitDistance(towards: musterPosition) <= gatheredTolerance * 3 / 2 {
+                            if centerOfMass.distance(to: musterPosition) <= gatheredTolerance &&
+                                army.furthestUnitDistance(towards: musterPosition) <= gatheredTolerance * 3 / 2 {
 
                                 self.armyInPosition(in: gameModel)
                                 return true
@@ -500,8 +504,10 @@ public class Operation: Codable, Equatable {
                         }
 
                     case .movingToTarget:
-
-                        if let centerOfMass = army.centerOfMass(domain:  self.isAllNavalOperation() || self.isMixedLandNavalOperation() ? .sea : .land, in: gameModel), let targetPosition = self.targetPosition {
+                        let domain: UnitDomainType = self.isAllNavalOperation() || self.isMixedLandNavalOperation() ? .sea : .land
+                        
+                        if let centerOfMass = army.centerOfMass(domain: domain, in: gameModel),
+                           let targetPosition = self.targetPosition {
 
                             if centerOfMass.distance(to: targetPosition) <= gatheredTolerance && army.furthestUnitDistance(towards: targetPosition) <= gatheredTolerance * 3 / 2 {
 
@@ -668,14 +674,14 @@ public class Operation: Codable, Equatable {
             return 3
         }
     }
-    
+
     /// Perform the deletion of this operation
     func kill(with reason: OperationAbortReasonType) {
 
         if state == .aborted(reason: .none) {
             self.state = .aborted(reason: reason)
         }
-        
+
         // LogOperationEnd();
         self.uninit()
         self.player?.delete(operation: self)
@@ -689,9 +695,9 @@ public class Operation: Codable, Equatable {
     /// Delete the operation if marked to go away
     @discardableResult
     func doDelayedDeath(in gameModel: GameModel?) -> Bool {
-        
+
         if self.shouldAbort(in: gameModel) {
-            
+
             if self.state == .successful {
                 self.kill(with: .success)
             } else {
@@ -702,70 +708,73 @@ public class Operation: Codable, Equatable {
 
         return false
     }
-    
+
     /// Returns true when we should abort the operation totally (besides when we have lost all units in it)
     func shouldAbort(in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel,
               let army = self.army else {
             fatalError("cant get gameModel")
         }
-        
+
         // Mark units in successful operation
         if self.state == .successful {
-            
+
             for unitRef in army.units() {
-                 
+
                 guard let unit = unitRef else {
                     continue
                 }
-                
+
                 unit.setDeployFromOperationTurn(to: gameModel.currentTurn)
             }
         }
 
         return self.state == .aborted(reason: .none) || self.state == .successful
     }
-    
+
     /// Report percentage distance traveled from muster point to target (using army that is furthest along)
     func percentFromMusterPointToTarget(in gameModel: GameModel?) -> Int {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         var rtnValue = 0
 
         switch self.state {
-            
+
         case .gatheringForces, .aborted(reason: _), .recruitingUnits, .none:
-            
+
             return 0
 
         case .atTarget, .successful:
             return 100
 
         case .movingToTarget:
-            
+
                 // Let each army perform its own update
             if let army = self.army {
 
                 let armyMoveType: UnitMovementType = self.moveType == .navalEscort || self.moveType == .freeformNaval ? .swim : .walk
-                
+
                 let pathFinder = AStarPathfinder()
                 pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: armyMoveType, for: self.player, unitMapType: .combat, canEmbark: true)
-                
+
                 guard let musterPosition = self.musterPosition else {
                     fatalError("muster position not available")
                 }
-                
+
                 guard let targetPosition = self.targetPosition else {
                     fatalError("target position not available")
                 }
-                
+
                 // Use the step path finder to compute distance
                 let distanceMusterToTarget = (pathFinder.shortestPath(fromTileCoord: musterPosition, toTileCoord: targetPosition) ?? HexPath()).count
-                let distanceCurrentToTarget = (pathFinder.shortestPath(fromTileCoord: army.centerOfMass(domain: self.isAllNavalOperation() || self.isMixedLandNavalOperation() ? .sea : .land, in: gameModel) ?? musterPosition, toTileCoord: targetPosition) ?? HexPath()).count
+                let domain: UnitDomainType = self.isAllNavalOperation() || self.isMixedLandNavalOperation() ? .sea : .land
+                let startLocation = army.centerOfMass(domain: domain, in: gameModel) ?? musterPosition
+                let tempPath: HexPath? = pathFinder.shortestPath(fromTileCoord: startLocation, toTileCoord: targetPosition)
+                let distanceCurrentToTarget = (tempPath ?? HexPath()).count
 
                 if distanceMusterToTarget <= 0 {
                     return 0
@@ -780,22 +789,22 @@ public class Operation: Codable, Equatable {
 
         return rtnValue
     }
-    
+
     /// Find the area where our operation is occurring
     func operationStartCity(in gameModel: GameModel?) -> AbstractCity? {
-        
+
         guard let gameModel = gameModel,
               let player = self.player else {
             fatalError("cant get gameModel")
         }
-        
+
         if let startPosition = self.startPosition {
             return gameModel.city(at: startPosition)
         }
 
         var bestTotal: Int = 0
-        var bestArea: HexArea? = nil
-        var bestCity: AbstractCity? = nil
+        var bestArea: HexArea?
+        var bestCity: AbstractCity?
 
         // Do we still have a capital?
         if let capitalCity = gameModel.capital(of: player) {
@@ -804,19 +813,19 @@ public class Operation: Codable, Equatable {
 
         // No capital, find the area with the most combined cities between us and our enemy (and need at least 1 from each)
         for loopArea in gameModel.areas() {
-            
+
             guard let centerTile = gameModel.tile(at: loopArea.center()) else {
                 continue
             }
-            
+
             if centerTile.isWater() {
                 continue
             }
-            
+
             let myCities = gameModel.cities(of: player, in: loopArea).count
             var enemyCities = 0
             if myCities > 0 {
-                
+
                 if self.enemy != nil && self.enemy!.leader != .barbar {
                     enemyCities = gameModel.cities(of: self.enemy!, in: loopArea).count
                     if enemyCities == 0 {
@@ -834,44 +843,44 @@ public class Operation: Codable, Equatable {
         }
 
         if let bestArea = bestArea {
-            
+
             // Know which continent to use, now use our largest city there as the start city
             //CvCity* pCity;
             bestTotal = 0
-            
+
             for cityRef in gameModel.cities(of: player) {
 
                 guard let city = cityRef else {
                     continue
                 }
-                
+
                 if gameModel.area(of: city.location) == bestArea {
-                    
+
                     if city.population() > bestTotal {
                         bestTotal = city.population()
                         bestCity = cityRef
                     }
                 }
             }
-            
+
             return bestCity
         } else {
             return nil
         }
     }
-    
+
     func armyMoved(in gameModel: GameModel?) -> Bool {
-        
+
         return false
     }
-    
+
     func isCivilianRequired() -> Bool {
-        
+
         fatalError("niy")
     }
-    
+
     func canTacticalAIInterrupt() -> Bool {
-        
+
         return false
     }
 
@@ -879,27 +888,27 @@ public class Operation: Codable, Equatable {
 
         return lhs.type == rhs.type && lhs.area == rhs.area && lhs.enemy?.leader == rhs.enemy?.leader && lhs.moveType == rhs.moveType && lhs.targetPosition == rhs.targetPosition
     }
-    
+
     /// Pick this turn's desired "center of mass" for the army
     func computeCenterOfMassForTurn(closestCurrentCenterOfMassOnPath: inout HexPoint, in gameModel: GameModel?) -> HexPoint? {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
-        var rtnValue: HexPoint? = nil
+
+        var rtnValue: HexPoint?
         //CvPlayer &kPlayer = GET_PLAYER(m_eOwner);
 
         switch state {
-        
+
         case .aborted(reason: _), .atTarget, .successful:
             // NOOP
-            break;
+            break
 
         case .recruitingUnits, .gatheringForces:
             // Just use the muster point if we're still recruiting/gathering
             rtnValue = self.musterPosition
-            break;
+            break
 
         case .movingToTarget:
 
@@ -912,23 +921,23 @@ public class Operation: Codable, Equatable {
             //m_NodesOnPath.clear();
 
             var goalPoint: HexPoint? = self.army?.goal
-            
+
             // Is goal a city and we're a naval operation?  If so, go just offshore.
             guard let goal = goalPoint,
                   let goalPlot = gameModel.tile(at: goal) else {
                 return nil
             }
-            
+
             if !goalPlot.isWater() && self.isAllNavalOperation() {
                 goalPoint = self.player?.militaryAI?.coastalPlotAdjacent(to: goal, army: self.army, in: gameModel)
             }
 
             let lastTurnArmyPlot = self.army?.position
-            
+
             let centerOfMass = self.army?.centerOfMass(domain: self.isAllNavalOperation() || self.isMixedLandNavalOperation() ? .sea : .land, in: gameModel)
-            
+
             if lastTurnArmyPlot != nil && centerOfMass != nil && goalPoint != nil {
-                
+
                 fatalError("not implemented yet")
                 /*
                 // Push center of mass forward a number of hexes equal to average movement
@@ -967,14 +976,12 @@ public class Operation: Codable, Equatable {
                     return nil
                 } */
             }
-            
+
         default:
             // NOOP
             break
         }
-        
+
         return rtnValue
     }
 }
-
-

@@ -11,6 +11,8 @@ import Foundation
 import XCTest
 @testable import SmartAILibrary
 
+// swiftlint:disable force_try
+
 class AdvisorTests: XCTestCase {
 
     var objectToTest: AbstractCity?
@@ -53,8 +55,8 @@ class AdvisorTests: XCTestCase {
 
         mapModel.add(city: self.objectToTest, in: gameModel)
 
-        let ui = TestUI()
-        gameModel.userInterface = ui
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
 
         self.objectToTest?.set(population: 2, reassignCitizen: false, in: gameModel)
 
@@ -91,8 +93,8 @@ class AdvisorTests: XCTestCase {
 
         mapModel.add(city: self.objectToTest, in: gameModel)
 
-        let ui = TestUI()
-        gameModel.userInterface = ui
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
 
         self.objectToTest?.set(population: 2, reassignCitizen: false, in: gameModel)
 
@@ -140,8 +142,8 @@ class AdvisorTests: XCTestCase {
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [barbarianPlayer, playerAlexander, playerAugustus], on: mapModel)
 
-        let ui = TestUI()
-        gameModel.userInterface = ui
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
 
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize(in: gameModel)

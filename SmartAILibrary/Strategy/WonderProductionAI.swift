@@ -11,7 +11,7 @@ import Foundation
 class WonderWeigths: WeightedList<WonderType> {
 
     override func fill() {
-        
+
         for wonderType in WonderType.all {
             self.add(weight: 0.0, for: wonderType)
         }
@@ -19,56 +19,56 @@ class WonderWeigths: WeightedList<WonderType> {
 }
 
 public class WonderProductionAI {
-    
+
     internal var player: AbstractPlayer?
     private var weights: WonderWeigths
-    
+
     init(player: AbstractPlayer?) {
 
         self.player = player
-        
+
         self.weights = WonderWeigths()
         self.weights.fill()
-        
+
         self.initWeights()
     }
-    
+
     func initWeights() {
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         for flavorType in FlavorType.all {
-            
+
             let leaderFlavor = player.personalAndGrandStrategyFlavor(for: flavorType)
-            
+
             for wonderType in WonderType.all {
-                
+
                 let wonderFlavor = wonderType.flavor(for: flavorType)
-                
+
                 self.weights.add(weight: wonderFlavor * leaderFlavor, for: wonderType)
             }
         }
-        
+
     }
-    
+
     func chooseWonder(adjustForOtherPlayers: Bool, nextWonderWeight: Int, in gameModel: GameModel?) -> (WonderType, Int) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let citySpecializationAI = player.citySpecializationAI else {
             fatalError("cant get citySpecializationAI")
         }
-        
+
         let cities = gameModel.cities(of: player)
-        
+
         guard !cities.isEmpty else {
             fatalError("cant get cities")
         }
@@ -93,17 +93,17 @@ public class WonderProductionAI {
 
         // Loop through adding the available wonders
         for wonderType in WonderType.all {
-            
+
             // Make sure this wonder can be built now
             if self.haveCityToBuild(wonderType: wonderType, in: gameModel) {
-                
+
                 let turnsRequired = max(1.0, Double(wonderType.productionCost()) / estimatedProductionPerTurn)
-                
+
                 // 10 turns will add 0.02; 80 turns will add 0.16
                 let additionalTurnCostFactor = 0.015 /* AI_PRODUCTION_WEIGHT_MOD_PER_TURN_LEFT */ * Double(turnsRequired)
                 let totalCostFactor = 0.15 /* AI_PRODUCTION_WEIGHT_BASE_MOD */ + additionalTurnCostFactor    //
                 let weightDivisor = pow(Double(turnsRequired), totalCostFactor)
-                
+
                 let weight = self.weights.weight(of: wonderType) / weightDivisor
 
                 if adjustForOtherPlayers {
@@ -126,7 +126,7 @@ public class WonderProductionAI {
 
         // Sort items and grab the first one
         if !buildables.items.isEmpty {
-            
+
             buildables.sort()
             //LogPossibleWonders();
 
@@ -135,38 +135,38 @@ public class WonderProductionAI {
                     return (selection, Int(buildables.totalWeights()))
                 }
             }
-            
+
             // Nothing with any weight
             return (.none, 0)
-            
+
         } else {
             // Unless we didn't find any
             return (.none, 0)
         }
     }
-    
+
     /// Check to make sure some city can build this wonder
     private func haveCityToBuild(wonderType: WonderType, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         for loopCityRef in gameModel.cities(of: player) {
-            
+
             guard let loopCity = loopCityRef else {
                 continue
             }
-            
+
             if loopCity.canBuild(wonder: wonderType, in: gameModel) {
                 return true
             }
         }
-        
+
         return false
     }
 }

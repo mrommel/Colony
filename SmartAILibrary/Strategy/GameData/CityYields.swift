@@ -9,7 +9,7 @@
 import Foundation
 
 extension City {
-    
+
     // MARK: greatPeople functions
 
     public func greatPeoplePointsPerTurn(in gameModel: GameModel?) -> GreatPersonPoints {
@@ -22,15 +22,15 @@ extension City {
 
         return greatPeoplePerTurn
     }
-    
+
     private func greatPeoplePointsFromWonders() -> GreatPersonPoints {
-        
+
         guard let wonders = self.wonders else {
             fatalError("cant get wonders")
         }
-        
+
         let greatPeoplePoints: GreatPersonPoints = GreatPersonPoints()
-        
+
         // greatLighthouse
         if wonders.has(wonder: .greatLighthouse) {
             // +1 Admiral6 Great Admiral point per turn
@@ -59,15 +59,15 @@ extension City {
 
         return greatPeoplePoints
     }
-    
+
     private func greatPeoplePointsFromBuildings() -> GreatPersonPoints {
-        
+
         guard let buildings = self.buildings else {
             fatalError("cant get buildings")
         }
-        
+
         let greatPeoplePoints: GreatPersonPoints = GreatPersonPoints()
-        
+
         // shrine
         if buildings.has(building: .shrine) {
             // +1 Prophet6 Great Prophet point per turn.
@@ -124,15 +124,15 @@ extension City {
 
         return greatPeoplePoints
     }
-    
+
     private func greatPeoplePointsFromDistricts() -> GreatPersonPoints {
-        
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
-        
+
         let greatPeoplePoints: GreatPersonPoints = GreatPersonPoints()
-        
+
         // harbor
         if districts.has(district: .harbor) {
             // +1 Admiral6 Great Admiral point per turn
@@ -147,7 +147,7 @@ extension City {
 
         return greatPeoplePoints
     }
-    
+
     // MARK: production functions
 
     public func productionPerTurn(in gameModel: GameModel?) -> Double {
@@ -198,7 +198,7 @@ extension City {
                         // +2 Civ6Food Food, +2 Civ6Gold Gold, and +1 Civ6Production Production on all Desert tiles for this city (non-Floodplains).
                         productionValue += 1.0
                     }
-                    
+
                     // motherRussia
                     if adjacentTile.terrain() == .tundra && player?.leader.civilization().ability() == .motherRussia {
                         // Tundra tiles provide +1 Civ6Faith Faith and +1 Civ6Production Production, in addition to their usual yields.
@@ -260,22 +260,22 @@ extension City {
 
         return productionFromBuildings
     }
-    
+
     private func productionFromTradeRoutes(in gameModel: GameModel?) -> Double {
-        
+
         guard let tradeRoutes = self.player?.tradeRoutes?.tradeRoutesStarting(at: self) else {
             fatalError("cant get tradeRoutes")
         }
-        
+
         var productionFromTradeRoutes: Double = 0.0
-        
+
         for tradeRoute in tradeRoutes {
             productionFromTradeRoutes += tradeRoute.yields(in: gameModel).production
         }
-        
+
         return productionFromTradeRoutes
     }
-    
+
     // MARK: faith functions
 
     public func faithPerTurn(in gameModel: GameModel?) -> Double {
@@ -291,7 +291,7 @@ extension City {
 
         return faithPerTurn
     }
-    
+
     private func faithFromTiles(in gameModel: GameModel?) -> Double {
 
         guard let gameModel = gameModel else {
@@ -323,7 +323,7 @@ extension City {
                         // +1 Civ6Science Science, +1 Civ6Faith Faith, and +1 Civ6Culture Culture to all Coast tiles in this city.
                         faithFromTiles += 1.0
                     }
-                    
+
                     // motherRussia
                     if adjacentTile.terrain() == .tundra && player?.leader.civilization().ability() == .motherRussia {
                         // Tundra tiles provide +1 Civ6Faith Faith and +1 Civ6Production Production, in addition to their usual yields.
@@ -335,7 +335,7 @@ extension City {
 
         return faithFromTiles
     }
-    
+
     private func faithFromGovernmentType() -> Double {
 
         guard let player = self.player else {
@@ -385,40 +385,40 @@ extension City {
 
         return faithFromBuildings
     }
-    
+
     private func faithFromDistricts(in gameModel: GameModel?) -> Double {
-        
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
-        
+
         var faithFromDistricts: Double = 0.0
-        
+
         if districts.has(district: .holySite) {
-            
+
             for neighbor in self.location.neighbors() {
-                
+
                 guard let neighborTile = gameModel?.tile(at: neighbor) else {
                     continue
                 }
-                
+
                 if neighborTile.feature().isWonder() {
                     // Major bonus (+2 Faith Faith) for each adjacent Natural Wonder
                     faithFromDistricts += 2.0
                 }
-                
+
                 if neighborTile.feature() == .mountains {
                     // Standard bonus (+1 Faith Faith) for each adjacent Mountain tile
                     faithFromDistricts += 1.0
                 }
-                
+
                 if neighborTile.feature() == .forest || neighborTile.feature() == .rainforest {
                     // Minor bonus (+½ Faith Faith) for each adjacent District District tile and each adjacent unimproved Woods tile
                     faithFromDistricts += 0.5
                 }
             }
         }
-        
+
         return faithFromDistricts
     }
 
@@ -450,24 +450,24 @@ extension City {
 
         return faithFromWonders
     }
-    
+
     private func faithFromTradeRoutes(in gameModel: GameModel?) -> Double {
-        
+
         guard let tradeRoutes = self.player?.tradeRoutes?.tradeRoutesStarting(at: self) else {
             fatalError("cant get tradeRoutes")
         }
-        
+
         var faithFromTradeRoutes: Double = 0.0
-        
+
         for tradeRoute in tradeRoutes {
             faithFromTradeRoutes += tradeRoute.yields(in: gameModel).faith
         }
-        
+
         return faithFromTradeRoutes
     }
-    
+
     // MARK: culture functions
-    
+
     public func culturePerTurn(in gameModel: GameModel?) -> Double {
 
         var culturePerTurn: Double = 0.0
@@ -599,24 +599,24 @@ extension City {
         // science & culture from population
         return self.populationValue * 0.3
     }
-    
+
     private func cultureFromTradeRoutes(in gameModel: GameModel?) -> Double {
-        
+
         guard let tradeRoutes = self.player?.tradeRoutes?.tradeRoutesStarting(at: self) else {
             fatalError("cant get tradeRoutes")
         }
-        
+
         var cultureFromTradeRoutes: Double = 0.0
-        
+
         for tradeRoute in tradeRoutes {
             cultureFromTradeRoutes += tradeRoute.yields(in: gameModel).culture
         }
-        
+
         return cultureFromTradeRoutes
     }
-    
+
     // MARK: gold functions
-    
+
     public func goldPerTurn(in gameModel: GameModel?) -> Double {
 
         var goldPerTurn: Double = 0.0
@@ -744,22 +744,22 @@ extension City {
 
         return goldFromWonders
     }
-    
+
     private func goldFromTradeRoutes(in gameModel: GameModel?) -> Double {
-        
+
         guard let tradeRoutes = self.player?.tradeRoutes?.tradeRoutesStarting(at: self) else {
             fatalError("cant get tradeRoutes")
         }
-        
+
         var goldFromTradeRoutes: Double = 0.0
-        
+
         for tradeRoute in tradeRoutes {
             goldFromTradeRoutes += tradeRoute.yields(in: gameModel).gold
         }
-        
+
         return goldFromTradeRoutes
     }
-    
+
     // MARK: science functions
 
     public func sciencePerTurn(in gameModel: GameModel?) -> Double {
@@ -776,7 +776,7 @@ extension City {
 
         return sciencePerTurn
     }
-    
+
     private func scienceFromTiles(in gameModel: GameModel?) -> Double {
 
         guard let gameModel = gameModel else {
@@ -880,55 +880,55 @@ extension City {
         // science & culture from population
         return self.populationValue * 0.5
     }
-    
+
     private func scienceFromTradeRoutes(in gameModel: GameModel?) -> Double {
-        
+
         guard let tradeRoutes = self.player?.tradeRoutes?.tradeRoutesStarting(at: self) else {
             fatalError("cant get tradeRoutes")
         }
-        
+
         var scienceFromTradeRoutes: Double = 0.0
-        
+
         for tradeRoute in tradeRoutes {
             scienceFromTradeRoutes += tradeRoute.yields(in: gameModel).science
         }
-        
+
         return scienceFromTradeRoutes
     }
-    
+
     // MARK: food functions
-    
+
     public func foodPerTurn(in gameModel: GameModel?) -> Double {
-        
+
         var foodPerTurn: Double = 0.0
-        
+
         foodPerTurn += self.foodFromTiles(in: gameModel)
         foodPerTurn += self.foodFromGovernmentType()
         foodPerTurn += self.foodFromBuildings(in: gameModel)
         foodPerTurn += self.foodFromWonders(in: gameModel)
         foodPerTurn += self.foodFromTradeRoutes(in: gameModel)
-        
+
         return foodPerTurn
     }
-    
+
     private func foodFromTiles(in gameModel: GameModel?) -> Double {
-        
+
         guard let gameModel = gameModel else {
             fatalError("no game model provided")
         }
-        
+
         guard let cityCitizens = self.cityCitizens else {
             fatalError("no cityCitizens provided")
         }
-        
+
         guard let wonders = self.wonders else {
             fatalError("cant get wonders")
         }
-        
+
         var foodValue: Double = 0.0
-        
+
         if let centerTile = gameModel.tile(at: self.location) {
-            
+
             foodValue += centerTile.yields(for: self.player, ignoreFeature: false).food
 
             // The yield of the tile occupied by the city center will be increased to 2 Food and 1 Production, if either was previously lower (before any bonus yields are applied).
@@ -938,18 +938,18 @@ extension City {
         }
 
         for point in cityCitizens.workingTileLocations() {
-            
+
             // DEBUG
             /*if cityCitizens.isWorked(at: point) {
                 print("-- working tile at: \(point)")
             } else {
                 print("-- non working tile at: \(point)")
             }*/
-            
+
             if cityCitizens.isWorked(at: point) {
                 if let adjacentTile = gameModel.tile(at: point) {
                     foodValue += adjacentTile.yields(for: self.player, ignoreFeature: false).food
-                    
+
                     if adjacentTile.terrain() == .desert && !adjacentTile.has(feature: .floodplains) && wonders.has(wonder: .petra) {
                         // +2 Civ6Food Food, +2 Civ6Gold Gold, and +1 Civ6Production Production on all Desert tiles for this city (non-Floodplains).
                         foodValue += 2.0
@@ -957,22 +957,22 @@ extension City {
                 }
             }
         }
-        
+
         return foodValue
     }
-    
+
     private func foodFromGovernmentType() -> Double {
-        
+
         guard let player = self.player else {
             fatalError("no player provided")
         }
-        
+
         guard let buildings = self.buildings else {
             fatalError("cant get buildings")
         }
-        
+
         var foodFromGovernmentValue: Double = 0.0
-        
+
         // yields from government
         if let government = player.government {
 
@@ -986,86 +986,86 @@ extension City {
 
         return foodFromGovernmentValue
     }
-    
+
     private func foodFromBuildings(in gameModel: GameModel?) -> Double {
-        
+
         guard let buildings = self.buildings else {
             fatalError("no buildings set")
         }
-        
+
         var foodFromBuildings: Double = 0.0
-        
+
         // gather food from builds
         for building in BuildingType.all {
             if buildings.has(building: building) {
                 foodFromBuildings += building.yields().food
             }
         }
-        
+
         // handle special building rules
         if buildings.has(building: .waterMill) {
             foodFromBuildings += self.amountOfNearby(resource: .rice, in: gameModel)
             foodFromBuildings += self.amountOfNearby(resource: .wheat, in: gameModel)
         }
-        
+
         if buildings.has(building: .lighthouse) {
             foodFromBuildings += self.amountOfNearby(terrain: .shore, in: gameModel)
             // fixme: lake feature
         }
-        
+
         return foodFromBuildings
     }
-    
+
     private func foodFromWonders(in gameModel: GameModel?) -> Double {
-    
+
         guard let wonders = self.wonders else {
             fatalError("cant get wonders")
         }
-    
+
         var foodFromWonders: Double = 0.0
-        
+
         if wonders.has(wonder: .templeOfArtemis) {
             // +4 Civ6Food Food
             foodFromWonders += 4.0
         }
-        
+
         return foodFromWonders
     }
-    
+
     private func foodFromTradeRoutes(in gameModel: GameModel?) -> Double {
-        
+
         guard let tradeRoutes = self.player?.tradeRoutes?.tradeRoutesStarting(at: self) else {
             fatalError("cant get tradeRoutes")
         }
-        
+
         var foodFromTradeRoutes: Double = 0.0
-        
+
         for tradeRoute in tradeRoutes {
             foodFromTradeRoutes += tradeRoute.yields(in: gameModel).food
         }
-        
+
         return foodFromTradeRoutes
     }
-    
+
     // MARK: housing functions
-    
+
     public func housingPerTurn(in gameModel: GameModel?) -> Double {
-        
+
         var housing = self.baseHousing(in: gameModel)
         housing += self.housingFromBuildings()
         housing += self.housingFromDistricts()
         housing += self.housingFromWonders()
         housing += self.housingFromImprovements(in: gameModel)
-         
+
         return housing
     }
-    
+
     public func baseHousing(in gameModel: GameModel?) -> Double {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         if let tile = gameModel.tile(at: self.location) {
             for neighbor in self.location.neighbors() {
                 if let neighborTile = gameModel.tile(at: neighbor) {
@@ -1075,39 +1075,39 @@ extension City {
                 }
             }
         }
-        
+
         if gameModel.isCoastal(at: self.location) {
             return 3
         }
-        
+
         return 2
     }
-    
+
     public func housingFromBuildings() -> Double {
-    
+
         guard let buildings = self.buildings else {
             fatalError("cant get buildings")
         }
-        
+
         return buildings.housing()
     }
-    
+
     public func housingFromDistricts() -> Double {
-        
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
-        
+
         guard let government = self.player?.government else {
             fatalError("cant get government")
         }
-        
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
 
         var housingFromDistricts: Double = 0.0
-            
+
         // All cities with a district receive +1 Housing6 Housing and +1 Amenities6 Amenity.
         if government.currentGovernment() == .classicalRepublic {
 
@@ -1115,78 +1115,78 @@ extension City {
                 housingFromDistricts += 1.0
             }
         }
-        
+
         // .. and +1 Housing6 Housing per District.
         if government.currentGovernment() == .democracy {
             housingFromDistricts += Double(districts.numberOfBuildDistricts())
         }
-        
+
         // +1 Housing6 Housing in all cities with at least 2 specialty districts.
         if government.has(card: .insulae) {
             if districts.numberOfBuildDistricts() >= 2 {
                 housingFromDistricts += 1.0
             }
         }
-        
+
         return housingFromDistricts
     }
-    
+
     public func housingFromWonders() -> Double {
-        
+
         guard let wonders = self.wonders else {
             fatalError("cant get wonders")
         }
-        
+
         var housingFromWonders: Double = 0.0
-        
+
         if wonders.has(wonder: .templeOfArtemis) {
             // +3 Housing6 Housing
             housingFromWonders += 3.0
         }
-        
+
         if wonders.has(wonder: .hangingGardens) {
             // +2 Housing6 Housing
             housingFromWonders += 2.0
         }
-        
+
         return housingFromWonders
     }
-    
+
     // Each Farm, Pasture, Plantation, or Camp supports a small amount of Citizen6 Population — 1 Housing6 Housing for every 2 such improvements.
     private func housingFromImprovements(in gameModel: GameModel?) -> Double {
-        
+
         guard let gameModel = gameModel else {
             fatalError("no game model provided")
         }
-        
+
         guard let cityCitizens = self.cityCitizens else {
             fatalError("no cityCitizens provided")
         }
-        
+
         var farms: Int = 0
         var pastures: Int = 0
         var plantations: Int = 0
         var camps: Int = 0
-        
+
         for point in cityCitizens.workingTileLocations() {
             if cityCitizens.isWorked(at: point) {
                 if let adjacentTile = gameModel.tile(at: point) {
-                    
+
                     // farms
                     if adjacentTile.has(improvement: .farm) {
                         farms += 1
                     }
-                    
+
                     // pastures
                     if adjacentTile.has(improvement: .pasture) {
                         pastures += 1
                     }
-                    
+
                     // plantations
                     if adjacentTile.has(improvement: .plantation) {
                         plantations += 1
                     }
-                    
+
                     // camps
                     if adjacentTile.has(improvement: .camp) {
                         camps += 1
@@ -1194,14 +1194,14 @@ extension City {
                 }
             }
         }
-        
+
         var housingValue: Double = 0.0
-        
+
         housingValue += Double((farms / 2))
         housingValue += Double((pastures / 2))
         housingValue += Double((plantations / 2))
         housingValue += Double((camps / 2))
-        
+
         return housingValue
     }
 }

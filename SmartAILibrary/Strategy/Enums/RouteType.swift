@@ -9,20 +9,20 @@
 import Foundation
 
 public enum RouteType: Int, Codable {
-    
+
     case none
-    
+
     case ancientRoad
     case classicalRoad
     case industrialRoad
     case modernRoad
-    
+
     func era() -> EraType? {
 
         switch self {
-            
+
         case .none: return nil
-            
+
         case .ancientRoad: return .ancient
         case .classicalRoad: return .classical
         case .industrialRoad: return .industrial

@@ -9,7 +9,7 @@
 import Foundation
 
 enum UnitTradeRouteDirection {
-    
+
     case forward
     case backward
 }

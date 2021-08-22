@@ -9,9 +9,9 @@
 import Foundation
 
 enum CityAttackApproachType {
-    
+
     case none // ATTACK_APPROACH_NONE
-    
+
     case unrestricted // ATTACK_APPROACH_UNRESTRICTED
     case open // ATTACK_APPROACH_OPEN
     case neutral // ATTACK_APPROACH_NEUTRAL
@@ -23,6 +23,7 @@ enum CityAttackApproachType {
 //  STRUCT:     CvMilitaryTarget
 //!  \brief        A possible operation target (and muster city) for evaluation
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// swiftlint:disable line_length
 class MilitaryTarget: Codable, Equatable {
 
     var targetCity: AbstractCity?
@@ -31,9 +32,9 @@ class MilitaryTarget: Codable, Equatable {
     var musterNearbyUnitPower: Int
     var pathLength: Int
     var attackBySea: Bool
-    
+
     init() {
-        
+
         self.targetCity = nil
         self.musterCity = nil
         self.attackBySea = false
@@ -41,9 +42,9 @@ class MilitaryTarget: Codable, Equatable {
         self.targetNearbyUnitPower = 0
         self.pathLength = 0
     }
-    
+
     required init(from decoder: Decoder) throws {
-        
+
         self.targetCity = nil
         self.musterCity = nil
         self.attackBySea = false
@@ -51,47 +52,48 @@ class MilitaryTarget: Codable, Equatable {
         self.targetNearbyUnitPower = 0
         self.pathLength = 0
     }
-    
+
     func encode(to encoder: Encoder) throws {
-        
+
     }
-    
+
     static func == (lhs: MilitaryTarget, rhs: MilitaryTarget) -> Bool {
-        
+
         guard let lhsTargetCity = lhs.targetCity else {
             return false
         }
-        
+
         guard let lhsMusterCity = lhs.musterCity else {
             return false
         }
-        
+
         guard let rhsTargetCity = rhs.targetCity else {
             return false
         }
-        
+
         guard let rhsMusterCity = rhs.musterCity else {
             return false
         }
-        
+
         return lhsTargetCity.location == rhsTargetCity.location && lhsMusterCity.location == rhsMusterCity.location
     }
 }
 
+// swiftlint:disable type_body_length
 public class MilitaryAI: Codable {
 
     enum CodingKeys: String, CodingKey {
-        
+
         case militaryStrategyAdoption
         case flavors
-        
+
         case baseData
         case barbarianData
         case landDefenseState
         case navalDefenseState
         case totalThreatWeight
     }
-    
+
     var player: Player?
     let militaryStrategyAdoption: MilitaryStrategyAdoption
     var flavors: Flavors
@@ -158,12 +160,12 @@ public class MilitaryAI: Codable {
     class MilitaryStrategyAdoptionItem: Codable {
 
         enum CodingKeys: String, CodingKey {
-            
+
             case militaryStrategy
             case adopted
             case turnOfAdoption
         }
-        
+
         let militaryStrategy: MilitaryStrategyType
         var adopted: Bool
         var turnOfAdoption: Int
@@ -174,18 +176,18 @@ public class MilitaryAI: Codable {
             self.adopted = adopted
             self.turnOfAdoption = turnOfAdoption
         }
-        
+
         required init(from decoder: Decoder) throws {
-            
+
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            
+
             self.militaryStrategy = try container.decode(MilitaryStrategyType.self, forKey: .militaryStrategy)
             self.adopted = try container.decode(Bool.self, forKey: .adopted)
             self.turnOfAdoption = try container.decode(Int.self, forKey: .turnOfAdoption)
         }
-        
+
         func encode(to encoder: Encoder) throws {
-        
+
             var container = encoder.container(keyedBy: CodingKeys.self)
 
             try container.encode(self.militaryStrategy, forKey: .militaryStrategy)
@@ -260,16 +262,16 @@ public class MilitaryAI: Codable {
         self.landDefenseStateVal = .none
         self.navalDefenseStateVal = .none
     }
-    
+
     public required init(from decoder: Decoder) throws {
-    
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-    
+
         self.player = nil
-        
+
         self.militaryStrategyAdoption = try container.decode(MilitaryStrategyAdoption.self, forKey: .militaryStrategyAdoption)
         self.flavors = try container.decode(Flavors.self, forKey: .flavors)
-        
+
         self.baseData = try container.decode(MilitaryBaseData.self, forKey: .baseData)
         self.barbarianDataVal = try container.decode(BarbarianData.self, forKey: .barbarianData)
         self.landDefenseStateVal = try container.decode(DefenseStateType.self, forKey: .landDefenseState)
@@ -278,19 +280,19 @@ public class MilitaryAI: Codable {
     }
 
     public func encode(to encoder: Encoder) throws {
-    
+
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.militaryStrategyAdoption, forKey: .militaryStrategyAdoption)
         try container.encode(self.flavors, forKey: .flavors)
-        
+
         try container.encode(self.baseData, forKey: .baseData)
         try container.encode(self.barbarianDataVal, forKey: .barbarianData)
         try container.encode(self.landDefenseStateVal, forKey: .landDefenseState)
         try container.encode(self.navalDefenseStateVal, forKey: .navalDefenseState)
         try container.encode(self.totalThreatWeight, forKey: .totalThreatWeight)
     }
-    
+
     func updateMilitaryStrategies(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
@@ -453,68 +455,68 @@ public class MilitaryAI: Codable {
 
         return 20 // FIXME
     }
-    
+
     /// Get a pointer to the sneak attack operation against a target
     func sneakAttackOperation(against enemy: AbstractPlayer?) -> Operation? {
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         if let sneakCityAttackOperation = player.operationsOf(type: .sneakCityAttack).first {
             return sneakCityAttackOperation
         }
-        
+
         if let navalSneakAttackOperation = player.operationsOf(type: .navalSneakAttack).first {
             return navalSneakAttackOperation
         }
-        
+
         return nil
     }
 
     /// Get a pointer to the show of force operation against a target
     func showOfForceOperation(against enemy: AbstractPlayer?) -> Operation? {
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         if let sneakCityAttackOperation = player.operationsOf(type: .smallCityAttack).first {
             return sneakCityAttackOperation
         }
-        
+
         return nil
     }
 
     /// Get a pointer to the basic attack against a target
     func basicAttackOperation(against enemy: AbstractPlayer?) -> Operation? {
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         if let basicCityAttackOperation = player.operationsOf(type: .basicCityAttack).first {
             return basicCityAttackOperation
         }
-        
+
         if let navalAttackOperation = player.operationsOf(type: .navalAttack).first {
             return navalAttackOperation
         }
-        
+
         return nil
     }
-    
+
     /// Get a pointer to the pure naval operation against a target
     func pureNavalAttackOperation(against enemy: AbstractPlayer?) -> Operation? {
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         if let basicCityAttackOperation = player.operationsOf(type: .pureNavalCityAttack).first {
             return basicCityAttackOperation
         }
-        
+
         return nil
     }
 
@@ -591,15 +593,15 @@ public class MilitaryAI: Codable {
                         if let operation = self.sneakAttackOperation(against: otherPlayer) {
                             operation.kill(with: .warStateChange)
                         }
-                        
+
                         if let operation = self.basicAttackOperation(against: otherPlayer) {
                             operation.kill(with: .warStateChange)
                         }
-                        
+
                         if let operation = self.showOfForceOperation(against: otherPlayer) {
                             operation.kill(with: .warStateChange)
                         }
-                        
+
                         if let operation = self.pureNavalAttackOperation(against: otherPlayer) {
                             operation.kill(with: .warStateChange)
                         }
@@ -664,16 +666,16 @@ public class MilitaryAI: Codable {
                     }
                 }
             }
-            
+
             // Are there city defense operations for cities that no longer need defending?
             for cityRef in gameModel.cities(of: player) {
-                
+
                 if let city = cityRef {
-                    
+
                     if city.threatValue() == 0 {
-                        
+
                         for operation in player.operationsOf(type: .cityCloseDefense) {
-                            
+
                             if operation.targetPosition == city.location {
                                 operation.kill(with: .warStateChange)
                             }
@@ -681,111 +683,113 @@ public class MilitaryAI: Codable {
                     }
                 }
             }
-            
+
             // Are we running a rapid response tactic and the overall threat level is very low?
             if totalThreatWeight <= 3 {
-                
+
                 for operation in player.operationsOf(type: .rapidResponse) {
                     operation.kill(with: .warStateChange)
                 }
             }
         }
-        
+
         // SEE WHAT OPERATIONS WE SHOULD ADD
         //
         // Operation vs. Barbarians
         //
         // If running the eradicate barbarian strategy, the threat is low (no higher than 1 major threat), we're not at war, /*and we have enough units*/, then launch a new operation.
         // Which one is based on whether or not we saw any barbarian camps
-        if self.adopted(militaryStrategy: .eradicateBarbarians) && !self.adopted(militaryStrategy: .atWar) && !self.adopted(militaryStrategy: .empireDefenseCritical) && player.operationsOf(type: .destroyBarbarianCamp).count == 0 && willingToAcceptRisk {
-            
+        if self.adopted(militaryStrategy: .eradicateBarbarians) && !self.adopted(militaryStrategy: .atWar) &&
+            !self.adopted(militaryStrategy: .empireDefenseCritical) && player.operationsOf(type: .destroyBarbarianCamp).isEmpty &&
+            willingToAcceptRisk {
+
             // We should have AI build for this
             player.addOperation(of: .destroyBarbarianCamp, towards: gameModel.barbarianPlayer(), target: nil, in: nil, in: gameModel)
         }
-        
+
         //
         // Operation vs. Other Civs
         //
         // If at war, consider launching an operation
         if self.adopted(militaryStrategy: .atWar) {
-            
+
             for otherPlayer in gameModel.players {
 
                 // Is this a player we have relations with?
                 if player.leader != otherPlayer.leader && player.hasMet(with: otherPlayer) {
-                
+
                     let warState = diplomacyAI.warState(towards: otherPlayer)
-                    
+
                     // always consider nuking them
                     // FIXME
-                    
+
                     switch warState {
-                    
+
                     case .none:
                         // NOOP
                         break
-                        
+
                     case .nearlyDefeated, .defensive:
                         // NOOP
                         /*if let threatenedCity = self.mostThreatenedCity(in: gameModel) {
                             
                         }*/
                         break
-                        
+
                     case .stalemate: // If roughly equal in number, let's try to annoy him with raids
 
                         let units = gameModel.units(of: player)
                         let (numRequiredSlots, _, filledSlots) = UnitFormationHelper.numberOfFillableSlots(of: units, for: .fastPillagers)
-                        
+
                         // Not willing to build units to get this off the ground
                         if filledSlots >= numRequiredSlots /* && landReservesUsed <= self.andReservesAvailable() */ {
                             self.requestPillageEnemy(towards: otherPlayer, in: gameModel)
                         }
-                        
+
                     case .calm:
                         var requestAttack = false
                         let militaryStrength = diplomacyAI.militaryStrength(of: otherPlayer)
                         let targetValue = diplomacyAI.targetValue(of: otherPlayer)
-                        
+
                         if militaryStrength <= .average && targetValue > .impossible {
                             requestAttack = true
                         }
-                        
+
                         if requestAttack {
                             self.requestBasicAttack(towards: otherPlayer, in: gameModel)
                         } else {
                             let units = gameModel.units(of: player)
                             let (numRequiredSlots, _, filledSlots) = UnitFormationHelper.numberOfFillableSlots(of: units, for: .fastPillagers)
-                            
+
                             // Not willing to build units to get this off the ground
                             if filledSlots >= numRequiredSlots /* && landReservesUsed <= self.andReservesAvailable() */ {
                                 self.requestPillageEnemy(towards: otherPlayer, in: gameModel)
-                            }   
+                            }
                         }
-                        
+
                     case .offensive, .nearlyWon: // If we are dominant, time to take down one of his cities
                         self.requestBasicAttack(towards: otherPlayer, in: gameModel)
                     }
                 }
             }
         }
-        
+
         //
         // Naval operations (vs. opportunity targets)
         //
         let units = gameModel.units(of: player)
         let (numRequiredSlots, _, filledSlots) = UnitFormationHelper.numberOfFillableSlots(of: units, for: .navalSquadron)
-        
+
         // Not willing to build units to get this off the ground
-        if filledSlots >= numRequiredSlots  {
-            
+        if filledSlots >= numRequiredSlots {
+
             // Total number of these operations can't exceed (FLAVOR_NAVAL / 2)
             let flavorNaval = player.valueOfPersonalityFlavor(of: .naval)
             let numSuperiority = player.numberOfOperationsOf(type: .navalSuperiority)
             let numBombard = player.numberOfOperationsOf(type: .navalBombard)
-            
+
             if (numSuperiority + numBombard) <= (flavorNaval / 2) {
-                
+
                 if player.hasOperationsOf(type: .colonize) {
                     // If I have a colonization operation underway, start up naval superiority as extra escorts
                     player.addOperation(of: .navalSuperiority, towards: nil, target: nil, in: nil, in: gameModel)
@@ -801,32 +805,32 @@ public class MilitaryAI: Codable {
             }
         }
     }
-    
+
     /// Send an army to take a city
     @discardableResult func requestBasicAttack(towards otherPlayer: AbstractPlayer?, numUnitsWillingBuild: Int = 1, in gameModel: GameModel?) -> Bool {
-        
+
         var winningScore: Int = 0
         let target: MilitaryTarget = self.findBestAttackTarget(for: .basicCityAttack, against: otherPlayer, winningScore: &winningScore, in: gameModel)
         return self.requestSpecificAttack(against: target, numUnitsWillingToBuild: numUnitsWillingBuild, in: gameModel)
     }
-    
+
     func requestSpecificAttack(against target: MilitaryTarget, numUnitsWillingToBuild: Int, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("no game model given")
         }
-        
+
         guard let player = self.player else {
             fatalError("no player given")
         }
 
-        var operationRef: Operation? = nil
+        var operationRef: Operation?
         var numRequiredSlots = 0
         var landReservesUsed = 0
         var filledSlots = 0
 
         if target.targetCity != nil {
-            
+
             if target.attackBySea {
                 filledSlots = MilitaryAIHelpers.numberOfFillableSlots(for: self.player, formation: .navalInvasion, requiresNavalMoves: true, numberSlotsRequired: &numRequiredSlots, numberLandReservesUsed: &landReservesUsed, in: gameModel)
                 if (numRequiredSlots - filledSlots) <= numUnitsWillingToBuild && landReservesUsed <= self.landReservesAvailable() {
@@ -835,21 +839,21 @@ public class MilitaryAI: Codable {
             } else {
                 let formation: UnitFormationType = gameModel.handicap > HandicapType.prince ? .biggerCityAttackForce : .basicCityAttackForce
                 filledSlots = MilitaryAIHelpers.numberOfFillableSlots(for: self.player, formation: formation, requiresNavalMoves: false, numberSlotsRequired: &numRequiredSlots, numberLandReservesUsed: &landReservesUsed, in: gameModel)
-                
+
                 if (numRequiredSlots - filledSlots) <= numUnitsWillingToBuild && landReservesUsed <= self.landReservesAvailable() {
-                    
+
                     operationRef = player.addOperation(of: .basicCityAttack, towards: target.targetCity!.player, target: target.targetCity, in: gameModel.area(of: target.targetCity!.location), muster: target.musterCity, in: gameModel)
-                    
+
                     if let operation = operationRef {
-                        
+
                         if !operation.shouldAbort(in: gameModel) && target.targetCity!.isCoastal(in: gameModel) {
-                        
+
                             let flavorNaval = player.valueOfStrategyAndPersonalityFlavor(of: .naval)
                             let numSuperiority = player.numberOfOperationsOf(type: .navalSuperiority)
                             let numBombard = player.numberOfOperationsOf(type: .navalBombard)
                             let maxOperations = flavorNaval / 2
                             // major naval map => maxOperations *= 2
-                            
+
                             if numSuperiority + numBombard <= maxOperations {
                                 player.addOperation(of: .navalSuperiority, towards: nil, target: nil, in: nil, in: gameModel)
                             }
@@ -864,61 +868,61 @@ public class MilitaryAI: Codable {
                 }
             }
         }
-        
+
         return false
     }
-    
+
     func landReservesAvailable() -> Int {
-        
+
         // error: result negativ
         return self.baseData.numLandUnits - self.baseData.numLandUnitsInArmies - self.baseData.mandatoryReserveSize
     }
-    
+
     /// Best target by land OR sea
     func findBestAttackTarget(for operationType: UnitOperationType, against enemy: AbstractPlayer?, winningScore: inout Int, in gameModel: GameModel?) -> MilitaryTarget {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let enemy = enemy else {
             fatalError("cant get enemy")
         }
-        
+
         var chosenTarget = MilitaryTarget()
         let weightedTargetList: WeightedList<MilitaryTarget> = WeightedList<MilitaryTarget>()
 
         // Estimate the relative strength of units near our cities and near their cities (can't use TacticalAnalysisMap because we may not be at war - and that it isn't current if we are calling this from the DiploAI)
         for friendlyCityRef in gameModel.cities(of: player) {
-            
+
             guard let friendlyCity = friendlyCityRef else {
                 fatalError("cant get friendlyCity")
             }
-            
+
             guard let plot = gameModel.tile(at: friendlyCity.location) else {
                 fatalError("cant get plot")
             }
-            
+
             var generalInTheVicinity = false
             var power = 0
-            
+
             for loopUnitRef in gameModel.units(of: player) {
-                
+
                 guard let loopUnit = loopUnitRef else {
                     fatalError("cant get loopUnit")
                 }
-                
+
                 if loopUnit.isCombatUnit() {
                     let distance = loopUnit.location.distance(to: plot.point)
                     if distance <= 5 {
                         power += loopUnit.power()
                     }
                 }
-                
+
                 if !generalInTheVicinity && loopUnit.isGreatGeneral() {
                     let distance = loopUnit.location.distance(to: plot.point)
                     if distance <= 5 {
@@ -926,43 +930,43 @@ public class MilitaryAI: Codable {
                     }
                 }
             }
-            
+
             if generalInTheVicinity {
                 power *= 11
                 power /= 10
             }
-            
+
             friendlyCity.set(scratch: power)
         }
-        
+
         for enemyCityRef in gameModel.cities(of: enemy) {
-            
+
             guard let enemyCity = enemyCityRef else {
                 fatalError("cant get enemyCity")
             }
-            
+
             guard let plot = gameModel.tile(at: enemyCity.location) else {
                 fatalError("cant get plot")
             }
-            
+
             if plot.isDiscovered(by: player) {
 
                 var generalInTheVicinity = false
                 var power = 0
-                
+
                 for loopUnitRef in gameModel.units(of: enemy) {
-                    
+
                     guard let loopUnit = loopUnitRef else {
                         fatalError("cant get loopUnit")
                     }
-                    
+
                     if loopUnit.isCombatUnit() {
                         let distance = loopUnit.location.distance(to: plot.point)
                         if distance <= 5 {
                             power += loopUnit.power()
                         }
                     }
-                    
+
                     if !generalInTheVicinity && loopUnit.isGreatGeneral() {
                         let distance = loopUnit.location.distance(to: plot.point)
                         if distance <= 5 {
@@ -974,7 +978,7 @@ public class MilitaryAI: Codable {
                     power *= 11
                     power /= 10
                 }
-                
+
                 enemyCity.set(scratch: power)
             }
         }
@@ -983,29 +987,29 @@ public class MilitaryAI: Codable {
         //static CvWeightedVector<CvMilitaryTarget, SAFE_ESTIMATE_NUM_CITIES* 10, true> prelimWeightedTargetList;
         //prelimWeightedTargetList.clear();
         let prelimWeightedTargetList: WeightedList<MilitaryTarget> = WeightedList<MilitaryTarget>()
-        
+
         for friendlyCityRef in gameModel.cities(of: player) {
-            
+
             guard let friendlyCity = friendlyCityRef else {
                 fatalError("cant get friendlyCity")
             }
-            
+
             guard let friendlyPlot = gameModel.tile(at: friendlyCity.location) else {
                 fatalError("cant get plot")
             }
-            
+
             for enemyCityRef in gameModel.cities(of: enemy) {
-            
+
                 guard let enemyCity = enemyCityRef else {
                     fatalError("cant get enemyCity")
                 }
-                
+
                 guard let enemyPlot = gameModel.tile(at: enemyCity.location) else {
                     fatalError("cant get plot")
                 }
-                
+
                 if enemyPlot.isDiscovered(by: player) {
-                    
+
                     let target = MilitaryTarget()
                     //int iWeight;
                     target.musterCity = friendlyCityRef
@@ -1038,32 +1042,32 @@ public class MilitaryAI: Codable {
         // Let's score the 25 shortest paths ... anything more than that means there are too many interior cities from one (or both) sides being considered
         prelimWeightedTargetList.sort()
         var targetsConsidered = 0
-        var iI = 0
-        
-        while iI < prelimWeightedTargetList.count && targetsConsidered < 25 {
-            
-            let target: MilitaryTarget = prelimWeightedTargetList.items[iI].itemType
+        var index = 0
+
+        while index < prelimWeightedTargetList.count && targetsConsidered < 25 {
+
+            let target: MilitaryTarget = prelimWeightedTargetList.items[index].itemType
             var weight = 0
 
             // If a sea target, we haven't checked the path yet.  Do that now
             if target.attackBySea {
-                
+
                 if !gameModel.isCoastal(at: target.musterCity!.location) {
                     continue
                 }
-                
+
                 if !gameModel.isCoastal(at: target.targetCity!.location) {
                     continue
                 }
-                
+
                 guard let seaPlotNearMuster = gameModel.coastalPlotAdjacent(to: target.musterCity!.location) else {
                     fatalError("cant get sea plot near muster")
                 }
-                
+
                 guard let seaPlotNearTarget = gameModel.coastalPlotAdjacent(to: target.targetCity!.location) else {
                     fatalError("cant get sea plot near muster")
                 }
-                
+
                 let pathFinder = AStarPathfinder()
                 pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: player, unitMapType: .combat, canEmbark: player.canEmbark())
                 if !pathFinder.doesPathExist(fromTileCoord: seaPlotNearMuster.point, toTileCoord: seaPlotNearTarget.point) {
@@ -1074,12 +1078,12 @@ public class MilitaryAI: Codable {
             weight = self.scoreTarget(target: target, operationType: operationType, in: gameModel)
             weightedTargetList.add(weight: weight, for: target)
             targetsConsidered += 1
-            
-            iI += 1
+
+            index += 1
         }
 
         // Didn't find anything, abort
-        if weightedTargetList.count == 0 {
+        if weightedTargetList.isEmpty {
             chosenTarget.targetCity = nil   // Call off the attack
             winningScore = -1
             return chosenTarget
@@ -1103,34 +1107,34 @@ public class MilitaryAI: Codable {
 
         return chosenTarget
     }
-    
+
     /// Is it better to attack this target by sea?
     func shouldAttackBySea(enemy: AbstractPlayer?, target targetRef: MilitaryTarget?, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let target = targetRef else {
             fatalError("cant get target")
         }
 
         let plotDistance = target.musterCity!.location.distance(to: target.targetCity!.location)
         var pathLength = 0
-        
+
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: player, unitMapType: .combat, canEmbark: player.canEmbark())
 
         // Can embark
         if player.canEmbark() {
-            
+
             let musterArea = gameModel.area(of: target.musterCity!.location)
             let targetArea = gameModel.area(of: target.targetCity!.location)
-            
+
             // On different landmasses?
             if musterArea != targetArea {
                 targetRef?.attackBySea = true
@@ -1158,9 +1162,9 @@ public class MilitaryAI: Codable {
                 }
             }*/
         } else {
-            
+
             pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: player, unitMapType: .combat, canEmbark: player.canEmbark())
-            
+
             // Can't embark yet
             if !pathFinder.doesPathExist(fromTileCoord: target.musterCity!.location, toTileCoord: target.targetCity!.location) {
                 targetRef?.pathLength = -1  // Call off attack, no path
@@ -1175,23 +1179,23 @@ public class MilitaryAI: Codable {
         targetRef?.attackBySea = false
         targetRef?.pathLength = pathLength
     }
-    
+
     /// Come up with a target priority looking at distance, strength, approaches (high score = more desirable target)
     func scoreTarget(target: MilitaryTarget, operationType: UnitOperationType, in gameModel: GameModel?) -> Int {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         var rtnValue = 1;  // Start with a high base number since divide into it later
 
         // Take into account distance to target (and use higher multipliers for land paths)
         if !target.attackBySea {
-            
+
             if target.pathLength < 10 {
                 rtnValue *= 16
             } else if target.pathLength < 15 {
@@ -1230,9 +1234,9 @@ public class MilitaryAI: Codable {
         var approachMultiplier = 0
         // Assume units coming by sea can disembark
         let approaches: CityAttackApproachType = self.evaluateMilitaryApproaches(city: target.targetCity, attackByLand: true, attackBySea: target.attackBySea, in: gameModel)
-        
+
         switch approaches {
-            
+
         case .unrestricted:
             approachMultiplier = 10
 
@@ -1267,7 +1271,7 @@ public class MilitaryAI: Codable {
         let friendlyStrength = max(1, target.musterNearbyUnitPower)
         let enemyStrength = max(1, target.targetNearbyUnitPower + (target.targetCity!.strengthValue() / 50))
 
-        var ratio = 1;
+        var ratio = 1
         ratio = (friendlyStrength * 100) / enemyStrength
         ratio = min(1000, ratio)
         rtnValue *= ratio
@@ -1292,13 +1296,13 @@ public class MilitaryAI: Codable {
         // Economic value of target
         var economicValue = 1 + (target.targetCity!.population() / 3)
         // TODO: unhardcode this
-        
+
         guard let targetPlot = gameModel.tile(at: target.targetCity!.location) else {
             fatalError("cant get target plot")
         }
-        
+
         let yields = targetPlot.yields(for: self.player, ignoreFeature: false)
-        
+
         // filter out all but the most productive
         economicValue += Int(yields.food) * 10
         economicValue += Int(yields.production) * 10
@@ -1312,18 +1316,18 @@ public class MilitaryAI: Codable {
 
         return min(10000000, rtnValue & 0x7fffffff)
     }
-    
+
     /// How open an approach do we have to this city if we want to attack it?
     func evaluateMilitaryApproaches(city: AbstractCity?, attackByLand: Bool, attackBySea: Bool, in gameModel: GameModel?) -> CityAttackApproachType {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let city = city else {
             fatalError("cant get city")
         }
-        
+
         var rtnValue: CityAttackApproachType = .unrestricted
         var numBlocked = 0
 
@@ -1331,7 +1335,7 @@ public class MilitaryAI: Codable {
         for neighbor in city.location.neighbors() {
 
             if let loopPlot = gameModel.tile(at: neighbor) {
-                
+
                 // For now, assume no one coming in over a lake
                 if loopPlot.has(feature: .lake) {
                     numBlocked += 1
@@ -1355,7 +1359,7 @@ public class MilitaryAI: Codable {
         }
 
         switch numBlocked {
-            
+
         case 0:
             rtnValue = .unrestricted
         case 1, 2:
@@ -1374,19 +1378,19 @@ public class MilitaryAI: Codable {
 
         return rtnValue
     }
-    
+
     /// Send an army to force concessions
     @discardableResult
     func requestPillageEnemy(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
-        
+
         var numRequiredSlots = 0
         var landReservesUsed = 0
         let filledSlots = MilitaryAIHelpers.numberOfFillableSlots(for: self.player, formation: .fastPillagers, requiresNavalMoves: false, numberSlotsRequired: &numRequiredSlots, numberLandReservesUsed: &landReservesUsed, in: gameModel)
-            
+
         if filledSlots >= numRequiredSlots && landReservesUsed <= self.landReservesAvailable() {
-            
+
             if let operation = self.player?.addOperation(of: .pillageEnemy, towards: otherPlayer, target: nil, in: nil, in: gameModel) {
-                
+
                 if !operation.shouldAbort(in: gameModel) {
                     return true
                 }
@@ -1405,19 +1409,19 @@ public class MilitaryAI: Codable {
 
         return self.navalDefenseStateVal
     }
-    
+
     /// How strong is the best unit we can train for this domain?
     func powerOfStrongestBuildableUnit(in domain: UnitDomainType) -> Int {
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         var rtnValue = 0
         for unitType in UnitType.all {
 
             if unitType.domain() == domain {
-                
+
                 let thisPower = unitType.power()        // Test the power first, it is much less costly than testing canTrain
                 if thisPower > rtnValue {
                     if player.canTrain(unitType: unitType, continueFlag: false, testVisible: false, ignoreCost: true, ignoreUniqueUnitStatus: false) {
@@ -1468,7 +1472,7 @@ public class MilitaryAI: Codable {
             case .none:
                 // NOOP
                 break
-                
+
             case .land:
                 self.baseData.numLandUnits += 1
 
@@ -1526,7 +1530,7 @@ public class MilitaryAI: Codable {
         // add in more if we are playing on a high difficulty
         //iNumUnitsWanted += iDifficulty * 3
 
-        iNumUnitsWanted = iNumUnitsWanted * multiplier
+        iNumUnitsWanted *= multiplier
 
         iNumUnitsWanted = max(1, iNumUnitsWanted)
 
@@ -1750,7 +1754,7 @@ public class MilitaryAI: Codable {
         }
 
         var highestThreatValue = 0
-        var highestThreatendCity: AbstractCity? = nil
+        var highestThreatendCity: AbstractCity?
 
         for cityRef in gameModel.cities(of: player) {
 
@@ -1772,47 +1776,47 @@ public class MilitaryAI: Codable {
 
         return highestThreatendCity
     }
-    
+
     /// Find the port operation operations against this enemy should leave from
     func nearestCoastalCity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> AbstractCity? {
-        
+
         guard let gameModel = gameModel else {
             fatalError("no game model given")
         }
-        
+
         guard let player = self.player else {
             fatalError("no player given")
         }
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("no otherPlayer given")
         }
-        
-        var bestCoastalCity: AbstractCity? = nil
+
+        var bestCoastalCity: AbstractCity?
         var bestDistance: Int = Int.max
-        
+
         for loopCityRef in gameModel.cities(of: player) {
-            
+
             guard let loopCity = loopCityRef else {
                 continue
             }
-            
+
             if gameModel.isCoastal(at: loopCity.location) {
-                
+
                 for enemyCityRef in gameModel.cities(of: otherPlayer) {
-                    
+
                     guard let enemyCity = enemyCityRef,
                           let enemyCityTile = gameModel.tile(at: enemyCity.location) else {
                         continue
                     }
-                    
+
                     // Check all revealed enemy cities
                     if gameModel.isCoastal(at: enemyCity.location) && enemyCityTile.isDiscovered(by: player) {
-                        
+
                         // On same body of water?
                         // if(OnSameBodyOfWater(pLoopCity, pEnemyCity)) {
                         let distance = enemyCity.location.distance(to: loopCity.location)
-                        
+
                         if distance < bestDistance {
                             bestDistance = distance
                             bestCoastalCity = loopCity
@@ -1822,38 +1826,38 @@ public class MilitaryAI: Codable {
                 }
             }
         }
-        
+
         return bestCoastalCity
     }
-    
+
     func waterTileAdjacent(to target: HexPoint, for unit: AbstractUnit?, in gameModel: GameModel?) -> AbstractTile? {
-        
+
         guard let gameModel = gameModel else {
             fatalError("no game model given")
         }
-        
+
         var bestDistance = Int.max
-        var coastalPlot: AbstractTile? = nil
-        
+        var coastalPlot: AbstractTile?
+
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: self.player, unitMapType: .combat, canEmbark: self.player!.canEmbark())
-        
+
         // Find a coastal water tile adjacent to enemy city
         for adjacentPoint in target.neighbors() {
-            
+
             guard let adjacentPlot = gameModel.tile(at: adjacentPoint) else {
                 continue
             }
-            
+
             if adjacentPlot.terrain() == .shore {
-                
+
                 if let unit = unit {
                     if pathFinder.turnsToReachTarget(for: unit, to: adjacentPoint) < Int.max {
-                     
+
                         let distance = unit.location.distance(to: adjacentPoint)
-                    
+
                         if distance < bestDistance {
-                        
+
                             bestDistance = distance
                             coastalPlot = adjacentPlot
                         }
@@ -1863,52 +1867,52 @@ public class MilitaryAI: Codable {
                 }
             }
         }
-        
+
         return coastalPlot
     }
-    
+
     @discardableResult
     func buyEmergencyBuilding(in city: AbstractCity?) -> BuildingType? {
-        
+
         fatalError("not implemented")
     }
 
     @discardableResult
     func buyEmergencyUnit(task: UnitTaskType, in city: AbstractCity?) -> AbstractUnit? {
-        
+
         fatalError("not implemented")
     }
-    
+
     func coastalPlotAdjacent(to target: HexPoint, army: Army?, in gameModel: GameModel?) -> HexPoint? {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
-        var coastalPlot: HexPoint? = nil
+
+        var coastalPlot: HexPoint?
         var bestDistance = Int.max
-        var initialUnit: AbstractUnit? = nil
-        
+        var initialUnit: AbstractUnit?
+
         if army != nil {
             initialUnit = army?.unit(at: 0)
         }
 
         // Find a coastal water tile adjacent to enemy city
         for adjacentPoint in target.neighbors() {
-            
+
             guard let adjacentPlot = gameModel.tile(at: adjacentPoint) else {
                 continue
             }
 
             if adjacentPlot.isWater() && adjacentPlot.terrain() == .shore {
-                
+
                 // Check for path if we have a unit, otherwise don't worry about it
                 if let initialUnit = initialUnit {
-                    
-                    if initialUnit.turnsToReach(at: adjacentPoint, in: gameModel) < Int.max  {
+
+                    if initialUnit.turnsToReach(at: adjacentPoint, in: gameModel) < Int.max {
 
                         let distance = initialUnit.location.distance(to: target)
-                        
+
                         if distance < bestDistance {
                             bestDistance = distance
                             coastalPlot = adjacentPoint
@@ -1925,14 +1929,14 @@ public class MilitaryAI: Codable {
 }
 
 class MilitaryAIHelpers {
-    
+
     /// How many slots in this army can we fill right now with available units?
     static func numberOfFillableSlots(for player: AbstractPlayer?, formation: UnitFormationType, requiresNavalMoves: Bool, numberSlotsRequired: inout Int, numberLandReservesUsed: inout Int, in gameModel: GameModel?) -> Int {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = player else {
             fatalError("cant get player")
         }
@@ -1949,32 +1953,32 @@ class MilitaryAIHelpers {
             guard let loopUnit = loopUnitRef else {
                 continue
             }
-            
+
             // Don't count scouts
             if loopUnit.task() != .explore && loopUnit.task() != .exploreSea {
-                
+
                 // Don't count units that are damaged too heavily
                 if loopUnit.healthPoints() < loopUnit.maxHealthPoints() * 80 /* AI_OPERATIONAL_PERCENT_HEALTH_FOR_OPERATION */ / 100 {
-                    
+
                     if loopUnit.army() == nil && loopUnit.canRecruitFromTacticalAI() {
-                        
+
                         if loopUnit.deployFromOperationTurn() + 4 /* AI_TACTICAL_MAP_TEMP_ZONE_TURNS */ < gameModel.currentTurn {
-                            
+
                             if !requiresNavalMoves || loopUnit.domain() == .sea || loopUnit.canEverEmbark() {
-                                
+
                                 if !mustBeDeepWaterNaval || loopUnit.domain() != .sea || !loopUnit.isImpassable(terrain: .ocean) {
-                                    
+
                                     for slotEntry in slotsToFill {
-                                        
+
                                         //CvUnitEntry& kUnitInfo = pLoopUnit->getUnitInfo();
                                         if loopUnit.has(task: slotEntry.primaryUnitTask) || loopUnit.has(task: slotEntry.secondaryUnitTask) {
-                                            
+
                                             willBeFilled += 1
 
                                             if loopUnit.domain() == .land {
                                                 landReservesUsed += 1
                                             }
-                                            
+
                                             break
                                         } else {
                                             slotsNotFilled.append(slotEntry)

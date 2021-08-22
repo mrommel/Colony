@@ -9,7 +9,7 @@
 import Foundation
 
 open class Array2D<T: Equatable & Codable>: Codable {
-    
+
     public let width: Int
     public let height: Int
     fileprivate var array: [T?] = [T?]()
@@ -99,11 +99,11 @@ extension Array2D {
 extension Array2D {
 
     subscript(gridPoint: HexPoint) -> T? {
-        
+
         get {
             return array[(gridPoint.y * self.width) + gridPoint.x]
         }
-        
+
         set(newValue) {
             array[(gridPoint.y * self.width) + gridPoint.x] = newValue
         }

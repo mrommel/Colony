@@ -17,7 +17,7 @@ enum StrengthType: Int, Codable, Comparable {
     case poor
     case weak
     case pathetic
-    
+
     static func < (lhs: StrengthType, rhs: StrengthType) -> Bool {
         return lhs.rawValue < rhs.rawValue
     }

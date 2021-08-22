@@ -142,11 +142,11 @@ public class DiplomacyRequests: Codable {
     //    If the toPlayer is the active human player, it will be sent right away, else
     //    it will be queued.
     func sendRequest(for otherLeader: LeaderType, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("no gameModel found")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
@@ -155,20 +155,19 @@ public class DiplomacyRequests: Codable {
 
         gameModel.userInterface?.showLeaderMessage(from: player, to: otherPlayer, deal: nil, state: state, message: message, emotion: emotion)
     }
-    
+
     //    Request for a deal
-    func sendDealRequest(for otherLeader: LeaderType, deal: DiplomaticDeal, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType, in gameModel: GameModel?)
-    {
+    func sendDealRequest(for otherLeader: LeaderType, deal: DiplomaticDeal, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType, in gameModel: GameModel?) {
         guard let gameModel = gameModel else {
             fatalError("no gameModel found")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         let otherPlayer = gameModel.player(for: otherLeader)
-        
+
         // Deals must currently happen on the active player's turn...
         if player.isEqual(to: gameModel.activePlayer()) {
             //self.sendRequest(for: otherLeader, state: state, message: message, emotion: emotion, with: deal, in: gameModel)
@@ -178,7 +177,7 @@ public class DiplomacyRequests: Codable {
 
     func hasPendingRequests() -> Bool {
 
-        return self.requests.count == 0
+        return !self.requests.isEmpty
     }
 
     //    Have all the AIs do a diplomacy evaluation with the supplied player.
@@ -213,8 +212,8 @@ public class DiplomacyRequests: Codable {
             }
         }
     }
-    
+
     func endTurn() {
-        
+
     }
 }

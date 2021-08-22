@@ -56,17 +56,17 @@ extension NSImage {
         
         let existingImage: NSImage? = self
         let existingSize: NSSize? = existingImage?.size
-        let newSize: NSSize? = NSMakeSize((existingSize?.width)!, (existingSize?.height)!)
+        let newSize: NSSize? = NSSize(width: (existingSize?.width)!, height: (existingSize?.height)!)
         let flipedImage = NSImage(size: newSize!)
         flipedImage.lockFocus()
         
-        let t = NSAffineTransform.init()
-        t.translateX(by: (existingSize?.width)!, yBy: 0.0)
-        t.scaleX(by: -1.0, yBy: 1.0)
-        t.concat()
+        let transform = NSAffineTransform.init()
+        transform.translateX(by: (existingSize?.width)!, yBy: 0.0)
+        transform.scaleX(by: -1.0, yBy: 1.0)
+        transform.concat()
         
-        let rect: NSRect = NSMakeRect(0, 0, (newSize?.width)!, (newSize?.height)!)
-        existingImage?.draw(at: NSZeroPoint, from: rect, operation: .sourceOver, fraction: 1.0)
+        let rect: NSRect = NSRect(x: 0, y: 0, width: (newSize?.width)!, height: (newSize?.height)!)
+        existingImage?.draw(at: NSPoint.zero, from: rect, operation: .sourceOver, fraction: 1.0)
         flipedImage.unlockFocus()
         return flipedImage
     }
@@ -75,7 +75,7 @@ extension NSImage {
         
         self.lockFocus()
         
-        image.draw(in: NSMakeRect(posX, posY, image.width, image.height))
+        image.draw(in: NSRect(x: posX, y: posY, width: image.width, height: image.height))
         
         self.unlockFocus()
         
@@ -87,11 +87,14 @@ extension NSImage {
 extension NSImage {
     
     public func tint(with tintColor: NSColor) -> NSImage {
+        
         if self.isTemplate == false {
             return self
         }
         
-        let image = self.copy() as! NSImage
+        guard let image = self.copy() as? NSImage else {
+            fatalError("cant copy image")
+        }
         image.lockFocus()
         
         tintColor.set()

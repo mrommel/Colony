@@ -10,9 +10,9 @@ import Foundation
 import CoreGraphics
 
 class EraHistogram: WeightedList<EraType> {
-    
+
     override func fill() {
-        
+
         for era in EraType.all {
             self.add(weight: 0, for: era)
         }
@@ -26,6 +26,7 @@ enum GameStateType: Int, Codable {
     case extended
 }
 
+// swiftlint:disable type_body_length
 open class GameModel: Codable {
 
     enum CodingKeys: CodingKey {
@@ -60,10 +61,10 @@ open class GameModel: Codable {
     private let map: MapModel
     private let tacticalAnalysisMapVal: TacticalAnalysisMap
     public weak var userInterface: UserInterfaceDelegate?
-    private var waitDiploPlayer: AbstractPlayer? = nil
-    private var wondersBuilt: AbstractWonders? = nil
-    private var religionsVal: AbstractGameReligions? = nil
-    private var greatPersons: GreatPersons? = nil
+    private var waitDiploPlayer: AbstractPlayer?
+    private var wondersBuilt: AbstractWonders?
+    private var religionsVal: AbstractGameReligions?
+    private var greatPersons: GreatPersons?
 
     private var gameStateValue: GameStateType
 
@@ -341,7 +342,9 @@ open class GameModel: Codable {
 
                                 player.endTurn(in: self)
 
-                                if player.isAlive() || !player.isHuman() { // If it is a hotseat game and the player is human and is dead, don't advance the player, we want them to get the defeat screen
+                                // If it is a hotseat game and the player is human and is dead, don't advance the player,
+                                // we want them to get the defeat screen
+                                if player.isAlive() || !player.isHuman() {
 
                                     var hasReachedCurrentPlayer = false
                                     for nextPlayer in self.players {
@@ -436,10 +439,10 @@ open class GameModel: Codable {
                                 player.setAutoMoves(value: true)
                                 // print("UpdateMoves() : player.setAutoMoves(true) called for player \(player.leader)")
                             } else {
-                                
+
                                 if player.hasReadyUnit(in: self) /*&& !player.GetTacticalAI()->IsInQueuedAttack(pReadyUnit))*/ {
                                     let waitTime = 10
-                                    
+
                                     if self.turnSlice() - player.lastSliceMoved() > waitTime {
                                         print("GAME HANG - Please show and send save. Stuck units will have their turn ended so game can advance.")
                                         player.endTurnsForReadyUnits(in: self)
@@ -745,7 +748,7 @@ open class GameModel: Codable {
 
             if activePlayer.isTurnActive() {
 
-                var blockingNotification: NotificationItem? = nil
+                var blockingNotification: NotificationItem?
 
                 // check notifications
                 if let notifications = activePlayer.notifications() {
@@ -757,22 +760,42 @@ open class GameModel: Codable {
 
                     // No notifications are blocking, check units/cities
 
-                    
                     if activePlayer.hasPromotableUnit(in: self) {
                         // handle promotions
                         if let unit = activePlayer.firstPromotableUnit(in: self) {
-                            blockingNotification = NotificationItem(type: .unitPromotion, for: activePlayer.leader, message: "Unit needs promotion", summary: "Unit needs promotion", at: unit.location, other: .none)
+                            blockingNotification = NotificationItem(
+                                type: .unitPromotion,
+                                for: activePlayer.leader,
+                                message: "Unit needs promotion",
+                                summary: "Unit needs promotion",
+                                at: unit.location,
+                                other: .none
+                            )
                         }
-                        
+
                     } else if activePlayer.hasReadyUnit(in: self) {
                         // handle units
                         if let unit = activePlayer.firstReadyUnit(in: self) {
                             if !unit.canHold(at: unit.location, in: self) {
                                 //eEndTurnBlockingType = ENDTURN_BLOCKING_STACKED_UNITS;
-                                blockingNotification = NotificationItem(type: .unitNeedsOrders, for: activePlayer.leader, message: "Unit needs orders", summary: "Orders needed", at: unit.location, other: .none)
+                                blockingNotification = NotificationItem(
+                                    type: .unitNeedsOrders,
+                                    for: activePlayer.leader,
+                                    message: "Unit needs orders",
+                                    summary: "Orders needed",
+                                    at: unit.location,
+                                    other: .none
+                                )
                             } else {
                                 //eEndTurnBlockingType = ENDTURN_BLOCKING_UNITS;
-                                blockingNotification = NotificationItem(type: .unitNeedsOrders, for: activePlayer.leader, message: "Unit needs orders", summary: "Orders needed", at: unit.location, other: .none)
+                                blockingNotification = NotificationItem(
+                                    type: .unitNeedsOrders,
+                                    for: activePlayer.leader,
+                                    message: "Unit needs orders",
+                                    summary: "Orders needed",
+                                    at: unit.location,
+                                    other: .none
+                                )
                             }
                         }
                     }
@@ -863,9 +886,9 @@ open class GameModel: Codable {
 
         return self.map.cities(of: player)
     }
-    
+
     public func cities(of player: AbstractPlayer, in area: HexArea) -> [AbstractCity?] {
-        
+
         return self.map.cities(of: player, in: area)
     }
 
@@ -882,27 +905,27 @@ open class GameModel: Codable {
 
         return nil
     }
-    
+
     public func findCity(of player: AbstractPlayer, closestTo location: HexPoint) -> AbstractCity? {
-     
-        var bestCity: AbstractCity? = nil
+
+        var bestCity: AbstractCity?
         var bestDistance: Int = Int(INT_MAX)
-        
+
         for cityRef in self.map.cities(of: player) {
-            
+
             guard let city = cityRef else {
                 continue
             }
-            
+
             let distance = location.distance(to: city.location)
-            
+
             if distance < bestDistance {
-                
+
                 bestDistance = distance
                 bestCity = cityRef
             }
         }
-        
+
         return bestCity
     }
 
@@ -932,7 +955,7 @@ open class GameModel: Codable {
 
         return self.map.units(for: player)
     }
-    
+
     public func units(of player: AbstractPlayer, at point: HexPoint) -> [AbstractUnit?] {
 
         return self.map.units(of: player, at: point)
@@ -942,62 +965,62 @@ open class GameModel: Codable {
 
         return self.map.unit(at: point, of: mapType)
     }
-    
+
     func units(at point: HexPoint) -> [AbstractUnit?] {
-        
+
         return self.map.units(at: point)
     }
-    
+
     func areUnits(at point: HexPoint) -> Bool {
-        
-        return self.map.units(at: point).count == 0
+
+        return !self.map.units(at: point).isEmpty
     }
-    
+
     public func numFriendlyUnits(at point: HexPoint, player: AbstractPlayer?, of unitMapType: UnitMapType) -> Int {
-        
+
         if let unit = self.map.unit(at: point, of: unitMapType) {
-            
+
             var playerMatches = true
-            
+
             // FIXME allies
             if let player = player {
                 playerMatches = player.isEqual(to: unit.player)
             }
-            
+
             if playerMatches {
                 return 1
             }
         }
-        
+
         return 0
     }
 
     func isPrimarilyNaval() -> Bool {
-        
+
         return false
     }
-    
+
     func remove(unit: AbstractUnit?) {
 
         self.map.remove(unit: unit)
     }
 
     // MARK: tile methods
-    
+
     public func points() -> [HexPoint] {
-        
+
         var pointList: [HexPoint] = []
         let mapWidth = self.mapSize().width()
         let mapHeight = self.mapSize().height()
-        
+
         pointList.reserveCapacity(mapWidth * mapHeight)
-        
+
         for x in 0..<mapWidth {
             for y in 0..<mapHeight {
                 pointList.append(HexPoint(x: x, y: y))
             }
         }
-        
+
         return pointList
     }
 
@@ -1012,9 +1035,9 @@ open class GameModel: Codable {
 
         return self.map.valid(point: point)
     }
-    
+
     public func wrap(point: HexPoint) -> HexPoint {
-        
+
         return self.map.wrap(point: point)
     }
 
@@ -1129,51 +1152,51 @@ open class GameModel: Codable {
         // https://civilization.fandom.com/wiki/Era_(Civ6)
         // Roads will upgrade when you enter the Classical Era, again when you enter the Industrial Era, and again on entering the Modern Era.
         // not implemented
-        
+
         // Many policy cards only work for specific eras. When you progress to a more advanced era, you may find that the policies you were using are no longer working, or have indeed been replaced altogether!
         guard let government = player?.government else {
             fatalError("cant get government")
         }
-        
+
         government.verify(in: self)
-        
+
         // The price of buying tiles will go up with Individual Eras.
         // not implemented
     }
-    
+
     // https://forums.civfanatics.com/resources/the-mechanism-of-great-people.26276/
     // World Era= An era that More than 50% (current existing) Civs have entered
     func worldEra() -> EraType {
-        
+
         let eraHistogram: EraHistogram = EraHistogram()
         eraHistogram.fill()
         var playerCount: Double = 0.0
-        
+
         for player in self.players {
-            
+
             if player.isBarbarian() {
                 continue
             }
-            
+
             playerCount += 1.0
-            
+
             for era in EraType.all {
-            
+
                 if era <= player.currentEra() {
                     eraHistogram.add(weight: 1, for: era)
                 }
             }
         }
-        
+
         var bestEra: EraType = .ancient
-        
+
         for era in EraType.all {
-            
+
             if eraHistogram.weight(of: era) >= (playerCount * 0.5) {
                 bestEra = era
             }
         }
-        
+
         return bestEra
     }
 
@@ -1246,9 +1269,9 @@ open class GameModel: Codable {
     }
 
     public func unitAwarePathfinderDataSource(for movementType: UnitMovementType, for player: AbstractPlayer?, ignoreOwner: Bool = false, unitMapType: UnitMapType, canEmbark: Bool) -> PathfinderDataSource {
-        
+
         let options = MoveTypeUnitAwareOptions(ignoreSight: true, ignoreOwner: ignoreOwner, unitMapType: unitMapType, canEmbark: canEmbark)
-        
+
         return MoveTypeUnitAwarePathfinderDataSource(in: self, for: movementType, for: player, options: options)
     }
 
@@ -1286,16 +1309,16 @@ open class GameModel: Codable {
 
         return false
     }
-    
+
     /// returns true. if one of the adjacent tiles of point is owned by different player than player
     func isAdjacentOwned(of point: HexPoint, otherThan player: AbstractPlayer?) -> Bool {
-        
+
         guard let player = player else {
             fatalError("cant get player")
         }
-        
+
         for neighbor in point.neighbors() {
-            
+
             guard let tile = self.map.tile(at: neighbor) else {
                 continue
             }
@@ -1312,7 +1335,6 @@ open class GameModel: Codable {
 
         return self.map.isFreshWater(at: point)
     }
-
 
     func isWithinCityRadius(plot: AbstractTile?, of player: AbstractPlayer?) -> Bool {
 
@@ -1368,9 +1390,9 @@ open class GameModel: Codable {
 
         return wondersBuilt.has(wonder: wonderType)
     }
-    
+
     func build(wonder wonderType: WonderType) {
-        
+
         guard let wondersBuilt = self.wondersBuilt else {
             fatalError("cant get wondersBuilt")
         }
@@ -1422,19 +1444,19 @@ open class GameModel: Codable {
         // FIXME
         return 0
     }
-    
+
     func citiesHaveTradeConnection(from fromCityRef: AbstractCity?, to toCityRef: AbstractCity?) -> Bool {
-        
+
         // FIXME
         return false
     }
-    
+
     func cost(of greatPersonType: GreatPersonType, for player: AbstractPlayer?) -> Int {
-        
+
         guard let player = player else {
             fatalError("cant get player")
         }
-        
+
         // find possible person (with correct type)
         if let greatPersonOfType = self.greatPersons?.current.first(where: { $0.type() == greatPersonType }) {
 
@@ -1446,7 +1468,7 @@ open class GameModel: Codable {
                 return greatPersonOfType.cost()
             }
         }
-    
+
         return -1
     }
 
@@ -1468,64 +1490,64 @@ open class GameModel: Codable {
 
         self.greatPersons?.invalidate(greatPerson: greatPerson, in: self)
     }
-    
+
     // MARK: religion methods
-    
+
     func foundPantheon(for player: AbstractPlayer?, with pantheonType: PantheonType) {
-        
+
         self.religionsVal?.foundPantheon(for: player, with: pantheonType, in: self)
     }
-    
+
     func religions() -> [AbstractPlayerReligion?] {
-        
+
         guard let religions = self.religionsVal else {
             fatalError("cant get religions")
         }
-        
+
         return religions.religions(in: self)
     }
-    
+
     func numPantheonsCreated() -> Int {
-        
+
         guard let religions = self.religionsVal else {
             fatalError("cant get religions")
         }
-        
+
         return religions.numPantheonsCreated(in: self)
     }
-    
+
     func numReligionFounded() -> Int {
-        
+
         guard let religions = self.religionsVal else {
             fatalError("cant get religions")
         }
-        
+
         return religions.religions(in: self).filter({ $0?.currentReligion() != Optional.none }).count
     }
-    
+
     func maxActiveReligions() -> Int {
-        
+
         return self.mapSize().maxActiveReligions()
     }
-    
+
     public func availablePantheons() -> [PantheonType] {
-        
+
         guard let religions = self.religionsVal else {
             fatalError("cant get religions")
         }
-        
+
         return religions.availablePantheons(in: self)
     }
-    
+
     /// how much dies the next great prophet cost?
     func costOfNextProphet(includeDiscounts: Bool) -> Int {
-        
+
         return self.faith(for: self.numProphetsSpawned() + 1)
     }
-    
+
     /// How much does this prophet cost (recursive)
     private func faith(for greatProphet: Int) -> Int {
-        
+
         var rtnValue = 0
 
         if greatProphet >= 1 {
@@ -1538,19 +1560,19 @@ open class GameModel: Codable {
 
         return rtnValue
     }
-    
+
     func numProphetsSpawned() -> Int {
-        
+
         return self.numProphetsSpawnedValue
     }
-    
+
     func set(numProphetsSpawned: Int) {
-        
+
         self.numProphetsSpawnedValue = numProphetsSpawned
     }
-    
+
     func numReligionsStillToFound() -> Int {
-        
+
         return maxActiveReligions() - self.numReligionFounded()
     }
 }
@@ -1593,14 +1615,14 @@ extension GameModel {
 
         return self.map.numberOfWaterPlots()
     }
-    
+
     func loggingEnabled() -> Bool {
-        
+
         return true
     }
-    
+
     func aiLoggingEnabled() -> Bool {
-        
+
         return true
     }
 }
@@ -1612,25 +1634,25 @@ extension Array where Element: Comparable {
 }
 
 extension GameModel: Equatable {
-    
+
     public static func == (lhs: GameModel, rhs: GameModel) -> Bool {
 
         if !lhs.victoryTypes.containsSameElements(as: rhs.victoryTypes) {
             return false
         }
-        
+
         if lhs.handicap != rhs.handicap {
             return false
         }
-        
+
         if lhs.currentTurn != rhs.currentTurn {
             return false
         }
-        
+
         if lhs.map != rhs.map {
             return false
         }
-        
+
         return true
     }
 }

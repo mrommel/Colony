@@ -84,14 +84,14 @@ class GameScene: BaseScene {
     // view model
     var viewModel: GameSceneViewModel?
 
-    var selectedUnit: AbstractUnit? = nil
+    var selectedUnit: AbstractUnit?
     var lastExecuted: TimeInterval = -1
     let queue: DispatchQueue = DispatchQueue(label: "update_queue")
     var readyUpdatingAI: Bool = true
     var readyUpdatingHuman: Bool = true
     var uiTurnState: UITurnState = .aiTurns
     var uiCombatMode: UICombatMode = .none
-    var blockingNotification: Notification? = nil
+    var blockingNotification: Notification?
     var currentScreenType: ScreenType = .none
     var currentPopupType: PopupType = .none
 
@@ -442,7 +442,11 @@ class GameScene: BaseScene {
 
                 if let currentTech = techs.currentTech() {
                     let progressPercentage = techs.currentScienceProgress() / Double(currentTech.cost()) * 100.0
-                    self.scienceProgressNode?.update(tech: currentTech, progress: Int(progressPercentage), turnsRemaining: techs.currentScienceTurnsRemaining())
+                    self.scienceProgressNode?.update(
+                        tech: currentTech,
+                        progress: Int(progressPercentage),
+                        turnsRemaining: techs.currentScienceTurnsRemaining()
+                    )
                 } else {
                     self.scienceProgressNode?.update(tech: .none, progress: 0, turnsRemaining: 0)
                 }
@@ -480,8 +484,6 @@ class GameScene: BaseScene {
             // NOOP
 
             self.view?.preferredFramesPerSecond = 60
-
-            break
         }
 
         self.uiTurnState = state
@@ -529,7 +531,7 @@ class GameScene: BaseScene {
 
         if self.currentScreenType == .none {
 
-            if self.popups.count > 0 && self.currentPopupType == .none {
+            if !self.popups.isEmpty && self.currentPopupType == .none {
                 self.displayPopups()
                 return
             }
@@ -646,7 +648,12 @@ class GameScene: BaseScene {
             if position != selectedUnit.location {
 
                 let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = self.viewModel?.game?.unitAwarePathfinderDataSource(for: selectedUnit.movementType(), for: selectedUnit.player, unitMapType: selectedUnit.unitMapType(), canEmbark: selectedUnit.canEverEmbark())
+                pathFinder.dataSource = self.viewModel?.game?.unitAwarePathfinderDataSource(
+                    for: selectedUnit.movementType(),
+                    for: selectedUnit.player,
+                    unitMapType: selectedUnit.unitMapType(),
+                    canEmbark: selectedUnit.canEverEmbark()
+                )
                 
                 // update
                 self.updateCommands(for: selectedUnit)
@@ -814,8 +821,6 @@ class GameScene: BaseScene {
         self.safeAreaNode.addChild(self.notificationsNode!)
     }
 }
-
-
 
 extension GameScene: BottomLeftBarDelegate {
 

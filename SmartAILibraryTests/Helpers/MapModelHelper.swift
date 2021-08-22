@@ -66,9 +66,9 @@ class MapModelHelper {
         let width: Int
         let height: Int
 
-        func isInside(x px: Int, y py: Int) -> Bool {
+        func isInside(x: Int, y: Int) -> Bool {
 
-            return self.x <= px && px < self.x + self.width && self.y <= py && py < self.y + self.height
+            return self.x <= x && x < self.x + self.width && self.y <= y && y < self.y + self.height
         }
 
         func isInside(point: HexPoint) -> Bool {
@@ -76,13 +76,13 @@ class MapModelHelper {
             return self.isInside(x: point.x, y: point.y)
         }
 
-        func isAdjacentTo(x px: Int, y py: Int) -> Bool {
+        func isAdjacentTo(x: Int, y: Int) -> Bool {
 
-            if self.isInside(x: px, y: py) {
+            if self.isInside(x: x, y: y) {
                 return false
             }
 
-            let point = HexPoint(x: px, y: py)
+            let point = HexPoint(x: x, y: y)
 
             for neightbor in point.neighbors() {
                 if self.isInside(point: neightbor) {

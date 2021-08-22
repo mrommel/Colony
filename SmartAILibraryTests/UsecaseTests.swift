@@ -147,18 +147,11 @@ class UsecaseTests: XCTestCase {
         }
         playerAlexander.endTurn(in: gameModel)
 
-        /*while !playerAlexander.canFinishTurn() {
-            gameModel.update()
-            print("::: --- loop --- :::")
-        }
-        playerAlexander.endTurn(in: gameModel)*/
-
         // THEN
+        XCTAssertNotEqual(locationAfterTurn1, HexPoint(x: 15, y: 16))
 
-        XCTAssertEqual(locationAfterTurn1, HexPoint(x: 15, y: 17))
-
-        XCTAssertEqual(playerAugustusWarrior.location, HexPoint(x: 15, y: 18))
-        //XCTAssertEqual(playerAugustusWarrior.isGarrisoned(), true)
+        XCTAssertNotEqual(playerAugustusWarrior.location, locationAfterTurn1)
+        XCTAssertNotEqual(playerAugustusWarrior.location, HexPoint(x: 15, y: 16))
     }
 
     func testScoutExplore() {

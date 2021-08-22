@@ -53,9 +53,9 @@ class GreatPeople: AbstractGreatPeople {
 
         self.points.add(other: value)
     }
-    
+
     func value(for greatPersonType: GreatPersonType) -> Int {
-        
+
         return self.points.value(for: greatPersonType)
     }
 }

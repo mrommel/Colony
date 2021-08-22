@@ -47,7 +47,18 @@ extension NSImage {
     
     public func write(to url: URL, size: NSSize) throws {
         
-        let bitmap = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(size.width), pixelsHigh: Int(size.height), bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: NSColorSpaceName.deviceRGB, bytesPerRow: 0, bitsPerPixel: 0)!
+        let bitmap = NSBitmapImageRep(
+            bitmapDataPlanes: nil,
+            pixelsWide: Int(size.width),
+            pixelsHigh: Int(size.height),
+            bitsPerSample: 8,
+            samplesPerPixel: 4,
+            hasAlpha: true,
+            isPlanar: false,
+            colorSpaceName: NSColorSpaceName.deviceRGB,
+            bytesPerRow: 0,
+            bitsPerPixel: 0
+        )!
         bitmap.size = NSSize(width: size.width, height: size.height)
         
         NSGraphicsContext.saveGraphicsState()
@@ -71,7 +82,7 @@ extension NSURL {
 // https://fivestars.blog/code/ultimate-guide-swift-executables.html
 
 let arguments: [String] = Array(CommandLine.arguments.dropFirst())
-guard arguments.count > 0 else {
+guard !arguments.isEmpty else {
     
     print("You must provide a path to a directory as first argiment")
     exit(EXIT_FAILURE)
@@ -80,13 +91,20 @@ guard arguments.count > 0 else {
 let path: String = arguments[0]
 let dir = URL(fileURLWithPath: path)
 
-var files = try FileManager.default.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants])
+var files = try FileManager.default.contentsOfDirectory(
+    at: dir,
+    includingPropertiesForKeys: nil,
+    options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants]
+)
 
 files = files.filter({ $0.pathExtension == "png" })
 
 files.forEach({ (file) in
     
-    let baseFileName = file.path.replacingOccurrences(of: "@2x", with: "").replacingOccurrences(of: "@3x", with: "").replacingOccurrences(of: ".png", with: "")
+    let baseFileName = file.path
+        .replacingOccurrences(of: "@2x", with: "")
+        .replacingOccurrences(of: "@3x", with: "")
+        .replacingOccurrences(of: ".png", with: "")
     
     if file.lastPathComponent.contains("_") {
         

@@ -9,7 +9,7 @@
 import Foundation
 
 public enum DistrictType: Int, Codable {
-    
+
     case cityCenter
     case campus
     case holySite
@@ -18,58 +18,58 @@ public enum DistrictType: Int, Codable {
     case entertainment
     case commercialHub
     case industrial
-    
+
     public static var all: [DistrictType] {
         return [.cityCenter, .campus, .holySite, .encampment, .harbor, .entertainment, .commercialHub, .industrial]
     }
-    
+
     public func name() -> String {
 
         return self.data().name
     }
-    
+
     // in production units
     public func productionCost() -> Int {
 
         return self.data().productionCost
     }
-    
+
     public func requiredTech() -> TechType? {
-        
+
         return self.data().requiredTech
     }
-    
+
     public func requiredCivic() -> CivicType? {
-        
+
         return self.data().requiredCivic
     }
-    
+
     public func yields() -> Yields {
-        
+
         return self.data().yields
     }
-    
+
     // MARK: private methods / classes
-    
+
     struct DistrictTypeData {
-        
+
         let name: String
         let productionCost: Int
         let requiredTech: TechType?
         let requiredCivic: CivicType?
         let yields: Yields
     }
-    
+
     func data() -> DistrictTypeData {
-        
+
         switch self {
-            
+
         case .cityCenter: return DistrictTypeData(name: "CityCenter",
                                                   productionCost: 0,
                                                   requiredTech: nil,
                                                   requiredCivic: nil,
                                                   yields: Yields(food: 0.0, production: 0.0, gold: 0.0))
-            
+
         case .campus: return DistrictTypeData(name: "Campus",
                                               productionCost: 54,
                                               requiredTech: .writing,
@@ -111,20 +111,20 @@ public enum DistrictType: Int, Codable {
     }
 
     func canConstruct(on neighbor: HexPoint, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         if self == .harbor {
             if let neighborTile = gameModel.tile(at: neighbor) {
                 return neighborTile.terrain().isWater()
             }
         }
-        
+
         return true // FIXME
     }
-    
+
     // in gold
     func maintenanceCost() -> Int {
 
@@ -140,7 +140,7 @@ public enum DistrictType: Int, Codable {
         case .industrial: return 1
         }
     }
-    
+
     /*public func yields() -> Yields {
         
         switch self {

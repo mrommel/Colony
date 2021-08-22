@@ -395,7 +395,13 @@ class DiplomacyAITests: XCTestCase {
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus, playerElizabeth], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerBarbar, playerAlexander, playerAugustus, playerElizabeth],
+            on: mapModel
+        )
 
         mapModel.add(unit: Unit(at: HexPoint(x: 1, y: 0), type: .warrior, owner: playerAlexander), in: gameModel)
 

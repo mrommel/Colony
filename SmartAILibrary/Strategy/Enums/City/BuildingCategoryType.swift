@@ -9,9 +9,9 @@
 import Foundation
 
 public enum BuildingCategoryType {
-    
+
     case none
-    
+
     case government
     case population
     case cultural

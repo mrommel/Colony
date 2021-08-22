@@ -11,86 +11,86 @@ import Foundation
 public class ReligionAI {
 
     var player: Player?
-    
+
     // MARK: constructors
 
     init(player: Player?) {
 
         self.player = player
     }
-    
+
     func choosePantheonType(in gameModel: GameModel?) -> PantheonType {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get game")
         }
-        
+
         let takenPantheonTypes: [PantheonType] = gameModel.religions().map {
             guard let religion = $0 else {
                 fatalError("cant get religion")
             }
-            
+
             return religion.pantheon()
         }
         let availablePantheons: [PantheonType] = PantheonType.all.filter { !takenPantheonTypes.contains($0) }
-        
+
         let weights: WeightedList<PantheonType> = WeightedList<PantheonType>()
-        
+
         for pantheonType in availablePantheons {
             let score = self.score(of: pantheonType, in: gameModel)
             weights.add(weight: score, for: pantheonType)
         }
-        
+
         if let bestPantheon = weights.chooseFromTopChoices() {
             return bestPantheon
         }
-        
+
         return .none
     }
-    
+
     /// AI's perceived worth of a belief
     func score(of pantheon: PantheonType, in gameModel: GameModel?) -> Int {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get game")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         var rtnValue = 0  // Base value since everything has SOME value
 
         var scorePlot = 0
         var scoreCity = 0
         var scorePlayer = 0
-        
+
         // Loop through each plot on map
         let mapSize = gameModel.mapSize()
-        
+
         for x in 0..<mapSize.width() {
             for y in 0..<mapSize.height() {
-                
+
                 guard let tile = gameModel.tile(x: x, y: y) else {
                     continue
                 }
-                
+
                 // Skip if not revealed or in enemy territory
                 guard tile.isDiscovered(by: self.player) && (!tile.hasOwner() || tile.ownerLeader() == self.player?.leader) else {
                     continue
                 }
-                
+
                 // Skip if closest city of ours has no chance to work the plot
                 guard player.cityDistancePathLength(of: tile.point, in: gameModel) <= 3 else {
                     continue
                 }
-                
+
                 // Score it
                 var scoreAtPlot = self.score(of: pantheon, for: tile, in: gameModel)
                 guard scoreAtPlot > 0 else {
                     continue
                 }
-                
+
                 // Apply multiplier based on whether or not being worked, within culture borders, or not
                 if tile.isWorked() {
                     if tile.hasAnyImprovement() {
@@ -113,14 +113,14 @@ public class ReligionAI {
                 scorePlot = rtnValue
             }
         }
-        
+
         // Add in value at city level
         for cityRef in gameModel.cities(of: player) {
-            
+
             guard let city = cityRef else {
                 continue
             }
-            
+
             var scoreAtCity = self.scoreBeliefAtCity(of: pantheon, at: city, in: gameModel)
             scoreAtCity *= 10 /* RELIGION_BELIEF_SCORE_CITY_MULTIPLIER */
             scoreCity += scoreAtCity
@@ -202,14 +202,14 @@ public class ReligionAI {
 
         return rtnValue
     }
-    
+
     /// AI's evaluation of this belief's usefulness at this one plot
     private func score(of pantheon: PantheonType, for tile: AbstractTile, in gameModel: GameModel?) -> Int {
-     
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         var rtnValue: Int = 0
         var totalRtnValue: Int = 0
 
@@ -222,13 +222,13 @@ public class ReligionAI {
         }
 
         let improvement = tile.improvement()
-        
+
         for yieldType in YieldType.all {
 
             var personFlavor: Int = 0
 
             switch yieldType {
-            
+
             case .food:
                 personFlavor = player.valueOfPersonalityFlavor(of: .growth)
             case .production:
@@ -241,7 +241,7 @@ public class ReligionAI {
                 personFlavor = player.valueOfPersonalityFlavor(of: .culture)
             case .faith:
                 personFlavor = player.valueOfPersonalityFlavor(of: .religion)
-                
+
             case .none:
                 personFlavor = 0
             }
@@ -271,30 +271,30 @@ public class ReligionAI {
 
         return totalRtnValue
     }
-    
+
     /// AI's evaluation of this belief's usefulness at this one plot
     private func scoreBeliefAtCity(of pantheonType: PantheonType, at city: AbstractCity, in gameModel: GameModel?) -> Int {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get game")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let diplomacyAI = player.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
-        
+
         guard let playerReligion = player.religion else {
             fatalError("cant get religion")
         }
-        
+
         guard let buildings = city.buildings else {
             fatalError("cant get buildings")
         }
-        
+
         var rtnValue = 0
         var tempValue = 0
         var minPop = pantheonType.minPopulation()
@@ -317,7 +317,7 @@ public class ReligionAI {
         // let's establish some mid-game goals for the AI.
         var idealCityPop = max(player.capitalCity(in: gameModel)?.population() ?? 0, 30)
         var idealEmpireSize = max(player.numCities(in: gameModel), gameModel.mapSize().targetNumCities())
-        
+
         if player.leader.isSmaller() {
             idealCityPop += 5
             idealEmpireSize -= 1
@@ -345,7 +345,7 @@ public class ReligionAI {
         // Wonder production multiplier
         if pantheonType.obsoleteEra() != .none {
             if pantheonType.obsoleteEra() > gameModel.worldEra() {
-                rtnValue += (pantheonType.wonderProductionModifier() * pantheonType.obsoleteEra().value()) / 5;
+                rtnValue += (pantheonType.wonderProductionModifier() * pantheonType.obsoleteEra().value()) / 5
             }
         } else {
             rtnValue += pantheonType.wonderProductionModifier() / 3
@@ -359,9 +359,9 @@ public class ReligionAI {
 
         // River happiness
         if gameModel.river(at: city.location) {
-            
+
             tempValue = pantheonType.riverHappiness() * happinessMultiplier
-            
+
             if minPop > 0 {
                 if city.population() >= minPop {
                     tempValue *= 2
@@ -371,7 +371,7 @@ public class ReligionAI {
         }
 
         // Happiness per city
-        tempValue = pantheonType.happinessPerCity() * happinessMultiplier;
+        tempValue = pantheonType.happinessPerCity() * happinessMultiplier
         if minPop > 0 {
             if city.population() >= minPop {
                 tempValue *= 3
@@ -399,7 +399,7 @@ public class ReligionAI {
         if religion == .none {
             religion = playerReligion.religionInMostCities()
         }
-        
+
         ////////////////////
         // Expansion
         ///////////////////
@@ -407,11 +407,11 @@ public class ReligionAI {
         let culture = Int(city.culturePerTurn(in: gameModel)) * idealEmpireSize
 
         var isHolyCity = city.isHolyCity(for: religion, in: gameModel)
-        
+
         if !isHolyCity {
-            
+
             for unitRef in gameModel.units(of: player) {
-                
+
                 guard let unit = unitRef else {
                     continue
                 }
@@ -423,11 +423,11 @@ public class ReligionAI {
             }
         }
 
-        var numLuxuries = 0;
+        var numLuxuries = 0
         for resourceLoop in ResourceType.all {
 
             if resourceLoop.usage() == .luxury && (city.numLocalResources(of: resourceLoop, in: gameModel) > 0 || player.numAvailable(resource: resourceLoop) > 0) {
-                
+
                 numLuxuries += 1
             }
         }
@@ -435,14 +435,14 @@ public class ReligionAI {
         let food = max(1, Int(city.foodPerTurn(in: gameModel)) * idealCityPop)
         tempValue = 0
         for yieldType in YieldType.all {
-            
+
             if pantheonType.yieldPerPopulation(of: yieldType) > 0 {
                 tempValue += food / pantheonType.yieldPerPopulation(of: yieldType)
                 if player.leader.isPopulationBoostReligion() {
                     tempValue *= 2
                 }
             }
-            
+
             /*if isHolyCity {
                 if (pEntry->GetHolyCityYieldChange(iI) > 0)
                 {
@@ -458,15 +458,15 @@ public class ReligionAI {
                     iTempValue += iTR;
                 }
             }*/
-            
+
             if pantheonType.yieldPerLuxuryResource(of: yieldType) > 0 {
-                
+
                 var modifierValue = player.leader.isExpansionist() ? 5 : 2
-                
+
                 /*if m_pPlayer->GetPlayerTraits()->GetLuxuryHappinessRetention() || m_pPlayer->GetPlayerTraits()->GetUniqueLuxuryQuantity() != 0 || m_pPlayer->GetPlayerTraits()->IsImportsCountTowardsMonopolies() {
                     modifierValue += 2
                 }*/
-                
+
                 /*for (int iJ = 0; iJ < NUM_YIELD_TYPES; iJ++)
                 {
                     if (m_pPlayer->GetPlayerTraits()->GetYieldFromImport((YieldTypes)iJ) != 0)
@@ -481,7 +481,7 @@ public class ReligionAI {
 
                 tempValue += (pantheonType.yieldPerLuxuryResource(of: yieldType) * max(1, numLuxuries)) * modifierValue
             }
-            
+
             /*if (pEntry->GetYieldPerBorderGrowth((YieldTypes)iI) > 0)
             {
                 int iVal = ((pEntry->GetYieldPerBorderGrowth((YieldTypes)iI) * iCulture) / max(4, pCity->GetJONSCultureLevel() * 4));
@@ -501,7 +501,7 @@ public class ReligionAI {
         ///////////////////
         tempValue = 0
         if city.isCapital() || city.isHolyCityOfAnyReligion(in: gameModel) {
-            
+
             for greatPersonType in GreatPersonType.all {
 
                 if pantheonType.greatPersonPoints(for: greatPersonType) > 0 {
@@ -517,7 +517,7 @@ public class ReligionAI {
         ///////////////////
 
         tempValue = 0
-        
+
         /*for yieldType in YieldType.all {
         }
         for (int iI = 0; iI < NUM_YIELD_TYPES; iI++)
@@ -596,7 +596,7 @@ public class ReligionAI {
 
         tempValue = 0
         for yieldType in YieldType.all {
-            
+
             rtnValue = 0
 
             // City yield change
@@ -636,7 +636,6 @@ public class ReligionAI {
 
             iRtnValue += iTempValue;*/
 
-
             // Building class yield change
             for buildingType in BuildingType.all {
 
@@ -647,11 +646,10 @@ public class ReligionAI {
                     }
                 }
 
-                
                 if buildings.has(building: buildingType) {
                     tempValue *= 2
                 }
-                
+
                 /*if(pkBuildingClassInfo->getMaxPlayerInstances() == 1 || pkBuildingClassInfo->getMaxGlobalInstances() == 1)
                 {
                     iTempValue /= 2;
@@ -693,10 +691,10 @@ public class ReligionAI {
 
         return totalRtnValue
     }
-    
+
     /// AI's evaluation of this belief's usefulness to this player
     private func scoreBeliefForPlayer(of pantheonType: PantheonType, in gameModel: GameModel?) -> Int {
-        
+
         /*
          
          int iRtnValue = 0;
@@ -1972,26 +1970,26 @@ public class ReligionAI {
          */
         return 0
     }
-    
+
     /// What religion should this AI civ be spreading?
     func religionToSpread() -> ReligionType {
-        
+
         guard let playerReligion = self.player?.religion else {
             fatalError("cant get play religion")
         }
-        
+
         let currentReligion: ReligionType = playerReligion.currentReligion()
-        
+
         if currentReligion != .none {
             return currentReligion
         }
-        
+
         let religionInMostCities: ReligionType = playerReligion.religionInMostCities()
-        
+
         if religionInMostCities != .none {
             return religionInMostCities
         }
-        
+
         return .none
     }
 }

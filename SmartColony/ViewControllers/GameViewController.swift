@@ -18,11 +18,11 @@ class GameViewController: UIViewController {
     var doubleTapGestureRecognizer: UITapGestureRecognizer?
     
     // model
-    var viewModel: GameViewModel? = nil
+    var viewModel: GameViewModel?
     
     // scenes
     var gameLoadingScene: GameLoadingScene?
-    var gameScene: GameScene? = nil
+    var gameScene: GameScene?
     //var gameClosingScene: GameClosingScene?
     
     // The current zoom scale of the camera
@@ -78,7 +78,7 @@ class GameViewController: UIViewController {
 
         if recognizer.state == .changed {
 
-            zoomScale = zoomScale / Double(recognizer.scale)
+            zoomScale /= Double(recognizer.scale)
             scene.zoom(to: zoomScale)
             recognizer.scale = 1
         }

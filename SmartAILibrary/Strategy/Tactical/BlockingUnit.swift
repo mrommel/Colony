@@ -16,14 +16,14 @@ import Foundation
 //!  - Used by CanCoverFromEnemy() to track moves we may want to make to block enemy
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class BlockingUnit {
-    
+
     let unit: AbstractUnit?
     let point: HexPoint
     var numChoices: Int
     var distanceToTarget: Int
-    
+
     init(unit: AbstractUnit? = nil, at point: HexPoint, numChoices: Int = 0, distanceToTarget: Int = 0) {
-        
+
         self.unit = unit
         self.point = point
         self.numChoices = numChoices
@@ -32,14 +32,14 @@ class BlockingUnit {
 }
 
 extension BlockingUnit: Comparable {
-    
+
     static func < (lhs: BlockingUnit, rhs: BlockingUnit) -> Bool {
-        
+
         return lhs.distanceToTarget < rhs.distanceToTarget
     }
-    
+
     static func == (lhs: BlockingUnit, rhs: BlockingUnit) -> Bool {
-        
+
         return lhs.distanceToTarget == rhs.distanceToTarget
     }
 }

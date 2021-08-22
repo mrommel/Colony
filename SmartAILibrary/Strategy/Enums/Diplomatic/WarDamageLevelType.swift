@@ -9,9 +9,9 @@
 import Foundation
 
 enum WarDamageLevelType: Int, Codable {
-    
+
     case none
-    
+
     case minor
     case major
     case serious

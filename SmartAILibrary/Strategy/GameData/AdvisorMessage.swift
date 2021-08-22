@@ -9,13 +9,13 @@
 import Foundation
 
 public class AdvisorMessage {
-    
+
     let advisor: AdvisorType
     let message: String
     let importance: Int
-    
+
     init(advisor: AdvisorType, message: String, importance: Int = 1) {
-        
+
         self.advisor = advisor
         self.message = message
         self.importance = importance
@@ -23,9 +23,9 @@ public class AdvisorMessage {
 }
 
 extension AdvisorMessage: CustomDebugStringConvertible {
-    
+
     public var debugDescription: String {
-        
+
         return "(Advisor advisor=\(self.advisor), message=\(self.message), importance=\(self.importance))"
     }
 }

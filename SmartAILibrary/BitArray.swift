@@ -12,7 +12,7 @@ final class BitArray: NSObject, NSCoding, Codable {
 
     //Array of bits manipulation
     typealias WordType = UInt64
-    
+
     enum CodingKeys: String, CodingKey {
         case array
     }
@@ -20,19 +20,19 @@ final class BitArray: NSObject, NSCoding, Codable {
     private var array: [WordType] = []
 
     // MARK: constructors
-    
+
     init(count: Int) {
         super.init()
         self.array = self.buildArray(count: count)
     }
-    
+
     required init(from decoder: Decoder) throws {
-    
+
         let values = try decoder.container(keyedBy: CodingKeys.self)
-    
+
         self.array = try values.decode([WordType].self, forKey: .array)
     }
-    
+
     // MARK: methods
 
     public func valueOfBit(at index: Int) -> Bool {
@@ -46,11 +46,11 @@ final class BitArray: NSObject, NSCoding, Codable {
     public func count() -> Int {
         return self.array.count * intSize - 1
     }
-    
+
     public func reset() {
-        
-        for i in 0..<self.count() {
-            self.setValueOfBit(value: false, at: i)
+
+        for index in 0..<self.count() {
+            self.setValueOfBit(value: false, at: index)
         }
     }
 
@@ -129,8 +129,7 @@ final class BitArray: NSObject, NSCoding, Codable {
 
     //Util
     private func checkIndexBound(index: Int, lowerBound: Int, upperBound: Int) {
-        if(index < lowerBound || index > upperBound)
-        {
+        if(index < lowerBound || index > upperBound) {
             NSException.init(name: NSExceptionName(rawValue: "BitArray Exception"), reason: "index out of bounds", userInfo: nil).raise()
         }
     }

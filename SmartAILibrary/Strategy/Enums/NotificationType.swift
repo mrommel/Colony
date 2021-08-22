@@ -9,30 +9,34 @@
 import Foundation
 
 public enum NotificationType: Int, Codable {
-    
+
     case turn
-    
+
     case generic
-    
+
     case techNeeded
     case civicNeeded
     case productionNeeded
     case canChangeGovernment
     case policiesNeeded
     case canFoundPantheon
-    
+
     case cityGrowth
     case starving
-    
+
     case diplomaticDeclaration
     case war
     case enemyInTerritory
-    
+
     case unitPromotion
     case unitNeedsOrders
     case unitDied
-    
+
     case greatPersonJoined
-    
-    public static var all: [NotificationType] = [.turn, .generic, .techNeeded, .civicNeeded, .productionNeeded, .canChangeGovernment, .policiesNeeded, .canFoundPantheon, .cityGrowth, .starving, .diplomaticDeclaration, .war, .enemyInTerritory, .unitPromotion, .unitNeedsOrders, .unitDied, .greatPersonJoined]
+
+    public static var all: [NotificationType] = [
+        .turn, .generic, .techNeeded, .civicNeeded, .productionNeeded, .canChangeGovernment, .policiesNeeded,
+        .canFoundPantheon, .cityGrowth, .starving, .diplomaticDeclaration, .war, .enemyInTerritory, .unitPromotion,
+        .unitNeedsOrders, .unitDied, .greatPersonJoined
+    ]
 }

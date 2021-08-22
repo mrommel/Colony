@@ -29,8 +29,8 @@ extension CGSize {
 
     mutating func reduce(dx: Int, dy: Int) -> CGSize {
 
-        self.width = self.width - CGFloat(dx)
-        self.height = self.height - CGFloat(dy)
+        self.width -= CGFloat(dx)
+        self.height -= CGFloat(dy)
 
         return self
     }
@@ -48,10 +48,10 @@ extension CGSize {
 }
 
 // from https://gist.github.com/gurgeous/bc0c3d2e748c3b6fe7f2
-func - (l: CGSize, r: CGFloat) -> CGSize { return CGSize(width: l.width - r, height: l.height - r) }
-func + (l: CGSize, r: CGFloat) -> CGSize { return CGSize(width: l.width + r, height: l.height + r) }
-func * (l: CGSize, r: CGFloat) -> CGSize { return CGSize(width: l.width * r, height: l.height * r) }
-func / (l: CGSize, r: CGFloat) -> CGSize { return CGSize(width: l.width / r, height: l.height / r) }
+func - (lhs: CGSize, rhs: CGFloat) -> CGSize { return CGSize(width: lhs.width - rhs, height: lhs.height - rhs) }
+func + (lhs: CGSize, rhs: CGFloat) -> CGSize { return CGSize(width: lhs.width + rhs, height: lhs.height + rhs) }
+func * (lhs: CGSize, rhs: CGFloat) -> CGSize { return CGSize(width: lhs.width * rhs, height: lhs.height * rhs) }
+func / (lhs: CGSize, rhs: CGFloat) -> CGSize { return CGSize(width: lhs.width / rhs, height: lhs.height / rhs) }
 
 // from https://gist.github.com/detomon/864a6b7c51f8bed7a022
 /**
@@ -67,7 +67,7 @@ func + (left: CGPoint, right: CGSize) -> CGPoint {
  * a += c
  */
 func += (left: inout CGPoint, right: CGSize) {
-    left = left + right
+    left += right
 }
 
 /**
@@ -83,7 +83,7 @@ func - (left: CGPoint, right: CGSize) -> CGPoint {
  * a -= c
  */
 func -= (left: inout CGPoint, right: CGSize) {
-    left = left - right
+    left -= right
 }
 
 /**
@@ -99,7 +99,7 @@ func * (left: CGPoint, right: CGSize) -> CGPoint {
  * a *= c
  */
 func *= (left: inout CGPoint, right: CGSize) {
-    left = left * right
+    left *= right
 }
 
 /**
@@ -115,7 +115,7 @@ func / (left: CGPoint, right: CGSize) -> CGPoint {
  * a /= c
  */
 func /= (left: inout CGPoint, right: CGSize) {
-    left = left / right
+    left /= right
 }
 
 /**
@@ -125,4 +125,3 @@ func /= (left: inout CGPoint, right: CGSize) {
 prefix func - (left: CGPoint) -> CGPoint {
     return CGPoint(x: -left.x, y: -left.y)
 }
-

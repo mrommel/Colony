@@ -9,23 +9,23 @@
 import Foundation
 
 open class FiniteStateMachine<E: RawRepresentable> where E.RawValue: Equatable {
-    
+
     public var current: FiniteState<E>
-    
+
     public var currentIdentifier: E {
         return self.current.identifier
     }
-    
+
     public init(initialState: FiniteState<E>) {
-        
+
         self.current = initialState
         self.current.began()
     }
 
     public func update() {
-        
-        var triggeredTransition: FiniteStateTransition<E>? = nil
-        
+
+        var triggeredTransition: FiniteStateTransition<E>?
+
         if let currentTransitions = self.current.getTransitions() {
             for transition in currentTransitions {
                 if transition.isTriggered() {
@@ -33,9 +33,9 @@ open class FiniteStateMachine<E: RawRepresentable> where E.RawValue: Equatable {
                 }
             }
         }
-        
+
         if let transition = triggeredTransition {
-            
+
             self.current.ended()
             self.current = transition.state
             self.current.began()

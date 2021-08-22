@@ -11,7 +11,7 @@ import Foundation
 enum PlayerWarFaceType: Int, Codable {
 
     case none
-    
+
     case hostile
     case friendly
     case neutral

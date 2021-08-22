@@ -9,7 +9,7 @@
 import Foundation
 
 public enum FaithPurchaseType: Int, Codable {
-    
+
     case noAutomaticFaithPurchase // NO_AUTOMATIC_FAITH_PURCHASE
     case saveForProphet // FAITH_PURCHASE_SAVE_PROPHET
     case purchaseUnit // FAITH_PURCHASE_UNIT

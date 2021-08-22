@@ -148,8 +148,8 @@ extension SelectTradeCityDialogViewModel: TradeCityViewModelDelegate {
             fatalError("cant get city locations")
         }
 
-        let tr = TradeRoute(start: startLocation, posts: [], end: selectedLocation)
-        let yields = tr.yields(in: gameModel)
+        let tradeRoute = TradeRoute(start: startLocation, posts: [], end: selectedLocation)
+        let yields = tradeRoute.yields(in: gameModel)
 
         // update yield values
         self.foodYield.value = yields.food

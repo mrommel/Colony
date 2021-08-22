@@ -27,7 +27,7 @@ struct CityProductionView: View {
 
             ScrollView(.vertical, showsIndicators: true, content: {
 
-                if self.viewModel.queueViewModels.count == 0 {
+                if self.viewModel.queueViewModels.isEmpty {
                     Text("Please add a unit / building / wonder")
                         .font(.headline)
                         .padding(.top, 10)
@@ -35,6 +35,7 @@ struct CityProductionView: View {
 
                 ForEach(self.viewModel.queueViewModels, id: \.self) { queueViewModel in
 
+                    // swiftlint:disable force_cast
                     switch queueViewModel.queueType {
 
                     case .unit:
@@ -48,6 +49,7 @@ struct CityProductionView: View {
                     default:
                         Text("type \(queueViewModel.queueType.rawValue)")
                     }
+                    // swiftlint:enable force_cast
                 }
             })
             .frame(width: 340, height: 300, alignment: .top)

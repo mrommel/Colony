@@ -9,13 +9,13 @@
 import Foundation
 
 enum CoopWarState: Int, Codable, Comparable {
-    
+
     case none
-    
+
     case rejected // COOP_WAR_STATE_REJECTED,
     case soon // COOP_WAR_STATE_SOON,
     case accepted // COOP_WAR_STATE_ACCEPTED,
-    
+
     static func < (lhs: CoopWarState, rhs: CoopWarState) -> Bool {
         return lhs.rawValue < rhs.rawValue
     }
@@ -24,7 +24,7 @@ enum CoopWarState: Int, Codable, Comparable {
 enum WarGoalType: Int, Codable {
 
     case none
-    
+
     case demand // WAR_GOAL_DEMAND
     case prepare // WAR_GOAL_PREPARE
     case conquest // WAR_GOAL_CONQUEST
@@ -33,7 +33,7 @@ enum WarGoalType: Int, Codable {
 }
 
 enum DiplomaticStatementType {
-    
+
     case none // NO_DIPLO_STATEMENT_TYPE = -1,
 
     case requestPeace // DIPLO_STATEMENT_REQUEST_PEACE,
@@ -140,23 +140,24 @@ enum DiplomaticStatementType {
     DIPLO_STATEMENT_OUR_CULTURE_INFLUENTIAL,*/
 }
 
+// swiftlint:disable type_body_length
 public class DiplomaticAI: Codable {
 
     enum CodingKeys: CodingKey {
 
         case playerDict
         case stateOfAllWars
-        
+
         case hasBrokenPeaceTreaty
     }
-    
+
     var player: AbstractPlayer?
 
     private var playerDict: DiplomaticPlayerDict
     internal var stateOfAllWars: PlayerStateAllWars
-    
+
     private var greetPlayers: [AbstractPlayer?] = []
-    
+
     private var hasBrokenPeaceTreatyValue: Bool
 
     // MARK: constructors
@@ -169,18 +170,18 @@ public class DiplomaticAI: Codable {
         self.stateOfAllWars = .neutral
         self.hasBrokenPeaceTreatyValue = false
     }
-    
+
     public required init(from decoder: Decoder) throws {
-    
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-    
+
         self.playerDict = try container.decode(DiplomaticPlayerDict.self, forKey: .playerDict)
         self.stateOfAllWars = try container.decode(PlayerStateAllWars.self, forKey: .stateOfAllWars)
         self.hasBrokenPeaceTreatyValue = try container.decode(Bool.self, forKey: .hasBrokenPeaceTreaty)
     }
-    
+
     public func encode(to encoder: Encoder) throws {
-    
+
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.playerDict, forKey: .playerDict)
@@ -193,14 +194,14 @@ public class DiplomaticAI: Codable {
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         // Military Stuff
         self.doLockedIntoWarDecay(in: gameModel)
         self.doWarDamageDecay(in: gameModel)
         self.doUpdateWarDamageLevel(in: gameModel)
         self.updateMilitaryStrengths(in: gameModel)
         self.updateEconomicStrengths(in: gameModel)
-        
+
         //DoUpdateWarmongerThreats();
         self.updateMilitaryThreats(in: gameModel)
         self.updateTargetValue(in: gameModel) // DoUpdatePlayerTargetValues
@@ -209,7 +210,7 @@ public class DiplomaticAI: Codable {
         self.doUpdateWarGoals(in: gameModel)
 
         self.doUpdatePeaceTreatyWillingness(in: gameModel)
-        
+
         // Issues of Dispute
         self.doUpdateLandDisputeLevels(in: gameModel)
         //DoUpdateVictoryDisputeLevels();
@@ -238,12 +239,12 @@ public class DiplomaticAI: Codable {
         self.updateOpinions(in: gameModel)
         self.updateApproaches(in: gameModel)
         //DoUpdateMinorCivApproaches();
-        
+
         self.updateProximities(in: gameModel)
-        
+
         // These functions actually DO things, and we don't want the shadow AI behind a human player doing things for him
         if !player.isHuman() {
-            
+
             //MakeWar();
             //DoMakePeaceWithMinors();
 
@@ -253,11 +254,11 @@ public class DiplomaticAI: Codable {
             //DoContactMinorCivs();
             self.doContactMajorCivs(in: gameModel)
         }
-        
+
         // Update Counters
         self.doCounters(in: gameModel)
     }
-    
+
     func doLockedIntoWarDecay(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
@@ -274,22 +275,22 @@ public class DiplomaticAI: Codable {
             }
         }
     }
-    
+
     /// Every turn we're at peace war damage goes down a bit
     func doWarDamageDecay(in gameModel: GameModel?) {
-    
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         // Loop through all (known) Players
         for loopPlayer in gameModel.players {
 
             if loopPlayer.isAlive() && !loopPlayer.isEqual(to: self.player) && loopPlayer.hasMet(with: self.player) {
-                
+
                 // Update war damage we've suffered
                 if !self.isAtWar(with: loopPlayer) {
-                    
+
                     var value = self.warValueLost(with: loopPlayer)
 
                     if value > 0 {
@@ -329,7 +330,7 @@ public class DiplomaticAI: Codable {
             }
         }
     }
-    
+
     // Increment our turn counters
     func doCounters(in gameModel: GameModel?) {
 
@@ -337,22 +338,22 @@ public class DiplomaticAI: Codable {
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
 
         // Loop through AI Players
         for otherPlayer in gameModel.players {
-            
+
             if player.isEqual(to: otherPlayer) || !otherPlayer.isAlive() || otherPlayer.isBarbarian() {
                 continue
             }
-            
+
             if !player.hasMet(with: otherPlayer) {
                 continue
             }
-            
+
             // War Counter
             if self.isAtWar(with: otherPlayer) {
                 // increments if at war
@@ -365,10 +366,10 @@ public class DiplomaticAI: Codable {
             // /////////////////////////////
             // Major Civs only!
             // /////////////////////////////
-                
+
             // Trade value counter
             self.changeRecentTradeValue(with: otherPlayer, by: -3 /* DEAL_VALUE_PER_TURN_DECAY */)
-            
+
             /*ChangeCommonFoeValue(eLoopPlayer, -GC.getCOMMON_FOE_VALUE_PER_TURN_DECAY());
              
             if (GetRecentAssistValue(eLoopPlayer) > 0)
@@ -569,88 +570,88 @@ public class DiplomaticAI: Codable {
             }
         }*/
     }
-    
+
     func changeRecentTradeValue(with otherPlayer: AbstractPlayer?, by change: Int) {
-        
+
         if change != 0 {
 
             self.playerDict.changeRecentTradeValue(with: otherPlayer, by: change)
             let maxOpinionValue = 10 /* DEAL_VALUE_PER_OPINION_WEIGHT */ * 30 /* OPINION_WEIGHT_TRADE_MAX*/
 
             // Must be between 0 and maximum possible boost to opinion
-            if self.playerDict.recentTradeValue(with: otherPlayer) < 0  {
+            if self.playerDict.recentTradeValue(with: otherPlayer) < 0 {
                 self.playerDict.updateRecentTradeValue(with: otherPlayer, to: 0)
             } else if self.playerDict.recentTradeValue(with: otherPlayer) > maxOpinionValue {
                 self.playerDict.updateRecentTradeValue(with: otherPlayer, to: maxOpinionValue)
             }
         }
     }
-    
+
     // Anyone we want to chat with?
     func doContactMajorCivs(in gameModel: GameModel?) {
-        
+
         // NOTE: This function is broken up into two sections: AI contact opportunities, and then human contact opportunities
         // This is to prevent a nasty bug where the AI will continue making decisions as the diplo screen is firing up. Making humans
         // handled at the end prevents the Diplo AI from having this problem
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
 
         // Loop through AI Players
         for otherPlayer in gameModel.players {
-            
+
             if player.isEqual(to: otherPlayer) || !otherPlayer.isAlive() || otherPlayer.isBarbarian() {
                 continue
             }
-            
-            if !player.hasMet(with: otherPlayer){
+
+            if !player.hasMet(with: otherPlayer) {
                 continue
             }
-            
+
             // No humans
             if otherPlayer.isHuman() {
                 continue
             }
-            
+
             self.doContact(player: otherPlayer, in: gameModel)
         }
 
         // Loop through HUMAN Players
 
         for otherPlayer in gameModel.players {
-            
+
             if player.isEqual(to: otherPlayer) || !otherPlayer.isAlive() || otherPlayer.isBarbarian() {
                 continue
             }
-            
+
             if !player.hasMet(with: otherPlayer) {
                 continue
             }
-            
+
             // No AI
             if !otherPlayer.isHuman() {
                 continue
             }
-            
+
             self.doContact(player: otherPlayer, in: gameModel)
         }
     }
-    
+
     //    Returns true if the target is valid to show a UI to immediately.
     //    This will return true if the source and destination are both AI.
     func isValidUIDiplomacyTarget(player otherPlayer: AbstractPlayer?) -> Bool {
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         if let otherPlayer = otherPlayer {
-            
+
             if otherPlayer.leader != player.leader /* && !otherPlayer.isHuman() && !player.isHuman() */ {
                 return true
             }
@@ -658,7 +659,7 @@ public class DiplomaticAI: Codable {
 
         return false
     }
-    
+
     /// Individual contact opportunity
     ///  player will evaluate, if he wants to contact otherPlayer in the end (by checking all possible topics)
     ///
@@ -666,18 +667,18 @@ public class DiplomaticAI: Codable {
     ///     - otherPlayer:  player to check, if contact is wanted in the end
     ///     - gameModel: the game
     func doContact(player otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
-        
+
         print("\(player.leader) tries to contact \(otherPlayer.leader)")
-        
-        if !self.isValidUIDiplomacyTarget(player: otherPlayer)  {
+
+        if !self.isValidUIDiplomacyTarget(player: otherPlayer) {
             return        // Can't contact the this player at the moment.
         }
 
@@ -729,7 +730,7 @@ public class DiplomaticAI: Codable {
 
         // AT PEACE
         if !self.isAtWar(with: otherPlayer) {
-            
+
             self.doCoopWarTimeStatement(with: otherPlayer, statement: &statement, data: &leader, in: gameModel)
             self.doCoopWarStatement(with: otherPlayer, statement: &statement, data: &leader, in: gameModel)
 
@@ -820,24 +821,24 @@ public class DiplomaticAI: Codable {
             //self.doAddNewStatementToLog(for: otherPlayer, statement: statement)
         }
     }
-    
+
     // Say hi to someone else
     func doSendStatement(to otherPlayer: AbstractPlayer?, statement: DiplomaticStatementType, leader: LeaderType, deal: DiplomaticDeal, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
-        
+
         let otherLeader = otherPlayer.leader
-        
+
         let human = otherPlayer.isHuman()
         let shouldShowLeaderScene = human
 
@@ -1094,18 +1095,18 @@ public class DiplomaticAI: Codable {
                 }
             }
          } else */ if statement == .coopWarRequest {
- 
+
             // We'd like to declare war on someone
             if let againstPlayer = gameModel.player(for: leader) {
 
                 if shouldShowLeaderScene {
-                    
+
                     // Send message to human
                     //let szText = DiplomaticRequestMessage.coopWarRequest.diploStringForMessage(for: self.player, and: againstPlayer)
                     self.player?.diplomacyRequests?.sendRequest(for: otherLeader, state: .discussCoopWar, message: .coopWarRequest, emotion: .positive, in: gameModel)
-                    
+
                 } else if !human {
-                    
+
                     // AI resolution
                     /*SetCoopWarCounter(ePlayer, eAgainstPlayer, 0);
                     GET_PLAYER(ePlayer).GetDiplomacyAI()->SetCoopWarCounter(GetPlayer()->GetID(), eAgainstPlayer, 0);
@@ -1136,16 +1137,16 @@ public class DiplomaticAI: Codable {
                 }
             }
         } else if statement == .coopWarTime {
-            
+
             // We'd like to declare war on someone (not us, not other)
             if let againstPlayer = gameModel.player(for: leader) {
-                
+
                 // Send message to human
                 if shouldShowLeaderScene {
                     //let szText = DiplomaticRequestMessage.coopWarTime.diploStringForMessage(for: self.player, and: againstPlayer)
 
                     self.player?.diplomacyRequests?.sendRequest(for: otherLeader, state: .discussCoopWarTime, message: .coopWarTime, emotion: .positive, in: gameModel)
-                    
+
                     //self.player?.diplomacyRequests?.sendRequest(for:GetPlayer()->GetID(), ePlayer, DIPLO_UI_STATE_DISCUSS_COOP_WAR_TIME, szText, LEADERHEAD_ANIM_POSITIVE, eAgainstPlayer);
                 }
             }
@@ -1222,7 +1223,7 @@ public class DiplomaticAI: Codable {
                 //let szText = DiplomaticRequestMessage.embassyExchange.diploStringForMessage(for: self.player)
                 self.player?.diplomacyRequests?.sendDealRequest(for: otherLeader, deal: deal, state: .tradeAIMakesOffer, message: .embassyExchange, emotion: .request, in: gameModel)
             } else if !human {
-                
+
                 fatalError("not handled")
                 //CvDeal kDeal = *pDeal;
 
@@ -1231,7 +1232,7 @@ public class DiplomaticAI: Codable {
                 //GC.getGame().GetGameDeals()->FinalizeDeal(GetPlayer()->GetID(), ePlayer, true);
             }
         } else if statement == .embassyOffer {
-            
+
             // Offer Embassy
             if shouldShowLeaderScene {
                 //let szText = DiplomaticRequestMessage.embassyOffer.diploStringForMessage(for: self.player)
@@ -1245,7 +1246,7 @@ public class DiplomaticAI: Codable {
                 GC.getGame().GetGameDeals()->FinalizeDeal(GetPlayer()->GetID(), ePlayer, true);*/
             }
         } else if statement == .openBorderExchange {
-            
+
             // Offer Open Borders Exchange
             if shouldShowLeaderScene {
                 // Active human
@@ -1261,13 +1262,13 @@ public class DiplomaticAI: Codable {
                 GC.getGame().GetGameDeals()->FinalizeDeal(GetPlayer()->GetID(), ePlayer, true)*/
             }
          } else if statement == .openBorderOffer {
-            
+
             // Offer Open Borders
             if shouldShowLeaderScene {
                 // Active human
                 //let szText = DiplomaticRequestMessage.openBordersOffer.diploStringForMessage(for: self.player)
                 self.player?.diplomacyRequests?.sendDealRequest(for: otherLeader, deal: deal, state: .tradeAIMakesOffer, message: .openBordersOffer, emotion: .request, in: gameModel)
-                
+
             } else if !human {
                 // Offer to an AI player
                 fatalError("not handled")
@@ -1894,15 +1895,15 @@ public class DiplomaticAI: Codable {
             }
         } else*/
         if statement == .requestPeace {
-            
+
             // Do we want peace with ePlayer?
             if shouldShowLeaderScene {
-                
+
                 // Active human
                 //let szText = DiplomaticRequestMessage.peaceOffer.diploStringForMessage(for: nil)
                 self.player?.diplomacyRequests?.sendDealRequest(for: otherLeader, deal: deal, state: .tradeAIMakesOffer, message: .peaceOffer, emotion: .positive, in: gameModel)
             } else if !human {
-                
+
                 // Offer to an AI player
                 fatalError("not handled")
                 /*CvDeal kDeal = *pDeal;
@@ -1915,24 +1916,24 @@ public class DiplomaticAI: Codable {
             }
         }
     }
-    
+
     // Possible Contact Statement
     func doCoopWarTimeStatement(with otherPlayer: AbstractPlayer?, statement: inout DiplomaticStatementType, data: inout LeaderType, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("no game model given")
         }
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get player")
         }
-        
+
         guard let diplomacyAI = otherPlayer.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
 
         if statement == .none {
-            
+
             // Don't send this to AI players - coop war timer is automatically handled in DoCounters()
             if !otherPlayer.isHuman() {
                 return
@@ -1942,24 +1943,24 @@ public class DiplomaticAI: Codable {
 
                 // Agreed to go to war soon ... what's the counter at?
                 if self.coopWarAcceptedState(of: otherPlayer, towards: loopPlayer) == .soon {
-                    
+
                     if self.coopWarCounter(of: otherPlayer, towards: loopPlayer) == 10 /* COOP_WAR_SOON_COUNTER */ {
 
                         if !diplomacyAI.isAtWar(with: loopPlayer) && loopPlayer.isAlive() {
-                            
+
                             // If we're already at war, don't bother
                             statement = .coopWarTime
                             data = loopPlayer.leader
 
                             // Don't evaluate other players
-                            break;
+                            break
                         } else {
                             // Human is already at war - process what we would have if he'd agreed at this point
                             self.updateCoopWarAcceptedState(of: otherPlayer, towards: loopPlayer, to: .accepted)
 
                             // AI declaration
                             if !self.isAtWar(with: loopPlayer) && loopPlayer.isAlive() {
-                                
+
                                 self.doDeclareWar(to: loopPlayer, in: gameModel)
                                 self.player?.militaryAI?.requestBasicAttack(towards: loopPlayer, numUnitsWillingBuild: 1, in: gameModel)
                             }
@@ -1969,36 +1970,36 @@ public class DiplomaticAI: Codable {
             }
         }
     }
-    
+
     func doCoopWarStatement(with otherPlayer: AbstractPlayer?, statement: inout DiplomaticStatementType, data: inout LeaderType, in gameModel: GameModel?) {
-    
+
         guard let gameModel = gameModel else {
             fatalError("no game model given")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get other player")
         }
-        
+
         guard let diplomacyAI = otherPlayer.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
-        
+
         if statement == .none {
             // slewis - added so that a player already at war wouldn't try to start another war with another player. The AI should try to only have one war going at a time, if possible.
             if player.atWarCount() == 0 {
-                
+
                 if let targetPlayer = self.doTestCoopWarDesire(of: otherPlayer, in: gameModel) {
-                    
+
                     let tempStatement: DiplomaticStatementType = .coopWarTime
                     let turnsBetweenStatements = 10
 
                     if self.numTurnsSinceStatementSent(to: otherPlayer, statement: tempStatement) >= turnsBetweenStatements {
-                        
+
                         var sendStatement = true
 
                         //// 1 in 2 chance we don't actually send the message (don't want full predictability)
@@ -2017,20 +2018,20 @@ public class DiplomaticAI: Codable {
             }
         }
     }
-    
+
     /// Do we want to declare war on anyone with ePlayer?
     func doTestCoopWarDesire(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> AbstractPlayer? {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
-        
+
         let duration = 30 // based on game speed
-        
+
         let approach = self.approach(towards: otherPlayer)
 
         if approach == .war {
@@ -2048,12 +2049,12 @@ public class DiplomaticAI: Codable {
             return nil
         }
 
-        var bestPlayer: AbstractPlayer? = nil
+        var bestPlayer: AbstractPlayer?
         var bestPlayerScore: Int = 0
 
         // Loop through all players to see if we can find a good target
         for targetPlayerLoop in gameModel.players {
-            
+
             // Player must be valid
             if !targetPlayerLoop.isAlive() {
                 continue
@@ -2086,22 +2087,22 @@ public class DiplomaticAI: Codable {
         // Found someone? might be nil
         return bestPlayer
     }
-    
+
     /// Does this AI want to ask ePlayer to go to war with eTargetPlayer?
     func coopWarScore(of otherPlayer: AbstractPlayer?, towards targetPlayer: AbstractPlayer?, askedByPlayer: Bool) -> Int {
-        
+
         guard let diplomacyAI = self.player?.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
-        
+
         guard let otherPlayerDiplomacyAI = otherPlayer?.diplomacyAI else {
             fatalError("cant get otherPlayerDiplomacyAI")
         }
-        
+
         guard let targetPlayer = targetPlayer else {
             fatalError("cant get targetPlayer")
         }
-        
+
         let approachTowardsPlayer = self.approach(towards: otherPlayer)
         let opinionTowardsPlayer = self.opinion(of: otherPlayer)
         let approachTowardsTarget = self.approach(towards: targetPlayer)
@@ -2111,7 +2112,7 @@ public class DiplomaticAI: Codable {
         if !diplomacyAI.canDeclareWar(to: targetPlayer) {
             return 0
         }
-        
+
         if !otherPlayerDiplomacyAI.canDeclareWar(to: targetPlayer) {
             return 0
         }
@@ -2148,7 +2149,7 @@ public class DiplomaticAI: Codable {
 
         // ePlayer asked us, so if we like him we're more likely to accept
         if askedByPlayer {
-            
+
             if approachTowardsPlayer == .friendly || approachTowardsPlayer == .deceptive {
                 weight += 2
             } else if opinionTowardsPlayer >= .favorable {
@@ -2160,7 +2161,7 @@ public class DiplomaticAI: Codable {
         if approachTowardsTarget == .war {
             weight += 5
         }
-        
+
         if approachTowardsTarget == .hostile {
             weight += 2
         }
@@ -2232,7 +2233,7 @@ public class DiplomaticAI: Codable {
 
         // Weight mod for target value
         switch self.targetValue(of: targetPlayer) {
-            
+
         case .impossible:
             weight *= 66
             weight /= 100
@@ -2263,34 +2264,35 @@ public class DiplomaticAI: Codable {
 
         return 0
     }
-    
+
     /// Possibile Contact Statement - Embassy Exchange
     func doEmbassyExchange(with otherPlayer: AbstractPlayer?, statement: inout DiplomaticStatementType, deal: inout DiplomaticDeal, in gameModel: GameModel?) {
-    
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get player")
         }
-        
+
         guard let otherPlayerDiplomacyAI = otherPlayer.diplomacyAI else {
             fatalError("cant get otherPlayerDiplomacyAI")
         }
-    
+
         if statement == .none {
-            
+
             // Can both sides open an embassy
-            if deal.isPossibleToTradeItem(from: self.player, to: otherPlayer, item: .allowEmbassy, in: gameModel) && deal.isPossibleToTradeItem(from: otherPlayer, to: self.player, item: .allowEmbassy, in: gameModel) {
-                
+            if deal.isPossibleToTradeItem(from: self.player, to: otherPlayer, item: .allowEmbassy, in: gameModel) &&
+                deal.isPossibleToTradeItem(from: otherPlayer, to: self.player, item: .allowEmbassy, in: gameModel) {
+
                 // Does this guy want to exchange embassies?
                 if self.isEmbassyExchangeAcceptable(with: otherPlayer) {
-                    
+
                     let tempStatement: DiplomaticStatementType = .embassyExchange
                     let turnsBetweenStatements = 20
 
-                    if self.numTurnsSinceStatementSent(to: otherPlayer, statement: .embassyExchange) >= turnsBetweenStatements && self.numTurnsSinceStatementSent(to: otherPlayer, statement: .embassyOffer) >= 10 {
-                        
+                    if self.numTurnsSinceStatementSent(to: otherPlayer, statement: .embassyExchange) >= turnsBetweenStatements &&
+                        self.numTurnsSinceStatementSent(to: otherPlayer, statement: .embassyOffer) >= 10 {
+
                         var sendStatement = false
 
-                        
                         if !otherPlayer.isHuman() {
                             // AI
                             if otherPlayerDiplomacyAI.isEmbassyExchangeAcceptable(with: self.player) {
@@ -2308,7 +2310,7 @@ public class DiplomaticAI: Codable {
 
                         if sendStatement {
                             deal.addAllowEmbassy(with: self.player)
-                            deal.addAllowEmbassy(with: otherPlayer);
+                            deal.addAllowEmbassy(with: otherPlayer)
 
                             statement = tempStatement
                         } else {
@@ -2320,30 +2322,31 @@ public class DiplomaticAI: Codable {
             }
         }
     }
-    
+
     /// Possible Contact Statement - Embassy
     func doEmbassyOffer(with otherPlayer: AbstractPlayer?, statement: inout DiplomaticStatementType, deal: inout DiplomaticDeal, in gameModel: GameModel?) {
-    
+
         guard let diplomacyDealAI = self.player?.diplomacyDealAI else {
             fatalError("cant get diplomacyDealAI")
         }
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get player")
         }
-        
+
         guard let otherPlayerDiplomacyAI = otherPlayer.diplomacyAI else {
             fatalError("cant get otherPlayerDiplomacyAI")
         }
-    
+
         if statement == .none {
-            
+
             if diplomacyDealAI.makeOfferForEmbassy(to: otherPlayer, deal: &deal, in: gameModel) {
-                
+
                 let tempStatement: DiplomaticStatementType = .embassyOffer
                 let turnsBetweenStatements = 20
 
-                if self.numTurnsSinceStatementSent(to: otherPlayer, statement: tempStatement) >= turnsBetweenStatements && self.numTurnsSinceStatementSent(to: otherPlayer, statement: .embassyExchange) >= 10 {
+                if self.numTurnsSinceStatementSent(to: otherPlayer, statement: tempStatement) >= turnsBetweenStatements &&
+                    self.numTurnsSinceStatementSent(to: otherPlayer, statement: .embassyExchange) >= 10 {
                     statement = tempStatement
                 }
             } else {
@@ -2352,7 +2355,7 @@ public class DiplomaticAI: Codable {
             }
         }
     }
-    
+
     /// Do we want to have an embassy in the player's capital?
     func wantsEmbassy(with otherPlayer: AbstractPlayer?) -> Bool {
 
@@ -2364,29 +2367,47 @@ public class DiplomaticAI: Codable {
 
         return true
     }
-    
+
     /// Possible Contact Statement - Open Borders Exchange
     func doOpenBordersExchange(with otherPlayer: AbstractPlayer?, statement: inout DiplomaticStatementType, deal: inout DiplomaticDeal, in gameModel: GameModel?) {
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get player")
         }
-        
+
         if statement == .none {
-             
+
             let duration = 30 // based on game speed
 
             // Can both sides trade OB?
-            if deal.isPossibleToTradeItem(from: self.player, to: otherPlayer, item: .openBorders, value: duration, resource: .none, checkOtherPlayerValidity: false, finalizing: false, in: gameModel) && deal.isPossibleToTradeItem(from: otherPlayer, to: self.player, item: .openBorders, value: duration, resource: .none, checkOtherPlayerValidity: false, finalizing: false, in: gameModel) {
-                
+            if deal.isPossibleToTradeItem(
+                from: self.player,
+                to: otherPlayer,
+                item: .openBorders,
+                value: duration,
+                resource: .none,
+                checkOtherPlayerValidity: false,
+                finalizing: false,
+                in: gameModel
+            ) &&
+                deal.isPossibleToTradeItem(
+                    from: otherPlayer,
+                    to: self.player,
+                    item: .openBorders,
+                    value: duration,
+                    resource: .none,
+                    checkOtherPlayerValidity: false,
+                    finalizing: false,
+                    in: gameModel) {
+
                 // Does this guy want to exchange OB?
                 if self.isOpenBordersExchangeAcceptable(with: otherPlayer) {
-                    
+
                     let tempStatement: DiplomaticStatementType = .openBorderExchange
                     let turnsBetweenStatements = 20
 
                     if self.numTurnsSinceStatementSent(to: otherPlayer, statement: tempStatement) >= turnsBetweenStatements {
-                        
+
                         var sendStatement = false
 
                         // AI
@@ -2419,40 +2440,40 @@ public class DiplomaticAI: Codable {
             }
         }
     }
-    
+
     /// Are we willing to swap embassies with ePlayer?
     func isEmbassyExchangeAcceptable(with otherPlayer: AbstractPlayer?) -> Bool {
-        
+
         let approach = self.approachWithoutTrueFeelings(towards: otherPlayer)
 
         switch approach {
-            
+
         case .war, .hostile, .guarded:
             return false
-            
+
         case .deceptive, .afraid, .friendly, .neutrally:
             return true
-            
+
         case .none:
             return false
         }
     }
-    
+
     // Possible Contact Statement - Open Borders
     func doOpenBordersOffer(with otherPlayer: AbstractPlayer?, statement: inout DiplomaticStatementType, deal: inout DiplomaticDeal, in gameModel: GameModel?) {
 
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get player")
         }
-        
+
         guard let diplomacyDealAI = self.player?.diplomacyDealAI else {
             fatalError("cant get diplomacyDealAI")
         }
 
         if statement == .none {
-            
+
             if diplomacyDealAI.shouldMakeOfferForOpenBorders(to: otherPlayer, deal: &deal, in: gameModel) {
-                
+
                 let tempStatement: DiplomaticStatementType = .openBorderOffer
                 let turnsBetweenStatements = 20
 
@@ -2465,34 +2486,34 @@ public class DiplomaticAI: Codable {
             }
         }
     }
-    
+
     func numTurnsSinceStatementSent(to otherPlayer: AbstractPlayer?, statement: DiplomaticStatementType) -> Int {
-        
+
         print("not implemented")
         return 100
     }
-    
+
     func sendStatement(to otherPlayer: AbstractPlayer?, statement: DiplomaticStatementType) {
-        
+
         print("not implemented")
     }
-    
+
     // MARK: open borders
-    
+
     // Do we want Open Borders with eOtherPlayer? - this is only used for when to trigger an AI request, not whether or not the AI will accept a deal period
     func isWantsOpenBorders(with otherPlayer: AbstractPlayer?) -> Bool {
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let grandStrategyAI = self.player?.grandStrategyAI else {
             fatalError("cant get grandStrategyAI")
         }
-        
+
         // If going for culture win always want open borders against civs we need influence on
         if grandStrategyAI.activeStrategy == .culture /* && m_pPlayer->GetCulture()->GetTourism() > 0*/ {
-            
+
             // The civ we need influence on the most should ALWAYS be included
             /*if (m_pPlayer->GetCulture()->GetCivLowestInfluence(false /*bCheckOpenBorders*/) == ePlayer) {
                 return true;
@@ -2524,12 +2545,12 @@ public class DiplomaticAI: Codable {
             return true
         }
     }
-    
+
     // Are we willing to swap Open Borders with ePlayer?
     func isOpenBordersExchangeAcceptable(with otherPlayer: AbstractPlayer?) -> Bool {
 
         let approach = self.approach(towards: otherPlayer)
-       
+
         if approach == .friendly {
             return true
         } else if approach == .afraid {
@@ -2538,40 +2559,40 @@ public class DiplomaticAI: Codable {
 
         return false
     }
-    
+
     public func hasEmbassy(with otherPlayer: AbstractPlayer?) -> Bool {
-        
+
         return self.playerDict.hasEmbassy(with: otherPlayer)
     }
-    
+
     func coopWarAcceptedState(of player: AbstractPlayer?, towards otherPlayer: AbstractPlayer?) -> CoopWarState {
-        
+
         return self.playerDict.coopWarAcceptedState(of: player, towards: otherPlayer)
     }
-    
+
     func coopWarCounter(of player: AbstractPlayer?, towards otherPlayer: AbstractPlayer?) -> Int {
-        
+
         return self.playerDict.coopWarCounter(of: player, towards: otherPlayer)
     }
-    
+
     func updateCoopWarAcceptedState(of player: AbstractPlayer?, towards otherPlayer: AbstractPlayer?, to state: CoopWarState) {
-        
+
         self.playerDict.updateCoopWarAcceptedState(of: player, towards: otherPlayer, to: state)
     }
-    
+
     func update(in gameModel: GameModel?) {
-        
+
         guard let player = self.player else {
             fatalError("cant get current player")
         }
-        
+
         if let activePlayer = gameModel?.activePlayer() {
-            
+
             if self.greetPlayers.contains(where: { activePlayer.isEqual(to: $0) }) {
-                
+
                 //let szText = DiplomaticRequestMessage.messageIntro.diploStringForMessage(for: self.player)
                 player.diplomacyRequests?.sendRequest(for: activePlayer.leader, state: .intro, message: .messageIntro, emotion: .neutral, in: gameModel)
-                
+
                 self.greetPlayers.removeAll(where: { activePlayer.isEqual(to: $0) })
             }
         }
@@ -2582,7 +2603,7 @@ public class DiplomaticAI: Codable {
         guard let gameModel = gameModel else {
             fatalError("no game model given")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get current player")
         }
@@ -2590,7 +2611,7 @@ public class DiplomaticAI: Codable {
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
-        
+
         if player.isBarbarian() || otherPlayer.isBarbarian() {
             return
         }
@@ -2642,7 +2663,7 @@ public class DiplomaticAI: Codable {
                     let playerBName = metB ? otherPlayer.leader.name() : "An Unmet Player"
 
                     let text = "\(playerAName) and \(playerBName) have made a public Trade Alliance, forging a strong bond between the two empires."
-                    
+
                     self.player?.notifications()?.addNotification(of: .diplomaticDeclaration, for: self.player, message: text, summary: "Declaration of Friendship", other: otherPlayer)
                 }
             }
@@ -2685,7 +2706,7 @@ public class DiplomaticAI: Codable {
                     let playerBName = metB ? otherPlayer.leader.name() : "An Unmet Player"
 
                     let text = "\(playerAName) has denounced \(playerBName)."
-                    
+
                     self.player?.notifications()?.addNotification(of: .diplomaticDeclaration, for: self.player, message: text, summary: "Denounced", at: HexPoint.zero)
                     fatalError("not handled")
                 }
@@ -2717,7 +2738,7 @@ public class DiplomaticAI: Codable {
             guard let friendPlayer = gameModel?.player(for: friendLeader) else {
                 fatalError("cant get player")
             }
-            
+
             friendPlayer.diplomacyAI?.doDeclareWarFromDefensivePact(to: otherPlayer)
         }
     }
@@ -2738,14 +2759,14 @@ public class DiplomaticAI: Codable {
         otherPlayer?.diplomacyAI?.playerDict.updateApproach(towards: self.player, to: .war)
         otherPlayer?.diplomacyAI?.playerDict.updateWarState(towards: self.player, to: .defensive)
     }
-    
+
     //    --------------------------------------------------------------------------------
     func canDeclareWar(to otherPlayer: AbstractPlayer?) -> Bool {
-        
+
         guard let player = self.player else {
             fatalError("catn get player")
         }
-        
+
         if player.isEqual(to: otherPlayer) {
             return false
         }
@@ -2793,9 +2814,9 @@ public class DiplomaticAI: Codable {
 
         return self.playerDict.isDefensivePactActive(with: otherPlayer)
     }
-    
+
     // MARK: open borders
-    
+
     func isOpenBorderAgreementActive(by otherPlayer: AbstractPlayer?) -> Bool {
 
         return self.playerDict.isOpenBorderAgreementActive(by: otherPlayer)
@@ -2819,7 +2840,7 @@ public class DiplomaticAI: Codable {
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
@@ -2851,7 +2872,7 @@ public class DiplomaticAI: Codable {
 
         // inform player that some declared war
         if otherPlayer.isHuman() {
-            
+
             // TXT_KEY_MISC_DECLARED_WAR_ON_YOU
             self.player?.notifications()?.addNotification(of: .war, for: self.player, message: "\(player.leader.name()) has declared war on you!", summary: "declaration of war", at: HexPoint.zero)
         }
@@ -2882,7 +2903,7 @@ public class DiplomaticAI: Codable {
         if otherPlayer == nil {
             return false
         }
-        
+
         return self.playerDict.isAtWar(with: otherPlayer)
     }
 
@@ -2907,22 +2928,22 @@ public class DiplomaticAI: Codable {
     }
 
     // MARK: private methods
-    
+
     /// Updates how much damage have we taken in a war against all Players
     private func doUpdateWarDamageLevel(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let militaryAI = self.player?.militaryAI else {
             fatalError("cant get militaryAI")
         }
-        
+
         /*int iValueLost;
         int iCurrentValue;
         int iValueLostRatio;
@@ -2936,14 +2957,14 @@ public class DiplomaticAI: Codable {
         var currentValue = 0
 
         let typicalPower = militaryAI.powerOfStrongestBuildableUnit(in: .land)
-        
+
         // City value
         for loopCityRef in gameModel.cities(of: player) {
-            
+
             guard let loopCity = loopCityRef else {
                 continue
             }
-            
+
             currentValue += loopCity.population() * 150 /* WAR_DAMAGE_LEVEL_INVOLVED_CITY_POP_MULTIPLIER() */
             if loopCity.isCapital() {
                 currentValue *= 3
@@ -2953,32 +2974,32 @@ public class DiplomaticAI: Codable {
 
         // Unit value
         for loopUnitRef in gameModel.units(of: player) {
-            
+
             guard let loopUnit = loopUnitRef else {
                 continue
             }
-            
+
             var unitValue = loopUnit.type.power()
             if typicalPower > 0 {
                 unitValue = unitValue * 100 /* DEFAULT_WAR_VALUE_FOR_UNIT */ / typicalPower
             } else {
                 unitValue = 100 /* DEFAULT_WAR_VALUE_FOR_UNIT */
             }
-            
+
             currentValue += unitValue
         }
 
         // Loop through all (known) Players
         for loopPlayer in gameModel.players {
-            
+
             if !loopPlayer.isEqual(to: self.player) && player.hasMet(with: loopPlayer) && loopPlayer.isAlive() {
-                
+
                 var warDamageLevel: WarDamageLevelType = .none
 
                 let valueLost = self.warValueLost(with: loopPlayer)
 
                 if valueLost > 0 {
-                    
+
                     // Total original value is the current value plus the amount lost, so compute the percentage on that
                     var valueLostRatio: Int = 0
                     if currentValue > 0 {
@@ -3118,8 +3139,7 @@ public class DiplomaticAI: Codable {
         }
 
         // Conquest bias: must be a stalemate or better to apply (or not at war yet)
-        if (warState == .none || warState > .defensive)
-        {
+        if (warState == .none || warState > .defensive) {
             if self.isGoingForWorldConquest() {
                 weights.add(weight: 3, for: .war) // APPROACH_WAR_CONQUEST_GRAND_STRATEGY
             }
@@ -3370,7 +3390,7 @@ public class DiplomaticAI: Codable {
 
         return activeStrategy == .conquest
     }
-    
+
     func isGoingForDiploVictory() -> Bool {
 
         guard let activeStrategy = self.player?.grandStrategyAI?.activeStrategy else {
@@ -3384,7 +3404,7 @@ public class DiplomaticAI: Codable {
 
         return self.playerDict.approach(towards: player)
     }
-    
+
     func approach(towards leader: LeaderType) -> PlayerApproachType {
 
         return self.playerDict.approach(towards: player)
@@ -3500,7 +3520,6 @@ public class DiplomaticAI: Codable {
             self.playerDict.updateOpinion(towards: otherPlayer, to: .ally)
             return
         }
-
 
     }
 
@@ -3647,11 +3666,9 @@ public class DiplomaticAI: Codable {
                             warState = .nearlyWon
                         } else if warStateValue >= 57 /*WAR_STATE_THRESHOLD_OFFENSIVE*/ {
                             warState = .offensive
-                        }
-                        else if warStateValue >= 42 /*WAR_STATE_THRESHOLD_STALEMATE*/ {
+                        } else if warStateValue >= 42 /*WAR_STATE_THRESHOLD_STALEMATE*/ {
                             warState = .stalemate
-                        }
-                        else if warStateValue >= 25 /*WAR_STATE_THRESHOLD_DEFENSIVE*/ {
+                        } else if warStateValue >= 25 /*WAR_STATE_THRESHOLD_DEFENSIVE*/ {
                             warState = .defensive
                         } else {
                             warState = .nearlyDefeated
@@ -3694,7 +3711,7 @@ public class DiplomaticAI: Codable {
                 self.playerDict.updateWarState(towards: otherPlayer, to: warState)
             }
         }
-        
+
         // Finalize overall assessment
         if stateAllWars < 0 || self.stateOfAllWars == .losing {
             self.stateOfAllWars = .losing
@@ -3723,18 +3740,18 @@ public class DiplomaticAI: Codable {
             }
         }
     }
-    
+
     /// Updates what the Projection of war is with all Players
     private func doUpdateWarProjections(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("no game model given")
         }
-        
+
         guard let player = self.player else {
             fatalError("no player given")
         }
-        
+
         // Loop through all (known) Players
         for loopPlayer in gameModel.players {
 
@@ -3778,20 +3795,20 @@ public class DiplomaticAI: Codable {
             }
         }
     }
-    
+
     /// Updates what the Goal of war is with all Players
     private func doUpdateWarGoals(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("no game model given")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         // Are we going for World conquest?  If so, then we want to fight our wars to the death
-        var worldConquest = false;
+        var worldConquest = false
 
         if self.isGoingForWorldConquest() {
             worldConquest = true
@@ -3812,11 +3829,11 @@ public class DiplomaticAI: Codable {
         for loopPlayer in gameModel.players {
 
             if !loopPlayer.isEqual(to: self.player) && player.hasMet(with: loopPlayer) && loopPlayer.isAlive() {
-                
+
                 warGoal = .none
 
                 if self.isAtWar(with: loopPlayer) {
-                    
+
                     warGoalValue = 0
 
                     // Higher ups want war with this
@@ -3826,7 +3843,7 @@ public class DiplomaticAI: Codable {
                     //////////////////////////////
                     // Higher ups want war, figure out what kind we're waging
                     if higherUpsWantWar {
-                        
+
                         // Default goal is Damage
                         warGoal = .damage
 
@@ -3845,13 +3862,12 @@ public class DiplomaticAI: Codable {
                                 warGoal = .conquest
                             }
                         }
-                        
+
                     }
 
                     //////////////////////////////
                     // Higher ups don't want to be at war, figure out how bad things are
-                    else
-                    {
+                    else {
                         // If we're about to cause some mayhem then hold off on the peace stuff for a bit - not against Minors though
                         if self.warState(towards: loopPlayer) == .nearlyWon && self.stateOfAllWars != .losing {
                             warGoal = .damage
@@ -3882,10 +3898,10 @@ public class DiplomaticAI: Codable {
             }
         }
     }
-    
+
     /// Are we locked into a war with otherPlayer?
     private func isLockedIntoCoopWar(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
-        
+
         let coopWarState = self.globalCoopWarAcceptedState(against: otherPlayer, in: gameModel) //self.coopWarAcceptedState(of: self.player, towards: otherPlayer)
 
         if coopWarState == .accepted || coopWarState == .soon {
@@ -3896,18 +3912,18 @@ public class DiplomaticAI: Codable {
 
         return false
     }
-    
+
     /// Check everyone we know to see if we're planning a coop war against them
     private func globalCoopWarAcceptedState(against otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> CoopWarState {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         var bestState: CoopWarState = .none
 
         for loopPlayer in gameModel.players {
-            
+
             if !loopPlayer.isEqual(to: self.player) && loopPlayer.hasMet(with: otherPlayer) && loopPlayer.isAlive() {
                 if self.coopWarAcceptedState(of: loopPlayer, towards: otherPlayer) > bestState {
                     bestState = self.coopWarAcceptedState(of: loopPlayer, towards: otherPlayer)
@@ -3917,18 +3933,18 @@ public class DiplomaticAI: Codable {
 
         return bestState
     }
-    
+
     /// What is the integer value of how well we think the war with ePlayer is going?
     private func warScore(with otherPlayer: AbstractPlayer?, in gameModel: GameModel) -> Int {
 
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
-        
+
         var warScore = 0
 
         // Military Strength compared to us
@@ -3950,8 +3966,7 @@ public class DiplomaticAI: Codable {
         }
 
         // Economic Strength compared to us
-        switch self.playerDict.economicStrengthComparedToUs(of: otherPlayer)
-        {
+        switch self.playerDict.economicStrengthComparedToUs(of: otherPlayer) {
         case .pathetic:
             warScore += 50 /* WAR_PROJECTION_THEIR_ECONOMIC_STRENGTH_PATHETIC */
         case .weak:
@@ -3972,7 +3987,7 @@ public class DiplomaticAI: Codable {
         switch self.warDamageLevel(of: otherPlayer) {
         case .none:
             warScore += 0 /* WAR_PROJECTION_WAR_DAMAGE_US_NONE */
-            
+
             // If they're aggressively expanding, it makes them a better target to go after, If they've hurt us, this no longer applies
             if self.isRecklessExpander(otherPlayer, in: gameModel) {
                 warScore += 25 /* WAR_PROJECTION_RECKLESS_EXPANDER */
@@ -4014,7 +4029,7 @@ public class DiplomaticAI: Codable {
         var theirScore = otherPlayer.score(for: gameModel)
         theirScore = theirScore > 100 ? theirScore : 100
         var ratio = ((ourScore-theirScore) * 100) / (ourScore > theirScore ? theirScore : ourScore)
-        ratio = ratio >= -50 ? (ratio <= 50 ? ratio : 50) : -50;
+        ratio = ratio >= -50 ? (ratio <= 50 ? ratio : 50) : -50
         warScore += ratio
 
         // Decrease war score if we've been fighting for a long time - after 60 turns the effect is -20 on the WarScore
@@ -4024,18 +4039,18 @@ public class DiplomaticAI: Codable {
 
         return warScore
     }
-    
+
     /// Is ePlayer expanding recklessly?
     private func isRecklessExpander(_ otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("no game model given")
         }
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
-        
+
         // If the player is too far away from us, we don't care
         if self.proximity(to: otherPlayer) == .far || self.proximity(to: otherPlayer) == .distant {
             return false
@@ -4052,7 +4067,7 @@ public class DiplomaticAI: Codable {
 
         // Find out what the average is (minus the player we're looking at)
         for loopPlayer in gameModel.players {
-            
+
             // Not alive
             if !loopPlayer.isAlive() {
                 continue
@@ -4086,14 +4101,14 @@ public class DiplomaticAI: Codable {
 
         return true
     }
-    
+
     /// Updates what peace treaties we're willing to offer and accept
     private func doUpdatePeaceTreatyWillingness(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("no game model given")
         }
-        
+
         guard let player = self.player else {
             fatalError("no player given")
         }
@@ -4104,7 +4119,7 @@ public class DiplomaticAI: Codable {
             guard let loopDiplomacyAI = loopPlayer.diplomacyAI else {
                 fatalError("cant get loopDiplomacyAI")
             }
-            
+
             if !player.isEqual(to: loopPlayer) && self.hasMet(with: loopPlayer) && loopPlayer.isAlive() {
 
                 var treatyWillingToOffer: PeaceTreatyType = .none
@@ -4113,12 +4128,12 @@ public class DiplomaticAI: Codable {
                 var willingToAcceptScore: Int = 0
 
                 if self.isAtWar(with: loopPlayer) {
-                        
+
                     // Have to be at war with the human for a certain amount of time before the AI will agree to peace
                     if loopPlayer.isHuman() {
-                        
+
                         if !self.isWillingToMakePeaceWith(human: loopPlayer) {
-                            
+
                             self.updateTreatyWillingToOffer(with: loopPlayer, to: .none)
                             self.updateTreatyWillingToAccept(with: loopPlayer, to: .none)
 
@@ -4128,14 +4143,14 @@ public class DiplomaticAI: Codable {
 
                     // If we're out for conquest, then no peace!
                     if self.warGoal(towards: loopPlayer) != .conquest {
-                        
+
                         let warProjection: WarProjectionType = self.warProjection(against: loopPlayer)
 
                         // What we're willing to give up.  The higher the number the more we're willing to part with
 
                         // How is the war going?
                         switch warProjection {
-                            
+
                         case .destruction:
                             willingToOfferScore += 100 /* PEACE_WILLINGNESS_OFFER_PROJECTION_DESTRUCTION */
                         case .defeat:
@@ -4152,7 +4167,7 @@ public class DiplomaticAI: Codable {
 
                         // How much damage have we taken?
                         switch self.warDamageLevel(of: loopPlayer) {
-                            
+
                         case .none:
                             willingToOfferScore += 0 /* PEACE_WILLINGNESS_OFFER_WAR_DAMAGE_NONE */
                         case .minor:
@@ -4167,7 +4182,7 @@ public class DiplomaticAI: Codable {
 
                         // How much damage have we dished out?
                         switch loopDiplomacyAI.warDamageLevel(of: self.player) {
-                        
+
                         case .none:
                             willingToOfferScore -= 0 /* PEACE_WILLINGNESS_OFFER_WAR_DAMAGE_NONE */
                         case .minor:
@@ -4199,7 +4214,7 @@ public class DiplomaticAI: Codable {
                             treatyWillingToOffer = .armistice
                         } else {
                             // War Score could be negative here, but we're already assuming this player wants peace.  But he's not willing to give up anything for it
-                            treatyWillingToOffer = .whitePeace;
+                            treatyWillingToOffer = .whitePeace
                         }
 
                         // If they've broken a peace deal before then we're not going to give them anything
@@ -4213,7 +4228,7 @@ public class DiplomaticAI: Codable {
 
                         // How is the war going?
                         switch warProjection {
-                                
+
                         case .destruction:
                             willingToAcceptScore += -50 /* PEACE_WILLINGNESS_ACCEPT_PROJECTION_DESTRUCTION */
                         case .defeat:
@@ -4401,20 +4416,20 @@ public class DiplomaticAI: Codable {
         // Set the value
         self.playerDict.updateTargetValue(of: otherPlayer, to: targetValue)
     }
-    
+
     func targetValue(of otherPlayer: AbstractPlayer?) -> PlayerTargetValueType {
-        
+
         return self.playerDict.targetValue(of: otherPlayer)
     }
-    
+
     // MARK: turns of meeting
-    
+
     func turnsSinceMeeting(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Int {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         return gameModel.currentTurn - self.playerDict.turnOfLastMeeting(with: otherPlayer)
     }
 
@@ -4687,61 +4702,61 @@ public class DiplomaticAI: Codable {
 
         return self.playerDict.warGoal(towards: otherPlayer)
     }
-    
+
     func updateWarGoal(towards otherPlayer: AbstractPlayer?, to warGoal: WarGoalType) {
-        
+
         self.playerDict.updateWarGoal(towards: otherPlayer, to: warGoal)
     }
-    
+
     /// Returns an integer that increases as the number and severity of land disputes rises
     func totalLandDisputeLevel(in gameModel: GameModel?) -> Int {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         var rtnValue = 0 // slewis added, to fix a compile error. I'm guessing zero is correct.
 
         for otherPlayer in gameModel.players {
-            
+
             if otherPlayer.isAlive() && !otherPlayer.isEqual(to: self.player) && self.hasMet(with: otherPlayer) {
-                
+
                 switch self.landDisputeLevel(with: otherPlayer) {
-                    
+
                 case .fierce:
                     rtnValue += 5 /*AI_DIPLO_LAND_DISPUTE_WEIGHT_FIERCE */
                 case .strong:
                     rtnValue += 3 /* AI_DIPLO_LAND_DISPUTE_WEIGHT_STRONG */
                 case .weak:
                     rtnValue += 1 /* AI_DIPLO_LAND_DISPUTE_WEIGHT_WEAK */
-                
+
                 default:
                     // NOOP
                     break
                 }
             }
         }
-        
+
         return rtnValue
     }
-    
+
     func landDisputeLevel(with otherPlayer: AbstractPlayer?) -> LandDisputeLevelType {
-        
+
         return self.playerDict.landDisputeLevel(with: otherPlayer)
     }
-    
+
     func lastTurnLandDisputeLevel(with otherPlayer: AbstractPlayer?) -> LandDisputeLevelType {
-    
+
         return self.playerDict.lastTurnLandDisputeLevel(with: otherPlayer)
     }
-    
+
     /// Updates what is our level of Dispute with a player is over Land
     func doUpdateLandDisputeLevels(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
@@ -4753,7 +4768,7 @@ public class DiplomaticAI: Codable {
         for loopPlayer in gameModel.players {
 
             if loopPlayer.isAlive() && !player.isEqual(to: loopPlayer) && player.hasMet(with: loopPlayer) {
-                
+
                 // Update last turn's values
                 let lastTurnLandDisputeLevel = self.landDisputeLevel(with: loopPlayer)
                 self.playerDict.updateLastTurnLandDisputeLevel(with: loopPlayer, to: lastTurnLandDisputeLevel)
@@ -4832,18 +4847,18 @@ public class DiplomaticAI: Codable {
             }
         }
     }
-    
+
     /// Updates how aggressively this player's Units are positioned in relation to us
     func doUpdateExpansionAggressivePostures(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         if gameModel.capital(of: player) != nil {
             return
         }
@@ -4854,18 +4869,18 @@ public class DiplomaticAI: Codable {
             self.doUpdateOnePlayerExpansionAggressivePosture(of: loopPlayer, in: gameModel)
         }
     }
-    
+
     /// Updates how aggressively this player's Units are positioned in relation to us
     func doUpdateOnePlayerExpansionAggressivePosture(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
@@ -4891,11 +4906,11 @@ public class DiplomaticAI: Codable {
 
         // Loop through all of this player's Cities
         for loopCityRef in gameModel.cities(of: otherPlayer) {
-            
+
             guard let loopCity = loopCityRef else {
                 continue
             }
-            
+
             // Don't look at their capital
             if loopCity.isCapital() {
                 continue
@@ -4957,43 +4972,43 @@ public class DiplomaticAI: Codable {
 
         self.playerDict.updateExpansionAggressivePosture(for: otherPlayer, posture: mostAggressiveCityPosture)
     }
-    
+
     func expansionAggressivePosture(towards otherPlayer: AbstractPlayer?) -> AggressivePostureType {
-        
+
         return self.playerDict.expansionAggressivePosture(towards: otherPlayer)
     }
-    
+
     /// Updates how aggressively ePlayer is buying land near us
     func doUpdatePlotBuyingAggressivePosture(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let diplomacyAI = player.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
-        
+
         var posture: AggressivePostureType = .none
 
         // Loop through all (known) Players
         for loopPlayer in gameModel.players {
 
             if loopPlayer.isAlive() && loopPlayer.leader != player.leader && diplomacyAI.hasMet(with: loopPlayer) {
-                
+
                 var aggressionScore = 0
 
                 // Loop through all of our Cities to see if this player has bought land near them
                 for loopCityRef in gameModel.cities(of: loopPlayer) {
-                    
+
                     guard let loopCity = loopCityRef else {
                         continue
                     }
-                    
+
                     aggressionScore += loopCity.numPlotsAcquired(by: loopPlayer)
                 }
 
@@ -5015,49 +5030,49 @@ public class DiplomaticAI: Codable {
             }
         }
     }
-    
+
     func plotBuyingAggressivePosture(towards otherPlayer: AbstractPlayer?) -> AggressivePostureType {
-        
+
         return self.playerDict.plotBuyingAggressivePosture(towards: otherPlayer)
     }
-    
+
     // MARK: willingness of peace treaty
-    
+
     func treatyWillingToOffer(with otherPlayer: AbstractPlayer?) -> PeaceTreatyType {
-        
+
         return self.playerDict.peaceTreatyWillingToOffer(to: otherPlayer)
     }
-    
+
     func updateTreatyWillingToOffer(with otherPlayer: AbstractPlayer?, to treatyWillingToOffer: PeaceTreatyType) {
-        
+
         return self.playerDict.updateTreatyWillingToOffer(with: otherPlayer, to: treatyWillingToOffer)
     }
 
     func treatyWillingToAccept(with otherPlayer: AbstractPlayer?) -> PeaceTreatyType {
-        
+
         return self.playerDict.peaceTreatyWillingToAccept(by: otherPlayer)
     }
-    
+
     func updateTreatyWillingToAccept(with otherPlayer: AbstractPlayer?, to treatyWillingToAccept: PeaceTreatyType) {
-        
+
         return self.playerDict.updateTreatyWillingToAccept(with: otherPlayer, to: treatyWillingToAccept)
     }
-    
+
     /// Need some special rules for humans so that the AI isn't exploited
     func isWillingToMakePeaceWith(human humanPlayer: AbstractPlayer?) -> Bool {
-        
+
         guard let humanPlayer = humanPlayer else {
             fatalError("cant get humanPlayer")
         }
-        
+
         guard let humanDiplomacyAI = humanPlayer.diplomacyAI else {
             fatalError("cant get humanDiplomacyAI")
         }
-        
+
         guard let playerDiplomacyAI = self.player?.diplomacyAI else {
             fatalError("cant get playerDiplomacyAI")
         }
-        
+
         if humanPlayer.isHuman() {
             let willMakePeace = self.playerDict.turnsAtWar(with: humanPlayer) >= 5
 
@@ -5069,122 +5084,121 @@ public class DiplomaticAI: Codable {
             if playerDiplomacyAI.numTurnsLockedIntoWar(with: humanPlayer) > 1 {
                 return false
             }
-            
+
             if humanDiplomacyAI.numTurnsLockedIntoWar(with: self.player) > 1 {
                 return false
             }
 
             return willMakePeace
         }
-        
+
         return true
     }
-    
+
     // MARK: has broekn peace treaty?
-    
+
     func hasBrokenPeaceTreaty() -> Bool {
-        
+
         return self.hasBrokenPeaceTreatyValue
     }
-    
+
     func updateHasBrokenPeaceTreaty(to value: Bool) {
-        
+
         self.hasBrokenPeaceTreatyValue = value
     }
-    
+
     // MARK: war projection / war damage level
-    
+
     func warProjection(against otherPlayer: AbstractPlayer?) -> WarProjectionType {
-        
+
         self.playerDict.warProjection(against: otherPlayer)
     }
-    
+
     func updateWarProjection(of otherPlayer: AbstractPlayer?, to value: WarProjectionType) {
-        
+
         self.playerDict.updateWarProjection(of: otherPlayer, to: value)
     }
-    
+
     func updateLastWarProjection(of otherPlayer: AbstractPlayer?, to value: WarProjectionType) {
-        
+
         self.playerDict.updateLastWarProjection(of: otherPlayer, to: value)
     }
-    
+
     func warDamageLevel(of otherPlayer: AbstractPlayer?) -> WarDamageLevelType {
-        
+
         self.playerDict.warDamageLevel(of: otherPlayer)
     }
-    
+
     func updateWarDamageLevel(of otherPlayer: AbstractPlayer?, to value: WarDamageLevelType) {
-           
+
         self.playerDict.updateWarDamageLevel(of: otherPlayer, to: value)
     }
-    
-    // MARK: ---
-    
+
+    // MARK: - --
+
     func numTurnsLockedIntoWar(with otherPlayer: AbstractPlayer?) -> Int {
-        
+
         return self.playerDict.numTurnsLockedIntoWar(with: otherPlayer)
     }
-    
+
     func changeNumTurnsLockedIntoWar(with otherPlayer: AbstractPlayer?, by delta: Int) {
-        
+
         let value = self.playerDict.numTurnsLockedIntoWar(with: otherPlayer)
         self.playerDict.updateNumTurnsLockedIntoWar(with: otherPlayer, to: value + delta)
     }
-    
+
     func updateNumTurnsLockedIntoWar(with otherPlayer: AbstractPlayer?, to value: Int) {
-        
+
         self.playerDict.updateNumTurnsLockedIntoWar(with: otherPlayer, to: value)
     }
 
-    
-    // MARK: ---
-    
+    // MARK: - --
+
     func warValueLost(with otherPlayer: AbstractPlayer?) -> Int {
-        
+
         return self.playerDict.warValueLost(with: otherPlayer)
     }
-    
+
     func changeWarValueLost(with otherPlayer: AbstractPlayer?, by delta: Int) {
-    
+
         let value = self.playerDict.warValueLost(with: otherPlayer)
         self.playerDict.updateWarValueLost(with: otherPlayer, to: value + delta)
     }
-    
+
     func updateWarValueLost(with otherPlayer: AbstractPlayer?, to value: Int) {
-        
+
         self.playerDict.updateWarValueLost(with: otherPlayer, to: value)
     }
-    
+
     // MARK: want peace counter
-    
+
     func wantPeaceCounter(with otherPlayer: AbstractPlayer?) -> Int {
-        
+
         return self.playerDict.wantPeaceCounter(with: otherPlayer)
     }
-    
+
     func changeWantPeaceCounter(with otherPlayer: AbstractPlayer?, by delta: Int) {
-        
+
         let value = self.playerDict.wantPeaceCounter(with: otherPlayer)
         self.playerDict.updateWantPeaceCounter(with: otherPlayer, to: value + delta)
     }
-    
+
     func updateWantPeaceCounter(with otherPlayer: AbstractPlayer?, to value: Int) {
-        
+
         self.playerDict.updateWantPeaceCounter(with: otherPlayer, to: value)
     }
-    
+
     // ---------
-    
+
     /// Are we building up for an attack on ePlayer?
     func isMusteringForAttack(against otherPlayer: AbstractPlayer?) -> Bool {
-        
+
         return self.playerDict.isMusteringForAttack(against: otherPlayer)
     }
-    
+
     /// Sets whether or not we're building up for an attack on ePlayer
     func updateMusteringForAttack(against otherPlayer: AbstractPlayer?, to value: Bool) {
-        
+
         self.playerDict.updateMusteringForAttack(against: otherPlayer, to: value)
     }
 }

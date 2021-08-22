@@ -21,13 +21,12 @@ public enum CivilizationAbility {
     case iteru // egyptian
     case freeImperialCities // german
     case motherRussia // russian
-    
 
     public func name() -> String {
 
         return self.data().name
     }
-    
+
     public func effects() -> [String] {
 
         return self.data().effects

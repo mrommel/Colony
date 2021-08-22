@@ -16,6 +16,7 @@ public enum CivilianAttackPriorityType {
     case low
 }
 
+// swiftlint:disable type_body_length
 public enum UnitType: Int, Codable {
 
     // civilians
@@ -58,9 +59,9 @@ public enum UnitType: Int, Codable {
     case galley // FIXME Ancient era melee naval combat unit. Can only operate on coastal waters until Cartography is researched.
 
     // support
-    
+
     case medic
-    
+
     // taken from https://www.matrixgames.com/forums/tm.asp?m=2994803
 
     // great people
@@ -73,13 +74,12 @@ public enum UnitType: Int, Codable {
     case prophet
     case scientist
     case writer
-    
+
     // player overrides
     // barbarians
-    
+
     case barbarianWarrior
     case barbarianArcher
-
 
     public static var all: [UnitType] {
 
@@ -90,7 +90,7 @@ public enum UnitType: Int, Codable {
 
             // ancient
             .scout, .warrior, .archer, .spearman, .heavyChariot, .galley,
-            
+
             // industrial
             .medic,
 
@@ -99,11 +99,16 @@ public enum UnitType: Int, Codable {
         ]
     }
     
+    public static var greatPersons: [UnitType] {
+        
+        return [.general, .artist, .admiral, .engineer, .general, .merchant, .prophet, .scientist]
+    }
+
     public func name() -> String {
 
         return self.data().name
     }
-    
+
     public func era() -> EraType {
 
         return self.data().era
@@ -144,16 +149,16 @@ public enum UnitType: Int, Codable {
 
         return self.data().targetType
     }
-    
+
     // returns the unittype of non standard units (such as special units of civilizations)
     func baseType() -> UnitType? {
-        
+
         switch self {
-            
+
             // barbarian
         case .barbarianWarrior: return .warrior
         case .barbarianArcher: return .archer
-            
+
             // ancient
         case .settler: return .settler
         case .builder: return .builder
@@ -166,10 +171,10 @@ public enum UnitType: Int, Codable {
         case .spearman: return .spearman
         case .heavyChariot: return .heavyChariot
         case .galley: return  .galley
-            
+
             // industrial
         case .medic: return .medic
-            
+
             // great people
         case .artist: return .artist
         case .admiral: return .admiral
@@ -219,7 +224,7 @@ public enum UnitType: Int, Codable {
 
         return powerVal
     }
-    
+
     private struct UnitTypeData {
 
         let name: String
@@ -255,7 +260,7 @@ public enum UnitType: Int, Codable {
                                 meleeAttack: 15,
                                 rangedAttack: 0,
                                 moves: 2)
-            
+
         case .barbarianArcher:
             return UnitTypeData(name: "Barbarian Archer",
                                 era: .none,
@@ -305,7 +310,7 @@ public enum UnitType: Int, Codable {
                                 meleeAttack: 0,
                                 rangedAttack: 0,
                                 moves: 2)
-            
+
         case .scout:
             // https://civilization.fandom.com/wiki/Scout_(Civ6)
             return UnitTypeData(name: "Scout",
@@ -398,7 +403,7 @@ public enum UnitType: Int, Codable {
                                 meleeAttack: 0,
                                 rangedAttack: 0,
                                 moves: 2)
-            
+
             // great people
         case .admiral:
             return UnitTypeData(name: "Admiral",
@@ -526,7 +531,7 @@ public enum UnitType: Int, Codable {
                 Flavor(type: .defense, value: 1)
             ]
         case .trader: return [
-                Flavor(type: .gold, value: 10),
+                Flavor(type: .gold, value: 10)
             ]
         case .scout: return [
                 Flavor(type: .recon, value: 8),
@@ -562,7 +567,7 @@ public enum UnitType: Int, Codable {
                 Flavor(type: .defense, value: 6)
             ]
         case .galley: return []
-            
+
             // industral
         case .medic: return []
 
@@ -576,7 +581,7 @@ public enum UnitType: Int, Codable {
         case .prophet: return []
         case .scientist: return []
         case .writer: return []
-        
+
         }
     }
 
@@ -598,7 +603,7 @@ public enum UnitType: Int, Codable {
         case .spearman: return .land
         case .heavyChariot: return .land
         case .galley: return .sea
-            
+
             // industral
         case .medic: return .land
 
@@ -638,7 +643,7 @@ public enum UnitType: Int, Codable {
         case .spearman: return [.attack, .defense]
         case .heavyChariot: return [.attack, .defense, .explore]
         case .galley: return [.exploreSea, .attackSea, .escortSea, .reserveSea]
-            
+
             // industral
         case .medic: return [.unknown]
 
@@ -666,7 +671,7 @@ public enum UnitType: Int, Codable {
         case .settler: return .settle
         case .builder: return .work
         case .trader: return .trade
-            
+
         case .scout: return .explore
         case .warrior: return .attack // UNITAI_ATTACK
         case .slinger: return .ranged
@@ -674,7 +679,7 @@ public enum UnitType: Int, Codable {
         case .spearman: return .defense
         case .heavyChariot: return .attack
         case .galley: return .attackSea // UNITAI_ATTACK_SEA
-            
+
             // industral
         case .medic: return .unknown
 
@@ -710,7 +715,7 @@ public enum UnitType: Int, Codable {
         case .heavyChariot: return .walk // FIXME
 
         case .galley: return .swimShallow
-            
+
             // industral
         case .medic: return .walk
 
@@ -746,7 +751,7 @@ public enum UnitType: Int, Codable {
         case .spearman: return 65
         case .heavyChariot: return 65
         case .galley: return 65
-            
+
             // industral
         case .medic: return 370
 
@@ -782,7 +787,7 @@ public enum UnitType: Int, Codable {
         case .spearman: return 260
         case .heavyChariot: return 260
         case .galley: return 260
-            
+
             // industral
         case .medic: return 1480
 
@@ -798,7 +803,7 @@ public enum UnitType: Int, Codable {
         case .writer: return -1
         }
     }
-    
+
     /// cost in faith
     func faithCost() -> Int {
 
@@ -818,7 +823,7 @@ public enum UnitType: Int, Codable {
         case .spearman: return -1
         case .heavyChariot: return -1
         case .galley: return -1
-            
+
             // industral
         case .medic: return -1
 
@@ -857,7 +862,7 @@ public enum UnitType: Int, Codable {
 
             // industral
         case .medic: return 5
-            
+
             // great people
         case .admiral: return 0
         case .artist: return 0
@@ -890,7 +895,7 @@ public enum UnitType: Int, Codable {
         case .spearman: return .bronzeWorking
         case .heavyChariot: return .wheel
         case .galley: return .sailing
-            
+
             // industral
         case .medic: return .sanitation
 
@@ -906,14 +911,14 @@ public enum UnitType: Int, Codable {
         case .writer: return nil
         }
     }
-    
+
     public func obsoleteTech() -> TechType? {
-        
+
         return nil
     }
-    
+
     public func requiredCivic() -> CivicType? {
-        
+
         switch self {
 
         case .barbarianWarrior: return nil
@@ -931,7 +936,7 @@ public enum UnitType: Int, Codable {
         case .spearman: return nil
         case .heavyChariot: return nil
         case .galley: return nil
-            
+
             // industral
         case .medic: return nil
 
@@ -947,9 +952,9 @@ public enum UnitType: Int, Codable {
         case .writer: return nil
         }
     }
-    
+
     public func requiredResource() -> ResourceType? {
-        
+
         return nil
     }
 
@@ -965,7 +970,7 @@ public enum UnitType: Int, Codable {
         case .settler: return nil
         case .builder: return nil
         case .trader: return nil
-            
+
         case .scout: return nil
         case .warrior: return nil
         case .slinger: return nil
@@ -976,7 +981,7 @@ public enum UnitType: Int, Codable {
 
             // industrial
         case .medic: return nil
-            
+
             // great people
         case .admiral: return nil
         case .artist: return nil
@@ -989,9 +994,9 @@ public enum UnitType: Int, Codable {
         case .writer: return nil
         }
     }
-    
+
     public func unitType(for civilization: CivilizationType) -> UnitType? {
-        
+
         switch self {
 
             // ----------------------------
@@ -1000,14 +1005,14 @@ public enum UnitType: Int, Codable {
             if civilization == .barbarian {
                 return .barbarianWarrior
             }
-            
+
             return nil
-            
+
         case .barbarianArcher:
             if civilization == .barbarian {
                 return .barbarianArcher
             }
-            
+
             return nil
 
             // ----------------------------
@@ -1016,70 +1021,70 @@ public enum UnitType: Int, Codable {
             if civilization == .barbarian {
                 return nil
             }
-            
+
             return .settler
-            
+
         case .builder:
             if civilization == .barbarian {
                 return nil
             }
-            
+
             return .builder
-        
+
         case .trader:
             if civilization == .barbarian {
                 return nil
             }
-        
+
             return .trader
 
         case .scout:
             if civilization == .barbarian {
                 return nil
             }
-            
+
             return .scout
-            
+
         case .warrior:
             if civilization == .barbarian {
                 return .barbarianWarrior
             }
-            
+
             return .warrior
-            
+
         case .slinger:
             if civilization == .barbarian {
                 return nil
             }
-            
+
             return .slinger
-            
+
         case .archer:
             if civilization == .barbarian {
                 return .barbarianArcher
             }
-            
+
             return .archer
-            
+
         case .spearman:
             if civilization == .barbarian {
                 return nil
             }
-            
+
             return .spearman
-            
+
         case .heavyChariot:
             if civilization == .barbarian {
                 return nil
             }
-            
+
             return .heavyChariot
-            
+
         case .galley:
             if civilization == .barbarian {
                 return nil
             }
-            
+
             return .galley
 
             // ----------------------------
@@ -1088,74 +1093,74 @@ public enum UnitType: Int, Codable {
             if civilization == .barbarian {
                 return nil
             }
-            
+
             return .medic
-            
+
             // ----------------------------
             // great people
         case .admiral:
             if civilization == .barbarian {
                 return nil
             }
-            
+
             return .admiral
-            
+
         case .artist:
             if civilization == .barbarian {
                 return nil
             }
-            
+
             return .artist
-            
+
         case .engineer:
             if civilization == .barbarian {
                 return nil
             }
-            
+
             return .engineer
-            
+
         case .general:
             if civilization == .barbarian {
                 return nil
             }
-            
+
             return .general
-            
+
         case .merchant:
             if civilization == .barbarian {
                 return nil
             }
-            
+
             return .merchant
-            
+
         case .musician:
             if civilization == .barbarian {
                 return nil
             }
-            
+
             return .musician
-            
+
         case .prophet:
             if civilization == .barbarian {
                 return nil
             }
-            
+
             return .prophet
-            
+
         case .scientist:
             if civilization == .barbarian {
                 return nil
             }
-            
+
             return .scientist
-            
+
         case .writer:
             if civilization == .barbarian {
                 return nil
             }
-            
+
             return .writer
-            
+
         }
     }
 
@@ -1181,7 +1186,7 @@ public enum UnitType: Int, Codable {
 
             // industrial
         case .medic: return [.canHeal]
-            
+
             // great people
         case .admiral: return []
         case .artist: return []
@@ -1215,11 +1220,11 @@ public enum UnitType: Int, Codable {
         case .none: return false
 
         case .repair: return self.has(ability: .canImprove)
-            
+
         case .ancientRoad: return self.has(ability: .canBuildRoads)
         case .classicalRoad: return self.has(ability: .canBuildRoads)
         case .removeRoad: return self.has(ability: .canImprove)
-            
+
         case .farm: return self.has(ability: .canImprove)
         case .mine: return self.has(ability: .canImprove)
         case .quarry: return self.has(ability: .canImprove)
@@ -1248,9 +1253,9 @@ public enum UnitType: Int, Codable {
 
         return 0
     }
-    
+
     public func buildCharges() -> Int {
-        
+
         if self == .builder {
             return 3
         }
@@ -1275,37 +1280,37 @@ public enum UnitType: Int, Codable {
 
         return true
     }
-    
+
     func healingAdjacentUnits() -> Int {
-        
+
         if self.has(ability: .canHeal) {
             return 20
         }
-        
+
         return 0
     }
-    
+
     func canFoundReligion() -> Bool {
-        
+
         if self == .prophet {
             return true
         }
-        
+
         return false
     }
-    
+
     func isGreatPerson() -> Bool {
-        
+
         if self == .artist || self == .engineer || self == .merchant || self == .scientist || self == .admiral || self == .general || self == .prophet {
-            
+
             return true
         }
-        
+
         return false
     }
-    
+
     func canMoveInRivalTerritory() -> Bool {
-        
+
         return self.has(ability: .canMoveInRivalTerritory)
     }
 }

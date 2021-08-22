@@ -10,7 +10,16 @@ import SmartAILibrary
 public class Textures {
     
     private static let allTextureSuffixes: [String] = [
-        "-n", "-n-ne", "-n-ne-nw", "-n-ne-s", "-n-ne-s-nw", "-n-ne-s-sw", "-n-ne-s-sw-nw", "-n-ne-se", "-n-ne-se-nw", "-n-ne-se-s", "-n-ne-se-s-nw", "-n-ne-se-s-sw", "-n-ne-se-s-sw-nw", "-n-ne-se-sw", "-n-ne-se-sw-nw", "-n-ne-sw", "-n-ne-sw-nw", "-n-nw", "-n-s", "-n-s-nw", "-n-s-sw", "-n-s-sw-nw", "-n-se", "-n-se-nw", "-n-se-s", "-n-se-s-nw", "-n-se-s-sw", "-n-se-s-sw-nw", "-n-se-sw", "-n-se-sw-nw", "-n-sw", "-n-sw-nw", "-ne", "-ne-nw", "-ne-s", "-ne-s-nw", "-ne-s-sw", "-ne-s-sw-nw", "-ne-se", "-ne-se-nw", "-ne-se-s", "-ne-se-s-nw", "-ne-se-s-sw", "-ne-se-s-sw-nw", "-ne-se-sw", "-ne-se-sw-nw", "-ne-sw", "-ne-sw-nw", "-nw", "-s", "-s-nw", "-s-sw", "-s-sw-nw", "-se", "-se-nw", "-se-s", "-se-s-nw", "-se-s-sw", "-se-s-sw-nw", "-se-sw", "-se-sw-nw", "-sw", "-sw-nw"
+        "-n", "-n-ne", "-n-ne-nw", "-n-ne-s", "-n-ne-s-nw", "-n-ne-s-sw", "-n-ne-s-sw-nw",
+        "-n-ne-se", "-n-ne-se-nw", "-n-ne-se-s", "-n-ne-se-s-nw", "-n-ne-se-s-sw",
+        "-n-ne-se-s-sw-nw", "-n-ne-se-sw", "-n-ne-se-sw-nw", "-n-ne-sw", "-n-ne-sw-nw",
+        "-n-nw", "-n-s", "-n-s-nw", "-n-s-sw", "-n-s-sw-nw", "-n-se", "-n-se-nw",
+        "-n-se-s", "-n-se-s-nw", "-n-se-s-sw", "-n-se-s-sw-nw", "-n-se-sw", "-n-se-sw-nw",
+        "-n-sw", "-n-sw-nw", "-ne", "-ne-nw", "-ne-s", "-ne-s-nw", "-ne-s-sw",
+        "-ne-s-sw-nw", "-ne-se", "-ne-se-nw", "-ne-se-s", "-ne-se-s-nw", "-ne-se-s-sw",
+        "-ne-se-s-sw-nw", "-ne-se-sw", "-ne-se-sw-nw", "-ne-sw", "-ne-sw-nw", "-nw", "-s",
+        "-s-nw", "-s-sw", "-s-sw-nw", "-se", "-se-nw", "-se-s", "-se-s-nw", "-se-s-sw",
+        "-se-s-sw-nw", "-se-sw", "-se-sw-nw", "-sw", "-sw-nw"
     ]
     
     let game: GameModel?
@@ -61,11 +70,27 @@ public class Textures {
         
         self.game = game
         self.allTerrainTextureNames = [
-            "terrain_desert", "terrain_plains_hills3", "terrain_grass_hills3", "terrain_desert_hills", "terrain_tundra", "terrain_desert_hills2", "terrain_tundra2", "terrain_shore", "terrain_desert_hills3", "terrain_ocean", "terrain_tundra3", "terrain_snow", "terrain_plains", "terrain_snow_hills", "terrain_grass", "terrain_snow_hills2", "terrain_tundra_hills", "terrain_plains_hills", "terrain_plains_hills2", "terrain_grass_hills", "terrain_snow_hills3", "terrain_grass_hills2"
+            "terrain_desert", "terrain_plains_hills3", "terrain_grass_hills3", "terrain_desert_hills",
+            "terrain_tundra", "terrain_desert_hills2", "terrain_tundra2", "terrain_shore",
+            "terrain_desert_hills3", "terrain_ocean", "terrain_tundra3", "terrain_snow",
+            "terrain_plains", "terrain_snow_hills", "terrain_grass", "terrain_snow_hills2",
+            "terrain_tundra_hills", "terrain_plains_hills", "terrain_plains_hills2",
+            "terrain_grass_hills", "terrain_snow_hills3", "terrain_grass_hills2"
         ]
         
         self.allFeatureTextureNames = [
-            "feature_atoll", "feature_lake", "feature_mountains_ne_sw", "feature_ice5", "feature_rainforest1", "feature_delicateArch", "feature_mountains_nw", "feature_ice6", "feature_rainforest2", "feature_floodplains", "feature_mountains_se", "feature_marsh1", "feature_mountains_se_nw", "feature_reef", "feature_forest1", "feature_marsh2", "feature_mountains_sw", "feature_uluru", "feature_forest2", "feature_mountEverest", "feature_none", "feature_galapagos", "feature_mountKilimanjaro", "feature_yosemite", "feature_greatBarrierReef", "feature_mountains1", "feature_oasis1", "feature_ice1", "feature_mountains2", "feature_oasis2", "feature_ice2", "feature_mountains3", "feature_pantanal", "feature_ice3", "feature_pine1", "feature_mountains_ne", "feature_ice4", "feature_pine1", "feature_pine2", "feature_volcano", "feature_fallout", "feature_fuji", "feature_barringCrater", "feature_mesa", "feature_gibraltar", "feature_geyser", "feature_potosi", "feature_fountainOfYouth", "feature_lakeVictoria"
+            "feature_atoll", "feature_lake", "feature_mountains_ne_sw", "feature_ice5",
+            "feature_rainforest1", "feature_delicateArch", "feature_mountains_nw", "feature_ice6",
+            "feature_rainforest2", "feature_floodplains", "feature_mountains_se", "feature_marsh1",
+            "feature_mountains_se_nw", "feature_reef", "feature_forest1", "feature_marsh2",
+            "feature_mountains_sw", "feature_uluru", "feature_forest2", "feature_mountEverest",
+            "feature_none", "feature_galapagos", "feature_mountKilimanjaro", "feature_yosemite",
+            "feature_greatBarrierReef", "feature_mountains1", "feature_oasis1", "feature_ice1",
+            "feature_mountains2", "feature_oasis2", "feature_ice2", "feature_mountains3",
+            "feature_pantanal", "feature_ice3", "feature_pine1", "feature_mountains_ne",
+            "feature_ice4", "feature_pine1", "feature_pine2", "feature_volcano", "feature_fallout",
+            "feature_fuji", "feature_barringCrater", "feature_mesa", "feature_gibraltar",
+            "feature_geyser", "feature_potosi", "feature_fountainOfYouth", "feature_lakeVictoria"
         ]
         
         self.allSnowFeatureTextureNames = Textures.allTextureSuffixes.map({ "snow\($0)" }) + Textures.allTextureSuffixes.map({ "snow-to-water\($0)" })
@@ -75,7 +100,9 @@ public class Textures {
         self.allCoastTextureNames = Textures.allTextureSuffixes.map({ "beach\($0)" })
         
         self.allRiverTextureNames = [
-            "river-mouth-e", "river-n-se", "river-mouth-se", "river-ne", "river-n-ne-se", "river-mouth-ne", "river-n", "river-mouth-sw", "river-se", "river-n-ne", "river-mouth-nw", "river-ne-se", "river-mouth-w"
+            "river-mouth-e", "river-n-se", "river-mouth-se", "river-ne", "river-n-ne-se",
+            "river-mouth-ne", "river-n", "river-mouth-sw", "river-se", "river-n-ne", "river-mouth-nw",
+            "river-ne-se", "river-mouth-w"
         ]
         
         self.allResourceTextureNames = ResourceType.all.map { $0.textureName() }
@@ -122,24 +149,39 @@ public class Textures {
         
         self.allBoardTextureNames = ["board-s-sw", "board-se-s-sw", "board-se-s", "board-se", "board-sw"]
         
-        self.allImprovementTextureNames = (ImprovementType.all + [ImprovementType.barbarianCamp, ImprovementType.goodyHut]).flatMap { $0.textureNames() }
+        self.allImprovementTextureNames = (ImprovementType.all + [.barbarianCamp, .goodyHut]).flatMap { $0.textureNames() }
         self.allRoadTextureNames = Textures.allTextureSuffixes.map({ "road\($0)" })
         
-        self.allPathTextureNames = ["path-n-sw", "path-se-nw", "path-n-nw", "path-se-sw", "path-n-se", "path-ne-s", "path-start-s", "path-n-ne", "path-sw-nw", "path-ne-se", "path-start-n", "path-start-sw", "path-se-s", "path-start-nw", "path-n-s", "path-start-se", "path-s-nw", "path-ne-sw", "path-start-ne", "path-s-sw", "path-ne-nw"]
+        self.allPathTextureNames = [
+            "path-n-sw", "path-se-nw", "path-n-nw", "path-se-sw", "path-n-se", "path-ne-s", "path-start-s",
+            "path-n-ne", "path-sw-nw", "path-ne-se", "path-start-n", "path-start-sw", "path-se-s",
+            "path-start-nw", "path-n-s", "path-start-se", "path-s-nw", "path-ne-sw", "path-start-ne",
+            "path-s-sw", "path-ne-nw"
+        ]
         self.allPathOutTextureNames = self.allPathTextureNames.map { $0 + "-out" }
-        self.overviewTextureNames = ["overview-mountains", "overview-mountains-passive", "overview-hills",  "overview-hills-passive", "overview-forest", "overview-forest-passive", "overview-city", "overview-city-passive"]
+        self.overviewTextureNames = [
+            "overview-mountains", "overview-mountains-passive", "overview-hills",  "overview-hills-passive",
+            "overview-forest", "overview-forest-passive", "overview-city", "overview-city-passive"
+        ]
         
         self.buttonTextureNames = NotificationType.all.map { $0.iconTexture() }
         self.globeTextureNames = Array(0...90).map { "globe\($0)" }
         self.cultureProgressTextureNames = Array(0...100).map { "culture_progress_\($0)" }
         self.scienceProgressTextureNames = Array(0...100).map { "science_progress_\($0)" }
-        self.headerTextureNames = ["header-culture-button-active", "header-culture-button-disabled", "header-government-button-active", "header-government-button-disabled", "header-log-button-active", "header-log-button-disabled", "header-science-button-active", "header-science-button-disabled"]
+        self.headerTextureNames = [
+            "header-culture-button-active", "header-culture-button-disabled", "header-government-button-active",
+            "header-government-button-disabled", "header-log-button-active", "header-log-button-disabled",
+            "header-science-button-active", "header-science-button-disabled"
+        ]
         self.cityProgressTextureNames = Array(0...20).map { "linear-progress-\($0 * 5)" }
         self.cityTextureNames = ["hex-city-1"]
         
         self.commandTextureNames = CommandType.all.map { $0.iconTexture() }
         self.commandButtonTextureNames = CommandType.all.map { $0.buttonTexture() } + ["command-button-list"]
-        self.policyCardTextureNames = ["policyCard-slot", "policyCard-military", "policyCard-economic", "policyCard-diplomatic", "policyCard-wildcard"]
+        self.policyCardTextureNames = [
+            "policyCard-slot", "policyCard-military", "policyCard-economic", "policyCard-diplomatic",
+            "policyCard-wildcard"
+        ]
         self.governmentStateBackgroundTextureNames = GovernmentState.all.map { $0.backgroundTexture() }
         self.governmentTextureNames = GovernmentType.all.map { $0.iconTexture() }
         self.governmentAmbientTextureNames = GovernmentType.all.map { $0.ambientTexture() }

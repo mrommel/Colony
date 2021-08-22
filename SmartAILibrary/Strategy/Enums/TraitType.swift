@@ -9,9 +9,9 @@
 import Foundation
 
 enum TraitType {
-    
+
     case boldness
-    
+
     static var all: [TraitType] {
         return [.boldness]
     }

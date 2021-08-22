@@ -41,19 +41,27 @@ class GameViewModel {
             // free techs
             if startLocation.isHuman {
                 for tech in handicap.freeHumanTechs() {
-                    try! player.techs?.discover(tech: tech)
+                    do {
+                        try player.techs?.discover(tech: tech)
+                    } catch { }
                 }
                 
                 for civic in handicap.freeHumanCivics() {
-                    try! player.civics?.discover(civic: civic)
+                    do {
+                        try player.civics?.discover(civic: civic)
+                    } catch { }
                 }
             } else {
                 for tech in handicap.freeAITechs() {
-                    try! player.techs?.discover(tech: tech)
+                    do {
+                        try player.techs?.discover(tech: tech)
+                    } catch { }
                 }
                 
                 for civic in handicap.freeAICivics() {
-                    try! player.civics?.discover(civic: civic)
+                    do {
+                        try player.civics?.discover(civic: civic)
+                    } catch { }
                 }
             }
             
@@ -93,7 +101,13 @@ class GameViewModel {
         players.prepend(playerBarbar)
 
         // game
-        self.game = GameModel(victoryTypes: [.domination, .cultural, .diplomatic, .science], handicap: handicap, turnsElapsed: 0, players: players, on: map)
+        self.game = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic, .science],
+            handicap: handicap,
+            turnsElapsed: 0,
+            players: players,
+            on: map
+        )
         
         // add units
         var lastLeader: LeaderType? = LeaderType.none

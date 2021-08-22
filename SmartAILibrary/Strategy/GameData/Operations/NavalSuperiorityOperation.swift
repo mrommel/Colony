@@ -9,16 +9,16 @@
 import Foundation
 
 class WeightedPoints: WeightedList<HexPoint> {
-    
+
     func pop() -> HexPoint? {
-        
+
         if let first = self.items.first {
-            
+
             self.items = [WeightedItem<HexPoint>](self.items.suffix(from: 1))
-            
+
             return first.itemType
         }
-        
+
         return nil
     }
 }
@@ -30,39 +30,39 @@ class WeightedPoints: WeightedList<HexPoint> {
 class NavalSuperiorityOperation: NavalOperation {
 
     init() {
-        
+
         super.init(type: .navalSuperiority)
     }
-    
+
     required init(from decoder: Decoder) throws {
         fatalError("init(from:) has not been implemented")
     }
-    
+
     /// Kick off this operation
     override func initialize(for player: AbstractPlayer?, enemy: AbstractPlayer?, area: HexArea?, target: AbstractCity? = nil, muster: AbstractCity? = nil, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         super.initialize(for: player, enemy: enemy, area: area, target: target, muster: muster, in: gameModel)
-        
+
         self.moveType = .freeformNaval
 
         if self.operationStartCity(in: gameModel) != nil {
-            
+
             // create the armies that are needed and set the state to ARMYAISTATE_WAITING_FOR_UNITS_TO_REINFORCE
             self.army = Army(of: self.player, for: self, with: self.formation(in: gameModel))
             self.army?.state = .waitingForUnitsToReinforce
 
             // Figure out the initial rally point
             if let targetPlot = self.findBestTarget(in: gameModel) {
-                
+
                 self.targetPosition = targetPlot
                 self.army?.goal = targetPlot
 
                 if self.selectInitialMusterPoint(in: gameModel) != nil {
-                    
+
                     self.army?.position = self.musterPosition!
                     self.area = gameModel.area(of: self.musterPosition!)
 
@@ -95,11 +95,11 @@ class NavalSuperiorityOperation: NavalOperation {
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         var stateChanged = false
 
         switch self.state {
-        
+
             // If we were gathering forces, let's make sure a better target hasn't presented itself
         case .gatheringForces, .movingToTarget:
 
@@ -116,15 +116,15 @@ class NavalSuperiorityOperation: NavalOperation {
 
             // If target changed, reset to this new one
             else if possibleBetterTarget != self.targetPosition {
-                
+
                 let pathFinder = AStarPathfinder()
                 pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: self.player, unitMapType: .combat, canEmbark: true)
-                
+
                 // Reset our destination to be a few plots shy of the final target
                 if let path = pathFinder.shortestPath(fromTileCoord: self.army!.position, toTileCoord: possibleBetterTarget!),
                     let reducedPath = path.path(without: self.deployRange()),
                     let deployPoint = reducedPath.last {
-                    
+
                     self.army?.goal = deployPoint.0
                     self.targetPosition = deployPoint.0
                 }
@@ -139,53 +139,53 @@ class NavalSuperiorityOperation: NavalOperation {
         break
         }
 
-        return stateChanged;
+        return stateChanged
     }
 
     //    ---------------------------------------------------------------------------
     //    Return the first reachable plot in the weighted plot list.
     //    It is assumed that the list has yet to be sorted and will do so.
     private func reachablePlot(for unit: AbstractUnit?, plots: WeightedPoints, turns: inout Int, in gameModel: GameModel?) -> HexPoint? {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
-        var bestPointRef: HexPoint? = nil
+
+        var bestPointRef: HexPoint?
         var bestWeight = 0.0
         var bestTurns = 0
-        
+
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: self.player, unitMapType: .combat, canEmbark: true)
-        
-        if plots.count > 0 {
-            
+
+        if !plots.isEmpty {
+
             plots.sort() // FIXME or reversed
 
             // This will check all the plots that have the same weight.  It will mean a few more path-finds, but it will
             // be more accurate.
             for index in 0..<plots.count {
-                
+
                 let plot = plots.items[index].itemType
                 let weight = plots.items[index].weight
-                
+
                 if let bestPoint = bestPointRef {
-                    
+
                     // Already found one of a lower weight
                     if weight > bestWeight {
                         break
                     }
-                    
+
                     let turnsCalculated = pathFinder.turnsToReachTarget(for: unit, to: plot)
-                    
+
                     if turnsCalculated != Int.max {
-                        
+
                         if turnsCalculated < bestTurns {
-                            
+
                             bestWeight = weight
                             bestPointRef = plot
                             bestTurns = turnsCalculated
-                            
+
                             if bestTurns == 1 {
                                 // Not getting better than this
                                 break
@@ -193,15 +193,15 @@ class NavalSuperiorityOperation: NavalOperation {
                         }
                     }
                 } else {
-                    
+
                     let turnsCalculated = pathFinder.turnsToReachTarget(for: unit, to: plot)
-                    
+
                     if turnsCalculated != Int.max {
-                        
+
                         bestWeight = weight
                         bestPointRef = plot
                         bestTurns = turnsCalculated
-                        
+
                         if bestTurns == 1 {
                             // Not getting better than this
                             break
@@ -212,9 +212,9 @@ class NavalSuperiorityOperation: NavalOperation {
         }
 
         if let bestPoint = bestPointRef {
-            
+
             turns = bestTurns
-            
+
             return bestPoint
         }
 
@@ -223,23 +223,23 @@ class NavalSuperiorityOperation: NavalOperation {
 
     /// Find the nearest enemy naval unit to eliminate
     override func findBestTarget(in gameModel: GameModel?) -> HexPoint? {
- 
+
         guard let gameModel = gameModel,
               let player = self.player else {
             fatalError("cant get gameModel")
         }
-        
-        var bestPlot: HexPoint? = nil
-        
+
+        var bestPlot: HexPoint?
+
         var closestEnemyDistance: Int = Int.max
-        var enemyCoastalCity: AbstractCity? = nil
-        
+        var enemyCoastalCity: AbstractCity?
+
         var closestCampDistance: Int = Int.max
-        var coastalBarbarianCamp: AbstractTile? = nil
-        
+        var coastalBarbarianCamp: AbstractTile?
+
         let weightedPoints: WeightedPoints = WeightedPoints()
-        
-        var initialUnit: AbstractUnit? = nil
+
+        var initialUnit: AbstractUnit?
 
         if let army = self.army {
             if let firstArmyUnit = army.unit(at: 0) {
@@ -257,30 +257,30 @@ class NavalSuperiorityOperation: NavalOperation {
 
             // Look at map for enemy naval units
             for plotLoop in gameModel.points() {
-                
+
                 guard let plot = gameModel.tile(at: plotLoop) else {
                     continue
                 }
 
                 if plot.isDiscovered(by: self.player) {
-                    
+
                     if plot.isWater() {
-                        
+
                         // handle multiple units at one plot
                         for loopUnitRef in gameModel.units(at: plot.point) {
-                            
+
                             if let loopUnit = loopUnitRef {
-                                
+
                                 if loopUnit.isEnemy(of: player) == true {
-                                    
+
                                     let plotDistance = initialUnit.location.distance(to: plot.point)
                                     var score = baseMoves * plotDistance
-                                    
+
                                     if loopUnit.isTrading() {
                                         // we want to plunder trade routes of possible
                                         score /= 3
                                     }
-                                    
+
                                     if loopUnit.isEmbarked() {
                                         // we want to take out embarked units more than ships
                                         score = (score * 2) / 3
@@ -291,13 +291,13 @@ class NavalSuperiorityOperation: NavalOperation {
                             }
                         }
                     } else if gameModel.city(at: plot.point) != nil && gameModel.isCoastal(at: plot.point) {
-                        
+
                         // Backup plan is a coastal enemy city
                         if let city = gameModel.city(at: plot.point) {
                             if player.isAtWar(with: city.player) {
-                                
+
                                 let distance = initialUnit.location.distance(to: city.location)
-                                
+
                                 if distance < closestEnemyDistance {
                                     closestEnemyDistance = distance
                                     enemyCoastalCity = city
@@ -305,9 +305,9 @@ class NavalSuperiorityOperation: NavalOperation {
                             }
                         }
                     } else if gameModel.isCoastal(at: plot.point) && plot.has(improvement: .barbarianCamp) {
-                        
+
                         let distance = initialUnit.location.distance(to: plot.point)
-                        
+
                         if distance < closestCampDistance {
                             closestCampDistance = distance
                             coastalBarbarianCamp = plot
@@ -321,18 +321,18 @@ class NavalSuperiorityOperation: NavalOperation {
 
             // None found, patrol over near closest enemy coastal city, or if not that a water tile adjacent to a camp
             if bestPlot == nil {
-                
+
                 if let enemyCoastalCity = enemyCoastalCity {
-                    
+
                     // Find a coastal water tile adjacent to enemy city
                     for adjacentPoint in enemyCoastalCity.location.neighbors() {
-                        
+
                         guard let adjacentPlot = gameModel.tile(at: adjacentPoint) else {
                             continue
                         }
-                        
+
                         if adjacentPlot.terrain() == .shore {
-                            
+
                             if initialUnit.path(towards: adjacentPoint, options: .none, in: gameModel) != nil {
                                 bestPlot = adjacentPoint
                             }
@@ -340,16 +340,16 @@ class NavalSuperiorityOperation: NavalOperation {
                     }
                 } else {
                     if let coastalBarbarianCamp = coastalBarbarianCamp {
-                        
+
                         // Find a coastal water tile adjacent to camp
                         for adjacentPoint in coastalBarbarianCamp.point.neighbors() {
-                            
+
                             guard let adjacentPlot = gameModel.tile(at: adjacentPoint) else {
                                 continue
                             }
-                            
+
                             if adjacentPlot.terrain() == .shore {
-                                
+
                                 if initialUnit.path(towards: adjacentPoint, options: .none, in: gameModel) != nil {
                                     bestPlot = adjacentPoint
                                 }
@@ -362,9 +362,9 @@ class NavalSuperiorityOperation: NavalOperation {
 
         return bestPlot
     }
-    
+
     override func canTacticalAIInterrupt() -> Bool {
-        
+
         return true
     }
 }

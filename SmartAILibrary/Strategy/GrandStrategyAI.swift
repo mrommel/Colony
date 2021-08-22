@@ -12,19 +12,19 @@ import Foundation
 public class GrandStrategyAI: Codable {
 
     enum CodingKeys: String, CodingKey {
-        
+
         case activeStrategy
         case turnActiveStrategySet
         case otherPlayerGuesses
     }
-    
+
     var activeStrategy: GrandStrategyAIType
     var player: Player?
     var turnActiveStrategySet: Int
     var otherPlayerGuesses: GrandStrategyAIPlayerGuesses
-    
+
     // MARK: internal classes
-    
+
     class GrandStrategyAIDict: CustomStringConvertible {
 
         struct GrandStrategyAIEntry {
@@ -32,7 +32,7 @@ public class GrandStrategyAI: Codable {
             let activeStrategy: GrandStrategyAIType
             var value: Int
         }
-        
+
         var conquestStrat: GrandStrategyAIEntry
         var cultureStrat: GrandStrategyAIEntry
         var councilStrat: GrandStrategyAIEntry
@@ -73,19 +73,19 @@ public class GrandStrategyAI: Codable {
                 return self.councilStrat.value
             }
         }
-        
+
         func maximum() -> GrandStrategyAIEntry {
-            
+
             var bestStrategy: GrandStrategyAIType = .none
             var bestValue: Int = -1000
-            
+
             for type in GrandStrategyAIType.all {
                 if self.value(for: type) > bestValue {
                     bestValue = self.value(for: type)
                     bestStrategy = type
                 }
             }
-            
+
             return GrandStrategyAIEntry(activeStrategy: bestStrategy, value: bestValue)
         }
 
@@ -93,14 +93,14 @@ public class GrandStrategyAI: Codable {
             return "GradStrategyAIDict:\n- conquest: \(self.conquestStrat.value)\n- culture: \(self.cultureStrat.value)\n- council: \(self.councilStrat.value)\n"
         }
     }
-    
+
     class GrandStrategyAIPlayerGuesses: Codable {
 
         enum CodingKeys: CodingKey {
 
             case guesses
         }
-        
+
         class GrandStrategyAIPlayerGuess: Codable, CustomStringConvertible {
 
             enum CodingKeys: CodingKey {
@@ -108,80 +108,80 @@ public class GrandStrategyAI: Codable {
                 case strategy
                 case confidence
             }
-            
+
             let player: AbstractPlayer?
             var strategy: GrandStrategyAIType
             var confidence: GrandStrategyAIConfidence
-            
+
             init(player: AbstractPlayer?, strategy: GrandStrategyAIType, confidence: GrandStrategyAIConfidence) {
-                
+
                 self.player = player
                 self.strategy = strategy
                 self.confidence = confidence
             }
-            
+
             public required init(from decoder: Decoder) throws {
-            
+
                 let container = try decoder.container(keyedBy: CodingKeys.self)
-            
+
                 self.player = nil
                 self.strategy = try container.decode(GrandStrategyAIType.self, forKey: .strategy)
                 self.confidence = try container.decode(GrandStrategyAIConfidence.self, forKey: .confidence)
             }
-            
+
             public func encode(to encoder: Encoder) throws {
-            
+
                 var container = encoder.container(keyedBy: CodingKeys.self)
 
                 try container.encode(self.strategy, forKey: .strategy)
                 try container.encode(self.confidence, forKey: .confidence)
             }
-            
+
             func update(strategy: GrandStrategyAIType, confidence: GrandStrategyAIConfidence) {
-                
+
                 self.strategy = strategy
                 self.confidence = confidence
             }
-            
+
             public var description: String {
-                
+
                 return "GrandStrategyAIPlayerGuess:\n- player: \(self.player?.leader ?? LeaderType.alexander)\n- strategy: \(self.strategy)\n- confidence: \(self.confidence)\n"
             }
         }
-        
+
         var guesses: [GrandStrategyAIPlayerGuess]
-        
+
         init() {
             self.guesses = []
         }
-        
+
         public required init(from decoder: Decoder) throws {
-        
+
             let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+
             self.guesses = try container.decode([GrandStrategyAIPlayerGuess].self, forKey: .guesses)
         }
-        
+
         public func encode(to encoder: Encoder) throws {
-        
+
             var container = encoder.container(keyedBy: CodingKeys.self)
 
             try container.encode(self.guesses, forKey: .guesses)
         }
-        
+
         func guess(for player: AbstractPlayer) -> GrandStrategyAIPlayerGuess? {
-        
+
             for guess in self.guesses {
                 if guess.player?.leader == player.leader {
                     return guess
                 }
             }
-            
+
             return nil
         }
-        
+
         func addOrUpdate(player: AbstractPlayer, strategy: GrandStrategyAIType, confidence: GrandStrategyAIConfidence) {
-            
+
             if let guess = self.guess(for: player) {
                 guess.update(strategy: strategy, confidence: confidence)
             } else {
@@ -199,19 +199,19 @@ public class GrandStrategyAI: Codable {
         self.turnActiveStrategySet = 0
         self.otherPlayerGuesses = GrandStrategyAIPlayerGuesses()
     }
-    
+
     required public init(from decoder: Decoder) throws {
-    
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-    
+
         self.player = nil
         self.activeStrategy = try container.decode(GrandStrategyAIType.self, forKey: .activeStrategy)
         self.turnActiveStrategySet = try container.decode(Int.self, forKey: .turnActiveStrategySet)
         self.otherPlayerGuesses = try container.decode(GrandStrategyAIPlayerGuesses.self, forKey: .otherPlayerGuesses)
     }
-    
+
     public func encode(to encoder: Encoder) throws {
-    
+
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.activeStrategy, forKey: .activeStrategy)
@@ -224,13 +224,13 @@ public class GrandStrategyAI: Codable {
         guard let gameModel = gameModel else {
             fatalError()
         }
-        
+
         guard let player = self.player else {
             fatalError()
         }
-        
+
         self.updatedGuessedActiveStrategy(with: gameModel)
-        
+
         // hold the score for each strategy
         let dict = GrandStrategyAIDict()
 
@@ -242,7 +242,7 @@ public class GrandStrategyAI: Codable {
 
             // real value, based on current game state
             switch type {
-                
+
             case .none:
                 // NOOP
                 break
@@ -262,62 +262,62 @@ public class GrandStrategyAI: Codable {
                 dict.add(value: 50, for: type)
             }
         }
-        
+
         // print("dict: \(dict)")
-        
+
         // Now look at what we think the other players in the game are up to - we might have an opportunity to capitalize somewhere
         var iNumPlayersAliveAndMet = 1
-        
+
         for playerToCheck in gameModel.players {
-            
+
             if playerToCheck.isAlive() && playerToCheck.leader != player.leader {
                 if player.hasMet(with: playerToCheck) {
                     iNumPlayersAliveAndMet += 1
                 }
             }
         }
-        
+
         // stores the number of player also using this strategy
         let guessedUserDict = GrandStrategyAIDict()
-        
+
         // Tally up how many players, we think are pusuing each Grand Strategy
         for type in GrandStrategyAIType.all {
-        
+
             var numOfPlayersWithStrategy = 0
             for playerToCheck in gameModel.players {
-            
+
                 if self.guessedActiveStrategy(for: playerToCheck) == type {
                     numOfPlayersWithStrategy += 1
                 }
             }
-            
+
             guessedUserDict.add(value: numOfPlayersWithStrategy, for: type)
         }
-        
+
         // Now modify our preferences based on how many people are going for stuff
         for type in GrandStrategyAIType.all {
-            var tmp = dict.value(for: type) * 50
-            tmp = tmp * guessedUserDict.value(for: type) / iNumPlayersAliveAndMet
-            tmp /= 100
-            
-            dict.add(value: -tmp, for: type)
+            var temp = dict.value(for: type) * 50
+            temp = temp * guessedUserDict.value(for: type) / iNumPlayersAliveAndMet
+            temp /= 100
+
+            dict.add(value: -temp, for: type)
         }
-        
+
         // Now see which Grand Strategy should be active, based on who has the highest Priority right now
         // Grand Strategy must be run for at least 10 turns
         if self.activeStrategy == .none || self.numTurnsSinceActiveStrategySet(turnsElapsed: gameModel.currentTurn) > 10 {
-        
+
             var bestStrategy: GrandStrategyAIType = .none
             var bestPriority = -1
-            
+
             for type in GrandStrategyAIType.all {
-                
+
                 if dict.value(for: type) > bestPriority {
                     bestStrategy = type
                     bestPriority = dict.value(for: type)
                 }
             }
-            
+
             if activeStrategy != bestStrategy {
                 self.set(activeStrategy: bestStrategy, turnsElapsed: gameModel.currentTurn)
                 // inform about change
@@ -326,66 +326,66 @@ public class GrandStrategyAI: Codable {
     }
 
     // MARK: private methods
-    
+
     private func set(activeStrategy: GrandStrategyAIType, turnsElapsed: Int) {
-    
+
         self.turnActiveStrategySet = turnsElapsed
         self.activeStrategy = activeStrategy
     }
-    
+
     private func numTurnsSinceActiveStrategySet(turnsElapsed: Int) -> Int {
-        
+
         return turnsElapsed - self.turnActiveStrategySet
     }
-    
+
     private func priority(for type: GrandStrategyAIType) -> Int {
 
-        var val = 0
+        var value = 0
 
         if let leader = self.player?.leader {
             for flavorType in FlavorType.all {
-                val += type.flavor(for: flavorType) * leader.flavor(for: flavorType)
+                value += type.flavor(for: flavorType) * leader.flavor(for: flavorType)
             }
         }
 
-        return val
+        return value
     }
-    
+
     private func updatedGuessedActiveStrategy(with gameModel: GameModel?) {
-    
+
         guard let gameModel = gameModel else {
             fatalError()
         }
-        
+
         guard let player = self.player else {
             fatalError()
         }
-        
+
         var averageMilitaryStrength = 0.0
         var averageCultureStrength = 0.0
         var numOfPlayersAlive = 0.0
-        
+
         for playerToCheck in gameModel.players {
-            
+
             if playerToCheck.isAlive() {
                 averageMilitaryStrength += gameModel.militaryStrength(for: playerToCheck)
                 averageCultureStrength += gameModel.cultureStrength(for: playerToCheck)
                 numOfPlayersAlive += 1.0
             }
         }
-        
+
         averageMilitaryStrength /= numOfPlayersAlive
         averageCultureStrength /= numOfPlayersAlive
-        
+
         for playerToCheck in gameModel.players {
-        
+
             if playerToCheck.leader != player.leader && playerToCheck.isAlive() && player.hasMet(with: playerToCheck) {
-                
+
                 // store the likelyhood of each strategy for this player
                 let likeliyDict = GrandStrategyAIDict()
-                
+
                 for type in GrandStrategyAIType.all {
-                    
+
                     var value = 0
                     switch type {
                     case .none:
@@ -397,13 +397,13 @@ public class GrandStrategyAI: Codable {
                     case .council:
                         value = 23
                     }
-                    
+
                     likeliyDict.add(value: value, for: type)
                 }
-                
+
                 let bestStrategyEntry: GrandStrategyAIDict.GrandStrategyAIEntry = likeliyDict.maximum()
                 var confidence: GrandStrategyAIConfidence = .none
-                
+
                 if bestStrategyEntry.activeStrategy != .none {
                     if bestStrategyEntry.value >= 120 {
                         confidence = .positive
@@ -413,119 +413,119 @@ public class GrandStrategyAI: Codable {
                         confidence = .unsure
                     }
                 }
-                
+
                 self.otherPlayerGuesses.addOrUpdate(player: playerToCheck, strategy: bestStrategyEntry.activeStrategy, confidence: confidence)
             }
         }
     }
-    
+
     private func guessedActiveStrategy(for player: AbstractPlayer) -> GrandStrategyAIType {
-    
+
         if let guess = self.otherPlayerGuesses.guess(for: player) {
             return guess.strategy
         }
-        
+
         return .none
     }
-    
+
     private func conquestGameValue(with gameModel: GameModel?) -> Int {
-        
+
         guard let gameModel = gameModel else {
             fatalError()
         }
-        
+
         guard let player = self.player else {
             fatalError()
         }
-        
+
         if !gameModel.victoryTypes.contains(.domination) {
             return -100
         }
-        
+
         var priority = 0
 
         priority += player.leader.trait(for: .boldness) * 10
-        
+
         // How many turns must have passed before we test for having met nobody?
         if gameModel.currentTurn > 20 {
             var metAnybody = false
-            
+
             for otherPlayer in gameModel.players {
-                
+
                 if otherPlayer.leader == player.leader {
                     continue
                 }
-                
+
                 if player.hasMet(with: otherPlayer) {
                     metAnybody = true
                 }
             }
-            
+
             if !metAnybody {
                 priority += -50
             }
         }
-        
+
         // How many turns must have passed before we test for us having a weak military?
         /*if gameModel.turnsElapsed > 60 {
             
             let militaryStrength = gameModel.militaryStrength(for: player)
         }*/
-        
+
         // If we're at war, then boost the weight a bit
         if player.isAtWar() {
             priority += 10
         }
-        
+
         return priority
     }
-    
+
     private func cultureGameValue(with gameModel: GameModel?) -> Int {
         return 34 // FIXME
     }
-    
+
     private func councilGameValue(with gameModel: GameModel?) -> Int {
         return 24 // FIXME
     }
-    
+
     private func guessFollowsConquestStrategy(for player: AbstractPlayer, in gameModel: GameModel?, with averageMilitaryStrength: Double) -> Int {
-    
+
         guard let gameModel = gameModel else {
             fatalError()
         }
-        
+
         var followsConquestLikelyhood = 0.0
-        
+
         // Compare their Military to the world average; Possible range is 100 to -100 (but will typically be around -20 to 20)
         if averageMilitaryStrength > 0.0 {
             followsConquestLikelyhood += (Double(gameModel.militaryStrength(for: player)) - averageMilitaryStrength) * 100.0 / averageMilitaryStrength
         }
-        
+
         return Int(followsConquestLikelyhood)
     }
 
     private func guessFollowsCultureStrategy(for player: AbstractPlayer, in gameModel: GameModel?, with averageCultureStrength: Double) -> Int {
-    
+
         guard let gameModel = gameModel else {
             fatalError()
         }
-        
+
         if !gameModel.victoryTypes.contains(.cultural) {
             return -100
         }
-        
+
         var followsCultureLikelyhood = 0.0
-        
+
         // Compare their Culture to the world average; Possible range is 150 to -150
         if averageCultureStrength > 0.0 {
             followsCultureLikelyhood += (Double(gameModel.cultureStrength(for: player)) - averageCultureStrength) * 150.0 / averageCultureStrength
         }
-        
+
         // If we're early in the game, reduce the priority
         if gameModel.currentTurn < 50 {
             followsCultureLikelyhood /= 2
         }
-        
+
         return Int(followsCultureLikelyhood)
     }
 }

@@ -9,16 +9,16 @@
 import Foundation
 
 enum AggressivePostureType: Int, Comparable, Codable {
-    
+
     case none
-    
+
     case low
     case medium
     case high
     case incredible
-    
+
     func increased() -> AggressivePostureType {
-        
+
         switch self {
 
         case .none:
@@ -30,7 +30,7 @@ enum AggressivePostureType: Int, Comparable, Codable {
             fatalError("cant increase incredible")
         }
     }
-    
+
     static func < (lhs: AggressivePostureType, rhs: AggressivePostureType) -> Bool {
         return lhs.rawValue < rhs.rawValue
     }

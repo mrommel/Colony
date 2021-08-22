@@ -9,7 +9,7 @@
 import Foundation
 
 struct Trait {
-    
+
     let type: TraitType
     let value: Int
 }

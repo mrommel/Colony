@@ -70,44 +70,44 @@ class CityManageCitizenDialog: Dialog {
         let button = self.button(with: "cancel_button")
         button?.zPosition = 500
         
-        if let food_yield = self.item(with: "food_yield") as? YieldDisplayNode {
-            food_yield.zPosition = 500
-            food_yield.action = { yieldType in
+        if let foodYield = self.item(with: "food_yield") as? YieldDisplayNode {
+            foodYield.zPosition = 500
+            foodYield.action = { yieldType in
                 self.toggle(focusType: yieldType.focusType())
             }
         }
         
-        if let production_yield = self.item(with: "production_yield") as? YieldDisplayNode {
-            production_yield.zPosition = 500
-            production_yield.action = { yieldType in
+        if let productionYield = self.item(with: "production_yield") as? YieldDisplayNode {
+            productionYield.zPosition = 500
+            productionYield.action = { yieldType in
                 self.toggle(focusType: yieldType.focusType())
             }
         }
         
-        if let gold_yield = self.item(with: "gold_yield") as? YieldDisplayNode {
-            gold_yield.zPosition = 500
-            gold_yield.action = { yieldType in
+        if let goldYield = self.item(with: "gold_yield") as? YieldDisplayNode {
+            goldYield.zPosition = 500
+            goldYield.action = { yieldType in
                 self.toggle(focusType: yieldType.focusType())
             }
         }
         
-        if let science_yield = self.item(with: "science_yield") as? YieldDisplayNode {
-            science_yield.zPosition = 500
-            science_yield.action = { yieldType in
+        if let scienceYield = self.item(with: "science_yield") as? YieldDisplayNode {
+            scienceYield.zPosition = 500
+            scienceYield.action = { yieldType in
                 self.toggle(focusType: yieldType.focusType())
             }
         }
         
-        if let culture_yield = self.item(with: "culture_yield") as? YieldDisplayNode {
-            culture_yield.zPosition = 500
-            culture_yield.action = { yieldType in
+        if let cultureYield = self.item(with: "culture_yield") as? YieldDisplayNode {
+            cultureYield.zPosition = 500
+            cultureYield.action = { yieldType in
                 self.toggle(focusType: yieldType.focusType())
             }
         }
         
-        if let faith_yield = self.item(with: "faith_yield") as? YieldDisplayNode {
-            faith_yield.zPosition = 500
-            faith_yield.action = { yieldType in
+        if let faithYield = self.item(with: "faith_yield") as? YieldDisplayNode {
+            faithYield.zPosition = 500
+            faithYield.action = { yieldType in
                 self.toggle(focusType: yieldType.focusType())
             }
         }
@@ -129,51 +129,51 @@ class CityManageCitizenDialog: Dialog {
             fatalError("cant get cityCitizens")
         }
         
-        if let food_yield = self.item(with: "food_yield") as? YieldDisplayNode {
+        if let foodYield = self.item(with: "food_yield") as? YieldDisplayNode {
             if focusType == .food {
-                food_yield.enable()
+                foodYield.enable()
             } else {
-                food_yield.disable()
+                foodYield.disable()
             }
         }
         
-        if let production_yield = self.item(with: "production_yield") as? YieldDisplayNode {
+        if let productionYield = self.item(with: "production_yield") as? YieldDisplayNode {
             if focusType == .production {
-                production_yield.enable()
+                productionYield.enable()
             } else {
-                production_yield.disable()
+                productionYield.disable()
             }
         }
         
-        if let gold_yield = self.item(with: "gold_yield") as? YieldDisplayNode {
+        if let goldYield = self.item(with: "gold_yield") as? YieldDisplayNode {
             if focusType == .gold {
-                gold_yield.enable()
+                goldYield.enable()
             } else {
-                gold_yield.disable()
+                goldYield.disable()
             }
         }
         
-        if let science_yield = self.item(with: "science_yield") as? YieldDisplayNode {
+        if let scienceYield = self.item(with: "science_yield") as? YieldDisplayNode {
             if focusType == .science {
-                science_yield.enable()
+                scienceYield.enable()
             } else {
-                science_yield.disable()
+                scienceYield.disable()
             }
         }
         
-        if let culture_yield = self.item(with: "culture_yield") as? YieldDisplayNode {
+        if let cultureYield = self.item(with: "culture_yield") as? YieldDisplayNode {
             if focusType == .culture {
-                culture_yield.enable()
+                cultureYield.enable()
             } else {
-                culture_yield.disable()
+                cultureYield.disable()
             }
         }
         
-        if let faith_yield = self.item(with: "faith_yield") as? YieldDisplayNode {
+        if let faithYield = self.item(with: "faith_yield") as? YieldDisplayNode {
             if focusType == .faith {
-                faith_yield.enable()
+                faithYield.enable()
             } else {
-                faith_yield.disable()
+                faithYield.disable()
             }
         }
         

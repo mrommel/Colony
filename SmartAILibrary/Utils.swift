@@ -29,12 +29,12 @@ extension Double {
 }
 
 extension Float {
-    
+
     // Returns a random floating point number between 0.0 and 1.0, inclusive.
     public static var random: Float {
         return Float(arc4random()) / 0xFFFFFFFF
     }
-    
+
     /**
      Create a random number Double
      
@@ -49,7 +49,7 @@ extension Float {
 }
 
 extension Collection {
-    
+
     public func count(where test: (Element) throws -> Bool) rethrows -> Int {
         return try self.filter(test).count
     }
@@ -89,7 +89,7 @@ extension Array {
 
 extension Array {
 
-    func unique<T:Hashable>(map: ((Element) -> (T))) -> [Element] {
+    func unique<T: Hashable>(map: ((Element) -> (T))) -> [Element] {
         var set = Set<T>() //the unique list kept in a Set for fast retrieval
         var arrayOrdered = [Element]() //keeping the unique list of elements but ordered
         for value in self {
@@ -114,11 +114,11 @@ extension Array {
 }
 
 extension IteratorProtocol {
-    
+
     @discardableResult
-    mutating func skip(_ n: Int) -> Element? {
-        guard n > 0 else { return next() }
-        return skip(n-1)
+    mutating func skip(_ items: Int) -> Element? {
+        guard items > 0 else { return next() }
+        return skip(items - 1)
     }
 }
 

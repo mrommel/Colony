@@ -12,7 +12,12 @@ struct TechDialogView: View {
     @ObservedObject
     var viewModel: TechDialogViewModel
 
-    private var gridItemLayout = [GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45))]
+    private var gridItemLayout = [
+        GridItem(.fixed(45)), GridItem(.fixed(45)),
+        GridItem(.fixed(45)), GridItem(.fixed(45)),
+        GridItem(.fixed(45)), GridItem(.fixed(45)),
+        GridItem(.fixed(45)), GridItem(.fixed(45))
+    ]
 
     public init(viewModel: TechDialogViewModel) {
 

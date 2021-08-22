@@ -13,34 +13,34 @@ extension String {
     // https://unicode-table.com/de/emoji/#link-symbols
     func replaceIcons() -> String {
         
-        var tmp = self
+        var temp = self
         
-        tmp = tmp.replacingOccurrences(of: "Civ6StrengthIcon", with: "🗡️")
-        tmp = tmp.replacingOccurrences(of: "Civ6RangedStrength", with: "🏹")
+        temp = temp.replacingOccurrences(of: "Civ6StrengthIcon", with: "🗡️")
+        temp = temp.replacingOccurrences(of: "Civ6RangedStrength", with: "🏹")
         //
-        tmp = tmp.replacingOccurrences(of: "Civ6Science", with: "🧪")
-        tmp = tmp.replacingOccurrences(of: "Civ6Culture", with: "🏺")
-        tmp = tmp.replacingOccurrences(of: "Civ6Production", with: "⚙️")
-        tmp = tmp.replacingOccurrences(of: "Civ6Gold", with: "💰")
-        tmp = tmp.replacingOccurrences(of: "Housing6", with: "🏠")
-        tmp = tmp.replacingOccurrences(of: "Citizen6", with: "👨")
-        tmp = tmp.replacingOccurrences(of: "ReligiousStrength6", with: "⛩️")
-        tmp = tmp.replacingOccurrences(of: "Civ6Faith", with: "⛪")
-        tmp = tmp.replacingOccurrences(of: "Scientist6", with: "👨‍🔬")
-        tmp = tmp.replacingOccurrences(of: "Prophet6", with: "🧙‍♂️")
-        tmp = tmp.replacingOccurrences(of: "Amenities6", with: "🎡")
+        temp = temp.replacingOccurrences(of: "Civ6Science", with: "🧪")
+        temp = temp.replacingOccurrences(of: "Civ6Culture", with: "🏺")
+        temp = temp.replacingOccurrences(of: "Civ6Production", with: "⚙️")
+        temp = temp.replacingOccurrences(of: "Civ6Gold", with: "💰")
+        temp = temp.replacingOccurrences(of: "Housing6", with: "🏠")
+        temp = temp.replacingOccurrences(of: "Citizen6", with: "👨")
+        temp = temp.replacingOccurrences(of: "ReligiousStrength6", with: "⛩️")
+        temp = temp.replacingOccurrences(of: "Civ6Faith", with: "⛪")
+        temp = temp.replacingOccurrences(of: "Scientist6", with: "👨‍🔬")
+        temp = temp.replacingOccurrences(of: "Prophet6", with: "🧙‍♂️")
+        temp = temp.replacingOccurrences(of: "Amenities6", with: "🎡")
         
-        tmp = tmp.replacingOccurrences(of: "Capital6", with: "✪")
-        tmp = tmp.replacingOccurrences(of: "TradeRoute6", with: "💰")
-        tmp = tmp.replacingOccurrences(of: "Governor6", with: "🤵")
-        tmp = tmp.replacingOccurrences(of: "Tourism6", with: "🧳")
+        temp = temp.replacingOccurrences(of: "Capital6", with: "✪")
+        temp = temp.replacingOccurrences(of: "TradeRoute6", with: "💰")
+        temp = temp.replacingOccurrences(of: "Governor6", with: "🤵")
+        temp = temp.replacingOccurrences(of: "Tourism6", with: "🧳")
 
-        tmp = tmp.replacingOccurrences(of: "DiplomaticVisibility6", with: "🗝")
+        temp = temp.replacingOccurrences(of: "DiplomaticVisibility6", with: "🗝")
         // 🕊 🛡 👣
         
         // 🤝🙂😐-🙁😡⚔
         // 🎨🎓💎
         
-        return tmp
+        return temp
     }
 }

@@ -13,45 +13,45 @@ import Foundation
 //!  \brief        Attack a city from the sea
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class NavalAttackOperation: NavalEscortedOperation {
-    
+
     init() {
-        
+
         super.init(type: .navalAttack)
-        
+
         self.civilianType = .none
     }
-    
+
     override init(type: UnitOperationType) {
-        
+
         super.init(type: type)
-        
+
         self.civilianType = .none
     }
-    
+
     public required init(from decoder: Decoder) throws {
         fatalError("init(from:) has not been implemented")
     }
-    
+
     override func formation(in gameModel: GameModel?) -> UnitFormationType {
-        
+
         return .navalInvasion // MUFORMATION_NAVAL_INVASION
     }
-    
+
     override func isCivilianRequired() -> Bool {
-        
+
         return false
     }
-    
+
     /// Kick off this operation
     override func initialize(for player: AbstractPlayer?, enemy: AbstractPlayer?, area: HexArea?, target: AbstractCity? = nil, muster: AbstractCity? = nil, in gameModel: GameModel?) {
 
         super.initialize(for: player, enemy: enemy, area: area, in: gameModel)
-        
+
         self.moveType = .navalEscort
         self.startPosition = muster?.location ?? HexPoint.invalid
 
         if let target = target {
-            
+
             self.targetPosition = target.location
 
             // create the armies that are needed and set the state to ARMYAISTATE_WAITING_FOR_UNITS_TO_REINFORCE
@@ -73,7 +73,7 @@ class NavalAttackOperation: NavalEscortedOperation {
                 self.state = .recruitingUnits
             }
             // LogOperationStart();
-            
+
         } else {
             // Lost our target, abort
             self.state = .aborted(reason: .lostTarget)
@@ -82,27 +82,27 @@ class NavalAttackOperation: NavalEscortedOperation {
 
     /// Always abort if settler is removed
     override func unitWasRemoved(from army: Army?, slotID: Int) {
-        
+
         // Call root class version
         return super.unitWasRemoved(from: army, slotID: slotID)
     }
 
     /// If at target, found city; if at muster point, merge settler and escort and move out
     override func armyInPosition(in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         switch self.state {
             // See if reached our target, if so give control of these units to the tactical AI
         case .movingToTarget:
-        
+
             if let centerOfMass = self.army?.centerOfMass(domain: .sea, in: gameModel) {
-                
+
                 // Are we within tactical range of our target? (larger than usual range for a naval attack)
                 if centerOfMass.distance(to: self.targetPosition!) <= 4 /* AI_OPERATIONAL_CITY_ATTACK_DEPLOY_RANGE */ * 2 {
-                    
+
                     // Notify Diplo AI we're in place for attack
                     self.player?.diplomacyAI?.updateMusteringForAttack(against: self.enemy, to: true)
 
@@ -118,7 +118,7 @@ class NavalAttackOperation: NavalEscortedOperation {
         // In all other cases use base class version
         case .gatheringForces, .aborted(reason: _), .recruitingUnits, .atTarget:
             return super.armyInPosition(in: gameModel)
-            
+
         default:
             // NOOP
         break
@@ -129,11 +129,11 @@ class NavalAttackOperation: NavalEscortedOperation {
 
     /// Find the port our operation will leave from
     override func operationStartCity(in gameModel: GameModel?) -> AbstractCity? {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         if let startPosition = self.startPosition {
             return gameModel.city(at: startPosition)
         }
@@ -143,7 +143,7 @@ class NavalAttackOperation: NavalEscortedOperation {
 
     /// Find the city we want to attack
     override func findBestTarget(for unit: AbstractUnit?, onlySafePaths: Bool, in gameModel: GameModel?) -> AbstractTile? {
-        
+
         fatalError("Obsolete function called CvAIOperationNavalAttack::FindBestTarget()")
     }
 }

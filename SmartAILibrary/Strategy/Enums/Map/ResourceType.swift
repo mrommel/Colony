@@ -15,6 +15,7 @@ public enum ResourceUsageType {
     case luxury
 }
 
+// swiftlint:disable type_body_length
 public enum ResourceType: Int, Codable {
 
     case none
@@ -950,7 +951,7 @@ public enum ResourceType: Int, Codable {
 
     // for standard map size
     func baseAmount() -> Int {
-        
+
         return self.data().placementBaseAmount
     }
 
@@ -959,7 +960,7 @@ public enum ResourceType: Int, Codable {
         if self == .fish {
             return 10
         }
-        
+
         return 25
     }
 }

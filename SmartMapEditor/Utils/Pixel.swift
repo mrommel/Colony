@@ -13,24 +13,24 @@ public struct Pixel: Codable {
     
     public var value: UInt32
     
-    init(r: UInt8, g: UInt8, b: UInt8, a: UInt8) {
+    init(red: UInt8, green: UInt8, blue: UInt8, alpha: UInt8) {
         
         self.value = 0
         
-        self.red = r
-        self.green = b
-        self.blue = g
-        self.alpha = a
+        self.red = red
+        self.green = green
+        self.blue = blue
+        self.alpha = alpha
     }
     
-    init(r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat) {
+    init(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
         
         self.value = 0
         
-        self.red = UInt8(min(max(r, 0.0), 1.0) * 255.0)
-        self.green = UInt8(min(max(g, 0.0), 1.0) * 255.0)
-        self.blue = UInt8(min(max(b, 0.0), 1.0) * 255.0)
-        self.alpha = UInt8(min(max(a, 0.0), 1.0) * 255.0)
+        self.red = UInt8(min(max(red, 0.0), 1.0) * 255.0)
+        self.green = UInt8(min(max(green, 0.0), 1.0) * 255.0)
+        self.blue = UInt8(min(max(blue, 0.0), 1.0) * 255.0)
+        self.alpha = UInt8(min(max(alpha, 0.0), 1.0) * 255.0)
     }
 
     public var red: UInt8 {
@@ -69,17 +69,23 @@ public struct Pixel: Codable {
     
     public func color() -> NSColor {
         
-        return NSColor(red: CGFloat(self.red) / 255.0, green: CGFloat(self.green) / 255.0, blue: CGFloat(self.blue) / 255.0, alpha: CGFloat(self.alpha) / 255.0)
+        return NSColor(
+            red: CGFloat(self.red) / 255.0,
+            green: CGFloat(self.green) / 255.0,
+            blue: CGFloat(self.blue) / 255.0,
+            alpha: CGFloat(self.alpha) / 255.0
+        )
     }
     
     public func hexRGB() -> String {
         
-        return String(format:"%02X", self.red) + String(format:"%02X", self.green) + String(format:"%02X", self.blue)
+        return String(format: "%02X", self.red) + String(format: "%02X", self.green) + String(format: "%02X", self.blue)
     }
     
     public func hexRGBA() -> String {
         
-        return String(format:"%02X", self.red) + String(format:"%02X", self.green) + String(format:"%02X", self.blue) + String(format:"%02X", self.alpha)
+        return String(format: "%02X", self.red) + String(format: "%02X", self.green) + String(format: "%02X", self.blue) +
+            String(format: "%02X", self.alpha)
     }
 }
 

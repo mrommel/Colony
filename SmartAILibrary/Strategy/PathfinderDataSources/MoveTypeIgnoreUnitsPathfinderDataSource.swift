@@ -9,13 +9,13 @@
 import Foundation
 
 class MoveTypeIgnoreUnitsOptions {
-    
+
     let ignoreSight: Bool
     let unitMapType: UnitMapType
     let canEmbark: Bool
-    
+
     init(ignoreSight: Bool = true, unitMapType: UnitMapType, canEmbark: Bool) {
-        
+
         self.ignoreSight = ignoreSight
         self.unitMapType = unitMapType
         self.canEmbark = canEmbark
@@ -53,13 +53,13 @@ class MoveTypeIgnoreUnitsPathfinderDataSource: PathfinderDataSource {
                 // are there obstacles
 
                 if let toTile = mapModel.tile(at: neighbor) {
-                    
+
                     // walkable ?
                     if self.movementType == .walk {
                         if toTile.isWater() && self.options.canEmbark && toTile.isImpassable(for: .swim) {
                             continue
                         }
-                        
+
                         if toTile.isLand() && toTile.isImpassable(for: .walk) {
                             continue
                         }
@@ -68,7 +68,7 @@ class MoveTypeIgnoreUnitsPathfinderDataSource: PathfinderDataSource {
                             continue
                         }
                     }
-                    
+
                     // use sight?
                     if !self.options.ignoreSight {
 
@@ -76,14 +76,14 @@ class MoveTypeIgnoreUnitsPathfinderDataSource: PathfinderDataSource {
                         if !toTile.isDiscovered(by: self.player) {
                             continue
                         }
-                        
+
                         if !toTile.isVisible(to: self.player) {
                             continue
                         }
                     }
-                    
+
                     if let fromTile = mapModel.tile(at: coord) {
-                        
+
                         if toTile.movementCost(for: self.movementType, from: fromTile)  < UnitMovementType.max {
                             walkableCoords.append(neighbor)
                         }
@@ -100,10 +100,10 @@ class MoveTypeIgnoreUnitsPathfinderDataSource: PathfinderDataSource {
         guard let mapModel = self.mapModel else {
             fatalError("cant get mapModel")
         }
-        
+
         if let toTile = mapModel.tile(at: toTileCoord),
             let fromTile = mapModel.tile(at: fromTileCoord) {
-            
+
             return toTile.movementCost(for: self.movementType, from: fromTile)
         }
 

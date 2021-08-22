@@ -10,11 +10,11 @@ import Foundation
 
 // https://civilization.fandom.com/wiki/Specialists_(Civ6)
 public enum SpecialistType: Int, Codable {
-    
+
     case none
-    
+
     case citizen
-    
+
     case artist
     case captain
     case engineer
@@ -22,20 +22,20 @@ public enum SpecialistType: Int, Codable {
     case merchant
     case priest
     case scientist
-    
+
     static var all: [SpecialistType] {
         return [.citizen, .artist, .captain, .commander, .scientist, .merchant, .engineer, .priest]
     }
-    
+
     func yields() -> Yields {
-        
+
         switch self {
-            
+
         case .none: return Yields(food: 0.0, production: 0.0, gold: 0.0)
-        
+
         case .citizen: return Yields(food: 0.0, production: 0.0, gold: 0.0)
-            
-        case .artist: return Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 2.0) 
+
+        case .artist: return Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 2.0)
         case .scientist: return Yields(food: 0.0, production: 0.0, gold: 0.0, science: 2.0)
         case .merchant: return Yields(food: 0.0, production: 0.0, gold: 2.0)
         case .engineer: return Yields(food: 0.0, production: 2.0, gold: 0.0)
@@ -44,13 +44,13 @@ public enum SpecialistType: Int, Codable {
         case .priest: return Yields(food: 0.0, production: 0.0, gold: 0.0, faith: 2.0)
         }
     }
-    
+
     func greatPeopleRateChange() -> Int {
-        
+
         switch self {
-            
+
         case .none: return 0
-        
+
         case .citizen: return 0
         case .artist: return 3
         case .scientist: return 3
@@ -61,7 +61,7 @@ public enum SpecialistType: Int, Codable {
         case .priest: return 3
         }
     }
-    
+
     /*func greatPeopleUnitClass() -> UnitType? {
         
         switch self {

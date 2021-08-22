@@ -9,12 +9,12 @@
 import Foundation
 
 class TacticalPosture {
-    
+
     let type: TacticalPostureType
     let player: AbstractPlayer?
     let city: AbstractCity?
     let isWater: Bool
-    
+
     init(of type: TacticalPostureType, for player: AbstractPlayer?, in city: AbstractCity?, isWater: Bool) {
         self.type = type
         self.player = player

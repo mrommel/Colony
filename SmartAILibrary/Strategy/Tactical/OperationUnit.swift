@@ -13,12 +13,12 @@ import Foundation
 //!  \brief        One unit moving with operational army currently being processed
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class OperationUnit {
-    
+
     let unit: AbstractUnit?
     var position: UnitFormationPosition
-    
+
     init(unit: AbstractUnit?, at position: UnitFormationPosition = .none) {
-        
+
         self.unit = unit
         self.position = position
     }

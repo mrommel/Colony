@@ -15,11 +15,16 @@ class EmbassyTradeItemNode: SpriteButtonNode {
     
     init() {
         
-        super.init(titled: "Embassy", enabledButtonImage: "grid9_button_disabled", hoverButtonImage: "grid9_button_disabled", disabledButtonImage: "grid9_button_disabled", size: CGSize(width: 130, height: 35), buttonAction: {
-            
-            print("click on embassy")
-        })
-        
+        super.init(
+            titled: "Embassy",
+            enabledButtonImage: "grid9_button_disabled",
+            hoverButtonImage: "grid9_button_disabled",
+            disabledButtonImage: "grid9_button_disabled",
+            size: CGSize(width: 130, height: 35),
+            buttonAction: {
+                print("click on embassy")
+            }
+        )
         
         self.anchorPoint = .lowerCenter
     }

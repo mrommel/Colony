@@ -21,8 +21,8 @@ struct HexagonView: View {
     var body: some View {
 
         let size = 50.0
-        let w = CGFloat(2.0 * size)
-        let h = CGFloat(sqrt(3.0) * size)
+        let width = CGFloat(2.0 * size)
+        let height = CGFloat(sqrt(3.0) * size)
 
         Group {
             ZStack {
@@ -34,36 +34,36 @@ struct HexagonView: View {
                 //if self.viewModel.showMountains() {
                     Image(nsImage: self.viewModel.mountainsImage)
                         .resizable()
-                        .frame(width: h, height: h, alignment: .center)
+                        .frame(width: height, height: height, alignment: .center)
                 //}
 
                 //if self.viewModel.showHills() {
                     Image(nsImage: self.viewModel.hillsImage)
                         .resizable()
-                        .frame(width: h, height: h, alignment: .center)
+                        .frame(width: height, height: height, alignment: .center)
                 //}
 
                 //if self.viewModel.showForest() {
                     Image(nsImage: self.viewModel.forestImage)
                         .resizable()
-                        .frame(width: h, height: h, alignment: .center)
+                        .frame(width: height, height: height, alignment: .center)
                 //}
 
                 //if self.viewModel.showCity() {
                     Image(nsImage: self.viewModel.cityImage)
                         .resizable()
-                        .frame(width: h, height: h, alignment: .center)
+                        .frame(width: height, height: height, alignment: .center)
                 //}
 
                 //if self.viewModel.showCitizenIcons {
                     Image(nsImage: self.viewModel.actionImage)
                         .resizable()
-                        .frame(width: h, height: h, alignment: .center)
+                        .frame(width: height, height: height, alignment: .center)
                 //}
 
                 /*Text("\(self.viewModel.tile.point.x),\(self.viewModel.tile.point.y)")*/
             }
-            .frame(width: w, height: h, alignment: .center)
+            .frame(width: width, height: height, alignment: .center)
             .onTapGesture {
                 self.viewModel.clicked()
             }

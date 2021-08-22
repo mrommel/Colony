@@ -15,12 +15,14 @@ class GameStorage {
 
     static fileprivate func gamesFolder() -> URL {
 
-        let fm = FileManager.default
-        let folder = fm.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileManager = FileManager.default
+        let folder = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
 
         var isDirectory: ObjCBool = false
-        if !(fm.fileExists(atPath: folder.path, isDirectory: &isDirectory) && isDirectory.boolValue) {
-            try! fm.createDirectory(at: folder, withIntermediateDirectories: false, attributes: nil)
+        if !(fileManager.fileExists(atPath: folder.path, isDirectory: &isDirectory) && isDirectory.boolValue) {
+            do {
+                try fileManager.createDirectory(at: folder, withIntermediateDirectories: false, attributes: nil)
+            } catch { }
         }
 
         return folder
@@ -135,9 +137,9 @@ class GameStorage {
     static func removeGame(named name: String) -> Bool {
 
         let filename = gamesFolder().appendingPathComponent(name)
-        let fm = FileManager.default
+        let fileManager = FileManager.default
         do {
-            try fm.removeItem(at: filename)
+            try fileManager.removeItem(at: filename)
             print("Deleted game named \(name)!")
             return true
         } catch {

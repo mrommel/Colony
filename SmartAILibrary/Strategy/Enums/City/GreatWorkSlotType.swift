@@ -9,17 +9,17 @@
 import Foundation
 
 public enum GreatWorkType {
-    
+
     case writing
     case music
     case artwork
     case artifact
     case relic
-    
+
     func slotTypes() -> [GreatWorkSlotType] {
-        
+
         switch self {
-            
+
         case .writing:
             return [.any, .written]
         case .music:
@@ -32,11 +32,11 @@ public enum GreatWorkType {
             return [.any, .relic]
         }
     }
-    
+
     func yields() -> Yields {
-        
+
         switch self {
-            
+
         case .writing:
             return Yields(food: 0.0, production: 0.0, gold: 0.0, science: 0.0, culture: 4.0, faith: 0.0, housing: 0.0, appeal: 0.0)
         case .music:
@@ -52,9 +52,9 @@ public enum GreatWorkType {
 }
 
 public enum GreatWorkSlotType: Int, Codable {
-    
+
     case any // in the palace
-    
+
     case written
     case music
     case artwork

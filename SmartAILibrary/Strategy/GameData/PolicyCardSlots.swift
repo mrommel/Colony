@@ -22,9 +22,9 @@ public class PolicyCardSlots {
         self.diplomatic = diplomatic
         self.wildcard = wildcard
     }
-    
+
     public func numberOfSlots(in slotType: PolicyCardSlotType) -> Int {
-        
+
         switch slotType {
 
         case .military:
@@ -60,9 +60,9 @@ public class PolicyCardSlots {
 
         return list
     }
-    
+
     public func hint() -> String {
-        
+
         return "\(self.military) / \(self.economic) / \(self.diplomatic) / \(self.wildcard)"
     }
 }

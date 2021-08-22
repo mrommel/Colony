@@ -12,9 +12,9 @@ import Foundation
 public enum DiplomaticRequestMessage: Int, Codable {
 
     case exit
-    
+
     case messageIntro // DIPLO_MESSAGE_INTRO
-    
+
     case invitationToCapital // NEW
 
     /* DIPLO_MESSAGE_DEFEATED,
@@ -310,7 +310,7 @@ public enum DiplomaticRequestMessage: Int, Codable {
             }
 
             return "Greetings traveler. You should know that you stand in the presence of greatness!"
-            
+
         case .invitationToCapital:
             return "I delight in hearing of distant lands. If you tell me of your capital, I shall share the location of mine."
 
@@ -319,47 +319,47 @@ public enum DiplomaticRequestMessage: Int, Codable {
             guard let leader2 = player2?.leader else {
                 fatalError("leader must be provided")
             }
-            
+
             //TXT_KEY_COOP_WAR_REQUEST%
             return "Please join us to start war on \(leader2) now. Will you?"
-            
+
         case .coopWarTime: // RESPONSE_COOP_WAR_TIME
             // AI calls up and says it's time to declare war on someone with a player
             guard let leader2 = player2?.leader else {
                 fatalError("leader must be provided")
             }
-            
+
             //TXT_KEY_COOP_WAR_TIME%
             return "Please join us to start war on \(leader2) in 10 turns. Will you?"
-            
+
         case .peaceOffer: // RESPONSE_PEACE_OFFER
             return "I want peace"
 
         case .embassyExchange:
             return "Welcome to discuss .."
-            
+
         case .embassyOffer:
             return "embassyOffer"
-            
+
         case .openBordersExchange:
             return "openBordersExchange"
-            
+
         case .openBordersOffer:
             return "openBordersOffer"
-            
+
         case .exit:
             return "exit"
         }
     }
-    
+
     public func diploOptions() -> [DiplomaticReplyMessage] {
-        
+
         switch self {
         case .messageIntro:
             return [.introReplyPositive, .introReplyBusy]
         case .invitationToCapital:
             return [.invitationToCapitalPositive, .invitationToCapitalNegative]
-            
+
         case .peaceOffer:
             return [.genericReply]
         case .embassyExchange:
@@ -374,7 +374,7 @@ public enum DiplomaticRequestMessage: Int, Codable {
             return [.genericReply]
         case .coopWarTime:
             return [.genericReply]
-            
+
         case .exit:
             return []
         }

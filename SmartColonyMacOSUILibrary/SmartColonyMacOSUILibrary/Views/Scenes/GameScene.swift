@@ -345,7 +345,12 @@ extension GameScene {
             if position != selectedUnit.location {
 
                 let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = self.viewModel?.game?.unitAwarePathfinderDataSource(for: selectedUnit.movementType(), for: selectedUnit.player, unitMapType: selectedUnit.unitMapType(), canEmbark: selectedUnit.canEverEmbark())
+                pathFinder.dataSource = self.viewModel?.game?.unitAwarePathfinderDataSource(
+                    for: selectedUnit.movementType(),
+                    for: selectedUnit.player,
+                    unitMapType: selectedUnit.unitMapType(),
+                    canEmbark: selectedUnit.canEverEmbark()
+                )
 
                 // update
                 self.updateCommands(for: selectedUnit)

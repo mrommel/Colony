@@ -19,13 +19,13 @@ public enum HandicapType: Int, Codable {
     case emperor
     case immortal
     case deity
-    
+
     public static var all: [HandicapType] = [
         .settler, .chieftain, .warlord, .prince, .king, .emperor, .immortal, .deity
     ]
-    
+
     public func name() -> String {
-        
+
         switch self {
 
         case .settler: return "Settler"
@@ -91,9 +91,9 @@ public enum HandicapType: Int, Codable {
             return []
         }
     }
-    
+
     public func freeHumanCivics() -> [CivicType] {
-        
+
         switch self {
 
         case .settler:
@@ -137,9 +137,9 @@ public enum HandicapType: Int, Codable {
             return [.pottery, .animalHusbandry, .mining, .wheel]
         }
     }
-    
+
     public func freeAICivics() -> [CivicType] {
-        
+
         switch self {
 
         case .settler:
@@ -210,7 +210,7 @@ public enum HandicapType: Int, Codable {
     func barbarbianSeaTargetRange() -> Int {
 
         switch self {
-            
+
         case .settler:
             return 4
         case .chieftain:
@@ -229,11 +229,11 @@ public enum HandicapType: Int, Codable {
             return 20
         }
     }
-    
+
     func barbarbianLandTargetRange() -> Int {
 
         switch self {
-            
+
         case .settler:
             return 2
         case .chieftain:
@@ -252,7 +252,7 @@ public enum HandicapType: Int, Codable {
             return 8
         }
     }
-    
+
     func freeAICombatBonus() -> Int {
 
         switch self {
@@ -267,7 +267,7 @@ public enum HandicapType: Int, Codable {
         case .deity: return 4
         }
     }
-    
+
     func freeHumanCombatBonus() -> Int {
 
         switch self {

@@ -17,9 +17,9 @@ public class ContinentFinder {
         self.continentIdentifiers = Array2D<Int>(width: width, height: height)
         self.continentIdentifiers.fill(with: ContinentConstants.kNotAnalyzed)
     }
-    
+
     public convenience init(size: MapSize) {
-        
+
         self.init(width: size.width(), height: size.height())
     }
 
@@ -106,9 +106,9 @@ public class ContinentFinder {
     func firstFreeIdentifier() -> Int {
 
         let freeIdentifiers = BitArray(count: 256)
-        
-        for i in 0..<256 {
-            freeIdentifiers.setValueOfBit(value: true, at: i)
+
+        for index in 0..<256 {
+            freeIdentifiers.setValueOfBit(value: true, at: index)
         }
 
         for x in 0..<self.continentIdentifiers.width {
@@ -122,9 +122,9 @@ public class ContinentFinder {
             }
         }
 
-        for i in 0..<256 {
-            if freeIdentifiers.valueOfBit(at: i) == true {
-                return i
+        for index in 0..<256 {
+            if freeIdentifiers.valueOfBit(at: index) == true {
+                return index
             }
         }
 

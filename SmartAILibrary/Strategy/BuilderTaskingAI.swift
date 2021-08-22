@@ -9,9 +9,9 @@
 import Foundation
 
 enum BuilderDirectiveType: Int, Codable {
-    
+
     case none
-    
+
     case buildImprovementOnResource // BUILD_IMPROVEMENT_ON_RESOURCE, // enabling a special resource
     case buildImprovement // BUILD_IMPROVEMENT,               // improving a tile
     case buildRoute // BUILD_ROUTE,                   // build a route on a tile
@@ -29,57 +29,57 @@ class BuilderDirective: Equatable, Codable {
         case target
         case moveTurnsAway
     }
-    
+
     var type: BuilderDirectiveType
     var build: BuildType
     let resource: ResourceType
     var target: HexPoint
     var moveTurnsAway: Int
-    
+
     init(type: BuilderDirectiveType, build: BuildType, resource: ResourceType, target: HexPoint, moveTurnsAway: Int) {
-        
+
         self.type = type
         self.build = build
         self.resource = resource
         self.target = target
         self.moveTurnsAway = moveTurnsAway
     }
-    
+
     required init(from decoder: Decoder) throws {
-        
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         self.type = try container.decode(BuilderDirectiveType.self, forKey: .type)
         self.build = try container.decode(BuildType.self, forKey: .build)
         self.resource = try container.decode(ResourceType.self, forKey: .resource)
         self.target = try container.decode(HexPoint.self, forKey: .target)
         self.moveTurnsAway = try container.decode(Int.self, forKey: .moveTurnsAway)
     }
-    
+
     func encode(to encoder: Encoder) throws {
-        
+
         var container = encoder.container(keyedBy: CodingKeys.self)
-        
+
         try container.encode(self.type, forKey: .type)
         try container.encode(self.build, forKey: .build)
         try container.encode(self.resource, forKey: .resource)
         try container.encode(self.target, forKey: .target)
         try container.encode(self.moveTurnsAway, forKey: .moveTurnsAway)
     }
-    
+
     static func == (lhs: BuilderDirective, rhs: BuilderDirective) -> Bool {
         return lhs.type == rhs.type && lhs.build == rhs.build && lhs.target == rhs.target
     }
 }
 
 class BuilderDirectiveWeightedList: WeightedList<BuilderDirective> {
-    
+
 }
 
 public class BuilderTaskingAI {
 
     var player: Player?
-    
+
     var numCities: Int
     var nonTerritoryPlots: [AbstractTile?]
 
@@ -88,74 +88,74 @@ public class BuilderTaskingAI {
     init(player: Player?) {
 
         self.player = player
-        
+
         self.numCities = 0
         self.nonTerritoryPlots = []
     }
-    
+
     func update(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
 
         self.updateRoutePlots(in: gameModel)
-        
+
         let cities = gameModel.cities(of: player)
         self.numCities = cities.count
-        
+
         for cityRef in cities {
-            
+
             if let city = cityRef {
                 city.cityStrategy?.updateBestYields(in: gameModel)
             }
         }
     }
-    
+
     /// Looks at city connections and marks plots that can be added as routes by EvaluateBuilder
     private func updateRoutePlots(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let cityConnections = player.cityConnections else {
             fatalError("cant get cityConnections")
         }
-        
+
         self.nonTerritoryPlots.removeAll()
-        
+
         return
     }
-    
+
     /// Use the flavor settings to determine what the worker should do
-    func evaluateBuilder(unit: AbstractUnit?, onlyKeepBest: Bool = false,  onlyEvaluateWorkersPlot: Bool = false, in gameModel: GameModel?) -> BuilderDirective? {
-        
+    func evaluateBuilder(unit: AbstractUnit?, onlyKeepBest: Bool = false, onlyEvaluateWorkersPlot: Bool = false, in gameModel: GameModel?) -> BuilderDirective? {
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let unit = unit else {
             fatalError("cant get unit")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         // number of cities has changed mid-turn, so we need to re-evaluate what workers should do
         if gameModel.cities(of: player).count != self.numCities {
             self.update(in: gameModel)
         }
-        
+
         // check for no brainer bail-outs
         // if the builder is already building something
         if unit.buildType() != .none {
@@ -166,7 +166,7 @@ public class BuilderTaskingAI {
         var tiles: [AbstractTile?] = []
 
         if onlyEvaluateWorkersPlot {
-            
+
             // can't build on plots others own
             if let tile = gameModel.tile(at: unit.location) {
                 if player.isEqual(to: tile.owner()) {
@@ -174,7 +174,7 @@ public class BuilderTaskingAI {
                 }
             }
         } else {
-            
+
             for point in player.area {
                 if let tile = gameModel.tile(at: point) {
                     if player.isEqual(to: tile.owner()) {
@@ -183,12 +183,12 @@ public class BuilderTaskingAI {
                 }
             }
         }
-        
+
         let directives = BuilderDirectiveWeightedList()
 
         // go through all the plots the player has under their control
         for tile in tiles {
-            
+
             if !self.shouldBuilderConsiderPlot(tile: tile, for: unit, in: gameModel) {
                 continue
             }
@@ -242,26 +242,26 @@ public class BuilderTaskingAI {
 
         return nil
     }
-    
+
     /// Evaluating a plot to determine what improvement could be best there
     func addImprovingPlotsDirectives(unit: AbstractUnit?, on tile: AbstractTile?, dist: Int, in gameModel: GameModel?) -> BuilderDirectiveWeightedList {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let unit = unit else {
             fatalError("cant get unit")
         }
-        
+
         guard let player = unit.player else {
             fatalError("cant get player")
         }
-        
+
         guard let tile = tile else {
             fatalError("cant get pPlot")
         }
-        
+
         let existingImprovement = tile.improvement()
 
         // if we have a great improvement in a plot that's not pillaged, DON'T DO NOTHIN'
@@ -289,7 +289,7 @@ public class BuilderTaskingAI {
 
         let directiveList: BuilderDirectiveWeightedList = BuilderDirectiveWeightedList()
         var tmpBuildType: BuildType = .none
-        
+
         for buildType in BuildType.all {
 
             tmpBuildType = buildType
@@ -356,36 +356,36 @@ public class BuilderTaskingAI {
             let directive = BuilderDirective(type: directiveType, build: tmpBuildType, resource: .none, target: tile.point, moveTurnsAway: dist)
             directiveList.add(weight: Double(weight), for: directive)
         }
-        
+
         return directiveList
     }
-    
+
     /// Determines if the builder should "chop" the feature in the tile
     func addChopDirectives(unit: AbstractUnit?, on pPlot: AbstractTile?, dist: Int, in gameModel: GameModel?) -> BuilderDirectiveWeightedList {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let unit = unit else {
             fatalError("cant get unit")
         }
-        
+
         guard let player = unit.player else {
             fatalError("cant get player")
         }
-        
+
         guard let pPlot = pPlot else {
             fatalError("cant get pPlot")
         }
-        
+
         // if it's not within a city radius
         if !gameModel.isWithinCityRadius(plot: pPlot, of: player) {
             return BuilderDirectiveWeightedList()
         }
 
         let improvement = pPlot.improvement()
-        
+
         if improvement == .none {
             return BuilderDirectiveWeightedList()
         }
@@ -413,7 +413,11 @@ public class BuilderTaskingAI {
         var chopBuild: BuildType = .none
         for buildType in BuildType.all {
 
-            if buildType.improvement() == nil && buildType.canRemove(feature: feature) && buildType.productionFromRemoval(of: feature) > 0 && unit.canBuild(build: buildType, at: pPlot.point, testVisible: true, testGold: true, in: gameModel) {
+            if buildType.improvement() == nil &&
+                buildType.canRemove(feature: feature) &&
+                buildType.productionFromRemoval(of: feature) > 0 &&
+                unit.canBuild(build: buildType, at: pPlot.point, testVisible: true, testGold: true, in: gameModel) {
+                
                 chopBuild = buildType
                 break
             }
@@ -442,7 +446,7 @@ public class BuilderTaskingAI {
         let directiveList: BuilderDirectiveWeightedList = BuilderDirectiveWeightedList()
 
         for yieldType in YieldType.all {
-            
+
             // calculate natural yields
             let previousYield = pPlot.yieldsWith(buildType: chopBuild, for: player, ignoreFeature: false)
             let newYield = pPlot.yieldsWith(buildType: chopBuild, for: player, ignoreFeature: true)
@@ -451,26 +455,26 @@ public class BuilderTaskingAI {
             if deltaYield.value(of: yieldType) == 0 {
                 continue
             }
-            
+
             switch yieldType {
             case .food:
                 yieldDifferenceWeight += deltaYield.value(of: yieldType) * Double(player.valueOfPersonalityFlavor(of: .growth)) * 2.0 /*BUILDER_TASKING_PLOT_EVAL_MULTIPLIER_FOOD**/
-                
+
             case .production:
                 yieldDifferenceWeight += deltaYield.value(of: yieldType) * Double(player.valueOfPersonalityFlavor(of: .production)) * 2.0 /* BUILDER_TASKING_PLOT_EVAL_MULTIPLIER_PRODUCTION*/
-                
+
             case .gold:
                 yieldDifferenceWeight += deltaYield.value(of: yieldType) * Double(player.valueOfPersonalityFlavor(of: .gold)) * 1.0 /* BUILDER_TASKING_PLOT_EVAL_MULTIPLIER_GOLD */
-                
+
             case .science:
                 yieldDifferenceWeight += deltaYield.value(of: yieldType) * Double(player.valueOfPersonalityFlavor(of: .science)) * 1.0 /* BUILDER_TASKING_PLOT_EVAL_MULTIPLIER_SCIENCE */
-             
+
             case .culture:
                 yieldDifferenceWeight += deltaYield.value(of: yieldType) * Double(player.valueOfPersonalityFlavor(of: .culture)) * 1.0 /* BUILDER_TASKING_PLOT_EVAL_MULTIPLIER_CULTURE */
-                
+
             case .faith:
                 yieldDifferenceWeight += deltaYield.value(of: yieldType) * Double(player.valueOfPersonalityFlavor(of: .religion)) * 1.0 /* BUILDER_TASKING_PLOT_EVAL_MULTIPLIER_CULTURE */
-                
+
             case .none:
                 // NOOP
                 break
@@ -486,25 +490,25 @@ public class BuilderTaskingAI {
         //weight = CorrectWeight(iWeight);
 
         if weight > 0 {
-            
+
             let directive = BuilderDirective(type: .chop, build: chopBuild, resource: .none, target: pPlot.point, moveTurnsAway: dist)
             directiveList.add(weight: Double(weight), for: directive)
         }
-            
+
         return directiveList
     }
-    
+
     /// Evaluating a plot to see if we can build resources there
     func addImprovingResourcesDirectives(unit: AbstractUnit?, on pPlot: AbstractTile?, dist: Int, in gameModel: GameModel?) -> BuilderDirectiveWeightedList {
-        
+
         guard let unit = unit else {
             fatalError("cant get unit")
         }
-        
+
         guard let pPlot = pPlot else {
             fatalError("cant get pPlot")
         }
-        
+
         // if we have a great improvement in a plot that's not pillaged, DON'T DO NOTHIN'
         /*if let existingPlotImprovement = pPlot.improvement() {
             if existingPlotImprovement != .none &&/* GC.getImprovementInfo(existingPlotImprovement)->IsCreatedByGreatPerson() &&*/ !pPlot.isImprovementPillaged() {
@@ -512,12 +516,12 @@ public class BuilderTaskingAI {
                 return BuilderDirectiveWeightedList()
             }
         }*/
-        
+
         // check to see if a resource is here. If not, bail out!
         if !pPlot.hasAnyResource(for: player) {
             return BuilderDirectiveWeightedList()
         }
-        
+
         var resource: ResourceType = .none
         for resourceType in ResourceType.all {
             if pPlot.has(resource: resourceType, for: player) {
@@ -533,18 +537,18 @@ public class BuilderTaskingAI {
         // loop through the build types to find one that we can use
         //var originalBuild: BuildType = .none
         var doBuild: BuildType = .none
-        
+
         let directiveList = BuilderDirectiveWeightedList()
-        
+
         for buildType in BuildType.all {
 
             //originalBuild = buildType
             doBuild = buildType
-            
+
             guard let improvement = buildType.improvement() else {
                 continue
             }
-            
+
             let existingPlotImprovement = pPlot.improvement()
 
             if improvement == existingPlotImprovement {
@@ -557,7 +561,7 @@ public class BuilderTaskingAI {
             } else {
                 // if the plot has an unpillaged great person's creation on it, DO NOT DESTROY
                 if existingPlotImprovement != ImprovementType.none {
-                    
+
                     //CvImprovementEntry* pkExistingPlotImprovementInfo = GC.getImprovementInfo(eExistingPlotImprovement);
                     /*if(pkExistingPlotImprovementInfo && pkExistingPlotImprovementInfo->IsCreatedByGreatPerson())
                     {
@@ -567,7 +571,7 @@ public class BuilderTaskingAI {
             }
 
             if !unit.canBuild(build: doBuild, at: pPlot.point, testVisible: true, testGold: false, in: gameModel) {
-                break;
+                break
             }
 
             var directiveType = BuilderDirectiveType.buildImprovementOnResource
@@ -578,9 +582,9 @@ public class BuilderTaskingAI {
             }
 
             // this is to deal with when the plot is already improved with another improvement that doesn't enable the resource
-            var investedImprovementTime = 0;
+            var investedImprovementTime = 0
             if existingPlotImprovement != ImprovementType.none {
-                
+
                 var existingBuild: BuildType = .none
 
                 for buildType in BuildType.all {
@@ -624,13 +628,13 @@ public class BuilderTaskingAI {
             let directive = BuilderDirective(type: directiveType, build: buildType, resource: resource, target: pPlot.point, moveTurnsAway: dist)
             directiveList.add(weight: Double(weight), for: directive)
         }
-        
+
         return directiveList
     }
-    
+
     /// Does this city want to rush a unit?
     func doesBuildHelpRush(unit: AbstractUnit?, pPlot: AbstractTile?, build: BuildType) -> Bool {
-        
+
         /* FIXME
         CvCity* pCity = NULL;
         int iProduction = pPlot->getFeatureProduction(eBuild, pUnit->getOwner(), &pCity);
@@ -657,7 +661,7 @@ public class BuilderTaskingAI {
         return true*/
         return false
     }
-    
+
     func scorePlot(for targetPlot: AbstractTile?, on buildType: BuildType) -> Int {
 
         guard let pTargetPlot = targetPlot else {
@@ -671,24 +675,24 @@ public class BuilderTaskingAI {
         guard let cityStrategy = city.cityStrategy else {
             return -1
         }
-        
+
         // preparation
         let currentYields = pTargetPlot.yields(for: player, ignoreFeature: false)
         let projectedYields = pTargetPlot.yieldsWith(buildType: buildType, for: player, ignoreFeature: false)
 
         var score = 0.0
-        var anyNegativeMultiplier = false;
+        var anyNegativeMultiplier = false
         let focusYield = cityStrategy.focusYield
-        
+
         for yieldType in YieldType.all {
-            
+
             let multiplier = cityStrategy.yieldDelta(for: yieldType)
             let absMultiplier = abs(multiplier)
             let yieldDelta = projectedYields.value(of: yieldType) - currentYields.value(of: yieldType)
 
             // the multiplier being lower than zero means that we need more of this resource
             if multiplier < 0 {
-                
+
                 anyNegativeMultiplier = true
                 // this would be an improvement to the yield
                 if yieldDelta > 0 {
@@ -707,39 +711,39 @@ public class BuilderTaskingAI {
         }
 
         if !anyNegativeMultiplier && focusYield != .none {
-            
+
             let yieldDelta = projectedYields.value(of: focusYield) - currentYields.value(of: focusYield)
             if yieldDelta > 0 {
-                score += projectedYields.value(of: focusYield) * 100;
+                score += projectedYields.value(of: focusYield) * 100
             }
         }
 
         return Int(score)
     }
-    
+
     /// Adds a directive if the unit can construct a road in the plot
     func addRouteDirectives(unit: AbstractUnit?, on pPlot: AbstractTile?, dist: Int, in gameModel: GameModel?) -> BuilderDirectiveWeightedList {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let unit = unit else {
             fatalError("cant get unit")
         }
-        
+
         guard let unitPlayer = unit.player else {
             fatalError("cant get unitPlayer")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let pPlot = pPlot else {
             fatalError("cant get plot")
         }
-        
+
         let bestRouteType: RouteType = player.bestRoute()
 
         // if the player can't build a route, bail out!
@@ -762,7 +766,7 @@ public class BuilderTaskingAI {
             routeBuild = .repair
         } else {
             let routeType: RouteType = pPlot.builderAIScratchPad().routeType
-            
+
             for buildType in BuildType.all {
                 if buildType.route() == routeType {
                     routeBuild = buildType
@@ -788,9 +792,9 @@ public class BuilderTaskingAI {
 
         let turnsAway = self.findTurnsAway(unit: unit, on: pPlot, in: gameModel)
         let buildtime = min(1, routeBuild.buildTime(on: pPlot))
-        
+
         weight = weight / (turnsAway + 1)
-        weight = weight * 100
+        weight *= weight
         weight += 100 / buildtime //GetBuildTimeWeight(pUnit, pPlot, eRouteBuild, false, iMoveTurnsAway);
         weight *= pPlot.builderAIScratchPad().value
         // FIXME weight = CorrectWeight(iWeight);
@@ -801,18 +805,18 @@ public class BuilderTaskingAI {
         items.add(weight: Double(weight), for: directive)
         return items
     }
-    
+
     /// Return the weight of this resource
     func resourceWeight(for resource: ResourceType, improvement: ImprovementType, quantity: Int ) -> Int {
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         var weight = 0
 
         for flavorType in FlavorType.all {
-            
+
             let resourceFlavor = resource.flavor(for: flavorType)
             let personalityFlavor = player.valueOfPersonalityFlavor(of: flavorType)
             let result = resourceFlavor * personalityFlavor
@@ -826,7 +830,7 @@ public class BuilderTaskingAI {
                 improvementFlavor = improvement.flavor(for: flavorType)
             }
 
-            let usableByCityWeight = personalityFlavor * improvementFlavor;
+            let usableByCityWeight = personalityFlavor * improvementFlavor
             if usableByCityWeight > 0 {
                 weight += usableByCityWeight
             }
@@ -834,7 +838,7 @@ public class BuilderTaskingAI {
 
         // if the empire is unhappy (or close to it) and this is a luxury resource the player doesn't have, provide a super bonus to getting it
         if resource.usage() == .luxury {
-            
+
             var modifier = 500 /* GC.getBUILDER_TASKING_PLOT_EVAL_MULTIPLIER_LUXURY_RESOURCE()*/ * resource.amenities()
 
             if player.numAvailable(resource: resource) == 0 {
@@ -843,10 +847,10 @@ public class BuilderTaskingAI {
                 modifier /= 2 // half the awesome bonus, so that we pick up extra resources
             }
 
-            weight *= modifier;
-            
+            weight *= modifier
+
         } else if resource.usage() == .strategic && resource.techCityTrade() != nil {
-            
+
             let hasTech = player.has(tech: resource.techCityTrade()!)
             if hasTech {
                 // measure quantity
@@ -854,7 +858,7 @@ public class BuilderTaskingAI {
 
                 // if we don't have any currently available
                 if player.numAvailable(resource: resource) == 0 {
-                    
+
                     // if we have some of the strategic resource, but all is used
                     if player.numAvailable(resource: resource) > 0 {
                         multiplyingAmount *= 4
@@ -870,26 +874,26 @@ public class BuilderTaskingAI {
 
         return weight
     }
-    
+
     /// Determines if the builder can get to the plot. Returns -1 if no path can be found, otherwise it returns the # of turns to get there
     func findTurnsAway(unit: AbstractUnit?, on tile: AbstractTile?, in gameModel: GameModel?) -> Int {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let unit = unit else {
             fatalError("cant get unit")
         }
-        
+
         guard let tile = tile else {
             fatalError("cant get tile")
         }
-        
+
         guard let targetTile = gameModel.tile(at: unit.location) else {
             fatalError("cant get target tile")
         }
-        
+
         // If this plot is far away, we'll just use its distance as an estimate of the time to get there (to avoid hitting the path finder)
         // We'll be sure to check later to make sure we have a real path before we execute this
         if unit.domain() == .land && !tile.sameContinent(as: targetTile) && !unit.canEverEmbark() {
@@ -900,10 +904,10 @@ public class BuilderTaskingAI {
         if plotDistance >= 8 { // AI_HOMELAND_ESTIMATE_TURNS_DISTANCE
             return plotDistance
         } else {
-            
+
             let astar = AStarPathfinder()
             astar.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: unit.movementType(), for: unit.player, unitMapType: .combat, canEmbark: unit.player!.canEmbark())
-            
+
             //let path = astar.shortestPath(fromTileCoord: unit.location, toTileCoord: tile.point)
             let result = astar.turnsToReachTarget(for: unit, to: tile.point)
             if result == Int.max {
@@ -916,27 +920,27 @@ public class BuilderTaskingAI {
 
     /// Evaluates all the circumstances to determine if the builder can and should evaluate the given plot
     func shouldBuilderConsiderPlot(tile: AbstractTile?, for unit: AbstractUnit?, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let tile = tile else {
             fatalError("cant get tile")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let unit = unit else {
             fatalError("cant get unit")
         }
-        
+
         guard let dangerPlotsAI = player.dangerPlotsAI else {
             fatalError("cant get dangerPlotsAI")
         }
-        
+
         // if plot is impassable, bail!
         if tile.isImpassable(for: .walk) {
             return false
@@ -949,17 +953,17 @@ public class BuilderTaskingAI {
 
         // workers should not be able to work in plots that do not match their default domain
         switch unit.domain() {
-            
+
         case .land:
             if tile.terrain().isWater() {
                 return false
             }
-            break;
+            break
         case .sea:
             if !tile.terrain().isWater() {
                 return false
             }
-            break;
+            break
         default:
             // NOOP
             break
@@ -970,9 +974,9 @@ public class BuilderTaskingAI {
         guard let targetTile = gameModel.tile(at: unit.location) else {
             return false
         }
-        
+
         if !tile.sameContinent(as: targetTile) {
-            
+
             var canCrossToNewArea = false
 
             if unit.domain() == .sea {
@@ -980,9 +984,7 @@ public class BuilderTaskingAI {
                 {
                     canCrossToNewArea = true
                 }*/
-            }
-            else
-            {
+            } else {
                 if unit.canEverEmbark() {
                     canCrossToNewArea = true
                 }

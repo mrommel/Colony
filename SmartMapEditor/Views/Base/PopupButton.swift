@@ -28,8 +28,8 @@ struct PopupButton<T: Hashable> : NSViewRepresentable
         button.target = context.coordinator
         button.action = #selector(Coordinator.valueChanged(_:))
         button.addItems(withTitles: self.items.map({ String(describing: $0) }))
-        let idx = self.items.firstIndex(of: self.selectedValue) ?? 0
-        button.selectItem(at: idx)
+        let index = self.items.firstIndex(of: self.selectedValue) ?? 0
+        button.selectItem(at: index)
         return button
     }
 
@@ -37,15 +37,15 @@ struct PopupButton<T: Hashable> : NSViewRepresentable
         context.coordinator.items = self.items
         view.removeAllItems()
         view.addItems(withTitles: self.items.map({ String(describing: $0) }))
-        let idx = self.items.firstIndex(of: self.selectedValue) ?? 0
-        view.selectItem(at: idx)
+        let index = self.items.firstIndex(of: self.selectedValue) ?? 0
+        view.selectItem(at: index)
     }
 
     func makeCoordinator() -> Coordinator {
         return Coordinator(binding: self.$selectedValue, items: self.items, onChange: self.onChange)
     }
 
-    final class Coordinator : NSObject {
+    final class Coordinator: NSObject {
         let binding: Binding<T>
         var items: [T]
         

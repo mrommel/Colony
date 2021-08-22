@@ -11,10 +11,10 @@ import Foundation
 public class MapLoader: BaseMapHandler {
 
     public override init() {
-        
+
         super.init()
     }
-    
+
     public func load(from url: URL?, for leader: LeaderType, with numberOfPlayers: Int = 4) -> MapModel? {
 
         if let mapUrl = url {
@@ -26,7 +26,7 @@ public class MapLoader: BaseMapHandler {
 
                 self.placeResources(on: map)
                 self.addGoodies(on: map)
-                
+
                 let startPositioner = StartPositioner(on: map, for: numberOfPlayers)
                 startPositioner.generateRegions()
 

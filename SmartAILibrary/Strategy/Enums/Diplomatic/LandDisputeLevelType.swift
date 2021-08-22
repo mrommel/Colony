@@ -9,9 +9,9 @@
 import Foundation
 
 enum LandDisputeLevelType: Int, Codable {
-    
+
     case none
-    
+
     case fierce // DISPUTE_LEVEL_FIERCE
     case strong // DISPUTE_LEVEL_STRONG:
     case weak // DISPUTE_LEVEL_WEAK

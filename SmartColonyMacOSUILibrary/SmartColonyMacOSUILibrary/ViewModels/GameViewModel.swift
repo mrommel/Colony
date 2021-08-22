@@ -161,7 +161,19 @@ public class GameViewModel: ObservableObject {
         }
     }
 
-    private let textureNames: [String] = ["water", "focus-attack1", "focus-attack2", "focus-attack3", "focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "unit-type-background", "cursor", "top-bar", "grid9-dialog", "techInfo-active", "techInfo-disabled", "techInfo-researched", "techInfo-researching", "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching", "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active", "grid9-button-clicked", "banner", "science-progress", "culture-progress", "header-bar-button", "header-bar-left", "header-bar-right", "city-banner", "grid9-button-district-active", "grid9-button-district", "grid9-button-highlighted", "questionmark", "tile-purchase-active", "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced", "city-canvas", "pantheon-background", "turns", "unit-banner"]
+    private let textureNames: [String] = [
+        "water", "focus-attack1", "focus-attack2", "focus-attack3",
+        "focus1", "focus2", "focus3", "focus4", "focus5", "focus6",
+        "unit-type-background", "cursor", "top-bar", "grid9-dialog",
+        "techInfo-active", "techInfo-disabled", "techInfo-researched", "techInfo-researching",
+        "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching",
+        "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active",
+        "grid9-button-clicked", "banner", "science-progress", "culture-progress", "header-bar-button",
+        "header-bar-left", "header-bar-right", "city-banner", "grid9-button-district-active",
+        "grid9-button-district", "grid9-button-highlighted", "questionmark", "tile-purchase-active",
+        "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced",
+        "city-canvas", "pantheon-background", "turns", "unit-banner"
+    ]
 
     // MARK: constructor
 
@@ -471,12 +483,12 @@ public class GameViewModel: ObservableObject {
 
     public func zoomIn() {
 
-        self.magnification = self.magnification * 0.75
+        self.magnification *= 0.75
     }
 
     public func zoomOut() {
 
-        self.magnification = self.magnification / 0.75
+        self.magnification /= 0.75
     }
 
     public func zoomReset() {
@@ -776,7 +788,7 @@ extension GameViewModel: GameViewModelDelegate {
         if self.currentScreenType == .none {
 
             //print("-- checkPopups \(self.popups.count) / \(self.currentPopupType) --")
-            if self.popups.count > 0 && self.currentPopupType == .none {
+            if !self.popups.isEmpty && self.currentPopupType == .none {
                 self.displayPopups()
                 return true
             }

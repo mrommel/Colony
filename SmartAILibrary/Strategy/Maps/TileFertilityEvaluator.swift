@@ -9,36 +9,36 @@
 import Foundation
 
 class TileFertilityEvaluator: BaseSiteEvaluator {
-    
+
     let map: MapModel?
-    
+
     init(map: MapModel?) {
         self.map = map
     }
-    
+
     override func value(of point: HexPoint, for player: AbstractPlayer?) -> Double {
-        
+
         guard let tile = self.map?.tile(at: point) else {
             return 0
         }
-        
+
         // FIXME improvements
-        
+
         return tile.yields(for: player, ignoreFeature: false).food
     }
-    
+
     func placementFertility(of tile: AbstractTile?, checkForCoastalLand: Bool) -> Int {
-        
+
         guard let tile = tile else {
             fatalError("cant get tile")
         }
-        
+
         guard let map = self.map else {
             fatalError("cant get map")
         }
-        
+
         var plotFertility = 0
-        
+
         // Measure Fertility -- Any cases absent from the process have a 0 value.
         if tile.feature() == .mountains {  // Note, mountains cannot belong to a landmass AreaID, so they usually go unmeasured.
             plotFertility = 1 // mountains are better than ice because they allow special buildings and mine bonuses
@@ -69,28 +69,28 @@ class TileFertilityEvaluator: BaseSiteEvaluator {
         } else if tile.terrain() == .ocean {
             plotFertility = 2 // 1Y
         }
-        
+
         if tile.hasHills() && plotFertility == 1 {
             plotFertility = 2 // hills give +1 production even on worthless terrains like desert and snow
         }
-        
+
         if tile.feature() == .reef || tile.feature() == .greatBarrierReef {
-            plotFertility = plotFertility + 2 // +1 yield
+            plotFertility += 2 // +1 yield
         } else if tile.feature() == .atoll {
-            plotFertility = plotFertility + 4 // +2 yields
+            plotFertility += 4 // +2 yields
         }
-        
+
         if map.river(at: tile.point) {
-            plotFertility = plotFertility + 1
+            plotFertility += 1
         }
-        
+
         if map.isFreshWater(at: tile.point) {
-            plotFertility = plotFertility + 1
+            plotFertility += 1
         }
-        
+
         if checkForCoastalLand == true { // When measuring only one AreaID, this shortcut helps account for coastal plots not measured.
             if map.isCoastal(at: tile.point) && tile.feature() != .mountains {
-                plotFertility = plotFertility + 2
+                plotFertility += 2
             }
         }
 

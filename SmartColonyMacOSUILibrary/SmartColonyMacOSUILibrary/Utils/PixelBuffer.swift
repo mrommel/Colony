@@ -10,39 +10,39 @@ import Cocoa
 extension NSColor {
 
     final func toRGBAComponents() -> (r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat) {
-        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
 
         guard let rgbaColor = usingColorSpace(NSColorSpace.sRGB) else {
             fatalError("Could not convert color to RGBA.")
         }
 
-        rgbaColor.getRed(&r, green: &g, blue: &b, alpha: &a)
+        rgbaColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
 
-        return (r, g, b, a)
+        return (red, green, blue, alpha)
     }
 }
 
 struct PixelData {
 
-    var a: UInt8 = 255
-    var r: UInt8
-    var g: UInt8
-    var b: UInt8
+    var alpha: UInt8 = 255
+    var red: UInt8
+    var green: UInt8
+    var blue: UInt8
 
     init(color: NSColor) {
 
-        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        var redVal: CGFloat = 0, greenVal: CGFloat = 0, blueVal: CGFloat = 0, alphaVal: CGFloat = 0
 
         guard let rgbaColor = color.usingColorSpace(NSColorSpace.sRGB) else {
             fatalError("Could not convert color to RGBA.")
         }
 
-        rgbaColor.getRed(&r, green: &g, blue: &b, alpha: &a)
+        rgbaColor.getRed(&redVal, green: &greenVal, blue: &blueVal, alpha: &alphaVal)
 
-        self.a = UInt8(a * 255)
-        self.r = UInt8(r * 255)
-        self.g = UInt8(g * 255)
-        self.b = UInt8(b * 255)
+        self.alpha = UInt8(alphaVal * 255)
+        self.red = UInt8(redVal * 255)
+        self.green = UInt8(greenVal * 255)
+        self.blue = UInt8(blueVal * 255)
     }
 }
 
@@ -66,7 +66,14 @@ public struct PixelBuffer {
         var bitmapInfo: UInt32 = CGBitmapInfo.byteOrder32Big.rawValue
         bitmapInfo |= CGImageAlphaInfo.premultipliedLast.rawValue & CGBitmapInfo.alphaInfoMask.rawValue
 
-        guard let imageContext = CGContext(data: imageData, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
+        guard let imageContext = CGContext(
+                data: imageData,
+                width: width,
+                height: height,
+                bitsPerComponent: bitsPerComponent,
+                bytesPerRow: bytesPerRow,
+                space: colorSpace,
+                bitmapInfo: bitmapInfo) else {
             return nil
         }
         imageContext.draw(cgImage, in: CGRect(origin: CGPoint(x: 0, y: 0), size: image.size))

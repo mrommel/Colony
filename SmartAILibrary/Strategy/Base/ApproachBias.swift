@@ -9,12 +9,12 @@
 import Foundation
 
 class ApproachBias {
-    
+
     let approach: PlayerApproachType
     let bias: Int
-    
+
     init(approach: PlayerApproachType, bias: Int) {
-        
+
         self.approach = approach
         self.bias = bias
     }

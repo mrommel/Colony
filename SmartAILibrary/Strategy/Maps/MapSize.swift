@@ -17,9 +17,9 @@ public enum MapSize {
     case large
     case huge
     case custom(width: Int, height: Int)
-    
+
     func numberOfTiles() -> Int {
-        
+
         switch self {
 
         case .duel, .tiny, .small, .standard, .large, .huge:
@@ -29,9 +29,9 @@ public enum MapSize {
             return width * height
         }
     }
-    
+
     public func width() -> Int {
-        
+
         switch self {
 
         case .duel:
@@ -50,9 +50,9 @@ public enum MapSize {
             return width
         }
     }
-    
+
     public func height() -> Int {
-        
+
         switch self {
 
         case .duel:
@@ -71,9 +71,9 @@ public enum MapSize {
             return height
         }
     }
-    
+
     func fogTilesPerBarbarianCamp() -> Int {
-        
+
         switch self {
 
         case .duel:
@@ -92,11 +92,11 @@ public enum MapSize {
             return (width * height * 27) / (80 * 52)
         }
     }
-    
+
     func maxActiveReligions() -> Int {
-        
+
         switch self {
-        
+
         case .duel: return 2
         case .tiny: return 4
         case .small: return 5
@@ -107,11 +107,11 @@ public enum MapSize {
             return 22 // no limit
         }
     }
-    
+
     func targetNumCities() -> Int {
-        
+
         switch self {
-        
+
         case .duel: return 8
         case .tiny: return 10
         case .small: return 15
@@ -125,15 +125,15 @@ public enum MapSize {
 }
 
 extension MapSize: Codable {
-    
+
     enum Key: CodingKey {
         case rawValue
     }
-    
+
     enum CodingError: Error {
         case unknownValue
     }
-    
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: Key.self)
         let rawValue = try container.decode(Int.self, forKey: .rawValue)
@@ -147,11 +147,11 @@ extension MapSize: Codable {
         default:
             let width = rawValue - ((rawValue / 1000) * 1000)
             let height = rawValue / 1000
-            
+
             self = .custom(width: width, height: height)
         }
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: Key.self)
         switch self {
@@ -174,6 +174,5 @@ extension MapSize: Codable {
 }
 
 extension MapSize: Equatable {
-    
-    
+
 }

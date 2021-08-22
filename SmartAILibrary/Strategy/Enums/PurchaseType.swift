@@ -9,7 +9,7 @@
 import Foundation
 
 enum PurchaseType {
-    
+
     case none // NO_PURCHASE_TYPE = -1,
     case tile // PURCHASE_TYPE_TILE,
     case unitUpgrade // PURCHASE_TYPE_UNIT_UPGRADE,

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum GreatPersonType: Int, Codable{
+public enum GreatPersonType: Int, Codable {
 
     case greatGeneral
     case greatAdmiral
@@ -19,14 +19,14 @@ public enum GreatPersonType: Int, Codable{
     case greatWriter
     case greatArtist
     case greatMusician
-    
+
     public static var all: [GreatPersonType] {
         return [.greatGeneral, .greatAdmiral, .greatEngineer, .greatMerchant, .greatProphet, .greatScientist, .greatWriter, .greatArtist, .greatMusician
         ]
     }
-    
+
     func unitType() -> UnitType {
-        
+
         switch self {
 
         case .greatGeneral:

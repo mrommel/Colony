@@ -45,8 +45,8 @@ extension TextureAtlas {
                             let posX: CGFloat = unitMask.size.width / 2.0 - resizedImage.size.width * CGFloat(sprite.pX)
                             let posY: CGFloat = unitMask.size.height * 0.25 - resizedImage.size.height * CGFloat(1.0 - sprite.pY)
 
-                            if let img = unitMask.overlayWith(image: resizedImage, posX: posX, posY: posY) {
-                                textures.append(img)
+                            if let image = unitMask.overlayWith(image: resizedImage, posX: posX, posY: posY) {
+                                textures.append(image)
                             }
                         }
                     }

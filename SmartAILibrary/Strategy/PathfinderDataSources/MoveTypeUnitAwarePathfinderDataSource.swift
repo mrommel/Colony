@@ -9,14 +9,14 @@
 import Foundation
 
 class MoveTypeUnitAwareOptions {
-    
+
     let ignoreSight: Bool
     let ignoreOwner: Bool
     let unitMapType: UnitMapType
     let canEmbark: Bool
-    
+
     init(ignoreSight: Bool = true, ignoreOwner: Bool = false, unitMapType: UnitMapType, canEmbark: Bool) {
-        
+
         self.ignoreSight = ignoreSight
         self.ignoreOwner = ignoreOwner
         self.unitMapType = unitMapType
@@ -36,7 +36,7 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
         self.gameModel = gameModel
         self.movementType = movementType
         self.player = player
-        
+
         self.options = options
     }
 
@@ -45,11 +45,11 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
         guard let gameModel = self.gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let diplomacyAI = self.player?.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
@@ -64,17 +64,17 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                 // are there obstacles
 
                 if let toTile = gameModel.tile(at: neighbor) {
-                    
+
                     // walkable ?
                     if self.movementType == .walk {
                         if toTile.isWater() && !self.options.canEmbark {
                             continue
                         }
-                        
+
                         if toTile.isWater() && (self.options.canEmbark && toTile.isImpassable(for: .swim)) {
                             continue
                         }
-                        
+
                         if toTile.isLand() && toTile.isImpassable(for: .walk) {
                             continue
                         }
@@ -83,7 +83,7 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                             continue
                         }
                     }
-                    
+
                     // use sight?
                     if !self.options.ignoreSight {
 
@@ -91,26 +91,26 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                         if !toTile.isDiscovered(by: self.player) {
                             continue
                         }
-                        
+
                         /*if !toTile.isVisible(to: self.player) {
                             continue
                         }*/
                     }
-                    
+
                     // if there is a unit of own type ...
                     if let otherUnit = gameModel.unit(at: neighbor, of: self.options.unitMapType) {
-                        
+
                         // ... there are two cases:
                         if player.isEqual(to: otherUnit.player) {
                             // 1) it's us:
                             // only 1x combat + 1x civilian
-                            
+
                             // FIXME
                             continue
                         } else {
                             // 2) it's some else:
                             // we cant step into a tile that is occupied by another players unit
-                        
+
                             // unless we are at war, the we can
                             /*if !diplomacyAI.isAtWar(with: otherUnit.player) && !otherUnit.player!.isBarbarian() {
                                 continue
@@ -118,36 +118,36 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                             continue
                         }
                     }
-                    
+
                     // territory
                     if let owner = toTile.owner() {
-                        
+
                         // we cant step into a tile that is owned by another players
                         if !player.isEqual(to: owner) && !self.options.ignoreOwner {
-                            
+
                             // unless we are at war, the we can
                             if !diplomacyAI.isAtWar(with: owner) {
                                 continue
                             }
                         }
                     }
-                    
+
                     if let city = gameModel.city(at: neighbor) {
-                        
+
                         // own city has little costs
                         if player.isEqual(to: city.player) {
                             walkableCoords.append(neighbor)
                             continue
                         }
                     }
-                    
+
                     if let fromTile = gameModel.tile(at: coord) {
-                        
+
                         let normalMovementCosts = toTile.movementCost(for: self.movementType, from: fromTile)
                         var embarkedMovementCosts = UnitMovementType.max
-                        
+
                         if self.options.canEmbark && self.movementType == .walk {
-                            
+
                             if fromTile.isLand() && toTile.isWater() {
                                 embarkedMovementCosts = 2.0
                             } else if fromTile.isWater() && toTile.isLand() {
@@ -173,23 +173,23 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
         guard let gameModel = self.gameModel, let player = self.player else {
             fatalError("cant get gameModel")
         }
-        
+
         if let toTile = gameModel.tile(at: toTileCoord),
             let fromTile = gameModel.tile(at: fromTileCoord) {
-            
+
             if let city = gameModel.city(at: toTileCoord) {
-                
+
                 // own city has little costs
                 if player.isEqual(to: city.player) {
                     return 0.7
                 }
             }
-            
+
             let normalMovementCosts = toTile.movementCost(for: self.movementType, from: fromTile)
             var embarkedMovementCosts = UnitMovementType.max
-            
+
             if self.options.canEmbark && self.movementType == .walk {
-                
+
                 if fromTile.isLand() && toTile.isWater() {
                     embarkedMovementCosts = 2.0
                 } else if fromTile.isWater() && toTile.isLand() {

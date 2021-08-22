@@ -9,7 +9,7 @@
 import Foundation
 
 public enum CityFocusType: Int, Codable {
-    
+
     case none //NO_CITY_AI_FOCUS_TYPE = -1,
 
     case food // CITY_AI_FOCUS_TYPE_FOOD,
@@ -24,31 +24,31 @@ public enum CityFocusType: Int, Codable {
 }
 
 class SpecialistCountList: WeightedList<SpecialistType> {
-    
+
     override func fill() {
         for specialistType in SpecialistType.all {
             self.add(weight: 0.0, for: specialistType)
         }
     }
-    
+
     func amount(of specialistType: SpecialistType) -> Int {
-        
+
         return Int(self.weight(of: specialistType))
     }
-    
+
     func increase(of specialistType: SpecialistType) {
-        
+
         self.set(weight: Double(self.amount(of: specialistType) + 1), for: specialistType)
     }
-    
+
     func decrease(of specialistType: SpecialistType) {
-        
+
         self.set(weight: Double(self.amount(of: specialistType) - 1), for: specialistType)
     }
 }
 
 class GreatPersonProgressList: WeightedList<SpecialistType> {
-    
+
     override func fill() {
         for specialistType in SpecialistType.all {
             self.add(weight: 0.0, for: specialistType)
@@ -63,91 +63,92 @@ class GreatPersonProgressList: WeightedList<SpecialistType> {
 //!  Key Attributes:
 //!  - One instance for each city
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// swiftlint:disable type_body_length
 public class CityCitizens: Codable {
-    
+
     enum CodingKeys: String, CodingKey {
-        
+
         case workingPlots
         case focusType
-        
+
         case automated
         case inited
-        
+
         case numCitizensWorkingPlots
         case numForcedWorkingPlots
         case numUnassignedCitizens
         case numDefaultSpecialists
         case numForcedSpecialists
-        
+
         case noAutoAssignSpecialists
         case avoidGrowth
         case forceAvoidGrowth
-        
+
         case numSpecialists
         case numSpecialistsInBuilding
         case numForcedSpecialistsInBuilding
-        
+
         case specialistGreatPersonProgress
     }
-    
+
     internal var city: AbstractCity?
-    
+
     // surrounding tiles
     private var workingPlots: [WorkingPlot]
     private var focusTypeValue: CityFocusType
-    
+
     private var automated: Bool
     private var inited: Bool
-    
+
     private var numCitizensWorkingPlotsValue: Int = 0
     private var numForcedWorkingPlotsValue: Int = 0
     private var numUnassignedCitizensValue: Int = 0
     private var numDefaultSpecialistsValue: Int = 0
     private var numForcedSpecialistsValue: Int = 0
-    
+
     private var noAutoAssignSpecialistsValue: Bool = false
     private var avoidGrowthValue: Bool = false
-    private var forceAvoidGrowthValue:  Bool = false
-    
+    private var forceAvoidGrowthValue: Bool = false
+
     private var numSpecialists: SpecialistCountList // m_aiSpecialistCounts
     private var numSpecialistsInBuilding: [SpecialistBuildingTuple]
     private var numForcedSpecialistsInBuilding: [SpecialistBuildingTuple]
-    
+
     private var specialistGreatPersonProgress: GreatPersonProgressList
-    
+
     // internal classes
-    
+
     class WorkingPlot: Codable {
-        
+
         enum CodingKeys: String, CodingKey {
-            
+
             case location
             case worked
             case workedForced
         }
-        
+
         let location: HexPoint
         var worked: Bool
         var workedForced: Bool = false
-        
+
         init(location: HexPoint, worked: Bool, workedForced: Bool = false) {
-            
+
             self.location = location
             self.worked = worked
             self.workedForced = workedForced
         }
-        
+
         required public init(from decoder: Decoder) throws {
-        
+
             let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+
             self.location = try container.decode(HexPoint.self, forKey: .location)
             self.worked = try container.decode(Bool.self, forKey: .worked)
             self.workedForced = try container.decode(Bool.self, forKey: .workedForced)
         }
-        
+
         public func encode(to encoder: Encoder) throws {
-        
+
             var container = encoder.container(keyedBy: CodingKeys.self)
 
             try container.encode(self.location, forKey: .location)
@@ -155,203 +156,203 @@ public class CityCitizens: Codable {
             try container.encode(self.workedForced, forKey: .workedForced)
         }
     }
-    
+
     class SpecialistBuildingTuple: Codable {
-        
+
         enum CodingKeys: String, CodingKey {
-            
+
             case buildingType
             case specialists
         }
-        
+
         let buildingType: BuildingType
         var specialists: Int
-        
+
         init(buildingType: BuildingType, specialists: Int) {
-            
+
             self.buildingType = buildingType
             self.specialists = specialists
         }
-        
+
         required public init(from decoder: Decoder) throws {
-        
+
             let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+
             self.buildingType = try container.decode(BuildingType.self, forKey: .buildingType)
             self.specialists = try container.decode(Int.self, forKey: .specialists)
         }
-        
+
         public func encode(to encoder: Encoder) throws {
-        
+
             var container = encoder.container(keyedBy: CodingKeys.self)
 
             try container.encode(self.buildingType, forKey: .buildingType)
             try container.encode(self.specialists, forKey: .specialists)
         }
     }
-    
+
     // MARK: constructor
-    
+
     init(city: AbstractCity?) {
-        
+
         self.city = city
-        
+
         self.automated = false
         self.inited = false
         self.focusTypeValue = .productionGrowth
         self.workingPlots = []
-        
+
         self.numSpecialists = SpecialistCountList()
         self.numSpecialists.fill()
-        
+
         self.numSpecialistsInBuilding = []
         self.numForcedSpecialistsInBuilding = []
-        
+
         self.specialistGreatPersonProgress = GreatPersonProgressList()
         self.specialistGreatPersonProgress.fill()
     }
-    
+
     required public init(from decoder: Decoder) throws {
-    
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-    
+
         self.workingPlots = try container.decode([WorkingPlot].self, forKey: .workingPlots)
         self.focusTypeValue = try container.decode(CityFocusType.self, forKey: .focusType)
 
         self.automated = try container.decode(Bool.self, forKey: .automated)
         self.inited = try container.decode(Bool.self, forKey: .inited)
-        
+
         self.numCitizensWorkingPlotsValue = try container.decode(Int.self, forKey: .numCitizensWorkingPlots)
         self.numForcedWorkingPlotsValue = try container.decode(Int.self, forKey: .numForcedWorkingPlots)
         self.numUnassignedCitizensValue = try container.decode(Int.self, forKey: .numUnassignedCitizens)
         self.numDefaultSpecialistsValue = try container.decode(Int.self, forKey: .numDefaultSpecialists)
         self.numForcedSpecialistsValue = try container.decode(Int.self, forKey: .numForcedSpecialists)
-    
+
         self.noAutoAssignSpecialistsValue = try container.decode(Bool.self, forKey: .noAutoAssignSpecialists)
         self.avoidGrowthValue = try container.decode(Bool.self, forKey: .avoidGrowth)
         self.forceAvoidGrowthValue = try container.decode(Bool.self, forKey: .forceAvoidGrowth)
-    
+
         self.numSpecialists = try container.decode(SpecialistCountList.self, forKey: .numSpecialists)
         self.numSpecialistsInBuilding = try container.decode([SpecialistBuildingTuple].self, forKey: .numSpecialistsInBuilding)
         self.numForcedSpecialistsInBuilding = try container.decode([SpecialistBuildingTuple].self, forKey: .numForcedSpecialistsInBuilding)
-    
+
         self.specialistGreatPersonProgress = try container.decode(GreatPersonProgressList.self, forKey: .specialistGreatPersonProgress)
     }
-    
+
     public func encode(to encoder: Encoder) throws {
-    
+
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.workingPlots, forKey: .workingPlots)
         try container.encode(self.focusTypeValue, forKey: .focusType)
-    
+
         try container.encode(self.automated, forKey: .automated)
         try container.encode(self.inited, forKey: .inited)
-    
+
         try container.encode(self.numCitizensWorkingPlotsValue, forKey: .numCitizensWorkingPlots)
         try container.encode(self.numForcedWorkingPlotsValue, forKey: .numForcedWorkingPlots)
         try container.encode(self.numUnassignedCitizensValue, forKey: .numUnassignedCitizens)
         try container.encode(self.numDefaultSpecialistsValue, forKey: .numDefaultSpecialists)
         try container.encode(self.numForcedSpecialistsValue, forKey: .numForcedSpecialists)
-    
+
         try container.encode(self.noAutoAssignSpecialistsValue, forKey: .noAutoAssignSpecialists)
         try container.encode(self.avoidGrowthValue, forKey: .avoidGrowth)
         try container.encode(self.forceAvoidGrowthValue, forKey: .forceAvoidGrowth)
-    
+
         try container.encode(self.numSpecialists, forKey: .numSpecialists)
         try container.encode(self.numSpecialistsInBuilding, forKey: .numSpecialistsInBuilding)
         try container.encode(self.numForcedSpecialistsInBuilding, forKey: .numForcedSpecialistsInBuilding)
-    
+
         try container.encode(self.specialistGreatPersonProgress, forKey: .specialistGreatPersonProgress)
     }
-    
+
     func initialize(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get game")
         }
-        
+
         guard let city = self.city else {
             fatalError("no city set")
         }
-        
+
         for location in city.location.areaWith(radius: City.workRadius) {
-            
+
             let wrappedLocation = gameModel.wrap(point: location)
-            
+
             if gameModel.valid(point: wrappedLocation) {
-            
+
                 self.workingPlots.append(WorkingPlot(location: wrappedLocation, worked: false))
             }
         }
     }
-    
+
     func doFound(in gameModel: GameModel?) {
-        
+
         guard let city = self.city else {
             fatalError("no city set")
         }
-        
+
         // always work the home plot (center)
         self.setWorked(at: city.location, worked: true, useUnassignedPool: false)
     }
-    
+
     func doTurn(with gameModel: GameModel?) {
-    
+
         guard let gameModel = gameModel else {
             fatalError("no gameModel provided")
         }
-        
+
         guard let city = self.city else {
             fatalError("no city set")
         }
-        
+
         guard let cityStrategy = city.cityStrategy else {
             fatalError("no cityStrategy set")
         }
-        
+
         guard let player = city.player else {
             fatalError("no player set")
         }
-        
+
         guard let economicAI = player.economicAI else {
             fatalError("no economicAI set")
         }
-        
+
         // print("working: \(self.numCitizensWorkingPlots()) + spec: \(self.totalSpecialistCount()) + unassigned: \(self.numUnassignedCitizens()) for \(city.population())")
-        
+
         self.doVerifyWorkingPlots(in: gameModel)
 
         if !player.isHuman() {
-            
+
             if gameModel.currentTurn % 8 == 0 {
-                
+
                 self.set(focusType: .goldGrowth)
                 self.setNoAutoAssignSpecialists(true, in: gameModel)
                 self.setForcedAvoidGrowth(false, in: gameModel)
-                
+
                 if city.hasOnlySmallFoodSurplus() {
                     self.set(focusType: .none)
                     self.setNoAutoAssignSpecialists(true, in: gameModel)
                 }
             }
-            
+
             if city.isCapital() && cityStrategy.specialization() == .productionWonder {
-                
+
                 self.set(focusType: .none)
                 self.setNoAutoAssignSpecialists(false, in: gameModel)
                 self.setForcedAvoidGrowth(false, in: gameModel)
-                
+
                 if city.hasFoodSurplus() {
                     self.set(focusType: .food)
                     self.setNoAutoAssignSpecialists(true, in: gameModel)
                 }
             } else if cityStrategy.specialization() == .productionWonder {
-                
+
                 self.set(focusType: .production)
                 self.setNoAutoAssignSpecialists(false, in: gameModel)
                 self.setForcedAvoidGrowth(false, in: gameModel)
-                
+
                 if city.hasOnlySmallFoodSurplus() {
                     self.set(focusType: .none)
                     self.setNoAutoAssignSpecialists(true, in: gameModel)
@@ -369,29 +370,29 @@ public class CityCitizens: Codable {
                     self.set(focusType: .goldGrowth)
                     self.setNoAutoAssignSpecialists(false, in: gameModel)
                     self.setForcedAvoidGrowth(false, in: gameModel)
-                    
+
                     if city.hasOnlySmallFoodSurplus() {
-                        self.set(focusType: .none);
-                        self.setNoAutoAssignSpecialists(true, in: gameModel);
+                        self.set(focusType: .none)
+                        self.setNoAutoAssignSpecialists(true, in: gameModel)
                     }
                 } else if gameModel.currentTurn % 3 == 0 && player.grandStrategyAI?.activeStrategy == .culture {
-                    
+
                     self.set(focusType: .culture)
                     self.setNoAutoAssignSpecialists(true, in: gameModel)
                     self.setForcedAvoidGrowth(false, in: gameModel)
-                    
+
                     if city.hasOnlySmallFoodSurplus() {
-                        self.set(focusType: .none);
+                        self.set(focusType: .none)
                         self.setNoAutoAssignSpecialists(true, in: gameModel)
                     }
                 } else {
                     // we aren't a small city, building a wonder, or going broke
                     self.setNoAutoAssignSpecialists(false, in: gameModel)
                     self.setForcedAvoidGrowth(false, in: gameModel)
-                    
+
                     let currentSpecialization = cityStrategy.specialization()
                     if currentSpecialization != .none {
-                        
+
                         if let yieldType = currentSpecialization.yieldType() {
 
                             if yieldType == .food {
@@ -416,32 +417,32 @@ public class CityCitizens: Codable {
         }
 
         // print("working: \(self.numCitizensWorkingPlots()) + spec: \(self.totalSpecialistCount()) + unassigned: \(self.numUnassignedCitizens()) for \(city.population())")
-        
+
         self.doReallocateCitizens(in: gameModel)
-        
+
         assert((self.numCitizensWorkingPlots() + self.totalSpecialistCount() + self.numUnassignedCitizens()) <= city.population(), "Gameplay: More workers than population in the city.")
         // print("working: \(self.numCitizensWorkingPlots()) + spec: \(self.totalSpecialistCount()) + unassigned: \(self.numUnassignedCitizens()) for \(city.population())")
     }
-    
+
     /// Count up all the Specialists we have here
     func totalSpecialistCount() -> Int {
-        
+
         var numSpecialists = 0
-        
+
         for specialistType in SpecialistType.all {
             numSpecialists += self.specialistCount(of: specialistType)
         }
 
         return numSpecialists
     }
-    
+
     /// Optimize our Citizen Placement
     public func doReallocateCitizens(in gameModel: GameModel?) {
-        
+
         guard let buildings = self.city?.buildings else {
             fatalError("cant get buildings")
         }
-        
+
         // Make sure we don't have more forced working plots than we have citizens working.  If so, clean it up before reallocating
         self.doValidateForcedWorkingPlots(in: gameModel)
 
@@ -453,13 +454,13 @@ public class CityCitizens: Codable {
 
         // Remove Non-Forced Specialists in Buildings
         for buildingType in BuildingType.all {
-            
+
             // Have this Building in the City?
             if buildings.has(building: buildingType) {
-                
+
                 // Don't include Forced guys
                 let numSpecialistsToRemove = self.numSpecialists(in: buildingType) - self.numForcedSpecialists(in: buildingType)
-                
+
                 // Loop through guys to remove (if there are any)
                 for _ in 0..<numSpecialistsToRemove {
                     self.doRemoveSpecialist(from: buildingType, forced: false, in: gameModel)
@@ -479,10 +480,10 @@ public class CityCitizens: Codable {
             self.doAddBestCitizenFromUnassigned(in: gameModel)
         }
     }
-    
+
     /// Make sure we don't have more forced working plots than we have citizens to work
     public func doValidateForcedWorkingPlots(in gameModel: GameModel?) {
-        
+
         let numForcedWorkingPlotsToDemote = self.numForcedWorkingPlots() - self.numCitizensWorkingPlots()
 
         if numForcedWorkingPlotsToDemote > 0 {
@@ -491,31 +492,31 @@ public class CityCitizens: Codable {
             }
         }
     }
-    
+
     /// Remove the Forced status from the worst ForcedWorking plot
     func doRemoveWorstForcedWorkingPlot(in gameModel: GameModel?) {
-        
+
         var worstPlotValue = -1
-        var worstPlotPoint: HexPoint? = nil
+        var worstPlotPoint: HexPoint?
 
         // Look at all workable Plots
         for workableTile in self.workableTiles(in: gameModel) {
-            
+
             guard let city = self.city else {
                 fatalError("cant get city")
             }
-            
+
             guard let workableTile = workableTile else {
                 continue
             }
-            
+
             // skip home plot
             if workableTile.point == city.location {
                 continue
             }
-            
+
             if self.isForcedWorked(at: workableTile.point) {
-            
+
                 let value = self.plotValue(of: workableTile.point, useAllowGrowthFlag: false, in: gameModel)
 
                 // First, or worst yet?
@@ -530,21 +531,21 @@ public class CityCitizens: Codable {
             self.forceWorkingPlot(at: worstPlotPoint, force: false, in: gameModel)
         }
     }
-    
+
     /// Removes and uninitializes a Specialist for this building
     func doRemoveSpecialist(from buildingType: BuildingType, forced: Bool, eliminatePopulation: Bool = false, in gameModel: GameModel?) {
 
         guard let city = self.city else {
             fatalError("no city set")
         }
-        
+
         let specialistType = buildingType.specialistType()
 
         let numSpecialistsAssigned = self.numSpecialists(in: buildingType)
 
         // Need at least 1 assigned to remove
         if numSpecialistsAssigned > 0 {
-            
+
             // Decrease count for the whole city
             self.numSpecialists.decrease(of: specialistType)
             self.decreaseNumberOfSpecialists(in: buildingType)
@@ -559,7 +560,7 @@ public class CityCitizens: Codable {
             if eliminatePopulation {
                 city.change(population: -1, reassignCitizen: false, in: gameModel)
             } else {
-                self.changeNumUnassignedCitizens(change: 1);
+                self.changeNumUnassignedCitizens(change: 1)
             }
 
             /* FIXME notify ui
@@ -575,74 +576,74 @@ public class CityCitizens: Codable {
             */
         }
     }
-    
+
     func numSpecialists(in buildingType: BuildingType) -> Int {
-        
+
         if let specialistsTuple = self.numSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
             return specialistsTuple.specialists
         }
-        
+
         return 0
     }
-    
+
     func increaseNumberOfSpecialists(in buildingType: BuildingType) {
-        
+
         // update
         if let specialistsTuple = self.numSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
-            specialistsTuple.specialists = specialistsTuple.specialists + 1
+            specialistsTuple.specialists += 1
             return
         }
 
         // create new entry
         self.numSpecialistsInBuilding.append(CityCitizens.SpecialistBuildingTuple(buildingType: buildingType, specialists: 1))
     }
-    
+
     func decreaseNumberOfSpecialists(in buildingType: BuildingType) {
-        
+
         // update
         if let specialistsTuple = self.numSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
-            specialistsTuple.specialists = specialistsTuple.specialists - 1
+            specialistsTuple.specialists -= 1
             return
         }
 
         fatalError("cant find entry for \(buildingType)")
     }
-    
+
     func increaseNumberOfForcedSpecialists(in buildingType: BuildingType) {
-        
+
         // update
         if let specialistsTuple = self.numForcedSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
-            specialistsTuple.specialists = specialistsTuple.specialists + 1
+            specialistsTuple.specialists += 1
             return
         }
 
         // create new entry
         self.numForcedSpecialistsInBuilding.append(CityCitizens.SpecialistBuildingTuple(buildingType: buildingType, specialists: 1))
     }
-    
+
     func decreaseNumberOfForcedSpecialists(in buildingType: BuildingType) {
-        
+
         // update
         if let specialistsTuple = self.numForcedSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
-            specialistsTuple.specialists = specialistsTuple.specialists - 1
+            specialistsTuple.specialists -= 1
             return
         }
 
         fatalError("cant find entry for \(buildingType)")
     }
-    
+
     func numForcedSpecialists(in buildingType: BuildingType) -> Int {
-           
+
         if let specialistsTuple = self.numForcedSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
             return specialistsTuple.specialists
         }
-           
+
         return 0
     }
-    
+
     /// Changes how many Default Specialists are assigned in this City
     func changeNumDefaultSpecialists(change: Int) {
-        
+
         self.numDefaultSpecialistsValue += change
 
         let specialistType: SpecialistType = .citizen
@@ -651,26 +652,26 @@ public class CityCitizens: Codable {
 
         self.changeNumUnassignedCitizens(change: -change)
     }
-    
+
     /// How many Default Specialists have been forced assigned in this City?
     func changeNumForcedDefaultSpecialists(change: Int) {
-        
+
         self.numDefaultSpecialistsValue += change
     }
-    
+
     public func set(focusType: CityFocusType) {
-        
+
         self.focusTypeValue = focusType
     }
-    
+
     public func focusType() -> CityFocusType {
-        
+
         return self.focusTypeValue
     }
-    
+
     /// Sets this City's Specialists to be under automation
     func setNoAutoAssignSpecialists(_ noAutoAssignSpecialists: Bool, in gameModel: GameModel?) {
-        
+
         if self.noAutoAssignSpecialistsValue != noAutoAssignSpecialists {
             self.noAutoAssignSpecialistsValue = noAutoAssignSpecialists
 
@@ -682,51 +683,51 @@ public class CityCitizens: Codable {
             self.doReallocateCitizens(in: gameModel)
         }
     }
-    
+
     /// Remove forced status from all Specialists
     func doClearForcedSpecialists() {
-        
+
         // Loop through all Buildings
         self.numForcedSpecialistsInBuilding.removeAll()
     }
-    
+
     func setForcedAvoidGrowth(_ forcedAvoidGrowth: Bool, in gameModel: GameModel?) {
-        
+
         if self.forceAvoidGrowthValue != forcedAvoidGrowth {
             self.forceAvoidGrowthValue = forcedAvoidGrowth
             self.doReallocateCitizens(in: gameModel)
         }
     }
-    
+
     /// Is our City working a CvPlot?
     public func isWorked(at location: HexPoint) -> Bool {
-        
+
         if let plot = self.workingPlots.first(where: { $0.location == location }) {
             return plot.worked
         }
-        
+
         return false
     }
-    
+
     /// Has our City been told it MUST a particular CvPlot?
     public func isForcedWorked(at location: HexPoint) -> Bool {
-        
+
         if let plot = self.workingPlots.first(where: { $0.location == location }) {
             return plot.workedForced
         }
-        
+
         return false
     }
-    
+
     /// Tell our City it MUST work a particular CvPlot
     public func forceWorkingPlot(at location: HexPoint, force newValue: Bool, in gameModel: GameModel?) {
-        
+
         if let plot = self.workingPlots.first(where: { $0.location == location }) {
-            
+
             if plot.workedForced != newValue {
-                
+
                 plot.workedForced = newValue
-                
+
                 // Change the count of how many are forced
                 if newValue {
                     self.changeNumForcedWorkingPlots(change: 1)
@@ -739,106 +740,106 @@ public class CityCitizens: Codable {
                 } else {
                     self.changeNumForcedWorkingPlots(change: -1)
                 }
-                
+
                 self.doReallocateCitizens(in: gameModel)
             }
-            
+
             return
         }
-        
+
         fatalError("not a valid plot to check for this city")
     }
-    
+
     /// Tell a City to start or stop working a Plot.  Citizens will go to/from the Unassigned Pool if the 3rd argument is true
     public func setWorked(at location: HexPoint, worked: Bool, useUnassignedPool: Bool = true) {
-        
+
         guard let city = self.city else {
             fatalError("no city set")
         }
-        
+
         if let plot = self.workingPlots.first(where: { $0.location == location }) {
-            
+
             if plot.worked != worked {
-                
+
                 // Don't look at the center Plot of a City, because we always work it for free
                 if plot.location != city.location {
-                    
+
                     plot.worked = worked
-                    
+
                     // Alter the count of Plots being worked by Citizens
                     if worked {
                         self.changeNumCitizensWorkingPlots(change: 1)
-                        
+
                         if useUnassignedPool {
                             self.changeNumUnassignedCitizens(change: -1)
                         }
                     } else {
                         self.changeNumCitizensWorkingPlots(change: -1)
-                        
+
                         if useUnassignedPool {
                             self.changeNumUnassignedCitizens(change: 1)
                         }
                     }
-                } 
+                }
             }
-            
+
             return
         }
-        
+
         fatalError("not a valid plot to check for this city")
     }
-    
+
     public func workingTileLocations() -> [HexPoint] {
-        
+
         var locations: [HexPoint] = []
-        
+
         for plot in self.workingPlots {
-            
+
             locations.append(plot.location)
         }
-        
+
         return locations
     }
-    
+
     public func workedTileLocations() -> [HexPoint] {
-        
+
         var locations: [HexPoint] = []
-        
+
         for plot in self.workingPlots {
-            
+
             if self.isWorked(at: plot.location) {
                 locations.append(plot.location)
             }
         }
-        
+
         return locations
     }
-    
+
     public func forceWorkedTileLocations() -> [HexPoint] {
-        
+
         var locations: [HexPoint] = []
-        
+
         for plot in self.workingPlots {
-            
+
             if self.isForcedWorked(at: plot.location) {
                 locations.append(plot.location)
             }
         }
-        
+
         return locations
     }
-    
+
     /// How many Citizens need to be given a job?
     func numUnassignedCitizens() -> Int {
-        
+
         return self.numUnassignedCitizensValue
     }
 
     /// Changes how many Citizens need to be given a job
     func changeNumUnassignedCitizens(change: Int) {
-        
+
         self.numUnassignedCitizensValue += change
-        
+
         guard self.numUnassignedCitizensValue >= 0 else {
             fatalError("unassigned citizen must be positiv")
         }
@@ -846,35 +847,34 @@ public class CityCitizens: Codable {
 
     /// How many Citizens are working Plots?
     func numCitizensWorkingPlots() -> Int {
-        
+
         return self.numCitizensWorkingPlotsValue
     }
-    
+
     /// Changes how many Citizens are working Plots
     func changeNumCitizensWorkingPlots(change: Int) {
-        
+
         self.numCitizensWorkingPlotsValue += change
     }
-    
+
     /// How many plots have we forced to be worked?
     func numForcedWorkingPlots() -> Int {
-        
+
         return self.numForcedWorkingPlotsValue
     }
-    
+
     func changeNumForcedWorkingPlots(change: Int) {
-        
+
         self.numForcedWorkingPlotsValue += change
     }
 
-    
     /// What is the Building Type the AI likes the Specialist of most right now?
     func bestSpecialistBuilding(in gameModel: GameModel?) -> BuildingType {
-        
+
         guard let buildings = self.city?.buildings else {
             fatalError("cant get buildings")
         }
-        
+
         var bestBuilding: BuildingType = .none
         var bestSpecialistValue = -1
 
@@ -883,20 +883,20 @@ public class CityCitizens: Codable {
 
         // Loop through all Buildings
         for buildingType in BuildingType.all {
-            
+
             // Have this Building in the City?
             if buildings.has(building: buildingType) {
-                
+
                 // Can't add more than the max
                 if buildingType.canAddSpecialist() {
-                    
+
                     let specialistType = buildingType.specialistType()
 
                     var value = self.specialistValue(for: specialistType, in: gameModel)
 
                     // Add a bit more weight to a Building if it has more slots (10% per).  This will bias the AI to fill a single building over spreading Specialists out
                     var temp = ((buildingType.specialistCount() - 1) * value * 10)
-                    temp /= 100;
+                    temp /= 100
                     value += temp
 
                     if value > bestSpecialistValue {
@@ -909,18 +909,18 @@ public class CityCitizens: Codable {
 
         return bestBuilding
     }
-    
+
     /// How valuable is eSpecialist?
     func specialistValue(for specialistType: SpecialistType, in gameModel: GameModel?) -> Int {
-        
+
         guard let city = self.city else {
             fatalError("cant get city")
         }
-        
+
         guard let cityStrategy = city.cityStrategy else {
             fatalError("cant get cityStrategy")
         }
-        
+
         var value = 20
 
         let deficientYield = cityStrategy.deficientYield(in: gameModel)
@@ -928,7 +928,7 @@ public class CityCitizens: Codable {
         // Does this Specialist help us with a Deficient Yield?
 
         let focusType = self.focusType()
-        
+
         if focusType == .science {
             value += Int(specialistType.yields().science) * 3
         } else if focusType == .culture {
@@ -967,16 +967,16 @@ public class CityCitizens: Codable {
 
         return value
     }
-    
+
     func specialistGreatPersonProgress(for specialistType: SpecialistType) -> Int {
-        
+
         return Int(self.specialistGreatPersonProgress.weight(of: specialistType))
     }
-    
+
     /// Pick the best Plot to work from one of our unassigned pool
     @discardableResult
     func doAddBestCitizenFromUnassigned(in gameModel: GameModel?) -> Bool {
-        
+
         // We only assign the unassigned here, folks
         if self.numUnassignedCitizens() == 0 {
             return false
@@ -984,15 +984,15 @@ public class CityCitizens: Codable {
 
         // Maybe we want to add a Specialist?
         if !self.isNoAutoAssignSpecialists() {
-            
+
             // Have to want it right now: look at Food situation, mainly
             if self.isAIWantSpecialistRightNow(in: gameModel) {
-                
+
                 let bestBuilding = self.bestSpecialistBuilding(in: gameModel)
 
                 // Is there a Specialist we can assign?
                 if bestBuilding != .none {
-                    
+
                     self.doAddSpecialistToBuilding(buildingType: bestBuilding, forced: false, in: gameModel)
                     return true
                 }
@@ -1013,19 +1013,19 @@ public class CityCitizens: Codable {
 
         return false
     }
-    
+
     /// Adds and initializes a Specialist for this building
     func doAddSpecialistToBuilding(buildingType: BuildingType, forced: Bool, in gameModel: GameModel?) {
 
         guard let city = self.city else {
             fatalError("cant get city")
         }
-        
+
         let specialistType = buildingType.specialistType()
 
         // Can't add more than the max
         if self.isCanAddSpecialistToBuilding(buildingType: buildingType) {
-            
+
             // If we're force-assigning a specialist, then we can reduce the count on forced default specialists
             if forced {
                 if self.numForcedDefaultSpecialists() > 0 {
@@ -1035,9 +1035,9 @@ public class CityCitizens: Codable {
 
             // If we don't already have an Unassigned Citizen to turn into a Specialist, find one from somewhere
             if self.numUnassignedCitizens() == 0 {
-                
-                self.doRemoveWorstCitizen(removeForcedStatus: true, dontChangeSpecialist:  specialistType, in: gameModel)
-                
+
+                self.doRemoveWorstCitizen(removeForcedStatus: true, dontChangeSpecialist: specialistType, in: gameModel)
+
                 if self.numUnassignedCitizens() == 0 {
                     // Still nobody, all the citizens may be assigned to the eSpecialist we are looking for, try again
                     if !self.doRemoveWorstSpecialist(dontRemoveFromBuilding: buildingType, in: gameModel) {
@@ -1073,18 +1073,18 @@ public class CityCitizens: Codable {
             pkIFace->SetSpecificCityInfoDirty(pCity.get(), CITY_UPDATE_TYPE_SPECIALISTS);*/
         }
     }
-    
+
     /// Does the AI want a Specialist?
     func isAIWantSpecialistRightNow(in gameModel: GameModel?) -> Bool {
-        
+
         guard let city = self.city else {
             fatalError("cant get city")
         }
-        
+
         guard let cityStrategy = city.cityStrategy else {
             fatalError("cant get cityStrategy")
         }
-        
+
         var weight = 100
 
         // If the City is Size 1 or 2 then we probably don't want Specialists
@@ -1103,11 +1103,9 @@ public class CityCitizens: Codable {
             weight /= 3
         } else if self.isAvoidGrowth() && (focusType == .none || focusType == .greatPeople) {
             weight *= 2
-        }
-        else if surplusFood <= 2 {
-            weight /= 2;
-        }
-        else if surplusFood > 2 {
+        } else if surplusFood <= 2 {
+            weight /= 2
+        } else if surplusFood > 2 {
             if focusType == .none || focusType == .greatPeople || focusType == .productionGrowth {
                 weight *= 100 + (20 * (Int(surplusFood) - 4))
                 weight /= 100
@@ -1127,7 +1125,7 @@ public class CityCitizens: Codable {
 
         // Someone told this AI it should be focused on something that is usually gotten from specialists
         if focusType == .greatPeople {
-            
+
             // Loop through all Buildings
             for buildingType in BuildingType.all {
 
@@ -1141,16 +1139,16 @@ public class CityCitizens: Codable {
                 }
             }
         } else if focusType == .culture {
-            
+
             // Loop through all Buildings
             for buildingType in BuildingType.all {
-                
+
                 // Have this Building in the City?
                 if city.has(building: buildingType) {
-                    
+
                     // Can't add more than the max
                     if self.isCanAddSpecialistToBuilding(buildingType: buildingType) {
-                        
+
                         if buildingType.specialistType().yields().value(of: .culture) > 0 {
                             weight *= 3
                             break
@@ -1159,16 +1157,16 @@ public class CityCitizens: Codable {
                 }
             }
         } else if focusType == .science {
-            
+
             // Loop through all Buildings
             for buildingType in BuildingType.all {
 
                 // Have this Building in the City?
                 if city.has(building: buildingType) {
-                    
+
                     // Can't add more than the max
                     if self.isCanAddSpecialistToBuilding(buildingType: buildingType) {
-                        
+
                         if buildingType.specialistType().yields().value(of: .science) > 0 {
                             weight *= 3
                         }
@@ -1188,16 +1186,16 @@ public class CityCitizens: Codable {
                 }
             }
         } else if focusType == .production {
-            
+
             // Loop through all Buildings
             for buildingType in BuildingType.all {
 
                 // Have this Building in the City?
                 if city.has(building: buildingType) {
-                    
+
                     // Can't add more than the max
                     if self.isCanAddSpecialistToBuilding(buildingType: buildingType) {
-                        
+
                         if buildingType.specialistType().yields().value(of: .production) > 0 {
                             weight *= 150
                             weight /= 100
@@ -1217,18 +1215,17 @@ public class CityCitizens: Codable {
                     }
                 }
             }
-        }
-        else if focusType == .gold {
-            
+        } else if focusType == .gold {
+
             // Loop through all Buildings
             for buildingType in BuildingType.all {
 
                 // Have this Building in the City?
                 if city.has(building: buildingType) {
-                    
+
                     // Can't add more than the max
                     if self.isCanAddSpecialistToBuilding(buildingType: buildingType) {
-                        
+
                         if buildingType.specialistType().yields().value(of: .gold) > 0 {
                             weight *= 150
                             weight /= 100
@@ -1241,16 +1238,16 @@ public class CityCitizens: Codable {
             weight *= 50
             weight /= 100
         } else if focusType == .productionGrowth {
-            
+
             // Loop through all Buildings
             for buildingType in BuildingType.all {
 
                 // Have this Building in the City?
                 if city.has(building: buildingType) {
-                    
+
                     // Can't add more than the max
                     if self.isCanAddSpecialistToBuilding(buildingType: buildingType) {
-                        
+
                         if buildingType.specialistType().yields().value(of: .production) > 0 {
                             weight *= 150
                             weight /= 100
@@ -1258,20 +1255,19 @@ public class CityCitizens: Codable {
                         }
                     }
                 }
-                
+
             }
-        }
-        else if focusType == .goldGrowth {
-            
+        } else if focusType == .goldGrowth {
+
             // Loop through all Buildings
             for buildingType in BuildingType.all {
 
                 // Have this Building in the City?
                 if city.has(building: buildingType) {
-                    
+
                         // Can't add more than the max
                     if self.isCanAddSpecialistToBuilding(buildingType: buildingType) {
-                            
+
                             if buildingType.specialistType().yields().value(of: .gold) > 0 {
                                 weight *= 150
                                 weight /= 100
@@ -1289,7 +1285,7 @@ public class CityCitizens: Codable {
                                 iWeight *= 2;
                             }*/
                         }
-                    
+
                 }
             }
         }
@@ -1301,7 +1297,7 @@ public class CityCitizens: Codable {
 
         return false
     }
-    
+
     /// Is this City avoiding growth?
     func isAvoidGrowth() -> Bool {
 
@@ -1313,7 +1309,7 @@ public class CityCitizens: Codable {
 
         return self.avoidGrowthValue
     }
-    
+
     func isForcedAvoidGrowth() -> Bool {
 
         /* FIXME
@@ -1324,14 +1320,14 @@ public class CityCitizens: Codable {
 
         return self.forceAvoidGrowthValue
     }
-    
+
     /// Are we in the position to add another Specialist to eBuilding?
     func isCanAddSpecialistToBuilding(buildingType: BuildingType) -> Bool {
 
         guard let city = self.city else {
             fatalError("cant get city")
         }
-        
+
         let numSpecialistsAssigned = self.numSpecialists(in: buildingType)
 
         if numSpecialistsAssigned < city.population() &&    // Limit based on Pop of City
@@ -1343,21 +1339,21 @@ public class CityCitizens: Codable {
 
         return false
     }
-    
+
     /// Are this City's Specialists under automation?
     func isNoAutoAssignSpecialists() -> Bool {
-        
+
         return self.noAutoAssignSpecialistsValue
     }
 
     /// Pick the worst Plot to stop working
     @discardableResult
     func doRemoveWorstCitizen(removeForcedStatus: Bool = false, dontChangeSpecialist: SpecialistType = .none, in gameModel: GameModel?) -> Bool {
-        
+
         guard let city = self.city else {
             fatalError("no city set")
         }
-        
+
         // Are all of our guys already not working Plots?
         if self.numUnassignedCitizens() == city.population() {
             return false
@@ -1365,17 +1361,17 @@ public class CityCitizens: Codable {
 
         // Find default Specialist to pull off, if there is one
         if self.numDefaultSpecialists() > 0 {
-            
+
             // Do we either have unforced default specialists we can remove?
             if self.numDefaultSpecialists() > self.numForcedDefaultSpecialists() {
                 self.changeNumDefaultSpecialists(change: -1)
-                return true;
+                return true
             }
-            
+
             if self.numDefaultSpecialists() > city.population() {
                 self.changeNumForcedDefaultSpecialists(change: -1)
                 self.changeNumDefaultSpecialists(change: -1)
-                return true;
+                return true
             }
         }
 
@@ -1402,10 +1398,10 @@ public class CityCitizens: Codable {
 
         return false
     }
-    
+
     /// Find the worst Specialist and remove him from duty
     func doRemoveWorstSpecialist(dontChangeSpecialist: SpecialistType = .none, dontRemoveFromBuilding: BuildingType = .none, in gameModel: GameModel?) -> Bool {
-        
+
         for buildingType in BuildingType.all {
 
             if buildingType == dontRemoveFromBuilding {
@@ -1425,57 +1421,57 @@ public class CityCitizens: Codable {
 
         return false
     }
-    
+
     func numDefaultSpecialists() -> Int {
-        
+
         return self.numDefaultSpecialistsValue
     }
-    
+
     func numForcedDefaultSpecialists() -> Int {
-        
+
         return self.numForcedSpecialistsValue
     }
-    
+
     func workableTiles(in gameModel: GameModel?) -> [AbstractTile?] {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let city = self.city else {
             fatalError("cant get city")
         }
-        
+
         let area = city.location.areaWith(radius: City.workRadius)
         var result: [AbstractTile?] = []
         result.reserveCapacity(area.size)
-        
+
         for neighbor in area {
             if let tile = gameModel.tile(at: neighbor) {
                 result.append(tile)
             }
         }
-        
+
         return result
     }
 
     /// Find a Plot the City is either working or not, and the best/worst value for it - this function does "double duty" depending on what the user wants to find
     func bestCityPlotWithValue(wantBest: Bool, wantWorked: Bool, in gameModel: GameModel?) -> (HexPoint?, Int?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let city = self.city else {
             fatalError("cant get city")
         }
-        
+
         guard let player = city.player else {
             fatalError("cant get player")
         }
 
         var bestPlotValue: Int = -1
-        var bestPlotID: HexPoint? = nil
+        var bestPlotID: HexPoint?
 
         // Look at all workable Plots
         for workableTile in self.workableTiles(in: gameModel) {
@@ -1483,35 +1479,35 @@ public class CityCitizens: Codable {
             guard let workableTile = workableTile else {
                 continue
             }
-            
+
             // skip home plot
             if workableTile.point == city.location {
                 continue
             }
-            
+
             // Is this a Plot this City controls?
             if !player.isEqual(to: workableTile.owner()) {
                 continue
             }
-                    
+
             // Working the Plot and wanting to work it, or Not working it and wanting to find one to work?
-            
+
             if (self.isWorked(at: workableTile.point) && wantWorked) || (!self.isWorked(at: workableTile.point) && !wantWorked) {
-                
+
                 // Working the Plot or CAN work the Plot?
                 if wantWorked || self.isCanWork(at: workableTile.point, in: gameModel) {
-                    
+
                     var value = self.plotValue(of: workableTile.point, useAllowGrowthFlag: wantBest, in: gameModel)
 
                     let slotForceWorked = self.isForcedWorked(at: workableTile.point)
 
                     if slotForceWorked {
-                        
+
                         // Looking for best, unworked Plot: Forced plots are FIRST to be picked
                         if wantBest && !wantWorked {
                             value += 10000
                         }
-                        
+
                         // Looking for worst, worked Plot: Forced plots are LAST to be picked, so make it's value incredibly high
                         if !wantBest && wantWorked {
                             value += 10000
@@ -1520,7 +1516,7 @@ public class CityCitizens: Codable {
 
                     // First Plot? or Best Plot so far? or Worst Plot so far?
                     if bestPlotValue == -1 || (wantBest && value > bestPlotValue) || (!wantBest && value < bestPlotValue) {
-                        bestPlotValue = value;
+                        bestPlotValue = value
                         bestPlotID = workableTile.point
                     }
                 }
@@ -1529,24 +1525,24 @@ public class CityCitizens: Codable {
 
         return (bestPlotID, bestPlotValue)
     }
-    
+
     /// What is the overall value of the current Plot?
     func plotValue(of point: HexPoint, useAllowGrowthFlag: Bool, in gameModel: GameModel?) -> Int {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let tile = gameModel.tile(at: point) else {
             fatalError("cant get tile")
         }
-        
+
         guard let city = self.city else {
             fatalError("cant get city")
         }
-        
+
         var value = 0.0
-        
+
         let yields = tile.yields(for: self.city?.player, ignoreFeature: false)
 
         // Yield Values
@@ -1568,7 +1564,7 @@ public class CityCitizens: Codable {
         } else if focusType == .production {
             productionYieldValue *= 4
         } else if focusType == .gold {
-            goldYieldValue *= 4;
+            goldYieldValue *= 4
         } else if focusType == .science {
             scienceYieldValue *= 4
         } else if focusType == .culture {
@@ -1613,7 +1609,7 @@ public class CityCitizens: Codable {
 
         return Int(value)
     }
-    
+
     /// Check all Plots by this City to see if we can actually be working them (if we are)
     private func doVerifyWorkingPlots(in gameModel: GameModel?) {
 
@@ -1621,12 +1617,12 @@ public class CityCitizens: Codable {
             self.doVerify(workingPlot: workingPlot, in: gameModel)
         }
     }
-    
+
     /// If we're working this plot make sure we're allowed, and if we're not then correct the situation
     private func doVerify(workingPlot: WorkingPlot?, in gameModel: GameModel?) {
-        
+
         if let workingPlot = workingPlot {
-            
+
             if workingPlot.worked {
                 if !self.isCanWork(at: workingPlot.location, in: gameModel) {
                     self.setWorked(at: workingPlot.location, worked: false)
@@ -1635,18 +1631,18 @@ public class CityCitizens: Codable {
             }
         }
     }
-    
+
     /// Can our City work a particular CvPlot?
     private func isCanWork(at location: HexPoint, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("Cant get gameModel")
         }
-        
+
         guard let tile = gameModel.tile(at: location) else {
             fatalError("Cant get tile")
         }
-        
+
         if tile.workingCity()?.location != self.city?.location {
             return false
         }
@@ -1662,32 +1658,32 @@ public class CityCitizens: Codable {
 
         return true
     }
-    
+
     // Is there a naval blockade on this water tile?
     func isBlockaded(tile: AbstractTile?, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("Cant get gameModel")
         }
-        
+
         guard let tile = tile else {
             fatalError("cant get tile")
         }
-        
+
         guard let player = self.city?.player else {
             fatalError("cant get tile")
         }
-        
+
         // See if there are any enemy boats near us that are blockading this plot
         let blockadeDistance = 2 /*NAVAL_PLOT_BLOCKADE_RANGE */
 
         // Might be a better way to do this that'd be slightly less CPU-intensive
         for nearbyPoint in tile.point.areaWith(radius: blockadeDistance) {
-            
+
             guard let nearbyTile = gameModel.tile(at: nearbyPoint) else {
                 continue
             }
-            
+
             // Must be water in the same Area
             if nearbyTile.terrain().isWater() && nearbyTile.area == tile.area {
 
@@ -1700,9 +1696,9 @@ public class CityCitizens: Codable {
 
         return false
     }
-    
+
     func specialistCount(of specialistType: SpecialistType) -> Int {
-        
+
         return self.numSpecialists.amount(of: specialistType)
     }
 }

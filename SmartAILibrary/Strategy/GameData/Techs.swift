@@ -11,7 +11,7 @@ import Foundation
 public protocol AbstractTechs: AnyObject, Codable {
 
     var player: AbstractPlayer? { get set }
-    
+
     // techs
     func has(tech: TechType) -> Bool
     func discover(tech: TechType) throws
@@ -24,7 +24,7 @@ public protocol AbstractTechs: AnyObject, Codable {
     func possibleTechs() -> [TechType]
     func setCurrent(tech: TechType, in gameModel: GameModel?) throws
     func currentTech() -> TechType?
-    
+
     func numberOfDiscoveredTechs() -> Int
 
     func add(science: Double)
@@ -53,16 +53,16 @@ class Techs: AbstractTechs {
         case currentTech
         case lastScienceEarned
         case progress
-        
+
         case eurekas
     }
-    
+
     // tech tree
     var techs: [TechType] = []
 
     // user properties / values
     var player: AbstractPlayer?
-    private var currentTechValue: TechType? = nil
+    private var currentTechValue: TechType?
     var lastScienceEarnedValue: Double = 1.0
     private var progress: WeightedTechList
 
@@ -96,20 +96,20 @@ class Techs: AbstractTechs {
         self.progress = WeightedTechList()
         self.progress.fill()
     }
-    
+
     public required init(from decoder: Decoder) throws {
-    
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-    
+
         self.techs = try container.decode([TechType].self, forKey: .techs)
         self.currentTechValue = try container.decodeIfPresent(TechType.self, forKey: .currentTech)
         self.lastScienceEarnedValue = try container.decode(Double.self, forKey: .lastScienceEarned)
         self.progress = try container.decode(WeightedTechList.self, forKey: .progress)
         self.eurekas = try container.decode(TechEurekas.self, forKey: .eurekas)
     }
-    
+
     public func encode(to encoder: Encoder) throws {
-    
+
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.techs, forKey: .techs)
@@ -170,7 +170,7 @@ class Techs: AbstractTechs {
 
         let weightedTechs: WeightedTechList = WeightedTechList()
         let possibleTechsList = self.possibleTechs()
-        
+
         weightedTechs.items.removeAll()
 
         for possibleTech in possibleTechsList {
@@ -272,7 +272,7 @@ class Techs: AbstractTechs {
         guard let player = self.player else {
             fatalError("Can't trigger eurake - no player present")
         }
-        
+
         // check if eureka is still needed
         if self.has(tech: techType) {
             return
@@ -402,7 +402,7 @@ class Techs: AbstractTechs {
                 }
 
                 self.currentTechValue = nil
-                
+
                 if player.isHuman() {
                     self.player?.notifications()?.addNotification(of: .techNeeded, for: self.player, message: "Please choose a new Research", summary: "Choose Research", at: HexPoint.zero)
                 }

@@ -9,7 +9,7 @@
 import Foundation
 
 public enum BeliefMainType {
-    
+
     case followerBelief
     case worshipBelief
     case founderBelief
@@ -18,9 +18,9 @@ public enum BeliefMainType {
 
 // https://civilization.fandom.com/wiki/Beliefs_(Civ6)
 public enum BeliefType: Int, Codable {
-    
+
     case none
-    
+
     // follower beliefs - mandatory to chose one when founding a religion
     case choralMusic
     case divineInspiration
@@ -30,7 +30,7 @@ public enum BeliefType: Int, Codable {
     case reliquaries
     case warriorMonks
     // ...
-    
+
     // worship
     case allowCathedral
     //case allowDareMehr
@@ -38,37 +38,37 @@ public enum BeliefType: Int, Codable {
     case allowMeetingHouse
     case allowMosque
     // ...
-    
+
     // founder
     case churchProperty
     case crossCulturalDialogue
     // ...
     case worldChurch
-    
+
     // enhancer
     case burialGrounds
     case crusade
-    
+
     // MARK: internal classes
-    
+
     private struct BeliefData {
-        
+
         let name: String
         let mainType: BeliefMainType
         let bonus: String
     }
-    
+
     // MARK: private methods
-    
+
     private func data() -> BeliefData {
-        
+
         switch self {
-        
+
         case .none:
             return BeliefData(name: "None",
                               mainType: .enhancerBelief,
                               bonus: "")
-        
+
         // follower beliefs
         case .choralMusic:
             return BeliefData(name: "Choral Music",
@@ -98,7 +98,7 @@ public enum BeliefType: Int, Codable {
             return BeliefData(name: "Warrior Monks",
                               mainType: .followerBelief,
                               bonus: "Allows spending Faith Faith to train Warrior Monks in cities with a Temple. Building a Holy Site triggers a Culture Bomb, claiming surrounding tiles.")
-            
+
         // worship
         case .allowCathedral:
             return BeliefData(name: "Cathedral", mainType: .worshipBelief, bonus: "Allows Cathedral")
@@ -106,7 +106,7 @@ public enum BeliefType: Int, Codable {
             return BeliefData(name: "Meeting House", mainType: .worshipBelief, bonus: "Allows Meeting House")
         case .allowMosque:
             return BeliefData(name: "Mosque", mainType: .worshipBelief, bonus: "Allows Mosque")
-            
+
         // founder
         case .churchProperty:
             return BeliefData(name: "Church Property",
@@ -121,7 +121,7 @@ public enum BeliefType: Int, Codable {
             return BeliefData(name: "World Church",
                               mainType: .founderBelief,
                               bonus: "+1 Culture Culture for every 4 followers of this Religion.")
-            
+
         // enhancer
         case .burialGrounds:
             return BeliefData(name: "Burial Grounds",

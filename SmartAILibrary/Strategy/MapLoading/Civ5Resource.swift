@@ -9,11 +9,11 @@
 import Foundation
 
 extension ResourceType {
-    
+
     static func fromCiv5String(value: String) -> ResourceType? {
-        
+
         switch value {
-        
+
         case "RESOURCE_HORSE": return .horses
         case "RESOURCE_IRON": return .iron
         case "RESOURCE_GOLD": return .gold
@@ -49,7 +49,7 @@ extension ResourceType {
         case "RESOURCE_DYE": return .dyes
         case "RESOURCE_SILK": return .silk
         // case "RESOURCE_TRUFFLES": return .truffles
-        
+
         default:
             print("case \(value) must be handled")
             return nil

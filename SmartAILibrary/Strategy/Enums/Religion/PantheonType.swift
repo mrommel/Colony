@@ -10,9 +10,9 @@ import Foundation
 
 // https://civilization.fandom.com/wiki/List_of_pantheons_in_Civ6
 public enum PantheonType: Int, Codable {
-    
+
     case none
-    
+
     case cityPatronGoddess
     case danceOfTheAurora
     case desertFolklore
@@ -38,36 +38,42 @@ public enum PantheonType: Int, Codable {
     case religiousSettlements
     case sacredPath
     case stoneCircles
-    
-    public static var all: [PantheonType] = [.cityPatronGoddess, danceOfTheAurora, desertFolklore, divineSpark, earthGoddess, fertilityRites, fireGoddess, godOfCraftsmen, godOfHealing, godOfTheForge, godOfTheOpenSky, godOfTheSea, godOfWar, goddessOfFestivals, goddessOfTheHarvest, goddessOfTheHunt, initiationRites, ladyOfTheReedsAndMarshes, monumentToTheGods, oralTradition, religiousIdols, riverGoddess, religiousSettlements, sacredPath, stoneCircles]
-    
+
+    public static var all: [PantheonType] = [
+        .cityPatronGoddess, .danceOfTheAurora, .desertFolklore, .divineSpark, .earthGoddess, .fertilityRites,
+        .fireGoddess, .godOfCraftsmen, .godOfHealing, .godOfTheForge, .godOfTheOpenSky, .godOfTheSea, .godOfWar,
+        .goddessOfFestivals, .goddessOfTheHarvest, .goddessOfTheHunt, .initiationRites, .ladyOfTheReedsAndMarshes,
+        .monumentToTheGods, .oralTradition, .religiousIdols, .riverGoddess, .religiousSettlements, .sacredPath,
+        .stoneCircles
+    ]
+
     public func name() -> String {
-        
+
         return self.data().name
     }
-    
+
     public func bonus() -> String {
-        
+
         return self.data().bonus
     }
-    
+
     // MARK: internal classes
-    
+
     private struct PantheonData {
-        
+
         let name: String
         let bonus: String
     }
-    
+
     // MARK: private methods
-    
+
     private func data() -> PantheonData {
-        
+
         switch self {
-        
+
         case .none:
             return PantheonData(name: "None", bonus: "")
-        
+
         case .cityPatronGoddess:
             return PantheonData(name: "City Patron Goddess",
                                 bonus: "+25% Production Production toward districts in cities without a specialty district.")
@@ -148,132 +154,132 @@ public enum PantheonType: Int, Codable {
 }
 
 extension PantheonType {
-    
+
     func requiresResource() -> Bool {
-        
+
         return false
     }
-    
+
     func requiresNoImprovement() -> Bool {
-        
+
         return false
     }
-    
+
     func requiresImprovement() -> Bool {
-        
+
         return false
     }
-    
+
     func requiresNoFeature() -> Bool {
-        
+
         return false
     }
-    
+
     func minPopulation() -> Int {
-        
+
         return 0
     }
-    
+
     func minFollowers() -> Int {
-        
+
         return 0
     }
-    
+
     func cityGrowthModifier() -> Int {
-        
+
         if self == .fertilityRites {
             return 4
         }
-        
+
         if self == .riverGoddess || self == .goddessOfTheHunt {
             return 2
         }
-        
+
         if self == .religiousSettlements {
             return 2
         }
-        
+
         return 1
     }
-    
+
     func obsoleteEra() -> EraType {
-        
+
         return .future
     }
-    
+
     func unitProductionModifier() -> Int {
-        
+
         if self == .godOfTheForge {
             return 5
         }
-        
+
         return 0
     }
-    
+
     func wonderProductionModifier() -> Int {
-        
+
         if self == .monumentToTheGods {
             return 5
         }
-        
+
         return 0
     }
-    
+
     func requiresPeace() -> Bool {
-        
+
         return false
     }
-    
+
     func riverHappiness() -> Int {
-        
+
         if self == .riverGoddess {
             return 4
         }
-        
+
         return 0
     }
-    
+
     func happinessPerCity() -> Int {
-        
+
         return 0
     }
-    
+
     func yieldPerPopulation(of yieldType: YieldType) -> Int {
-        
+
         return 0
     }
-    
+
     func yieldPerLuxuryResource(of yieldType: YieldType) -> Int {
-        
+
         if self == .religiousIdols && yieldType == .faith {
             return 2
         }
-        
+
         return 0
     }
-    
+
     func yieldFor(building buildingType: BuildingType, yield yieldType: YieldType) -> Int {
-        
+
         return 0
     }
-    
+
     func friendlyHealChange() -> Int {
-        
+
         return 0
     }
-    
+
     func plotCultureCostModifier() -> Int {
-        
+
         return 0
     }
-    
+
     func cityRangeStrikeModifier() -> Int {
-        
+
         return 0
     }
-    
+
     func greatPersonPoints(for greatPersonType: GreatPersonType) -> Int {
-        
+
         return 0
     }
 }

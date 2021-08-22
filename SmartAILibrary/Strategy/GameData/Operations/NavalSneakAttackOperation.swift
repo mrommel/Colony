@@ -13,18 +13,18 @@ import Foundation
 //!  \brief        Same as basic naval attack except allowed when not at war
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class NavalSneakAttackOperation: NavalAttackOperation {
-    
+
     override init() {
-        
+
         super.init(type: .navalSneakAttack)
     }
-    
+
     required init(from decoder: Decoder) throws {
         fatalError("init(from:) has not been implemented")
     }
-    
+
     override func formation(in gameModel: GameModel?) -> UnitFormationType {
-        
+
         return .navalInvasion // MUFORMATION_NAVAL_INVASION
     }
 }

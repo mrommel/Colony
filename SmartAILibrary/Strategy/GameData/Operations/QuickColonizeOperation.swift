@@ -13,31 +13,30 @@ import Foundation
 //!  \brief        Send a settler alone to a nearby island
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class QuickColonizeOperation: FoundCityOperation {
-    
+
     override init() {
 
         super.init(type: .quickColonize)
     }
-    
+
     public required init(from decoder: Decoder) throws {
         fatalError("init(from:) has not been implemented")
     }
-    
+
     /// Kick off this operation
     override func initialize(for player: AbstractPlayer?, enemy: AbstractPlayer?, area: HexArea?, target: AbstractCity? = nil, muster: AbstractCity? = nil, in gameModel: GameModel?) {
 
         super.initialize(for: player, enemy: enemy, area: area, target: target, muster: muster, in: gameModel)
-        
+
         self.moveType = .singleHex
 
         // Find the free civilian (that triggered this operation)
-        
 
         if let ourCivilian = self.findBestCivilian(in: gameModel) {
-            
+
             // Find a destination (not worrying about safe paths)
             if let targetSite = self.findBestTarget(for: ourCivilian, onlySafePaths: false, in: gameModel) {
-                
+
                 self.targetPosition = targetSite.point
 
                 self.army = Army(of: self.player, for: self, with: self.formation(in: gameModel))
@@ -52,26 +51,26 @@ class QuickColonizeOperation: FoundCityOperation {
 
                 // Add the settler to our army
                 self.army?.add(unit: ourCivilian, to: 0)
-                
+
                 self.escorted = false
 
-                self.state = .movingToTarget;
+                self.state = .movingToTarget
                 //LogOperationStart();
-                
+
             } else {
                 // Lost our target, abort
                 self.state = .aborted(reason: .lostTarget)
             }
         }
     }
-    
+
     override func formation(in gameModel: GameModel?) -> UnitFormationType {
-        
+
         return .quickColonySettler // MUFORMATION_QUICK_COLONY_SETTLER
     }
-    
+
     override func findBestCivilian(in gameModel: GameModel?) -> AbstractUnit? {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
@@ -110,7 +109,7 @@ class QuickColonizeOperation: FoundCityOperation {
         if let tile = self.player?.bestSettlePlot(for: unit, in: gameModel, escorted: false, area: area) {
             return tile
         }
-        
+
         self.area = nil
         return self.player?.bestSettlePlot(for: unit, in: gameModel, escorted: false, area: nil)
     }

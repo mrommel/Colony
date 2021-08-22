@@ -34,7 +34,7 @@ class TechDiscoveredPopupViewModel: ObservableObject {
         self.nameText = self.techType.name()
 
         let quotes = self.techType.quoteTexts()
-        self.quoteText = quotes.count > 0 ? quotes.randomItem() : "-"
+        self.quoteText = !quotes.isEmpty ? quotes.randomItem() : "-"
     }
 
     func icon() -> NSImage {

@@ -51,7 +51,7 @@ public enum ProjectType: Int, Codable {
         case .colossus: return []
         case .greatLighthouse: return []
         case .greatLibrary: return []
-            
+
         }
     }
 
@@ -72,7 +72,7 @@ public enum ProjectType: Int, Codable {
         case .colossus: return nil
         case .greatLighthouse: return nil
         case .greatLibrary: return nil
-            
+
         }
     }
 
@@ -94,7 +94,7 @@ public enum ProjectType: Int, Codable {
         case .colossus: return 0
         case .greatLighthouse: return 0
         case .greatLibrary: return 0
-            
+
         }
     }
 }

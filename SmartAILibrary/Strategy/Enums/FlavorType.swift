@@ -38,6 +38,10 @@ public enum FlavorType: Int, Codable {
     case energy
 
     static var all: [FlavorType] {
-        return [.offense, .defense, .cityDefense, .growth, .militaryTraining, .happiness, .recon, .culture, .mobile, .production, .naval, .navalTileImprovement, .tileImprovement, .ranged, .navalRecon, .gold, .navalGrowth, .infrastructure, .science, .diplomacy, .tourism, .religion, .energy, .greatPeople]
+        return [
+            .offense, .defense, .cityDefense, .growth, .militaryTraining, .happiness, .recon, .culture, .mobile,
+            .production, .naval, .navalTileImprovement, .tileImprovement, .ranged, .navalRecon, .gold, .navalGrowth,
+            .infrastructure, .science, .diplomacy, .tourism, .religion, .energy, .greatPeople
+        ]
     }
 }

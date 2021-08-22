@@ -116,24 +116,24 @@ class UnitObject {
         }
     }
 
-    private func walk(from: HexPoint, to: HexPoint, completion block: @escaping () -> Swift.Void) {
+    private func walk(from: HexPoint, to point: HexPoint, completion block: @escaping () -> Swift.Void) {
 
         if from == to {
             return
         }
         
-        let direction = HexPoint.screenDirection(from: from, towards: to)
+        let direction = HexPoint.screenDirection(from: from, towards: point)
         
         switch direction {
             
         case .north:
-            self.animate(to: to, on: self.atlasUp, completion: block)
+            self.animate(to: point, on: self.atlasUp, completion: block)
         case .northeast, .southeast:
-            self.animate(to: to, on: self.atlasRight, completion: block)
+            self.animate(to: point, on: self.atlasRight, completion: block)
         case .south:
-            self.animate(to: to, on: self.atlasDown, completion: block)
+            self.animate(to: point, on: self.atlasDown, completion: block)
         case .southwest, .northwest:
-            self.animate(to: to, on: self.atlasLeft, completion: block)
+            self.animate(to: point, on: self.atlasLeft, completion: block)
         }
     }
 
@@ -172,7 +172,8 @@ class UnitObject {
 
         if let atlas = self.atlasIdle {
             let idleFrames = atlas.textures
-            let idleAnimation = SKAction.repeatForever(SKAction.animate(with: [idleFrames, idleFrames, idleFrames].flatMap { $0 }, timePerFrame: atlas.speed))
+            let idleFrameSequence = [idleFrames, idleFrames, idleFrames].flatMap { $0 }
+            let idleAnimation = SKAction.repeatForever(SKAction.animate(with: idleFrameSequence, timePerFrame: atlas.speed))
 
             self.sprite.run(idleAnimation, withKey: UnitObject.idleActionKey, completion: { })
         }
@@ -191,9 +192,10 @@ class UnitObject {
         
         if let atlas = self.atlasFortified {
             let fortifiedFrames = atlas.textures
-            let idleAnimation = SKAction.repeatForever(SKAction.animate(with: [fortifiedFrames, fortifiedFrames, fortifiedFrames].flatMap { $0 }, timePerFrame: atlas.speed))
+            let fortifiedFrameSequence = [fortifiedFrames, fortifiedFrames, fortifiedFrames].flatMap { $0 }
+            let fortifiedAnimation = SKAction.repeatForever(SKAction.animate(with: fortifiedFrameSequence, timePerFrame: atlas.speed))
 
-            self.sprite.run(idleAnimation, withKey: UnitObject.fortifiedActionKey, completion: { })
+            self.sprite.run(fortifiedAnimation, withKey: UnitObject.fortifiedActionKey, completion: { })
         }
     }
 

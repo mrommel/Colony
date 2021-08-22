@@ -9,12 +9,12 @@
 import Foundation
 
 public enum FoodHarvestingType: Int, Codable {
-    
+
     case hunterGatherer = 0
     case settled = 1
-    
+
     func peopleSupportedOn(terrain: TerrainType) -> Int {
-        
+
         switch self {
         case .hunterGatherer:
             return self.peopleSupportedByHunterGatheringOn(terrain: terrain)
@@ -22,9 +22,9 @@ public enum FoodHarvestingType: Int, Codable {
             return self.peopleSupportedBySettledOn(terrain: terrain)
         }
     }
-    
+
     func peopleBonusWith(feature: FeatureType) -> Int {
-        
+
         switch self {
         case .hunterGatherer:
             return self.peopleBonusByHunterGatheringWith(feature: feature)
@@ -32,11 +32,11 @@ public enum FoodHarvestingType: Int, Codable {
             return self.peopleBonusBySettledWith(feature: feature)
         }
     }
-    
+
     private func peopleSupportedByHunterGatheringOn(terrain: TerrainType) -> Int {
-        
+
         switch terrain {
-        
+
         case .grass:
             return 2500
         case .plains:
@@ -53,11 +53,11 @@ public enum FoodHarvestingType: Int, Codable {
             return 0
         }
     }
-    
+
     private func peopleSupportedBySettledOn(terrain: TerrainType) -> Int {
-        
+
         switch terrain {
-        
+
         case .grass:
             return 10000
         case .plains:
@@ -74,11 +74,11 @@ public enum FoodHarvestingType: Int, Codable {
             return 0
         }
     }
-    
+
     private func peopleBonusByHunterGatheringWith(feature: FeatureType) -> Int {
-        
+
         switch feature {
-        
+
         case .none:
             return 0
         case .forest:
@@ -97,19 +97,19 @@ public enum FoodHarvestingType: Int, Codable {
             return 0
         case .atoll:
             return 0
-            
+
         case .mountains:
             return -8000
-            
+
         default:
             return 0
         }
     }
-    
+
     private func peopleBonusBySettledWith(feature: FeatureType) -> Int {
-        
+
         switch feature {
-        
+
         case .none:
             return 0
         case .forest:

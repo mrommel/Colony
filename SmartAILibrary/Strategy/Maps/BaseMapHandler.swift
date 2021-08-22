@@ -9,7 +9,7 @@
 import Foundation
 
 public class Utils {
-    
+
     static let isRunningUnitTests: Bool = {
         let environment = ProcessInfo().environment
         return (environment["XCTestConfigurationFilePath"] != nil)
@@ -19,9 +19,9 @@ public class Utils {
 public class BaseMapHandler {
 
     public init() {
-        
+
     }
-    
+
     public func placeResources(on grid: MapModel?) {
 
         guard let grid = grid else {
@@ -100,14 +100,14 @@ public class BaseMapHandler {
             }
         }
     }
-    
+
     struct ResourcesInfo {
-        
+
         let resource: ResourceType
         let numPossible: Int
         let alreadyPlaced: Int
     }
-    
+
     internal func numOfResources(for resource: ResourceType, on grid: MapModel?) -> ResourcesInfo {
 
         guard let grid = grid else {
@@ -122,11 +122,11 @@ public class BaseMapHandler {
         for gridPoint in grid.points() {
 
             if let tile = grid.tile(at: gridPoint) {
-                
+
                 /*if tile.terrain() == .desert || tile.terrain() == .tundra {
                     print("debug")
                 }*/
-                
+
                 if tile.canHave(resource: resource, ignoreLatitude: true, in: grid) {
                     numPossible += 1
                 } else if tile.resource(for: nil) == resource {
@@ -145,14 +145,14 @@ public class BaseMapHandler {
         guard let grid = grid else {
             fatalError("cant get grid")
         }
-        
+
         // get info about current resource in map
         let info = self.numOfResources(for: resource, on: grid)
 
         let mapFactor = grid.size.numberOfTiles() * 100 / MapSize.standard.numberOfTiles()
-        
+
         var absoluteAmount = max(1, resource.baseAmount() * mapFactor / 100)
-        
+
         // skip random altering for tests
         if !Utils.isRunningUnitTests {
             if resource.absoluteVarPercent() > 0 {
@@ -161,12 +161,12 @@ public class BaseMapHandler {
                 absoluteAmount = Int.random(minimum: rand1, maximum: rand2)
             }
         }
-        
-        absoluteAmount = absoluteAmount - info.alreadyPlaced
-        
+
+        absoluteAmount -= info.alreadyPlaced
+
         // limit to possible
         absoluteAmount = max(0, min(absoluteAmount, info.numPossible))
-        
+
         print("try to place \(absoluteAmount) of \(resource.name()) on \(info.numPossible) possible (\(info.alreadyPlaced) already placed)")
         return absoluteAmount
     }
@@ -177,9 +177,9 @@ public class BaseMapHandler {
         guard let grid = grid else {
             fatalError("cant get grid")
         }
-        
+
         grid.analyze()
-        
+
         var points: [HexPoint] = []
 
         for x in 0..<grid.size.width() {
@@ -189,17 +189,17 @@ public class BaseMapHandler {
         }
 
         points.shuffle()
-        
+
         let tilesPerGoody = 40
         var goodyHutsAdded: Int = 0
         // <GoodyRange>3</GoodyRange>
-        
+
         for point in points {
-            
+
             if let tile = grid.tile(at: point) {
-                
+
                 if !tile.isWater() {
-                    
+
                     if let area = tile.area {
                         if area.number(of: ImprovementType.goodyHut) < ((area.points.count + tilesPerGoody / 2) / tilesPerGoody) {
                             if ImprovementType.goodyHut.isGoodyHutPossible(on: tile) {
@@ -211,7 +211,7 @@ public class BaseMapHandler {
                 }
             }
         }
-        
+
         print("-------------------------------")
         print("\(goodyHutsAdded) goody huts added")
     }

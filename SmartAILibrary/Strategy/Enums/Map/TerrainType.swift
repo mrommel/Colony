@@ -10,59 +10,59 @@ import Foundation
 
 // https://civilization.fandom.com/wiki/Terrain_(Civ6)
 public enum TerrainType: Int, Codable {
-    
+
     case grass
     case plains
     case desert
     case tundra
     case snow
-    
+
     case shore
     case ocean
-    
+
     public static let all: [TerrainType] = [.grass, .plains, .desert, .tundra, .snow, .shore, .ocean]
-    
+
     // MARK: public methods
-    
+
     public func name() -> String {
 
         return self.data().name
     }
-    
+
     public func yields() -> Yields {
 
         return self.data().yields
     }
-    
+
     public func isLand() -> Bool {
-        
+
         return !self.data().isWater
     }
-    
+
     public func isWater() -> Bool {
-        
+
         return self.data().isWater
     }
-    
+
     public func domain() -> UnitDomainType {
-        
+
         return self.data().domain
     }
-    
+
     // MARK: internal classes
-    
+
     private struct TerrainData {
-        
+
         let name: String
         let yields: Yields
         let isWater: Bool
         let domain: UnitDomainType
     }
-    
+
     // MARK: private methods
-    
+
     private func data() -> TerrainData {
-        
+
         switch self {
 
         case .ocean:
@@ -75,7 +75,7 @@ public enum TerrainType: Int, Codable {
                                yields: Yields(food: 1, production: 0, gold: 1, science: 0),
                                isWater: true,
                                domain: .sea)
-            
+
         case .plains:
             return TerrainData(name: "Plains",
                                yields: Yields(food: 1, production: 1, gold: 0, science: 0),
@@ -103,59 +103,59 @@ public enum TerrainType: Int, Codable {
                                domain: .land)
         }
     }
-    
+
     func defenseModifier() -> Int {
-        
+
         return 0
     }
-    
+
     func movementCost(for movementType: UnitMovementType) -> Double {
-        
+
         switch movementType {
-            
+
         case .immobile:
             return UnitMovementType.max
-            
+
         case .swim:
             if self == .ocean {
                 return 1.5
             }
-            
+
             if self == .shore {
                 return 1.0
             }
-            
+
             return UnitMovementType.max
-            
+
         case .swimShallow:
 
             if self == .shore {
                 return 1.0
             }
-            
+
             return UnitMovementType.max
-            
+
         case .walk:
             if self == .plains {
                 return 1.0
             }
-            
+
             if self == .grass {
                 return 1.0
             }
-            
+
             if self == .desert {
                 return 1.0
             }
-            
+
             if self == .tundra {
                 return 1.0
             }
-            
+
             if self == .snow {
                 return 1.0
             }
-            
+
             return UnitMovementType.max
         }
     }

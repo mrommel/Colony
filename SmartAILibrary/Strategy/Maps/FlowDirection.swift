@@ -28,7 +28,7 @@ public enum FlowDirection: String, Codable {
     public static var all: [FlowDirection] {
         return [.west, .east, .northWest, .southEast, .northEast, .southWest]
     }
-    
+
     public static func enumFrom(string: String) -> FlowDirection {
         switch string {
         case "west":
@@ -73,9 +73,9 @@ public enum FlowDirection: String, Codable {
             return "---"
         }
     }
-    
+
     public var short: String {
-        
+
         switch self {
         case .west:
             return "n"
@@ -96,7 +96,7 @@ public enum FlowDirection: String, Codable {
 }
 
 enum FlowDirectionError: Error, Equatable {
-    case unsupported(flow: FlowDirection, in: HexDirection)
+    case unsupported(flow: FlowDirection, direction: HexDirection)
 }
 
 func == (lhs: FlowDirectionError, rhs: FlowDirectionError) -> Bool {

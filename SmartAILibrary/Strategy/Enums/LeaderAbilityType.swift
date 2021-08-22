@@ -21,33 +21,34 @@ public enum LeaderAbilityType {
     case flyingSquadron // napoleon
     case mediterraneansBride // cleopatra
     case theGrandEmbassy // peter the great
-    
+
     public func name() -> String {
-        
+
         return self.data().name
     }
-    
+
     public func effects() -> [String] {
-        
+
         return self.data().effects
     }
-    
+
     // private methods
-    
+
     private struct LeaderAbilityTypeData {
-        
+
         let name: String
         let effects: [String]
     }
-    
+
+    // swiftlint:disable line_length
     private func data() -> LeaderAbilityTypeData {
-        
+
         switch self {
-            
+
         case .none:
             return LeaderAbilityTypeData(name: "",
                                          effects: [])
-            
+
         case .toTheWorldsEnd:
             // https://civilization.fandom.com/wiki/Alexander_(Civ6)
             return LeaderAbilityTypeData(name: "To the World's End",

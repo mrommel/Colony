@@ -18,34 +18,34 @@ class FoundCityOperation: EscortedOperation {
 
         super.init(type: .foundCity, escorted: true, civilianType: .settle)
     }
-    
+
     init(type: UnitOperationType) {
 
         super.init(type: type, escorted: true, civilianType: .settle)
     }
-    
+
     public required init(from decoder: Decoder) throws {
         fatalError("init(from:) has not been implemented")
     }
-    
+
     override func initialize(for player: AbstractPlayer?, enemy: AbstractPlayer?, area: HexArea?, target: AbstractCity? = nil, muster: AbstractCity? = nil, in gameModel: GameModel?) {
 
         guard let gameModel = gameModel,
             let player = player else {
-                
+
             fatalError("cant get values")
         }
-        
+
         super.initialize(for: player, enemy: enemy, area: area, target: target, muster: muster, in: gameModel)
-        
+
         self.moveType = .singleHex
-        
+
         // Find the free civilian (that triggered this operation)
         if let ourCivilian = self.findBestCivilian(in: gameModel) {
-            
+
             // Find a destination (not worrying about safe paths)
             if let targetSite = self.findBestTarget(for: ourCivilian, onlySafePaths: false, in: gameModel) {
-                
+
                 self.targetPosition = targetSite.point
                 self.musterPosition = ourCivilian.location
                 self.area = gameModel.area(of: ourCivilian.location)
@@ -53,7 +53,7 @@ class FoundCityOperation: EscortedOperation {
                 // create the armies that are needed and set the state to ARMYAISTATE_WAITING_FOR_UNITS_TO_REINFORCE
                 self.army = Army(of: self.player, for: nil, with: self.formation(in: gameModel))
                 self.army?.state = .waitingForUnitsToReinforce
-                
+
                 // Figure out the initial rally point - for this operation it is wherever our civilian is standing
                 self.army?.goal = targetSite.point
                 self.army?.muster = ourCivilian.location
@@ -63,21 +63,21 @@ class FoundCityOperation: EscortedOperation {
 
                 // Add the escort as a unit we need to build
                 self.listOfUnitsWeStillNeedToBuild.removeAll()
-                    
+
                 let slot = self.army!.formation.slots()[1]
                 let thisOperationSlot = OperationSlot(operation: self, army: self.army, slot: slot, slotIndex: 1)
                 self.listOfUnitsWeStillNeedToBuild.append(thisOperationSlot)
 
                 // try to get the escort from existing units that are waiting around
                 self.grabUnitsFromTheReserves(at: self.musterPosition, for: self.targetPosition, in: gameModel)
-                    
+
                 if self.army!.numSlotsFilled() > 1 {
                     self.army?.state = .waitingForUnitsToCatchUp
                     self.state = .gatheringForces
                 } else {
-                    
-                    var newTarget: AbstractTile? = nil
-                    
+
+                    var newTarget: AbstractTile?
+
                     // There was no escort immediately available.  Let's look for a "safe" city site instead
                     if self.player == nil || gameModel.cities(of: player).count > 1 || player.leader.trait(for: .boldness) > 5 {
                         // unless we'd rather play it safe
@@ -88,7 +88,7 @@ class FoundCityOperation: EscortedOperation {
                     if newTarget == nil {
                         // Need to add it back in to list of what to build (was cleared before since marked optional)
                         self.listOfUnitsWeStillNeedToBuild.removeAll()
-                        
+
                         let slot2 = self.army!.formation.slots()[1]
                         let thisOperationSlot2 = OperationSlot(operation: self, army: self.army, slot: slot2, slotIndex: 1)
                         self.listOfUnitsWeStillNeedToBuild.append(thisOperationSlot2)
@@ -103,7 +103,7 @@ class FoundCityOperation: EscortedOperation {
                         // Change the muster point
                         self.army?.goal = newTarget!.point
                         self.musterPosition = ourCivilian.location
-                        
+
                         self.army?.position = musterPosition!
 
                         // Send the settler directly to the target
@@ -111,18 +111,18 @@ class FoundCityOperation: EscortedOperation {
                         self.state = .movingToTarget
                     }
                 }
-                
+
                 //LogOperationStart();
-                
+
             } else {
                 // Lost our target, abort
                 self.state = .aborted(reason: .lostTarget)
             }
         }
     }
-    
+
     override func formation(in gameModel: GameModel?) -> UnitFormationType {
-        
+
         return .settlerEscort // MUFORMATION_SETTLER_ESCORT
     }
 
@@ -246,7 +246,7 @@ class FoundCityOperation: EscortedOperation {
         if let tile = self.player?.bestSettlePlot(for: unit, in: gameModel, escorted: onlySafePaths, area: area) {
             return tile
         }
-        
+
         self.area = nil
         return self.player?.bestSettlePlot(for: unit, in: gameModel, escorted: onlySafePaths, area: nil)
     }

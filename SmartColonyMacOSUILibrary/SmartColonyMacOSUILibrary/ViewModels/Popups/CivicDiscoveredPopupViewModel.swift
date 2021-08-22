@@ -34,7 +34,7 @@ class CivicDiscoveredPopupViewModel: ObservableObject {
         self.nameText = self.civicType.name()
 
         let quotes = self.civicType.quoteTexts()
-        self.quoteText = quotes.count > 0 ? quotes.randomItem() : "-"
+        self.quoteText = !quotes.isEmpty ? quotes.randomItem() : "-"
     }
 
     func icon() -> NSImage {

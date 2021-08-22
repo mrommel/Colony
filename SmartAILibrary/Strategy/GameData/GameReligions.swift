@@ -9,27 +9,27 @@
 import Foundation
 
 public protocol AbstractGameReligions {
-    
+
     func doTurn(in gameModel: GameModel?)
-    
+
     func foundPantheon(for player: AbstractPlayer?, with pantheonType: PantheonType, in gameModel: GameModel?)
     func religions(in gameModel: GameModel?) -> [AbstractPlayerReligion?]
-    
+
     func availablePantheons(in gameModel: GameModel?) -> [PantheonType]
     func numPantheonsCreated(in gameModel: GameModel?) -> Int
 }
 
 class GameReligions: AbstractGameReligions, Codable {
-    
+
     enum CodingKeys: String, CodingKey {
-    
+
         case pressure
     }
 
     public init() {
-        
+
     }
-    
+
     required public init(from decoder: Decoder) throws {
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -47,84 +47,84 @@ class GameReligions: AbstractGameReligions, Codable {
         //try container.encode(self.pressure, forKey: .pressure)
         fatalError("not implemented")
     }
-    
+
     /// Handle turn-by-turn religious updates
     public func doTurn(in gameModel: GameModel?) {
-        
+
         self.spreadReligion(in: gameModel)
     }
-    
+
     func foundPantheon(for player: AbstractPlayer?, with pantheonType: PantheonType, in gameModel: GameModel?) {
-        
+
         player?.religion?.foundPantheon(with: pantheonType, in: gameModel)
     }
-    
+
     func religions(in gameModel: GameModel?) -> [AbstractPlayerReligion?] {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get game")
         }
-        
+
         var religionsArray: [AbstractPlayerReligion?] = []
-        
+
         for player in gameModel.players {
-            
+
             religionsArray.append(player.religion)
         }
-        
+
         return religionsArray
     }
-    
+
     // MARK: private methods
-    
+
     /// Spread religious pressure into adjacent cities
     private func spreadReligion(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get game")
         }
-        
+
         // Loop through all the players
         for player in gameModel.players {
-            
+
             guard player.isAlive() && !player.isBarbarian() else {
                 continue
             }
-            
+
             // Loop through each of their cities
             for cityRef in gameModel.cities(of: player) {
-                
+
                 self.spreadReligion(to: cityRef, in: gameModel)
             }
         }
     }
-    
+
     /// Spread religious pressure to one city
     private func spreadReligion(to cityRef: AbstractCity?, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get game")
         }
-        
+
         guard let city = cityRef else {
             fatalError("cant get city ref")
         }
-        
+
         print("spread religion for \(city.name)")
-        
+
         // Used to calculate how many trade routes are applying pressure to this city. This resets the value so we get a true count every turn.
         city.cityReligion?.resetNumTradeRoutePressure()
-        
+
         // Is this a city where a religion was founded?
         if city.cityReligion?.isHolyCityAnyReligion() ?? false {
             city.cityReligion?.addHolyCityPressure(in: gameModel)
         }
-        
+
         // Loop through all the players
         for player in gameModel.players {
-            
+
             if player.isAlive() {
-                
+
                 /* int iSpyPressure = kPlayer.GetReligions()->GetSpyPressure((PlayerTypes)iI);
                  if (iSpyPressure > 0)
                  {
@@ -141,39 +141,39 @@ class GameReligions: AbstractGameReligions, Codable {
                          }
                      }
                  }  */
-                
+
                 // Loop through each of their cities
                 for loopCityRef in gameModel.cities(of: player) {
-                    
+
                     guard let loopCity = loopCityRef else {
                         continue
                     }
-                    
+
                     // Ignore the same city
                     guard city.location != loopCity.location else {
                         continue
                     }
-                    
+
                     guard let loopCityReligion = loopCity.cityReligion else {
                         continue
                     }
-                    
+
                     for religionType in ReligionType.all {
-                        
+
                         guard self.isValidTarget(for: religionType, fromCity: loopCity, toCity: city) else {
                             continue
                         }
-                        
+
                         if loopCityReligion.numFollowers(following: religionType) > 0 {
-                            
+
                             var connectedWithTrade = false
                             var relativeDistancePercent = 0
-                            
-                            if !self.isConnected(by: religionType, from: loopCity, to: city, withTrade: &connectedWithTrade, percent: &relativeDistancePercent, in: gameModel)  {
-                                
+
+                            if !self.isConnected(by: religionType, from: loopCity, to: city, withTrade: &connectedWithTrade, percent: &relativeDistancePercent, in: gameModel) {
+
                                 continue
                             }
-                            
+
                             /*int iNumTradeRoutes = 0;
                             int iPressure = GetAdjacentCityReligiousPressure(eReligion, pLoopCity, pCity, iNumTradeRoutes, true, false, bConnectedWithTrade, iRelativeDistancePercent);
                             if (iPressure > 0)
@@ -190,19 +190,19 @@ class GameReligions: AbstractGameReligions, Codable {
             }
         }
     }
-    
+
     func isValidTarget(for religionType: ReligionType, fromCity fromCityRef: AbstractCity?, toCity toCityRef: AbstractCity?) -> Bool {
-        
+
         guard let fromCity = fromCityRef else {
             fatalError("cant get from city")
         }
-        
+
         guard let toCity = toCityRef else {
             fatalError("cant get to city")
         }
-        
+
         if fromCity.player?.leader != toCity.player?.leader {
-            
+
             /*if fromCity.player.is (GET_PLAYER(pFromCity->getOwner()).GetPlayerTraits()->IsNoNaturalReligionSpread())
                 {
                     ReligionTypes ePantheon = GET_PLAYER(pFromCity->getOwner()).GetReligions()->GetReligionCreatedByPlayer(true);
@@ -213,7 +213,7 @@ class GameReligions: AbstractGameReligions, Codable {
                     }
                 }
             */
-                
+
             /*if (GET_PLAYER(pToCity->getOwner()).GetPlayerTraits()->IsNoNaturalReligionSpread())
                 {
                     ReligionTypes ePantheon = GET_PLAYER(pToCity->getOwner()).GetReligions()->GetReligionCreatedByPlayer(true);
@@ -224,7 +224,7 @@ class GameReligions: AbstractGameReligions, Codable {
                     }
                 }*/
         } else { // if (pFromCity->getOwner() == pToCity->getOwner())
-            
+
             /*if (GET_PLAYER(pFromCity->getOwner()).GetPlayerTraits()->IsNoNaturalReligionSpread())
             {
                 ReligionTypes ePantheon = GET_PLAYER(pFromCity->getOwner()).GetReligions()->GetReligionCreatedByPlayer(true);
@@ -244,7 +244,7 @@ class GameReligions: AbstractGameReligions, Codable {
                 }
             }*/
         }
-        
+
         /*if (!GET_PLAYER(pToCity->getOwner()).isMinorCiv() && GET_PLAYER(pToCity->getOwner()).GetPlayerTraits()->IsForeignReligionSpreadImmune())
         {
             ReligionTypes eToCityReligion = GET_PLAYER(pToCity->getOwner()).GetReligions()->GetReligionCreatedByPlayer(false);
@@ -258,7 +258,7 @@ class GameReligions: AbstractGameReligions, Codable {
                 return false
             }
         }*/
-    
+
         /*if (GET_PLAYER(pToCity->getOwner()).isMinorCiv())
         {
             PlayerTypes eAlly = GET_PLAYER(pToCity->getOwner()).GetMinorCivAI()->GetAlly();
@@ -297,43 +297,42 @@ class GameReligions: AbstractGameReligions, Codable {
         #endif*/
             return true
     }
-    
+
     private func isConnected(by religionType: ReligionType, from fromCityRef: AbstractCity?, to toCityRef: AbstractCity?, withTrade connectedWithTrade: inout Bool, percent relativeDistancePercent: inout Int, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get game")
         }
-        
+
         guard let fromCity = fromCityRef else {
             fatalError("cant get from city")
         }
-        
+
         guard let toCity = toCityRef else {
             fatalError("cant get to city")
         }
-        
+
         guard let pReligion = fromCity.cityReligion?.religiousMajority() else {
             return false
         }
-        
+
         guard let fromCityPlayerReligion = fromCity.player?.religion else {
             return false
         }
-        
+
         connectedWithTrade = false
         relativeDistancePercent = Int.max
-        
+
         if religionType == pReligion {
-            
+
             connectedWithTrade = gameModel.citiesHaveTradeConnection(from: fromCityRef, to: toCityRef)
-            
+
             if connectedWithTrade {
-                
+
                 relativeDistancePercent = 1 // very close
                 return true
             }
         }
-        
 
         // Boost to distance due to belief?
         let distanceMod = fromCityPlayerReligion.spreadDistanceModifier()
@@ -408,43 +407,43 @@ class GameReligions: AbstractGameReligions, Codable {
 
              return (iRelativeDistancePercent<100);
          */
-        
+
         return false
     }
-    
+
     func availablePantheons(in gameModel: GameModel?) -> [PantheonType] {
-        
+
         var pantheons: [PantheonType] = PantheonType.all
-        
+
         for religionRef in self.religions(in: gameModel) {
-            
+
             guard let religion = religionRef else {
                 continue
             }
-            
+
             if religion.pantheon() != .none {
                 pantheons.removeAll(where: { $0 == religion.pantheon() })
             }
         }
-        
+
         return pantheons
     }
-    
+
     func numPantheonsCreated(in gameModel: GameModel?) -> Int {
-        
+
         var pantheons: Int = 0
-        
+
         for religionRef in self.religions(in: gameModel) {
-            
+
             guard let religion = religionRef else {
                 continue
             }
-            
+
             if religion.pantheon() != .none {
                 pantheons += 1
             }
         }
-        
+
         return pantheons
     }
 }

@@ -29,11 +29,11 @@ public enum BuildingType: Int, Codable {
     case arena // https://civilization.fandom.com/wiki/Arena_(Civ6)
     case market // https://civilization.fandom.com/wiki/Market_(Civ6)
     case temple // https://civilization.fandom.com/wiki/Temple_(Civ6)
-    
+
     // medieval
     case medievalWalls // https://civilization.fandom.com/wiki/Medieval_Walls_(Civ6)
     case workshop // https://civilization.fandom.com/wiki/Workshop_(Civ6)
-    
+
     // renaissance
     case renaissanceWalls // https://civilization.fandom.com/wiki/Renaissance_Walls_(Civ6)
     case shipyard // https://civilization.fandom.com/wiki/Shipyard_(Civ6)
@@ -46,12 +46,12 @@ public enum BuildingType: Int, Codable {
 
             // classical
             .amphitheater, .lighthouse, .stable, .arena, .market, .temple,
-            
+
             // medieval
             .medievalWalls,
-            
+
             // renaissance
-            .renaissanceWalls,  .shipyard
+            .renaissanceWalls, .shipyard
         ]
     }
 
@@ -61,9 +61,9 @@ public enum BuildingType: Int, Codable {
 
         return self.data().name
     }
-    
+
     public func era() -> EraType {
-        
+
         return self.data().era
     }
 
@@ -77,13 +77,13 @@ public enum BuildingType: Int, Codable {
 
         return self.data().goldCost
     }
-    
+
     /// cost in faith
     func faithCost() -> Int {
 
         return self.data().faithCost
     }
-    
+
     // in production units
     public func productionCost() -> Int {
 
@@ -97,7 +97,7 @@ public enum BuildingType: Int, Codable {
     }
 
     public func yields() -> Yields {
-        
+
         return self.data().yields
     }
 
@@ -119,7 +119,7 @@ public enum BuildingType: Int, Codable {
 
         return self.data().requiredCivic
     }
-    
+
     public func requiredBuilding() -> BuildingType? {
 
         return self.data().requiredBuilding
@@ -149,7 +149,7 @@ public enum BuildingType: Int, Codable {
         if let specialSlots = self.data().specialSlots {
             return specialSlots.amount
         }
-        
+
         return 0
     }
 
@@ -164,12 +164,12 @@ public enum BuildingType: Int, Codable {
         if let specialSlots = self.data().specialSlots {
             return specialSlots.type
         }
-        
+
         return .none
     }
-    
+
     func categoryType() -> BuildingCategoryType {
-        
+
         return self.data().category
     }
 
@@ -177,9 +177,9 @@ public enum BuildingType: Int, Codable {
 
         return self.data().slots
     }
-    
+
     private struct SpecialistSlots {
-        
+
         let type: SpecialistType
         let amount: Int
     }
@@ -204,10 +204,11 @@ public enum BuildingType: Int, Codable {
         let flavours: [Flavor]
     }
 
+    // swiftlint:disable line_length
     private func data() -> BuildingTypeData {
-        
+
         switch self {
-            
+
         case .none:
             return BuildingTypeData(name: "",
                                     category: .none,
@@ -495,7 +496,7 @@ public enum BuildingType: Int, Codable {
                                     slots: [.relic],
                                     specialSlots: SpecialistSlots(type: .priest, amount: 1),
                                     flavours: [Flavor(type: .greatPeople, value: 5), Flavor(type: .religion, value: 10)])
-            
+
             // --------------------------------------
             // medieval
         case .medievalWalls:
@@ -536,7 +537,7 @@ public enum BuildingType: Int, Codable {
                                     slots: [],
                                     specialSlots: SpecialistSlots(type: .engineer, amount: 1),
                                     flavours: [Flavor(type: .production, value: 7)])
-            
+
             // --------------------------------------
             // renaissance
         case .renaissanceWalls:
@@ -576,7 +577,7 @@ public enum BuildingType: Int, Codable {
                                     defense: 0,
                                     slots: [],
                                     specialSlots: SpecialistSlots(type: .captain, amount: 1),
-                                    flavours: [Flavor(type: .naval, value: 7), Flavor(type: .militaryTraining, value: 7),])
+                                    flavours: [Flavor(type: .naval, value: 7), Flavor(type: .militaryTraining, value: 7) ])
         }
     }
 }

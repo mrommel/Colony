@@ -8,6 +8,7 @@
 
 import Foundation
 
+// swiftlint:disable type_body_length
 enum CityStrategyType: Int, Codable {
 
     case tinyCity
@@ -43,7 +44,7 @@ enum CityStrategyType: Int, Codable {
                 .needNavalTileImprovement, .enoughNavalTileImprovement,
                 .haveTrainingFacility, .capitalNeedSettler, .capitalUnderThreat,
                 .underBlockade,
-                
+
                 .coastCity, .riverCity, .mountainCity, .hillCity, .forestCity, .jungleCity
         ]
     }
@@ -105,29 +106,29 @@ enum CityStrategyType: Int, Codable {
 
         case .needTileImprovers:
             return [
-                Flavor(type: .tileImprovement, value: 150),
+                Flavor(type: .tileImprovement, value: 150)
             ]
         case .wantTileImprovers:
             return [
-                Flavor(type: .tileImprovement, value: 35),
+                Flavor(type: .tileImprovement, value: 35)
             ]
         case .enoughTileImprovers:
             return [
-                Flavor(type: .tileImprovement, value: -100),
+                Flavor(type: .tileImprovement, value: -100)
             ]
         case .needNavalGrowth:
             return [
-                Flavor(type: .navalGrowth, value: 10),
+                Flavor(type: .navalGrowth, value: 10)
             ]
         case .needNavalTileImprovement:
             return [
                 Flavor(type: .navalGrowth, value: -5),
                 Flavor(type: .navalTileImprovement, value: 50),
-                Flavor(type: .growth, value: -5),
+                Flavor(type: .growth, value: -5)
             ]
         case .enoughNavalTileImprovement:
             return [
-                Flavor(type: .navalTileImprovement, value: -100),
+                Flavor(type: .navalTileImprovement, value: -100)
             ]
         case .haveTrainingFacility:
             return [
@@ -138,12 +139,12 @@ enum CityStrategyType: Int, Codable {
                 Flavor(type: .expansion, value: -3),
                 Flavor(type: .growth, value: 10),
                 Flavor(type: .happiness, value: 10),
-                Flavor(type: .recon, value: -6),
+                Flavor(type: .recon, value: -6)
             ]
         case .capitalNeedSettler:
             return [
                 Flavor(type: .expansion, value: 250),
-                Flavor(type: .wonder, value: -25),
+                Flavor(type: .wonder, value: -25)
             ]
         case .capitalUnderThreat:
             return [
@@ -153,7 +154,7 @@ enum CityStrategyType: Int, Codable {
                 Flavor(type: .culture, value: -25),
                 Flavor(type: .happiness, value: -25),
                 Flavor(type: .growth, value: -25),
-                Flavor(type: .expansion, value: -25),
+                Flavor(type: .expansion, value: -25)
             ]
 
         case .underBlockade:
@@ -189,9 +190,9 @@ enum CityStrategyType: Int, Codable {
         ]
         }
     }
-    
+
     func flavorThresholdModifiers() -> [Flavor] {
-        
+
         switch self {
 
         case .tinyCity: return []
@@ -211,7 +212,7 @@ enum CityStrategyType: Int, Codable {
         case .haveTrainingFacility: return []
         case .capitalNeedSettler: return [
             Flavor(type: .expansion, value: -10),
-            Flavor(type: .defense, value: 2),
+            Flavor(type: .defense, value: 2)
         ]
         case .capitalUnderThreat: return []
         case .underBlockade: return []
@@ -224,7 +225,7 @@ enum CityStrategyType: Int, Codable {
         case .jungleCity: return []
         }
     }
-    
+
     func flavorThresholdModifier(for flavorType: FlavorType) -> Int {
 
         if let modifier = self.flavorThresholdModifiers().first(where: { $0.type == flavorType }) {
@@ -233,9 +234,9 @@ enum CityStrategyType: Int, Codable {
 
         return 0
     }
-    
+
     func weightThreshold() -> Int {
-        
+
         switch self {
 
         case .tinyCity: return 0
@@ -507,7 +508,7 @@ enum CityStrategyType: Int, Codable {
         guard let player = city?.player else {
             fatalError("cant get player")
         }
-        
+
         guard let militaryAI = player.militaryAI else {
             fatalError("cant get militaryAI")
         }
@@ -540,13 +541,13 @@ enum CityStrategyType: Int, Codable {
                 return false
             }
         }
-        
+
         let moddedNumBuilders = numBuilders * 67
         let moddedNumCities = currentNumCities + gameModel.cities(of: player).count(where: { $0!.isFeatureSurrounded() })
-    
+
         // We have fewer than we think we should, or we have none at all
         if moddedNumBuilders <= moddedNumCities || moddedNumBuilders == 0 {
-        
+
             // If we don't have any Workers by turn 30 we really need to get moving
             if gameModel.currentTurn > 30 { //AI_CITYSTRATEGY_NEED_TILE_IMPROVERS_DESPERATE_TURN
                 return true
@@ -557,11 +558,11 @@ enum CityStrategyType: Int, Codable {
     }
 
     private func shouldBeActiveWantTileImprovers(for city: AbstractCity?, in gameModel: GameModel?) -> Bool {
-        
+
         guard let city = city else {
             fatalError("no city given")
         }
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
@@ -569,7 +570,7 @@ enum CityStrategyType: Int, Codable {
         guard let player = city.player else {
             fatalError("cant get player")
         }
-        
+
         /*guard let militaryAI = player.militaryAI else {
             fatalError("cant get militaryAI")
         }*/
@@ -590,50 +591,50 @@ enum CityStrategyType: Int, Codable {
         if numBuilders >= numCities {
             return false
         }
-        
+
         // Don't get desperate for training a Builder here unless the City is at least of a certain size
         if city.population() >= 2 { // AI_CITYSTRATEGY_WANT_TILE_IMPROVERS_MINIMUM_SIZE
-            
+
             // If we don't even have 1 builder on map or in a queue, turn this on immediately
             if numBuilders < 1 {
                 return true
             }
-            
+
             let weightThresholdModifier = self.weightThresholdModifier(for: player)    // 2 Extra Weight per TILE_IMPROVEMENT Flavor
             let perCityThreshold = self.weightThreshold() + weightThresholdModifier;    // 40
-            
+
             var numResources = 0
             var numImprovedResources = 0
-            
+
             // Look at all Tiles this City could potentially work to see if there are any Water Resources that could be improved
             for pt in city.location.areaWith(radius: City.workRadius) {
-            
+
                 if let tile = gameModel.tile(at: pt) {
                     if tile.owner()?.leader == player.leader {
                         if tile.terrain().isLand() {
-                            
+
                             if !tile.hasAnyResource(for: player) {
                                 continue
                             }
-                            
+
                             let improvements = tile.possibleImprovements()
-                            
+
                             // no valid build found
                             if improvements.isEmpty {
                                 continue
                             }
-                            
+
                             // already build
                             if tile.has(improvement: improvements[0]) {
                                 numImprovedResources += 1
                             }
-                            
+
                             numResources += 1
                         }
                     }
                 }
             }
-            
+
             let manyUnimproveResources = (2 * (numResources - numImprovedResources)) > numResources
             var multiplier = numCities
             multiplier += gameModel.cities(of: player).count(where: { $0!.isFeatureSurrounded() })
@@ -650,125 +651,125 @@ enum CityStrategyType: Int, Codable {
                 return player.treasury!.value() > 10
             }
         }
-        
+
         return false
     }
 
     private func shouldBeActiveEnoughTileImprovers(for city: AbstractCity?) -> Bool {
-        
+
         return false
     }
 
     private func shouldBeActiveNeedNavalGrowth(for city: AbstractCity?) -> Bool {
-        
+
         return false
     }
 
     private func shouldBeActiveNeedNavalTileImprovement(for city: AbstractCity?) -> Bool {
-        
+
         return false
     }
 
     private func shouldBeActiveEnoughNavalTileImprovement(for city: AbstractCity?) -> Bool {
-        
+
         return false
     }
 
     private func shouldBeActiveHaveTrainingFacility(for city: AbstractCity?) -> Bool {
-        
+
         guard let buildings = city?.buildings else {
             fatalError("cant get buildings")
         }
-        
+
         if buildings.has(building: .barracks) {
             return true
         }
-        
+
         /*if buildings.has(building: .armory) {
             return true
         }*/
-        
+
         return false
     }
 
     /// "Capital Need Settler" City Strategy: have capital build a settler ASAP
     private func shouldBeActiveCapitalNeedSettler(for city: AbstractCity?, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = city?.player else {
             fatalError("cant get player")
         }
-        
+
         guard let city = city else {
             fatalError("cant get city")
         }
-        
+
         guard let cityStrategy = city.cityStrategy else {
             fatalError("cant get cityStrategy")
         }
-        
+
         guard let militaryAI = player.militaryAI else {
             fatalError("cant get militaryAI")
         }
-        
+
         if !city.isCapital() {
             return false
         }
-        
+
         let numCities = gameModel.cities(of: player).count
         let numSettlers = gameModel.units(of: player).count(where: { $0!.task() == .settle })
         let numCitiesAndSettlers = numCities + numSettlers
-        
+
         if numCitiesAndSettlers < 3 {
-            
+
             if gameModel.currentTurn > 100 && cityStrategy.adopted(cityStrategy: .capitalUnderThreat) {
-                
+
                 return false
             }
-            
+
             if militaryAI.adopted(militaryStrategy: .warMobilization) {
                 return false
             }
-            
+
             let weightThresholdModifier = self.weightThresholdModifier(for: player)
             let weightThreshold = self.weightThreshold() + weightThresholdModifier
-            
+
             if numCitiesAndSettlers == 1 && gameModel.currentTurn * 4 > weightThreshold {
-                
+
                 return true
             }
-            
+
             if numCitiesAndSettlers == 2 && gameModel.currentTurn > weightThreshold {
-                
+
                 return true
             }
         }
-        
+
         return false
     }
-    
+
     private func weightThresholdModifier(for player: AbstractPlayer) -> Int {
-        
+
         var value = 0
-        
+
         for flavor in FlavorType.all {
-            
+
             value += player.valueOfPersonalityFlavor(of: flavor) * self.flavorThresholdModifier(for: flavor)
         }
-        
+
         return value
     }
 
     /// "Capital Under Threat" City Strategy: need military units, don't build buildings!
     private func shouldBeActiveCapitalUnderThreat(for city: AbstractCity?, in gameModel: GameModel?) -> Bool {
-    
+
         guard let player = city?.player else {
             fatalError("cant get player")
         }
-        
+
         guard let city = city else {
             fatalError("cant get city")
         }
@@ -776,28 +777,28 @@ enum CityStrategyType: Int, Codable {
         if !city.isCapital() {
             return false
         }
-        
+
         if let mostThreatened = player.militaryAI?.mostThreatenedCity(in: gameModel) {
-        
+
             if mostThreatened.location == city.location && mostThreatened.threatValue() > 200 {
                 return true
             }
         }
-        
+
         return false
     }
 
     private func shouldBeActiveUnderBlockade(for city: AbstractCity?) -> Bool {
-        
+
         return false
     }
-    
+
     private func shouldBeActiveRiverCity(for city: AbstractCity?, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-               
+
         guard let city = city else {
             fatalError("cant get city")
         }
@@ -807,130 +808,130 @@ enum CityStrategyType: Int, Codable {
 
     /// "Coast City" City Strategy: give a little flavor to this city
     private func shouldBeActiveCoastCity(for city: AbstractCity?, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let city = city else {
             fatalError("cant get city")
         }
- 
+
         return gameModel.isCoastal(at: city.location)
     }
-    
+
     // "Hill City" City Strategy: give a little flavor to this city
     private func shouldBeActiveHillCity(for city: AbstractCity?, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let city = city else {
             fatalError("cant get city")
         }
-        
+
         var numHills = 0
-        
+
         // scan the nearby tiles to see if there are at least two hills in the vicinity
         for pt in city.location.areaWith(radius: City.workRadius) {
-            
+
             if let tile = gameModel.tile(at: pt) {
                 if tile.owner()?.leader == city.player?.leader && tile.hasHills() {
                     numHills += 1
-                    
+
                     if numHills > 1 {
                         return true
                     }
                 }
             }
         }
-        
+
         return false
     }
-    
+
     /// "Mountain City" City Strategy: give a little flavor to this city
     private func shouldBeActiveMountainCity(for city: AbstractCity?, in gameModel: GameModel?) -> Bool {
-    
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let city = city else {
             fatalError("cant get city")
         }
 
         // scan the nearby tiles to see if there is a mountain close enough to build an observatory
         for pt in city.location.areaWith(radius: City.workRadius) {
-            
+
             if let tile = gameModel.tile(at: pt) {
                 if tile.has(feature: .mountains) {
-                    
+
                     return true
                 }
             }
         }
-        
+
         return false
     }
-    
+
     /// "Forest City" City Strategy: give a little flavor to this city
     private func shouldBeActiveForestCity(for city: AbstractCity?, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let city = city else {
             fatalError("cant get city")
         }
-        
+
         var numForests = 0
-        
+
         // scan the nearby tiles to see if there are at least two forests in the vicinity
         for pt in city.location.areaWith(radius: City.workRadius) {
-            
+
             if let tile = gameModel.tile(at: pt) {
                 if tile.owner()?.leader == city.player?.leader && tile.has(feature: .forest) {
                     numForests += 1
-                    
+
                     if numForests > 1 {
                         return true
                     }
                 }
             }
         }
-        
+
         return false
     }
-    
+
     /// "Jungle City" City Strategy: give a little flavor to this city
     private func shouldBeActiveJungleCity(for city: AbstractCity?, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let city = city else {
             fatalError("cant get city")
         }
-        
+
         var numForests = 0
-        
+
         // scan the nearby tiles to see if there are at least two jungles in the vicinity
         for pt in city.location.areaWith(radius: City.workRadius) {
-            
+
             if let tile = gameModel.tile(at: pt) {
                 if tile.owner()?.leader == city.player?.leader && tile.has(feature: .rainforest) {
                     numForests += 1
-                    
+
                     if numForests > 1 {
                         return true
                     }
                 }
             }
         }
-        
+
         return false
     }
 }
