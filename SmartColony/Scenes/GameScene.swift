@@ -538,7 +538,7 @@ class GameScene: BaseScene {
         if let blockingNotification = humanPlayer.blockingNotification() {
 
             if let unit = self.selectedUnit {
-                if !unit.readyToMove() {
+                if !unit.readyToSelect() {
                     self.unselect()
                 } else {
                     self.select(unit: unit)

@@ -235,7 +235,7 @@ public class UnitMission {
 
                     if let target = self.target, let tile = gameModel.tile(at: target) {
 
-                        if unit.isAutomated() && tile.isDiscovered(by: unitPlayer) && unit.canMove(into: target, options: MoveOptions.none, in: gameModel) {
+                        /*if unit.isAutomated() && tile.isDiscovered(by: unitPlayer) && unit.canMove(into: target, options: MoveOptions.attack, in: gameModel) {
 
                             // if we're automated and try to attack, consider this move OVAH
                             done = true
@@ -298,7 +298,7 @@ public class UnitMission {
                             if unit.doAttack(into: target, steps: steps, in: gameModel) {
                                 done = true
                             }
-                        }
+                        }*/
                     }
                 }
             }
@@ -459,19 +459,15 @@ public class UnitMission {
                     }
                 } else if self.type == .routeTo {
                     if unit.location == target {
-                        /*if (unit.GetBestBuildRoute(unit.plot()) == NO_ROUTE)
-                        {
-                            done = true;
-                        }*/
-                        fatalError("dont get it")
+                        done = true;
                     }
                 } else if self.type == .moveToUnit {
 
-                    //UnitHandle pTargetUnit = GET_PLAYER((PlayerTypes)kMissionData.iData1).getUnit(kMissionData.iData2);
-                    if let targetUnit = gameModel.unit(at: target!, of: .combat) {
-                        fatalError("dont get it")
-                        //if ((!pTargetUnit) ||unit. plot() == pTargetUnit->plot()) {
-                        done = true
+                    let oppositeType: UnitMapType = unit.unitClassType() == .civilian ? UnitMapType.combat : UnitMapType.civilian
+                    if let targetUnit = gameModel.unit(at: target!, of: oppositeType) {
+                        if targetUnit.location == unit.location {
+                            done = true
+                        }
                     }
 
                 } else if self.type == .garrison {

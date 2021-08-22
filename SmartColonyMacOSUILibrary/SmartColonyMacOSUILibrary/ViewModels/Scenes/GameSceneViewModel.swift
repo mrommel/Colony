@@ -478,7 +478,7 @@ extension GameSceneViewModel {
         if let unit = self.selectedUnit {
             print("click on unit icon - \(unit.type)")
 
-            if unit.movesLeft() == 0 {
+            if !unit.readyToSelect() {
                 self.game?.userInterface?.unselect()
                 return
             }
