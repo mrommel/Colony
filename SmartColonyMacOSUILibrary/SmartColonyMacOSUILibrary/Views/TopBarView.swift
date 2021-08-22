@@ -25,6 +25,9 @@ public struct TopBarView: View {
                 YieldValueView(viewModel: self.viewModel.faithYieldValueViewModel)
 
                 YieldValueView(viewModel: self.viewModel.goldYieldValueViewModel)
+                    .onTapGesture {
+                        self.viewModel.treasuryClicked()
+                    }
 
                 Spacer()
 

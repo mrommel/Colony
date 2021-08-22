@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+protocol TopBarViewModelDelegate: AnyObject {
+
+    func treasuryClicked()
+}
+
 public class TopBarViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
@@ -26,6 +31,8 @@ public class TopBarViewModel: ObservableObject {
 
     @Published
     var turnLabelText: String
+
+    weak var delegate: TopBarViewModelDelegate?
 
     init() {
 
@@ -62,5 +69,10 @@ public class TopBarViewModel: ObservableObject {
         self.goldYieldValueViewModel.delta = humanPlayer.treasury?.calculateGrossGold(in: gameModel) ?? 0.0
 
         self.turnLabelText = gameModel.turnYear()
+    }
+
+    func treasuryClicked() {
+
+        self.delegate?.treasuryClicked()
     }
 }
