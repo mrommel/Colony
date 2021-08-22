@@ -2751,18 +2751,18 @@ public class Unit: AbstractUnit {
     public func automate(with type: UnitAutomationType) {
 
         if self.automationType != type {
-
+        
             let oldAutomationType = self.automationType
             self.automationType = type
-
+            
             self.clearMissions()
             //self.set(activityType: .awake, in: <#T##GameModel?#>)
-
+        
             if oldAutomationType == .explore {
                 // these need to be rebuilt
                 self.player?.economicAI?.explorationPlotsDirty = true
             }
-
+            
             // if canceling automation, cancel on cargo as well
             if type == .none {
 
@@ -2788,7 +2788,7 @@ public class Unit: AbstractUnit {
             }
         }
     }
-
+    
     public func readyToSelect() -> Bool {
 
         return self.readyToMove() && !self.isAutomated()
