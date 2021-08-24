@@ -28,7 +28,13 @@ class MapEditorMenu: NSMenu {
             NSMenuItem(title: "Preferences...", action: nil, keyEquivalent: ","),
             NSMenuItem.separator(),
             NSMenuItem(title: "Hide \(applicationName)", action: #selector(NSApplication.hide(_:)), keyEquivalent: "h"),
-            NSMenuItem(title: "Hide Others", target: self, action: #selector(NSApplication.hideOtherApplications(_:)), keyEquivalent: "h", modifier: .init(arrayLiteral: [.command, .option])),
+            NSMenuItem(
+                title: "Hide Others",
+                target: self,
+                action: #selector(NSApplication.hideOtherApplications(_:)),
+                keyEquivalent: "h",
+                modifier: .init(arrayLiteral: [.command, .option])
+            ),
             NSMenuItem(title: "Show All", action: #selector(NSApplication.unhideAllApplications(_:)), keyEquivalent: ""),
             NSMenuItem.separator(),
             NSMenuItem(title: "Quit \(applicationName)", action: #selector(NSApplication.shared.terminate(_:)), keyEquivalent: "q")
@@ -78,17 +84,32 @@ class MapEditorMenu: NSMenu {
         let layersMenu = NSMenuItem()
         layersMenu.submenu = NSMenu(title: "Layers")
         
-        self.showStartLocationsMenuItem = NSMenuItem(title: "Show Start Locations", target: self, action: #selector(MapEditorMenu.toogleShowStartLocations(_:)), keyEquivalent: "")
+        self.showStartLocationsMenuItem = NSMenuItem(
+            title: "Show Start Locations",
+            target: self,
+            action: #selector(MapEditorMenu.toogleShowStartLocations(_:)),
+            keyEquivalent: ""
+        )
         self.showStartLocationsMenuItem?.onStateImage = NSImage(named: NSImage.statusAvailableName)
         self.showStartLocationsMenuItem?.offStateImage = NSImage(named: NSImage.statusUnavailableName)
         layersMenu.submenu?.addItem(self.showStartLocationsMenuItem!)
         
-        self.showInhabitantsBarMenuItem = NSMenuItem(title: "Show Inhabitants Bars", target: self, action: #selector(MapEditorMenu.toogleShowInhabitantsBars(_:)), keyEquivalent: "")
+        self.showInhabitantsBarMenuItem = NSMenuItem(
+            title: "Show Inhabitants Bars",
+            target: self,
+            action: #selector(MapEditorMenu.toogleShowInhabitantsBars(_:)),
+            keyEquivalent: ""
+        )
         self.showInhabitantsBarMenuItem?.onStateImage = NSImage(named: NSImage.statusAvailableName)
         self.showInhabitantsBarMenuItem?.offStateImage = NSImage(named: NSImage.statusUnavailableName)
         layersMenu.submenu?.addItem(self.showInhabitantsBarMenuItem!)
         
-        self.showSupportedPeopleMenuItem = NSMenuItem(title: "Show Supported People", target: self, action: #selector(MapEditorMenu.toogleShowSupportedPeople(_:)), keyEquivalent: "")
+        self.showSupportedPeopleMenuItem = NSMenuItem(
+            title: "Show Supported People",
+            target: self,
+            action: #selector(MapEditorMenu.toogleShowSupportedPeople(_:)),
+            keyEquivalent: ""
+        )
         self.showSupportedPeopleMenuItem?.onStateImage = NSImage(named: NSImage.statusAvailableName)
         self.showSupportedPeopleMenuItem?.offStateImage = NSImage(named: NSImage.statusUnavailableName)
         layersMenu.submenu?.addItem(self.showSupportedPeopleMenuItem!)

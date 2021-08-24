@@ -359,7 +359,7 @@ extension GameScene {
         self.cameraNode.add(dialog: selectPromotionDialog)
     }
     
-    func showDisbandDialog(for unit: AbstractUnit?, completion: @escaping (Bool)->Void) {
+    func showDisbandDialog(for unit: AbstractUnit?, completion: @escaping (Bool) -> Void) {
         
         guard let unit = unit else {
             fatalError("cant get unit")

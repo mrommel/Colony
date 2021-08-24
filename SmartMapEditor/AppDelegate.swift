@@ -15,8 +15,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
+        let width = NSScreen.main?.frame.width ?? 200
+        let height = NSScreen.main?.frame.height ?? 200
         self.window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: NSScreen.main?.frame.width ?? 200, height: NSScreen.main?.frame.height ?? 200),
+            contentRect: NSRect(x: 0, y: 0, width: width, height: height),
             styleMask: [.miniaturizable, .closable, .resizable, .titled],
             backing: .buffered,
             defer: false

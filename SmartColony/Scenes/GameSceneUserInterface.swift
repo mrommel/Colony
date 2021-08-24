@@ -173,12 +173,12 @@ extension GameScene: UserInterfaceDelegate {
         self.notificationsNode?.remove(notification: notification)
     }
     
-    func askToDisband(unit: AbstractUnit?, completion: @escaping (Bool)->Void) {
+    func askToDisband(unit: AbstractUnit?, completion: @escaping (Bool) -> Void) {
         
         self.showDisbandDialog(for: unit, completion: completion)
     }
     
-    func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?)->Void) {
+    func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?) -> Void) {
         
         self.showSelectCityDialog(start: startCity, of: cities, completion: completion)
     }

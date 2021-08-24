@@ -54,10 +54,14 @@ class BlurrableNode: SKEffectNode {
             self.shouldEnableEffects = false
             completion()
         } else {
-            self.run(SKAction.customAction(withDuration: TimeInterval(BlurrableNode.blurAnimationLength), actionBlock: { (_: SKNode, elapsedTime: CGFloat) in
+            let actionBlock: @escaping (SKNode, CGFloat) -> Void = { (_: SKNode, elapsedTime: CGFloat) in
                 let radius = BlurrableNode.blurRadius - (elapsedTime / BlurrableNode.blurAnimationLength) * BlurrableNode.blurRadius
                 self.blurFilter?.setValue(radius, forKey: kCIInputRadiusKey)
-            }), completion: {
+            }
+            let action = SKAction.customAction(
+                withDuration: TimeInterval(BlurrableNode.blurAnimationLength),
+                actionBlock: actionBlock)
+            self.run(action, completion: {
                 self.shouldEnableEffects = false
                 completion()
             })

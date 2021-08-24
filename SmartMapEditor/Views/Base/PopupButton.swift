@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 // https://github.com/kubedoctor/kubedoctor/blob/e145e666e3cae7a80c4470d65146ca24f50fb8d5/macOS/KubeDoctor/View/PopupButton.swift
-struct PopupButton<T: Hashable> : NSViewRepresentable {
+struct PopupButton<T: Hashable>: NSViewRepresentable {
     @Binding var selectedValue: T
     @Binding var items: [T]
 
