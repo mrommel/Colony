@@ -18,7 +18,7 @@ class UnitTradeRouteData {
     init(from tradeRoute: TradeRoute, in turn: Int) {
 
         self.tradeRoute = tradeRoute
-        self.direction = .forward
+        self.direction = .start
         self.establishedInTurn = turn
         self.state = .active
     }
@@ -43,15 +43,8 @@ class UnitTradeRouteData {
 
     func doTurn(for unit: AbstractUnit?, in gameModel: GameModel?) {
 
-        guard let gameModel = gameModel,
-            let unit = unit,
-            let playerEra = unit.player?.currentEra() else {
-
+        guard let unit = unit else {
                 fatalError("cant get data")
-        }
-
-        if self.establishedInTurn + self.tradeRouteDuration(in: playerEra) >= gameModel.currentTurn {
-            self.state = .expired
         }
 
         var isFollowingMission = false
@@ -62,20 +55,37 @@ class UnitTradeRouteData {
         }
 
         if !isFollowingMission {
-            if let target = self.nextTarget(current: unit.location, in: gameModel) {
+            if let target = self.nextTarget(for: unit, in: gameModel) {
                 let mission = UnitMission(type: .routeTo, at: target)
                 unit.push(mission: mission, in: gameModel)
             }
         } else {
-            unit.continueTrading(in: gameModel)
+            // unit.continueTrading(in: gameModel)
         }
     }
 
-    func nextTarget(current: HexPoint, in gameModel: GameModel?) -> HexPoint? {
+    func nextTarget(for unit: AbstractUnit?, in gameModel: GameModel?) -> HexPoint? {
 
-        // check if unit directly at one of the points
-        if self.direction == .forward {
-
+        guard let current = unit?.location else {
+            fatalError("cant get location")
+        }
+        
+        switch self.direction {
+        
+        case .start: // move to start location (without building a road)
+            
+            // check if unit directly at start city
+            if current == self.tradeRoute.start {
+                self.direction = .forward
+                return self.nextTarget(for: unit, in: gameModel)
+            }
+            
+            // otherwise go to the start city
+            return self.tradeRoute.start
+        
+        case .forward: // go towards target city
+            
+            // check if unit directly at one of the points
             if current == self.tradeRoute.start {
 
                 if let firstPost = self.tradeRoute.posts.first {
@@ -97,9 +107,10 @@ class UnitTradeRouteData {
 
             if current == self.tradeRoute.end {
                 self.direction = .backward
-                return self.nextTarget(current: current, in: gameModel)
+                return self.nextTarget(for: unit, in: gameModel)
             }
-        } else if self.direction == .backward {
+        case .backward: // come back to start city
+
             if current == self.tradeRoute.end {
                 if let lastPost = self.tradeRoute.posts.last {
                     return lastPost
@@ -121,12 +132,13 @@ class UnitTradeRouteData {
             if current == self.tradeRoute.start {
 
                 // if route is expired, stop here
+                self.checkExpiration(for: unit, in: gameModel)
                 if self.state == .expired {
                     return nil // this should stop the route, user can select next route
                 }
 
                 self.direction = .forward
-                return self.nextTarget(current: current, in: gameModel)
+                return self.nextTarget(for: unit, in: gameModel)
             }
         }
 
@@ -148,5 +160,20 @@ class UnitTradeRouteData {
         }
 
         return bestLocation
+    }
+    
+    func checkExpiration(for unit: AbstractUnit?, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+                fatalError("cant get game")
+        }
+        
+        guard let playerEra = unit?.player?.currentEra() else {
+            fatalError("cant get era")
+        }
+        
+        if self.establishedInTurn + self.tradeRouteDuration(in: playerEra) >= gameModel.currentTurn {
+            self.state = .expired
+        }
     }
 }

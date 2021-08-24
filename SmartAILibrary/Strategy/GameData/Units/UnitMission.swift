@@ -321,8 +321,11 @@ public class UnitMission {
                         }
                     }
                 } else if self.type == .routeTo {
+                    
                     let oldLocation = unit.location
-                    if unit.doMoveOnPath(towards: self.target!, previousETA: 0, buildingRoute: false, in: gameModel) > 0 {
+                    let movesToDo = unit.doMoveOnPath(towards: self.target!, previousETA: 0, buildingRoute: false, in: gameModel)
+                    
+                    if movesToDo > 0 {
                         action = true
                     } else {
                         action = oldLocation != self.target!

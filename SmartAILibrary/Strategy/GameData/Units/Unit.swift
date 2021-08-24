@@ -1460,7 +1460,7 @@ public class Unit: AbstractUnit {
 
         if !path.isEmpty {
             let tmp = (path.cost - usedPathCost) / Double(self.maxMoves(in: gameModel))
-            return Int(tmp.rounded(.toNearestOrAwayFromZero))
+            return (0.0 < tmp && tmp < 1.0) ? 1 : Int(tmp.rounded(.toNearestOrAwayFromZero))
         }
 
         return 1
@@ -1480,7 +1480,12 @@ public class Unit: AbstractUnit {
             fatalError("cant get oldPlot")
         }
 
-        let costDataSource = gameModel.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player, unitMapType: self.unitMapType(), canEmbark: self.canEmbark(in: gameModel))
+        let costDataSource = gameModel.unitAwarePathfinderDataSource(
+            for: self.movementType(),
+            for: self.player,
+            unitMapType: self.unitMapType(),
+            canEmbark: self.canEmbark(in: gameModel) || self.isEmbarked()
+        )
 
         if !self.canMove() {
             return false
@@ -1684,7 +1689,14 @@ public class Unit: AbstractUnit {
                                 }
 
                                 if let notifications = loopUnit.player?.notifications() {
-                                    notifications.addNotification(of: .unitDied, for: loopPlayer, message: strMessage, summary: strSummary, at: loopUnit.location, other: self.player)
+                                    notifications.addNotification(
+                                        of: .unitDied,
+                                        for: loopPlayer,
+                                        message: strMessage,
+                                        summary: strSummary,
+                                        at: loopUnit.location,
+                                        other: self.player
+                                    )
                                 }
 
                                 if loopUnit.isEmbarked() {
@@ -1699,7 +1711,6 @@ public class Unit: AbstractUnit {
 
                                 loopUnit.doKill(delayed: false, by: self.player, in: gameModel)
                             }
-
                         }
                     }
                 }
@@ -2919,6 +2930,7 @@ public class Unit: AbstractUnit {
         return cities
     }
 
+    @discardableResult
     public func doEstablishTradeRoute(to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool {
 
         guard let player = self.player else {
@@ -4295,7 +4307,7 @@ extension Unit {
 
     public func continueTrading(in gameModel: GameModel?) {
 
-        if let nextTarget = self.tradeRouteData?.nextTarget(current: self.location, in: gameModel) {
+        if let nextTarget = self.tradeRouteData?.nextTarget(for: self, in: gameModel) {
 
             let mission = UnitMission(type: .routeTo, at: nextTarget)
             self.push(mission: mission, in: gameModel)

@@ -110,7 +110,7 @@ class GameReligions: AbstractGameReligions, Codable {
             fatalError("cant get city ref")
         }
 
-        print("spread religion for \(city.name)")
+        // print("spread religion for \(city.name)")
 
         // Used to calculate how many trade routes are applying pressure to this city. This resets the value so we get a true count every turn.
         city.cityReligion?.resetNumTradeRoutePressure()

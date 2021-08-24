@@ -225,6 +225,8 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func tradingCapacity(in gameModel: GameModel?) -> Int
     func numberOfTradeRoutes() -> Int
     func canEstablishTradeRoute(in gameModel: GameModel?) -> Bool
+    
+    @discardableResult
     func doEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool
 
     // distance / cities
