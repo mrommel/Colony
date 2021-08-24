@@ -132,7 +132,12 @@ class MapEditorMenu: NSMenu {
         helpMenu.submenu = NSMenu(title: "Help")
         helpMenu.submenu?.items = [
             helpMenuSearch,
-            NSMenuItem(title: "Documentation", target: self, action: #selector(openDocumentation(_:)), keyEquivalent: "")
+            NSMenuItem(
+                title: "Documentation",
+                target: self,
+                action: #selector(openDocumentation(_:)),
+                keyEquivalent: ""
+            )
         ]
 
         self.items = [mainMenu, fileMenu, editMenu, mapMenu, layersMenu, viewMenu, windowMenu, helpMenu]
