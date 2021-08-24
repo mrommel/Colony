@@ -17,7 +17,7 @@ public class MapOverviewViewModel: ObservableObject {
     private var buffer: PixelBuffer = PixelBuffer(width: MapSize.duel.width(),
                                                   height: MapSize.duel.height(),
                                                   color: Globals.Colors.overviewBackground)
-    private var line = MapSize.duel.width() * 9
+    private var lineOffset = MapSize.duel.width() * 9
     private var mapSize: MapSize = MapSize.duel
 
     private weak var player: AbstractPlayer?
@@ -40,7 +40,7 @@ public class MapOverviewViewModel: ObservableObject {
                                       height: Int(contentSize.height),
                                       color: Globals.Colors.overviewBackground)
 
-            self.line = Int(contentSize.width)
+            self.lineOffset = Int(contentSize.width)
 
             guard let bufferImage = self.buffer.toNSImage() else {
                 fatalError("can't create image from buffer")
@@ -82,7 +82,7 @@ public class MapOverviewViewModel: ObservableObject {
                                   height: Int(contentSize.height),
                                   color: Globals.Colors.overviewBackground)
 
-        self.line = Int(contentSize.width)
+        self.lineOffset = Int(contentSize.width)
 
         guard let bufferImage = self.buffer.toNSImage() else {
             fatalError("can't create image from buffer")
@@ -150,21 +150,21 @@ public class MapOverviewViewModel: ObservableObject {
 
         let offset = HexPoint.toScreen(hex: HexPoint(x: 0, y: self.mapSize.height() - 1)).x / 7.5
         let screenPoint = HexPoint.toScreen(hex: pt) / 7.5
-        let index = Int(-screenPoint.y) * self.line + Int(screenPoint.x - offset)
+        let lineIndex = Int(-screenPoint.y) * self.lineOffset + Int(screenPoint.x - offset)
 
         for index in 0...6 {
-            self.buffer.set(color: color, at: index + index)
-            self.buffer.set(color: color, at: index + 5 * self.line + index)
+            self.buffer.set(color: color, at: lineIndex + index)
+            self.buffer.set(color: color, at: lineIndex + 5 * self.lineOffset + index)
         }
 
         for index in -1...7 {
-            self.buffer.set(color: color, at: index + self.line + index)
-            self.buffer.set(color: color, at: index + 4 * self.line + index)
+            self.buffer.set(color: color, at: lineIndex + self.lineOffset + index)
+            self.buffer.set(color: color, at: lineIndex + 4 * self.lineOffset + index)
         }
 
         for index in -2...8 {
-            self.buffer.set(color: color, at: index + 2 * self.line + index)
-            self.buffer.set(color: color, at: index + 3 * self.line + index)
+            self.buffer.set(color: color, at: lineIndex + 2 * self.lineOffset + index)
+            self.buffer.set(color: color, at: lineIndex + 3 * self.lineOffset + index)
         }
     }
 
