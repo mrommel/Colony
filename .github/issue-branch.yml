@@ -5,11 +5,11 @@ branchName: "issue-${issue.number}/${issue.title,}"
 autoCloseIssue: true
 gitSafeReplacementChar: "-"
 branches:
-	- label: "type: feature"
-    	prefix: feature/
-  	- label: "type: bug"
-    	prefix: bugfix/
-	- label: "type: documentation"
-    	prefix: docs/
-	- label: "*"
-    	skip: true
+  - label: "type: feature"
+    prefix: feature/
+  - label: "type: bug"
+    prefix: bugfix/
+  - label: "type: documentation"
+    prefix: docs/
+  - label: "*"
+    skip: true
