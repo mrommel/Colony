@@ -58,6 +58,8 @@ class UnitTradeRouteData {
             if let target = self.nextTarget(for: unit, in: gameModel) {
                 let mission = UnitMission(type: .routeTo, at: target)
                 unit.push(mission: mission, in: gameModel)
+            } else {
+                unit.endTrading()
             }
         } else {
             // unit.continueTrading(in: gameModel)

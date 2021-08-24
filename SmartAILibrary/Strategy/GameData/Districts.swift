@@ -25,6 +25,10 @@ public protocol AbstractDistricts: Codable {
 
     func housing() -> Double
     func updateHousing()
+    
+    // trade route methods
+    func domesticTradeYields() -> Yields
+    func foreignTradeYields() -> Yields
 }
 
 class Districts: AbstractDistricts {
@@ -102,8 +106,36 @@ class Districts: AbstractDistricts {
         for district in DistrictType.all {
 
             if self.has(district: district) {
-                self.housingVal += district.yields().housing
+                //self.housingVal += district.yields().housing
             }
         }
+    }
+    
+    func domesticTradeYields() -> Yields {
+        
+        var yields = Yields(food: 0.0, production: 0.0, gold: 0.0)
+        
+        for district in DistrictType.all {
+
+            if self.has(district: district) {
+                yields += district.domesticTradeYields()
+            }
+        }
+        
+        return yields
+    }
+    
+    func foreignTradeYields() -> Yields {
+        
+        var yields = Yields(food: 0.0, production: 0.0, gold: 0.0)
+        
+        for district in DistrictType.all {
+
+            if self.has(district: district) {
+                yields += district.foreignTradeYields()
+            }
+        }
+        
+        return yields
     }
 }

@@ -220,6 +220,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func start(tradeRoute: TradeRoute, in gameModel: GameModel?)
     func continueTrading(in gameModel: GameModel?)
     func isTrading() -> Bool
+    func endTrading()
 }
 
 public protocol UnitMovedDelegate: AnyObject {
@@ -4317,5 +4318,10 @@ extension Unit {
     public func isTrading() -> Bool {
 
         return self.tradeRouteData != nil
+    }
+    
+    public func endTrading() {
+        
+        self.tradeRouteData = nil
     }
 }

@@ -71,7 +71,12 @@ class UnitBannerViewModel: ObservableObject {
         }
 
         if let selectedUnit = self.selectedUnit {
-            return "\(selectedUnit.moves()) / \(selectedUnit.maxMoves(in: gameModel)) Moves"
+            
+            if selectedUnit.type == .trader {
+                return "15 land route range"
+            }
+            
+            return "\(selectedUnit.moves()) / \(selectedUnit.maxMoves(in: gameModel)) moves"
         }
 
         return ""
@@ -80,7 +85,19 @@ class UnitBannerViewModel: ObservableObject {
     public func unitHealth() -> String {
 
         if let selectedUnit = self.selectedUnit {
-            return "\(selectedUnit.healthPoints()) ⚕"
+            
+            if selectedUnit.type == .trader {
+                
+                guard let techs = self.selectedUnit?.player?.techs else {
+                    fatalError("cant get player techs")
+                }
+                
+                if techs.has(tech: .celestialNavigation) {
+                    return "30 sea route range"
+                }
+            }
+            
+            return "\(selectedUnit.healthPoints()) health"
         }
 
         return ""
@@ -89,8 +106,9 @@ class UnitBannerViewModel: ObservableObject {
     public func unitCharges() -> String {
 
         if let selectedUnit = self.selectedUnit {
+            
             if selectedUnit.type.buildCharges() > 0 {
-                return "\(selectedUnit.buildCharges()) ♾"
+                return "\(selectedUnit.buildCharges()) charges"
             }
         }
 

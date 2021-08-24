@@ -44,69 +44,112 @@ public enum DistrictType: Int, Codable {
         return self.data().requiredCivic
     }
 
-    public func yields() -> Yields {
+    public func domesticTradeYields() -> Yields {
 
-        return self.data().yields
+        return self.data().domesticTradeYields
+    }
+    
+    public func foreignTradeYields() -> Yields {
+
+        return self.data().foreignTradeYields
     }
 
     // MARK: private methods / classes
 
-    struct DistrictTypeData {
+    private struct DistrictTypeData {
 
         let name: String
         let productionCost: Int
         let requiredTech: TechType?
         let requiredCivic: CivicType?
-        let yields: Yields
+
+        let domesticTradeYields: Yields
+        let foreignTradeYields: Yields
     }
 
-    func data() -> DistrictTypeData {
+    private func data() -> DistrictTypeData {
 
         switch self {
 
-        case .cityCenter: return DistrictTypeData(name: "CityCenter",
-                                                  productionCost: 0,
-                                                  requiredTech: nil,
-                                                  requiredCivic: nil,
-                                                  yields: Yields(food: 0.0, production: 0.0, gold: 0.0))
-
-        case .campus: return DistrictTypeData(name: "Campus",
-                                              productionCost: 54,
-                                              requiredTech: .writing,
-                                              requiredCivic: nil,
-                                              yields: Yields(food: 0.0, production: 0.0, gold: 0.0))
-        case .holySite: return DistrictTypeData(name: "HolySite",
-                                                productionCost: 54,
-                                                requiredTech: .astrology,
-                                                requiredCivic: nil,
-                                                yields: Yields(food: 0.0, production: 0.0, gold: 0.0))
-        case .encampment:  return DistrictTypeData(name: "Encampment",
-                                                   productionCost: 54,
-                                                   requiredTech: .bronzeWorking,
-                                                   requiredCivic: nil,
-                                                   yields: Yields(food: 0.0, production: 0.0, gold: 0.0))
-        case .harbor: return DistrictTypeData(name: "Harbor",
-                                              productionCost: 54,
-                                              requiredTech: .celestialNavigation,
-                                              requiredCivic: nil,
-                                              yields: Yields(food: 0.0, production: 0.0, gold: 0.0))
-        case .entertainment: return DistrictTypeData(name: "Entertainment",
-                                                     productionCost: 54,
-                                                     requiredTech: nil,
-                                                     requiredCivic: .dramaAndPoetry,
-                                                     yields: Yields(food: 0.0, production: 0.0, gold: 0.0))
-        case .commercialHub: return DistrictTypeData(name: "Commercial Hub",
-                                                     productionCost: 54,
-                                                     requiredTech: .currency,
-                                                     requiredCivic: nil,
-                                                     yields: Yields(food: 0.0, production: 0.0, gold: 0.0))
+        case .cityCenter:
+            return DistrictTypeData(
+                name: "CityCenter",
+                productionCost: 0,
+                requiredTech: nil,
+                requiredCivic: nil,
+                domesticTradeYields: Yields(food: 1.0, production: 1.0, gold: 0.0),
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 3.0)
+            )
+            
+        case .campus:
+            return DistrictTypeData(
+                name: "Campus",
+                productionCost: 54,
+                requiredTech: .writing,
+                requiredCivic: nil,
+                domesticTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0),
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0, science: 1.0)
+            )
+            
+        case .holySite:
+            return DistrictTypeData(
+                name: "HolySite",
+                productionCost: 54,
+                requiredTech: .astrology,
+                requiredCivic: nil,
+                domesticTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0),
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0, faith: 1.0)
+            )
+            
+        case .encampment:
+            return DistrictTypeData(
+                name: "Encampment",
+                productionCost: 54,
+                requiredTech: .bronzeWorking,
+                requiredCivic: nil,
+                domesticTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0),
+                foreignTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0)
+            )
+            
+        case .harbor:
+            return DistrictTypeData(
+                name: "Harbor",
+                productionCost: 54,
+                requiredTech: .celestialNavigation,
+                requiredCivic: nil,
+                domesticTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0),
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 3.0)
+            )
+            
+        case .entertainment:
+            return DistrictTypeData(
+                name: "Entertainment",
+                productionCost: 54,
+                requiredTech: nil,
+                requiredCivic: .dramaAndPoetry,
+                domesticTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0),
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 1.0)
+            )
+            
+        case .commercialHub:
+            return DistrictTypeData(
+                name: "Commercial Hub",
+                productionCost: 54,
+                requiredTech: .currency,
+                requiredCivic: nil,
+                domesticTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0),
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 3.0)
+            )
         case .industrial:
             //  https://civilization.fandom.com/wiki/Industrial_Zone_(Civ6)
-            return DistrictTypeData(name: "Industrial Zone",
-                                    productionCost: 54,
-                                    requiredTech: .apprenticeship,
-                                    requiredCivic: nil,
-                                    yields: Yields(food: 0.0, production: 0.0, gold: 0.0))
+            return DistrictTypeData(
+                name: "Industrial Zone",
+                productionCost: 54,
+                requiredTech: .apprenticeship,
+                requiredCivic: nil,
+                domesticTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0),
+                foreignTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0)
+            )
         }
     }
 
