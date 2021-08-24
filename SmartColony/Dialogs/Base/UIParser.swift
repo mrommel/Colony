@@ -41,4 +41,3 @@ class UIParser: NSObject {
         return nil
     }
 }
-

@@ -19,7 +19,7 @@ struct MapProgressView: View {
     @ObservedObject
     var viewModel: MapProgressViewModel
     
-    weak var delegate: MapProgressViewDelegate? = nil
+    weak var delegate: MapProgressViewDelegate?
     
     var body: some View {
         

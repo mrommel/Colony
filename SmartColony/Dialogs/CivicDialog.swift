@@ -108,7 +108,7 @@ class CivicDialog: Dialog {
         let offsetX = -self.scrollNode!.size.halfWidth
         
         let backgroundTexture = SKTexture(imageNamed: "civic_connections")
-        let backgroundNode = SKSpriteNode(texture: backgroundTexture, color: .black, size: CGSize(width: 1500   , height: 380))
+        let backgroundNode = SKSpriteNode(texture: backgroundTexture, color: .black, size: CGSize(width: 1500, height: 380))
         backgroundNode.anchorPoint = CGPoint.middleLeft
         backgroundNode.zPosition = 199
         backgroundNode.position = CGPoint(x: offsetX, y: 0)

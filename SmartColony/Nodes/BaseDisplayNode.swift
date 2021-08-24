@@ -18,7 +18,7 @@ class BaseDisplayNode: SKNode {
     //var costNode: SpriteButtonNode?
     private var iconNodes: [SKSpriteNode?] = []
     
-    var touchHandler: (()->Void)?
+    var touchHandler: (() -> Void)?
     
     init(texture: String, type progressBarType: ProgressBarType, name: String, progress: Int, iconTextures: [SKTexture], size: CGSize) {
         

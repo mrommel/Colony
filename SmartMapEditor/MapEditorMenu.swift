@@ -48,7 +48,7 @@ class MapEditorMenu: NSMenu {
             //NSMenuItem.separator(),
             //NSMenuItem(title: "Export", action: nil, keyEquivalent: ""),
             NSMenuItem.separator(),
-            NSMenuItem(title: "Close", action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w"),
+            NSMenuItem(title: "Close", action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w")
         ]
 
         let editMenu = NSMenuItem()
@@ -64,7 +64,7 @@ class MapEditorMenu: NSMenu {
             NSMenuItem(title: "Select All", action: #selector(NSText.selectAll(_:)), keyEquivalent: "a"),
             NSMenuItem.separator(),
             NSMenuItem(title: "Delete", target: self, action: nil, keyEquivalent: "⌫", modifier: .init()),
-            NSMenuItem(title: "Duplicate", action: #selector(NSApplication.copy), keyEquivalent: "d"),
+            NSMenuItem(title: "Duplicate", action: #selector(NSApplication.copy), keyEquivalent: "d")
         ]
         
         let mapMenu = NSMenuItem()
@@ -72,7 +72,7 @@ class MapEditorMenu: NSMenu {
         mapMenu.submenu?.items = [
             NSMenuItem(title: "Edit Meta Data", target: self, action: #selector(MapEditorMenu.editMetaData(_:)), keyEquivalent: "e"),
             NSMenuItem.separator(),
-            NSMenuItem(title: "Debug HeightMap", target: self, action: #selector(MapEditorMenu.debugHeightMap(_:)), keyEquivalent: "d"),
+            NSMenuItem(title: "Debug HeightMap", target: self, action: #selector(MapEditorMenu.debugHeightMap(_:)), keyEquivalent: "d")
         ]
 
         let layersMenu = NSMenuItem()
@@ -111,7 +111,7 @@ class MapEditorMenu: NSMenu {
         helpMenu.submenu = NSMenu(title: "Help")
         helpMenu.submenu?.items = [
             helpMenuSearch,
-            NSMenuItem(title: "Documentation", target: self, action: #selector(openDocumentation(_:)), keyEquivalent: ""),
+            NSMenuItem(title: "Documentation", target: self, action: #selector(openDocumentation(_:)), keyEquivalent: "")
         ]
 
         self.items = [mainMenu, fileMenu, editMenu, mapMenu, layersMenu, viewMenu, windowMenu, helpMenu]

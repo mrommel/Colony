@@ -22,11 +22,12 @@ extension CommandType {
         case .buildFishingBoats: return "command-fishingBoats"
 
         case .hold: return "command-hold"
-
         case .fortify: return "command-fortify"
         case .garrison: return "command-garrison"
         case .pillage: return "command-pillage"
+            
         case .disband: return "command-disband"
+        case .cancelOrder: return "command-cancelOrder"
             
         case .automateExploration: return "command-automateExploration"
         case .automateBuild: return "command-automateBuild"
@@ -51,11 +52,12 @@ extension CommandType {
         case .buildFishingBoats: return "command-button-fishingBoats"
 
         case .hold: return "command-button-hold"
-
         case .fortify: return "command-button-fortify"
         case .garrison: return "command-button-garrison"
         case .pillage: return "command-button-pillage"
+            
         case .disband: return "command-button-disband"
+        case .cancelOrder: return "command-button-cancelOrder"
             
         case .automateExploration: return "command-button-automateExploration"
         case .automateBuild: return "command-button-automateBuild"

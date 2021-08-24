@@ -106,7 +106,7 @@ class MapOverviewNode: SKSpriteNode {
         let deltaHeight = self.size.height - image.size.height
         if deltaHeight > 0 {
             let insets = UIEdgeInsets(top: deltaHeight / 2, left: 0, bottom: deltaHeight / 2, right: 0)
-            if let tmpImage = image.imageWithInsets(insets: insets){
+            if let tmpImage = image.imageWithInsets(insets: insets) {
                 image = tmpImage
             }
         }

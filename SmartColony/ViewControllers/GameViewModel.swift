@@ -11,7 +11,7 @@ import SmartAILibrary
 
 class GameViewModel {
     
-    var game: GameModel? = nil
+    var game: GameModel?
     
     init(with game: GameModel?) {
         

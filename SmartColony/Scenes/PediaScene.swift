@@ -183,7 +183,6 @@ class PediaScene: BaseScene {
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
         mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
         
-        
         let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
 
         // AI

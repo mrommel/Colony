@@ -18,7 +18,7 @@ struct MapSavingView: View {
     @ObservedObject
     var viewModel: MapSavingViewModel
     
-    weak var delegate: MapSavingViewDelegate? = nil
+    weak var delegate: MapSavingViewDelegate?
     
     var body: some View {
         

@@ -22,7 +22,6 @@ class CityBuildingsDialog: Dialog {
     var wondersSectionButton: SectionHeaderButton?
     var wonderProductionNodes: [WonderBuildingItemDisplayNode] = []
     
-    
     init(for city: AbstractCity?) {
 
         self.city = city
@@ -83,7 +82,6 @@ class CityBuildingsDialog: Dialog {
         })
         self.buildingsAndDistrictsSectionButton?.zPosition = 200
         scrollNode?.addScrolling(child: self.buildingsAndDistrictsSectionButton!)
-
         
         // wonder section
         self.wondersSectionButton = SectionHeaderButton(titled: "Wonders",

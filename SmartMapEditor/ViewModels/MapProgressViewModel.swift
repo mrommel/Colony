@@ -18,7 +18,7 @@ class MapProgressViewModel: ObservableObject {
     @Published
     var progress: String
     
-    var mapCreated: MapCreatedHandler? = nil
+    var mapCreated: MapCreatedHandler?
     
     init(mapType: MapType, mapSize: MapSize) {
 

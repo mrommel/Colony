@@ -14,7 +14,7 @@ class Civ5MapImportingViewModel: ObservableObject {
     @Published
     var loading: Bool
     
-    var mapImported: Civ5MapImportedHandler? = nil
+    var mapImported: Civ5MapImportedHandler?
     
     init(url: URL?) {
         

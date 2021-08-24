@@ -22,7 +22,7 @@ extension GameScene {
         let cityDialog = CityDialog(for: city, in: gameModel)
         cityDialog.zPosition = 250
 
-        cityDialog.addResultHandler(handler: { commandResult in
+        cityDialog.addResultHandler(handler: { _ in
 
             self.restoreFromCityScreen()
             cityDialog.close()
@@ -359,7 +359,7 @@ extension GameScene {
         self.cameraNode.add(dialog: selectPromotionDialog)
     }
     
-    func showDisbandDialog(for unit: AbstractUnit?, completion: @escaping (Bool)->()) {
+    func showDisbandDialog(for unit: AbstractUnit?, completion: @escaping (Bool)->Void) {
         
         guard let unit = unit else {
             fatalError("cant get unit")
@@ -387,7 +387,7 @@ extension GameScene {
         self.cameraNode.add(dialog: confirmDialog)
     }
     
-    func showSelectCityDialog(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?)->()) {
+    func showSelectCityDialog(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?)->Void) {
         
         self.currentScreenType = .selectTradeCity
         

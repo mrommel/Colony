@@ -264,7 +264,7 @@ extension MenuScene {
     
     func generateMap(from options: MapOptions) {
         
-        var mapParameter: MapModel? = nil
+        var mapParameter: MapModel?
         let mapLoadingDialogViewModel = MapLoadingDialogViewModel(from: options.leader)
         let mapLoadingDialog = MapLoadingDialog(with: mapLoadingDialogViewModel)
             
@@ -299,7 +299,7 @@ extension MenuScene {
     
     func loadEarthMap(sized size: MapSize, leader: LeaderType, handicap: HandicapType) {
         
-        var mapParameter: MapModel? = nil
+        var mapParameter: MapModel?
         let mapLoadingDialogViewModel = MapLoadingDialogViewModel(from: leader)
         let mapLoadingDialog = MapLoadingDialog(with: mapLoadingDialogViewModel)
             
@@ -315,7 +315,7 @@ extension MenuScene {
         
         self.cameraNode.add(dialog: mapLoadingDialog)
         
-        var url: URL? = nil
+        var url: URL?
         switch size {
         case .huge:
             url = R.file.earth_hugeMap()

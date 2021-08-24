@@ -16,7 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
         self.window = NSWindow(
-            contentRect: NSMakeRect(0, 0, NSScreen.main?.frame.width ?? 200, NSScreen.main?.frame.height ?? 200),
+            contentRect: NSRect(x: 0, y: 0, width: NSScreen.main?.frame.width ?? 200, height: NSScreen.main?.frame.height ?? 200),
             styleMask: [.miniaturizable, .closable, .resizable, .titled],
             backing: .buffered,
             defer: false
@@ -46,7 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
          error conditions that could cause the creation of the store to fail.
         */
         let container = NSPersistentContainer(name: "SmartMapEditor")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -134,4 +134,3 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
 }
-

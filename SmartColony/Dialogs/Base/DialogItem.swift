@@ -74,7 +74,7 @@ struct DialogItemConfiguration: Codable {
         
         var offsetx: CGFloat = 0.0
         if offsetxValue.contains("%") {
-            let parts = offsetxValue.split{$0 == "%"}.map(String.init)
+            let parts = offsetxValue.split {$0 == "%"}.map(String.init)
             if parts.count == 1 {
                 let percentageValue: String = String(parts[0])
                 let percentage = Double(percentageValue)!
@@ -86,7 +86,7 @@ struct DialogItemConfiguration: Codable {
 
         var offsety: CGFloat = 0.0
         if offsetyValue.contains("%") {
-            let parts = offsetyValue.split{$0 == "%"}.map(String.init)
+            let parts = offsetyValue.split {$0 == "%"}.map(String.init)
             if parts.count == 1 {
                 let percentageValue: String = String(parts[0])
                 let percentage = Double(percentageValue)!
@@ -97,7 +97,7 @@ struct DialogItemConfiguration: Codable {
         }
 
         if widthValue.contains("%") {
-            let parts = widthValue.split{$0 == "%"}.map(String.init)
+            let parts = widthValue.split {$0 == "%"}.map(String.init)
             if parts.count == 1 {
                 let percentageValue: String = String(parts[0])
                 let percentage = Double(percentageValue)!
@@ -108,7 +108,7 @@ struct DialogItemConfiguration: Codable {
         }
 
         if heightValue.contains("%") {
-            let parts = heightValue.split{$0 == "%"}.map(String.init)
+            let parts = heightValue.split {$0 == "%"}.map(String.init)
             if parts.count == 1 {
                 let percentageValue: String = String(parts[0])
                 let percentage = Double(percentageValue)!

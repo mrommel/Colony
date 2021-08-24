@@ -19,8 +19,8 @@ class Dialog: NineGridTextureSprite {
     fileprivate var didAddTo: ((_ scene: SKScene?) -> Void)?
 
     var textField: UITextField?
-    var selectedItem: DropdownItem? = nil
-    var selectedIndex: Int? = nil
+    var selectedItem: DropdownItem?
+    var selectedIndex: Int?
 
     init(from configuration: DialogConfiguration) {
         super.init(imageNamed: configuration.background, size: configuration.size)
