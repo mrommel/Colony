@@ -68,6 +68,7 @@ public class TradeRoute: Codable {
         return !self.isDomestic(in: gameModel)
     }
 
+    // https://civilization.fandom.com/wiki/Trade_Route_(Civ6)#Trade_Yields_Based_on_Districts
     public func yields(in gameModel: GameModel?) -> Yields {
 
         guard let gameModel = gameModel else {
@@ -90,11 +91,11 @@ public class TradeRoute: Codable {
             fatalError("cant get end city districts")
         }
 
-        let yields: Yields = Yields(food: 0.0, production: 0.0, gold: 0.0)
+        var yields: Yields = Yields(food: 0.0, production: 0.0, gold: 0.0)
 
         if self.isDomestic(in: gameModel) {
-            yields.food += 1.0
-            yields.production += 1.0
+            
+            yields += endDistricts.domesticTradeYields()
 
             if startPlayer.leader.civilization().ability() == .satrapies {
                 // Domestic TradeRoute6 Trade Routes provide +2 Civ6Gold Gold and +1 Civ6Culture Culture.
@@ -102,27 +103,8 @@ public class TradeRoute: Codable {
                 yields.culture += 1.0
             }
         } else {
-            yields.gold += 3.0
 
-            if endDistricts.has(district: .campus) {
-                yields.science += 1.0
-            }
-
-            if endDistricts.has(district: .holySite) {
-                yields.faith += 1.0
-            }
-
-            if endDistricts.has(district: .industrial) {
-                yields.production += 1.0
-            }
-
-            if endDistricts.has(district: .commercialHub) {
-                yields.gold += 1.0
-            }
-
-            if endDistricts.has(district: .harbor) {
-                yields.gold += 1.0
-            }
+            yields += endDistricts.foreignTradeYields()
         }
 
         if startPlayerGovernment.has(card: .caravansaries) {
