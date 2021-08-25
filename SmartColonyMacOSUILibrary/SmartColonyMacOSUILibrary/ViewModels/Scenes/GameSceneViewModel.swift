@@ -564,8 +564,7 @@ extension GameSceneViewModel: HeaderButtonViewModelDelegate {
             print("ranking")
             // self.delegate?.showRankingDialog()
         case .tradeRoutes:
-            print("tradeRoutes")
-            // self.delegate?.showTradeRouteDialog()
+            self.delegate?.showTradeRouteDialog()
         }
     }
 }

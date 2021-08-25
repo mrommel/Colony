@@ -169,9 +169,11 @@ public class Textures {
         self.cultureProgressTextureNames = Array(0...100).map { "culture_progress_\($0)" }
         self.scienceProgressTextureNames = Array(0...100).map { "science_progress_\($0)" }
         self.headerTextureNames = [
-            "header-culture-button-active", "header-culture-button-disabled", "header-government-button-active",
-            "header-government-button-disabled", "header-log-button-active", "header-log-button-disabled",
-            "header-science-button-active", "header-science-button-disabled"
+            "header-button-culture-active", "header-button-culture-disabled",
+            "header-button-government-active", "header-button-government-disabled",
+            "header-button-log-active", "header-button-log-disabled",
+            "header-button-science-active", "header-button-science-disabled",
+            "header-button-tradeRoutes-active", "header-button-tradeRoutes-disabled"
         ]
         self.cityProgressTextureNames = Array(0...20).map { "linear-progress-\($0 * 5)" }
         self.cityTextureNames = ["hex-city-1"]

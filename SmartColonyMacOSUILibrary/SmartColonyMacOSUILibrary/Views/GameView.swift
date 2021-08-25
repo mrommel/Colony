@@ -87,6 +87,8 @@ extension GameView {
 
         case .treasury:
             return AnyView(TreasuryDialogView(viewModel: self.viewModel.treasuryDialogViewModel))
+        case .tradeRoutes:
+            return AnyView(TradeRoutesDialogView(viewModel: self.viewModel.tradeRoutesDialogViewModel))
         case .government:
             return AnyView(GovernmentDialogView(viewModel: self.viewModel.governmentDialogViewModel))
         case .changeGovernment:

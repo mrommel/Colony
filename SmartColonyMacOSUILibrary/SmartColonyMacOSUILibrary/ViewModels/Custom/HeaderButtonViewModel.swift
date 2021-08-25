@@ -22,17 +22,17 @@ enum HeaderButtonType {
         switch self {
 
         case .science:
-            return state ? "header-science-button-active" : "header-science-button-disabled"
+            return state ? "header-button-science-active" : "header-button-science-disabled"
         case .culture:
-            return state ? "header-culture-button-active" : "header-culture-button-disabled"
+            return state ? "header-button-culture-active" : "header-button-culture-disabled"
         case .government:
-            return state ? "header-government-button-active" : "header-government-button-disabled"
+            return state ? "header-button-government-active" : "header-button-government-disabled"
         case .log:
-            return state ? "header-log-button-active" : "header-log-button-disabled"
+            return state ? "header-button-log-active" : "header-button-log-disabled"
         case .ranking:
-            return state ? "header-log-button-active" : "header-log-button-disabled"
+            return state ? "header-button-log-active" : "header-button-log-disabled"
         case .tradeRoutes:
-            return state ? "header-log-button-active" : "header-log-button-disabled"
+            return state ? "header-button-tradeRoutes-active" : "header-button-tradeRoutes-disabled"
         }
     }
 }

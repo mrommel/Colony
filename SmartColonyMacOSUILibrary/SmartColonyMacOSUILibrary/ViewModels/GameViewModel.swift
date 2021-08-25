@@ -31,6 +31,7 @@ protocol GameViewModelDelegate: AnyObject {
     func showChangeGovernmentDialog()
     func showChangePoliciesDialog()
     func showTreasuryDialog()
+    func showTradeRouteDialog()
 
     func showCityNameDialog()
     func foundCity(named cityName: String)
@@ -115,6 +116,9 @@ public class GameViewModel: ObservableObject {
 
     @Published
     var treasuryDialogViewModel: TreasuryDialogViewModel
+    
+    @Published
+    var tradeRoutesDialogViewModel: TradeRoutesDialogViewModel
 
     // UI
 
@@ -202,6 +206,7 @@ public class GameViewModel: ObservableObject {
         self.selectTradeCityDialogViewModel = SelectTradeCityDialogViewModel()
         self.unitListDialogViewModel = UnitListDialogViewModel()
         self.treasuryDialogViewModel = TreasuryDialogViewModel()
+        self.tradeRoutesDialogViewModel = TradeRoutesDialogViewModel()
 
         // connect models
         self.gameSceneViewModel.delegate = self
@@ -221,6 +226,7 @@ public class GameViewModel: ObservableObject {
         self.selectTradeCityDialogViewModel.delegate = self
         self.unitListDialogViewModel.delegate = self
         self.treasuryDialogViewModel.delegate = self
+        self.tradeRoutesDialogViewModel.delegate = self
 
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater

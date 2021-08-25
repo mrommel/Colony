@@ -2263,7 +2263,7 @@ public class Player: AbstractPlayer {
 
                 if let path = pathFinder.shortestPath(fromTileCoord: location, toTileCoord: capital.location) {
                     // If within TradeRoute6 Trade Route range of the Capital6 Capital, a road to it.
-                    if path.count <= TradeRoutes.range {
+                    if path.count <= TradeRoutes.landRange {
 
                         for pathLocation in path {
 

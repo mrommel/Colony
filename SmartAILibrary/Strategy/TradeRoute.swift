@@ -45,8 +45,18 @@ public class TradeRoute: Codable {
         try container.encode(self.posts, forKey: .posts)
         try container.encode(self.end, forKey: .end)
     }
+    
+    public func startCity(in gameModel: GameModel?) -> AbstractCity? {
+        
+        return gameModel?.city(at: self.start)
+    }
+    
+    public func endCity(in gameModel: GameModel?) -> AbstractCity? {
+        
+        return gameModel?.city(at: self.end)
+    }
 
-    func isDomestic(in gameModel: GameModel?) -> Bool {
+    public func isDomestic(in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -63,7 +73,7 @@ public class TradeRoute: Codable {
         return startLeader != endLeader
     }
 
-    func isInternational(in gameModel: GameModel?) -> Bool {
+    public func isInternational(in gameModel: GameModel?) -> Bool {
 
         return !self.isDomestic(in: gameModel)
     }

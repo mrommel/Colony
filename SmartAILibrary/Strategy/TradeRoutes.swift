@@ -17,8 +17,10 @@ public protocol AbstractTradeRoutes {
     func canEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool
 
     func numberOfTradeRoutes() -> Int
-    func yields(in gameModel: GameModel?) -> Yields
+    func tradeRoute(at index: Int) -> TradeRoute?
     func tradeRoutesStarting(at city: AbstractCity?) -> [TradeRoute]
+    
+    func yields(in gameModel: GameModel?) -> Yields
 }
 
 public class TradeRoutes: Codable, AbstractTradeRoutes {
@@ -28,7 +30,7 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
         case routes
     }
 
-    public static let range = 15
+    public static let landRange = 15
 
     public var player: Player?
     private var routes: [TradeRoute]
@@ -58,6 +60,15 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
     public func numberOfTradeRoutes() -> Int {
 
         return self.routes.count
+    }
+    
+    public func tradeRoute(at index: Int) -> TradeRoute? {
+        
+        guard 0 <= index && index < self.routes.count else {
+            return nil
+        }
+        
+        return self.routes[index]
     }
 
     public func tradeRoutesStarting(at city: AbstractCity?) -> [TradeRoute] {
