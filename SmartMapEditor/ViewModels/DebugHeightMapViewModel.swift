@@ -27,7 +27,7 @@ class DebugHeightMapViewModel: ObservableObject {
     var image: NSImage
 
     private let mapSize: MapSize
-    var closed: ClosedHandler? = nil
+    var closed: ClosedHandler?
 
     init(size: MapSize) {
 

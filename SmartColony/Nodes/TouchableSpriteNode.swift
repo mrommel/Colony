@@ -13,9 +13,9 @@ protocol TouchableDelegate: class {
     func clicked(on identifier: String)
 }
 
-class TouchableSpriteNode : SKSpriteNode {
+class TouchableSpriteNode: SKSpriteNode {
     
-    var touchHandler: (()->Void)?
+    var touchHandler: (() -> Void)?
     weak var delegate: TouchableDelegate?
     var identifier: String?
     

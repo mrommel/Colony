@@ -57,7 +57,7 @@ class CoreDataManager {
     
     private func loadPersistentStore(completion: @escaping () -> Void) {
         //handle data migration on a different thread/queue here
-        persistentContainer.loadPersistentStores { description, error in
+        persistentContainer.loadPersistentStores { _, error in
             guard error == nil else {
                 fatalError("was unable to load store \(error!)")
             }

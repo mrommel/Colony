@@ -13,4 +13,4 @@ let menu = MapEditorMenu()
 
 NSApplication.shared.delegate = delegate
 NSApplication.shared.mainMenu = menu
-let _ = NSApplicationMain(CommandLine.argc, CommandLine.unsafeArgv)
+_ = NSApplicationMain(CommandLine.argc, CommandLine.unsafeArgv)

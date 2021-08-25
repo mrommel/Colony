@@ -74,7 +74,7 @@ struct ScrollViewSnap: View {
                             .background(Color(white: 0.9))
                             .onTapGesture {
                                 withAnimation {
-                                    scrollProxy.scrollTo(item, anchor: UnitPoint(x: 0.5, y:0.5) )
+                                    scrollProxy.scrollTo(item, anchor: UnitPoint(x: 0.5, y: 0.5) )
                                 }
                             }
                             // Add this to detect when the user ends the scrolling.
@@ -110,7 +110,7 @@ struct ScrollViewSnap: View {
                         // ultimately we would use a lookup to find which item is at predictedEndLocation and use that)
                         // but it will only scroll it to the top, bottom or center of the scroll view (or some
                         // variation thereof). What we would like is to say "scroll item <ID> to be at offset Y"
-                        scrollProxy.scrollTo(scrollEndTarget.id!, anchor: UnitPoint(x: 0.5, y:0.5) )
+                        scrollProxy.scrollTo(scrollEndTarget.id!, anchor: UnitPoint(x: 0.5, y: 0.5) )
                     }
                     // Show that the scroll has been performed
                     self.debugColor = .green

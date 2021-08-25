@@ -20,7 +20,7 @@ class NewMapContentViewModel: ObservableObject {
     private var sizeValue: MapSize
     
     @Published
-    var map: MapModel? = nil
+    var map: MapModel?
     
     init() {
         

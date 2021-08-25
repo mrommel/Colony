@@ -55,4 +55,3 @@ class CivicDiscoveredPopup: Dialog {
         fatalError("init(coder:) has not been implemented")
     }
 }
-

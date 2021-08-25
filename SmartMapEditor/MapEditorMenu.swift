@@ -28,7 +28,13 @@ class MapEditorMenu: NSMenu {
             NSMenuItem(title: "Preferences...", action: nil, keyEquivalent: ","),
             NSMenuItem.separator(),
             NSMenuItem(title: "Hide \(applicationName)", action: #selector(NSApplication.hide(_:)), keyEquivalent: "h"),
-            NSMenuItem(title: "Hide Others", target: self, action: #selector(NSApplication.hideOtherApplications(_:)), keyEquivalent: "h", modifier: .init(arrayLiteral: [.command, .option])),
+            NSMenuItem(
+                title: "Hide Others",
+                target: self,
+                action: #selector(NSApplication.hideOtherApplications(_:)),
+                keyEquivalent: "h",
+                modifier: .init(arrayLiteral: [.command, .option])
+            ),
             NSMenuItem(title: "Show All", action: #selector(NSApplication.unhideAllApplications(_:)), keyEquivalent: ""),
             NSMenuItem.separator(),
             NSMenuItem(title: "Quit \(applicationName)", action: #selector(NSApplication.shared.terminate(_:)), keyEquivalent: "q")
@@ -48,7 +54,7 @@ class MapEditorMenu: NSMenu {
             //NSMenuItem.separator(),
             //NSMenuItem(title: "Export", action: nil, keyEquivalent: ""),
             NSMenuItem.separator(),
-            NSMenuItem(title: "Close", action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w"),
+            NSMenuItem(title: "Close", action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w")
         ]
 
         let editMenu = NSMenuItem()
@@ -64,7 +70,7 @@ class MapEditorMenu: NSMenu {
             NSMenuItem(title: "Select All", action: #selector(NSText.selectAll(_:)), keyEquivalent: "a"),
             NSMenuItem.separator(),
             NSMenuItem(title: "Delete", target: self, action: nil, keyEquivalent: "⌫", modifier: .init()),
-            NSMenuItem(title: "Duplicate", action: #selector(NSApplication.copy), keyEquivalent: "d"),
+            NSMenuItem(title: "Duplicate", action: #selector(NSApplication.copy), keyEquivalent: "d")
         ]
         
         let mapMenu = NSMenuItem()
@@ -72,23 +78,38 @@ class MapEditorMenu: NSMenu {
         mapMenu.submenu?.items = [
             NSMenuItem(title: "Edit Meta Data", target: self, action: #selector(MapEditorMenu.editMetaData(_:)), keyEquivalent: "e"),
             NSMenuItem.separator(),
-            NSMenuItem(title: "Debug HeightMap", target: self, action: #selector(MapEditorMenu.debugHeightMap(_:)), keyEquivalent: "d"),
+            NSMenuItem(title: "Debug HeightMap", target: self, action: #selector(MapEditorMenu.debugHeightMap(_:)), keyEquivalent: "d")
         ]
 
         let layersMenu = NSMenuItem()
         layersMenu.submenu = NSMenu(title: "Layers")
         
-        self.showStartLocationsMenuItem = NSMenuItem(title: "Show Start Locations", target: self, action: #selector(MapEditorMenu.toogleShowStartLocations(_:)), keyEquivalent: "")
+        self.showStartLocationsMenuItem = NSMenuItem(
+            title: "Show Start Locations",
+            target: self,
+            action: #selector(MapEditorMenu.toogleShowStartLocations(_:)),
+            keyEquivalent: ""
+        )
         self.showStartLocationsMenuItem?.onStateImage = NSImage(named: NSImage.statusAvailableName)
         self.showStartLocationsMenuItem?.offStateImage = NSImage(named: NSImage.statusUnavailableName)
         layersMenu.submenu?.addItem(self.showStartLocationsMenuItem!)
         
-        self.showInhabitantsBarMenuItem = NSMenuItem(title: "Show Inhabitants Bars", target: self, action: #selector(MapEditorMenu.toogleShowInhabitantsBars(_:)), keyEquivalent: "")
+        self.showInhabitantsBarMenuItem = NSMenuItem(
+            title: "Show Inhabitants Bars",
+            target: self,
+            action: #selector(MapEditorMenu.toogleShowInhabitantsBars(_:)),
+            keyEquivalent: ""
+        )
         self.showInhabitantsBarMenuItem?.onStateImage = NSImage(named: NSImage.statusAvailableName)
         self.showInhabitantsBarMenuItem?.offStateImage = NSImage(named: NSImage.statusUnavailableName)
         layersMenu.submenu?.addItem(self.showInhabitantsBarMenuItem!)
         
-        self.showSupportedPeopleMenuItem = NSMenuItem(title: "Show Supported People", target: self, action: #selector(MapEditorMenu.toogleShowSupportedPeople(_:)), keyEquivalent: "")
+        self.showSupportedPeopleMenuItem = NSMenuItem(
+            title: "Show Supported People",
+            target: self,
+            action: #selector(MapEditorMenu.toogleShowSupportedPeople(_:)),
+            keyEquivalent: ""
+        )
         self.showSupportedPeopleMenuItem?.onStateImage = NSImage(named: NSImage.statusAvailableName)
         self.showSupportedPeopleMenuItem?.offStateImage = NSImage(named: NSImage.statusUnavailableName)
         layersMenu.submenu?.addItem(self.showSupportedPeopleMenuItem!)
@@ -111,7 +132,12 @@ class MapEditorMenu: NSMenu {
         helpMenu.submenu = NSMenu(title: "Help")
         helpMenu.submenu?.items = [
             helpMenuSearch,
-            NSMenuItem(title: "Documentation", target: self, action: #selector(openDocumentation(_:)), keyEquivalent: ""),
+            NSMenuItem(
+                title: "Documentation",
+                target: self,
+                action: #selector(openDocumentation(_:)),
+                keyEquivalent: ""
+            )
         ]
 
         self.items = [mainMenu, fileMenu, editMenu, mapMenu, layersMenu, viewMenu, windowMenu, helpMenu]

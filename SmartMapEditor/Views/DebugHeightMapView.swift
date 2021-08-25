@@ -12,7 +12,7 @@ struct DebugHeightMapView: View {
     @ObservedObject
     var viewModel: DebugHeightMapViewModel
 
-    weak var delegate: EditMetaDataViewDelegate? = nil
+    weak var delegate: EditMetaDataViewDelegate?
     
     let octaves = ["1", "2", "4", "6", "8", "10", "12", "16", "32"]
 
@@ -24,7 +24,7 @@ struct DebugHeightMapView: View {
 
             Divider()
 
-            Image(nsImage: self.viewModel.image).frame(width: 300, height: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            Image(nsImage: self.viewModel.image).frame(width: 300, height: 300, alignment: .center/*@END_MENU_TOKEN@*/)
             
             Picker(selection: $viewModel.selectedOctavesIndex/*.onChange(viewModel.octavesChanged)*/, label: Text("Octaves")) {
                 ForEach(0 ..< self.octaves.count) {

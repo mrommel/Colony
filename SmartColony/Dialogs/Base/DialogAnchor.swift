@@ -16,5 +16,3 @@ enum DialogAnchor: String, Codable {
     case top = "top"
     case bottom = "bottom"
 }
-
-

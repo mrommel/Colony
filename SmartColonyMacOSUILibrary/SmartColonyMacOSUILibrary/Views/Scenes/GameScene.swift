@@ -295,11 +295,8 @@ extension GameScene {
                     continue
                 }
 
-                if unit.movesLeft() > 0 {
-                    //print("- unit: \(unit.type)")
-                    self.select(unit: unit)
-                    selectedUnit = true
-                }
+                self.select(unit: unit)
+                selectedUnit = true
             }
 
             /*if let combatUnit = game.unit(at: position, of: .combat) {

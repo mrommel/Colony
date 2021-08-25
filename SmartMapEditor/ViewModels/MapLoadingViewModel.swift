@@ -14,7 +14,7 @@ class MapLoadingViewModel: ObservableObject {
     @Published
     var loading: Bool
     
-    var mapLoaded: MapLoadedHandler? = nil
+    var mapLoaded: MapLoadedHandler?
     
     init(url: URL?) {
         

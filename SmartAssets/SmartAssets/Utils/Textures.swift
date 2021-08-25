@@ -144,7 +144,7 @@ public class Textures {
             "yield-6-0-0",
             "yield-6-1-0", "yield-6-1-1",
             // 7
-            "yield-7-0-0",
+            "yield-7-0-0"
         ]
         
         self.allBoardTextureNames = ["board-s-sw", "board-se-s-sw", "board-se-s", "board-se", "board-sw"]
@@ -160,7 +160,7 @@ public class Textures {
         ]
         self.allPathOutTextureNames = self.allPathTextureNames.map { $0 + "-out" }
         self.overviewTextureNames = [
-            "overview-mountains", "overview-mountains-passive", "overview-hills",  "overview-hills-passive",
+            "overview-mountains", "overview-mountains-passive", "overview-hills", "overview-hills-passive",
             "overview-forest", "overview-forest-passive", "overview-city", "overview-city-passive"
         ]
         
@@ -418,7 +418,7 @@ public class Textures {
                     }
                     
                     // 2. river end south west
-                    if southwestTile.isRiverInSouthEast(){
+                    if southwestTile.isRiverInSouthEast() {
                         return "river-mouth-sw"
                     }
                 }

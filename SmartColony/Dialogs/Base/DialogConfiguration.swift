@@ -67,7 +67,7 @@ class DialogConfiguration: Decodable {
         
         var offsetx: CGFloat = 0.0
         if offsetxValue.contains("%") {
-            let parts = offsetxValue.split{$0 == "%"}.map(String.init)
+            let parts = offsetxValue.split {$0 == "%"}.map(String.init)
             if parts.count == 1 {
                 let percentageValue: String = String(parts[0])
                 let percentage = Double(percentageValue)!
@@ -79,7 +79,7 @@ class DialogConfiguration: Decodable {
 
         var offsety: CGFloat = 0.0
         if offsetyValue.contains("%") {
-            let parts = offsetyValue.split{$0 == "%"}.map(String.init)
+            let parts = offsetyValue.split {$0 == "%"}.map(String.init)
             if parts.count == 1 {
                 let percentageValue: String = String(parts[0])
                 let percentage = Double(percentageValue)!
@@ -90,7 +90,7 @@ class DialogConfiguration: Decodable {
         }
 
         if widthValue.contains("%") {
-            let parts = widthValue.split{$0 == "%"}.map(String.init)
+            let parts = widthValue.split {$0 == "%"}.map(String.init)
             if parts.count == 1 {
                 let percentageValue: String = String(parts[0])
                 let percentage = Double(percentageValue)!
@@ -101,7 +101,7 @@ class DialogConfiguration: Decodable {
         }
 
         if heightValue.contains("%") {
-            let parts = heightValue.split{$0 == "%"}.map(String.init)
+            let parts = heightValue.split {$0 == "%"}.map(String.init)
             if parts.count == 1 {
                 let percentageValue: String = String(parts[0])
                 let percentage = Double(percentageValue)!

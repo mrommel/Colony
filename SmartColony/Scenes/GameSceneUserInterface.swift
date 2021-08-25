@@ -93,7 +93,7 @@ extension GameScene: UserInterfaceDelegate {
     func show(unit: AbstractUnit?) {
 
         // unit gets visible again
-        DispatchQueue.main.async() {
+        DispatchQueue.main.async {
             self.mapNode?.unitLayer.show(unit: unit)
         }
     }
@@ -101,7 +101,7 @@ extension GameScene: UserInterfaceDelegate {
     func hide(unit: AbstractUnit?) {
 
         // unit gets hidden
-        DispatchQueue.main.async() {
+        DispatchQueue.main.async {
             self.mapNode?.unitLayer.hide(unit: unit)
             self.unselect()
         }
@@ -173,19 +173,19 @@ extension GameScene: UserInterfaceDelegate {
         self.notificationsNode?.remove(notification: notification)
     }
     
-    func askToDisband(unit: AbstractUnit?, completion: @escaping (Bool)->()) {
+    func askToDisband(unit: AbstractUnit?, completion: @escaping (Bool) -> Void) {
         
         self.showDisbandDialog(for: unit, completion: completion)
     }
     
-    func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?)->()) {
+    func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?) -> Void) {
         
         self.showSelectCityDialog(start: startCity, of: cities, completion: completion)
     }
 
     func refresh(tile: AbstractTile?) {
         
-        DispatchQueue.main.async() {
+        DispatchQueue.main.async {
             self.mapNode?.update(tile: tile)
             self.bottomRightBar?.update(tile: tile)
         }

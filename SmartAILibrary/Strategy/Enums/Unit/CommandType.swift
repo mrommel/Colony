@@ -25,7 +25,7 @@ public enum CommandType {
     case garrison
 
     case disband
-    //case cancelOrder
+    case cancelOrder
     //case wakeUp
     //case upgrade
 
@@ -43,7 +43,10 @@ public enum CommandType {
 
         return [
             .found, .buildFarm, .buildMine, .buildCamp, .buildPasture, .buildQuarry, .buildFishingBoats,
-            .pillage, .fortify, .hold, .garrison, .disband, .establishTradeRoute, .attack, .rangedAttack, .automateExploration /*, .automateBuild*/]
+            .pillage, .fortify, .hold, .garrison,
+            .disband, .cancelOrder,
+            .automateExploration /*, .automateBuild*/, .establishTradeRoute,
+            .attack, .rangedAttack, .cancelAttack]
     }
 
     public func title() -> String {
@@ -62,7 +65,9 @@ public enum CommandType {
         case .fortify: return "Fortify"
         case .hold: return "Hold"
         case .garrison: return "Garrison"
+            
         case .disband: return "Disband"
+        case .cancelOrder: return "Cancel order"
             
         case .automateExploration: return "Automate Exploration"
         case .automateBuild: return "Automate Build"

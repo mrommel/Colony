@@ -18,7 +18,7 @@ struct NewMapContentView: View {
     @ObservedObject
     private var viewModel: NewMapContentViewModel = NewMapContentViewModel()
     
-    weak var delegate: NewMapContentViewDelegate? = nil
+    weak var delegate: NewMapContentViewDelegate?
     
     var body: some View {
         VStack {

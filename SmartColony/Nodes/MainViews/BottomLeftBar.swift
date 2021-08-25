@@ -335,7 +335,7 @@ class BottomLeftBar: SizedNode {
             
             self.commands = commands
             
-            let moveAction = SKAction.move(to: self.position + BottomLeftBar.unitCommandsVisiblePosition, duration:(TimeInterval(0.3)))
+            let moveAction = SKAction.move(to: self.position + BottomLeftBar.unitCommandsVisiblePosition, duration: (TimeInterval(0.3)))
             self.unitCommandsCanvasNode?.run(moveAction, withKey: "showUnitCommands", completion: {
                 self.unitCommandsVisible = true
             })
@@ -353,7 +353,7 @@ class BottomLeftBar: SizedNode {
             self.unitTypeIconNode?.colorBlendFactor = 1.0
             
             // hide commands
-            let moveAction = SKAction.move(to: self.position + BottomLeftBar.unitCommandsInvisiblePosition, duration:(TimeInterval(0.3)))
+            let moveAction = SKAction.move(to: self.position + BottomLeftBar.unitCommandsInvisiblePosition, duration: (TimeInterval(0.3)))
             self.unitCommandsCanvasNode?.run(moveAction, withKey: "hideUnitCommands", completion: {
                 self.unitCommandsVisible = false
                 

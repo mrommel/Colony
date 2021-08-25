@@ -19,7 +19,7 @@ struct Civ5MapImportingView: View {
     @ObservedObject
     var viewModel: Civ5MapImportingViewModel
     
-    weak var delegate: Civ5MapImportingViewDelegate? = nil
+    weak var delegate: Civ5MapImportingViewDelegate?
     
     var body: some View {
         

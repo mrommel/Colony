@@ -7,18 +7,16 @@
 
 import SmartAILibrary
 
-
-
 class EditorViewModel {
     
     typealias MapChangeHandler = (MapModel?) -> Void
     typealias OptionChangeHandler = (Bool) -> Void
     
-    private var map: MapModel? = nil
-    var mapChanged: MapChangeHandler? = nil
-    var showStartLocationsChanged: OptionChangeHandler? = nil
-    var showInhabitantsChanged: OptionChangeHandler? = nil
-    var showSupportedPeopleChanged: OptionChangeHandler? = nil
+    private var map: MapModel?
+    var mapChanged: MapChangeHandler?
+    var showStartLocationsChanged: OptionChangeHandler?
+    var showInhabitantsChanged: OptionChangeHandler?
+    var showSupportedPeopleChanged: OptionChangeHandler?
     
     func set(map: MapModel?) {
 

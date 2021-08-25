@@ -111,6 +111,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func set(setUpForRangedAttack: Bool)
     func canDefend() -> Bool
     func canSentry(in gameModel: GameModel?) -> Bool
+    func doCancelOrder()
 
     func canDo(command: CommandType, in gameModel: GameModel?) -> Bool
 
@@ -2297,7 +2298,29 @@ public class Unit: AbstractUnit {
     }
 
     public func unGarrison(in gameModel: GameModel?) {
+        
         self.garrisonedValue = false
+    }
+    
+    func canDisband() -> Bool {
+        
+        return true
+    }
+    
+    public func doCancelOrder() {
+        
+        if self.peekMission() != nil {
+            self.clearMissions()
+        }
+        
+        if self.automateType() != .none {
+            self.automate(with: .none)
+        }
+    }
+    
+    func canCancelOrder() -> Bool {
+        
+        return !self.missions.isEmpty
     }
 
     public func readyToMove() -> Bool {
@@ -2697,7 +2720,10 @@ public class Unit: AbstractUnit {
             return self.canGarrison(at: self.location, in: gameModel)
 
         case .disband:
-            return true
+            return self.canDisband()
+            
+        case .cancelOrder:
+            return self.canCancelOrder()
 
         case .establishTradeRoute:
             return self.canEstablishTradeRoute(to: nil, in: gameModel)
@@ -2723,10 +2749,16 @@ public class Unit: AbstractUnit {
 
     public func can(automate: UnitAutomationType) -> Bool {
 
+        if !self.missions.isEmpty {
+            // cant automate when unit has a mission
+            return false
+        }
+        
         switch automate {
 
         case .none:
             return false
+            
         case .build:
             if !self.type.abilities().contains(.canImprove) && !self.type.abilities().contains(.canImproveSea) {
                 return false

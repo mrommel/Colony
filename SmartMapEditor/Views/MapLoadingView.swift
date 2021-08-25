@@ -19,7 +19,7 @@ struct MapLoadingView: View {
     @ObservedObject
     var viewModel: MapLoadingViewModel
     
-    weak var delegate: MapLoadingViewDelegate? = nil
+    weak var delegate: MapLoadingViewDelegate?
     
     var body: some View {
         

@@ -18,7 +18,7 @@ struct EditMetaDataView: View {
     @ObservedObject
     var viewModel: EditMetaDataViewModel
     
-    weak var delegate: EditMetaDataViewDelegate? = nil
+    weak var delegate: EditMetaDataViewDelegate?
     
     var body: some View {
         
@@ -48,7 +48,6 @@ struct EditMetaDataView: View {
                     Text("Save")
                 }
             }.padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
-            
 
         }.padding()
         //.frame(width: 300, height: 350, alignment: .center)

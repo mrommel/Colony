@@ -15,7 +15,7 @@ class MapSavingViewModel: ObservableObject {
     @Published
     var saving: Bool
     
-    var mapSaved: MapSavedHandler? = nil
+    var mapSaved: MapSavedHandler?
     
     init(map: MapModel?, to url: URL?) {
         

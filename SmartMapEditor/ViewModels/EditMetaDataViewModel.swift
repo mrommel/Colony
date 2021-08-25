@@ -23,7 +23,7 @@ class EditMetaDataViewModel: ObservableObject {
     @Published
     var sizeString: String
     
-    var closed: ClosedHandler? = nil
+    var closed: ClosedHandler?
     
     init(of map: MapModel?) {
         

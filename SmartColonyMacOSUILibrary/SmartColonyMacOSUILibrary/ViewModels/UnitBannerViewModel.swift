@@ -213,6 +213,7 @@ class UnitBannerViewModel: ObservableObject {
             if let selectedUnit = self.selectedUnit {
                 selectedUnit.doGarrison(in: gameModel)
             }
+            
         case .disband:
             if let selectedUnit = self.selectedUnit {
 
@@ -222,6 +223,12 @@ class UnitBannerViewModel: ObservableObject {
                     }
                 })
             }
+            
+        case .cancelOrder:
+            if let selectedUnit = self.selectedUnit {
+                selectedUnit.doCancelOrder()
+            }
+            
         case .automateExploration:
             if let selectedUnit = self.selectedUnit {
                 selectedUnit.automate(with: .explore)
