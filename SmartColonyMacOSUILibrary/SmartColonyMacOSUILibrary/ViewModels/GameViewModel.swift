@@ -113,6 +113,9 @@ public class GameViewModel: ObservableObject {
 
     @Published
     var unitListDialogViewModel: UnitListDialogViewModel
+    
+    @Published
+    var selectPantheonDialogViewModel: SelectPantheonDialogViewModel
 
     @Published
     var treasuryDialogViewModel: TreasuryDialogViewModel
@@ -205,6 +208,7 @@ public class GameViewModel: ObservableObject {
         self.diplomaticDialogViewModel = DiplomaticDialogViewModel()
         self.selectTradeCityDialogViewModel = SelectTradeCityDialogViewModel()
         self.unitListDialogViewModel = UnitListDialogViewModel()
+        self.selectPantheonDialogViewModel = SelectPantheonDialogViewModel()
         self.treasuryDialogViewModel = TreasuryDialogViewModel()
         self.tradeRoutesDialogViewModel = TradeRoutesDialogViewModel()
 
@@ -225,6 +229,7 @@ public class GameViewModel: ObservableObject {
         self.diplomaticDialogViewModel.delegate = self
         self.selectTradeCityDialogViewModel.delegate = self
         self.unitListDialogViewModel.delegate = self
+        self.selectPantheonDialogViewModel.delegate = self
         self.treasuryDialogViewModel.delegate = self
         self.tradeRoutesDialogViewModel.delegate = self
 
@@ -788,6 +793,7 @@ extension GameViewModel: GameViewModelDelegate {
         }
 
         if self.currentScreenType == .none {
+            self.selectPantheonDialogViewModel.update()
             self.currentScreenType = .selectPantheon
         } else {
             fatalError("cant show select pantheon dialog, \(self.currentScreenType) is currently shown")

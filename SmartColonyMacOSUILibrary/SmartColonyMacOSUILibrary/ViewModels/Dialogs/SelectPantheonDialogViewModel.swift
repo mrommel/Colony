@@ -20,7 +20,9 @@ class SelectPantheonDialogViewModel: ObservableObject {
 
     init(game: GameModel? = nil) {
 
-        self.update(game: game)
+        if game != nil {
+            self.update(game: game)
+        }
     }
 
     func update(game: GameModel? = nil) {
