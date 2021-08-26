@@ -26,6 +26,9 @@ class TradeRouteViewModel: ObservableObject, Identifiable {
     
     @Published
     var goldYieldViewModel: YieldValueViewModel
+    
+    @Published
+    var remainingTurns: String
 
     init(tradeRoute: TradeRoute) {
 
@@ -48,6 +51,7 @@ class TradeRouteViewModel: ObservableObject, Identifiable {
             type: .onlyValue,
             withBackground: false
         )
+        self.remainingTurns = "0" // FIXME
         
         guard let gameModel = self.gameEnvironment.game.value else {
             // fatalError("cant get game")
@@ -68,6 +72,7 @@ class TradeRouteViewModel: ObservableObject, Identifiable {
         self.foodYieldViewModel.value = yields.food
         self.productionYieldViewModel.value = yields.production
         self.goldYieldViewModel.value = yields.gold
+        self.remainingTurns = tradeRoute.remainingTurns
     }
 }
 

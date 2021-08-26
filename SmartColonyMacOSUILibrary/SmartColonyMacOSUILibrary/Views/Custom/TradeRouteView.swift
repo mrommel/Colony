@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAILibrary
+import SmartAssets
 
 struct TradeRouteView: View {
 
@@ -22,18 +23,25 @@ struct TradeRouteView: View {
 
         VStack(alignment: .leading, spacing: 5) {
             
-            HStack(alignment: .center, spacing: 10) {
+            HStack(alignment: .center, spacing: 4) {
                 
-                //Image(nsImage: <#T##NSImage#>) traderoute
+                Image(nsImage: Globals.Icons.tradeRoute)
+                    .resizable()
+                    .frame(width: 16, height: 16)
                 
                 Text(self.viewModel.title)
                     .font(.headline)
                 
-                // remaining turns
-                
                 Spacer()
+                
+                Text("6")
+                
+                Image(nsImage: Globals.Icons.turns)
+                    .resizable()
+                    .frame(width: 16, height: 16)
             }
             .padding(.leading, 14)
+            .padding(.trailing, 14)
             
             HStack(alignment: .center, spacing: 0) {
                 
