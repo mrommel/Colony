@@ -63,7 +63,13 @@ struct TradeRouteView_Previews: PreviewProvider {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
-        let viewModel = TradeRouteViewModel(tradeRoute: TradeRoute(start: HexPoint(x: 2, y: 2), posts: [], end: HexPoint(x: 5, y: 7)))
+        let viewModel = TradeRouteViewModel(
+            tradeRoute: TradeRoute(
+                start: HexPoint(x: 2, y: 2),
+                posts: [],
+                end: HexPoint(x: 5, y: 7)
+            )
+        )
 
         TradeRouteView(viewModel: viewModel)
     }

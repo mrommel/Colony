@@ -30,9 +30,24 @@ class TradeRouteViewModel: ObservableObject, Identifiable {
     init(tradeRoute: TradeRoute) {
 
         self.title = "start to end"
-        self.foodYieldViewModel = YieldValueViewModel(yieldType: .food, initial: 0.0, type: .onlyValue, withBackground: false)
-        self.productionYieldViewModel = YieldValueViewModel(yieldType: .production, initial: 0.0, type: .onlyValue, withBackground: false)
-        self.goldYieldViewModel = YieldValueViewModel(yieldType: .gold, initial: 0.0, type: .onlyValue, withBackground: false)
+        self.foodYieldViewModel = YieldValueViewModel(
+            yieldType: .food,
+            initial: 0.0,
+            type: .onlyValue,
+            withBackground: false
+        )
+        self.productionYieldViewModel = YieldValueViewModel(
+            yieldType: .production,
+            initial: 0.0,
+            type: .onlyValue,
+            withBackground: false
+        )
+        self.goldYieldViewModel = YieldValueViewModel(
+            yieldType: .gold,
+            initial: 0.0,
+            type: .onlyValue,
+            withBackground: false
+        )
         
         guard let gameModel = self.gameEnvironment.game.value else {
             // fatalError("cant get game")

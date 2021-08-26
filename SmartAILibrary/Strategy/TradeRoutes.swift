@@ -103,7 +103,11 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
         }
 
         let tradeRouteFinder = AStarPathfinder()
-        tradeRouteFinder.dataSource = TradeRoutePathfinderDataSource(for: self.player, from: originCityLocation, to: targetCityLocation, in: gameModel)
+        tradeRouteFinder.dataSource = TradeRoutePathfinderDataSource(
+            for: self.player,
+            from: originCityLocation,
+            to: targetCityLocation,
+            in: gameModel)
 
         if let tradeRoutePath = tradeRouteFinder.shortestPath(fromTileCoord: originCityLocation, toTileCoord: targetCityLocation) {
             print("tradeRoutePath: \(tradeRoutePath)")
@@ -128,7 +132,11 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
         }
 
         let tradeRouteFinder = AStarPathfinder()
-        tradeRouteFinder.dataSource = TradeRoutePathfinderDataSource(for: self.player, from: originCityLocation, to: targetCityLocation, in: gameModel)
+        tradeRouteFinder.dataSource = TradeRoutePathfinderDataSource(
+            for: self.player,
+            from: originCityLocation,
+            to: targetCityLocation,
+            in: gameModel)
 
         if tradeRouteFinder.shortestPath(fromTileCoord: originCityLocation, toTileCoord: targetCityLocation) != nil {
             return true
@@ -136,5 +144,4 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
 
         return false
     }
-
 }
