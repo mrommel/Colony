@@ -20,6 +20,7 @@ class TradeRouteTests: XCTestCase {
     var hasVisited: Bool = false
     var sourceVisited: Int = 0
     var targetVisited: Int = 0
+    var hasExpired: Bool = false
 
     static func mapFilled(with terrain: TerrainType, sized size: MapSize) -> MapModel {
 
@@ -202,6 +203,7 @@ class TradeRouteTests: XCTestCase {
         self.hasVisited = false
         self.targetVisited = 0
         self.sourceVisited = 0
+        self.hasExpired = false
 
         repeat {
 
@@ -211,14 +213,19 @@ class TradeRouteTests: XCTestCase {
             }
 
             humanPlayer.endTurn(in: gameModel)
+            
+            if !traderUnit.isTrading() {
+                self.hasExpired = true
+            }
 
             turnCounter += 1
-        } while turnCounter < 20
+        } while turnCounter < 30 && !self.hasExpired
 
         // THEN
-        XCTAssertEqual(self.hasVisited, true, "not visited trade city within first 20 turns")
-        XCTAssertEqual(self.targetVisited, 5)
-        XCTAssertEqual(self.sourceVisited, 4)
+        XCTAssertEqual(self.hasVisited, true, "not visited trade city within first 30 turns")
+        XCTAssertEqual(self.targetVisited, 6)
+        XCTAssertEqual(self.sourceVisited, 6)
+        XCTAssertEqual(self.hasExpired, true)
     }
 }
 

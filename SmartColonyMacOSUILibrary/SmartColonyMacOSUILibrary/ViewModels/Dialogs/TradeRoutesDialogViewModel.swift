@@ -42,17 +42,15 @@ class TradeRoutesDialogViewModel: ObservableObject {
             fatalError("cant get human player")
         }
         
-        guard let tradeRoutes = humanPlayer.tradeRoutes else {
-            fatalError("cant get trade routes")
-        }
-        
-        for index in 0..<tradeRoutes.numberOfTradeRoutes() {
-            
-            guard let tradeRoute = tradeRoutes.tradeRoute(at: index) else {
+        let allHumanPlayerUnits = gameModel.units(of: humanPlayer)
+
+        for humanPlayerUnit in allHumanPlayerUnits where humanPlayerUnit?.type == .trader {
+ 
+            guard let unit = humanPlayerUnit else {
                 continue
             }
-            
-            let tradeRouteViewModel = TradeRouteViewModel(tradeRoute: tradeRoute)
+
+            let tradeRouteViewModel = TradeRouteViewModel(unit: unit)
             tradeRouteViewModels.append(tradeRouteViewModel)
         }
     }
