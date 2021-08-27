@@ -554,13 +554,16 @@ public class GameViewModel: ObservableObject {
             case .goodyHutReward(let goodyType, let location):
                 self.currentPopupType = .goodyHutReward(goodyType: goodyType, location: location)
 
-            case .unitTrained:
+            case .unitTrained(unit: _):
                 // NOOP
                 break
 
             case .buildingBuilt:
                 // NOOP
                 break
+
+            case .wonderBuilt(let wonderType):
+                self.currentPopupType = .wonderBuilt(wonder: wonderType)
 
             case .religionByCityAdopted(_, _):
                 fatalError("religionByCityAdopted")

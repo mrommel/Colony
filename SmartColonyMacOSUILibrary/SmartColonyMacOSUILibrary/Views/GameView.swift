@@ -161,6 +161,11 @@ extension GameView {
         case .buildingBuilt:
             return AnyView(EmptyView())
 
+        case .wonderBuilt(wonder: let wonderType):
+            let viewModel = WonderBuiltPopupViewModel(wonderType: wonderType)
+            viewModel.delegate = self.viewModel
+            return AnyView(WonderBuiltPopupView(viewModel: viewModel))
+
         case .religionByCityAdopted(religion: _, location: _):
             return AnyView(Text("religionByCityAdopted"))
 

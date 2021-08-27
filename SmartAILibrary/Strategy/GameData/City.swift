@@ -1914,7 +1914,11 @@ public class City: AbstractCity {
 
     private func build(wonder wonderType: WonderType, in gameModel: GameModel?) {
 
-        guard let techs = self.player?.techs else {
+        guard let player = self.player else {
+            fatalError("cant get player ")
+        }
+
+        guard let techs = player.techs else {
             fatalError("cant get player techs")
         }
 
@@ -1976,6 +1980,10 @@ public class City: AbstractCity {
                 // let extraApostle = Unit(at: self.location, type: .apostle, owner: self.player)
                 // gameModel?.add(unit: extraApostle)
                 // gameModel?.userInterface?.show(unit: extraApostle)
+            }
+
+            if player.isHuman() {
+                gameModel?.userInterface?.showPopup(popupType: .wonderBuilt(wonder: wonderType))
             }
 
         } catch {
