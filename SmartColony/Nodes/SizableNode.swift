@@ -9,7 +9,7 @@
 import CoreGraphics
 
 protocol SizableNode {
- 
+
     func width() -> CGFloat
     func height() -> CGFloat
 }

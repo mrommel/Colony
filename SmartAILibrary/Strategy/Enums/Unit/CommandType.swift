@@ -65,10 +65,10 @@ public enum CommandType {
         case .fortify: return "Fortify"
         case .hold: return "Hold"
         case .garrison: return "Garrison"
-            
+
         case .disband: return "Disband"
         case .cancelOrder: return "Cancel order"
-            
+
         case .automateExploration: return "Automate Exploration"
         case .automateBuild: return "Automate Build"
         case .establishTradeRoute: return "Establish TradeRoute"

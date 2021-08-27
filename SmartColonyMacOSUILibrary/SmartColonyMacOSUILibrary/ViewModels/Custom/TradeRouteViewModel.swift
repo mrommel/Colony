@@ -9,9 +9,9 @@ import SwiftUI
 import SmartAILibrary
 
 class TradeRouteViewModel: ObservableObject, Identifiable {
-    
+
     let id: UUID = UUID()
-    
+
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
 
@@ -20,13 +20,13 @@ class TradeRouteViewModel: ObservableObject, Identifiable {
 
     @Published
     var foodYieldViewModel: YieldValueViewModel
-    
+
     @Published
     var productionYieldViewModel: YieldValueViewModel
-    
+
     @Published
     var goldYieldViewModel: YieldValueViewModel
-    
+
     @Published
     var remainingTurns: String
 
@@ -52,32 +52,32 @@ class TradeRouteViewModel: ObservableObject, Identifiable {
             withBackground: false
         )
         self.remainingTurns = "0"
-        
+
         guard let gameModel = self.gameEnvironment.game.value else {
             // fatalError("cant get game")
             return
         }
-        
+
         guard let tradeRouteData = unit?.tradeRouteData() else {
             fatalError("unit has no trade route data")
         }
-        
+
         guard let startCity = tradeRouteData.startCity(in: gameModel) else {
             fatalError("cant get start city")
         }
-        
+
         guard let endCity = tradeRouteData.endCity(in: gameModel) else {
             fatalError("cant get end city")
         }
-        
+
         let yields = tradeRouteData.yields(in: gameModel)
         let remainingTurns = tradeRouteData.expiresInTurns(for: unit, in: gameModel)
-        
+
         self.title = "\(startCity.name) to \(endCity.name)"
         self.foodYieldViewModel.value = yields.food
         self.productionYieldViewModel.value = yields.production
         self.goldYieldViewModel.value = yields.gold
-        
+
         if remainingTurns <= 0 {
             self.remainingTurns = "expired"
         } else {

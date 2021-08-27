@@ -19,7 +19,7 @@ public protocol AbstractTradeRoutes {
     func numberOfTradeRoutes() -> Int
     func tradeRoute(at index: Int) -> TradeRoute?
     func tradeRoutesStarting(at city: AbstractCity?) -> [TradeRoute]
-    
+
     func yields(in gameModel: GameModel?) -> Yields
 }
 
@@ -61,13 +61,13 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
 
         return self.routes.count
     }
-    
+
     public func tradeRoute(at index: Int) -> TradeRoute? {
-        
+
         guard 0 <= index && index < self.routes.count else {
             return nil
         }
-        
+
         return self.routes[index]
     }
 

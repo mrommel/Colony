@@ -14,7 +14,7 @@ class BaseBuildingItemDisplayNode: SKNode {
     // properties
     var cost: Double
     var size: CGSize
-    
+
     // nodes
     var backgroundNode: NineGridTextureSprite?
     var iconNode: SKSpriteNode?
@@ -26,7 +26,7 @@ class BaseBuildingItemDisplayNode: SKNode {
 
         self.cost = cost
         self.size = size
-        
+
         super.init()
 
         self.backgroundNode = NineGridTextureSprite(imageNamed: textureName, size: size)

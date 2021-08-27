@@ -11,33 +11,33 @@ import SpriteKit
 import SmartAILibrary
 
 class GameViewController: UIViewController {
-    
+
     // gesture recognizers
     var pinchGestureRecognizer: UIPinchGestureRecognizer?
     var longPressRecognizer: UILongPressGestureRecognizer?
     var doubleTapGestureRecognizer: UITapGestureRecognizer?
-    
+
     // model
     var viewModel: GameViewModel?
-    
+
     // scenes
     var gameLoadingScene: GameLoadingScene?
     var gameScene: GameScene?
     //var gameClosingScene: GameClosingScene?
-    
+
     // The current zoom scale of the camera
     private var zoomScale: Double = Globals.Constants.initialScale
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         guard let viewModel = self.viewModel else {
             fatalError("ViewModel not initilized")
         }
-        
+
         self.start(game: viewModel.game)
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
 
         guard let view = self.view as! SKView? else {
@@ -51,21 +51,21 @@ class GameViewController: UIViewController {
 
         super.viewWillDisappear(animated)
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         self.gameScene?.updateLayout()
     }
-    
+
     func setupGestureRecognizer() {
-           
+
         self.pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(GameViewController.updateScale(sender:)))
         self.view.addGestureRecognizer(self.pinchGestureRecognizer!)
-       
+
         self.longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(GameViewController.handleLongPress(sender:)))
         //self.view.addGestureRecognizer(self.longPressRecognizer!)
-       
+
         self.doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(GameViewController.handleDoubleTap(sender:)))
         self.doubleTapGestureRecognizer?.numberOfTapsRequired = 2
         //self.view.addGestureRecognizer(self.doubleTapGestureRecognizer!)
@@ -83,7 +83,7 @@ class GameViewController: UIViewController {
             recognizer.scale = 1
         }
     }
-   
+
     @objc func handleLongPress(sender: UITapGestureRecognizer) {
 
         print("long press")
@@ -93,40 +93,40 @@ class GameViewController: UIViewController {
        
         print("long press at: \(hex)")*/
     }
-   
+
     @objc func handleDoubleTap(sender: UITapGestureRecognizer) {
        print("double tap")
     }
-    
+
     override var prefersStatusBarHidden: Bool {
         return true
     }
 }
 
 extension GameViewController {
-    
+
     func start(game: GameModel?) {
-        
+
         guard let view = self.view as! SKView? else {
             fatalError("View not loaded")
         }
-    
+
         self.gameLoadingScene = GameLoadingScene(size: view.bounds.size)
         self.gameLoadingScene?.completion = {
-            
+
             self.gameScene = GameScene(size: view.bounds.size)
             self.gameScene?.viewModel = GameSceneViewModel(with: game)
             self.gameScene?.scaleMode = .resizeFill
             self.gameScene?.gameDelegate = self
             game?.userInterface = self.gameScene
-            
+
             view.presentScene(self.gameScene)
             view.ignoresSiblingOrder = false
         }
-        
+
         view.presentScene(self.gameLoadingScene)
         view.ignoresSiblingOrder = false
-        
+
         #if DEBUG
         view.showsFPS = true
         view.showsNodeCount = true
@@ -137,18 +137,18 @@ extension GameViewController {
 }
 
 extension GameViewController: GameDelegate {
-    
+
     func exit() {
-        
+
         self.navigationController?.popViewController(animated: true)
     }
-    
+
     func exitAndLoad() {
-        
+
         self.navigationController?.popViewController(animated: true)
-        
+
         if let menuViewController = self.navigationController?.topViewController as? MenuViewController {
-            
+
             menuViewController.menuScene?.handleLoadButtonClicked()
         }
     }

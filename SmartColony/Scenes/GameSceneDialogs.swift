@@ -143,12 +143,12 @@ extension GameScene {
         }
 
         self.currentScreenType = .diplomatic
-        
+
         let viewModel = DiplomaticDialogViewModel(for: humanPlayer, and: otherPlayer, state: data.state, message: data.message, emotion: data.emotion, in: self.viewModel?.game)
 
         let diplomaticDialog = DiplomaticDialog(viewModel: viewModel)
         diplomaticDialog.zPosition = 250
-        
+
         if let deal = deal {
             viewModel.add(deal: deal)
         }
@@ -185,9 +185,9 @@ extension GameScene {
 
         self.cameraNode.add(dialog: treasuryDialog)
     }
-    
+
     func showGovernmentDialog() {
-        
+
         guard let gameModel = self.viewModel?.game else {
             fatalError("cant get game")
         }
@@ -204,10 +204,10 @@ extension GameScene {
         governmentDialog.zPosition = 250
 
         governmentDialog.addResultHandler { result in
-            
+
             governmentDialog.close()
             self.currentScreenType = .none
-            
+
             if result == .changeGovernment {
                 self.showChangeGovernmentDialog()
             } else if result == .changePolicies {
@@ -216,7 +216,7 @@ extension GameScene {
                 print("unhandled: \(result)")
             }
         }
-        
+
         governmentDialog.addOkayAction(handler: {
             governmentDialog.close()
             self.currentScreenType = .none
@@ -226,11 +226,11 @@ extension GameScene {
     }
 
     func showChangeGovernmentDialog() {
-        
+
         guard let gameModel = self.viewModel?.game else {
             fatalError("cant get game")
         }
-        
+
         guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get human player")
         }
@@ -238,38 +238,38 @@ extension GameScene {
         guard let government = humanPlayer.government else {
             fatalError("cant get human gov")
         }
-        
+
         self.currentScreenType = .changeGovernment
-        
+
         let changeGovernmentViewModel = ChangeGovernmentDialogViewModel(government: government)
 
         let changeGovernmentDialog = ChangeGovernmentDialog(with: changeGovernmentViewModel)
         changeGovernmentDialog.zPosition = 250
-        
+
         changeGovernmentDialog.addOkayAction(handler: {
             changeGovernmentDialog.close()
             self.currentScreenType = .none
-            
+
             if let choosenGovernmentType = changeGovernmentViewModel.choosenGovernmentType {
-                
+
                 if choosenGovernmentType != government.currentGovernment() {
                     print("new choosenGovernmentType: \(choosenGovernmentType)")
                     gameModel.humanPlayer()?.government?.set(governmentType: choosenGovernmentType)
                 }
             }
-            
+
             self.showGovernmentDialog()
         })
 
         self.cameraNode.add(dialog: changeGovernmentDialog)
     }
-    
+
     func showChangePoliciesDialog() {
-        
+
         guard let gameModel = self.viewModel?.game else {
             fatalError("cant get game")
         }
-        
+
         guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get human player")
         }
@@ -277,24 +277,24 @@ extension GameScene {
         guard let government = humanPlayer.government else {
             fatalError("cant get human gov")
         }
-        
+
         self.currentScreenType = .changePolicies
 
         let changePoliciesViewModel = ChangePoliciesDialogViewModel(government: government)
 
         let changePoliciesDialog = ChangePoliciesDialog(with: changePoliciesViewModel)
         changePoliciesDialog.zPosition = 250
-        
+
         changePoliciesDialog.addOkayAction(handler: {
             changePoliciesDialog.close()
             self.currentScreenType = .none
-            
+
             self.showGovernmentDialog()
         })
 
         self.cameraNode.add(dialog: changePoliciesDialog)
     }
-    
+
     func showMenuDialog() {
 
         self.currentScreenType = .menu
@@ -331,26 +331,26 @@ extension GameScene {
 
         self.cameraNode.add(dialog: gameMenuDialog)
     }
-    
+
     func showSelectPromotionDialog(for unit: AbstractUnit?) {
-        
+
         self.currentScreenType = .selectPromotion
 
         let selectPromotionViewModel = SelectPromotionDialogViewModel(for: unit)
 
         let selectPromotionDialog = SelectPromotionDialog(with: selectPromotionViewModel)
         selectPromotionDialog.zPosition = 250
-        
+
         selectPromotionDialog.addResultHandler(handler: { result in
-            
+
             if let selectedPromotion = result.toPromotionType() {
                 unit?.doPromote(with: selectedPromotion)
-                
+
                 selectPromotionDialog.close()
                 self.currentScreenType = .none
             }
         })
-        
+
         selectPromotionDialog.addOkayAction(handler: {
             selectPromotionDialog.close()
             self.currentScreenType = .none
@@ -358,26 +358,26 @@ extension GameScene {
 
         self.cameraNode.add(dialog: selectPromotionDialog)
     }
-    
+
     func showDisbandDialog(for unit: AbstractUnit?, completion: @escaping (Bool) -> Void) {
-        
+
         guard let unit = unit else {
             fatalError("cant get unit")
         }
-        
+
         self.currentScreenType = .disbandConfirm
 
         let confirmDialogViewModel = ConfirmationDialogViewModel(question: NSMutableAttributedString().normal("Do you really want to disband this ").bold(unit.name()).normal("?"))
 
         let confirmDialog = ConfirmationDialog(with: confirmDialogViewModel)
         confirmDialog.zPosition = 250
-        
+
         confirmDialog.addOkayAction(handler: {
             confirmDialog.close()
             self.currentScreenType = .none
             completion(true)
         })
-        
+
         confirmDialog.addCancelAction(handler: {
             confirmDialog.close()
             self.currentScreenType = .none
@@ -386,22 +386,22 @@ extension GameScene {
 
         self.cameraNode.add(dialog: confirmDialog)
     }
-    
+
     func showSelectCityDialog(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?) -> Void) {
-        
+
         self.currentScreenType = .selectTradeCity
-        
+
         let selectTradeCityDialogViewModel = SelectTradeCityDialogViewModel(start: startCity, cities: cities)
-        
+
         let selectTradeCityDialog = SelectTradeCityDialog(with: selectTradeCityDialogViewModel)
         selectTradeCityDialog.zPosition = 250
-        
+
         selectTradeCityDialog.addCityResultHandler(handler: { city in
             selectTradeCityDialog.close()
             self.currentScreenType = .none
             completion(city)
         })
-        
+
         selectTradeCityDialog.addCancelAction(handler: {
             selectTradeCityDialog.close()
             self.currentScreenType = .none
@@ -431,28 +431,28 @@ extension GameScene {
             case .barbarianCampCleared:
                 // NOOP
                 break
-                
+
             case .techDiscovered:
                 if let techType = firstPopup.popupData?.tech {
                     self.showTechDiscoveredPopup(for: techType)
                 } else {
                     fatalError("popup data did not provide tech")
                 }
-                
+
             case .civicDiscovered:
                 if let civicType = firstPopup.popupData?.civic {
                     self.showCivicDiscoveredPopup(for: civicType)
                 } else {
                     fatalError("popup data did not provide tech")
                 }
-                
+
             case .eraEntered:
                 if let era = firstPopup.popupData?.era {
                     self.showEnteredEraPopup(for: era)
                 } else {
                     fatalError("popup data did not provide era")
                 }
-                
+
             case .eurekaActivated:
                 if let popupData = firstPopup.popupData {
                     if popupData.tech != .none {
@@ -463,7 +463,7 @@ extension GameScene {
                 } else {
                     fatalError("popup data did not provide tech nor civic")
                 }
-                
+
             case .goodyHutReward:
                 if let goodyType = firstPopup.popupData?.goodyType {
                     let cityName = firstPopup.popupData?.cityName
@@ -471,15 +471,15 @@ extension GameScene {
                 } else {
                     fatalError("popup data did not provide goodyType")
                 }
-        
+
             case .unitTrained:
                 // NOOP
                 break
-                
+
             case .buildingBuilt:
                 // NOOP
                 break
-                
+
             }
 
             self.popups.removeFirst()
@@ -571,9 +571,9 @@ extension GameScene {
 
         self.cameraNode.add(dialog: eurekaActivatedPopup)
     }
-    
+
     func showGoodyHutRewardPopup(for goodyType: GoodyType, in cityName: String?) {
-        
+
         self.currentPopupType = .goodyHutReward
 
         let goodyHutRewardPopupViewModel = GoodyHutRewardPopupViewModel(goodyType: goodyType, in: cityName)

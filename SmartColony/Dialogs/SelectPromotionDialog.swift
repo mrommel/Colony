@@ -14,16 +14,16 @@ class SelectPromotionDialogViewModel {
     let iconTexture: SKTexture
     let name: String
     let possiblePromotions: [UnitPromotionType]
-    
+
     init(for unitRef: AbstractUnit?) {
-        
+
         if let unit = unitRef {
-        
+
             self.iconTexture = unit.type.iconTexture()
             self.name = unit.name()
             self.possiblePromotions = unit.possiblePromotions()
         } else {
-            
+
             self.iconTexture = SKTexture(imageNamed: "unit_type_default")
             self.name = "???"
             self.possiblePromotions = []
@@ -48,23 +48,23 @@ class SelectPromotionDialog: Dialog {
         }
 
         super.init(from: selectPromotionDialogConfiguration)
-        
+
         // fill
         self.set(image: self.viewModel.iconTexture, identifier: "current_unit_type_icon")
         self.set(text: self.viewModel.name, identifier: "current_unit_name")
-        
+
         // promotions
         var dy = 0
         for possiblePromotion in self.viewModel.possiblePromotions {
-            
+
             print("possiblePromotion: \(possiblePromotion)")
             let promotionDisplayNode = PromotionDisplayNode(promotionType: possiblePromotion, state: .possible)
             promotionDisplayNode.delegate = self
             promotionDisplayNode.zPosition = self.zPosition + 1.0
             promotionDisplayNode.position = CGPoint(x: -106, y: dy - 250)
-            
+
             self.addChild(promotionDisplayNode)
-            
+
             dy -= 110
         }
     }
@@ -75,9 +75,9 @@ class SelectPromotionDialog: Dialog {
 }
 
 extension SelectPromotionDialog: PromotionDisplayNodeDelegate {
-    
+
     func clicked(on promotionType: UnitPromotionType) {
-        
+
         if let result = DialogResultType(promotionType: promotionType) {
             self.handleResult(with: result)
         } else {

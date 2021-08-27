@@ -9,16 +9,16 @@
 import SmartAILibrary
 
 class TechDiscoveredPopupViewModel {
-    
+
     let iconTexture: String
     let titleText: String
     let summaryText: String
     let subtitleText: String
     let unlockedIcons: [String]
     let quoteText: String
-    
+
     init(techType: TechType) {
-        
+
         self.iconTexture = techType.iconTexture()
         self.titleText = "Research completed"
         self.summaryText = techType.name()
@@ -29,20 +29,20 @@ class TechDiscoveredPopupViewModel {
 }
 
 class TechDiscoveredPopup: Dialog {
-    
+
     let viewModel: TechDiscoveredPopupViewModel
-    
+
     init(viewModel: TechDiscoveredPopupViewModel) {
-        
+
         self.viewModel = viewModel
-        
+
         let uiParser = UIParser()
         guard let techDiscoveredPopupConfiguration = uiParser.parse(from: "TechDiscoveredPopup") else {
             fatalError("cant load TechDiscoveredPopup configuration")
         }
-        
+
         super.init(from: techDiscoveredPopupConfiguration)
-        
+
         self.set(imageNamed: self.viewModel.iconTexture, identifier: "popup_image")
         self.set(text: self.viewModel.titleText, identifier: "popup_title")
         self.set(text: self.viewModel.summaryText, identifier: "popup_summary")
@@ -50,7 +50,7 @@ class TechDiscoveredPopup: Dialog {
         // ...
         self.set(text: self.viewModel.quoteText, identifier: "popup_quote")
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

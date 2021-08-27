@@ -132,7 +132,7 @@ class TradeRouteTests: XCTestCase {
         // THEN
         XCTAssertEqual(self.hasVisited, true, "not visited trade city within first 10 turns")
     }
-    
+
     func testTradeRouteWorkingBothCitiesHomeland() { // check foreign too?
 
         // GIVEN
@@ -168,14 +168,14 @@ class TradeRouteTests: XCTestCase {
         try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
         humanPlayer.government?.set(governmentType: .chiefdom)
         try! humanPlayer.government?.set(policyCardSet: PolicyCardSet(cards: [.godKing, .discipline]))
-        
+
         // Human - city 1
         humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
 
         if let humanCapital = gameModel.city(at: HexPoint(x: 3, y: 5)) {
             humanCapital.buildQueue.add(item: BuildableItem(buildingType: .granary))
         }
-        
+
         // Human - city 2
         humanPlayer.found(at: HexPoint(x: 8, y: 5), named: "Human City", in: gameModel)
         let humanCity = gameModel.city(at: HexPoint(x: 8, y: 5))
@@ -195,7 +195,7 @@ class TradeRouteTests: XCTestCase {
 
         // WHEN
         traderUnit.doEstablishTradeRoute(to: humanCity, in: gameModel)
-        
+
         self.sourceLocation = HexPoint(x: 3, y: 5)
         self.targetLocation = HexPoint(x: 8, y: 5)
 
@@ -213,7 +213,7 @@ class TradeRouteTests: XCTestCase {
             }
 
             humanPlayer.endTurn(in: gameModel)
-            
+
             if !traderUnit.isTrading() {
                 self.hasExpired = true
             }
@@ -237,7 +237,7 @@ extension TradeRouteTests: UnitMovedDelegate {
             self.hasVisited = true
             self.targetVisited += 1
         }
-        
+
         if location == self.sourceLocation {
             self.sourceVisited += 1
         }

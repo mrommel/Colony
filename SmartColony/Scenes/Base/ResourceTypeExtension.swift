@@ -10,7 +10,7 @@ import SmartAILibrary
 import CoreGraphics
 
 extension ResourceType {
-    
+
     /*func textureMarkerName() -> String {
         
         switch self {

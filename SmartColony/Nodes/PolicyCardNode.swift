@@ -14,15 +14,15 @@ enum PolicyCardState {
     case selected
     case active
     case disabled
-    
+
     case none
-    
+
     func checkBoxTextureName() -> String {
-        
+
         switch self {
 
         case .none: return "checkbox_none"
-            
+
         case .selected: return "checkbox_checked"
         case .active: return "checkbox_unchecked"
         case .disabled: return "checkbox_disabled"
@@ -31,7 +31,7 @@ enum PolicyCardState {
 }
 
 protocol PolicyCardNodeDelegate: class {
-    
+
     func clicked(on policyCardType: PolicyCardType)
 }
 
@@ -41,13 +41,13 @@ class PolicyCardNode: SKNode {
     let policyCardType: PolicyCardType
     var state: PolicyCardState
     var moved: Bool = false
-    
+
     // nodes
     var backgroundNode: SKSpriteNode?
     var titleLabel: SKLabelNode?
     var bonusLabel: SKLabelNode?
     var checkBox: SKSpriteNode?
-    
+
     // delegate
     weak var delegate: PolicyCardNodeDelegate?
 
@@ -57,7 +57,7 @@ class PolicyCardNode: SKNode {
 
         self.policyCardType = policyCardType
         self.state = state
-        
+
         super.init()
 
         let size = CGSize(width: 100, height: 100)
@@ -67,7 +67,7 @@ class PolicyCardNode: SKNode {
         self.backgroundNode = SKSpriteNode(texture: texture, color: .black, size: size)
         self.backgroundNode?.position = CGPoint(x: size.halfWidth, y: -size.halfHeight)
         self.addChild(self.backgroundNode!)
-        
+
         // /////////////////////
         // title
         let titleTextAttributes: [NSAttributedString.Key: Any] = [
@@ -98,7 +98,7 @@ class PolicyCardNode: SKNode {
         ]
 
         let bonusTextAttributed = NSAttributedString(string: policyCardType.bonus().replaceIcons(), attributes: bonusTextAttributes)
-        
+
         self.bonusLabel = SKLabelNode(attributedText: bonusTextAttributed)
         self.bonusLabel?.zPosition = self.zPosition + 10
         self.bonusLabel?.verticalAlignmentMode = .top
@@ -107,7 +107,7 @@ class PolicyCardNode: SKNode {
         self.bonusLabel?.position = CGPoint(x: size.halfWidth, y: -22)
 
         self.addChild(self.bonusLabel!)
-        
+
         // /////////////////////
         // checkbox
         let checkboxTexture = SKTexture(imageNamed: state.checkBoxTextureName())
@@ -115,99 +115,99 @@ class PolicyCardNode: SKNode {
         self.checkBox?.position = CGPoint(x: 5, y: -22)
         self.checkBox?.zPosition = self.zPosition + 10
         self.addChild(self.checkBox!)
-        
+
         self.isUserInteractionEnabled = true
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func updateLayout() {
-        
+
         let textureName = state == .disabled ? "policyCard_slot" : policyCardType.iconTexture()
         let backgroundTexture = SKTexture(imageNamed: textureName)
         self.backgroundNode?.texture = backgroundTexture
-        
+
         let checkboxTexture = SKTexture(imageNamed: state.checkBoxTextureName())
         self.checkBox?.texture = checkboxTexture
-        
+
         self.titleLabel?.fontColor = self.state == .disabled ? UIColor.gray : UIColor.white
         self.bonusLabel?.fontColor = self.state == .disabled ? UIColor.gray : UIColor.white
     }
-    
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+
         // propergate to scrollview
         if let scrollView = self.parent?.parent as? ScrollNode {
             scrollView.touchesBegan(touches, with: event)
         }
-        
+
         self.moved = false
     }
-    
+
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+
         // propergate to scrollview
         if let scrollView = self.parent?.parent as? ScrollNode {
             scrollView.touchesMoved(touches, with: event)
         }
-        
+
         let touch = touches.first!
-        
+
         let touchLocation = touch.location(in: self)
         let previousLocation = touch.previousLocation(in: self)
         let deltaY = (touchLocation.y) - (previousLocation.y)
-        
+
         if abs(deltaY) > 0.1 {
             self.moved = true
         }
     }
-    
+
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+
         if self.moved {
             return
         }
-        
+
         if let touch: UITouch = touches.first {
             let location: CGPoint = touch.location(in: self)
 
             // propergate to scrollview
             if let scrollNode = self.parent?.parent as? ScrollNode {
-                
+
                 let scrollNodeLocation: CGPoint = touch.location(in: scrollNode)
                 let scrollNodeFrame = CGRect(origin: CGPoint(x: -scrollNode.size.halfWidth, y: -scrollNode.size.halfHeight), size: scrollNode.size)
-                
+
                 if scrollNodeFrame.contains(scrollNodeLocation) {
-                    
+
                     if self.state == .disabled || self.state == .none {
                         return
                     }
-                    
+
                     if self.backgroundNode!.contains(location) {
                         print("clicked on policy card: \(self.policyCardType) - \(self.state)")
-                        
+
                         self.toggleState()
                         self.delegate?.clicked(on: self.policyCardType)
                     }
-                } 
+                }
             }
         }
     }
-    
+
     func toggleState() {
-        
+
         if self.state == .disabled || self.state == .none {
             return
         }
-        
+
         if self.state == .active {
             self.state = .selected
         } else if self.state == .selected {
             self.state = .active
         }
-        
+
         self.updateLayout()
     }
 }

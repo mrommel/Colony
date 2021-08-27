@@ -13,9 +13,9 @@ struct SnapPointPreferenceData {
 
 struct SnapPointPreferenceKey: PreferenceKey {
     typealias Value = SnapPointPreferenceData?
-    
+
     static var defaultValue: SnapPointPreferenceData?
-    
+
     static func reduce(value: inout SnapPointPreferenceData?, nextValue: () -> SnapPointPreferenceData?) {
         value = value ?? nextValue()
     }
@@ -41,11 +41,11 @@ struct ScrollEndTarget<ID>: Hashable where ID: Hashable {
 struct ScrollViewSnap: View {
     @State var scrollEndTarget = ScrollEndTarget<String>(id: nil, offset: .zero)
     @State var debugColor: Color = .yellow
-    
+
     let items: [String]
     let targetOffsetSubject: PassthroughSubject<ScrollEndTarget<String>, Never>
     let debouncedTargetOffsetPublisher: AnyPublisher<ScrollEndTarget<String>, Never>
-    
+
     init(items: [String]) {
         // We use this just to fake detection of "scrollViewWillEndDragging" and this is flawed
         // because it lags behind the user expectation, and also can trigger while they are dragging.
@@ -55,7 +55,7 @@ struct ScrollViewSnap: View {
         debouncedTargetOffsetPublisher = targetOffsetSubject.debounce(for: 1, scheduler: DispatchQueue.main).eraseToAnyPublisher()
         self.items = items
     }
-    
+
     var body: some View {
         ZStack {
             ScrollViewReader { scrollProxy in
@@ -67,7 +67,7 @@ struct ScrollViewSnap: View {
                                 .multilineTextAlignment(.leading)
                                 .font(.largeTitle)
                                 .padding(25)
-                                
+
                                 Divider()
                                 .background(Color.black)
                             }
@@ -83,7 +83,7 @@ struct ScrollViewSnap: View {
                                 print("change: \(item)")
                                 // Show that the interactive scroll is in progress
                                 self.debugColor = .yellow
-                                
+
                                 let scrollEndTarget = ScrollEndTarget(id: item, offset: value.predictedEndLocation)
                                 targetOffsetSubject.send(scrollEndTarget)
                                 // This is the part where we would need real calculations based on the anchor and the cell
@@ -119,14 +119,14 @@ struct ScrollViewSnap: View {
 
             VStack {
                 Spacer()
-                
+
                 HStack {
                     Spacer()
 
                     Text("WE WANT TO SNAP TO HERE")
                     .foregroundColor(Color.white)
                     .font(Font.body.smallCaps())
-                    
+
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
@@ -137,21 +137,21 @@ struct ScrollViewSnap: View {
                     transform: { SnapPointPreferenceData(frame: $0) }
                 )
                 .offset(y: -230)
-                
+
                 Spacer()
             }
-            
+
         }
         .overlayPreferenceValue(SnapPointPreferenceKey.self) { value in
             GeometryReader { proxy in
                 VStack {
                     Spacer()
-                    
+
                     HStack {
                         Spacer()
-                        
+
                         Text("We want scroll end to snap the nearest item to y = \(value == nil ? 0 : proxy[value!.frame].minY, specifier: "%.0f")")
-                        
+
                         Spacer()
                     }
                     .padding()

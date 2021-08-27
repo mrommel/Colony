@@ -10,20 +10,20 @@ import SmartAILibrary
 extension FeatureType {
 
     public static func from(name: String) -> FeatureType? {
-        
+
         for feature in FeatureType.all {
             if feature.name() == name {
                 return feature
             }
         }
-        
+
         return nil
     }
-    
+
     public func textureNames() -> [String] {
-        
+
         switch self {
-        
+
         case .none:
             return []
         case .forest:
@@ -44,14 +44,14 @@ extension FeatureType {
             return ["feature_atoll"]
         case .volcano:
             return ["feature_volcano"]
-            
+
         case .mountains:
             return ["feature_mountains1", "feature_mountains2", "feature_mountains3"]
         case .lake:
             return ["feature_lake"]
         case .fallout:
             return ["feature_fallout"]
-            
+
         case .delicateArch:
             return ["feature_delicateArch"]
         case .galapagos:

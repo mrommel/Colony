@@ -11,19 +11,19 @@ import SmartAILibrary
 extension GameScene: LeftHeaderBarNodeDelegate {
 
     func toogleScienceButton() {
-        
+
         self.scienceProgressNodeHidden = !self.scienceProgressNodeHidden
         self.updateLayout()
     }
 
     func toggleCultureButton() {
-        
+
         self.cultureProgressNodeHidden = !self.cultureProgressNodeHidden
         self.updateLayout()
     }
-    
+
     func governmentButtonClicked() {
-        
+
         self.showGovernmentDialog()
     }
 }

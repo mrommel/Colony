@@ -142,7 +142,7 @@ extension UnitType {
             return textureAtlas?.gameObjectAtlas(for: "idle")
 
         case .heavyChariot: return nil
-            
+
         case .galley:
             return GameObjectAtlas(atlasName: "Galley", template: "galley_idle-", range: 0..<3)
 
@@ -199,9 +199,9 @@ extension UnitType {
         case .spearman:
             let textureAtlas = TextureAtlasLoader.load(named: "spearman")
             return textureAtlas?.gameObjectAtlas(for: "walk", in: "south")
-            
+
         case .heavyChariot: return nil
-            
+
         case .galley:
             return GameObjectAtlas(atlasName: "Galley", template: "galley_south-", range: 0..<3)
 
@@ -260,7 +260,7 @@ extension UnitType {
             return textureAtlas?.gameObjectAtlas(for: "walk", in: "north")
 
         case .heavyChariot: return nil
-            
+
         case .galley:
             return GameObjectAtlas(atlasName: "Galley", template: "galley_north-", range: 0..<3)
 
@@ -319,7 +319,7 @@ extension UnitType {
             return textureAtlas?.gameObjectAtlas(for: "walk", in: "west", mirror: true)
 
         case .heavyChariot: return nil
-            
+
         case .galley:
             return GameObjectAtlas(atlasName: "Galley", template: "galley_right-", range: 0..<3)
 
@@ -377,7 +377,7 @@ extension UnitType {
             return textureAtlas?.gameObjectAtlas(for: "walk", in: "west")
 
         case .heavyChariot: return nil
-            
+
         case .galley:
             return GameObjectAtlas(atlasName: "Galley", template: "galley_left-", range: 0..<3)
 

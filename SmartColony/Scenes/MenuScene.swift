@@ -16,16 +16,16 @@ protocol MenuDelegate: class {
     func startWith(map: MapModel?, leader: LeaderType, handicap: HandicapType)
     func startOptions()
     func startStore()
-    
+
     func startPedia()
 }
 
 class MenuScene: BaseScene {
-    
+
     // variables
     var backgroundNode: SKSpriteNode?
     var colonyTitleLabel: SKSpriteNode?
-    
+
     var tutorialButton: MenuButtonNode?
     var resumeButton: MenuButtonNode?
     var freePlayButton: MenuButtonNode?
@@ -33,19 +33,19 @@ class MenuScene: BaseScene {
     var optionsButton: MenuButtonNode?
     var storeButton: MenuButtonNode?
     var pediaButton: MenuButtonNode?
-    
+
     var copyrightLabel: SKLabelNode?
-    
+
     // view model
     var viewModel: MenuSceneViewModel?
-    
+
     // delegate
     weak var menuDelegate: MenuDelegate?
-    
+
     override init(size: CGSize) {
-        
+
         super.init(size: size, layerOrdering: .nodeLayerOnTop)
-        
+
         self.viewModel = MenuSceneViewModel(scene: self)
     }
 
@@ -83,7 +83,7 @@ class MenuScene: BaseScene {
         // quests
         self.resumeButton = MenuButtonNode(imageNamed: "quests", title: "Resume",
             buttonAction: {
-                
+
                 let currentGame = GameStorage.loadCurrentGame()
                 self.menuDelegate?.resume(game: currentGame)
             })
@@ -102,7 +102,7 @@ class MenuScene: BaseScene {
             })
         self.freePlayButton?.zPosition = 2
         self.rootNode.addChild(self.freePlayButton!)
-        
+
         // load
         self.loadGameButton = MenuButtonNode(imageNamed: "free_play", title: "Load Game",
             buttonAction: {
@@ -131,7 +131,7 @@ class MenuScene: BaseScene {
         self.storeButton?.zPosition = 2
         self.storeButton?.disable() // FIXME
         self.rootNode.addChild(self.storeButton!)
-        
+
         // pedia
         self.pediaButton = MenuButtonNode(imageNamed: "pedia", title: "Pedia",
             buttonAction: {
@@ -147,33 +147,33 @@ class MenuScene: BaseScene {
         self.rootNode.addChild(self.copyrightLabel!)
 
         self.updateLayout()
-        
+
         // self.checkUserExists()
     }
-    
+
     // moving the menu content around
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+
         for touch in touches {
             let location = touch.location(in: self.backgroundNode!)
             let previousLocation = touch.previousLocation(in: self.backgroundNode!)
-            
+
             let deltaY = (location.y) - (previousLocation.y)
             let height = (self.backgroundNode?.frame.height)! * 2 // << == change here
-            
+
             self.cameraNode.position.x = 0.0
             self.cameraNode.position.y -= deltaY * 0.7
-            
+
             if self.cameraNode.position.y < -height {
                 self.cameraNode.position.y = -height
             }
-            
+
             if self.cameraNode.position.y > 0 {
                 self.cameraNode.position.y = 0
             }
         }
     }
-    
+
     override func updateLayout() {
 
         super.updateLayout()
@@ -196,7 +196,7 @@ class MenuScene: BaseScene {
 
         // copyright
         self.copyrightLabel?.position = CGPoint(x: 0, y: -self.frame.halfHeight + 18)
-        
+
         // update load button
         if GameStorage.listGames().isEmpty {
             self.loadGameButton?.disable()
@@ -204,11 +204,11 @@ class MenuScene: BaseScene {
             self.loadGameButton?.enable()
         }
     }
-    
+
     // MARK: handlers
-    
+
     func handleLoadButtonClicked() {
-        
+
         self.rootNode.blurWith(completion: {
             self.viewModel?.handleLoadGameClicked()
         })

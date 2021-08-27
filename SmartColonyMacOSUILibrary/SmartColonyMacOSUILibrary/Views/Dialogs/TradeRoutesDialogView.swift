@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct TradeRoutesDialogView: View {
-    
+
     @ObservedObject
     var viewModel: TradeRoutesDialogViewModel
-    
+
     private var gridItemLayout = [GridItem(.fixed(300))]
 
     public init(viewModel: TradeRoutesDialogViewModel) {
@@ -33,9 +33,9 @@ struct TradeRoutesDialogView: View {
 
                     Spacer()
                 }
-                
+
                 self.headerView
-                
+
                 self.contentView
 
                 Button(action: {
@@ -55,21 +55,21 @@ struct TradeRoutesDialogView: View {
                 .resizable(capInsets: EdgeInsets(all: 45))
         )
     }
-    
+
     private var headerView: AnyView {
-        
+
         AnyView(
             HStack(alignment: .center, spacing: 10) {
                 Button("my routes") {
                     self.viewModel.select(viewType: .myRoutes)
                 }
                 .buttonStyle(DialogButtonStyle(state: self.viewModel.viewType == .myRoutes ? .highlighted : .normal))
-                
+
                 Button("foreign") {
                     self.viewModel.select(viewType: .foreign)
                 }
                 .buttonStyle(DialogButtonStyle(state: self.viewModel.viewType == .foreign ? .highlighted : .normal))
-                
+
                 Button("available") {
                     self.viewModel.select(viewType: .available)
                 }
@@ -77,20 +77,20 @@ struct TradeRoutesDialogView: View {
             }
         )
     }
-    
+
     private var contentView: AnyView {
-        
+
         AnyView(
             ScrollView(.vertical, showsIndicators: true, content: {
-                
+
                 if self.viewModel.tradeRouteViewModels.isEmpty {
                     Text("no trade routes yet")
                         .padding(.top, 50)
                 } else {
                     LazyVGrid(columns: gridItemLayout, spacing: 10) {
-                        
+
                         ForEach(self.viewModel.tradeRouteViewModels, id: \.self) { tradeRouteViewModel in
-                            
+
                             TradeRouteView(viewModel: tradeRouteViewModel)
                                 .padding(.top, 8)
                         }

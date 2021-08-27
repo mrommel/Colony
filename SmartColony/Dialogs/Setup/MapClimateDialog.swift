@@ -10,16 +10,16 @@ import Foundation
 import SmartAILibrary
 
 class MapClimateDialog: Dialog {
-    
+
     init() {
         let uiParser = UIParser()
         guard let mapClimateDialogConfiguration = uiParser.parse(from: "MapClimateDialog") else {
             fatalError("cant load MapClimateDialog configuration")
         }
-        
+
         super.init(from: mapClimateDialogConfiguration)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

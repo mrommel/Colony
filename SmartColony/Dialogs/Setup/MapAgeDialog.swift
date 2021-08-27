@@ -10,16 +10,16 @@ import Foundation
 import SmartAILibrary
 
 class MapAgeDialog: Dialog {
-    
+
     init() {
         let uiParser = UIParser()
         guard let mapAgeDialogConfiguration = uiParser.parse(from: "MapAgeDialog") else {
             fatalError("cant load MapAgeDialog configuration")
         }
-        
+
         super.init(from: mapAgeDialogConfiguration)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -8,15 +8,15 @@
 import SmartAILibrary
 
 extension ResourceType {
-    
+
     public static func from(name: String) -> ResourceType? {
-        
+
         for resource in ResourceType.all {
             if resource.name() == name {
                 return resource
             }
         }
-        
+
         return nil
     }
 
@@ -36,7 +36,7 @@ extension ResourceType {
         case .cattle: return "resource-marker-cattle"
         case .fish: return "resource-marker-fish"
         case .crab: return "resource-marker-crab"
-            
+
         case .marble: return "resource-marker-marble"
         case .gems: return "resource-marker-gems"
         case .furs: return "resource-marker-furs"
@@ -84,7 +84,7 @@ extension ResourceType {
         case .cattle: return "resource_cattle"
         case .fish: return "resource_fish"
         case .crab: return "resource_crab"
-            
+
             // luxus
         case .marble: return "resource_marble"
         case .gems: return "resource_gems"

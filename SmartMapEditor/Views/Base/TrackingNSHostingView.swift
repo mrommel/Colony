@@ -9,7 +9,7 @@ import SwiftUI
 import Cocoa
 
 class TrackingNSHostingView<Content>: NSHostingView<Content> where Content: View {
-    
+
     let onMove: (NSPoint) -> Void
 
     init(onMove: @escaping (NSPoint) -> Void, rootView: Content) {

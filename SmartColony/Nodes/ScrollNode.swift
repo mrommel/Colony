@@ -67,7 +67,7 @@ class ScrollNode: SKCropNode {
         }
 
         let previousLocation = touch.previousLocation(in: self)
-        
+
         if self.mode == .vertically {
             let deltaY = (touchLocation.y) - (previousLocation.y)
 

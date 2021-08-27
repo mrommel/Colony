@@ -45,14 +45,14 @@ public class TradeRoute: Codable {
         try container.encode(self.posts, forKey: .posts)
         try container.encode(self.end, forKey: .end)
     }
-    
+
     public func startCity(in gameModel: GameModel?) -> AbstractCity? {
-        
+
         return gameModel?.city(at: self.start)
     }
-    
+
     public func endCity(in gameModel: GameModel?) -> AbstractCity? {
-        
+
         return gameModel?.city(at: self.end)
     }
 
@@ -104,7 +104,7 @@ public class TradeRoute: Codable {
         var yields: Yields = Yields(food: 0.0, production: 0.0, gold: 0.0)
 
         if self.isDomestic(in: gameModel) {
-            
+
             yields += endDistricts.domesticTradeYields()
 
             if startPlayer.leader.civilization().ability() == .satrapies {

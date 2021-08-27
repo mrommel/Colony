@@ -66,7 +66,7 @@ public class Yields {
 extension Yields {
 
     static func +=(lhs: inout Yields, rhs: Yields) {
-        
+
         lhs.food += rhs.food
         lhs.production += rhs.production
         lhs.gold += rhs.gold
@@ -80,7 +80,7 @@ extension Yields {
     }
 
     static func -=(lhs: inout Yields, rhs: Yields) {
-        
+
         lhs.food -= rhs.food
         lhs.production -= rhs.production
         lhs.gold -= rhs.gold

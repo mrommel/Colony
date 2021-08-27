@@ -81,9 +81,9 @@ public class WeightedList<T: Codable & Equatable>: Codable, CustomDebugStringCon
 
         return self.items.count
     }
-    
+
     var isEmpty: Bool {
-        
+
         return self.items.isEmpty
     }
 

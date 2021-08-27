@@ -8,16 +8,16 @@
 import Foundation
 
 enum MapBrushSize {
-    
+
     case small
     case medium
     case large
     case huge
-    
+
     func name() -> String {
-        
+
         switch self {
-        
+
         case .small:
             return "Small"
         case .medium:
@@ -28,26 +28,26 @@ enum MapBrushSize {
             return "Huge"
         }
     }
-    
+
     static func from(name: String) -> MapBrushSize? {
-        
+
         for mapBrushSize in MapBrushSize.all {
             if mapBrushSize.name() == name {
                 return mapBrushSize
             }
         }
-        
+
         return nil
     }
-    
+
     static var all: [MapBrushSize] {
         return [.small, .medium, .large, .huge]
     }
-    
+
     func radius() -> Int {
-        
+
         switch self {
-        
+
         case .small:
             return 0
         case .medium:

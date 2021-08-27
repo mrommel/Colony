@@ -2304,28 +2304,28 @@ public class Unit: AbstractUnit {
     }
 
     public func unGarrison(in gameModel: GameModel?) {
-        
+
         self.garrisonedValue = false
     }
-    
+
     func canDisband() -> Bool {
-        
+
         return true
     }
-    
+
     public func doCancelOrder() {
-        
+
         if self.peekMission() != nil {
             self.clearMissions()
         }
-        
+
         if self.automateType() != .none {
             self.automate(with: .none)
         }
     }
-    
+
     func canCancelOrder() -> Bool {
-        
+
         return !self.missions.isEmpty
     }
 
@@ -2727,7 +2727,7 @@ public class Unit: AbstractUnit {
 
         case .disband:
             return self.canDisband()
-            
+
         case .cancelOrder:
             return self.canCancelOrder()
 
@@ -2759,12 +2759,12 @@ public class Unit: AbstractUnit {
             // cant automate when unit has a mission
             return false
         }
-        
+
         switch automate {
 
         case .none:
             return false
-            
+
         case .build:
             if !self.type.abilities().contains(.canImprove) && !self.type.abilities().contains(.canImproveSea) {
                 return false
@@ -2801,18 +2801,18 @@ public class Unit: AbstractUnit {
     public func automate(with type: UnitAutomationType) {
 
         if self.automationType != type {
-        
+
             let oldAutomationType = self.automationType
             self.automationType = type
-            
+
             self.clearMissions()
             //self.set(activityType: .awake, in: <#T##GameModel?#>)
-        
+
             if oldAutomationType == .explore {
                 // these need to be rebuilt
                 self.player?.economicAI?.explorationPlotsDirty = true
             }
-            
+
             // if canceling automation, cancel on cargo as well
             if type == .none {
 
@@ -2838,7 +2838,7 @@ public class Unit: AbstractUnit {
             }
         }
     }
-    
+
     public func readyToSelect() -> Bool {
 
         return self.readyToMove() && !self.isAutomated()
@@ -4355,14 +4355,14 @@ extension Unit {
 
         return self.tradeRouteDataValue != nil
     }
-    
+
     public func endTrading() {
-        
+
         self.tradeRouteDataValue = nil
     }
-    
+
     public func tradeRouteData() -> UnitTradeRouteData? {
-        
+
         return self.tradeRouteDataValue
     }
 }

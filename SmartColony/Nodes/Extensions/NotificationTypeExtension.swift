@@ -9,19 +9,19 @@
 import SmartAILibrary
 
 extension NotificationType {
-    
+
     func iconTexture() -> String {
-        
+
         switch self {
-            
+
         case .turn: return "button_turn"
-            
+
         case .generic: return "button_generic" // #
-            
+
         case .techNeeded: return "button_tech_needed"
         case .civicNeeded: return "button_civic_needed"
         case .productionNeeded: return "button_production_needed"
-            
+
         case .cityGrowth: return "button_city_growth"
         case .starving: return "button_starving"
         case .diplomaticDeclaration: return "button_diplomatic_declaration" // #
@@ -30,10 +30,10 @@ extension NotificationType {
         case .unitPromotion: return "button_promotion" // #
         case .unitNeedsOrders: return "button_unit_needs_orders"
         case .unitDied: return "button_unit_died"
-            
+
         case .canChangeGovernment: return "button_change_government"
         case .policiesNeeded: return "button_policies_needed"
-            
+
         case .greatPersonJoined: return "button_great_person_joined"
         }
     }

@@ -47,7 +47,7 @@ struct PopupButton<T: Hashable>: NSViewRepresentable {
     final class Coordinator: NSObject {
         let binding: Binding<T>
         var items: [T]
-        
+
         let onChange: ((T) -> Void)?
 
         init(binding: Binding<T>, items: [T], onChange: ((T) -> Void)?) {

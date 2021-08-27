@@ -11,7 +11,7 @@ import SpriteKit
 class ProgressBarNode: SKNode {
 
     private static let kProgressAnimationKey = "progressAnimationKey"
-    
+
     var progressBar: SKCropNode
     let percentageLabel: SKLabelNode
 
@@ -19,12 +19,12 @@ class ProgressBarNode: SKNode {
 
         progressBar = SKCropNode()
         percentageLabel = SKLabelNode()
-        
+
         super.init()
-        
+
         let filledImage = NineGridTextureSprite(imageNamed: "grid9_progress", size: size)
         self.progressBar.addChild(filledImage)
-        
+
         self.progressBar.maskNode = SKSpriteNode(color: UIColor.white,
             size: CGSize(width: size.width * 2, height: size.height * 2))
 
@@ -32,7 +32,7 @@ class ProgressBarNode: SKNode {
         self.progressBar.zPosition = self.zPosition + 2
         self.progressBar.maskNode?.xScale = 0
         self.addChild(self.progressBar)
-        
+
         self.percentageLabel.position = CGPoint(x: self.position.x, y: self.position.y)
         self.percentageLabel.zPosition = self.zPosition + 3
         self.percentageLabel.fontColor = UIColor.white
@@ -48,11 +48,11 @@ class ProgressBarNode: SKNode {
     }
 
     func set(progress: Double) {
-        
+
         self.progressBar.maskNode?.removeAction(forKey: ProgressBarNode.kProgressAnimationKey)
-        
+
         let value = max(0.0, min(1.0, progress))
-        
+
         let scaleAction = SKAction.scaleX(to: CGFloat(value), duration: 0.3)
         self.progressBar.maskNode?.run(scaleAction, withKey: ProgressBarNode.kProgressAnimationKey)
 

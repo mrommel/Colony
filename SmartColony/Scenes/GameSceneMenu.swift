@@ -10,14 +10,14 @@ import Foundation
 import SmartAILibrary
 
 extension GameScene {
-    
+
     func handleGameQuickSave() {
-        
+
         GameStorage.storeCurrent(game: self.viewModel?.game)
     }
-    
+
     func handleGameSave() {
-    
+
         // ask file name to save
         let gameNameDialog = GameNameDialog()
         gameNameDialog.zPosition = 250
@@ -25,9 +25,9 @@ extension GameScene {
         gameNameDialog.addOkayAction(handler: {
 
             if gameNameDialog.isValid() {
-                
+
                 let gameName = gameNameDialog.gameName()
-                
+
                 if GameStorage.store(game: self.viewModel?.game, named: gameName) {
                     gameNameDialog.close()
                 } else {
@@ -43,19 +43,19 @@ extension GameScene {
         })
 
         self.cameraNode.add(dialog: gameNameDialog)
-        
+
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
+
         let gameName = dateFormatter.string(from: Date())
         gameNameDialog.set(textFieldInput: gameName)
     }
-    
+
     func handleGameLoad() {
-    
+
         // are you sure?
         let viewModel = ConfirmationDialogViewModel(question: "Do you really want to quit?")
-        
+
         let confirmationDialog = ConfirmationDialog(with: viewModel)
         confirmationDialog.zPosition = 250
 
@@ -71,26 +71,26 @@ extension GameScene {
 
         self.cameraNode.add(dialog: confirmationDialog)
     }
-    
+
     func handleGameRetire() {
-        
+
         print("Retire")
-        
+
         // are you sure?
     }
-    
+
     func handleGameRestart() {
-        
+
         print("Restart")
-        
+
         // are you sure?
     }
-    
+
     func handleGameExit() {
-        
+
         // are you sure?
         let viewModel = ConfirmationDialogViewModel(question: "Do you really want to quit?")
-        
+
         let confirmationDialog = ConfirmationDialog(with: viewModel)
         confirmationDialog.zPosition = 250
 

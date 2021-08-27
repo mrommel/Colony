@@ -12,7 +12,7 @@ import SmartAILibrary
 class MapEditorMenu: NSMenu {
 
     private lazy var applicationName = ProcessInfo.processInfo.processName
-    
+
     var showStartLocationsMenuItem: NSMenuItem?
     var showInhabitantsBarMenuItem: NSMenuItem?
     var showSupportedPeopleMenuItem: NSMenuItem?
@@ -72,7 +72,7 @@ class MapEditorMenu: NSMenu {
             NSMenuItem(title: "Delete", target: self, action: nil, keyEquivalent: "⌫", modifier: .init()),
             NSMenuItem(title: "Duplicate", action: #selector(NSApplication.copy), keyEquivalent: "d")
         ]
-        
+
         let mapMenu = NSMenuItem()
         mapMenu.submenu = NSMenu(title: "Map")
         mapMenu.submenu?.items = [
@@ -83,7 +83,7 @@ class MapEditorMenu: NSMenu {
 
         let layersMenu = NSMenuItem()
         layersMenu.submenu = NSMenu(title: "Layers")
-        
+
         self.showStartLocationsMenuItem = NSMenuItem(
             title: "Show Start Locations",
             target: self,
@@ -93,7 +93,7 @@ class MapEditorMenu: NSMenu {
         self.showStartLocationsMenuItem?.onStateImage = NSImage(named: NSImage.statusAvailableName)
         self.showStartLocationsMenuItem?.offStateImage = NSImage(named: NSImage.statusUnavailableName)
         layersMenu.submenu?.addItem(self.showStartLocationsMenuItem!)
-        
+
         self.showInhabitantsBarMenuItem = NSMenuItem(
             title: "Show Inhabitants Bars",
             target: self,
@@ -103,7 +103,7 @@ class MapEditorMenu: NSMenu {
         self.showInhabitantsBarMenuItem?.onStateImage = NSImage(named: NSImage.statusAvailableName)
         self.showInhabitantsBarMenuItem?.offStateImage = NSImage(named: NSImage.statusUnavailableName)
         layersMenu.submenu?.addItem(self.showInhabitantsBarMenuItem!)
-        
+
         self.showSupportedPeopleMenuItem = NSMenuItem(
             title: "Show Supported People",
             target: self,
@@ -113,7 +113,7 @@ class MapEditorMenu: NSMenu {
         self.showSupportedPeopleMenuItem?.onStateImage = NSImage(named: NSImage.statusAvailableName)
         self.showSupportedPeopleMenuItem?.offStateImage = NSImage(named: NSImage.statusUnavailableName)
         layersMenu.submenu?.addItem(self.showSupportedPeopleMenuItem!)
-        
+
         let viewMenu = NSMenuItem()
         viewMenu.submenu = NSMenu(title: "View")
 
@@ -243,39 +243,39 @@ extension MapEditorMenu {
             }
         }
     }
-    
+
     @objc fileprivate func toogleShowStartLocations(_ sender: AnyObject) {
         print("toogleShowStartLocations")
-        
+
         let currentState = self.showStartLocationsMenuItem?.state ?? .off
         self.showStartLocationsMenuItem?.state = currentState == .off ? .on : .off // toogle
-        
+
         if let window = NSApplication.shared.windows.first,
             let editorViewController = window.contentViewController as? EditorViewController {
 
             editorViewController.viewModel.setShowStartLocations(to: currentState == .off ? true : false)
         }
     }
-    
+
     @objc fileprivate func toogleShowInhabitantsBars(_ sender: AnyObject) {
         print("toogleShowInhabitantsBars")
-        
+
         let currentState = self.showInhabitantsBarMenuItem?.state ?? .off
         self.showInhabitantsBarMenuItem?.state = currentState == .off ? .on : .off // toogle
-        
+
         if let window = NSApplication.shared.windows.first,
             let editorViewController = window.contentViewController as? EditorViewController {
 
             editorViewController.viewModel.setShowInhabitants(to: currentState == .off ? true : false)
         }
     }
-    
+
     @objc fileprivate func toogleShowSupportedPeople(_ sender: AnyObject) {
         print("toogleShowSupportedPeople")
-        
+
         let currentState = self.showSupportedPeopleMenuItem?.state ?? .off
         self.showSupportedPeopleMenuItem?.state = currentState == .off ? .on : .off // toogle
-        
+
         if let window = NSApplication.shared.windows.first,
             let editorViewController = window.contentViewController as? EditorViewController {
 

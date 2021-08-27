@@ -9,7 +9,7 @@
 import SmartAILibrary
 
 extension RouteType {
-    
+
     /* func textureNamesHex() -> [String] {
         
         switch self {

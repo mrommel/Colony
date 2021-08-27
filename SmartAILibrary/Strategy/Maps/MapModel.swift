@@ -383,7 +383,7 @@ open class MapModel: Codable {
                         (mapType == .civilian && $0?.unitClassType() == .civilian) ||
                             (mapType == .combat && $0?.unitClassType() != .civilian)
                     )
-                
+
             }) {
             return unit
         }

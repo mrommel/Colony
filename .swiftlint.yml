@@ -1,5 +1,5 @@
 disabled_rules:
-- trailing_whitespace
+#- trailing_whitespace
 - large_tuple
 - function_parameter_count
 - force_cast

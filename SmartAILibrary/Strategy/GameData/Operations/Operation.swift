@@ -497,7 +497,7 @@ public class Operation: Codable, Equatable {
 
                     case .gatheringForces:
                         let domain: UnitDomainType = self.isAllNavalOperation() || self.isMixedLandNavalOperation() ? .sea : .land
-                        
+
                         if let centerOfMass = army.centerOfMass(domain: domain, in: gameModel),
                            let musterPosition = self.musterPosition {
 
@@ -511,7 +511,7 @@ public class Operation: Codable, Equatable {
 
                     case .movingToTarget:
                         let domain: UnitDomainType = self.isAllNavalOperation() || self.isMixedLandNavalOperation() ? .sea : .land
-                        
+
                         if let centerOfMass = army.centerOfMass(domain: domain, in: gameModel),
                            let targetPosition = self.targetPosition {
 

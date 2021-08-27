@@ -11,7 +11,7 @@ import SpriteKit
 import SmartAILibrary
 
 protocol DialogConfigurationDelegate: class {
-    
+
     func techProgress(of techType: TechType) -> Int
     func civicProgress(of civicType: CivicType) -> Int
 }
@@ -35,7 +35,7 @@ class DialogConfiguration: Decodable {
     enum CodingKeys: String, CodingKey {
         case type, offsetx, offsety, anchorx, anchory, width, height, background, items
     }
-    
+
     weak var delegate: DialogConfigurationDelegate?
 
     init(offsetx: CGFloat, offsety: CGFloat, anchorx: CGFloat, anchory: CGFloat, width: CGFloat, height: CGFloat, background: String) {
@@ -64,7 +64,7 @@ class DialogConfiguration: Decodable {
         let bounds = UIScreen.main.bounds
         var width: CGFloat = bounds.size.width
         var height: CGFloat = bounds.size.height
-        
+
         var offsetx: CGFloat = 0.0
         if offsetxValue.contains("%") {
             let parts = offsetxValue.split {$0 == "%"}.map(String.init)
@@ -141,14 +141,14 @@ class DialogConfiguration: Decodable {
 
         self.items = try container.decode(Items.self, forKey: .items)
     }
-    
+
     func anchorPoint() -> CGPoint {
-        
+
         return CGPoint(x: self.anchorx, y: self.anchory)
     }
-    
+
     func position() -> CGPoint {
-        
+
         return CGPoint(x: self.offsetx, y: self.offsety)
     }
 

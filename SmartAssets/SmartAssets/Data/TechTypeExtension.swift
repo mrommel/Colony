@@ -8,13 +8,13 @@
 import SmartAILibrary
 
 extension TechType {
-    
+
     public func iconTexture() -> String {
-        
+
         switch self {
-            
+
         case .none: return "tech-default"
-            
+
             // ancient
         case .mining: return "tech-mining"
         case .pottery: return "tech-pottery"
@@ -27,7 +27,7 @@ extension TechType {
         case .archery: return "tech-archery"
         case .bronzeWorking: return "tech-bronzeWorking"
         case .wheel: return "tech-wheel"
-            
+
             // classical
         case .celestialNavigation: return "tech-celestialNavigation"
         case .horsebackRiding: return "tech-horsebackRiding"
@@ -37,7 +37,7 @@ extension TechType {
         case .shipBuilding: return "tech-shipBuilding"
         case .mathematics: return "tech-mathematics"
         case .engineering: return "tech-engineering"
-            
+
             // medieval
         case .militaryTactics: return "tech-default"
         case .buttress: return "tech-default"
@@ -47,7 +47,7 @@ extension TechType {
         case .education: return "tech-default"
         case .militaryEngineering: return "tech-default"
         case .castles: return "tech-default"
-            
+
             // renaissance
         case .cartography: return "tech-default"
         case .massProduction: return "tech-default"
@@ -58,7 +58,7 @@ extension TechType {
         case .astronomy: return "tech-default"
         case .metalCasting: return "tech-default"
         case .siegeTactics: return "tech-default"
-            
+
             // industrial
         case .industrialization: return "tech-default"
         case .scientificTheory: return "tech-default"
@@ -68,7 +68,7 @@ extension TechType {
         case .sanitation: return "tech-default"
         case .economics: return "tech-default"
         case .rifling: return "tech-default"
-            
+
             // modern
         case .flight: return "tech-default"
         case .replaceableParts: return "tech-default"
@@ -78,7 +78,7 @@ extension TechType {
         case .radio: return "tech-default"
         case .chemistry: return "tech-default"
         case .combustrion: return "tech-default"
-            
+
             // atomic
         case .advancedFlight: return "tech-default"
         case .rocketry: return "tech-default"
@@ -88,7 +88,7 @@ extension TechType {
         case .computers: return "tech-default"
         case .nuclearFission: return "tech-default"
         case .syntheticMaterials: return "tech-default"
-            
+
             // information
         case .telecommunications: return "tech-default"
         case .satellites: return "tech-default"
@@ -99,20 +99,20 @@ extension TechType {
         case .robotics: return "tech-default"
         case .nuclearFusion: return "tech-default"
         case .nanotechnology: return "tech-default"
-            
+
         case .futureTech: return "tech-default"
         }
     }
 }
 
 extension TechType {
-    
+
     public func indexPath() -> IndexPath {
-        
+
         switch self {
-        
+
         case .none:                 return IndexPath(item: -1, section: -1)
-            
+
             // <!-- ancient: 1st -->
         case .pottery:              return IndexPath(item: 3, section: 0)
         case .animalHusbandry:      return IndexPath(item: 4, section: 0)
@@ -127,7 +127,7 @@ extension TechType {
         case .masonry:              return IndexPath(item: 5, section: 2)
         case .bronzeWorking:        return IndexPath(item: 6, section: 2)
         case .wheel:                return IndexPath(item: 7, section: 2)
-            
+
             // <!-- classical: 1st -->
         case .celestialNavigation:  return IndexPath(item: 1, section: 3)
         case .currency:             return IndexPath(item: 3, section: 3)
@@ -138,7 +138,7 @@ extension TechType {
         case .mathematics:          return IndexPath(item: 2, section: 4)
         case .construction:         return IndexPath(item: 5, section: 4)
         case .engineering:          return IndexPath(item: 7, section: 4)
-            
+
             // <!-- medieval: 1st -->
         case .militaryTactics:      return IndexPath(item: 1, section: 5)
         case .apprenticeship:       return IndexPath(item: 3, section: 5)
@@ -148,7 +148,7 @@ extension TechType {
         case .stirrups:             return IndexPath(item: 4, section: 6)
         case .militaryEngineering:  return IndexPath(item: 5, section: 6)
         case .castles:              return IndexPath(item: 6, section: 6)
-            
+
             // <!-- renaissance: 1st -->
         case .cartography:          return IndexPath(item: 0, section: 7)
         case .massProduction:       return IndexPath(item: 1, section: 7)
@@ -160,7 +160,7 @@ extension TechType {
         case .astronomy:            return IndexPath(item: 2, section: 8)
         case .metalCasting:         return IndexPath(item: 4, section: 8)
         case .siegeTactics:         return IndexPath(item: 6, section: 8)
-            
+
         case .buttress:             return IndexPath(item: -1, section: -1)
         case .industrialization:    return IndexPath(item: -1, section: -1)
         case .scientificTheory:     return IndexPath(item: -1, section: -1)

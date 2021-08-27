@@ -33,11 +33,11 @@ class Dialog: NineGridTextureSprite {
         for item in configuration.items.item {
 
             switch item.type {
-                
+
             case .button:
-                
+
                 var buttonItem: MessageBoxButtonNode
-                
+
                 let callback = { [weak self] in
                     switch item.result {
                     case .okay:
@@ -52,13 +52,13 @@ class Dialog: NineGridTextureSprite {
                         }
                     }
                 }
-                
+
                 if let imageName = item.image {
                     buttonItem = MessageBoxButtonNode(imageNamed: imageName, title: item.title, sized: item.size, buttonAction: callback)
                 } else {
                     buttonItem = MessageBoxButtonNode(titled: item.title, sized: item.size, buttonAction: callback)
                 }
-                    
+
                 buttonItem.name = item.identifier
                 buttonItem.position = item.position()
                 buttonItem.zPosition = Globals.ZLevels.dialogs + 1.0
@@ -68,7 +68,7 @@ class Dialog: NineGridTextureSprite {
                 self.addChild(buttonItem)
 
             case .image:
-                
+
                 if let imageName = item.image {
                     let texture = SKTexture(imageNamed: imageName)
                     let imageItem = SKSpriteNode(texture: texture, size: item.size)
@@ -82,7 +82,7 @@ class Dialog: NineGridTextureSprite {
                 }
 
             case .label:
-                
+
                 let labelItem = SKLabelNode(text: item.title)
                 labelItem.name = item.identifier
                 labelItem.position = item.position()
@@ -111,25 +111,25 @@ class Dialog: NineGridTextureSprite {
                 }
 
             case .progressbar:
-                
+
                 let progressBar = ProgressBarNode(size: item.size)
                 progressBar.set(progress: 0.0)
                 progressBar.name = item.identifier
                 progressBar.position = item.position()
                 progressBar.zPosition = Globals.ZLevels.dialogs + 1.0
                 self.addChild(progressBar)
-                
+
             case .dropdown:
-                
+
                 guard let dropdownItems = item.items, let dropdownSelectedIndex = item.selectedIndex else {
                     fatalError("no items or selectedIndex for dropdown found")
                 }
-                
+
                 var items: [DropdownItem] = []
                 for dropdownItem in dropdownItems.item {
                     items.append(DropdownItem(imageName: dropdownItem, title: dropdownItem))
                 }
-                
+
                 let dropdown = DropdownNode(items: items, selectedIndex: dropdownSelectedIndex, size: item.size)
                 dropdown.name = item.identifier
                 dropdown.position = item.position()
@@ -137,21 +137,21 @@ class Dialog: NineGridTextureSprite {
                 dropdown.zPosition = Globals.ZLevels.dialogs + 1.0
                 dropdown.delegate = self
                 self.addChild(dropdown)
-                
+
                 self.selectedIndex = dropdownSelectedIndex
                 self.selectedItem = items[dropdownSelectedIndex]
-                
+
             case .yieldInfo:
-                
+
                 let yieldInfo = YieldDisplayNode(for: item.yieldType, value: 0.0, size: item.size)
                 yieldInfo.name = item.identifier
                 yieldInfo.position = item.position()
                 //yieldInfo.anchorPoint = item.anchorPoint()
                 yieldInfo.zPosition = Globals.ZLevels.dialogs + 1.0
                 self.addChild(yieldInfo)
-                
+
             case .techInfo:
-                
+
                 let progress = configuration.delegate?.techProgress(of: item.techType) ?? 0
                 let techInfo = TechDisplayNode(techType: item.techType, progress: progress, size: item.size)
                 techInfo.name = item.identifier
@@ -163,9 +163,9 @@ class Dialog: NineGridTextureSprite {
                     }
                 }
                 self.addChild(techInfo)
-                
+
             case .civicInfo:
-            
+
                 let progress = configuration.delegate?.civicProgress(of: item.civicType) ?? 0
                 let civicInfo = CivicDisplayNode(civicType: item.civicType, progress: progress, size: item.size)
                 civicInfo.name = item.identifier
@@ -184,21 +184,21 @@ class Dialog: NineGridTextureSprite {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func handleOkay() {
         if let handler = self.okayHandler {
             handler()
         }
     }
-    
+
     func handleCancel() {
         if let handler = self.cancelHandler {
             handler()
         }
     }
-    
+
     func handleResult(with result: DialogResultType) {
-        
+
         if let handler = self.resultHandler {
             handler(result)
         }
@@ -230,32 +230,32 @@ class Dialog: NineGridTextureSprite {
             }
         }
     }
-    
+
     func resignActive() {
-        
+
         self.textField?.resignFirstResponder()
     }
-    
+
     func item(with identifier: String) -> SKNode? {
-        
+
         if let node = self.children.first(where: { $0.name == identifier }) {
             return node
         }
-        
+
         fatalError("Can't find \(identifier)")
     }
-    
+
     func button(with identifier: String) -> MessageBoxButtonNode? {
-        
+
         if let node = self.children.first(where: { $0.name == identifier }) {
             return node as? MessageBoxButtonNode
         }
-        
+
         fatalError("Can't find \(identifier)")
     }
 
     func set(text: String, identifier: String) {
-        
+
         guard let node = self.children.first(where: { $0.name == identifier }) else {
             fatalError("Can't find \(identifier)")
         }
@@ -269,12 +269,12 @@ class Dialog: NineGridTextureSprite {
             button.title = text
             return
         }
-        
+
         fatalError("identifier does not identify a label or button")
     }
-    
+
     func set(text: NSAttributedString, identifier: String) {
-        
+
         guard let node = self.children.first(where: { $0.name == identifier }) else {
             fatalError("Can't find \(identifier)")
         }
@@ -288,7 +288,7 @@ class Dialog: NineGridTextureSprite {
             button.attributedTitle = text
             return
         }
-        
+
         fatalError("identifier does not identify a label or button")
     }
 
@@ -306,7 +306,7 @@ class Dialog: NineGridTextureSprite {
 
         spriteNode.texture = texture
     }
-    
+
     func set(image imageTexture: SKTexture, identifier: String) {
 
         guard let node = self.children.first(where: { $0.name == identifier }) else {
@@ -316,38 +316,38 @@ class Dialog: NineGridTextureSprite {
         guard let spriteNode = node as? SKSpriteNode else {
             fatalError("identifier does not identify a SKSpriteNode")
         }
-        
+
         spriteNode.texture = imageTexture
     }
-    
+
     func set(progress: Double, identifier: String) {
-        
+
         guard let node = self.children.first(where: { $0.name == identifier }) else {
             fatalError("Can't find \(identifier)")
         }
-        
+
         guard let progressBarNode = node as? ProgressBarNode else {
             fatalError("identifier does not identify a ProgressBarNode")
         }
-        
+
         progressBarNode.set(progress: progress)
     }
-    
+
     func set(yieldValue: Double, identifier: String) {
-        
+
         guard let node = self.children.first(where: { $0.name == identifier }) else {
             fatalError("Can't find \(identifier)")
         }
-        
+
         guard let yieldDisplayNode = node as? YieldDisplayNode else {
             fatalError("identifier does not identify a YieldDisplayNode")
         }
-        
+
         yieldDisplayNode.set(yieldValue: yieldValue)
     }
-    
+
     func set(textFieldInput: String, for identifier: String = "textField") {
-        
+
         self.textField?.text = textFieldInput
     }
 
@@ -359,14 +359,14 @@ class Dialog: NineGridTextureSprite {
 
         return ""
     }
-    
+
     // maybe String?
     func getSelectedDropdown() -> String {
-        
+
         if let selectedItem = self.selectedItem {
             return selectedItem.title
         }
-        
+
         return ""
     }
 
@@ -399,7 +399,7 @@ extension Dialog: UITextFieldDelegate {
             print("text input: \(text)")
         }
     }
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         //scene?.view?.endEditing(true)
         textField.resignFirstResponder()
@@ -408,14 +408,14 @@ extension Dialog: UITextFieldDelegate {
 }
 
 extension Dialog: DropdownDelegate {
-    
+
     func dropdownClicked() {
-        
+
         self.resignActive()
     }
 
     func selected(item: DropdownItem, at index: Int) {
-        
+
         self.selectedItem = item
         self.selectedIndex = index
     }

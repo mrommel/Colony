@@ -15,7 +15,7 @@ struct DropdownItem {
 }
 
 protocol DropdownPanelDelegate: class {
-    
+
     func selected(item: DropdownItem, at index: Int)
 }
 
@@ -79,10 +79,10 @@ class DropdownPanelNode: NineGridTextureSprite {
             for index in 0..<self.itemNodes.count {
                 let itemNode = itemNodes[index]
                 if itemNode.contains(location) {
-                    
+
                     // unhighlight item
                     itemNode.touchesEnded(touches, with: event)
-                    
+
                     // select item
                     self.delegate?.selected(item: items[index], at: index)
                 }
@@ -92,7 +92,7 @@ class DropdownPanelNode: NineGridTextureSprite {
 }
 
 protocol DropdownDelegate: class {
-    
+
     func selected(item: DropdownItem, at index: Int)
     func dropdownClicked()
 }
@@ -126,7 +126,7 @@ class DropdownNode: NineGridTextureSprite {
         self.selectedItemImage.zPosition = self.zPosition + 3
         self.selectedItemImage.name = "selectedItemImage"
         self.addChild(self.selectedItemImage)
-        
+
         self.selectedItemLabel.text = items[selectedIndex].title
         self.selectedItemLabel.position = CGPoint(x: self.position.x - self.size.halfWidth + 38, y: self.position.y)
         self.selectedItemLabel.zPosition = self.zPosition + 3
@@ -190,13 +190,13 @@ class DropdownNode: NineGridTextureSprite {
 }
 
 extension DropdownNode: DropdownPanelDelegate {
-    
+
     func selected(item: DropdownItem, at index: Int) {
-        
+
         self.selectedItemImage.texture = SKTexture(imageNamed: item.imageName)
         self.selectedItemLabel.text = item.title
         self.selectedIndex = index
-        
+
         self.delegate?.selected(item: item, at: index)
     }
 }

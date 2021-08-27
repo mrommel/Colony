@@ -112,11 +112,11 @@ class UnitLayer: SKNode {
             self.unitObjects.removeAll(where: { $0.identifier == unitObject.identifier })
         }
     }
-    
+
     func fortify(unit: AbstractUnit?) {
-        
+
         if let unitObject = self.unitObject(of: unit) {
-            
+
             unitObject.showFortified()
         }
     }

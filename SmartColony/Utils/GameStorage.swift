@@ -46,7 +46,7 @@ class GameStorage {
             // remove the default files
             gameFileNames.removeAll(where: { $0 == kCurrentGame })
             gameFileNames.removeAll(where: { $0 == kRestartGame })
-            
+
             return gameFileNames
 
         } catch {
@@ -59,14 +59,14 @@ class GameStorage {
 
         return listGames().contains(name)
     }
-    
+
     static func hasCurrentGame() -> Bool {
-        
+
         return self.hasGame(named: kCurrentGame)
     }
-    
+
     static func hasRestartGame() -> Bool {
-        
+
         return self.hasGame(named: kRestartGame)
     }
 
@@ -147,16 +147,16 @@ class GameStorage {
             return false
         }
     }
-    
+
     @discardableResult
     static func removeCurrentGame() -> Bool {
-        
+
         return self.removeGame(named: kCurrentGame)
     }
-    
+
     @discardableResult
     static func removeRestartGame() -> Bool {
-        
+
         return self.removeGame(named: kRestartGame)
     }
 }

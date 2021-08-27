@@ -22,35 +22,35 @@ struct TradeRouteView: View {
     var body: some View {
 
         VStack(alignment: .leading, spacing: 5) {
-            
+
             HStack(alignment: .center, spacing: 4) {
-                
+
                 Image(nsImage: Globals.Icons.tradeRoute)
                     .resizable()
                     .frame(width: 16, height: 16)
-                
+
                 Text(self.viewModel.title)
                     .font(.headline)
-                
+
                 Spacer()
-                
+
                 Text("6")
-                
+
                 Image(nsImage: Globals.Icons.turns)
                     .resizable()
                     .frame(width: 16, height: 16)
             }
             .padding(.leading, 14)
             .padding(.trailing, 14)
-            
+
             HStack(alignment: .center, spacing: 0) {
-                
+
                 YieldValueView(viewModel: self.viewModel.foodYieldViewModel)
-                
+
                 YieldValueView(viewModel: self.viewModel.productionYieldViewModel)
-                
+
                 YieldValueView(viewModel: self.viewModel.goldYieldViewModel)
-                
+
                 Spacer()
             }
             .padding(.leading, 10)

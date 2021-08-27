@@ -113,13 +113,13 @@ public class GameViewModel: ObservableObject {
 
     @Published
     var unitListDialogViewModel: UnitListDialogViewModel
-    
+
     @Published
     var selectPantheonDialogViewModel: SelectPantheonDialogViewModel
 
     @Published
     var treasuryDialogViewModel: TreasuryDialogViewModel
-    
+
     @Published
     var tradeRoutesDialogViewModel: TradeRoutesDialogViewModel
 

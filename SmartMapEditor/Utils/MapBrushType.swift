@@ -8,15 +8,15 @@
 import Foundation
 
 enum MapBrushType {
-    
+
     case terrain
     case feature
     case resource
-    
+
     func name() -> String {
-        
+
         switch self {
-        
+
         case .terrain:
             return "Terrain"
         case .feature:
@@ -25,18 +25,18 @@ enum MapBrushType {
             return "Resource"
         }
     }
-    
+
     static func from(name: String) -> MapBrushType? {
-        
+
         for mapBrushType in MapBrushType.all {
             if mapBrushType.name() == name {
                 return mapBrushType
             }
         }
-        
+
         return nil
     }
-    
+
     static var all: [MapBrushType] {
         return [.terrain, .feature, .resource]
     }

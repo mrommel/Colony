@@ -9,39 +9,39 @@
 import Foundation
 
 class GameNameDialog: Dialog {
-    
+
     init() {
         let uiParser = UIParser()
         guard let gameNameDialogConfiguration = uiParser.parse(from: "GameNameDialog") else {
             fatalError("cant load GameNameDialog configuration")
         }
-        
+
         super.init(from: gameNameDialogConfiguration)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func gameName() -> String {
-        
+
         var value = self.getTextFieldInput()
-        
+
         if !value.hasSuffix(".game") {
             value += ".game"
         }
-        
+
         return value
     }
-    
+
     func isValid() -> Bool {
-        
+
         let gameName = self.gameName()
-        
+
         if gameName.count < 3 {
             return false
         }
-        
+
         return true
     }
 }

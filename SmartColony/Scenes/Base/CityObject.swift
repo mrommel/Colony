@@ -85,7 +85,7 @@ class CityObject {
         if let sizeLabel = self.sizeLabel {
             self.sprite.addChild(sizeLabel)
         }
-        
+
         let growthProgress: Int = Int(Double(city.growthInTurns() * 100) / Double(city.maxGrowthInTurns())) / 5 * 5
         let growthProgressTextureName = "linear_progress_\(growthProgress)"
         let growthProgressTexture = SKTexture(imageNamed: growthProgressTextureName)
@@ -159,7 +159,7 @@ class CityObject {
             if let productionProgressNode = self.productionProgressNode {
                 self.sprite.addChild(productionProgressNode)
             }
-            
+
             self.productionNode = SKSpriteNode(texture: texture, color: .black, size: CGSize(width: 8, height: 8))
             self.productionNode?.position = CGPoint(x: 24 + nameBackgroundWidth / 2 - 9, y: 36)
             self.productionNode?.zPosition = Globals.ZLevels.cityName

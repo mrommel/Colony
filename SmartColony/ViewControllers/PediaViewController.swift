@@ -13,7 +13,7 @@ import SmartAILibrary
 class PediaViewController: UIViewController {
 
     var pediaScene: PediaScene?
-    
+
     private var currentGame: GameModel?
 
     override func viewDidLoad() {

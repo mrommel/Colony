@@ -72,7 +72,7 @@ class UnitTests: XCTestCase {
         // THEN
         XCTAssertEqual(humanPlayerWarrior.location, HexPoint(x: 6, y: 2))
     }
-    
+
     func testUnitScoutAutomation() {
 
         // GIVEN
@@ -102,11 +102,11 @@ class UnitTests: XCTestCase {
 
         // WHEN
         humanPlayerScout.automate(with: .explore)
-        
+
         var turnCounter = 0
         var hasStayed = true
         repeat {
-        
+
             while !humanPlayer.canFinishTurn() {
                 gameModel.update()
             }

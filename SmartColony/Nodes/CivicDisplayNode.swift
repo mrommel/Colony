@@ -10,17 +10,17 @@ import SmartAILibrary
 import SpriteKit
 
 class CivicDisplayNode: BaseDisplayNode {
-    
+
     let civicType: CivicType
-    
+
     init(civicType: CivicType, progress: Int, size: CGSize) {
-        
+
         self.civicType = civicType
-        
+
         var iconTextures: [SKTexture] = []
-        
+
         let achievements = civicType.achievements()
-        
+
         for buildingType in achievements.buildingTypes {
             iconTextures.append(SKTexture(imageNamed: buildingType.iconTexture()))
         }
@@ -36,18 +36,18 @@ class CivicDisplayNode: BaseDisplayNode {
         for buildType in achievements.buildTypes {
             iconTextures.append(SKTexture(imageNamed: buildType.iconTexture()))
         }
-        
+
         for policyCards in achievements.policyCards {
             iconTextures.append(SKTexture(imageNamed: policyCards.iconTexture()))
         }
-        
+
         for governmentType in achievements.governments {
             iconTextures.append(SKTexture(imageNamed: governmentType.iconTexture()))
         }
-        
+
         super.init(texture: self.civicType.iconTexture(), type: .culture, name: self.civicType.name(), progress: progress, iconTextures: iconTextures, size: size)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

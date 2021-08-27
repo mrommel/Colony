@@ -68,9 +68,9 @@ extension GameViewModel {
             fatalError("cant show treasury dialog, \(self.currentScreenType) is currently shown")
         }
     }
-    
+
     func showTradeRouteDialog() {
-        
+
         if self.currentScreenType == .tradeRoutes {
             // already shown
             return

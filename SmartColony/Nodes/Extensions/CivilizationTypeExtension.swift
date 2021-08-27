@@ -10,13 +10,13 @@ import SmartAILibrary
 import SpriteKit
 
 extension CivilizationType {
-    
+
     func iconTexture() -> String {
-        
+
         switch self {
-            
+
         case .barbarian: return "civilization_barbarian"
-            
+
         case .greek: return "civilization_greek"
         case .roman: return "civilization_roman"
         case .english: return "civilization_english"
@@ -28,13 +28,13 @@ extension CivilizationType {
         case .russian: return "civilization_russian"
         }
     }
-    
+
     func iconColor() -> UIColor {
-        
+
         switch self {
-            
+
         case .barbarian: return UIColor(hex: "#000000")
-            
+
         case .greek: return UIColor(hex: "#418dfe")
         case .roman: return UIColor(hex: "#f0c800")
         case .english: return UIColor(hex: "#ffffff")
@@ -46,13 +46,13 @@ extension CivilizationType {
         case .russian: return UIColor(hex: "#000000")
         }
     }
-    
+
     func backgroundColor() -> UIColor {
-        
+
         switch self {
-            
+
         case .barbarian: return UIColor(hex: "#be0000")
-            
+
         case .greek: return UIColor(hex: "#ffffff")
         case .roman: return UIColor(hex: "#460076")
         case .english: return UIColor(hex: "#ff92fd")

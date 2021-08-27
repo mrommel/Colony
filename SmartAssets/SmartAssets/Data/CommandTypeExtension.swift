@@ -25,10 +25,10 @@ extension CommandType {
         case .fortify: return "command-fortify"
         case .garrison: return "command-garrison"
         case .pillage: return "command-pillage"
-            
+
         case .disband: return "command-disband"
         case .cancelOrder: return "command-cancelOrder"
-            
+
         case .automateExploration: return "command-automateExploration"
         case .automateBuild: return "command-automateBuild"
         case .establishTradeRoute: return "command-establishTradeRoute"
@@ -55,10 +55,10 @@ extension CommandType {
         case .fortify: return "command-button-fortify"
         case .garrison: return "command-button-garrison"
         case .pillage: return "command-button-pillage"
-            
+
         case .disband: return "command-button-disband"
         case .cancelOrder: return "command-button-cancelOrder"
-            
+
         case .automateExploration: return "command-button-automateExploration"
         case .automateBuild: return "command-button-automateBuild"
         case .establishTradeRoute: return "command-button-establishTradeRoute"

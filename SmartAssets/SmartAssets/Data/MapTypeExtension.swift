@@ -8,22 +8,22 @@
 import SmartAILibrary
 
 extension MapType {
-    
+
     public static func from(name: String) -> MapType? {
-        
+
         for mapType in MapType.all {
             if mapType.name() == name {
                 return mapType
             }
         }
-        
+
         return nil
     }
-    
+
     public func name() -> String {
-        
+
         switch self {
-        
+
         case .empty:
             return "Empty"
         case .earth:
@@ -40,11 +40,11 @@ extension MapType {
             return "Custom"
         }
     }
-    
+
     public func textureName() -> String {
-        
+
         switch self {
-        
+
         case .empty:
             return "maptype-random"
         case .earth:
