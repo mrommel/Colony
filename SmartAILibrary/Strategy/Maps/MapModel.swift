@@ -358,7 +358,7 @@ open class MapModel: Codable {
             }
         }
     }
-    
+
     func units(with type: UnitType) -> [AbstractUnit?] {
 
         return self.units.filter({ $0?.type == type })
@@ -368,7 +368,7 @@ open class MapModel: Codable {
 
         return self.units.filter({ $0?.leader == player.leader })
     }
-    
+
     func units(of player: AbstractPlayer, with type: UnitType) -> [AbstractUnit?] {
 
         return self.units.filter({ $0?.leader == player.leader && $0?.type == type })
