@@ -7,8 +7,9 @@
 
 import SmartAILibrary
 
+// swiftlint:disable:next type_body_length
 public class Textures {
-    
+
     private static let allTextureSuffixes: [String] = [
         "-n", "-n-ne", "-n-ne-nw", "-n-ne-s", "-n-ne-s-nw", "-n-ne-s-sw", "-n-ne-s-sw-nw",
         "-n-ne-se", "-n-ne-se-nw", "-n-ne-se-s", "-n-ne-se-s-nw", "-n-ne-se-s-sw",
@@ -21,9 +22,9 @@ public class Textures {
         "-s-nw", "-s-sw", "-s-sw-nw", "-se", "-se-nw", "-se-s", "-se-s-nw", "-se-s-sw",
         "-se-s-sw-nw", "-se-sw", "-se-sw-nw", "-sw", "-sw-nw"
     ]
-    
+
     let game: GameModel?
-    
+
     public let allTerrainTextureNames: [String]
     public let allFeatureTextureNames: [String]
     public let allSnowFeatureTextureNames: [String]
@@ -40,7 +41,7 @@ public class Textures {
     public let allPathTextureNames: [String]
     public let allPathOutTextureNames: [String]
     public let overviewTextureNames: [String]
-    
+
     public let buttonTextureNames: [String]
     public let globeTextureNames: [String]
     public let cultureProgressTextureNames: [String]
@@ -48,7 +49,7 @@ public class Textures {
     public let headerTextureNames: [String]
     public let cityProgressTextureNames: [String]
     public let cityTextureNames: [String]
-    
+
     public let commandTextureNames: [String]
     public let commandButtonTextureNames: [String]
     public let policyCardTextureNames: [String]
@@ -65,9 +66,9 @@ public class Textures {
     public let districtTypeTextureNames: [String]
     public let leaderTypeTextureNames: [String]
     public let pantheonTypeTextureNames: [String]
-    
+
     public init(game: GameModel?) {
-        
+
         self.game = game
         self.allTerrainTextureNames = [
             "terrain_desert", "terrain_plains_hills3", "terrain_grass_hills3", "terrain_desert_hills",
@@ -77,7 +78,7 @@ public class Textures {
             "terrain_tundra_hills", "terrain_plains_hills", "terrain_plains_hills2",
             "terrain_grass_hills", "terrain_snow_hills3", "terrain_grass_hills2"
         ]
-        
+
         self.allFeatureTextureNames = [
             "feature_atoll", "feature_lake", "feature_mountains_ne_sw", "feature_ice5",
             "feature_rainforest1", "feature_delicateArch", "feature_mountains_nw", "feature_ice6",
@@ -92,25 +93,27 @@ public class Textures {
             "feature_fuji", "feature_barringCrater", "feature_mesa", "feature_gibraltar",
             "feature_geyser", "feature_potosi", "feature_fountainOfYouth", "feature_lakeVictoria"
         ]
-        
-        self.allSnowFeatureTextureNames = Textures.allTextureSuffixes.map({ "snow\($0)" }) + Textures.allTextureSuffixes.map({ "snow-to-water\($0)" })
-        
-        self.allIceFeatureTextureNames = Textures.allTextureSuffixes.map({ "feature_ice\($0)" }) + Textures.allTextureSuffixes.map({ "feature_ice-to-water\($0)" })
-        
+
+        self.allSnowFeatureTextureNames = Textures.allTextureSuffixes.map({ "snow\($0)" }) +
+            Textures.allTextureSuffixes.map({ "snow-to-water\($0)" })
+
+        self.allIceFeatureTextureNames = Textures.allTextureSuffixes.map({ "feature_ice\($0)" }) +
+            Textures.allTextureSuffixes.map({ "feature_ice-to-water\($0)" })
+
         self.allCoastTextureNames = Textures.allTextureSuffixes.map({ "beach\($0)" })
-        
+
         self.allRiverTextureNames = [
             "river-mouth-e", "river-n-se", "river-mouth-se", "river-ne", "river-n-ne-se",
             "river-mouth-ne", "river-n", "river-mouth-sw", "river-se", "river-n-ne", "river-mouth-nw",
             "river-ne-se", "river-mouth-w"
         ]
-        
+
         self.allResourceTextureNames = ResourceType.all.map { $0.textureName() }
-        
+
         self.allResourceMarkerTextureNames = ResourceType.all.map { $0.textureMarkerName() }
-        
+
         self.allBorderTextureNames = Textures.allTextureSuffixes.map({ "border\($0)" }) + ["border-all"]
-        
+
         self.allYieldsTextureNames = [
             // 0
             "yield-0-0-1", "yield-0-0-2", "yield-0-0-3",
@@ -146,12 +149,12 @@ public class Textures {
             // 7
             "yield-7-0-0"
         ]
-        
+
         self.allBoardTextureNames = ["board-s-sw", "board-se-s-sw", "board-se-s", "board-se", "board-sw"]
-        
+
         self.allImprovementTextureNames = (ImprovementType.all + [.barbarianCamp, .goodyHut]).flatMap { $0.textureNames() }
         self.allRoadTextureNames = Textures.allTextureSuffixes.map({ "road\($0)" })
-        
+
         self.allPathTextureNames = [
             "path-n-sw", "path-se-nw", "path-n-nw", "path-se-sw", "path-n-se", "path-ne-s", "path-start-s",
             "path-n-ne", "path-sw-nw", "path-ne-se", "path-start-n", "path-start-sw", "path-se-s",
@@ -163,19 +166,21 @@ public class Textures {
             "overview-mountains", "overview-mountains-passive", "overview-hills", "overview-hills-passive",
             "overview-forest", "overview-forest-passive", "overview-city", "overview-city-passive"
         ]
-        
+
         self.buttonTextureNames = NotificationType.all.map { $0.iconTexture() }
         self.globeTextureNames = Array(0...90).map { "globe\($0)" }
         self.cultureProgressTextureNames = Array(0...100).map { "culture_progress_\($0)" }
         self.scienceProgressTextureNames = Array(0...100).map { "science_progress_\($0)" }
         self.headerTextureNames = [
-            "header-culture-button-active", "header-culture-button-disabled", "header-government-button-active",
-            "header-government-button-disabled", "header-log-button-active", "header-log-button-disabled",
-            "header-science-button-active", "header-science-button-disabled"
+            "header-button-culture-active", "header-button-culture-disabled",
+            "header-button-government-active", "header-button-government-disabled",
+            "header-button-log-active", "header-button-log-disabled",
+            "header-button-science-active", "header-button-science-disabled",
+            "header-button-tradeRoutes-active", "header-button-tradeRoutes-disabled"
         ]
         self.cityProgressTextureNames = Array(0...20).map { "linear-progress-\($0 * 5)" }
         self.cityTextureNames = ["hex-city-1"]
-        
+
         self.commandTextureNames = CommandType.all.map { $0.iconTexture() }
         self.commandButtonTextureNames = CommandType.all.map { $0.buttonTexture() } + ["command-button-list"]
         self.policyCardTextureNames = [
@@ -196,17 +201,17 @@ public class Textures {
         self.leaderTypeTextureNames = LeaderType.all.map { $0.iconTexture() }  + ["leader-random"]
         self.pantheonTypeTextureNames = PantheonType.all.map { $0.iconTexture() }
     }
-    
+
     public func terrainTexture(at point: HexPoint) -> String {
-        
+
         guard let game = self.game else {
             fatalError("cant get game")
         }
-        
+
         guard let tile = game.tile(at: point) else {
             fatalError("cant get tile")
         }
-        
+
         var textureName = ""
         if let coastTexture = self.coastTexture(at: point) {
             textureName = coastTexture
@@ -217,161 +222,161 @@ public class Textures {
                 textureName = tile.terrain().textureNames().item(from: point)
             }
         }
-        
+
         return textureName
     }
 
     public func coastTexture(at point: HexPoint) -> String? {
-        
+
         guard let game = self.game else {
             fatalError("cant get game")
         }
-        
+
         if let tile = game.tile(at: point) {
             if tile.terrain().isLand() {
                 return nil
             }
         }
-        
+
         var texture = "beach" // "beach-n-ne-se-s-sw-nw"
         for direction in HexDirection.all {
             let neighbor = point.neighbor(in: direction)
-            
+
             if let neighborTile = game.tile(at: neighbor) {
-                
+
                 if neighborTile.terrain().isLand() {
                     texture += ("-" + direction.short())
                 }
             }
         }
-        
+
         if texture == "beach" {
             return nil
         }
-        
+
         return texture
     }
-    
+
     public func snowTexture(at point: HexPoint) -> String? {
-        
+
         guard let game = self.game else {
             fatalError("cant get game")
         }
-        
+
         var texture = "snow" // "snow-n-ne-se-s-sw-nw"
-        
+
         if let tile = game.tile(at: point) {
             if tile.terrain().isWater() {
                 texture = "snow-to-water"
             }
         }
-        
+
         for direction in HexDirection.all {
             let neighbor = point.neighbor(in: direction)
-            
+
             if let neighborTile = game.tile(at: neighbor) {
-                
+
                 if neighborTile.terrain() == .snow {
                     texture += ("-" + direction.short())
                 }
             }
         }
-        
+
         if texture == "snow" || texture == "snow-to-water" {
             return nil
         }
-        
+
         return texture
     }
-    
+
     public func mountainTexture(at point: HexPoint) -> String? {
-        
+
         guard let game = self.game else {
             fatalError("cant get game")
         }
-        
+
         var texture = "mountains" // "mountains-n-ne-se-s-sw-nw"
-        
+
         for direction in HexDirection.all {
             let neighbor = point.neighbor(in: direction)
-            
+
             if let neighborTile = game.tile(at: neighbor) {
-                
+
                 if neighborTile.has(feature: .mountains) {
                     texture += ("-" + direction.short())
                 }
             }
         }
-        
+
         if texture == "mountains" {
             return nil
         }
-        
+
         // limit to only some existing textures
         if texture != "mountains-n-ne" &&
             texture != "mountains-n" &&
             texture != "mountains-ne" &&
             texture != "mountains-n-nw" &&
             texture != "mountains-nw" {
-            
+
             return nil
         }
-        
+
         return texture
     }
-    
+
     public func iceTexture(at point: HexPoint) -> String? {
-        
+
         guard let game = self.game else {
             fatalError("cant get game")
         }
-        
+
         var texture = "feature_ice" // "snow-n-ne-se-s-sw-nw"
-        
+
         if let tile = game.tile(at: point) {
             if tile.terrain().isWater() {
                 texture = "feature_ice-to-water"
             }
         }
-        
+
         for direction in HexDirection.all {
             let neighbor = point.neighbor(in: direction)
-            
+
             if let neighborTile = game.tile(at: neighbor) {
-                
+
                 if neighborTile.has(feature: .ice) {
                     texture += ("-" + direction.short())
                 }
             }
         }
-        
+
         if texture == "feature_ice" || texture == "feature_ice-to-water" {
             return nil
         }
-        
+
         return texture
     }
-    
+
     public func featureTexture(for tile: AbstractTile, neighborTiles: [HexDirection: AbstractTile?]) -> String? {
-        
+
         let feature: FeatureType = tile.feature()
-        
+
         if feature == .none {
             return nil
         }
-        
+
         let textureName: String
         if tile.terrain() == .tundra && feature == .forest {
             textureName = ["feature_pine1", "feature_pine2"].item(from: tile.point)
         } else if feature == .mountains {
-            
+
             let mountainsN = (neighborTiles[.north]??.feature() ?? .none) == .mountains
             let mountainsNE = (neighborTiles[.northeast]??.feature() ?? .none) == .mountains
             let mountainsSE = (neighborTiles[.southeast]??.feature() ?? .none) == .mountains
             let mountainsS = (neighborTiles[.south]??.feature() ?? .none) == .mountains
             let mountainsSW = (neighborTiles[.southwest]??.feature() ?? .none) == .mountains
             let mountainsNW = (neighborTiles[.northwest]??.feature() ?? .none) == .mountains
-            
+
             if !mountainsN && mountainsNE && !mountainsSE && !mountainsS && !mountainsSW && !mountainsNW {
                 textureName = "feature_mountains_ne"
             } else if !mountainsN && !mountainsNE && !mountainsSE && !mountainsS && mountainsSW && !mountainsNW {
@@ -390,96 +395,96 @@ public class Textures {
         } else {
             textureName = feature.textureNames().item(from: tile.point)
         }
-        
+
         return textureName
     }
-    
+
     public func riverTexture(at point: HexPoint) -> String? {
-        
+
         guard let game = self.game else {
             fatalError("cant get game")
         }
-        
+
         guard let tile = game.tile(at: point) else {
             return nil
         }
-        
+
         if !tile.isRiver() {
-            
+
             // river deltas can be at ocean only
             if tile.terrain() == .shore || tile.terrain() == .ocean {
-                
+
                 let southwestNeightbor = point.neighbor(in: .southwest)
                 if let southwestTile = game.tile(at: southwestNeightbor) {
-                    
+
                     // 1. river end west
                     if southwestTile.isRiverInNorth() {
                         return "river-mouth-w"
                     }
-                    
+
                     // 2. river end south west
                     if southwestTile.isRiverInSouthEast() {
                         return "river-mouth-sw"
                     }
                 }
-                
+
                 let northwestNeightbor = point.neighbor(in: .northwest)
                 if let northwestTile = game.tile(at: northwestNeightbor) {
-                    
+
                     // 3
                     if northwestTile.isRiverInNorthEast() {
                         return "river-mouth-nw"
                     }
                 }
-                
+
                 let northNeightbor = point.neighbor(in: .north)
                 if let northTile = game.tile(at: northNeightbor) {
-                    
+
                     // 4
                     if northTile.isRiverInSouthEast() {
                         return "river-mouth-ne"
                     }
                 }
-                
+
                 let southeastNeightbor = point.neighbor(in: .southeast)
                 if let southeastTile = game.tile(at: southeastNeightbor) {
-                    
+
                     // 5
                     if southeastTile.isRiverInNorth() {
                         return "river-mouth-e"
                     }
                 }
-                
+
                 let southNeightbor = point.neighbor(in: .south)
                 if let southTile = game.tile(at: southNeightbor) {
-                    
+
                     // 6
                     if southTile.isRiverInNorthEast() {
                         return "river-mouth-se"
                     }
                 }
             }
-            
+
             return nil
         }
-        
+
         var texture = "river" // "river-n-ne-se-s-sw-nw"
         for flow in FlowDirection.all {
-            
+
             if tile.isRiverIn(flow: flow) {
                 texture += ("-" + flow.short)
             }
         }
-        
+
         if texture == "river" {
             return nil
         }
-        
+
         return texture
     }
-    
+
     public func borderTexture(at point: HexPoint, in area: HexArea) -> String? {
-        
+
         var textureName = "border"
 
         if !area.contains(where: { $0 == point.neighbor(in: .north) }) {
@@ -512,26 +517,26 @@ public class Textures {
 
         return textureName
     }
-    
+
     public func yieldTexture(for yields: Yields) -> String? {
-        
+
         let food = Int(yields.food)
         let production = Int(yields.production)
         let gold = Int(yields.gold)
-        
+
         if food == 0 && production == 0 && gold == 0 {
             return nil
         }
-        
+
         return "yield-\(food)-\(production)-\(gold)"
     }
-    
+
     public func calderaTexure(at hex: HexPoint) -> String? {
-        
+
         guard let game = self.game else {
             fatalError("cant get gameModel")
         }
-        
+
         let calderaIsSouth = hex.y == game.mapSize().height() - 1 //self.isCalderaSouth(at: hex)
         let calderaIsEast = hex.x == game.mapSize().width() - 1 // self.isCalderaEast(at: hex)
 
@@ -539,15 +544,15 @@ public class Textures {
             if calderaIsSouth && calderaIsEast {
                 return "board-se-s-sw"
             }
-            
+
             if calderaIsSouth {
                 return "board-s-sw"
             }
-            
+
             if hex.y % 2 == 1 {
                 return "board-se"
             }
-            
+
             return "board-se-s"
         }
 
@@ -557,35 +562,35 @@ public class Textures {
 
         return nil
     }
-    
+
     public func roadTexture(at point: HexPoint) -> String? {
-        
+
         guard let gameModel = self.game else {
             fatalError("cant get gameModel")
         }
-        
+
         if let tile = gameModel.tile(at: point) {
             if tile.route() == .none {
                 return nil
             }
         }
-        
+
         var texture = "road" // "road-n-ne-se-s-sw-nw"
         for direction in HexDirection.all {
             let neighbor = point.neighbor(in: direction)
-            
+
             if let neighborTile = gameModel.tile(at: neighbor) {
-                
+
                 if neighborTile.route() != .none {
                     texture += ("-" + direction.short())
                 }
             }
         }
-        
+
         if texture == "road" {
             return nil
         }
-        
+
         return texture
     }
 }

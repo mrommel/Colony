@@ -11,28 +11,28 @@ import Foundation
 import SmartAILibrary
 
 class EnteredEraPopupViewModel {
-    
+
     init(eraType: EraType) {
-        
+
     }
 }
 
 class EnteredEraPopup: Dialog {
- 
+
     let viewModel: EnteredEraPopupViewModel
-    
+
     init(viewModel: EnteredEraPopupViewModel) {
-        
+
         self.viewModel = viewModel
-        
+
         let uiParser = UIParser()
         guard let enteredEraPopupConfiguration = uiParser.parse(from: "EnteredEraPopup") else {
             fatalError("cant load EnteredEraPopup configuration")
         }
-        
+
         super.init(from: enteredEraPopupConfiguration)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

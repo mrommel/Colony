@@ -11,14 +11,14 @@ import SmartAILibrary
 extension UnitType {
 
     public func iconTexture() -> NSImage {
-        
+
         if let texture = self.idleAtlas?.textures.first {
             return texture
         }
-        
+
         return NSImage(named: "unit_type_default")!
     }
-    
+
     public func typeTemplateTexture() -> String {
 
         switch self {
@@ -42,7 +42,7 @@ extension UnitType {
 
             // industrial
         case .medic: return "unit-type-template-medic"
-            
+
             // great people
         case .admiral: return "unit-type-template-default"
         case .artist: return "unit-type-template-default"
@@ -53,10 +53,10 @@ extension UnitType {
         case .prophet: return "unit-type-template-default"
         case .scientist: return "unit-type-template-default"
         case .writer: return "unit-type-template-default"
-            
+
         }
     }
-    
+
     public func typeTexture() -> String {
 
         switch self {
@@ -80,7 +80,7 @@ extension UnitType {
 
             // industrial
         case .medic: return "unit-type-medic"
-            
+
             // great people
         case .admiral: return "unit-type-default"
         case .artist: return "unit-type-default"
@@ -91,7 +91,7 @@ extension UnitType {
         case .prophet: return "unit-type-default"
         case .scientist: return "unit-type-default"
         case .writer: return "unit-type-default"
-            
+
         }
     }
 }
@@ -137,7 +137,7 @@ extension UnitType {
     }
 
     public var idleAtlas: ObjectTextureAtlas? {
-        
+
         let bundle = Bundle.init(for: Textures.self)
 
         switch self {
@@ -182,7 +182,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "idle")
 
         case .heavyChariot: return nil
-            
+
         case .galley:
             return ObjectTextureAtlas(template: "galley-idle-", range: 0..<3)
 
@@ -203,7 +203,7 @@ extension UnitType {
     }
 
     public var walkDownAtlas: ObjectTextureAtlas? {
-        
+
         let bundle = Bundle.init(for: Textures.self)
 
         switch self {
@@ -241,9 +241,9 @@ extension UnitType {
         case .spearman:
             let textureAtlas = TextureAtlasLoader.load(named: "spearman", in: bundle)
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "south")
-            
+
         case .heavyChariot: return nil
-            
+
         case .galley:
             return ObjectTextureAtlas(template: "galley-south-", range: 0..<3)
 
@@ -264,7 +264,7 @@ extension UnitType {
     }
 
     public var walkUpAtlas: ObjectTextureAtlas? {
-        
+
         let bundle = Bundle.init(for: Textures.self)
 
         switch self {
@@ -304,7 +304,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "north")
 
         case .heavyChariot: return nil
-            
+
         case .galley:
             return ObjectTextureAtlas(template: "galley-north-", range: 0..<3)
 
@@ -325,7 +325,7 @@ extension UnitType {
     }
 
     public var walkRightAtlas: ObjectTextureAtlas? {
-        
+
         let bundle = Bundle.init(for: Textures.self)
 
         switch self {
@@ -365,7 +365,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west", mirror: true)
 
         case .heavyChariot: return nil
-            
+
         case .galley:
             return ObjectTextureAtlas(template: "galley-right-", range: 0..<3)
 
@@ -386,7 +386,7 @@ extension UnitType {
     }
 
     public var walkLeftAtlas: ObjectTextureAtlas? {
-        
+
         let bundle = Bundle.init(for: Textures.self)
 
         switch self {
@@ -425,7 +425,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west")
 
         case .heavyChariot: return nil
-            
+
         case .galley:
             return ObjectTextureAtlas(template: "galley-left-", range: 0..<3)
 

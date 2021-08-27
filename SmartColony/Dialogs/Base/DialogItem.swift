@@ -9,33 +9,33 @@
 import SpriteKit
 
 struct DialogItemConfiguration: Codable {
-    
+
     var identifier: String
-    
+
     var type: DialogItemType
-    
+
     var title: String
     var fontSize: CGFloat
     var result: DialogResultType
-    
+
     var offsetx: CGFloat = 0.0
     var offsety: CGFloat = 0.0
     var anchorx: CGFloat = 0.0
     var anchory: CGFloat = 0.0
-    
+
     var width: CGFloat
     var height: CGFloat
-    
+
     var image: String?
-    
+
     struct DropdownItems: Codable {
         var item: [String] = []
     }
     var selectedIndex: Int? = 0
     var items: DropdownItems? = DropdownItems()
-    
+
     init(identifier: String, type: DialogItemType, title: String, fontSize: CGFloat, result: DialogResultType, offsetx: CGFloat, offsety: CGFloat, anchorx: CGFloat, anchory: CGFloat, width: CGFloat, height: CGFloat, image: String?, selectedIndex: Int?, items: DropdownItems?) {
-        
+
         self.identifier = identifier
         self.type = type
         self.title = title
@@ -51,11 +51,11 @@ struct DialogItemConfiguration: Codable {
         self.selectedIndex = selectedIndex
         self.items = items
     }
-    
+
     init(from decoder: Decoder) throws {
-        
+
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         let identifier = try values.decode(String.self, forKey: .identifier)
         let type = try values.decode(DialogItemType.self, forKey: .type)
         let title = try values.decodeIfPresent(String.self, forKey: .title) ?? ""
@@ -67,11 +67,11 @@ struct DialogItemConfiguration: Codable {
         let anchoryValue = try values.decode(DialogAnchor.self, forKey: .anchory)
         let widthValue = try values.decode(String.self, forKey: .width)
         let heightValue = try values.decode(String.self, forKey: .height)
-        
+
         let bounds = UIScreen.main.bounds
         var width: CGFloat = bounds.size.width
         var height: CGFloat = bounds.size.height
-        
+
         var offsetx: CGFloat = 0.0
         if offsetxValue.contains("%") {
             let parts = offsetxValue.split {$0 == "%"}.map(String.init)
@@ -143,12 +143,12 @@ struct DialogItemConfiguration: Codable {
         default:
             fatalError("Invalid value for anchorx: \(anchoryValue)")
         }
-        
+
         let image = try values.decodeIfPresent(String.self, forKey: .image) ?? nil
-        
+
         let selectedIndex = try values.decodeIfPresent(Int.self, forKey: .selectedIndex) ?? nil
         let items: DropdownItems? = try values.decodeIfPresent(DropdownItems.self, forKey: .items) ?? nil
-        
+
         self.init(
             identifier: identifier,
             type: type,
@@ -166,17 +166,17 @@ struct DialogItemConfiguration: Codable {
             items: items
         )
     }
-    
+
     func anchorPoint() -> CGPoint {
-        
+
         return CGPoint(x: self.anchorx, y: self.anchory)
     }
-    
+
     func position() -> CGPoint {
-        
+
         return CGPoint(x: self.offsetx, y: self.offsety)
     }
-    
+
     var size: CGSize {
         return CGSize(width: self.width, height: self.height)
     }

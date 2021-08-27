@@ -9,9 +9,9 @@
 import CoreData
 
 class CoreDataManager {
-    
+
     // MARK: - Singleton
-    
+
     static let shared = CoreDataManager()
 
     lazy var persistentContainer: NSPersistentContainer = {
@@ -40,28 +40,28 @@ class CoreDataManager {
         })*/
         return container
     }()
-    
+
     init() {
-        
+
     }
-    
+
     // MARK: - SetUp
-    
+
     func setup(completion: (() -> Void)?) {
         loadPersistentStore {
             completion?()
         }
     }
-    
+
     // MARK: - Loading
-    
+
     private func loadPersistentStore(completion: @escaping () -> Void) {
         //handle data migration on a different thread/queue here
         persistentContainer.loadPersistentStores { _, error in
             guard error == nil else {
                 fatalError("was unable to load store \(error!)")
             }
-            
+
             completion()
         }
     }

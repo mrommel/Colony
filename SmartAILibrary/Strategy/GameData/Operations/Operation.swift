@@ -32,6 +32,7 @@ struct OperationSearchUnit {
 //!  - AI operations are launched by some player strategies
 //!  - Each operations manages one or more armies (multiple armies in an operation not yet tested)
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// swiftlint:disable:next type_body_length
 public class Operation: Codable, Equatable {
 
     enum CodingKeys: CodingKey {
@@ -295,7 +296,12 @@ public class Operation: Codable, Equatable {
                 fatalError("cant get iterator")
             }
 
-            pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(for: unit.movementType(), for: searchUnit.unit?.player, unitMapType: .combat, canEmbark: true)
+            pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(
+                for: unit.movementType(),
+                for: searchUnit.unit?.player,
+                unitMapType: .combat,
+                canEmbark: true
+            )
 
             if let searchUnitLocation = searchUnit.unit?.location {
                 var pathDistance = Double.greatestFiniteMagnitude
@@ -491,7 +497,7 @@ public class Operation: Codable, Equatable {
 
                     case .gatheringForces:
                         let domain: UnitDomainType = self.isAllNavalOperation() || self.isMixedLandNavalOperation() ? .sea : .land
-                        
+
                         if let centerOfMass = army.centerOfMass(domain: domain, in: gameModel),
                            let musterPosition = self.musterPosition {
 
@@ -505,11 +511,12 @@ public class Operation: Codable, Equatable {
 
                     case .movingToTarget:
                         let domain: UnitDomainType = self.isAllNavalOperation() || self.isMixedLandNavalOperation() ? .sea : .land
-                        
+
                         if let centerOfMass = army.centerOfMass(domain: domain, in: gameModel),
                            let targetPosition = self.targetPosition {
 
-                            if centerOfMass.distance(to: targetPosition) <= gatheredTolerance && army.furthestUnitDistance(towards: targetPosition) <= gatheredTolerance * 3 / 2 {
+                            if centerOfMass.distance(to: targetPosition) <= gatheredTolerance &&
+                                army.furthestUnitDistance(towards: targetPosition) <= gatheredTolerance * 3 / 2 {
 
                                 self.armyInPosition(in: gameModel)
                                 return true
@@ -546,7 +553,8 @@ public class Operation: Codable, Equatable {
                     case .gatheringForces:
                         if let centerOfMass = army.centerOfMass(domain: .sea, in: gameModel), let musterPosition = self.musterPosition {
 
-                            if centerOfMass.distance(to: musterPosition) <= gatheredTolerance && army.furthestUnitDistance(towards: musterPosition) <= gatheredTolerance * 3 {
+                            if centerOfMass.distance(to: musterPosition) <= gatheredTolerance &&
+                                army.furthestUnitDistance(towards: musterPosition) <= gatheredTolerance * 3 {
 
                                 self.armyInPosition(in: gameModel)
                                 return true
@@ -557,7 +565,8 @@ public class Operation: Codable, Equatable {
 
                         if let centerOfMass = army.centerOfMass(domain: .sea, in: gameModel), let targetPosition = self.targetPosition {
 
-                            if centerOfMass.distance(to: targetPosition) <= gatheredTolerance && army.furthestUnitDistance(towards: targetPosition) <= gatheredTolerance * 3 {
+                            if centerOfMass.distance(to: targetPosition) <= gatheredTolerance &&
+                                army.furthestUnitDistance(towards: targetPosition) <= gatheredTolerance * 3 {
 
                                 self.armyInPosition(in: gameModel)
                                 return true
@@ -593,7 +602,8 @@ public class Operation: Codable, Equatable {
                     case .gatheringForces:
                         if let centerOfMass = army.centerOfMass(domain: .sea, in: gameModel), let musterPosition = self.musterPosition {
 
-                            if centerOfMass.distance(to: musterPosition) <= gatheredTolerance && army.furthestUnitDistance(towards: musterPosition) <= gatheredTolerance * 3 / 2 {
+                            if centerOfMass.distance(to: musterPosition) <= gatheredTolerance &&
+                                army.furthestUnitDistance(towards: musterPosition) <= gatheredTolerance * 3 / 2 {
 
                                 self.armyInPosition(in: gameModel)
                                 return true
@@ -650,7 +660,8 @@ public class Operation: Codable, Equatable {
 
             if let cell = tacticalMap.plots[pt] {
 
-                if (self.isMixedLandNavalOperation() && cell.canUseForOperationGathering()) || cell.canUseForOperationGatheringCheckWater(isWater: self.isAllNavalOperation()) {
+                if (self.isMixedLandNavalOperation() && cell.canUseForOperationGathering()) ||
+                    cell.canUseForOperationGatheringCheckWater(isWater: self.isAllNavalOperation()) {
 
                     if (self.isMixedLandNavalOperation() || self.isAllNavalOperation()) && !army.isAllOceanGoing(in: gameModel) && cell.ocean {
 
@@ -759,7 +770,12 @@ public class Operation: Codable, Equatable {
                 let armyMoveType: UnitMovementType = self.moveType == .navalEscort || self.moveType == .freeformNaval ? .swim : .walk
 
                 let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: armyMoveType, for: self.player, unitMapType: .combat, canEmbark: true)
+                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                    for: armyMoveType,
+                    for: self.player,
+                    unitMapType: .combat,
+                    canEmbark: true
+                )
 
                 guard let musterPosition = self.musterPosition else {
                     fatalError("muster position not available")
@@ -886,7 +902,11 @@ public class Operation: Codable, Equatable {
 
     public static func == (lhs: Operation, rhs: Operation) -> Bool {
 
-        return lhs.type == rhs.type && lhs.area == rhs.area && lhs.enemy?.leader == rhs.enemy?.leader && lhs.moveType == rhs.moveType && lhs.targetPosition == rhs.targetPosition
+        return lhs.type == rhs.type &&
+            lhs.area == rhs.area &&
+            lhs.enemy?.leader == rhs.enemy?.leader &&
+            lhs.moveType == rhs.moveType &&
+            lhs.targetPosition == rhs.targetPosition
     }
 
     /// Pick this turn's desired "center of mass" for the army
@@ -908,7 +928,6 @@ public class Operation: Codable, Equatable {
         case .recruitingUnits, .gatheringForces:
             // Just use the muster point if we're still recruiting/gathering
             rtnValue = self.musterPosition
-            break
 
         case .movingToTarget:
 
@@ -934,7 +953,8 @@ public class Operation: Codable, Equatable {
 
             let lastTurnArmyPlot = self.army?.position
 
-            let centerOfMass = self.army?.centerOfMass(domain: self.isAllNavalOperation() || self.isMixedLandNavalOperation() ? .sea : .land, in: gameModel)
+            let domain: UnitDomainType = self.isAllNavalOperation() || self.isMixedLandNavalOperation() ? .sea : .land
+            let centerOfMass = self.army?.centerOfMass(domain: domain, in: gameModel)
 
             if lastTurnArmyPlot != nil && centerOfMass != nil && goalPoint != nil {
 

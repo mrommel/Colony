@@ -26,7 +26,7 @@ class EditorContentViewModel: MapScrollContentViewModel {
     @Published var brushTerrainName: String
     @Published var brushFeatureName: String
     @Published var brushResourceName: String
-    
+
     private var showStartLocations: Bool = false
     private var showInhabitants: Bool = false
     private var showSupportedPeople: Bool = false
@@ -50,7 +50,7 @@ class EditorContentViewModel: MapScrollContentViewModel {
         self.brushTerrainName = TerrainType.ocean.name()
         self.brushFeatureName = FeatureType.none.name()
         self.brushResourceName = ResourceType.none.name()
-        
+
         super.init()
     }
 
@@ -88,27 +88,27 @@ class EditorContentViewModel: MapScrollContentViewModel {
             }
         }
     }
-    
+
     func setShowStartLocations(to value: Bool) {
-        
+
         self.showStartLocations = value
         self.shouldRedraw?()
     }
-    
+
     func setShowInhabitants(to value: Bool) {
-        
+
         self.showInhabitants = value
         self.shouldRedraw?()
     }
-    
+
     func setShowSupportedPeople(to value: Bool) {
-        
+
         self.showSupportedPeople = value
         self.shouldRedraw?()
     }
-    
+
     override func options() -> MapDisplayOptions {
-        
+
         return MapDisplayOptions(
             showFeatures: true,
             showResources: true,
@@ -118,34 +118,34 @@ class EditorContentViewModel: MapScrollContentViewModel {
             showSupportedPeople: self.showSupportedPeople
         )
     }
-    
+
     // MARK: iterate map
-    
+
     func initTribes() {
-        
+
         guard let map = self.map else {
             return
         }
 
         self.map?.setupTribes(at: map.startLocations)
     }
-    
+
     func iterateTribes() {
-        
+
         for _ in 0..<50 {
             self.map?.updateTribes()
         }
-        
+
         self.shouldRedraw?()
     }
-    
+
     // MARK: terrain functions
 
     func terrainOptionNames() -> [String] {
-        
+
         return TerrainType.all.map({ $0.name() })
     }
-    
+
     func setTerrain(to terrainName: String) {
 
         if let newTerrain = TerrainType.from(name: terrainName) {
@@ -157,11 +157,11 @@ class EditorContentViewModel: MapScrollContentViewModel {
             }
         }
     }
-    
+
     // MARK: hill functions
-    
+
     func hillsOptionNames() -> [String] {
-        
+
         return  ["yes", "no"]
     }
 
@@ -175,11 +175,11 @@ class EditorContentViewModel: MapScrollContentViewModel {
             self.didChange?(focusTile.point)
         }
     }
-    
+
     // MARK: river functions
-    
+
     func riverOptionNames() -> [String] {
-        
+
         return ["---", "n", "n-ne", "n-se", "ne", "ne-se", "n-ne-se", "se"]
     }
 
@@ -230,7 +230,7 @@ class EditorContentViewModel: MapScrollContentViewModel {
             self.didChange?(focusTile.point)
         }
     }
-    
+
     private func riverName(for tile: AbstractTile?) -> String {
 
         if let tile = tile {
@@ -251,11 +251,11 @@ class EditorContentViewModel: MapScrollContentViewModel {
 
         return ""
     }
-    
+
     // MARK: feature functions
-    
+
     func featureOptionNames() -> [String] {
-        
+
         return [FeatureType.none.name()] + FeatureType.all.map({ $0.name() })
     }
 
@@ -277,11 +277,11 @@ class EditorContentViewModel: MapScrollContentViewModel {
             }
         }
     }
-    
+
     // MARK: resource functions
-    
+
     func resourceOptionNames() -> [String] {
-        
+
         return [ResourceType.none.name()] + ResourceType.all.map({ $0.name() })
     }
 
@@ -303,87 +303,87 @@ class EditorContentViewModel: MapScrollContentViewModel {
             }
         }
     }
-    
+
     func clearResources() {
-        
+
         guard let map = self.map else {
             return
         }
-        
+
         var ptsToUpdate: [HexPoint] = []
-        
+
         for pt in map.points() {
-            
+
             guard let tile = map.tile(at: pt) else {
                 continue
             }
-            
+
             if tile.hasAnyResource(for: nil) {
-                
+
                 // remove resource
                 tile.set(resource: .none)
-                
+
                 // mark spot for update
                 ptsToUpdate.append(pt)
             }
         }
-        
+
         // update
         for ptToUpdate in ptsToUpdate {
-            
+
             // trigger redraw
             self.didChange?(ptToUpdate)
         }
     }
-    
+
     func scatterResources() {
-        
+
         guard let map = self.map else {
             return
         }
-        
+
         var ptsToUpdate: [HexPoint] = []
-        
+
         for pt in map.points() {
-            
+
             guard let tile = map.tile(at: pt) else {
                 continue
             }
-            
+
             if tile.hasAnyResource(for: nil) {
-                
+
                 // remove resource
                 tile.set(resource: .none)
-                
+
                 // mark spot for update
                 ptsToUpdate.append(pt)
             }
         }
-        
+
         // place new resources
         let handler = BaseMapHandler()
         handler.placeResources(on: self.map)
-        
+
         for pt in map.points() {
-            
+
             guard let tile = map.tile(at: pt) else {
                 continue
             }
-            
+
             if tile.hasAnyResource(for: nil) {
                 // mark spot for update
                 ptsToUpdate.append(pt)
             }
         }
-        
+
         // update
         for ptToUpdate in ptsToUpdate {
-            
+
             // trigger redraw
             self.didChange?(ptToUpdate)
         }
     }
-    
+
     // MARK: start location functions
 
     func startLocationNames() -> [String] {
@@ -407,24 +407,24 @@ class EditorContentViewModel: MapScrollContentViewModel {
     func setStartLocation(to leaderName: String) {
 
         if let focusTile = self.focus {
-            
+
             if let startLocation = self.map?.startLocations.first(where: { $0.leader.name() == leaderName }) {
 
                 // trigger redraw at old location
                 self.didChange?(startLocation.point)
-                
+
                 startLocation.point = focusTile.point
-                
+
                 // trigger redraw at new location
                 self.didChange?(startLocation.point)
             }
         }
     }
-    
+
     // MARK: zoom functions
-    
+
     func zoomOptionNames() -> [String] {
-        
+
         return ["0.5", "1.0", "2.0"]
     }
 

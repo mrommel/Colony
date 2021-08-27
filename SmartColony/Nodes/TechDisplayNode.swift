@@ -10,17 +10,17 @@ import SpriteKit
 import SmartAILibrary
 
 class TechDisplayNode: BaseDisplayNode {
-    
+
     let techType: TechType
-    
+
     init(techType: TechType, progress: Int, size: CGSize) {
-        
+
         self.techType = techType
-        
+
         var iconTextures: [SKTexture] = []
-        
+
         let achievements = techType.achievements()
-        
+
         for buildingType in achievements.buildingTypes {
             iconTextures.append(SKTexture(imageNamed: buildingType.iconTexture()))
         }
@@ -36,14 +36,14 @@ class TechDisplayNode: BaseDisplayNode {
         for buildType in achievements.buildTypes {
             iconTextures.append(SKTexture(imageNamed: buildType.iconTexture()))
         }
-        
+
         for districtType in achievements.districtTypes {
             iconTextures.append(SKTexture(imageNamed: districtType.iconTexture()))
         }
-        
+
         super.init(texture: self.techType.iconTexture(), type: .science, name: self.techType.name(), progress: progress, iconTextures: iconTextures, size: size)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

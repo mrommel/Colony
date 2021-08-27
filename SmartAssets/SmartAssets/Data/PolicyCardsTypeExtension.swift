@@ -14,7 +14,7 @@ extension PolicyCardType {
         if self == .slot {
             return "policyCard-slot"
         }
-        
+
         switch self.slot() {
 
         case .military: return "policyCard-military"
@@ -26,7 +26,7 @@ extension PolicyCardType {
 }
 
 extension PolicyCardSlotType {
-    
+
     public func iconTexture() -> String {
 
         switch self {

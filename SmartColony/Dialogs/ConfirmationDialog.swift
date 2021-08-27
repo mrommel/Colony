@@ -9,16 +9,16 @@
 import Foundation
 
 class ConfirmationDialogViewModel {
-    
+
     let question: NSMutableAttributedString
-    
+
     init(question: NSMutableAttributedString) {
-        
+
         self.question = question
     }
-    
+
     init(question: String) {
-        
+
         self.question = NSMutableAttributedString(string: question)
     }
 }
@@ -37,10 +37,10 @@ class ConfirmationDialog: Dialog {
         }
 
         super.init(from: confirmationDialogConfiguration)
-        
+
         self.set(text: self.viewModel.question, identifier: "summary")
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -8,11 +8,11 @@
 import SmartAILibrary
 
 extension HandicapType {
-    
+
     public func textureName() -> String {
-        
+
         switch self {
-        
+
         case .settler:
             return "handicap-settler"
         case .chieftain:

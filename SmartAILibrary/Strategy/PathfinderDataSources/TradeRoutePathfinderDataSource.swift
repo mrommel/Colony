@@ -52,12 +52,12 @@ class TradeRoutePathfinderDataSource: PathfinderDataSource {
 
             var isReachable: Bool = false
 
-            if neighbor.distance(to: startLocation) < TradeRoutes.range {
+            if neighbor.distance(to: startLocation) < TradeRoutes.landRange {
                 isReachable = true
             }
 
             for tradingPostLocation in self.tradingPostLocations {
-                if neighbor.distance(to: tradingPostLocation) < TradeRoutes.range {
+                if neighbor.distance(to: tradingPostLocation) < TradeRoutes.landRange {
                     isReachable = true
                 }
             }
@@ -127,7 +127,7 @@ class TradeRoutePathfinderDataSource: PathfinderDataSource {
             return false
         }
 
-        guard path.count <= TradeRoutes.range else {
+        guard path.count <= TradeRoutes.landRange else {
             print("trading posts not handled")
             return false
         }

@@ -10,7 +10,7 @@ import SmartAILibrary
 import CoreGraphics
 
 extension FeatureType {
-    
+
     /*func textureNamesHex() -> [String] {
         
         switch self {

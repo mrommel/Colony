@@ -8,22 +8,22 @@
 import SmartAILibrary
 
 extension CivilizationType {
-    
+
     public struct CivilizationTypeColors {
-        
+
         let main: TypeColor
         let accent: TypeColor
     }
-    
+
     // https://i.redd.it/rnfl2p4m37z21.png
     // https://civilization.fandom.com/wiki/Jersey_System_(Civ6)
     public var colors: CivilizationTypeColors {
- 
+
         switch self {
- 
+
         case .barbarian:
             return CivilizationTypeColors(main: TypeColor.geraldine, accent: TypeColor.nero)
-            
+
         case .greek:
             return CivilizationTypeColors(main: TypeColor.cornflowerBlue, accent: TypeColor.snow)
         case .roman:
@@ -44,14 +44,14 @@ extension CivilizationType {
             return CivilizationTypeColors(main: TypeColor.schoolBusYellow, accent: TypeColor.nero)
         }
     }
-    
+
     public var main: TypeColor {
-        
+
         return self.colors.main
     }
-    
+
     public var accent: TypeColor {
-        
+
         return self.colors.accent
     }
 }

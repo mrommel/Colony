@@ -222,6 +222,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func continueTrading(in gameModel: GameModel?)
     func isTrading() -> Bool
     func endTrading()
+    func tradeRouteData() -> UnitTradeRouteData?
 }
 
 public protocol UnitMovedDelegate: AnyObject {
@@ -315,7 +316,7 @@ public class Unit: AbstractUnit {
     private var moveLocations: [HexPoint] = []
 
     // trader
-    var tradeRouteData: UnitTradeRouteData?
+    var tradeRouteDataValue: UnitTradeRouteData?
 
     weak var unitMoved: UnitMovedDelegate?
 
@@ -786,7 +787,7 @@ public class Unit: AbstractUnit {
         ////////////////////////
         // KNOWN DEFENDER CITY
         ////////////////////////
-        if let _ = city {
+        if city != nil {
 
             if self.unitClassType() == .ranged {
                 result.append(CombatModifier(modifierValue: -17, modifierTitle: "Penalty against City"))
@@ -1309,7 +1310,12 @@ public class Unit: AbstractUnit {
     public func pathIgnoreUnits(towards target: HexPoint, in gameModel: GameModel?) -> HexPath? {
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(for: self.movementType(), for: self.player, unitMapType: .combat, canEmbark: true)
+        pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(
+            for: self.movementType(),
+            for: self.player,
+            unitMapType: .combat,
+            canEmbark: true
+        )
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
 
@@ -2298,28 +2304,28 @@ public class Unit: AbstractUnit {
     }
 
     public func unGarrison(in gameModel: GameModel?) {
-        
+
         self.garrisonedValue = false
     }
-    
+
     func canDisband() -> Bool {
-        
+
         return true
     }
-    
+
     public func doCancelOrder() {
-        
+
         if self.peekMission() != nil {
             self.clearMissions()
         }
-        
+
         if self.automateType() != .none {
             self.automate(with: .none)
         }
     }
-    
+
     func canCancelOrder() -> Bool {
-        
+
         return !self.missions.isEmpty
     }
 
@@ -2721,7 +2727,7 @@ public class Unit: AbstractUnit {
 
         case .disband:
             return self.canDisband()
-            
+
         case .cancelOrder:
             return self.canCancelOrder()
 
@@ -2753,12 +2759,12 @@ public class Unit: AbstractUnit {
             // cant automate when unit has a mission
             return false
         }
-        
+
         switch automate {
 
         case .none:
             return false
-            
+
         case .build:
             if !self.type.abilities().contains(.canImprove) && !self.type.abilities().contains(.canImproveSea) {
                 return false
@@ -2795,18 +2801,18 @@ public class Unit: AbstractUnit {
     public func automate(with type: UnitAutomationType) {
 
         if self.automationType != type {
-        
+
             let oldAutomationType = self.automationType
             self.automationType = type
-            
+
             self.clearMissions()
             //self.set(activityType: .awake, in: <#T##GameModel?#>)
-        
+
             if oldAutomationType == .explore {
                 // these need to be rebuilt
                 self.player?.economicAI?.explorationPlotsDirty = true
             }
-            
+
             // if canceling automation, cancel on cargo as well
             if type == .none {
 
@@ -2832,7 +2838,7 @@ public class Unit: AbstractUnit {
             }
         }
     }
-    
+
     public func readyToSelect() -> Bool {
 
         return self.readyToMove() && !self.isAutomated()
@@ -3720,7 +3726,7 @@ public class Unit: AbstractUnit {
 
         // trader
         if self.isTrading() {
-            self.tradeRouteData?.doTurn(for: self, in: gameModel)
+            self.tradeRouteDataValue?.doTurn(for: self, in: gameModel)
         }
 
         // Recon unit? If so, he sees what's around him
@@ -3958,7 +3964,6 @@ public class Unit: AbstractUnit {
             } else if targetTile.isFriendlyCity(for: self.player, in: gameModel) && gameModel.isCoastal(at: self.location) {
                 return true
             }
-            break
 
         case .air:
             return true
@@ -3967,7 +3972,6 @@ public class Unit: AbstractUnit {
             if tile.sameContinent(as: targetTile) || self.canMoveAllTerrain() {
                 return true
             }
-            break
 
         case .immobile:
             // NOOP
@@ -4333,14 +4337,14 @@ extension Unit {
             fatalError("cant get data")
         }
 
-        self.tradeRouteData = UnitTradeRouteData(from: tradeRoute, in: currentTurn)
+        self.tradeRouteDataValue = UnitTradeRouteData(from: tradeRoute, in: currentTurn)
 
         self.continueTrading(in: gameModel)
     }
 
     public func continueTrading(in gameModel: GameModel?) {
 
-        if let nextTarget = self.tradeRouteData?.nextTarget(for: self, in: gameModel) {
+        if let nextTarget = self.tradeRouteDataValue?.nextTarget(for: self, in: gameModel) {
 
             let mission = UnitMission(type: .routeTo, at: nextTarget)
             self.push(mission: mission, in: gameModel)
@@ -4349,11 +4353,16 @@ extension Unit {
 
     public func isTrading() -> Bool {
 
-        return self.tradeRouteData != nil
+        return self.tradeRouteDataValue != nil
     }
-    
+
     public func endTrading() {
-        
-        self.tradeRouteData = nil
+
+        self.tradeRouteDataValue = nil
+    }
+
+    public func tradeRouteData() -> UnitTradeRouteData? {
+
+        return self.tradeRouteDataValue
     }
 }

@@ -10,15 +10,15 @@ import UIKit
 import Rswift
 
 class SplashViewController: UIViewController {
-    
+
     @IBOutlet var colonyTextImageView: UIImageView!
-    
+
     var inUnitTests: Bool {
         return ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
     }
-    
+
     override func viewDidLoad() {
-        
+
         self.colonyTextImageView.isHidden = false
 
         if !self.inUnitTests {
@@ -29,7 +29,7 @@ class SplashViewController: UIViewController {
             })
         }
     }
-    
+
     override var prefersStatusBarHidden: Bool {
         return true
     }

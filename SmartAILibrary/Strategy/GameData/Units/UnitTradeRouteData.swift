@@ -8,7 +8,7 @@
 
 import Foundation
 
-class UnitTradeRouteData {
+public class UnitTradeRouteData {
 
     let tradeRoute: TradeRoute
     var direction: UnitTradeRouteDirection
@@ -26,7 +26,7 @@ class UnitTradeRouteData {
     // https://civilization.fandom.com/wiki/Trade_Route_(Civ6)#Duration
     private func tradeRouteDuration(in era: EraType) -> Int {
 
-        let baseDuration = 4 // 21
+        let baseDuration = 21
 
         switch era {
 
@@ -61,8 +61,6 @@ class UnitTradeRouteData {
             } else {
                 unit.endTrading()
             }
-        } else {
-            // unit.continueTrading(in: gameModel)
         }
     }
 
@@ -71,22 +69,22 @@ class UnitTradeRouteData {
         guard let current = unit?.location else {
             fatalError("cant get location")
         }
-        
+
         switch self.direction {
-        
+
         case .start: // move to start location (without building a road)
-            
+
             // check if unit directly at start city
             if current == self.tradeRoute.start {
                 self.direction = .forward
                 return self.nextTarget(for: unit, in: gameModel)
             }
-            
+
             // otherwise go to the start city
             return self.tradeRoute.start
-        
+
         case .forward: // go towards target city
-            
+
             // check if unit directly at one of the points
             if current == self.tradeRoute.start {
 
@@ -163,19 +161,39 @@ class UnitTradeRouteData {
 
         return bestLocation
     }
-    
+
     func checkExpiration(for unit: AbstractUnit?, in gameModel: GameModel?) {
-        
+
+        if self.expiresInTurns(for: unit, in: gameModel) < 0 {
+            self.state = .expired
+        }
+    }
+
+    public func expiresInTurns(for unit: AbstractUnit?, in gameModel: GameModel?) -> Int {
+
         guard let gameModel = gameModel else {
                 fatalError("cant get game")
         }
-        
+
         guard let playerEra = unit?.player?.currentEra() else {
             fatalError("cant get era")
         }
-        
-        if self.establishedInTurn + self.tradeRouteDuration(in: playerEra) >= gameModel.currentTurn {
-            self.state = .expired
-        }
+
+        return self.establishedInTurn + self.tradeRouteDuration(in: playerEra) - gameModel.currentTurn
+    }
+
+    public func startCity(in gameModel: GameModel?) -> AbstractCity? {
+
+        return self.tradeRoute.startCity(in: gameModel)
+    }
+
+    public func endCity(in gameModel: GameModel?) -> AbstractCity? {
+
+        return self.tradeRoute.endCity(in: gameModel)
+    }
+
+    public func yields(in gameModel: GameModel?) -> Yields {
+
+        return self.tradeRoute.yields(in: gameModel)
     }
 }

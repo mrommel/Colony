@@ -359,9 +359,19 @@ open class MapModel: Codable {
         }
     }
 
-    func units(for player: AbstractPlayer) -> [AbstractUnit?] {
+    func units(with type: UnitType) -> [AbstractUnit?] {
+
+        return self.units.filter({ $0?.type == type })
+    }
+
+    func units(of player: AbstractPlayer) -> [AbstractUnit?] {
 
         return self.units.filter({ $0?.leader == player.leader })
+    }
+
+    func units(of player: AbstractPlayer, with type: UnitType) -> [AbstractUnit?] {
+
+        return self.units.filter({ $0?.leader == player.leader && $0?.type == type })
     }
 
     public func units(of player: AbstractPlayer, at point: HexPoint) -> [AbstractUnit?] {
@@ -383,7 +393,7 @@ open class MapModel: Codable {
                         (mapType == .civilian && $0?.unitClassType() == .civilian) ||
                             (mapType == .combat && $0?.unitClassType() != .civilian)
                     )
-                
+
             }) {
             return unit
         }
@@ -828,7 +838,7 @@ open class MapModel: Codable {
 
     func plotStatistics(at point: HexPoint, radius: Int) -> PlotStatistics {
 
-        var stats: PlotStatistics = PlotStatistics()
+        let stats: PlotStatistics = PlotStatistics()
         var validTile = 0.0
 
         for pt in point.areaWith(radius: radius) {

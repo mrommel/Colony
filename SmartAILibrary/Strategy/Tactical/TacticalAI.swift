@@ -4688,7 +4688,7 @@ public class TacticalAI: Codable {
                             numAttackers += 1
                             target.target = loopPoint
                             self.tempTargets.append(target)
-                            
+
                         } else if self.findClosestUnit(
                             towards: loopPlot,
                             numTurnsAway: 1,

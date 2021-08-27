@@ -10,7 +10,7 @@ import Foundation
 import SmartAILibrary
 
 class GameLeaderDialog: Dialog {
-    
+
     init() {
 
         let uiParser = UIParser()
@@ -20,7 +20,7 @@ class GameLeaderDialog: Dialog {
 
         super.init(from: gameLeaderDialogConfiguration)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

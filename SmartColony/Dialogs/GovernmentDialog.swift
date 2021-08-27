@@ -121,7 +121,7 @@ class GovernmentDialog: Dialog {
             self.scrollNode?.addScrolling(child: cardNode)
             self.militaryPolicyCardNodes.append(cardNode)
         }
-        
+
         for card in self.viewModel.cardsInEconomicSlot {
             let cardNode = PolicyCardNode(policyCardType: card, state: .none)
             cardNode.zPosition = 199
@@ -129,7 +129,7 @@ class GovernmentDialog: Dialog {
             self.scrollNode?.addScrolling(child: cardNode)
             self.economicPolicyCardNodes.append(cardNode)
         }
-        
+
         for card in self.viewModel.cardsInDiplomaticSlot {
             let cardNode = PolicyCardNode(policyCardType: card, state: .none)
             cardNode.zPosition = 199
@@ -137,7 +137,7 @@ class GovernmentDialog: Dialog {
             self.scrollNode?.addScrolling(child: cardNode)
             self.diplomaticPolicyCardNodes.append(cardNode)
         }
-        
+
         for card in self.viewModel.cardsInWildcardSlot {
             let cardNode = PolicyCardNode(policyCardType: card, state: .none)
             cardNode.zPosition = 199
@@ -157,21 +157,21 @@ class GovernmentDialog: Dialog {
 
             offsetX += 80
         }
-        
+
         offsetX = -self.economicPolicyCardNodes.count * 80 / 2
         for economicPolicyCardNode in self.economicPolicyCardNodes {
             economicPolicyCardNode.position = CGPoint(x: offsetX, y: 0)
 
             offsetX += 80
         }
-        
+
         offsetX = -self.diplomaticPolicyCardNodes.count * 80 / 2
         for diplomaticPolicyCardNode in self.diplomaticPolicyCardNodes {
             diplomaticPolicyCardNode.position = CGPoint(x: offsetX, y: -110)
 
             offsetX += 80
         }
-        
+
         offsetX = -self.wildcardPolicyCardNodes.count * 80 / 2
         for wildcardPolicyCardNode in self.wildcardPolicyCardNodes {
             wildcardPolicyCardNode.position = CGPoint(x: offsetX, y: -220)

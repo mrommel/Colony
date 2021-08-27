@@ -20,7 +20,7 @@ class BorderLayer: SKNode {
     init(player: AbstractPlayer?) {
 
         self.player = player
-        
+
         super.init()
         self.zPosition = Globals.ZLevels.border
     }
@@ -63,12 +63,12 @@ class BorderLayer: SKNode {
         guard let gameModel = self.gameModel else {
             fatalError("gameModel not set")
         }
-        
+
         for player in gameModel.players {
-        
+
             if player.area.contains(tile.point) {
                 let textureName = self.texture(for: tile.point, in: player.area)
-                
+
                 let borderSprite = SKSpriteNode(imageNamed: textureName)
                 borderSprite.position = position
                 borderSprite.zPosition = Globals.ZLevels.border
@@ -78,12 +78,12 @@ class BorderLayer: SKNode {
                 self.addChild(borderSprite)
 
                 self.textureUtils?.set(borderSprite: borderSprite, at: tile.point)
-                
+
                 return
             }
         }
     }
-    
+
     private func texture(for point: HexPoint, in area: HexArea) -> String {
 
         var textureName = "border_"
@@ -119,29 +119,29 @@ class BorderLayer: SKNode {
         textureName.removeLast()
         return textureName
     }
-    
+
     func clear(tile: AbstractTile?) {
-        
+
         guard let textureUtils = self.textureUtils else {
             fatalError("cant get textureUtils")
         }
-        
+
         if let tile = tile {
             if let borderSprite = textureUtils.borderSprite(at: tile.point) {
                 self.removeChildren(in: [borderSprite])
             }
         }
     }
-    
+
     func update(tile: AbstractTile?) {
-        
+
         if let tile = tile {
             let pt = tile.point
-            
+
             self.clear(tile: tile)
-            
+
             let screenPoint = HexPoint.toScreen(hex: pt)
-            
+
             if tile.isVisible(to: self.player) {
                 self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
             }

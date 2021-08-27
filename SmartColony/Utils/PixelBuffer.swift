@@ -10,7 +10,7 @@ import SpriteKit
 import UIKit
 
 struct PixelData {
-    
+
     var alpha: UInt8 = 255
     var red: UInt8
     var green: UInt8

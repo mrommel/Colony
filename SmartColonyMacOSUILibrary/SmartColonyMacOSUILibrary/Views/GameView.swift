@@ -87,6 +87,8 @@ extension GameView {
 
         case .treasury:
             return AnyView(TreasuryDialogView(viewModel: self.viewModel.treasuryDialogViewModel))
+        case .tradeRoutes:
+            return AnyView(TradeRoutesDialogView(viewModel: self.viewModel.tradeRoutesDialogViewModel))
         case .government:
             return AnyView(GovernmentDialogView(viewModel: self.viewModel.governmentDialogViewModel))
         case .changeGovernment:
@@ -106,9 +108,7 @@ extension GameView {
         case .unitList:
             return AnyView(UnitListDialogView(viewModel: self.viewModel.unitListDialogViewModel))
         case .selectPantheon:
-            let viewModel = SelectPantheonDialogViewModel()
-            viewModel.delegate = self.viewModel
-            return AnyView(SelectPantheonDialogView(viewModel: viewModel))
+            return AnyView(SelectPantheonDialogView(viewModel: self.viewModel.selectPantheonDialogViewModel))
         }
     }
 

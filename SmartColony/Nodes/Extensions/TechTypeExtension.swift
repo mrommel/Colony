@@ -9,13 +9,13 @@
 import SmartAILibrary
 
 extension TechType {
-    
+
     func iconTexture() -> String {
-        
+
         switch self {
-            
+
         case .none: return "tech_default"
-            
+
             // ancient
         case .mining: return "tech_mining"
         case .pottery: return "tech_pottery"
@@ -28,7 +28,7 @@ extension TechType {
         case .archery: return "tech_archery"
         case .bronzeWorking: return "tech_bronzeWorking"
         case .wheel: return "tech_wheel"
-            
+
             // classical
         case .celestialNavigation: return "tech_celestialNavigation"
         case .horsebackRiding: return "tech_horsebackRiding"
@@ -38,7 +38,7 @@ extension TechType {
         case .shipBuilding: return "tech_shipBuilding"
         case .mathematics: return "tech_mathematics"
         case .engineering: return "tech_engineering"
-            
+
             // medieval
         case .militaryTactics: return "tech_default"
         case .buttress: return "tech_default"
@@ -48,7 +48,7 @@ extension TechType {
         case .education: return "tech_default"
         case .militaryEngineering: return "tech_default"
         case .castles: return "tech_default"
-            
+
             // renaissance
         case .cartography: return "tech_default"
         case .massProduction: return "tech_default"
@@ -59,7 +59,7 @@ extension TechType {
         case .astronomy: return "tech_default"
         case .metalCasting: return "tech_default"
         case .siegeTactics: return "tech_default"
-            
+
             // industrial
         case .industrialization: return "tech_default"
         case .scientificTheory: return "tech_default"
@@ -69,7 +69,7 @@ extension TechType {
         case .sanitation: return "tech_default"
         case .economics: return "tech_default"
         case .rifling: return "tech_default"
-            
+
             // modern
         case .flight: return "tech_default"
         case .replaceableParts: return "tech_default"
@@ -79,7 +79,7 @@ extension TechType {
         case .radio: return "tech_default"
         case .chemistry: return "tech_default"
         case .combustrion: return "tech_default"
-            
+
             // atomic
         case .advancedFlight: return "tech_default"
         case .rocketry: return "tech_default"
@@ -89,7 +89,7 @@ extension TechType {
         case .computers: return "tech_default"
         case .nuclearFission: return "tech_default"
         case .syntheticMaterials: return "tech_default"
-            
+
             // information
         case .telecommunications: return "tech_default"
         case .satellites: return "tech_default"
@@ -100,7 +100,7 @@ extension TechType {
         case .robotics: return "tech_default"
         case .nuclearFusion: return "tech_default"
         case .nanotechnology: return "tech_default"
-            
+
         case .futureTech: return "tech_default"
         }
     }

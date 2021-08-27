@@ -72,7 +72,7 @@ public class GameSceneViewModel: ObservableObject {
                 return
             }
 
-            if let selectedUnit = self.selectedUnit {
+            if self.selectedUnit != nil {
                 self.delegate?.showUnitBanner()
                 // self.buttonViewModel.show(image: selectedUnit.type.iconTexture())
             } else {
@@ -564,8 +564,7 @@ extension GameSceneViewModel: HeaderButtonViewModelDelegate {
             print("ranking")
             // self.delegate?.showRankingDialog()
         case .tradeRoutes:
-            print("tradeRoutes")
-            // self.delegate?.showTradeRouteDialog()
+            self.delegate?.showTradeRouteDialog()
         }
     }
 }

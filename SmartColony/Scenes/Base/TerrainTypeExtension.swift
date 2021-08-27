@@ -11,9 +11,9 @@ import SmartAILibrary
 import SpriteKit
 
 extension TerrainType {
-    
+
     public func overviewColor() -> UIColor {
-        
+
         switch self {
         case .ocean: return UIColor(red: 79, green: 112, blue: 141)
         case .shore: return UIColor(red: 91, green: 129, blue: 166)
@@ -27,7 +27,7 @@ extension TerrainType {
 }
 
 extension TerrainType {
-    
+
     /*func textureNames() -> [String] {
         switch self {
             case .ocean:
@@ -65,9 +65,9 @@ extension TerrainType {
                 return ["terrain_snow_hills", "terrain_snow_hills2", "terrain_snow_hills3"]
         }
     }*/
-    
+
     var zLevel: CGFloat {
-        
+
         switch self {
         case .ocean:
             return Globals.ZLevels.terrain

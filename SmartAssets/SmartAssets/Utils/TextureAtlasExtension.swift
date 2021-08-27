@@ -33,7 +33,7 @@ extension TextureAtlas {
                         if mirror {
                             croppedImage = croppedImage.leftMirrored()!
                         }
-                        
+
                         let croppedSize = CGSize(width: croppedImage.size.width * 1.5, height: croppedImage.size.height * 1.5)
 
                         if let resizedImage = croppedImage.resize(withSize: croppedSize) {
@@ -41,7 +41,7 @@ extension TextureAtlas {
                             guard let unitMask = bundle.image(forResource: "unit-mask") else {
                                 fatalError("cant get unit-mask")
                             }
-                            
+
                             let posX: CGFloat = unitMask.size.width / 2.0 - resizedImage.size.width * CGFloat(sprite.pX)
                             let posY: CGFloat = unitMask.size.height * 0.25 - resizedImage.size.height * CGFloat(1.0 - sprite.pY)
 

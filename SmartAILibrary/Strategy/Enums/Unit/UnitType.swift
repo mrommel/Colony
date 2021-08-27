@@ -98,9 +98,9 @@ public enum UnitType: Int, Codable {
             .artist, .engineer, .merchant, .scientist, .admiral, .general, .prophet
         ]
     }
-    
+
     public static var greatPersons: [UnitType] {
-        
+
         return [.general, .artist, .admiral, .engineer, .general, .merchant, .prophet, .scientist]
     }
 

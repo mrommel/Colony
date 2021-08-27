@@ -417,7 +417,7 @@ public class BuilderTaskingAI {
                 buildType.canRemove(feature: feature) &&
                 buildType.productionFromRemoval(of: feature) > 0 &&
                 unit.canBuild(build: buildType, at: pPlot.point, testVisible: true, testGold: true, in: gameModel) {
-                
+
                 chopBuild = buildType
                 break
             }

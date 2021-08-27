@@ -9,16 +9,16 @@
 import SmartAILibrary
 
 class CivicDiscoveredPopupViewModel {
-    
+
     let iconTexture: String
     let titleText: String
     let summaryText: String
     let subtitleText: String
     let unlockedIcons: [String]
     let quoteText: String
-    
+
     init(civicType: CivicType) {
-        
+
         self.iconTexture = civicType.iconTexture()
         self.titleText = "Research completed"
         self.summaryText = civicType.name()
@@ -29,20 +29,20 @@ class CivicDiscoveredPopupViewModel {
 }
 
 class CivicDiscoveredPopup: Dialog {
-    
+
     let viewModel: CivicDiscoveredPopupViewModel
-    
+
     init(viewModel: CivicDiscoveredPopupViewModel) {
-        
+
         self.viewModel = viewModel
-        
+
         let uiParser = UIParser()
         guard let civicDiscoveredPopupConfiguration = uiParser.parse(from: "CivicDiscoveredPopup") else {
             fatalError("cant load CivicDiscoveredPopup configuration")
         }
-        
+
         super.init(from: civicDiscoveredPopupConfiguration)
-        
+
         self.set(imageNamed: self.viewModel.iconTexture, identifier: "popup_image")
         self.set(text: self.viewModel.titleText, identifier: "popup_title")
         self.set(text: self.viewModel.summaryText, identifier: "popup_summary")
@@ -50,7 +50,7 @@ class CivicDiscoveredPopup: Dialog {
         // ...
         self.set(text: self.viewModel.quoteText, identifier: "popup_quote")
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

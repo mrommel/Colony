@@ -65,7 +65,7 @@ class PediaScene: BaseScene {
                    })
                self.allUnitsGameButton?.zPosition = 2
                self.rootNode.addChild(self.allUnitsGameButton!)
-        
+
         // barbarians
         self.fightBarbariansGameButton = MenuButtonNode(
             titled: "Fight Barbarians",
@@ -164,12 +164,12 @@ class PediaScene: BaseScene {
     }
 
     // MARK: games
-    
+
     func startAllUnitsGame() {
-        
+
         let barbarianPlayer = Player(leader: .barbar, isHuman: false)
         barbarianPlayer.initialize()
-        
+
         let aiPlayer = Player(leader: .victoria, isHuman: false)
         aiPlayer.initialize()
 
@@ -182,7 +182,7 @@ class PediaScene: BaseScene {
         mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
         mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
-        
+
         let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
 
         // AI
@@ -196,21 +196,21 @@ class PediaScene: BaseScene {
         try! humanPlayer.civics?.discover(civic: .codeOfLaws)
         try! humanPlayer.civics?.discover(civic: .foreignTrade)
         try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
-        
+
         if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
             humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
         }
-        
+
         var x = 0
         for unitType in UnitType.all {
             let unit = Unit(at: HexPoint(x: x, y: 4), type: unitType, owner: humanPlayer)
             unit.origin = HexPoint(x: 3, y: 5)
             gameModel.add(unit: unit)
             gameModel.userInterface?.show(unit: unit)
-            
+
             x += 1
         }
-        
+
         GameViewModel.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
         self.pediaDelegate?.start(game: gameModel)
@@ -220,7 +220,7 @@ class PediaScene: BaseScene {
 
         let barbarianPlayer = Player(leader: .barbar, isHuman: false)
         barbarianPlayer.initialize()
-        
+
         let aiPlayer = Player(leader: .victoria, isHuman: false)
         aiPlayer.initialize()
 
@@ -233,9 +233,9 @@ class PediaScene: BaseScene {
         mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
         mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
-        
+
         mapModel.set(improvement: .barbarianCamp, at: HexPoint(x: 6, y: 5))
-        
+
         let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
 
         // AI
@@ -247,15 +247,15 @@ class PediaScene: BaseScene {
         try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
         try! humanPlayer.civics?.setCurrent(civic: .codeOfLaws, in: gameModel)
         humanPlayer.techs?.add(science: 49.9)
-        
+
         if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
             humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
         }
-        
+
         let warrior = Unit(at: HexPoint(x: 4, y: 5), type: .warrior, owner: humanPlayer)
         gameModel.add(unit: warrior)
         gameModel.userInterface?.show(unit: warrior)
-        
+
         //
         let barbarianWarrior = Unit(at: HexPoint(x: 6, y: 5), type: .barbarianWarrior, owner: barbarianPlayer)
         gameModel.add(unit: barbarianWarrior)
@@ -268,7 +268,7 @@ class PediaScene: BaseScene {
 
         let barbarPlayer = Player(leader: .barbar, isHuman: false)
         barbarPlayer.initialize()
-        
+
         let aiPlayer = Player(leader: .victoria, isHuman: false)
         aiPlayer.initialize()
 
@@ -304,7 +304,7 @@ class PediaScene: BaseScene {
 
         let humanWarriorUnit = Unit(at: HexPoint(x: 8, y: 5), type: .warrior, owner: humanPlayer)
         gameModel.add(unit: humanWarriorUnit)
-        
+
         // debug
         humanPlayer.doFirstContact(with: aiPlayer, in: gameModel)
         aiPlayer.doFirstContact(with: humanPlayer, in: gameModel)

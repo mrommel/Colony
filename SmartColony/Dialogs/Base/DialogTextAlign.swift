@@ -13,11 +13,11 @@ enum DialogTextAlign: String, Codable {
     case center = "center"
     case left = "left"
     case right = "right"
-    
+
     func toHorizontalAlignmentMode() -> SKLabelHorizontalAlignmentMode {
-        
+
         switch self {
-            
+
         case .center: return .center
         case .left: return .left
         case .right: return .right

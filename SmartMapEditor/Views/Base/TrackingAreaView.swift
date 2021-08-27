@@ -9,7 +9,7 @@ import SwiftUI
 import Cocoa
 
 struct TrackingAreaView<Content>: View where Content: View {
-    
+
     let onMove: (NSPoint) -> Void
     let content: () -> Content
 

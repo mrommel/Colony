@@ -12,7 +12,7 @@ import XCTest
 class SmartColonyTests: XCTestCase {
 
     func testLoadMap() throws {
-        
+
         //let mapLoader = MapLoader
     }
 }

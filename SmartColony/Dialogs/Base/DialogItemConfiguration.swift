@@ -11,47 +11,47 @@ import CoreGraphics
 import SmartAILibrary
 
 struct DialogItemConfiguration: Codable {
-    
+
     var identifier: String
-    
+
     var type: DialogItemType
-    
+
     var title: String
     var fontSize: CGFloat
     var textAlign: DialogTextAlign = .center // SKLabelHorizontalAlignmentMode = .center
     var result: DialogResultType
-    
+
     var width: CGFloat
     var height: CGFloat
-    
+
     var offsetx: CGFloat = 0.0
     var offsety: CGFloat = 0.0
     var anchorx: CGFloat = 0.0
     var anchory: CGFloat = 0.0
-    
+
     var active: Bool = true
-    
+
     // imageview specific fields
     var image: String?
-    
+
     // dropdown specific fields
     struct DropdownItems: Codable {
         var item: [String] = []
     }
     var selectedIndex: Int? = 0
     var items: DropdownItems? = DropdownItems()
-    
+
     // yield view specific fields
     var yieldType: YieldType = .none
     var techType: TechType = .mining
     var civicType: CivicType = .codeOfLaws
-    
+
     enum CodingKeys: String, CodingKey {
         case identifier, type, title, fontSize, textAlign, result, offsetx, offsety, anchorx, anchory, width, height, active, image, selectedIndex, items, yieldType, techType, civicType
     }
-    
+
     init(identifier: String, type: DialogItemType, title: String, fontSize: CGFloat, textAlign: DialogTextAlign, result: DialogResultType, offsetx: CGFloat, offsety: CGFloat, anchorx: CGFloat, anchory: CGFloat, width: CGFloat, height: CGFloat, active: Bool, image: String?, selectedIndex: Int?, items: DropdownItems?, yieldType: YieldType, techType: TechType, civicType: CivicType) {
-        
+
         self.identifier = identifier
         self.type = type
         self.title = title
@@ -72,11 +72,11 @@ struct DialogItemConfiguration: Codable {
         self.techType = techType
         self.civicType = civicType
     }
-    
+
     init(from decoder: Decoder) throws {
-        
+
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         let identifier = try values.decode(String.self, forKey: .identifier)
         let type = try values.decode(DialogItemType.self, forKey: .type)
         let title = try values.decodeIfPresent(String.self, forKey: .title) ?? ""
@@ -89,11 +89,11 @@ struct DialogItemConfiguration: Codable {
         let anchoryValue = try values.decode(DialogAnchor.self, forKey: .anchory)
         let widthValue = try values.decode(String.self, forKey: .width)
         let heightValue = try values.decode(String.self, forKey: .height)
-        
+
         let bounds = UIScreen.main.bounds
         var width: CGFloat = bounds.size.width
         var height: CGFloat = bounds.size.height
-        
+
         var offsetx: CGFloat = 0.0
         if offsetxValue.contains("%") {
             let parts = offsetxValue.split {$0 == "%"}.map(String.init)
@@ -165,18 +165,18 @@ struct DialogItemConfiguration: Codable {
         default:
             fatalError("Invalid value for anchorx: \(anchoryValue)")
         }
-        
+
         let active = try values.decodeIfPresent(Bool.self, forKey: .active) ?? true
-        
+
         let image = try values.decodeIfPresent(String.self, forKey: .image) ?? nil
-        
+
         let selectedIndex = try values.decodeIfPresent(Int.self, forKey: .selectedIndex) ?? nil
         let items: DropdownItems? = try values.decodeIfPresent(DropdownItems.self, forKey: .items) ?? nil
-        
+
         let yieldType = try values.decodeIfPresent(YieldType.self, forKey: .yieldType) ?? .none
         let techType = try values.decodeIfPresent(TechType.self, forKey: .techType) ?? .mining
         let civicType = try values.decodeIfPresent(CivicType.self, forKey: .civicType) ?? .codeOfLaws
-        
+
         self.init(
             identifier: identifier,
             type: type,
@@ -199,17 +199,17 @@ struct DialogItemConfiguration: Codable {
             civicType: civicType
         )
     }
-    
+
     func anchorPoint() -> CGPoint {
-        
+
         return CGPoint(x: self.anchorx, y: self.anchory)
     }
-    
+
     func position() -> CGPoint {
-        
+
         return CGPoint(x: self.offsetx, y: self.offsety)
     }
-    
+
     var size: CGSize {
         return CGSize(width: self.width, height: self.height)
     }

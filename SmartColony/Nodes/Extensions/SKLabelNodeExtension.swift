@@ -9,9 +9,9 @@
 import SpriteKit
 
 extension SKLabelNode {
-    
+
     func fitToWidth(maxWidth: CGFloat) {
-        
+
         while frame.size.width >= maxWidth {
             self.fontSize -= 1.0
         }

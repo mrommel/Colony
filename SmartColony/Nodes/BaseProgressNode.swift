@@ -38,9 +38,9 @@ class BaseProgressNode: SizedNode {
         self.progress = progress
 
         super.init(sized: CGSize(width: 200, height: 64))
-        
+
         self.anchorPoint = .upperLeft
-        
+
         // background
         let backgroundTexture = SKTexture(imageNamed: "science_progress")
         self.backgroundNode = SKSpriteNode(texture: backgroundTexture, color: .black, size: CGSize(width: 200, height: 64))
@@ -85,7 +85,7 @@ class BaseProgressNode: SizedNode {
         self.eurekaNode?.verticalAlignmentMode = .top
         self.eurekaNode?.preferredMaxLayoutWidth = 160
         self.addChild(self.eurekaNode!)
-        
+
         // turns remaining
         self.turnsRemainingNode = SKLabelNode(text: "?")
         self.turnsRemainingNode?.zPosition = self.zPosition + 1
@@ -124,16 +124,16 @@ class BaseProgressNode: SizedNode {
         // keep a reference to icons
         self.iconNodes.append(newIconNode)
     }
-    
+
     override func updateLayout() {
-        
+
         self.backgroundNode?.position = self.position + CGPoint(x: 0.0, y: 0.0)
         self.labelNode?.position = self.position + CGPoint(x: 44, y: 1)
         self.progressNode?.position = self.position + CGPoint(x: 21, y: -23)
         self.iconNode?.position = self.position + CGPoint(x: 21, y: -23)
         self.eurekaNode?.position = self.position + CGPoint(x: 53, y: -51)
         self.turnsRemainingNode?.position = self.position + CGPoint(x: 20, y: -51)
-        
+
         for (index, iconNode) in self.iconNodes.enumerated() {
             iconNode?.position = self.position + CGPoint(x: 55 + index * 22, y: -33)
         }

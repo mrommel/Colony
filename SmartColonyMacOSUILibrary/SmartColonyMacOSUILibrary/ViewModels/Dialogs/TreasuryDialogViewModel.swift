@@ -39,9 +39,6 @@ class TreasuryDialogViewModel: ObservableObject {
 
     weak var delegate: GameViewModelDelegate?
 
-    @Published
-    var unitViewModels: [UnitViewModel] = []
-
     init() {
 
         // in

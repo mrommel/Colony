@@ -10,11 +10,11 @@ import Foundation
 import SmartAILibrary
 
 class GameSceneViewModel {
-    
+
     var game: GameModel?
-    
+
     init(with game: GameModel?) {
-        
+
         self.game = game
     }
 }

@@ -9,23 +9,23 @@ import SmartAILibrary
 import Cocoa
 
 public class PixelImage: Array2D<Pixel> {
-    
+
     func image() -> NSImage? {
-        
+
         let colorSpace = CGColorSpaceCreateDeviceRGB()
 
         var bitmapInfo: UInt32 = CGBitmapInfo.byteOrder32Big.rawValue
         bitmapInfo |= CGImageAlphaInfo.premultipliedLast.rawValue & CGBitmapInfo.alphaInfoMask.rawValue
-        
+
         let bytesPerRow = self.width * 4
         let imageData = UnsafeMutablePointer<Pixel>.allocate(capacity: self.width * self.height)
         let pixels = UnsafeMutableBufferPointer<Pixel>(start: imageData, count: self.width * self.height)
-        
+
         // fill from array
         for y in 0..<self.height {
             for x in 0..<self.width {
                 let index = y * self.width + x
-                
+
                 if let value = self[x, y] {
                     pixels[index] = Pixel(r: value.red, g: value.green, b: value.blue, a: value.alpha)
                 } else {
@@ -33,7 +33,7 @@ public class PixelImage: Array2D<Pixel> {
                 }
             }
         }
-        
+
         guard let context = CGContext(
             data: pixels.baseAddress,
             width: self.width,

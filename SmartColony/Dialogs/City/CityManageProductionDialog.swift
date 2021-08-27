@@ -199,14 +199,14 @@ class CityManageProductionDialog: Dialog {
 }
 
 extension CityManageProductionDialog: BuildingBuildingItemDisplayNodeDelegate {
-    
+
     func clicked(on buildingType: BuildingType) {
         print("cancel building \(buildingType)?")
     }
 }
 
 extension CityManageProductionDialog: WonderBuildingItemDisplayNodeDelegate {
-    
+
     func clicked(on wonderType: WonderType) {
         print("cancel building \(wonderType)?")
     }

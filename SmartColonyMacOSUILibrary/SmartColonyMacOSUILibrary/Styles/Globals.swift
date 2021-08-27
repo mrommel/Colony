@@ -25,7 +25,6 @@ public extension Globals {
 
         // Overview
         public static var overviewBackground: TypeColor = TypeColor.Terrain.pergament
-
     }
 }
 
@@ -35,7 +34,39 @@ public extension Globals {
 
         public static var dialogGradient: Gradient = Gradient(colors: [Color(Globals.Colors.dialogCenter), Color(Globals.Colors.dialogBackground)])
 
-        public static var dialogBackground: RadialGradient = RadialGradient(gradient: Globals.Style.dialogGradient, center: .center, startRadius: 100, endRadius: 200)
+        public static var dialogBackground: RadialGradient = RadialGradient(
+            gradient: Globals.Style.dialogGradient,
+            center: .center,
+            startRadius: 100,
+            endRadius: 200)
+    }
+}
+
+public extension Globals {
+
+    struct Icons {
+
+        private static func loadCachedTexture(with textureName: String) -> NSImage {
+
+            if !ImageCache.shared.exists(key: textureName) {
+                let bundle = Bundle.init(for: Textures.self)
+                ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
+            }
+
+            return ImageCache.shared.image(for: textureName)
+        }
+
+        public static var gold: NSImage {
+            return loadCachedTexture(with: "gold")
+        }
+
+        public static var turns: NSImage {
+            return loadCachedTexture(with: "turns")
+        }
+
+        public static var tradeRoute: NSImage {
+            return loadCachedTexture(with: "tradeRoute")
+        }
     }
 }
 

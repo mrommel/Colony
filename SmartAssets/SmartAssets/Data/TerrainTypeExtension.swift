@@ -9,15 +9,15 @@ import Cocoa
 import SmartAILibrary
 
 extension TerrainType {
-    
+
     public static func from(name: String) -> TerrainType? {
-        
+
         for terrain in TerrainType.all {
             if terrain.name() == name {
                 return terrain
             }
         }
-        
+
         return nil
     }
 
@@ -62,9 +62,9 @@ extension TerrainType {
             return ["terrain_snow_hills", "terrain_snow_hills2", "terrain_snow_hills3"]
         }
     }
-    
+
     public var zLevel: CGFloat {
-        
+
         switch self {
         case .ocean:
             return Globals.ZLevels.terrain
@@ -85,11 +85,11 @@ extension TerrainType {
 }
 
 extension TerrainType {
-    
+
     public func overviewColor() -> NSColor {
-        
+
         switch self {
-        
+
         case .ocean: return NSColor.Terrain.ocean
         case .shore: return NSColor.Terrain.shore
         case .plains: return NSColor.Terrain.plains
@@ -99,23 +99,23 @@ extension TerrainType {
         case .snow: return NSColor.Terrain.snow
         }
     }
-    
+
     public func forgottenColor() -> NSColor {
-        
+
         return self.overviewColor().colorWithSaturation(saturation: 0.4)
     }
 }
 
 public extension NSColor {
-    
+
     func colorWithSaturation(saturation newSaturation: CGFloat) -> NSColor {
-        
+
         var hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, alpha: CGFloat = 0
-        
+
         self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
         saturation += (newSaturation - 1.0)
         saturation = max(min(saturation, 1.0), 0.0)
-            
+
         return NSColor(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
     }
 }

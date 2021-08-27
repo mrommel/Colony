@@ -13,17 +13,17 @@ extension CGSize {
     var half: CGSize {
         return CGSize(width: self.width / 2, height: self.height / 2)
     }
-    
+
     var halfWidth: CGFloat {
         return self.width / 2.0
     }
-    
+
     var halfHeight: CGFloat {
         return self.height / 2.0
     }
-    
+
     func reduced(dx: Int, dy: Int) -> CGSize {
-        
+
         return CGSize(width: self.width - CGFloat(dx), height: self.height - CGFloat(dy))
     }
 

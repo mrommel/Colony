@@ -16,7 +16,7 @@ extension UnitType {
         if let texture = self.idleAtlas?.textures.first {
             return texture
         }
-        
+
         return SKTexture(imageNamed: "unit_type_default")
     }
 
@@ -43,7 +43,7 @@ extension UnitType {
 
             // industrial
         case .medic: return "unit_type_medic"
-            
+
             // great people
         case .admiral: return "unit_type_default"
         case .artist: return "unit_type_default"

@@ -9,13 +9,13 @@
 import SmartAILibrary
 
 extension BuildingType {
-    
+
     func iconTexture() -> String {
-        
+
         switch self {
-            
+
         case .none: return "building_default"
-            
+
             // ancient
         case .palace: return "building_palace"
         case .granary: return "building_granary"
@@ -25,7 +25,7 @@ extension BuildingType {
         case .ancientWalls: return "building_ancientWalls"
         case .barracks: return "building_barracks"
         case .waterMill: return "building_waterMill"
-            
+
             // classical
         case .amphitheater: return "building_amphitheater"
         case .lighthouse: return "building_lighthouse"
@@ -33,15 +33,15 @@ extension BuildingType {
         case .arena: return "building_default" // <=== 
         case .market: return "building_market"
         case .temple: return "building_temple"
-            
+
             // medieval
         case .medievalWalls: return "building_default" // <===
         case .workshop: return "building_default" // <===
-            
+
             // renaissance
         case .renaissanceWalls: return "building_default" // <===
         case .shipyard: return "building_default" // <===
-            
+
             //
         }
     }

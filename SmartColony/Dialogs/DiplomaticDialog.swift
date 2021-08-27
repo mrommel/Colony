@@ -12,9 +12,9 @@ import SpriteKit
 // TODO move to separate file
 /// anchor is center !
 class EmbassyTradeItemNode: SpriteButtonNode {
-    
+
     init() {
-        
+
         super.init(
             titled: "Embassy",
             enabledButtonImage: "grid9_button_disabled",
@@ -25,10 +25,10 @@ class EmbassyTradeItemNode: SpriteButtonNode {
                 print("click on embassy")
             }
         )
-        
+
         self.anchorPoint = .lowerCenter
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -42,21 +42,21 @@ class DiplomaticDialogViewModel {
     //let state: DiplomaticRequestState
     private var message: DiplomaticRequestMessage
     //let emotion: LeaderEmotionType
-    
+
     var deal: DiplomaticDeal?
-    
+
     let gameModel: GameModel?
-    
+
     weak var presenter: DiplomaticDialogPresenterDelegate?
 
     //let stateMachine: DiplomaticStateMachine
 
     init(for humanPlayer: AbstractPlayer?, and otherPlayer: AbstractPlayer?, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType, in gameModel: GameModel?) {
-        
+
         guard let humanPlayer = humanPlayer else {
             fatalError("cant get humanPlayer")
         }
-        
+
         guard !humanPlayer.isEqual(to: otherPlayer) else {
             fatalError("players are equal")
         }
@@ -67,29 +67,29 @@ class DiplomaticDialogViewModel {
         //self.state = state
         self.message = message
         //self.emotion = emotion
-        
+
         self.gameModel = gameModel
     }
-    
+
     func updateView() {
-        
+
         // header
         let playerName = self.otherPlayer?.leader.name() ?? "no name"
         let playerIconTexture = self.otherPlayer?.leader.iconTexture() ?? "questionmark"
-        
+
         self.presenter?.showLeader(named: playerName, with: playerIconTexture)
-        
+
         // body
         let replies = self.message.diploOptions()
         let messageText = self.message.diploStringForMessage(for: self.humanPlayer, and: self.otherPlayer)
-        
+
         self.presenter?.showMessage(text: messageText, with: replies)
     }
 
     func add(deal: DiplomaticDeal) {
 
         self.deal = deal
-        
+
         self.presenter?.show(deal: deal)
     }
 
@@ -98,11 +98,11 @@ class DiplomaticDialogViewModel {
         guard let humanPlayer = self.humanPlayer else {
             fatalError("cant get humanPlayer")
         }
-        
+
         guard let otherPlayer = self.otherPlayer else {
             fatalError("cant get otherPlayer")
         }
-        
+
         let options = self.message.diploOptions()
 
         var selectedReply: DiplomaticReplyMessage = .genericReply
@@ -115,9 +115,9 @@ class DiplomaticDialogViewModel {
         } else {
             fatalError("no gonna happen")
         }
-        
+
         switch self.message {
-            
+
         case .exit:
             break
         case .messageIntro:
@@ -130,16 +130,16 @@ class DiplomaticDialogViewModel {
             } else if selectedReply == .introReplyBusy {
                 self.message = .exit
             }
-            
+
         case .invitationToCapital:
             // exchange knowledge about capital
             humanPlayer.discoverCapital(of: otherPlayer, in: self.gameModel)
             otherPlayer.discoverCapital(of: humanPlayer, in: self.gameModel)
             self.message = .exit
-            
+
         case .peaceOffer:
             fatalError("not yet handled: \(self.message) with \(selectedReply)")
-            
+
         case .embassyExchange:
             if selectedReply == .dealPositive {
                 print("deal positive")
@@ -148,7 +148,7 @@ class DiplomaticDialogViewModel {
                 print("deal negative")
                 self.message = .exit
             }
-            
+
         case .embassyOffer:
             if selectedReply == .dealPositive {
                 print("deal positive")
@@ -157,7 +157,7 @@ class DiplomaticDialogViewModel {
                 print("deal negative")
                 self.message = .exit
             }
-            
+
         case .openBordersExchange:
             fatalError("not yet handled: \(self.message) + \(selectedReply)")
         case .openBordersOffer:
@@ -167,9 +167,9 @@ class DiplomaticDialogViewModel {
         case .coopWarTime:
             fatalError("not yet handled: \(self.message) + \(selectedReply)")
         }
-        
+
         self.updateView()
-        
+
         // if message is exit => leave
         if self.message == .exit {
             self.presenter?.leave()
@@ -178,11 +178,11 @@ class DiplomaticDialogViewModel {
 }
 
 protocol DiplomaticDialogPresenterDelegate: class {
-    
+
     func showLeader(named leaderName: String, with iconName: String)
     func showMessage(text: String, with replies: [DiplomaticReplyMessage])
     func show(deal: DiplomaticDeal)
-    
+
     func leave()
 }
 
@@ -191,9 +191,9 @@ class DiplomaticDialog: Dialog {
     // MARK: ViewModel
 
     let viewModel: DiplomaticDialogViewModel
-    
+
     // MARK: nodes
-    
+
     var scrollNode: ScrollNode?
     var dealGiveNodes: [SKNode?] = []
     var dealReceiveNodes: [SKNode?] = []
@@ -205,14 +205,14 @@ class DiplomaticDialog: Dialog {
     init(viewModel: DiplomaticDialogViewModel) {
 
         self.viewModel = viewModel
-        
+
         let uiParser = UIParser()
         guard let diplomaticDialogConfiguration = uiParser.parse(from: "DiplomaticDialog") else {
             fatalError("cant load DiplomaticDialog configuration")
         }
 
         super.init(from: diplomaticDialogConfiguration)
-        
+
         // scroll area
         self.scrollNode = ScrollNode(size: CGSize(width: 280, height: 150), contentSize: CGSize(width: 280, height: 200))
         self.scrollNode?.position = CGPoint(x: 0, y: -380)
@@ -221,7 +221,7 @@ class DiplomaticDialog: Dialog {
 
         // connect
         self.viewModel.presenter = self
-        
+
         // fill items initially
         self.viewModel.updateView()
 
@@ -238,15 +238,15 @@ class DiplomaticDialog: Dialog {
 }
 
 extension DiplomaticDialog: DiplomaticDialogPresenterDelegate {
-    
+
     func showLeader(named leaderName: String, with iconName: String) {
-        
+
         self.set(text: leaderName, identifier: "player_name")
         self.set(imageNamed: iconName, identifier: "player_image")
     }
-    
+
     func showMessage(text: String, with replies: [DiplomaticReplyMessage]) {
-        
+
         self.set(text: text, identifier: "player_message")
 
         for index in 0..<3 {
@@ -259,20 +259,20 @@ extension DiplomaticDialog: DiplomaticDialogPresenterDelegate {
             self.item(with: "reponse\(index)")?.isHidden = false
         }
     }
-    
+
     func show(deal: DiplomaticDeal) {
-        
+
         // reset lists
         self.dealGiveNodes.removeAll()
         self.dealReceiveNodes.removeAll()
         self.possibleGiveNodes.removeAll()
         self.possibleReceiveNodes.removeAll()
-        
+
         // add deal items
         for tradeIdem in deal.tradeItems {
-            
+
             switch tradeIdem.type {
-                
+
             case .gold:
                 // NOOP
                 break
@@ -286,19 +286,19 @@ extension DiplomaticDialog: DiplomaticDialogPresenterDelegate {
                 // NOOP
                 break
             case .allowEmbassy:
-                
+
                 let embassyTradeItemNode = EmbassyTradeItemNode()
                 embassyTradeItemNode.zPosition = 200
-                
+
                 self.scrollNode?.addScrolling(child: embassyTradeItemNode)
-                
+
                 // keep reference ?
                 if tradeIdem.direction == .give {
                     self.dealGiveNodes.append(embassyTradeItemNode)
                 } else {
                     self.dealReceiveNodes.append(embassyTradeItemNode)
                 }
-                
+
             case .openBorders:
                 // NOOP
                 break
@@ -307,15 +307,15 @@ extension DiplomaticDialog: DiplomaticDialogPresenterDelegate {
                 break
             }
         }
-        
+
         // add all possible items
-        
+
         let h1Left = HorizontalLineNode(size: CGSize(width: 100, height: 5))
         h1Left.zPosition = 200
         self.scrollNode?.addScrolling(child: h1Left)
-        
+
         self.possibleGiveNodes.append(h1Left)
-        
+
         // gold
         // gold per turn
         // header luxury resources
@@ -327,20 +327,20 @@ extension DiplomaticDialog: DiplomaticDialogPresenterDelegate {
         let embassyTradeItemNodeGive = EmbassyTradeItemNode()
         embassyTradeItemNodeGive.zPosition = 200
         self.scrollNode?.addScrolling(child: embassyTradeItemNodeGive)
-        
+
         self.possibleGiveNodes.append(embassyTradeItemNodeGive)
-        
+
         // open borders
         // coop wars
         // header cities
         // cities (without capital)
-        
+
         // add all possible items
-        
+
         let h1Right = HorizontalLineNode(size: CGSize(width: 100, height: 5))
         h1Right.zPosition = 200
         self.scrollNode?.addScrolling(child: h1Right)
-        
+
         self.possibleReceiveNodes.append(h1Right)
 
         // gold
@@ -354,14 +354,14 @@ extension DiplomaticDialog: DiplomaticDialogPresenterDelegate {
         let embassyTradeItemNodeReceive = EmbassyTradeItemNode()
         embassyTradeItemNodeReceive.zPosition = 200
         self.scrollNode?.addScrolling(child: embassyTradeItemNodeReceive)
-        
+
         self.possibleReceiveNodes.append(embassyTradeItemNodeReceive)
-        
+
         // open borders
         // coop wars
         // header cities
         // cities (without capital)
-        
+
         self.calculateContentSize()
     }
 
@@ -381,10 +381,10 @@ extension DiplomaticDialog: DiplomaticDialogPresenterDelegate {
             } else {
                 fatalError("Node must be of type SizedNode")
             }
-            
+
             calculatedDealHeightLeft += padding
         }
-        
+
         // deal right
         var calculatedDealHeightRight: CGFloat = -30.0
         for dealReceiveNode in self.dealReceiveNodes {
@@ -396,48 +396,48 @@ extension DiplomaticDialog: DiplomaticDialogPresenterDelegate {
             } else {
                 fatalError("Node must be of type SizedNode")
             }
-            
+
             calculatedDealHeightRight += padding
         }
-        
+
         calculatedHeight += max(calculatedDealHeightLeft, calculatedDealHeightRight)
-        
+
         // possibilities left
         var calculatedPossibleHeightLeft: CGFloat = 0.0
         for possibleGiveNode in self.possibleGiveNodes {
-            
+
             possibleGiveNode?.position = CGPoint(x: 70, y: calculatedHeight + calculatedPossibleHeightLeft)
-            
+
             if let nodeWithHeight = possibleGiveNode as? SizableNode {
                 calculatedPossibleHeightLeft += nodeWithHeight.height()
             } else {
                 fatalError("Node must be of type SizedNode")
             }
-            
+
             calculatedPossibleHeightLeft += padding
         }
-        
+
         // possibilities left
         var calculatedPossibleHeightRight: CGFloat = 0.0
         for possibleReceiveNode in self.possibleReceiveNodes {
-            
+
             possibleReceiveNode?.position = CGPoint(x: -70, y: calculatedHeight + calculatedPossibleHeightRight)
-            
+
             if let nodeWithHeight = possibleReceiveNode as? SizableNode {
                 calculatedPossibleHeightRight += nodeWithHeight.height()
             } else {
                 fatalError("Node must be of type SizedNode")
             }
-            
+
             calculatedPossibleHeightRight += padding
         }
 
         calculatedHeight += max(calculatedPossibleHeightLeft, calculatedPossibleHeightRight)
         self.scrollNode?.contentSize.height = max(calculatedHeight, 300)
     }
-    
+
     func leave() {
-        
+
         self.handleOkay()
     }
 }

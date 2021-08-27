@@ -48,7 +48,7 @@ public enum DistrictType: Int, Codable {
 
         return self.data().domesticTradeYields
     }
-    
+
     public func foreignTradeYields() -> Yields {
 
         return self.data().foreignTradeYields
@@ -80,7 +80,7 @@ public enum DistrictType: Int, Codable {
                 domesticTradeYields: Yields(food: 1.0, production: 1.0, gold: 0.0),
                 foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 3.0)
             )
-            
+
         case .campus:
             return DistrictTypeData(
                 name: "Campus",
@@ -90,7 +90,7 @@ public enum DistrictType: Int, Codable {
                 domesticTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0),
                 foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0, science: 1.0)
             )
-            
+
         case .holySite:
             return DistrictTypeData(
                 name: "HolySite",
@@ -100,7 +100,7 @@ public enum DistrictType: Int, Codable {
                 domesticTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0),
                 foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0, faith: 1.0)
             )
-            
+
         case .encampment:
             return DistrictTypeData(
                 name: "Encampment",
@@ -110,7 +110,7 @@ public enum DistrictType: Int, Codable {
                 domesticTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0),
                 foreignTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0)
             )
-            
+
         case .harbor:
             return DistrictTypeData(
                 name: "Harbor",
@@ -120,7 +120,7 @@ public enum DistrictType: Int, Codable {
                 domesticTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0),
                 foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 3.0)
             )
-            
+
         case .entertainment:
             return DistrictTypeData(
                 name: "Entertainment",
@@ -130,7 +130,7 @@ public enum DistrictType: Int, Codable {
                 domesticTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0),
                 foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 1.0)
             )
-            
+
         case .commercialHub:
             return DistrictTypeData(
                 name: "Commercial Hub",

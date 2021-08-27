@@ -173,31 +173,31 @@ class CityDialog: Dialog {
                 self.currentProductionNode?.show(progress: currentProduction.production)
                 currentProductionNode?.zPosition = 200
                 self.addChild(currentProductionNode!)
-                
+
             } else if currentProduction.type == .unit {
-            
+
                 guard let unitType = currentProduction.unitType else {
                     fatalError("cant get unitType")
                 }
-                
+
                 self.currentProductionNode = UnitBuildingItemDisplayNode(unitType: unitType, size: CGSize(width: 300, height: 42))
                 self.currentProductionNode?.show(progress: currentProduction.production)
                 currentProductionNode?.zPosition = 200
                 self.addChild(currentProductionNode!)
-                
+
             } else if currentProduction.type == .wonder {
-                
+
                 guard let wonderType = currentProduction.wonderType else {
                     fatalError("cant get wonderType")
                 }
-                
+
                 self.currentProductionNode = WonderBuildingItemDisplayNode(wonderType: wonderType, size: CGSize(width: 300, height: 42))
                 self.currentProductionNode?.show(progress: currentProduction.production)
                 currentProductionNode?.zPosition = 200
                 self.addChild(currentProductionNode!)
-                
+
             } else {
-                
+
                 fatalError("not handled: \(currentProduction.type)")
             }
         }
@@ -297,7 +297,7 @@ class CityDialog: Dialog {
 
             cityChooseProductionDialog.close()
             self.show()
-            
+
             // update ui
             cityChooseProductionDialog.gameModel?.userInterface?.update(city: self.city)
         })
@@ -310,7 +310,7 @@ class CityDialog: Dialog {
 
             cityChooseProductionDialog.close()
             self.show()
-            
+
             // update ui
             cityChooseProductionDialog.gameModel?.userInterface?.update(city: self.city)
         })
@@ -323,7 +323,7 @@ class CityDialog: Dialog {
 
             cityChooseProductionDialog.close()
             self.show()
-            
+
             // update ui
             cityChooseProductionDialog.gameModel?.userInterface?.update(city: self.city)
         })
@@ -336,7 +336,7 @@ class CityDialog: Dialog {
 
             cityChooseProductionDialog.close()
             self.show()
-            
+
             // update ui
             cityChooseProductionDialog.gameModel?.userInterface?.update(city: self.city)
         })

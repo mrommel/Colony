@@ -15,7 +15,7 @@ extension PolicyCardType {
         if self == .slot {
             return "policyCard_slot"
         }
-        
+
         switch self.slot() {
 
         case .military: return "policyCard_military"

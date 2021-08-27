@@ -9,15 +9,15 @@
 import SmartAILibrary
 
 extension UnitPromotionType {
-    
+
     func iconTexture() -> String {
-        
+
         switch self {
-            
+
         case .embarkation: return "promotion_default"
         case .healthBoostRecon: return "promotion_default"
         case .healthBoostMelee: return "promotion_default"
-            
+
             // recon
         case .ranger: return "promotion_default"
         case .alpine: return "promotion_default"
@@ -26,7 +26,7 @@ extension UnitPromotionType {
         case .spyglass: return "promotion_default"
         case .ambush: return "promotion_default"
         case .camouflage: return "promotion_default"
-            
+
             // melee
         case .battleCry: return "promotion_default"
         case .tortoise: return "promotion_default"

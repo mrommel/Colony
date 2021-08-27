@@ -98,7 +98,7 @@ public extension UIColor {
         }
 
         if hex.range(of: "(^[0-9A-Fa-f]{6}$)|(^[0-9A-Fa-f]{3}$)", options: .regularExpression) != nil {
-            
+
             if hex.count == 3 {
 
                 let startIndex = hex.index(hex.startIndex, offsetBy: 1)
@@ -129,7 +129,7 @@ public extension UIColor {
                 green: CGFloat(greenInt) / 255.0,
                 blue: CGFloat(blueInt) / 255.0,
                 alpha: CGFloat(alpha))
-            
+
         } else {
             self.init(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
         }
@@ -167,11 +167,11 @@ struct Color16 {
 
         self.value = UInt16(fRed * 31 + 0.5) << 11 + UInt16(fGreen * 63 + 0.5) << 5 + UInt16(fBlue * 31 + 0.5)
     }
-    
+
     init(color: UIColor) {
-        
+
         let (red, green, blue, _) = color.rgba
-        
+
         self.init(red: UInt8(red), green: UInt8(green), blue: UInt8(blue))
     }
 

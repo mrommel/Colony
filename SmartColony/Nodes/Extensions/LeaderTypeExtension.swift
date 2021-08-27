@@ -9,14 +9,14 @@
 import SmartAILibrary
 
 extension LeaderType {
-    
+
     func iconTexture() -> String {
-        
+
         switch self {
-            
+
         case .none: return "--"
         case .barbar: return "--"
-            
+
         case .alexander: return "leader_alexander"
         case .trajan: return "leader_augustus"
         case .victoria: return "leader_elizabeth"

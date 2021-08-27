@@ -31,6 +31,7 @@ protocol GameViewModelDelegate: AnyObject {
     func showChangeGovernmentDialog()
     func showChangePoliciesDialog()
     func showTreasuryDialog()
+    func showTradeRouteDialog()
 
     func showCityNameDialog()
     func foundCity(named cityName: String)
@@ -114,7 +115,13 @@ public class GameViewModel: ObservableObject {
     var unitListDialogViewModel: UnitListDialogViewModel
 
     @Published
+    var selectPantheonDialogViewModel: SelectPantheonDialogViewModel
+
+    @Published
     var treasuryDialogViewModel: TreasuryDialogViewModel
+
+    @Published
+    var tradeRoutesDialogViewModel: TradeRoutesDialogViewModel
 
     // UI
 
@@ -201,7 +208,9 @@ public class GameViewModel: ObservableObject {
         self.diplomaticDialogViewModel = DiplomaticDialogViewModel()
         self.selectTradeCityDialogViewModel = SelectTradeCityDialogViewModel()
         self.unitListDialogViewModel = UnitListDialogViewModel()
+        self.selectPantheonDialogViewModel = SelectPantheonDialogViewModel()
         self.treasuryDialogViewModel = TreasuryDialogViewModel()
+        self.tradeRoutesDialogViewModel = TradeRoutesDialogViewModel()
 
         // connect models
         self.gameSceneViewModel.delegate = self
@@ -220,7 +229,9 @@ public class GameViewModel: ObservableObject {
         self.diplomaticDialogViewModel.delegate = self
         self.selectTradeCityDialogViewModel.delegate = self
         self.unitListDialogViewModel.delegate = self
+        self.selectPantheonDialogViewModel.delegate = self
         self.treasuryDialogViewModel.delegate = self
+        self.tradeRoutesDialogViewModel.delegate = self
 
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -782,6 +793,7 @@ extension GameViewModel: GameViewModelDelegate {
         }
 
         if self.currentScreenType == .none {
+            self.selectPantheonDialogViewModel.update()
             self.currentScreenType = .selectPantheon
         } else {
             fatalError("cant show select pantheon dialog, \(self.currentScreenType) is currently shown")

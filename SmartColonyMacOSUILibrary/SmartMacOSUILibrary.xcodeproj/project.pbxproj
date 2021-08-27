@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C9077A8226D626AC004BE679 /* TradeRoutesDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9077A8126D626AC004BE679 /* TradeRoutesDialogView.swift */; };
+		C9077A8426D62714004BE679 /* TradeRoutesDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9077A8326D62714004BE679 /* TradeRoutesDialogViewModel.swift */; };
+		C9077A8626D64432004BE679 /* TradeRouteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9077A8526D64432004BE679 /* TradeRouteViewModel.swift */; };
+		C9077A8826D64EFE004BE679 /* TradeRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9077A8726D64EFE004BE679 /* TradeRouteView.swift */; };
+		C9077A8A26D65639004BE679 /* DialogButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9077A8926D65639004BE679 /* DialogButtonStyle.swift */; };
 		C915514D260A59DF003710BE /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915514C260A59DF003710BE /* ActivityIndicator.swift */; };
 		C9155161260B2978003710BE /* GameDisplayOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9155160260B2978003710BE /* GameDisplayOptions.swift */; };
 		C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C920C425262EB03F0024EC0E /* GameEnvironment.swift */; };
@@ -198,6 +203,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C9077A8126D626AC004BE679 /* TradeRoutesDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeRoutesDialogView.swift; sourceTree = "<group>"; };
+		C9077A8326D62714004BE679 /* TradeRoutesDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeRoutesDialogViewModel.swift; sourceTree = "<group>"; };
+		C9077A8526D64432004BE679 /* TradeRouteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeRouteViewModel.swift; sourceTree = "<group>"; };
+		C9077A8726D64EFE004BE679 /* TradeRouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeRouteView.swift; sourceTree = "<group>"; };
+		C9077A8926D65639004BE679 /* DialogButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogButtonStyle.swift; sourceTree = "<group>"; };
 		C915514C260A59DF003710BE /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		C9155160260B2978003710BE /* GameDisplayOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDisplayOptions.swift; sourceTree = "<group>"; };
 		C920C425262EB03F0024EC0E /* GameEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEnvironment.swift; sourceTree = "<group>"; };
@@ -447,6 +457,7 @@
 				C94816BE26A82D4E00765029 /* SelectTradeCityDialogView.swift */,
 				C9F4939E26CAB04400B0C259 /* UnitListDialogView.swift */,
 				C9B98C5526D2A6E300AA80D6 /* TreasuryDialogView.swift */,
+				C9077A8126D626AC004BE679 /* TradeRoutesDialogView.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -482,6 +493,7 @@
 				C986D170264938D9006EF052 /* CheckboxCircleToggleStyle.swift */,
 				C9CE216E2649678900B47ED4 /* Globals.swift */,
 				C9AA64FC26559C4200907DE1 /* GameButtonStyle.swift */,
+				C9077A8926D65639004BE679 /* DialogButtonStyle.swift */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
@@ -636,6 +648,7 @@
 				C9D191BE265D4175008C9622 /* TradePostView.swift */,
 				C94816C026A82DB000765029 /* TradeCityView.swift */,
 				C99EA75826BD72DE006FAA40 /* ReplyView.swift */,
+				C9077A8726D64EFE004BE679 /* TradeRouteView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -657,6 +670,7 @@
 				C94816BA26A824C400765029 /* SelectTradeCityDialogViewModel.swift */,
 				C9F4939C26CAAE9600B0C259 /* UnitListDialogViewModel.swift */,
 				C9B98C5326D29ECD00AA80D6 /* TreasuryDialogViewModel.swift */,
+				C9077A8326D62714004BE679 /* TradeRoutesDialogViewModel.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -745,6 +759,7 @@
 				C9D191C0265D41CA008C9622 /* TradePostViewModel.swift */,
 				C94816BC26A82BB000765029 /* TradeCityViewModel.swift */,
 				C99EA75A26BD74F0006FAA40 /* ReplyViewModel.swift */,
+				C9077A8526D64432004BE679 /* TradeRouteViewModel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -772,6 +787,8 @@
 				C99A885926079F4C003B8B73 /* Frameworks */,
 				C99A885A26079F4C003B8B73 /* Resources */,
 				C99A88802607A06C003B8B73 /* Embed Frameworks */,
+				C977C0BF26D8CC0800E91446 /* ShellScript */,
+				C977C0BD26D8C7B900E91446 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -824,6 +841,43 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		C977C0BD26D8C7B900E91446 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n  swiftlint --config ../.swiftlint.yml\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		C977C0BF26D8CC0800E91446 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n  swiftlint autocorrect --config ../.swiftlint.yml \nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		C99A885826079F4C003B8B73 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -837,6 +891,8 @@
 				C9A48D51265408A700260EE0 /* CityProductionView.swift in Sources */,
 				C988EAE5261B724500300C39 /* AnimatedImageView.swift in Sources */,
 				C9B087CF2667BC550016DFCA /* EurekaTechActivatedPopupViewModel.swift in Sources */,
+				C9077A8A26D65639004BE679 /* DialogButtonStyle.swift in Sources */,
+				C9077A8226D626AC004BE679 /* TradeRoutesDialogView.swift in Sources */,
 				C9A61D81261EE55600341241 /* PixelBuffer.swift in Sources */,
 				C9A61D8C261EF87000341241 /* BottomRightBarView.swift in Sources */,
 				C92F9488265E2298000968AB /* HexagonGridView.swift in Sources */,
@@ -938,6 +994,7 @@
 				C9F2B55326695BD00016D4F3 /* TooltipNode.swift in Sources */,
 				C9B3141E2657FF1100726CAA /* YieldValueViewModel.swift in Sources */,
 				C9A48D4B2653F8C100260EE0 /* CityDialogViewModel.swift in Sources */,
+				C9077A8426D62714004BE679 /* TradeRoutesDialogViewModel.swift in Sources */,
 				C9F4939D26CAAE9600B0C259 /* UnitListDialogViewModel.swift in Sources */,
 				C9452E3126680DB3005EF985 /* TechDiscoveredPopupView.swift in Sources */,
 				C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */,
@@ -996,6 +1053,8 @@
 				C9A37613263456E30057923E /* BaseScene.swift in Sources */,
 				C968F299263981DD00612D0E /* ProgressBar.swift in Sources */,
 				C9FD308526223EA200153752 /* DemoGameModel.swift in Sources */,
+				C9077A8826D64EFE004BE679 /* TradeRouteView.swift in Sources */,
+				C9077A8626D64432004BE679 /* TradeRouteViewModel.swift in Sources */,
 				C9CAC89F264ABCC600D0668D /* GovernmentCardViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

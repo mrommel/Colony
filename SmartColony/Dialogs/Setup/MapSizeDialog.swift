@@ -10,16 +10,16 @@ import Foundation
 import SmartAILibrary
 
 class MapSizeDialog: Dialog {
-    
+
     init() {
         let uiParser = UIParser()
         guard let mapSizeDialogConfiguration = uiParser.parse(from: "MapSizeDialog") else {
             fatalError("cant load MapSizeDialog configuration")
         }
-        
+
         super.init(from: mapSizeDialogConfiguration)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

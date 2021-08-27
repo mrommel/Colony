@@ -8,17 +8,17 @@
 import SmartAILibrary
 
 extension LeaderType {
-    
+
     public func iconTexture() -> String {
-        
+
         switch self {
-        
+
         case .none:
             return "leader-random"
-            
+
         case .barbar:
             return "leader-barbar"
-            
+
         case .alexander:
             return "leader-alexander"
         case .trajan:

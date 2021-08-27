@@ -8,13 +8,13 @@
 import SmartAILibrary
 
 extension PantheonType {
-    
+
     public func iconTexture() -> String {
-        
+
         switch self {
-            
+
         case .none: return "pantheon-default"
-            
+
         case .cityPatronGoddess: return "pantheon-default"
         case .danceOfTheAurora: return "pantheon-default"
         case .desertFolklore: return "pantheon-default"

@@ -9,7 +9,7 @@
 import SmartAILibrary
 
 class CityPopulationGrowthViewModel {
-    
+
     let cityName: String
     let lastTurnFoodHarvested: String
     let foodConsumption: String
@@ -18,15 +18,15 @@ class CityPopulationGrowthViewModel {
     let housingModifier: String
     let lastTurnFoodEarned: String
     let growthInTurns: String
-    
+
     init(for city: AbstractCity?, in gameModel: GameModel?) {
-        
+
         guard let city = city else {
             fatalError("cant get city")
         }
-        
+
         self.cityName = city.name
-        
+
         if city.lastTurnFoodHarvested() < 0 {
             self.lastTurnFoodHarvested = "-\(String(format: "%.1f", city.lastTurnFoodHarvested()))"
         } else {
@@ -55,12 +55,12 @@ class CityPopulationGrowthViewModel {
      - growth in turns (/)
  */
 class CityPopulationGrowthDialog: Dialog {
-    
+
     //weak var city: AbstractCity?
     //weak var gameModel: GameModel?
-    
+
     let viewModel: CityPopulationGrowthViewModel
-    
+
     init(with viewModel: CityPopulationGrowthViewModel) {
 
         self.viewModel = viewModel
@@ -71,10 +71,10 @@ class CityPopulationGrowthDialog: Dialog {
         }
 
         super.init(from: cityPopulationGrowthDialogConfiguration)
-        
+
         // fill fields
         self.set(text: self.viewModel.cityName, identifier: "city_name")
-        
+
         self.set(text: self.viewModel.lastTurnFoodHarvested, identifier: "food_per_turn_value")
         self.set(text: self.viewModel.foodConsumption, identifier: "food_consumption_value")
         // ----------
@@ -90,7 +90,7 @@ class CityPopulationGrowthDialog: Dialog {
         // ----------
         self.set(text: self.viewModel.growthInTurns, identifier: "growth_in_value")
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

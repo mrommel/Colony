@@ -2058,7 +2058,9 @@ public class City: AbstractCity {
 
         // check other cities of user (if they are currently building)
         let cities = gameModel.cities(of: player)
-        for cityRef in cities {
+
+        // but skip this city
+        for cityRef in cities where cityRef?.location != self.location {
 
             guard let city = cityRef else {
                 continue

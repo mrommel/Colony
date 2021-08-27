@@ -14,17 +14,17 @@ protocol NewMapContentViewDelegate: NSObject {
 }
 
 struct NewMapContentView: View {
-    
+
     @ObservedObject
     private var viewModel: NewMapContentViewModel = NewMapContentViewModel()
-    
+
     weak var delegate: NewMapContentViewDelegate?
-    
+
     var body: some View {
         VStack {
-            
+
             Text("Generate Map with")
-            
+
             HStack {
                 Text("Type").padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
                 PopupButton(selectedValue: $viewModel.type,
@@ -36,7 +36,7 @@ struct NewMapContentView: View {
                 .frame(width: 70, height: 16, alignment: .center)
                 .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
             }
-            
+
             HStack {
                 Text("Size").padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
                 PopupButton(selectedValue: $viewModel.size,
@@ -50,16 +50,16 @@ struct NewMapContentView: View {
             }
 
             Spacer()
-            
+
             Button("Generate") {
                 if let mapType: MapType = MapType.from(name: viewModel.type),
                    let mapSize: MapSize = MapSize.from(name: viewModel.size) {
-                
+
                     self.delegate?.clickedGenerate(mapType: mapType, mapSize: mapSize)
                     // print("generate: \(viewModel.type) and \(viewModel.size)")
                 }
             }
-            
+
         }
         .padding(EdgeInsets(top: 8, leading: 4, bottom: 8, trailing: 2))
         .frame(width: 200, height: 120, alignment: .leading)

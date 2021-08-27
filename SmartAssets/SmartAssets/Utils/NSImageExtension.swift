@@ -8,13 +8,13 @@
 import Cocoa
 
 extension NSImage {
-    
+
     var cgImage: CGImage? {
-        
+
         var proposedRect = CGRect(origin: .zero, size: self.size)
         return cgImage(forProposedRect: &proposedRect, context: nil, hints: nil)
     }
-    
+
     /// The height of the image.
     var height: CGFloat {
         return size.height
@@ -27,7 +27,7 @@ extension NSImage {
 }
 
 extension NSImage {
-    
+
     // MARK: Resizing
     /// Resize the image to the given size.
     ///
@@ -44,67 +44,67 @@ extension NSImage {
 
         return image
     }
-    
+
     func cropped(boundingBox rect: CGRect) -> NSImage? {
-        
+
         let tmpImage: CGImage? = self.cgImage?.cropping(to: rect)
-        
+
         return NSImage(cgImage: tmpImage!, size: rect.size)
     }
-    
+
     func leftMirrored() -> NSImage? {
-        
+
         let existingImage: NSImage? = self
         let existingSize: NSSize? = existingImage?.size
         let newSize: NSSize? = NSSize(width: (existingSize?.width)!, height: (existingSize?.height)!)
         let flipedImage = NSImage(size: newSize!)
         flipedImage.lockFocus()
-        
+
         let transform = NSAffineTransform.init()
         transform.translateX(by: (existingSize?.width)!, yBy: 0.0)
         transform.scaleX(by: -1.0, yBy: 1.0)
         transform.concat()
-        
+
         let rect: NSRect = NSRect(x: 0, y: 0, width: (newSize?.width)!, height: (newSize?.height)!)
         existingImage?.draw(at: NSPoint.zero, from: rect, operation: .sourceOver, fraction: 1.0)
         flipedImage.unlockFocus()
         return flipedImage
     }
-    
+
     func overlayWith(image: NSImage, posX: CGFloat, posY: CGFloat) -> NSImage? {
-        
+
         self.lockFocus()
-        
+
         image.draw(in: NSRect(x: posX, y: posY, width: image.width, height: image.height))
-        
+
         self.unlockFocus()
-        
+
         return self
     }
 }
 
 // This will work with Swift 5
 extension NSImage {
-    
+
     public func tint(with tintColor: NSColor) -> NSImage {
-        
+
         if self.isTemplate == false {
             return self
         }
-        
+
         guard let image = self.copy() as? NSImage else {
             fatalError("cant copy image")
         }
         image.lockFocus()
-        
+
         tintColor.set()
-        
+
         let imageRect = NSRect(origin: .zero, size: image.size)
         imageRect.fill(using: .sourceIn)
-        
+
         image.unlockFocus()
         image.isTemplate = false
-        
+
         return image
     }
 }

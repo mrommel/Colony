@@ -10,7 +10,7 @@ import SmartAILibrary
 import SDWebImageSwiftUI
 
 protocol MapLoadingViewDelegate: NSObject {
-    
+
     func loaded(map: MapModel?)
 }
 
@@ -18,13 +18,13 @@ struct MapLoadingView: View {
 
     @ObservedObject
     var viewModel: MapLoadingViewModel
-    
+
     weak var delegate: MapLoadingViewDelegate?
-    
+
     var body: some View {
-        
+
         VStack {
-            
+
             AnimatedImage(name: "animated-map.gif").clipShape(Circle()).scaledToFit()
 
             Text("Loading Map")
@@ -34,9 +34,9 @@ struct MapLoadingView: View {
         }.padding(EdgeInsets(top: 8, leading: 4, bottom: 8, trailing: 2))
         .frame(width: 200, height: 250, alignment: .center)
     }
-    
+
     func bind() {
-        
+
         self.viewModel.mapLoaded = { map in
             self.delegate?.loaded(map: map)
         }

@@ -8,13 +8,13 @@
 import SmartAILibrary
 
 extension CivicType {
-    
+
     public func iconTexture() -> String {
-    
+
         switch self {
-        
+
         case .none: return "civic-default"
-            
+
             // ancient
         case .stateWorkforce: return "civic-stateWorkforce"
         case .craftsmanship: return "civic-craftsmanship"
@@ -22,7 +22,7 @@ extension CivicType {
         case .earlyEmpire: return "civic-earlyEmpire"
         case .foreignTrade: return "civic-foreignTrade"
         case .mysticism:return "civic-mysticism"
-            
+
             // classical
         case .militaryTradition: return "civic-default"
         case .defensiveTactics: return "civic-default"
@@ -66,7 +66,7 @@ extension CivicType {
         case .professionalSports: return "civic-default"
         case .rapidDeployment: return "civic-default"
         case .spaceRace: return "civic-default"
-            
+
             // information
         case .globalization: return "civic-default"
         }
@@ -74,13 +74,13 @@ extension CivicType {
 }
 
 extension CivicType {
-    
+
     public func indexPath() -> IndexPath {
-        
+
         switch self {
-        
+
         case .none:                 return IndexPath(item: -1, section: -1)
-            
+
             // ancient - 0
         case .codeOfLaws:           return IndexPath(item: 3, section: 0) // -110, 25 => 3
             // ancient - 1
@@ -91,7 +91,7 @@ extension CivicType {
         case .stateWorkforce:       return IndexPath(item: 3, section: 2) // 190, 25 => 3
         case .earlyEmpire:          return IndexPath(item: 4, section: 2) // 190, -20 => 4
         case .mysticism:            return IndexPath(item: 6, section: 2) // 190, -110 => 6
-        
+
             // classical - 0
         case .gamesAndRecreation:   return IndexPath(item: 1, section: 3) // 340, 115 => 1
         case .politicalPhilosophy:  return IndexPath(item: 3, section: 3) // 340, 25 => 3
@@ -101,7 +101,7 @@ extension CivicType {
         case .defensiveTactics:     return IndexPath(item: 2, section: 4) // 510, 70 => 2
         case .recordedHistory:      return IndexPath(item: 4, section: 4) // 510, -20 => 4
         case .theology:             return IndexPath(item: 6, section: 4) // 510, -110 => 6
-        
+
             // medieval - 0
         case .navalTradition:       return IndexPath(item: 1, section: 5) // 680, 115 => 1
         case .feudalism:            return IndexPath(item: 2, section: 5) // 680, 70 => 2
@@ -111,7 +111,7 @@ extension CivicType {
         case .medievalFaires:       return IndexPath(item: 2, section: 6) // 830, 70 => 2
         case .guilds:               return IndexPath(item: 4, section: 6) // 830, -20 => 4
         case .divineRight:          return IndexPath(item: 6, section: 6) // 830, -110 => 6
-        
+
             // renaissance - 0
         case .exploration:          return IndexPath(item: 0, section: 7) // 1000, 160 => 0
         case .humanism:             return IndexPath(item: 2, section: 7) // 1000, 70 => 2
@@ -143,7 +143,7 @@ extension CivicType {
         case .professionalSports:   return IndexPath(item: -1, section: -1)
         case .rapidDeployment:      return IndexPath(item: -1, section: -1)
         case .spaceRace:            return IndexPath(item: -1, section: -1)
-            
+
             // information
         case .globalization:        return IndexPath(item: -1, section: -1)
         }

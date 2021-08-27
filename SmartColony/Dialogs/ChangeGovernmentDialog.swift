@@ -13,21 +13,21 @@ class ChangeGovernmentDialogViewModel {
 
     let selectedGovernmentType: GovernmentType?
     let activeGovernmentTypes: [GovernmentType]
-    
+
     var choosenGovernmentType: GovernmentType?
-    
+
     init(government: AbstractGovernment?) {
-        
+
         guard let government = government else {
             fatalError("cant get government")
         }
-        
+
         let currentGovernmentType = government.currentGovernment()
         let possibleGovernments = government.possibleGovernments()
-        
+
         self.selectedGovernmentType = currentGovernmentType
         self.activeGovernmentTypes = possibleGovernments
-        
+
         self.choosenGovernmentType = selectedGovernmentType
     }
 }
@@ -35,7 +35,7 @@ class ChangeGovernmentDialogViewModel {
 class ChangeGovernmentDialog: Dialog {
 
     var viewModel: ChangeGovernmentDialogViewModel
-    
+
     // nodes
     var scrollNode: ScrollNode?
     var governmentNodes: [GovernmentNode] = []
@@ -68,17 +68,17 @@ class ChangeGovernmentDialog: Dialog {
         self.scrollNode?.position = CGPoint(x: 0, y: -400)
         self.scrollNode?.zPosition = self.zPosition + 1
         self.addChild(self.scrollNode!)
-        
+
         for governmentType in GovernmentType.all {
-            
+
             var state: GovernmentState = GovernmentState.disabled
-            
+
             if governmentType == self.viewModel.choosenGovernmentType {
                 state = .selected
             } else if self.viewModel.activeGovernmentTypes.contains(governmentType) {
                 state = .active
             }
-            
+
             let governmentNode = GovernmentNode(governmentType: governmentType, with: state)
             governmentNode.zPosition = 199
             governmentNode.delegate = self
@@ -86,38 +86,38 @@ class ChangeGovernmentDialog: Dialog {
             self.scrollNode?.addScrolling(child: governmentNode)
             self.governmentNodes.append(governmentNode)
         }
-        
+
         // make bottom buttons appear above scrollview
         self.item(with: "okay_button")?.zPosition = 500
-        
+
         self.updateLayout()
     }
-    
+
     private func updateLayout() {
 
         var offsetY = self.scrollNode!.size.halfHeight - 10
         for governmentNode in self.governmentNodes {
             governmentNode.position = CGPoint(x: -150, y: offsetY)
             offsetY -= 205
-            
+
             var state: GovernmentState = GovernmentState.disabled
-            
+
             if governmentNode.governmentType == self.viewModel.choosenGovernmentType {
                 state = .selected
             } else if self.viewModel.activeGovernmentTypes.contains(governmentNode.governmentType) {
                 state = .active
             }
             governmentNode.state = state
-            
+
             governmentNode.updateLayout()
         }
     }
 }
 
 extension ChangeGovernmentDialog: GovernmentNodeDelegate {
-    
+
     func clicked(on governmentType: GovernmentType) {
-        
+
         self.viewModel.choosenGovernmentType = governmentType
         self.updateLayout()
     }

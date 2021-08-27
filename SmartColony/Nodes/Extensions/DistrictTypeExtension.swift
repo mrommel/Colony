@@ -9,11 +9,11 @@
 import SmartAILibrary
 
 extension DistrictType {
-    
+
     func iconTexture() -> String {
-        
+
         switch self {
-            
+
         case .cityCenter: return "district_cityCenter"
         case .campus: return "district_campus"
         case .holySite: return "district_holySite"
