@@ -358,10 +358,20 @@ open class MapModel: Codable {
             }
         }
     }
+    
+    func units(with type: UnitType) -> [AbstractUnit?] {
 
-    func units(for player: AbstractPlayer) -> [AbstractUnit?] {
+        return self.units.filter({ $0?.type == type })
+    }
+
+    func units(of player: AbstractPlayer) -> [AbstractUnit?] {
 
         return self.units.filter({ $0?.leader == player.leader })
+    }
+    
+    func units(of player: AbstractPlayer, with type: UnitType) -> [AbstractUnit?] {
+
+        return self.units.filter({ $0?.leader == player.leader && $0?.type == type })
     }
 
     public func units(of player: AbstractPlayer, at point: HexPoint) -> [AbstractUnit?] {

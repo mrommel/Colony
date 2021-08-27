@@ -30,9 +30,9 @@ class TradeRouteViewModel: ObservableObject, Identifiable {
     @Published
     var remainingTurns: String
 
-    init(unit: AbstractUnit?) {
+    init(title: String, yields: Yields, remainingTurns: Int) {
 
-        self.title = "start to end"
+        self.title = title
         self.foodYieldViewModel = YieldValueViewModel(
             yieldType: .food,
             initial: 0.0,
@@ -53,7 +53,7 @@ class TradeRouteViewModel: ObservableObject, Identifiable {
         )
         self.remainingTurns = "0"
 
-        guard let gameModel = self.gameEnvironment.game.value else {
+        /*guard let gameModel = self.gameEnvironment.game.value else {
             // fatalError("cant get game")
             return
         }
@@ -68,12 +68,8 @@ class TradeRouteViewModel: ObservableObject, Identifiable {
 
         guard let endCity = tradeRouteData.endCity(in: gameModel) else {
             fatalError("cant get end city")
-        }
+        }*/
 
-        let yields = tradeRouteData.yields(in: gameModel)
-        let remainingTurns = tradeRouteData.expiresInTurns(for: unit, in: gameModel)
-
-        self.title = "\(startCity.name) to \(endCity.name)"
         self.foodYieldViewModel.value = yields.food
         self.productionYieldViewModel.value = yields.production
         self.goldYieldViewModel.value = yields.gold

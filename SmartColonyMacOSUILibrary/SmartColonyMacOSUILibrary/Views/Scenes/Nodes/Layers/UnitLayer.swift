@@ -36,9 +36,17 @@ class UnitLayer: SKNode {
         self.player = player
         self.unitObjects = []
 
-        self.atlasFocus = ObjectTextureAtlas(textures: ["focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "focus6", "focus5", "focus4", "focus3", "focus2", "focus1"])
+        let focusTextureNames: [String] = [
+            "focus1", "focus2", "focus3", "focus4", "focus5", "focus6",
+            "focus6", "focus5", "focus4", "focus3", "focus2", "focus1"
+        ]
+        self.atlasFocus = ObjectTextureAtlas(textures: focusTextureNames)
 
-        self.atlasAttackFocus = ObjectTextureAtlas(textures: ["focus-attack1", "focus-attack2", "focus-attack3", "focus-attack3", "focus-attack2", "focus-attack1"])
+        let attackTextureNames: [String] = [
+            "focus-attack1", "focus-attack2", "focus-attack3",
+            "focus-attack3", "focus-attack2", "focus-attack1"
+        ]
+        self.atlasAttackFocus = ObjectTextureAtlas(textures: attackTextureNames)
 
         super.init()
     }
@@ -127,10 +135,8 @@ class UnitLayer: SKNode {
 
     private func unitObject(at location: HexPoint) -> UnitObject? {
 
-        for object in self.unitObjects {
-            if object.unit?.location == location {
-                return object
-            }
+        for object in self.unitObjects where object.unit?.location == location {
+            return object
         }
 
         return nil
@@ -245,11 +251,11 @@ class UnitLayer: SKNode {
         let isMovementLeft = movementInCurrentTurn > secondCost
 
         if let dir = firstPoint.direction(towards: secondPoint) {
-            var textureName = "path-start-\(dir.short())"
+            let textureName = "path-start-\(dir.short())"
 
-            if !isReallyMovementLeft {
-                textureName += "-out"
-            }
+            // if !isReallyMovementLeft {
+            //     textureName += "-out"
+            // }
 
             let pathImage = ImageCache.shared.image(for: textureName)
 

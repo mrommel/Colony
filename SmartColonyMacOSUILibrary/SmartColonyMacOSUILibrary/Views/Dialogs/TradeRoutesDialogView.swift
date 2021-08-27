@@ -81,24 +81,35 @@ struct TradeRoutesDialogView: View {
     private var contentView: AnyView {
 
         AnyView(
-            ScrollView(.vertical, showsIndicators: true, content: {
+            VStack(alignment: .leading, spacing: 6) {
 
-                if self.viewModel.tradeRouteViewModels.isEmpty {
-                    Text("no trade routes yet")
-                        .padding(.top, 50)
-                } else {
-                    LazyVGrid(columns: gridItemLayout, spacing: 10) {
+                if self.viewModel.viewType == .available {
 
-                        ForEach(self.viewModel.tradeRouteViewModels, id: \.self) { tradeRouteViewModel in
+                    DataPicker(title: "Choose Start City",
+                               data: self.viewModel.startCities,
+                               selection: $viewModel.selectedStartCityIndex)
+                }
 
-                            TradeRouteView(viewModel: tradeRouteViewModel)
-                                .padding(.top, 8)
+                ScrollView(.vertical, showsIndicators: true, content: {
+
+                    if self.viewModel.tradeRouteViewModels.isEmpty {
+                        Text("no trade routes yet")
+                            .padding(.top, 50)
+                    } else {
+                        LazyVGrid(columns: gridItemLayout, spacing: 10) {
+
+                            ForEach(self.viewModel.tradeRouteViewModels, id: \.self) { tradeRouteViewModel in
+
+                                TradeRouteView(viewModel: tradeRouteViewModel)
+                                    .padding(.top, 8)
+                            }
                         }
                     }
-                }
-            })
+                })
+                .frame(width: 340, height: self.viewModel.viewType == .available ? 270 : 300, alignment: .center)
+                .border(Color.gray)
+            }
             .frame(width: 340, height: 300, alignment: .center)
-            .border(Color.gray)
         )
     }
 }

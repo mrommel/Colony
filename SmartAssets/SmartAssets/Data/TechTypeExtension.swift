@@ -9,6 +9,7 @@ import SmartAILibrary
 
 extension TechType {
 
+    // swiftlint:disable:next cyclomatic_complexity
     public func iconTexture() -> String {
 
         switch self {
@@ -103,10 +104,12 @@ extension TechType {
         case .futureTech: return "tech-default"
         }
     }
+    // swiftlint:enable:next cyclomatic_complexity
 }
 
 extension TechType {
 
+    // swiftlint:disable:next cyclomatic_complexity
     public func indexPath() -> IndexPath {
 
         switch self {
@@ -198,4 +201,5 @@ extension TechType {
         case .futureTech:           return IndexPath(item: -1, section: -1)
         }
     }
+    // swiftlint:enable:next cyclomatic_complexity
 }

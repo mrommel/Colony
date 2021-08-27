@@ -72,7 +72,7 @@ public class GameSceneViewModel: ObservableObject {
                 return
             }
 
-            if let selectedUnit = self.selectedUnit {
+            if self.selectedUnit != nil {
                 self.delegate?.showUnitBanner()
                 // self.buttonViewModel.show(image: selectedUnit.type.iconTexture())
             } else {

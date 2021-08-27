@@ -21,7 +21,7 @@ public class Yields {
     public var housing: Double
     public var appeal: Double
 
-    init(food: Double, production: Double, gold: Double, science: Double = 0.0, culture: Double = 0.0, faith: Double = 0.0, housing: Double = 0.0, appeal: Double = 0.0) {
+    public init(food: Double, production: Double, gold: Double, science: Double = 0.0, culture: Double = 0.0, faith: Double = 0.0, housing: Double = 0.0, appeal: Double = 0.0) {
 
         self.food = food
         self.production = production

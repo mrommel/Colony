@@ -7,6 +7,7 @@
 
 import SmartAILibrary
 
+// swiftlint:disable:next type_body_length
 public class Textures {
 
     private static let allTextureSuffixes: [String] = [
@@ -93,9 +94,11 @@ public class Textures {
             "feature_geyser", "feature_potosi", "feature_fountainOfYouth", "feature_lakeVictoria"
         ]
 
-        self.allSnowFeatureTextureNames = Textures.allTextureSuffixes.map({ "snow\($0)" }) + Textures.allTextureSuffixes.map({ "snow-to-water\($0)" })
+        self.allSnowFeatureTextureNames = Textures.allTextureSuffixes.map({ "snow\($0)" }) +
+            Textures.allTextureSuffixes.map({ "snow-to-water\($0)" })
 
-        self.allIceFeatureTextureNames = Textures.allTextureSuffixes.map({ "feature_ice\($0)" }) + Textures.allTextureSuffixes.map({ "feature_ice-to-water\($0)" })
+        self.allIceFeatureTextureNames = Textures.allTextureSuffixes.map({ "feature_ice\($0)" }) +
+            Textures.allTextureSuffixes.map({ "feature_ice-to-water\($0)" })
 
         self.allCoastTextureNames = Textures.allTextureSuffixes.map({ "beach\($0)" })
 

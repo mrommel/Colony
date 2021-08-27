@@ -71,9 +71,8 @@ struct TradeRouteView_Previews: PreviewProvider {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
-        let player = Player(leader: .alexander)
-        let unit = Unit(at: HexPoint(x: 4, y: 4), type: .trader, owner: player)
-        let viewModel = TradeRouteViewModel(unit: unit)
+        let yields = Yields(food: 1, production: 2, gold: 3)
+        let viewModel = TradeRouteViewModel(title: "Paris to Berlin", yields: yields, remainingTurns: 34)
 
         TradeRouteView(viewModel: viewModel)
     }
