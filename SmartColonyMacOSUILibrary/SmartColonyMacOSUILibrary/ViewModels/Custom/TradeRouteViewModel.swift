@@ -35,46 +35,26 @@ class TradeRouteViewModel: ObservableObject, Identifiable {
         self.title = title
         self.foodYieldViewModel = YieldValueViewModel(
             yieldType: .food,
-            initial: 0.0,
+            initial: yields.food,
             type: .onlyValue,
             withBackground: false
         )
         self.productionYieldViewModel = YieldValueViewModel(
             yieldType: .production,
-            initial: 0.0,
+            initial: yields.production,
             type: .onlyValue,
             withBackground: false
         )
         self.goldYieldViewModel = YieldValueViewModel(
             yieldType: .gold,
-            initial: 0.0,
+            initial: yields.gold,
             type: .onlyValue,
             withBackground: false
         )
-        self.remainingTurns = "0"
 
-        /*guard let gameModel = self.gameEnvironment.game.value else {
-            // fatalError("cant get game")
-            return
-        }
-
-        guard let tradeRouteData = unit?.tradeRouteData() else {
-            fatalError("unit has no trade route data")
-        }
-
-        guard let startCity = tradeRouteData.startCity(in: gameModel) else {
-            fatalError("cant get start city")
-        }
-
-        guard let endCity = tradeRouteData.endCity(in: gameModel) else {
-            fatalError("cant get end city")
-        }*/
-
-        self.foodYieldViewModel.value = yields.food
-        self.productionYieldViewModel.value = yields.production
-        self.goldYieldViewModel.value = yields.gold
-
-        if remainingTurns <= 0 {
+        if remainingTurns == Int.max {
+            self.remainingTurns = ""
+        } else if remainingTurns <= 0 {
             self.remainingTurns = "expired"
         } else {
             self.remainingTurns = "\(remainingTurns)"

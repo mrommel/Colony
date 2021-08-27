@@ -25,7 +25,11 @@ class TradeRoutesDialogViewModel: ObservableObject {
     var viewType: TradeRoutesViewType = .myRoutes
 
     @Published
-    var selectedStartCityIndex: Int = 0
+    var selectedStartCityIndex: Int = 0 {
+        didSet {
+            self.updateTradeRouteList()
+        }
+    }
 
     @Published
     var tradeRouteViewModels: [TradeRouteViewModel] = []
@@ -166,25 +170,25 @@ class TradeRoutesDialogViewModel: ObservableObject {
 
             var tmpTradeRouteViewModels: [TradeRouteViewModel] = []
 
-            for (index, sourceCityRef) in gameModel.cities(of: humanPlayer).enumerated() where index == self.selectedStartCityIndex {
+            let sourceCityRef = gameModel.cities(of: humanPlayer)[self.selectedStartCityIndex]
 
-                guard let sourceCity = sourceCityRef else {
+            guard let sourceCity = sourceCityRef else {
+                fatalError("cant get selected source city")
+            }
+
+            let tmpTraderUnit = Unit(at: sourceCity.location, type: .trader, owner: humanPlayer)
+            for targetCityRef in tmpTraderUnit.possibleTradeRouteTargets(in: gameModel) {
+
+                guard let targetCity = targetCityRef else {
                     continue
                 }
 
-                let tmpTraderUnit = Unit(at: sourceCity.location, type: .trader, owner: humanPlayer)
-                for targetCityRef in tmpTraderUnit.possibleTradeRouteTargets(in: gameModel) {
+                let title = targetCity.name
+                let tradeRoute = TradeRoute(start: sourceCity.location, posts: [], end: targetCity.location)
+                let yields = tradeRoute.yields(in: gameModel)
 
-                    guard let targetCity = targetCityRef else {
-                        continue
-                    }
-
-                    let title = targetCity.name
-                    let yields = Yields(food: 0.0, production: 0.0, gold: 0.0) // TODO will with valid values
-
-                    let tradeRouteViewModel = TradeRouteViewModel(title: title, yields: yields, remainingTurns: 0)
-                    tmpTradeRouteViewModels.append(tradeRouteViewModel)
-                }
+                let tradeRouteViewModel = TradeRouteViewModel(title: title, yields: yields, remainingTurns: Int.max)
+                tmpTradeRouteViewModels.append(tradeRouteViewModel)
             }
 
             self.tradeRouteViewModels = tmpTradeRouteViewModels

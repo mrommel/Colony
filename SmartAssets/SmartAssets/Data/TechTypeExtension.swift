@@ -104,7 +104,6 @@ extension TechType {
         case .futureTech: return "tech-default"
         }
     }
-    // swiftlint:enable:next cyclomatic_complexity
 }
 
 extension TechType {
@@ -201,5 +200,4 @@ extension TechType {
         case .futureTech:           return IndexPath(item: -1, section: -1)
         }
     }
-    // swiftlint:enable:next cyclomatic_complexity
 }

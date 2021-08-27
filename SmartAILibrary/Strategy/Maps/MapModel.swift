@@ -838,7 +838,7 @@ open class MapModel: Codable {
 
     func plotStatistics(at point: HexPoint, radius: Int) -> PlotStatistics {
 
-        var stats: PlotStatistics = PlotStatistics()
+        let stats: PlotStatistics = PlotStatistics()
         var validTile = 0.0
 
         for pt in point.areaWith(radius: radius) {

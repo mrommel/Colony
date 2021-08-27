@@ -1094,10 +1094,6 @@ extension City {
 
     public func housingFromDistricts() -> Double {
 
-        guard let districts = self.districts else {
-            fatalError("cant get districts")
-        }
-
         guard let government = self.player?.government else {
             fatalError("cant get government")
         }
