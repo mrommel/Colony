@@ -24,6 +24,7 @@ public enum PopupType {
     case eurekaCivicActivated(civic: CivicType)
 
     case unitTrained(unit: UnitType)
+    case wonderBuilt(wonder: WonderType)
     case buildingBuilt
 
     case religionByCityAdopted(religion: ReligionType, location: HexPoint)
@@ -65,6 +66,9 @@ extension PopupType: Equatable {
 
         case (let .unitTrained(lhs_unit), let .unitTrained(rhs_unit)):
             return lhs_unit == rhs_unit
+
+        case (let .wonderBuilt(lhs_wonder), let .wonderBuilt(rhs_wonder)):
+            return lhs_wonder == rhs_wonder
 
         case (.buildingBuilt, .buildingBuilt):
             return true

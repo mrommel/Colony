@@ -32,3 +32,9 @@ Tile size:
 - https://swiftui-lab.com/a-powerful-combo/
 - https://medium.com/@theboi/macos-apps-without-storyboard-or-xib-menu-bar-in-swift-5-menubar-and-toolbar-6f6f2fa39ccb
 - https://github.com/lukakerr/NSWindowStyles
+
+## GIT
+
+git branch -a    
+... list of branches
+git checkout --track ...

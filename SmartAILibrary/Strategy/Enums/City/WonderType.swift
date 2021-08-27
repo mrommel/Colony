@@ -39,7 +39,8 @@ public enum WonderType: Int, Codable {
             /*.greatBath, */.pyramids, .hangingGardens, .oracle, .stonehenge, .templeOfArtemis,
 
             // classical
-                .greatLighthouse, .greatLibrary, .apadana, .colosseum, .colossus, .jebelBarkal, .mausoleumAtHalicarnassus, .mahabodhiTemple, .petra, .terracottaArmy
+            .greatLighthouse, .greatLibrary, .apadana, .colosseum, .colossus, .jebelBarkal,
+            .mausoleumAtHalicarnassus, .mahabodhiTemple, .petra, .terracottaArmy,
         ]
     }
 

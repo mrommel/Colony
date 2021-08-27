@@ -14,6 +14,8 @@
 		C9077A8A26D65639004BE679 /* DialogButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9077A8926D65639004BE679 /* DialogButtonStyle.swift */; };
 		C915514D260A59DF003710BE /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915514C260A59DF003710BE /* ActivityIndicator.swift */; };
 		C9155161260B2978003710BE /* GameDisplayOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9155160260B2978003710BE /* GameDisplayOptions.swift */; };
+		C91A07A626D911EE008E9F86 /* WonderBuiltPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A07A526D911EE008E9F86 /* WonderBuiltPopupViewModel.swift */; };
+		C91A07A826D9135C008E9F86 /* WonderBuiltPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A07A726D9135C008E9F86 /* WonderBuiltPopupView.swift */; };
 		C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C920C425262EB03F0024EC0E /* GameEnvironment.swift */; };
 		C925676D265635C000B895BD /* QueueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925676C265635C000B895BD /* QueueViewModel.swift */; };
 		C925676F26563C7700B895BD /* CityBuildQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925676E26563C7700B895BD /* CityBuildQueueManager.swift */; };
@@ -210,6 +212,8 @@
 		C9077A8926D65639004BE679 /* DialogButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogButtonStyle.swift; sourceTree = "<group>"; };
 		C915514C260A59DF003710BE /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		C9155160260B2978003710BE /* GameDisplayOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDisplayOptions.swift; sourceTree = "<group>"; };
+		C91A07A526D911EE008E9F86 /* WonderBuiltPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderBuiltPopupViewModel.swift; sourceTree = "<group>"; };
+		C91A07A726D9135C008E9F86 /* WonderBuiltPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderBuiltPopupView.swift; sourceTree = "<group>"; };
 		C920C425262EB03F0024EC0E /* GameEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEnvironment.swift; sourceTree = "<group>"; };
 		C925676C265635C000B895BD /* QueueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueViewModel.swift; sourceTree = "<group>"; };
 		C925676E26563C7700B895BD /* CityBuildQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityBuildQueueManager.swift; sourceTree = "<group>"; };
@@ -685,6 +689,7 @@
 				C9452E3026680DB3005EF985 /* TechDiscoveredPopupView.swift */,
 				C9F2B54C2669126E0016D4F3 /* CivicDiscoveredPopupView.swift */,
 				C962A83926A08C570045AF0E /* CanFoundPantheonPopupView.swift */,
+				C91A07A726D9135C008E9F86 /* WonderBuiltPopupView.swift */,
 			);
 			path = Popups;
 			sourceTree = "<group>";
@@ -699,6 +704,7 @@
 				C9452E2E26680C95005EF985 /* TechDiscoveredPopupViewModel.swift */,
 				C9F2B54E266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift */,
 				C962A83B26A08C620045AF0E /* CanFoundPantheonPopupViewModel.swift */,
+				C91A07A526D911EE008E9F86 /* WonderBuiltPopupViewModel.swift */,
 			);
 			path = Popups;
 			sourceTree = "<group>";
@@ -894,6 +900,7 @@
 				C9077A8A26D65639004BE679 /* DialogButtonStyle.swift in Sources */,
 				C9077A8226D626AC004BE679 /* TradeRoutesDialogView.swift in Sources */,
 				C9A61D81261EE55600341241 /* PixelBuffer.swift in Sources */,
+				C91A07A826D9135C008E9F86 /* WonderBuiltPopupView.swift in Sources */,
 				C9A61D8C261EF87000341241 /* BottomRightBarView.swift in Sources */,
 				C92F9488265E2298000968AB /* HexagonGridView.swift in Sources */,
 				C9E0598C265520BA00C08463 /* WonderViewModel.swift in Sources */,
@@ -1024,6 +1031,7 @@
 				C950F99B264908F80057A7D1 /* PolicyCardViewModel.swift in Sources */,
 				C9A8F0D52651149A00584199 /* CivicViewModel.swift in Sources */,
 				C9A8F0DF2651A6CB00584199 /* NotificationView.swift in Sources */,
+				C91A07A626D911EE008E9F86 /* WonderBuiltPopupViewModel.swift in Sources */,
 				C9A8F0D32651143500584199 /* CivicView.swift in Sources */,
 				C9A3763C2637E7C80057923E /* HexCoordLayer.swift in Sources */,
 				C943E90026C100E00038B7E8 /* UnitBannerView.swift in Sources */,
