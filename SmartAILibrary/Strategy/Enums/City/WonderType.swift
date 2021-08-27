@@ -40,7 +40,7 @@ public enum WonderType: Int, Codable {
 
             // classical
             .greatLighthouse, .greatLibrary, .apadana, .colosseum, .colossus, .jebelBarkal,
-            .mausoleumAtHalicarnassus, .mahabodhiTemple, .petra, .terracottaArmy,
+            .mausoleumAtHalicarnassus, .mahabodhiTemple, .petra, .terracottaArmy
         ]
     }
 
