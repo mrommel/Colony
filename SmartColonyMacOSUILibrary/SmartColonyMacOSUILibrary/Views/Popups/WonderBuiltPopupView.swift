@@ -32,10 +32,10 @@ struct WonderBuiltPopupView: View {
 
                 VStack(alignment: .center, spacing: 6) {
 
-                    /*Image(nsImage: self.viewModel.icon())
+                    Image(nsImage: self.viewModel.icon())
                         .resizable()
                         .frame(width: 48, height: 48, alignment: .topLeading)
-                        .padding(.top, 6)*/
+                        .padding(.top, 6)
 
                     Text(self.viewModel.nameText)
                         .font(.headline)
@@ -45,11 +45,22 @@ struct WonderBuiltPopupView: View {
                         .padding(.leading, 20)
                         .padding(.trailing, 20)
 
+                    ForEach(self.viewModel.bonusTexts, id: \.self) { bonusText in
+
+                        Text(bonusText)
+                    }
+                    .padding(.top, 2)
+                    .padding(.trailing, 0)
+                    .padding(.leading, 0)
+
+                    Spacer()
+
                     Button(action: {
                         self.viewModel.closePopup()
                     }, label: {
                         Text("Close")
                     })
+                    .buttonStyle(DialogButtonStyle())
                     .padding(.bottom, 8)
                 }
                 .frame(width: 362, height: 284, alignment: .center)
@@ -58,7 +69,6 @@ struct WonderBuiltPopupView: View {
             .padding(.bottom, 43)
             .padding(.leading, 19)
             .padding(.trailing, 19)
-
         }
         .frame(width: 400, height: 370, alignment: .top)
         .background(

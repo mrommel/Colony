@@ -16,12 +16,24 @@ class WonderBuiltPopupViewModel: ObservableObject {
     @Published
     var nameText: String
 
+    @Published
+    var bonusTexts: [String]
+
+    private let iconTexture: String
+
     weak var delegate: GameViewModelDelegate?
 
     init(wonderType: WonderType) {
 
+        self.iconTexture = wonderType.iconTexture()
         self.title = "Wonder built"
         self.nameText = "Your civilization has finished construction on \(wonderType)"
+        self.bonusTexts = wonderType.bonuses()
+    }
+
+    func icon() -> NSImage {
+
+        return ImageCache.shared.image(for: self.iconTexture)
     }
 
     func closePopup() {
