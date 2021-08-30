@@ -45,6 +45,8 @@ public struct GameView: View {
                 CityBannerView(viewModel: self.viewModel.cityBannerViewModel)
 
                 UnitBannerView(viewModel: self.viewModel.unitBannerViewModel)
+
+                CombatBannerView(viewModel: self.viewModel.combatBannerViewModel)
             }
 
             BottomRightBarView(viewModel: self.viewModel.gameSceneViewModel)

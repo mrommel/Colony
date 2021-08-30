@@ -44,6 +44,8 @@
 		C94816BD26A82BB000765029 /* TradeCityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94816BC26A82BB000765029 /* TradeCityViewModel.swift */; };
 		C94816BF26A82D4E00765029 /* SelectTradeCityDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94816BE26A82D4E00765029 /* SelectTradeCityDialogView.swift */; };
 		C94816C126A82DB000765029 /* TradeCityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94816C026A82DB000765029 /* TradeCityView.swift */; };
+		C94CE28726DCDA4F00B58A9C /* CombatBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94CE28626DCDA4F00B58A9C /* CombatBannerView.swift */; };
+		C94CE28926DCDA6400B58A9C /* CombatBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94CE28826DCDA6400B58A9C /* CombatBannerViewModel.swift */; };
 		C950F98B26427C560057A7D1 /* GameSceneUserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F98A26427C560057A7D1 /* GameSceneUserInterface.swift */; };
 		C950F98E26427E110057A7D1 /* GameSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F98D26427E110057A7D1 /* GameSceneViewModel.swift */; };
 		C950F995264902990057A7D1 /* ChangePolicyDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F994264902990057A7D1 /* ChangePolicyDialogView.swift */; };
@@ -242,6 +244,8 @@
 		C94816BC26A82BB000765029 /* TradeCityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeCityViewModel.swift; sourceTree = "<group>"; };
 		C94816BE26A82D4E00765029 /* SelectTradeCityDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTradeCityDialogView.swift; sourceTree = "<group>"; };
 		C94816C026A82DB000765029 /* TradeCityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeCityView.swift; sourceTree = "<group>"; };
+		C94CE28626DCDA4F00B58A9C /* CombatBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatBannerView.swift; sourceTree = "<group>"; };
+		C94CE28826DCDA6400B58A9C /* CombatBannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatBannerViewModel.swift; sourceTree = "<group>"; };
 		C950F98A26427C560057A7D1 /* GameSceneUserInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneUserInterface.swift; sourceTree = "<group>"; };
 		C950F98D26427E110057A7D1 /* GameSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneViewModel.swift; sourceTree = "<group>"; };
 		C950F994264902990057A7D1 /* ChangePolicyDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePolicyDialogView.swift; sourceTree = "<group>"; };
@@ -549,6 +553,7 @@
 				C9A48D352653004100260EE0 /* HeaderView.swift */,
 				C9FBBE3F26837AA7005D7CE6 /* CityBannerView.swift */,
 				C943E8FF26C100E00038B7E8 /* UnitBannerView.swift */,
+				C94CE28626DCDA4F00B58A9C /* CombatBannerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -568,6 +573,7 @@
 				C9A8F0DA2651A61E00584199 /* NotificationsViewModel.swift */,
 				C939DDD42684D396001CBC6C /* CityBannerViewModel.swift */,
 				C943E90126C1011C0038B7E8 /* UnitBannerViewModel.swift */,
+				C94CE28826DCDA6400B58A9C /* CombatBannerViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -895,6 +901,7 @@
 				C9E05981265515CB00C08463 /* WonderView.swift in Sources */,
 				C92F948B265E2298000968AB /* HexagonViewModel.swift in Sources */,
 				C9A48D51265408A700260EE0 /* CityProductionView.swift in Sources */,
+				C94CE28926DCDA6400B58A9C /* CombatBannerViewModel.swift in Sources */,
 				C988EAE5261B724500300C39 /* AnimatedImageView.swift in Sources */,
 				C9B087CF2667BC550016DFCA /* EurekaTechActivatedPopupViewModel.swift in Sources */,
 				C9077A8A26D65639004BE679 /* DialogButtonStyle.swift in Sources */,
@@ -951,6 +958,7 @@
 				C942EC5326BBDA090047E161 /* AchievementView.swift in Sources */,
 				C9B43FAF263E8FB900241012 /* AskYesNoAlertView.swift in Sources */,
 				C968F2AE2639EE3C00612D0E /* SKLabelNodeExtension.swift in Sources */,
+				C94CE28726DCDA4F00B58A9C /* CombatBannerView.swift in Sources */,
 				C9B087C826679E1D0016DFCA /* GoodyHutRewardPopupView.swift in Sources */,
 				C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */,
 				C9A8F0D72651969D00584199 /* GameViewModelDialogs.swift in Sources */,

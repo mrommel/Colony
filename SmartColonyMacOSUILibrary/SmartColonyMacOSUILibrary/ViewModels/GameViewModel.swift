@@ -10,6 +10,13 @@ import SmartAssets
 import Cocoa
 import SwiftUI
 
+enum UICombatMode {
+
+    case none
+    case melee
+    case ranged
+}
+
 protocol GameViewModelDelegate: AnyObject {
 
     func focus(on point: HexPoint)
@@ -17,6 +24,11 @@ protocol GameViewModelDelegate: AnyObject {
     func hideUnitBanner()
     func select(unit: AbstractUnit?)
     func selectedUnitChanged(to unit: AbstractUnit?, commands: [Command], in gameModel: GameModel?)
+
+    func showMeleeTargets(of unit: AbstractUnit?)
+    func showRangedTargets(of unit: AbstractUnit?)
+    func cancelAttacks()
+    func showCombatBanner(for source: AbstractUnit?, and target: AbstractUnit?)
 
     func showCityBanner(for city: AbstractCity?)
     func hideCityBanner()
@@ -79,6 +91,9 @@ public class GameViewModel: ObservableObject {
     @Published
     var unitBannerViewModel: UnitBannerViewModel
 
+    @Published
+    var combatBannerViewModel: CombatBannerViewModel
+
     // dialogs
 
     @Published
@@ -133,6 +148,8 @@ public class GameViewModel: ObservableObject {
 
     var popups: [PopupType] = []
 
+    var uiCombatMode: UICombatMode = .none
+
     // MARK: map display options
 
     @Published
@@ -183,7 +200,7 @@ public class GameViewModel: ObservableObject {
         "header-bar-left", "header-bar-right", "city-banner", "grid9-button-district-active",
         "grid9-button-district", "grid9-button-highlighted", "questionmark", "tile-purchase-active",
         "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced",
-        "city-canvas", "pantheon-background", "turns", "unit-banner"
+        "city-canvas", "pantheon-background", "turns", "unit-banner", "combat-view"
     ]
 
     // MARK: constructor
@@ -195,6 +212,7 @@ public class GameViewModel: ObservableObject {
         self.notificationsViewModel = NotificationsViewModel()
         self.cityBannerViewModel = CityBannerViewModel(name: "Berlin")
         self.unitBannerViewModel = UnitBannerViewModel(selectedUnit: nil)
+        self.combatBannerViewModel = CombatBannerViewModel()
 
         // dialogs
         self.governmentDialogViewModel = GovernmentDialogViewModel()
@@ -217,6 +235,7 @@ public class GameViewModel: ObservableObject {
         self.notificationsViewModel.delegate = self
         // self.cityBannerViewModel.delegate = self
         self.unitBannerViewModel.delegate = self
+        self.combatBannerViewModel.delegate = self
 
         self.governmentDialogViewModel.delegate = self
         self.changeGovernmentDialogViewModel.delegate = self
@@ -602,11 +621,13 @@ extension GameViewModel: GameViewModelDelegate {
 
         self.unitBannerViewModel.showBanner = true
         self.cityBannerViewModel.showBanner = false
+        self.combatBannerViewModel.showBanner = false
     }
 
     func hideUnitBanner() {
 
         self.unitBannerViewModel.showBanner = false
+        self.combatBannerViewModel.showBanner = false
     }
 
     func select(unit: AbstractUnit?) {
@@ -619,10 +640,110 @@ extension GameViewModel: GameViewModelDelegate {
         self.unitBannerViewModel.selectedUnitChanged(to: unit, commands: commands, in: gameModel)
     }
 
+    func showMeleeTargets(of unit: AbstractUnit?) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let player = unit?.player else {
+            fatalError("cant get unit player")
+        }
+
+        guard let diplomacyAI = unit?.player?.diplomacyAI else {
+            fatalError("cant get unit player diplomacyAI")
+        }
+
+        self.uiCombatMode = .melee
+
+        if let unit = unit {
+
+            // reset icons
+            gameModel.userInterface?.clearAttackFocus()
+
+            // check neighbors
+            for dir in HexDirection.all {
+
+                let neighbor = unit.location.neighbor(in: dir)
+
+                if let otherUnit = gameModel.unit(at: neighbor, of: .combat) {
+
+                    if (!player.isEqual(to: otherUnit.player) && diplomacyAI.isAtWar(with: otherUnit.player)) || otherUnit.isBarbarian() {
+                        gameModel.userInterface?.showAttackFocus(at: neighbor)
+                    }
+                }
+            }
+
+            self.gameSceneViewModel.unitSelectionMode = .meleeTarget
+        }
+    }
+
+    func showRangedTargets(of unit: AbstractUnit?) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let player = unit?.player else {
+            fatalError("cant get unit player")
+        }
+
+        guard let diplomacyAI = unit?.player?.diplomacyAI else {
+            fatalError("cant get unit player diplomacyAI")
+        }
+
+        self.uiCombatMode = .ranged
+
+        if let unit = unit {
+
+            // reset icons
+            gameModel.userInterface?.clearAttackFocus()
+
+            // check neighbors
+            for neighbor in unit.location.areaWith(radius: unit.range()) {
+
+                if let otherUnit = gameModel.unit(at: neighbor, of: .combat) {
+
+                    if !player.isEqual(to: otherUnit.player) && diplomacyAI.isAtWar(with: otherUnit.player) {
+                        gameModel.userInterface?.showAttackFocus(at: neighbor)
+                    }
+                }
+            }
+        }
+    }
+
+    func cancelAttacks() {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        // reset icons
+        gameModel.userInterface?.clearAttackFocus()
+
+        self.uiCombatMode = .none
+
+        //gameModel.userInterface?.se
+
+        /*self.unitBannerViewModel.up
+
+        if let selectedUnit = self.selectedUnit {
+            // update
+            self.updateCommands(for: selectedUnit)
+        }*/
+    }
+
+    func showCombatBanner(for source: AbstractUnit?, and target: AbstractUnit?) {
+
+        self.combatBannerViewModel.update(for: source, and: target)
+        self.combatBannerViewModel.showBanner = true
+    }
+
     func showCityBanner(for city: AbstractCity?) {
 
         self.cityBannerViewModel.showBanner = true
         self.unitBannerViewModel.showBanner = false
+        self.combatBannerViewModel.showBanner = false
     }
 
     func hideCityBanner() {

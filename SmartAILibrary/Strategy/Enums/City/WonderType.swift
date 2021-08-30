@@ -279,7 +279,6 @@ public enum WonderType: Int, Codable {
                                   flavours: [Flavor(type: .happiness, value: 20), Flavor(type: .culture, value: 10)])
         case .colossus:
             // https://civilization.fandom.com/wiki/Colossus_(Civ6)
-            // FIXME +1 TradeRoute6 Trade Route capacity
             return WonderTypeData(name: "Colossus",
                                   bonuses: ["+3 Civ6Gold Gold",
                                             "+1 Admiral6 Great Admiral point per turn",

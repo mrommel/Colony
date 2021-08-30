@@ -118,6 +118,16 @@ extension GameScene: UserInterfaceDelegate {
         }
     }
 
+    func clearAttackFocus() {
+
+        self.mapNode?.unitLayer.clearAttackFocus()
+    }
+
+    func showAttackFocus(at point: HexPoint) {
+
+        self.mapNode?.unitLayer.showAttackFocus(at: point)
+    }
+
     func select(tech: TechType) {
         // print("select tect \(tech)")
     }

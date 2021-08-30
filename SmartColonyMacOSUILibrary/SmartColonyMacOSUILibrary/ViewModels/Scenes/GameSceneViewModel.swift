@@ -12,11 +12,11 @@ import SwiftUI
 
 public class GameSceneViewModel: ObservableObject {
 
-    enum GameSceneCombatMode {
+    enum UnitSelectionMode {
 
-        case none
-        case melee
-        case ranged
+        case pick
+        case meleeTarget
+        case rangedTarget
     }
 
     enum GameSceneTurnState {
@@ -95,7 +95,7 @@ public class GameSceneViewModel: ObservableObject {
     }
 
     @Published
-    var sceneCombatMode: GameSceneCombatMode = .none
+    var unitSelectionMode: UnitSelectionMode = .pick
 
     @Published
     var turnButtonNotificationType: NotificationType = .unitNeedsOrders {

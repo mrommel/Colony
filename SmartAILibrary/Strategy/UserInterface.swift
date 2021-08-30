@@ -153,6 +153,9 @@ public protocol UserInterfaceDelegate: AnyObject {
     func move(unit: AbstractUnit?, on points: [HexPoint])
     func animate(unit: AbstractUnit?, animation: UnitAnimationType)
 
+    func clearAttackFocus()
+    func showAttackFocus(at point: HexPoint)
+
     func select(tech: TechType)
     func select(civic: CivicType)
 
