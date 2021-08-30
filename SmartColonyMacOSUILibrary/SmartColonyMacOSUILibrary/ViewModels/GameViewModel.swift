@@ -271,28 +271,32 @@ public class GameViewModel: ObservableObject {
         let bundle = Bundle.init(for: Textures.self)
         let textures: Textures = Textures(game: nil)
 
-        print("- load \(textures.allTerrainTextureNames.count) terrain, \(textures.allRiverTextureNames.count) river and \(textures.allCoastTextureNames.count) coast textures")
+        print("- load \(textures.allTerrainTextureNames.count) terrain textures")
         for terrainTextureName in textures.allTerrainTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: terrainTextureName), for: terrainTextureName)
         }
 
+        print("- load \(textures.allCoastTextureNames.count) coast textures")
         for coastTextureName in textures.allCoastTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: coastTextureName), for: coastTextureName)
         }
 
+        print("- load \(textures.allRiverTextureNames.count) river textures")
         for riverTextureName in textures.allRiverTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: riverTextureName), for: riverTextureName)
         }
 
-        print("- load \(textures.allFeatureTextureNames.count) feature (+ \(textures.allIceFeatureTextureNames.count) ice + \(textures.allSnowFeatureTextureNames.count) snow textures")
+        print("- load \(textures.allFeatureTextureNames.count) feature textures")
         for featureTextureName in textures.allFeatureTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: featureTextureName), for: featureTextureName)
         }
 
+        print("- load \(textures.allIceFeatureTextureNames.count) ice textures")
         for iceFeatureTextureName in textures.allIceFeatureTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: iceFeatureTextureName), for: iceFeatureTextureName)
         }
 
+        print("- load \(textures.allSnowFeatureTextureNames.count) snow textures")
         for snowFeatureTextureName in textures.allSnowFeatureTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: snowFeatureTextureName), for: snowFeatureTextureName)
         }
@@ -668,7 +672,8 @@ extension GameViewModel: GameViewModelDelegate {
 
                 if let otherUnit = gameModel.unit(at: neighbor, of: .combat) {
 
-                    if (!player.isEqual(to: otherUnit.player) && diplomacyAI.isAtWar(with: otherUnit.player)) || otherUnit.isBarbarian() {
+                    if (!player.isEqual(to: otherUnit.player) && diplomacyAI.isAtWar(with: otherUnit.player)) ||
+                        otherUnit.isBarbarian() {
                         gameModel.userInterface?.showAttackFocus(at: neighbor)
                     }
                 }

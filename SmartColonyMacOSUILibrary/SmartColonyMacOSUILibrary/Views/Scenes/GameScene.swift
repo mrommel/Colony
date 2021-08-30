@@ -416,7 +416,6 @@ extension GameScene {
                 if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
 
                     self.viewModel?.delegate?.showCombatBanner(for: selectedUnit, and: unitToAttack)
-                    // self.bottomCombatBar?.combatPrediction(of: selectedUnit, against: unitToAttack, mode: .melee, in: self.viewModel?.game)
                 }
 
             case .rangedTarget:

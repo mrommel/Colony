@@ -85,16 +85,38 @@ class CombatBannerViewModel: ObservableObject {
             return
         }
 
-        let attackerStrength = attackerUnit.attackStrength(against: defenderUnit, or: nil, on: nil, in: gameModel)
+        let attackerStrength = attackerUnit.attackStrength(
+            against: defenderUnit,
+            or: nil,
+            on: nil,
+            in: gameModel
+        )
 
-        for attackerStrengthModifier in attackerUnit.attackStrengthModifier(against: defenderUnit, or: nil, on: nil, in: gameModel) {
+        for attackerStrengthModifier in attackerUnit.attackStrengthModifier(
+            against: defenderUnit,
+            or: nil,
+            on: nil,
+            in: gameModel
+        ) {
 
+            print("\(attackerStrengthModifier.modifierTitle) => \(attackerStrengthModifier.modifierValue)")
         }
 
-        let defenderStrength = defenderUnit.defensiveStrength(against: attackerUnit, on: nil, ranged: false, in: gameModel)
+        let defenderStrength = defenderUnit.defensiveStrength(
+            against: attackerUnit,
+            on: nil,
+            ranged: false,
+            in: gameModel
+        )
 
-        for defenderStrengthModifier in defenderUnit.defensiveStrengthModifier(against: defenderUnit, on: nil, ranged: false, in: gameModel) {
+        for defenderStrengthModifier in defenderUnit.defensiveStrengthModifier(
+            against: defenderUnit,
+            on: nil,
+            ranged: false,
+            in: gameModel
+        ) {
 
+            print("\(defenderStrengthModifier.modifierTitle) => \(defenderStrengthModifier.modifierValue)")
         }
 
         self.attackerViewModel.update(name: attackerUnit.name(), type: attackerUnit.type, strength: attackerStrength)
