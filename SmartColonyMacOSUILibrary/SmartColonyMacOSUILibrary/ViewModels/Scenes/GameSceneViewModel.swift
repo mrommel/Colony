@@ -82,6 +82,9 @@ public class GameSceneViewModel: ObservableObject {
     }
 
     @Published
+    var combatTarget: AbstractUnit?
+
+    @Published
     var selectedCity: AbstractCity? = nil {
 
         didSet {
@@ -331,7 +334,9 @@ public class GameSceneViewModel: ObservableObject {
         if let blockingNotification = humanPlayer.blockingNotification() {
 
             if let unit = self.selectedUnit {
-                self.game?.userInterface?.select(unit: unit)
+                if self.unitSelectionMode == .pick {
+                    self.game?.userInterface?.select(unit: unit)
+                }
             } else {
                 // no unit selected - show blocking button
                 self.showBlockingButton(for: blockingNotification)

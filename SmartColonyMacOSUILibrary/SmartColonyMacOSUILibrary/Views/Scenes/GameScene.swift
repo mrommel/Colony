@@ -281,6 +281,12 @@ extension GameScene {
             }
         } else {
 
+            if self.viewModel?.unitSelectionMode == .meleeTarget {
+
+                print("select target at: \(position)")
+                return
+            }
+
             if let city = game.city(at: position) {
                 if humanPlayer.isEqual(to: city.player) {
                     self.select(city: city)
@@ -415,7 +421,28 @@ extension GameScene {
             case .meleeTarget:
                 if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
 
-                    self.viewModel?.delegate?.showCombatBanner(for: selectedUnit, and: unitToAttack)
+                    var combatExecuted: Bool = false
+                    if let combatTarget = self.viewModel?.combatTarget {
+
+                        if unitToAttack.location == combatTarget.location {
+
+                            self.viewModel?.delegate?.doCombat(of: selectedUnit, against: unitToAttack)
+
+                            combatExecuted = true
+                            self.viewModel?.combatTarget = nil
+                            self.viewModel?.delegate?.hideCombatBanner()
+                            self.viewModel?.unitSelectionMode = .pick
+                        }
+                    }
+
+                    if !combatExecuted {
+
+                        self.viewModel?.delegate?.showCombatBanner(for: selectedUnit, and: unitToAttack)
+                        self.viewModel?.combatTarget = unitToAttack
+                    }
+                } else {
+                    self.viewModel?.combatTarget = nil
+                    self.viewModel?.delegate?.hideCombatBanner()
                 }
 
             case .rangedTarget:

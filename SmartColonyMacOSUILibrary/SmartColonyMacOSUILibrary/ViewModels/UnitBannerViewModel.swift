@@ -265,7 +265,7 @@ class UnitBannerViewModel: ObservableObject {
             }
 
         case .rangedAttack:
-            print("rangedAttack")
+
             if let selectedUnit = self.selectedUnit {
 
                 // we need a target here
@@ -273,8 +273,14 @@ class UnitBannerViewModel: ObservableObject {
             }
 
         case .cancelAttack:
-            print("cancelAttack")
+
             self.delegate?.cancelAttacks()
+
+            if let selectedUnit = self.selectedUnit {
+                // update commands
+                let commands = selectedUnit.commands(in: gameModel)
+                self.commands = commands
+            }
         }
     }
 

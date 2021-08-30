@@ -29,6 +29,8 @@ protocol GameViewModelDelegate: AnyObject {
     func showRangedTargets(of unit: AbstractUnit?)
     func cancelAttacks()
     func showCombatBanner(for source: AbstractUnit?, and target: AbstractUnit?)
+    func hideCombatBanner()
+    func doCombat(of attacker: AbstractUnit?, against defender: AbstractUnit?)
 
     func showCityBanner(for city: AbstractCity?)
     func hideCityBanner()
@@ -625,13 +627,13 @@ extension GameViewModel: GameViewModelDelegate {
 
         self.unitBannerViewModel.showBanner = true
         self.cityBannerViewModel.showBanner = false
-        self.combatBannerViewModel.showBanner = false
+        //self.combatBannerViewModel.showBanner = false
     }
 
     func hideUnitBanner() {
 
         self.unitBannerViewModel.showBanner = false
-        self.combatBannerViewModel.showBanner = false
+        //self.combatBannerViewModel.showBanner = false
     }
 
     func select(unit: AbstractUnit?) {
@@ -683,6 +685,17 @@ extension GameViewModel: GameViewModelDelegate {
         }
     }
 
+    func doCombat(of attacker: AbstractUnit?, against defender: AbstractUnit?) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        if !attacker!.doAttack(into: defender!.location, steps: 1, in: gameModel) {
+            print("attack failed")
+        }
+    }
+
     func showRangedTargets(of unit: AbstractUnit?) {
 
         guard let gameModel = self.gameEnvironment.game.value else {
@@ -727,21 +740,21 @@ extension GameViewModel: GameViewModelDelegate {
         gameModel.userInterface?.clearAttackFocus()
 
         self.uiCombatMode = .none
-
-        //gameModel.userInterface?.se
-
-        /*self.unitBannerViewModel.up
-
-        if let selectedUnit = self.selectedUnit {
-            // update
-            self.updateCommands(for: selectedUnit)
-        }*/
+        self.gameSceneViewModel.unitSelectionMode = .pick
     }
 
     func showCombatBanner(for source: AbstractUnit?, and target: AbstractUnit?) {
 
         self.combatBannerViewModel.update(for: source, and: target)
+
+        self.cityBannerViewModel.showBanner = false
+        self.unitBannerViewModel.showBanner = false
         self.combatBannerViewModel.showBanner = true
+    }
+
+    func hideCombatBanner() {
+
+        self.combatBannerViewModel.showBanner = false
     }
 
     func showCityBanner(for city: AbstractCity?) {

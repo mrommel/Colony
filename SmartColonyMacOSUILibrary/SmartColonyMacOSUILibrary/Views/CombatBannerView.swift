@@ -31,7 +31,7 @@ struct CombatBannerView: View {
                     Image(nsImage: ImageCache.shared.image(for: "combat-view"))
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 250)
+                        .frame(width: 391, height: 112)
 
                     // attacker
                     Group {
@@ -73,7 +73,7 @@ struct CombatBannerView: View {
                             .offset(x: 27.0, y: -48.0)
                     }
                 }
-                .frame(height: 112, alignment: .bottomTrailing)
+                .frame(width: 391, height: 112, alignment: .bottomTrailing)
                 .offset(x: 0, y: self.showBanner ? 0 : 150)
                 .onReceive(self.viewModel.$showBanner, perform: { value in
                     withAnimation(.easeInOut(duration: 0.5)) {
