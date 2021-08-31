@@ -57,6 +57,7 @@ protocol GameViewModelDelegate: AnyObject {
     func showSelectPantheonDialog()
 
     func showUnitListDialog()
+    func showSelectPromotionDialog(for unit: AbstractUnit?)
 
     func isShown(screen: ScreenType) -> Bool
 
@@ -130,6 +131,9 @@ public class GameViewModel: ObservableObject {
 
     @Published
     var unitListDialogViewModel: UnitListDialogViewModel
+
+    @Published
+    var selectPromotionDialogViewModel: SelectPromotionDialogViewModel
 
     @Published
     var selectPantheonDialogViewModel: SelectPantheonDialogViewModel
@@ -228,6 +232,7 @@ public class GameViewModel: ObservableObject {
         self.diplomaticDialogViewModel = DiplomaticDialogViewModel()
         self.selectTradeCityDialogViewModel = SelectTradeCityDialogViewModel()
         self.unitListDialogViewModel = UnitListDialogViewModel()
+        self.selectPromotionDialogViewModel = SelectPromotionDialogViewModel()
         self.selectPantheonDialogViewModel = SelectPantheonDialogViewModel()
         self.treasuryDialogViewModel = TreasuryDialogViewModel()
         self.tradeRoutesDialogViewModel = TradeRoutesDialogViewModel()
@@ -250,6 +255,7 @@ public class GameViewModel: ObservableObject {
         self.diplomaticDialogViewModel.delegate = self
         self.selectTradeCityDialogViewModel.delegate = self
         self.unitListDialogViewModel.delegate = self
+        self.selectPromotionDialogViewModel.delegate = self
         self.selectPantheonDialogViewModel.delegate = self
         self.treasuryDialogViewModel.delegate = self
         self.tradeRoutesDialogViewModel.delegate = self
@@ -484,6 +490,16 @@ public class GameViewModel: ObservableObject {
         print("- load \(textures.pantheonTypeTextureNames.count) pantheon type textures")
         for pantheonTypeTextureName in textures.pantheonTypeTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: pantheonTypeTextureName), for: pantheonTypeTextureName)
+        }
+
+        print("- load \(textures.promotionTextureNames.count) promotion type textures")
+        for promotionTextureName in textures.promotionTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: promotionTextureName), for: promotionTextureName)
+        }
+
+        print("- load \(textures.promotionStateBackgroundTextureNames.count) promotion state textures")
+        for promotionStateBackgroundTextureName in textures.promotionStateBackgroundTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: promotionStateBackgroundTextureName), for: promotionStateBackgroundTextureName)
         }
 
         print("-- all textures loaded --")
@@ -810,6 +826,7 @@ extension GameViewModel: GameViewModelDelegate {
             self.showGovernmentDialog()
 
         case .selectPromotion:
+
             guard let gameModel = self.gameEnvironment.game.value else {
                 fatalError("cant get game")
             }
@@ -818,10 +835,9 @@ extension GameViewModel: GameViewModelDelegate {
                 fatalError("cant get human player")
             }
 
-            if let _ = humanPlayer.firstPromotableUnit(in: gameModel) {
+            if let promotableUnit = humanPlayer.firstPromotableUnit(in: gameModel) {
 
-                // self.handleUnitPromotion(at: promotableUnit.location)
-                print("==> selectPromotion")
+                self.showSelectPromotionDialog(for: promotableUnit)
             }
         case .changePolicies:
             self.showChangePoliciesDialog()
@@ -924,6 +940,21 @@ extension GameViewModel: GameViewModelDelegate {
             self.currentScreenType = .unitList
         } else {
             fatalError("cant show unit list dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+
+    func showSelectPromotionDialog(for unit: AbstractUnit?) {
+
+        if self.currentScreenType == .selectPromotion {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .selectPromotion {
+            self.selectPromotionDialogViewModel.update(for: unit)
+            self.currentScreenType = .selectPromotion
+        } else {
+            fatalError("cant show select promotion dialog, \(self.currentScreenType) is currently shown")
         }
     }
 

@@ -547,7 +547,16 @@ extension GameSceneViewModel {
     }
 
     func handleUnitPromotion(at point: HexPoint) {
-        fatalError("handleUnitPromotion")
+
+        guard let gameModel = self.game else {
+            fatalError("cant get game")
+        }
+
+        guard let unit = gameModel.unit(at: point, of: .combat) else {
+            fatalError("cant get unit at \(point)")
+        }
+
+        self.delegate?.showSelectPromotionDialog(for: unit)
     }
 }
 

@@ -126,6 +126,10 @@
 		C9A8F0DD2651A63100584199 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A8F0DC2651A63100584199 /* NotificationViewModel.swift */; };
 		C9A8F0DF2651A6CB00584199 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A8F0DE2651A6CB00584199 /* NotificationView.swift */; };
 		C9AA64FD26559C4200907DE1 /* GameButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AA64FC26559C4200907DE1 /* GameButtonStyle.swift */; };
+		C9AC0FF926DE62B700B65288 /* SelectPromotionDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0FF826DE62B700B65288 /* SelectPromotionDialogView.swift */; };
+		C9AC0FFB26DE635C00B65288 /* SelectPromotionDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0FFA26DE635C00B65288 /* SelectPromotionDialogViewModel.swift */; };
+		C9AC0FFD26DE649B00B65288 /* PromotionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0FFC26DE649B00B65288 /* PromotionViewModel.swift */; };
+		C9AC100326DE6EA100B65288 /* PromotionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC100226DE6EA100B65288 /* PromotionView.swift */; };
 		C9B087C826679E1D0016DFCA /* GoodyHutRewardPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B087C726679E1D0016DFCA /* GoodyHutRewardPopupView.swift */; };
 		C9B087CB2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B087CA2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift */; };
 		C9B087CD2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B087CC2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift */; };
@@ -329,6 +333,10 @@
 		C9A8F0DC2651A63100584199 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		C9A8F0DE2651A6CB00584199 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		C9AA64FC26559C4200907DE1 /* GameButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameButtonStyle.swift; sourceTree = "<group>"; };
+		C9AC0FF826DE62B700B65288 /* SelectPromotionDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPromotionDialogView.swift; sourceTree = "<group>"; };
+		C9AC0FFA26DE635C00B65288 /* SelectPromotionDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPromotionDialogViewModel.swift; sourceTree = "<group>"; };
+		C9AC0FFC26DE649B00B65288 /* PromotionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionViewModel.swift; sourceTree = "<group>"; };
+		C9AC100226DE6EA100B65288 /* PromotionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionView.swift; sourceTree = "<group>"; };
 		C9B087C726679E1D0016DFCA /* GoodyHutRewardPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodyHutRewardPopupView.swift; sourceTree = "<group>"; };
 		C9B087CA2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodyHutRewardPopupViewModel.swift; sourceTree = "<group>"; };
 		C9B087CC2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EurekaTechActivatedPopupView.swift; sourceTree = "<group>"; };
@@ -466,6 +474,7 @@
 				C9F4939E26CAB04400B0C259 /* UnitListDialogView.swift */,
 				C9B98C5526D2A6E300AA80D6 /* TreasuryDialogView.swift */,
 				C9077A8126D626AC004BE679 /* TradeRoutesDialogView.swift */,
+				C9AC0FF826DE62B700B65288 /* SelectPromotionDialogView.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -659,6 +668,7 @@
 				C94816C026A82DB000765029 /* TradeCityView.swift */,
 				C99EA75826BD72DE006FAA40 /* ReplyView.swift */,
 				C9077A8726D64EFE004BE679 /* TradeRouteView.swift */,
+				C9AC100226DE6EA100B65288 /* PromotionView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -681,6 +691,7 @@
 				C9F4939C26CAAE9600B0C259 /* UnitListDialogViewModel.swift */,
 				C9B98C5326D29ECD00AA80D6 /* TreasuryDialogViewModel.swift */,
 				C9077A8326D62714004BE679 /* TradeRoutesDialogViewModel.swift */,
+				C9AC0FFA26DE635C00B65288 /* SelectPromotionDialogViewModel.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -772,6 +783,7 @@
 				C94816BC26A82BB000765029 /* TradeCityViewModel.swift */,
 				C99EA75A26BD74F0006FAA40 /* ReplyViewModel.swift */,
 				C9077A8526D64432004BE679 /* TradeRouteViewModel.swift */,
+				C9AC0FFC26DE649B00B65288 /* PromotionViewModel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -919,6 +931,7 @@
 				C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */,
 				C9A3762B2635FDAF0057923E /* BoardLayer.swift in Sources */,
 				C9452E272668061D005EF985 /* EurekaCivicActivatedPopupView.swift in Sources */,
+				C9AC100326DE6EA100B65288 /* PromotionView.swift in Sources */,
 				C9CE216D2649675F00B47ED4 /* CheckboxCircleToggleStyle.swift in Sources */,
 				C9D191AD265A8659008C9622 /* CityReligionView.swift in Sources */,
 				C9A376072634462A0057923E /* FeatureLayer.swift in Sources */,
@@ -929,6 +942,7 @@
 				C9E87BB3264D1CB500514B9A /* TechViewModel.swift in Sources */,
 				C968F2A92639E97400612D0E /* CityObject.swift in Sources */,
 				C950F98E26427E110057A7D1 /* GameSceneViewModel.swift in Sources */,
+				C9AC0FF926DE62B700B65288 /* SelectPromotionDialogView.swift in Sources */,
 				C942EC5126BBD9480047E161 /* AchievementViewModel.swift in Sources */,
 				C99EA75926BD72DE006FAA40 /* ReplyView.swift in Sources */,
 				C9452E2D266809A6005EF985 /* EraEnteredPopupViewModel.swift in Sources */,
@@ -1016,6 +1030,7 @@
 				C9FBBE3C268356C4005D7CE6 /* DiplomaticDialogViewModel.swift in Sources */,
 				C92F948D265E23A6000968AB /* HexagonGridViewModel.swift in Sources */,
 				C950F98B26427C560057A7D1 /* GameSceneUserInterface.swift in Sources */,
+				C9AC0FFD26DE649B00B65288 /* PromotionViewModel.swift in Sources */,
 				C968F2A72639E8FB00612D0E /* CityLayer.swift in Sources */,
 				C9E87BA5264C558800514B9A /* YieldValueView.swift in Sources */,
 				C9D191AB265A4A2B008C9622 /* CityBuildingsViewModel.swift in Sources */,
@@ -1072,6 +1087,7 @@
 				C9077A8826D64EFE004BE679 /* TradeRouteView.swift in Sources */,
 				C9077A8626D64432004BE679 /* TradeRouteViewModel.swift in Sources */,
 				C9CAC89F264ABCC600D0668D /* GovernmentCardViewModel.swift in Sources */,
+				C9AC0FFB26DE635C00B65288 /* SelectPromotionDialogViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

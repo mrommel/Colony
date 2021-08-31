@@ -98,7 +98,7 @@ extension GameView {
         case .changePolicies:
             return AnyView(ChangePolicyDialogView(viewModel: self.viewModel.changePolicyDialogViewModel))
         case .selectPromotion:
-            return AnyView(EmptyView())
+            return AnyView(SelectPromotionDialogView(viewModel: self.viewModel.selectPromotionDialogViewModel))
         case .disbandConfirm:
             return AnyView(UnitDisbandConfirmationDialogView(viewModel: self.viewModel.unitDisbandConfirmationDialogViewModel))
         case .selectTradeCity:

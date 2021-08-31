@@ -16,6 +16,11 @@ struct CombatBannerView: View {
     @State
     var showBanner: Bool = false
 
+    init(viewModel: CombatBannerViewModel) {
+
+        self.viewModel = viewModel
+    }
+
     public var body: some View {
 
         VStack(alignment: .leading, spacing: 0) {
@@ -35,42 +40,83 @@ struct CombatBannerView: View {
 
                     // attacker
                     Group {
-                        Text(self.viewModel.attackerViewModel.name)
-                            .font(.caption)
-                            .frame(width: 84, height: 12, alignment: .center)
-                            //.background(Color.red)
-                            .offset(x: -70.0, y: -58.0)
 
-                        Image(nsImage: self.viewModel.attackerViewModel.typeIcon())
+                        Text("Defender")
+                            .font(.caption)
+                            .frame(width: 110, height: 12, alignment: .center)
+                            //.background(Color.red)
+                            .offset(x: -110.0, y: -96.0)
+
+                        Text(self.viewModel.defenderViewModel.name)
+                            .font(.caption)
+                            .frame(width: 110, height: 12, alignment: .center)
+                            //.background(Color.red)
+                            .offset(x: -110.0, y: -82.0)
+
+                        Image(nsImage: self.viewModel.defenderViewModel.typeIcon())
                             .resizable()
-                            .frame(width: 54, height: 54)
-                            .offset(x: -20.0, y: -10.0)
+                            .frame(width: 84, height: 84)
+                            .offset(x: -32.0, y: -15.0)
 
-                        Text("\(self.viewModel.attackerViewModel.strength)")
+                        Text("\(self.viewModel.defenderViewModel.strength)")
                             .font(.caption)
-                            .frame(width: 12, height: 12, alignment: .center)
+                            .frame(width: 20, height: 12, alignment: .center)
                             //.background(Color.red)
-                            .offset(x: -27.0, y: -48.0)
+                            .offset(x: -42.5, y: -80.0)
+
+                        ScrollView {
+                            LazyVStack(spacing: 2) {
+
+                                ForEach(self.viewModel.defenderViewModel.modifierViewModels, id: \.self) { modifierViewModel in
+
+                                    Text(modifierViewModel.text)
+                                        .font(.footnote)
+                                        .frame(width: 120, alignment: .leading)
+                                }
+                            }
+                        }
+                        .frame(width: 130, height: 90, alignment: .leading)
+                        .offset(x: -130.0, y: 10.0)
                     }
 
                     // defender
                     Group {
-                        Text(self.viewModel.defenderViewModel.name)
+                        Text("Attacker")
                             .font(.caption)
-                            .frame(width: 84, height: 12, alignment: .center)
+                            .frame(width: 110, height: 12, alignment: .center)
                             //.background(Color.red)
-                            .offset(x: 70.0, y: -58.0)
+                            .offset(x: 110.0, y: -96.0)
 
-                        Image(nsImage: self.viewModel.defenderViewModel.typeIcon())
+                        Text(self.viewModel.attackerViewModel.name)
+                            .font(.caption)
+                            .frame(width: 110, height: 12, alignment: .center)
+                            //.background(Color.red)
+                            .offset(x: 110.0, y: -82.0)
+
+                        Image(nsImage: self.viewModel.attackerViewModel.typeIcon())
                             .resizable()
-                            .frame(width: 54, height: 54)
-                            .offset(x: 20.0, y: -10.0)
+                            .frame(width: 84, height: 84)
+                            .offset(x: 32.0, y: -15.0)
 
-                        Text("\(self.viewModel.defenderViewModel.strength)")
+                        Text("\(self.viewModel.attackerViewModel.strength)")
                             .font(.caption)
-                            .frame(width: 12, height: 12, alignment: .center)
+                            .frame(width: 20, height: 12, alignment: .center)
                             //.background(Color.red)
-                            .offset(x: 27.0, y: -48.0)
+                            .offset(x: 42.5, y: -80.0)
+
+                        ScrollView {
+                            LazyVStack(spacing: 2) {
+
+                                ForEach(self.viewModel.defenderViewModel.modifierViewModels, id: \.self) { modifierViewModel in
+
+                                    Text(modifierViewModel.text)
+                                        .font(.footnote)
+                                        .frame(width: 120, alignment: .leading)
+                                }
+                            }
+                        }
+                        .frame(width: 130, height: 90, alignment: .leading)
+                        .offset(x: 130.0, y: 10.0)
                     }
                 }
                 .frame(width: 391, height: 112, alignment: .bottomTrailing)
@@ -95,22 +141,19 @@ struct CombatBannerView_Previews: PreviewProvider {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
-        let locationSource = HexPoint(x: 1, y: 2)
-        let locationTarget = HexPoint(x: 1, y: 3)
+        // attacker
+        let playerAttacker = Player(leader: .alexander, isHuman: true)
+        let locationAttacker = HexPoint(x: 1, y: 2)
+        let unitAttacker = Unit(at: locationAttacker, type: UnitType.spearman, owner: playerAttacker)
 
-        let playerSource = Player(leader: .alexander, isHuman: true)
-        let playerTarget = Player(leader: .barbarossa, isHuman: false)
-        let unitSource = Unit(at: locationSource, type: UnitType.warrior, owner: playerSource)
-        let unitTarget = Unit(at: locationTarget, type: UnitType.warrior, owner: playerTarget)
-        let viewModel = CombatBannerViewModel(source: unitSource, target: unitTarget)
+        // defender
+        let playerDefender = Player(leader: .barbarossa, isHuman: false)
+        let locationDefender = HexPoint(x: 1, y: 3)
+        let unitDefender = Unit(at: locationDefender, type: UnitType.warrior, owner: playerDefender)
+
+        let viewModel = CombatBannerViewModel(attacker: unitAttacker, defender: unitDefender)
 
         CombatBannerView(viewModel: viewModel)
-
-        /*let _ = GameViewModel(preloadAssets: true)
-        Image(nsImage: ImageCache.shared.image(for: "combat-view"))
-            .resizable()
-            .scaledToFit()
-            .frame(width: 250)*/
     }
 }
 #endif

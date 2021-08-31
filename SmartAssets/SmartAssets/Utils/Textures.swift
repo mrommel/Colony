@@ -66,6 +66,8 @@ public class Textures {
     public let districtTypeTextureNames: [String]
     public let leaderTypeTextureNames: [String]
     public let pantheonTypeTextureNames: [String]
+    public let promotionTextureNames: [String]
+    public let promotionStateBackgroundTextureNames: [String]
 
     public init(game: GameModel?) {
 
@@ -200,6 +202,8 @@ public class Textures {
         self.districtTypeTextureNames = DistrictType.all.map { $0.iconTexture() }
         self.leaderTypeTextureNames = LeaderType.all.map { $0.iconTexture() }  + ["leader-random"]
         self.pantheonTypeTextureNames = PantheonType.all.map { $0.iconTexture() }
+        self.promotionTextureNames = UnitPromotionType.all.map { $0.iconTexture() }
+        self.promotionStateBackgroundTextureNames = PromotionState.all.map { $0.iconTexture() }
     }
 
     public func terrainTexture(at point: HexPoint) -> String {

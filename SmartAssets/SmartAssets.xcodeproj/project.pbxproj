@@ -59,6 +59,8 @@
 		C9A37611263448AC0057923E /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A37610263448AC0057923E /* Globals.swift */; };
 		C9A5B5CD2588A50500836AEB /* MapTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A5B5CC2588A50500836AEB /* MapTypeExtension.swift */; };
 		C9AB2C72257E6B350045DFBC /* MapSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C71257E6B350045DFBC /* MapSizeExtension.swift */; };
+		C9AC0FFF26DE67DB00B65288 /* PromotionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0FFE26DE67DB00B65288 /* PromotionState.swift */; };
+		C9AC100126DE68A800B65288 /* UnitPromotionTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC100026DE68A800B65288 /* UnitPromotionTypeExtension.swift */; };
 		C9B60BF2269DCF6500F10177 /* PantheonTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B60BF1269DCF6500F10177 /* PantheonTypeExtension.swift */; };
 		C9CAC8A2264BC4B200D0668D /* GovernmentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */; };
 		C9CAC8A6264BD17000D0668D /* GovernmentTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC8A5264BD17000D0668D /* GovernmentTypeExtension.swift */; };
@@ -140,6 +142,8 @@
 		C9A37610263448AC0057923E /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		C9A5B5CC2588A50500836AEB /* MapTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTypeExtension.swift; sourceTree = "<group>"; };
 		C9AB2C71257E6B350045DFBC /* MapSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSizeExtension.swift; sourceTree = "<group>"; };
+		C9AC0FFE26DE67DB00B65288 /* PromotionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionState.swift; sourceTree = "<group>"; };
+		C9AC100026DE68A800B65288 /* UnitPromotionTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitPromotionTypeExtension.swift; sourceTree = "<group>"; };
 		C9B60BF1269DCF6500F10177 /* PantheonTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantheonTypeExtension.swift; sourceTree = "<group>"; };
 		C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentState.swift; sourceTree = "<group>"; };
 		C9CAC8A5264BD17000D0668D /* GovernmentTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentTypeExtension.swift; sourceTree = "<group>"; };
@@ -228,6 +232,7 @@
 				C9E87BC0264DB54900514B9A /* DistrictTypeExtension.swift */,
 				C9E87BC2264DB58100514B9A /* BuildTypeExtension.swift */,
 				C9B60BF1269DCF6500F10177 /* PantheonTypeExtension.swift */,
+				C9AC100026DE68A800B65288 /* UnitPromotionTypeExtension.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -294,6 +299,7 @@
 			isa = PBXGroup;
 			children = (
 				C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */,
+				C9AC0FFE26DE67DB00B65288 /* PromotionState.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -443,6 +449,7 @@
 				C9E87BA7264C573200514B9A /* YieldTypeExtension.swift in Sources */,
 				C925594C25F95F9800C2BF28 /* CivilizationTypeExtension.swift in Sources */,
 				C98E68B12577D28E00BD93CA /* FeatureTypeExtension.swift in Sources */,
+				C9AC100126DE68A800B65288 /* UnitPromotionTypeExtension.swift in Sources */,
 				C9B60BF2269DCF6500F10177 /* PantheonTypeExtension.swift in Sources */,
 				C9E87BBB264DAA7000514B9A /* CivicTypeExtension.swift in Sources */,
 				C9022FA026093D5300C6773A /* LeaderTypeExtension.swift in Sources */,
@@ -450,6 +457,7 @@
 				C9E87BBF264DB4D600514B9A /* WonderTypeExtension.swift in Sources */,
 				C9CAC8A2264BC4B200D0668D /* GovernmentState.swift in Sources */,
 				C950F9922647E2140057A7D1 /* NotificationTypeExtension.swift in Sources */,
+				C9AC0FFF26DE67DB00B65288 /* PromotionState.swift in Sources */,
 				C952B9AC261E3930008822DD /* ObjectTextureAtlas.swift in Sources */,
 				C9E87BC1264DB54900514B9A /* DistrictTypeExtension.swift in Sources */,
 				C9CAC8A6264BD17000D0668D /* GovernmentTypeExtension.swift in Sources */,
