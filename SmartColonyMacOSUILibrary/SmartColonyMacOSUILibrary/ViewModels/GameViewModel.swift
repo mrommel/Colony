@@ -74,6 +74,7 @@ protocol GameViewModelDelegate: AnyObject {
     func closePopup()
 }
 
+// swiftlint:disable:type_body_length
 public class GameViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
@@ -433,13 +434,18 @@ public class GameViewModel: ObservableObject {
 
         print("- load \(textures.governmentStateBackgroundTextureNames.count) government state background textures")
         for governmentStateBackgroundTextureName in textures.governmentStateBackgroundTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: governmentStateBackgroundTextureName), for: governmentStateBackgroundTextureName)
+            ImageCache.shared.add(
+                image: bundle.image(forResource: governmentStateBackgroundTextureName),
+                for: governmentStateBackgroundTextureName
+            )
         }
 
-        print("- load \(textures.governmentTextureNames.count) government and \(textures.governmentAmbientTextureNames.count) ambient textures")
+        print("- load \(textures.governmentTextureNames.count) government textures")
         for governmentTextureName in textures.governmentTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: governmentTextureName), for: governmentTextureName)
         }
+
+        print("- load \(textures.governmentAmbientTextureNames.count) ambient textures")
         for governmentAmbientTextureName in textures.governmentAmbientTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: governmentAmbientTextureName), for: governmentAmbientTextureName)
         }
@@ -499,7 +505,10 @@ public class GameViewModel: ObservableObject {
 
         print("- load \(textures.promotionStateBackgroundTextureNames.count) promotion state textures")
         for promotionStateBackgroundTextureName in textures.promotionStateBackgroundTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: promotionStateBackgroundTextureName), for: promotionStateBackgroundTextureName)
+            ImageCache.shared.add(
+                image: bundle.image(forResource: promotionStateBackgroundTextureName),
+                for: promotionStateBackgroundTextureName
+            )
         }
 
         print("-- all textures loaded --")
@@ -907,7 +916,15 @@ extension GameViewModel: GameViewModelDelegate {
         }
 
         if self.currentScreenType == .none {
-            self.diplomaticDialogViewModel.update(for: humanPlayer, and: otherPlayer, state: data.state, message: data.message, emotion: data.emotion, in: gameModel)
+            self.diplomaticDialogViewModel.update(
+                for: humanPlayer,
+                and: otherPlayer,
+                state: data.state,
+                message: data.message,
+                emotion: data.emotion,
+                in: gameModel
+            )
+
             if let deal = deal {
                 diplomaticDialogViewModel.add(deal: deal)
             }

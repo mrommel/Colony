@@ -93,7 +93,6 @@ class GenerateGameViewModel: ObservableObject {
 
         var players: [AbstractPlayer] = []
         var units: [AbstractUnit] = []
-        var humanStartLocation: HexPoint = HexPoint.zero
 
         for startLocation in map?.startLocations ?? [] {
 
@@ -137,8 +136,6 @@ class GenerateGameViewModel: ObservableObject {
 
                 let builderUnit = Unit(at: startLocation.point, type: .builder, owner: player)
                 units.append(builderUnit)
-
-                humanStartLocation = startLocation.point
             } else {
                 for unitType in handicap.freeAIStartingUnitTypes() {
                     let unit = Unit(at: startLocation.point, type: unitType, owner: player)
@@ -156,11 +153,6 @@ class GenerateGameViewModel: ObservableObject {
         // ---- Barbar
         let playerBarbar = Player(leader: .barbar, isHuman: false)
         playerBarbar.initialize()
-
-        // debug - add barbarian warrior to fight
-        let barbarianWarriorUnit = Unit(at: humanStartLocation.neighbor(in: .south, and: 2), type: .barbarianWarrior, owner: playerBarbar)
-        units.append(barbarianWarriorUnit)
-
         players.prepend(playerBarbar)
 
         let game = GameModel(victoryTypes: [VictoryType.cultural], handicap: handicap, turnsElapsed: 0, players: players, on: map!)
