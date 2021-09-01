@@ -13,49 +13,32 @@ struct SelectPromotionDialogView: View {
     var viewModel: SelectPromotionDialogViewModel
 
     var body: some View {
-        Group {
-            VStack(spacing: 10) {
-                HStack {
 
-                    Spacer()
+        BaseDialogView(title: "Select promotion", viewModel: self.viewModel) {
+            ScrollView(.vertical, showsIndicators: true, content: {
 
-                    Text("Select promotion")
-                        .font(.title2)
-                        .bold()
-                        .padding(.top, 14)
+                LazyVStack(spacing: 10) {
 
-                    Spacer()
-                }
+                    ForEach(self.viewModel.promotionViewModels, id: \.self) { promotionViewModel in
 
-                ScrollView(.vertical, showsIndicators: true, content: {
-
-                    LazyVStack(spacing: 10) {
-
-                        ForEach(self.viewModel.promotionViewModels, id: \.self) { promotionViewModel in
-
-                            PromotionView(viewModel: promotionViewModel)
-                                .padding(.top, 8)
-                        }
+                        PromotionView(viewModel: promotionViewModel)
+                            .padding(.top, 8)
                     }
-                })
-                .frame(width: 340, height: 300, alignment: .center)
-                .border(Color.gray)
-
-                Button(action: {
-                    self.viewModel.closeDialog()
-                }, label: {
-                    Text("Okay")
-                })
-                .buttonStyle(DialogButtonStyle())
-            }
-            .padding(.bottom, 45)
-            .padding(.leading, 45)
-            .padding(.trailing, 45)
+                }
+            })
         }
-        .frame(width: 400, height: 450, alignment: .top)
-        .background(
-            Image(nsImage: ImageCache.shared.image(for: "grid9-dialog"))
-                .resizable(capInsets: EdgeInsets(all: 45))
-        )
     }
 }
+
+#if DEBUG
+struct SelectPromotionDialogView_Previews: PreviewProvider {
+
+    static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
+        let _ = GameViewModel(preloadAssets: true)
+        let viewModel = SelectPromotionDialogViewModel()
+
+        SelectPromotionDialogView(viewModel: viewModel)
+    }
+}
+#endif

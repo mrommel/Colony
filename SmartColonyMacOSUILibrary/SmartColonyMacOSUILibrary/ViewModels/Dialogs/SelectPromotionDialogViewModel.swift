@@ -55,6 +55,9 @@ class SelectPromotionDialogViewModel: ObservableObject {
 
         self.promotionViewModels = tmpPromotionViewModels
     }
+}
+
+extension SelectPromotionDialogViewModel: BaseDialogViewModel {
 
     func closeDialog() {
 

@@ -130,6 +130,7 @@
 		C9AC0FFB26DE635C00B65288 /* SelectPromotionDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0FFA26DE635C00B65288 /* SelectPromotionDialogViewModel.swift */; };
 		C9AC0FFD26DE649B00B65288 /* PromotionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0FFC26DE649B00B65288 /* PromotionViewModel.swift */; };
 		C9AC100326DE6EA100B65288 /* PromotionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC100226DE6EA100B65288 /* PromotionView.swift */; };
+		C9AC100526DFA3AE00B65288 /* BaseDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC100426DFA3AD00B65288 /* BaseDialogView.swift */; };
 		C9B087C826679E1D0016DFCA /* GoodyHutRewardPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B087C726679E1D0016DFCA /* GoodyHutRewardPopupView.swift */; };
 		C9B087CB2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B087CA2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift */; };
 		C9B087CD2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B087CC2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift */; };
@@ -337,6 +338,7 @@
 		C9AC0FFA26DE635C00B65288 /* SelectPromotionDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPromotionDialogViewModel.swift; sourceTree = "<group>"; };
 		C9AC0FFC26DE649B00B65288 /* PromotionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionViewModel.swift; sourceTree = "<group>"; };
 		C9AC100226DE6EA100B65288 /* PromotionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionView.swift; sourceTree = "<group>"; };
+		C9AC100426DFA3AD00B65288 /* BaseDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BaseDialogView.swift; path = "../New Group/BaseDialogView.swift"; sourceTree = "<group>"; };
 		C9B087C726679E1D0016DFCA /* GoodyHutRewardPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodyHutRewardPopupView.swift; sourceTree = "<group>"; };
 		C9B087CA2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodyHutRewardPopupViewModel.swift; sourceTree = "<group>"; };
 		C9B087CC2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EurekaTechActivatedPopupView.swift; sourceTree = "<group>"; };
@@ -676,6 +678,7 @@
 		C9A48D3F2653B9E100260EE0 /* Dialogs */ = {
 			isa = PBXGroup;
 			children = (
+				C9AC100626DFA4BA00B65288 /* Base */,
 				C9D191A6265A492A008C9622 /* CityViews */,
 				C9A48D402653BB4000260EE0 /* GovernmentDialogViewModel.swift */,
 				C9CAC89A264ABC6D00D0668D /* ChangeGovernmentDialogViewModel.swift */,
@@ -694,6 +697,14 @@
 				C9AC0FFA26DE635C00B65288 /* SelectPromotionDialogViewModel.swift */,
 			);
 			path = Dialogs;
+			sourceTree = "<group>";
+		};
+		C9AC100626DFA4BA00B65288 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				C9AC100426DFA3AD00B65288 /* BaseDialogView.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 		C9B087C626679DFC0016DFCA /* Popups */ = {
@@ -941,6 +952,7 @@
 				C968F28F2639455700612D0E /* BaseLayer.swift in Sources */,
 				C9E87BB3264D1CB500514B9A /* TechViewModel.swift in Sources */,
 				C968F2A92639E97400612D0E /* CityObject.swift in Sources */,
+				C9AC100526DFA3AE00B65288 /* BaseDialogView.swift in Sources */,
 				C950F98E26427E110057A7D1 /* GameSceneViewModel.swift in Sources */,
 				C9AC0FF926DE62B700B65288 /* SelectPromotionDialogView.swift in Sources */,
 				C942EC5126BBD9480047E161 /* AchievementViewModel.swift in Sources */,
