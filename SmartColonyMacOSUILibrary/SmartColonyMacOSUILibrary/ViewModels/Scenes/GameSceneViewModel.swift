@@ -12,11 +12,11 @@ import SwiftUI
 
 public class GameSceneViewModel: ObservableObject {
 
-    enum GameSceneCombatMode {
+    enum UnitSelectionMode {
 
-        case none
-        case melee
-        case ranged
+        case pick
+        case meleeTarget
+        case rangedTarget
     }
 
     enum GameSceneTurnState {
@@ -82,6 +82,9 @@ public class GameSceneViewModel: ObservableObject {
     }
 
     @Published
+    var combatTarget: AbstractUnit?
+
+    @Published
     var selectedCity: AbstractCity? = nil {
 
         didSet {
@@ -95,7 +98,7 @@ public class GameSceneViewModel: ObservableObject {
     }
 
     @Published
-    var sceneCombatMode: GameSceneCombatMode = .none
+    var unitSelectionMode: UnitSelectionMode = .pick
 
     @Published
     var turnButtonNotificationType: NotificationType = .unitNeedsOrders {
@@ -331,7 +334,9 @@ public class GameSceneViewModel: ObservableObject {
         if let blockingNotification = humanPlayer.blockingNotification() {
 
             if let unit = self.selectedUnit {
-                self.game?.userInterface?.select(unit: unit)
+                if self.unitSelectionMode == .pick {
+                    self.game?.userInterface?.select(unit: unit)
+                }
             } else {
                 // no unit selected - show blocking button
                 self.showBlockingButton(for: blockingNotification)
@@ -542,7 +547,16 @@ extension GameSceneViewModel {
     }
 
     func handleUnitPromotion(at point: HexPoint) {
-        fatalError("handleUnitPromotion")
+
+        guard let gameModel = self.game else {
+            fatalError("cant get game")
+        }
+
+        guard let unit = gameModel.unit(at: point, of: .combat) else {
+            fatalError("cant get unit at \(point)")
+        }
+
+        self.delegate?.showSelectPromotionDialog(for: unit)
     }
 }
 

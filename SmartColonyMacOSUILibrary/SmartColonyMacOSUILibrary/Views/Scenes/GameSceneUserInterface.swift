@@ -69,6 +69,7 @@ extension GameScene: UserInterfaceDelegate {
     func unselect() {
 
         self.mapNode?.unitLayer.hideFocus()
+        self.mapNode?.unitLayer.clearAttackFocus()
         self.viewModel?.selectedCity = nil
         self.viewModel?.selectedUnit = nil
         self.viewModel?.delegate?.selectedUnitChanged(to: nil, commands: [], in: nil)
@@ -116,6 +117,16 @@ extension GameScene: UserInterfaceDelegate {
         } else {
             print("cant show unknown animation: \(animation)")
         }
+    }
+
+    func clearAttackFocus() {
+
+        self.mapNode?.unitLayer.clearAttackFocus()
+    }
+
+    func showAttackFocus(at point: HexPoint) {
+
+        self.mapNode?.unitLayer.showAttackFocus(at: point)
     }
 
     func select(tech: TechType) {

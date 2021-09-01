@@ -281,6 +281,12 @@ extension GameScene {
             }
         } else {
 
+            if self.viewModel?.unitSelectionMode == .meleeTarget {
+
+                print("select target at: \(position)")
+                return
+            }
+
             if let city = game.city(at: position) {
                 if humanPlayer.isEqual(to: city.player) {
                     self.select(city: city)
@@ -394,15 +400,13 @@ extension GameScene {
 
         if let selectedUnit = self.viewModel?.selectedUnit {
 
-            /*if self.uiCombatMode == .melee {
-                
-                if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
-                    
-                    self.bottomCombatBar?.combatPrediction(of: selectedUnit, against: unitToAttack, mode: .melee, in: self.viewModel?.game)
-                }
-                
-            } else {*/
+            guard let unitSelectionMode = self.viewModel?.unitSelectionMode else {
+                fatalError("cant get selection mode")
+            }
 
+            switch unitSelectionMode {
+
+            case .pick:
                 self.mapNode?.unitLayer.clearPathSpriteBuffer()
 
                 if selectedUnit.location != position {
@@ -413,7 +417,40 @@ extension GameScene {
                     self.mapNode?.unitLayer.hideFocus()
                     self.updateCommands(for: selectedUnit)
                 }
-            //}
+
+            case .meleeTarget:
+                if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
+
+                    var combatExecuted: Bool = false
+                    if let combatTarget = self.viewModel?.combatTarget {
+
+                        if unitToAttack.location == combatTarget.location {
+
+                            self.viewModel?.delegate?.doCombat(of: selectedUnit, against: unitToAttack)
+
+                            combatExecuted = true
+                            self.viewModel?.combatTarget = nil
+                            self.viewModel?.delegate?.hideCombatBanner()
+                            self.viewModel?.unitSelectionMode = .pick
+                        }
+                    }
+
+                    if !combatExecuted {
+
+                        self.viewModel?.delegate?.showCombatBanner(for: selectedUnit, and: unitToAttack)
+                        self.viewModel?.combatTarget = unitToAttack
+                    }
+                } else {
+                    self.viewModel?.combatTarget = nil
+                    self.viewModel?.delegate?.hideCombatBanner()
+                }
+
+            case .rangedTarget:
+
+                // NOOP
+            break
+            }
+
         }
 
         self.previousLocation = .zero
@@ -425,7 +462,7 @@ extension GameScene {
 
     func updateCommands(for unit: AbstractUnit?) {
 
-        guard let sceneCombatMode = self.viewModel?.sceneCombatMode else {
+        guard let sceneCombatMode = self.viewModel?.unitSelectionMode else {
             return
         }
 
@@ -433,11 +470,11 @@ extension GameScene {
 
             switch sceneCombatMode {
 
-            case .none:
+            case .pick:
                 let commands = unit.commands(in: self.viewModel?.game)
                 self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: commands, in: self.viewModel?.game)
 
-            case .melee, .ranged:
+            case .meleeTarget, .rangedTarget:
                 let commands = [Command(type: .cancelAttack, location: HexPoint.invalid)]
                 self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: commands, in: self.viewModel?.game)
             }

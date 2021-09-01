@@ -153,7 +153,6 @@ class GenerateGameViewModel: ObservableObject {
         // ---- Barbar
         let playerBarbar = Player(leader: .barbar, isHuman: false)
         playerBarbar.initialize()
-
         players.prepend(playerBarbar)
 
         let game = GameModel(victoryTypes: [VictoryType.cultural], handicap: handicap, turnsElapsed: 0, players: players, on: map!)

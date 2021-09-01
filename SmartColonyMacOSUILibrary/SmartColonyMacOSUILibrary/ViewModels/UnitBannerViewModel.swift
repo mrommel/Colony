@@ -257,24 +257,30 @@ class UnitBannerViewModel: ObservableObject {
             }
 
         case .attack:
-            print("attack")
+
             if let selectedUnit = self.selectedUnit {
+
                 // we need a target here
-                self.showMeleeTargets(of: selectedUnit)
-                //self.bottomCombatBar?.showCombatView()
+                self.delegate?.showMeleeTargets(of: selectedUnit)
             }
 
         case .rangedAttack:
-            print("rangedAttack")
+
             if let selectedUnit = self.selectedUnit {
+
                 // we need a target here
-                self.showRangedTargets(of: selectedUnit)
-                //self.bottomCombatBar?.showCombatView()
+                self.delegate?.showRangedTargets(of: selectedUnit)
             }
 
         case .cancelAttack:
-            print("cancelAttack")
-            //self.cancelAttacks()
+
+            self.delegate?.cancelAttacks()
+
+            if let selectedUnit = self.selectedUnit {
+                // update commands
+                let commands = selectedUnit.commands(in: gameModel)
+                self.commands = commands
+            }
         }
     }
 
@@ -286,15 +292,5 @@ class UnitBannerViewModel: ObservableObject {
         if let selectedUnit = self.selectedUnit {
             self.unitHealthValue = CGFloat(selectedUnit.healthPoints()) / 100.0
         }
-    }
-
-    func showMeleeTargets(of unit: AbstractUnit?) {
-
-        print("not implemented: showMeleeTargets")
-    }
-
-    func showRangedTargets(of unit: AbstractUnit?) {
-
-        print("not implemented: showRangedTargets")
     }
 }

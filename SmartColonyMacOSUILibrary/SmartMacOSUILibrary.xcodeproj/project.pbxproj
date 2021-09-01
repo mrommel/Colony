@@ -44,6 +44,8 @@
 		C94816BD26A82BB000765029 /* TradeCityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94816BC26A82BB000765029 /* TradeCityViewModel.swift */; };
 		C94816BF26A82D4E00765029 /* SelectTradeCityDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94816BE26A82D4E00765029 /* SelectTradeCityDialogView.swift */; };
 		C94816C126A82DB000765029 /* TradeCityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94816C026A82DB000765029 /* TradeCityView.swift */; };
+		C94CE28726DCDA4F00B58A9C /* CombatBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94CE28626DCDA4F00B58A9C /* CombatBannerView.swift */; };
+		C94CE28926DCDA6400B58A9C /* CombatBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94CE28826DCDA6400B58A9C /* CombatBannerViewModel.swift */; };
 		C950F98B26427C560057A7D1 /* GameSceneUserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F98A26427C560057A7D1 /* GameSceneUserInterface.swift */; };
 		C950F98E26427E110057A7D1 /* GameSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F98D26427E110057A7D1 /* GameSceneViewModel.swift */; };
 		C950F995264902990057A7D1 /* ChangePolicyDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F994264902990057A7D1 /* ChangePolicyDialogView.swift */; };
@@ -124,6 +126,11 @@
 		C9A8F0DD2651A63100584199 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A8F0DC2651A63100584199 /* NotificationViewModel.swift */; };
 		C9A8F0DF2651A6CB00584199 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A8F0DE2651A6CB00584199 /* NotificationView.swift */; };
 		C9AA64FD26559C4200907DE1 /* GameButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AA64FC26559C4200907DE1 /* GameButtonStyle.swift */; };
+		C9AC0FF926DE62B700B65288 /* SelectPromotionDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0FF826DE62B700B65288 /* SelectPromotionDialogView.swift */; };
+		C9AC0FFB26DE635C00B65288 /* SelectPromotionDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0FFA26DE635C00B65288 /* SelectPromotionDialogViewModel.swift */; };
+		C9AC0FFD26DE649B00B65288 /* PromotionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0FFC26DE649B00B65288 /* PromotionViewModel.swift */; };
+		C9AC100326DE6EA100B65288 /* PromotionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC100226DE6EA100B65288 /* PromotionView.swift */; };
+		C9AC100526DFA3AE00B65288 /* BaseDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC100426DFA3AD00B65288 /* BaseDialogView.swift */; };
 		C9B087C826679E1D0016DFCA /* GoodyHutRewardPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B087C726679E1D0016DFCA /* GoodyHutRewardPopupView.swift */; };
 		C9B087CB2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B087CA2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift */; };
 		C9B087CD2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B087CC2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift */; };
@@ -242,6 +249,8 @@
 		C94816BC26A82BB000765029 /* TradeCityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeCityViewModel.swift; sourceTree = "<group>"; };
 		C94816BE26A82D4E00765029 /* SelectTradeCityDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTradeCityDialogView.swift; sourceTree = "<group>"; };
 		C94816C026A82DB000765029 /* TradeCityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeCityView.swift; sourceTree = "<group>"; };
+		C94CE28626DCDA4F00B58A9C /* CombatBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatBannerView.swift; sourceTree = "<group>"; };
+		C94CE28826DCDA6400B58A9C /* CombatBannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatBannerViewModel.swift; sourceTree = "<group>"; };
 		C950F98A26427C560057A7D1 /* GameSceneUserInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneUserInterface.swift; sourceTree = "<group>"; };
 		C950F98D26427E110057A7D1 /* GameSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneViewModel.swift; sourceTree = "<group>"; };
 		C950F994264902990057A7D1 /* ChangePolicyDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePolicyDialogView.swift; sourceTree = "<group>"; };
@@ -325,6 +334,11 @@
 		C9A8F0DC2651A63100584199 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		C9A8F0DE2651A6CB00584199 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		C9AA64FC26559C4200907DE1 /* GameButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameButtonStyle.swift; sourceTree = "<group>"; };
+		C9AC0FF826DE62B700B65288 /* SelectPromotionDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPromotionDialogView.swift; sourceTree = "<group>"; };
+		C9AC0FFA26DE635C00B65288 /* SelectPromotionDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPromotionDialogViewModel.swift; sourceTree = "<group>"; };
+		C9AC0FFC26DE649B00B65288 /* PromotionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionViewModel.swift; sourceTree = "<group>"; };
+		C9AC100226DE6EA100B65288 /* PromotionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionView.swift; sourceTree = "<group>"; };
+		C9AC100426DFA3AD00B65288 /* BaseDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BaseDialogView.swift; path = "../New Group/BaseDialogView.swift"; sourceTree = "<group>"; };
 		C9B087C726679E1D0016DFCA /* GoodyHutRewardPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodyHutRewardPopupView.swift; sourceTree = "<group>"; };
 		C9B087CA2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodyHutRewardPopupViewModel.swift; sourceTree = "<group>"; };
 		C9B087CC2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EurekaTechActivatedPopupView.swift; sourceTree = "<group>"; };
@@ -462,6 +476,7 @@
 				C9F4939E26CAB04400B0C259 /* UnitListDialogView.swift */,
 				C9B98C5526D2A6E300AA80D6 /* TreasuryDialogView.swift */,
 				C9077A8126D626AC004BE679 /* TradeRoutesDialogView.swift */,
+				C9AC0FF826DE62B700B65288 /* SelectPromotionDialogView.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -549,6 +564,7 @@
 				C9A48D352653004100260EE0 /* HeaderView.swift */,
 				C9FBBE3F26837AA7005D7CE6 /* CityBannerView.swift */,
 				C943E8FF26C100E00038B7E8 /* UnitBannerView.swift */,
+				C94CE28626DCDA4F00B58A9C /* CombatBannerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -568,6 +584,7 @@
 				C9A8F0DA2651A61E00584199 /* NotificationsViewModel.swift */,
 				C939DDD42684D396001CBC6C /* CityBannerViewModel.swift */,
 				C943E90126C1011C0038B7E8 /* UnitBannerViewModel.swift */,
+				C94CE28826DCDA6400B58A9C /* CombatBannerViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -653,6 +670,7 @@
 				C94816C026A82DB000765029 /* TradeCityView.swift */,
 				C99EA75826BD72DE006FAA40 /* ReplyView.swift */,
 				C9077A8726D64EFE004BE679 /* TradeRouteView.swift */,
+				C9AC100226DE6EA100B65288 /* PromotionView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -660,6 +678,7 @@
 		C9A48D3F2653B9E100260EE0 /* Dialogs */ = {
 			isa = PBXGroup;
 			children = (
+				C9AC100626DFA4BA00B65288 /* Base */,
 				C9D191A6265A492A008C9622 /* CityViews */,
 				C9A48D402653BB4000260EE0 /* GovernmentDialogViewModel.swift */,
 				C9CAC89A264ABC6D00D0668D /* ChangeGovernmentDialogViewModel.swift */,
@@ -675,8 +694,17 @@
 				C9F4939C26CAAE9600B0C259 /* UnitListDialogViewModel.swift */,
 				C9B98C5326D29ECD00AA80D6 /* TreasuryDialogViewModel.swift */,
 				C9077A8326D62714004BE679 /* TradeRoutesDialogViewModel.swift */,
+				C9AC0FFA26DE635C00B65288 /* SelectPromotionDialogViewModel.swift */,
 			);
 			path = Dialogs;
+			sourceTree = "<group>";
+		};
+		C9AC100626DFA4BA00B65288 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				C9AC100426DFA3AD00B65288 /* BaseDialogView.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 		C9B087C626679DFC0016DFCA /* Popups */ = {
@@ -766,6 +794,7 @@
 				C94816BC26A82BB000765029 /* TradeCityViewModel.swift */,
 				C99EA75A26BD74F0006FAA40 /* ReplyViewModel.swift */,
 				C9077A8526D64432004BE679 /* TradeRouteViewModel.swift */,
+				C9AC0FFC26DE649B00B65288 /* PromotionViewModel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -895,6 +924,7 @@
 				C9E05981265515CB00C08463 /* WonderView.swift in Sources */,
 				C92F948B265E2298000968AB /* HexagonViewModel.swift in Sources */,
 				C9A48D51265408A700260EE0 /* CityProductionView.swift in Sources */,
+				C94CE28926DCDA6400B58A9C /* CombatBannerViewModel.swift in Sources */,
 				C988EAE5261B724500300C39 /* AnimatedImageView.swift in Sources */,
 				C9B087CF2667BC550016DFCA /* EurekaTechActivatedPopupViewModel.swift in Sources */,
 				C9077A8A26D65639004BE679 /* DialogButtonStyle.swift in Sources */,
@@ -912,6 +942,7 @@
 				C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */,
 				C9A3762B2635FDAF0057923E /* BoardLayer.swift in Sources */,
 				C9452E272668061D005EF985 /* EurekaCivicActivatedPopupView.swift in Sources */,
+				C9AC100326DE6EA100B65288 /* PromotionView.swift in Sources */,
 				C9CE216D2649675F00B47ED4 /* CheckboxCircleToggleStyle.swift in Sources */,
 				C9D191AD265A8659008C9622 /* CityReligionView.swift in Sources */,
 				C9A376072634462A0057923E /* FeatureLayer.swift in Sources */,
@@ -921,7 +952,9 @@
 				C968F28F2639455700612D0E /* BaseLayer.swift in Sources */,
 				C9E87BB3264D1CB500514B9A /* TechViewModel.swift in Sources */,
 				C968F2A92639E97400612D0E /* CityObject.swift in Sources */,
+				C9AC100526DFA3AE00B65288 /* BaseDialogView.swift in Sources */,
 				C950F98E26427E110057A7D1 /* GameSceneViewModel.swift in Sources */,
+				C9AC0FF926DE62B700B65288 /* SelectPromotionDialogView.swift in Sources */,
 				C942EC5126BBD9480047E161 /* AchievementViewModel.swift in Sources */,
 				C99EA75926BD72DE006FAA40 /* ReplyView.swift in Sources */,
 				C9452E2D266809A6005EF985 /* EraEnteredPopupViewModel.swift in Sources */,
@@ -951,6 +984,7 @@
 				C942EC5326BBDA090047E161 /* AchievementView.swift in Sources */,
 				C9B43FAF263E8FB900241012 /* AskYesNoAlertView.swift in Sources */,
 				C968F2AE2639EE3C00612D0E /* SKLabelNodeExtension.swift in Sources */,
+				C94CE28726DCDA4F00B58A9C /* CombatBannerView.swift in Sources */,
 				C9B087C826679E1D0016DFCA /* GoodyHutRewardPopupView.swift in Sources */,
 				C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */,
 				C9A8F0D72651969D00584199 /* GameViewModelDialogs.swift in Sources */,
@@ -1008,6 +1042,7 @@
 				C9FBBE3C268356C4005D7CE6 /* DiplomaticDialogViewModel.swift in Sources */,
 				C92F948D265E23A6000968AB /* HexagonGridViewModel.swift in Sources */,
 				C950F98B26427C560057A7D1 /* GameSceneUserInterface.swift in Sources */,
+				C9AC0FFD26DE649B00B65288 /* PromotionViewModel.swift in Sources */,
 				C968F2A72639E8FB00612D0E /* CityLayer.swift in Sources */,
 				C9E87BA5264C558800514B9A /* YieldValueView.swift in Sources */,
 				C9D191AB265A4A2B008C9622 /* CityBuildingsViewModel.swift in Sources */,
@@ -1064,6 +1099,7 @@
 				C9077A8826D64EFE004BE679 /* TradeRouteView.swift in Sources */,
 				C9077A8626D64432004BE679 /* TradeRouteViewModel.swift in Sources */,
 				C9CAC89F264ABCC600D0668D /* GovernmentCardViewModel.swift in Sources */,
+				C9AC0FFB26DE635C00B65288 /* SelectPromotionDialogViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

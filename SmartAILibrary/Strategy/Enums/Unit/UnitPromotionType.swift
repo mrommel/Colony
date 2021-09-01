@@ -37,7 +37,7 @@ public enum UnitPromotionType: Int, Codable {
 
     // ranged
 
-    static var all: [UnitPromotionType] {
+    public static var all: [UnitPromotionType] {
         return [
 
             // recon

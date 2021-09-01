@@ -10,6 +10,13 @@ import SmartAssets
 import Cocoa
 import SwiftUI
 
+enum UICombatMode {
+
+    case none
+    case melee
+    case ranged
+}
+
 protocol GameViewModelDelegate: AnyObject {
 
     func focus(on point: HexPoint)
@@ -17,6 +24,13 @@ protocol GameViewModelDelegate: AnyObject {
     func hideUnitBanner()
     func select(unit: AbstractUnit?)
     func selectedUnitChanged(to unit: AbstractUnit?, commands: [Command], in gameModel: GameModel?)
+
+    func showMeleeTargets(of unit: AbstractUnit?)
+    func showRangedTargets(of unit: AbstractUnit?)
+    func cancelAttacks()
+    func showCombatBanner(for source: AbstractUnit?, and target: AbstractUnit?)
+    func hideCombatBanner()
+    func doCombat(of attacker: AbstractUnit?, against defender: AbstractUnit?)
 
     func showCityBanner(for city: AbstractCity?)
     func hideCityBanner()
@@ -43,6 +57,7 @@ protocol GameViewModelDelegate: AnyObject {
     func showSelectPantheonDialog()
 
     func showUnitListDialog()
+    func showSelectPromotionDialog(for unit: AbstractUnit?)
 
     func isShown(screen: ScreenType) -> Bool
 
@@ -59,6 +74,7 @@ protocol GameViewModelDelegate: AnyObject {
     func closePopup()
 }
 
+// swiftlint:disable:type_body_length
 public class GameViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
@@ -78,6 +94,9 @@ public class GameViewModel: ObservableObject {
 
     @Published
     var unitBannerViewModel: UnitBannerViewModel
+
+    @Published
+    var combatBannerViewModel: CombatBannerViewModel
 
     // dialogs
 
@@ -115,6 +134,9 @@ public class GameViewModel: ObservableObject {
     var unitListDialogViewModel: UnitListDialogViewModel
 
     @Published
+    var selectPromotionDialogViewModel: SelectPromotionDialogViewModel
+
+    @Published
     var selectPantheonDialogViewModel: SelectPantheonDialogViewModel
 
     @Published
@@ -132,6 +154,8 @@ public class GameViewModel: ObservableObject {
     var currentPopupType: PopupType = .none
 
     var popups: [PopupType] = []
+
+    var uiCombatMode: UICombatMode = .none
 
     // MARK: map display options
 
@@ -183,7 +207,7 @@ public class GameViewModel: ObservableObject {
         "header-bar-left", "header-bar-right", "city-banner", "grid9-button-district-active",
         "grid9-button-district", "grid9-button-highlighted", "questionmark", "tile-purchase-active",
         "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced",
-        "city-canvas", "pantheon-background", "turns", "unit-banner"
+        "city-canvas", "pantheon-background", "turns", "unit-banner", "combat-view"
     ]
 
     // MARK: constructor
@@ -195,6 +219,7 @@ public class GameViewModel: ObservableObject {
         self.notificationsViewModel = NotificationsViewModel()
         self.cityBannerViewModel = CityBannerViewModel(name: "Berlin")
         self.unitBannerViewModel = UnitBannerViewModel(selectedUnit: nil)
+        self.combatBannerViewModel = CombatBannerViewModel()
 
         // dialogs
         self.governmentDialogViewModel = GovernmentDialogViewModel()
@@ -208,6 +233,7 @@ public class GameViewModel: ObservableObject {
         self.diplomaticDialogViewModel = DiplomaticDialogViewModel()
         self.selectTradeCityDialogViewModel = SelectTradeCityDialogViewModel()
         self.unitListDialogViewModel = UnitListDialogViewModel()
+        self.selectPromotionDialogViewModel = SelectPromotionDialogViewModel()
         self.selectPantheonDialogViewModel = SelectPantheonDialogViewModel()
         self.treasuryDialogViewModel = TreasuryDialogViewModel()
         self.tradeRoutesDialogViewModel = TradeRoutesDialogViewModel()
@@ -217,6 +243,7 @@ public class GameViewModel: ObservableObject {
         self.notificationsViewModel.delegate = self
         // self.cityBannerViewModel.delegate = self
         self.unitBannerViewModel.delegate = self
+        self.combatBannerViewModel.delegate = self
 
         self.governmentDialogViewModel.delegate = self
         self.changeGovernmentDialogViewModel.delegate = self
@@ -229,6 +256,7 @@ public class GameViewModel: ObservableObject {
         self.diplomaticDialogViewModel.delegate = self
         self.selectTradeCityDialogViewModel.delegate = self
         self.unitListDialogViewModel.delegate = self
+        self.selectPromotionDialogViewModel.delegate = self
         self.selectPantheonDialogViewModel.delegate = self
         self.treasuryDialogViewModel.delegate = self
         self.tradeRoutesDialogViewModel.delegate = self
@@ -252,28 +280,32 @@ public class GameViewModel: ObservableObject {
         let bundle = Bundle.init(for: Textures.self)
         let textures: Textures = Textures(game: nil)
 
-        print("- load \(textures.allTerrainTextureNames.count) terrain, \(textures.allRiverTextureNames.count) river and \(textures.allCoastTextureNames.count) coast textures")
+        print("- load \(textures.allTerrainTextureNames.count) terrain textures")
         for terrainTextureName in textures.allTerrainTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: terrainTextureName), for: terrainTextureName)
         }
 
+        print("- load \(textures.allCoastTextureNames.count) coast textures")
         for coastTextureName in textures.allCoastTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: coastTextureName), for: coastTextureName)
         }
 
+        print("- load \(textures.allRiverTextureNames.count) river textures")
         for riverTextureName in textures.allRiverTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: riverTextureName), for: riverTextureName)
         }
 
-        print("- load \(textures.allFeatureTextureNames.count) feature (+ \(textures.allIceFeatureTextureNames.count) ice + \(textures.allSnowFeatureTextureNames.count) snow textures")
+        print("- load \(textures.allFeatureTextureNames.count) feature textures")
         for featureTextureName in textures.allFeatureTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: featureTextureName), for: featureTextureName)
         }
 
+        print("- load \(textures.allIceFeatureTextureNames.count) ice textures")
         for iceFeatureTextureName in textures.allIceFeatureTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: iceFeatureTextureName), for: iceFeatureTextureName)
         }
 
+        print("- load \(textures.allSnowFeatureTextureNames.count) snow textures")
         for snowFeatureTextureName in textures.allSnowFeatureTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: snowFeatureTextureName), for: snowFeatureTextureName)
         }
@@ -402,13 +434,18 @@ public class GameViewModel: ObservableObject {
 
         print("- load \(textures.governmentStateBackgroundTextureNames.count) government state background textures")
         for governmentStateBackgroundTextureName in textures.governmentStateBackgroundTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: governmentStateBackgroundTextureName), for: governmentStateBackgroundTextureName)
+            ImageCache.shared.add(
+                image: bundle.image(forResource: governmentStateBackgroundTextureName),
+                for: governmentStateBackgroundTextureName
+            )
         }
 
-        print("- load \(textures.governmentTextureNames.count) government and \(textures.governmentAmbientTextureNames.count) ambient textures")
+        print("- load \(textures.governmentTextureNames.count) government textures")
         for governmentTextureName in textures.governmentTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: governmentTextureName), for: governmentTextureName)
         }
+
+        print("- load \(textures.governmentAmbientTextureNames.count) ambient textures")
         for governmentAmbientTextureName in textures.governmentAmbientTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: governmentAmbientTextureName), for: governmentAmbientTextureName)
         }
@@ -459,6 +496,19 @@ public class GameViewModel: ObservableObject {
         print("- load \(textures.pantheonTypeTextureNames.count) pantheon type textures")
         for pantheonTypeTextureName in textures.pantheonTypeTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: pantheonTypeTextureName), for: pantheonTypeTextureName)
+        }
+
+        print("- load \(textures.promotionTextureNames.count) promotion type textures")
+        for promotionTextureName in textures.promotionTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: promotionTextureName), for: promotionTextureName)
+        }
+
+        print("- load \(textures.promotionStateBackgroundTextureNames.count) promotion state textures")
+        for promotionStateBackgroundTextureName in textures.promotionStateBackgroundTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: promotionStateBackgroundTextureName),
+                for: promotionStateBackgroundTextureName
+            )
         }
 
         print("-- all textures loaded --")
@@ -602,11 +652,13 @@ extension GameViewModel: GameViewModelDelegate {
 
         self.unitBannerViewModel.showBanner = true
         self.cityBannerViewModel.showBanner = false
+        //self.combatBannerViewModel.showBanner = false
     }
 
     func hideUnitBanner() {
 
         self.unitBannerViewModel.showBanner = false
+        //self.combatBannerViewModel.showBanner = false
     }
 
     func select(unit: AbstractUnit?) {
@@ -619,10 +671,122 @@ extension GameViewModel: GameViewModelDelegate {
         self.unitBannerViewModel.selectedUnitChanged(to: unit, commands: commands, in: gameModel)
     }
 
+    func showMeleeTargets(of unit: AbstractUnit?) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let player = unit?.player else {
+            fatalError("cant get unit player")
+        }
+
+        guard let diplomacyAI = unit?.player?.diplomacyAI else {
+            fatalError("cant get unit player diplomacyAI")
+        }
+
+        self.uiCombatMode = .melee
+
+        if let unit = unit {
+
+            // reset icons
+            gameModel.userInterface?.clearAttackFocus()
+
+            // check neighbors
+            for dir in HexDirection.all {
+
+                let neighbor = unit.location.neighbor(in: dir)
+
+                if let otherUnit = gameModel.unit(at: neighbor, of: .combat) {
+
+                    if (!player.isEqual(to: otherUnit.player) && diplomacyAI.isAtWar(with: otherUnit.player)) ||
+                        otherUnit.isBarbarian() {
+                        gameModel.userInterface?.showAttackFocus(at: neighbor)
+                    }
+                }
+            }
+
+            self.gameSceneViewModel.unitSelectionMode = .meleeTarget
+        }
+    }
+
+    func doCombat(of attacker: AbstractUnit?, against defender: AbstractUnit?) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        if !attacker!.doAttack(into: defender!.location, steps: 1, in: gameModel) {
+            print("attack failed")
+        }
+    }
+
+    func showRangedTargets(of unit: AbstractUnit?) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let player = unit?.player else {
+            fatalError("cant get unit player")
+        }
+
+        guard let diplomacyAI = unit?.player?.diplomacyAI else {
+            fatalError("cant get unit player diplomacyAI")
+        }
+
+        self.uiCombatMode = .ranged
+
+        if let unit = unit {
+
+            // reset icons
+            gameModel.userInterface?.clearAttackFocus()
+
+            // check neighbors
+            for neighbor in unit.location.areaWith(radius: unit.range()) {
+
+                if let otherUnit = gameModel.unit(at: neighbor, of: .combat) {
+
+                    if !player.isEqual(to: otherUnit.player) && diplomacyAI.isAtWar(with: otherUnit.player) {
+                        gameModel.userInterface?.showAttackFocus(at: neighbor)
+                    }
+                }
+            }
+        }
+    }
+
+    func cancelAttacks() {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        // reset icons
+        gameModel.userInterface?.clearAttackFocus()
+
+        self.uiCombatMode = .none
+        self.gameSceneViewModel.unitSelectionMode = .pick
+    }
+
+    func showCombatBanner(for source: AbstractUnit?, and target: AbstractUnit?) {
+
+        self.combatBannerViewModel.update(for: source, and: target)
+
+        self.cityBannerViewModel.showBanner = false
+        self.unitBannerViewModel.showBanner = false
+        self.combatBannerViewModel.showBanner = true
+    }
+
+    func hideCombatBanner() {
+
+        self.combatBannerViewModel.showBanner = false
+    }
+
     func showCityBanner(for city: AbstractCity?) {
 
         self.cityBannerViewModel.showBanner = true
         self.unitBannerViewModel.showBanner = false
+        self.combatBannerViewModel.showBanner = false
     }
 
     func hideCityBanner() {
@@ -671,6 +835,7 @@ extension GameViewModel: GameViewModelDelegate {
             self.showGovernmentDialog()
 
         case .selectPromotion:
+
             guard let gameModel = self.gameEnvironment.game.value else {
                 fatalError("cant get game")
             }
@@ -679,10 +844,9 @@ extension GameViewModel: GameViewModelDelegate {
                 fatalError("cant get human player")
             }
 
-            if let _ = humanPlayer.firstPromotableUnit(in: gameModel) {
+            if let promotableUnit = humanPlayer.firstPromotableUnit(in: gameModel) {
 
-                // self.handleUnitPromotion(at: promotableUnit.location)
-                print("==> selectPromotion")
+                self.showSelectPromotionDialog(for: promotableUnit)
             }
         case .changePolicies:
             self.showChangePoliciesDialog()
@@ -752,7 +916,15 @@ extension GameViewModel: GameViewModelDelegate {
         }
 
         if self.currentScreenType == .none {
-            self.diplomaticDialogViewModel.update(for: humanPlayer, and: otherPlayer, state: data.state, message: data.message, emotion: data.emotion, in: gameModel)
+            self.diplomaticDialogViewModel.update(
+                for: humanPlayer,
+                and: otherPlayer,
+                state: data.state,
+                message: data.message,
+                emotion: data.emotion,
+                in: gameModel
+            )
+
             if let deal = deal {
                 diplomaticDialogViewModel.add(deal: deal)
             }
@@ -785,6 +957,21 @@ extension GameViewModel: GameViewModelDelegate {
             self.currentScreenType = .unitList
         } else {
             fatalError("cant show unit list dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+
+    func showSelectPromotionDialog(for unit: AbstractUnit?) {
+
+        if self.currentScreenType == .selectPromotion {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .selectPromotion {
+            self.selectPromotionDialogViewModel.update(for: unit)
+            self.currentScreenType = .selectPromotion
+        } else {
+            fatalError("cant show select promotion dialog, \(self.currentScreenType) is currently shown")
         }
     }
 

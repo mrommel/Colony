@@ -88,6 +88,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func experience() -> Int
     func changeExperience(by delta: Int, in gameModel: GameModel?)
     func isPromotionReady() -> Bool
+    func gainedPromotions() -> [UnitPromotionType]
     func possiblePromotions() -> [UnitPromotionType]
     func doPromote(with promotionType: UnitPromotionType)
 
@@ -2580,6 +2581,15 @@ public class Unit: AbstractUnit {
         let level = self.experienceLevel()
 
         return promotions.count() < (level - 1)
+    }
+
+    public func gainedPromotions() -> [UnitPromotionType] {
+
+        guard let promotions = self.promotions else {
+            fatalError("cant get promotions")
+        }
+
+        return promotions.gainedPromotions()
     }
 
     public func possiblePromotions() -> [UnitPromotionType] {

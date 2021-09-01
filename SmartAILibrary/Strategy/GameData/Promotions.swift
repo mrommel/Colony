@@ -22,6 +22,7 @@ protocol AbstractPromotions: Codable {
     func earn(promotion: UnitPromotionType) throws
 
     func count() -> Int
+    func gainedPromotions() -> [UnitPromotionType]
     func possiblePromotions() -> [UnitPromotionType]
 }
 
@@ -77,6 +78,20 @@ class Promotions: AbstractPromotions {
     func count() -> Int {
 
         return self.promotions.count
+    }
+
+    func gainedPromotions() -> [UnitPromotionType] {
+
+        var promotionList: [UnitPromotionType] = []
+
+        for promotion in UnitPromotionType.all {
+
+            if self.has(promotion: promotion) {
+                promotionList.append(promotion)
+            }
+        }
+
+        return promotionList
     }
 
     func possiblePromotions() -> [UnitPromotionType] {

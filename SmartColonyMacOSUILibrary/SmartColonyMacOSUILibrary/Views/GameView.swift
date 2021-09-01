@@ -45,6 +45,8 @@ public struct GameView: View {
                 CityBannerView(viewModel: self.viewModel.cityBannerViewModel)
 
                 UnitBannerView(viewModel: self.viewModel.unitBannerViewModel)
+
+                CombatBannerView(viewModel: self.viewModel.combatBannerViewModel)
             }
 
             BottomRightBarView(viewModel: self.viewModel.gameSceneViewModel)
@@ -96,7 +98,7 @@ extension GameView {
         case .changePolicies:
             return AnyView(ChangePolicyDialogView(viewModel: self.viewModel.changePolicyDialogViewModel))
         case .selectPromotion:
-            return AnyView(EmptyView())
+            return AnyView(SelectPromotionDialogView(viewModel: self.viewModel.selectPromotionDialogViewModel))
         case .disbandConfirm:
             return AnyView(UnitDisbandConfirmationDialogView(viewModel: self.viewModel.unitDisbandConfirmationDialogViewModel))
         case .selectTradeCity:
