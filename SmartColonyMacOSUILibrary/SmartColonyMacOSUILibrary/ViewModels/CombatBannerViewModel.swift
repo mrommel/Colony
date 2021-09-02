@@ -71,7 +71,12 @@ class CombatUnitViewModel: ObservableObject {
         ]
     }
 
-    func update(name: String, type: UnitType, strength: Int, healthPoints: Int, modifierViewModels: [CombatModifierViewModel]) {
+    func update(
+        name: String,
+        type: UnitType,
+        strength: Int,
+        healthPoints: Int,
+        modifierViewModels: [CombatModifierViewModel]) {
 
         self.name = name
         self.type = type

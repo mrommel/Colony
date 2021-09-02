@@ -29,6 +29,7 @@ public struct CombatResult {
 
 // https://civilization.fandom.com/wiki/Combat_(Civ6)
 // https://civilization.fandom.com/wiki/City_Combat_(Civ6)
+// swiftlint:disable type_body_length
 public class Combat {
 
     private static func evaluateResult(defenderHealth: Int, defenderDamage: Int, attackerHealth: Int, attackerDamage: Int) -> CombatResultType {
@@ -231,7 +232,10 @@ public class Combat {
         return CombatResult(defenderDamage: defenderDamage, attackerDamage: attackerDamage, value: value)
     }
 
-    public static func predictMeleeAttack(between attacker: AbstractUnit?, and defender: AbstractUnit?, in gameModel: GameModel?) -> CombatResult {
+    public static func predictMeleeAttack(
+        between attacker: AbstractUnit?,
+        and defender: AbstractUnit?,
+        in gameModel: GameModel?) -> CombatResult {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
