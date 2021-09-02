@@ -46,6 +46,8 @@ public class Textures {
     public let globeTextureNames: [String]
     public let cultureProgressTextureNames: [String]
     public let scienceProgressTextureNames: [String]
+    public let attackerHealthTextureNames: [String]
+    public let defenderHealthTextureNames: [String]
     public let headerTextureNames: [String]
     public let cityProgressTextureNames: [String]
     public let cityTextureNames: [String]
@@ -173,6 +175,8 @@ public class Textures {
         self.globeTextureNames = Array(0...90).map { "globe\($0)" }
         self.cultureProgressTextureNames = Array(0...100).map { "culture_progress_\($0)" }
         self.scienceProgressTextureNames = Array(0...100).map { "science_progress_\($0)" }
+        self.attackerHealthTextureNames = Array(0...25).map { "attacker_health\($0)" }
+        self.defenderHealthTextureNames = Array(0...25).map { "defender_health\($0)" }
         self.headerTextureNames = [
             "header-button-culture-active", "header-button-culture-disabled",
             "header-button-government-active", "header-button-government-disabled",

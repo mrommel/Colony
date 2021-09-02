@@ -36,6 +36,12 @@ extension CombatModifierViewModel: Hashable {
     }
 }
 
+enum CombatUnitViewType {
+
+    case attacker
+    case defender
+}
+
 class CombatUnitViewModel: ObservableObject {
 
     @Published
@@ -47,13 +53,17 @@ class CombatUnitViewModel: ObservableObject {
     @Published
     var modifierViewModels: [CombatModifierViewModel] = []
 
-    var type: UnitType
+    private let combatType: CombatUnitViewType
+    private var type: UnitType
+    private var healthPoints: Int // 0..100
 
-    init() {
+    init(combatType: CombatUnitViewType) {
 
+        self.combatType = combatType
         self.name = "Warrior"
         self.type = .barbarianWarrior
-        self.strength = 1
+        self.strength = 25
+        self.healthPoints = 85
         self.modifierViewModels = [
             CombatModifierViewModel(text: "10 Base Strength"),
             CombatModifierViewModel(text: "+3 bonus due to difficulty"),
@@ -61,11 +71,12 @@ class CombatUnitViewModel: ObservableObject {
         ]
     }
 
-    func update(name: String, type: UnitType, strength: Int, modifierViewModels: [CombatModifierViewModel]) {
+    func update(name: String, type: UnitType, strength: Int, healthPoints: Int, modifierViewModels: [CombatModifierViewModel]) {
 
         self.name = name
         self.type = type
         self.strength = strength
+        self.healthPoints = healthPoints
         self.modifierViewModels = modifierViewModels
     }
 
@@ -73,6 +84,22 @@ class CombatUnitViewModel: ObservableObject {
 
         //return ImageCache.shared.image(for: self.type.typeTexture())
         return self.type.iconTexture()
+    }
+
+    func healthIcon() -> NSImage {
+
+        let imageIndex = min(25, max(0, self.healthPoints / 4 )) // the assets are from 0 to 25
+        var textureName: String = ""
+
+        switch self.combatType {
+
+        case .attacker:
+            textureName = "attacker_health\(imageIndex)"
+        case .defender:
+            textureName = "defender_health\(imageIndex)"
+        }
+
+        return ImageCache.shared.image(for: textureName)
     }
 }
 
@@ -88,14 +115,22 @@ class CombatBannerViewModel: ObservableObject {
     var defenderViewModel: CombatUnitViewModel
 
     @Published
+    var combatPredictionText: String
+
+    @Published
+    var combatPredictionColor: TypeColor
+
+    @Published
     var showBanner: Bool = false
 
     weak var delegate: GameViewModelDelegate?
 
     init(attacker: AbstractUnit? = nil, defender: AbstractUnit? = nil) {
 
-        self.attackerViewModel = CombatUnitViewModel()
-        self.defenderViewModel = CombatUnitViewModel()
+        self.attackerViewModel = CombatUnitViewModel(combatType: .attacker)
+        self.defenderViewModel = CombatUnitViewModel(combatType: .defender)
+        self.combatPredictionText = "Unknown"
+        self.combatPredictionColor = TypeColor.silverFoil
 
         if attacker != nil && defender != nil {
             // debug
@@ -120,6 +155,11 @@ class CombatBannerViewModel: ObservableObject {
             // fatalError("cant get target unit")
             return
         }
+
+        let result = Combat.predictMeleeAttack(between: attackerUnit, and: defenderUnit, in: gameModel)
+
+        self.combatPredictionText = result.value.text
+        self.combatPredictionColor = result.value.color
 
         let attackerStrength = attackerUnit.attackStrength(
             against: defenderUnit,
@@ -161,12 +201,14 @@ class CombatBannerViewModel: ObservableObject {
             name: attackerUnit.name(),
             type: attackerUnit.type,
             strength: attackerStrength,
+            healthPoints: attackerUnit.healthPoints(),
             modifierViewModels: attackerModifierViewModels
         )
         self.defenderViewModel.update(
             name: defenderUnit.name(),
             type: defenderUnit.type,
             strength: defenderStrength,
+            healthPoints: defenderUnit.healthPoints(),
             modifierViewModels: defenderModifierViewModels
         )
     }

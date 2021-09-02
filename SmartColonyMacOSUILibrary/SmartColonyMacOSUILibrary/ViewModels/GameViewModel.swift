@@ -403,6 +403,15 @@ public class GameViewModel: ObservableObject {
             ImageCache.shared.add(image: bundle.image(forResource: scienceProgressTextureName), for: scienceProgressTextureName)
         }
 
+        print("- load \(textures.attackerHealthTextureNames.count) attacker health textures")
+        for attackerHealthTextureName in textures.attackerHealthTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: attackerHealthTextureName), for: attackerHealthTextureName)
+        }
+        print("- load \(textures.defenderHealthTextureNames.count) defender health textures")
+        for defenderHealthTextureName in textures.defenderHealthTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: defenderHealthTextureName), for: defenderHealthTextureName)
+        }
+
         print("- load \(textures.headerTextureNames.count) header textures")
         for headerTextureName in textures.headerTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: headerTextureName), for: headerTextureName)

@@ -33,6 +33,11 @@ struct CombatBannerView: View {
 
                 ZStack(alignment: .bottom) {
 
+                    Rectangle()
+                        .fill(Color(self.viewModel.combatPredictionColor))
+                        .frame(width: 100, height: 50)
+                        .offset(x: 0.0, y: -62.0)
+
                     Image(nsImage: ImageCache.shared.image(for: "combat-view"))
                         .resizable()
                         .scaledToFit()
@@ -57,6 +62,13 @@ struct CombatBannerView: View {
                             .resizable()
                             .frame(width: 84, height: 84)
                             .offset(x: -32.0, y: -15.0)
+
+                        Image(nsImage: self.viewModel.defenderViewModel.healthIcon())
+                            .resizable()
+                            .frame(width: 64, height: 64)
+                            .padding(EdgeInsets(top: 0, leading: -32, bottom: 0, trailing: 0))
+                            .clipShape(Rectangle())
+                            .offset(x: -15.0, y: -15.0)
 
                         Text("\(self.viewModel.defenderViewModel.strength)")
                             .font(.caption)
@@ -98,6 +110,13 @@ struct CombatBannerView: View {
                             .frame(width: 84, height: 84)
                             .offset(x: 32.0, y: -15.0)
 
+                        Image(nsImage: self.viewModel.attackerViewModel.healthIcon())
+                            .resizable()
+                            .frame(width: 64, height: 64)
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: -32))
+                            .clipShape(Rectangle())
+                            .offset(x: 15.0, y: -15.0)
+
                         Text("\(self.viewModel.attackerViewModel.strength)")
                             .font(.caption)
                             .frame(width: 20, height: 12, alignment: .center)
@@ -118,6 +137,12 @@ struct CombatBannerView: View {
                         .frame(width: 130, height: 90, alignment: .leading)
                         .offset(x: 130.0, y: 10.0)
                     }
+
+                    Text(self.viewModel.combatPredictionText)
+                        .font(.caption)
+                        .frame(width: 80, height: 24, alignment: .top)
+                        //.background(Color.red)
+                        .offset(x: 0.0, y: -88.0)
                 }
                 .frame(width: 391, height: 112, alignment: .bottomTrailing)
                 .offset(x: 0, y: self.showBanner ? 0 : 150)
