@@ -32,7 +32,11 @@ public struct CombatResult {
 // swiftlint:disable type_body_length
 public class Combat {
 
-    private static func evaluateResult(defenderHealth: Int, defenderDamage: Int, attackerHealth: Int, attackerDamage: Int) -> CombatResultType {
+    private static func evaluateResult(
+        defenderHealth: Int,
+        defenderDamage: Int,
+        attackerHealth: Int,
+        attackerDamage: Int) -> CombatResultType {
 
         if defenderDamage > defenderHealth && attackerHealth - attackerDamage > 10 {
             return .totalVictory

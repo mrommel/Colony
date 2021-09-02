@@ -8,6 +8,7 @@
 
 import Foundation
 
+// todo: add parameter to enum
 public enum NotificationType: Int, Codable {
 
     case turn
@@ -21,18 +22,18 @@ public enum NotificationType: Int, Codable {
     case policiesNeeded
     case canFoundPantheon
 
-    case cityGrowth
-    case starving
+    case cityGrowth // parameter: city
+    case starving // parameter: city
 
-    case diplomaticDeclaration
-    case war
-    case enemyInTerritory
+    case diplomaticDeclaration // parameter: player
+    case war // parameter: player
+    case enemyInTerritory // parameter: location, player
 
-    case unitPromotion
-    case unitNeedsOrders
-    case unitDied
+    case unitPromotion // parameter: unit
+    case unitNeedsOrders // parameter: unit
+    case unitDied // parameter: location
 
-    case greatPersonJoined
+    case greatPersonJoined // parameter: location
 
     public static var all: [NotificationType] = [
         .turn, .generic, .techNeeded, .civicNeeded, .productionNeeded, .canChangeGovernment, .policiesNeeded,

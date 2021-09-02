@@ -982,7 +982,7 @@ extension GameViewModel: GameViewModelDelegate {
             return
         }
 
-        if self.currentScreenType == .selectPromotion {
+        if self.currentScreenType == .none {
             self.selectPromotionDialogViewModel.update(for: unit)
             self.currentScreenType = .selectPromotion
         } else {
