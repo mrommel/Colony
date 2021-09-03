@@ -207,7 +207,8 @@ public class GameViewModel: ObservableObject {
         "header-bar-left", "header-bar-right", "city-banner", "grid9-button-district-active",
         "grid9-button-district", "grid9-button-highlighted", "questionmark", "tile-purchase-active",
         "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced",
-        "city-canvas", "pantheon-background", "turns", "unit-banner", "combat-view"
+        "city-canvas", "pantheon-background", "turns", "unit-banner", "combat-view",
+        "unit-strength-background", "unit-strength-frame", "unit-strength-bar"
     ]
 
     // MARK: constructor
@@ -401,6 +402,21 @@ public class GameViewModel: ObservableObject {
         print("- load \(textures.scienceProgressTextureNames.count) science progress textures")
         for scienceProgressTextureName in textures.scienceProgressTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: scienceProgressTextureName), for: scienceProgressTextureName)
+        }
+
+        print("- load \(textures.attackerHealthTextureNames.count) attacker health textures")
+        for attackerHealthTextureName in textures.attackerHealthTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: attackerHealthTextureName),
+                for: attackerHealthTextureName
+            )
+        }
+        print("- load \(textures.defenderHealthTextureNames.count) defender health textures")
+        for defenderHealthTextureName in textures.defenderHealthTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: defenderHealthTextureName),
+                for: defenderHealthTextureName
+            )
         }
 
         print("- load \(textures.headerTextureNames.count) header textures")
@@ -967,7 +983,7 @@ extension GameViewModel: GameViewModelDelegate {
             return
         }
 
-        if self.currentScreenType == .selectPromotion {
+        if self.currentScreenType == .none {
             self.selectPromotionDialogViewModel.update(for: unit)
             self.currentScreenType = .selectPromotion
         } else {

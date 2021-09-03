@@ -173,7 +173,13 @@ class UnitObject {
 
         if let atlas = self.atlasIdle {
             let idleFrames = atlas.textures.map { SKTexture(image: $0) }
-            let idleAnimation = SKAction.repeatForever(SKAction.animate(with: [idleFrames, idleFrames, idleFrames].flatMap { $0 }, timePerFrame: atlas.speed))
+            let combinedIdleFrames = [idleFrames, idleFrames, idleFrames].flatMap { $0 }
+            let idleAnimation = SKAction.repeatForever(
+                SKAction.animate(
+                    with: combinedIdleFrames,
+                    timePerFrame: atlas.speed
+                )
+            )
 
             self.sprite.run(idleAnimation, withKey: UnitObject.idleActionKey, completion: { })
         }
@@ -192,7 +198,13 @@ class UnitObject {
 
         if let atlas = self.atlasFortified {
             let fortifiedFrames = atlas.textures.map { SKTexture(image: $0) }
-            let idleAnimation = SKAction.repeatForever(SKAction.animate(with: [fortifiedFrames, fortifiedFrames, fortifiedFrames].flatMap { $0 }, timePerFrame: atlas.speed))
+            let combinedFortifiedFrames = [fortifiedFrames, fortifiedFrames, fortifiedFrames].flatMap { $0 }
+            let idleAnimation = SKAction.repeatForever(
+                SKAction.animate(
+                    with: combinedFortifiedFrames,
+                    timePerFrame: atlas.speed
+                )
+            )
 
             self.sprite.run(idleAnimation, withKey: UnitObject.fortifiedActionKey, completion: { })
         }

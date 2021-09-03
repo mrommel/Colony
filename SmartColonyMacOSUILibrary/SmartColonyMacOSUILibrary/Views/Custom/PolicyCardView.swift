@@ -41,6 +41,9 @@ struct PolicyCardView: View {
             Image(nsImage: self.viewModel.background())
                 .resizable()
         )
+        .onTapGesture {
+            self.viewModel.selected.toggle()
+        }
     }
 }
 

@@ -9,73 +9,6 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
-class CombatModifierViewModel: ObservableObject, Identifiable {
-
-    let id: UUID = UUID()
-
-    @Published
-    var text: String
-
-    init(text: String) {
-
-        self.text = text
-    }
-}
-
-extension CombatModifierViewModel: Hashable {
-
-    static func == (lhs: CombatModifierViewModel, rhs: CombatModifierViewModel) -> Bool {
-
-        return lhs.id == rhs.id
-    }
-
-    func hash(into hasher: inout Hasher) {
-
-        hasher.combine(self.text)
-        hasher.combine(self.id)
-    }
-}
-
-class CombatUnitViewModel: ObservableObject {
-
-    @Published
-    var name: String
-
-    @Published
-    var strength: Int
-
-    @Published
-    var modifierViewModels: [CombatModifierViewModel] = []
-
-    var type: UnitType
-
-    init() {
-
-        self.name = "Warrior"
-        self.type = .barbarianWarrior
-        self.strength = 1
-        self.modifierViewModels = [
-            CombatModifierViewModel(text: "10 Base Strength"),
-            CombatModifierViewModel(text: "+3 bonus due to difficulty"),
-            CombatModifierViewModel(text: "+3 bonus due to difficulty")
-        ]
-    }
-
-    func update(name: String, type: UnitType, strength: Int, modifierViewModels: [CombatModifierViewModel]) {
-
-        self.name = name
-        self.type = type
-        self.strength = strength
-        self.modifierViewModels = modifierViewModels
-    }
-
-    func typeIcon() -> NSImage {
-
-        //return ImageCache.shared.image(for: self.type.typeTexture())
-        return self.type.iconTexture()
-    }
-}
-
 class CombatBannerViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
@@ -88,14 +21,22 @@ class CombatBannerViewModel: ObservableObject {
     var defenderViewModel: CombatUnitViewModel
 
     @Published
+    var combatPredictionText: String
+
+    @Published
+    var combatPredictionColor: TypeColor
+
+    @Published
     var showBanner: Bool = false
 
     weak var delegate: GameViewModelDelegate?
 
     init(attacker: AbstractUnit? = nil, defender: AbstractUnit? = nil) {
 
-        self.attackerViewModel = CombatUnitViewModel()
-        self.defenderViewModel = CombatUnitViewModel()
+        self.attackerViewModel = CombatUnitViewModel(combatType: .attacker)
+        self.defenderViewModel = CombatUnitViewModel(combatType: .defender)
+        self.combatPredictionText = "Unknown"
+        self.combatPredictionColor = TypeColor.silverFoil
 
         if attacker != nil && defender != nil {
             // debug
@@ -116,58 +57,87 @@ class CombatBannerViewModel: ObservableObject {
             return
         }
 
+        guard let attackerTile = gameModel.tile(at: attackerUnit.location) else {
+            return
+        }
+
         guard let defenderUnit = defender else {
             // fatalError("cant get target unit")
             return
         }
 
+        guard let defenderTile = gameModel.tile(at: defenderUnit.location) else {
+            return
+        }
+
+        let result = Combat.predictMeleeAttack(between: attackerUnit, and: defenderUnit, in: gameModel)
+
+        self.combatPredictionText = result.value.text
+        self.combatPredictionColor = result.value.color
+
         let attackerStrength = attackerUnit.attackStrength(
             against: defenderUnit,
             or: nil,
-            on: nil,
+            on: attackerTile,
             in: gameModel
         )
 
-        var attackerModifierViewModels: [CombatModifierViewModel] = []
+        var attackerCombatModifiers: [CombatModifier] = []
+
+        let baseAttackerStrength = CombatModifier(
+            value: attackerUnit.baseCombatStrength(ignoreEmbarked: true),
+            title: "Base Strength"
+        )
+        attackerCombatModifiers.append(baseAttackerStrength)
+
         for attackerStrengthModifier in attackerUnit.attackStrengthModifier(
             against: defenderUnit,
             or: nil,
-            on: nil,
+            on: attackerTile,
             in: gameModel
         ) {
-            //print("\(attackerStrengthModifier.modifierTitle) => \(attackerStrengthModifier.modifierValue)")
-            attackerModifierViewModels.append(CombatModifierViewModel(text: attackerStrengthModifier.modifierTitle))
+            print("att: \(attackerStrengthModifier.title) => \(attackerStrengthModifier.value)")
+            attackerCombatModifiers.append(attackerStrengthModifier)
         }
 
         let defenderStrength = defenderUnit.defensiveStrength(
             against: attackerUnit,
-            on: nil,
+            on: defenderTile,
             ranged: false,
             in: gameModel
         )
 
-        var defenderModifierViewModels: [CombatModifierViewModel] = []
+        var defenderCombatModifiers: [CombatModifier] = []
+
+        let baseDefenderStrength = CombatModifier(
+            value: defenderUnit.baseCombatStrength(ignoreEmbarked: true),
+            title: "Base Strength"
+        )
+        defenderCombatModifiers.append(baseDefenderStrength)
+
         for defenderStrengthModifier in defenderUnit.defensiveStrengthModifier(
             against: defenderUnit,
-            on: nil,
+            on: defenderTile,
             ranged: false,
             in: gameModel
         ) {
-            // print("\(defenderStrengthModifier.modifierTitle) => \(defenderStrengthModifier.modifierValue)")
-            defenderModifierViewModels.append(CombatModifierViewModel(text: defenderStrengthModifier.modifierTitle))
+            print("def: \(defenderStrengthModifier.title) => \(defenderStrengthModifier.value)")
+            defenderCombatModifiers.append(defenderStrengthModifier)
         }
 
         self.attackerViewModel.update(
             name: attackerUnit.name(),
             type: attackerUnit.type,
             strength: attackerStrength,
-            modifierViewModels: attackerModifierViewModels
+            healthPoints: attackerUnit.healthPoints(),
+            combatModifiers: attackerCombatModifiers
         )
         self.defenderViewModel.update(
             name: defenderUnit.name(),
             type: defenderUnit.type,
             strength: defenderStrength,
-            modifierViewModels: defenderModifierViewModels
+            healthPoints: defenderUnit.healthPoints(),
+            combatModifiers: defenderCombatModifiers
         )
     }
 }

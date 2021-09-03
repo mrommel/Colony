@@ -10,12 +10,12 @@ import Foundation
 
 public class CombatModifier {
 
-    public let modifierValue: Int
-    public let modifierTitle: String
+    public let value: Int
+    public let title: String
 
-    init(modifierValue: Int, modifierTitle: String) {
+    public init(value: Int, title: String) {
 
-        self.modifierValue = modifierValue
-        self.modifierTitle = modifierTitle
+        self.value = value
+        self.title = title
     }
 }

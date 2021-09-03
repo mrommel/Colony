@@ -115,7 +115,7 @@ class MapNode: SKNode {
         self.addChild(self.cityLayer)
         self.addChild(self.improvementLayer)
         self.addChild(self.borderLayer)
-        // self.addChild(self.tooltipLayer)
+        self.addChild(self.tooltipLayer)
         self.addChild(self.hexCoordLayer) // ???
     }
 

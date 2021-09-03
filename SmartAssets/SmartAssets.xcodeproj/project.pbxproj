@@ -24,6 +24,7 @@
 		C952B9AC261E3930008822DD /* ObjectTextureAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952B9AB261E3930008822DD /* ObjectTextureAtlas.swift */; };
 		C952B9AE261E396F008822DD /* TextureAtlasExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952B9AD261E396F008822DD /* TextureAtlasExtension.swift */; };
 		C968F29D2639BA4F00612D0E /* ImprovementTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F29C2639BA4F00612D0E /* ImprovementTypeExtension.swift */; };
+		C980E77326E0C60F0089053A /* CombatResultTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C980E77226E0C60F0089053A /* CombatResultTypeExtension.swift */; };
 		C988EAE7261B916800300C39 /* Units.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C988EAE6261B916800300C39 /* Units.xcassets */; };
 		C98E68B12577D28E00BD93CA /* FeatureTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E68AE2577D28E00BD93CA /* FeatureTypeExtension.swift */; };
 		C98E68B22577D28E00BD93CA /* ResourceTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E68AF2577D28E00BD93CA /* ResourceTypeExtension.swift */; };
@@ -106,6 +107,7 @@
 		C952B9AB261E3930008822DD /* ObjectTextureAtlas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectTextureAtlas.swift; sourceTree = "<group>"; };
 		C952B9AD261E396F008822DD /* TextureAtlasExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureAtlasExtension.swift; sourceTree = "<group>"; };
 		C968F29C2639BA4F00612D0E /* ImprovementTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementTypeExtension.swift; sourceTree = "<group>"; };
+		C980E77226E0C60F0089053A /* CombatResultTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatResultTypeExtension.swift; sourceTree = "<group>"; };
 		C988EAE6261B916800300C39 /* Units.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Units.xcassets; sourceTree = "<group>"; };
 		C98E68AE2577D28E00BD93CA /* FeatureTypeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureTypeExtension.swift; sourceTree = "<group>"; };
 		C98E68AF2577D28E00BD93CA /* ResourceTypeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTypeExtension.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				C9E87BC2264DB58100514B9A /* BuildTypeExtension.swift */,
 				C9B60BF1269DCF6500F10177 /* PantheonTypeExtension.swift */,
 				C9AC100026DE68A800B65288 /* UnitPromotionTypeExtension.swift */,
+				C980E77226E0C60F0089053A /* CombatResultTypeExtension.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -465,6 +468,7 @@
 				C950F99F2649290A0057A7D1 /* StringExtension.swift in Sources */,
 				C9A3760D263447390057923E /* TextureUtils.swift in Sources */,
 				C9E87BB9264DA63700514B9A /* TechTypeExtension.swift in Sources */,
+				C980E77326E0C60F0089053A /* CombatResultTypeExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

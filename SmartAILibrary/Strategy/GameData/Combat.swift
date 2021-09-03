@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum CombatResultType {
+public enum CombatResultType {
 
     case totalDefeat
     case majorDefeat
@@ -19,19 +19,24 @@ enum CombatResultType {
     case totalVictory
 }
 
-struct CombatResult {
+public struct CombatResult {
 
-    let defenderDamage: Int
-    let attackerDamage: Int
+    public let defenderDamage: Int
+    public let attackerDamage: Int
 
-    let value: CombatResultType
+    public let value: CombatResultType
 }
 
 // https://civilization.fandom.com/wiki/Combat_(Civ6)
 // https://civilization.fandom.com/wiki/City_Combat_(Civ6)
-class Combat {
+// swiftlint:disable type_body_length
+public class Combat {
 
-    static private func evaluateResult(defenderHealth: Int, defenderDamage: Int, attackerHealth: Int, attackerDamage: Int) -> CombatResultType {
+    private static func evaluateResult(
+        defenderHealth: Int,
+        defenderDamage: Int,
+        attackerHealth: Int,
+        attackerDamage: Int) -> CombatResultType {
 
         if defenderDamage > defenderHealth && attackerHealth - attackerDamage > 10 {
             return .totalVictory
@@ -90,7 +95,12 @@ class Combat {
         }
 
         // no damage for attacker
-        let value = Combat.evaluateResult(defenderHealth: defender.healthPoints(), defenderDamage: damage, attackerHealth: attacker.healthPoints(), attackerDamage: 0)
+        let value = Combat.evaluateResult(
+            defenderHealth: defender.healthPoints(),
+            defenderDamage: damage,
+            attackerHealth: attacker.healthPoints(),
+            attackerDamage: 0
+        )
         return CombatResult(defenderDamage: damage, attackerDamage: 0, value: value)
     }
 
@@ -124,7 +134,12 @@ class Combat {
         }
 
         // no damage for attacker, no suppression to cities
-        let value = Combat.evaluateResult(defenderHealth: city.healthPoints(), defenderDamage: damage, attackerHealth: attacker.healthPoints(), attackerDamage: 0)
+        let value = Combat.evaluateResult(
+            defenderHealth: city.healthPoints(),
+            defenderDamage: damage,
+            attackerHealth: attacker.healthPoints(),
+            attackerDamage: 0
+        )
         return CombatResult(defenderDamage: damage, attackerDamage: 0, value: value)
     }
 
@@ -157,7 +172,12 @@ class Combat {
         }
 
         // no damage for attacker, no suppression to cities
-        let value = Combat.evaluateResult(defenderHealth: defender.healthPoints(), defenderDamage: damage, attackerHealth: attacker.healthPoints(), attackerDamage: 0)
+        let value = Combat.evaluateResult(
+            defenderHealth: defender.healthPoints(),
+            defenderDamage: damage,
+            attackerHealth: attacker.healthPoints(),
+            attackerDamage: 0
+        )
         return CombatResult(defenderDamage: damage, attackerDamage: 0, value: value)
     }
 
@@ -207,11 +227,19 @@ class Combat {
         }
 
         // no damage for attacker, no suppression to cities
-        let value = Combat.evaluateResult(defenderHealth: city.healthPoints(), defenderDamage: defenderDamage, attackerHealth: attacker.healthPoints(), attackerDamage: attackerDamage)
+        let value = Combat.evaluateResult(
+            defenderHealth: city.healthPoints(),
+            defenderDamage: defenderDamage,
+            attackerHealth: attacker.healthPoints(),
+            attackerDamage: attackerDamage
+        )
         return CombatResult(defenderDamage: defenderDamage, attackerDamage: attackerDamage, value: value)
     }
 
-    static func predictMeleeAttack(between attacker: AbstractUnit?, and defender: AbstractUnit?, in gameModel: GameModel?) -> CombatResult {
+    public static func predictMeleeAttack(
+        between attacker: AbstractUnit?,
+        and defender: AbstractUnit?,
+        in gameModel: GameModel?) -> CombatResult {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -257,7 +285,12 @@ class Combat {
         }
 
         // no damage for attacker, no suppression to cities
-        let value = Combat.evaluateResult(defenderHealth: defender.healthPoints(), defenderDamage: defenderDamage, attackerHealth: attacker.healthPoints(), attackerDamage: attackerDamage)
+        let value = Combat.evaluateResult(
+            defenderHealth: defender.healthPoints(),
+            defenderDamage: defenderDamage,
+            attackerHealth: attacker.healthPoints(),
+            attackerDamage: attackerDamage
+        )
         return CombatResult(defenderDamage: defenderDamage, attackerDamage: attackerDamage, value: value)
     }
 
@@ -354,7 +387,14 @@ class Combat {
             }
 
             if let notification = defender.player?.notifications() {
-                notification.addNotification(of: .unitDied, for: defender.player, message: strMessage, summary: strSummary, at: defender.location, other: attacker.player)
+                notification.addNotification(
+                    of: .unitDied,
+                    for: defender.player,
+                    message: strMessage,
+                    summary: strSummary,
+                    at: defender.location,
+                    other: attacker.player
+                )
             }
 
             // Move forward
@@ -365,7 +405,12 @@ class Combat {
             }
         }
 
-        let value = Combat.evaluateResult(defenderHealth: defender.healthPoints(), defenderDamage: defenderDamage, attackerHealth: attacker.healthPoints(), attackerDamage: attackerDamage)
+        let value = Combat.evaluateResult(
+            defenderHealth: defender.healthPoints(),
+            defenderDamage: defenderDamage,
+            attackerHealth: attacker.healthPoints(),
+            attackerDamage: attackerDamage
+        )
 
         // apply damage
         attacker.add(damage: attackerDamage)
@@ -403,7 +448,14 @@ class Combat {
             }
 
             if let notifications = defender.player?.notifications() {
-                notifications.addNotification(of: .unitDied, for: defender.player, message: "TXT_KEY_UNIT_LOST", summary: "TXT_KEY_UNIT_LOST", at: defenderTile.point, other: attacker.player)
+                notifications.addNotification(
+                    of: .unitDied,
+                    for: defender.player,
+                    message: "TXT_KEY_UNIT_LOST",
+                    summary: "TXT_KEY_UNIT_LOST",
+                    at: defenderTile.point,
+                    other: attacker.player
+                )
             }
 
             defender.doKill(delayed: false, by: attacker.player, in: gameModel)
