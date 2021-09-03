@@ -411,6 +411,8 @@ extension GameScene {
 
                 if selectedUnit.location != position {
 
+                    selectedUnit.clearMissions()
+
                     let unitMission = UnitMission(type: .moveTo, buildType: nil, at: position, options: .none)
                     selectedUnit.push(mission: unitMission, in: self.viewModel?.game)
 
@@ -427,6 +429,9 @@ extension GameScene {
                         if unitToAttack.location == combatTarget.location {
 
                             self.viewModel?.delegate?.doCombat(of: selectedUnit, against: unitToAttack)
+
+                            self.mapNode?.unitLayer.update(unit: selectedUnit)
+                            self.mapNode?.unitLayer.update(unit: unitToAttack)
 
                             combatExecuted = true
                             self.viewModel?.combatTarget = nil

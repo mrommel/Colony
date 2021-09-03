@@ -672,7 +672,7 @@ public class Unit: AbstractUnit {
         var modifierValue = 0
 
         for modifier in self.attackStrengthModifier(against: defender, or: city, on: toTile, in: gameModel) {
-            modifierValue += modifier.modifierValue
+            modifierValue += modifier.value
         }
 
         return self.baseRangedCombatStrength() + modifierValue
@@ -697,7 +697,7 @@ public class Unit: AbstractUnit {
 
         var modifierValue = 0
         for modifier in self.attackStrengthModifier(against: defender, or: city, on: toTile, in: gameModel) {
-            modifierValue += modifier.modifierValue
+            modifierValue += modifier.value
         }
 
         return self.baseCombatStrength(ignoreEmbarked: isEmbarkedAttackingLand)
@@ -722,7 +722,7 @@ public class Unit: AbstractUnit {
         // Healty
         let healthPenalty = -10 * (100 - self.healthPoints()) / 100
         if healthPenalty != 0 {
-            result.append(CombatModifier(modifierValue: healthPenalty, modifierTitle: "Health penalty"))
+            result.append(CombatModifier(value: healthPenalty, title: "Health penalty"))
         }
 
         ////////////////////////
@@ -733,14 +733,14 @@ public class Unit: AbstractUnit {
 
             // All land melee, anti-cavalry, and naval melee class units gain +4 Civ6StrengthIcon Combat Strength.
             if self.unitClassType() == .melee || self.unitClassType() == .antiCavalry || self.unitClassType() == .navalMelee {
-                result.append(CombatModifier(modifierValue: 4, modifierTitle: "Government Bonus"))
+                result.append(CombatModifier(value: 4, title: "Government Bonus"))
             }
         }
 
         if government.currentGovernment() == .fascism {
 
             // All units gain +5 Civ6StrengthIcon Combat Strength.
-            result.append(CombatModifier(modifierValue: 5, modifierTitle: "Government Bonus"))
+            result.append(CombatModifier(value: 5, title: "Government Bonus"))
         }
 
         ////////////////////////
@@ -751,26 +751,26 @@ public class Unit: AbstractUnit {
 
             // +5 Civ6StrengthIcon Combat Strength when fighting Barbarians.
             if government.has(card: .discipline) && defender.isBarbarian() {
-                result.append(CombatModifier(modifierValue: 5, modifierTitle: "Bonus for fighting Barbarians"))
+                result.append(CombatModifier(value: 5, title: "Bonus for fighting Barbarians"))
             }
 
             if self.unitClassType() == .melee && defender.unitClassType() == .antiCavalry {
-                result.append(CombatModifier(modifierValue: 10, modifierTitle: "Bonus against Anti-Cavalry"))
+                result.append(CombatModifier(value: 10, title: "Bonus against Anti-Cavalry"))
             }
 
             if self.unitClassType() == .antiCavalry && (defender.unitClassType() == .lightCavalry || defender.unitClassType() == .heavyCavalry) {
-                result.append(CombatModifier(modifierValue: 10, modifierTitle: "Bonus against Cavalry"))
+                result.append(CombatModifier(value: 10, title: "Bonus against Cavalry"))
             }
 
             if self.unitClassType() == .ranged &&
                 (defender.unitClassType() == .navalMelee || defender.unitClassType() == .navalRaider ||
                     defender.unitClassType() == .navalRanged || defender.unitClassType() == .navalCarrier) {
-                result.append(CombatModifier(modifierValue: -17, modifierTitle: "Penalty against Naval"))
+                result.append(CombatModifier(value: -17, title: "Penalty against Naval"))
             }
 
             // Siege units versus land units incur a -17 CS modifier.
             if self.unitClassType() == .siege && defender.domain() == .land {
-                result.append(CombatModifier(modifierValue: -17, modifierTitle: "Penalty against Land units"))
+                result.append(CombatModifier(value: -17, title: "Penalty against Land units"))
             }
 
             // //////////
@@ -780,7 +780,7 @@ public class Unit: AbstractUnit {
             if promotions.has(promotion: .battleCry) {
                 // +7 Civ6StrengthIcon Combat Strength vs. melee and ranged units.
                 if defender.unitClassType() == .melee || defender.unitClassType() == .ranged {
-                    result.append(CombatModifier(modifierValue: 7, modifierTitle: "Battle Cry"))
+                    result.append(CombatModifier(value: 7, title: "Battle Cry"))
                 }
             }
         }
@@ -791,7 +791,7 @@ public class Unit: AbstractUnit {
         if city != nil {
 
             if self.unitClassType() == .ranged {
-                result.append(CombatModifier(modifierValue: -17, modifierTitle: "Penalty against City"))
+                result.append(CombatModifier(value: -17, title: "Penalty against City"))
             }
         }
 
@@ -801,12 +801,12 @@ public class Unit: AbstractUnit {
         if self.isHuman() {
             let handicapBonus = gameModel.handicap.freeHumanCombatBonus()
             if handicapBonus != 0 {
-                result.append(CombatModifier(modifierValue: handicapBonus, modifierTitle: "Bonus due to difficulty"))
+                result.append(CombatModifier(value: handicapBonus, title: "Bonus due to difficulty"))
             }
         } else if !self.isBarbarian() {
             let handicapBonus = gameModel.handicap.freeAICombatBonus()
             if handicapBonus != 0 {
-                result.append(CombatModifier(modifierValue: handicapBonus, modifierTitle: "Bonus due to difficulty"))
+                result.append(CombatModifier(value: handicapBonus, title: "Bonus due to difficulty"))
             }
         }
 
@@ -817,7 +817,7 @@ public class Unit: AbstractUnit {
 
         var modifierValue = 0
         for modifier in self.attackStrengthModifier(against: defender, or: city, on: toTile, in: gameModel) {
-            modifierValue += modifier.modifierValue
+            modifierValue += modifier.value
         }
 
         return modifierValue
@@ -839,7 +839,7 @@ public class Unit: AbstractUnit {
 
         var modifierValue = 0
         for modifier in self.defensiveStrengthModifier(against: attacker, on: toTile, ranged: ranged, in: gameModel) {
-            modifierValue += modifier.modifierValue
+            modifierValue += modifier.value
         }
 
         return self.baseCombatStrength(ignoreEmbarked: true) + modifierValue
@@ -867,9 +867,9 @@ public class Unit: AbstractUnit {
         if let tile = toTile {
             if tile.hasHills() {
                 if tile.has(feature: .forest) || tile.has(feature: .rainforest) {
-                    result.append(CombatModifier(modifierValue: 6, modifierTitle: "Ideal terrain"))
+                    result.append(CombatModifier(value: 6, title: "Ideal terrain"))
                 } else {
-                    result.append(CombatModifier(modifierValue: 3, modifierTitle: "Ideal terrain"))
+                    result.append(CombatModifier(value: 3, title: "Ideal terrain"))
                 }
             }
         }
@@ -880,12 +880,12 @@ public class Unit: AbstractUnit {
         if self.isHuman() {
             let handicapBonus = gameModel.handicap.freeHumanCombatBonus()
             if handicapBonus != 0 {
-                result.append(CombatModifier(modifierValue: handicapBonus, modifierTitle: "Bonus due to difficulty"))
+                result.append(CombatModifier(value: handicapBonus, title: "Bonus due to difficulty"))
             }
         } else if !self.isBarbarian() {
             let handicapBonus = gameModel.handicap.freeAICombatBonus()
             if handicapBonus != 0 {
-                result.append(CombatModifier(modifierValue: handicapBonus, modifierTitle: "Bonus due to difficulty"))
+                result.append(CombatModifier(value: handicapBonus, title: "Bonus due to difficulty"))
             }
         }
 
@@ -898,7 +898,7 @@ public class Unit: AbstractUnit {
             if promotions.has(promotion: .tortoise) {
                 if attacker.isRanged() && ranged {
                     // +10 Combat Strength when defending against ranged attacks.
-                    result.append(CombatModifier(modifierValue: 10, modifierTitle: "Tortoise promotion"))
+                    result.append(CombatModifier(value: 10, title: "Tortoise promotion"))
                 }
             }
         }
@@ -910,7 +910,7 @@ public class Unit: AbstractUnit {
 
         var modifierValue = 0
         for modifier in self.defensiveStrengthModifier(against: attacker, on: toTile, ranged: ranged, in: gameModel) {
-            modifierValue += modifier.modifierValue
+            modifierValue += modifier.value
         }
 
         return modifierValue

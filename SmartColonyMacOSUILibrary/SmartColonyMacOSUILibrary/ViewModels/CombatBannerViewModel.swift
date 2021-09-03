@@ -9,105 +9,6 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
-class CombatModifierViewModel: ObservableObject, Identifiable {
-
-    let id: UUID = UUID()
-
-    @Published
-    var text: String
-
-    init(text: String) {
-
-        self.text = text
-    }
-}
-
-extension CombatModifierViewModel: Hashable {
-
-    static func == (lhs: CombatModifierViewModel, rhs: CombatModifierViewModel) -> Bool {
-
-        return lhs.id == rhs.id
-    }
-
-    func hash(into hasher: inout Hasher) {
-
-        hasher.combine(self.text)
-        hasher.combine(self.id)
-    }
-}
-
-enum CombatUnitViewType {
-
-    case attacker
-    case defender
-}
-
-class CombatUnitViewModel: ObservableObject {
-
-    @Published
-    var name: String
-
-    @Published
-    var strength: Int
-
-    @Published
-    var modifierViewModels: [CombatModifierViewModel] = []
-
-    private let combatType: CombatUnitViewType
-    private var type: UnitType
-    private var healthPoints: Int // 0..100
-
-    init(combatType: CombatUnitViewType) {
-
-        self.combatType = combatType
-        self.name = "Warrior"
-        self.type = .barbarianWarrior
-        self.strength = 25
-        self.healthPoints = 85
-        self.modifierViewModels = [
-            CombatModifierViewModel(text: "10 Base Strength"),
-            CombatModifierViewModel(text: "+3 bonus due to difficulty"),
-            CombatModifierViewModel(text: "+3 bonus due to difficulty")
-        ]
-    }
-
-    func update(
-        name: String,
-        type: UnitType,
-        strength: Int,
-        healthPoints: Int,
-        modifierViewModels: [CombatModifierViewModel]) {
-
-        self.name = name
-        self.type = type
-        self.strength = strength
-        self.healthPoints = healthPoints
-        self.modifierViewModels = modifierViewModels
-    }
-
-    func typeIcon() -> NSImage {
-
-        //return ImageCache.shared.image(for: self.type.typeTexture())
-        return self.type.iconTexture()
-    }
-
-    func healthIcon() -> NSImage {
-
-        let imageIndex = min(25, max(0, self.healthPoints / 4 )) // the assets are from 0 to 25
-        var textureName: String = ""
-
-        switch self.combatType {
-
-        case .attacker:
-            textureName = "attacker_health\(imageIndex)"
-        case .defender:
-            textureName = "defender_health\(imageIndex)"
-        }
-
-        return ImageCache.shared.image(for: textureName)
-    }
-}
-
 class CombatBannerViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
@@ -156,8 +57,16 @@ class CombatBannerViewModel: ObservableObject {
             return
         }
 
+        guard let attackerTile = gameModel.tile(at: attackerUnit.location) else {
+            return
+        }
+
         guard let defenderUnit = defender else {
             // fatalError("cant get target unit")
+            return
+        }
+
+        guard let defenderTile = gameModel.tile(at: defenderUnit.location) else {
             return
         }
 
@@ -169,37 +78,51 @@ class CombatBannerViewModel: ObservableObject {
         let attackerStrength = attackerUnit.attackStrength(
             against: defenderUnit,
             or: nil,
-            on: nil,
+            on: attackerTile,
             in: gameModel
         )
 
         var attackerModifierViewModels: [CombatModifierViewModel] = []
+
+        let baseAttackerStrength = CombatModifier(
+            value: attackerUnit.baseCombatStrength(ignoreEmbarked: true),
+            title: "Base Strength"
+        )
+        attackerModifierViewModels.append(CombatModifierViewModel(modifier: baseAttackerStrength))
+
         for attackerStrengthModifier in attackerUnit.attackStrengthModifier(
             against: defenderUnit,
             or: nil,
-            on: nil,
+            on: attackerTile,
             in: gameModel
         ) {
-            //print("\(attackerStrengthModifier.modifierTitle) => \(attackerStrengthModifier.modifierValue)")
-            attackerModifierViewModels.append(CombatModifierViewModel(text: attackerStrengthModifier.modifierTitle))
+            print("\(attackerStrengthModifier.title) => \(attackerStrengthModifier.value)")
+            attackerModifierViewModels.append(CombatModifierViewModel(modifier: attackerStrengthModifier))
         }
 
         let defenderStrength = defenderUnit.defensiveStrength(
             against: attackerUnit,
-            on: nil,
+            on: defenderTile,
             ranged: false,
             in: gameModel
         )
 
         var defenderModifierViewModels: [CombatModifierViewModel] = []
+
+        let baseDefenderStrength = CombatModifier(
+            value: defenderUnit.baseCombatStrength(ignoreEmbarked: true),
+            title: "Base Strength"
+        )
+        attackerModifierViewModels.append(CombatModifierViewModel(modifier: baseDefenderStrength))
+
         for defenderStrengthModifier in defenderUnit.defensiveStrengthModifier(
             against: defenderUnit,
-            on: nil,
+            on: defenderTile,
             ranged: false,
             in: gameModel
         ) {
-            // print("\(defenderStrengthModifier.modifierTitle) => \(defenderStrengthModifier.modifierValue)")
-            defenderModifierViewModels.append(CombatModifierViewModel(text: defenderStrengthModifier.modifierTitle))
+            print("\(defenderStrengthModifier.title) => \(defenderStrengthModifier.value)")
+            defenderModifierViewModels.append(CombatModifierViewModel(modifier: defenderStrengthModifier))
         }
 
         self.attackerViewModel.update(

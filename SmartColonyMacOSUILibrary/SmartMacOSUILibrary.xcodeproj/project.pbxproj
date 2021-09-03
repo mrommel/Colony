@@ -68,6 +68,8 @@
 		C968F2AE2639EE3C00612D0E /* SKLabelNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F2AD2639EE3C00612D0E /* SKLabelNodeExtension.swift */; };
 		C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9711125262569D600B58AAE /* NSMenuItemExtension.swift */; };
 		C974E44126BD14AF004DD34F /* DiplomaticDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C974E44026BD14AF004DD34F /* DiplomaticDialogView.swift */; };
+		C980E77526E21EAE0089053A /* CombatUnitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C980E77426E21EAE0089053A /* CombatUnitViewModel.swift */; };
+		C980E77726E21F3C0089053A /* CombatModifierViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C980E77626E21F3C0089053A /* CombatModifierViewModel.swift */; };
 		C988EAE5261B724500300C39 /* AnimatedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAE4261B724500300C39 /* AnimatedImageView.swift */; };
 		C99A886126079F4C003B8B73 /* SmartColonyMacOSUILibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C99A887E2607A06C003B8B73 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99A887D2607A06C003B8B73 /* SmartAILibrary.framework */; };
@@ -273,6 +275,8 @@
 		C968F2AD2639EE3C00612D0E /* SKLabelNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKLabelNodeExtension.swift; sourceTree = "<group>"; };
 		C9711125262569D600B58AAE /* NSMenuItemExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMenuItemExtension.swift; sourceTree = "<group>"; };
 		C974E44026BD14AF004DD34F /* DiplomaticDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticDialogView.swift; sourceTree = "<group>"; };
+		C980E77426E21EAE0089053A /* CombatUnitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatUnitViewModel.swift; sourceTree = "<group>"; };
+		C980E77626E21F3C0089053A /* CombatModifierViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatModifierViewModel.swift; sourceTree = "<group>"; };
 		C986D16E264938D9006EF052 /* MenuButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonStyle.swift; sourceTree = "<group>"; };
 		C986D16F264938D9006EF052 /* CheckboxSquareToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxSquareToggleStyle.swift; sourceTree = "<group>"; };
 		C986D170264938D9006EF052 /* CheckboxCircleToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxCircleToggleStyle.swift; sourceTree = "<group>"; };
@@ -795,6 +799,8 @@
 				C99EA75A26BD74F0006FAA40 /* ReplyViewModel.swift */,
 				C9077A8526D64432004BE679 /* TradeRouteViewModel.swift */,
 				C9AC0FFC26DE649B00B65288 /* PromotionViewModel.swift */,
+				C980E77426E21EAE0089053A /* CombatUnitViewModel.swift */,
+				C980E77626E21F3C0089053A /* CombatModifierViewModel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -919,6 +925,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9D191BF265D4175008C9622 /* TradePostView.swift in Sources */,
+				C980E77726E21F3C0089053A /* CombatModifierViewModel.swift in Sources */,
 				C92F948F265E25C5000968AB /* CityCitizenView.swift in Sources */,
 				C925676F26563C7700B895BD /* CityBuildQueueManager.swift in Sources */,
 				C9E05981265515CB00C08463 /* WonderView.swift in Sources */,
@@ -948,6 +955,7 @@
 				C9A376072634462A0057923E /* FeatureLayer.swift in Sources */,
 				C9E0597F2655103D00C08463 /* UnitView.swift in Sources */,
 				C9CE216B2649675B00B47ED4 /* MenuButtonStyle.swift in Sources */,
+				C980E77526E21EAE0089053A /* CombatUnitViewModel.swift in Sources */,
 				C94816C126A82DB000765029 /* TradeCityView.swift in Sources */,
 				C968F28F2639455700612D0E /* BaseLayer.swift in Sources */,
 				C9E87BB3264D1CB500514B9A /* TechViewModel.swift in Sources */,

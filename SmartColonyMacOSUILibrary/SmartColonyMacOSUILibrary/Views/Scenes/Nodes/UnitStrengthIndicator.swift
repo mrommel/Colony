@@ -23,14 +23,16 @@ class UnitStrengthIndicator: SKNode {
         super.init()
         //self.colorBlendFactor = 0.5
 
-        let backgroundTexture = SKTexture(imageNamed: "unit_strength_background")
+        let backgroundImage = ImageCache.shared.image(for: "unit-strength-background")
+        let backgroundTexture = SKTexture(image: backgroundImage)
         let backgroundImageNode = SKSpriteNode(texture: backgroundTexture, color: .black, size: size)
         backgroundImageNode.position = CGPoint(x: 0.0, y: 0.0)
         backgroundImageNode.anchorPoint = CGPoint.lowerLeft
         backgroundImageNode.zPosition = Globals.ZLevels.unitStrength
         self.addChild(backgroundImageNode)
 
-        let frameTexture = SKTexture(imageNamed: "unit_strength_frame")
+        let frameImage = ImageCache.shared.image(for: "unit-strength-frame")
+        let frameTexture = SKTexture(image: frameImage)
         let frameImageNode = SKSpriteNode(texture: frameTexture, color: .black, size: size)
         frameImageNode.position = CGPoint(x: 0.0, y: 0.0)
         frameImageNode.anchorPoint = CGPoint.lowerLeft
@@ -41,7 +43,8 @@ class UnitStrengthIndicator: SKNode {
         self.progressBar?.position = CGPoint(x: 0.0, y: 0.0)
         self.progressBar?.zPosition = Globals.ZLevels.unitStrength + 0.2
 
-        let barTexture = SKTexture(imageNamed: "unit_strength_bar")
+        let barImage = ImageCache.shared.image(for: "unit-strength-bar")
+        let barTexture = SKTexture(image: barImage)
         self.barImageNode = SKSpriteNode(texture: barTexture, color: .green, size: size)
         self.barImageNode?.position = CGPoint(x: 0.0, y: 0.0)
         self.barImageNode?.anchorPoint = CGPoint.lowerLeft

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAILibrary
+import SmartAssets
 
 struct CombatBannerView: View {
 
@@ -81,13 +82,20 @@ struct CombatBannerView: View {
 
                                 ForEach(self.viewModel.defenderViewModel.modifierViewModels, id: \.self) { modifierViewModel in
 
-                                    Text(modifierViewModel.text)
-                                        .font(.footnote)
-                                        .frame(width: 120, alignment: .leading)
+                                    HStack {
+                                        Text("\(modifierViewModel.value)")
+                                            .font(.footnote)
+                                            .frame(width: 12, alignment: .leading)
+
+                                        Text(modifierViewModel.text)
+                                            .font(.footnote)
+                                            .frame(width: 100, alignment: .leading)
+                                    }
                                 }
                             }
                         }
                         .frame(width: 130, height: 90, alignment: .leading)
+                        .background(Globals.Style.dialogBackground)
                         .offset(x: -130.0, y: 10.0)
                     }
 
@@ -128,13 +136,20 @@ struct CombatBannerView: View {
 
                                 ForEach(self.viewModel.defenderViewModel.modifierViewModels, id: \.self) { modifierViewModel in
 
-                                    Text(modifierViewModel.text)
-                                        .font(.footnote)
-                                        .frame(width: 120, alignment: .leading)
+                                    HStack {
+                                        Text("\(modifierViewModel.value)")
+                                            .font(.footnote)
+                                            .frame(width: 12, alignment: .leading)
+
+                                        Text(modifierViewModel.text)
+                                            .font(.footnote)
+                                            .frame(width: 100, alignment: .leading)
+                                    }
                                 }
                             }
                         }
                         .frame(width: 130, height: 90, alignment: .leading)
+                        .background(Color.red)
                         .offset(x: 130.0, y: 10.0)
                     }
 
