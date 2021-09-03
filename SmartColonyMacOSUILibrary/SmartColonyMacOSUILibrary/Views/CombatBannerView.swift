@@ -11,16 +11,16 @@ import SmartAssets
 
 struct CombatBannerView: View {
 
-    @ObservedObject
-    public var viewModel: CombatBannerViewModel
+    @StateObject
+    var viewModel: CombatBannerViewModel
 
     @State
     var showBanner: Bool = false
 
-    init(viewModel: CombatBannerViewModel) {
+    /*init(viewModel: CombatBannerViewModel) {
 
         self.viewModel = viewModel
-    }
+    }*/
 
     public var body: some View {
 
@@ -82,20 +82,19 @@ struct CombatBannerView: View {
 
                                 ForEach(self.viewModel.defenderViewModel.modifierViewModels, id: \.self) { modifierViewModel in
 
-                                    HStack {
+                                    HStack(spacing: 2) {
                                         Text("\(modifierViewModel.value)")
-                                            .font(.footnote)
-                                            .frame(width: 12, alignment: .leading)
+                                            .font(.caption2)
+                                            .frame(width: 18, alignment: .center)
 
                                         Text(modifierViewModel.text)
-                                            .font(.footnote)
+                                            .font(.caption2)
                                             .frame(width: 100, alignment: .leading)
                                     }
                                 }
                             }
                         }
                         .frame(width: 130, height: 90, alignment: .leading)
-                        .background(Globals.Style.dialogBackground)
                         .offset(x: -130.0, y: 10.0)
                     }
 
@@ -134,22 +133,21 @@ struct CombatBannerView: View {
                         ScrollView {
                             LazyVStack(spacing: 2) {
 
-                                ForEach(self.viewModel.defenderViewModel.modifierViewModels, id: \.self) { modifierViewModel in
+                                ForEach(self.viewModel.attackerViewModel.modifierViewModels, id: \.self) { modifierViewModel in
 
-                                    HStack {
+                                    HStack(spacing: 2) {
                                         Text("\(modifierViewModel.value)")
-                                            .font(.footnote)
-                                            .frame(width: 12, alignment: .leading)
+                                            .font(.caption2)
+                                            .frame(width: 18, alignment: .center)
 
                                         Text(modifierViewModel.text)
-                                            .font(.footnote)
+                                            .font(.caption2)
                                             .frame(width: 100, alignment: .leading)
                                     }
                                 }
                             }
                         }
                         .frame(width: 130, height: 90, alignment: .leading)
-                        .background(Color.red)
                         .offset(x: 130.0, y: 10.0)
                     }
 

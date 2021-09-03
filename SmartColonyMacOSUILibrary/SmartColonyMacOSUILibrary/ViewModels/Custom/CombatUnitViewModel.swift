@@ -38,8 +38,8 @@ class CombatUnitViewModel: ObservableObject {
         self.healthPoints = 85
         self.modifierViewModels = [
             CombatModifierViewModel(modifier: CombatModifier(value: 25, title: "Base Strength")),
-            CombatModifierViewModel(modifier: CombatModifier(value: 3, title: "bonus due to difficulty")),
-            CombatModifierViewModel(modifier: CombatModifier(value: 2, title: "bonus due to something"))
+            CombatModifierViewModel(modifier: CombatModifier(value: 3, title: "Bonus due to difficulty")),
+            CombatModifierViewModel(modifier: CombatModifier(value: 2, title: "Bonus due to something"))
         ]
     }
 
@@ -48,19 +48,21 @@ class CombatUnitViewModel: ObservableObject {
         type: UnitType,
         strength: Int,
         healthPoints: Int,
-        modifierViewModels: [CombatModifierViewModel]) {
+        combatModifiers: [CombatModifier]) {
 
         self.name = name
         self.type = type
         self.strength = strength
         self.healthPoints = healthPoints
-        // self.modifierViewModels = modifierViewModels
+        self.modifierViewModels = []
+        self.modifierViewModels = combatModifiers.map { CombatModifierViewModel(modifier: $0) }
+
+        print("combatModifiers: \(combatModifiers.count)")
         print("modifierViewModels: \(modifierViewModels.count)")
     }
 
     func typeIcon() -> NSImage {
 
-        //return ImageCache.shared.image(for: self.type.typeTexture())
         return self.type.iconTexture()
     }
 

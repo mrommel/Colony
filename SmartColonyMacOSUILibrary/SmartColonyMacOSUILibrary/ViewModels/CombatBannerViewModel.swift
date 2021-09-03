@@ -82,13 +82,13 @@ class CombatBannerViewModel: ObservableObject {
             in: gameModel
         )
 
-        var attackerModifierViewModels: [CombatModifierViewModel] = []
+        var attackerCombatModifiers: [CombatModifier] = []
 
         let baseAttackerStrength = CombatModifier(
             value: attackerUnit.baseCombatStrength(ignoreEmbarked: true),
             title: "Base Strength"
         )
-        attackerModifierViewModels.append(CombatModifierViewModel(modifier: baseAttackerStrength))
+        attackerCombatModifiers.append(baseAttackerStrength)
 
         for attackerStrengthModifier in attackerUnit.attackStrengthModifier(
             against: defenderUnit,
@@ -96,8 +96,8 @@ class CombatBannerViewModel: ObservableObject {
             on: attackerTile,
             in: gameModel
         ) {
-            print("\(attackerStrengthModifier.title) => \(attackerStrengthModifier.value)")
-            attackerModifierViewModels.append(CombatModifierViewModel(modifier: attackerStrengthModifier))
+            print("att: \(attackerStrengthModifier.title) => \(attackerStrengthModifier.value)")
+            attackerCombatModifiers.append(attackerStrengthModifier)
         }
 
         let defenderStrength = defenderUnit.defensiveStrength(
@@ -107,13 +107,13 @@ class CombatBannerViewModel: ObservableObject {
             in: gameModel
         )
 
-        var defenderModifierViewModels: [CombatModifierViewModel] = []
+        var defenderCombatModifiers: [CombatModifier] = []
 
         let baseDefenderStrength = CombatModifier(
             value: defenderUnit.baseCombatStrength(ignoreEmbarked: true),
             title: "Base Strength"
         )
-        attackerModifierViewModels.append(CombatModifierViewModel(modifier: baseDefenderStrength))
+        defenderCombatModifiers.append(baseDefenderStrength)
 
         for defenderStrengthModifier in defenderUnit.defensiveStrengthModifier(
             against: defenderUnit,
@@ -121,8 +121,8 @@ class CombatBannerViewModel: ObservableObject {
             ranged: false,
             in: gameModel
         ) {
-            print("\(defenderStrengthModifier.title) => \(defenderStrengthModifier.value)")
-            defenderModifierViewModels.append(CombatModifierViewModel(modifier: defenderStrengthModifier))
+            print("def: \(defenderStrengthModifier.title) => \(defenderStrengthModifier.value)")
+            defenderCombatModifiers.append(defenderStrengthModifier)
         }
 
         self.attackerViewModel.update(
@@ -130,14 +130,14 @@ class CombatBannerViewModel: ObservableObject {
             type: attackerUnit.type,
             strength: attackerStrength,
             healthPoints: attackerUnit.healthPoints(),
-            modifierViewModels: attackerModifierViewModels
+            combatModifiers: attackerCombatModifiers
         )
         self.defenderViewModel.update(
             name: defenderUnit.name(),
             type: defenderUnit.type,
             strength: defenderStrength,
             healthPoints: defenderUnit.healthPoints(),
-            modifierViewModels: defenderModifierViewModels
+            combatModifiers: defenderCombatModifiers
         )
     }
 }

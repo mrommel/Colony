@@ -155,6 +155,11 @@ class GameScene: BaseScene {
 
                     if self.viewModel!.readyUpdatingHuman {
 
+                        // update all units strengthss
+                        for unit in gameModel.units(of: humanPlayer) {
+                            self.mapNode?.unitLayer.update(unit: unit)
+                        }
+
                         self.viewModel!.readyUpdatingHuman = false
                         self.queue.async {
                             //print("-----------> before human processing")
