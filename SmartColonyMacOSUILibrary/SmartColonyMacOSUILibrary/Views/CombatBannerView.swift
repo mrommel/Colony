@@ -80,7 +80,8 @@ struct CombatBannerView: View {
                         ScrollView {
                             LazyVStack(spacing: 2) {
 
-                                ForEach(self.viewModel.defenderViewModel.modifierViewModels, id: \.self) { modifierViewModel in
+                                ForEach(self.viewModel.defenderViewModel.modifierViewModels,
+                                        id: \.self) { modifierViewModel in
 
                                     HStack(spacing: 2) {
                                         Text("\(modifierViewModel.value)")
@@ -133,7 +134,8 @@ struct CombatBannerView: View {
                         ScrollView {
                             LazyVStack(spacing: 2) {
 
-                                ForEach(self.viewModel.attackerViewModel.modifierViewModels, id: \.self) { modifierViewModel in
+                                ForEach(self.viewModel.attackerViewModel.modifierViewModels,
+                                        id: \.self) { modifierViewModel in
 
                                     HStack(spacing: 2) {
                                         Text("\(modifierViewModel.value)")
