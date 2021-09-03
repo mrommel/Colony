@@ -25,6 +25,9 @@ class CombatUnitViewModel: ObservableObject {
     @Published
     var modifierViewModels: [CombatModifierViewModel] = []
 
+    @Published
+    var promotionViewModels: [CombatPromotionViewModel] = []
+
     private let combatType: CombatUnitViewType
     private var type: UnitType
     private var healthPoints: Int // 0..100
@@ -41,6 +44,10 @@ class CombatUnitViewModel: ObservableObject {
             CombatModifierViewModel(modifier: CombatModifier(value: 3, title: "Bonus due to difficulty")),
             CombatModifierViewModel(modifier: CombatModifier(value: 2, title: "Bonus due to something"))
         ]
+        self.promotionViewModels = [
+            CombatPromotionViewModel(promotion: .alpine),
+            CombatPromotionViewModel(promotion: .commando)
+        ]
     }
 
     func update(
@@ -48,7 +55,8 @@ class CombatUnitViewModel: ObservableObject {
         type: UnitType,
         strength: Int,
         healthPoints: Int,
-        combatModifiers: [CombatModifier]) {
+        combatModifiers: [CombatModifier],
+        promotions: [UnitPromotionType]) {
 
         self.name = name
         self.type = type
@@ -56,9 +64,7 @@ class CombatUnitViewModel: ObservableObject {
         self.healthPoints = healthPoints
         self.modifierViewModels = []
         self.modifierViewModels = combatModifiers.map { CombatModifierViewModel(modifier: $0) }
-
-        print("combatModifiers: \(combatModifiers.count)")
-        print("modifierViewModels: \(modifierViewModels.count)")
+        self.promotionViewModels = promotions.map { CombatPromotionViewModel(promotion: $0) }
     }
 
     func typeIcon() -> NSImage {

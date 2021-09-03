@@ -96,7 +96,6 @@ class CombatBannerViewModel: ObservableObject {
             on: attackerTile,
             in: gameModel
         ) {
-            print("att: \(attackerStrengthModifier.title) => \(attackerStrengthModifier.value)")
             attackerCombatModifiers.append(attackerStrengthModifier)
         }
 
@@ -121,7 +120,6 @@ class CombatBannerViewModel: ObservableObject {
             ranged: false,
             in: gameModel
         ) {
-            print("def: \(defenderStrengthModifier.title) => \(defenderStrengthModifier.value)")
             defenderCombatModifiers.append(defenderStrengthModifier)
         }
 
@@ -130,14 +128,16 @@ class CombatBannerViewModel: ObservableObject {
             type: attackerUnit.type,
             strength: attackerStrength,
             healthPoints: attackerUnit.healthPoints(),
-            combatModifiers: attackerCombatModifiers
+            combatModifiers: attackerCombatModifiers,
+            promotions: attackerUnit.gainedPromotions()
         )
         self.defenderViewModel.update(
             name: defenderUnit.name(),
             type: defenderUnit.type,
             strength: defenderStrength,
             healthPoints: defenderUnit.healthPoints(),
-            combatModifiers: defenderCombatModifiers
+            combatModifiers: defenderCombatModifiers,
+            promotions: defenderUnit.gainedPromotions()
         )
     }
 }

@@ -85,18 +85,35 @@ struct CombatBannerView: View {
 
                                     HStack(spacing: 2) {
                                         Text("\(modifierViewModel.value)")
-                                            .font(.caption2)
+                                            .font(.system(size: 9))
                                             .frame(width: 18, alignment: .center)
 
                                         Text(modifierViewModel.text)
-                                            .font(.caption2)
+                                            .font(.system(size: 9))
                                             .frame(width: 100, alignment: .leading)
                                     }
                                 }
                             }
                         }
-                        .frame(width: 130, height: 90, alignment: .leading)
-                        .offset(x: -130.0, y: 10.0)
+                        .frame(width: 120, height: 60, alignment: .leading)
+                        //.background(Color.red)
+                        .offset(x: -130.0, y: -20.0)
+
+                        ScrollView {
+                            LazyHStack(spacing: 2) {
+
+                                ForEach(self.viewModel.defenderViewModel.promotionViewModels,
+                                        id: \.self) { promotionViewModel in
+
+                                    Image(nsImage: promotionViewModel.icon())
+                                        .resizable()
+                                        .frame(width: 12, height: 12)
+                                }
+                            }
+                        }
+                        .frame(width: 120, height: 12, alignment: .leading)
+                        //.background(Color.red)
+                        .offset(x: -130.0, y: -6.0)
                     }
 
                     // defender
@@ -132,25 +149,42 @@ struct CombatBannerView: View {
                             .offset(x: 42.5, y: -80.0)
 
                         ScrollView {
-                            LazyVStack(spacing: 2) {
+                            LazyVStack(alignment: .leading, spacing: 2) {
 
                                 ForEach(self.viewModel.attackerViewModel.modifierViewModels,
                                         id: \.self) { modifierViewModel in
 
                                     HStack(spacing: 2) {
                                         Text("\(modifierViewModel.value)")
-                                            .font(.caption2)
+                                            .font(.system(size: 9))
                                             .frame(width: 18, alignment: .center)
 
                                         Text(modifierViewModel.text)
-                                            .font(.caption2)
+                                            .font(.system(size: 9))
                                             .frame(width: 100, alignment: .leading)
                                     }
                                 }
                             }
                         }
-                        .frame(width: 130, height: 90, alignment: .leading)
-                        .offset(x: 130.0, y: 10.0)
+                        .frame(width: 120, height: 60, alignment: .leading)
+                        //.background(Color.red)
+                        .offset(x: 130.0, y: -20.0)
+
+                        ScrollView {
+                            LazyHStack(spacing: 2) {
+
+                                ForEach(self.viewModel.attackerViewModel.promotionViewModels,
+                                        id: \.self) { promotionViewModel in
+
+                                    Image(nsImage: promotionViewModel.icon())
+                                        .resizable()
+                                        .frame(width: 12, height: 12)
+                                }
+                            }
+                        }
+                        .frame(width: 120, height: 12, alignment: .leading)
+                        //.background(Color.red)
+                        .offset(x: 130.0, y: -6.0)
                     }
 
                     Text(self.viewModel.combatPredictionText)
