@@ -951,6 +951,11 @@ open class GameModel: Codable {
         self.map.add(unit: unit, in: self)
     }
 
+    public func units(at point: HexPoint) -> [AbstractUnit?] {
+
+        return self.map.units(at: point)
+    }
+
     public func units(with type: UnitType) -> [AbstractUnit?] {
 
         return self.map.units(with: type)
@@ -969,11 +974,6 @@ open class GameModel: Codable {
     public func unit(at point: HexPoint, of mapType: UnitMapType) -> AbstractUnit? {
 
         return self.map.unit(at: point, of: mapType)
-    }
-
-    func units(at point: HexPoint) -> [AbstractUnit?] {
-
-        return self.map.units(at: point)
     }
 
     func areUnits(at point: HexPoint) -> Bool {

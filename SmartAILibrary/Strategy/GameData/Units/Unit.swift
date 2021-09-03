@@ -681,10 +681,6 @@ public class Unit: AbstractUnit {
     /// What is the max strength of this Unit when attacking?
     public func attackStrength(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile? = nil, in gameModel: GameModel?) -> Int {
 
-        guard let government = self.player?.government else {
-            fatalError("cant get government")
-        }
-
         let isEmbarkedAttackingLand = isEmbarked() && (toTile != nil && toTile!.terrain().isLand())
 
         if self.isEmbarked() && !isEmbarkedAttackingLand {
@@ -700,7 +696,7 @@ public class Unit: AbstractUnit {
             modifierValue += modifier.value
         }
 
-        return self.baseCombatStrength(ignoreEmbarked: isEmbarkedAttackingLand)
+        return self.baseCombatStrength(ignoreEmbarked: isEmbarkedAttackingLand) + modifierValue
     }
 
     public func attackStrengthModifier(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile? = nil, in gameModel: GameModel?) -> [CombatModifier] {

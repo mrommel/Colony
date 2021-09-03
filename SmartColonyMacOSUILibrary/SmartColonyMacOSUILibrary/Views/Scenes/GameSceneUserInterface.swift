@@ -159,9 +159,26 @@ extension GameScene: UserInterfaceDelegate {
 
     func refresh(tile: AbstractTile?) {
 
+        guard let gameModel = self.viewModel?.game else {
+            return
+        }
+
         DispatchQueue.main.async {
             self.mapNode?.update(tile: tile)
             self.viewModel?.mapOverviewViewModel.changed(at: tile!.point)
+
+            for unitRef in gameModel.units(at: tile!.point) {
+
+                guard let unit = unitRef else {
+                    continue
+                }
+
+                if unit.player?.isHuman() ?? true {
+                    continue
+                }
+
+                self.mapNode?.unitLayer.show(unit: unit)
+            }
         }
     }
 
