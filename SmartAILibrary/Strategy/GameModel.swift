@@ -1432,13 +1432,24 @@ open class GameModel: Codable {
         }
     }
 
-    func sight(at location: HexPoint, sight: Int, for player: AbstractPlayer?, in gameModel: GameModel?) {
+    public func sight(at location: HexPoint, sight: Int, for player: AbstractPlayer?) {
 
         for pt in location.areaWith(radius: sight) {
 
             if let tile = self.tile(at: pt) {
                 tile.sight(by: player)
-                tile.discover(by: player, in: gameModel)
+                tile.discover(by: player, in: self)
+                self.userInterface?.refresh(tile: tile)
+            }
+        }
+    }
+
+    func discover(at location: HexPoint, sight: Int, for player: AbstractPlayer?) {
+
+        for pt in location.areaWith(radius: sight) {
+
+            if let tile = self.tile(at: pt) {
+                tile.discover(by: player, in: self)
                 self.userInterface?.refresh(tile: tile)
             }
         }

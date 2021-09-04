@@ -38,6 +38,10 @@ class TestUI: UserInterfaceDelegate {
     func refresh(unit: AbstractUnit?) {}
     func animate(unit: AbstractUnit?, animation: UnitAnimationType) {}
 
+    func clearAttackFocus() { }
+
+    func showAttackFocus(at point: HexPoint) { }
+
     func askToDisband(unit: AbstractUnit?, completion: @escaping (Bool) -> Void) {}
     func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?) -> Void) {}
 

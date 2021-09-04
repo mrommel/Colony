@@ -161,12 +161,14 @@ class GenerateGameViewModel: ObservableObject {
         var lastLeader: LeaderType? = LeaderType.none
         for unit in units {
 
+            game.add(unit: unit)
+
+            game.sight(at: unit.location, sight: unit.sight(), for: unit.player)
+
             if lastLeader == unit.player?.leader {
                 let jumped = unit.jumpToNearestValidPlotWithin(range: 2, in: game)
                 print("--- jumped: \(jumped)")
             }
-
-            game.add(unit: unit)
 
             lastLeader = unit.player?.leader
         }

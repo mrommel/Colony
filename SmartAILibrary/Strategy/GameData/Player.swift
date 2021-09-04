@@ -4338,7 +4338,7 @@ public class Player: AbstractPlayer {
 
         if let capital = gameModel.capital(of: otherPlayer) {
 
-            gameModel.sight(at: capital.location, sight: 3, for: self, in: gameModel)
+            gameModel.discover(at: capital.location, sight: 3, for: self)
         } else {
             fatalError("player has no capital - should not happen")
         }

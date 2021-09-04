@@ -113,12 +113,14 @@ class GameViewModel {
         var lastLeader: LeaderType? = LeaderType.none
         for unit in units {
 
+            self.game?.sight
+
+            self.game?.add(unit: unit)
+
             if lastLeader == unit.player?.leader {
                 let jumped = unit.jumpToNearestValidPlotWithin(range: 2, in: self.game)
                 print("--- jumped: \(jumped)")
             }
-
-            self.game?.add(unit: unit)
 
             lastLeader = unit.player?.leader
         }
