@@ -118,7 +118,7 @@ class TileDiscovered: Codable {
     func isVisibleAny() -> Bool {
 
         for item in self.items where item.sighted > 0 {
-            
+
             return true
         }
 
