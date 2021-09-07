@@ -34,6 +34,6 @@ Tile size:
 - https://github.com/lukakerr/NSWindowStyles
 
 ## GIT
-git branch -a    
+git branch -a
 ... list of branches
 git checkout --track ...
