@@ -8,7 +8,7 @@
 
 import Foundation
 
-fileprivate class TileDiscoveredItem: Codable {
+private class TileDiscoveredItem: Codable {
 
     enum CodingKeys: CodingKey {
 
