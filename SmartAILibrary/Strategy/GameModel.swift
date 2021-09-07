@@ -951,6 +951,11 @@ open class GameModel: Codable {
         self.map.add(unit: unit, in: self)
     }
 
+    public func units(at point: HexPoint) -> [AbstractUnit?] {
+
+        return self.map.units(at: point)
+    }
+
     public func units(with type: UnitType) -> [AbstractUnit?] {
 
         return self.map.units(with: type)
@@ -969,11 +974,6 @@ open class GameModel: Codable {
     public func unit(at point: HexPoint, of mapType: UnitMapType) -> AbstractUnit? {
 
         return self.map.unit(at: point, of: mapType)
-    }
-
-    func units(at point: HexPoint) -> [AbstractUnit?] {
-
-        return self.map.units(at: point)
     }
 
     func areUnits(at point: HexPoint) -> Bool {
@@ -1432,13 +1432,24 @@ open class GameModel: Codable {
         }
     }
 
-    func sight(at location: HexPoint, sight: Int, for player: AbstractPlayer?, in gameModel: GameModel?) {
+    public func sight(at location: HexPoint, sight: Int, for player: AbstractPlayer?) {
 
         for pt in location.areaWith(radius: sight) {
 
             if let tile = self.tile(at: pt) {
                 tile.sight(by: player)
-                tile.discover(by: player, in: gameModel)
+                tile.discover(by: player, in: self)
+                self.userInterface?.refresh(tile: tile)
+            }
+        }
+    }
+
+    func discover(at location: HexPoint, sight: Int, for player: AbstractPlayer?) {
+
+        for pt in location.areaWith(radius: sight) {
+
+            if let tile = self.tile(at: pt) {
+                tile.discover(by: player, in: self)
                 self.userInterface?.refresh(tile: tile)
             }
         }

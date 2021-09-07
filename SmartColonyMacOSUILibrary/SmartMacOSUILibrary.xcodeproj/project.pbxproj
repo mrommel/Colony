@@ -78,7 +78,6 @@
 		C99A88842607A190003B8B73 /* SmartAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99A88832607A190003B8B73 /* SmartAssets.framework */; };
 		C99A88852607A190003B8B73 /* SmartAssets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C99A88832607A190003B8B73 /* SmartAssets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C99A88882607A1D3003B8B73 /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88872607A1D3003B8B73 /* CGPointExtension.swift */; };
-		C99A888C2607A1FD003B8B73 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A888B2607A1FD003B8B73 /* ImageCache.swift */; };
 		C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88912607A269003B8B73 /* NSImageExtension.swift */; };
 		C99A88982607A2CC003B8B73 /* CGImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88972607A2CC003B8B73 /* CGImageExtension.swift */; };
 		C99A889C2607A319003B8B73 /* CGContextExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A889B2607A319003B8B73 /* CGContextExtension.swift */; };
@@ -289,7 +288,6 @@
 		C99A887D2607A06C003B8B73 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99A88832607A190003B8B73 /* SmartAssets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAssets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99A88872607A1D3003B8B73 /* CGPointExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
-		C99A888B2607A1FD003B8B73 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		C99A88912607A269003B8B73 /* NSImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImageExtension.swift; sourceTree = "<group>"; };
 		C99A88972607A2CC003B8B73 /* CGImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImageExtension.swift; sourceTree = "<group>"; };
 		C99A889B2607A319003B8B73 /* CGContextExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGContextExtension.swift; sourceTree = "<group>"; };
@@ -611,7 +609,6 @@
 				C920C425262EB03F0024EC0E /* GameEnvironment.swift */,
 				C9A3761A263468780057923E /* SKNodeExtension.swift */,
 				C99A88912607A269003B8B73 /* NSImageExtension.swift */,
-				C99A888B2607A1FD003B8B73 /* ImageCache.swift */,
 				C9155160260B2978003710BE /* GameDisplayOptions.swift */,
 				C99A88872607A1D3003B8B73 /* CGPointExtension.swift */,
 				C93AA6AA260F24640053DF74 /* CGRectExtension.swift */,
@@ -975,7 +972,6 @@
 				C94816BD26A82BB000765029 /* TradeCityViewModel.swift in Sources */,
 				C939DDD52684D396001CBC6C /* CityBannerViewModel.swift in Sources */,
 				C9A37609263446360057923E /* TerrainLayer.swift in Sources */,
-				C99A888C2607A1FD003B8B73 /* ImageCache.swift in Sources */,
 				C9A61D8D261EF87000341241 /* BottomLeftBarView.swift in Sources */,
 				C968F2A32639E56F00612D0E /* UnitObject.swift in Sources */,
 				C9A48D472653EB6100260EE0 /* CityNameDialogViewModel.swift in Sources */,

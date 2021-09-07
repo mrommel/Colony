@@ -28,7 +28,6 @@
 		C9F6EB1C260790850052140C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB1B260790850052140C /* MainView.swift */; };
 		C9F6EB1E2607908B0052140C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F6EB1D2607908B0052140C /* Assets.xcassets */; };
 		C9F6EB212607908B0052140C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F6EB202607908B0052140C /* Preview Assets.xcassets */; };
-		C9F6EB232607908B0052140C /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB222607908B0052140C /* Persistence.swift */; };
 		C9F6EB262607908B0052140C /* SmartColonyMacOS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB242607908B0052140C /* SmartColonyMacOS.xcdatamodeld */; };
 		C9F6EB322607908C0052140C /* SmartColonyMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB312607908C0052140C /* SmartColonyMacOSTests.swift */; };
 		C9F6EB3D2607908C0052140C /* SmartColonyMacOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB3C2607908C0052140C /* SmartColonyMacOSUITests.swift */; };
@@ -91,7 +90,6 @@
 		C9F6EB1B260790850052140C /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		C9F6EB1D2607908B0052140C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C9F6EB202607908B0052140C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		C9F6EB222607908B0052140C /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		C9F6EB252607908B0052140C /* SmartColonyMacOS.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartColonyMacOS.xcdatamodel; sourceTree = "<group>"; };
 		C9F6EB272607908B0052140C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9F6EB282607908B0052140C /* SmartColonyMacOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartColonyMacOS.entitlements; sourceTree = "<group>"; };
@@ -200,7 +198,6 @@
 				C9F6EB242607908B0052140C /* SmartColonyMacOS.xcdatamodeld */,
 				C91D82912607B79B00DD5AFE /* AppDelegate.swift */,
 				C9F6EB19260790850052140C /* SmartColonyMacOSApp.swift */,
-				C9F6EB222607908B0052140C /* Persistence.swift */,
 			);
 			path = SmartColonyMacOS;
 			sourceTree = "<group>";
@@ -375,7 +372,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9F6EB232607908B0052140C /* Persistence.swift in Sources */,
 				C9F6EB1C260790850052140C /* MainView.swift in Sources */,
 				C9855D672631450800468ED0 /* GameCommandsModel.swift in Sources */,
 				C9855D6B2631452200468ED0 /* GameCommands.swift in Sources */,

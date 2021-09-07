@@ -16,7 +16,7 @@ extension UnitType {
             return texture
         }
 
-        return NSImage(named: "unit_type_default")!
+        return ImageCache.shared.image(for: "unit-type-default")
     }
 
     public func typeTemplateTexture() -> String {

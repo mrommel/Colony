@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAILibrary
+import SmartAssets
 
 protocol WonderViewModelDelegate: AnyObject {
 

@@ -62,10 +62,7 @@ struct UnitListDialogView: View {
             .padding(.trailing, 45)
         }
         .frame(width: 400, height: 450, alignment: .top)
-        .background(
-            Image(nsImage: ImageCache.shared.image(for: "grid9-dialog"))
-                .resizable(capInsets: EdgeInsets(all: 45))
-        )
+        .dialogBackground()
     }
 }
 

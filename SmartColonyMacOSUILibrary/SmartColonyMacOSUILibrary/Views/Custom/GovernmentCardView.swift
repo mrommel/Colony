@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SmartAssets
 
 struct GovernmentCardView: View {
 

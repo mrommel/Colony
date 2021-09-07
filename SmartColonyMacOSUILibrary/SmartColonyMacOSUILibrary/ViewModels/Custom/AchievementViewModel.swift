@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Cocoa
+import SmartAssets
 
 class AchievementViewModel: ObservableObject, Identifiable {
 

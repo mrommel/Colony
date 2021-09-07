@@ -681,10 +681,6 @@ public class Unit: AbstractUnit {
     /// What is the max strength of this Unit when attacking?
     public func attackStrength(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile? = nil, in gameModel: GameModel?) -> Int {
 
-        guard let government = self.player?.government else {
-            fatalError("cant get government")
-        }
-
         let isEmbarkedAttackingLand = isEmbarked() && (toTile != nil && toTile!.terrain().isLand())
 
         if self.isEmbarked() && !isEmbarkedAttackingLand {
@@ -700,7 +696,7 @@ public class Unit: AbstractUnit {
             modifierValue += modifier.value
         }
 
-        return self.baseCombatStrength(ignoreEmbarked: isEmbarkedAttackingLand)
+        return self.baseCombatStrength(ignoreEmbarked: isEmbarkedAttackingLand) + modifierValue
     }
 
     public func attackStrengthModifier(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile? = nil, in gameModel: GameModel?) -> [CombatModifier] {
@@ -1593,7 +1589,14 @@ public class Unit: AbstractUnit {
         return captureDef.capturingPlayer == nil || captureDef.captureUnitType == nil ? nil : captureDef
     }
 
-    private func set(location newLocation: HexPoint, group: Bool = false, update: Bool = false, show showValue: Bool = false, checkPlotVisible: Bool = false, noMove: Bool = false, in gameModel: GameModel?) {
+    private func set(
+        location newLocation: HexPoint,
+        group: Bool = false,
+        update: Bool = false,
+        show showValue: Bool = false,
+        checkPlotVisible: Bool = false,
+        noMove: Bool = false,
+        in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1693,8 +1696,17 @@ public class Unit: AbstractUnit {
                                     strMessage = "TXT_KEY_UNIT_LOST"
                                     strSummary = strMessage
 
-                                    player.reportCultureFromKills(at: newLocation, culture: loopUnit.baseCombatStrength(ignoreEmbarked: true), wasBarbarian: loopPlayer.isBarbarian(), in: gameModel)
-                                    player.reportGoldFromKills(at: newLocation, gold: loopUnit.baseCombatStrength(ignoreEmbarked: true), in: gameModel)
+                                    player.reportCultureFromKills(
+                                        at: newLocation,
+                                        culture: loopUnit.baseCombatStrength(ignoreEmbarked: true),
+                                        wasBarbarian: loopPlayer.isBarbarian(),
+                                        in: gameModel
+                                    )
+                                    player.reportGoldFromKills(
+                                        at: newLocation,
+                                        gold: loopUnit.baseCombatStrength(ignoreEmbarked: true),
+                                        in: gameModel
+                                    )
                                 }
 
                                 if let notifications = loopUnit.player?.notifications() {
@@ -1767,7 +1779,7 @@ public class Unit: AbstractUnit {
         self.doMobilize(in: gameModel) // unfortify
 
         // needs to be here so that the square is considered visible when we move into it...
-        gameModel.sight(at: newLocation, sight: self.sight(), for: player, in: gameModel)
+        gameModel.sight(at: newLocation, sight: self.sight(), for: player)
         //newPlot->area()->changeUnitsPerPlayer(getOwner(), 1);
         var newCityRef = gameModel.city(at: newPlot.point)
 
