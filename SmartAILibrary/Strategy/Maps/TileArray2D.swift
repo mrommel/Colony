@@ -21,6 +21,8 @@ class TileArray2D: Codable {
     public let height: Int
     fileprivate var array: [AbstractTile?] = [AbstractTile?]()
 
+    // MARK: constructors
+
     init(size: MapSize) {
 
         self.width = size.width()
@@ -61,45 +63,14 @@ class TileArray2D: Codable {
         get {
             precondition(column < self.width, "Column \(column) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
             precondition(row < self.height, "Row \(row) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
-            return array[row * self.width + column]
+            return self.array[row * self.width + column]
         }
         set {
             precondition(column < self.width, "Column \(column) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
             precondition(row < self.height, "Row \(row) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
-            array[row * self.width + column] = newValue
+            self.array[row * self.width + column] = newValue
         }
     }
-}
-
-extension TileArray2D {
-
-    /*var minimum: AbstractTile {
-        var minimumValue: AbstractTile = self[0, 0]!
-
-        for x in 0..<self.columns {
-            for y in 0..<self.rows {
-                if minimumValue > self[x, y]! {
-                    minimumValue = self[x, y]!
-                }
-            }
-        }
-
-        return minimumValue
-    }
-
-    var maximum: AbstractTile {
-        var maximumValue: AbstractTile = self[0, 0]!
-
-        for x in 0..<self.columns {
-            for y in 0..<self.rows {
-                if maximumValue < self[x, y]! {
-                    maximumValue = self[x, y]!
-                }
-            }
-        }
-
-        return maximumValue
-    }*/
 }
 
 // MARK: fill methods

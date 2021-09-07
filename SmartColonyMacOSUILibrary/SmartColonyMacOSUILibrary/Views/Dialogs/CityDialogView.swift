@@ -88,10 +88,7 @@ struct CityDialogView: View {
             .padding(.trailing, 19)
         }
         .frame(width: 750, height: 550, alignment: .top)
-        .background(
-            Image(nsImage: ImageCache.shared.image(for: "grid9-dialog"))
-                .resizable(capInsets: EdgeInsets(all: 45))
-        )
+        .dialogBackground()
     }
 
     var detailView: AnyView {

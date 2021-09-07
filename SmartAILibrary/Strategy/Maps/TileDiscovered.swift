@@ -8,6 +8,62 @@
 
 import Foundation
 
+fileprivate class TileDiscoveredItem: Codable {
+
+    enum CodingKeys: CodingKey {
+
+        case leader
+        case discovered
+        case sighted
+    }
+
+    let leader: LeaderType
+    var discovered: Bool
+    var sighted: Int // number of units / cities seeing this tile
+
+    // MARK: constructors
+
+    init(by leader: LeaderType, discovered: Bool = true, sighted: Bool = false) {
+
+        self.leader = leader
+        self.discovered = discovered
+        self.sighted = sighted ? 1 : 0
+    }
+
+    required init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.leader = try container.decode(LeaderType.self, forKey: .leader)
+        self.discovered = try container.decode(Bool.self, forKey: .discovered)
+        self.sighted = try container.decode(Int.self, forKey: .sighted)
+    }
+
+    // MARK: methods
+
+    func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.leader, forKey: .leader)
+        try container.encode(self.discovered, forKey: .discovered)
+        try container.encode(self.sighted, forKey: .sighted)
+    }
+}
+
+extension TileDiscoveredItem: Hashable {
+
+    static func == (lhs: TileDiscoveredItem, rhs: TileDiscoveredItem) -> Bool {
+
+        return lhs.leader == rhs.leader
+    }
+
+    func hash(into hasher: inout Hasher) {
+
+        hasher.combine(self.leader)
+    }
+}
+
 class TileDiscovered: Codable {
 
     enum CodingKeys: CodingKey {
@@ -19,48 +75,7 @@ class TileDiscovered: Codable {
 
     private var items: [TileDiscoveredItem]
 
-    // MARK: internal classes
-
-    class TileDiscoveredItem: Codable {
-
-        enum CodingKeys: CodingKey {
-
-            case leader
-            case discovered
-            case sighted
-        }
-
-        let leader: LeaderType
-        var discovered: Bool
-        var sighted: Int // number of units / cities seeing this tile
-
-        init(by leader: LeaderType, discovered: Bool = true, sighted: Bool = false) {
-
-            self.leader = leader
-            self.discovered = discovered
-            self.sighted = sighted ? 1 : 0
-        }
-
-        required init(from decoder: Decoder) throws {
-
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-
-            self.leader = try container.decode(LeaderType.self, forKey: .leader)
-            self.discovered = try container.decode(Bool.self, forKey: .discovered)
-            self.sighted = try container.decode(Int.self, forKey: .sighted)
-        }
-
-        func encode(to encoder: Encoder) throws {
-
-            var container = encoder.container(keyedBy: CodingKeys.self)
-
-            try container.encode(self.leader, forKey: .leader)
-            try container.encode(self.discovered, forKey: .discovered)
-            try container.encode(self.sighted, forKey: .sighted)
-        }
-    }
-
-    // MARK: constructor
+    // MARK: constructors
 
     init() {
 
@@ -73,6 +88,8 @@ class TileDiscovered: Codable {
 
         self.items = try container.decode([TileDiscoveredItem].self, forKey: .items)
     }
+
+    // MARK: methods
 
     func encode(to encoder: Encoder) throws {
 

@@ -56,10 +56,7 @@ struct ChangeGovernmentDialogView: View {
             .padding(.trailing, 45)
         }
         .frame(width: 700, height: 450, alignment: .top)
-        .background(
-            Image(nsImage: ImageCache.shared.image(for: "grid9-dialog"))
-                .resizable(capInsets: EdgeInsets(all: 45))
-        )
+        .dialogBackground()
     }
 }
 

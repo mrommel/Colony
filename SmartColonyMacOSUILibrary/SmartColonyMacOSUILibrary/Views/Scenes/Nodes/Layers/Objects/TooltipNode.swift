@@ -6,6 +6,7 @@
 //
 
 import SpriteKit
+import SmartAssets
 
 class TooltipNode: SKNode {
 

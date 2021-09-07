@@ -41,7 +41,7 @@ class BuildProgressList: WeightedList<BuildType> {
     }
 }
 
-public protocol AbstractTile: Codable {
+public protocol AbstractTile: Codable, NSCopying {
 
     var point: HexPoint { get }
     var area: HexArea? { get set }
@@ -342,6 +342,32 @@ public class Tile: AbstractTile {
         if !self.buildProgressList.isZero() {
             try container.encode(self.buildProgressList, forKey: .buildProgress)
         }
+    }
+
+    public func copy(with zone: NSZone? = nil) -> Any {
+
+        let copy = Tile(point: self.point, terrain: self.terrainVal, hills: self.hillsVal, feature: self.featureValue)
+
+        copy.resourceValue = self.resourceValue
+        copy.resourceQuantityValue = self.resourceQuantityValue
+        copy.featureValue = self.featureValue
+        copy.improvementValue = self.improvementValue
+        copy.improvementPillagedValue = self.improvementPillagedValue
+        copy.routeValue = self.routeValue
+        copy.routePillagedValue = self.routePillagedValue
+
+        copy.discovered = self.discovered
+        copy.ownerValue = self.ownerValue
+
+        copy.workedBy = self.workedBy
+        copy.riverName = self.riverName
+        copy.riverFlowNorth = self.riverFlowNorth
+        copy.riverFlowNorthEast = self.riverFlowNorthEast
+        copy.riverFlowSouthEast = self.riverFlowSouthEast
+
+        copy.buildProgressList = self.buildProgressList
+
+        return copy
     }
 
     // for tests

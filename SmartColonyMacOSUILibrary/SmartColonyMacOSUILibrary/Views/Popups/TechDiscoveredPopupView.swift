@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import SmartAssets
 import SmartAILibrary
+import SmartAssets
 
 struct TechDiscoveredPopupView: View {
 
@@ -103,10 +103,7 @@ struct TechDiscoveredPopupView: View {
 
         }
         .frame(width: 400, height: 370, alignment: .top)
-        .background(
-            Image(nsImage: ImageCache.shared.image(for: "grid9-dialog"))
-                .resizable(capInsets: EdgeInsets(all: 45))
-        )
+        .dialogBackground()
     }
 }
 

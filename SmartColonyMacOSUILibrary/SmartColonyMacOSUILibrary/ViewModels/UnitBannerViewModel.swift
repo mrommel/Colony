@@ -24,12 +24,19 @@ class UnitBannerViewModel: ObservableObject {
     var commands: [Command] = []
 
     private var selectedUnit: AbstractUnit?
+    private let unitImage: NSImage
 
     weak var delegate: GameViewModelDelegate?
 
     init(selectedUnit: AbstractUnit? = nil) {
 
         self.selectedUnit = selectedUnit
+
+        if let selectedUnit = selectedUnit {
+            self.unitImage = selectedUnit.type.iconTexture()
+        } else {
+            self.unitImage = NSImage()
+        }
     }
 
 #if DEBUG
@@ -37,8 +44,14 @@ class UnitBannerViewModel: ObservableObject {
 
         self.selectedUnit = selectedUnit
         self.commands = commands
+        if let selectedUnit = selectedUnit {
+            self.unitImage = selectedUnit.type.iconTexture()
+        } else {
+            self.unitImage = NSImage()
+        }
+
         self.gameEnvironment.assign(game: gameModel)
-        self.showBanner = true
+        self.showBanner = true // for debug
 
         if let selectedUnit = self.selectedUnit {
             self.unitHealthValue = CGFloat(selectedUnit.healthPoints()) / 100.0
@@ -57,11 +70,7 @@ class UnitBannerViewModel: ObservableObject {
 
     public func unitTypeImage() -> NSImage {
 
-        if let selectedUnit = self.selectedUnit {
-            return selectedUnit.type.iconTexture()
-        } else {
-            return NSImage()
-        }
+        return self.unitImage
     }
 
     public func unitMoves() -> String {

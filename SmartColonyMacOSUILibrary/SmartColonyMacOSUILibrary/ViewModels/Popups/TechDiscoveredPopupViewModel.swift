@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAILibrary
+import SmartAssets
 
 class TechDiscoveredPopupViewModel: ObservableObject {
 
