@@ -511,7 +511,10 @@ public class GameViewModel: ObservableObject {
 
         print("- load \(textures.civilizationTypeTextureNames.count) civilization type textures")
         for civilizationTypeTextureName in textures.civilizationTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: civilizationTypeTextureName), for: civilizationTypeTextureName)
+            ImageCache.shared.add(
+                image:bundle.image(forResource: civilizationTypeTextureName),
+                for: civilizationTypeTextureName
+            )
         }
 
         print("- load \(textures.pantheonTypeTextureNames.count) pantheon type textures")
