@@ -28,6 +28,8 @@ class UnitBannerViewModel: ObservableObject {
 
     weak var delegate: GameViewModelDelegate?
 
+    // MARK: constructors
+
     init(selectedUnit: AbstractUnit? = nil) {
 
         self.selectedUnit = selectedUnit

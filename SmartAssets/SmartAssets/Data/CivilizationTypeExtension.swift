@@ -55,3 +55,24 @@ extension CivilizationType {
         return self.colors.accent
     }
 }
+
+extension CivilizationType {
+
+    public func iconTexture() -> String {
+
+        switch self {
+
+        case .barbarian: return "civilization-barbarian"
+
+        case .greek: return "civilization-greek"
+        case .roman: return "civilization-roman"
+        case .english: return "civilization-english"
+        case .aztecs: return "civilization-aztecs"
+        case .persian: return "civilization-persian"
+        case .french: return "civilization-french"
+        case .egyptian: return "civilization-egyptian"
+        case .german: return "civilization-german"
+        case .russian: return "civilization-russian"
+        }
+    }
+}

@@ -218,7 +218,7 @@ public class GameViewModel: ObservableObject {
         // init models
         self.gameSceneViewModel = GameSceneViewModel()
         self.notificationsViewModel = NotificationsViewModel()
-        self.cityBannerViewModel = CityBannerViewModel(name: "Berlin")
+        self.cityBannerViewModel = CityBannerViewModel()
         self.unitBannerViewModel = UnitBannerViewModel(selectedUnit: nil)
         self.combatBannerViewModel = CombatBannerViewModel()
 
@@ -242,7 +242,7 @@ public class GameViewModel: ObservableObject {
         // connect models
         self.gameSceneViewModel.delegate = self
         self.notificationsViewModel.delegate = self
-        // self.cityBannerViewModel.delegate = self
+        self.cityBannerViewModel.delegate = self
         self.unitBannerViewModel.delegate = self
         self.combatBannerViewModel.delegate = self
 
@@ -507,6 +507,11 @@ public class GameViewModel: ObservableObject {
         print("- load \(textures.leaderTypeTextureNames.count) leader type textures")
         for leaderTypeTextureName in textures.leaderTypeTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: leaderTypeTextureName), for: leaderTypeTextureName)
+        }
+
+        print("- load \(textures.civilizationTypeTextureNames.count) civilization type textures")
+        for civilizationTypeTextureName in textures.civilizationTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: civilizationTypeTextureName), for: civilizationTypeTextureName)
         }
 
         print("- load \(textures.pantheonTypeTextureNames.count) pantheon type textures")
@@ -800,6 +805,7 @@ extension GameViewModel: GameViewModelDelegate {
 
     func showCityBanner(for city: AbstractCity?) {
 
+        self.cityBannerViewModel.update(for: city)
         self.cityBannerViewModel.showBanner = true
         self.unitBannerViewModel.showBanner = false
         self.combatBannerViewModel.showBanner = false

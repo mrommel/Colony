@@ -152,7 +152,7 @@ struct UnitBannerView: View {
                     }
                 }
                 .frame(width: 300, height: 112, alignment: .bottomTrailing)
-                .offset(x: 0, y: self.showBanner ? 0 : 300)
+                .offset(x: 0, y: self.showBanner ? 0 : 150)
                 .onReceive(self.viewModel.$showBanner, perform: { value in
                     withAnimation(.easeInOut(duration: 0.5)) {
                         self.showBanner = value
