@@ -47,17 +47,16 @@ class PolicyCardViewModel: ObservableObject {
     var selected: Bool {
         didSet {
 
-            if self.state == .disabled {
-                self.selected = false
-            } else {
+            if self.state != .disabled {
+
                 if self.selected {
                     self.state = .selected
                 } else {
                     self.state = .active
                 }
-            }
 
-            self.delegate?.updateSelection()
+                self.delegate?.updateSelection()
+            }
         }
     }
 

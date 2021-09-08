@@ -56,6 +56,27 @@ struct CityBannerView: View {
                         .frame(width: 57, height: 57)
                         .clipShape(Circle())
                         .offset(x: 108.5, y: -20.4)
+
+                    Group {
+
+                        YieldValueView(viewModel: self.viewModel.foodYieldViewModel)
+                            .offset(x: -116, y: -89)
+
+                        YieldValueView(viewModel: self.viewModel.productionYieldViewModel)
+                            .offset(x: -69, y: -89)
+
+                        YieldValueView(viewModel: self.viewModel.goldYieldViewModel)
+                            .offset(x: -22, y: -89)
+
+                        YieldValueView(viewModel: self.viewModel.scienceYieldViewModel)
+                            .offset(x: 25, y: -89)
+
+                        YieldValueView(viewModel: self.viewModel.cultureYieldViewModel)
+                            .offset(x: 72, y: -89)
+
+                        YieldValueView(viewModel: self.viewModel.faithYieldViewModel)
+                            .offset(x: 117, y: -89)
+                    }
                 }
                 .frame(width: 310, height: 112, alignment: .bottomTrailing)
                 .offset(x: 0, y: self.showBanner ? 0 : 150)
