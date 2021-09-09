@@ -54,6 +54,7 @@ public class Textures {
 
     public let commandTextureNames: [String]
     public let commandButtonTextureNames: [String]
+    public let cityCommandButtonTextureNames: [String]
     public let policyCardTextureNames: [String]
     public let governmentStateBackgroundTextureNames: [String]
     public let governmentTextureNames: [String]
@@ -190,6 +191,7 @@ public class Textures {
 
         self.commandTextureNames = CommandType.all.map { $0.iconTexture() }
         self.commandButtonTextureNames = CommandType.all.map { $0.buttonTexture() } + ["command-button-list"]
+        self.cityCommandButtonTextureNames = CityCommandType.all.map { $0.buttonTexture() }
         self.policyCardTextureNames = [
             "policyCard-slot", "policyCard-military", "policyCard-economic", "policyCard-diplomatic",
             "policyCard-wildcard"

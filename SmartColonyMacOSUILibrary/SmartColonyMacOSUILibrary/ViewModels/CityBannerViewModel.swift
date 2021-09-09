@@ -48,6 +48,7 @@ class CityBannerViewModel: ObservableObject {
 
     private var civilizationTextureName: String
     private var productionTextureName: String
+    private var commands: [CityCommandType] = []
 
     // MARK: constructors
 
@@ -114,6 +115,10 @@ class CityBannerViewModel: ObservableObject {
         self.scienceYieldViewModel.delta = city.sciencePerTurn(in: gameModel)
         self.cultureYieldViewModel.delta = city.culturePerTurn(in: gameModel)
         self.faithYieldViewModel.delta = city.faithPerTurn(in: gameModel)
+
+        var tmpCommands: [CityCommandType] = []
+        tmpCommands.append(.showRangedAttackTargets(city: city))
+        self.commands = tmpCommands
     }
 
     func cityBannerBackground() -> NSImage {
@@ -130,5 +135,42 @@ class CityBannerViewModel: ObservableObject {
     func cityProductionImage() -> NSImage {
 
         return ImageCache.shared.image(for: self.productionTextureName)
+    }
+
+    func listImage() -> NSImage {
+
+        return ImageCache.shared.image(for: "command-button-list")
+    }
+
+    func listClicked() {
+
+        print("open city list")
+        //self.delegate?.showUnitListDialog()
+    }
+
+    func commandImage(at index: Int) -> NSImage {
+
+        if 0 <= index && index < self.commands.count {
+
+            let command = self.commands[index]
+            return ImageCache.shared.image(for: command.buttonTexture())
+        }
+
+        return NSImage(size: NSSize(width: 32, height: 32))
+    }
+
+    func commandClicked(at index: Int) {
+
+        if 0 <= index && index < self.commands.count {
+
+            let command = self.commands[index]
+            //print("commandClicked(at: \(command.title()))")
+            self.handle(command: command)
+        }
+    }
+
+    func handle(command: CityCommandType) {
+
+        print("handle command: \(command)")
     }
 }

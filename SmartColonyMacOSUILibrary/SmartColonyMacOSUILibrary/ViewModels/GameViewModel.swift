@@ -434,13 +434,19 @@ public class GameViewModel: ObservableObject {
             ImageCache.shared.add(image: bundle.image(forResource: cityTextureName), for: cityTextureName)
         }
 
-        print("- load \(textures.commandTextureNames.count) + \(textures.commandButtonTextureNames.count) command textures")
+        print("- load \(textures.commandTextureNames.count) command type textures")
         for commandTextureName in textures.commandTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: commandTextureName), for: commandTextureName)
         }
 
+        print("- load \(textures.commandButtonTextureNames.count) command button textures")
         for commandButtonTextureName in textures.commandButtonTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: commandButtonTextureName), for: commandButtonTextureName)
+        }
+
+        print("- load \(textures.cityCommandButtonTextureNames.count) city command textures")
+        for cityCommandTextureName in textures.cityCommandButtonTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: cityCommandTextureName), for: cityCommandTextureName)
         }
 
         print("- load \(textures.policyCardTextureNames.count) policy card textures")

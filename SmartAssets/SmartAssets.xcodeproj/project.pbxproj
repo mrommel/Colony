@@ -33,6 +33,7 @@
 		C98E68B32577D28E00BD93CA /* TerrainTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E68B02577D28E00BD93CA /* TerrainTypeExtension.swift */; };
 		C98E68B72577D8C900BD93CA /* Tiles.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C98E68B62577D8C900BD93CA /* Tiles.xcassets */; };
 		C9941EFC26E8FF6600D029D7 /* BuildableItemExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9941EFB26E8FF6600D029D7 /* BuildableItemExtension.swift */; };
+		C9941EFE26E9EC6E00D029D7 /* CityCommandType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9941EFD26E9EC6E00D029D7 /* CityCommandType.swift */; };
 		C9A09829261C80080098C5E1 /* UnitTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A09828261C80080098C5E1 /* UnitTypeExtension.swift */; };
 		C9A0982C261CAD3B0098C5E1 /* NSImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0982B261CAD3B0098C5E1 /* NSImageExtension.swift */; };
 		C9A09846261CB6930098C5E1 /* knight.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9A0982E261CB6910098C5E1 /* knight.xml */; };
@@ -120,6 +121,7 @@
 		C98E68B62577D8C900BD93CA /* Tiles.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Tiles.xcassets; sourceTree = "<group>"; };
 		C98E68BA25794C0E00BD93CA /* CheckScript.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; fileEncoding = 4; path = CheckScript.swift; sourceTree = "<group>"; };
 		C9941EFB26E8FF6600D029D7 /* BuildableItemExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildableItemExtension.swift; sourceTree = "<group>"; };
+		C9941EFD26E9EC6E00D029D7 /* CityCommandType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCommandType.swift; sourceTree = "<group>"; };
 		C9A09828261C80080098C5E1 /* UnitTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTypeExtension.swift; sourceTree = "<group>"; };
 		C9A0982B261CAD3B0098C5E1 /* NSImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImageExtension.swift; sourceTree = "<group>"; };
 		C9A0982E261CB6910098C5E1 /* knight.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = knight.xml; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 				C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */,
 				C9AC0FFE26DE67DB00B65288 /* PromotionState.swift */,
 				C91B484F26E61AED002157C4 /* HeaderButtonType.swift */,
+				C9941EFD26E9EC6E00D029D7 /* CityCommandType.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -481,6 +484,7 @@
 				C9A3760D263447390057923E /* TextureUtils.swift in Sources */,
 				C9E87BB9264DA63700514B9A /* TechTypeExtension.swift in Sources */,
 				C980E77326E0C60F0089053A /* CombatResultTypeExtension.swift in Sources */,
+				C9941EFE26E9EC6E00D029D7 /* CityCommandType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
