@@ -187,7 +187,11 @@ public class Textures {
             "header-button-tradeRoutes-active", "header-button-tradeRoutes-disabled"
         ]
         self.cityProgressTextureNames = Array(0...20).map { "linear-progress-\($0 * 5)" }
-        self.cityTextureNames = ["hex-city-1"]
+        self.cityTextureNames = [
+            "city-ancient-small", "city-ancient-medium", "city-ancient-large",
+            "city-medieval-small", "city-medieval-medium", "city-medieval-large",
+            // add more assets here
+        ]
 
         self.commandTextureNames = CommandType.all.map { $0.iconTexture() }
         self.commandButtonTextureNames = CommandType.all.map { $0.buttonTexture() } + ["command-button-list"]

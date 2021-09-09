@@ -107,11 +107,33 @@ struct CityBannerView: View {
                         .clipShape(Circle())
                         .offset(x: -109.4, y: -20.4)
 
-                    Image(nsImage: self.viewModel.cityProductionImage())
-                        .resizable()
-                        .frame(width: 57, height: 57)
-                        .clipShape(Circle())
-                        .offset(x: 108.5, y: -20.4)
+                    Group {
+                        Image(nsImage: self.viewModel.cityProductionImage())
+                            .resizable()
+                            .frame(width: 57, height: 57)
+                            .clipShape(Circle())
+                            .offset(x: 108.5, y: -20.4)
+
+                        ScrollView {
+                            VStack(alignment: .leading) {
+                                Text(self.viewModel.productionTitle)
+                                    .font(.footnote)
+                                    .padding(.leading, 2)
+
+                                ForEach(self.viewModel.productionEffects, id: \.self) { productionEffect in
+
+                                    Text(productionEffect)
+                                        .font(.system(size: 8))
+                                        .padding(.leading, 2)
+                                }
+
+                            }
+                        }
+                        .frame(width: 70, height: 60)
+                        .background(Globals.Style.dialogBackground)
+                        .border(Color.gray)
+                        .offset(x: 41, y: -5)
+                    }
 
                     Group {
 

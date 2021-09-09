@@ -42,7 +42,13 @@ class CityBannerViewModel: ObservableObject {
     var faithYieldViewModel: YieldValueViewModel
 
     @Published
-    var showBanner: Bool = true
+    var productionTitle: String
+
+    @Published
+    var productionEffects: [String]
+
+    @Published
+    var showBanner: Bool = false
 
     weak var delegate: GameViewModelDelegate?
 
@@ -59,13 +65,45 @@ class CityBannerViewModel: ObservableObject {
         self.accent = .blue
         self.civilizationTextureName = CivilizationType.aztecs.iconTexture()
         self.productionTextureName = BuildingType.ancientWalls.iconTexture()
+        self.productionTitle = BuildingType.ancientWalls.name()
+        self.productionEffects = BuildingType.ancientWalls.effects()
 
-        self.foodYieldViewModel = YieldValueViewModel(yieldType: .food, initial: 0.0, type: .onlyDelta, withBackground: false)
-        self.productionYieldViewModel = YieldValueViewModel(yieldType: .production, initial: 0.0, type: .onlyDelta, withBackground: false)
-        self.goldYieldViewModel = YieldValueViewModel(yieldType: .gold, initial: 0.0, type: .onlyDelta, withBackground: false)
-        self.scienceYieldViewModel = YieldValueViewModel(yieldType: .science, initial: 0.0, type: .onlyDelta, withBackground: false)
-        self.cultureYieldViewModel = YieldValueViewModel(yieldType: .culture, initial: 0.0, type: .onlyDelta, withBackground: false)
-        self.faithYieldViewModel = YieldValueViewModel(yieldType: .faith, initial: 0.0, type: .onlyDelta, withBackground: false)
+        self.foodYieldViewModel = YieldValueViewModel(
+            yieldType: .food,
+            initial: 0.0,
+            type: .onlyDelta,
+            withBackground: false
+        )
+        self.productionYieldViewModel = YieldValueViewModel(
+            yieldType: .production,
+            initial: 0.0,
+            type: .onlyDelta,
+            withBackground: false
+        )
+        self.goldYieldViewModel = YieldValueViewModel(
+            yieldType: .gold,
+            initial: 0.0,
+            type: .onlyDelta,
+            withBackground: false
+        )
+        self.scienceYieldViewModel = YieldValueViewModel(
+            yieldType: .science,
+            initial: 0.0,
+            type: .onlyDelta,
+            withBackground: false
+        )
+        self.cultureYieldViewModel = YieldValueViewModel(
+            yieldType: .culture,
+            initial: 0.0,
+            type: .onlyDelta,
+            withBackground: false
+        )
+        self.faithYieldViewModel = YieldValueViewModel(
+            yieldType: .faith,
+            initial: 0.0,
+            type: .onlyDelta,
+            withBackground: false
+        )
     }
 
 #if DEBUG
@@ -76,13 +114,47 @@ class CityBannerViewModel: ObservableObject {
         self.accent = civilization.accent
         self.civilizationTextureName = civilization.iconTexture()
         self.productionTextureName = BuildingType.ancientWalls.iconTexture()
+        self.productionTitle = BuildingType.ancientWalls.name()
+        self.productionEffects = BuildingType.ancientWalls.effects()
 
-        self.foodYieldViewModel = YieldValueViewModel(yieldType: .food, initial: 0.0, type: .onlyDelta, withBackground: false)
-        self.productionYieldViewModel = YieldValueViewModel(yieldType: .production, initial: 0.0, type: .onlyDelta, withBackground: false)
-        self.goldYieldViewModel = YieldValueViewModel(yieldType: .gold, initial: 0.0, type: .onlyDelta, withBackground: false)
-        self.scienceYieldViewModel = YieldValueViewModel(yieldType: .science, initial: 0.0, type: .onlyDelta, withBackground: false)
-        self.cultureYieldViewModel = YieldValueViewModel(yieldType: .culture, initial: 0.0, type: .onlyDelta, withBackground: false)
-        self.faithYieldViewModel = YieldValueViewModel(yieldType: .faith, initial: 0.0, type: .onlyDelta, withBackground: false)
+        self.foodYieldViewModel = YieldValueViewModel(
+            yieldType: .food,
+            initial: 0.0,
+            type: .onlyDelta,
+            withBackground: false
+        )
+        self.productionYieldViewModel = YieldValueViewModel(
+            yieldType: .production,
+            initial: 0.0,
+            type: .onlyDelta,
+            withBackground: false
+        )
+        self.goldYieldViewModel = YieldValueViewModel(
+            yieldType: .gold,
+            initial: 0.0,
+            type: .onlyDelta,
+            withBackground: false
+        )
+        self.scienceYieldViewModel = YieldValueViewModel(
+            yieldType: .science,
+            initial: 0.0,
+            type: .onlyDelta,
+            withBackground: false
+        )
+        self.cultureYieldViewModel = YieldValueViewModel(
+            yieldType: .culture,
+            initial: 0.0,
+            type: .onlyDelta,
+            withBackground: false
+        )
+        self.faithYieldViewModel = YieldValueViewModel(
+            yieldType: .faith,
+            initial: 0.0,
+            type: .onlyDelta,
+            withBackground: false
+        )
+
+        self.showBanner = true
     }
 #endif
 
@@ -105,8 +177,12 @@ class CityBannerViewModel: ObservableObject {
 
         if let buildableItem = city.currentBuildableItem() {
             self.productionTextureName = buildableItem.iconTexture()
+            self.productionTitle = buildableItem.name()
+            self.productionEffects = buildableItem.effects()
         } else {
             self.productionTextureName = "questionmark"
+            self.productionTitle = "None"
+            self.productionEffects = []
         }
 
         self.foodYieldViewModel.delta = city.foodPerTurn(in: gameModel)

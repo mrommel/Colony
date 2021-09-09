@@ -35,7 +35,7 @@ class CityObject {
             fatalError("cant get city")
         }
 
-        self.sprite = SKSpriteNode(texture: SKTexture(image: ImageCache.shared.image(for: "hex-city-1")))
+        self.sprite = SKSpriteNode(texture: SKTexture(image: ImageCache.shared.image(for: "city-ancient-small")))
         self.sprite.position = HexPoint.toScreen(hex: city.location)
         self.sprite.zPosition = Globals.ZLevels.city
         self.sprite.anchorPoint = CGPoint.lowerLeft
@@ -58,11 +58,40 @@ class CityObject {
 
         self.hideCityBanner()
 
+        var eraName: String = "ancient"
+
+        switch player.currentEra() {
+
+        case .none, .ancient, .classical:
+            eraName = "ancient"
+        case .medieval, .renaissance:
+            eraName = "medieval"
+        case .industrial:
+            eraName = "industrial"
+        case .modern, .atomic, .information, .future:
+            eraName = "modern"
+        }
+
+        var cityTextureName: String = "city-ancient-small"
+        if city.population() < 4 {
+            cityTextureName = "city-\(eraName)-small"
+        } else if city.population() < 7 {
+            cityTextureName = "city-\(eraName)-medium"
+        } else {
+            cityTextureName = "city-\(eraName)-large"
+        }
+
+        self.sprite.texture = SKTexture(image: ImageCache.shared.image(for: cityTextureName))
+
         let nameLabelWidth: Double = Double(city.name.count) * 4.2 + (city.isCapital() ? 10.0 : 0)
         let nameBackgroundWidth = nameLabelWidth + 18.0
 
         let nameImage = ImageCache.shared.image(for: "city-banner").resize(withSize: NSSize(width: 12, height: 12))!
-        self.nameBackground = NineGridTextureSprite(texture: SKTexture(image: nameImage), color: NSColor.black, size: CGSize(width: nameBackgroundWidth, height: 10))
+        self.nameBackground = NineGridTextureSprite(
+            texture: SKTexture(image: nameImage),
+            color: NSColor.black,
+            size: CGSize(width: nameBackgroundWidth, height: 10)
+        )
         self.nameBackground?.position = CGPoint(x: 24, y: 35)
         self.nameBackground?.zPosition = Globals.ZLevels.cityName - 0.1
         self.nameBackground?.anchorPoint = CGPoint(x: 0.5, y: 0.0)

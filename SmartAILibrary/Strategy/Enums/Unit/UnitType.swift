@@ -109,6 +109,11 @@ public enum UnitType: Int, Codable {
         return self.data().name
     }
 
+    public func effects() -> [String] {
+
+        return self.data().effects
+    }
+
     public func era() -> EraType {
 
         return self.data().era
@@ -228,6 +233,7 @@ public enum UnitType: Int, Codable {
     private struct UnitTypeData {
 
         let name: String
+        let effects: [String]
 
         let era: EraType
         let sight: Int
@@ -251,6 +257,7 @@ public enum UnitType: Int, Codable {
 
         case .barbarianWarrior:
             return UnitTypeData(name: "Barbarian Warrior",
+                                effects: [],
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -263,6 +270,7 @@ public enum UnitType: Int, Codable {
 
         case .barbarianArcher:
             return UnitTypeData(name: "Barbarian Archer",
+                                effects: [],
                                 era: .none,
                                 sight: 2,
                                 range: 1,
@@ -277,6 +285,10 @@ public enum UnitType: Int, Codable {
         case .settler:
             // https://civilization.fandom.com/wiki/Settler_(Civ6)
             return UnitTypeData(name: "Settler",
+                                effects: [
+                                    "May create new cities. Reduces city's Citizen Population by 1 when completed. Requires at least 2 Citizen Population.",
+                                    "Production cost is progressive."
+                                ],
                                 era: .ancient,
                                 sight: 3,
                                 range: 0,
@@ -289,6 +301,10 @@ public enum UnitType: Int, Codable {
         case .builder:
             // https://civilization.fandom.com/wiki/Builder_(Civ6)
             return UnitTypeData(name: "Builder",
+                                effects: [
+                                    "May create tile improvements or remove features like Woods or Rainforest. Build charges number can be increased through policies or wonders like the Pyramids.",
+                                    "Production cost is progressive."
+                                ],
                                 era: .ancient,
                                 sight: 2,
                                 range: 0,
@@ -301,6 +317,10 @@ public enum UnitType: Int, Codable {
         case .trader:
             // https://civilization.fandom.com/wiki/Trader_(Civ6)
             return UnitTypeData(name: "Trader",
+                                effects: [
+                                    "May make and maintain a single Trade Route Trade Route. Automatically creates Roads as it travels.",
+                                    "Production cost is progressive."
+                                ],
                                 era: .ancient,
                                 sight: 2,
                                 range: 0,
@@ -314,6 +334,9 @@ public enum UnitType: Int, Codable {
         case .scout:
             // https://civilization.fandom.com/wiki/Scout_(Civ6)
             return UnitTypeData(name: "Scout",
+                                effects: [
+                                    "Fast-moving, Ancient era recon unit."
+                                ],
                                 era: .ancient,
                                 sight: 2,
                                 range: 0,
@@ -326,6 +349,9 @@ public enum UnitType: Int, Codable {
         case .warrior:
             // https://civilization.fandom.com/wiki/Warrior_(Civ6)
             return UnitTypeData(name: "Warrior",
+                                effects: [
+                                    "Weak Ancient era melee unit."
+                                ],
                                 era: .ancient,
                                 sight: 2,
                                 range: 0,
@@ -336,7 +362,11 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 2)
         case .slinger:
+            // https://civilization.fandom.com/wiki/Slinger_(Civ6)
             return UnitTypeData(name: "Slinger",
+                                effects: [
+                                    "Weak Ancient era ranged unit. Better on attack than defense."
+                                ],
                                 era: .ancient,
                                 sight: 2,
                                 range: 1,
@@ -347,7 +377,11 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 15,
                                 moves: 2)
         case .archer:
+            // https://civilization.fandom.com/wiki/Archer_(Civ6)
             return UnitTypeData(name: "Archer",
+                                effects: [
+                                    "First Ancient era ranged unit with Range of 2."
+                                ],
                                 era: .ancient,
                                 sight: 2,
                                 range: 2,
@@ -358,7 +392,11 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 25,
                                 moves: 2)
         case .spearman:
+            // https://civilization.fandom.com/wiki/Spearman_(Civ6)
             return UnitTypeData(name: "Spearman",
+                                effects: [
+                                    "Ancient era melee unit that's effective against mounted units."
+                                ],
                                 era: .ancient,
                                 sight: 2,
                                 range: 0,
@@ -369,7 +407,12 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 2)
         case .heavyChariot:
-            return UnitTypeData(name: "Chariot",
+            // https://civilization.fandom.com/wiki/Heavy_Chariot_(Civ6)
+            return UnitTypeData(name: "Heavy Chariot",
+                                effects: [
+                                    "Hard-hitting, Ancient era heavy cavalry unit.",
+                                    "Gains 1 bonus Movement if it begins a turn on a flat tile with no Woods, Rainforest, or Hills."
+                                ],
                                 era: .ancient,
                                 sight: 2,
                                 range: 0,
@@ -380,7 +423,12 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 2)
         case .galley:
+            // https://civilization.fandom.com/wiki/Galley_(Civ6)
             return UnitTypeData(name: "Galley",
+                                effects: [
+                                    "Ancient era melee naval combat unit.",
+                                    "Can only operate on coastal waters until Cartography is researched."
+                                ],
                                 era: .ancient,
                                 sight: 2,
                                 range: 0,
@@ -393,7 +441,12 @@ public enum UnitType: Int, Codable {
 
             // industrial
         case .medic:
+            // https://civilization.fandom.com/wiki/Medic_(Civ6)
             return UnitTypeData(name: "Medic",
+                                effects: [
+                                    "Industrial era support unit.",
+                                    "Can heal adjacent units."
+                                ],
                                 era: .industrial,
                                 sight: 2,
                                 range: 0,
@@ -406,7 +459,11 @@ public enum UnitType: Int, Codable {
 
             // great people
         case .admiral:
+            // https://civilization.fandom.com/wiki/Great_Admiral_(Civ6)
             return UnitTypeData(name: "Admiral",
+                                effects: [
+                                    "Boosts combat strength and mobility of nearby naval units. Can \"Retire\" to expend it once no longer useful."
+                                ],
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -417,7 +474,11 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 3)
         case .artist:
+            // https://civilization.fandom.com/wiki/Great_Artist_(Civ6)
             return UnitTypeData(name: "Artist",
+                                effects: [
+                                    "Activate on an appropriate tile to create Great Work."
+                                ],
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -428,7 +489,11 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 3)
         case .engineer:
+            // https://civilization.fandom.com/wiki/Great_Engineer_(Civ6)
             return UnitTypeData(name: "Engineer",
+                                effects: [
+                                    "Activate on an appropriate tile to receive their effects."
+                                ],
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -439,7 +504,11 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 3)
         case .general:
+            // https://civilization.fandom.com/wiki/Great_General_(Civ6)
             return UnitTypeData(name: "General",
+                                effects: [
+                                    "Boosts combat strength and mobility of nearby land units. Can \"Retire\" to expend it once no longer useful."
+                                ],
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -450,7 +519,11 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 3)
         case .merchant:
+            // https://civilization.fandom.com/wiki/Great_Merchant_(Civ6)
             return UnitTypeData(name: "Merchant",
+                                effects: [
+                                    "Activate on an appropriate tile to receive their effects."
+                                ],
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -461,7 +534,11 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 3)
         case .musician:
+            // https://civilization.fandom.com/wiki/Great_Musician_(Civ6)
             return UnitTypeData(name: "Musician",
+                                effects: [
+                                    "Activate on an appropriate tile to create Great Work."
+                                ],
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -472,7 +549,11 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 3)
         case .prophet:
+            // https://civilization.fandom.com/wiki/Great_Prophet_(Civ6)
             return UnitTypeData(name: "Prophet",
+                                effects: [
+                                    "Activate on Holy Site or Stonehenge to found a Religion."
+                                ],
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -483,7 +564,11 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 3)
         case .scientist:
+            // https://civilization.fandom.com/wiki/Great_Scientist_(Civ6)
             return UnitTypeData(name: "Scientist",
+                                effects: [
+                                    "Activate on an appropriate tile to receive their effects."
+                                ],
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -494,7 +579,11 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 3)
         case .writer:
+            // https://civilization.fandom.com/wiki/Great_Writer_(Civ6)
             return UnitTypeData(name: "Writer",
+                                effects: [
+                                    "Activate on an appropriate tile, such as an Amphitheatre, to create the Great Work."
+                                ],
                                 era: .none,
                                 sight: 2,
                                 range: 0,
