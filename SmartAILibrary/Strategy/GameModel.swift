@@ -892,6 +892,11 @@ open class GameModel: Codable {
         return self.map.cities(of: player, in: area)
     }
 
+    public func cities(in area: HexArea) -> [AbstractCity?] {
+
+        return self.map.cities(in: area)
+    }
+
     public func city(at location: HexPoint) -> AbstractCity? {
 
         return self.map.city(at: location)

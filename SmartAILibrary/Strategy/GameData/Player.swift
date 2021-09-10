@@ -92,7 +92,8 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func personalAndGrandStrategyFlavor(for flavorType: FlavorType) -> Int
 
     func calculateGoldPerTurn(in gamemModel: GameModel?) -> Double
-    func hasGoldenAge() -> Bool
+    func currentAge() -> AgeType
+    func currentDedication() -> DedicationType
 
     func prepareTurn(in gamemModel: GameModel?)
     func startTurn(in gameModel: GameModel?)
@@ -952,9 +953,14 @@ public class Player: AbstractPlayer {
         return self.isHumanVal
     }
 
-    public func hasGoldenAge() -> Bool {
+    public func currentAge() -> AgeType {
 
-        return false
+        return .normal
+    }
+
+    public func currentDedication() -> DedicationType {
+
+        return .none
     }
 
     public func calculateGoldPerTurn(in gameModel: GameModel?) -> Double {
@@ -1132,7 +1138,7 @@ public class Player: AbstractPlayer {
         }*/
 
         // Golden Age
-        // self.doProcessGoldenAge();
+        self.doProcessAge(in: gameModel)
 
         // balance amenities
         self.doCityAmenities(in: gameModel)
@@ -1273,6 +1279,12 @@ public class Player: AbstractPlayer {
                 }
             }
         }
+    }
+
+    // https://civilization.fandom.com/wiki/Age_(Civ6)
+    func doProcessAge(in gameModel: GameModel?) {
+
+        // 
     }
 
     func doCityAmenities(in gameModel: GameModel?) {

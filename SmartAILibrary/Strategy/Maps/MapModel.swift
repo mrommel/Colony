@@ -324,6 +324,11 @@ open class MapModel: Codable {
         return self.cities.filter({ $0?.leader == player.leader && area.contains($0?.location ?? HexPoint.invalid) })
     }
 
+    func cities(in area: HexArea) -> [AbstractCity?] {
+
+        return self.cities.filter({ area.contains($0?.location ?? HexPoint.invalid) })
+    }   
+
     func city(at location: HexPoint) -> AbstractCity? {
 
         if let city = self.cities.first(where: { $0?.location == location }) {

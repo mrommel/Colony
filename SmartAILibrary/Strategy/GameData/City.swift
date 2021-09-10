@@ -213,6 +213,9 @@ public protocol AbstractCity: AnyObject, Codable {
     func isHolyCity(for religion: ReligionType, in gameModel: GameModel?) -> Bool
     func isHolyCityOfAnyReligion(in gameModel: GameModel?) -> Bool
 
+    func loyalty() -> Int
+    func loyaltyState() -> LoyaltyState
+
     func set(scratch: Int)
     func scratch() -> Int
 }
@@ -281,6 +284,8 @@ public class City: AbstractCity {
         case cheapestPlotInfluence
         case cultureStored
         case cultureLevel
+
+        case loyalty
     }
 
     public let name: String
@@ -340,6 +345,7 @@ public class City: AbstractCity {
     // scratch
     private var scratchValue: Int = 0
     private var strengthVal: Int = 0
+    private var loyaltyValue: Float = 100.0
 
     // MARK: constructor
 
@@ -451,6 +457,8 @@ public class City: AbstractCity {
         self.cultureStoredValue = try container.decode(Double.self, forKey: .cultureStored)
         self.cultureLevelValue = try container.decode(Int.self, forKey: .cultureLevel)
 
+        self.loyaltyValue = try container.decode(Float.self, forKey: .loyalty)
+
         // setup
         self.districts?.city = self
         self.buildings?.city = self
@@ -515,6 +523,8 @@ public class City: AbstractCity {
         try container.encode(self.cheapestPlotInfluenceValue, forKey: .cheapestPlotInfluence)
         try container.encode(self.cultureStoredValue, forKey: .cultureStored)
         try container.encode(self.cultureLevelValue, forKey: .cultureLevel)
+
+        try container.encode(self.loyaltyValue, forKey: .loyalty)
     }
 
     public func initialize(in gameModel: GameModel?) {
@@ -791,6 +801,7 @@ public class City: AbstractCity {
             // }
 
             self.updateStrengthValue(in: gameModel)
+            self.updateLoyaltyValue(in: gameModel)
 
             // self.doNearbyEnemy()
 
@@ -934,6 +945,169 @@ public class City: AbstractCity {
     public func strengthValue() -> Int {
 
         return self.strengthVal
+    }
+
+    // https://civilization.fandom.com/wiki/Loyalty_(Civ6)
+    func updateLoyaltyValue(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let government = player.government else {
+            fatalError("cant get government")
+        }
+
+        var loyalty: Float = 0
+        let area10 = HexArea(center: self.location, radius: 10)
+
+        // ////////////////////////////
+        // Pressure from nearby Citizens.
+        // Domestic Pressure = Age Factor * Sum of [ each Domestic Population * (10 - Distance Away) ]
+        var domesticPressure: Float = 0.0
+
+        for domesticCityRef in gameModel.cities(of: player, in: area10) {
+
+            guard let domesticCity = domesticCityRef else {
+                continue
+            }
+
+            let distance = domesticCity.location.distance(to: self.location)
+
+            domesticPressure += Float(domesticCity.population() * (10 - distance))
+        }
+
+        // add age factor
+        domesticPressure *= player.currentAge().loyalityFactor()
+
+        // Foreign Pressure = Sum of [ each Foreign Population * (10 - Distance Away) * Age Factor of Foreign Civ ]
+        var foreignPressure: Float = 0.0
+
+        for foreignCityRef in gameModel.cities(in: area10) {
+
+            guard let foreignCity = foreignCityRef else {
+                continue
+            }
+
+            // only foreign city
+            guard foreignCity.leader != player.leader else {
+                continue
+            }
+
+            let distance = foreignCity.location.distance(to: self.location)
+
+            foreignPressure += Float(foreignCity.population()) * Float(10 - distance) * (foreignCity.player?.currentAge().loyalityFactor() ?? 1.0)
+        }
+
+        // Pressure from Nearby Citizens = 10 * (Domestic - Foreign) / (minimum of [Domestic, Foreign] + 0.5)
+        let pressureFromNearbyCitizens = 10.0 * (domesticPressure - foreignPressure) / (min(domesticPressure, foreignPressure) + 0.5)
+
+        // The effect of domestic and foreign Governors.
+        // +8 Loyalty per turn for having any Governor assigned to that city (activated from the moment you assign the Governor, not the moment they actually become established).
+        // -2 Loyalty per turn if a foreign city has their Governor Amani, with the Emissary title, established in a city within 9 tiles.
+        // +2 Loyalty per turn for having Governor Amani, with the Prestige title, established in another city within 9 tiles.
+        // +4 Loyalty per turn for having Governor Victor, with the Garrison Commander title, established in another city within 9 tiles.
+
+        // ////////////////////////////
+        // Happiness of the citizens in the city.
+        var happinessOfTheCitizens: Float = 0.0
+        switch self.amenitiesState(in: gameModel) {
+
+        case .unrest, .unhappy, .revolt:
+            happinessOfTheCitizens = -6.0
+        case .displeased:
+            happinessOfTheCitizens = -3.0
+        case .content:
+            happinessOfTheCitizens = 0.0
+        case .happy:
+            happinessOfTheCitizens = 3.0
+        case .ecstatic:
+            happinessOfTheCitizens = 6.0
+        }
+
+        // Other factors.
+        var otherFactors: Float = 0.0
+
+        // ////////////////////////////
+        // policyCards
+        // ////////////////////////////
+        // +2 with the Limitanei policy card and if the city is garrisoned.
+        if government.has(card: .limitanei) && self.hasGarrison() {
+            otherFactors += 2.0
+        }
+        // +2 with the Praetorium policy card and if the city has a Governor.
+        /*if government.has(card: .praetorium) && governor {
+
+        }*/
+        // +1-6 with the Communications Office policy card and if the city has a Governor.
+        // +3 with the Colonial Offices policy card and if the city is not on your Capital Capital's continent.
+
+        // ////////////////////////////
+        // buildings
+        // ////////////////////////////
+        // +1 if the city has constructed a Monument.
+        if self.has(building: .monument) {
+            otherFactors += 1
+        }
+        // +8 if the city has constructed the Government Plaza.
+        // -2 if the Audience Chamber has been constructed in the civilization's Government Plaza district and the city is without a Governor.
+
+        // ////////////////////////////
+        // additionally
+        // ////////////////////////////
+        // +3 if the city is following the religion you have founded.
+        // -3 if you have founded a religion and the city doesn't follow it.
+        // -5 if the city is Occupied (which may be negated by keeping a unit garrisoned in it).
+        // Variable penalty to Loyalty if the city has been conquered and you have lots of Grievances Grievances with its founder.
+        // -4 if the city is facing starvation (for example, if its Farms have been pillaged).
+        // +10 as a base level for Free Cities.
+        // +20 as a base level for city-states.
+
+        // ////////////////////////////
+        // finally
+        // ////////////////////////////
+        // +4 for English cities on a separate continent from the Capital Capital with a Royal Navy Dockyard.
+        // +2 for Spanish cities on a separate continent from their Capital Capital with a Mission adjacent to their City Center.
+        // +3 for Zulu cities with a garrisoned unit, increased to +5 if unit is a Corps or Army.
+        // +5 for Persian cities with a garrisoned unit.
+        // +2 for Dutch cities per each starting domestic Trade Route Trade Route.
+        // +2 for Swedish cities with an Open-Air Museum.
+        // +2 from having the Colosseum Wonder within 6 tiles.
+
+        // sum
+        loyalty = pressureFromNearbyCitizens + happinessOfTheCitizens + otherFactors
+
+        self.loyaltyValue = loyalty
+    }
+
+    public func loyalty() -> Int {
+
+        return Int(self.loyaltyValue)
+    }
+
+    public func loyaltyState() -> LoyaltyState {
+
+        // Loyal (76-100): no penalties.
+        if self.loyaltyValue > 75.0 {
+            return .loyal
+        }
+
+        // Wavering Loyalty (51-75): 75% Citizen Population growth, -25% to all yields.
+        if self.loyaltyValue > 50.0 {
+            return .wavering
+        }
+
+        // Disloyal (26-50): 25% Citizen Population growth, -50% to all yields.
+        if self.loyaltyValue > 25.0 {
+            return .disloyal
+        }
+
+        // Unrest (1-25): no Citizen Population growth, -100% to all yields, meaning that the city effectively becomes non-functional.
+        return .unrest
     }
 
     public func lastTurnFoodHarvested() -> Double {
