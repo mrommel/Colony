@@ -93,13 +93,18 @@ struct CityBannerView: View {
                         .resizable(capInsets: EdgeInsets(all: 5))
                         .renderingMode(.template)
                         .foregroundColor(Color(self.viewModel.main))
-                        .frame(width: 120, height: 20, alignment: .bottomTrailing)
-                        .offset(x: 0.0, y: -70.0)
+                        .frame(width: 120, height: 16, alignment: .bottomTrailing)
+                        .offset(x: 0.0, y: -74.0)
 
                     Text(self.viewModel.name)
                         .font(.footnote)
                         .foregroundColor(Color(self.viewModel.accent))
-                        .offset(x: 0.0, y: -72.0)
+                        .frame(width: 120, height: 16)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 4)
+                                .stroke(Color(self.viewModel.accent), lineWidth: 1)
+                        )
+                        .offset(x: 0.0, y: -74.0)
 
                     Image(nsImage: self.viewModel.cityCivilizationImage())
                         .resizable()
@@ -115,21 +120,20 @@ struct CityBannerView: View {
                             .offset(x: 108.5, y: -20.4)
 
                         ScrollView {
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 2) {
                                 Text(self.viewModel.productionTitle)
-                                    .font(.footnote)
+                                    .font(.system(size: 8))
                                     .padding(.leading, 2)
 
                                 ForEach(self.viewModel.productionEffects, id: \.self) { productionEffect in
 
                                     Text(productionEffect)
-                                        .font(.system(size: 8))
+                                        .font(.system(size: 5))
                                         .padding(.leading, 2)
                                 }
-
                             }
                         }
-                        .frame(width: 70, height: 60)
+                        .frame(width: 70, height: 66)
                         .background(Globals.Style.dialogBackground)
                         .border(Color.gray)
                         .offset(x: 41, y: -5)
