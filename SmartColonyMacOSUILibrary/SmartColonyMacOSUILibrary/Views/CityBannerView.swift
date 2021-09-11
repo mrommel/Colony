@@ -8,6 +8,57 @@
 import SwiftUI
 import SmartAssets
 
+struct CityBannerItemView: View {
+
+    let value: String
+    let text: String
+
+    public init(value: String, text: String) {
+
+        self.value = value
+        self.text = text
+    }
+
+    public var body: some View {
+
+        HStack(alignment: .center, spacing: 4) {
+            Text(self.value)
+                .font(.system(size: 8))
+                .frame(minWidth: 16)
+
+            Text(self.text)
+                .font(.system(size: 5))
+        }
+        .frame(width: 70, height: 10, alignment: .leading)
+        .padding(1)
+        .background(Globals.Style.dialogBackground)
+        .overlay(self.line, alignment: .bottom)
+        .overlay(self.line, alignment: .top)
+    }
+
+    private var line: some View {
+
+        let rectangle = Rectangle()
+            .frame(height: 1)
+            .foregroundColor(Color.gray)
+
+        return rectangle
+    }
+}
+
+#if DEBUG
+struct CityBannerItemView_Previews: PreviewProvider {
+
+    static var previews: some View {
+
+        VStack {
+            CityBannerItemView(value: "A", text: "Some value")
+            CityBannerItemView(value: "A/b", text: "Other value")
+        }
+    }
+}
+#endif
+
 struct CityBannerView: View {
 
     @ObservedObject
@@ -113,49 +164,19 @@ struct CityBannerView: View {
                             .clipShape(Circle())
                             .offset(x: -109.4, y: -20.4)
 
-                        Text(self.viewModel.loyalityLabel)
-                            .font(.system(size: 8))
-                            .frame(width: 70, height: 10, alignment: .leading)
-                            .padding(1)
-                            .background(Globals.Style.dialogBackground)
-                            .overlay(self.line, alignment: .bottom)
-                            .overlay(self.line, alignment: .top)
+                        CityBannerItemView(value: self.viewModel.loyalityLabel, text: "Loyalty")
                             .offset(x: -35.0, y: -59.0)
 
-                        Text(self.viewModel.religiousLabel)
-                            .font(.system(size: 8))
-                            .frame(width: 70, height: 10, alignment: .leading)
-                            .padding(1)
-                            .background(Globals.Style.dialogBackground)
-                            .overlay(self.line, alignment: .bottom)
-                            .overlay(self.line, alignment: .top)
+                        CityBannerItemView(value: self.viewModel.religiousLabel, text: "Religious citizen")
                             .offset(x: -35.0, y: -46.0)
 
-                        Text(self.viewModel.loyalityLabel)
-                            .font(.system(size: 8))
-                            .frame(width: 70, height: 10, alignment: .leading)
-                            .padding(1)
-                            .background(Globals.Style.dialogBackground)
-                            .overlay(self.line, alignment: .bottom)
-                            .overlay(self.line, alignment: .top)
+                        CityBannerItemView(value: self.viewModel.amenitiesLabel, text: "Amenities")
                             .offset(x: -35.0, y: -33.0)
 
-                        Text(self.viewModel.loyalityLabel)
-                            .font(.system(size: 8))
-                            .frame(width: 70, height: 10, alignment: .leading)
-                            .padding(1)
-                            .background(Globals.Style.dialogBackground)
-                            .overlay(self.line, alignment: .bottom)
-                            .overlay(self.line, alignment: .top)
+                        CityBannerItemView(value: self.viewModel.housingLabel, text: "Housing capacity")
                             .offset(x: -35.0, y: -20.0)
 
-                        Text(self.viewModel.loyalityLabel)
-                            .font(.system(size: 8))
-                            .frame(width: 70, height: 10, alignment: .leading)
-                            .padding(1)
-                            .background(Globals.Style.dialogBackground)
-                            .overlay(self.line, alignment: .bottom)
-                            .overlay(self.line, alignment: .top)
+                        CityBannerItemView(value: self.viewModel.turnsUntilGrowthLabel, text: "Turns until growth")
                             .offset(x: -35.0, y: -7.0)
                     }
 
@@ -219,15 +240,6 @@ struct CityBannerView: View {
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
-    }
-
-    private var line: some View {
-
-        let rectangle = Rectangle()
-            .frame(height: 1)
-            .foregroundColor(Color.gray)
-
-        return rectangle
     }
 }
 

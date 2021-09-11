@@ -160,6 +160,9 @@ extension City {
         productionPerTurn += self.productionFromTradeRoutes(in: gameModel)
         productionPerTurn += self.featureProduction()
 
+        // cap yields based on loyalty
+        productionPerTurn *= self.loyaltyState().yieldFactor()
+
         return productionPerTurn
     }
 
@@ -288,6 +291,9 @@ extension City {
         faithPerTurn += self.faithFromDistricts(in: gameModel)
         faithPerTurn += self.faithFromWonders()
         faithPerTurn += self.faithFromTradeRoutes(in: gameModel)
+
+        // cap yields based on loyalty
+        faithPerTurn *= self.loyaltyState().yieldFactor()
 
         return faithPerTurn
     }
@@ -480,6 +486,9 @@ extension City {
         culturePerTurn += self.cultureFromTradeRoutes(in: gameModel)
         culturePerTurn += self.baseYieldRateFromSpecialists.weight(of: .culture)
 
+        // cap yields based on loyalty
+        culturePerTurn *= self.loyaltyState().yieldFactor()
+
         return culturePerTurn
     }
 
@@ -626,6 +635,9 @@ extension City {
         goldPerTurn += self.goldFromBuildings()
         goldPerTurn += self.goldFromWonders()
         goldPerTurn += self.goldFromTradeRoutes(in: gameModel)
+
+        // cap yields based on loyalty
+        goldPerTurn *= self.loyaltyState().yieldFactor()
 
         return goldPerTurn
     }
@@ -774,6 +786,9 @@ extension City {
         sciencePerTurn += self.scienceFromTradeRoutes(in: gameModel)
         sciencePerTurn += self.baseYieldRateFromSpecialists.weight(of: .science)
 
+        // cap yields based on loyalty
+        sciencePerTurn *= self.loyaltyState().yieldFactor()
+
         return sciencePerTurn
     }
 
@@ -907,6 +922,9 @@ extension City {
         foodPerTurn += self.foodFromBuildings(in: gameModel)
         foodPerTurn += self.foodFromWonders(in: gameModel)
         foodPerTurn += self.foodFromTradeRoutes(in: gameModel)
+
+        // cap yields based on loyalty
+        foodPerTurn *= self.loyaltyState().yieldFactor()
 
         return foodPerTurn
     }
@@ -1056,6 +1074,9 @@ extension City {
         housing += self.housingFromDistricts()
         housing += self.housingFromWonders()
         housing += self.housingFromImprovements(in: gameModel)
+
+        // cap yields based on loyalty
+        housing *= self.loyaltyState().yieldFactor()
 
         return housing
     }

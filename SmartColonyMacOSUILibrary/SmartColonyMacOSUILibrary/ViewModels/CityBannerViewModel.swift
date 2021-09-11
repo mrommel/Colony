@@ -54,6 +54,15 @@ class CityBannerViewModel: ObservableObject {
     var religiousLabel: String
 
     @Published
+    var amenitiesLabel: String
+
+    @Published
+    var housingLabel: String
+
+    @Published
+    var turnsUntilGrowthLabel: String
+
+    @Published
     var showBanner: Bool = false
 
     weak var delegate: GameViewModelDelegate?
@@ -74,8 +83,11 @@ class CityBannerViewModel: ObservableObject {
         self.productionTitle = BuildingType.ancientWalls.name()
         self.productionEffects = BuildingType.ancientWalls.effects()
 
-        self.loyalityLabel = "100 Loyality"
-        self.religiousLabel = "0 Religious Cit"
+        self.loyalityLabel = "100"
+        self.religiousLabel = "0"
+        self.amenitiesLabel = "X"
+        self.housingLabel = "X/Y"
+        self.turnsUntilGrowthLabel = "X"
 
         self.foodYieldViewModel = YieldValueViewModel(
             yieldType: .food,
@@ -126,8 +138,11 @@ class CityBannerViewModel: ObservableObject {
         self.productionTitle = BuildingType.ancientWalls.name()
         self.productionEffects = BuildingType.ancientWalls.effects()
 
-        self.loyalityLabel = "100 Loyality"
-        self.religiousLabel = "0 Religious Cit"
+        self.loyalityLabel = "100"
+        self.religiousLabel = "0"
+        self.amenitiesLabel = "X"
+        self.housingLabel = "X/Y"
+        self.turnsUntilGrowthLabel = "X"
 
         self.foodYieldViewModel = YieldValueViewModel(
             yieldType: .food,
@@ -193,12 +208,15 @@ class CityBannerViewModel: ObservableObject {
             self.productionEffects = buildableItem.effects()
         } else {
             self.productionTextureName = "questionmark"
-            self.productionTitle = "None"
+            self.productionTitle = "Nothing being produced"
             self.productionEffects = []
         }
 
-        self.loyalityLabel = "\(city.loyalty()) Loyality"
-        self.religiousLabel = "\(city.numReligiousCitizen()) Religious Cit"
+        self.loyalityLabel = "\(city.loyalty())"
+        self.religiousLabel = "\(city.numReligiousCitizen())"
+        self.amenitiesLabel = "\(city.amenitiesPerTurn(in: gameModel))/\(city.amenitiesNeeded())"
+        self.housingLabel = "\(city.housingPerTurn(in: gameModel))/\(city.population())"
+        self.turnsUntilGrowthLabel = "\(city.growthInTurns())"
 
         self.foodYieldViewModel.delta = city.foodPerTurn(in: gameModel)
         self.productionYieldViewModel.delta = city.productionPerTurn(in: gameModel)

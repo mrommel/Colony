@@ -139,15 +139,18 @@ public protocol AbstractCity: AnyObject, Codable {
     func growthInTurns() -> Int
     func maxGrowthInTurns() -> Int
 
+    func housingPerTurn(in gameModel: GameModel?) -> Double
     func baseHousing(in gameModel: GameModel?) -> Double
     func housingFromBuildings() -> Double
     func housingFromWonders() -> Double
     func housingFromDistricts() -> Double
 
+    func amenitiesPerTurn(in gameModel: GameModel?) -> Double
     func amenitiesFromDistrict() -> Double
     func amenitiesFromWonders(in gameModel: GameModel?) -> Double
     func amenitiesFromBuildings() -> Double
     func amenitiesFromLuxuries() -> Double
+    func amenitiesNeeded() -> Double
 
     func maintenanceCostsPerTurn() -> Double
 
@@ -1014,7 +1017,10 @@ public class City: AbstractCity {
 
             let distance = foreignCity.location.distance(to: self.location)
             let foreignCityLoyalityFactor = foreignCity.player?.currentAge().loyalityFactor() ?? 1.0
-            let foreignCityPressure: Float = Float(foreignCity.population()) * Float(10 - distance) * foreignCityLoyalityFactor
+            var foreignCityPressure: Float = Float(foreignCity.population()) * Float(10 - distance) * foreignCityLoyalityFactor
+
+            // This final pressure value is capped at ±20. In other words, even if nearby cities have enough Citizens to exert more than 20 points of pressure, the final effect won't exceed +20 or -20.
+            foreignCityPressure = min(20, max(-20, foreignCityPressure))
 
             foreignPressure += foreignCityPressure
         }
@@ -1305,6 +1311,11 @@ public class City: AbstractCity {
         amenitiesPerTurn += self.amenitiesFromWonders(in: gameModel)
 
         return amenitiesPerTurn
+    }
+
+    public func amenitiesNeeded() -> Double {
+
+        return max(0, self.populationValue - 2.0)
     }
 
     public func amenitiesState(in gameModel: GameModel?) -> AmenitiesState {
