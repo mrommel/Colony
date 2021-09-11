@@ -81,6 +81,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func has(district: DistrictType) -> Bool
     func has(building: BuildingType) -> Bool
     func has(wonder: WonderType) -> Bool
+    func has(project: ProjectType) -> Bool
 
     func canBuild(building: BuildingType, in gameModel: GameModel?) -> Bool
     func canTrain(unit: UnitType, in gameModel: GameModel?) -> Bool
@@ -210,9 +211,12 @@ public protocol AbstractCity: AnyObject, Codable {
     func slots(for slotType: GreatWorkSlotType) -> Int
 
     // religion
+    func religiousMajority() -> ReligionType
     func isHolyCity(for religion: ReligionType, in gameModel: GameModel?) -> Bool
     func isHolyCityOfAnyReligion(in gameModel: GameModel?) -> Bool
+    func numReligiousCitizen() -> Int
 
+    // loyalty
     func loyalty() -> Int
     func loyaltyState() -> LoyaltyState
 
@@ -976,13 +980,23 @@ public class City: AbstractCity {
                 continue
             }
 
-            let distance = domesticCity.location.distance(to: self.location)
+            let distance: Int = domesticCity.location.distance(to: self.location)
+            var domesticCityPressure: Float = Float(domesticCity.population() * (10 - distance)) * player.currentAge().loyalityFactor()
 
-            domesticPressure += Float(domesticCity.population() * (10 - distance))
+            // Note that a Capital is counted twice: the first time with its Citizen Population affected by the Age Factor and the second time it is assumed to be in a Normal Age.
+            if domesticCity.isCapital() {
+
+                domesticCityPressure += Float(domesticCity.population() * (10 - distance)) * AgeType.normal.loyalityFactor()
+            }
+
+            // The Bread and Circuses project from a nearby Entertainment Complex or Water Park also has the effect of doubling the Citizen Population count, so a Bread and Circuses project in a highly populated city can be very powerful.
+            if domesticCity.has(project: .breadAndCircuses) {
+
+                domesticCityPressure *= 2
+            }
+
+            domesticPressure += domesticCityPressure
         }
-
-        // add age factor
-        domesticPressure *= player.currentAge().loyalityFactor()
 
         // Foreign Pressure = Sum of [ each Foreign Population * (10 - Distance Away) * Age Factor of Foreign Civ ]
         var foreignPressure: Float = 0.0
@@ -999,8 +1013,10 @@ public class City: AbstractCity {
             }
 
             let distance = foreignCity.location.distance(to: self.location)
+            let foreignCityLoyalityFactor = foreignCity.player?.currentAge().loyalityFactor() ?? 1.0
+            let foreignCityPressure: Float = Float(foreignCity.population()) * Float(10 - distance) * foreignCityLoyalityFactor
 
-            foreignPressure += Float(foreignCity.population()) * Float(10 - distance) * (foreignCity.player?.currentAge().loyalityFactor() ?? 1.0)
+            foreignPressure += foreignCityPressure
         }
 
         // Pressure from Nearby Citizens = 10 * (Domestic - Foreign) / (minimum of [Domestic, Foreign] + 0.5)
@@ -2386,6 +2402,15 @@ public class City: AbstractCity {
         }
 
         return wonders.has(wonder: wonder)
+    }
+
+    public func has(project: ProjectType) -> Bool {
+
+        guard let projects = self.projects else {
+            return false
+        }
+
+        return projects.has(project: project)
     }
 
     func productionWonderType() -> WonderType? {
@@ -3996,6 +4021,31 @@ public class City: AbstractCity {
         }
 
         return false
+    }
+
+    public func numReligiousCitizen() -> Int {
+
+        guard let cityReligion = self.cityReligion else {
+            fatalError("cant get city religion")
+        }
+
+        var religiousCitizen: Int = 0
+
+        for religionType in ReligionType.all {
+
+            religiousCitizen += cityReligion.numFollowers(following: religionType)
+        }
+
+        return religiousCitizen
+    }
+
+    public func religiousMajority() -> ReligionType {
+
+        guard let cityReligion = self.cityReligion else {
+            fatalError("cant get city religion")
+        }
+
+        return cityReligion.religiousMajority()
     }
 
     //    --------------------------------------------------------------------------------

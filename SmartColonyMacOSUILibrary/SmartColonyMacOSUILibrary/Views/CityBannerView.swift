@@ -106,11 +106,58 @@ struct CityBannerView: View {
                         )
                         .offset(x: 0.0, y: -74.0)
 
-                    Image(nsImage: self.viewModel.cityCivilizationImage())
-                        .resizable()
-                        .frame(width: 57, height: 57)
-                        .clipShape(Circle())
-                        .offset(x: -109.4, y: -20.4)
+                    Group {
+                        Image(nsImage: self.viewModel.cityCivilizationImage())
+                            .resizable()
+                            .frame(width: 57, height: 57)
+                            .clipShape(Circle())
+                            .offset(x: -109.4, y: -20.4)
+
+                        Text(self.viewModel.loyalityLabel)
+                            .font(.system(size: 8))
+                            .frame(width: 70, height: 10, alignment: .leading)
+                            .padding(1)
+                            .background(Globals.Style.dialogBackground)
+                            .overlay(self.line, alignment: .bottom)
+                            .overlay(self.line, alignment: .top)
+                            .offset(x: -35.0, y: -59.0)
+
+                        Text(self.viewModel.religiousLabel)
+                            .font(.system(size: 8))
+                            .frame(width: 70, height: 10, alignment: .leading)
+                            .padding(1)
+                            .background(Globals.Style.dialogBackground)
+                            .overlay(self.line, alignment: .bottom)
+                            .overlay(self.line, alignment: .top)
+                            .offset(x: -35.0, y: -46.0)
+
+                        Text(self.viewModel.loyalityLabel)
+                            .font(.system(size: 8))
+                            .frame(width: 70, height: 10, alignment: .leading)
+                            .padding(1)
+                            .background(Globals.Style.dialogBackground)
+                            .overlay(self.line, alignment: .bottom)
+                            .overlay(self.line, alignment: .top)
+                            .offset(x: -35.0, y: -33.0)
+
+                        Text(self.viewModel.loyalityLabel)
+                            .font(.system(size: 8))
+                            .frame(width: 70, height: 10, alignment: .leading)
+                            .padding(1)
+                            .background(Globals.Style.dialogBackground)
+                            .overlay(self.line, alignment: .bottom)
+                            .overlay(self.line, alignment: .top)
+                            .offset(x: -35.0, y: -20.0)
+
+                        Text(self.viewModel.loyalityLabel)
+                            .font(.system(size: 8))
+                            .frame(width: 70, height: 10, alignment: .leading)
+                            .padding(1)
+                            .background(Globals.Style.dialogBackground)
+                            .overlay(self.line, alignment: .bottom)
+                            .overlay(self.line, alignment: .top)
+                            .offset(x: -35.0, y: -7.0)
+                    }
 
                     Group {
                         Image(nsImage: self.viewModel.cityProductionImage())
@@ -172,6 +219,15 @@ struct CityBannerView: View {
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
+    }
+
+    private var line: some View {
+
+        let rectangle = Rectangle()
+            .frame(height: 1)
+            .foregroundColor(Color.gray)
+
+        return rectangle
     }
 }
 

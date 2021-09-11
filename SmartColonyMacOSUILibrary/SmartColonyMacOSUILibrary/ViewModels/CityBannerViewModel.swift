@@ -48,6 +48,12 @@ class CityBannerViewModel: ObservableObject {
     var productionEffects: [String]
 
     @Published
+    var loyalityLabel: String
+
+    @Published
+    var religiousLabel: String
+
+    @Published
     var showBanner: Bool = false
 
     weak var delegate: GameViewModelDelegate?
@@ -67,6 +73,9 @@ class CityBannerViewModel: ObservableObject {
         self.productionTextureName = BuildingType.ancientWalls.iconTexture()
         self.productionTitle = BuildingType.ancientWalls.name()
         self.productionEffects = BuildingType.ancientWalls.effects()
+
+        self.loyalityLabel = "100 Loyality"
+        self.religiousLabel = "0 Religious Cit"
 
         self.foodYieldViewModel = YieldValueViewModel(
             yieldType: .food,
@@ -116,6 +125,9 @@ class CityBannerViewModel: ObservableObject {
         self.productionTextureName = BuildingType.ancientWalls.iconTexture()
         self.productionTitle = BuildingType.ancientWalls.name()
         self.productionEffects = BuildingType.ancientWalls.effects()
+
+        self.loyalityLabel = "100 Loyality"
+        self.religiousLabel = "0 Religious Cit"
 
         self.foodYieldViewModel = YieldValueViewModel(
             yieldType: .food,
@@ -184,6 +196,9 @@ class CityBannerViewModel: ObservableObject {
             self.productionTitle = "None"
             self.productionEffects = []
         }
+
+        self.loyalityLabel = "\(city.loyalty()) Loyality"
+        self.religiousLabel = "\(city.numReligiousCitizen()) Religious Cit"
 
         self.foodYieldViewModel.delta = city.foodPerTurn(in: gameModel)
         self.productionYieldViewModel.delta = city.productionPerTurn(in: gameModel)
