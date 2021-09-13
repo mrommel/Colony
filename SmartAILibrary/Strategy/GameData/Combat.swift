@@ -66,7 +66,7 @@ public class Combat {
     }
 
     /// attack against unit - no fire back
-    static func predictRangedAttack(between attacker: AbstractUnit?, and defender: AbstractUnit?, in gameModel: GameModel?) -> CombatResult {
+    public static func predictRangedAttack(between attacker: AbstractUnit?, and defender: AbstractUnit?, in gameModel: GameModel?) -> CombatResult {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -161,7 +161,7 @@ public class Combat {
             fatalError("cant get defenderTile")
         }
 
-        let attackerStrength = attacker.rangedCombatStrength(against: defender, on: defenderTile, attacking: true)
+        let attackerStrength = attacker.rangedCombatStrength(against: defender, on: defenderTile)
         let defenderStrength = defender.defensiveStrength(against: nil, on: defenderTile, ranged: true, in: gameModel) // FIXME
         let strengthDifference = attackerStrength - defenderStrength
 
@@ -215,7 +215,7 @@ public class Combat {
         }
 
         // defender strikes back
-        let attackerStrength2 = city.rangedCombatStrength(against: attacker, on: attackerTile, attacking: true)
+        let attackerStrength2 = city.rangedCombatStrength(against: attacker, on: attackerTile)
         let defenderStrength2 = attacker.defensiveStrength(against: nil, on: attackerTile, ranged: true, in: gameModel)
 
         let defenderStrengthDifference = attackerStrength2 - defenderStrength2
@@ -490,5 +490,83 @@ public class Combat {
         }
 
         return CombatResult(defenderDamage: defenderDamage, attackerDamage: attackerDamage, value: value)
+    }
+
+    @discardableResult static func doRangedAttack(between attacker: AbstractCity?, and defender: AbstractUnit?, in gameModel: GameModel?) -> CombatResult {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let activePlayer = gameModel.activePlayer() else {
+            fatalError("cant get activePlayer")
+        }
+
+        guard let attacker = attacker else {
+            fatalError("cant get attacker")
+        }
+
+        guard let defender = defender else {
+            fatalError("cant get city")
+        }
+
+        /*guard let attackerTile = gameModel.tile(at: attacker.location) else {
+            fatalError("cant get attackerTile")
+        }*/
+
+        guard let defenderTile = gameModel.tile(at: defender.location) else {
+            fatalError("cant get defenderTile")
+        }
+
+        defender.automate(with: .none)
+
+        attacker.setMadeAttack(to: true)
+
+        // attacker strikes
+        let attackerStrength = attacker.rangedCombatStrength(against: defender, on: defenderTile)
+        let defenderStrength = defender.defensiveStrength(against: nil, on: defenderTile, ranged: false, in: gameModel)
+        let attackerStrengthDifference = attackerStrength - defenderStrength
+
+        var defenderDamage: Int = Int(30.0 * pow(M_E, 0.04 * Double(attackerStrengthDifference) * Double.random(in: 0.8..<1.2)))
+
+        if defenderDamage < 0 {
+            defenderDamage = 0
+        }
+
+        let value = Combat.evaluateResult(
+            defenderHealth: defender.healthPoints(),
+            defenderDamage: defenderDamage,
+            attackerHealth: attacker.healthPoints(),
+            attackerDamage: 0
+        )
+
+        // apply damage
+        defender.add(damage: defenderDamage)
+
+        if defender.healthPoints() <= 0 { // Defender died
+
+            if activePlayer.isEqual(to: attacker.player) {
+                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_UNIT_DESTROYED_ENEMY", delay: 3)
+            }
+
+            if activePlayer.isEqual(to: defender.player) {
+                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_UNIT_WAS_DESTROYED", delay: 3)
+            }
+
+            if let notifications = defender.player?.notifications() {
+                notifications.addNotification(
+                    of: .unitDied,
+                    for: defender.player,
+                    message: "TXT_KEY_UNIT_LOST",
+                    summary: "TXT_KEY_UNIT_LOST",
+                    at: defenderTile.point,
+                    other: attacker.player
+                )
+            }
+
+            defender.doKill(delayed: false, by: attacker.player, in: gameModel)
+        }
+
+        return CombatResult(defenderDamage: defenderDamage, attackerDamage: 0, value: value)
     }
 }

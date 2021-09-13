@@ -276,8 +276,6 @@ public enum BuildingType: Int, Codable {
                                     flavours: [Flavor(type: .growth, value: 10), Flavor(type: .greatPeople, value: 3), Flavor(type: .science, value: 4), Flavor(type: .tileImprovement, value: 3), Flavor(type: .gold, value: 2), Flavor(type: .production, value: 3), Flavor(type: .offense, value: 1), Flavor(type: .defense, value: 1)])
         case .monument:
             // https://civilization.fandom.com/wiki/Monument_(Civ6)
-            // FIXME +1 Loyalty
-            // FIXME +1 additional Culture if city is at maximum Loyalty.
             return BuildingTypeData(name: "Monument",
                                     effects: ["+2 Culture", "+1 Loyalty", "+1 Culture if city is at maximum Loyalty."],
                                     category: .cultural,

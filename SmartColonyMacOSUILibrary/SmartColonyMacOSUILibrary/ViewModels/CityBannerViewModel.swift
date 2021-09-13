@@ -226,7 +226,9 @@ class CityBannerViewModel: ObservableObject {
         self.faithYieldViewModel.delta = city.faithPerTurn(in: gameModel)
 
         var tmpCommands: [CityCommandType] = []
-        tmpCommands.append(.showRangedAttackTargets(city: city))
+        if !city.rangedCombatTargetLocations(in: gameModel).isEmpty {
+            tmpCommands.append(.showRangedAttackTargets(city: city))
+        }
         self.commands = tmpCommands
     }
 
@@ -254,7 +256,7 @@ class CityBannerViewModel: ObservableObject {
     func listClicked() {
 
         print("open city list")
-        //self.delegate?.showUnitListDialog()
+        self.delegate?.showCityListDialog()
     }
 
     func commandImage(at index: Int) -> NSImage {
@@ -281,5 +283,10 @@ class CityBannerViewModel: ObservableObject {
     func handle(command: CityCommandType) {
 
         print("handle command: \(command)")
+        switch command {
+
+        case .showRangedAttackTargets(city: let city):
+            self.delegate?.showRangedTargets(of: city)
+        }
     }
 }

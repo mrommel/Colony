@@ -571,6 +571,12 @@ extension City {
             }
         }
 
+        // Monument: +1 additional Culture if city is at maximum Loyalty.
+        if buildings.has(building: .monument) && self.loyaltyState() == .loyal {
+
+            cultureFromBuildings += 1
+        }
+
         return cultureFromBuildings
     }
 

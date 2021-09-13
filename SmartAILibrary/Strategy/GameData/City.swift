@@ -10,15 +10,6 @@ import Foundation
 
 // Amenities https://www.youtube.com/watch?v=I_LH7BdkrWc
 
-public enum GrowthStatusType {
-
-    case none
-
-    case constant
-    case starvation
-    case growth
-}
-
 public enum CityError: Error {
 
     case tileOwned
@@ -26,17 +17,6 @@ public enum CityError: Error {
     case tileWorkedAlready
 
     case cantWorkCenter
-}
-
-public enum CityTaskType {
-
-    case rangedAttack
-}
-
-public enum CityTaskResultType {
-
-    case aborted
-    case completed
 }
 
 public protocol AbstractCity: AnyObject, Codable {
@@ -174,9 +154,13 @@ public protocol AbstractCity: AnyObject, Codable {
     func hasGarrison() -> Bool
     func setGarrison(unit: AbstractUnit?)
 
-    func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?, attacking: Bool) -> Int
     func canRangeStrike(towards point: HexPoint) -> Bool
+    func rangedCombatTargetLocations(in gameModel: GameModel?) -> [HexPoint]
+    func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?) -> Int
     func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> Int
+    func doRangeAttack(at location: HexPoint, in gameModel: GameModel?) -> Bool
+    func setMadeAttack(to madeAttack: Bool)
+    func madeAttack() -> Bool
 
     func work(tile: AbstractTile) throws
     func isCoastal(in gameModel: GameModel?) -> Bool
@@ -191,9 +175,6 @@ public protocol AbstractCity: AnyObject, Codable {
 
     // military properties
     func threatValue() -> Int
-
-    @discardableResult
-    func doTask(taskType: CityTaskType, target: HexPoint?, in gameModel: GameModel?) -> CityTaskResultType
 
     func lastTurnGarrisonAssigned() -> Int
     func setLastTurnGarrisonAssigned(turn: Int)
@@ -301,7 +282,6 @@ public class City: AbstractCity {
     public var player: AbstractPlayer?
     private(set) public var leader: LeaderType // for restoring from file
     private var originalLeaderValue: LeaderType
-    private(set) var growthStatus: GrowthStatusType = .growth
     var capitalValue: Bool
     private var everCapitalValue: Bool // has this city ever been (or is) capital?
 
@@ -328,7 +308,7 @@ public class City: AbstractCity {
 
     public var cityStrategy: CityStrategyAI?
 
-    private var madeAttack: Bool = false
+    private var madeAttackValue: Bool = false
     private var routeToCapitalConnectedThisTurn: Bool = false
     private var routeToCapitalConnectedLastTurn: Bool = false
     private var lastTurnGarrisonAssignedValue: Int = 0
@@ -443,7 +423,7 @@ public class City: AbstractCity {
 
         self.cityStrategy = try container.decode(CityStrategyAI.self, forKey: .cityStrategy)
 
-        self.madeAttack = try container.decode(Bool.self, forKey: .madeAttack)
+        self.madeAttackValue = try container.decode(Bool.self, forKey: .madeAttack)
         self.routeToCapitalConnectedThisTurn = try container.decode(Bool.self, forKey: .routeToCapitalConnectedThisTurn)
         self.routeToCapitalConnectedLastTurn = try container.decode(Bool.self, forKey: .routeToCapitalConnectedLastTurn)
         self.lastTurnGarrisonAssignedValue = try container.decode(Int.self, forKey: .lastTurnGarrisonAssigned)
@@ -510,7 +490,7 @@ public class City: AbstractCity {
 
         try container.encode(self.cityStrategy, forKey: .cityStrategy)
 
-        try container.encode(self.madeAttack, forKey: .madeAttack)
+        try container.encode(self.madeAttackValue, forKey: .madeAttack)
         try container.encode(self.routeToCapitalConnectedThisTurn, forKey: .routeToCapitalConnectedThisTurn)
         try container.encode(self.routeToCapitalConnectedLastTurn, forKey: .routeToCapitalConnectedLastTurn)
         try container.encode(self.lastTurnGarrisonAssignedValue, forKey: .lastTurnGarrisonAssigned)
@@ -741,7 +721,7 @@ public class City: AbstractCity {
         //setDrafted(false);
         //setAirliftTargeted(false);
         //setCurrAirlift(0);
-        // FIXME self.set(madeAttack: false)
+        self.setMadeAttack(to: false)
         //GetCityBuildings()->SetSoldBuildingThisTurn(false);
 
         self.updateFeatureSurrounded(in: gameModel)
@@ -2851,14 +2831,50 @@ public class City: AbstractCity {
 
     public func canRangeStrike(towards point: HexPoint) -> Bool {
 
-        if self.location.distance(to: point) <= 2 {
-            return true
+        if self.location.distance(to: point) > 2 {
+            return false
         }
 
-        return false
+        if !self.has(building: .ancientWalls) {
+            return false
+        }
+
+        return true
     }
 
-    public func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?, attacking: Bool) -> Int {
+    public func rangedCombatTargetLocations(in gameModel: GameModel?) -> [HexPoint] {
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        var targets: [HexPoint] = []
+
+        for targetLocation in self.location.areaWith(radius: 2) {
+
+            guard let targetUnitRefs = gameModel?.units(at: targetLocation) else {
+                continue
+            }
+
+            for targetUnitRef in targetUnitRefs {
+
+                guard let targetUnit = targetUnitRef else {
+                    continue
+                }
+
+                if targetUnit.isBarbarian() || player.isAtWar(with: targetUnit.player) {
+
+                    if !targets.contains(targetLocation) {
+                        targets.append(targetLocation)
+                    }
+                }
+            }
+        }
+
+        return targets
+    }
+
+    public func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?) -> Int {
 
         guard let player = self.player else {
             fatalError("no player provided")
@@ -3145,15 +3161,6 @@ public class City: AbstractCity {
         }
     }
 
-    public func doTask(taskType: CityTaskType, target: HexPoint? = nil, in gameModel: GameModel?) -> CityTaskResultType {
-
-        switch taskType {
-
-        case .rangedAttack:
-            return self.rangeStrike(at: target!, in: gameModel)
-        }
-    }
-
     private func strikeRange() -> Int {
 
         return 2
@@ -3164,33 +3171,39 @@ public class City: AbstractCity {
         return self.location.distance(to: point) <= self.strikeRange()
     }
 
-    private func rangeStrike(at point: HexPoint, in gameModel: GameModel?) -> CityTaskResultType {
+    public func doRangeAttack(at location: HexPoint, in gameModel: GameModel?) -> Bool {
 
-        guard let tile = gameModel?.tile(at: point) else {
-            return .aborted
+        guard let tile = gameModel?.tile(at: location) else {
+            return false
         }
 
-        if !self.canRangeStrike(at: point) {
-            return .aborted
+        if !self.canRangeStrike(at: location) {
+            return false
         }
-
-        self.madeAttack = true
 
         // No City
         if !tile.isCity() {
 
-            guard let defender = gameModel?.unit(at: point, of: .combat) else {
-                return .aborted
+            guard let defender = gameModel?.unit(at: location, of: .combat) else {
+                return false
             }
 
-            let combatResult = Combat.predictRangedAttack(between: self, and: defender, in: gameModel)
+            Combat.doRangedAttack(between: self, and: defender, in: gameModel)
 
-            defender.set(healthPoints: defender.healthPoints() - combatResult.defenderDamage)
-
-            return .completed
+            return true
         }
 
-        return .aborted
+        return false
+    }
+
+    public func setMadeAttack(to madeAttack: Bool) {
+
+        self.madeAttackValue = madeAttack
+    }
+
+    public func madeAttack() -> Bool {
+
+        return self.madeAttackValue
     }
 
     public func lastTurnGarrisonAssigned() -> Int {

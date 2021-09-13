@@ -17,6 +17,7 @@ public enum CivilianAttackPriorityType {
 }
 
 // swiftlint:disable type_body_length
+// swiftlint:disable line_length
 public enum UnitType: Int, Codable {
 
     // civilians
