@@ -23,6 +23,8 @@ extension UnitType {
 
         switch self {
 
+        case .none: return "unit-type-template-warrior"
+
             // barbarian
         case .barbarianWarrior: return "unit-type-template-warrior"
         case .barbarianArcher: return "unit-type-template-archer"
@@ -60,6 +62,8 @@ extension UnitType {
     public func typeTexture() -> String {
 
         switch self {
+
+        case .none: return "unit-type-warrior"
 
             // barbarian
         case .barbarianWarrior: return "unit-type-warrior"
@@ -102,6 +106,8 @@ extension UnitType {
 
         switch self {
 
+        case .none: return "warrior-idle-0"
+
             // barbarian
         case .barbarianWarrior: return "warrior-idle-0"
         case .barbarianArcher: return "archer-idle-0"
@@ -141,6 +147,9 @@ extension UnitType {
         let bundle = Bundle.init(for: Textures.self)
 
         switch self {
+
+        case .none:
+            return nil
 
             // barbarian
         case .barbarianWarrior:
@@ -208,6 +217,8 @@ extension UnitType {
 
         switch self {
 
+        case .none: return nil
+
             // barbarian
         case .barbarianWarrior: return nil
         case .barbarianArcher: return nil
@@ -268,6 +279,8 @@ extension UnitType {
         let bundle = Bundle.init(for: Textures.self)
 
         switch self {
+
+        case .none: return nil
 
             // barbarian
         case .barbarianWarrior: return nil
@@ -330,6 +343,8 @@ extension UnitType {
 
         switch self {
 
+        case .none: return nil
+
             // barbarian
         case .barbarianWarrior: return nil
         case .barbarianArcher: return nil
@@ -390,6 +405,8 @@ extension UnitType {
         let bundle = Bundle.init(for: Textures.self)
 
         switch self {
+
+        case .none: return nil
 
             // barbarian
         case .barbarianWarrior: return nil
