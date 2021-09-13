@@ -117,7 +117,7 @@ public enum ScreenType {
 
     case unitList
     case cityList
-    
+
     case selectPromotion
     case disbandConfirm
     case selectTradeCity

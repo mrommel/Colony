@@ -189,7 +189,7 @@ public class Textures {
         self.cityProgressTextureNames = Array(0...20).map { "linear-progress-\($0 * 5)" }
         self.cityTextureNames = [
             "city-ancient-small", "city-ancient-medium", "city-ancient-large",
-            "city-medieval-small", "city-medieval-medium", "city-medieval-large",
+            "city-medieval-small", "city-medieval-medium", "city-medieval-large"
             // add more assets here
         ]
 

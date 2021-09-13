@@ -327,7 +327,7 @@ open class MapModel: Codable {
     func cities(in area: HexArea) -> [AbstractCity?] {
 
         return self.cities.filter({ area.contains($0?.location ?? HexPoint.invalid) })
-    }   
+    }
 
     func city(at location: HexPoint) -> AbstractCity? {
 
