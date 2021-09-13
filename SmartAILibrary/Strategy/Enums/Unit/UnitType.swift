@@ -20,6 +20,10 @@ public enum CivilianAttackPriorityType {
 // swiftlint:disable line_length
 public enum UnitType: Int, Codable {
 
+    // default
+
+    case none
+
     // civilians
 
     case settler // FIXME Abilities: Found a City on a valid land tile. (Expends the unit and creates a city on its tile.)
@@ -161,6 +165,9 @@ public enum UnitType: Int, Codable {
 
         switch self {
 
+            // default
+        case .none: return .none
+
             // barbarian
         case .barbarianWarrior: return .warrior
         case .barbarianArcher: return .archer
@@ -255,6 +262,19 @@ public enum UnitType: Int, Codable {
     private func data() -> UnitTypeData {
 
         switch self {
+
+        case .none:
+            return UnitTypeData(name: "None",
+                                effects: [],
+                                era: .ancient,
+                                sight: 2,
+                                range: 2,
+                                supportDistance: 0,
+                                strength: 0,
+                                targetType: .city,
+                                meleeAttack: 0,
+                                rangedAttack: 0,
+                                moves: 0)
 
         case .barbarianWarrior:
             return UnitTypeData(name: "Barbarian Warrior",
@@ -602,6 +622,8 @@ public enum UnitType: Int, Codable {
 
         switch self {
 
+        case .none: return []
+
         case .barbarianWarrior: return []
         case .barbarianArcher: return []
 
@@ -679,6 +701,8 @@ public enum UnitType: Int, Codable {
 
         switch self {
 
+        case .none: return .land
+
         case .barbarianWarrior: return .land
         case .barbarianArcher: return .land
 
@@ -719,6 +743,8 @@ public enum UnitType: Int, Codable {
 
         switch self {
 
+        case .none: return [.none]
+
         case .barbarianWarrior: return [.attack]
         case .barbarianArcher: return [.ranged]
 
@@ -753,6 +779,8 @@ public enum UnitType: Int, Codable {
     func defaultTask() -> UnitTaskType {
 
         switch self {
+
+        case .none: return .none
 
         case .barbarianWarrior: return .attack
         case .barbarianArcher: return .ranged
@@ -789,6 +817,9 @@ public enum UnitType: Int, Codable {
     func movementType() -> UnitMovementType {
 
         switch self {
+
+        case .none: return .immobile
+
         case .barbarianWarrior: return .walk
         case .barbarianArcher: return .walk
 
@@ -827,6 +858,8 @@ public enum UnitType: Int, Codable {
 
         switch self {
 
+        case .none: return 0
+
         case .barbarianWarrior: return 0
         case .barbarianArcher: return 0
 
@@ -862,6 +895,8 @@ public enum UnitType: Int, Codable {
     func purchaseCost() -> Int {
 
         switch self {
+
+        case .none: return -1
 
         case .barbarianWarrior: return -1
         case .barbarianArcher: return -1
@@ -899,6 +934,10 @@ public enum UnitType: Int, Codable {
 
         switch self {
 
+        case .none: return -1
+
+        case .none: return -1
+
         case .barbarianWarrior: return -1
         case .barbarianArcher: return -1
 
@@ -935,6 +974,8 @@ public enum UnitType: Int, Codable {
 
         switch self {
 
+        case .none: return 0
+
         case .barbarianWarrior: return 0
         case .barbarianArcher: return 0
 
@@ -969,6 +1010,8 @@ public enum UnitType: Int, Codable {
     public func requiredTech() -> TechType? {
 
         switch self {
+
+        case .none: return nil
 
         case .barbarianWarrior: return nil
         case .barbarianArcher: return .archery
@@ -1010,6 +1053,8 @@ public enum UnitType: Int, Codable {
     public func requiredCivic() -> CivicType? {
 
         switch self {
+
+        case .none: return nil
 
         case .barbarianWarrior: return nil
         case .barbarianArcher: return nil
@@ -1053,6 +1098,8 @@ public enum UnitType: Int, Codable {
 
         switch self {
 
+        case .none: return nil
+
         case .barbarianWarrior: return .barbarian
         case .barbarianArcher: return .barbarian
 
@@ -1088,6 +1135,10 @@ public enum UnitType: Int, Codable {
     public func unitType(for civilization: CivilizationType) -> UnitType? {
 
         switch self {
+
+            // default
+        case .none:
+            return .none
 
             // ----------------------------
             // barbarian
@@ -1257,6 +1308,8 @@ public enum UnitType: Int, Codable {
     func abilities() -> [UnitAbilityType] {
 
         switch self {
+
+        case .none: return []
 
         case .barbarianWarrior: return [.canCapture]
         case .barbarianArcher: return [.canCapture]

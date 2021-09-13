@@ -477,7 +477,8 @@ extension GameScene {
             switch unitSelectionMode {
 
             case .pick, .meleeUnitTargets, .rangedUnitTargets:
-                fatalError("should not happen")
+                // ignore
+                break
 
             case .rangedCityTargets:
                 if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {

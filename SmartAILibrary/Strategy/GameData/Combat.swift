@@ -143,7 +143,7 @@ public class Combat {
         return CombatResult(defenderDamage: damage, attackerDamage: 0, value: value)
     }
 
-    static func predictRangedAttack(between attacker: AbstractCity?, and unit: AbstractUnit?, in gameModel: GameModel?) -> CombatResult {
+    public static func predictRangedAttack(between attacker: AbstractCity?, and unit: AbstractUnit?, in gameModel: GameModel?) -> CombatResult {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -181,7 +181,7 @@ public class Combat {
         return CombatResult(defenderDamage: damage, attackerDamage: 0, value: value)
     }
 
-    static func predictMeleeAttack(between attacker: AbstractUnit?, and city: AbstractCity?, in gameModel: GameModel?) -> CombatResult {
+    public static func predictMeleeAttack(between attacker: AbstractUnit?, and city: AbstractCity?, in gameModel: GameModel?) -> CombatResult {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
