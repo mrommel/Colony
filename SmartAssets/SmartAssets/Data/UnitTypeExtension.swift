@@ -19,6 +19,46 @@ extension UnitType {
         return ImageCache.shared.image(for: "unit-type-default")
     }
 
+    public func portraitTexture() -> String {
+
+        switch self {
+
+        case .none: return "unit-portrait-default"
+
+            // barbarian
+        case .barbarianWarrior: return "unit-portrait-warrior"
+        case .barbarianArcher: return "unit-portrait-archer"
+
+            // ancient
+        case .settler: return "unit-portrait-settler"
+        case .builder: return "unit-portrait-builder"
+        case .trader: return "unit-portrait-trader"
+
+        case .scout: return "unit-portrait-scout"
+        case .warrior: return "unit-portrait-warrior"
+        case .slinger: return "unit-portrait-default" // default
+        case .archer: return "unit-portrait-archer"
+        case .spearman: return "unit-portrait-default" // default
+        case .heavyChariot: return "unit-portrait-default" // default
+        case .galley: return "unit-portrait-galley"
+
+            // industial
+        case .medic: return "unit-portrait-default"
+
+            // great people
+        case .artist: return "unit-portrait-default"
+        case .admiral: return "unit-portrait-default"
+        case .engineer: return "unit-portrait-default"
+        case .general: return "unit-portrait-default"
+        case .merchant: return "unit-portrait-default"
+        case .musician: return "unit-portrait-default"
+        case .prophet: return "unit-portrait-default"
+        case .scientist: return "unit-portrait-default"
+        case .writer: return "unit-portrait-default"
+
+        }
+    }
+
     public func typeTemplateTexture() -> String {
 
         switch self {

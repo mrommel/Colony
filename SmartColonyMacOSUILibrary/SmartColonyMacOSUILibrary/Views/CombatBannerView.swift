@@ -61,8 +61,10 @@ struct CombatBannerView: View {
 
                         Image(nsImage: self.viewModel.defenderViewModel.typeIcon())
                             .resizable()
-                            .frame(width: 84, height: 84)
-                            .offset(x: -32.0, y: -15.0)
+                            .frame(width: 42, height: 42)
+                            //.background(Color.red)
+                            .clipShape(Circle())
+                            .offset(x: -32.0, y: -28.0)
 
                         Image(nsImage: self.viewModel.defenderViewModel.healthIcon())
                             .resizable()
@@ -132,8 +134,10 @@ struct CombatBannerView: View {
 
                         Image(nsImage: self.viewModel.attackerViewModel.typeIcon())
                             .resizable()
-                            .frame(width: 84, height: 84)
-                            .offset(x: 32.0, y: -15.0)
+                            .frame(width: 42, height: 42)
+                            //.background(Color.red)
+                            .clipShape(Circle())
+                            .offset(x: 32.0, y: -28.0)
 
                         Image(nsImage: self.viewModel.attackerViewModel.healthIcon())
                             .resizable()
@@ -215,19 +219,30 @@ struct CombatBannerView_Previews: PreviewProvider {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
-        // attacker
+        // attacker unit
         let playerAttacker = Player(leader: .alexander, isHuman: true)
         let locationAttacker = HexPoint(x: 1, y: 2)
         let unitAttacker = Unit(at: locationAttacker, type: UnitType.spearman, owner: playerAttacker)
+
+        // attacker city
+        let cityAttacker = City(name: "Berlin", at: HexPoint(x: 2, y: 3), owner: playerAttacker)
 
         // defender
         let playerDefender = Player(leader: .barbarossa, isHuman: false)
         let locationDefender = HexPoint(x: 1, y: 3)
         let unitDefender = Unit(at: locationDefender, type: UnitType.warrior, owner: playerDefender)
 
-        let viewModel = CombatBannerViewModel(attacker: unitAttacker, defender: unitDefender)
+        // views and viewModels
 
-        CombatBannerView(viewModel: viewModel)
+        let unitToUnitViewModel = CombatBannerViewModel(attacker: unitAttacker, defender: unitDefender)
+
+        CombatBannerView(viewModel: unitToUnitViewModel)
+            .previewDisplayName("Unit => Unit Combat")
+
+        let cityToUnitViewModel = CombatBannerViewModel(attacker: cityAttacker, defender: unitDefender)
+
+        CombatBannerView(viewModel: cityToUnitViewModel)
+            .previewDisplayName("City => Unit Range Combat")
     }
 }
 #endif

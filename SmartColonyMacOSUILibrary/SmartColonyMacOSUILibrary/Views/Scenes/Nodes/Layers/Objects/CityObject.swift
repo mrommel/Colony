@@ -48,7 +48,7 @@ class CityObject {
 
     func showCityBanner() {
 
-        guard let city = self.city else {
+        guard let city = self.city as? City else {
             fatalError("cant get unit")
         }
 
@@ -58,30 +58,7 @@ class CityObject {
 
         self.hideCityBanner()
 
-        var eraName: String = "ancient"
-
-        switch player.currentEra() {
-
-        case .none, .ancient, .classical:
-            eraName = "ancient"
-        case .medieval, .renaissance:
-            eraName = "medieval"
-        case .industrial:
-            eraName = "industrial"
-        case .modern, .atomic, .information, .future:
-            eraName = "modern"
-        }
-
-        var cityTextureName: String = "city-ancient-small"
-        if city.population() < 4 {
-            cityTextureName = "city-\(eraName)-small"
-        } else if city.population() < 7 {
-            cityTextureName = "city-\(eraName)-medium"
-        } else {
-            cityTextureName = "city-\(eraName)-large"
-        }
-
-        self.sprite.texture = SKTexture(image: ImageCache.shared.image(for: cityTextureName))
+        self.sprite.texture = SKTexture(image: ImageCache.shared.image(for: city.iconTexture()))
 
         let nameLabelWidth: Double = Double(city.name.count) * 4.2 + (city.isCapital() ? 10.0 : 0)
         let nameBackgroundWidth = nameLabelWidth + 18.0

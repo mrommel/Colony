@@ -31,6 +31,15 @@ class CombatBannerViewModel: ObservableObject {
 
     weak var delegate: GameViewModelDelegate?
 
+    init() {
+
+        self.attackerViewModel = CombatUnitViewModel(combatType: .attacker)
+        self.defenderViewModel = CombatUnitViewModel(combatType: .defender)
+        self.combatPredictionText = "Unknown"
+        self.combatPredictionColor = TypeColor.silverFoil
+    }
+
+#if DEBUG
     init(attacker: AbstractUnit? = nil, defender: AbstractUnit? = nil) {
 
         self.attackerViewModel = CombatUnitViewModel(combatType: .attacker)
@@ -45,6 +54,22 @@ class CombatBannerViewModel: ObservableObject {
 
         self.update(for: attacker, and: defender, ranged: false)
     }
+
+    init(attacker: AbstractCity? = nil, defender: AbstractUnit? = nil) {
+
+    self.attackerViewModel = CombatUnitViewModel(combatType: .attacker)
+    self.defenderViewModel = CombatUnitViewModel(combatType: .defender)
+    self.combatPredictionText = "Unknown"
+    self.combatPredictionColor = TypeColor.silverFoil
+
+    if attacker != nil && defender != nil {
+        // debug
+        self.showBanner = true
+    }
+
+    self.update(for: attacker, and: defender, ranged: false)
+}
+#endif
 
     func update(for attacker: AbstractUnit?, and defender: AbstractUnit?, ranged: Bool) {
 
@@ -126,7 +151,7 @@ class CombatBannerViewModel: ObservableObject {
 
             self.attackerViewModel.update(
                 name: attackerUnit.name(),
-                type: attackerUnit.type,
+                portraitTextureName: attackerUnit.type.portraitTexture(),
                 strength: attackerStrength,
                 healthPoints: attackerUnit.healthPoints(),
                 combatModifiers: attackerCombatModifiers,
@@ -134,7 +159,7 @@ class CombatBannerViewModel: ObservableObject {
             )
             self.defenderViewModel.update(
                 name: defenderUnit.name(),
-                type: defenderUnit.type,
+                portraitTextureName: defenderUnit.type.portraitTexture(),
                 strength: defenderStrength,
                 healthPoints: defenderUnit.healthPoints(),
                 combatModifiers: defenderCombatModifiers,
@@ -197,7 +222,7 @@ class CombatBannerViewModel: ObservableObject {
 
             self.attackerViewModel.update(
                 name: attackerUnit.name(),
-                type: attackerUnit.type,
+                portraitTextureName: attackerUnit.type.portraitTexture(),
                 strength: attackerStrength,
                 healthPoints: attackerUnit.healthPoints(),
                 combatModifiers: attackerCombatModifiers,
@@ -205,7 +230,7 @@ class CombatBannerViewModel: ObservableObject {
             )
             self.defenderViewModel.update(
                 name: defenderUnit.name(),
-                type: defenderUnit.type,
+                portraitTextureName: defenderUnit.type.portraitTexture(),
                 strength: defenderStrength,
                 healthPoints: defenderUnit.healthPoints(),
                 combatModifiers: defenderCombatModifiers,
@@ -220,7 +245,7 @@ class CombatBannerViewModel: ObservableObject {
             return
         }
 
-        guard let attackerCity = attacker else {
+        guard let attackerCity = attacker as? City else {
             // fatalError("cant get source unit")
             return
         }
@@ -291,7 +316,7 @@ class CombatBannerViewModel: ObservableObject {
 
         self.attackerViewModel.update(
             name: attackerCity.name,
-            type: UnitType.none,
+            portraitTextureName: attackerCity.iconTexture(),
             strength: attackerStrength,
             healthPoints: attackerCity.healthPoints(),
             combatModifiers: attackerCombatModifiers,
@@ -299,7 +324,7 @@ class CombatBannerViewModel: ObservableObject {
         )
         self.defenderViewModel.update(
             name: defenderUnit.name(),
-            type: defenderUnit.type,
+            portraitTextureName: defenderUnit.type.portraitTexture(),
             strength: defenderStrength,
             healthPoints: defenderUnit.healthPoints(),
             combatModifiers: defenderCombatModifiers,

@@ -118,8 +118,10 @@ struct UnitBannerView: View {
                     Image(nsImage: self.viewModel.unitTypeImage())
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 64, height: 64, alignment: .center) // 42,42
-                        .offset(x: -80.3, y: -29)
+                        .frame(width: 46, height: 46)
+                        .background(Color(Globals.Colors.dialogBackground))
+                        .clipShape(Circle())
+                        .offset(x: -80.3, y: -29.5)
 
                     GroupBox(content: {
                         Text(self.viewModel.unitName())

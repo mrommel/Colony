@@ -382,6 +382,7 @@ public class GameViewModel: ObservableObject {
                 print("cant get idle textures of \(unitType.name())")
             }
 
+            ImageCache.shared.add(image: bundle.image(forResource: unitType.portraitTexture()), for: unitType.portraitTexture())
             ImageCache.shared.add(image: bundle.image(forResource: unitType.typeTexture()), for: unitType.typeTexture())
             ImageCache.shared.add(image: bundle.image(forResource: unitType.typeTemplateTexture()), for: unitType.typeTemplateTexture())
         }

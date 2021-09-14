@@ -92,14 +92,14 @@ class TradeRoutesDialogViewModel: ObservableObject {
             var tmpTradeRouteViewModels: [TradeRouteViewModel] = []
             let allHumanPlayerUnits = gameModel.units(of: humanPlayer)
 
-            for humanPlayerUnit in allHumanPlayerUnits where humanPlayerUnit?.type == .trader {
+            for humanTraderUnit in allHumanPlayerUnits where humanTraderUnit?.type == .trader {
 
-                guard let unit = humanPlayerUnit else {
+                guard let unit = humanTraderUnit else {
                     continue
                 }
 
                 guard let tradeRouteData = unit.tradeRouteData() else {
-                    fatalError("unit has no trade route data")
+                    continue // unit has no trade route data
                 }
 
                 guard let startCity = tradeRouteData.startCity(in: gameModel) else {
