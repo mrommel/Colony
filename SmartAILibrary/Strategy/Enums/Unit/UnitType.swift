@@ -936,8 +936,6 @@ public enum UnitType: Int, Codable {
 
         case .none: return -1
 
-        case .none: return -1
-
         case .barbarianWarrior: return -1
         case .barbarianArcher: return -1
 
@@ -1138,7 +1136,7 @@ public enum UnitType: Int, Codable {
 
             // default
         case .none:
-            return .none
+            return Optional.none
 
             // ----------------------------
             // barbarian
