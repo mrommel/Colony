@@ -19,9 +19,51 @@ extension UnitType {
         return ImageCache.shared.image(for: "unit-type-default")
     }
 
+    public func portraitTexture() -> String {
+
+        switch self {
+
+        case .none: return "unit-portrait-default"
+
+            // barbarian
+        case .barbarianWarrior: return "unit-portrait-warrior"
+        case .barbarianArcher: return "unit-portrait-archer"
+
+            // ancient
+        case .settler: return "unit-portrait-settler"
+        case .builder: return "unit-portrait-builder"
+        case .trader: return "unit-portrait-trader"
+
+        case .scout: return "unit-portrait-scout"
+        case .warrior: return "unit-portrait-warrior"
+        case .slinger: return "unit-portrait-default" // default
+        case .archer: return "unit-portrait-archer"
+        case .spearman: return "unit-portrait-default" // default
+        case .heavyChariot: return "unit-portrait-default" // default
+        case .galley: return "unit-portrait-galley"
+
+            // industial
+        case .medic: return "unit-portrait-default"
+
+            // great people
+        case .artist: return "unit-portrait-default"
+        case .admiral: return "unit-portrait-default"
+        case .engineer: return "unit-portrait-default"
+        case .general: return "unit-portrait-default"
+        case .merchant: return "unit-portrait-default"
+        case .musician: return "unit-portrait-default"
+        case .prophet: return "unit-portrait-default"
+        case .scientist: return "unit-portrait-default"
+        case .writer: return "unit-portrait-default"
+
+        }
+    }
+
     public func typeTemplateTexture() -> String {
 
         switch self {
+
+        case .none: return "unit-type-template-warrior"
 
             // barbarian
         case .barbarianWarrior: return "unit-type-template-warrior"
@@ -60,6 +102,8 @@ extension UnitType {
     public func typeTexture() -> String {
 
         switch self {
+
+        case .none: return "unit-type-warrior"
 
             // barbarian
         case .barbarianWarrior: return "unit-type-warrior"
@@ -102,6 +146,8 @@ extension UnitType {
 
         switch self {
 
+        case .none: return "warrior-idle-0"
+
             // barbarian
         case .barbarianWarrior: return "warrior-idle-0"
         case .barbarianArcher: return "archer-idle-0"
@@ -141,6 +187,9 @@ extension UnitType {
         let bundle = Bundle.init(for: Textures.self)
 
         switch self {
+
+        case .none:
+            return nil
 
             // barbarian
         case .barbarianWarrior:
@@ -208,6 +257,8 @@ extension UnitType {
 
         switch self {
 
+        case .none: return nil
+
             // barbarian
         case .barbarianWarrior: return nil
         case .barbarianArcher: return nil
@@ -268,6 +319,8 @@ extension UnitType {
         let bundle = Bundle.init(for: Textures.self)
 
         switch self {
+
+        case .none: return nil
 
             // barbarian
         case .barbarianWarrior: return nil
@@ -330,6 +383,8 @@ extension UnitType {
 
         switch self {
 
+        case .none: return nil
+
             // barbarian
         case .barbarianWarrior: return nil
         case .barbarianArcher: return nil
@@ -390,6 +445,8 @@ extension UnitType {
         let bundle = Bundle.init(for: Textures.self)
 
         switch self {
+
+        case .none: return nil
 
             // barbarian
         case .barbarianWarrior: return nil

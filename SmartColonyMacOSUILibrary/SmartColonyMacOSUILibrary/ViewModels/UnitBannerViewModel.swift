@@ -24,16 +24,18 @@ class UnitBannerViewModel: ObservableObject {
     var commands: [Command] = []
 
     private var selectedUnit: AbstractUnit?
-    private let unitImage: NSImage
+    private var unitImage: NSImage
 
     weak var delegate: GameViewModelDelegate?
+
+    // MARK: constructors
 
     init(selectedUnit: AbstractUnit? = nil) {
 
         self.selectedUnit = selectedUnit
 
         if let selectedUnit = selectedUnit {
-            self.unitImage = selectedUnit.type.iconTexture()
+            self.unitImage = ImageCache.shared.image(for: selectedUnit.type.portraitTexture())
         } else {
             self.unitImage = NSImage()
         }
@@ -300,6 +302,7 @@ class UnitBannerViewModel: ObservableObject {
 
         if let selectedUnit = self.selectedUnit {
             self.unitHealthValue = CGFloat(selectedUnit.healthPoints()) / 100.0
+            self.unitImage = ImageCache.shared.image(for: selectedUnit.type.portraitTexture())
         }
     }
 }

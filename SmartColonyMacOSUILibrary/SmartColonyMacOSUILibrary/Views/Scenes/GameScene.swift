@@ -286,8 +286,7 @@ extension GameScene {
             }
         } else {
 
-            if self.viewModel?.unitSelectionMode == .meleeTarget {
-
+            guard self.viewModel?.unitSelectionMode == .pick else {
                 print("select target at: \(position)")
                 return
             }
@@ -331,6 +330,8 @@ extension GameScene {
     override func rightMouseDown(with event: NSEvent) {
 
         print("right down")
+        self.unselect()
+        self.viewModel?.unitSelectionMode = .pick
     }
 
     override func mouseMoved(with event: NSEvent) {
@@ -425,7 +426,7 @@ extension GameScene {
                     self.updateCommands(for: selectedUnit)
                 }
 
-            case .meleeTarget:
+            case .meleeUnitTargets:
                 if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
 
                     var combatExecuted: Bool = false
@@ -447,7 +448,7 @@ extension GameScene {
 
                     if !combatExecuted {
 
-                        self.viewModel?.delegate?.showCombatBanner(for: selectedUnit, and: unitToAttack)
+                        self.viewModel?.delegate?.showCombatBanner(for: selectedUnit, and: unitToAttack, ranged: false)
                         self.viewModel?.combatTarget = unitToAttack
                     }
                 } else {
@@ -455,12 +456,64 @@ extension GameScene {
                     self.viewModel?.delegate?.hideCombatBanner()
                 }
 
-            case .rangedTarget:
+            case .rangedUnitTargets:
+                if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
+                    fatalError("not implemented")
+                } else {
+                    self.viewModel?.combatTarget = nil
+                    self.viewModel?.delegate?.hideCombatBanner()
+                }
 
-                // NOOP
-            break
+            case .rangedCityTargets:
+                fatalError("should not happen")
+
+            }
+        }
+
+        if let selectedCity = self.viewModel?.selectedCity {
+
+            guard let unitSelectionMode = self.viewModel?.unitSelectionMode else {
+                fatalError("cant get selection mode")
             }
 
+            switch unitSelectionMode {
+
+            case .pick, .meleeUnitTargets, .rangedUnitTargets:
+                // ignore
+                break
+
+            case .rangedCityTargets:
+                if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
+
+                    var combatExecuted: Bool = false
+                    if let combatTarget = self.viewModel?.combatTarget {
+
+                        if unitToAttack.location == combatTarget.location {
+
+                            self.viewModel?.delegate?.doRangedCombat(of: selectedCity, against: unitToAttack)
+
+                            //self.mapNode?.unitLayer.update(unit: selectedUnit)
+                            self.mapNode?.unitLayer.update(unit: unitToAttack)
+
+                            combatExecuted = true
+                            self.viewModel?.combatTarget = nil
+                            self.viewModel?.delegate?.hideCombatBanner()
+                            self.viewModel?.unitSelectionMode = .pick
+                        }
+                    }
+
+                    if !combatExecuted {
+
+                        self.viewModel?.delegate?.showCombatBanner(for: selectedCity, and: unitToAttack, ranged: true)
+                        self.viewModel?.combatTarget = unitToAttack
+                    }
+
+                } else {
+                    self.viewModel?.combatTarget = nil
+                    self.viewModel?.delegate?.hideCombatBanner()
+                }
+
+            }
         }
 
         self.previousLocation = .zero
@@ -484,9 +537,12 @@ extension GameScene {
                 let commands = unit.commands(in: self.viewModel?.game)
                 self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: commands, in: self.viewModel?.game)
 
-            case .meleeTarget, .rangedTarget:
+            case .meleeUnitTargets, .rangedUnitTargets:
                 let commands = [Command(type: .cancelAttack, location: HexPoint.invalid)]
                 self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: commands, in: self.viewModel?.game)
+
+            case .rangedCityTargets:
+                print("NOOP")
             }
         } else {
             self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: [], in: nil)

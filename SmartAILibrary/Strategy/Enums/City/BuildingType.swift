@@ -62,6 +62,11 @@ public enum BuildingType: Int, Codable {
         return self.data().name
     }
 
+    public func effects() -> [String] {
+
+        return self.data().effects
+    }
+
     public func era() -> EraType {
 
         return self.data().era
@@ -187,6 +192,7 @@ public enum BuildingType: Int, Codable {
     private struct BuildingTypeData {
 
         let name: String
+        let effects: [String]
         let category: BuildingCategoryType
         let era: EraType
         let district: DistrictType
@@ -211,6 +217,7 @@ public enum BuildingType: Int, Codable {
 
         case .none:
             return BuildingTypeData(name: "",
+                                    effects: [],
                                     category: .none,
                                     era: .none,
                                     district: .cityCenter,
@@ -230,6 +237,7 @@ public enum BuildingType: Int, Codable {
         case .palace:
             // https://civilization.fandom.com/wiki/Palace_(Civ6)
             return BuildingTypeData(name: "Palace",
+                                    effects: ["+1 Culture", "+5 Gold", "+2 Production", "+2 Science", "+1 Housing", "+2 Amenity from entertainment"],
                                     category: .government,
                                     era: .ancient,
                                     district: .cityCenter,
@@ -250,6 +258,7 @@ public enum BuildingType: Int, Codable {
         case .granary:
             // https://civilization.fandom.com/wiki/Granary_(Civ6)
             return BuildingTypeData(name: "Granary",
+                                    effects: ["+1 Food", "+2 Housing"],
                                     category: .population,
                                     era: .ancient,
                                     district: .cityCenter,
@@ -267,9 +276,8 @@ public enum BuildingType: Int, Codable {
                                     flavours: [Flavor(type: .growth, value: 10), Flavor(type: .greatPeople, value: 3), Flavor(type: .science, value: 4), Flavor(type: .tileImprovement, value: 3), Flavor(type: .gold, value: 2), Flavor(type: .production, value: 3), Flavor(type: .offense, value: 1), Flavor(type: .defense, value: 1)])
         case .monument:
             // https://civilization.fandom.com/wiki/Monument_(Civ6)
-            // FIXME +1 Loyalty
-            // FIXME +1 additional Civ6Culture Culture if city is at maximum Loyalty.
             return BuildingTypeData(name: "Monument",
+                                    effects: ["+2 Culture", "+1 Loyalty", "+1 Culture if city is at maximum Loyalty."],
                                     category: .cultural,
                                     era: .ancient,
                                     district: .cityCenter,
@@ -288,6 +296,7 @@ public enum BuildingType: Int, Codable {
         case .library:
             // https://civilization.fandom.com/wiki/Library_(Civ6)
             return BuildingTypeData(name: "Library",
+                                    effects: ["+2 Science", "+1 Citizen slot", "+1 Great Scientist point per turn"],
                                     category: .scientific,
                                     era: .ancient,
                                     district: .campus,
@@ -307,6 +316,7 @@ public enum BuildingType: Int, Codable {
             // https://civilization.fandom.com/wiki/Shrine_(Civ6)
             // FIXME Allows purchasing of Missionaries in this city.
             return BuildingTypeData(name: "Shrine",
+                                    effects: ["+2 Faith", "+1 Citizen slot", "+1 Great Prophet point per turn.", "Allows the purchasing of Missionaries with Faith."],
                                     category: .religious,
                                     era: .ancient,
                                     district: .holySite,
@@ -325,6 +335,10 @@ public enum BuildingType: Int, Codable {
         case .ancientWalls:
             // https://civilization.fandom.com/wiki/Ancient_Walls_(Civ6)
             return BuildingTypeData(name: "Ancient Walls",
+                                    effects: [
+                                        "Provides Walls around the City Center and Encampment districts that allow Ranged Strikes from their location. Must be defeated before a city can be assaulted.",
+                                        "+100 Outer Defense Strength"
+                                    ],
                                     category: .defensive,
                                     era: .ancient,
                                     district: .cityCenter,
@@ -344,6 +358,13 @@ public enum BuildingType: Int, Codable {
             // https://civilization.fandom.com/wiki/Barracks_(Civ6)
             // FIXME +25% combat experience for all melee, ranged and anti-cavalry land units trained in this city
             return BuildingTypeData(name: "Barracks",
+                                    effects: [
+                                        "+25% combat experience for all melee, ranged and anti-cavalry land units trained in this city.",
+                                        "May not be built in an Encampment district that already has a Stable.",
+                                        "+1 Production",
+                                        "+1 Housing",
+                                        "+1 Citizen slot",
+                                        "+1 Great General Great General point per turn"],
                                     category: .military,
                                     era: .ancient,
                                     district: .encampment,
@@ -364,6 +385,11 @@ public enum BuildingType: Int, Codable {
             // FIXME Bonus resources improved by Farms gain +1 Civ6Food Food each.
             // FIXME It can be built in the City Center if the city is next to a River.
             return BuildingTypeData(name: "Water Mill",
+                                    effects: [
+                                        "+1 Food",
+                                        "+1 Production Production",
+                                        "Bonus resources improved by Farms gain +1 Food Food each."
+                                    ],
                                     category: .military,
                                     era: .ancient,
                                     district: .cityCenter,
@@ -384,6 +410,12 @@ public enum BuildingType: Int, Codable {
         case .amphitheater:
             // https://civilization.fandom.com/wiki/Amphitheater_(Civ6)
             return BuildingTypeData(name: "Amphitheater",
+                                    effects: [
+                                        "+2 Culture",
+                                        "+1 Citizen slot",
+                                        "+1 Great Writer point per turn",
+                                        "+2 Great Work of Writing slot"
+                                    ],
                                     category: .cultural,
                                     era: .classical,
                                     district: .entertainment,
@@ -404,6 +436,14 @@ public enum BuildingType: Int, Codable {
             // FIXME +25% combat XP for all naval units trained in this city
             // FIXME +1 TradeRoute6 Trade Route capacity if this city doesn't have a Market.
             return BuildingTypeData(name: "Lighthouse",
+                                    effects: [
+                                        "+25% combat experience for all naval units trained in this city.",
+                                        "+1 Food",
+                                        "+1 Gold",
+                                        "+1 Housing (+2 additional Housing if City Center is adjacent to Coast)",
+                                        "+1 Citizen Citizen slot",
+                                        "+1 Great Admiral point per turn"
+                                    ],
                                     category: .cultural,
                                     era: .classical,
                                     district: .harbor,
@@ -425,6 +465,13 @@ public enum BuildingType: Int, Codable {
             // FIXME +25% combat experience for all siege units trained in this city
             // FIXME Cannot be built if Barracks has already been built in this district.
             return BuildingTypeData(name: "Stable",
+                                    effects: [
+                                        "+25% combat experience for all cavalry and siege class units trained in this city. May not be built in an Encampment district that already has a Barracks",
+                                        "+1 Production Production",
+                                        "+1 Housing",
+                                        "+1 Citizen slot",
+                                        "+1 Great General point per turn"
+                                    ],
                                     category: .military,
                                     era: .classical,
                                     district: .encampment,
@@ -444,6 +491,11 @@ public enum BuildingType: Int, Codable {
             // https://civilization.fandom.com/wiki/Arena_(Civ6)
             // FIXME +1 Tourism6 Tourism after developing the Conservation civic
             return BuildingTypeData(name: "Arena",
+                                    effects: [
+                                        "+2 Amenities",
+                                        "+1 Culture",
+                                        "+1 Tourism (with Conservation)"
+                                    ],
                                     category: .entertainment,
                                     era: .classical,
                                     district: .entertainment,
@@ -463,6 +515,11 @@ public enum BuildingType: Int, Codable {
             // https://civilization.fandom.com/wiki/Market_(Civ6)
             // FIXME +1 TradeRoute6 Trade Route capacity if this city doesn't have a Lighthouse.
             return BuildingTypeData(name: "Market",
+                                    effects: [
+                                        "+3 Gold",
+                                        "+1 Citizen slot",
+                                        "+1 Great Merchant point per turn"
+                                    ],
                                     category: .economic,
                                     era: .classical,
                                     district: .commercialHub,
@@ -481,6 +538,13 @@ public enum BuildingType: Int, Codable {
         case .temple:
             // https://civilization.fandom.com/wiki/Temple_(Civ6)
             return BuildingTypeData(name: "Temple",
+                                    effects: [
+                                        "+4 Faith",
+                                        "+1 Citizen slot",
+                                        "+1 Great Prophet point per turn",
+                                        "+1 Relic slot",
+                                        "Allows the purchasing of Apostles, Gurus, and Inquisitors (after an Apostle uses its Launch Inquisition ability) with Faith Faith."
+                                    ],
                                     category: .religious,
                                     era: .classical,
                                     district: .holySite,
@@ -504,6 +568,10 @@ public enum BuildingType: Int, Codable {
             // FIXME +2 Housing6 Housing under the Monarchy Government
             // FIXME +2 Tourism6 Tourism (with Conservation)
             return BuildingTypeData(name: "Medieval Walls",
+                                    effects: [
+                                        "+100 Outer Defense Strength",
+                                        "+2 Housing under the Monarchy Government."
+                                    ],
                                     category: .defensive,
                                     era: .medieval,
                                     district: .cityCenter,
@@ -522,6 +590,11 @@ public enum BuildingType: Int, Codable {
         case .workshop:
             // https://civilization.fandom.com/wiki/Workshop_(Civ6)
             return BuildingTypeData(name: "Workshop",
+                                    effects: [
+                                        "+3 Production",
+                                        "+1 Citizen slot",
+                                        "+1 Great Engineer point per turn"
+                                    ],
                                     category: .production,
                                     era: .medieval,
                                     district: .industrial,
@@ -545,6 +618,9 @@ public enum BuildingType: Int, Codable {
             // FIXME +3 Tourism6 Tourism (with Conservation)
             // FIXME +2 Civ6Science Science with the Military Research Policy
             return BuildingTypeData(name: "Renaissance Walls",
+                                    effects: [
+                                        "+100 Outer Defense Strength"
+                                    ],
                                     category: .defensive,
                                     era: .renaissance,
                                     district: .cityCenter,
@@ -563,6 +639,13 @@ public enum BuildingType: Int, Codable {
         case .shipyard:
             // https://civilization.fandom.com/wiki/Shipyard_(Civ6)
             return BuildingTypeData(name: "Shipyard",
+                                    effects: [
+                                        "+25% combat experience for all naval units trained in this city.",
+                                        "Bonus Production equal to the adjacency Gold bonus of its district.",
+                                        "+1 Production to all unimproved Coast and Lake tiles in the city.",
+                                        "+1 Citizen slot",
+                                        "+1 Great Admiral point per turn"
+                                    ],
                                     category: .maritime,
                                     era: .renaissance,
                                     district: .harbor,

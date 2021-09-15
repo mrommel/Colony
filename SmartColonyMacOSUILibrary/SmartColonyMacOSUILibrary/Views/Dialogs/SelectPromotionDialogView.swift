@@ -17,7 +17,7 @@ struct SelectPromotionDialogView: View {
         BaseDialogView(title: "Select promotion", viewModel: self.viewModel) {
             ScrollView(.vertical, showsIndicators: true, content: {
 
-                LazyVStack(spacing: 10) {
+                LazyVStack(spacing: 4) {
 
                     ForEach(self.viewModel.promotionViewModels, id: \.self) { promotionViewModel in
 

@@ -43,11 +43,11 @@ public enum PolicyCardType: Int, Codable {
     // ancient
     case survey // FIXME Doubles experience for recon units.
     case godKing // +1 Faith and +1 Gold in the Capital.
-    case discipline // FIXME +5 Combat Strength when fighting Barbarians.
+    case discipline // +5 Combat Strength when fighting Barbarians.
     case urbanPlanning // +1 Production in all cities.
     case ilkum // FIXME +30% Production toward Builders.
     case agoge // FIXME +50% Production towards Ancient and Classical era melee and ranged units.
-    case caravansaries // FIXME  +2 additional Gold from all Trade Routes.
+    case caravansaries // +2 additional Gold from all Trade Routes.
     case maritimeIndustries // FIXME +100% Production towards all Ancient and Classical era naval units.
     case maneuver // FIXME +50% Production towards all Ancient and Classical era light and heavy cavalry units.
     case strategos // FIXME +2 Great General points per turn.
@@ -57,7 +57,7 @@ public enum PolicyCardType: Int, Codable {
     case colonization // FIXME +50% Production towards Settlers.
     case inspiration // FIXME +2 Great Scientist points per turn.
     case revelation // FIXME +2 Great Prophet points per turn.
-    case limitanei // FIXME +2 Loyalty per turn for cities with a garrisoned unit.
+    case limitanei // +2 Loyalty per turn for cities with a garrisoned unit.
 
     // classical
     case insulae // FIXME +1 Housing in all cities with at least 2 specialty districts.

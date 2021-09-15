@@ -10,15 +10,6 @@ import Foundation
 
 // Amenities https://www.youtube.com/watch?v=I_LH7BdkrWc
 
-public enum GrowthStatusType {
-
-    case none
-
-    case constant
-    case starvation
-    case growth
-}
-
 public enum CityError: Error {
 
     case tileOwned
@@ -26,17 +17,6 @@ public enum CityError: Error {
     case tileWorkedAlready
 
     case cantWorkCenter
-}
-
-public enum CityTaskType {
-
-    case rangedAttack
-}
-
-public enum CityTaskResultType {
-
-    case aborted
-    case completed
 }
 
 public protocol AbstractCity: AnyObject, Codable {
@@ -81,6 +61,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func has(district: DistrictType) -> Bool
     func has(building: BuildingType) -> Bool
     func has(wonder: WonderType) -> Bool
+    func has(project: ProjectType) -> Bool
 
     func canBuild(building: BuildingType, in gameModel: GameModel?) -> Bool
     func canTrain(unit: UnitType, in gameModel: GameModel?) -> Bool
@@ -138,15 +119,18 @@ public protocol AbstractCity: AnyObject, Codable {
     func growthInTurns() -> Int
     func maxGrowthInTurns() -> Int
 
+    func housingPerTurn(in gameModel: GameModel?) -> Double
     func baseHousing(in gameModel: GameModel?) -> Double
     func housingFromBuildings() -> Double
     func housingFromWonders() -> Double
     func housingFromDistricts() -> Double
 
+    func amenitiesPerTurn(in gameModel: GameModel?) -> Double
     func amenitiesFromDistrict() -> Double
     func amenitiesFromWonders(in gameModel: GameModel?) -> Double
     func amenitiesFromBuildings() -> Double
     func amenitiesFromLuxuries() -> Double
+    func amenitiesNeeded() -> Double
 
     func maintenanceCostsPerTurn() -> Double
 
@@ -170,9 +154,13 @@ public protocol AbstractCity: AnyObject, Codable {
     func hasGarrison() -> Bool
     func setGarrison(unit: AbstractUnit?)
 
-    func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?, attacking: Bool) -> Int
     func canRangeStrike(towards point: HexPoint) -> Bool
+    func rangedCombatTargetLocations(in gameModel: GameModel?) -> [HexPoint]
+    func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?) -> Int
     func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> Int
+    func doRangeAttack(at location: HexPoint, in gameModel: GameModel?) -> Bool
+    func setMadeAttack(to madeAttack: Bool)
+    func madeAttack() -> Bool
 
     func work(tile: AbstractTile) throws
     func isCoastal(in gameModel: GameModel?) -> Bool
@@ -187,9 +175,6 @@ public protocol AbstractCity: AnyObject, Codable {
 
     // military properties
     func threatValue() -> Int
-
-    @discardableResult
-    func doTask(taskType: CityTaskType, target: HexPoint?, in gameModel: GameModel?) -> CityTaskResultType
 
     func lastTurnGarrisonAssigned() -> Int
     func setLastTurnGarrisonAssigned(turn: Int)
@@ -210,8 +195,14 @@ public protocol AbstractCity: AnyObject, Codable {
     func slots(for slotType: GreatWorkSlotType) -> Int
 
     // religion
+    func religiousMajority() -> ReligionType
     func isHolyCity(for religion: ReligionType, in gameModel: GameModel?) -> Bool
     func isHolyCityOfAnyReligion(in gameModel: GameModel?) -> Bool
+    func numReligiousCitizen() -> Int
+
+    // loyalty
+    func loyalty() -> Int
+    func loyaltyState() -> LoyaltyState
 
     func set(scratch: Int)
     func scratch() -> Int
@@ -281,6 +272,8 @@ public class City: AbstractCity {
         case cheapestPlotInfluence
         case cultureStored
         case cultureLevel
+
+        case loyalty
     }
 
     public let name: String
@@ -289,7 +282,6 @@ public class City: AbstractCity {
     public var player: AbstractPlayer?
     private(set) public var leader: LeaderType // for restoring from file
     private var originalLeaderValue: LeaderType
-    private(set) var growthStatus: GrowthStatusType = .growth
     var capitalValue: Bool
     private var everCapitalValue: Bool // has this city ever been (or is) capital?
 
@@ -316,7 +308,7 @@ public class City: AbstractCity {
 
     public var cityStrategy: CityStrategyAI?
 
-    private var madeAttack: Bool = false
+    private var madeAttackValue: Bool = false
     private var routeToCapitalConnectedThisTurn: Bool = false
     private var routeToCapitalConnectedLastTurn: Bool = false
     private var lastTurnGarrisonAssignedValue: Int = 0
@@ -340,6 +332,7 @@ public class City: AbstractCity {
     // scratch
     private var scratchValue: Int = 0
     private var strengthVal: Int = 0
+    private var loyaltyValue: Float = 100.0
 
     // MARK: constructor
 
@@ -430,7 +423,7 @@ public class City: AbstractCity {
 
         self.cityStrategy = try container.decode(CityStrategyAI.self, forKey: .cityStrategy)
 
-        self.madeAttack = try container.decode(Bool.self, forKey: .madeAttack)
+        self.madeAttackValue = try container.decode(Bool.self, forKey: .madeAttack)
         self.routeToCapitalConnectedThisTurn = try container.decode(Bool.self, forKey: .routeToCapitalConnectedThisTurn)
         self.routeToCapitalConnectedLastTurn = try container.decode(Bool.self, forKey: .routeToCapitalConnectedLastTurn)
         self.lastTurnGarrisonAssignedValue = try container.decode(Int.self, forKey: .lastTurnGarrisonAssigned)
@@ -450,6 +443,8 @@ public class City: AbstractCity {
         self.cheapestPlotInfluenceValue = try container.decode(Int.self, forKey: .cheapestPlotInfluence)
         self.cultureStoredValue = try container.decode(Double.self, forKey: .cultureStored)
         self.cultureLevelValue = try container.decode(Int.self, forKey: .cultureLevel)
+
+        self.loyaltyValue = try container.decode(Float.self, forKey: .loyalty)
 
         // setup
         self.districts?.city = self
@@ -495,7 +490,7 @@ public class City: AbstractCity {
 
         try container.encode(self.cityStrategy, forKey: .cityStrategy)
 
-        try container.encode(self.madeAttack, forKey: .madeAttack)
+        try container.encode(self.madeAttackValue, forKey: .madeAttack)
         try container.encode(self.routeToCapitalConnectedThisTurn, forKey: .routeToCapitalConnectedThisTurn)
         try container.encode(self.routeToCapitalConnectedLastTurn, forKey: .routeToCapitalConnectedLastTurn)
         try container.encode(self.lastTurnGarrisonAssignedValue, forKey: .lastTurnGarrisonAssigned)
@@ -515,6 +510,8 @@ public class City: AbstractCity {
         try container.encode(self.cheapestPlotInfluenceValue, forKey: .cheapestPlotInfluence)
         try container.encode(self.cultureStoredValue, forKey: .cultureStored)
         try container.encode(self.cultureLevelValue, forKey: .cultureLevel)
+
+        try container.encode(self.loyaltyValue, forKey: .loyalty)
     }
 
     public func initialize(in gameModel: GameModel?) {
@@ -724,7 +721,7 @@ public class City: AbstractCity {
         //setDrafted(false);
         //setAirliftTargeted(false);
         //setCurrAirlift(0);
-        // FIXME self.set(madeAttack: false)
+        self.setMadeAttack(to: false)
         //GetCityBuildings()->SetSoldBuildingThisTurn(false);
 
         self.updateFeatureSurrounded(in: gameModel)
@@ -791,6 +788,7 @@ public class City: AbstractCity {
             // }
 
             self.updateStrengthValue(in: gameModel)
+            self.updateLoyaltyValue(in: gameModel)
 
             // self.doNearbyEnemy()
 
@@ -934,6 +932,184 @@ public class City: AbstractCity {
     public func strengthValue() -> Int {
 
         return self.strengthVal
+    }
+
+    // https://civilization.fandom.com/wiki/Loyalty_(Civ6)
+    func updateLoyaltyValue(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let government = player.government else {
+            fatalError("cant get government")
+        }
+
+        var loyalty: Float = 0
+        let area10 = HexArea(center: self.location, radius: 10)
+
+        // ////////////////////////////
+        // Pressure from nearby Citizens.
+        // Domestic Pressure = Age Factor * Sum of [ each Domestic Population * (10 - Distance Away) ]
+        var domesticPressure: Float = 0.0
+
+        for domesticCityRef in gameModel.cities(of: player, in: area10) {
+
+            guard let domesticCity = domesticCityRef else {
+                continue
+            }
+
+            let distance: Int = domesticCity.location.distance(to: self.location)
+            var domesticCityPressure: Float = Float(domesticCity.population() * (10 - distance)) * player.currentAge().loyalityFactor()
+
+            // Note that a Capital is counted twice: the first time with its Citizen Population affected by the Age Factor and the second time it is assumed to be in a Normal Age.
+            if domesticCity.isCapital() {
+
+                domesticCityPressure += Float(domesticCity.population() * (10 - distance)) * AgeType.normal.loyalityFactor()
+            }
+
+            // The Bread and Circuses project from a nearby Entertainment Complex or Water Park also has the effect of doubling the Citizen Population count, so a Bread and Circuses project in a highly populated city can be very powerful.
+            if domesticCity.has(project: .breadAndCircuses) {
+
+                domesticCityPressure *= 2
+            }
+
+            domesticPressure += domesticCityPressure
+        }
+
+        // Foreign Pressure = Sum of [ each Foreign Population * (10 - Distance Away) * Age Factor of Foreign Civ ]
+        var foreignPressure: Float = 0.0
+
+        for foreignCityRef in gameModel.cities(in: area10) {
+
+            guard let foreignCity = foreignCityRef else {
+                continue
+            }
+
+            // only foreign city
+            guard foreignCity.leader != player.leader else {
+                continue
+            }
+
+            let distance = foreignCity.location.distance(to: self.location)
+            let foreignCityLoyalityFactor = foreignCity.player?.currentAge().loyalityFactor() ?? 1.0
+            var foreignCityPressure: Float = Float(foreignCity.population()) * Float(10 - distance) * foreignCityLoyalityFactor
+
+            // This final pressure value is capped at ±20. In other words, even if nearby cities have enough Citizens to exert more than 20 points of pressure, the final effect won't exceed +20 or -20.
+            foreignCityPressure = min(20, max(-20, foreignCityPressure))
+
+            foreignPressure += foreignCityPressure
+        }
+
+        // Pressure from Nearby Citizens = 10 * (Domestic - Foreign) / (minimum of [Domestic, Foreign] + 0.5)
+        let pressureFromNearbyCitizens = 10.0 * (domesticPressure - foreignPressure) / (min(domesticPressure, foreignPressure) + 0.5)
+
+        // The effect of domestic and foreign Governors.
+        // +8 Loyalty per turn for having any Governor assigned to that city (activated from the moment you assign the Governor, not the moment they actually become established).
+        // -2 Loyalty per turn if a foreign city has their Governor Amani, with the Emissary title, established in a city within 9 tiles.
+        // +2 Loyalty per turn for having Governor Amani, with the Prestige title, established in another city within 9 tiles.
+        // +4 Loyalty per turn for having Governor Victor, with the Garrison Commander title, established in another city within 9 tiles.
+
+        // ////////////////////////////
+        // Happiness of the citizens in the city.
+        var happinessOfTheCitizens: Float = 0.0
+        switch self.amenitiesState(in: gameModel) {
+
+        case .unrest, .unhappy, .revolt:
+            happinessOfTheCitizens = -6.0
+        case .displeased:
+            happinessOfTheCitizens = -3.0
+        case .content:
+            happinessOfTheCitizens = 0.0
+        case .happy:
+            happinessOfTheCitizens = 3.0
+        case .ecstatic:
+            happinessOfTheCitizens = 6.0
+        }
+
+        // Other factors.
+        var otherFactors: Float = 0.0
+
+        // ////////////////////////////
+        // policyCards
+        // ////////////////////////////
+        // +2 with the Limitanei policy card and if the city is garrisoned.
+        if government.has(card: .limitanei) && self.hasGarrison() {
+            otherFactors += 2.0
+        }
+        // +2 with the Praetorium policy card and if the city has a Governor.
+        /*if government.has(card: .praetorium) && governor {
+
+        }*/
+        // +1-6 with the Communications Office policy card and if the city has a Governor.
+        // +3 with the Colonial Offices policy card and if the city is not on your Capital Capital's continent.
+
+        // ////////////////////////////
+        // buildings
+        // ////////////////////////////
+        // +1 if the city has constructed a Monument.
+        if self.has(building: .monument) {
+            otherFactors += 1
+        }
+        // +8 if the city has constructed the Government Plaza.
+        // -2 if the Audience Chamber has been constructed in the civilization's Government Plaza district and the city is without a Governor.
+
+        // ////////////////////////////
+        // additionally
+        // ////////////////////////////
+        // +3 if the city is following the religion you have founded.
+        // -3 if you have founded a religion and the city doesn't follow it.
+        // -5 if the city is Occupied (which may be negated by keeping a unit garrisoned in it).
+        // Variable penalty to Loyalty if the city has been conquered and you have lots of Grievances Grievances with its founder.
+        // -4 if the city is facing starvation (for example, if its Farms have been pillaged).
+        // +10 as a base level for Free Cities.
+        // +20 as a base level for city-states.
+
+        // ////////////////////////////
+        // finally
+        // ////////////////////////////
+        // +4 for English cities on a separate continent from the Capital Capital with a Royal Navy Dockyard.
+        // +2 for Spanish cities on a separate continent from their Capital Capital with a Mission adjacent to their City Center.
+        // +3 for Zulu cities with a garrisoned unit, increased to +5 if unit is a Corps or Army.
+        // +5 for Persian cities with a garrisoned unit.
+        // +2 for Dutch cities per each starting domestic Trade Route Trade Route.
+        // +2 for Swedish cities with an Open-Air Museum.
+        // +2 from having the Colosseum Wonder within 6 tiles.
+
+        // sum
+        loyalty = pressureFromNearbyCitizens + happinessOfTheCitizens + otherFactors
+
+        self.loyaltyValue = loyalty
+    }
+
+    public func loyalty() -> Int {
+
+        return Int(self.loyaltyValue)
+    }
+
+    public func loyaltyState() -> LoyaltyState {
+
+        // Loyal (76-100): no penalties.
+        if self.loyaltyValue > 75.0 {
+            return .loyal
+        }
+
+        // Wavering Loyalty (51-75): 75% Citizen Population growth, -25% to all yields.
+        if self.loyaltyValue > 50.0 {
+            return .wavering
+        }
+
+        // Disloyal (26-50): 25% Citizen Population growth, -50% to all yields.
+        if self.loyaltyValue > 25.0 {
+            return .disloyal
+        }
+
+        // Unrest (1-25): no Citizen Population growth, -100% to all yields, meaning that the city effectively becomes non-functional.
+        return .unrest
     }
 
     public func lastTurnFoodHarvested() -> Double {
@@ -1115,6 +1291,11 @@ public class City: AbstractCity {
         amenitiesPerTurn += self.amenitiesFromWonders(in: gameModel)
 
         return amenitiesPerTurn
+    }
+
+    public func amenitiesNeeded() -> Double {
+
+        return max(0, self.populationValue - 2.0)
     }
 
     public func amenitiesState(in gameModel: GameModel?) -> AmenitiesState {
@@ -2214,6 +2395,15 @@ public class City: AbstractCity {
         return wonders.has(wonder: wonder)
     }
 
+    public func has(project: ProjectType) -> Bool {
+
+        guard let projects = self.projects else {
+            return false
+        }
+
+        return projects.has(project: project)
+    }
+
     func productionWonderType() -> WonderType? {
 
         if let currentProduction = self.buildQueue.peek() {
@@ -2641,14 +2831,50 @@ public class City: AbstractCity {
 
     public func canRangeStrike(towards point: HexPoint) -> Bool {
 
-        if self.location.distance(to: point) <= 2 {
-            return true
+        if self.location.distance(to: point) > 2 {
+            return false
         }
 
-        return false
+        if !self.has(building: .ancientWalls) {
+            return false
+        }
+
+        return true
     }
 
-    public func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?, attacking: Bool) -> Int {
+    public func rangedCombatTargetLocations(in gameModel: GameModel?) -> [HexPoint] {
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        var targets: [HexPoint] = []
+
+        for targetLocation in self.location.areaWith(radius: 2) {
+
+            guard let targetUnitRefs = gameModel?.units(at: targetLocation) else {
+                continue
+            }
+
+            for targetUnitRef in targetUnitRefs {
+
+                guard let targetUnit = targetUnitRef else {
+                    continue
+                }
+
+                if targetUnit.isBarbarian() || player.isAtWar(with: targetUnit.player) {
+
+                    if !targets.contains(targetLocation) {
+                        targets.append(targetLocation)
+                    }
+                }
+            }
+        }
+
+        return targets
+    }
+
+    public func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?) -> Int {
 
         guard let player = self.player else {
             fatalError("no player provided")
@@ -2935,15 +3161,6 @@ public class City: AbstractCity {
         }
     }
 
-    public func doTask(taskType: CityTaskType, target: HexPoint? = nil, in gameModel: GameModel?) -> CityTaskResultType {
-
-        switch taskType {
-
-        case .rangedAttack:
-            return self.rangeStrike(at: target!, in: gameModel)
-        }
-    }
-
     private func strikeRange() -> Int {
 
         return 2
@@ -2954,33 +3171,39 @@ public class City: AbstractCity {
         return self.location.distance(to: point) <= self.strikeRange()
     }
 
-    private func rangeStrike(at point: HexPoint, in gameModel: GameModel?) -> CityTaskResultType {
+    public func doRangeAttack(at location: HexPoint, in gameModel: GameModel?) -> Bool {
 
-        guard let tile = gameModel?.tile(at: point) else {
-            return .aborted
+        guard let tile = gameModel?.tile(at: location) else {
+            return false
         }
 
-        if !self.canRangeStrike(at: point) {
-            return .aborted
+        if !self.canRangeStrike(at: location) {
+            return false
         }
-
-        self.madeAttack = true
 
         // No City
         if !tile.isCity() {
 
-            guard let defender = gameModel?.unit(at: point, of: .combat) else {
-                return .aborted
+            guard let defender = gameModel?.unit(at: location, of: .combat) else {
+                return false
             }
 
-            let combatResult = Combat.predictRangedAttack(between: self, and: defender, in: gameModel)
+            Combat.doRangedAttack(between: self, and: defender, in: gameModel)
 
-            defender.set(healthPoints: defender.healthPoints() - combatResult.defenderDamage)
-
-            return .completed
+            return true
         }
 
-        return .aborted
+        return false
+    }
+
+    public func setMadeAttack(to madeAttack: Bool) {
+
+        self.madeAttackValue = madeAttack
+    }
+
+    public func madeAttack() -> Bool {
+
+        return self.madeAttackValue
     }
 
     public func lastTurnGarrisonAssigned() -> Int {
@@ -3822,6 +4045,31 @@ public class City: AbstractCity {
         }
 
         return false
+    }
+
+    public func numReligiousCitizen() -> Int {
+
+        guard let cityReligion = self.cityReligion else {
+            fatalError("cant get city religion")
+        }
+
+        var religiousCitizen: Int = 0
+
+        for religionType in ReligionType.all {
+
+            religiousCitizen += cityReligion.numFollowers(following: religionType)
+        }
+
+        return religiousCitizen
+    }
+
+    public func religiousMajority() -> ReligionType {
+
+        guard let cityReligion = self.cityReligion else {
+            fatalError("cant get city religion")
+        }
+
+        return cityReligion.religiousMajority()
     }
 
     //    --------------------------------------------------------------------------------

@@ -54,6 +54,7 @@ public class Textures {
 
     public let commandTextureNames: [String]
     public let commandButtonTextureNames: [String]
+    public let cityCommandButtonTextureNames: [String]
     public let policyCardTextureNames: [String]
     public let governmentStateBackgroundTextureNames: [String]
     public let governmentTextureNames: [String]
@@ -67,6 +68,7 @@ public class Textures {
     public let wonderTypeTextureNames: [String]
     public let districtTypeTextureNames: [String]
     public let leaderTypeTextureNames: [String]
+    public let civilizationTypeTextureNames: [String]
     public let pantheonTypeTextureNames: [String]
     public let promotionTextureNames: [String]
     public let promotionStateBackgroundTextureNames: [String]
@@ -185,10 +187,15 @@ public class Textures {
             "header-button-tradeRoutes-active", "header-button-tradeRoutes-disabled"
         ]
         self.cityProgressTextureNames = Array(0...20).map { "linear-progress-\($0 * 5)" }
-        self.cityTextureNames = ["hex-city-1"]
+        self.cityTextureNames = [
+            "city-ancient-small", "city-ancient-medium", "city-ancient-large",
+            "city-medieval-small", "city-medieval-medium", "city-medieval-large"
+            // add more assets here
+        ]
 
         self.commandTextureNames = CommandType.all.map { $0.iconTexture() }
         self.commandButtonTextureNames = CommandType.all.map { $0.buttonTexture() } + ["command-button-list"]
+        self.cityCommandButtonTextureNames = CityCommandType.all.map { $0.buttonTexture() }
         self.policyCardTextureNames = [
             "policyCard-slot", "policyCard-military", "policyCard-economic", "policyCard-diplomatic",
             "policyCard-wildcard"
@@ -205,6 +212,7 @@ public class Textures {
         self.wonderTypeTextureNames = WonderType.all.map { $0.iconTexture() }
         self.districtTypeTextureNames = DistrictType.all.map { $0.iconTexture() }
         self.leaderTypeTextureNames = LeaderType.all.map { $0.iconTexture() }  + ["leader-random"]
+        self.civilizationTypeTextureNames = CivilizationType.all.map { $0.iconTexture() }
         self.pantheonTypeTextureNames = PantheonType.all.map { $0.iconTexture() }
         self.promotionTextureNames = UnitPromotionType.all.map { $0.iconTexture() }
         self.promotionStateBackgroundTextureNames = PromotionState.all.map { $0.iconTexture() }

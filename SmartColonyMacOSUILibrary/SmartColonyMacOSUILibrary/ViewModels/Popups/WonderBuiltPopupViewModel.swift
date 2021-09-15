@@ -29,7 +29,7 @@ class WonderBuiltPopupViewModel: ObservableObject {
         self.iconTexture = wonderType.iconTexture()
         self.title = "Wonder built"
         self.nameText = "Your civilization has finished construction on \(wonderType)"
-        self.bonusTexts = wonderType.bonuses()
+        self.bonusTexts = wonderType.effects()
     }
 
     func icon() -> NSImage {

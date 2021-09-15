@@ -72,6 +72,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func isOutOfAttacks() -> Bool
     func setMadeAttack(to newValue: Bool)
     func baseCombatStrength(ignoreEmbarked: Bool) -> Int
+    func baseRangedCombatStrength() -> Int
     func attackStrength(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, in gameModel: GameModel?) -> Int
     func attackStrengthModifier(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, in gameModel: GameModel?) -> [CombatModifier]
     func rangedCombatStrength(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, attacking: Bool, in gameModel: GameModel?) -> Int
@@ -1052,7 +1053,7 @@ public class Unit: AbstractUnit {
         return attack
     }
 
-    func baseRangedCombatStrength() -> Int {
+    public func baseRangedCombatStrength() -> Int {
 
         return self.type.rangedStrength()
     }

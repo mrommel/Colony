@@ -19,6 +19,7 @@
 		C931ADD82577D0F80002BA2F /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C931ADD72577D0F80002BA2F /* SmartAILibrary.framework */; };
 		C931ADD92577D0F80002BA2F /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C931ADD72577D0F80002BA2F /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C931ADE32577D1510002BA2F /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C931ADE22577D1510002BA2F /* ArrayExtension.swift */; };
+		C939254726F0E66B00E51921 /* CityExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C939254626F0E66B00E51921 /* CityExtension.swift */; };
 		C950F990264573F30057A7D1 /* CommandTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F98F264573F20057A7D1 /* CommandTypeExtension.swift */; };
 		C950F9922647E2140057A7D1 /* NotificationTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F9912647E2130057A7D1 /* NotificationTypeExtension.swift */; };
 		C950F99D26490A790057A7D1 /* PolicyCardsTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F99C26490A790057A7D1 /* PolicyCardsTypeExtension.swift */; };
@@ -32,6 +33,8 @@
 		C98E68B22577D28E00BD93CA /* ResourceTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E68AF2577D28E00BD93CA /* ResourceTypeExtension.swift */; };
 		C98E68B32577D28E00BD93CA /* TerrainTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E68B02577D28E00BD93CA /* TerrainTypeExtension.swift */; };
 		C98E68B72577D8C900BD93CA /* Tiles.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C98E68B62577D8C900BD93CA /* Tiles.xcassets */; };
+		C9941EFC26E8FF6600D029D7 /* BuildableItemExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9941EFB26E8FF6600D029D7 /* BuildableItemExtension.swift */; };
+		C9941EFE26E9EC6E00D029D7 /* CityCommandType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9941EFD26E9EC6E00D029D7 /* CityCommandType.swift */; };
 		C9A09829261C80080098C5E1 /* UnitTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A09828261C80080098C5E1 /* UnitTypeExtension.swift */; };
 		C9A0982C261CAD3B0098C5E1 /* NSImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0982B261CAD3B0098C5E1 /* NSImageExtension.swift */; };
 		C9A09846261CB6930098C5E1 /* knight.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9A0982E261CB6910098C5E1 /* knight.xml */; };
@@ -104,6 +107,7 @@
 		C931ADD12577D0E30002BA2F /* Textures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Textures.swift; sourceTree = "<group>"; };
 		C931ADD72577D0F80002BA2F /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C931ADE22577D1510002BA2F /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
+		C939254626F0E66B00E51921 /* CityExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityExtension.swift; sourceTree = "<group>"; };
 		C950F98F264573F20057A7D1 /* CommandTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandTypeExtension.swift; sourceTree = "<group>"; };
 		C950F9912647E2130057A7D1 /* NotificationTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTypeExtension.swift; sourceTree = "<group>"; };
 		C950F99C26490A790057A7D1 /* PolicyCardsTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyCardsTypeExtension.swift; sourceTree = "<group>"; };
@@ -118,6 +122,8 @@
 		C98E68B02577D28E00BD93CA /* TerrainTypeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerrainTypeExtension.swift; sourceTree = "<group>"; };
 		C98E68B62577D8C900BD93CA /* Tiles.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Tiles.xcassets; sourceTree = "<group>"; };
 		C98E68BA25794C0E00BD93CA /* CheckScript.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; fileEncoding = 4; path = CheckScript.swift; sourceTree = "<group>"; };
+		C9941EFB26E8FF6600D029D7 /* BuildableItemExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildableItemExtension.swift; sourceTree = "<group>"; };
+		C9941EFD26E9EC6E00D029D7 /* CityCommandType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCommandType.swift; sourceTree = "<group>"; };
 		C9A09828261C80080098C5E1 /* UnitTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTypeExtension.swift; sourceTree = "<group>"; };
 		C9A0982B261CAD3B0098C5E1 /* NSImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImageExtension.swift; sourceTree = "<group>"; };
 		C9A0982E261CB6910098C5E1 /* knight.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = knight.xml; sourceTree = "<group>"; };
@@ -240,6 +246,8 @@
 				C9B60BF1269DCF6500F10177 /* PantheonTypeExtension.swift */,
 				C9AC100026DE68A800B65288 /* UnitPromotionTypeExtension.swift */,
 				C980E77226E0C60F0089053A /* CombatResultTypeExtension.swift */,
+				C9941EFB26E8FF6600D029D7 /* BuildableItemExtension.swift */,
+				C939254626F0E66B00E51921 /* CityExtension.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -309,6 +317,7 @@
 				C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */,
 				C9AC0FFE26DE67DB00B65288 /* PromotionState.swift */,
 				C91B484F26E61AED002157C4 /* HeaderButtonType.swift */,
+				C9941EFD26E9EC6E00D029D7 /* CityCommandType.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -467,6 +476,7 @@
 				C9E87BBF264DB4D600514B9A /* WonderTypeExtension.swift in Sources */,
 				C9CAC8A2264BC4B200D0668D /* GovernmentState.swift in Sources */,
 				C950F9922647E2140057A7D1 /* NotificationTypeExtension.swift in Sources */,
+				C9941EFC26E8FF6600D029D7 /* BuildableItemExtension.swift in Sources */,
 				C9AC0FFF26DE67DB00B65288 /* PromotionState.swift in Sources */,
 				C952B9AC261E3930008822DD /* ObjectTextureAtlas.swift in Sources */,
 				C9E87BC1264DB54900514B9A /* DistrictTypeExtension.swift in Sources */,
@@ -475,8 +485,10 @@
 				C9A5B5CD2588A50500836AEB /* MapTypeExtension.swift in Sources */,
 				C950F99F2649290A0057A7D1 /* StringExtension.swift in Sources */,
 				C9A3760D263447390057923E /* TextureUtils.swift in Sources */,
+				C939254726F0E66B00E51921 /* CityExtension.swift in Sources */,
 				C9E87BB9264DA63700514B9A /* TechTypeExtension.swift in Sources */,
 				C980E77326E0C60F0089053A /* CombatResultTypeExtension.swift in Sources */,
+				C9941EFE26E9EC6E00D029D7 /* CityCommandType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

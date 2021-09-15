@@ -7840,7 +7840,7 @@ public class TacticalAI: Codable {
         let firstAttackStr = firstAttack ? "initial" : "follow-on"
         print("Made \(firstAttackStr) \(rangedStr) attack with \(city.name) towards \(target.target)")
 
-        city.doTask(taskType: .rangedAttack, target: target.target, in: gameModel)
+        city.doRangeAttack(at: target.target, in: gameModel)
     }
 
     private func combatResolved(for attacker: AbstractUnit?, victorious: Bool, in gameModel: GameModel?) {

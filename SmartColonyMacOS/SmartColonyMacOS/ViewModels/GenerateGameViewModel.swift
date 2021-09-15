@@ -94,6 +94,11 @@ class GenerateGameViewModel: ObservableObject {
         var players: [AbstractPlayer] = []
         var units: [AbstractUnit] = []
 
+        // ---- Barbar
+        let playerBarbar = Player(leader: .barbar, isHuman: false)
+        playerBarbar.initialize()
+        players.prepend(playerBarbar)
+
         for startLocation in map?.startLocations ?? [] {
 
             //print("startLocation: \(startLocation.leader) (\(startLocation.isHuman ? "human" : "AI")) => \(startLocation.point)")
@@ -149,11 +154,6 @@ class GenerateGameViewModel: ObservableObject {
                 // GameViewModel.discover(mapModel: &map, by: player)
             }
         }
-
-        // ---- Barbar
-        let playerBarbar = Player(leader: .barbar, isHuman: false)
-        playerBarbar.initialize()
-        players.prepend(playerBarbar)
 
         let game = GameModel(victoryTypes: [VictoryType.cultural], handicap: handicap, turnsElapsed: 0, players: players, on: map!)
 

@@ -14,7 +14,8 @@ enum UICombatMode {
 
     case none
     case melee
-    case ranged
+    case rangedUnit
+    case rangedCity
 }
 
 protocol GameViewModelDelegate: AnyObject {
@@ -28,12 +29,17 @@ protocol GameViewModelDelegate: AnyObject {
     func showMeleeTargets(of unit: AbstractUnit?)
     func showRangedTargets(of unit: AbstractUnit?)
     func cancelAttacks()
-    func showCombatBanner(for source: AbstractUnit?, and target: AbstractUnit?)
+    func showCombatBanner(for source: AbstractUnit?, and target: AbstractUnit?, ranged: Bool)
+    func showCombatBanner(for source: AbstractCity?, and target: AbstractUnit?, ranged: Bool)
     func hideCombatBanner()
+
     func doCombat(of attacker: AbstractUnit?, against defender: AbstractUnit?)
+    func doRangedCombat(of attacker: AbstractUnit?, against defender: AbstractUnit?)
+    func doRangedCombat(of attacker: AbstractCity?, against defender: AbstractUnit?)
 
     func showCityBanner(for city: AbstractCity?)
     func hideCityBanner()
+    func showRangedTargets(of city: AbstractCity?)
 
     func showPopup(popupType: PopupType)
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData?)
@@ -57,6 +63,7 @@ protocol GameViewModelDelegate: AnyObject {
     func showSelectPantheonDialog()
 
     func showUnitListDialog()
+    func showCityListDialog()
     func showSelectPromotionDialog(for unit: AbstractUnit?)
 
     func isShown(screen: ScreenType) -> Bool
@@ -132,6 +139,9 @@ public class GameViewModel: ObservableObject {
 
     @Published
     var unitListDialogViewModel: UnitListDialogViewModel
+
+    @Published
+    var cityListDialogViewModel: CityListDialogViewModel
 
     @Published
     var selectPromotionDialogViewModel: SelectPromotionDialogViewModel
@@ -218,7 +228,7 @@ public class GameViewModel: ObservableObject {
         // init models
         self.gameSceneViewModel = GameSceneViewModel()
         self.notificationsViewModel = NotificationsViewModel()
-        self.cityBannerViewModel = CityBannerViewModel(name: "Berlin")
+        self.cityBannerViewModel = CityBannerViewModel()
         self.unitBannerViewModel = UnitBannerViewModel(selectedUnit: nil)
         self.combatBannerViewModel = CombatBannerViewModel()
 
@@ -234,6 +244,7 @@ public class GameViewModel: ObservableObject {
         self.diplomaticDialogViewModel = DiplomaticDialogViewModel()
         self.selectTradeCityDialogViewModel = SelectTradeCityDialogViewModel()
         self.unitListDialogViewModel = UnitListDialogViewModel()
+        self.cityListDialogViewModel = CityListDialogViewModel()
         self.selectPromotionDialogViewModel = SelectPromotionDialogViewModel()
         self.selectPantheonDialogViewModel = SelectPantheonDialogViewModel()
         self.treasuryDialogViewModel = TreasuryDialogViewModel()
@@ -242,7 +253,7 @@ public class GameViewModel: ObservableObject {
         // connect models
         self.gameSceneViewModel.delegate = self
         self.notificationsViewModel.delegate = self
-        // self.cityBannerViewModel.delegate = self
+        self.cityBannerViewModel.delegate = self
         self.unitBannerViewModel.delegate = self
         self.combatBannerViewModel.delegate = self
 
@@ -257,6 +268,7 @@ public class GameViewModel: ObservableObject {
         self.diplomaticDialogViewModel.delegate = self
         self.selectTradeCityDialogViewModel.delegate = self
         self.unitListDialogViewModel.delegate = self
+        self.cityListDialogViewModel.delegate = self
         self.selectPromotionDialogViewModel.delegate = self
         self.selectPantheonDialogViewModel.delegate = self
         self.treasuryDialogViewModel.delegate = self
@@ -370,6 +382,7 @@ public class GameViewModel: ObservableObject {
                 print("cant get idle textures of \(unitType.name())")
             }
 
+            ImageCache.shared.add(image: bundle.image(forResource: unitType.portraitTexture()), for: unitType.portraitTexture())
             ImageCache.shared.add(image: bundle.image(forResource: unitType.typeTexture()), for: unitType.typeTexture())
             ImageCache.shared.add(image: bundle.image(forResource: unitType.typeTemplateTexture()), for: unitType.typeTemplateTexture())
         }
@@ -434,13 +447,19 @@ public class GameViewModel: ObservableObject {
             ImageCache.shared.add(image: bundle.image(forResource: cityTextureName), for: cityTextureName)
         }
 
-        print("- load \(textures.commandTextureNames.count) + \(textures.commandButtonTextureNames.count) command textures")
+        print("- load \(textures.commandTextureNames.count) command type textures")
         for commandTextureName in textures.commandTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: commandTextureName), for: commandTextureName)
         }
 
+        print("- load \(textures.commandButtonTextureNames.count) command button textures")
         for commandButtonTextureName in textures.commandButtonTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: commandButtonTextureName), for: commandButtonTextureName)
+        }
+
+        print("- load \(textures.cityCommandButtonTextureNames.count) city command textures")
+        for cityCommandTextureName in textures.cityCommandButtonTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: cityCommandTextureName), for: cityCommandTextureName)
         }
 
         print("- load \(textures.policyCardTextureNames.count) policy card textures")
@@ -507,6 +526,14 @@ public class GameViewModel: ObservableObject {
         print("- load \(textures.leaderTypeTextureNames.count) leader type textures")
         for leaderTypeTextureName in textures.leaderTypeTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: leaderTypeTextureName), for: leaderTypeTextureName)
+        }
+
+        print("- load \(textures.civilizationTypeTextureNames.count) civilization type textures")
+        for civilizationTypeTextureName in textures.civilizationTypeTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: civilizationTypeTextureName),
+                for: civilizationTypeTextureName
+            )
         }
 
         print("- load \(textures.pantheonTypeTextureNames.count) pantheon type textures")
@@ -722,18 +749,7 @@ extension GameViewModel: GameViewModelDelegate {
                 }
             }
 
-            self.gameSceneViewModel.unitSelectionMode = .meleeTarget
-        }
-    }
-
-    func doCombat(of attacker: AbstractUnit?, against defender: AbstractUnit?) {
-
-        guard let gameModel = self.gameEnvironment.game.value else {
-            fatalError("cant get game")
-        }
-
-        if !attacker!.doAttack(into: defender!.location, steps: 1, in: gameModel) {
-            print("attack failed")
+            self.gameSceneViewModel.unitSelectionMode = .meleeUnitTargets
         }
     }
 
@@ -751,7 +767,7 @@ extension GameViewModel: GameViewModelDelegate {
             fatalError("cant get unit player diplomacyAI")
         }
 
-        self.uiCombatMode = .ranged
+        self.uiCombatMode = .rangedUnit
 
         if let unit = unit {
 
@@ -763,11 +779,46 @@ extension GameViewModel: GameViewModelDelegate {
 
                 if let otherUnit = gameModel.unit(at: neighbor, of: .combat) {
 
-                    if !player.isEqual(to: otherUnit.player) && diplomacyAI.isAtWar(with: otherUnit.player) {
+                    if !player.isEqual(to: otherUnit.player) && (diplomacyAI.isAtWar(with: otherUnit.player) || otherUnit.isBarbarian()) {
                         gameModel.userInterface?.showAttackFocus(at: neighbor)
                     }
                 }
             }
+
+            self.gameSceneViewModel.unitSelectionMode = .rangedUnitTargets
+        }
+    }
+
+    func doCombat(of attacker: AbstractUnit?, against defender: AbstractUnit?) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        if !attacker!.doAttack(into: defender!.location, steps: 1, in: gameModel) {
+            print("attack failed")
+        }
+    }
+
+    func doRangedCombat(of attacker: AbstractUnit?, against defender: AbstractUnit?) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        if !attacker!.doRangeAttack(at: defender!.location, in: gameModel) {
+            print("attack failed")
+        }
+    }
+
+    func doRangedCombat(of attacker: AbstractCity?, against defender: AbstractUnit?) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        if !attacker!.doRangeAttack(at: defender!.location, in: gameModel) {
+            print("attack failed")
         }
     }
 
@@ -784,9 +835,22 @@ extension GameViewModel: GameViewModelDelegate {
         self.gameSceneViewModel.unitSelectionMode = .pick
     }
 
-    func showCombatBanner(for source: AbstractUnit?, and target: AbstractUnit?) {
+    func showCombatBanner(for source: AbstractUnit?, and target: AbstractUnit?, ranged: Bool) {
 
-        self.combatBannerViewModel.update(for: source, and: target)
+        self.combatBannerViewModel.update(for: source, and: target, ranged: ranged)
+
+        self.cityBannerViewModel.showBanner = false
+        self.unitBannerViewModel.showBanner = false
+        self.combatBannerViewModel.showBanner = true
+    }
+
+    func showCombatBanner(for source: AbstractCity?, and target: AbstractUnit?, ranged: Bool) {
+
+        guard ranged == true else {
+            fatalError("combat from city towards unit must be ranged")
+        }
+
+        self.combatBannerViewModel.update(for: source, and: target, ranged: ranged)
 
         self.cityBannerViewModel.showBanner = false
         self.unitBannerViewModel.showBanner = false
@@ -800,6 +864,7 @@ extension GameViewModel: GameViewModelDelegate {
 
     func showCityBanner(for city: AbstractCity?) {
 
+        self.cityBannerViewModel.update(for: city)
         self.cityBannerViewModel.showBanner = true
         self.unitBannerViewModel.showBanner = false
         self.combatBannerViewModel.showBanner = false
@@ -808,6 +873,42 @@ extension GameViewModel: GameViewModelDelegate {
     func hideCityBanner() {
 
         self.cityBannerViewModel.showBanner = false
+    }
+
+    func showRangedTargets(of city: AbstractCity?) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let player = city?.player else {
+            fatalError("cant get unit player")
+        }
+
+        guard let diplomacyAI = city?.player?.diplomacyAI else {
+            fatalError("cant get unit player diplomacyAI")
+        }
+
+        self.uiCombatMode = .rangedCity
+
+        if let city = city {
+
+            // reset icons
+            gameModel.userInterface?.clearAttackFocus()
+
+            // check neighbors
+            for neighbor in city.location.areaWith(radius: 2) {
+
+                if let otherUnit = gameModel.unit(at: neighbor, of: .combat) {
+
+                    if !player.isEqual(to: otherUnit.player) && (diplomacyAI.isAtWar(with: otherUnit.player) || otherUnit.isBarbarian()) {
+                        gameModel.userInterface?.showAttackFocus(at: neighbor)
+                    }
+                }
+            }
+
+            self.gameSceneViewModel.unitSelectionMode = .rangedCityTargets
+        }
     }
 
     func showPopup(popupType: PopupType) {
@@ -973,6 +1074,29 @@ extension GameViewModel: GameViewModelDelegate {
             self.currentScreenType = .unitList
         } else {
             fatalError("cant show unit list dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+
+    func showCityListDialog() {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        if self.currentScreenType == .cityList {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.cityListDialogViewModel.update(for: humanPlayer)
+            self.currentScreenType = .cityList
+        } else {
+            fatalError("cant show city list dialog, \(self.currentScreenType) is currently shown")
         }
     }
 

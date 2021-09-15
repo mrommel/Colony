@@ -30,14 +30,14 @@ class CombatUnitViewModel: ObservableObject {
     var promotionViewModels: [CombatPromotionViewModel] = []
 
     private let combatType: CombatUnitViewType
-    private var type: UnitType
+    private var portraitTextureName: String
     private var healthPoints: Int // 0..100
 
     init(combatType: CombatUnitViewType) {
 
         self.combatType = combatType
         self.name = "Warrior"
-        self.type = .barbarianWarrior
+        self.portraitTextureName = UnitType.barbarianWarrior.portraitTexture()
         self.strength = 25
         self.healthPoints = 85
         self.modifierViewModels = [
@@ -53,14 +53,14 @@ class CombatUnitViewModel: ObservableObject {
 
     func update(
         name: String,
-        type: UnitType,
+        portraitTextureName: String,
         strength: Int,
         healthPoints: Int,
         combatModifiers: [CombatModifier],
         promotions: [UnitPromotionType]) {
 
         self.name = name
-        self.type = type
+        self.portraitTextureName = portraitTextureName
         self.strength = strength
         self.healthPoints = healthPoints
         self.modifierViewModels = []
@@ -70,7 +70,7 @@ class CombatUnitViewModel: ObservableObject {
 
     func typeIcon() -> NSImage {
 
-        return self.type.iconTexture()
+        return ImageCache.shared.image(for: self.portraitTextureName)
     }
 
     func healthIcon() -> NSImage {

@@ -774,16 +774,16 @@ class TacticalAnalysisMap {
                 if let closestCity = dominanceZone.closestCity {
 
                     // Start with strength of the city itself
-                    let strength = closestCity.rangedCombatStrength(against: nil, on: nil, attacking: true) * self.tacticalRange
+                    let strength = closestCity.rangedCombatStrength(against: nil, on: nil) * self.tacticalRange
 
                     if dominanceZone.territoryType == .friendly {
 
                         dominanceZone.friendlyStrength += strength
-                        dominanceZone.friendlyRangedStrength += closestCity.rangedCombatStrength(against: nil, on: nil, attacking: true)
+                        dominanceZone.friendlyRangedStrength += closestCity.rangedCombatStrength(against: nil, on: nil)
                     } else {
 
                         dominanceZone.enemyStrength += strength
-                        dominanceZone.enemyRangedStrength += closestCity.rangedCombatStrength(against: nil, on: nil, attacking: true)
+                        dominanceZone.enemyRangedStrength += closestCity.rangedCombatStrength(against: nil, on: nil)
                     }
 
                     // Loop through all of OUR units first

@@ -15,8 +15,9 @@ public class GameSceneViewModel: ObservableObject {
     enum UnitSelectionMode {
 
         case pick
-        case meleeTarget
-        case rangedTarget
+        case meleeUnitTargets
+        case rangedUnitTargets
+        case rangedCityTargets
     }
 
     enum GameSceneTurnState {
