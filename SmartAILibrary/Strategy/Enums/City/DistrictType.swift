@@ -39,6 +39,12 @@ public enum DistrictType: Int, Codable {
         return self.data().productionCost
     }
 
+    // in gold
+    public func maintenanceCost() -> Int {
+
+        return self.data().maintenanceCost
+    }
+
     public func requiredTech() -> TechType? {
 
         return self.data().requiredTech
@@ -66,6 +72,7 @@ public enum DistrictType: Int, Codable {
         let name: String
         let effects: [String]
         let productionCost: Int
+        let maintenanceCost: Int // in gold
         let requiredTech: TechType?
         let requiredCivic: CivicType?
 
@@ -73,6 +80,7 @@ public enum DistrictType: Int, Codable {
         let foreignTradeYields: Yields
     }
 
+    // swiftlint:disable line_length
     private func data() -> DistrictTypeData {
 
         switch self {
@@ -85,6 +93,7 @@ public enum DistrictType: Int, Codable {
                     "Main District. Must be captured to capture the entire City. Has Defenses and a Ranged Strike (after building Walls)."
                 ],
                 productionCost: 0,
+                maintenanceCost: 0,
                 requiredTech: nil,
                 requiredCivic: nil,
                 domesticTradeYields: Yields(food: 1.0, production: 1.0, gold: 0.0),
@@ -105,6 +114,7 @@ public enum DistrictType: Int, Codable {
                     "Specialists add +2 Science each"
                 ],
                 productionCost: 54,
+                maintenanceCost: 1,
                 requiredTech: .writing,
                 requiredCivic: nil,
                 domesticTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0),
@@ -128,6 +138,7 @@ public enum DistrictType: Int, Codable {
                     "+1 Appeal to adjacent tiles"
                 ],
                 productionCost: 54,
+                maintenanceCost: 1,
                 requiredTech: .astrology,
                 requiredCivic: nil,
                 domesticTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0),
@@ -150,6 +161,7 @@ public enum DistrictType: Int, Codable {
                     "Increases Strategic Resource stockpiles by 10 for each building inside"
                 ],
                 productionCost: 54,
+                maintenanceCost: 0,
                 requiredTech: .bronzeWorking,
                 requiredCivic: nil,
                 domesticTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0),
@@ -161,9 +173,9 @@ public enum DistrictType: Int, Codable {
             return DistrictTypeData(
                 name: "Harbor",
                 effects: [
-                    "Major bonus (+2 Gold Gold) for being adjacent to the City Center",
-                    "Standard bonus (+1 Gold Gold) for each adjacent Sea resource",
-                    "Minor bonus (+½ Gold Gold) for each adjacent District",
+                    "Major bonus (+2 Gold) for being adjacent to the City Center",
+                    "Standard bonus (+1 Gold) for each adjacent Sea resource",
+                    "Minor bonus (+½ Gold) for each adjacent District",
                     "+1 Great Admiral point per turn",
                     "+1 Trade Route capacity if this city doesn't already have a Commercial Hub. (Requires a Lighthouse)",
                     "Allows its parent city to build ships, even if the City Center is inland",
@@ -175,6 +187,7 @@ public enum DistrictType: Int, Codable {
                     "Specialists add +2 Gold and +1 Food each"
                 ],
                 productionCost: 54,
+                maintenanceCost: 0,
                 requiredTech: .celestialNavigation,
                 requiredCivic: nil,
                 domesticTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0),
@@ -191,6 +204,7 @@ public enum DistrictType: Int, Codable {
                     "+1 Appeal to adjacent tiles"
                 ],
                 productionCost: 54,
+                maintenanceCost: 1,
                 requiredTech: nil,
                 requiredCivic: .dramaAndPoetry,
                 domesticTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0),
@@ -210,6 +224,7 @@ public enum DistrictType: Int, Codable {
                     "Specialists add +4 Gold each"
                 ],
                 productionCost: 54,
+                maintenanceCost: 0,
                 requiredTech: .currency,
                 requiredCivic: nil,
                 domesticTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0),
@@ -221,13 +236,14 @@ public enum DistrictType: Int, Codable {
                 name: "Industrial Zone",
                 effects: [
                     "Standard bonus (+1 Production) for each adjacent Mine or a Quarry",
-                    "Minor bonus (+½ Production Production) for each adjacent district tile",
+                    "Minor bonus (+½ Production) for each adjacent district tile",
                     "+1 Great Engineer point per turn",
                     "Lowers the Appeal of nearby tiles",
-                    "Production Production from Factory and Power Plant buildings extends to cities whose City Centers are within 6 tiles of this district",
-                    "Specialists provide +2 Production Production each"
+                    "Production from Factory and Power Plant buildings extends to cities whose City Centers are within 6 tiles of this district",
+                    "Specialists provide +2 Production each"
                 ],
                 productionCost: 54,
+                maintenanceCost: 0,
                 requiredTech: .apprenticeship,
                 requiredCivic: nil,
                 domesticTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0),
@@ -250,35 +266,4 @@ public enum DistrictType: Int, Codable {
 
         return true // FIXME
     }
-
-    // in gold
-    func maintenanceCost() -> Int {
-
-        switch self {
-
-        case .cityCenter: return 0
-        case .campus: return 1
-        case .holySite: return 1
-        case .encampment: return 0
-        case .harbor: return 0
-        case .entertainment: return 1 // ???
-        case .commercialHub: return 0
-        case .industrial: return 1
-        }
-    }
-
-    /*public func yields() -> Yields {
-        
-        switch self {
-
-        case .cityCenter: return Yields()
-        case .campus: return Yields()
-        case .holySite: return Yields()
-        case .encampment: return Yields()
-        case .harbor: return Yields()
-        case .entertainment: return Yields()
-        case .commercialHub: return Yields()
-        case .industrial: return Yields()
-        }
-    }*/
 }
