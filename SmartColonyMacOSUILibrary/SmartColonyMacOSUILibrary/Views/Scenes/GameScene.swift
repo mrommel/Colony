@@ -330,6 +330,8 @@ extension GameScene {
     override func rightMouseDown(with event: NSEvent) {
 
         print("right down")
+        self.unselect()
+        self.viewModel?.unitSelectionMode = .pick
     }
 
     override func mouseMoved(with event: NSEvent) {

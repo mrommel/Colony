@@ -2,12 +2,9 @@
 
 ![Swift](https://github.com/mrommel/Colony/workflows/Swift/badge.svg) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/250267c7467d403c9a3c1c0b4af7271f)](https://www.codacy.com/gh/mrommel/Colony/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mrommel/Colony&amp;utm_campaign=Badge_Grade)
 
-Civ5 based iOS app
+Civ5/Civ6 based iOS/macos App
 
 ## Memo
-
-Swimat Fix
-/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f /Applications/Xcode.app
 
 Asset:
 Icon made by Freepik from www.flaticon.com
@@ -22,6 +19,7 @@ Tile size:
 
 ## Content Links
 - units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=44064&f=0,0,0,0&st=245
+- extract aoe2 assets from slp: http://genie-explorer.aoe2.se
 - tileset: https://assetstore.unity.com/packages/2d/environments/painted-2d-location-hexes-medieval-fantasy-59271
 - https://github.com/DeamonRealm/AgeOfChampions
 - https://github.com/Gedemon/Civ5-DLL
