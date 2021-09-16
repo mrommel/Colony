@@ -177,6 +177,10 @@ class Civics: AbstractCivics {
             throw CivicError.alreadyDiscovered
         }
 
+        if civic.governorTitle() {
+            self.player?.addGovernorTitle()
+        }
+
         self.civics.append(civic)
     }
 

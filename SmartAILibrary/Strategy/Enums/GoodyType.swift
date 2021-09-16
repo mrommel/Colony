@@ -15,7 +15,7 @@ enum GoodyCategory {
     case faith
     case science
     case diplomacy
-    case mitlitary
+    case military
     case survivors
 }
 
@@ -229,7 +229,7 @@ public enum GoodyType: Int, Codable {
             return GoodyTypeData(
                 name: "Free Scout",
                 effect: "A Scout unit from the village joins you.",
-                category: .mitlitary,
+                category: .military,
                 minimalTurn: 0,
                 probability: 30
             )
@@ -237,7 +237,7 @@ public enum GoodyType: Int, Codable {
             return GoodyTypeData(
                 name: "Healing",
                 effect: "The villagers Heal the wounds of the unit which activated the village (if it was wounded).",
-                category: .mitlitary,
+                category: .military,
                 minimalTurn: 0,
                 probability: 25
             )
@@ -245,7 +245,7 @@ public enum GoodyType: Int, Codable {
             return GoodyTypeData(
                 name: "Free resource",
                 effect: "Receive from the villagers 20 units of the most advanced Strategic resource you've uncovered.",
-                category: .mitlitary,
+                category: .military,
                 minimalTurn: 0,
                 probability: 20
             )
@@ -253,7 +253,7 @@ public enum GoodyType: Int, Codable {
             return GoodyTypeData(
                 name: "Experience boost",
                 effect: "Villagers train your men: Get an XP boost for the military unit which activated the village.",
-                category: .mitlitary,
+                category: .military,
                 minimalTurn: 0,
                 probability: 20
             )
@@ -261,7 +261,7 @@ public enum GoodyType: Int, Codable {
             return GoodyTypeData(
                 name: "Unit upgrade",
                 effect: "Your unit has been upgraded.",
-                category: .mitlitary,
+                category: .military,
                 minimalTurn: 0,
                 probability: 5
             )

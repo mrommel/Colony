@@ -9,7 +9,7 @@
 import Foundation
 
 // https://civilization.fandom.com/wiki/Governor_(Civ6)
-public enum GovernorType {
+public enum GovernorType: Int, Codable {
 
     case reyna
     case victor
@@ -18,6 +18,11 @@ public enum GovernorType {
     case moksha
     case liang
     case pingala
+
+    public static var all: [GovernorType] = [
+
+        .reyna, .victor, .amani, .magnus, .moksha, .liang, .pingala
+    ]
 
     // MARK: public methods
 
@@ -46,6 +51,15 @@ public enum GovernorType {
         return self.data().titles
     }
 
+    func flavor(for flavorType: FlavorType) -> Int {
+
+        if let modifier = self.data().flavors.first(where: { $0.type == flavorType }) {
+            return modifier.value
+        }
+
+        return 0
+    }
+
     // MARK: private methods
 
     private struct GovernorTypeData {
@@ -56,6 +70,7 @@ public enum GovernorType {
 
         let defaultTitle: GovernorTitleType
         let titles: [GovernorTitleType]
+        let flavors: [Flavor]
     }
 
     private func data() -> GovernorTypeData {
@@ -73,7 +88,8 @@ public enum GovernorType {
                     .harbormaster, .forestryManagement, // tier 1
                     .taxCollector, // tier 2
                     .contractor, .renewableSubsidizer // tier 3
-                ]
+                ],
+                flavors: [Flavor(type: .expansion, value: 8), Flavor(type: .gold, value: 6)]
             )
 
         case .victor:
@@ -87,7 +103,8 @@ public enum GovernorType {
                     .garrisonCommander, .defenseLogistics, // tier 1
                     .embrasure, // tier 2
                     .airDefenseInitiative, .armsRaceProponent // tier 3
-                ]
+                ],
+                flavors: [Flavor(type: .cityDefense, value: 9)]
             )
 
         case .amani:
@@ -101,7 +118,8 @@ public enum GovernorType {
                     .emissary, .affluence, // tier 1
                     .localInformants, .foreignInvestor, // tier 2
                     .puppeteer // tier 3
-                ]
+                ],
+                flavors: [Flavor(type: .diplomacy, value: 9)]
             )
 
         case .magnus:
@@ -115,7 +133,8 @@ public enum GovernorType {
                     .surplusLogistics, .provision, // tier 1
                     .industrialist, .blackMarketeer, // tier 2
                     .verticalIntegration // tier 3
-                ]
+                ],
+                flavors: [Flavor(type: .tileImprovement, value: 6)]
             )
 
         case .moksha:
@@ -129,7 +148,8 @@ public enum GovernorType {
                     .grandInquisitor, .layingOnOfHands, // tier 1
                     .citadelOfGod, // tier 2
                     .patronSaint, .divineArchitect // tier 3
-                ]
+                ],
+                flavors: [Flavor(type: .religion, value: 8)]
             )
 
         case .liang:
@@ -143,7 +163,8 @@ public enum GovernorType {
                     .zoningCommissioner, .aquaculture, // tier 1
                     .reinforcedMaterials, .waterWorks, // tier 2
                     .parksAndRecreation // tier 3
-                ]
+                ],
+                flavors: [Flavor(type: .tileImprovement, value: 7)]
             )
 
         case .pingala:
@@ -157,7 +178,8 @@ public enum GovernorType {
                     .connoisseur, .researcher, // tier 1
                     .grants, // tier 2
                     .spaceInitiative, .curator // tier 3
-                ]
+                ],
+                flavors: [Flavor(type: .science, value: 5), Flavor(type: .culture, value: 5)]
             )
         }
     }

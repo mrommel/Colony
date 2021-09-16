@@ -204,6 +204,11 @@ public protocol AbstractCity: AnyObject, Codable {
     func loyalty() -> Int
     func loyaltyState() -> LoyaltyState
 
+    // governors
+    func governor() -> GovernorType?
+    func assign(governor: GovernorType?)
+    func value(of governorType: GovernorType, in gameModel: GameModel?) -> Double
+
     func set(scratch: Int)
     func scratch() -> Int
 }
@@ -274,6 +279,8 @@ public class City: AbstractCity {
         case cultureLevel
 
         case loyalty
+
+        case governor
     }
 
     public let name: String
@@ -329,10 +336,13 @@ public class City: AbstractCity {
     private var cultureStoredValue: Double = 0.0
     private var cultureLevelValue: Int = 0
 
+    // governor
+    private var governorValue: GovernorType?
+
     // scratch
     private var scratchValue: Int = 0
     private var strengthVal: Int = 0
-    private var loyaltyValue: Float = 100.0
+    private var loyaltyValue: Double = 100.0
 
     // MARK: constructor
 
@@ -444,7 +454,9 @@ public class City: AbstractCity {
         self.cultureStoredValue = try container.decode(Double.self, forKey: .cultureStored)
         self.cultureLevelValue = try container.decode(Int.self, forKey: .cultureLevel)
 
-        self.loyaltyValue = try container.decode(Float.self, forKey: .loyalty)
+        self.loyaltyValue = try container.decode(Double.self, forKey: .loyalty)
+
+        self.governorValue = try container.decode(GovernorType.self, forKey: .governor)
 
         // setup
         self.districts?.city = self
@@ -512,6 +524,8 @@ public class City: AbstractCity {
         try container.encode(self.cultureLevelValue, forKey: .cultureLevel)
 
         try container.encode(self.loyaltyValue, forKey: .loyalty)
+
+        try container.encode(self.governorValue, forKey: .governor)
     }
 
     public func initialize(in gameModel: GameModel?) {
@@ -949,13 +963,13 @@ public class City: AbstractCity {
             fatalError("cant get government")
         }
 
-        var loyalty: Float = 0
+        var loyalty: Double = 0
         let area10 = HexArea(center: self.location, radius: 10)
 
         // ////////////////////////////
         // Pressure from nearby Citizens.
         // Domestic Pressure = Age Factor * Sum of [ each Domestic Population * (10 - Distance Away) ]
-        var domesticPressure: Float = 0.0
+        var domesticPressure: Double = 0.0
 
         for domesticCityRef in gameModel.cities(of: player, in: area10) {
 
@@ -964,12 +978,12 @@ public class City: AbstractCity {
             }
 
             let distance: Int = domesticCity.location.distance(to: self.location)
-            var domesticCityPressure: Float = Float(domesticCity.population() * (10 - distance)) * player.currentAge().loyalityFactor()
+            var domesticCityPressure: Double = Double(domesticCity.population() * (10 - distance)) * player.currentAge().loyalityFactor()
 
             // Note that a Capital is counted twice: the first time with its Citizen Population affected by the Age Factor and the second time it is assumed to be in a Normal Age.
             if domesticCity.isCapital() {
 
-                domesticCityPressure += Float(domesticCity.population() * (10 - distance)) * AgeType.normal.loyalityFactor()
+                domesticCityPressure += Double(domesticCity.population() * (10 - distance)) * AgeType.normal.loyalityFactor()
             }
 
             // The Bread and Circuses project from a nearby Entertainment Complex or Water Park also has the effect of doubling the Citizen Population count, so a Bread and Circuses project in a highly populated city can be very powerful.
@@ -982,7 +996,7 @@ public class City: AbstractCity {
         }
 
         // Foreign Pressure = Sum of [ each Foreign Population * (10 - Distance Away) * Age Factor of Foreign Civ ]
-        var foreignPressure: Float = 0.0
+        var foreignPressure: Double = 0.0
 
         for foreignCityRef in gameModel.cities(in: area10) {
 
@@ -997,7 +1011,7 @@ public class City: AbstractCity {
 
             let distance = foreignCity.location.distance(to: self.location)
             let foreignCityLoyalityFactor = foreignCity.player?.currentAge().loyalityFactor() ?? 1.0
-            var foreignCityPressure: Float = Float(foreignCity.population()) * Float(10 - distance) * foreignCityLoyalityFactor
+            var foreignCityPressure: Double = Double(foreignCity.population()) * Double(10 - distance) * foreignCityLoyalityFactor
 
             // This final pressure value is capped at ±20. In other words, even if nearby cities have enough Citizens to exert more than 20 points of pressure, the final effect won't exceed +20 or -20.
             foreignCityPressure = min(20, max(-20, foreignCityPressure))
@@ -1009,14 +1023,19 @@ public class City: AbstractCity {
         let pressureFromNearbyCitizens = 10.0 * (domesticPressure - foreignPressure) / (min(domesticPressure, foreignPressure) + 0.5)
 
         // The effect of domestic and foreign Governors.
+        var loyaltyFromGovernors = 0.0
         // +8 Loyalty per turn for having any Governor assigned to that city (activated from the moment you assign the Governor, not the moment they actually become established).
+        if self.governor() != nil {
+            loyaltyFromGovernors += 8.0
+        }
+
         // -2 Loyalty per turn if a foreign city has their Governor Amani, with the Emissary title, established in a city within 9 tiles.
         // +2 Loyalty per turn for having Governor Amani, with the Prestige title, established in another city within 9 tiles.
         // +4 Loyalty per turn for having Governor Victor, with the Garrison Commander title, established in another city within 9 tiles.
 
         // ////////////////////////////
         // Happiness of the citizens in the city.
-        var happinessOfTheCitizens: Float = 0.0
+        var happinessOfTheCitizens: Double = 0.0
         switch self.amenitiesState(in: gameModel) {
 
         case .unrest, .unhappy, .revolt:
@@ -1032,19 +1051,21 @@ public class City: AbstractCity {
         }
 
         // Other factors.
-        var otherFactors: Float = 0.0
+        var otherFactors: Double = 0.0
 
         // ////////////////////////////
         // policyCards
         // ////////////////////////////
+
         // +2 with the Limitanei policy card and if the city is garrisoned.
         if government.has(card: .limitanei) && self.hasGarrison() {
             otherFactors += 2.0
         }
-        // +2 with the Praetorium policy card and if the city has a Governor.
-        /*if government.has(card: .praetorium) && governor {
 
-        }*/
+        // +2 with the Praetorium policy card and if the city has a Governor.
+        if government.has(card: .praetorium) && governor() != nil {
+            otherFactors += 2.0
+        }
         // +1-6 with the Communications Office policy card and if the city has a Governor.
         // +3 with the Colonial Offices policy card and if the city is not on your Capital Capital's continent.
 
@@ -1081,7 +1102,7 @@ public class City: AbstractCity {
         // +2 from having the Colosseum Wonder within 6 tiles.
 
         // sum
-        loyalty = pressureFromNearbyCitizens + happinessOfTheCitizens + otherFactors
+        loyalty = pressureFromNearbyCitizens + loyaltyFromGovernors + happinessOfTheCitizens + otherFactors
 
         self.loyaltyValue = loyalty
     }
@@ -1110,6 +1131,42 @@ public class City: AbstractCity {
 
         // Unrest (1-25): no Citizen Population growth, -100% to all yields, meaning that the city effectively becomes non-functional.
         return .unrest
+    }
+
+    public func governor() -> GovernorType? {
+
+        return self.governorValue
+    }
+
+    public func assign(governor: GovernorType?) {
+
+        self.governorValue = governor
+    }
+
+    public func value(of governorType: GovernorType, in gameModel: GameModel?) -> Double {
+
+        let oldGovernor = self.governor()
+
+        // reset
+        self.assign(governor: nil)
+
+        let oldFood = self.foodPerTurn(in: gameModel)
+        let oldProduction = self.productionPerTurn(in: gameModel)
+        let oldGold = self.goldPerTurn(in: gameModel)
+
+        // test
+        self.assign(governor: governorType)
+
+        let newFood = self.foodPerTurn(in: gameModel)
+        let newProduction = self.productionPerTurn(in: gameModel)
+        let newGold = self.goldPerTurn(in: gameModel)
+
+        // restore
+        self.assign(governor: oldGovernor)
+
+        return (newFood - oldFood).positiveValue +
+            (newProduction - oldProduction).positiveValue +
+            (newGold - oldGold).positiveValue
     }
 
     public func lastTurnFoodHarvested() -> Double {
@@ -3877,7 +3934,6 @@ public class City: AbstractCity {
 
             gameModel.userInterface?.refresh(tile: neighborTile)
         }
-
     }
 
     public func changeNumPlotsAcquiredBy(otherPlayer: AbstractPlayer?, change: Int) {

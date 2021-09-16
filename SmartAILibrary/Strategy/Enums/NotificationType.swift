@@ -21,6 +21,7 @@ public enum NotificationType: Int, Codable {
     case canChangeGovernment
     case policiesNeeded
     case canFoundPantheon
+    case governorTitleAvailable // parameter: player
 
     case cityGrowth // parameter: city
     case starving // parameter: city
@@ -37,7 +38,7 @@ public enum NotificationType: Int, Codable {
 
     public static var all: [NotificationType] = [
         .turn, .generic, .techNeeded, .civicNeeded, .productionNeeded, .canChangeGovernment, .policiesNeeded,
-        .canFoundPantheon, .cityGrowth, .starving, .diplomaticDeclaration, .war, .enemyInTerritory, .unitPromotion,
+        .canFoundPantheon, .governorTitleAvailable, .cityGrowth, .starving, .diplomaticDeclaration, .war, .enemyInTerritory, .unitPromotion,
         .unitNeedsOrders, .unitDied, .greatPersonJoined
     ]
 }

@@ -10,7 +10,7 @@ import Foundation
 
 // https://civilization.fandom.com/wiki/Governor_(Civ6)
 // swiftlint:disable type_body_length
-public enum GovernorTitleType {
+public enum GovernorTitleType: Int, Codable {
 
     // reyna
     case landAcquisition
@@ -68,6 +68,37 @@ public enum GovernorTitleType {
     case spaceInitiative
     case curator
 
+    // MARK: public methods
+
+    public func name() -> String {
+
+        return self.data().name
+    }
+
+    public func effects() -> [String] {
+
+        return self.data().effects
+    }
+
+    public func tier() -> Int {
+
+        return self.data().tier
+    }
+
+    public func requiredOr() -> [GovernorTitleType] {
+
+        return self.data().requiredOr
+    }
+
+    func flavor(for flavorType: FlavorType) -> Int {
+
+        if let modifier = self.data().flavors.first(where: { $0.type == flavorType }) {
+            return modifier.value
+        }
+
+        return 0
+    }
+
     // MARK: private methods
 
     private struct GovernorTitleTypeData {
@@ -76,6 +107,7 @@ public enum GovernorTitleType {
         let effects: [String]
         let tier: Int
         let requiredOr: [GovernorTitleType]
+        let flavors: [Flavor]
     }
 
     // swiftlint:disable function_body_length
@@ -93,7 +125,8 @@ public enum GovernorTitleType {
                     "+3 Gold  per turn from each foreign Trade Route passing through the city."
                 ],
                 tier: 0,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [] // not needed
             )
         case .harbormaster:
             return GovernorTitleTypeData(
@@ -102,7 +135,8 @@ public enum GovernorTitleType {
                     "Double adjacency bonuses from Commercial Hubs and Harbors in the city."
                 ],
                 tier: 1,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [Flavor(type: .gold, value: 6), Flavor(type: .tileImprovement, value: 4)]
             )
         case .forestryManagement:
             return GovernorTitleTypeData(
@@ -112,7 +146,8 @@ public enum GovernorTitleType {
                     "Tiles adjacent to unimproved features receive +1 Appeal in this city."
                 ],
                 tier: 1,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [Flavor(type: .gold, value: 6), Flavor(type: .happiness, value: 4)]
             )
         case .taxCollector:
             return GovernorTitleTypeData(
@@ -121,7 +156,8 @@ public enum GovernorTitleType {
                     "+2 Gold per turn for each Citizen in the city."
                 ],
                 tier: 2,
-                requiredOr: [.harbormaster, .forestryManagement]
+                requiredOr: [.harbormaster, .forestryManagement],
+                flavors: [Flavor(type: .gold, value: 6)]
             )
         case .contractor:
             return GovernorTitleTypeData(
@@ -130,7 +166,8 @@ public enum GovernorTitleType {
                     "Allows city to purchase Districts with Gold."
                 ],
                 tier: 3,
-                requiredOr: [.taxCollector]
+                requiredOr: [.taxCollector],
+                flavors: [Flavor(type: .growth, value: 6)]
             )
         case .renewableSubsidizer:
             return GovernorTitleTypeData(
@@ -139,7 +176,8 @@ public enum GovernorTitleType {
                     "All Offshore Wind Farms, Solar Farms, Wind Farms, Geothermal Plants and Hydroelectric Dams in this city receive +2 Power and +2 Gold."
                 ],
                 tier: 3,
-                requiredOr: [.taxCollector]
+                requiredOr: [.taxCollector],
+                flavors: [Flavor(type: .energy, value: 6), Flavor(type: .tileImprovement, value: 4)]
             )
 
             // Victor
@@ -151,7 +189,8 @@ public enum GovernorTitleType {
                     "Established in 3 turns."
                 ],
                 tier: 0,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [] // not needed
             )
         case .garrisonCommander:
             return GovernorTitleTypeData(
@@ -161,7 +200,8 @@ public enum GovernorTitleType {
                     "Your other cities within 9 tiles gain +4 Loyalty per turn towards your civilization."
                 ],
                 tier: 1,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [Flavor(type: .defense, value: 6), Flavor(type: .cityDefense, value: 4)]
             )
         case .defenseLogistics:
             return GovernorTitleTypeData(
@@ -171,7 +211,8 @@ public enum GovernorTitleType {
                     "Accumulating Strategic resources gain an additional +1 per turn."
                 ],
                 tier: 1,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [Flavor(type: .offense, value: 5), Flavor(type: .cityDefense, value: 6)]
             )
         case .embrasure:
             return GovernorTitleTypeData(
@@ -181,7 +222,8 @@ public enum GovernorTitleType {
                     "Military units trained in this city start with a free promotion that do not already start with a free promotion."
                 ],
                 tier: 2,
-                requiredOr: [.garrisonCommander, .defenseLogistics]
+                requiredOr: [.garrisonCommander, .defenseLogistics],
+                flavors: [Flavor(type: .offense, value: 6), Flavor(type: .cityDefense, value: 8)]
             )
         case .airDefenseInitiative:
             return GovernorTitleTypeData(
@@ -190,7 +232,8 @@ public enum GovernorTitleType {
                     "+25 Combat Strength to anti-air support units within the city's territory when defending against aircraft and ICBMs."
                 ],
                 tier: 3,
-                requiredOr: [.embrasure]
+                requiredOr: [.embrasure],
+                flavors: [Flavor(type: .defense, value: 4), Flavor(type: .cityDefense, value: 6)]
             )
         case .armsRaceProponent:
             return GovernorTitleTypeData(
@@ -199,7 +242,8 @@ public enum GovernorTitleType {
                     "30% Production increase to all nuclear armament projects in the city."
                 ],
                 tier: 3,
-                requiredOr: [.embrasure]
+                requiredOr: [.embrasure],
+                flavors: [Flavor(type: .defense, value: 6), Flavor(type: .cityDefense, value: 4)]
             )
 
             // Amani
@@ -210,7 +254,8 @@ public enum GovernorTitleType {
                     "Can be assigned to a City-state, where she acts as 2 Envoys."
                 ],
                 tier: 0,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [] // not needed
             )
         case .emissary:
             return GovernorTitleTypeData(
@@ -219,7 +264,8 @@ public enum GovernorTitleType {
                     "Other cities within 9 tiles and not owned by you gain +2 Loyalty per turn towards your civilization."
                 ],
                 tier: 1,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [Flavor(type: .diplomacy, value: 6)]
             )
         case .affluence:
             return GovernorTitleTypeData(
@@ -228,7 +274,8 @@ public enum GovernorTitleType {
                     "While established in a city-state, provides a copy of its Luxury resources to you."
                 ],
                 tier: 1,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [Flavor(type: .happiness, value: 6)]
             )
         case .localInformants:
             return GovernorTitleTypeData(
@@ -237,7 +284,8 @@ public enum GovernorTitleType {
                     "Enemy Spies operate at 3 levels below normal in this city."
                 ],
                 tier: 2,
-                requiredOr: [.emissary]
+                requiredOr: [.emissary],
+                flavors: [Flavor(type: .diplomacy, value: 6), Flavor(type: .cityDefense, value: 4)]
             )
         case .foreignInvestor:
             return GovernorTitleTypeData(
@@ -247,7 +295,8 @@ public enum GovernorTitleType {
                     "When suzerain receive double the amount of accumulated strategic resources."
                 ],
                 tier: 2,
-                requiredOr: [.affluence]
+                requiredOr: [.affluence],
+                flavors: [Flavor(type: .tileImprovement, value: 6), Flavor(type: .defense, value: 4), Flavor(type: .offense, value: 5)]
             )
         case .puppeteer:
             return GovernorTitleTypeData(
@@ -256,7 +305,8 @@ public enum GovernorTitleType {
                     "While established in a city-state, doubles the number of Envoys you have there."
                 ],
                 tier: 3,
-                requiredOr: [.localInformants, .foreignInvestor]
+                requiredOr: [.localInformants, .foreignInvestor],
+                flavors: [Flavor(type: .diplomacy, value: 6)]
             )
 
         // magnus
@@ -267,7 +317,8 @@ public enum GovernorTitleType {
                     "+50% yields from plot harvests and feature removals in the city."
                 ],
                 tier: 0,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [] // not needed
             )
         case .surplusLogistics:
             return GovernorTitleTypeData(
@@ -277,7 +328,8 @@ public enum GovernorTitleType {
                     "Your Trade Routes ending here provide +2 Food to their starting city."
                 ],
                 tier: 1,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [Flavor(type: .growth, value: 6), Flavor(type: .diplomacy, value: 3)]
             )
         case .provision:
             return GovernorTitleTypeData(
@@ -286,7 +338,8 @@ public enum GovernorTitleType {
                     "Settlers trained in the city do not consume a Citizen Population."
                 ],
                 tier: 1,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [Flavor(type: .growth, value: 8)]
             )
         case .industrialist:
             return GovernorTitleTypeData(
@@ -295,7 +348,8 @@ public enum GovernorTitleType {
                     "Increase the Power provided by each resource of the Coal Power Plant, Oil Power Plant and Nuclear Power Plant by 1 and the Production by 2."
                 ],
                 tier: 2,
-                requiredOr: [.surplusLogistics]
+                requiredOr: [.surplusLogistics],
+                flavors: [Flavor(type: .energy, value: 6)]
             )
         case .blackMarketeer:
             return GovernorTitleTypeData(
@@ -304,7 +358,8 @@ public enum GovernorTitleType {
                     "Strategic resources for units are discounted 80%."
                 ],
                 tier: 2,
-                requiredOr: [.provision]
+                requiredOr: [.provision],
+                flavors: [Flavor(type: .production, value: 4)]
             )
         case .verticalIntegration:
             return GovernorTitleTypeData(
@@ -313,7 +368,8 @@ public enum GovernorTitleType {
                     "This city receives Production from any number of Industrial Zones within 6 tiles, not just the first."
                 ],
                 tier: 3,
-                requiredOr: [.industrialist, .blackMarketeer]
+                requiredOr: [.industrialist, .blackMarketeer],
+                flavors: [Flavor(type: .production, value: 6)]
             )
 
             // moksha
@@ -325,7 +381,8 @@ public enum GovernorTitleType {
                     "+2 Faith per specialty district in this city."
                 ],
                 tier: 0,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [] // not needed
             )
         case .grandInquisitor:
             return GovernorTitleTypeData(
@@ -334,7 +391,8 @@ public enum GovernorTitleType {
                     "+10 Religious Strength in theological combat in tiles of this city."
                 ],
                 tier: 1,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [Flavor(type: .religion, value: 6)]
             )
         case .layingOnOfHands:
             return GovernorTitleTypeData(
@@ -343,7 +401,8 @@ public enum GovernorTitleType {
                     "All Governor's units heal fully in one turn in tiles of this city."
                 ],
                 tier: 1,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [Flavor(type: .religion, value: 4), Flavor(type: .defense, value: 4)]
             )
         case .citadelOfGod:
             return GovernorTitleTypeData(
@@ -353,7 +412,8 @@ public enum GovernorTitleType {
                     "Gain Faith equal to 25% of the construction cost when finishing buildings."
                 ],
                 tier: 2,
-                requiredOr: [.grandInquisitor, .layingOnOfHands]
+                requiredOr: [.grandInquisitor, .layingOnOfHands],
+                flavors: [Flavor(type: .religion, value: 5)]
             )
         case .patronSaint:
             return GovernorTitleTypeData(
@@ -362,7 +422,8 @@ public enum GovernorTitleType {
                     "Apostles and Warrior Monks trained in the city receive 1 extra Promotion when receiving their first promotion."
                 ],
                 tier: 3,
-                requiredOr: [.citadelOfGod]
+                requiredOr: [.citadelOfGod],
+                flavors: [Flavor(type: .religion, value: 5)]
             )
         case .divineArchitect:
             return GovernorTitleTypeData(
@@ -371,7 +432,8 @@ public enum GovernorTitleType {
                     "Allows city to purchase Districts with Faith."
                 ],
                 tier: 3,
-                requiredOr: [.citadelOfGod]
+                requiredOr: [.citadelOfGod],
+                flavors: [Flavor(type: .religion, value: 5)]
             )
 
             // liang
@@ -382,7 +444,8 @@ public enum GovernorTitleType {
                     "All Builders trained in city get +1 build charge."
                 ],
                 tier: 0,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [] // not needed
             )
         case .zoningCommissioner:
             return GovernorTitleTypeData(
@@ -391,7 +454,8 @@ public enum GovernorTitleType {
                     "+20% Production towards constructing Districts in the city."
                 ],
                 tier: 1,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [Flavor(type: .production, value: 4), Flavor(type: .growth, value: 3)]
             )
         case .aquaculture:
             return GovernorTitleTypeData(
@@ -402,7 +466,8 @@ public enum GovernorTitleType {
                     "Fisheries provide +1 Production if Liang is in the city."
                 ],
                 tier: 1,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [Flavor(type: .production, value: 6), Flavor(type: .growth, value: 4)]
             )
         case .reinforcedMaterials:
             return GovernorTitleTypeData(
@@ -411,7 +476,8 @@ public enum GovernorTitleType {
                     "This city's improvements, buildings and Districts cannot be damaged by Environmental Effects."
                 ],
                 tier: 2,
-                requiredOr: [.zoningCommissioner]
+                requiredOr: [.zoningCommissioner],
+                flavors: [Flavor(type: .growth, value: 4)]
             )
         case .waterWorks:
             return GovernorTitleTypeData(
@@ -420,7 +486,8 @@ public enum GovernorTitleType {
                     "+2 Housing for every Neighborhood and Aqueduct district in this city.",
                     "+1 Amenity for every Canal and Dam district in this city."],
                 tier: 2,
-                requiredOr: [.aquaculture]
+                requiredOr: [.aquaculture],
+                flavors: [Flavor(type: .growth, value: 6)]
             )
         case .parksAndRecreation:
             return GovernorTitleTypeData(
@@ -432,7 +499,8 @@ public enum GovernorTitleType {
                     "City Parks provide 3 Culture Culture if Liang is in the city."
                 ],
                 tier: 3,
-                requiredOr: [.reinforcedMaterials, .waterWorks]
+                requiredOr: [.reinforcedMaterials, .waterWorks],
+                flavors: [Flavor(type: .culture, value: 6), Flavor(type: .happiness, value: 4)]
             )
 
             // Pingala
@@ -443,7 +511,8 @@ public enum GovernorTitleType {
                     "15% increase in Science and Culture generated by the city."
                 ],
                 tier: 0,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [] // not needed
             )
         case .connoisseur:
             return GovernorTitleTypeData(
@@ -452,7 +521,8 @@ public enum GovernorTitleType {
                     "+1 Culture per turn for each Citizen in the city."
                 ],
                 tier: 1,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [Flavor(type: .culture, value: 8)]
             )
         case .researcher:
             return GovernorTitleTypeData(
@@ -461,7 +531,8 @@ public enum GovernorTitleType {
                     "+1 Science per turn for each Citizen in the city."
                 ],
                 tier: 1,
-                requiredOr: []
+                requiredOr: [],
+                flavors: [Flavor(type: .science, value: 8)]
             )
         case .grants:
             return GovernorTitleTypeData(
@@ -470,7 +541,8 @@ public enum GovernorTitleType {
                     "+100% Great People points generated per turn in the city."
                 ],
                 tier: 2,
-                requiredOr: [.connoisseur, .researcher]
+                requiredOr: [.connoisseur, .researcher],
+                flavors: [Flavor(type: .greatPeople, value: 8)]
             )
         case .spaceInitiative:
             return GovernorTitleTypeData(
@@ -479,7 +551,8 @@ public enum GovernorTitleType {
                     "30% Production increase to all space-program projects in the city."
                 ],
                 tier: 3,
-                requiredOr: [.grants]
+                requiredOr: [.grants],
+                flavors: [Flavor(type: .science, value: 6)]
             )
         case .curator:
             return GovernorTitleTypeData(
@@ -488,7 +561,8 @@ public enum GovernorTitleType {
                     "+100% Tourism from Great Works of Art, Music, and Writing in the city."
                 ],
                 tier: 3,
-                requiredOr: [.grants]
+                requiredOr: [.grants],
+                flavors: [Flavor(type: .tourism, value: 8)]
             )
         }
     }

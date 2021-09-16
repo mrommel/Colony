@@ -35,6 +35,8 @@ extension NotificationType {
         case .policiesNeeded: return "button-policies-needed"
 
         case .greatPersonJoined: return "button-great-person-joined"
+
+        case .governorTitleAvailable: return "button-governor-title-available" // #
         }
     }
 }

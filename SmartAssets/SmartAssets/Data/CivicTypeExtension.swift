@@ -69,6 +69,7 @@ extension CivicType {
 
             // information
         case .globalization: return "civic-default"
+        case .socialMedia: return "civic-default"
         }
     }
 }
@@ -146,6 +147,7 @@ extension CivicType {
 
             // information
         case .globalization:        return IndexPath(item: -1, section: -1)
+        case .socialMedia:          return IndexPath(item: -1, section: -1)
         }
     }
 }

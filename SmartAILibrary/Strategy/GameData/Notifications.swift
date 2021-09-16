@@ -326,6 +326,10 @@ public class NotificationItem: Codable, Equatable {
             // there can be multiple notifications - one per unit == location
             return lhs.location == rhs.location
 
+        case .governorTitleAvailable:
+            // highlander, only one notification of this type
+            return true
+
         default:
             fatalError("not handled: \(lhs.type)")
         }

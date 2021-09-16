@@ -53,6 +53,7 @@
 		C91B0A5323FD37500065C62A /* UnitAbilityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91B0A5223FD37500065C62A /* UnitAbilityType.swift */; };
 		C91BE62B23FED2F300912962 /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91BE62A23FED2F300912962 /* Operations.swift */; };
 		C91BE62D23FED34C00912962 /* UnitOperationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91BE62C23FED34C00912962 /* UnitOperationType.swift */; };
+		C91D3C8026F283B700CD1F45 /* PlayerGovernors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91D3C7F26F283B700CD1F45 /* PlayerGovernors.swift */; };
 		C920E99A23DB17EB008DEAB4 /* DiplomaticAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C920E99923DB17EB008DEAB4 /* DiplomaticAI.swift */; };
 		C920E99C23DB1DBA008DEAB4 /* DiplomaticDealAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C920E99B23DB1DBA008DEAB4 /* DiplomaticDealAI.swift */; };
 		C92317A123D62A6B001FC723 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C923179723D62A6B001FC723 /* SmartAILibrary.framework */; };
@@ -384,6 +385,7 @@
 		C91B0A5223FD37500065C62A /* UnitAbilityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitAbilityType.swift; sourceTree = "<group>"; };
 		C91BE62A23FED2F300912962 /* Operations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operations.swift; sourceTree = "<group>"; };
 		C91BE62C23FED34C00912962 /* UnitOperationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitOperationType.swift; sourceTree = "<group>"; };
+		C91D3C7F26F283B700CD1F45 /* PlayerGovernors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerGovernors.swift; sourceTree = "<group>"; };
 		C920E99923DB17EB008DEAB4 /* DiplomaticAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticAI.swift; sourceTree = "<group>"; };
 		C920E99B23DB1DBA008DEAB4 /* DiplomaticDealAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticDealAI.swift; sourceTree = "<group>"; };
 		C923179723D62A6B001FC723 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1089,6 +1091,7 @@
 				C90FC39B23D8961C00720B32 /* Player.swift */,
 				C956BF6524F16683009702B4 /* PlayerYields.swift */,
 				C9C2FE3A23F89F2E00185235 /* PlayerReligion.swift */,
+				C91D3C7F26F283B700CD1F45 /* PlayerGovernors.swift */,
 				C92D221023E20ECF00BB9238 /* Government.swift */,
 				C906144D23E3362200D316B5 /* Buildings.swift */,
 				C9A0573B24291C3E00D0FEAB /* Wonders.swift */,
@@ -1573,6 +1576,7 @@
 				C9DFCF8023F2C69F0032243D /* TileFertilityEvaluator.swift in Sources */,
 				C964BA1923EAD18200CA379C /* UnitType.swift in Sources */,
 				C9A348B225F4C599008B797D /* FoodHarvestingType.swift in Sources */,
+				C91D3C8026F283B700CD1F45 /* PlayerGovernors.swift in Sources */,
 				C97AF98D24F551A2005F45EA /* UnitTradeRouteState.swift in Sources */,
 				C9EF13972423C02C003B3DAD /* LandDisputeLevelType.swift in Sources */,
 				C9DFCF6A23F294C00032243D /* CivicDiscoveredMessage.swift in Sources */,

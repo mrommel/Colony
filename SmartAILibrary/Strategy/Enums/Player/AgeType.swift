@@ -16,7 +16,7 @@ public enum AgeType {
     case golden
     case heroic
 
-    public func loyalityFactor() -> Float {
+    public func loyalityFactor() -> Double {
 
         switch self {
 

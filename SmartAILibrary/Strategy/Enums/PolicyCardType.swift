@@ -61,10 +61,13 @@ public enum PolicyCardType: Int, Codable {
 
     // classical
     case insulae // FIXME +1 Housing in all cities with at least 2 specialty districts.
+    case praetorium // Governors provide +2 Loyalty per turn to their city.
     // ...
     case bastions
 
     // mediaval
+
+    // information
 
     public static var all: [PolicyCardType] {
         return [
@@ -73,7 +76,9 @@ public enum PolicyCardType: Int, Codable {
             .strategos, .conscription, .corvee, .landSurveyors, .colonization, .inspiration, .revelation, .limitanei,
 
             // classical
-            .insulae, /* ... */ .bastions
+            .insulae, .praetorium, /* ... */ .bastions,
+
+            // information
         ]
     }
 
@@ -233,31 +238,47 @@ public enum PolicyCardType: Int, Codable {
                                       flavours: [Flavor(type: .religion, value: 2), Flavor(type: .greatPeople, value: 3)])
         case .limitanei:
             // https://civilization.fandom.com/wiki/Limitanei_(Civ6)
-            return PolicyCardTypeData(name: "Limitanei",
-                                      bonus: "+2 Loyalty per turn for cities with a garrisoned unit.", // FIXME niy
-                                      slot: .military,
-                                      required: .earlyEmpire,
-                                      obsolete: nil,
-                                      flavours: [Flavor(type: .growth, value: 5)])
+            return PolicyCardTypeData(
+                name: "Limitanei",
+                bonus: "+2 Loyalty per turn for cities with a garrisoned unit.", // FIXME niy
+                slot: .military,
+                required: .earlyEmpire,
+                obsolete: nil,
+                flavours: [Flavor(type: .growth, value: 5)]
+            )
 
             // classical
         case .insulae:
             // https://civilization.fandom.com/wiki/Insulae_(Civ6)
-            return PolicyCardTypeData(name: "Insulae",
-                                      bonus: "+1 Housing6 Housing in all cities with at least 2 specialty districts.",
-                                      slot: .economic,
-                                      required: .gamesAndRecreation,
-                                      obsolete: .medievalFaires,
-                                      flavours: [Flavor(type: .growth, value: 3), Flavor(type: .tileImprovement, value: 2)])
+            return PolicyCardTypeData(
+                name: "Insulae",
+                bonus: "+1 Housing in all cities with at least 2 specialty districts.",
+                slot: .economic,
+                required: .gamesAndRecreation,
+                obsolete: .medievalFaires,
+                flavours: [Flavor(type: .growth, value: 3), Flavor(type: .tileImprovement, value: 2)]
+            )
+        case .praetorium:
+            // https://civilization.fandom.com/wiki/Praetorium_(Civ6)
+            return PolicyCardTypeData(
+                name: "Praetorium",
+                bonus: "Governors provide +2 Loyalty per turn to their city.",
+                slot: .diplomatic,
+                required: .recordedHistory,
+                obsolete: .socialMedia,
+                flavours: [Flavor(type: .growth, value: 4)]
+            )
             /* ... */
         case .bastions:
             // https://civilization.fandom.com/wiki/Bastions_(Civ6)
-            return PolicyCardTypeData(name: "Bastions",
-                                      bonus: "+6 City Civ6StrengthIcon Defense Strength. +5 City Civ6RangedStrength Ranged Strength.",
-                                      slot: .military,
-                                      required: .defensiveTactics,
-                                      obsolete: .civilEngineering,
-                                      flavours: [])
+            return PolicyCardTypeData(
+                name: "Bastions",
+                bonus: "+6 City Civ6StrengthIcon Defense Strength. +5 City Civ6RangedStrength Ranged Strength.",
+                slot: .military,
+                required: .defensiveTactics,
+                obsolete: .civilEngineering,
+                flavours: []
+            )
         }
     }
 
