@@ -527,6 +527,7 @@ public class Player: AbstractPlayer {
         self.cityConnections = CityConnections(player: self)
         self.goodyHuts = GoodyHuts(player: self)
         self.tradeRoutes = TradeRoutes(player: self)
+        self.governors = PlayerGovernors(player: self)
 
         self.techs = Techs(player: self)
         self.civics = Civics(player: self)
