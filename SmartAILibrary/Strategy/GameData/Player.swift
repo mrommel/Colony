@@ -1099,7 +1099,6 @@ public class Player: AbstractPlayer {
         }
 
         self.doEurekas(in: gameModel)
-        self.governors?.doTurn(in: gameModel)
 
         // inform ui about new notifications
         self.notificationsValue?.update(in: gameModel)
@@ -1113,6 +1112,7 @@ public class Player: AbstractPlayer {
 
                 // Do diplomacy for toward everyone
                 self.diplomacyAI?.turn(in: gameModel)
+                self.governors?.doTurn(in: gameModel)
 
                 if !self.isHuman() {
                     hasActiveDiploRequest = self.hasActiveDiploRequestWithHuman()

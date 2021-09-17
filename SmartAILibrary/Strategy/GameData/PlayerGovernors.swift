@@ -33,14 +33,14 @@ public class Governor: Codable {
         case titles
     }
 
-    let type: GovernorType
+    public let type: GovernorType
 
     var location: HexPoint = HexPoint.invalid // <= city
     var titles: [GovernorTitleType] = []
 
     // MARK: constructors
 
-    init(type: GovernorType) {
+    public init(type: GovernorType) {
 
         self.type = type
         self.titles.append(self.type.defaultTitle())
@@ -64,7 +64,7 @@ public class Governor: Codable {
         try container.encode(self.titles, forKey: .titles)
     }
 
-    func promote(with title: GovernorTitleType) {
+    public func promote(with title: GovernorTitleType) {
 
         guard !self.titles.contains(title) else {
             fatalError("cant promote governor with title he/she already has")
@@ -73,12 +73,12 @@ public class Governor: Codable {
         self.titles.append(title)
     }
 
-    func has(title: GovernorTitleType) -> Bool {
+    public func has(title: GovernorTitleType) -> Bool {
 
         return self.titles.contains(title)
     }
 
-    func assign(to cityRef: AbstractCity?) {
+    public func assign(to cityRef: AbstractCity?) {
 
         guard let city = cityRef else {
             fatalError("cant get city")
@@ -87,17 +87,17 @@ public class Governor: Codable {
         self.location = city.location
     }
 
-    func unassign() {
+    public func unassign() {
 
         self.location = HexPoint.invalid
     }
 
-    func isAssigned() -> Bool {
+    public func isAssigned() -> Bool {
 
         return self.location != HexPoint.invalid
     }
 
-    func possiblePromotions() -> [GovernorTitleType] {
+    public func possiblePromotions() -> [GovernorTitleType] {
 
         var promotions: [GovernorTitleType] = []
 
@@ -122,7 +122,6 @@ public class Governor: Codable {
     }
 }
 
-
 public protocol AbstractPlayerGovernors: AnyObject, Codable {
 
     var player: AbstractPlayer? { get set }
@@ -132,6 +131,8 @@ public protocol AbstractPlayerGovernors: AnyObject, Codable {
     func numTitlesSpent() -> Int
 
     func doTurn(in gameModel: GameModel?)
+
+    func governor(with type: GovernorType) -> Governor?
 }
 
 class PlayerGovernors: AbstractPlayerGovernors {
@@ -431,5 +432,10 @@ class PlayerGovernors: AbstractPlayerGovernors {
         }
 
         return bestGovernorType
+    }
+
+    public func governor(with type: GovernorType) -> Governor? {
+
+        return self.governors.first(where: { $0.type == type })
     }
 }

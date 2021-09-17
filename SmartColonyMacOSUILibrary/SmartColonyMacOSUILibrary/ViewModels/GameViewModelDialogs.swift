@@ -69,6 +69,21 @@ extension GameViewModel {
         }
     }
 
+    func showGovernorsDialog() {
+
+        if self.currentScreenType == .governors {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.governorsDialogViewModel.update()
+            self.currentScreenType = .governors
+        } else {
+            fatalError("cant show governors dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+
     func showTradeRouteDialog() {
 
         if self.currentScreenType == .tradeRoutes {

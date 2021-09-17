@@ -383,6 +383,14 @@ public class GameSceneViewModel: ObservableObject {
         return viewModel
     }
 
+    func governorsHeaderViewModel() -> HeaderButtonViewModel {
+
+        let viewModel = HeaderButtonViewModel(type: .governors)
+        viewModel.delegate = self
+
+        return viewModel
+    }
+
     func rankingHeaderViewModel() -> HeaderButtonViewModel {
 
         let viewModel = HeaderButtonViewModel(type: .ranking)
@@ -577,6 +585,8 @@ extension GameSceneViewModel: HeaderButtonViewModelDelegate {
             self.delegate?.showGovernmentDialog()
         case .log:
             print("log")
+        case .governors:
+            self.delegate?.showGovernorsDialog()
         case .ranking:
             print("ranking")
             // self.delegate?.showRankingDialog()

@@ -109,6 +109,7 @@ public enum ScreenType {
     case treasury
     case interimRanking
     case diplomatic
+    case governors
     case tradeRoutes
 
     case government // <-- main dialog

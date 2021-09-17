@@ -75,6 +75,9 @@
 		C980E77526E21EAE0089053A /* CombatUnitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C980E77426E21EAE0089053A /* CombatUnitViewModel.swift */; };
 		C980E77726E21F3C0089053A /* CombatModifierViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C980E77626E21F3C0089053A /* CombatModifierViewModel.swift */; };
 		C980E77926E250F60089053A /* CombatPromotionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C980E77826E250F60089053A /* CombatPromotionViewModel.swift */; };
+		C984642826F493B800C40EA7 /* GovernorsDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984642726F493B800C40EA7 /* GovernorsDialogViewModel.swift */; };
+		C984642A26F4943D00C40EA7 /* GovernorsDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984642926F4943D00C40EA7 /* GovernorsDialogView.swift */; };
+		C984642C26F49B3300C40EA7 /* GovernorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984642B26F49B3300C40EA7 /* GovernorViewModel.swift */; };
 		C988EAE5261B724500300C39 /* AnimatedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAE4261B724500300C39 /* AnimatedImageView.swift */; };
 		C99A886126079F4C003B8B73 /* SmartColonyMacOSUILibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C99A887E2607A06C003B8B73 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99A887D2607A06C003B8B73 /* SmartAILibrary.framework */; };
@@ -286,6 +289,9 @@
 		C980E77426E21EAE0089053A /* CombatUnitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatUnitViewModel.swift; sourceTree = "<group>"; };
 		C980E77626E21F3C0089053A /* CombatModifierViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatModifierViewModel.swift; sourceTree = "<group>"; };
 		C980E77826E250F60089053A /* CombatPromotionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatPromotionViewModel.swift; sourceTree = "<group>"; };
+		C984642726F493B800C40EA7 /* GovernorsDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorsDialogViewModel.swift; sourceTree = "<group>"; };
+		C984642926F4943D00C40EA7 /* GovernorsDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorsDialogView.swift; sourceTree = "<group>"; };
+		C984642B26F49B3300C40EA7 /* GovernorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorViewModel.swift; sourceTree = "<group>"; };
 		C986D16E264938D9006EF052 /* MenuButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonStyle.swift; sourceTree = "<group>"; };
 		C986D16F264938D9006EF052 /* CheckboxSquareToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxSquareToggleStyle.swift; sourceTree = "<group>"; };
 		C986D170264938D9006EF052 /* CheckboxCircleToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxCircleToggleStyle.swift; sourceTree = "<group>"; };
@@ -487,6 +493,7 @@
 				C94816BE26A82D4E00765029 /* SelectTradeCityDialogView.swift */,
 				C9F4939E26CAB04400B0C259 /* UnitListDialogView.swift */,
 				C9B98C5526D2A6E300AA80D6 /* TreasuryDialogView.swift */,
+				C984642926F4943D00C40EA7 /* GovernorsDialogView.swift */,
 				C9077A8126D626AC004BE679 /* TradeRoutesDialogView.swift */,
 				C9AC0FF826DE62B700B65288 /* SelectPromotionDialogView.swift */,
 				C98031CC26EE5756008F460B /* CityListDialogView.swift */,
@@ -706,6 +713,7 @@
 				C94816BA26A824C400765029 /* SelectTradeCityDialogViewModel.swift */,
 				C9F4939C26CAAE9600B0C259 /* UnitListDialogViewModel.swift */,
 				C9B98C5326D29ECD00AA80D6 /* TreasuryDialogViewModel.swift */,
+				C984642726F493B800C40EA7 /* GovernorsDialogViewModel.swift */,
 				C9077A8326D62714004BE679 /* TradeRoutesDialogViewModel.swift */,
 				C9AC0FFA26DE635C00B65288 /* SelectPromotionDialogViewModel.swift */,
 				C98031CA26EE5740008F460B /* CityListDialogViewModel.swift */,
@@ -813,6 +821,7 @@
 				C980E77626E21F3C0089053A /* CombatModifierViewModel.swift */,
 				C980E77826E250F60089053A /* CombatPromotionViewModel.swift */,
 				C98031CE26EE57F6008F460B /* CityViewModel.swift */,
+				C984642B26F49B3300C40EA7 /* GovernorViewModel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1026,6 +1035,7 @@
 				C94507A9262232E400CFD27D /* DataPicker.swift in Sources */,
 				C974E44126BD14AF004DD34F /* DiplomaticDialogView.swift in Sources */,
 				C9A37619263457D70057923E /* GameScene.swift in Sources */,
+				C984642A26F4943D00C40EA7 /* GovernorsDialogView.swift in Sources */,
 				C9E87BB5264D1D1C00514B9A /* CivicDialogView.swift in Sources */,
 				C9F4939F26CAB04400B0C259 /* UnitListDialogView.swift in Sources */,
 				C9A3761B263468780057923E /* SKNodeExtension.swift in Sources */,
@@ -1072,6 +1082,7 @@
 				C9D191AB265A4A2B008C9622 /* CityBuildingsViewModel.swift in Sources */,
 				C9D191BB265C37BA008C9622 /* CityGrowthView.swift in Sources */,
 				C9D191B7265C248F008C9622 /* CitizenReligionViewModel.swift in Sources */,
+				C984642826F493B800C40EA7 /* GovernorsDialogViewModel.swift in Sources */,
 				C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */,
 				C968F29B2639B86D00612D0E /* ImprovementLayer.swift in Sources */,
 				C9A48D4F2654084200260EE0 /* CityProductionViewModel.swift in Sources */,
@@ -1112,6 +1123,7 @@
 				C9E059842655200F00C08463 /* UnitViewModel.swift in Sources */,
 				C9E059862655203A00C08463 /* DistrictSectionViewModel.swift in Sources */,
 				C92F9489265E2298000968AB /* RegularPolygonPath.swift in Sources */,
+				C984642C26F49B3300C40EA7 /* GovernorViewModel.swift in Sources */,
 				C9CAC89B264ABC6D00D0668D /* ChangeGovernmentDialogViewModel.swift in Sources */,
 				C968F2A52639E5C800612D0E /* UnitStrengthIndicator.swift in Sources */,
 				C9F2B557266A7FE20016D4F3 /* UnitDisbandConfirmationDialogViewModel.swift in Sources */,

@@ -27,6 +27,8 @@ struct HeaderView: View {
 
                 HeaderButtonView(viewModel: self.viewModel.logHeaderViewModel())
 
+                HeaderButtonView(viewModel: self.viewModel.governorsHeaderViewModel())
+
                 Image(nsImage: ImageCache.shared.image(for: "header-bar-left"))
                     .resizable()
                     .frame(width: 35, height: 47, alignment: .center)
