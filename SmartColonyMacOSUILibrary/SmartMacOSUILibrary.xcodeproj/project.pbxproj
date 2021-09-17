@@ -78,6 +78,7 @@
 		C984642826F493B800C40EA7 /* GovernorsDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984642726F493B800C40EA7 /* GovernorsDialogViewModel.swift */; };
 		C984642A26F4943D00C40EA7 /* GovernorsDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984642926F4943D00C40EA7 /* GovernorsDialogView.swift */; };
 		C984642C26F49B3300C40EA7 /* GovernorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984642B26F49B3300C40EA7 /* GovernorViewModel.swift */; };
+		C984642E26F4B34B00C40EA7 /* GovernorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984642D26F4B34B00C40EA7 /* GovernorView.swift */; };
 		C988EAE5261B724500300C39 /* AnimatedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAE4261B724500300C39 /* AnimatedImageView.swift */; };
 		C99A886126079F4C003B8B73 /* SmartColonyMacOSUILibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C99A887E2607A06C003B8B73 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99A887D2607A06C003B8B73 /* SmartAILibrary.framework */; };
@@ -292,6 +293,7 @@
 		C984642726F493B800C40EA7 /* GovernorsDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorsDialogViewModel.swift; sourceTree = "<group>"; };
 		C984642926F4943D00C40EA7 /* GovernorsDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorsDialogView.swift; sourceTree = "<group>"; };
 		C984642B26F49B3300C40EA7 /* GovernorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorViewModel.swift; sourceTree = "<group>"; };
+		C984642D26F4B34B00C40EA7 /* GovernorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorView.swift; sourceTree = "<group>"; };
 		C986D16E264938D9006EF052 /* MenuButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonStyle.swift; sourceTree = "<group>"; };
 		C986D16F264938D9006EF052 /* CheckboxSquareToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxSquareToggleStyle.swift; sourceTree = "<group>"; };
 		C986D170264938D9006EF052 /* CheckboxCircleToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxCircleToggleStyle.swift; sourceTree = "<group>"; };
@@ -691,6 +693,7 @@
 				C9077A8726D64EFE004BE679 /* TradeRouteView.swift */,
 				C9AC100226DE6EA100B65288 /* PromotionView.swift */,
 				C98031D026EE5AD9008F460B /* CityView.swift */,
+				C984642D26F4B34B00C40EA7 /* GovernorView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -969,6 +972,7 @@
 				C9A376292635FC260057923E /* ResourceLayer.swift in Sources */,
 				C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */,
 				C9A3762B2635FDAF0057923E /* BoardLayer.swift in Sources */,
+				C984642E26F4B34B00C40EA7 /* GovernorView.swift in Sources */,
 				C9452E272668061D005EF985 /* EurekaCivicActivatedPopupView.swift in Sources */,
 				C9AC100326DE6EA100B65288 /* PromotionView.swift in Sources */,
 				C9CE216D2649675F00B47ED4 /* CheckboxCircleToggleStyle.swift in Sources */,

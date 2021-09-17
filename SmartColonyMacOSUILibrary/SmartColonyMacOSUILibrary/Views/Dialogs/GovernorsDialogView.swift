@@ -7,27 +7,6 @@
 
 import SwiftUI
 
-struct GovernorView: View {
-
-    @ObservedObject
-    var viewModel: GovernorViewModel
-
-    public init(viewModel: GovernorViewModel) {
-
-        self.viewModel = viewModel
-    }
-
-    var body: some View {
-
-        VStack(alignment: .center, spacing: 8) {
-            Text(self.viewModel.name)
-            Text(self.viewModel.title)
-        }
-        .frame(width: 90, height: 300, alignment: .center)
-        .background(Color.red)
-    }
-}
-
 struct GovernorsDialogView: View {
 
     @ObservedObject

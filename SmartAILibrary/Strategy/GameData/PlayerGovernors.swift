@@ -248,6 +248,7 @@ class PlayerGovernors: AbstractPlayerGovernors {
                 //evaluate the best assignment and do it -
                 //score each governor for each city
                 //start assigning the best value
+                // TODO
 
                 self.lastEvaluation = gameModel.currentTurn
             }

@@ -27,6 +27,11 @@ class GovernorViewModel: ObservableObject {
         self.title = governor.type.title()
         self.appointed = appointed
     }
+
+    func image() -> NSImage {
+
+        return NSImage() // FIXME
+    }
 }
 
 extension GovernorViewModel: Hashable {
