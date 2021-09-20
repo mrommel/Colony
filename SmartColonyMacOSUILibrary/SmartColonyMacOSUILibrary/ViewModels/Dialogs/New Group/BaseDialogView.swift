@@ -41,7 +41,7 @@ enum DialogMode {
         switch self {
 
         case .portrait: return 350
-        case .landscape: return 700
+        case .landscape: return 750
         }
     }
 
@@ -59,7 +59,7 @@ enum DialogMode {
         switch self {
 
         case .portrait: return 400
-        case .landscape: return 750
+        case .landscape: return 800
         }
     }
 

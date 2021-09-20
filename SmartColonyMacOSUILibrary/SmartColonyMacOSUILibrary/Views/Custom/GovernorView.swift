@@ -112,44 +112,59 @@ struct GovernorView: View {
 
                 Spacer()
 
-                Group {
-                    if self.viewModel.appointed {
-                        Button("Promote",
-                               action: {
-
-                               }
-                        )
-                        .buttonStyle(DialogButtonStyle())
-
-                        // assign
-                        Button("Reassign",
-                               action: {
-
-                               }
-                        )
-                        .buttonStyle(DialogButtonStyle(state: .highlighted))
-                    } else {
-                        Button("View promotions",
-                               action: {
-                                print("view promotions")
-                               }
-                        )
-                        .buttonStyle(DialogButtonStyle())
-
-                        Button("Appoint",
-                               action: {
-                                self.viewModel.clickedAppoint()
-                               }
-                        )
-                        .buttonStyle(DialogButtonStyle(state: .highlighted))
-                    }
-                }
+                self.buttonView
             }
             .frame(width: self.cardWidth, height: self.cardHeight - 8, alignment: .center)
             .padding(.bottom, 8)
         }
         .frame(width: self.cardWidth, height: self.cardHeight, alignment: .center)
         .cornerRadius(cornerRadius)
+    }
+
+    private var buttonView: AnyView {
+
+        AnyView(
+            Group {
+                if self.viewModel.appointed {
+                    Button("Promote",
+                           action: {
+                            self.viewModel.clickedPromote()
+                           }
+                    )
+                    .buttonStyle(DialogButtonStyle())
+
+                    if self.viewModel.assigned {
+                        Button("Reassign",
+                               action: {
+                                self.viewModel.clickedReassign()
+                               }
+                        )
+                        .buttonStyle(DialogButtonStyle(state: .highlighted))
+                    } else {
+                        Button("Assign",
+                               action: {
+                                self.viewModel.clickedAssign()
+                               }
+                        )
+                        .buttonStyle(DialogButtonStyle(state: .highlighted))
+                    }
+                } else {
+                    Button("View promotions",
+                           action: {
+                            self.viewModel.clickedViewPromotions()
+                           }
+                    )
+                    .buttonStyle(DialogButtonStyle())
+
+                    Button("Appoint",
+                           action: {
+                            self.viewModel.clickedAppoint()
+                           }
+                    )
+                    .buttonStyle(DialogButtonStyle(state: .highlighted))
+                }
+            }
+        )
     }
 }
 
@@ -161,12 +176,12 @@ struct GovernorsView_Previews: PreviewProvider {
         let _ = GameViewModel(preloadAssets: true)
 
         let governorReyna = Governor(type: .reyna)
-        let viewModelReyna = GovernorViewModel(governor: governorReyna, appointed: true)
+        let viewModelReyna = GovernorViewModel(governor: governorReyna, appointed: true, assigned: true)
 
         GovernorView(viewModel: viewModelReyna)
 
         let governorAmani = Governor(type: .amani)
-        let viewModelAmani = GovernorViewModel(governor: governorAmani, appointed: false)
+        let viewModelAmani = GovernorViewModel(governor: governorAmani, appointed: false, assigned: false)
 
         GovernorView(viewModel: viewModelAmani)
     }

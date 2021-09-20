@@ -23,13 +23,14 @@ struct GovernorsDialogView: View {
 
             ScrollView(.vertical, showsIndicators: true, content: {
 
-                LazyHStack(spacing: 10) {
+                LazyHStack(spacing: 4) {
 
                     ForEach(self.viewModel.governorViewModels, id: \.self) { governorViewModel in
 
                         GovernorView(viewModel: governorViewModel)
                     }
                 }
+                .padding(.top, 8)
             })
         }
     }

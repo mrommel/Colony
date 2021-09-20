@@ -133,6 +133,8 @@ public protocol AbstractPlayerGovernors: AnyObject, Codable {
     func doTurn(in gameModel: GameModel?)
 
     func governor(with type: GovernorType) -> Governor?
+
+    func appoint(governor governorType: GovernorType)
 }
 
 class PlayerGovernors: AbstractPlayerGovernors {
@@ -255,6 +257,13 @@ class PlayerGovernors: AbstractPlayerGovernors {
         }
     }
 
+    public func appoint(governor governorType: GovernorType) {
+
+        let governor = Governor(type: governorType)
+
+        self.governors.append(governor)
+    }
+
     private func numActiveGovernors(in gameModel: GameModel?) -> Int {
 
         guard let gameModel = gameModel else {
@@ -313,7 +322,7 @@ class PlayerGovernors: AbstractPlayerGovernors {
             possiblePromotions.append(contentsOf: governor.possiblePromotions())
         }
 
-        var bestPromotion: GovernorTitleType? = nil
+        var bestPromotion: GovernorTitleType?
         var bestValue: Int = Int.min
 
         for promotion in possiblePromotions {
