@@ -22,6 +22,7 @@ public extension Globals {
         public static var districtActive: TypeColor = TypeColor.UI.veryDarkBlue
         public static var dialogBackground: TypeColor = TypeColor.UI.midnight
         public static var dialogCenter: TypeColor = TypeColor.UI.nileBlue
+        public static var dialogBorder: TypeColor = TypeColor.supernova
 
         // Overview
         public static var overviewBackground: TypeColor = TypeColor.Terrain.pergament

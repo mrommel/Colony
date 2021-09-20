@@ -12,8 +12,6 @@ struct GovernorsDialogView: View {
     @ObservedObject
     var viewModel: GovernorsDialogViewModel
 
-    private var gridItemLayout = [GridItem(.fixed(300))]
-
     public init(viewModel: GovernorsDialogViewModel) {
 
         self.viewModel = viewModel

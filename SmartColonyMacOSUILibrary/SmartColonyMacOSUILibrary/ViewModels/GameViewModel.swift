@@ -560,6 +560,14 @@ public class GameViewModel: ObservableObject {
             )
         }
 
+        print("- load \(textures.governorPortraitTextureNames.count) governor portrait textures")
+        for governorPortraitTextureName in textures.governorPortraitTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: governorPortraitTextureName),
+                for: governorPortraitTextureName
+            )
+        }
+
         print("-- all textures loaded --")
     }
 

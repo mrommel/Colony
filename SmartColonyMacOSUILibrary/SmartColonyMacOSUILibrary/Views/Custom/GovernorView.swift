@@ -6,11 +6,67 @@
 //
 
 import SwiftUI
+import SmartAILibrary
+import SmartAssets
+
+class GovernorAbilityViewModel: ObservableObject {
+
+    let id: UUID = UUID()
+
+    @Published
+    var text: String
+
+    init(text: String) {
+
+        self.text = text
+    }
+}
+
+extension GovernorAbilityViewModel: Hashable {
+
+    static func == (lhs: GovernorAbilityViewModel, rhs: GovernorAbilityViewModel) -> Bool {
+
+        return lhs.id == rhs.id
+    }
+
+    func hash(into hasher: inout Hasher) {
+
+        hasher.combine(self.id)
+    }
+}
+
+struct GovernorAbilityView: View {
+
+    let viewModel: GovernorAbilityViewModel
+
+    init(viewModel: GovernorAbilityViewModel) {
+
+        self.viewModel = viewModel
+    }
+
+    var body: some View {
+
+        HStack(spacing: 4) {
+
+            Image(nsImage: ImageCache.shared.image(for: "promotion-default"))
+                .resizable()
+                .frame(width: 10, height: 10, alignment: .leading)
+
+            Text(self.viewModel.text)
+                .font(.system(size: 6))
+                .frame(width: 70, height: 10, alignment: .leading)
+        }
+    }
+}
 
 struct GovernorView: View {
 
     @ObservedObject
     var viewModel: GovernorViewModel
+
+    private let cornerRadius: CGFloat = 5
+    private let cardWidth: CGFloat = 100
+    private let cardHeight: CGFloat = 300
 
     public init(viewModel: GovernorViewModel) {
 
@@ -19,32 +75,100 @@ struct GovernorView: View {
 
     var body: some View {
 
-        VStack(alignment: .center, spacing: 8) {
+        ZStack {
 
-            Image(nsImage: self.viewModel.image())
-                .resizable()
-                .frame(width: 70, height: 70, alignment: .center)
+            RoundedRectangle(cornerRadius: cornerRadius)
+                .strokeBorder(Color(Globals.Colors.dialogBorder), lineWidth: 1)
+                .frame(width: self.cardWidth, height: self.cardHeight)
+                .background(Color(Globals.Colors.dialogBackground))
 
-            Text(self.viewModel.name)
+            VStack(alignment: .center, spacing: 4) {
 
-            Text(self.viewModel.title)
+                Image(nsImage: self.viewModel.image())
+                    .resizable()
+                    .frame(width: 70, height: 70, alignment: .center)
+                    .background(Color.gray)
+                    .padding(.top, 8)
 
-            if self.viewModel.appointed {
-                Button("Promote", action: { })
-                    .buttonStyle(DialogButtonStyle())
+                Text(self.viewModel.name)
 
-                // assign
-                Button("Reassign", action: { })
-                    .buttonStyle(DialogButtonStyle(state: .highlighted))
-            } else {
-                // view promotions
+                Text(self.viewModel.title)
+                    .font(.system(size: 6))
 
-                Button("Appoint", action: { })
-                    .buttonStyle(DialogButtonStyle(state: .highlighted))
+                Divider()
+                    .background(Color(Globals.Colors.dialogBorder))
+                    .padding(.horizontal, 6)
+
+                Text("Abilities")
+                    .font(.system(size: 6))
+
+                LazyVStack(spacing: 4) {
+
+                    ForEach(self.viewModel.governorAbilityViewModels, id: \.self) { governorAbilityViewModel in
+
+                        GovernorAbilityView(viewModel: governorAbilityViewModel)
+                    }
+                }
+
+                Spacer()
+
+                Group {
+                    if self.viewModel.appointed {
+                        Button("Promote",
+                               action: {
+
+                               }
+                        )
+                        .buttonStyle(DialogButtonStyle())
+
+                        // assign
+                        Button("Reassign",
+                               action: {
+
+                               }
+                        )
+                        .buttonStyle(DialogButtonStyle(state: .highlighted))
+                    } else {
+                        Button("View promotions",
+                               action: {
+                                print("view promotions")
+                               }
+                        )
+                        .buttonStyle(DialogButtonStyle())
+
+                        Button("Appoint",
+                               action: {
+                                self.viewModel.clickedAppoint()
+                               }
+                        )
+                        .buttonStyle(DialogButtonStyle(state: .highlighted))
+                    }
+                }
             }
-
+            .frame(width: self.cardWidth, height: self.cardHeight - 8, alignment: .center)
+            .padding(.bottom, 8)
         }
-        .frame(width: 90, height: 300, alignment: .center)
-        .background(Color.red)
+        .frame(width: self.cardWidth, height: self.cardHeight, alignment: .center)
+        .cornerRadius(cornerRadius)
     }
 }
+
+#if DEBUG
+struct GovernorsView_Previews: PreviewProvider {
+
+    static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
+        let _ = GameViewModel(preloadAssets: true)
+
+        let governorReyna = Governor(type: .reyna)
+        let viewModelReyna = GovernorViewModel(governor: governorReyna, appointed: true)
+
+        GovernorView(viewModel: viewModelReyna)
+
+        let governorAmani = Governor(type: .amani)
+        let viewModelAmani = GovernorViewModel(governor: governorAmani, appointed: false)
+
+        GovernorView(viewModel: viewModelAmani)
+    }
+}
+#endif

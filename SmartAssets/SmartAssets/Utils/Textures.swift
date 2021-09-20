@@ -72,6 +72,7 @@ public class Textures {
     public let pantheonTypeTextureNames: [String]
     public let promotionTextureNames: [String]
     public let promotionStateBackgroundTextureNames: [String]
+    public let governorPortraitTextureNames: [String]
 
     public init(game: GameModel?) {
 
@@ -217,6 +218,7 @@ public class Textures {
         self.pantheonTypeTextureNames = PantheonType.all.map { $0.iconTexture() }
         self.promotionTextureNames = UnitPromotionType.all.map { $0.iconTexture() }
         self.promotionStateBackgroundTextureNames = PromotionState.all.map { $0.iconTexture() }
+        self.governorPortraitTextureNames = GovernorType.all.map { $0.portraitTexture() }
     }
 
     public func terrainTexture(at point: HexPoint) -> String {
