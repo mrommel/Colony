@@ -14,6 +14,12 @@ class GovernorsDialogViewModel: ObservableObject {
     var gameEnvironment: GameEnvironment
 
     @Published
+    var availableTitles: Int
+
+    @Published
+    var spentTitles: Int
+
+    @Published
     var governorViewModels: [GovernorViewModel]
 
     weak var delegate: GameViewModelDelegate?
@@ -22,6 +28,8 @@ class GovernorsDialogViewModel: ObservableObject {
 
     init() {
 
+        self.availableTitles = 0
+        self.spentTitles = 0
         self.governorViewModels = []
     }
 
@@ -44,20 +52,34 @@ class GovernorsDialogViewModel: ObservableObject {
             fatalError("cant get governors")
         }
 
+        self.availableTitles = governors.numTitlesAvailable()
+        self.spentTitles = governors.numTitlesSpent()
+
         var tmpGovernorViewModels: [GovernorViewModel] = []
 
         for governorType in GovernorType.all {
 
             if let governor = governors.governor(with: governorType) {
 
-                let assigned = governor.isAssigned()
+                let assigned: Bool = governor.isAssigned()
+                let assignedCity: String = governor.assignedCity(in: gameModel)?.name ?? "-"
 
-                let governorViewModel = GovernorViewModel(governor: governor, appointed: true, assigned: assigned)
+                let governorViewModel = GovernorViewModel(
+                    governor: governor,
+                    appointed: true,
+                    assigned: assigned,
+                    assignedCity: assignedCity
+                )
                 governorViewModel.delegate = self
                 tmpGovernorViewModels.append(governorViewModel)
             } else {
                 let governor = Governor(type: governorType)
-                let governorViewModel = GovernorViewModel(governor: governor, appointed: false, assigned: false)
+                let governorViewModel = GovernorViewModel(
+                    governor: governor,
+                    appointed: false,
+                    assigned: false,
+                    assignedCity: ""
+                )
                 governorViewModel.delegate = self
                 tmpGovernorViewModels.append(governorViewModel)
             }

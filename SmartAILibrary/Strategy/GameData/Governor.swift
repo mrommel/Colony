@@ -71,6 +71,11 @@ public class Governor: Codable {
         self.location = city.location
     }
 
+    public func assignedCity(in gameModel: GameModel?) -> AbstractCity? {
+
+        return gameModel?.city(at: self.location)
+    }
+
     public func unassign() {
 
         self.location = HexPoint.invalid

@@ -21,17 +21,30 @@ struct GovernorsDialogView: View {
 
         BaseDialogView(title: "Governors", mode: .landscape, viewModel: self.viewModel) {
 
-            ScrollView(.vertical, showsIndicators: true, content: {
+            VStack(alignment: .center, spacing: 0) {
 
-                LazyHStack(spacing: 4) {
+                HStack {
 
-                    ForEach(self.viewModel.governorViewModels, id: \.self) { governorViewModel in
+                    Text("Titles available: \(self.viewModel.availableTitles)")
+                        .font(.system(size: 7))
 
-                        GovernorView(viewModel: governorViewModel)
-                    }
+                    Text("Spent: \(self.viewModel.spentTitles)")
+                        .font(.system(size: 7))
                 }
-                .padding(.top, 8)
-            })
+                .frame(height: 12, alignment: .center)
+
+                ScrollView(.vertical, showsIndicators: true, content: {
+
+                    LazyHStack(spacing: 4) {
+
+                        ForEach(self.viewModel.governorViewModels, id: \.self) { governorViewModel in
+
+                            GovernorView(viewModel: governorViewModel)
+                        }
+                    }
+                    .padding(.top, 8)
+                })
+            }
         }
     }
 }

@@ -226,7 +226,7 @@ public class GameViewModel: ObservableObject {
         "grid9-button-district", "grid9-button-highlighted", "questionmark", "tile-purchase-active",
         "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced",
         "city-canvas", "pantheon-background", "turns", "unit-banner", "combat-view",
-        "unit-strength-background", "unit-strength-frame", "unit-strength-bar"
+        "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty"
     ]
 
     // MARK: constructor
