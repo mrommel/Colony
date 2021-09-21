@@ -28,6 +28,21 @@ extension Double {
     }
 }
 
+extension Double {
+
+    static var min     = -Double.greatestFiniteMagnitude
+    static var max     =  Double.greatestFiniteMagnitude
+
+    var positiveValue: Double {
+
+        if self > 0.0 {
+            return self
+        }
+
+        return 0.0
+    }
+}
+
 extension Float {
 
     // Returns a random floating point number between 0.0 and 1.0, inclusive.

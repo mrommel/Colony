@@ -204,6 +204,7 @@
 		C9A0574124293EAC00D0FEAB /* WonderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0574024293EAC00D0FEAB /* WonderType.swift */; };
 		C9A057452429E61700D0FEAB /* WonderProductionAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A057442429E61700D0FEAB /* WonderProductionAI.swift */; };
 		C9A125A0249CBE8900D5E3A1 /* BaseMapHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1259F249CBE8800D5E3A1 /* BaseMapHandler.swift */; };
+		C9A12B6D26FA562B0094B980 /* Governor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A12B6C26FA562B0094B980 /* Governor.swift */; };
 		C9A1B55725230A6900AC2292 /* OperationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B55625230A6900AC2292 /* OperationHelpers.swift */; };
 		C9A1B55C2523116B00AC2292 /* OperationUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B55B2523116B00AC2292 /* OperationUnit.swift */; };
 		C9A1B5602523117B00AC2292 /* TacticalUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B55F2523117B00AC2292 /* TacticalUnit.swift */; };
@@ -538,6 +539,7 @@
 		C9A0574024293EAC00D0FEAB /* WonderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderType.swift; sourceTree = "<group>"; };
 		C9A057442429E61700D0FEAB /* WonderProductionAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderProductionAI.swift; sourceTree = "<group>"; };
 		C9A1259F249CBE8800D5E3A1 /* BaseMapHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseMapHandler.swift; sourceTree = "<group>"; };
+		C9A12B6C26FA562B0094B980 /* Governor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Governor.swift; sourceTree = "<group>"; };
 		C9A1B55625230A6900AC2292 /* OperationHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationHelpers.swift; sourceTree = "<group>"; };
 		C9A1B55B2523116B00AC2292 /* OperationUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationUnit.swift; sourceTree = "<group>"; };
 		C9A1B55F2523117B00AC2292 /* TacticalUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalUnit.swift; sourceTree = "<group>"; };
@@ -1115,6 +1117,7 @@
 				C9D191B0265A8975008C9622 /* CityReligion.swift */,
 				C956BF6324F10BAF009702B4 /* CombatModifier.swift */,
 				C92F9496265E7B8E000968AB /* GameReligions.swift */,
+				C9A12B6C26FA562B0094B980 /* Governor.swift */,
 			);
 			path = GameData;
 			sourceTree = "<group>";
@@ -1443,6 +1446,7 @@
 				C965A53023FC6A7E00BCEB54 /* HexPointWithCorner.swift in Sources */,
 				C9588AC92419897300304E9A /* CitySpecializationType.swift in Sources */,
 				C9DFCF7423F29DA90032243D /* Array2D.swift in Sources */,
+				C9A12B6D26FA562B0094B980 /* Governor.swift in Sources */,
 				C9EB9F642454C6C500F13B02 /* RankingData.swift in Sources */,
 				C97213EA2510C241009BCE40 /* BasicCityAttackOperation.swift in Sources */,
 				C9E74CB8248FA896003EF256 /* LeaderEmotionType.swift in Sources */,

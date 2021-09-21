@@ -76,7 +76,7 @@ public enum PolicyCardType: Int, Codable {
             .strategos, .conscription, .corvee, .landSurveyors, .colonization, .inspiration, .revelation, .limitanei,
 
             // classical
-            .insulae, .praetorium, /* ... */ .bastions,
+            .insulae, .praetorium, /* ... */ .bastions
 
             // information
         ]

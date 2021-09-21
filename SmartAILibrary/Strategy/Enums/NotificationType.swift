@@ -38,7 +38,7 @@ public enum NotificationType: Int, Codable {
 
     public static var all: [NotificationType] = [
         .turn, .generic, .techNeeded, .civicNeeded, .productionNeeded, .canChangeGovernment, .policiesNeeded,
-        .canFoundPantheon, .governorTitleAvailable, .cityGrowth, .starving, .diplomaticDeclaration, .war, .enemyInTerritory, .unitPromotion,
-        .unitNeedsOrders, .unitDied, .greatPersonJoined
+        .canFoundPantheon, .governorTitleAvailable, .cityGrowth, .starving, .diplomaticDeclaration, .war,
+        .enemyInTerritory, .unitPromotion, .unitNeedsOrders, .unitDied, .greatPersonJoined
     ]
 }
