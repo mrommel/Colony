@@ -49,11 +49,14 @@ class GovernorViewModel: ObservableObject {
     @Published
     var assignedCity: String
 
+    @Published
+    var hasTitles: Bool
+
     weak var delegate: GovernorViewModelDelegate?
 
     private var governor: Governor?
 
-    init(governor: Governor, appointed: Bool, assigned: Bool, assignedCity: String) {
+    init(governor: Governor, appointed: Bool, assigned: Bool, assignedCity: String, hasTitles: Bool) {
 
         self.governor = governor
 
@@ -67,6 +70,8 @@ class GovernorViewModel: ObservableObject {
         self.appointed = appointed
         self.assigned = assigned
         self.assignedCity = assignedCity
+
+        self.hasTitles = hasTitles
 
         let defaultGovernorAbilityViewModel = GovernorAbilityViewModel(
             text: governor.type.defaultTitle().name(),

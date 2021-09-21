@@ -68,7 +68,8 @@ class GovernorsDialogViewModel: ObservableObject {
                     governor: governor,
                     appointed: true,
                     assigned: assigned,
-                    assignedCity: assignedCity
+                    assignedCity: assignedCity,
+                    hasTitles: self.availableTitles > 0
                 )
                 governorViewModel.delegate = self
                 tmpGovernorViewModels.append(governorViewModel)
@@ -78,7 +79,8 @@ class GovernorsDialogViewModel: ObservableObject {
                     governor: governor,
                     appointed: false,
                     assigned: false,
-                    assignedCity: ""
+                    assignedCity: "",
+                    hasTitles: self.availableTitles > 0
                 )
                 governorViewModel.delegate = self
                 tmpGovernorViewModels.append(governorViewModel)

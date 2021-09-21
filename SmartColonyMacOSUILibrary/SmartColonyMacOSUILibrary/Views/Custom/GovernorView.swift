@@ -152,6 +152,7 @@ struct GovernorView: View {
                            }
                     )
                     .buttonStyle(DialogButtonStyle())
+                    .disabled(self.viewModel.hasTitles == false)
 
                     if self.viewModel.assigned {
                         Button("Reassign",
@@ -160,6 +161,7 @@ struct GovernorView: View {
                                }
                         )
                         .buttonStyle(DialogButtonStyle(state: .highlighted))
+                        .disabled(self.viewModel.hasTitles == false)
                     } else {
                         Button("Assign",
                                action: {
@@ -167,6 +169,7 @@ struct GovernorView: View {
                                }
                         )
                         .buttonStyle(DialogButtonStyle(state: .highlighted))
+                        .disabled(self.viewModel.hasTitles == false)
                     }
                 } else {
                     Button("View promotions",
@@ -182,6 +185,7 @@ struct GovernorView: View {
                            }
                     )
                     .buttonStyle(DialogButtonStyle(state: .highlighted))
+                    .disabled(self.viewModel.hasTitles == false)
                 }
             }
         )
@@ -195,15 +199,18 @@ struct GovernorsView_Previews: PreviewProvider {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
-        let governorReyna = Governor(type: .reyna)
-        let viewModelReyna = GovernorViewModel(governor: governorReyna, appointed: true, assigned: true, assignedCity: "Berlin")
+        HStack {
 
-        GovernorView(viewModel: viewModelReyna)
+            let governorReyna = Governor(type: .reyna)
+            let viewModelReyna = GovernorViewModel(governor: governorReyna, appointed: true, assigned: true, assignedCity: "Berlin", hasTitles: true)
 
-        let governorAmani = Governor(type: .amani)
-        let viewModelAmani = GovernorViewModel(governor: governorAmani, appointed: false, assigned: false, assignedCity: "")
+            GovernorView(viewModel: viewModelReyna)
 
-        GovernorView(viewModel: viewModelAmani)
+            let governorAmani = Governor(type: .amani)
+            let viewModelAmani = GovernorViewModel(governor: governorAmani, appointed: false, assigned: false, assignedCity: "", hasTitles: false)
+
+            GovernorView(viewModel: viewModelAmani)
+        }
     }
 }
 #endif

@@ -18,6 +18,9 @@ public struct DialogButtonStyle: ButtonStyle {
 
     let state: DialogButtonState
 
+    @Environment(\.isEnabled)
+    private var isEnabled: Bool
+
     public init(state: DialogButtonState = .normal) {
 
         self.state = state
@@ -46,6 +49,7 @@ public struct DialogButtonStyle: ButtonStyle {
             .background(
                 Image(nsImage: self.backgroundImage(pressed: configuration.isPressed))
                     .resizable(capInsets: EdgeInsets(all: 15))
+                    .colorMultiply(self.isEnabled ? .white : .gray)
             )
             .scaleEffect(configuration.isPressed ? 0.95: 1)
             .foregroundColor(.primary)
@@ -65,6 +69,14 @@ struct DialogButtonStyle_Previews: PreviewProvider {
 
         Button("Highlighted", action: { })
             .buttonStyle(DialogButtonStyle(state: .highlighted))
+
+        Button("Normal", action: { })
+            .buttonStyle(DialogButtonStyle())
+            .disabled(true)
+
+        Button("Highlighted", action: { })
+            .buttonStyle(DialogButtonStyle(state: .highlighted))
+            .disabled(true)
     }
 }
 #endif
