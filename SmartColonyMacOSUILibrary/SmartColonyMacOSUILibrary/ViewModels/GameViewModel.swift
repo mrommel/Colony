@@ -77,6 +77,7 @@ protocol GameViewModelDelegate: AnyObject {
     func showSelectCityDialog(start startCity: AbstractCity?,
                               of cities: [AbstractCity?],
                               completion: @escaping (AbstractCity?) -> Void)
+    func showSelectionDialog(titled title: String, items: [SelectableItem], completion: @escaping (Int) -> Void)
 
     func closeDialog()
     func closePopup()
@@ -158,6 +159,9 @@ public class GameViewModel: ObservableObject {
 
     @Published
     var tradeRoutesDialogViewModel: TradeRoutesDialogViewModel
+
+    @Published
+    var selectItemsDialogViewModel: SelectItemsDialogViewModel
 
     // UI
 
@@ -254,6 +258,7 @@ public class GameViewModel: ObservableObject {
         self.treasuryDialogViewModel = TreasuryDialogViewModel()
         self.governorsDialogViewModel = GovernorsDialogViewModel()
         self.tradeRoutesDialogViewModel = TradeRoutesDialogViewModel()
+        self.selectItemsDialogViewModel = SelectItemsDialogViewModel()
 
         // connect models
         self.gameSceneViewModel.delegate = self
@@ -279,6 +284,7 @@ public class GameViewModel: ObservableObject {
         self.treasuryDialogViewModel.delegate = self
         self.governorsDialogViewModel.delegate = self
         self.tradeRoutesDialogViewModel.delegate = self
+        self.selectItemsDialogViewModel.delegate = self
 
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -1024,6 +1030,34 @@ extension GameViewModel: GameViewModelDelegate {
             self.currentScreenType = .selectTradeCity
         } else {
             fatalError("cant show select trade city dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+
+    func showSelectionDialog(titled title: String,
+                             items: [SelectableItem],
+                             completion: @escaping (Int) -> Void) {
+
+        if self.currentScreenType == .selectItems {
+            // already shown
+            return
+        }
+
+        let previousScreenType: ScreenType = self.currentScreenType
+
+        let tmpCompletion: SelectItemsDialogViewModel.SelectItemsCompletionBlock = { selectedIndex in
+
+            // switch back to previous screen, ...
+            self.currentScreenType = previousScreenType
+
+            // ... before calling the completion handler of that screen
+            completion(selectedIndex)
+        }
+
+        if self.currentScreenType == .none || self.currentScreenType == .governors {
+            self.selectItemsDialogViewModel.update(title: title, items: items, completion: tmpCompletion)
+            self.currentScreenType = .selectItems
+        } else {
+            fatalError("cant show select items dialog, \(self.currentScreenType) is currently shown")
         }
     }
 

@@ -55,12 +55,20 @@ class GovernorViewModel: ObservableObject {
         self.appointed = appointed
         self.assigned = assigned
 
-        self.governorAbilityViewModels.append(GovernorAbilityViewModel(text: governor.type.defaultTitle().name()))
-        self.governorAbilityViewModels.append(GovernorAbilityViewModel(text: governor.type.titles()[0].name()))
-        self.governorAbilityViewModels.append(GovernorAbilityViewModel(text: governor.type.titles()[1].name()))
-        self.governorAbilityViewModels.append(GovernorAbilityViewModel(text: governor.type.titles()[2].name()))
-        self.governorAbilityViewModels.append(GovernorAbilityViewModel(text: governor.type.titles()[3].name()))
-        self.governorAbilityViewModels.append(GovernorAbilityViewModel(text: governor.type.titles()[4].name()))
+        let defaultGovernorAbilityViewModel = GovernorAbilityViewModel(
+            text: governor.type.defaultTitle().name(),
+            enabled: true
+        )
+        self.governorAbilityViewModels.append(defaultGovernorAbilityViewModel)
+
+        for titleItem in governor.type.titles() {
+
+            let governorAbilityViewModel = GovernorAbilityViewModel(
+                text: titleItem.name(),
+                enabled: governor.has(title: titleItem)
+            )
+            self.governorAbilityViewModels.append(governorAbilityViewModel)
+        }
     }
 
     func image() -> NSImage {

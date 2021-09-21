@@ -99,13 +99,31 @@ extension GovernorsDialogViewModel: GovernorViewModelDelegate {
 
     func promote(governor: Governor?) {
 
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
         guard let promotions = governor?.possiblePromotions() else {
             fatalError("cant get promotion to choose")
         }
 
+        // build promotions
+        let items: [SelectableItem] = promotions.map { governorTitleType in
+            SelectableItem(
+                iconTexture: "promotion-default",
+                title: governorTitleType.name(),
+                subtitle: governorTitleType.effects().joined(separator: "\n")
+            )
+        }
+
         // select promotion
-        fatalError("not implemented")
-        // governor?.promote(with: <#T##GovernorTitleType#>)
+        gameModel.userInterface?.askForSelection(title: "Select promotion", items: items, completion: { selectedIndex in
+            print("selected \(selectedIndex)")
+            let selectedPromotion = promotions[selectedIndex]
+
+            governor?.promote(with: selectedPromotion)
+            self.updateGovernors()
+        })
     }
 
     func assign(governor: Governor?) {
@@ -124,13 +142,54 @@ extension GovernorsDialogViewModel: GovernorViewModelDelegate {
             fatalError("cant get cities of human player - he is dead")
         }
 
+        // build cities
+        let items: [SelectableItem] = cityRefs.map { cityRef in
+            SelectableItem(
+                title: cityRef?.name ?? "city"
+            )
+        }
+
         // select city
-        fatalError("not implemented")
+        gameModel.userInterface?.askForSelection(title: "Select City", items: items, completion: { selectedIndex in
+            print("selected \(selectedIndex)")
+            let selectedCity = cityRefs[selectedIndex]
+
+            governor?.assign(to: selectedCity)
+            self.updateGovernors()
+        })
     }
 
     func reassign(governor: Governor?) {
 
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human player")
+        }
+
+        let cityRefs = gameModel.cities(of: humanPlayer)
+
+        guard !cityRefs.isEmpty else {
+            fatalError("cant get cities of human player - he is dead")
+        }
+
+        // build cities
+        let items: [SelectableItem] = cityRefs.map { cityRef in
+            SelectableItem(
+                title: cityRef?.name ?? "city"
+            )
+        }
+
         // select city
-        fatalError("not implemented")
+        gameModel.userInterface?.askForSelection(title: "Select City", items: items, completion: { selectedIndex in
+            print("selected \(selectedIndex)")
+            let selectedCity = cityRefs[selectedIndex]
+
+            governor?.unassign()
+            governor?.assign(to: selectedCity)
+            self.updateGovernors()
+        })
     }
 }

@@ -115,6 +115,9 @@ extension GameView {
             return AnyView(CityListDialogView(viewModel: self.viewModel.cityListDialogViewModel))
         case .selectPantheon:
             return AnyView(SelectPantheonDialogView(viewModel: self.viewModel.selectPantheonDialogViewModel))
+
+        case .selectItems:
+            return AnyView(SelectItemsDialogView(viewModel: self.viewModel.selectItemsDialogViewModel))
         }
     }
 

@@ -9,56 +9,6 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
-class GovernorAbilityViewModel: ObservableObject {
-
-    let id: UUID = UUID()
-
-    @Published
-    var text: String
-
-    init(text: String) {
-
-        self.text = text
-    }
-}
-
-extension GovernorAbilityViewModel: Hashable {
-
-    static func == (lhs: GovernorAbilityViewModel, rhs: GovernorAbilityViewModel) -> Bool {
-
-        return lhs.id == rhs.id
-    }
-
-    func hash(into hasher: inout Hasher) {
-
-        hasher.combine(self.id)
-    }
-}
-
-struct GovernorAbilityView: View {
-
-    let viewModel: GovernorAbilityViewModel
-
-    init(viewModel: GovernorAbilityViewModel) {
-
-        self.viewModel = viewModel
-    }
-
-    var body: some View {
-
-        HStack(spacing: 4) {
-
-            Image(nsImage: ImageCache.shared.image(for: "promotion-default"))
-                .resizable()
-                .frame(width: 10, height: 10, alignment: .leading)
-
-            Text(self.viewModel.text)
-                .font(.system(size: 6))
-                .frame(width: 70, height: 10, alignment: .leading)
-        }
-    }
-}
-
 struct GovernorView: View {
 
     @ObservedObject
@@ -67,6 +17,7 @@ struct GovernorView: View {
     private let cornerRadius: CGFloat = 5
     private let cardWidth: CGFloat = 100
     private let cardHeight: CGFloat = 300
+    private let imageSize: CGFloat = 70
 
     public init(viewModel: GovernorViewModel) {
 
@@ -77,30 +28,32 @@ struct GovernorView: View {
 
         ZStack {
 
-            RoundedRectangle(cornerRadius: cornerRadius)
+            RoundedRectangle(cornerRadius: self.cornerRadius)
                 .strokeBorder(Color(Globals.Colors.dialogBorder), lineWidth: 1)
                 .frame(width: self.cardWidth, height: self.cardHeight)
-                .background(Color(Globals.Colors.dialogBackground))
+                .background(Color(self.viewModel.appointed ? Globals.Colors.dialogBackground : .black))
 
             VStack(alignment: .center, spacing: 4) {
 
                 Image(nsImage: self.viewModel.image())
                     .resizable()
-                    .frame(width: 70, height: 70, alignment: .center)
+                    .frame(width: self.imageSize, height: self.imageSize, alignment: .center)
                     .background(Color.gray)
+                    .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
+                    .border(Color.black)
                     .padding(.top, 8)
 
                 Text(self.viewModel.name)
 
                 Text(self.viewModel.title)
-                    .font(.system(size: 6))
+                    .font(.system(size: 7))
 
                 Divider()
                     .background(Color(Globals.Colors.dialogBorder))
                     .padding(.horizontal, 6)
 
                 Text("Abilities")
-                    .font(.system(size: 6))
+                    .font(.system(size: 8))
 
                 LazyVStack(spacing: 4) {
 
@@ -118,7 +71,7 @@ struct GovernorView: View {
             .padding(.bottom, 8)
         }
         .frame(width: self.cardWidth, height: self.cardHeight, alignment: .center)
-        .cornerRadius(cornerRadius)
+        .cornerRadius(self.cornerRadius)
     }
 
     private var buttonView: AnyView {
