@@ -27,6 +27,9 @@ class CityLoyaltyViewModel: ObservableObject {
     var loyaltyPressure: String
 
     @Published
+    var loyaltyFromGovernors: String
+
+    @Published
     var loyaltyFromHappiness: String
 
     @Published
@@ -57,6 +60,7 @@ class CityLoyaltyViewModel: ObservableObject {
         self.loyaltyEffect = "Effect1\nEffect2"
 
         self.loyaltyPressure = "0.0"
+        self.loyaltyFromGovernors = "0.0"
         self.loyaltyFromHappiness = "0"
         self.loyaltyFromTradeRoutes = "0"
         self.loyaltyFromOthersEffects = "0"
@@ -98,6 +102,7 @@ class CityLoyaltyViewModel: ObservableObject {
             }
 
             self.loyaltyPressure = String(format: "%.1f", city.loyaltyPressureFromNearbyCitizen(in: gameModel))
+            self.loyaltyFromGovernors = String(format: "%.1f", city.loyaltyFromGovernors(in: gameModel))
             self.loyaltyFromHappiness = String(format: "%.1f", city.loyaltyFromHappiness(in: gameModel))
             self.loyaltyFromTradeRoutes = String(format: "%.1f", city.loyaltyFromTradeRoutes(in: gameModel))
             self.loyaltyFromOthersEffects = String(format: "%.1f", city.loyaltyFromOthersEffects(in: gameModel))

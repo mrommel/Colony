@@ -72,12 +72,10 @@ struct CityLoyaltyView: View {
                         Text(self.viewModel.loyaltyPressure)
                     }
 
-                    if self.viewModel.hasGovernor {
-                        HStack {
-                            Text("Governor placed here:")
-                            Spacer()
-                            Text("8")
-                        }
+                    HStack {
+                        Text("Governor effects:")
+                        Spacer()
+                        Text(self.viewModel.loyaltyFromGovernors)
                     }
 
                     HStack {
