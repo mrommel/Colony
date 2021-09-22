@@ -49,7 +49,7 @@ public struct DialogButtonStyle: ButtonStyle {
             .background(
                 Image(nsImage: self.backgroundImage(pressed: configuration.isPressed))
                     .resizable(capInsets: EdgeInsets(all: 15))
-                    .colorMultiply(self.isEnabled ? .white : .gray)
+                    .colorMultiply(self.isEnabled ? .white : Color(.darkGray))
             )
             .scaleEffect(configuration.isPressed ? 0.95: 1)
             .foregroundColor(.primary)
