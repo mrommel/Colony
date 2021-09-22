@@ -186,7 +186,8 @@ public class Textures {
             "header-button-log-active", "header-button-log-disabled",
             "header-button-science-active", "header-button-science-disabled",
             "header-button-tradeRoutes-active", "header-button-tradeRoutes-disabled",
-            "header-button-governors-active", "header-button-governors-disabled"
+            "header-button-governors-active", "header-button-governors-disabled",
+            "header-alert"
         ]
         self.cityProgressTextureNames = Array(0...20).map { "linear-progress-\($0 * 5)" }
         self.cityTextureNames = [

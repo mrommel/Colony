@@ -81,9 +81,11 @@ protocol GameViewModelDelegate: AnyObject {
 
     func closeDialog()
     func closePopup()
+
+    func update()
 }
 
-// swiftlint:disable:type_body_length
+// swiftlint:disable type_body_length
 public class GameViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
@@ -106,6 +108,9 @@ public class GameViewModel: ObservableObject {
 
     @Published
     var combatBannerViewModel: CombatBannerViewModel
+
+    @Published
+    var headerViewModel: HeaderViewModel
 
     // dialogs
 
@@ -236,6 +241,7 @@ public class GameViewModel: ObservableObject {
         // init models
         self.gameSceneViewModel = GameSceneViewModel()
         self.notificationsViewModel = NotificationsViewModel()
+        self.headerViewModel = HeaderViewModel()
         self.cityBannerViewModel = CityBannerViewModel()
         self.unitBannerViewModel = UnitBannerViewModel(selectedUnit: nil)
         self.combatBannerViewModel = CombatBannerViewModel()
@@ -263,6 +269,7 @@ public class GameViewModel: ObservableObject {
         // connect models
         self.gameSceneViewModel.delegate = self
         self.notificationsViewModel.delegate = self
+        self.headerViewModel.delegate = self
         self.cityBannerViewModel.delegate = self
         self.unitBannerViewModel.delegate = self
         self.combatBannerViewModel.delegate = self
@@ -602,6 +609,11 @@ public class GameViewModel: ObservableObject {
         }
 
         print("cant center on capital: no capital nor units")
+    }
+
+    func update() {
+
+        self.headerViewModel.update()
     }
 
     public func centerOnCursor() {

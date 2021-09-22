@@ -20,6 +20,9 @@ class HeaderButtonViewModel: ObservableObject {
     @Published
     var active: Bool = true
 
+    @Published
+    var alert: Bool = false
+
     weak var delegate: HeaderButtonViewModelDelegate?
 
     init(type: HeaderButtonType) {
@@ -30,6 +33,15 @@ class HeaderButtonViewModel: ObservableObject {
     func icon() -> NSImage {
 
         return ImageCache.shared.image(for: self.type.iconTexture(for: self.active))
+    }
+
+    func alertImage() -> NSImage {
+
+        if self.alert {
+            return ImageCache.shared.image(for: "header-alert")
+        }
+
+        return NSImage()
     }
 
     func clicked() {

@@ -13,7 +13,7 @@ class TechProgressViewModel: ObservableObject {
 
     let id: UUID = UUID()
 
-    private let techType: TechType
+    var techType: TechType
 
     @Published
     var progress: Int
@@ -24,7 +24,27 @@ class TechProgressViewModel: ObservableObject {
     @Published
     var achievementViewModels: [AchievementViewModel] = []
 
+    init() {
+
+        self.techType = .none
+        self.progress = 0
+        self.boosted = false
+
+        self.achievementViewModels = []
+    }
+
+#if DEBUG
     init(techType: TechType, progress: Int, boosted: Bool) {
+
+        self.techType = techType
+        self.progress = progress
+        self.boosted = boosted
+
+        self.achievementViewModels = self.achievements()
+    }
+#endif
+
+    func update(techType: TechType, progress: Int, boosted: Bool) {
 
         self.techType = techType
         self.progress = progress

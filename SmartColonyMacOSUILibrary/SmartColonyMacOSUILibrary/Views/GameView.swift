@@ -53,7 +53,7 @@ public struct GameView: View {
 
             TopBarView(viewModel: self.viewModel.gameSceneViewModel.topBarViewModel)
 
-            HeaderView(viewModel: self.viewModel.gameSceneViewModel)
+            HeaderView(viewModel: self.viewModel.headerViewModel)
 
             self.dialog
 

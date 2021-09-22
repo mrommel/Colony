@@ -13,7 +13,7 @@ class CivicProgressViewModel: ObservableObject {
 
     let id: UUID = UUID()
 
-    private let civicType: CivicType
+    var civicType: CivicType
 
     @Published
     var progress: Int
@@ -24,7 +24,27 @@ class CivicProgressViewModel: ObservableObject {
     @Published
     var achievementViewModels: [AchievementViewModel] = []
 
+    init() {
+
+        self.civicType = .none
+        self.progress = 0
+        self.boosted = false
+
+        self.achievementViewModels = []
+    }
+
+#if DEBUG
     init(civicType: CivicType, progress: Int, boosted: Bool) {
+
+        self.civicType = civicType
+        self.progress = progress
+        self.boosted = boosted
+
+        self.achievementViewModels = self.achievements()
+    }
+#endif
+
+    func update(civicType: CivicType, progress: Int, boosted: Bool) {
 
         self.civicType = civicType
         self.progress = progress

@@ -11,7 +11,7 @@ import SmartAssets
 struct HeaderView: View {
 
     @ObservedObject
-    public var viewModel: GameSceneViewModel
+    public var viewModel: HeaderViewModel // GameSceneViewModel
 
     public var body: some View {
 
@@ -19,15 +19,15 @@ struct HeaderView: View {
 
             HStack(alignment: .center, spacing: 0) {
 
-                HeaderButtonView(viewModel: self.viewModel.scienceHeaderViewModel())
+                HeaderButtonView(viewModel: self.viewModel.scienceHeaderViewModel)
 
-                HeaderButtonView(viewModel: self.viewModel.cultureHeaderViewModel())
+                HeaderButtonView(viewModel: self.viewModel.cultureHeaderViewModel)
 
-                HeaderButtonView(viewModel: self.viewModel.governmentHeaderViewModel())
+                HeaderButtonView(viewModel: self.viewModel.governmentHeaderViewModel)
 
-                HeaderButtonView(viewModel: self.viewModel.logHeaderViewModel())
+                HeaderButtonView(viewModel: self.viewModel.logHeaderViewModel)
 
-                HeaderButtonView(viewModel: self.viewModel.governorsHeaderViewModel())
+                HeaderButtonView(viewModel: self.viewModel.governorsHeaderViewModel)
 
                 Image(nsImage: ImageCache.shared.image(for: "header-bar-left"))
                     .resizable()
@@ -40,16 +40,16 @@ struct HeaderView: View {
                     .frame(width: 35, height: 47, alignment: .center)
 
                 // ranking
-                HeaderButtonView(viewModel: self.viewModel.rankingHeaderViewModel())
+                HeaderButtonView(viewModel: self.viewModel.rankingHeaderViewModel)
 
                 // trade routes
-                HeaderButtonView(viewModel: self.viewModel.tradeRoutesHeaderViewModel())
+                HeaderButtonView(viewModel: self.viewModel.tradeRoutesHeaderViewModel)
             }
             .padding(.top, 24)
 
-            TechProgressView(viewModel: self.viewModel.techProgressViewModel())
+            TechProgressView(viewModel: self.viewModel.techProgressViewModel)
 
-            CivicProgressView(viewModel: self.viewModel.civicProgressViewModel())
+            CivicProgressView(viewModel: self.viewModel.civicProgressViewModel)
 
             Spacer()
         }
@@ -63,7 +63,7 @@ struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = GameSceneViewModel()
+        let viewModel = HeaderViewModel()
 
         HeaderView(viewModel: viewModel)
     }

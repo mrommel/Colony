@@ -268,6 +268,7 @@ public class GameSceneViewModel: ObservableObject {
 
             // update nodes
             self.topBarViewModel.update()
+            self.delegate?.update()
 
             // update
             //self.updateLeaders()
@@ -347,104 +348,6 @@ public class GameSceneViewModel: ObservableObject {
         } else {
             self.showTurnButton()
         }
-    }
-
-    // MARK: header view models
-
-    func scienceHeaderViewModel() -> HeaderButtonViewModel {
-
-        let viewModel = HeaderButtonViewModel(type: .science)
-        viewModel.delegate = self
-
-        return viewModel
-    }
-
-    func cultureHeaderViewModel() -> HeaderButtonViewModel {
-
-        let viewModel = HeaderButtonViewModel(type: .culture)
-        viewModel.delegate = self
-
-        return viewModel
-    }
-
-    func governmentHeaderViewModel() -> HeaderButtonViewModel {
-
-        let viewModel = HeaderButtonViewModel(type: .government)
-        viewModel.delegate = self
-
-        return viewModel
-    }
-
-    func logHeaderViewModel() -> HeaderButtonViewModel {
-
-        let viewModel = HeaderButtonViewModel(type: .log)
-        viewModel.delegate = self
-
-        return viewModel
-    }
-
-    func governorsHeaderViewModel() -> HeaderButtonViewModel {
-
-        let viewModel = HeaderButtonViewModel(type: .governors)
-        viewModel.delegate = self
-
-        return viewModel
-    }
-
-    func rankingHeaderViewModel() -> HeaderButtonViewModel {
-
-        let viewModel = HeaderButtonViewModel(type: .ranking)
-        viewModel.delegate = self
-
-        return viewModel
-    }
-
-    func tradeRoutesHeaderViewModel() -> HeaderButtonViewModel {
-
-        let viewModel = HeaderButtonViewModel(type: .tradeRoutes)
-        viewModel.delegate = self
-
-        return viewModel
-    }
-
-    func techProgressViewModel() -> TechProgressViewModel {
-
-        guard let gameModel = self.game else {
-            return TechProgressViewModel(techType: .none, progress: 0, boosted: false)
-        }
-
-        guard let humanPlayer = gameModel.humanPlayer() else {
-            fatalError("cant get human")
-        }
-
-        if let techs = humanPlayer.techs {
-            if let currentTech = techs.currentTech() {
-                let progressPercentage = techs.currentScienceProgress() / Double(currentTech.cost()) * 100.0
-                return TechProgressViewModel(techType: currentTech, progress: Int(progressPercentage), boosted: false)
-            }
-        }
-
-        return TechProgressViewModel(techType: .none, progress: 0, boosted: false)
-    }
-
-    func civicProgressViewModel() -> CivicProgressViewModel {
-
-        guard let gameModel = self.game else {
-            return CivicProgressViewModel(civicType: .none, progress: 0, boosted: false)
-        }
-
-        guard let humanPlayer = gameModel.humanPlayer() else {
-            fatalError("cant get human")
-        }
-
-        if let civics = humanPlayer.civics {
-            if let currentCivic = civics.currentCivic() {
-                let progressPercentage = civics.currentCultureProgress() / Double(currentCivic.cost()) * 100.0
-                return CivicProgressViewModel(civicType: currentCivic, progress: Int(progressPercentage), boosted: false)
-            }
-        }
-
-        return CivicProgressViewModel(civicType: .none, progress: 0, boosted: false)
     }
 
     // MARK: callbacks
@@ -568,31 +471,6 @@ extension GameSceneViewModel {
         }
 
         self.delegate?.showSelectPromotionDialog(for: unit)
-    }
-}
-
-extension GameSceneViewModel: HeaderButtonViewModelDelegate {
-
-    func clicked(on type: HeaderButtonType) {
-
-        switch type {
-
-        case .science:
-            self.delegate?.showChangeTechDialog()
-        case .culture:
-            self.delegate?.showChangeCivicDialog()
-        case .government:
-            self.delegate?.showGovernmentDialog()
-        case .log:
-            print("log")
-        case .governors:
-            self.delegate?.showGovernorsDialog()
-        case .ranking:
-            print("ranking")
-            // self.delegate?.showRankingDialog()
-        case .tradeRoutes:
-            self.delegate?.showTradeRouteDialog()
-        }
     }
 }
 
