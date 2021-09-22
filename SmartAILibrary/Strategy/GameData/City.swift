@@ -199,6 +199,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func isHolyCity(for religion: ReligionType, in gameModel: GameModel?) -> Bool
     func isHolyCityOfAnyReligion(in gameModel: GameModel?) -> Bool
     func numReligiousCitizen() -> Int
+    func religiousTradeModifier() -> Int
 
     // loyalty
     func loyalty() -> Int
@@ -213,6 +214,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func governor() -> GovernorType?
     func assign(governor: GovernorType?)
     func value(of governorType: GovernorType, in gameModel: GameModel?) -> Double
+    func hasGovernorTitle(of title: GovernorTitleType) -> Bool
 
     func set(scratch: Int)
     func scratch() -> Int
@@ -1214,6 +1216,20 @@ public class City: AbstractCity {
             (newGold - oldGold).positiveValue
     }
 
+    public func hasGovernorTitle(of title: GovernorTitleType) -> Bool {
+
+        if let governor = self.governorValue {
+
+            if governor.defaultTitle() == title {
+                return true
+            }
+
+            return governor.titles().contains(title)
+        }
+
+        return false
+    }
+
     public func lastTurnFoodHarvested() -> Double {
 
         return self.lastTurnFoodHarvestedValue
@@ -2021,6 +2037,13 @@ public class City: AbstractCity {
                 }
             }
 
+            // Zoning Commissioner - +20% Production Production towards constructing Districts in the city.
+            if self.hasGovernorTitle(of: .zoningCommissioner) {
+                if self.buildQueue.isCurrentlyBuildingDistrict() {
+                    modifierPercentage += 0.20
+                }
+            }
+
             production *= (1.0 + modifierPercentage)
 
             self.updateProduction(for: production, in: gameModel)
@@ -2166,6 +2189,11 @@ public class City: AbstractCity {
     private func train(unitType: UnitType, in gameModel: GameModel?) {
 
         let unit = Unit(at: self.location, type: unitType, owner: self.player)
+
+        // Guildmaster    All Builders trained in city get +1 build charge.
+        if self.hasGovernorTitle(of: .guildmaster) {
+            unit.changeBuildCharges(change: 1)
+        }
 
         gameModel?.add(unit: unit)
 
@@ -3063,6 +3091,11 @@ public class City: AbstractCity {
             strengthValue += 6
         }
 
+        // Increases city garrison Strength Combat Strength by +5
+        if self.hasGovernorTitle(of: .redoubt) {
+            strengthValue += 5
+        }
+
         return strengthValue
     }
 
@@ -3524,6 +3557,13 @@ public class City: AbstractCity {
                 }
             }
         }*/
+
+        // governor
+        if self.hasGovernorTitle(of: .landAcquisition) {
+
+            cultureThreshold *= 80
+            cultureThreshold /= 100
+        }
 
         // -50 = 50% cost
         /*let modifier = GET_PLAYER(getOwner()).GetPlotCultureCostModifier() + m_iPlotCultureCostModifier + iReligionMod;
@@ -4171,6 +4211,18 @@ public class City: AbstractCity {
         }
 
         return cityReligion.religiousMajority()
+    }
+
+    public func religiousTradeModifier() -> Int {
+
+        var modifier: Int = 0
+
+        // Religious pressure to adjacent cities is 100% stronger from this city. 
+        if self.hasGovernorTitle(of: .bishop) {
+            modifier += 100
+        }
+
+        return modifier
     }
 
     //    --------------------------------------------------------------------------------

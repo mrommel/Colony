@@ -12,11 +12,15 @@ public protocol AbstractGameReligions {
 
     func doTurn(in gameModel: GameModel?)
 
+    // pantheons
     func foundPantheon(for player: AbstractPlayer?, with pantheonType: PantheonType, in gameModel: GameModel?)
-    func religions(in gameModel: GameModel?) -> [AbstractPlayerReligion?]
 
     func availablePantheons(in gameModel: GameModel?) -> [PantheonType]
     func numPantheonsCreated(in gameModel: GameModel?) -> Int
+
+    // religions
+    func religions(in gameModel: GameModel?) -> [AbstractPlayerReligion?]
+    func religion(of type: ReligionType, for player: AbstractPlayer?) -> AbstractPlayerReligion?
 }
 
 class GameReligions: AbstractGameReligions, Codable {
@@ -73,6 +77,15 @@ class GameReligions: AbstractGameReligions, Codable {
         }
 
         return religionsArray
+    }
+
+    func religion(of type: ReligionType, for player: AbstractPlayer?) -> AbstractPlayerReligion? {
+
+        if player?.religion?.currentReligion() == type {
+            return player?.religion
+        }
+
+        return nil
     }
 
     // MARK: private methods
@@ -169,27 +182,137 @@ class GameReligions: AbstractGameReligions, Codable {
                             var connectedWithTrade = false
                             var relativeDistancePercent = 0
 
-                            if !self.isConnected(by: religionType, from: loopCity, to: city, withTrade: &connectedWithTrade, percent: &relativeDistancePercent, in: gameModel) {
+                            if !self.isConnected(
+                                by: religionType,
+                                from: loopCity,
+                                to: city,
+                                withTrade: &connectedWithTrade,
+                                percent: &relativeDistancePercent,
+                                in: gameModel) {
 
                                 continue
                             }
 
-                            /*int iNumTradeRoutes = 0;
-                            int iPressure = GetAdjacentCityReligiousPressure(eReligion, pLoopCity, pCity, iNumTradeRoutes, true, false, bConnectedWithTrade, iRelativeDistancePercent);
-                            if (iPressure > 0)
-                            {
-                                pCity->GetCityReligions()->AddReligiousPressure(FOLLOWER_CHANGE_ADJACENT_PRESSURE, eReligion, iPressure);
-                                if (iNumTradeRoutes != 0)
-                                {
-                                    pCity->GetCityReligions()->IncrementNumTradeRouteConnections(eReligion, iNumTradeRoutes);
+                            let (pressure, numTradeRoutes) = self.adjacentCityReligiousPressure(
+                                for: religionType,
+                                from: loopCity,
+                                to: city,
+                                actualValue: true,
+                                pretendTradeConnection: false,
+                                connectedWithTrade: connectedWithTrade,
+                                relativeDistancePercent: relativeDistancePercent
+                            )
+
+                            if pressure > 0 {
+                                city.cityReligion?.addReligiousPressure(
+                                    reason: .followerChangeAdjacentPressure,
+                                    pressure: pressure,
+                                    for: religionType,
+                                    in: gameModel
+                                )
+
+                                if numTradeRoutes > 0 {
+                                    city.cityReligion?.incrementNumTradeRouteConnections(by: numTradeRoutes, for: religionType)
                                 }
-                            }*/
+                            }
                         }
                     }
                 }
             }
         }
     }
+
+    /// How much pressure is exerted between these cities?
+    private func adjacentCityReligiousPressure(
+        for religionType: ReligionType,
+        from fromCityRef: AbstractCity?,
+        to toCityRef: AbstractCity?,
+        actualValue: Bool,
+        pretendTradeConnection: Bool,
+        connectedWithTrade: Bool,
+        relativeDistancePercent: Int) -> (Int, Int) {
+
+        guard let fromCity = fromCityRef else {
+            fatalError("cant get from city")
+        }
+
+        guard let fromCityReligion = fromCity.cityReligion else {
+            fatalError("cant get from city religion")
+        }
+
+        guard let toCity = toCityRef else {
+            fatalError("cant get to city")
+        }
+
+        var numTradeRoutesInfluencing = 0
+
+        guard let religion = self.religion(of: religionType, for: fromCity.player) else {
+            return (0, 0)
+        }
+
+        var basePressure = 150 // ReligiousPressureAdjacentCity
+        var pressureMod = 0
+
+        // Does this city have a majority religion?
+        let majorityReligion = fromCity.cityReligion?.religiousMajority()
+        if majorityReligion != religionType {
+            return (0, 0)
+        }
+
+        // do we have a trade route or pretend to have one
+        if connectedWithTrade || pretendTradeConnection {
+
+            if actualValue {
+                    numTradeRoutesInfluencing += 1
+            }
+
+            var tradeReligionModifer = 50 // GET_PLAYER(pFromCity->getOwner()).GetPlayerTraits()->GetTradeReligionModifier();
+            tradeReligionModifer += 0 // GET_PLAYER(pFromCity->getOwner()).GetTradeReligionModifier();
+            tradeReligionModifer += fromCity.religiousTradeModifier()
+            //tradeReligionModifer += religion. pReligion->m_Beliefs.GetPressureChangeTradeRoute(pFromCity->getOwner());
+
+            pressureMod += tradeReligionModifer
+        } else {
+
+            // if there is no traderoute, base pressure falls off with distance
+            let pressurePercent = max(100 - relativeDistancePercent, 1)
+            // make the scaling quadratic - four times as many cities in range if we double the radius!
+            basePressure = (basePressure * pressurePercent * pressurePercent) / (100*100)
+        }
+
+        // If we are spreading to a friendly city state, increase the effectiveness if we have the right belief
+        /*if(IsCityStateFriendOfReligionFounder(eReligion, pToCity->getOwner())) {
+            pressureMod += pReligion->m_Beliefs.GetFriendlyCityStateSpreadModifier(pFromCity->getOwner());
+        }*/
+
+        // Have a belief that always strengthens spread?
+        /*var strengthMod = pReligion->m_Beliefs.GetSpreadStrengthModifier(pFromCity->getOwner());
+        if(iStrengthMod > 0)
+        {
+            TechTypes eDoublingTech = pReligion->m_Beliefs.GetSpreadModifierDoublingTech(pFromCity->getOwner());
+            if(eDoublingTech != NO_TECH)
+            {
+                CvPlayer& kPlayer = GET_PLAYER(pReligion->m_eFounder);
+                if(GET_TEAM(kPlayer.getTeam()).GetTeamTechs()->HasTech(eDoublingTech))
+                {
+                    iStrengthMod *= 2;
+                }
+            }
+
+            pressureMod += strengthMod
+        }*/
+
+        // Strengthened spread from World Congress? (World Religion)
+        // pressureMod += GC.getGame().GetGameLeagues()->GetReligionSpreadStrengthModifier(pFromCity->getOwner(), eReligion);
+
+        // Building that boosts pressure from originating city?
+        pressureMod += fromCityReligion.religiousPressureModifier(for: religionType)
+
+        let pressure = basePressure * (100 + pressureMod)
+
+        print("AdjacentCityReligiousPressure for \(religionType) from \(fromCity.name) to \(toCity.name) is \(pressure)")
+        return (max(0, pressure / 100), numTradeRoutesInfluencing)
+}
 
     func isValidTarget(for religionType: ReligionType, fromCity fromCityRef: AbstractCity?, toCity toCityRef: AbstractCity?) -> Bool {
 
