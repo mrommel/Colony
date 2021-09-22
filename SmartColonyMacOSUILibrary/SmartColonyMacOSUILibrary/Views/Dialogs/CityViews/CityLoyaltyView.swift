@@ -55,7 +55,7 @@ struct CityLoyaltyView: View {
             .padding(.bottom, 8)
 
             GroupBox {
-                VStack(alignment: .center, spacing: 4) {
+                VStack(alignment: .leading, spacing: 4) {
                     Text(self.viewModel.loyaltyEffect)
                 }
                 .frame(width: 330, alignment: .top)
@@ -67,41 +67,41 @@ struct CityLoyaltyView: View {
                 VStack(alignment: .center, spacing: 4) {
 
                     HStack {
-                        Text("Pressure from nearby Citizen")
+                        Text("Pressure from nearby Citizen:")
                         Spacer()
-                        Text("27")
+                        Text(self.viewModel.loyaltyPressure)
                     }
 
                     if self.viewModel.hasGovernor {
                         HStack {
-                            Text("Governor placed here")
+                            Text("Governor placed here:")
                             Spacer()
                             Text("8")
                         }
                     }
 
                     HStack {
-                        Text("Happyness level")
+                        Text("Happyness level:")
                         Spacer()
-                        Text("27")
+                        Text(self.viewModel.loyaltyFromHappiness)
                     }
 
                     HStack {
-                        Text("Trade routes")
+                        Text("Trade routes:")
                         Spacer()
-                        Text("2")
+                        Text(self.viewModel.loyaltyFromTradeRoutes)
                     }
 
                     HStack {
-                        Text("Other effects")
+                        Text("Other effects:")
                         Spacer()
-                        Text("2")
+                        Text(self.viewModel.loyaltyFromOthersEffects)
                     }
 
                     HStack {
-                        Text("Loyalty per turn")
+                        Text("Loyalty per turn:")
                         Spacer()
-                        Text("2")
+                        Text(self.viewModel.loyaltyPerTurn)
                     }
                 }
                 .frame(width: 330, alignment: .top)

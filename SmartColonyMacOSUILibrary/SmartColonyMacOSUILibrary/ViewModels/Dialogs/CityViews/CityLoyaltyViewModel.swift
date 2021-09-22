@@ -22,6 +22,22 @@ class CityLoyaltyViewModel: ObservableObject {
     @Published
     var loyaltyEffect: String
 
+    // data
+    @Published
+    var loyaltyPressure: String
+
+    @Published
+    var loyaltyFromHappiness: String
+
+    @Published
+    var loyaltyFromTradeRoutes: String
+
+    @Published
+    var loyaltyFromOthersEffects: String
+
+    @Published
+    var loyaltyPerTurn: String
+
     // governor
     @Published
     var hasGovernor: Bool
@@ -39,6 +55,13 @@ class CityLoyaltyViewModel: ObservableObject {
         self.loyaltyValue = 0
         self.loyaltyState = "Loyal"
         self.loyaltyEffect = "Effect1\nEffect2"
+
+        self.loyaltyPressure = "0.0"
+        self.loyaltyFromHappiness = "0"
+        self.loyaltyFromTradeRoutes = "0"
+        self.loyaltyFromOthersEffects = "0"
+        self.loyaltyPerTurn = "0.0"
+
         self.hasGovernor = true
         self.governorName = "Liang"
         self.governorSummary = "The Financier"
@@ -49,6 +72,10 @@ class CityLoyaltyViewModel: ObservableObject {
     }
 
     func update(for city: AbstractCity?) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            return
+        }
 
         self.city = city
 
@@ -69,6 +96,12 @@ class CityLoyaltyViewModel: ObservableObject {
             case .unrest:
                 self.loyaltyEffect = "City growth is at 0%\nCity Yields are reduced -100%"
             }
+
+            self.loyaltyPressure = String(format: "%.1f", city.loyaltyPressureFromNearbyCitizen(in: gameModel))
+            self.loyaltyFromHappiness = String(format: "%.1f", city.loyaltyFromHappiness(in: gameModel))
+            self.loyaltyFromTradeRoutes = String(format: "%.1f", city.loyaltyFromTradeRoutes(in: gameModel))
+            self.loyaltyFromOthersEffects = String(format: "%.1f", city.loyaltyFromOthersEffects(in: gameModel))
+            self.loyaltyPerTurn = String(format: "%.1f", city.loyalty())
 
             if let governor = city.governor() {
                 self.hasGovernor = true

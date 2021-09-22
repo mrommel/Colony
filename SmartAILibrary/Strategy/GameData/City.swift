@@ -203,6 +203,11 @@ public protocol AbstractCity: AnyObject, Codable {
     // loyalty
     func loyalty() -> Int
     func loyaltyState() -> LoyaltyState
+    func loyaltyPressureFromNearbyCitizen(in gameModel: GameModel?) -> Double
+    func loyaltyFromGovernors(in gameModel: GameModel?) -> Double
+    func loyaltyFromHappiness(in gameModel: GameModel?) -> Double
+    func loyaltyFromTradeRoutes(in gameModel: GameModel?) -> Double
+    func loyaltyFromOthersEffects(in gameModel: GameModel?) -> Double
 
     // governors
     func governor() -> GovernorType?
@@ -948,8 +953,9 @@ public class City: AbstractCity {
         return self.strengthVal
     }
 
-    // https://civilization.fandom.com/wiki/Loyalty_(Civ6)
-    func updateLoyaltyValue(in gameModel: GameModel?) {
+    // Pressure from nearby Citizens.
+    // Domestic Pressure = Age Factor * Sum of [ each Domestic Population * (10 - Distance Away) ]
+    public func loyaltyPressureFromNearbyCitizen(in gameModel: GameModel?) -> Double {
 
         guard let gameModel = gameModel else {
             fatalError("cant get game")
@@ -959,16 +965,8 @@ public class City: AbstractCity {
             fatalError("cant get player")
         }
 
-        guard let government = player.government else {
-            fatalError("cant get government")
-        }
-
-        var loyalty: Double = 0
         let area10 = HexArea(center: self.location, radius: 10)
 
-        // ////////////////////////////
-        // Pressure from nearby Citizens.
-        // Domestic Pressure = Age Factor * Sum of [ each Domestic Population * (10 - Distance Away) ]
         var domesticPressure: Double = 0.0
 
         for domesticCityRef in gameModel.cities(of: player, in: area10) {
@@ -1020,7 +1018,10 @@ public class City: AbstractCity {
         }
 
         // Pressure from Nearby Citizens = 10 * (Domestic - Foreign) / (minimum of [Domestic, Foreign] + 0.5)
-        let pressureFromNearbyCitizens = 10.0 * (domesticPressure - foreignPressure) / (min(domesticPressure, foreignPressure) + 0.5)
+        return 10.0 * (domesticPressure - foreignPressure) / (min(domesticPressure, foreignPressure) + 0.5)
+    }
+
+    public func loyaltyFromGovernors(in gameModel: GameModel?) -> Double {
 
         // The effect of domestic and foreign Governors.
         var loyaltyFromGovernors = 0.0
@@ -1033,9 +1034,14 @@ public class City: AbstractCity {
         // +2 Loyalty per turn for having Governor Amani, with the Prestige title, established in another city within 9 tiles.
         // +4 Loyalty per turn for having Governor Victor, with the Garrison Commander title, established in another city within 9 tiles.
 
-        // ////////////////////////////
-        // Happiness of the citizens in the city.
+        return loyaltyFromGovernors
+    }
+
+    // Happiness of the citizens in the city.
+    public func loyaltyFromHappiness(in gameModel: GameModel?) -> Double {
+
         var happinessOfTheCitizens: Double = 0.0
+
         switch self.amenitiesState(in: gameModel) {
 
         case .unrest, .unhappy, .revolt:
@@ -1048,6 +1054,28 @@ public class City: AbstractCity {
             happinessOfTheCitizens = 3.0
         case .ecstatic:
             happinessOfTheCitizens = 6.0
+        }
+
+        return happinessOfTheCitizens
+    }
+
+    public func loyaltyFromTradeRoutes(in gameModel: GameModel?) -> Double {
+
+        return 0
+    }
+
+    public func loyaltyFromOthersEffects(in gameModel: GameModel?) -> Double {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let government = player.government else {
+            fatalError("cant get government")
         }
 
         // Other factors.
@@ -1101,8 +1129,25 @@ public class City: AbstractCity {
         // +2 for Swedish cities with an Open-Air Museum.
         // +2 from having the Colosseum Wonder within 6 tiles.
 
+        return otherFactors
+    }
+
+    // https://civilization.fandom.com/wiki/Loyalty_(Civ6)
+    func updateLoyaltyValue(in gameModel: GameModel?) {
+
+        let pressureFromNearbyCitizens = self.loyaltyPressureFromNearbyCitizen(in: gameModel)
+
+        let loyaltyFromGovernors = self.loyaltyFromGovernors(in: gameModel)
+
+        let happinessOfTheCitizens = self.loyaltyFromHappiness(in: gameModel)
+
+        let tradeRouteLoyalty = self.loyaltyFromTradeRoutes(in: gameModel)
+
+        // Other factors.
+        let otherFactors = self.loyaltyFromOthersEffects(in: gameModel)
+
         // sum
-        loyalty = pressureFromNearbyCitizens + loyaltyFromGovernors + happinessOfTheCitizens + otherFactors
+        let loyalty = pressureFromNearbyCitizens + loyaltyFromGovernors + happinessOfTheCitizens + tradeRouteLoyalty + otherFactors
 
         self.loyaltyValue = loyalty
     }
