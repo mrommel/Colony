@@ -17,10 +17,10 @@ public struct ProgressBar: View {
     private let foregroundColor: Color
 
     public init(value: Binding<CGFloat>,
-         maxValue: CGFloat,
-         backgroundEnabled: Bool = true,
-         backgroundColor: Color = Color(NSColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1.0)),
-         foregroundColor: Color = Color.black) {
+                maxValue: CGFloat,
+                backgroundEnabled: Bool = true,
+                backgroundColor: Color = Color(NSColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1.0)),
+                foregroundColor: Color = Color.black) {
 
         self._value = value
         self.maxValue = maxValue
