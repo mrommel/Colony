@@ -199,7 +199,8 @@ public protocol AbstractCity: AnyObject, Codable {
     func isHolyCity(for religion: ReligionType, in gameModel: GameModel?) -> Bool
     func isHolyCityOfAnyReligion(in gameModel: GameModel?) -> Bool
     func numReligiousCitizen() -> Int
-    func religiousTradeModifier() -> Int
+    // religion modifier
+    func religiousTradeRouteModifier() -> Int
 
     // loyalty
     func loyalty() -> Int
@@ -4213,7 +4214,7 @@ public class City: AbstractCity {
         return cityReligion.religiousMajority()
     }
 
-    public func religiousTradeModifier() -> Int {
+    public func religiousTradeRouteModifier() -> Int {
 
         var modifier: Int = 0
 

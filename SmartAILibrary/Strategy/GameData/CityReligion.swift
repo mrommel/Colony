@@ -365,6 +365,7 @@ public class CityReligion: AbstractCityReligion, Codable {
         var foundIt: Bool = false
 
         let oldMajorityReligion = self.religiousMajority()
+        let religion = gameModel?.religion(of: religionType)
 
         for status in self.religionStatus {
 
@@ -378,14 +379,14 @@ public class CityReligion: AbstractCityReligion, Codable {
                 // If this is pressure from a real religion, reduce presence of pantheon by the same amount
                 status.pressure = max(0, (status.pressure - pressure))
 
-            } else if reason == .followerChangeMissionary {
+            } /*else if reason == .followerChangeMissionary {
 
-                let pressureErosion = 0 // pReligion->m_Beliefs.GetOtherReligionPressureErosion();  // Normally 0
+                let pressureErosion = religion.belie s.otherReligionPressureErosion() // Normally 0
                 if pressureErosion > 0 {
                     let erosionAmount = pressureErosion * pressure / 100
                     status.pressure = max(0, (status.pressure - erosionAmount))
                 }
-            }
+            }*/
         }
 
         // Didn't find it, add new entry
@@ -418,9 +419,8 @@ public class CityReligion: AbstractCityReligion, Codable {
         var pressurePerFollower: Int = 0
 
         // Safety check to avoid divide by zero
-        if unassignedFollowers < 1 {
+        guard unassignedFollowers > 0 else {
             fatalError("Invalid city population when recomputing followers")
-            return
         }
 
         // Find total pressure
@@ -471,7 +471,7 @@ public class CityReligion: AbstractCityReligion, Codable {
         }
 
         // Assign out the remainder
-        for unassignedFollower in 0..<unassignedFollowers {
+        for _ in 0..<unassignedFollowers {
 
             var itLargestRemainder: ReligionInCity = ReligionInCity()
             var largestRemainder: Int = 0

@@ -246,7 +246,7 @@ class GameReligions: AbstractGameReligions, Codable {
 
         var numTradeRoutesInfluencing = 0
 
-        guard let religion = self.religion(of: religionType, for: fromCity.player) else {
+        guard self.religion(of: religionType, for: fromCity.player) != nil else {
             return (0, 0)
         }
 
@@ -263,13 +263,12 @@ class GameReligions: AbstractGameReligions, Codable {
         if connectedWithTrade || pretendTradeConnection {
 
             if actualValue {
-                    numTradeRoutesInfluencing += 1
+                numTradeRoutesInfluencing += 1
             }
 
             var tradeReligionModifer = 50 // GET_PLAYER(pFromCity->getOwner()).GetPlayerTraits()->GetTradeReligionModifier();
             tradeReligionModifer += 0 // GET_PLAYER(pFromCity->getOwner()).GetTradeReligionModifier();
-            tradeReligionModifer += fromCity.religiousTradeModifier()
-            //tradeReligionModifer += religion. pReligion->m_Beliefs.GetPressureChangeTradeRoute(pFromCity->getOwner());
+            tradeReligionModifer += fromCity.religiousTradeRouteModifier()
 
             pressureMod += tradeReligionModifer
         } else {
@@ -277,33 +276,8 @@ class GameReligions: AbstractGameReligions, Codable {
             // if there is no traderoute, base pressure falls off with distance
             let pressurePercent = max(100 - relativeDistancePercent, 1)
             // make the scaling quadratic - four times as many cities in range if we double the radius!
-            basePressure = (basePressure * pressurePercent * pressurePercent) / (100*100)
+            basePressure = (basePressure * pressurePercent * pressurePercent) / (100 * 100)
         }
-
-        // If we are spreading to a friendly city state, increase the effectiveness if we have the right belief
-        /*if(IsCityStateFriendOfReligionFounder(eReligion, pToCity->getOwner())) {
-            pressureMod += pReligion->m_Beliefs.GetFriendlyCityStateSpreadModifier(pFromCity->getOwner());
-        }*/
-
-        // Have a belief that always strengthens spread?
-        /*var strengthMod = pReligion->m_Beliefs.GetSpreadStrengthModifier(pFromCity->getOwner());
-        if(iStrengthMod > 0)
-        {
-            TechTypes eDoublingTech = pReligion->m_Beliefs.GetSpreadModifierDoublingTech(pFromCity->getOwner());
-            if(eDoublingTech != NO_TECH)
-            {
-                CvPlayer& kPlayer = GET_PLAYER(pReligion->m_eFounder);
-                if(GET_TEAM(kPlayer.getTeam()).GetTeamTechs()->HasTech(eDoublingTech))
-                {
-                    iStrengthMod *= 2;
-                }
-            }
-
-            pressureMod += strengthMod
-        }*/
-
-        // Strengthened spread from World Congress? (World Religion)
-        // pressureMod += GC.getGame().GetGameLeagues()->GetReligionSpreadStrengthModifier(pFromCity->getOwner(), eReligion);
 
         // Building that boosts pressure from originating city?
         pressureMod += fromCityReligion.religiousPressureModifier(for: religionType)

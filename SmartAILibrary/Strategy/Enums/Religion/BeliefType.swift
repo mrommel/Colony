@@ -48,6 +48,10 @@ public enum BeliefType: Int, Codable {
     // enhancer
     case burialGrounds
     case crusade
+    // ...
+    case itinerantPreachers
+    case missionaryZeal
+    // ...
 
     // MARK: internal classes
 
@@ -55,7 +59,7 @@ public enum BeliefType: Int, Codable {
 
         let name: String
         let mainType: BeliefMainType
-        let bonus: String
+        let effect: String
     }
 
     // MARK: private methods
@@ -67,70 +71,80 @@ public enum BeliefType: Int, Codable {
         case .none:
             return BeliefData(name: "None",
                               mainType: .enhancerBelief,
-                              bonus: "")
+                              effect: "")
 
         // follower beliefs
         case .choralMusic:
             return BeliefData(name: "Choral Music",
                               mainType: .followerBelief,
-                              bonus: "Shrines and Temples provide Culture Culture equal to their intrinsic Faith Faith output.")
+                              effect: "Shrines and Temples provide Culture equal to their intrinsic Faith output.")
         case .divineInspiration:
             return BeliefData(name: "Divine Inspiration",
                               mainType: .followerBelief,
-                              bonus: "Wonders provide +4 Faith Faith.")
+                              effect: "Wonders provide +4 Faith.")
         case .feedTheWorld:
             return BeliefData(name: "Feed the World",
                               mainType: .followerBelief,
-                              bonus: "Shrines and Temples provide +3 Food Food and +2 Housing Housing.")
+                              effect: "Shrines and Temples provide +3 Food and +2 Housing ")
         case .jesuitEducation:
             return BeliefData(name: "Jesuit Education",
                               mainType: .followerBelief,
-                              bonus: "May purchase Campus and Theater Square district buildings with Faith Faith.")
+                              effect: "May purchase Campus and Theater Square district buildings with Faith.")
         case .religiousCommunity:
             return BeliefData(name: "Religious Community",
                               mainType: .followerBelief,
-                              bonus: "International Trade Route Trade Route gain +2 Gold Gold when sent to cities with Holy Sites and an additional 2 Gold Gold for every building in the Holy Site.")
+                              effect: "International Trade Route gain +2 Gold when sent to cities with Holy Sites and an additional 2 Gold for every building in the Holy Site.")
         case .reliquaries:
             return BeliefData(name: "Reliquaries",
                               mainType: .followerBelief,
-                              bonus: "Triple Faith Faith and Tourism Tourism yields from Relic Relics.")
+                              effect: "Triple Faith and Tourism yields from Relic Relics.")
         case .warriorMonks:
             return BeliefData(name: "Warrior Monks",
                               mainType: .followerBelief,
-                              bonus: "Allows spending Faith Faith to train Warrior Monks in cities with a Temple. Building a Holy Site triggers a Culture Bomb, claiming surrounding tiles.")
+                              effect: "Allows spending Faith to train Warrior Monks in cities with a Temple. Building a Holy Site triggers a Culture Bomb, claiming surrounding tiles.")
 
         // worship
         case .allowCathedral:
-            return BeliefData(name: "Cathedral", mainType: .worshipBelief, bonus: "Allows Cathedral")
+            return BeliefData(name: "Cathedral", mainType: .worshipBelief, effect: "Allows Cathedral")
         case .allowMeetingHouse:
-            return BeliefData(name: "Meeting House", mainType: .worshipBelief, bonus: "Allows Meeting House")
+            return BeliefData(name: "Meeting House", mainType: .worshipBelief, effect: "Allows Meeting House")
         case .allowMosque:
-            return BeliefData(name: "Mosque", mainType: .worshipBelief, bonus: "Allows Mosque")
+            return BeliefData(name: "Mosque", mainType: .worshipBelief, effect: "Allows Mosque")
 
         // founder
         case .churchProperty:
             return BeliefData(name: "Church Property",
                               mainType: .founderBelief,
-                              bonus: "+2 Gold Gold for each city following this Religion.")
+                              effect: "+2 Gold Gold for each city following this Religion.")
         case .crossCulturalDialogue:
             return BeliefData(name: "Cross-Cultural Dialogue",
                               mainType: .founderBelief,
-                              bonus: "+1 Science Science for every 4 followers of this Religion.")
+                              effect: "+1 Science for every 4 followers of this Religion.")
         // ...
         case .worldChurch:
             return BeliefData(name: "World Church",
                               mainType: .founderBelief,
-                              bonus: "+1 Culture Culture for every 4 followers of this Religion.")
+                              effect: "+1 Culture for every 4 followers of this Religion.")
 
         // enhancer
         case .burialGrounds:
             return BeliefData(name: "Burial Grounds",
                               mainType: .enhancerBelief,
-                              bonus: "Culture Bomb adjacent tiles when completing a Holy Site.")
+                              effect: "Culture Bomb adjacent tiles when completing a Holy Site.")
         case .crusade:
             return BeliefData(name: "Crusade",
                               mainType: .enhancerBelief,
-                              bonus: "Combat units gain +10 Strength Combat Strength near foreign cities that follow this Religion.")
+                              effect: "Combat units gain +10 Combat Strength near foreign cities that follow this Religion.")
+        // ...
+        case .itinerantPreachers:
+            return BeliefData(name: "Itinerant Preachers",
+                              mainType: .enhancerBelief,
+                              effect: "Religion spreads to cities 30% further away.")
+        case .missionaryZeal:
+            return BeliefData(name: "Missionary Zeal    ",
+                              mainType: .enhancerBelief,
+                              effect: "Religious units ignore movement costs of terrain and features.")
+        // ...
         }
     }
 }
