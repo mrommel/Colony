@@ -10,6 +10,7 @@ import Foundation
 
 // https://civilization.fandom.com/wiki/Governor_(Civ6)
 // swiftlint:disable type_body_length
+// swiftlint:disable file_length
 public enum GovernorTitleType: Int, Codable {
 
     // reyna

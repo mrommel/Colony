@@ -455,6 +455,7 @@ public class Player: AbstractPlayer {
         self.notificationsValue?.player = self
     }
 
+    // swiftlint:disable force_cast
     public func encode(to encoder: Encoder) throws {
 
         var container = encoder.container(keyedBy: CodingKeys.self)
@@ -505,6 +506,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.canChangeGovernmentValue, forKey: .canChangeGovernment)
         try container.encode(self.faithPurchaseTypeVal, forKey: .faithPurchaseType)
     }
+    // swiftlint:enable force_cast
 
     // public methods
 

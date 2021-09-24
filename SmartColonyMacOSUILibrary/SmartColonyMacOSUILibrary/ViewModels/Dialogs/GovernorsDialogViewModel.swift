@@ -146,7 +146,7 @@ extension GovernorsDialogViewModel: GovernorViewModelDelegate {
             let selectedPromotion: GovernorTitleType = promotions[selectedIndex]
 
             governor?.promote(with: selectedPromotion)
-            
+
             self.updateGovernors()
         })
     }

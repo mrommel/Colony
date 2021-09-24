@@ -128,18 +128,81 @@ class PlayerGovernors: AbstractPlayerGovernors {
         // check assignments or re-assignments
         if !player.isHuman() {
 
-            // assign to city + reassign to different city
-
             // every 20 turns
             if gameModel.currentTurn - self.lastEvaluation > 20 {
 
-                //evaluate the best assignment and do it -
-                //score each governor for each city
-                //start assigning the best value
-                // TODO
+                // assign to city + reassign to different city
+                self.reassignGovernors(in: gameModel)
 
                 self.lastEvaluation = gameModel.currentTurn
             }
+        }
+    }
+
+    // evaluate the best assignment and do it:
+    //   score each governor for each city
+    //   start assigning the best value
+    private func reassignGovernors(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        var cityLocations: [HexPoint] = gameModel.cities(of: player).map { $0?.location ?? HexPoint.invalid }
+        var reassigned: Bool = false
+
+        for governor in self.governors {
+
+            var bestLocation: HexPoint = HexPoint.invalid
+            var bestValue: Double = Double.min
+
+            for cityLocation in cityLocations {
+
+                guard let city = gameModel.city(at: cityLocation) else {
+                    continue
+                }
+
+                let value = city.value(of: governor.type, in: gameModel)
+
+                if value > bestValue {
+
+                    bestValue = value
+                    bestLocation = cityLocation
+                }
+            }
+
+            guard bestLocation != HexPoint.invalid else {
+                fatalError("Could not find a city location for \(governor.type)")
+            }
+
+            cityLocations.removeAll(where: { $0 == bestLocation })
+
+            guard let bestCity = gameModel.city(at: bestLocation) else {
+                fatalError("cant get best coty")
+            }
+
+            guard governor.assignedCity(in: gameModel)?.location != bestLocation else {
+                print("\(player.leader.name()) decided to let governor \(governor.type.name()) stay in city \(bestCity.name)")
+                continue
+            }
+
+            reassigned = true
+
+            bestCity.assign(governor: .none)
+            governor.unassign()
+
+            bestCity.assign(governor: governor.type)
+            governor.assign(to: bestCity)
+
+            print("\(player.leader.name()) assigned governor \(governor.type.name()) to city \(bestCity.name)")
+        }
+
+        if !reassigned {
+            print("\(player.leader.name()) did no reassignments fo governors")
         }
     }
 

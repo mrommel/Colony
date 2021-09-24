@@ -64,6 +64,7 @@ public enum BeliefType: Int, Codable {
 
     // MARK: private methods
 
+    // swiftlint:disable line_length
     private func data() -> BeliefData {
 
         switch self {
