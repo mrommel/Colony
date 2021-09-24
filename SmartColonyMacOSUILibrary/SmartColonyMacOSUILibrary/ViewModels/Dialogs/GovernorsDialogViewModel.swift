@@ -142,10 +142,11 @@ extension GovernorsDialogViewModel: GovernorViewModelDelegate {
 
         // select promotion
         gameModel.userInterface?.askForSelection(title: "Select promotion", items: items, completion: { selectedIndex in
-            print("selected \(selectedIndex)")
-            let selectedPromotion = promotions[selectedIndex]
+
+            let selectedPromotion: GovernorTitleType = promotions[selectedIndex]
 
             governor?.promote(with: selectedPromotion)
+            
             self.updateGovernors()
         })
     }
@@ -169,16 +170,18 @@ extension GovernorsDialogViewModel: GovernorViewModelDelegate {
         // build cities
         let items: [SelectableItem] = cityRefs.map { cityRef in
             SelectableItem(
-                title: cityRef?.name ?? "city"
+                title: cityRef?.name ?? "-"
             )
         }
 
         // select city
         gameModel.userInterface?.askForSelection(title: "Select City", items: items, completion: { selectedIndex in
-            print("selected \(selectedIndex)")
-            let selectedCity = cityRefs[selectedIndex]
 
+            let selectedCity: AbstractCity? = cityRefs[selectedIndex]
+
+            selectedCity?.assign(governor: governor?.type)
             governor?.assign(to: selectedCity)
+
             self.updateGovernors()
         })
     }
@@ -202,17 +205,21 @@ extension GovernorsDialogViewModel: GovernorViewModelDelegate {
         // build cities
         let items: [SelectableItem] = cityRefs.map { cityRef in
             SelectableItem(
-                title: cityRef?.name ?? "city"
+                title: cityRef?.name ?? "-"
             )
         }
 
         // select city
         gameModel.userInterface?.askForSelection(title: "Select City", items: items, completion: { selectedIndex in
-            print("selected \(selectedIndex)")
-            let selectedCity = cityRefs[selectedIndex]
 
+            let selectedCity: AbstractCity? = cityRefs[selectedIndex]
+
+            governor?.assignedCity(in: gameModel)?.assign(governor: .none)
             governor?.unassign()
+
+            selectedCity?.assign(governor: governor?.type)
             governor?.assign(to: selectedCity)
+
             self.updateGovernors()
         })
     }
