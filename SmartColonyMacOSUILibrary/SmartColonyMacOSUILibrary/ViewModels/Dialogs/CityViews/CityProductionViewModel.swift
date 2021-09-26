@@ -153,6 +153,7 @@ class CityProductionViewModel: ObservableObject {
         }
 
         var tmpBuildQueueModels: [QueueViewModel] = []
+        let productionPerTurn = city.productionPerTurn(in: gameModel)
 
         for (index, currentBuilding) in city.buildQueue.enumerated() {
 
@@ -165,7 +166,8 @@ class CityProductionViewModel: ObservableObject {
                 }
 
                 let productionCost = unitType.productionCost()
-                let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
+
+                let turns = productionPerTurn > 0.0 ? Int(ceil(Double(productionCost) / productionPerTurn)) : 100
                 let unitViewModel = UnitViewModel(unitType: unitType, turns: turns, at: index)
                 unitViewModel.delegate = self.queueManager
                 tmpBuildQueueModels.append(unitViewModel)
@@ -176,7 +178,8 @@ class CityProductionViewModel: ObservableObject {
                 }
 
                 let productionCost = districtType.productionCost()
-                let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
+
+                let turns = productionPerTurn > 0.0 ? Int(ceil(Double(productionCost) / productionPerTurn)) : 100
                 let districtViewModel = DistrictViewModel(districtType: districtType, turns: turns, active: false, at: index)
                 districtViewModel.delegate = self.queueManager
                 tmpBuildQueueModels.append(districtViewModel)
@@ -187,7 +190,8 @@ class CityProductionViewModel: ObservableObject {
                 }
 
                 let productionCost = buildingType.productionCost()
-                let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
+
+                let turns = productionPerTurn > 0.0 ? Int(ceil(Double(productionCost) / productionPerTurn)) : 100
                 let buildingViewModel = BuildingViewModel(buildingType: buildingType, turns: turns, at: index)
                 buildingViewModel.delegate = self.queueManager
                 tmpBuildQueueModels.append(buildingViewModel)
@@ -198,7 +202,8 @@ class CityProductionViewModel: ObservableObject {
                 }
 
                 let productionCost = wonderType.productionCost()
-                let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
+
+                let turns = productionPerTurn > 0.0 ? Int(ceil(Double(productionCost) / productionPerTurn)) : 100
                 let wonderViewModel = WonderViewModel(wonderType: wonderType, turns: turns, at: index)
                 wonderViewModel.delegate = self.queueManager
                 tmpBuildQueueModels.append(wonderViewModel)

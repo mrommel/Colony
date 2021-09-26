@@ -177,6 +177,9 @@ public class NotificationItem: Codable, Equatable {
         case .canFoundPantheon:
             gameModel?.userInterface?.showScreen(screenType: .selectPantheon, city: nil, other: nil, data: nil)
 
+        case .governorTitleAvailable:
+            gameModel?.userInterface?.showScreen(screenType: .governors, city: nil, other: nil, data: nil)
+
         default:
             print("activate \(self.type) not handled")
         }
@@ -284,6 +287,21 @@ public class NotificationItem: Codable, Equatable {
 
             return false
 
+        case .governorTitleAvailable:
+            guard let currentPlayer = gameModel.player(for: self.player) else {
+                fatalError("cant get player")
+            }
+
+            guard let governors = currentPlayer.governors else {
+                fatalError("Cant get player governors")
+            }
+
+            if governors.numTitlesAvailable() > 0 {
+                return false
+            }
+
+            return true
+
         default:
             return false
         }
@@ -378,17 +396,14 @@ public class Notifications: Codable {
             fatalError("cant get gameModel")
         }
 
-        for notification in self.notificationsArray {
+        for notification in self.notificationsArray where !notification.dismissed {
 
-            if !notification.dismissed {
-
-                if notification.expired(in: gameModel) {
-                    notification.dismiss(in: gameModel)
-                } else {
-                    if notification.needsBroadcasting {
-                        gameModel.userInterface?.add(notification: notification)
-                        notification.needsBroadcasting = false
-                    }
+            if notification.expired(in: gameModel) {
+                notification.dismiss(in: gameModel)
+            } else {
+                if notification.needsBroadcasting {
+                    gameModel.userInterface?.add(notification: notification)
+                    notification.needsBroadcasting = false
                 }
             }
         }

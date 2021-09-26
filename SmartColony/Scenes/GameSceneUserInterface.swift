@@ -61,6 +61,8 @@ extension GameScene: UserInterfaceDelegate {
 
                 self.handleUnitPromotion(at: promotableUnit.location)
             }
+        case .governors:
+            self.showGovernorsDialog()
         default:
             print("screen: \(screenType) not handled")
         }

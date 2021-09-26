@@ -31,11 +31,11 @@ struct PantheonView: View {
             }
         }
         .padding(.all, 4)
-        .frame(width: 250, height: 50, alignment: .leading)
+        .frame(width: 250, alignment: .leading)
         .background(
             Image(nsImage: self.viewModel.background())
                 .resizable()
-                .frame(width: 250, height: 50, alignment: .topLeading)
+                .frame(width: 250, alignment: .topLeading)
         )
     }
 }
@@ -48,6 +48,8 @@ struct PantheonView_Previews: PreviewProvider {
         let _ = GameViewModel(preloadAssets: true)
 
         PantheonView(viewModel: PantheonViewModel(pantheonType: .godOfWar))
+
+        PantheonView(viewModel: PantheonViewModel(pantheonType: .initiationRites))
     }
 }
 #endif

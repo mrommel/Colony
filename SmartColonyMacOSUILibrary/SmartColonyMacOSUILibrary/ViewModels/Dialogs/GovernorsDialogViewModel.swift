@@ -127,6 +127,10 @@ extension GovernorsDialogViewModel: GovernorViewModelDelegate {
             fatalError("cant get game")
         }
 
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human player")
+        }
+
         guard let promotions = governor?.possiblePromotions() else {
             fatalError("cant get promotion to choose")
         }
@@ -145,7 +149,7 @@ extension GovernorsDialogViewModel: GovernorViewModelDelegate {
 
             let selectedPromotion: GovernorTitleType = promotions[selectedIndex]
 
-            governor?.promote(with: selectedPromotion)
+            humanPlayer.governors?.promote(governor: governor, with: selectedPromotion)
 
             self.updateGovernors()
         })
@@ -179,8 +183,7 @@ extension GovernorsDialogViewModel: GovernorViewModelDelegate {
 
             let selectedCity: AbstractCity? = cityRefs[selectedIndex]
 
-            selectedCity?.assign(governor: governor?.type)
-            governor?.assign(to: selectedCity)
+            humanPlayer.governors?.assign(governor: governor, to: selectedCity)
 
             self.updateGovernors()
         })
@@ -214,11 +217,7 @@ extension GovernorsDialogViewModel: GovernorViewModelDelegate {
 
             let selectedCity: AbstractCity? = cityRefs[selectedIndex]
 
-            governor?.assignedCity(in: gameModel)?.assign(governor: .none)
-            governor?.unassign()
-
-            selectedCity?.assign(governor: governor?.type)
-            governor?.assign(to: selectedCity)
+            humanPlayer.governors?.reassign(governor: governor, to: selectedCity, in: gameModel)
 
             self.updateGovernors()
         })

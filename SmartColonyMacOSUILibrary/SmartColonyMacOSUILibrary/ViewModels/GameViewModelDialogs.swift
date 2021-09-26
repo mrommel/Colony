@@ -190,4 +190,5 @@ extension GameViewModel {
             fatalError("cant show city buildings dialog, \(self.currentScreenType) is currently shown")
         }
     }
+
 }

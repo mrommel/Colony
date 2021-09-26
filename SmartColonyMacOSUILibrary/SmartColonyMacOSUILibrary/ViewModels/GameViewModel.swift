@@ -1003,6 +1003,9 @@ extension GameViewModel: GameViewModelDelegate {
         case .selectPantheon:
             self.showSelectPantheonDialog()
 
+        case .governors:
+            self.showGovernorsDialog()
+
         default:
             print("screen: \(screenType) not handled")
         }

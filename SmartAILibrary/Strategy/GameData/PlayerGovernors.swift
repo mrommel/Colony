@@ -21,6 +21,9 @@ public protocol AbstractPlayerGovernors: AnyObject, Codable {
     func governor(with type: GovernorType) -> Governor?
 
     func appoint(governor governorType: GovernorType)
+    func promote(governor: Governor?, with title: GovernorTitleType)
+    func assign(governor: Governor?, to selectedCity: AbstractCity?)
+    func reassign(governor: Governor?, to selectedCity: AbstractCity?, in gameModel: GameModel?)
 }
 
 class PlayerGovernors: AbstractPlayerGovernors {
@@ -110,15 +113,13 @@ class PlayerGovernors: AbstractPlayerGovernors {
 
             if player.isHuman() {
 
-                let notification = NotificationItem(
-                    type: .governorTitleAvailable,
-                    for: player.leader,
+                player.notifications()?.addNotification(
+                    of: .governorTitleAvailable,
+                    for: self.player,
                     message: "Select governor title usage",
                     summary: "Select governor title usage2",
-                    at: HexPoint.invalid,
-                    other: .none
+                    at: HexPoint.invalid
                 )
-                gameModel.userInterface?.add(notification: notification)
             } else {
 
                 self.chooseBestGovernorTitleUsage(in: gameModel)
@@ -209,8 +210,33 @@ class PlayerGovernors: AbstractPlayerGovernors {
     public func appoint(governor governorType: GovernorType) {
 
         let governor = Governor(type: governorType)
-
         self.governors.append(governor)
+
+        self.numTitlesSpentValue += 1
+        self.numTitlesAvailableValue -= 1
+    }
+
+    public func promote(governor: Governor?, with title: GovernorTitleType) {
+
+        governor?.promote(with: title)
+
+        self.numTitlesSpentValue += 1
+        self.numTitlesAvailableValue -= 1
+    }
+
+    public func assign(governor: Governor?, to selectedCity: AbstractCity?) {
+
+        selectedCity?.assign(governor: governor?.type)
+        governor?.assign(to: selectedCity)
+    }
+
+    public func reassign(governor: Governor?, to selectedCity: AbstractCity?, in gameModel: GameModel?) {
+
+        governor?.assignedCity(in: gameModel)?.assign(governor: .none)
+        governor?.unassign()
+
+        selectedCity?.assign(governor: governor?.type)
+        governor?.assign(to: selectedCity)
     }
 
     private func numActiveGovernors(in gameModel: GameModel?) -> Int {
@@ -239,6 +265,7 @@ class PlayerGovernors: AbstractPlayerGovernors {
         return numActiveGovernors
     }
 
+    // AI function
     private func chooseBestGovernorTitleUsage(in gameModel: GameModel?) {
 
         guard let player = self.player else {
@@ -258,6 +285,7 @@ class PlayerGovernors: AbstractPlayerGovernors {
         }
     }
 
+    // AI function
     private func promoteGovernor() {
 
         guard let player = self.player else {
