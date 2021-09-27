@@ -157,7 +157,7 @@ extension MapSize: Codable {
         var container = encoder.container(keyedBy: Key.self)
 
         switch self {
-        
+
         case .duel:
             try container.encode(0, forKey: .rawValue)
         case .tiny:

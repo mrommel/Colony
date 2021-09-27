@@ -2752,7 +2752,7 @@ public class Unit: AbstractUnit {
 
         case .automateExploration:
             return self.can(automate: .explore)
-            
+
         case .automateBuild:
             return self.can(automate: .build)
         }
