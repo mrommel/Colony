@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:/Users/michaelrommel/Prog/Colony/SmartColonyMacOSUILibrary/SmartMacOSUILibrary.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SmartAssets/SmartAssets.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SmartColony.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SmartColonyMacOS/SmartColonyMacOS.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SmartMapEditor.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SmartAILibrary.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:README.md">
+   </FileRef>
+</Workspace>
