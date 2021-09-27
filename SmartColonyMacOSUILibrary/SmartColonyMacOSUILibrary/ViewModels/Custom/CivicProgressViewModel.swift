@@ -19,6 +19,9 @@ class CivicProgressViewModel: ObservableObject {
     var progress: Int
 
     @Published
+    var turns: Int
+
+    @Published
     var boosted: Bool
 
     @Published
@@ -28,26 +31,29 @@ class CivicProgressViewModel: ObservableObject {
 
         self.civicType = .none
         self.progress = 0
+        self.turns = 0
         self.boosted = false
 
         self.achievementViewModels = []
     }
 
 #if DEBUG
-    init(civicType: CivicType, progress: Int, boosted: Bool) {
+    init(civicType: CivicType, progress: Int, turns: Int, boosted: Bool) {
 
         self.civicType = civicType
         self.progress = progress
+        self.turns = turns
         self.boosted = boosted
 
         self.achievementViewModels = self.achievements()
     }
 #endif
 
-    func update(civicType: CivicType, progress: Int, boosted: Bool) {
+    func update(civicType: CivicType, progress: Int, turns: Int, boosted: Bool) {
 
         self.civicType = civicType
         self.progress = progress
+        self.turns = turns
         self.boosted = boosted
 
         self.achievementViewModels = self.achievements()

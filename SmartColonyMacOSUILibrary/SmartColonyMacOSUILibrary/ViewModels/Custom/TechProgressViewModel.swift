@@ -19,6 +19,9 @@ class TechProgressViewModel: ObservableObject {
     var progress: Int
 
     @Published
+    var turns: Int
+
+    @Published
     var boosted: Bool
 
     @Published
@@ -28,26 +31,29 @@ class TechProgressViewModel: ObservableObject {
 
         self.techType = .none
         self.progress = 0
+        self.turns = 0
         self.boosted = false
 
         self.achievementViewModels = []
     }
 
 #if DEBUG
-    init(techType: TechType, progress: Int, boosted: Bool) {
+init(techType: TechType, progress: Int, turns: Int, boosted: Bool) {
 
         self.techType = techType
         self.progress = progress
+        self.turns = turns
         self.boosted = boosted
 
         self.achievementViewModels = self.achievements()
     }
 #endif
 
-    func update(techType: TechType, progress: Int, boosted: Bool) {
+    func update(techType: TechType, progress: Int, turns: Int, boosted: Bool) {
 
         self.techType = techType
         self.progress = progress
+        self.turns = turns
         self.boosted = boosted
 
         self.achievementViewModels = self.achievements()

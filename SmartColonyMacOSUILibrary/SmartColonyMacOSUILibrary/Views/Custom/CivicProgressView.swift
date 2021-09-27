@@ -14,16 +14,6 @@ struct CivicProgressView: View {
     @ObservedObject
     public var viewModel: CivicProgressViewModel
 
-    private var gridItemLayout = [
-        GridItem(.fixed(18), spacing: 2.0),
-        GridItem(.fixed(18), spacing: 2.0),
-        GridItem(.fixed(18), spacing: 2.0),
-        GridItem(.fixed(18), spacing: 2.0),
-        GridItem(.fixed(18), spacing: 2.0),
-        GridItem(.fixed(18), spacing: 2.0),
-        GridItem(.fixed(18), spacing: 2.0)
-    ]
-
     public init(viewModel: CivicProgressViewModel) {
 
         self.viewModel = viewModel
@@ -54,7 +44,7 @@ struct CivicProgressView: View {
                 .padding(.leading, 35)
                 .font(.footnote)
 
-            LazyVGrid(columns: gridItemLayout, spacing: 4) {
+            LazyVStack(spacing: 4) {
 
                 ForEach(self.viewModel.achievementViewModels, id: \.self) { achievementViewModel in
 
@@ -68,8 +58,13 @@ struct CivicProgressView: View {
             .padding(.top, 12)
             .padding(.leading, 28)
 
+            Text("\(self.viewModel.turns)")
+                .font(.system(size: 6))
+                .padding(.top, 39)
+                .padding(.leading, 14)
+
             Text(self.viewModel.boostText())
-                .font(.system(size: 5))
+                .font(.system(size: 6))
                 .padding(.top, 38)
                 .padding(.leading, 39)
         }
@@ -87,33 +82,14 @@ struct CivicProgressView_Previews: PreviewProvider {
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = CivicProgressViewModel(civicType: .codeOfLaws, progress: 27, boosted: true)
 
-        CivicProgressView(viewModel: viewModel)
+        let viewModelCodeOfLaws = CivicProgressViewModel(civicType: .codeOfLaws, progress: 27, turns: 3, boosted: true)
+        CivicProgressView(viewModel: viewModelCodeOfLaws)
             .previewDisplayName("Code of Laws")
+
+        let viewModelStateWorkforce = CivicProgressViewModel(civicType: .stateWorkforce, progress: 27, turns: 3, boosted: false)
+        CivicProgressView(viewModel: viewModelStateWorkforce)
+            .previewDisplayName("State Workforce")
     }
 }
 #endif
-
-/*#if DEBUG
-struct Test_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        // swiftlint:disable:next redundant_discardable_let
-        let _ = GameViewModel(preloadAssets: true)
-        let game = DemoGameModel()
-        let environment = GameEnvironment(game: game)
-        
-        let viewModel = CivicProgressViewModel(civicType: .codeOfLaws, progress: 27, boosted: true)
-        
-        VStack {
-        
-            CivicProgressView(viewModel: viewModel)
-
-            CivicDialogView(viewModel: CivicDialogViewModel(game: game))
-                .environment(\.gameEnvironment, environment)
-        }
-        .previewDisplayName("Code of Laws + Civic Tree Dialog")
-    }
-}
-#endif*/
