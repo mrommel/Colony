@@ -18,15 +18,18 @@ class GovernorAbilityViewModel: ObservableObject {
     @Published
     var enabled: Bool
 
-    init(text: String, enabled: Bool) {
+    let iconTexture: String
+
+    init(iconTexture: String, text: String, enabled: Bool) {
 
         self.text = text
+        self.iconTexture = iconTexture
         self.enabled = enabled
     }
 
     func icon() -> NSImage {
 
-        return ImageCache.shared.image(for: "promotion-default")
+        return ImageCache.shared.image(for: self.iconTexture)
     }
 }
 

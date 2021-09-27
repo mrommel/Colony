@@ -74,6 +74,7 @@ class GovernorViewModel: ObservableObject {
         self.hasTitles = hasTitles
 
         let defaultGovernorAbilityViewModel = GovernorAbilityViewModel(
+            iconTexture: governor.type.defaultTitle().iconTexture(),
             text: governor.type.defaultTitle().name(),
             enabled: true
         )
@@ -82,6 +83,7 @@ class GovernorViewModel: ObservableObject {
         for titleItem in governor.type.titles() {
 
             let governorAbilityViewModel = GovernorAbilityViewModel(
+                iconTexture: titleItem.iconTexture(),
                 text: titleItem.name(),
                 enabled: governor.has(title: titleItem)
             )

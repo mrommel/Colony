@@ -48,10 +48,10 @@ struct GovernorAbilityView_Previews: PreviewProvider {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
-        let viewModelEnabled = GovernorAbilityViewModel(text: "Ability", enabled: true)
+        let viewModelEnabled = GovernorAbilityViewModel(iconTexture: "promotion-default", text: "Ability", enabled: true)
         GovernorAbilityView(viewModel: viewModelEnabled)
 
-        let viewModelDisabled = GovernorAbilityViewModel(text: "Ability long", enabled: false)
+        let viewModelDisabled = GovernorAbilityViewModel(iconTexture: "promotion-default", text: "Ability long", enabled: false)
         GovernorAbilityView(viewModel: viewModelDisabled)
     }
 }

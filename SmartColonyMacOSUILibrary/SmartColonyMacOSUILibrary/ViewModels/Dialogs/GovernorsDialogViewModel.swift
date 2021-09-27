@@ -138,7 +138,7 @@ extension GovernorsDialogViewModel: GovernorViewModelDelegate {
         // build promotions
         let items: [SelectableItem] = promotions.map { governorTitleType in
             SelectableItem(
-                iconTexture: "promotion-default",
+                iconTexture: governorTitleType.iconTexture(),
                 title: governorTitleType.name(),
                 subtitle: governorTitleType.effects().joined(separator: "\n")
             )

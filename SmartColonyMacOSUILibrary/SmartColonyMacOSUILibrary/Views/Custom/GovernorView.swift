@@ -161,7 +161,6 @@ struct GovernorView: View {
                                }
                         )
                         .buttonStyle(DialogButtonStyle(state: .highlighted))
-                        .disabled(self.viewModel.hasTitles == false)
                     } else {
                         Button("Assign",
                                action: {
@@ -169,7 +168,6 @@ struct GovernorView: View {
                                }
                         )
                         .buttonStyle(DialogButtonStyle(state: .highlighted))
-                        .disabled(self.viewModel.hasTitles == false)
                     }
                 } else {
                     Button("View promotions",

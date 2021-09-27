@@ -209,6 +209,10 @@ class PlayerGovernors: AbstractPlayerGovernors {
 
     public func appoint(governor governorType: GovernorType) {
 
+        guard self.numTitlesAvailableValue > 0 else {
+            fatalError("try to appoint a governor without available titles")
+        }
+
         let governor = Governor(type: governorType)
         self.governors.append(governor)
 
@@ -217,6 +221,10 @@ class PlayerGovernors: AbstractPlayerGovernors {
     }
 
     public func promote(governor: Governor?, with title: GovernorTitleType) {
+
+        guard self.numTitlesAvailableValue > 0 else {
+            fatalError("try to promote a governor without available titles")
+        }
 
         governor?.promote(with: title)
 
