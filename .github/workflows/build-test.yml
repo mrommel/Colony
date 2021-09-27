@@ -15,5 +15,7 @@ jobs:
       run: ls /Applications | grep Xcode
     - name: Select Xcode
       run: sudo xcode-select -switch /Applications/Xcode.app && /usr/bin/xcodebuild -version
+    - name: Show Content
+      run: ls .
     - name: Run unit tests
       run: xcodebuild test -scheme SmartAILibrary -workspace Colony.xcworkspace -destination 'platform=macOS' | xcpretty && exit ${PIPESTATUS[0]}
