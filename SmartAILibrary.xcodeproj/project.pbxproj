@@ -1934,6 +1934,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 56RR42EQK6;
 				GCC_PREFIX_HEADER = "Tests-Prefix.pch";
@@ -1955,7 +1956,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3XR2XX99JT;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
 				GCC_PREFIX_HEADER = "Tests-Prefix.pch";
 				INFOPLIST_FILE = SmartAILibraryTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
