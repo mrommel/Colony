@@ -13,6 +13,7 @@ public enum HeaderButtonType {
     case culture
     case government
     case log
+    case governors
 
     case ranking
     case tradeRoutes
@@ -29,6 +30,8 @@ public enum HeaderButtonType {
             return state ? "header-button-government-active" : "header-button-government-disabled"
         case .log:
             return state ? "header-button-log-active" : "header-button-log-disabled"
+        case .governors:
+            return state ? "header-button-governors-active" : "header-button-governors-disabled"
         case .ranking:
             return state ? "header-button-log-active" : "header-button-log-disabled"
         case .tradeRoutes:

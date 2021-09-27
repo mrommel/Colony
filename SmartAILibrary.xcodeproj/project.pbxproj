@@ -46,11 +46,14 @@
 		C90FC39E23D8966800720B32 /* GrandStrategyAIConfidence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FC39D23D8966800720B32 /* GrandStrategyAIConfidence.swift */; };
 		C90FC3A023D8968D00720B32 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FC39F23D8968D00720B32 /* GameModel.swift */; };
 		C90FC3A223D8D00000720B32 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FC3A123D8D00000720B32 /* Utils.swift */; };
+		C917CCDA26F221D2006DCC42 /* GovernorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C917CCD926F221D2006DCC42 /* GovernorType.swift */; };
+		C917CCDC26F23A16006DCC42 /* GovernorTitleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C917CCDB26F23A16006DCC42 /* GovernorTitleType.swift */; };
 		C91B0021243DCD5900C422C8 /* GoodyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91B0020243DCD5900C422C8 /* GoodyType.swift */; };
 		C91B0023243DCE6000C422C8 /* GoodyHuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91B0022243DCE6000C422C8 /* GoodyHuts.swift */; };
 		C91B0A5323FD37500065C62A /* UnitAbilityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91B0A5223FD37500065C62A /* UnitAbilityType.swift */; };
 		C91BE62B23FED2F300912962 /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91BE62A23FED2F300912962 /* Operations.swift */; };
 		C91BE62D23FED34C00912962 /* UnitOperationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91BE62C23FED34C00912962 /* UnitOperationType.swift */; };
+		C91D3C8026F283B700CD1F45 /* PlayerGovernors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91D3C7F26F283B700CD1F45 /* PlayerGovernors.swift */; };
 		C920E99A23DB17EB008DEAB4 /* DiplomaticAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C920E99923DB17EB008DEAB4 /* DiplomaticAI.swift */; };
 		C920E99C23DB1DBA008DEAB4 /* DiplomaticDealAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C920E99B23DB1DBA008DEAB4 /* DiplomaticDealAI.swift */; };
 		C92317A123D62A6B001FC723 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C923179723D62A6B001FC723 /* SmartAILibrary.framework */; };
@@ -201,6 +204,7 @@
 		C9A0574124293EAC00D0FEAB /* WonderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0574024293EAC00D0FEAB /* WonderType.swift */; };
 		C9A057452429E61700D0FEAB /* WonderProductionAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A057442429E61700D0FEAB /* WonderProductionAI.swift */; };
 		C9A125A0249CBE8900D5E3A1 /* BaseMapHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1259F249CBE8800D5E3A1 /* BaseMapHandler.swift */; };
+		C9A12B6D26FA562B0094B980 /* Governor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A12B6C26FA562B0094B980 /* Governor.swift */; };
 		C9A1B55725230A6900AC2292 /* OperationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B55625230A6900AC2292 /* OperationHelpers.swift */; };
 		C9A1B55C2523116B00AC2292 /* OperationUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B55B2523116B00AC2292 /* OperationUnit.swift */; };
 		C9A1B5602523117B00AC2292 /* TacticalUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B55F2523117B00AC2292 /* TacticalUnit.swift */; };
@@ -375,11 +379,14 @@
 		C90FC39D23D8966800720B32 /* GrandStrategyAIConfidence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrandStrategyAIConfidence.swift; sourceTree = "<group>"; };
 		C90FC39F23D8968D00720B32 /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 		C90FC3A123D8D00000720B32 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		C917CCD926F221D2006DCC42 /* GovernorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorType.swift; sourceTree = "<group>"; };
+		C917CCDB26F23A16006DCC42 /* GovernorTitleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorTitleType.swift; sourceTree = "<group>"; };
 		C91B0020243DCD5900C422C8 /* GoodyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodyType.swift; sourceTree = "<group>"; };
 		C91B0022243DCE6000C422C8 /* GoodyHuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodyHuts.swift; sourceTree = "<group>"; };
 		C91B0A5223FD37500065C62A /* UnitAbilityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitAbilityType.swift; sourceTree = "<group>"; };
 		C91BE62A23FED2F300912962 /* Operations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operations.swift; sourceTree = "<group>"; };
 		C91BE62C23FED34C00912962 /* UnitOperationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitOperationType.swift; sourceTree = "<group>"; };
+		C91D3C7F26F283B700CD1F45 /* PlayerGovernors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerGovernors.swift; sourceTree = "<group>"; };
 		C920E99923DB17EB008DEAB4 /* DiplomaticAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticAI.swift; sourceTree = "<group>"; };
 		C920E99B23DB1DBA008DEAB4 /* DiplomaticDealAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticDealAI.swift; sourceTree = "<group>"; };
 		C923179723D62A6B001FC723 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -532,6 +539,7 @@
 		C9A0574024293EAC00D0FEAB /* WonderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderType.swift; sourceTree = "<group>"; };
 		C9A057442429E61700D0FEAB /* WonderProductionAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderProductionAI.swift; sourceTree = "<group>"; };
 		C9A1259F249CBE8800D5E3A1 /* BaseMapHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseMapHandler.swift; sourceTree = "<group>"; };
+		C9A12B6C26FA562B0094B980 /* Governor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Governor.swift; sourceTree = "<group>"; };
 		C9A1B55625230A6900AC2292 /* OperationHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationHelpers.swift; sourceTree = "<group>"; };
 		C9A1B55B2523116B00AC2292 /* OperationUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationUnit.swift; sourceTree = "<group>"; };
 		C9A1B55F2523117B00AC2292 /* TacticalUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalUnit.swift; sourceTree = "<group>"; };
@@ -815,6 +823,8 @@
 				C97CD3B1243CB01400FABCC0 /* HandicapType.swift */,
 				C91B0020243DCD5900C422C8 /* GoodyType.swift */,
 				C9E0D57124424C66001AA97A /* NotificationType.swift */,
+				C917CCD926F221D2006DCC42 /* GovernorType.swift */,
+				C917CCDB26F23A16006DCC42 /* GovernorTitleType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1083,6 +1093,7 @@
 				C90FC39B23D8961C00720B32 /* Player.swift */,
 				C956BF6524F16683009702B4 /* PlayerYields.swift */,
 				C9C2FE3A23F89F2E00185235 /* PlayerReligion.swift */,
+				C91D3C7F26F283B700CD1F45 /* PlayerGovernors.swift */,
 				C92D221023E20ECF00BB9238 /* Government.swift */,
 				C906144D23E3362200D316B5 /* Buildings.swift */,
 				C9A0573B24291C3E00D0FEAB /* Wonders.swift */,
@@ -1106,6 +1117,7 @@
 				C9D191B0265A8975008C9622 /* CityReligion.swift */,
 				C956BF6324F10BAF009702B4 /* CombatModifier.swift */,
 				C92F9496265E7B8E000968AB /* GameReligions.swift */,
+				C9A12B6C26FA562B0094B980 /* Governor.swift */,
 			);
 			path = GameData;
 			sourceTree = "<group>";
@@ -1418,6 +1430,7 @@
 				C9BB750C246D5813004BE448 /* DiplomacyRequests.swift in Sources */,
 				C9C0DCDF24D5FD58004D9F06 /* CityYields.swift in Sources */,
 				C9DFCF6323F14D9D0032243D /* MilitaryThreatType.swift in Sources */,
+				C917CCDC26F23A16006DCC42 /* GovernorTitleType.swift in Sources */,
 				C92317BB23D665AD001FC723 /* FiniteStateTransition.swift in Sources */,
 				C9A1B578252311FF00AC2292 /* TacticalTarget.swift in Sources */,
 				C99790612514B697003E52C9 /* PillageEnemyOperation.swift in Sources */,
@@ -1433,6 +1446,7 @@
 				C965A53023FC6A7E00BCEB54 /* HexPointWithCorner.swift in Sources */,
 				C9588AC92419897300304E9A /* CitySpecializationType.swift in Sources */,
 				C9DFCF7423F29DA90032243D /* Array2D.swift in Sources */,
+				C9A12B6D26FA562B0094B980 /* Governor.swift in Sources */,
 				C9EB9F642454C6C500F13B02 /* RankingData.swift in Sources */,
 				C97213EA2510C241009BCE40 /* BasicCityAttackOperation.swift in Sources */,
 				C9E74CB8248FA896003EF256 /* LeaderEmotionType.swift in Sources */,
@@ -1566,6 +1580,7 @@
 				C9DFCF8023F2C69F0032243D /* TileFertilityEvaluator.swift in Sources */,
 				C964BA1923EAD18200CA379C /* UnitType.swift in Sources */,
 				C9A348B225F4C599008B797D /* FoodHarvestingType.swift in Sources */,
+				C91D3C8026F283B700CD1F45 /* PlayerGovernors.swift in Sources */,
 				C97AF98D24F551A2005F45EA /* UnitTradeRouteState.swift in Sources */,
 				C9EF13972423C02C003B3DAD /* LandDisputeLevelType.swift in Sources */,
 				C9DFCF6A23F294C00032243D /* CivicDiscoveredMessage.swift in Sources */,
@@ -1596,6 +1611,7 @@
 				C964BA2D23EBF58E00CA379C /* AdvisorMessage.swift in Sources */,
 				C964BA2923EB6CDC00CA379C /* MilitaryStrategyType.swift in Sources */,
 				C9E74CC0248FC6C0003EF256 /* DiplomaticStateMachine.swift in Sources */,
+				C917CCDA26F221D2006DCC42 /* GovernorType.swift in Sources */,
 				C997908D2519044E003E52C9 /* QuickSneakCityAttackOperation.swift in Sources */,
 				C9AAF4C02581FC8000D7F357 /* MapWriter.swift in Sources */,
 				C9F76AAB242E14C00018672A /* PurchaseType.swift in Sources */,
@@ -1787,7 +1803,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1847,7 +1863,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -1918,6 +1934,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 56RR42EQK6;
 				GCC_PREFIX_HEADER = "Tests-Prefix.pch";
@@ -1939,7 +1956,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3XR2XX99JT;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
 				GCC_PREFIX_HEADER = "Tests-Prefix.pch";
 				INFOPLIST_FILE = SmartAILibraryTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

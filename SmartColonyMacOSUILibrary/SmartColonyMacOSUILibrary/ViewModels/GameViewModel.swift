@@ -51,6 +51,7 @@ protocol GameViewModelDelegate: AnyObject {
     func showChangeGovernmentDialog()
     func showChangePoliciesDialog()
     func showTreasuryDialog()
+    func showGovernorsDialog()
     func showTradeRouteDialog()
 
     func showCityNameDialog()
@@ -76,12 +77,15 @@ protocol GameViewModelDelegate: AnyObject {
     func showSelectCityDialog(start startCity: AbstractCity?,
                               of cities: [AbstractCity?],
                               completion: @escaping (AbstractCity?) -> Void)
+    func showSelectionDialog(titled title: String, items: [SelectableItem], completion: @escaping (Int) -> Void)
 
     func closeDialog()
     func closePopup()
+
+    func update()
 }
 
-// swiftlint:disable:type_body_length
+// swiftlint:disable type_body_length
 public class GameViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
@@ -104,6 +108,9 @@ public class GameViewModel: ObservableObject {
 
     @Published
     var combatBannerViewModel: CombatBannerViewModel
+
+    @Published
+    var headerViewModel: HeaderViewModel
 
     // dialogs
 
@@ -153,7 +160,13 @@ public class GameViewModel: ObservableObject {
     var treasuryDialogViewModel: TreasuryDialogViewModel
 
     @Published
+    var governorsDialogViewModel: GovernorsDialogViewModel
+
+    @Published
     var tradeRoutesDialogViewModel: TradeRoutesDialogViewModel
+
+    @Published
+    var selectItemsDialogViewModel: SelectItemsDialogViewModel
 
     // UI
 
@@ -218,7 +231,7 @@ public class GameViewModel: ObservableObject {
         "grid9-button-district", "grid9-button-highlighted", "questionmark", "tile-purchase-active",
         "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced",
         "city-canvas", "pantheon-background", "turns", "unit-banner", "combat-view",
-        "unit-strength-background", "unit-strength-frame", "unit-strength-bar"
+        "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty"
     ]
 
     // MARK: constructor
@@ -228,6 +241,7 @@ public class GameViewModel: ObservableObject {
         // init models
         self.gameSceneViewModel = GameSceneViewModel()
         self.notificationsViewModel = NotificationsViewModel()
+        self.headerViewModel = HeaderViewModel()
         self.cityBannerViewModel = CityBannerViewModel()
         self.unitBannerViewModel = UnitBannerViewModel(selectedUnit: nil)
         self.combatBannerViewModel = CombatBannerViewModel()
@@ -248,11 +262,14 @@ public class GameViewModel: ObservableObject {
         self.selectPromotionDialogViewModel = SelectPromotionDialogViewModel()
         self.selectPantheonDialogViewModel = SelectPantheonDialogViewModel()
         self.treasuryDialogViewModel = TreasuryDialogViewModel()
+        self.governorsDialogViewModel = GovernorsDialogViewModel()
         self.tradeRoutesDialogViewModel = TradeRoutesDialogViewModel()
+        self.selectItemsDialogViewModel = SelectItemsDialogViewModel()
 
         // connect models
         self.gameSceneViewModel.delegate = self
         self.notificationsViewModel.delegate = self
+        self.headerViewModel.delegate = self
         self.cityBannerViewModel.delegate = self
         self.unitBannerViewModel.delegate = self
         self.combatBannerViewModel.delegate = self
@@ -272,7 +289,9 @@ public class GameViewModel: ObservableObject {
         self.selectPromotionDialogViewModel.delegate = self
         self.selectPantheonDialogViewModel.delegate = self
         self.treasuryDialogViewModel.delegate = self
+        self.governorsDialogViewModel.delegate = self
         self.tradeRoutesDialogViewModel.delegate = self
+        self.selectItemsDialogViewModel.delegate = self
 
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -554,6 +573,14 @@ public class GameViewModel: ObservableObject {
             )
         }
 
+        print("- load \(textures.governorPortraitTextureNames.count) governor portrait textures")
+        for governorPortraitTextureName in textures.governorPortraitTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: governorPortraitTextureName),
+                for: governorPortraitTextureName
+            )
+        }
+
         print("-- all textures loaded --")
     }
 
@@ -582,6 +609,11 @@ public class GameViewModel: ObservableObject {
         }
 
         print("cant center on capital: no capital nor units")
+    }
+
+    func update() {
+
+        self.headerViewModel.update()
     }
 
     public func centerOnCursor() {
@@ -971,6 +1003,9 @@ extension GameViewModel: GameViewModelDelegate {
         case .selectPantheon:
             self.showSelectPantheonDialog()
 
+        case .governors:
+            self.showGovernorsDialog()
+
         default:
             print("screen: \(screenType) not handled")
         }
@@ -1010,6 +1045,34 @@ extension GameViewModel: GameViewModelDelegate {
             self.currentScreenType = .selectTradeCity
         } else {
             fatalError("cant show select trade city dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+
+    func showSelectionDialog(titled title: String,
+                             items: [SelectableItem],
+                             completion: @escaping (Int) -> Void) {
+
+        if self.currentScreenType == .selectItems {
+            // already shown
+            return
+        }
+
+        let previousScreenType: ScreenType = self.currentScreenType
+
+        let tmpCompletion: SelectItemsDialogViewModel.SelectItemsCompletionBlock = { selectedIndex in
+
+            // switch back to previous screen, ...
+            self.currentScreenType = previousScreenType
+
+            // ... before calling the completion handler of that screen
+            completion(selectedIndex)
+        }
+
+        if self.currentScreenType == .none || self.currentScreenType == .governors {
+            self.selectItemsDialogViewModel.update(title: title, items: items, completion: tmpCompletion)
+            self.currentScreenType = .selectItems
+        } else {
+            fatalError("cant show select items dialog, \(self.currentScreenType) is currently shown")
         }
     }
 

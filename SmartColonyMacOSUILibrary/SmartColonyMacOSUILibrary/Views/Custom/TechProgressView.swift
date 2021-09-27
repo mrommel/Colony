@@ -14,16 +14,6 @@ struct TechProgressView: View {
     @ObservedObject
     public var viewModel: TechProgressViewModel
 
-    private var gridItemLayout = [
-        GridItem(.fixed(18), spacing: 2.0),
-        GridItem(.fixed(18), spacing: 2.0),
-        GridItem(.fixed(18), spacing: 2.0),
-        GridItem(.fixed(18), spacing: 2.0),
-        GridItem(.fixed(18), spacing: 2.0),
-        GridItem(.fixed(18), spacing: 2.0),
-        GridItem(.fixed(18), spacing: 2.0)
-    ]
-
     public init(viewModel: TechProgressViewModel) {
 
         self.viewModel = viewModel
@@ -54,7 +44,7 @@ struct TechProgressView: View {
                 .padding(.leading, 35)
                 .font(.footnote)
 
-            LazyVGrid(columns: gridItemLayout, spacing: 4) {
+            LazyVStack(spacing: 4) {
 
                 ForEach(self.viewModel.achievementViewModels, id: \.self) { achievementViewModel in
 
@@ -68,8 +58,13 @@ struct TechProgressView: View {
             .padding(.top, 12)
             .padding(.leading, 28)
 
+            Text("\(self.viewModel.turns)")
+                .font(.system(size: 6))
+                .padding(.top, 39)
+                .padding(.leading, 14)
+
             Text(self.viewModel.boostText())
-                .font(.system(size: 5))
+                .font(.system(size: 6))
                 .padding(.top, 38)
                 .padding(.leading, 39)
         }
@@ -87,10 +82,14 @@ struct TechProgressView_Previews: PreviewProvider {
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = TechProgressViewModel(techType: .archery, progress: 27, boosted: true)
 
-        TechProgressView(viewModel: viewModel)
+        let viewModelArchery = TechProgressViewModel(techType: .archery, progress: 27, turns: 3, boosted: true)
+        TechProgressView(viewModel: viewModelArchery)
             .previewDisplayName("Archery")
+
+        let viewModelBronzeWorking = TechProgressViewModel(techType: .bronzeWorking, progress: 27, turns: 3, boosted: false)
+        TechProgressView(viewModel: viewModelBronzeWorking)
+            .previewDisplayName("Bronze Working")
     }
 }
 #endif

@@ -14,7 +14,7 @@ struct SelectPromotionDialogView: View {
 
     var body: some View {
 
-        BaseDialogView(title: "Select promotion", viewModel: self.viewModel) {
+        BaseDialogView(title: "Select promotion", mode: .portrait, viewModel: self.viewModel) {
             ScrollView(.vertical, showsIndicators: true, content: {
 
                 LazyVStack(spacing: 4) {

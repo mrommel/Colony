@@ -1528,6 +1528,22 @@ open class GameModel: Codable {
         return religions.religions(in: self)
     }
 
+    func religion(of religionType: ReligionType) -> AbstractPlayerReligion? {
+
+        for player in self.players {
+
+            guard let playerReligion = player.religion else {
+                continue
+            }
+
+            if playerReligion.currentReligion() == religionType {
+                return playerReligion
+            }
+        }
+
+        return nil
+    }
+
     func numPantheonsCreated() -> Int {
 
         guard let religions = self.religionsVal else {

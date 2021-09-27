@@ -22,6 +22,7 @@ public extension Globals {
         public static var districtActive: TypeColor = TypeColor.UI.veryDarkBlue
         public static var dialogBackground: TypeColor = TypeColor.UI.midnight
         public static var dialogCenter: TypeColor = TypeColor.UI.nileBlue
+        public static var dialogBorder: TypeColor = TypeColor.supernova
 
         // Overview
         public static var overviewBackground: TypeColor = TypeColor.Terrain.pergament
@@ -57,15 +58,19 @@ public extension Globals {
         }
 
         public static var gold: NSImage {
-            return loadCachedTexture(with: "gold")
+            return Icons.loadCachedTexture(with: "gold")
         }
 
         public static var turns: NSImage {
-            return loadCachedTexture(with: "turns")
+            return Icons.loadCachedTexture(with: "turns")
         }
 
         public static var tradeRoute: NSImage {
-            return loadCachedTexture(with: "tradeRoute")
+            return Icons.loadCachedTexture(with: "tradeRoute")
+        }
+
+        public static var loyalty: NSImage {
+            return loadCachedTexture(with: "loyalty")
         }
     }
 }

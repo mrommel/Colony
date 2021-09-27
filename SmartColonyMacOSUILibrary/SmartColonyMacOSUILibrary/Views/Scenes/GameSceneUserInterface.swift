@@ -149,6 +149,11 @@ extension GameScene: UserInterfaceDelegate {
         self.viewModel?.delegate?.showSelectCityDialog(start: startCity, of: cities, completion: completion)
     }
 
+    func askForSelection(title: String, items: [SelectableItem], completion: @escaping (Int) -> Void) {
+
+        self.viewModel?.delegate?.showSelectionDialog(titled: title, items: items, completion: completion)
+    }
+
     func show(city: AbstractCity?) {
 
         self.mapNode?.cityLayer.show(city: city)

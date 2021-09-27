@@ -53,7 +53,7 @@ public struct GameView: View {
 
             TopBarView(viewModel: self.viewModel.gameSceneViewModel.topBarViewModel)
 
-            HeaderView(viewModel: self.viewModel.gameSceneViewModel)
+            HeaderView(viewModel: self.viewModel.headerViewModel)
 
             self.dialog
 
@@ -89,6 +89,8 @@ extension GameView {
 
         case .treasury:
             return AnyView(TreasuryDialogView(viewModel: self.viewModel.treasuryDialogViewModel))
+        case .governors:
+            return AnyView(GovernorsDialogView(viewModel: self.viewModel.governorsDialogViewModel))
         case .tradeRoutes:
             return AnyView(TradeRoutesDialogView(viewModel: self.viewModel.tradeRoutesDialogViewModel))
         case .government:
@@ -113,6 +115,9 @@ extension GameView {
             return AnyView(CityListDialogView(viewModel: self.viewModel.cityListDialogViewModel))
         case .selectPantheon:
             return AnyView(SelectPantheonDialogView(viewModel: self.viewModel.selectPantheonDialogViewModel))
+
+        case .selectItems:
+            return AnyView(SelectItemsDialogView(viewModel: self.viewModel.selectItemsDialogViewModel))
         }
     }
 

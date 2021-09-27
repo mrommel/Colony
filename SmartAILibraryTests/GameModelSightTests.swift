@@ -39,7 +39,7 @@ class GameModelSightTests: XCTestCase {
         let visibleBefore = gameModel.tile(at: HexPoint(x: 2, y: 2))?.isVisible(to: playerAugustus)
 
         // WHEN
-        gameModel.sight(at: HexPoint(x: 2, y: 2), sight: 1, for: playerAugustus, in: gameModel)
+        gameModel.sight(at: HexPoint(x: 2, y: 2), sight: 1, for: playerAugustus)
 
         // THEN
         let visibleAfter = gameModel.tile(at: HexPoint(x: 2, y: 2))?.isVisible(to: playerAugustus)
@@ -75,7 +75,7 @@ class GameModelSightTests: XCTestCase {
         let visibleBefore = gameModel.tile(at: HexPoint(x: 2, y: 2))?.isVisible(to: playerAugustus)
 
         // WHEN
-        gameModel.sight(at: HexPoint(x: 2, y: 3), sight: 1, for: playerAugustus, in: gameModel)
+        gameModel.sight(at: HexPoint(x: 2, y: 3), sight: 1, for: playerAugustus)
         gameModel.conceal(at: HexPoint(x: 2, y: 1), sight: 1, for: playerAugustus)
 
         // THEN

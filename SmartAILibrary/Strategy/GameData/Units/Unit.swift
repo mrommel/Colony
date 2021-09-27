@@ -3018,6 +3018,21 @@ public class Unit: AbstractUnit {
             fatalError("cant get gameModel")
         }
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        if player.isBarbarian() {
+            if let otherPlayerTech = other?.techs {
+                // Bronze Working eureka: Kill 3 Barbarians
+                otherPlayerTech.changeEurekaValue(for: .bronzeWorking, change: 1)
+
+                if otherPlayerTech.eurekaValue(for: .bronzeWorking) >= 3 {
+                    otherPlayerTech.triggerEureka(for: .bronzeWorking, in: gameModel)
+                }
+            }
+        }
+
         if delayed {
             self.startDelayedDeath()
             return

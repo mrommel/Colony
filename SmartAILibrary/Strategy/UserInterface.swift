@@ -109,6 +109,7 @@ public enum ScreenType {
     case treasury
     case interimRanking
     case diplomatic
+    case governors
     case tradeRoutes
 
     case government // <-- main dialog
@@ -122,6 +123,8 @@ public enum ScreenType {
     case disbandConfirm
     case selectTradeCity
 
+    case selectItems
+
     case cityName
 
     case menu
@@ -133,6 +136,20 @@ public enum UnitAnimationType {
 
     case fortify
     case unfortify
+}
+
+public struct SelectableItem {
+
+    public let iconTexture: String?
+    public let title: String
+    public let subtitle: String
+
+    public init(iconTexture: String? = nil, title: String, subtitle: String = "") {
+
+        self.iconTexture = iconTexture
+        self.title = title
+        self.subtitle = subtitle
+    }
 }
 
 public protocol UserInterfaceDelegate: AnyObject {
@@ -164,6 +181,7 @@ public protocol UserInterfaceDelegate: AnyObject {
     // todo - should not be part of the interface protocol
     func askToDisband(unit: AbstractUnit?, completion: @escaping (Bool) -> Void)
     func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?) -> Void)
+    func askForSelection(title: String, items: [SelectableItem], completion: @escaping (Int) -> Void)
 
     // on map
     func show(city: AbstractCity?)

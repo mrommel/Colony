@@ -22,7 +22,7 @@ struct CityListDialogView: View {
 
     var body: some View {
 
-        BaseDialogView(title: "Cities", viewModel: self.viewModel) {
+        BaseDialogView(title: "Cities", mode: .portrait, viewModel: self.viewModel) {
             ScrollView(.vertical, showsIndicators: true, content: {
 
                 LazyVStack(spacing: 4) {

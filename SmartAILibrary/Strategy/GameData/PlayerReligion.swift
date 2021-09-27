@@ -30,6 +30,7 @@ public protocol AbstractPlayerReligion: AnyObject, Codable {
     func canCreatePantheon(checkFaithTotal: Bool, in gameModel: GameModel?) -> PantheonFoundingType
     func foundPantheon(with pantheonType: PantheonType, in gameModel: GameModel?)
 
+    @discardableResult
     func computeMajority(notifications: Bool, in gameModel: GameModel?) -> Bool
     func canAffordFaithPurchase(with faith: Double, in gameModel: GameModel?) -> Bool
 
@@ -333,11 +334,24 @@ class PlayerReligion: AbstractPlayerReligion {
 
         return self.majorityPlayerReligion
     }
+
+    func has(belief beliefType: BeliefType) -> Bool {
+
+        return self.beliefVal0 == beliefType ||
+            self.beliefVal1 == beliefType ||
+            self.beliefVal2 == beliefType ||
+            self.beliefVal3 == beliefType
+    }
 }
 
 extension PlayerReligion {
 
     func spreadDistanceModifier() -> Int {
+
+        // Religion spreads to cities 30% further away.
+        if self.has(belief: .itinerantPreachers) {
+            return 30
+        }
 
         return 0
     }

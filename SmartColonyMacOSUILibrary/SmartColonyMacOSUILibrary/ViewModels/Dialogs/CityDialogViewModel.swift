@@ -15,9 +15,10 @@ enum CityDetailViewType {
     case growth
     case citizen
     case religion
+    case loyalty
 
     static var all: [CityDetailViewType] = [
-        .production, .buildings, .growth, .citizen, .religion
+        .production, .buildings, .growth, .citizen, .religion, .loyalty
     ]
 
     func name() -> String {
@@ -34,6 +35,8 @@ enum CityDetailViewType {
             return "Citizen"
         case .religion:
             return "Religion"
+        case .loyalty:
+            return "Loyalty"
         }
     }
 }
@@ -85,6 +88,9 @@ class CityDialogViewModel: ObservableObject {
     @Published
     var religionViewModel: CityReligionViewModel
 
+    @Published
+    var loyaltyViewModel: CityLoyaltyViewModel
+
     private var city: AbstractCity?
 
     weak var delegate: GameViewModelDelegate?
@@ -103,6 +109,7 @@ class CityDialogViewModel: ObservableObject {
         self.growthViewModel = CityGrowthViewModel(city: city)
         self.citizenViewModel = CityCitizenViewModel(city: city)
         self.religionViewModel = CityReligionViewModel(city: city)
+        self.loyaltyViewModel = CityLoyaltyViewModel(city: city)
 
         self.citizenViewModel.delegate = self
 
@@ -137,6 +144,7 @@ class CityDialogViewModel: ObservableObject {
             self.growthViewModel.update(for: city)
             self.citizenViewModel.update(for: city)
             self.religionViewModel.update(for: city)
+            self.loyaltyViewModel.update(for: city)
         }
     }
 

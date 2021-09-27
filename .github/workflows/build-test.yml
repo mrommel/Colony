@@ -1,0 +1,25 @@
+name: Swift
+
+on: 
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+    
+jobs:
+  run-workspace-tests:
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: apple-actions/import-codesign-certs@v1
+      with: 
+        p12-file-base64: ${{ secrets.CERTIFICATES_P12 }}
+        p12-password: ${{ secrets.CERTIFICATES_P12_PASSWORD }}
+    - name: List available Xcode versions
+      run: ls /Applications | grep Xcode
+    - name: Select Xcode
+      run: sudo xcode-select -switch /Applications/Xcode.app && /usr/bin/xcodebuild -version
+    - name: Show Content
+      run: ls .
+    - name: Run unit tests
+      run: xcodebuild test -scheme SmartAILibrary -workspace Colony.xcworkspace -destination 'platform=macOS' | xcpretty && exit ${PIPESTATUS[0]}

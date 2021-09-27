@@ -12,6 +12,8 @@ public enum ReligiousFollowChangeReasonType {
 
     case followerChangeHolyCity // FOLLOWER_CHANGE_HOLY_CITY
     case followerChangeAdoptFully // FOLLOWER_CHANGE_ADOPT_FULLY
+    case followerChangeMissionary // FOLLOWER_CHANGE_MISSIONARY
+    case followerChangeAdjacentPressure // FOLLOWER_CHANGE_ADJACENT_PRESSURE
 }
 
 public class ReligiousWeightList: WeightedList<ReligionType> {
@@ -46,6 +48,16 @@ public protocol AbstractCityReligion {
     func resetNumTradeRoutePressure()
     func isHolyCityAnyReligion() -> Bool
     func addHolyCityPressure(in gameModel: GameModel?)
+    func religiousPressureModifier(for religionType: ReligionType) -> Int
+
+    func addReligiousPressure(
+        reason: ReligiousFollowChangeReasonType,
+        pressure: Int,
+        for religionType: ReligionType,
+        in gameModel: GameModel?
+    )
+
+    func incrementNumTradeRouteConnections(by numTradeRoutes: Int, for religionType: ReligionType)
 }
 
 class ReligionInCity: Codable {
@@ -307,10 +319,9 @@ public class CityReligion: AbstractCityReligion, Codable {
     /// Is this the holy city for any religion?
     public func isHolyCityAnyReligion() -> Bool {
 
-        for religionInCityListIterator in self.religionStatus {
-            if religionInCityListIterator.foundedHere {
-                return true
-            }
+        for religionInCityListIterator in self.religionStatus where religionInCityListIterator.foundedHere {
+
+            return true
         }
 
         return false
@@ -327,22 +338,72 @@ public class CityReligion: AbstractCityReligion, Codable {
         var recompute = false
         let oldMajorityReligion = self.religiousMajority()
 
-        for religionInCityListIterator in self.religionStatus {
+        for religionInCityListIterator in self.religionStatus where religionInCityListIterator.foundedHere {
 
-            if religionInCityListIterator.foundedHere {
+            var pressure = 150 /*GC.getGame().getGameSpeedInfo().getReligiousPressureAdjacentCity();*/
+            pressure *= 5 /* GC.getRELIGION_PER_TURN_FOUNDING_CITY_PRESSURE();*/
+            religionInCityListIterator.pressure += pressure
 
-                var pressure = 150 /*GC.getGame().getGameSpeedInfo().getReligiousPressureAdjacentCity();*/
-                pressure *= 5 /* GC.getRELIGION_PER_TURN_FOUNDING_CITY_PRESSURE();*/
-                religionInCityListIterator.pressure += pressure
-
-                // Found it, so we're done
-                recompute = true
-            }
+            // Found it, so we're done
+            recompute = true
         }
 
         // Didn't find it, add new entry
         if recompute {
             self.recomputeFollowers(reason: .followerChangeHolyCity, oldMajorityReligion: oldMajorityReligion, in: gameModel)
+        }
+    }
+
+    public func religiousPressureModifier(for religionType: ReligionType) -> Int {
+
+        return 0
+    }
+
+    /// Add pressure to recruit followers to a religion
+    public func addReligiousPressure(reason: ReligiousFollowChangeReasonType, pressure: Int, for religionType: ReligionType, in gameModel: GameModel?) {
+
+        var foundIt: Bool = false
+
+        let oldMajorityReligion = self.religiousMajority()
+        let religion = gameModel?.religion(of: religionType)
+
+        for status in self.religionStatus {
+
+            if status.religionType == religionType {
+
+                status.pressure += pressure
+                foundIt = true
+
+            } else if status.religionType == .pantheon {
+
+                // If this is pressure from a real religion, reduce presence of pantheon by the same amount
+                status.pressure = max(0, (status.pressure - pressure))
+
+            } /*else if reason == .followerChangeMissionary {
+
+                let pressureErosion = religion.belie s.otherReligionPressureErosion() // Normally 0
+                if pressureErosion > 0 {
+                    let erosionAmount = pressureErosion * pressure / 100
+                    status.pressure = max(0, (status.pressure - erosionAmount))
+                }
+            }*/
+        }
+
+        // Didn't find it, add new entry
+        if !foundIt {
+            let newReligion = ReligionInCity(religionType: religionType, foundedHere: false, followers: 0, pressure: pressure)
+            self.religionStatus.append(newReligion)
+        }
+
+        self.recomputeFollowers(reason: reason, oldMajorityReligion: oldMajorityReligion, in: gameModel)
+    }
+
+    /// Increment the number of trade connections a city has
+    public func incrementNumTradeRouteConnections(by numTradeRoutes: Int, for religionType: ReligionType) {
+
+        for status in self.religionStatus where status.religionType == religionType {
+
+            status.numTradeRoutesApplyingPressure += numTradeRoutes
         }
     }
 
@@ -358,9 +419,8 @@ public class CityReligion: AbstractCityReligion, Codable {
         var pressurePerFollower: Int = 0
 
         // Safety check to avoid divide by zero
-        if unassignedFollowers < 1 {
+        guard unassignedFollowers > 0 else {
             fatalError("Invalid city population when recomputing followers")
-            return
         }
 
         // Find total pressure
@@ -378,13 +438,11 @@ public class CityReligion: AbstractCityReligion, Codable {
             religion.foundedHere = false
             religion.religionType = .none
 
-            for religionInCityListIterator in self.religionStatus {
+            for religionInCityListIterator in self.religionStatus where religionInCityListIterator.foundedHere {
 
-                if religionInCityListIterator.foundedHere {
-                    religion.foundedHere = true
-                    religion.religionType = religionInCityListIterator.religionType
-                    break
-                }
+                religion.foundedHere = true
+                religion.religionType = religionInCityListIterator.religionType
+                break
             }
 
             self.religionStatus.removeAll()
@@ -413,18 +471,15 @@ public class CityReligion: AbstractCityReligion, Codable {
         }
 
         // Assign out the remainder
-        for unassignedFollower in 0..<unassignedFollowers {
+        for _ in 0..<unassignedFollowers {
 
             var itLargestRemainder: ReligionInCity = ReligionInCity()
             var largestRemainder: Int = 0
 
-            for religionInCityListIterator in self.religionStatus {
+            for religionInCityListIterator in self.religionStatus where religionInCityListIterator.temp > largestRemainder {
 
-                if religionInCityListIterator.temp > largestRemainder {
-
-                    largestRemainder = religionInCityListIterator.temp
-                    itLargestRemainder = religionInCityListIterator
-                }
+                largestRemainder = religionInCityListIterator.temp
+                itLargestRemainder = religionInCityListIterator
             }
 
             if largestRemainder > 0 {

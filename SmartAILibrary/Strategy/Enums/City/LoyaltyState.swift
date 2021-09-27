@@ -15,6 +15,21 @@ public enum LoyaltyState {
     case disloyal
     case unrest
 
+    public func name() -> String {
+
+        switch self {
+
+        case .loyal:
+            return "Loyal"
+        case .wavering:
+            return "Wavering"
+        case .disloyal:
+            return "Disloyal"
+        case .unrest:
+            return "Unrest"
+        }
+    }
+
     public func yieldFactor() -> Double {
 
         switch self {

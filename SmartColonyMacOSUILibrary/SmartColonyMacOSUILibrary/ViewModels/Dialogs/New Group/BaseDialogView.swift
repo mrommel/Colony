@@ -31,15 +31,59 @@ extension View {
     }
 }
 
+enum DialogMode {
+
+    case portrait
+    case landscape
+
+    var contentWidth: CGFloat {
+
+        switch self {
+
+        case .portrait: return 350
+        case .landscape: return 750
+        }
+    }
+
+    var contentHeight: CGFloat {
+
+        switch self {
+
+        case .portrait: return 330
+        case .landscape: return 330
+        }
+    }
+
+    var dialogWidth: CGFloat {
+
+        switch self {
+
+        case .portrait: return 400
+        case .landscape: return 800
+        }
+    }
+
+    var dialogHeight: CGFloat {
+
+        switch self {
+
+        case .portrait: return 450
+        case .landscape: return 450
+        }
+    }
+}
+
 struct BaseDialogView<Content>: View where Content: View {
 
     let title: String
+    let mode: DialogMode
     let viewModel: BaseDialogViewModel
     var content: Content
 
-    public init(title: String, viewModel: BaseDialogViewModel, @ViewBuilder content: () -> Content) {
+    public init(title: String, mode: DialogMode, viewModel: BaseDialogViewModel, @ViewBuilder content: () -> Content) {
 
         self.title = title
+        self.mode = mode
         self.viewModel = viewModel
         self.content = content()
     }
@@ -61,7 +105,7 @@ struct BaseDialogView<Content>: View where Content: View {
                 }
 
                 self.content
-                    .frame(width: 340, height: 330, alignment: .center)
+                    .frame(width: self.mode.contentWidth, height: self.mode.contentHeight, alignment: .center)
                     .border(Color.gray)
 
                 Button(action: {
@@ -75,7 +119,7 @@ struct BaseDialogView<Content>: View where Content: View {
             .padding(.leading, 45)
             .padding(.trailing, 45)
         }
-        .frame(width: 400, height: 450, alignment: .top)
+        .frame(width: self.mode.dialogWidth, height: self.mode.dialogHeight, alignment: .top)
         .dialogBackground()
     }
 }
@@ -95,8 +139,12 @@ struct BaseDialogView_Previews: PreviewProvider {
         let _ = GameViewModel(preloadAssets: true)
         let viewModel = BaseDialogViewModelImpl()
 
-        BaseDialogView(title: "Title", viewModel: viewModel) {
-            Text("Content")
+        BaseDialogView(title: "Title", mode: .portrait, viewModel: viewModel) {
+            Text("portrait Content")
+        }
+
+        BaseDialogView(title: "Title", mode: .landscape, viewModel: viewModel) {
+            Text("landscape Content")
         }
     }
 }

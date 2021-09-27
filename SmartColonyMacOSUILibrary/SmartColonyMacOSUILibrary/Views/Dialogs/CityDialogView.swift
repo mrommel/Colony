@@ -105,6 +105,8 @@ struct CityDialogView: View {
             return AnyView(CityCitizenView(viewModel: self.viewModel.citizenViewModel))
         case .religion:
             return AnyView(CityReligionView(viewModel: self.viewModel.religionViewModel))
+        case .loyalty:
+            return AnyView(CityLoyaltyView(viewModel: self.viewModel.loyaltyViewModel))
         }
     }
 }

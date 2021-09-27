@@ -15,7 +15,7 @@ extension NotificationType {
 
         case .turn: return "button-turn"
 
-        case .generic: return "button-generic" // #
+        case .generic: return "button-default"
 
         case .techNeeded: return "button-tech-needed"
         case .civicNeeded: return "button-civic-needed"
@@ -24,10 +24,10 @@ extension NotificationType {
 
         case .cityGrowth: return "button-city-growth"
         case .starving: return "button-starving"
-        case .diplomaticDeclaration: return "button-diplomatic-declaration" // #
-        case .war: return "button-war" // #
-        case .enemyInTerritory: return "button-enemy-in-territory" // #
-        case .unitPromotion: return "button-promotion" // #
+        case .diplomaticDeclaration: return "button-diplomatic-declaration"
+        case .war: return "button-war"
+        case .enemyInTerritory: return "button-enemy-in-territory"
+        case .unitPromotion: return "button-promotion"
         case .unitNeedsOrders: return "button-unit-needs-orders"
         case .unitDied: return "button-unit-died"
 
@@ -35,6 +35,8 @@ extension NotificationType {
         case .policiesNeeded: return "button-policies-needed"
 
         case .greatPersonJoined: return "button-great-person-joined"
+
+        case .governorTitleAvailable: return "button-default"
         }
     }
 }

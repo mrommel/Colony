@@ -27,6 +27,12 @@ struct HeaderButtonView: View {
                 .frame(width: 38, height: 38, alignment: .center)
                 .padding(.top, 4)
                 .padding(.leading, 9.5)
+
+            Image(nsImage: self.viewModel.alertImage())
+                .resizable()
+                .frame(width: 38, height: 38, alignment: .center)
+                .padding(.top, 4)
+                .padding(.leading, 9.5)
                 .onTapGesture {
                     self.viewModel.clicked()
                 }

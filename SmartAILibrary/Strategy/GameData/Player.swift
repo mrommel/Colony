@@ -44,6 +44,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     var religion: AbstractPlayerReligion? { get }
     var greatPeople: AbstractGreatPeople? { get }
     var tradeRoutes: AbstractTradeRoutes? { get }
+    var governors: AbstractPlayerGovernors? { get }
 
     var grandStrategyAI: GrandStrategyAI? { get }
     var diplomacyAI: DiplomaticAI? { get }
@@ -139,6 +140,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     // civic
     func has(civic: CivicType) -> Bool
+    func addGovernorTitle()
 
     // wonders
     func has(wonder: WonderType, in gameModel: GameModel?) -> Bool
@@ -277,6 +279,7 @@ public class Player: AbstractPlayer {
         case cityConnections
         case goodyHuts
         case tradeRoutes
+        case governors
 
         case operations
         case notifications
@@ -317,6 +320,7 @@ public class Player: AbstractPlayer {
     public var treasury: AbstractTreasury?
     public var greatPeople: AbstractGreatPeople?
     public var tradeRoutes: AbstractTradeRoutes?
+    public var governors: AbstractPlayerGovernors?
 
     public var government: AbstractGovernment?
     internal var currentEraVal: EraType = .ancient
@@ -402,6 +406,7 @@ public class Player: AbstractPlayer {
         self.cityConnections = try container.decode(CityConnections.self, forKey: .cityConnections)
         self.goodyHuts = try container.decode(GoodyHuts.self, forKey: .goodyHuts)
         self.tradeRoutes = try container.decode(TradeRoutes.self, forKey: .tradeRoutes)
+        self.governors = try container.decode(PlayerGovernors.self, forKey: .governors)
 
         self.techs = try container.decode(Techs.self, forKey: .techs)
         self.civics = try container.decode(Civics.self, forKey: .civics)
@@ -430,6 +435,7 @@ public class Player: AbstractPlayer {
         self.government?.player = self
         self.greatPeople?.player = self
         self.tradeRoutes?.player = self
+        self.governors?.player = self
 
         self.grandStrategyAI?.player = self
         self.diplomacyAI?.player = self
@@ -449,6 +455,7 @@ public class Player: AbstractPlayer {
         self.notificationsValue?.player = self
     }
 
+    // swiftlint:disable force_cast
     public func encode(to encoder: Encoder) throws {
 
         var container = encoder.container(keyedBy: CodingKeys.self)
@@ -479,6 +486,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.cityConnections, forKey: .cityConnections)
         try container.encode(self.goodyHuts, forKey: .goodyHuts)
         try container.encode(self.tradeRoutes as! TradeRoutes, forKey: .tradeRoutes)
+        try container.encode(self.governors as! PlayerGovernors, forKey: .governors)
 
         try container.encode(self.techs as! Techs, forKey: .techs)
         try container.encode(self.civics as! Civics, forKey: .civics)
@@ -498,6 +506,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.canChangeGovernmentValue, forKey: .canChangeGovernment)
         try container.encode(self.faithPurchaseTypeVal, forKey: .faithPurchaseType)
     }
+    // swiftlint:enable force_cast
 
     // public methods
 
@@ -520,6 +529,7 @@ public class Player: AbstractPlayer {
         self.cityConnections = CityConnections(player: self)
         self.goodyHuts = GoodyHuts(player: self)
         self.tradeRoutes = TradeRoutes(player: self)
+        self.governors = PlayerGovernors(player: self)
 
         self.techs = Techs(player: self)
         self.civics = Civics(player: self)
@@ -1104,6 +1114,7 @@ public class Player: AbstractPlayer {
 
                 // Do diplomacy for toward everyone
                 self.diplomacyAI?.turn(in: gameModel)
+                self.governors?.doTurn(in: gameModel)
 
                 if !self.isHuman() {
                     hasActiveDiploRequest = self.hasActiveDiploRequestWithHuman()
@@ -2111,6 +2122,11 @@ public class Player: AbstractPlayer {
         }
 
         return false
+    }
+
+    public func addGovernorTitle() {
+
+        self.governors?.addTitle()
     }
 
     public func has(wonder wonderType: WonderType, in gameModel: GameModel?) -> Bool {
@@ -3992,7 +4008,7 @@ public class Player: AbstractPlayer {
             print("1 envoy")
 
         case .diplomacyMajorBoost:
-            print("1 governor title")
+            self.governors?.addTitle()
 
         case .freeScout:
             let scoutUnit = Unit(at: tile.point, type: .scout, owner: self)

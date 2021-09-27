@@ -18,6 +18,8 @@ public enum ReligionType: Codable, Equatable {
 
     case none
 
+    case pantheon
+
     case atheism
 
     case buddhism
@@ -62,6 +64,9 @@ public enum ReligionType: Codable, Equatable {
 
         case .none:
             return "none"
+
+        case .pantheon:
+            return "pantheon"
 
         case .atheism:
             return "atheism"

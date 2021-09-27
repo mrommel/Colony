@@ -72,6 +72,7 @@ public class Textures {
     public let pantheonTypeTextureNames: [String]
     public let promotionTextureNames: [String]
     public let promotionStateBackgroundTextureNames: [String]
+    public let governorPortraitTextureNames: [String]
 
     public init(game: GameModel?) {
 
@@ -150,7 +151,7 @@ public class Textures {
             "yield-5-2-0",
             "yield-5-3-0",
             // 6
-            "yield-6-0-0",
+            "yield-6-0-0", "yield-6-0-1",
             "yield-6-1-0", "yield-6-1-1",
             // 7
             "yield-7-0-0"
@@ -184,7 +185,9 @@ public class Textures {
             "header-button-government-active", "header-button-government-disabled",
             "header-button-log-active", "header-button-log-disabled",
             "header-button-science-active", "header-button-science-disabled",
-            "header-button-tradeRoutes-active", "header-button-tradeRoutes-disabled"
+            "header-button-tradeRoutes-active", "header-button-tradeRoutes-disabled",
+            "header-button-governors-active", "header-button-governors-disabled",
+            "header-alert"
         ]
         self.cityProgressTextureNames = Array(0...20).map { "linear-progress-\($0 * 5)" }
         self.cityTextureNames = [
@@ -216,6 +219,7 @@ public class Textures {
         self.pantheonTypeTextureNames = PantheonType.all.map { $0.iconTexture() }
         self.promotionTextureNames = UnitPromotionType.all.map { $0.iconTexture() }
         self.promotionStateBackgroundTextureNames = PromotionState.all.map { $0.iconTexture() }
+        self.governorPortraitTextureNames = GovernorType.all.map { $0.portraitTexture() }
     }
 
     public func terrainTexture(at point: HexPoint) -> String {

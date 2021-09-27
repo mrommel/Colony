@@ -1,0 +1,61 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "BinarySwift",
+        "repositoryURL": "https://github.com/mrommel/BinarySwift",
+        "state": {
+          "branch": null,
+          "revision": "f811044ac5ee0d840ee19a6d27d7fa71a1edde82",
+          "version": "0.9.6"
+        }
+      },
+      {
+        "package": "R.swift.Library",
+        "repositoryURL": "https://github.com/mac-cain13/R.swift.Library",
+        "state": {
+          "branch": null,
+          "revision": "4a09ece7d0a30edcd95462ce7d252dd4d3a49843",
+          "version": "5.1.0"
+        }
+      },
+      {
+        "package": "SDWebImage",
+        "repositoryURL": "https://github.com/SDWebImage/SDWebImage.git",
+        "state": {
+          "branch": null,
+          "revision": "e857b78ca4c8afe616b794aeb090d40f4e348072",
+          "version": "5.10.0"
+        }
+      },
+      {
+        "package": "SDWebImageSwiftUI",
+        "repositoryURL": "https://github.com/SDWebImage/SDWebImageSwiftUI.git",
+        "state": {
+          "branch": null,
+          "revision": "4c7f169e39bc35d6b80d42b8eb8301bee9cd0907",
+          "version": "1.5.0"
+        }
+      },
+      {
+        "package": "XMLCoder",
+        "repositoryURL": "https://github.com/MaxDesiatov/XMLCoder",
+        "state": {
+          "branch": null,
+          "revision": "96d210ee78d8b1d38870f81ff48d8e8ab806fffa",
+          "version": "0.9.0"
+        }
+      },
+      {
+        "package": "XMLParsing",
+        "repositoryURL": "https://github.com/ShawnMoore/XMLParsing.git",
+        "state": {
+          "branch": null,
+          "revision": "2b77a8078d9695aac1a0e5806768e819025174c3",
+          "version": "0.0.3"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
