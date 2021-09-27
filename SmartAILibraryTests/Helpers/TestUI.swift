@@ -44,6 +44,7 @@ class TestUI: UserInterfaceDelegate {
 
     func askToDisband(unit: AbstractUnit?, completion: @escaping (Bool) -> Void) {}
     func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?) -> Void) {}
+    func askForSelection(title: String, items: [SelectableItem], completion: @escaping (Int) -> Void) {}
 
     func select(tech: TechType) {}
     func select(civic: CivicType) {}

@@ -47,8 +47,8 @@ class CombatTests: XCTestCase {
         let result = Combat.predictMeleeAttack(between: attacker, and: defender, in: gameModel)
 
         // THEN
-        XCTAssertEqual(result.attackerDamage, 27)
-        XCTAssertEqual(result.defenderDamage, 31)
+        XCTAssertEqual(result.attackerDamage, 26)
+        XCTAssertEqual(result.defenderDamage, 33)
     }
 
     func testCombatWarriorAgainstCity() {
@@ -85,7 +85,7 @@ class CombatTests: XCTestCase {
 
         // THEN
         XCTAssertEqual(result.attackerDamage, 22)
-        XCTAssertEqual(result.defenderDamage, 44)
+        XCTAssertEqual(result.defenderDamage, 48)
         XCTAssertEqual(city.maxHealthPoints(), 200)
     }
 
@@ -132,7 +132,7 @@ class CombatTests: XCTestCase {
 
         // THEN
         XCTAssertEqual(result.attackerDamage, 22)
-        XCTAssertEqual(result.defenderDamage, 16)
+        XCTAssertEqual(result.defenderDamage, 17)
         XCTAssertEqual(city.maxHealthPoints(), 300)
     }
 
