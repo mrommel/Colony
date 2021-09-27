@@ -1506,13 +1506,7 @@ public class City: AbstractCity {
 
             // notify human about starvation
             if player.isHuman() {
-                self.player?.notifications()?.addNotification(
-                    of: .starving,
-                    for: self.player,
-                    message: "The City of \(self.name) is starving! If it runs out of stored Food, a Citizen will die!",
-                    summary: "\(self.name) is Starving!",
-                    at: self.location
-                )
+                self.player?.notifications()?.add(notification: .starving(cityName: self.name, location: self.location))
             }
         }
 
@@ -1544,14 +1538,7 @@ public class City: AbstractCity {
                 if self.populationValue <= 5 {
 
                     if player.isHuman() {
-                        self.player?.notifications()?.addNotification(
-                            of: .cityGrowth,
-                            for: self.player,
-                            message: "The City of \(self.name) now has \(self.population()) [ICON_CITIZEN] Citizens! " +
-                                "The new Citizen will automatically work the land near the City for additional " +
-                                "[ICON_FOOD] Food, [ICON_PRODUCTION] Production or [ICON_GOLD] Gold.",
-                            summary: "\(self.name) has Grown!",
-                            at: self.location)
+                        self.player?.notifications()?.add(notification: .cityGrowth(cityName: self.name, population: self.population(), location: self.location))
                     }
                 }
             }
@@ -1709,13 +1696,7 @@ public class City: AbstractCity {
 
         if !self.isProduction() && player.isHuman() && !self.isProductionAutomated() {
 
-            self.player?.notifications()?.addNotification(
-                of: .productionNeeded,
-                for: self.player,
-                message: "Your city \(self.name) needs something to work on.",
-                summary: "need production",
-                at: self.location
-            )
+            self.player?.notifications()?.add(notification: .productionNeeded(cityName: self.name, location: self.location))
             return okay
         }
 
@@ -2857,13 +2838,7 @@ public class City: AbstractCity {
                 }
 
                 if player.isHuman() {
-                    player.notifications()?.addNotification(
-                        of: .productionNeeded,
-                        for: player,
-                        message: "Your city \(self.name) needs something to work on.",
-                        summary: "need production",
-                        at: self.location
-                    )
+                    player.notifications()?.add(notification: .productionNeeded(cityName: self.name, location: self.location))
                 } else {
                     self.cityStrategy?.chooseProduction(in: gameModel)
                 }
@@ -2872,13 +2847,7 @@ public class City: AbstractCity {
         } else {
 
             if player.isHuman() {
-                player.notifications()?.addNotification(
-                    of: .productionNeeded,
-                    for: player,
-                    message: "Your city \(self.name) needs something to work on.",
-                    summary: "need production",
-                    at: self.location
-                )
+                player.notifications()?.add(notification: .productionNeeded(cityName: self.name, location: self.location))
             } else {
                 self.cityStrategy?.chooseProduction(in: gameModel)
             }

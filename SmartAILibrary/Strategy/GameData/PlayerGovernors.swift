@@ -113,13 +113,7 @@ class PlayerGovernors: AbstractPlayerGovernors {
 
             if player.isHuman() {
 
-                player.notifications()?.addNotification(
-                    of: .governorTitleAvailable,
-                    for: self.player,
-                    message: "Select governor title usage",
-                    summary: "Select governor title usage2",
-                    at: HexPoint.invalid
-                )
+                player.notifications()?.add(notification: .governorTitleAvailable)
             } else {
 
                 self.chooseBestGovernorTitleUsage(in: gameModel)

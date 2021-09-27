@@ -364,7 +364,7 @@ class Civics: AbstractCivics {
                 self.currentCivicValue = nil
 
                 if player.isHuman() {
-                    self.player?.notifications()?.addNotification(of: .civicNeeded, for: self.player, message: "Please choose a new Civic", summary: "Choose Civic", at: HexPoint.zero)
+                    self.player?.notifications()?.add(notification: .civicNeeded)
                 }
 
                 player.set(canChangeGovernment: true)

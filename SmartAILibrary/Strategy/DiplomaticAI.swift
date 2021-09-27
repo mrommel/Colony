@@ -2659,12 +2659,12 @@ public class DiplomaticAI: Codable {
 
                 if metA || metB {
 
-                    let playerAName = metA ? player.leader.name() : "An Unmet Player"
+                    /*let playerAName = metA ? player.leader.name() : "An Unmet Player"
                     let playerBName = metB ? otherPlayer.leader.name() : "An Unmet Player"
 
-                    let text = "\(playerAName) and \(playerBName) have made a public Trade Alliance, forging a strong bond between the two empires."
+                    let text = "\(playerAName) and \(playerBName) have made a public Trade Alliance, forging a strong bond between the two empires."*/
 
-                    self.player?.notifications()?.addNotification(of: .diplomaticDeclaration, for: self.player, message: text, summary: "Declaration of Friendship", other: otherPlayer)
+                    self.player?.notifications()?.add(notification: .diplomaticDeclaration)
                 }
             }
         }
@@ -2702,12 +2702,12 @@ public class DiplomaticAI: Codable {
 
                 if metA || metB {
 
-                    let playerAName = metA ? player.leader.name() : "An Unmet Player"
+                    /*let playerAName = metA ? player.leader.name() : "An Unmet Player"
                     let playerBName = metB ? otherPlayer.leader.name() : "An Unmet Player"
 
-                    let text = "\(playerAName) has denounced \(playerBName)."
+                    let text = "\(playerAName) has denounced \(playerBName)."*/
 
-                    self.player?.notifications()?.addNotification(of: .diplomaticDeclaration, for: self.player, message: text, summary: "Denounced", at: HexPoint.zero)
+                    self.player?.notifications()?.add(notification: .diplomaticDeclaration)
                     fatalError("not handled")
                 }
             }
@@ -2873,8 +2873,7 @@ public class DiplomaticAI: Codable {
         // inform player that some declared war
         if otherPlayer.isHuman() {
 
-            // TXT_KEY_MISC_DECLARED_WAR_ON_YOU
-            self.player?.notifications()?.addNotification(of: .war, for: self.player, message: "\(player.leader.name()) has declared war on you!", summary: "declaration of war", at: HexPoint.zero)
+            self.player?.notifications()?.add(notification: .war(leader: player.leader))
         }
     }
 

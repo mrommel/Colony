@@ -1225,8 +1225,7 @@ public class Player: AbstractPlayer {
 
         if self.canChangeGovernment() {
             if self.isHuman() {
-
-                notifications.addNotification(of: .canChangeGovernment, for: self, message: "You can change the government", summary: "You can change the government")
+                notifications.add(notification: .canChangeGovernment)
             } else {
                 self.government?.chooseBestGovernment(in: gameModel)
             }
@@ -1235,8 +1234,7 @@ public class Player: AbstractPlayer {
         if !government.hasPolicyCardsFilled() && self.capitalCity(in: gameModel) != nil {
 
             if self.isHuman() {
-
-                notifications.addNotification(of: .policiesNeeded, for: self, message: "Please choose policy cards", summary: "Choose policy cards")
+                notifications.add(notification: .policiesNeeded)
             } else {
                 self.government?.fillPolicyCards()
             }
@@ -1284,7 +1282,7 @@ public class Player: AbstractPlayer {
                     gameModel.userInterface?.show(unit: greatPersonUnit)
 
                     // notify the user
-                    self.notifications()?.addNotification(of: .greatPersonJoined, for: self, message: "\(greatPersonToSpawn.name()) joined you", summary: "\(greatPersonToSpawn.name()) joined you")
+                    self.notifications()?.add(notification: .greatPersonJoined)
 
                     gameModel.invalidate(greatPerson: greatPersonToSpawn)
                 }
@@ -1450,7 +1448,7 @@ public class Player: AbstractPlayer {
                 if self.isHuman() {
                     // If the player is human then a net message will be received which will pick the pantheon.
                     // You have enough faith to found a pantheon!
-                    self.notifications()?.addNotification(of: .canFoundPantheon, for: self, message: "You have enough faith to found a pantheon!", summary: "Found a pantheon!")
+                    self.notifications()?.add(notification: .canFoundPantheon)
                 } else {
                     // const BeliefTypes eBelief = kPlayer.GetReligionAI()->ChoosePantheonBelief();
                     let pantheonType = religionAI.choosePantheonType(in: gameModel)
@@ -2250,7 +2248,7 @@ public class Player: AbstractPlayer {
             if self.isActive() {
                 let isOrAre = self.leader.civilization().isPlural() ? "are" : "is"
                 let message = "\(self.leader.civilization()) \(isOrAre) ready for a new construction project."
-                self.notifications()?.addNotification(of: .productionNeeded, for: self, message: message, summary: message, at: location)
+                self.notifications()?.add(notification: .productionNeeded(cityName: city.name, location: city.location))
             }
 
             city.doFoundMessage()
@@ -2259,7 +2257,7 @@ public class Player: AbstractPlayer {
             if techs.needToChooseTech() && self.science(in: gameModel) > 0.0 {
 
                 //if self.isActive() {
-                    self.notifications()?.addNotification(of: .techNeeded, for: self, message: "You may select a new research project.", summary: "Choose Research", at: HexPoint.zero)
+                self.notifications()?.add(notification: .techNeeded)
                 //}
             }
 
@@ -2267,7 +2265,7 @@ public class Player: AbstractPlayer {
             if civics.needToChooseCivic() && self.culture(in: gameModel) > 0.0 {
 
                 //if self.isActive() {
-                    self.notifications()?.addNotification(of: .civicNeeded, for: self, message: "You may select a new civic project.", summary: "Choose Civic", at: HexPoint.zero)
+                self.notifications()?.add(notification: .civicNeeded)
                 //}
             }
 
