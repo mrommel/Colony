@@ -109,6 +109,10 @@ class CivicViewModel: ObservableObject, Identifiable {
             iconTextureNames.append(policyCard.iconTexture())
         }
 
+        if self.civicType.governorTitle() {
+            iconTextureNames.append("header-button-governors-active")
+        }
+
         return iconTextureNames.map {
             return AchievementViewModel(imageName: $0)
         }
