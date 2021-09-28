@@ -44,8 +44,10 @@ protocol GameViewModelDelegate: AnyObject {
     func showPopup(popupType: PopupType)
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData?)
 
-    func showChangeTechDialog()
-    func showChangeCivicDialog()
+    func showTechTreeDialog()
+    func showTechListDialog()
+    func showCivicTreeDialog()
+    func showCivicListDialog()
 
     func showGovernmentDialog()
     func showChangeGovernmentDialog()
@@ -967,11 +969,17 @@ extension GameViewModel: GameViewModelDelegate {
         case .city:
             self.showCityDialog(for: city)
 
-        case .techs:
-            self.showChangeTechDialog()
+        case .techTree:
+            self.showTechTreeDialog()
 
-        case .civics:
-            self.showChangeCivicDialog()
+        case .techList:
+            self.showTechListDialog()
+
+        case .civicTree:
+            self.showCivicTreeDialog()
+
+        case .civicList:
+            self.showCivicListDialog()
 
         case .treasury:
             self.showTreasuryDialog()

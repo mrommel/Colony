@@ -99,33 +99,63 @@ extension GameViewModel {
         }
     }
 
-    func showChangeTechDialog() {
+    func showTechTreeDialog() {
 
-        if self.currentScreenType == .techs {
+        if self.currentScreenType == .techTree {
             // already shown
             return
         }
 
         if self.currentScreenType == .none {
             self.techDialogViewModel.update()
-            self.currentScreenType = .techs
+            self.currentScreenType = .techTree
         } else {
-            fatalError("cant show tech dialog, \(self.currentScreenType) is currently shown")
+            fatalError("cant show tech tree dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
-    func showChangeCivicDialog() {
+    func showTechListDialog() {
 
-        if self.currentScreenType == .civics {
+        if self.currentScreenType == .techList {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.techDialogViewModel.update()
+            self.currentScreenType = .techList
+        } else {
+            fatalError("cant show tech list dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+
+    func showCivicTreeDialog() {
+
+        if self.currentScreenType == .civicTree {
             // already shown
             return
         }
 
         if self.currentScreenType == .none {
             self.civicDialogViewModel.update()
-            self.currentScreenType = .civics
+            self.currentScreenType = .civicTree
         } else {
-            fatalError("cant show civic dialog, \(self.currentScreenType) is currently shown")
+            fatalError("cant show civic tree dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+
+    func showCivicListDialog() {
+
+        if self.currentScreenType == .civicList {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.civicDialogViewModel.update()
+            self.currentScreenType = .civicList
+        } else {
+            fatalError("cant show civic list dialog, \(self.currentScreenType) is currently shown")
         }
     }
 

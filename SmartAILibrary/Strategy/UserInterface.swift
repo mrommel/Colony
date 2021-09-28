@@ -104,8 +104,11 @@ public enum ScreenType {
 
     case city
 
-    case techs
-    case civics
+    case techTree
+    case techList
+    case civicTree
+    case civicList
+
     case treasury
     case interimRanking
     case diplomatic

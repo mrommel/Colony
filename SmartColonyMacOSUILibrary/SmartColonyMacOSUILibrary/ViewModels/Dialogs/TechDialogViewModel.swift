@@ -14,7 +14,10 @@ class TechDialogViewModel: ObservableObject {
     var gameEnvironment: GameEnvironment
 
     @Published
-    var techViewModels: [TechViewModel] = []
+    var techGridViewModels: [TechViewModel] = []
+
+    @Published
+    var techListViewModels: [TechViewModel] = []
 
     weak var delegate: GameViewModelDelegate?
 
@@ -40,10 +43,23 @@ class TechDialogViewModel: ObservableObject {
             return
         }
 
-        self.techViewModels = []
+        var tmpTechGridViewModels: [TechViewModel] = []
 
         let possibleTechs = techs.possibleTechs()
 
+        self.techListViewModels = possibleTechs.map { techType in
+
+            let techViewModel = TechViewModel(
+                techType: techType,
+                state: .possible,
+                boosted: techs.eurekaTriggered(for: techType),
+                turns: -1
+            )
+            techViewModel.delegate = self
+            return techViewModel
+        }
+
+        // build grid
         for y in 0..<7 {
             for x in 0..<8 {
 
@@ -61,16 +77,38 @@ class TechDialogViewModel: ObservableObject {
                         state = .possible
                     }
 
-                    let techViewModel = TechViewModel(techType: techType, state: state, boosted: techs.eurekaTriggered(for: techType), turns: turns)
+                    let techViewModel = TechViewModel(
+                        techType: techType,
+                        state: state,
+                        boosted: techs.eurekaTriggered(for: techType),
+                        turns: turns
+                    )
                     techViewModel.delegate = self
 
-                    self.techViewModels.append(techViewModel)
+                    tmpTechGridViewModels.append(techViewModel)
                 } else {
-                    self.techViewModels.append(TechViewModel(techType: .none, state: .disabled, boosted: false, turns: -1))
+                    let techViewModel = TechViewModel(
+                        techType: .none,
+                        state: .disabled,
+                        boosted: false,
+                        turns: -1
+                    )
+                    tmpTechGridViewModels.append(techViewModel)
                 }
             }
         }
+
+        self.techGridViewModels = tmpTechGridViewModels
     }
+
+    func openTechTreeDialog() {
+
+        self.delegate?.closeDialog()
+        self.delegate?.showTechTreeDialog()
+    }
+}
+
+extension TechDialogViewModel: BaseDialogViewModel {
 
     func closeDialog() {
 

@@ -434,12 +434,12 @@ extension GameSceneViewModel {
 
     func handleTechNeeded() {
 
-        self.delegate?.showChangeTechDialog()
+        self.delegate?.showTechListDialog()
     }
 
     func handleCivicNeeded() {
 
-        self.delegate?.showChangeCivicDialog()
+        self.delegate?.showCivicListDialog()
     }
 
     func handleProductionNeeded(at location: HexPoint) {

@@ -134,10 +134,10 @@ public class NotificationItem: Codable, Equatable {
         switch self.type {
 
         case .techNeeded:
-            gameModel?.userInterface?.showScreen(screenType: .techs, city: nil, other: nil, data: nil)
+            gameModel?.userInterface?.showScreen(screenType: .techList, city: nil, other: nil, data: nil)
 
         case .civicNeeded:
-            gameModel?.userInterface?.showScreen(screenType: .civics, city: nil, other: nil, data: nil)
+            gameModel?.userInterface?.showScreen(screenType: .civicList, city: nil, other: nil, data: nil)
 
         case .productionNeeded, .starving, .cityGrowth:
             guard let city = gameModel?.city(at: self.location) else {

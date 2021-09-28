@@ -75,10 +75,14 @@ extension GameView {
         case .none:
             return AnyView(EmptyView())
 
-        case .techs:
-            return AnyView(TechDialogView(viewModel: self.viewModel.techDialogViewModel))
-        case .civics:
-            return AnyView(CivicDialogView(viewModel: self.viewModel.civicDialogViewModel))
+        case .techTree:
+            return AnyView(TechTreeDialogView(viewModel: self.viewModel.techDialogViewModel))
+        case .techList:
+            return AnyView(TechListDialogView(viewModel: self.viewModel.techDialogViewModel))
+        case .civicTree:
+            return AnyView(CivicTreeDialogView(viewModel: self.viewModel.civicDialogViewModel))
+        case .civicList:
+            return AnyView(CivicListDialogView(viewModel: self.viewModel.civicDialogViewModel))
         case .interimRanking:
             return AnyView(EmptyView())
         case .diplomatic:

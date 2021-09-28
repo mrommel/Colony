@@ -14,7 +14,10 @@ class CivicDialogViewModel: ObservableObject {
     var gameEnvironment: GameEnvironment
 
     @Published
-    var civicViewModels: [CivicViewModel] = []
+    var civicGridViewModels: [CivicViewModel] = []
+
+    @Published
+    var civicListViewModels: [CivicViewModel] = []
 
     weak var delegate: GameViewModelDelegate?
 
@@ -44,6 +47,18 @@ class CivicDialogViewModel: ObservableObject {
 
         let possibleCivics: [CivicType] = civics.possibleCivics()
 
+        self.civicListViewModels = possibleCivics.map { civicType in
+
+            let civicViewModel = CivicViewModel(
+                civicType: civicType,
+                state: .possible,
+                boosted: civics.eurekaTriggered(for: civicType),
+                turns: -1
+            )
+            civicViewModel.delegate = self
+            return civicViewModel
+        }
+
         for y in 0..<7 {
             for x in 0..<8 {
 
@@ -61,18 +76,38 @@ class CivicDialogViewModel: ObservableObject {
                         state = .possible
                     }
 
-                    let civicViewModel = CivicViewModel(civicType: civicType, state: state, boosted: civics.eurekaTriggered(for: civicType), turns: turns)
+                    let civicViewModel = CivicViewModel(
+                        civicType: civicType,
+                        state: state,
+                        boosted: civics.eurekaTriggered(for: civicType),
+                        turns: turns
+                    )
                     civicViewModel.delegate = self
 
                     tmpCivicViewModels.append(civicViewModel)
                 } else {
-                    tmpCivicViewModels.append(CivicViewModel(civicType: .none, state: .disabled, boosted: false, turns: -1))
+                    let civicViewModel = CivicViewModel(
+                        civicType: .none,
+                        state: .disabled,
+                        boosted: false,
+                        turns: -1
+                    )
+                    tmpCivicViewModels.append(civicViewModel)
                 }
             }
         }
 
-        self.civicViewModels = tmpCivicViewModels
+        self.civicGridViewModels = tmpCivicViewModels
     }
+
+    func openCivicTreeDialog() {
+
+        self.delegate?.closeDialog()
+        self.delegate?.showCivicTreeDialog()
+    }
+}
+
+extension CivicDialogViewModel: BaseDialogViewModel {
 
     func closeDialog() {
 
