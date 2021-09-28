@@ -116,9 +116,9 @@ extension HeaderViewModel: HeaderButtonViewModelDelegate {
         switch type {
 
         case .science:
-            self.delegate?.showChangeTechDialog()
+            self.delegate?.showTechListDialog()
         case .culture:
-            self.delegate?.showChangeCivicDialog()
+            self.delegate?.showCivicListDialog()
         case .government:
             self.delegate?.showGovernmentDialog()
         case .log:

@@ -36,7 +36,7 @@ struct TechProgressView: View {
                 .padding(.leading, 5.5)
                 .onTapGesture {
                     //self.viewModel.click()
-                    print("click")
+                    print("click on tech progress")
                 }
 
             Text(self.viewModel.title())

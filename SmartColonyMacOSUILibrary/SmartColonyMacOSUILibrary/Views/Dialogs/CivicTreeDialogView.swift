@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CivicDialogView: View {
+struct CivicTreeDialogView: View {
 
     @ObservedObject
     var viewModel: CivicDialogViewModel
@@ -37,7 +37,7 @@ struct CivicDialogView: View {
 
                     LazyHGrid(rows: gridItemLayout, spacing: 20) {
 
-                        ForEach(self.viewModel.civicViewModels) { civicViewModel in
+                        ForEach(self.viewModel.civicGridViewModels) { civicViewModel in
 
                             CivicView(viewModel: civicViewModel)
                                 .padding(0)
@@ -73,7 +73,7 @@ struct CivicDialogView_Previews: PreviewProvider {
         let game = DemoGameModel()
         let environment = GameEnvironment(game: game)
 
-        CivicDialogView(viewModel: CivicDialogViewModel(game: game))
+        CivicTreeDialogView(viewModel: CivicDialogViewModel(game: game))
             .environment(\.gameEnvironment, environment)
     }
 }

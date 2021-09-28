@@ -1,5 +1,5 @@
 //
-//  TechDialogView.swift
+//  TechTreeDialogView.swift
 //  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 13.05.21.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TechDialogView: View {
+struct TechTreeDialogView: View {
 
     @ObservedObject
     var viewModel: TechDialogViewModel
@@ -37,7 +37,7 @@ struct TechDialogView: View {
 
                     LazyHGrid(rows: gridItemLayout, spacing: 20) {
 
-                        ForEach(self.viewModel.techViewModels) { techViewModel in
+                        ForEach(self.viewModel.techGridViewModels) { techViewModel in
 
                             TechView(viewModel: techViewModel)
                                 .padding(0)
@@ -73,7 +73,7 @@ struct TechDialogView_Previews: PreviewProvider {
         let game = DemoGameModel()
         let environment = GameEnvironment(game: game)
 
-        TechDialogView(viewModel: TechDialogViewModel(game: game))
+        TechTreeDialogView(viewModel: TechDialogViewModel(game: game))
             .environment(\.gameEnvironment, environment)
     }
 }
