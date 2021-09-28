@@ -40,6 +40,8 @@ struct MainView: View {
             return AnyView(self.generateGameView)
         case .game:
             return AnyView(self.gameView)
+        case .debug:
+            return AnyView(self.debugView)
         case .pedia:
             return AnyView(self.pediaView)
         }
@@ -64,6 +66,10 @@ extension MainView {
 
     private var gameView: some View {
         GameView(viewModel: self.viewModel.gameViewModel)
+    }
+
+    private var debugView: some View {
+        DebugView(viewModel: self.viewModel.debugViewModel)
     }
 
     private var pediaView: some View {

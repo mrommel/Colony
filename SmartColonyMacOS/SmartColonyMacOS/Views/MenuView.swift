@@ -52,9 +52,14 @@ struct MenuView: View {
                     }.buttonStyle(GameButtonStyle())
 
                     Button("Pedia") {
-                        print("pedia")
                         self.viewModel.startPedia()
                     }.buttonStyle(GameButtonStyle())
+
+#if DEBUG
+                    Button("Debug") {
+                        self.viewModel.startDebug()
+                    }.buttonStyle(GameButtonStyle())
+#endif
 
                     Button("Quit") {
                         self.viewModel.showingQuitConfirmationAlert = true

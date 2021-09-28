@@ -89,6 +89,7 @@
 		C930FFB824F5474C002B4D07 /* MoveTypeUnitAwarePathfinderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C930FFB724F5474C002B4D07 /* MoveTypeUnitAwarePathfinderDataSource.swift */; };
 		C934523E240A50C4007508ED /* Combat.swift in Sources */ = {isa = PBXBuildFile; fileRef = C934523D240A50C4007508ED /* Combat.swift */; };
 		C93479492529AF2A00A4B113 /* AStarPathFinderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93479482529AF2A00A4B113 /* AStarPathFinderTests.swift */; };
+		C935FBA6270336FA000CCA49 /* MapUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C935FBA5270336FA000CCA49 /* MapUtils.swift */; };
 		C93D66A624028D9B00F5157B /* AStarPathfinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D66A524028D9B00F5157B /* AStarPathfinder.swift */; };
 		C93D66A824028DB500F5157B /* HexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D66A724028DB500F5157B /* HexPath.swift */; };
 		C93D66AA2402913100F5157B /* UnitMovementType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D66A92402913100F5157B /* UnitMovementType.swift */; };
@@ -425,6 +426,7 @@
 		C930FFB724F5474C002B4D07 /* MoveTypeUnitAwarePathfinderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveTypeUnitAwarePathfinderDataSource.swift; sourceTree = "<group>"; };
 		C934523D240A50C4007508ED /* Combat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Combat.swift; sourceTree = "<group>"; };
 		C93479482529AF2A00A4B113 /* AStarPathFinderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AStarPathFinderTests.swift; sourceTree = "<group>"; };
+		C935FBA5270336FA000CCA49 /* MapUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUtils.swift; sourceTree = "<group>"; };
 		C93D66A524028D9B00F5157B /* AStarPathfinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AStarPathfinder.swift; sourceTree = "<group>"; };
 		C93D66A724028DB500F5157B /* HexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexPath.swift; sourceTree = "<group>"; };
 		C93D66A92402913100F5157B /* UnitMovementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitMovementType.swift; sourceTree = "<group>"; };
@@ -724,6 +726,7 @@
 				C93D66A524028D9B00F5157B /* AStarPathfinder.swift */,
 				C93D66A724028DB500F5157B /* HexPath.swift */,
 				C9A1259F249CBE8800D5E3A1 /* BaseMapHandler.swift */,
+				C935FBA5270336FA000CCA49 /* MapUtils.swift */,
 			);
 			path = Maps;
 			sourceTree = "<group>";
@@ -1679,6 +1682,7 @@
 				C907086623ED578100281161 /* TileDiscovered.swift in Sources */,
 				C9A0573C24291C3E00D0FEAB /* Wonders.swift in Sources */,
 				C9A1B55725230A6900AC2292 /* OperationHelpers.swift in Sources */,
+				C935FBA6270336FA000CCA49 /* MapUtils.swift in Sources */,
 				C956BF6424F10BAF009702B4 /* CombatModifier.swift in Sources */,
 				C95503C324585F6E00D4B3D8 /* MapOptionResources.swift in Sources */,
 				C9956853247E90B00005E9EA /* Eurekas.swift in Sources */,

@@ -121,6 +121,7 @@ struct PediaView: View {
     }
 }
 
+#if DEBUG
 struct PediaView_Previews: PreviewProvider {
 
     static var previews: some View {
@@ -131,3 +132,4 @@ struct PediaView_Previews: PreviewProvider {
         PediaView(viewModel: viewModel)
     }
 }
+#endif

@@ -15,6 +15,7 @@ enum PresentedViewType {
     case newGameMenu
     case loadingGame
     case game
+    case debug
     case pedia
 }
 
@@ -34,6 +35,7 @@ class MainViewModel: ObservableObject {
     var createGameMenuViewModel: CreateGameMenuViewModel
     var generateGameViewModel: GenerateGameViewModel
     var gameViewModel: GameViewModel
+    let debugViewModel: DebugViewModel
     var pediaViewModel: PediaViewModel
 
     init(presentedView: PresentedViewType = .menu,
@@ -49,6 +51,7 @@ class MainViewModel: ObservableObject {
         self.createGameMenuViewModel = createGameMenuViewModel
         self.generateGameViewModel = generateGameViewModel
         self.gameViewModel = gameViewModel
+        self.debugViewModel = DebugViewModel()
         self.pediaViewModel = pediaViewModel
 
         // connect delegates
@@ -56,6 +59,7 @@ class MainViewModel: ObservableObject {
         self.createGameMenuViewModel.delegate = self
         self.generateGameViewModel.delegate = self
         // self.gameViewModel.delegate = self <== close game?
+        self.debugViewModel.delegate = self
         self.pediaViewModel.delegate = self
     }
 
@@ -115,6 +119,11 @@ extension MainViewModel: MenuViewModelDelegate {
         self.mapMenuDisabled = true
     }
 
+    func showDebug() {
+
+        self.presentedView = .debug
+    }
+
     func showPedia() {
 
         self.presentedView = .pedia
@@ -152,4 +161,23 @@ extension MainViewModel: GenerateGameViewModelDelegate {
 
 extension MainViewModel: PediaViewModelDelegate {
 
+}
+
+extension MainViewModel: DebugViewModelDelegate {
+
+    func closed() {
+
+        self.presentedView = .menu
+        self.mapMenuDisabled = true
+    }
+
+    func start(game: GameModel?) {
+
+        self.gameViewModel.loadAssets()
+
+        self.gameEnvironment.assign(game: game)
+
+        self.presentedView = .game
+        self.mapMenuDisabled = false
+    }
 }
