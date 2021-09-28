@@ -54,7 +54,11 @@ struct NotificationView_Previews: PreviewProvider {
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = NotificationViewModel(item: NotificationItem(type: .cityGrowth, for: LeaderType.alexander, message: "", summary: "", at: HexPoint(x: 3, y: 3), other: LeaderType.trajan))
+        let viewModel = NotificationViewModel(
+            item: NotificationItem(
+                type: .cityGrowth(cityName: "", population: 3, location: HexPoint(x: 3, y: 3))
+            )
+        )
 
         NotificationView(viewModel: viewModel)
     }

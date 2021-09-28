@@ -1378,13 +1378,7 @@ public class Unit: AbstractUnit {
 
                 if pathPlot == nil || !self.canMove(into: target, options: MoveOptions.none, in: gameModel) {
                     // add route interrupted
-                    gameModel.humanPlayer()?.notifications()?.addNotification(
-                        of: .generic,
-                        for: self.player,
-                        message: "Your worker that was ordered to build a route to a destination is blocked and cancelled his order.",
-                        summary: "Route to cancelled!",
-                        at: self.location
-                    )
+                    gameModel.humanPlayer()?.notifications()?.add(notification: .generic)
 
                     return 0
                 }
@@ -1711,14 +1705,7 @@ public class Unit: AbstractUnit {
                                 }
 
                                 if let notifications = loopUnit.player?.notifications() {
-                                    notifications.addNotification(
-                                        of: .unitDied,
-                                        for: loopPlayer,
-                                        message: strMessage,
-                                        summary: strSummary,
-                                        at: loopUnit.location,
-                                        other: self.player
-                                    )
+                                    notifications.add(notification: .unitDied(location: loopUnit.location))
                                 }
 
                                 if loopUnit.isEmbarked() {
@@ -1992,13 +1979,7 @@ public class Unit: AbstractUnit {
             if diplomacyAI.isAtWar(with: plotOwner) {
 
                 if plotOwner.isEqual(to: gameModel.humanPlayer()) {
-                    self.player?.notifications()?.addNotification(
-                        of: .enemyInTerritory,
-                        for: self.player,
-                        message: "An enemy unit has been spotted in our territory!",
-                        summary: "An Enemy is Near!",
-                        at: newLocation
-                    )
+                    plotOwner.notifications()?.add(notification: .enemyInTerritory)
                 }
             }
         }
@@ -2549,7 +2530,7 @@ public class Unit: AbstractUnit {
         if promotions.count() < (level - 1) {
 
             if player.isHuman() {
-                self.player?.notifications()?.addNotification(of: .unitPromotion, for: self.player, message: "\(self.name()) has gained a promotion.", summary: "promotion", at: self.location)
+                self.player?.notifications()?.add(notification: .unitPromotion(location: self.location))
             } else {
                 let promotion = self.choosePromotion()
 
@@ -2771,6 +2752,7 @@ public class Unit: AbstractUnit {
 
         case .automateExploration:
             return self.can(automate: .explore)
+
         case .automateBuild:
             return self.can(automate: .build)
         }
@@ -2780,6 +2762,10 @@ public class Unit: AbstractUnit {
 
         if !self.missions.isEmpty {
             // cant automate when unit has a mission
+            return false
+        }
+
+        if self.isAutomated() {
             return false
         }
 

@@ -44,19 +44,17 @@ struct CivicProgressView: View {
                 .padding(.leading, 35)
                 .font(.footnote)
 
-            LazyVStack(spacing: 4) {
+            LazyHStack(spacing: 4) {
 
                 ForEach(self.viewModel.achievementViewModels, id: \.self) { achievementViewModel in
 
                     AchievementView(viewModel: achievementViewModel)
                         .id("progress-civic-\(self.viewModel.id)-\(achievementViewModel.id)")
                 }
-                .padding(.top, 4)
-                .padding(.trailing, 0)
-                .padding(.leading, 10)
+                .padding(.all, 0)
             }
-            .padding(.top, 12)
-            .padding(.leading, 28)
+            .padding(.top, 2)
+            .padding(.leading, 32)
 
             Text("\(self.viewModel.turns)")
                 .font(.system(size: 6))

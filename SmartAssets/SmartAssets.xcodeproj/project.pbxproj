@@ -62,6 +62,8 @@
 		C9A0985B261CB6930098C5E1 /* man_at_arms.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9A09843261CB6920098C5E1 /* man_at_arms.xml */; };
 		C9A0985C261CB6930098C5E1 /* scout.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9A09844261CB6930098C5E1 /* scout.xml */; };
 		C9A0985D261CB6930098C5E1 /* builder.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A09845261CB6930098C5E1 /* builder.png */; };
+		C9A25C1327023BD50071B186 /* prophet.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9A25C1127023BD40071B186 /* prophet.xml */; };
+		C9A25C1427023BD50071B186 /* prophet.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A25C1227023BD40071B186 /* prophet.png */; };
 		C9A3760D263447390057923E /* TextureUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3760C263447390057923E /* TextureUtils.swift */; };
 		C9A37611263448AC0057923E /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A37610263448AC0057923E /* Globals.swift */; };
 		C9A5B5CD2588A50500836AEB /* MapTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A5B5CC2588A50500836AEB /* MapTypeExtension.swift */; };
@@ -153,6 +155,8 @@
 		C9A09843261CB6920098C5E1 /* man_at_arms.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = man_at_arms.xml; sourceTree = "<group>"; };
 		C9A09844261CB6930098C5E1 /* scout.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = scout.xml; sourceTree = "<group>"; };
 		C9A09845261CB6930098C5E1 /* builder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = builder.png; sourceTree = "<group>"; };
+		C9A25C1127023BD40071B186 /* prophet.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = prophet.xml; sourceTree = "<group>"; };
+		C9A25C1227023BD40071B186 /* prophet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prophet.png; sourceTree = "<group>"; };
 		C9A3760C263447390057923E /* TextureUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureUtils.swift; sourceTree = "<group>"; };
 		C9A37610263448AC0057923E /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		C9A5B5CC2588A50500836AEB /* MapTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTypeExtension.swift; sourceTree = "<group>"; };
@@ -289,6 +293,8 @@
 		C9A0982D261CB67B0098C5E1 /* Units */ = {
 			isa = PBXGroup;
 			children = (
+				C9A25C1227023BD40071B186 /* prophet.png */,
+				C9A25C1127023BD40071B186 /* prophet.xml */,
 				C9A0983F261CB6920098C5E1 /* archer.png */,
 				C9A09839261CB6920098C5E1 /* archer.xml */,
 				C9A09845261CB6930098C5E1 /* builder.png */,
@@ -402,6 +408,7 @@
 				C9A09852261CB6930098C5E1 /* builder.xml in Resources */,
 				C9A09859261CB6930098C5E1 /* spearman.xml in Resources */,
 				C9A0984B261CB6930098C5E1 /* trader.png in Resources */,
+				C9A25C1327023BD50071B186 /* prophet.xml in Resources */,
 				C9A09851261CB6930098C5E1 /* archer.xml in Resources */,
 				C988EAE7261B916800300C39 /* Units.xcassets in Resources */,
 				C9022F962608ED1500C6773A /* Icons.xcassets in Resources */,
@@ -411,6 +418,7 @@
 				C9A0985C261CB6930098C5E1 /* scout.xml in Resources */,
 				C9A09850261CB6930098C5E1 /* knight.png in Resources */,
 				C9A0985A261CB6930098C5E1 /* long_swordman.xml in Resources */,
+				C9A25C1427023BD50071B186 /* prophet.png in Resources */,
 				C9A09848261CB6930098C5E1 /* spearman.png in Resources */,
 				C9A09847261CB6930098C5E1 /* horseman.png in Resources */,
 				C9A0984F261CB6930098C5E1 /* long_swordman.png in Resources */,

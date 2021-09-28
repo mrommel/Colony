@@ -52,11 +52,6 @@ public class NotificationItem: Codable, Equatable {
     enum CodingKeys: CodingKey {
 
         case type
-        case player
-        case location
-        case message
-        case summary
-        case otherPlayer
 
         case diplomaticData
 
@@ -66,11 +61,6 @@ public class NotificationItem: Codable, Equatable {
     }
 
     public let type: NotificationType
-    public let player: LeaderType
-    public let location: HexPoint
-    public let message: String
-    public let summary: String
-    public let otherPlayer: LeaderType
 
     // diplomatic states / messages
     public var diplomaticData: DiplomaticData?
@@ -79,14 +69,9 @@ public class NotificationItem: Codable, Equatable {
     var dismissed: Bool
     var needsBroadcasting: Bool
 
-    public init(type: NotificationType, for player: LeaderType, message: String, summary: String, at location: HexPoint, other otherPlayer: LeaderType) {
+    public init(type: NotificationType) {
 
         self.type = type
-        self.player = player
-        self.message = message
-        self.summary = summary
-        self.location = location
-        self.otherPlayer = otherPlayer
 
         self.dismissed = false
         self.needsBroadcasting = true
@@ -98,11 +83,6 @@ public class NotificationItem: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.type = try container.decode(NotificationType.self, forKey: .type)
-        self.player = try container.decode(LeaderType.self, forKey: .player)
-        self.message = try container.decode(String.self, forKey: .message)
-        self.summary = try container.decode(String.self, forKey: .summary)
-        self.location = try container.decode(HexPoint.self, forKey: .location)
-        self.otherPlayer = try container.decode(LeaderType.self, forKey: .otherPlayer)
 
         self.diplomaticData = try container.decodeIfPresent(DiplomaticData.self, forKey: .diplomaticData)
 
@@ -116,11 +96,6 @@ public class NotificationItem: Codable, Equatable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.type, forKey: .type)
-        try container.encode(self.player, forKey: .player)
-        try container.encode(self.location, forKey: .location)
-        try container.encode(self.message, forKey: .message)
-        try container.encode(self.summary, forKey: .summary)
-        try container.encode(self.otherPlayer, forKey: .otherPlayer)
 
         try container.encodeIfPresent(self.diplomaticData, forKey: .diplomaticData)
 
@@ -139,8 +114,18 @@ public class NotificationItem: Codable, Equatable {
         case .civicNeeded:
             gameModel?.userInterface?.showScreen(screenType: .civics, city: nil, other: nil, data: nil)
 
-        case .productionNeeded, .starving, .cityGrowth:
-            guard let city = gameModel?.city(at: self.location) else {
+        case .productionNeeded(cityName: _, location: let location):
+
+            guard let city = gameModel?.city(at: location) else {
+                fatalError("cant get city")
+            }
+
+            gameModel?.userInterface?.showScreen(screenType: .city, city: city, other: nil, data: nil)
+
+        case .starving(cityName: _, location: let location),
+             .cityGrowth(cityName: _, population: _, location: let location):
+
+            guard let city = gameModel?.city(at: location) else {
                 fatalError("cant get city")
             }
 
@@ -148,21 +133,20 @@ public class NotificationItem: Codable, Equatable {
 
             // FIXME: give hint on city screen if city grown or starving
 
-            if self.type == .starving || self.type == .cityGrowth {
-                self.dismiss(in: gameModel)
-            }
+            self.dismiss(in: gameModel)
 
-        case .unitNeedsOrders:
-            gameModel?.userInterface?.focus(on: self.location)
+        case .unitNeedsOrders(location: let location):
+            gameModel?.userInterface?.focus(on: location)
 
         case .diplomaticDeclaration:
 
-            guard let otherPlayer = gameModel?.player(for: self.otherPlayer) else {
+            /*guard let otherPlayer = gameModel?.player(for: self.otherPlayer) else {
                 fatalError("cant get player")
             }
 
             gameModel?.userInterface?.showScreen(screenType: .diplomatic, city: nil, other: otherPlayer, data: self.diplomaticData)
-            self.dismiss(in: gameModel)
+            self.dismiss(in: gameModel)*/
+            fatalError("not implemented")
 
         case .canChangeGovernment:
             gameModel?.userInterface?.showScreen(screenType: .government, city: nil, other: nil, data: nil)
@@ -192,7 +176,7 @@ public class NotificationItem: Codable, Equatable {
         gameModel?.userInterface?.remove(notification: self)
     }
 
-    func expired(in gameModel: GameModel?) -> Bool {
+    func expired(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
             fatalError("Cant get gameModel")
@@ -202,11 +186,7 @@ public class NotificationItem: Codable, Equatable {
 
         case .techNeeded:
 
-            guard let player = gameModel.player(for: self.player) else {
-                fatalError("cant get player")
-            }
-
-            guard let techs = player.techs else {
+            guard let techs = player?.techs else {
                 fatalError("cant get techs")
             }
 
@@ -219,11 +199,7 @@ public class NotificationItem: Codable, Equatable {
 
         case .civicNeeded:
 
-            guard let player = gameModel.player(for: self.player) else {
-                fatalError("cant get player")
-            }
-
-            guard let civics = player.civics else {
+            guard let civics = player?.civics else {
                 fatalError("cant get civics")
             }
 
@@ -234,9 +210,9 @@ public class NotificationItem: Codable, Equatable {
 
             return false
 
-        case .productionNeeded:
+        case .productionNeeded(cityName: _, location: let location):
 
-            guard let city = gameModel.city(at: self.location) else {
+            guard let city = gameModel.city(at: location) else {
                 fatalError("cant get city to check")
             }
 
@@ -251,18 +227,15 @@ public class NotificationItem: Codable, Equatable {
             return true
 
         case .policiesNeeded:
-            guard let currentPlayer = gameModel.player(for: self.player) else {
-                fatalError("cant get player")
-            }
 
-            guard let government = currentPlayer.government else {
+            guard let government = player?.government else {
                 fatalError("cant get government")
             }
 
             return government.hasPolicyCardsFilled()
 
         case .unitPromotion:
-            guard let currentPlayer = gameModel.player(for: self.player) else {
+            guard let currentPlayer = player else {
                 fatalError("cant get player")
             }
 
@@ -273,7 +246,7 @@ public class NotificationItem: Codable, Equatable {
             return false
 
         case .canFoundPantheon:
-            guard let currentPlayer = gameModel.player(for: self.player) else {
+            guard let currentPlayer = player else {
                 fatalError("cant get player")
             }
 
@@ -288,7 +261,7 @@ public class NotificationItem: Codable, Equatable {
             return false
 
         case .governorTitleAvailable:
-            guard let currentPlayer = gameModel.player(for: self.player) else {
+            guard let currentPlayer = player else {
                 fatalError("cant get player")
             }
 
@@ -309,48 +282,7 @@ public class NotificationItem: Codable, Equatable {
 
     public static func == (lhs: NotificationItem, rhs: NotificationItem) -> Bool {
 
-        if lhs.type != rhs.type {
-
-            return false
-        }
-
-        switch lhs.type {
-
-        case .techNeeded:
-            // highlander, only one notification of this type
-            return true
-
-        case .civicNeeded:
-            // highlander, only one notification of this type
-            return true
-
-        case .productionNeeded:
-            // there can be multiple notifications - one per city == location
-            return lhs.location == rhs.location
-
-        case .policiesNeeded:
-            // highlander, only one notification of this type
-            return true
-
-        case .cityGrowth:
-            // there can be multiple notifications - one per city == location
-            return lhs.location == rhs.location
-
-        case .canFoundPantheon:
-            // highlander, only one notification of this type
-            return true
-
-        case .unitPromotion:
-            // there can be multiple notifications - one per unit == location
-            return lhs.location == rhs.location
-
-        case .governorTitleAvailable:
-            // highlander, only one notification of this type
-            return true
-
-        default:
-            fatalError("not handled: \(lhs.type)")
-        }
+        return lhs.type == rhs.type
     }
 }
 
@@ -398,7 +330,7 @@ public class Notifications: Codable {
 
         for notification in self.notificationsArray where !notification.dismissed {
 
-            if notification.expired(in: gameModel) {
+            if notification.expired(for: self.player, in: gameModel) {
                 notification.dismiss(in: gameModel)
             } else {
                 if notification.needsBroadcasting {
@@ -414,7 +346,7 @@ public class Notifications: Codable {
         return self.notificationsArray
     }
 
-    func addNotification(of type: NotificationType, for player: AbstractPlayer?, message: String, summary: String, at location: HexPoint = HexPoint.zero, other otherPlayer: AbstractPlayer? = nil) {
+    func add(notification type: NotificationType) {
 
         guard let player = self.player else {
             fatalError("cant get player")
@@ -425,12 +357,7 @@ public class Notifications: Codable {
             return
         }
 
-        var otherLeader: LeaderType = .none
-        if let otherPlayer = otherPlayer {
-            otherLeader = otherPlayer.leader
-        }
-
-        let notification = NotificationItem(type: type, for: player.leader, message: message, summary: summary, at: location, other: otherLeader)
+        let notification = NotificationItem(type: type)
 
         if !self.notificationsArray.contains(where: { $0 == notification }) {
 
@@ -449,7 +376,7 @@ public class Notifications: Codable {
             // NOTIFICATION_DIPLO_VOTE
 
             // NOTIFICATION_PRODUCTION
-            if notification.type == .productionNeeded {
+            if notification.type.value() == NotificationType.productionNeeded(cityName: "", location: HexPoint.invalid).value() {
                 return notification
             }
 
@@ -484,7 +411,9 @@ public class Notifications: Codable {
         for notification in self.notificationsArray {
 
             // city growth should vanish at the end of turn (if not already)
-            if notification.type == .cityGrowth && notification.dismissed == false {
+            if notification.type.value() == NotificationType.cityGrowth(cityName: "", population: 0, location: HexPoint.invalid).value() &&
+                notification.dismissed == false {
+
                 notification.dismiss(in: gameModel)
             }
         }

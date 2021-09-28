@@ -155,7 +155,7 @@ extension UnitType {
             // ancient
         case .settler: return "settler-idle-0"
         case .builder: return "builder-idle-0"
-        case .trader: return "cart_right-0"
+        case .trader: return "cart-right-0"
 
         case .scout: return "archer-idle-0"
         case .warrior: return "warrior-idle-0"
@@ -163,7 +163,7 @@ extension UnitType {
         case .archer: return "archer-idle-0"
         case .spearman: return "archer-idle-0"
         case .heavyChariot: return "archer-idle-0"
-        case .galley: return "galley_right-0"
+        case .galley: return "galley-right-0"
 
             // industrial
         case .medic: return "archer-idle-0"
@@ -175,7 +175,7 @@ extension UnitType {
         case .general: return "archer-idle-0"
         case .merchant: return "archer-idle-0"
         case .musician: return "archer-idle-0"
-        case .prophet: return "archer-idle-0"
+        case .prophet: return "prophet-idle"
         case .scientist: return "archer-idle-0"
         case .writer: return "archer-idle-0"
 
@@ -245,7 +245,10 @@ extension UnitType {
         case .general: return nil
         case .merchant: return nil
         case .musician: return nil
-        case .prophet: return nil
+        case .prophet:
+            let textureAtlas = TextureAtlasLoader.load(named: "prophet", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "idle")
+
         case .scientist: return nil
         case .writer: return nil
         }
@@ -308,7 +311,10 @@ extension UnitType {
         case .general: return nil
         case .merchant: return nil
         case .musician: return nil
-        case .prophet: return nil
+        case .prophet:
+            let textureAtlas = TextureAtlasLoader.load(named: "prophet", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "walk", in: "south")
+
         case .scientist: return nil
         case .writer: return nil
         }
@@ -371,7 +377,10 @@ extension UnitType {
         case .general: return nil
         case .merchant: return nil
         case .musician: return nil
-        case .prophet: return nil
+        case .prophet:
+            let textureAtlas = TextureAtlasLoader.load(named: "prophet", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "walk", in: "north")
+
         case .scientist: return nil
         case .writer: return nil
         }
@@ -434,7 +443,10 @@ extension UnitType {
         case .general: return nil
         case .merchant: return nil
         case .musician: return nil
-        case .prophet: return nil
+        case .prophet:
+            let textureAtlas = TextureAtlasLoader.load(named: "prophet", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "walk", in: "west", mirror: true)
+
         case .scientist: return nil
         case .writer: return nil
         }
@@ -496,7 +508,10 @@ extension UnitType {
         case .general: return nil
         case .merchant: return nil
         case .musician: return nil
-        case .prophet: return nil
+        case .prophet:
+            let textureAtlas = TextureAtlasLoader.load(named: "prophet", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "walk", in: "west")
+
         case .scientist: return nil
         case .writer: return nil
         }

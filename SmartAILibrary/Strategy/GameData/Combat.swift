@@ -363,38 +363,8 @@ public class Combat {
             // kill the unit (civilian?)
             defender.doKill(delayed: false, by: attacker.player, in: gameModel)
 
-            var strMessage: String = ""
-            var strSummary: String = ""
-
-            // Some units can't capture civilians. Embarked units are also not captured, they're simply killed. And some aren't a type that gets captured.
-            if attacker.canCapture() && !defender.isEmbarked() && defender.captureUnitType().baseType() != nil {
-
-                // defender.setCapturingPlayer(attacker.player)
-
-                if attacker.isBarbarian() {
-                    strMessage = "TXT_KEY_UNIT_CAPTURED_BARBS_DETAILED"
-                    //strMessage << pDefender->getUnitInfo().GetTextKey() << GET_PLAYER(kAttacker.getOwner()).getNameKey();
-                    strSummary = "TXT_KEY_UNIT_CAPTURED_BARBS"
-                } else {
-                    strMessage = "TXT_KEY_UNIT_CAPTURED_DETAILED"
-                    //strMessage << pDefender->getUnitInfo().GetTextKey();
-                    strSummary = "TXT_KEY_UNIT_CAPTURED"
-                }
-            } else {
-                // Unit was killed instead
-                strMessage = "TXT_KEY_UNIT_LOST"
-                strSummary = strMessage
-            }
-
             if let notification = defender.player?.notifications() {
-                notification.addNotification(
-                    of: .unitDied,
-                    for: defender.player,
-                    message: strMessage,
-                    summary: strSummary,
-                    at: defender.location,
-                    other: attacker.player
-                )
+                notification.add(notification: .unitDied(location: defender.location))
             }
 
             // Move forward
@@ -448,14 +418,7 @@ public class Combat {
             }
 
             if let notifications = defender.player?.notifications() {
-                notifications.addNotification(
-                    of: .unitDied,
-                    for: defender.player,
-                    message: "TXT_KEY_UNIT_LOST",
-                    summary: "TXT_KEY_UNIT_LOST",
-                    at: defenderTile.point,
-                    other: attacker.player
-                )
+                notifications.add(notification: .unitDied(location: defenderTile.point))
             }
 
             defender.doKill(delayed: false, by: attacker.player, in: gameModel)
@@ -554,14 +517,7 @@ public class Combat {
             }
 
             if let notifications = defender.player?.notifications() {
-                notifications.addNotification(
-                    of: .unitDied,
-                    for: defender.player,
-                    message: "TXT_KEY_UNIT_LOST",
-                    summary: "TXT_KEY_UNIT_LOST",
-                    at: defenderTile.point,
-                    other: attacker.player
-                )
+                notifications.add(notification: .unitDied(location: defenderTile.point))
             }
 
             defender.doKill(delayed: false, by: attacker.player, in: gameModel)

@@ -763,39 +763,16 @@ open class GameModel: Codable {
                     if activePlayer.hasPromotableUnit(in: self) {
                         // handle promotions
                         if let unit = activePlayer.firstPromotableUnit(in: self) {
-                            blockingNotification = NotificationItem(
-                                type: .unitPromotion,
-                                for: activePlayer.leader,
-                                message: "Unit needs promotion",
-                                summary: "Unit needs promotion",
-                                at: unit.location,
-                                other: .none
-                            )
+                            blockingNotification = NotificationItem(type: .unitPromotion(location: unit.location))
                         }
 
                     } else if activePlayer.hasReadyUnit(in: self) {
                         // handle units
                         if let unit = activePlayer.firstReadyUnit(in: self) {
                             if !unit.canHold(at: unit.location, in: self) {
-                                //eEndTurnBlockingType = ENDTURN_BLOCKING_STACKED_UNITS;
-                                blockingNotification = NotificationItem(
-                                    type: .unitNeedsOrders,
-                                    for: activePlayer.leader,
-                                    message: "Unit needs orders",
-                                    summary: "Orders needed",
-                                    at: unit.location,
-                                    other: .none
-                                )
+                                blockingNotification = NotificationItem(type: .unitNeedsOrders(location: unit.location))
                             } else {
-                                //eEndTurnBlockingType = ENDTURN_BLOCKING_UNITS;
-                                blockingNotification = NotificationItem(
-                                    type: .unitNeedsOrders,
-                                    for: activePlayer.leader,
-                                    message: "Unit needs orders",
-                                    summary: "Orders needed",
-                                    at: unit.location,
-                                    other: .none
-                                )
+                                blockingNotification = NotificationItem(type: .unitNeedsOrders(location: unit.location))
                             }
                         }
                     }

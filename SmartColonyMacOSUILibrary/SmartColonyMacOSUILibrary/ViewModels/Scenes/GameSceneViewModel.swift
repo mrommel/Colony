@@ -102,7 +102,7 @@ public class GameSceneViewModel: ObservableObject {
     var unitSelectionMode: UnitSelectionMode = .pick
 
     @Published
-    var turnButtonNotificationType: NotificationType = .unitNeedsOrders {
+    var turnButtonNotificationType: NotificationType = .generic {
         didSet {
             if self.uiTurnState != .humanTurns {
                 return
@@ -122,7 +122,7 @@ public class GameSceneViewModel: ObservableObject {
         }
     }
 
-    var turnButtonNotificationLocation: HexPoint = .zero
+    // var turnButtonNotificationLocation: HexPoint = .zero
 
     @Published
     var uiTurnState: GameSceneTurnState = .humanTurns
@@ -179,8 +179,8 @@ public class GameSceneViewModel: ObservableObject {
             self.handleTechNeeded()
         case .civicNeeded:
             self.handleCivicNeeded()
-        case .productionNeeded:
-            self.handleProductionNeeded(at: self.turnButtonNotificationLocation)
+        case .productionNeeded(cityName: _, location: let location):
+            self.handleProductionNeeded(at: location)
         case .canChangeGovernment:
             print("--- unhandled notification type: \(self.turnButtonNotificationType)")
         case .policiesNeeded:
@@ -197,8 +197,8 @@ public class GameSceneViewModel: ObservableObject {
             print("--- unhandled notification type: \(self.turnButtonNotificationType)")
         case .enemyInTerritory:
             print("--- unhandled notification type: \(self.turnButtonNotificationType)")
-        case .unitPromotion:
-            self.handleUnitPromotion(at: self.turnButtonNotificationLocation)
+        case .unitPromotion(location: let location):
+            self.handleUnitPromotion(at: location)
         case .unitNeedsOrders:
             self.handleFocusOnUnit()
         case .unitDied:
@@ -290,13 +290,11 @@ public class GameSceneViewModel: ObservableObject {
     func showTurnButton() {
 
         self.turnButtonNotificationType = .turn
-        self.turnButtonNotificationLocation = HexPoint.invalid
     }
 
     func showBlockingButton(for blockingNotification: NotificationItem) {
 
         self.turnButtonNotificationType = blockingNotification.type
-        self.turnButtonNotificationLocation = blockingNotification.location
     }
 
     func showSpinningGlobe() {

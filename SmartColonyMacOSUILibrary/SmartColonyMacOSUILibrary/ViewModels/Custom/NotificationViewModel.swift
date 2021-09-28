@@ -60,6 +60,5 @@ extension NotificationViewModel: Hashable {
     func hash(into hasher: inout Hasher) {
 
         hasher.combine(self.item.type)
-        hasher.combine(self.item.location)
     }
 }

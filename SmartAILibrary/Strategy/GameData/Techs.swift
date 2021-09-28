@@ -404,7 +404,7 @@ class Techs: AbstractTechs {
                 self.currentTechValue = nil
 
                 if player.isHuman() {
-                    self.player?.notifications()?.addNotification(of: .techNeeded, for: self.player, message: "Please choose a new Research", summary: "Choose Research", at: HexPoint.zero)
+                    self.player?.notifications()?.add(notification: .techNeeded)
                 }
 
             } catch {
