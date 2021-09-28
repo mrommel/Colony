@@ -331,6 +331,9 @@ class PlayerGovernors: AbstractPlayerGovernors {
                         govenor.promote(with: promotion)
                         print("did promote \(govenor.type.name()) with \(promotion.name())")
                         didPromote = true
+
+                        self.numTitlesSpentValue += 1
+                        self.numTitlesAvailableValue -= 1
                     }
                 }
             }
