@@ -1285,6 +1285,7 @@ public class Player: AbstractPlayer {
                     self.notifications()?.add(notification: .greatPersonJoined)
 
                     gameModel.invalidate(greatPerson: greatPersonToSpawn)
+                    greatPeople.resetPoint(for: greatPersonType)
                 }
             }
         }
@@ -1454,15 +1455,6 @@ public class Player: AbstractPlayer {
                     let pantheonType = religionAI.choosePantheonType(in: gameModel)
                     gameModel?.foundPantheon(for: self, with: pantheonType)
                 }
-            }
-
-            switch self.faithPurchaseType() {
-
-            case .noAutomaticFaithPurchase, .saveForProphet:
-                self.checkSpawnGreatProphet(in: gameModel)
-            default:
-                // NOOP
-            print("")
             }
         }
 
@@ -1682,8 +1674,6 @@ public class Player: AbstractPlayer {
         {
             AI_launch((VictoryTypes)i);
         }*/
-
-        //ProcessGreatPeople();
     }
 
     public func unitUpdate(in gameModel: GameModel?) {

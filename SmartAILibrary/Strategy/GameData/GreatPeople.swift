@@ -8,11 +8,12 @@
 
 import Foundation
 
-public protocol AbstractGreatPeople: class, Codable {
+public protocol AbstractGreatPeople: AnyObject, Codable {
 
     var player: AbstractPlayer? { get set }
 
     func add(points: GreatPersonPoints)
+    func resetPoint(for greatPersonType: GreatPersonType)
     func value(for greatPersonType: GreatPersonType) -> Int
 }
 
@@ -52,6 +53,11 @@ class GreatPeople: AbstractGreatPeople {
     func add(points value: GreatPersonPoints) {
 
         self.points.add(other: value)
+    }
+
+    func resetPoint(for greatPersonType: GreatPersonType) {
+
+        self.points.add(value: -self.value(for: greatPersonType), for: greatPersonType)
     }
 
     func value(for greatPersonType: GreatPersonType) -> Int {

@@ -1,0 +1,88 @@
+//
+//  PlayerTests.swift
+//  SmartAILibraryTests
+//
+//  Created by Michael Rommel on 29.09.21.
+//  Copyright © 2021 Michael Rommel. All rights reserved.
+//
+
+import Foundation
+
+import XCTest
+@testable import SmartAILibrary
+
+class PlayerTests: XCTestCase {
+
+    func testSpawnProphet() {
+
+        // GIVEN
+
+        // players
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+
+        let playerAugustus = Player(leader: .trajan)
+        playerAugustus.initialize()
+
+        let playerBarbarian = Player(leader: .barbar)
+        playerBarbarian.initialize()
+
+        // map
+        var mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
+
+        // game
+        let gameModel = GameModel(victoryTypes: [.domination],
+                                  handicap: .chieftain,
+                                  turnsElapsed: 0,
+                                  players: [playerAugustus, playerBarbarian, playerAlexander],
+                                  on: mapModel)
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+
+        // initial units
+        let playerAlexanderWarrior = Unit(at: HexPoint(x: 5, y: 6), type: .warrior, owner: playerAlexander)
+        gameModel.add(unit: playerAlexanderWarrior)
+
+        let playerAugustusWarrior = Unit(at: HexPoint(x: 15, y: 16), type: .warrior, owner: playerAugustus)
+        gameModel.add(unit: playerAugustusWarrior)
+
+        // cities
+        let cityAlexandria = City(name: "Alexandria", at: HexPoint(x: 5, y: 5), capital: true, owner: playerAlexander)
+        cityAlexandria.initialize(in: gameModel)
+        gameModel.add(city: cityAlexandria)
+
+        // this is cheating
+        MapModelHelper.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
+        MapModelHelper.discover(mapModel: &mapModel, by: playerAugustus, in: gameModel)
+        MapModelHelper.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
+
+        let greatPersonPoints = GreatPersonPoints(
+            greatGeneral: 0,
+            greatAdmiral: 0,
+            greatEngineer: 0,
+            greatMerchant: 0,
+            greatProphet: 200,
+            greatScientist: 0,
+            greatWriter: 0,
+            greatArtist: 0,
+            greatMusician: 0
+        )
+        playerAlexander.greatPeople?.add(points: greatPersonPoints)
+        playerAlexander.religion?.foundPantheon(with: .cityPatronGoddess, in: gameModel)
+        let numProphetsBefore = gameModel.units(of: playerAlexander).filter { $0?.type == .prophet }.count
+
+        // WHEN
+        while !playerAlexander.canFinishTurn() {
+            gameModel.update()
+            print("::: --- loop --- :::")
+        }
+        playerAlexander.endTurn(in: gameModel)
+
+        // THEN
+        XCTAssertEqual(numProphetsBefore, 0)
+        let numProphetsAfter = gameModel.units(of: playerAlexander).filter { $0?.type == .prophet }.count
+        XCTAssertEqual(numProphetsAfter, 1)
+    }
+}

@@ -90,6 +90,7 @@
 		C934523E240A50C4007508ED /* Combat.swift in Sources */ = {isa = PBXBuildFile; fileRef = C934523D240A50C4007508ED /* Combat.swift */; };
 		C93479492529AF2A00A4B113 /* AStarPathFinderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93479482529AF2A00A4B113 /* AStarPathFinderTests.swift */; };
 		C935FBA6270336FA000CCA49 /* MapUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C935FBA5270336FA000CCA49 /* MapUtils.swift */; };
+		C935FBA827043EE3000CCA49 /* PlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C935FBA727043EE3000CCA49 /* PlayerTests.swift */; };
 		C93D66A624028D9B00F5157B /* AStarPathfinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D66A524028D9B00F5157B /* AStarPathfinder.swift */; };
 		C93D66A824028DB500F5157B /* HexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D66A724028DB500F5157B /* HexPath.swift */; };
 		C93D66AA2402913100F5157B /* UnitMovementType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D66A92402913100F5157B /* UnitMovementType.swift */; };
@@ -427,6 +428,7 @@
 		C934523D240A50C4007508ED /* Combat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Combat.swift; sourceTree = "<group>"; };
 		C93479482529AF2A00A4B113 /* AStarPathFinderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AStarPathFinderTests.swift; sourceTree = "<group>"; };
 		C935FBA5270336FA000CCA49 /* MapUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUtils.swift; sourceTree = "<group>"; };
+		C935FBA727043EE3000CCA49 /* PlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTests.swift; sourceTree = "<group>"; };
 		C93D66A524028D9B00F5157B /* AStarPathfinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AStarPathfinder.swift; sourceTree = "<group>"; };
 		C93D66A724028DB500F5157B /* HexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexPath.swift; sourceTree = "<group>"; };
 		C93D66A92402913100F5157B /* UnitMovementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitMovementType.swift; sourceTree = "<group>"; };
@@ -917,6 +919,7 @@
 				C98CBE1124339A0A005EE397 /* MapGeneratorTests.swift */,
 				C9B1D2A02436126300033791 /* MapLoadingTests.swift */,
 				C9DFCF7923F2AFB10032243D /* MapModelTests.swift */,
+				C935FBA727043EE3000CCA49 /* PlayerTests.swift */,
 				C9C52FCB23D8EFCC00B34140 /* PlayerScoringTests.swift */,
 				C92D220823E1DC3300BB9238 /* PlayerTechTests.swift */,
 				C92D221623E22D6600BB9238 /* PolicyCardsTests.swift */,
@@ -1721,6 +1724,7 @@
 				C92317A623D62A6B001FC723 /* FiniteStateMachineTests.swift in Sources */,
 				C9B6321E23DCDAB500E15A5F /* DiplomaticDealAITests.swift in Sources */,
 				C9A50FE3242244C5006AA47B /* UsecaseTests.swift in Sources */,
+				C935FBA827043EE3000CCA49 /* PlayerTests.swift in Sources */,
 				C92D221723E22D6600BB9238 /* PolicyCardsTests.swift in Sources */,
 				C9FE141424154B93008CC6B3 /* RegionFinderTests.swift in Sources */,
 				C907085A23ECB30900281161 /* EconomicAIReconStateTests.swift in Sources */,
