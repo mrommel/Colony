@@ -95,9 +95,9 @@ class BasicCityAttackOperationTests: XCTestCase {
         gameModel.add(unit: playerBarbarianWarrior)
 
         // this is cheating
-        MapModelHelper.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerTrajan, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerTrajan, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
@@ -203,9 +203,9 @@ class BasicCityAttackOperationTests: XCTestCase {
         gameModel.add(unit: playerBarbarianWarrior)
 
         // this is cheating
-        MapModelHelper.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerTrajan, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerTrajan, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 

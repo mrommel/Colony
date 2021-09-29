@@ -55,9 +55,9 @@ class PlayerTests: XCTestCase {
         gameModel.add(city: cityAlexandria)
 
         // this is cheating
-        MapModelHelper.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerAugustus, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerAugustus, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         let greatPersonPoints = GreatPersonPoints(
             greatGeneral: 0,

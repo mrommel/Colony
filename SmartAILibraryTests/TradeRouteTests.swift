@@ -38,19 +38,6 @@ class TradeRouteTests: XCTestCase {
         return mapModel
     }
 
-    static func discover(mapModel: inout MapModel, by player: AbstractPlayer?, in gameModel: GameModel?) {
-
-        let mapSize = mapModel.size
-        for x in 0..<mapSize.width() {
-
-            for y in 0..<mapSize.height() {
-
-                let tile = mapModel.tile(at: HexPoint(x: x, y: y))
-                tile?.discover(by: player, in: gameModel)
-            }
-        }
-    }
-
     // https://github.com/mrommel/Colony/issues/66
     func testTradeRouteWorkingWithin10Turns() {
 
@@ -104,7 +91,7 @@ class TradeRouteTests: XCTestCase {
         gameModel.add(unit: traderUnit)
         gameModel.userInterface?.show(unit: traderUnit)
 
-        TradeRouteTests.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
@@ -186,7 +173,7 @@ class TradeRouteTests: XCTestCase {
         gameModel.add(unit: traderUnit)
         gameModel.userInterface?.show(unit: traderUnit)
 
-        TradeRouteTests.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
         let userInterface = TestUI()
         gameModel.userInterface = userInterface

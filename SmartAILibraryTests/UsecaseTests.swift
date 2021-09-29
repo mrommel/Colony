@@ -59,9 +59,9 @@ class UsecaseTests: XCTestCase {
         gameModel.add(unit: playerBarbarianWarrior)
 
         // this is cheating
-        MapModelHelper.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerAugustus, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerAugustus, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         let numCitiesBefore = gameModel.cities(of: playerAugustus).count
         let numOfUnitsBefore = gameModel.units(of: playerAugustus).count
@@ -129,9 +129,9 @@ class UsecaseTests: XCTestCase {
         gameModel.add(city: cityAugustria)
 
         // this is cheating
-        MapModelHelper.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerAugustus, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerAugustus, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         // WHEN
         while !playerAlexander.canFinishTurn() {
@@ -202,9 +202,9 @@ class UsecaseTests: XCTestCase {
         playerAugustusWarrior.doGarrison(in: gameModel)
 
         // this is cheating
-        MapModelHelper.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
-        MapModelHelper.discover(area: HexPoint(x: 15, y: 15).areaWith(radius: 3), mapModel: &mapModel, by: playerAugustus, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
+        MapUtils.discover(area: HexPoint(x: 15, y: 15).areaWith(radius: 3), mapModel: &mapModel, by: playerAugustus, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         // WHEN
         while !playerAlexander.canFinishTurn() {
@@ -263,9 +263,9 @@ class UsecaseTests: XCTestCase {
         playerAugustusWarrior.doGarrison(in: gameModel)
 
         // this is cheating
-        MapModelHelper.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
-        MapModelHelper.discover(area: HexPoint(x: 15, y: 15).areaWith(radius: 3), mapModel: &mapModel, by: playerAugustus, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
+        MapUtils.discover(area: HexPoint(x: 15, y: 15).areaWith(radius: 3), mapModel: &mapModel, by: playerAugustus, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         // WHEN
         while !playerAlexander.canFinishTurn() {
@@ -330,9 +330,9 @@ class UsecaseTests: XCTestCase {
         playerAugustusWarrior.doGarrison(in: gameModel)
 
         // this is cheating
-        MapModelHelper.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
-        MapModelHelper.discover(area: HexPoint(x: 15, y: 15).areaWith(radius: 3), mapModel: &mapModel, by: playerAugustus, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
+        MapUtils.discover(area: HexPoint(x: 15, y: 15).areaWith(radius: 3), mapModel: &mapModel, by: playerAugustus, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         // WHEN
         while !playerAlexander.canFinishTurn() {

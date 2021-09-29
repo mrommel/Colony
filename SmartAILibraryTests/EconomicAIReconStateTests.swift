@@ -61,7 +61,7 @@ class EconomicAIReconStateTests: XCTestCase {
         var mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
 
-        MapModelHelper.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
 
         // WHEN
         self.objectToTest?.updateReconState(in: gameModel)

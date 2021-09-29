@@ -211,7 +211,7 @@ class PediaScene: BaseScene {
             x += 1
         }
 
-        GameViewModel.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
         self.pediaDelegate?.start(game: gameModel)
     }
@@ -329,7 +329,7 @@ class PediaScene: BaseScene {
 
         let gameModel = GameModel(victoryTypes: [.domination], handicap: .settler, turnsElapsed: 0, players: [player], on: mapModel)
 
-        GameViewModel.discover(mapModel: &mapModel, by: player, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: player, in: gameModel)
 
         let city = City(name: "Berlin", at: HexPoint(x: 2, y: 2), capital: true, owner: player)
         city.initialize(in: gameModel)

@@ -95,13 +95,12 @@ public class UnitTradeRouteData {
                 }
             }
 
-            for (index, post) in self.tradeRoute.posts.enumerated() {
-                if post == current {
-                    if index + 1 < self.tradeRoute.posts.count {
-                        return self.tradeRoute.posts[index + 1]
-                    } else {
-                        return self.tradeRoute.end
-                    }
+            for (index, post) in self.tradeRoute.posts.enumerated() where post == current {
+
+                if index + 1 < self.tradeRoute.posts.count {
+                    return self.tradeRoute.posts[index + 1]
+                } else {
+                    return self.tradeRoute.end
                 }
             }
 
@@ -119,13 +118,12 @@ public class UnitTradeRouteData {
                 }
             }
 
-            for (index, post) in self.tradeRoute.posts.reversed().enumerated() {
-                if post == current {
-                    if index > 0 {
-                        return self.tradeRoute.posts[index - 1]
-                    } else {
-                        return self.tradeRoute.start
-                    }
+            for (index, post) in self.tradeRoute.posts.reversed().enumerated() where post == current {
+
+                if index > 0 {
+                    return self.tradeRoute.posts[index - 1]
+                } else {
+                    return self.tradeRoute.start
                 }
             }
 
@@ -134,6 +132,7 @@ public class UnitTradeRouteData {
                 // if route is expired, stop here
                 self.checkExpiration(for: unit, in: gameModel)
                 if self.state == .expired {
+                    unit?.endTrading()
                     return nil // this should stop the route, user can select next route
                 }
 

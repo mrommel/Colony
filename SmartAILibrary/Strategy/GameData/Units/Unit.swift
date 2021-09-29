@@ -4383,6 +4383,7 @@ extension Unit {
     public func endTrading() {
 
         self.tradeRouteDataValue = nil
+        self.clearMissions()
     }
 
     public func tradeRouteData() -> UnitTradeRouteData? {
