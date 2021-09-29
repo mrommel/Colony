@@ -187,6 +187,7 @@ class DebugViewModel: ObservableObject {
                 gameModel.update()
             }
 
+            gameModel.update()
             humanPlayer.endTurn(in: gameModel)
 
             turnCounter += 1

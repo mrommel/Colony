@@ -32,7 +32,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander], on: mapModel)
 
         // add UI
@@ -59,7 +59,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander], on: mapModel)
 
@@ -96,7 +96,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus], on: mapModel)
 
@@ -129,7 +129,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus], on: mapModel)
 
@@ -169,7 +169,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus], on: mapModel)
 
@@ -209,7 +209,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus], on: mapModel)
 
@@ -246,7 +246,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus], on: mapModel)
 
@@ -284,7 +284,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus], on: mapModel)
 
@@ -322,7 +322,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus], on: mapModel)
 
@@ -360,7 +360,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus], on: mapModel)
 
         // add UI
@@ -393,7 +393,7 @@ class DiplomacyAITests: XCTestCase {
         let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -446,7 +446,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus], on: mapModel)
 

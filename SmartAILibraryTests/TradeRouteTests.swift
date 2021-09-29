@@ -106,11 +106,14 @@ class TradeRouteTests: XCTestCase {
 
         repeat {
 
-            while !humanPlayer.canFinishTurn() {
-
+            repeat {
                 gameModel.update()
-            }
+                gameModel.update()
+                gameModel.update()
 
+                humanPlayer.finishTurn()
+                humanPlayer.setAutoMoves(to: true)
+            } while humanPlayer.canFinishTurn()
             humanPlayer.endTurn(in: gameModel)
 
             turnCounter += 1
@@ -194,11 +197,14 @@ class TradeRouteTests: XCTestCase {
 
         repeat {
 
-            while !humanPlayer.canFinishTurn() {
-
+            repeat {
                 gameModel.update()
-            }
+                gameModel.update()
+                gameModel.update()
 
+                humanPlayer.finishTurn()
+                humanPlayer.setAutoMoves(to: true)
+            } while humanPlayer.canFinishTurn()
             humanPlayer.endTurn(in: gameModel)
 
             if !traderUnit.isTrading() {

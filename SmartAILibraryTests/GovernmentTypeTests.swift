@@ -62,7 +62,7 @@ class GovernmentTypeTests: XCTestCase {
         self.objectToTest = playerAlexander.government
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination],
@@ -92,7 +92,7 @@ class GovernmentTypeTests: XCTestCase {
         try! playerAlexander.civics?.discover(civic: .codeOfLaws)
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination],

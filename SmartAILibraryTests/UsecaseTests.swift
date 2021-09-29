@@ -29,7 +29,7 @@ class UsecaseTests: XCTestCase {
         playerBarbarian.initialize()
 
         // map
-        var mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
         // game
@@ -67,10 +67,14 @@ class UsecaseTests: XCTestCase {
         let numOfUnitsBefore = gameModel.units(of: playerAugustus).count
 
         // WHEN
-        while !playerAlexander.canFinishTurn() {
+        repeat {
             gameModel.update()
-            print("::: --- loop --- :::")
-        }
+            gameModel.update()
+            gameModel.update()
+
+            playerAlexander.finishTurn()
+            playerAlexander.setAutoMoves(to: true)
+        } while playerAlexander.canFinishTurn()
         playerAlexander.endTurn(in: gameModel)
 
         // THEN
@@ -101,7 +105,7 @@ class UsecaseTests: XCTestCase {
         playerBarbarian.initialize()
 
         // map
-        var mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
         // game
@@ -134,17 +138,27 @@ class UsecaseTests: XCTestCase {
         MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         // WHEN
-        while !playerAlexander.canFinishTurn() {
+        repeat {
             gameModel.update()
-        }
+            gameModel.update()
+            gameModel.update()
+
+            playerAlexander.finishTurn()
+            playerAlexander.setAutoMoves(to: true)
+        } while playerAlexander.canFinishTurn()
         playerAlexander.endTurn(in: gameModel)
 
         // record mission
         let locationAfterTurn1 = playerAugustusWarrior.location
 
-        while !playerAlexander.canFinishTurn() {
+        repeat {
             gameModel.update()
-        }
+            gameModel.update()
+            gameModel.update()
+
+            playerAlexander.finishTurn()
+            playerAlexander.setAutoMoves(to: true)
+        } while playerAlexander.canFinishTurn()
         playerAlexander.endTurn(in: gameModel)
 
         // THEN
@@ -170,7 +184,7 @@ class UsecaseTests: XCTestCase {
         playerBarbarian.initialize()
 
         // map
-        var mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
         mapModel.tile(at: HexPoint(x: 18, y: 15))?.set(terrain: .ocean)
 
@@ -207,9 +221,14 @@ class UsecaseTests: XCTestCase {
         MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         // WHEN
-        while !playerAlexander.canFinishTurn() {
+        repeat {
             gameModel.update()
-        }
+            gameModel.update()
+            gameModel.update()
+
+            playerAlexander.finishTurn()
+            playerAlexander.setAutoMoves(to: true)
+        } while playerAlexander.canFinishTurn()
         playerAlexander.endTurn(in: gameModel)
 
         // THEN
@@ -233,7 +252,7 @@ class UsecaseTests: XCTestCase {
         playerBarbarian.initialize()
 
         // map
-        var mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
         mapModel.tile(at: HexPoint(x: 18, y: 15))?.set(terrain: .ocean)
 
@@ -268,9 +287,14 @@ class UsecaseTests: XCTestCase {
         MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         // WHEN
-        while !playerAlexander.canFinishTurn() {
+        repeat {
             gameModel.update()
-        }
+            gameModel.update()
+            gameModel.update()
+
+            playerAlexander.finishTurn()
+            playerAlexander.setAutoMoves(to: true)
+        } while playerAlexander.canFinishTurn()
         playerAlexander.endTurn(in: gameModel)
 
         // THEN
@@ -299,7 +323,7 @@ class UsecaseTests: XCTestCase {
         playerBarbarian.initialize()
 
         // map
-        var mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
         mapModel.tile(at: HexPoint(x: 18, y: 15))?.set(terrain: .ocean)
         mapModel.set(improvement: .farm, at: HexPoint(x: 16, y: 15))
@@ -335,9 +359,14 @@ class UsecaseTests: XCTestCase {
         MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         // WHEN
-        while !playerAlexander.canFinishTurn() {
+        repeat {
             gameModel.update()
-        }
+            gameModel.update()
+            gameModel.update()
+
+            playerAlexander.finishTurn()
+            playerAlexander.setAutoMoves(to: true)
+        } while playerAlexander.canFinishTurn()
         playerAlexander.endTurn(in: gameModel)
 
         // THEN

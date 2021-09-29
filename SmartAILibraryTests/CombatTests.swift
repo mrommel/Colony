@@ -28,7 +28,7 @@ class CombatTests: XCTestCase {
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
@@ -64,7 +64,7 @@ class CombatTests: XCTestCase {
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
@@ -104,7 +104,7 @@ class CombatTests: XCTestCase {
         try! playerAugustus.techs?.discover(tech: .masonry)
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
@@ -149,7 +149,7 @@ class CombatTests: XCTestCase {
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
@@ -186,7 +186,7 @@ class CombatTests: XCTestCase {
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
@@ -224,7 +224,7 @@ class CombatTests: XCTestCase {
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
@@ -260,7 +260,7 @@ class CombatTests: XCTestCase {
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],

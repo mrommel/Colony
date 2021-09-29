@@ -99,10 +99,14 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // WHEN
-        while !playerAlexander.canFinishTurn() {
+        repeat {
             gameModel.update()
-            print("::: --- loop --- :::")
-        }
+            gameModel.update()
+            gameModel.update()
+
+            playerAlexander.finishTurn()
+            playerAlexander.setAutoMoves(to: true)
+        } while playerAlexander.canFinishTurn()
         playerAlexander.endTurn(in: gameModel)
 
         // THEN
@@ -198,10 +202,14 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
         playerAlexander.diplomacyAI?.doDeclareWar(to: playerTrajan, in: gameModel) // at war no barbarian hunt
 
         // WHEN
-        while !playerAlexander.canFinishTurn() {
+        repeat {
             gameModel.update()
-            print("::: --- loop --- :::")
-        }
+            gameModel.update()
+            gameModel.update()
+
+            playerAlexander.finishTurn()
+            playerAlexander.setAutoMoves(to: true)
+        } while playerAlexander.canFinishTurn()
         playerAlexander.endTurn(in: gameModel)
 
         // THEN
@@ -300,10 +308,14 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // WHEN
-        while !playerAlexander.canFinishTurn() {
+        repeat {
             gameModel.update()
-            print("::: --- loop --- :::")
-        }
+            gameModel.update()
+            gameModel.update()
+
+            playerAlexander.finishTurn()
+            playerAlexander.setAutoMoves(to: true)
+        } while playerAlexander.canFinishTurn()
         playerAlexander.endTurn(in: gameModel)
 
         // THEN
@@ -414,10 +426,14 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // WHEN
-        while !playerAlexander.canFinishTurn() {
+        repeat {
             gameModel.update()
-            print("::: --- loop --- :::")
-        }
+            gameModel.update()
+            gameModel.update()
+
+            playerAlexander.finishTurn()
+            playerAlexander.setAutoMoves(to: true)
+        } while playerAlexander.canFinishTurn()
         playerAlexander.endTurn(in: gameModel)
 
         // THEN

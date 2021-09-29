@@ -32,7 +32,7 @@ class GameModelTests: XCTestCase {
         playerElizabeth.set(era: .medieval)
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
@@ -67,7 +67,7 @@ class GameModelTests: XCTestCase {
         playerElizabeth.set(era: .renaissance)
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
@@ -102,7 +102,7 @@ class GameModelTests: XCTestCase {
         playerTrajan.set(era: .medieval)
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
@@ -152,7 +152,7 @@ class GameModelTests: XCTestCase {
         }
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],

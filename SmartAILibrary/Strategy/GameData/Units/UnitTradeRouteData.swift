@@ -44,7 +44,7 @@ public class UnitTradeRouteData {
     func doTurn(for unit: AbstractUnit?, in gameModel: GameModel?) {
 
         guard let unit = unit else {
-                fatalError("cant get data")
+            fatalError("cant get data")
         }
 
         var isFollowingMission = false

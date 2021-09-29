@@ -31,7 +31,7 @@ class EconomicAIReconStateTests: XCTestCase {
 
         self.objectToTest = EconomicAI(player: playerAlexander)
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
 
@@ -58,7 +58,7 @@ class EconomicAIReconStateTests: XCTestCase {
 
         self.objectToTest = EconomicAI(player: playerAlexander)
 
-        var mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
 
         MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)

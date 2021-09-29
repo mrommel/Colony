@@ -66,7 +66,7 @@ class CivicTests: XCTestCase {
         try! self.objectToTest?.discover(civic: .codeOfLaws)
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination],

@@ -33,7 +33,7 @@ class DiplomaticDealAITests: XCTestCase {
         let deal = DiplomaticDeal(from: .alexander, to: .trajan)
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .give, amount: 2))
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
 
@@ -54,7 +54,7 @@ class DiplomaticDealAITests: XCTestCase {
         let deal = DiplomaticDeal(from: .alexander, to: .trajan)
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .receive, amount: 2))
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
 
@@ -76,7 +76,7 @@ class DiplomaticDealAITests: XCTestCase {
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .give, amount: 4))
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .receive, amount: 4))
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
 
@@ -98,7 +98,7 @@ class DiplomaticDealAITests: XCTestCase {
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .give, amount: 4))
         deal.tradeItems.append(DiplomaticGoldPerTurnDealItem(direction: .receive, amount: 1, duration: 5)) // gold per turn is valued only 80% because of the risk
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
 

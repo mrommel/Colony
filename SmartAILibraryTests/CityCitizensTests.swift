@@ -19,7 +19,7 @@ class CityCitizensTests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
 
         let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)

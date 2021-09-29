@@ -37,7 +37,7 @@ class AdvisorTests: XCTestCase {
         try! playerAlexander.techs?.discover(tech: .mining)
 
         // setup the map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [barbarianPlayer, playerAlexander], on: mapModel)
 
@@ -84,7 +84,7 @@ class AdvisorTests: XCTestCase {
         playerAugustus.government?.set(governmentType: .autocracy)
         try! playerAugustus.techs?.discover(tech: .mining)
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel) //MapModel(size: .standard)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel) //MapModel(size: .standard)
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [barbarianPlayer, playerAlexander, playerAugustus], on: mapModel)
 
@@ -139,7 +139,7 @@ class AdvisorTests: XCTestCase {
         playerAugustus.government?.set(governmentType: .autocracy)
         try! playerAugustus.techs?.discover(tech: .mining)
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [barbarianPlayer, playerAlexander, playerAugustus], on: mapModel)
 
         let userInterface = TestUI()

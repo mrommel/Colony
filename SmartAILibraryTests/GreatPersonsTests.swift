@@ -70,7 +70,7 @@ class GreatPersonsTests: XCTestCase {
         playerElizabeth.set(era: .medieval)
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
@@ -110,7 +110,7 @@ class GreatPersonsTests: XCTestCase {
         playerElizabeth.set(era: .medieval)
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
@@ -146,7 +146,7 @@ class GreatPersonsTests: XCTestCase {
         playerElizabeth.set(era: .medieval)
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],

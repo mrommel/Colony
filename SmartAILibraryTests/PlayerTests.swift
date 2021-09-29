@@ -29,7 +29,7 @@ class PlayerTests: XCTestCase {
         playerBarbarian.initialize()
 
         // map
-        var mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
         // game
@@ -75,10 +75,14 @@ class PlayerTests: XCTestCase {
         let numProphetsBefore = gameModel.units(of: playerAlexander).filter { $0?.type == .prophet }.count
 
         // WHEN
-        while !playerAlexander.canFinishTurn() {
+        repeat {
             gameModel.update()
-            print("::: --- loop --- :::")
-        }
+            gameModel.update()
+            gameModel.update()
+
+            playerAlexander.finishTurn()
+            playerAlexander.setAutoMoves(to: true)
+        } while playerAlexander.canFinishTurn()
         playerAlexander.endTurn(in: gameModel)
 
         // THEN

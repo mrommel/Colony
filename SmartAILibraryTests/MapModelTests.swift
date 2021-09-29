@@ -28,7 +28,7 @@ class MapModelTests: XCTestCase {
     func testNoContinents() {
 
         // GIVEN
-        self.objectToTest = MapModelHelper.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
+        self.objectToTest = MapUtils.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
 
         // WHEN
         self.objectToTest?.analyze()
@@ -43,7 +43,7 @@ class MapModelTests: XCTestCase {
     func testNoOceans() {
 
         // GIVEN
-        self.objectToTest = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 16, height: 12))
+        self.objectToTest = MapUtils.mapFilled(with: .grass, sized: .custom(width: 16, height: 12))
 
         // WHEN
         self.objectToTest?.analyze()
@@ -58,15 +58,15 @@ class MapModelTests: XCTestCase {
     func testTwoContinents() {
 
         // GIVEN
-        self.objectToTest = MapModelHelper.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
+        self.objectToTest = MapUtils.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
 
         // continent 1
         let continentOneArea = HexArea(center: HexPoint(x: 1, y: 9), radius: 2)
-        MapModelHelper.add(area: continentOneArea, with: .grass, to: self.objectToTest)
+        MapUtils.add(area: continentOneArea, with: .grass, to: self.objectToTest)
 
         // continent 2
         let continentTwoArea = HexArea(center: HexPoint(x: 14, y: 8), radius: 2)
-        MapModelHelper.add(area: continentTwoArea, with: .grass, to: self.objectToTest)
+        MapUtils.add(area: continentTwoArea, with: .grass, to: self.objectToTest)
 
         // WHEN
         self.objectToTest?.analyze()
@@ -81,7 +81,7 @@ class MapModelTests: XCTestCase {
     func testCanSeeThru() {
 
         // GIVEN
-        self.objectToTest = MapModelHelper.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
+        self.objectToTest = MapUtils.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
 
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
@@ -109,7 +109,7 @@ class MapModelTests: XCTestCase {
     func testCantSeeThru() {
 
         // GIVEN
-        self.objectToTest = MapModelHelper.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
+        self.objectToTest = MapUtils.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
 
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
@@ -150,7 +150,7 @@ class MapModelTests: XCTestCase {
     func testAquireTileDirectly() {
 
         // GIVEN
-        self.objectToTest = MapModelHelper.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
+        self.objectToTest = MapUtils.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
 
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
@@ -169,7 +169,7 @@ class MapModelTests: XCTestCase {
     func testAquireTileIndirectly() {
 
         // GIVEN
-        self.objectToTest = MapModelHelper.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
+        self.objectToTest = MapUtils.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
 
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()

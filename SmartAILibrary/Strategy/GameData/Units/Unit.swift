@@ -3578,6 +3578,10 @@ public class Unit: AbstractUnit {
 
             path.prepend(point: self.location, cost: 0.0)
 
+            if self.moves() == 0 {
+                return Int.max
+            }
+
             let turnsNeeded = path.cost / Double(self.moves())
             return Int(turnsNeeded)
         }
@@ -4189,7 +4193,6 @@ extension Unit {
         print(">>> pushed mission: \(mission.type) \(mission.type.needsTarget() ? "\(mission.target!)" : "") for \(self.type)")
 
         mission.unit = self
-
         mission.start(in: gameModel)
     }
 
@@ -4292,24 +4295,13 @@ extension Unit {
 
     public func updateMission(in gameModel: GameModel?) {
 
-        /*if self.missionTimerValue > 0 {
+        if self.activityTypeValue == .mission {
 
-            self.missionTimerValue -= 1
+            if let headMission = self.missions.peek() {
 
-            if self.missionTimerValue == 0 {*/
-
-                if self.activityTypeValue == .mission {
-
-                    if let headMission = self.missions.peek() {
-
-                        headMission.continueMission(steps: 0, in: gameModel)
-                    }
-                }
-            /*}
-        }*/
-        /*if let headMission = self.missions.peek() {
-            headMission.update()
-        }*/
+                headMission.continueMission(steps: 0, in: gameModel)
+            }
+        }
     }
 
     public func clearMissions() {

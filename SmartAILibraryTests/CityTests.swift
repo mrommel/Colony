@@ -33,7 +33,7 @@ class CityTests: XCTestCase {
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
 
@@ -57,7 +57,7 @@ class CityTests: XCTestCase {
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
 
         let centerTile = mapModel.tile(at: HexPoint(x: 1, y: 1))
         centerTile?.set(terrain: .grass)
@@ -87,7 +87,7 @@ class CityTests: XCTestCase {
         playerAlexander.government?.set(governmentType: .autocracy)
         try! playerAlexander.techs?.discover(tech: .mining)
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
 
@@ -135,7 +135,7 @@ class CityTests: XCTestCase {
         try! playerAlexander.techs?.discover(tech: .pottery)
         try! playerAlexander.techs?.discover(tech: .masonry)
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
 
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
@@ -162,7 +162,7 @@ class CityTests: XCTestCase {
         try! playerAlexander.techs?.discover(tech: .pottery)
         try! playerAlexander.techs?.discover(tech: .masonry)
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
 
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
@@ -188,7 +188,7 @@ class CityTests: XCTestCase {
         playerAlexander.initialize()
         playerAlexander.government?.set(governmentType: .autocracy)
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
 
         // WHEN
@@ -220,7 +220,7 @@ class CityTests: XCTestCase {
             fatalError("cant discover masonry")
         }
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
 
         let city = City(name: "Potsdam", at: HexPoint(x: 10, y: 1), owner: playerAlexander)
