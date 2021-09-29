@@ -1536,7 +1536,7 @@ open class GameModel: Codable {
             fatalError("cant get religions")
         }
 
-        return religions.religions(in: self).filter({ $0?.currentReligion() != Optional.none }).count
+        return religions.religions(in: self).filter({ $0?.currentReligion() != ReligionType.none }).count
     }
 
     func maxActiveReligions() -> Int {
@@ -1587,7 +1587,7 @@ open class GameModel: Codable {
 
     func numReligionsStillToFound() -> Int {
 
-        return maxActiveReligions() - self.numReligionFounded()
+        return self.maxActiveReligions() - self.numReligionFounded()
     }
 }
 

@@ -89,6 +89,31 @@ public class GreatPersonPoints: Codable {
         self.greatMusician += other.greatMusician
     }
 
+    func add(value: Int, for greatPersonType: GreatPersonType) {
+
+        switch greatPersonType {
+
+        case .greatGeneral:
+            self.greatGeneral += value
+        case .greatAdmiral:
+            self.greatAdmiral += value
+        case .greatEngineer:
+            self.greatEngineer += value
+        case .greatMerchant:
+            self.greatMerchant += value
+        case .greatProphet:
+            self.greatProphet += value
+        case .greatScientist:
+            self.greatScientist += value
+        case .greatWriter:
+            self.greatWriter += value
+        case .greatArtist:
+            self.greatArtist += value
+        case .greatMusician:
+            self.greatMusician += value
+        }
+    }
+
     func value(for greatPersonType: GreatPersonType) -> Int {
 
         switch greatPersonType {
