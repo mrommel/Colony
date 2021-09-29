@@ -22,8 +22,7 @@ public protocol AbstractPlayerGovernors: AnyObject, Codable {
 
     func appoint(governor governorType: GovernorType)
     func promote(governor: Governor?, with title: GovernorTitleType)
-    func assign(governor: Governor?, to selectedCity: AbstractCity?)
-    func reassign(governor: Governor?, to selectedCity: AbstractCity?, in gameModel: GameModel?)
+    func assign(governor: Governor?, to selectedCity: AbstractCity?, in gameModel: GameModel?)
 }
 
 class PlayerGovernors: AbstractPlayerGovernors {
@@ -226,13 +225,8 @@ class PlayerGovernors: AbstractPlayerGovernors {
         self.numTitlesAvailableValue -= 1
     }
 
-    public func assign(governor: Governor?, to selectedCity: AbstractCity?) {
-
-        selectedCity?.assign(governor: governor?.type)
-        governor?.assign(to: selectedCity)
-    }
-
-    public func reassign(governor: Governor?, to selectedCity: AbstractCity?, in gameModel: GameModel?) {
+    // and remove from any previous city
+    public func assign(governor: Governor?, to selectedCity: AbstractCity?, in gameModel: GameModel?) {
 
         governor?.assignedCity(in: gameModel)?.assign(governor: .none)
         governor?.unassign()

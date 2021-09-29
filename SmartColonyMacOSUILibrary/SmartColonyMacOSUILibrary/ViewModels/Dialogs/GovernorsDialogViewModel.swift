@@ -183,7 +183,7 @@ extension GovernorsDialogViewModel: GovernorViewModelDelegate {
 
             let selectedCity: AbstractCity? = cityRefs[selectedIndex]
 
-            humanPlayer.governors?.assign(governor: governor, to: selectedCity)
+            humanPlayer.governors?.assign(governor: governor, to: selectedCity, in: gameModel)
 
             self.updateGovernors()
         })
@@ -217,7 +217,7 @@ extension GovernorsDialogViewModel: GovernorViewModelDelegate {
 
             let selectedCity: AbstractCity? = cityRefs[selectedIndex]
 
-            humanPlayer.governors?.reassign(governor: governor, to: selectedCity, in: gameModel)
+            humanPlayer.governors?.assign(governor: governor, to: selectedCity, in: gameModel)
 
             self.updateGovernors()
         })
