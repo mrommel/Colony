@@ -11,6 +11,7 @@ import Foundation
 import XCTest
 @testable import SmartAILibrary
 
+// swiftlint:disable function_body_length
 class PlayerTests: XCTestCase {
 
     func testSpawnProphet() {
