@@ -27,6 +27,9 @@ class CityStrategyAITests: XCTestCase {
     func testTinyCityActive() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
@@ -35,7 +38,7 @@ class CityStrategyAITests: XCTestCase {
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
             turnsElapsed: 0,
-            players: [playerAlexander],
+            players: [barbarianPlayer, playerAlexander],
             on: mapModel
         )
 
@@ -55,6 +58,9 @@ class CityStrategyAITests: XCTestCase {
     func testSmallCityActive() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
@@ -63,7 +69,7 @@ class CityStrategyAITests: XCTestCase {
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
             turnsElapsed: 0,
-            players: [playerAlexander],
+            players: [barbarianPlayer, playerAlexander],
             on: mapModel
         )
 
@@ -84,6 +90,9 @@ class CityStrategyAITests: XCTestCase {
     func testMediumCityActive() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
@@ -92,7 +101,7 @@ class CityStrategyAITests: XCTestCase {
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
             turnsElapsed: 0,
-            players: [playerAlexander],
+            players: [barbarianPlayer, playerAlexander],
             on: mapModel
         )
 
@@ -113,6 +122,9 @@ class CityStrategyAITests: XCTestCase {
     func testLargeCityActive() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
@@ -121,7 +133,7 @@ class CityStrategyAITests: XCTestCase {
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
             turnsElapsed: 0,
-            players: [playerAlexander],
+            players: [barbarianPlayer, playerAlexander],
             on: mapModel
         )
 
@@ -141,6 +153,9 @@ class CityStrategyAITests: XCTestCase {
     func testLandlockedActive() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
@@ -149,7 +164,7 @@ class CityStrategyAITests: XCTestCase {
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
             turnsElapsed: 0,
-            players: [playerAlexander],
+            players: [barbarianPlayer, playerAlexander],
             on: mapModel
         )
 
@@ -169,6 +184,9 @@ class CityStrategyAITests: XCTestCase {
     func testLandlockedInactive() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
@@ -179,7 +197,7 @@ class CityStrategyAITests: XCTestCase {
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
             turnsElapsed: 0,
-            players: [playerAlexander],
+            players: [barbarianPlayer, playerAlexander],
             on: mapModel
         )
 
@@ -198,6 +216,9 @@ class CityStrategyAITests: XCTestCase {
     func testNeedTileImproversEarlyInactive() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
@@ -208,7 +229,7 @@ class CityStrategyAITests: XCTestCase {
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
             turnsElapsed: 0,
-            players: [playerAlexander],
+            players: [barbarianPlayer, playerAlexander],
             on: mapModel
         )
 
@@ -227,6 +248,9 @@ class CityStrategyAITests: XCTestCase {
     func testNeedTileImproversActive() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
@@ -237,7 +261,7 @@ class CityStrategyAITests: XCTestCase {
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
             turnsElapsed: 31,
-            players: [playerAlexander],
+            players: [barbarianPlayer, playerAlexander],
             on: mapModel
         )
 

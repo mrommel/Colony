@@ -98,7 +98,7 @@ class AdvisorTests: XCTestCase {
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
             turnsElapsed: 0,
-            players: [barbarianPlayer, playerAlexander, playerAugustus],
+            players: [barbarianPlayer, playerAugustus, playerAlexander],
             on: mapModel
         )
 
@@ -135,9 +135,9 @@ class AdvisorTests: XCTestCase {
                 }
             } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
         }
-        let messages = playerAlexander.advisorMessages()
 
         // THEN
+        let messages = playerAlexander.advisorMessages()
         XCTAssertEqual(gameModel.currentTurn, 30)
         XCTAssertEqual(messages.count, 3)
     }
@@ -159,7 +159,13 @@ class AdvisorTests: XCTestCase {
         try! playerAugustus.techs?.discover(tech: .mining)
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [barbarianPlayer, playerAlexander, playerAugustus], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAugustus, playerAlexander],
+            on: mapModel
+        )
 
         let userInterface = TestUI()
         gameModel.userInterface = userInterface

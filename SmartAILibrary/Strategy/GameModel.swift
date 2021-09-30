@@ -74,6 +74,19 @@ open class GameModel: Codable {
 
     public init(victoryTypes: [VictoryType], handicap: HandicapType, turnsElapsed: Int, players: [AbstractPlayer], on map: MapModel) {
 
+        // verify input
+        guard players.count > 1 else {
+            fatalError("at least two players must be part of the game")
+        }
+
+        guard let firstPlayer = players.first, firstPlayer.isBarbarian() else {
+            fatalError("the first player must be barbarian")
+        }
+
+        guard let lastPlayer = players.last, lastPlayer.isHuman() else {
+            fatalError("the last player must be human")
+        }
+
         self.victoryTypes = victoryTypes
         self.handicap = handicap
         self.currentTurn = turnsElapsed

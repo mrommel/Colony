@@ -132,6 +132,8 @@ class UsecaseTests: XCTestCase {
         MapUtils.discover(mapModel: &mapModel, by: playerTrajan, in: gameModel)
         MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
+        let locationAfterTurn0 = playerTrajanWarrior.location
+
         // WHEN
         repeat {
             gameModel.update()
@@ -156,11 +158,13 @@ class UsecaseTests: XCTestCase {
             }
         } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
 
-        // THEN
-        XCTAssertNotEqual(locationAfterTurn1, HexPoint(x: 15, y: 16))
+        let locationAfterTurn2 = playerTrajanWarrior.location
 
-        XCTAssertNotEqual(playerTrajanWarrior.location, locationAfterTurn1)
-        XCTAssertNotEqual(playerTrajanWarrior.location, HexPoint(x: 15, y: 16))
+        // THEN
+        XCTAssertNotEqual(locationAfterTurn1, locationAfterTurn0)
+
+        XCTAssertNotEqual(locationAfterTurn2, locationAfterTurn1)
+        XCTAssertNotEqual(locationAfterTurn2, locationAfterTurn0)
     }
 
     func testScoutExplore() {
