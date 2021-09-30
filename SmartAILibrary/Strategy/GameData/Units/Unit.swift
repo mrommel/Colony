@@ -4374,8 +4374,9 @@ extension Unit {
 
     public func endTrading() {
 
+        self.player?.tradeRoutes?.finish(tradeRoute: self.tradeRouteDataValue?.tradeRoute)
+
         self.tradeRouteDataValue = nil
-        self.clearMissions()
     }
 
     public func tradeRouteData() -> UnitTradeRouteData? {

@@ -13,6 +13,7 @@ public protocol AbstractTradeRoutes {
     var player: Player? { get set }
 
     func establishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool
+    func finish(tradeRoute: TradeRoute?)
 
     func canEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool
 
@@ -119,6 +120,15 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
         }
 
         return false
+    }
+
+    public func finish(tradeRoute tradeRouteRef: TradeRoute?) {
+
+        guard let tradeRoute = tradeRouteRef else {
+            fatalError("cant get trade route")
+        }
+
+        self.routes.removeAll(where: { $0.start == tradeRoute.start && $0.end == tradeRoute.end })
     }
 
     public func canEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool {
