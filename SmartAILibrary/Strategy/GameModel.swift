@@ -327,7 +327,7 @@ open class GameModel: Codable {
                         if !player.hasBusyUnitOrCity() {
                             autoMovesComplete = true
 
-                            print("+++ GameModel - CheckPlayerTurnDeactivate() : auto-moves complete for \(player.leader.name())")
+                            // print("+++ GameModel - CheckPlayerTurnDeactivate() : auto-moves complete for \(player.leader.name())")
                         } else {
                             /*if ( gDLL->HasReceivedTurnComplete( player.GetID() ) )
                             {

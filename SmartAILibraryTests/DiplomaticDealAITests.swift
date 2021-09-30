@@ -26,8 +26,14 @@ class DiplomaticDealAITests: XCTestCase {
     func testOfferValueGiveGoldInsulting() {
 
         // GIVEN
+        let playerBarbar = Player(leader: .barbar)
+        playerBarbar.initialize()
+
         let playerAlexander = Player(leader: .alexander)
-        let playerAugustus = Player(leader: .trajan)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
 
         self.objectToTest = DiplomaticDealAI(player: playerAlexander)
         let deal = DiplomaticDeal(from: .alexander, to: .trajan)
@@ -35,7 +41,13 @@ class DiplomaticDealAITests: XCTestCase {
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerBarbar, playerAlexander, playerTrajan],
+            on: mapModel
+        )
 
         // WHEN
         let response = self.objectToTest!.offer(deal: deal, with: gameModel)
@@ -47,8 +59,14 @@ class DiplomaticDealAITests: XCTestCase {
     func testOfferValueReceiveGoldAcceptable() {
 
         // GIVEN
+        let playerBarbar = Player(leader: .barbar)
+        playerBarbar.initialize()
+
         let playerAlexander = Player(leader: .alexander)
-        let playerAugustus = Player(leader: .trajan)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
 
         self.objectToTest = DiplomaticDealAI(player: playerAlexander)
         let deal = DiplomaticDeal(from: .alexander, to: .trajan)
@@ -56,7 +74,13 @@ class DiplomaticDealAITests: XCTestCase {
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerBarbar, playerAlexander, playerTrajan],
+            on: mapModel
+        )
 
         // WHEN
         let response = self.objectToTest!.offer(deal: deal, with: gameModel)
@@ -68,8 +92,14 @@ class DiplomaticDealAITests: XCTestCase {
     func testOfferValueAcceptableGoldAndGold() {
 
         // GIVEN
+        let playerBarbar = Player(leader: .barbar)
+        playerBarbar.initialize()
+
         let playerAlexander = Player(leader: .alexander)
-        let playerAugustus = Player(leader: .trajan)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
 
         self.objectToTest = DiplomaticDealAI(player: playerAlexander)
         let deal = DiplomaticDeal(from: .alexander, to: .trajan)
@@ -78,7 +108,13 @@ class DiplomaticDealAITests: XCTestCase {
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerBarbar, playerAlexander, playerTrajan],
+            on: mapModel
+        )
 
         // WHEN
         let response = self.objectToTest!.offer(deal: deal, with: gameModel)
@@ -90,8 +126,14 @@ class DiplomaticDealAITests: XCTestCase {
     func testOfferValueAccepableGoldAndGoldPerTurn() {
 
         // GIVEN
+        let playerBarbar = Player(leader: .barbar)
+        playerBarbar.initialize()
+
         let playerAlexander = Player(leader: .alexander)
-        let playerAugustus = Player(leader: .trajan)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
 
         self.objectToTest = DiplomaticDealAI(player: playerAlexander)
         let deal = DiplomaticDeal(from: .alexander, to: .trajan)
@@ -100,7 +142,13 @@ class DiplomaticDealAITests: XCTestCase {
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerBarbar, playerAlexander, playerTrajan],
+            on: mapModel
+        )
 
         // WHEN
         let response = self.objectToTest!.offer(deal: deal, with: gameModel)

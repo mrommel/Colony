@@ -60,20 +60,28 @@ class CivicTests: XCTestCase {
     func testEurekaOfCraftsmanship() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .victoria)
         playerAlexander.initialize()
         self.objectToTest = playerAlexander.civics
         try! self.objectToTest?.discover(civic: .codeOfLaws)
 
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
+
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination],
-                                   handicap: .chieftain,
-                                   turnsElapsed: 0,
-                                   players: [playerAlexander],
-                                   on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAlexander, playerTrajan],
+            on: mapModel
+        )
 
         let tile0 = mapModel.tile(at: HexPoint(x: 0, y: 0))
         try! tile0?.set(owner: playerAlexander)
