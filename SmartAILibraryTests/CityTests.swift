@@ -167,12 +167,15 @@ class CityTests: XCTestCase {
         try! playerAlexander.techs?.discover(tech: .pottery)
         try! playerAlexander.techs?.discover(tech: .masonry)
 
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
+
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
             turnsElapsed: 0,
-            players: [barbarianPlayer, playerAlexander],
+            players: [barbarianPlayer, playerAlexander, playerTrajan],
             on: mapModel
         )
 
@@ -203,12 +206,15 @@ class CityTests: XCTestCase {
         try! playerAlexander.techs?.discover(tech: .pottery)
         try! playerAlexander.techs?.discover(tech: .masonry)
 
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
+
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
             turnsElapsed: 0,
-            players: [barbarianPlayer, playerAlexander],
+            players: [barbarianPlayer, playerAlexander, playerTrajan],
             on: mapModel
         )
 
@@ -238,12 +244,15 @@ class CityTests: XCTestCase {
         playerAlexander.initialize()
         playerAlexander.government?.set(governmentType: .autocracy)
 
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
+
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
             turnsElapsed: 0,
-            players: [barbarianPlayer, playerAlexander],
+            players: [barbarianPlayer, playerAlexander, playerTrajan],
             on: mapModel
         )
 
@@ -279,12 +288,15 @@ class CityTests: XCTestCase {
             fatalError("cant discover masonry")
         }
 
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
+
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
             turnsElapsed: 0,
-            players: [barbarianPlayer, playerAlexander],
+            players: [barbarianPlayer, playerAlexander, playerTrajan],
             on: mapModel
         )
 

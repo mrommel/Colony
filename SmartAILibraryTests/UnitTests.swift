@@ -120,7 +120,7 @@ class UnitTests: XCTestCase {
                     humanPlayer.setAutoMoves(to: true)
                 }
             } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
-            
+
             hasStayed = humanPlayerScout.location == HexPoint(x: 2, y: 2)
             turnCounter += 1
         } while turnCounter < 4 && hasStayed
