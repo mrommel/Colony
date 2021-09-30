@@ -67,15 +67,10 @@ class UsecaseTests: XCTestCase {
         let numOfUnitsBefore = gameModel.units(of: playerAugustus).count
 
         // WHEN
-        repeat {
-            gameModel.update()
-            gameModel.update()
-            gameModel.update()
+        gameModel.update()
 
-            playerAlexander.finishTurn()
-            playerAlexander.setAutoMoves(to: true)
-        } while playerAlexander.canFinishTurn()
-        playerAlexander.endTurn(in: gameModel)
+        playerAlexander.finishTurn()
+        playerAlexander.setAutoMoves(to: true)
 
         // THEN
         XCTAssertEqual(numCitiesBefore, 0)
@@ -98,8 +93,8 @@ class UsecaseTests: XCTestCase {
         playerAlexander.initialize()
 
         // player 2
-        let playerAugustus = Player(leader: .trajan)
-        playerAugustus.initialize()
+        let playerTrajan = Player(leader: .trajan)
+        playerTrajan.initialize()
 
         let playerBarbarian = Player(leader: .barbar)
         playerBarbarian.initialize()
@@ -112,7 +107,7 @@ class UsecaseTests: XCTestCase {
         let gameModel = GameModel(victoryTypes: [.domination],
                                   handicap: .chieftain,
                                   turnsElapsed: 0,
-                                  players: [playerAugustus, playerBarbarian, playerAlexander],
+                                  players: [playerBarbarian, playerTrajan, playerAlexander],
                                   on: mapModel)
 
         // add UI
@@ -120,52 +115,52 @@ class UsecaseTests: XCTestCase {
         gameModel.userInterface = userInterface
 
         // initial units
-        let playerAugustusWarrior = Unit(at: HexPoint(x: 15, y: 16), type: .warrior, owner: playerAugustus)
-        gameModel.add(unit: playerAugustusWarrior)
+        let playerTrajanWarrior = Unit(at: HexPoint(x: 15, y: 16), type: .warrior, owner: playerTrajan)
+        gameModel.add(unit: playerTrajanWarrior)
 
         // initial cities
         let cityAlexandria = City(name: "Alexandria", at: HexPoint(x: 5, y: 5), capital: true, owner: playerAlexander)
         cityAlexandria.initialize(in: gameModel)
         gameModel.add(city: cityAlexandria)
 
-        let cityAugustria = City(name: "Augustria", at: HexPoint(x: 15, y: 15), capital: true, owner: playerAugustus)
-        cityAugustria.initialize(in: gameModel)
-        gameModel.add(city: cityAugustria)
+        let cityTrajania = City(name: "Trajania", at: HexPoint(x: 15, y: 15), capital: true, owner: playerTrajan)
+        cityTrajania.initialize(in: gameModel)
+        gameModel.add(city: cityTrajania)
 
         // this is cheating
         MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
-        MapUtils.discover(mapModel: &mapModel, by: playerAugustus, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerTrajan, in: gameModel)
         MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         // WHEN
         repeat {
             gameModel.update()
-            gameModel.update()
-            gameModel.update()
 
-            playerAlexander.finishTurn()
-            playerAlexander.setAutoMoves(to: true)
-        } while playerAlexander.canFinishTurn()
-        playerAlexander.endTurn(in: gameModel)
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
+
+        print("--- between turns ---")
 
         // record mission
-        let locationAfterTurn1 = playerAugustusWarrior.location
+        let locationAfterTurn1 = playerTrajanWarrior.location
 
         repeat {
             gameModel.update()
-            gameModel.update()
-            gameModel.update()
 
-            playerAlexander.finishTurn()
-            playerAlexander.setAutoMoves(to: true)
-        } while playerAlexander.canFinishTurn()
-        playerAlexander.endTurn(in: gameModel)
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
 
         // THEN
         XCTAssertNotEqual(locationAfterTurn1, HexPoint(x: 15, y: 16))
 
-        XCTAssertNotEqual(playerAugustusWarrior.location, locationAfterTurn1)
-        XCTAssertNotEqual(playerAugustusWarrior.location, HexPoint(x: 15, y: 16))
+        XCTAssertNotEqual(playerTrajanWarrior.location, locationAfterTurn1)
+        XCTAssertNotEqual(playerTrajanWarrior.location, HexPoint(x: 15, y: 16))
     }
 
     func testScoutExplore() {
@@ -221,15 +216,10 @@ class UsecaseTests: XCTestCase {
         MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         // WHEN
-        repeat {
-            gameModel.update()
-            gameModel.update()
-            gameModel.update()
+        gameModel.update()
 
-            playerAlexander.finishTurn()
-            playerAlexander.setAutoMoves(to: true)
-        } while playerAlexander.canFinishTurn()
-        playerAlexander.endTurn(in: gameModel)
+        playerAlexander.finishTurn()
+        playerAlexander.setAutoMoves(to: true)
 
         // THEN
 
@@ -287,15 +277,10 @@ class UsecaseTests: XCTestCase {
         MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         // WHEN
-        repeat {
-            gameModel.update()
-            gameModel.update()
-            gameModel.update()
+        gameModel.update()
 
-            playerAlexander.finishTurn()
-            playerAlexander.setAutoMoves(to: true)
-        } while playerAlexander.canFinishTurn()
-        playerAlexander.endTurn(in: gameModel)
+        playerAlexander.finishTurn()
+        playerAlexander.setAutoMoves(to: true)
 
         // THEN
         XCTAssertEqual(mapModel.improvement(at: HexPoint(x: 16, y: 15)), .farm)
@@ -359,15 +344,10 @@ class UsecaseTests: XCTestCase {
         MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         // WHEN
-        repeat {
-            gameModel.update()
-            gameModel.update()
-            gameModel.update()
+        gameModel.update()
 
-            playerAlexander.finishTurn()
-            playerAlexander.setAutoMoves(to: true)
-        } while playerAlexander.canFinishTurn()
-        playerAlexander.endTurn(in: gameModel)
+        playerAlexander.finishTurn()
+        playerAlexander.setAutoMoves(to: true)
 
         // THEN
         XCTAssertEqual(playerAugustusBuilder.location, HexPoint(x: 14, y: 14))

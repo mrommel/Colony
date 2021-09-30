@@ -31,14 +31,20 @@ class CityStrategyAITests: XCTestCase {
         playerAlexander.initialize()
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerAlexander],
+            on: mapModel
+        )
 
         let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         city.initialize(in: gameModel)
         city.set(population: 1, reassignCitizen: false, in: gameModel)
 
         // WHEN
-        _ = city.turn(in: gameModel)
+        city.turn(in: gameModel)
         let strategyActive = city.cityStrategy!.adopted(cityStrategy: .tinyCity)
 
         // THEN
@@ -53,7 +59,13 @@ class CityStrategyAITests: XCTestCase {
         playerAlexander.initialize()
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerAlexander],
+            on: mapModel
+        )
 
         let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         city.initialize(in: gameModel)
@@ -61,7 +73,7 @@ class CityStrategyAITests: XCTestCase {
         city.set(population: 3, reassignCitizen: false, in: gameModel)
 
         // WHEN
-        _ = city.turn(in: gameModel)
+        city.turn(in: gameModel)
         let strategyActive = city.cityStrategy!.adopted(cityStrategy: .smallCity)
 
         // THEN
@@ -76,7 +88,13 @@ class CityStrategyAITests: XCTestCase {
         playerAlexander.initialize()
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerAlexander],
+            on: mapModel
+        )
 
         let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         city.initialize(in: gameModel)
@@ -84,7 +102,7 @@ class CityStrategyAITests: XCTestCase {
         city.set(population: 7, reassignCitizen: false, in: gameModel)
 
         // WHEN
-        _ = city.turn(in: gameModel)
+        city.turn(in: gameModel)
         let strategyActive = city.cityStrategy!.adopted(cityStrategy: .mediumCity)
 
         // THEN
@@ -99,7 +117,13 @@ class CityStrategyAITests: XCTestCase {
         playerAlexander.initialize()
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerAlexander],
+            on: mapModel
+        )
 
         let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         city.initialize(in: gameModel)
@@ -107,7 +131,7 @@ class CityStrategyAITests: XCTestCase {
         city.set(population: 12, reassignCitizen: false, in: gameModel)
 
         // WHEN
-        _ = city.turn(in: gameModel)
+        city.turn(in: gameModel)
         let strategyActive = city.cityStrategy!.adopted(cityStrategy: .largeCity)
 
         // THEN
@@ -121,7 +145,13 @@ class CityStrategyAITests: XCTestCase {
         playerAlexander.initialize()
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerAlexander],
+            on: mapModel
+        )
 
         let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         city.initialize(in: gameModel)
@@ -129,7 +159,7 @@ class CityStrategyAITests: XCTestCase {
         city.set(population: 12, reassignCitizen: false, in: gameModel)
 
         // WHEN
-        _ = city.turn(in: gameModel)
+        city.turn(in: gameModel)
         let strategyActive = city.cityStrategy!.adopted(cityStrategy: .landLocked)
 
         // THEN
@@ -145,14 +175,20 @@ class CityStrategyAITests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerAlexander],
+            on: mapModel
+        )
 
         let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         city.initialize(in: gameModel)
         city.set(population: 12, reassignCitizen: false, in: gameModel)
 
         // WHEN
-        _ = city.turn(in: gameModel)
+        city.turn(in: gameModel)
         let strategyActive = city.cityStrategy!.adopted(cityStrategy: .landLocked)
 
         // THEN
@@ -168,14 +204,20 @@ class CityStrategyAITests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerAlexander],
+            on: mapModel
+        )
 
         let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         city.initialize(in: gameModel)
         city.set(population: 12, reassignCitizen: false, in: gameModel)
 
         // WHEN
-        _ = city.turn(in: gameModel)
+        city.turn(in: gameModel)
         let strategyActive = city.cityStrategy!.adopted(cityStrategy: .needTileImprovers)
 
         // THEN
@@ -191,14 +233,20 @@ class CityStrategyAITests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 31, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 31,
+            players: [playerAlexander],
+            on: mapModel
+        )
 
         let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         city.initialize(in: gameModel)
         city.set(population: 12, reassignCitizen: false, in: gameModel)
 
         // WHEN
-        _ = city.turn(in: gameModel)
+        city.turn(in: gameModel)
         let strategyActive = city.cityStrategy!.adopted(cityStrategy: .needTileImprovers)
 
         // THEN

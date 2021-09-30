@@ -380,6 +380,9 @@ extension GameSceneViewModel {
 
         if self.uiTurnState == .humanTurns {
 
+            humanPlayer.finishTurn()
+            humanPlayer.setAutoMoves(to: true)
+
             if humanPlayer.canFinishTurn() {
 
                 humanPlayer.endTurn(in: gameModel)

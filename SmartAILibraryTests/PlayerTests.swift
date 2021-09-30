@@ -77,13 +77,12 @@ class PlayerTests: XCTestCase {
         // WHEN
         repeat {
             gameModel.update()
-            gameModel.update()
-            gameModel.update()
 
-            playerAlexander.finishTurn()
-            playerAlexander.setAutoMoves(to: true)
-        } while playerAlexander.canFinishTurn()
-        playerAlexander.endTurn(in: gameModel)
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
 
         // THEN
         XCTAssertEqual(numProphetsBefore, 0)

@@ -89,13 +89,12 @@ class ReligionTests: XCTestCase {
 
             repeat {
                 gameModel.update()
-                gameModel.update()
-                gameModel.update()
 
-                playerAlexander.finishTurn()
-                playerAlexander.setAutoMoves(to: true)
-            } while playerAlexander.canFinishTurn()
-            playerAlexander.endTurn(in: gameModel)
+                if playerAlexander.isTurnActive() {
+                    playerAlexander.finishTurn()
+                    playerAlexander.setAutoMoves(to: true)
+                }
+            } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
 
             print("faith: \(playerTrajan.religion!.faith())")
 

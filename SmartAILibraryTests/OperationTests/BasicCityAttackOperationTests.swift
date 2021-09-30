@@ -104,15 +104,10 @@ class BasicCityAttackOperationTests: XCTestCase {
         playerAlexander.diplomacyAI?.doDeclareWar(to: playerTrajan, in: gameModel)
 
         // WHEN
-        repeat {
-            gameModel.update()
-            gameModel.update()
-            gameModel.update()
+        gameModel.update() // this runs all players
 
-            playerAlexander.finishTurn()
-            playerAlexander.setAutoMoves(to: true)
-        } while playerAlexander.canFinishTurn()
-        playerAlexander.endTurn(in: gameModel)
+        playerAlexander.finishTurn()
+        playerAlexander.setAutoMoves(to: true)
 
         // THEN
         // DEBUG: po playerTrajan.operations!.operations
@@ -216,15 +211,10 @@ class BasicCityAttackOperationTests: XCTestCase {
         playerAlexander.diplomacyAI?.doDeclareWar(to: playerTrajan, in: gameModel)
 
         // WHEN
-        repeat {
-            gameModel.update()
-            gameModel.update()
-            gameModel.update()
+        gameModel.update() // this runs all players
 
-            playerAlexander.finishTurn()
-            playerAlexander.setAutoMoves(to: true)
-        } while playerAlexander.canFinishTurn()
-        playerAlexander.endTurn(in: gameModel)
+        playerAlexander.finishTurn()
+        playerAlexander.setAutoMoves(to: true)
 
         // THEN
         // DEBUG: po playerTrajan.operations!.operations

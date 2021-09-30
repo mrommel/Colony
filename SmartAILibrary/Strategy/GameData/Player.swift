@@ -71,6 +71,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func finishTurnButtonPressed() -> Bool // TODO: rename to finishedTurn
     func doTurnPostDiplomacy(in gameModel: GameModel?)
     func finishTurn()
+    func resetFinishTurnButtonPressed()
     func updateTimers(in gameModel: GameModel?)
     func isEndTurn() -> Bool
     func setEndTurn(to value: Bool, in gameModel: GameModel?)
@@ -589,6 +590,11 @@ public class Player: AbstractPlayer {
         self.finishTurnButtonPressedValue = true
     }
 
+    public func resetFinishTurnButtonPressed() {
+
+        self.finishTurnButtonPressedValue = false
+    }
+
     public func lastSliceMoved() -> Int {
 
         return self.lastSliceMovedValue
@@ -1028,7 +1034,6 @@ public class Player: AbstractPlayer {
         self.turnActive = true
         self.setEndTurn(to: false, in: gameModel)
         self.setAutoMoves(to: false)
-        self.finishTurnButtonPressedValue = false
 
         /////////////////////////////////////////////
         // TURN IS BEGINNING

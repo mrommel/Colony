@@ -108,13 +108,12 @@ class TradeRouteTests: XCTestCase {
 
             repeat {
                 gameModel.update()
-                gameModel.update()
-                gameModel.update()
 
-                humanPlayer.finishTurn()
-                humanPlayer.setAutoMoves(to: true)
-            } while humanPlayer.canFinishTurn()
-            humanPlayer.endTurn(in: gameModel)
+                if humanPlayer.isTurnActive() {
+                    humanPlayer.finishTurn()
+                    humanPlayer.setAutoMoves(to: true)
+                }
+            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
 
             turnCounter += 1
         } while turnCounter < 10 && !self.hasVisited
@@ -199,13 +198,12 @@ class TradeRouteTests: XCTestCase {
 
             repeat {
                 gameModel.update()
-                gameModel.update()
-                gameModel.update()
 
-                humanPlayer.finishTurn()
-                humanPlayer.setAutoMoves(to: true)
-            } while humanPlayer.canFinishTurn()
-            humanPlayer.endTurn(in: gameModel)
+                if humanPlayer.isTurnActive() {
+                    humanPlayer.finishTurn()
+                    humanPlayer.setAutoMoves(to: true)
+                }
+            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
 
             if !traderUnit.isTrading() {
                 self.hasExpired = true

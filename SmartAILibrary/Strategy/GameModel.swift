@@ -314,7 +314,7 @@ open class GameModel: Codable {
                         if !player.hasBusyUnitOrCity() {
                             autoMovesComplete = true
 
-                            //NET_MESSAGE_DEBUG_OSTR_ALWAYS( "CheckPlayerTurnDeactivate() : auto-moves complete for " << kPlayer.getName());
+                            print("+++ GameModel - CheckPlayerTurnDeactivate() : auto-moves complete for \(player.leader.name())")
                         } else {
                             /*if ( gDLL->HasReceivedTurnComplete( player.GetID() ) )
                             {
@@ -325,7 +325,6 @@ open class GameModel: Codable {
                         if autoMovesComplete {
 
                             // Activate the next player
-                            // This is not done if simultaneous turns is enabled (Networked MP).
                             // In that case, the local human is (should be) the player we just deactivated the turn for
                             // and the AI players will be activated all at once in CvGame::doTurn, once we have received
                             // all the moves from the other human players
@@ -598,6 +597,8 @@ open class GameModel: Codable {
         print()
         print("::: TURN \(self.currentTurn + 1) starts now :::")
         print()
+
+        self.humanPlayer()?.resetFinishTurnButtonPressed()
 
         self.barbarianAI?.doTurn(in: self)
         self.religionsVal?.doTurn(in: self)
