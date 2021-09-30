@@ -184,12 +184,12 @@ class DebugViewModel: ObservableObject {
 
             repeat {
                 gameModel.update()
-                gameModel.update()
 
-                humanPlayer.finishTurn()
-                humanPlayer.setAutoMoves(to: true)
-            } while !humanPlayer.canFinishTurn()
-            humanPlayer.endTurn(in: gameModel)
+                if humanPlayer.isTurnActive() {
+                    humanPlayer.finishTurn()
+                    humanPlayer.setAutoMoves(to: true)
+                }
+            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
 
             turnCounter += 1
         } while turnCounter < 20
