@@ -260,7 +260,7 @@ class DiplomacyAITests: XCTestCase {
 
         // THEN
         XCTAssertEqual(approachBefore, .none)
-        XCTAssertEqual(approachAfter, .neutrally)
+        XCTAssertEqual(approachAfter, .war) // really?
     }
 
     func testApproachAfterDeclarationOfFriendship() {

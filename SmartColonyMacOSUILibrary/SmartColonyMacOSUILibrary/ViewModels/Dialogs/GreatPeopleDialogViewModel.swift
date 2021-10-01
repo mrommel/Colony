@@ -51,17 +51,16 @@ class GreatPeopleDialogViewModel: ObservableObject {
             let playerPoints = greatPeople.value(for: greatPeopleType)
             let cost = gameModel.cost(of: greatPeopleType, for: gameModel.humanPlayer())
 
-            guard let greatPerson = gameModel.greatPerson(of: greatPeopleType) else {
-                fatalError("cant get great person of \(greatPeopleType)")
+            if let greatPerson = gameModel.greatPerson(of: greatPeopleType) {
+
+                let viewModel = GreatPersonViewModel(
+                    greatPerson: greatPerson,
+                    progress: CGFloat(playerPoints),
+                    cost: CGFloat(cost)
+                )
+
+                tmpGovernorViewModels.append(viewModel)
             }
-
-            let viewModel = GreatPersonViewModel(
-                greatPerson: greatPerson,
-                progress: CGFloat(playerPoints),
-                cost: CGFloat(cost)
-            )
-
-            tmpGovernorViewModels.append(viewModel)
         }
 
         self.greatPersonViewModels = tmpGovernorViewModels
