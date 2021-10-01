@@ -67,6 +67,10 @@
 		C968F2AC2639ED6C00612D0E /* NineGridTextureSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F2AB2639ED6C00612D0E /* NineGridTextureSprite.swift */; };
 		C968F2AE2639EE3C00612D0E /* SKLabelNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F2AD2639EE3C00612D0E /* SKLabelNodeExtension.swift */; };
 		C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9711125262569D600B58AAE /* NSMenuItemExtension.swift */; };
+		C971FDCF27070C5600F818EE /* GreatPeopleDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C971FDCE27070C5600F818EE /* GreatPeopleDialogView.swift */; };
+		C971FDD127070D9300F818EE /* GreatPeopleDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C971FDD027070D9200F818EE /* GreatPeopleDialogViewModel.swift */; };
+		C971FDD327070FB100F818EE /* GreatPersonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C971FDD227070FB100F818EE /* GreatPersonViewModel.swift */; };
+		C971FDD52707120100F818EE /* GreatPersonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C971FDD42707120100F818EE /* GreatPersonView.swift */; };
 		C974E44126BD14AF004DD34F /* DiplomaticDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C974E44026BD14AF004DD34F /* DiplomaticDialogView.swift */; };
 		C98031CB26EE5740008F460B /* CityListDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98031CA26EE5740008F460B /* CityListDialogViewModel.swift */; };
 		C98031CD26EE5756008F460B /* CityListDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98031CC26EE5756008F460B /* CityListDialogView.swift */; };
@@ -292,6 +296,10 @@
 		C968F2AB2639ED6C00612D0E /* NineGridTextureSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineGridTextureSprite.swift; sourceTree = "<group>"; };
 		C968F2AD2639EE3C00612D0E /* SKLabelNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKLabelNodeExtension.swift; sourceTree = "<group>"; };
 		C9711125262569D600B58AAE /* NSMenuItemExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMenuItemExtension.swift; sourceTree = "<group>"; };
+		C971FDCE27070C5600F818EE /* GreatPeopleDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPeopleDialogView.swift; sourceTree = "<group>"; };
+		C971FDD027070D9200F818EE /* GreatPeopleDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPeopleDialogViewModel.swift; sourceTree = "<group>"; };
+		C971FDD227070FB100F818EE /* GreatPersonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPersonViewModel.swift; sourceTree = "<group>"; };
+		C971FDD42707120100F818EE /* GreatPersonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPersonView.swift; sourceTree = "<group>"; };
 		C974E44026BD14AF004DD34F /* DiplomaticDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticDialogView.swift; sourceTree = "<group>"; };
 		C98031CA26EE5740008F460B /* CityListDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityListDialogViewModel.swift; sourceTree = "<group>"; };
 		C98031CC26EE5756008F460B /* CityListDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityListDialogView.swift; sourceTree = "<group>"; };
@@ -523,6 +531,7 @@
 				C9AC0FF826DE62B700B65288 /* SelectPromotionDialogView.swift */,
 				C98031CC26EE5756008F460B /* CityListDialogView.swift */,
 				C9D5D25A26F9D8CF00009817 /* SelectItemsDialogView.swift */,
+				C971FDCE27070C5600F818EE /* GreatPeopleDialogView.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -720,6 +729,7 @@
 				C98031D026EE5AD9008F460B /* CityView.swift */,
 				C984642D26F4B34B00C40EA7 /* GovernorView.swift */,
 				C9D5D25426F9B92800009817 /* GovernorAbilityView.swift */,
+				C971FDD42707120100F818EE /* GreatPersonView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -747,6 +757,7 @@
 				C9AC0FFA26DE635C00B65288 /* SelectPromotionDialogViewModel.swift */,
 				C98031CA26EE5740008F460B /* CityListDialogViewModel.swift */,
 				C9D5D25826F9BF4700009817 /* SelectItemsDialogViewModel.swift */,
+				C971FDD027070D9200F818EE /* GreatPeopleDialogViewModel.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -855,6 +866,7 @@
 				C98031CE26EE57F6008F460B /* CityViewModel.swift */,
 				C984642B26F49B3300C40EA7 /* GovernorViewModel.swift */,
 				C9D5D25626F9B97100009817 /* GovernorAbilityViewModel.swift */,
+				C971FDD227070FB100F818EE /* GreatPersonViewModel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1040,6 +1052,7 @@
 				C9A48D38265396FA00260EE0 /* HeaderButtonView.swift in Sources */,
 				C9F2B54F266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift in Sources */,
 				C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */,
+				C971FDD327070FB100F818EE /* GreatPersonViewModel.swift in Sources */,
 				C9A48D3A2653A19900260EE0 /* HeaderButtonViewModel.swift in Sources */,
 				C9B98C5426D29ECD00AA80D6 /* TreasuryDialogViewModel.swift in Sources */,
 				C9E87BB7264D1DC500514B9A /* CivicDialogViewModel.swift in Sources */,
@@ -1068,6 +1081,7 @@
 				C925676D265635C000B895BD /* QueueViewModel.swift in Sources */,
 				C9A48D3E2653B9D200260EE0 /* GovernmentDialogView.swift in Sources */,
 				C9A48D432653CD4300260EE0 /* CivicProgressView.swift in Sources */,
+				C971FDD127070D9300F818EE /* GreatPeopleDialogViewModel.swift in Sources */,
 				C962A83C26A08C620045AF0E /* CanFoundPantheonPopupViewModel.swift in Sources */,
 				C9FBBE3E26837991005D7CE6 /* TopBarViewModel.swift in Sources */,
 				C94507A9262232E400CFD27D /* DataPicker.swift in Sources */,
@@ -1077,6 +1091,7 @@
 				C9E87BB5264D1D1C00514B9A /* CivicTreeDialogView.swift in Sources */,
 				C9F4939F26CAB04400B0C259 /* UnitListDialogView.swift in Sources */,
 				C9A3761B263468780057923E /* SKNodeExtension.swift in Sources */,
+				C971FDD52707120100F818EE /* GreatPersonView.swift in Sources */,
 				C962A83A26A08C570045AF0E /* CanFoundPantheonPopupView.swift in Sources */,
 				C99A88882607A1D3003B8B73 /* CGPointExtension.swift in Sources */,
 				C92F9487265E2298000968AB /* HexagonView.swift in Sources */,
@@ -1128,6 +1143,7 @@
 				C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */,
 				C968F29B2639B86D00612D0E /* ImprovementLayer.swift in Sources */,
 				C9A48D4F2654084200260EE0 /* CityProductionViewModel.swift in Sources */,
+				C971FDCF27070C5600F818EE /* GreatPeopleDialogView.swift in Sources */,
 				C92F948A265E2298000968AB /* RegularPolygon.swift in Sources */,
 				C9A48D322652E9DF00260EE0 /* TechProgressView.swift in Sources */,
 				C9E0597D2654E9A200C08463 /* DistrictView.swift in Sources */,

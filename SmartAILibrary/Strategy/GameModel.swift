@@ -1452,7 +1452,7 @@ open class GameModel: Codable {
         return false
     }
 
-    func cost(of greatPersonType: GreatPersonType, for player: AbstractPlayer?) -> Int {
+    public func cost(of greatPersonType: GreatPersonType, for player: AbstractPlayer?) -> Int {
 
         guard let player = player else {
             fatalError("cant get player")
@@ -1473,7 +1473,12 @@ open class GameModel: Codable {
         return -1
     }
 
-    func greatPerson(of greatPersonType: GreatPersonType, points greatPersonPoints: Int, for player: AbstractPlayer?) -> GreatPerson? {
+    public func greatPerson(of greatPersonType: GreatPersonType) -> GreatPerson? {
+
+        return self.greatPersons?.current.first(where: { $0.type() == greatPersonType })
+    }
+
+    public func greatPerson(of greatPersonType: GreatPersonType, points greatPersonPoints: Int, for player: AbstractPlayer?) -> GreatPerson? {
 
         // find possible person (with correct type)
         if let greatPersonOfType = self.greatPersons?.current.first(where: { $0.type() == greatPersonType }) {

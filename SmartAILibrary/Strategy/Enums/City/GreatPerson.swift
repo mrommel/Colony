@@ -8,6 +8,7 @@
 
 import Foundation
 
+// swiftlint:disable type_body_length
 public enum GreatPerson: String, Codable {
 
     // generals
@@ -105,7 +106,8 @@ public enum GreatPerson: String, Codable {
             .colaeus, .marcusLiciniusCrassus, .zhangQian, .ireneOfAthens, .marcoPolo,
 
             // prophets
-            .confucius, .johnTheBaptist, .laozi, .siddharthaGautama, .simonPeter, .zoroaster, .adiShankara, .bodhidharma, .irenaeus, .oNoYasumaro, .songtsanGampo,
+            .confucius, .johnTheBaptist, .laozi, .siddharthaGautama, .simonPeter, .zoroaster, .adiShankara,
+            .bodhidharma, .irenaeus, .oNoYasumaro, .songtsanGampo,
 
             // scientists
             .aryabhata, .euclid, .hypatia, .abuAlQasimAlZahrawi, .hildegardOfBingen, .omarKhayyam,
@@ -121,22 +123,22 @@ public enum GreatPerson: String, Codable {
         ]
     }
 
-    func name() -> String {
+    public func name() -> String {
 
         return self.data().name
     }
 
-    func type() -> GreatPersonType {
+    public func type() -> GreatPersonType {
 
         return self.data().type
     }
 
-    func era() -> EraType {
+    public func era() -> EraType {
 
         return self.data().era
     }
 
-    func cost() -> Int {
+    public func cost() -> Int {
 
         switch self.era() {
 
@@ -173,6 +175,7 @@ public enum GreatPerson: String, Codable {
     }
 
     // swiftlint:disable line_length
+    // swiftlint:disable function_body_length
     private func data() -> GreatPersonData {
 
         switch self {

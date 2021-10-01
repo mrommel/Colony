@@ -26,6 +26,12 @@ class HeaderViewModel: ObservableObject {
     var governmentHeaderViewModel: HeaderButtonViewModel
 
     @Published
+    var religionHeaderViewModel: HeaderButtonViewModel
+
+    @Published
+    var greatPeopleHeaderViewModel: HeaderButtonViewModel
+
+    @Published
     var logHeaderViewModel: HeaderButtonViewModel
 
     @Published
@@ -50,6 +56,8 @@ class HeaderViewModel: ObservableObject {
         self.scienceHeaderViewModel = HeaderButtonViewModel(type: .science)
         self.cultureHeaderViewModel = HeaderButtonViewModel(type: .culture)
         self.governmentHeaderViewModel = HeaderButtonViewModel(type: .government)
+        self.religionHeaderViewModel = HeaderButtonViewModel(type: .religion)
+        self.greatPeopleHeaderViewModel = HeaderButtonViewModel(type: .greatPeople)
         self.logHeaderViewModel = HeaderButtonViewModel(type: .log)
         self.governorsHeaderViewModel = HeaderButtonViewModel(type: .governors)
         self.rankingHeaderViewModel = HeaderButtonViewModel(type: .ranking)
@@ -62,6 +70,8 @@ class HeaderViewModel: ObservableObject {
         self.scienceHeaderViewModel.delegate = self
         self.cultureHeaderViewModel.delegate = self
         self.governmentHeaderViewModel.delegate = self
+        self.religionHeaderViewModel.delegate = self
+        self.greatPeopleHeaderViewModel.delegate = self
         self.logHeaderViewModel.delegate = self
         self.governorsHeaderViewModel.delegate = self
         self.rankingHeaderViewModel.delegate = self
@@ -121,6 +131,10 @@ extension HeaderViewModel: HeaderButtonViewModelDelegate {
             self.delegate?.showCivicListDialog()
         case .government:
             self.delegate?.showGovernmentDialog()
+        case .religion:
+            print("religion")
+        case .greatPeople:
+            print("greatPeople")
         case .log:
             print("log")
         case .governors:
