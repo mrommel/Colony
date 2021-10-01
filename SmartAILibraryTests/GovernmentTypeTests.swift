@@ -57,6 +57,9 @@ class GovernmentTypeTests: XCTestCase {
     func testChooseBestGovernmentInitial() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         self.objectToTest = playerAlexander.government
@@ -65,11 +68,14 @@ class GovernmentTypeTests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerAlexander],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAlexander],
+            on: mapModel
+        )
+
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
@@ -85,6 +91,9 @@ class GovernmentTypeTests: XCTestCase {
     func testChooseBestGovernmentCodeOfLaw() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         self.objectToTest = playerAlexander.government
@@ -95,11 +104,14 @@ class GovernmentTypeTests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerAlexander],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAlexander],
+            on: mapModel
+        )
+
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface

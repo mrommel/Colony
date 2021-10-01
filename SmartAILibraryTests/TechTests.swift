@@ -112,7 +112,10 @@ class TechTests: XCTestCase {
     func testEurekaOfIrrigation() {
 
         // GIVEN
-        let playerAlexander = Player(leader: .victoria)
+        let playerBarbarian = Player(leader: .barbar)
+        playerBarbarian.initialize()
+
+        let playerAlexander = Player(leader: .victoria, isHuman: true)
         playerAlexander.initialize()
         self.objectToTest = playerAlexander.techs
         try! self.objectToTest?.discover(tech: .pottery)
@@ -121,11 +124,13 @@ class TechTests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination],
-                                   handicap: .chieftain,
-                                   turnsElapsed: 0,
-                                   players: [playerAlexander],
-                                   on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerBarbarian, playerAlexander],
+            on: mapModel
+        )
 
         let tile = mapModel.tile(at: HexPoint(x: 0, y: 0))
         tile?.set(resource: .wheat)
@@ -144,26 +149,31 @@ class TechTests: XCTestCase {
     func testEurekaOfWriting() {
 
         // GIVEN
+        let playerBarbarian = Player(leader: .barbar)
+        playerBarbarian.initialize()
+
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
         self.objectToTest = playerAlexander.techs
 
-        let playerAugustus = Player(leader: .trajan)
-        playerAugustus.initialize()
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
 
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination],
-                                   handicap: .chieftain,
-                                   turnsElapsed: 0,
-                                   players: [playerAlexander],
-                                   on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerBarbarian, playerAlexander, playerTrajan],
+            on: mapModel
+        )
 
         // WHEN
         let beforeEureka = self.objectToTest?.eurekaTriggered(for: .writing)
-        playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)
+        playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
         let afterEureka = self.objectToTest?.eurekaTriggered(for: .writing)
 
         // THEN
@@ -174,7 +184,10 @@ class TechTests: XCTestCase {
     func testEurekaOfAstrology() {
 
         // GIVEN
-        let playerAlexander = Player(leader: .alexander)
+        let playerBarbarian = Player(leader: .barbar)
+        playerBarbarian.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         self.objectToTest = playerAlexander.techs
 
@@ -183,11 +196,13 @@ class TechTests: XCTestCase {
         mapModel.set(feature: .greatBarrierReef, at: HexPoint(x: 0, y: 0))
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination],
-                                   handicap: .chieftain,
-                                   turnsElapsed: 0,
-                                   players: [playerAlexander],
-                                   on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerBarbarian, playerAlexander],
+            on: mapModel
+        )
 
         // WHEN
         let beforeEureka = self.objectToTest?.eurekaTriggered(for: .astrology)
@@ -202,7 +217,10 @@ class TechTests: XCTestCase {
     func testEurekaOfSailing() {
 
         // GIVEN
-        let playerAlexander = Player(leader: .alexander)
+        let playerBarbarian = Player(leader: .barbar)
+        playerBarbarian.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         self.objectToTest = playerAlexander.techs
 
@@ -211,11 +229,13 @@ class TechTests: XCTestCase {
         mapModel.set(terrain: .ocean, at: HexPoint(x: 0, y: 0))
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination],
-                                   handicap: .chieftain,
-                                   turnsElapsed: 0,
-                                   players: [playerAlexander],
-                                   on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerBarbarian, playerAlexander],
+            on: mapModel
+        )
 
         let playerAlexanderSettler = Unit(at: HexPoint(x: 0, y: 1), type: .settler, owner: playerAlexander)
         gameModel.add(unit: playerAlexanderSettler)

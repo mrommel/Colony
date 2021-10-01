@@ -83,7 +83,10 @@ class MapModelTests: XCTestCase {
         // GIVEN
         self.objectToTest = MapUtils.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
 
-        let playerAlexander = Player(leader: .alexander)
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
         let tile = Tile(point: HexPoint(x: 0, y: 0), terrain: .grass, hills: false)
@@ -93,11 +96,13 @@ class MapModelTests: XCTestCase {
         self.objectToTest!.set(tile: tile, at: HexPoint(x: 3, y: 2))
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerAlexander],
-                                  on: self.objectToTest!)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAlexander],
+            on: self.objectToTest!
+        )
 
         // WHEN
         let canSee = tile.canSee(tile: target, for: playerAlexander, range: 4, in: gameModel)
@@ -111,7 +116,10 @@ class MapModelTests: XCTestCase {
         // GIVEN
         self.objectToTest = MapUtils.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
 
-        let playerAlexander = Player(leader: .alexander)
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
         let tile = Tile(point: HexPoint(x: 0, y: 0), terrain: .grass, hills: false)
@@ -134,11 +142,13 @@ class MapModelTests: XCTestCase {
         self.objectToTest!.set(tile: tile, at: HexPoint(x: 3, y: 2))
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerAlexander],
-                                  on: self.objectToTest!)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAlexander],
+            on: self.objectToTest!
+        )
 
         // WHEN
         let canSee = tile.canSee(tile: target, for: playerAlexander, range: 4, in: gameModel)

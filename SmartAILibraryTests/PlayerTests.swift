@@ -19,25 +19,28 @@ class PlayerTests: XCTestCase {
         // GIVEN
 
         // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
-        let playerBarbarian = Player(leader: .barbar)
-        playerBarbarian.initialize()
-
         // map
         var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerAugustus, playerBarbarian, playerAlexander],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAugustus, playerAlexander],
+            on: mapModel
+        )
+        
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
@@ -57,7 +60,7 @@ class PlayerTests: XCTestCase {
         // this is cheating
         MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
         MapUtils.discover(mapModel: &mapModel, by: playerAugustus, in: gameModel)
-        MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: barbarianPlayer, in: gameModel)
 
         let greatPersonPoints = GreatPersonPoints(
             greatGeneral: 0,

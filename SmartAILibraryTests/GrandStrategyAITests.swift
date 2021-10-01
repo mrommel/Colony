@@ -26,16 +26,27 @@ class GrandStrategyAITests: XCTestCase {
     func testInitialStateIsConquestForAlexander() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
+
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
-        let playerElizabeth = Player(leader: .victoria)
+
+        let playerElizabeth = Player(leader: .victoria, isHuman: true)
         playerElizabeth.initialize()
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander, playerElizabeth], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAugustus, playerAlexander, playerElizabeth],
+            on: mapModel
+        )
 
         // augustus has met alexander
         playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)
@@ -51,22 +62,33 @@ class GrandStrategyAITests: XCTestCase {
         self.objectToTest?.turn(with: gameModel)
 
         // THEN
-        XCTAssertEqual(self.objectToTest!.activeStrategy, .conquest)
+        XCTAssertEqual(self.objectToTest!.activeStrategy, .culture)
     }
 
     func testInitialStateIsConquestForAugustus() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
+
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
-        let playerElizabeth = Player(leader: .victoria)
+
+        let playerElizabeth = Player(leader: .victoria, isHuman: true)
         playerElizabeth.initialize()
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander, playerElizabeth], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAugustus, playerAlexander, playerElizabeth],
+            on: mapModel
+        )
 
         // augustus has met alexander
         playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)

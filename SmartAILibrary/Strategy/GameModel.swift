@@ -83,6 +83,10 @@ open class GameModel: Codable {
             fatalError("the first player must be barbarian")
         }
 
+        guard players.count(where: { $0.isBarbarian() }) == 1 else {
+            fatalError("only one barbarian player is allowed")
+        }
+
         guard let lastPlayer = players.last, lastPlayer.isHuman() else {
             fatalError("the last player must be human")
         }

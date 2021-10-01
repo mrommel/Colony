@@ -54,17 +54,18 @@ class GreatPersonsTests: XCTestCase {
 
         // GIVEN
 
-        // player 1
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         playerAlexander.set(era: .classical)
 
-        // player 2
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         playerAugustus.set(era: .medieval)
 
-        // player 3
         let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
         playerElizabeth.set(era: .medieval)
@@ -73,11 +74,13 @@ class GreatPersonsTests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerElizabeth, playerAugustus, playerAlexander],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerElizabeth, playerAugustus, playerAlexander],
+            on: mapModel
+        )
 
         let greatPersons = GreatPersons()
         let person = greatPersons.person(of: GreatPersonType.greatGeneral)
@@ -94,17 +97,18 @@ class GreatPersonsTests: XCTestCase {
 
         // GIVEN
 
-        // player 1
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         playerAlexander.set(era: .classical)
 
-        // player 2
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         playerAugustus.set(era: .medieval)
 
-        // player 3
         let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
         playerElizabeth.set(era: .medieval)
@@ -113,11 +117,13 @@ class GreatPersonsTests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerElizabeth, playerAugustus, playerAlexander],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerElizabeth, playerAugustus, playerAlexander],
+            on: mapModel
+        )
 
         // WHEN
         let cost = gameModel.cost(of: .greatGeneral, for: playerAlexander)
@@ -130,7 +136,10 @@ class GreatPersonsTests: XCTestCase {
 
         // GIVEN
 
-        // player 1
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         playerAlexander.set(era: .classical)
@@ -149,11 +158,13 @@ class GreatPersonsTests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerElizabeth, playerAugustus, playerAlexander],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerElizabeth, playerAugustus, playerAlexander],
+            on: mapModel
+        )
 
         // WHEN
         //playerAlexander.greatPeople?.add(points: GreatPersonPoints(greatGeneral: 61))
