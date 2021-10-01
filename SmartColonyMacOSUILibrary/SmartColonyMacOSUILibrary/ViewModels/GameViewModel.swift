@@ -54,6 +54,7 @@ protocol GameViewModelDelegate: AnyObject {
     func showChangePoliciesDialog()
     func showTreasuryDialog()
     func showGovernorsDialog()
+    func showGreatPeopleDialog()
     func showTradeRouteDialog()
 
     func showCityNameDialog()
@@ -165,6 +166,9 @@ public class GameViewModel: ObservableObject {
     var governorsDialogViewModel: GovernorsDialogViewModel
 
     @Published
+    var greatPeopleDialogViewModel: GreatPeopleDialogViewModel
+
+    @Published
     var tradeRoutesDialogViewModel: TradeRoutesDialogViewModel
 
     @Published
@@ -266,6 +270,7 @@ public class GameViewModel: ObservableObject {
         self.treasuryDialogViewModel = TreasuryDialogViewModel()
         self.governorsDialogViewModel = GovernorsDialogViewModel()
         self.tradeRoutesDialogViewModel = TradeRoutesDialogViewModel()
+        self.greatPeopleDialogViewModel = GreatPeopleDialogViewModel()
         self.selectItemsDialogViewModel = SelectItemsDialogViewModel()
 
         // connect models
@@ -293,6 +298,7 @@ public class GameViewModel: ObservableObject {
         self.treasuryDialogViewModel.delegate = self
         self.governorsDialogViewModel.delegate = self
         self.tradeRoutesDialogViewModel.delegate = self
+        self.greatPeopleDialogViewModel.delegate = self
         self.selectItemsDialogViewModel.delegate = self
 
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers

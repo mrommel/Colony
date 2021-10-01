@@ -134,7 +134,7 @@ extension HeaderViewModel: HeaderButtonViewModelDelegate {
         case .religion:
             print("religion")
         case .greatPeople:
-            print("greatPeople")
+            self.delegate?.showGreatPeopleDialog()
         case .log:
             print("log")
         case .governors:

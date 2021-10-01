@@ -16,12 +16,30 @@ class GreatPersonViewModel: ObservableObject {
     var portraitTexture: String
 
     @Published
+    var typeName: String
+
+    @Published
     var name: String
 
-    init(greatPerson: GreatPerson) {
+    @Published
+    var eraName: String
 
+    @Published
+    var progress: CGFloat
+
+    @Published
+    var maxValue: CGFloat
+
+    init(greatPerson: GreatPerson, progress: CGFloat, cost: CGFloat) {
+
+        self.typeName = greatPerson.type().name()
         self.name = greatPerson.name()
+        self.eraName = greatPerson.era().title()
+
         self.portraitTexture = ""
+
+        self.progress = progress
+        self.maxValue = cost
     }
 
     func image() -> NSImage {

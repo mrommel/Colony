@@ -113,6 +113,7 @@ public enum ScreenType {
     case interimRanking
     case diplomatic
     case governors
+    case greatPeople
     case tradeRoutes
 
     case government // <-- main dialog

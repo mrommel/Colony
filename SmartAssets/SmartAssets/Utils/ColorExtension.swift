@@ -71,9 +71,12 @@ extension TypeColor {
 
     public struct UI {
 
+        // pick color names - https://hexcolor.co/hex/180e0c
         public static var veryDarkBlue: TypeColor = TypeColor(hex: "#16344f")!
         public static var midnight: TypeColor = TypeColor(hex: "#01223b")!
         public static var nileBlue: TypeColor = TypeColor(hex: "#172d4d")!
+        public static var eclipse: TypeColor = TypeColor(hex: "#351a19")!
+        public static var nightRider: TypeColor = TypeColor(hex: "#180e0c")!
     }
 
     internal convenience init?(hex: String) {

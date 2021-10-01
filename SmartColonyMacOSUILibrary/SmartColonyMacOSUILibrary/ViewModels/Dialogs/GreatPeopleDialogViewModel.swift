@@ -48,45 +48,21 @@ class GreatPeopleDialogViewModel: ObservableObject {
 
         for greatPeopleType in GreatPersonType.all {
 
-            //let playerPoints = greatPeople.value(for: greatPeopleType)
+            let playerPoints = greatPeople.value(for: greatPeopleType)
+            let cost = gameModel.cost(of: greatPeopleType, for: gameModel.humanPlayer())
+
             guard let greatPerson = gameModel.greatPerson(of: greatPeopleType) else {
                 fatalError("cant get great person of \(greatPeopleType)")
             }
 
-            let viewModel = GreatPersonViewModel(greatPerson: greatPerson)
+            let viewModel = GreatPersonViewModel(
+                greatPerson: greatPerson,
+                progress: CGFloat(playerPoints),
+                cost: CGFloat(cost)
+            )
 
             tmpGovernorViewModels.append(viewModel)
         }
-
-        /*for governorType in GovernorType.all {
-
-            if let governor = governors.governor(with: governorType) {
-
-                let assigned: Bool = governor.isAssigned()
-                let assignedCity: String = governor.assignedCity(in: gameModel)?.name ?? "-"
-
-                let governorViewModel = GovernorViewModel(
-                    governor: governor,
-                    appointed: true,
-                    assigned: assigned,
-                    assignedCity: assignedCity,
-                    hasTitles: self.availableTitles > 0
-                )
-                governorViewModel.delegate = self
-                tmpGovernorViewModels.append(governorViewModel)
-            } else {
-                let governor = Governor(type: governorType)
-                let governorViewModel = GovernorViewModel(
-                    governor: governor,
-                    appointed: false,
-                    assigned: false,
-                    assignedCity: "",
-                    hasTitles: self.availableTitles > 0
-                )
-                governorViewModel.delegate = self
-                tmpGovernorViewModels.append(governorViewModel)
-            }
-        }*/
 
         self.greatPersonViewModels = tmpGovernorViewModels
     }

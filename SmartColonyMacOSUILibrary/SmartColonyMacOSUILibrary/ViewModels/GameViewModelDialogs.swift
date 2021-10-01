@@ -69,6 +69,21 @@ extension GameViewModel {
         }
     }
 
+    func showGreatPeopleDialog() {
+
+        if self.currentScreenType == .greatPeople {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.greatPeopleDialogViewModel.update()
+            self.currentScreenType = .greatPeople
+        } else {
+            fatalError("cant show great people dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+
     func showGovernorsDialog() {
 
         if self.currentScreenType == .governors {

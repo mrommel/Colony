@@ -21,8 +21,42 @@ public enum GreatPersonType: Int, Codable {
     case greatMusician
 
     public static var all: [GreatPersonType] {
-        return [.greatGeneral, .greatAdmiral, .greatEngineer, .greatMerchant, .greatProphet, .greatScientist, .greatWriter, .greatArtist, .greatMusician
+        return [
+            .greatGeneral,
+            .greatAdmiral,
+            .greatEngineer,
+            .greatMerchant,
+            .greatProphet,
+            .greatScientist,
+            .greatWriter,
+            .greatArtist,
+            .greatMusician
         ]
+    }
+
+    public func name() -> String {
+
+        switch self {
+
+        case .greatGeneral:
+            return "Great General"
+        case .greatAdmiral:
+            return "Great Admiral"
+        case .greatEngineer:
+            return "Great Engineer"
+        case .greatMerchant:
+            return "Great Merchant"
+        case .greatProphet:
+            return "Great Prophet"
+        case .greatScientist:
+            return "Great Scientist"
+        case .greatWriter:
+            return "Great Writer"
+        case .greatArtist:
+            return "Great Artist"
+        case .greatMusician:
+            return "Great Musician"
+        }
     }
 
     func unitType() -> UnitType {
