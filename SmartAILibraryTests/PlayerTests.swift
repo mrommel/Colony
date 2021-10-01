@@ -29,7 +29,7 @@ class PlayerTests: XCTestCase {
         playerBarbarian.initialize()
 
         // map
-        var mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
         // game
@@ -55,9 +55,9 @@ class PlayerTests: XCTestCase {
         gameModel.add(city: cityAlexandria)
 
         // this is cheating
-        MapModelHelper.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerAugustus, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerAugustus, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         let greatPersonPoints = GreatPersonPoints(
             greatGeneral: 0,
@@ -75,11 +75,14 @@ class PlayerTests: XCTestCase {
         let numProphetsBefore = gameModel.units(of: playerAlexander).filter { $0?.type == .prophet }.count
 
         // WHEN
-        while !playerAlexander.canFinishTurn() {
+        repeat {
             gameModel.update()
-            print("::: --- loop --- :::")
-        }
-        playerAlexander.endTurn(in: gameModel)
+
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
 
         // THEN
         XCTAssertEqual(numProphetsBefore, 0)

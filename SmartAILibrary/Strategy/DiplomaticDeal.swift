@@ -320,9 +320,9 @@ public class DiplomaticDeal: Codable {
 
     private func valueForGold(amount: Int, useEvenValue: Bool, in gameModel: GameModel?) -> Int {
 
-        let iMultiplier = 100
-        var returnValue = amount * iMultiplier
-        var iModifier = 0
+        let multiplier = 100
+        var returnValue = amount * multiplier
+        var modifier = 0
 
         guard let fromPlayer = gameModel?.player(for: self.from) else {
             fatalError("cant get player")
@@ -338,20 +338,18 @@ public class DiplomaticDeal: Codable {
             switch approach {
 
             case .hostile:
-                iModifier = 150
+                modifier = 150
             case .guarded:
-                iModifier = 110
+                modifier = 110
             case .afraid, .friendly, .neutrally:
-                iModifier = 100
-                /*default:
-                iModifier = 100*/
+                modifier = 100
             default:
                 // NOOP
-                break
+                modifier = 100
             }
 
             returnValue *= 100
-            returnValue /= iModifier
+            returnValue /= modifier
         }
 
         // Opinion also matters
@@ -360,13 +358,13 @@ public class DiplomaticDeal: Codable {
             switch opinion {
 
             case .ally, .friend, .favorable, .neutral:
-                iModifier = 100
+                modifier = 100
             case .competitor:
-                iModifier = 115
+                modifier = 115
             case .enemy:
-                iModifier = 140
+                modifier = 140
             case.unforgivable:
-                iModifier = 200
+                modifier = 200
                 /*default:
                 iModifier = 100*/
             default:
@@ -375,7 +373,7 @@ public class DiplomaticDeal: Codable {
             }
 
             returnValue *= 100
-            returnValue /= iModifier
+            returnValue /= modifier
         }
 
         return returnValue
@@ -496,9 +494,9 @@ public class DiplomaticDeal: Codable {
 
     private func valueForGoldPerTurn(amount: Int, duration: Int, useEvenValue: Bool, in gameModel: GameModel?) -> Int {
 
-        let iMultiplier = 80
-        var returnValue = amount * duration * iMultiplier
-        var iModifier = 0
+        let multiplier = 80
+        var returnValue = amount * duration * multiplier
+        var modifier = 0
 
         guard let fromPlayer = gameModel?.player(for: self.from) else {
             fatalError("cant get player")
@@ -514,20 +512,18 @@ public class DiplomaticDeal: Codable {
             switch approach {
 
             case .hostile:
-                iModifier = 150
+                modifier = 150
             case .guarded:
-                iModifier = 110
+                modifier = 110
             case .afraid, .friendly, .neutrally:
-                iModifier = 100
-                /*default:
-                iModifier = 100*/
+                modifier = 100
             default:
                 // NOOP
-                break
+                modifier = 100
             }
 
             returnValue *= 100
-            returnValue /= iModifier
+            returnValue /= modifier
         }
 
         // Opinion also matters
@@ -536,13 +532,13 @@ public class DiplomaticDeal: Codable {
             switch opinion {
 
             case .ally, .friend, .favorable, .neutral:
-                iModifier = 100
+                modifier = 100
             case .competitor:
-                iModifier = 115
+                modifier = 115
             case .enemy:
-                iModifier = 140
+                modifier = 140
             case.unforgivable:
-                iModifier = 200
+                modifier = 200
                 /*default:
                 iModifier = 100*/
             default:
@@ -551,7 +547,7 @@ public class DiplomaticDeal: Codable {
             }
 
             returnValue *= 100
-            returnValue /= iModifier
+            returnValue /= modifier
         }
 
         return returnValue

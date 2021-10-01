@@ -19,23 +19,27 @@ class CombatTests: XCTestCase {
 
         // GIVEN
 
-        // player 1
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        // player 2
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerAlexander, playerAugustus],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAugustus, playerAlexander],
+            on: mapModel
+        )
 
         let attacker = Unit(at: HexPoint(x: 5, y: 6), type: .warrior, owner: playerAlexander)
         gameModel.add(unit: attacker)
@@ -55,23 +59,27 @@ class CombatTests: XCTestCase {
 
         // GIVEN
 
-        // player 1
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        // player 2
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerAlexander, playerAugustus],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAugustus, playerAlexander],
+            on: mapModel
+        )
 
         let attacker = Unit(at: HexPoint(x: 5, y: 6), type: .warrior, owner: playerAlexander)
         gameModel.add(unit: attacker)
@@ -93,25 +101,29 @@ class CombatTests: XCTestCase {
 
         // GIVEN
 
-        // player 1
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        // player 2
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         try! playerAugustus.techs?.discover(tech: .masonry)
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerAlexander, playerAugustus],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAugustus, playerAlexander],
+            on: mapModel
+        )
 
         let attacker = Unit(at: HexPoint(x: 5, y: 6), type: .warrior, owner: playerAlexander)
         gameModel.add(unit: attacker)
@@ -140,23 +152,27 @@ class CombatTests: XCTestCase {
 
         // GIVEN
 
-        // player 1
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        // player 2
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerAlexander, playerAugustus],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAugustus, playerAlexander],
+            on: mapModel
+        )
 
         let attacker = City(name: "Berlin", at: HexPoint(x: 5, y: 5), owner: playerAugustus)
         attacker.initialize(in: gameModel)
@@ -177,23 +193,27 @@ class CombatTests: XCTestCase {
 
         // GIVEN
 
-        // player 1
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        // player 2
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerAlexander, playerAugustus],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAugustus, playerAlexander],
+            on: mapModel
+        )
 
         let attacker = Unit(at: HexPoint(x: 5, y: 6), type: .archer, owner: playerAlexander)
         gameModel.add(unit: attacker)
@@ -215,23 +235,27 @@ class CombatTests: XCTestCase {
 
         // GIVEN
 
-        // player 1
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        // player 2
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerAlexander, playerAugustus],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAugustus, playerAlexander],
+            on: mapModel
+        )
 
         let attacker = Unit(at: HexPoint(x: 5, y: 6), type: .archer, owner: playerAlexander)
         gameModel.add(unit: attacker)
@@ -251,23 +275,27 @@ class CombatTests: XCTestCase {
 
         // GIVEN
 
-        // player 1
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        // player 2
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerAlexander, playerAugustus],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAugustus, playerAlexander],
+            on: mapModel
+        )
 
         let attacker = Unit(at: HexPoint(x: 5, y: 6), type: .archer, owner: playerAlexander)
         gameModel.add(unit: attacker)

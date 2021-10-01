@@ -90,7 +90,7 @@ class GameViewModel {
             // debug - FIXME - TODO
             if startLocation.isHuman {
                 // print("remove me - this is cheating")
-                // GameViewModel.discover(mapModel: &map, by: player)
+                // MapUtils.discover(mapModel: &map, by: player)
             }
         }
 
@@ -126,7 +126,7 @@ class GameViewModel {
         }
 
         // cheat
-        GameViewModel.discover(mapModel: &map, by: playerBarbar, in: self.game)
+        MapUtils.discover(mapModel: &map, by: playerBarbar, in: self.game)
 
         // keep backup
         self.storeBackup()

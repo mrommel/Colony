@@ -37,7 +37,7 @@ class AdvisorTests: XCTestCase {
         try! playerAlexander.techs?.discover(tech: .mining)
 
         // setup the map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [barbarianPlayer, playerAlexander], on: mapModel)
 
@@ -61,7 +61,15 @@ class AdvisorTests: XCTestCase {
         self.objectToTest?.set(population: 2, reassignCitizen: false, in: gameModel)
 
         // WHEN
-        gameModel.update() //.doTurn()
+        repeat {
+            gameModel.update()
+
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
+
         let messages = playerAlexander.advisorMessages()
 
         // THEN
@@ -84,9 +92,15 @@ class AdvisorTests: XCTestCase {
         playerAugustus.government?.set(governmentType: .autocracy)
         try! playerAugustus.techs?.discover(tech: .mining)
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel) //MapModel(size: .standard)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel) //MapModel(size: .standard)
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [barbarianPlayer, playerAlexander, playerAugustus], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAugustus, playerAlexander],
+            on: mapModel
+        )
 
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize(in: gameModel)
@@ -112,14 +126,19 @@ class AdvisorTests: XCTestCase {
 
         // WHEN
         for _ in 0..<30 {
-            gameModel.update() //.doTurn()
+            repeat {
+                gameModel.update()
 
-            // manual input
-            playerAlexander.endTurn(in: gameModel)
+                if playerAlexander.isTurnActive() {
+                    playerAlexander.finishTurn()
+                    playerAlexander.setAutoMoves(to: true)
+                }
+            } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
         }
-        let messages = playerAlexander.advisorMessages()
 
         // THEN
+        let messages = playerAlexander.advisorMessages()
+        XCTAssertEqual(gameModel.currentTurn, 30)
         XCTAssertEqual(messages.count, 3)
     }
 
@@ -139,8 +158,14 @@ class AdvisorTests: XCTestCase {
         playerAugustus.government?.set(governmentType: .autocracy)
         try! playerAugustus.techs?.discover(tech: .mining)
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [barbarianPlayer, playerAlexander, playerAugustus], on: mapModel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAugustus, playerAlexander],
+            on: mapModel
+        )
 
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
@@ -170,13 +195,19 @@ class AdvisorTests: XCTestCase {
 
         // WHEN
         for _ in 0..<30 {
-            gameModel.update() //.doTurn()
+            repeat {
+                gameModel.update()
 
-            playerAlexander.endTurn(in: gameModel)
+                if playerAlexander.isTurnActive() {
+                    playerAlexander.finishTurn()
+                    playerAlexander.setAutoMoves(to: true)
+                }
+            } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
         }
         let messages = playerAlexander.advisorMessages()
 
         // THEN
+        XCTAssertEqual(gameModel.currentTurn, 30)
         XCTAssertEqual(messages.count, 3)
     }
 }

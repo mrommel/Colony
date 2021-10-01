@@ -509,8 +509,8 @@ public class MapGenerator: BaseMapHandler {
         // let polarPlots = self.climateZones.filter(where: { $0 == .polar })//.count
 
         // presets
-        let rainForestPercent = 36
-        let forestPercent = 22
+        let rainForestPercent = 15
+        let forestPercent = 36
         let marshPercent = 3
         let oasisPercent = 1
         let reefPercent = 5
@@ -615,13 +615,14 @@ public class MapGenerator: BaseMapHandler {
         }
 
         // stats
+        print("----------------------------------------------")
         print("Number of Ices: \(iceFeatures)")
         print("Number of Reefs: \(reefFeatures)")
         print("Number of Floodplains: \(floodPlainsFeatures)")
-        print("Number of Marshes: \(marshFeatures)")
-        print("Number of Jungle: \(rainForestFeatures)")
-        print("Number of Forest: \(forestFeatures)")
-        print("Number of Oasis: \(oasisFeatures)")
+        print("Number of Marshes: \(marshFeatures) / \(marshPercent)%")
+        print("Number of Jungle: \(rainForestFeatures) / \(rainForestPercent)%")
+        print("Number of Forest: \(forestFeatures) / \(forestPercent)%")
+        print("Number of Oasis: \(oasisFeatures) / \(oasisPercent)%")
     }
 
     private func refineNaturalWonders(on gridRef: MapModel?) {

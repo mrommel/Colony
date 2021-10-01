@@ -14,35 +14,38 @@ class GameModelSightTests: XCTestCase {
     func testSimpleSight() {
         // GIVEN
 
-        // player 1
-        let playerAlexander = Player(leader: .alexander, isHuman: true)
-        playerAlexander.initialize()
+        // players
+        let playerBarbar = Player(leader: .barbar)
+        playerBarbar.initialize()
 
-        // player 2
-        let playerAugustus = Player(leader: .trajan)
-        playerAugustus.initialize()
+        let playerTrajan = Player(leader: .trajan)
+        playerTrajan.initialize()
 
-        // player 3
         let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
 
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerElizabeth, playerAugustus, playerAlexander],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerBarbar, playerElizabeth, playerTrajan, playerAlexander],
+            on: mapModel
+        )
 
-        let visibleBefore = gameModel.tile(at: HexPoint(x: 2, y: 2))?.isVisible(to: playerAugustus)
+        let visibleBefore = gameModel.tile(at: HexPoint(x: 2, y: 2))?.isVisible(to: playerTrajan)
 
         // WHEN
-        gameModel.sight(at: HexPoint(x: 2, y: 2), sight: 1, for: playerAugustus)
+        gameModel.sight(at: HexPoint(x: 2, y: 2), sight: 1, for: playerTrajan)
 
         // THEN
-        let visibleAfter = gameModel.tile(at: HexPoint(x: 2, y: 2))?.isVisible(to: playerAugustus)
+        let visibleAfter = gameModel.tile(at: HexPoint(x: 2, y: 2))?.isVisible(to: playerTrajan)
         XCTAssertEqual(visibleBefore, false)
         XCTAssertEqual(visibleAfter, true)
     }
@@ -50,36 +53,39 @@ class GameModelSightTests: XCTestCase {
     func testComplexSight() {
         // GIVEN
 
-        // player 1
-        let playerAlexander = Player(leader: .alexander, isHuman: true)
-        playerAlexander.initialize()
+        // players
+        let playerBarbar = Player(leader: .barbar)
+        playerBarbar.initialize()
 
-        // player 2
-        let playerAugustus = Player(leader: .trajan)
-        playerAugustus.initialize()
+        let playerTrajan = Player(leader: .trajan)
+        playerTrajan.initialize()
 
-        // player 3
         let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
 
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerElizabeth, playerAugustus, playerAlexander],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerBarbar, playerElizabeth, playerTrajan, playerAlexander],
+            on: mapModel
+        )
 
-        let visibleBefore = gameModel.tile(at: HexPoint(x: 2, y: 2))?.isVisible(to: playerAugustus)
+        let visibleBefore = gameModel.tile(at: HexPoint(x: 2, y: 2))?.isVisible(to: playerTrajan)
 
         // WHEN
-        gameModel.sight(at: HexPoint(x: 2, y: 3), sight: 1, for: playerAugustus)
-        gameModel.conceal(at: HexPoint(x: 2, y: 1), sight: 1, for: playerAugustus)
+        gameModel.sight(at: HexPoint(x: 2, y: 3), sight: 1, for: playerTrajan)
+        gameModel.conceal(at: HexPoint(x: 2, y: 1), sight: 1, for: playerTrajan)
 
         // THEN
-        let visibleAfter = gameModel.tile(at: HexPoint(x: 2, y: 2))?.isVisible(to: playerAugustus)
+        let visibleAfter = gameModel.tile(at: HexPoint(x: 2, y: 2))?.isVisible(to: playerTrajan)
         XCTAssertEqual(visibleBefore, false)
         XCTAssertEqual(visibleAfter, false)
     }

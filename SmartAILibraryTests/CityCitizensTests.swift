@@ -16,11 +16,20 @@ class CityCitizensTests: XCTestCase {
     func testAssignCitizenFromUnassigned() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAlexander],
+            on: mapModel
+        )
 
         let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         city.initialize(in: gameModel)

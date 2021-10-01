@@ -95,20 +95,19 @@ class BasicCityAttackOperationTests: XCTestCase {
         gameModel.add(unit: playerBarbarianWarrior)
 
         // this is cheating
-        MapModelHelper.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerTrajan, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerTrajan, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         playerAlexander.diplomacyAI?.doDeclareWar(to: playerTrajan, in: gameModel)
 
         // WHEN
-        while !playerAlexander.canFinishTurn() {
-            gameModel.update()
-            print("::: --- loop --- :::")
-        }
-        playerAlexander.endTurn(in: gameModel)
+        gameModel.update() // this runs all players
+
+        playerAlexander.finishTurn()
+        playerAlexander.setAutoMoves(to: true)
 
         // THEN
         // DEBUG: po playerTrajan.operations!.operations
@@ -203,20 +202,19 @@ class BasicCityAttackOperationTests: XCTestCase {
         gameModel.add(unit: playerBarbarianWarrior)
 
         // this is cheating
-        MapModelHelper.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerTrajan, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerTrajan, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         playerAlexander.diplomacyAI?.doDeclareWar(to: playerTrajan, in: gameModel)
 
         // WHEN
-        while !playerAlexander.canFinishTurn() {
-            gameModel.update()
-            print("::: --- loop --- :::")
-        }
-        playerAlexander.endTurn(in: gameModel)
+        gameModel.update() // this runs all players
+
+        playerAlexander.finishTurn()
+        playerAlexander.setAutoMoves(to: true)
 
         // THEN
         // DEBUG: po playerTrajan.operations!.operations

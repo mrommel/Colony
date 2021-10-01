@@ -74,6 +74,19 @@ open class GameModel: Codable {
 
     public init(victoryTypes: [VictoryType], handicap: HandicapType, turnsElapsed: Int, players: [AbstractPlayer], on map: MapModel) {
 
+        // verify input
+        guard players.count > 1 else {
+            fatalError("at least two players must be part of the game")
+        }
+
+        guard let firstPlayer = players.first, firstPlayer.isBarbarian() else {
+            fatalError("the first player must be barbarian")
+        }
+
+        guard let lastPlayer = players.last, lastPlayer.isHuman() else {
+            fatalError("the last player must be human")
+        }
+
         self.victoryTypes = victoryTypes
         self.handicap = handicap
         self.currentTurn = turnsElapsed
@@ -251,17 +264,8 @@ open class GameModel: Codable {
                 self.checkPlayerTurnDeactivate()
 
                 self.changeTurnSlice(by: 1)
-
-                //gDLL->FlushTurnReminders();
             }
         }
-
-        /*PlayerTypes activePlayerID = getActivePlayer();
-        const CvPlayer & activePlayer = GET_PLAYER(activePlayerID);
-        if (NO_PLAYER != activePlayerID && activePlayer.getAdvancedStartPoints() >= 0 && !GC.GetEngineUserInterface()->isInAdvancedStart())
-        {
-            GC.GetEngineUserInterface()->setInAdvancedStart(true);
-        }*/
     }
 
     func activePlayer() -> AbstractPlayer? {
@@ -323,7 +327,7 @@ open class GameModel: Codable {
                         if !player.hasBusyUnitOrCity() {
                             autoMovesComplete = true
 
-                            //NET_MESSAGE_DEBUG_OSTR_ALWAYS( "CheckPlayerTurnDeactivate() : auto-moves complete for " << kPlayer.getName());
+                            // print("+++ GameModel - CheckPlayerTurnDeactivate() : auto-moves complete for \(player.leader.name())")
                         } else {
                             /*if ( gDLL->HasReceivedTurnComplete( player.GetID() ) )
                             {
@@ -334,7 +338,6 @@ open class GameModel: Codable {
                         if autoMovesComplete {
 
                             // Activate the next player
-                            // This is not done if simultaneous turns is enabled (Networked MP).
                             // In that case, the local human is (should be) the player we just deactivated the turn for
                             // and the AI players will be activated all at once in CvGame::doTurn, once we have received
                             // all the moves from the other human players
@@ -422,8 +425,6 @@ open class GameModel: Codable {
 
                         if needsAIUpdate || !player.isHuman() {
                             player.unitUpdate(in: self)
-
-                            //print("UpdateMoves() : player.unitUpdate() called for player \(player.leader)");
                         }
 
                         let readyUnitsNow = player.countReadyUnits(in: self)
@@ -436,8 +437,7 @@ open class GameModel: Codable {
                         if !player.isHuman() && !player.hasBusyUnitOrCity() {
 
                             if readyUnitsNow == 0 {
-                                player.setAutoMoves(value: true)
-                                // print("UpdateMoves() : player.setAutoMoves(true) called for player \(player.leader)")
+                                player.setAutoMoves(to: true)
                             } else {
 
                                 if player.hasReadyUnit(in: self) /*&& !player.GetTacticalAI()->IsInQueuedAttack(pReadyUnit))*/ {
@@ -546,26 +546,23 @@ open class GameModel: Codable {
                     }
 
                     // KWG: This code should go into CheckPlayerTurnDeactivate
-                    /*if !player.finishTurnButtonPressed() && gDLL->HasReceivedTurnComplete( player.GetID() ) && player.isHuman() /* && (isNetworkMultiPlayer() || (!isNetworkMultiPlayer() && player.GetID() != getActivePlayer())) */)
-                    {
-                        if(!player.hasBusyUnitOrCity())
-                        {
-                            player.setEndTurn(true)
-                            if(player.isEndTurn())
-                            {
+                    if !player.finishTurnButtonPressed() && player.isHuman() {
+
+                        if !player.hasBusyUnitOrCity() {
+
+                            player.setEndTurn(to: true, in: self)
+
+                            if player.isEndTurn() {
                                 //If the player's turn ended, indicate it in the log.  We only do so when the end turn state has changed to prevent useless log spamming in multiplayer.
-                                NET_MESSAGE_DEBUG_OSTR_ALWAYS("UpdateMoves() : player.setEndTurn(true) called for player " << player.GetID() << " " << player.getName())
+                                //NET_MESSAGE_DEBUG_OSTR_ALWAYS("UpdateMoves() : player.setEndTurn(true) called for player " << player.GetID() << " " << player.getName())
                             }
+                        } else {
+                            // if !player.hasBusyUnitUpdatesRemaining() {
+                                // NET_MESSAGE_DEBUG_OSTR_ALWAYS("Received turn complete for player " << player.GetID() << " " << player.getName() << " but there is a busy unit. Forcing the turn to advance")
+                                player.setEndTurn(to: true, in: self)
+                            // }
                         }
-                        else
-                        {
-                            if(!player.hasBusyUnitUpdatesRemaining())
-                            {
-                                NET_MESSAGE_DEBUG_OSTR_ALWAYS("Received turn complete for player " << player.GetID() << " " << player.getName() << " but there is a busy unit. Forcing the turn to advance")
-                                player.setEndTurn(true)
-                            }
-                        }
-                    } */
+                    }
                 }
             }
         }
@@ -613,6 +610,8 @@ open class GameModel: Codable {
         print()
         print("::: TURN \(self.currentTurn + 1) starts now :::")
         print()
+
+        self.humanPlayer()?.resetFinishTurnButtonPressed()
 
         self.barbarianAI?.doTurn(in: self)
         self.religionsVal?.doTurn(in: self)
@@ -675,6 +674,10 @@ open class GameModel: Codable {
     }
 
     func updateTimers() {
+
+        guard self.activePlayer()?.isHuman() ?? false else {
+            return
+        }
 
         for player in self.players {
 

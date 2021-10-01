@@ -40,7 +40,7 @@ class ReligionTests: XCTestCase {
         playerBarbarian.initialize()
 
         // map
-        var mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
         // game
@@ -77,9 +77,9 @@ class ReligionTests: XCTestCase {
         gameModel.add(city: playerTrajanCity)
 
         // this is cheating
-        MapModelHelper.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerTrajan, in: gameModel)
-        MapModelHelper.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerTrajan, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
         // WHEN
         var turnCounter = 0
@@ -87,12 +87,14 @@ class ReligionTests: XCTestCase {
 
         repeat {
 
-            while !playerAlexander.canFinishTurn() {
-
+            repeat {
                 gameModel.update()
-            }
 
-            playerAlexander.endTurn(in: gameModel)
+                if playerAlexander.isTurnActive() {
+                    playerAlexander.finishTurn()
+                    playerAlexander.setAutoMoves(to: true)
+                }
+            } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
 
             print("faith: \(playerTrajan.religion!.faith())")
 

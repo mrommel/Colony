@@ -26,14 +26,23 @@ class EconomicAIReconStateTests: XCTestCase {
     func testReconStateNeeded() {
 
         // GIVEN
-        let playerAlexander = Player(leader: .alexander)
+        let playerBarbar = Player(leader: .barbar)
+        playerBarbar.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
         self.objectToTest = EconomicAI(player: playerAlexander)
 
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerBarbar, playerAlexander],
+            on: mapModel
+        )
 
         mapModel.discover(by: playerAlexander, at: HexPoint(x: 1, y: 1), in: gameModel)
         mapModel.discover(by: playerAlexander, at: HexPoint(x: 1, y: 2), in: gameModel)
@@ -53,15 +62,24 @@ class EconomicAIReconStateTests: XCTestCase {
     func testReconStateEnough() {
 
         // GIVEN
-        let playerAlexander = Player(leader: .alexander)
+        let playerBarbar = Player(leader: .barbar)
+        playerBarbar.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
         self.objectToTest = EconomicAI(player: playerAlexander)
 
-        var mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerBarbar, playerAlexander],
+            on: mapModel
+        )
 
-        MapModelHelper.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
 
         // WHEN
         self.objectToTest?.updateReconState(in: gameModel)

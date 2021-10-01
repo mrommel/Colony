@@ -71,12 +71,15 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func finishTurnButtonPressed() -> Bool // TODO: rename to finishedTurn
     func doTurnPostDiplomacy(in gameModel: GameModel?)
     func finishTurn()
+    func resetFinishTurnButtonPressed()
     func updateTimers(in gameModel: GameModel?)
+    func isEndTurn() -> Bool
+    func setEndTurn(to value: Bool, in gameModel: GameModel?)
 
     func hasProcessedAutoMoves() -> Bool
     func setProcessedAutoMoves(value: Bool)
     func isAutoMoves() -> Bool
-    func setAutoMoves(value: Bool)
+    func setAutoMoves(to value: Bool)
 
     func doFirstContact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func doDefensivePact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
@@ -339,6 +342,7 @@ public class Player: AbstractPlayer {
     private var finishTurnButtonPressedValue: Bool = false
     private var processedAutoMovesValue: Bool = false
     private var autoMovesValue: Bool = false
+    private var endTurnValue: Bool = false
     private var lastSliceMovedValue: Int = 0
 
     internal var cultureEarned: Int = 0
@@ -565,9 +569,9 @@ public class Player: AbstractPlayer {
             return false
         }
 
-        /*if !self.hasProcessedAutoMoves() {
+        if !self.hasProcessedAutoMoves() {
             return false
-        }*/
+        }
 
         if self.blockingNotification() != nil {
             return false
@@ -584,6 +588,11 @@ public class Player: AbstractPlayer {
     public func finishTurn() {
 
         self.finishTurnButtonPressedValue = true
+    }
+
+    public func resetFinishTurnButtonPressed() {
+
+        self.finishTurnButtonPressedValue = false
     }
 
     public func lastSliceMoved() -> Int {
@@ -1023,9 +1032,8 @@ public class Player: AbstractPlayer {
         print("--- start turn for \(self.isHuman() ? "HUMAN": "AI") player \(self.leader) ---")
 
         self.turnActive = true
-        //self.setTurnEnd(false)
-        self.setAutoMoves(value: false)
-        self.finishTurnButtonPressedValue = false
+        self.setEndTurn(to: false, in: gameModel)
+        self.setAutoMoves(to: false)
 
         /////////////////////////////////////////////
         // TURN IS BEGINNING
@@ -1039,29 +1047,19 @@ public class Player: AbstractPlayer {
 
         //
         self.updateTimers(in: gameModel)
-        //self.diplomacyAI?.update(in: gameModel) // extracted from updateTimers
 
         // This block all has things which might change based on city connections changing
         self.cityConnections?.turn(with: gameModel)
-        //self.treasury.doUpdateCityConnectionGold()
-        //self.doUpdateHappiness()
         self.builderTaskingAI?.update(in: gameModel)
 
         if gameModel.currentTurn > 0 {
 
             if self.isAlive() {
-                /*if (GetDiplomacyRequests())
-                {
-                    GetDiplomacyRequests()->BeginTurn();
-                }*/
 
                 self.doTurn(in: gameModel)
-
                 self.doTurnUnits(in: gameModel)
             }
         }
-
-        // self.doWarnings()
     }
 
     public func endTurn(in gameModel: GameModel?) {
@@ -1080,10 +1078,6 @@ public class Player: AbstractPlayer {
 
         self.doUnitReset(in: gameModel)
         self.set(canChangeGovernment: false)
-
-        if !self.isHuman() {
-            //self.respositionInvalidUnits()
-        }
 
         if let notifications = self.notificationsValue {
             notifications.cleanUp(in: gameModel)
@@ -1143,11 +1137,6 @@ public class Player: AbstractPlayer {
             }
         }
 
-        // Attack bonus turns
-        /*if GetAttackBonusTurns() > 0 {
-            ChangeAttackBonusTurns(-1);
-        }*/
-
         // Golden Age
         self.doProcessAge(in: gameModel)
 
@@ -1181,17 +1170,6 @@ public class Player: AbstractPlayer {
 
         // great people
         self.doGreatPeople(in: gameModel)
-
-        // Anarchy counter
-        //if (GetAnarchyNumTurns() > 0)
-        //    ChangeAnarchyNumTurns(-1);
-
-        // DoIncomingUnits();
-
-        //const int iGameTurn = kGame.getGameTurn();
-        //GatherPerTurnReplayStats(iGameTurn);
-
-        // GC.GetEngineUserInterface()->setDirty(CityInfo_DIRTY_BIT, true);
 
         self.doTurnPost()
     }
@@ -2881,11 +2859,48 @@ public class Player: AbstractPlayer {
         return self.autoMovesValue
     }
 
-    public func setAutoMoves(value: Bool) {
+    public func setAutoMoves(to value: Bool) {
 
         if self.autoMovesValue != value {
             self.autoMovesValue = value
             self.processedAutoMovesValue = false
+        }
+    }
+
+    public func isEndTurn() -> Bool {
+
+        return self.endTurnValue
+    }
+
+    public func setEndTurn(to value: Bool, in gameModel: GameModel?) {
+
+        if !self.isEndTurn() && self.isHuman() && gameModel?.activePlayer()?.leader != self.leader {
+            if self.hasBusyUnitOrCity() || self.hasReadyUnit(in: gameModel) {
+                return
+            }
+        } else if !self.isHuman() {
+            if self.hasBusyUnitOrCity() {
+                return
+            }
+        }
+
+        if self.isEndTurn() != value {
+
+            assert(self.isTurnActive(), "isTurnActive is expected to be true")
+
+            self.endTurnValue = value
+
+            if self.isEndTurn() {
+                setAutoMoves(to: true)
+            } else {
+                setAutoMoves(to: false)
+            }
+        } else {
+            // This check is here for the AI.  Currently, the setEndTurn(true) never seems to get called for AI players, the automoves are just set directly
+            // Why is this?  It would be great if all players were processed the same.
+            if !value && self.isAutoMoves() {
+                setAutoMoves(to: false)
+            }
         }
     }
 

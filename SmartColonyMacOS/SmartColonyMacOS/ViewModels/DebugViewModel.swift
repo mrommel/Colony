@@ -14,6 +14,54 @@ protocol DebugViewModelDelegate: AnyObject {
     func closed()
 }
 
+class TestUI: UserInterfaceDelegate {
+
+    func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData? = nil) { }
+
+    func showLeaderMessage(from fromPlayer: AbstractPlayer?, to toPlayer: AbstractPlayer?, deal: DiplomaticDeal?, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType) { }
+
+    func update(city: AbstractCity?) { }
+
+    func showPopup(popupType: PopupType) { }
+
+    func showScreen(screenType: ScreenType, city: AbstractCity?) { }
+
+    func isShown(screen: ScreenType) -> Bool {
+        return false
+    }
+
+    func add(notification: NotificationItem) {}
+    func remove(notification: NotificationItem) {}
+
+    func select(unit: AbstractUnit?) {}
+    func unselect() {}
+
+    func show(unit: AbstractUnit?) {}
+    func hide(unit: AbstractUnit?) {}
+    func move(unit: AbstractUnit?, on points: [HexPoint]) {}
+    func refresh(unit: AbstractUnit?) {}
+    func animate(unit: AbstractUnit?, animation: UnitAnimationType) {}
+
+    func clearAttackFocus() { }
+
+    func showAttackFocus(at point: HexPoint) { }
+
+    func askToDisband(unit: AbstractUnit?, completion: @escaping (Bool) -> Void) {}
+    func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?) -> Void) {}
+    func askForSelection(title: String, items: [SelectableItem], completion: @escaping (Int) -> Void) {}
+
+    func select(tech: TechType) {}
+    func select(civic: CivicType) {}
+
+    func show(city: AbstractCity?) { }
+
+    func refresh(tile: AbstractTile?) { }
+
+    func showTooltip(at point: HexPoint, text: String, delay: Double) { }
+
+    func focus(on location: HexPoint) { }
+}
+
 // swiftlint:disable force_try
 class DebugViewModel: ObservableObject {
 
@@ -78,6 +126,75 @@ class DebugViewModel: ObservableObject {
     func createFastTradeRouteWorld() {
 
         print("Fast Trade Route")
+
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let aiPlayer = Player(leader: .victoria, isHuman: false)
+        aiPlayer.initialize()
+
+        let humanPlayer = Player(leader: .alexander, isHuman: true)
+        humanPlayer.initialize()
+
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
+
+        // AI
+        aiPlayer.found(at: HexPoint(x: 10, y: 5), named: "AI Capital", in: gameModel)
+        let aiCity = gameModel.city(at: HexPoint(x: 10, y: 5))
+
+        // Human
+        humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
+        try! humanPlayer.techs?.discover(tech: .pottery)
+        try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
+        try! humanPlayer.civics?.discover(civic: .codeOfLaws)
+        try! humanPlayer.civics?.discover(civic: .foreignTrade)
+        try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
+
+        if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
+            humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+        }
+
+        let humanTraderUnit = Unit(at: HexPoint(x: 2, y: 6), type: .trader, owner: humanPlayer)
+        humanTraderUnit.origin = HexPoint(x: 3, y: 5)
+        gameModel.add(unit: humanTraderUnit)
+        gameModel.userInterface?.show(unit: humanTraderUnit)
+
+        MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
+
+        guard humanTraderUnit.doEstablishTradeRoute(to: aiCity, in: gameModel) else {
+            fatalError("cant create trade route")
+        }
+
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+
+        // hack
+        var turnCounter = 0
+
+        repeat {
+
+            repeat {
+                gameModel.update()
+
+                if humanPlayer.isTurnActive() {
+                    humanPlayer.finishTurn()
+                    humanPlayer.setAutoMoves(to: true)
+                }
+            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
+
+            turnCounter += 1
+        } while turnCounter < 20
+
+        self.delegate?.start(game: gameModel)
     }
 
     func createAllUnitsWorld() {

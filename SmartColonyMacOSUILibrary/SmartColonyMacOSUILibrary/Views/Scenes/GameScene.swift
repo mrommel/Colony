@@ -148,6 +148,12 @@ class GameScene: BaseScene {
                 fatalError("cant get human")
             }
 
+            // check state
+            if humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed() {
+
+                self.viewModel?.changeUITurnState(to: .aiTurns)
+            }
+
             if self.viewModel!.readyUpdatingAI {
 
                 if humanPlayer.isActive() {

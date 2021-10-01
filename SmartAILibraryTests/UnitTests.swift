@@ -60,10 +60,15 @@ class UnitTests: XCTestCase {
         var turnCounter = 0
         var hasVisited = false
         repeat {
-            while !humanPlayer.canFinishTurn() {
+
+            repeat {
                 gameModel.update()
-            }
-            humanPlayer.endTurn(in: gameModel)
+
+                if humanPlayer.isTurnActive() {
+                    humanPlayer.finishTurn()
+                    humanPlayer.setAutoMoves(to: true)
+                }
+            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
 
             hasVisited = humanPlayerWarrior.location == HexPoint(x: 6, y: 2)
             turnCounter += 1
@@ -107,11 +112,14 @@ class UnitTests: XCTestCase {
         var hasStayed = true
         repeat {
 
-            while !humanPlayer.canFinishTurn() {
+            repeat {
                 gameModel.update()
-            }
-            gameModel.update()
-            humanPlayer.endTurn(in: gameModel)
+
+                if humanPlayer.isTurnActive() {
+                    humanPlayer.finishTurn()
+                    humanPlayer.setAutoMoves(to: true)
+                }
+            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
 
             hasStayed = humanPlayerScout.location == HexPoint(x: 2, y: 2)
             turnCounter += 1

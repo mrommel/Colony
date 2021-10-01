@@ -380,15 +380,9 @@ extension GameSceneViewModel {
 
         if self.uiTurnState == .humanTurns {
 
-            if humanPlayer.canFinishTurn() {
-
-                humanPlayer.endTurn(in: gameModel)
-                self.changeUITurnState(to: .aiTurns)
-            } else {
-                print("cant finish turn")
-                /*if let blockingNotification = humanPlayer.blockingNotification() {
-                    blockingNotification.activate(in: gameModel)
-                }*/
+            if humanPlayer.isTurnActive() {
+                humanPlayer.finishTurn()
+                humanPlayer.setAutoMoves(to: true)
             }
         }
     }

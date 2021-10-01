@@ -118,7 +118,7 @@ class TechTests: XCTestCase {
         try! self.objectToTest?.discover(tech: .pottery)
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination],
@@ -152,7 +152,7 @@ class TechTests: XCTestCase {
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination],
@@ -179,7 +179,7 @@ class TechTests: XCTestCase {
         self.objectToTest = playerAlexander.techs
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
         mapModel.set(feature: .greatBarrierReef, at: HexPoint(x: 0, y: 0))
 
         // game
@@ -207,7 +207,7 @@ class TechTests: XCTestCase {
         self.objectToTest = playerAlexander.techs
 
         // map
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
         mapModel.set(terrain: .ocean, at: HexPoint(x: 0, y: 0))
 
         // game
