@@ -16,6 +16,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     var leader: LeaderType { get } // for restore from file only
     var originalLeader: LeaderType { get set }
     var origin: HexPoint { get set } // to get the city the unit was created in
+    var greatPerson: GreatPerson { get set }
 
     func name() -> String
     func isBarbarian() -> Bool
@@ -724,7 +725,7 @@ public class Unit: AbstractUnit {
         var result: [CombatModifier] = []
 
         // Healty
-        let healthPenalty = -10 * (100 - self.healthPoints()) / 100
+        let healthPenalty = -10 * (Int(Unit.maxHealth) - self.healthPoints()) / Int(Unit.maxHealth)
         if healthPenalty != 0 {
             result.append(CombatModifier(value: healthPenalty, title: "Health penalty"))
         }
@@ -811,6 +812,21 @@ public class Unit: AbstractUnit {
             let handicapBonus = gameModel.handicap.freeAICombatBonus()
             if handicapBonus != 0 {
                 result.append(CombatModifier(value: handicapBonus, title: "Bonus due to difficulty"))
+            }
+        }
+
+        // ////////////////////////
+        // great generals
+        // ////////////////////////
+        if (self.type.era() == .classical || self.type.era() == .medieval) && self.domain() == .land {
+
+            let boudicaNear = gameModel.isGreatGeneral(type: .boudica, of: self.player, at: self.location, inRange: 2)
+            let hannibalBarcaNear = gameModel.isGreatGeneral(type: .hannibalBarca, of: self.player, at: self.location, inRange: 2)
+            let sunTzuNear = gameModel.isGreatGeneral(type: .sunTzu, of: self.player, at: self.location, inRange: 2)
+
+            if boudicaNear || hannibalBarcaNear || sunTzuNear {
+                // +5 Combat Strength to Classical and Medieval era land units within 2 tiles.
+                result.append(CombatModifier(value: 5, title: "Combat bonus from Great General"))
             }
         }
 
@@ -2377,7 +2393,25 @@ public class Unit: AbstractUnit {
 
     public func maxMoves(in gameModel: GameModel?) -> Int {
 
-        return self.baseMoves(in: gameModel) //self.type.moves()
+        guard let gameModel = gameModel else {
+            fatalError("cant get game model")
+        }
+
+        var moveVal = self.baseMoves(in: gameModel)
+
+        if (self.type.era() == .classical || self.type.era() == .medieval) && self.domain() == .land {
+
+            let boudicaNear = gameModel.isGreatGeneral(type: .boudica, of: self.player, at: self.location, inRange: 2)
+            let hannibalBarcaNear = gameModel.isGreatGeneral(type: .hannibalBarca, of: self.player, at: self.location, inRange: 2)
+            let sunTzuNear = gameModel.isGreatGeneral(type: .sunTzu, of: self.player, at: self.location, inRange: 2)
+
+            if boudicaNear || hannibalBarcaNear || sunTzuNear {
+                // +1 Movement to Classical and Medieval era land units within 2 tiles.
+                moveVal += 1
+            }
+        }
+
+        return moveVal
     }
 
     public func hasMoved(in gameModel: GameModel?) -> Bool {

@@ -1501,6 +1501,28 @@ open class GameModel: Codable {
         self.greatPersons?.invalidate(greatPerson: greatPerson, in: self)
     }
 
+    func isGreatGeneral(type: GreatPerson, of player: AbstractPlayer?, at location: HexPoint, inRange range: Int) -> Bool {
+
+        guard let player = player else {
+            fatalError("cant get player")
+        }
+
+        for unitRef in self.units(of: player) {
+
+            guard let unit = unitRef else {
+                continue
+            }
+
+            if unit.location.distance(to: location) <= range {
+                if unit.greatPerson == type {
+                    return true
+                }
+            }
+        }
+
+        return false
+    }
+
     // MARK: religion methods
 
     func foundPantheon(for player: AbstractPlayer?, with pantheonType: PantheonType) {
