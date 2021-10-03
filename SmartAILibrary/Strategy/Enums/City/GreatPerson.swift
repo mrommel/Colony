@@ -11,6 +11,8 @@ import Foundation
 // swiftlint:disable type_body_length
 public enum GreatPerson: String, Codable {
 
+    case none
+
     // generals
     // https://civilization.fandom.com/wiki/Great_General_(Civ6)
     case boudica
@@ -176,9 +178,17 @@ public enum GreatPerson: String, Codable {
 
     // swiftlint:disable line_length
     // swiftlint:disable function_body_length
+    // swiftlint:disable cyclomatic_complexity
     private func data() -> GreatPersonData {
 
         switch self {
+
+        case .none:
+            return GreatPersonData(name: "None",
+                                   type: .greatGeneral,
+                                   era: .classical,
+                                   bonus: "",
+                                   works: [])
 
             // ---------------------
             // generals

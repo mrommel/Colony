@@ -1276,7 +1276,7 @@ public class Player: AbstractPlayer {
         // spawn
         if let capital = gameModel.capital(of: self) {
             // add units
-            capital.doSpawnGreatPerson(unit: greatPerson.type().unitType(), in: gameModel)
+            capital.doSpawn(greatPerson: greatPerson, in: gameModel)
 
             // notify the user
             self.notifications()?.add(notification: .greatPersonJoined)
@@ -1601,77 +1601,6 @@ public class Player: AbstractPlayer {
                 gameModel?.userInterface?.showPopup(popupType: .religionNeedNewAutomaticFaithSelection)
             }
         }
-    }
-
-    /// Time to spawn a Great Prophet?
-    @discardableResult
-    func checkSpawnGreatProphet(in gameModel: GameModel?) -> Bool {
-
-        guard let gameModel = gameModel else {
-            fatalError("cant get gameModel")
-        }
-
-        guard let religion = self.religion else {
-            fatalError("cant get religion")
-        }
-
-        let prophetUnitType: UnitType = .prophet
-
-        let faith: Int = Int(religion.faith())
-        let cost = gameModel.costOfNextProphet(includeDiscounts: true)
-
-        let playerReligion = religion.currentReligion()
-
-        if playerReligion == .none && gameModel.numReligionsStillToFound() <= 0 {
-            return false
-        }
-
-        if faith < cost {
-            return false
-        }
-
-        var chance = 100 // RELIGION_BASE_CHANCE_PROPHET_SPAWN
-        chance += (faith - cost)
-
-        let rand = Int.random(maximum: 100)
-        if rand >= chance {
-            return false
-        }
-
-        let spawnCityRef: AbstractCity? = playerReligion != .none ? gameModel.city(at: religion.holyCityLocation()) : nil
-        var prophetBoughtWithFaith: Bool = false
-
-        if let spawnCity = spawnCityRef {
-            if spawnCity.player?.leader == self.leader {
-
-                if self.isHuman() {
-                    switch self.faithPurchaseType() {
-
-                    case .saveForProphet:
-                        spawnCity.doSpawnGreatPerson(unit: prophetUnitType, in: gameModel)
-                        prophetBoughtWithFaith = true
-                    case .noAutomaticFaithPurchase:
-                        gameModel.userInterface?.showPopup(popupType: .religionEnoughFaithForMissionary)
-                    default:
-                        // NOOP
-                        print()
-                    }
-                } else {
-                    spawnCity.doSpawnGreatPerson(unit: prophetUnitType, in: gameModel)
-                    prophetBoughtWithFaith = true
-                }
-
-            } else {
-                spawnCity.doSpawnGreatPerson(unit: prophetUnitType, in: gameModel)
-                prophetBoughtWithFaith = true
-            }
-
-            if prophetBoughtWithFaith {
-                self.religion?.change(faith: Double(-cost))
-            }
-        }
-
-        return true
     }
 
     func doTurnPost() {

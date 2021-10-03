@@ -216,6 +216,9 @@ public protocol AbstractUnit: AnyObject, Codable {
 
     func isBusy() -> Bool
 
+    // great person
+    func isGreatPerson() -> Bool
+    func greatPersonName() -> String
     func isGreatGeneral() -> Bool
     func isGreatAdmiral() -> Bool
 
@@ -245,6 +248,7 @@ public class Unit: AbstractUnit {
         case leader
         case originalLeader
         case origin
+        case greatPerson
         case promotions
         case task
         case deathDelay
@@ -283,6 +287,7 @@ public class Unit: AbstractUnit {
     private(set) public var leader: LeaderType // for restoring from file
     public var originalLeader: LeaderType
     public var origin: HexPoint
+    public var greatPerson: GreatPerson = .none
     internal var promotions: AbstractPromotions?
     private var taskValue: UnitTaskType
     private var deathDelay: Bool = false
@@ -363,6 +368,7 @@ public class Unit: AbstractUnit {
         self.taskValue = try container.decode(UnitTaskType.self, forKey: .task)
         self.deathDelay = try container.decode(Bool.self, forKey: .deathDelay)
         self.origin = try container.decode(HexPoint.self, forKey: .origin)
+        self.greatPerson = try container.decode(GreatPerson.self, forKey: .greatPerson)
 
         self.tacticalMoveValue = try container.decodeIfPresent(TacticalMoveType.self, forKey: .tacticalMove)
         self.tacticalTargetValue = try container.decodeIfPresent(HexPoint.self, forKey: .tacticalTarget)
@@ -405,6 +411,7 @@ public class Unit: AbstractUnit {
         try container.encode(self.taskValue, forKey: .task)
         try container.encode(self.deathDelay, forKey: .deathDelay)
         try container.encode(self.origin, forKey: .origin)
+        try container.encode(self.greatPerson, forKey: .greatPerson)
 
         try container.encodeIfPresent(self.tacticalMoveValue, forKey: .tacticalMove)
         try container.encodeIfPresent(self.tacticalTargetValue, forKey: .tacticalTarget)
@@ -3285,11 +3292,6 @@ public class Unit: AbstractUnit {
         return finished
     }
 
-    func isGreatPerson() -> Bool {
-
-        return UnitType.greatPersons.contains(self.type)
-    }
-
     public func buildType() -> BuildType {
 
         return self.buildTypeValue
@@ -4321,6 +4323,18 @@ extension Unit {
         }
 
         return commandArray
+    }
+
+    // MARK: great person methods
+
+    public func isGreatPerson() -> Bool {
+
+        return UnitType.greatPersons.contains(self.type)
+    }
+
+    public func greatPersonName() -> String {
+
+        return self.greatPerson.name()
     }
 
     public func isGreatGeneral() -> Bool {

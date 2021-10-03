@@ -108,6 +108,11 @@ class UnitBannerViewModel: ObservableObject {
                 }
             }
 
+            if selectedUnit.isGreatPerson() {
+
+                return selectedUnit.greatPersonName()
+            }
+
             return "\(selectedUnit.healthPoints()) health"
         }
 

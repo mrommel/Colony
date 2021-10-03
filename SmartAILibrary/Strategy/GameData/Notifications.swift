@@ -278,6 +278,12 @@ public class NotificationItem: Codable, Equatable {
 
             return true
 
+        case .greatPersonJoined:
+            return true
+
+        case .canRecruitGreatPerson(greatPerson: _):
+            return true
+
         default:
             return false
         }

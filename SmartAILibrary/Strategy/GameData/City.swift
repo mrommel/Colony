@@ -86,7 +86,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func purchase(district districtType: DistrictType, in gameModel: GameModel?) -> Bool
     @discardableResult
     func purchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
-    func doSpawnGreatPerson(unit unitType: UnitType, in gameModel: GameModel?)
+    func doSpawn(greatPerson: GreatPerson, in gameModel: GameModel?)
 
     func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int
     func unitProductionTurnsLeft(for unitType: UnitType) -> Int
@@ -2735,13 +2735,16 @@ public class City: AbstractCity {
         }
     }
 
-    public func doSpawnGreatPerson(unit unitType: UnitType, in gameModel: GameModel?) {
+    public func doSpawn(greatPerson: GreatPerson, in gameModel: GameModel?) {
+
+        let unitType = greatPerson.type().unitType()
 
         guard unitType.isGreatPerson() else {
             fatalError("\(unitType) is not a greap person type")
         }
 
         let unit = Unit(at: self.location, type: unitType, owner: self.player)
+        unit.greatPerson = greatPerson
 
         gameModel?.add(unit: unit)
 
