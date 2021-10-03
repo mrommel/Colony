@@ -40,7 +40,7 @@ class PlayerTests: XCTestCase {
             players: [barbarianPlayer, playerAugustus, playerAlexander],
             on: mapModel
         )
-        
+
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface

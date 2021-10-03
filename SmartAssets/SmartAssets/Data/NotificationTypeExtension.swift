@@ -35,6 +35,7 @@ extension NotificationType {
         case .policiesNeeded: return "button-policies-needed"
 
         case .greatPersonJoined: return "button-great-person-joined"
+        case .canRecruitGreatPerson: return "button-default"
 
         case .governorTitleAvailable: return "button-default"
         }

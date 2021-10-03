@@ -235,6 +235,10 @@ public protocol AbstractPlayer: AnyObject, Codable {
     @discardableResult
     func doEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool
 
+    // great persons
+    func canRecruitGreatPerson(in gameModel: GameModel?) -> Bool
+    func recruit(greatPerson: GreatPerson, in gameModel: GameModel?)
+
     // distance / cities
     func cityDistancePathLength(of point: HexPoint, in gameModel: GameModel?) -> Int
     func numCities(in gameModel: GameModel?) -> Int
@@ -1249,24 +1253,56 @@ public class Player: AbstractPlayer {
 
             if let greatPersonToSpawn = gameModel.greatPerson(of: greatPersonType, points: greatPeople.value(for: greatPersonType), for: self) {
 
-                // ask if user whats this person ?
-                // for now, the user has to take him/her
+                // AI always takes great persons
+                if self.isHuman() {
 
-                // spawn
-                if let capital = gameModel.capital(of: self) {
-                    let greatPersonUnit = Unit(at: capital.location, type: greatPersonToSpawn.type().unitType(), owner: self)
+                    // User get notification
+                    self.notifications()?.add(notification: .canRecruitGreatPerson(greatPerson: greatPersonToSpawn))
 
-                    gameModel.add(unit: greatPersonUnit)
-                    gameModel.userInterface?.show(unit: greatPersonUnit)
+                } else {
 
-                    // notify the user
-                    self.notifications()?.add(notification: .greatPersonJoined)
-
-                    gameModel.invalidate(greatPerson: greatPersonToSpawn)
-                    greatPeople.resetPoint(for: greatPersonType)
+                    self.recruit(greatPerson: greatPersonToSpawn, in: gameModel)
                 }
             }
         }
+    }
+
+    public func recruit(greatPerson: GreatPerson, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gamemodel")
+        }
+
+        // spawn
+        if let capital = gameModel.capital(of: self) {
+            // add units
+            capital.doSpawnGreatPerson(unit: greatPerson.type().unitType(), in: gameModel)
+
+            // notify the user
+            self.notifications()?.add(notification: .greatPersonJoined)
+
+            gameModel.invalidate(greatPerson: greatPerson)
+            self.greatPeople?.resetPoint(for: greatPerson.type())
+        }
+    }
+
+    public func canRecruitGreatPerson(in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gamemodel")
+        }
+
+        guard let greatPeople = self.greatPeople else {
+            fatalError("cant get greatPeople")
+        }
+
+        for greatPersonType in GreatPersonType.all
+            where gameModel.greatPerson(of: greatPersonType, points: greatPeople.value(for: greatPersonType), for: self) != nil {
+
+            return true
+        }
+
+        return false
     }
 
     // https://civilization.fandom.com/wiki/Age_(Civ6)

@@ -33,7 +33,7 @@ class PlayerScoringTests: XCTestCase {
 
         self.objectToTest = Player(leader: .alexander)
         self.objectToTest?.initialize()
-        
+
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 

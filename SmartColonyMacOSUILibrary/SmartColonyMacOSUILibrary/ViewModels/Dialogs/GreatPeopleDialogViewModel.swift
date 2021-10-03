@@ -58,6 +58,7 @@ class GreatPeopleDialogViewModel: ObservableObject {
                     progress: CGFloat(playerPoints),
                     cost: CGFloat(cost)
                 )
+                viewModel.delegate = self
 
                 tmpGovernorViewModels.append(viewModel)
             }
@@ -72,5 +73,23 @@ extension GreatPeopleDialogViewModel: BaseDialogViewModel {
     func closeDialog() {
 
         self.delegate?.closeDialog()
+    }
+}
+
+extension GreatPeopleDialogViewModel: GreatPersonViewModelDelegate {
+
+    func recruit(greatPerson: GreatPerson) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human player")
+        }
+
+        humanPlayer.recruit(greatPerson: greatPerson, in: gameModel)
+
+        self.updateGreatPeople()
     }
 }

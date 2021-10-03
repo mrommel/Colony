@@ -8,6 +8,12 @@
 import SwiftUI
 import SmartAILibrary
 
+protocol GreatPersonViewModelDelegate: AnyObject {
+
+    func recruit(greatPerson: GreatPerson)
+    // func pass(greatPerson: GreatPerson)
+}
+
 class GreatPersonViewModel: ObservableObject {
 
     let id: UUID = UUID()
@@ -30,7 +36,15 @@ class GreatPersonViewModel: ObservableObject {
     @Published
     var maxValue: CGFloat
 
+    weak var delegate: GreatPersonViewModelDelegate?
+
+    private let greatPerson: GreatPerson
+
+    // MARK: constructor
+
     init(greatPerson: GreatPerson, progress: CGFloat, cost: CGFloat) {
+
+        self.greatPerson = greatPerson
 
         self.typeName = greatPerson.type().name()
         self.name = greatPerson.name()
@@ -45,6 +59,11 @@ class GreatPersonViewModel: ObservableObject {
     func image() -> NSImage {
 
         return NSImage()
+    }
+
+    func recruit() {
+
+        self.delegate?.recruit(greatPerson: self.greatPerson)
     }
 }
 

@@ -37,19 +37,6 @@ struct GreatPersonView: View {
 
                 self.headerView
 
-                ZStack {
-                    Image(nsImage: self.viewModel.image())
-                        .resizable()
-                        .frame(width: self.imageSize, height: self.imageSize, alignment: .center)
-                        .background(Color.gray)
-                        .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
-                        .border(Color.black)
-
-                    // self.imageInfoView
-                }
-                .frame(width: self.imageSize, height: self.imageSize, alignment: .center)
-                .padding(.top, 8)
-
                 Divider()
                     .background(Color(Globals.Colors.dialogBorder))
                     .padding(.horizontal, 6)
@@ -69,6 +56,8 @@ struct GreatPersonView: View {
                 Divider()
                     .background(Color(Globals.Colors.dialogBorder))
                     .padding(.horizontal, 6)
+
+                self.buttonView
             }
             .frame(width: self.cardWidth, height: self.cardHeight - 8, alignment: .center)
             .padding(.bottom, 8)
@@ -94,6 +83,42 @@ struct GreatPersonView: View {
 
                 Text(self.viewModel.eraName)
                     .font(.system(size: 8))
+
+                ZStack {
+                    Image(nsImage: self.viewModel.image())
+                        .resizable()
+                        .frame(width: self.imageSize, height: self.imageSize, alignment: .center)
+                        .background(Color.gray)
+                        .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
+                        .border(Color.black)
+
+                    // self.imageInfoView
+                }
+                .frame(width: self.imageSize, height: self.imageSize, alignment: .center)
+                .padding(.top, 8)
+            }
+        )
+    }
+
+    var buttonView: AnyView {
+
+        AnyView(
+            VStack(alignment: .center, spacing: 4) {
+                if self.viewModel.progress < self.viewModel.maxValue {
+                    Text("Other player progress")
+                } else {
+                    Button("Recruit", action: {
+                            self.viewModel.recruit()
+                           }
+                    )
+                    .buttonStyle(DialogButtonStyle(state: .highlighted))
+
+                    Button("Pass", action: {
+                            //self.viewModel.clickedAppoint()
+                           }
+                    )
+                    .buttonStyle(DialogButtonStyle(state: .normal))
+                }
             }
         )
     }

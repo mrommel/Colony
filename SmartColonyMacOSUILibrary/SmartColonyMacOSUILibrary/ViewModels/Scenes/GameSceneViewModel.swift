@@ -207,6 +207,8 @@ public class GameSceneViewModel: ObservableObject {
             print("--- unhandled notification type: \(self.turnButtonNotificationType)")
         case .governorTitleAvailable:
             print("--- unhandled notification type: \(self.turnButtonNotificationType)")
+        case .canRecruitGreatPerson(greatPerson: _):
+            print("--- unhandled notification type: \(self.turnButtonNotificationType)")
         }
     }
 

@@ -90,6 +90,7 @@ class HeaderViewModel: ObservableObject {
 
         self.logHeaderViewModel.active = false
         self.governorsHeaderViewModel.alert = (humanPlayer.governors?.numTitlesAvailable() ?? 0) > 0
+        self.greatPeopleHeaderViewModel.alert = humanPlayer.canRecruitGreatPerson(in: gameModel)
 
         if let techs = humanPlayer.techs {
             if let currentTech = techs.currentTech() {
