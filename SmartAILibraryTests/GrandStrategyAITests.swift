@@ -74,8 +74,8 @@ class GrandStrategyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
-        let playerAugustus = Player(leader: .trajan)
-        playerAugustus.initialize()
+        let playerTrajan = Player(leader: .trajan)
+        playerTrajan.initialize()
 
         let playerElizabeth = Player(leader: .victoria, isHuman: true)
         playerElizabeth.initialize()
@@ -86,19 +86,19 @@ class GrandStrategyAITests: XCTestCase {
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
             turnsElapsed: 0,
-            players: [barbarianPlayer, playerAugustus, playerAlexander, playerElizabeth],
+            players: [barbarianPlayer, playerTrajan, playerAlexander, playerElizabeth],
             on: mapModel
         )
 
         // augustus has met alexander
-        playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)
+        playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // augustus has met elizabeth
-        playerAugustus.doFirstContact(with: playerElizabeth, in: gameModel)
+        playerTrajan.doFirstContact(with: playerElizabeth, in: gameModel)
 
         // elizabeth and alexander never met
 
-        self.objectToTest = GrandStrategyAI(player: playerAugustus)
+        self.objectToTest = GrandStrategyAI(player: playerTrajan)
 
         // WHEN
         //for i in 0..<100 {

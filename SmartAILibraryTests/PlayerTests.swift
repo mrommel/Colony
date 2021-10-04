@@ -11,7 +11,6 @@ import Foundation
 import XCTest
 @testable import SmartAILibrary
 
-// swiftlint:disable function_body_length
 class PlayerTests: XCTestCase {
 
     func testSpawnProphet() {
@@ -22,11 +21,11 @@ class PlayerTests: XCTestCase {
         let barbarianPlayer = Player(leader: .barbar, isHuman: false)
         barbarianPlayer.initialize()
 
-        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
-        let playerAugustus = Player(leader: .trajan)
-        playerAugustus.initialize()
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
 
         // map
         var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
@@ -37,7 +36,7 @@ class PlayerTests: XCTestCase {
             victoryTypes: [.domination],
             handicap: .chieftain,
             turnsElapsed: 0,
-            players: [barbarianPlayer, playerAugustus, playerAlexander],
+            players: [barbarianPlayer, playerAlexander, playerTrajan],
             on: mapModel
         )
 
@@ -49,7 +48,7 @@ class PlayerTests: XCTestCase {
         let playerAlexanderWarrior = Unit(at: HexPoint(x: 5, y: 6), type: .warrior, owner: playerAlexander)
         gameModel.add(unit: playerAlexanderWarrior)
 
-        let playerAugustusWarrior = Unit(at: HexPoint(x: 15, y: 16), type: .warrior, owner: playerAugustus)
+        let playerAugustusWarrior = Unit(at: HexPoint(x: 15, y: 16), type: .warrior, owner: playerTrajan)
         gameModel.add(unit: playerAugustusWarrior)
 
         // cities
@@ -59,7 +58,7 @@ class PlayerTests: XCTestCase {
 
         // this is cheating
         MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
-        MapUtils.discover(mapModel: &mapModel, by: playerAugustus, in: gameModel)
+        MapUtils.discover(mapModel: &mapModel, by: playerTrajan, in: gameModel)
         MapUtils.discover(mapModel: &mapModel, by: barbarianPlayer, in: gameModel)
 
         let greatPersonPoints = GreatPersonPoints(
