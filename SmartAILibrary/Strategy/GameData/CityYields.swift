@@ -911,12 +911,22 @@ extension City {
             fatalError("cant get buildings")
         }
 
+        guard let greatPeople = self.player?.greatPeople else {
+            fatalError("cant get greatPeople")
+        }
+
         var scienceFromBuildings: Double = 0.0
 
         // gather yields from builds
         for building in BuildingType.all {
             if buildings.has(building: building) {
                 scienceFromBuildings += building.yields().science
+            }
+
+            // Libraries provide +1 Science.
+            // https://civilization.fandom.com/wiki/Hypatia_(Civ6)
+            if building == .library && greatPeople.hasRetired(greatPerson: .hypatia) {
+                scienceFromBuildings += 1
             }
         }
 

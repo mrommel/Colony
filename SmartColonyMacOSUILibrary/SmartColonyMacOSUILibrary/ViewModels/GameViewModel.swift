@@ -77,10 +77,18 @@ protocol GameViewModelDelegate: AnyObject {
     func add(notification: NotificationItem)
     func remove(notification: NotificationItem)
 
-    func showDisbandDialog(for unit: AbstractUnit?, completion: @escaping (Bool) -> Void)
-    func showSelectCityDialog(start startCity: AbstractCity?,
-                              of cities: [AbstractCity?],
-                              completion: @escaping (AbstractCity?) -> Void)
+    func showSelectCityDialog(
+        start startCity: AbstractCity?,
+        of cities: [AbstractCity?],
+        completion: @escaping (AbstractCity?) -> Void
+    )
+    func showConfirmationDialog(
+        title: String,
+        question: String,
+        confirm: String,
+        cancel: String,
+        completion: @escaping (Bool) -> Void
+    )
     func showSelectionDialog(titled title: String, items: [SelectableItem], completion: @escaping (Int) -> Void)
 
     func closeDialog()
@@ -140,7 +148,7 @@ public class GameViewModel: ObservableObject {
     var cityNameDialogViewModel: CityNameDialogViewModel
 
     @Published
-    var unitDisbandConfirmationDialogViewModel: UnitDisbandConfirmationDialogViewModel
+    var confirmationDialogViewModel: ConfirmationDialogViewModel
 
     @Published
     var selectTradeCityDialogViewModel: SelectTradeCityDialogViewModel
@@ -263,7 +271,7 @@ public class GameViewModel: ObservableObject {
         self.techDialogViewModel = TechDialogViewModel()
         self.civicDialogViewModel = CivicDialogViewModel()
         self.cityNameDialogViewModel = CityNameDialogViewModel()
-        self.unitDisbandConfirmationDialogViewModel = UnitDisbandConfirmationDialogViewModel()
+        self.confirmationDialogViewModel = ConfirmationDialogViewModel()
         self.cityDialogViewModel = CityDialogViewModel()
         self.diplomaticDialogViewModel = DiplomaticDialogViewModel()
         self.selectTradeCityDialogViewModel = SelectTradeCityDialogViewModel()
@@ -292,7 +300,7 @@ public class GameViewModel: ObservableObject {
         self.techDialogViewModel.delegate = self
         self.civicDialogViewModel.delegate = self
         self.cityNameDialogViewModel.delegate = self
-        self.unitDisbandConfirmationDialogViewModel.delegate = self
+        self.confirmationDialogViewModel.delegate = self
         self.cityDialogViewModel.delegate = self
         self.diplomaticDialogViewModel.delegate = self
         self.selectTradeCityDialogViewModel.delegate = self
@@ -1046,16 +1054,28 @@ extension GameViewModel: GameViewModelDelegate {
         self.gameSceneViewModel.foundCity(named: cityName)
     }
 
-    func showDisbandDialog(for unit: AbstractUnit?, completion: @escaping (Bool) -> Void) {
+    func showConfirmationDialog(
+        title: String,
+        question: String,
+        confirm: String,
+        cancel: String,
+        completion: @escaping (Bool) -> Void
+    ) {
 
-        if self.currentScreenType == .disbandConfirm {
+        if self.currentScreenType == .confirm {
             // already shown
             return
         }
 
         if self.currentScreenType == .none {
-            self.unitDisbandConfirmationDialogViewModel.update(with: unit, completion: completion)
-            self.currentScreenType = .disbandConfirm
+            self.confirmationDialogViewModel.update(
+                title: title,
+                question: question,
+                confirm: confirm,
+                cancel: cancel,
+                completion: completion
+            )
+            self.currentScreenType = .confirm
         } else {
             fatalError("cant show disband unit confirmation dialog, \(self.currentScreenType) is currently shown")
         }

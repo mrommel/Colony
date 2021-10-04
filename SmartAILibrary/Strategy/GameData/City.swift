@@ -1971,7 +1971,7 @@ public class City: AbstractCity {
                 }
             }
 
-            // +15% Civ6Production Production toward Ancient and Classical wonders.
+            // +15% Production toward Ancient and Classical wonders.
             if government.has(card: .corvee) {
                 if let wonderType = self.productionWonderType() {
                     if wonderType.era() == .ancient || wonderType.era() == .classical {
@@ -1980,28 +1980,28 @@ public class City: AbstractCity {
                 }
             }
 
-            // +30% Civ6Production Production toward Builders.
+            // +30% Production toward Builders.
             if government.has(card: .ilkum) {
                 if self.buildQueue.isCurrentlyTrainingUnit(of: .builder) {
                     modifierPercentage += 0.30
                 }
             }
 
-            // +50% Civ6Production Production toward Settlers.
+            // +50% Production toward Settlers.
             if government.has(card: .colonization) {
                 if self.buildQueue.isCurrentlyTrainingUnit(of: .settler) {
                     modifierPercentage += 0.50
                 }
             }
 
-            // +50% Civ6Production Production toward Ancient and Classical era heavy and light cavalry units.
+            // +50% Production toward Ancient and Classical era heavy and light cavalry units.
             if government.has(card: .maneuver) {
                 if self.buildQueue.isCurrentlyTrainingUnit(of: .heavyCavalry) || self.buildQueue.isCurrentlyTrainingUnit(of: .lightCavalry) {
                     modifierPercentage += 0.50
                 }
             }
 
-            // +100% Civ6Production Production toward Ancient and Classical era naval units.
+            // +100% Production toward Ancient and Classical era naval units.
             if government.has(card: .maritimeIndustries) {
                 if let unitType = self.productionUnitType() {
                     if unitType.unitClass() == .navalMelee && (unitType.era() == .ancient || unitType.era() == .classical) {
@@ -2010,7 +2010,7 @@ public class City: AbstractCity {
                 }
             }
 
-            // +50% Civ6Production Production toward Ancient and Classical era melee, ranged units and anti-cavalry units.
+            // +50% Production toward Ancient and Classical era melee, ranged units and anti-cavalry units.
             if government.has(card: .agoge) {
                 if let unitType = self.productionUnitType() {
                     if (unitType.unitClass() == .melee || unitType.unitClass() == .ranged || unitType.unitClass() == .antiCavalry) && (unitType.era() == .ancient || unitType.era() == .classical) {
@@ -2019,10 +2019,19 @@ public class City: AbstractCity {
                 }
             }
 
-            // Zoning Commissioner - +20% Production Production towards constructing Districts in the city.
+            // Zoning Commissioner - +20% Production towards constructing Districts in the city.
             if self.hasGovernorTitle(of: .zoningCommissioner) {
                 if self.buildQueue.isCurrentlyBuildingDistrict() {
                     modifierPercentage += 0.20
+                }
+            }
+
+            // Themistocles - +20% Production towards Naval Ranged promotion class.
+            if player.hasRetired(greatPerson: .themistocles) {
+                if let unitType = self.productionUnitType() {
+                    if unitType.unitClass() == .navalRanged {
+                        modifierPercentage += 0.20
+                    }
                 }
             }
 
@@ -2745,6 +2754,7 @@ public class City: AbstractCity {
 
         let unit = Unit(at: self.location, type: unitType, owner: self.player)
         unit.greatPerson = greatPerson
+        unit.changeBuildCharges(change: greatPerson.charges())
 
         gameModel?.add(unit: unit)
 

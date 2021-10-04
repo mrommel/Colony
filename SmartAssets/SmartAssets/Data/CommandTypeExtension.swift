@@ -32,7 +32,8 @@ extension CommandType {
         case .automateExploration: return "command-automateExploration"
         case .automateBuild: return "command-automateBuild"
         case .establishTradeRoute: return "command-establishTradeRoute"
-        case .foundReligion: return "command-button-foundReligion"
+        case .foundReligion: return "command-default"
+        case .activateGreatPerson: return "command-default"
 
         case .attack: return "command-attack"
         case .rangedAttack: return "command-ranged"
@@ -63,7 +64,8 @@ extension CommandType {
         case .automateExploration: return "command-button-automateExploration"
         case .automateBuild: return "command-button-automateBuild"
         case .establishTradeRoute: return "command-button-establishTradeRoute"
-        case .foundReligion: return "command-button-foundReligion" // generic
+        case .foundReligion: return "command-button-foundReligion"
+        case .activateGreatPerson: return "command-button-activateGreatPerson"
 
         case .attack: return "command-button-attack"
         case .rangedAttack: return "command-button-default" // generic

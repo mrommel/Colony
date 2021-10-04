@@ -124,7 +124,7 @@ public enum ScreenType {
     case cityList
 
     case selectPromotion
-    case disbandConfirm
+    case confirm
     case selectTradeCity
 
     case selectItems
@@ -184,7 +184,7 @@ public protocol UserInterfaceDelegate: AnyObject {
     func select(civic: CivicType)
 
     // todo - should not be part of the interface protocol
-    func askToDisband(unit: AbstractUnit?, completion: @escaping (Bool) -> Void)
+    func askForConfirmation(title: String, question: String, confirm: String, cancel: String, completion: @escaping (Bool) -> Void)
     func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?) -> Void)
     func askForSelection(title: String, items: [SelectableItem], completion: @escaping (Int) -> Void)
 

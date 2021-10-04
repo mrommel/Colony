@@ -238,6 +238,8 @@ public protocol AbstractPlayer: AnyObject, Codable {
     // great persons
     func canRecruitGreatPerson(in gameModel: GameModel?) -> Bool
     func recruit(greatPerson: GreatPerson, in gameModel: GameModel?)
+    func retire(greatPerson: GreatPerson)
+    func hasRetired(greatPerson: GreatPerson) -> Bool
 
     // distance / cities
     func cityDistancePathLength(of point: HexPoint, in gameModel: GameModel?) -> Int
@@ -1304,6 +1306,26 @@ public class Player: AbstractPlayer {
 
         return false
     }
+
+    public func retire(greatPerson: GreatPerson) {
+
+        guard let greatPeople = self.greatPeople else {
+            fatalError("cant get greatPeople")
+        }
+
+        greatPeople.retire(greatPerson: greatPerson)
+    }
+
+    public func hasRetired(greatPerson: GreatPerson) -> Bool {
+
+        guard let greatPeople = self.greatPeople else {
+            fatalError("cant get greatPeople")
+        }
+
+        return greatPeople.hasRetired(greatPerson: greatPerson)
+    }
+
+    // -------------------------------------
 
     // https://civilization.fandom.com/wiki/Age_(Civ6)
     func doProcessAge(in gameModel: GameModel?) {
@@ -2943,7 +2965,7 @@ public class Player: AbstractPlayer {
             }
 
             if loopWonders.has(wonder: .colossus) {
-                // +1 TradeRoute6 Trade Route capacity
+                // +1 Trade Route capacity
                 numberOfTradingCapacity += 1
             }
         }
@@ -2951,6 +2973,13 @@ public class Player: AbstractPlayer {
         if government.currentGovernment() == .merchantRepublic {
             numberOfTradingCapacity += 2
         }
+
+        if self.hasRetired(greatPerson: .zhangQian) {
+
+            // Increases Trade Route capacity by 1.
+            numberOfTradingCapacity += 1
+        }
+
 
         return numberOfTradingCapacity
     }

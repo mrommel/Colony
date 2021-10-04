@@ -216,8 +216,8 @@
 		C9F2B54F266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B54E266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift */; };
 		C9F2B55126695BAC0016D4F3 /* TooltipLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B55026695BAC0016D4F3 /* TooltipLayer.swift */; };
 		C9F2B55326695BD00016D4F3 /* TooltipNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B55226695BD00016D4F3 /* TooltipNode.swift */; };
-		C9F2B555266A58760016D4F3 /* UnitDisbandConfirmationDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B554266A58760016D4F3 /* UnitDisbandConfirmationDialogView.swift */; };
-		C9F2B557266A7FE20016D4F3 /* UnitDisbandConfirmationDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B556266A7FE20016D4F3 /* UnitDisbandConfirmationDialogViewModel.swift */; };
+		C9F2B555266A58760016D4F3 /* ConfirmationDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B554266A58760016D4F3 /* ConfirmationDialogView.swift */; };
+		C9F2B557266A7FE20016D4F3 /* ConfirmationDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B556266A7FE20016D4F3 /* ConfirmationDialogViewModel.swift */; };
 		C9F4939D26CAAE9600B0C259 /* UnitListDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F4939C26CAAE9600B0C259 /* UnitListDialogViewModel.swift */; };
 		C9F4939F26CAB04400B0C259 /* UnitListDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F4939E26CAB04400B0C259 /* UnitListDialogView.swift */; };
 		C9FBBE3C268356C4005D7CE6 /* DiplomaticDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FBBE3B268356C4005D7CE6 /* DiplomaticDialogViewModel.swift */; };
@@ -451,8 +451,8 @@
 		C9F2B54E266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicDiscoveredPopupViewModel.swift; sourceTree = "<group>"; };
 		C9F2B55026695BAC0016D4F3 /* TooltipLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipLayer.swift; sourceTree = "<group>"; };
 		C9F2B55226695BD00016D4F3 /* TooltipNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipNode.swift; sourceTree = "<group>"; };
-		C9F2B554266A58760016D4F3 /* UnitDisbandConfirmationDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitDisbandConfirmationDialogView.swift; sourceTree = "<group>"; };
-		C9F2B556266A7FE20016D4F3 /* UnitDisbandConfirmationDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitDisbandConfirmationDialogViewModel.swift; sourceTree = "<group>"; };
+		C9F2B554266A58760016D4F3 /* ConfirmationDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationDialogView.swift; sourceTree = "<group>"; };
+		C9F2B556266A7FE20016D4F3 /* ConfirmationDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationDialogViewModel.swift; sourceTree = "<group>"; };
 		C9F4939C26CAAE9600B0C259 /* UnitListDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitListDialogViewModel.swift; sourceTree = "<group>"; };
 		C9F4939E26CAB04400B0C259 /* UnitListDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitListDialogView.swift; sourceTree = "<group>"; };
 		C9FBBE3B268356C4005D7CE6 /* DiplomaticDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticDialogViewModel.swift; sourceTree = "<group>"; };
@@ -533,7 +533,7 @@
 				C974E44026BD14AF004DD34F /* DiplomaticDialogView.swift */,
 				C9A48D482653EC3A00260EE0 /* CityNameDialogView.swift */,
 				C9A48D4C2653FAA600260EE0 /* CityDialogView.swift */,
-				C9F2B554266A58760016D4F3 /* UnitDisbandConfirmationDialogView.swift */,
+				C9F2B554266A58760016D4F3 /* ConfirmationDialogView.swift */,
 				C9B60BED269DC61100F10177 /* SelectPantheonDialogView.swift */,
 				C94816BE26A82D4E00765029 /* SelectTradeCityDialogView.swift */,
 				C9F4939E26CAB04400B0C259 /* UnitListDialogView.swift */,
@@ -761,7 +761,7 @@
 				C9E87BB6264D1DC500514B9A /* CivicDialogViewModel.swift */,
 				C9A48D462653EB6100260EE0 /* CityNameDialogViewModel.swift */,
 				C9A48D4A2653F8C100260EE0 /* CityDialogViewModel.swift */,
-				C9F2B556266A7FE20016D4F3 /* UnitDisbandConfirmationDialogViewModel.swift */,
+				C9F2B556266A7FE20016D4F3 /* ConfirmationDialogViewModel.swift */,
 				C9FBBE3B268356C4005D7CE6 /* DiplomaticDialogViewModel.swift */,
 				C9B60BEF269DC68800F10177 /* SelectPantheonDialogViewModel.swift */,
 				C94816BA26A824C400765029 /* SelectTradeCityDialogViewModel.swift */,
@@ -1117,7 +1117,7 @@
 				C92F9487265E2298000968AB /* HexagonView.swift in Sources */,
 				C94816BB26A824C400765029 /* SelectTradeCityDialogViewModel.swift in Sources */,
 				C9D5D25526F9B92800009817 /* GovernorAbilityView.swift in Sources */,
-				C9F2B555266A58760016D4F3 /* UnitDisbandConfirmationDialogView.swift in Sources */,
+				C9F2B555266A58760016D4F3 /* ConfirmationDialogView.swift in Sources */,
 				C9A48D362653004100260EE0 /* HeaderView.swift in Sources */,
 				C9D191B9265C24EA008C9622 /* CitizenReligionView.swift in Sources */,
 				C9E0598A2655209C00C08463 /* BuildingViewModel.swift in Sources */,
@@ -1210,7 +1210,7 @@
 				C984642C26F49B3300C40EA7 /* GovernorViewModel.swift in Sources */,
 				C9CAC89B264ABC6D00D0668D /* ChangeGovernmentDialogViewModel.swift in Sources */,
 				C968F2A52639E5C800612D0E /* UnitStrengthIndicator.swift in Sources */,
-				C9F2B557266A7FE20016D4F3 /* UnitDisbandConfirmationDialogViewModel.swift in Sources */,
+				C9F2B557266A7FE20016D4F3 /* ConfirmationDialogViewModel.swift in Sources */,
 				C9E87BA9264D17CC00514B9A /* TechView.swift in Sources */,
 				C9F2B55126695BAC0016D4F3 /* TooltipLayer.swift in Sources */,
 				C9A37613263456E30057923E /* BaseScene.swift in Sources */,

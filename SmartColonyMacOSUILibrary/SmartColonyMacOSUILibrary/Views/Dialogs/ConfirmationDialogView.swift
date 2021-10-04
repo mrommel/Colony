@@ -1,5 +1,5 @@
 //
-//  ComfirmUnitDisbandDialogView.swift
+//  ConfirmationDialogView.swift
 //  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 04.06.21.
@@ -8,12 +8,12 @@
 import SwiftUI
 import SmartAILibrary
 
-struct UnitDisbandConfirmationDialogView: View {
+struct ConfirmationDialogView: View {
 
     @ObservedObject
-    var viewModel: UnitDisbandConfirmationDialogViewModel
+    var viewModel: ConfirmationDialogViewModel
 
-    public init(viewModel: UnitDisbandConfirmationDialogViewModel) {
+    public init(viewModel: ConfirmationDialogViewModel) {
 
         self.viewModel = viewModel
     }
@@ -22,29 +22,27 @@ struct UnitDisbandConfirmationDialogView: View {
 
         Group {
             VStack(spacing: 10) {
-                Text("Disband Unit?")
+                Text(self.viewModel.title)
                     .font(.title2)
                     .bold()
                     .padding()
 
-                Text(self.viewModel.question) +
-                    Text(self.viewModel.unitName) +
-                    Text(" ?")
+                Text(self.viewModel.question)
 
                 HStack(alignment: .center, spacing: 0) {
 
                     Button(action: {
                         self.viewModel.closeDialog()
                     }, label: {
-                        Text("Cancel")
+                        Text(self.viewModel.cancelText)
                     })
 
                     Spacer()
 
                     Button(action: {
-                        self.viewModel.closeDialogAndDisband()
+                        self.viewModel.closeDialogAndComfirm()
                     }, label: {
-                        Text("Disband")
+                        Text(self.viewModel.okayText)
                     })
                 }
             }
@@ -58,15 +56,19 @@ struct UnitDisbandConfirmationDialogView: View {
 }
 
 #if DEBUG
-struct UnitDisbandConfirmationDialogView_Previews: PreviewProvider {
+struct ConfirmationDialogView_Previews: PreviewProvider {
 
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        let unit = Unit(at: HexPoint.zero, type: .archer, owner: nil)
-        let viewModel = UnitDisbandConfirmationDialogViewModel(unit: unit)
 
-        UnitDisbandConfirmationDialogView(viewModel: viewModel)
+        let viewModel = ConfirmationDialogViewModel(
+            title: "Confirm",
+            question: "Do you agree?",
+            confirm: "Confirm",
+            cancel: "Cancel"
+        )
+        ConfirmationDialogView(viewModel: viewModel)
     }
 }
 #endif

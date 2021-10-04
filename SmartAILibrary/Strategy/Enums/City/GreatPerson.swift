@@ -167,12 +167,25 @@ public enum GreatPerson: String, Codable {
         }
     }
 
-    struct GreatPersonData {
+    func charges() -> Int {
+
+        return self.data().charges
+    }
+
+    func works() -> [GreatWork] {
+
+        return self.data().works
+    }
+
+    // MARK: private types
+
+    private struct GreatPersonData {
 
         let name: String
         let type: GreatPersonType
         let era: EraType
         let bonus: String
+        let charges: Int
         let works: [GreatWork]
     }
 
@@ -188,6 +201,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatGeneral,
                                    era: .classical,
                                    bonus: "",
+                                   charges: 0,
                                    works: [])
 
             // ---------------------
@@ -197,24 +211,28 @@ public enum GreatPerson: String, Codable {
                                    type: .greatGeneral,
                                    era: .classical,
                                    bonus: "Convert adjacent barbarian units.",
+                                   charges: 1,
                                    works: [])
         case .hannibalBarca:
             return GreatPersonData(name: "Hannibal Barca",
                                    type: .greatGeneral,
                                    era: .classical,
                                    bonus: "Grants 1 promotion level to a military land unit.",
+                                   charges: 1,
                                    works: [])
         case .sunTzu:
             return GreatPersonData(name: "Sun Tzu",
                                    type: .greatGeneral,
                                    era: .classical,
-                                   bonus: "Creates the Art of War Great Work of Writing (+2 Civ6Culture Culture, +2 Tourism6 Tourism).",
+                                   bonus: "Creates the Art of War Great Work of Writing (+2 Culture, +2 Tourism).",
+                                   charges: 1,
                                    works: [.artOfWar])
         case .aethelflaed:
             return GreatPersonData(name: "Æthelflæd",
                                    type: .greatGeneral,
                                    era: .medieval,
                                    bonus: "Instantly creates a Knight unit. Grants +2 Loyalty per turn for this city.",
+                                   charges: 1,
                                    works: [])
         case .elCid:
             // https://civilization.fandom.com/wiki/El_Cid_(Civ6)
@@ -222,6 +240,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatGeneral,
                                    era: .medieval,
                                    bonus: "Forms a Corps out of a military land unit.",
+                                   charges: 1,
                                    works: [])
 
             // ---------------------
@@ -232,6 +251,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatAdmiral,
                                    era: .classical,
                                    bonus: "Grants 1 promotion level to a military naval unit.",
+                                   charges: 1,
                                    works: [])
         case .gaiusDuilius:
             // https://civilization.fandom.com/wiki/Gaius_Duilius_(Civ6)
@@ -239,6 +259,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatAdmiral,
                                    era: .classical,
                                    bonus: "Forms a Fleet out of a military naval unit.",
+                                   charges: 1,
                                    works: [])
         case .themistocles:
             // https://civilization.fandom.com/wiki/Themistocles_(Civ6)
@@ -246,6 +267,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatAdmiral,
                                    era: .classical,
                                    bonus: "Instantly creates a Quadrireme unit. Grants +2 Loyalty per turn for this city.",
+                                   charges: 1,
                                    works: [])
         case .leifErikson:
             // https://civilization.fandom.com/wiki/Leif_Erikson_(Civ6)
@@ -253,13 +275,15 @@ public enum GreatPerson: String, Codable {
                                    type: .greatAdmiral,
                                    era: .medieval,
                                    bonus: "Allows all naval units to move over ocean tiles without the required technology.",
+                                   charges: 1,
                                    works: [])
         case .rajendraChola:
             // https://civilization.fandom.com/wiki/Rajendra_Chola_(Civ6)
             return GreatPersonData(name: "Rajendra Chola",
                                    type: .greatAdmiral,
                                    era: .medieval,
-                                   bonus: "Gain 50 Civ6Gold Gold. Military units get +40% rewards to looting.",
+                                   bonus: "Gain 50 Gold. Military units get +40% rewards to looting.",
+                                   charges: 1,
                                    works: [])
 
             // ---------------------
@@ -270,34 +294,39 @@ public enum GreatPerson: String, Codable {
                                    type: .greatEngineer,
                                    era: .medieval,
                                    bonus: "Lets this city build one more district than the population limit allows. Triggers the Eureka moment for Printing technology.",
+                                   charges: 1,
                                    works: [])
         case .isidoreOfMiletus:
             // https://civilization.fandom.com/wiki/Isidore_of_Miletus_(Civ6)
             return GreatPersonData(name: "Isidore of Miletus",
                                    type: .greatEngineer,
                                    era: .medieval,
-                                   bonus: "Grants 215 Civ6Production Production towards wonder construction at standard speed. (2 charges)",
+                                   bonus: "Grants 215 Production towards wonder construction at standard speed. (2 charges)",
+                                   charges: 2,
                                    works: [])
         case .jamesOfStGeorge:
             // https://civilization.fandom.com/wiki/James_of_St._George_(Civ6)
             return GreatPersonData(name: "James of St. George",
                                    type: .greatEngineer,
                                    era: .medieval,
-                                   bonus: "Instantly builds Ancient and Medieval Walls in this city, and provides enough Civ6Gold Gold per turn to pay maintenance. (3 charges)",
+                                   bonus: "Instantly builds Ancient and Medieval Walls in this city, and provides enough Gold per turn to pay maintenance. (3 charges)",
+                                   charges: 3,
                                    works: [])
         case .filippoBrunelleschi:
             // https://civilization.fandom.com/wiki/Filippo_Brunelleschi_(Civ6)
             return GreatPersonData(name: "Filippo Brunelleschi",
                                    type: .greatEngineer,
                                    era: .renaissance,
-                                   bonus: "Grants 315 Civ6Production Production towards wonder construction. (2 charges)",
+                                   bonus: "Grants 315 Production towards wonder construction. (2 charges)",
+                                   charges: 2,
                                    works: [])
         case .leonardoDaVinci:
             // https://civilization.fandom.com/wiki/Leonardo_da_Vinci_(Civ6)
             return GreatPersonData(name: "Leonardo da Vinci",
                                    type: .greatEngineer,
                                    era: .renaissance,
-                                   bonus: "Triggers the Eureka moment for one random technology of the Modern era. Workshops provide +1 Civ6Culture Culture.",
+                                   bonus: "Triggers the Eureka moment for one random technology of the Modern era. Workshops provide +1  Culture.",
+                                   charges: 1,
                                    works: [])
 
             // ---------------------
@@ -307,35 +336,40 @@ public enum GreatPerson: String, Codable {
             return GreatPersonData(name: "Colaeus",
                                    type: .greatMerchant,
                                    era: .classical,
-                                   bonus: "Gain 100 Civ6Faith Faith. Grants 1 free copy of the Luxury resource on this tile to your Capital6 Capital city.",
+                                   bonus: "Gain 100 Faith. Grants 1 free copy of the Luxury resource on this tile to your Capital city.",
+                                   charges: 1,
                                    works: [])
         case .marcusLiciniusCrassus:
             // https://civilization.fandom.com/wiki/Marcus_Licinius_Crassus_(Civ6)
             return GreatPersonData(name: "Marcus Licinius Crassus",
                                    type: .greatMerchant,
                                    era: .classical,
-                                   bonus: "Gain 60 Civ6Gold Gold. Your nearest city annexes this tile into its territory. (3 charges)",
+                                   bonus: "Gain 60 Gold. Your nearest city annexes this tile into its territory. (3 charges)",
+                                   charges: 3,
                                    works: [])
         case .zhangQian:
             // https://civilization.fandom.com/wiki/Zhang_Qian_(Civ6)
             return GreatPersonData(name: "Zhang Qian",
                                    type: .greatMerchant,
                                    era: .classical,
-                                   bonus: "Increases TradeRoute6 Trade Route capacity by 1. Foreign TradeRoute6 Trade Routes to this city provide +2 Civ6Gold Gold to both cities.",
+                                   bonus: "Increases Trade Route capacity by 1. Foreign Trade Routes to this city provide +2 Gold to both cities.",
+                                   charges: 1,
                                    works: [])
         case .ireneOfAthens:
             // https://civilization.fandom.com/wiki/Irene_of_Athens_(Civ6)
             return GreatPersonData(name: "Irene of Athens",
                                    type: .greatMerchant,
                                    era: .medieval,
-                                   bonus: "Increase TradeRoute6 Trade Route capacity by 1. Grants 1 free copy of the Luxury resource on this tile to your Capital6 Capital city. Grants 1 Governor6 Governor Title or recruit a new Governor.",
+                                   bonus: "Increase Trade Route capacity by 1. Grants 1 free copy of the Luxury resource on this tile to your  Capital city. Grants 1 Governor Title or recruit a new Governor.",
+                                   charges: 1,
                                    works: [])
         case .marcoPolo:
             // https://civilization.fandom.com/wiki/Marco_Polo_(Civ6)
             return GreatPersonData(name: "Marco Polo",
                                    type: .greatMerchant,
                                    era: .medieval,
-                                   bonus: "Grants a free Trader unit in this city, and increases TradeRoute6 Trade Route capacity by 1. Foreign TradeRoute6 Trade Routes to this city provides +2 Civ6Gold Gold to both cities.",
+                                   bonus: "Grants a free Trader unit in this city, and increases Trade Route capacity by 1. Foreign Trade Routes to this city provides +2 Gold to both cities.",
+                                   charges: 1,
                                    works: [])
 
             // ---------------------
@@ -346,6 +380,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatProphet,
                                    era: .classical,
                                    bonus: "",
+                                   charges: 1,
                                    works: [])
         case .johnTheBaptist:
             //
@@ -353,6 +388,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatProphet,
                                    era: .classical,
                                    bonus: "",
+                                   charges: 1,
                                    works: [])
         case .laozi:
             // https://civilization.fandom.com/wiki/Laozi_(Civ6)
@@ -360,6 +396,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatProphet,
                                    era: .classical,
                                    bonus: "",
+                                   charges: 1,
                                    works: [])
         case .siddharthaGautama:
             // https://civilization.fandom.com/wiki/Siddhartha_Gautama_(Civ6)
@@ -367,6 +404,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatProphet,
                                    era: .classical,
                                    bonus: "",
+                                   charges: 1,
                                    works: [])
         case .simonPeter:
             // https://civilization.fandom.com/wiki/Simon_Peter_(Civ6)
@@ -374,6 +412,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatProphet,
                                    era: .classical,
                                    bonus: "",
+                                   charges: 1,
                                    works: [])
         case .zoroaster:
             // https://civilization.fandom.com/wiki/Zoroaster_(Civ6)
@@ -381,6 +420,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatProphet,
                                    era: .classical,
                                    bonus: "",
+                                   charges: 1,
                                    works: [])
         case .adiShankara:
             // https://civilization.fandom.com/wiki/Adi_Shankara_(Civ6)
@@ -388,6 +428,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatProphet,
                                    era: .medieval,
                                    bonus: "",
+                                   charges: 1,
                                    works: [])
         case .bodhidharma:
             // https://civilization.fandom.com/wiki/Bodhidharma_(Civ6)
@@ -395,6 +436,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatProphet,
                                    era: .medieval,
                                    bonus: "",
+                                   charges: 1,
                                    works: [])
         case .irenaeus:
             // https://civilization.fandom.com/wiki/Irenaeus_(Civ6)
@@ -402,6 +444,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatProphet,
                                    era: .medieval,
                                    bonus: "",
+                                   charges: 1,
                                    works: [])
         case .oNoYasumaro:
             // https://civilization.fandom.com/wiki/O_No_Yasumaro_(Civ6)
@@ -409,6 +452,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatProphet,
                                    era: .medieval,
                                    bonus: "",
+                                   charges: 1,
                                    works: [])
         case .songtsanGampo:
             // https://civilization.fandom.com/wiki/Songtsan_Gampo_(Civ6)
@@ -416,6 +460,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatProphet,
                                    era: .medieval,
                                    bonus: "",
+                                   charges: 1,
                                    works: [])
 
             // ---------------------
@@ -425,42 +470,48 @@ public enum GreatPerson: String, Codable {
             return GreatPersonData(name: "Aryabhata",
                                    type: .greatScientist,
                                    era: .classical,
-                                   bonus: "Triggers the Eureka6 Eureka moment for three random technologies from the Classical or Medieval era.",
+                                   bonus: "Triggers the Eureka moment for three random technologies from the Classical or Medieval era.",
+                                   charges: 1,
                                    works: [])
         case .euclid:
             // https://civilization.fandom.com/wiki/Euclid_(Civ6)
             return GreatPersonData(name: "Euclid",
                                    type: .greatScientist,
                                    era: .classical,
-                                   bonus: "Triggers the Eureka6 Eureka moment for Mathematics and one random technology from the Medieval era.",
+                                   bonus: "Triggers the Eureka moment for Mathematics and one random technology from the Medieval era.",
+                                   charges: 1,
                                    works: [])
         case .hypatia:
             // https://civilization.fandom.com/wiki/Hypatia_(Civ6)
             return GreatPersonData(name: "Hypatia",
                                    type: .greatScientist,
                                    era: .classical,
-                                   bonus: "Libraries provide +1 Civ6Science Science. Instantly builds a Library in this district.",
+                                   bonus: "Libraries provide +1 Science. Instantly builds a Library in this district.",
+                                   charges: 1,
                                    works: [])
         case .abuAlQasimAlZahrawi:
             // https://civilization.fandom.com/wiki/Abu_Al-Qasim_Al-Zahrawi_(Civ6)
             return GreatPersonData(name: "Abu Al-Qasim Al-Zahrawi",
                                    type: .greatScientist,
                                    era: .medieval,
-                                   bonus: "Abu Al-Qasim Al-Zahrawi",
+                                   bonus: "Active: Triggers the Eureka for one random Medieval or Renaissance era technology. Wounded units can heal +5 HP per turn. Passive: +20 HP Healing for all units within one tile.",
+                                   charges: 1,
                                    works: [])
         case .hildegardOfBingen:
             // https://civilization.fandom.com/wiki/Hildegard_of_Bingen_(Civ6)
             return GreatPersonData(name: "Hildegard of Bingen",
                                    type: .greatScientist,
                                    era: .medieval,
-                                   bonus: "Gain 100 Civ6Faith Faith. This Holy Site's adjacency bonuses gain an additional Civ6Science Science bonus.",
+                                   bonus: "Gain 100 Faith. This Holy Site's adjacency bonuses gain an additional Science bonus.",
+                                   charges: 1,
                                    works: [])
         case .omarKhayyam:
             // https://civilization.fandom.com/wiki/Omar_Khayyam_(Civ6)
             return GreatPersonData(name: "Omar Khayyam",
                                    type: .greatScientist,
                                    era: .medieval,
-                                   bonus: "Triggers the Eureka6 Eureka moment for two technologies and the Inspiration for one Civic from the Medieval or Renaissance era.",
+                                   bonus: "Triggers the Eureka moment for two technologies and the Inspiration for one Civic from the Medieval or Renaissance era.",
+                                   charges: 1,
                                    works: [])
 
             // ---------------------
@@ -471,6 +522,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatWriter,
                                    era: .classical,
                                    bonus: "Activate on an appropriate tile to create a Great Work",
+                                   charges: 2,
                                    works: [.iliad, .odyssey])
         case .bhasa:
             // https://civilization.fandom.com/wiki/Bhasa_(Civ6)
@@ -478,6 +530,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatWriter,
                                    era: .classical,
                                    bonus: "Activate on an appropriate tile to create a Great Work",
+                                   charges: 2,
                                    works: [.theMadhyamaVyayoga, .pratimaNataka])
         case .quYuan:
             // https://civilization.fandom.com/wiki/Qu_Yuan_(Civ6)
@@ -485,6 +538,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatWriter,
                                    era: .classical,
                                    bonus: "Activate on an appropriate tile to create a Great Work",
+                                   charges: 2,
                                    works: [.chuCi, .lamentForYing])
         case .ovid:
             // https://civilization.fandom.com/wiki/Ovid_(Civ6)
@@ -492,6 +546,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatWriter,
                                    era: .classical,
                                    bonus: "Activate on an appropriate tile to create a Great Work",
+                                   charges: 2,
                                    works: [.metamorphoses, .heroides])
         case .geoffreyChaucer:
             // https://civilization.fandom.com/wiki/Geoffrey_Chaucer_(Civ6)
@@ -499,6 +554,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatWriter,
                                    era: .medieval,
                                    bonus: "Activate on an appropriate tile to create a Great Work",
+                                   charges: 2,
                                    works: [.theCanterburyTales, .troilusAndCriseyde])
         case .liBai:
             // https://civilization.fandom.com/wiki/Li_Bai_(Civ6)
@@ -506,6 +562,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatWriter,
                                    era: .medieval,
                                    bonus: "Activate on an appropriate tile to create a Great Work",
+                                   charges: 2,
                                    works: [.drinkingAloneByMoonlight, .inTheMountainsOnASummerDay])
         case .murasakiShikibu:
             // https://civilization.fandom.com/wiki/Murasaki_Shikibu_(Civ6)
@@ -513,6 +570,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatWriter,
                                    era: .medieval,
                                    bonus: "Activate on an appropriate tile to create a Great Work",
+                                   charges: 2,
                                    works: [.theDiaryOfLadyMurasaki, .theTaleOfGenji])
 
             // ---------------------
@@ -523,6 +581,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatArtist,
                                    era: .renaissance,
                                    bonus: "Activate on an appropriate tile to create a Great Work",
+                                   charges: 3,
                                    works: [.annunciation, .saviourInGlory, .ascension])
         case .michelangelo:
             // https://civilization.fandom.com/wiki/Michelangelo_(Civ6)
@@ -530,6 +589,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatArtist,
                                    era: .renaissance,
                                    bonus: "Activate on an appropriate tile to create a Great Work",
+                                   charges: 3,
                                    works: [.sistineChapelCeiling, .pieta, .david])
         case .donatello:
             // https://civilization.fandom.com/wiki/Donatello_(Civ6)
@@ -537,6 +597,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatArtist,
                                    era: .renaissance,
                                    bonus: "Activate on an appropriate tile to create a Great Work",
+                                   charges: 3,
                                    works: [.saintMark, .gattamelata, .judithSlayingHolofernes])
         case .hieronymusBosch:
             // https://civilization.fandom.com/wiki/Hieronymus_Bosch_(Civ6)
@@ -544,6 +605,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatArtist,
                                    era: .renaissance,
                                    bonus: "Activate on an appropriate tile to create a Great Work",
+                                   charges: 3,
                                    works: [.theGardenOfEarthlyDelights, .theLastJudgement, .theHaywainTriptych])
 
             // ---------------------
@@ -554,6 +616,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatMusician,
                                    era: .industrial,
                                    bonus: "Activate on an appropriate tile to create a Great Work",
+                                   charges: 2,
                                    works: [.odeToJoySymphony9, .symphony3EroicaSymphonyMvt1])
         case .johannSebastianBach:
             // https://civilization.fandom.com/wiki/Johann_Sebastian_Bach_(Civ6)
@@ -561,6 +624,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatMusician,
                                    era: .industrial,
                                    bonus: "Activate on an appropriate tile to create a Great Work",
+                                   charges: 2,
                                    works: [.littleFugueInGMinor, .celloSuiteNo1])
         case .yatsuhashiKengyo:
             // https://civilization.fandom.com/wiki/Yatsuhashi_Kengyo_(Civ6)
@@ -568,6 +632,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatMusician,
                                    era: .industrial,
                                    bonus: "Activate on an appropriate tile to create a Great Work",
+                                   charges: 2,
                                    works: [.rokudanNoShirabe, .hachidanNoShirabe])
         case .antonioVivaldi:
             // https://civilization.fandom.com/wiki/Antonio_Vivaldi_(Civ6)
@@ -575,6 +640,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatMusician,
                                    era: .industrial,
                                    bonus: "Activate on an appropriate tile to create a Great Work",
+                                   charges: 2,
                                    works: [.fourSeasonsWinter, .laNotteConcerto])
         case .wolfgangAmadeusMozart:
             // https://civilization.fandom.com/wiki/Wolfgang_Amadeus_Mozart_(Civ6)
@@ -582,6 +648,7 @@ public enum GreatPerson: String, Codable {
                                    type: .greatMusician,
                                    era: .industrial,
                                    bonus: "Activate on an appropriate tile to create a Great Work",
+                                   charges: 2,
                                    works: [.eineKleineNachtmusik, .symphony40Mvt1])
         }
     }

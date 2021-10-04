@@ -960,6 +960,11 @@ open class GameModel: Codable {
         return self.map.units(of: player, at: point)
     }
 
+    public func units(of player: AbstractPlayer, in area: HexArea) -> [AbstractUnit?] {
+
+        return self.map.units(of: player, in: area)
+    }
+
     public func unit(at point: HexPoint, of mapType: UnitMapType) -> AbstractUnit? {
 
         return self.map.unit(at: point, of: mapType)

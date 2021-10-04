@@ -42,6 +42,9 @@ extension UnitType {
         case .heavyChariot: return "unit-portrait-default" // default
         case .galley: return "unit-portrait-galley"
 
+            // classical
+        case .quadrireme: return "unit-portrait-default"
+
             // industial
         case .medic: return "unit-portrait-default"
 
@@ -82,6 +85,9 @@ extension UnitType {
         case .heavyChariot: return "unit-type-template-heavyChariot"
         case .galley: return "unit-type-template-galley"
 
+            // classical
+        case .quadrireme: return "unit-type-template-default"
+
             // industrial
         case .medic: return "unit-type-template-medic"
 
@@ -121,6 +127,9 @@ extension UnitType {
         case .spearman: return "unit-type-spearman"
         case .heavyChariot: return "unit-type-heavyChariot"
         case .galley: return "unit-type-galley"
+
+            // classical
+        case .quadrireme: return "unit-type-default"
 
             // industrial
         case .medic: return "unit-type-medic"
@@ -234,6 +243,10 @@ extension UnitType {
 
         case .galley:
             return ObjectTextureAtlas(template: "galley-idle-", range: 0..<3)
+
+            // classical
+        case .quadrireme:
+
 
             // industrial
         case .medic: return nil

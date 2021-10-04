@@ -115,6 +115,12 @@ public class TradeRoute: Codable {
         } else {
 
             yields += endDistricts.foreignTradeYields()
+
+            if startPlayer.hasRetired(greatPerson: .zhangQian) {
+
+                // Foreign Trade Routes to this city provide +2 Gold to both cities.
+                yields.gold += 2.0
+            }
         }
 
         if startPlayerGovernment.has(card: .caravansaries) {
@@ -125,7 +131,7 @@ public class TradeRoute: Codable {
         yields.gold += Double(self.posts.count)
 
         if startPlayer.leader.civilization().ability() == .allRoadsLeadToRome {
-            //  TradeRoute6 Trade Routes generate +1 additional Civ6Gold Gold from Roman Trading Posts they pass through.
+            //  Trade Routes generate +1 additional Gold from Roman Trading Posts they pass through.
             yields.gold += Double(self.posts.count)
         }
 
