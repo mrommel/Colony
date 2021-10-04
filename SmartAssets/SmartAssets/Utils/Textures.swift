@@ -70,6 +70,8 @@ public class Textures {
     public let leaderTypeTextureNames: [String]
     public let civilizationTypeTextureNames: [String]
     public let pantheonTypeTextureNames: [String]
+    public let religionTypeTextureNames: [String]
+    public let beliefTypeTextureNames: [String]
     public let promotionTextureNames: [String]
     public let promotionStateBackgroundTextureNames: [String]
     public let governorPortraitTextureNames: [String]
@@ -219,6 +221,8 @@ public class Textures {
         self.leaderTypeTextureNames = LeaderType.all.map { $0.iconTexture() }  + ["leader-random"]
         self.civilizationTypeTextureNames = CivilizationType.all.map { $0.iconTexture() }
         self.pantheonTypeTextureNames = PantheonType.all.map { $0.iconTexture() }
+        self.religionTypeTextureNames = ReligionType.all.map { $0.iconTexture() }
+        self.beliefTypeTextureNames = BeliefMainType.all.map { $0.iconTexture() }
         self.promotionTextureNames = UnitPromotionType.all.map { $0.iconTexture() }
         self.promotionStateBackgroundTextureNames = PromotionState.all.map { $0.iconTexture() }
         self.governorPortraitTextureNames = GovernorType.all.map { $0.portraitTexture() }

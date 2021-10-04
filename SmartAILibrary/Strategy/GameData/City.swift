@@ -182,7 +182,7 @@ public protocol AbstractCity: AnyObject, Codable {
     @discardableResult
     func doBuyPlot(at point: HexPoint, in gameModel: GameModel?) -> Bool
     func numPlotsAcquired(by otherPlayer: AbstractPlayer?) -> Int
-    func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Double
+    func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Int?
     func buyPlotScore(in gameModel: GameModel?) -> (Int, HexPoint)
     func changeNumPlotsAcquiredBy(otherPlayer: AbstractPlayer?, change: Int)
     func countNumImprovedPlots(in gameModel: GameModel?) -> Int
@@ -3336,7 +3336,10 @@ public class City: AbstractCity {
             return false
         }
 
-        let cost: Double = Double(self.buyPlotCost(at: point, in: gameModel))
+        guard let costValue = self.buyPlotCost(at: point, in: gameModel) else {
+            return false
+        }
+        let cost: Double = Double(costValue)
 
         player.treasury?.changeGold(by: -cost)
         player.changeNumPlotsBought(change: 1)
@@ -3359,7 +3362,7 @@ public class City: AbstractCity {
     }
 
     /// How much will purchasing this plot cost -- (-1,-1) will return the generic price
-    public func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Double {
+    public func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Int? {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -3374,11 +3377,12 @@ public class City: AbstractCity {
         }
 
         if point.x == -1 && point.y == -1 {
-            return Double(player.buyPlotCost())
+            //return Double(player.buyPlotCost())
+            fatalError("Why is this?")
         }
 
         guard let tile = gameModel.tile(at: point) else {
-            return -1
+            return nil
         }
 
         // Base cost
@@ -3393,7 +3397,7 @@ public class City: AbstractCity {
 
         // Critical hit!
         if point.distance(to: self.location) > City.workRadius {
-            return 9999
+            return nil
         }
 
         // Reduce distance by the cheapest available (so that the costs don't ramp up ridiculously fast)
@@ -3429,7 +3433,7 @@ public class City: AbstractCity {
             cost /= 5
         }
 
-        return Double(cost)
+        return cost
     }
 
     /// What is the cheapest plot we can get
@@ -3815,7 +3819,11 @@ public class City: AbstractCity {
                 fatalError("cant get treasury")
             }
 
-            if treasury.value() < self.buyPlotCost(at: point, in: gameModel) {
+            guard let cost = self.buyPlotCost(at: point, in: gameModel) else {
+                fatalError("cant get tile buy cost")
+            }
+
+            if treasury.value() < Double(cost) {
                 return false
             }
         }
@@ -3945,14 +3953,16 @@ public class City: AbstractCity {
         }
 
         // Modify value based on cost - the higher it is compared to the "base" cost the less the value
-        let cost = self.buyPlotCost(at: tile.point, in: gameModel)
-        rtnValue *= player.buyPlotCost()
+        if let cost = self.buyPlotCost(at: tile.point, in: gameModel) {
 
-        // Protect against div by 0.
-        if cost != 0 {
-            rtnValue /= Int(cost)
-        } else {
-            rtnValue = 0
+            rtnValue *= player.buyPlotCost()
+
+            // Protect against div by 0.
+            if cost != 0 {
+                rtnValue /= cost
+            } else {
+                rtnValue = 0
+            }
         }
 
         return rtnValue

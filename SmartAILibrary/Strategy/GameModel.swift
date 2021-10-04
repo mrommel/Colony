@@ -1623,6 +1623,15 @@ open class GameModel: Codable {
 
         return self.maxActiveReligions() - self.numReligionFounded()
     }
+
+    public func availableReligions() -> [ReligionType] {
+
+        guard let religions = self.religionsVal else {
+            fatalError("cant get religions")
+        }
+
+        return religions.availableReligions(in: self)
+    }
 }
 
 extension GameModel {

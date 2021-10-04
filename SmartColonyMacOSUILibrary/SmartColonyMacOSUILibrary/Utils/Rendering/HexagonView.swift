@@ -31,37 +31,33 @@ struct HexagonView: View {
                     .fill(Color(self.viewModel.tileColor))
                     .scaleEffect(CGSize(width: 1.0, height: 0.75))
 
-                //if self.viewModel.showMountains() {
-                    Image(nsImage: self.viewModel.mountainsImage)
-                        .resizable()
-                        .frame(width: height, height: height, alignment: .center)
-                //}
+                Image(nsImage: self.viewModel.mountainsImage)
+                    .resizable()
+                    .frame(width: height, height: height, alignment: .center)
 
-                //if self.viewModel.showHills() {
-                    Image(nsImage: self.viewModel.hillsImage)
-                        .resizable()
-                        .frame(width: height, height: height, alignment: .center)
-                //}
+                Image(nsImage: self.viewModel.hillsImage)
+                    .resizable()
+                    .frame(width: height, height: height, alignment: .center)
 
-                //if self.viewModel.showForest() {
-                    Image(nsImage: self.viewModel.forestImage)
-                        .resizable()
-                        .frame(width: height, height: height, alignment: .center)
-                //}
+                Image(nsImage: self.viewModel.forestImage)
+                    .resizable()
+                    .frame(width: height, height: height, alignment: .center)
 
-                //if self.viewModel.showCity() {
-                    Image(nsImage: self.viewModel.cityImage)
-                        .resizable()
-                        .frame(width: height, height: height, alignment: .center)
-                //}
+                Image(nsImage: self.viewModel.cityImage)
+                    .resizable()
+                    .frame(width: height, height: height, alignment: .center)
 
-                //if self.viewModel.showCitizenIcons {
-                    Image(nsImage: self.viewModel.actionImage)
-                        .resizable()
-                        .frame(width: height, height: height, alignment: .center)
-                //}
+                Image(nsImage: self.viewModel.actionImage)
+                    .resizable()
+                    .frame(width: height, height: height, alignment: .center)
 
-                /*Text("\(self.viewModel.tile.point.x),\(self.viewModel.tile.point.y)")*/
+                Text(self.viewModel.costText)
+                    .font(.system(size: 16))
+                    .foregroundColor(.white)
+                    .padding(.all, 2)
+                    .background(Color.black.opacity(0.5))
+                    .cornerRadius(5)
+                    .offset(x: 0, y: 15.0)
             }
             .frame(width: width, height: height, alignment: .center)
             .onTapGesture {
@@ -76,8 +72,21 @@ struct HexagonView: View {
 struct HexagonView_Previews: PreviewProvider {
 
     static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
+        let _ = GameViewModel(preloadAssets: true)
 
-        HexagonView(viewModel: HexagonViewModel(at: HexPoint(x: 1, y: 1), tileColor: NSColor.lightGreen, mountains: nil, hills: nil, forest: nil, city: nil, tileAction: nil, showCitizenIcons: true))
+        let viewModel = HexagonViewModel(
+            at: HexPoint(x: 1, y: 1),
+            tileColor: NSColor.lightGreen,
+            mountains: nil,
+            hills: nil,
+            forest: nil,
+            city: nil,
+            tileAction: TileActionType.purchasable.textureName,
+            cost: 100,
+            showCitizenIcons: true
+        )
+        HexagonView(viewModel: viewModel)
 
         //HexagonView(viewModel: HexagonViewModel(tile: .grass))
 

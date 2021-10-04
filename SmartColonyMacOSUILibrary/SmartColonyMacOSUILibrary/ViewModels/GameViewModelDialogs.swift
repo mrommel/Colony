@@ -99,6 +99,21 @@ extension GameViewModel {
         }
     }
 
+    func showReligionDialog() {
+
+        if self.currentScreenType == .religion {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.religionDialogViewModel.update()
+            self.currentScreenType = .religion
+        } else {
+            fatalError("cant show religion dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+
     func showTradeRouteDialog() {
 
         if self.currentScreenType == .tradeRoutes {

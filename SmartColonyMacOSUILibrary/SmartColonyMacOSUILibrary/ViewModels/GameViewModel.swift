@@ -56,6 +56,7 @@ protocol GameViewModelDelegate: AnyObject {
     func showGovernorsDialog()
     func showGreatPeopleDialog()
     func showTradeRouteDialog()
+    func showReligionDialog()
 
     func showCityNameDialog()
     func foundCity(named cityName: String)
@@ -174,6 +175,9 @@ public class GameViewModel: ObservableObject {
     @Published
     var selectItemsDialogViewModel: SelectItemsDialogViewModel
 
+    @Published
+    var religionDialogViewModel: ReligionDialogViewModel
+
     // UI
 
     @Published
@@ -272,6 +276,7 @@ public class GameViewModel: ObservableObject {
         self.tradeRoutesDialogViewModel = TradeRoutesDialogViewModel()
         self.greatPeopleDialogViewModel = GreatPeopleDialogViewModel()
         self.selectItemsDialogViewModel = SelectItemsDialogViewModel()
+        self.religionDialogViewModel = ReligionDialogViewModel()
 
         // connect models
         self.gameSceneViewModel.delegate = self
@@ -300,6 +305,7 @@ public class GameViewModel: ObservableObject {
         self.tradeRoutesDialogViewModel.delegate = self
         self.greatPeopleDialogViewModel.delegate = self
         self.selectItemsDialogViewModel.delegate = self
+        self.religionDialogViewModel.delegate = self
 
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -566,6 +572,16 @@ public class GameViewModel: ObservableObject {
         print("- load \(textures.pantheonTypeTextureNames.count) pantheon type textures")
         for pantheonTypeTextureName in textures.pantheonTypeTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: pantheonTypeTextureName), for: pantheonTypeTextureName)
+        }
+
+        print("- load \(textures.religionTypeTextureNames.count) religion type textures")
+        for religionTypeTextureName in textures.religionTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: religionTypeTextureName), for: religionTypeTextureName)
+        }
+
+        print("- load \(textures.beliefTypeTextureNames.count) belief type textures")
+        for beliefTypeTextureName in textures.beliefTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: beliefTypeTextureName), for: beliefTypeTextureName)
         }
 
         print("- load \(textures.promotionTextureNames.count) promotion type textures")

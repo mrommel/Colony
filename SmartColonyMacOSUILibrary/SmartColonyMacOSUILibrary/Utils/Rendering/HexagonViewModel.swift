@@ -47,6 +47,9 @@ class HexagonViewModel: ObservableObject {
     var actionImage: NSImage
     private var tileActionTextureName: String?
 
+    @Published
+    var costText: String
+
     weak var delegate: HexagonViewModelDelegate?
 
     init(at point: HexPoint,
@@ -56,6 +59,7 @@ class HexagonViewModel: ObservableObject {
          forest: String?,
          city: String?,
          tileAction: String?,
+         cost: Int?,
          showCitizenIcons: Bool) {
 
         self.point = point
@@ -65,6 +69,11 @@ class HexagonViewModel: ObservableObject {
         self.forestTextureName = forest
         self.cityTextureName = city
         self.tileActionTextureName = tileAction
+        if let costValue = cost {
+            self.costText = "\(costValue)"
+        } else {
+            self.costText = ""
+        }
 
         self.showCitizenIcons = showCitizenIcons
 

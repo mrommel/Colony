@@ -271,6 +271,24 @@ class UnitBannerViewModel: ObservableObject {
                     }
                 })
             }
+        case .foundReligion:
+            let possibleReligions: [ReligionType] = gameModel.availableReligions()
+            let selectableItems: [SelectableItem] = possibleReligions.map { religionType in
+
+                return SelectableItem(
+                    iconTexture: religionType.iconTexture(),
+                    title: religionType.name(),
+                    subtitle: "")
+            }
+
+                gameModel.userInterface?.askForSelection(title: "", items: selectableItems, completion: { selectedIndex in
+                    print("selected religion: \(possibleReligions[selectedIndex])")
+                })
+            // gameModel.userInterface?.askForReligionAndBeliefs(of: possibleReligions, completion: { (religionType, belief0, belief1) in
+
+                //print("selected religion: \(religionType) + \(belief0) + \(belief1) - todo: found")
+                // selectedUnit.player?.foundReligion
+            //})
 
         case .attack:
 

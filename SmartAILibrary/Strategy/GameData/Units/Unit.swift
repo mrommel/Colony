@@ -2796,6 +2796,9 @@ public class Unit: AbstractUnit {
 
         case .automateBuild:
             return self.can(automate: .build)
+
+        case .foundReligion:
+            return self.canFoundReligion(at: self.location, in: gameModel)
         }
     }
 
@@ -4381,12 +4384,26 @@ extension Unit {
         return self.type == .admiral
     }
 
+    func canFoundReligion(at location: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let city = gameModel.city(at: location) else {
+            return false
+        }
+
+        return city.has(district: .holySite)
+    }
+
     //    --------------------------------------------------------------------------------
     public func canRecruitFromTacticalAI() -> Bool {
 
         if let tacticalMoveValue = self.tacticalMoveValue {
             return tacticalMoveValue.canRecruitForOperations()
         }
+
         return true
     }
 }

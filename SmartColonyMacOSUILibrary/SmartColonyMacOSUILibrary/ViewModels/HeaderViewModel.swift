@@ -133,7 +133,7 @@ extension HeaderViewModel: HeaderButtonViewModelDelegate {
         case .government:
             self.delegate?.showGovernmentDialog()
         case .religion:
-            print("religion")
+            self.delegate?.showReligionDialog()
         case .greatPeople:
             self.delegate?.showGreatPeopleDialog()
         case .log:
