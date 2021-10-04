@@ -92,7 +92,7 @@ public enum ReligionType: Codable, Equatable {
         case .sikhism: return "Sikhism"
         case .taoism: return "Taoism"
         case .zoroastrianism: return "Zoroastrianism"
-            
+
         case .custom(title: let title):
             return title
         }
