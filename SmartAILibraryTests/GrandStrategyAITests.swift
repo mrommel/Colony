@@ -106,6 +106,7 @@ class GrandStrategyAITests: XCTestCase {
         //}
 
         // THEN
-        XCTAssertEqual(self.objectToTest!.activeStrategy, .culture)
+        let possibleStrategy: [GrandStrategyAIType] = [.culture, .council]
+        XCTAssert(possibleStrategy.contains(self.objectToTest!.activeStrategy))
     }
 }

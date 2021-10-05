@@ -171,10 +171,9 @@ public class GrandStrategyAI: Codable {
 
         func guess(for player: AbstractPlayer) -> GrandStrategyAIPlayerGuess? {
 
-            for guess in self.guesses {
-                if guess.player?.leader == player.leader {
-                    return guess
-                }
+            for guess in self.guesses where guess.player?.leader == player.leader {
+
+                return guess
             }
 
             return nil
@@ -254,16 +253,17 @@ public class GrandStrategyAI: Codable {
                 dict.add(value: self.councilGameValue(with: gameModel), for: .council)
             }
 
-            // random
-            dict.add(value: Int.random(number: 50), for: type)
+            if !Thread.current.isRunningXCTest {
+
+                // random
+                dict.add(value: Int.random(number: 50), for: type)
+            }
 
             // make the current strategy most likely
             if type == self.activeStrategy {
                 dict.add(value: 50, for: type)
             }
         }
-
-        // print("dict: \(dict)")
 
         // Now look at what we think the other players in the game are up to - we might have an opportunity to capitalize somewhere
         var iNumPlayersAliveAndMet = 1
@@ -296,12 +296,16 @@ public class GrandStrategyAI: Codable {
 
         // Now modify our preferences based on how many people are going for stuff
         for type in GrandStrategyAIType.all {
+
             var temp = dict.value(for: type) * 50
             temp = temp * guessedUserDict.value(for: type) / iNumPlayersAliveAndMet
             temp /= 100
 
             dict.add(value: -temp, for: type)
         }
+
+        // print("guessedUserDict: \(guessedUserDict)")
+        // print("dict: \(dict)")
 
         // Now see which Grand Strategy should be active, based on who has the highest Priority right now
         // Grand Strategy must be run for at least 10 turns
@@ -480,12 +484,170 @@ public class GrandStrategyAI: Codable {
         return priority
     }
 
+    /// Returns Priority for Culture Grand Strategy
     private func cultureGameValue(with gameModel: GameModel?) -> Int {
-        return 34 // FIXME
+
+        guard let gameModel = gameModel else {
+            fatalError()
+        }
+
+        guard let player = self.player else {
+            fatalError()
+        }
+
+        var priority = 0
+
+        // If Culture Victory isn't even available then don't bother with anything
+        if !gameModel.victoryTypes.contains(.cultural) {
+            return -100
+        }
+
+        // Before tourism kicks in, add weight based on flavor
+        let flavorCulture = player.valueOfStrategyAndPersonalityFlavor(of: .culture)
+        priority += (10 - player.currentEraVal.rawValue) * flavorCulture * 200 / 100
+
+        // Loop through Players to see how we are doing on Tourism and Culture
+        let ourCulture = player.culture(in: gameModel)
+        let ourTourism = 0 // player->GetCulture()->GetTourism();
+        var numCivsBehindCulture = 0
+        var numCivsAheadCulture = 0
+        var numCivsBehindTourism = 0
+        var numCivsAheadTourism = 0
+        var numCivsAlive = 0
+
+        for otherPlayer in gameModel.players {
+
+            if otherPlayer.isAlive() /*&& !kPlayer.isMinorCiv()*/ && !otherPlayer.isBarbarian() && otherPlayer.leader != player.leader {
+
+                if ourCulture > otherPlayer.culture(in: gameModel) {
+                    numCivsAheadCulture += 1
+                } else {
+                    numCivsBehindCulture += 1
+                }
+
+                if ourTourism > 0 /*otherPlayer.GetCulture()->GetTourism()*/ {
+                    numCivsAheadTourism += 1
+                } else {
+                    numCivsBehindTourism += 1
+                }
+
+                numCivsAlive += 1
+            }
+        }
+
+        if numCivsAlive > 0 && numCivsAheadCulture > numCivsBehindCulture {
+            priority += (30 /* AI_GS_CULTURE_AHEAD_WEIGHT */ * (numCivsAheadCulture - numCivsBehindCulture) / numCivsAlive)
+        }
+
+        if numCivsAlive > 0 && numCivsAheadTourism > numCivsBehindTourism {
+            priority += (100 /* AI_GS_CULTURE_TOURISM_AHEAD_WEIGHT */ * (numCivsAheadTourism - numCivsBehindTourism) / numCivsAlive)
+        }
+
+        // for every civ we are Influential over increase this
+        let numInfluential = 0 // m_pPlayer->GetCulture()->GetNumCivsInfluentialOn();
+        priority += numInfluential * 30 /* AI_GS_CULTURE_INFLUENTIAL_CIV_MOD */
+
+        return priority
     }
 
+    /// Returns Priority for United Nations Grand Strategy
     private func councilGameValue(with gameModel: GameModel?) -> Int {
-        return 24 // FIXME
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        var priority = 0
+
+        // If UN Victory isn't even available then don't bother with anything
+        if !gameModel.victoryTypes.contains(.diplomatic) {
+            return -100
+        }
+
+        // int iNumMinorsAttacked = GET_TEAM(GetPlayer()->getTeam()).GetNumMinorCivsAttacked();
+        // iPriority += (iNumMinorsAttacked* /*-30*/ GC.getAI_GRAND_STRATEGY_UN_EACH_MINOR_ATTACKED_WEIGHT());
+
+        let votesNeededToWin = gameModel.votesNeededForDiplomaticVictory()
+
+        let votesControlled = 0
+        let votesControlledDelta = 0
+        let unalliedCityStates = 0
+
+        // if (GC.getGame().GetGameLeagues()->GetNumActiveLeagues() == 0) {
+            // Before leagues kick in, add weight based on flavor
+        let flavorDiplo = player.valueOfStrategyAndPersonalityFlavor(of: .diplomacy)
+        priority += (10 - player.currentEraVal.rawValue) * flavorDiplo * 150 / 100
+        /*} else {
+            CvLeague* pLeague = GC.getGame().GetGameLeagues()->GetActiveLeague();
+            CvAssert(pLeague != NULL);
+            if (pLeague != NULL)
+            {
+                // Votes we control
+                iVotesControlled += pLeague->CalculateStartingVotesForMember(ePlayer);
+
+                // Votes other players control
+                int iHighestOtherPlayerVotes = 0;
+                for (int iPlayerLoop = 0; iPlayerLoop < MAX_CIV_PLAYERS; iPlayerLoop++)
+                {
+                    PlayerTypes eLoopPlayer = (PlayerTypes) iPlayerLoop;
+
+                    if(eLoopPlayer != ePlayer && GET_PLAYER(eLoopPlayer).isAlive())
+                    {
+                        if (GET_PLAYER(eLoopPlayer).isMinorCiv())
+                        {
+                            if (GET_PLAYER(eLoopPlayer).GetMinorCivAI()->GetAlly() == NO_PLAYER)
+                            {
+                                iUnalliedCityStates++;
+                            }
+                        }
+                        else
+                        {
+                            int iOtherPlayerVotes = pLeague->CalculateStartingVotesForMember(eLoopPlayer);
+                            if (iOtherPlayerVotes > iHighestOtherPlayerVotes)
+                            {
+                                iHighestOtherPlayerVotes = iOtherPlayerVotes;
+                            }
+                        }
+                    }
+                }
+
+                // How we compare
+                iVotesControlledDelta = iVotesControlled - iHighestOtherPlayerVotes;
+            }
+        }*/
+
+        // Are we close to winning?
+        if votesControlled >= votesNeededToWin {
+            return 1000
+        } else if votesControlled >= ((votesNeededToWin * 3) / 4) {
+            priority += 40
+        }
+
+        // We have the most votes
+        if votesControlledDelta > 0 {
+            priority += max(40, votesControlledDelta * 5)
+        } else { // We are equal or behind in votes
+            // Could we make up the difference with currently unallied city-states?
+            let potentialCityStateVotes = unalliedCityStates * 2
+            let potentialVotesDelta = potentialCityStateVotes + votesControlledDelta
+
+            if potentialVotesDelta > 0 {
+                priority += max(20, potentialVotesDelta * 5)
+            } else if potentialVotesDelta < 0 {
+                priority += min(-40, potentialVotesDelta * -5)
+            }
+        }
+
+        // factor in some traits that could be useful (or harmful)
+        // priority += player.leader.trait(for: .cityStateFriendshipModifier)
+        // priority += player.leader.trait(for: .cityStateBonusModifier)
+        // priority -= player.leader.trait(for: .cityStateCombatModifier)
+
+        return priority
     }
 
     private func guessFollowsConquestStrategy(for player: AbstractPlayer, in gameModel: GameModel?, with averageMilitaryStrength: Double) -> Int {

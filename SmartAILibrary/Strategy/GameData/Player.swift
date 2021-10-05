@@ -2980,7 +2980,6 @@ public class Player: AbstractPlayer {
             numberOfTradingCapacity += 1
         }
 
-
         return numberOfTradingCapacity
     }
 
