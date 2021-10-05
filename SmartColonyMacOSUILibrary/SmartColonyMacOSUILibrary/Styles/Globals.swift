@@ -24,6 +24,9 @@ public extension Globals {
         public static var dialogCenter: TypeColor = TypeColor.UI.nileBlue
         public static var dialogBorder: TypeColor = TypeColor.supernova
 
+        // great person
+        public static var greatPersonBackground: TypeColor = TypeColor.UI.eclipse
+
         // Overview
         public static var overviewBackground: TypeColor = TypeColor.Terrain.pergament
     }

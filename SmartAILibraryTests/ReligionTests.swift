@@ -26,29 +26,31 @@ class ReligionTests: XCTestCase {
 
         // GIVEN
 
-        // player 1
-        let playerAlexander = Player(leader: .alexander, isHuman: true)
-        playerAlexander.initialize()
+        // players
+        let playerBarbarian = Player(leader: .barbar)
+        playerBarbarian.initialize()
 
-        // player 2
         let playerTrajan = Player(leader: .trajan)
         playerTrajan.initialize()
 
-        playerTrajan.treasury?.changeGold(by: 200.0) // cheat
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
 
-        let playerBarbarian = Player(leader: .barbar)
-        playerBarbarian.initialize()
+        playerTrajan.treasury?.changeGold(by: 200.0) // cheat
 
         // map
         var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.cultural],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerTrajan, playerBarbarian, playerAlexander],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.cultural],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerBarbarian, playerTrajan, playerAlexander],
+            on: mapModel
+        )
+
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface

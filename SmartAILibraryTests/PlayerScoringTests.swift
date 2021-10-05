@@ -28,14 +28,24 @@ class PlayerScoringTests: XCTestCase {
     func testScoreZero() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         self.objectToTest = Player(leader: .alexander)
         self.objectToTest?.initialize()
-        let playerAugustus = Player(leader: .trajan)
-        playerAugustus.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
 
         let mapModel = MapModel(size: .standard)
 
-        let gameModel = GameModel(victoryTypes: [.cultural, .domination], handicap: .chieftain, turnsElapsed: 0, players: [self.objectToTest!, playerAugustus], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.cultural, .domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, self.objectToTest!, playerTrajan],
+            on: mapModel
+        )
 
         // WHEN
         let score = self.objectToTest!.score(for: gameModel)
@@ -47,14 +57,24 @@ class PlayerScoringTests: XCTestCase {
     func testScore2CitiesOnStandard() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         self.objectToTest = Player(leader: .alexander)
         self.objectToTest?.initialize()
-        let playerAugustus = Player(leader: .trajan)
-        playerAugustus.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
 
         let mapModel = MapModel(size: .standard)
 
-        let gameModel = GameModel(victoryTypes: [.cultural, .domination], handicap: .chieftain, turnsElapsed: 0, players: [self.objectToTest!, playerAugustus], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.cultural, .domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, self.objectToTest!, playerTrajan],
+            on: mapModel
+        )
 
         let city1 = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: self.objectToTest)
         city1.initialize(in: gameModel)
@@ -74,14 +94,24 @@ class PlayerScoringTests: XCTestCase {
     func testScore2CitiesOnTiny() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         self.objectToTest = Player(leader: .alexander)
         self.objectToTest?.initialize()
-        let playerAugustus = Player(leader: .trajan)
-        playerAugustus.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
 
         let mapModel = MapModel(size: .tiny)
 
-        let gameModel = GameModel(victoryTypes: [.cultural, .domination], handicap: .chieftain, turnsElapsed: 0, players: [self.objectToTest!, playerAugustus], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.cultural, .domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, self.objectToTest!, playerTrajan],
+            on: mapModel
+        )
 
         let city1 = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: self.objectToTest)
         city1.initialize(in: gameModel)
@@ -100,12 +130,22 @@ class PlayerScoringTests: XCTestCase {
 
     func testScore1Tech() {
 
-        self.objectToTest = Player(leader: .alexander)
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        self.objectToTest = Player(leader: .alexander, isHuman: true)
         self.objectToTest?.initialize()
 
         let mapModel = MapModel(size: .tiny)
 
-        let gameModel = GameModel(victoryTypes: [.cultural, .domination], handicap: .chieftain, turnsElapsed: 0, players: [self.objectToTest!], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.cultural, .domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, self.objectToTest!],
+            on: mapModel
+        )
 
         try! self.objectToTest?.techs?.discover(tech: .pottery)
 
@@ -118,12 +158,22 @@ class PlayerScoringTests: XCTestCase {
 
     func testScore2Techs() {
 
-        self.objectToTest = Player(leader: .alexander)
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        self.objectToTest = Player(leader: .alexander, isHuman: true)
         self.objectToTest?.initialize()
 
         let mapModel = MapModel(size: .tiny)
 
-        let gameModel = GameModel(victoryTypes: [.cultural, .domination], handicap: .chieftain, turnsElapsed: 0, players: [self.objectToTest!], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.cultural, .domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, self.objectToTest!],
+            on: mapModel
+        )
 
         try! self.objectToTest?.techs?.discover(tech: .pottery)
         try! self.objectToTest?.techs?.discover(tech: .mining)
@@ -138,14 +188,24 @@ class PlayerScoringTests: XCTestCase {
     func testScore1Wonder() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         self.objectToTest = Player(leader: .alexander)
         self.objectToTest?.initialize()
-        let playerAugustus = Player(leader: .trajan)
-        playerAugustus.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
 
         let mapModel = MapModel(size: .tiny)
 
-        let gameModel = GameModel(victoryTypes: [.cultural, .domination], handicap: .chieftain, turnsElapsed: 0, players: [self.objectToTest!, playerAugustus], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.cultural, .domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, self.objectToTest!, playerTrajan],
+            on: mapModel
+        )
 
         let city1 = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: self.objectToTest)
         city1.initialize(in: gameModel)
@@ -163,14 +223,24 @@ class PlayerScoringTests: XCTestCase {
     func testScore2Wonder() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         self.objectToTest = Player(leader: .alexander)
         self.objectToTest?.initialize()
-        let playerAugustus = Player(leader: .trajan)
-        playerAugustus.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
 
         let mapModel = MapModel(size: .tiny)
 
-        let gameModel = GameModel(victoryTypes: [.cultural, .domination], handicap: .chieftain, turnsElapsed: 0, players: [self.objectToTest!, playerAugustus], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.cultural, .domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, self.objectToTest!, playerTrajan],
+            on: mapModel
+        )
 
         let city1 = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: self.objectToTest)
         city1.initialize(in: gameModel)
@@ -189,14 +259,24 @@ class PlayerScoringTests: XCTestCase {
     func testScoreLandStandard() {
 
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         self.objectToTest = Player(leader: .alexander)
         self.objectToTest?.initialize()
-        let playerAugustus = Player(leader: .trajan)
-        playerAugustus.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
 
         let mapModel = MapModel(size: .standard)
 
-        let gameModel = GameModel(victoryTypes: [.cultural, .domination], handicap: .chieftain, turnsElapsed: 0, players: [self.objectToTest!, playerAugustus], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.cultural, .domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, self.objectToTest!, playerTrajan],
+            on: mapModel
+        )
 
         let city1 = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: self.objectToTest)
         city1.initialize(in: gameModel)

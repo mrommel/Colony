@@ -15,6 +15,9 @@ public protocol AbstractGreatPeople: AnyObject, Codable {
     func add(points: GreatPersonPoints)
     func resetPoint(for greatPersonType: GreatPersonType)
     func value(for greatPersonType: GreatPersonType) -> Int
+
+    func retire(greatPerson: GreatPerson)
+    func hasRetired(greatPerson: GreatPerson) -> Bool
 }
 
 class GreatPeople: AbstractGreatPeople {
@@ -22,11 +25,13 @@ class GreatPeople: AbstractGreatPeople {
     enum CodingKeys: CodingKey {
 
         case points
+        case retired
     }
 
     // user properties / values
-    var player: AbstractPlayer?
-    var points: GreatPersonPoints
+    internal var player: AbstractPlayer?
+    private var points: GreatPersonPoints
+    private var retiredGreatPersons: [GreatPerson]
 
     // MARK: constructor
 
@@ -34,6 +39,7 @@ class GreatPeople: AbstractGreatPeople {
 
         self.player = player
         self.points = GreatPersonPoints()
+        self.retiredGreatPersons = []
     }
 
     public required init(from decoder: Decoder) throws {
@@ -41,6 +47,7 @@ class GreatPeople: AbstractGreatPeople {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.points = try container.decode(GreatPersonPoints.self, forKey: .points)
+        self.retiredGreatPersons = try container.decode([GreatPerson].self, forKey: .retired)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -48,6 +55,7 @@ class GreatPeople: AbstractGreatPeople {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.points, forKey: .points)
+        try container.encode(self.retiredGreatPersons, forKey: .retired)
     }
 
     func add(points value: GreatPersonPoints) {
@@ -63,5 +71,15 @@ class GreatPeople: AbstractGreatPeople {
     func value(for greatPersonType: GreatPersonType) -> Int {
 
         return self.points.value(for: greatPersonType)
+    }
+
+    func retire(greatPerson: GreatPerson) {
+
+        self.retiredGreatPersons.append(greatPerson)
+    }
+
+    func hasRetired(greatPerson: GreatPerson) -> Bool {
+
+        return self.retiredGreatPersons.contains(where: { $0 == greatPerson })
     }
 }

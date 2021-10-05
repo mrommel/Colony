@@ -33,6 +33,8 @@ public enum CommandType {
     case automateExploration
     case automateBuild
     case establishTradeRoute
+    case foundReligion
+    case activateGreatPerson
 
     // combat
     case attack
@@ -45,7 +47,8 @@ public enum CommandType {
             .found, .buildFarm, .buildMine, .buildCamp, .buildPasture, .buildQuarry, .buildFishingBoats,
             .pillage, .fortify, .hold, .garrison,
             .disband, .cancelOrder,
-            .automateExploration /*, .automateBuild*/, .establishTradeRoute,
+            .automateExploration /*, .automateBuild*/, .establishTradeRoute, .foundReligion,
+            .activateGreatPerson,
             .attack, .rangedAttack, .cancelAttack]
     }
 
@@ -72,6 +75,8 @@ public enum CommandType {
         case .automateExploration: return "Automate Exploration"
         case .automateBuild: return "Automate Build"
         case .establishTradeRoute: return "Establish TradeRoute"
+        case .foundReligion: return "Found Religion"
+        case .activateGreatPerson: return "Activate Great Person"
 
         case .attack: return "Attack"
         case .rangedAttack: return "Ranged"

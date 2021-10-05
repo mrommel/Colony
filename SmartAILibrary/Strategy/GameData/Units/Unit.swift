@@ -16,6 +16,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     var leader: LeaderType { get } // for restore from file only
     var originalLeader: LeaderType { get set }
     var origin: HexPoint { get set } // to get the city the unit was created in
+    var greatPerson: GreatPerson { get set }
 
     func name() -> String
     func isBarbarian() -> Bool
@@ -88,6 +89,7 @@ public protocol AbstractUnit: AnyObject, Codable {
 
     func experience() -> Int
     func changeExperience(by delta: Int, in gameModel: GameModel?)
+    func changeExperienceUntilPromotion(in gameModel: GameModel?)
     func isPromotionReady() -> Bool
     func gainedPromotions() -> [UnitPromotionType]
     func possiblePromotions() -> [UnitPromotionType]
@@ -216,8 +218,12 @@ public protocol AbstractUnit: AnyObject, Codable {
 
     func isBusy() -> Bool
 
+    // great person
+    func isGreatPerson() -> Bool
+    func greatPersonName() -> String
     func isGreatGeneral() -> Bool
     func isGreatAdmiral() -> Bool
+    func activateGreatPerson(in gameModel: GameModel?)
 
     // trade routes
     func start(tradeRoute: TradeRoute, in gameModel: GameModel?)
@@ -245,6 +251,7 @@ public class Unit: AbstractUnit {
         case leader
         case originalLeader
         case origin
+        case greatPerson
         case promotions
         case task
         case deathDelay
@@ -283,6 +290,7 @@ public class Unit: AbstractUnit {
     private(set) public var leader: LeaderType // for restoring from file
     public var originalLeader: LeaderType
     public var origin: HexPoint
+    public var greatPerson: GreatPerson = .none
     internal var promotions: AbstractPromotions?
     private var taskValue: UnitTaskType
     private var deathDelay: Bool = false
@@ -363,6 +371,7 @@ public class Unit: AbstractUnit {
         self.taskValue = try container.decode(UnitTaskType.self, forKey: .task)
         self.deathDelay = try container.decode(Bool.self, forKey: .deathDelay)
         self.origin = try container.decode(HexPoint.self, forKey: .origin)
+        self.greatPerson = try container.decode(GreatPerson.self, forKey: .greatPerson)
 
         self.tacticalMoveValue = try container.decodeIfPresent(TacticalMoveType.self, forKey: .tacticalMove)
         self.tacticalTargetValue = try container.decodeIfPresent(HexPoint.self, forKey: .tacticalTarget)
@@ -405,6 +414,7 @@ public class Unit: AbstractUnit {
         try container.encode(self.taskValue, forKey: .task)
         try container.encode(self.deathDelay, forKey: .deathDelay)
         try container.encode(self.origin, forKey: .origin)
+        try container.encode(self.greatPerson, forKey: .greatPerson)
 
         try container.encodeIfPresent(self.tacticalMoveValue, forKey: .tacticalMove)
         try container.encodeIfPresent(self.tacticalTargetValue, forKey: .tacticalTarget)
@@ -717,7 +727,7 @@ public class Unit: AbstractUnit {
         var result: [CombatModifier] = []
 
         // Healty
-        let healthPenalty = -10 * (100 - self.healthPoints()) / 100
+        let healthPenalty = -10 * (Int(Unit.maxHealth) - self.healthPoints()) / Int(Unit.maxHealth)
         if healthPenalty != 0 {
             result.append(CombatModifier(value: healthPenalty, title: "Health penalty"))
         }
@@ -804,6 +814,21 @@ public class Unit: AbstractUnit {
             let handicapBonus = gameModel.handicap.freeAICombatBonus()
             if handicapBonus != 0 {
                 result.append(CombatModifier(value: handicapBonus, title: "Bonus due to difficulty"))
+            }
+        }
+
+        // ////////////////////////
+        // great generals
+        // ////////////////////////
+        if (self.type.era() == .classical || self.type.era() == .medieval) && self.domain() == .land {
+
+            let boudicaNear = gameModel.isGreatGeneral(type: .boudica, of: self.player, at: self.location, inRange: 2)
+            let hannibalBarcaNear = gameModel.isGreatGeneral(type: .hannibalBarca, of: self.player, at: self.location, inRange: 2)
+            let sunTzuNear = gameModel.isGreatGeneral(type: .sunTzu, of: self.player, at: self.location, inRange: 2)
+
+            if boudicaNear || hannibalBarcaNear || sunTzuNear {
+                // +5 Combat Strength to Classical and Medieval era land units within 2 tiles.
+                result.append(CombatModifier(value: 5, title: "Combat bonus from Great General"))
             }
         }
 
@@ -2370,7 +2395,25 @@ public class Unit: AbstractUnit {
 
     public func maxMoves(in gameModel: GameModel?) -> Int {
 
-        return self.baseMoves(in: gameModel) //self.type.moves()
+        guard let gameModel = gameModel else {
+            fatalError("cant get game model")
+        }
+
+        var moveVal = self.baseMoves(in: gameModel)
+
+        if (self.type.era() == .classical || self.type.era() == .medieval) && self.domain() == .land {
+
+            let boudicaNear = gameModel.isGreatGeneral(type: .boudica, of: self.player, at: self.location, inRange: 2)
+            let hannibalBarcaNear = gameModel.isGreatGeneral(type: .hannibalBarca, of: self.player, at: self.location, inRange: 2)
+            let sunTzuNear = gameModel.isGreatGeneral(type: .sunTzu, of: self.player, at: self.location, inRange: 2)
+
+            if boudicaNear || hannibalBarcaNear || sunTzuNear {
+                // +1 Movement to Classical and Medieval era land units within 2 tiles.
+                moveVal += 1
+            }
+        }
+
+        return moveVal
     }
 
     public func hasMoved(in gameModel: GameModel?) -> Bool {
@@ -2545,6 +2588,17 @@ public class Unit: AbstractUnit {
         }
     }
 
+    public func changeExperienceUntilPromotion(in gameModel: GameModel?) {
+
+        if let nextExperienceLevel = self.experienceForNextLevel() {
+
+            let delta = nextExperienceLevel - self.experienceValue
+            self.changeExperience(by: delta, in: gameModel)
+        }
+
+        print("cant promote \(self.name()) already have all promotions possible")
+    }
+
     private func experienceLevel() -> Int {
 
         if self.experienceValue < 15 {
@@ -2564,6 +2618,27 @@ public class Unit: AbstractUnit {
         } else {
             return 8
         }
+    }
+
+    private func experienceForNextLevel() -> Int? {
+
+        if self.experienceValue < 15 {
+            return 15
+        } else if self.experienceValue < 45 {
+            return 45
+        } else if self.experienceValue < 90 {
+            return 90
+        } else if self.experienceValue < 150 {
+            return 150
+        } else if self.experienceValue < 225 {
+            return 225
+        } else if self.experienceValue < 315 {
+            return 315
+        } else if self.experienceValue < 420 {
+            return 420
+        }
+
+        return nil
     }
 
     public func isPromotionReady() -> Bool {
@@ -2755,6 +2830,12 @@ public class Unit: AbstractUnit {
 
         case .automateBuild:
             return self.can(automate: .build)
+
+        case .foundReligion:
+            return self.canFoundReligion(at: self.location, in: gameModel)
+
+        case .activateGreatPerson:
+            return self.canActivateGreatPerson()
         }
     }
 
@@ -3283,11 +3364,6 @@ public class Unit: AbstractUnit {
         }
 
         return finished
-    }
-
-    func isGreatPerson() -> Bool {
-
-        return UnitType.greatPersons.contains(self.type)
     }
 
     public func buildType() -> BuildType {
@@ -4323,6 +4399,18 @@ extension Unit {
         return commandArray
     }
 
+    // MARK: great person methods
+
+    public func isGreatPerson() -> Bool {
+
+        return UnitType.greatPersons.contains(self.type)
+    }
+
+    public func greatPersonName() -> String {
+
+        return self.greatPerson.name()
+    }
+
     public func isGreatGeneral() -> Bool {
 
         return self.type == .general
@@ -4333,12 +4421,389 @@ extension Unit {
         return self.type == .admiral
     }
 
+    func canFoundReligion(at location: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard self.type == .prophet else {
+            return false
+        }
+
+        guard let city = gameModel.city(at: location) else {
+            return false
+        }
+
+        return city.has(district: .holySite)
+    }
+
+    func canActivateGreatPerson() -> Bool {
+
+        guard self.type.isGreatPerson() && self.type != .prophet else {
+            return false
+        }
+
+        return false
+    }
+
+    public func activateGreatPerson(in gameModel: GameModel?) {
+
+        guard self.canActivateGreatPerson() else {
+            fatalError("cant activate great person")
+        }
+
+        switch self.greatPerson.type() {
+
+        case .greatGeneral:
+            self.activateGreatGeneral(in: gameModel)
+        case .greatAdmiral:
+            self.activateGreatAdminral(in: gameModel)
+        case .greatEngineer:
+            self.activateGreatEngineer(in: gameModel)
+        case .greatMerchant:
+            self.activateGreatMerchant(in: gameModel)
+        case .greatProphet:
+            fatalError("cannot activate a great prophet")
+        case .greatScientist:
+            self.activateGreatScientist(in: gameModel)
+        case .greatWriter:
+            self.activateGreatWriter(in: gameModel)
+        case .greatArtist:
+            self.activateGreatArtist(in: gameModel)
+        case .greatMusician:
+            self.activateGreatMusician(in: gameModel)
+        }
+
+        self.changeBuildCharges(change: -1)
+
+        if !self.hasBuildCharges() {
+
+            // some bonuses stay when great person is retired
+            self.player?.retire(greatPerson: self.greatPerson)
+
+            // finally kill this great person
+            self.doKill(delayed: true, by: nil, in: gameModel)
+        }
+    }
+
+    // https://civilization.fandom.com/wiki/Great_General_(Civ6)
+    private func activateGreatGeneral(in gameModel: GameModel?) {
+
+        guard self.greatPerson.type() == .greatGeneral else {
+            fatalError("try to handle wrong type")
+        }
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let barbarianPlayer = gameModel.barbarianPlayer() else {
+            fatalError("cant get barbarian player")
+        }
+
+        guard let player =  self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let playerCivilization =  self.player?.leader.civilization() else {
+            fatalError("cant get player civilization")
+        }
+
+        switch self.greatPerson {
+
+        case .boudica:
+            // Convert adjacent barbarian units.
+            let adjacentArea = self.location.areaWith(radius: 1)
+            for barbarianUnitRef in gameModel.units(of: barbarianPlayer, in: adjacentArea) {
+
+                guard let barbarianUnit = barbarianUnitRef else {
+                    continue
+                }
+
+                guard let newType = barbarianUnit.type.unitType(for: playerCivilization) else {
+                    continue
+                }
+
+                let newLocation = barbarianUnit.location
+                barbarianUnit.doKill(delayed: true, by: nil, in: gameModel)
+
+                let convertedUnit = Unit(at: newLocation, type: newType, owner: self.player)
+
+                gameModel.add(unit: convertedUnit)
+                gameModel.userInterface?.show(unit: convertedUnit)
+            }
+        case .hannibalBarca:
+            // Grants 1 promotion level to a military land unit.
+            for unitRef in gameModel.units(of: player, at: self.location) {
+
+                guard let unit = unitRef else {
+                    continue
+                }
+
+                unit.changeExperienceUntilPromotion(in: gameModel)
+            }
+
+        default:
+            fatalError("activation of \(self.greatPerson) is not handled")
+        }
+    }
+
+    // https://civilization.fandom.com/wiki/Great_Admiral_(Civ6)
+    private func activateGreatAdminral(in gameModel: GameModel?) {
+
+        guard self.greatPerson.type() == .greatAdmiral else {
+            fatalError("try to handle wrong type")
+        }
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player =  self.player else {
+            fatalError("cant get player")
+        }
+
+        switch self.greatPerson {
+
+        case .artemisia:
+            // Grants 1 promotion level to a military naval unit.
+            for unitRef in gameModel.units(of: player, at: self.location) {
+
+                guard let unit = unitRef else {
+                    continue
+                }
+
+                unit.changeExperienceUntilPromotion(in: gameModel)
+            }
+
+        case .themistocles:
+            // Instantly creates a Quadrireme unit.
+            let quadriremeUnit = Unit(at: self.location, type: .quadrireme, owner: self.player)
+
+            gameModel.add(unit: quadriremeUnit)
+            gameModel.userInterface?.show(unit: quadriremeUnit)
+
+        default:
+            fatalError("activation of \(self.greatPerson) is not handled")
+        }
+    }
+
+    // https://civilization.fandom.com/wiki/Great_Engineer_(Civ6)
+    private func activateGreatEngineer(in gameModel: GameModel?) {
+
+        guard self.greatPerson.type() == .greatEngineer else {
+            fatalError("try to handle wrong type")
+        }
+
+        guard let techs = player?.techs else {
+            fatalError("cant get player techs")
+        }
+
+        switch self.greatPerson {
+
+        case .biSheng:
+            // Triggers the Eureka for Printing technology.
+            techs.triggerEureka(for: .printing, in: gameModel)
+
+        case .isidoreOfMiletus:
+            // Grants 215 Production towards wonder construction at standard speed. (2 charges)
+            if let city = gameModel?.city(at: self.location) {
+                if city.currentBuildableItem()?.type == .wonder {
+                    city.currentBuildableItem()?.add(production: 215.0)
+                }
+            }
+
+        default:
+            fatalError("activation of \(self.greatPerson) is not handled")
+        }
+    }
+
+    // https://civilization.fandom.com/wiki/Great_Merchant_(Civ6)
+    private func activateGreatMerchant(in gameModel: GameModel?) {
+
+        guard self.greatPerson.type() == .greatMerchant else {
+            fatalError("try to handle wrong type")
+        }
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        switch self.greatPerson {
+
+        case .colaeus:
+            // Grants 1 free copy of the Luxury resource on this tile to your capital city.
+            if let tile = gameModel.tile(at: self.location) {
+                let resource = tile.resource(for: self.player)
+                if resource != .none {
+                    gameModel.capital(of: player)?.add(luxury: resource)
+                }
+            }
+
+            // Gain 100 Faith
+            self.player?.religion?.change(faith: 100)
+
+        case .marcusLiciniusCrassus:
+            // Your nearest city annexes this tile into its territory.
+            if let tile = gameModel.tile(at: self.location), let nextCity = gameModel.nearestCity(at: self.location, of: player) {
+                do {
+                    try tile.setWorkingCity(to: nextCity)
+                    try tile.set(owner: player)
+                } catch {
+                    // NOOP
+                }
+            }
+
+            // Gain 60 Gold
+            self.player?.treasury?.changeGold(by: 60)
+
+        case .zhangQian:
+            // Increases Trade Route capacity by 1.
+            // Foreign Trade Routes to this city provide +2 Gold to both cities.
+            break
+
+        default:
+            fatalError("activation of \(self.greatPerson) is not handled")
+        }
+    }
+
+    // https://civilization.fandom.com/wiki/Great_Scientist_(Civ6)
+    private func activateGreatScientist(in gameModel: GameModel?) {
+
+        guard self.greatPerson.type() == .greatScientist else {
+            fatalError("try to handle wrong type")
+        }
+
+        guard let techs = self.player?.techs else {
+            fatalError("cant get player techs")
+        }
+
+        switch self.greatPerson {
+
+        case .aryabhata:
+            // Triggers the Eureka for three random technologies from the Classical or Medieval era.
+            if let randomTech = techs.possibleTechs().filter({ $0.era() == .classical || $0.era() == .medieval }).randomElement() {
+
+                techs.triggerEureka(for: randomTech, in: gameModel)
+            }
+
+            if let randomTech = techs.possibleTechs().filter({ $0.era() == .classical || $0.era() == .medieval }).randomElement() {
+
+                techs.triggerEureka(for: randomTech, in: gameModel)
+            }
+
+            if let randomTech = techs.possibleTechs().filter({ $0.era() == .classical || $0.era() == .medieval }).randomElement() {
+
+                techs.triggerEureka(for: randomTech, in: gameModel)
+            }
+
+        case .euclid:
+            // Triggers the Eureka for Mathematics and one random technology from the Medieval era.
+            techs.triggerEureka(for: .mathematics, in: gameModel)
+
+            if let randomMedievalTech = techs.possibleTechs().filter({ $0.era() == .medieval }).randomElement() {
+
+                techs.triggerEureka(for: randomMedievalTech, in: gameModel)
+            }
+
+        case .hypatia:
+            // Libraries provide +1 Science. Instantly builds a Library in this district.
+            if let city = gameModel?.city(at: self.location) {
+                if city.has(district: .campus) {
+                    do {
+                        try city.buildings?.build(building: .library)
+                    } catch {
+                        // NOOP
+                    }
+                }
+            }
+
+        default:
+            fatalError("activation of \(self.greatPerson) is not handled")
+        }
+    }
+
+    private func activateGreatWriter(in gameModel: GameModel?) {
+
+        guard self.greatPerson.type() == .greatWriter else {
+            fatalError("try to handle wrong type")
+        }
+
+        if let city = gameModel?.city(at: self.location) {
+
+            guard let greatWorks = city.greatWorks else {
+                fatalError("cant get great Works")
+            }
+
+            let slots = greatWorks.slotsAvailable(for: .written)
+
+            if slots > 0 {
+                let greatWork: GreatWork = self.greatPerson.works()[self.buildChargesValue]
+                city.greatWorks?.store(greatWork: greatWork)
+            } else {
+                fatalError("no slots in city")
+            }
+        }
+    }
+
+    private func activateGreatArtist(in gameModel: GameModel?) {
+
+        guard self.greatPerson.type() == .greatArtist else {
+            fatalError("try to handle wrong type")
+        }
+
+        if let city = gameModel?.city(at: self.location) {
+
+            guard let greatWorks = city.greatWorks else {
+                fatalError("cant get great Works")
+            }
+
+            let slots = greatWorks.slotsAvailable(for: .artwork)
+
+            if slots > 0 {
+                let greatWork: GreatWork = self.greatPerson.works()[self.buildChargesValue]
+                city.greatWorks?.store(greatWork: greatWork)
+            } else {
+                fatalError("no slots in city")
+            }
+        }
+    }
+
+    private func activateGreatMusician(in gameModel: GameModel?) {
+
+        guard self.greatPerson.type() == .greatMusician else {
+            fatalError("try to handle wrong type")
+        }
+
+        if let city = gameModel?.city(at: self.location) {
+
+            guard let greatWorks = city.greatWorks else {
+                fatalError("cant get great Works")
+            }
+
+            let slots = greatWorks.slotsAvailable(for: .music)
+
+            if slots > 0 {
+                let greatWork: GreatWork = self.greatPerson.works()[self.buildChargesValue]
+                city.greatWorks?.store(greatWork: greatWork)
+            } else {
+                fatalError("no slots in city")
+            }
+        }
+    }
+
     //    --------------------------------------------------------------------------------
     public func canRecruitFromTacticalAI() -> Bool {
 
         if let tacticalMoveValue = self.tacticalMoveValue {
             return tacticalMoveValue.canRecruitForOperations()
         }
+
         return true
     }
 }

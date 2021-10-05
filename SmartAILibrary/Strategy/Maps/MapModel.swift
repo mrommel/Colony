@@ -384,6 +384,11 @@ open class MapModel: Codable {
         return self.units.filter({ $0?.leader == player.leader && $0?.location == point })
     }
 
+    public func units(of player: AbstractPlayer, in area: HexArea) -> [AbstractUnit?] {
+
+        return self.units.filter({ $0?.leader == player.leader && area.contains($0!.location) })
+    }
+
     func units(for leader: LeaderType) -> [AbstractUnit?] {
 
         return self.units.filter({ $0?.leader == leader })

@@ -26,33 +26,17 @@ public enum UnitType: Int, Codable {
 
     // civilians
 
-    case settler // FIXME Abilities: Found a City on a valid land tile. (Expends the unit and creates a city on its tile.)
-    case builder // FIXME Attributes: Has 3 build charges.
-    /*Abilities:
-     Build Tile Improvement (uses 1 charge)
-     Repair Tile Improvement (uses no charge)
-     Remove Tile Improvement (uses no charge)
-     Harvest Resource (uses 1 charge and provides a one-time yield; Bonus Resources only)
-     Remove Feature (uses 1 charge and provides a one-time yield; Forest, Rainforest, or Marsh only)
-     Plant Woods (uses 1 charge; requires Conservation)
-     Clean Nuclear Fallout*/
+    case settler
+    case builder
     case trader
-    /*
-     Attributes:
-     Creates Roads while traveling along a TradeRoute6 Trade Route.
-     Abilities:
-     Establish a TradeRoute6 Trade Route from its current base city to a destination city within range.
-     Switch City (Instantly moves the Trader to another city in its owner's empire.)
-     */
 
     // recon
 
-    case scout // FIXME Gains XP when activating Tribal Villages (+5 XP) and discovering Natural Wonders (+10 XP), besides the normal gains when fighting.
-    // Follows a special promotion table with promotions oriented towards exploration.
+    case scout
 
     // melee
 
-    case warrior // FIXME +10 Combat Strength vs. anti-cavalry units.
+    case warrior
     case slinger // FIXME -17 Range Strength against district defense and Naval units.
     case archer // FIXME -17 Range Strength against district defense and Naval units.
     case spearman // FIXME +10 Combat Strength vs. light, heavy, and ranged cavalry units.
@@ -61,7 +45,11 @@ public enum UnitType: Int, Codable {
 
     // naval
 
-    case galley // FIXME Ancient era melee naval combat unit. Can only operate on coastal waters until Cartography is researched.
+    case galley
+
+    // naval ranged
+
+    case quadrireme
 
     // support
 
@@ -95,6 +83,9 @@ public enum UnitType: Int, Codable {
 
             // ancient
             .scout, .warrior, .archer, .spearman, .heavyChariot, .galley,
+
+            // classical
+            .quadrireme,
 
             // industrial
             .medic,
@@ -184,6 +175,9 @@ public enum UnitType: Int, Codable {
         case .spearman: return .spearman
         case .heavyChariot: return .heavyChariot
         case .galley: return  .galley
+
+            // classical
+        case .quadrireme: return .quadrireme
 
             // industrial
         case .medic: return .medic
@@ -460,6 +454,26 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 3)
 
+            // classical
+        case .quadrireme:
+            // https://civilization.fandom.com/wiki/Quadrireme_(Civ6)
+            return UnitTypeData(
+                name: "Quadrireme",
+                effects: [
+                    "Has a ranged attack with Range 1.",
+                    "Can only operate on coastal waters until Cartography is researched."
+                ],
+                era: .classical,
+                sight: 2,
+                range: 1,
+                supportDistance: 1,
+                strength: 10,
+                targetType: .navalRanged,
+                meleeAttack: 20,
+                rangedAttack: 25,
+                moves: 3
+            )
+
             // industrial
         case .medic:
             // https://civilization.fandom.com/wiki/Medic_(Civ6)
@@ -680,6 +694,9 @@ public enum UnitType: Int, Codable {
             ]
         case .galley: return []
 
+            // classical
+        case .quadrireme: return []
+
             // industral
         case .medic: return []
 
@@ -717,6 +734,9 @@ public enum UnitType: Int, Codable {
         case .spearman: return .land
         case .heavyChariot: return .land
         case .galley: return .sea
+
+            // classical
+        case .quadrireme: return .sea
 
             // industral
         case .medic: return .land
@@ -760,6 +780,9 @@ public enum UnitType: Int, Codable {
         case .heavyChariot: return [.attack, .defense, .explore]
         case .galley: return [.exploreSea, .attackSea, .escortSea, .reserveSea]
 
+            // classical
+        case .quadrireme: return [.attackSea, .escortSea, .reserveSea]
+
             // industral
         case .medic: return [.unknown]
 
@@ -797,6 +820,9 @@ public enum UnitType: Int, Codable {
         case .spearman: return .defense
         case .heavyChariot: return .attack
         case .galley: return .attackSea // UNITAI_ATTACK_SEA
+
+            // classical
+        case .quadrireme: return .attackSea
 
             // industral
         case .medic: return .unknown
@@ -837,6 +863,9 @@ public enum UnitType: Int, Codable {
 
         case .galley: return .swimShallow
 
+            // classical
+        case .quadrireme: return .swimShallow
+
             // industral
         case .medic: return .walk
 
@@ -874,6 +903,9 @@ public enum UnitType: Int, Codable {
         case .spearman: return 65
         case .heavyChariot: return 65
         case .galley: return 65
+
+            // classical
+        case .quadrireme: return 120
 
             // industral
         case .medic: return 370
@@ -913,6 +945,9 @@ public enum UnitType: Int, Codable {
         case .heavyChariot: return 260
         case .galley: return 260
 
+            // classical
+        case .quadrireme: return 480
+
             // industral
         case .medic: return 1480
 
@@ -950,6 +985,9 @@ public enum UnitType: Int, Codable {
         case .spearman: return -1
         case .heavyChariot: return -1
         case .galley: return -1
+
+            // classical
+        case .quadrireme: return -1
 
             // industral
         case .medic: return -1
@@ -989,6 +1027,9 @@ public enum UnitType: Int, Codable {
         case .heavyChariot: return 1
         case .galley: return 1
 
+            // classical
+        case .quadrireme: return 2
+
             // industral
         case .medic: return 5
 
@@ -1026,6 +1067,9 @@ public enum UnitType: Int, Codable {
         case .spearman: return .bronzeWorking
         case .heavyChariot: return .wheel
         case .galley: return .sailing
+
+            // classical
+        case .quadrireme: return .shipBuilding
 
             // industral
         case .medic: return .sanitation
@@ -1069,6 +1113,9 @@ public enum UnitType: Int, Codable {
         case .spearman: return nil
         case .heavyChariot: return nil
         case .galley: return nil
+
+            // classical
+        case .quadrireme: return nil
 
             // industral
         case .medic: return nil
@@ -1114,6 +1161,8 @@ public enum UnitType: Int, Codable {
         case .heavyChariot: return nil
         case .galley: return nil
 
+        case .quadrireme: return nil
+
             // industrial
         case .medic: return nil
 
@@ -1145,14 +1194,14 @@ public enum UnitType: Int, Codable {
                 return .barbarianWarrior
             }
 
-            return nil
+            return .warrior
 
         case .barbarianArcher:
             if civilization == .barbarian {
                 return .barbarianArcher
             }
 
-            return nil
+            return .archer
 
             // ----------------------------
             // ancient
@@ -1225,6 +1274,15 @@ public enum UnitType: Int, Codable {
             }
 
             return .galley
+
+            // ----------------------------
+            // classical
+        case .quadrireme:
+            if civilization == .barbarian {
+                return nil
+            }
+
+            return .quadrireme
 
             // ----------------------------
             // industrial
@@ -1324,6 +1382,9 @@ public enum UnitType: Int, Codable {
         case .spearman: return [.canCapture]
         case .heavyChariot: return [.canCapture]
         case .galley: return [.oceanImpassable, .canCapture]
+
+            // classical
+        case .quadrireme: return [.oceanImpassable]
 
             // industrial
         case .medic: return [.canHeal]

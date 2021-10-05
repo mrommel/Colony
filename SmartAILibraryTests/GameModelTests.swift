@@ -16,17 +16,18 @@ class GameModelTests: XCTestCase {
     func testWorldEraMedieval() {
         // GIVEN
 
-        // player 1
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         playerAlexander.set(era: .classical)
 
-        // player 2
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         playerAugustus.set(era: .medieval)
 
-        // player 3
         let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
         playerElizabeth.set(era: .medieval)
@@ -35,11 +36,13 @@ class GameModelTests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerElizabeth, playerAugustus, playerAlexander],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerElizabeth, playerAugustus, playerAlexander],
+            on: mapModel
+        )
 
         // WHEN
         let worldEra = gameModel.worldEra()
@@ -51,7 +54,10 @@ class GameModelTests: XCTestCase {
     func testWorldEraMedieval2() {
         // GIVEN
 
-        // player 1
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         playerAlexander.set(era: .classical)
@@ -70,11 +76,13 @@ class GameModelTests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerElizabeth, playerAugustus, playerAlexander],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerElizabeth, playerAugustus, playerAlexander],
+            on: mapModel
+        )
 
         // WHEN
         let worldEra = gameModel.worldEra()
@@ -86,7 +94,10 @@ class GameModelTests: XCTestCase {
     func testWonderCantBeBuiltTwice() {
         // GIVEN
 
-        // player 1
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         playerAlexander.set(era: .classical)
@@ -96,7 +107,6 @@ class GameModelTests: XCTestCase {
             fatalError("cant discover masonry")
         }
 
-        // player 2
         let playerTrajan = Player(leader: .trajan)
         playerTrajan.initialize()
         playerTrajan.set(era: .medieval)
@@ -105,11 +115,13 @@ class GameModelTests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerAlexander, playerTrajan],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerTrajan, playerAlexander],
+            on: mapModel
+        )
 
         // city
         let city = City(name: "Berlin", at: HexPoint.zero, owner: playerAlexander)
@@ -131,7 +143,10 @@ class GameModelTests: XCTestCase {
     func testWonderCantBeBuiltWhenBuiltByAnotherPlayer() {
         // GIVEN
 
-        // player 1
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         playerAlexander.set(era: .classical)
@@ -155,11 +170,13 @@ class GameModelTests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerAlexander, playerTrajan],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerTrajan, playerAlexander],
+            on: mapModel
+        )
 
         // city 1
         let city1 = City(name: "Berlin", at: HexPoint.zero, owner: playerAlexander)

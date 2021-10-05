@@ -164,6 +164,9 @@ public class NotificationItem: Codable, Equatable {
         case .governorTitleAvailable:
             gameModel?.userInterface?.showScreen(screenType: .governors, city: nil, other: nil, data: nil)
 
+        case .canRecruitGreatPerson(greatPerson: _):
+            gameModel?.userInterface?.showScreen(screenType: .greatPeople, city: nil, other: nil, data: nil)
+
         default:
             print("activate \(self.type) not handled")
         }
@@ -273,6 +276,12 @@ public class NotificationItem: Codable, Equatable {
                 return false
             }
 
+            return true
+
+        case .greatPersonJoined:
+            return true
+
+        case .canRecruitGreatPerson(greatPerson: _):
             return true
 
         default:

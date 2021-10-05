@@ -139,9 +139,15 @@ extension GameScene: UserInterfaceDelegate {
         // print("select civic \(civic)")
     }
 
-    func askToDisband(unit: AbstractUnit?, completion: @escaping (Bool) -> Void) {
+    func askForConfirmation(title: String, question: String, confirm: String = "Yes", cancel: String = "No", completion: @escaping (Bool) -> Void) {
 
-        self.viewModel?.delegate?.showDisbandDialog(for: unit, completion: completion)
+        self.viewModel?.delegate?.showConfirmationDialog(
+            title: title,
+            question: question,
+            confirm: confirm,
+            cancel: cancel,
+            completion: completion
+        )
     }
 
     func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?) -> Void) {

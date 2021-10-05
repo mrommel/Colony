@@ -365,7 +365,7 @@ public class CityReligion: AbstractCityReligion, Codable {
         var foundIt: Bool = false
 
         let oldMajorityReligion = self.religiousMajority()
-        let religion = gameModel?.religion(of: religionType)
+        // let religion = gameModel?.religion(of: religionType)
 
         for status in self.religionStatus {
 
@@ -374,12 +374,12 @@ public class CityReligion: AbstractCityReligion, Codable {
                 status.pressure += pressure
                 foundIt = true
 
-            } else if status.religionType == .pantheon {
+            } /*else if status.religionType == .pantheon {
 
                 // If this is pressure from a real religion, reduce presence of pantheon by the same amount
                 status.pressure = max(0, (status.pressure - pressure))
 
-            } /*else if reason == .followerChangeMissionary {
+            } else if reason == .followerChangeMissionary {
 
                 let pressureErosion = religion.belie s.otherReligionPressureErosion() // Normally 0
                 if pressureErosion > 0 {

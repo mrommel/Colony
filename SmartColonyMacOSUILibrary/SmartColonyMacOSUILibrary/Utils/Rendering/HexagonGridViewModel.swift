@@ -112,6 +112,7 @@ class HexagonGridViewModel: ObservableObject {
                 let forest: String? = self.forestTextureName(of: tile, for: humanPlayer)
                 let cityTexture: String? = self.cityTextureName(of: tile, for: humanPlayer)
                 let tileAction: String? = self.tileActionTextureName(of: tile, with: city, for: humanPlayer, in: gameModel)
+                let cost: Int? = city.buyPlotCost(at: HexPoint(x: x, y: y), in: gameModel)
 
                 let hexagonViewModel = HexagonViewModel(at: tile.point,
                                                         tileColor: color,
@@ -120,6 +121,7 @@ class HexagonGridViewModel: ObservableObject {
                                                         forest: forest,
                                                         city: cityTexture,
                                                         tileAction: tileAction,
+                                                        cost: cost,
                                                         showCitizenIcons: self.showCitizenIcons)
                 hexagonViewModel.delegate = self
                 tmpHexagonViewModels.append(hexagonViewModel)
@@ -286,9 +288,11 @@ class HexagonGridViewModel: ObservableObject {
 
             if isNeighborWorkedByCity && tile.isVisible(to: player) {
 
-                let cost: Double = city.buyPlotCost(at: tile.point, in: gameModel)
+                guard let cost = city.buyPlotCost(at: tile.point, in: gameModel) else {
+                    fatalError("cant get tile purchase cost")
+                }
 
-                if cost <= treasury.value() {
+                if Double(cost) <= treasury.value() {
                     return .purchasable
                 } else {
                     return .nonPurchasable

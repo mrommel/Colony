@@ -86,7 +86,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func purchase(district districtType: DistrictType, in gameModel: GameModel?) -> Bool
     @discardableResult
     func purchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
-    func doSpawnGreatPerson(unit unitType: UnitType, in gameModel: GameModel?)
+    func doSpawn(greatPerson: GreatPerson, in gameModel: GameModel?)
 
     func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int
     func unitProductionTurnsLeft(for unitType: UnitType) -> Int
@@ -182,7 +182,7 @@ public protocol AbstractCity: AnyObject, Codable {
     @discardableResult
     func doBuyPlot(at point: HexPoint, in gameModel: GameModel?) -> Bool
     func numPlotsAcquired(by otherPlayer: AbstractPlayer?) -> Int
-    func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Double
+    func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Int?
     func buyPlotScore(in gameModel: GameModel?) -> (Int, HexPoint)
     func changeNumPlotsAcquiredBy(otherPlayer: AbstractPlayer?, change: Int)
     func countNumImprovedPlots(in gameModel: GameModel?) -> Int
@@ -1971,7 +1971,7 @@ public class City: AbstractCity {
                 }
             }
 
-            // +15% Civ6Production Production toward Ancient and Classical wonders.
+            // +15% Production toward Ancient and Classical wonders.
             if government.has(card: .corvee) {
                 if let wonderType = self.productionWonderType() {
                     if wonderType.era() == .ancient || wonderType.era() == .classical {
@@ -1980,28 +1980,28 @@ public class City: AbstractCity {
                 }
             }
 
-            // +30% Civ6Production Production toward Builders.
+            // +30% Production toward Builders.
             if government.has(card: .ilkum) {
                 if self.buildQueue.isCurrentlyTrainingUnit(of: .builder) {
                     modifierPercentage += 0.30
                 }
             }
 
-            // +50% Civ6Production Production toward Settlers.
+            // +50% Production toward Settlers.
             if government.has(card: .colonization) {
                 if self.buildQueue.isCurrentlyTrainingUnit(of: .settler) {
                     modifierPercentage += 0.50
                 }
             }
 
-            // +50% Civ6Production Production toward Ancient and Classical era heavy and light cavalry units.
+            // +50% Production toward Ancient and Classical era heavy and light cavalry units.
             if government.has(card: .maneuver) {
                 if self.buildQueue.isCurrentlyTrainingUnit(of: .heavyCavalry) || self.buildQueue.isCurrentlyTrainingUnit(of: .lightCavalry) {
                     modifierPercentage += 0.50
                 }
             }
 
-            // +100% Civ6Production Production toward Ancient and Classical era naval units.
+            // +100% Production toward Ancient and Classical era naval units.
             if government.has(card: .maritimeIndustries) {
                 if let unitType = self.productionUnitType() {
                     if unitType.unitClass() == .navalMelee && (unitType.era() == .ancient || unitType.era() == .classical) {
@@ -2010,7 +2010,7 @@ public class City: AbstractCity {
                 }
             }
 
-            // +50% Civ6Production Production toward Ancient and Classical era melee, ranged units and anti-cavalry units.
+            // +50% Production toward Ancient and Classical era melee, ranged units and anti-cavalry units.
             if government.has(card: .agoge) {
                 if let unitType = self.productionUnitType() {
                     if (unitType.unitClass() == .melee || unitType.unitClass() == .ranged || unitType.unitClass() == .antiCavalry) && (unitType.era() == .ancient || unitType.era() == .classical) {
@@ -2019,10 +2019,19 @@ public class City: AbstractCity {
                 }
             }
 
-            // Zoning Commissioner - +20% Production Production towards constructing Districts in the city.
+            // Zoning Commissioner - +20% Production towards constructing Districts in the city.
             if self.hasGovernorTitle(of: .zoningCommissioner) {
                 if self.buildQueue.isCurrentlyBuildingDistrict() {
                     modifierPercentage += 0.20
+                }
+            }
+
+            // Themistocles - +20% Production towards Naval Ranged promotion class.
+            if player.hasRetired(greatPerson: .themistocles) {
+                if let unitType = self.productionUnitType() {
+                    if unitType.unitClass() == .navalRanged {
+                        modifierPercentage += 0.20
+                    }
                 }
             }
 
@@ -2735,13 +2744,17 @@ public class City: AbstractCity {
         }
     }
 
-    public func doSpawnGreatPerson(unit unitType: UnitType, in gameModel: GameModel?) {
+    public func doSpawn(greatPerson: GreatPerson, in gameModel: GameModel?) {
+
+        let unitType = greatPerson.type().unitType()
 
         guard unitType.isGreatPerson() else {
             fatalError("\(unitType) is not a greap person type")
         }
 
         let unit = Unit(at: self.location, type: unitType, owner: self.player)
+        unit.greatPerson = greatPerson
+        unit.changeBuildCharges(change: greatPerson.charges())
 
         gameModel?.add(unit: unit)
 
@@ -3333,7 +3346,10 @@ public class City: AbstractCity {
             return false
         }
 
-        let cost: Double = Double(self.buyPlotCost(at: point, in: gameModel))
+        guard let costValue = self.buyPlotCost(at: point, in: gameModel) else {
+            return false
+        }
+        let cost: Double = Double(costValue)
 
         player.treasury?.changeGold(by: -cost)
         player.changeNumPlotsBought(change: 1)
@@ -3356,7 +3372,7 @@ public class City: AbstractCity {
     }
 
     /// How much will purchasing this plot cost -- (-1,-1) will return the generic price
-    public func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Double {
+    public func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Int? {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -3371,11 +3387,12 @@ public class City: AbstractCity {
         }
 
         if point.x == -1 && point.y == -1 {
-            return Double(player.buyPlotCost())
+            //return Double(player.buyPlotCost())
+            fatalError("Why is this?")
         }
 
         guard let tile = gameModel.tile(at: point) else {
-            return -1
+            return nil
         }
 
         // Base cost
@@ -3390,7 +3407,7 @@ public class City: AbstractCity {
 
         // Critical hit!
         if point.distance(to: self.location) > City.workRadius {
-            return 9999
+            return nil
         }
 
         // Reduce distance by the cheapest available (so that the costs don't ramp up ridiculously fast)
@@ -3426,7 +3443,7 @@ public class City: AbstractCity {
             cost /= 5
         }
 
-        return Double(cost)
+        return cost
     }
 
     /// What is the cheapest plot we can get
@@ -3812,7 +3829,11 @@ public class City: AbstractCity {
                 fatalError("cant get treasury")
             }
 
-            if treasury.value() < self.buyPlotCost(at: point, in: gameModel) {
+            guard let cost = self.buyPlotCost(at: point, in: gameModel) else {
+                fatalError("cant get tile buy cost")
+            }
+
+            if treasury.value() < Double(cost) {
                 return false
             }
         }
@@ -3942,14 +3963,16 @@ public class City: AbstractCity {
         }
 
         // Modify value based on cost - the higher it is compared to the "base" cost the less the value
-        let cost = self.buyPlotCost(at: tile.point, in: gameModel)
-        rtnValue *= player.buyPlotCost()
+        if let cost = self.buyPlotCost(at: tile.point, in: gameModel) {
 
-        // Protect against div by 0.
-        if cost != 0 {
-            rtnValue /= Int(cost)
-        } else {
-            rtnValue = 0
+            rtnValue *= player.buyPlotCost()
+
+            // Protect against div by 0.
+            if cost != 0 {
+                rtnValue /= cost
+            } else {
+                rtnValue = 0
+            }
         }
 
         return rtnValue

@@ -154,4 +154,9 @@ public class GreatWorks: Codable {
 
         return available
     }
+
+    func store(greatWork: GreatWork) {
+
+        fatalError("not implemented: store great work")
+    }
 }

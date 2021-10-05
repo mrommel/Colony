@@ -235,6 +235,12 @@ public protocol AbstractPlayer: AnyObject, Codable {
     @discardableResult
     func doEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool
 
+    // great persons
+    func canRecruitGreatPerson(in gameModel: GameModel?) -> Bool
+    func recruit(greatPerson: GreatPerson, in gameModel: GameModel?)
+    func retire(greatPerson: GreatPerson)
+    func hasRetired(greatPerson: GreatPerson) -> Bool
+
     // distance / cities
     func cityDistancePathLength(of point: HexPoint, in gameModel: GameModel?) -> Int
     func numCities(in gameModel: GameModel?) -> Int
@@ -1249,25 +1255,77 @@ public class Player: AbstractPlayer {
 
             if let greatPersonToSpawn = gameModel.greatPerson(of: greatPersonType, points: greatPeople.value(for: greatPersonType), for: self) {
 
-                // ask if user whats this person ?
-                // for now, the user has to take him/her
+                // AI always takes great persons
+                if self.isHuman() {
 
-                // spawn
-                if let capital = gameModel.capital(of: self) {
-                    let greatPersonUnit = Unit(at: capital.location, type: greatPersonToSpawn.type().unitType(), owner: self)
+                    // User get notification
+                    self.notifications()?.add(notification: .canRecruitGreatPerson(greatPerson: greatPersonToSpawn))
 
-                    gameModel.add(unit: greatPersonUnit)
-                    gameModel.userInterface?.show(unit: greatPersonUnit)
+                } else {
 
-                    // notify the user
-                    self.notifications()?.add(notification: .greatPersonJoined)
-
-                    gameModel.invalidate(greatPerson: greatPersonToSpawn)
-                    greatPeople.resetPoint(for: greatPersonType)
+                    self.recruit(greatPerson: greatPersonToSpawn, in: gameModel)
                 }
             }
         }
     }
+
+    public func recruit(greatPerson: GreatPerson, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gamemodel")
+        }
+
+        // spawn
+        if let capital = gameModel.capital(of: self) {
+            // add units
+            capital.doSpawn(greatPerson: greatPerson, in: gameModel)
+
+            // notify the user
+            self.notifications()?.add(notification: .greatPersonJoined)
+
+            gameModel.invalidate(greatPerson: greatPerson)
+            self.greatPeople?.resetPoint(for: greatPerson.type())
+        }
+    }
+
+    public func canRecruitGreatPerson(in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gamemodel")
+        }
+
+        guard let greatPeople = self.greatPeople else {
+            fatalError("cant get greatPeople")
+        }
+
+        for greatPersonType in GreatPersonType.all
+            where gameModel.greatPerson(of: greatPersonType, points: greatPeople.value(for: greatPersonType), for: self) != nil {
+
+            return true
+        }
+
+        return false
+    }
+
+    public func retire(greatPerson: GreatPerson) {
+
+        guard let greatPeople = self.greatPeople else {
+            fatalError("cant get greatPeople")
+        }
+
+        greatPeople.retire(greatPerson: greatPerson)
+    }
+
+    public func hasRetired(greatPerson: GreatPerson) -> Bool {
+
+        guard let greatPeople = self.greatPeople else {
+            fatalError("cant get greatPeople")
+        }
+
+        return greatPeople.hasRetired(greatPerson: greatPerson)
+    }
+
+    // -------------------------------------
 
     // https://civilization.fandom.com/wiki/Age_(Civ6)
     func doProcessAge(in gameModel: GameModel?) {
@@ -1565,77 +1623,6 @@ public class Player: AbstractPlayer {
                 gameModel?.userInterface?.showPopup(popupType: .religionNeedNewAutomaticFaithSelection)
             }
         }
-    }
-
-    /// Time to spawn a Great Prophet?
-    @discardableResult
-    func checkSpawnGreatProphet(in gameModel: GameModel?) -> Bool {
-
-        guard let gameModel = gameModel else {
-            fatalError("cant get gameModel")
-        }
-
-        guard let religion = self.religion else {
-            fatalError("cant get religion")
-        }
-
-        let prophetUnitType: UnitType = .prophet
-
-        let faith: Int = Int(religion.faith())
-        let cost = gameModel.costOfNextProphet(includeDiscounts: true)
-
-        let playerReligion = religion.currentReligion()
-
-        if playerReligion == .none && gameModel.numReligionsStillToFound() <= 0 {
-            return false
-        }
-
-        if faith < cost {
-            return false
-        }
-
-        var chance = 100 // RELIGION_BASE_CHANCE_PROPHET_SPAWN
-        chance += (faith - cost)
-
-        let rand = Int.random(maximum: 100)
-        if rand >= chance {
-            return false
-        }
-
-        let spawnCityRef: AbstractCity? = playerReligion != .none ? gameModel.city(at: religion.holyCityLocation()) : nil
-        var prophetBoughtWithFaith: Bool = false
-
-        if let spawnCity = spawnCityRef {
-            if spawnCity.player?.leader == self.leader {
-
-                if self.isHuman() {
-                    switch self.faithPurchaseType() {
-
-                    case .saveForProphet:
-                        spawnCity.doSpawnGreatPerson(unit: prophetUnitType, in: gameModel)
-                        prophetBoughtWithFaith = true
-                    case .noAutomaticFaithPurchase:
-                        gameModel.userInterface?.showPopup(popupType: .religionEnoughFaithForMissionary)
-                    default:
-                        // NOOP
-                        print()
-                    }
-                } else {
-                    spawnCity.doSpawnGreatPerson(unit: prophetUnitType, in: gameModel)
-                    prophetBoughtWithFaith = true
-                }
-
-            } else {
-                spawnCity.doSpawnGreatPerson(unit: prophetUnitType, in: gameModel)
-                prophetBoughtWithFaith = true
-            }
-
-            if prophetBoughtWithFaith {
-                self.religion?.change(faith: Double(-cost))
-            }
-        }
-
-        return true
     }
 
     func doTurnPost() {
@@ -2978,13 +2965,19 @@ public class Player: AbstractPlayer {
             }
 
             if loopWonders.has(wonder: .colossus) {
-                // +1 TradeRoute6 Trade Route capacity
+                // +1 Trade Route capacity
                 numberOfTradingCapacity += 1
             }
         }
 
         if government.currentGovernment() == .merchantRepublic {
             numberOfTradingCapacity += 2
+        }
+
+        if self.hasRetired(greatPerson: .zhangQian) {
+
+            // Increases Trade Route capacity by 1.
+            numberOfTradingCapacity += 1
         }
 
         return numberOfTradingCapacity

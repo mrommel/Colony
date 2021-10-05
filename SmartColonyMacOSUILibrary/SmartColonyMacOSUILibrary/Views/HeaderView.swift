@@ -19,21 +19,51 @@ struct HeaderView: View {
 
             HStack(alignment: .center, spacing: 0) {
 
+                self.leftButtons
+
+                Spacer()
+
+                self.rightButtons
+            }
+            .padding(.top, 24)
+
+            TechProgressView(viewModel: self.viewModel.techProgressViewModel)
+
+            CivicProgressView(viewModel: self.viewModel.civicProgressViewModel)
+
+            Spacer()
+        }
+        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
+    }
+
+    private var leftButtons: AnyView {
+
+        AnyView(
+            HStack(alignment: .center, spacing: 0) {
+
                 HeaderButtonView(viewModel: self.viewModel.scienceHeaderViewModel)
 
                 HeaderButtonView(viewModel: self.viewModel.cultureHeaderViewModel)
 
                 HeaderButtonView(viewModel: self.viewModel.governmentHeaderViewModel)
 
-                HeaderButtonView(viewModel: self.viewModel.logHeaderViewModel)
+                HeaderButtonView(viewModel: self.viewModel.religionHeaderViewModel)
+
+                HeaderButtonView(viewModel: self.viewModel.greatPeopleHeaderViewModel)
 
                 HeaderButtonView(viewModel: self.viewModel.governorsHeaderViewModel)
 
                 Image(nsImage: ImageCache.shared.image(for: "header-bar-left"))
                     .resizable()
                     .frame(width: 35, height: 47, alignment: .center)
+            }
+        )
+    }
 
-                Spacer()
+    private var rightButtons: AnyView {
+
+        AnyView(
+            HStack(alignment: .center, spacing: 0) {
 
                 Image(nsImage: ImageCache.shared.image(for: "header-bar-right"))
                     .resizable()
@@ -45,15 +75,7 @@ struct HeaderView: View {
                 // trade routes
                 HeaderButtonView(viewModel: self.viewModel.tradeRoutesHeaderViewModel)
             }
-            .padding(.top, 24)
-
-            TechProgressView(viewModel: self.viewModel.techProgressViewModel)
-
-            CivicProgressView(viewModel: self.viewModel.civicProgressViewModel)
-
-            Spacer()
-        }
-        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
+        )
     }
 }
 

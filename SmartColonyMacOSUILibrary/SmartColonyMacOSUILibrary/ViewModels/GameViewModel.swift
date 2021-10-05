@@ -54,7 +54,9 @@ protocol GameViewModelDelegate: AnyObject {
     func showChangePoliciesDialog()
     func showTreasuryDialog()
     func showGovernorsDialog()
+    func showGreatPeopleDialog()
     func showTradeRouteDialog()
+    func showReligionDialog()
 
     func showCityNameDialog()
     func foundCity(named cityName: String)
@@ -75,10 +77,18 @@ protocol GameViewModelDelegate: AnyObject {
     func add(notification: NotificationItem)
     func remove(notification: NotificationItem)
 
-    func showDisbandDialog(for unit: AbstractUnit?, completion: @escaping (Bool) -> Void)
-    func showSelectCityDialog(start startCity: AbstractCity?,
-                              of cities: [AbstractCity?],
-                              completion: @escaping (AbstractCity?) -> Void)
+    func showSelectCityDialog(
+        start startCity: AbstractCity?,
+        of cities: [AbstractCity?],
+        completion: @escaping (AbstractCity?) -> Void
+    )
+    func showConfirmationDialog(
+        title: String,
+        question: String,
+        confirm: String,
+        cancel: String,
+        completion: @escaping (Bool) -> Void
+    )
     func showSelectionDialog(titled title: String, items: [SelectableItem], completion: @escaping (Int) -> Void)
 
     func closeDialog()
@@ -138,7 +148,7 @@ public class GameViewModel: ObservableObject {
     var cityNameDialogViewModel: CityNameDialogViewModel
 
     @Published
-    var unitDisbandConfirmationDialogViewModel: UnitDisbandConfirmationDialogViewModel
+    var confirmationDialogViewModel: ConfirmationDialogViewModel
 
     @Published
     var selectTradeCityDialogViewModel: SelectTradeCityDialogViewModel
@@ -165,10 +175,16 @@ public class GameViewModel: ObservableObject {
     var governorsDialogViewModel: GovernorsDialogViewModel
 
     @Published
+    var greatPeopleDialogViewModel: GreatPeopleDialogViewModel
+
+    @Published
     var tradeRoutesDialogViewModel: TradeRoutesDialogViewModel
 
     @Published
     var selectItemsDialogViewModel: SelectItemsDialogViewModel
+
+    @Published
+    var religionDialogViewModel: ReligionDialogViewModel
 
     // UI
 
@@ -255,7 +271,7 @@ public class GameViewModel: ObservableObject {
         self.techDialogViewModel = TechDialogViewModel()
         self.civicDialogViewModel = CivicDialogViewModel()
         self.cityNameDialogViewModel = CityNameDialogViewModel()
-        self.unitDisbandConfirmationDialogViewModel = UnitDisbandConfirmationDialogViewModel()
+        self.confirmationDialogViewModel = ConfirmationDialogViewModel()
         self.cityDialogViewModel = CityDialogViewModel()
         self.diplomaticDialogViewModel = DiplomaticDialogViewModel()
         self.selectTradeCityDialogViewModel = SelectTradeCityDialogViewModel()
@@ -266,7 +282,9 @@ public class GameViewModel: ObservableObject {
         self.treasuryDialogViewModel = TreasuryDialogViewModel()
         self.governorsDialogViewModel = GovernorsDialogViewModel()
         self.tradeRoutesDialogViewModel = TradeRoutesDialogViewModel()
+        self.greatPeopleDialogViewModel = GreatPeopleDialogViewModel()
         self.selectItemsDialogViewModel = SelectItemsDialogViewModel()
+        self.religionDialogViewModel = ReligionDialogViewModel()
 
         // connect models
         self.gameSceneViewModel.delegate = self
@@ -282,7 +300,7 @@ public class GameViewModel: ObservableObject {
         self.techDialogViewModel.delegate = self
         self.civicDialogViewModel.delegate = self
         self.cityNameDialogViewModel.delegate = self
-        self.unitDisbandConfirmationDialogViewModel.delegate = self
+        self.confirmationDialogViewModel.delegate = self
         self.cityDialogViewModel.delegate = self
         self.diplomaticDialogViewModel.delegate = self
         self.selectTradeCityDialogViewModel.delegate = self
@@ -293,7 +311,9 @@ public class GameViewModel: ObservableObject {
         self.treasuryDialogViewModel.delegate = self
         self.governorsDialogViewModel.delegate = self
         self.tradeRoutesDialogViewModel.delegate = self
+        self.greatPeopleDialogViewModel.delegate = self
         self.selectItemsDialogViewModel.delegate = self
+        self.religionDialogViewModel.delegate = self
 
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -560,6 +580,16 @@ public class GameViewModel: ObservableObject {
         print("- load \(textures.pantheonTypeTextureNames.count) pantheon type textures")
         for pantheonTypeTextureName in textures.pantheonTypeTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: pantheonTypeTextureName), for: pantheonTypeTextureName)
+        }
+
+        print("- load \(textures.religionTypeTextureNames.count) religion type textures")
+        for religionTypeTextureName in textures.religionTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: religionTypeTextureName), for: religionTypeTextureName)
+        }
+
+        print("- load \(textures.beliefTypeTextureNames.count) belief type textures")
+        for beliefTypeTextureName in textures.beliefTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: beliefTypeTextureName), for: beliefTypeTextureName)
         }
 
         print("- load \(textures.promotionTextureNames.count) promotion type textures")
@@ -1024,16 +1054,28 @@ extension GameViewModel: GameViewModelDelegate {
         self.gameSceneViewModel.foundCity(named: cityName)
     }
 
-    func showDisbandDialog(for unit: AbstractUnit?, completion: @escaping (Bool) -> Void) {
+    func showConfirmationDialog(
+        title: String,
+        question: String,
+        confirm: String,
+        cancel: String,
+        completion: @escaping (Bool) -> Void
+    ) {
 
-        if self.currentScreenType == .disbandConfirm {
+        if self.currentScreenType == .confirm {
             // already shown
             return
         }
 
         if self.currentScreenType == .none {
-            self.unitDisbandConfirmationDialogViewModel.update(with: unit, completion: completion)
-            self.currentScreenType = .disbandConfirm
+            self.confirmationDialogViewModel.update(
+                title: title,
+                question: question,
+                confirm: confirm,
+                cancel: cancel,
+                completion: completion
+            )
+            self.currentScreenType = .confirm
         } else {
             fatalError("cant show disband unit confirmation dialog, \(self.currentScreenType) is currently shown")
         }

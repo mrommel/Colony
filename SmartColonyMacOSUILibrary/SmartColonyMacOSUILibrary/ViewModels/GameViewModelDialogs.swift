@@ -69,6 +69,21 @@ extension GameViewModel {
         }
     }
 
+    func showGreatPeopleDialog() {
+
+        if self.currentScreenType == .greatPeople {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.greatPeopleDialogViewModel.update()
+            self.currentScreenType = .greatPeople
+        } else {
+            fatalError("cant show great people dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+
     func showGovernorsDialog() {
 
         if self.currentScreenType == .governors {
@@ -81,6 +96,21 @@ extension GameViewModel {
             self.currentScreenType = .governors
         } else {
             fatalError("cant show governors dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+
+    func showReligionDialog() {
+
+        if self.currentScreenType == .religion {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.religionDialogViewModel.update()
+            self.currentScreenType = .religion
+        } else {
+            fatalError("cant show religion dialog, \(self.currentScreenType) is currently shown")
         }
     }
 

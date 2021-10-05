@@ -42,6 +42,9 @@ extension UnitType {
         case .heavyChariot: return "unit-portrait-default" // default
         case .galley: return "unit-portrait-galley"
 
+            // classical
+        case .quadrireme: return "unit-portrait-default"
+
             // industial
         case .medic: return "unit-portrait-default"
 
@@ -82,6 +85,9 @@ extension UnitType {
         case .heavyChariot: return "unit-type-template-heavyChariot"
         case .galley: return "unit-type-template-galley"
 
+            // classical
+        case .quadrireme: return "unit-type-template-default"
+
             // industrial
         case .medic: return "unit-type-template-medic"
 
@@ -121,6 +127,9 @@ extension UnitType {
         case .spearman: return "unit-type-spearman"
         case .heavyChariot: return "unit-type-heavyChariot"
         case .galley: return "unit-type-galley"
+
+            // classical
+        case .quadrireme: return "unit-type-default"
 
             // industrial
         case .medic: return "unit-type-medic"
@@ -163,7 +172,10 @@ extension UnitType {
         case .archer: return "archer-idle-0"
         case .spearman: return "archer-idle-0"
         case .heavyChariot: return "archer-idle-0"
-        case .galley: return "galley-right-0"
+        case .galley: return "galley-idle-0"
+
+            // classical
+        case .quadrireme: return "quadrireme-idle-0"
 
             // industrial
         case .medic: return "archer-idle-0"
@@ -230,10 +242,15 @@ extension UnitType {
             let textureAtlas = TextureAtlasLoader.load(named: "spearman", in: bundle)
             return textureAtlas?.objectTextureAtlas(for: "idle")
 
-        case .heavyChariot: return nil
+        case .heavyChariot:
+            return ObjectTextureAtlas(template: "chariot-idle-", range: 0..<3)
 
         case .galley:
             return ObjectTextureAtlas(template: "galley-idle-", range: 0..<3)
+
+            // classical
+        case .quadrireme:
+            return ObjectTextureAtlas(template: "quadrireme-idle-", range: 0..<3)
 
             // industrial
         case .medic: return nil
@@ -296,10 +313,15 @@ extension UnitType {
             let textureAtlas = TextureAtlasLoader.load(named: "spearman", in: bundle)
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "south")
 
-        case .heavyChariot: return nil
+        case .heavyChariot:
+            return ObjectTextureAtlas(template: "chariot-south-", range: 0..<3)
 
         case .galley:
             return ObjectTextureAtlas(template: "galley-south-", range: 0..<3)
+
+            // classical
+        case .quadrireme:
+            return ObjectTextureAtlas(template: "quadrireme-south-", range: 0..<3)
 
             // industrial
         case .medic: return nil
@@ -362,10 +384,15 @@ extension UnitType {
             let textureAtlas = TextureAtlasLoader.load(named: "spearman", in: bundle)
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "north")
 
-        case .heavyChariot: return nil
+        case .heavyChariot:
+            return ObjectTextureAtlas(template: "chariot-north-", range: 0..<3)
 
         case .galley:
             return ObjectTextureAtlas(template: "galley-north-", range: 0..<3)
+
+            // classical
+        case .quadrireme:
+            return ObjectTextureAtlas(template: "quadrireme-north-", range: 0..<3)
 
             // industrial
         case .medic: return nil
@@ -428,10 +455,15 @@ extension UnitType {
             let textureAtlas = TextureAtlasLoader.load(named: "spearman", in: bundle)
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west", mirror: true)
 
-        case .heavyChariot: return nil
+        case .heavyChariot:
+            return ObjectTextureAtlas(template: "chariot-east-", range: 0..<3)
 
         case .galley:
-            return ObjectTextureAtlas(template: "galley-right-", range: 0..<3)
+            return ObjectTextureAtlas(template: "galley-east-", range: 0..<3)
+
+            // classical
+        case .quadrireme:
+            return ObjectTextureAtlas(template: "quadrireme-east-", range: 0..<3)
 
             // industrial
         case .medic: return nil
@@ -493,10 +525,15 @@ extension UnitType {
             let textureAtlas = TextureAtlasLoader.load(named: "spearman", in: bundle)
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west")
 
-        case .heavyChariot: return nil
+        case .heavyChariot:
+            return ObjectTextureAtlas(template: "chariot-west-", range: 0..<3)
 
         case .galley:
-            return ObjectTextureAtlas(template: "galley-left-", range: 0..<3)
+            return ObjectTextureAtlas(template: "galley-west-", range: 0..<3)
+
+        // classical
+        case .quadrireme:
+            return ObjectTextureAtlas(template: "quadrireme-west-", range: 0..<3)
 
             // industrial
         case .medic: return nil

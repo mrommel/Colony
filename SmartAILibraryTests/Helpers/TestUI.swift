@@ -12,15 +12,22 @@ import Foundation
 
 class TestUI: UserInterfaceDelegate {
 
-    func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData? = nil) { }
+    func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData? = nil) {}
 
-    func showLeaderMessage(from fromPlayer: AbstractPlayer?, to toPlayer: AbstractPlayer?, deal: DiplomaticDeal?, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType) { }
+    func showLeaderMessage(
+        from fromPlayer: AbstractPlayer?,
+        to toPlayer: AbstractPlayer?,
+        deal: DiplomaticDeal?,
+        state: DiplomaticRequestState,
+        message: DiplomaticRequestMessage,
+        emotion: LeaderEmotionType
+    ) {}
 
-    func update(city: AbstractCity?) { }
+    func update(city: AbstractCity?) {}
 
-    func showPopup(popupType: PopupType) { }
+    func showPopup(popupType: PopupType) {}
 
-    func showScreen(screenType: ScreenType, city: AbstractCity?) { }
+    func showScreen(screenType: ScreenType, city: AbstractCity?) {}
 
     func isShown(screen: ScreenType) -> Bool {
         return false
@@ -38,22 +45,22 @@ class TestUI: UserInterfaceDelegate {
     func refresh(unit: AbstractUnit?) {}
     func animate(unit: AbstractUnit?, animation: UnitAnimationType) {}
 
-    func clearAttackFocus() { }
+    func clearAttackFocus() {}
 
-    func showAttackFocus(at point: HexPoint) { }
+    func showAttackFocus(at point: HexPoint) {}
 
-    func askToDisband(unit: AbstractUnit?, completion: @escaping (Bool) -> Void) {}
+    func askForConfirmation(title: String, question: String, confirm: String, cancel: String, completion: @escaping (Bool) -> Void) {}
     func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?) -> Void) {}
     func askForSelection(title: String, items: [SelectableItem], completion: @escaping (Int) -> Void) {}
 
     func select(tech: TechType) {}
     func select(civic: CivicType) {}
 
-    func show(city: AbstractCity?) { }
+    func show(city: AbstractCity?) {}
 
-    func refresh(tile: AbstractTile?) { }
+    func refresh(tile: AbstractTile?) {}
 
-    func showTooltip(at point: HexPoint, text: String, delay: Double) { }
+    func showTooltip(at point: HexPoint, text: String, delay: Double) {}
 
-    func focus(on location: HexPoint) { }
+    func focus(on location: HexPoint) {}
 }

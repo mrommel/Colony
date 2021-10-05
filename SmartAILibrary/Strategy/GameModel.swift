@@ -67,6 +67,7 @@ open class GameModel: Codable {
     private var greatPersons: GreatPersons?
 
     private var gameStateValue: GameStateType
+    private var votesNeededForDiplomaticVictoryValue: Int = 0
 
     public var rankingData: RankingData
 
@@ -81,6 +82,10 @@ open class GameModel: Codable {
 
         guard let firstPlayer = players.first, firstPlayer.isBarbarian() else {
             fatalError("the first player must be barbarian")
+        }
+
+        guard players.count(where: { $0.isBarbarian() }) == 1 else {
+            fatalError("only one barbarian player is allowed")
         }
 
         guard let lastPlayer = players.last, lastPlayer.isHuman() else {
@@ -106,6 +111,8 @@ open class GameModel: Codable {
         self.map.analyze()
 
         self.barbarianAI = BarbarianAI(with: self)
+
+        self.doUpdateDiplomaticVictory()
     }
 
     public required init(from decoder: Decoder) throws {
@@ -180,6 +187,8 @@ open class GameModel: Codable {
                 }
             }
         }
+
+        self.doUpdateDiplomaticVictory()
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -956,6 +965,11 @@ open class GameModel: Codable {
         return self.map.units(of: player, at: point)
     }
 
+    public func units(of player: AbstractPlayer, in area: HexArea) -> [AbstractUnit?] {
+
+        return self.map.units(of: player, in: area)
+    }
+
     public func unit(at point: HexPoint, of mapType: UnitMapType) -> AbstractUnit? {
 
         return self.map.unit(at: point, of: mapType)
@@ -1452,7 +1466,7 @@ open class GameModel: Codable {
         return false
     }
 
-    func cost(of greatPersonType: GreatPersonType, for player: AbstractPlayer?) -> Int {
+    public func cost(of greatPersonType: GreatPersonType, for player: AbstractPlayer?) -> Int {
 
         guard let player = player else {
             fatalError("cant get player")
@@ -1473,7 +1487,12 @@ open class GameModel: Codable {
         return -1
     }
 
-    func greatPerson(of greatPersonType: GreatPersonType, points greatPersonPoints: Int, for player: AbstractPlayer?) -> GreatPerson? {
+    public func greatPerson(of greatPersonType: GreatPersonType) -> GreatPerson? {
+
+        return self.greatPersons?.current.first(where: { $0.type() == greatPersonType })
+    }
+
+    public func greatPerson(of greatPersonType: GreatPersonType, points greatPersonPoints: Int, for player: AbstractPlayer?) -> GreatPerson? {
 
         // find possible person (with correct type)
         if let greatPersonOfType = self.greatPersons?.current.first(where: { $0.type() == greatPersonType }) {
@@ -1490,6 +1509,28 @@ open class GameModel: Codable {
     func invalidate(greatPerson: GreatPerson) {
 
         self.greatPersons?.invalidate(greatPerson: greatPerson, in: self)
+    }
+
+    func isGreatGeneral(type: GreatPerson, of player: AbstractPlayer?, at location: HexPoint, inRange range: Int) -> Bool {
+
+        guard let player = player else {
+            fatalError("cant get player")
+        }
+
+        for unitRef in self.units(of: player) {
+
+            guard let unit = unitRef else {
+                continue
+            }
+
+            if unit.location.distance(to: location) <= range {
+                if unit.greatPerson == type {
+                    return true
+                }
+            }
+        }
+
+        return false
     }
 
     // MARK: religion methods
@@ -1591,6 +1632,108 @@ open class GameModel: Codable {
     func numReligionsStillToFound() -> Int {
 
         return self.maxActiveReligions() - self.numReligionFounded()
+    }
+
+    public func availableReligions() -> [ReligionType] {
+
+        guard let religions = self.religionsVal else {
+            fatalError("cant get religions")
+        }
+
+        return religions.availableReligions(in: self)
+    }
+}
+
+// MARK: 
+
+extension GameModel {
+
+    /// Update diplo victory parameters, such as how many votes are needed to win
+    func doUpdateDiplomaticVictory() {
+
+        let votesForHost = 1
+        let votesPerCiv = 1
+        let votesPerCityState = 1
+
+        /*for (int i = 0; i < GC.getNumLeagueSpecialSessionInfos(); i++)
+        {
+            LeagueSpecialSessionTypes e = (LeagueSpecialSessionTypes)i;
+            CvLeagueSpecialSessionEntry* pInfo = GC.getLeagueSpecialSessionInfo(e);
+            CvAssert(pInfo != NULL);
+            if (pInfo != NULL)
+            {
+                if (pInfo->IsUnitedNations())
+                {
+                    iVotesForHost = pInfo->GetHostDelegates();
+                    iVotesPerCiv = pInfo->GetCivDelegates();
+                    iVotesPerCityState = pInfo->GetCityStateDelegates();
+                }
+            }
+        }*/
+
+        var civsToCount = 0.0
+        var cityStatesToCount = 0.0
+
+        for player in self.players {
+
+            if player.isAlive() {
+
+                /*if (pPlayer->isMinorCiv()) { // Minor civ
+                    // Bought out does not count (they are no longer in the pool of teams, cannot be liberated, etc.)
+                    if (!pPlayer->GetMinorCivAI()->IsBoughtOut())
+                    {
+                        if (pPlayer->isAlive())
+                        {
+                            fCityStatesToCount += 1.0f;
+                        }
+                        else
+                        {
+                            fCityStatesToCount += 0.5f;
+                        }
+                    }
+                } else { // Major civ */
+                if player.isAlive() {
+                    civsToCount += 1.0
+                } else {
+                    civsToCount += 0.5
+                }
+                // }
+            }
+        }
+
+        // Number of delegates needed to win increases the more civs and city-states there are in the game,
+        // but these two scale differently since civs' delegates are harder to secure. These functions
+        // are based on a logarithmic regression.
+        var civVotesPortion = ( 1.443 /* DIPLO_VICTORY_CIV_DELEGATES_COEFFICIENT */ * log(civsToCount)) + 7.000 /* DIPLO_VICTORY_CIV_DELEGATES_CONSTANT */
+        if civVotesPortion < 0.0 {
+            civVotesPortion = 0.0
+        }
+
+        var cityStateVotesPortion = ( 16.023 /* DIPLO_VICTORY_CS_DELEGATES_COEFFICIENT */ * log(cityStatesToCount)) + -13.758 /* DIPLO_VICTORY_CS_DELEGATES_CONSTANT */
+        if cityStateVotesPortion < 0.0 {
+            cityStateVotesPortion = 0.0
+        }
+
+        var votesToWin: Int = Int(floor(civVotesPortion + cityStateVotesPortion))
+        votesToWin = max(votesForHost + votesPerCiv + 1, votesToWin)
+        votesToWin = min(votesForHost + (votesPerCiv * Int(civsToCount)) + (votesPerCityState * Int(cityStatesToCount)), votesToWin)
+
+        self.set(votesNeededForDiploVictory: votesToWin)
+    }
+
+    /// How many votes are needed to win?
+    func set(votesNeededForDiploVictory: Int) {
+
+        if votesNeededForDiploVictory != self.votesNeededForDiplomaticVictory() {
+
+            self.votesNeededForDiplomaticVictoryValue = votesNeededForDiploVictory
+        }
+    }
+
+    /// How many votes are needed to win?
+    func votesNeededForDiplomaticVictory() -> Int {
+
+        return self.votesNeededForDiplomaticVictoryValue
     }
 }
 

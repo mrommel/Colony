@@ -79,9 +79,11 @@ extension CityCitizenViewModel: HexagonGridViewModelDelegate {
             return
         }
 
-        let cost: Double = Double(city.buyPlotCost(at: point, in: gameModel))
+        guard let cost = city.buyPlotCost(at: point, in: gameModel) else {
+            return
+        }
 
-        if treasury.value() > cost {
+        if treasury.value() > Double(cost) {
             print("purchase: \(cost) at \(point)")
             city.doBuyPlot(at: point, in: gameModel)
         } else {

@@ -108,6 +108,11 @@ class UnitBannerViewModel: ObservableObject {
                 }
             }
 
+            if selectedUnit.isGreatPerson() {
+
+                return selectedUnit.greatPersonName()
+            }
+
             return "\(selectedUnit.healthPoints()) health"
         }
 
@@ -228,7 +233,13 @@ class UnitBannerViewModel: ObservableObject {
         case .disband:
             if let selectedUnit = self.selectedUnit {
 
-                gameModel.userInterface?.askToDisband(unit: selectedUnit, completion: { (disband) in
+                gameModel.userInterface?.askForConfirmation(
+                    title: "Disband",
+                    question: "Do you really want to disband \(selectedUnit.name())?",
+                    confirm: "Disband",
+                    cancel: "Cancel",
+                    completion: { disband in
+
                     if disband {
                         selectedUnit.doKill(delayed: false, by: nil, in: gameModel)
                     }
@@ -265,6 +276,39 @@ class UnitBannerViewModel: ObservableObject {
                         }
                     }
                 })
+            }
+        case .foundReligion:
+            let possibleReligions: [ReligionType] = gameModel.availableReligions()
+            let selectableItems: [SelectableItem] = possibleReligions.map { religionType in
+
+                return SelectableItem(
+                    iconTexture: religionType.iconTexture(),
+                    title: religionType.name(),
+                    subtitle: "")
+            }
+
+                gameModel.userInterface?.askForSelection(title: "", items: selectableItems, completion: { selectedIndex in
+                    print("selected religion: \(possibleReligions[selectedIndex])")
+                })
+            // gameModel.userInterface?.askForReligionAndBeliefs(of: possibleReligions, completion: { (religionType, belief0, belief1) in
+
+                //print("selected religion: \(religionType) + \(belief0) + \(belief1) - todo: found")
+                // selectedUnit.player?.foundReligion
+            //})
+        case .activateGreatPerson:
+            if let selectedUnit = self.selectedUnit {
+
+                gameModel.userInterface?.askForConfirmation(
+                    title: "Activate Great Person",
+                    question: "Do you really want to activate \(selectedUnit.greatPerson.name())?",
+                    confirm: "Activate",
+                    cancel: "Cancel",
+                    completion: { confirmed in
+
+                        if confirmed {
+                            selectedUnit.activateGreatPerson(in: gameModel)
+                        }
+                    })
             }
 
         case .attack:

@@ -95,6 +95,8 @@ extension GameView {
             return AnyView(TreasuryDialogView(viewModel: self.viewModel.treasuryDialogViewModel))
         case .governors:
             return AnyView(GovernorsDialogView(viewModel: self.viewModel.governorsDialogViewModel))
+        case .greatPeople:
+            return AnyView(GreatPeopleDialogView(viewModel: self.viewModel.greatPeopleDialogViewModel))
         case .tradeRoutes:
             return AnyView(TradeRoutesDialogView(viewModel: self.viewModel.tradeRoutesDialogViewModel))
         case .government:
@@ -105,8 +107,6 @@ extension GameView {
             return AnyView(ChangePolicyDialogView(viewModel: self.viewModel.changePolicyDialogViewModel))
         case .selectPromotion:
             return AnyView(SelectPromotionDialogView(viewModel: self.viewModel.selectPromotionDialogViewModel))
-        case .disbandConfirm:
-            return AnyView(UnitDisbandConfirmationDialogView(viewModel: self.viewModel.unitDisbandConfirmationDialogViewModel))
         case .selectTradeCity:
             return AnyView(SelectTradeCityDialogView(viewModel: self.viewModel.selectTradeCityDialogViewModel))
         case .menu:
@@ -117,9 +117,14 @@ extension GameView {
             return AnyView(UnitListDialogView(viewModel: self.viewModel.unitListDialogViewModel))
         case .cityList:
             return AnyView(CityListDialogView(viewModel: self.viewModel.cityListDialogViewModel))
+
         case .selectPantheon:
             return AnyView(SelectPantheonDialogView(viewModel: self.viewModel.selectPantheonDialogViewModel))
+        case .religion:
+            return AnyView(ReligionDialogView(viewModel: self.viewModel.religionDialogViewModel))
 
+        case .confirm:
+            return AnyView(ConfirmationDialogView(viewModel: self.viewModel.confirmationDialogViewModel))
         case .selectItems:
             return AnyView(SelectItemsDialogView(viewModel: self.viewModel.selectItemsDialogViewModel))
         }

@@ -14,6 +14,14 @@ public enum BeliefMainType {
     case worshipBelief
     case founderBelief
     case enhancerBelief
+
+    public static var all: [BeliefMainType] = [
+
+        .followerBelief,
+        .worshipBelief,
+        .founderBelief,
+        .enhancerBelief
+    ]
 }
 
 // https://civilization.fandom.com/wiki/Beliefs_(Civ6)
@@ -31,7 +39,7 @@ public enum BeliefType: Int, Codable {
     case warriorMonks
     // ...
 
-    // worship
+    // worship beliefs
     case allowCathedral
     //case allowDareMehr
     //case allowGurdwara
@@ -39,19 +47,66 @@ public enum BeliefType: Int, Codable {
     case allowMosque
     // ...
 
-    // founder
+    // founder beliefs
     case churchProperty
     case crossCulturalDialogue
     // ...
     case worldChurch
 
-    // enhancer
+    // enhancer beliefs
     case burialGrounds
     case crusade
     // ...
     case itinerantPreachers
     case missionaryZeal
     // ...
+
+    public static var all: [BeliefType] = [
+
+        // follower beliefs
+        .choralMusic,
+        .divineInspiration,
+        .feedTheWorld,
+        .jesuitEducation,
+        .religiousCommunity,
+        .reliquaries,
+        .warriorMonks,
+        // ...
+
+        // worship beliefs
+        .allowCathedral,
+        .allowMeetingHouse,
+        .allowMosque,
+        // ...
+
+        // founder beliefs
+        .churchProperty,
+        .crossCulturalDialogue,
+        // ...
+        .worldChurch,
+
+        // enhancer beliefs
+        .burialGrounds,
+        .crusade,
+        // ...
+        .itinerantPreachers,
+        .missionaryZeal
+    ]
+
+    public func name() -> String {
+
+        return self.data().name
+    }
+
+    public func type() -> BeliefMainType {
+
+        return self.data().mainType
+    }
+
+    public func effect() -> String {
+
+        return self.data().effect
+    }
 
     // MARK: internal classes
 

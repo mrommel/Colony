@@ -70,6 +70,8 @@ public class Textures {
     public let leaderTypeTextureNames: [String]
     public let civilizationTypeTextureNames: [String]
     public let pantheonTypeTextureNames: [String]
+    public let religionTypeTextureNames: [String]
+    public let beliefTypeTextureNames: [String]
     public let promotionTextureNames: [String]
     public let promotionStateBackgroundTextureNames: [String]
     public let governorPortraitTextureNames: [String]
@@ -181,10 +183,12 @@ public class Textures {
         self.attackerHealthTextureNames = Array(0...25).map { "attacker_health\($0)" }
         self.defenderHealthTextureNames = Array(0...25).map { "defender_health\($0)" }
         self.headerTextureNames = [
+            "header-button-science-active", "header-button-science-disabled",
             "header-button-culture-active", "header-button-culture-disabled",
             "header-button-government-active", "header-button-government-disabled",
+            "header-button-religion-active", "header-button-religion-disabled",
+            "header-button-greatPeople-active", "header-button-greatPeople-disabled",
             "header-button-log-active", "header-button-log-disabled",
-            "header-button-science-active", "header-button-science-disabled",
             "header-button-tradeRoutes-active", "header-button-tradeRoutes-disabled",
             "header-button-governors-active", "header-button-governors-disabled",
             "header-alert"
@@ -217,6 +221,8 @@ public class Textures {
         self.leaderTypeTextureNames = LeaderType.all.map { $0.iconTexture() }  + ["leader-random"]
         self.civilizationTypeTextureNames = CivilizationType.all.map { $0.iconTexture() }
         self.pantheonTypeTextureNames = PantheonType.all.map { $0.iconTexture() }
+        self.religionTypeTextureNames = ReligionType.all.map { $0.iconTexture() }
+        self.beliefTypeTextureNames = BeliefMainType.all.map { $0.iconTexture() }
         self.promotionTextureNames = UnitPromotionType.all.map { $0.iconTexture() }
         self.promotionStateBackgroundTextureNames = PromotionState.all.map { $0.iconTexture() }
         self.governorPortraitTextureNames = GovernorType.all.map { $0.portraitTexture() }

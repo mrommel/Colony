@@ -18,7 +18,7 @@ public enum ReligionType: Codable, Equatable {
 
     case none
 
-    case pantheon
+    // case pantheon
 
     case atheism
 
@@ -38,7 +38,21 @@ public enum ReligionType: Codable, Equatable {
     case custom(title: String)
 
     public static var all: [ReligionType] = [
-        .buddhism, .catholicism, .confucianism, .hinduism, .islam, .judaism, .easternOrthodoxy, .protestantism, .shinto, .sikhism, .taoism, .zoroastrianism
+
+        .atheism,
+
+        .buddhism,
+        .catholicism,
+        .confucianism,
+        .hinduism,
+        .islam,
+        .judaism,
+        .easternOrthodoxy,
+        .protestantism,
+        .shinto,
+        .sikhism,
+        .taoism,
+        .zoroastrianism
     ]
 
     // MARK: constructors
@@ -58,6 +72,34 @@ public enum ReligionType: Codable, Equatable {
         try container.encode(self.toKey(), forKey: .value)
     }
 
+    public func name() -> String {
+
+        switch self {
+
+        case .none: return ""
+
+        case .atheism: return "Atheism"
+
+        case .buddhism: return "Buddhism"
+        case .catholicism: return "Catholicism"
+        case .confucianism: return "Confucianism"
+        case .hinduism: return "Hinduism"
+        case .islam: return "Islam"
+        case .judaism: return "Judaism"
+        case .easternOrthodoxy: return "Eastern Orthodoxy"
+        case .protestantism: return "Protestantism"
+        case .shinto: return "Shinto"
+        case .sikhism: return "Sikhism"
+        case .taoism: return "Taoism"
+        case .zoroastrianism: return "Zoroastrianism"
+
+        case .custom(title: let title):
+            return title
+        }
+    }
+
+    // MARK: private methods
+
     private func toKey() -> String {
 
         switch self {
@@ -65,8 +107,8 @@ public enum ReligionType: Codable, Equatable {
         case .none:
             return "none"
 
-        case .pantheon:
-            return "pantheon"
+        // case .pantheon:
+        //     return "pantheon"
 
         case .atheism:
             return "atheism"
