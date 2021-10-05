@@ -84,6 +84,9 @@ public enum UnitType: Int, Codable {
             // ancient
             .scout, .warrior, .archer, .spearman, .heavyChariot, .galley,
 
+            // classical
+            .quadrireme,
+
             // industrial
             .medic,
 
