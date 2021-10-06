@@ -48,6 +48,7 @@
 		C90FC3A223D8D00000720B32 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FC3A123D8D00000720B32 /* Utils.swift */; };
 		C917CCDA26F221D2006DCC42 /* GovernorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C917CCD926F221D2006DCC42 /* GovernorType.swift */; };
 		C917CCDC26F23A16006DCC42 /* GovernorTitleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C917CCDB26F23A16006DCC42 /* GovernorTitleType.swift */; };
+		C91A154E270E2DC300A2EC91 /* TileImprovementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A154D270E2DC200A2EC91 /* TileImprovementTests.swift */; };
 		C91B0021243DCD5900C422C8 /* GoodyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91B0020243DCD5900C422C8 /* GoodyType.swift */; };
 		C91B0023243DCE6000C422C8 /* GoodyHuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91B0022243DCE6000C422C8 /* GoodyHuts.swift */; };
 		C91B0A5323FD37500065C62A /* UnitAbilityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91B0A5223FD37500065C62A /* UnitAbilityType.swift */; };
@@ -383,6 +384,7 @@
 		C90FC3A123D8D00000720B32 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		C917CCD926F221D2006DCC42 /* GovernorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorType.swift; sourceTree = "<group>"; };
 		C917CCDB26F23A16006DCC42 /* GovernorTitleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorTitleType.swift; sourceTree = "<group>"; };
+		C91A154D270E2DC200A2EC91 /* TileImprovementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileImprovementTests.swift; sourceTree = "<group>"; };
 		C91B0020243DCD5900C422C8 /* GoodyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodyType.swift; sourceTree = "<group>"; };
 		C91B0022243DCE6000C422C8 /* GoodyHuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodyHuts.swift; sourceTree = "<group>"; };
 		C91B0A5223FD37500065C62A /* UnitAbilityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitAbilityType.swift; sourceTree = "<group>"; };
@@ -929,6 +931,7 @@
 				C9D78DF02590893C0024ECF0 /* ResourcePlacingTests.swift */,
 				C98DBFB723E0D86000B6CE25 /* TechTests.swift */,
 				C907086723ED579900281161 /* TileDiscoveredTests.swift */,
+				C91A154D270E2DC200A2EC91 /* TileImprovementTests.swift */,
 				C98DBFB123E0580E00B6CE25 /* TileTests.swift */,
 				C956BF6924F3C7B9009702B4 /* TradeRouteTests.swift */,
 				C99047F526CA45A600B1A7A6 /* UnitTests.swift */,
@@ -1739,6 +1742,7 @@
 				C9D8DF7623EF6D0B0091C917 /* DiplomacyAITests.swift in Sources */,
 				C9D78DF12590893C0024ECF0 /* ResourcePlacingTests.swift in Sources */,
 				C9F76AAF243314B80018672A /* CivicTests.swift in Sources */,
+				C91A154E270E2DC300A2EC91 /* TileImprovementTests.swift in Sources */,
 				C99047F626CA45A600B1A7A6 /* UnitTests.swift in Sources */,
 				C9AAC27024D97FFE00FF1E35 /* GameModelTests.swift in Sources */,
 				C9D8DF6C23ED9B9A0091C917 /* FlavorsTests.swift in Sources */,
