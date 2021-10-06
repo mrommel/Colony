@@ -510,12 +510,22 @@ public enum ImprovementType: Int, Codable {
             fatalError("can check without owner")
         }
 
-        if !owner.has(tech: .animalHusbandry) {
+        if !owner.has(tech: .irrigation) {
             return false
         }
 
-        return tile.has(resource: .bananas, for: owner) || tile.has(resource: .citrus, for: owner) || tile.has(resource: .tea, for: owner)
-        // FIXME: cocoa, cotton, coffee, dyes, incense, silk, spices, sugar, tobacco, wine, olives
+        let validResources: [ResourceType] = [
+            .bananas, .citrus, .cocoa, /*.coffee,*/ .cotton, .dyes, .silk, .sugar, .tea, /*.tobacco,*/ .wine /*.olives*/
+        ]
+
+        for validResource in validResources {
+
+            if tile.has(resource: validResource, for: owner) {
+                return true
+            }
+        }
+
+        return false
     }
 
     private func isFishingBoatsPossible(on tile: AbstractTile?) -> Bool {

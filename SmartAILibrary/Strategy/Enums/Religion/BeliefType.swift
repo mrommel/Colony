@@ -10,16 +10,16 @@ import Foundation
 
 public enum BeliefMainType {
 
+    case founderBelief
     case followerBelief
     case worshipBelief
-    case founderBelief
     case enhancerBelief
 
     public static var all: [BeliefMainType] = [
 
+        .founderBelief,
         .followerBelief,
         .worshipBelief,
-        .founderBelief,
         .enhancerBelief
     ]
 }

@@ -203,6 +203,13 @@ class UnitBannerViewModel: ObservableObject {
                 let quarryBuildMission = UnitMission(type: .build, buildType: .quarry, at: selectedUnit.location)
                 selectedUnit.push(mission: quarryBuildMission, in: gameModel)
             }
+
+        case .buildPlantation:
+            if let selectedUnit = self.selectedUnit {
+                let plantationBuildMission = UnitMission(type: .build, buildType: .plantation, at: selectedUnit.location)
+                selectedUnit.push(mission: plantationBuildMission, in: gameModel)
+            }
+
         case .buildFishingBoats:
             if let selectedUnit = self.selectedUnit {
                 let fishingBuildMission = UnitMission(type: .build, buildType: .fishingBoats, at: selectedUnit.location)
@@ -278,23 +285,48 @@ class UnitBannerViewModel: ObservableObject {
                 })
             }
         case .foundReligion:
-            let possibleReligions: [ReligionType] = gameModel.availableReligions()
-            let selectableItems: [SelectableItem] = possibleReligions.map { religionType in
+            if let selectedUnit = self.selectedUnit {
 
-                return SelectableItem(
-                    iconTexture: religionType.iconTexture(),
-                    title: religionType.name(),
-                    subtitle: "")
-            }
+                guard let city = gameModel.city(at: selectedUnit.location) else {
+                    fatalError("founding religion needs to take place in a city")
+                }
 
-                gameModel.userInterface?.askForSelection(title: "", items: selectableItems, completion: { selectedIndex in
-                    print("selected religion: \(possibleReligions[selectedIndex])")
+                guard city.has(district: .holySite) else {
+                    fatalError("founding religion needs to take place in a city with a holy district")
+                }
+
+                let possibleReligions: [ReligionType] = gameModel.availableReligions()
+                let selectableItems: [SelectableItem] = possibleReligions.map { religionType in
+
+                    return SelectableItem(
+                        iconTexture: religionType.iconTexture(),
+                        title: religionType.name(),
+                        subtitle: "")
+                }
+
+                gameModel.userInterface?.askForSelection(title: "Found Religion", items: selectableItems, completion: { selectedIndex in
+
+                    let religion = possibleReligions[selectedIndex]
+                    print("### selected religion: \(religion) ###")
+
+                    guard let playerReligion = self.selectedUnit?.player?.religion else {
+                        fatalError("cant get player religion")
+                    }
+
+                    playerReligion.found(religion: religion, at: city, in: gameModel)
+
+                    // first two beliefs still need to be selected
+                    gameModel.userInterface?.showScreen(
+                        screenType: .religion,
+                        city: nil,
+                        other: nil,
+                        data: nil
+                    )
+
+                    // finally kill this great prophet
+                    selectedUnit.doKill(delayed: true, by: nil, in: gameModel)
                 })
-            // gameModel.userInterface?.askForReligionAndBeliefs(of: possibleReligions, completion: { (religionType, belief0, belief1) in
-
-                //print("selected religion: \(religionType) + \(belief0) + \(belief1) - todo: found")
-                // selectedUnit.player?.foundReligion
-            //})
+            }
         case .activateGreatPerson:
             if let selectedUnit = self.selectedUnit {
 

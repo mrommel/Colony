@@ -45,6 +45,21 @@ struct DebugView: View {
                         Text("All Units")
                     }).buttonStyle(GameButtonStyle())
 
+                    Button(action: {
+                        self.viewModel.createFastReligionFoundingWorld()
+                    }, label: {
+                        Text("Fast religion founding")
+                    }).buttonStyle(GameButtonStyle())
+
+                    Button(action: {
+                        self.viewModel.createTileImprovementsWorld()
+                    }, label: {
+                        Text("Tile Improvements")
+                    }).buttonStyle(GameButtonStyle())
+
+                    Spacer()
+                        .frame(height: 30, alignment: .center)
+
                     Button("Quit") {
                         self.viewModel.close()
                     }
