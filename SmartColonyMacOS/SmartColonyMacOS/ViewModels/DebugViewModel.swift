@@ -327,7 +327,7 @@ class DebugViewModel: ObservableObject {
         humanPlayer.initialize()
 
         var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
-        
+
         mapModel.set(terrain: .plains, at: HexPoint(x: 2, y: 4))
         mapModel.set(hills: true, at: HexPoint(x: 2, y: 4))
 

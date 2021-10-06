@@ -515,7 +515,7 @@ public enum ImprovementType: Int, Codable {
         }
 
         let validResources: [ResourceType] = [
-            .bananas, .citrus, .cocoa, /*.coffee,*/ .cotton, .dyes, .silk, .sugar, .tea, /*.tobacco,*/ .wine, /*.olives*/
+            .bananas, .citrus, .cocoa, /*.coffee,*/ .cotton, .dyes, .silk, .sugar, .tea, /*.tobacco,*/ .wine /*.olives*/
         ]
 
         for validResource in validResources {
