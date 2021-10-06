@@ -53,6 +53,8 @@ public enum ResourceType: Int, Codable {
     case crab // https://civilization.fandom.com/wiki/Crabs_(Civ6)
     case cocoa // https://civilization.fandom.com/wiki/Cocoa_(Civ6)
 
+    /* .coffee, .tobacco, .olives */
+
     // strategic
     case horses
     case iron // https://civilization.fandom.com/wiki/Iron_(Civ6)
@@ -141,7 +143,7 @@ public enum ResourceType: Int, Codable {
         }
     }
 
-    func accessImprovement() -> ImprovementType {
+    /*func accessImprovement() -> ImprovementType {
 
         switch self {
 
@@ -172,7 +174,7 @@ public enum ResourceType: Int, Codable {
         case .oil:
             return .oilWell // offshoreOilRig !!!
         }
-    }
+    }*/
 
     func flavor(for flavorType: FlavorType) -> Int {
 
@@ -573,7 +575,7 @@ public enum ResourceType: Int, Codable {
         case .fish:
             return FeatureData(name: "Fish",
                                usage: .bonus,
-                               revealTech: .celestialNavigation,
+                               revealTech: .sailing,
                                placementOrder: 4,
                                placementBaseAmount: 36,
                                placedOnHills: false,

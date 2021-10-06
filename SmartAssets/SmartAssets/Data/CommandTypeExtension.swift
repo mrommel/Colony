@@ -19,6 +19,7 @@ extension CommandType {
         case .buildCamp: return "command-camp"
         case .buildPasture: return "command-pasture"
         case .buildQuarry: return "command-quarry"
+        case .buildPlantation: return "command-plantation"
         case .buildFishingBoats: return "command-fishingBoats"
 
         case .hold: return "command-hold"
@@ -51,6 +52,7 @@ extension CommandType {
         case .buildCamp: return "command-button-camp"
         case .buildPasture: return "command-button-pasture"
         case .buildQuarry: return "command-button-quarry"
+        case .buildPlantation: return "command-button-plantation"
         case .buildFishingBoats: return "command-button-fishingBoats"
 
         case .hold: return "command-button-hold"

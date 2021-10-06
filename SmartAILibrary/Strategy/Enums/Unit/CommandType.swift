@@ -17,6 +17,7 @@ public enum CommandType {
     case buildCamp
     case buildPasture
     case buildQuarry
+    case buildPlantation
     case buildFishingBoats
 
     case pillage
@@ -44,7 +45,7 @@ public enum CommandType {
     public static var all: [CommandType] {
 
         return [
-            .found, .buildFarm, .buildMine, .buildCamp, .buildPasture, .buildQuarry, .buildFishingBoats,
+            .found, .buildFarm, .buildMine, .buildCamp, .buildPasture, .buildQuarry, .buildPlantation, .buildFishingBoats,
             .pillage, .fortify, .hold, .garrison,
             .disband, .cancelOrder,
             .automateExploration /*, .automateBuild*/, .establishTradeRoute, .foundReligion,
@@ -62,6 +63,7 @@ public enum CommandType {
         case .buildCamp: return "Camp"
         case .buildPasture: return "Pasture"
         case .buildQuarry: return "Quarry"
+        case .buildPlantation: return "Plantation"
         case .buildFishingBoats: return "Fishing Boats"
         //case .buildRoute: return "Build Route"
         case .pillage: return "Pillage Improvement"

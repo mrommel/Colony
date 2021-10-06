@@ -2792,6 +2792,9 @@ public class Unit: AbstractUnit {
         case .buildQuarry:
             return self.canBuild(build: .quarry, at: self.location, testVisible: true, testGold: true, in: gameModel)
 
+        case .buildPlantation:
+            return self.canBuild(build: .plantation, at: self.location, testVisible: true, testGold: true, in: gameModel)
+
         case .buildFishingBoats:
             return self.canBuild(build: .fishingBoats, at: self.location, testVisible: true, testGold: true, in: gameModel)
 
@@ -4652,8 +4655,10 @@ extension Unit {
             // Your nearest city annexes this tile into its territory.
             if let tile = gameModel.tile(at: self.location), let nextCity = gameModel.nearestCity(at: self.location, of: player) {
                 do {
-                    try tile.setWorkingCity(to: nextCity)
                     try tile.set(owner: player)
+                    try tile.setWorkingCity(to: nextCity)
+
+                    player.addPlot(at: self.location)
                 } catch {
                     // NOOP
                 }

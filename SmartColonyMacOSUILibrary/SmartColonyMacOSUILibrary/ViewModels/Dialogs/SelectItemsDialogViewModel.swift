@@ -105,6 +105,7 @@ extension SelectItemsDialogViewModel: SelectItemViewModelDelegate {
     func selected(index: Int) {
 
         self.completion?(index)
+        self.delegate?.closeDialog()
     }
 }
 

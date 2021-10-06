@@ -39,8 +39,6 @@ public enum ReligionType: Codable, Equatable {
 
     public static var all: [ReligionType] = [
 
-        .atheism,
-
         .buddhism,
         .catholicism,
         .confucianism,

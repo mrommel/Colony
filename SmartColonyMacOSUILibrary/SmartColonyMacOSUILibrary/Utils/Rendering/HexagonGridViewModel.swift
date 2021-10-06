@@ -289,7 +289,7 @@ class HexagonGridViewModel: ObservableObject {
             if isNeighborWorkedByCity && tile.isVisible(to: player) {
 
                 guard let cost = city.buyPlotCost(at: tile.point, in: gameModel) else {
-                    fatalError("cant get tile purchase cost")
+                    return .none
                 }
 
                 if Double(cost) <= treasury.value() {

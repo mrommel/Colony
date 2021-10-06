@@ -38,10 +38,13 @@ public protocol AbstractPlayerReligion: AnyObject, Codable {
 
     func currentReligion() -> ReligionType
     func religionInMostCities() -> ReligionType
-
+    func found(religion religionType: ReligionType, at city: AbstractCity?, in gameModel: GameModel?)
     func holyCityLocation() -> HexPoint
 
-    // belief effects
+    // beliefs
+    func hasSelected(beliefType: BeliefMainType) -> Bool
+    func select(founderBelief: BeliefType)
+    func select(followerBelief: BeliefType)
     func spreadDistanceModifier() -> Int
 }
 
@@ -52,10 +55,10 @@ class PlayerReligion: AbstractPlayerReligion {
         case faith
         case pantheon
         case religionFounded
-        case belief0
-        case belief1
-        case belief2
-        case belief3
+        case founderBelief
+        case followerBelief
+        case worshipBelief
+        case enhancerBelief
         case majorityPlayerReligion
         case holyCityLocation
     }
@@ -66,10 +69,10 @@ class PlayerReligion: AbstractPlayerReligion {
     var faithVal: Double
     var pantheonVal: PantheonType
     var religionFounded: ReligionType
-    var beliefVal0: BeliefType
-    var beliefVal1: BeliefType
-    var beliefVal2: BeliefType
-    var beliefVal3: BeliefType
+    var founderBeliefVal: BeliefType
+    var followerBeliefVal: BeliefType
+    var worshipBeliefVal: BeliefType
+    var enhancerBeliefVal: BeliefType
     var majorityPlayerReligion: ReligionType
     var holyCityLocationVal: HexPoint
 
@@ -82,10 +85,10 @@ class PlayerReligion: AbstractPlayerReligion {
         self.faithVal = 0.0
         self.pantheonVal = .none
         self.religionFounded = .none
-        self.beliefVal0 = .none
-        self.beliefVal1 = .none
-        self.beliefVal2 = .none
-        self.beliefVal3 = .none
+        self.founderBeliefVal = .none
+        self.followerBeliefVal = .none
+        self.worshipBeliefVal = .none
+        self.enhancerBeliefVal = .none
         self.majorityPlayerReligion = .none
         self.holyCityLocationVal = .invalid
     }
@@ -97,10 +100,10 @@ class PlayerReligion: AbstractPlayerReligion {
         self.faithVal = try container.decode(Double.self, forKey: .faith)
         self.pantheonVal = try container.decode(PantheonType.self, forKey: .pantheon)
         self.religionFounded = try container.decode(ReligionType.self, forKey: .religionFounded)
-        self.beliefVal0 = try container.decode(BeliefType.self, forKey: .belief0)
-        self.beliefVal1 = try container.decode(BeliefType.self, forKey: .belief1)
-        self.beliefVal2 = try container.decode(BeliefType.self, forKey: .belief2)
-        self.beliefVal3 = try container.decode(BeliefType.self, forKey: .belief3)
+        self.founderBeliefVal = try container.decode(BeliefType.self, forKey: .founderBelief)
+        self.followerBeliefVal = try container.decode(BeliefType.self, forKey: .followerBelief)
+        self.worshipBeliefVal = try container.decode(BeliefType.self, forKey: .worshipBelief)
+        self.enhancerBeliefVal = try container.decode(BeliefType.self, forKey: .enhancerBelief)
         self.majorityPlayerReligion = try container.decode(ReligionType.self, forKey: .majorityPlayerReligion)
         self.holyCityLocationVal = try container.decode(HexPoint.self, forKey: .holyCityLocation)
     }
@@ -112,10 +115,10 @@ class PlayerReligion: AbstractPlayerReligion {
         try container.encode(self.faithVal, forKey: .faith)
         try container.encode(self.pantheonVal, forKey: .pantheon)
         try container.encode(self.religionFounded, forKey: .religionFounded)
-        try container.encode(self.beliefVal0, forKey: .belief0)
-        try container.encode(self.beliefVal1, forKey: .belief1)
-        try container.encode(self.beliefVal2, forKey: .belief2)
-        try container.encode(self.beliefVal3, forKey: .belief3)
+        try container.encode(self.founderBeliefVal, forKey: .founderBelief)
+        try container.encode(self.followerBeliefVal, forKey: .followerBelief)
+        try container.encode(self.worshipBeliefVal, forKey: .worshipBelief)
+        try container.encode(self.enhancerBeliefVal, forKey: .enhancerBelief)
         try container.encode(self.majorityPlayerReligion, forKey: .majorityPlayerReligion)
         try container.encode(self.holyCityLocationVal, forKey: .holyCityLocation)
     }
@@ -322,7 +325,7 @@ class PlayerReligion: AbstractPlayerReligion {
 
     func isEnhanced() -> Bool {
 
-        return self.beliefVal2 != .none || self.beliefVal3 != .none
+        return self.worshipBeliefVal != .none || self.enhancerBeliefVal != .none
     }
 
     func currentReligion() -> ReligionType {
@@ -335,12 +338,49 @@ class PlayerReligion: AbstractPlayerReligion {
         return self.majorityPlayerReligion
     }
 
+    func found(religion religionType: ReligionType, at cityRef: AbstractCity?, in gameModel: GameModel?) {
+
+        guard let city = cityRef else {
+            fatalError("cant get religion found city")
+        }
+
+        gameModel?.religions()
+
+        self.religionFounded = religionType
+        self.holyCityLocationVal = city.location
+    }
+
+    func hasSelected(beliefType: BeliefMainType) -> Bool {
+
+        switch beliefType {
+
+        case .followerBelief:
+            return self.followerBeliefVal != .none
+        case .worshipBelief:
+            return self.worshipBeliefVal != .none
+        case .founderBelief:
+            return self.founderBeliefVal != .none
+        case .enhancerBelief:
+            return self.enhancerBeliefVal != .none
+        }
+    }
+
+    func select(founderBelief: BeliefType) {
+
+        self.founderBeliefVal = founderBelief
+    }
+
+    func select(followerBelief: BeliefType) {
+
+        self.followerBeliefVal = followerBelief
+    }
+
     func has(belief beliefType: BeliefType) -> Bool {
 
-        return self.beliefVal0 == beliefType ||
-            self.beliefVal1 == beliefType ||
-            self.beliefVal2 == beliefType ||
-            self.beliefVal3 == beliefType
+        return self.founderBeliefVal == beliefType ||
+            self.followerBeliefVal == beliefType ||
+            self.worshipBeliefVal == beliefType ||
+            self.enhancerBeliefVal == beliefType
     }
 }
 

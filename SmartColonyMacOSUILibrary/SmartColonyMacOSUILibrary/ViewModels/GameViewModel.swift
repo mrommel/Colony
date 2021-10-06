@@ -1044,6 +1044,9 @@ extension GameViewModel: GameViewModelDelegate {
         case .governors:
             self.showGovernorsDialog()
 
+        case .religion:
+            self.showReligionDialog()
+
         default:
             print("screen: \(screenType) not handled")
         }
