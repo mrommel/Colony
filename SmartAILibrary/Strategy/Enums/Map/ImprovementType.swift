@@ -21,17 +21,29 @@ public enum ImprovementType: Int, Codable {
     case quarry
     case camp
     case pasture
-
     case plantation
+
     case fishingBoats
     /*case lumberMill*/
     case oilWell
 
-    case fort // Occupying unit receives +4 Civ6StrengthIcon Defense Strength, and automatically gains 2 turns of fortification.
+    case fort // Occupying unit receives +4 Defense Strength, and automatically gains 2 turns of fortification.
     case citadelle
 
     public static var all: [ImprovementType] {
-        return [.farm, .mine, .quarry, .camp, .pasture, .plantation, .fishingBoats, .oilWell, .fort, .citadelle]
+
+        return [
+            .farm,
+            .mine,
+            .quarry,
+            .camp,
+            .pasture,
+            .plantation,
+            .fishingBoats,
+            .oilWell,
+            .fort,
+            .citadelle
+        ]
     }
 
     // https://civilization.fandom.com/wiki/Tile_improvement_(Civ6)
@@ -518,11 +530,9 @@ public enum ImprovementType: Int, Codable {
             .bananas, .citrus, .cocoa, /*.coffee,*/ .cotton, .dyes, .silk, .sugar, .tea, /*.tobacco,*/ .wine /*.olives*/
         ]
 
-        for validResource in validResources {
+        for validResource in validResources where tile.has(resource: validResource, for: owner) {
 
-            if tile.has(resource: validResource, for: owner) {
-                return true
-            }
+            return true
         }
 
         return false
@@ -542,8 +552,16 @@ public enum ImprovementType: Int, Codable {
             return false
         }
 
-        return tile.has(resource: .fish, for: owner) || tile.has(resource: .whales, for: owner) || tile.has(resource: .pearls, for: owner) || tile.has(resource: .crab, for: owner)
-        // FIXME: amber, turtles
+        let validResources: [ResourceType] = [
+            .fish, .whales, .pearls, .crab // amber, turtles
+        ]
+
+        for validResource in validResources where tile.has(resource: validResource, for: owner) {
+
+            return true
+        }
+
+        return false
     }
 
     private func isOilWellPossible(on tile: AbstractTile?) -> Bool {
@@ -621,7 +639,7 @@ public enum ImprovementType: Int, Codable {
         }
     }
 
-    func enables(resource: ResourceType) -> Bool {
+    /* func enables(resource: ResourceType) -> Bool {
 
         if self == .farm && (resource == .wheat || resource == .rice) {
             return true
@@ -637,12 +655,12 @@ public enum ImprovementType: Int, Codable {
             return true
         }
 
-        // Bananas Citrus Cocoa Coffee Cotton Dyes Silk Sugar Tea Tobacco Wine Olives (Civ6) Olives
+        // Bananas Citrus Cocoa Coffee Cotton Dyes Silk Sugar Tea Tobacco Wine Olives
         if self == .plantation && (resource == .bananas || resource == .citrus || resource == .tea) {
             return true
         }
 
-        // Deer Furs Ivory Truffles (Civ6) Truffles
+        // Deer Furs Ivory Truffles
         if self == .camp && (resource == .deer || resource == .furs) {
             return true
         }
@@ -663,5 +681,5 @@ public enum ImprovementType: Int, Codable {
         }
 
         return false
-    }
+    } */
 }

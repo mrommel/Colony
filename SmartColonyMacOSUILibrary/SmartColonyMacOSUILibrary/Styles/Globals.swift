@@ -73,7 +73,11 @@ public extension Globals {
         }
 
         public static var loyalty: NSImage {
-            return loadCachedTexture(with: "loyalty")
+            return Icons.loadCachedTexture(with: "loyalty")
+        }
+
+        public static var capital: NSImage {
+            return Icons.loadCachedTexture(with: "capital")
         }
     }
 }
