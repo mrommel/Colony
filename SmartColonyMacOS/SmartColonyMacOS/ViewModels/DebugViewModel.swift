@@ -373,6 +373,8 @@ class DebugViewModel: ObservableObject {
         if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
             humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
 
+            humanCity.assign(governor: .amani)
+
             for pointToClaim in HexPoint(x: 3, y: 5).areaWith(radius: 2) {
                 if let tileToClaim = gameModel.tile(at: pointToClaim) {
                     if !tileToClaim.hasOwner() {
