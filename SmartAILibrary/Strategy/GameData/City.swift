@@ -154,6 +154,10 @@ public protocol AbstractCity: AnyObject, Codable {
     func hasGarrison() -> Bool
     func setGarrison(unit: AbstractUnit?)
 
+    func combatStrength(against attacker: AbstractUnit?, in gameModel: GameModel?) -> Int
+    func baseCombatStrength(in gameModel: GameModel?) -> Int
+    func combatStrengthModifiers(against attacker: AbstractUnit?, in gameModel: GameModel?) -> [CombatModifier]
+
     func canRangeStrike(towards point: HexPoint) -> Bool
     func rangedCombatTargetLocations(in gameModel: GameModel?) -> [HexPoint]
     func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?) -> Int
@@ -2944,7 +2948,7 @@ public class City: AbstractCity {
 
     public func canRangeStrike(towards point: HexPoint) -> Bool {
 
-        if self.location.distance(to: point) > 2 {
+        if self.location.distance(to: point) > self.strikeRange() {
             return false
         }
 
@@ -2963,7 +2967,7 @@ public class City: AbstractCity {
 
         var targets: [HexPoint] = []
 
-        for targetLocation in self.location.areaWith(radius: 2) {
+        for targetLocation in self.location.areaWith(radius: self.strikeRange()) {
 
             guard let targetUnitRefs = gameModel?.units(at: targetLocation) else {
                 continue
@@ -2987,6 +2991,143 @@ public class City: AbstractCity {
         return targets
     }
 
+    public func baseCombatStrength(in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        /* Base strength, equal to that of the strongest melee unit your civilization currently possesses minus 10, or to the unit which is garrisoned inside the city (whichever is greater). Note also that Corps or Army units are capable of pushing this number higher than otherwise possible for this Era, so when you station such a unit in a city, its CS will increase accordingly; */
+        var bestUnitType: UnitType = UnitType.warrior
+        for unitRef in gameModel.units(of: player) {
+
+            guard let unit = unitRef else {
+                continue
+            }
+
+            if unit.type.meleeStrength() > bestUnitType.meleeStrength() {
+                bestUnitType = unit.type
+            }
+        }
+
+        if let unit = self.garrisonedUnit() {
+
+            let unitStrength = unit.attackStrength(against: nil, or: nil, on: nil, in: gameModel)
+            let warriorStrength = bestUnitType.meleeStrength() - 10
+
+            return max(warriorStrength, unitStrength)
+        } else {
+            return bestUnitType.meleeStrength() - 10
+        }
+    }
+
+    public func combatStrengthModifiers(against attacker: AbstractUnit? = nil, in gameModel: GameModel?) -> [CombatModifier] {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+
+        var modifiers: [CombatModifier] = []
+
+        if let attacker = attacker {
+
+            if let tile = gameModel.tile(at: self.location) {
+
+                if let attackerTile = gameModel.tile(at: attacker.location) {
+                    if tile.isRiverToCross(towards: attackerTile) {
+                        modifiers.append(CombatModifier(value: 5, title: "River defense"))
+                    }
+                }
+
+                if tile.hasHills() {
+                    // Bonus if the city is built on a Hill; this is the normal +3 bonus which is native to Hills.
+                    modifiers.append(CombatModifier(value: 3, title: "Ideal terrain"))
+                }
+            }
+        }
+
+        ////////////////////////
+        // difficulty / handicap bonus
+        ////////////////////////
+        if self.isHuman() {
+            let handicapBonus = gameModel.handicap.freeHumanCombatBonus()
+            if handicapBonus != 0 {
+                modifiers.append(CombatModifier(value: handicapBonus, title: "Bonus due to difficulty"))
+            }
+        } else if !self.isBarbarian() {
+            let handicapBonus = gameModel.handicap.freeAICombatBonus()
+            if handicapBonus != 0 {
+                modifiers.append(CombatModifier(value: handicapBonus, title: "Bonus due to difficulty"))
+            }
+        }
+
+        if attacker != nil {
+
+            var wallDefensesValue = 0
+            if buildings.has(building: .ancientWalls) {
+                wallDefensesValue += 3
+            }
+
+            if buildings.has(building: .medievalWalls) {
+                wallDefensesValue += 3
+            }
+
+            if buildings.has(building: .renaissanceWalls) {
+                wallDefensesValue += 3
+            }
+
+            if wallDefensesValue > 0 {
+                modifiers.append(CombatModifier(value: wallDefensesValue, title: "Wall defenses"))
+            }
+
+            if government.has(card: .bastions) {
+                modifiers.append(CombatModifier(value: 5, title: "Enhanced defences"))
+            }
+        }
+
+        if districts.hasAny() {
+            modifiers.append(CombatModifier(value: 2 * districts.numberOfBuildDistricts(), title: "from districts"))
+        }
+
+        // capital
+        if self.isCapital() {
+            modifiers.append(CombatModifier(value: 3, title: "Palace guard"))
+        }
+
+        return modifiers
+    }
+
+    // https://civilization.fandom.com/wiki/City_combat_(Civ5)
+    public func combatStrength(against attacker: AbstractUnit? = nil, in gameModel: GameModel?) -> Int {
+
+        var combatStrengthValue = 0
+
+        combatStrengthValue += self.baseCombatStrength(in: gameModel)
+
+        for combatStrengthModifier in self.combatStrengthModifiers(against: attacker, in: gameModel) {
+
+            combatStrengthValue += combatStrengthModifier.value
+        }
+
+        return combatStrengthValue
+    }
+
     public func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?) -> Int {
 
         guard let player = self.player else {
@@ -2997,12 +3138,11 @@ public class City: AbstractCity {
             fatalError("cant get government")
         }
 
-        guard let defender = defender else {
-            fatalError("defender not found")
-        }
+        if let defender = defender {
 
-        if !self.canRangeStrike(at: defender.location) {
-            return 0
+            if !self.canRangeStrike(at: defender.location) {
+                return 0
+            }
         }
 
         var rangedStrength = 15 // slinger / no requirement
@@ -3022,7 +3162,7 @@ public class City: AbstractCity {
             rangedStrength = 60
         }*/
 
-        // +5 City Civ6RangedStrength Ranged Strength.
+        // +5 City Ranged Strength.
         if government.has(card: .bastions) {
             rangedStrength += 5
         }
@@ -3069,7 +3209,7 @@ public class City: AbstractCity {
             }
         }
 
-        // +6 City Civ6StrengthIcon Defense Strength.
+        // +6 City Defense Strength.
         if government.has(card: .bastions) {
             strengthValue += 6
         }

@@ -402,6 +402,57 @@ class DebugViewModel: ObservableObject {
         self.delegate?.start(game: gameModel)
     }
 
+    func createCityCombatWorld() {
+
+        print("city combat")
+
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let aiPlayer = Player(leader: .victoria, isHuman: false)
+        aiPlayer.initialize()
+
+        let humanPlayer = Player(leader: .alexander, isHuman: true)
+        humanPlayer.initialize()
+
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .settler,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
+
+        // AI
+        aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
+
+        // Human
+        humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
+        try! humanPlayer.techs?.discover(tech: .pottery)
+        try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
+        try! humanPlayer.civics?.discover(civic: .codeOfLaws)
+        try! humanPlayer.civics?.discover(civic: .foreignTrade)
+        try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
+
+        if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
+            humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+        }
+
+        humanPlayer.doFirstContact(with: aiPlayer, in: gameModel)
+        aiPlayer.diplomacyAI?.doDeclareWar(to: humanPlayer, in: gameModel)
+
+        // add combat units
+        let warriorUnit = Unit(at: HexPoint(x: 20, y: 7), type: .warrior, owner: humanPlayer)
+        gameModel.add(unit: warriorUnit)
+        gameModel.userInterface?.show(unit: warriorUnit)
+
+        MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
+
+        self.delegate?.start(game: gameModel)
+    }
+
     func close() {
 
         self.delegate?.closed()

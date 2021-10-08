@@ -433,7 +433,32 @@ extension GameScene {
                 }
 
             case .meleeUnitTargets:
-                if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
+                if let cityToAttack = self.viewModel?.game?.city(at: position) {
+
+                    var combatExecuted: Bool = false
+                    if let combatTarget = self.viewModel?.combatTarget {
+
+                        if cityToAttack.location == combatTarget.location {
+
+                            self.viewModel?.delegate?.doCombat(of: selectedUnit, against: cityToAttack)
+
+                            self.mapNode?.unitLayer.update(unit: selectedUnit)
+                            self.mapNode?.cityLayer.update(city: cityToAttack)
+
+                            combatExecuted = true
+                            self.viewModel?.combatCityTarget = nil
+                            self.viewModel?.delegate?.hideCombatBanner()
+                            self.viewModel?.unitSelectionMode = .pick
+                        }
+                    }
+
+                    if !combatExecuted {
+
+                        self.viewModel?.delegate?.showCombatBanner(for: selectedUnit, and: cityToAttack, ranged: false)
+                        self.viewModel?.combatCityTarget = cityToAttack
+                    }
+
+                } else if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
 
                     var combatExecuted: Bool = false
                     if let combatTarget = self.viewModel?.combatTarget {

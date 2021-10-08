@@ -86,6 +86,9 @@ public class GameSceneViewModel: ObservableObject {
     var combatTarget: AbstractUnit?
 
     @Published
+    var combatCityTarget: AbstractCity?
+
+    @Published
     var selectedCity: AbstractCity? = nil {
 
         didSet {

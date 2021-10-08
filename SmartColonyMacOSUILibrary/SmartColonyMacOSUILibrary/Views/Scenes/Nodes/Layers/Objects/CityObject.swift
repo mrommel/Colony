@@ -46,6 +46,11 @@ class CityObject {
 
     // internal UI elements
     private var sprite: SKSpriteNode
+
+    private var strengthBackground: SKShapeNode?
+    private var strengthIconNode: SKSpriteNode?
+    private var strengthLabel: SKLabelNode?
+
     private var capitalNode: SKSpriteNode?
     private var nameLabel: SKLabelNode?
     private var bannerBackground: SKShapeNode?
@@ -90,6 +95,44 @@ class CityObject {
 
         self.sprite.texture = SKTexture(image: ImageCache.shared.image(for: city.iconTexture()))
 
+        // strength banner
+        self.strengthBackground = SKShapeNode()
+        let strengthRect: CGRect = CGRect(x: -12 * 4, y: 0, width: 16 * 4, height: 24)
+        self.strengthBackground?.path = NSBezierPath(roundedRect: strengthRect, xRadius: 16, yRadius: 16).cgPath
+        self.strengthBackground?.position = CGPoint(x: 24, y: 46)
+        self.strengthBackground?.fillColor = NSColor.black.withAlphaComponent(0.5)
+        self.strengthBackground?.strokeColor = NSColor.black
+        self.strengthBackground?.lineWidth = 4
+        self.strengthBackground?.zPosition = Globals.ZLevels.cityName - 0.1
+        self.strengthBackground?.setScale(0.25)
+
+        if let strengthBackground = self.strengthBackground {
+            self.sprite.addChild(strengthBackground)
+        }
+
+        let strengthTexture: SKTexture = SKTexture(image: Globals.Icons.strength)
+        self.strengthIconNode = SKSpriteNode(texture: strengthTexture, color: .black, size: CGSize(width: 6, height: 6))
+        self.strengthIconNode?.position = CGPoint(x: 19, y: 46)
+        self.strengthIconNode?.zPosition = Globals.ZLevels.cityName
+        self.strengthIconNode?.anchorPoint = .lowerRight
+
+        if let strengthIconNode = self.strengthIconNode {
+            self.sprite.addChild(strengthIconNode)
+        }
+
+        self.strengthLabel = SKLabelNode(text: "\(city.combatStrength(against: nil, in: self.gameModel))")
+        self.strengthLabel?.fontSize = 6 * 4
+        self.strengthLabel?.position = CGPoint(x: 22, y: 46)
+        self.strengthLabel?.zPosition = Globals.ZLevels.cityName
+        self.strengthLabel?.fontColor = .white
+        self.strengthLabel?.preferredMaxLayoutWidth = 12 * 4
+        self.strengthLabel?.setScale(0.25)
+
+        if let strengthLabel = self.strengthLabel {
+            self.sprite.addChild(strengthLabel)
+        }
+
+        // city banner
         let nameLabelWidth: CGFloat = CGFloat(city.name.count) * 4.2
         let leftExtra: CGFloat = city.isCapital() ? 10.0 : 0
         let rightExtra: CGFloat = city.governor() != nil ? 10.0 : 0
@@ -100,7 +143,7 @@ class CityObject {
         let capitalOffset: CGFloat = 24 - nameLabelWidth / 2 + 3
         let nameOffset: CGFloat = 24 // 48 / 2 == center
         let governorOffset: CGFloat = 24 + nameLabelWidth / 2 - 3
-        let productionProgressOffset: CGFloat = 24 + nameLabelWidth / 2 + rightExtra - 1
+        let productionProgressOffset: CGFloat = 24 + nameLabelWidth / 2 + rightExtra - 4
         let productionOffset: CGFloat = 24 + nameLabelWidth / 2 + rightExtra - 1
 
         self.bannerBackground = SKShapeNode()
@@ -251,6 +294,14 @@ class CityObject {
     func hideCityBanner() {
 
         if self.nameLabel != nil {
+
+            self.strengthBackground?.removeFromParent()
+            self.strengthBackground = nil
+            self.strengthIconNode?.removeFromParent()
+            self.strengthIconNode = nil
+            self.strengthLabel?.removeFromParent()
+            self.strengthLabel = nil
+
             self.bannerBackground?.removeFromParent()
             self.bannerBackground = nil
             self.sizeLabel?.removeFromParent()

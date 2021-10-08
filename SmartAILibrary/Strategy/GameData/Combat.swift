@@ -105,7 +105,7 @@ public class Combat {
     }
 
     /// attack against city - no fire back
-    static func predictRangedAttack(between attacker: AbstractUnit?, and city: AbstractCity?, in gameModel: GameModel?) -> CombatResult {
+    public static func predictRangedAttack(between attacker: AbstractUnit?, and city: AbstractCity?, in gameModel: GameModel?) -> CombatResult {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")

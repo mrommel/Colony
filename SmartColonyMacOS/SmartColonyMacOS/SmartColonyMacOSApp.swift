@@ -13,7 +13,8 @@ import SmartAILibrary
 @main
 struct SmartColonyMacOSApp: App {
 
-    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @NSApplicationDelegateAdaptor(AppDelegate.self)
+    var appDelegate
 
     @ObservedObject
     var viewModel: MainViewModel

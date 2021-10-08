@@ -57,6 +57,12 @@ struct DebugView: View {
                         Text("Tile Improvements")
                     }).buttonStyle(GameButtonStyle())
 
+                    Button(action: {
+                        self.viewModel.createCityCombatWorld()
+                    }, label: {
+                        Text("City Combat")
+                    }).buttonStyle(GameButtonStyle())
+
                     Spacer()
                         .frame(height: 30, alignment: .center)
 
