@@ -101,7 +101,7 @@ public class DangerPlotsAI: Codable {
                             continue
                         }
 
-                        if !unit.canRangeStrike(at: pt, needWar: true, noncombatAllowed: false) {
+                        if !unit.canRangeStrike(at: pt, needWar: true, noncombatAllowed: false, in: gameModel) {
                             continue
                         }
 

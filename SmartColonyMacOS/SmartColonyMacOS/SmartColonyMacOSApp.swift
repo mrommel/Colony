@@ -13,6 +13,7 @@ import SmartAILibrary
 @main
 struct SmartColonyMacOSApp: App {
 
+    // swiftlint:disable weak_delegate
     @NSApplicationDelegateAdaptor(AppDelegate.self)
     var appDelegate
 

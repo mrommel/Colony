@@ -3020,7 +3020,7 @@ public class TacticalAI: Codable {
                         }
                     }
 
-                    if unit.canMove() && unit.canRangeStrike(at: target.target, needWar: true, noncombatAllowed: true) {
+                    if unit.canMove() && unit.canRangeStrike(at: target.target, needWar: true, noncombatAllowed: true, in: gameModel) {
 
                         if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
 
@@ -3115,7 +3115,7 @@ public class TacticalAI: Codable {
                                                 }
                                             }
 
-                                            if unit.canMove() && !unit.isOutOfAttacks() && unit.canRangeStrike(at: target.target, needWar: false, noncombatAllowed: true) {
+                                            if unit.canMove() && !unit.isOutOfAttacks() && unit.canRangeStrike(at: target.target, needWar: false, noncombatAllowed: true, in: gameModel) {
 
                                                 if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
 
@@ -5073,7 +5073,7 @@ public class TacticalAI: Codable {
                         }
                     }
 
-                    if unit.canMove() && !unit.isOutOfAttacks() && unit.canRangeStrike(at: target.target, needWar: true, noncombatAllowed: true) {
+                    if unit.canMove() && !unit.isOutOfAttacks() && unit.canRangeStrike(at: target.target, needWar: true, noncombatAllowed: true, in: gameModel) {
                         if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
 
                             print("Making a protected bombard with \(unit.name()), Target \(target.target), At \(unit.location)")
@@ -5970,7 +5970,7 @@ public class TacticalAI: Codable {
                     }
 
                     // Don't put units with a combat strength boosted from promotions in cities, these boosts are ignored
-                    if loopUnit.defenseModifier(against: nil, on: nil, ranged: false, in: gameModel) == 0 && loopUnit.attackModifier(against: nil, or: nil, on: nil, in: gameModel) == 0 {
+                    if loopUnit.defenseModifier(against: nil, or: nil, on: nil, ranged: false, in: gameModel) == 0 && loopUnit.attackModifier(against: nil, or: nil, on: nil, in: gameModel) == 0 {
                         suitableUnit = true
                     }
                 } else if move == .guardImprovementAlreadyThere || move == .guardImprovementOneTurn || move == .bastionAlreadyThere || move == .bastionOneTurn {
@@ -5980,7 +5980,7 @@ public class TacticalAI: Codable {
                         suitableUnit = true
 
                         // Units with defensive promotions are especially valuable
-                        if loopUnit.defenseModifier(against: nil, on: nil, ranged: false, in: gameModel) > 0 /* || pLoopUnit->getExtraCombatPercent() > 0*/ {
+                        if loopUnit.defenseModifier(against: nil, or: nil, on: nil, ranged: false, in: gameModel) > 0 /* || pLoopUnit->getExtraCombatPercent() > 0*/ {
                             highPriority = true
                         }
                     }
@@ -7668,7 +7668,7 @@ public class TacticalAI: Codable {
                                             }*/
 
                                             // Can we hit it with a ranged attack?  If so, that gets first priority
-                                            if unit.canMove() && unit.canRangeStrike(at: target.target, needWar: true, noncombatAllowed: false) {
+                                            if unit.canMove() && unit.canRangeStrike(at: target.target, needWar: true, noncombatAllowed: false, in: gameModel) {
 
                                                 // Queue up this attack
                                                 if self.queueAttack(attacker: unit, target: target, ranged: true) {

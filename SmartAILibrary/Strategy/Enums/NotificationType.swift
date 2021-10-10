@@ -37,6 +37,8 @@ public enum NotificationType {
     case greatPersonJoined // 17 parameter: location
     case canRecruitGreatPerson(greatPerson: GreatPerson) // 18 parameter: greatPerson
 
+    case cityConquered(location: HexPoint) // 19
+
     public static var all: [NotificationType] = [
         .turn,
         .generic,
@@ -56,7 +58,8 @@ public enum NotificationType {
         .unitNeedsOrders(location: HexPoint.invalid),
         .unitDied(location: HexPoint.invalid),
         .greatPersonJoined,
-        .canRecruitGreatPerson(greatPerson: .abuAlQasimAlZahrawi)
+        .canRecruitGreatPerson(greatPerson: .abuAlQasimAlZahrawi),
+        .cityConquered(location: HexPoint.invalid),
     ]
 
     func title() -> String {
@@ -101,6 +104,8 @@ public enum NotificationType {
             return "greatPersonJoined"
         case .canRecruitGreatPerson(greatPerson: _):
             return "Great Person can be recruited"
+        case .cityConquered(location: _):
+            return "City conquered at xy"
         }
     }
 
@@ -148,6 +153,8 @@ public enum NotificationType {
             return "greatPersonJoined"
         case .canRecruitGreatPerson(greatPerson: let greatPerson):
             return "You can recruit \(greatPerson.name())"
+        case .cityConquered(location: _):
+            return "City qonquered"
         }
     }
 
@@ -193,6 +200,8 @@ public enum NotificationType {
             return 17
         case .canRecruitGreatPerson(greatPerson: _):
             return 18
+        case .cityConquered(location: _):
+            return 19
         }
     }
 }
@@ -267,6 +276,9 @@ extension NotificationType: Codable {
         case 18:
             let greatPerson = try container.decode(GreatPerson.self, forKey: .greatPersonValue)
             self = .canRecruitGreatPerson(greatPerson: greatPerson)
+        case 19:
+            let location = try container.decode(HexPoint.self, forKey: .locationValue)
+            self = .cityConquered(location: location)
         default:
             fatalError("value \(rawValue) not handled")
         }
@@ -344,6 +356,10 @@ extension NotificationType: Codable {
         case .canRecruitGreatPerson(greatPerson: let greatPerson):
             try container.encode(18, forKey: .rawValue)
             try container.encode(greatPerson, forKey: .greatPersonValue)
+
+        case .cityConquered(location: let location):
+            try container.encode(19, forKey: .rawValue)
+            try container.encode(location, forKey: .locationValue)
         }
     }
 }
@@ -394,6 +410,9 @@ extension NotificationType: Equatable {
             return true
         case (let .canRecruitGreatPerson(greatPerson: lhsGreatPerson), let .canRecruitGreatPerson(greatPerson: rhsGreatPerson)):
             return lhsGreatPerson == rhsGreatPerson
+
+        case (let .cityConquered(location: lhsLocation), let .cityConquered(rhsLocation)):
+            return lhsLocation == rhsLocation
 
         default:
             if lhs.value() == rhs.value() {
@@ -451,6 +470,9 @@ extension NotificationType: Hashable {
         case .canRecruitGreatPerson(greatPerson: let greatPerson):
             hasher.combine(18)
             hasher.combine(greatPerson)
+        case .cityConquered(location: let location):
+            hasher.combine(19)
+            hasher.combine(location)
         }
     }
 }

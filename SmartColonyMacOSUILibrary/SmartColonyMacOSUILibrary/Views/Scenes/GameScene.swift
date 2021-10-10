@@ -436,7 +436,7 @@ extension GameScene {
                 if let cityToAttack = self.viewModel?.game?.city(at: position) {
 
                     var combatExecuted: Bool = false
-                    if let combatTarget = self.viewModel?.combatTarget {
+                    if let combatTarget = self.viewModel?.combatCityTarget {
 
                         if cityToAttack.location == combatTarget.location {
 
@@ -488,8 +488,57 @@ extension GameScene {
                 }
 
             case .rangedUnitTargets:
-                if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
-                    fatalError("not implemented")
+
+                if let cityToAttack = self.viewModel?.game?.city(at: position) {
+
+                    var combatExecuted: Bool = false
+                    if let combatTarget = self.viewModel?.combatCityTarget {
+
+                        if cityToAttack.location == combatTarget.location {
+
+                            self.viewModel?.delegate?.doRangedCombat(of: selectedUnit, against: cityToAttack)
+
+                            self.mapNode?.unitLayer.update(unit: selectedUnit)
+                            self.mapNode?.cityLayer.update(city: cityToAttack)
+
+                            combatExecuted = true
+                            self.viewModel?.combatCityTarget = nil
+                            self.viewModel?.delegate?.hideCombatBanner()
+                            self.viewModel?.unitSelectionMode = .pick
+                        }
+                    }
+
+                    if !combatExecuted {
+
+                        self.viewModel?.delegate?.showCombatBanner(for: selectedUnit, and: cityToAttack, ranged: true)
+                        self.viewModel?.combatCityTarget = cityToAttack
+                    }
+
+                } else if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
+
+                    var combatExecuted: Bool = false
+                    if let combatTarget = self.viewModel?.combatTarget {
+
+                        if unitToAttack.location == combatTarget.location {
+
+                            self.viewModel?.delegate?.doRangedCombat(of: selectedUnit, against: unitToAttack)
+
+                            self.mapNode?.unitLayer.update(unit: selectedUnit)
+                            self.mapNode?.unitLayer.update(unit: unitToAttack)
+
+                            combatExecuted = true
+                            self.viewModel?.combatTarget = nil
+                            self.viewModel?.delegate?.hideCombatBanner()
+                            self.viewModel?.unitSelectionMode = .pick
+                        }
+                    }
+
+                    if !combatExecuted {
+
+                        self.viewModel?.delegate?.showCombatBanner(for: selectedUnit, and: unitToAttack, ranged: true)
+                        self.viewModel?.combatTarget = unitToAttack
+                    }
+
                 } else {
                     self.viewModel?.combatTarget = nil
                     self.viewModel?.delegate?.hideCombatBanner()

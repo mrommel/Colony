@@ -143,6 +143,7 @@ public protocol AbstractCity: AnyObject, Codable {
 
     func healthPoints() -> Int
     func set(healthPoints: Int)
+    func add(damage: Int)
     func damage() -> Int
     func maxHealthPoints() -> Int
 
@@ -3307,6 +3308,11 @@ public class City: AbstractCity {
         self.healthPointsValue = healthPoints
     }
 
+    public func add(damage: Int) {
+
+        self.healthPointsValue -= damage
+    }
+
     public func damage() -> Int {
 
         return max(0, self.maxHealthPoints() - self.healthPointsValue)
@@ -3321,6 +3327,14 @@ public class City: AbstractCity {
         var healthPointsVal = 200
 
         if buildings.has(building: .ancientWalls) {
+            healthPointsVal += 100
+        }
+
+        if buildings.has(building: .medievalWalls) {
+            healthPointsVal += 100
+        }
+
+        if buildings.has(building: .renaissanceWalls) {
             healthPointsVal += 100
         }
 

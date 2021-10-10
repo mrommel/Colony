@@ -3061,8 +3061,6 @@ public class Player: AbstractPlayer {
             fatalError("cant get oldCity")
         }
 
-        fatalError("niy")
-
         /*IDInfo* pUnitNode;
         CvCity* pNewCity;
         CvUnit* pLoopUnit;
@@ -3081,9 +3079,9 @@ public class Player: AbstractPlayer {
         int iHighestPopulation;
         int iBattleDamage;
         int iI;
-        FFastSmallFixedList<IDInfo, 25, true, c_eCiv5GameplayDLL > oldUnits;
+        FFastSmallFixedList<IDInfo, 25, true, c_eCiv5GameplayDLL > oldUnits;*/
 
-        pCityPlot = pOldCity->plot();
+        let cityPlot = pOldCity->plot();
 
         pUnitNode = pCityPlot->headUnitNode();
 
@@ -3162,15 +3160,17 @@ public class Player: AbstractPlayer {
             GET_PLAYER(pOldCity->getOriginalOwner()).changeCitiesLost(-1);
         }
 
-        if (bConquest)
-        {
-            if (GetID() == GC.getGame().getActivePlayer())
+        if conquest {
+            if activePlayer.isEqual(to: attacker.player) {
+                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_CONQUERED_ENEMY_CITY", delay: 3)
+            }
+            /*if (GetID() == GC.getGame().getActivePlayer())
             {
                 strBuffer = GetLocalizedText("TXT_KEY_MISC_CAPTURED_CITY", pOldCity->getNameKey()).GetCString();
-                GC.GetEngineUserInterface()->AddCityMessage(0, pOldCity->GetIDInfo(), GetID(), true, GC.getEVENT_MESSAGE_TIME(), strBuffer/*, "AS2D_CITYCAPTURE", MESSAGE_TYPE_MAJOR_EVENT, NULL, (ColorTypes)GC.getInfoTypeForString("COLOR_GREEN"), pOldCity->getX(), pOldCity->getY(), true, true*/);
-            }
+                GC.GetEngineUserInterface()->AddCityMessage(0, pOldCity->GetIDInfo(), GetID(), true, GC.getEVENT_MESSAGE_TIME(), strBuffer);
+            }*/
 
-            strName.Format("%s (%s)", pOldCity->getName().GetCString(), GET_PLAYER(pOldCity->getOwner()).getName());
+            // strName.Format("%s (%s)", pOldCity->getName().GetCString(), GET_PLAYER(pOldCity->getOwner()).getName());
 
             for (iI = 0; iI < MAX_PLAYERS; iI++)
             {

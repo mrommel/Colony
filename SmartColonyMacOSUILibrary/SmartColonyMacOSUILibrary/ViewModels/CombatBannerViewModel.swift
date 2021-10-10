@@ -127,6 +127,7 @@ class CombatBannerViewModel: ObservableObject {
 
             let defenderStrength = defenderUnit.defensiveStrength(
                 against: attackerUnit,
+                or: nil,
                 on: defenderTile,
                 ranged: false,
                 in: gameModel
@@ -142,6 +143,7 @@ class CombatBannerViewModel: ObservableObject {
 
             for defenderStrengthModifier in defenderUnit.defensiveStrengthModifier(
                 against: defenderUnit,
+                or: nil,
                 on: defenderTile,
                 ranged: false,
                 in: gameModel
@@ -198,6 +200,7 @@ class CombatBannerViewModel: ObservableObject {
 
             let defenderStrength = defenderUnit.defensiveStrength(
                 against: attackerUnit,
+                or: nil,
                 on: defenderTile,
                 ranged: false,
                 in: gameModel
@@ -213,6 +216,7 @@ class CombatBannerViewModel: ObservableObject {
 
             for defenderStrengthModifier in defenderUnit.defensiveStrengthModifier(
                 against: defenderUnit,
+                or: nil ,
                 on: defenderTile,
                 ranged: false,
                 in: gameModel
@@ -292,6 +296,7 @@ class CombatBannerViewModel: ObservableObject {
 
         let defenderStrength = defenderUnit.defensiveStrength(
             against: nil,
+            or: attackerCity,
             on: defenderTile,
             ranged: false,
             in: gameModel
@@ -307,6 +312,7 @@ class CombatBannerViewModel: ObservableObject {
 
         for defenderStrengthModifier in defenderUnit.defensiveStrengthModifier(
             against: defenderUnit,
+            or: nil,
             on: defenderTile,
             ranged: false,
             in: gameModel

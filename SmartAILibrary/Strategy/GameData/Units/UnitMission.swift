@@ -109,7 +109,7 @@ public class UnitMission {
                             fatalError("type requires a target")
                         }
 
-                        if !unit.canRangeStrike(at: target, needWar: false, noncombatAllowed: false) {
+                    if !unit.canRangeStrike(at: target, needWar: false, noncombatAllowed: false, in: gameModel) {
                             // Invalid, delete the mission
                             delete = true
                         }
