@@ -21,6 +21,8 @@ public protocol AbstractWonders: AnyObject, Codable {
     func build(wonder: WonderType) throws
 
     func numberOfBuiltWonders() -> Int
+
+    func clear()
 }
 
 class Wonders: AbstractWonders {
@@ -79,5 +81,10 @@ class Wonders: AbstractWonders {
         }
 
         return number
+    }
+
+    func clear() {
+
+        self.wonders.removeAll()
     }
 }

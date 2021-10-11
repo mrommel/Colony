@@ -40,6 +40,8 @@ public protocol AbstractCity: AnyObject, Codable {
     //static func found(name: String, at location: HexPoint, capital: Bool, owner: AbstractPlayer?) -> AbstractCity
     func initialize(in gameModel: GameModel?)
 
+    func set(name: String)
+
     func isBarbarian() -> Bool
     func isHuman() -> Bool
 
@@ -49,14 +51,23 @@ public protocol AbstractCity: AnyObject, Codable {
     func setIsCapital(to value: Bool)
     func setEverCapital(to value: Bool)
     func isOriginalCapital(in gameModel: GameModel?) -> Bool
+    func set(originalLeader: LeaderType)
     func originalLeader() -> LeaderType
     func doFoundMessage()
+
+    func isEverCapital() -> Bool
+    func cultureLevel() -> Int
 
     func population() -> Int
     func set(population: Int, reassignCitizen: Bool, in gameModel: GameModel?)
     func change(population: Int, reassignCitizen: Bool, in gameModel: GameModel?)
 
+    func set(gameTurnFounded: Int)
+    func gameTurnFounded() -> Int
+
     func turn(in gameModel: GameModel?)
+
+    func preKill(in gameModel: GameModel?)
 
     func has(district: DistrictType) -> Bool
     func has(building: BuildingType) -> Bool
@@ -144,6 +155,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func healthPoints() -> Int
     func set(healthPoints: Int)
     func add(damage: Int)
+    func set(damage: Int)
     func damage() -> Int
     func maxHealthPoints() -> Int
 
@@ -250,6 +262,7 @@ public class City: AbstractCity {
         case originalLeader
         case capital
         case everCapital
+        case gameTurnFounded
 
         case districts
         case buildings
@@ -296,7 +309,7 @@ public class City: AbstractCity {
         case governor
     }
 
-    public let name: String
+    public var name: String
     var populationValue: Double
     public let location: HexPoint
     public var player: AbstractPlayer?
@@ -304,6 +317,7 @@ public class City: AbstractCity {
     private var originalLeaderValue: LeaderType
     var capitalValue: Bool
     private var everCapitalValue: Bool // has this city ever been (or is) capital?
+    private var gameTurnFoundedValue: Int
 
     public var districts: AbstractDistricts?
     public var buildings: AbstractBuildings? // buildings that are currently build in this city
@@ -366,6 +380,7 @@ public class City: AbstractCity {
         self.capitalValue = capital
         self.everCapitalValue = capital
         self.populationValue = 0
+        self.gameTurnFoundedValue = 0
 
         self.buildQueue = BuildQueue()
 
@@ -403,6 +418,7 @@ public class City: AbstractCity {
         self.originalLeaderValue = try container.decode(LeaderType.self, forKey: .originalLeader)
         self.capitalValue = try container.decode(Bool.self, forKey: .capital)
         self.everCapitalValue = try container.decode(Bool.self, forKey: .everCapital)
+        self.gameTurnFoundedValue = try container.decode(Int.self, forKey: .gameTurnFounded)
 
         self.buildQueue = BuildQueue()
 
@@ -492,6 +508,7 @@ public class City: AbstractCity {
         try container.encode(self.originalLeaderValue, forKey: .originalLeader)
         try container.encode(self.capitalValue, forKey: .capital)
         try container.encode(self.everCapitalValue, forKey: .everCapital)
+        try container.encode(self.gameTurnFoundedValue, forKey: .gameTurnFounded)
 
         try container.encode(self.districts as! Districts, forKey: .districts)
         try container.encode(self.buildings as! Buildings, forKey: .buildings)
@@ -541,6 +558,11 @@ public class City: AbstractCity {
         try container.encode(self.governorValue, forKey: .governor)
     }
 
+    public func set(name: String) {
+
+        self.name = name
+    }
+
     public func initialize(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
@@ -554,6 +576,8 @@ public class City: AbstractCity {
         guard let diplomacyAI = player.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
+
+        self.gameTurnFoundedValue = gameModel.currentTurn
 
         self.districts = Districts(city: self)
         do {
@@ -866,6 +890,41 @@ public class City: AbstractCity {
                 self.routeToCapitalConnectedLastTurn = self.routeToCapitalConnectedThisTurn
             }
         }
+    }
+
+    public func preKill(in gameModel: GameModel?) {
+
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("cant get city citizens")
+        }
+
+        self.setProductionAutomated(to: false, clear: true, in: gameModel)
+        self.set(population: 0, in: gameModel)
+
+        self.player?.tradeRoutes?.clearTradeRoutes(at: self.location)
+
+        self.districts?.clear()
+        self.buildings?.clear()
+        self.wonders?.clear()
+
+        self.cleanUpQueue(in: gameModel)
+
+        for point in cityCitizens.workingTileLocations() {
+            do {
+                try gameModel?.tile(at: point)?.set(owner: nil)
+            } catch {
+
+            }
+        }
+
+        do {
+            try gameModel?.tile(at: self.location)?.set(city: nil)
+        } catch {
+
+        }
+
+        // self.player?.changeNumCities(by: -1)
+        // gameModel?.changeNumCities(by: -1)
     }
 
     public func updateStrengthValue(in gameModel: GameModel?) {
@@ -1565,6 +1624,10 @@ public class City: AbstractCity {
             return 0
         }
 
+        if self.populationValue == 0 {
+            return 0
+        }
+
         return Int(foodNeeded / self.lastTurnFoodEarned())
     }
 
@@ -1574,6 +1637,10 @@ public class City: AbstractCity {
 
         if self.lastTurnFoodEarned() == 0.0 {
             return Int(foodNeeded)
+        }
+
+        if self.populationValue == 0 {
+            return 0
         }
 
         return Int(foodNeeded / self.lastTurnFoodEarned())
@@ -2180,6 +2247,16 @@ public class City: AbstractCity {
     public func population() -> Int {
 
         return Int(self.populationValue)
+    }
+
+    public func set(gameTurnFounded: Int) {
+
+        self.gameTurnFoundedValue = gameTurnFounded
+    }
+
+    public func gameTurnFounded() -> Int {
+
+        return self.gameTurnFoundedValue
     }
 
     private func train(unitType: UnitType, in gameModel: GameModel?) {
@@ -3313,6 +3390,11 @@ public class City: AbstractCity {
         self.healthPointsValue -= damage
     }
 
+    public func set(damage: Int) {
+
+        self.healthPointsValue = self.maxHealthPoints() - damage
+    }
+
     public func damage() -> Int {
 
         return max(0, self.maxHealthPoints() - self.healthPointsValue)
@@ -3658,7 +3740,7 @@ public class City: AbstractCity {
         self.cultureLevelValue += delta
     }
 
-    func cultureLevel() -> Int {
+    public func cultureLevel() -> Int {
 
         return self.cultureLevelValue
     }
@@ -4271,6 +4353,11 @@ public class City: AbstractCity {
         return self.originalLeaderValue
     }
 
+    public func set(originalLeader: LeaderType) {
+
+        self.originalLeaderValue = originalLeader
+    }
+
     //    --------------------------------------------------------------------------------
     /// Was this city originally any player's capital?
     public func isOriginalCapital(in gameModel: GameModel?) -> Bool {
@@ -4287,7 +4374,7 @@ public class City: AbstractCity {
     }
 
     //    --------------------------------------------------------------------------------
-    func isEverCapital() -> Bool {
+    public func isEverCapital() -> Bool {
 
         return self.everCapitalValue
     }

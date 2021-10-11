@@ -562,7 +562,7 @@ public class Combat {
                 notifications.add(notification: .cityConquered(location: defenderTile.point))
             }
 
-            attacker.player?.acquire(city: defender, conquest: true, gift: false)
+            attacker.player?.acquire(city: defender, conquest: true, gift: false, in: gameModel)
 
             // Move forward
             if attacker.canMove(into: defenderTile.point, options: MoveOptions.none, in: gameModel) {

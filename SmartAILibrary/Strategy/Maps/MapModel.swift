@@ -338,6 +338,15 @@ open class MapModel: Codable {
         return nil
     }
 
+    func delete(city: AbstractCity?) {
+
+        guard let location = city?.location else {
+            fatalError("cant get location")
+        }
+
+        self.cities.removeAll(where: { $0?.location == location })
+    }
+
     func city(named name: String) -> AbstractCity? {
 
         if let city = self.cities.first(where: { $0?.name == name }) {

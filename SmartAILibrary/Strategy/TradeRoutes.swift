@@ -20,6 +20,7 @@ public protocol AbstractTradeRoutes {
     func numberOfTradeRoutes() -> Int
     func tradeRoute(at index: Int) -> TradeRoute?
     func tradeRoutesStarting(at city: AbstractCity?) -> [TradeRoute]
+    func clearTradeRoutes(at point: HexPoint)
 
     func yields(in gameModel: GameModel?) -> Yields
 }
@@ -79,6 +80,11 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
         }
 
         return self.routes.filter({ $0.start == cityLocation })
+    }
+
+    public func clearTradeRoutes(at point: HexPoint) {
+
+        self.routes.removeAll(where: { $0.start == point })
     }
 
     public func yields(in gameModel: GameModel?) -> Yields {

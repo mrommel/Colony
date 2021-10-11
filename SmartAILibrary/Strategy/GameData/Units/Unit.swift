@@ -52,6 +52,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func queueMoveForVisualization(at point: HexPoint, in gameModel: GameModel?)
     func publishQueuedVisualizationMoves(in gameModel: GameModel?)
     @discardableResult func jumpToNearestValidPlotWithin(range: Int, in gameModel: GameModel?) -> Bool
+    func isImmobile() -> Bool
 
     func isImpassable(tile: AbstractTile?) -> Bool
     func canEnterTerrain(of tile: AbstractTile?) -> Bool
@@ -1833,7 +1834,7 @@ public class Unit: AbstractUnit {
 
             if diplomacyAI.isAtWar(with: newCity.player) {
 
-                player.acquire(city: newCity, conquest: true, gift: false)
+                player.acquire(city: newCity, conquest: true, gift: false, in: gameModel)
                 newCityRef = nil
 
                 // TODO liberation city for ally
@@ -2133,6 +2134,11 @@ public class Unit: AbstractUnit {
         }
 
         return true
+    }
+
+    public func isImmobile() -> Bool {
+
+        return false
     }
 
     //    ---------------------------------------------------------------------------

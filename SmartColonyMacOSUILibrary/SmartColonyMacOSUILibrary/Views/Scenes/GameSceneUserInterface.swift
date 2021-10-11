@@ -73,7 +73,7 @@ extension GameScene: UserInterfaceDelegate {
         self.mapNode?.unitLayer.clearAttackFocus()
         self.viewModel?.selectedCity = nil
         self.viewModel?.selectedUnit = nil
-        self.viewModel?.combatTarget = nil
+        self.viewModel?.combatUnitTarget = nil
         self.viewModel?.delegate?.selectedUnitChanged(to: nil, commands: [], in: nil)
     }
 

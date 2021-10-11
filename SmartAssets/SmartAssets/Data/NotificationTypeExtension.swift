@@ -38,6 +38,8 @@ extension NotificationType {
         case .canRecruitGreatPerson: return "button-default"
 
         case .governorTitleAvailable: return "button-default"
+
+        case .cityConquered: return "button-default"
         }
     }
 }

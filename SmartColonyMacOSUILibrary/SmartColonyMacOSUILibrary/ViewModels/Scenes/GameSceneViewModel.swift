@@ -83,7 +83,7 @@ public class GameSceneViewModel: ObservableObject {
     }
 
     @Published
-    var combatTarget: AbstractUnit?
+    var combatUnitTarget: AbstractUnit?
 
     @Published
     var combatCityTarget: AbstractCity?
@@ -211,6 +211,8 @@ public class GameSceneViewModel: ObservableObject {
         case .governorTitleAvailable:
             print("--- unhandled notification type: \(self.turnButtonNotificationType)")
         case .canRecruitGreatPerson(greatPerson: _):
+            print("--- unhandled notification type: \(self.turnButtonNotificationType)")
+        case .cityConquered(location: _):
             print("--- unhandled notification type: \(self.turnButtonNotificationType)")
         }
     }
