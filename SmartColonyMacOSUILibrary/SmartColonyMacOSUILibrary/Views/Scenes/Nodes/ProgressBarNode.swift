@@ -12,14 +12,18 @@ class ProgressBarNode: SKNode {
 
     private static let kProgressAnimationKey = "progressAnimationKey"
 
+    var backgroundNode: SKSpriteNode
     var progressBar: SKCropNode
 
     init(size: CGSize) {
 
-        progressBar = SKCropNode()
-        percentageLabel = SKLabelNode()
+        self.backgroundNode = SKSpriteNode(color: .black, size: size)
+        self.progressBar = SKCropNode()
 
         super.init()
+
+        self.backgroundNode.zPosition = self.zPosition + 1
+        self.addChild(self.backgroundNode)
 
         let texture = SKTexture(image: ImageCache.shared.image(for: "grid9-progress"))
         let filledImage = NineGridTextureSprite(texture: texture, color: .black, size: size)

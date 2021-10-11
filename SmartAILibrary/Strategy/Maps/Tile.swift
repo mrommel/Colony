@@ -95,6 +95,7 @@ public protocol AbstractTile: Codable, NSCopying {
     func owner() -> AbstractPlayer?
     func ownerLeader() -> LeaderType
     func set(owner: AbstractPlayer?) throws
+    func removeOwner() throws
 
     // methods related to working city
     func isCity() -> Bool
@@ -985,7 +986,7 @@ public class Tile: AbstractTile {
 
     // MARK: owner methods
 
-    func removeOwner() throws {
+    public func removeOwner() throws {
 
         if ownerValue == nil {
             throw TileError.emptyOwner
@@ -1058,6 +1059,7 @@ public class Tile: AbstractTile {
         }
 
         self.workedBy = nil
+        self.workedByCityName = nil
     }
 
     public func setWorkingCity(to city: AbstractCity?) throws {

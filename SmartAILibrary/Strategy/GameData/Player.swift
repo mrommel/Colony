@@ -3219,11 +3219,11 @@ public class Player: AbstractPlayer {
 
         let oldCityLocation = oldCity.location
         let oldLeader = oldCity.leader
-        let originalOwner = oldCity.originalLeader()
+        // let originalOwner = oldCity.originalLeader()
         let oldTurnFounded = oldCity.gameTurnFounded()
         var oldPopulation = oldCity.population()
         // iHighestPopulation = pOldCity->getHighestPopulation();
-        let everCapital = oldCity.isEverCapital()
+        // let everCapital = oldCity.isEverCapital()
         let oldName = oldCity.name
         let oldCultureLevel = oldCity.cultureLevel()
         let hasMadeAttack = oldCity.madeAttack()
@@ -3279,6 +3279,8 @@ public class Player: AbstractPlayer {
 
         oldCity.preKill(in: gameModel)
 
+        gameModel.userInterface?.remove(city: oldCity)
+
         gameModel.delete(city: oldCity)
         // adapted from PostKill()
 
@@ -3288,13 +3290,17 @@ public class Player: AbstractPlayer {
         for loopPlayer in gameModel.players {
 
             if !loopPlayer.isEqual(to: self) && loopPlayer.isAlive() && loopPlayer.hasMet(with: self) {
-                
+
                 self.doUpdateProximity(towards: loopPlayer, in: gameModel)
                 loopPlayer.doUpdateProximity(towards: self, in: gameModel)
             }
         }
 
-        // GC.getMap().updateWorkingCity(pCityPlot, NUM_CITY_RINGS * 2);
+        for neighbor in oldCityLocation.areaWith(radius: 3) {
+
+            let tile = gameModel.tile(at: neighbor)
+            gameModel.userInterface?.refresh(tile: tile)
+        }
 
         // Lost the capital!
         if capital {
@@ -4258,7 +4264,7 @@ public class Player: AbstractPlayer {
             fatalError("cant get game")
         }
 
-        var bestCity: AbstractCity? = nil
+        var bestCity: AbstractCity?
         var bestValue = 0
 
         for loopCityRef in gameModel.cities(of: self) {

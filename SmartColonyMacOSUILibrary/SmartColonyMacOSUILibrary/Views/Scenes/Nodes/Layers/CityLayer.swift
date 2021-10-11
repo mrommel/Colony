@@ -114,22 +114,32 @@ class CityLayer: SKNode {
             isVisible = true
         }
 
-        for cityLoopObject in self.cityObjects {
+        for cityLoopObject in self.cityObjects where city.location == cityLoopObject.city?.location {
 
-            if city.location == cityLoopObject.city?.location {
+            if isVisible {
+                cityLoopObject.showCityBanner()
 
-                if isVisible {
-                    cityLoopObject.showCityBanner()
-
-                    // FIXME update city size / buildings
-                }
-
-                shown = true
+                // FIXME update city size / buildings
             }
+
+            shown = true
         }
 
         if isDiscovered && !shown {
             self.show(city: city)
         }
+    }
+
+    func remove(city: AbstractCity?) {
+
+        guard let city = city else {
+            fatalError("no city provided")
+        }
+
+        if let cityObject = self.cityObjects.first(where: { city.location == $0.city?.location }) {
+            cityObject.hideCityBanner()
+        }
+
+        self.cityObjects.removeAll(where: { city.location == $0.city?.location })
     }
 }

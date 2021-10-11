@@ -108,7 +108,7 @@ public class TradeRoute: Codable {
             yields += endDistricts.domesticTradeYields()
 
             if startPlayer.leader.civilization().ability() == .satrapies {
-                // Domestic TradeRoute6 Trade Routes provide +2 Civ6Gold Gold and +1 Civ6Culture Culture.
+                // Domestic Trade Routes provide +2 Gold and +1 Culture.
                 yields.gold += 2.0
                 yields.culture += 1.0
             }

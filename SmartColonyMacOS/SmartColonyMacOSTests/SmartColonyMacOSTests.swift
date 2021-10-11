@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import SmartColonyMacOS
+//@testable import SmartColonyMacOS
 
 class SmartColonyMacOSTests: XCTestCase {
 
@@ -29,5 +29,4 @@ class SmartColonyMacOSTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
-
 }

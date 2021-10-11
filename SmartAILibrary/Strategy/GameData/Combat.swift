@@ -571,7 +571,6 @@ public class Combat {
                 attacker.doMoveOnPath(towards: defenderTile.point, previousETA: 0, buildingRoute: false, in: gameModel)
             }
 
-
         } else {
 
             if activePlayer.isEqual(to: attacker.player) {

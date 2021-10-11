@@ -59,7 +59,7 @@ public enum NotificationType {
         .unitDied(location: HexPoint.invalid),
         .greatPersonJoined,
         .canRecruitGreatPerson(greatPerson: .abuAlQasimAlZahrawi),
-        .cityConquered(location: HexPoint.invalid),
+        .cityConquered(location: HexPoint.invalid)
     ]
 
     func title() -> String {

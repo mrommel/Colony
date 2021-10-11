@@ -894,6 +894,14 @@ public class City: AbstractCity {
 
     public func preKill(in gameModel: GameModel?) {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         guard let cityCitizens = self.cityCitizens else {
             fatalError("cant get city citizens")
         }
@@ -901,7 +909,7 @@ public class City: AbstractCity {
         self.setProductionAutomated(to: false, clear: true, in: gameModel)
         self.set(population: 0, in: gameModel)
 
-        self.player?.tradeRoutes?.clearTradeRoutes(at: self.location)
+        player.tradeRoutes?.clearTradeRoutes(at: self.location)
 
         self.districts?.clear()
         self.buildings?.clear()
@@ -910,18 +918,31 @@ public class City: AbstractCity {
         self.cleanUpQueue(in: gameModel)
 
         for point in cityCitizens.workingTileLocations() {
-            do {
-                try gameModel?.tile(at: point)?.set(owner: nil)
-            } catch {
 
+            guard let tile = gameModel.tile(at: point) else {
+                continue
+            }
+
+            if player.isEqual(to: tile.owner()) {
+                do {
+                    try tile.removeOwner()
+                } catch {
+                    fatalError("cant remove owner")
+                }
             }
         }
 
-        do {
-            try gameModel?.tile(at: self.location)?.set(city: nil)
-        } catch {
-
+        guard let cityTile = gameModel.tile(at: self.location) else {
+            fatalError("cant get city tile")
         }
+
+        do {
+            try cityTile.set(city: nil)
+        } catch {
+            fatalError("cant remove city")
+        }
+
+        self.player?.updatePlots(in: gameModel)
 
         // self.player?.changeNumCities(by: -1)
         // gameModel?.changeNumCities(by: -1)
@@ -1872,6 +1893,7 @@ public class City: AbstractCity {
     }
 
     /// remove items in the queue that are no longer valid
+    @discardableResult
     func cleanUpQueue(in gameModel: GameModel?) -> Bool {
 
         var okay = true

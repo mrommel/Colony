@@ -56,6 +56,7 @@ class TestUI: UserInterfaceDelegate {
     func select(civic: CivicType) {}
 
     func show(city: AbstractCity?) {}
+    func remove(city: AbstractCity?) {}
 
     func refresh(tile: AbstractTile?) {}
 

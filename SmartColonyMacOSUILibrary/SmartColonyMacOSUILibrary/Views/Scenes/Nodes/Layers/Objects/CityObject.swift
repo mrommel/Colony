@@ -137,10 +137,10 @@ class CityObject {
         }
 
         if city.healthPoints() < city.maxHealthPoints() {
-            self.strengthProgress = ProgressBarNode(size: CGSize(width: extraHealthPointsWidth, height: 4))
-            self.strengthProgress?.position = CGPoint(x: 24 - 2, y: 47)
+            self.strengthProgress = ProgressBarNode(size: CGSize(width: extraHealthPointsWidth * 4, height: 8))
+            self.strengthProgress?.position = CGPoint(x: 24 + 12, y: 49)
             self.strengthProgress?.zPosition = Globals.ZLevels.cityName
-
+            self.strengthProgress?.setScale(0.25)
             self.strengthProgress?.set(progress: CGFloat(city.healthPoints()) / CGFloat(city.maxHealthPoints()))
 
             if let strengthProgress = self.strengthProgress {
@@ -187,7 +187,10 @@ class CityObject {
             self.sprite.addChild(sizeLabel)
         }
 
-        let growthProgress: Int = Int(Double(city.growthInTurns() * 100) / Double(city.maxGrowthInTurns())) / 5 * 5
+        var growthProgress: Int = 0
+        if city.maxGrowthInTurns() > 0 {
+            growthProgress = Int(Double(city.growthInTurns() * 100) / Double(city.maxGrowthInTurns())) / 5 * 5
+        }
         let growthProgressTextureName = "linear-progress-\(growthProgress)"
         let growthProgressImage = ImageCache.shared.image(for: growthProgressTextureName)
         let growthProgressTexture = SKTexture(image: growthProgressImage)
