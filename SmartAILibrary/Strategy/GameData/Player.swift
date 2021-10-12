@@ -1049,7 +1049,8 @@ public class Player: AbstractPlayer {
         }
 
         guard isTurnActive() == false else {
-            fatalError("try to start already active turn")
+            print("try to start already active turn")
+            return
         }
 
         print("--- start turn for \(self.isHuman() ? "HUMAN": "AI") player \(self.leader) ---")
@@ -1169,11 +1170,7 @@ public class Player: AbstractPlayer {
         // Do turn for all Cities
         for cityRef in gameModel.cities(of: self) {
 
-            guard let city = cityRef else {
-                fatalError("cant get city")
-            }
-
-            city.turn(in: gameModel)
+            cityRef?.turn(in: gameModel)
         }
 
         // Gold GetTreasury()->DoGold();
@@ -1357,10 +1354,6 @@ public class Player: AbstractPlayer {
         }
 
         for cityRef in gameModel.cities(of: self) {
-
-            /*guard let city = cityRef else {
-                fatalError("cant get city")
-            }*/
 
             cityRef?.resetLuxuries()
         }
