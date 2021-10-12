@@ -196,12 +196,17 @@ public class HexArea: Codable {
     }
 }
 
-extension HexArea: Equatable {
+extension HexArea: Hashable {
 
     public static func == (lhs: HexArea, rhs: HexArea) -> Bool {
 
         //return lhs.points.elementsEqual(rhs.points)
         return lhs.identifier == rhs.identifier
+    }
+
+    public func hash(into hasher: inout Hasher) {
+
+        hasher.combine(self.identifier)
     }
 }
 

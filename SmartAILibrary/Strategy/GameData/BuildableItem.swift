@@ -205,7 +205,7 @@ public class BuildableItem: Codable {
     }
 }
 
-extension BuildableItem: Equatable {
+extension BuildableItem: Hashable {
 
     public static func == (lhs: BuildableItem, rhs: BuildableItem) -> Bool {
 
@@ -226,6 +226,16 @@ extension BuildableItem: Equatable {
         case .district:
             return lhs.districtType == rhs.districtType
         }
+    }
+
+    public func hash(into hasher: inout Hasher) {
+
+        hasher.combine(self.type)
+        hasher.combine(self.unitType)
+        hasher.combine(self.buildingType)
+        hasher.combine(self.wonderType)
+        hasher.combine(self.projectType)
+        hasher.combine(self.districtType)
     }
 }
 

@@ -349,7 +349,7 @@ class TacticalAnalysisMap {
         }
     }
 
-    struct TacticalDominanceZone: Equatable {
+    struct TacticalDominanceZone: Hashable {
 
         var territoryType: TacticalDominanceTerritoryType
         var dominanceFlag: TacticalDominanceType
@@ -377,6 +377,11 @@ class TacticalAnalysisMap {
 
         static func == (lhs: TacticalAnalysisMap.TacticalDominanceZone, rhs: TacticalAnalysisMap.TacticalDominanceZone) -> Bool {
             return lhs.center?.point == rhs.center?.point
+        }
+
+        func hash(into hasher: inout Hasher) {
+
+            hasher.combine(self.center!.point)
         }
     }
 
@@ -627,7 +632,7 @@ class TacticalAnalysisMap {
         var tempZoneRef: TacticalDominanceZone?
 
         // Now see if we already have a matching zone
-        if let zone = self.findExistingZone(for: tile, territoryType: territoryType, owner: owner, city: bestCity, area: tile.area) {
+        if let zone = self.findExistingZone(for: tile.point, territoryType: territoryType, owner: owner, city: bestCity, area: tile.area) {
 
             tempZoneRef = zone
         } else {
@@ -718,18 +723,19 @@ class TacticalAnalysisMap {
         return tempZoneRef
     }
 
-    private func findExistingZone(for tile: AbstractTile?, territoryType: TacticalDominanceTerritoryType, owner: AbstractPlayer?, city: AbstractCity?, area: HexArea?) -> TacticalDominanceZone? {
-
-        guard let tile = tile else {
-            fatalError("cant get tile")
-        }
+    private func findExistingZone(
+        for point: HexPoint,
+        territoryType: TacticalDominanceTerritoryType,
+        owner: AbstractPlayer?,
+        city: AbstractCity?,
+        area: HexArea?) -> TacticalDominanceZone? {
 
         for dominanceZone in self.dominanceZones {
 
             // If this is a temporary zone, matches if unowned and close enough
             if dominanceZone.territoryType == .tempZone &&
                 (territoryType == .noOwner || territoryType == .neutral) &&
-                tile.point.distance(to: dominanceZone.center!.point) <= self.tempZoneRadius {
+                point.distance(to: dominanceZone.center!.point) <= self.tempZoneRadius {
 
                 return dominanceZone
             }
@@ -737,7 +743,7 @@ class TacticalAnalysisMap {
             // If not friendly or enemy, just 1 zone per area
             if (dominanceZone.territoryType == .noOwner || dominanceZone.territoryType == .neutral) &&
                 (territoryType == .noOwner || territoryType == .neutral) &&
-                dominanceZone.area == area {
+                dominanceZone.area?.identifier == area?.identifier {
 
                 return dominanceZone
             }
@@ -745,7 +751,7 @@ class TacticalAnalysisMap {
             // Otherwise everything needs to match
             if dominanceZone.territoryType == territoryType &&
                 dominanceZone.owner?.leader == owner?.leader &&
-                dominanceZone.area == area &&
+                dominanceZone.area?.identifier == area?.identifier &&
                 dominanceZone.closestCity?.location == city?.location {
 
                 return dominanceZone

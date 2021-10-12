@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class WeightedList<T: Codable & Equatable>: Codable, CustomDebugStringConvertible {
+public class WeightedList<T: Codable & Hashable>: Codable, CustomDebugStringConvertible {
 
     enum CodingKeys: CodingKey {
         case items
@@ -26,7 +26,7 @@ public class WeightedList<T: Codable & Equatable>: Codable, CustomDebugStringCon
         public let itemType: T
         public var weight: Double
 
-        init(itemType: T, weight: Double) {
+        public init(itemType: T, weight: Double) {
             self.itemType = itemType
             self.weight = weight
         }
@@ -260,7 +260,7 @@ extension WeightedList: Sequence {
     }
 }
 
-public struct WeightedListIterator<T: Codable & Equatable>: IteratorProtocol {
+public struct WeightedListIterator<T: Codable & Hashable>: IteratorProtocol {
 
     private let weightedList: WeightedList<T>
     private var index = 0

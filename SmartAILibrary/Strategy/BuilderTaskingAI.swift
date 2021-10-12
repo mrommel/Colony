@@ -20,7 +20,7 @@ enum BuilderDirectiveType: Int, Codable {
     case removeRoad // REMOVE_ROAD,                   // remove a road from a plot
 }
 
-class BuilderDirective: Equatable, Codable {
+class BuilderDirective: Codable {
 
     enum CodingKeys: CodingKey {
         case type
@@ -66,9 +66,19 @@ class BuilderDirective: Equatable, Codable {
         try container.encode(self.target, forKey: .target)
         try container.encode(self.moveTurnsAway, forKey: .moveTurnsAway)
     }
+}
+
+extension BuilderDirective: Hashable {
 
     static func == (lhs: BuilderDirective, rhs: BuilderDirective) -> Bool {
         return lhs.type == rhs.type && lhs.build == rhs.build && lhs.target == rhs.target
+    }
+
+    func hash(into hasher: inout Hasher) {
+
+        hasher.combine(self.type)
+        hasher.combine(self.build)
+        hasher.combine(self.target)
     }
 }
 

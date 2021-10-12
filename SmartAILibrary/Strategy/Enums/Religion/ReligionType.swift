@@ -9,7 +9,7 @@
 import Foundation
 
 // https://civilization.fandom.com/wiki/List_of_religions_in_Civ6
-public enum ReligionType: Codable, Equatable {
+public enum ReligionType: Codable, Hashable {
 
     enum CodingKeys: String, CodingKey {
 

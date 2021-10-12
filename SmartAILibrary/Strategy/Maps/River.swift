@@ -128,7 +128,7 @@ public class River: Codable {
             return RiverEdge(with: southWestNeighbor, and: .northWest)
         }
 
-        assert(false, "Condition from: \(source), to: \(target) not handled")
+        fatalError("Condition from: \(source), to: \(target) not handled")
     }
 
     /// generates a RiverEdge, when points are not on the same tile
@@ -171,6 +171,6 @@ public class River: Codable {
             }
         }
 
-        assert(false, "Condition from: \(source), to: \(target) not handled")
+        fatalError("Condition from: \(source), to: \(target) not handled")
     }
 }
