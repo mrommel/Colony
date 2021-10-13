@@ -17,6 +17,7 @@ public struct MapOptionsEnhanced {
     public var resources: MapOptionResources
 
     public init() {
+
         self.age = .normal
         self.climate = .temperate
         self.sealevel = .normal
@@ -28,30 +29,19 @@ public struct MapOptionsEnhanced {
 public class MapOptions {
 
     let size: MapSize
+    let type: MapType
     public var enhanced: MapOptionsEnhanced
     public let leader: LeaderType
     public let handicap: HandicapType
     public let wrapX: Bool = true
 
-    required public init(withSize size: MapSize, leader: LeaderType, handicap: HandicapType, enhanced: MapOptionsEnhanced = MapOptionsEnhanced()) {
+    required public init(withSize size: MapSize, type: MapType, leader: LeaderType, handicap: HandicapType, enhanced: MapOptionsEnhanced = MapOptionsEnhanced()) {
 
         self.size = size
+        self.type = type
         self.enhanced = enhanced
         self.leader = leader
         self.handicap = handicap
-    }
-
-    var octaves: Int {
-
-        switch self.enhanced.age {
-
-        case .young:
-            return 3
-        case .normal:
-            return 2
-        case .old:
-            return 1
-        }
     }
 
     var rivers: Int {
@@ -77,14 +67,37 @@ public class MapOptions {
 
     var waterPercentage: Double {
 
-        switch enhanced.sealevel {
+        switch self.type {
 
-        case .low:
-            return 0.52
-        case .normal:
+        case .continents:
+            return 0.52 // low
+
+        case .empty:
             return 0.65
-        case .high:
-            return 0.81
+
+        case .earth:
+            return 0.65
+
+        case .pangaea:
+            return 0.65
+
+        case .archipelago:
+            return 0.65
+
+        case .inlandsea:
+            return 0.65
+
+        case .custom:
+
+            switch enhanced.sealevel {
+
+            case .low:
+                return 0.52
+            case .normal:
+                return 0.65
+            case .high:
+                return 0.81
+            }
         }
     }
 
@@ -118,27 +131,6 @@ public class MapOptions {
             return 0.16
         case .old:
             return 0.12
-        }
-    }
-
-    var numberOfPlayers: Int {
-
-        switch self.size {
-
-        case .duel:
-            return 2
-        case .tiny:
-            return 3
-        case .small:
-            return 4
-        case .standard:
-            return 6
-        case .large:
-            return 8
-        case .huge:
-            return 10
-        default:
-            return 2
         }
     }
 }

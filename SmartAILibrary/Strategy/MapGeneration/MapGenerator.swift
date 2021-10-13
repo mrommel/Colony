@@ -16,6 +16,8 @@ enum PlotType: Int, Codable {
     case land = 1
 }
 
+// swiftlint:disable type_body_length
+
 public class MapGenerator: BaseMapHandler {
 
     let options: MapOptions
@@ -54,7 +56,7 @@ public class MapGenerator: BaseMapHandler {
         let grid = MapModel(size: MapSize.custom(width: self.width, height: self.height))
 
 		// 0st step: height and moisture map
-        let heightMap = HeightMap(width: self.width, height: self.height, octaves: options.octaves, zoom: 1.0, andPersistence: 1.0) // 4, 80, 0.52
+        let heightMap = self.generateHeightMap()
 		let moistureMap = HeightMap(width: self.width, height: self.height)
 
 		if let completionHandler = self.progressHandler {
@@ -65,7 +67,7 @@ public class MapGenerator: BaseMapHandler {
 
 		// 1st step: land / water
         //self.wrapHeightmap
-		self.fillFromElevation(withWaterPercentage: options.waterPercentage, on: heightMap)
+        self.fillFromElevation(withWaterPercentage: self.options.waterPercentage, on: heightMap)
         // self.flipSomeCoastTiles()
 
 		if let completionHandler = self.progressHandler {
@@ -176,7 +178,89 @@ public class MapGenerator: BaseMapHandler {
 		return grid
 	}
 
-	// MARK: 1st step methods
+    // MARK: 0nd step - height
+
+    private func points() -> [HexPoint] {
+
+        var pointList: [HexPoint] = []
+
+        pointList.reserveCapacity(self.width * self.height)
+
+        for x in 0..<self.width {
+            for y in 0..<self.height {
+                pointList.append(HexPoint(x: x, y: y))
+            }
+        }
+
+        return pointList
+    }
+
+    private func generateHeightMap() -> HeightMap {
+
+        switch self.options.type {
+
+        case .empty:
+            fatalError("don't need height map - empty")
+
+        case .earth:
+            fatalError("don't need height map - earth")
+
+        case .pangaea:
+            fatalError("not implemented - pangaea")
+
+        case .continents:
+            return HeightMap(width: self.width, height: self.height, octaves: 2, zoom: 1.0, andPersistence: 1.0)
+
+        case .archipelago:
+            let heightMap = HeightMap(width: self.width, height: self.height, octaves: 20, zoom: 1.0, andPersistence: 0.52)
+            let waterLevel = heightMap.findThresholdBelow(percentage: self.options.waterPercentage)
+
+            var numOfIslands = self.width * self.height * 3 / 100 // 2% new islands
+            var points = self.points().shuffled
+
+            print("=== place \(numOfIslands) additional islands ===")
+
+            while numOfIslands > 0 {
+
+                if let firstPoint = points.first {
+
+                    if (heightMap[firstPoint] ?? 0.0) < waterLevel {
+
+                        heightMap[firstPoint]! = waterLevel + 0.3
+                        numOfIslands -= 1
+                    }
+
+                    // pick a random neighbor
+                    for neighborPoint in firstPoint.neighbors().shuffled
+                        where heightMap.valid(gridPoint: neighborPoint) && (heightMap[neighborPoint] ?? 0.0) < waterLevel {
+
+                        heightMap[firstPoint]! = waterLevel + 0.3
+                        break
+                    }
+
+                    points.removeFirst()
+                }
+            }
+
+            return heightMap
+
+        case .inlandsea:
+            fatalError("not implemented - inlandsea")
+
+        case .custom:
+            var octaves: Int = 2 // age == .normal
+
+            if self.options.enhanced.age == .young {
+                octaves = 3
+            } else if self.options.enhanced.age == .old {
+                octaves = 1
+            }
+
+            return HeightMap(width: self.width, height: self.height, octaves: octaves, zoom: 1.0, andPersistence: 1.0) // 4, 80, 0.52
+        }
+    }
+
+	// MARK: 1st step - methods
 
 	func waterOrLandFrom(elevation: Double, waterLevel: Double) -> PlotType {
 
@@ -312,7 +396,7 @@ public class MapGenerator: BaseMapHandler {
 				if self.plots[x, y] == PlotType.sea {
 
                     // check is next continent
-                    let nextToContinent: Bool = gridPoint.neighbors().map { grid.terrain(at: $0).isLand() ?? false }.reduce(false) { $0 || $1 }
+                    let nextToContinent: Bool = gridPoint.neighbors().map { grid.terrain(at: $0).isLand() }.reduce(false) { $0 || $1 }
 
 					if heightMap[x, y]! > 0.1 || nextToContinent {
                         grid.set(terrain: .shore, at: gridPoint)
@@ -322,7 +406,13 @@ public class MapGenerator: BaseMapHandler {
 				} else {
                     landPlots += 1
 
-                    self.updateBiome(at: gridPoint, on: grid, elevation: heightMap[x, y]!, moisture: moistureMap[x, y]!, climate: self.climateZones[x, y]!)
+                    self.updateBiome(
+                        at: gridPoint,
+                        on: grid,
+                        elevation: heightMap[x, y]!,
+                        moisture: moistureMap[x, y]!,
+                        climate: self.climateZones[x, y]!
+                    )
 				}
 			}
 		}
@@ -464,7 +554,12 @@ public class MapGenerator: BaseMapHandler {
         }
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = MoveTypeIgnoreUnitsPathfinderDataSource(in: grid, for: .walk, for: nil, options: MoveTypeIgnoreUnitsOptions(unitMapType: .civilian, canEmbark: false))
+        pathFinder.dataSource = MoveTypeIgnoreUnitsPathfinderDataSource(
+            in: grid,
+            for: .walk,
+            for: nil,
+            options: MoveTypeIgnoreUnitsOptions(unitMapType: .civilian, canEmbark: false)
+        )
 
         var longestRoute = 0
 
@@ -559,18 +654,16 @@ public class MapGenerator: BaseMapHandler {
 
         // ice ice baby
         for iceLocation in waterTilesWithIcePossible {
+
             gridRef?.set(feature: .ice, at: iceLocation)
             iceFeatures += 1
         }
 
-        // reef reef baby
-        for reefLocation in waterTilesWithReefPossible.shuffled {
+        // reef reef baby => 10% chance for reefs
+        for reefLocation in waterTilesWithReefPossible.shuffled where (reefFeatures * 100 / waterTilesWithReefPossible.count) <= reefPercent {
 
-            // 10% chance for reefs
-            if (reefFeatures * 100 / waterTilesWithReefPossible.count) <= reefPercent {
-                gridRef?.set(feature: .reef, at: reefLocation)
-                reefFeatures += 1
-            }
+            gridRef?.set(feature: .reef, at: reefLocation)
+            reefFeatures += 1
         }
 
         // second pass, add features to all land plots as appropriate based on the count and percentage of that type
@@ -976,7 +1069,7 @@ public class MapGenerator: BaseMapHandler {
             return
         }
 
-        let numberOfPlayers = self.options.numberOfPlayers
+        let numberOfPlayers = self.options.size.numberOfPlayers()
 
         let startPositioner = StartPositioner(on: grid, for: numberOfPlayers)
         startPositioner.generateRegions()
