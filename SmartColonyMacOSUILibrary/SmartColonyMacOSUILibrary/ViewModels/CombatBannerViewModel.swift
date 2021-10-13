@@ -274,7 +274,7 @@ class CombatBannerViewModel: ObservableObject {
 
         let attackerStrength = attackerCity.rangedCombatStrength(
             against: defenderUnit,
-            on: attackerTile
+            on: defenderTile
         )
 
         var attackerCombatModifiers: [CombatModifier] = []
@@ -297,7 +297,7 @@ class CombatBannerViewModel: ObservableObject {
         let defenderStrength = defenderUnit.defensiveStrength(
             against: nil,
             or: attackerCity,
-            on: defenderTile,
+            on: attackerTile,
             ranged: false,
             in: gameModel
         )
@@ -348,11 +348,11 @@ class CombatBannerViewModel: ObservableObject {
             return
         }
 
-        guard let attackerTile = gameModel.tile(at: attackerUnit.location) else {
+        guard let defenderCity = defender as? City else {
             return
         }
 
-        guard let defenderCity = defender as? City else {
+        guard let defenderTile = gameModel.tile(at: defenderCity.location) else {
             return
         }
 
@@ -376,7 +376,7 @@ class CombatBannerViewModel: ObservableObject {
             for attackerStrengthModifier in attackerUnit.attackStrengthModifier(
                 against: nil,
                 or: defenderCity,
-                on: attackerTile,
+                on: defenderTile,
                 in: gameModel
             ) {
                 attackerCombatModifiers.append(attackerStrengthModifier)
@@ -433,7 +433,7 @@ class CombatBannerViewModel: ObservableObject {
             for attackerStrengthModifier in attackerUnit.attackStrengthModifier(
                 against: nil,
                 or: defenderCity,
-                on: attackerTile,
+                on: defenderTile,
                 in: gameModel
             ) {
                 attackerCombatModifiers.append(attackerStrengthModifier)
