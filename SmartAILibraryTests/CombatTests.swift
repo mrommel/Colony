@@ -55,6 +55,51 @@ class CombatTests: XCTestCase {
         XCTAssertEqual(result.defenderDamage, 33)
     }
 
+    func testCombatWarriorAgainstWarriorWithFlanking() {
+
+        // GIVEN
+
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+
+        try! playerAlexander.civics?.discover(civic: .militaryTradition)
+
+        let playerAugustus = Player(leader: .trajan)
+        playerAugustus.initialize()
+
+        // map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+
+        // game
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAugustus, playerAlexander],
+            on: mapModel
+        )
+
+        let attacker = Unit(at: HexPoint(x: 5, y: 6), type: .warrior, owner: playerAlexander)
+        gameModel.add(unit: attacker)
+
+        let flanking = Unit(at: HexPoint(x: 5, y: 5), type: .warrior, owner: playerAlexander)
+        gameModel.add(unit: flanking)
+
+        let defender = Unit(at: HexPoint(x: 6, y: 5), type: .warrior, owner: playerAugustus)
+        gameModel.add(unit: attacker)
+
+        // WHEN
+        let result = Combat.predictMeleeAttack(between: attacker, and: defender, in: gameModel)
+
+        // THEN
+        XCTAssertEqual(result.attackerDamage, 24)
+        XCTAssertEqual(result.defenderDamage, 36)
+    }
+
     func testCombatWarriorAgainstCity() {
 
         // GIVEN
