@@ -37,6 +37,10 @@ class GenerateGameViewModel: ObservableObject {
 
         case .continents:
             self.generatingContinents(with: mapSize, with: leader, on: handicap)
+
+        case .archipelago:
+            self.generatingArchipelago(with: mapSize, with: leader, on: handicap)
+
         default:
             self.generatingEmpty(with: mapSize, with: leader, on: handicap)
         }
@@ -52,8 +56,34 @@ class GenerateGameViewModel: ObservableObject {
             DispatchQueue.global(qos: .background).async {
 
                 // generate map
-                let mapOptions = MapOptions(withSize: mapSize, leader: leader, handicap: handicap)
-                mapOptions.enhanced.sealevel = .low
+                let mapOptions = MapOptions(withSize: mapSize, type: .continents, leader: leader, handicap: handicap)
+
+                let generator = MapGenerator(with: mapOptions)
+                generator.progressHandler = { progress, text in
+                    DispatchQueue.main.async {
+                        self.progressValue = CGFloat(progress)
+                        self.progressText = text
+                    }
+                }
+
+                let map = generator.generate()
+
+                self.generateGame(map: map, with: leader, on: handicap)
+            }
+        })
+    }
+
+    func generatingArchipelago(with mapSize: MapSize, with leader: LeaderType, on handicap: HandicapType) {
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+
+            self.progressValue = 0.0
+            self.progressText = "Start"
+
+            DispatchQueue.global(qos: .background).async {
+
+                // generate map
+                let mapOptions = MapOptions(withSize: mapSize, type: .archipelago, leader: leader, handicap: handicap)
 
                 let generator = MapGenerator(with: mapOptions)
                 generator.progressHandler = { progress, text in

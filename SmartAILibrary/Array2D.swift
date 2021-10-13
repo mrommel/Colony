@@ -15,22 +15,30 @@ open class Array2D<T: Equatable & Codable>: Codable {
     fileprivate var array: [T?] = [T?]()
 
     public init(width: Int, height: Int) {
+
         self.width = width
         self.height = height
         self.array = [T?](repeating: nil, count: self.height * self.width)
     }
 
     public subscript(x: Int, y: Int) -> T? {
+
         get {
-            precondition(x < self.width, "Column \(x) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
-            precondition(y < self.height, "Row \(y) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
+            precondition(x < self.width, "Column \(x) Index is out of range. Array2D<T>(columns: \(self.width), rows:\(self.height))")
+            precondition(y < self.height, "Row \(y) Index is out of range. Array2D<T>(columns: \(self.width), rows:\(self.height))")
             return array[y * self.width + x]
         }
+
         set {
-            precondition(x < self.width, "Column \(x) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
-            precondition(y < self.height, "Row \(y) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
+            precondition(x < self.width, "Column \(x) Index is out of range. Array2D<T>(columns: \(self.width), rows:\(self.height))")
+            precondition(y < self.height, "Row \(y) Index is out of range. Array2D<T>(columns: \(self.width), rows:\(self.height))")
             array[y * self.width + x] = newValue
         }
+    }
+
+    public func valid(x: Int, y: Int) -> Bool {
+
+        return 0 <= x && x < self.width && 0 <= y && y < self.height
     }
 }
 
@@ -94,7 +102,7 @@ extension Array2D {
     }
 }
 
-// MARK: grid methods
+// MARK: hexagon methods
 
 extension Array2D {
 
@@ -104,8 +112,13 @@ extension Array2D {
             return array[(gridPoint.y * self.width) + gridPoint.x]
         }
 
-        set(newValue) {
+        set {
             array[(gridPoint.y * self.width) + gridPoint.x] = newValue
         }
+    }
+
+    public func valid(gridPoint: HexPoint) -> Bool {
+
+        return 0 <= gridPoint.x && gridPoint.x < self.width && 0 <= gridPoint.y && gridPoint.y < self.height
     }
 }

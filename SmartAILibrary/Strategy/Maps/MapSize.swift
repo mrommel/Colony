@@ -122,6 +122,20 @@ public enum MapSize {
             return 22 // no limit
         }
     }
+
+    func numberOfPlayers() -> Int {
+
+        switch self {
+
+        case .duel: return 2
+        case .tiny: return 3
+        case .small: return 4
+        case .standard: return 6
+        case .large: return 8
+        case .huge: return 10
+        default: return 2
+        }
+    }
 }
 
 extension MapSize: Codable {
