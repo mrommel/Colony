@@ -38,6 +38,9 @@ class MainViewModel: ObservableObject {
     let debugViewModel: DebugViewModel
     var pediaViewModel: PediaViewModel
 
+    // private
+    private var progressTimer: Timer?
+
     init(presentedView: PresentedViewType = .menu,
          menuViewModel: MenuViewModel = MenuViewModel(),
          createGameMenuViewModel: CreateGameMenuViewModel = CreateGameMenuViewModel(),
@@ -109,6 +112,16 @@ class MainViewModel: ObservableObject {
 
         self.gameViewModel.zoomReset()
     }
+
+    @objc private func runTimedCode() {
+
+        self.generateGameViewModel.progressValue += 0.1
+
+        if self.generateGameViewModel.progressValue > 1.0 {
+
+            self.generateGameViewModel.progressValue = 0.0
+        }
+    }
 }
 
 extension MainViewModel: MenuViewModelDelegate {
@@ -165,19 +178,29 @@ extension MainViewModel: PediaViewModelDelegate {
 
 extension MainViewModel: DebugViewModelDelegate {
 
-    func closed() {
+    func preparing() {
 
-        self.presentedView = .menu
-        self.mapMenuDisabled = true
+        self.presentedView = .loadingGame
+        self.mapMenuDisabled = false
+
+        self.progressTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
     }
 
-    func start(game: GameModel?) {
+    func prepared(game: GameModel?) {
 
         self.gameViewModel.loadAssets()
 
         self.gameEnvironment.assign(game: game)
 
+        self.progressTimer?.invalidate()
+
         self.presentedView = .game
         self.mapMenuDisabled = false
+    }
+
+    func closed() {
+
+        self.presentedView = .menu
+        self.mapMenuDisabled = true
     }
 }

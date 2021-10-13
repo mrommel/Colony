@@ -191,6 +191,7 @@ public protocol UserInterfaceDelegate: AnyObject {
     // on map
     func show(city: AbstractCity?)
     func update(city: AbstractCity?)
+    func remove(city: AbstractCity?)
 
     func refresh(tile: AbstractTile?)
 

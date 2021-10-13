@@ -5169,6 +5169,24 @@ public class DiplomaticAI: Codable {
         self.playerDict.updateWarValueLost(with: otherPlayer, to: value)
     }
 
+    // MARK: - --
+
+    func otherPlayerWarValueLost(from fromPlayer: AbstractPlayer?, to toPlayer: AbstractPlayer?) -> Int {
+
+        return self.playerDict.otherPlayerWarValueLost(with: fromPlayer, towards: toPlayer)
+    }
+
+    func changeOtherPlayerWarValueLost(from fromPlayer: AbstractPlayer?, to toPlayer: AbstractPlayer?, by delta: Int) {
+
+        let value = self.playerDict.otherPlayerWarValueLost(with: fromPlayer, towards: toPlayer)
+        self.playerDict.updateOtherPlayerWarValueLost(with: fromPlayer, towards: toPlayer, to: value + delta)
+    }
+
+    func updateOtherPlayerWarValueLost(from fromPlayer: AbstractPlayer?, to toPlayer: AbstractPlayer?, to value: Int) {
+
+        self.playerDict.updateOtherPlayerWarValueLost(with: fromPlayer, towards: toPlayer, to: value)
+    }
+
     // MARK: want peace counter
 
     func wantPeaceCounter(with otherPlayer: AbstractPlayer?) -> Int {

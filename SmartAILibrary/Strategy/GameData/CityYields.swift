@@ -33,27 +33,27 @@ extension City {
 
         // greatLighthouse
         if wonders.has(wonder: .greatLighthouse) {
-            // +1 Admiral6 Great Admiral point per turn
+            // +1 Great Admiral point per turn
             greatPeoplePoints.greatAdmiral += 1
         }
 
         // greatLibrary
         if wonders.has(wonder: .greatLibrary) {
-            // +1 Writer6 Great Writer point per turn
+            // +1 Great Writer point per turn
             greatPeoplePoints.greatWriter += 1
-            // +1 Scientist6 Great Scientist point per turn
+            // +1 Great Scientist point per turn
             greatPeoplePoints.greatScientist += 1
         }
 
         // colossus
         if wonders.has(wonder: .colossus) {
-            // +1 Admiral6 Great Admiral point per turn
+            // +1 Great Admiral point per turn
             greatPeoplePoints.greatAdmiral += 1
         }
 
         // terracottaArmy
         if wonders.has(wonder: .terracottaArmy) {
-            // +2 General6 Great General points per turn
+            // +2 Great General points per turn
             greatPeoplePoints.greatGeneral += 2
         }
 
@@ -70,55 +70,55 @@ extension City {
 
         // shrine
         if buildings.has(building: .shrine) {
-            // +1 Prophet6 Great Prophet point per turn.
+            // +1 Great Prophet point per turn.
             greatPeoplePoints.greatProphet += 1
         }
 
         // barracks
         if buildings.has(building: .barracks) {
-            // +1 General6 Great General point per turn
+            // +1 Great General point per turn
             greatPeoplePoints.greatGeneral += 1
         }
 
         // amphitheater
         if buildings.has(building: .amphitheater) {
-            // +1 Writer6 Great Writer point per turn
+            // +1 Great Writer point per turn
             greatPeoplePoints.greatWriter += 1
         }
 
         // lighthouse
         if buildings.has(building: .lighthouse) {
-            //+1 Admiral6 Great Admiral point per turn
+            //+1 Great Admiral point per turn
             greatPeoplePoints.greatAdmiral += 1
         }
 
         // stable
         if buildings.has(building: .stable) {
-            // +1 General6 Great General point per turn
+            // +1 Great General point per turn
             greatPeoplePoints.greatGeneral += 1
         }
 
         // market
         if buildings.has(building: .market) {
-            // +1 Merchant6 Great Merchant point per turn
+            // +1 Great Merchant point per turn
             greatPeoplePoints.greatMerchant += 1
         }
 
         // temple
         if buildings.has(building: .temple) {
-            // +1 Prophet6 Great Prophet point per turn.
+            // +1 Great Prophet point per turn.
             greatPeoplePoints.greatProphet += 1
         }
 
         // workshop
         if buildings.has(building: .workshop) {
-            // +1 Engineer6 Great Engineer point per turn
+            // +1 Great Engineer point per turn
             greatPeoplePoints.greatEngineer += 1
         }
 
         // shipyard
         if buildings.has(building: .shipyard) {
-            // +1 Admiral6 Great Admiral point per turn
+            // +1 Great Admiral point per turn
             greatPeoplePoints.greatAdmiral += 1
         }
 
@@ -135,13 +135,13 @@ extension City {
 
         // harbor
         if districts.has(district: .harbor) {
-            // +1 Admiral6 Great Admiral point per turn
+            // +1 Great Admiral point per turn
             greatPeoplePoints.greatAdmiral += 1
         }
 
         // holySite
         if districts.has(district: .holySite) {
-            // +1 Prophet6 Great Prophet point per turn.
+            // +1 Great Prophet point per turn.
             greatPeoplePoints.greatProphet += 1
         }
 
@@ -198,13 +198,13 @@ extension City {
                     productionValue += adjacentTile.yields(for: self.player, ignoreFeature: false).production
 
                     if adjacentTile.terrain() == .desert && !adjacentTile.has(feature: .floodplains) && wonders.has(wonder: .petra) {
-                        // +2 Civ6Food Food, +2 Civ6Gold Gold, and +1 Civ6Production Production on all Desert tiles for this city (non-Floodplains).
+                        // +2 Food, +2 Gold, and +1 Production on all Desert tiles for this city (non-Floodplains).
                         productionValue += 1.0
                     }
 
                     // motherRussia
                     if adjacentTile.terrain() == .tundra && player?.leader.civilization().ability() == .motherRussia {
-                        // Tundra tiles provide +1 Civ6Faith Faith and +1 Civ6Production Production, in addition to their usual yields.
+                        // Tundra tiles provide +1 Faith and +1 Production, in addition to their usual yields.
                         productionValue += 1.0
                     }
                 }
@@ -326,13 +326,13 @@ extension City {
 
                     // mausoleumAtHalicarnassus
                     if adjacentTile.terrain() == .shore && wonders.has(wonder: .mausoleumAtHalicarnassus) {
-                        // +1 Civ6Science Science, +1 Civ6Faith Faith, and +1 Civ6Culture Culture to all Coast tiles in this city.
+                        // +1 Science, +1 Faith, and +1 Culture to all Coast tiles in this city.
                         faithFromTiles += 1.0
                     }
 
                     // motherRussia
                     if adjacentTile.terrain() == .tundra && player?.leader.civilization().ability() == .motherRussia {
-                        // Tundra tiles provide +1 Civ6Faith Faith and +1 Civ6Production Production, in addition to their usual yields.
+                        // Tundra tiles provide +1 Faith and +1 Production, in addition to their usual yields.
                         faithFromTiles += 1.0
                     }
                 }
@@ -409,17 +409,17 @@ extension City {
                 }
 
                 if neighborTile.feature().isWonder() {
-                    // Major bonus (+2 Faith Faith) for each adjacent Natural Wonder
+                    // Major bonus (+2 Faith) for each adjacent Natural Wonder
                     faithFromDistricts += 2.0
                 }
 
                 if neighborTile.feature() == .mountains {
-                    // Standard bonus (+1 Faith Faith) for each adjacent Mountain tile
+                    // Standard bonus (+1 Faith) for each adjacent Mountain tile
                     faithFromDistricts += 1.0
                 }
 
                 if neighborTile.feature() == .forest || neighborTile.feature() == .rainforest {
-                    // Minor bonus (+½ Faith Faith) for each adjacent District District tile and each adjacent unimproved Woods tile
+                    // Minor bonus (+½ Faith) for each adjacent District District tile and each adjacent unimproved Woods tile
                     faithFromDistricts += 0.5
                 }
             }
@@ -438,19 +438,19 @@ extension City {
 
         // stonehenge
         if wonders.has(wonder: .stonehenge) {
-            // +2 Civ6Faith Faith
+            // +2 Faith
             faithFromWonders += 2.0
         }
 
         // oracle
         if wonders.has(wonder: .oracle) {
-            // +1 Civ6Faith Faith
+            // +1 Faith
             faithFromWonders += 1.0
         }
 
         // mahabodhiTemple
         if wonders.has(wonder: .mahabodhiTemple) {
-            // +4 Civ6Faith Faith
+            // +4 Faith
             faithFromWonders += 4.0
         }
 
@@ -527,7 +527,7 @@ extension City {
 
                     // mausoleumAtHalicarnassus
                     if adjacentTile.terrain() == .shore && wonders.has(wonder: .mausoleumAtHalicarnassus) {
-                        // +1 Civ6Science Science, +1 Civ6Faith Faith, and +1 Civ6Culture Culture to all Coast tiles in this city.
+                        // +1 Science, +1 Faith, and +1 Culture to all Coast tiles in this city.
                         cultureFromTiles += 1.0
                     }
                 }
@@ -597,19 +597,19 @@ extension City {
 
         // pyramids
         if wonders.has(wonder: .pyramids) {
-            // +2 Civ6Culture Culture
+            // +2 Culture
             cultureFromWonders += 2.0
         }
 
         // oracle
         if wonders.has(wonder: .oracle) {
-            // +1 Civ6Culture Culture
+            // +1 Culture
             cultureFromWonders += 1.0
         }
 
         // colosseum
         if wonders.has(wonder: .colosseum) {
-            // +2 Civ6Culture Culture
+            // +2 Culture
             cultureFromWonders += 2.0
         }
 
@@ -706,7 +706,7 @@ extension City {
                     goldValue += adjacentTile.yields(for: self.player, ignoreFeature: false).gold
 
                     if adjacentTile.terrain() == .desert && !adjacentTile.has(feature: .floodplains) && wonders.has(wonder: .petra) {
-                        // +2 Civ6Food Food, +2 Civ6Gold Gold, and +1 Civ6Production Production on all Desert tiles for this city (non-Floodplains).
+                        // +2 Food, +2 Gold, and +1 Production on all Desert tiles for this city (non-Floodplains).
                         goldValue += 2.0
                     }
                 }
@@ -781,13 +781,13 @@ extension City {
 
         // greatLighthouse
         if wonders.has(wonder: .greatLighthouse) {
-            // +3 Civ6Gold Gold
+            // +3 Gold
             goldFromWonders += 3.0
         }
 
         // colossus
         if wonders.has(wonder: .colossus) {
-            // +3 Civ6Gold Gold
+            // +3 Gold
             goldFromWonders += 3.0
         }
 
@@ -869,7 +869,7 @@ extension City {
 
                     // mausoleumAtHalicarnassus
                     if adjacentTile.terrain() == .shore && wonders.has(wonder: .mausoleumAtHalicarnassus) {
-                        // +1 Civ6Science Science, +1 Civ6Faith Faith, and +1 Civ6Culture Culture to all Coast tiles in this city.
+                        // +1 Science, +1 Faith, and +1 Culture to all Coast tiles in this city.
                         scienceFromTiles += 1.0
                     }
                 }
@@ -1052,7 +1052,7 @@ extension City {
                     foodValue += adjacentTile.yields(for: self.player, ignoreFeature: false).food
 
                     if adjacentTile.terrain() == .desert && !adjacentTile.has(feature: .floodplains) && wonders.has(wonder: .petra) {
-                        // +2 Civ6Food Food, +2 Civ6Gold Gold, and +1 Civ6Production Production on all Desert tiles for this city (non-Floodplains).
+                        // +2 Food, +2 Gold, and +1 Production on all Desert tiles for this city (non-Floodplains).
                         foodValue += 2.0
                     }
                 }
@@ -1126,7 +1126,7 @@ extension City {
         var foodFromWonders: Double = 0.0
 
         if wonders.has(wonder: .templeOfArtemis) {
-            // +4 Civ6Food Food
+            // +4 Food
             foodFromWonders += 4.0
         }
 

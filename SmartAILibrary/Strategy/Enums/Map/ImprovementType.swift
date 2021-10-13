@@ -8,7 +8,8 @@
 
 import Foundation
 
-public enum ImprovementType: Int, Codable {
+// swiftlint:disable type_body_length
+public enum ImprovementType: Int, Codable, Hashable {
 
     case none
 

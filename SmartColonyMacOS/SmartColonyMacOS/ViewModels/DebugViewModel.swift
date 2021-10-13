@@ -10,7 +10,8 @@ import SmartAILibrary
 
 protocol DebugViewModelDelegate: AnyObject {
 
-    func start(game: GameModel?)
+    func preparing()
+    func prepared(game: GameModel?)
     func closed()
 }
 
@@ -55,6 +56,7 @@ class TestUI: UserInterfaceDelegate {
     func select(civic: CivicType) {}
 
     func show(city: AbstractCity?) {}
+    func remove(city: AbstractCity?) {}
 
     func refresh(tile: AbstractTile?) {}
 
@@ -76,330 +78,427 @@ class DebugViewModel: ObservableObject {
 
         print("Attack Barbarians")
 
-        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
-        barbarianPlayer.initialize()
+        self.delegate?.preparing()
 
-        let aiPlayer = Player(leader: .victoria, isHuman: false)
-        aiPlayer.initialize()
+        DispatchQueue.global(qos: .background).async {
 
-        let humanPlayer = Player(leader: .alexander, isHuman: true)
-        humanPlayer.initialize()
+            let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+            barbarianPlayer.initialize()
 
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+            let aiPlayer = Player(leader: .victoria, isHuman: false)
+            aiPlayer.initialize()
 
-        let gameModel = GameModel(
-            victoryTypes: [.domination],
-            handicap: .king,
-            turnsElapsed: 0,
-            players: [barbarianPlayer, aiPlayer, humanPlayer],
-            on: mapModel
-        )
+            let humanPlayer = Player(leader: .alexander, isHuman: true)
+            humanPlayer.initialize()
 
-        // AI
-        aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
+            var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
 
-        // Human
-        humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-        try! humanPlayer.techs?.discover(tech: .pottery)
-        try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
-        try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-        try! humanPlayer.civics?.discover(civic: .foreignTrade)
-        try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
+            let gameModel = GameModel(
+                victoryTypes: [.domination],
+                handicap: .king,
+                turnsElapsed: 0,
+                players: [barbarianPlayer, aiPlayer, humanPlayer],
+                on: mapModel
+            )
 
-        if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
-            humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+            // AI
+            aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
+
+            // Human
+            humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
+            try! humanPlayer.techs?.discover(tech: .pottery)
+            try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .codeOfLaws)
+            try! humanPlayer.civics?.discover(civic: .foreignTrade)
+            try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
+
+            if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
+                humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+            }
+
+            let humanWarriorUnit = Unit(at: HexPoint(x: 2, y: 6), type: .warrior, owner: humanPlayer)
+            humanWarriorUnit.origin = HexPoint(x: 3, y: 5)
+            gameModel.add(unit: humanWarriorUnit)
+            gameModel.userInterface?.show(unit: humanWarriorUnit)
+
+            let barbarianWarriorUnit = Unit(at: HexPoint(x: 3, y: 6), type: .barbarianWarrior, owner: barbarianPlayer)
+            gameModel.add(unit: barbarianWarriorUnit)
+            gameModel.userInterface?.show(unit: barbarianWarriorUnit)
+
+            MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
+
+            DispatchQueue.main.async {
+                self.delegate?.prepared(game: gameModel)
+            }
         }
-
-        let humanWarriorUnit = Unit(at: HexPoint(x: 2, y: 6), type: .warrior, owner: humanPlayer)
-        humanWarriorUnit.origin = HexPoint(x: 3, y: 5)
-        gameModel.add(unit: humanWarriorUnit)
-        gameModel.userInterface?.show(unit: humanWarriorUnit)
-
-        let barbarianWarriorUnit = Unit(at: HexPoint(x: 3, y: 6), type: .barbarianWarrior, owner: barbarianPlayer)
-        gameModel.add(unit: barbarianWarriorUnit)
-        gameModel.userInterface?.show(unit: barbarianWarriorUnit)
-
-        MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
-
-        self.delegate?.start(game: gameModel)
     }
 
     func createFastTradeRouteWorld() {
 
         print("Fast Trade Route")
 
-        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
-        barbarianPlayer.initialize()
+        self.delegate?.preparing()
 
-        let aiPlayer = Player(leader: .victoria, isHuman: false)
-        aiPlayer.initialize()
+        DispatchQueue.global(qos: .background).async {
 
-        let humanPlayer = Player(leader: .alexander, isHuman: true)
-        humanPlayer.initialize()
+            let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+            barbarianPlayer.initialize()
 
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+            let aiPlayer = Player(leader: .victoria, isHuman: false)
+            aiPlayer.initialize()
 
-        let gameModel = GameModel(
-            victoryTypes: [.domination],
-            handicap: .king,
-            turnsElapsed: 0,
-            players: [barbarianPlayer, aiPlayer, humanPlayer],
-            on: mapModel
-        )
+            let humanPlayer = Player(leader: .alexander, isHuman: true)
+            humanPlayer.initialize()
 
-        // AI
-        aiPlayer.found(at: HexPoint(x: 10, y: 5), named: "AI Capital", in: gameModel)
-        let aiCity = gameModel.city(at: HexPoint(x: 10, y: 5))
+            var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
 
-        // Human
-        humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-        try! humanPlayer.techs?.discover(tech: .pottery)
-        try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
-        try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-        try! humanPlayer.civics?.discover(civic: .foreignTrade)
-        try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
+            let gameModel = GameModel(
+                victoryTypes: [.domination],
+                handicap: .king,
+                turnsElapsed: 0,
+                players: [barbarianPlayer, aiPlayer, humanPlayer],
+                on: mapModel
+            )
 
-        if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
-            humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
-        }
+            // AI
+            aiPlayer.found(at: HexPoint(x: 10, y: 5), named: "AI Capital", in: gameModel)
+            let aiCity = gameModel.city(at: HexPoint(x: 10, y: 5))
 
-        let humanTraderUnit = Unit(at: HexPoint(x: 2, y: 6), type: .trader, owner: humanPlayer)
-        humanTraderUnit.origin = HexPoint(x: 3, y: 5)
-        gameModel.add(unit: humanTraderUnit)
-        gameModel.userInterface?.show(unit: humanTraderUnit)
+            // Human
+            humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
+            try! humanPlayer.techs?.discover(tech: .pottery)
+            try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .codeOfLaws)
+            try! humanPlayer.civics?.discover(civic: .foreignTrade)
+            try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
-        MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
+            if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
+                humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+            }
 
-        guard humanTraderUnit.doEstablishTradeRoute(to: aiCity, in: gameModel) else {
-            fatalError("cant create trade route")
-        }
+            let humanTraderUnit = Unit(at: HexPoint(x: 2, y: 6), type: .trader, owner: humanPlayer)
+            humanTraderUnit.origin = HexPoint(x: 3, y: 5)
+            gameModel.add(unit: humanTraderUnit)
+            gameModel.userInterface?.show(unit: humanTraderUnit)
 
-        // add UI
-        let userInterface = TestUI()
-        gameModel.userInterface = userInterface
+            MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
-        // hack
-        var turnCounter = 0
+            guard humanTraderUnit.doEstablishTradeRoute(to: aiCity, in: gameModel) else {
+                fatalError("cant create trade route")
+            }
 
-        repeat {
+            // add UI
+            let userInterface = TestUI()
+            gameModel.userInterface = userInterface
+
+            // hack
+            var turnCounter = 0
 
             repeat {
-                gameModel.update()
 
-                if humanPlayer.isTurnActive() {
-                    humanPlayer.finishTurn()
-                    humanPlayer.setAutoMoves(to: true)
-                }
-            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
+                repeat {
+                    gameModel.update()
 
-            turnCounter += 1
-        } while turnCounter < 20
+                    if humanPlayer.isTurnActive() {
+                        humanPlayer.finishTurn()
+                        humanPlayer.setAutoMoves(to: true)
+                    }
+                } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
 
-        self.delegate?.start(game: gameModel)
+                turnCounter += 1
+            } while turnCounter < 20
+
+            DispatchQueue.main.async {
+                self.delegate?.prepared(game: gameModel)
+            }
+        }
     }
 
     func createAllUnitsWorld() {
 
         print("All Units")
 
-        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
-        barbarianPlayer.initialize()
+        self.delegate?.preparing()
 
-        let aiPlayer = Player(leader: .victoria, isHuman: false)
-        aiPlayer.initialize()
+        DispatchQueue.global(qos: .background).async {
 
-        let humanPlayer = Player(leader: .alexander, isHuman: true)
-        humanPlayer.initialize()
+            let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+            barbarianPlayer.initialize()
 
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
-        mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
-        mapModel.set(hills: true, at: HexPoint(x: 1, y: 2))
-        mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
-        mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
-        mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
+            let aiPlayer = Player(leader: .victoria, isHuman: false)
+            aiPlayer.initialize()
 
-        let gameModel = GameModel(
-            victoryTypes: [.domination],
-            handicap: .king,
-            turnsElapsed: 0,
-            players: [barbarianPlayer, aiPlayer, humanPlayer],
-            on: mapModel
-        )
+            let humanPlayer = Player(leader: .alexander, isHuman: true)
+            humanPlayer.initialize()
 
-        // AI
-        aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
-        aiPlayer.found(at: HexPoint(x: 12, y: 10), named: "AI City", in: gameModel)
+            var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+            mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
+            mapModel.set(hills: true, at: HexPoint(x: 1, y: 2))
+            mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
+            mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
+            mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
 
-        // Human
-        humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-        try! humanPlayer.techs?.discover(tech: .pottery)
-        try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
-        try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-        try! humanPlayer.civics?.discover(civic: .foreignTrade)
-        try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
+            let gameModel = GameModel(
+                victoryTypes: [.domination],
+                handicap: .king,
+                turnsElapsed: 0,
+                players: [barbarianPlayer, aiPlayer, humanPlayer],
+                on: mapModel
+            )
 
-        if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
-            humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+            // AI
+            aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
+            aiPlayer.found(at: HexPoint(x: 12, y: 10), named: "AI City", in: gameModel)
+
+            // Human
+            humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
+            try! humanPlayer.techs?.discover(tech: .pottery)
+            try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .codeOfLaws)
+            try! humanPlayer.civics?.discover(civic: .foreignTrade)
+            try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
+
+            if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
+                humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+            }
+
+            var x = 0
+            for unitType in UnitType.all {
+                let unit = Unit(at: HexPoint(x: x, y: 4), type: unitType, owner: humanPlayer)
+                unit.origin = HexPoint(x: 3, y: 5)
+                gameModel.add(unit: unit)
+                gameModel.userInterface?.show(unit: unit)
+
+                x += 1
+            }
+
+            MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
+
+            DispatchQueue.main.async {
+                self.delegate?.prepared(game: gameModel)
+            }
         }
-
-        var x = 0
-        for unitType in UnitType.all {
-            let unit = Unit(at: HexPoint(x: x, y: 4), type: unitType, owner: humanPlayer)
-            unit.origin = HexPoint(x: 3, y: 5)
-            gameModel.add(unit: unit)
-            gameModel.userInterface?.show(unit: unit)
-
-            x += 1
-        }
-
-        MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
-
-        self.delegate?.start(game: gameModel)
     }
 
     func createFastReligionFoundingWorld() {
 
         print("fast religion founding")
 
-        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
-        barbarianPlayer.initialize()
+        self.delegate?.preparing()
 
-        let aiPlayer = Player(leader: .victoria, isHuman: false)
-        aiPlayer.initialize()
+        DispatchQueue.global(qos: .background).async {
 
-        let humanPlayer = Player(leader: .alexander, isHuman: true)
-        humanPlayer.initialize()
+            let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+            barbarianPlayer.initialize()
 
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
-        mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
-        mapModel.set(hills: true, at: HexPoint(x: 1, y: 2))
-        mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
-        mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
-        mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
+            let aiPlayer = Player(leader: .victoria, isHuman: false)
+            aiPlayer.initialize()
 
-        let gameModel = GameModel(
-            victoryTypes: [.domination],
-            handicap: .king,
-            turnsElapsed: 0,
-            players: [barbarianPlayer, aiPlayer, humanPlayer],
-            on: mapModel
-        )
+            let humanPlayer = Player(leader: .alexander, isHuman: true)
+            humanPlayer.initialize()
 
-        // AI
-        aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
-        aiPlayer.found(at: HexPoint(x: 12, y: 10), named: "AI City", in: gameModel)
+            var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+            mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
+            mapModel.set(hills: true, at: HexPoint(x: 1, y: 2))
+            mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
+            mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
+            mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
 
-        // Human
-        humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-        try! humanPlayer.techs?.discover(tech: .pottery)
-        try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
-        try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-        try! humanPlayer.civics?.discover(civic: .foreignTrade)
-        try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
+            let gameModel = GameModel(
+                victoryTypes: [.domination],
+                handicap: .king,
+                turnsElapsed: 0,
+                players: [barbarianPlayer, aiPlayer, humanPlayer],
+                on: mapModel
+            )
 
-        if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
-            humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
-            try! humanCity.districts?.build(district: .holySite)
+            // AI
+            aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
+            aiPlayer.found(at: HexPoint(x: 12, y: 10), named: "AI City", in: gameModel)
+
+            // Human
+            humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
+            try! humanPlayer.techs?.discover(tech: .pottery)
+            try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .codeOfLaws)
+            try! humanPlayer.civics?.discover(civic: .foreignTrade)
+            try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
+
+            if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
+                humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+                try! humanCity.districts?.build(district: .holySite)
+            }
+
+            humanPlayer.religion?.foundPantheon(with: .danceOfTheAurora, in: gameModel)
+
+            let prophetUnit = Unit(at: HexPoint(x: 3, y: 4), type: .prophet, owner: humanPlayer)
+            gameModel.add(unit: prophetUnit)
+            gameModel.userInterface?.show(unit: prophetUnit)
+
+            MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
+
+            DispatchQueue.main.async {
+                self.delegate?.prepared(game: gameModel)
+            }
         }
-
-        humanPlayer.religion?.foundPantheon(with: .danceOfTheAurora, in: gameModel)
-
-        let prophetUnit = Unit(at: HexPoint(x: 3, y: 4), type: .prophet, owner: humanPlayer)
-        gameModel.add(unit: prophetUnit)
-        gameModel.userInterface?.show(unit: prophetUnit)
-
-        MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
-
-        self.delegate?.start(game: gameModel)
     }
 
     func createTileImprovementsWorld() {
 
         print("Tile Improvements")
 
-        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
-        barbarianPlayer.initialize()
+        self.delegate?.preparing()
 
-        let aiPlayer = Player(leader: .victoria, isHuman: false)
-        aiPlayer.initialize()
+        DispatchQueue.global(qos: .background).async {
 
-        let humanPlayer = Player(leader: .alexander, isHuman: true)
-        humanPlayer.initialize()
+            let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+            barbarianPlayer.initialize()
 
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+            let aiPlayer = Player(leader: .victoria, isHuman: false)
+            aiPlayer.initialize()
 
-        mapModel.set(terrain: .plains, at: HexPoint(x: 2, y: 4))
-        mapModel.set(hills: true, at: HexPoint(x: 2, y: 4))
+            let humanPlayer = Player(leader: .alexander, isHuman: true)
+            humanPlayer.initialize()
 
-        mapModel.set(resource: .wheat, at: HexPoint(x: 3, y: 4))
-        mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 4))
+            var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
 
-        mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 3))
-        mapModel.set(hills: true, at: HexPoint(x: 3, y: 3))
+            mapModel.set(terrain: .plains, at: HexPoint(x: 2, y: 4))
+            mapModel.set(hills: true, at: HexPoint(x: 2, y: 4))
 
-        mapModel.set(feature: .forest, at: HexPoint(x: 4, y: 4))
-        mapModel.set(resource: .furs, at: HexPoint(x: 4, y: 4))
+            mapModel.set(resource: .wheat, at: HexPoint(x: 3, y: 4))
+            mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 4))
 
-        mapModel.set(hills: true, at: HexPoint(x: 4, y: 5))
-        mapModel.set(resource: .wine, at: HexPoint(x: 4, y: 5))
+            mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 3))
+            mapModel.set(hills: true, at: HexPoint(x: 3, y: 3))
 
-        mapModel.set(terrain: .shore, at: HexPoint(x: 4, y: 3))
-        mapModel.set(resource: .fish, at: HexPoint(x: 4, y: 3))
+            mapModel.set(feature: .forest, at: HexPoint(x: 4, y: 4))
+            mapModel.set(resource: .furs, at: HexPoint(x: 4, y: 4))
 
-        let gameModel = GameModel(
-            victoryTypes: [.domination],
-            handicap: .king,
-            turnsElapsed: 0,
-            players: [barbarianPlayer, aiPlayer, humanPlayer],
-            on: mapModel
-        )
+            mapModel.set(hills: true, at: HexPoint(x: 4, y: 5))
+            mapModel.set(resource: .wine, at: HexPoint(x: 4, y: 5))
 
-        // AI
-        aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
-        aiPlayer.found(at: HexPoint(x: 12, y: 10), named: "AI City", in: gameModel)
+            mapModel.set(terrain: .shore, at: HexPoint(x: 4, y: 3))
+            mapModel.set(resource: .fish, at: HexPoint(x: 4, y: 3))
 
-        // Human
-        humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-        try! humanPlayer.techs?.discover(tech: .pottery)
-        try! humanPlayer.techs?.discover(tech: .bronzeWorking)
-        try! humanPlayer.techs?.discover(tech: .irrigation)
-        try! humanPlayer.techs?.discover(tech: .animalHusbandry)
-        try! humanPlayer.techs?.discover(tech: .sailing)
-        try! humanPlayer.techs?.setCurrent(tech: .archery, in: gameModel)
-        try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-        try! humanPlayer.civics?.discover(civic: .foreignTrade)
-        try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
+            let gameModel = GameModel(
+                victoryTypes: [.domination],
+                handicap: .king,
+                turnsElapsed: 0,
+                players: [barbarianPlayer, aiPlayer, humanPlayer],
+                on: mapModel
+            )
 
-        if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
-            humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+            // AI
+            aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
+            aiPlayer.found(at: HexPoint(x: 12, y: 10), named: "AI City", in: gameModel)
 
-            humanCity.assign(governor: .amani)
+            // Human
+            humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
+            try! humanPlayer.techs?.discover(tech: .pottery)
+            try! humanPlayer.techs?.discover(tech: .bronzeWorking)
+            try! humanPlayer.techs?.discover(tech: .irrigation)
+            try! humanPlayer.techs?.discover(tech: .animalHusbandry)
+            try! humanPlayer.techs?.discover(tech: .sailing)
+            try! humanPlayer.techs?.setCurrent(tech: .archery, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .codeOfLaws)
+            try! humanPlayer.civics?.discover(civic: .foreignTrade)
+            try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
-            for pointToClaim in HexPoint(x: 3, y: 5).areaWith(radius: 2) {
-                if let tileToClaim = gameModel.tile(at: pointToClaim) {
-                    if !tileToClaim.hasOwner() {
-                        do {
-                            try tileToClaim.set(owner: humanPlayer)
-                            try tileToClaim.setWorkingCity(to: humanCity)
+            if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
+                humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
 
-                            humanPlayer.addPlot(at: pointToClaim)
+                humanCity.assign(governor: .amani)
 
-                            gameModel.userInterface?.refresh(tile: tileToClaim)
-                        } catch {
-                            fatalError("cant set owner")
+                for pointToClaim in HexPoint(x: 3, y: 5).areaWith(radius: 2) {
+                    if let tileToClaim = gameModel.tile(at: pointToClaim) {
+                        if !tileToClaim.hasOwner() {
+                            do {
+                                try tileToClaim.set(owner: humanPlayer)
+                                try tileToClaim.setWorkingCity(to: humanCity)
+
+                                humanPlayer.addPlot(at: pointToClaim)
+
+                                gameModel.userInterface?.refresh(tile: tileToClaim)
+                            } catch {
+                                fatalError("cant set owner")
+                            }
                         }
                     }
                 }
             }
+
+            let builderUnit = Unit(at: HexPoint(x: 3, y: 4), type: .builder, owner: humanPlayer)
+            gameModel.add(unit: builderUnit)
+            gameModel.userInterface?.show(unit: builderUnit)
+
+            MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
+
+            DispatchQueue.main.async {
+                self.delegate?.prepared(game: gameModel)
+            }
         }
+    }
 
-        let builderUnit = Unit(at: HexPoint(x: 3, y: 4), type: .builder, owner: humanPlayer)
-        gameModel.add(unit: builderUnit)
-        gameModel.userInterface?.show(unit: builderUnit)
+    func createCityCombatWorld() {
 
-        MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
+        print("city combat")
 
-        self.delegate?.start(game: gameModel)
+        self.delegate?.preparing()
+
+        DispatchQueue.global(qos: .background).async {
+
+            let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+            barbarianPlayer.initialize()
+
+            let aiPlayer = Player(leader: .victoria, isHuman: false)
+            aiPlayer.initialize()
+
+            let humanPlayer = Player(leader: .alexander, isHuman: true)
+            humanPlayer.initialize()
+
+            var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+
+            let gameModel = GameModel(
+                victoryTypes: [.domination],
+                handicap: .settler,
+                turnsElapsed: 0,
+                players: [barbarianPlayer, aiPlayer, humanPlayer],
+                on: mapModel
+            )
+
+            // AI
+            aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
+
+            // Human
+            humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
+            try! humanPlayer.techs?.discover(tech: .pottery)
+            try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .codeOfLaws)
+            try! humanPlayer.civics?.discover(civic: .foreignTrade)
+            try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
+
+            if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
+                humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+            }
+
+            humanPlayer.doFirstContact(with: aiPlayer, in: gameModel)
+            aiPlayer.diplomacyAI?.doDeclareWar(to: humanPlayer, in: gameModel)
+
+            // add combat units
+            let warriorUnit = Unit(at: HexPoint(x: 20, y: 7), type: .warrior, owner: humanPlayer)
+            gameModel.add(unit: warriorUnit)
+            gameModel.userInterface?.show(unit: warriorUnit)
+
+            let archerUnit = Unit(at: HexPoint(x: 20, y: 6), type: .archer, owner: humanPlayer)
+            gameModel.add(unit: archerUnit)
+            gameModel.userInterface?.show(unit: archerUnit)
+
+            MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
+
+            DispatchQueue.main.async {
+                self.delegate?.prepared(game: gameModel)
+            }
+        }
     }
 
     func close() {

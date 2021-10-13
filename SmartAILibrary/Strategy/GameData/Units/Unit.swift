@@ -52,6 +52,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func queueMoveForVisualization(at point: HexPoint, in gameModel: GameModel?)
     func publishQueuedVisualizationMoves(in gameModel: GameModel?)
     @discardableResult func jumpToNearestValidPlotWithin(range: Int, in gameModel: GameModel?) -> Bool
+    func isImmobile() -> Bool
 
     func isImpassable(tile: AbstractTile?) -> Bool
     func canEnterTerrain(of tile: AbstractTile?) -> Bool
@@ -78,9 +79,10 @@ public protocol AbstractUnit: AnyObject, Codable {
     func attackStrengthModifier(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, in gameModel: GameModel?) -> [CombatModifier]
     func rangedCombatStrength(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, attacking: Bool, in gameModel: GameModel?) -> Int
     func attackModifier(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, in gameModel: GameModel?) -> Int
-    func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> Int
-    func defensiveStrengthModifier(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> [CombatModifier]
-    func defenseModifier(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> Int
+    func defensiveStrength(against attacker: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> Int
+    func defensiveStrengthModifier(against attacker: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> [CombatModifier]
+    func defenseModifier(against attacker: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> Int
+
     func isUnderEnemyRangedAttack() -> Bool
 
     func sight() -> Int
@@ -108,7 +110,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func canAttackRanged() -> Bool
     func canMoveAfterAttacking() -> Bool
     func doAttack(into destination: HexPoint, /* flags */ steps: Int, in gameModel: GameModel?) -> Bool
-    func canRangeStrike(at point: HexPoint, needWar: Bool, noncombatAllowed: Bool) -> Bool
+    func canRangeStrike(at point: HexPoint, needWar: Bool, noncombatAllowed: Bool, in gameModel: GameModel?) -> Bool
     func doRangeAttack(at target: HexPoint, in gameModel: GameModel?) -> Bool
     func canSetUpForRangedAttack() -> Bool
     func isRangeAttackIgnoreLineOfSight() -> Bool
@@ -845,7 +847,7 @@ public class Unit: AbstractUnit {
         return modifierValue
     }
 
-    public func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> Int {
+    public func defensiveStrength(against attacker: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> Int {
 
         if self.isEmbarked() {
             if self.unitClassType() == .civilian {
@@ -855,19 +857,21 @@ public class Unit: AbstractUnit {
             }
         }
 
-        if self.baseCombatStrength(ignoreEmbarked: true) == 0 {
+        let baseStrength = self.baseCombatStrength(ignoreEmbarked: true)
+
+        if baseStrength == 0 {
             return 0
         }
 
         var modifierValue = 0
-        for modifier in self.defensiveStrengthModifier(against: attacker, on: toTile, ranged: ranged, in: gameModel) {
+        for modifier in self.defensiveStrengthModifier(against: attacker, or: city, on: toTile, ranged: ranged, in: gameModel) {
             modifierValue += modifier.value
         }
 
-        return self.baseCombatStrength(ignoreEmbarked: true) + modifierValue
+        return baseStrength + modifierValue
     }
 
-    public func defensiveStrengthModifier(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> [CombatModifier] {
+    public func defensiveStrengthModifier(against attacker: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> [CombatModifier] {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -928,10 +932,10 @@ public class Unit: AbstractUnit {
         return result
     }
 
-    public func defenseModifier(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> Int {
+    public func defenseModifier(against attacker: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> Int {
 
         var modifierValue = 0
-        for modifier in self.defensiveStrengthModifier(against: attacker, on: toTile, ranged: ranged, in: gameModel) {
+        for modifier in self.defensiveStrengthModifier(against: attacker, or: city, on: toTile, ranged: ranged, in: gameModel) {
             modifierValue += modifier.value
         }
 
@@ -1027,7 +1031,7 @@ public class Unit: AbstractUnit {
             // Air mission
             if self.domain() == .air && self.baseCombatStrength() == 0 {
 
-                if self.canRangeStrike(at: destination, needWar: false, noncombatAllowed: true) {
+                if self.canRangeStrike(at: destination, needWar: false, noncombatAllowed: true, in: gameModel) {
                     //CvUnitCombat::AttackAir(*this, *pDestPlot, (iFlags &  MISSION_MODIFIER_NO_DEFENSIVE_SUPPORT)?CvUnitCombat::ATTACK_OPTION_NO_DEFENSIVE_SUPPORT:CvUnitCombat::ATTACK_OPTION_NONE);
                     fatalError("niy")
                     attack = true
@@ -1046,10 +1050,7 @@ public class Unit: AbstractUnit {
 
                             attack = true
 
-                            let result = Combat.predictMeleeAttack(between: self, and: city, in: gameModel)
-                            print("result: \(result)")
-
-                            // fatalError("niy")
+                            Combat.doMeleeAttack(between: self, and: city, in: gameModel)
                         }
                     }
                 }
@@ -1096,7 +1097,27 @@ public class Unit: AbstractUnit {
 
     public func doRangeAttack(at target: HexPoint, in gameModel: GameModel?) -> Bool {
 
-        fatalError("niy")
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        if !self.canRangeStrike(at: target, needWar: true, noncombatAllowed: true, in: gameModel) {
+            fatalError("tried to range attack, but it's not allow")
+        }
+
+        if let targetCity = gameModel.city(at: target) {
+
+            Combat.doRangedAttack(between: self, and: targetCity, in: gameModel)
+            return true
+
+        } else if let targetUnit = gameModel.unit(at: target, of: .combat) {
+
+            Combat.doRangedAttack(between: self, and: targetUnit, in: gameModel)
+            return true
+
+        } else {
+            fatalError("nor city nor combat unit at \(target)")
+        }
     }
 
     public func canSetUpForRangedAttack() -> Bool {
@@ -1152,7 +1173,15 @@ public class Unit: AbstractUnit {
         return false
     }
 
-    public func canRangeStrike(at point: HexPoint, needWar: Bool, noncombatAllowed: Bool) -> Bool {
+    public func canRangeStrike(at point: HexPoint, needWar: Bool, noncombatAllowed: Bool, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let playerDiplomacy = self.player?.diplomacyAI else {
+            fatalError("cant get player diplomacy")
+        }
 
         if !self.canAttackRanged() {
             return false
@@ -1163,73 +1192,75 @@ public class Unit: AbstractUnit {
             return false
         }*/
 
-        /*CvPlot* pTargetPlot = GC.getMap().plot(iX, iY);
+        let units = gameModel.units(at: point)
 
-        // If it's NOT a city, see if there are any units to aim for
-        if (!pTargetPlot->isCity())
-        {
-            if (bNeedWar)
-            {
-                const CvUnit* pDefender = airStrikeTarget(*pTargetPlot, bNoncombatAllowed);
-                if (NULL == pDefender)
-                {
-                    return false;
+        if let city = gameModel.city(at: point) {
+
+            // If it is a City, only consider those we're at war with
+            // If you're already at war don't need to check
+            if !playerDiplomacy.isAtWar(with: city.player) {
+
+                if needWar {
+                    return false
+                } else {
+                    // Don't need to be at war with this City's owner (yet)
+                    if !playerDiplomacy.canDeclareWar(to: city.player) {
+                        return false
+                    }
                 }
             }
-            // We don't need to be at war (yet) with a Unit here, so let's try to find one
-            else
-            {
-                const IDInfo* pUnitNode = pTargetPlot->headUnitNode();
-                const CvUnit* pLoopUnit;
-                bool bFoundUnit = false;
+        } else if !units.isEmpty {
+            // If it's NOT a city, see if there are any units to aim for
+            if needWar {
 
-                CvTeam& myTeam = GET_TEAM(getTeam());
+                var foundUnit = false
 
-                while (pUnitNode != NULL)
-                {
-                    pLoopUnit = ::getUnit(*pUnitNode);
-                    pUnitNode = pTargetPlot->nextUnitNode(pUnitNode);
+                for unitRef in units {
 
-                    if(!pLoopUnit) continue;
+                    guard let unit = unitRef else {
+                        continue
+                    }
 
-                    TeamTypes loopTeam = pLoopUnit->getTeam();
+                    // if there is a unit that we are not at war with - we cant attack
+                    if !playerDiplomacy.isAtWar(with: unit.player) {
+                        return false
+                    }
+
+                    foundUnit = true
+                }
+
+                // no unit no attack
+                if !foundUnit {
+                    return false
+                }
+
+            } else {
+                // We don't need to be at war (yet) with a Unit here, so let's try to find one
+                var foundUnit = false
+
+                for unitRef in units {
+
+                    guard let unit = unitRef else {
+                        continue
+                    }
 
                     // Make sure it's a valid Team
-                    if ( myTeam.isAtWar(loopTeam) || myTeam.canDeclareWar(loopTeam) )
-                    {
-                        bFoundUnit = true;
-                        break;
+                    if playerDiplomacy.isAtWar(with: unit.player) || playerDiplomacy.canDeclareWar(to: unit.player) {
+                        foundUnit = true
+                        break
                     }
                 }
 
-                if (!bFoundUnit)
-                {
-                    return false;
+                // no unit no attack
+                if !foundUnit {
+                    return false
                 }
             }
+        } else {
+
+            // nothing here
+            return false
         }
-        // If it is a City, only consider those we're at war with
-        else
-        {
-            CvAssert(pTargetPlot->getPlotCity() != NULL);
-
-            // If you're already at war don't need to check
-            if (!atWar(getTeam(), pTargetPlot->getPlotCity()->getTeam()))
-            {
-                if (bNeedWar)
-                {
-                    return false;
-                }
-                // Don't need to be at war with this City's owner (yet)
-                else
-                {
-                    if (!GET_TEAM(getTeam()).canDeclareWar(pTargetPlot->getPlotCity()->getTeam()))
-                    {
-                        return false;
-                    }
-                }
-            }
-        }*/
 
         return true
     }
@@ -1803,7 +1834,7 @@ public class Unit: AbstractUnit {
 
             if diplomacyAI.isAtWar(with: newCity.player) {
 
-                player.acquire(city: newCity, conquest: true, gift: false)
+                player.acquire(city: newCity, conquest: true, gift: false, in: gameModel)
                 newCityRef = nil
 
                 // TODO liberation city for ally
@@ -2103,6 +2134,11 @@ public class Unit: AbstractUnit {
         }
 
         return true
+    }
+
+    public func isImmobile() -> Bool {
+
+        return false
     }
 
     //    ---------------------------------------------------------------------------
@@ -3544,6 +3580,7 @@ public class Unit: AbstractUnit {
         return false
     }
 
+    // returns if unit does have any target from point
     func canRangeAttack(at point: HexPoint, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
@@ -3564,7 +3601,7 @@ public class Unit: AbstractUnit {
         }
 
         // check neighbors for enemy units
-        for neighor in self.location.areaWith(radius: self.range()) {
+        for neighor in point.areaWith(radius: self.range()) {
 
             if let neighborUnit = gameModel.unit(at: neighor, of: .combat) {
 
@@ -4200,7 +4237,7 @@ extension Unit {
             }
         case .rangedAttack:
             if let target = mission.target {
-                if self.canRangeStrike(at: target, needWar: false, noncombatAllowed: false) {
+                if self.canRangeStrike(at: target, needWar: false, noncombatAllowed: false, in: gameModel) {
                     return true
                 }
             }

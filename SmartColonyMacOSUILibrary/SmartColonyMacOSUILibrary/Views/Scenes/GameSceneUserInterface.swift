@@ -73,7 +73,7 @@ extension GameScene: UserInterfaceDelegate {
         self.mapNode?.unitLayer.clearAttackFocus()
         self.viewModel?.selectedCity = nil
         self.viewModel?.selectedUnit = nil
-        self.viewModel?.combatTarget = nil
+        self.viewModel?.combatUnitTarget = nil
         self.viewModel?.delegate?.selectedUnitChanged(to: nil, commands: [], in: nil)
     }
 
@@ -170,6 +170,12 @@ extension GameScene: UserInterfaceDelegate {
         self.mapNode?.cityLayer.update(city: city)
     }
 
+    func remove(city: AbstractCity?) {
+
+        self.mapNode?.cityLayer.remove(city: city)
+        self.mapNode?.boardLayer.rebuild()
+    }
+
     func refresh(tile: AbstractTile?) {
 
         guard let gameModel = self.viewModel?.game else {
@@ -177,6 +183,7 @@ extension GameScene: UserInterfaceDelegate {
         }
 
         DispatchQueue.main.async {
+
             self.mapNode?.update(tile: tile)
             self.viewModel?.mapOverviewViewModel.changed(at: tile!.point)
 

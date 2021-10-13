@@ -125,7 +125,7 @@ public enum UnitPromotionType: Int, Codable {
         case .ranger:
             // https://civilization.fandom.com/wiki/Ranger_(promotion)_(Civ6)
             return PromotionData(name: "Ranger",
-                                 effect: "Faster Civ6Movement Movement in Woods and Jungle terrain.", // FIXME
+                                 effect: "Faster Movement in Woods and Jungle terrain.", // FIXME
                                  tier: 1,
                                  unitClass: .recon,
                                  required: [],
@@ -133,7 +133,7 @@ public enum UnitPromotionType: Int, Codable {
         case .alpine:
             // https://civilization.fandom.com/wiki/Alpine_(Civ6)
             return PromotionData(name: "Alpine",
-                                 effect: "Faster Civ6Movement Movement on Hill terrain.", // FIXME
+                                 effect: "Faster Movement on Hill terrain.", // FIXME
                                  tier: 1,
                                  unitClass: .recon,
                                  required: [],
@@ -164,7 +164,7 @@ public enum UnitPromotionType: Int, Codable {
         case .ambush:
             // https://civilization.fandom.com/wiki/Ambush_(Civ6)
             return PromotionData(name: "Ambush",
-                                 effect: "+20 Civ6StrengthIcon Combat Strength in all situations.", // FIXME
+                                 effect: "+20 Combat Strength in all situations.", // FIXME
                                  tier: 3,
                                  unitClass: .recon,
                                  required: [.guerrilla],
@@ -182,7 +182,7 @@ public enum UnitPromotionType: Int, Codable {
         case .battleCry:
             // https://civilization.fandom.com/wiki/Battlecry_(Civ6)
             return PromotionData(name: "Battlecry",
-                                 effect: "+7 Civ6StrengthIcon Combat Strength vs. melee and ranged units.",
+                                 effect: "+7 Combat Strength vs. melee and ranged units.",
                                  tier: 1,
                                  unitClass: .melee,
                                  required: [],
@@ -190,7 +190,7 @@ public enum UnitPromotionType: Int, Codable {
         case .tortoise:
             // https://civilization.fandom.com/wiki/Tortoise_(Civ6)
             return PromotionData(name: "Tortoise",
-                                 effect: "+10 Civ6StrengthIcon Combat Strength when defending against ranged attacks.",
+                                 effect: "+10 Combat Strength when defending against ranged attacks.",
                                  tier: 1,
                                  unitClass: .melee,
                                  required: [],
@@ -198,7 +198,7 @@ public enum UnitPromotionType: Int, Codable {
         case .commando:
             // https://civilization.fandom.com/wiki/Commando_(Civ6)
             return PromotionData(name: "Commando",
-                                 effect: "Can scale Cliff walls. +1 Civ6Movement Movement.", // FIXME
+                                 effect: "Can scale Cliff walls. +1 Movement.", // FIXME
                                  tier: 2,
                                  unitClass: .melee,
                                  required: [.battleCry, .amphibious],
@@ -206,7 +206,7 @@ public enum UnitPromotionType: Int, Codable {
         case .amphibious:
             // https://civilization.fandom.com/wiki/Amphibious_(Civ6)
             return PromotionData(name: "Amphibious",
-                                 effect: "No Civ6StrengthIcon Combat Strength and Civ6Movement Movement penalty when attacking from Sea or over a River.", // FIXME
+                                 effect: "No Combat Strength and Movement penalty when attacking from Sea or over a River.", // FIXME
                                  tier: 2,
                                  unitClass: .melee,
                                  required: [.tortoise, .commando],
@@ -214,7 +214,7 @@ public enum UnitPromotionType: Int, Codable {
         case .zweihander:
             // https://civilization.fandom.com/wiki/Zweihander_(Civ6)
             return PromotionData(name: "Zweihander",
-                                 effect: "+7 Civ6StrengthIcon Combat Strength vs. anti-cavalry units.", // FIXME
+                                 effect: "+7 Combat Strength vs. anti-cavalry units.", // FIXME
                                  tier: 3,
                                  unitClass: .melee,
                                  required: [.tortoise, .amphibious],
@@ -222,7 +222,7 @@ public enum UnitPromotionType: Int, Codable {
         case .urbanWarfare:
             // https://civilization.fandom.com/wiki/Urban_Warfare_(Civ6)
             return PromotionData(name: "Urban warfare",
-                                 effect: "+10 Civ6StrengthIcon Combat Strength when fighting in a city.", // FIXME
+                                 effect: "+10 Combat Strength when fighting in a city.", // FIXME
                                  tier: 3,
                                  unitClass: .melee,
                                  required: [.commando, .amphibious],
@@ -230,7 +230,7 @@ public enum UnitPromotionType: Int, Codable {
         case .eliteGuard:
             // https://civilization.fandom.com/wiki/Elite_Guard_(Civ6)
             return PromotionData(name: "Elite guard",
-                                 effect: "+1 additional attack per turn if Civ6Movement Movement allows. Can move after attacking.", // FIXME
+                                 effect: "+1 additional attack per turn if Movement allows. Can move after attacking.", // FIXME
                                  tier: 4,
                                  unitClass: .melee,
                                  required: [.zweihander, .urbanWarfare],

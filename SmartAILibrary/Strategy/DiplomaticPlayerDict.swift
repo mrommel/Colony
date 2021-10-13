@@ -14,15 +14,17 @@ class DiplomaticPlayerDict: Codable {
     enum CodingKeys: CodingKey {
 
         case items
+        case itemsOther
     }
 
     // MARK: private properties
 
     private var items: [DiplomaticAIPlayerItem]
+    private var itemsOther: [DiplomaticAIPlayersItem]
 
     // MARK: internal classes
 
-    // class that stores data that belong to one other player
+    // class that stores data that belong to/references one other player
     class DiplomaticAIPlayerItem: Codable {
 
         enum CodingKeys: CodingKey {
@@ -342,11 +344,58 @@ class DiplomaticPlayerDict: Codable {
         }
     }
 
+    // class that stores data that belong to/references one other player
+    class DiplomaticAIPlayersItem: Codable {
+
+        enum CodingKeys: CodingKey {
+
+            case fromLeader
+            case toLeader
+            case warValueLost
+        }
+
+        let fromLeader: LeaderType
+        let toLeader: LeaderType
+
+        var warValueLost: Int
+
+        // MARK: constructors
+
+        init(from fromLeader: LeaderType, to toLeader: LeaderType) {
+
+            self.fromLeader = fromLeader
+            self.toLeader = toLeader
+
+            self.warValueLost = 0
+        }
+
+        public required init(from decoder: Decoder) throws {
+
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+
+            self.fromLeader = try container.decode(LeaderType.self, forKey: .fromLeader)
+            self.toLeader = try container.decode(LeaderType.self, forKey: .toLeader)
+
+            self.warValueLost = try container.decode(Int.self, forKey: .warValueLost)
+        }
+
+        public func encode(to encoder: Encoder) throws {
+
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(self.fromLeader, forKey: .fromLeader)
+            try container.encode(self.toLeader, forKey: .toLeader)
+
+            try container.encode(self.warValueLost, forKey: .warValueLost)
+        }
+    }
+
     // MARK: constructor
 
     init() {
 
         self.items = []
+        self.itemsOther = []
     }
 
     public required init(from decoder: Decoder) throws {
@@ -354,6 +403,7 @@ class DiplomaticPlayerDict: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.items = try container.decode([DiplomaticAIPlayerItem].self, forKey: .items)
+        self.itemsOther = try container.decode([DiplomaticAIPlayersItem].self, forKey: .itemsOther)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -361,6 +411,7 @@ class DiplomaticPlayerDict: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.items, forKey: .items)
+        try container.encode(self.itemsOther, forKey: .itemsOther)
     }
 
     func initContact(with otherPlayer: AbstractPlayer?, in turn: Int) {
@@ -1174,12 +1225,34 @@ class DiplomaticPlayerDict: Codable {
         }
     }
 
-    func updateWarValueLost(with  otherPlayer: AbstractPlayer?, to value: Int) {
+    func updateWarValueLost(with otherPlayer: AbstractPlayer?, to value: Int) {
 
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.warValueLost = value
         } else {
             fatalError("not gonna happen")
+        }
+    }
+
+    // MARK: - --
+
+    func otherPlayerWarValueLost(with fromPlayer: AbstractPlayer?, towards toPlayer: AbstractPlayer?) -> Int {
+
+        if let item = self.itemsOther.first(where: { $0.fromLeader == fromPlayer?.leader && $0.toLeader == toPlayer?.leader }) {
+            return item.warValueLost
+        } else {
+            return 0
+        }
+    }
+
+    func updateOtherPlayerWarValueLost(with fromPlayer: AbstractPlayer?, towards toPlayer: AbstractPlayer?, to value: Int) {
+
+        if let item = self.itemsOther.first(where: { $0.fromLeader == fromPlayer?.leader && $0.toLeader == toPlayer?.leader }) {
+            item.warValueLost = value
+        } else {
+            let newItem = DiplomaticAIPlayersItem(from: fromPlayer!.leader, to: toPlayer!.leader)
+            newItem.warValueLost = value
+            self.itemsOther.append(newItem)
         }
     }
 

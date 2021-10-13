@@ -45,6 +45,7 @@ open class GameModel: Codable {
 
         case gameStateValue
         case rankingData
+        case replayData
 
         case barbarianAI
     }
@@ -70,6 +71,7 @@ open class GameModel: Codable {
     private var votesNeededForDiplomaticVictoryValue: Int = 0
 
     public var rankingData: RankingData
+    public var replayData: GameReplay
 
     private var barbarianAI: BarbarianAI?
 
@@ -107,6 +109,7 @@ open class GameModel: Codable {
         self.greatPersons = GreatPersons()
 
         self.rankingData = RankingData(players: players)
+        self.replayData = GameReplay()
 
         self.map.analyze()
 
@@ -133,6 +136,7 @@ open class GameModel: Codable {
 
         self.gameStateValue = try container.decode(GameStateType.self, forKey: .gameStateValue)
         self.rankingData = try container.decode(RankingData.self, forKey: .rankingData)
+        self.replayData = try container.decode(GameReplay.self, forKey: .replayData)
 
         self.barbarianAI = try container.decode(BarbarianAI.self, forKey: .barbarianAI)
 
@@ -210,6 +214,7 @@ open class GameModel: Codable {
 
         try container.encode(self.gameStateValue, forKey: .gameStateValue)
         try container.encode(self.rankingData, forKey: .rankingData)
+        try container.encode(self.replayData, forKey: .replayData)
 
         try container.encode(self.barbarianAI, forKey: .barbarianAI)
     }
@@ -889,6 +894,11 @@ open class GameModel: Codable {
     public func city(at location: HexPoint) -> AbstractCity? {
 
         return self.map.city(at: location)
+    }
+
+    func delete(city: AbstractCity?) {
+
+        self.map.delete(city: city)
     }
 
     public func capital(of player: AbstractPlayer) -> AbstractCity? {
@@ -1814,5 +1824,18 @@ extension GameModel: Equatable {
         }
 
         return true
+    }
+}
+
+extension GameModel {
+
+    func addReplayEvent(type: GameReplayEventType, message: String, at point: HexPoint) {
+
+        self.replayData.addReplayEvent(
+            type: type,
+            message: message,
+            at: point,
+            turn: self.currentTurn
+        )
     }
 }

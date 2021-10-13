@@ -40,7 +40,7 @@ public enum UnitType: Int, Codable {
     case slinger // FIXME -17 Range Strength against district defense and Naval units.
     case archer // FIXME -17 Range Strength against district defense and Naval units.
     case spearman // FIXME +10 Combat Strength vs. light, heavy, and ranged cavalry units.
-    case heavyChariot // FIXME Gains 1 bonus Civ6Movement Movement if it begins a turn on a flat tile with no Woods, Rainforest, or Hills.
+    case heavyChariot // FIXME Gains 1 bonus Movement if it begins a turn on a flat tile with no Woods, Rainforest, or Hills.
     // Vulnerable to anti-cavalry units.
 
     // naval

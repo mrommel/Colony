@@ -24,7 +24,7 @@ enum CityAttackApproachType {
 //!  \brief        A possible operation target (and muster city) for evaluation
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // swiftlint:disable line_length
-class MilitaryTarget: Codable, Equatable {
+class MilitaryTarget: Codable {
 
     var targetCity: AbstractCity?
     var musterCity: AbstractCity?
@@ -56,6 +56,9 @@ class MilitaryTarget: Codable, Equatable {
     func encode(to encoder: Encoder) throws {
 
     }
+}
+
+extension MilitaryTarget: Hashable {
 
     static func == (lhs: MilitaryTarget, rhs: MilitaryTarget) -> Bool {
 
@@ -76,6 +79,20 @@ class MilitaryTarget: Codable, Equatable {
         }
 
         return lhsTargetCity.location == rhsTargetCity.location && lhsMusterCity.location == rhsMusterCity.location
+    }
+
+    public func hash(into hasher: inout Hasher) {
+
+        guard let targetCity = self.targetCity else {
+            fatalError("cant get target city")
+        }
+
+        guard let musterCity = self.musterCity else {
+            fatalError("cant get muster city")
+        }
+
+        hasher.combine(targetCity.location)
+        hasher.combine(musterCity.location)
     }
 }
 

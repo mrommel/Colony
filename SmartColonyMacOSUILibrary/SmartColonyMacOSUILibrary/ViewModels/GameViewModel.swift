@@ -30,12 +30,15 @@ protocol GameViewModelDelegate: AnyObject {
     func showRangedTargets(of unit: AbstractUnit?)
     func cancelAttacks()
     func showCombatBanner(for source: AbstractUnit?, and target: AbstractUnit?, ranged: Bool)
+    func showCombatBanner(for source: AbstractUnit?, and target: AbstractCity?, ranged: Bool)
     func showCombatBanner(for source: AbstractCity?, and target: AbstractUnit?, ranged: Bool)
     func hideCombatBanner()
 
     func doCombat(of attacker: AbstractUnit?, against defender: AbstractUnit?)
+    func doCombat(of attacker: AbstractUnit?, against defender: AbstractCity?)
     func doRangedCombat(of attacker: AbstractUnit?, against defender: AbstractUnit?)
     func doRangedCombat(of attacker: AbstractCity?, against defender: AbstractUnit?)
+    func doRangedCombat(of attacker: AbstractUnit?, against defender: AbstractCity?)
 
     func showCityBanner(for city: AbstractCity?)
     func hideCityBanner()
@@ -245,6 +248,7 @@ public class GameViewModel: ObservableObject {
         "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching",
         "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active",
         "grid9-button-clicked", "banner", "science-progress", "culture-progress", "header-bar-button",
+        "grid9-progress",
         "header-bar-left", "header-bar-right", "city-banner", "grid9-button-district-active",
         "grid9-button-district", "grid9-button-highlighted", "questionmark", "tile-purchase-active",
         "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced",
@@ -808,6 +812,16 @@ extension GameViewModel: GameViewModelDelegate {
 
                     if (!player.isEqual(to: otherUnit.player) && diplomacyAI.isAtWar(with: otherUnit.player)) ||
                         otherUnit.isBarbarian() {
+
+                        gameModel.userInterface?.showAttackFocus(at: neighbor)
+                    }
+                }
+
+                if let otherCity = gameModel.city(at: neighbor) {
+
+                    if (!player.isEqual(to: otherCity.player) && diplomacyAI.isAtWar(with: otherCity.player)) ||
+                        otherCity.isBarbarian() {
+
                         gameModel.userInterface?.showAttackFocus(at: neighbor)
                     }
                 }
@@ -847,6 +861,15 @@ extension GameViewModel: GameViewModelDelegate {
                         gameModel.userInterface?.showAttackFocus(at: neighbor)
                     }
                 }
+
+                if let otherCity = gameModel.city(at: neighbor) {
+
+                    if (!player.isEqual(to: otherCity.player) && diplomacyAI.isAtWar(with: otherCity.player)) ||
+                        otherCity.isBarbarian() {
+
+                        gameModel.userInterface?.showAttackFocus(at: neighbor)
+                    }
+                }
             }
 
             self.gameSceneViewModel.unitSelectionMode = .rangedUnitTargets
@@ -854,6 +877,17 @@ extension GameViewModel: GameViewModelDelegate {
     }
 
     func doCombat(of attacker: AbstractUnit?, against defender: AbstractUnit?) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        if !attacker!.doAttack(into: defender!.location, steps: 1, in: gameModel) {
+            print("attack failed")
+        }
+    }
+
+    func doCombat(of attacker: AbstractUnit?, against defender: AbstractCity?) {
 
         guard let gameModel = self.gameEnvironment.game.value else {
             fatalError("cant get game")
@@ -886,6 +920,17 @@ extension GameViewModel: GameViewModelDelegate {
         }
     }
 
+    func doRangedCombat(of attacker: AbstractUnit?, against defender: AbstractCity?) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        if !attacker!.doRangeAttack(at: defender!.location, in: gameModel) {
+            print("attack failed")
+        }
+    }
+
     func cancelAttacks() {
 
         guard let gameModel = self.gameEnvironment.game.value else {
@@ -900,6 +945,15 @@ extension GameViewModel: GameViewModelDelegate {
     }
 
     func showCombatBanner(for source: AbstractUnit?, and target: AbstractUnit?, ranged: Bool) {
+
+        self.combatBannerViewModel.update(for: source, and: target, ranged: ranged)
+
+        self.cityBannerViewModel.showBanner = false
+        self.unitBannerViewModel.showBanner = false
+        self.combatBannerViewModel.showBanner = true
+    }
+
+    func showCombatBanner(for source: AbstractUnit?, and target: AbstractCity?, ranged: Bool) {
 
         self.combatBannerViewModel.update(for: source, and: target, ranged: ranged)
 

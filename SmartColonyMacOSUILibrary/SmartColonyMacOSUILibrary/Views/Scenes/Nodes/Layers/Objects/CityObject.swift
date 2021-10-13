@@ -46,6 +46,12 @@ class CityObject {
 
     // internal UI elements
     private var sprite: SKSpriteNode
+
+    private var strengthBackground: SKShapeNode?
+    private var strengthIconNode: SKSpriteNode?
+    private var strengthLabel: SKLabelNode?
+    private var strengthProgress: ProgressBarNode?
+
     private var capitalNode: SKSpriteNode?
     private var nameLabel: SKLabelNode?
     private var bannerBackground: SKShapeNode?
@@ -90,6 +96,59 @@ class CityObject {
 
         self.sprite.texture = SKTexture(image: ImageCache.shared.image(for: city.iconTexture()))
 
+        // strength banner
+        let strengthBannerWidth = 16
+        let extraHealthPointsWidth = city.healthPoints() < city.maxHealthPoints() ? 20 : 0
+
+        self.strengthBackground = SKShapeNode()
+        let strengthRect: CGRect = CGRect(x: -12 * 4, y: 0, width: (strengthBannerWidth + extraHealthPointsWidth) * 4, height: 24)
+        self.strengthBackground?.path = NSBezierPath(roundedRect: strengthRect, xRadius: 16, yRadius: 16).cgPath
+        self.strengthBackground?.position = CGPoint(x: 24, y: 46)
+        self.strengthBackground?.fillColor = NSColor.black.withAlphaComponent(0.5)
+        self.strengthBackground?.strokeColor = NSColor.black
+        self.strengthBackground?.lineWidth = 4
+        self.strengthBackground?.zPosition = Globals.ZLevels.cityName - 0.1
+        self.strengthBackground?.setScale(0.25)
+
+        if let strengthBackground = self.strengthBackground {
+            self.sprite.addChild(strengthBackground)
+        }
+
+        let strengthTexture: SKTexture = SKTexture(image: Globals.Icons.strength)
+        self.strengthIconNode = SKSpriteNode(texture: strengthTexture, color: .black, size: CGSize(width: 6, height: 6))
+        self.strengthIconNode?.position = CGPoint(x: 24 - 5, y: 46)
+        self.strengthIconNode?.zPosition = Globals.ZLevels.cityName
+        self.strengthIconNode?.anchorPoint = .lowerRight
+
+        if let strengthIconNode = self.strengthIconNode {
+            self.sprite.addChild(strengthIconNode)
+        }
+
+        self.strengthLabel = SKLabelNode(text: "\(city.combatStrength(against: nil, in: self.gameModel))")
+        self.strengthLabel?.fontSize = 6 * 4
+        self.strengthLabel?.position = CGPoint(x: 24 - 2, y: 47)
+        self.strengthLabel?.zPosition = Globals.ZLevels.cityName
+        self.strengthLabel?.fontColor = .white
+        self.strengthLabel?.preferredMaxLayoutWidth = 12 * 4
+        self.strengthLabel?.setScale(0.25)
+
+        if let strengthLabel = self.strengthLabel {
+            self.sprite.addChild(strengthLabel)
+        }
+
+        if city.healthPoints() < city.maxHealthPoints() {
+            self.strengthProgress = ProgressBarNode(size: CGSize(width: extraHealthPointsWidth * 4, height: 8))
+            self.strengthProgress?.position = CGPoint(x: 24 + 12, y: 49)
+            self.strengthProgress?.zPosition = Globals.ZLevels.cityName
+            self.strengthProgress?.setScale(0.25)
+            self.strengthProgress?.set(progress: CGFloat(city.healthPoints()) / CGFloat(city.maxHealthPoints()))
+
+            if let strengthProgress = self.strengthProgress {
+                self.sprite.addChild(strengthProgress)
+            }
+        }
+
+        // city banner
         let nameLabelWidth: CGFloat = CGFloat(city.name.count) * 4.2
         let leftExtra: CGFloat = city.isCapital() ? 10.0 : 0
         let rightExtra: CGFloat = city.governor() != nil ? 10.0 : 0
@@ -100,7 +159,7 @@ class CityObject {
         let capitalOffset: CGFloat = 24 - nameLabelWidth / 2 + 3
         let nameOffset: CGFloat = 24 // 48 / 2 == center
         let governorOffset: CGFloat = 24 + nameLabelWidth / 2 - 3
-        let productionProgressOffset: CGFloat = 24 + nameLabelWidth / 2 + rightExtra - 1
+        let productionProgressOffset: CGFloat = 24 + nameLabelWidth / 2 + rightExtra - 4
         let productionOffset: CGFloat = 24 + nameLabelWidth / 2 + rightExtra - 1
 
         self.bannerBackground = SKShapeNode()
@@ -128,7 +187,10 @@ class CityObject {
             self.sprite.addChild(sizeLabel)
         }
 
-        let growthProgress: Int = Int(Double(city.growthInTurns() * 100) / Double(city.maxGrowthInTurns())) / 5 * 5
+        var growthProgress: Int = 0
+        if city.maxGrowthInTurns() > 0 {
+            growthProgress = Int(Double(city.growthInTurns() * 100) / Double(city.maxGrowthInTurns())) / 5 * 5
+        }
         let growthProgressTextureName = "linear-progress-\(growthProgress)"
         let growthProgressImage = ImageCache.shared.image(for: growthProgressTextureName)
         let growthProgressTexture = SKTexture(image: growthProgressImage)
@@ -251,10 +313,22 @@ class CityObject {
     func hideCityBanner() {
 
         if self.nameLabel != nil {
+
+            self.strengthBackground?.removeFromParent()
+            self.strengthBackground = nil
+            self.strengthIconNode?.removeFromParent()
+            self.strengthIconNode = nil
+            self.strengthLabel?.removeFromParent()
+            self.strengthLabel = nil
+            self.strengthProgress?.removeFromParent()
+            self.strengthProgress = nil
+
             self.bannerBackground?.removeFromParent()
             self.bannerBackground = nil
             self.sizeLabel?.removeFromParent()
             self.sizeLabel = nil
+            self.capitalNode?.removeFromParent()
+            self.capitalNode = nil
             self.growthProgressNode?.removeFromParent()
             self.growthProgressNode = nil
             self.nameLabel?.removeFromParent()

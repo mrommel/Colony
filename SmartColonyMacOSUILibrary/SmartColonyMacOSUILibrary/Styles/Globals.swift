@@ -79,6 +79,10 @@ public extension Globals {
         public static var capital: NSImage {
             return Icons.loadCachedTexture(with: "capital")
         }
+
+        public static var strength: NSImage {
+            return Icons.loadCachedTexture(with: "strength")
+        }
     }
 }
 

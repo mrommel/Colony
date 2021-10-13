@@ -20,6 +20,7 @@ public protocol AbstractBuildings: Codable {
     func has(building: BuildingType) -> Bool
     func build(building: BuildingType) throws
     func numOfBuildings(of buildingCategoryType: BuildingCategoryType) -> Int
+    func clear()
 
     // stats
     func defense() -> Int
@@ -108,6 +109,11 @@ class Buildings: AbstractBuildings {
         }
 
         return num
+    }
+
+    func clear() {
+
+        self.buildings.removeAll()
     }
 
     private func updateDefense() {

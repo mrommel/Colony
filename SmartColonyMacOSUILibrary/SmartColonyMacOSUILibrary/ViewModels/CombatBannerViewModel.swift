@@ -127,6 +127,7 @@ class CombatBannerViewModel: ObservableObject {
 
             let defenderStrength = defenderUnit.defensiveStrength(
                 against: attackerUnit,
+                or: nil,
                 on: defenderTile,
                 ranged: false,
                 in: gameModel
@@ -142,6 +143,7 @@ class CombatBannerViewModel: ObservableObject {
 
             for defenderStrengthModifier in defenderUnit.defensiveStrengthModifier(
                 against: defenderUnit,
+                or: nil,
                 on: defenderTile,
                 ranged: false,
                 in: gameModel
@@ -198,6 +200,7 @@ class CombatBannerViewModel: ObservableObject {
 
             let defenderStrength = defenderUnit.defensiveStrength(
                 against: attackerUnit,
+                or: nil,
                 on: defenderTile,
                 ranged: false,
                 in: gameModel
@@ -213,6 +216,7 @@ class CombatBannerViewModel: ObservableObject {
 
             for defenderStrengthModifier in defenderUnit.defensiveStrengthModifier(
                 against: defenderUnit,
+                or: nil ,
                 on: defenderTile,
                 ranged: false,
                 in: gameModel
@@ -292,6 +296,7 @@ class CombatBannerViewModel: ObservableObject {
 
         let defenderStrength = defenderUnit.defensiveStrength(
             against: nil,
+            or: attackerCity,
             on: defenderTile,
             ranged: false,
             in: gameModel
@@ -307,6 +312,7 @@ class CombatBannerViewModel: ObservableObject {
 
         for defenderStrengthModifier in defenderUnit.defensiveStrengthModifier(
             against: defenderUnit,
+            or: nil,
             on: defenderTile,
             ranged: false,
             in: gameModel
@@ -334,6 +340,135 @@ class CombatBannerViewModel: ObservableObject {
 
     func update(for attacker: AbstractUnit?, and defender: AbstractCity?, ranged: Bool) {
 
-        fatalError("Not implemented: unit => city")
+        guard let gameModel = self.gameEnvironment.game.value else {
+            return
+        }
+
+        guard let attackerUnit = attacker as? SmartAILibrary.Unit else {
+            return
+        }
+
+        guard let attackerTile = gameModel.tile(at: attackerUnit.location) else {
+            return
+        }
+
+        guard let defenderCity = defender as? City else {
+            return
+        }
+
+        if ranged {
+
+            let result = Combat.predictRangedAttack(between: attackerUnit, and: defenderCity, in: gameModel)
+
+            self.combatPredictionText = result.value.text
+            self.combatPredictionColor = result.value.color
+
+            let attackerStrength = attackerUnit.baseRangedCombatStrength()
+
+            var attackerCombatModifiers: [CombatModifier] = []
+
+            let baseAttackerStrength = CombatModifier(
+                value: attackerStrength,
+                title: "Base Strength"
+            )
+            attackerCombatModifiers.append(baseAttackerStrength)
+
+            for attackerStrengthModifier in attackerUnit.attackStrengthModifier(
+                against: nil,
+                or: defenderCity,
+                on: attackerTile,
+                in: gameModel
+            ) {
+                attackerCombatModifiers.append(attackerStrengthModifier)
+            }
+
+            let defenderStrength = defenderCity.combatStrength(against: attackerUnit, in: gameModel)
+
+            var defenderCombatModifiers: [CombatModifier] = []
+
+            let baseDefenderStrength = CombatModifier(
+                value: defenderCity.baseCombatStrength(in: gameModel),
+                title: "Base Strength"
+            )
+            defenderCombatModifiers.append(baseDefenderStrength)
+
+            for defenderStrengthModifier in defenderCity.combatStrengthModifiers(against: attackerUnit, in: gameModel) {
+                defenderCombatModifiers.append(defenderStrengthModifier)
+            }
+
+            self.attackerViewModel.update(
+                name: attackerUnit.name(),
+                portraitTextureName: attackerUnit.type.portraitTexture(),
+                strength: attackerStrength,
+                healthPoints: attackerUnit.healthPoints(),
+                combatModifiers: attackerCombatModifiers,
+                promotions: attackerUnit.gainedPromotions()
+            )
+            self.defenderViewModel.update(
+                name: defenderCity.name,
+                portraitTextureName: defenderCity.iconTexture(),
+                strength: defenderStrength,
+                healthPoints: defenderCity.healthPoints(),
+                combatModifiers: defenderCombatModifiers,
+                promotions: []
+            )
+
+        } else {
+
+            let result = Combat.predictMeleeAttack(between: attackerUnit, and: defenderCity, in: gameModel)
+
+            self.combatPredictionText = result.value.text
+            self.combatPredictionColor = result.value.color
+
+            let attackerStrength = attackerUnit.baseCombatStrength()
+
+            var attackerCombatModifiers: [CombatModifier] = []
+
+            let baseAttackerStrength = CombatModifier(
+                value: attackerStrength,
+                title: "Base Strength"
+            )
+            attackerCombatModifiers.append(baseAttackerStrength)
+
+            for attackerStrengthModifier in attackerUnit.attackStrengthModifier(
+                against: nil,
+                or: defenderCity,
+                on: attackerTile,
+                in: gameModel
+            ) {
+                attackerCombatModifiers.append(attackerStrengthModifier)
+            }
+
+            let defenderStrength = defenderCity.combatStrength(against: attackerUnit, in: gameModel)
+
+            var defenderCombatModifiers: [CombatModifier] = []
+
+            let baseDefenderStrength = CombatModifier(
+                value: defenderCity.baseCombatStrength(in: gameModel),
+                title: "Base Strength"
+            )
+            defenderCombatModifiers.append(baseDefenderStrength)
+
+            for defenderStrengthModifier in defenderCity.combatStrengthModifiers(against: attackerUnit, in: gameModel) {
+                defenderCombatModifiers.append(defenderStrengthModifier)
+            }
+
+            self.attackerViewModel.update(
+                name: attackerUnit.name(),
+                portraitTextureName: attackerUnit.type.portraitTexture(),
+                strength: attackerStrength,
+                healthPoints: attackerUnit.healthPoints(),
+                combatModifiers: attackerCombatModifiers,
+                promotions: attackerUnit.gainedPromotions()
+            )
+            self.defenderViewModel.update(
+                name: defenderCity.name,
+                portraitTextureName: defenderCity.iconTexture(),
+                strength: defenderStrength,
+                healthPoints: defenderCity.healthPoints(),
+                combatModifiers: defenderCombatModifiers,
+                promotions: []
+            )
+        }
     }
 }

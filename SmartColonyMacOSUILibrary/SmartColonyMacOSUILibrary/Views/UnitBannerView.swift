@@ -45,61 +45,7 @@ struct UnitBannerView: View {
 
                 ZStack(alignment: .bottom) {
 
-                    Group {
-                        Image(nsImage: self.viewModel.listImage())
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 32, height: 32)
-                            .offset(x: -80, y: -105)
-                            .onTapGesture {
-                                self.viewModel.listClicked()
-                            }
-
-                        Image(nsImage: self.viewModel.commandImage(at: 4))
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 32, height: 32)
-                            .offset(x: -40, y: -105)
-                            .onTapGesture {
-                                self.viewModel.commandClicked(at: 4)
-                            }
-
-                        Image(nsImage: self.viewModel.commandImage(at: 3))
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 32, height: 32)
-                            .offset(x: -5, y: -105)
-                            .onTapGesture {
-                                self.viewModel.commandClicked(at: 3)
-                            }
-
-                        Image(nsImage: self.viewModel.commandImage(at: 2))
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 32, height: 32)
-                            .offset(x: 30, y: -105)
-                            .onTapGesture {
-                                self.viewModel.commandClicked(at: 2)
-                            }
-
-                        Image(nsImage: self.viewModel.commandImage(at: 1))
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 32, height: 32)
-                            .offset(x: 65, y: -105)
-                            .onTapGesture {
-                                self.viewModel.commandClicked(at: 1)
-                            }
-
-                        Image(nsImage: self.viewModel.commandImage(at: 0))
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 32, height: 32)
-                            .offset(x: 100, y: -105)
-                            .onTapGesture {
-                                self.viewModel.commandClicked(at: 0)
-                            }
-                    }
+                    self.commandsView
 
                     Image(nsImage: ImageCache.shared.image(for: "unit-banner"))
                         .resizable()
@@ -152,6 +98,10 @@ struct UnitBannerView: View {
                         .groupBoxStyle(UnitGroupBoxStyle())
                         .offset(x: 25, y: -10)
                     }
+
+                    self.promotionsView
+                        .frame(width: 120, alignment: .leading)
+                        .offset(x: 20, y: 48)
                 }
                 .frame(width: 300, height: 112, alignment: .bottomTrailing)
                 .offset(x: 0, y: self.showBanner ? 0 : 150)
@@ -165,6 +115,79 @@ struct UnitBannerView: View {
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
+    }
+
+    private var commandsView: some View {
+
+        Group {
+            Image(nsImage: self.viewModel.listImage())
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32, height: 32)
+                .offset(x: -80, y: -105)
+                .onTapGesture {
+                    self.viewModel.listClicked()
+                }
+
+            Image(nsImage: self.viewModel.commandImage(at: 4))
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32, height: 32)
+                .offset(x: -40, y: -105)
+                .onTapGesture {
+                    self.viewModel.commandClicked(at: 4)
+                }
+
+            Image(nsImage: self.viewModel.commandImage(at: 3))
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32, height: 32)
+                .offset(x: -5, y: -105)
+                .onTapGesture {
+                    self.viewModel.commandClicked(at: 3)
+                }
+
+            Image(nsImage: self.viewModel.commandImage(at: 2))
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32, height: 32)
+                .offset(x: 30, y: -105)
+                .onTapGesture {
+                    self.viewModel.commandClicked(at: 2)
+                }
+
+            Image(nsImage: self.viewModel.commandImage(at: 1))
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32, height: 32)
+                .offset(x: 65, y: -105)
+                .onTapGesture {
+                    self.viewModel.commandClicked(at: 1)
+                }
+
+            Image(nsImage: self.viewModel.commandImage(at: 0))
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32, height: 32)
+                .offset(x: 100, y: -105)
+                .onTapGesture {
+                    self.viewModel.commandClicked(at: 0)
+                }
+        }
+    }
+
+    private var promotionsView: some View {
+
+        LazyHStack(spacing: 4) {
+
+            ForEach(self.viewModel.promotionViewModels, id: \.self) { promotionViewModel in
+
+                Image(nsImage: promotionViewModel.icon())
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 14, height: 14)
+            }
+        }
     }
 }
 

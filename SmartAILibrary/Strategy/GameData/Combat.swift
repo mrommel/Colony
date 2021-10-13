@@ -85,7 +85,7 @@ public class Combat {
         }
 
         let attackerStrength = attacker.rangedCombatStrength(against: defender, or: nil, on: defenderTile, attacking: true, in: gameModel)
-        let defenderStrength = defender.defensiveStrength(against: attacker, on: defenderTile, ranged: true, in: gameModel)
+        let defenderStrength = defender.defensiveStrength(against: attacker, or: nil, on: defenderTile, ranged: true, in: gameModel)
         let strengthDifference = attackerStrength - defenderStrength
 
         var damage: Int = Int(30.0 * pow(M_E, 0.04 * Double(strengthDifference) /* Double.random(in: 0.8..<1.2)*/))
@@ -105,7 +105,7 @@ public class Combat {
     }
 
     /// attack against city - no fire back
-    static func predictRangedAttack(between attacker: AbstractUnit?, and city: AbstractCity?, in gameModel: GameModel?) -> CombatResult {
+    public static func predictRangedAttack(between attacker: AbstractUnit?, and city: AbstractCity?, in gameModel: GameModel?) -> CombatResult {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -162,7 +162,7 @@ public class Combat {
         }
 
         let attackerStrength = attacker.rangedCombatStrength(against: defender, on: defenderTile)
-        let defenderStrength = defender.defensiveStrength(against: nil, on: defenderTile, ranged: true, in: gameModel) // FIXME
+        let defenderStrength = defender.defensiveStrength(against: nil, or: nil, on: defenderTile, ranged: true, in: gameModel) // FIXME
         let strengthDifference = attackerStrength - defenderStrength
 
         var damage: Int = Int(30.0 * pow(M_E, 0.04 * Double(strengthDifference) /* * Double.random(in: 0.8..<1.2)*/))
@@ -216,7 +216,7 @@ public class Combat {
 
         // defender strikes back
         let attackerStrength2 = city.rangedCombatStrength(against: attacker, on: attackerTile)
-        let defenderStrength2 = attacker.defensiveStrength(against: nil, on: attackerTile, ranged: true, in: gameModel)
+        let defenderStrength2 = attacker.defensiveStrength(against: nil, or: city, on: attackerTile, ranged: true, in: gameModel)
 
         let defenderStrengthDifference = attackerStrength2 - defenderStrength2
 
@@ -263,7 +263,7 @@ public class Combat {
 
         // attacker strikes
         let attackerStrength = attacker.attackStrength(against: defender, or: nil, on: defenderTile, in: gameModel)
-        let defenderStrength = defender.defensiveStrength(against: attacker, on: defenderTile, ranged: false, in: gameModel)
+            let defenderStrength = defender.defensiveStrength(against: attacker, or: nil, on: defenderTile, ranged: false, in: gameModel)
         let attackerStrengthDifference = attackerStrength - defenderStrength
 
         var defenderDamage: Int = Int(30.0 * pow(M_E, 0.04 * Double(attackerStrengthDifference) /* * Double.random(in: 0.8..<1.2)*/))
@@ -274,7 +274,7 @@ public class Combat {
 
         // defender strikes back
         let attackerStrength2 = defender.attackStrength(against: attacker, or: nil, on: attackerTile, in: gameModel)
-        let defenderStrength2 = attacker.defensiveStrength(against: defender, on: attackerTile, ranged: true, in: gameModel)
+            let defenderStrength2 = attacker.defensiveStrength(against: defender, or: nil, on: attackerTile, ranged: true, in: gameModel)
 
         let defenderStrengthDifference = attackerStrength2 - defenderStrength2
 
@@ -293,6 +293,8 @@ public class Combat {
         )
         return CombatResult(defenderDamage: defenderDamage, attackerDamage: attackerDamage, value: value)
     }
+
+    // MARK: melee attackes
 
     // CvUnitCombat::Attack
     @discardableResult static func doMeleeAttack(between attacker: AbstractUnit?, and defender: AbstractUnit?, in gameModel: GameModel?) -> CombatResult {
@@ -335,7 +337,7 @@ public class Combat {
 
         // attacker strikes
         let attackerStrength = attacker.attackStrength(against: defender, or: nil, on: defenderTile, in: gameModel)
-        let defenderStrength = defender.defensiveStrength(against: attacker, on: defenderTile, ranged: false, in: gameModel)
+        let defenderStrength = defender.defensiveStrength(against: attacker, or: nil, on: defenderTile, ranged: false, in: gameModel)
         let attackerStrengthDifference = attackerStrength - defenderStrength
 
         var defenderDamage: Int = Int(30.0 * pow(M_E, 0.04 * Double(attackerStrengthDifference) * Double.random(in: 0.8..<1.2)))
@@ -350,7 +352,7 @@ public class Combat {
 
             // defender strikes back
             let attackerStrength2 = defender.attackStrength(against: attacker, or: nil, on: attackerTile, in: gameModel)
-            let defenderStrength2 = attacker.defensiveStrength(against: defender, on: attackerTile, ranged: true, in: gameModel)
+            let defenderStrength2 = attacker.defensiveStrength(against: defender, or: nil, on: attackerTile, ranged: true, in: gameModel)
 
             let defenderStrengthDifference = attackerStrength2 - defenderStrength2
 
@@ -455,6 +457,145 @@ public class Combat {
         return CombatResult(defenderDamage: defenderDamage, attackerDamage: attackerDamage, value: value)
     }
 
+    @discardableResult static func doMeleeAttack(between attacker: AbstractUnit?, and defender: AbstractCity?, in gameModel: GameModel?) -> CombatResult {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let activePlayer = gameModel.activePlayer() else {
+            fatalError("cant get activePlayer")
+        }
+
+        guard let attacker = attacker else {
+            fatalError("cant get attacker")
+        }
+
+        guard let defender = defender else {
+            fatalError("cant get city")
+        }
+
+        guard let attackerTile = gameModel.tile(at: attacker.location) else {
+            fatalError("cant get attackerTile")
+        }
+
+        guard let defenderTile = gameModel.tile(at: defender.location) else {
+            fatalError("cant get defenderTile")
+        }
+
+        // Unit that attacks loses his Fort bonus
+        attacker.doMobilize(in: gameModel)
+
+        attacker.automate(with: .none)
+
+        attacker.setMadeAttack(to: true)
+
+        guard !attacker.isDelayedDeath() else {
+            fatalError("Trying to battle and the attacker unit is already dead!")
+        }
+
+        // attacker strikes
+        let attackerStrength = attacker.attackStrength(against: nil, or: defender, on: defenderTile, in: gameModel)
+        let defenderStrength = defender.defensiveStrength(against: attacker, on: defenderTile, ranged: false, in: gameModel)
+        let attackerStrengthDifference = attackerStrength - defenderStrength
+
+        var defenderDamage: Int = Int(30.0 * pow(M_E, 0.04 * Double(attackerStrengthDifference) * Double.random(in: 0.8..<1.2)))
+
+        if defenderDamage < 0 {
+            defenderDamage = 0
+        }
+
+        var attackerDamage: Int = 0
+
+        // defender strikes back
+        let attackerStrength2 = defender.combatStrength(against: attacker, in: gameModel)
+        let defenderStrength2 = attacker.defensiveStrength(against: nil, or: defender, on: attackerTile, ranged: true, in: gameModel)
+
+        let defenderStrengthDifference = attackerStrength2 - defenderStrength2
+
+        attackerDamage = Int(30.0 * pow(M_E, 0.04 * Double(defenderStrengthDifference) * Double.random(in: 0.8..<1.2)))
+
+        if attackerDamage < 0 {
+            attackerDamage = 0
+        }
+
+        let value = Combat.evaluateResult(
+            defenderHealth: defender.healthPoints(),
+            defenderDamage: defenderDamage,
+            attackerHealth: attacker.healthPoints(),
+            attackerDamage: attackerDamage
+        )
+
+        // apply damage
+        attacker.add(damage: attackerDamage)
+        defender.add(damage: defenderDamage)
+
+        // experience
+        attacker.changeExperience(by: 6 /* EXPERIENCE_ATTACKING_UNIT_MELEE */, in: gameModel)
+
+        // Attacker died
+        if attacker.healthPoints() <= 0 {
+
+            if activePlayer.isEqual(to: attacker.player) {
+                gameModel.userInterface?.showTooltip(at: attackerTile.point, text: "TXT_KEY_MISC_YOU_UNIT_DIED_ATTACKING", delay: 3)
+            }
+
+            if activePlayer.isEqual(to: defender.player) {
+                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_KILLED_ENEMY_UNIT", delay: 3)
+            }
+
+            attacker.doKill(delayed: false, by: nil, in: gameModel)
+            // pkDefender->testPromotionReady();
+
+        } else if defender.healthPoints() <= 0 { // city has been conquered
+
+            // handle conquest of city
+            if activePlayer.isEqual(to: attacker.player) {
+                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_CONQUERED_ENEMY_CITY", delay: 3)
+            }
+
+            if activePlayer.isEqual(to: defender.player) {
+                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_CITY_WAS_CONQUERED", delay: 3)
+            }
+
+            if let notifications = defender.player?.notifications() {
+                notifications.add(notification: .cityConquered(location: defenderTile.point))
+            }
+
+            attacker.player?.acquire(city: defender, conquest: true, gift: false, in: gameModel)
+
+            // Move forward
+            if attacker.canMove(into: defenderTile.point, options: MoveOptions.none, in: gameModel) {
+                //attacker.doMove(on: defenderTile.point, in: gameModel)
+                attacker.queueMoveForVisualization(at: attacker.location, in: gameModel)
+                attacker.doMoveOnPath(towards: defenderTile.point, previousETA: 0, buildingRoute: false, in: gameModel)
+            }
+
+        } else {
+
+            if activePlayer.isEqual(to: attacker.player) {
+                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_UNIT_WITHDRAW", delay: 3)
+            }
+
+            if activePlayer.isEqual(to: defender.player) {
+                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_ENEMY_UNIT_WITHDRAW", delay: 3)
+            }
+
+            // pkDefender->testPromotionReady();
+            // pkAttacker->testPromotionReady();
+        }
+
+        // If a Unit loses his moves after attacking, do so
+        if !attacker.canMoveAfterAttacking() {
+            attacker.finishMoves()
+            //GC.GetEngineUserInterface()->changeCycleSelectionCounter(1);
+        }
+
+        return CombatResult(defenderDamage: defenderDamage, attackerDamage: attackerDamage, value: value)
+    }
+
+    // MARK: ranged attackes
+
     @discardableResult static func doRangedAttack(between attacker: AbstractCity?, and defender: AbstractUnit?, in gameModel: GameModel?) -> CombatResult {
 
         guard let gameModel = gameModel else {
@@ -487,7 +628,7 @@ public class Combat {
 
         // attacker strikes
         let attackerStrength = attacker.rangedCombatStrength(against: defender, on: defenderTile)
-        let defenderStrength = defender.defensiveStrength(against: nil, on: defenderTile, ranged: false, in: gameModel)
+        let defenderStrength = defender.defensiveStrength(against: nil, or: attacker, on: defenderTile, ranged: false, in: gameModel)
         let attackerStrengthDifference = attackerStrength - defenderStrength
 
         var defenderDamage: Int = Int(30.0 * pow(M_E, 0.04 * Double(attackerStrengthDifference) * Double.random(in: 0.8..<1.2)))
@@ -521,6 +662,130 @@ public class Combat {
             }
 
             defender.doKill(delayed: false, by: attacker.player, in: gameModel)
+        }
+
+        return CombatResult(defenderDamage: defenderDamage, attackerDamage: 0, value: value)
+    }
+
+    @discardableResult static func doRangedAttack(between attacker: AbstractUnit?, and defender: AbstractUnit?, in gameModel: GameModel?) -> CombatResult {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let activePlayer = gameModel.activePlayer() else {
+            fatalError("cant get activePlayer")
+        }
+
+        guard let attacker = attacker else {
+            fatalError("cant get attacker")
+        }
+
+        guard let defender = defender else {
+            fatalError("cant get defender unit")
+        }
+
+        guard let defenderTile = gameModel.tile(at: defender.location) else {
+            fatalError("cant get defenderTile")
+        }
+
+        defender.automate(with: .none)
+
+        attacker.setMadeAttack(to: true)
+
+        // attacker strikes
+        let attackerStrength = attacker.rangedCombatStrength(against: defender, or: nil, on: defenderTile, attacking: true, in: gameModel)
+        let defenderStrength = defender.defensiveStrength(against: attacker, or: nil, on: defenderTile, ranged: false, in: gameModel)
+        let attackerStrengthDifference = attackerStrength - defenderStrength
+
+        var defenderDamage: Int = Int(30.0 * pow(M_E, 0.04 * Double(attackerStrengthDifference) * Double.random(in: 0.8..<1.2)))
+
+        if defenderDamage < 0 {
+            defenderDamage = 0
+        }
+
+        let value = Combat.evaluateResult(
+            defenderHealth: defender.healthPoints(),
+            defenderDamage: defenderDamage,
+            attackerHealth: attacker.healthPoints(),
+            attackerDamage: 0
+        )
+
+        // apply damage
+        defender.add(damage: defenderDamage)
+
+        if defender.healthPoints() <= 0 { // Defender died
+
+            if activePlayer.isEqual(to: attacker.player) {
+                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_UNIT_DESTROYED_ENEMY", delay: 3)
+            }
+
+            if activePlayer.isEqual(to: defender.player) {
+                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_UNIT_WAS_DESTROYED", delay: 3)
+            }
+
+            if let notifications = defender.player?.notifications() {
+                notifications.add(notification: .unitDied(location: defenderTile.point))
+            }
+
+            defender.doKill(delayed: false, by: attacker.player, in: gameModel)
+        }
+
+        if !attacker.canMoveAfterAttacking() {
+            attacker.finishMoves()
+        }
+
+        return CombatResult(defenderDamage: defenderDamage, attackerDamage: 0, value: value)
+    }
+
+    @discardableResult static func doRangedAttack(between attacker: AbstractUnit?, and defender: AbstractCity?, in gameModel: GameModel?) -> CombatResult {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let attacker = attacker else {
+            fatalError("cant get attacker")
+        }
+
+        guard let defender = defender else {
+            fatalError("cant get city")
+        }
+
+        guard let defenderTile = gameModel.tile(at: defender.location) else {
+            fatalError("cant get defenderTile")
+        }
+
+        attacker.setMadeAttack(to: true)
+
+        // attacker strikes
+        let attackerStrength = attacker.rangedCombatStrength(against: nil, or: defender, on: defenderTile, attacking: true, in: gameModel)
+        let defenderStrength = defender.defensiveStrength(against: nil, on: defenderTile, ranged: false, in: gameModel)
+        let attackerStrengthDifference = attackerStrength - defenderStrength
+
+        var defenderDamage: Int = Int(30.0 * pow(M_E, 0.04 * Double(attackerStrengthDifference) * Double.random(in: 0.8..<1.2)))
+
+        if defenderDamage < 0 {
+            defenderDamage = 0
+        }
+
+        let value = Combat.evaluateResult(
+            defenderHealth: defender.healthPoints(),
+            defenderDamage: defenderDamage,
+            attackerHealth: attacker.healthPoints(),
+            attackerDamage: 0
+        )
+
+        // apply damage
+        defender.add(damage: defenderDamage)
+
+        // special handling: city cannot be destroyed by bombarding
+        if defender.healthPoints() <= 0 {
+            defender.set(healthPoints: 10)
+        }
+
+        if !attacker.canMoveAfterAttacking() {
+            attacker.finishMoves()
         }
 
         return CombatResult(defenderDamage: defenderDamage, attackerDamage: 0, value: value)

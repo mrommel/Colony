@@ -23,8 +23,6 @@ class TestUI: UserInterfaceDelegate {
         emotion: LeaderEmotionType
     ) {}
 
-    func update(city: AbstractCity?) {}
-
     func showPopup(popupType: PopupType) {}
 
     func showScreen(screenType: ScreenType, city: AbstractCity?) {}
@@ -57,6 +55,8 @@ class TestUI: UserInterfaceDelegate {
     func select(civic: CivicType) {}
 
     func show(city: AbstractCity?) {}
+    func update(city: AbstractCity?) {}
+    func remove(city: AbstractCity?) {}
 
     func refresh(tile: AbstractTile?) {}
 

@@ -1627,7 +1627,8 @@ public class HomelandAI {
                         } else if loopUnit.canAttack() { // Don't use non-combatants
 
                             // Don't put units with a combat strength boosted from promotions in cities, these boosts are ignored
-                            if loopUnit.defenseModifier(against: nil, on: nil, ranged: false, in: gameModel) == 0 && loopUnit.attackModifier(against: nil, or: nil, on: nil, in: gameModel) == 0 {
+                            if loopUnit.defenseModifier(against: nil, or: nil, on: nil, ranged: false, in: gameModel) == 0
+                                && loopUnit.attackModifier(against: nil, or: nil, on: nil, in: gameModel) == 0 {
                                 suitableUnit = true
                             }
                         }
@@ -2246,7 +2247,7 @@ public class HomelandAI {
                         if otherUnit.canDefend() && otherUnit.location != unit.location {
 
                             if otherUnit.isWaiting() || !otherUnit.canMove() {
-                                value += otherUnit.defensiveStrength(against: nil, on: tile, ranged: false, in: gameModel)
+                                value += otherUnit.defensiveStrength(against: nil, or: nil, on: tile, ranged: false, in: gameModel)
                             }
                         }
                     }

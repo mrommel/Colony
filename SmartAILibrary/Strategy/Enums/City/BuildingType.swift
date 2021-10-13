@@ -382,7 +382,7 @@ public enum BuildingType: Int, Codable {
                                     flavours: [Flavor(type: .cityDefense, value: 8), Flavor(type: .greatPeople, value: 5), Flavor(type: .defense, value: 4), Flavor(type: .wonder, value: 1), Flavor(type: .production, value: 1)])
         case .waterMill:
             // https://civilization.fandom.com/wiki/Water_Mill_(Civ6)
-            // FIXME Bonus resources improved by Farms gain +1 Civ6Food Food each.
+            // FIXME Bonus resources improved by Farms gain +1 Food each.
             // FIXME It can be built in the City Center if the city is next to a River.
             return BuildingTypeData(name: "Water Mill",
                                     effects: [
@@ -615,8 +615,8 @@ public enum BuildingType: Int, Codable {
             // renaissance
         case .renaissanceWalls:
             // https://civilization.fandom.com/wiki/Renaissance_Walls_(Civ6)
-            // FIXME +3 Tourism6 Tourism (with Conservation)
-            // FIXME +2 Civ6Science Science with the Military Research Policy
+            // FIXME +3 Tourism (with Conservation)
+            // FIXME +2 Science with the Military Research Policy
             return BuildingTypeData(name: "Renaissance Walls",
                                     effects: [
                                         "+100 Outer Defense Strength"

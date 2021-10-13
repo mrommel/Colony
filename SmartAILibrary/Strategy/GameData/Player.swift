@@ -23,14 +23,22 @@ class ImprovementCountList: WeightedList<ImprovementType> {
     override func fill() {
 
         for improvementType in ImprovementType.all {
-            self.add(weight: 0.0, for: improvementType)
+            self.items.append(WeightedList<ImprovementType>.WeightedItem<ImprovementType>(itemType: improvementType, weight: 0.0))
         }
 
         // also add goody hut / tribal village
-        self.add(weight: 0.0, for: ImprovementType.goodyHut)
+        self.items.append(WeightedList<ImprovementType>.WeightedItem<ImprovementType>(itemType: .goodyHut, weight: 0.0))
 
         // and barb camp
-        self.add(weight: 0.0, for: ImprovementType.barbarianCamp)
+        self.items.append(WeightedList<ImprovementType>.WeightedItem<ImprovementType>(itemType: .barbarianCamp, weight: 0.0))
+    }
+}
+
+extension Comparable {
+
+    func clamped(to limits: ClosedRange<Self>) -> Self {
+
+        return min(max(self, limits.lowerBound), limits.upperBound)
     }
 }
 
@@ -159,7 +167,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func found(at location: HexPoint, named name: String?, in gameModel: GameModel?)
     func newCityName(in gameModel: GameModel?) -> String
     func cityStrengthModifier() -> Int
-    func acquire(city oldCity: AbstractCity?, conquest: Bool, gift: Bool)
+    func acquire(city oldCity: AbstractCity?, conquest: Bool, gift: Bool, in gameModel: GameModel?)
 
     // yields
     func science(in gameModel: GameModel?) -> Double
@@ -207,9 +215,12 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func hasCapital(in gameModel: GameModel?) -> Bool
     func hasDiscoveredCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool
     func discoverCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
+    func findNewCapital(in gameModel: GameModel?)
 
     func changeImprovementCount(of improvement: ImprovementType, change: Int)
     func changeTotalImprovementsBuilt(change: Int)
+    func changeCitiesLost(by delta: Int)
+
     func bestRoute(at tile: AbstractTile?) -> RouteType
 
     func reportCultureFromKills(at point: HexPoint, culture cultureVal: Int, wasBarbarian: Bool, in gameModel: GameModel?)
@@ -262,6 +273,7 @@ public class Player: AbstractPlayer {
         case numPlotsBought
         case improvementCountList
         case totalImprovementsBuilt
+        case citiesLost
 
         case techs
         case civics
@@ -343,6 +355,7 @@ public class Player: AbstractPlayer {
     internal var resourceInventory: ResourceInventory?
     internal var improvementCountList: ImprovementCountList
     internal var totalImprovementsBuilt: Int
+    internal var citiesLostValue: Int
 
     private var turnActive: Bool = false
     private var finishTurnButtonPressedValue: Bool = false
@@ -378,6 +391,7 @@ public class Player: AbstractPlayer {
         self.improvementCountList.fill()
 
         self.totalImprovementsBuilt = 0
+        self.citiesLostValue = 0
 
         self.originalCapitalLocationValue = HexPoint.invalid
         self.faithPurchaseTypeVal = .noAutomaticFaithPurchase
@@ -397,7 +411,9 @@ public class Player: AbstractPlayer {
         self.numPlotsBoughtValue = 0
         self.improvementCountList = ImprovementCountList()
         self.improvementCountList.fill()
-        self.totalImprovementsBuilt = 0
+
+        self.totalImprovementsBuilt = try container.decode(Int.self, forKey: .totalImprovementsBuilt)
+        self.citiesLostValue = try container.decode(Int.self, forKey: .citiesLost)
 
         self.grandStrategyAI = try container.decode(GrandStrategyAI.self, forKey: .grandStrategyAI)
         self.diplomacyAI = try container.decode(DiplomaticAI.self, forKey: .diplomacyAI)
@@ -479,6 +495,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.numPlotsBoughtValue, forKey: .numPlotsBought)
         try container.encode(self.improvementCountList, forKey: .improvementCountList)
         try container.encode(self.totalImprovementsBuilt, forKey: .totalImprovementsBuilt)
+        try container.encode(self.citiesLostValue, forKey: .citiesLost)
 
         try container.encode(self.grandStrategyAI, forKey: .grandStrategyAI)
         try container.encode(self.diplomacyAI, forKey: .diplomacyAI)
@@ -1032,7 +1049,8 @@ public class Player: AbstractPlayer {
         }
 
         guard isTurnActive() == false else {
-            fatalError("try to start already active turn")
+            print("try to start already active turn")
+            return
         }
 
         print("--- start turn for \(self.isHuman() ? "HUMAN": "AI") player \(self.leader) ---")
@@ -1152,11 +1170,7 @@ public class Player: AbstractPlayer {
         // Do turn for all Cities
         for cityRef in gameModel.cities(of: self) {
 
-            guard let city = cityRef else {
-                fatalError("cant get city")
-            }
-
-            city.turn(in: gameModel)
+            cityRef?.turn(in: gameModel)
         }
 
         // Gold GetTreasury()->DoGold();
@@ -1340,10 +1354,6 @@ public class Player: AbstractPlayer {
         }
 
         for cityRef in gameModel.cities(of: self) {
-
-            /*guard let city = cityRef else {
-                fatalError("cant get city")
-            }*/
 
             cityRef?.resetLuxuries()
         }
@@ -2917,6 +2927,11 @@ public class Player: AbstractPlayer {
         self.totalImprovementsBuilt += change
     }
 
+    public func changeCitiesLost(by delta: Int) {
+
+        self.citiesLostValue += delta
+    }
+
     // MARK: trade route functions
 
     // https://civilization.fandom.com/wiki/Trade_Route_(Civ6)#Trading_Capacity
@@ -3055,64 +3070,46 @@ public class Player: AbstractPlayer {
         return self.leader == other?.leader
     }
 
-    public func acquire(city oldCity: AbstractCity?, conquest: Bool, gift: Bool) {
+    public func acquire(city oldCity: AbstractCity?, conquest: Bool, gift: Bool, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
 
         guard let oldCity = oldCity else {
             fatalError("cant get oldCity")
         }
 
-        fatalError("niy")
-
-        /*IDInfo* pUnitNode;
-        CvCity* pNewCity;
-        CvUnit* pLoopUnit;
-        CvPlot* pCityPlot;
-
-        CvString strBuffer;
-        CvString strName;
-        bool abEverOwned[MAX_PLAYERS];
-        PlayerTypes eOldOwner;
-        PlayerTypes eOriginalOwner;
-        BuildingTypes eBuilding;
-        bool bRecapture;
-        int iCaptureGold;
-        int iGameTurnFounded;
-        int iPopulation;
-        int iHighestPopulation;
-        int iBattleDamage;
-        int iI;
-        FFastSmallFixedList<IDInfo, 25, true, c_eCiv5GameplayDLL > oldUnits;
-
-        pCityPlot = pOldCity->plot();
-
-        pUnitNode = pCityPlot->headUnitNode();
-
-        while (pUnitNode != NULL)
-        {
-            oldUnits.insertAtEnd(pUnitNode);
-            pUnitNode = pCityPlot->nextUnitNode((IDInfo*)pUnitNode);
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
         }
 
-        pUnitNode = oldUnits.head();
+        guard let otherDiplomacyAI = oldCity.player?.diplomacyAI else {
+            fatalError("cant get otherDiplomacyAI")
+        }
 
-        while (pUnitNode != NULL)
-        {
-            pLoopUnit = ::getUnit(*pUnitNode);
-            pUnitNode = oldUnits.next(pUnitNode);
+        let cityPlot = gameModel.tile(at: oldCity.location)
 
-            if (pLoopUnit && pLoopUnit->getTeam() != getTeam())
-            {
-                if (pLoopUnit->IsImmobile())
-                {
-                    pLoopUnit->kill(false, GetID());
-                    DoUnitKilledCombat(pLoopUnit->getOwner(), pLoopUnit->getUnitType());
+        let units = gameModel.units(at: oldCity.location)
+
+        for loopUnitRef in units {
+
+            guard let loopUnit = loopUnitRef else {
+                continue
+            }
+
+            if loopUnit.player?.leader != self.leader {
+
+                if loopUnit.isImmobile() {
+                    loopUnit.doKill(delayed: true, by: self, in: gameModel)
+                    // DoUnitKilledCombat(pLoopUnit->getOwner(), pLoopUnit->getUnitType());
                 }
             }
         }
 
-        if (bConquest)
-        {
-            CvNotifications* pNotifications = GET_PLAYER(pOldCity->getOwner()).GetNotifications();
+        if conquest {
+
+            /*CvNotifications* pNotifications = GET_PLAYER(pOldCity->getOwner()).GetNotifications();
             if (pNotifications)
             {
                 Localization::String locString = Localization::Lookup("TXT_KEY_NOTIFICATION_CITY_LOST");
@@ -3120,59 +3117,48 @@ public class Player: AbstractPlayer {
                 Localization::String locSummary = Localization::Lookup("TXT_KEY_NOTIFICATION_SUMMARY_CITY_LOST");
                 locSummary << pOldCity->getNameKey();
                 pNotifications->Add(NOTIFICATION_CITY_LOST, locString.toUTF8(), locSummary.toUTF8(), pOldCity->getX(), pOldCity->getY(), -1);
-            }
+            }*/
 
-            if (!isBarbarian() && !pOldCity->isBarbarian())
-            {
-                int iDefaultCityValue = 150 /* WAR_DAMAGE_LEVEL_CITY_WEIGHT */
+            if !self.isBarbarian() && !oldCity.isBarbarian() {
+
+                let defaultCityValue = 150 /* WAR_DAMAGE_LEVEL_CITY_WEIGHT */
 
                 // Notify Diplo AI that damage has been done
-                int iValue = iDefaultCityValue;
-                iValue += pOldCity->getPopulation() * /*100*/ GC.getWAR_DAMAGE_LEVEL_INVOLVED_CITY_POP_MULTIPLIER();
+                var value = defaultCityValue
+                value += oldCity.population() * 100 /* WAR_DAMAGE_LEVEL_INVOLVED_CITY_POP_MULTIPLIER */
                 // My viewpoint
-                GetDiplomacyAI()->ChangeOtherPlayerWarValueLost(pOldCity->getOwner(), GetID(), iValue);
+                diplomacyAI.changeOtherPlayerWarValueLost(from: oldCity.player, to: self, by: value)
                 // Bad guy's viewpoint
-                GET_PLAYER(pOldCity->getOwner()).GetDiplomacyAI()->ChangeWarValueLost(GetID(), iValue);
+                otherDiplomacyAI.changeWarValueLost(with: self, by: value)
 
-                PlayerTypes ePlayer;
-
-                iValue = iDefaultCityValue;
-                iValue += pOldCity->getPopulation() * /*120*/ GC.getWAR_DAMAGE_LEVEL_UNINVOLVED_CITY_POP_MULTIPLIER();
+                value = defaultCityValue
+                value += oldCity.population() * 120 /* WAR_DAMAGE_LEVEL_UNINVOLVED_CITY_POP_MULTIPLIER */
 
                 // Now update everyone else in the world, but use a different multiplier (since they don't have complete info on the situation - they don't know when Units are killed)
-                for (int iPlayerLoop = 0; iPlayerLoop < MAX_CIV_PLAYERS; iPlayerLoop++)
-                {
-                    ePlayer = (PlayerTypes) iPlayerLoop;
+                for loopPlayer in gameModel.players {
 
                     // Not us and not the player we acquired City from
-                    if (ePlayer != GetID() && ePlayer != pOldCity->getOwner())
-                    {
-                        GET_PLAYER(ePlayer).GetDiplomacyAI()->ChangeOtherPlayerWarValueLost(pOldCity->getOwner(), GetID(), iValue);
+                    if !self.isEqual(to: loopPlayer) && !loopPlayer.isEqual(to: oldCity.player) {
+                         loopPlayer.diplomacyAI?.changeOtherPlayerWarValueLost(from: oldCity.player, to: self, by: value)
                     }
                 }
             }
         }
 
-        if (pOldCity->getOriginalOwner() == pOldCity->getOwner())
-        {
-            GET_PLAYER(pOldCity->getOriginalOwner()).changeCitiesLost(1);
-        }
-        else if (pOldCity->getOriginalOwner() == GetID())
-        {
-            GET_PLAYER(pOldCity->getOriginalOwner()).changeCitiesLost(-1);
+        if oldCity.originalLeader() == oldCity.player?.leader {
+            gameModel.player(for: oldCity.originalLeader())?.changeCitiesLost(by: 1)
+        } else if oldCity.originalLeader() == self.leader {
+            self.changeCitiesLost(by: -1)
         }
 
-        if (bConquest)
-        {
-            if (GetID() == GC.getGame().getActivePlayer())
-            {
-                strBuffer = GetLocalizedText("TXT_KEY_MISC_CAPTURED_CITY", pOldCity->getNameKey()).GetCString();
-                GC.GetEngineUserInterface()->AddCityMessage(0, pOldCity->GetIDInfo(), GetID(), true, GC.getEVENT_MESSAGE_TIME(), strBuffer/*, "AS2D_CITYCAPTURE", MESSAGE_TYPE_MAJOR_EVENT, NULL, (ColorTypes)GC.getInfoTypeForString("COLOR_GREEN"), pOldCity->getX(), pOldCity->getY(), true, true*/);
+        if conquest {
+            if self.isEqual(to: gameModel.activePlayer()) {
+                let message = "You have captured \(oldCity.name)" // TXT_KEY_MISC_CAPTURED_CITY
+                gameModel.userInterface?.showTooltip(at: oldCity.location, text: message, delay: 3)
             }
 
-            strName.Format("%s (%s)", pOldCity->getName().GetCString(), GET_PLAYER(pOldCity->getOwner()).getName());
-
-            for (iI = 0; iI < MAX_PLAYERS; iI++)
+            // inform player
+            /*for (iI = 0; iI < MAX_PLAYERS; iI++)
             {
                 if ((PlayerTypes)iI == GC.getGame().getActivePlayer())
                 {
@@ -3183,284 +3169,200 @@ public class Player: AbstractPlayer {
                             if (pOldCity->isRevealed(GET_PLAYER((PlayerTypes)iI).getTeam(), false))
                             {
                                 strBuffer = GetLocalizedText("TXT_KEY_MISC_CITY_CAPTURED_BY", strName.GetCString(), getCivilizationShortDescriptionKey());
-                                GC.GetEngineUserInterface()->AddCityMessage(0, pOldCity->GetIDInfo(), ((PlayerTypes)iI), false, GC.getEVENT_MESSAGE_TIME(), strBuffer/*, "AS2D_CITYCAPTURED", MESSAGE_TYPE_MAJOR_EVENT, NULL, (ColorTypes)GC.getInfoTypeForString("COLOR_RED"), pOldCity->getX(), pOldCity->getY(), true, true*/);
+                                GC.GetEngineUserInterface()->AddCityMessage(0, pOldCity->GetIDInfo(), ((PlayerTypes)iI), false, GC.getEVENT_MESSAGE_TIME(), strBuffer);
                             }
                         }
                     }
                 }
-            }
+            }*/
 
-            strBuffer = GetLocalizedText("TXT_KEY_MISC_CITY_WAS_CAPTURED_BY", strName.GetCString(), getCivilizationShortDescriptionKey());
-            GC.getGame().addReplayMessage(REPLAY_MESSAGE_MAJOR_EVENT, GetID(), strBuffer, pOldCity->getX(), pOldCity->getY());
-
-    #ifndef FINAL_RELEASE
-            OutputDebugString("\n"); OutputDebugString(strBuffer); OutputDebugString("\n\n");
-    #endif
+            let message = "\(oldCity.name) was captured by the \(self.leader.civilization().name())!!!"
+            gameModel.addReplayEvent(type: .major, message: message, at: oldCity.location)
         }
 
-        iCaptureGold = 0;
+        var captureGold = 0
 
-        if (bConquest)
-        {
-            // TODO: add scripting support for "doCityCaptureGold"
-            iCaptureGold = 0;
+        if conquest {
 
-            iCaptureGold += GC.getBASE_CAPTURE_GOLD();
-            iCaptureGold += (pOldCity->getPopulation() * GC.getCAPTURE_GOLD_PER_POPULATION());
-            iCaptureGold += GC.getGame().getJonRandNum(GC.getCAPTURE_GOLD_RAND1(), "Capture Gold 1");
-            iCaptureGold += GC.getGame().getJonRandNum(GC.getCAPTURE_GOLD_RAND2(), "Capture Gold 2");
+            captureGold = 0
 
-            if (GC.getCAPTURE_GOLD_MAX_TURNS() > 0)
-            {
-                iCaptureGold *= range((GC.getGame().getGameTurn() - pOldCity->getGameTurnAcquired()), 0, GC.getCAPTURE_GOLD_MAX_TURNS());
-                iCaptureGold /= GC.getCAPTURE_GOLD_MAX_TURNS();
-            }
+            captureGold += 200 // BASE_CAPTURE_GOLD
+            captureGold += oldCity.population() * 40 // CAPTURE_GOLD_PER_POPULATION
+            captureGold += Int.random(maximum: 40) // CAPTURE_GOLD_RAND1
+            captureGold += Int.random(maximum: 20) // CAPTURE_GOLD_RAND2
 
-            iCaptureGold *= (100 + pOldCity->getCapturePlunderModifier()) / 100;
-            iCaptureGold *= (100 + GetPlayerTraits()->GetPlunderModifier()) / 100;
+            let foundedTurnsAgo = gameModel.currentTurn - oldCity.gameTurnFounded()
+            captureGold *= foundedTurnsAgo.clamped(to: 0...500 /* CAPTURE_GOLD_MAX_TURNS */)
+            captureGold /= 500 /* CAPTURE_GOLD_MAX_TURNS */
+
+            // captureGold *= (100 + oldCity.capturePlunderModifier()) / 100
+            // captureGold *= (100 + self.leader.traits().plunderModifier()) / 100
         }
 
-        GetTreasury()->ChangeGold(iCaptureGold);
+        self.treasury?.changeGold(by: Double(captureGold))
 
-        int iNumBuildingInfos = GC.getNumBuildingInfos();
+        /*int iNumBuildingInfos = GC.getNumBuildingInfos();
         std::vector<int> paiNumRealBuilding(iNumBuildingInfos, 0);
         std::vector<int> paiBuildingOriginalOwner(iNumBuildingInfos, 0);
-        std::vector<int> paiBuildingOriginalTime(iNumBuildingInfos, 0);
+        std::vector<int> paiBuildingOriginalTime(iNumBuildingInfos, 0);*/
 
-        int iOldCityX = pOldCity->getX();
-        int iOldCityY = pOldCity->getY();
-        eOldOwner = pOldCity->getOwner();
-        eOriginalOwner = pOldCity->getOriginalOwner();
-        iGameTurnFounded = pOldCity->getGameTurnFounded();
-        iPopulation = pOldCity->getPopulation();
-        iHighestPopulation = pOldCity->getHighestPopulation();
-        bool bEverCapital = pOldCity->IsEverCapital();
-        strName = pOldCity->getNameKey();
-        int iOldCultureLevel = pOldCity->GetJONSCultureLevel();
-        bool bHasMadeAttack = pOldCity->isMadeAttack();
+        guard let oldPlayer = gameModel.player(for: oldCity.leader) else {
+            fatalError("cant get old player")
+        }
 
-        iBattleDamage = pOldCity->getDamage();
+        let oldCityLocation = oldCity.location
+        let oldLeader = oldCity.leader
+        // let originalOwner = oldCity.originalLeader()
+        let oldTurnFounded = oldCity.gameTurnFounded()
+        var oldPopulation = oldCity.population()
+        // iHighestPopulation = pOldCity->getHighestPopulation();
+        // let everCapital = oldCity.isEverCapital()
+        let oldName = oldCity.name
+        let oldCultureLevel = oldCity.cultureLevel()
+        let hasMadeAttack = oldCity.madeAttack()
+
+        var oldBattleDamage = oldCity.damage()
+
         // Traded cities between humans don't heal (an exploit would be to trade a city back and forth between teammates to get an instant heal.)
-        if (!bGift || !isHuman() || !GET_PLAYER(pOldCity->getOwner()).isHuman())
-        {
-            int iBattleDamgeThreshold = GC.getMAX_CITY_HIT_POINTS() * /*50*/ GC.getCITY_CAPTURE_DAMAGE_PERCENT();
-            iBattleDamgeThreshold /= 100;
+        let oldPlayerHuman: Bool = gameModel.player(for: oldCity.leader)?.isHuman() ?? false
+        if !gift || !self.isHuman() || !oldPlayerHuman {
 
-            if (iBattleDamage > iBattleDamgeThreshold)
-            {
-                iBattleDamage = iBattleDamgeThreshold;
+            var battleDamageThreshold = 200 /* MAX_CITY_HIT_POINTS */ * 50 /*CITY_CAPTURE_DAMAGE_PERCENT */
+            battleDamageThreshold /= 100
+
+            if oldBattleDamage > battleDamageThreshold {
+                oldBattleDamage = battleDamageThreshold
             }
         }
 
-        for (iI = 0; iI < MAX_PLAYERS; iI++)
+        /*for (iI = 0; iI < MAX_PLAYERS; iI++)
         {
             abEverOwned[iI] = pOldCity->isEverOwned((PlayerTypes)iI);
         }
 
-        abEverOwned[GetID()] = true;
+        abEverOwned[GetID()] = true;*/
 
-        for (iI = 0; iI < GC.getNumBuildingInfos(); iI++)
-        {
-            paiNumRealBuilding[iI] = pOldCity->GetCityBuildings()->GetNumRealBuilding((BuildingTypes)iI);
-            paiBuildingOriginalOwner[iI] = pOldCity->GetCityBuildings()->GetBuildingOriginalOwner((BuildingTypes)iI);
-            paiBuildingOriginalTime[iI] = pOldCity->GetCityBuildings()->GetBuildingOriginalTime((BuildingTypes)iI);
-        }
+        var oldDistricts: [DistrictType] = []
+        for districtType in DistrictType.all {
 
-        std::vector<BuildingYieldChange> aBuildingYieldChange;
-        for (iI = 0; iI < GC.getNumBuildingClassInfos(); ++iI)
-        {
-            CvBuildingClassInfo* pkBuildingClassInfo = GC.getBuildingClassInfo((BuildingClassTypes)iI);
-            if (!pkBuildingClassInfo)
-            {
-                continue;
-            }
-
-            for (int iYield = 0; iYield < NUM_YIELD_TYPES; ++iYield)
-            {
-                BuildingYieldChange kChange;
-                kChange.eBuildingClass = (BuildingClassTypes)iI;
-                kChange.eYield = (YieldTypes)iYield;
-                kChange.iChange = pOldCity->GetCityBuildings()->GetBuildingYieldChange((BuildingClassTypes)iI, (YieldTypes)iYield);
-                if (0 != kChange.iChange)
-                {
-                    aBuildingYieldChange.push_back(kChange);
-                }
+            if oldCity.has(district: districtType) {
+                oldDistricts.append(districtType)
             }
         }
 
-        bRecapture = false;
+        var oldBuildings: [BuildingType] = []
+        for buildingType in BuildingType.all {
 
-        bool bCapital = pOldCity->isCapital();
-
-        // find the plot
-        FStaticVector<int, 121, true, c_eCiv5GameplayDLL, 0> aiPurchasedPlotX;
-        FStaticVector<int, 121, true, c_eCiv5GameplayDLL, 0> aiPurchasedPlotY;
-        const int iMaxRange = /*5*/ GC.getMAXIMUM_ACQUIRE_PLOT_DISTANCE();
-
-        for (int iPlotLoop = 0; iPlotLoop < GC.getMap().numPlots(); iPlotLoop++)
-        {
-            CvPlot* pLoopPlot = GC.getMap().plotByIndexUnchecked(iPlotLoop);
-            if (pLoopPlot && pLoopPlot->GetCityPurchaseOwner() == eOldOwner && pLoopPlot->GetCityPurchaseID() == pOldCity->GetID())
-            {
-                aiPurchasedPlotX.push_back(pLoopPlot->getX());
-                aiPurchasedPlotY.push_back(pLoopPlot->getY());
-                pLoopPlot->ClearCityPurchaseInfo();
+            if oldCity.has(building: buildingType) {
+                oldBuildings.append(buildingType)
             }
         }
 
-        pOldCity->PreKill();
+        var oldWonders: [WonderType] = []
+        for wonderType in WonderType.all {
 
-        {
-            auto_ptr<ICvCity1> pkDllOldCity(new CvDllCity(pOldCity));
-            gDLL->GameplayCityCaptured(pkDllOldCity.get(), GetID());
+            if oldCity.has(wonder: wonderType) {
+                oldWonders.append(wonderType)
+            }
         }
 
-        GET_PLAYER(eOldOwner).deleteCity(pOldCity->GetID());
+        let recapture = false
+
+        let capital = oldCity.isCapital()
+
+        oldCity.preKill(in: gameModel)
+
+        gameModel.userInterface?.remove(city: oldCity)
+
+        gameModel.delete(city: oldCity)
         // adapted from PostKill()
 
-        GC.getGame().addReplayMessage( REPLAY_MESSAGE_CITY_CAPTURED, m_eID, "", pCityPlot->getX(), pCityPlot->getY());
+        // GC.getGame().addReplayMessage( REPLAY_MESSAGE_CITY_CAPTURED, m_eID, "", pCityPlot->getX(), pCityPlot->getY());
 
-        PlayerTypes ePlayer;
         // Update Proximity between this Player and all others
-        for (int iPlayerLoop = 0; iPlayerLoop < MAX_CIV_PLAYERS; iPlayerLoop++)
-        {
-            ePlayer = (PlayerTypes) iPlayerLoop;
+        for loopPlayer in gameModel.players {
 
-            if (ePlayer != m_eID)
-            {
-                if (GET_PLAYER(ePlayer).isAlive())
-                {
-                    GET_PLAYER(m_eID).DoUpdateProximityToPlayer(ePlayer);
-                    GET_PLAYER(ePlayer).DoUpdateProximityToPlayer(m_eID);
-                }
+            if !loopPlayer.isEqual(to: self) && loopPlayer.isAlive() && loopPlayer.hasMet(with: self) {
+
+                self.doUpdateProximity(towards: loopPlayer, in: gameModel)
+                loopPlayer.doUpdateProximity(towards: self, in: gameModel)
             }
         }
 
-        GC.getMap().updateWorkingCity(pCityPlot,NUM_CITY_RINGS*2);
+        for neighbor in oldCityLocation.areaWith(radius: 3) {
+
+            let tile = gameModel.tile(at: neighbor)
+            gameModel.userInterface?.refresh(tile: tile)
+        }
 
         // Lost the capital!
-        if (bCapital)
-        {
-            GET_PLAYER(eOldOwner).SetHasLostCapital(true, GetID());
+        if capital {
 
-            GET_PLAYER(eOldOwner).findNewCapital();
-
-            GET_TEAM(getTeam()).resetVictoryProgress();
+            // GET_PLAYER(eOldOwner).SetHasLostCapital(true, GetID());
+            oldPlayer.findNewCapital(in: gameModel)
         }
 
-        GC.GetEngineUserInterface()->setDirty(NationalBorders_DIRTY_BIT, true);
+        // GC.GetEngineUserInterface()->setDirty(NationalBorders_DIRTY_BIT, true);
         // end adapted from PostKill()
 
-        pNewCity = initCity(pCityPlot->getX(), pCityPlot->getY(), !bConquest);
+        let newCity = City(name: oldName, at: oldCityLocation, owner: self)
+        newCity.initialize(in: gameModel)
 
-        CvAssertMsg(pNewCity != NULL, "NewCity is not assigned a valid value");
-
-    #ifdef _MSC_VER
-    #pragma warning ( push )
-    #pragma warning ( disable : 6011 )
-    #endif
-        pNewCity->setPreviousOwner(eOldOwner);
-        pNewCity->setOriginalOwner(eOriginalOwner);
-        pNewCity->setGameTurnFounded(iGameTurnFounded);
-        pNewCity->SetEverCapital(bEverCapital);
+        newCity.set(originalLeader: oldLeader)
+        newCity.set(gameTurnFounded: oldTurnFounded)
+        //  pNewCity->setPreviousOwner(eOldOwner);
+        //  pNewCity->SetEverCapital(bEverCapital);
 
         // Population change for capturing a city
-        if (!bRecapture && bConquest)    // Don't drop it if we're recapturing our own City
-        {
-            iPopulation = max(1, iPopulation * /*50*/ GC.getCITY_CAPTURE_POPULATION_PERCENT() / 100);
+        if !recapture && conquest {
+            // Don't drop it if we're recapturing our own City
+            oldPopulation = max(1, oldPopulation * 50 /* CITY_CAPTURE_POPULATION_PERCENT */ / 100)
         }
 
-        pNewCity->setPopulation(iPopulation);
-        pNewCity->setHighestPopulation(iHighestPopulation);
-        pNewCity->setName(strName);
-        pNewCity->setNeverLost(false);
-        pNewCity->setDamage(iBattleDamage,true);
-        pNewCity->setMadeAttack(bHasMadeAttack);
+        newCity.set(population: oldPopulation, in: gameModel)
+        // pNewCity->setHighestPopulation(iHighestPopulation);
+        newCity.set(name: oldName)
+        // pNewCity->setNeverLost(false);
+        newCity.set(damage: oldBattleDamage)
+        newCity.setMadeAttack(to: hasMadeAttack)
+        /*
 
-        for (iI = 0; iI < MAX_PLAYERS; iI++)
-        {
+        for (iI = 0; iI < MAX_PLAYERS; iI++) {
             pNewCity->setEverOwned(((PlayerTypes)iI), abEverOwned[iI]);
-        }
+        }*/
 
-        pNewCity->SetJONSCultureLevel(iOldCultureLevel);
+        newCity.changeCultureLevel(by: oldCultureLevel)
 
-        CvCivilizationInfo& playerCivilizationInfo = getCivilizationInfo();
-        for (iI = 0; iI < GC.getNumBuildingInfos(); iI++)
-        {
-            const BuildingTypes eLoopBuilding = static_cast<BuildingTypes>(iI);
-            CvBuildingEntry* pkLoopBuildingInfo = GC.getBuildingInfo(eLoopBuilding);
-            if(pkLoopBuildingInfo)
-            {
-                const CvBuildingClassInfo& kLoopBuildingClassInfo = pkLoopBuildingInfo->GetBuildingClassInfo();
+        for district in oldDistricts {
+            do {
+                try newCity.districts?.build(district: district)
+            } catch {
 
-                int iNum = 0;
-                if (paiNumRealBuilding[iI] > 0)
-                {
-                    const BuildingClassTypes eBuildingClass = (BuildingClassTypes)pkLoopBuildingInfo->GetBuildingClassType();
-                    if (::isWorldWonderClass(kLoopBuildingClassInfo))
-                    {
-                        eBuilding = eLoopBuilding;
-                    }
-                    else
-                    {
-                        eBuilding = (BuildingTypes)playerCivilizationInfo.getCivilizationBuildings(eBuildingClass);
-                    }
-
-                    if (eBuilding != NO_BUILDING)
-                    {
-                        CvBuildingEntry* pkBuildingInfo = GC.getBuildingInfo(eBuilding);
-                        if(pkBuildingInfo)
-                        {
-                            if (!pkLoopBuildingInfo->IsNeverCapture())
-                            {
-                                if (!isProductionMaxedBuildingClass(((BuildingClassTypes)(pkBuildingInfo->GetBuildingClassType())), true))
-                                {
-                                    // here would be a good place to put additional checks (for example, influence)
-                                    if (!bConquest || bRecapture || GC.getGame().getJonRandNum(100, "Capture Probability") < pkLoopBuildingInfo->GetConquestProbability())
-                                    {
-                                        iNum += paiNumRealBuilding[iI];
-                                    }
-                                }
-                            }
-
-                            // Check for Tomb Raider Achievement
-                            if (bConquest && !GC.getGame().isGameMultiPlayer() && pkLoopBuildingInfo->GetType() && _stricmp(pkLoopBuildingInfo->GetType(), "BUILDING_BURIAL_TOMB") == 0 && isHuman() )
-                            {
-                                if (iCaptureGold > 0) //Need to actually pillage something from the 'tomb'
-                                {
-                                    gDLL->UnlockAchievement( ACHIEVEMENT_SPECIAL_TOMBRAIDER );
-                                }
-                            }
-
-                            // Check for Rome conquering Statue of Zeus Achievement
-                            if (bConquest && !GC.getGame().isGameMultiPlayer() && pkLoopBuildingInfo->GetType() && _stricmp(pkLoopBuildingInfo->GetType(), "BUILDING_STATUE_ZEUS") == 0 && isHuman() )
-                            {
-                                const char* pkCivKey = getCivilizationTypeKey();
-                                if (pkCivKey && strcmp(pkCivKey, "CIVILIZATION_ROME") == 0)
-                                {
-                                    gDLL->UnlockAchievement( ACHIEVEMENT_SPECIAL_ROME_GETS_ZEUS );
-                                }
-                            }
-
-
-                            pNewCity->GetCityBuildings()->SetNumRealBuildingTimed(eBuilding, iNum, false, ((PlayerTypes)(paiBuildingOriginalOwner[iI])), paiBuildingOriginalTime[iI]);
-                        }
-                    }
-                }
             }
         }
 
-        for (std::vector<BuildingYieldChange>::iterator it = aBuildingYieldChange.begin(); it != aBuildingYieldChange.end(); ++it)
-        {
-            pNewCity->GetCityBuildings()->SetBuildingYieldChange((*it).eBuildingClass, (*it).eYield, (*it).iChange);
+        for building in oldBuildings {
+            do {
+                try newCity.buildings?.build(building: building)
+            } catch {
+
+            }
+        }
+
+        for wonder in oldWonders {
+            do {
+                try newCity.wonders?.build(wonder: wonder)
+            } catch {
+
+            }
         }
 
         // Did we re-acquire our Capital?
-        if (pCityPlot->getX() == GetOriginalCapitalX() && pCityPlot->getY() == GetOriginalCapitalY())
-        {
-            SetHasLostCapital(false, NO_PLAYER);
+        if self.originalCapitalLocation() == oldCityLocation {
 
-            const BuildingTypes eCapitalBuilding = (BuildingTypes) (getCivilizationInfo().getCivilizationBuildings(GC.getCAPITAL_BUILDINGCLASS()));
+            // SetHasLostCapital(false, NO_PLAYER);
+
+            /*const BuildingTypes eCapitalBuilding = (BuildingTypes) (getCivilizationInfo().getCivilizationBuildings(GC.getCAPITAL_BUILDINGCLASS()));
             if (eCapitalBuilding != NO_BUILDING)
             {
                 if (getCapitalCity() != NULL)
@@ -3469,13 +3371,12 @@ public class Player: AbstractPlayer {
                 }
                 CvAssertMsg(!(pNewCity->GetCityBuildings()->GetNumRealBuilding(eCapitalBuilding)), "(pBestCity->getNumRealBuilding(eCapitalBuilding)) did not return false as expected");
                 pNewCity->GetCityBuildings()->SetNumRealBuilding(eCapitalBuilding, 1);
-            }
+            }*/
         }
 
-        GC.getMap().updateWorkingCity(pCityPlot,NUM_CITY_RINGS*2);
+        // GC.getMap().updateWorkingCity(pCityPlot,NUM_CITY_RINGS*2);
 
-        if (bConquest)
-        {
+        /* if conquest {
             for (int iDX = -iMaxRange; iDX <= iMaxRange; iDX++)
             {
                 for (int iDY = -iMaxRange; iDY <= iMaxRange; iDY++)
@@ -3487,78 +3388,36 @@ public class Player: AbstractPlayer {
                     }
                 }
             }
+        } */
 
-            // Check for Askia Achievement
-            if( isHuman() && !CvPreGame::isNetworkMultiplayerGame() )
-            {
-                const char* pkLeaderKey = getLeaderTypeKey();
-                if (pkLeaderKey && strcmp(pkLeaderKey, "LEADER_ASKIA") == 0)
-                {
-                    CvCity *pkCaptialCity = getCapitalCity();
-                    if (pkCaptialCity != NULL)    // Shouldn't be NULL, but...
-                    {
-                        CvPlot *pkCapitalPlot = pkCaptialCity->plot();
-                        CvPlot *pkNewCityPlot = pNewCity->plot();
-                        if (pkCapitalPlot && pkNewCityPlot)
-                        {
-                            // Get the area each plot is located in.
-                            CvArea* pkCapitalArea = pkCapitalPlot->area();
-                            CvArea* pkNewCityArea = pkNewCityPlot->area();
-
-                            if (pkCapitalArea && pkNewCityArea)
-                            {
-                                // The area the new city is locate on has to be of a certain size to qualify so that tiny islands are not included
-                                #define ACHIEVEMENT_MIN_CONTINENT_SIZE    8
-                                if (pkNewCityArea->GetID() != pkCapitalArea->GetID() && pkNewCityArea->getNumTiles() >= ACHIEVEMENT_MIN_CONTINENT_SIZE)
-                                {
-                                    gDLL->UnlockAchievement( ACHIEVEMENT_SPECIAL_WARCANOE );
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        pCityPlot->setRevealed(GET_PLAYER(eOldOwner).getTeam(), true);
+        gameModel.add(city: newCity)
 
         // If the old owner is "killed," then notify everyone's Grand Strategy AI
-        if (GET_PLAYER(eOldOwner).getNumCities() == 0 && !GET_PLAYER(eOldOwner).GetPlayerTraits()->IsStaysAliveZeroCities())
-        {
-            if (!isMinorCiv() && !isBarbarian())
-            {
-                for (int iMajorLoop = 0; iMajorLoop < MAX_MAJOR_CIVS; iMajorLoop++)
-                {
-                    if (GetID() != iMajorLoop && GET_PLAYER((PlayerTypes) iMajorLoop).isAlive())
-                    {
+        let numCities = gameModel.cities(of: oldPlayer).count
+        if numCities == 0 {
+
+            if /*!isMinorCiv() &&*/ !isBarbarian() {
+
+                for loopPlayer in gameModel.players {
+
+                    if !self.isEqual(to: loopPlayer) && loopPlayer.isAlive() {
                         // Have I met the player who killed the guy?
-                        if (GET_TEAM(GET_PLAYER((PlayerTypes) iMajorLoop).getTeam()).isHasMet(getTeam()))
-                        {
-                            GET_PLAYER((PlayerTypes) iMajorLoop).GetDiplomacyAI()->DoPlayerKilledSomeone(GetID(), eOldOwner);
+                        if loopPlayer.hasMet(with: self) {
+                            // loopPlayer.diplomacyAI.doPlayerKilledSomeone(self, oldPlayer)
                         }
                     }
                 }
             }
-        }
-        // If not, old owner should look at city specializations
-        else
-        {
-            GET_PLAYER(eOldOwner).GetCitySpecializationAI()->SetSpecializationsDirty(SPECIALIZATION_UPDATE_MY_CITY_CAPTURED);
+        } else {
+            // If not, old owner should look at city specializations
+            oldPlayer.citySpecializationAI?.setSpecializationsDirty()
         }
 
         // Do the same for the new owner
-        GetCitySpecializationAI()->SetSpecializationsDirty(SPECIALIZATION_UPDATE_ENEMY_CITY_CAPTURED);
+        self.citySpecializationAI?.setSpecializationsDirty()
 
-        bool bDisbanded = false;
+        /*bool bDisbanded = false;
 
-        // In OCC games, all captured cities are toast
-        if (GC.getGame().isOption(GAMEOPTION_ONE_CITY_CHALLENGE) && isHuman())
-        {
-            bDisbanded = true;
-            disband(pNewCity);
-        }
-        else //if (bConquest)
-        {
             // Is this City being Occupied?
             if (pNewCity->getOriginalOwner() != GetID())
             {
@@ -3589,9 +3448,9 @@ public class Player: AbstractPlayer {
                     AI_conquerCity(pNewCity, eOldOwner); // could delete the pointer...
                 }
 
-                // Human decides what to do with a City
+
                 else if (!GC.getGame().isOption(GAMEOPTION_NO_HAPPINESS))
-                {
+                { // Human decides what to do with a City
                     // Used to display info for annex/puppet/raze popup - turned off in DoPuppet and DoAnnex
                     pNewCity->SetIgnoreCityForHappiness(true);
 
@@ -3615,7 +3474,6 @@ public class Player: AbstractPlayer {
                     GC.GetEngineUserInterface()->AddCityMessage(0, pNewCity->GetIDInfo(), GetID(), true, GC.getEVENT_MESSAGE_TIME(), strBuffer);
                 }
             }
-        }
 
         // Cache whether the player is human or not.  If the player is killed, the CvPreGame::slotStatus is changed to SS_CLOSED
         // but the slot status is used to determine if the player is human or not, so it looks like it is an AI!
@@ -3659,23 +3517,7 @@ public class Player: AbstractPlayer {
             CvMap& theMap = GC.getMap();
             theMap.updateDeferredFog();
         }
-
-        ICvEngineScriptSystem1* pkScriptSystem = gDLL->GetScriptSystem();
-        if(pkScriptSystem)
-        {
-            CvLuaArgsHandle args;
-            args->Push(eOldOwner);
-            args->Push(bCapital);
-            args->Push(pNewCity->getX());
-            args->Push(pNewCity->getY());
-            args->Push(GetID());
-
-            bool bResult;
-            LuaSupport::CallHook(pkScriptSystem, "CityCaptureComplete", args.get(), bResult);
-        }
-    #ifdef _MSC_VER
-    #pragma warning ( pop ) // restore warning level suppressed for pNewCity null check
-    #endif// _MSC_VER*/
+*/
     }
 
     /// Handle earning culture from combat wins
@@ -4407,6 +4249,48 @@ public class Player: AbstractPlayer {
     public func originalCapitalLocation() -> HexPoint {
 
         return self.originalCapitalLocationValue
+    }
+
+    public func findNewCapital(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        var bestCity: AbstractCity?
+        var bestValue = 0
+
+        for loopCityRef in gameModel.cities(of: self) {
+
+            guard let loopCity = loopCityRef else {
+                continue
+            }
+
+            var value = loopCity.population() * 4
+
+            var yieldValueTimes100: Int = Int(loopCity.foodPerTurn(in: gameModel)) * 100
+            yieldValueTimes100 += Int(loopCity.productionPerTurn(in: gameModel)) * 100 * 3
+            yieldValueTimes100 += Int(loopCity.goldPerTurn(in: gameModel)) * 100 * 2
+            value += (yieldValueTimes100 / 100)
+
+            if value > bestValue {
+                bestValue = value
+                bestCity = loopCityRef
+            }
+        }
+
+        guard let newCapital = bestCity else {
+            return
+        }
+
+        do {
+            try newCapital.buildings?.build(building: .palace)
+        } catch {
+
+        }
+        newCapital.setIsCapital(to: true)
+
+        gameModel.userInterface?.refresh(tile: gameModel.tile(at: newCapital.location))
     }
 
     func population(in gameModel: GameModel?) -> Int {

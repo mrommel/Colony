@@ -433,10 +433,40 @@ extension GameScene {
                 }
 
             case .meleeUnitTargets:
-                if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
+                self.mapNode?.unitLayer.clearPathSpriteBuffer()
+
+                if let cityToAttack = self.viewModel?.game?.city(at: position) {
 
                     var combatExecuted: Bool = false
-                    if let combatTarget = self.viewModel?.combatTarget {
+                    if let combatTarget = self.viewModel?.combatCityTarget {
+
+                        if cityToAttack.location == combatTarget.location {
+
+                            self.viewModel?.delegate?.doCombat(of: selectedUnit, against: cityToAttack)
+
+                            self.mapNode?.unitLayer.update(unit: selectedUnit)
+                            self.mapNode?.cityLayer.update(city: cityToAttack)
+
+                            combatExecuted = true
+                            self.viewModel?.combatUnitTarget = nil
+                            self.viewModel?.combatCityTarget = nil
+                            self.viewModel?.delegate?.hideCombatBanner()
+                            self.viewModel?.unitSelectionMode = .pick
+
+                            self.mapNode?.unitLayer.clearAttackFocus()
+                        }
+                    }
+
+                    if !combatExecuted {
+
+                        self.viewModel?.delegate?.showCombatBanner(for: selectedUnit, and: cityToAttack, ranged: false)
+                        self.viewModel?.combatCityTarget = cityToAttack
+                    }
+
+                } else if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
+
+                    var combatExecuted: Bool = false
+                    if let combatTarget = self.viewModel?.combatUnitTarget {
 
                         if unitToAttack.location == combatTarget.location {
 
@@ -446,27 +476,87 @@ extension GameScene {
                             self.mapNode?.unitLayer.update(unit: unitToAttack)
 
                             combatExecuted = true
-                            self.viewModel?.combatTarget = nil
+                            self.viewModel?.combatUnitTarget = nil
+                            self.viewModel?.combatCityTarget = nil
                             self.viewModel?.delegate?.hideCombatBanner()
                             self.viewModel?.unitSelectionMode = .pick
+
+                            self.mapNode?.unitLayer.clearAttackFocus()
                         }
                     }
 
                     if !combatExecuted {
 
                         self.viewModel?.delegate?.showCombatBanner(for: selectedUnit, and: unitToAttack, ranged: false)
-                        self.viewModel?.combatTarget = unitToAttack
+                        self.viewModel?.combatUnitTarget = unitToAttack
                     }
                 } else {
-                    self.viewModel?.combatTarget = nil
+                    self.viewModel?.combatUnitTarget = nil
                     self.viewModel?.delegate?.hideCombatBanner()
                 }
 
             case .rangedUnitTargets:
-                if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
-                    fatalError("not implemented")
+                self.mapNode?.unitLayer.clearPathSpriteBuffer()
+
+                if let cityToAttack = self.viewModel?.game?.city(at: position) {
+
+                    var combatExecuted: Bool = false
+                    if let combatTarget = self.viewModel?.combatCityTarget {
+
+                        if cityToAttack.location == combatTarget.location {
+
+                            self.viewModel?.delegate?.doRangedCombat(of: selectedUnit, against: cityToAttack)
+
+                            self.mapNode?.unitLayer.update(unit: selectedUnit)
+                            self.mapNode?.cityLayer.update(city: cityToAttack)
+
+                            combatExecuted = true
+                            self.viewModel?.combatUnitTarget = nil
+                            self.viewModel?.combatCityTarget = nil
+                            self.viewModel?.delegate?.hideCombatBanner()
+                            self.viewModel?.unitSelectionMode = .pick
+
+                            self.mapNode?.unitLayer.clearAttackFocus()
+                        }
+                    }
+
+                    if !combatExecuted {
+
+                        self.viewModel?.delegate?.showCombatBanner(for: selectedUnit, and: cityToAttack, ranged: true)
+                        self.viewModel?.combatCityTarget = cityToAttack
+                    }
+
+                } else if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
+
+                    var combatExecuted: Bool = false
+                    if let combatTarget = self.viewModel?.combatUnitTarget {
+
+                        if unitToAttack.location == combatTarget.location {
+
+                            self.viewModel?.delegate?.doRangedCombat(of: selectedUnit, against: unitToAttack)
+
+                            self.mapNode?.unitLayer.update(unit: selectedUnit)
+                            self.mapNode?.unitLayer.update(unit: unitToAttack)
+
+                            combatExecuted = true
+                            self.viewModel?.combatUnitTarget = nil
+                            self.viewModel?.combatCityTarget = nil
+                            self.viewModel?.delegate?.hideCombatBanner()
+                            self.viewModel?.unitSelectionMode = .pick
+
+                            self.mapNode?.unitLayer.clearAttackFocus()
+                        }
+                    }
+
+                    if !combatExecuted {
+
+                        self.viewModel?.delegate?.showCombatBanner(for: selectedUnit, and: unitToAttack, ranged: true)
+                        self.viewModel?.combatUnitTarget = unitToAttack
+                    }
+
                 } else {
-                    self.viewModel?.combatTarget = nil
+                    self.viewModel?.combatUnitTarget = nil
+                    self.viewModel?.combatCityTarget = nil
                     self.viewModel?.delegate?.hideCombatBanner()
                 }
 
@@ -492,7 +582,7 @@ extension GameScene {
                 if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
 
                     var combatExecuted: Bool = false
-                    if let combatTarget = self.viewModel?.combatTarget {
+                    if let combatTarget = self.viewModel?.combatUnitTarget {
 
                         if unitToAttack.location == combatTarget.location {
 
@@ -502,7 +592,7 @@ extension GameScene {
                             self.mapNode?.unitLayer.update(unit: unitToAttack)
 
                             combatExecuted = true
-                            self.viewModel?.combatTarget = nil
+                            self.viewModel?.combatUnitTarget = nil
                             self.viewModel?.delegate?.hideCombatBanner()
                             self.viewModel?.unitSelectionMode = .pick
                         }
@@ -511,11 +601,11 @@ extension GameScene {
                     if !combatExecuted {
 
                         self.viewModel?.delegate?.showCombatBanner(for: selectedCity, and: unitToAttack, ranged: true)
-                        self.viewModel?.combatTarget = unitToAttack
+                        self.viewModel?.combatUnitTarget = unitToAttack
                     }
 
                 } else {
-                    self.viewModel?.combatTarget = nil
+                    self.viewModel?.combatUnitTarget = nil
                     self.viewModel?.delegate?.hideCombatBanner()
                 }
 
