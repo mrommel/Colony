@@ -327,6 +327,8 @@ class CityObject {
             self.bannerBackground = nil
             self.sizeLabel?.removeFromParent()
             self.sizeLabel = nil
+            self.capitalNode?.removeFromParent()
+            self.capitalNode = nil
             self.growthProgressNode?.removeFromParent()
             self.growthProgressNode = nil
             self.nameLabel?.removeFromParent()

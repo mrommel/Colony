@@ -70,7 +70,7 @@ extension CommandType {
         case .activateGreatPerson: return "command-button-activateGreatPerson"
 
         case .attack: return "command-button-attack"
-        case .rangedAttack: return "command-button-default" // generic
+        case .rangedAttack: return "command-button-ranged"
         case .cancelAttack: return "command-button-default" // generic
         }
     }

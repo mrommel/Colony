@@ -23,6 +23,9 @@ class UnitBannerViewModel: ObservableObject {
     @Published
     var commands: [Command] = []
 
+    @Published
+    var promotionViewModels: [PromotionViewModel] = []
+
     private var selectedUnit: AbstractUnit?
     private var unitImage: NSImage
 
@@ -58,6 +61,12 @@ class UnitBannerViewModel: ObservableObject {
         if let selectedUnit = self.selectedUnit {
             self.unitHealthValue = CGFloat(selectedUnit.healthPoints()) / 100.0
         }
+
+        self.promotionViewModels = [
+            PromotionViewModel(promotionType: .alpine, state: .gained),
+            PromotionViewModel(promotionType: .battleCry, state: .gained),
+            PromotionViewModel(promotionType: .tortoise, state: .gained)
+        ]
     }
 #endif
 

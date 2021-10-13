@@ -98,6 +98,10 @@ struct UnitBannerView: View {
                         .groupBoxStyle(UnitGroupBoxStyle())
                         .offset(x: 25, y: -10)
                     }
+
+                    self.promotionsView
+                        .frame(width: 120, alignment: .leading)
+                        .offset(x: 20, y: 48)
                 }
                 .frame(width: 300, height: 112, alignment: .bottomTrailing)
                 .offset(x: 0, y: self.showBanner ? 0 : 150)
@@ -169,6 +173,20 @@ struct UnitBannerView: View {
                 .onTapGesture {
                     self.viewModel.commandClicked(at: 0)
                 }
+        }
+    }
+
+    private var promotionsView: some View {
+
+        LazyHStack(spacing: 4) {
+
+            ForEach(self.viewModel.promotionViewModels, id: \.self) { promotionViewModel in
+
+                Image(nsImage: promotionViewModel.icon())
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 14, height: 14)
+            }
         }
     }
 }
