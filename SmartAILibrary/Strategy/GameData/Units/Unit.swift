@@ -722,6 +722,10 @@ public class Unit: AbstractUnit {
             fatalError("cant get government")
         }
 
+        guard let civics = self.player?.civics else {
+            fatalError("cant get civics")
+        }
+
         guard let promotions = self.promotions else {
             fatalError("cant get promotions")
         }
@@ -735,12 +739,12 @@ public class Unit: AbstractUnit {
         }
 
         ////////////////////////
-        // GOVERNMENT
+        // Government
         ////////////////////////
 
         if government.currentGovernment() == .oligarchy {
 
-            // All land melee, anti-cavalry, and naval melee class units gain +4 Civ6StrengthIcon Combat Strength.
+            // All land melee, anti-cavalry, and naval melee class units gain +4 Combat Strength.
             if self.unitClassType() == .melee || self.unitClassType() == .antiCavalry || self.unitClassType() == .navalMelee {
                 result.append(CombatModifier(value: 4, title: "Government Bonus"))
             }
@@ -748,7 +752,7 @@ public class Unit: AbstractUnit {
 
         if government.currentGovernment() == .fascism {
 
-            // All units gain +5 Civ6StrengthIcon Combat Strength.
+            // All units gain +5 Combat Strength.
             result.append(CombatModifier(value: 5, title: "Government Bonus"))
         }
 
@@ -758,7 +762,7 @@ public class Unit: AbstractUnit {
 
         if let defender = defender {
 
-            // +5 Civ6StrengthIcon Combat Strength when fighting Barbarians.
+            // +5 Combat Strength when fighting Barbarians.
             if government.has(card: .discipline) && defender.isBarbarian() {
                 result.append(CombatModifier(value: 5, title: "Bonus for fighting Barbarians"))
             }
@@ -787,7 +791,7 @@ public class Unit: AbstractUnit {
             // //////////
 
             if promotions.has(promotion: .battleCry) {
-                // +7 Civ6StrengthIcon Combat Strength vs. melee and ranged units.
+                // +7 Combat Strength vs. melee and ranged units.
                 if defender.unitClassType() == .melee || defender.unitClassType() == .ranged {
                     result.append(CombatModifier(value: 7, title: "Battle Cry"))
                 }
@@ -802,6 +806,56 @@ public class Unit: AbstractUnit {
             if self.unitClassType() == .ranged {
                 result.append(CombatModifier(value: -17, title: "Penalty against City"))
             }
+        }
+
+        ////////////////////////
+        // flanking
+        ////////////////////////
+
+        var flankingUnitCount: Int = 0
+
+        // flanking only works when the target is clear
+        if let target = toTile {
+
+            // only melee units can gain Flanking bonus && unlocked only after researching Military Tradition
+            if self.type.unitClass() == .melee && civics.has(civic: .militaryTradition) {
+
+                for defenderNeighborLocation in target.point.neighbors() {
+
+                    for loopUnitRef in gameModel.units(at: defenderNeighborLocation) {
+
+                        guard let loopUnit = loopUnitRef else {
+                            continue
+                        }
+
+                        // The attacker itself does not count for the purpose of Flanking
+                        if loopUnit.location == self.location {
+                            continue
+                        }
+
+                        // Embarked land units do not provide Flanking.
+                        if loopUnit.isEmbarked() {
+                            continue
+                        }
+
+                        // All non-air military units can provide Flanking
+                        if loopUnit.type.unitClass() == .airFighter || loopUnit.type.unitClass() == .airBomber {
+                            continue
+                        }
+
+                        // Only units that are currently owned by the same player can provide Flanking to one another
+                        if loopUnit.player?.leader != self.leader {
+                            continue
+                        }
+
+                        flankingUnitCount += 1
+                    }
+                }
+            }
+        }
+
+        if flankingUnitCount > 0 {
+            result.append(CombatModifier(value: 2 * flankingUnitCount, title: "Flanking Bonus"))
         }
 
         ////////////////////////
@@ -877,6 +931,10 @@ public class Unit: AbstractUnit {
             fatalError("cant get gameModel")
         }
 
+        guard let civics = self.player?.civics else {
+            fatalError("cant get civics")
+        }
+
         guard let promotions = self.promotions else {
             fatalError("cant get promotions")
         }
@@ -926,6 +984,44 @@ public class Unit: AbstractUnit {
                     // +10 Combat Strength when defending against ranged attacks.
                     result.append(CombatModifier(value: 10, title: "Tortoise promotion"))
                 }
+            }
+
+            // //////////
+            // support
+            // //////////
+
+            var supportUnitCount: Int = 0
+
+            // only melee units can gain Flanking bonus && unlocked only after researching Military Tradition
+            if self.type.unitClass() != .airFighter &&
+                self.type.unitClass() != .airBomber &&
+                civics.has(civic: .militaryTradition) {
+
+                for neighborLocation in self.location.neighbors() {
+
+                    for loopUnitRef in gameModel.units(at: neighborLocation) {
+
+                        guard let loopUnit = loopUnitRef else {
+                            continue
+                        }
+
+                        // All non-air military units can provide Flanking
+                        if loopUnit.type.unitClass() == .airFighter || loopUnit.type.unitClass() == .airBomber {
+                            continue
+                        }
+
+                        // Only units that are currently owned by the same player can provide Flanking to one another
+                        if loopUnit.player?.leader != self.leader {
+                            continue
+                        }
+
+                        supportUnitCount += 1
+                    }
+                }
+            }
+
+            if supportUnitCount > 0 {
+                result.append(CombatModifier(value: 2 * supportUnitCount, title: "Support Bonus"))
             }
         }
 
@@ -2195,7 +2291,7 @@ public class Unit: AbstractUnit {
         var extraNavalMoves: Int = 0
 
         if player.has(wonder: .greatLighthouse, in: gameModel) {
-            // +1 Civ6Movement Movement for all naval units.
+            // +1 Movement for all naval units.
             extraNavalMoves += 1
         }
 

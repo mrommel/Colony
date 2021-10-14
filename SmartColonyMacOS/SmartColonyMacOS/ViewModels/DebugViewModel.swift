@@ -473,9 +473,12 @@ class DebugViewModel: ObservableObject {
             humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
             try! humanPlayer.techs?.discover(tech: .pottery)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
+
             try! humanPlayer.civics?.discover(civic: .codeOfLaws)
             try! humanPlayer.civics?.discover(civic: .foreignTrade)
-            try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .craftsmanship)
+            try! humanPlayer.civics?.discover(civic: .militaryTradition)
+            //try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
                 humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
@@ -488,6 +491,10 @@ class DebugViewModel: ObservableObject {
             let warriorUnit = Unit(at: HexPoint(x: 20, y: 7), type: .warrior, owner: humanPlayer)
             gameModel.add(unit: warriorUnit)
             gameModel.userInterface?.show(unit: warriorUnit)
+
+            let warriorUnit2 = Unit(at: HexPoint(x: 21, y: 7), type: .warrior, owner: humanPlayer)
+            gameModel.add(unit: warriorUnit2)
+            gameModel.userInterface?.show(unit: warriorUnit2)
 
             let archerUnit = Unit(at: HexPoint(x: 20, y: 6), type: .archer, owner: humanPlayer)
             gameModel.add(unit: archerUnit)
