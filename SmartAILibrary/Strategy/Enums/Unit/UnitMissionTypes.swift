@@ -22,6 +22,7 @@ public enum UnitMissionType {
     case found
     case moveTo
     case routeTo
+    case followPath
     case garrison
     case pillage
     case plunderTradeRoute
@@ -62,19 +63,23 @@ public enum UnitMissionType {
     func data() -> UnitMissionTypeData {
 
         switch self {
+
         case .found: return UnitMissionTypeData(name: "Found", needsTarget: false)
         case .moveTo: return UnitMissionTypeData(name: "MoveTo", needsTarget: true)
         case .routeTo: return UnitMissionTypeData(name: "RouteTo", needsTarget: true)
+        case .followPath: return UnitMissionTypeData(name: "FollowPath", needsTarget: true)
         case .garrison: return UnitMissionTypeData(name: "Garrison", needsTarget: false)
         case .pillage: return UnitMissionTypeData(name: "Pillage", needsTarget: false)
         case .build: return UnitMissionTypeData(name: "Build", needsTarget: false)
         case .skip: return UnitMissionTypeData(name: "skip", needsTarget: false)
         case .rangedAttack: return UnitMissionTypeData(name: "rangedAttack", needsTarget: true)
+
         case .sleep: return UnitMissionTypeData(name: "sleep", needsTarget: false)
         case .fortify: return UnitMissionTypeData(name: "fortify", needsTarget: false)
         case .alert: return UnitMissionTypeData(name: "alert", needsTarget: false)
         case .airPatrol: return UnitMissionTypeData(name: "airpatrol", needsTarget: false)
         case .heal: return UnitMissionTypeData(name: "heal", needsTarget: false)
+
         case .embark: return UnitMissionTypeData(name: "embark", needsTarget: true)
         case .disembark: return UnitMissionTypeData(name: "disembark", needsTarget: true)
         case .rebase: return UnitMissionTypeData(name: "rebase", needsTarget: true)

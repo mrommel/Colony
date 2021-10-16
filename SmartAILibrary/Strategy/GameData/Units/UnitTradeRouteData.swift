@@ -49,22 +49,20 @@ public class UnitTradeRouteData {
 
         var isFollowingMission = false
         if let mission = unit.peekMission() {
-            if mission.type == .routeTo {
+            if mission.type == .followPath {
                 isFollowingMission = true
             }
         }
 
         if !isFollowingMission {
-            if let target = self.nextTarget(for: unit, in: gameModel) {
-                let mission = UnitMission(type: .routeTo, at: target)
+            if let path = self.nextPath(for: unit, in: gameModel) {
+                let mission = UnitMission(type: .followPath, follow: path)
                 unit.push(mission: mission, in: gameModel)
-            } else {
-                unit.endTrading()
             }
         }
     }
 
-    func nextTarget(for unit: AbstractUnit?, in gameModel: GameModel?) -> HexPoint? {
+    func nextPath(for unit: AbstractUnit?, in gameModel: GameModel?) -> HexPath? {
 
         guard let current = unit?.location else {
             fatalError("cant get location")
@@ -77,54 +75,30 @@ public class UnitTradeRouteData {
             // check if unit directly at start city
             if current == self.tradeRoute.start {
                 self.direction = .forward
-                return self.nextTarget(for: unit, in: gameModel)
+                return self.nextPath(for: unit, in: gameModel)
             }
 
             // otherwise go to the start city
-            return self.tradeRoute.start
+            if let path = unit?.path(towards: self.tradeRoute.start, options: .none, in: gameModel) {
+                return path
+            }
 
         case .forward: // go towards target city
 
             // check if unit directly at one of the points
             if current == self.tradeRoute.start {
-
-                if let firstPost = self.tradeRoute.posts.first {
-                    return firstPost
-                } else {
-                    return self.tradeRoute.end
-                }
-            }
-
-            for (index, post) in self.tradeRoute.posts.enumerated() where post == current {
-
-                if index + 1 < self.tradeRoute.posts.count {
-                    return self.tradeRoute.posts[index + 1]
-                } else {
-                    return self.tradeRoute.end
-                }
+                return self.tradeRoute.path
             }
 
             if current == self.tradeRoute.end {
                 self.direction = .backward
-                return self.nextTarget(for: unit, in: gameModel)
+                return self.nextPath(for: unit, in: gameModel)
             }
+
         case .backward: // come back to start city
 
             if current == self.tradeRoute.end {
-                if let lastPost = self.tradeRoute.posts.last {
-                    return lastPost
-                } else {
-                    return self.tradeRoute.start
-                }
-            }
-
-            for (index, post) in self.tradeRoute.posts.reversed().enumerated() where post == current {
-
-                if index > 0 {
-                    return self.tradeRoute.posts[index - 1]
-                } else {
-                    return self.tradeRoute.start
-                }
+                return self.tradeRoute.path.reversed()
             }
 
             if current == self.tradeRoute.start {
@@ -137,28 +111,11 @@ public class UnitTradeRouteData {
                 }
 
                 self.direction = .forward
-                return self.nextTarget(for: unit, in: gameModel)
+                return self.nextPath(for: unit, in: gameModel)
             }
         }
 
-        // find next city and go there
-        var bestDistance = Int.max
-        var bestLocation: HexPoint?
-
-        var points: [HexPoint] = [self.tradeRoute.start, self.tradeRoute.end]
-        points.append(contentsOf: self.tradeRoute.posts)
-
-        for point in points {
-
-            let distance = current.distance(to: point)
-
-            if distance < bestDistance {
-                bestDistance = distance
-                bestLocation = point
-            }
-        }
-
-        return bestLocation
+        return nil
     }
 
     func checkExpiration(for unit: AbstractUnit?, in gameModel: GameModel?) {

@@ -12,48 +12,68 @@ public class TradeRoute: Codable {
 
     enum CodingKeys: String, CodingKey {
 
-        case start
-        case posts
-        case end
+        case path
     }
 
-    let start: HexPoint
-    let posts: [HexPoint]
-    let end: HexPoint
+    let path: HexPath
 
-    public init(start: HexPoint, posts: [HexPoint], end: HexPoint) {
+    var start: HexPoint {
 
-        self.start = start
-        self.posts = posts
-        self.end = end
+        guard let firstHexPathPoint = self.path.first else {
+            fatalError("cant get first point of path")
+        }
+
+        return firstHexPathPoint.0
+    }
+
+    var end: HexPoint {
+
+        guard let lastHexPathPoint = self.path.last else {
+            fatalError("cant get last point of path")
+        }
+
+        return lastHexPathPoint.0
+    }
+
+    // MARK: constructors
+
+    public init(path: HexPath) {
+
+        self.path = path
     }
 
     required public init(from decoder: Decoder) throws {
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        self.start = try container.decode(HexPoint.self, forKey: .start)
-        self.posts = try container.decode([HexPoint].self, forKey: .posts)
-        self.end = try container.decode(HexPoint.self, forKey: .end)
+        self.path = try container.decode(HexPath.self, forKey: .path)
     }
 
     public func encode(to encoder: Encoder) throws {
 
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(self.start, forKey: .start)
-        try container.encode(self.posts, forKey: .posts)
-        try container.encode(self.end, forKey: .end)
+        try container.encode(self.path, forKey: .path)
     }
+
+    // MARK: methods
 
     public func startCity(in gameModel: GameModel?) -> AbstractCity? {
 
-        return gameModel?.city(at: self.start)
+        guard let firstPoint: HexPoint = self.path.first?.0 else {
+            return nil
+        }
+
+        return gameModel?.city(at: firstPoint)
     }
 
     public func endCity(in gameModel: GameModel?) -> AbstractCity? {
 
-        return gameModel?.city(at: self.end)
+        guard let lastPoint: HexPoint = self.path.last?.0 else {
+            return nil
+        }
+
+        return gameModel?.city(at: lastPoint)
     }
 
     public func isDomestic(in gameModel: GameModel?) -> Bool {
@@ -62,11 +82,11 @@ public class TradeRoute: Codable {
             fatalError("cant get gameModel")
         }
 
-        guard let startLeader = gameModel.city(at: self.start)?.player?.leader else {
+        guard let startLeader = self.startCity(in: gameModel)?.player?.leader else {
             return false
         }
 
-        guard let endLeader = gameModel.city(at: self.end)?.player?.leader else {
+        guard let endLeader = self.endCity(in: gameModel)?.player?.leader else {
             return false
         }
 
@@ -85,7 +105,7 @@ public class TradeRoute: Codable {
             fatalError("cant get gameModel")
         }
 
-        guard let startPlayer = gameModel.city(at: self.start)?.player else {
+        guard let startPlayer = self.startCity(in: gameModel)?.player else {
             fatalError("cant get start player")
         }
 
@@ -93,7 +113,7 @@ public class TradeRoute: Codable {
             fatalError("cant get start player government")
         }
 
-        guard let endCity = gameModel.city(at: self.end) else {
+        guard let endCity = self.endCity(in: gameModel) else {
             fatalError("cant get end city")
         }
 
@@ -127,6 +147,7 @@ public class TradeRoute: Codable {
             yields.gold += 2.0
         }
 
+        /*
         // posts - currently no implemented
         yields.gold += Double(self.posts.count)
 
@@ -134,6 +155,7 @@ public class TradeRoute: Codable {
             //  Trade Routes generate +1 additional Gold from Roman Trading Posts they pass through.
             yields.gold += Double(self.posts.count)
         }
+         */
 
         return yields
     }

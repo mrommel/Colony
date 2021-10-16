@@ -176,6 +176,11 @@ class TradeRoutesDialogViewModel: ObservableObject {
                 fatalError("cant get selected source city")
             }
 
+            let pathFinder = AStarPathfinder()
+            pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(
+                for: .walk, for: sourceCity.player, ignoreOwner: true, unitMapType: .civilian, canEmbark: false
+            )
+
             let tmpTraderUnit = Unit(at: sourceCity.location, type: .trader, owner: humanPlayer)
             for targetCityRef in tmpTraderUnit.possibleTradeRouteTargets(in: gameModel) {
 
@@ -183,12 +188,15 @@ class TradeRoutesDialogViewModel: ObservableObject {
                     continue
                 }
 
-                let title = targetCity.name
-                let tradeRoute = TradeRoute(start: sourceCity.location, posts: [], end: targetCity.location)
-                let yields = tradeRoute.yields(in: gameModel)
+                if let path = pathFinder.shortestPath(fromTileCoord: sourceCity.location, toTileCoord: targetCity.location) {
 
-                let tradeRouteViewModel = TradeRouteViewModel(title: title, yields: yields, remainingTurns: Int.max)
-                tmpTradeRouteViewModels.append(tradeRouteViewModel)
+                    let title = targetCity.name
+                    let tradeRoute = TradeRoute(path: path)
+                    let yields = tradeRoute.yields(in: gameModel)
+
+                    let tradeRouteViewModel = TradeRouteViewModel(title: title, yields: yields, remainingTurns: Int.max)
+                    tmpTradeRouteViewModels.append(tradeRouteViewModel)
+                }
             }
 
             self.tradeRouteViewModels = tmpTradeRouteViewModels

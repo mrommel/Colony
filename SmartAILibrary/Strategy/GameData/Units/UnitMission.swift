@@ -12,27 +12,31 @@ public class UnitMission {
 
     weak var unit: AbstractUnit?
     let type: UnitMissionType
-    var target: HexPoint?
-    var startedInTurn: Int = -1
     var buildType: BuildType?
+    var target: HexPoint?
+    var path: HexPath?
     var options: MoveOptions
 
-    public init(type: UnitMissionType, buildType: BuildType? = nil, at target: HexPoint? = nil, options: MoveOptions = .none) {
+    var startedInTurn: Int = -1
+
+    public init(
+        type: UnitMissionType,
+        buildType: BuildType? = nil,
+        at target: HexPoint? = nil,
+        follow path: HexPath? = nil,
+        options: MoveOptions = .none
+    ) {
 
         self.type = type
-        self.target = target
         self.buildType = buildType
+        self.target = target
+        self.path = path
         self.options = options
 
-        if type.needsTarget() && target == nil {
+        if type.needsTarget() && (target == nil && path == nil) {
             fatalError("need target")
         }
     }
-
-    /*func turn(in gameModel: GameModel?) {
-
-        fatalError("not implemented yet")
-    }*/
 
     /// Initiate a mission
     func start(in gameModel: GameModel?) {
@@ -331,6 +335,40 @@ public class UnitMission {
                         action = oldLocation != self.target!
                         done = true
                     }
+                } else if self.type == .followPath {
+
+                    guard let path = self.path else {
+                        fatalError("we need a path to follow")
+                    }
+
+                    if let currentIndexInPath: Int = path.points().firstIndex(of: unit.location) {
+
+                        let nextPoint: HexPoint = path.points()[currentIndexInPath + 1]
+
+                        let movesToDo = unit.doMoveOnPath(towards: nextPoint, previousETA: 0, buildingRoute: false, in: gameModel)
+
+                        if movesToDo > 0 {
+                            action = true
+                        }
+
+                        done = path.points().last == unit.location
+
+                    } else {
+                        print("cant find current position in path - move to start")
+
+                        guard let startPoint = path.points().first else {
+                            fatalError("cant get start location")
+                        }
+
+                        let movesToDo = unit.doMoveOnPath(towards: startPoint, previousETA: 0, buildingRoute: false, in: gameModel)
+
+                        if movesToDo > 0 {
+                            action = true
+                        }
+
+                        done = path.points().last == startPoint
+                    }
+
                 } else if self.type == .swapUnits {
 
                     // Get target plot
@@ -569,7 +607,8 @@ public class UnitMission {
 
                 // trader has reached a target but has moves left
                 if unit.isTrading() && unit.movesLeft() > 0 {
-                    unit.continueTrading(in: gameModel)
+                    //unit.continueTrading(in: gameModel)
+                    unit.finishMoves()
                 }
             } else {
                 // if we can still act, process the mission again

@@ -116,7 +116,7 @@ class TradeRouteTests: XCTestCase {
             } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
 
             turnCounter += 1
-        } while turnCounter < 10 && !self.hasVisited
+        } while turnCounter < 20 && !self.hasVisited
 
         // THEN
         XCTAssertEqual(self.hasVisited, true, "not visited trade city within first 10 turns")
@@ -210,12 +210,12 @@ class TradeRouteTests: XCTestCase {
             }
 
             turnCounter += 1
-        } while turnCounter < 30 && !self.hasExpired
+        } while turnCounter < 35 && !self.hasExpired
 
         // THEN
         XCTAssertEqual(self.hasVisited, true, "not visited trade city within first 30 turns")
-        XCTAssertEqual(self.targetVisited, 6)
-        XCTAssertEqual(self.sourceVisited, 6)
+        XCTAssertEqual(self.targetVisited, 3)
+        XCTAssertEqual(self.sourceVisited, 3)
         XCTAssertEqual(self.hasExpired, true)
     }
 }
