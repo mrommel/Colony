@@ -30,32 +30,59 @@ public enum UnitType: Int, Codable {
     case builder
     case trader
 
-    // recon
+    // recon ------------------------------
 
+    // recon - ancient
     case scout
 
-    // melee
+    // melee ------------------------------
 
+    // melee - ancient
     case warrior
+
+    // melee - classical
+    case swordman
+
+    // ranged ------------------------------
+
+    // ranged - ancient
     case slinger // FIXME -17 Range Strength against district defense and Naval units.
     case archer // FIXME -17 Range Strength against district defense and Naval units.
-    case spearman // FIXME +10 Combat Strength vs. light, heavy, and ranged cavalry units.
-    case heavyChariot // FIXME Gains 1 bonus Movement if it begins a turn on a flat tile with no Woods, Rainforest, or Hills.
-    // Vulnerable to anti-cavalry units.
 
-    // naval
+    // anti-cavalry ------------------------------
 
+    // anti-cavalry - ancient
+    case spearman
+
+    // light cavalry ------------------------------
+
+    // light cavalry - classical
+    case horseman
+
+    // heavy cavalry ------------------------------
+
+    // heavy cavalry - ancient
+    case heavyChariot
+
+    // siege ------------------------------
+
+    // siege - classical
+    case catapult
+
+    // naval melee ------------------------------
+
+    // naval melee - ancient
     case galley
 
-    // naval ranged
+    // naval ranged ------------------------------
 
+    // naval ranged - classical
     case quadrireme
 
-    // support
+    // support ------------------------------
 
+    // support - industrial
     case medic
-
-    // taken from https://www.matrixgames.com/forums/tm.asp?m=2994803
 
     // great people
     case artist
@@ -85,7 +112,7 @@ public enum UnitType: Int, Codable {
             .scout, .warrior, .archer, .spearman, .heavyChariot, .galley,
 
             // classical
-            .quadrireme,
+            .swordman, .horseman, .catapult, .quadrireme,
 
             // industrial
             .medic,
@@ -177,6 +204,9 @@ public enum UnitType: Int, Codable {
         case .galley: return  .galley
 
             // classical
+        case .swordman: return .swordman
+        case .horseman: return .horseman
+        case .catapult: return .catapult
         case .quadrireme: return .quadrireme
 
             // industrial
@@ -258,33 +288,38 @@ public enum UnitType: Int, Codable {
         switch self {
 
         case .none:
-            return UnitTypeData(name: "None",
-                                effects: [],
-                                era: .ancient,
-                                sight: 2,
-                                range: 2,
-                                supportDistance: 0,
-                                strength: 0,
-                                targetType: .city,
-                                meleeAttack: 0,
-                                rangedAttack: 0,
-                                moves: 0)
+            return UnitTypeData(
+                name: "None",
+                effects: [],
+                era: .ancient,
+                sight: 2,
+                range: 2,
+                supportDistance: 0,
+                strength: 0,
+                targetType: .city,
+                meleeAttack: 0,
+                rangedAttack: 0,
+                moves: 0
+            )
 
         case .barbarianWarrior:
-            return UnitTypeData(name: "Barbarian Warrior",
-                                effects: [],
-                                era: .none,
-                                sight: 2,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 10,
-                                targetType: .melee,
-                                meleeAttack: 15,
-                                rangedAttack: 0,
-                                moves: 2)
+            return UnitTypeData(
+                name: "Barbarian Warrior",
+                effects: [],
+                era: .none,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 10,
+                targetType: .melee,
+                meleeAttack: 15,
+                rangedAttack: 0,
+                moves: 2
+            )
 
         case .barbarianArcher:
-            return UnitTypeData(name: "Barbarian Archer",
+            return UnitTypeData(
+                name: "Barbarian Archer",
                                 effects: [],
                                 era: .none,
                                 sight: 2,
@@ -294,167 +329,243 @@ public enum UnitType: Int, Codable {
                                 targetType: .ranged,
                                 meleeAttack: 15,
                                 rangedAttack: 20,
-                                moves: 2)
+                                moves: 2
+            )
 
             // ancient
         case .settler:
             // https://civilization.fandom.com/wiki/Settler_(Civ6)
-            return UnitTypeData(name: "Settler",
-                                effects: [
-                                    "May create new cities. Reduces city's Citizen Population by 1 when completed. Requires at least 2 Citizen Population.",
-                                    "Production cost is progressive."
-                                ],
-                                era: .ancient,
-                                sight: 3,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 10,
-                                targetType: .civilian,
-                                meleeAttack: 0,
-                                rangedAttack: 0,
-                                moves: 2)
+            return UnitTypeData(
+                name: "Settler",
+                effects: [
+                    "May create new cities. Reduces city's Citizen Population by 1 when completed. Requires at least 2 Citizen Population.",
+                    "Production cost is progressive."
+                ],
+                era: .ancient,
+                sight: 3,
+                range: 0,
+                supportDistance: 0,
+                strength: 10,
+                targetType: .civilian,
+                meleeAttack: 0,
+                rangedAttack: 0,
+                moves: 2
+            )
         case .builder:
             // https://civilization.fandom.com/wiki/Builder_(Civ6)
-            return UnitTypeData(name: "Builder",
-                                effects: [
-                                    "May create tile improvements or remove features like Woods or Rainforest. Build charges number can be increased through policies or wonders like the Pyramids.",
-                                    "Production cost is progressive."
-                                ],
-                                era: .ancient,
-                                sight: 2,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 10,
-                                targetType: .civilian,
-                                meleeAttack: 0,
-                                rangedAttack: 0,
-                                moves: 2)
+            return UnitTypeData(
+                name: "Builder",
+                effects: [
+                    "May create tile improvements or remove features like Woods or Rainforest. Build charges number can be increased through policies or wonders like the Pyramids.",
+                    "Production cost is progressive."
+                ],
+                era: .ancient,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 10,
+                targetType: .civilian,
+                meleeAttack: 0,
+                rangedAttack: 0,
+                moves: 2
+            )
         case .trader:
             // https://civilization.fandom.com/wiki/Trader_(Civ6)
-            return UnitTypeData(name: "Trader",
-                                effects: [
-                                    "May make and maintain a single Trade Route Trade Route. Automatically creates Roads as it travels.",
-                                    "Production cost is progressive."
-                                ],
-                                era: .ancient,
-                                sight: 2,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 10,
-                                targetType: .civilian,
-                                meleeAttack: 0,
-                                rangedAttack: 0,
-                                moves: 2)
+            return UnitTypeData(
+                name: "Trader",
+                effects: [
+                    "May make and maintain a single Trade Route Trade Route. Automatically creates Roads as it travels.",
+                    "Production cost is progressive."
+                ],
+                era: .ancient,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 10,
+                targetType: .civilian,
+                meleeAttack: 0,
+                rangedAttack: 0,
+                moves: 1
+            )
 
         case .scout:
             // https://civilization.fandom.com/wiki/Scout_(Civ6)
-            return UnitTypeData(name: "Scout",
-                                effects: [
-                                    "Fast-moving, Ancient era recon unit."
-                                ],
-                                era: .ancient,
-                                sight: 2,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 10,
-                                targetType: .recon,
-                                meleeAttack: 10,
-                                rangedAttack: 0,
-                                moves: 3)
+            return UnitTypeData(
+                name: "Scout",
+                effects: [
+                    "Fast-moving, Ancient era recon unit."
+                ],
+                era: .ancient,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 10,
+                targetType: .recon,
+                meleeAttack: 10,
+                rangedAttack: 0,
+                moves: 3
+            )
         case .warrior:
             // https://civilization.fandom.com/wiki/Warrior_(Civ6)
-            return UnitTypeData(name: "Warrior",
-                                effects: [
-                                    "Weak Ancient era melee unit."
-                                ],
-                                era: .ancient,
-                                sight: 2,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 10,
-                                targetType: .melee,
-                                meleeAttack: 20,
-                                rangedAttack: 0,
-                                moves: 2)
+            return UnitTypeData(
+                name: "Warrior",
+                effects: [
+                    "Weak Ancient era melee unit."
+                ],
+                era: .ancient,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 10,
+                targetType: .melee,
+                meleeAttack: 20,
+                rangedAttack: 0,
+                moves: 2
+            )
         case .slinger:
             // https://civilization.fandom.com/wiki/Slinger_(Civ6)
-            return UnitTypeData(name: "Slinger",
-                                effects: [
-                                    "Weak Ancient era ranged unit. Better on attack than defense."
-                                ],
-                                era: .ancient,
-                                sight: 2,
-                                range: 1,
-                                supportDistance: 1,
-                                strength: 10,
-                                targetType: .ranged,
-                                meleeAttack: 5,
-                                rangedAttack: 15,
-                                moves: 2)
+            return UnitTypeData(
+                name: "Slinger",
+                effects: [
+                    "Weak Ancient era ranged unit. Better on attack than defense."
+                ],
+                era: .ancient,
+                sight: 2,
+                range: 1,
+                supportDistance: 1,
+                strength: 10,
+                targetType: .ranged,
+                meleeAttack: 5,
+                rangedAttack: 15,
+                moves: 2
+            )
         case .archer:
             // https://civilization.fandom.com/wiki/Archer_(Civ6)
-            return UnitTypeData(name: "Archer",
-                                effects: [
-                                    "First Ancient era ranged unit with Range of 2."
-                                ],
-                                era: .ancient,
-                                sight: 2,
-                                range: 2,
-                                supportDistance: 2,
-                                strength: 10,
-                                targetType: .ranged,
-                                meleeAttack: 15,
-                                rangedAttack: 25,
-                                moves: 2)
+            return UnitTypeData(
+                name: "Archer",
+                effects: [
+                    "First Ancient era ranged unit with Range of 2."
+                ],
+                era: .ancient,
+                sight: 2,
+                range: 2,
+                supportDistance: 2,
+                strength: 10,
+                targetType: .ranged,
+                meleeAttack: 15,
+                rangedAttack: 25,
+                moves: 2
+            )
         case .spearman:
             // https://civilization.fandom.com/wiki/Spearman_(Civ6)
-            return UnitTypeData(name: "Spearman",
-                                effects: [
-                                    "Ancient era melee unit that's effective against mounted units."
-                                ],
-                                era: .ancient,
-                                sight: 2,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 10,
-                                targetType: .antiCavalry,
-                                meleeAttack: 25,
-                                rangedAttack: 0,
-                                moves: 2)
+            return UnitTypeData(
+                name: "Spearman",
+                effects: [
+                    "Ancient era melee unit that's effective against mounted units."
+                ],
+                era: .ancient,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 10,
+                targetType: .antiCavalry,
+                meleeAttack: 25,
+                rangedAttack: 0,
+                moves: 2
+            )
         case .heavyChariot:
             // https://civilization.fandom.com/wiki/Heavy_Chariot_(Civ6)
-            return UnitTypeData(name: "Heavy Chariot",
-                                effects: [
-                                    "Hard-hitting, Ancient era heavy cavalry unit.",
-                                    "Gains 1 bonus Movement if it begins a turn on a flat tile with no Woods, Rainforest, or Hills."
-                                ],
-                                era: .ancient,
-                                sight: 2,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 10,
-                                targetType: .lightCavalry,
-                                meleeAttack: 28,
-                                rangedAttack: 0,
-                                moves: 2)
+            return UnitTypeData(
+                name: "Heavy Chariot",
+                effects: [
+                    "Hard-hitting, Ancient era heavy cavalry unit.",
+                    "Gains 1 bonus Movement if it begins a turn on a flat tile with no Woods, Rainforest, or Hills."
+                ],
+                era: .ancient,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 10,
+                targetType: .lightCavalry,
+                meleeAttack: 28,
+                rangedAttack: 0,
+                moves: 2
+            )
         case .galley:
             // https://civilization.fandom.com/wiki/Galley_(Civ6)
-            return UnitTypeData(name: "Galley",
-                                effects: [
-                                    "Ancient era melee naval combat unit.",
-                                    "Can only operate on coastal waters until Cartography is researched."
-                                ],
-                                era: .ancient,
-                                sight: 2,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 10,
-                                targetType: .navalMelee,
-                                meleeAttack: 0,
-                                rangedAttack: 0,
-                                moves: 3)
+            return UnitTypeData(
+                name: "Galley",
+                effects: [
+                    "Ancient era melee naval combat unit.",
+                    "Can only operate on coastal waters until Cartography is researched."
+                ],
+                era: .ancient,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 10,
+                targetType: .navalMelee,
+                meleeAttack: 0,
+                rangedAttack: 0,
+                moves: 3
+            )
 
             // classical
+        case .swordman:
+            // https://civilization.fandom.com/wiki/Swordsman_(Civ6)
+            return UnitTypeData(
+                name: "Swordman",
+                effects: [
+                    "+5 Combat Strength vs. anti-cavalry units."
+                ],
+                era: .classical,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 10,
+                targetType: .melee,
+                meleeAttack: 35,
+                rangedAttack: 0,
+                moves: 2
+            )
+        case .horseman:
+            // https://civilization.fandom.com/wiki/Horseman_(Civ6)
+            return UnitTypeData(
+                name: "Horseman",
+                effects: [
+                    "First unit with a Movement Movement of 4.",
+                    "Ignores enemy zone of control."
+                ],
+                era: .classical,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 10,
+                targetType: .lightCavalry,
+                meleeAttack: 36,
+                rangedAttack: 0,
+                moves: 4
+            )
+        case .catapult:
+            // https://civilization.fandom.com/wiki/Catapult_(Civ6)
+            return UnitTypeData(
+                name: "Catapult",
+                effects: [
+                    "Deals bombard-type damage, effective against District defenses.",
+                    "-17 Bombard Strength against land units.",
+                    "Without the Expert Crew Promotion, cannot attack after moving unless its maximum Movement is 3 or more."
+                ],
+                era: .classical,
+                sight: 2,
+                range: 2,
+                supportDistance: 2,
+                strength: 10,
+                targetType: .ranged,
+                meleeAttack: 25,
+                rangedAttack: 35,
+                moves: 2
+            )
+
         case .quadrireme:
             // https://civilization.fandom.com/wiki/Quadrireme_(Civ6)
             return UnitTypeData(
@@ -477,157 +588,177 @@ public enum UnitType: Int, Codable {
             // industrial
         case .medic:
             // https://civilization.fandom.com/wiki/Medic_(Civ6)
-            return UnitTypeData(name: "Medic",
-                                effects: [
-                                    "Industrial era support unit.",
-                                    "Can heal adjacent units."
-                                ],
-                                era: .industrial,
-                                sight: 2,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 10,
-                                targetType: .support,
-                                meleeAttack: 0,
-                                rangedAttack: 0,
-                                moves: 2)
+            return UnitTypeData(
+                name: "Medic",
+                effects: [
+                    "Industrial era support unit.",
+                    "Can heal adjacent units."
+                ],
+                era: .industrial,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 10,
+                targetType: .support,
+                meleeAttack: 0,
+                rangedAttack: 0,
+                moves: 2
+            )
 
             // great people
         case .admiral:
             // https://civilization.fandom.com/wiki/Great_Admiral_(Civ6)
-            return UnitTypeData(name: "Admiral",
-                                effects: [
-                                    "Boosts combat strength and mobility of nearby naval units. Can \"Retire\" to expend it once no longer useful."
-                                ],
-                                era: .none,
-                                sight: 2,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 0,
-                                targetType: .civilian,
-                                meleeAttack: 0,
-                                rangedAttack: 0,
-                                moves: 3)
+            return UnitTypeData(
+                name: "Admiral",
+                effects: [
+                    "Boosts combat strength and mobility of nearby naval units. Can \"Retire\" to expend it once no longer useful."
+                ],
+                era: .none,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 0,
+                targetType: .civilian,
+                meleeAttack: 0,
+                rangedAttack: 0,
+                moves: 3
+            )
         case .artist:
             // https://civilization.fandom.com/wiki/Great_Artist_(Civ6)
-            return UnitTypeData(name: "Artist",
-                                effects: [
-                                    "Activate on an appropriate tile to create Great Work."
-                                ],
-                                era: .none,
-                                sight: 2,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 0,
-                                targetType: .civilian,
-                                meleeAttack: 0,
-                                rangedAttack: 0,
-                                moves: 3)
+            return UnitTypeData(
+                name: "Artist",
+                effects: [
+                    "Activate on an appropriate tile to create Great Work."
+                ],
+                era: .none,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 0,
+                targetType: .civilian,
+                meleeAttack: 0,
+                rangedAttack: 0,
+                moves: 3
+            )
         case .engineer:
             // https://civilization.fandom.com/wiki/Great_Engineer_(Civ6)
-            return UnitTypeData(name: "Engineer",
-                                effects: [
-                                    "Activate on an appropriate tile to receive their effects."
-                                ],
-                                era: .none,
-                                sight: 2,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 0,
-                                targetType: .civilian,
-                                meleeAttack: 0,
-                                rangedAttack: 0,
-                                moves: 3)
+            return UnitTypeData(
+                name: "Engineer",
+                effects: [
+                    "Activate on an appropriate tile to receive their effects."
+                ],
+                era: .none,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 0,
+                targetType: .civilian,
+                meleeAttack: 0,
+                rangedAttack: 0,
+                moves: 3
+            )
         case .general:
             // https://civilization.fandom.com/wiki/Great_General_(Civ6)
-            return UnitTypeData(name: "General",
-                                effects: [
-                                    "Boosts combat strength and mobility of nearby land units. Can \"Retire\" to expend it once no longer useful."
-                                ],
-                                era: .none,
-                                sight: 2,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 0,
-                                targetType: .civilian,
-                                meleeAttack: 0,
-                                rangedAttack: 0,
-                                moves: 3)
+            return UnitTypeData(
+                name: "General",
+                effects: [
+                    "Boosts combat strength and mobility of nearby land units. Can \"Retire\" to expend it once no longer useful."
+                ],
+                era: .none,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 0,
+                targetType: .civilian,
+                meleeAttack: 0,
+                rangedAttack: 0,
+                moves: 3
+            )
         case .merchant:
             // https://civilization.fandom.com/wiki/Great_Merchant_(Civ6)
-            return UnitTypeData(name: "Merchant",
-                                effects: [
-                                    "Activate on an appropriate tile to receive their effects."
-                                ],
-                                era: .none,
-                                sight: 2,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 0,
-                                targetType: .civilian,
-                                meleeAttack: 0,
-                                rangedAttack: 0,
-                                moves: 3)
+            return UnitTypeData(
+                name: "Merchant",
+                effects: [
+                    "Activate on an appropriate tile to receive their effects."
+                ],
+                era: .none,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 0,
+                targetType: .civilian,
+                meleeAttack: 0,
+                rangedAttack: 0,
+                moves: 3
+            )
         case .musician:
             // https://civilization.fandom.com/wiki/Great_Musician_(Civ6)
-            return UnitTypeData(name: "Musician",
-                                effects: [
-                                    "Activate on an appropriate tile to create Great Work."
-                                ],
-                                era: .none,
-                                sight: 2,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 0,
-                                targetType: .civilian,
-                                meleeAttack: 0,
-                                rangedAttack: 0,
-                                moves: 3)
+            return UnitTypeData(
+                name: "Musician",
+                effects: [
+                    "Activate on an appropriate tile to create Great Work."
+                ],
+                era: .none,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 0,
+                targetType: .civilian,
+                meleeAttack: 0,
+                rangedAttack: 0,
+                moves: 3
+            )
         case .prophet:
             // https://civilization.fandom.com/wiki/Great_Prophet_(Civ6)
-            return UnitTypeData(name: "Prophet",
-                                effects: [
-                                    "Activate on Holy Site or Stonehenge to found a Religion."
-                                ],
-                                era: .none,
-                                sight: 2,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 0,
-                                targetType: .civilian,
-                                meleeAttack: 0,
-                                rangedAttack: 0,
-                                moves: 3)
+            return UnitTypeData(
+                name: "Prophet",
+                effects: [
+                    "Activate on Holy Site or Stonehenge to found a Religion."
+                ],
+                era: .none,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 0,
+                targetType: .civilian,
+                meleeAttack: 0,
+                rangedAttack: 0,
+                moves: 3
+            )
         case .scientist:
             // https://civilization.fandom.com/wiki/Great_Scientist_(Civ6)
-            return UnitTypeData(name: "Scientist",
-                                effects: [
-                                    "Activate on an appropriate tile to receive their effects."
-                                ],
-                                era: .none,
-                                sight: 2,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 0,
-                                targetType: .civilian,
-                                meleeAttack: 0,
-                                rangedAttack: 0,
-                                moves: 3)
+            return UnitTypeData(
+                name: "Scientist",
+                effects: [
+                    "Activate on an appropriate tile to receive their effects."
+                ],
+                era: .none,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 0,
+                targetType: .civilian,
+                meleeAttack: 0,
+                rangedAttack: 0,
+                moves: 3
+            )
         case .writer:
             // https://civilization.fandom.com/wiki/Great_Writer_(Civ6)
-            return UnitTypeData(name: "Writer",
-                                effects: [
-                                    "Activate on an appropriate tile, such as an Amphitheatre, to create the Great Work."
-                                ],
-                                era: .none,
-                                sight: 2,
-                                range: 0,
-                                supportDistance: 0,
-                                strength: 0,
-                                targetType: .civilian,
-                                meleeAttack: 0,
-                                rangedAttack: 0,
-                                moves: 3)
+            return UnitTypeData(
+                name: "Writer",
+                effects: [
+                    "Activate on an appropriate tile, such as an Amphitheatre, to create the Great Work."
+                ],
+                era: .none,
+                sight: 2,
+                range: 0,
+                supportDistance: 0,
+                strength: 0,
+                targetType: .civilian,
+                meleeAttack: 0,
+                rangedAttack: 0,
+                moves: 3
+            )
         }
     }
 
@@ -695,6 +826,9 @@ public enum UnitType: Int, Codable {
         case .galley: return []
 
             // classical
+        case .swordman: return []
+        case .horseman: return []
+        case .catapult: return []
         case .quadrireme: return []
 
             // industral
@@ -736,6 +870,9 @@ public enum UnitType: Int, Codable {
         case .galley: return .sea
 
             // classical
+        case .swordman: return .land
+        case .horseman: return .land
+        case .catapult: return .land
         case .quadrireme: return .sea
 
             // industral
@@ -781,6 +918,9 @@ public enum UnitType: Int, Codable {
         case .galley: return [.exploreSea, .attackSea, .escortSea, .reserveSea]
 
             // classical
+        case .swordman: return [.attack, .defense, .explore]
+        case .horseman: return [.attack, .explore]
+        case .catapult: return [.attack, .ranged, .cityBombard]
         case .quadrireme: return [.attackSea, .escortSea, .reserveSea]
 
             // industral
@@ -822,6 +962,9 @@ public enum UnitType: Int, Codable {
         case .galley: return .attackSea // UNITAI_ATTACK_SEA
 
             // classical
+        case .swordman: return .attack
+        case .horseman: return .attack
+        case .catapult: return .ranged
         case .quadrireme: return .attackSea
 
             // industral
@@ -864,6 +1007,9 @@ public enum UnitType: Int, Codable {
         case .galley: return .swimShallow
 
             // classical
+        case .swordman: return .walk
+        case .horseman: return .walk
+        case .catapult: return .walk
         case .quadrireme: return .swimShallow
 
             // industral
@@ -905,6 +1051,9 @@ public enum UnitType: Int, Codable {
         case .galley: return 65
 
             // classical
+        case .swordman: return 90
+        case .horseman: return 80
+        case .catapult: return 120
         case .quadrireme: return 120
 
             // industral
@@ -946,6 +1095,9 @@ public enum UnitType: Int, Codable {
         case .galley: return 260
 
             // classical
+        case .swordman: return 360
+        case .horseman: return 320
+        case .catapult: return 480
         case .quadrireme: return 480
 
             // industral
@@ -987,6 +1139,9 @@ public enum UnitType: Int, Codable {
         case .galley: return -1
 
             // classical
+        case .swordman: return -1
+        case .horseman: return -1
+        case .catapult: return -1
         case .quadrireme: return -1
 
             // industral
@@ -1028,6 +1183,9 @@ public enum UnitType: Int, Codable {
         case .galley: return 1
 
             // classical
+        case .swordman: return 2
+        case .horseman: return 2
+        case .catapult: return 2
         case .quadrireme: return 2
 
             // industral
@@ -1069,6 +1227,9 @@ public enum UnitType: Int, Codable {
         case .galley: return .sailing
 
             // classical
+        case .swordman: return .ironWorking
+        case .horseman: return .horsebackRiding
+        case .catapult: return .engineering
         case .quadrireme: return .shipBuilding
 
             // industral
@@ -1115,6 +1276,9 @@ public enum UnitType: Int, Codable {
         case .galley: return nil
 
             // classical
+        case .swordman: return nil
+        case .horseman: return nil
+        case .catapult: return nil
         case .quadrireme: return nil
 
             // industral
@@ -1161,6 +1325,10 @@ public enum UnitType: Int, Codable {
         case .heavyChariot: return nil
         case .galley: return nil
 
+            // classical
+        case .swordman: return nil
+        case .horseman: return nil
+        case .catapult: return nil
         case .quadrireme: return nil
 
             // industrial
@@ -1277,6 +1445,27 @@ public enum UnitType: Int, Codable {
 
             // ----------------------------
             // classical
+        case .swordman:
+            if civilization == .barbarian {
+                return nil
+            }
+
+            return .swordman
+
+        case .horseman:
+            if civilization == .barbarian {
+                return nil
+            }
+
+            return .horseman
+
+        case .catapult:
+            if civilization == .barbarian {
+                return nil
+            }
+
+            return .catapult
+
         case .quadrireme:
             if civilization == .barbarian {
                 return nil
@@ -1384,6 +1573,9 @@ public enum UnitType: Int, Codable {
         case .galley: return [.oceanImpassable, .canCapture]
 
             // classical
+        case .swordman: return [.canCapture]
+        case .horseman: return [.canCapture, .canIgnoreZoneOfControl]
+        case .catapult: return [.canCapture]
         case .quadrireme: return [.oceanImpassable]
 
             // industrial

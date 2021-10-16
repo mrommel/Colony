@@ -4387,6 +4387,10 @@ extension Unit {
                     return true
                 }
             }
+        case .followPath:
+            if let path = mission.path {
+                return true
+            }
         /*case .swapUnits:
             <#code#>
         case .moveToUnit:
@@ -4402,7 +4406,7 @@ extension Unit {
     public func push(mission: UnitMission, in gameModel: GameModel?) {
 
         self.missions.push(mission)
-        print(">>> pushed mission: \(mission.type) \(mission.type.needsTarget() ? "\(mission.target!)" : "") for \(self.type)")
+        print(">>> pushed mission: \(mission.type) \(mission.target) for \(self.type)")
 
         mission.unit = self
         mission.start(in: gameModel)
@@ -4963,9 +4967,9 @@ extension Unit {
 
     public func continueTrading(in gameModel: GameModel?) {
 
-        if let nextTarget = self.tradeRouteDataValue?.nextTarget(for: self, in: gameModel) {
+        if let nextPath = self.tradeRouteDataValue?.nextPath(for: self, in: gameModel) {
 
-            let mission = UnitMission(type: .routeTo, at: nextTarget)
+            let mission = UnitMission(type: .followPath, follow: nextPath.pathWithoutFirst())
             self.push(mission: mission, in: gameModel)
         }
     }

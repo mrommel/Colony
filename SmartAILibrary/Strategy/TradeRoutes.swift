@@ -118,8 +118,10 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
 
         if let tradeRoutePath = tradeRouteFinder.shortestPath(fromTileCoord: originCityLocation, toTileCoord: targetCityLocation) {
             print("tradeRoutePath: \(tradeRoutePath)")
-            let posts: [HexPoint] = [] // tradeRoutePath.pathWithoutLast().points()
-            let tradeRoute = TradeRoute(start: originCityLocation, posts: posts, end: targetCityLocation)
+
+            tradeRoutePath.prepend(point: originCityLocation, cost: 0.0)
+
+            let tradeRoute = TradeRoute(path: tradeRoutePath)
             trader?.start(tradeRoute: tradeRoute, in: gameModel)
             self.routes.append(tradeRoute)
             return true

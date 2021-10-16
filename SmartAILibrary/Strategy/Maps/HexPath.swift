@@ -146,6 +146,11 @@ public class HexPath: Decodable {
         return self.pointsValue
     }
 
+    public func reversed() -> HexPath {
+
+        return HexPath(points: self.pointsValue.reversed(), costs: self.costs.reversed())
+    }
+
     func endTurnPlot(for unit: AbstractUnit?) -> HexPoint? {
 
         guard let unit = unit else {
@@ -167,11 +172,9 @@ public class HexPath: Decodable {
     }
 
     public subscript(index: Int) -> (HexPoint, Double) {
-        get {
-            precondition(index < self.pointsValue.count, "Index \(index) is out of range")
 
-            return (self.pointsValue[index], self.costs[index])
-        }
+        precondition(index < self.pointsValue.count, "Index \(index) is out of range")
+        return (self.pointsValue[index], self.costs[index])
     }
 }
 

@@ -148,15 +148,25 @@ extension SelectTradeCityDialogViewModel: TradeCityViewModelDelegate {
             fatalError("cant get city locations")
         }
 
-        let tradeRoute = TradeRoute(start: startLocation, posts: [], end: selectedLocation)
-        let yields = tradeRoute.yields(in: gameModel)
+        let pathFinder = AStarPathfinder()
+        pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(
+            for: .walk, for: city?.player, ignoreOwner: true, unitMapType: .civilian, canEmbark: false
+        )
 
-        // update yield values
-        self.foodYield.value = yields.food
-        self.productionYield.value = yields.production
-        self.goldYield.value = yields.gold
-        self.scienceYield.value = yields.science
-        self.cultureYield.value = yields.culture
-        self.faithYield.value = yields.faith
+        if let path = pathFinder.shortestPath(fromTileCoord: startLocation, toTileCoord: selectedLocation) {
+
+            path.prepend(point: startLocation, cost: 0.0)
+
+            let tradeRoute = TradeRoute(path: path)
+            let yields = tradeRoute.yields(in: gameModel)
+
+            // update yield values
+            self.foodYield.value = yields.food
+            self.productionYield.value = yields.production
+            self.goldYield.value = yields.gold
+            self.scienceYield.value = yields.science
+            self.cultureYield.value = yields.culture
+            self.faithYield.value = yields.faith
+        }
     }
 }

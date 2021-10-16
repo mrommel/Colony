@@ -325,7 +325,7 @@ extension HexPoint {
 
         var screenPoint = screen
 
-        // FIXME: hm, not sure why this is needed
+        // hm, not sure why this is needed
         screenPoint.x -= 20
         screenPoint.y -= 15
 
@@ -410,7 +410,7 @@ extension HexPoint {
     static func degreesToDirection(degrees: Int) -> HexDirection {
 
         var degrees = degrees
-        if (degrees < 0) {
+        if degrees < 0 {
             degrees += 360
         }
 
@@ -453,7 +453,7 @@ extension HexPoint {
     func degreesToDirection(degrees: Int) -> HexDirection {
 
         var degrees = degrees
-        if (degrees < 0) {
+        if degrees < 0 {
             degrees += 360
         }
 

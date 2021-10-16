@@ -43,6 +43,9 @@ extension UnitType {
         case .galley: return "unit-portrait-galley"
 
             // classical
+        case .swordman: return "unit-portrait-default"
+        case .horseman: return "unit-portrait-default"
+        case .catapult: return "unit-portrait-default"
         case .quadrireme: return "unit-portrait-default"
 
             // industial
@@ -86,6 +89,9 @@ extension UnitType {
         case .galley: return "unit-type-template-galley"
 
             // classical
+        case .swordman: return "unit-type-template-default"
+        case .horseman: return "unit-type-template-default"
+        case .catapult: return "unit-type-template-default"
         case .quadrireme: return "unit-type-template-default"
 
             // industrial
@@ -129,6 +135,9 @@ extension UnitType {
         case .galley: return "unit-type-galley"
 
             // classical
+        case .swordman: return "unit-type-default"
+        case .horseman: return "unit-type-default"
+        case .catapult: return "unit-type-default"
         case .quadrireme: return "unit-type-default"
 
             // industrial
@@ -175,6 +184,9 @@ extension UnitType {
         case .galley: return "galley-idle-0"
 
             // classical
+        case .swordman: return "archer-idle-0"
+        case .horseman: return "archer-idle-0"
+        case .catapult: return "archer-idle-0"
         case .quadrireme: return "quadrireme-idle-0"
 
             // industrial
@@ -249,6 +261,15 @@ extension UnitType {
             return ObjectTextureAtlas(template: "galley-idle-", range: 0..<3)
 
             // classical
+        case .swordman:
+            return nil
+
+        case .horseman:
+            return nil
+
+        case .catapult:
+            return nil
+
         case .quadrireme:
             return ObjectTextureAtlas(template: "quadrireme-idle-", range: 0..<3)
 
@@ -320,6 +341,15 @@ extension UnitType {
             return ObjectTextureAtlas(template: "galley-south-", range: 0..<3)
 
             // classical
+        case .swordman:
+            return nil
+
+        case .horseman:
+            return nil
+
+        case .catapult:
+            return nil
+
         case .quadrireme:
             return ObjectTextureAtlas(template: "quadrireme-south-", range: 0..<3)
 
@@ -391,6 +421,15 @@ extension UnitType {
             return ObjectTextureAtlas(template: "galley-north-", range: 0..<3)
 
             // classical
+        case .swordman:
+            return nil
+
+        case .horseman:
+            return nil
+
+        case .catapult:
+            return nil
+
         case .quadrireme:
             return ObjectTextureAtlas(template: "quadrireme-north-", range: 0..<3)
 
@@ -462,6 +501,15 @@ extension UnitType {
             return ObjectTextureAtlas(template: "galley-east-", range: 0..<3)
 
             // classical
+        case .swordman:
+            return nil
+
+        case .horseman:
+            return nil
+
+        case .catapult:
+            return nil
+
         case .quadrireme:
             return ObjectTextureAtlas(template: "quadrireme-east-", range: 0..<3)
 
@@ -532,6 +580,15 @@ extension UnitType {
             return ObjectTextureAtlas(template: "galley-west-", range: 0..<3)
 
         // classical
+        case .swordman:
+            return nil
+
+        case .horseman:
+            return nil
+
+        case .catapult:
+            return nil
+
         case .quadrireme:
             return ObjectTextureAtlas(template: "quadrireme-west-", range: 0..<3)
 
