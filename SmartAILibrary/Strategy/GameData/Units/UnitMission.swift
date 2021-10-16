@@ -19,7 +19,13 @@ public class UnitMission {
 
     var startedInTurn: Int = -1
 
-    public init(type: UnitMissionType, buildType: BuildType? = nil, at target: HexPoint? = nil, follow path: HexPath? = nil, options: MoveOptions = .none) {
+    public init(
+        type: UnitMissionType,
+        buildType: BuildType? = nil,
+        at target: HexPoint? = nil,
+        follow path: HexPath? = nil,
+        options: MoveOptions = .none
+    ) {
 
         self.type = type
         self.buildType = buildType
@@ -338,7 +344,6 @@ public class UnitMission {
                     if let currentIndexInPath: Int = path.points().firstIndex(of: unit.location) {
 
                         let nextPoint: HexPoint = path.points()[currentIndexInPath + 1]
-                        print("::: move to \(nextPoint) - unit currently on \(unit.location) at \(currentIndexInPath) of path")
 
                         let movesToDo = unit.doMoveOnPath(towards: nextPoint, previousETA: 0, buildingRoute: false, in: gameModel)
 
