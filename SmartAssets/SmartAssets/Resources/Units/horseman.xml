@@ -208,7 +208,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
 
 
     <!-- Idle Action-->
-    <action enum="idle" speed="175">
+    <action enum="idle" speed="250">
       <direction enum="south">
         <sprite n="knight_idle/000_knight_idle.bmp" x="877" y="565" w="36" h="78" pX="0.5" pY="0.85"/>
         <sprite n="knight_idle/001_knight_idle.bmp" x="915" y="565" w="36" h="76" pX="0.5" pY="0.85"/>

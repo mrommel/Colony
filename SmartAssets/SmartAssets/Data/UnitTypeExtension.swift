@@ -265,7 +265,8 @@ extension UnitType {
             return nil
 
         case .horseman:
-            return nil
+            let textureAtlas = TextureAtlasLoader.load(named: "horseman", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "idle")
 
         case .catapult:
             return nil
@@ -345,7 +346,8 @@ extension UnitType {
             return nil
 
         case .horseman:
-            return nil
+            let textureAtlas = TextureAtlasLoader.load(named: "horseman", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "walk", in: "south")
 
         case .catapult:
             return nil
@@ -425,7 +427,8 @@ extension UnitType {
             return nil
 
         case .horseman:
-            return nil
+            let textureAtlas = TextureAtlasLoader.load(named: "horseman", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "walk", in: "north")
 
         case .catapult:
             return nil
@@ -505,7 +508,8 @@ extension UnitType {
             return nil
 
         case .horseman:
-            return nil
+            let textureAtlas = TextureAtlasLoader.load(named: "horseman", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "walk", in: "west", mirror: true)
 
         case .catapult:
             return nil
@@ -584,7 +588,8 @@ extension UnitType {
             return nil
 
         case .horseman:
-            return nil
+            let textureAtlas = TextureAtlasLoader.load(named: "horseman", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "walk", in: "west")
 
         case .catapult:
             return nil

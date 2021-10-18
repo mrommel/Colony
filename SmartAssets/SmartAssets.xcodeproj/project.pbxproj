@@ -45,7 +45,6 @@
 		C9A09848261CB6930098C5E1 /* spearman.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A09830261CB6910098C5E1 /* spearman.png */; };
 		C9A09849261CB6930098C5E1 /* man_at_arms.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A09831261CB6910098C5E1 /* man_at_arms.png */; };
 		C9A0984A261CB6930098C5E1 /* pikeman.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9A09832261CB6910098C5E1 /* pikeman.xml */; };
-		C9A0984B261CB6930098C5E1 /* trader.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A09833261CB6920098C5E1 /* trader.png */; };
 		C9A0984C261CB6930098C5E1 /* warrior.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A09834261CB6920098C5E1 /* warrior.png */; };
 		C9A0984D261CB6930098C5E1 /* crossbowman.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9A09835261CB6920098C5E1 /* crossbowman.xml */; };
 		C9A0984E261CB6930098C5E1 /* crossbowman.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A09836261CB6920098C5E1 /* crossbowman.png */; };
@@ -56,7 +55,6 @@
 		C9A09853261CB6930098C5E1 /* horseman.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9A0983B261CB6920098C5E1 /* horseman.xml */; };
 		C9A09854261CB6930098C5E1 /* pikeman.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A0983C261CB6920098C5E1 /* pikeman.png */; };
 		C9A09855261CB6930098C5E1 /* scout.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A0983D261CB6920098C5E1 /* scout.png */; };
-		C9A09856261CB6930098C5E1 /* trader.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9A0983E261CB6920098C5E1 /* trader.xml */; };
 		C9A09857261CB6930098C5E1 /* archer.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A0983F261CB6920098C5E1 /* archer.png */; };
 		C9A09858261CB6930098C5E1 /* warrior.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9A09840261CB6920098C5E1 /* warrior.xml */; };
 		C9A09859261CB6930098C5E1 /* spearman.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9A09841261CB6920098C5E1 /* spearman.xml */; };
@@ -140,7 +138,6 @@
 		C9A09830261CB6910098C5E1 /* spearman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spearman.png; sourceTree = "<group>"; };
 		C9A09831261CB6910098C5E1 /* man_at_arms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = man_at_arms.png; sourceTree = "<group>"; };
 		C9A09832261CB6910098C5E1 /* pikeman.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = pikeman.xml; sourceTree = "<group>"; };
-		C9A09833261CB6920098C5E1 /* trader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trader.png; sourceTree = "<group>"; };
 		C9A09834261CB6920098C5E1 /* warrior.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warrior.png; sourceTree = "<group>"; };
 		C9A09835261CB6920098C5E1 /* crossbowman.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = crossbowman.xml; sourceTree = "<group>"; };
 		C9A09836261CB6920098C5E1 /* crossbowman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crossbowman.png; sourceTree = "<group>"; };
@@ -151,7 +148,6 @@
 		C9A0983B261CB6920098C5E1 /* horseman.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = horseman.xml; sourceTree = "<group>"; };
 		C9A0983C261CB6920098C5E1 /* pikeman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pikeman.png; sourceTree = "<group>"; };
 		C9A0983D261CB6920098C5E1 /* scout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scout.png; sourceTree = "<group>"; };
-		C9A0983E261CB6920098C5E1 /* trader.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = trader.xml; sourceTree = "<group>"; };
 		C9A0983F261CB6920098C5E1 /* archer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = archer.png; sourceTree = "<group>"; };
 		C9A09840261CB6920098C5E1 /* warrior.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = warrior.xml; sourceTree = "<group>"; };
 		C9A09841261CB6920098C5E1 /* spearman.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = spearman.xml; sourceTree = "<group>"; };
@@ -321,8 +317,6 @@
 				C9A09844261CB6930098C5E1 /* scout.xml */,
 				C9A09830261CB6910098C5E1 /* spearman.png */,
 				C9A09841261CB6920098C5E1 /* spearman.xml */,
-				C9A09833261CB6920098C5E1 /* trader.png */,
-				C9A0983E261CB6920098C5E1 /* trader.xml */,
 				C9A09834261CB6920098C5E1 /* warrior.png */,
 				C9A09840261CB6920098C5E1 /* warrior.xml */,
 			);
@@ -413,13 +407,11 @@
 				C9A0984E261CB6930098C5E1 /* crossbowman.png in Resources */,
 				C9A09852261CB6930098C5E1 /* builder.xml in Resources */,
 				C9A09859261CB6930098C5E1 /* spearman.xml in Resources */,
-				C9A0984B261CB6930098C5E1 /* trader.png in Resources */,
 				C9A25C1327023BD50071B186 /* prophet.xml in Resources */,
 				C9A09851261CB6930098C5E1 /* archer.xml in Resources */,
 				C988EAE7261B916800300C39 /* Units.xcassets in Resources */,
 				C9022F962608ED1500C6773A /* Icons.xcassets in Resources */,
 				C9A09855261CB6930098C5E1 /* scout.png in Resources */,
-				C9A09856261CB6930098C5E1 /* trader.xml in Resources */,
 				C9A0985B261CB6930098C5E1 /* man_at_arms.xml in Resources */,
 				C9A0985C261CB6930098C5E1 /* scout.xml in Resources */,
 				C9A09850261CB6930098C5E1 /* knight.png in Resources */,
