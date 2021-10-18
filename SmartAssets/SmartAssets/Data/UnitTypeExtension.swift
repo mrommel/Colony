@@ -43,10 +43,10 @@ extension UnitType {
         case .galley: return "unit-portrait-galley"
 
             // classical
-        case .swordman: return "unit-portrait-default"
-        case .horseman: return "unit-portrait-default"
-        case .catapult: return "unit-portrait-default"
-        case .quadrireme: return "unit-portrait-default"
+        case .swordman: return "unit-portrait-swordman"
+        case .horseman: return "unit-portrait-horseman"
+        case .catapult: return "unit-portrait-catapult"
+        case .quadrireme: return "unit-portrait-quadrireme"
 
             // industial
         case .medic: return "unit-portrait-default"
@@ -89,10 +89,10 @@ extension UnitType {
         case .galley: return "unit-type-template-galley"
 
             // classical
-        case .swordman: return "unit-type-template-default"
-        case .horseman: return "unit-type-template-default"
-        case .catapult: return "unit-type-template-default"
-        case .quadrireme: return "unit-type-template-default"
+        case .swordman: return "unit-type-template-swordman"
+        case .horseman: return "unit-type-template-horseman"
+        case .catapult: return "unit-type-template-catapult"
+        case .quadrireme: return "unit-type-template-quadrireme"
 
             // industrial
         case .medic: return "unit-type-template-medic"
@@ -135,9 +135,9 @@ extension UnitType {
         case .galley: return "unit-type-galley"
 
             // classical
-        case .swordman: return "unit-type-default"
-        case .horseman: return "unit-type-default"
-        case .catapult: return "unit-type-default"
+        case .swordman: return "unit-type-swordman"
+        case .horseman: return "unit-type-horseman"
+        case .catapult: return "unit-type-catapult"
         case .quadrireme: return "unit-type-default"
 
             // industrial
@@ -184,9 +184,9 @@ extension UnitType {
         case .galley: return "galley-idle-0"
 
             // classical
-        case .swordman: return "archer-idle-0"
-        case .horseman: return "archer-idle-0"
-        case .catapult: return "archer-idle-0"
+        case .swordman: return "swordman-idle-0"
+        case .horseman: return "horseman-idle-0"
+        case .catapult: return "catapult-idle-0"
         case .quadrireme: return "quadrireme-idle-0"
 
             // industrial
@@ -262,14 +262,15 @@ extension UnitType {
 
             // classical
         case .swordman:
-            return nil
+            let textureAtlas = TextureAtlasLoader.load(named: "long_swordman", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "idle")
 
         case .horseman:
             let textureAtlas = TextureAtlasLoader.load(named: "horseman", in: bundle)
             return textureAtlas?.objectTextureAtlas(for: "idle")
 
         case .catapult:
-            return nil
+            return ObjectTextureAtlas(template: "catapult-idle-", range: 0..<3)
 
         case .quadrireme:
             return ObjectTextureAtlas(template: "quadrireme-idle-", range: 0..<3)
@@ -343,14 +344,15 @@ extension UnitType {
 
             // classical
         case .swordman:
-            return nil
+            let textureAtlas = TextureAtlasLoader.load(named: "long_swordman", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "walk", in: "south")
 
         case .horseman:
             let textureAtlas = TextureAtlasLoader.load(named: "horseman", in: bundle)
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "south")
 
         case .catapult:
-            return nil
+            return ObjectTextureAtlas(template: "catapult-south-", range: 0..<3)
 
         case .quadrireme:
             return ObjectTextureAtlas(template: "quadrireme-south-", range: 0..<3)
@@ -424,14 +426,15 @@ extension UnitType {
 
             // classical
         case .swordman:
-            return nil
+            let textureAtlas = TextureAtlasLoader.load(named: "long_swordman", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "walk", in: "north")
 
         case .horseman:
             let textureAtlas = TextureAtlasLoader.load(named: "horseman", in: bundle)
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "north")
 
         case .catapult:
-            return nil
+            return ObjectTextureAtlas(template: "catapult-north-", range: 0..<3)
 
         case .quadrireme:
             return ObjectTextureAtlas(template: "quadrireme-north-", range: 0..<3)
@@ -505,14 +508,15 @@ extension UnitType {
 
             // classical
         case .swordman:
-            return nil
+            let textureAtlas = TextureAtlasLoader.load(named: "long_swordman", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "walk", in: "west", mirror: true)
 
         case .horseman:
             let textureAtlas = TextureAtlasLoader.load(named: "horseman", in: bundle)
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west", mirror: true)
 
         case .catapult:
-            return nil
+            return ObjectTextureAtlas(template: "catapult-east-", range: 0..<3)
 
         case .quadrireme:
             return ObjectTextureAtlas(template: "quadrireme-east-", range: 0..<3)
@@ -585,14 +589,15 @@ extension UnitType {
 
         // classical
         case .swordman:
-            return nil
+            let textureAtlas = TextureAtlasLoader.load(named: "long_swordman", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "walk", in: "west")
 
         case .horseman:
             let textureAtlas = TextureAtlasLoader.load(named: "horseman", in: bundle)
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west")
 
         case .catapult:
-            return nil
+            return ObjectTextureAtlas(template: "catapult-west-", range: 0..<3)
 
         case .quadrireme:
             return ObjectTextureAtlas(template: "quadrireme-west-", range: 0..<3)
