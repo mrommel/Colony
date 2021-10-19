@@ -266,8 +266,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "idle")
 
         case .horseman:
-            let textureAtlas = TextureAtlasLoader.load(named: "horseman", in: bundle)
-            return textureAtlas?.objectTextureAtlas(for: "idle")
+            return ObjectTextureAtlas(template: "horseman-idle-", range: 0..<10)
 
         case .catapult:
             return ObjectTextureAtlas(template: "catapult-idle-", range: 0..<3)
@@ -348,8 +347,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "south")
 
         case .horseman:
-            let textureAtlas = TextureAtlasLoader.load(named: "horseman", in: bundle)
-            return textureAtlas?.objectTextureAtlas(for: "walk", in: "south")
+            return ObjectTextureAtlas(template: "horseman-south-", range: 0..<10)
 
         case .catapult:
             return ObjectTextureAtlas(template: "catapult-south-", range: 0..<3)
@@ -430,8 +428,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "north")
 
         case .horseman:
-            let textureAtlas = TextureAtlasLoader.load(named: "horseman", in: bundle)
-            return textureAtlas?.objectTextureAtlas(for: "walk", in: "north")
+            return ObjectTextureAtlas(template: "horseman-north-", range: 0..<10)
 
         case .catapult:
             return ObjectTextureAtlas(template: "catapult-north-", range: 0..<3)
@@ -512,8 +509,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west", mirror: true)
 
         case .horseman:
-            let textureAtlas = TextureAtlasLoader.load(named: "horseman", in: bundle)
-            return textureAtlas?.objectTextureAtlas(for: "walk", in: "west", mirror: true)
+            return ObjectTextureAtlas(template: "horseman-east-", range: 0..<10)
 
         case .catapult:
             return ObjectTextureAtlas(template: "catapult-east-", range: 0..<3)
@@ -593,8 +589,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west")
 
         case .horseman:
-            let textureAtlas = TextureAtlasLoader.load(named: "horseman", in: bundle)
-            return textureAtlas?.objectTextureAtlas(for: "walk", in: "west")
+            return ObjectTextureAtlas(template: "horseman-west-", range: 0..<10)
 
         case .catapult:
             return ObjectTextureAtlas(template: "catapult-west-", range: 0..<3)
