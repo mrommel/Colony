@@ -244,7 +244,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "idle")
 
         case .slinger:
-            return nil
+            return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)
 
         case .archer:
             let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
@@ -275,25 +275,41 @@ extension UnitType {
             return ObjectTextureAtlas(template: "quadrireme-idle-", range: 0..<3)
 
             // industrial
-        case .medic: return nil
+        case .medic:
+            return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)
 
             // great people
-        case .artist: return nil
-        case .admiral: return nil
-        case .engineer: return nil
-        case .general: return nil
-        case .merchant: return nil
-        case .musician: return nil
+        case .artist:
+            return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)
+
+        case .admiral:
+            return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)
+
+        case .engineer:
+            return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)
+
+        case .general:
+            return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)
+
+        case .merchant:
+            return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)
+
+        case .musician:
+            return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)
+
         case .prophet:
             let textureAtlas = TextureAtlasLoader.load(named: "prophet", in: bundle)
             return textureAtlas?.objectTextureAtlas(for: "idle")
 
-        case .scientist: return nil
-        case .writer: return nil
+        case .scientist:
+            return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)
+
+        case .writer:
+            return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)
         }
     }
 
-    public var walkDownAtlas: ObjectTextureAtlas? {
+    public var walkSouthAtlas: ObjectTextureAtlas? {
 
         let bundle = Bundle.init(for: Textures.self)
 
@@ -374,7 +390,7 @@ extension UnitType {
         }
     }
 
-    public var walkUpAtlas: ObjectTextureAtlas? {
+    public var walkNorthAtlas: ObjectTextureAtlas? {
 
         let bundle = Bundle.init(for: Textures.self)
 
@@ -455,7 +471,7 @@ extension UnitType {
         }
     }
 
-    public var walkRightAtlas: ObjectTextureAtlas? {
+    public var walkEastAtlas: ObjectTextureAtlas? {
 
         let bundle = Bundle.init(for: Textures.self)
 
@@ -536,7 +552,7 @@ extension UnitType {
         }
     }
 
-    public var walkLeftAtlas: ObjectTextureAtlas? {
+    public var walkWestAtlas: ObjectTextureAtlas? {
 
         let bundle = Bundle.init(for: Textures.self)
 

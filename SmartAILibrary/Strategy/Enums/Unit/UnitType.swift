@@ -848,7 +848,7 @@ public enum UnitType: Int, Codable {
         }
     }
 
-    func domain() -> UnitDomainType {
+    public func domain() -> UnitDomainType {
 
         switch self {
 

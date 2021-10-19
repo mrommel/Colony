@@ -49,7 +49,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     @discardableResult func doMove(on target: HexPoint, in gameModel: GameModel?) -> Bool
     func readyToMove() -> Bool
     func readyToSelect() -> Bool
-    func queueMoveForVisualization(at point: HexPoint, in gameModel: GameModel?)
+    func queueMoveForVisualization(from source: HexPoint, to target: HexPoint, in gameModel: GameModel?)
     func publishQueuedVisualizationMoves(in gameModel: GameModel?)
     @discardableResult func jumpToNearestValidPlotWithin(range: Int, in gameModel: GameModel?) -> Bool
     func isImmobile() -> Bool
@@ -2023,8 +2023,7 @@ public class Unit: AbstractUnit {
         }
 
         if show {
-            //self.queueMoveForVisualization(at: oldPlot.point, in: gameModel)
-            self.queueMoveForVisualization(at: newPlot.point, in: gameModel)
+            self.queueMoveForVisualization(from: oldPlot.point, to: newPlot.point, in: gameModel)
         } else {
             // teleport
             // SetPosition(pNewPlot);
@@ -2262,9 +2261,13 @@ public class Unit: AbstractUnit {
         }
     }
 
-    public func queueMoveForVisualization(at point: HexPoint, in gameModel: GameModel?) {
+    public func queueMoveForVisualization(from source: HexPoint, to target: HexPoint, in gameModel: GameModel?) {
 
-        self.moveLocations.append(point)
+        if !self.moveLocations.contains(source) {
+            self.moveLocations.append(source)
+        }
+
+        self.moveLocations.append(target)
 
         if self.moveLocations.count == 20 /*|| self.isHuman()*/ {
             self.publishQueuedVisualizationMoves(in: gameModel)
