@@ -71,7 +71,7 @@ class CityObject {
             fatalError("cant get city")
         }
 
-        self.sprite = SKSpriteNode(texture: SKTexture(image: ImageCache.shared.image(for: "city-ancient-small")))
+        self.sprite = SKSpriteNode(texture: SKTexture(image: ImageCache.shared.image(for: "city-ancient-small-noWalls")))
         self.sprite.position = HexPoint.toScreen(hex: city.location)
         self.sprite.zPosition = Globals.ZLevels.city
         self.sprite.anchorPoint = CGPoint.lowerLeft
@@ -247,7 +247,7 @@ class CityObject {
 
         // show production only for human cities
         if city.isHuman() {
-            var texture: SKTexture = SKTexture(image: Globals.questionmark)
+            var texture: SKTexture = SKTexture(image: Globals.Icons.questionmark)
             var productionProgress: Int = 0
 
             if let item = city.currentBuildableItem() {

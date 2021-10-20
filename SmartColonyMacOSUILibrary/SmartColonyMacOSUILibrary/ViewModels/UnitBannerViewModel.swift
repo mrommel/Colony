@@ -386,7 +386,7 @@ class UnitBannerViewModel: ObservableObject {
                         }
 
                         selectedUnit.origin = selectedCity.location
-                        selectedUnit.doTransfer(to: selectedCity.location, in: gameModel)
+                        selectedUnit.doTransferToAnother(city: selectedCity, in: gameModel)
                         selectedUnit.finishMoves()
                     }
                 )
