@@ -128,4 +128,157 @@ class UnitTests: XCTestCase {
         // THEN
         XCTAssertNotEqual(humanPlayerScout.location, HexPoint(x: 2, y: 2))
     }
+
+    func testUnitCanTransferToAnotherCity() {
+
+        // GIVEN
+        let humanPlayer = Player(leader: .alexander, isHuman: true)
+        humanPlayer.initialize()
+
+        // civilians ------------------------------
+        let unitSettler = Unit(at: HexPoint(x: 2, y: 2), type: .settler, owner: humanPlayer)
+        let unitBuilder = Unit(at: HexPoint(x: 2, y: 2), type: .builder, owner: humanPlayer)
+        let unitTrader = Unit(at: HexPoint(x: 2, y: 2), type: .trader, owner: humanPlayer)
+
+        // recon ------------------------------
+        let unitScout = Unit(at: HexPoint(x: 2, y: 2), type: .scout, owner: humanPlayer)
+
+        // melee ------------------------------
+        let unitWarrior = Unit(at: HexPoint(x: 2, y: 2), type: .warrior, owner: humanPlayer)
+        let unitSwordman = Unit(at: HexPoint(x: 2, y: 2), type: .swordman, owner: humanPlayer)
+
+        // ranged ------------------------------
+        let unitSlinger = Unit(at: HexPoint(x: 2, y: 2), type: .slinger, owner: humanPlayer)
+        let unitArcher = Unit(at: HexPoint(x: 2, y: 2), type: .archer, owner: humanPlayer)
+
+        // anti-cavalry ------------------------------
+        let unitSpearman = Unit(at: HexPoint(x: 2, y: 2), type: .spearman, owner: humanPlayer)
+
+        // light cavalry ------------------------------
+        let unitHorseman = Unit(at: HexPoint(x: 2, y: 2), type: .horseman, owner: humanPlayer)
+
+        // heavy cavalry ------------------------------
+        let unitHeavyChariot = Unit(at: HexPoint(x: 2, y: 2), type: .heavyChariot, owner: humanPlayer)
+
+        // siege ------------------------------
+        let unitCatapult = Unit(at: HexPoint(x: 2, y: 2), type: .catapult, owner: humanPlayer)
+
+        // naval melee ------------------------------
+        let unitGalley = Unit(at: HexPoint(x: 2, y: 2), type: .galley, owner: humanPlayer)
+
+        // naval ranged ------------------------------
+        let unitQuadrireme = Unit(at: HexPoint(x: 2, y: 2), type: .quadrireme, owner: humanPlayer)
+
+        // support ------------------------------
+        let unitMedic = Unit(at: HexPoint(x: 2, y: 2), type: .medic, owner: humanPlayer)
+
+        // great people ------------------------------
+        let unitArtist = Unit(at: HexPoint(x: 2, y: 2), type: .artist, owner: humanPlayer)
+        let unitAdmiral = Unit(at: HexPoint(x: 2, y: 2), type: .admiral, owner: humanPlayer)
+        let unitEngineer = Unit(at: HexPoint(x: 2, y: 2), type: .engineer, owner: humanPlayer)
+        let unitGeneral = Unit(at: HexPoint(x: 2, y: 2), type: .general, owner: humanPlayer)
+        let unitMerchant = Unit(at: HexPoint(x: 2, y: 2), type: .merchant, owner: humanPlayer)
+        let unitMusician = Unit(at: HexPoint(x: 2, y: 2), type: .musician, owner: humanPlayer)
+        let unitProphet = Unit(at: HexPoint(x: 2, y: 2), type: .prophet, owner: humanPlayer)
+        let unitScientist = Unit(at: HexPoint(x: 2, y: 2), type: .scientist, owner: humanPlayer)
+        let unitWriter = Unit(at: HexPoint(x: 2, y: 2), type: .writer, owner: humanPlayer)
+
+        // WHEN
+        // civilians ------------------------------
+        let canSettlerTransfer = unitSettler.canTransferToAnotherCity()
+        let canBuilderTransfer = unitBuilder.canTransferToAnotherCity()
+        let canTraderTransfer = unitTrader.canTransferToAnotherCity()
+
+        // recon ------------------------------
+        let canScoutTransfer = unitScout.canTransferToAnotherCity()
+
+        // melee ------------------------------
+        let canWarriorTransfer = unitWarrior.canTransferToAnotherCity()
+        let canSwordmanTransfer = unitSwordman.canTransferToAnotherCity()
+
+        // ranged ------------------------------
+        let canSlingerTransfer = unitSlinger.canTransferToAnotherCity()
+        let canArcherTransfer = unitArcher.canTransferToAnotherCity()
+
+        // anti-cavalry ------------------------------
+        let canSpearmanTransfer = unitSpearman.canTransferToAnotherCity()
+
+        // light cavalry ------------------------------
+        let canHorsemanTransfer = unitHorseman.canTransferToAnotherCity()
+
+        // heavy cavalry ------------------------------
+        let canHeavyChariotTransfer = unitHeavyChariot.canTransferToAnotherCity()
+
+        // siege ------------------------------
+        let canCatapultTransfer = unitCatapult.canTransferToAnotherCity()
+
+        // naval melee ------------------------------
+        let canGalleyTransfer = unitGalley.canTransferToAnotherCity()
+
+        // naval ranged ------------------------------
+        let canQuadriremeTransfer = unitQuadrireme.canTransferToAnotherCity()
+
+        // support ------------------------------
+        let canMedicTransfer = unitMedic.canTransferToAnotherCity()
+
+        // great people ------------------------------
+        let canArtistTransfer = unitArtist.canTransferToAnotherCity()
+        let canAdmiralTransfer = unitAdmiral.canTransferToAnotherCity()
+        let canEngineerTransfer = unitEngineer.canTransferToAnotherCity()
+        let canGeneralTransfer = unitGeneral.canTransferToAnotherCity()
+        let canMerchantTransfer = unitMerchant.canTransferToAnotherCity()
+        let canMusicianTransfer = unitMusician.canTransferToAnotherCity()
+        let canProphetTransfer = unitProphet.canTransferToAnotherCity()
+        let canScientistTransfer = unitScientist.canTransferToAnotherCity()
+        let canWriterTransfer = unitWriter.canTransferToAnotherCity()
+
+        // THEN
+        // civilians ------------------------------
+        XCTAssertFalse(canSettlerTransfer)
+        XCTAssertFalse(canBuilderTransfer)
+        XCTAssertTrue(canTraderTransfer)
+
+        // recon ------------------------------
+        XCTAssertFalse(canScoutTransfer)
+
+        // melee ------------------------------
+        XCTAssertFalse(canWarriorTransfer)
+        XCTAssertFalse(canSwordmanTransfer)
+
+        // ranged ------------------------------
+        XCTAssertFalse(canSlingerTransfer)
+        XCTAssertFalse(canArcherTransfer)
+
+        // anti-cavalry ------------------------------
+        XCTAssertFalse(canSpearmanTransfer)
+
+        // light cavalry ------------------------------
+        XCTAssertFalse(canHorsemanTransfer)
+
+        // heavy cavalry ------------------------------
+        XCTAssertFalse(canHeavyChariotTransfer)
+
+        // siege ------------------------------
+        XCTAssertFalse(canCatapultTransfer)
+
+        // naval melee ------------------------------
+        XCTAssertFalse(canGalleyTransfer)
+
+        // naval ranged ------------------------------
+        XCTAssertFalse(canQuadriremeTransfer)
+
+        // support ------------------------------
+        XCTAssertFalse(canMedicTransfer)
+
+        // great people ------------------------------
+        XCTAssertTrue(canArtistTransfer)
+        XCTAssertTrue(canAdmiralTransfer)
+        XCTAssertTrue(canEngineerTransfer)
+        XCTAssertTrue(canGeneralTransfer)
+        XCTAssertTrue(canMerchantTransfer)
+        XCTAssertTrue(canMusicianTransfer)
+        XCTAssertTrue(canProphetTransfer)
+        XCTAssertTrue(canScientistTransfer)
+        XCTAssertTrue(canWriterTransfer)
+    }
 }

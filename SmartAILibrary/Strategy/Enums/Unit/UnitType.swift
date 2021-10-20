@@ -24,7 +24,7 @@ public enum UnitType: Int, Codable {
 
     case none
 
-    // civilians
+    // civilians ------------------------------
 
     case settler
     case builder
@@ -84,7 +84,7 @@ public enum UnitType: Int, Codable {
     // support - industrial
     case medic
 
-    // great people
+    // great people ------------------------------
     case artist
     case admiral
     case engineer
@@ -118,13 +118,13 @@ public enum UnitType: Int, Codable {
             .medic,
 
             // great people
-            .artist, .engineer, .merchant, .scientist, .admiral, .general, .prophet
+            .artist, .engineer, .merchant, .scientist, .admiral, .general, .prophet, .musician, .writer
         ]
     }
 
     public static var greatPersons: [UnitType] {
 
-        return [.general, .artist, .admiral, .engineer, .general, .merchant, .prophet, .scientist]
+        return [.general, .artist, .admiral, .engineer, .general, .merchant, .prophet, .scientist, .musician, .writer]
     }
 
     public func name() -> String {
@@ -1695,7 +1695,7 @@ public enum UnitType: Int, Codable {
 
     func isGreatPerson() -> Bool {
 
-        if self == .artist || self == .engineer || self == .merchant || self == .scientist || self == .admiral || self == .general || self == .prophet {
+        if UnitType.greatPersons.contains(self) {
 
             return true
         }
