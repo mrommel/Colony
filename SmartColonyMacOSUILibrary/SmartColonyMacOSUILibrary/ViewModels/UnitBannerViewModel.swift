@@ -271,10 +271,12 @@ class UnitBannerViewModel: ObservableObject {
             if let selectedUnit = self.selectedUnit {
                 selectedUnit.automate(with: .explore)
             }
+
         case .automateBuild:
             if let selectedUnit = self.selectedUnit {
                 selectedUnit.automate(with: .build)
             }
+
         case .establishTradeRoute:
             if let selectedUnit = self.selectedUnit {
 
@@ -293,6 +295,7 @@ class UnitBannerViewModel: ObservableObject {
                     }
                 })
             }
+
         case .foundReligion:
             if let selectedUnit = self.selectedUnit {
 
@@ -336,6 +339,7 @@ class UnitBannerViewModel: ObservableObject {
                     selectedUnit.doKill(delayed: true, by: nil, in: gameModel)
                 })
             }
+
         case .activateGreatPerson:
             if let selectedUnit = self.selectedUnit {
 
@@ -350,6 +354,42 @@ class UnitBannerViewModel: ObservableObject {
                             selectedUnit.activateGreatPerson(in: gameModel)
                         }
                     })
+            }
+
+        case .transferToAnotherCity:
+            if let selectedUnit = self.selectedUnit {
+
+                guard let player = selectedUnit.player else {
+                    fatalError("cant get player")
+                }
+
+                let possibleCities: [AbstractCity?] = gameModel.cities(of: player)
+                let selectableItems: [SelectableItem] = possibleCities.map { cityRef in
+
+                    guard let city = cityRef else {
+                        fatalError("cant get city")
+                    }
+
+                    return SelectableItem(
+                        iconTexture: nil,
+                        title: city.name,
+                        subtitle: "")
+                }
+
+                gameModel.userInterface?.askForSelection(
+                    title: "Select City to transfer to",
+                    items: selectableItems,
+                    completion: { selectedIndex in
+
+                        guard let selectedCity = possibleCities[selectedIndex] else {
+                            fatalError("cant get city")
+                        }
+
+                        selectedUnit.origin = selectedCity.location
+                        selectedUnit.doTransfer(to: selectedCity.location, in: gameModel)
+                        selectedUnit.finishMoves()
+                    }
+                )
             }
 
         case .attack:

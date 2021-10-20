@@ -53,6 +53,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func publishQueuedVisualizationMoves(in gameModel: GameModel?)
     @discardableResult func jumpToNearestValidPlotWithin(range: Int, in gameModel: GameModel?) -> Bool
     func isImmobile() -> Bool
+    func doTransferToAnother(city: AbstractCity?, in gameModel: GameModel?)
 
     func isImpassable(tile: AbstractTile?) -> Bool
     func canEnterTerrain(of tile: AbstractTile?) -> Bool
@@ -2231,9 +2232,28 @@ public class Unit: AbstractUnit {
         return true
     }
 
+    /// Is this unit capable of moving on its own?
     public func isImmobile() -> Bool {
 
+        /*if self.type == .artist || self.type == .writer || self.type == .musician || self.type == .scientist || self.type == .trader {
+
+            return true
+        }*/
+
         return false
+    }
+
+    public func doTransferToAnother(city cityRef: AbstractCity?, in gameModel: GameModel?) {
+
+        guard let city = cityRef else {
+            fatalError("cant get city to transfer unit to")
+        }
+
+        if !self.canTransferToAnotherCity() {
+            fatalError("unit cant be transferred to another city")
+        }
+
+        self.set(location: city.location, in: gameModel)
     }
 
     //    ---------------------------------------------------------------------------
@@ -2974,6 +2994,9 @@ public class Unit: AbstractUnit {
 
         case .activateGreatPerson:
             return self.canActivateGreatPerson()
+
+        case .transferToAnotherCity:
+            return self.canTransferToAnotherCity()
         }
     }
 
@@ -4583,11 +4606,24 @@ extension Unit {
 
     func canActivateGreatPerson() -> Bool {
 
-        guard self.type.isGreatPerson() && self.type != .prophet else {
+        guard self.type.isGreatPerson() else {
             return false
         }
 
-        return false
+        guard self.type != .prophet else {
+            return false
+        }
+
+        return true
+    }
+
+    func canTransferToAnotherCity() -> Bool {
+
+        guard self.type.isGreatPerson() || self.type == .trader else {
+            return false
+        }
+
+        return true
     }
 
     public func activateGreatPerson(in gameModel: GameModel?) {
