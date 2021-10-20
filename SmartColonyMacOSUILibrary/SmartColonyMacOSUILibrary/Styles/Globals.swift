@@ -83,6 +83,10 @@ public extension Globals {
         public static var strength: NSImage {
             return Icons.loadCachedTexture(with: "strength")
         }
+
+        public static var questionmark: NSImage {
+            return Icons.loadCachedTexture(with: "questionmark")
+        }
     }
 }
 

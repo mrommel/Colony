@@ -15,29 +15,40 @@ extension City {
             fatalError("cant get player")
         }
 
-        var eraName: String = "ancient"
+        var eraName: String = "-ancient"
 
         switch player.currentEra() {
 
         case .none, .ancient, .classical:
-            eraName = "ancient"
+            eraName = "-ancient"
         case .medieval, .renaissance:
-            eraName = "medieval"
+            eraName = "-medieval"
         case .industrial:
-            eraName = "industrial"
+            eraName = "-industrial"
         case .modern, .atomic, .information, .future:
-            eraName = "modern"
+            eraName = "-modern"
         }
 
-        var cityTextureName: String = "city-ancient-small"
+        var sizeName: String = "-small"
+
         if self.population() < 4 {
-            cityTextureName = "city-\(eraName)-small"
+            sizeName = "-small"
         } else if self.population() < 7 {
-            cityTextureName = "city-\(eraName)-medium"
+            sizeName = "-medium"
         } else {
-            cityTextureName = "city-\(eraName)-large"
+            sizeName = "-large"
         }
 
-        return cityTextureName
+        var wallsName: String = "-noWalls"
+
+        if self.has(building: .renaissanceWalls) {
+            wallsName = "-renaissanceWalls"
+        } else if self.has(building: .medievalWalls) {
+            wallsName = "-medievalWalls"
+        } else if self.has(building: .ancientWalls) {
+            wallsName = "-ancientWalls"
+        }
+
+        return "city\(eraName)\(sizeName)\(wallsName)"
     }
 }

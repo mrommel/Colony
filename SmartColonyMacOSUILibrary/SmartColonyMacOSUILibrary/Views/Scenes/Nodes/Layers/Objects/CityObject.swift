@@ -247,8 +247,7 @@ class CityObject {
 
         // show production only for human cities
         if city.isHuman() {
-            let questionmarkImage = ImageCache.shared.image(for: "questionmark")
-            var texture: SKTexture = SKTexture(image: questionmarkImage)
+            var texture: SKTexture = SKTexture(image: Globals.questionmark)
             var productionProgress: Int = 0
 
             if let item = city.currentBuildableItem() {
