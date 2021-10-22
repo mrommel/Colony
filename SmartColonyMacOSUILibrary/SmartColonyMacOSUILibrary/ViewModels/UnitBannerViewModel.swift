@@ -172,6 +172,7 @@ class UnitBannerViewModel: ObservableObject {
         }
     }
 
+    // swiftlint:disable cyclomatic_complexity
     func handle(command: Command) {
 
         guard let gameModel = self.gameEnvironment.game.value else {
@@ -180,8 +181,47 @@ class UnitBannerViewModel: ObservableObject {
 
         switch command.type {
 
+        case .rename:
+            if let selectedUnit = self.selectedUnit {
+
+                gameModel.userInterface?.askForInput(
+                    title: "Rename",
+                    summary: "Please provide a new Name:",
+                    value: selectedUnit.name(),
+                    confirm: "Rename",
+                    cancel: "Cancel",
+                    completion: { newValue in
+
+                        selectedUnit.rename(to: newValue)
+                    }
+                )
+            }
+
         case .found:
-            self.delegate?.showCityNameDialog()
+            if let selectedUnit = self.selectedUnit {
+
+                guard let player = selectedUnit.player else {
+                    fatalError("cant get unit player")
+                }
+
+                gameModel.userInterface?.askForInput(
+                    title: "City Name",
+                    summary: "Please provide a name:",
+                    value: player.newCityName(in: gameModel),
+                    confirm: "Found",
+                    cancel: "Cancel",
+                    completion: { newValue in
+
+                        let location = selectedUnit.location
+                        selectedUnit.doFound(with: newValue, in: gameModel)
+                        gameModel.userInterface?.unselect()
+
+                        if let city = gameModel.city(at: location) {
+                            gameModel.userInterface?.showScreen(screenType: .city, city: city, other: nil, data: nil)
+                        }
+                    }
+                )
+            }
 
         case .buildFarm:
             if let selectedUnit = self.selectedUnit {
@@ -265,6 +305,12 @@ class UnitBannerViewModel: ObservableObject {
         case .cancelOrder:
             if let selectedUnit = self.selectedUnit {
                 selectedUnit.doCancelOrder()
+            }
+        case .upgrade:
+            if let selectedUnit = self.selectedUnit {
+                if let upgradeUnitType = selectedUnit.upgradeType() {
+                    selectedUnit.doUpgrade(to: upgradeUnitType, in: gameModel)
+                }
             }
 
         case .automateExploration:

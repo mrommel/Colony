@@ -1,5 +1,5 @@
 //
-//  CityNameDialogView.swift
+//  NameInputDialogView.swift
 //  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 18.05.21.
@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct CityNameDialogView: View {
+struct NameInputDialogView: View {
 
     @ObservedObject
-    var viewModel: CityNameDialogViewModel
+    var viewModel: NameInputDialogViewModel
 
-    public init(viewModel: CityNameDialogViewModel) {
+    public init(viewModel: NameInputDialogViewModel) {
 
         self.viewModel = viewModel
     }
@@ -21,12 +21,14 @@ struct CityNameDialogView: View {
 
         Group {
             VStack(spacing: 10) {
-                Text("Enter City Name")
+                Text(self.viewModel.title)
                     .font(.title2)
                     .bold()
                     .padding()
 
-                TextField("city name ...", text: self.$viewModel.cityName)
+                Text(self.viewModel.summary)
+
+                TextField("name ...", text: self.$viewModel.value)
 
                 HStack(alignment: .center, spacing: 0) {
 
@@ -55,7 +57,7 @@ struct CityNameDialogView: View {
 }
 
 #if DEBUG
-struct CityNameDialogView_Previews: PreviewProvider {
+struct NameInputDialogView_Previews: PreviewProvider {
 
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
@@ -63,7 +65,7 @@ struct CityNameDialogView_Previews: PreviewProvider {
         let game = DemoGameModel()
         let environment = GameEnvironment(game: game)
 
-        CityNameDialogView(viewModel: CityNameDialogViewModel())
+        NameInputDialogView(viewModel: NameInputDialogViewModel())
             .environment(\.gameEnvironment, environment)
     }
 }

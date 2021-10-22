@@ -3025,6 +3025,9 @@ public class Unit: AbstractUnit {
 
         switch command {
 
+        case .rename:
+            return true // always possible
+
         case .found:
             return self.canFound(at: self.location, in: gameModel)
 
@@ -3063,6 +3066,13 @@ public class Unit: AbstractUnit {
 
         case .cancelOrder:
             return self.canCancelOrder()
+
+        case .upgrade:
+            if let upgradeUnitType = self.upgradeType() {
+                return self.canUpgrade(to: upgradeUnitType, in: gameModel)
+            }
+
+            return false
 
         case .establishTradeRoute:
             return self.canEstablishTradeRoute(to: nil, in: gameModel)

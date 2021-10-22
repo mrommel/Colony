@@ -354,21 +354,6 @@ public class GameSceneViewModel: ObservableObject {
             self.showTurnButton()
         }
     }
-
-    // MARK: callbacks
-
-    func foundCity(named cityName: String) {
-
-        if let selectedUnit = self.selectedUnit {
-            let location = selectedUnit.location
-            selectedUnit.doFound(with: cityName, in: self.game)
-            self.game?.userInterface?.unselect()
-
-            if let city = self.game?.city(at: location) {
-                self.game?.userInterface?.showScreen(screenType: .city, city: city, other: nil, data: nil)
-            }
-        }
-    }
 }
 
 extension GameSceneViewModel {

@@ -13,6 +13,7 @@ extension CommandType {
 
         switch self {
 
+        case .rename: return "command-default"
         case .found: return "command-found"
         case .buildFarm: return "command-farm"
         case .buildMine: return "command-mine"
@@ -29,6 +30,7 @@ extension CommandType {
 
         case .disband: return "command-disband"
         case .cancelOrder: return "command-cancelOrder"
+        case .upgrade: return "command-default"
 
         case .automateExploration: return "command-automateExploration"
         case .automateBuild: return "command-automateBuild"
@@ -47,6 +49,7 @@ extension CommandType {
 
         switch self {
 
+        case .rename: return "command-button-rename"
         case .found: return "command-button-found"
         case .buildFarm: return "command-button-farm"
         case .buildMine: return "command-button-mine"
@@ -63,6 +66,7 @@ extension CommandType {
 
         case .disband: return "command-button-disband"
         case .cancelOrder: return "command-button-cancelOrder"
+        case .upgrade: return "command-button-upgrade"
 
         case .automateExploration: return "command-button-automateExploration"
         case .automateBuild: return "command-button-automateBuild"

@@ -111,8 +111,8 @@ extension GameView {
             return AnyView(SelectTradeCityDialogView(viewModel: self.viewModel.selectTradeCityDialogViewModel))
         case .menu:
             return AnyView(EmptyView())
-        case .cityName:
-            return AnyView(CityNameDialogView(viewModel: self.viewModel.cityNameDialogViewModel))
+        case .selectName:
+            return AnyView(NameInputDialogView(viewModel: self.viewModel.nameInputDialogViewModel))
         case .unitList:
             return AnyView(UnitListDialogView(viewModel: self.viewModel.unitListDialogViewModel))
         case .cityList:

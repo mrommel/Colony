@@ -51,6 +51,7 @@ class TestUI: UserInterfaceDelegate {
 
     func askForConfirmation(title: String, question: String, confirm: String, cancel: String, completion: @escaping (Bool) -> Void) {}
     func askForSelection(title: String, items: [SelectableItem], completion: @escaping (Int) -> Void) {}
+    func askForInput(title: String, summary: String, value: String, confirm: String, cancel: String, completion: @escaping (String) -> Void) {}
 
     func select(tech: TechType) {}
     func select(civic: CivicType) {}

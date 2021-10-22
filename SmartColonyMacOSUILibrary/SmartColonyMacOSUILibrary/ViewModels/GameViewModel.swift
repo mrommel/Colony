@@ -61,8 +61,6 @@ protocol GameViewModelDelegate: AnyObject {
     func showTradeRouteDialog()
     func showReligionDialog()
 
-    func showCityNameDialog()
-    func foundCity(named cityName: String)
     func showCityDialog(for city: AbstractCity?)
     func showCityChooseProductionDialog(for city: AbstractCity?)
     func showCityBuildingsDialog(for city: AbstractCity?)
@@ -92,7 +90,19 @@ protocol GameViewModelDelegate: AnyObject {
         cancel: String,
         completion: @escaping (Bool) -> Void
     )
-    func showSelectionDialog(titled title: String, items: [SelectableItem], completion: @escaping (Int) -> Void)
+    func showSelectionDialog(
+        titled title: String,
+        items: [SelectableItem],
+        completion: @escaping (Int) -> Void
+    )
+    func showRenameDialog(
+        title: String,
+        summary: String,
+        value: String,
+        confirm: String,
+        cancel: String,
+        completion: @escaping (String) -> Void
+    )
 
     func closeDialog()
     func closePopup()
@@ -148,9 +158,6 @@ public class GameViewModel: ObservableObject {
     var diplomaticDialogViewModel: DiplomaticDialogViewModel
 
     @Published
-    var cityNameDialogViewModel: CityNameDialogViewModel
-
-    @Published
     var confirmationDialogViewModel: ConfirmationDialogViewModel
 
     @Published
@@ -185,6 +192,9 @@ public class GameViewModel: ObservableObject {
 
     @Published
     var selectItemsDialogViewModel: SelectItemsDialogViewModel
+
+    @Published
+    var nameInputDialogViewModel: NameInputDialogViewModel
 
     @Published
     var religionDialogViewModel: ReligionDialogViewModel
@@ -274,7 +284,7 @@ public class GameViewModel: ObservableObject {
         self.changePolicyDialogViewModel = ChangePolicyDialogViewModel()
         self.techDialogViewModel = TechDialogViewModel()
         self.civicDialogViewModel = CivicDialogViewModel()
-        self.cityNameDialogViewModel = CityNameDialogViewModel()
+        self.nameInputDialogViewModel = NameInputDialogViewModel()
         self.confirmationDialogViewModel = ConfirmationDialogViewModel()
         self.cityDialogViewModel = CityDialogViewModel()
         self.diplomaticDialogViewModel = DiplomaticDialogViewModel()
@@ -303,7 +313,7 @@ public class GameViewModel: ObservableObject {
         self.changePolicyDialogViewModel.delegate = self
         self.techDialogViewModel.delegate = self
         self.civicDialogViewModel.delegate = self
-        self.cityNameDialogViewModel.delegate = self
+        self.nameInputDialogViewModel.delegate = self
         self.confirmationDialogViewModel.delegate = self
         self.cityDialogViewModel.delegate = self
         self.diplomaticDialogViewModel.delegate = self
@@ -1106,11 +1116,6 @@ extension GameViewModel: GameViewModelDelegate {
         }
     }
 
-    func foundCity(named cityName: String) {
-
-        self.gameSceneViewModel.foundCity(named: cityName)
-    }
-
     func showConfirmationDialog(
         title: String,
         question: String,
@@ -1180,6 +1185,35 @@ extension GameViewModel: GameViewModelDelegate {
             self.currentScreenType = .selectItems
         } else {
             fatalError("cant show select items dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+
+    func showRenameDialog(
+        title: String,
+        summary: String,
+        value: String,
+        confirm: String = "Rename",
+        cancel: String = "Cancel",
+        completion: @escaping (String) -> Void
+    ) {
+
+        if self.currentScreenType == .selectName {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.nameInputDialogViewModel.update(
+                title: title,
+                summary: summary,
+                value: value,
+                confirm: confirm,
+                cancel: cancel,
+                completion: completion
+            )
+            self.currentScreenType = .selectName
+        } else {
+            fatalError("cant show name dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
