@@ -19,6 +19,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     var greatPerson: GreatPerson { get set }
 
     func name() -> String
+    func rename(to name: String)
     func isBarbarian() -> Bool
     func isHuman() -> Bool
     func isEnemy(of otherPlayer: AbstractPlayer?) -> Bool
@@ -71,6 +72,10 @@ public protocol AbstractUnit: AnyObject, Codable {
     func add(damage: Int)
     func isHurt() -> Bool
     func doHeal(in gameModel: GameModel?)
+
+    func upgradeType() -> UnitType?
+    func canUpgrade(to unitType: UnitType, in gameModel: GameModel?) -> Bool
+    func doUpgrade(to unitType: UnitType, in gameModel: GameModel?)
 
     func isOutOfAttacks() -> Bool
     func setMadeAttack(to newValue: Bool)
@@ -249,6 +254,7 @@ public class Unit: AbstractUnit {
     enum CodingKeys: CodingKey {
 
         case type
+        case name
         case location
         case player
         case leader
@@ -282,6 +288,7 @@ public class Unit: AbstractUnit {
     }
 
     public let type: UnitType
+    private var nameValue: String?
     private(set) public var location: HexPoint {
         didSet {
             self.unitMoved?.moved(to: self.location)
@@ -335,9 +342,10 @@ public class Unit: AbstractUnit {
 
     // MARK: constructors
 
-    public init(at location: HexPoint, type: UnitType, owner: AbstractPlayer?) {
+    public init(at location: HexPoint, name: String? = nil, type: UnitType, owner: AbstractPlayer?) {
 
         self.type = type
+        self.nameValue = name
         self.location = location
         self.player = owner
         self.leader = owner!.leader
@@ -367,6 +375,7 @@ public class Unit: AbstractUnit {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.type = try container.decode(UnitType.self, forKey: .type)
+        self.nameValue = try container.decodeIfPresent(String.self, forKey: .name)
         self.location = try container.decode(HexPoint.self, forKey: .location)
         self.leader = try container.decode(LeaderType.self, forKey: .leader)
         self.originalLeader = try container.decode(LeaderType.self, forKey: .originalLeader)
@@ -409,6 +418,7 @@ public class Unit: AbstractUnit {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.type, forKey: .type)
+        try container.encodeIfPresent(self.nameValue, forKey: .name)
         try container.encode(self.location, forKey: .location)
         try container.encode(self.player!.leader, forKey: .leader)
         try container.encode(self.originalLeader, forKey: .originalLeader)
@@ -445,7 +455,16 @@ public class Unit: AbstractUnit {
 
     public func name() -> String {
 
+        if let name = self.nameValue {
+            return name
+        }
+
         return self.type.name()
+    }
+
+    public func rename(to name: String) {
+
+        self.nameValue = name
     }
 
     public func isBarbarian() -> Bool {
@@ -622,6 +641,83 @@ public class Unit: AbstractUnit {
         if self.healthPointsValue > Int(Unit.maxHealth) {
             self.healthPointsValue = Int(Unit.maxHealth)
         }
+    }
+
+    public func upgradeType() -> UnitType? {
+
+        var upgradeType: UnitType?
+
+        for unitType in UnitType.all {
+            if unitType.upgradesFrom().contains(self.type) {
+                upgradeType = unitType
+            }
+        }
+
+        return upgradeType
+    }
+
+    func upgradeCost(to unitType: UnitType) -> Int {
+
+        return unitType.productionCost() / 2
+    }
+
+    public func canUpgrade(to unitType: UnitType, in gameModel: GameModel?) -> Bool {
+
+        guard let techs = self.player?.techs else {
+            fatalError("cant get player techs")
+        }
+
+        guard let civics = self.player?.civics else {
+            fatalError("cant get player civics")
+        }
+
+        guard let treasury = self.player?.treasury else {
+            fatalError("cant get player treasury")
+        }
+
+        guard unitType.upgradesFrom().contains(self.type) else {
+            return false
+        }
+
+        if let requiredTech = unitType.requiredTech() {
+            if !techs.has(tech: requiredTech) {
+                return false
+            }
+        }
+
+        if let requiredCivic = unitType.requiredCivic() {
+            if !civics.has(civic: requiredCivic) {
+                return false
+            }
+        }
+
+        if treasury.value() < Double(self.upgradeCost(to: unitType)) {
+            return false
+        }
+
+        return true
+    }
+
+    public func doUpgrade(to unitType: UnitType, in gameModel: GameModel?) {
+
+        guard self.canUpgrade(to: unitType, in: gameModel) else {
+            fatalError("cant upgrade")
+        }
+
+        let location = self.location
+        let player = self.player
+        let name = self.name()
+        let promotions = self.gainedPromotions()
+
+        self.doKill(delayed: true, by: nil, in: gameModel)
+
+        let newUnit = Unit(at: location, type: unitType, owner: player)
+        newUnit.rename(to: name)
+        for promotion in promotions {
+            newUnit.doPromote(with: promotion)
+        }
+        gameModel?.add(unit: newUnit)
+        gameModel?.userInterface?.refresh(unit: newUnit)
     }
 
     /// Current power of unit (raw unit type power adjusted for health)

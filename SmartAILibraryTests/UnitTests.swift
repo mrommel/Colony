@@ -30,7 +30,7 @@ class UnitTests: XCTestCase {
             try humanPlayer.techs?.discover(tech: .sailing)
         } catch {}
 
-        let mapModel = TradeRouteTests.mapFilled(with: .ocean, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .ocean, sized: .small)
 
         // start island
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
@@ -90,7 +90,7 @@ class UnitTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        let mapModel = TradeRouteTests.mapFilled(with: .grass, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
 
         let gameModel = GameModel(victoryTypes: [.domination],
                                   handicap: .king,
@@ -280,5 +280,83 @@ class UnitTests: XCTestCase {
         XCTAssertTrue(canProphetTransfer)
         XCTAssertTrue(canScientistTransfer)
         XCTAssertTrue(canWriterTransfer)
+    }
+
+    func testUnitRenaming() {
+
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let aiPlayer = Player(leader: .victoria, isHuman: false)
+        aiPlayer.initialize()
+
+        let humanPlayer = Player(leader: .alexander, isHuman: true)
+        humanPlayer.initialize()
+
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+
+        let gameModel = GameModel(victoryTypes: [.domination],
+                                  handicap: .king,
+                                  turnsElapsed: 0,
+                                  players: [barbarianPlayer, aiPlayer, humanPlayer],
+                                  on: mapModel)
+
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+
+        let humanPlayerScout = Unit(at: HexPoint(x: 2, y: 2), type: .scout, owner: humanPlayer)
+        gameModel.add(unit: humanPlayerScout)
+
+        // WHEN
+        let beforeRenaming = humanPlayerScout.name()
+        humanPlayerScout.rename(to: "Flamingo")
+        let afterRenaming = humanPlayerScout.name()
+
+        // THEN
+        XCTAssertNotEqual(beforeRenaming, afterRenaming)
+        XCTAssertEqual(beforeRenaming, "Scout")
+        XCTAssertEqual(afterRenaming, "Flamingo")
+    }
+
+    func testUnitUpgrade() {
+
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let aiPlayer = Player(leader: .victoria, isHuman: false)
+        aiPlayer.initialize()
+
+        let humanPlayer = Player(leader: .alexander, isHuman: true)
+        humanPlayer.initialize()
+
+        do {
+            try humanPlayer.techs?.discover(tech: .ironWorking)
+        } catch {}
+        humanPlayer.treasury?.changeGold(by: 1000.0)
+
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+
+        let gameModel = GameModel(victoryTypes: [.domination],
+                                  handicap: .king,
+                                  turnsElapsed: 0,
+                                  players: [barbarianPlayer, aiPlayer, humanPlayer],
+                                  on: mapModel)
+
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+
+        let humanPlayerScout = Unit(at: HexPoint(x: 2, y: 2), type: .warrior, owner: humanPlayer)
+        gameModel.add(unit: humanPlayerScout)
+
+        // WHEN
+        let canUpgradeBefore = humanPlayerScout.canUpgrade(to: .swordman, in: gameModel)
+        humanPlayerScout.doUpgrade(to: .swordman, in: gameModel) // <= will crash on failure
+
+        // THEN
+        XCTAssertEqual(canUpgradeBefore, true)
     }
 }

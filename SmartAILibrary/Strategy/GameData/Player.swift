@@ -3729,6 +3729,10 @@ public class Player: AbstractPlayer {
             return false
 
         case .unitUpgrade:
+            if let upgradeType = unit.upgradeType() {
+                return unit.canUpgrade(to: upgradeType, in: gameModel)
+            }
+
             return false
 
         case .additionalPopulation:
@@ -3866,7 +3870,11 @@ public class Player: AbstractPlayer {
             print("experience")
 
         case .unitUpgrade:
-            print("upgrade")
+            guard let upgradeType = unit?.upgradeType() else {
+                fatalError("cant get upgrade type")
+            }
+            
+            unit?.doUpgrade(to: upgradeType, in: gameModel)
 
         case .additionalPopulation:
             var bestCityDistance = -1

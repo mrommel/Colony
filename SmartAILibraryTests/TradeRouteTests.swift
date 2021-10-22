@@ -22,22 +22,6 @@ class TradeRouteTests: XCTestCase {
     var targetVisited: Int = 0
     var hasExpired: Bool = false
 
-    static func mapFilled(with terrain: TerrainType, sized size: MapSize) -> MapModel {
-
-        let mapModel = MapModel(size: size)
-
-        let mapSize = mapModel.size
-        for x in 0..<mapSize.width() {
-
-            for y in 0..<mapSize.height() {
-
-                mapModel.set(terrain: terrain, at: HexPoint(x: x, y: y))
-            }
-        }
-
-        return mapModel
-    }
-
     // https://github.com/mrommel/Colony/issues/66
     func testTradeRouteWorkingWithin10Turns() {
 
@@ -51,7 +35,7 @@ class TradeRouteTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        var mapModel = TradeRouteTests.mapFilled(with: .grass, sized: .small)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
         mapModel.set(hills: true, at: HexPoint(x: 1, y: 2))
         mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
@@ -134,7 +118,7 @@ class TradeRouteTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        var mapModel = TradeRouteTests.mapFilled(with: .grass, sized: .small)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
         mapModel.set(hills: true, at: HexPoint(x: 1, y: 2))
         mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
