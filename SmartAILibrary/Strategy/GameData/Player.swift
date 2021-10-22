@@ -3873,7 +3873,7 @@ public class Player: AbstractPlayer {
             guard let upgradeType = unit?.upgradeType() else {
                 fatalError("cant get upgrade type")
             }
-            
+
             unit?.doUpgrade(to: upgradeType, in: gameModel)
 
         case .additionalPopulation:

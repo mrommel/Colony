@@ -335,7 +335,6 @@ public enum UnitType: Int, Codable {
         return self.data().civilization
     }
 
-    // swiftlint:disable function_body_length
     private func data() -> UnitTypeData {
 
         switch self {
