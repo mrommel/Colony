@@ -50,7 +50,7 @@ struct UnitBannerView: View {
                     Image(nsImage: ImageCache.shared.image(for: "unit-banner"))
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 250)
+                        .frame(width: 340)
 
                     ProgressCircle(value: self.$viewModel.unitHealthValue,
                                    maxValue: 1.0,
@@ -59,7 +59,7 @@ struct UnitBannerView: View {
                                    foregroundColor: Color(.green),
                                    lineWidth: 5)
                         .frame(height: 52)
-                        .offset(x: -80.3, y: -26.5)
+                        .offset(x: -122.3, y: -26.5)
 
                     Image(nsImage: self.viewModel.unitTypeImage())
                         .resizable()
@@ -67,7 +67,7 @@ struct UnitBannerView: View {
                         .frame(width: 46, height: 46)
                         .background(Color(Globals.Colors.dialogBackground))
                         .clipShape(Circle())
-                        .offset(x: -80.3, y: -29.5)
+                        .offset(x: -122.3, y: -29.5)
 
                     GroupBox(content: {
                         Text(self.viewModel.unitName())
@@ -124,16 +124,34 @@ struct UnitBannerView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 32, height: 32)
-                .offset(x: -80, y: -105)
+                .offset(x: -122, y: -105)
                 .onTapGesture {
                     self.viewModel.listClicked()
+                }
+
+            Image(nsImage: self.viewModel.commandImage(at: 6))
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32, height: 32)
+                .offset(x: -90, y: -105)
+                .onTapGesture {
+                    self.viewModel.commandClicked(at: 6)
+                }
+
+            Image(nsImage: self.viewModel.commandImage(at: 5))
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32, height: 32)
+                .offset(x: -55, y: -105)
+                .onTapGesture {
+                    self.viewModel.commandClicked(at: 5)
                 }
 
             Image(nsImage: self.viewModel.commandImage(at: 4))
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 32, height: 32)
-                .offset(x: -40, y: -105)
+                .offset(x: -20, y: -105)
                 .onTapGesture {
                     self.viewModel.commandClicked(at: 4)
                 }
@@ -142,7 +160,7 @@ struct UnitBannerView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 32, height: 32)
-                .offset(x: -5, y: -105)
+                .offset(x: 15, y: -105)
                 .onTapGesture {
                     self.viewModel.commandClicked(at: 3)
                 }
@@ -151,7 +169,7 @@ struct UnitBannerView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 32, height: 32)
-                .offset(x: 30, y: -105)
+                .offset(x: 50, y: -105)
                 .onTapGesture {
                     self.viewModel.commandClicked(at: 2)
                 }
@@ -160,7 +178,7 @@ struct UnitBannerView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 32, height: 32)
-                .offset(x: 65, y: -105)
+                .offset(x: 85, y: -105)
                 .onTapGesture {
                     self.viewModel.commandClicked(at: 1)
                 }
@@ -169,7 +187,7 @@ struct UnitBannerView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 32, height: 32)
-                .offset(x: 100, y: -105)
+                .offset(x: 120, y: -105)
                 .onTapGesture {
                     self.viewModel.commandClicked(at: 0)
                 }
@@ -201,10 +219,12 @@ struct UnitBannerView_Previews: PreviewProvider {
         let environment = GameEnvironment(game: game)
         let pt = HexPoint(x: 1, y: 2)
         let commands = [
+            Command(type: .rename, location: pt),
             Command(type: .found, location: pt),
             Command(type: .buildFarm, location: pt),
             Command(type: .buildMine, location: pt),
-            Command(type: .buildCamp, location: pt)
+            Command(type: .buildCamp, location: pt),
+            Command(type: .attack, location: pt)
         ]
 
         let player = Player(leader: .alexander, isHuman: false)

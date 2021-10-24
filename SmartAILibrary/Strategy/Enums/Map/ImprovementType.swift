@@ -451,7 +451,23 @@ public enum ImprovementType: Int, Codable, Hashable {
             return false
         }
 
-        if !tile.hasHills() {
+        var hasSupportedResource = false
+
+        hasSupportedResource ||= tile.has(resource: .iron, for: owner)
+        hasSupportedResource ||= tile.has(resource: .niter, for: owner)
+        hasSupportedResource ||= tile.has(resource: .coal, for: owner)
+        hasSupportedResource ||= tile.has(resource: .aluminium, for: owner)
+        hasSupportedResource ||= tile.has(resource: .uranium, for: owner)
+        // hasSupportedResource ||= tile.has(resource: .diamonds, for: owner)
+        // hasSupportedResource ||= tile.has(resource: .jade, for: owner)
+        // hasSupportedResource ||= tile.has(resource: .mercury, for: owner)
+        hasSupportedResource ||= tile.has(resource: .salt, for: owner)
+        hasSupportedResource ||= tile.has(resource: .silver, for: owner)
+        // hasSupportedResource ||= tile.has(resource: .amber, for: owner)
+        hasSupportedResource ||= tile.has(resource: .copper, for: owner)
+
+        // hills or Iron Niter Coal Aluminum Uranium Diamonds Jade Mercury Salt Silver Amber Copper
+        if !tile.hasHills() && !hasSupportedResource {
             return false
         }
 
