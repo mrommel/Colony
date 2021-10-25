@@ -3434,7 +3434,7 @@ public class Unit: AbstractUnit {
         }
 
         var validBuildPlot = self.domain() == tile.terrain().domain() // self.isNativeDomain(at: point, in: gameModel)
-        validBuildPlot = validBuildPlot || (build.isWater() && self.domain() == .land && tile.isWater() && (self.canEmbark(in: gameModel) || self.isEmbarked()))
+        validBuildPlot ||= (build.isWater() && self.domain() == .land && tile.isWater() && (self.canEmbark(in: gameModel) || self.isEmbarked()))
 
         if !validBuildPlot {
             return false
@@ -3454,7 +3454,7 @@ public class Unit: AbstractUnit {
                 }
 
                 if let loopMission = loopUnit.peekMission() {
-                    
+
                     if loopMission.buildType != nil {
                         return false
                     }

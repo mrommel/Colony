@@ -168,6 +168,8 @@
 		C9BA399726657499008B3476 /* AnimatedImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BA399626657499008B3476 /* AnimatedImageViewModel.swift */; };
 		C9BDCF8B262476E6002488F6 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDCF8A262476E6002488F6 /* GameView.swift */; };
 		C9BDCF8D2624771C002488F6 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDCF8C2624771C002488F6 /* GameViewModel.swift */; };
+		C9C1B1D72726B4A400046D23 /* ResourceValueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1B1D62726B4A300046D23 /* ResourceValueViewModel.swift */; };
+		C9C1B1D92726B5C600046D23 /* ResourceValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1B1D82726B5C500046D23 /* ResourceValueView.swift */; };
 		C9CAC899264ABBC400D0668D /* ChangeGovernmentDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC898264ABBC400D0668D /* ChangeGovernmentDialogView.swift */; };
 		C9CAC89B264ABC6D00D0668D /* ChangeGovernmentDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC89A264ABC6D00D0668D /* ChangeGovernmentDialogViewModel.swift */; };
 		C9CAC89D264ABCBE00D0668D /* GovernmentCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC89C264ABCBE00D0668D /* GovernmentCardView.swift */; };
@@ -407,6 +409,8 @@
 		C9BA399626657499008B3476 /* AnimatedImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImageViewModel.swift; sourceTree = "<group>"; };
 		C9BDCF8A262476E6002488F6 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		C9BDCF8C2624771C002488F6 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		C9C1B1D62726B4A300046D23 /* ResourceValueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceValueViewModel.swift; sourceTree = "<group>"; };
+		C9C1B1D82726B5C500046D23 /* ResourceValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceValueView.swift; sourceTree = "<group>"; };
 		C9CAC898264ABBC400D0668D /* ChangeGovernmentDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeGovernmentDialogView.swift; sourceTree = "<group>"; };
 		C9CAC89A264ABC6D00D0668D /* ChangeGovernmentDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeGovernmentDialogViewModel.swift; sourceTree = "<group>"; };
 		C9CAC89C264ABCBE00D0668D /* GovernmentCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentCardView.swift; sourceTree = "<group>"; };
@@ -735,6 +739,7 @@
 				C9E0597A2654E32600C08463 /* BuildingView.swift */,
 				C9E05980265515CB00C08463 /* WonderView.swift */,
 				C9E87BA4264C558800514B9A /* YieldValueView.swift */,
+				C9C1B1D82726B5C500046D23 /* ResourceValueView.swift */,
 				C9D191B4265AE4D2008C9622 /* PantheonView.swift */,
 				C9D191B8265C24EA008C9622 /* CitizenReligionView.swift */,
 				C9D191BE265D4175008C9622 /* TradePostView.swift */,
@@ -872,6 +877,7 @@
 				C9E059892655209C00C08463 /* BuildingViewModel.swift */,
 				C9E0598B265520BA00C08463 /* WonderViewModel.swift */,
 				C9B3141D2657FF1100726CAA /* YieldValueViewModel.swift */,
+				C9C1B1D62726B4A300046D23 /* ResourceValueViewModel.swift */,
 				C9D191B2265AE499008C9622 /* PantheonViewModel.swift */,
 				C9D191B6265C248F008C9622 /* CitizenReligionViewModel.swift */,
 				C9D191C0265D41CA008C9622 /* TradePostViewModel.swift */,
@@ -1156,6 +1162,7 @@
 				C9A12B6F26FAFE370094B980 /* HeaderViewModel.swift in Sources */,
 				C9FBBE3C268356C4005D7CE6 /* DiplomaticDialogViewModel.swift in Sources */,
 				C9D5D25D26F9DA3600009817 /* SelectItemView.swift in Sources */,
+				C9C1B1D92726B5C600046D23 /* ResourceValueView.swift in Sources */,
 				C92F948D265E23A6000968AB /* HexagonGridViewModel.swift in Sources */,
 				C950F98B26427C560057A7D1 /* GameSceneUserInterface.swift in Sources */,
 				C9AC0FFD26DE649B00B65288 /* PromotionViewModel.swift in Sources */,
@@ -1181,6 +1188,7 @@
 				C9A48D452653CD7500260EE0 /* CivicProgressViewModel.swift in Sources */,
 				C9A3763326369FE60057923E /* WaterLayer.swift in Sources */,
 				C9A48D302652C8AC00260EE0 /* BannerView.swift in Sources */,
+				C9C1B1D72726B4A400046D23 /* ResourceValueViewModel.swift in Sources */,
 				C9B087CB2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift in Sources */,
 				C950F99B264908F80057A7D1 /* PolicyCardViewModel.swift in Sources */,
 				C9EC424227135E93004224AB /* ProgressBarNode.swift in Sources */,

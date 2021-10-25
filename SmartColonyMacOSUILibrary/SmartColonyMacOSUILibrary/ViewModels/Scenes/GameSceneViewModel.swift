@@ -400,18 +400,11 @@ extension GameSceneViewModel {
                 fatalError("cant get human")
             }
 
-            let units = gameModel.units(of: humanPlayer)
+            if let unit = humanPlayer.firstReadyUnit(in: gameModel) {
 
-            for unitRef in units {
-
-                if let unit = unitRef {
-                    if unit.movesLeft() > 0 {
-                        self.game?.userInterface?.select(unit: unit)
-                        self.delegate?.focus(on: unit.location)
-                        //self.centerCamera(on: unit.location)
-                        return
-                    }
-                }
+                self.game?.userInterface?.select(unit: unit)
+                self.delegate?.focus(on: unit.location)
+                return
             }
         }
     }
@@ -459,6 +452,11 @@ extension GameSceneViewModel {
 }
 
 extension GameSceneViewModel: TopBarViewModelDelegate {
+
+    func religionClicked() {
+
+        self.delegate?.showReligionDialog()
+    }
 
     func treasuryClicked() {
 
