@@ -2593,6 +2593,10 @@ public class Unit: AbstractUnit {
         if self.automateType() != .none {
             self.automate(with: .none)
         }
+
+        if self.type == .trader {
+            self.endTrading()
+        }
     }
 
     func canCancelOrder() -> Bool {
