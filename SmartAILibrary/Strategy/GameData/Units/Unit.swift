@@ -2601,7 +2601,7 @@ public class Unit: AbstractUnit {
 
     func canCancelOrder() -> Bool {
 
-        return !self.missions.isEmpty
+        return !self.missions.isEmpty || self.isTrading()
     }
 
     public func readyToMove() -> Bool {
