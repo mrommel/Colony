@@ -89,6 +89,8 @@ class SelectTradeCityDialogViewModel: ObservableObject {
 
         self.completion = completion
         self.startCity = startCity
+        self.selectedCity = nil
+        self.showTradeRoute = false
         self.buildCityModels(for: cities)
     }
 

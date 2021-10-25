@@ -84,7 +84,13 @@ public class BaseMapHandler {
 
                 if tile.canHave(resource: resource, ignoreLatitude: true, in: grid) {
 
-                    let resourceNum = 50 + Int.random(maximum: 20) // FIXME
+                    let resourceNum = 1
+
+                    // if Legendary Start
+                    // resourceNum = 2
+
+                    // if Low fertility per region
+                    // resourceNum += 1
 
                     tile.set(resourceQuantity: resourceNum)
                     tile.set(resource: resource)

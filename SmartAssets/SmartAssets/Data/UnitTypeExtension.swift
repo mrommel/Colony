@@ -173,7 +173,7 @@ extension UnitType {
             // ancient
         case .settler: return "settler-idle-0"
         case .builder: return "builder-idle-0"
-        case .trader: return "cart-right-0"
+        case .trader: return "cart-idle-0"
 
         case .scout: return "archer-idle-0"
         case .warrior: return "warrior-idle-0"
@@ -233,7 +233,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "idle")
 
         case .trader:
-            return ObjectTextureAtlas(template: "cart-right-", range: 0..<2)
+            return ObjectTextureAtlas(template: "cart-idle-", range: 0..<15)
 
         case .scout:
             let textureAtlas = TextureAtlasLoader.load(named: "scout", in: bundle)
@@ -330,7 +330,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "south")
 
         case .trader:
-            return ObjectTextureAtlas(template: "cart-down-", range: 0..<14)
+            return ObjectTextureAtlas(template: "cart-down-", range: 0..<15)
 
         case .scout:
             let textureAtlas = TextureAtlasLoader.load(named: "scout", in: bundle)
@@ -411,7 +411,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "north")
 
         case .trader:
-            return ObjectTextureAtlas(template: "cart-up-", range: 0..<14)
+            return ObjectTextureAtlas(template: "cart-up-", range: 0..<15)
 
         case .scout:
             let textureAtlas = TextureAtlasLoader.load(named: "scout", in: bundle)
@@ -492,7 +492,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west", mirror: true)
 
         case .trader:
-            return ObjectTextureAtlas(template: "cart-right-", range: 0..<14)
+            return ObjectTextureAtlas(template: "cart-right-", range: 0..<15)
 
         case .scout:
             let textureAtlas = TextureAtlasLoader.load(named: "scout", in: bundle)
@@ -572,7 +572,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west")
 
         case .trader:
-            return ObjectTextureAtlas(template: "cart-left-", range: 0..<14)
+            return ObjectTextureAtlas(template: "cart-left-", range: 0..<15)
 
         case .scout:
             let textureAtlas = TextureAtlasLoader.load(named: "scout", in: bundle)
