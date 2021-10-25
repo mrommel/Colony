@@ -24,7 +24,7 @@ struct NameInputDialogView: View {
                 Text(self.viewModel.title)
                     .font(.title2)
                     .bold()
-                    .padding()
+                    .padding(.top)
 
                 Text(self.viewModel.summary)
 
@@ -35,16 +35,18 @@ struct NameInputDialogView: View {
                     Button(action: {
                         self.viewModel.closeDialog()
                     }, label: {
-                        Text("Cancel")
+                        Text(self.viewModel.cancel)
                     })
+                        .buttonStyle(DialogButtonStyle())
 
                     Spacer()
 
                     Button(action: {
-                        self.viewModel.closeAndFoundDialog()
+                        self.viewModel.closeAndConfirmDialog()
                     }, label: {
-                        Text("Okay")
+                        Text(self.viewModel.confirm)
                     })
+                        .buttonStyle(DialogButtonStyle(state: .highlighted))
                 }
             }
             .padding(.bottom, 45)

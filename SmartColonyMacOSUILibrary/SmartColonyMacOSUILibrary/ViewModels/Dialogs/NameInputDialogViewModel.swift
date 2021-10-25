@@ -66,7 +66,7 @@ class NameInputDialogViewModel: ObservableObject {
         self.delegate?.closeDialog()
     }
 
-    func closeAndFoundDialog() {
+    func closeAndConfirmDialog() {
 
         self.delegate?.closeDialog()
         self.completion?(self.value)
