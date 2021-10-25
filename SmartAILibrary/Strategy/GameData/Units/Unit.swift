@@ -3440,27 +3440,26 @@ public class Unit: AbstractUnit {
             return false
         }
 
-        if !testVisible {
+        if testVisible {
 
             // check for any other units working in this plot
-            /*gameModel.unit(at: <#T##HexPoint#>)
-            pPlot = plot();
-            const IDInfo* pUnitNode = pPlot->headUnitNode();
-            const CvUnit* pLoopUnit = NULL;
+            for loopUnitRef in gameModel.units(at: point) {
 
-            while (pUnitNode != NULL)
-            {
-                pLoopUnit = ::getUnit(*pUnitNode);
-                pUnitNode = pPlot->nextUnitNode(pUnitNode);
+                guard let loopUnit = loopUnitRef else {
+                    continue
+                }
 
-                if (pLoopUnit && pLoopUnit != this)
-                {
-                    if (pLoopUnit->IsWork() && pLoopUnit->getBuildType() != NO_BUILD)
-                    {
+                guard !loopUnit.isEqual(to: self) else {
+                    continue
+                }
+
+                if let loopMission = loopUnit.peekMission() {
+                    
+                    if loopMission.buildType != nil {
                         return false
                     }
                 }
-            }*/
+            }
         }
 
         return true

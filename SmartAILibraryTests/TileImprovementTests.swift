@@ -95,12 +95,62 @@ class TileImprovementTests: XCTestCase {
 
         // WHEN
         let builderUnit = Unit(at: HexPoint(x: 3, y: 4), type: .builder, owner: humanPlayer)
-        builderUnit.doMove(on: HexPoint(x: 4, y: 3), in: gameModel)
+        _ = builderUnit.doMove(on: HexPoint(x: 4, y: 3), in: gameModel)
         gameModel.add(unit: builderUnit)
         gameModel.userInterface?.show(unit: builderUnit)
         let canBuildFishingBoats = builderUnit.canDo(command: .buildFishingBoats, in: gameModel)
 
         // THEN
         XCTAssertTrue(canBuildFishingBoats)
+    }
+
+    // Cannot build mine on resource in open terrain (not on hills) #129
+    func testMineCanBeBuiltOnResourceInOpenTerrain() {
+
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let aiPlayer = Player(leader: .victoria, isHuman: false)
+        aiPlayer.initialize()
+
+        let humanPlayer = Player(leader: .alexander, isHuman: true)
+        humanPlayer.initialize()
+
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+
+        mapModel.set(terrain: .plains, at: HexPoint(x: 2, y: 4))
+        mapModel.set(hills: false, at: HexPoint(x: 2, y: 4))
+        mapModel.set(resource: .salt, at: HexPoint(x: 2, y: 4))
+
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
+
+        // AI
+        aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
+
+        // Human
+        humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
+        try! humanPlayer.techs?.discover(tech: .pottery)
+        try! humanPlayer.techs?.discover(tech: .bronzeWorking)
+        try! humanPlayer.techs?.discover(tech: .irrigation)
+        try! humanPlayer.techs?.discover(tech: .animalHusbandry)
+        try! humanPlayer.techs?.discover(tech: .sailing)
+        try! humanPlayer.techs?.discover(tech: .mining)
+        try! humanPlayer.techs?.setCurrent(tech: .archery, in: gameModel)
+        try! humanPlayer.civics?.discover(civic: .codeOfLaws)
+        try! humanPlayer.civics?.discover(civic: .foreignTrade)
+        try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
+
+        // WHEN
+        let canBuildMine = humanPlayer.canBuild(build: .mine, at: HexPoint(x: 2, y: 4), testGold: true, in: gameModel)
+
+        // THEN
+        XCTAssertTrue(canBuildMine)
     }
 }
