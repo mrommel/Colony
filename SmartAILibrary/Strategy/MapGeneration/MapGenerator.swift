@@ -746,7 +746,7 @@ public class MapGenerator: BaseMapHandler {
         }
 
         for item in possibleWonderSpots.keys {
-            print("Possible spots for \(item) = \(possibleWonderSpots[item]?.count)")
+            print("Possible spots for \(item) = \(possibleWonderSpots[item]?.count ?? 0)")
         }
     }
 

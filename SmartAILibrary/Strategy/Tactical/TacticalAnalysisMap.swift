@@ -527,10 +527,6 @@ class TacticalAnalysisMap {
     // Mark cells we can use to bomb a specific target
     func setTargetFlankBonusCells(target: AbstractTile?, in gameModel: GameModel?) {
 
-        guard let gameModel = gameModel else {
-            fatalError("cant get gameModel")
-        }
-
         guard let target = target else {
             fatalError("cant get target")
         }

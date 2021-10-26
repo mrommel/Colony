@@ -10,13 +10,13 @@ import Foundation
 
 enum DialogItemType: String, Codable {
 
-    case button = "button"
-    case image = "image"
-    case label = "label"
-    case textfield = "textfield"
-    case progressbar = "progressbar"
-    case dropdown = "dropdown"
-    case yieldInfo = "yieldInfo"
-    case techInfo = "techInfo"
-    case civicInfo = "civicInfo"
+    case button
+    case image
+    case label
+    case textfield
+    case progressbar
+    case dropdown
+    case yieldInfo
+    case techInfo
+    case civicInfo
 }

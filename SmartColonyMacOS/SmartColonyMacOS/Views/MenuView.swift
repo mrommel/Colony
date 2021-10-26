@@ -27,11 +27,11 @@ struct MenuView: View {
             GroupBox {
 
                 VStack(alignment: .center, spacing: 10) {
-                    Button(action: {
-                        print("tutorials")
-                    }) {
-                        Text("Tutorials")
-                    }.buttonStyle(GameButtonStyle())
+                    Button(
+                        action: { print("tutorials") },
+                        label: { Text("Tutorials") }
+                    )
+                        .buttonStyle(GameButtonStyle())
 
                     Button("Resume Game") {
                         print("resume game")

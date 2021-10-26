@@ -11,9 +11,7 @@ import SpriteKit
 class SafeAreaNode: SKEffectNode {
 
     override var frame: CGRect {
-        get {
-            return self.safeAreaFrame
-        }
+        return self.safeAreaFrame
     }
 
     private var safeAreaFrame: CGRect = CGRect.zero

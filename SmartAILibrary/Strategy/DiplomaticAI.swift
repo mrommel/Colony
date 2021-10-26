@@ -1981,10 +1981,6 @@ public class DiplomaticAI: Codable {
             fatalError("cant get other player")
         }
 
-        guard let diplomacyAI = otherPlayer.diplomacyAI else {
-            fatalError("cant get diplomacyAI")
-        }
-
         if statement == .none {
             // slewis - added so that a player already at war wouldn't try to start another war with another player. The AI should try to only have one war going at a time, if possible.
             if player.atWarCount() == 0 {

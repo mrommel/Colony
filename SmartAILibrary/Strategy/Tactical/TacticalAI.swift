@@ -710,7 +710,7 @@ public class TacticalAI: Codable {
             self.clearEnemiesNearArmy(army: thisArmy, in: gameModel)
 
             // Request moves for all units
-            for (index, slot) in thisArmy.formation.slots().enumerated() {
+            for (index, _) in thisArmy.formation.slots().enumerated() {
 
                 if let unit = thisArmy.unit(at: index), let slotEntry = thisArmy.slot(at: index) {
 
@@ -7840,7 +7840,7 @@ public class TacticalAI: Codable {
         let firstAttackStr = firstAttack ? "initial" : "follow-on"
         print("Made \(firstAttackStr) \(rangedStr) attack with \(city.name) towards \(target.target)")
 
-        city.doRangeAttack(at: target.target, in: gameModel)
+        _ = city.doRangeAttack(at: target.target, in: gameModel)
     }
 
     private func combatResolved(for attacker: AbstractUnit?, victorious: Bool, in gameModel: GameModel?) {
