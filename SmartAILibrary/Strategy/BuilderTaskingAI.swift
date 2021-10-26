@@ -961,7 +961,7 @@ public class BuilderTaskingAI {
             if !tile.terrain().isWater() {
                 return false
             }
-            
+
         default:
             // NOOP
             break
