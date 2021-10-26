@@ -34,7 +34,7 @@ public enum UnitType: Int, Codable {
     case scout
 
     // recon - medieval
-    // Skirmisher
+    case skirmisher
 
     // melee ------------------------------
 
@@ -45,7 +45,7 @@ public enum UnitType: Int, Codable {
     case swordman
 
     // melee - medieval
-    // Man-At-Arms
+    case manAtArms
 
     // ranged ------------------------------
 
@@ -54,7 +54,7 @@ public enum UnitType: Int, Codable {
     case archer
 
     // ranged - medieval
-    // Crossbowman
+    case crossbowman
 
     // anti-cavalry ------------------------------
 
@@ -62,7 +62,7 @@ public enum UnitType: Int, Codable {
     case spearman
 
     // anti-cavalry - medieval
-    // Pikeman
+    case pikeman
 
     // light cavalry ------------------------------
 
@@ -78,7 +78,7 @@ public enum UnitType: Int, Codable {
     case heavyChariot
 
     // heavy cavalry - medieval
-    // Knight
+    case knight
 
     // siege ------------------------------
 
@@ -86,7 +86,7 @@ public enum UnitType: Int, Codable {
     case catapult
 
     // siege - medieval
-    // Trebuchet
+    case trebuchet
 
     // naval melee ------------------------------
 
@@ -101,10 +101,10 @@ public enum UnitType: Int, Codable {
     // support ------------------------------
 
     // support - ancient
-    // Battering Ram
+    case batteringRam
 
     // support - classical
-    // Siege Tower
+    case siegeTower
 
     // support - medieval
     // Military Engineer
@@ -137,10 +137,13 @@ public enum UnitType: Int, Codable {
             .settler, .builder, .trader,
 
             // ancient
-            .scout, .warrior, .archer, .spearman, .heavyChariot, .galley,
+            .scout, .warrior, .archer, .spearman, .heavyChariot, .galley, .batteringRam,
 
             // classical
-            .swordman, .horseman, .catapult, .quadrireme,
+            .swordman, .horseman, .catapult, .quadrireme, .siegeTower,
+
+            // medieval
+            .skirmisher, .manAtArms, .crossbowman, .pikeman, .knight, .trebuchet,
 
             // industrial
             .medic,
@@ -344,11 +347,12 @@ public enum UnitType: Int, Codable {
         case .barbarianWarrior: return BarbarianWarriorUnitType()
         case .barbarianArcher: return BarbarianArcherUnitType()
 
-            // ancient
+            // civilian
         case .settler: return SettlerUnitType()
         case .builder: return BuilderUnitType()
         case .trader: return TraderUnitType()
 
+            // ancient
         case .scout: return ScoutUnitType()
         case .warrior: return WarriorUnitType()
         case .slinger: return SlingerUnitType()
@@ -356,12 +360,22 @@ public enum UnitType: Int, Codable {
         case .spearman: return SpearmanUnitType()
         case .heavyChariot: return HeavyChariotUnitType()
         case .galley: return GalleyUnitType()
+        case .batteringRam: return BatteringRamUnitType()
 
             // classical
         case .swordman: return SwordmanUnitType()
         case .horseman: return HorsemanUnitType()
         case .catapult: return CatapultUnitType()
         case .quadrireme: return QuadriremeUnitType()
+        case .siegeTower: return SiegeTowerUnitType()
+
+            // medieval
+        case .skirmisher: return SkirmisherUnitType()
+        case .manAtArms: return ManAtArmsUnitType()
+        case .crossbowman: return CrossbowmanUnitType()
+        case .pikeman: return PikemanUnitType()
+        case .knight: return KnightUnitType()
+        case .trebuchet: return TrebuchetUnitType()
 
             // industrial
         case .medic: return MedicUnitType()

@@ -45,7 +45,10 @@ internal class CatapultUnitType: UnitTypeData {
             obsoleteTech: nil,
             requiredCivic: nil,
             upgradesFrom: [],
-            flavours: []
+            flavours: [
+                Flavor(type: .ranged, value: 8),
+                Flavor(type: .offense, value: 2)
+            ]
         )
     }
 }
