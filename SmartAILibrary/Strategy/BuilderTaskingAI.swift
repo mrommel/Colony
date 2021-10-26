@@ -129,18 +129,6 @@ public class BuilderTaskingAI {
     /// Looks at city connections and marks plots that can be added as routes by EvaluateBuilder
     private func updateRoutePlots(in gameModel: GameModel?) {
 
-        guard let gameModel = gameModel else {
-            fatalError("cant get gameModel")
-        }
-
-        guard let player = self.player else {
-            fatalError("cant get player")
-        }
-
-        guard let cityConnections = player.cityConnections else {
-            fatalError("cant get cityConnections")
-        }
-
         self.nonTerritoryPlots.removeAll()
 
         return
@@ -968,12 +956,12 @@ public class BuilderTaskingAI {
             if tile.terrain().isWater() {
                 return false
             }
-            break
+
         case .sea:
             if !tile.terrain().isWater() {
                 return false
             }
-            break
+            
         default:
             // NOOP
             break

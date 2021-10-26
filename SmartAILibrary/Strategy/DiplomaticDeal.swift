@@ -288,7 +288,7 @@ public class DiplomaticDeal: Codable {
 
         if self.isPossibleToTradeItem(from: gameModel?.player(for: self.from), to: gameModel?.player(for: targetLeader), item: .peaceTreaty, in: gameModel) {
 
-            let item = DiplomaticDealItem(type: .peaceTreaty, direction: .give, amount: 0, duration: 30)
+            let item = DiplomaticDealItem(type: .peaceTreaty, direction: direction, amount: 0, duration: 30)
             tradeItems.append(item)
         } else {
             fatalError("DEAL: Trying to add an invalid Peace Treaty item to a deal")

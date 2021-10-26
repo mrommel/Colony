@@ -8,6 +8,7 @@
 
 import Foundation
 
+// swiftlint:disable type_body_length
 public enum BuildingType: Int, Codable {
 
     case none
@@ -211,6 +212,7 @@ public enum BuildingType: Int, Codable {
     }
 
     // swiftlint:disable line_length
+    // swiftlint:disable function_body_length
     private func data() -> BuildingTypeData {
 
         switch self {
@@ -316,7 +318,12 @@ public enum BuildingType: Int, Codable {
             // https://civilization.fandom.com/wiki/Shrine_(Civ6)
             // FIXME Allows purchasing of Missionaries in this city.
             return BuildingTypeData(name: "Shrine",
-                                    effects: ["+2 Faith", "+1 Citizen slot", "+1 Great Prophet point per turn.", "Allows the purchasing of Missionaries with Faith."],
+                                    effects: [
+                                        "+2 Faith",
+                                        "+1 Citizen slot",
+                                        "+1 Great Prophet point per turn.",
+                                        "Allows the purchasing of Missionaries with Faith."
+                                    ],
                                     category: .religious,
                                     era: .ancient,
                                     district: .holySite,
@@ -489,7 +496,7 @@ public enum BuildingType: Int, Codable {
                                     flavours: [Flavor(type: .cityDefense, value: 6), Flavor(type: .greatPeople, value: 5), Flavor(type: .offense, value: 8), Flavor(type: .defense, value: 4), Flavor(type: .wonder, value: 1), Flavor(type: .production, value: 1)])
         case .arena:
             // https://civilization.fandom.com/wiki/Arena_(Civ6)
-            // FIXME +1 Tourism6 Tourism after developing the Conservation civic
+            // FIXME +1 Tourism after developing the Conservation civic
             return BuildingTypeData(name: "Arena",
                                     effects: [
                                         "+2 Amenities",
@@ -513,7 +520,7 @@ public enum BuildingType: Int, Codable {
                                     flavours: [Flavor(type: .culture, value: 7), Flavor(type: .tourism, value: 3), Flavor(type: .expansion, value: 2), Flavor(type: .growth, value: 2), Flavor(type: .wonder, value: 1), Flavor(type: .gold, value: 1), Flavor(type: .greatPeople, value: 1), Flavor(type: .production, value: 1), Flavor(type: .happiness, value: 1), Flavor(type: .science, value: 1), Flavor(type: .diplomacy, value: 1), Flavor(type: .offense, value: 1), Flavor(type: .defense, value: 1), Flavor(type: .cityDefense, value: 1), Flavor(type: .naval, value: 1), Flavor(type: .navalTileImprovement, value: 1), Flavor(type: .religion, value: 1)])
         case .market:
             // https://civilization.fandom.com/wiki/Market_(Civ6)
-            // FIXME +1 TradeRoute6 Trade Route capacity if this city doesn't have a Lighthouse.
+            // FIXME +1 Trade Route capacity if this city doesn't have a Lighthouse.
             return BuildingTypeData(name: "Market",
                                     effects: [
                                         "+3 Gold",
@@ -565,8 +572,8 @@ public enum BuildingType: Int, Codable {
             // medieval
         case .medievalWalls:
             // https://civilization.fandom.com/wiki/Medieval_Walls_(Civ6)
-            // FIXME +2 Housing6 Housing under the Monarchy Government
-            // FIXME +2 Tourism6 Tourism (with Conservation)
+            // FIXME +2 Housing under the Monarchy Government
+            // FIXME +2 Tourism (with Conservation)
             return BuildingTypeData(name: "Medieval Walls",
                                     effects: [
                                         "+100 Outer Defense Strength",

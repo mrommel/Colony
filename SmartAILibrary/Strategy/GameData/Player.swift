@@ -2211,8 +2211,6 @@ public class Player: AbstractPlayer {
             city.cityStrategy?.turn(with: gameModel)
 
             if self.isActive() {
-                let isOrAre = self.leader.civilization().isPlural() ? "are" : "is"
-                let message = "\(self.leader.civilization()) \(isOrAre) ready for a new construction project."
                 self.notifications()?.add(notification: .productionNeeded(cityName: city.name, location: city.location))
             }
 
@@ -3088,8 +3086,6 @@ public class Player: AbstractPlayer {
             fatalError("cant get otherDiplomacyAI")
         }
 
-        let cityPlot = gameModel.tile(at: oldCity.location)
-
         let units = gameModel.units(at: oldCity.location)
 
         for loopUnitRef in units {
@@ -3659,20 +3655,12 @@ public class Player: AbstractPlayer {
             fatalError("cant get gameModel")
         }
 
-        guard let tile = tile else {
-            fatalError("cant get tile")
-        }
-
         guard let unit = unit else {
             fatalError("cant get unit")
         }
 
         guard let goodyHuts = self.goodyHuts else {
             fatalError("cant get goodyHuts")
-        }
-
-        guard let techs = self.techs else {
-            fatalError("cant get techs")
         }
 
         guard let civics = self.civics else {
@@ -4166,7 +4154,7 @@ public class Player: AbstractPlayer {
             fatalError("cant get gameModel")
         }
 
-        if let capital = gameModel.capital(of: self) {
+        if gameModel.capital(of: self) != nil {
             return true
         }
 

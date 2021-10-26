@@ -441,7 +441,7 @@ enum EconomicStrategyType: Int, Codable {
                 player.addOperation(of: .notSoQuickColonize, towards: nil, target: nil, area: iArea)
                 return true
             }*/
-            else if (canEmbark && !isAtWarWithSomeone) {
+            else if canEmbark && !isAtWarWithSomeone {
                 // CASE 3a: Need a city on a not so safe distant area
                 // not at war with anyone
                 player.addOperation(of: .notSoQuickColonize, towards: nil, target: nil, in: area, muster: nil, in: gameModel)

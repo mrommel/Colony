@@ -885,7 +885,6 @@ public class HomelandAI {
 
             default:
                 print("not implemented: HomelandAI - \(movePriorityItem.type)")
-                break
             }
         }
 

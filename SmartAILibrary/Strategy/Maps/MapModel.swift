@@ -207,7 +207,7 @@ open class MapModel: Codable {
         for area in self.areas {
 
             for pt in area {
-                if var tile = self.tile(at: pt) {
+                if let tile = self.tile(at: pt) {
                     tile.area = area
                 }
             }

@@ -137,7 +137,7 @@ public enum GovernmentType: Int, Codable {
                                   influcencePointsPerTurn: 3)
         case .classicalRepublic:
             return GovernmentData(name: "ClassicalRepublic",
-                                  bonus1Summary: "All cities with a district receive +1 Housing6 Housing and +1 Amenities6 Amenity.",
+                                  bonus1Summary: "All cities with a district receive +1 Housing and +1 Amenity.",
                                   bonus2Summary: "+15% Great Person points.", // FIXME niy
                                   era: .classical,
                                   required: .politicalPhilosophy,
@@ -146,7 +146,7 @@ public enum GovernmentType: Int, Codable {
                                   influcencePointsPerTurn: 3)
         case .oligarchy:
             return GovernmentData(name: "Oligarchy",
-                                  bonus1Summary: "All land melee, anti-cavalry, and naval melee class units gain +4 Civ6StrengthIcon Combat Strength.",
+                                  bonus1Summary: "All land melee, anti-cavalry, and naval melee class units gain +4 Combat Strength.",
                                   bonus2Summary: "+20% Unit Experience.",
                                   era: .classical,
                                   required: .politicalPhilosophy,
@@ -157,7 +157,7 @@ public enum GovernmentType: Int, Codable {
             // medieval
         case .merchantRepublic:
             return GovernmentData(name: "MerchantRepublic",
-                                  bonus1Summary: "+10% Civ6Gold Gold in all cities with an established Governor.", // FIXME niy
+                                  bonus1Summary: "+10% Gold in all cities with an established Governor.", // FIXME niy
                                   bonus2Summary: "+15% Production toward Districts.",
                                   era: .medieval,
                                   required: .exploration,
@@ -166,7 +166,7 @@ public enum GovernmentType: Int, Codable {
                                   influcencePointsPerTurn: 5)
         case .monarchy:
             return GovernmentData(name: "Monarchy",
-                                  bonus1Summary: "+1 Housing6 Housing per level of Walls.",
+                                  bonus1Summary: "+1 Housing per level of Walls.",
                                   bonus2Summary: "+50% Influence Points.", // FIXME niy
                                   era: .medieval,
                                   required: .divineRight,
@@ -177,8 +177,8 @@ public enum GovernmentType: Int, Codable {
             // renaissance
         case .theocracy:
             return GovernmentData(name: "Theocracy",
-                                  bonus1Summary: "+5 ReligiousStrength6 Religious Strength in Theological Combat. +0.5 Civ6Faith Faith per Citizen6 Citizen in cities with Governors.", // FIXME niy
-                                  bonus2Summary: "15% Discount on Purchases with Civ6Faith Faith.", // FIXME niy
+                                  bonus1Summary: "+5 Religious Strength in Theological Combat. +0.5 Faith per Citizen in cities with Governors.", // FIXME niy
+                                  bonus2Summary: "15% Discount on Purchases with Faith.", // FIXME niy
                                   era: .renaissance,
                                   required: .reformedChurch,
                                   policyCardSlots: PolicyCardSlots(military: 2, economic: 2, diplomatic: 1, wildcard: 1),
@@ -188,8 +188,8 @@ public enum GovernmentType: Int, Codable {
             // modern
         case .fascism:
             return GovernmentData(name: "Fascism",
-                                  bonus1Summary: "All units gain +5 Civ6StrengthIcon Combat Strength. War Weariness reduced by 15%.", // FIXME 2nd niy
-                                  bonus2Summary: "+50% Civ6Production Production toward Units.",
+                                  bonus1Summary: "All units gain +5 Combat Strength. War Weariness reduced by 15%.", // FIXME 2nd niy
+                                  bonus2Summary: "+50% Production toward Units.",
                                   era: .modern,
                                   required: .totalitarianism,
                                   policyCardSlots: PolicyCardSlots(military: 4, economic: 1, diplomatic: 1, wildcard: 2),
@@ -197,8 +197,8 @@ public enum GovernmentType: Int, Codable {
                                   influcencePointsPerTurn: 7)
         case .communism:
             return GovernmentData(name: "Communism",
-                                  bonus1Summary: "+0.6 Civ6Production Production per Citizen6 Citizen in cities with Governors.", // FIXME niy
-                                  bonus2Summary: "+15% Civ6Production Production.",
+                                  bonus1Summary: "+0.6 Production per Citizen in cities with Governors.", // FIXME niy
+                                  bonus2Summary: "+15% Production.",
                                   era: .modern,
                                   required: .classStruggle,
                                   policyCardSlots: PolicyCardSlots(military: 3, economic: 3, diplomatic: 1, wildcard: 1),
@@ -206,8 +206,8 @@ public enum GovernmentType: Int, Codable {
                                   influcencePointsPerTurn: 7)
         case .democracy:
             return GovernmentData(name: "Democracy",
-                                  bonus1Summary: "+1 Civ6Production Production and +1 Housing6 Housing per District.",
-                                  bonus2Summary: "25% Discount on Purchases with Civ6Gold Gold.", // FIXME niy
+                                  bonus1Summary: "+1 Production and +1 Housing per District.",
+                                  bonus2Summary: "25% Discount on Purchases with Gold.", // FIXME niy
                                   era: .modern,
                                   required: .suffrage,
                                   policyCardSlots: PolicyCardSlots(military: 1, economic: 3, diplomatic: 2, wildcard: 2),

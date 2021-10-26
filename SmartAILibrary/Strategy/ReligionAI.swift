@@ -297,8 +297,8 @@ public class ReligionAI {
 
         var rtnValue = 0
         var tempValue = 0
-        var minPop = pantheonType.minPopulation()
-        var minFollowers = pantheonType.minFollowers()
+        let minPop = pantheonType.minPopulation()
+        let minFollowers = pantheonType.minFollowers()
         var happinessMultiplier = 3
 
         let flavorOffense = player.valueOfPersonalityFlavor(of: .offense)

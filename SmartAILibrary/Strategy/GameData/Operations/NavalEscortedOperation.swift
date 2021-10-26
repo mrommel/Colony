@@ -193,9 +193,8 @@ class NavalEscortedOperation: Operation {
                 let targetPlot = self.targetPlot(in: gameModel)
                 let targetPlotOwner = targetPlot?.owner()
 
-                let settlerPlot = gameModel.tile(at: settler.location)
-
-                if (targetPlotOwner != nil && !player.isEqual(to: targetPlotOwner)) || gameModel.isAdjacentOwned(of: self.targetPosition!, otherThan: settler.player) {
+                if (targetPlotOwner != nil && !player.isEqual(to: targetPlotOwner)) ||
+                    gameModel.isAdjacentOwned(of: self.targetPosition!, otherThan: settler.player) {
 
                     if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
                         print("Not at target, but can no longer settle here. Target was \(self.targetPosition!)")

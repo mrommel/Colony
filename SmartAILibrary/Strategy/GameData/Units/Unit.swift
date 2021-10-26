@@ -4506,9 +4506,8 @@ extension Unit {
                 }
             }
         case .rebase:
-            if let target = mission.target {
-                // FIXME
-                fatalError("not implemented")
+            if mission.target != nil {
+                return self.canTransferToAnotherCity()
             }
         case .build:
             if let target = mission.unit?.location, let buildType = mission.buildType {
@@ -4523,7 +4522,7 @@ extension Unit {
                 }
             }
         case .followPath:
-            if let path = mission.path {
+            if mission.path != nil {
                 return true
             }
         /*case .swapUnits:

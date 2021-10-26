@@ -107,135 +107,207 @@ public enum PolicyCardType: Int, Codable {
         switch self {
 
         case .slot:
-            return PolicyCardTypeData(name: "-", bonus: "-", slot: .wildcard, required: .none, obsolete: nil, flavours: [])
+            return PolicyCardTypeData(
+                name: "-",
+                bonus: "-",
+                slot: .wildcard,
+                required: .none,
+                obsolete: nil,
+                flavours: []
+            )
 
         case .survey:
             // https://civilization.fandom.com/wiki/Survey_(Civ6)
-            return PolicyCardTypeData(name: "Survey",
-                                      bonus: "Doubles experience for recon units.",
-                                      slot: .military,
-                                      required: .codeOfLaws,
-                                      obsolete: .exploration,
-                                      flavours: [Flavor(type: .recon, value: 5)])
+            return PolicyCardTypeData(
+                name: "Survey",
+                bonus: "Doubles experience for recon units.",
+                slot: .military,
+                required: .codeOfLaws,
+                obsolete: .exploration,
+                flavours: [Flavor(type: .recon, value: 5)]
+            )
         case .godKing:
             // https://civilization.fandom.com/wiki/God_King_(Civ6)
-            return PolicyCardTypeData(name: "God King",
-                                      bonus: "+1 Civ6Faith Faith and +1 Civ6Gold Gold in the Capital6 Capital.",
-                                      slot: .economic,
-                                      required: .codeOfLaws,
-                                      obsolete: .theology,
-                                      flavours: [Flavor(type: .religion, value: 3), Flavor(type: .gold, value: 2)])
+            return PolicyCardTypeData(
+                name: "God King",
+                bonus: "+1 Faith and +1 Gold in the Capital.",
+                slot: .economic,
+                required: .codeOfLaws,
+                obsolete: .theology,
+                flavours: [
+                    Flavor(type: .religion, value: 3),
+                    Flavor(type: .gold, value: 2)
+                ]
+            )
         case .discipline:
             // https://civilization.fandom.com/wiki/Discipline_(Civ6)
-            return PolicyCardTypeData(name: "Discipline",
-                                      bonus: "+5 Civ6StrengthIcon Combat Strength when fighting Barbarians.",
-                                      slot: .military,
-                                      required: .codeOfLaws,
-                                      obsolete: .colonialism,
-                                      flavours: [Flavor(type: .defense, value: 4), Flavor(type: .growth, value: 1)])
+            return PolicyCardTypeData(
+                name: "Discipline",
+                bonus: "+5 Combat Strength when fighting Barbarians.",
+                slot: .military,
+                required: .codeOfLaws,
+                obsolete: .colonialism,
+                flavours: [
+                    Flavor(type: .defense, value: 4),
+                    Flavor(type: .growth, value: 1)
+                ]
+            )
         case .urbanPlanning:
-            return PolicyCardTypeData(name: "Urban Planning",
-                                      bonus: "+1 Civ6Production Production in all cities.",
-                                      slot: .economic,
-                                      required: .codeOfLaws,
-                                      obsolete: .gamesAndRecreation,
-                                      flavours: [Flavor(type: .growth, value: 2), Flavor(type: .production, value: 3)])
+            return PolicyCardTypeData(
+                name: "Urban Planning",
+                bonus: "+1 Production in all cities.",
+                slot: .economic,
+                required: .codeOfLaws,
+                obsolete: .gamesAndRecreation,
+                flavours: [
+                    Flavor(type: .growth, value: 2),
+                    Flavor(type: .production, value: 3)
+                ]
+            )
         case .ilkum:
             // https://civilization.fandom.com/wiki/Ilkum_(Civ6)
-            return PolicyCardTypeData(name: "Ilkum",
-                                      bonus: "+30% Civ6Production Production toward Builders.",
-                                      slot: .economic,
-                                      required: .craftsmanship,
-                                      obsolete: .gamesAndRecreation,
-                                      flavours: [Flavor(type: .growth, value: 2), Flavor(type: .tileImprovement, value: 3)])
+            return PolicyCardTypeData(
+                name: "Ilkum",
+                bonus: "+30% Production toward Builders.",
+                slot: .economic,
+                required: .craftsmanship,
+                obsolete: .gamesAndRecreation,
+                flavours: [
+                    Flavor(type: .growth, value: 2),
+                    Flavor(type: .tileImprovement, value: 3)
+                ]
+            )
         case .agoge:
             // https://civilization.fandom.com/wiki/Agoge_(Civ6)
-            return PolicyCardTypeData(name: "Agoge",
-                                      bonus: "+50% Civ6Production Production toward Ancient and Classical era melee, ranged units and anti-cavalry units.",
-                                      slot: .military,
-                                      required: .craftsmanship,
-                                      obsolete: .feudalism,
-                                      flavours: [Flavor(type: .offense, value: 3), Flavor(type: .defense, value: 2)])
+            return PolicyCardTypeData(
+                name: "Agoge",
+                bonus: "+50% Production toward Ancient and Classical era melee, ranged units and anti-cavalry units.",
+                slot: .military,
+                required: .craftsmanship,
+                obsolete: .feudalism,
+                flavours: [
+                    Flavor(type: .offense, value: 3),
+                    Flavor(type: .defense, value: 2)
+                ]
+            )
         case .caravansaries:
             // https://civilization.fandom.com/wiki/Caravansaries_(Civ6)
-            return PolicyCardTypeData(name: "Caravansaries",
-                                      bonus: "+2 Civ6Gold Gold from all TradeRoute6 Trade Routes.", // FIXME niy
-                                      slot: .economic,
-                                      required: .foreignTrade,
-                                      obsolete: .mercantilism,
-                                      flavours: [Flavor(type: .gold, value: 5)])
+            return PolicyCardTypeData(
+                name: "Caravansaries",
+                bonus: "+2 Gold from all Trade Routes.", // FIXME niy
+                slot: .economic,
+                required: .foreignTrade,
+                obsolete: .mercantilism,
+                flavours: [Flavor(type: .gold, value: 5)]
+            )
         case .maritimeIndustries:
             // https://civilization.fandom.com/wiki/Maritime_Industries_(Civ6)
-            return PolicyCardTypeData(name: "Maritime Industries",
-                                      bonus: "+100% Civ6Production Production toward Ancient and Classical era naval units.",
-                                      slot: .military,
-                                      required: .foreignTrade,
-                                      obsolete: .colonialism,
-                                      flavours: [Flavor(type: .navalGrowth, value: 3), Flavor(type: .naval, value: 2)])
+            return PolicyCardTypeData(
+                name: "Maritime Industries",
+                bonus: "+100% Production toward Ancient and Classical era naval units.",
+                slot: .military,
+                required: .foreignTrade,
+                obsolete: .colonialism,
+                flavours: [
+                    Flavor(type: .navalGrowth, value: 3),
+                    Flavor(type: .naval, value: 2)
+                ]
+            )
         case .maneuver:
             // https://civilization.fandom.com/wiki/Maneuver_(Civ6)
-            return PolicyCardTypeData(name: "Maneuver",
-                                      bonus: "+50% Civ6Production Production toward Ancient and Classical era heavy and light cavalry units.",
-                                      slot: .military,
-                                      required: .militaryTradition,
-                                      obsolete: .divineRight,
-                                      flavours: [Flavor(type: .mobile, value: 4), Flavor(type: .offense, value: 1)])
+            return PolicyCardTypeData(
+                name: "Maneuver",
+                bonus: "+50% Production toward Ancient and Classical era heavy and light cavalry units.",
+                slot: .military,
+                required: .militaryTradition,
+                obsolete: .divineRight,
+                flavours: [
+                    Flavor(type: .mobile, value: 4),
+                    Flavor(type: .offense, value: 1)
+                ]
+            )
         case .strategos:
             // https://civilization.fandom.com/wiki/Strategos_(Civ6)
-            return PolicyCardTypeData(name: "Strategos",
-                                      bonus: "+2 General6 Great General points per turn.", // FIXME niy
-                                      slot: .wildcard,
-                                      required: .militaryTradition,
-                                      obsolete: .scorchedEarth,
-                                      flavours: [Flavor(type: .greatPeople, value: 5)])
+            return PolicyCardTypeData(
+                name: "Strategos",
+                bonus: "+2 Great General points per turn.", // FIXME niy
+                slot: .wildcard,
+                required: .militaryTradition,
+                obsolete: .scorchedEarth,
+                flavours: [Flavor(type: .greatPeople, value: 5)]
+            )
         case .conscription:
             // https://civilization.fandom.com/wiki/Conscription_(Civ6)
-            return PolicyCardTypeData(name: "Conscription",
-                                      bonus: "Unit maintenance reduced by 1 Civ6Gold Gold per turn, per unit.",
-                                      slot: .military,
-                                      required: .stateWorkforce,
-                                      obsolete: .mobilization,
-                                      flavours: [Flavor(type: .offense, value: 4), Flavor(type: .gold, value: 1)])
+            return PolicyCardTypeData(
+                name: "Conscription",
+                bonus: "Unit maintenance reduced by 1 Gold per turn, per unit.",
+                slot: .military,
+                required: .stateWorkforce,
+                obsolete: .mobilization,
+                flavours: [
+                    Flavor(type: .offense, value: 4),
+                    Flavor(type: .gold, value: 1)
+                ]
+            )
         case .corvee:
             // https://civilization.fandom.com/wiki/Corv%C3%A9e_(Civ6)
-            return PolicyCardTypeData(name: "Corvee",
-                                      bonus: "+15% Civ6Production Production toward Ancient and Classical wonders.",
-                                      slot: .economic,
-                                      required: .stateWorkforce,
-                                      obsolete: .divineRight,
-                                      flavours: [Flavor(type: .wonder, value: 5)])
+            return PolicyCardTypeData(
+                name: "Corvee",
+                bonus: "+15% Production toward Ancient and Classical wonders.",
+                slot: .economic,
+                required: .stateWorkforce,
+                obsolete: .divineRight,
+                flavours: [Flavor(type: .wonder, value: 5)]
+            )
         case .landSurveyors:
             // https://civilization.fandom.com/wiki/Land_Surveyors_(Civ6)
-            return PolicyCardTypeData(name: "Land Surveyors",
-                                      bonus: "Reduces the cost of purchasing a tile by 20%.",
-                                      slot: .economic,
-                                      required: .earlyEmpire,
-                                      obsolete: .scorchedEarth,
-                                      flavours: [Flavor(type: .growth, value: 3), Flavor(type: .tileImprovement, value: 2)])
+            return PolicyCardTypeData(
+                name: "Land Surveyors",
+                bonus: "Reduces the cost of purchasing a tile by 20%.",
+                slot: .economic,
+                required: .earlyEmpire,
+                obsolete: .scorchedEarth,
+                flavours: [
+                    Flavor(type: .growth, value: 3),
+                    Flavor(type: .tileImprovement, value: 2)
+                ]
+            )
         case .colonization:
             // https://civilization.fandom.com/wiki/Colonization_(Civ6)
-            return PolicyCardTypeData(name: "Colonization",
-                                      bonus: "+50% Civ6Production Production toward Settlers.",
-                                      slot: .economic,
-                                      required: .earlyEmpire,
-                                      obsolete: .scorchedEarth,
-                                      flavours: [Flavor(type: .growth, value: 5)])
+            return PolicyCardTypeData(
+                name: "Colonization",
+                bonus: "+50% Production toward Settlers.",
+                slot: .economic,
+                required: .earlyEmpire,
+                obsolete: .scorchedEarth,
+                flavours: [Flavor(type: .growth, value: 5)]
+            )
         case .inspiration:
             // https://civilization.fandom.com/wiki/Inspiration_(Civ6)
-            return PolicyCardTypeData(name: "Inspiration",
-                                      bonus: "+2 Scientist6 Great Scientist points per turn.", // FIXME niy
-                                      slot: .wildcard,
-                                      required: .mysticism,
-                                      obsolete: .nuclearProgram,
-                                      flavours: [Flavor(type: .science, value: 2), Flavor(type: .greatPeople, value: 3)])
+            return PolicyCardTypeData(
+                name: "Inspiration",
+                bonus: "+2 Great Scientist points per turn.", // FIXME niy
+                slot: .wildcard,
+                required: .mysticism,
+                obsolete: .nuclearProgram,
+                flavours: [
+                    Flavor(type: .science, value: 2),
+                    Flavor(type: .greatPeople, value: 3)
+                ]
+            )
         case .revelation:
             // https://civilization.fandom.com/wiki/Revelation_(Civ6)
-            return PolicyCardTypeData(name: "Revelation",
-                                      bonus: "+2 Prophet6 Great Prophet points per turn.", // FIXME niy
-                                      slot: .wildcard,
-                                      required: .mysticism,
-                                      obsolete: .humanism,
-                                      flavours: [Flavor(type: .religion, value: 2), Flavor(type: .greatPeople, value: 3)])
+            return PolicyCardTypeData(
+                name: "Revelation",
+                bonus: "+2 Great Prophet points per turn.", // FIXME niy
+                slot: .wildcard,
+                required: .mysticism,
+                obsolete: .humanism,
+                flavours: [
+                    Flavor(type: .religion, value: 2),
+                    Flavor(type: .greatPeople, value: 3)
+                ]
+            )
         case .limitanei:
             // https://civilization.fandom.com/wiki/Limitanei_(Civ6)
             return PolicyCardTypeData(
