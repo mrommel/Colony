@@ -46,7 +46,7 @@ internal class PikemanUnitType: UnitTypeData {
             flavours: [
                 Flavor(type: .recon, value: 1),
                 Flavor(type: .offense, value: 3),
-                Flavor(type: .defense, value: 6),
+                Flavor(type: .defense, value: 6)
             ]
         )
     }

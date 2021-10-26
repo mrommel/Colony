@@ -47,7 +47,7 @@ internal class SkirmisherUnitType: UnitTypeData {
             flavours: [
                 Flavor(type: .recon, value: 8),
                 Flavor(type: .offense, value: 1),
-                Flavor(type: .defense, value: 1),
+                Flavor(type: .defense, value: 1)
             ]
         )
     }

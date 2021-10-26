@@ -47,7 +47,7 @@ internal class CrossbowmanUnitType: UnitTypeData {
             flavours: [
                 Flavor(type: .recon, value: 1),
                 Flavor(type: .offense, value: 7),
-                Flavor(type: .defense, value: 2),
+                Flavor(type: .defense, value: 2)
             ]
         )
     }

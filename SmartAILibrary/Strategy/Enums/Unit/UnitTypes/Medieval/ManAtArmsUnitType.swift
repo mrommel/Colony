@@ -46,7 +46,7 @@ internal class ManAtArmsUnitType: UnitTypeData {
             flavours: [
                 Flavor(type: .recon, value: 1),
                 Flavor(type: .offense, value: 8),
-                Flavor(type: .defense, value: 1),
+                Flavor(type: .defense, value: 1)
             ]
         )
     }
