@@ -137,7 +137,7 @@ public enum UnitType: Int, Codable {
             .settler, .builder, .trader,
 
             // ancient
-            .scout, .warrior, .archer, .spearman, .heavyChariot, .galley, .batteringRam,
+            .scout, .warrior, .slinger, .archer, .spearman, .heavyChariot, .galley, .batteringRam,
 
             // classical
             .swordman, .horseman, .catapult, .quadrireme, .siegeTower,

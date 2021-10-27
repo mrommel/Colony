@@ -39,25 +39,25 @@ extension UnitType {
         case .warrior: return "unit-portrait-warrior"
         case .slinger: return "unit-portrait-default" // default
         case .archer: return "unit-portrait-archer"
-        case .spearman: return "unit-portrait-default" // default
-        case .heavyChariot: return "unit-portrait-default" // default
+        case .spearman: return "unit-portrait-spearman"
+        case .heavyChariot: return "unit-portrait-heavyChariot"
         case .galley: return "unit-portrait-galley"
-        case .batteringRam: return "unit-portrait-default" // default
+        case .batteringRam: return "unit-portrait-batteringRam"
 
             // classical
         case .swordman: return "unit-portrait-swordman"
         case .horseman: return "unit-portrait-horseman"
         case .catapult: return "unit-portrait-catapult"
         case .quadrireme: return "unit-portrait-quadrireme"
-        case .siegeTower: return "unit-portrait-default" // default
+        case .siegeTower: return "unit-portrait-siegeTower"
 
             // medieval
-        case .skirmisher: return "unit-portrait-default" // default
-        case .manAtArms: return "unit-portrait-default" // default
-        case .crossbowman: return "unit-portrait-default" // default
-        case .pikeman: return "unit-portrait-default" // default
-        case .knight: return "unit-portrait-default" // default
-        case .trebuchet: return "unit-portrait-default" // default
+        case .skirmisher: return "unit-portrait-skirmisher"
+        case .manAtArms: return "unit-portrait-manAtArms"
+        case .crossbowman: return "unit-portrait-crossbowman"
+        case .pikeman: return "unit-portrait-pikeman"
+        case .knight: return "unit-portrait-knight"
+        case .trebuchet: return "unit-portrait-trebuchet"
 
             // industial
         case .medic: return "unit-portrait-default"
