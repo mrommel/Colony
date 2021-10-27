@@ -52,7 +52,7 @@ public enum BuildType: Int, Codable {
         return [.farm, .mine, .quarry, .plantation, .camp, .pasture, .fishingBoats]
     }
 
-    func name() -> String {
+    public func name() -> String {
 
         return self.data().name
     }

@@ -46,6 +46,7 @@
 		C94816C126A82DB000765029 /* TradeCityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94816C026A82DB000765029 /* TradeCityView.swift */; };
 		C94CE28726DCDA4F00B58A9C /* CombatBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94CE28626DCDA4F00B58A9C /* CombatBannerView.swift */; };
 		C94CE28926DCDA6400B58A9C /* CombatBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94CE28826DCDA6400B58A9C /* CombatBannerViewModel.swift */; };
+		C94F94DE27295C1E006BF135 /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94F94DD27295C1E006BF135 /* Tooltip.swift */; };
 		C950F98B26427C560057A7D1 /* GameSceneUserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F98A26427C560057A7D1 /* GameSceneUserInterface.swift */; };
 		C950F98E26427E110057A7D1 /* GameSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F98D26427E110057A7D1 /* GameSceneViewModel.swift */; };
 		C950F995264902990057A7D1 /* ChangePolicyDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F994264902990057A7D1 /* ChangePolicyDialogView.swift */; };
@@ -284,6 +285,7 @@
 		C94816C026A82DB000765029 /* TradeCityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeCityView.swift; sourceTree = "<group>"; };
 		C94CE28626DCDA4F00B58A9C /* CombatBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatBannerView.swift; sourceTree = "<group>"; };
 		C94CE28826DCDA6400B58A9C /* CombatBannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatBannerViewModel.swift; sourceTree = "<group>"; };
+		C94F94DD27295C1E006BF135 /* Tooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tooltip.swift; sourceTree = "<group>"; };
 		C950F98A26427C560057A7D1 /* GameSceneUserInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneUserInterface.swift; sourceTree = "<group>"; };
 		C950F98D26427E110057A7D1 /* GameSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneViewModel.swift; sourceTree = "<group>"; };
 		C950F994264902990057A7D1 /* ChangePolicyDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePolicyDialogView.swift; sourceTree = "<group>"; };
@@ -513,6 +515,7 @@
 				C968F2962639817A00612D0E /* ProgressCircle.swift */,
 				C9B43FAE263E8FB900241012 /* AskYesNoAlertView.swift */,
 				C9D5D25C26F9DA3600009817 /* SelectItemView.swift */,
+				C94F94DD27295C1E006BF135 /* Tooltip.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1028,6 +1031,7 @@
 				C94CE28926DCDA6400B58A9C /* CombatBannerViewModel.swift in Sources */,
 				C988EAE5261B724500300C39 /* AnimatedImageView.swift in Sources */,
 				C9B087CF2667BC550016DFCA /* EurekaTechActivatedPopupViewModel.swift in Sources */,
+				C94F94DE27295C1E006BF135 /* Tooltip.swift in Sources */,
 				C9077A8A26D65639004BE679 /* DialogButtonStyle.swift in Sources */,
 				C9077A8226D626AC004BE679 /* TradeRoutesDialogView.swift in Sources */,
 				C9A61D81261EE55600341241 /* PixelBuffer.swift in Sources */,

@@ -14,13 +14,15 @@ class AchievementViewModel: ObservableObject, Identifiable {
     // private
     let id: UUID = UUID()
     let imageName: String
+    let toolTipText: String
 
     @Published
     var image: NSImage
 
-    init(imageName: String) {
+    init(imageName: String, toolTipText: String) {
 
         self.imageName = imageName
+        self.toolTipText = toolTipText
 
         self.image = ImageCache.shared.image(for: imageName).copy() as! NSImage
     }
