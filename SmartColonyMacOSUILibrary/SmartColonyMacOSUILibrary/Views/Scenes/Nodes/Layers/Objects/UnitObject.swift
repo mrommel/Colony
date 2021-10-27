@@ -16,6 +16,22 @@ class UnitObject {
     static let alphaVisible: CGFloat = 1.0
     static let alphaInvisible: CGFloat = 0.0
 
+    static var atlasEmbarkedIdle: ObjectTextureAtlas {
+        ObjectTextureAtlas(template: "embarked-idle-", range: 0..<3)
+    }
+    static var atlasEmbarkedWest: ObjectTextureAtlas {
+        ObjectTextureAtlas(template: "embarked-west-", range: 0..<3)
+    }
+    static var atlasEmbarkedEast: ObjectTextureAtlas {
+        ObjectTextureAtlas(template: "embarked-east-", range: 0..<3)
+    }
+    static var atlasEmbarkedNorth: ObjectTextureAtlas {
+        ObjectTextureAtlas(template: "embarked-north-", range: 0..<3)
+    }
+    static var atlasEmbarkedSouth: ObjectTextureAtlas {
+        ObjectTextureAtlas(template: "embarked-south-", range: 0..<3)
+    }
+
     weak var unit: AbstractUnit?
     weak var gameModel: GameModel?
 
@@ -23,10 +39,10 @@ class UnitObject {
 
     var atlasIdle: ObjectTextureAtlas?
     var atlasFortified: ObjectTextureAtlas?
-    var atlasDown: ObjectTextureAtlas?
-    var atlasUp: ObjectTextureAtlas?
-    var atlasRight: ObjectTextureAtlas?
-    var atlasLeft: ObjectTextureAtlas?
+    var atlasSouth: ObjectTextureAtlas?
+    var atlasNorth: ObjectTextureAtlas?
+    var atlasEast: ObjectTextureAtlas?
+    var atlasWest: ObjectTextureAtlas?
 
     var lastTime: CFTimeInterval = 0
     var animationSpeed = 4.0
@@ -78,15 +94,14 @@ class UnitObject {
         self.strengthIndicatorNode = UnitStrengthIndicator(strength: 100)
         self.strengthIndicatorNode.position = CGPoint(x: 42, y: 16)
         self.strengthIndicatorNode.zPosition = Globals.ZLevels.unit + 0.06
-        // dont add
         self.sprite.addChild(self.strengthIndicatorNode)
 
         // setup atlases
         self.atlasIdle = unit.type.idleAtlas
-        self.atlasDown = unit.type.walkDownAtlas
-        self.atlasUp = unit.type.walkUpAtlas
-        self.atlasLeft = unit.type.walkLeftAtlas
-        self.atlasRight = unit.type.walkRightAtlas
+        self.atlasSouth = unit.type.walkSouthAtlas
+        self.atlasNorth = unit.type.walkNorthAtlas
+        self.atlasWest = unit.type.walkWestAtlas
+        self.atlasEast = unit.type.walkEastAtlas
     }
 
     func addTo(node parent: SKNode) {
@@ -110,14 +125,16 @@ class UnitObject {
                 block()
             })
         } else {
-            // if no atlas
-            // print("missing atlas")
             self.sprite.position = HexPoint.toScreen(hex: hex)
             block()
         }
     }
 
     private func walk(from: HexPoint, to: HexPoint, completion block: @escaping () -> Swift.Void) {
+
+        guard let unit = self.unit else {
+            fatalError("unit not given")
+        }
 
         if from == to {
             return
@@ -128,13 +145,29 @@ class UnitObject {
         switch direction {
 
         case .north:
-            self.animate(to: to, on: self.atlasUp, completion: block)
+            if unit.isEmbarked() {
+                self.animate(to: to, on: UnitObject.atlasEmbarkedNorth, completion: block)
+            } else {
+                self.animate(to: to, on: self.atlasNorth, completion: block)
+            }
         case .northeast, .southeast:
-            self.animate(to: to, on: self.atlasRight, completion: block)
+            if unit.isEmbarked() {
+                self.animate(to: to, on: UnitObject.atlasEmbarkedEast, completion: block)
+            } else {
+                self.animate(to: to, on: self.atlasEast, completion: block)
+            }
         case .south:
-            self.animate(to: to, on: self.atlasDown, completion: block)
+            if unit.isEmbarked() {
+                self.animate(to: to, on: UnitObject.atlasEmbarkedSouth, completion: block)
+            } else {
+                self.animate(to: to, on: self.atlasSouth, completion: block)
+            }
         case .southwest, .northwest:
-            self.animate(to: to, on: self.atlasLeft, completion: block)
+            if unit.isEmbarked() {
+                self.animate(to: to, on: UnitObject.atlasEmbarkedWest, completion: block)
+            } else {
+                self.animate(to: to, on: self.atlasWest, completion: block)
+            }
         }
     }
 
@@ -171,18 +204,27 @@ class UnitObject {
         // just to be sure
         self.sprite.position = HexPoint.toScreen(hex: unit.location)
 
-        if let atlas = self.atlasIdle {
-            let idleFrames = atlas.textures.map { SKTexture(image: $0) }
-            let combinedIdleFrames = [idleFrames, idleFrames, idleFrames].flatMap { $0 }
-            let idleAnimation = SKAction.repeatForever(
-                SKAction.animate(
-                    with: combinedIdleFrames,
-                    timePerFrame: atlas.speed
-                )
-            )
+        var idleAtlas: ObjectTextureAtlas
+        if unit.isEmbarked() {
+            idleAtlas = UnitObject.atlasEmbarkedIdle
+        } else {
+            guard let atlas = self.atlasIdle else {
+                fatalError("cant get idle atlas")
+            }
 
-            self.sprite.run(idleAnimation, withKey: UnitObject.idleActionKey, completion: { })
+            idleAtlas = atlas
         }
+
+        let idleFrames = idleAtlas.textures.map { SKTexture(image: $0) }
+        let combinedIdleFrames = [idleFrames, idleFrames, idleFrames].flatMap { $0 }
+        let idleAnimation = SKAction.repeatForever(
+            SKAction.animate(
+                with: combinedIdleFrames,
+                timePerFrame: idleAtlas.speed
+            )
+        )
+
+        self.sprite.run(idleAnimation, withKey: UnitObject.idleActionKey, completion: { })
     }
 
     func showFortified() {
@@ -222,11 +264,9 @@ class UnitObject {
 
         if let (fromPoint, _) = path.first, let (toPoint, _) = path.second {
 
-            // print("=== walk from \(fromPoint) to \(toPoint) ---")
             let pathWithoutFirst = path.pathWithoutFirst()
 
             self.walk(from: fromPoint, to: toPoint, completion: {
-                // print("=== ready walking from \(fromPoint) to \(toPoint) ---")
                 self.showWalk(on: pathWithoutFirst, completion: block)
             })
         }

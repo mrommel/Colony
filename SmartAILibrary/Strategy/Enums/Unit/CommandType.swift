@@ -11,6 +11,7 @@ import Foundation
 // https://civilization.fandom.com/wiki/List_of_unit_actions_in_Civ6
 public enum CommandType {
 
+    case rename
     case found
     case buildFarm
     case buildMine
@@ -28,7 +29,7 @@ public enum CommandType {
     case disband
     case cancelOrder
     //case wakeUp
-    //case upgrade
+    case upgrade
 
     // special
     case automateExploration
@@ -36,6 +37,7 @@ public enum CommandType {
     case establishTradeRoute
     case foundReligion
     case activateGreatPerson
+    case transferToAnotherCity
 
     // combat
     case attack
@@ -45,18 +47,38 @@ public enum CommandType {
     public static var all: [CommandType] {
 
         return [
-            .found, .buildFarm, .buildMine, .buildCamp, .buildPasture, .buildQuarry, .buildPlantation, .buildFishingBoats,
-            .pillage, .fortify, .hold, .garrison,
-            .disband, .cancelOrder,
-            .automateExploration /*, .automateBuild*/, .establishTradeRoute, .foundReligion,
+            .rename,
+            .found,
+            .buildFarm,
+            .buildMine,
+            .buildCamp,
+            .buildPasture,
+            .buildQuarry,
+            .buildPlantation,
+            .buildFishingBoats,
+            .pillage,
+            .fortify,
+            .hold,
+            .garrison,
+            .disband,
+            .cancelOrder,
+            .upgrade,
+            .automateExploration,
+            .establishTradeRoute,
+            .foundReligion,
             .activateGreatPerson,
-            .attack, .rangedAttack, .cancelAttack]
+            .transferToAnotherCity,
+            .attack,
+            .rangedAttack,
+            .cancelAttack
+        ]
     }
 
     public func title() -> String {
 
         switch self {
 
+        case .rename: return "Rename"
         case .found: return "Found City"
         case .buildFarm: return "Build Farm"
         case .buildMine: return "Build Mine"
@@ -73,12 +95,14 @@ public enum CommandType {
 
         case .disband: return "Disband"
         case .cancelOrder: return "Cancel order"
+        case .upgrade: return "Upgrade"
 
         case .automateExploration: return "Automate Exploration"
         case .automateBuild: return "Automate Build"
         case .establishTradeRoute: return "Establish TradeRoute"
         case .foundReligion: return "Found Religion"
         case .activateGreatPerson: return "Activate Great Person"
+        case .transferToAnotherCity: return "Transfer to another City"
 
         case .attack: return "Attack"
         case .rangedAttack: return "Ranged"

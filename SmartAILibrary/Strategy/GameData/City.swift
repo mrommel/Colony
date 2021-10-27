@@ -1154,10 +1154,6 @@ public class City: AbstractCity {
 
     public func loyaltyFromOthersEffects(in gameModel: GameModel?) -> Double {
 
-        guard let gameModel = gameModel else {
-            fatalError("cant get game")
-        }
-
         guard let player = self.player else {
             fatalError("cant get player")
         }
@@ -2808,10 +2804,6 @@ public class City: AbstractCity {
     }
 
     public func purchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
-
-        guard let buildings = self.buildings else {
-            fatalError("cant get buildings")
-        }
 
         guard self.canPurchase(building: buildingType, with: yieldType, in: gameModel) else {
             return false

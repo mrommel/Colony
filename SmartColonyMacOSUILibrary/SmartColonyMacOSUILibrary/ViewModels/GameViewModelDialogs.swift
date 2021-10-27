@@ -189,21 +189,6 @@ extension GameViewModel {
         }
     }
 
-    func showCityNameDialog() {
-
-        if self.currentScreenType == .cityName {
-            // already shown
-            return
-        }
-
-        if self.currentScreenType == .none {
-            self.cityNameDialogViewModel.update()
-            self.currentScreenType = .cityName
-        } else {
-            fatalError("cant show city name dialog, \(self.currentScreenType) is currently shown")
-        }
-    }
-
     func showCityDialog(for city: AbstractCity?) {
 
         if self.currentScreenType == .city {

@@ -16,7 +16,7 @@ extension WonderType {
         case .none: return "wonder-default"
 
             // ancient
-            //case .greatBath: return "wonder-greatBath"
+        //case .greatBath: return "wonder-greatBath"
         case .pyramids: return "wonder-pyramids"
         case .hangingGardens: return "wonder-hangingGardens"
         case .oracle: return "wonder-oracle"
@@ -24,16 +24,28 @@ extension WonderType {
         case .templeOfArtemis: return "wonder-templeOfArtemis"
 
             // classical
-        case .greatLighthouse: return "wonder-default"
-        case .greatLibrary: return "wonder-default"
-        case .apadana: return "wonder-default"
-        case .colosseum: return "wonder-default"
-        case .colossus: return "wonder-default"
-        case .jebelBarkal: return "wonder-default"
-        case .mausoleumAtHalicarnassus: return "wonder-default"
-        case .mahabodhiTemple: return "wonder-default"
-        case .petra: return "wonder-default"
-        case .terracottaArmy: return "wonder-default"
+        case .greatLighthouse: return "wonder-greatLighthouse"
+        case .greatLibrary: return "wonder-greatLibrary"
+        case .apadana: return "wonder-apadana"
+        case .colosseum: return "wonder-colosseum"
+        case .colossus: return "wonder-colossus"
+        case .jebelBarkal: return "wonder-jebelBarkal"
+        case .mausoleumAtHalicarnassus: return "wonder-mausoleumAtHalicarnassus"
+        case .mahabodhiTemple: return "wonder-mahabodhiTemple"
+        case .petra: return "wonder-petra"
+        case .terracottaArmy: return "wonder-terracottaArmy"
+
+            // medieval
+        case .alhambra: return "wonder-alhambra"
+        case .angkorWat: return "wonder-angkorWat"
+        case .chichenItza: return "wonder-chichenItza"
+        case .hagiaSophia: return "wonder-hagiaSophia"
+        case .hueyTeocalli: return "wonder-hueyTeocalli"
+        case .kilwaKisiwani: return "wonder-kilwaKisiwani"
+        case .kotokuIn: return "wonder-kotokuIn"
+        case .meenakshiTemple: return "wonder-meenakshiTemple"
+        case .montStMichel: return "wonder-montStMichel"
+        case .universityOfSankore: return "wonder-universityOfSankore"
         }
     }
 }

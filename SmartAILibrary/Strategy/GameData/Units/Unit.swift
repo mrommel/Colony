@@ -19,6 +19,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     var greatPerson: GreatPerson { get set }
 
     func name() -> String
+    func rename(to name: String)
     func isBarbarian() -> Bool
     func isHuman() -> Bool
     func isEnemy(of otherPlayer: AbstractPlayer?) -> Bool
@@ -49,10 +50,11 @@ public protocol AbstractUnit: AnyObject, Codable {
     @discardableResult func doMove(on target: HexPoint, in gameModel: GameModel?) -> Bool
     func readyToMove() -> Bool
     func readyToSelect() -> Bool
-    func queueMoveForVisualization(at point: HexPoint, in gameModel: GameModel?)
+    func queueMoveForVisualization(from source: HexPoint, to target: HexPoint, in gameModel: GameModel?)
     func publishQueuedVisualizationMoves(in gameModel: GameModel?)
     @discardableResult func jumpToNearestValidPlotWithin(range: Int, in gameModel: GameModel?) -> Bool
     func isImmobile() -> Bool
+    func doTransferToAnother(city: AbstractCity?, in gameModel: GameModel?)
 
     func isImpassable(tile: AbstractTile?) -> Bool
     func canEnterTerrain(of tile: AbstractTile?) -> Bool
@@ -70,6 +72,10 @@ public protocol AbstractUnit: AnyObject, Codable {
     func add(damage: Int)
     func isHurt() -> Bool
     func doHeal(in gameModel: GameModel?)
+
+    func upgradeType() -> UnitType?
+    func canUpgrade(to unitType: UnitType, in gameModel: GameModel?) -> Bool
+    func doUpgrade(to unitType: UnitType, in gameModel: GameModel?)
 
     func isOutOfAttacks() -> Bool
     func setMadeAttack(to newValue: Bool)
@@ -248,6 +254,7 @@ public class Unit: AbstractUnit {
     enum CodingKeys: CodingKey {
 
         case type
+        case name
         case location
         case player
         case leader
@@ -281,6 +288,7 @@ public class Unit: AbstractUnit {
     }
 
     public let type: UnitType
+    private var nameValue: String?
     private(set) public var location: HexPoint {
         didSet {
             self.unitMoved?.moved(to: self.location)
@@ -334,9 +342,10 @@ public class Unit: AbstractUnit {
 
     // MARK: constructors
 
-    public init(at location: HexPoint, type: UnitType, owner: AbstractPlayer?) {
+    public init(at location: HexPoint, name: String? = nil, type: UnitType, owner: AbstractPlayer?) {
 
         self.type = type
+        self.nameValue = name
         self.location = location
         self.player = owner
         self.leader = owner!.leader
@@ -366,6 +375,7 @@ public class Unit: AbstractUnit {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.type = try container.decode(UnitType.self, forKey: .type)
+        self.nameValue = try container.decodeIfPresent(String.self, forKey: .name)
         self.location = try container.decode(HexPoint.self, forKey: .location)
         self.leader = try container.decode(LeaderType.self, forKey: .leader)
         self.originalLeader = try container.decode(LeaderType.self, forKey: .originalLeader)
@@ -408,6 +418,7 @@ public class Unit: AbstractUnit {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.type, forKey: .type)
+        try container.encodeIfPresent(self.nameValue, forKey: .name)
         try container.encode(self.location, forKey: .location)
         try container.encode(self.player!.leader, forKey: .leader)
         try container.encode(self.originalLeader, forKey: .originalLeader)
@@ -444,7 +455,16 @@ public class Unit: AbstractUnit {
 
     public func name() -> String {
 
+        if let name = self.nameValue {
+            return name
+        }
+
         return self.type.name()
+    }
+
+    public func rename(to name: String) {
+
+        self.nameValue = name
     }
 
     public func isBarbarian() -> Bool {
@@ -621,6 +641,83 @@ public class Unit: AbstractUnit {
         if self.healthPointsValue > Int(Unit.maxHealth) {
             self.healthPointsValue = Int(Unit.maxHealth)
         }
+    }
+
+    public func upgradeType() -> UnitType? {
+
+        var upgradeType: UnitType?
+
+        for unitType in UnitType.all {
+            if unitType.upgradesFrom().contains(self.type) {
+                upgradeType = unitType
+            }
+        }
+
+        return upgradeType
+    }
+
+    func upgradeCost(to unitType: UnitType) -> Int {
+
+        return unitType.productionCost() / 2
+    }
+
+    public func canUpgrade(to unitType: UnitType, in gameModel: GameModel?) -> Bool {
+
+        guard let techs = self.player?.techs else {
+            fatalError("cant get player techs")
+        }
+
+        guard let civics = self.player?.civics else {
+            fatalError("cant get player civics")
+        }
+
+        guard let treasury = self.player?.treasury else {
+            fatalError("cant get player treasury")
+        }
+
+        guard unitType.upgradesFrom().contains(self.type) else {
+            return false
+        }
+
+        if let requiredTech = unitType.requiredTech() {
+            if !techs.has(tech: requiredTech) {
+                return false
+            }
+        }
+
+        if let requiredCivic = unitType.requiredCivic() {
+            if !civics.has(civic: requiredCivic) {
+                return false
+            }
+        }
+
+        if treasury.value() < Double(self.upgradeCost(to: unitType)) {
+            return false
+        }
+
+        return true
+    }
+
+    public func doUpgrade(to unitType: UnitType, in gameModel: GameModel?) {
+
+        guard self.canUpgrade(to: unitType, in: gameModel) else {
+            fatalError("cant upgrade")
+        }
+
+        let location = self.location
+        let player = self.player
+        let name = self.name()
+        let promotions = self.gainedPromotions()
+
+        self.doKill(delayed: true, by: nil, in: gameModel)
+
+        let newUnit = Unit(at: location, type: unitType, owner: player)
+        newUnit.rename(to: name)
+        for promotion in promotions {
+            newUnit.doPromote(with: promotion)
+        }
+        gameModel?.add(unit: newUnit)
+        gameModel?.userInterface?.refresh(unit: newUnit)
     }
 
     /// Current power of unit (raw unit type power adjusted for health)
@@ -2023,8 +2120,7 @@ public class Unit: AbstractUnit {
         }
 
         if show {
-            //self.queueMoveForVisualization(at: oldPlot.point, in: gameModel)
-            self.queueMoveForVisualization(at: newPlot.point, in: gameModel)
+            self.queueMoveForVisualization(from: oldPlot.point, to: newPlot.point, in: gameModel)
         } else {
             // teleport
             // SetPosition(pNewPlot);
@@ -2232,9 +2328,28 @@ public class Unit: AbstractUnit {
         return true
     }
 
+    /// Is this unit capable of moving on its own?
     public func isImmobile() -> Bool {
 
+        /*if self.type == .artist || self.type == .writer || self.type == .musician || self.type == .scientist || self.type == .trader {
+
+            return true
+        }*/
+
         return false
+    }
+
+    public func doTransferToAnother(city cityRef: AbstractCity?, in gameModel: GameModel?) {
+
+        guard let city = cityRef else {
+            fatalError("cant get city to transfer unit to")
+        }
+
+        if !self.canTransferToAnotherCity() {
+            fatalError("unit cant be transferred to another city")
+        }
+
+        self.set(location: city.location, in: gameModel)
     }
 
     //    ---------------------------------------------------------------------------
@@ -2262,9 +2377,13 @@ public class Unit: AbstractUnit {
         }
     }
 
-    public func queueMoveForVisualization(at point: HexPoint, in gameModel: GameModel?) {
+    public func queueMoveForVisualization(from source: HexPoint, to target: HexPoint, in gameModel: GameModel?) {
 
-        self.moveLocations.append(point)
+        if !self.moveLocations.contains(source) {
+            self.moveLocations.append(source)
+        }
+
+        self.moveLocations.append(target)
 
         if self.moveLocations.count == 20 /*|| self.isHuman()*/ {
             self.publishQueuedVisualizationMoves(in: gameModel)
@@ -2474,11 +2593,15 @@ public class Unit: AbstractUnit {
         if self.automateType() != .none {
             self.automate(with: .none)
         }
+
+        if self.type == .trader {
+            self.endTrading()
+        }
     }
 
     func canCancelOrder() -> Bool {
 
-        return !self.missions.isEmpty
+        return !self.missions.isEmpty || self.isTrading()
     }
 
     public func readyToMove() -> Bool {
@@ -2906,6 +3029,9 @@ public class Unit: AbstractUnit {
 
         switch command {
 
+        case .rename:
+            return true // always possible
+
         case .found:
             return self.canFound(at: self.location, in: gameModel)
 
@@ -2945,6 +3071,13 @@ public class Unit: AbstractUnit {
         case .cancelOrder:
             return self.canCancelOrder()
 
+        case .upgrade:
+            if let upgradeUnitType = self.upgradeType() {
+                return self.canUpgrade(to: upgradeUnitType, in: gameModel)
+            }
+
+            return false
+
         case .establishTradeRoute:
             return self.canEstablishTradeRoute(to: nil, in: gameModel)
 
@@ -2971,6 +3104,9 @@ public class Unit: AbstractUnit {
 
         case .activateGreatPerson:
             return self.canActivateGreatPerson()
+
+        case .transferToAnotherCity:
+            return self.canTransferToAnotherCity()
         }
     }
 
@@ -3302,33 +3438,32 @@ public class Unit: AbstractUnit {
         }
 
         var validBuildPlot = self.domain() == tile.terrain().domain() // self.isNativeDomain(at: point, in: gameModel)
-        validBuildPlot = validBuildPlot || (build.isWater() && self.domain() == .land && tile.isWater() && (self.canEmbark(in: gameModel) || self.isEmbarked()))
+        validBuildPlot ||= (build.isWater() && self.domain() == .land && tile.isWater() && (self.canEmbark(in: gameModel) || self.isEmbarked()))
 
         if !validBuildPlot {
             return false
         }
 
-        if !testVisible {
+        if testVisible {
 
             // check for any other units working in this plot
-            /*gameModel.unit(at: <#T##HexPoint#>)
-            pPlot = plot();
-            const IDInfo* pUnitNode = pPlot->headUnitNode();
-            const CvUnit* pLoopUnit = NULL;
+            for loopUnitRef in gameModel.units(at: point) {
 
-            while (pUnitNode != NULL)
-            {
-                pLoopUnit = ::getUnit(*pUnitNode);
-                pUnitNode = pPlot->nextUnitNode(pUnitNode);
+                guard let loopUnit = loopUnitRef else {
+                    continue
+                }
 
-                if (pLoopUnit && pLoopUnit != this)
-                {
-                    if (pLoopUnit->IsWork() && pLoopUnit->getBuildType() != NO_BUILD)
-                    {
+                guard !loopUnit.isEqual(to: self) else {
+                    continue
+                }
+
+                if let loopMission = loopUnit.peekMission() {
+
+                    if loopMission.buildType != nil {
                         return false
                     }
                 }
-            }*/
+            }
         }
 
         return true
@@ -4371,9 +4506,8 @@ extension Unit {
                 }
             }
         case .rebase:
-            if let target = mission.target {
-                // FIXME
-                fatalError("not implemented")
+            if mission.target != nil {
+                return self.canTransferToAnotherCity()
             }
         case .build:
             if let target = mission.unit?.location, let buildType = mission.buildType {
@@ -4388,7 +4522,7 @@ extension Unit {
                 }
             }
         case .followPath:
-            if let path = mission.path {
+            if mission.path != nil {
                 return true
             }
         /*case .swapUnits:
@@ -4580,11 +4714,24 @@ extension Unit {
 
     func canActivateGreatPerson() -> Bool {
 
-        guard self.type.isGreatPerson() && self.type != .prophet else {
+        guard self.type.isGreatPerson() else {
             return false
         }
 
-        return false
+        guard self.type != .prophet else {
+            return false
+        }
+
+        return true
+    }
+
+    func canTransferToAnotherCity() -> Bool {
+
+        guard self.type.isGreatPerson() || self.type == .trader else {
+            return false
+        }
+
+        return true
     }
 
     public func activateGreatPerson(in gameModel: GameModel?) {

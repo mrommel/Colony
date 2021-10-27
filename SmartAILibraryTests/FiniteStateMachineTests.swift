@@ -135,8 +135,8 @@ class FiniteStateMachineTests: XCTestCase {
     func testUnitStates() {
 
         // GIVEN
-        var hasMovingOrder = false
-        var hasMovementLeft = true
+        let hasMovingOrder = false
+        let hasMovementLeft = true
         let stateIdle = FiniteState(identifier: TestState.stateA)
         let stateMoving = FiniteState(identifier: TestState.stateB)
         //let stateMoving = FiniteState(identifier: "Moving")

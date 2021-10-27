@@ -124,12 +124,11 @@ public enum ScreenType {
     case cityList
 
     case selectPromotion
-    case confirm
     case selectTradeCity
 
+    case confirm
     case selectItems
-
-    case cityName
+    case selectName
 
     case menu
 
@@ -184,9 +183,31 @@ public protocol UserInterfaceDelegate: AnyObject {
     func select(civic: CivicType)
 
     // todo - should not be part of the interface protocol
-    func askForConfirmation(title: String, question: String, confirm: String, cancel: String, completion: @escaping (Bool) -> Void)
-    func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?) -> Void)
-    func askForSelection(title: String, items: [SelectableItem], completion: @escaping (Int) -> Void)
+    func askForConfirmation(
+        title: String,
+        question: String,
+        confirm: String,
+        cancel: String,
+        completion: @escaping (Bool) -> Void
+    )
+    func askForCity(
+        start startCity: AbstractCity?,
+        of cities: [AbstractCity?],
+        completion: @escaping (AbstractCity?) -> Void
+    )
+    func askForSelection(
+        title: String,
+        items: [SelectableItem],
+        completion: @escaping (Int) -> Void
+    )
+    func askForInput(
+        title: String,
+        summary: String,
+        value: String,
+        confirm: String,
+        cancel: String,
+        completion: @escaping (String) -> Void
+    )
 
     // on map
     func show(city: AbstractCity?)

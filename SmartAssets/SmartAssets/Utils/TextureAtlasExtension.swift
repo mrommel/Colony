@@ -53,8 +53,7 @@ extension TextureAtlas {
                 }
             }
 
-            speed = Double(action.speedValue) / 2000
-            //speed = 0.05
+            speed = Double(action.speedValue) / 1000
         }
 
         return ObjectTextureAtlas(textures: textures, speed: speed)

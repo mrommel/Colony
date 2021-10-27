@@ -186,3 +186,6 @@ extension Thread {
         return false
     }
 }
+
+infix operator ||=
+func ||= (lhs: inout Bool, rhs: Bool) { lhs = (lhs || rhs) }

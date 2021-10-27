@@ -152,7 +152,5 @@ public enum ReligionType: Codable, Hashable {
             fatalError("religion not handled: \(key)")
             //return .custom(title: key)
         }
-
-        return nil
     }
 }

@@ -56,7 +56,7 @@ class MapModelHelper {
         let climateTundra1: Rectangle = Rectangle(x: 0, y: 1, width: 52, height: 5)
         let climateMedium1: Rectangle = Rectangle(x: 0, y: 6, width: 52, height: 7)
         let climateSubtropic1: Rectangle = Rectangle(x: 0, y: 13, width: 52, height: 5)
-        let climateTropic: Rectangle = Rectangle(x: 0, y: 18, width: 52, height: 6)
+        // let climateTropic: Rectangle = Rectangle(x: 0, y: 18, width: 52, height: 6)
         let climateSubtropic2: Rectangle = Rectangle(x: 0, y: 24, width: 52, height: 5)
         let climateMedium2: Rectangle = Rectangle(x: 0, y: 30, width: 52, height: 7)
         let climateTundra2: Rectangle = Rectangle(x: 0, y: 35, width: 52, height: 5)

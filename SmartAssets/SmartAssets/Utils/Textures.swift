@@ -195,8 +195,11 @@ public class Textures {
         ]
         self.cityProgressTextureNames = Array(0...20).map { "linear-progress-\($0 * 5)" }
         self.cityTextureNames = [
-            "city-ancient-small", "city-ancient-medium", "city-ancient-large",
-            "city-medieval-small", "city-medieval-medium", "city-medieval-large"
+            "city-ancient-small-noWalls", "city-ancient-medium-noWalls", "city-ancient-large-noWalls",
+            "city-ancient-small-ancientWalls", "city-ancient-medium-ancientWalls", "city-ancient-large-ancientWalls",
+            "city-medieval-small-noWalls", "city-medieval-medium-noWalls", "city-medieval-large-noWalls",
+            "city-medieval-small-ancientWalls", "city-medieval-medium-ancientWalls", "city-medieval-large-ancientWalls",
+            "city-medieval-small-medievalWalls", "city-medieval-medium-medievalWalls", "city-medieval-large-medievalWalls"
             // add more assets here
         ]
 

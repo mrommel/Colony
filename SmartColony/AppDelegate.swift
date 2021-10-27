@@ -64,14 +64,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // save the game
         if let window = UIApplication.shared.delegate?.window {
             var viewController = window!.rootViewController
-            if (viewController is UINavigationController) {
+            if viewController is UINavigationController {
                 viewController = (viewController as! UINavigationController).visibleViewController
             }
 
             if let gameViewController = viewController as? GameViewController {
 
                 // check if we have the game
-                if let _ = gameViewController.viewModel?.game {
+                if gameViewController.viewModel?.game != nil {
 
                     gameViewController.gameScene?.handleGameQuickSave()
                 }

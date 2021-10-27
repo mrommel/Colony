@@ -89,10 +89,8 @@ public class WeightedList<T: Codable & Hashable>: Codable, CustomDebugStringConv
 
     func isZero() -> Bool {
 
-        for item in self.items {
-            if item.weight != 0.0 {
-                return false
-            }
+        for item in self.items where item.weight != 0.0 {
+            return false
         }
 
         return true

@@ -79,33 +79,56 @@ init(techType: TechType, progress: Int, turns: Int, boosted: Bool) {
 
     private func achievements() -> [AchievementViewModel] {
 
-        var iconTextureNames: [String] = []
+        var achievementViewModels: [AchievementViewModel] = []
 
         let achievements = self.techType.achievements()
 
         for buildingType in achievements.buildingTypes {
-            iconTextureNames.append(buildingType.iconTexture())
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: buildingType.iconTexture(),
+                    toolTipText: buildingType.name()
+                )
+            )
         }
 
         for unitType in achievements.unitTypes {
-            iconTextureNames.append(unitType.typeTexture())
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: unitType.typeTexture(),
+                    toolTipText: unitType.name()
+                )
+            )
         }
 
         for wonderType in achievements.wonderTypes {
-            iconTextureNames.append(wonderType.iconTexture())
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: wonderType.iconTexture(),
+                    toolTipText: wonderType.name()
+                )
+            )
         }
 
         for buildType in achievements.buildTypes {
-            iconTextureNames.append(buildType.iconTexture())
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: buildType.iconTexture(),
+                    toolTipText: buildType.name()
+                )
+            )
         }
 
         for districtType in achievements.districtTypes {
-            iconTextureNames.append(districtType.iconTexture())
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: districtType.iconTexture(),
+                    toolTipText: districtType.name()
+                )
+            )
         }
 
-        return iconTextureNames.map {
-            return AchievementViewModel(imageName: $0)
-        }
+        return achievementViewModels
     }
 
     func boostText() -> String {

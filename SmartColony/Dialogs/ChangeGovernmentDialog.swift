@@ -64,7 +64,10 @@ class ChangeGovernmentDialog: Dialog {
     private func setupScrollView() {
 
         // scroll area
-        self.scrollNode = ScrollNode(size: CGSize(width: 310, height: 370), contentSize: CGSize(width: 310, height: GovernmentType.all.count * 205 + 10))
+        self.scrollNode = ScrollNode(
+            size: CGSize(width: 310, height: 370),
+            contentSize: CGSize(width: 310, height: GovernmentType.all.count * 205 + 10)
+        )
         self.scrollNode?.position = CGPoint(x: 0, y: -400)
         self.scrollNode?.zPosition = self.zPosition + 1
         self.addChild(self.scrollNode!)

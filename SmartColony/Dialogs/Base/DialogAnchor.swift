@@ -10,9 +10,9 @@ import SpriteKit
 
 enum DialogAnchor: String, Codable {
 
-    case center = "center"
-    case left = "left"
-    case right = "right"
-    case top = "top"
-    case bottom = "bottom"
+    case center
+    case left
+    case right
+    case top
+    case bottom
 }

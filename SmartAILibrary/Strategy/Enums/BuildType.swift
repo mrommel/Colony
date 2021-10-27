@@ -52,7 +52,7 @@ public enum BuildType: Int, Codable {
         return [.farm, .mine, .quarry, .plantation, .camp, .pasture, .fishingBoats]
     }
 
-    func name() -> String {
+    public func name() -> String {
 
         return self.data().name
     }
@@ -274,33 +274,9 @@ public enum BuildType: Int, Codable {
                 duration: 600
             )
 
-            mineBuild.featureBuilds.append(
-                FeatureBuild(
-                    featureType: .rainforest,
-                    required: .bronzeWorking,
-                    production: 0,
-                    duration: 600,
-                    isRemove: true
-                )
-            )
-            mineBuild.featureBuilds.append(
-                FeatureBuild(
-                    featureType: .forest,
-                    required: .mining,
-                    production: 20,
-                    duration: 300,
-                    isRemove: true
-                )
-            )
-            mineBuild.featureBuilds.append(
-                FeatureBuild(
-                    featureType: .marsh,
-                    required: .masonry,
-                    production: 0,
-                    duration: 500,
-                    isRemove: true
-                )
-            )
+            mineBuild.featuresKept.append(.forest)
+            mineBuild.featuresKept.append(.rainforest)
+            mineBuild.featuresKept.append(.marsh)
 
             return mineBuild
 
@@ -312,33 +288,9 @@ public enum BuildType: Int, Codable {
                 duration: 700
             )
 
-            quarryBuild.featureBuilds.append(
-                FeatureBuild(
-                    featureType: .rainforest,
-                    required: .bronzeWorking,
-                    production: 0,
-                    duration: 600,
-                    isRemove: true
-                )
-            )
-            quarryBuild.featureBuilds.append(
-                FeatureBuild(
-                    featureType: .forest,
-                    required: .mining,
-                    production: 20,
-                    duration: 300,
-                    isRemove: true
-                )
-            )
-            quarryBuild.featureBuilds.append(
-                FeatureBuild(
-                    featureType: .marsh,
-                    required: .masonry,
-                    production: 0,
-                    duration: 500,
-                    isRemove: true
-                )
-            )
+            quarryBuild.featuresKept.append(.forest)
+            quarryBuild.featuresKept.append(.rainforest)
+            quarryBuild.featuresKept.append(.marsh)
 
             return quarryBuild
 
@@ -351,33 +303,9 @@ public enum BuildType: Int, Codable {
                 duration: 500
             )
 
-            plantationBuild.featureBuilds.append(
-                FeatureBuild(
-                    featureType: .rainforest,
-                    required: .bronzeWorking,
-                    production: 0,
-                    duration: 600,
-                    isRemove: false // not anymore
-                )
-            )
-            plantationBuild.featureBuilds.append(
-                FeatureBuild(
-                    featureType: .forest,
-                    required: .mining,
-                    production: 20,
-                    duration: 300,
-                    isRemove: false // not anymore
-                )
-            )
-            plantationBuild.featureBuilds.append(
-                FeatureBuild(
-                    featureType: .marsh,
-                    required: .masonry,
-                    production: 0,
-                    duration: 500,
-                    isRemove: false // not anymore
-                )
-            )
+            plantationBuild.featuresKept.append(.forest)
+            plantationBuild.featuresKept.append(.rainforest)
+            plantationBuild.featuresKept.append(.marsh)
 
             return plantationBuild
 
@@ -390,6 +318,7 @@ public enum BuildType: Int, Codable {
             return campBuild
 
         case .pasture:
+            // https://civilization.fandom.com/wiki/Pasture_(Civ6)
             let pastureBuild = BuildTypeData(
                 name: "Pasture",
                 required: .animalHusbandry,
@@ -397,33 +326,9 @@ public enum BuildType: Int, Codable {
                 duration: 700
             )
 
-            pastureBuild.featureBuilds.append(
-                FeatureBuild(
-                    featureType: .rainforest,
-                    required: .bronzeWorking,
-                    production: 0,
-                    duration: 600,
-                    isRemove: true
-                )
-            )
-            pastureBuild.featureBuilds.append(
-                FeatureBuild(
-                    featureType: .forest,
-                    required: .mining,
-                    production: 20,
-                    duration: 300,
-                    isRemove: true
-                )
-            )
-            pastureBuild.featureBuilds.append(
-                FeatureBuild(
-                    featureType: .marsh,
-                    required: .masonry,
-                    production: 0,
-                    duration: 500,
-                    isRemove: true
-                )
-            )
+            pastureBuild.featuresKept.append(.forest)
+            pastureBuild.featuresKept.append(.rainforest)
+            pastureBuild.featuresKept.append(.marsh)
 
             return pastureBuild
 
@@ -473,7 +378,17 @@ public enum BuildType: Int, Codable {
 
         case .removeMarsh:
             let removeMarshBuild = BuildTypeData(name: "Remove Marsh", duration: 500)
-            removeMarshBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 500, isRemove: true))
+
+            removeMarshBuild.featureBuilds.append(
+                FeatureBuild(
+                    featureType: .marsh,
+                    required: .masonry,
+                    production: 0,
+                    duration: 500,
+                    isRemove: true
+                )
+            )
+
             return removeMarshBuild
         }
     }

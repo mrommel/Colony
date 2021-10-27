@@ -41,7 +41,7 @@ class CityChooseProductionDialog: Dialog {
             fatalError("cant get city")
         }
 
-        guard let _ = self.gameModel else {
+        guard self.gameModel != nil else {
             fatalError("cant get gameModel")
         }
 

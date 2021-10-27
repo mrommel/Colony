@@ -829,10 +829,6 @@ public class DiplomaticAI: Codable {
             fatalError("cant get gameModel")
         }
 
-        guard let player = self.player else {
-            fatalError("cant get player")
-        }
-
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
@@ -1983,10 +1979,6 @@ public class DiplomaticAI: Codable {
 
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get other player")
-        }
-
-        guard let diplomacyAI = otherPlayer.diplomacyAI else {
-            fatalError("cant get diplomacyAI")
         }
 
         if statement == .none {

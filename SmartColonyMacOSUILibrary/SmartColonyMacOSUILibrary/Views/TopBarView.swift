@@ -13,22 +13,18 @@ public struct TopBarView: View {
     @ObservedObject
     public var viewModel: TopBarViewModel
 
+    private let cornerRadius: CGFloat = 10
+
     public var body: some View {
 
         VStack(alignment: .trailing) {
 
             HStack(alignment: .top, spacing: 10) {
 
-                YieldValueView(viewModel: self.viewModel.scienceYieldValueViewModel)
+                self.yieldButtons
 
-                YieldValueView(viewModel: self.viewModel.cultureYieldValueViewModel)
-
-                YieldValueView(viewModel: self.viewModel.faithYieldValueViewModel)
-
-                YieldValueView(viewModel: self.viewModel.goldYieldValueViewModel)
-                    .onTapGesture {
-                        self.viewModel.treasuryClicked()
-                    }
+                self.resourceButtons
+                    .padding(.top, 1)
 
                 Spacer()
 
@@ -44,6 +40,76 @@ public struct TopBarView: View {
             Spacer()
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
+    }
+
+    private var yieldButtons: AnyView {
+
+        AnyView(
+            HStack(alignment: .center, spacing: 0) {
+
+                YieldValueView(viewModel: self.viewModel.scienceYieldValueViewModel)
+
+                YieldValueView(viewModel: self.viewModel.cultureYieldValueViewModel)
+
+                YieldValueView(viewModel: self.viewModel.faithYieldValueViewModel)
+                    .onTapGesture {
+                        self.viewModel.religionClicked()
+                    }
+
+                YieldValueView(viewModel: self.viewModel.goldYieldValueViewModel)
+                    .onTapGesture {
+                        self.viewModel.treasuryClicked()
+                    }
+            }
+        )
+    }
+
+    private var resourceButtons: AnyView {
+
+        AnyView(
+            HStack(alignment: .center, spacing: 0) {
+
+                Spacer()
+                    .frame(width: 4, height: 12)
+
+                if self.viewModel.horsesValueViewModel.value > 0 {
+                    ResourceValueView(viewModel: self.viewModel.horsesValueViewModel)
+                }
+
+                if self.viewModel.ironValueViewModel.value > 0 {
+                    ResourceValueView(viewModel: self.viewModel.ironValueViewModel)
+                }
+
+                if self.viewModel.niterValueViewModel.value > 0 {
+                    ResourceValueView(viewModel: self.viewModel.niterValueViewModel)
+                }
+
+                if self.viewModel.coalValueViewModel.value > 0 {
+                    ResourceValueView(viewModel: self.viewModel.coalValueViewModel)
+                }
+
+                if self.viewModel.oilValueViewModel.value > 0 {
+                    ResourceValueView(viewModel: self.viewModel.oilValueViewModel)
+                }
+
+                if self.viewModel.aluminiumValueViewModel.value > 0 {
+                    ResourceValueView(viewModel: self.viewModel.aluminiumValueViewModel)
+                }
+
+                if self.viewModel.uraniumValueViewModel.value > 0 {
+                    ResourceValueView(viewModel: self.viewModel.uraniumValueViewModel)
+                }
+
+                Spacer()
+                    .frame(width: 4, height: 12)
+            }
+                .background(
+                    RoundedRectangle(cornerRadius: self.cornerRadius)
+                        .strokeBorder(Color.black)
+                        .background(Color.gray.opacity(0.2))
+                )
+                .cornerRadius(self.cornerRadius)
+        )
     }
 }
 

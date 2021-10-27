@@ -51,6 +51,7 @@ class TestUI: UserInterfaceDelegate {
 
     func askForConfirmation(title: String, question: String, confirm: String, cancel: String, completion: @escaping (Bool) -> Void) {}
     func askForSelection(title: String, items: [SelectableItem], completion: @escaping (Int) -> Void) {}
+    func askForInput(title: String, summary: String, value: String, confirm: String, cancel: String, completion: @escaping (String) -> Void) {}
 
     func select(tech: TechType) {}
     func select(civic: CivicType) {}
@@ -238,6 +239,10 @@ class DebugViewModel: ObservableObject {
             mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
             mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
 
+            for index in 0..<40 {
+                mapModel.set(terrain: .shore, at: HexPoint(x: index, y: 3))
+            }
+
             let gameModel = GameModel(
                 victoryTypes: [.domination],
                 handicap: .king,
@@ -253,6 +258,7 @@ class DebugViewModel: ObservableObject {
             // Human
             humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
             try! humanPlayer.techs?.discover(tech: .pottery)
+            try! humanPlayer.techs?.discover(tech: .sailing)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
             try! humanPlayer.civics?.discover(civic: .codeOfLaws)
             try! humanPlayer.civics?.discover(civic: .foreignTrade)
@@ -264,6 +270,11 @@ class DebugViewModel: ObservableObject {
 
             var x = 0
             for unitType in UnitType.all {
+
+                if unitType.domain() == .sea {
+                    mapModel.set(terrain: .shore, at: HexPoint(x: x, y: 4))
+                }
+
                 let unit = Unit(at: HexPoint(x: x, y: 4), type: unitType, owner: humanPlayer)
                 unit.origin = HexPoint(x: 3, y: 5)
                 gameModel.add(unit: unit)

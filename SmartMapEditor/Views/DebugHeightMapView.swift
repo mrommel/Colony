@@ -36,12 +36,14 @@ struct DebugHeightMapView: View {
 
                 Spacer()
 
-                Button(action: { viewModel.update() }) {
-                    Text("Update")
-                }
+                Button(
+                    action: { viewModel.update() },
+                    label: { Text("Update") }
+                )
 
-                Button(action: { viewModel.cancel() }) {
-                    Text("Cancel")
+                Button(
+                    action: { viewModel.cancel() },
+                    label: { Text("Cancel") }
                 }
 
                 /*Button(action: { viewModel.save() }) {

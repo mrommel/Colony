@@ -13,7 +13,7 @@ extension FeatureType {
     static func fromCiv5String(value: String) -> FeatureType? {
 
         switch value {
-        case "FEATURE_ICE": // FIXME
+        case "FEATURE_ICE":
             return .ice
         case "FEATURE_FOREST":
             return .forest
@@ -23,7 +23,7 @@ extension FeatureType {
             return .marsh
         case "FEATURE_OASIS":
             return .oasis
-        case "FEATURE_FLOOD_PLAINS": // FIXME
+        case "FEATURE_FLOOD_PLAINS":
             return .floodplains
 
         // special
@@ -47,9 +47,9 @@ extension FeatureType {
             return .gibraltar
         case "FEATURE_GEYSER":
             return .geyser
-        case "FEATURE_FOUNTAIN_YOUTH": // FIXME
+        case "FEATURE_FOUNTAIN_YOUTH":
             return .fountainOfYouth
-        case "FEATURE_POTOSI": // FIXME
+        case "FEATURE_POTOSI":
             return .potosi
         case "FEATURE_EL_DORADO": // FIXME
             return nil

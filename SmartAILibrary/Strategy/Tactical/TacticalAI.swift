@@ -669,7 +669,7 @@ public class TacticalAI: Codable {
                 return
             } else {
 
-                for (index, slot) in thisArmy.formation.slots().enumerated() {
+                for index in thisArmy.formation.slots().indices {
 
                     // See if we are just able to get to muster point in time.  If so, time for us to head over there
                     if let unit = thisArmy.unit(at: index), let slotEntry = thisArmy.slot(at: index) {
@@ -710,7 +710,7 @@ public class TacticalAI: Codable {
             self.clearEnemiesNearArmy(army: thisArmy, in: gameModel)
 
             // Request moves for all units
-            for (index, slot) in thisArmy.formation.slots().enumerated() {
+            for index in thisArmy.formation.slots().indices {
 
                 if let unit = thisArmy.unit(at: index), let slotEntry = thisArmy.slot(at: index) {
 
@@ -747,7 +747,7 @@ public class TacticalAI: Codable {
             self.clearEnemiesNearArmy(army: thisArmy, in: gameModel)
 
             // Request moves for all units
-            for (index, _) in thisArmy.formation.slots().enumerated() {
+            for index in thisArmy.formation.slots().indices {
 
                 if let unit = thisArmy.unit(at: index) {
 
@@ -952,7 +952,8 @@ public class TacticalAI: Codable {
                             } else {
                                 // Using step finder could get tripped up by ocean hexes (since they are in the area but not valid movement targets for coastal vessels.  Watch this!
                                 let pathFinder = AStarPathfinder()
-                                pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: .swim, for: self.player, unitMapType: .combat, canEmbark: true) // FIXME?
+                                pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(
+                                    for: .swim, for: self.player, unitMapType: .combat, canEmbark: true) // FIXME?
 
                                 let path = pathFinder.shortestPath(fromTileCoord: unitAtSea.location, toTileCoord: adjacentPoint)
                                 let distance: Int = path == nil ? 0 : Int(path!.cost)
@@ -1048,7 +1049,7 @@ public class TacticalAI: Codable {
                 }
 
                 // Error handling: no one at sea, retarget
-                if let closestUnitAtSea = closestUnitAtSea {
+                if closestUnitAtSea != nil {
 
                     // If not close yet, find best plot for this turn's movement along path to ultimate best plot
                     if let plot = bestDistance > slowestMovementRate ? bestPlotTmp : bestPlot {
@@ -1399,7 +1400,7 @@ public class TacticalAI: Codable {
 
         // Danger value
         let dangerValue = player.dangerPlotsAI!.danger(at: target.point)
-        var bestDefender = gameModel.unit(at: target.point, of: .combat)
+        let bestDefender = gameModel.unit(at: target.point, of: .combat)
 
         // Friendly city here?
         if let city = gameModel.city(at: target.point) {
@@ -1566,8 +1567,6 @@ public class TacticalAI: Codable {
                 if done {
                     continue
                 }
-
-                let targetType = tempTarget.targetType
 
                 guard let loopPlot = gameModel.tile(at: tempTarget.target) else {
                     fatalError("can get loopPlot")
@@ -2103,8 +2102,6 @@ public class TacticalAI: Codable {
 
         for tempTarget in self.tempTargets {
 
-            let targetType = tempTarget.targetType
-
             guard let loopPlot = gameModel.tile(at: tempTarget.target) else {
                 continue
             }
@@ -2188,7 +2185,7 @@ public class TacticalAI: Codable {
 
                 let plotPoint = HexPoint(x: target.x + dx, y: target.y + dy)
 
-                if let plot = gameModel.tile(at: plotPoint) {
+                if gameModel.tile(at: plotPoint) != nil {
 
                     safeForDeployment = true
                     forcedToUseWater = false
@@ -2506,11 +2503,9 @@ public class TacticalAI: Codable {
     // Is one of the chosen moves to this plot?
     func isInChosenMoves(at point: HexPoint) -> Bool {
 
-        for chosenBlock in self.chosenBlocks {
+        for chosenBlock in self.chosenBlocks where chosenBlock?.point == point {
 
-            if chosenBlock?.point == point {
-                return true
-            }
+            return true
         }
 
         return false
@@ -2535,64 +2530,61 @@ public class TacticalAI: Codable {
             self.updatePostures(in: gameModel)
 
             // Proceed in priority order
-            for move in self.movePriorityList {
+            for move in self.movePriorityList where move.priority >= 0 {
 
-                if move.priority >= 0 {
+                if move.moveType.dominanceZoneMove() {
 
-                    if move.moveType.dominanceZoneMove() {
+                    for dominanceZone in tacticalAnalysisMap.dominanceZones {
 
-                        for dominanceZone in tacticalAnalysisMap.dominanceZones {
+                        self.currentDominanceZone = dominanceZone
 
-                            self.currentDominanceZone = dominanceZone
+                        let postureType = self.findPostureType(for: dominanceZone)
 
-                            let postureType = self.findPostureType(for: dominanceZone)
-
-                            // Is this move of the right type for this zone?
-                            var match = false
-                            if move.moveType == .closeOnTarget {   // This one okay for all zones
-                                match = true
-                            } else if postureType == .withdraw && move.moveType == .postureWithdraw {
-                                match = true
-                            } else if postureType == .sitAndBombard && move.moveType == .postureSitAndBombard {
-                                match = true
-                            } else if postureType == .attritFromRange && move.moveType == .postureAttritFromRange {
-                                match = true
-                            } else if postureType == .exploitFlanks && move.moveType == .postureExploitFlanks {
-                                match = true
-                            } else if postureType == .steamRoll && move.moveType == .postureSteamroll {
-                                match = true
-                            } else if postureType == .surgicalCityStrike && move.moveType == .postureSurgicalCityStrike {
-                                match = true
-                            } else if postureType == .hedgehog && move.moveType == .postureHedgehog {
-                                match = true
-                            } else if postureType == .counterAttack && move.moveType == .postureCounterAttack {
-                                match = true
-                            } else if postureType == .shoreBombardment && move.moveType == .postureShoreBombardment {
-                                match = true
-                            } else if dominanceZone.dominanceFlag == .enemy && dominanceZone.territoryType == .friendly && move.moveType == .emergencyPurchases {
-                                match = true
-                            }
-
-                            if match {
-                                if !self.useThis(dominanceZone: dominanceZone) {
-                                    continue
-                                }
-
-                                self.extractTargets(for: dominanceZone)
-
-                                // Must have some moves to continue or it must be land around an enemy city (which we always want to process because
-                                // we might have an operation targeting it)
-                                if self.zoneTargets.isEmpty && dominanceZone.territoryType != .tempZone && (dominanceZone.territoryType != .enemy || dominanceZone.isWater) {
-                                    continue
-                                }
-
-                                self.assign(tacticalMove: move, in: gameModel)
-                            }
+                        // Is this move of the right type for this zone?
+                        var match = false
+                        if move.moveType == .closeOnTarget {   // This one okay for all zones
+                            match = true
+                        } else if postureType == .withdraw && move.moveType == .postureWithdraw {
+                            match = true
+                        } else if postureType == .sitAndBombard && move.moveType == .postureSitAndBombard {
+                            match = true
+                        } else if postureType == .attritFromRange && move.moveType == .postureAttritFromRange {
+                            match = true
+                        } else if postureType == .exploitFlanks && move.moveType == .postureExploitFlanks {
+                            match = true
+                        } else if postureType == .steamRoll && move.moveType == .postureSteamroll {
+                            match = true
+                        } else if postureType == .surgicalCityStrike && move.moveType == .postureSurgicalCityStrike {
+                            match = true
+                        } else if postureType == .hedgehog && move.moveType == .postureHedgehog {
+                            match = true
+                        } else if postureType == .counterAttack && move.moveType == .postureCounterAttack {
+                            match = true
+                        } else if postureType == .shoreBombardment && move.moveType == .postureShoreBombardment {
+                            match = true
+                        } else if dominanceZone.dominanceFlag == .enemy && dominanceZone.territoryType == .friendly && move.moveType == .emergencyPurchases {
+                            match = true
                         }
-                    } else {
-                        self.extractTargets()
-                        self.assign(tacticalMove: move, in: gameModel)
+
+                        if match {
+                            if !self.useThis(dominanceZone: dominanceZone) {
+                                continue
+                            }
+
+                            self.extractTargets(for: dominanceZone)
+
+                            // Must have some moves to continue or it must be land around an enemy city (which we always want to process because
+                            // we might have an operation targeting it)
+                            if self.zoneTargets.isEmpty && dominanceZone.territoryType != .tempZone && (dominanceZone.territoryType != .enemy || dominanceZone.isWater) {
+                                continue
+                            }
+
+                            self.assign(tacticalMove: move, in: gameModel)
+                        }
                     }
+                } else {
+                    self.extractTargets()
+                    self.assign(tacticalMove: move, in: gameModel)
                 }
             }
         }
@@ -2731,7 +2723,6 @@ public class TacticalAI: Codable {
         default:
             // NOOP
             print("not implemented: TacticalAI - \(tacticalMove.moveType)")
-            break
         }
     }
 
@@ -2914,11 +2905,9 @@ public class TacticalAI: Codable {
 
         if !self.queuedAttacks.isEmpty {
 
-            for queuedAttack in self.queuedAttacks {
+            for queuedAttack in self.queuedAttacks where point == queuedAttack.target?.target {
 
-                if point == queuedAttack.target?.target {
-                    return queuedAttack.seriesId
-                }
+                return queuedAttack.seriesId
             }
         }
 
@@ -3905,12 +3894,10 @@ public class TacticalAI: Codable {
                 if !city.isCapital() {
 
                     // Make sure the city isn't about to fall.  Test by seeing if there are high priority unit targets
-                    for zoneTarget in self.zoneTargets {
+                    for zoneTarget in self.zoneTargets where zoneTarget.targetType == .highPriorityUnit {
 
-                        if zoneTarget.targetType == .highPriorityUnit {
-                            // Abandon hope for this city; save our money to use elsewhere
-                            return
-                        }
+                        // Abandon hope for this city; save our money to use elsewhere
+                        return
                     }
                 }
 
@@ -4120,12 +4107,10 @@ public class TacticalAI: Codable {
     /// Disable a move (probably because it is incompatible with a posture chosen)
     func turnOffMove(type: TacticalMoveType) {
 
-        for movePriorityItem in self.movePriorityList {
+        for movePriorityItem in self.movePriorityList where movePriorityItem.moveType == type {
 
-            if movePriorityItem.moveType == type {
-                movePriorityItem.priority = -1
-                return
-            }
+            movePriorityItem.priority = -1
+            return
         }
     }
 
@@ -4330,12 +4315,10 @@ public class TacticalAI: Codable {
         self.plotDestroyUnitMoves(for: .mediumPriorityUnit, mustBeAbleToKill: true, attackAtPoorOdds: false, in: gameModel)
 
         // Now low priority targets
-        for var zoneTarget in self.zoneTargets {
+        for var zoneTarget in self.zoneTargets where zoneTarget.targetType == .lowPriorityUnit {
 
-            if zoneTarget.targetType == .lowPriorityUnit {
-                if zoneTarget.isTargetStillAlive(for: self.player, in: gameModel) {
-                    self.executePriorityAttacks(on: &zoneTarget, in: gameModel)
-                }
+            if zoneTarget.isTargetStillAlive(for: self.player, in: gameModel) {
+                self.executePriorityAttacks(on: &zoneTarget, in: gameModel)
             }
         }
 
@@ -4374,17 +4357,15 @@ public class TacticalAI: Codable {
             }
         }
 
-        for zoneTarget in self.zoneTargets {
+        for zoneTarget in self.zoneTargets where zoneTarget.targetType == .city {
 
-            if zoneTarget.targetType == .city {
-                if zoneTarget.isTargetStillAlive(for: self.player, in: gameModel) {
+            if zoneTarget.isTargetStillAlive(for: self.player, in: gameModel) {
 
-                    gameModel.tacticalAnalysisMap().clearDynamicFlags()
+                gameModel.tacticalAnalysisMap().clearDynamicFlags()
 
-                    gameModel.tacticalAnalysisMap().setTargetBombardCells(target: zoneTarget.target, bestFriendlyRange: bestFriendlyRange, canIgnoreLightOfSight: canIgnoreLightOfSight, in: gameModel)
+                gameModel.tacticalAnalysisMap().setTargetBombardCells(target: zoneTarget.target, bestFriendlyRange: bestFriendlyRange, canIgnoreLightOfSight: canIgnoreLightOfSight, in: gameModel)
 
-                    self.executeSafeBombards(on: zoneTarget, in: gameModel)
-                }
+                self.executeSafeBombards(on: zoneTarget, in: gameModel)
             }
         }
     }
@@ -5306,11 +5287,11 @@ public class TacticalAI: Codable {
                 // If best so far, save it off
                 if score > bestScore {
                     self.newlyChosen.removeAll()
-                    for index in 0..<self.temporaryBlocks.count {
-                        if self.temporaryBlocks[index]?.distanceToTarget != Int.max {
-                            self.newlyChosen.append(self.temporaryBlocks[index])
-                        }
+                    for index in 0..<self.temporaryBlocks.count where self.temporaryBlocks[index]?.distanceToTarget != Int.max {
+
+                        self.newlyChosen.append(self.temporaryBlocks[index])
                     }
+
                     bestScore = score
                 }
 
@@ -5376,12 +5357,10 @@ public class TacticalAI: Codable {
         }
 
         // Legal, so let's score it
-        for index in 0..<self.temporaryBlocks.count {
+        for index in 0..<self.temporaryBlocks.count where self.temporaryBlocks[index]!.distanceToTarget != Int.max {
 
-            if self.temporaryBlocks[index]!.distanceToTarget != Int.max {
-                score += (10000 - (self.temporaryBlocks[index]!.distanceToTarget * 1000))
-                score += self.temporaryBlocks[index]!.unit!.power()
-            }
+            score += (10000 - (self.temporaryBlocks[index]!.distanceToTarget * 1000))
+            score += self.temporaryBlocks[index]!.unit!.power()
         }
 
         return score
@@ -5700,13 +5679,10 @@ public class TacticalAI: Codable {
             choseOne = false
             self.newlyChosen.removeAll()
 
-            for potentialBlock in self.potentialBlocks {
+            for potentialBlock in self.potentialBlocks where potentialBlock?.numChoices == 1 {
 
-                if potentialBlock?.numChoices == 1 {
-
-                    self.newlyChosen.append(potentialBlock)
-                    choseOne = true
-                }
+                self.newlyChosen.append(potentialBlock)
+                choseOne = true
             }
 
             if choseOne {
@@ -5837,11 +5813,9 @@ public class TacticalAI: Codable {
                 continue
             }
 
-            for index2 in 0..<self.potentialBlocks.count {
+            for index2 in 0..<self.potentialBlocks.count where plot == self.potentialBlocks[index2]?.point {
 
-                if plot == self.potentialBlocks[index2]?.point {
-                    numFound += 1
-                }
+                numFound += 1
             }
 
             self.potentialBlocks[index]?.numChoices = numFound
@@ -6110,7 +6084,6 @@ public class TacticalAI: Codable {
             default:
                 // NOOP
                 print("not implemented: TacticalAI - \(move.moveType)")
-                break
             }
         }
 
@@ -6541,7 +6514,7 @@ public class TacticalAI: Codable {
 
                     if nearestCamp != target.target {
 
-                        if let tile = gameModel.tile(at: target.target) {
+                        if let tile = gameModel.tile(at: target.target.neighbor(in: dir)) {
 
                             if tile.isWater() {
 
@@ -6697,18 +6670,15 @@ public class TacticalAI: Codable {
         var bestValue = Int.max
         var bestMovePlot: HexPoint?
 
-        for allTarget in self.allTargets {
+        // Is this target a camp?
+        for allTarget in self.allTargets where allTarget.targetType == .barbarianCamp {
 
-            // Is this target a camp?
-            if allTarget.targetType == .barbarianCamp {
+            let value = unit.location.distance(to: allTarget.target)
 
-                let value = unit.location.distance(to: allTarget.target)
+            if value < bestValue {
 
-                if value < bestValue {
-
-                    bestValue = value
-                    bestMovePlot = allTarget.target
-                }
+                bestValue = value
+                bestMovePlot = allTarget.target
             }
         }
 
@@ -7389,8 +7359,6 @@ public class TacticalAI: Codable {
         var rtnValue = false
         self.currentMoveUnits.removeAll()
 
-        let isCityTarget = gameModel.city(at: targetLocation) != nil
-
          // Loop through all units available to tactical AI this turn
         for loopUnitRef in self.currentTurnUnits {
 
@@ -7840,7 +7808,7 @@ public class TacticalAI: Codable {
         let firstAttackStr = firstAttack ? "initial" : "follow-on"
         print("Made \(firstAttackStr) \(rangedStr) attack with \(city.name) towards \(target.target)")
 
-        city.doRangeAttack(at: target.target, in: gameModel)
+        _ = city.doRangeAttack(at: target.target, in: gameModel)
     }
 
     private func combatResolved(for attacker: AbstractUnit?, victorious: Bool, in gameModel: GameModel?) {

@@ -372,7 +372,7 @@ public class Combat {
             // Move forward
             if attacker.canMove(into: defenderTile.point, options: MoveOptions.none, in: gameModel) {
                 // attacker.doMove(on: defenderTile.point, in: gameModel)
-                attacker.queueMoveForVisualization(at: attacker.location, in: gameModel)
+                attacker.queueMoveForVisualization(from: attacker.location, to: defenderTile.point, in: gameModel)
                 attacker.doMoveOnPath(towards: defenderTile.point, previousETA: 0, buildingRoute: false, in: gameModel)
             }
         }
@@ -427,8 +427,7 @@ public class Combat {
 
             // Move forward
             if attacker.canMove(into: defenderTile.point, options: MoveOptions.none, in: gameModel) {
-                //attacker.doMove(on: defenderTile.point, in: gameModel)
-                attacker.queueMoveForVisualization(at: attacker.location, in: gameModel)
+                attacker.queueMoveForVisualization(from: attacker.location, to: defenderTile.point, in: gameModel)
                 attacker.doMoveOnPath(towards: defenderTile.point, previousETA: 0, buildingRoute: false, in: gameModel)
             }
 
@@ -566,8 +565,7 @@ public class Combat {
 
             // Move forward
             if attacker.canMove(into: defenderTile.point, options: MoveOptions.none, in: gameModel) {
-                //attacker.doMove(on: defenderTile.point, in: gameModel)
-                attacker.queueMoveForVisualization(at: attacker.location, in: gameModel)
+                attacker.queueMoveForVisualization(from: attacker.location, to: defenderTile.point, in: gameModel)
                 attacker.doMoveOnPath(towards: defenderTile.point, previousETA: 0, buildingRoute: false, in: gameModel)
             }
 

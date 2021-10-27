@@ -604,7 +604,7 @@ class DiplomaticPlayerDict: Codable {
         fatalError("not gonna happen")
     }
 
-    // MARK
+    // MARK: war methods
 
     func declaredWar(towards otherPlayer: AbstractPlayer?, in turn: Int) {
 

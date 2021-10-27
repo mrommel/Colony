@@ -13,6 +13,7 @@ extension CommandType {
 
         switch self {
 
+        case .rename: return "command-default"
         case .found: return "command-found"
         case .buildFarm: return "command-farm"
         case .buildMine: return "command-mine"
@@ -29,12 +30,14 @@ extension CommandType {
 
         case .disband: return "command-disband"
         case .cancelOrder: return "command-cancelOrder"
+        case .upgrade: return "command-default"
 
         case .automateExploration: return "command-automateExploration"
         case .automateBuild: return "command-automateBuild"
         case .establishTradeRoute: return "command-establishTradeRoute"
         case .foundReligion: return "command-default"
         case .activateGreatPerson: return "command-default"
+        case .transferToAnotherCity: return "command-default"
 
         case .attack: return "command-attack"
         case .rangedAttack: return "command-ranged"
@@ -46,6 +49,7 @@ extension CommandType {
 
         switch self {
 
+        case .rename: return "command-button-rename"
         case .found: return "command-button-found"
         case .buildFarm: return "command-button-farm"
         case .buildMine: return "command-button-mine"
@@ -62,12 +66,14 @@ extension CommandType {
 
         case .disband: return "command-button-disband"
         case .cancelOrder: return "command-button-cancelOrder"
+        case .upgrade: return "command-button-upgrade"
 
         case .automateExploration: return "command-button-automateExploration"
         case .automateBuild: return "command-button-automateBuild"
         case .establishTradeRoute: return "command-button-establishTradeRoute"
         case .foundReligion: return "command-button-foundReligion"
         case .activateGreatPerson: return "command-button-activateGreatPerson"
+        case .transferToAnotherCity: return "command-button-transferToAnotherCity"
 
         case .attack: return "command-button-attack"
         case .rangedAttack: return "command-button-ranged"
