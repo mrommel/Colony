@@ -34,6 +34,18 @@ extension WonderType {
         case .mahabodhiTemple: return "wonder-mahabodhiTemple"
         case .petra: return "wonder-petra"
         case .terracottaArmy: return "wonder-terracottaArmy"
+
+            // medieval
+        case .alhambra: return "wonder-alhambra"
+        case .angkorWat: return "wonder-angkorWat"
+        case .chichenItza: return "wonder-chichenItza"
+        case .hagiaSophia: return "wonder-hagiaSophia"
+        case .hueyTeocalli: return "wonder-hueyTeocalli"
+        case .kilwaKisiwani: return "wonder-kilwaKisiwani"
+        case .kotokuIn: return "wonder-kotokuIn"
+        case .meenakshiTemple: return "wonder-meenakshiTemple"
+        case .montStMichel: return "wonder-montStMichel"
+        case .universityOfSankore: return "wonder-universityOfSankore"
         }
     }
 }
