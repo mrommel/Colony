@@ -40,6 +40,7 @@ extension NotificationType {
         case .governorTitleAvailable: return "button-default"
 
         case .cityConquered: return "button-default"
+        case .goodyHutDiscovered: return "button-goodyHutDiscovered"
         }
     }
 }

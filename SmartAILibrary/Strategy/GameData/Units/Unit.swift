@@ -2962,7 +2962,7 @@ public class Unit: AbstractUnit {
             weightedPromotion.add(weight: Double(self.valueOf(promotion: promotion)), for: promotion)
         }
 
-        if let bestPromotion = weightedPromotion.chooseBest() {
+        if let bestPromotion = weightedPromotion.chooseLargest() {
 
             return bestPromotion
         }

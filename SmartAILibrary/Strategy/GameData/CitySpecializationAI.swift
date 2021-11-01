@@ -394,18 +394,18 @@ public class CitySpecializationAI {
                     yieldImprovements.set(weight: -bestDelta.weight(of: yieldType), for: yieldType)
                 }
             }
-            yieldImprovements.sort()
+            //yieldImprovements.sort()
 
             // Take them out in order and see if we need this specialization
             var foundIt = false
 
-            for mostImprovedYield in yieldImprovements.items {
+            for mostImprovedYield in yieldImprovements.items.sortedByValue.reversed() {
 
                 // Loop through needed specializations until we find one that matches
                 for specializationNeeded in self.specializationsNeeded {
 
                     let yieldType = specializationNeeded.yieldType()
-                    if yieldType == mostImprovedYield.itemType {
+                    if yieldType == mostImprovedYield.0 {
                         self.nextSpecializationDesired = specializationNeeded
                         self.specializationsNeeded.removeAll(where: { $0 == specializationNeeded })
                         foundIt = true
@@ -597,8 +597,6 @@ public class CitySpecializationAI {
         while self.specializationsNeeded.count < specializationsToAssign {
 
             // Find highest weighted specialization
-            self.yieldWeights.sort()
-
             // Mark that we need one city of this type
             guard let yield = self.yieldWeights.items.first else {
                 fatalError("explode")
@@ -606,24 +604,24 @@ public class CitySpecializationAI {
 
             var tmpCitySpecializationType: CitySpecializationType = .none
 
-            if self.numSpecializationsForThisYield.weight(of: yield.itemType) > 1.0 {
+            if self.numSpecializationsForThisYield.weight(of: yield.0) > 1.0 {
 
-                if yield.itemType == .production {
+                if yield.0 == .production {
                     tmpCitySpecializationType = self.selectProductionSpecialization(reductionAmount: &reductionAmount)
 
-                    let oldWeight = yield.weight
-                    self.numSpecializationsForThisYield.add(weight: 1, for: yield.itemType)
+                    let oldWeight = yield.1
+                    self.numSpecializationsForThisYield.add(weight: 1, for: yield.0)
                     let newWeight = oldWeight - reductionAmount
-                    self.yieldWeights.set(weight: newWeight, for: yield.itemType)
+                    self.yieldWeights.set(weight: newWeight, for: yield.0)
                 }
             } else {
-                tmpCitySpecializationType = self.firstSpecialization(for: yield.itemType)
+                tmpCitySpecializationType = self.firstSpecialization(for: yield.0)
 
                 // Reduce weight for this specialization based on dividing original weight by <num of this type + 1>
-                let oldWeight = yield.weight
-                self.numSpecializationsForThisYield.add(weight: 1, for: yield.itemType)
-                let newWeight = oldWeight * self.numSpecializationsForThisYield.weight(of: yield.itemType) / (self.numSpecializationsForThisYield.weight(of: yield.itemType) + 1.0)
-                self.yieldWeights.set(weight: newWeight, for: yield.itemType)
+                let oldWeight = yield.1
+                self.numSpecializationsForThisYield.add(weight: 1, for: yield.0)
+                let newWeight = oldWeight * self.numSpecializationsForThisYield.weight(of: yield.0) / (self.numSpecializationsForThisYield.weight(of: yield.0) + 1.0)
+                self.yieldWeights.set(weight: newWeight, for: yield.0)
             }
 
             self.specializationsNeeded.append(tmpCitySpecializationType)
@@ -649,9 +647,7 @@ public class CitySpecializationAI {
         var specialization: CitySpecializationType = .none
 
         // Find highest weighted subtype
-        self.productionSubtypeWeights.sort()
-
-        let subtype: ProductionSpecialization = self.productionSubtypeWeights.chooseBest() ?? .militaryTraining
+        let subtype: ProductionSpecialization = self.productionSubtypeWeights.chooseLargest() ?? .militaryTraining
 
         // If this is the wonder type, make sure we have a city to build it
         if subtype == .wonder {

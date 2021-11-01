@@ -766,7 +766,7 @@ extension GameViewModel: GameViewModelDelegate {
 
     func focus(on point: HexPoint) {
 
-        self.gameSceneViewModel.centerOn = point
+        self.gameSceneViewModel.focus(on: point)
     }
 
     func showUnitBanner() {

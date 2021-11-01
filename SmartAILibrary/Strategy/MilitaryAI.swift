@@ -1057,13 +1057,13 @@ public class MilitaryAI: Codable {
         }
 
         // Let's score the 25 shortest paths ... anything more than that means there are too many interior cities from one (or both) sides being considered
-        prelimWeightedTargetList.sort()
+        let prelimWeightedTargetArray: [(MilitaryTarget, Double)] = prelimWeightedTargetList.items.sortedByValue.reversed()
         var targetsConsidered = 0
         var index = 0
 
         while index < prelimWeightedTargetList.count && targetsConsidered < 25 {
 
-            let target: MilitaryTarget = prelimWeightedTargetList.items[index].itemType
+            let target: MilitaryTarget = prelimWeightedTargetArray[index].0
             var weight = 0
 
             // If a sea target, we haven't checked the path yet.  Do that now
@@ -1106,7 +1106,6 @@ public class MilitaryAI: Codable {
             return chosenTarget
         }
 
-        weightedTargetList.sort()
         // LogAttackTargets(eAIOperationType, eEnemy, weightedTargetList);
 
         if weightedTargetList.totalWeights() > 0 {

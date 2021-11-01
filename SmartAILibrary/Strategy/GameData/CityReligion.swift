@@ -29,9 +29,13 @@ public class ReligiousWeightList: WeightedList<ReligionType> {
 
     func removeZeroEntries() {
 
-        self.items.removeAll(where: { item in
-            item.weight == 0.0
-        })
+        let remaining = self.filter(where: { (_, value) in value == 0.0 })
+
+        self.items.removeAll()
+
+        for (key, value) in remaining.items {
+            self.add(weight: value, for: key)
+        }
     }
 }
 

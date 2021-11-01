@@ -534,6 +534,14 @@ extension HexPoint: CustomStringConvertible {
     }
 }
 
+extension HexPoint: CustomDebugStringConvertible {
+
+    public var debugDescription: String {
+
+        return "HexPoint(\(self.x), \(self.y))"
+    }
+}
+
 extension HexCube {
 
     ///

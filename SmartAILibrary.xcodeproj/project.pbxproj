@@ -303,7 +303,6 @@
 		C9D6460C2722AED300646BB8 /* QuadriremeUnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6460B2722AED300646BB8 /* QuadriremeUnitType.swift */; };
 		C9D646102722B04700646BB8 /* MedicUnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6460F2722B04700646BB8 /* MedicUnitType.swift */; };
 		C9D78DF12590893C0024ECF0 /* ResourcePlacingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D78DF02590893C0024ECF0 /* ResourcePlacingTests.swift */; };
-		C9D78DF7259094080024ECF0 /* duel_no_resources.map in Resources */ = {isa = PBXBuildFile; fileRef = C9D78DF4259092C80024ECF0 /* duel_no_resources.map */; };
 		C9D8DF6C23ED9B9A0091C917 /* FlavorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8DF6B23ED9B9A0091C917 /* FlavorsTests.swift */; };
 		C9D8DF6E23EDAD7E0091C917 /* UnitTaskType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8DF6D23EDAD7E0091C917 /* UnitTaskType.swift */; };
 		C9D8DF7023EDB42F0091C917 /* UnitDomainType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8DF6F23EDB42F0091C917 /* UnitDomainType.swift */; };
@@ -333,6 +332,7 @@
 		C9E0576E26E3F33800C3FFB9 /* GameModelSightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0576D26E3F33800C3FFB9 /* GameModelSightTests.swift */; };
 		C9E0D57024424C0C001AA97A /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D56F24424C0C001AA97A /* Notifications.swift */; };
 		C9E0D57224424C66001AA97A /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D57124424C66001AA97A /* NotificationType.swift */; };
+		C9E58848272F2CED0050CE80 /* duel.map in Resources */ = {isa = PBXBuildFile; fileRef = C9E58847272F2C950050CE80 /* duel.map */; };
 		C9E58A5E25E54BB500D1D49B /* TribeArray2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E58A5B25E54BB400D1D49B /* TribeArray2D.swift */; };
 		C9E58A6225E54BBC00D1D49B /* TribeTileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E58A6125E54BBC00D1D49B /* TribeTileInfo.swift */; };
 		C9E58A6625E54BE300D1D49B /* MapModel+Tribes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E58A6525E54BE300D1D49B /* MapModel+Tribes.swift */; };
@@ -354,6 +354,7 @@
 		C9EB9F642454C6C500F13B02 /* RankingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F632454C6C400F13B02 /* RankingData.swift */; };
 		C9EC4E132443AE97001A0597 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E122443AE97001A0597 /* Command.swift */; };
 		C9EC4E152443AECA001A0597 /* CommandType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E142443AECA001A0597 /* CommandType.swift */; };
+		C9EE1F47272FDA7800EBBC07 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE1F46272FDA7800EBBC07 /* TestUtils.swift */; };
 		C9EE60AA2401DCC300535B93 /* TacticalAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE60A92401DCC300535B93 /* TacticalAI.swift */; };
 		C9EE60AC240270FB00535B93 /* Armies.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE60AB240270FB00535B93 /* Armies.swift */; };
 		C9EE60AE2402714C00535B93 /* Army.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE60AD2402714C00535B93 /* Army.swift */; };
@@ -677,7 +678,6 @@
 		C9D6460B2722AED300646BB8 /* QuadriremeUnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadriremeUnitType.swift; sourceTree = "<group>"; };
 		C9D6460F2722B04700646BB8 /* MedicUnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicUnitType.swift; sourceTree = "<group>"; };
 		C9D78DF02590893C0024ECF0 /* ResourcePlacingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcePlacingTests.swift; sourceTree = "<group>"; };
-		C9D78DF4259092C80024ECF0 /* duel_no_resources.map */ = {isa = PBXFileReference; explicitFileType = compiled; fileEncoding = 4; path = duel_no_resources.map; sourceTree = "<group>"; };
 		C9D78DFA259097890024ECF0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		C9D8DF6B23ED9B9A0091C917 /* FlavorsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlavorsTests.swift; sourceTree = "<group>"; };
 		C9D8DF6D23EDAD7E0091C917 /* UnitTaskType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTaskType.swift; sourceTree = "<group>"; };
@@ -708,6 +708,7 @@
 		C9E0576D26E3F33800C3FFB9 /* GameModelSightTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelSightTests.swift; sourceTree = "<group>"; };
 		C9E0D56F24424C0C001AA97A /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		C9E0D57124424C66001AA97A /* NotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
+		C9E58847272F2C950050CE80 /* duel.map */ = {isa = PBXFileReference; explicitFileType = compiled; fileEncoding = 4; path = duel.map; sourceTree = "<group>"; };
 		C9E58A5B25E54BB400D1D49B /* TribeArray2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeArray2D.swift; sourceTree = "<group>"; };
 		C9E58A6125E54BBC00D1D49B /* TribeTileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeTileInfo.swift; sourceTree = "<group>"; };
 		C9E58A6525E54BE300D1D49B /* MapModel+Tribes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapModel+Tribes.swift"; sourceTree = "<group>"; };
@@ -729,6 +730,7 @@
 		C9EB9F632454C6C400F13B02 /* RankingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingData.swift; sourceTree = "<group>"; };
 		C9EC4E122443AE97001A0597 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		C9EC4E142443AECA001A0597 /* CommandType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandType.swift; sourceTree = "<group>"; };
+		C9EE1F46272FDA7800EBBC07 /* TestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
 		C9EE60A92401DCC300535B93 /* TacticalAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalAI.swift; sourceTree = "<group>"; };
 		C9EE60AB240270FB00535B93 /* Armies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Armies.swift; sourceTree = "<group>"; };
 		C9EE60AD2402714C00535B93 /* Army.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Army.swift; sourceTree = "<group>"; };
@@ -770,6 +772,7 @@
 			children = (
 				C907085C23ED45F700281161 /* MapModelHelper.swift */,
 				C99C4FC0242682DD00070038 /* TestUI.swift */,
+				C9EE1F46272FDA7800EBBC07 /* TestUtils.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1277,7 +1280,7 @@
 		C9B1D2A2243612FF00033791 /* Maps */ = {
 			isa = PBXGroup;
 			children = (
-				C9D78DF4259092C80024ECF0 /* duel_no_resources.map */,
+				C9E58847272F2C950050CE80 /* duel.map */,
 				C9B1D2A62436131300033791 /* Earth_Duel.Civ5Map */,
 				C9B1D2A32436131100033791 /* Earth_Huge.Civ5Map */,
 				C9B1D2A42436131200033791 /* Earth_Large.Civ5Map */,
@@ -1557,9 +1560,9 @@
 			files = (
 				C9B1D2AA2436131700033791 /* Earth_Large.Civ5Map in Resources */,
 				C9B1D2AD2436131700033791 /* Earth_Tiny.Civ5Map in Resources */,
-				C9D78DF7259094080024ECF0 /* duel_no_resources.map in Resources */,
 				C9B1D2A92436131700033791 /* Earth_Huge.Civ5Map in Resources */,
 				C9B1D2AC2436131700033791 /* Earth_Duel.Civ5Map in Resources */,
+				C9E58848272F2CED0050CE80 /* duel.map in Resources */,
 				C90FA35224C22A6000733331 /* arbalest.xml in Resources */,
 				C90FA35324C22A6000733331 /* arbalest.png in Resources */,
 				C9B1D2AE2436131700033791 /* Earth_Small.Civ5Map in Resources */,
@@ -1932,6 +1935,7 @@
 				C9FE141424154B93008CC6B3 /* RegionFinderTests.swift in Sources */,
 				C907085A23ECB30900281161 /* EconomicAIReconStateTests.swift in Sources */,
 				C9C52FCC23D8EFCC00B34140 /* PlayerScoringTests.swift in Sources */,
+				C9EE1F47272FDA7800EBBC07 /* TestUtils.swift in Sources */,
 				C964BA2F23EC159600CA379C /* AdvisorTests.swift in Sources */,
 				C9E0576E26E3F33800C3FFB9 /* GameModelSightTests.swift in Sources */,
 				C99C4FC1242682DD00070038 /* TestUI.swift in Sources */,
@@ -2015,7 +2019,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2075,7 +2079,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -2106,6 +2110,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartAILibrary;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2133,6 +2138,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartAILibrary;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

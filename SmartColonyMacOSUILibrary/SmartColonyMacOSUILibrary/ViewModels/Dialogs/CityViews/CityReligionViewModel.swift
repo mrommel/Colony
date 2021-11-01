@@ -65,9 +65,12 @@ class CityReligionViewModel: ObservableObject {
 
             }
 
-            self.citizenReligionViewModels = cityReligion.citizens().map { citizenWeight in
+            self.citizenReligionViewModels = cityReligion.citizens().keys.map { religionType in
 
-                return CitizenReligionViewModel(religionType: citizenWeight.itemType, amount: Int(citizenWeight.weight))
+                return CitizenReligionViewModel(
+                    religionType: religionType,
+                    amount: Int(cityReligion.citizens().weight(of: religionType))
+                )
             }
         }
     }

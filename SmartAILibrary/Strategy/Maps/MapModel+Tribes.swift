@@ -185,9 +185,7 @@ extension MapModel {
                         neighborPositions.add(weight: supported, for: neighbor)
                     }
 
-                    neighborPositions.sort()
-
-                    if let bestLocation = neighborPositions.chooseBest(),
+                    if let bestLocation = neighborPositions.chooseLargest(),
                        let bestTribesItem = self.tribeTiles[bestLocation] {
 
                         if bestTribesItem.civilizationType == nil {
@@ -203,7 +201,7 @@ extension MapModel {
                     }
 
                     if Float.random < 0.5 {
-                        if let secondBestLocation = neighborPositions.chooseSecondBest(),
+                        if let secondBestLocation = neighborPositions.chooseSecondLargest(),
                            let secondBestTribesItem = self.tribeTiles[secondBestLocation] {
 
                             if secondBestTribesItem.civilizationType == nil {
@@ -214,7 +212,11 @@ extension MapModel {
                         }
                     } else {
                         // random tile
-                        let positionWithFood = neighborPositions.filter({ $0.weight > 0 })
+                        let positionWithFood = neighborPositions.filter(
+                            where: { (_, value) in
+                                value > 0.0
+                            }
+                        )
 
                         if !positionWithFood.isEmpty {
                             if let randomPosition = positionWithFood.chooseRandom(),
@@ -248,9 +250,7 @@ extension MapModel {
                     tilesWithPopulation.add(weight: bestTribesItem.inhabitants, for: pt)
                 }
 
-                tilesWithPopulation.sort()
-
-                if let newCapitalLocation = tilesWithPopulation.chooseBest() {
+                if let newCapitalLocation = tilesWithPopulation.chooseLargest() {
 
                     if tribe.capital != newCapitalLocation {
                         print("-- event: found new capital for \(tribe.type) at \(newCapitalLocation)")
@@ -275,9 +275,7 @@ extension MapModel {
                         tilesWithPopulation.add(weight: bestTribesItem.inhabitants, for: pt)
                     }
 
-                    tilesWithPopulation.sortReverse()
-
-                    if let leastPopulatedLocation = tilesWithPopulation.chooseBest() {
+                    if let leastPopulatedLocation = tilesWithPopulation.chooseLargest() {
 
                         if let tribesItem = self.tribeTiles[leastPopulatedLocation] {
                             tribesItem.inhabitants = 0
@@ -355,8 +353,6 @@ extension MapModel {
                         tilesToSpawn.add(weight: areaSupported, for: locationToSpawn)
                     }
                 }
-
-                tilesToSpawn.sort()
 
                 if let bestTileToSpawn = tilesToSpawn.chooseFromTopChoices() {
 
