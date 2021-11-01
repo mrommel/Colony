@@ -8,7 +8,7 @@ on:
     
 jobs:
   run-workspace-tests:
-    runs-on: macOS-latest
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v1
     - uses: apple-actions/import-codesign-certs@v1
@@ -19,7 +19,5 @@ jobs:
       run: ls /Applications | grep Xcode
     - name: Select Xcode
       run: sudo xcode-select -switch /Applications/Xcode.app && /usr/bin/xcodebuild -version
-    - name: Show Content
-      run: ls .
     - name: Run unit tests
       run: xcodebuild test -scheme SmartAILibrary -workspace Colony.xcworkspace -destination 'platform=macOS' | xcpretty && exit ${PIPESTATUS[0]}
