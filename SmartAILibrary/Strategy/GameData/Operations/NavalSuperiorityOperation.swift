@@ -160,8 +160,6 @@ class NavalSuperiorityOperation: NavalOperation {
 
         if !plots.isEmpty {
 
-            // plots.sort() // FIXME or reversed
-
             // This will check all the plots that have the same weight.  It will mean a few more path-finds, but it will
             // be more accurate.
             for plot in plots.items.keys {
