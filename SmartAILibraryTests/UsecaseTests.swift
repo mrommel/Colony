@@ -365,6 +365,14 @@ class UsecaseTests: XCTestCase {
         MapUtils.discover(area: HexPoint(x: 15, y: 15).areaWith(radius: 3), mapModel: &mapModel, by: playerTrajan, in: gameModel)
         MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
+        let possibleBuilderLocation: [HexPoint] = [
+            HexPoint(x: 14, y: 14),
+            HexPoint(x: 14, y: 15),
+            HexPoint(x: 15, y: 14),
+            HexPoint(x: 15, y: 15),
+            HexPoint(x: 15, y: 16)
+        ]
+
         // WHEN
         repeat {
             gameModel.update()
@@ -376,6 +384,6 @@ class UsecaseTests: XCTestCase {
         } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
 
         // THEN
-        XCTAssertEqual(playerAugustusBuilder.location, HexPoint(x: 14, y: 14))
+        assertContains(playerAugustusBuilder.location, in: possibleBuilderLocation)
     }
 }

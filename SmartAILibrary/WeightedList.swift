@@ -8,50 +8,27 @@
 
 import Foundation
 
+extension Dictionary where Value: Comparable {
+    var sortedByValue: [(Key, Value)] { return Array(self).sorted { $0.1 < $1.1} }
+}
+
+extension Dictionary where Key: Comparable {
+    var sortedByKey: [(Key, Value)] { return Array(self).sorted { $0.0 < $1.0 } }
+}
+
 public class WeightedList<T: Codable & Hashable>: Codable, CustomDebugStringConvertible {
 
     enum CodingKeys: CodingKey {
         case items
     }
 
-    var items: [WeightedItem<T>]
-
-    public class WeightedItem<T: Codable>: Codable {
-
-        enum CodingKeys: CodingKey {
-            case item
-            case weight
-        }
-
-        public let itemType: T
-        public var weight: Double
-
-        public init(itemType: T, weight: Double) {
-            self.itemType = itemType
-            self.weight = weight
-        }
-
-        required public init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-
-            self.itemType = try container.decode(T.self, forKey: .item)
-            self.weight = try container.decode(Double.self, forKey: .weight)
-        }
-
-        public func encode(to encoder: Encoder) throws {
-
-            var container = encoder.container(keyedBy: CodingKeys.self)
-
-            try container.encode(self.itemType, forKey: .item)
-            try container.encode(self.weight, forKey: .weight)
-        }
-    }
+    var items: [T: Double]
 
     // MARK: constructors
 
     public init() {
 
-        self.items = []
+        self.items = [T: Double]()
 
         self.fill()
     }
@@ -60,7 +37,7 @@ public class WeightedList<T: Codable & Hashable>: Codable, CustomDebugStringConv
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        self.items = try container.decode([WeightedItem<T>].self, forKey: .items)
+        self.items = try container.decode(Dictionary<T, Double>.self, forKey: .items)
     }
 
     // MARK: methods
@@ -72,9 +49,14 @@ public class WeightedList<T: Codable & Hashable>: Codable, CustomDebugStringConv
         try container.encode(self.items, forKey: .items)
     }
 
+    public var keys: Dictionary<T, Double>.Keys {
+
+        return self.items.keys
+    }
+
     func has(itemType: T) -> Bool {
 
-        return self.items.first(where: { $0.itemType == itemType }) != nil
+        return self.items[itemType] != nil
     }
 
     var count: Int {
@@ -89,7 +71,7 @@ public class WeightedList<T: Codable & Hashable>: Codable, CustomDebugStringConv
 
     func isZero() -> Bool {
 
-        for item in self.items where item.weight != 0.0 {
+        for value in self.items.values where value != 0.0 {
             return false
         }
 
@@ -102,69 +84,42 @@ public class WeightedList<T: Codable & Hashable>: Codable, CustomDebugStringConv
 
     func set(weight: Double, for itemType: T) {
 
-        if let item = self.items.first(where: { $0.itemType == itemType }) {
-            item.weight = weight
-        } else {
-            let newItem = WeightedItem<T>(itemType: itemType, weight: weight)
-            self.items.append(newItem)
-        }
+        self.items[itemType] = weight
     }
 
     func add(weight: Double, for itemType: T) {
 
-        if let item = self.items.first(where: { $0.itemType == itemType }) {
-            item.weight += weight
-        } else {
-            let newItem = WeightedItem<T>(itemType: itemType, weight: weight)
-            self.items.append(newItem)
-        }
+        let newValue = (self.items[itemType] ?? 0.0) + weight
+        self.items[itemType] = newValue
     }
 
     func add(weight: Int, for itemType: T) {
 
-        if let item = self.items.first(where: { $0.itemType == itemType }) {
-            item.weight += Double(weight)
-        } else {
-            let newItem = WeightedItem<T>(itemType: itemType, weight: Double(weight))
-            self.items.append(newItem)
-        }
+        let newValue = (self.items[itemType] ?? 0.0) + Double(weight)
+        self.items[itemType] = newValue
     }
 
     public func weight(of itemType: T) -> Double {
 
-        if let item = self.items.first(where: { $0.itemType == itemType }) {
-            return item.weight
-        } else {
-            fatalError("not gonna happen")
-        }
+        return self.items[itemType] ?? 0.0
     }
 
-    func sort() {
-
-        self.items.sort(by: { $0.weight > $1.weight })
-    }
-
-    func sortReverse() {
-
-        self.items.sort(by: { $0.weight < $1.weight })
-    }
-
-    func chooseBest() -> T? {
+    func chooseLargest() -> T? {
 
         if self.items.count < 1 {
             return nil
         }
 
-        return self.items[0].itemType
+        return self.items.sortedByValue.reversed()[0].0
     }
 
-    func chooseSecondBest() -> T? {
+    func chooseSecondLargest() -> T? {
 
         if self.items.count < 2 {
             return nil
         }
 
-        return self.items[1].itemType
+        return self.items.sortedByValue.reversed()[1].0
     }
 
     func chooseFromTopChoices() -> T? {
@@ -174,17 +129,18 @@ public class WeightedList<T: Codable & Hashable>: Codable, CustomDebugStringConv
         }
 
         if self.items.count < 2 {
-            return self.items.first?.itemType
+            return self.chooseLargest()
         }
 
         // analyze first two items
-        let sumOfWeights = self.items[0].weight + self.items[1].weight
+        let sortedItems: [(T, Double)] = self.items.sortedByValue.reversed()
+        let sumOfWeights: Double = sortedItems[0].1 + sortedItems[1].1
 
-        if Double.random(minimum: 0.0, maximum: fabs(sumOfWeights)) <= fabs(self.items[0].weight) {
-            return self.items[0].itemType
+        if Double.random(minimum: 0.0, maximum: fabs(sumOfWeights)) <= fabs(sortedItems[0].1) {
+            return sortedItems[0].0
         }
 
-        return self.items[1].itemType
+        return sortedItems[1].0
     }
 
     func chooseRandom() -> T? {
@@ -193,47 +149,45 @@ public class WeightedList<T: Codable & Hashable>: Codable, CustomDebugStringConv
             return nil
         }
 
-        return self.items.randomElement()?.itemType
+        return self.items.randomElement()?.0
     }
 
     func append(contentsOf contents: WeightedList<T>) {
 
-        self.items.append(contentsOf: contents.items)
+        for key in contents.items.keys {
+
+            self.items[key] = contents.items[key]
+        }
     }
 
     func totalWeights() -> Double {
 
-        var sum = 0.0
-
-        for item in self.items {
-            sum += item.weight
-        }
-
-        return sum
+        return self.items.values.reduce(0.0, +)
     }
 
     func item(by randomValue: Double) -> T? {
 
+        let sortedItems: [(T, Double)] = self.items.sortedByValue.reversed()
         var sum = 0.0
 
-        for item in self.items {
-            if sum <= randomValue && randomValue < sum + item.weight {
-                return item.itemType
+        for item in sortedItems {
+            if sum <= randomValue && randomValue < sum + item.1 {
+                return item.0
             }
 
-            sum += item.weight
+            sum += item.1
         }
 
         return nil
     }
 
-    func filter(_ isIncluded: (WeightedItem<T>) throws -> Bool) rethrows -> WeightedList<T> {
+    func filter(where isIncluded: (T, Double) throws -> Bool) rethrows -> WeightedList<T> {
 
         let list = WeightedList<T>()
 
         let filteredItem = try self.items.filter(isIncluded)
         for item in filteredItem {
-            list.add(weight: item.weight, for: item.itemType)
+            list.add(weight: item.value, for: item.key)
         }
 
         return list
@@ -244,13 +198,13 @@ public class WeightedList<T: Codable & Hashable>: Codable, CustomDebugStringConv
         var itemText = ""
 
         for item in self.items {
-            itemText += "\(item.itemType):\(item.weight), "
+            itemText += "\(item.key): \(item.value), "
         }
 
         return "WeightedList: { \(itemText) }"
     }
 }
-
+/*
 extension WeightedList: Sequence {
 
     public func makeIterator() -> WeightedListIterator<T> {
@@ -282,4 +236,4 @@ public struct WeightedListIterator<T: Codable & Hashable>: IteratorProtocol {
         index += 1
         return point
     }
-}
+}*/

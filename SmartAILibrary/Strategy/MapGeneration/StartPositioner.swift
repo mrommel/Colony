@@ -115,13 +115,13 @@ class StartPositioner {
         // Fertility data in land_area_fert is stored with areaID index keys.
         // Need to generate a version of this table with indices of 1 to n, where n is number of land areas.
         // Sort the fertility values stored in the interim table. Sort order in Lua is lowest to highest.
-        landAreaFert.sortReverse()
+        //landAreaFert.sortReverse()
 
         // init number of civs on each continent
         let numberOfCivsPerArea: WeightedList<String> = WeightedList<String>()
 
         for landAreaFertItem in landAreaFert.items {
-            numberOfCivsPerArea.set(weight: 0.0, for: landAreaFertItem.itemType)
+            numberOfCivsPerArea.set(weight: 0.0, for: landAreaFertItem.0)
         }
 
         // Assign continents to receive start plots. Record number of civs assigned to each landmass.
@@ -134,10 +134,10 @@ class StartPositioner {
             // to a landmass reduces its fertility rating for subsequent civs).
             for areaItem in landAreaFert.items {
 
-                let thisLandmassCurrentFertility = areaItem.weight / (1 + numberOfCivsPerArea.weight(of: areaItem.itemType))
+                let thisLandmassCurrentFertility = areaItem.1 / (1 + numberOfCivsPerArea.weight(of: areaItem.0))
 
                 if thisLandmassCurrentFertility > bestRemainingFertility {
-                    bestRemainingAreaIdentifier = areaItem.itemType
+                    bestRemainingAreaIdentifier = areaItem.0
                     bestRemainingFertility = thisLandmassCurrentFertility
                 }
             }
@@ -148,16 +148,16 @@ class StartPositioner {
 
         for numberOfCivsPerAreaItem in numberOfCivsPerArea.items {
 
-            let numberOfCivsOnCurrentArea = Int(numberOfCivsPerAreaItem.weight)
+            let numberOfCivsOnCurrentArea = Int(numberOfCivsPerAreaItem.1)
 
             //print("numberOfCivsOnCurrentArea: \(numberOfCivsOnCurrentArea) on continent '\(numberOfCivsPerAreaItem.itemType)'")
-            if let continent = map.continent(by: numberOfCivsPerAreaItem.itemType) {
+            if let continent = map.continent(by: numberOfCivsPerAreaItem.0) {
 
                 let area = HexArea(points: continent.points)
 
                 // Divide this landmass in to number of regions equal to civs assigned here.
                 if numberOfCivsOnCurrentArea > 0 && numberOfCivsOnCurrentArea <= 12 {
-                    self.divideIntoRegions(numOfDivisions: Int(numberOfCivsPerAreaItem.weight), area: area)
+                    self.divideIntoRegions(numOfDivisions: Int(numberOfCivsPerAreaItem.1), area: area)
                 }
             }
         }

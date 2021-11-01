@@ -23,14 +23,14 @@ class ImprovementCountList: WeightedList<ImprovementType> {
     override func fill() {
 
         for improvementType in ImprovementType.all {
-            self.items.append(WeightedList<ImprovementType>.WeightedItem<ImprovementType>(itemType: improvementType, weight: 0.0))
+            self.items[improvementType] = 0.0
         }
 
         // also add goody hut / tribal village
-        self.items.append(WeightedList<ImprovementType>.WeightedItem<ImprovementType>(itemType: .goodyHut, weight: 0.0))
+        self.items[.goodyHut] = 0.0
 
         // and barb camp
-        self.items.append(WeightedList<ImprovementType>.WeightedItem<ImprovementType>(itemType: .barbarianCamp, weight: 0.0))
+        self.items[.barbarianCamp] = 0.0
     }
 }
 

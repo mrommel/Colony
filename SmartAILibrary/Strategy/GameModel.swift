@@ -1443,9 +1443,16 @@ open class GameModel: Codable {
 
     public func sight(at location: HexPoint, sight: Int, for player: AbstractPlayer?) {
 
-        for pt in location.areaWith(radius: sight) {
+        for areaPoint in location.areaWith(radius: sight) {
 
-            if let tile = self.tile(at: pt) {
+            if let tile = self.tile(at: areaPoint) {
+
+                // inform the player about a goodyhut
+                if tile.has(improvement: .goodyHut) && !tile.isDiscovered(by: player) {
+
+                    player?.notifications()?.add(notification: .goodyHutDiscovered(location: areaPoint))
+                }
+
                 tile.sight(by: player)
                 tile.discover(by: player, in: self)
                 self.userInterface?.refresh(tile: tile)

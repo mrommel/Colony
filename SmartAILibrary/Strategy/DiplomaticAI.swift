@@ -3338,8 +3338,7 @@ public class DiplomaticAI: Codable {
         // FIXME
 
         // get best approach
-        weights.sort()
-        guard let bestApproach = weights.chooseBest() else {
+        guard let bestApproach = weights.chooseLargest() else {
             fatalError("cant get best approach")
         }
 
@@ -3351,7 +3350,7 @@ public class DiplomaticAI: Codable {
             if currentWarFace == .none {
 
                 // Use index of 1 since we already know element 0 is war; that will give us the most reasonable approach
-                let secondBestApproach = weights.chooseSecondBest()
+                let secondBestApproach = weights.chooseSecondLargest()
 
                 if secondBestApproach == .hostile {
                     self.playerDict.updateWarFace(towards: otherPlayer, to: .hostile)

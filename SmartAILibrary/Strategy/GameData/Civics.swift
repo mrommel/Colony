@@ -77,11 +77,6 @@ class Civics: AbstractCivics {
                 self.add(weight: 0, for: techType)
             }
         }
-
-        func sortByWeight() {
-
-            self.items.sort { $0.weight > $1.weight }
-        }
     }
 
     // MARK: constructor
@@ -301,13 +296,11 @@ class Civics: AbstractCivics {
         }
 
         // select one
-        let numberOfSelectable = min(3, possibleCivicsList.count)
-        let selectedIndex = Int.random(number: numberOfSelectable)
+        if let selectedCivic = weightedCivics.chooseFromTopChoices() {
+            return selectedCivic
+        }
 
-        weightedCivics.sortByWeight()
-        let selectedTech = weightedCivics.items[selectedIndex].itemType
-
-        return selectedTech
+        fatalError("cant get civic - not gonna happen")
     }
 
     func numberOfDiscoveredCivics() -> Int {

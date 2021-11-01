@@ -10,7 +10,7 @@ import Foundation
 
 class WeightedPoints: WeightedList<HexPoint> {
 
-    func pop() -> HexPoint? {
+    /*func pop() -> HexPoint? {
 
         if let first = self.items.first {
 
@@ -20,7 +20,7 @@ class WeightedPoints: WeightedList<HexPoint> {
         }
 
         return nil
-    }
+    }*/
 }
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -160,16 +160,15 @@ class NavalSuperiorityOperation: NavalOperation {
 
         if !plots.isEmpty {
 
-            plots.sort() // FIXME or reversed
+            // plots.sort() // FIXME or reversed
 
             // This will check all the plots that have the same weight.  It will mean a few more path-finds, but it will
             // be more accurate.
-            for index in 0..<plots.count {
+            for plot in plots.items.keys {
 
-                let plot = plots.items[index].itemType
-                let weight = plots.items[index].weight
+                let weight = plots.items[plot]!
 
-                if let bestPoint = bestPointRef {
+                if bestPointRef != nil {
 
                     // Already found one of a lower weight
                     if weight > bestWeight {

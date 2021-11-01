@@ -278,7 +278,7 @@ public class Government: AbstractGovernment {
                 }
 
                 // select government
-                if let bestGovernment = governmentRating.chooseBest() {
+                if let bestGovernment = governmentRating.chooseLargest() {
                     if bestGovernment != self.currentGovernmentVal {
 
                         self.set(governmentType: bestGovernment)
@@ -327,15 +327,23 @@ public class Government: AbstractGovernment {
         // select best policy cards for each slot
         for slotType in currentGovernment.policyCardSlots().types() {
 
-            let possibleCardsForSlot = policyCardRating.filter({ slotType == .wildcard || $0.itemType.slot() == slotType })
+            let possibleCardsForSlot = policyCardRating.filter(
+                where: { (key, _) in
+                    slotType == .wildcard || key.slot() == slotType
+                }
+            )
 
-            if let bestCard = possibleCardsForSlot.chooseBest() {
+            if let bestCard = possibleCardsForSlot.chooseLargest() {
                 //.
                 self.add(card: bestCard)
 
                 //slotType.
                 //possibleCardsForSlot.remove bestCard
-                policyCardRating = policyCardRating.filter({ $0.itemType != bestCard })
+                policyCardRating = policyCardRating.filter(
+                    where: { (key, _) in
+                        key != bestCard
+                    }
+                )
             }
         }
     }

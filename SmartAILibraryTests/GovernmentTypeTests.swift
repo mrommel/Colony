@@ -124,8 +124,8 @@ class GovernmentTypeTests: XCTestCase {
         XCTAssertEqual(chiefdomGovernment, .chiefdom)
 
         let hasSurvey = self.objectToTest?.has(card: .survey)
-        let hasGodKing = self.objectToTest?.has(card: .godKing)
+        let hasUrbanPlanning = self.objectToTest?.has(card: .urbanPlanning)
         XCTAssertEqual(hasSurvey, true)
-        XCTAssertEqual(hasGodKing, true)
+        XCTAssertEqual(hasUrbanPlanning, true)
     }
 }

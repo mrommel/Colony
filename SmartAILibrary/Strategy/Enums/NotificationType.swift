@@ -38,6 +38,7 @@ public enum NotificationType {
     case canRecruitGreatPerson(greatPerson: GreatPerson) // 18 parameter: greatPerson
 
     case cityConquered(location: HexPoint) // 19
+    case goodyHutDiscovered(location: HexPoint)
 
     public static var all: [NotificationType] = [
         .turn,
@@ -59,7 +60,8 @@ public enum NotificationType {
         .unitDied(location: HexPoint.invalid),
         .greatPersonJoined,
         .canRecruitGreatPerson(greatPerson: .abuAlQasimAlZahrawi),
-        .cityConquered(location: HexPoint.invalid)
+        .cityConquered(location: HexPoint.invalid),
+        .goodyHutDiscovered(location: HexPoint.invalid)
     ]
 
     func title() -> String {
@@ -106,6 +108,8 @@ public enum NotificationType {
             return "Great Person can be recruited"
         case .cityConquered(location: _):
             return "City conquered at xy"
+        case .goodyHutDiscovered(location: _):
+            return "Goodyhut discovered at xy"
         }
     }
 
@@ -155,6 +159,8 @@ public enum NotificationType {
             return "You can recruit \(greatPerson.name())"
         case .cityConquered(location: _):
             return "City qonquered"
+        case .goodyHutDiscovered(location: _):
+            return "Goodyhut discovered"
         }
     }
 
@@ -202,6 +208,8 @@ public enum NotificationType {
             return 18
         case .cityConquered(location: _):
             return 19
+        case .goodyHutDiscovered(location: _):
+            return 20
         }
     }
 }
@@ -279,6 +287,9 @@ extension NotificationType: Codable {
         case 19:
             let location = try container.decode(HexPoint.self, forKey: .locationValue)
             self = .cityConquered(location: location)
+        case 20:
+            let location = try container.decode(HexPoint.self, forKey: .locationValue)
+            self = .goodyHutDiscovered(location: location)
         default:
             fatalError("value \(rawValue) not handled")
         }
@@ -360,6 +371,10 @@ extension NotificationType: Codable {
         case .cityConquered(location: let location):
             try container.encode(19, forKey: .rawValue)
             try container.encode(location, forKey: .locationValue)
+
+        case .goodyHutDiscovered(location: let location):
+            try container.encode(20, forKey: .rawValue)
+            try container.encode(location, forKey: .locationValue)
         }
     }
 }
@@ -412,6 +427,9 @@ extension NotificationType: Equatable {
             return lhsGreatPerson == rhsGreatPerson
 
         case (let .cityConquered(location: lhsLocation), let .cityConquered(rhsLocation)):
+            return lhsLocation == rhsLocation
+
+        case (let .goodyHutDiscovered(location: lhsLocation), let .goodyHutDiscovered(rhsLocation)):
             return lhsLocation == rhsLocation
 
         default:
@@ -472,6 +490,9 @@ extension NotificationType: Hashable {
             hasher.combine(greatPerson)
         case .cityConquered(location: let location):
             hasher.combine(19)
+            hasher.combine(location)
+        case .goodyHutDiscovered(location: let location):
+            hasher.combine(20)
             hasher.combine(location)
         }
     }

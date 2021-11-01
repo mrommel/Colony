@@ -55,12 +55,6 @@ public class GameSceneViewModel: ObservableObject {
 
                 print("center on \(unit.location)")
                 self.centerOn = unit.location
-
-                /*
-                CGEvent(mouseEventSource: nil, mouseType: CGEventType.leftMouseDown, mouseCursorPosition: CGPoint(x: 100, y: 100), mouseButton: CGMouseButton.left)?.post(tap: CGEventTapLocation.cghidEventTap)
-                usleep(100)
-                CGEvent(mouseEventSource: nil, mouseType: CGEventType.leftMouseUp, mouseCursorPosition: CGPoint(x: 100, y: 100), mouseButton: CGMouseButton.left)?.post(tap: CGEventTapLocation.cghidEventTap)
-                */
             }
         }
     }
@@ -149,7 +143,7 @@ public class GameSceneViewModel: ObservableObject {
     var readyUpdatingHuman: Bool = true
     var refreshCities: Bool = false
 
-    var centerOn: HexPoint?
+    private var centerOn: HexPoint?
 
     var globeImages: [NSImage] = []
 
@@ -213,6 +207,8 @@ public class GameSceneViewModel: ObservableObject {
         case .canRecruitGreatPerson(greatPerson: _):
             print("--- unhandled notification type: \(self.turnButtonNotificationType)")
         case .cityConquered(location: _):
+            print("--- unhandled notification type: \(self.turnButtonNotificationType)")
+        case .goodyHutDiscovered(location: _):
             print("--- unhandled notification type: \(self.turnButtonNotificationType)")
         }
     }
@@ -354,6 +350,26 @@ public class GameSceneViewModel: ObservableObject {
             self.showTurnButton()
         }
     }
+
+    func hasFocus() -> Bool {
+
+        return self.centerOn != nil
+    }
+
+    func focus(on point: HexPoint) {
+
+        self.centerOn = point
+    }
+
+    func unFocus() {
+
+        self.centerOn = nil
+    }
+
+    func focus() -> HexPoint? {
+
+        return self.centerOn
+    }
 }
 
 extension GameSceneViewModel {
@@ -389,7 +405,7 @@ extension GameSceneViewModel {
                 return
             }
 
-            self.delegate?.focus(on: unit.location)
+            self.focus(on: unit.location)
         } else {
 
             guard let gameModel = self.game else {
@@ -403,7 +419,7 @@ extension GameSceneViewModel {
             if let unit = humanPlayer.firstReadyUnit(in: gameModel) {
 
                 self.game?.userInterface?.select(unit: unit)
-                self.delegate?.focus(on: unit.location)
+                self.focus(on: unit.location)
                 return
             }
         }

@@ -383,8 +383,6 @@ public class CityStrategyAI: Codable {
 
             if self.cityStrategyAdoption.adopted(cityStrategy: cityStrategyType) {
 
-                //print("CityStrategy: \(cityStrategyType)")
-
                 for cityStrategyTypeFlavor in cityStrategyType.flavorModifiers() {
 
                     self.flavors += cityStrategyTypeFlavor
@@ -442,7 +440,7 @@ public class CityStrategyAI: Codable {
 
             if city.canBuild(building: buildingType, in: gameModel) {
 
-                var weight: Double = Double(buildingProductionAI.weight(for: buildingType))
+                var weight: Double = Double(buildingProductionAI.weight(of: buildingType))
                 let buildableItem = BuildableItem(buildingType: buildingType)
 
                 // reweight
@@ -491,7 +489,6 @@ public class CityStrategyAI: Codable {
             }
         }
 
-        buildables.sort()
         if let selection = buildables.chooseFromTopChoices() {
 
             switch selection.type {

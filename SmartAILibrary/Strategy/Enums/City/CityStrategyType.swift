@@ -100,7 +100,7 @@ enum CityStrategyType: Int, Codable {
             return [
                 Flavor(type: .naval, value: -100),
                 Flavor(type: .navalRecon, value: -100),
-                Flavor(type: .growth, value: -100),
+                Flavor(type: .navalGrowth, value: -100),
                 Flavor(type: .navalTileImprovement, value: -100)
             ]
 

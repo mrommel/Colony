@@ -12,7 +12,7 @@ class DiplomaticApproachWeights: WeightedList<PlayerApproachType> {
 
     override func fill() {
         for approach in PlayerApproachType.all {
-            self.items.append(WeightedItem<PlayerApproachType>(itemType: approach, weight: 0))
+            self.items[approach] = 0.0
         }
     }
 }

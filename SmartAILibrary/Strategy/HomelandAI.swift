@@ -1202,16 +1202,16 @@ public class HomelandAI {
                 }
 
                 // highest score will be first.
-                bestPlotList.sort() // TODO: verify that sorting is in right direction
+                var bestPlotArray: [(HexPoint, Double)] = bestPlotList.items.sortedByValue.reversed()
 
                 // Now loop through the sorted score list and go to the best one we can reach in one turn.
                 // #define EXECUTEMOVESTOSAFESTPLOT_FAILURE_LIMIT
                 var failureLimit = 10
 
                 //uint uiListSize;
-                while !bestPlotList.isEmpty {
+                while !bestPlotArray.isEmpty {
 
-                    bestPoint = bestPlotList.pop()
+                    bestPoint = bestPlotArray.removeFirst().0
 
                     if unit.canReach(at: bestPoint!, in: 1, in: gameModel) {
                         break

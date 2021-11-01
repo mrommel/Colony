@@ -127,7 +127,7 @@ public class WonderProductionAI {
         // Sort items and grab the first one
         if !buildables.items.isEmpty {
 
-            buildables.sort()
+            //buildables.sort()
             //LogPossibleWonders();
 
             if buildables.totalWeights() > 0.0 {

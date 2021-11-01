@@ -232,10 +232,8 @@ public class BuilderTaskingAI {
             directives.append(contentsOf: self.addRouteDirectives(unit: unit, on: pPlot, dist: moveTurnsAway, in: gameModel))
         }
 
-        directives.sort()
-
-        if let bestDirective = directives.items.first {
-            return bestDirective.itemType
+        if let bestDirective = directives.chooseLargest() {
+            return bestDirective
         }
 
         return nil

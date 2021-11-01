@@ -184,6 +184,9 @@ class CityTests: XCTestCase {
 
         self.objectToTest?.set(population: 1, reassignCitizen: false, in: gameModel)
 
+        let warriorUnit = Unit(at: HexPoint(x: 1, y: 2), type: .warrior, owner: playerAlexander)
+        gameModel.add(unit: warriorUnit)
+
         // WHEN
         _ = self.objectToTest?.turn(in: gameModel)
         let current = self.objectToTest!.currentBuildableItem()

@@ -79,11 +79,6 @@ class Techs: AbstractTechs {
                 self.add(weight: 0, for: techType)
             }
         }
-
-        func sortByWeight() {
-
-            self.items.sort { $0.weight > $1.weight }
-        }
     }
 
     // MARK: constructor
@@ -220,8 +215,8 @@ class Techs: AbstractTechs {
         let numberOfSelectable = min(3, possibleTechsList.count)
         let selectedIndex = Int.random(number: numberOfSelectable)
 
-        weightedTechs.sortByWeight()
-        let selectedTech = weightedTechs.items[selectedIndex].itemType
+        let weightedTechsArray: [(TechType, Double)] = weightedTechs.items.sortedByValue.reversed()
+        let selectedTech = weightedTechsArray[selectedIndex].0
 
         return selectedTech
     }

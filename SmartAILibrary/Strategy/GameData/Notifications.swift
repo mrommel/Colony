@@ -167,6 +167,9 @@ public class NotificationItem: Codable, Equatable {
         case .canRecruitGreatPerson(greatPerson: _):
             gameModel?.userInterface?.showScreen(screenType: .greatPeople, city: nil, other: nil, data: nil)
 
+        case .goodyHutDiscovered(location: let location):
+            gameModel?.userInterface?.focus(on: location)
+
         default:
             print("activate \(self.type) not handled")
         }
@@ -282,6 +285,18 @@ public class NotificationItem: Codable, Equatable {
             return true
 
         case .canRecruitGreatPerson(greatPerson: _):
+            return true
+
+        case .goodyHutDiscovered(location: let location):
+
+            guard let tile = gameModel.tile(at: location) else {
+                fatalError("goodyHut notification outside game map")
+            }
+
+            if tile.has(improvement: .goodyHut) {
+                return false
+            }
+
             return true
 
         default:
