@@ -368,6 +368,7 @@ class UsecaseTests: XCTestCase {
         let possibleBuilderLocation: [HexPoint] = [
             HexPoint(x: 14, y: 14),
             HexPoint(x: 14, y: 15),
+            HexPoint(x: 14, y: 16),
             HexPoint(x: 15, y: 14),
             HexPoint(x: 15, y: 15),
             HexPoint(x: 15, y: 16)
