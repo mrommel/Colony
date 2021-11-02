@@ -49,6 +49,9 @@ class HeaderViewModel: ObservableObject {
     @Published
     var civicProgressViewModel: CivicProgressViewModel
 
+    @Published
+    var leaderViewModels: [LeaderViewModel]
+
     weak var delegate: GameViewModelDelegate?
 
     init() {
@@ -65,6 +68,8 @@ class HeaderViewModel: ObservableObject {
 
         self.techProgressViewModel = TechProgressViewModel()
         self.civicProgressViewModel = CivicProgressViewModel()
+
+        self.leaderViewModels = []
 
         // connect delegates
         self.scienceHeaderViewModel.delegate = self
@@ -86,6 +91,10 @@ class HeaderViewModel: ObservableObject {
 
         guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get human")
+        }
+
+        guard let diplomacyAI = humanPlayer.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
         }
 
         self.logHeaderViewModel.active = false
@@ -117,6 +126,24 @@ class HeaderViewModel: ObservableObject {
                 self.civicProgressViewModel.update(civicType: .none, progress: 0, turns: 0, boosted: false)
             }
         }
+
+        var tmpLeaderViewModels: [LeaderViewModel] = []
+
+        for player in gameModel.players {
+
+            if humanPlayer.isEqual(to: player) {
+                continue
+            }
+
+            if diplomacyAI.hasMet(with: player) {
+
+                let leaderViewModel = LeaderViewModel(leaderType: player.leader)
+                leaderViewModel.delegate = self
+                tmpLeaderViewModels.append(leaderViewModel)
+            }
+        }
+
+        self.leaderViewModels = tmpLeaderViewModels
     }
 }
 
@@ -146,5 +173,13 @@ extension HeaderViewModel: HeaderButtonViewModelDelegate {
         case .tradeRoutes:
             self.delegate?.showTradeRouteDialog()
         }
+    }
+}
+
+extension HeaderViewModel: LeaderViewModelDelegate {
+
+    func clicked(on leaderType: LeaderType) {
+
+        print("clicked on \(leaderType)")
     }
 }

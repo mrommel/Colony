@@ -11,27 +11,29 @@ import SmartAssets
 struct HeaderView: View {
 
     @ObservedObject
-    public var viewModel: HeaderViewModel // GameSceneViewModel
+    public var viewModel: HeaderViewModel
 
     public var body: some View {
 
-        VStack(alignment: .leading, spacing: 0) {
+        HStack(alignment: .top, spacing: 0) {
 
-            HStack(alignment: .center, spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
 
                 self.leftButtons
 
-                Spacer()
+                TechProgressView(viewModel: self.viewModel.techProgressViewModel)
 
-                self.rightButtons
+                CivicProgressView(viewModel: self.viewModel.civicProgressViewModel)
             }
             .padding(.top, 24)
 
-            TechProgressView(viewModel: self.viewModel.techProgressViewModel)
-
-            CivicProgressView(viewModel: self.viewModel.civicProgressViewModel)
-
             Spacer()
+
+            self.leaderButtons
+                .padding(.top, 24)
+
+            self.rightButtons
+                .padding(.top, 24)
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
     }
@@ -74,6 +76,19 @@ struct HeaderView: View {
 
                 // trade routes
                 HeaderButtonView(viewModel: self.viewModel.tradeRoutesHeaderViewModel)
+            }
+        )
+    }
+
+    private var leaderButtons: AnyView {
+
+        AnyView(
+            LazyHStack(spacing: 4) {
+
+                ForEach(self.viewModel.leaderViewModels, id: \.self) { leaderViewModel in
+
+                    LeaderView(viewModel: leaderViewModel)
+                }
             }
         )
     }

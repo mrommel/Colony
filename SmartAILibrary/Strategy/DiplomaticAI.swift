@@ -4561,7 +4561,7 @@ public class DiplomaticAI: Codable {
         return self.playerDict.proximity(to: otherPlayer)
     }
 
-    func hasMet(with other: AbstractPlayer?) -> Bool {
+    public func hasMet(with other: AbstractPlayer?) -> Bool {
 
         return self.playerDict.hasMet(with: other)
     }

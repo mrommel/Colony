@@ -19,6 +19,7 @@
 		C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C920C425262EB03F0024EC0E /* GameEnvironment.swift */; };
 		C925676D265635C000B895BD /* QueueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925676C265635C000B895BD /* QueueViewModel.swift */; };
 		C925676F26563C7700B895BD /* CityBuildQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925676E26563C7700B895BD /* CityBuildQueueManager.swift */; };
+		C92D065F27313EF400E1EC92 /* LeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D065E27313EF400E1EC92 /* LeaderView.swift */; };
 		C92F9487265E2298000968AB /* HexagonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92F9482265E2297000968AB /* HexagonView.swift */; };
 		C92F9488265E2298000968AB /* HexagonGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92F9483265E2297000968AB /* HexagonGridView.swift */; };
 		C92F9489265E2298000968AB /* RegularPolygonPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92F9484265E2297000968AB /* RegularPolygonPath.swift */; };
@@ -258,6 +259,7 @@
 		C920C425262EB03F0024EC0E /* GameEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEnvironment.swift; sourceTree = "<group>"; };
 		C925676C265635C000B895BD /* QueueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueViewModel.swift; sourceTree = "<group>"; };
 		C925676E26563C7700B895BD /* CityBuildQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityBuildQueueManager.swift; sourceTree = "<group>"; };
+		C92D065E27313EF400E1EC92 /* LeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderView.swift; sourceTree = "<group>"; };
 		C92F9482265E2297000968AB /* HexagonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexagonView.swift; sourceTree = "<group>"; };
 		C92F9483265E2297000968AB /* HexagonGridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexagonGridView.swift; sourceTree = "<group>"; };
 		C92F9484265E2297000968AB /* RegularPolygonPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegularPolygonPath.swift; sourceTree = "<group>"; };
@@ -756,6 +758,7 @@
 				C971FDD42707120100F818EE /* GreatPersonView.swift */,
 				C9755FEC270AE7D500C9CAB7 /* ReligionView.swift */,
 				C9755FF0270AF02800C9CAB7 /* BeliefView.swift */,
+				C92D065E27313EF400E1EC92 /* LeaderView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1087,6 +1090,7 @@
 				C971FDD327070FB100F818EE /* GreatPersonViewModel.swift in Sources */,
 				C9A48D3A2653A19900260EE0 /* HeaderButtonViewModel.swift in Sources */,
 				C9B98C5426D29ECD00AA80D6 /* TreasuryDialogViewModel.swift in Sources */,
+				C92D065F27313EF400E1EC92 /* LeaderView.swift in Sources */,
 				C9E87BB7264D1DC500514B9A /* CivicDialogViewModel.swift in Sources */,
 				C9A48D4D2653FAA600260EE0 /* CityDialogView.swift in Sources */,
 				C9A12B7326FB0CD90094B980 /* CityLoyaltyView.swift in Sources */,
