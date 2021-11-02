@@ -489,7 +489,10 @@ public class CityStrategyAI: Codable {
             }
         }
 
-        if let selection = buildables.chooseFromTopChoices() {
+        let selectionRef = Thread.current.isRunningXCTest ?
+            buildables.chooseLargest() : buildables.chooseFromTopChoices()
+
+        if let selection = selectionRef {
 
             switch selection.type {
 
