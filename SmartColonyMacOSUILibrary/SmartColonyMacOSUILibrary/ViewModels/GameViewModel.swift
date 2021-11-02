@@ -1236,6 +1236,10 @@ extension GameViewModel: GameViewModelDelegate {
             return
         }
 
+        if !humanPlayer.isTurnActive() {
+            return
+        }
+
         if self.currentScreenType == .none {
             self.diplomaticDialogViewModel.update(
                 for: humanPlayer,
