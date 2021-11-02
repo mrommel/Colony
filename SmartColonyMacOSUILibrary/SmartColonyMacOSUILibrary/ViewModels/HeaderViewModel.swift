@@ -180,6 +180,12 @@ extension HeaderViewModel: LeaderViewModelDelegate {
 
     func clicked(on leaderType: LeaderType) {
 
-        print("clicked on \(leaderType)")
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        let otherPlayer = gameModel.player(for: leaderType)
+
+        self.delegate?.showDiplomaticDialog(with: otherPlayer, data: nil, deal: nil)
     }
 }

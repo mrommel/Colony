@@ -54,6 +54,7 @@
 		C950F997264904150057A7D1 /* ChangePolicyDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F996264904150057A7D1 /* ChangePolicyDialogViewModel.swift */; };
 		C950F999264908760057A7D1 /* PolicyCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F998264908760057A7D1 /* PolicyCardView.swift */; };
 		C950F99B264908F80057A7D1 /* PolicyCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F99A264908F80057A7D1 /* PolicyCardViewModel.swift */; };
+		C95EEA03273158060052C7F8 /* LeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95EEA02273158060052C7F8 /* LeaderViewModel.swift */; };
 		C962A83A26A08C570045AF0E /* CanFoundPantheonPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962A83926A08C570045AF0E /* CanFoundPantheonPopupView.swift */; };
 		C962A83C26A08C620045AF0E /* CanFoundPantheonPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962A83B26A08C620045AF0E /* CanFoundPantheonPopupViewModel.swift */; };
 		C968F28F2639455700612D0E /* BaseLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F28E2639455700612D0E /* BaseLayer.swift */; };
@@ -294,6 +295,7 @@
 		C950F996264904150057A7D1 /* ChangePolicyDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePolicyDialogViewModel.swift; sourceTree = "<group>"; };
 		C950F998264908760057A7D1 /* PolicyCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyCardView.swift; sourceTree = "<group>"; };
 		C950F99A264908F80057A7D1 /* PolicyCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyCardViewModel.swift; sourceTree = "<group>"; };
+		C95EEA02273158060052C7F8 /* LeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderViewModel.swift; sourceTree = "<group>"; };
 		C962A83926A08C570045AF0E /* CanFoundPantheonPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanFoundPantheonPopupView.swift; sourceTree = "<group>"; };
 		C962A83B26A08C620045AF0E /* CanFoundPantheonPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CanFoundPantheonPopupViewModel.swift; path = SmartColonyMacOSUILibrary/Views/Popups/CanFoundPantheonPopupViewModel.swift; sourceTree = SOURCE_ROOT; };
 		C968F28E2639455700612D0E /* BaseLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLayer.swift; sourceTree = "<group>"; };
@@ -900,6 +902,7 @@
 				C971FDD227070FB100F818EE /* GreatPersonViewModel.swift */,
 				C9755FE8270AE41B00C9CAB7 /* ReligionViewModel.swift */,
 				C9755FEA270AE6F900C9CAB7 /* BeliefViewModel.swift */,
+				C95EEA02273158060052C7F8 /* LeaderViewModel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1176,6 +1179,7 @@
 				C9AC0FFD26DE649B00B65288 /* PromotionViewModel.swift in Sources */,
 				C968F2A72639E8FB00612D0E /* CityLayer.swift in Sources */,
 				C9E87BA5264C558800514B9A /* YieldValueView.swift in Sources */,
+				C95EEA03273158060052C7F8 /* LeaderViewModel.swift in Sources */,
 				C9D191AB265A4A2B008C9622 /* CityBuildingsViewModel.swift in Sources */,
 				C9D5D25926F9BF4700009817 /* SelectItemsDialogViewModel.swift in Sources */,
 				C9D191BB265C37BA008C9622 /* CityGrowthView.swift in Sources */,
