@@ -8,39 +8,6 @@
 import SwiftUI
 import SmartAILibrary
 
-enum CityDetailViewType {
-
-    case production
-    case buildings
-    case growth
-    case citizen
-    case religion
-    case loyalty
-
-    static var all: [CityDetailViewType] = [
-        .production, .buildings, .growth, .citizen, .religion, .loyalty
-    ]
-
-    func name() -> String {
-
-        switch self {
-
-        case .production:
-            return "Production"
-        case .buildings:
-            return "Buildings"
-        case .growth:
-            return "Growth"
-        case .citizen:
-            return "Citizen"
-        case .religion:
-            return "Religion"
-        case .loyalty:
-            return "Loyalty"
-        }
-    }
-}
-
 class CityDialogViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)

@@ -27,7 +27,7 @@ struct RankingDialogView: View {
 
                     ForEach(RankingViewType.all, id: \.self) { value in
                         Button(action: {
-                            // self.viewModel.show(detail: value)
+                            self.viewModel.show(detail: value)
                         }) {
                             Text(value.name())
                                 .font(.system(size: 15))
@@ -57,9 +57,17 @@ struct RankingDialogView: View {
         switch self.viewModel.rankingViewType {
 
         case .overall:
-            return self.overallView
+            return AnyView(
+                OverallRankingDialogView(
+                    viewModel: self.viewModel.overallRankingDialogViewModel
+                )
+            )
         case .score:
-            return AnyView(Text("Score"))
+            return AnyView(
+                ScoreRankingDialogView(
+                    viewModel: self.viewModel.scoreRankingDialogViewModel
+                )
+            )
         case .science:
             return AnyView(Text("Science"))
         case .culture:
@@ -69,20 +77,6 @@ struct RankingDialogView: View {
         case .religion:
             return AnyView(Text("Religion"))
         }
-    }
-
-    var overallView: AnyView {
-
-        return AnyView(
-            LazyVStack(spacing: 4) {
-
-                ForEach(self.viewModel.overallRankingViewModels, id: \.self) { overallRankingViewModel in
-
-                    OverallRankingView(viewModel: overallRankingViewModel)
-                }
-            }
-            .padding(.top, 8)
-        )
     }
 }
 

@@ -9,63 +9,6 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
-enum RankingViewType {
-
-    case overall
-    case score
-    case science
-    case culture
-    case domination
-    case religion
-
-    static var all: [RankingViewType] = [
-        .overall, .score, .science, .culture, .domination, .religion
-    ]
-
-    static var values: [RankingViewType] = [
-        .score, .science, .culture, .domination, .religion
-    ]
-
-    func name() -> String {
-
-        switch self {
-
-        case .overall:
-            return "Overall"
-        case .score:
-            return "Score"
-        case .science:
-            return "Science"
-        case .culture:
-            return "Culture"
-        case .domination:
-            return "Domination"
-        case .religion:
-            return "Religion"
-        }
-    }
-
-    func iconTexture() -> String {
-
-        switch self {
-
-        case .overall:
-            return "victoryType-overall"
-        case .score:
-            return "victoryType-score"
-        case .science:
-            return "victoryType-science"
-        case .culture:
-            return "victoryType-culture"
-        case .domination:
-            return "victoryType-domination"
-        case .religion:
-            return "victoryType-religion"
-            // victoryType-diplomatic
-        }
-    }
-}
-
 class RankingDialogViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
@@ -75,14 +18,18 @@ class RankingDialogViewModel: ObservableObject {
     var rankingViewType: RankingViewType
 
     @Published
-    var overallRankingViewModels: [OverallRankingViewModel]
+    var overallRankingDialogViewModel: OverallRankingDialogViewModel
+
+    @Published
+    var scoreRankingDialogViewModel: ScoreRankingDialogViewModel
 
     weak var delegate: GameViewModelDelegate?
 
     init() {
 
         self.rankingViewType = .overall
-        self.overallRankingViewModels = []
+        self.overallRankingDialogViewModel = OverallRankingDialogViewModel()
+        self.scoreRankingDialogViewModel = ScoreRankingDialogViewModel()
     }
 
     func update() {
@@ -95,58 +42,13 @@ class RankingDialogViewModel: ObservableObject {
             fatalError("cant get human player")
         }
 
-        var tmpOverallRankingViewModels: [OverallRankingViewModel] = []
+        self.overallRankingDialogViewModel.update()
+        self.scoreRankingDialogViewModel.update()
+    }
 
-        for rankingViewType in RankingViewType.values {
+    func show(detail: RankingViewType) {
 
-            let ranking: WeightedList<CivilizationType> = WeightedList<CivilizationType>()
-
-            for player in gameModel.players {
-
-                let civilizationType: CivilizationType = player.leader.civilization()
-
-                if civilizationType == .barbarian {
-                    continue
-                }
-
-                switch rankingViewType {
-
-                case .overall:
-                    // NOOP
-                    break
-                case .score:
-                    ranking.add(weight: player.score(for: gameModel), for: civilizationType)
-                case .science:
-                    ranking.add(weight: Int.random(number: 100), for: civilizationType)
-                case .culture:
-                    ranking.add(weight: Int.random(number: 100), for: civilizationType)
-                case .domination:
-                    ranking.add(weight: Int.random(number: 100), for: civilizationType)
-                case .religion:
-                    ranking.add(weight: Int.random(number: 100), for: civilizationType)
-                }
-            }
-
-            let sortedValues: [CivilizationType] = ranking.sortedValues()
-            let leadingCivilizationType: CivilizationType = sortedValues[0]
-
-            var summary = ""
-
-            if leadingCivilizationType == humanPlayer.leader.civilization() {
-                summary = "You are leading"
-            } else {
-                summary = "\(leadingCivilizationType.name()) is leading"
-            }
-
-            let overallRankingViewModel = OverallRankingViewModel(
-                type: rankingViewType,
-                summary: summary,
-                civilizations: sortedValues
-            )
-            tmpOverallRankingViewModels.append(overallRankingViewModel)
-        }
-
-        self.overallRankingViewModels = tmpOverallRankingViewModels
+        self.rankingViewType = detail
     }
 }
 
