@@ -168,8 +168,7 @@ extension HeaderViewModel: HeaderButtonViewModelDelegate {
         case .governors:
             self.delegate?.showGovernorsDialog()
         case .ranking:
-            print("ranking")
-            // self.delegate?.showRankingDialog()
+            self.delegate?.showRankingDialog()
         case .tradeRoutes:
             self.delegate?.showTradeRouteDialog()
         }

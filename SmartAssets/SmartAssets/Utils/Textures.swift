@@ -75,6 +75,7 @@ public class Textures {
     public let promotionTextureNames: [String]
     public let promotionStateBackgroundTextureNames: [String]
     public let governorPortraitTextureNames: [String]
+    public let victoryTypesTextureNames: [String]
 
     public init(game: GameModel?) {
 
@@ -191,6 +192,7 @@ public class Textures {
             "header-button-log-active", "header-button-log-disabled",
             "header-button-tradeRoutes-active", "header-button-tradeRoutes-disabled",
             "header-button-governors-active", "header-button-governors-disabled",
+            "header-button-ranking-active", "header-button-ranking-disabled",
             "header-alert"
         ]
         self.cityProgressTextureNames = Array(0...20).map { "linear-progress-\($0 * 5)" }
@@ -229,6 +231,12 @@ public class Textures {
         self.promotionTextureNames = UnitPromotionType.all.map { $0.iconTexture() }
         self.promotionStateBackgroundTextureNames = PromotionState.all.map { $0.iconTexture() }
         self.governorPortraitTextureNames = GovernorType.all.map { $0.portraitTexture() }
+
+        self.victoryTypesTextureNames = [
+            "victoryType-science", "victoryType-religion", "victoryType-domination",
+            "victoryType-diplomatic", "victoryType-culture", "victoryType-score",
+            "victoryType-overall"
+        ]
     }
 
     public func terrainTexture(at point: HexPoint) -> String {

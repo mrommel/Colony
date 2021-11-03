@@ -110,7 +110,7 @@ public enum ScreenType {
     case civicList
 
     case treasury
-    case interimRanking
+    case interimRanking // not needed?
     case diplomatic
     case governors
     case greatPeople
@@ -134,6 +134,7 @@ public enum ScreenType {
 
     case selectPantheon
     case religion
+    case ranking
 }
 
 public enum UnitAnimationType {

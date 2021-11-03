@@ -82,18 +82,18 @@ public class WeightedList<T: Codable & Hashable>: Codable, CustomDebugStringConv
 
     }
 
-    func set(weight: Double, for itemType: T) {
+    public func set(weight: Double, for itemType: T) {
 
         self.items[itemType] = weight
     }
 
-    func add(weight: Double, for itemType: T) {
+    public func add(weight: Double, for itemType: T) {
 
         let newValue = (self.items[itemType] ?? 0.0) + weight
         self.items[itemType] = newValue
     }
 
-    func add(weight: Int, for itemType: T) {
+    public func add(weight: Int, for itemType: T) {
 
         let newValue = (self.items[itemType] ?? 0.0) + Double(weight)
         self.items[itemType] = newValue
@@ -191,6 +191,12 @@ public class WeightedList<T: Codable & Hashable>: Codable, CustomDebugStringConv
         }
 
         return list
+    }
+
+    public func sortedValues() -> [T] {
+
+        let sortedItems: [(T, Double)] = self.items.sortedByValue.reversed()
+        return sortedItems.map { $0.0 }
     }
 
     public var debugDescription: String {

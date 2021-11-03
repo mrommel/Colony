@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C9072E7F2732AFA000560429 /* OverallRankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9072E7E2732AFA000560429 /* OverallRankingView.swift */; };
+		C9072E812732B14600560429 /* CivilizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9072E802732B14600560429 /* CivilizationView.swift */; };
+		C9072E832732B41200560429 /* OverallRankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9072E822732B41200560429 /* OverallRankingViewModel.swift */; };
+		C9072E852732B4D000560429 /* CivilizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9072E842732B4D000560429 /* CivilizationViewModel.swift */; };
 		C9077A8226D626AC004BE679 /* TradeRoutesDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9077A8126D626AC004BE679 /* TradeRoutesDialogView.swift */; };
 		C9077A8426D62714004BE679 /* TradeRoutesDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9077A8326D62714004BE679 /* TradeRoutesDialogViewModel.swift */; };
 		C9077A8626D64432004BE679 /* TradeRouteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9077A8526D64432004BE679 /* TradeRouteViewModel.swift */; };
@@ -93,6 +97,8 @@
 		C984642C26F49B3300C40EA7 /* GovernorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984642B26F49B3300C40EA7 /* GovernorViewModel.swift */; };
 		C984642E26F4B34B00C40EA7 /* GovernorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984642D26F4B34B00C40EA7 /* GovernorView.swift */; };
 		C988EAE5261B724500300C39 /* AnimatedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAE4261B724500300C39 /* AnimatedImageView.swift */; };
+		C9988F27273280180047F111 /* RankingDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9988F26273280180047F111 /* RankingDialogViewModel.swift */; };
+		C9988F29273280DB0047F111 /* RankingDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9988F28273280DB0047F111 /* RankingDialogView.swift */; };
 		C99A886126079F4C003B8B73 /* SmartColonyMacOSUILibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C99A887E2607A06C003B8B73 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99A887D2607A06C003B8B73 /* SmartAILibrary.framework */; };
 		C99A887F2607A06C003B8B73 /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C99A887D2607A06C003B8B73 /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -248,6 +254,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C9072E7E2732AFA000560429 /* OverallRankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallRankingView.swift; sourceTree = "<group>"; };
+		C9072E802732B14600560429 /* CivilizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivilizationView.swift; sourceTree = "<group>"; };
+		C9072E822732B41200560429 /* OverallRankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallRankingViewModel.swift; sourceTree = "<group>"; };
+		C9072E842732B4D000560429 /* CivilizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivilizationViewModel.swift; sourceTree = "<group>"; };
 		C9077A8126D626AC004BE679 /* TradeRoutesDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeRoutesDialogView.swift; sourceTree = "<group>"; };
 		C9077A8326D62714004BE679 /* TradeRoutesDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeRoutesDialogViewModel.swift; sourceTree = "<group>"; };
 		C9077A8526D64432004BE679 /* TradeRouteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeRouteViewModel.swift; sourceTree = "<group>"; };
@@ -337,6 +347,8 @@
 		C986D16F264938D9006EF052 /* CheckboxSquareToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxSquareToggleStyle.swift; sourceTree = "<group>"; };
 		C986D170264938D9006EF052 /* CheckboxCircleToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxCircleToggleStyle.swift; sourceTree = "<group>"; };
 		C988EAE4261B724500300C39 /* AnimatedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImageView.swift; sourceTree = "<group>"; };
+		C9988F26273280180047F111 /* RankingDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingDialogViewModel.swift; sourceTree = "<group>"; };
+		C9988F28273280DB0047F111 /* RankingDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingDialogView.swift; sourceTree = "<group>"; };
 		C99A885C26079F4C003B8B73 /* SmartMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartColonyMacOSUILibrary.h; sourceTree = "<group>"; };
 		C99A886026079F4C003B8B73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -558,6 +570,7 @@
 				C9D5D25A26F9D8CF00009817 /* SelectItemsDialogView.swift */,
 				C971FDCE27070C5600F818EE /* GreatPeopleDialogView.swift */,
 				C9755FF2270AFD8700C9CAB7 /* ReligionDialogView.swift */,
+				C9988F28273280DB0047F111 /* RankingDialogView.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -761,6 +774,8 @@
 				C9755FEC270AE7D500C9CAB7 /* ReligionView.swift */,
 				C9755FF0270AF02800C9CAB7 /* BeliefView.swift */,
 				C92D065E27313EF400E1EC92 /* LeaderView.swift */,
+				C9072E7E2732AFA000560429 /* OverallRankingView.swift */,
+				C9072E802732B14600560429 /* CivilizationView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -790,6 +805,7 @@
 				C9D5D25826F9BF4700009817 /* SelectItemsDialogViewModel.swift */,
 				C971FDD027070D9200F818EE /* GreatPeopleDialogViewModel.swift */,
 				C9755FE6270AE3A400C9CAB7 /* ReligionDialogViewModel.swift */,
+				C9988F26273280180047F111 /* RankingDialogViewModel.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -903,6 +919,8 @@
 				C9755FE8270AE41B00C9CAB7 /* ReligionViewModel.swift */,
 				C9755FEA270AE6F900C9CAB7 /* BeliefViewModel.swift */,
 				C95EEA02273158060052C7F8 /* LeaderViewModel.swift */,
+				C9072E822732B41200560429 /* OverallRankingViewModel.swift */,
+				C9072E842732B4D000560429 /* CivilizationViewModel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1049,6 +1067,7 @@
 				C9B60BEE269DC61200F10177 /* SelectPantheonDialogView.swift in Sources */,
 				C9A3762D2635FF620057923E /* RiverLayer.swift in Sources */,
 				C99EA75B26BD74F0006FAA40 /* ReplyViewModel.swift in Sources */,
+				C9072E852732B4D000560429 /* CivilizationViewModel.swift in Sources */,
 				C9A376292635FC260057923E /* ResourceLayer.swift in Sources */,
 				C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */,
 				C9A3762B2635FDAF0057923E /* BoardLayer.swift in Sources */,
@@ -1062,6 +1081,7 @@
 				C9CE216B2649675B00B47ED4 /* MenuButtonStyle.swift in Sources */,
 				C980E77526E21EAE0089053A /* CombatUnitViewModel.swift in Sources */,
 				C980E77926E250F60089053A /* CombatPromotionViewModel.swift in Sources */,
+				C9072E832732B41200560429 /* OverallRankingViewModel.swift in Sources */,
 				C94816C126A82DB000765029 /* TradeCityView.swift in Sources */,
 				C98031CF26EE57F6008F460B /* CityViewModel.swift in Sources */,
 				C968F28F2639455700612D0E /* BaseLayer.swift in Sources */,
@@ -1073,6 +1093,7 @@
 				C942EC5126BBD9480047E161 /* AchievementViewModel.swift in Sources */,
 				C99EA75926BD72DE006FAA40 /* ReplyView.swift in Sources */,
 				C9452E2D266809A6005EF985 /* EraEnteredPopupViewModel.swift in Sources */,
+				C9072E7F2732AFA000560429 /* OverallRankingView.swift in Sources */,
 				C9E87BB1264D1C2600514B9A /* TechDialogViewModel.swift in Sources */,
 				C9B60BF0269DC68800F10177 /* SelectPantheonDialogViewModel.swift in Sources */,
 				C94816BD26A82BB000765029 /* TradeCityViewModel.swift in Sources */,
@@ -1201,6 +1222,7 @@
 				C9A3763326369FE60057923E /* WaterLayer.swift in Sources */,
 				C9A48D302652C8AC00260EE0 /* BannerView.swift in Sources */,
 				C9C1B1D72726B4A400046D23 /* ResourceValueViewModel.swift in Sources */,
+				C9988F29273280DB0047F111 /* RankingDialogView.swift in Sources */,
 				C9B087CB2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift in Sources */,
 				C950F99B264908F80057A7D1 /* PolicyCardViewModel.swift in Sources */,
 				C9EC424227135E93004224AB /* ProgressBarNode.swift in Sources */,
@@ -1226,6 +1248,7 @@
 				C9D5D25B26F9D8CF00009817 /* SelectItemsDialogView.swift in Sources */,
 				C9A3761F2635F70F0057923E /* MapNode.swift in Sources */,
 				C9CE216F2649678900B47ED4 /* Globals.swift in Sources */,
+				C9988F27273280180047F111 /* RankingDialogViewModel.swift in Sources */,
 				C9A3762F263600800057923E /* ResourceMarkerLayer.swift in Sources */,
 				C9B98C5626D2A6E300AA80D6 /* TreasuryDialogView.swift in Sources */,
 				C9E059842655200F00C08463 /* UnitViewModel.swift in Sources */,
@@ -1242,6 +1265,7 @@
 				C9FD308526223EA200153752 /* DemoGameModel.swift in Sources */,
 				C9077A8826D64EFE004BE679 /* TradeRouteView.swift in Sources */,
 				C9077A8626D64432004BE679 /* TradeRouteViewModel.swift in Sources */,
+				C9072E812732B14600560429 /* CivilizationView.swift in Sources */,
 				C9CAC89F264ABCC600D0668D /* GovernmentCardViewModel.swift in Sources */,
 				C9AC0FFB26DE635C00B65288 /* SelectPromotionDialogViewModel.swift in Sources */,
 			);

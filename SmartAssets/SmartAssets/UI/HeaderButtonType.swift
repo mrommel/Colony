@@ -39,7 +39,7 @@ public enum HeaderButtonType {
         case .governors:
             return state ? "header-button-governors-active" : "header-button-governors-disabled"
         case .ranking:
-            return state ? "header-button-log-active" : "header-button-log-disabled"
+            return state ?  "header-button-ranking-active" : "header-button-ranking-disabled"
         case .tradeRoutes:
             return state ? "header-button-tradeRoutes-active" : "header-button-tradeRoutes-disabled"
         }
