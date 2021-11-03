@@ -23,6 +23,9 @@ class RankingDialogViewModel: ObservableObject {
     @Published
     var scoreRankingDialogViewModel: ScoreRankingDialogViewModel
 
+    @Published
+    var scienceRankingDialogViewModel: ScienceRankingDialogViewModel
+
     weak var delegate: GameViewModelDelegate?
 
     init() {
@@ -30,6 +33,7 @@ class RankingDialogViewModel: ObservableObject {
         self.rankingViewType = .overall
         self.overallRankingDialogViewModel = OverallRankingDialogViewModel()
         self.scoreRankingDialogViewModel = ScoreRankingDialogViewModel()
+        self.scienceRankingDialogViewModel = ScienceRankingDialogViewModel()
     }
 
     func update() {
@@ -46,6 +50,7 @@ class RankingDialogViewModel: ObservableObject {
 
         self.overallRankingDialogViewModel.update()
         self.scoreRankingDialogViewModel.update()
+        self.scienceRankingDialogViewModel.update()
     }
 
     func show(detail: RankingViewType) {

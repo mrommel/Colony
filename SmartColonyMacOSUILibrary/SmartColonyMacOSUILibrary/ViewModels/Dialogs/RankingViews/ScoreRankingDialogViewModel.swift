@@ -15,11 +15,26 @@ class ScoreRankingDialogViewModel: ObservableObject {
     var gameEnvironment: GameEnvironment
 
     @Published
+    var title: String
+
+    @Published
+    var subtitle: String
+
+    @Published
+    var summary: String
+
+    @Published
     var scoreRankingViewModels: [ScoreRankingViewModel]
 
     weak var delegate: GameViewModelDelegate?
 
     init() {
+
+        self.title = "Score Victory"
+        self.subtitle = "at 500 turns"
+        self.summary =
+            "A score victory occurs when no civilization has achieved any other victory by the end of the game. " +
+            "In this case, the civilization with the overall highest score win!"
 
         self.scoreRankingViewModels = []
     }

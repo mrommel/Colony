@@ -1,5 +1,5 @@
 //
-//  ScoreRankingDialogView.swift
+//  ScienceRankingDialogView.swift
 //  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 03.11.21.
@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct ScoreRankingDialogView: View {
+struct ScienceRankingDialogView: View {
 
     @ObservedObject
-    var viewModel: ScoreRankingDialogViewModel
+    var viewModel: ScienceRankingDialogViewModel
 
-    public init(viewModel: ScoreRankingDialogViewModel) {
+    public init(viewModel: ScienceRankingDialogViewModel) {
 
         self.viewModel = viewModel
     }
@@ -26,12 +26,8 @@ struct ScoreRankingDialogView: View {
                     .resizable()
                     .frame(width: 42, height: 42)
 
-                VStack(alignment: .leading) {
-                    Text(self.viewModel.title)
-                        .font(.title)
-
-                    Text(self.viewModel.subtitle)
-                }
+                Text(self.viewModel.title)
+                    .font(.title)
             }
 
             Text(self.viewModel.summary)
@@ -40,9 +36,9 @@ struct ScoreRankingDialogView: View {
 
             LazyVStack(spacing: 4) {
 
-                ForEach(self.viewModel.scoreRankingViewModels, id: \.self) { scoreRankingViewModel in
+                ForEach(self.viewModel.scienceRankingViewModels, id: \.self) { scienceRankingViewModel in
 
-                    ScoreRankingView(viewModel: scoreRankingViewModel)
+                    ScienceRankingView(viewModel: scienceRankingViewModel)
                 }
             }
             .padding(.top, 8)
@@ -51,11 +47,11 @@ struct ScoreRankingDialogView: View {
 }
 
 #if DEBUG
-struct ScoreRankingDialogView_Previews: PreviewProvider {
+struct ScienceRankingDialogView_Previews: PreviewProvider {
 
-    static func viewModel() -> ScoreRankingDialogViewModel {
+    static func viewModel() -> ScienceRankingDialogViewModel {
 
-        let viewModel = ScoreRankingDialogViewModel()
+        let viewModel = ScienceRankingDialogViewModel()
 
         viewModel.gameEnvironment.game.value = DemoGameModel()
         viewModel.update()
@@ -67,8 +63,8 @@ struct ScoreRankingDialogView_Previews: PreviewProvider {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
-        let viewModel = ScoreRankingDialogView_Previews.viewModel()
-        ScoreRankingDialogView(viewModel: viewModel)
+        let viewModel = ScienceRankingDialogView_Previews.viewModel()
+        ScienceRankingDialogView(viewModel: viewModel)
     }
 }
 #endif
