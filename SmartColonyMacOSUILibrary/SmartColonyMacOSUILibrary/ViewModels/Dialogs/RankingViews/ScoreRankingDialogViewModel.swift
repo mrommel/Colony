@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAILibrary
+import SmartAssets
 
 class ScoreRankingDialogViewModel: ObservableObject {
 
@@ -21,6 +22,11 @@ class ScoreRankingDialogViewModel: ObservableObject {
     init() {
 
         self.scoreRankingViewModels = []
+    }
+
+    func image() -> NSImage {
+
+        return ImageCache.shared.image(for: RankingViewType.score.iconTexture())
     }
 
     func update() {

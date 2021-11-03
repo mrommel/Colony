@@ -42,6 +42,8 @@ class RankingDialogViewModel: ObservableObject {
             fatalError("cant get human player")
         }
 
+        self.rankingViewType = .overall
+
         self.overallRankingDialogViewModel.update()
         self.scoreRankingDialogViewModel.update()
     }

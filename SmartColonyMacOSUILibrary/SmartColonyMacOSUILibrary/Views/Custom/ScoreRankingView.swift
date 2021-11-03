@@ -40,6 +40,7 @@ struct ScoreRankingView: View {
 
                 Text("\(self.viewModel.score)")
                     .padding(.leading, 8)
+                    .padding(.trailing, 8)
             }
             .padding(.top, 8)
             .padding(.leading, 8)
