@@ -3380,6 +3380,8 @@ public class Unit: AbstractUnit {
             // FIXME - add die visualization
         }
 
+        gameModel.conceal(at: self.location, sight: self.sight(), for: self.player)
+
         gameModel.userInterface?.hide(unit: self)
         gameModel.remove(unit: self)
     }

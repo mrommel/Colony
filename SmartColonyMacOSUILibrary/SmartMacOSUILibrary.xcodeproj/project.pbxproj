@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C900391E273422F500E1AA7F /* DominationRankingDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C900391D273422F400E1AA7F /* DominationRankingDialogView.swift */; };
+		C90039202734237000E1AA7F /* DominationRankingDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C900391F2734237000E1AA7F /* DominationRankingDialogViewModel.swift */; };
+		C90039222734248200E1AA7F /* DominationRankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90039212734248200E1AA7F /* DominationRankingViewModel.swift */; };
 		C9072E7F2732AFA000560429 /* OverallRankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9072E7E2732AFA000560429 /* OverallRankingView.swift */; };
 		C9072E812732B14600560429 /* CivilizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9072E802732B14600560429 /* CivilizationView.swift */; };
 		C9072E832732B41200560429 /* OverallRankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9072E822732B41200560429 /* OverallRankingViewModel.swift */; };
@@ -27,6 +30,7 @@
 		C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C920C425262EB03F0024EC0E /* GameEnvironment.swift */; };
 		C925676D265635C000B895BD /* QueueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925676C265635C000B895BD /* QueueViewModel.swift */; };
 		C925676F26563C7700B895BD /* CityBuildQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925676E26563C7700B895BD /* CityBuildQueueManager.swift */; };
+		C92AB9212734689D003647D8 /* DominationRankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92AB9202734689D003647D8 /* DominationRankingView.swift */; };
 		C92D065F27313EF400E1EC92 /* LeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D065E27313EF400E1EC92 /* LeaderView.swift */; };
 		C92F9487265E2298000968AB /* HexagonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92F9482265E2297000968AB /* HexagonView.swift */; };
 		C92F9488265E2298000968AB /* HexagonGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92F9483265E2297000968AB /* HexagonGridView.swift */; };
@@ -270,6 +274,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C900391D273422F400E1AA7F /* DominationRankingDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DominationRankingDialogView.swift; sourceTree = "<group>"; };
+		C900391F2734237000E1AA7F /* DominationRankingDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DominationRankingDialogViewModel.swift; sourceTree = "<group>"; };
+		C90039212734248200E1AA7F /* DominationRankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DominationRankingViewModel.swift; sourceTree = "<group>"; };
 		C9072E7E2732AFA000560429 /* OverallRankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallRankingView.swift; sourceTree = "<group>"; };
 		C9072E802732B14600560429 /* CivilizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivilizationView.swift; sourceTree = "<group>"; };
 		C9072E822732B41200560429 /* OverallRankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallRankingViewModel.swift; sourceTree = "<group>"; };
@@ -290,6 +297,7 @@
 		C920C425262EB03F0024EC0E /* GameEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEnvironment.swift; sourceTree = "<group>"; };
 		C925676C265635C000B895BD /* QueueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueViewModel.swift; sourceTree = "<group>"; };
 		C925676E26563C7700B895BD /* CityBuildQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityBuildQueueManager.swift; sourceTree = "<group>"; };
+		C92AB9202734689D003647D8 /* DominationRankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DominationRankingView.swift; sourceTree = "<group>"; };
 		C92D065E27313EF400E1EC92 /* LeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderView.swift; sourceTree = "<group>"; };
 		C92F9482265E2297000968AB /* HexagonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexagonView.swift; sourceTree = "<group>"; };
 		C92F9483265E2297000968AB /* HexagonGridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexagonGridView.swift; sourceTree = "<group>"; };
@@ -561,6 +569,7 @@
 				C93FD2D02732F7FB003348FB /* ScoreRankingDialogViewModel.swift */,
 				C93FD2D6273319D2003348FB /* ScienceRankingDialogViewModel.swift */,
 				C93FD2E02733C306003348FB /* CultureRankingDialogViewModel.swift */,
+				C900391F2734237000E1AA7F /* DominationRankingDialogViewModel.swift */,
 			);
 			path = RankingViews;
 			sourceTree = "<group>";
@@ -572,6 +581,7 @@
 				C93FD2CE2732F788003348FB /* ScoreRankingDialogView.swift */,
 				C93FD2DA27332113003348FB /* ScienceRankingDialogView.swift */,
 				C93FD2DE2733C2B1003348FB /* CultureRankingDialogView.swift */,
+				C900391D273422F400E1AA7F /* DominationRankingDialogView.swift */,
 			);
 			path = RankingViews;
 			sourceTree = "<group>";
@@ -835,6 +845,7 @@
 				C93FD2D42732F9E3003348FB /* ScoreRankingView.swift */,
 				C93FD2DC27332272003348FB /* ScienceRankingView.swift */,
 				C93FD2E42733CCEF003348FB /* CultureRankingView.swift */,
+				C92AB9202734689D003647D8 /* DominationRankingView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -985,6 +996,7 @@
 				C93FD2D22732F8C5003348FB /* ScoreRankingViewModel.swift */,
 				C93FD2D827331E20003348FB /* ScienceRankingViewModel.swift */,
 				C93FD2E22733C9FF003348FB /* CultureRankingViewModel.swift */,
+				C90039212734248200E1AA7F /* DominationRankingViewModel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1142,6 +1154,7 @@
 				C9452E272668061D005EF985 /* EurekaCivicActivatedPopupView.swift in Sources */,
 				C9AC100326DE6EA100B65288 /* PromotionView.swift in Sources */,
 				C9CE216D2649675F00B47ED4 /* CheckboxCircleToggleStyle.swift in Sources */,
+				C900391E273422F500E1AA7F /* DominationRankingDialogView.swift in Sources */,
 				C9D191AD265A8659008C9622 /* CityReligionView.swift in Sources */,
 				C9A376072634462A0057923E /* FeatureLayer.swift in Sources */,
 				C9E0597F2655103D00C08463 /* UnitView.swift in Sources */,
@@ -1220,6 +1233,7 @@
 				C9A37619263457D70057923E /* GameScene.swift in Sources */,
 				C9755FEB270AE6F900C9CAB7 /* BeliefViewModel.swift in Sources */,
 				C984642A26F4943D00C40EA7 /* GovernorsDialogView.swift in Sources */,
+				C90039202734237000E1AA7F /* DominationRankingDialogViewModel.swift in Sources */,
 				C9E87BB5264D1D1C00514B9A /* CivicTreeDialogView.swift in Sources */,
 				C9F4939F26CAB04400B0C259 /* UnitListDialogView.swift in Sources */,
 				C9A3761B263468780057923E /* SKNodeExtension.swift in Sources */,
@@ -1228,12 +1242,14 @@
 				C99A88882607A1D3003B8B73 /* CGPointExtension.swift in Sources */,
 				C93FD2DB27332113003348FB /* ScienceRankingDialogView.swift in Sources */,
 				C92F9487265E2298000968AB /* HexagonView.swift in Sources */,
+				C90039222734248200E1AA7F /* DominationRankingViewModel.swift in Sources */,
 				C94816BB26A824C400765029 /* SelectTradeCityDialogViewModel.swift in Sources */,
 				C9D5D25526F9B92800009817 /* GovernorAbilityView.swift in Sources */,
 				C93FD2D12732F7FB003348FB /* ScoreRankingDialogViewModel.swift in Sources */,
 				C9F2B555266A58760016D4F3 /* ConfirmationDialogView.swift in Sources */,
 				C9A48D362653004100260EE0 /* HeaderView.swift in Sources */,
 				C9D191B9265C24EA008C9622 /* CitizenReligionView.swift in Sources */,
+				C92AB9212734689D003647D8 /* DominationRankingView.swift in Sources */,
 				C9E0598A2655209C00C08463 /* BuildingViewModel.swift in Sources */,
 				C9D191B5265AE4D2008C9622 /* PantheonView.swift in Sources */,
 				C9CE216C2649675C00B47ED4 /* CheckboxSquareToggleStyle.swift in Sources */,

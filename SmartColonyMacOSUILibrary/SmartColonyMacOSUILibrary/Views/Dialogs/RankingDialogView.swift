@@ -12,6 +12,11 @@ struct RankingDialogView: View {
     @ObservedObject
     var viewModel: RankingDialogViewModel
 
+    private var gridItemLayout = [
+        GridItem(.fixed(100)), GridItem(.fixed(100)),
+        GridItem(.fixed(100))
+    ]
+
     public init(viewModel: RankingDialogViewModel) {
 
         self.viewModel = viewModel
@@ -19,30 +24,27 @@ struct RankingDialogView: View {
 
     var body: some View {
 
-        BaseDialogView(title: "World Ranking", mode: .landscape, viewModel: self.viewModel) {
+        BaseDialogView(title: "World Ranking", mode: .portrait, viewModel: self.viewModel) {
 
             VStack(alignment: .center, spacing: 0) {
 
-                HStack {
+                LazyVGrid(columns: gridItemLayout, spacing: 4) {
 
                     ForEach(RankingViewType.all, id: \.self) { value in
                         Button(action: {
                             self.viewModel.show(detail: value)
-                        }) {
+                        }, label: {
                             Text(value.name())
-                                .font(.system(size: 15))
-                                .foregroundColor(value == self.viewModel.rankingViewType
-                                    ? Color.accentColor
-                                    : Color.gray)
-                                .animation(nil)
-                        }
+                        })
+                            .buttonStyle(DialogButtonStyle(state: value == self.viewModel.rankingViewType ? .highlighted : .normal))
+                            .frame(width: 100)
                     }
                 }
-                .frame(height: 20, alignment: .center)
+                .frame(height: 60, alignment: .center)
                 .padding(.top, 4)
 
                 Divider()
-                    .padding(.all, 8)
+                    .padding(.all, 4)
 
                 ScrollView(.vertical, showsIndicators: true, content: {
 
@@ -81,7 +83,11 @@ struct RankingDialogView: View {
                 )
             )
         case .domination:
-            return AnyView(Text("Domination"))
+            return AnyView(
+                DominationRankingDialogView(
+                    viewModel: self.viewModel.dominationRankingDialogViewModel
+                )
+            )
         case .religion:
             return AnyView(Text("Religion"))
         }

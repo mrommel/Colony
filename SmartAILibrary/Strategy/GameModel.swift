@@ -44,6 +44,9 @@ open class GameModel: Codable {
         case greatPersons
 
         case gameStateValue
+        case gameWinLeaderValue
+        case gameWinVictoryValue
+
         case rankingData
         case replayData
 
@@ -68,6 +71,8 @@ open class GameModel: Codable {
     private var greatPersons: GreatPersons?
 
     private var gameStateValue: GameStateType
+    private var gameWinLeaderValue: LeaderType?
+    private var gameWinVictoryValue: VictoryType?
     private var votesNeededForDiplomaticVictoryValue: Int = 0
 
     public var rankingData: RankingData
@@ -104,6 +109,8 @@ open class GameModel: Codable {
 
         self.tacticalAnalysisMapVal = TacticalAnalysisMap(with: self.map.size)
         self.gameStateValue = .on
+        self.gameWinLeaderValue = nil
+        self.gameWinVictoryValue = nil
 
         self.wondersBuilt = Wonders(city: nil)
         self.greatPersons = GreatPersons()
@@ -135,6 +142,9 @@ open class GameModel: Codable {
         self.greatPersons = try container.decode(GreatPersons.self, forKey: .greatPersons)
 
         self.gameStateValue = try container.decode(GameStateType.self, forKey: .gameStateValue)
+        self.gameWinLeaderValue = try container.decodeIfPresent(LeaderType.self, forKey: .gameWinLeaderValue)
+        self.gameWinVictoryValue = try container.decodeIfPresent(VictoryType.self, forKey: .gameWinVictoryValue)
+
         self.rankingData = try container.decode(RankingData.self, forKey: .rankingData)
         self.replayData = try container.decode(GameReplay.self, forKey: .replayData)
 
@@ -213,6 +223,9 @@ open class GameModel: Codable {
         try container.encode(self.greatPersons, forKey: .greatPersons)
 
         try container.encode(self.gameStateValue, forKey: .gameStateValue)
+        try container.encodeIfPresent(self.gameWinLeaderValue, forKey: .gameWinLeaderValue)
+        try container.encodeIfPresent(self.gameWinVictoryValue, forKey: .gameWinVictoryValue)
+
         try container.encode(self.rankingData, forKey: .rankingData)
         try container.encode(self.replayData, forKey: .replayData)
 
@@ -597,6 +610,17 @@ open class GameModel: Codable {
         self.gameStateValue = gameState
     }
 
+    func gameWinner() -> LeaderType? {
+
+        return self.gameWinLeaderValue
+    }
+
+    func set(winner: LeaderType, for victoryType: VictoryType) {
+
+        self.gameWinLeaderValue = winner
+        self.gameWinVictoryValue = victoryType
+    }
+
     func numGameTurnActive() -> Int {
 
         var numActive = 0
@@ -672,7 +696,7 @@ open class GameModel: Codable {
         //self.doUnitedNationsCountdown();
 
         // Victory stuff
-        // self.testVictory();
+        self.testVictory()
 
         // Who's Winning every 25 turns (to be un-hardcoded later)
         if let human = self.humanPlayer() {
@@ -684,6 +708,77 @@ open class GameModel: Codable {
                     self.userInterface?.showScreen(screenType: .interimRanking, city: nil, other: nil, data: nil)
                 }
             }
+        }
+    }
+
+    func testVictory() {
+
+        self.doTestDominationVictory()
+        // todo: add more here
+
+        self.doTestScoreVictory()
+    }
+
+    func doTestDominationVictory() {
+
+        // Calculate who owns the most original capitals by iterating through all civs
+        // and finding out who owns their original capital now.
+        var numOriginalCapitals: [LeaderType: Int] = [:]
+        let playerNum: Int = self.players.count
+
+        for player in self.players {
+
+            if player.originalCapitalLocation() != HexPoint.invalid {
+
+                if let capitalCity = self.city(at: player.originalCapitalLocation()), let capitalOwner = capitalCity.player {
+
+                    // is the current owner the original owner?
+                    if !player.isEqual(to: capitalOwner) {
+
+                        numOriginalCapitals[capitalOwner.leader] = (numOriginalCapitals[capitalOwner.leader] ?? 0) + 1
+                    }
+                }
+            }
+        }
+
+        for leaderKey in numOriginalCapitals.keys {
+
+            guard let numConqueredCapitals = numOriginalCapitals[leaderKey] else {
+                continue
+            }
+
+            // own capital cant be conquered
+            if numConqueredCapitals + 1 >= playerNum {
+
+                let winnerKey: LeaderType = leaderKey
+
+                self.set(winner: winnerKey, for: .domination)
+                self.set(gameState: .over)
+
+                self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
+            }
+        }
+    }
+
+    func doTestScoreVictory() {
+
+        // game has reached last turn
+        if self.currentTurn >= 500 {
+
+            var playerScore: [LeaderType: Int] = [:]
+
+            for player in self.players {
+
+                playerScore[player.leader] = player.score(for: self)
+            }
+
+            // the winner is the player with the highest score
+            let winnerKey: LeaderType = playerScore.sortedByValue[0].0
+
+            self.set(winner: winnerKey, for: .score)
+            self.set(gameState: .over)
+
+            self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
         }
     }
 

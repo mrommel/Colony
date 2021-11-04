@@ -129,6 +129,10 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func proximity(to otherPlayer: AbstractPlayer?) -> PlayerProximityType
 
+    func hasHasLostCapital() -> Bool
+    func capitalConqueror() -> LeaderType?
+    func set(hasLostCapital value: Bool, to conqueror: AbstractPlayer?, in gameModel: GameModel?) // checks for domination victory
+
     // notification
     func updateNotifications(in gameModel: GameModel?)
     func set(blockingNotification: NotificationItem?)
@@ -307,6 +311,8 @@ public class Player: AbstractPlayer {
         case resourceInventory
 
         case originalCapitalLocation
+        case lostCapital
+        case conqueror
 
         case canChangeGovernment
 
@@ -370,6 +376,8 @@ public class Player: AbstractPlayer {
     private var blockingNotificationValue: NotificationItem?
 
     private var originalCapitalLocationValue: HexPoint = HexPoint.invalid
+    private var lostCapitalValue: Bool = false
+    private var conquerorValue: LeaderType? = nil
 
     private var canChangeGovernmentValue: Bool = false
     private var faithPurchaseTypeVal: FaithPurchaseType = .noAutomaticFaithPurchase
@@ -394,6 +402,9 @@ public class Player: AbstractPlayer {
         self.citiesLostValue = 0
 
         self.originalCapitalLocationValue = HexPoint.invalid
+        self.lostCapitalValue = false
+        self.conquerorValue = nil
+
         self.faithPurchaseTypeVal = .noAutomaticFaithPurchase
     }
 
@@ -449,6 +460,8 @@ public class Player: AbstractPlayer {
         self.resourceInventory = try container.decode(ResourceInventory.self, forKey: .resourceInventory)
 
         self.originalCapitalLocationValue = try container.decode(HexPoint.self, forKey: .originalCapitalLocation)
+        self.lostCapitalValue = try container.decode(Bool.self, forKey: .lostCapital)
+        self.conquerorValue = try container.decode(LeaderType.self, forKey: .conqueror)
 
         self.canChangeGovernmentValue = try container.decode(Bool.self, forKey: .canChangeGovernment)
         self.faithPurchaseTypeVal = try container.decode(FaithPurchaseType.self, forKey: .faithPurchaseType)
@@ -529,6 +542,8 @@ public class Player: AbstractPlayer {
         try container.encode(self.resourceInventory, forKey: .resourceInventory)
 
         try container.encode(self.originalCapitalLocationValue, forKey: .originalCapitalLocation)
+        try container.encode(self.lostCapitalValue, forKey: .lostCapital)
+        try container.encode(self.conquerorValue, forKey: .conqueror)
 
         try container.encode(self.canChangeGovernmentValue, forKey: .canChangeGovernment)
         try container.encode(self.faithPurchaseTypeVal, forKey: .faithPurchaseType)
@@ -955,6 +970,43 @@ public class Player: AbstractPlayer {
         }
 
         return diplomacyAI.proximity(to: otherPlayer)
+    }
+
+    /// Have we lost our capital in war?
+    public func hasHasLostCapital() -> Bool {
+
+        return self.lostCapitalValue
+    }
+
+    /// Player who first captured our capital
+    public func capitalConqueror() -> LeaderType? {
+
+        return self.conquerorValue
+    }
+
+    /// Sets us to having lost our capital in war
+    /// also checks for domination victory
+    // void CvPlayer::SetHasLostCapital(bool bValue, PlayerTypes eConqueror)
+    public func set(hasLostCapital value: Bool, to conqueror: AbstractPlayer?, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        if value != self.lostCapitalValue {
+
+            self.lostCapitalValue = value
+            self.conquerorValue = conqueror?.leader
+
+            // Someone just lost their capital, test to see if someone wins
+            if value {
+
+                // todo: notify users about another player lost his capital
+
+                // todo: add replay message
+                // GC.getGame().addReplayMessage(REPLAY_MESSAGE_MAJOR_EVEN
+            }
+        }
     }
 
     public func hasMet(with otherPlayer: AbstractPlayer?) -> Bool {
@@ -3344,7 +3396,7 @@ public class Player: AbstractPlayer {
         // Lost the capital!
         if capital {
 
-            // GET_PLAYER(eOldOwner).SetHasLostCapital(true, GetID());
+            oldPlayer.set(hasLostCapital: true, to: self, in: gameModel)
             oldPlayer.findNewCapital(in: gameModel)
         }
 

@@ -135,6 +135,8 @@ public enum ScreenType {
     case selectPantheon
     case religion
     case ranking
+
+    case victory
 }
 
 public enum UnitAnimationType {
