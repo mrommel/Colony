@@ -684,6 +684,10 @@ public class City: AbstractCity {
 
         self.player?.updatePlots(in: gameModel)
 
+        if self.capitalValue {
+            self.player?.set(capitalCity: self, in: gameModel)
+        }
+
         self.set(population: 1, in: gameModel)
     }
 

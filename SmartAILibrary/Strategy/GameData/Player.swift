@@ -173,6 +173,9 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func cityStrengthModifier() -> Int
     func acquire(city oldCity: AbstractCity?, conquest: Bool, gift: Bool, in gameModel: GameModel?)
 
+    func capitalCity(in gameModel: GameModel?) -> AbstractCity?
+    func set(capitalCity newCapitalCity: AbstractCity?, in gameModel: GameModel?)
+
     // yields
     func science(in gameModel: GameModel?) -> Double
     func culture(in gameModel: GameModel?) -> Double
@@ -3458,7 +3461,7 @@ public class Player: AbstractPlayer {
         // Did we re-acquire our Capital?
         if self.originalCapitalLocation() == oldCityLocation {
 
-            // SetHasLostCapital(false, NO_PLAYER);
+            self.set(hasLostCapital: false, to: nil, in: gameModel)
 
             /*const BuildingTypes eCapitalBuilding = (BuildingTypes) (getCivilizationInfo().getCivilizationBuildings(GC.getCAPITAL_BUILDINGCLASS()));
             if (eCapitalBuilding != NO_BUILDING)
@@ -4308,7 +4311,7 @@ public class Player: AbstractPlayer {
         }
     }
 
-    func capitalCity(in gameModel: GameModel?) -> AbstractCity? {
+    public func capitalCity(in gameModel: GameModel?) -> AbstractCity? {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -4317,7 +4320,7 @@ public class Player: AbstractPlayer {
         return gameModel.capital(of: self)
     }
 
-    func set(capitalCity newCapitalCity: AbstractCity?, in gameModel: GameModel?) {
+    public func set(capitalCity newCapitalCity: AbstractCity?, in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")

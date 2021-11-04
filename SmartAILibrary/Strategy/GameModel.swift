@@ -610,9 +610,14 @@ open class GameModel: Codable {
         self.gameStateValue = gameState
     }
 
-    func gameWinner() -> LeaderType? {
+    public func winnerLeader() -> LeaderType? {
 
         return self.gameWinLeaderValue
+    }
+
+    public func winnerVictory() -> VictoryType? {
+
+        return self.gameWinVictoryValue
     }
 
     func set(winner: LeaderType, for victoryType: VictoryType) {
@@ -696,7 +701,7 @@ open class GameModel: Codable {
         //self.doUnitedNationsCountdown();
 
         // Victory stuff
-        self.testVictory()
+        self.doTestVictory()
 
         // Who's Winning every 25 turns (to be un-hardcoded later)
         if let human = self.humanPlayer() {
@@ -711,7 +716,7 @@ open class GameModel: Codable {
         }
     }
 
-    func testVictory() {
+    func doTestVictory() {
 
         self.doTestDominationVictory()
         // todo: add more here
@@ -721,10 +726,14 @@ open class GameModel: Codable {
 
     func doTestDominationVictory() {
 
+        if !self.victoryTypes.contains(.domination) {
+            return
+        }
+
         // Calculate who owns the most original capitals by iterating through all civs
         // and finding out who owns their original capital now.
         var numOriginalCapitals: [LeaderType: Int] = [:]
-        let playerNum: Int = self.players.count
+        let playerNum: Int = self.players.filter { !$0.isBarbarian() }.count
 
         for player in self.players {
 
