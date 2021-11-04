@@ -46,6 +46,10 @@
 		C93FD2D927331E20003348FB /* ScienceRankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93FD2D827331E20003348FB /* ScienceRankingViewModel.swift */; };
 		C93FD2DB27332113003348FB /* ScienceRankingDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93FD2DA27332113003348FB /* ScienceRankingDialogView.swift */; };
 		C93FD2DD27332272003348FB /* ScienceRankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93FD2DC27332272003348FB /* ScienceRankingView.swift */; };
+		C93FD2DF2733C2B1003348FB /* CultureRankingDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93FD2DE2733C2B1003348FB /* CultureRankingDialogView.swift */; };
+		C93FD2E12733C306003348FB /* CultureRankingDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93FD2E02733C306003348FB /* CultureRankingDialogViewModel.swift */; };
+		C93FD2E32733C9FF003348FB /* CultureRankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93FD2E22733C9FF003348FB /* CultureRankingViewModel.swift */; };
+		C93FD2E52733CCEF003348FB /* CultureRankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93FD2E42733CCEF003348FB /* CultureRankingView.swift */; };
 		C942EC5126BBD9480047E161 /* AchievementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C942EC5026BBD9470047E161 /* AchievementViewModel.swift */; };
 		C942EC5326BBDA090047E161 /* AchievementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C942EC5226BBDA090047E161 /* AchievementView.swift */; };
 		C943E90026C100E00038B7E8 /* UnitBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C943E8FF26C100E00038B7E8 /* UnitBannerView.swift */; };
@@ -305,6 +309,10 @@
 		C93FD2D827331E20003348FB /* ScienceRankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScienceRankingViewModel.swift; sourceTree = "<group>"; };
 		C93FD2DA27332113003348FB /* ScienceRankingDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScienceRankingDialogView.swift; sourceTree = "<group>"; };
 		C93FD2DC27332272003348FB /* ScienceRankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScienceRankingView.swift; sourceTree = "<group>"; };
+		C93FD2DE2733C2B1003348FB /* CultureRankingDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CultureRankingDialogView.swift; sourceTree = "<group>"; };
+		C93FD2E02733C306003348FB /* CultureRankingDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CultureRankingDialogViewModel.swift; sourceTree = "<group>"; };
+		C93FD2E22733C9FF003348FB /* CultureRankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CultureRankingViewModel.swift; sourceTree = "<group>"; };
+		C93FD2E42733CCEF003348FB /* CultureRankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CultureRankingView.swift; sourceTree = "<group>"; };
 		C942EC5026BBD9470047E161 /* AchievementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementViewModel.swift; sourceTree = "<group>"; };
 		C942EC5226BBDA090047E161 /* AchievementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementView.swift; sourceTree = "<group>"; };
 		C943E8FF26C100E00038B7E8 /* UnitBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitBannerView.swift; sourceTree = "<group>"; };
@@ -552,6 +560,7 @@
 				C91E7F982732E0A5000463F3 /* OverallRankingDialogViewModel.swift */,
 				C93FD2D02732F7FB003348FB /* ScoreRankingDialogViewModel.swift */,
 				C93FD2D6273319D2003348FB /* ScienceRankingDialogViewModel.swift */,
+				C93FD2E02733C306003348FB /* CultureRankingDialogViewModel.swift */,
 			);
 			path = RankingViews;
 			sourceTree = "<group>";
@@ -562,6 +571,7 @@
 				C91E7F9B2732E149000463F3 /* OverallRankingDialogView.swift */,
 				C93FD2CE2732F788003348FB /* ScoreRankingDialogView.swift */,
 				C93FD2DA27332113003348FB /* ScienceRankingDialogView.swift */,
+				C93FD2DE2733C2B1003348FB /* CultureRankingDialogView.swift */,
 			);
 			path = RankingViews;
 			sourceTree = "<group>";
@@ -824,6 +834,7 @@
 				C9072E802732B14600560429 /* CivilizationView.swift */,
 				C93FD2D42732F9E3003348FB /* ScoreRankingView.swift */,
 				C93FD2DC27332272003348FB /* ScienceRankingView.swift */,
+				C93FD2E42733CCEF003348FB /* CultureRankingView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -973,6 +984,7 @@
 				C9072E842732B4D000560429 /* CivilizationViewModel.swift */,
 				C93FD2D22732F8C5003348FB /* ScoreRankingViewModel.swift */,
 				C93FD2D827331E20003348FB /* ScienceRankingViewModel.swift */,
+				C93FD2E22733C9FF003348FB /* CultureRankingViewModel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1098,6 +1110,7 @@
 			files = (
 				C91E7F9E2732E1DA000463F3 /* CityDetailViewType.swift in Sources */,
 				C9D191BF265D4175008C9622 /* TradePostView.swift in Sources */,
+				C93FD2DF2733C2B1003348FB /* CultureRankingDialogView.swift in Sources */,
 				C980E77726E21F3C0089053A /* CombatModifierViewModel.swift in Sources */,
 				C92F948F265E25C5000968AB /* CityCitizenView.swift in Sources */,
 				C9D5D25726F9B97100009817 /* GovernorAbilityViewModel.swift in Sources */,
@@ -1155,6 +1168,7 @@
 				C9B60BF0269DC68800F10177 /* SelectPantheonDialogViewModel.swift in Sources */,
 				C94816BD26A82BB000765029 /* TradeCityViewModel.swift in Sources */,
 				C939DDD52684D396001CBC6C /* CityBannerViewModel.swift in Sources */,
+				C93FD2E52733CCEF003348FB /* CultureRankingView.swift in Sources */,
 				C9A37609263446360057923E /* TerrainLayer.swift in Sources */,
 				C9A61D8D261EF87000341241 /* BottomLeftBarView.swift in Sources */,
 				C968F2A32639E56F00612D0E /* UnitObject.swift in Sources */,
@@ -1237,6 +1251,7 @@
 				C9D191BD265C37ED008C9622 /* CityGrowthViewModel.swift in Sources */,
 				C92F9491265E262A000968AB /* CityCitizenViewModel.swift in Sources */,
 				C9D191B3265AE499008C9622 /* PantheonViewModel.swift in Sources */,
+				C93FD2E12733C306003348FB /* CultureRankingDialogViewModel.swift in Sources */,
 				C9A3760526340F9B0057923E /* GameSceneView.swift in Sources */,
 				C9FBBE4026837AA7005D7CE6 /* CityBannerView.swift in Sources */,
 				C950F999264908760057A7D1 /* PolicyCardView.swift in Sources */,
@@ -1279,6 +1294,7 @@
 				C968F2972639817A00612D0E /* ProgressCircle.swift in Sources */,
 				C9A48D452653CD7500260EE0 /* CivicProgressViewModel.swift in Sources */,
 				C9A3763326369FE60057923E /* WaterLayer.swift in Sources */,
+				C93FD2E32733C9FF003348FB /* CultureRankingViewModel.swift in Sources */,
 				C9A48D302652C8AC00260EE0 /* BannerView.swift in Sources */,
 				C9C1B1D72726B4A400046D23 /* ResourceValueViewModel.swift in Sources */,
 				C9988F29273280DB0047F111 /* RankingDialogView.swift in Sources */,

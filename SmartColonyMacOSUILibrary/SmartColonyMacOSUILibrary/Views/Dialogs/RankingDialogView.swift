@@ -75,7 +75,11 @@ struct RankingDialogView: View {
                 )
             )
         case .culture:
-            return AnyView(Text("Culture"))
+            return AnyView(
+                CultureRankingDialogView(
+                    viewModel: self.viewModel.cultureRankingDialogViewModel
+                )
+            )
         case .domination:
             return AnyView(Text("Domination"))
         case .religion:
