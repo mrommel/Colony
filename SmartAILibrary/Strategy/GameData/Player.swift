@@ -1852,13 +1852,18 @@ public class Player: AbstractPlayer {
 
     // https://civilization.fandom.com/wiki/Victory_(Civ6)
     /*
-     2 points for each district owned (4 points if it is a unique district).
-     5 points for each GreatPerson6 Great Person earned.
-     3 points for each civic researched.
+     Era Score points.
+     15 points for each wonder owned.
      10 points for founding a religion.
+     5 points for each Great Person Great Person earned.
+     5 points for each city owned.
+     3 points for each civic researched.
      2 points for each foreign city following the player's religion.
      2 points for each technology researched.
-     Era Score points.
+     2 points for each district owned (4 points if it is a unique district).
+     1 point for each building (including the Palace).
+     1 point for each Citizen Citizen in the player's empire.
+
      */
     public func score(for gameModel: GameModel?) -> Int {
 
@@ -1877,6 +1882,7 @@ public class Player: AbstractPlayer {
         scoreVal += self.scoreFromCivics(for: gameModel)
         scoreVal += self.scoreFromWonder(for: gameModel)
         scoreVal += self.scoreFromTech(for: gameModel)
+        scoreVal += self.scoreFromReligion(for: gameModel)
 
         return scoreVal
     }
@@ -2016,6 +2022,50 @@ public class Player: AbstractPlayer {
 
         // Normally we recompute it each time
         let score = techs.numberOfDiscoveredTechs() * 4 /* SCORE_TECH_MULTIPLIER */
+        return score
+    }
+
+    // 10 points for founding a religion.
+    // 2 points for each foreign city following the player's religion.
+    private func scoreFromReligion(for gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let religion = self.religion else {
+            fatalError("cant get religion")
+        }
+
+        var score = 0
+
+        if religion.currentReligion() != .none {
+            // 10 points for founding a religion.
+            score += 10
+
+            var numCitiesFollingReligion = 0
+            for player in gameModel.players {
+
+                if player.isEqual(to: self) {
+                    continue
+                }
+
+                for cityRef in gameModel.cities(of: player) {
+
+                    guard let city = cityRef else {
+                        continue
+                    }
+
+                    if city.religiousMajority() == religion.currentReligion() {
+                        numCitiesFollingReligion += 1
+                    }
+                }
+            }
+
+            // 2 points for each foreign city following the player's religion.
+            score += numCitiesFollingReligion * 2
+        }
+
         return score
     }
 
