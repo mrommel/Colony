@@ -718,16 +718,27 @@ open class GameModel: Codable {
 
     func doTestVictory() {
 
+        if self.winnerVictory() != nil {
+            return
+        }
+
         self.doTestScienceVictory()
+        self.doTestCultureVictory()
         self.doTestDominationVictory()
-        // todo: add more here
+        // self.doTestReligiousVictory()
+        // self.doTestDiplomaticVictory()
 
         self.doTestScoreVictory()
+        // self.doTestConquestVictory()
     }
 
     func doTestScienceVictory() {
 
         if !self.victoryTypes.contains(.science) {
+            return
+        }
+
+        if self.winnerVictory() != nil {
             return
         }
 
@@ -747,9 +758,41 @@ open class GameModel: Codable {
         }
     }
 
+    func doTestCultureVictory() {
+
+        if !self.victoryTypes.contains(.cultural) {
+            return
+        }
+
+        if self.winnerVictory() != nil {
+            return
+        }
+
+        for player in self.players {
+
+            if player.isBarbarian() {
+                continue
+            }
+
+
+
+            /*if player.hasScienceVictory(in: self) {
+
+                self.set(winner: player.leader, for: .cultural)
+                self.set(gameState: .over)
+
+                self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
+            }*/
+        }
+    }
+
     func doTestDominationVictory() {
 
         if !self.victoryTypes.contains(.domination) {
+            return
+        }
+
+        if self.winnerVictory() != nil {
             return
         }
 
@@ -793,6 +836,10 @@ open class GameModel: Codable {
     }
 
     func doTestScoreVictory() {
+
+        if self.winnerVictory() != nil {
+            return
+        }
 
         // game has reached last turn
         if self.currentTurn >= 500 {

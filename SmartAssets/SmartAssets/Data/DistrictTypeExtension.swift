@@ -21,6 +21,7 @@ extension DistrictType {
         case .entertainment: return "district-entertainment"
         case .commercialHub: return "district-commercialHub"
         case .industrial: return "district-industrial"
+        case .spaceport: return "district-cityCenter" // #
         }
     }
 }

@@ -31,6 +31,11 @@ public class TopBarViewModel: ObservableObject {
     var goldYieldValueViewModel: YieldValueViewModel
 
     @Published
+    var tourismYieldValueViewModel: YieldValueViewModel
+
+    // resources
+
+    @Published
     var horsesValueViewModel: ResourceValueViewModel
 
     @Published
@@ -62,6 +67,7 @@ public class TopBarViewModel: ObservableObject {
         self.cultureYieldValueViewModel = YieldValueViewModel(yieldType: .culture, initial: 0.0, type: .onlyDelta)
         self.faithYieldValueViewModel = YieldValueViewModel(yieldType: .faith, initial: 0.0, type: .valueAndDelta)
         self.goldYieldValueViewModel = YieldValueViewModel(yieldType: .gold, initial: 0.0, type: .valueAndDelta)
+        self.tourismYieldValueViewModel = YieldValueViewModel(yieldType: .tourism, initial: 0.0, type: .onlyValue)
 
         self.horsesValueViewModel = ResourceValueViewModel(resourceType: .horses, initial: 1)
         self.ironValueViewModel = ResourceValueViewModel(resourceType: .iron, initial: 1)
@@ -79,6 +85,7 @@ public class TopBarViewModel: ObservableObject {
         self.faithYieldValueViewModel.delta = 0.0
         self.goldYieldValueViewModel.value = 0.0
         self.goldYieldValueViewModel.delta = 0.0
+        self.tourismYieldValueViewModel.value = 0.0
     }
 
     func update() {
@@ -97,6 +104,7 @@ public class TopBarViewModel: ObservableObject {
         self.faithYieldValueViewModel.delta = humanPlayer.faith(in: gameModel)
         self.goldYieldValueViewModel.value = humanPlayer.treasury?.value() ?? 0.0
         self.goldYieldValueViewModel.delta = humanPlayer.treasury?.calculateGrossGold(in: gameModel) ?? 0.0
+        self.tourismYieldValueViewModel.value = humanPlayer.currentTourism(in: gameModel)
 
         self.horsesValueViewModel.value = humanPlayer.numAvailable(resource: .horses)
         self.ironValueViewModel.value = humanPlayer.numAvailable(resource: .iron)

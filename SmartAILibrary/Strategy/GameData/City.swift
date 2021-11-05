@@ -33,6 +33,7 @@ public protocol AbstractCity: AnyObject, Codable {
 
     var cityStrategy: CityStrategyAI? { get }
     var cityCitizens: CityCitizens? { get }
+    var cityTourism: CityTourism? { get }
     var cityTradingPosts: AbstractCityTradingPosts? { get }
     var cityReligion: AbstractCityReligion? { get }
     var greatWorks: GreatWorks? { get }
@@ -238,6 +239,10 @@ public protocol AbstractCity: AnyObject, Codable {
     func value(of governorType: GovernorType, in gameModel: GameModel?) -> Double
     func hasGovernorTitle(of title: GovernorTitleType) -> Bool
 
+    // tourism
+    func baseTourism(in gameModel: GameModel?) -> Double
+
+    // intern
     func set(scratch: Int)
     func scratch() -> Int
 }
@@ -274,6 +279,7 @@ public class City: AbstractCity {
         case projects
         case buildQueue
         case cityCitizens
+        case cityTourism
         case greatWorks
         case cityReligion
         case cityTradingPosts
@@ -329,6 +335,7 @@ public class City: AbstractCity {
     internal var projects: AbstractProjects? // projects that are currently build in this city
     public var buildQueue: BuildQueue
     public var cityCitizens: CityCitizens?
+    public var cityTourism: CityTourism?
     public var greatWorks: GreatWorks?
     public var cityReligion: AbstractCityReligion?
     public var cityTradingPosts: AbstractCityTradingPosts?
@@ -450,6 +457,7 @@ public class City: AbstractCity {
         self.projects = try container.decode(Projects.self, forKey: .projects)
         self.buildQueue = try container.decode(BuildQueue.self, forKey: .buildQueue)
         self.cityCitizens = try container.decode(CityCitizens.self, forKey: .cityCitizens)
+        self.cityTourism = try container.decode(CityTourism.self, forKey: .cityTourism)
         self.greatWorks = try container.decode(GreatWorks.self, forKey: .greatWorks)
         self.cityReligion = try container.decode(CityReligion.self, forKey: .cityReligion)
         self.cityTradingPosts = try container.decode(CityTradingPosts.self, forKey: .cityTradingPosts)
@@ -520,6 +528,7 @@ public class City: AbstractCity {
         try container.encode(self.projects as! Projects, forKey: .projects)
         try container.encode(self.buildQueue, forKey: .buildQueue)
         try container.encode(self.cityCitizens, forKey: .cityCitizens)
+        try container.encode(self.cityTourism, forKey: .cityTourism)
         try container.encode(self.greatWorks, forKey: .greatWorks)
         try container.encode(self.cityReligion as! CityReligion, forKey: .cityReligion)
         try container.encode(self.cityTradingPosts as! CityTradingPosts, forKey: .cityTradingPosts)
@@ -605,6 +614,7 @@ public class City: AbstractCity {
         self.greatWorks = GreatWorks(city: self)
         self.cityReligion = CityReligion(city: self)
         self.cityTradingPosts = CityTradingPosts(city: self)
+        self.cityTourism = CityTourism(city: self)
 
         self.cityCitizens?.initialize(in: gameModel)
 
@@ -4506,6 +4516,17 @@ public class City: AbstractCity {
         }
 
         return modifier
+    }
+
+    // MARK: tourism
+
+    public func baseTourism(in gameModel: GameModel?) -> Double {
+
+        guard let cityTourism = self.cityTourism else {
+            fatalError("cant get city tourism")
+        }
+
+        return cityTourism.baseTourism(in: gameModel)
     }
 
     //    --------------------------------------------------------------------------------

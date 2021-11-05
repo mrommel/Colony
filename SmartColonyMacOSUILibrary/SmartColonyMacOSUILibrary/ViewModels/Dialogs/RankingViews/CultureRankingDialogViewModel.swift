@@ -71,8 +71,8 @@ class CultureRankingDialogViewModel: ObservableObject {
             }
 
             tourismDict[player.leader] = TourismSummary(
-                domestic: Int.random(number: 100),
-                visiting: Int.random(number: 100)
+                domestic: player.domesticTourists(),
+                visiting: player.domesticTourists() + Int.random(number: 10)
             )
         }
 

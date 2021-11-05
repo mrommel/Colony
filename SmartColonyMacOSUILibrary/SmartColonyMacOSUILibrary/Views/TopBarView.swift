@@ -60,6 +60,8 @@ public struct TopBarView: View {
                     .onTapGesture {
                         self.viewModel.treasuryClicked()
                     }
+
+                YieldValueView(viewModel: self.viewModel.tourismYieldValueViewModel)
             }
         )
     }

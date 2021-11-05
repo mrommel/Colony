@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class ResourceInventory: WeightedList<ResourceType> {
 
@@ -53,6 +54,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     var greatPeople: AbstractGreatPeople? { get }
     var tradeRoutes: AbstractTradeRoutes? { get }
     var governors: AbstractPlayerGovernors? { get }
+    var tourism: AbstractPlayerTourism? { get }
 
     var grandStrategyAI: GrandStrategyAI? { get }
     var diplomacyAI: DiplomaticAI? { get }
@@ -266,6 +268,11 @@ public protocol AbstractPlayer: AnyObject, Codable {
     // victory checks
     func hasScienceVictory(in gameModel: GameModel?) -> Bool
 
+    // tourism
+    func domesticTourists() -> Int
+    func currentTourism(in gameModel: GameModel?) -> Double
+
+    // intern
     func isEqual(to other: AbstractPlayer?) -> Bool
 }
 
@@ -291,6 +298,8 @@ public class Player: AbstractPlayer {
         case treasury
         case greatPeople
         case government
+        case tourism
+
         case currentEra
 
         case grandStrategyAI
@@ -355,6 +364,7 @@ public class Player: AbstractPlayer {
     public var greatPeople: AbstractGreatPeople?
     public var tradeRoutes: AbstractTradeRoutes?
     public var governors: AbstractPlayerGovernors?
+    public var tourism: AbstractPlayerTourism?
 
     public var government: AbstractGovernment?
     internal var currentEraVal: EraType = .ancient
@@ -452,6 +462,7 @@ public class Player: AbstractPlayer {
         self.goodyHuts = try container.decode(GoodyHuts.self, forKey: .goodyHuts)
         self.tradeRoutes = try container.decode(TradeRoutes.self, forKey: .tradeRoutes)
         self.governors = try container.decode(PlayerGovernors.self, forKey: .governors)
+        self.tourism = try container.decode(PlayerTourism.self, forKey: .tourism)
 
         self.techs = try container.decode(Techs.self, forKey: .techs)
         self.civics = try container.decode(Civics.self, forKey: .civics)
@@ -484,6 +495,7 @@ public class Player: AbstractPlayer {
         self.greatPeople?.player = self
         self.tradeRoutes?.player = self
         self.governors?.player = self
+        self.tourism?.player = self
 
         self.grandStrategyAI?.player = self
         self.diplomacyAI?.player = self
@@ -542,6 +554,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.religion as! PlayerReligion, forKey: .religion)
         try container.encode(self.treasury as! Treasury, forKey: .treasury)
         try container.encode(self.greatPeople as! GreatPeople, forKey: .greatPeople)
+        try container.encode(self.tourism as! PlayerTourism, forKey: .tourism)
 
         try container.encode(self.government as! Government, forKey: .government)
         try container.encode(self.currentEraVal, forKey: .currentEra)
@@ -582,6 +595,7 @@ public class Player: AbstractPlayer {
         self.goodyHuts = GoodyHuts(player: self)
         self.tradeRoutes = TradeRoutes(player: self)
         self.governors = PlayerGovernors(player: self)
+        self.tourism = PlayerTourism(player: self)
 
         self.techs = Techs(player: self)
         self.civics = Civics(player: self)
@@ -1182,6 +1196,7 @@ public class Player: AbstractPlayer {
 
         self.doEurekas(in: gameModel)
         self.doSpaceRace(in: gameModel)
+        self.tourism?.doTurn(in: gameModel)
 
         // inform ui about new notifications
         self.notificationsValue?.update(in: gameModel)
@@ -4486,6 +4501,26 @@ public class Player: AbstractPlayer {
             hasMarsianColony &&
             hasExoExpedition &&
             self.boostExoplanetExpeditionValue >= 50
+    }
+
+    // MARK: tourism
+
+    public func domesticTourists() -> Int {
+
+        guard let playerTourism = self.tourism else {
+            fatalError("cant get player tourism")
+        }
+
+        return playerTourism.domesticTourists()
+    }
+
+    public func currentTourism(in gameModel: GameModel?) -> Double {
+
+        guard let playerTourism = self.tourism else {
+            fatalError("cant get player tourism")
+        }
+
+        return playerTourism.currentTourism(in: gameModel)
     }
 }
 
