@@ -76,14 +76,15 @@ public protocol AbstractCity: AnyObject, Codable {
 
     func canBuild(building: BuildingType, in gameModel: GameModel?) -> Bool
     func canTrain(unit: UnitType, in gameModel: GameModel?) -> Bool
-    func canBuild(project: ProjectType) -> Bool
     func canBuild(wonder: WonderType, in gameModel: GameModel?) -> Bool
     func canConstruct(district: DistrictType, in gameModel: GameModel?) -> Bool
+    func canBuild(project: ProjectType) -> Bool
 
     func startTraining(unit: UnitType)
     func startBuilding(building: BuildingType)
     func startBuilding(wonder: WonderType)
     func startBuilding(district: DistrictType)
+    func startBuilding(project: ProjectType)
 
     func canPurchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
     func canPurchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
@@ -97,6 +98,9 @@ public protocol AbstractCity: AnyObject, Codable {
     func purchase(district districtType: DistrictType, in gameModel: GameModel?) -> Bool
     @discardableResult
     func purchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
+    @discardableResult
+    func purchase(project projectType: ProjectType, in gameModel: GameModel?) -> Bool
+
     func doSpawn(greatPerson: GreatPerson, in gameModel: GameModel?)
 
     func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int
@@ -2695,6 +2699,11 @@ public class City: AbstractCity {
         self.buildQueue.add(item: BuildableItem(districtType: district))
     }
 
+    public func startBuilding(project: ProjectType) {
+
+        self.buildQueue.add(item: BuildableItem(projectType: project))
+    }
+
     public func canPurchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
 
         guard yieldType == .faith || yieldType == .gold else {
@@ -2791,9 +2800,12 @@ public class City: AbstractCity {
         return true
     }
 
+    /// --- WARNING: THIS IS FOR TESTING ONLY ---
     public func purchase(district districtType: DistrictType, in gameModel: GameModel?) -> Bool {
 
-        print("--- WARNING: THIS IS FOR TESTING ONLY ---")
+        if !Thread.current.isRunningXCTest {
+            fatalError("--- WARNING: THIS IS FOR TESTING ONLY ---")
+        }
 
         guard let districts = self.districts else {
             fatalError("cant get disticts")
@@ -2824,6 +2836,25 @@ public class City: AbstractCity {
         }
 
         return true
+    }
+
+    /// --- WARNING: THIS IS FOR TESTING ONLY ---
+    public func purchase(project projectType: ProjectType, in gameModel: GameModel?) -> Bool {
+
+        if !Thread.current.isRunningXCTest {
+            fatalError("--- WARNING: THIS IS FOR TESTING ONLY ---")
+        }
+
+        guard let projects = self.projects else {
+            fatalError("cant get projects")
+        }
+
+        do {
+            try projects.build(project: projectType)
+            return true
+        } catch {
+            return false
+        }
     }
 
     func updateEurekas(in gameModel: GameModel?) {

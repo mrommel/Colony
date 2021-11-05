@@ -718,10 +718,33 @@ open class GameModel: Codable {
 
     func doTestVictory() {
 
+        self.doTestScienceVictory()
         self.doTestDominationVictory()
         // todo: add more here
 
         self.doTestScoreVictory()
+    }
+
+    func doTestScienceVictory() {
+
+        if !self.victoryTypes.contains(.science) {
+            return
+        }
+
+        for player in self.players {
+
+            if player.isBarbarian() {
+                continue
+            }
+
+            if player.hasScienceVictory(in: self) {
+
+                self.set(winner: player.leader, for: .science)
+                self.set(gameState: .over)
+
+                self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
+            }
+        }
     }
 
     func doTestDominationVictory() {
@@ -778,11 +801,15 @@ open class GameModel: Codable {
 
             for player in self.players {
 
+                if player.isBarbarian() {
+                    continue
+                }
+
                 playerScore[player.leader] = player.score(for: self)
             }
 
             // the winner is the player with the highest score
-            let winnerKey: LeaderType = playerScore.sortedByValue[0].0
+            let winnerKey: LeaderType = playerScore.sortedByValue.reversed()[0].0
 
             self.set(winner: winnerKey, for: .score)
             self.set(gameState: .over)

@@ -263,6 +263,9 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func cityDistancePathLength(of point: HexPoint, in gameModel: GameModel?) -> Int
     func numCities(in gameModel: GameModel?) -> Int
 
+    // victory checks
+    func hasScienceVictory(in gameModel: GameModel?) -> Bool
+
     func isEqual(to other: AbstractPlayer?) -> Bool
 }
 
@@ -320,6 +323,7 @@ public class Player: AbstractPlayer {
         case canChangeGovernment
 
         case faithPurchaseType
+        case boostExoplanetExpedition
     }
 
     public var leader: LeaderType
@@ -374,6 +378,7 @@ public class Player: AbstractPlayer {
     private var lastSliceMovedValue: Int = 0
 
     internal var cultureEarned: Int = 0
+    internal var boostExoplanetExpeditionValue: Int = 0
 
     private var notificationsValue: Notifications?
     private var blockingNotificationValue: NotificationItem?
@@ -468,6 +473,7 @@ public class Player: AbstractPlayer {
 
         self.canChangeGovernmentValue = try container.decode(Bool.self, forKey: .canChangeGovernment)
         self.faithPurchaseTypeVal = try container.decode(FaithPurchaseType.self, forKey: .faithPurchaseType)
+        self.boostExoplanetExpeditionValue = try container.decode(Int.self, forKey: .boostExoplanetExpedition)
 
         // setup
         self.techs?.player = self
@@ -550,6 +556,7 @@ public class Player: AbstractPlayer {
 
         try container.encode(self.canChangeGovernmentValue, forKey: .canChangeGovernment)
         try container.encode(self.faithPurchaseTypeVal, forKey: .faithPurchaseType)
+        try container.encode(self.boostExoplanetExpeditionValue, forKey: .boostExoplanetExpedition)
     }
     // swiftlint:enable force_cast
 
@@ -1174,6 +1181,7 @@ public class Player: AbstractPlayer {
         }
 
         self.doEurekas(in: gameModel)
+        self.doSpaceRace(in: gameModel)
 
         // inform ui about new notifications
         self.notificationsValue?.update(in: gameModel)
@@ -1262,6 +1270,24 @@ public class Player: AbstractPlayer {
         if !civics.eurekaTriggered(for: .earlyEmpire) {
             if self.population(in: gameModel) >= 6 {
                 civics.triggerEureka(for: .earlyEmpire, in: gameModel)
+            }
+        }
+    }
+
+    func doSpaceRace(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gamemodel")
+        }
+
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(project: .terrestrialLaserStation) {
+                self.boostExoplanetExpeditionValue += 1
             }
         }
     }
@@ -4419,6 +4445,47 @@ public class Player: AbstractPlayer {
     public func set(canChangeGovernment: Bool) {
 
         self.canChangeGovernmentValue = canChangeGovernment
+    }
+
+    public func hasScienceVictory(in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        var hasSatellite: Bool = false
+        var hasMoonLanding: Bool = false
+        var hasMarsianColony: Bool = false
+        var hasExoExpedition: Bool = false
+
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(project: .launchEarthSatellite) {
+                hasSatellite = true
+            }
+
+            if city.has(project: .launchMoonLanding) {
+                hasMoonLanding = true
+            }
+
+            if city.has(project: .launchMarsColony) {
+                hasMarsianColony = true
+            }
+
+            if city.has(project: .exoplanetExpedition) {
+                hasExoExpedition = true
+            }
+        }
+
+        return hasSatellite &&
+            hasMoonLanding &&
+            hasMarsianColony &&
+            hasExoExpedition &&
+            self.boostExoplanetExpeditionValue >= 50
     }
 }
 

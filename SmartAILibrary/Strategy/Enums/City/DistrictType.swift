@@ -18,9 +18,13 @@ public enum DistrictType: Int, Codable {
     case entertainment
     case commercialHub
     case industrial
+    case spaceport
 
     public static var all: [DistrictType] {
-        return [.cityCenter, .campus, .holySite, .encampment, .harbor, .entertainment, .commercialHub, .industrial]
+        return [
+            .cityCenter, .campus, .holySite, .encampment, .harbor, .entertainment,
+            .commercialHub, .industrial, .spaceport
+        ]
     }
 
     public func name() -> String {
@@ -249,6 +253,21 @@ public enum DistrictType: Int, Codable {
                 domesticTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0),
                 foreignTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0)
             )
+
+        case .spaceport:
+            // https://civilization.fandom.com/wiki/Spaceport_(Civ6)
+            return DistrictTypeData(
+                name: "Spaceport",
+                effects: [
+                    "Allows development of the Space Race projects, which are the way to Science Victory."
+                ],
+                productionCost: 1800,
+                maintenanceCost: 0,
+                requiredTech: .rocketry,
+                requiredCivic: nil,
+                domesticTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0),
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0)
+            )
         }
     }
 
@@ -262,6 +281,11 @@ public enum DistrictType: Int, Codable {
             if let neighborTile = gameModel.tile(at: neighbor) {
                 return neighborTile.terrain().isWater()
             }
+        }
+
+        if self == .spaceport {
+            // check hill
+            return true
         }
 
         return true // FIXME

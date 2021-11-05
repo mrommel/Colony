@@ -77,14 +77,73 @@ class GameModelVictoryTests: XCTestCase {
             on: mapModel
         )
 
+        let humanCapital = City(name: "Human Capital", at: HexPoint(x: 17, y: 7), capital: true, owner: playerAlexander)
+        humanCapital.initialize(in: gameModel)
+        gameModel.add(city: humanCapital)
+
         gameModel.currentTurn = 500
 
         // WHEN
         gameModel.doTestVictory()
         let winnerVictory = gameModel.winnerVictory()
+        let winnerLeader = gameModel.winnerLeader()
 
         // THEN
         XCTAssertEqual(winnerVictory, .score)
+        XCTAssertEqual(winnerLeader, .alexander)
+    }
+
+    func testScienceVictory() {
+
+        // GIVEN
+        // players
+        let playerBarbar = Player(leader: .barbar)
+        playerBarbar.initialize()
+
+        let playerTrajan = Player(leader: .trajan)
+        playerTrajan.initialize()
+
+        let playerVictoria = Player(leader: .victoria)
+        playerVictoria.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+
+        // map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+
+        // game
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .science, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerBarbar, playerVictoria, playerTrajan, playerAlexander],
+            on: mapModel
+        )
+
+        let humanCapital = City(name: "Human Capital", at: HexPoint(x: 17, y: 7), capital: true, owner: playerAlexander)
+        humanCapital.initialize(in: gameModel)
+        gameModel.add(city: humanCapital)
+
+        _ = humanCapital.purchase(project: .launchEarthSatellite, in: gameModel)
+        _ = humanCapital.purchase(project: .launchMoonLanding, in: gameModel)
+        _ = humanCapital.purchase(project: .launchMarsColony, in: gameModel)
+        _ = humanCapital.purchase(project: .exoplanetExpedition, in: gameModel)
+        _ = humanCapital.purchase(project: .terrestrialLaserStation, in: gameModel)
+
+        // cheating
+        for _ in 0...50 {
+            playerAlexander.doSpaceRace(in: gameModel)
+        }
+
+        // WHEN
+        gameModel.doTestVictory()
+        let winnerVictory = gameModel.winnerVictory()
+        let winnerLeader = gameModel.winnerLeader()
+
+        // THEN
+        XCTAssertEqual(winnerVictory, .science)
+        XCTAssertEqual(winnerLeader, .alexander)
     }
 
     func testDominationVictory() {
@@ -133,8 +192,10 @@ class GameModelVictoryTests: XCTestCase {
         // WHEN
         gameModel.doTestVictory()
         let winnerVictory = gameModel.winnerVictory()
+        let winnerLeader = gameModel.winnerLeader()
 
         // THEN
         XCTAssertEqual(winnerVictory, .domination)
+        XCTAssertEqual(winnerLeader, .alexander)
     }
 }
