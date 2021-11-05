@@ -679,6 +679,15 @@ public class Unit: AbstractUnit {
             return false
         }
 
+        guard let tile = gameModel?.tile(at: self.location) else {
+            fatalError("cant get tile")
+        }
+
+        // upgrade only in home land
+        if tile.ownerLeader() != self.leader {
+            return false
+        }
+
         if let requiredTech = unitType.requiredTech() {
             if !techs.has(tech: requiredTech) {
                 return false
@@ -717,7 +726,7 @@ public class Unit: AbstractUnit {
             newUnit.doPromote(with: promotion)
         }
         gameModel?.add(unit: newUnit)
-        gameModel?.userInterface?.refresh(unit: newUnit)
+        gameModel?.userInterface?.show(unit: newUnit)
     }
 
     /// Current power of unit (raw unit type power adjusted for health)
