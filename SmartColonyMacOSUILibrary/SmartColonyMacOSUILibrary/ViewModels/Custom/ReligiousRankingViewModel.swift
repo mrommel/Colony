@@ -1,15 +1,15 @@
 //
-//  DominationRankingViewModel.swift
+//  ReligiousRankingViewModel.swift
 //  SmartMacOSUILibrary
 //
-//  Created by Michael Rommel on 04.11.21.
+//  Created by Michael Rommel on 06.11.21.
 //
 
 import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
-class DominationRankingViewModel: ObservableObject {
+class ReligiousRankingViewModel: ObservableObject {
 
     private var id: UUID = UUID()
 
@@ -20,19 +20,25 @@ class DominationRankingViewModel: ObservableObject {
     var leaderName: String
 
     @Published
-    var capturedCapitals: [CivilizationViewModel]
+    var religionName: String
+
+    @Published
+    var convertedCivilizations: [CivilizationViewModel]
 
     private let civilization: CivilizationType
 
     init(
         civilization: CivilizationType,
         leader: LeaderType,
-        capturedCapitals: [CivilizationType]) {
+        religion: ReligionType,
+        convertedCivilizations: [CivilizationType]
+    ) {
 
         self.civilization = civilization
         self.toolTip = leader.name()
         self.leaderName = leader.name()
-        self.capturedCapitals = capturedCapitals.map {
+        self.religionName = religion.name()
+        self.convertedCivilizations = convertedCivilizations.map {
             return CivilizationViewModel(civilization: $0)
         }
     }
@@ -43,9 +49,9 @@ class DominationRankingViewModel: ObservableObject {
     }
 }
 
-extension DominationRankingViewModel: Hashable {
+extension ReligiousRankingViewModel: Hashable {
 
-    static func == (lhs: DominationRankingViewModel, rhs: DominationRankingViewModel) -> Bool {
+    static func == (lhs: ReligiousRankingViewModel, rhs: ReligiousRankingViewModel) -> Bool {
 
         return lhs.id == rhs.id
     }

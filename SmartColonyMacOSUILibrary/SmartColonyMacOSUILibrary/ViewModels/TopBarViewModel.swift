@@ -33,6 +33,9 @@ public class TopBarViewModel: ObservableObject {
     @Published
     var tourismYieldValueViewModel: YieldValueViewModel
 
+    @Published
+    var tradeRoutesLabelText: String
+
     // resources
 
     @Published
@@ -68,6 +71,8 @@ public class TopBarViewModel: ObservableObject {
         self.faithYieldValueViewModel = YieldValueViewModel(yieldType: .faith, initial: 0.0, type: .valueAndDelta)
         self.goldYieldValueViewModel = YieldValueViewModel(yieldType: .gold, initial: 0.0, type: .valueAndDelta)
         self.tourismYieldValueViewModel = YieldValueViewModel(yieldType: .tourism, initial: 0.0, type: .onlyValue)
+
+        self.tradeRoutesLabelText = "0/0"
 
         self.horsesValueViewModel = ResourceValueViewModel(resourceType: .horses, initial: 1)
         self.ironValueViewModel = ResourceValueViewModel(resourceType: .iron, initial: 1)
@@ -105,6 +110,10 @@ public class TopBarViewModel: ObservableObject {
         self.goldYieldValueViewModel.value = humanPlayer.treasury?.value() ?? 0.0
         self.goldYieldValueViewModel.delta = humanPlayer.treasury?.calculateGrossGold(in: gameModel) ?? 0.0
         self.tourismYieldValueViewModel.value = humanPlayer.currentTourism(in: gameModel)
+
+        let numberOfTradeRoutes = humanPlayer.numberOfTradeRoutes()
+        let tradingCapacity = humanPlayer.tradingCapacity(in: gameModel)
+        self.tradeRoutesLabelText = "\(numberOfTradeRoutes)/\(tradingCapacity)"
 
         self.horsesValueViewModel.value = humanPlayer.numAvailable(resource: .horses)
         self.ironValueViewModel.value = humanPlayer.numAvailable(resource: .iron)

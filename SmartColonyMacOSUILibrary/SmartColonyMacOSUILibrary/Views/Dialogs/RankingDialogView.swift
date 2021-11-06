@@ -89,7 +89,11 @@ struct RankingDialogView: View {
                 )
             )
         case .religion:
-            return AnyView(Text("Religion"))
+            return AnyView(
+                ReligiousRankingDialogView(
+                    viewModel: self.viewModel.religiousRankingDialogViewModel
+                )
+            )
         }
     }
 }

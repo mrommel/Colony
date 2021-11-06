@@ -23,6 +23,8 @@ public struct TopBarView: View {
 
                 self.yieldButtons
 
+                self.tradeRouteButton
+
                 self.resourceButtons
                     .padding(.top, 1)
 
@@ -63,6 +65,25 @@ public struct TopBarView: View {
 
                 YieldValueView(viewModel: self.viewModel.tourismYieldValueViewModel)
             }
+        )
+    }
+
+    private var tradeRouteButton: AnyView {
+
+        AnyView(
+            HStack(alignment: .center, spacing: 4) {
+                Image(nsImage: Globals.Icons.tradeRoute)
+                    .resizable()
+                    .frame(width: 12, height: 12, alignment: .center)
+
+                Text(self.viewModel.tradeRoutesLabelText)
+                    .foregroundColor(Color.white)
+                    .font(.caption)
+            }
+            .padding(.leading, 8)
+            .padding(.trailing, 8)
+            .padding(.top, 4)
+            .padding(.bottom, 4)
         )
     }
 
