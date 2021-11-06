@@ -125,7 +125,7 @@ extension GameView {
         case .ranking:
             return AnyView(RankingDialogView(viewModel: self.viewModel.rankingDialogViewModel))
         case .victory:
-            return AnyView(Text("Victory"))
+            return AnyView(VictoryDialogView(viewModel: self.viewModel.victoryDialogViewModel))
 
         case .confirm:
             return AnyView(ConfirmationDialogView(viewModel: self.viewModel.confirmationDialogViewModel))

@@ -620,11 +620,19 @@ open class GameModel: Codable {
         return self.gameWinVictoryValue
     }
 
+#if DEBUG
+    public func set(winner: LeaderType, for victoryType: VictoryType) {
+
+        self.gameWinLeaderValue = winner
+        self.gameWinVictoryValue = victoryType
+    }
+#else
     func set(winner: LeaderType, for victoryType: VictoryType) {
 
         self.gameWinLeaderValue = winner
         self.gameWinVictoryValue = victoryType
     }
+#endif
 
     func numGameTurnActive() -> Int {
 

@@ -121,6 +121,8 @@
 		C9911EA927367E2E00273C8A /* ReligiousRankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9911EA827367E2E00273C8A /* ReligiousRankingViewModel.swift */; };
 		C9911EAB27367F3000273C8A /* ReligiousRankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9911EAA27367F3000273C8A /* ReligiousRankingView.swift */; };
 		C9911EAD2736817800273C8A /* ReligiousRankingDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9911EAC2736817800273C8A /* ReligiousRankingDialogView.swift */; };
+		C9911EB12736DDDB00273C8A /* VictoryDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9911EB02736DDDB00273C8A /* VictoryDialogView.swift */; };
+		C9911EB32736DE3D00273C8A /* VictoryDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9911EB22736DE3D00273C8A /* VictoryDialogViewModel.swift */; };
 		C9988F27273280180047F111 /* RankingDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9988F26273280180047F111 /* RankingDialogViewModel.swift */; };
 		C9988F29273280DB0047F111 /* RankingDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9988F28273280DB0047F111 /* RankingDialogView.swift */; };
 		C99A886126079F4C003B8B73 /* SmartColonyMacOSUILibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -395,6 +397,8 @@
 		C9911EA827367E2E00273C8A /* ReligiousRankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligiousRankingViewModel.swift; sourceTree = "<group>"; };
 		C9911EAA27367F3000273C8A /* ReligiousRankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligiousRankingView.swift; sourceTree = "<group>"; };
 		C9911EAC2736817800273C8A /* ReligiousRankingDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligiousRankingDialogView.swift; sourceTree = "<group>"; };
+		C9911EB02736DDDB00273C8A /* VictoryDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VictoryDialogView.swift; sourceTree = "<group>"; };
+		C9911EB22736DE3D00273C8A /* VictoryDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VictoryDialogViewModel.swift; sourceTree = "<group>"; };
 		C9988F26273280180047F111 /* RankingDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingDialogViewModel.swift; sourceTree = "<group>"; };
 		C9988F28273280DB0047F111 /* RankingDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingDialogView.swift; sourceTree = "<group>"; };
 		C99A885C26079F4C003B8B73 /* SmartMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -647,6 +651,7 @@
 				C971FDCE27070C5600F818EE /* GreatPeopleDialogView.swift */,
 				C9755FF2270AFD8700C9CAB7 /* ReligionDialogView.swift */,
 				C9988F28273280DB0047F111 /* RankingDialogView.swift */,
+				C9911EB02736DDDB00273C8A /* VictoryDialogView.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -888,6 +893,7 @@
 				C971FDD027070D9200F818EE /* GreatPeopleDialogViewModel.swift */,
 				C9755FE6270AE3A400C9CAB7 /* ReligionDialogViewModel.swift */,
 				C9988F26273280180047F111 /* RankingDialogViewModel.swift */,
+				C9911EB22736DE3D00273C8A /* VictoryDialogViewModel.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -1161,6 +1167,7 @@
 				C99EA75B26BD74F0006FAA40 /* ReplyViewModel.swift in Sources */,
 				C9072E852732B4D000560429 /* CivilizationViewModel.swift in Sources */,
 				C9A376292635FC260057923E /* ResourceLayer.swift in Sources */,
+				C9911EB32736DE3D00273C8A /* VictoryDialogViewModel.swift in Sources */,
 				C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */,
 				C9A3762B2635FDAF0057923E /* BoardLayer.swift in Sources */,
 				C984642E26F4B34B00C40EA7 /* GovernorView.swift in Sources */,
@@ -1328,6 +1335,7 @@
 				C9A3763326369FE60057923E /* WaterLayer.swift in Sources */,
 				C93FD2E32733C9FF003348FB /* CultureRankingViewModel.swift in Sources */,
 				C9A48D302652C8AC00260EE0 /* BannerView.swift in Sources */,
+				C9911EB12736DDDB00273C8A /* VictoryDialogView.swift in Sources */,
 				C9C1B1D72726B4A400046D23 /* ResourceValueViewModel.swift in Sources */,
 				C9988F29273280DB0047F111 /* RankingDialogView.swift in Sources */,
 				C9B087CB2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift in Sources */,

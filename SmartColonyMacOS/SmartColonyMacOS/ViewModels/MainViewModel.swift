@@ -15,6 +15,7 @@ enum PresentedViewType {
     case newGameMenu
     case loadingGame
     case game
+    case replay
     case debug
     case pedia
 }
@@ -35,6 +36,7 @@ class MainViewModel: ObservableObject {
     var createGameMenuViewModel: CreateGameMenuViewModel
     var generateGameViewModel: GenerateGameViewModel
     var gameViewModel: GameViewModel
+    var replayViewModel: ReplayGameViewModel
     let debugViewModel: DebugViewModel
     var pediaViewModel: PediaViewModel
 
@@ -45,7 +47,8 @@ class MainViewModel: ObservableObject {
          menuViewModel: MenuViewModel = MenuViewModel(),
          createGameMenuViewModel: CreateGameMenuViewModel = CreateGameMenuViewModel(),
          generateGameViewModel: GenerateGameViewModel = GenerateGameViewModel(),
-         gameViewModel: GameViewModel = GameViewModel(/*mapViewModel: MapViewModel()*/), pediaViewModel: PediaViewModel = PediaViewModel()) {
+         gameViewModel: GameViewModel = GameViewModel(/*mapViewModel: MapViewModel()*/),
+         pediaViewModel: PediaViewModel = PediaViewModel()) {
 
         self.presentedView = presentedView
         self.mapMenuDisabled = true
@@ -54,6 +57,7 @@ class MainViewModel: ObservableObject {
         self.createGameMenuViewModel = createGameMenuViewModel
         self.generateGameViewModel = generateGameViewModel
         self.gameViewModel = gameViewModel
+        self.replayViewModel = ReplayGameViewModel()
         self.debugViewModel = DebugViewModel()
         self.pediaViewModel = pediaViewModel
 
@@ -61,7 +65,7 @@ class MainViewModel: ObservableObject {
         self.menuViewModel.delegate = self
         self.createGameMenuViewModel.delegate = self
         self.generateGameViewModel.delegate = self
-        // self.gameViewModel.delegate = self <== close game?
+        self.gameViewModel.victoryDelegate = self // replay
         self.debugViewModel.delegate = self
         self.pediaViewModel.delegate = self
     }
@@ -174,6 +178,14 @@ extension MainViewModel: GenerateGameViewModelDelegate {
 
 extension MainViewModel: PediaViewModelDelegate {
 
+}
+
+extension MainViewModel: GameVictoryViewModelDelegate {
+
+    func showReplay(for game: GameModel?) {
+
+        fatalError("not implemented: showReplay")
+    }
 }
 
 extension MainViewModel: DebugViewModelDelegate {

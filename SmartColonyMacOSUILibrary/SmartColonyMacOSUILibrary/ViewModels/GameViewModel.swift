@@ -111,6 +111,11 @@ protocol GameViewModelDelegate: AnyObject {
     func update()
 }
 
+public protocol GameVictoryViewModelDelegate: AnyObject {
+
+    func showReplay(for game: GameModel?)
+}
+
 // swiftlint:disable type_body_length
 public class GameViewModel: ObservableObject {
 
@@ -203,6 +208,9 @@ public class GameViewModel: ObservableObject {
     @Published
     var rankingDialogViewModel: RankingDialogViewModel
 
+    @Published
+    var victoryDialogViewModel: VictoryDialogViewModel
+
     // UI
 
     @Published
@@ -270,6 +278,8 @@ public class GameViewModel: ObservableObject {
         "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty"
     ]
 
+    public weak var victoryDelegate: GameVictoryViewModelDelegate?
+
     // MARK: constructor
 
     public init(preloadAssets: Bool = false) {
@@ -304,6 +314,7 @@ public class GameViewModel: ObservableObject {
         self.selectItemsDialogViewModel = SelectItemsDialogViewModel()
         self.religionDialogViewModel = ReligionDialogViewModel()
         self.rankingDialogViewModel = RankingDialogViewModel()
+        self.victoryDialogViewModel = VictoryDialogViewModel()
 
         // connect models
         self.gameSceneViewModel.delegate = self
@@ -334,6 +345,7 @@ public class GameViewModel: ObservableObject {
         self.selectItemsDialogViewModel.delegate = self
         self.religionDialogViewModel.delegate = self
         self.rankingDialogViewModel.delegate = self
+        self.victoryDialogViewModel.delegate = self
 
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
