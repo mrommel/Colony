@@ -132,7 +132,7 @@ public class Textures {
             // 1
             "yield-1-0-0", "yield-1-0-1", "yield-1-0-2", "yield-1-0-3",
             "yield-1-1-0", "yield-1-1-1", "yield-1-1-2", "yield-1-1-3",
-            "yield-1-2-0", "yield-1-2-1", "yield-1-2-3",
+            "yield-1-2-0", "yield-1-2-1", "yield-1-2-2", "yield-1-2-3",
             "yield-1-3-0", "yield-1-3-1", "yield-1-3-2", "yield-1-3-3",
             "yield-1-4-0",
             // 2

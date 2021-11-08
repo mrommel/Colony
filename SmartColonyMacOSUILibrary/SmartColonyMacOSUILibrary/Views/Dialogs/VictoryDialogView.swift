@@ -109,7 +109,7 @@ struct VictoryDialogView: View {
         case .info:
             return AnyView(self.infoContainerView)
         case .ranking:
-            return AnyView(Text("Ranking"))
+            return AnyView(self.rankingContainerView)
         case .graphs:
             return AnyView(self.graphsContainerView)
         }
@@ -146,6 +146,28 @@ struct VictoryDialogView: View {
         }
         .frame(width: self.cardWidth, height: self.cardHeight, alignment: .center)
         .cornerRadius(self.cornerRadius)
+    }
+
+    private var rankingContainerView: some View {
+
+        ScrollView(.vertical, showsIndicators: true, content: {
+
+            LazyVStack(spacing: 10) {
+
+                ForEach(self.viewModel.victoryRankingViewModels, id: \.self) { victoryRankingViewModel in
+
+                    HStack {
+                        Text("\(victoryRankingViewModel.index)")
+
+                        Text(victoryRankingViewModel.name)
+
+                        Text("\(victoryRankingViewModel.minScore)")
+                    }
+                    .background(victoryRankingViewModel.selected ? Color.red : Color.clear)
+                }
+            }
+        })
+            .frame(width: self.cardWidth, height: self.cardHeight, alignment: .center)
     }
 
     private var graphsContainerView: some View {

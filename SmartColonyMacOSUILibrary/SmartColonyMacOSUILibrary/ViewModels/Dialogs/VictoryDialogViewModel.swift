@@ -16,6 +16,48 @@ enum VictoryDialogDetailType {
     case graphs
 }
 
+class VictoryRankingViewModel: ObservableObject {
+
+    private var id: UUID = UUID()
+
+    @Published
+    var index: Int
+
+    @Published
+    var name: String
+
+    @Published
+    var minScore: Int
+
+    @Published
+    var maxScore: Int
+
+    @Published
+    var selected: Bool
+
+    init(index: Int, name: String, minScore: Int, maxScore: Int, selected: Bool = false) {
+
+        self.index = index
+        self.name = name
+        self.minScore = minScore
+        self.maxScore = maxScore
+        self.selected = selected
+    }
+}
+
+extension VictoryRankingViewModel: Hashable {
+
+    static func == (lhs: VictoryRankingViewModel, rhs: VictoryRankingViewModel) -> Bool {
+
+        return lhs.id == rhs.id
+    }
+
+    func hash(into hasher: inout Hasher) {
+
+        hasher.combine(self.id)
+    }
+}
+
 class VictoryDialogViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
@@ -36,6 +78,9 @@ class VictoryDialogViewModel: ObservableObject {
     @Published
     var detailType: VictoryDialogDetailType
 
+    @Published
+    var victoryRankingViewModels: [VictoryRankingViewModel]
+
     private var victoryTypeIconTexture: String
     private var victoryBannerIconTexture: String
 
@@ -54,14 +99,32 @@ class VictoryDialogViewModel: ObservableObject {
 
     init() {
 
+        self.detailType = .info
         self.title = "-"
+        self.victoryBannerIconTexture = "defeat-banner"
+
+        // info
         self.victoryTitle = "-"
         self.civilizationTitle = "-"
         self.victorySummary = "-"
         self.victoryTypeIconTexture = RankingViewType.religion.iconTexture()
-        self.victoryBannerIconTexture = "defeat-banner"
 
-        self.detailType = .info
+        // ranking - https://civilization.fandom.com/wiki/Victory_(Civ6)#Ranking
+        self.victoryRankingViewModels = [
+            VictoryRankingViewModel(index: 1, name: "August Caesar", minScore: 2500, maxScore: 10000),
+            VictoryRankingViewModel(index: 2, name: "Hammurabi", minScore: 2250, maxScore: 2499),
+            VictoryRankingViewModel(index: 3, name: "Abraham Lincoln", minScore: 2000, maxScore: 2249),
+            VictoryRankingViewModel(index: 4, name: "Winston Churchill", minScore: 1900, maxScore: 1999),
+            VictoryRankingViewModel(index: 5, name: "Nelson Mandela", minScore: 1800, maxScore: 1899),
+            VictoryRankingViewModel(index: 6, name: "Catheine the Great", minScore: 1700, maxScore: 1799),
+            VictoryRankingViewModel(index: 7, name: "Ashoka", minScore: 1600, maxScore: 1699),
+            VictoryRankingViewModel(index: 8, name: "Marcus Aurelius", minScore: 1500, maxScore: 1599),
+            // ...
+            VictoryRankingViewModel(index: 20, name: "May Tudor I", minScore: 300, maxScore: 399),
+            VictoryRankingViewModel(index: 21, name: "Dan Quayle", minScore: 0, maxScore: 299)
+        ]
+
+        // charts
         self.graphData = ScoreData(lines: [])
     }
 
@@ -112,6 +175,11 @@ class VictoryDialogViewModel: ObservableObject {
             // victory of human player
             self.title = "Victory"
             self.civilizationTitle = "of the \(victoryLeader.civilization().name()) empire"
+
+            let score = humanPlayer.score(for: gameModel)
+            if let selectedVictoryRankingViewModel = self.victoryRankingViewModels.first(where: { $0.minScore < score && score < $0.maxScore }) {
+                selectedVictoryRankingViewModel.selected = true
+            }
 
             switch victoryType {
 
