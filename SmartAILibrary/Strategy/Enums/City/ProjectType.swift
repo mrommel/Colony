@@ -195,7 +195,7 @@ public enum ProjectType: Int, Codable {
                     "Step 4 of Science Victory"
                 ],
                 era: .future,
-                required: .nanotechnology,// .smartMaterials,
+                required: .nanotechnology, // .smartMaterials,
                 previous: .launchMarsColony,
                 location: .spaceport,
                 cost: 2100,

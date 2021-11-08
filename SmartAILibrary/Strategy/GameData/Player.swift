@@ -400,7 +400,7 @@ public class Player: AbstractPlayer {
 
     private var originalCapitalLocationValue: HexPoint = HexPoint.invalid
     private var lostCapitalValue: Bool = false
-    private var conquerorValue: LeaderType? = nil
+    private var conquerorValue: LeaderType?
 
     private var canChangeGovernmentValue: Bool = false
     private var faithPurchaseTypeVal: FaithPurchaseType = .noAutomaticFaithPurchase
