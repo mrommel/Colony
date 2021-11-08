@@ -95,6 +95,9 @@ class VictoryDialogViewModel: ObservableObject {
     @Published
     var graphData: ScoreData
 
+    @Published
+    var legendData: ScoreLegendViewModel
+
     weak var delegate: GameViewModelDelegate?
 
     init() {
@@ -136,6 +139,7 @@ class VictoryDialogViewModel: ObservableObject {
 
         // charts
         self.graphData = ScoreData(lines: [])
+        self.legendData = ScoreLegendViewModel(legendItemViewModels: [])
     }
 
     func update() {
@@ -186,11 +190,7 @@ class VictoryDialogViewModel: ObservableObject {
             self.title = "Victory"
             self.civilizationTitle = "of the \(victoryLeader.civilization().name()) empire"
 
-            let score = humanPlayer.score(for: gameModel)
-            if let selectedVictoryRankingViewModel = self.victoryRankingViewModels.first(where: { $0.minScore < score && score < $0.maxScore }) {
-                selectedVictoryRankingViewModel.selected = true
-            }
-
+            // info tab
             switch victoryType {
 
             case .domination, .conquest:
@@ -224,6 +224,12 @@ class VictoryDialogViewModel: ObservableObject {
                 break
             }
 
+            // ranking tab
+            let score = humanPlayer.score(for: gameModel)
+            if let selectedVictoryRankingViewModel = self.victoryRankingViewModels.first(where: { $0.minScore < score && score < $0.maxScore }) {
+                selectedVictoryRankingViewModel.selected = true
+            }
+
         } else {
             // defeat of human player
             self.title = "Defeat"
@@ -236,6 +242,19 @@ class VictoryDialogViewModel: ObservableObject {
     var graphValues: [PickerData] {
 
         return RankingDataType.all.map { PickerData(name: $0.title(), image: NSImage()) }
+    }
+
+    func updateGraphLegend() {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        self.legendData = ScoreLegendViewModel(
+            legendItemViewModels: gameModel.players
+                .filter { !$0.isBarbarian() }
+                .map { ScoreLegendDataItem(name: $0.leader.name(), color: $0.leader.civilization().accent) }
+            )
     }
 
     func updateGraph() {

@@ -244,6 +244,7 @@
 		C9E0598C265520BA00C08463 /* WonderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0598B265520BA00C08463 /* WonderViewModel.swift */; };
 		C9E18376270314DC00A3082D /* CivicListDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E18375270314DC00A3082D /* CivicListDialogView.swift */; };
 		C9E18378270314EC00A3082D /* TechListDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E18377270314EC00A3082D /* TechListDialogView.swift */; };
+		C9E4C5EF2739C20200B4A69A /* ScoreLegendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E4C5EE2739C20100B4A69A /* ScoreLegendView.swift */; };
 		C9E87BA5264C558800514B9A /* YieldValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BA4264C558800514B9A /* YieldValueView.swift */; };
 		C9E87BA9264D17CC00514B9A /* TechView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BA8264D17CC00514B9A /* TechView.swift */; };
 		C9E87BAF264D1BA000514B9A /* TechTreeDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BAE264D1BA000514B9A /* TechTreeDialogView.swift */; };
@@ -518,6 +519,7 @@
 		C9E0598B265520BA00C08463 /* WonderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderViewModel.swift; sourceTree = "<group>"; };
 		C9E18375270314DC00A3082D /* CivicListDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicListDialogView.swift; sourceTree = "<group>"; };
 		C9E18377270314EC00A3082D /* TechListDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechListDialogView.swift; sourceTree = "<group>"; };
+		C9E4C5EE2739C20100B4A69A /* ScoreLegendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreLegendView.swift; sourceTree = "<group>"; };
 		C9E87BA4264C558800514B9A /* YieldValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldValueView.swift; sourceTree = "<group>"; };
 		C9E87BA8264D17CC00514B9A /* TechView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechView.swift; sourceTree = "<group>"; };
 		C9E87BAE264D1BA000514B9A /* TechTreeDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechTreeDialogView.swift; sourceTree = "<group>"; };
@@ -616,6 +618,7 @@
 				C9D5D25C26F9DA3600009817 /* SelectItemView.swift */,
 				C94F94DD27295C1E006BF135 /* Tooltip.swift */,
 				C99547C22738625D006AB8F2 /* ScoreChartView.swift */,
+				C9E4C5EE2739C20100B4A69A /* ScoreLegendView.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1311,6 +1314,7 @@
 				C9B3141E2657FF1100726CAA /* YieldValueViewModel.swift in Sources */,
 				C9A48D4B2653F8C100260EE0 /* CityDialogViewModel.swift in Sources */,
 				C9077A8426D62714004BE679 /* TradeRoutesDialogViewModel.swift in Sources */,
+				C9E4C5EF2739C20200B4A69A /* ScoreLegendView.swift in Sources */,
 				C9F4939D26CAAE9600B0C259 /* UnitListDialogViewModel.swift in Sources */,
 				C9755FF3270AFD8700C9CAB7 /* ReligionDialogView.swift in Sources */,
 				C9452E3126680DB3005EF985 /* TechDiscoveredPopupView.swift in Sources */,

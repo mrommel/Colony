@@ -178,15 +178,20 @@ struct VictoryDialogView: View {
 
     private var graphsContainerView: some View {
 
-        VStack {
+        HStack {
+            VStack {
 
-            DataPicker(
-                title: "Value",
-                data: self.viewModel.graphValues,
-                selection: self.$viewModel.selectedGraphValueIndex)
+                DataPicker(
+                    title: "Value",
+                    data: self.viewModel.graphValues,
+                    selection: self.$viewModel.selectedGraphValueIndex)
 
-            ScoreChartView(data: self.$viewModel.graphData)
-                .frame(width: self.cardWidth, height: self.cardHeight, alignment: .center)
+                ScoreChartView(data: self.$viewModel.graphData)
+                    .frame(width: self.cardWidth, height: self.cardHeight, alignment: .center)
+            }
+
+            ScoreLegendView(viewModel: self.viewModel.legendData)
+                .frame(width: 200)
         }
     }
 }
@@ -199,10 +204,15 @@ struct VictoryDialogView_Previews: PreviewProvider {
         let viewModel = VictoryDialogViewModel()
 
         let game = DemoGameModel()
+        game.rankingData.add(culturePerTurn: 1, for: .alexander)
+        game.rankingData.add(culturePerTurn: 0, for: .victoria)
+        game.rankingData.add(culturePerTurn: 2, for: .alexander)
+        game.rankingData.add(culturePerTurn: 1, for: .victoria)
         game.set(winner: leader, for: victory)
 
         viewModel.gameEnvironment.game.value = game
         viewModel.update()
+        viewModel.detailType = .graphs
 
         return viewModel
     }
