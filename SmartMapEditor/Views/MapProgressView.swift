@@ -34,7 +34,7 @@ struct MapProgressView: View {
 
             Text($viewModel.progress.wrappedValue)
 
-            ActivityIndicator(isAnimating: $viewModel.generating, style: .spinning)
+            ActivityIndicator(isAnimating: self.$viewModel.generating, style: .spinning)
 
         }.padding(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))
         .frame(width: 200, height: 250, alignment: .center)

@@ -761,7 +761,9 @@ open class GameModel: Codable {
                 self.set(winner: player.leader, for: .science)
                 self.set(gameState: .over)
 
-                self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
+                DispatchQueue.main.async {
+                    self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
+                }
             }
         }
     }
@@ -781,8 +783,6 @@ open class GameModel: Codable {
             if player.isBarbarian() {
                 continue
             }
-
-
 
             /*if player.hasScienceVictory(in: self) {
 
@@ -838,7 +838,9 @@ open class GameModel: Codable {
                 self.set(winner: winnerKey, for: .domination)
                 self.set(gameState: .over)
 
-                self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
+                DispatchQueue.main.async {
+                    self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
+                }
             }
         }
     }
@@ -850,7 +852,7 @@ open class GameModel: Codable {
         }
 
         // game has reached last turn
-        if self.currentTurn >= 500 {
+        if self.currentTurn >= 10 { // TODO: change back to 500
 
             var playerScore: [LeaderType: Int] = [:]
 
@@ -869,7 +871,9 @@ open class GameModel: Codable {
             self.set(winner: winnerKey, for: .score)
             self.set(gameState: .over)
 
-            self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
+            DispatchQueue.main.async {
+                self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
+            }
         }
     }
 
@@ -994,9 +998,12 @@ open class GameModel: Codable {
     func updateScore() {
 
         for player in self.players {
-            let score = player.score(for: self)
 
+            let score = player.score(for: self)
             self.rankingData.add(score: score, for: player.leader)
+
+            let culturePerTurn = player.culture(in: self)
+            self.rankingData.add(culturePerTurn: culturePerTurn, for: player.leader)
         }
     }
 

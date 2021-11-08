@@ -1140,6 +1140,9 @@ extension GameViewModel: GameViewModelDelegate {
         case .ranking:
             self.showRankingDialog()
 
+        case .victory:
+            self.showVictoryDialog()
+
         default:
             print("screen: \(screenType) not handled")
         }

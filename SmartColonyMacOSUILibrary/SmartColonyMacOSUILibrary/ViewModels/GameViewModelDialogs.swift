@@ -129,6 +129,21 @@ extension GameViewModel {
         }
     }
 
+    func showVictoryDialog() {
+
+        if self.currentScreenType == .victory {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.victoryDialogViewModel.update()
+            self.currentScreenType = .victory
+        } else {
+            fatalError("cant show victory dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+
     func showTradeRouteDialog() {
 
         if self.currentScreenType == .tradeRoutes {

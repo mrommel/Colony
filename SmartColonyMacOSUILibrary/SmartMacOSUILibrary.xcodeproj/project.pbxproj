@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -78,6 +78,7 @@
 		C950F997264904150057A7D1 /* ChangePolicyDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F996264904150057A7D1 /* ChangePolicyDialogViewModel.swift */; };
 		C950F999264908760057A7D1 /* PolicyCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F998264908760057A7D1 /* PolicyCardView.swift */; };
 		C950F99B264908F80057A7D1 /* PolicyCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F99A264908F80057A7D1 /* PolicyCardViewModel.swift */; };
+		C95C7A76273827E300B2CE1A /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = C95C7A75273827E300B2CE1A /* Charts */; };
 		C95EEA03273158060052C7F8 /* LeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95EEA02273158060052C7F8 /* LeaderViewModel.swift */; };
 		C962A83A26A08C570045AF0E /* CanFoundPantheonPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962A83926A08C570045AF0E /* CanFoundPantheonPopupView.swift */; };
 		C962A83C26A08C620045AF0E /* CanFoundPantheonPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962A83B26A08C620045AF0E /* CanFoundPantheonPopupViewModel.swift */; };
@@ -123,6 +124,7 @@
 		C9911EAD2736817800273C8A /* ReligiousRankingDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9911EAC2736817800273C8A /* ReligiousRankingDialogView.swift */; };
 		C9911EB12736DDDB00273C8A /* VictoryDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9911EB02736DDDB00273C8A /* VictoryDialogView.swift */; };
 		C9911EB32736DE3D00273C8A /* VictoryDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9911EB22736DE3D00273C8A /* VictoryDialogViewModel.swift */; };
+		C99547C32738625D006AB8F2 /* ScoreChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99547C22738625D006AB8F2 /* ScoreChartView.swift */; };
 		C9988F27273280180047F111 /* RankingDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9988F26273280180047F111 /* RankingDialogViewModel.swift */; };
 		C9988F29273280DB0047F111 /* RankingDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9988F28273280DB0047F111 /* RankingDialogView.swift */; };
 		C99A886126079F4C003B8B73 /* SmartColonyMacOSUILibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -399,6 +401,7 @@
 		C9911EAC2736817800273C8A /* ReligiousRankingDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligiousRankingDialogView.swift; sourceTree = "<group>"; };
 		C9911EB02736DDDB00273C8A /* VictoryDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VictoryDialogView.swift; sourceTree = "<group>"; };
 		C9911EB22736DE3D00273C8A /* VictoryDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VictoryDialogViewModel.swift; sourceTree = "<group>"; };
+		C99547C22738625D006AB8F2 /* ScoreChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreChartView.swift; sourceTree = "<group>"; };
 		C9988F26273280180047F111 /* RankingDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingDialogViewModel.swift; sourceTree = "<group>"; };
 		C9988F28273280DB0047F111 /* RankingDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingDialogView.swift; sourceTree = "<group>"; };
 		C99A885C26079F4C003B8B73 /* SmartMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -543,6 +546,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C99A887E2607A06C003B8B73 /* SmartAILibrary.framework in Frameworks */,
+				C95C7A76273827E300B2CE1A /* Charts in Frameworks */,
 				C99A88842607A190003B8B73 /* SmartAssets.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -611,6 +615,7 @@
 				C9B43FAE263E8FB900241012 /* AskYesNoAlertView.swift */,
 				C9D5D25C26F9DA3600009817 /* SelectItemView.swift */,
 				C94F94DD27295C1E006BF135 /* Tooltip.swift */,
+				C99547C22738625D006AB8F2 /* ScoreChartView.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1050,6 +1055,9 @@
 			dependencies = (
 			);
 			name = SmartMacOSUILibrary;
+			packageProductDependencies = (
+				C95C7A75273827E300B2CE1A /* Charts */,
+			);
 			productName = SmartColonyMacOSUILibrary;
 			productReference = C99A885C26079F4C003B8B73 /* SmartMacOSUILibrary.framework */;
 			productType = "com.apple.product-type.framework";
@@ -1077,6 +1085,9 @@
 				Base,
 			);
 			mainGroup = C99A885226079F4C003B8B73;
+			packageReferences = (
+				C95C7A74273827E300B2CE1A /* XCRemoteSwiftPackageReference "Charts" */,
+			);
 			productRefGroup = C99A885D26079F4C003B8B73 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1263,6 +1274,7 @@
 				C962A83A26A08C570045AF0E /* CanFoundPantheonPopupView.swift in Sources */,
 				C99A88882607A1D3003B8B73 /* CGPointExtension.swift in Sources */,
 				C93FD2DB27332113003348FB /* ScienceRankingDialogView.swift in Sources */,
+				C99547C32738625D006AB8F2 /* ScoreChartView.swift in Sources */,
 				C92F9487265E2298000968AB /* HexagonView.swift in Sources */,
 				C90039222734248200E1AA7F /* DominationRankingViewModel.swift in Sources */,
 				C94816BB26A824C400765029 /* SelectTradeCityDialogViewModel.swift in Sources */,
@@ -1590,6 +1602,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C95C7A74273827E300B2CE1A /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C95C7A75273827E300B2CE1A /* Charts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C95C7A74273827E300B2CE1A /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = Charts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C99A885326079F4C003B8B73 /* Project object */;
 }
