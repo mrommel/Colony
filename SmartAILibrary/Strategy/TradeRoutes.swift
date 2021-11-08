@@ -12,6 +12,8 @@ public protocol AbstractTradeRoutes {
 
     var player: Player? { get set }
 
+    func hasTradeRoute(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool
+
     func establishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool
     func finish(tradeRoute: TradeRoute?)
 
@@ -62,6 +64,25 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
     public func numberOfTradeRoutes() -> Int {
 
         return self.routes.count
+    }
+
+    public func hasTradeRoute(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get other player")
+        }
+
+        return self.routes.contains(where: { route in
+            guard let startCity = route.startCity(in: gameModel) else {
+                return false
+            }
+
+            guard let endCity = route.endCity(in: gameModel) else {
+                return false
+            }
+
+            return otherPlayer.isEqual(to: startCity.player) || otherPlayer.isEqual(to: endCity.player)
+        })
     }
 
     public func tradeRoute(at index: Int) -> TradeRoute? {

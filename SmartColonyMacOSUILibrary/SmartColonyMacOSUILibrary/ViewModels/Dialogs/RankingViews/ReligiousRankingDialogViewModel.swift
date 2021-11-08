@@ -76,22 +76,7 @@ class ReligiousRankingDialogViewModel: ObservableObject {
                         continue
                     }
 
-                    var numCitiesFollowingReligion: Int = 0
-                    var numCitiesAll: Int = 0
-                    for cityRef in gameModel.cities(of: loopPlayer) {
-
-                        guard let city = cityRef else {
-                            continue
-                        }
-
-                        numCitiesAll += 1
-
-                        if city.religiousMajority() == playerReligion {
-                            numCitiesFollowingReligion += 1
-                        }
-                    }
-
-                    if numCitiesFollowingReligion >= numCitiesAll / 2 {
+                    if loopPlayer.majorityOfCitiesFollows(religion: playerReligion, in: gameModel) {
                         convertedCivilizations[player.leader]?.append(loopPlayer.leader.civilization())
                     }
                 }

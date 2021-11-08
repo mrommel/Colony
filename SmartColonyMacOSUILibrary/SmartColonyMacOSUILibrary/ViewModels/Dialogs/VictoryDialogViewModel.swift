@@ -84,7 +84,7 @@ class VictoryDialogViewModel: ObservableObject {
 
         switch victoryType {
 
-        case .domination:
+        case .domination, .conquest:
             self.victoryTitle = RankingViewType.domination.name()
             self.victoryTypeIconTexture = RankingViewType.domination.iconTexture()
         case .cultural:
@@ -115,7 +115,7 @@ class VictoryDialogViewModel: ObservableObject {
 
             switch victoryType {
 
-            case .domination:
+            case .domination, .conquest:
                 self.victorySummary = "Though its face may change throughout the ages, history is written from " +
                     "the hand of the victor. By your actions this day, you ensure our people are glorious tomorrow." // LOC_VICTORY_DOMINATION_TEXT
                 self.victoryBannerIconTexture = "victory-culture-banner"

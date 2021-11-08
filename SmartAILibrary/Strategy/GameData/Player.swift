@@ -220,6 +220,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     // religion
     func faithPurchaseType() -> FaithPurchaseType
     func set(faithPurchaseType: FaithPurchaseType)
+    func majorityOfCitiesFollows(religion: ReligionType, in gameModel: GameModel?) -> Bool
 
     func hasCapital(in gameModel: GameModel?) -> Bool
     func hasDiscoveredCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool
@@ -267,10 +268,14 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     // victory checks
     func hasScienceVictory(in gameModel: GameModel?) -> Bool
+    func hasCulturalVictory(in gameModel: GameModel?) -> Bool
+    func hasReligiousVictory(in gameModel: GameModel?) -> Bool
 
     // tourism
     func domesticTourists() -> Int
+    func visitingTourists(in gameModel: GameModel?) -> Int
     func currentTourism(in gameModel: GameModel?) -> Double
+    func tourismModifier(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Int // in percent
 
     // intern
     func isEqual(to other: AbstractPlayer?) -> Bool
@@ -4292,6 +4297,30 @@ public class Player: AbstractPlayer {
         self.faithPurchaseTypeVal = faithPurchaseType
     }
 
+    public func majorityOfCitiesFollows(religion: ReligionType, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var numCitiesFollowingReligion: Double = 0.0
+        var numCitiesAll: Double = 0.0
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            numCitiesAll += 1.0
+
+            if city.religiousMajority() == religion {
+                numCitiesFollowingReligion += 1.0
+            }
+        }
+
+        return numCitiesFollowingReligion >= numCitiesAll / 2.0
+    }
+
     // MARK: discovery
 
     public func hasCapital(in gameModel: GameModel?) -> Bool {
@@ -4503,6 +4532,55 @@ public class Player: AbstractPlayer {
             self.boostExoplanetExpeditionValue >= 50
     }
 
+    public func hasCulturalVictory(in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        let visitingTourists: Int = self.visitingTourists(in: gameModel)
+        var maxDomesticTourists: Int = 0
+
+        for loopPlayer in gameModel.players {
+
+            if loopPlayer.isBarbarian() || self.isEqual(to: loopPlayer) {
+                continue
+            }
+
+            maxDomesticTourists = max(maxDomesticTourists, loopPlayer.domesticTourists())
+        }
+
+        return visitingTourists > maxDomesticTourists
+    }
+
+    public func hasReligiousVictory(in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let playerReligion = self.religion else {
+            fatalError("cant get player religion")
+        }
+
+        if playerReligion.currentReligion() == .none {
+            return false
+        }
+
+        for loopPlayer in gameModel.players {
+
+            if loopPlayer.isBarbarian() || self.isEqual(to: loopPlayer) {
+                continue
+            }
+
+            if !loopPlayer.majorityOfCitiesFollows(religion: playerReligion.currentReligion(), in: gameModel) {
+                return false
+            }
+        }
+
+        return true
+    }
+
     // MARK: tourism
 
     public func domesticTourists() -> Int {
@@ -4514,6 +4592,15 @@ public class Player: AbstractPlayer {
         return playerTourism.domesticTourists()
     }
 
+    public func visitingTourists(in gameModel: GameModel?) -> Int {
+
+        guard let playerTourism = self.tourism else {
+            fatalError("cant get player tourism")
+        }
+
+        return playerTourism.visitingTourists(in: gameModel)
+    }
+
     public func currentTourism(in gameModel: GameModel?) -> Double {
 
         guard let playerTourism = self.tourism else {
@@ -4521,6 +4608,56 @@ public class Player: AbstractPlayer {
         }
 
         return playerTourism.currentTourism(in: gameModel)
+    }
+
+    /// At the player level, what is the modifier for tourism between these players?
+    /// in percent / CvPlayerCulture::GetTourismModifierWith
+    /// https://forums.civfanatics.com/threads/how-tourism-is-calculated-and-a-culture-victory-made.605199/
+    public func tourismModifier(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Int {
+
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get player diplomacyAI")
+        }
+
+        guard let tradeRoutes = self.tradeRoutes else {
+            fatalError("cant get player tradeRoutes")
+        }
+
+        guard let otherTradeRoutes = otherPlayer?.tradeRoutes else {
+            fatalError("cant get other player tradeRoutes")
+        }
+
+        let playerGovernmentType: GovernmentType = self.government?.currentGovernment() ?? .chiefdom
+        let otherPlayerGovernmentType: GovernmentType = otherPlayer?.government?.currentGovernment() ?? .chiefdom
+
+        var modifier: Int = 0
+
+        // Open Borders
+        if diplomacyAI.isOpenBorderAgreementActive(by: otherPlayer) {
+            modifier += 25 // TOURISM_MODIFIER_OPEN_BORDERS
+        }
+
+        // Trade Route
+        if tradeRoutes.hasTradeRoute(with: otherPlayer, in: gameModel) || otherTradeRoutes.hasTradeRoute(with: self, in: gameModel) {
+            modifier += 25 // TOURISM_MODIFIER_TRADE_ROUTE
+
+            // Civic Online Communities provides +50% tourism to civs you have a trade route with
+        }
+
+        // Different Religion
+        // ...
+
+        // Enlightenment
+        // ...
+
+        // Different Governments
+        // (Gov1_factor + Gov2_factor) x Base Government tourist factor
+        if playerGovernmentType != otherPlayerGovernmentType {
+            let diffentGovFactor = (playerGovernmentType.tourismFactor() + otherPlayerGovernmentType.tourismFactor()) * 3
+            modifier += diffentGovFactor
+        }
+
+        return modifier
     }
 }
 

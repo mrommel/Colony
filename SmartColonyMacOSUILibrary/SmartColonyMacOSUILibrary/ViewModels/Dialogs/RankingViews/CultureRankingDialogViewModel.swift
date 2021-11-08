@@ -72,7 +72,7 @@ class CultureRankingDialogViewModel: ObservableObject {
 
             tourismDict[player.leader] = TourismSummary(
                 domestic: player.domesticTourists(),
-                visiting: player.domesticTourists() + Int.random(number: 10)
+                visiting: player.visitingTourists()
             )
         }
 
@@ -92,7 +92,7 @@ class CultureRankingDialogViewModel: ObservableObject {
             let maxOtherDomesticTourists: Int = tourismDict
                 .filter { $0.key != player.leader }
                 .map { $0.value.domestic }
-                .reduce(0, +)
+                .max()
 
             let cultureRankingViewModel = CultureRankingViewModel(
                 civilization: civilizationType,

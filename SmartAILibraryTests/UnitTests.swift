@@ -352,6 +352,10 @@ class UnitTests: XCTestCase {
         let humanPlayerScout = Unit(at: HexPoint(x: 2, y: 2), type: .warrior, owner: humanPlayer)
         gameModel.add(unit: humanPlayerScout)
 
+        let humanCapital = City(name: "Human Capital", at: HexPoint(x: 2, y: 1), capital: true, owner: humanPlayer)
+        humanCapital.initialize(in: gameModel)
+        gameModel.add(city: humanCapital)
+
         // WHEN
         let canUpgradeBefore = humanPlayerScout.canUpgrade(to: .swordman, in: gameModel)
         humanPlayerScout.doUpgrade(to: .swordman, in: gameModel) // <= will crash on failure

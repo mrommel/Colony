@@ -733,11 +733,11 @@ open class GameModel: Codable {
         self.doTestScienceVictory()
         self.doTestCultureVictory()
         self.doTestDominationVictory()
-        // self.doTestReligiousVictory()
+        self.doTestReligiousVictory()
         // self.doTestDiplomaticVictory()
 
         self.doTestScoreVictory()
-        // self.doTestConquestVictory()
+        self.doTestConquestVictory()
     }
 
     func doTestScienceVictory() {
@@ -768,6 +768,7 @@ open class GameModel: Codable {
         }
     }
 
+    // https://forums.civfanatics.com/threads/how-tourism-is-calculated-and-a-culture-victory-made.605199/
     func doTestCultureVictory() {
 
         if !self.victoryTypes.contains(.cultural) {
@@ -784,13 +785,13 @@ open class GameModel: Codable {
                 continue
             }
 
-            /*if player.hasScienceVictory(in: self) {
+            if player.hasCulturalVictory(in: self) {
 
                 self.set(winner: player.leader, for: .cultural)
                 self.set(gameState: .over)
 
                 self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
-            }*/
+            }
         }
     }
 
@@ -845,6 +846,32 @@ open class GameModel: Codable {
         }
     }
 
+    func doTestReligiousVictory() {
+
+        if !self.victoryTypes.contains(.religious) {
+            return
+        }
+
+        if self.winnerVictory() != nil {
+            return
+        }
+
+        for player in self.players {
+
+            if player.isBarbarian() {
+                continue
+            }
+
+            if player.hasReligiousVictory(in: self) {
+
+                self.set(winner: player.leader, for: .religious)
+                self.set(gameState: .over)
+
+                self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
+            }
+        }
+    }
+
     func doTestScoreVictory() {
 
         if self.winnerVictory() != nil {
@@ -852,7 +879,7 @@ open class GameModel: Codable {
         }
 
         // game has reached last turn
-        if self.currentTurn >= 10 { // TODO: change back to 500
+        if self.currentTurn >= 500 {
 
             var playerScore: [LeaderType: Int] = [:]
 
@@ -869,6 +896,43 @@ open class GameModel: Codable {
             let winnerKey: LeaderType = playerScore.sortedByValue.reversed()[0].0
 
             self.set(winner: winnerKey, for: .score)
+            self.set(gameState: .over)
+
+            DispatchQueue.main.async {
+                self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
+            }
+        }
+    }
+
+    /// test if only on human or ai player is alive
+    func doTestConquestVictory() {
+
+        if self.winnerVictory() != nil {
+            return
+        }
+
+        var numAlivePlayers: Int = 0
+        var winner: LeaderType = .none
+
+        // loop thru all players
+        for player in self.players {
+
+            if player.isBarbarian() {
+                continue
+            }
+
+            if !player.isAlive() {
+                continue
+            }
+
+            numAlivePlayers += 1
+            winner = player.leader
+        }
+
+        // if only one (or none) player is alive - this is defeat
+        if numAlivePlayers <= 1 {
+
+            self.set(winner: winner, for: .conquest)
             self.set(gameState: .over)
 
             DispatchQueue.main.async {
