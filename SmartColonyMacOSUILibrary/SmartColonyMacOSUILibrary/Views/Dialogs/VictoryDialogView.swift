@@ -156,13 +156,19 @@ struct VictoryDialogView: View {
 
                 ForEach(self.viewModel.victoryRankingViewModels, id: \.self) { victoryRankingViewModel in
 
-                    HStack {
+                    HStack(alignment: .top) {
+
                         Text("\(victoryRankingViewModel.index)")
+                            .frame(width: 20)
 
                         Text(victoryRankingViewModel.name)
+                            .frame(width: 150)
+
+                        Spacer()
 
                         Text("\(victoryRankingViewModel.minScore)")
                     }
+                    .frame(width: 250)
                     .background(victoryRankingViewModel.selected ? Color.red : Color.clear)
                 }
             }

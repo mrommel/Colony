@@ -119,7 +119,17 @@ class VictoryDialogViewModel: ObservableObject {
             VictoryRankingViewModel(index: 6, name: "Catheine the Great", minScore: 1700, maxScore: 1799),
             VictoryRankingViewModel(index: 7, name: "Ashoka", minScore: 1600, maxScore: 1699),
             VictoryRankingViewModel(index: 8, name: "Marcus Aurelius", minScore: 1500, maxScore: 1599),
-            // ...
+            VictoryRankingViewModel(index: 9, name: "Lech Waleca", minScore: 1400, maxScore: 1499),
+            VictoryRankingViewModel(index: 10, name: "Hatshepsut", minScore: 1300, maxScore: 1399),
+            VictoryRankingViewModel(index: 11, name: "Charles de Gaulle", minScore: 1200, maxScore: 1299),
+            VictoryRankingViewModel(index: 12, name: "Eleanor of Aquitaine", minScore: 1100, maxScore: 1199),
+            VictoryRankingViewModel(index: 13, name: "Ivan the Terrible", minScore: 1000, maxScore: 1099),
+            VictoryRankingViewModel(index: 14, name: "Herbert Hoover", minScore: 900, maxScore: 999),
+            VictoryRankingViewModel(index: 15, name: "Louis XVI", minScore: 800, maxScore: 899),
+            VictoryRankingViewModel(index: 16, name: "Neville Chamberlain", minScore: 700, maxScore: 799),
+            VictoryRankingViewModel(index: 17, name: "Nero", minScore: 600, maxScore: 699),
+            VictoryRankingViewModel(index: 18, name: "Warren G. Harding", minScore: 500, maxScore: 599),
+            VictoryRankingViewModel(index: 19, name: "Ethelred the Unready", minScore: 400, maxScore: 499),
             VictoryRankingViewModel(index: 20, name: "May Tudor I", minScore: 300, maxScore: 399),
             VictoryRankingViewModel(index: 21, name: "Dan Quayle", minScore: 0, maxScore: 299)
         ]
@@ -264,7 +274,7 @@ class VictoryDialogViewModel: ObservableObject {
 
         if self.detailType == .graphs {
 
-            self.update()
+            self.updateGraph()
         }
     }
 
