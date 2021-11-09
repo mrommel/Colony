@@ -1069,8 +1069,29 @@ open class GameModel: Codable {
             let goldBalance = player.treasury?.value() ?? 0
             self.rankingData.add(goldBalance: goldBalance, for: player.leader)
 
-            let totalCitiesFounded = self.cities(of: player).count
+            let totalCities = self.cities(of: player).count
+            self.rankingData.add(totalCities: totalCities, for: player.leader)
+
+            let totalCitiesFounded = player.numOfCitiesFounded()
             self.rankingData.add(totalCitiesFounded: totalCitiesFounded, for: player.leader)
+
+            let totalCitiesLost = player.numOfCitiesLost()
+            self.rankingData.add(totalCitiesLost: totalCitiesLost, for: player.leader)
+
+            let totalDistrictsConstructed = self.cities(of: player)
+                .map { $0?.districts?.numberOfBuiltDistricts() ?? 0 }
+                .reduce(0, +)
+            self.rankingData.add(totalDistrictsConstructed: totalDistrictsConstructed, for: player.leader)
+
+            let totalWondersConstructed = self.cities(of: player)
+                .map { $0?.wonders?.numberOfBuiltWonders() ?? 0 }
+                .reduce(0, +)
+            self.rankingData.add(totalWondersConstructed: totalWondersConstructed, for: player.leader)
+
+            let totalBuildingsConstructed = self.cities(of: player)
+                .map { $0?.buildings?.numberOfBuiltBuildings() ?? 0 }
+                .reduce(0, +)
+            self.rankingData.add(totalBuildingsConstructed: totalBuildingsConstructed, for: player.leader)
 
             // ...
 
@@ -1082,6 +1103,18 @@ open class GameModel: Codable {
 
             let faithPerTurn = player.faith(in: self)
             self.rankingData.add(faithPerTurn: faithPerTurn, for: player.leader)
+
+            let totalReligionsFounded = player.religion?.currentReligion() == Optional<ReligionType>.none ? 0 : 1
+            self.rankingData.add(totalReligionsFounded: totalReligionsFounded, for: player.leader)
+
+            let totalGreatPeopleEarned = player.greatPeople?.numOfSpawnedGreatPersons() ?? 0
+            self.rankingData.add(totalGreatPeopleEarned: totalGreatPeopleEarned, for: player.leader)
+
+            let totalWarDeclarationsReceived = player.diplomacyAI?.atWarCount() ?? 0
+            self.rankingData.add(totalWarDeclarationsReceived: totalWarDeclarationsReceived, for: player.leader)
+
+            let totalPantheonsFounded = player.religion?.pantheon() == Optional<PantheonType>.none ? 0 : 1
+            self.rankingData.add(totalPantheonsFounded: totalPantheonsFounded, for: player.leader)
         }
     }
 

@@ -2058,7 +2058,7 @@ public class City: AbstractCity {
             // +1 Civ6Production Production ... per District.
             if government.currentGovernment() == .democracy {
 
-                production += Double(districts.numberOfBuildDistricts())
+                production += Double(districts.numberOfBuiltDistricts())
             }
 
             // +20% Civ6Production Production towards Medieval, Renaissance, and Industrial Wonders.
@@ -3239,7 +3239,7 @@ public class City: AbstractCity {
         }
 
         if districts.hasAny() {
-            modifiers.append(CombatModifier(value: 2 * districts.numberOfBuildDistricts(), title: "from districts"))
+            modifiers.append(CombatModifier(value: 2 * districts.numberOfBuiltDistricts(), title: "from districts"))
         }
 
         // capital

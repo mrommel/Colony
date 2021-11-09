@@ -174,6 +174,8 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func newCityName(in gameModel: GameModel?) -> String
     func cityStrengthModifier() -> Int
     func acquire(city oldCity: AbstractCity?, conquest: Bool, gift: Bool, in gameModel: GameModel?)
+    func numOfCitiesFounded() -> Int
+    func numOfCitiesLost() -> Int
 
     func capitalCity(in gameModel: GameModel?) -> AbstractCity?
     func set(capitalCity newCapitalCity: AbstractCity?, in gameModel: GameModel?)
@@ -295,6 +297,7 @@ public class Player: AbstractPlayer {
         case numPlotsBought
         case improvementCountList
         case totalImprovementsBuilt
+        case citiesFound
         case citiesLost
 
         case techs
@@ -383,6 +386,7 @@ public class Player: AbstractPlayer {
     internal var resourceInventory: ResourceInventory?
     internal var improvementCountList: ImprovementCountList
     internal var totalImprovementsBuilt: Int
+    internal var citiesFoundValue: Int
     internal var citiesLostValue: Int
 
     private var turnActive: Bool = false
@@ -422,6 +426,7 @@ public class Player: AbstractPlayer {
         self.improvementCountList.fill()
 
         self.totalImprovementsBuilt = 0
+        self.citiesFoundValue = 0
         self.citiesLostValue = 0
 
         self.originalCapitalLocationValue = HexPoint.invalid
@@ -447,6 +452,7 @@ public class Player: AbstractPlayer {
         self.improvementCountList.fill()
 
         self.totalImprovementsBuilt = try container.decode(Int.self, forKey: .totalImprovementsBuilt)
+        self.citiesFoundValue = try container.decode(Int.self, forKey: .citiesFound)
         self.citiesLostValue = try container.decode(Int.self, forKey: .citiesLost)
 
         self.grandStrategyAI = try container.decode(GrandStrategyAI.self, forKey: .grandStrategyAI)
@@ -534,6 +540,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.numPlotsBoughtValue, forKey: .numPlotsBought)
         try container.encode(self.improvementCountList, forKey: .improvementCountList)
         try container.encode(self.totalImprovementsBuilt, forKey: .totalImprovementsBuilt)
+        try container.encode(self.citiesFoundValue, forKey: .citiesFound)
         try container.encode(self.citiesLostValue, forKey: .citiesLost)
 
         try container.encode(self.grandStrategyAI, forKey: .grandStrategyAI)
@@ -1400,6 +1407,7 @@ public class Player: AbstractPlayer {
 
             gameModel.invalidate(greatPerson: greatPerson)
             self.greatPeople?.resetPoint(for: greatPerson.type())
+            self.greatPeople?.increaseNumOfSpawned(greatPersonType: greatPerson.type())
         }
     }
 
@@ -2415,6 +2423,8 @@ public class Player: AbstractPlayer {
                 }
             }
         }
+
+        self.citiesFoundValue += 1
     }
 
     public func newCityName(in gameModel: GameModel?) -> String {
@@ -3665,6 +3675,16 @@ public class Player: AbstractPlayer {
             theMap.updateDeferredFog();
         }
 */
+    }
+
+    public func numOfCitiesFounded() -> Int {
+
+        return self.citiesFoundValue
+    }
+
+    public func numOfCitiesLost() -> Int {
+
+        return self.citiesLostValue
     }
 
     /// Handle earning culture from combat wins
