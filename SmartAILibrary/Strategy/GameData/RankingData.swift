@@ -527,6 +527,8 @@ public class RankingData: Codable {
             return leaderData.totalCities.map { Double($0) }
         case .totalCitiesFounded:
             return leaderData.totalCitiesFounded.map { Double($0) }
+        case .totalCitiesLost:
+            return leaderData.totalCitiesLost.map { Double($0) }
 
         case .totalDistrictsConstructed:
             return leaderData.totalDistrictsConstructed.map { Double($0) }
@@ -541,14 +543,16 @@ public class RankingData: Codable {
             return leaderData.sciencePerTurn
         case .faithPerTurn:
             return leaderData.faithPerTurn
+
         case .totalReligionsFounded:
             return leaderData.totalReligionsFounded.map { Double($0) }
-        case .totalGreatPeopleEarned:
-            return leaderData.totalGreatPeopleEarned.map { Double($0) }
-        case .totalWarDeclarationsReceived:
-            return leaderData.totalWarDeclarationsReceived.map { Double($0) }
         case .totalPantheonsFounded:
             return leaderData.totalPantheonsFounded.map { Double($0) }
+        case .totalGreatPeopleEarned:
+            return leaderData.totalGreatPeopleEarned.map { Double($0) }
+
+        case .totalWarDeclarationsReceived:
+            return leaderData.totalWarDeclarationsReceived.map { Double($0) }
         }
     }
 }
