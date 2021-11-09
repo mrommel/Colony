@@ -184,6 +184,12 @@ class VictoryDialogViewModel: ObservableObject {
             break
         }
 
+        // ranking tab
+        let score = humanPlayer.score(for: gameModel)
+        if let selectedVictoryRankingViewModel = self.victoryRankingViewModels.first(where: { $0.minScore < score && score < $0.maxScore }) {
+            selectedVictoryRankingViewModel.selected = true
+        }
+
         if humanPlayer.leader == victoryLeader {
 
             // victory of human player
@@ -224,12 +230,6 @@ class VictoryDialogViewModel: ObservableObject {
                 break
             }
 
-            // ranking tab
-            let score = humanPlayer.score(for: gameModel)
-            if let selectedVictoryRankingViewModel = self.victoryRankingViewModels.first(where: { $0.minScore < score && score < $0.maxScore }) {
-                selectedVictoryRankingViewModel.selected = true
-            }
-
         } else {
             // defeat of human player
             self.title = "Defeat"
@@ -253,7 +253,13 @@ class VictoryDialogViewModel: ObservableObject {
         self.legendData = ScoreLegendViewModel(
             legendItemViewModels: gameModel.players
                 .filter { !$0.isBarbarian() }
-                .map { ScoreLegendDataItem(name: $0.leader.name(), color: $0.leader.civilization().accent) }
+                .map {
+                    ScoreLegendDataItem(
+                        name: $0.leader.name(),
+                        accent: $0.leader.civilization().accent,
+                        main: $0.leader.civilization().main
+                    )
+                }
             )
     }
 
@@ -265,26 +271,21 @@ class VictoryDialogViewModel: ObservableObject {
 
         let type: RankingDataType = RankingDataType.all[self.selectedGraphValueIndex]
 
-        switch type {
+        var lines: [ScoreDataLine] = []
 
-        case .culturePerTurn:
+        for player in gameModel.players {
 
-            var lines: [ScoreDataLine] = []
-
-            for player in gameModel.players {
-
-                let color: NSColor = player.leader.civilization().accent
-                let values: [Double] = gameModel.rankingData.data(type: .culturePerTurn, for: player.leader)
-                let line: ScoreDataLine = ScoreDataLine(color: color, values: values)
-                lines.append(line)
+            if player.isBarbarian() {
+                continue
             }
 
-            self.graphData = ScoreData(lines: lines)
-        case .goldBalance:
-            self.graphData = ScoreData(lines: [])
-        case .totalCitiesFounded:
-            self.graphData = ScoreData(lines: [])
+            let colors: [NSColor] = [player.leader.civilization().accent, player.leader.civilization().main]
+            let values: [Double] = gameModel.rankingData.data(type: type, for: player.leader)
+            let line: ScoreDataLine = ScoreDataLine(colors: colors, values: values)
+            lines.append(line)
         }
+
+        self.graphData = ScoreData(lines: lines)
     }
 
     func set(detailType: VictoryDialogDetailType) {
@@ -294,6 +295,7 @@ class VictoryDialogViewModel: ObservableObject {
         if self.detailType == .graphs {
 
             self.updateGraph()
+            self.updateGraphLegend()
         }
     }
 
@@ -321,6 +323,6 @@ extension VictoryDialogViewModel: BaseDialogViewModel {
     func closeDialog() {
 
         self.delegate?.closeDialog()
-        //self.delegate?
+        self.delegate?.closeGame()
     }
 }

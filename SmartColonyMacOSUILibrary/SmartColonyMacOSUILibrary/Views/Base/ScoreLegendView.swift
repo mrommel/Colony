@@ -15,12 +15,16 @@ class ScoreLegendDataItem: ObservableObject {
     var name: String
 
     @Published
-    var color: NSColor
+    var accent: NSColor
 
-    init(name: String, color: NSColor) {
+    @Published
+    var main: NSColor
+
+    init(name: String, accent: NSColor, main: NSColor) {
 
         self.name = name
-        self.color = color
+        self.accent = accent
+        self.main = main
     }
 }
 
@@ -48,6 +52,29 @@ class ScoreLegendViewModel: ObservableObject {
     }
 }
 
+struct Triangle: Shape {
+
+    let accent: Bool
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+
+        if accent {
+            path.move(to: CGPoint(x: rect.minX, y: rect.minY))
+            path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+            path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
+            path.addLine(to: CGPoint(x: rect.minX, y: rect.minY))
+        } else {
+            path.move(to: CGPoint(x: rect.maxX, y: rect.minY))
+            path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+            path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
+            path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+        }
+
+        return path
+    }
+}
+
 struct ScoreLegendView: View {
 
     private let legendWidth: CGFloat = 120
@@ -70,9 +97,16 @@ struct ScoreLegendView: View {
 
                     HStack(alignment: .center) {
 
-                        Rectangle()
-                            .fill(Color(legendItemViewModel.color))
-                            .frame(width: 8, height: 8)
+                        ZStack {
+                            Triangle(accent: true)
+                                .fill(Color(legendItemViewModel.accent))
+                                .frame(width: 8, height: 8)
+
+                            Triangle(accent: false)
+                                .fill(Color(legendItemViewModel.main))
+                                .frame(width: 8, height: 8)
+                        }
+                        .frame(width: 8, height: 8)
 
                         Text(legendItemViewModel.name)
 
@@ -92,9 +126,9 @@ struct ScoreLegendView_Previews: PreviewProvider {
 
         var legendItemViewModels: [ScoreLegendDataItem] = []
 
-        legendItemViewModels.append(ScoreLegendDataItem(name: "Abc", color: .red))
-        legendItemViewModels.append(ScoreLegendDataItem(name: "Def", color: .blue))
-        legendItemViewModels.append(ScoreLegendDataItem(name: "Ghi", color: .green))
+        legendItemViewModels.append(ScoreLegendDataItem(name: "Abc", accent: .red, main: .black))
+        legendItemViewModels.append(ScoreLegendDataItem(name: "Def", accent: .blue, main: .yellow))
+        legendItemViewModels.append(ScoreLegendDataItem(name: "Ghi", accent: .green, main: .white))
 
         let viewModel = ScoreLegendViewModel(legendItemViewModels: legendItemViewModels)
 

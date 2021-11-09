@@ -13,12 +13,20 @@ public enum RankingDataType {
     case culturePerTurn
     case goldBalance
     case totalCitiesFounded
+    // ...
+    case scorePerTurn
+    case sciencePerTurn
+    case faithPerTurn
 
     public static var all: [RankingDataType] = [
 
         .culturePerTurn,
         .goldBalance,
-        .totalCitiesFounded
+        .totalCitiesFounded,
+        // ...
+        .scorePerTurn,
+        .sciencePerTurn,
+        .faithPerTurn
     ]
 
     public func title() -> String {
@@ -31,6 +39,13 @@ public enum RankingDataType {
             return "Gold balance" // LOC_REPLAYDATASET_TOTALGOLD_NAME
         case .totalCitiesFounded:
             return "Total cities founded" // LOC_REPLAYDATASET_TOTALCITIESBUILT_NAME
+            // ...
+        case .scorePerTurn:
+            return "Score per-turn" // LOC_REPLAYDATASET_SCOREPERTURN_NAME
+        case .sciencePerTurn:
+            return "Science per-turn" // LOC_REPLAYDATASET_SCIENCEPERTURN_NAME
+        case .faithPerTurn:
+            return "Faith per-turn" // LOC_REPLAYDATASET_FAITHPERTURN_NAME
         }
     }
 
@@ -80,15 +95,6 @@ public enum RankingDataType {
              <Row Tag="LOC_REPLAYDATASET_TOTALPANTHEONSFOUNDED_NAME">
                  <Text>Total pantheons founded</Text>
              </Row>
-             <Row Tag="LOC_REPLAYDATASET_SCOREPERTURN_NAME">
-                 <Text>Score per-turn</Text>
-             </Row>
-             <Row Tag="LOC_REPLAYDATASET_SCIENCEPERTURN_NAME">
-                 <Text>Science per-turn</Text>
-             </Row>
-             <Row Tag="LOC_REPLAYDATASET_FAITHPERTURN_NAME">
-                 <Text>Faith per-turn</Text>
-             </Row>
      */
 }
 
@@ -110,22 +116,40 @@ public class RankingData: Codable {
         enum CodingKeys: CodingKey {
 
             case leader
-            case score
+
             case culturePerTurn
+            case goldBalance
+            case totalCitiesFounded
+            // ...
+            case totalScore
+            case sciencePerTurn
+            case faithPerTurn
         }
 
         public let leader: LeaderType
 
         // one value per turn
-        public var score: [Int]
         public var culturePerTurn: [Double]
+        public var goldBalance: [Double]
+        public var totalCitiesFounded: [Int]
+        // ...
+        public var totalScore: [Int]
+        public var sciencePerTurn: [Double]
+        public var faithPerTurn: [Double]
+
+        // MARK: constructors
 
         init(leader: LeaderType) {
 
             self.leader = leader
 
-            self.score = []
             self.culturePerTurn = []
+            self.goldBalance = []
+            self.totalCitiesFounded = []
+            // ...
+            self.totalScore = []
+            self.sciencePerTurn = []
+            self.faithPerTurn = []
         }
 
         public required init(from decoder: Decoder) throws {
@@ -133,8 +157,14 @@ public class RankingData: Codable {
             let container = try decoder.container(keyedBy: CodingKeys.self)
 
             self.leader = try container.decode(LeaderType.self, forKey: .leader)
-            self.score = try container.decode([Int].self, forKey: .score)
+
             self.culturePerTurn = try container.decode([Double].self, forKey: .culturePerTurn)
+            self.goldBalance = try container.decode([Double].self, forKey: .goldBalance)
+            self.totalCitiesFounded = try container.decode([Int].self, forKey: .totalCitiesFounded)
+            // ...
+            self.totalScore = try container.decode([Int].self, forKey: .totalScore)
+            self.sciencePerTurn = try container.decode([Double].self, forKey: .sciencePerTurn)
+            self.faithPerTurn = try container.decode([Double].self, forKey: .faithPerTurn)
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -142,18 +172,46 @@ public class RankingData: Codable {
             var container = encoder.container(keyedBy: CodingKeys.self)
 
             try container.encode(self.leader, forKey: .leader)
-            try container.encode(self.score, forKey: .score)
+
             try container.encode(self.culturePerTurn, forKey: .culturePerTurn)
-        }
-
-        func add(score: Int) {
-
-            self.score.append(score)
+            try container.encode(self.goldBalance, forKey: .goldBalance)
+            try container.encode(self.totalCitiesFounded, forKey: .totalCitiesFounded)
+            // ...
+            try container.encode(self.totalScore, forKey: .totalScore)
+            try container.encode(self.sciencePerTurn, forKey: .sciencePerTurn)
+            try container.encode(self.faithPerTurn, forKey: .faithPerTurn)
         }
 
         func add(culturePerTurn: Double) {
 
             self.culturePerTurn.append(culturePerTurn)
+        }
+
+        func add(goldBalance: Double) {
+
+            self.goldBalance.append(goldBalance)
+        }
+
+        func add(totalCitiesFounded: Int) {
+
+            self.totalCitiesFounded.append(totalCitiesFounded)
+        }
+
+        // ...
+
+        func add(totalScore: Int) {
+
+            self.totalScore.append(totalScore)
+        }
+
+        func add(sciencePerTurn: Double) {
+
+            self.sciencePerTurn.append(sciencePerTurn)
+        }
+
+        func add(faithPerTurn: Double) {
+
+            self.faithPerTurn.append(faithPerTurn)
         }
     }
 
@@ -183,15 +241,6 @@ public class RankingData: Codable {
         try container.encode(self.data, forKey: .data)
     }
 
-    public func add(score: Int, for leader: LeaderType) {
-
-        if let leaderData = self.data.first(where: { $0.leader == leader }) {
-            leaderData.add(score: score)
-        } else {
-            fatalError("cannot happen")
-        }
-    }
-
     public func add(culturePerTurn: Double, for leader: LeaderType) {
 
         if let leaderData = self.data.first(where: { $0.leader == leader }) {
@@ -200,6 +249,54 @@ public class RankingData: Codable {
             fatalError("cannot happen")
         }
     }
+
+    public func add(goldBalance: Double, for leader: LeaderType) {
+
+        if let leaderData = self.data.first(where: { $0.leader == leader }) {
+            leaderData.add(goldBalance: goldBalance)
+        } else {
+            fatalError("cannot happen")
+        }
+    }
+
+    public func add(totalCitiesFounded: Int, for leader: LeaderType) {
+
+        if let leaderData = self.data.first(where: { $0.leader == leader }) {
+            leaderData.add(totalCitiesFounded: totalCitiesFounded)
+        } else {
+            fatalError("cannot happen")
+        }
+    }
+
+    // ...
+
+    public func add(totalScore: Int, for leader: LeaderType) {
+
+        if let leaderData = self.data.first(where: { $0.leader == leader }) {
+            leaderData.add(totalScore: totalScore)
+        } else {
+            fatalError("cannot happen")
+        }
+    }
+
+    public func add(sciencePerTurn: Double, for leader: LeaderType) {
+
+        if let leaderData = self.data.first(where: { $0.leader == leader }) {
+            leaderData.add(sciencePerTurn: sciencePerTurn)
+        } else {
+            fatalError("cannot happen")
+        }
+    }
+
+    public func add(faithPerTurn: Double, for leader: LeaderType) {
+
+        if let leaderData = self.data.first(where: { $0.leader == leader }) {
+            leaderData.add(faithPerTurn: faithPerTurn)
+        } else {
+            fatalError("cannot happen")
+        }
+    }
+
 
     public func data(type: RankingDataType, for leader: LeaderType) -> [Double] {
 
@@ -212,9 +309,16 @@ public class RankingData: Codable {
         case .culturePerTurn:
             return leaderData.culturePerTurn
         case .goldBalance:
-            return []
+            return leaderData.goldBalance
         case .totalCitiesFounded:
-            return []
+            return leaderData.totalCitiesFounded.map { Double($0) }
+            // ...
+        case .scorePerTurn:
+            return leaderData.totalScore.map { Double($0) }
+        case .sciencePerTurn:
+            return leaderData.sciencePerTurn
+        case .faithPerTurn:
+            return leaderData.faithPerTurn
         }
     }
 }

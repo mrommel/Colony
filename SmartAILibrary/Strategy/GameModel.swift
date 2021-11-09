@@ -1063,11 +1063,25 @@ open class GameModel: Codable {
 
         for player in self.players {
 
-            let score = player.score(for: self)
-            self.rankingData.add(score: score, for: player.leader)
-
             let culturePerTurn = player.culture(in: self)
             self.rankingData.add(culturePerTurn: culturePerTurn, for: player.leader)
+
+            let goldBalance = player.treasury?.value() ?? 0
+            self.rankingData.add(goldBalance: goldBalance, for: player.leader)
+
+            let totalCitiesFounded = self.cities(of: player).count
+            self.rankingData.add(totalCitiesFounded: totalCitiesFounded, for: player.leader)
+
+            // ...
+
+            let totalScore = player.score(for: self)
+            self.rankingData.add(totalScore: totalScore, for: player.leader)
+
+            let sciencePerTurn = player.science(in: self)
+            self.rankingData.add(sciencePerTurn: sciencePerTurn, for: player.leader)
+
+            let faithPerTurn = player.faith(in: self)
+            self.rankingData.add(faithPerTurn: faithPerTurn, for: player.leader)
         }
     }
 

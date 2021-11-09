@@ -109,11 +109,14 @@ protocol GameViewModelDelegate: AnyObject {
     func closePopup()
 
     func update()
+
+    func closeGame()
 }
 
-public protocol GameVictoryViewModelDelegate: AnyObject {
+public protocol CloseGameViewModelDelegate: AnyObject {
 
-    func showReplay(for game: GameModel?)
+    // func showReplay(for game: GameModel?)
+    func closeGame()
 }
 
 // swiftlint:disable type_body_length
@@ -278,7 +281,7 @@ public class GameViewModel: ObservableObject {
         "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty"
     ]
 
-    public weak var victoryDelegate: GameVictoryViewModelDelegate?
+    public weak var delegate: CloseGameViewModelDelegate?
 
     // MARK: constructor
 
@@ -1405,5 +1408,10 @@ extension GameViewModel: GameViewModelDelegate {
         self.governmentDialogViewModel.update()
 
         self.currentScreenType = .none
+    }
+
+    func closeGame() {
+
+        self.delegate?.closeGame()
     }
 }

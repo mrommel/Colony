@@ -65,7 +65,7 @@ class MainViewModel: ObservableObject {
         self.menuViewModel.delegate = self
         self.createGameMenuViewModel.delegate = self
         self.generateGameViewModel.delegate = self
-        self.gameViewModel.victoryDelegate = self // replay
+        self.gameViewModel.delegate = self // later: replay
         self.debugViewModel.delegate = self
         self.pediaViewModel.delegate = self
     }
@@ -180,12 +180,18 @@ extension MainViewModel: PediaViewModelDelegate {
 
 }
 
-extension MainViewModel: GameVictoryViewModelDelegate {
+extension MainViewModel: CloseGameViewModelDelegate {
 
-    func showReplay(for game: GameModel?) {
+    func closeGame() {
+
+        self.presentedView = .menu
+        self.gameEnvironment.assign(game: nil)
+    }
+
+    /*func showReplay(for game: GameModel?) {
 
         fatalError("not implemented: showReplay")
-    }
+    }*/
 }
 
 extension MainViewModel: DebugViewModelDelegate {

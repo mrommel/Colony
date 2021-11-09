@@ -10,12 +10,12 @@ import Charts
 
 class ScoreDataLine {
 
-    let color: NSColor
+    let colors: [NSColor]
     let values: [Double]
 
-    init(color: NSColor, values: [Double]) {
+    init(colors: [NSColor], values: [Double]) {
 
-        self.color = color
+        self.colors = colors
         self.values = values
     }
 
@@ -93,9 +93,9 @@ struct ScoreChartView: NSViewRepresentable {
     func addData() -> LineChartData {
 
         let dataSets = self.data.lines.map {
-            generateLineChartDataSet(
+            self.generateLineChartDataSet(
                 dataSetEntries: $0.dataEntries(),
-                color: $0.color,
+                colors: $0.colors,
                 fillColor: NSColor.clear
             )
         }
@@ -103,19 +103,18 @@ struct ScoreChartView: NSViewRepresentable {
         return LineChartData(dataSets: dataSets)
     }
 
-    func generateLineChartDataSet(dataSetEntries: [ChartDataEntry], color: NSColor, fillColor: NSColor) -> LineChartDataSet {
+    private func generateLineChartDataSet(dataSetEntries: [ChartDataEntry], colors: [NSColor], fillColor: NSColor) -> LineChartDataSet {
+
         let dataSet = LineChartDataSet(entries: dataSetEntries, label: "")
-        dataSet.colors = [color]
+        dataSet.colors = colors
         dataSet.mode = .stepped
         dataSet.circleRadius = 1
-        dataSet.circleHoleColor = color
         dataSet.fill = ColorFill(color: fillColor)
         dataSet.drawFilledEnabled = false
         dataSet.setCircleColor(NSColor.clear)
         dataSet.lineWidth = 2
-        dataSet.valueTextColor = color
-        dataSet.valueFont = NSFont(name: "Avenir", size: 12)!
         dataSet.drawValuesEnabled = false
+
         return dataSet
     }
 }
