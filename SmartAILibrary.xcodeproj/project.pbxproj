@@ -78,6 +78,7 @@
 		C925594E25F9FC2C00C2BF28 /* CivilizationAbility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925594D25F9FC2B00C2BF28 /* CivilizationAbility.swift */; };
 		C926E48B24CF5CE30073F3E1 /* PolicyCardSlots.swift in Sources */ = {isa = PBXBuildFile; fileRef = C926E48A24CF5CDD0073F3E1 /* PolicyCardSlots.swift */; };
 		C926E48D24CF5F3C0073F3E1 /* BuildingCategoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C926E48C24CF5F3C0073F3E1 /* BuildingCategoryType.swift */; };
+		C92AB92327347827003647D8 /* GameModelVictoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92AB92227347827003647D8 /* GameModelVictoryTests.swift */; };
 		C92D220923E1DC3300BB9238 /* PlayerTechTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D220823E1DC3300BB9238 /* PlayerTechTests.swift */; };
 		C92D220B23E2068900BB9238 /* GovernmentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D220A23E2068900BB9238 /* GovernmentType.swift */; };
 		C92D220D23E20B7C00BB9238 /* ImprovementType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D220C23E20B7C00BB9238 /* ImprovementType.swift */; };
@@ -238,6 +239,8 @@
 		C9ABAF2023F68E4A0023AC1B /* ProjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABAF1F23F68E4A0023AC1B /* ProjectType.swift */; };
 		C9ABAF2223F69CE70023AC1B /* Projects.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABAF2123F69CE70023AC1B /* Projects.swift */; };
 		C9ABAF2423F6BCF00023AC1B /* Districts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABAF2323F6BCF00023AC1B /* Districts.swift */; };
+		C9ACD3342735305C00D06016 /* PlayerTourism.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ACD3332735305C00D06016 /* PlayerTourism.swift */; };
+		C9ACD3362735497E00D06016 /* CityTourism.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ACD3352735497E00D06016 /* CityTourism.swift */; };
 		C9AD954524E948F80058DAD4 /* LeaderAbilityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AD954424E948F80058DAD4 /* LeaderAbilityType.swift */; };
 		C9B1D2922435B11600033791 /* MapLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D2912435B11600033791 /* MapLoader.swift */; };
 		C9B1D2A12436126300033791 /* MapLoadingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D2A02436126300033791 /* MapLoadingTests.swift */; };
@@ -454,6 +457,7 @@
 		C925594D25F9FC2B00C2BF28 /* CivilizationAbility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivilizationAbility.swift; sourceTree = "<group>"; };
 		C926E48A24CF5CDD0073F3E1 /* PolicyCardSlots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyCardSlots.swift; sourceTree = "<group>"; };
 		C926E48C24CF5F3C0073F3E1 /* BuildingCategoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildingCategoryType.swift; sourceTree = "<group>"; };
+		C92AB92227347827003647D8 /* GameModelVictoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelVictoryTests.swift; sourceTree = "<group>"; };
 		C92D220823E1DC3300BB9238 /* PlayerTechTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTechTests.swift; sourceTree = "<group>"; };
 		C92D220A23E2068900BB9238 /* GovernmentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentType.swift; sourceTree = "<group>"; };
 		C92D220C23E20B7C00BB9238 /* ImprovementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementType.swift; sourceTree = "<group>"; };
@@ -613,6 +617,8 @@
 		C9ABAF1F23F68E4A0023AC1B /* ProjectType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectType.swift; sourceTree = "<group>"; };
 		C9ABAF2123F69CE70023AC1B /* Projects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Projects.swift; sourceTree = "<group>"; };
 		C9ABAF2323F6BCF00023AC1B /* Districts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Districts.swift; sourceTree = "<group>"; };
+		C9ACD3332735305C00D06016 /* PlayerTourism.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTourism.swift; sourceTree = "<group>"; };
+		C9ACD3352735497E00D06016 /* CityTourism.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityTourism.swift; sourceTree = "<group>"; };
 		C9AD954424E948F80058DAD4 /* LeaderAbilityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderAbilityType.swift; sourceTree = "<group>"; };
 		C9B1D2912435B11600033791 /* MapLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoader.swift; sourceTree = "<group>"; };
 		C9B1D2A02436126300033791 /* MapLoadingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingTests.swift; sourceTree = "<group>"; };
@@ -990,6 +996,7 @@
 				C9D8DF6B23ED9B9A0091C917 /* FlavorsTests.swift */,
 				C9AAC26F24D97FFE00FF1E35 /* GameModelTests.swift */,
 				C9E0576D26E3F33800C3FFB9 /* GameModelSightTests.swift */,
+				C92AB92227347827003647D8 /* GameModelVictoryTests.swift */,
 				C92D221423E2118400BB9238 /* GovernmentTypeTests.swift */,
 				C92317CB23D79F2C001FC723 /* GrandStrategyAITests.swift */,
 				C9C0DCE024D7486E004D9F06 /* GreatPersonsTests.swift */,
@@ -1180,6 +1187,7 @@
 				C9C0DCDE24D5FD58004D9F06 /* CityYields.swift */,
 				C9588AC22418B70F00304E9A /* CityCitizens.swift */,
 				C9588AC42418F30B00304E9A /* CitySpecializationAI.swift */,
+				C9ACD3352735497E00D06016 /* CityTourism.swift */,
 				C9E6A04724A4B62B00AF65A4 /* GreatWorks.swift */,
 				C98DBFB923E0D8C700B6CE25 /* Techs.swift */,
 				C92D221823E2CC1200BB9238 /* Civics.swift */,
@@ -1189,6 +1197,7 @@
 				C956BF6524F16683009702B4 /* PlayerYields.swift */,
 				C9C2FE3A23F89F2E00185235 /* PlayerReligion.swift */,
 				C91D3C7F26F283B700CD1F45 /* PlayerGovernors.swift */,
+				C9ACD3332735305C00D06016 /* PlayerTourism.swift */,
 				C92D221023E20ECF00BB9238 /* Government.swift */,
 				C906144D23E3362200D316B5 /* Buildings.swift */,
 				C9A0573B24291C3E00D0FEAB /* Wonders.swift */,
@@ -1642,6 +1651,7 @@
 				C97A38E523F562F3008A8AE9 /* DiplomaticPact.swift in Sources */,
 				C9C1B1CB2722DBF000046D23 /* GeneralUnitType.swift in Sources */,
 				C997908525190290003E52C9 /* NavalSneakAttackOperation.swift in Sources */,
+				C9ACD3342735305C00D06016 /* PlayerTourism.swift in Sources */,
 				C98DBFA123DDFE2C00B6CE25 /* DiplomaticDeal.swift in Sources */,
 				C957AA3F2436379800203024 /* Civ5Map.swift in Sources */,
 				C9D1919F265969CF008C9622 /* BeliefType.swift in Sources */,
@@ -1880,6 +1890,7 @@
 				C90F484F2660DBEF000AC591 /* FaithPurchaseType.swift in Sources */,
 				C90FC39C23D8961C00720B32 /* Player.swift in Sources */,
 				C9D646062722ADEE00646BB8 /* SwordmanUnitType.swift in Sources */,
+				C9ACD3362735497E00D06016 /* CityTourism.swift in Sources */,
 				C9EF13992423E1EA003B3DAD /* AggressivePostureType.swift in Sources */,
 				C92D221323E20F6700BB9238 /* PolicyCardType.swift in Sources */,
 				C957AA442436411E00203024 /* HeightMap.swift in Sources */,
@@ -1918,6 +1929,7 @@
 				C956BF6A24F3C7B9009702B4 /* TradeRouteTests.swift in Sources */,
 				C99496932519E4300049C2D6 /* BasicCityAttackOperationTests.swift in Sources */,
 				C9FEEB9C245B5C2E00C51552 /* CityCitizensTests.swift in Sources */,
+				C92AB92327347827003647D8 /* GameModelVictoryTests.swift in Sources */,
 				C9DFCF7A23F2AFB10032243D /* MapModelTests.swift in Sources */,
 				C92D221523E2118400BB9238 /* GovernmentTypeTests.swift in Sources */,
 				C965A53823FD186E00BCEB54 /* CityStrategyAITests.swift in Sources */,

@@ -114,6 +114,36 @@ extension GameViewModel {
         }
     }
 
+    func showRankingDialog() {
+
+        if self.currentScreenType == .ranking {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.rankingDialogViewModel.update()
+            self.currentScreenType = .ranking
+        } else {
+            fatalError("cant show ranking dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+
+    func showVictoryDialog() {
+
+        if self.currentScreenType == .victory {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.victoryDialogViewModel.update()
+            self.currentScreenType = .victory
+        } else {
+            fatalError("cant show victory dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+
     func showTradeRouteDialog() {
 
         if self.currentScreenType == .tradeRoutes {

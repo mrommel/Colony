@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class ResourceInventory: WeightedList<ResourceType> {
 
@@ -53,6 +54,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     var greatPeople: AbstractGreatPeople? { get }
     var tradeRoutes: AbstractTradeRoutes? { get }
     var governors: AbstractPlayerGovernors? { get }
+    var tourism: AbstractPlayerTourism? { get }
 
     var grandStrategyAI: GrandStrategyAI? { get }
     var diplomacyAI: DiplomaticAI? { get }
@@ -129,6 +131,10 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func proximity(to otherPlayer: AbstractPlayer?) -> PlayerProximityType
 
+    func hasHasLostCapital() -> Bool
+    func capitalConqueror() -> LeaderType?
+    func set(hasLostCapital value: Bool, to conqueror: AbstractPlayer?, in gameModel: GameModel?) // checks for domination victory
+
     // notification
     func updateNotifications(in gameModel: GameModel?)
     func set(blockingNotification: NotificationItem?)
@@ -168,6 +174,11 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func newCityName(in gameModel: GameModel?) -> String
     func cityStrengthModifier() -> Int
     func acquire(city oldCity: AbstractCity?, conquest: Bool, gift: Bool, in gameModel: GameModel?)
+    func numOfCitiesFounded() -> Int
+    func numOfCitiesLost() -> Int
+
+    func capitalCity(in gameModel: GameModel?) -> AbstractCity?
+    func set(capitalCity newCapitalCity: AbstractCity?, in gameModel: GameModel?)
 
     // yields
     func science(in gameModel: GameModel?) -> Double
@@ -211,6 +222,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     // religion
     func faithPurchaseType() -> FaithPurchaseType
     func set(faithPurchaseType: FaithPurchaseType)
+    func majorityOfCitiesFollows(religion: ReligionType, in gameModel: GameModel?) -> Bool
 
     func hasCapital(in gameModel: GameModel?) -> Bool
     func hasDiscoveredCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool
@@ -256,6 +268,18 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func cityDistancePathLength(of point: HexPoint, in gameModel: GameModel?) -> Int
     func numCities(in gameModel: GameModel?) -> Int
 
+    // victory checks
+    func hasScienceVictory(in gameModel: GameModel?) -> Bool
+    func hasCulturalVictory(in gameModel: GameModel?) -> Bool
+    func hasReligiousVictory(in gameModel: GameModel?) -> Bool
+
+    // tourism
+    func domesticTourists() -> Int
+    func visitingTourists(in gameModel: GameModel?) -> Int
+    func currentTourism(in gameModel: GameModel?) -> Double
+    func tourismModifier(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Int // in percent
+
+    // intern
     func isEqual(to other: AbstractPlayer?) -> Bool
 }
 
@@ -273,6 +297,7 @@ public class Player: AbstractPlayer {
         case numPlotsBought
         case improvementCountList
         case totalImprovementsBuilt
+        case citiesFound
         case citiesLost
 
         case techs
@@ -281,6 +306,8 @@ public class Player: AbstractPlayer {
         case treasury
         case greatPeople
         case government
+        case tourism
+
         case currentEra
 
         case grandStrategyAI
@@ -307,10 +334,13 @@ public class Player: AbstractPlayer {
         case resourceInventory
 
         case originalCapitalLocation
+        case lostCapital
+        case conqueror
 
         case canChangeGovernment
 
         case faithPurchaseType
+        case boostExoplanetExpedition
     }
 
     public var leader: LeaderType
@@ -342,6 +372,7 @@ public class Player: AbstractPlayer {
     public var greatPeople: AbstractGreatPeople?
     public var tradeRoutes: AbstractTradeRoutes?
     public var governors: AbstractPlayerGovernors?
+    public var tourism: AbstractPlayerTourism?
 
     public var government: AbstractGovernment?
     internal var currentEraVal: EraType = .ancient
@@ -355,6 +386,7 @@ public class Player: AbstractPlayer {
     internal var resourceInventory: ResourceInventory?
     internal var improvementCountList: ImprovementCountList
     internal var totalImprovementsBuilt: Int
+    internal var citiesFoundValue: Int
     internal var citiesLostValue: Int
 
     private var turnActive: Bool = false
@@ -365,11 +397,14 @@ public class Player: AbstractPlayer {
     private var lastSliceMovedValue: Int = 0
 
     internal var cultureEarned: Int = 0
+    internal var boostExoplanetExpeditionValue: Int = 0
 
     private var notificationsValue: Notifications?
     private var blockingNotificationValue: NotificationItem?
 
     private var originalCapitalLocationValue: HexPoint = HexPoint.invalid
+    private var lostCapitalValue: Bool = false
+    private var conquerorValue: LeaderType?
 
     private var canChangeGovernmentValue: Bool = false
     private var faithPurchaseTypeVal: FaithPurchaseType = .noAutomaticFaithPurchase
@@ -391,9 +426,13 @@ public class Player: AbstractPlayer {
         self.improvementCountList.fill()
 
         self.totalImprovementsBuilt = 0
+        self.citiesFoundValue = 0
         self.citiesLostValue = 0
 
         self.originalCapitalLocationValue = HexPoint.invalid
+        self.lostCapitalValue = false
+        self.conquerorValue = nil
+
         self.faithPurchaseTypeVal = .noAutomaticFaithPurchase
     }
 
@@ -413,6 +452,7 @@ public class Player: AbstractPlayer {
         self.improvementCountList.fill()
 
         self.totalImprovementsBuilt = try container.decode(Int.self, forKey: .totalImprovementsBuilt)
+        self.citiesFoundValue = try container.decode(Int.self, forKey: .citiesFound)
         self.citiesLostValue = try container.decode(Int.self, forKey: .citiesLost)
 
         self.grandStrategyAI = try container.decode(GrandStrategyAI.self, forKey: .grandStrategyAI)
@@ -433,6 +473,7 @@ public class Player: AbstractPlayer {
         self.goodyHuts = try container.decode(GoodyHuts.self, forKey: .goodyHuts)
         self.tradeRoutes = try container.decode(TradeRoutes.self, forKey: .tradeRoutes)
         self.governors = try container.decode(PlayerGovernors.self, forKey: .governors)
+        self.tourism = try container.decode(PlayerTourism.self, forKey: .tourism)
 
         self.techs = try container.decode(Techs.self, forKey: .techs)
         self.civics = try container.decode(Civics.self, forKey: .civics)
@@ -449,9 +490,12 @@ public class Player: AbstractPlayer {
         self.resourceInventory = try container.decode(ResourceInventory.self, forKey: .resourceInventory)
 
         self.originalCapitalLocationValue = try container.decode(HexPoint.self, forKey: .originalCapitalLocation)
+        self.lostCapitalValue = try container.decode(Bool.self, forKey: .lostCapital)
+        self.conquerorValue = try container.decode(LeaderType.self, forKey: .conqueror)
 
         self.canChangeGovernmentValue = try container.decode(Bool.self, forKey: .canChangeGovernment)
         self.faithPurchaseTypeVal = try container.decode(FaithPurchaseType.self, forKey: .faithPurchaseType)
+        self.boostExoplanetExpeditionValue = try container.decode(Int.self, forKey: .boostExoplanetExpedition)
 
         // setup
         self.techs?.player = self
@@ -462,6 +506,7 @@ public class Player: AbstractPlayer {
         self.greatPeople?.player = self
         self.tradeRoutes?.player = self
         self.governors?.player = self
+        self.tourism?.player = self
 
         self.grandStrategyAI?.player = self
         self.diplomacyAI?.player = self
@@ -495,6 +540,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.numPlotsBoughtValue, forKey: .numPlotsBought)
         try container.encode(self.improvementCountList, forKey: .improvementCountList)
         try container.encode(self.totalImprovementsBuilt, forKey: .totalImprovementsBuilt)
+        try container.encode(self.citiesFoundValue, forKey: .citiesFound)
         try container.encode(self.citiesLostValue, forKey: .citiesLost)
 
         try container.encode(self.grandStrategyAI, forKey: .grandStrategyAI)
@@ -520,6 +566,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.religion as! PlayerReligion, forKey: .religion)
         try container.encode(self.treasury as! Treasury, forKey: .treasury)
         try container.encode(self.greatPeople as! GreatPeople, forKey: .greatPeople)
+        try container.encode(self.tourism as! PlayerTourism, forKey: .tourism)
 
         try container.encode(self.government as! Government, forKey: .government)
         try container.encode(self.currentEraVal, forKey: .currentEra)
@@ -529,9 +576,12 @@ public class Player: AbstractPlayer {
         try container.encode(self.resourceInventory, forKey: .resourceInventory)
 
         try container.encode(self.originalCapitalLocationValue, forKey: .originalCapitalLocation)
+        try container.encode(self.lostCapitalValue, forKey: .lostCapital)
+        try container.encode(self.conquerorValue, forKey: .conqueror)
 
         try container.encode(self.canChangeGovernmentValue, forKey: .canChangeGovernment)
         try container.encode(self.faithPurchaseTypeVal, forKey: .faithPurchaseType)
+        try container.encode(self.boostExoplanetExpeditionValue, forKey: .boostExoplanetExpedition)
     }
     // swiftlint:enable force_cast
 
@@ -557,6 +607,7 @@ public class Player: AbstractPlayer {
         self.goodyHuts = GoodyHuts(player: self)
         self.tradeRoutes = TradeRoutes(player: self)
         self.governors = PlayerGovernors(player: self)
+        self.tourism = PlayerTourism(player: self)
 
         self.techs = Techs(player: self)
         self.civics = Civics(player: self)
@@ -957,6 +1008,43 @@ public class Player: AbstractPlayer {
         return diplomacyAI.proximity(to: otherPlayer)
     }
 
+    /// Have we lost our capital in war?
+    public func hasHasLostCapital() -> Bool {
+
+        return self.lostCapitalValue
+    }
+
+    /// Player who first captured our capital
+    public func capitalConqueror() -> LeaderType? {
+
+        return self.conquerorValue
+    }
+
+    /// Sets us to having lost our capital in war
+    /// also checks for domination victory
+    // void CvPlayer::SetHasLostCapital(bool bValue, PlayerTypes eConqueror)
+    public func set(hasLostCapital value: Bool, to conqueror: AbstractPlayer?, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        if value != self.lostCapitalValue {
+
+            self.lostCapitalValue = value
+            self.conquerorValue = conqueror?.leader
+
+            // Someone just lost their capital, test to see if someone wins
+            if value {
+
+                // todo: notify users about another player lost his capital
+
+                // todo: add replay message
+                // GC.getGame().addReplayMessage(REPLAY_MESSAGE_MAJOR_EVEN
+            }
+        }
+    }
+
     public func hasMet(with otherPlayer: AbstractPlayer?) -> Bool {
 
         guard let diplomacyAI = self.diplomacyAI else {
@@ -1119,6 +1207,8 @@ public class Player: AbstractPlayer {
         }
 
         self.doEurekas(in: gameModel)
+        self.doSpaceRace(in: gameModel)
+        self.tourism?.doTurn(in: gameModel)
 
         // inform ui about new notifications
         self.notificationsValue?.update(in: gameModel)
@@ -1211,6 +1301,24 @@ public class Player: AbstractPlayer {
         }
     }
 
+    func doSpaceRace(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gamemodel")
+        }
+
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(project: .terrestrialLaserStation) {
+                self.boostExoplanetExpeditionValue += 1
+            }
+        }
+    }
+
     func doGovernment(in gameModel: GameModel?) {
 
         guard let government = self.government else {
@@ -1299,6 +1407,7 @@ public class Player: AbstractPlayer {
 
             gameModel.invalidate(greatPerson: greatPerson)
             self.greatPeople?.resetPoint(for: greatPerson.type())
+            self.greatPeople?.increaseNumOfSpawned(greatPersonType: greatPerson.type())
         }
     }
 
@@ -1852,13 +1961,18 @@ public class Player: AbstractPlayer {
 
     // https://civilization.fandom.com/wiki/Victory_(Civ6)
     /*
-     2 points for each district owned (4 points if it is a unique district).
-     5 points for each GreatPerson6 Great Person earned.
-     3 points for each civic researched.
+     Era Score points.
+     15 points for each wonder owned.
      10 points for founding a religion.
+     5 points for each Great Person Great Person earned.
+     5 points for each city owned.
+     3 points for each civic researched.
      2 points for each foreign city following the player's religion.
      2 points for each technology researched.
-     Era Score points.
+     2 points for each district owned (4 points if it is a unique district).
+     1 point for each building (including the Palace).
+     1 point for each Citizen Citizen in the player's empire.
+
      */
     public func score(for gameModel: GameModel?) -> Int {
 
@@ -1877,6 +1991,7 @@ public class Player: AbstractPlayer {
         scoreVal += self.scoreFromCivics(for: gameModel)
         scoreVal += self.scoreFromWonder(for: gameModel)
         scoreVal += self.scoreFromTech(for: gameModel)
+        scoreVal += self.scoreFromReligion(for: gameModel)
 
         return scoreVal
     }
@@ -2016,6 +2131,50 @@ public class Player: AbstractPlayer {
 
         // Normally we recompute it each time
         let score = techs.numberOfDiscoveredTechs() * 4 /* SCORE_TECH_MULTIPLIER */
+        return score
+    }
+
+    // 10 points for founding a religion.
+    // 2 points for each foreign city following the player's religion.
+    private func scoreFromReligion(for gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let religion = self.religion else {
+            fatalError("cant get religion")
+        }
+
+        var score = 0
+
+        if religion.currentReligion() != .none {
+            // 10 points for founding a religion.
+            score += 10
+
+            var numCitiesFollingReligion = 0
+            for player in gameModel.players {
+
+                if player.isEqual(to: self) {
+                    continue
+                }
+
+                for cityRef in gameModel.cities(of: player) {
+
+                    guard let city = cityRef else {
+                        continue
+                    }
+
+                    if city.religiousMajority() == religion.currentReligion() {
+                        numCitiesFollingReligion += 1
+                    }
+                }
+            }
+
+            // 2 points for each foreign city following the player's religion.
+            score += numCitiesFollingReligion * 2
+        }
+
         return score
     }
 
@@ -2264,6 +2423,8 @@ public class Player: AbstractPlayer {
                 }
             }
         }
+
+        self.citiesFoundValue += 1
     }
 
     public func newCityName(in gameModel: GameModel?) -> String {
@@ -3294,7 +3455,7 @@ public class Player: AbstractPlayer {
         // Lost the capital!
         if capital {
 
-            // GET_PLAYER(eOldOwner).SetHasLostCapital(true, GetID());
+            oldPlayer.set(hasLostCapital: true, to: self, in: gameModel)
             oldPlayer.findNewCapital(in: gameModel)
         }
 
@@ -3356,7 +3517,7 @@ public class Player: AbstractPlayer {
         // Did we re-acquire our Capital?
         if self.originalCapitalLocation() == oldCityLocation {
 
-            // SetHasLostCapital(false, NO_PLAYER);
+            self.set(hasLostCapital: false, to: nil, in: gameModel)
 
             /*const BuildingTypes eCapitalBuilding = (BuildingTypes) (getCivilizationInfo().getCivilizationBuildings(GC.getCAPITAL_BUILDINGCLASS()));
             if (eCapitalBuilding != NO_BUILDING)
@@ -3514,6 +3675,16 @@ public class Player: AbstractPlayer {
             theMap.updateDeferredFog();
         }
 */
+    }
+
+    public func numOfCitiesFounded() -> Int {
+
+        return self.citiesFoundValue
+    }
+
+    public func numOfCitiesLost() -> Int {
+
+        return self.citiesLostValue
     }
 
     /// Handle earning culture from combat wins
@@ -4146,6 +4317,30 @@ public class Player: AbstractPlayer {
         self.faithPurchaseTypeVal = faithPurchaseType
     }
 
+    public func majorityOfCitiesFollows(religion: ReligionType, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var numCitiesFollowingReligion: Double = 0.0
+        var numCitiesAll: Double = 0.0
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            numCitiesAll += 1.0
+
+            if city.religiousMajority() == religion {
+                numCitiesFollowingReligion += 1.0
+            }
+        }
+
+        return numCitiesFollowingReligion >= numCitiesAll / 2.0
+    }
+
     // MARK: discovery
 
     public func hasCapital(in gameModel: GameModel?) -> Bool {
@@ -4206,7 +4401,7 @@ public class Player: AbstractPlayer {
         }
     }
 
-    func capitalCity(in gameModel: GameModel?) -> AbstractCity? {
+    public func capitalCity(in gameModel: GameModel?) -> AbstractCity? {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -4215,7 +4410,7 @@ public class Player: AbstractPlayer {
         return gameModel.capital(of: self)
     }
 
-    func set(capitalCity newCapitalCity: AbstractCity?, in gameModel: GameModel?) {
+    public func set(capitalCity newCapitalCity: AbstractCity?, in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -4314,6 +4509,175 @@ public class Player: AbstractPlayer {
     public func set(canChangeGovernment: Bool) {
 
         self.canChangeGovernmentValue = canChangeGovernment
+    }
+
+    public func hasScienceVictory(in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        var hasSatellite: Bool = false
+        var hasMoonLanding: Bool = false
+        var hasMarsianColony: Bool = false
+        var hasExoExpedition: Bool = false
+
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(project: .launchEarthSatellite) {
+                hasSatellite = true
+            }
+
+            if city.has(project: .launchMoonLanding) {
+                hasMoonLanding = true
+            }
+
+            if city.has(project: .launchMarsColony) {
+                hasMarsianColony = true
+            }
+
+            if city.has(project: .exoplanetExpedition) {
+                hasExoExpedition = true
+            }
+        }
+
+        return hasSatellite &&
+            hasMoonLanding &&
+            hasMarsianColony &&
+            hasExoExpedition &&
+            self.boostExoplanetExpeditionValue >= 50
+    }
+
+    public func hasCulturalVictory(in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        let visitingTourists: Int = self.visitingTourists(in: gameModel)
+        var maxDomesticTourists: Int = 0
+
+        for loopPlayer in gameModel.players {
+
+            if loopPlayer.isBarbarian() || self.isEqual(to: loopPlayer) {
+                continue
+            }
+
+            maxDomesticTourists = max(maxDomesticTourists, loopPlayer.domesticTourists())
+        }
+
+        return visitingTourists > maxDomesticTourists
+    }
+
+    public func hasReligiousVictory(in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let playerReligion = self.religion else {
+            fatalError("cant get player religion")
+        }
+
+        if playerReligion.currentReligion() == .none {
+            return false
+        }
+
+        for loopPlayer in gameModel.players {
+
+            if loopPlayer.isBarbarian() || self.isEqual(to: loopPlayer) {
+                continue
+            }
+
+            if !loopPlayer.majorityOfCitiesFollows(religion: playerReligion.currentReligion(), in: gameModel) {
+                return false
+            }
+        }
+
+        return true
+    }
+
+    // MARK: tourism
+
+    public func domesticTourists() -> Int {
+
+        guard let playerTourism = self.tourism else {
+            fatalError("cant get player tourism")
+        }
+
+        return playerTourism.domesticTourists()
+    }
+
+    public func visitingTourists(in gameModel: GameModel?) -> Int {
+
+        guard let playerTourism = self.tourism else {
+            fatalError("cant get player tourism")
+        }
+
+        return playerTourism.visitingTourists(in: gameModel)
+    }
+
+    public func currentTourism(in gameModel: GameModel?) -> Double {
+
+        guard let playerTourism = self.tourism else {
+            fatalError("cant get player tourism")
+        }
+
+        return playerTourism.currentTourism(in: gameModel)
+    }
+
+    /// At the player level, what is the modifier for tourism between these players?
+    /// in percent / CvPlayerCulture::GetTourismModifierWith
+    /// https://forums.civfanatics.com/threads/how-tourism-is-calculated-and-a-culture-victory-made.605199/
+    public func tourismModifier(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Int {
+
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get player diplomacyAI")
+        }
+
+        guard let tradeRoutes = self.tradeRoutes else {
+            fatalError("cant get player tradeRoutes")
+        }
+
+        guard let otherTradeRoutes = otherPlayer?.tradeRoutes else {
+            fatalError("cant get other player tradeRoutes")
+        }
+
+        let playerGovernmentType: GovernmentType = self.government?.currentGovernment() ?? .chiefdom
+        let otherPlayerGovernmentType: GovernmentType = otherPlayer?.government?.currentGovernment() ?? .chiefdom
+
+        var modifier: Int = 0
+
+        // Open Borders
+        if diplomacyAI.isOpenBorderAgreementActive(by: otherPlayer) {
+            modifier += 25 // TOURISM_MODIFIER_OPEN_BORDERS
+        }
+
+        // Trade Route
+        if tradeRoutes.hasTradeRoute(with: otherPlayer, in: gameModel) || otherTradeRoutes.hasTradeRoute(with: self, in: gameModel) {
+            modifier += 25 // TOURISM_MODIFIER_TRADE_ROUTE
+
+            // Civic Online Communities provides +50% tourism to civs you have a trade route with
+        }
+
+        // Different Religion
+        // ...
+
+        // Enlightenment
+        // ...
+
+        // Different Governments
+        // (Gov1_factor + Gov2_factor) x Base Government tourist factor
+        if playerGovernmentType != otherPlayerGovernmentType {
+            let diffentGovFactor = (playerGovernmentType.tourismFactor() + otherPlayerGovernmentType.tourismFactor()) * 3
+            modifier += diffentGovFactor
+        }
+
+        return modifier
     }
 }
 

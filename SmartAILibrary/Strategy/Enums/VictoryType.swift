@@ -14,9 +14,12 @@ public enum VictoryType: Int, Codable, Comparable {
     case cultural
     case science
     case diplomatic
+    case religious
+    case score
+    case conquest
 
     static var all: [VictoryType] {
-        return [.domination, .cultural, .science, .diplomatic]
+        return [.domination, .cultural, .science, .diplomatic, .religious, .conquest]
     }
 
     public static func < (lhs: VictoryType, rhs: VictoryType) -> Bool {

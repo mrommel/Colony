@@ -128,6 +128,7 @@ struct UnitBannerView: View {
                 .onTapGesture {
                     self.viewModel.listClicked()
                 }
+                .toolTip("Units")
 
             Image(nsImage: self.viewModel.commandImage(at: 6))
                 .resizable()
@@ -137,6 +138,7 @@ struct UnitBannerView: View {
                 .onTapGesture {
                     self.viewModel.commandClicked(at: 6)
                 }
+                .toolTip(self.viewModel.commandToolTip(at: 6))
 
             Image(nsImage: self.viewModel.commandImage(at: 5))
                 .resizable()
@@ -146,6 +148,7 @@ struct UnitBannerView: View {
                 .onTapGesture {
                     self.viewModel.commandClicked(at: 5)
                 }
+                .toolTip(self.viewModel.commandToolTip(at: 5))
 
             Image(nsImage: self.viewModel.commandImage(at: 4))
                 .resizable()
@@ -155,6 +158,7 @@ struct UnitBannerView: View {
                 .onTapGesture {
                     self.viewModel.commandClicked(at: 4)
                 }
+                .toolTip(self.viewModel.commandToolTip(at: 4))
 
             Image(nsImage: self.viewModel.commandImage(at: 3))
                 .resizable()
@@ -164,6 +168,7 @@ struct UnitBannerView: View {
                 .onTapGesture {
                     self.viewModel.commandClicked(at: 3)
                 }
+                .toolTip(self.viewModel.commandToolTip(at: 3))
 
             Image(nsImage: self.viewModel.commandImage(at: 2))
                 .resizable()
@@ -173,6 +178,7 @@ struct UnitBannerView: View {
                 .onTapGesture {
                     self.viewModel.commandClicked(at: 2)
                 }
+                .toolTip(self.viewModel.commandToolTip(at: 2))
 
             Image(nsImage: self.viewModel.commandImage(at: 1))
                 .resizable()
@@ -182,6 +188,7 @@ struct UnitBannerView: View {
                 .onTapGesture {
                     self.viewModel.commandClicked(at: 1)
                 }
+                .toolTip(self.viewModel.commandToolTip(at: 1))
 
             Image(nsImage: self.viewModel.commandImage(at: 0))
                 .resizable()
@@ -191,6 +198,7 @@ struct UnitBannerView: View {
                 .onTapGesture {
                     self.viewModel.commandClicked(at: 0)
                 }
+                .toolTip(self.viewModel.commandToolTip(at: 1))
         }
     }
 

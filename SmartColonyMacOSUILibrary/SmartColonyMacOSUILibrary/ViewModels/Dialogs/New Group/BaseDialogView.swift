@@ -77,13 +77,15 @@ struct BaseDialogView<Content>: View where Content: View {
 
     let title: String
     let mode: DialogMode
+    let buttonText: String
     let viewModel: BaseDialogViewModel
     var content: Content
 
-    public init(title: String, mode: DialogMode, viewModel: BaseDialogViewModel, @ViewBuilder content: () -> Content) {
+    public init(title: String, mode: DialogMode, buttonText: String = "Okay", viewModel: BaseDialogViewModel, @ViewBuilder content: () -> Content) {
 
         self.title = title
         self.mode = mode
+        self.buttonText = buttonText
         self.viewModel = viewModel
         self.content = content()
     }
@@ -111,7 +113,7 @@ struct BaseDialogView<Content>: View where Content: View {
                 Button(action: {
                     self.viewModel.closeDialog()
                 }, label: {
-                    Text("Okay")
+                    Text(self.buttonText)
                 })
                 .buttonStyle(DialogButtonStyle())
             }

@@ -60,6 +60,7 @@ protocol GameViewModelDelegate: AnyObject {
     func showGreatPeopleDialog()
     func showTradeRouteDialog()
     func showReligionDialog()
+    func showRankingDialog()
 
     func showCityDialog(for city: AbstractCity?)
     func showCityChooseProductionDialog(for city: AbstractCity?)
@@ -108,6 +109,14 @@ protocol GameViewModelDelegate: AnyObject {
     func closePopup()
 
     func update()
+
+    func closeGame()
+}
+
+public protocol CloseGameViewModelDelegate: AnyObject {
+
+    // func showReplay(for game: GameModel?)
+    func closeGame()
 }
 
 // swiftlint:disable type_body_length
@@ -199,6 +208,12 @@ public class GameViewModel: ObservableObject {
     @Published
     var religionDialogViewModel: ReligionDialogViewModel
 
+    @Published
+    var rankingDialogViewModel: RankingDialogViewModel
+
+    @Published
+    var victoryDialogViewModel: VictoryDialogViewModel
+
     // UI
 
     @Published
@@ -266,6 +281,8 @@ public class GameViewModel: ObservableObject {
         "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty"
     ]
 
+    public weak var delegate: CloseGameViewModelDelegate?
+
     // MARK: constructor
 
     public init(preloadAssets: Bool = false) {
@@ -299,6 +316,8 @@ public class GameViewModel: ObservableObject {
         self.greatPeopleDialogViewModel = GreatPeopleDialogViewModel()
         self.selectItemsDialogViewModel = SelectItemsDialogViewModel()
         self.religionDialogViewModel = ReligionDialogViewModel()
+        self.rankingDialogViewModel = RankingDialogViewModel()
+        self.victoryDialogViewModel = VictoryDialogViewModel()
 
         // connect models
         self.gameSceneViewModel.delegate = self
@@ -328,6 +347,8 @@ public class GameViewModel: ObservableObject {
         self.greatPeopleDialogViewModel.delegate = self
         self.selectItemsDialogViewModel.delegate = self
         self.religionDialogViewModel.delegate = self
+        self.rankingDialogViewModel.delegate = self
+        self.victoryDialogViewModel.delegate = self
 
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -624,6 +645,14 @@ public class GameViewModel: ObservableObject {
             ImageCache.shared.add(
                 image: bundle.image(forResource: governorPortraitTextureName),
                 for: governorPortraitTextureName
+            )
+        }
+
+        print("- load \(textures.victoryTypesTextureNames.count) victory textures")
+        for victoryTypesTextureName in textures.victoryTypesTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: victoryTypesTextureName),
+                for: victoryTypesTextureName
             )
         }
 
@@ -1111,6 +1140,12 @@ extension GameViewModel: GameViewModelDelegate {
         case .religion:
             self.showReligionDialog()
 
+        case .ranking:
+            self.showRankingDialog()
+
+        case .victory:
+            self.showVictoryDialog()
+
         default:
             print("screen: \(screenType) not handled")
         }
@@ -1373,5 +1408,10 @@ extension GameViewModel: GameViewModelDelegate {
         self.governmentDialogViewModel.update()
 
         self.currentScreenType = .none
+    }
+
+    func closeGame() {
+
+        self.delegate?.closeGame()
     }
 }

@@ -10,19 +10,19 @@ import Foundation
 
 public enum YieldType: String, Codable {
 
-    case none = "none"
+    case none
 
-    case food = "food" // YIELD_FOOD,
-    case production = "production" // YIELD_PRODUCTION,
-    case gold = "gold" // YIELD_GOLD,
-    case science = "science" // YIELD_SCIENCE
-
-    case culture = "culture"
-    case faith = "faith"
+    case food // YIELD_FOOD,
+    case production // YIELD_PRODUCTION,
+    case gold // YIELD_GOLD,
+    case science // YIELD_SCIENCE
+    case culture
+    case faith
+    case tourism
 
     public static var all: [YieldType] {
 
-        return [.food, .production, .gold, .science, .culture, .faith]
+        return [.food, .production, .gold, .science, .culture, .faith, .tourism]
     }
 
     public func focusType() -> CityFocusType {
@@ -37,6 +37,7 @@ public enum YieldType: String, Codable {
         case .science: return .science
         case .culture: return .culture
         case .faith: return .faith
+        case .tourism: return .none
         }
     }
 }

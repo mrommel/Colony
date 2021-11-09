@@ -21,7 +21,7 @@ public protocol AbstractDistricts: Codable {
     func hasAny() -> Bool
     func build(district: DistrictType) throws
 
-    func numberOfBuildDistricts() -> Int
+    func numberOfBuiltDistricts() -> Int
     func clear()
 
     func housing() -> Double
@@ -91,7 +91,7 @@ class Districts: AbstractDistricts {
         self.districts.append(district)
     }
 
-    func numberOfBuildDistricts() -> Int {
+    func numberOfBuiltDistricts() -> Int {
 
         return self.districts.count
     }

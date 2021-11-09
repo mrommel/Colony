@@ -168,8 +168,7 @@ extension HeaderViewModel: HeaderButtonViewModelDelegate {
         case .governors:
             self.delegate?.showGovernorsDialog()
         case .ranking:
-            print("ranking")
-            // self.delegate?.showRankingDialog()
+            self.delegate?.showRankingDialog()
         case .tradeRoutes:
             self.delegate?.showTradeRouteDialog()
         }
@@ -186,6 +185,11 @@ extension HeaderViewModel: LeaderViewModelDelegate {
 
         let otherPlayer = gameModel.player(for: leaderType)
 
-        self.delegate?.showDiplomaticDialog(with: otherPlayer, data: nil, deal: nil)
+        let state = DiplomaticRequestState.blankDiscussion
+        let message = DiplomaticRequestMessage.messageIntro
+        let emotion = LeaderEmotionType.neutral
+        let data = DiplomaticData(state: state, message: message, emotion: emotion)
+
+        self.delegate?.showDiplomaticDialog(with: otherPlayer, data: data, deal: nil)
     }
 }

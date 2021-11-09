@@ -122,6 +122,10 @@ extension GameView {
             return AnyView(SelectPantheonDialogView(viewModel: self.viewModel.selectPantheonDialogViewModel))
         case .religion:
             return AnyView(ReligionDialogView(viewModel: self.viewModel.religionDialogViewModel))
+        case .ranking:
+            return AnyView(RankingDialogView(viewModel: self.viewModel.rankingDialogViewModel))
+        case .victory:
+            return AnyView(VictoryDialogView(viewModel: self.viewModel.victoryDialogViewModel))
 
         case .confirm:
             return AnyView(ConfirmationDialogView(viewModel: self.viewModel.confirmationDialogViewModel))

@@ -242,6 +242,8 @@ public class ReligionAI {
             case .faith:
                 personFlavor = player.valueOfPersonalityFlavor(of: .religion)
 
+            case .tourism:
+                personFlavor = 0
             case .none:
                 personFlavor = 0
             }

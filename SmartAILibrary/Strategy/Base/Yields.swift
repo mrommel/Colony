@@ -47,6 +47,7 @@ public class Yields {
 
         case .culture: return self.culture
         case .faith: return self.faith
+        case .tourism: return 0.0
         }
     }
 

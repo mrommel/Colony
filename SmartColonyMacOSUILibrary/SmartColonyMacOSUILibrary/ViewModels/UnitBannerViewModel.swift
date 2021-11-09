@@ -172,6 +172,17 @@ class UnitBannerViewModel: ObservableObject {
         }
     }
 
+    func commandToolTip(at index: Int) -> String {
+
+        if 0 <= index && index < self.commands.count {
+
+            let command = self.commands[index]
+            return command.type.title()
+        }
+
+        return ""
+    }
+
     // swiftlint:disable cyclomatic_complexity
     func handle(command: Command) {
 

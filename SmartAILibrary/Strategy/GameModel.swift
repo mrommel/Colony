@@ -44,6 +44,9 @@ open class GameModel: Codable {
         case greatPersons
 
         case gameStateValue
+        case gameWinLeaderValue
+        case gameWinVictoryValue
+
         case rankingData
         case replayData
 
@@ -68,6 +71,8 @@ open class GameModel: Codable {
     private var greatPersons: GreatPersons?
 
     private var gameStateValue: GameStateType
+    private var gameWinLeaderValue: LeaderType?
+    private var gameWinVictoryValue: VictoryType?
     private var votesNeededForDiplomaticVictoryValue: Int = 0
 
     public var rankingData: RankingData
@@ -104,6 +109,8 @@ open class GameModel: Codable {
 
         self.tacticalAnalysisMapVal = TacticalAnalysisMap(with: self.map.size)
         self.gameStateValue = .on
+        self.gameWinLeaderValue = nil
+        self.gameWinVictoryValue = nil
 
         self.wondersBuilt = Wonders(city: nil)
         self.greatPersons = GreatPersons()
@@ -135,6 +142,9 @@ open class GameModel: Codable {
         self.greatPersons = try container.decode(GreatPersons.self, forKey: .greatPersons)
 
         self.gameStateValue = try container.decode(GameStateType.self, forKey: .gameStateValue)
+        self.gameWinLeaderValue = try container.decodeIfPresent(LeaderType.self, forKey: .gameWinLeaderValue)
+        self.gameWinVictoryValue = try container.decodeIfPresent(VictoryType.self, forKey: .gameWinVictoryValue)
+
         self.rankingData = try container.decode(RankingData.self, forKey: .rankingData)
         self.replayData = try container.decode(GameReplay.self, forKey: .replayData)
 
@@ -213,6 +223,9 @@ open class GameModel: Codable {
         try container.encode(self.greatPersons, forKey: .greatPersons)
 
         try container.encode(self.gameStateValue, forKey: .gameStateValue)
+        try container.encodeIfPresent(self.gameWinLeaderValue, forKey: .gameWinLeaderValue)
+        try container.encodeIfPresent(self.gameWinVictoryValue, forKey: .gameWinVictoryValue)
+
         try container.encode(self.rankingData, forKey: .rankingData)
         try container.encode(self.replayData, forKey: .replayData)
 
@@ -597,6 +610,30 @@ open class GameModel: Codable {
         self.gameStateValue = gameState
     }
 
+    public func winnerLeader() -> LeaderType? {
+
+        return self.gameWinLeaderValue
+    }
+
+    public func winnerVictory() -> VictoryType? {
+
+        return self.gameWinVictoryValue
+    }
+
+#if DEBUG
+    public func set(winner: LeaderType, for victoryType: VictoryType) {
+
+        self.gameWinLeaderValue = winner
+        self.gameWinVictoryValue = victoryType
+    }
+#else
+    func set(winner: LeaderType, for victoryType: VictoryType) {
+
+        self.gameWinLeaderValue = winner
+        self.gameWinVictoryValue = victoryType
+    }
+#endif
+
     func numGameTurnActive() -> Int {
 
         var numActive = 0
@@ -672,7 +709,7 @@ open class GameModel: Codable {
         //self.doUnitedNationsCountdown();
 
         // Victory stuff
-        // self.testVictory();
+        self.doTestVictory()
 
         // Who's Winning every 25 turns (to be un-hardcoded later)
         if let human = self.humanPlayer() {
@@ -683,6 +720,223 @@ open class GameModel: Codable {
                     // This popup is the sync rand, so beware
                     self.userInterface?.showScreen(screenType: .interimRanking, city: nil, other: nil, data: nil)
                 }
+            }
+        }
+    }
+
+    func doTestVictory() {
+
+        if self.winnerVictory() != nil {
+            return
+        }
+
+        self.doTestScienceVictory()
+        self.doTestCultureVictory()
+        self.doTestDominationVictory()
+        self.doTestReligiousVictory()
+        // self.doTestDiplomaticVictory()
+
+        self.doTestScoreVictory()
+        self.doTestConquestVictory()
+    }
+
+    func doTestScienceVictory() {
+
+        if !self.victoryTypes.contains(.science) {
+            return
+        }
+
+        if self.winnerVictory() != nil {
+            return
+        }
+
+        for player in self.players {
+
+            if player.isBarbarian() {
+                continue
+            }
+
+            if player.hasScienceVictory(in: self) {
+
+                self.set(winner: player.leader, for: .science)
+                self.set(gameState: .over)
+
+                DispatchQueue.main.async {
+                    self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
+                }
+            }
+        }
+    }
+
+    // https://forums.civfanatics.com/threads/how-tourism-is-calculated-and-a-culture-victory-made.605199/
+    func doTestCultureVictory() {
+
+        if !self.victoryTypes.contains(.cultural) {
+            return
+        }
+
+        if self.winnerVictory() != nil {
+            return
+        }
+
+        for player in self.players {
+
+            if player.isBarbarian() {
+                continue
+            }
+
+            if player.hasCulturalVictory(in: self) {
+
+                self.set(winner: player.leader, for: .cultural)
+                self.set(gameState: .over)
+
+                self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
+            }
+        }
+    }
+
+    func doTestDominationVictory() {
+
+        if !self.victoryTypes.contains(.domination) {
+            return
+        }
+
+        if self.winnerVictory() != nil {
+            return
+        }
+
+        // Calculate who owns the most original capitals by iterating through all civs
+        // and finding out who owns their original capital now.
+        var numOriginalCapitals: [LeaderType: Int] = [:]
+        let playerNum: Int = self.players.filter { !$0.isBarbarian() }.count
+
+        for player in self.players {
+
+            if player.originalCapitalLocation() != HexPoint.invalid {
+
+                if let capitalCity = self.city(at: player.originalCapitalLocation()), let capitalOwner = capitalCity.player {
+
+                    // is the current owner the original owner?
+                    if !player.isEqual(to: capitalOwner) {
+
+                        numOriginalCapitals[capitalOwner.leader] = (numOriginalCapitals[capitalOwner.leader] ?? 0) + 1
+                    }
+                }
+            }
+        }
+
+        for leaderKey in numOriginalCapitals.keys {
+
+            guard let numConqueredCapitals = numOriginalCapitals[leaderKey] else {
+                continue
+            }
+
+            // own capital cant be conquered
+            if numConqueredCapitals + 1 >= playerNum {
+
+                let winnerKey: LeaderType = leaderKey
+
+                self.set(winner: winnerKey, for: .domination)
+                self.set(gameState: .over)
+
+                DispatchQueue.main.async {
+                    self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
+                }
+            }
+        }
+    }
+
+    func doTestReligiousVictory() {
+
+        if !self.victoryTypes.contains(.religious) {
+            return
+        }
+
+        if self.winnerVictory() != nil {
+            return
+        }
+
+        for player in self.players {
+
+            if player.isBarbarian() {
+                continue
+            }
+
+            if player.hasReligiousVictory(in: self) {
+
+                self.set(winner: player.leader, for: .religious)
+                self.set(gameState: .over)
+
+                self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
+            }
+        }
+    }
+
+    func doTestScoreVictory() {
+
+        if self.winnerVictory() != nil {
+            return
+        }
+
+        // game has reached last turn
+        if self.currentTurn >= 500 {
+
+            var playerScore: [LeaderType: Int] = [:]
+
+            for player in self.players {
+
+                if player.isBarbarian() {
+                    continue
+                }
+
+                playerScore[player.leader] = player.score(for: self)
+            }
+
+            // the winner is the player with the highest score
+            let winnerKey: LeaderType = playerScore.sortedByValue.reversed()[0].0
+
+            self.set(winner: winnerKey, for: .score)
+            self.set(gameState: .over)
+
+            DispatchQueue.main.async {
+                self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
+            }
+        }
+    }
+
+    /// test if only on human or ai player is alive
+    func doTestConquestVictory() {
+
+        if self.winnerVictory() != nil {
+            return
+        }
+
+        var numAlivePlayers: Int = 0
+        var winner: LeaderType = .none
+
+        // loop thru all players
+        for player in self.players {
+
+            if player.isBarbarian() {
+                continue
+            }
+
+            if !player.isAlive() {
+                continue
+            }
+
+            numAlivePlayers += 1
+            winner = player.leader
+        }
+
+        // if only one (or none) player is alive - this is defeat
+        if numAlivePlayers <= 1 {
+
+            self.set(winner: winner, for: .conquest)
+            self.set(gameState: .over)
+
+            DispatchQueue.main.async {
+                self.userInterface?.showScreen(screenType: .victory, city: nil, other: nil, data: nil)
             }
         }
     }
@@ -808,9 +1062,59 @@ open class GameModel: Codable {
     func updateScore() {
 
         for player in self.players {
-            let score = player.score(for: self)
 
-            self.rankingData.add(score: score, for: player.leader)
+            let culturePerTurn = player.culture(in: self)
+            self.rankingData.add(culturePerTurn: culturePerTurn, for: player.leader)
+
+            let goldBalance = player.treasury?.value() ?? 0
+            self.rankingData.add(goldBalance: goldBalance, for: player.leader)
+
+            let totalCities = self.cities(of: player).count
+            self.rankingData.add(totalCities: totalCities, for: player.leader)
+
+            let totalCitiesFounded = player.numOfCitiesFounded()
+            self.rankingData.add(totalCitiesFounded: totalCitiesFounded, for: player.leader)
+
+            let totalCitiesLost = player.numOfCitiesLost()
+            self.rankingData.add(totalCitiesLost: totalCitiesLost, for: player.leader)
+
+            let totalDistrictsConstructed = self.cities(of: player)
+                .map { $0?.districts?.numberOfBuiltDistricts() ?? 0 }
+                .reduce(0, +)
+            self.rankingData.add(totalDistrictsConstructed: totalDistrictsConstructed, for: player.leader)
+
+            let totalWondersConstructed = self.cities(of: player)
+                .map { $0?.wonders?.numberOfBuiltWonders() ?? 0 }
+                .reduce(0, +)
+            self.rankingData.add(totalWondersConstructed: totalWondersConstructed, for: player.leader)
+
+            let totalBuildingsConstructed = self.cities(of: player)
+                .map { $0?.buildings?.numberOfBuiltBuildings() ?? 0 }
+                .reduce(0, +)
+            self.rankingData.add(totalBuildingsConstructed: totalBuildingsConstructed, for: player.leader)
+
+            // ...
+
+            let totalScore = player.score(for: self)
+            self.rankingData.add(totalScore: totalScore, for: player.leader)
+
+            let sciencePerTurn = player.science(in: self)
+            self.rankingData.add(sciencePerTurn: sciencePerTurn, for: player.leader)
+
+            let faithPerTurn = player.faith(in: self)
+            self.rankingData.add(faithPerTurn: faithPerTurn, for: player.leader)
+
+            let totalReligionsFounded = player.religion?.currentReligion() == Optional<ReligionType>.none ? 0 : 1
+            self.rankingData.add(totalReligionsFounded: totalReligionsFounded, for: player.leader)
+
+            let totalGreatPeopleEarned = player.greatPeople?.numOfSpawnedGreatPersons() ?? 0
+            self.rankingData.add(totalGreatPeopleEarned: totalGreatPeopleEarned, for: player.leader)
+
+            let totalWarDeclarationsReceived = player.diplomacyAI?.atWarCount() ?? 0
+            self.rankingData.add(totalWarDeclarationsReceived: totalWarDeclarationsReceived, for: player.leader)
+
+            let totalPantheonsFounded = player.religion?.pantheon() == Optional<PantheonType>.none ? 0 : 1
+            self.rankingData.add(totalPantheonsFounded: totalPantheonsFounded, for: player.leader)
         }
     }
 

@@ -738,6 +738,7 @@ public class CityStrategyAI: Codable {
 
         case .culture: return 0.0
         case .faith: return 0.0
+        case .tourism: return 0.0
         }
     }
 

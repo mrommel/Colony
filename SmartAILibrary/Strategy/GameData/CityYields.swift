@@ -1218,12 +1218,12 @@ extension City {
 
         // .. and +1 Housing6 Housing per District.
         if government.currentGovernment() == .democracy {
-            housingFromDistricts += Double(districts.numberOfBuildDistricts())
+            housingFromDistricts += Double(districts.numberOfBuiltDistricts())
         }
 
         // +1 Housing6 Housing in all cities with at least 2 specialty districts.
         if government.has(card: .insulae) {
-            if districts.numberOfBuildDistricts() >= 2 {
+            if districts.numberOfBuiltDistricts() >= 2 {
                 housingFromDistricts += 1.0
             }
         }

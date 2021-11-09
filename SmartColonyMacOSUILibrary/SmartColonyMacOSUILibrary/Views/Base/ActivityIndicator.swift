@@ -25,6 +25,7 @@ public struct ActivityIndicator: NSViewRepresentable {
     }
 
     public func makeNSView(context: Context) -> NSProgressIndicator {
+
         let progressView = NSProgressIndicator()
         progressView.style = style
         progressView.controlSize = controlSize
@@ -34,13 +35,13 @@ public struct ActivityIndicator: NSViewRepresentable {
     public func updateNSView(_ progressView: NSProgressIndicator, context: Context) {
 
         if self.isAnimating {
-            if hideWhenNotAnimating {
+            if self.hideWhenNotAnimating {
                 progressView.isHidden = false
             }
             progressView.startAnimation(nil)
         } else {
             progressView.stopAnimation(nil)
-            if hideWhenNotAnimating {
+            if self.hideWhenNotAnimating {
                 progressView.isHidden = true
             }
         }
