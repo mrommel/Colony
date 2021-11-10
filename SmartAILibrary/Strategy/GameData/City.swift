@@ -2487,18 +2487,14 @@ public class City: AbstractCity {
         // check other cities of user (if they are currently building)
         let cities = gameModel.cities(of: player)
 
-        // but skip this city
+        // loop thru all cities but skip this city
         for cityRef in cities where cityRef?.location != self.location {
 
             guard let city = cityRef else {
                 continue
             }
 
-            guard let currentBuildableItem = city.currentBuildableItem() else {
-                continue
-            }
-
-            if currentBuildableItem.type == .wonder && currentBuildableItem.wonderType == wonder {
+            if city.buildQueue.isBuilding(wonder: wonder) {
                 return false
             }
         }

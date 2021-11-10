@@ -80,7 +80,7 @@ class CityBuildingsViewModel: ObservableObject {
 
                 let buildingViewModels: [BuildingViewModel] = constructedBuildingTypes.map { buildingType in
 
-                    if city.buildQueue.isBuilding(buildingType: buildingType) {
+                    if city.buildQueue.isBuilding(building: buildingType) {
                         // buildingNode.disable()
                     }
                     let buildingViewModel = BuildingViewModel(buildingType: buildingType, turns: -1, showYields: true)

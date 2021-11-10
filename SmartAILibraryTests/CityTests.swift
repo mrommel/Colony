@@ -315,10 +315,13 @@ class CityTests: XCTestCase {
 
         // WHEN
         city.startBuilding(wonder: .pyramids)
+        let canBuildMiddle = self.objectToTest?.canBuild(wonder: .pyramids, in: gameModel)
+        city.startBuilding(building: .granary)
         let canBuildAfter = self.objectToTest?.canBuild(wonder: .pyramids, in: gameModel)
 
         // THEN
         XCTAssertEqual(canBuildBefore, true)
+        XCTAssertEqual(canBuildMiddle, false)
         XCTAssertEqual(canBuildAfter, false)
     }
 }

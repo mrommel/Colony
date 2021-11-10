@@ -149,7 +149,7 @@ class CityChooseProductionDialog: Dialog {
                     if city.canBuild(building: buildingType, in: gameModel) && !buildings.has(building: buildingType) && buildingType.district() == districtType {
 
                         let buildingNode = BuildingBuildingItemDisplayNode(buildingType: buildingType, size: CGSize(width: 200, height: 40))
-                        if city.buildQueue.isBuilding(buildingType: buildingType) {
+                        if city.buildQueue.isBuilding(building: buildingType) {
                             buildingNode.disable()
                         }
                         buildingNode.zPosition = 199
