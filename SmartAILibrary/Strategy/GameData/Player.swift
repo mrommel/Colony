@@ -269,6 +269,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func numCities(in gameModel: GameModel?) -> Int
 
     // victory checks
+    func scienceVictoryProgress(in gameModel: GameModel?) -> Int
     func hasScienceVictory(in gameModel: GameModel?) -> Bool
     func hasCulturalVictory(in gameModel: GameModel?) -> Bool
     func hasReligiousVictory(in gameModel: GameModel?) -> Bool
@@ -4511,16 +4512,13 @@ public class Player: AbstractPlayer {
         self.canChangeGovernmentValue = canChangeGovernment
     }
 
-    public func hasScienceVictory(in gameModel: GameModel?) -> Bool {
+    public func scienceVictoryProgress(in gameModel: GameModel?) -> Int {
 
         guard let gameModel = gameModel else {
             fatalError("cant get game")
         }
 
-        var hasSatellite: Bool = false
-        var hasMoonLanding: Bool = false
-        var hasMarsianColony: Bool = false
-        var hasExoExpedition: Bool = false
+        var scienceVictoryProgressValue: Int = 0
 
         for cityRef in gameModel.cities(of: self) {
 
@@ -4529,27 +4527,32 @@ public class Player: AbstractPlayer {
             }
 
             if city.has(project: .launchEarthSatellite) {
-                hasSatellite = true
+                scienceVictoryProgressValue += 1
             }
 
             if city.has(project: .launchMoonLanding) {
-                hasMoonLanding = true
+                scienceVictoryProgressValue += 1
             }
 
             if city.has(project: .launchMarsColony) {
-                hasMarsianColony = true
+                scienceVictoryProgressValue += 1
             }
 
             if city.has(project: .exoplanetExpedition) {
-                hasExoExpedition = true
+                scienceVictoryProgressValue += 1
             }
         }
 
-        return hasSatellite &&
-            hasMoonLanding &&
-            hasMarsianColony &&
-            hasExoExpedition &&
-            self.boostExoplanetExpeditionValue >= 50
+        if self.boostExoplanetExpeditionValue >= 50 {
+            scienceVictoryProgressValue += 1
+        }
+
+        return scienceVictoryProgressValue
+    }
+
+    public func hasScienceVictory(in gameModel: GameModel?) -> Bool {
+
+        return self.scienceVictoryProgress(in: gameModel) >= 5
     }
 
     public func hasCulturalVictory(in gameModel: GameModel?) -> Bool {

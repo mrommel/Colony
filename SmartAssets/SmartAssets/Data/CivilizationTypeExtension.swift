@@ -42,6 +42,9 @@ extension CivilizationType {
             return CivilizationTypeColors(main: TypeColor.silverFoil, accent: TypeColor.nero)
         case .russian:
             return CivilizationTypeColors(main: TypeColor.schoolBusYellow, accent: TypeColor.nero)
+
+        case .unmet:
+            return CivilizationTypeColors(main: TypeColor.matterhornGray, accent: TypeColor.snow)
         }
     }
 
@@ -73,6 +76,8 @@ extension CivilizationType {
         case .egyptian: return "civilization-egyptian"
         case .german: return "civilization-german"
         case .russian: return "civilization-russian"
+
+        case .unmet: return "civilization-unmet"
         }
     }
 }

@@ -59,7 +59,8 @@ class DominationRankingDialogViewModel: ObservableObject {
 
             if player.originalCapitalLocation() != HexPoint.invalid {
 
-                if let capitalCity = gameModel.city(at: player.originalCapitalLocation()), let capitalOwner = capitalCity.player {
+                if let capitalCity = gameModel.city(at: player.originalCapitalLocation()),
+                    let capitalOwner = capitalCity.player {
 
                     // is the current owner the original owner?
                     if !player.isEqual(to: capitalOwner) {
