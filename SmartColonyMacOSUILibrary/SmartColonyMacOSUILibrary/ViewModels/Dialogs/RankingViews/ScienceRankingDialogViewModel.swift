@@ -49,10 +49,6 @@ class ScienceRankingDialogViewModel: ObservableObject {
             fatalError("cant get game")
         }
 
-        /*guard let humanPlayer = gameModel.humanPlayer() else {
-            fatalError("cant get human player")
-        }*/
-
         var tmpScienceRankingViewModels: [ScienceRankingViewModel] = []
 
         for player in gameModel.players {
@@ -66,7 +62,7 @@ class ScienceRankingDialogViewModel: ObservableObject {
             let scoreRankingViewModel = ScienceRankingViewModel(
                 civilization: civilizationType,
                 leader: player.leader,
-                science: 0 // 0...5 - each a space project
+                science: player.scienceVictoryProgress(in: gameModel)
             )
 
             tmpScienceRankingViewModels.append(scoreRankingViewModel)

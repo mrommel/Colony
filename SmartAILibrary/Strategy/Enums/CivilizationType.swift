@@ -22,10 +22,21 @@ public enum CivilizationType: String, Codable {
     case german
     case russian
 
+    case unmet // just for display
+
     // ///////////////////////////
 
     public static var all: [CivilizationType] = [
-        .greek, .roman, .english, .aztecs, .persian, .french, .egyptian, .german, .russian
+
+        .greek,
+        .roman,
+        .english,
+        .aztecs,
+        .persian,
+        .french,
+        .egyptian,
+        .german,
+        .russian
     ]
 
     // ///////////////////////////
@@ -74,6 +85,8 @@ public enum CivilizationType: String, Codable {
         case .egyptian: return tile.feature() == .forest || tile.feature() == .rainforest ? -2 : 0
         case .german: return 0 // no special bias
         case .russian: return tile.terrain() == .tundra ? 2 : 0
+
+        case .unmet: return 0
         }
     }
 
@@ -168,6 +181,14 @@ public enum CivilizationType: String, Codable {
                                         plural: true,
                                         ability: .motherRussia,
                                         cityNames: ["St. Petersburg", "Moscow", "Novgorod", "Kazan", "Astrakhan", "Yaroslavl", "Smolensk", "Voronezh", "Tula", "Solikamsk", "Tver", "Nizhniy Novgorod", "Arkhangelsk", "Vologda", "Olonets", "Saratov", "Tambov", "Pskov", "Krasnoyarsk"])
+
+        case .unmet:
+            return CivilizationTypeData(
+                name: "Unmet",
+                plural: false,
+                ability: .none,
+                cityNames: []
+            )
         }
     }
 }

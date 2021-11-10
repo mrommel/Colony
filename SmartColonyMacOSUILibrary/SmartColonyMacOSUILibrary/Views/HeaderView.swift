@@ -29,11 +29,15 @@ struct HeaderView: View {
 
             Spacer()
 
-            self.leaderButtons
-                .padding(.top, 24)
+            VStack(alignment: .trailing, spacing: 0) {
 
-            self.rightButtons
-                .padding(.top, 24)
+                self.rightButtons
+                    .padding(.top, 24)
+
+                self.leaderButtons
+                    .padding(.top, 8)
+                    .padding(.trailing, 8)
+            }
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
     }
@@ -90,6 +94,7 @@ struct HeaderView: View {
                     LeaderView(viewModel: leaderViewModel)
                 }
             }
+                .frame(height: 42)
         )
     }
 }
@@ -97,10 +102,26 @@ struct HeaderView: View {
 #if DEBUG
 struct HeaderView_Previews: PreviewProvider {
 
+    static func viewModel() -> HeaderViewModel {
+
+        let viewModel = HeaderViewModel()
+
+        let game = DemoGameModel()
+
+        let aiPlayer = game.players.first(where: { !$0.isBarbarian() && !$0.isHuman() })
+
+        game.humanPlayer()?.doFirstContact(with: aiPlayer, in: game)
+
+        viewModel.gameEnvironment.game.value = game
+        viewModel.update()
+
+        return viewModel
+    }
+
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = HeaderViewModel()
+        let viewModel = HeaderView_Previews.viewModel()
 
         HeaderView(viewModel: viewModel)
     }
