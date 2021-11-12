@@ -22,8 +22,15 @@ public enum DistrictType: Int, Codable {
 
     public static var all: [DistrictType] {
         return [
-            .cityCenter, .campus, .holySite, .encampment, .harbor, .entertainment,
-            .commercialHub, .industrial, .spaceport
+            .cityCenter,
+            .campus,
+            .holySite,
+            .encampment,
+            .harbor,
+            .entertainment,
+            .commercialHub,
+            .industrial,
+            .spaceport
         ]
     }
 
@@ -210,7 +217,7 @@ public enum DistrictType: Int, Codable {
                 productionCost: 54,
                 maintenanceCost: 1,
                 requiredTech: nil,
-                requiredCivic: .dramaAndPoetry,
+                requiredCivic: .gamesAndRecreation,
                 domesticTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0),
                 foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 1.0)
             )

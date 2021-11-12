@@ -96,6 +96,11 @@ class Buildings: AbstractBuildings {
         self.updateHousing()
 
         self.buildings.append(building)
+
+        // update current health when walls are built
+        if building == .ancientWalls || building == .medievalWalls || building == .renaissanceWalls  {
+            self.city?.add(healthPoints: 100)
+        }
     }
 
     func numOfBuildings(of buildingCategoryType: BuildingCategoryType) -> Int {

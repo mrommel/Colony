@@ -159,6 +159,8 @@ public protocol AbstractCity: AnyObject, Codable {
 
     func healthPoints() -> Int
     func set(healthPoints: Int)
+    func add(healthPoints: Int)
+
     func add(damage: Int)
     func set(damage: Int)
     func damage() -> Int
@@ -771,20 +773,15 @@ public class City: AbstractCity {
         if self.damage() > 0 {
             //CvAssertMsg(m_iDamage <= GC.getMAX_CITY_HIT_POINTS(), "Somehow a city has more damage than hit points. Please show this to a gameplay programmer immediately.");
 
-            /*int iHitsHealed = GC.getCITY_HIT_POINTS_HEALED_PER_TURN();
-            if (isCapital() && !GET_PLAYER(getOwner()).isMinorCiv())
-            {
-                iHitsHealed++;
+            var hitsHealed = 20 /* CITY_HIT_POINTS_HEALED_PER_TURN */
+            if self.isCapital() {
+                hitsHealed += 1
             }
-            int iBuildingDefense = m_pCityBuildings->GetBuildingDefense();
-            iBuildingDefense *= (100 + m_pCityBuildings->GetBuildingDefenseMod());
-            iBuildingDefense /= 100;
-            iHitsHealed += iBuildingDefense / 500;
-            iHitsHealed = min(5,iHitsHealed);
-            changeDamage(-iHitsHealed);*/
+
+            self.add(healthPoints: hitsHealed)
         }
         if self.damage() < 0 {
-            //self.setDamage(0)
+            self.set(damage: 0)
         }
 
         //setDrafted(false);
@@ -3438,16 +3435,33 @@ public class City: AbstractCity {
     public func set(healthPoints: Int) {
 
         self.healthPointsValue = healthPoints
+
+        self.healthPointsValue = max(self.healthPointsValue, self.maxHealthPoints())
+        self.healthPointsValue = min(0, self.healthPointsValue)
+    }
+
+    public func add(healthPoints: Int) {
+
+        self.healthPointsValue += healthPoints
+
+        self.healthPointsValue = max(self.healthPointsValue, self.maxHealthPoints())
+        self.healthPointsValue = min(0, self.healthPointsValue)
     }
 
     public func add(damage: Int) {
 
         self.healthPointsValue -= damage
+
+        self.healthPointsValue = max(self.healthPointsValue, self.maxHealthPoints())
+        self.healthPointsValue = min(0, self.healthPointsValue)
     }
 
     public func set(damage: Int) {
 
         self.healthPointsValue = self.maxHealthPoints() - damage
+
+        self.healthPointsValue = max(self.healthPointsValue, self.maxHealthPoints())
+        self.healthPointsValue = min(0, self.healthPointsValue)
     }
 
     public func damage() -> Int {

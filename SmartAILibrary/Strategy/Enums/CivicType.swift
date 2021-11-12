@@ -240,7 +240,15 @@ public enum CivicType: String, Codable {
             return self == $0.required()
         })
 
-        return CivicAchievements(buildingTypes: buildings, unitTypes: units, wonderTypes: wonders, buildTypes: [], districtTypes: districts, policyCards: policyCards, governments: governments)
+        return CivicAchievements(
+            buildingTypes: buildings,
+            unitTypes: units,
+            wonderTypes: wonders,
+            buildTypes: [],
+            districtTypes: districts,
+            policyCards: policyCards,
+            governments: governments
+        )
     }
 
     // MARK: private
@@ -331,7 +339,10 @@ public enum CivicType: String, Codable {
                 name: "Foreign Trade",
                 eurekaSummary: "Discover a second Continent.",
                 eurekaDescription: "Having discovered another continent we realize there is a wide world of trading opportunities.",
-                quoteTexts: ["“Every nation lives by exchanging.“[NEWLINE] – Adam Smith", "“That's the positive aspect of trade I suppose. The world gets stirred up together.“[NEWLINE] – Isabel Hoving "],
+                quoteTexts: [
+                    "“Every nation lives by exchanging.“[NEWLINE] – Adam Smith",
+                    "“That's the positive aspect of trade I suppose. The world gets stirred up together.“[NEWLINE] – Isabel Hoving "
+                ],
                 era: .ancient,
                 cost: 40,
                 required: [.codeOfLaws],
@@ -341,9 +352,12 @@ public enum CivicType: String, Codable {
         case .mysticism:
             return CivicTypeData(
                 name: "Mysticism",
-                eurekaSummary: "",
+                eurekaSummary: "Found a Pantheon.",
                 eurekaDescription: "Worship of your pantheon of gods has brought up further questions about spiritual forces in our world.",
-                quoteTexts: [],
+                quoteTexts: [
+                    "“Mysticism is the mistake of an accidental and individual symbol for a universal one.“[NEWLINE] – Ralph Waldo Emerson",
+                    "“I like to say I practice militant mysticism. I'm absolutely sure of some things that I don't quite know.“[NEWLINE] – Rob Bell"
+                ],
                 era: .ancient,
                 cost: 50,
                 required: [.foreignTrade],
@@ -353,7 +367,7 @@ public enum CivicType: String, Codable {
         case .militaryTradition:
             return CivicTypeData(
                 name: "Military Tradition",
-                eurekaSummary: "",
+                eurekaSummary: "Build an Encampment.",
                 eurekaDescription: "Your soldiers hope your victory over a Barbarian Outpost is the start of a long line of military successes.",
                 quoteTexts: [],
                 era: .ancient,
@@ -367,7 +381,7 @@ public enum CivicType: String, Codable {
         case .defensiveTactics:
             return CivicTypeData(
                 name: "Defensive Tactics",
-                eurekaSummary: "",
+                eurekaSummary: "Be the target of a Declaration of War.",
                 eurekaDescription: "Faced with the threat of invasion, your people are ready to come up with innovative defenses.",
                 quoteTexts: [],
                 era: .classical,
@@ -379,7 +393,7 @@ public enum CivicType: String, Codable {
         case .gamesAndRecreation:
             return CivicTypeData(
                 name: "Games and Recreation",
-                eurekaSummary: "",
+                eurekaSummary: "Research the Construction technology.",
                 eurekaDescription: "Your new skills in construction will surely help create venues for games and entertainment.",
                 quoteTexts: [],
                 era: .classical,
@@ -391,7 +405,7 @@ public enum CivicType: String, Codable {
         case .politicalPhilosophy:
             return CivicTypeData(
                 name: "Political Philosophy",
-                eurekaSummary: "",
+                eurekaSummary: "Meet 3 City-States",
                 eurekaDescription: "Your contact with other states has crystallized your ideas on governing your own people.",
                 quoteTexts: [],
                 era: .classical,

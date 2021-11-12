@@ -416,7 +416,18 @@ public class Government: AbstractGovernment {
             }
         }
 
-        return cards
+        var filteredCards: [PolicyCardType] = []
+
+        // remove 'replaced' (better) cards
+        for card in cards {
+
+            if !cards.contains(where: { $0.replacePolicyCard() == card }) {
+
+                filteredCards.append(card)
+            }
+        }
+
+        return filteredCards
     }
 
     public func add(card: PolicyCardType) {
