@@ -356,7 +356,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Revelation_(Civ6)
             return PolicyCardTypeData(
                 name: "Revelation",
-                bonus: "+2 Great Prophet points per turn.", 
+                bonus: "+2 Great Prophet points per turn.",
                 slot: .wildcard,
                 required: .mysticism,
                 obsolete: .humanism,
@@ -552,7 +552,9 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Feudal_Contract_(Civ6)
             return PolicyCardTypeData(
                 name: "Feudal Contract",
-                bonus: "+50% Production toward Ancient, Classical, Medieval and Renaissance era melee, ranged and anti-cavalry units.", // #
+                bonus:
+                    "+50% Production toward Ancient, Classical, Medieval and Renaissance era melee, " + // #
+                    "ranged and anti-cavalry units.",
                 slot: .military,
                 required: .feudalism,
                 obsolete: .nationalism,
