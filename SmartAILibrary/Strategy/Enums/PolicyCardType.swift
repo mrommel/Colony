@@ -142,6 +142,7 @@ public enum PolicyCardType: Int, Codable {
         return self.data().required
     }
 
+    // swiftlint:disable function_body_length
     private func data() -> PolicyCardTypeData {
 
         switch self {
@@ -241,7 +242,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Caravansaries_(Civ6)
             return PolicyCardTypeData(
                 name: "Caravansaries",
-                bonus: "+2 Gold from all Trade Routes.", // FIXME niy
+                bonus: "+2 Gold from all Trade Routes.", // #
                 slot: .economic,
                 required: .foreignTrade,
                 obsolete: .mercantilism,
@@ -280,7 +281,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Strategos_(Civ6)
             return PolicyCardTypeData(
                 name: "Strategos",
-                bonus: "+2 Great General points per turn.", // FIXME niy
+                bonus: "+2 Great General points per turn.", // #
                 slot: .wildcard,
                 required: .militaryTradition,
                 obsolete: .scorchedEarth,
@@ -341,7 +342,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Inspiration_(Civ6)
             return PolicyCardTypeData(
                 name: "Inspiration",
-                bonus: "+2 Great Scientist points per turn.", // FIXME niy
+                bonus: "+2 Great Scientist points per turn.", // #
                 slot: .wildcard,
                 required: .mysticism,
                 obsolete: .nuclearProgram,
@@ -355,7 +356,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Revelation_(Civ6)
             return PolicyCardTypeData(
                 name: "Revelation",
-                bonus: "+2 Great Prophet points per turn.", // FIXME niy
+                bonus: "+2 Great Prophet points per turn.", // #
                 slot: .wildcard,
                 required: .mysticism,
                 obsolete: .humanism,

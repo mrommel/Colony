@@ -98,7 +98,7 @@ class Buildings: AbstractBuildings {
         self.buildings.append(building)
 
         // update current health when walls are built
-        if building == .ancientWalls || building == .medievalWalls || building == .renaissanceWalls  {
+        if building == .ancientWalls || building == .medievalWalls || building == .renaissanceWalls {
             self.city?.add(healthPoints: 100)
         }
     }

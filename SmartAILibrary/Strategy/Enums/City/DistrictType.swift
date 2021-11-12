@@ -8,6 +8,7 @@
 
 import Foundation
 
+// swiftlint:disable type_body_length
 public enum DistrictType: Int, Codable {
 
     case cityCenter
