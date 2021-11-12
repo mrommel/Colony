@@ -42,29 +42,29 @@ public enum PolicyCardSlotType {
 // swiftlint:disable type_body_length
 public enum PolicyCardType: Int, Codable {
 
-    case slot // empty
+    case slot
 
     // ancient
-    case survey // FIXME Doubles experience for recon units.
-    case godKing // +1 Faith and +1 Gold in the Capital.
-    case discipline // +5 Combat Strength when fighting Barbarians.
-    case urbanPlanning // +1 Production in all cities.
-    case ilkum // FIXME +30% Production toward Builders.
-    case agoge // FIXME +50% Production towards Ancient and Classical era melee and ranged units.
-    case caravansaries // +2 additional Gold from all Trade Routes.
-    case maritimeIndustries // FIXME +100% Production towards all Ancient and Classical era naval units.
-    case maneuver // FIXME +50% Production towards all Ancient and Classical era light and heavy cavalry units.
-    case strategos // FIXME +2 Great General points per turn.
-    case conscription // FIXME Unit maintenance reduced by 1 Gold per turn per unit.
-    case corvee // FIXME +15% Production towards Ancient and Classical era wonders.
-    case landSurveyors // FIXME Reduces the cost to purchase a tile by 20%.
-    case colonization // FIXME +50% Production towards Settlers.
-    case inspiration // FIXME +2 Great Scientist points per turn.
-    case revelation // FIXME +2 Great Prophet points per turn.
-    case limitanei // +2 Loyalty per turn for cities with a garrisoned unit.
+    case survey
+    case godKing
+    case discipline
+    case urbanPlanning
+    case ilkum
+    case agoge
+    case caravansaries
+    case maritimeIndustries
+    case maneuver
+    case strategos
+    case conscription
+    case corvee
+    case landSurveyors
+    case colonization
+    case inspiration
+    case revelation
+    case limitanei
 
     // classical
-    case insulae // FIXME +1 Housing in all cities with at least 2 specialty districts.
+    case insulae
     case charismaticLeader
     case diplomaticLeague
     case literaryTradition
@@ -75,7 +75,7 @@ public enum PolicyCardType: Int, Codable {
     case limes
     case naturalPhilosophy
     case scripture
-    case praetorium // Governors provide +2 Loyalty per turn to their city.
+    case praetorium
 
     // medieval
     case navalInfrastructure
@@ -242,7 +242,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Caravansaries_(Civ6)
             return PolicyCardTypeData(
                 name: "Caravansaries",
-                bonus: "+2 Gold from all Trade Routes.", // #
+                bonus: "+2 Gold from all Trade Routes.",
                 slot: .economic,
                 required: .foreignTrade,
                 obsolete: .mercantilism,
@@ -281,7 +281,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Strategos_(Civ6)
             return PolicyCardTypeData(
                 name: "Strategos",
-                bonus: "+2 Great General points per turn.", // #
+                bonus: "+2 Great General points per turn.",
                 slot: .wildcard,
                 required: .militaryTradition,
                 obsolete: .scorchedEarth,
@@ -342,7 +342,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Inspiration_(Civ6)
             return PolicyCardTypeData(
                 name: "Inspiration",
-                bonus: "+2 Great Scientist points per turn.", // #
+                bonus: "+2 Great Scientist points per turn.",
                 slot: .wildcard,
                 required: .mysticism,
                 obsolete: .nuclearProgram,
@@ -356,7 +356,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Revelation_(Civ6)
             return PolicyCardTypeData(
                 name: "Revelation",
-                bonus: "+2 Great Prophet points per turn.", // #
+                bonus: "+2 Great Prophet points per turn.", 
                 slot: .wildcard,
                 required: .mysticism,
                 obsolete: .humanism,
@@ -370,7 +370,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Limitanei_(Civ6)
             return PolicyCardTypeData(
                 name: "Limitanei",
-                bonus: "+2 Loyalty per turn for cities with a garrisoned unit.", // FIXME niy
+                bonus: "+2 Loyalty per turn for cities with a garrisoned unit.",
                 slot: .military,
                 required: .earlyEmpire,
                 obsolete: nil,
@@ -419,7 +419,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Literary_Tradition_(Civ6)
             return PolicyCardTypeData(
                 name: "Literary Tradition",
-                bonus: "+2 Great Writer points per turn.", // #
+                bonus: "+2 Great Writer points per turn.",
                 slot: .wildcard,
                 required: .dramaAndPoetry,
                 obsolete: nil,
@@ -540,7 +540,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Navigation_(Civ6)
             return PolicyCardTypeData(
                 name: "Navigation",
-                bonus: "+2 Great Admiral Great Admiral points per turn.", // #
+                bonus: "+2 Great Admiral Great Admiral points per turn.",
                 slot: .wildcard,
                 required: .navalTradition,
                 obsolete: nil,
@@ -564,7 +564,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Serfdom_(Civ6)
             return PolicyCardTypeData(
                 name: "Serfdom",
-                bonus: "Newly trained Builders gain 2 extra build actions.", // #
+                bonus: "Newly trained Builders gain 2 extra build actions.",
                 slot: .economic,
                 required: .feudalism,
                 obsolete: .civilEngineering,
@@ -588,7 +588,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Retainers_(Civ6)
             return PolicyCardTypeData(
                 name: "Retainers",
-                bonus: "+1 Amenity for cities with a garrisoned unit.",
+                bonus: "+1 Amenity for cities with a garrisoned unit.", // #
                 slot: .military,
                 required: .civilService,
                 obsolete: .massMedia,
@@ -612,7 +612,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Professional_Army_(Civ6)
             return PolicyCardTypeData(
                 name: "Professional Army",
-                bonus: "50% Gold discount on all unit upgrades.", // #
+                bonus: "50% Gold discount on all unit upgrades.",
                 slot: .military,
                 required: .mercenaries,
                 obsolete: .urbanization,
@@ -636,7 +636,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Trade_Confederation_(Civ6)
             return PolicyCardTypeData(
                 name: "Trade Confederation",
-                bonus: "+1 Culture and +1 Science from international Trade Routes.", // #
+                bonus: "+1 Culture and +1 Science from international Trade Routes.",
                 slot: .economic,
                 required: .mercenaries,
                 obsolete: .capitalism,
@@ -708,7 +708,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Traveling_Merchants_(Civ6)
             return PolicyCardTypeData(
                 name: "Traveling Merchants",
-                bonus: "+2 Great Merchant points per turn.", // #
+                bonus: "+2 Great Merchant points per turn.",
                 slot: .wildcard,
                 required: .guilds,
                 obsolete: .capitalism,

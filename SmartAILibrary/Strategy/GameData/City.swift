@@ -2294,11 +2294,22 @@ public class City: AbstractCity {
 
     private func train(unitType: UnitType, in gameModel: GameModel?) {
 
+        guard let government = self.player?.government else {
+            fatalError("cant get player government")
+        }
+
         let unit = Unit(at: self.location, type: unitType, owner: self.player)
 
-        // Guildmaster    All Builders trained in city get +1 build charge.
-        if self.hasGovernorTitle(of: .guildmaster) {
-            unit.changeBuildCharges(change: 1)
+        if unitType == .builder {
+            // Guildmaster - All Builders trained in city get +1 build charge.
+            if self.hasGovernorTitle(of: .guildmaster) {
+                unit.changeBuildCharges(change: 1)
+            }
+
+            // serfdom - Newly trained Builders gain 2 extra build actions.
+            if government.has(card: .serfdom) {
+                unit.changeBuildCharges(change: 2)
+            }
         }
 
         gameModel?.add(unit: unit)

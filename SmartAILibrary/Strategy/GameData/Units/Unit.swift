@@ -658,7 +658,23 @@ public class Unit: AbstractUnit {
 
     func upgradeCost(to unitType: UnitType) -> Int {
 
-        return unitType.productionCost() / 2
+        guard let government = self.player?.government else {
+            fatalError("cant get player government")
+        }
+
+        var baseUpgradeCost = unitType.productionCost() / 2
+        var modifierUpgradeCost = 100
+
+        // professionalArmy - 50% Gold discount on all unit upgrades.
+        if government.has(card: .professionalArmy) {
+
+            modifierUpgradeCost -= 50
+        }
+
+        baseUpgradeCost *= modifierUpgradeCost
+        baseUpgradeCost /= 100
+
+        return baseUpgradeCost
     }
 
     public func canUpgrade(to unitType: UnitType, in gameModel: GameModel?) -> Bool {
@@ -2821,7 +2837,7 @@ public class Unit: AbstractUnit {
 
         // Doubles experience for recon units.
         if government.has(card: .survey) {
-            experienceDelta *= 1.2
+            experienceDelta *= 2.0
         }
 
         // +20% Unit Experience.

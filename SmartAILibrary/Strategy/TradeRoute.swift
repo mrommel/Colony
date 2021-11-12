@@ -147,6 +147,13 @@ public class TradeRoute: Codable {
             yields.gold += 2.0
         }
 
+        // tradeConfederation - +1 Culture and +1 Science from international Trade Routes.
+        if startPlayerGovernment.has(card: .tradeConfederation) {
+
+            yields.culture += 1.0
+            yields.science += 1.0
+        }
+
         /*
         // posts - currently no implemented
         yields.gold += Double(self.posts.count)
