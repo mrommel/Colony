@@ -236,7 +236,8 @@ public protocol AbstractCity: AnyObject, Codable {
     func loyaltyFromOthersEffects(in gameModel: GameModel?) -> Double
 
     // governors
-    func governor() -> GovernorType?
+    func governorType() -> GovernorType?
+    func governor() -> Governor?
     func assign(governor: GovernorType?)
     func value(of governorType: GovernorType, in gameModel: GameModel?) -> Double
     func hasGovernorTitle(of title: GovernorTitleType) -> Bool
@@ -1277,7 +1278,16 @@ public class City: AbstractCity {
         return .unrest
     }
 
-    public func governor() -> GovernorType? {
+    public func governor() -> Governor? {
+
+        if let governorType = self.governorValue {
+            return self.player?.governors?.governor(with: governorType)
+        }
+
+        return nil
+    }
+
+    public func governorType() -> GovernorType? {
 
         return self.governorValue
     }
@@ -1289,7 +1299,7 @@ public class City: AbstractCity {
 
     public func value(of governorType: GovernorType, in gameModel: GameModel?) -> Double {
 
-        let oldGovernor = self.governor()
+        let oldGovernor = self.governorType()
 
         // reset
         self.assign(governor: nil)
@@ -1321,10 +1331,21 @@ public class City: AbstractCity {
                 return true
             }
 
-            return governor.titles().contains(title)
+            if let governor = self.governor() {
+                return governor.has(title: title)
+            }
         }
 
         return false
+    }
+
+    func numOfGovernorTitles() -> Int {
+
+        if let governor = self.governor() {
+            return governor.titles.count - 1 // default title is already included
+        }
+
+        return 0
     }
 
     public func lastTurnFoodHarvested() -> Double {

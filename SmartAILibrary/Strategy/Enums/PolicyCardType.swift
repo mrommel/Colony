@@ -744,7 +744,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Civil_Prestige_(Civ6)
             return PolicyCardTypeData(
                 name: "Civil Prestige",
-                bonus: "Established Governors with at least 2 Promotions provide +1 Amenity and +2 Housing.", // #
+                bonus: "Established Governors with at least 2 Promotions provide +1 Amenity and +2 Housing.",
                 slot: .economic,
                 required: .civilService,
                 obsolete: nil,
