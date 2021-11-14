@@ -49,19 +49,36 @@ class BorderLayer: BaseLayer {
 
             if player.area.contains(tile.point) {
 
-                if let textureName = self.textures?.borderTexture(at: tile.point, in: player.area) {
-                    let image = ImageCache.shared.image(for: textureName)
+                if let textureMainName = self.textures?.borderMainTexture(at: tile.point, in: player.area) {
+                    let image = ImageCache.shared.image(for: textureMainName)
 
-                    let borderSprite = SKSpriteNode(texture: SKTexture(image: image), size: BorderLayer.kTextureSize)
+                    let borderMainSprite = SKSpriteNode(texture: SKTexture(image: image), size: BorderLayer.kTextureSize)
 
-                    borderSprite.position = position
-                    borderSprite.zPosition = Globals.ZLevels.border
-                    borderSprite.anchorPoint = CGPoint(x: 0, y: 0)
-                    borderSprite.color = player.leader.civilization().main
-                    borderSprite.colorBlendFactor = 1.0
-                    self.addChild(borderSprite)
+                    borderMainSprite.position = position
+                    borderMainSprite.zPosition = Globals.ZLevels.border
+                    borderMainSprite.anchorPoint = CGPoint(x: 0, y: 0)
+                    borderMainSprite.color = player.leader.civilization().main
+                    borderMainSprite.colorBlendFactor = 1.0
+                    self.addChild(borderMainSprite)
 
-                    self.textureUtils?.set(borderSprite: borderSprite, at: tile.point)
+                    self.textureUtils?.set(mainBorderSprite: borderMainSprite, at: tile.point)
+
+                    return
+                }
+
+                if let textureAccentName = self.textures?.borderAccentTexture(at: tile.point, in: player.area) {
+                    let image = ImageCache.shared.image(for: textureAccentName)
+
+                    let borderAccentSprite = SKSpriteNode(texture: SKTexture(image: image), size: BorderLayer.kTextureSize)
+
+                    borderAccentSprite.position = position
+                    borderAccentSprite.zPosition = Globals.ZLevels.border
+                    borderAccentSprite.anchorPoint = CGPoint(x: 0, y: 0)
+                    borderAccentSprite.color = player.leader.civilization().accent
+                    borderAccentSprite.colorBlendFactor = 1.0
+                    self.addChild(borderAccentSprite)
+
+                    self.textureUtils?.set(accentBorderSprite: borderAccentSprite, at: tile.point)
 
                     return
                 }
@@ -76,7 +93,11 @@ class BorderLayer: BaseLayer {
         }
 
         if let tile = tile {
-            if let borderSprite = textureUtils.borderSprite(at: tile.point) {
+            if let borderSprite = textureUtils.mainBorderSprite(at: tile.point) {
+                self.removeChildren(in: [borderSprite])
+            }
+
+            if let borderSprite = textureUtils.accentBorderSprite(at: tile.point) {
                 self.removeChildren(in: [borderSprite])
             }
         }

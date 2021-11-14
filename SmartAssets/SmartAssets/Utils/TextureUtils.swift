@@ -28,7 +28,8 @@ public class TextureUtils {
         var snowSprite: SKSpriteNode?
         var boardSprite: SKSpriteNode?
         var iceSprite: SKSpriteNode?
-        var borderSprite: SKSpriteNode?
+        var mainBorderSprite: SKSpriteNode?
+        var accentBorderSprite: SKSpriteNode?
         var yieldsSprite: SKSpriteNode?
         var waterSprite: SKSpriteNode?
         var riverSprite: SKSpriteNode?
@@ -131,14 +132,24 @@ public class TextureUtils {
         return self.tileTextures?[point.x, point.y]?.resourceMarkerSprite
     }
 
-    public func set(borderSprite: SKSpriteNode?, at point: HexPoint) {
+    public func set(mainBorderSprite: SKSpriteNode?, at point: HexPoint) {
 
-        self.tileTextures?[point.x, point.y]?.borderSprite = borderSprite
+        self.tileTextures?[point.x, point.y]?.mainBorderSprite = mainBorderSprite
     }
 
-    public func borderSprite(at point: HexPoint) -> SKSpriteNode? {
+    public func mainBorderSprite(at point: HexPoint) -> SKSpriteNode? {
 
-        return self.tileTextures?[point.x, point.y]?.borderSprite
+        return self.tileTextures?[point.x, point.y]?.mainBorderSprite
+    }
+
+    public func set(accentBorderSprite: SKSpriteNode?, at point: HexPoint) {
+
+        self.tileTextures?[point.x, point.y]?.accentBorderSprite = accentBorderSprite
+    }
+
+    public func accentBorderSprite(at point: HexPoint) -> SKSpriteNode? {
+
+        return self.tileTextures?[point.x, point.y]?.accentBorderSprite
     }
 
     public func set(iceSprite: SKSpriteNode?, at point: HexPoint) {
