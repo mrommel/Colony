@@ -122,7 +122,10 @@ public class Textures {
 
         self.allResourceMarkerTextureNames = ResourceType.all.map { $0.textureMarkerName() }
 
-        self.allBorderTextureNames = Textures.allTextureSuffixes.map({ "border\($0)" }) + ["border-all"]
+        self.allBorderTextureNames =
+            Textures.allTextureSuffixes.map({ "border-main\($0)" }) +
+            Textures.allTextureSuffixes.map({ "border-accent\($0)" }) +
+            ["border-main-all", "border-accent-all"]
 
         self.allYieldsTextureNames = [
             // 0

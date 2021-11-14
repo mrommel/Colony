@@ -62,8 +62,6 @@ class BorderLayer: BaseLayer {
                     self.addChild(borderMainSprite)
 
                     self.textureUtils?.set(mainBorderSprite: borderMainSprite, at: tile.point)
-
-                    return
                 }
 
                 if let textureAccentName = self.textures?.borderAccentTexture(at: tile.point, in: player.area) {
