@@ -159,6 +159,8 @@ public protocol AbstractCity: AnyObject, Codable {
 
     func healthPoints() -> Int
     func set(healthPoints: Int)
+    func add(healthPoints: Int)
+
     func add(damage: Int)
     func set(damage: Int)
     func damage() -> Int
@@ -234,7 +236,8 @@ public protocol AbstractCity: AnyObject, Codable {
     func loyaltyFromOthersEffects(in gameModel: GameModel?) -> Double
 
     // governors
-    func governor() -> GovernorType?
+    func governorType() -> GovernorType?
+    func governor() -> Governor?
     func assign(governor: GovernorType?)
     func value(of governorType: GovernorType, in gameModel: GameModel?) -> Double
     func hasGovernorTitle(of title: GovernorTitleType) -> Bool
@@ -771,20 +774,15 @@ public class City: AbstractCity {
         if self.damage() > 0 {
             //CvAssertMsg(m_iDamage <= GC.getMAX_CITY_HIT_POINTS(), "Somehow a city has more damage than hit points. Please show this to a gameplay programmer immediately.");
 
-            /*int iHitsHealed = GC.getCITY_HIT_POINTS_HEALED_PER_TURN();
-            if (isCapital() && !GET_PLAYER(getOwner()).isMinorCiv())
-            {
-                iHitsHealed++;
+            var hitsHealed = 20 /* CITY_HIT_POINTS_HEALED_PER_TURN */
+            if self.isCapital() {
+                hitsHealed += 1
             }
-            int iBuildingDefense = m_pCityBuildings->GetBuildingDefense();
-            iBuildingDefense *= (100 + m_pCityBuildings->GetBuildingDefenseMod());
-            iBuildingDefense /= 100;
-            iHitsHealed += iBuildingDefense / 500;
-            iHitsHealed = min(5,iHitsHealed);
-            changeDamage(-iHitsHealed);*/
+
+            self.add(healthPoints: hitsHealed)
         }
         if self.damage() < 0 {
-            //self.setDamage(0)
+            self.set(damage: 0)
         }
 
         //setDrafted(false);
@@ -1280,7 +1278,16 @@ public class City: AbstractCity {
         return .unrest
     }
 
-    public func governor() -> GovernorType? {
+    public func governor() -> Governor? {
+
+        if let governorType = self.governorValue {
+            return self.player?.governors?.governor(with: governorType)
+        }
+
+        return nil
+    }
+
+    public func governorType() -> GovernorType? {
 
         return self.governorValue
     }
@@ -1292,7 +1299,7 @@ public class City: AbstractCity {
 
     public func value(of governorType: GovernorType, in gameModel: GameModel?) -> Double {
 
-        let oldGovernor = self.governor()
+        let oldGovernor = self.governorType()
 
         // reset
         self.assign(governor: nil)
@@ -1324,10 +1331,21 @@ public class City: AbstractCity {
                 return true
             }
 
-            return governor.titles().contains(title)
+            if let governor = self.governor() {
+                return governor.has(title: title)
+            }
         }
 
         return false
+    }
+
+    func numOfGovernorTitles() -> Int {
+
+        if let governor = self.governor() {
+            return governor.titles.count - 1 // default title is already included
+        }
+
+        return 0
     }
 
     public func lastTurnFoodHarvested() -> Double {
@@ -2297,11 +2315,22 @@ public class City: AbstractCity {
 
     private func train(unitType: UnitType, in gameModel: GameModel?) {
 
+        guard let government = self.player?.government else {
+            fatalError("cant get player government")
+        }
+
         let unit = Unit(at: self.location, type: unitType, owner: self.player)
 
-        // Guildmaster    All Builders trained in city get +1 build charge.
-        if self.hasGovernorTitle(of: .guildmaster) {
-            unit.changeBuildCharges(change: 1)
+        if unitType == .builder {
+            // Guildmaster - All Builders trained in city get +1 build charge.
+            if self.hasGovernorTitle(of: .guildmaster) {
+                unit.changeBuildCharges(change: 1)
+            }
+
+            // serfdom - Newly trained Builders gain 2 extra build actions.
+            if government.has(card: .serfdom) {
+                unit.changeBuildCharges(change: 2)
+            }
         }
 
         gameModel?.add(unit: unit)
@@ -2487,18 +2516,14 @@ public class City: AbstractCity {
         // check other cities of user (if they are currently building)
         let cities = gameModel.cities(of: player)
 
-        // but skip this city
+        // loop thru all cities but skip this city
         for cityRef in cities where cityRef?.location != self.location {
 
             guard let city = cityRef else {
                 continue
             }
 
-            guard let currentBuildableItem = city.currentBuildableItem() else {
-                continue
-            }
-
-            if currentBuildableItem.type == .wonder && currentBuildableItem.wonderType == wonder {
+            if city.buildQueue.isBuilding(wonder: wonder) {
                 return false
             }
         }
@@ -3442,16 +3467,33 @@ public class City: AbstractCity {
     public func set(healthPoints: Int) {
 
         self.healthPointsValue = healthPoints
+
+        self.healthPointsValue = max(self.healthPointsValue, self.maxHealthPoints())
+        self.healthPointsValue = min(0, self.healthPointsValue)
+    }
+
+    public func add(healthPoints: Int) {
+
+        self.healthPointsValue += healthPoints
+
+        self.healthPointsValue = max(self.healthPointsValue, self.maxHealthPoints())
+        self.healthPointsValue = min(0, self.healthPointsValue)
     }
 
     public func add(damage: Int) {
 
         self.healthPointsValue -= damage
+
+        self.healthPointsValue = max(self.healthPointsValue, self.maxHealthPoints())
+        self.healthPointsValue = min(0, self.healthPointsValue)
     }
 
     public func set(damage: Int) {
 
         self.healthPointsValue = self.maxHealthPoints() - damage
+
+        self.healthPointsValue = max(self.healthPointsValue, self.maxHealthPoints())
+        self.healthPointsValue = min(0, self.healthPointsValue)
     }
 
     public func damage() -> Int {

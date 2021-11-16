@@ -220,3 +220,22 @@ extension HexPath: Encodable {
         try container.encode(self.costs, forKey: .costs)
     }
 }
+
+extension HexPath: CustomDebugStringConvertible {
+
+    public var debugDescription: String {
+
+        let str = self.points().map { "(\($0.x), \($0.y)), " }.reduce("", +)
+        return "HexPath: [\(str)]"
+    }
+}
+
+
+extension HexPath: CustomStringConvertible {
+
+    public var description: String {
+
+        let str = self.points().map { "(\($0.x), \($0.y)), " }.reduce("", +)
+        return "HexPath: [\(str)]"
+    }
+}

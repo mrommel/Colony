@@ -6,6 +6,8 @@
 //  Copyright © 2020 Michael Rommel. All rights reserved.
 //
 
+// swiftlint:disable file_length
+
 import Foundation
 
 public protocol AbstractUnit: AnyObject, Codable {
@@ -658,7 +660,23 @@ public class Unit: AbstractUnit {
 
     func upgradeCost(to unitType: UnitType) -> Int {
 
-        return unitType.productionCost() / 2
+        guard let government = self.player?.government else {
+            fatalError("cant get player government")
+        }
+
+        var baseUpgradeCost = unitType.productionCost() / 2
+        var modifierUpgradeCost = 100
+
+        // professionalArmy - 50% Gold discount on all unit upgrades.
+        if government.has(card: .professionalArmy) {
+
+            modifierUpgradeCost -= 50
+        }
+
+        baseUpgradeCost *= modifierUpgradeCost
+        baseUpgradeCost /= 100
+
+        return baseUpgradeCost
     }
 
     public func canUpgrade(to unitType: UnitType, in gameModel: GameModel?) -> Bool {
@@ -2329,6 +2347,7 @@ public class Unit: AbstractUnit {
         if let bestPlot = bestPlot {
             print("Jump to nearest valid plot within range by \(self.type) , X: \(bestPlot.point.x), Y: \(bestPlot.point.y), From X: \(self.location.x), Y: \(self.location.y)")
             self.set(location: bestPlot.point, in: gameModel)
+            self.publishQueuedVisualizationMoves(in: gameModel)
         } else {
             print("Can't find a valid plot within range. for \(self.type), at X: \(self.location.x), Y: \(self.location.y)")
             return false
@@ -2821,7 +2840,7 @@ public class Unit: AbstractUnit {
 
         // Doubles experience for recon units.
         if government.has(card: .survey) {
-            experienceDelta *= 1.2
+            experienceDelta *= 2.0
         }
 
         // +20% Unit Experience.

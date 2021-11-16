@@ -1363,6 +1363,7 @@ public class Player: AbstractPlayer {
             return
         }
 
+        // effects from builds / wonders in each city
         for cityRef in gameModel.cities(of: self) {
 
             guard let city = cityRef else {
@@ -1373,23 +1374,66 @@ public class Player: AbstractPlayer {
             greatPeople.add(points: greatPeoplePoints)
         }
 
+        // add effects from policy cards
+        greatPeople.add(points: self.greatPeoplePointsFromPolicyCards(in: gameModel))
+
         // check if points are enough to gain a great person
         for greatPersonType in GreatPersonType.all {
 
             if let greatPersonToSpawn = gameModel.greatPerson(of: greatPersonType, points: greatPeople.value(for: greatPersonType), for: self) {
 
-                // AI always takes great persons
                 if self.isHuman() {
 
                     // User get notification
                     self.notifications()?.add(notification: .canRecruitGreatPerson(greatPerson: greatPersonToSpawn))
 
                 } else {
-
+                    // AI always takes great persons
                     self.recruit(greatPerson: greatPersonToSpawn, in: gameModel)
                 }
             }
         }
+    }
+
+    private func greatPeoplePointsFromPolicyCards(in gameModel: GameModel?) -> GreatPersonPoints {
+
+        guard let government = self.government else {
+            fatalError("cant get government")
+        }
+
+        let greatPeoplePointsFromPolicyCards: GreatPersonPoints = GreatPersonPoints()
+
+        // strategos - +2 Great General points per turn.
+        if government.has(card: .strategos) {
+            greatPeoplePointsFromPolicyCards.greatGeneral += 2
+        }
+
+        // inspiration - +2 Great Scientist points per turn.
+        if government.has(card: .inspiration) {
+            greatPeoplePointsFromPolicyCards.greatScientist += 2
+        }
+
+        // revelation - +2 Great Prophet points per turn.
+        if government.has(card: .revelation) {
+            greatPeoplePointsFromPolicyCards.greatProphet += 2
+        }
+
+        // literaryTradition - +2 Great Writer points per turn.
+        if government.has(card: .literaryTradition) {
+            greatPeoplePointsFromPolicyCards.greatWriter += 2
+        }
+
+        // navigation - +2 Great Admiral Great Admiral points per turn.
+        if government.has(card: .navigation) {
+            greatPeoplePointsFromPolicyCards.greatAdmiral += 2
+        }
+
+        // travelingMerchants - +2 Great Merchant points per turn.
+        if government.has(card: .travelingMerchants) {
+            greatPeoplePointsFromPolicyCards.greatMerchant += 2
+        }
+
+        return greatPeoplePointsFromPolicyCards
     }
 
     public func recruit(greatPerson: GreatPerson, in gameModel: GameModel?) {

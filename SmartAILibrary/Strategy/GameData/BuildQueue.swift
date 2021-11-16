@@ -60,12 +60,26 @@ public class BuildQueue: Codable {
         return nil
     }
 
-    public func isBuilding(buildingType: BuildingType) -> Bool {
+    public func isBuilding(building buildingType: BuildingType) -> Bool {
 
-        for item in self.items {
+        for item in self.items where item.type == .building {
 
             if let type = item.buildingType {
                 if type == buildingType {
+                    return true
+                }
+            }
+        }
+
+        return false
+    }
+
+    public func isBuilding(wonder wonderType: WonderType) -> Bool {
+
+        for item in self.items where item.type == .wonder {
+
+            if let type = item.wonderType {
+                if type == wonderType {
                     return true
                 }
             }

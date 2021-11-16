@@ -108,7 +108,7 @@ class CityProductionViewModel: ObservableObject {
 
                         let productionCost = buildingType.productionCost()
                         let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
-                        if city.buildQueue.isBuilding(buildingType: buildingType) {
+                        if city.buildQueue.isBuilding(building: buildingType) {
                             // buildingNode.disable()
                         }
                         let buildingViewModel = BuildingViewModel(buildingType: buildingType, turns: turns)

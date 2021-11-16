@@ -397,7 +397,7 @@ extension UnitType {
 
             // civilian
         case .settler:
-            return nil
+            return ObjectTextureAtlas(template: "settler-south-", range: 0..<15)
 
         case .builder:
             let textureAtlas = TextureAtlasLoader.load(named: "builder", in: bundle)
@@ -508,7 +508,7 @@ extension UnitType {
 
             // civilian
         case .settler:
-            return nil
+            return ObjectTextureAtlas(template: "settler-north-", range: 0..<15)
 
         case .builder:
             let textureAtlas = TextureAtlasLoader.load(named: "builder", in: bundle)
@@ -619,7 +619,7 @@ extension UnitType {
 
             // civilian
         case .settler:
-            return nil
+            return ObjectTextureAtlas(template: "settler-east-", range: 0..<15)
 
         case .builder:
             let textureAtlas = TextureAtlasLoader.load(named: "builder", in: bundle)
@@ -729,7 +729,8 @@ extension UnitType {
         case .barbarianArcher: return nil
 
             // civilian
-        case .settler: return nil
+        case .settler:
+            return ObjectTextureAtlas(template: "settler-west-", range: 0..<15)
 
         case .builder:
             let textureAtlas = TextureAtlasLoader.load(named: "builder", in: bundle)

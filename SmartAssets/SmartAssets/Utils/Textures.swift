@@ -122,7 +122,10 @@ public class Textures {
 
         self.allResourceMarkerTextureNames = ResourceType.all.map { $0.textureMarkerName() }
 
-        self.allBorderTextureNames = Textures.allTextureSuffixes.map({ "border\($0)" }) + ["border-all"]
+        self.allBorderTextureNames =
+            Textures.allTextureSuffixes.map({ "border-main\($0)" }) +
+            Textures.allTextureSuffixes.map({ "border-accent\($0)" }) +
+            ["border-main-all", "border-accent-all"]
 
         self.allYieldsTextureNames = [
             // 0
@@ -135,6 +138,7 @@ public class Textures {
             "yield-1-2-0", "yield-1-2-1", "yield-1-2-2", "yield-1-2-3",
             "yield-1-3-0", "yield-1-3-1", "yield-1-3-2", "yield-1-3-3",
             "yield-1-4-0",
+            "yield-1-5-0",
             // 2
             "yield-2-0-0", "yield-2-0-1", "yield-2-0-2", "yield-2-0-3",
             "yield-2-1-0", "yield-2-1-1", "yield-2-1-2", "yield-2-1-3",
@@ -521,9 +525,9 @@ public class Textures {
         return texture
     }
 
-    public func borderTexture(at point: HexPoint, in area: HexArea) -> String? {
+    public func borderMainTexture(at point: HexPoint, in area: HexArea) -> String? {
 
-        var textureName = "border"
+        var textureName = "border-main"
 
         if !area.contains(where: { $0 == point.neighbor(in: .north) }) {
             textureName += "-n"
@@ -549,8 +553,43 @@ public class Textures {
             textureName += "-nw"
         }
 
-        if textureName == "border" {
-            return "border-all"
+        if textureName == "border-main" {
+            return "border-main-all"
+        }
+
+        return textureName
+    }
+
+    public func borderAccentTexture(at point: HexPoint, in area: HexArea) -> String? {
+
+        var textureName = "border-accent"
+
+        if !area.contains(where: { $0 == point.neighbor(in: .north) }) {
+            textureName += "-n"
+        }
+
+        if !area.contains(where: { $0 == point.neighbor(in: .northeast) }) {
+            textureName += "-ne"
+        }
+
+        if !area.contains(where: { $0 == point.neighbor(in: .southeast) }) {
+            textureName += "-se"
+        }
+
+        if !area.contains(where: { $0 == point.neighbor(in: .south) }) {
+            textureName += "-s"
+        }
+
+        if !area.contains(where: { $0 == point.neighbor(in: .southwest) }) {
+            textureName += "-sw"
+        }
+
+        if !area.contains(where: { $0 == point.neighbor(in: .northwest) }) {
+            textureName += "-nw"
+        }
+
+        if textureName == "border-accent" {
+            return "border-accent-all"
         }
 
         return textureName

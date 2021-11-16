@@ -1157,6 +1157,7 @@ extension City {
         housing += self.housingFromDistricts()
         housing += self.housingFromWonders()
         housing += self.housingFromImprovements(in: gameModel)
+        housing += self.housingFromGovernors()
 
         // cap yields based on loyalty
         housing *= self.loyaltyState().yieldFactor()
@@ -1301,6 +1302,23 @@ extension City {
         housingValue += Double((pastures / 2))
         housingValue += Double((plantations / 2))
         housingValue += Double((camps / 2))
+
+        return housingValue
+    }
+
+    private func housingFromGovernors() -> Double {
+
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
+        var housingValue: Double = 0.0
+
+        // Established Governors with at least 2 Promotions provide +1 Amenity and +2 Housing.
+        if government.has(card: .civilPrestige) && self.numOfGovernorTitles() >= 2 {
+
+            housingValue += 2.0
+        }
 
         return housingValue
     }

@@ -108,7 +108,7 @@ class CityLoyaltyViewModel: ObservableObject {
             self.loyaltyFromOthersEffects = String(format: "%.1f", city.loyaltyFromOthersEffects(in: gameModel))
             self.loyaltyPerTurn = String(format: "%.1f", city.loyalty())
 
-            if let governor = city.governor() {
+            if let governor = city.governorType() {
                 self.hasGovernor = true
                 self.governorName = governor.name()
                 self.governorSummary = governor.title()

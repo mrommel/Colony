@@ -231,7 +231,7 @@ class CityObject {
         }
 
         // governor
-        if let governor = city.governor() {
+        if let governor = city.governorType() {
 
             let governorImage = ImageCache.shared.image(for: governor.portraitTexture())
             let governorTexture: SKTexture = SKTexture(image: governorImage)

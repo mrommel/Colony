@@ -189,19 +189,19 @@ public enum HandicapType: Int, Codable {
         switch self {
 
         case .settler:
-            return 10000 // never
+            return 50
         case .chieftain:
-            return 60
+            return 40
         case .warlord:
-            return 20
+            return 35
         case .prince:
-            return 0
+            return 35
         case .king:
-            return 0
+            return 30
         case .emperor:
-            return 0
+            return 20
         case .immortal:
-            return 0
+            return 10
         case .deity:
             return 0
         }

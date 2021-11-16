@@ -141,29 +141,30 @@ class UnitObject {
         }
 
         let direction = HexPoint.screenDirection(from: from, towards: to)
+        let showEmbarked = unit.isEmbarked() && gameModel?.tile(at: to)?.isWater() ?? false
 
         switch direction {
 
         case .north:
-            if unit.isEmbarked() {
+            if showEmbarked {
                 self.animate(to: to, on: UnitObject.atlasEmbarkedNorth, completion: block)
             } else {
                 self.animate(to: to, on: self.atlasNorth, completion: block)
             }
         case .northeast, .southeast:
-            if unit.isEmbarked() {
+            if showEmbarked {
                 self.animate(to: to, on: UnitObject.atlasEmbarkedEast, completion: block)
             } else {
                 self.animate(to: to, on: self.atlasEast, completion: block)
             }
         case .south:
-            if unit.isEmbarked() {
+            if showEmbarked {
                 self.animate(to: to, on: UnitObject.atlasEmbarkedSouth, completion: block)
             } else {
                 self.animate(to: to, on: self.atlasSouth, completion: block)
             }
         case .southwest, .northwest:
-            if unit.isEmbarked() {
+            if showEmbarked {
                 self.animate(to: to, on: UnitObject.atlasEmbarkedWest, completion: block)
             } else {
                 self.animate(to: to, on: self.atlasWest, completion: block)
@@ -190,7 +191,6 @@ class UnitObject {
             }
             self.strengthIndicatorNode.set(strength: strength)
         }
-        //self.strengthIndicatorNode.set(strength: strength)
     }
 
     func showIdle() {

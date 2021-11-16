@@ -258,7 +258,7 @@ class Treasury: AbstractTreasury {
 
             var unitMaintenanceCost: Double = Double(unit.type.maintenanceCost())
 
-            // Unit maintenance reduced by 1 Civ6Gold Gold per turn, per unit.
+            // Unit maintenance reduced by 1 Gold per turn, per unit.
             if government.has(card: .conscription) {
                 unitMaintenanceCost = max(0.0, unitMaintenanceCost - 1.0)
             }
