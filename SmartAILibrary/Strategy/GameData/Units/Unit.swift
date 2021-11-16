@@ -6,6 +6,8 @@
 //  Copyright © 2020 Michael Rommel. All rights reserved.
 //
 
+// swiftlint:disable file_length
+
 import Foundation
 
 public protocol AbstractUnit: AnyObject, Codable {
@@ -2345,6 +2347,7 @@ public class Unit: AbstractUnit {
         if let bestPlot = bestPlot {
             print("Jump to nearest valid plot within range by \(self.type) , X: \(bestPlot.point.x), Y: \(bestPlot.point.y), From X: \(self.location.x), Y: \(self.location.y)")
             self.set(location: bestPlot.point, in: gameModel)
+            self.publishQueuedVisualizationMoves(in: gameModel)
         } else {
             print("Can't find a valid plot within range. for \(self.type), at X: \(self.location.x), Y: \(self.location.y)")
             return false
