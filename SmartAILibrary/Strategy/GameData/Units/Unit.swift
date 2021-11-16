@@ -4570,7 +4570,9 @@ extension Unit {
     public func push(mission: UnitMission, in gameModel: GameModel?) {
 
         self.missions.push(mission)
-        print(">>> pushed mission: \(mission.type) \(mission.target) for \(self.type)")
+
+        let targetStr = mission.target?.debugDescription ?? "-"
+        print(">>> pushed mission: \(mission.type) \(targetStr) for \(self.type)")
 
         mission.unit = self
         mission.start(in: gameModel)

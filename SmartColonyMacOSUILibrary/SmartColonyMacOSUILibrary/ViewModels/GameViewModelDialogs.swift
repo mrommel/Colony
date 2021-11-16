@@ -19,8 +19,6 @@ extension GameViewModel {
         if self.currentScreenType == .none {
             self.governmentDialogViewModel.update()
             self.currentScreenType = .government
-        } else {
-            fatalError("cant show government dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
@@ -34,8 +32,6 @@ extension GameViewModel {
         if self.currentScreenType == .none {
             self.changeGovernmentDialogViewModel.update()
             self.currentScreenType = .changeGovernment
-        } else {
-            fatalError("cant show change government dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
@@ -49,8 +45,6 @@ extension GameViewModel {
         if self.currentScreenType == .none {
             self.changePolicyDialogViewModel.update()
             self.currentScreenType = .changePolicies
-        } else {
-            fatalError("cant show change policy dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
@@ -64,8 +58,6 @@ extension GameViewModel {
         if self.currentScreenType == .none {
             self.treasuryDialogViewModel.update()
             self.currentScreenType = .treasury
-        } else {
-            fatalError("cant show treasury dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
@@ -79,8 +71,6 @@ extension GameViewModel {
         if self.currentScreenType == .none {
             self.greatPeopleDialogViewModel.update()
             self.currentScreenType = .greatPeople
-        } else {
-            fatalError("cant show great people dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
@@ -94,8 +84,6 @@ extension GameViewModel {
         if self.currentScreenType == .none {
             self.governorsDialogViewModel.update()
             self.currentScreenType = .governors
-        } else {
-            fatalError("cant show governors dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
@@ -109,8 +97,6 @@ extension GameViewModel {
         if self.currentScreenType == .none {
             self.religionDialogViewModel.update()
             self.currentScreenType = .religion
-        } else {
-            fatalError("cant show religion dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
@@ -124,8 +110,6 @@ extension GameViewModel {
         if self.currentScreenType == .none {
             self.rankingDialogViewModel.update()
             self.currentScreenType = .ranking
-        } else {
-            fatalError("cant show ranking dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
@@ -139,8 +123,6 @@ extension GameViewModel {
         if self.currentScreenType == .none {
             self.victoryDialogViewModel.update()
             self.currentScreenType = .victory
-        } else {
-            fatalError("cant show victory dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
@@ -154,8 +136,6 @@ extension GameViewModel {
         if self.currentScreenType == .none {
             self.tradeRoutesDialogViewModel.update()
             self.currentScreenType = .tradeRoutes
-        } else {
-            fatalError("cant show trade routes dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
@@ -169,8 +149,6 @@ extension GameViewModel {
         if self.currentScreenType == .none {
             self.techDialogViewModel.update()
             self.currentScreenType = .techTree
-        } else {
-            fatalError("cant show tech tree dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
@@ -184,8 +162,6 @@ extension GameViewModel {
         if self.currentScreenType == .none {
             self.techDialogViewModel.update()
             self.currentScreenType = .techList
-        } else {
-            fatalError("cant show tech list dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
@@ -199,8 +175,6 @@ extension GameViewModel {
         if self.currentScreenType == .none {
             self.civicDialogViewModel.update()
             self.currentScreenType = .civicTree
-        } else {
-            fatalError("cant show civic tree dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
@@ -214,8 +188,6 @@ extension GameViewModel {
         if self.currentScreenType == .none {
             self.civicDialogViewModel.update()
             self.currentScreenType = .civicList
-        } else {
-            fatalError("cant show civic list dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
@@ -228,9 +200,8 @@ extension GameViewModel {
 
         if self.currentScreenType == .none {
             self.cityDialogViewModel.update(for: city)
+            self.cityDialogViewModel.show(detail: .buildings)
             self.currentScreenType = .city
-        } else {
-            fatalError("cant show city dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
@@ -245,8 +216,6 @@ extension GameViewModel {
             self.cityDialogViewModel.update(for: city)
             self.cityDialogViewModel.cityDetailViewType = .production
             self.currentScreenType = .city
-        } else {
-            fatalError("cant show city choose production dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
@@ -261,9 +230,210 @@ extension GameViewModel {
             self.cityDialogViewModel.update(for: city)
             self.cityDialogViewModel.cityDetailViewType = .buildings
             self.currentScreenType = .city
-        } else {
-            fatalError("cant show city buildings dialog, \(self.currentScreenType) is currently shown")
         }
     }
 
+    func showConfirmationDialog(
+        title: String,
+        question: String,
+        confirm: String,
+        cancel: String,
+        completion: @escaping (Bool) -> Void
+    ) {
+
+        if self.currentScreenType == .confirm {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.confirmationDialogViewModel.update(
+                title: title,
+                question: question,
+                confirm: confirm,
+                cancel: cancel,
+                completion: completion
+            )
+            self.currentScreenType = .confirm
+        }
+    }
+
+    func showSelectCityDialog(start startCity: AbstractCity?,
+                              of cities: [AbstractCity?],
+                              completion: @escaping (AbstractCity?) -> Void) {
+
+        if self.currentScreenType == .selectTradeCity {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.selectTradeCityDialogViewModel.update(start: startCity, of: cities, completion: completion)
+            self.currentScreenType = .selectTradeCity
+        }
+    }
+
+    func showSelectionDialog(titled title: String,
+                             items: [SelectableItem],
+                             completion: @escaping (Int) -> Void) {
+
+        if self.currentScreenType == .selectItems {
+            // already shown
+            return
+        }
+
+        let previousScreenType: ScreenType = self.currentScreenType
+
+        let tmpCompletion: SelectItemsDialogViewModel.SelectItemsCompletionBlock = { selectedIndex in
+
+            // switch back to previous screen, ...
+            self.currentScreenType = previousScreenType
+
+            // ... before calling the completion handler of that screen
+            completion(selectedIndex)
+        }
+
+        if self.currentScreenType == .none || self.currentScreenType == .governors {
+            self.selectItemsDialogViewModel.update(title: title, items: items, completion: tmpCompletion)
+            self.currentScreenType = .selectItems
+        }
+    }
+
+    func showRenameDialog(
+        title: String,
+        summary: String,
+        value: String,
+        confirm: String = "Rename",
+        cancel: String = "Cancel",
+        completion: @escaping (String) -> Void
+    ) {
+
+        if self.currentScreenType == .selectName {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.nameInputDialogViewModel.update(
+                title: title,
+                summary: summary,
+                value: value,
+                confirm: confirm,
+                cancel: cancel,
+                completion: completion
+            )
+            self.currentScreenType = .selectName
+        }
+    }
+
+    func showDiplomaticDialog(with otherPlayer: AbstractPlayer?, data: DiplomaticData?, deal: DiplomaticDeal?) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        guard let data = data else {
+            fatalError("cant get data")
+        }
+
+        if self.currentScreenType == .diplomatic {
+            // already shown
+            return
+        }
+
+        if !humanPlayer.isTurnActive() {
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.diplomaticDialogViewModel.update(
+                for: humanPlayer,
+                and: otherPlayer,
+                state: data.state,
+                message: data.message,
+                emotion: data.emotion,
+                in: gameModel
+            )
+
+            if let deal = deal {
+                diplomaticDialogViewModel.add(deal: deal)
+            }
+
+            DispatchQueue.main.async {
+                self.currentScreenType = .diplomatic
+            }
+        }
+    }
+
+    func showUnitListDialog() {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        if self.currentScreenType == .unitList {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.unitListDialogViewModel.update(for: humanPlayer)
+            self.currentScreenType = .unitList
+        }
+    }
+
+    func showCityListDialog() {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        if self.currentScreenType == .cityList {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.cityListDialogViewModel.update(for: humanPlayer)
+            self.currentScreenType = .cityList
+        }
+    }
+
+    func showSelectPromotionDialog(for unit: AbstractUnit?) {
+
+        if self.currentScreenType == .selectPromotion {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.selectPromotionDialogViewModel.update(for: unit)
+            self.currentScreenType = .selectPromotion
+        }
+    }
+
+    func showSelectPantheonDialog() {
+
+        if self.currentScreenType == .selectPantheon {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.selectPantheonDialogViewModel.update()
+            self.currentScreenType = .selectPantheon
+        }
+    }
 }
