@@ -16,7 +16,8 @@ extension WonderType {
         case .none: return "wonder-default"
 
             // ancient
-        //case .greatBath: return "wonder-greatBath"
+        case .greatBath: return "wonder-greatBath"
+        case .etemenanki: return "wonder-etemenanki"
         case .pyramids: return "wonder-pyramids"
         case .hangingGardens: return "wonder-hangingGardens"
         case .oracle: return "wonder-oracle"
@@ -34,6 +35,8 @@ extension WonderType {
         case .mahabodhiTemple: return "wonder-mahabodhiTemple"
         case .petra: return "wonder-petra"
         case .terracottaArmy: return "wonder-terracottaArmy"
+        case .machuPicchu: return "wonder-machuPicchu"
+        case .statueOfZeus: return "wonder-statueOfZeus"
 
             // medieval
         case .alhambra: return "wonder-alhambra"
@@ -46,6 +49,17 @@ extension WonderType {
         case .meenakshiTemple: return "wonder-meenakshiTemple"
         case .montStMichel: return "wonder-montStMichel"
         case .universityOfSankore: return "wonder-universityOfSankore"
+
+            // renaissance
+        case .casaDeContratacion: return "wonder-casaDeContratacion"
+        case .forbiddenCity: return "wonder-forbiddenCity"
+        case .greatZimbabwe: return "wonder-greatZimbabwe"
+        case .potalaPalace: return "wonder-potalaPalace"
+        case .stBasilsCathedral: return "wonder-stBasilsCathedral"
+        case .tajMahal: return "wonder-tajMahal"
+        case .torreDeBelem: return "wonder-torreDeBelem"
+        case .venetianArsenal: return "wonder-venetianArsenal"
+
         }
     }
 }
