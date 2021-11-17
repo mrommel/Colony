@@ -17,13 +17,21 @@ extension DistrictType {
 
         case .cityCenter: return "district-cityCenter"
         case .campus: return "district-campus"
+        case .theatherSquare: return "district-theatherSquare"
         case .holySite: return "district-holySite"
         case .encampment: return "district-encampment"
         case .harbor: return "district-harbor"
-        case .entertainment: return "district-entertainment"
         case .commercialHub: return "district-commercialHub"
         case .industrial: return "district-industrial"
-        case .spaceport: return "district-cityCenter" // #
+        // preserve
+        case .entertainment: return "district-entertainment"
+        // waterPark
+        case .aqueduct: return "district-aqueduct"
+        case .neighborhood: return "district-neighborhood"
+        // canal
+        // dam
+        // areodrome
+        case .spaceport: return "district-spaceport"
         }
     }
 }

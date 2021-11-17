@@ -19,9 +19,16 @@ public enum DistrictType: Int, Codable {
     case holySite
     case encampment
     case harbor
-    case entertainment
     case commercialHub
     case industrial
+    // preserve
+    case entertainment
+    // waterPark
+    case aqueduct
+    case neighborhood
+    // canal
+    // dam
+    // areodrome
     case spaceport
 
     public static var all: [DistrictType] {
@@ -32,9 +39,16 @@ public enum DistrictType: Int, Codable {
             .holySite,
             .encampment,
             .harbor,
-            .entertainment,
             .commercialHub,
             .industrial,
+            // preserve
+            .entertainment,
+            // waterPark
+            .aqueduct,
+            .neighborhood,
+            // canal
+            // dam
+            // areodrome
             .spaceport
         ]
     }
@@ -269,7 +283,7 @@ public enum DistrictType: Int, Codable {
                 requiredTech: nil,
                 requiredCivic: .gamesAndRecreation,
                 domesticTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0),
-                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 1.0)
+                foreignTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0)
             )
 
         case .commercialHub:
@@ -313,6 +327,49 @@ public enum DistrictType: Int, Codable {
                 foreignTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0)
             )
 
+            // waterPark
+
+        case .aqueduct:
+            // https://civilization.fandom.com/wiki/Aqueduct_(Civ6)
+            return DistrictTypeData(
+                name: "Aqueduct",
+                specialty: false,
+                effects: [
+                    "Cities that do not yet have existing fresh water receive up to 6 Housing.", // #
+                    "Cities that already have existing fresh water will instead get 2 Housing.", // #
+                    "Prevents Food loss during droughts.", // #
+                    "+1 Amenity if adjacent to a Geothermal Fissure.", // #
+                    "Military Engineers can spend a charge to complete 20% (rounding down) of an Aqueduct's production.", // #
+                    "Does not depend on Citizen Population." // #
+                ],
+                productionCost: 36,
+                maintenanceCost: 0,
+                requiredTech: .engineering,
+                requiredCivic: nil,
+                domesticTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0),
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0)
+            )
+
+        case .neighborhood:
+            // https://civilization.fandom.com/wiki/Neighborhood_(Civ6)
+            return DistrictTypeData(
+                name: "",
+                specialty: false,
+                effects: [
+                    "A district in your city that provides Housing based on the Appeal of the tile."
+                ],
+                productionCost: 54,
+                maintenanceCost: 0,
+                requiredTech: nil,
+                requiredCivic: .urbanization,
+                domesticTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0),
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0)
+            )
+
+            // canal
+            // dam
+            // areodrome
+
         case .spaceport:
             // https://civilization.fandom.com/wiki/Spaceport_(Civ6)
             return DistrictTypeData(
@@ -331,23 +388,63 @@ public enum DistrictType: Int, Codable {
         }
     }
 
-    func canConstruct(on neighbor: HexPoint, in gameModel: GameModel?) -> Bool {
+    func canConstruct(on point: HexPoint, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
 
-        if self == .harbor {
-            if let neighborTile = gameModel.tile(at: neighbor) {
-                return neighborTile.terrain().isWater()
+        guard let tile = gameModel.tile(at: point) else {
+            fatalError("cant get tile")
+        }
+
+        switch self {
+
+        case .none: return false
+
+        case .cityCenter: return true
+
+        case .campus: return tile.isLand()
+        case .theatherSquare: return tile.isLand()
+        case .holySite: return tile.isLand()
+        case .encampment: return tile.isLand()
+        case .commercialHub: return tile.isLand()
+        case .harbor: return gameModel.isCoastal(at: point) // must be built on the coast
+        case .entertainment: return tile.isLand()
+        case .industrial: return tile.isLand()
+            // waterPark
+        case .aqueduct:
+            // Must be built adjacent to both the City Center and one of the following: River, Lake, Oasis, or Mountain.
+            var nextToCityCenter: Bool = false
+            var nextToWaterSource: Bool = false
+
+            for neighbor in point.neighbors() {
+
+                guard let neighborTile = gameModel.tile(at: neighbor) else {
+                    continue
+                }
+
+                if neighborTile.isRiver() || neighborTile.has(feature: .lake) ||
+                    neighborTile.has(feature: .oasis) || neighborTile.has(feature: .mountains) {
+
+                    nextToWaterSource = true
+                }
+
+                if tile.workingCity()?.location == neighbor {
+                    nextToCityCenter = true
+                }
             }
-        }
 
-        if self == .spaceport {
-            // check hill
-            return true
-        }
+            return nextToCityCenter && nextToWaterSource
 
-        return true // FIXME
+        case .neighborhood: return tile.isLand()
+            // canal
+            // dam
+            // areodrome
+        case .spaceport: return tile.isLand() && !tile.hasHills()
+
+        @unknown default:
+            return false
+        }
     }
 }
