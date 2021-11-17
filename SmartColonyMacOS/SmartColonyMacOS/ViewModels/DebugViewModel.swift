@@ -115,6 +115,7 @@ class DebugViewModel: ObservableObject {
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
                 humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+                humanCity.assign(governor: .reyna)
             }
 
             let humanWarriorUnit = Unit(at: HexPoint(x: 2, y: 6), type: .warrior, owner: humanPlayer)
