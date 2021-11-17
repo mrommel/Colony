@@ -105,6 +105,26 @@ public protocol AbstractTile: Codable, NSCopying {
     func workingCityName() -> String?
     func setWorkingCity(to city: AbstractCity?) throws
 
+    // district
+    func startBuilding(district: DistrictType)
+    func isBuilding(district: DistrictType) -> Bool
+    func buildingDistrict() -> DistrictType
+
+    func build(district: DistrictType)
+    func has(district: DistrictType) -> Bool
+    func district() -> DistrictType
+
+    func buildingsInDistrict() -> [BuildingType]
+
+    // wonder
+    func startBuilding(wonder: WonderType)
+    func isBuilding(wonder: WonderType) -> Bool
+    func buildingWonder() -> WonderType
+
+    func build(wonder: WonderType)
+    func has(wonder: WonderType) -> Bool
+    func wonder() -> WonderType
+
     func defenseModifier(for player: AbstractPlayer?) -> Int
     func isFriendlyTerritory(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool
     func isFriendlyCity(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool
@@ -192,6 +212,11 @@ public class Tile: AbstractTile {
         case riverFlowSouthEast
 
         case buildProgress
+
+        case buildingDistrict
+        case district
+        case buildingWonder
+        case wonder
     }
 
     public var point: HexPoint
@@ -227,6 +252,12 @@ public class Tile: AbstractTile {
 
     private var builderAIScratchPadValue: BuilderAIScratchPad
 
+    private var buildingDistrictValue: DistrictType
+    private var districtValue: DistrictType
+
+    private var buildingWonderValue: WonderType
+    private var wonderValue: WonderType
+
     public init(point: HexPoint, terrain: TerrainType, hills: Bool = false, feature: FeatureType = .none) {
 
         self.point = point
@@ -253,6 +284,12 @@ public class Tile: AbstractTile {
         self.buildProgressList.fill()
 
         self.builderAIScratchPadValue = BuilderAIScratchPad(turn: -1, routeType: .none, leader: .none, value: -1)
+
+        self.buildingDistrictValue = DistrictType.none
+        self.districtValue = DistrictType.none
+
+        self.buildingWonderValue = WonderType.none
+        self.wonderValue = WonderType.none
     }
 
     required public init(from decoder: Decoder) throws {
@@ -300,6 +337,12 @@ public class Tile: AbstractTile {
         }
 
         self.builderAIScratchPadValue = BuilderAIScratchPad(turn: -1, routeType: .none, leader: .none, value: -1)
+
+        self.buildingDistrictValue = try container.decode(DistrictType.self, forKey: .buildingDistrict)
+        self.districtValue = try container.decode(DistrictType.self, forKey: .district)
+
+        self.buildingWonderValue = try container.decode(WonderType.self, forKey: .buildingWonder)
+        self.wonderValue = try container.decode(WonderType.self, forKey: .wonder)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -343,6 +386,12 @@ public class Tile: AbstractTile {
         if !self.buildProgressList.isZero() {
             try container.encode(self.buildProgressList, forKey: .buildProgress)
         }
+
+        try container.encode(self.buildingDistrictValue, forKey: .buildingDistrict)
+        try container.encode(self.districtValue, forKey: .district)
+
+        try container.encode(self.buildingWonderValue, forKey: .buildingWonder)
+        try container.encode(self.wonderValue, forKey: .wonder)
     }
 
     public func copy(with zone: NSZone? = nil) -> Any {
@@ -1930,6 +1979,88 @@ public class Tile: AbstractTile {
     public func buildProgress(of buildType: BuildType) -> Int {
 
         return Int(self.buildProgressList.weight(of: buildType))
+    }
+
+    public func startBuilding(district: DistrictType) {
+
+        self.buildingDistrictValue = district
+    }
+
+    public func isBuilding(district: DistrictType) -> Bool {
+
+        return self.buildingDistrictValue == district
+    }
+    public func buildingDistrict() -> DistrictType {
+
+        return self.buildingDistrictValue
+    }
+
+    public func build(district: DistrictType) {
+
+        self.buildingDistrictValue = .none
+        self.districtValue = district
+    }
+
+    public func has(district: DistrictType) -> Bool {
+
+        return self.districtValue == district
+    }
+
+    public func district() -> DistrictType {
+
+        return self.districtValue
+    }
+
+    public func buildingsInDistrict() -> [BuildingType] {
+
+        guard let city = self.workingCity() else {
+            return []
+        }
+
+        guard self.districtValue != .none else {
+            return []
+        }
+
+        var result: [BuildingType] = []
+
+        for buildingType in BuildingType.all where buildingType.district() == self.districtValue && city.has(building: buildingType) {
+
+            result.append(buildingType)
+        }
+
+        return result
+    }
+
+    // wonder
+    public func startBuilding(wonder: WonderType) {
+
+        self.buildingWonderValue = wonder
+    }
+
+    public func isBuilding(wonder: WonderType) -> Bool {
+
+        return self.buildingWonderValue == wonder
+    }
+
+    public func buildingWonder() -> WonderType {
+
+        return self.buildingWonderValue
+    }
+
+    public func build(wonder: WonderType) {
+
+        self.buildingWonderValue = .none
+        self.wonderValue = wonder
+    }
+
+    public func has(wonder: WonderType) -> Bool {
+
+        return self.wonderValue == wonder
+    }
+
+    public func wonder() -> WonderType {
+
+        return self.wonderValue
     }
 }
 

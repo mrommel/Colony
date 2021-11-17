@@ -13,6 +13,8 @@ extension DistrictType {
 
         switch self {
 
+        case .none: return "district-cityCenter"
+
         case .cityCenter: return "district-cityCenter"
         case .campus: return "district-campus"
         case .holySite: return "district-holySite"
