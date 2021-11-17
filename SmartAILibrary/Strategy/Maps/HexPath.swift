@@ -230,7 +230,6 @@ extension HexPath: CustomDebugStringConvertible {
     }
 }
 
-
 extension HexPath: CustomStringConvertible {
 
     public var description: String {

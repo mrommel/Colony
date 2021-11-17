@@ -235,7 +235,10 @@ public class MapOverviewViewModel: ObservableObject {
 
         let relNeg = (startX - minX) / (maxX - minX)
         let contentSize: CGSize = game.contentSize()
-        let corrected: CGPoint = CGPoint(x: (scaled.x - relNeg) * contentSize.width, y: (scaled.y - 1.0) * contentSize.height)
+        let corrected: CGPoint = CGPoint(
+            x: (scaled.x - relNeg) * contentSize.width,
+            y: (scaled.y - 1.0) * contentSize.height
+        )
         let mapPoint = HexPoint(screen: corrected)
 
         self.delegate?.minimapClicked(on: mapPoint)
