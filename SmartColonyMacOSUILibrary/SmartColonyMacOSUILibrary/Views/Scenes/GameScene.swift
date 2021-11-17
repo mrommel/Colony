@@ -195,16 +195,45 @@ class GameScene: BaseScene {
         let centerAction = SKAction.move(to: screenPosition, duration: 0.3)
         self.cameraNode.run(centerAction)
 
+        let viewSize = self.viewSizeInLocalCoordinates(ignoreCameraScale: false)
+        self.viewModel?.mapOverviewViewModel.updateRect(at: hex, size: viewSize)
+
         // Debug
+        /*print("viewSize: \(viewSize)")
+
+        let topLeftPoint = HexPoint(screen: CGPoint(x: 0.0, y: 0.0))
+        let topRightPoint = HexPoint(screen: CGPoint(x: viewSize.width, y: 0.0))
+        let bottomLeftPoint = HexPoint(screen: CGPoint(x: 0.0, y: viewSize.height))
+
+        let dx = topRightPoint.x - topLeftPoint.x
+        let dy = bottomLeftPoint.y - topRightPoint.y
+        print("rect: \(dx)x\(dy)")*/
 
         /*print("camera frame: \(self.cameraNode.frame)")
-        print("camera zoom: \(self.currentZoom)")
-        
-        let sceneRect = self.viewHex!.calculateAccumulatedFrame()
+        print("camera zoom: \(self.currentZoom)")*/
+
+        /*let sceneRect = self.viewHex!.calculateAccumulatedFrame()
         let visibleRect = self.getVisibleScreen(sceneBounds: sceneRect, viewBounds: self.view!.bounds.size)
         print("visibleRect: \(visibleRect)")*/
 
         //self.viewModel.gameEnvironment.change(visibleRect: CGRect)
+    }
+}
+
+extension SKScene {
+
+    func viewSizeInLocalCoordinates(ignoreCameraScale: Bool = false) -> CGSize {
+        let reference = CGPoint(x: view!.bounds.maxX, y: view!.bounds.maxY)
+        var bottomLeft = convertPoint(fromView: .zero)
+        var topRight = convertPoint(fromView: reference)
+
+        if ignoreCameraScale, let camera = camera {
+            bottomLeft = camera.convert(bottomLeft, from: self)
+            topRight = camera.convert(topRight, from: self)
+        }
+
+        let delta = topRight - bottomLeft
+        return CGSize(width: delta.x, height: -delta.y)
     }
 }
 
@@ -343,6 +372,12 @@ extension GameScene {
 
             self.cameraNode.position.x -= deltaX * 0.7
             self.cameraNode.position.y -= deltaY * 0.7
+
+            let transformedLocation = self.convert(self.cameraNode.position, to: self.viewHex!)
+
+            let position: HexPoint = HexPoint(screen: transformedLocation)
+            let viewSize = self.viewSizeInLocalCoordinates(ignoreCameraScale: false)
+            self.viewModel?.mapOverviewViewModel.updateRect(at: position, size: viewSize)
 
             self.previousLocation = event.location(in: self)
 

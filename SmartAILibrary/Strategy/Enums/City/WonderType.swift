@@ -838,7 +838,7 @@ public enum WonderType: Int, Codable {
                 yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
                 slots: [],
                 flavours: [
-                    Flavor(type: .greatPeople, value: 8),
+                    Flavor(type: .greatPeople, value: 8)
                 ]
             )
 
@@ -858,7 +858,7 @@ public enum WonderType: Int, Codable {
                 yields: Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 5.0),
                 slots: [],
                 flavours: [
-                    Flavor(type: .culture, value: 8),
+                    Flavor(type: .culture, value: 8)
                 ]
             )
 
@@ -880,7 +880,7 @@ public enum WonderType: Int, Codable {
                 yields: Yields(food: 0.0, production: 0.0, gold: 5.0),
                 slots: [],
                 flavours: [
-                    Flavor(type: .gold, value: 8),
+                    Flavor(type: .gold, value: 8)
                 ]
             )
 
@@ -905,7 +905,7 @@ public enum WonderType: Int, Codable {
                 flavours: [
                     Flavor(type: .diplomacy, value: 7),
                     Flavor(type: .culture, value: 3),
-                    Flavor(type: .religion, value: 3),
+                    Flavor(type: .religion, value: 3)
                 ]
             )
 
@@ -926,7 +926,7 @@ public enum WonderType: Int, Codable {
                 yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
                 slots: [.relic, .relic, .relic],
                 flavours: [
-                    Flavor(type: .religion, value: 10),
+                    Flavor(type: .religion, value: 10)
                 ]
             )
 
@@ -947,7 +947,7 @@ public enum WonderType: Int, Codable {
                 yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
                 slots: [],
                 flavours: [
-                    Flavor(type: .religion, value: 2),
+                    Flavor(type: .religion, value: 2)
                 ]
             )
 
@@ -970,7 +970,7 @@ public enum WonderType: Int, Codable {
                 yields: Yields(food: 0.0, production: 0.0, gold: 5.0),
                 slots: [],
                 flavours: [
-                    Flavor(type: .gold, value: 8),
+                    Flavor(type: .gold, value: 8)
                 ]
             )
 
@@ -992,7 +992,7 @@ public enum WonderType: Int, Codable {
                 slots: [],
                 flavours: [
                     Flavor(type: .navalGrowth, value: 8),
-                    Flavor(type: .naval, value: 3),
+                    Flavor(type: .naval, value: 3)
                 ]
             )
 

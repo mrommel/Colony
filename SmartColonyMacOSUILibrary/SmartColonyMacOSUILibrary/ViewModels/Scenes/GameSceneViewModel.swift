@@ -160,6 +160,7 @@ public class GameSceneViewModel: ObservableObject {
 
         // connect delegates
         self.topBarViewModel.delegate = self
+        self.mapOverviewViewModel.delegate = self
     }
 
     public func doTurn() {
@@ -477,5 +478,13 @@ extension GameSceneViewModel: TopBarViewModelDelegate {
     func treasuryClicked() {
 
         self.delegate?.showTreasuryDialog()
+    }
+}
+
+extension GameSceneViewModel: MapOverviewViewModelDelegate {
+
+    func minimapClicked(on point: HexPoint) {
+
+        self.focus(on: point)
     }
 }

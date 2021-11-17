@@ -40,14 +40,22 @@ public struct MapOverviewView: View {
             self.viewModel.image
                 .mapOverview()
                 .offset(x: -8.0, y: -2.0)
+                .gesture(
+                    DragGesture(minimumDistance: 0)
+                        .onEnded({ (value) in
+                            self.viewModel.clicked(on: value.location)
+                        })
+                )
 
-            /*Path { path in
-                path.move(to: CGPoint(x: 50, y: 50))
-                path.addLine(to: CGPoint(x: 150, y: 50))
-                path.addLine(to: CGPoint(x: 150, y: 100))
-                path.addLine(to: CGPoint(x: 50, y: 100))
+            Path { path in
+                path.move(to: self.viewModel.topLeft)
+                path.addLine(to: self.viewModel.topRight)
+                path.addLine(to: self.viewModel.bottomRight)
+                path.addLine(to: self.viewModel.bottomLeft)
+                path.addLine(to: self.viewModel.topLeft)
             }
-            .stroke(Color.red, lineWidth: 2)*/
+            .stroke(Color.white, lineWidth: 1)
+            .offset(x: -8.0, y: -2.0)
         }
         .frame(width: 200, height: 112)
         .onReceive(gameEnvironment.visibleRect) { rect in

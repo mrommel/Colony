@@ -150,8 +150,8 @@ class CityObject {
 
         // city banner
         let nameLabelWidth: CGFloat = CGFloat(city.name.count) * 4.2
-        let leftExtra: CGFloat = city.isCapital() ? 10.0 : 0
-        let rightExtra: CGFloat = city.governor() != nil ? 10.0 : 0
+        let leftExtra: CGFloat = 10.0 // city.isCapital() ? 10.0 : 0
+        let rightExtra: CGFloat = 10.0 // city.governor() != nil ? 10.0 : 0
         let bannerBackgroundWidth = leftExtra + nameLabelWidth + rightExtra + 18.0
 
         let sizeOffset: CGFloat = 24 - bannerBackgroundWidth / 2 + 4

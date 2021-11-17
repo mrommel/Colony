@@ -10,7 +10,15 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
+protocol MapOverviewViewModelDelegate: AnyObject {
+
+    func minimapClicked(on point: HexPoint)
+}
+
 public class MapOverviewViewModel: ObservableObject {
+
+    @Environment(\.gameEnvironment)
+    var gameEnvironment: GameEnvironment
 
     private let dx = 9
     private let dy = 6
@@ -25,8 +33,19 @@ public class MapOverviewViewModel: ObservableObject {
     @Published
     var image: Image = Image(systemName: "sun.max.fill")
 
-    @Environment(\.gameEnvironment)
-    var gameEnvironment: GameEnvironment
+    @Published
+    var topLeft: CGPoint = CGPoint(x: 50, y: 50)
+
+    @Published
+    var topRight: CGPoint = CGPoint(x: 50, y: 50)
+
+    @Published
+    var bottomLeft: CGPoint = CGPoint(x: 50, y: 50)
+
+    @Published
+    var bottomRight: CGPoint = CGPoint(x: 50, y: 50)
+
+    weak var delegate: MapOverviewViewModelDelegate?
 
     public init() {
 
@@ -181,5 +200,86 @@ public class MapOverviewViewModel: ObservableObject {
 
         self.updateBufferAt(pt: pt)
         self.updateTextureFromBuffer()
+    }
+
+    func clicked(on point: CGPoint) {
+
+        guard let game = self.gameEnvironment.game.value else {
+            fatalError("no map")
+        }
+
+        // overview image is scaled to .frame(width: 156, height: 94)
+        let scaled: CGPoint = CGPoint(x: point.x / 156.0 + 0.05, y: 1.0 - (point.y / 94.0)) // 0..1 x 0..1
+
+        var tmpPoint: CGPoint = CGPoint.zero
+        var minX: CGFloat = CGFloat(Float.greatestFiniteMagnitude)
+        var startX: CGFloat = CGFloat(Float.greatestFiniteMagnitude)
+        var maxX: CGFloat = CGFloat(Float.leastNormalMagnitude)
+
+        tmpPoint = HexPoint.toScreen(hex: HexPoint(x: self.mapSize.width(), y: self.mapSize.height()))
+        minX = min(minX, tmpPoint.x)
+        maxX = max(maxX, tmpPoint.x)
+
+        tmpPoint = HexPoint.toScreen(hex: HexPoint(x: 0, y: self.mapSize.height()))
+        minX = min(minX, tmpPoint.x)
+        maxX = max(maxX, tmpPoint.x)
+
+        tmpPoint = HexPoint.toScreen(hex: HexPoint(x: self.mapSize.width(), y: 0))
+        minX = min(minX, tmpPoint.x)
+        maxX = max(maxX, tmpPoint.x)
+
+        tmpPoint = HexPoint.toScreen(hex: HexPoint(x: 0, y: 0))
+        startX = tmpPoint.x
+        minX = min(minX, tmpPoint.x)
+        maxX = max(maxX, tmpPoint.x)
+
+        let relNeg = (startX - minX) / (maxX - minX)
+        let contentSize: CGSize = game.contentSize()
+        let corrected: CGPoint = CGPoint(
+            x: (scaled.x - relNeg) * contentSize.width,
+            y: (scaled.y - 1.0) * contentSize.height
+        )
+        let mapPoint = HexPoint(screen: corrected)
+
+        self.delegate?.minimapClicked(on: mapPoint)
+    }
+
+    func updateRect(at point: HexPoint, size: CGSize) {
+
+        let centerScreen = HexPoint.toScreen(hex: point)
+
+        var topLeftScreen = centerScreen
+        topLeftScreen.x -= size.width / 2.0
+        topLeftScreen.y -= size.height / 2.0
+
+        var topRightScreen = centerScreen
+        topRightScreen.x += size.width / 2.0
+        topRightScreen.y -= size.height / 2.0
+
+        var bottomLeftScreen = centerScreen
+        bottomLeftScreen.x -= size.width / 2.0
+        bottomLeftScreen.y += size.height / 2.0
+
+        var bottomRightScreen = centerScreen
+        bottomRightScreen.x += size.width / 2.0
+        bottomRightScreen.y += size.height / 2.0
+
+        self.topLeft = self.translateToMinimap(screen: topLeftScreen)
+        self.topRight = self.translateToMinimap(screen: topRightScreen)
+        self.bottomLeft = self.translateToMinimap(screen: bottomLeftScreen)
+        self.bottomRight = self.translateToMinimap(screen: bottomRightScreen)
+    }
+
+    private func translateToMinimap(screen: CGPoint) -> CGPoint {
+
+        // 156.0 / 94.0
+        guard let game = self.gameEnvironment.game.value else {
+            fatalError("no map")
+        }
+
+        let contentSize: CGSize = game.contentSize()
+        let scalex = 156.0 / contentSize.width
+        let scaley = 94.0 / contentSize.height
+        return CGPoint(x: screen.x * scalex + 85.0, y: 94.0 - (screen.y * scaley) - 70.0)
     }
 }
