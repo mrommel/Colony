@@ -206,7 +206,7 @@ public class CityStrategyAI: Codable {
         self.flavors = Flavors()
         self.focusYield = .none
 
-        self.buildingProductionAI = BuildingProductionAI()
+        self.buildingProductionAI = BuildingProductionAI(player: city?.player)
         self.unitProductionAI = UnitProductionAI()
         self.wonderProductionAI = WonderProductionAI(player: city?.player)
 
@@ -405,7 +405,6 @@ public class CityStrategyAI: Codable {
                 flavorValue = 0
             }
 
-            self.buildingProductionAI?.add(weight: flavorValue, for: flavorType)
             self.unitProductionAI?.add(weight: flavorValue, for: flavorType)
         }
     }
@@ -443,6 +442,23 @@ public class CityStrategyAI: Codable {
 
         // Check units for operations first
         // FIXME
+
+        // Loop through adding the available districts
+        for districtType in DistrictType.all {
+
+            if city.canBuild(district: districtType, in: gameModel) {
+
+                var weight: Double = Double(buildingProductionAI.weight(of: districtType))
+                guard let bestDistrictLocation = city.bestLocation(for: districtType, in: gameModel) else {
+                    fatalError("cant get best district location")
+                }
+                let buildableItem = BuildableItem(districtType: districtType, at: bestDistrictLocation)
+
+                // reweight
+
+                buildables.add(weight: weight, for: buildableItem)
+            }
+        }
 
         // Loop through adding the available buildings
         for buildingType in BuildingType.all {

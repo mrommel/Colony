@@ -82,6 +82,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func bestLocation(for wonderType: WonderType, in gameModel: GameModel?) -> HexPoint?
     func canBuild(district districtType: DistrictType, in gameModel: GameModel?) -> Bool
     func canBuild(district: DistrictType, at point: HexPoint, in gameModel: GameModel?) -> Bool
+    func bestLocation(for districtType: DistrictType, in gameModel: GameModel?) -> HexPoint?
     func canBuild(project: ProjectType) -> Bool
 
     func startTraining(unit: UnitType)
@@ -2714,6 +2715,26 @@ public class City: AbstractCity {
         }
 
         return true
+    }
+
+    public func bestLocation(for districtType: DistrictType, in gameModel: GameModel?) -> HexPoint? {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("cant get city citizens")
+        }
+
+        for loopLocation in cityCitizens.workingTileLocations() {
+
+            if districtType.canBuild(on: loopLocation, in: gameModel) {
+                return loopLocation
+            }
+        }
+
+        return nil
     }
 
     public func canTrain(unit unitType: UnitType, in gameModel: GameModel?) -> Bool {

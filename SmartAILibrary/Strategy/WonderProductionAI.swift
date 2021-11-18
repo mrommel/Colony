@@ -18,7 +18,12 @@ class WonderWeigths: WeightedList<WonderType> {
     }
 }
 
-public class WonderProductionAI {
+public class WonderProductionAI: Codable {
+
+    enum CodingKeys: String, CodingKey {
+
+        case weights
+    }
 
     internal var player: AbstractPlayer?
     private var weights: WonderWeigths
@@ -31,6 +36,20 @@ public class WonderProductionAI {
         self.weights.fill()
 
         self.initWeights()
+    }
+
+    required public init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.weights = try container.decode(WonderWeigths.self, forKey: .weights)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.weights, forKey: .weights)
     }
 
     func initWeights() {
@@ -190,8 +209,8 @@ public class WonderProductionAI {
 
     func weight(for wonderType: WonderType) -> Int {
 
-        if let wonderWeight = self.weights.items.first(where: { $0.wonderType == wonderType }) {
-            return wonderWeight.weight
+        if let wonderWeight = self.weights.items.first(where: { $0.key == wonderType }) {
+            return Int(wonderWeight.value)
         }
 
         return 0

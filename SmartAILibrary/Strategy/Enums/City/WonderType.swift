@@ -999,9 +999,469 @@ public enum WonderType: Int, Codable {
         }
     }
 
+    private func adjacentTo(district: DistrictType, on point: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var nextToDistrict: Bool = false
+
+        for neighbor in point.neighbors() {
+
+            guard let neighborTile = gameModel.tile(at: neighbor) else {
+                continue
+            }
+
+            if neighborTile.has(district: district) {
+                nextToDistrict = true
+            }
+        }
+
+        return nextToDistrict
+    }
+
+    private func adjacentTo(resource: ResourceType, on point: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var nextToResource: Bool = false
+
+        for neighbor in point.neighbors() {
+
+            guard let neighborTile = gameModel.tile(at: neighbor) else {
+                continue
+            }
+
+            guard let player = neighborTile.owner() else {
+                continue
+            }
+
+            if neighborTile.has(resource: resource, for: player) {
+                nextToResource = true
+            }
+        }
+
+        return nextToResource
+    }
+
+    private func adjacentTo(feature: FeatureType, on point: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var nextToFeature: Bool = false
+
+        for neighbor in point.neighbors() {
+
+            guard let neighborTile = gameModel.tile(at: neighbor) else {
+                continue
+            }
+
+            if neighborTile.has(feature: feature) {
+                nextToFeature = true
+            }
+        }
+
+        return nextToFeature
+    }
+
+    private func adjacentTo(improvement: ImprovementType, on point: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var nextToImprovement: Bool = false
+
+        for neighbor in point.neighbors() {
+
+            guard let neighborTile = gameModel.tile(at: neighbor) else {
+                continue
+            }
+
+            if neighborTile.has(improvement: improvement) {
+                nextToImprovement = true
+            }
+        }
+
+        return nextToImprovement
+    }
+
+    private func adjacentTo(building: BuildingType, on point: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var nextToBuilding: Bool = false
+
+        for neighbor in point.neighbors() {
+
+            guard let neighborTile = gameModel.tile(at: neighbor) else {
+                continue
+            }
+
+            guard let city = neighborTile.workingCity() else {
+                continue
+            }
+
+            if city.has(building: building) {
+                nextToBuilding = true
+            }
+        }
+
+        return nextToBuilding
+    }
+
+    // swiftlint:disable cyclomatic_complexity
     func canBuild(on point: HexPoint, in gameModel: GameModel?) -> Bool {
 
-        // FIXME
-        return true
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let tile = gameModel.tile(at: point) else {
+            fatalError("cant get tile")
+        }
+
+        let hasReligion = tile.owner()?.religion?.currentReligion() != ReligionType.none
+
+        switch self {
+
+        case .none:
+            return false
+
+        case .greatBath:
+            // It must be built on Floodplains.
+            return tile.has(feature: .floodplains)
+
+        case .etemenanki:
+            // Must be built on Floodplains or Marsh.
+            return tile.has(feature: .floodplains) || tile.has(feature: .marsh)
+
+        case .pyramids:
+            // Must be built on Desert (including Floodplains) without Hills.
+            guard tile.isLand() && !tile.hasHills() else {
+                return false
+            }
+
+            return tile.terrain() == .desert || tile.has(feature: .floodplains)
+
+        case .hangingGardens:
+            // Must be built next to a River.
+            return gameModel.river(at: point)
+
+        case .oracle:
+            // Must be built on Hills.
+            guard tile.isLand() && tile.hasHills() else {
+                return false
+            }
+
+            return true
+
+        case .stonehenge:
+            // Must be built on flat land adjacent to Stone.
+            guard tile.isLand() && !tile.hasHills() else {
+                return false
+            }
+
+            return self.adjacentTo(resource: .stone, on: point, in: gameModel)
+
+        case .templeOfArtemis:
+            // Must be built next to a Camp.
+            return self.adjacentTo(improvement: .camp, on: point, in: gameModel)
+
+        case .greatLighthouse:
+            // Must be built on the Coast and adjacent to a Harbor district with a Lighthouse.
+            guard tile.terrain() == .shore else {
+                return false
+            }
+
+            guard self.adjacentTo(building: .lighthouse, on: point, in: gameModel) else {
+                return false
+            }
+
+            return self.adjacentTo(district: .harbor, on: point, in: gameModel)
+
+        case .greatLibrary:
+            // Must be built on flat land adjacent to a Campus with a Library.
+            guard tile.isLand() && !tile.hasHills() else {
+                return false
+            }
+
+            guard self.adjacentTo(building: .library, on: point, in: gameModel) else {
+                return false
+            }
+
+            return self.adjacentTo(district: .campus, on: point, in: gameModel)
+
+        case .apadana:
+            // Must be built adjacent to a Capital.
+            return true // FIXME
+
+        case .colosseum:
+            // Must be built on flat land adjacent to an Entertainment Complex district with an Arena.
+            guard tile.isLand() && !tile.hasHills() else {
+                return false
+            }
+
+            guard self.adjacentTo(building: .arena, on: point, in: gameModel) else {
+                return false
+            }
+
+            return self.adjacentTo(district: .entertainment, on: point, in: gameModel)
+
+        case .colossus:
+            // Must be built on Coast and adjacent to a Harbor district.
+            guard tile.terrain() == .shore else {
+                return false
+            }
+
+            return self.adjacentTo(district: .harbor, on: point, in: gameModel)
+
+        case .jebelBarkal:
+            // Must be built on a Desert Hills tile.
+            return tile.terrain() == .desert
+
+        case .mausoleumAtHalicarnassus:
+            // Must be built on a coastal tile adjacent to a Harbor district.
+            guard gameModel.isCoastal(at: point) else {
+                return false
+            }
+
+            return self.adjacentTo(district: .harbor, on: point, in: gameModel)
+
+        case .mahabodhiTemple:
+            // Must be built on Woods adjacent to a Holy Site district with a Temple, and player must have founded a religion.
+            guard tile.has(feature: .forest) else {
+                return false
+            }
+
+            guard hasReligion else {
+                return false
+            }
+
+            guard self.adjacentTo(building: .temple, on: point, in: gameModel) else {
+                return false
+            }
+
+            return self.adjacentTo(district: .holySite, on: point, in: gameModel)
+
+        case .petra:
+            // Must be built on Desert or Floodplains without Hills.
+            guard tile.isLand() && !tile.hasHills() else {
+                return false
+            }
+
+            return tile.terrain() == .desert || tile.has(feature: .floodplains)
+
+        case .terracottaArmy:
+            // Must be built on flat Grassland or Plains adjacent to an Encampment district with a Barracks or Stable.
+            guard tile.isLand() && !tile.hasHills() else {
+                return false
+            }
+
+            guard tile.terrain() == .grass || tile.terrain() == .plains else {
+                return false
+            }
+
+            guard self.adjacentTo(building: .barracks, on: point, in: gameModel) ||
+                    self.adjacentTo(building: .stable, on: point, in: gameModel) else {
+                return false
+            }
+
+            return self.adjacentTo(district: .encampment, on: point, in: gameModel)
+
+        case .machuPicchu:
+            // Must be built on a Mountain tile that does not contain a Volcano.
+            return tile.has(feature: .mountains)
+
+        case .statueOfZeus:
+            // Must be built on flat land adjacent to an Encampment with a Barracks.
+            guard tile.isLand() && !tile.hasHills() else {
+                return false
+            }
+
+            guard self.adjacentTo(building: .barracks, on: point, in: gameModel) else {
+                return false
+            }
+
+            return self.adjacentTo(district: .encampment, on: point, in: gameModel)
+
+        case .alhambra:
+            // Must be built on Hills adjacent to an Encampment district.
+            guard tile.hasHills() else {
+                return false
+            }
+
+            return self.adjacentTo(district: .encampment, on: point, in: gameModel)
+
+        case .angkorWat:
+            // Must be built adjacent to an Aqueduct district.
+            return self.adjacentTo(district: .aqueduct, on: point, in: gameModel)
+
+        case .chichenItza:
+            // Must be built on Rainforest.
+            return tile.has(feature: .rainforest)
+
+        case .hagiaSophia:
+            // Must be built on flat land adjacent to a Holy Site district, and player must have founded a religion.
+            guard !tile.hasHills() && tile.isLand() else {
+                return false
+            }
+
+            guard hasReligion else {
+                return false
+            }
+
+            return self.adjacentTo(district: .holySite, on: point, in: gameModel)
+
+        case .hueyTeocalli:
+            // Must be built on a Lake tile adjacent to land.
+            guard !tile.has(feature: .lake) else {
+                return false
+            }
+
+            var nextToLand: Bool = false
+
+            for neighbor in point.neighbors() {
+
+                guard let neighborTile = gameModel.tile(at: neighbor) else {
+                    continue
+                }
+
+                if neighborTile.isLand() {
+                    nextToLand = true
+                }
+            }
+
+            return nextToLand
+        case .kilwaKisiwani:
+            // Must be built on a flat tile adjacent to a Coast.
+            guard !tile.hasHills() && tile.isLand() else {
+                return false
+            }
+
+            var nextToCoast: Bool = false
+
+            for neighbor in point.neighbors() {
+
+                guard let neighborTile = gameModel.tile(at: neighbor) else {
+                    continue
+                }
+
+                if neighborTile.isWater() {
+                    nextToCoast = true
+                }
+            }
+
+            return nextToCoast
+        case .kotokuIn:
+            // Must be built adjacent to a Holy Site with a Temple.
+            guard self.adjacentTo(district: .holySite, on: point, in: gameModel) else {
+                return false
+            }
+
+            guard self.adjacentTo(building: .temple, on: point, in: gameModel) else {
+                return false
+            }
+
+            return true
+        case .meenakshiTemple:
+            // Must be built adjacent to a Holy Site district, and player must have founded a religion.
+            guard hasReligion else {
+                return false
+            }
+            return self.adjacentTo(district: .holySite, on: point, in: gameModel)
+
+        case .montStMichel:
+            // Must be built on Floodplains or Marsh.
+            guard tile.has(feature: .floodplains) || tile.has(feature: .marsh) else {
+                return false
+            }
+
+            return true
+
+        case .universityOfSankore:
+            // Must be built on a Desert or Desert Hill adjacent to a Campus with a University.
+            guard tile.terrain() == .desert else {
+                return false
+            }
+
+            if !self.adjacentTo(district: .campus, on: point, in: gameModel) {
+                return false
+            }
+
+            /*guard self.adjacentTo(building: .university, on: point, in: gameModel) else {
+                return false
+            }*/
+
+            return true
+
+        case .casaDeContratacion:
+            // Must be built adjacent to a Government Plaza.
+            // return self.adjacentTo(district: .governmentPlaza, on: point, in: gameModel)
+            return true
+
+        case .forbiddenCity:
+            // Must be built on flat land adjacent to City Center.
+            guard tile.isLand() && !tile.hasHills() else {
+                return false
+            }
+
+            return self.adjacentTo(district: .cityCenter, on: point, in: gameModel)
+
+        case .greatZimbabwe:
+            // Must be built adjacent to Cattle and a Commercial Hub district with a Market.
+            if !self.adjacentTo(resource: .cattle, on: point, in: gameModel) {
+                return false
+            }
+
+            if !self.adjacentTo(district: .commercialHub, on: point, in: gameModel) {
+                return false
+            }
+
+            guard self.adjacentTo(building: .market, on: point, in: gameModel) else {
+                return false
+            }
+
+            return true
+
+        case .potalaPalace:
+            // Must be built on a Hill adjacent to a Mountain.
+            guard tile.hasHills() else {
+                return false
+            }
+
+            return self.adjacentTo(feature: .mountains, on: point, in: gameModel)
+
+        case .stBasilsCathedral:
+            // Must be built adjacent to a City Center
+            return self.adjacentTo(district: .cityCenter, on: point, in: gameModel)
+
+        case .tajMahal:
+            // Must be built next to a River.
+            return gameModel.river(at: point)
+
+        case .torreDeBelem:
+            // It must be built on Coast adjacent to land and a Harbor. It cannot be built on a Lake.
+            guard tile.isWater() else {
+                return false
+            }
+
+            return self.adjacentTo(district: .harbor, on: point, in: gameModel)
+
+        case .venetianArsenal:
+            // It must be built on Coast adjacent to an Industrial Zone. It cannot be built on a Lake.
+            guard tile.isWater() else {
+                return false
+            }
+
+            return self.adjacentTo(district: .industrial, on: point, in: gameModel)
+        }
     }
 }

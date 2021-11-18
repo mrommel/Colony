@@ -27,7 +27,7 @@ class CityCitizenViewModel: ObservableObject {
 
     init(city: AbstractCity? = nil) {
 
-        self.hexagonGridViewModel = HexagonGridViewModel()
+        self.hexagonGridViewModel = HexagonGridViewModel(mode: .citizen)
         self.hexagonGridViewModel.delegate = self
 
         if city != nil {

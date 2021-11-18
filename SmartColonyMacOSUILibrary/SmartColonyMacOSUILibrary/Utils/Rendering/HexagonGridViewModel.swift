@@ -42,6 +42,14 @@ protocol HexagonGridViewModelDelegate: AnyObject {
     func stopWorking(on point: HexPoint)
 }
 
+enum HexagonGridViewMode {
+
+    case empty
+    case citizen
+    case district
+    case wonder
+}
+
 class HexagonGridViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
@@ -59,10 +67,23 @@ class HexagonGridViewModel: ObservableObject {
     weak var delegate: HexagonGridViewModelDelegate?
 
     private var workedCity: AbstractCity?
+    var mode: HexagonGridViewMode {
+        didSet {
+            if let city = self.workedCity {
+                guard let gameModel = self.gameEnvironment.game.value else {
+                    fatalError("cant get game")
+                }
+
+                self.update(for: city, with: gameModel)
+            }
+        }
+    }
 
     // MARK: constructor
 
-    init(gameModel: GameModel? = nil) {
+    init(mode: HexagonGridViewMode, gameModel: GameModel? = nil) {
+
+        self.mode = mode
 
         if gameModel != nil {
             self.update(for: nil, with: gameModel)
@@ -89,7 +110,7 @@ class HexagonGridViewModel: ObservableObject {
 
         let screenPoint = HexPoint.toScreen(hex: city.location)
         self.focused = CGSize(fromPoint: CGPoint(x: -screenPoint.x, y: screenPoint.y))
-        self.showCitizenIcons = true
+        self.showCitizenIcons = self.mode == .citizen
 
         var tmpHexagonViewModels: [HexagonViewModel] = []
 
@@ -111,8 +132,8 @@ class HexagonGridViewModel: ObservableObject {
                 let hills: String? = self.hillsTextureName(of: tile, for: humanPlayer)
                 let forest: String? = self.forestTextureName(of: tile, for: humanPlayer)
                 let cityTexture: String? = self.cityTextureName(of: tile, for: humanPlayer)
-                let tileAction: String? = self.tileActionTextureName(of: tile, with: city, for: humanPlayer, in: gameModel)
-                let cost: Int? = city.buyPlotCost(at: HexPoint(x: x, y: y), in: gameModel)
+                let tileAction: String? = self.mode == .citizen ? self.tileActionTextureName(of: tile, with: city, for: humanPlayer, in: gameModel) : nil
+                let cost: Int? = self.mode == .citizen ? city.buyPlotCost(at: HexPoint(x: x, y: y), in: gameModel) : nil
 
                 let hexagonViewModel = HexagonViewModel(at: tile.point,
                                                         tileColor: color,
@@ -324,24 +345,37 @@ extension HexagonGridViewModel: HexagonViewModelDelegate {
             fatalError("cant get city")
         }
 
-        let tileAction = self.tileAction(of: tile, with: city, for: humanPlayer, in: gameModel)
+        switch self.mode {
+        case .empty:
+            print("clicked on tile: \(point)")
 
-        switch tileAction {
+        case .citizen:
 
-        case .none:
-            // noop
-        break
-        case .purchasable:
-            self.delegate?.purchaseTile(at: point)
-        case .nonPurchasable:
-            // noop
-        break
-        case .available:
-            self.delegate?.forceWorking(on: point)
-        case .worked:
-            self.delegate?.forceWorking(on: point)
-        case .forceWorked:
-            self.delegate?.stopWorking(on: point)
+            let tileAction = self.tileAction(of: tile, with: city, for: humanPlayer, in: gameModel)
+
+            switch tileAction {
+
+            case .none:
+                // noop
+                break
+            case .purchasable:
+                self.delegate?.purchaseTile(at: point)
+            case .nonPurchasable:
+                // noop
+                break
+            case .available:
+                self.delegate?.forceWorking(on: point)
+            case .worked:
+                self.delegate?.forceWorking(on: point)
+            case .forceWorked:
+                self.delegate?.stopWorking(on: point)
+            }
+
+        case .wonder:
+            print("clicked on tile: \(point) for wonder")
+
+        case .district:
+            print("clicked on tile: \(point) for district")
         }
     }
 }

@@ -28,19 +28,30 @@ class CityProductionViewModel: ObservableObject {
     private var city: AbstractCity?
     private var queueManager: CityBuildQueueManager
 
+    @Published
+    var showLocationPicker: Bool
+
+    @Published
+    var hexagonGridViewModel: HexagonGridViewModel
+
     weak var delegate: GameViewModelDelegate?
 
     init(city: AbstractCity? = nil) {
 
         self.queueManager = CityBuildQueueManager(city: city)
-        self.queueManager.delegate = self
 
-        if city != nil {
-            self.update(for: city)
-        }
+        self.showLocationPicker = false
+        self.hexagonGridViewModel = HexagonGridViewModel(mode: .empty)
+        self.hexagonGridViewModel.delegate = self
+
+        self.queueManager.delegate = self
     }
 
-    func update(for city: AbstractCity?) {
+    func update(for city: AbstractCity?, with gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            return
+        }
 
         self.city = city
 
@@ -49,10 +60,6 @@ class CityProductionViewModel: ObservableObject {
 
         // populate values
         if let city = city {
-
-            guard let gameModel = self.gameEnvironment.game.value else {
-                return
-            }
 
             guard let humanPlayer = gameModel.humanPlayer() else {
                 fatalError("cant get human player")
@@ -139,6 +146,9 @@ class CityProductionViewModel: ObservableObject {
                 wonderViewModel.delegate = self
                 return wonderViewModel
             }
+
+            // picker view
+            self.hexagonGridViewModel.update(for: city, with: gameModel)
         }
     }
 
@@ -259,7 +269,7 @@ extension CityProductionViewModel: DistrictViewModelDelegate {
 
         print("clicked on \(districtType)")
 
-        guard let game = self.gameEnvironment.game.value else {
+        guard let gameModel = self.gameEnvironment.game.value else {
             return
         }
 
@@ -267,7 +277,7 @@ extension CityProductionViewModel: DistrictViewModelDelegate {
             fatalError("cant get city")
         }
 
-        guard let humanPlayer = game.humanPlayer() else {
+        guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get human player")
         }
 
@@ -275,20 +285,23 @@ extension CityProductionViewModel: DistrictViewModelDelegate {
             fatalError("human player not city owner")
         }
 
-        let wonderLocation: HexPoint = .invalid // FIXME
+        self.hexagonGridViewModel.update(for: city, with: gameModel)
+        self.showLocationPicker = true
 
-        if city.canBuild(district: districtType, at: wonderLocation, in: game) {
+        /*let wonderLocation: HexPoint = .invalid // FIXME
+
+        if city.canBuild(district: districtType, at: wonderLocation, in: gameModel) {
             city.startBuilding(district: districtType, at: wonderLocation)
 
-            guard let wonderTile = game.tile(at: wonderLocation) else {
+            guard let wonderTile = gameModel.tile(at: wonderLocation) else {
                 fatalError("cant get tile for wonder to build on")
             }
-            game.userInterface?.refresh(tile: wonderTile)
+            gameModel.userInterface?.refresh(tile: wonderTile)
 
             self.updateBuildQueue()
         } else {
             print("--- this should not happen - selected a district type \(districtType) that cannot be constructed in \(city.name) ---")
-        }
+        }*/
     }
 }
 
@@ -346,6 +359,9 @@ extension CityProductionViewModel: WonderViewModelDelegate {
             fatalError("human player not city owner")
         }
 
+        /*self.hexagonGridViewModel.update(for: city, with: gameModel)
+        self.showLocationPicker = true
+
         let wonderLocation: HexPoint = .invalid // FIXME
 
         if city.canBuild(wonder: wonderType, at: wonderLocation, in: game) {
@@ -358,7 +374,7 @@ extension CityProductionViewModel: WonderViewModelDelegate {
             self.updateBuildQueue()
         } else {
             print("--- this should not happen - selected a wonder type \(wonderType) that cannot be constructed in \(city.name) ---")
-        }
+        }*/
     }
 }
 
@@ -367,5 +383,23 @@ extension CityProductionViewModel: CityBuildQueueManagerDelegate {
     func queueUpdated() {
 
         self.updateBuildQueue()
+    }
+}
+
+extension CityProductionViewModel: HexagonGridViewModelDelegate {
+
+    func purchaseTile(at point: HexPoint) {
+
+        print("purchase")
+    }
+
+    func forceWorking(on point: HexPoint) {
+
+        print("forceWorking")
+    }
+
+    func stopWorking(on point: HexPoint) {
+
+        print("stopWorking")
     }
 }

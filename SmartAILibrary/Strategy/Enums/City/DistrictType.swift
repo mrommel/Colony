@@ -109,6 +109,8 @@ public enum DistrictType: Int, Codable {
 
         let domesticTradeYields: Yields
         let foreignTradeYields: Yields
+
+        let flavours: [Flavor]
     }
 
     // swiftlint:disable line_length
@@ -126,7 +128,8 @@ public enum DistrictType: Int, Codable {
                 requiredTech: nil,
                 requiredCivic: nil,
                 domesticTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0),
-                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0)
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0),
+                flavours: []
             )
 
         case .cityCenter:
@@ -142,7 +145,10 @@ public enum DistrictType: Int, Codable {
                 requiredTech: nil,
                 requiredCivic: nil,
                 domesticTradeYields: Yields(food: 1.0, production: 1.0, gold: 0.0),
-                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 3.0)
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 3.0),
+                flavours: [
+                    Flavor(type: .cityDefense, value: 7)
+                ]
             )
 
         case .campus:
@@ -164,7 +170,10 @@ public enum DistrictType: Int, Codable {
                 requiredTech: .writing,
                 requiredCivic: nil,
                 domesticTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0),
-                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0, science: 1.0)
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0, science: 1.0),
+                flavours: [
+                    Flavor(type: .science, value: 8)
+                ]
             )
 
         case .theatherSquare:
@@ -189,7 +198,11 @@ public enum DistrictType: Int, Codable {
                 requiredTech: nil,
                 requiredCivic: .dramaAndPoetry,
                 domesticTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0),
-                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0)
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0),
+                flavours: [
+                    Flavor(type: .culture, value: 6),
+                    Flavor(type: .greatPeople, value: 4)
+                ]
             )
 
         case .holySite:
@@ -214,7 +227,10 @@ public enum DistrictType: Int, Codable {
                 requiredTech: .astrology,
                 requiredCivic: nil,
                 domesticTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0),
-                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0, faith: 1.0)
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0, faith: 1.0),
+                flavours: [
+                    Flavor(type: .religion, value: 7)
+                ]
             )
 
         case .encampment:
@@ -238,7 +254,11 @@ public enum DistrictType: Int, Codable {
                 requiredTech: .bronzeWorking,
                 requiredCivic: nil,
                 domesticTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0),
-                foreignTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0)
+                foreignTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0),
+                flavours: [
+                    Flavor(type: .militaryTraining, value: 7),
+                    Flavor(type: .cityDefense, value: 3)
+                ]
             )
 
         case .harbor:
@@ -265,7 +285,11 @@ public enum DistrictType: Int, Codable {
                 requiredTech: .celestialNavigation,
                 requiredCivic: nil,
                 domesticTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0),
-                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 3.0)
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 3.0),
+                flavours: [
+                    Flavor(type: .naval, value: 3),
+                    Flavor(type: .navalGrowth, value: 7)
+                ]
             )
 
         case .entertainment:
@@ -283,7 +307,10 @@ public enum DistrictType: Int, Codable {
                 requiredTech: nil,
                 requiredCivic: .gamesAndRecreation,
                 domesticTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0),
-                foreignTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0)
+                foreignTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0),
+                flavours: [
+                    Flavor(type: .happiness, value: 7)
+                ]
             )
 
         case .commercialHub:
@@ -304,7 +331,10 @@ public enum DistrictType: Int, Codable {
                 requiredTech: .currency,
                 requiredCivic: nil,
                 domesticTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0),
-                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 3.0)
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 3.0),
+                flavours: [
+                    Flavor(type: .gold, value: 7)
+                ]
             )
         case .industrial:
             // https://civilization.fandom.com/wiki/Industrial_Zone_(Civ6)
@@ -324,7 +354,10 @@ public enum DistrictType: Int, Codable {
                 requiredTech: .apprenticeship,
                 requiredCivic: nil,
                 domesticTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0),
-                foreignTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0)
+                foreignTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0),
+                flavours: [
+                    Flavor(type: .production, value: 9)
+                ]
             )
 
             // waterPark
@@ -347,7 +380,11 @@ public enum DistrictType: Int, Codable {
                 requiredTech: .engineering,
                 requiredCivic: nil,
                 domesticTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0),
-                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0)
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0),
+                flavours: [
+                    Flavor(type: .tileImprovement, value: 7),
+                    Flavor(type: .growth, value: 2)
+                ]
             )
 
         case .neighborhood:
@@ -363,7 +400,11 @@ public enum DistrictType: Int, Codable {
                 requiredTech: nil,
                 requiredCivic: .urbanization,
                 domesticTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0),
-                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0)
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0),
+                flavours: [
+                    Flavor(type: .growth, value: 2),
+                    Flavor(type: .expansion, value: 3)
+                ]
             )
 
             // canal
@@ -383,7 +424,10 @@ public enum DistrictType: Int, Codable {
                 requiredTech: .rocketry,
                 requiredCivic: nil,
                 domesticTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0),
-                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0)
+                foreignTradeYields: Yields(food: 0.0, production: 0.0, gold: 0.0),
+                flavours: [
+                    Flavor(type: .science, value: 7)
+                ]
             )
         }
     }
@@ -446,5 +490,19 @@ public enum DistrictType: Int, Codable {
         @unknown default:
             return false
         }
+    }
+
+    func flavor(for flavorType: FlavorType) -> Int {
+
+        if let flavor = self.flavours().first(where: { $0.type == flavorType }) {
+            return flavor.value
+        }
+
+        return 0
+    }
+
+    private func flavours() -> [Flavor] {
+
+        return self.data().flavours
     }
 }
