@@ -138,11 +138,13 @@ extension MainViewModel: MenuViewModelDelegate {
 
     func showDebug() {
 
+        self.debugViewModel.prepare()
         self.presentedView = .debug
     }
 
     func showPedia() {
 
+        self.pediaViewModel.prepare()
         self.presentedView = .pedia
     }
 }

@@ -75,6 +75,10 @@ class DebugViewModel: ObservableObject {
 
     }
 
+    func prepare() {
+
+    }
+
     func createAttackBarbariansWorld() {
 
         print("Attack Barbarians")

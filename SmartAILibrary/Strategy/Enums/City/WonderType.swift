@@ -678,7 +678,7 @@ public enum WonderType: Int, Codable {
                 ],
                 era: .medieval,
                 productionCost: 710,
-                requiredTech: .education,
+                requiredTech: .buttress,
                 requiredCivic: nil,
                 amenities: 0,
                 yields: Yields(food: 0.0, production: 0.0, gold: 0.0, faith: 4),

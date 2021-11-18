@@ -80,6 +80,7 @@ struct PediaView: View {
                 VStack(alignment: .leading, spacing: 10) {
 
                     Text(self.viewModel.selectedPediaCategory.title())
+                        .font(.title)
 
                     ForEach(self.viewModel.pediaDetailViewModels, id: \.self) { pediaDetailViewModel in
 

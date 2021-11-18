@@ -161,7 +161,7 @@ public enum TechType: String, Codable {
         return self.data().quoteTexts
     }
 
-    func era() -> EraType {
+    public func era() -> EraType {
 
         return self.data().era
     }
@@ -171,8 +171,7 @@ public enum TechType: String, Codable {
         return self.data().cost
     }
 
-    // https://github.com/caiobelfort/civ6_personal_mod/blob/9fdf8736016d855990556c71cc76a62f124f5822/Gameplay/Data/Technologies.xml
-    func required() -> [TechType] {
+    public func required() -> [TechType] {
 
         return self.data().required
     }
@@ -274,6 +273,8 @@ public enum TechType: String, Codable {
 
     // swiftlint:disable function_body_length
     // swiftlint:disable line_length
+    // swiftlint:disable cyclomatic_complexity
+    // https://github.com/caiobelfort/civ6_personal_mod/blob/9fdf8736016d855990556c71cc76a62f124f5822/Gameplay/Data/Technologies.xml
     private func data() -> TechTypeData {
 
         switch self {
