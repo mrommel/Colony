@@ -998,4 +998,10 @@ public enum WonderType: Int, Codable {
 
         }
     }
+
+    func canBuild(on point: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        // FIXME
+        return true
+    }
 }

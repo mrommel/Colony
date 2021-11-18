@@ -87,8 +87,8 @@ class CityProductionViewModel: ObservableObject {
             }
 
             // districts / buildings
-            let possibleDistrictTypes = DistrictType.all.filter { districtType in
-                return city.canConstruct(district: districtType, in: gameModel) || districts.has(district: districtType)
+            let possibleDistrictTypes: [DistrictType] = DistrictType.all.filter { districtType in
+                return city.canBuild(district: districtType, in: gameModel) || districts.has(district: districtType)
             }
             self.districtSectionViewModels = possibleDistrictTypes.map { districtType in
 
@@ -128,7 +128,7 @@ class CityProductionViewModel: ObservableObject {
             }
 
             // wonders
-            let possibleWonderTypes = WonderType.all.filter { wonderType in
+            let possibleWonderTypes: [WonderType] = WonderType.all.filter { wonderType in
                 return city.canBuild(wonder: wonderType, in: gameModel)
             }
             self.wonderViewModels = possibleWonderTypes.map { wonderType in
@@ -275,8 +275,15 @@ extension CityProductionViewModel: DistrictViewModelDelegate {
             fatalError("human player not city owner")
         }
 
-        if city.canConstruct(district: districtType, in: game) {
-            city.startBuilding(district: districtType)
+        let wonderLocation: HexPoint = .invalid // FIXME
+
+        if city.canBuild(district: districtType, at: wonderLocation, in: game) {
+            city.startBuilding(district: districtType, at: wonderLocation)
+
+            guard let wonderTile = game.tile(at: wonderLocation) else {
+                fatalError("cant get tile for wonder to build on")
+            }
+            game.userInterface?.refresh(tile: wonderTile)
 
             self.updateBuildQueue()
         } else {
@@ -339,9 +346,15 @@ extension CityProductionViewModel: WonderViewModelDelegate {
             fatalError("human player not city owner")
         }
 
-        if city.canBuild(wonder: wonderType, in: game) {
-            city.startBuilding(wonder: wonderType)
+        let wonderLocation: HexPoint = .invalid // FIXME
 
+        if city.canBuild(wonder: wonderType, at: wonderLocation, in: game) {
+            city.startBuilding(wonder: wonderType, at: wonderLocation)
+
+            guard let wonderTile = game.tile(at: wonderLocation) else {
+                fatalError("cant get tile for wonder to build on")
+            }
+            game.userInterface?.refresh(tile: wonderTile)
             self.updateBuildQueue()
         } else {
             print("--- this should not happen - selected a wonder type \(wonderType) that cannot be constructed in \(city.name) ---")

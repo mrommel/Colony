@@ -103,7 +103,7 @@ struct CityProductionView: View {
 }
 
 #if DEBUG
-struct CityChooseProductionDialogView_Previews: PreviewProvider {
+struct CityProductionView_Previews: PreviewProvider {
 
     static var previews: some View {
 

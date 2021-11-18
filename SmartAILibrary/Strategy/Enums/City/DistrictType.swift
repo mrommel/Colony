@@ -388,7 +388,7 @@ public enum DistrictType: Int, Codable {
         }
     }
 
-    func canConstruct(on point: HexPoint, in gameModel: GameModel?) -> Bool {
+    func canBuild(on point: HexPoint, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")

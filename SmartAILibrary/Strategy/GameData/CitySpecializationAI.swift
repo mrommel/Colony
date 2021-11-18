@@ -71,6 +71,7 @@ public class CitySpecializationAI {
 
     private var nextWonderWeight: Int
     private var nextWonderDesiredValue: WonderType
+    private var nextWonderLocationValue: HexPoint
 
     private var numSpecializationsForThisYield: YieldList
     private var numSpecializationsForThisSubtype: ProductionSpecializationList
@@ -90,6 +91,7 @@ public class CitySpecializationAI {
 
         self.nextWonderWeight = 0
         self.nextWonderDesiredValue = .none
+        self.nextWonderLocationValue = .invalid
 
         self.numSpecializationsForThisYield = YieldList()
         self.numSpecializationsForThisYield.fill()
@@ -132,7 +134,12 @@ public class CitySpecializationAI {
         // See if need to update assignments
         if self.specializationsDirty || self.lastTurnEvaluated + 50 /* AI_CITY_SPECIALIZATION_REEVALUATION_INTERVAL */ > gameModel.currentTurn {
 
-            (self.nextWonderDesiredValue, self.nextWonderWeight) = wonderProductionAI.chooseWonder(adjustForOtherPlayers: true, nextWonderWeight: self.nextWonderWeight, in: gameModel)
+            (self.nextWonderDesiredValue, self.nextWonderLocationValue, self.nextWonderWeight) =
+                wonderProductionAI.chooseWonder(
+                    adjustForOtherPlayers: true,
+                    nextWonderWeight: self.nextWonderWeight,
+                    in: gameModel
+                )
 
             self.weightSpecializations(in: gameModel)
             self.assignSpecializations(in: gameModel)
@@ -948,9 +955,9 @@ public class CitySpecializationAI {
         return Int(militaryTrainingWeight + emergencyUnitWeight + seaWeight + wonderWeight + spaceshipWeight)
     }
 
-    func nextWonderDesired() -> WonderType {
+    func nextWonderDesired() -> (WonderType, HexPoint) {
 
-        return self.nextWonderDesiredValue
+        return (self.nextWonderDesiredValue, self.nextWonderLocationValue)
     }
 
     func setSpecializationsDirty() {

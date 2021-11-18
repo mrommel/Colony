@@ -50,10 +50,9 @@ public class WonderProductionAI {
                 self.weights.add(weight: wonderFlavor * leaderFlavor, for: wonderType)
             }
         }
-
     }
 
-    func chooseWonder(adjustForOtherPlayers: Bool, nextWonderWeight: Int, in gameModel: GameModel?) -> (WonderType, Int) {
+    func chooseWonder(adjustForOtherPlayers: Bool, nextWonderWeight: Int, in gameModel: GameModel?) -> (WonderType, HexPoint, Int) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -83,7 +82,7 @@ public class WonderProductionAI {
         }
 
         guard let wonderCity = wonderCityRef else {
-            return (.none, 0)
+            return (.none, .invalid, 0)
         }
 
         var estimatedProductionPerTurn = wonderCity.productionLastTurn() // getProduction
@@ -131,17 +130,33 @@ public class WonderProductionAI {
             //LogPossibleWonders();
 
             if buildables.totalWeights() > 0.0 {
-                if let selection = buildables.chooseFromTopChoices() {
-                    return (selection, Int(buildables.totalWeights()))
+                if let selectedWonder = buildables.chooseFromTopChoices() {
+
+                    var selectedLocation: HexPoint = .invalid
+                    for loopCityRef in cities {
+
+                        guard let loopCity = loopCityRef, let cityCitizens = loopCity.cityCitizens else {
+                            continue
+                        }
+
+                        for loopLocation in cityCitizens.workingTileLocations() {
+
+                            if loopCity.canBuild(wonder: selectedWonder, at: loopLocation, in: gameModel) {
+                                selectedLocation = loopLocation
+                            }
+                        }
+                    }
+
+                    return (selectedWonder, selectedLocation, Int(buildables.totalWeights()))
                 }
             }
 
             // Nothing with any weight
-            return (.none, 0)
+            return (.none, .invalid, 0)
 
         } else {
             // Unless we didn't find any
-            return (.none, 0)
+            return (.none, .invalid, 0)
         }
     }
 
@@ -158,15 +173,27 @@ public class WonderProductionAI {
 
         for loopCityRef in gameModel.cities(of: player) {
 
-            guard let loopCity = loopCityRef else {
+            guard let loopCity = loopCityRef, let cityCitizens = loopCity.cityCitizens else {
                 continue
             }
 
-            if loopCity.canBuild(wonder: wonderType, in: gameModel) {
-                return true
+            for loopLocation in cityCitizens.workingTileLocations() {
+
+                if loopCity.canBuild(wonder: wonderType, at: loopLocation, in: gameModel) {
+                    return true
+                }
             }
         }
 
         return false
+    }
+
+    func weight(for wonderType: WonderType) -> Int {
+
+        if let wonderWeight = self.weights.items.first(where: { $0.wonderType == wonderType }) {
+            return wonderWeight.weight
+        }
+
+        return 0
     }
 }

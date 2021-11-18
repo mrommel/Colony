@@ -27,6 +27,7 @@ public class BuildableItem: Codable {
         case wonder
         case district
         case project
+        case location
         case production
     }
 
@@ -39,6 +40,8 @@ public class BuildableItem: Codable {
     public let districtType: DistrictType?
     public let projectType: ProjectType?
 
+    public let location: HexPoint? // for districts and wonders
+
     public var production: Double
 
     public init(unitType: UnitType) {
@@ -49,6 +52,8 @@ public class BuildableItem: Codable {
         self.wonderType = nil
         self.districtType = nil
         self.projectType = nil
+
+        self.location = nil
 
         self.production = 0.0
     }
@@ -62,10 +67,12 @@ public class BuildableItem: Codable {
         self.districtType = nil
         self.projectType = nil
 
+        self.location = nil
+
         self.production = 0.0
     }
 
-    public init(wonderType: WonderType) {
+    public init(wonderType: WonderType, at location: HexPoint) {
 
         self.type = .wonder
         self.unitType = nil
@@ -74,10 +81,12 @@ public class BuildableItem: Codable {
         self.districtType = nil
         self.projectType = nil
 
+        self.location = location
+
         self.production = 0.0
     }
 
-    public init(districtType: DistrictType) {
+    public init(districtType: DistrictType, at location: HexPoint) {
 
         self.type = .district
         self.unitType = nil
@@ -85,6 +94,8 @@ public class BuildableItem: Codable {
         self.wonderType = nil
         self.districtType = districtType
         self.projectType = nil
+
+        self.location = location
 
         self.production = 0.0
     }
@@ -97,6 +108,8 @@ public class BuildableItem: Codable {
         self.wonderType = nil
         self.districtType = nil
         self.projectType = projectType
+
+        self.location = nil
 
         self.production = 0.0
     }
@@ -115,30 +128,35 @@ public class BuildableItem: Codable {
             self.wonderType = nil
             self.districtType = nil
             self.projectType = nil
+            self.location = nil
         case .building:
             self.unitType = nil
             self.buildingType = try container.decode(BuildingType.self, forKey: .building)
             self.wonderType = nil
             self.districtType = nil
             self.projectType = nil
+            self.location = nil
         case .wonder:
             self.unitType = nil
             self.buildingType = nil
             self.wonderType = try container.decode(WonderType.self, forKey: .wonder)
             self.districtType = nil
             self.projectType = nil
+            self.location = try container.decode(HexPoint.self, forKey: .location)
         case .district:
             self.unitType = nil
             self.buildingType = nil
             self.wonderType = nil
             self.districtType = try container.decode(DistrictType.self, forKey: .district)
             self.projectType = nil
+            self.location = try container.decode(HexPoint.self, forKey: .location)
         case .project:
             self.unitType = nil
             self.buildingType = nil
             self.wonderType = nil
             self.districtType = nil
             self.projectType = try container.decode(ProjectType.self, forKey: .project)
+            self.location = nil
         }
 
         self.production = try container.decode(Double.self, forKey: .production)
@@ -155,6 +173,7 @@ public class BuildableItem: Codable {
         try container.encode(self.districtType, forKey: .district)
         try container.encode(self.projectType, forKey: .project)
         try container.encode(self.production, forKey: .production)
+        try container.encode(self.location, forKey: .location)
     }
 
     func add(production productionDelta: Double) {
@@ -220,11 +239,11 @@ extension BuildableItem: Hashable {
         case .building:
             return lhs.buildingType == rhs.buildingType
         case .wonder:
-            return lhs.wonderType == rhs.wonderType
+            return lhs.wonderType == rhs.wonderType && lhs.location! == rhs.location!
         case .project:
             return lhs.projectType == rhs.projectType
         case .district:
-            return lhs.districtType == rhs.districtType
+            return lhs.districtType == rhs.districtType && lhs.location! == rhs.location!
         }
     }
 
@@ -236,6 +255,7 @@ extension BuildableItem: Hashable {
         hasher.combine(self.wonderType)
         hasher.combine(self.projectType)
         hasher.combine(self.districtType)
+        hasher.combine(self.location)
     }
 }
 
@@ -259,13 +279,13 @@ extension BuildableItem: CustomDebugStringConvertible {
             return "Building: ???"
         case .wonder:
             if let wonderType = self.wonderType {
-                return "wonder: \(wonderType)"
+                return "wonder: \(wonderType) at: \(self.location!)"
             }
 
         return "wonder: ???"
         case .district:
             if let districtType = self.districtType {
-                return "District: \(districtType)"
+                return "District: \(districtType) at: \(self.location!)"
             }
 
             return "District: ???"
@@ -275,7 +295,6 @@ extension BuildableItem: CustomDebugStringConvertible {
             }
 
             return "Project: n/a"
-
         }
     }
 }
