@@ -40,14 +40,41 @@ protocol HexagonGridViewModelDelegate: AnyObject {
     func purchaseTile(at point: HexPoint)
     func forceWorking(on point: HexPoint)
     func stopWorking(on point: HexPoint)
+
+    func selected(wonder: WonderType, on point: HexPoint)
+    func selected(district: DistrictType, on point: HexPoint)
 }
 
 enum HexagonGridViewMode {
 
     case empty
     case citizen
-    case district
-    case wonder
+    case districtLocation(type: DistrictType)
+    case wonderLocation(type: WonderType)
+}
+
+extension HexagonGridViewMode: Equatable {
+
+    public static func == (lhs: HexagonGridViewMode, rhs: HexagonGridViewMode) -> Bool {
+
+        switch (lhs, rhs) {
+
+        case (.empty, .empty):
+            return true
+
+        case (.citizen, .citizen):
+            return true
+
+        case (.districtLocation(let lhsDistrict), .districtLocation(let rhsDistrict)):
+            return lhsDistrict == rhsDistrict
+
+        case (.wonderLocation(let lhsWonder), .wonderLocation(let rhsWonder)):
+            return lhsWonder == rhsWonder
+
+        default:
+            return false
+        }
+    }
 }
 
 class HexagonGridViewModel: ObservableObject {
@@ -346,8 +373,9 @@ extension HexagonGridViewModel: HexagonViewModelDelegate {
         }
 
         switch self.mode {
+
         case .empty:
-            print("clicked on tile: \(point)")
+            print("clicked on tile: \(point) empty")
 
         case .citizen:
 
@@ -371,11 +399,13 @@ extension HexagonGridViewModel: HexagonViewModelDelegate {
                 self.delegate?.stopWorking(on: point)
             }
 
-        case .wonder:
-            print("clicked on tile: \(point) for wonder")
+        case .wonderLocation(let wonderType):
+            print("clicked on tile: \(point) for wonder: \(wonderType)")
+            self.delegate?.selected(wonder: wonderType, on: point)
 
-        case .district:
-            print("clicked on tile: \(point) for district")
+        case .districtLocation(let districtType):
+            print("clicked on tile: \(point) for district: \(districtType)")
+            self.delegate?.selected(district: districtType, on: point)
         }
     }
 }

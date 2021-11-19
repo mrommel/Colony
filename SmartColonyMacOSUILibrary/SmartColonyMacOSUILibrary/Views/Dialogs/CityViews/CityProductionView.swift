@@ -149,7 +149,7 @@ struct CityProductionView_Previews: PreviewProvider {
 
         let viewModel = CityProductionViewModel(city: city)
         viewModel.showLocationPicker = showLocationPicker
-        viewModel.hexagonGridViewModel.mode = HexagonGridViewMode.district
+        viewModel.hexagonGridViewModel.mode = HexagonGridViewMode.districtLocation(type: .campus)
 
         viewModel.update(for: city, with: gameModel)
 

@@ -119,4 +119,14 @@ extension CityCitizenViewModel: HexagonGridViewModelDelegate {
         self.hexagonGridViewModel.updateWorkingTiles(in: gameModel)
         self.delegate?.yieldsUpdated()
     }
+
+    func selected(district: DistrictType, on point: HexPoint) {
+
+        // NOOP
+    }
+
+    func selected(wonder: WonderType, on point: HexPoint) {
+
+        // NOOP
+    }
 }
