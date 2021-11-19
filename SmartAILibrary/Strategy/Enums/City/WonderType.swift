@@ -1201,7 +1201,20 @@ public enum WonderType: Int, Codable {
 
         case .apadana:
             // Must be built adjacent to a Capital.
-            return true // FIXME
+            for player in gameModel.players {
+                for cityRef in gameModel.cities(of: player) {
+
+                    guard let city = cityRef else {
+                        continue
+                    }
+
+                    if city.isCapital() && point.isNeighbor(of: city.location) {
+                        return true
+                    }
+                }
+            }
+
+            return false
 
         case .colosseum:
             // Must be built on flat land adjacent to an Entertainment Complex district with an Arena.
