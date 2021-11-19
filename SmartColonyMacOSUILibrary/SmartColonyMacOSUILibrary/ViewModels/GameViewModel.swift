@@ -594,9 +594,29 @@ public class GameViewModel: ObservableObject {
             ImageCache.shared.add(image: bundle.image(forResource: wonderTypeTextureName), for: wonderTypeTextureName)
         }
 
+        print("- load \(textures.wonderTextureNames.count) wonder textures")
+        for wonderTextureName in textures.wonderTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: wonderTextureName), for: wonderTextureName)
+        }
+
+        print("- load \(textures.wonderBuildingTextureNames.count) wonder building textures")
+        for wonderBuildingTextureName in textures.wonderBuildingTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: wonderBuildingTextureName), for: wonderBuildingTextureName)
+        }
+
         print("- load \(textures.districtTypeTextureNames.count) district type textures")
         for districtTypeTextureName in textures.districtTypeTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: districtTypeTextureName), for: districtTypeTextureName)
+        }
+
+        print("- load \(textures.districtTextureNames.count) district textures")
+        for districtTextureName in textures.districtTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: districtTextureName), for: districtTextureName)
+        }
+
+        print("- load \(textures.districtBuildingTextureNames.count) district building textures")
+        for districtBuildingTextureName in textures.districtBuildingTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: districtBuildingTextureName), for: districtBuildingTextureName)
         }
 
         print("- load \(textures.leaderTypeTextureNames.count) leader type textures")

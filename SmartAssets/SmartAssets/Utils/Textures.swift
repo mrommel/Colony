@@ -66,7 +66,13 @@ public class Textures {
     public let buildTypeTextureNames: [String]
     public let buildingTypeTextureNames: [String]
     public let wonderTypeTextureNames: [String]
+    public let wonderTextureNames: [String]
+    public let wonderBuildingTextureNames: [String]
+    //public let wonderPillagedTextureNames: [String]
     public let districtTypeTextureNames: [String]
+    public let districtTextureNames: [String]
+    public let districtBuildingTextureNames: [String]
+    //public let districtPillagedTextureNames: [String]
     public let leaderTypeTextureNames: [String]
     public let civilizationTypeTextureNames: [String]
     public let pantheonTypeTextureNames: [String]
@@ -227,7 +233,11 @@ public class Textures {
         self.buildTypeTextureNames = BuildType.all.map { $0.iconTexture() }
         self.buildingTypeTextureNames = BuildingType.all.map { $0.iconTexture() }
         self.wonderTypeTextureNames = WonderType.all.map { $0.iconTexture() }
+        self.wonderTextureNames = WonderType.all.map { $0.textureName() }
+        self.wonderBuildingTextureNames = WonderType.all.map { $0.buildingTextureName() }
         self.districtTypeTextureNames = DistrictType.all.map { $0.iconTexture() }
+        self.districtTextureNames = DistrictType.all.map { $0.textureName() }
+        self.districtBuildingTextureNames = DistrictType.all.map { $0.buildingTextureName() }
         self.leaderTypeTextureNames = LeaderType.all.map { $0.iconTexture() }  + ["leader-random"]
         self.civilizationTypeTextureNames = CivilizationType.all.map { $0.iconTexture() }
         self.pantheonTypeTextureNames = PantheonType.all.map { $0.iconTexture() }
