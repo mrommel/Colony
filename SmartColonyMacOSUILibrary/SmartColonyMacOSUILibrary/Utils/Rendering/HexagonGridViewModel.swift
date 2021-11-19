@@ -19,6 +19,10 @@ enum TileActionType {
     case worked
     case forceWorked
 
+    case notAvailable
+    case districtAvailable
+    case wonderAvailable
+
     var textureName: String? {
 
         switch self {
@@ -31,6 +35,10 @@ enum TileActionType {
         case .available: return "tile-citizen-normal"
         case .worked: return "tile-citizen-selected"
         case .forceWorked: return "tile-citizen-forced"
+
+        case .notAvailable: return "tile-notAvailable"
+        case .districtAvailable: return "tile-districtAvailable"
+        case .wonderAvailable: return "tile-wonderAvailable"
         }
     }
 }
@@ -159,8 +167,26 @@ class HexagonGridViewModel: ObservableObject {
                 let hills: String? = self.hillsTextureName(of: tile, for: humanPlayer)
                 let forest: String? = self.forestTextureName(of: tile, for: humanPlayer)
                 let cityTexture: String? = self.cityTextureName(of: tile, for: humanPlayer)
-                let tileAction: String? = self.mode == .citizen ? self.tileActionTextureName(of: tile, with: city, for: humanPlayer, in: gameModel) : nil
-                let cost: Int? = self.mode == .citizen ? city.buyPlotCost(at: HexPoint(x: x, y: y), in: gameModel) : nil
+                var tileAction: String?
+                var cost: Int?
+
+                switch self.mode {
+
+                case .empty:
+                    // NOOP
+                    break
+                case .citizen:
+                    tileAction = self.tileActionTextureName(of: tile, with: city, for: humanPlayer, in: gameModel)
+                    cost = city.buyPlotCost(at: HexPoint(x: x, y: y), in: gameModel)
+                case .districtLocation(type: let districtType):
+                    if city.canBuild(district: districtType, in: gameModel) {
+                        tileAction = TileActionType.districtAvailable.textureName
+                    }
+                case .wonderLocation(type: let wonderType):
+                    if city.canBuild(wonder: wonderType, in: gameModel) {
+                        tileAction = TileActionType.wonderAvailable.textureName
+                    }
+                }
 
                 let hexagonViewModel = HexagonViewModel(at: tile.point,
                                                         tileColor: color,
@@ -397,6 +423,10 @@ extension HexagonGridViewModel: HexagonViewModelDelegate {
                 self.delegate?.forceWorking(on: point)
             case .forceWorked:
                 self.delegate?.stopWorking(on: point)
+
+            default:
+                // noop
+                break
             }
 
         case .wonderLocation(let wonderType):

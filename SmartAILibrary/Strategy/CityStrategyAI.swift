@@ -554,12 +554,12 @@ public class CityStrategyAI: Codable {
 
             case .wonder:
                 if let wonderType = selection.wonderType, let wonderLocation = selection.location {
-                    city.startBuilding(wonder: wonderType, at: wonderLocation)
+                    city.startBuilding(wonder: wonderType, at: wonderLocation, in: gameModel)
                 }
 
             case .district:
                 if let districtType = selection.districtType, let districtLocation = selection.location {
-                    city.startBuilding(district: districtType, at: districtLocation)
+                    city.startBuilding(district: districtType, at: districtLocation, in: gameModel)
                 }
             case .project:
                 // FIXME

@@ -130,7 +130,7 @@ class GameModelTests: XCTestCase {
         let canBuildBefore = city.canBuild(wonder: .pyramids, in: gameModel)
 
         // WHEN
-        city.startBuilding(wonder: .pyramids)
+        city.startBuilding(wonder: .pyramids, at: HexPoint(x: 0, y: 1), in: gameModel)
         city.updateProduction(for: 2000, in: gameModel)
         let canBuildAfter = city.canBuild(wonder: .pyramids, in: gameModel)
 
@@ -190,7 +190,7 @@ class GameModelTests: XCTestCase {
         let canBuildBefore = city2.canBuild(wonder: .pyramids, in: gameModel)
 
         // WHEN
-        city1.startBuilding(wonder: .pyramids)
+        city1.startBuilding(wonder: .pyramids, at: HexPoint(x: 1, y: 0), in: gameModel)
         city1.updateProduction(for: 2000, in: gameModel)
         let canBuildAfter = city2.canBuild(wonder: .pyramids, in: gameModel)
 

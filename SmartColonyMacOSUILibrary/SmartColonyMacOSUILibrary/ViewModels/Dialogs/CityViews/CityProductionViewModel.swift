@@ -395,12 +395,9 @@ extension CityProductionViewModel: HexagonGridViewModelDelegate {
         }
 
         if city.canBuild(wonder: wonderType, at: wonderLocation, in: gameModel) {
-            city.startBuilding(wonder: wonderType, at: wonderLocation)
 
-            guard let wonderTile = gameModel.tile(at: wonderLocation) else {
-                fatalError("cant get tile for wonder to build on")
-            }
-            gameModel.userInterface?.refresh(tile: wonderTile)
+            city.startBuilding(wonder: wonderType, at: wonderLocation, in: gameModel)
+
             self.updateBuildQueue()
 
             self.showLocationPicker = false
@@ -420,12 +417,8 @@ extension CityProductionViewModel: HexagonGridViewModelDelegate {
         }
 
         if city.canBuild(district: districtType, at: districtLocation, in: gameModel) {
-            city.startBuilding(district: districtType, at: districtLocation)
 
-            guard let wonderTile = gameModel.tile(at: districtLocation) else {
-                fatalError("cant get tile for wonder to build on")
-            }
-            gameModel.userInterface?.refresh(tile: wonderTile)
+            city.startBuilding(district: districtType, at: districtLocation, in: gameModel)
 
             self.updateBuildQueue()
 

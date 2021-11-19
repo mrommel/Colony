@@ -295,6 +295,8 @@ class CityTests: XCTestCase {
         playerTrajan.initialize()
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        mapModel.set(terrain: .desert, at: HexPoint(x: 10, y: 2)) // needed for pyramids
+
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
@@ -311,13 +313,13 @@ class CityTests: XCTestCase {
         self.objectToTest?.initialize(in: gameModel)
         gameModel.add(city: self.objectToTest)
 
-        let canBuildBefore = self.objectToTest?.canBuild(wonder: .pyramids, in: gameModel)
+        let canBuildBefore = self.objectToTest?.canBuild(wonder: .pyramids, at: HexPoint(x: 10, y: 2), in: gameModel)
 
         // WHEN
-        city.startBuilding(wonder: .pyramids)
-        let canBuildMiddle = self.objectToTest?.canBuild(wonder: .pyramids, in: gameModel)
+        city.startBuilding(wonder: .pyramids, at: HexPoint(x: 10, y: 2), in: gameModel)
+        let canBuildMiddle = self.objectToTest?.canBuild(wonder: .pyramids, at: HexPoint(x: 10, y: 2), in: gameModel)
         city.startBuilding(building: .granary)
-        let canBuildAfter = self.objectToTest?.canBuild(wonder: .pyramids, in: gameModel)
+        let canBuildAfter = self.objectToTest?.canBuild(wonder: .pyramids, at: HexPoint(x: 10, y: 2), in: gameModel)
 
         // THEN
         XCTAssertEqual(canBuildBefore, true)
