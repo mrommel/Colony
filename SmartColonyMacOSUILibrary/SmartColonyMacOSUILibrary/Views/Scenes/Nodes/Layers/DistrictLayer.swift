@@ -64,7 +64,7 @@ class DistrictLayer: BaseLayer {
         } else if buildingDistrict != .none {
 
             // print("render \(buildingDistrict) pre building animation")
-            let districtTextureName: String = district.buildingTextureName()
+            let districtTextureName: String = buildingDistrict.buildingTextureName()
             let image = ImageCache.shared.image(for: districtTextureName)
 
             let districtBuildingSprite = SKSpriteNode(texture: SKTexture(image: image), size: DistrictLayer.kTextureSize)

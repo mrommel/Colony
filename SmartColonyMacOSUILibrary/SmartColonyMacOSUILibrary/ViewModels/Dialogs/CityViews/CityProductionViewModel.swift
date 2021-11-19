@@ -150,6 +150,7 @@ class CityProductionViewModel: ObservableObject {
 
             // picker view
             self.hexagonGridViewModel.update(for: city, with: gameModel)
+            self.showLocationPicker = false
         }
     }
 
@@ -401,6 +402,8 @@ extension CityProductionViewModel: HexagonGridViewModelDelegate {
             }
             gameModel.userInterface?.refresh(tile: wonderTile)
             self.updateBuildQueue()
+
+            self.showLocationPicker = false
         } else {
             print("--- this should not happen - selected a wonder type \(wonderType) that cannot be constructed in \(city.name) ---")
         }
@@ -425,6 +428,8 @@ extension CityProductionViewModel: HexagonGridViewModelDelegate {
             gameModel.userInterface?.refresh(tile: wonderTile)
 
             self.updateBuildQueue()
+
+            self.showLocationPicker = false
         } else {
             print("--- this should not happen - selected a district type \(districtType) that cannot be constructed in \(city.name) ---")
         }
