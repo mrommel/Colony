@@ -113,6 +113,7 @@ class GameModelTests: XCTestCase {
 
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        mapModel.set(terrain: .desert, at: HexPoint(x: 1, y: 2)) 
 
         // game
         let gameModel = GameModel(
@@ -168,6 +169,7 @@ class GameModelTests: XCTestCase {
 
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        mapModel.set(terrain: .desert, at: HexPoint(x: 19, y: 19))
 
         // game
         let gameModel = GameModel(

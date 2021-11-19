@@ -154,7 +154,7 @@ class CityTests: XCTestCase {
         XCTAssertEqual(yields?.housing, 1.0)*/
     }
 
-    func testBuildGranary() {
+    func testBuildAncientWalls() {
 
         // GIVEN
         let barbarianPlayer = Player(leader: .barbar, isHuman: false)
@@ -193,7 +193,7 @@ class CityTests: XCTestCase {
 
         // THEN
         XCTAssertEqual(current?.type, .building)
-        XCTAssertEqual(current?.buildingType, .granary)
+        XCTAssertEqual(current?.buildingType, .ancientWalls)
     }
 
     func testBuildWalls() {

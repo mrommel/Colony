@@ -2563,7 +2563,7 @@ public class City: AbstractCity {
         var anyValidLocation: Bool = false
         for loopLocation in cityCitizens.workingTileLocations() {
 
-            guard let tile = gameModel.tile(at: location) else {
+            guard let tile = gameModel.tile(at: loopLocation) else {
                 continue
             }
 
@@ -2705,7 +2705,7 @@ public class City: AbstractCity {
         var anyValidLocation: Bool = false
         for loopLocation in cityCitizens.workingTileLocations() {
 
-            guard let tile = gameModel.tile(at: location) else {
+            guard let tile = gameModel.tile(at: loopLocation) else {
                 continue
             }
 
