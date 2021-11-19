@@ -136,6 +136,8 @@
 		C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88912607A269003B8B73 /* NSImageExtension.swift */; };
 		C99A88982607A2CC003B8B73 /* CGImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88972607A2CC003B8B73 /* CGImageExtension.swift */; };
 		C99A889C2607A319003B8B73 /* CGContextExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A889B2607A319003B8B73 /* CGContextExtension.swift */; };
+		C99AB18C27477FAC00BF0B4D /* DistrictLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99AB18B27477FAC00BF0B4D /* DistrictLayer.swift */; };
+		C99AB18E27477FB900BF0B4D /* WonderLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99AB18D27477FB900BF0B4D /* WonderLayer.swift */; };
 		C99EA75926BD72DE006FAA40 /* ReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EA75826BD72DE006FAA40 /* ReplyView.swift */; };
 		C99EA75B26BD74F0006FAA40 /* ReplyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EA75A26BD74F0006FAA40 /* ReplyViewModel.swift */; };
 		C9A12B6F26FAFE370094B980 /* HeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A12B6E26FAFE370094B980 /* HeaderViewModel.swift */; };
@@ -414,6 +416,8 @@
 		C99A88912607A269003B8B73 /* NSImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImageExtension.swift; sourceTree = "<group>"; };
 		C99A88972607A2CC003B8B73 /* CGImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImageExtension.swift; sourceTree = "<group>"; };
 		C99A889B2607A319003B8B73 /* CGContextExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGContextExtension.swift; sourceTree = "<group>"; };
+		C99AB18B27477FAC00BF0B4D /* DistrictLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictLayer.swift; sourceTree = "<group>"; };
+		C99AB18D27477FB900BF0B4D /* WonderLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderLayer.swift; sourceTree = "<group>"; };
 		C99EA75826BD72DE006FAA40 /* ReplyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyView.swift; sourceTree = "<group>"; };
 		C99EA75A26BD74F0006FAA40 /* ReplyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyViewModel.swift; sourceTree = "<group>"; };
 		C9A12B6E26FAFE370094B980 /* HeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewModel.swift; sourceTree = "<group>"; };
@@ -575,6 +579,8 @@
 				C968F2A02639E4E300612D0E /* UnitLayer.swift */,
 				C968F2A62639E8FB00612D0E /* CityLayer.swift */,
 				C9F2B55026695BAC0016D4F3 /* TooltipLayer.swift */,
+				C99AB18B27477FAC00BF0B4D /* DistrictLayer.swift */,
+				C99AB18D27477FB900BF0B4D /* WonderLayer.swift */,
 			);
 			path = Layers;
 			sourceTree = "<group>";
@@ -1310,6 +1316,7 @@
 				C950F999264908760057A7D1 /* PolicyCardView.swift in Sources */,
 				C968F2AC2639ED6C00612D0E /* NineGridTextureSprite.swift in Sources */,
 				C9D191A9265A49D5008C9622 /* CityBuildingsView.swift in Sources */,
+				C99AB18E27477FB900BF0B4D /* WonderLayer.swift in Sources */,
 				C9F2B55326695BD00016D4F3 /* TooltipNode.swift in Sources */,
 				C9B3141E2657FF1100726CAA /* YieldValueViewModel.swift in Sources */,
 				C9A48D4B2653F8C100260EE0 /* CityDialogViewModel.swift in Sources */,
@@ -1377,6 +1384,7 @@
 				C9155161260B2978003710BE /* GameDisplayOptions.swift in Sources */,
 				C91E7F972732E078000463F3 /* RankingViewType.swift in Sources */,
 				C9A12B7126FB0C420094B980 /* CityLoyaltyViewModel.swift in Sources */,
+				C99AB18C27477FAC00BF0B4D /* DistrictLayer.swift in Sources */,
 				C9D5D25B26F9D8CF00009817 /* SelectItemsDialogView.swift in Sources */,
 				C91E7F992732E0A5000463F3 /* OverallRankingDialogViewModel.swift in Sources */,
 				C9A3761F2635F70F0057923E /* MapNode.swift in Sources */,
