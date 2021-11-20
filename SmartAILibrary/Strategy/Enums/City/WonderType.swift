@@ -196,7 +196,6 @@ public enum WonderType: Int, Codable {
             // ancient
         case .greatBath:
             // https://civilization.fandom.com/wiki/Great_Bath_(Civ6)
-            // It must be built on Floodplains.
             return WonderTypeData(
                 name: "Great Bath",
                 effects: [
@@ -280,7 +279,6 @@ public enum WonderType: Int, Codable {
 
         case .templeOfArtemis:
             // https://civilization.fandom.com/wiki/Temple_of_Artemis_(Civ6)
-            // FIXME Must be built next to a Camp.
             return WonderTypeData(
                 name: "Temple of Artemis",
                 effects: [
@@ -325,15 +323,13 @@ public enum WonderType: Int, Codable {
 
         case .oracle:
             // https://civilization.fandom.com/wiki/Oracle_(Civ6)
-            // FIXME Patronage of Great People costs 25% less Faith.
-            // FIXME Districts in this city provide +2 Great Person points of their type.
             return WonderTypeData(
                 name: "Oracle",
                 effects: [
                     "+1 Culture",
                     "+1 Faith",
-                    "Patronage of Great People costs 25% less Faith.",
-                    "Districts in this city provide +2 Great Person points of their type."
+                    "Patronage of Great People costs 25% less Faith.", // #
+                    "Districts in this city provide +2 Great Person points of their type." // #
                 ],
                 era: .ancient,
                 productionCost: 290,
@@ -351,7 +347,6 @@ public enum WonderType: Int, Codable {
             // classical
         case .greatLighthouse:
             // https://civilization.fandom.com/wiki/Great_Lighthouse_(Civ6)
-            // FIXME Must be built on the Coast and adjacent to a Harbor district with a Lighthouse.
             return WonderTypeData(
                 name: "Great Lighthouse",
                 effects: [
@@ -400,12 +395,11 @@ public enum WonderType: Int, Codable {
 
         case .apadana:
             // https://civilization.fandom.com/wiki/Apadana_(Civ6)
-            // FIXME +2 Envoys when you build a wonder, including Apadana, in this city.
             return WonderTypeData(
                 name: "Apadana",
                 effects: [
                     "+2 Great Work slots",
-                    "+2 Envoys when you build a wonder, including Apadana, in this city."
+                    "+2 Envoys when you build a wonder, including Apadana, in this city." // #
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -466,13 +460,11 @@ public enum WonderType: Int, Codable {
 
         case .jebelBarkal:
             // https://civilization.fandom.com/wiki/Jebel_Barkal_(Civ6)
-            // FIXME Awards 2 Iron (Civ6) Iron.
-            // FIXME It must be built on a Desert Hills tile
             return WonderTypeData(
                 name: "Jebel Barkal",
                 effects: [
-                    "Awards 2 Iron.",
-                    "Provides +4 Faith to all your cities that are within 6 tiles."
+                    "Awards 2 Iron.", // #
+                    "Provides +4 Faith to all your cities that are within 6 tiles." // #
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -489,12 +481,12 @@ public enum WonderType: Int, Codable {
 
         case .mausoleumAtHalicarnassus:
             // https://civilization.fandom.com/wiki/Mausoleum_at_Halicarnassus_(Civ6)
-            // FIXME It must be built adjacent to a Harbor.
-            // FIXME All Great Engineers have an additional charge.
             return WonderTypeData(
                 name: "Mausoleum at Halicarnassus",
-                effects: ["+1 Science, +1 Faith and +1 Culture on all Coast tiles in this city.",
-                          "All Great Engineers have an additional charge."],
+                effects: [
+                    "+1 Science, +1 Faith and +1 Culture on all Coast tiles in this city.", // #
+                    "All Great Engineers have an additional charge." // #
+                ],
                 era: .classical,
                 productionCost: 400,
                 requiredTech: nil,
@@ -512,11 +504,12 @@ public enum WonderType: Int, Codable {
 
         case .mahabodhiTemple:
             // https://civilization.fandom.com/wiki/Mahabodhi_Temple_(Civ6)
-            // FIXME Grants 2 Apostles.
             return WonderTypeData(
                 name: "Mahabodhi Temple",
-                effects: ["+4 Faith",
-                          "Grants 2 Apostles."],
+                effects: [
+                    "+4 Faith",
+                    "Grants 2 Apostles." // #
+                ],
                 era: .classical,
                 productionCost: 400,
                 requiredTech: nil,
@@ -532,22 +525,27 @@ public enum WonderType: Int, Codable {
 
         case .petra:
             // https://civilization.fandom.com/wiki/Petra_(Civ6)
-            // FIXME It must be built on Desert or Floodplains without Hills.
-            return WonderTypeData(name: "Petra",
-                                  effects: ["+2 Food, +2 Gold and +1 Production on all Desert tiles for this city (non-Floodplains)."],
-                                  era: .classical,
-                                  productionCost: 400,
-                                  requiredTech: .mathematics,
-                                  requiredCivic: nil,
-                                  amenities: 0.0,
-                                  yields: Yields(food: 2.0, production: 1.0, gold: 2.0),
-                                  slots: [],
-                                  flavours: [Flavor(type: .tileImprovement, value: 10), Flavor(type: .growth, value: 12), Flavor(type: .gold, value: 10) ])
+            return WonderTypeData(
+                name: "Petra",
+                effects: [
+                    "+2 Food, +2 Gold and +1 Production on all Desert tiles for this city (non-Floodplains)."
+                ],
+                era: .classical,
+                productionCost: 400,
+                requiredTech: .mathematics,
+                requiredCivic: nil,
+                amenities: 0.0,
+                yields: Yields(food: 2.0, production: 1.0, gold: 2.0),
+                slots: [],
+                flavours: [
+                    Flavor(type: .tileImprovement, value: 10),
+                    Flavor(type: .growth, value: 12),
+                    Flavor(type: .gold, value: 10)
+                ]
+            )
 
         case .terracottaArmy:
             // https://civilization.fandom.com/wiki/Terracotta_Army_(Civ6)
-            // FIXME It must be built on flat Grassland or Plains adjacent to an Encampment with a Barracks or Stable.
-            // FIXME All current land units gain a promotion level.
             return WonderTypeData(
                 name: "Terracotta Army",
                 effects: ["+2 Great General points per turn",
@@ -693,7 +691,8 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Huey Teocalli",
                 effects: [
-                    "+1 Amenity from entertainment for each Lake tile within one tile of Huey Teocalli. (This includes the Lake tile where the wonder is placed.)", // #
+                    "+1 Amenity from entertainment for each Lake tile within one tile of Huey Teocalli. " +
+                        "(This includes the Lake tile where the wonder is placed.)", // #
                     "+1 Food and +1 Production for each Lake tile in your empire." // #
                 ],
                 era: .medieval,
@@ -958,7 +957,8 @@ public enum WonderType: Int, Codable {
                 name: "Torre de Belém",
                 effects: [
                     "International Trade Route from this city receive +2 Gold for every luxury resource at the destination", // #
-                    "When the Torre de Belém is constructed, cities not on your home continent receive the lowest Production cost building they can currently construct", // #
+                    "When the Torre de Belém is constructed, cities not on your home continent " +
+                        "receive the lowest Production cost building they can currently construct", // #
                     "+5 Gold",
                     "+1 Great Admiral point per turn" // #
                 ],
