@@ -169,7 +169,11 @@ class CityDialog: Dialog {
                     fatalError("cant get districtType")
                 }
 
-                self.currentProductionNode = DistrictBuildingItemDisplayNode(districtType: districtType, active: false, size: CGSize(width: 300, height: 42))
+                self.currentProductionNode = DistrictBuildingItemDisplayNode(
+                    districtType: districtType,
+                    active: false,
+                    size: CGSize(width: 300, height: 42)
+                )
                 self.currentProductionNode?.show(progress: currentProduction.production)
                 currentProductionNode?.zPosition = 200
                 self.addChild(currentProductionNode!)

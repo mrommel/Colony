@@ -60,14 +60,14 @@ struct CityDialogView: View {
                         ForEach(CityDetailViewType.all, id: \.self) { value in
                             Button(action: {
                                 self.viewModel.show(detail: value)
-                            }) {
+                            }, label: {
                                 Text(value.name())
                                     .font(.system(size: 15))
                                     .foregroundColor(value == self.viewModel.cityDetailViewType
                                         ? Color.accentColor
                                         : Color.gray)
                                     .animation(nil)
-                            }
+                            })
                         }
                     }
 

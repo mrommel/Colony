@@ -448,7 +448,7 @@ public class CityStrategyAI: Codable {
 
             if city.canBuild(district: districtType, in: gameModel) {
 
-                var weight: Double = Double(buildingProductionAI.weight(of: districtType))
+                let weight: Double = Double(buildingProductionAI.weight(of: districtType))
                 guard let bestDistrictLocation = city.bestLocation(for: districtType, in: gameModel) else {
                     fatalError("cant get best district location")
                 }

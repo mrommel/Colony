@@ -976,10 +976,6 @@ public class City: AbstractCity {
             fatalError("cant get gameModel")
         }
 
-        guard let player = self.player else {
-            fatalError("cant get player")
-        }
-
         guard let techs = self.player?.techs else {
             fatalError("cant get techs")
         }

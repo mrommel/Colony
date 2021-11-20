@@ -72,8 +72,7 @@ class CityBuildingsViewModel: ObservableObject {
                 districtModel.delegate = self
 
                 // filter buildingTypes
-                let constructedBuildingTypes = BuildingType.all.filter {
-                    buildingType in
+                let constructedBuildingTypes = BuildingType.all.filter { buildingType in
 
                     return buildings.has(building: buildingType) && buildingType.district() == districtType
                 }

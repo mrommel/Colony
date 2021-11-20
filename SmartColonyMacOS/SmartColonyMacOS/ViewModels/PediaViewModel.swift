@@ -117,7 +117,8 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         self.title = terrain.name()
         self.summary = "Base terrain of the \(terrain.domain()) domain."
-        self.detail = "Yields: \(terrain.yields().food) Food, \(terrain.yields().production) Production and \(terrain.yields().gold) Gold"
+        self.detail = "Yields: \(terrain.yields().food) Food, \(terrain.yields().production) " +
+            "Production and \(terrain.yields().gold) Gold"
         self.imageName = terrain.textureNames().first ?? "no_image" // add default
     }
 
@@ -125,7 +126,8 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         self.title = feature.name()
         self.summary = "Terrain feature that can be found on ???"
-        self.detail = "Yields: \(feature.yields().food) Food, \(feature.yields().production) Production and \(feature.yields().gold) Gold"
+        self.detail = "Yields: \(feature.yields().food) Food, \(feature.yields().production) " +
+            "Production and \(feature.yields().gold) Gold"
         self.imageName = feature.textureNames().first ?? "no_image" // add default
     }
 
@@ -133,7 +135,8 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         self.title = resource.name()
         self.summary = "Resource that can be found on ???"
-        self.detail = "Yields: \(resource.yields().food) Food, \(resource.yields().production) Production and \(resource.yields().gold) Gold"
+        self.detail = "Yields: \(resource.yields().food) Food, \(resource.yields().production) " +
+            "Production and \(resource.yields().gold) Gold"
         self.imageName = resource.textureName()
     }
 
@@ -156,7 +159,8 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         if let requiredCivic = district.requiredCivic() {
             requiredText = requiredCivic.name()
         }
-        self.summary = "District that can be built with \(district.productionCost()) production. It requires \(requiredText) to be researched."
+        self.summary = "District that can be built with \(district.productionCost()) production. " +
+            "It requires \(requiredText) to be researched."
 
         var detailText = "Effect: \n"
         district.effects().forEach { detailText += ("* " + $0 + "\n") }
@@ -178,7 +182,8 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         let requires: [String] = tech.required().map { $0.name() }
         let requiredText = ListFormatter.localizedString(byJoining: requires)
-        self.summary = "\(tech.era().title()) tech that needs \(tech.cost()) science. It requires \(requiredText) to be researched."
+        self.summary = "\(tech.era().title()) tech that needs \(tech.cost()) science. " +
+            "It requires \(requiredText) to be researched."
 
         var detailText = "Enables: "
         var enables: [String] = []
@@ -200,7 +205,8 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         let requires: [String] = civic.required().map { $0.name() }
         let requiredText = ListFormatter.localizedString(byJoining: requires)
-        self.summary = "\(civic.era().title()) civic that needs \(civic.cost()) culture. It requires \(requiredText) to be researched."
+        self.summary = "\(civic.era().title()) civic that needs \(civic.cost()) culture. " +
+            "It requires \(requiredText) to be researched."
 
         var detailText = "Enables: "
         var enables: [String] = []
@@ -274,39 +280,57 @@ class PediaViewModel: ObservableObject {
         let textures: Textures = Textures(game: nil)
 
         print("- load \(textures.allTerrainTextureNames.count) terrains")
-        for terrainTextureName in textures.allTerrainTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: terrainTextureName), for: terrainTextureName)
+        for textureName in textures.allTerrainTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
         }
 
         print("- load \(textures.allFeatureTextureNames.count) features")
-        for featureTextureName in textures.allFeatureTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: featureTextureName), for: featureTextureName)
+        for textureName in textures.allFeatureTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
         }
 
         print("- load \(textures.allResourceTextureNames.count) resources")
-        for resourceTextureName in textures.allResourceTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: resourceTextureName), for: resourceTextureName)
+        for textureName in textures.allResourceTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
         }
 
         // units
         // buildings
 
         print("- load \(textures.districtTypeTextureNames.count) districts")
-        for districtTypeTextureName in textures.districtTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: districtTypeTextureName), for: districtTypeTextureName)
+        for textureName in textures.districtTypeTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
         }
 
         // wonders
         // improvements
 
         print("- load \(textures.techTextureNames.count) techs")
-        for techTextureName in textures.techTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: techTextureName), for: techTextureName)
+        for textureName in textures.techTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
         }
 
         print("- load \(textures.civicTextureNames.count) civics")
-        for civicTextureName in textures.civicTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: civicTextureName), for: civicTextureName)
+        for textureName in textures.civicTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
         }
 
         self.updateDetailModels()

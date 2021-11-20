@@ -33,12 +33,12 @@ public class CitySiteEvaluator: BaseSiteEvaluator {
             return false
         }*/
 
-        // FIXME: check if tile is owned by another player
-        /*if let tileOwner = tile.owned {
-            if tileOwner != civilization {
+        // check if tile is owned by another player
+        if let tileOwner: AbstractPlayer = tile.owner() {
+            if !tileOwner.isEqual(to: player) {
                 return false
             }
-        }*/
+        }
 
         // check if already found a city here
         if map.city(at: tile.point) != nil {

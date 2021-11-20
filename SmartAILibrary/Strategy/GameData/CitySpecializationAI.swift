@@ -232,7 +232,11 @@ public class CitySpecializationAI {
             }
 
             //   Production
-            productionYieldWeight = Double(self.weightProductionSubtypes(flavorWonder: Int(flavorWonder), flavorSpaceship: Int(flavorSpaceship), in: gameModel))
+            productionYieldWeight = Double(self.weightProductionSubtypes(
+                flavorWonder: Int(flavorWonder),
+                flavorSpaceship: Int(flavorSpaceship),
+                in: gameModel
+            ))
 
             //   Trade
             let landDisputeLevel = diplomacyAI.totalLandDisputeLevel(in: gameModel)
@@ -247,13 +251,11 @@ public class CitySpecializationAI {
             //let generalEconomicWeight = 200.0 /* AI_CITY_SPECIALIZATION_GENERAL_ECONOMIC_WEIGHT */
 
             //   Add in any contribution from the current grand strategy
-            for grandStrategyType in GrandStrategyAIType.all {
+            for grandStrategyType in GrandStrategyAIType.all where player.grandStrategyAI?.activeStrategy == grandStrategyType {
 
-                if player.grandStrategyAI?.activeStrategy == grandStrategyType {
-                    foodYieldWeight += grandStrategyType.yields().food
-                    goldYieldWeight += grandStrategyType.yields().gold
-                    scienceYieldWeight += grandStrategyType.yields().science
-                }
+                foodYieldWeight += grandStrategyType.yields().food
+                goldYieldWeight += grandStrategyType.yields().gold
+                scienceYieldWeight += grandStrategyType.yields().science
             }
 
             // Add weights to our weighted vector
@@ -627,7 +629,8 @@ public class CitySpecializationAI {
                 // Reduce weight for this specialization based on dividing original weight by <num of this type + 1>
                 let oldWeight = yield.1
                 self.numSpecializationsForThisYield.add(weight: 1, for: yield.0)
-                let newWeight = oldWeight * self.numSpecializationsForThisYield.weight(of: yield.0) / (self.numSpecializationsForThisYield.weight(of: yield.0) + 1.0)
+                let newWeight = oldWeight * self.numSpecializationsForThisYield.weight(of: yield.0) /
+                    (self.numSpecializationsForThisYield.weight(of: yield.0) + 1.0)
                 self.yieldWeights.set(weight: newWeight, for: yield.0)
             }
 
@@ -674,7 +677,8 @@ public class CitySpecializationAI {
             // Reduce weight for this subtype based on dividing original weight by <num of this type + 1>
             let oldWeight = self.productionSubtypeWeights.weight(of: subtype)
             self.numSpecializationsForThisSubtype.add(weight: 1, for: subtype)
-            let newWeight = oldWeight * self.numSpecializationsForThisSubtype.weight(of: subtype) / (self.numSpecializationsForThisSubtype.weight(of: subtype) + 1.0)
+            let newWeight = oldWeight * self.numSpecializationsForThisSubtype.weight(of: subtype) /
+                (self.numSpecializationsForThisSubtype.weight(of: subtype) + 1.0)
             reductionAmount = oldWeight - newWeight
             self.productionSubtypeWeights.set(weight: newWeight, for: subtype)
         }
@@ -741,7 +745,8 @@ public class CitySpecializationAI {
                 }
             }
 
-            potentialYield = loopPlot.yields(for: self.player, ignoreFeature: false).food + loopPlot.yields(for: self.player, ignoreFeature: false).science
+            potentialYield = loopPlot.yields(for: self.player, ignoreFeature: false).food +
+                loopPlot.yields(for: self.player, ignoreFeature: false).science
 
             // If owned by someone else, not worth anything
             if loopPlot.hasOwner() && loopPlot.owner()?.leader != self.player?.leader {
@@ -930,18 +935,16 @@ public class CitySpecializationAI {
             spaceshipWeight += iFlavorSpaceship * GC.getAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_FLAVOR_SPACESHIP() /* 5 */;
         }*/
 
-        for grandStrategy in GrandStrategyAIType.all {
+        for grandStrategy in GrandStrategyAIType.all where player.grandStrategyAI?.activeStrategy == grandStrategy {
 
-            if player.grandStrategyAI?.activeStrategy == grandStrategy {
-                if grandStrategy.yields().value(of: .production) > 0.0 {
+            if grandStrategy.yields().value(of: .production) > 0.0 {
 
-                    if grandStrategy.flavor(for: .offense) > 0 {
-                        militaryTrainingWeight += grandStrategy.yields().production
-                    } /*else if (grandStrategy->GetFlavorValue((FlavorTypes)GC.getInfoTypeForString("FLAVOR_SPACESHIP")) > 0)
-                        {
-                            spaceshipWeight += grandStrategy->GetSpecializationBoost(YIELD_PRODUCTION);
-                        }*/
-                }
+                if grandStrategy.flavor(for: .offense) > 0 {
+                    militaryTrainingWeight += grandStrategy.yields().production
+                } /*else if (grandStrategy->GetFlavorValue((FlavorTypes)GC.getInfoTypeForString("FLAVOR_SPACESHIP")) > 0)
+                    {
+                        spaceshipWeight += grandStrategy->GetSpecializationBoost(YIELD_PRODUCTION);
+                    }*/
             }
         }
 

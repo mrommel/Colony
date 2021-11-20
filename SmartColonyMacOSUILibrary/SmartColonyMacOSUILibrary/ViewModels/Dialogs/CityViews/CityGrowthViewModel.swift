@@ -116,7 +116,9 @@ class CityGrowthViewModel: ObservableObject {
 
             // amenities
             self.amenitiesFromLuxuries = "\(city.amenitiesFromLuxuries())"
-            self.amenitiesFromEntertainment = "\(city.amenitiesFromDistrict() + city.amenitiesFromBuildings() + city.amenitiesFromWonders(in: gameModel))"
+            let amenitiesFromEntertainmentValue = city.amenitiesFromDistrict() +
+                city.amenitiesFromBuildings() + city.amenitiesFromWonders(in: gameModel)
+            self.amenitiesFromEntertainment = "\(amenitiesFromEntertainmentValue)"
             self.amenitiesFromReligion = "0"
 
             // housing
