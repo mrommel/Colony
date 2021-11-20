@@ -55,6 +55,7 @@ class CitySpecializationList: WeightedList<CitySpecializationType> {
     }
 }
 
+// swiftlint:disable type_body_length
 public class CitySpecializationAI {
 
     var player: Player?
@@ -134,12 +135,16 @@ public class CitySpecializationAI {
         // See if need to update assignments
         if self.specializationsDirty || self.lastTurnEvaluated + 50 /* AI_CITY_SPECIALIZATION_REEVALUATION_INTERVAL */ > gameModel.currentTurn {
 
-            (self.nextWonderDesiredValue, self.nextWonderLocationValue, self.nextWonderWeight) =
+            let wonderSelection =
                 wonderProductionAI.chooseWonder(
                     adjustForOtherPlayers: true,
                     nextWonderWeight: self.nextWonderWeight,
                     in: gameModel
                 )
+
+            self.nextWonderDesiredValue = wonderSelection.wonder
+            self.nextWonderLocationValue = wonderSelection.location
+            self.nextWonderWeight = wonderSelection.totalWeights
 
             self.weightSpecializations(in: gameModel)
             self.assignSpecializations(in: gameModel)
@@ -219,7 +224,8 @@ public class CitySpecializationAI {
                 foodYieldWeight += 500.0 /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_EARLY_EXPANSION */
             }
             foodYieldWeight += flavorExpansion * 5.0 /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_FLAVOR_EXPANSION */
-            foodYieldWeight += (Double(numUnownedTiles) * 100.0) / Double(tilesInCapitalArea.count) * 5.0  /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_PERCENT_CONTINENT_UNOWNED */
+            foodYieldWeight += (Double(numUnownedTiles) * 100.0) / Double(tilesInCapitalArea.count) * 5.0
+                /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_PERCENT_CONTINENT_UNOWNED */
             foodYieldWeight += Double(numCities) * -50.0 /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_NUM_CITIES */
             foodYieldWeight += Double(numSettlers) * -40.0 /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_NUM_SETTLERS */
 
@@ -875,8 +881,10 @@ public class CitySpecializationAI {
         //militaryTrainingWeight += m_pPlayer->GetDiplomacyAI()->GetPersonalityMajorCivApproachBias(MAJOR_CIV_APPROACH_WAR) * 10 /* AI_CITY_SPECIALIZATION_PRODUCTION_TRAINING_PER_PERSONALITY */
 
         // EMERGENCY UNITS
-        emergencyUnitWeight += Double(unitsRequested) * 10.0 /* AI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_OPERATIONAL_UNITS_REQUESTED */
-        emergencyUnitWeight += Double(militaryAI.numberOfPlayersAtWarWith(in: gameModel)) * 100.0 /* AI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_CIVS_AT_WAR_WITH */
+        emergencyUnitWeight += Double(unitsRequested) * 10.0
+            /* AI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_OPERATIONAL_UNITS_REQUESTED */
+        emergencyUnitWeight += Double(militaryAI.numberOfPlayersAtWarWith(in: gameModel)) * 100.0
+            /* AI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_CIVS_AT_WAR_WITH */
 
         // Is our capital under threat?
         let capitalUnterThreatCityStrategy: CityStrategyType = CityStrategyType.capitalUnderThreat

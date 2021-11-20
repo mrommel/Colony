@@ -25,6 +25,13 @@ public class WonderProductionAI: Codable {
         case weights
     }
 
+    struct WonderSelection {
+
+        let wonder: WonderType
+        let location: HexPoint
+        let totalWeights: Int
+    }
+
     internal var player: AbstractPlayer?
     private var weights: WonderWeigths
 
@@ -71,7 +78,7 @@ public class WonderProductionAI: Codable {
         }
     }
 
-    func chooseWonder(adjustForOtherPlayers: Bool, nextWonderWeight: Int, in gameModel: GameModel?) -> (WonderType, HexPoint, Int) {
+    func chooseWonder(adjustForOtherPlayers: Bool, nextWonderWeight: Int, in gameModel: GameModel?) -> WonderSelection {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -101,7 +108,7 @@ public class WonderProductionAI: Codable {
         }
 
         guard let wonderCity = wonderCityRef else {
-            return (.none, .invalid, 0)
+            return WonderSelection(wonder: .none, location: .invalid, totalWeights: 0)
         }
 
         var estimatedProductionPerTurn = wonderCity.productionLastTurn() // getProduction
@@ -166,16 +173,20 @@ public class WonderProductionAI: Codable {
                         }
                     }
 
-                    return (selectedWonder, selectedLocation, Int(buildables.totalWeights()))
+                    return WonderSelection(
+                        wonder: selectedWonder,
+                        location: selectedLocation,
+                        totalWeights: Int(buildables.totalWeights())
+                    )
                 }
             }
 
             // Nothing with any weight
-            return (.none, .invalid, 0)
+            return WonderSelection(wonder: .none, location: .invalid, totalWeights: 0)
 
         } else {
             // Unless we didn't find any
-            return (.none, .invalid, 0)
+            return WonderSelection(wonder: .none, location: .invalid, totalWeights: 0)
         }
     }
 
