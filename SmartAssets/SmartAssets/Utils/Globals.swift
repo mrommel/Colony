@@ -69,3 +69,55 @@ public struct Globals {
         static let initialScale: Double = 0.25
     }
 }
+
+public extension Globals {
+
+    struct Icons {
+
+        private static func loadCachedTexture(with textureName: String) -> NSImage {
+
+            if !ImageCache.shared.exists(key: textureName) {
+                let bundle = Bundle.init(for: Textures.self)
+                ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
+            }
+
+            return ImageCache.shared.image(for: textureName)
+        }
+
+        public static var food: NSImage {
+            return Icons.loadCachedTexture(with: "food")
+        }
+
+        public static var production: NSImage {
+            return Icons.loadCachedTexture(with: "production")
+        }
+
+        public static var gold: NSImage {
+            return Icons.loadCachedTexture(with: "gold")
+        }
+
+        public static var turns: NSImage {
+            return Icons.loadCachedTexture(with: "turns")
+        }
+
+        public static var tradeRoute: NSImage {
+            return Icons.loadCachedTexture(with: "tradeRoute")
+        }
+
+        public static var loyalty: NSImage {
+            return Icons.loadCachedTexture(with: "loyalty")
+        }
+
+        public static var capital: NSImage {
+            return Icons.loadCachedTexture(with: "capital")
+        }
+
+        public static var strength: NSImage {
+            return Icons.loadCachedTexture(with: "strength")
+        }
+
+        public static var questionmark: NSImage {
+            return Icons.loadCachedTexture(with: "questionmark")
+        }
+    }
+}

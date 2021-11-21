@@ -10,6 +10,7 @@
 		C900391E273422F500E1AA7F /* DominationRankingDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C900391D273422F400E1AA7F /* DominationRankingDialogView.swift */; };
 		C90039202734237000E1AA7F /* DominationRankingDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C900391F2734237000E1AA7F /* DominationRankingDialogViewModel.swift */; };
 		C90039222734248200E1AA7F /* DominationRankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90039212734248200E1AA7F /* DominationRankingViewModel.swift */; };
+		C903D05D274A43EF003C50B9 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903D05C274A43EF003C50B9 /* Label.swift */; };
 		C9072E7F2732AFA000560429 /* OverallRankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9072E7E2732AFA000560429 /* OverallRankingView.swift */; };
 		C9072E812732B14600560429 /* CivilizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9072E802732B14600560429 /* CivilizationView.swift */; };
 		C9072E832732B41200560429 /* OverallRankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9072E822732B41200560429 /* OverallRankingViewModel.swift */; };
@@ -288,6 +289,7 @@
 		C900391D273422F400E1AA7F /* DominationRankingDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DominationRankingDialogView.swift; sourceTree = "<group>"; };
 		C900391F2734237000E1AA7F /* DominationRankingDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DominationRankingDialogViewModel.swift; sourceTree = "<group>"; };
 		C90039212734248200E1AA7F /* DominationRankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DominationRankingViewModel.swift; sourceTree = "<group>"; };
+		C903D05C274A43EF003C50B9 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		C9072E7E2732AFA000560429 /* OverallRankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallRankingView.swift; sourceTree = "<group>"; };
 		C9072E802732B14600560429 /* CivilizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivilizationView.swift; sourceTree = "<group>"; };
 		C9072E822732B41200560429 /* OverallRankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallRankingViewModel.swift; sourceTree = "<group>"; };
@@ -625,6 +627,7 @@
 				C94F94DD27295C1E006BF135 /* Tooltip.swift */,
 				C99547C22738625D006AB8F2 /* ScoreChartView.swift */,
 				C9E4C5EE2739C20100B4A69A /* ScoreLegendView.swift */,
+				C903D05C274A43EF003C50B9 /* Label.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1376,6 +1379,7 @@
 				C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */,
 				C9755FF1270AF02800C9CAB7 /* BeliefView.swift in Sources */,
 				C9BDCF8B262476E6002488F6 /* GameView.swift in Sources */,
+				C903D05D274A43EF003C50B9 /* Label.swift in Sources */,
 				C9452E2B2668093A005EF985 /* EraEnteredPopupView.swift in Sources */,
 				C9F2B54D2669126E0016D4F3 /* CivicDiscoveredPopupView.swift in Sources */,
 				C9E87BAF264D1BA000514B9A /* TechTreeDialogView.swift in Sources */,

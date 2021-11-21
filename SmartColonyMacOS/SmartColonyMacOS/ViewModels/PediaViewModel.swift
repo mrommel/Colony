@@ -37,7 +37,8 @@ enum PediaCategory {
     static var all: [PediaCategory] = [
         .terrains, .features, .resources,
         .units, .buildings, .districts, .wonders, .improvements,
-        .techs, .civics]
+        .techs, .civics
+    ]
 
     func title() -> String {
 
@@ -116,9 +117,12 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
     init(terrain: TerrainType) {
 
         self.title = terrain.name()
-        self.summary = "Base terrain of the \(terrain.domain()) domain."
-        self.detail = "Yields: \(terrain.yields().food) Food, \(terrain.yields().production) " +
-            "Production and \(terrain.yields().gold) Gold"
+        var summaryText = "Base terrain of the \(terrain.domain()) domain."
+        self.summary = summaryText
+
+        var detailText = "Yields: \(terrain.yields().food) [Food] Food, \(terrain.yields().production) " +
+            "[Production] Production and \(terrain.yields().gold) Gold"
+        self.detail = detailText
         self.imageName = terrain.textureNames().first ?? "no_image" // add default
     }
 
