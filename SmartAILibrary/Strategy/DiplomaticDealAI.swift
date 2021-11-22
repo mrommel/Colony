@@ -16,6 +16,7 @@ enum DiplomaticDealOfferResponse {
     case insulting
 }
 
+// swiftlint:disable type_body_length
 public class DiplomaticDealAI: Codable {
 
     var player: AbstractPlayer?

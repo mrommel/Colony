@@ -1514,8 +1514,18 @@ public class HomelandAI {
         self.currentMoveHighPriorityUnits.sort(by: { $0!.movesToTarget < $1!.movesToTarget })
 
         // Find the one with the best true moves distance
-        (self.currentBestMoveUnit, _) = self.getClosestUnitByTurnsToTarget(moveUnits: self.currentMoveUnits, target: target, maxTurns: maxTurns, in: gameModel)
-        (self.currentBestMoveHighPriorityUnit, _) = self.getClosestUnitByTurnsToTarget(moveUnits: self.currentMoveHighPriorityUnits, target: target, maxTurns: maxTurns, in: gameModel)
+        (self.currentBestMoveUnit, _) = self.getClosestUnitByTurnsToTarget(
+            moveUnits: self.currentMoveUnits,
+            target: target,
+            maxTurns: maxTurns,
+            in: gameModel
+        )
+        (self.currentBestMoveHighPriorityUnit, _) = self.getClosestUnitByTurnsToTarget(
+            moveUnits: self.currentMoveHighPriorityUnits,
+            target: target,
+            maxTurns: maxTurns,
+            in: gameModel
+        )
 
         return self.currentBestMoveHighPriorityUnit != nil || self.currentBestMoveUnit != nil
     }
@@ -1739,7 +1749,8 @@ public class HomelandAI {
 
             if let currentTurnUnit = currentTurnUnitRef {
 
-                if currentTurnUnit.task() == .explore || (currentTurnUnit.isAutomated() && currentTurnUnit.domain() == .land && currentTurnUnit.automateType() == .explore) {
+                if currentTurnUnit.task() == .explore ||
+                    (currentTurnUnit.isAutomated() && currentTurnUnit.domain() == .land && currentTurnUnit.automateType() == .explore) {
 
                     let homelandUnit = HomelandUnit(unit: currentTurnUnit)
                     self.currentMoveUnits.append(homelandUnit)
@@ -1802,7 +1813,12 @@ public class HomelandAI {
         var foundNearbyExplorePlot = false
 
         let pathfinder = AStarPathfinder()
-        pathfinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: player, unitMapType: .combat, canEmbark: player.canEmbark())
+        pathfinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+            for: .walk,
+               for: player,
+               unitMapType: .combat,
+               canEmbark: player.canEmbark()
+        )
 
         for homelandUnit in self.currentMoveUnits {
 
