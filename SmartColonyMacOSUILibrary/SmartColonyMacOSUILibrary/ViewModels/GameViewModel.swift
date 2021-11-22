@@ -363,6 +363,7 @@ public class GameViewModel: ObservableObject {
         }
     }
 
+    // swiftlint:disable cyclomatic_complexity
     public func loadAssets() {
 
         // load assets into image cache
@@ -371,79 +372,79 @@ public class GameViewModel: ObservableObject {
         let textures: Textures = Textures(game: nil)
 
         print("- load \(textures.allTerrainTextureNames.count) terrain textures")
-        for terrainTextureName in textures.allTerrainTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: terrainTextureName), for: terrainTextureName)
+        for textureName in textures.allTerrainTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.allCoastTextureNames.count) coast textures")
-        for coastTextureName in textures.allCoastTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: coastTextureName), for: coastTextureName)
+        for textureName in textures.allCoastTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.allRiverTextureNames.count) river textures")
-        for riverTextureName in textures.allRiverTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: riverTextureName), for: riverTextureName)
+        for textureName in textures.allRiverTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.allFeatureTextureNames.count) feature textures")
-        for featureTextureName in textures.allFeatureTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: featureTextureName), for: featureTextureName)
+        for textureName in textures.allFeatureTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.allIceFeatureTextureNames.count) ice textures")
-        for iceFeatureTextureName in textures.allIceFeatureTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: iceFeatureTextureName), for: iceFeatureTextureName)
+        for textureName in textures.allIceFeatureTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.allSnowFeatureTextureNames.count) snow textures")
-        for snowFeatureTextureName in textures.allSnowFeatureTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: snowFeatureTextureName), for: snowFeatureTextureName)
+        for textureName in textures.allSnowFeatureTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.allResourceTextureNames.count) resource and marker textures")
-        for resourceTextureName in textures.allResourceTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: resourceTextureName), for: resourceTextureName)
+        for textureName in textures.allResourceTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
-        for resourceMarkerTextureName in textures.allResourceMarkerTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: resourceMarkerTextureName), for: resourceMarkerTextureName)
+        for textureName in textures.allResourceMarkerTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.allBorderTextureNames.count) border textures")
-        for borderTextureName in textures.allBorderTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: borderTextureName), for: borderTextureName)
+        for textureName in textures.allBorderTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.allYieldsTextureNames.count) yield textures")
-        for yieldTextureName in textures.allYieldsTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: yieldTextureName), for: yieldTextureName)
+        for textureName in textures.allYieldsTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.allBoardTextureNames.count) board textures")
-        for boardTextureName in textures.allBoardTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: boardTextureName), for: boardTextureName)
+        for textureName in textures.allBoardTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.allImprovementTextureNames.count) improvement textures")
-        for improvementTextureName in textures.allImprovementTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: improvementTextureName), for: improvementTextureName)
+        for textureName in textures.allImprovementTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.allRoadTextureNames.count) road textures")
-        for roadTextureName in textures.allRoadTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: roadTextureName), for: roadTextureName)
+        for textureName in textures.allRoadTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.allPathTextureNames.count) + \(textures.allPathOutTextureNames.count) path textures")
-        for pathTextureName in textures.allPathTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: pathTextureName), for: pathTextureName)
+        for textureName in textures.allPathTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
-        for pathTextureName in textures.allPathOutTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: pathTextureName), for: pathTextureName)
+        for textureName in textures.allPathOutTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.overviewTextureNames.count) overview textures")
-        for overviewTextureName in textures.overviewTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: overviewTextureName), for: overviewTextureName)
+        for textureName in textures.overviewTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         var unitTextures: Int = 0
@@ -475,205 +476,205 @@ public class GameViewModel: ObservableObject {
         }
 
         print("- load \(textures.buttonTextureNames.count) button textures")
-        for buttonTextureName in textures.buttonTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: buttonTextureName), for: buttonTextureName)
+        for textureName in textures.buttonTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.globeTextureNames.count) globe textures")
-        for globeTextureName in textures.globeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: globeTextureName), for: globeTextureName)
+        for textureName in textures.globeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.cultureProgressTextureNames.count) culture progress textures")
-        for cultureProgressTextureName in textures.cultureProgressTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: cultureProgressTextureName), for: cultureProgressTextureName)
+        for textureName in textures.cultureProgressTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.scienceProgressTextureNames.count) science progress textures")
-        for scienceProgressTextureName in textures.scienceProgressTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: scienceProgressTextureName), for: scienceProgressTextureName)
+        for textureName in textures.scienceProgressTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.attackerHealthTextureNames.count) attacker health textures")
-        for attackerHealthTextureName in textures.attackerHealthTextureNames {
+        for textureName in textures.attackerHealthTextureNames {
             ImageCache.shared.add(
-                image: bundle.image(forResource: attackerHealthTextureName),
-                for: attackerHealthTextureName
+                image: bundle.image(forResource: textureName),
+                for: textureName
             )
         }
         print("- load \(textures.defenderHealthTextureNames.count) defender health textures")
-        for defenderHealthTextureName in textures.defenderHealthTextureNames {
+        for textureName in textures.defenderHealthTextureNames {
             ImageCache.shared.add(
-                image: bundle.image(forResource: defenderHealthTextureName),
-                for: defenderHealthTextureName
+                image: bundle.image(forResource: textureName),
+                for: textureName
             )
         }
 
         print("- load \(textures.headerTextureNames.count) header textures")
-        for headerTextureName in textures.headerTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: headerTextureName), for: headerTextureName)
+        for textureName in textures.headerTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.cityProgressTextureNames.count) city progress textures")
-        for cityProgressTextureName in textures.cityProgressTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: cityProgressTextureName), for: cityProgressTextureName)
+        for textureName in textures.cityProgressTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.cityTextureNames.count) city textures")
-        for cityTextureName in textures.cityTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: cityTextureName), for: cityTextureName)
+        for textureName in textures.cityTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.commandTextureNames.count) command type textures")
-        for commandTextureName in textures.commandTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: commandTextureName), for: commandTextureName)
+        for textureName in textures.commandTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.commandButtonTextureNames.count) command button textures")
-        for commandButtonTextureName in textures.commandButtonTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: commandButtonTextureName), for: commandButtonTextureName)
+        for textureName in textures.commandButtonTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.cityCommandButtonTextureNames.count) city command textures")
-        for cityCommandTextureName in textures.cityCommandButtonTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: cityCommandTextureName), for: cityCommandTextureName)
+        for textureName in textures.cityCommandButtonTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.policyCardTextureNames.count) policy card textures")
-        for policyCardTextureName in textures.policyCardTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: policyCardTextureName), for: policyCardTextureName)
+        for textureName in textures.policyCardTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.governmentStateBackgroundTextureNames.count) government state background textures")
-        for governmentStateBackgroundTextureName in textures.governmentStateBackgroundTextureNames {
+        for textureName in textures.governmentStateBackgroundTextureNames {
             ImageCache.shared.add(
-                image: bundle.image(forResource: governmentStateBackgroundTextureName),
-                for: governmentStateBackgroundTextureName
+                image: bundle.image(forResource: textureName),
+                for: textureName
             )
         }
 
         print("- load \(textures.governmentTextureNames.count) government textures")
-        for governmentTextureName in textures.governmentTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: governmentTextureName), for: governmentTextureName)
+        for textureName in textures.governmentTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.governmentAmbientTextureNames.count) ambient textures")
-        for governmentAmbientTextureName in textures.governmentAmbientTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: governmentAmbientTextureName), for: governmentAmbientTextureName)
+        for textureName in textures.governmentAmbientTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.yieldTextureNames.count) / \(textures.yieldBackgroundTextureNames.count) yield textures")
-        for yieldTextureName in textures.yieldTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: yieldTextureName), for: yieldTextureName)
+        for textureName in textures.yieldTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
-        for yieldBackgroundTextureName in textures.yieldBackgroundTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: yieldBackgroundTextureName), for: yieldBackgroundTextureName)
+        for textureName in textures.yieldBackgroundTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.techTextureNames.count) tech type textures")
-        for techTextureName in textures.techTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: techTextureName), for: techTextureName)
+        for textureName in textures.techTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.civicTextureNames.count) civic type textures")
-        for civicTextureName in textures.civicTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: civicTextureName), for: civicTextureName)
+        for textureName in textures.civicTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.buildTypeTextureNames.count) build type textures")
-        for buildTypeTextureName in textures.buildTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: buildTypeTextureName), for: buildTypeTextureName)
+        for textureName in textures.buildTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.buildingTypeTextureNames.count) building type textures")
-        for buildingTypeTextureName in textures.buildingTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: buildingTypeTextureName), for: buildingTypeTextureName)
+        for textureName in textures.buildingTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.wonderTypeTextureNames.count) wonder type textures")
-        for wonderTypeTextureName in textures.wonderTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: wonderTypeTextureName), for: wonderTypeTextureName)
+        for textureName in textures.wonderTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.wonderTextureNames.count) wonder textures")
-        for wonderTextureName in textures.wonderTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: wonderTextureName), for: wonderTextureName)
+        for textureName in textures.wonderTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.wonderBuildingTextureNames.count) wonder building textures")
-        for wonderBuildingTextureName in textures.wonderBuildingTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: wonderBuildingTextureName), for: wonderBuildingTextureName)
+        for textureName in textures.wonderBuildingTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.districtTypeTextureNames.count) district type textures")
-        for districtTypeTextureName in textures.districtTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: districtTypeTextureName), for: districtTypeTextureName)
+        for textureName in textures.districtTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.districtTextureNames.count) district textures")
-        for districtTextureName in textures.districtTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: districtTextureName), for: districtTextureName)
+        for textureName in textures.districtTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.districtBuildingTextureNames.count) district building textures")
-        for districtBuildingTextureName in textures.districtBuildingTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: districtBuildingTextureName), for: districtBuildingTextureName)
+        for textureName in textures.districtBuildingTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.leaderTypeTextureNames.count) leader type textures")
-        for leaderTypeTextureName in textures.leaderTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: leaderTypeTextureName), for: leaderTypeTextureName)
+        for textureName in textures.leaderTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.civilizationTypeTextureNames.count) civilization type textures")
-        for civilizationTypeTextureName in textures.civilizationTypeTextureNames {
+        for textureName in textures.civilizationTypeTextureNames {
             ImageCache.shared.add(
-                image: bundle.image(forResource: civilizationTypeTextureName),
-                for: civilizationTypeTextureName
+                image: bundle.image(forResource: textureName),
+                for: textureName
             )
         }
 
         print("- load \(textures.pantheonTypeTextureNames.count) pantheon type textures")
-        for pantheonTypeTextureName in textures.pantheonTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: pantheonTypeTextureName), for: pantheonTypeTextureName)
+        for textureName in textures.pantheonTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.religionTypeTextureNames.count) religion type textures")
-        for religionTypeTextureName in textures.religionTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: religionTypeTextureName), for: religionTypeTextureName)
+        for textureName in textures.religionTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.beliefTypeTextureNames.count) belief type textures")
-        for beliefTypeTextureName in textures.beliefTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: beliefTypeTextureName), for: beliefTypeTextureName)
+        for textureName in textures.beliefTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.promotionTextureNames.count) promotion type textures")
-        for promotionTextureName in textures.promotionTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: promotionTextureName), for: promotionTextureName)
+        for textureName in textures.promotionTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 
         print("- load \(textures.promotionStateBackgroundTextureNames.count) promotion state textures")
-        for promotionStateBackgroundTextureName in textures.promotionStateBackgroundTextureNames {
+        for textureName in textures.promotionStateBackgroundTextureNames {
             ImageCache.shared.add(
-                image: bundle.image(forResource: promotionStateBackgroundTextureName),
-                for: promotionStateBackgroundTextureName
+                image: bundle.image(forResource: textureName),
+                for: textureName
             )
         }
 
         print("- load \(textures.governorPortraitTextureNames.count) governor portrait textures")
-        for governorPortraitTextureName in textures.governorPortraitTextureNames {
+        for textureName in textures.governorPortraitTextureNames {
             ImageCache.shared.add(
-                image: bundle.image(forResource: governorPortraitTextureName),
-                for: governorPortraitTextureName
+                image: bundle.image(forResource: textureName),
+                for: textureName
             )
         }
 
         print("- load \(textures.victoryTypesTextureNames.count) victory textures")
-        for victoryTypesTextureName in textures.victoryTypesTextureNames {
+        for textureName in textures.victoryTypesTextureNames {
             ImageCache.shared.add(
-                image: bundle.image(forResource: victoryTypesTextureName),
-                for: victoryTypesTextureName
+                image: bundle.image(forResource: textureName),
+                for: textureName
             )
         }
 
