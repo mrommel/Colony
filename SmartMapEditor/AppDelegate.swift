@@ -116,8 +116,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 return .terminateCancel
             }
 
-            let question = NSLocalizedString("Could not save changes while quitting. Quit anyway?", comment: "Quit without saves error question message")
-            let info = NSLocalizedString("Quitting now will lose any changes you have made since the last successful save", comment: "Quit without saves error question info")
+            let question = NSLocalizedString(
+                "Could not save changes while quitting. Quit anyway?",
+                comment: "Quit without saves error question message")
+            let info = NSLocalizedString(
+                "Quitting now will lose any changes you have made since the last successful save",
+                comment: "Quit without saves error question info")
             let quitButton = NSLocalizedString("Quit anyway", comment: "Quit anyway button title")
             let cancelButton = NSLocalizedString("Cancel", comment: "Cancel button title")
             let alert = NSAlert()

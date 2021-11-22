@@ -39,7 +39,13 @@ class AdvisorTests: XCTestCase {
         // setup the map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [barbarianPlayer, playerAlexander], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAlexander],
+            on: mapModel
+        )
 
         mapModel.discover(by: playerAlexander, at: HexPoint(x: 1, y: 1), in: gameModel)
         try! mapModel.set(owner: playerAlexander, at: HexPoint(x: 1, y: 1))

@@ -144,7 +144,14 @@ extension GameScene {
 
         self.currentScreenType = .diplomatic
 
-        let viewModel = DiplomaticDialogViewModel(for: humanPlayer, and: otherPlayer, state: data.state, message: data.message, emotion: data.emotion, in: self.viewModel?.game)
+        let viewModel = DiplomaticDialogViewModel(
+            for: humanPlayer,
+            and: otherPlayer,
+            state: data.state,
+            message: data.message,
+            emotion: data.emotion,
+            in: self.viewModel?.game
+        )
 
         let diplomaticDialog = DiplomaticDialog(viewModel: viewModel)
         diplomaticDialog.zPosition = 250
@@ -367,7 +374,12 @@ extension GameScene {
 
         self.currentScreenType = .disbandConfirm
 
-        let confirmDialogViewModel = ConfirmationDialogViewModel(question: NSMutableAttributedString().normal("Do you really want to disband this ").bold(unit.name()).normal("?"))
+        let confirmDialogViewModel = ConfirmationDialogViewModel(
+            question: NSMutableAttributedString()
+                .normal("Do you really want to disband this ")
+                .bold(unit.name())
+                .normal("?")
+        )
 
         let confirmDialog = ConfirmationDialog(with: confirmDialogViewModel)
         confirmDialog.zPosition = 250

@@ -84,7 +84,21 @@ public class HomelandAI {
         static var all: [HomelandMoveType] {
 
             return [
-                .explore, .exploreSea, .settle, .garrison, .heal, .toSafety, .mobileReserve, .sentry, .worker, .workerSea, .patrol, .upgrade, ancientRuins, .aircraftToTheFront, .tradeUnit
+                .explore,
+                .exploreSea,
+                .settle,
+                .garrison,
+                .heal,
+                .toSafety,
+                .mobileReserve,
+                .sentry,
+                .worker,
+                .workerSea,
+                .patrol,
+                .upgrade,
+                .ancientRuins,
+                .aircraftToTheFront,
+                .tradeUnit
             ]
         }
 
@@ -95,6 +109,7 @@ public class HomelandAI {
 
         // MARK: internal data structure / functions
 
+        // swiftlint:disable nesting
         private struct HomelandMoveTypeData {
 
             let name: String
@@ -1310,7 +1325,8 @@ public class HomelandAI {
 
                         if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
 
-                            print("Moving to sentry point, \(targetedSentryPoint.target ?? HexPoint.invalid), Priority: \(targetedSentryPoint.threatValue)")
+                            print("Moving to sentry point, \(targetedSentryPoint.target ?? HexPoint.invalid), " +
+                                  "Priority: \(targetedSentryPoint.threatValue)")
                             // LogHomelandMessage(strLogString);
                         }
                     }
@@ -1397,7 +1413,8 @@ public class HomelandAI {
                 loopUnit.finishMoves()
                 self.unitProcessed(unit: loopUnit)
                 return
-            } else if currentMoveHighPriorityUnit!.movesToTarget < 8 /* AI_HOMELAND_ESTIMATE_TURNS_DISTANCE */ || loopUnit.turnsToReach(at: target.point, in: gameModel) != Int.max {
+            } else if currentMoveHighPriorityUnit!.movesToTarget < 8 /* AI_HOMELAND_ESTIMATE_TURNS_DISTANCE */ ||
+                        loopUnit.turnsToReach(at: target.point, in: gameModel) != Int.max {
 
                 loopUnit.push(mission: UnitMission(type: .moveTo, at: target.point), in: gameModel)
                 loopUnit.finishMoves()
@@ -1419,7 +1436,8 @@ public class HomelandAI {
                 loopUnit.doFortify(in: gameModel)
                 self.unitProcessed(unit: loopUnit)
                 return
-            } else if currentMoveUnit!.movesToTarget  < 8 /* AI_HOMELAND_ESTIMATE_TURNS_DISTANCE */ || loopUnit.turnsToReach(at: target.point, in: gameModel) != Int.max {
+            } else if currentMoveUnit!.movesToTarget  < 8 /* AI_HOMELAND_ESTIMATE_TURNS_DISTANCE */ ||
+                        loopUnit.turnsToReach(at: target.point, in: gameModel) != Int.max {
 
                 loopUnit.push(mission: UnitMission(type: .moveTo, at: target.point), in: gameModel)
                 loopUnit.finishMoves()

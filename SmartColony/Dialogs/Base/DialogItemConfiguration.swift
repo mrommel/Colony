@@ -47,7 +47,26 @@ struct DialogItemConfiguration: Codable {
     var civicType: CivicType = .codeOfLaws
 
     enum CodingKeys: String, CodingKey {
-        case identifier, type, title, fontSize, textAlign, result, offsetx, offsety, anchorx, anchory, width, height, active, image, selectedIndex, items, yieldType, techType, civicType
+
+        case identifier
+        case type
+        case title
+        case fontSize
+        case textAlign
+        case result
+        case offsetx
+        case offsety
+        case anchorx
+        case anchory
+        case width
+        case height
+        case active
+        case image
+        case selectedIndex
+        case items
+        case yieldType
+        case techType
+        case civicType
     }
 
     init(identifier: String, type: DialogItemType, title: String, fontSize: CGFloat, textAlign: DialogTextAlign, result: DialogResultType, offsetx: CGFloat, offsety: CGFloat, anchorx: CGFloat, anchory: CGFloat, width: CGFloat, height: CGFloat, active: Bool, image: String?, selectedIndex: Int?, items: DropdownItems?, yieldType: YieldType, techType: TechType, civicType: CivicType) {

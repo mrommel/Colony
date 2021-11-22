@@ -122,7 +122,8 @@ class DiplomaticDialogViewModel {
             break
         case .messageIntro:
             if selectedReply == .introReplyPositive {
-                if !humanPlayer.hasDiscoveredCapital(of: otherPlayer, in: self.gameModel) && !otherPlayer.hasDiscoveredCapital(of: humanPlayer, in: self.gameModel) {
+                if !humanPlayer.hasDiscoveredCapital(of: otherPlayer, in: self.gameModel) &&
+                    !otherPlayer.hasDiscoveredCapital(of: humanPlayer, in: self.gameModel) {
                     self.message = .invitationToCapital
                 } else {
                     self.message = .exit

@@ -9,6 +9,7 @@
 import Foundation
 import SmartAILibrary
 
+// swiftlint:disable type_body_length
 enum DialogResultType: String, Codable {
 
     case none

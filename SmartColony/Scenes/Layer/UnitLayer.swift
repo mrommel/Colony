@@ -34,9 +34,21 @@ class UnitLayer: SKNode {
         self.player = player
         self.unitObjects = []
 
-        self.atlasFocus = GameObjectAtlas(atlasName: "focus", textures: ["focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "focus6", "focus5", "focus4", "focus3", "focus2", "focus1"])
+        self.atlasFocus = GameObjectAtlas(
+            atlasName: "focus",
+            textures: [
+                "focus1", "focus2", "focus3", "focus4", "focus5", "focus6",
+                "focus6", "focus5", "focus4", "focus3", "focus2", "focus1"
+            ]
+        )
 
-        self.atlasAttackFocus = GameObjectAtlas(atlasName: "focus_attack", textures: ["focus_attack1", "focus_attack2", "focus_attack3", "focus_attack3", "focus_attack2", "focus_attack1"])
+        self.atlasAttackFocus = GameObjectAtlas(
+            atlasName: "focus_attack",
+            textures: [
+                "focus_attack1", "focus_attack2", "focus_attack3",
+                "focus_attack3", "focus_attack2", "focus_attack1"
+            ]
+        )
 
         super.init()
     }
@@ -123,10 +135,9 @@ class UnitLayer: SKNode {
 
     private func unitObject(at location: HexPoint) -> UnitObject? {
 
-        for object in self.unitObjects {
-            if object.unit?.location == location {
-                return object
-            }
+        for object in self.unitObjects where object.unit?.location == location {
+
+            return object
         }
 
         return nil
@@ -138,10 +149,9 @@ class UnitLayer: SKNode {
             fatalError("cant get unit")
         }
 
-        for object in self.unitObjects {
-            if unit.isEqual(to: object.unit) {
-                return object
-            }
+        for object in self.unitObjects where unit.isEqual(to: object.unit) {
+
+            return object
         }
 
         return nil

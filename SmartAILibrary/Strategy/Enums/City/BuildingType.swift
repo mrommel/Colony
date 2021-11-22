@@ -218,64 +218,89 @@ public enum BuildingType: Int, Codable {
         switch self {
 
         case .none:
-            return BuildingTypeData(name: "",
-                                    effects: [],
-                                    category: .none,
-                                    era: .none,
-                                    district: .cityCenter,
-                                    requiredTech: nil,
-                                    requiredCivic: nil,
-                                    requiredBuilding: nil,
-                                    productionCost: 0,
-                                    goldCost: -1,
-                                    faithCost: -1,
-                                    maintenanceCost: 0,
-                                    yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
-                                    defense: 0,
-                                    slots: [],
-                                    specialSlots: nil,
-                                    flavours: [])
+            return BuildingTypeData(
+                name: "",
+                effects: [],
+                category: .none,
+                era: .none,
+                district: .cityCenter,
+                requiredTech: nil,
+                requiredCivic: nil,
+                requiredBuilding: nil,
+                productionCost: 0,
+                goldCost: -1,
+                faithCost: -1,
+                maintenanceCost: 0,
+                yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: nil,
+                flavours: []
+            )
 
         case .palace:
             // https://civilization.fandom.com/wiki/Palace_(Civ6)
-            return BuildingTypeData(name: "Palace",
-                                    effects: ["+1 Culture", "+5 Gold", "+2 Production", "+2 Science", "+1 Housing", "+2 Amenity from entertainment"],
-                                    category: .government,
-                                    era: .ancient,
-                                    district: .cityCenter,
-                                    requiredTech: nil,
-                                    requiredCivic: nil,
-                                    requiredBuilding: nil,
-                                    productionCost: 0,
-                                    goldCost: -1,
-                                    faithCost: -1,
-                                    maintenanceCost: 0,
-                                    yields: Yields(food: 0, production: 2, gold: 5, science: 2, culture: 1, faith: 0, housing: 1),
-                                    defense: 25,
-                                    slots: [.any],
-                                    specialSlots: nil,
-                                    flavours: [])
+            return BuildingTypeData(
+                name: "Palace",
+                effects: [
+                    "+1 Culture",
+                    "+5 Gold",
+                    "+2 Production",
+                    "+2 Science",
+                    "+1 Housing",
+                    "+2 Amenity from entertainment"
+                ],
+                category: .government,
+                era: .ancient,
+                district: .cityCenter,
+                requiredTech: nil,
+                requiredCivic: nil,
+                requiredBuilding: nil,
+                productionCost: 0,
+                goldCost: -1,
+                faithCost: -1,
+                maintenanceCost: 0,
+                yields: Yields(food: 0, production: 2, gold: 5, science: 2, culture: 1, faith: 0, housing: 1),
+                defense: 25,
+                slots: [.any],
+                specialSlots: nil,
+                flavours: []
+            )
 
             // ancient
         case .granary:
             // https://civilization.fandom.com/wiki/Granary_(Civ6)
-            return BuildingTypeData(name: "Granary",
-                                    effects: ["+1 Food", "+2 Housing"],
-                                    category: .population,
-                                    era: .ancient,
-                                    district: .cityCenter,
-                                    requiredTech: .pottery,
-                                    requiredCivic: nil,
-                                    requiredBuilding: nil,
-                                    productionCost: 65,
-                                    goldCost: 65,
-                                    faithCost: -1,
-                                    maintenanceCost: 0,
-                                    yields: Yields(food: 1, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 2),
-                                    defense: 0,
-                                    slots: [],
-                                    specialSlots: nil,
-                                    flavours: [Flavor(type: .growth, value: 10), Flavor(type: .greatPeople, value: 3), Flavor(type: .science, value: 4), Flavor(type: .tileImprovement, value: 3), Flavor(type: .gold, value: 2), Flavor(type: .production, value: 3), Flavor(type: .offense, value: 1), Flavor(type: .defense, value: 1)])
+            return BuildingTypeData(
+                name: "Granary",
+                effects: [
+                    "+1 Food",
+                    "+2 Housing"
+                ],
+                category: .population,
+                era: .ancient,
+                district: .cityCenter,
+                requiredTech: .pottery,
+                requiredCivic: nil,
+                requiredBuilding: nil,
+                productionCost: 65,
+                goldCost: 65,
+                faithCost: -1,
+                maintenanceCost: 0,
+                yields: Yields(food: 1, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 2),
+                defense: 0,
+                slots: [],
+                specialSlots: nil,
+                flavours: [
+                    Flavor(type: .growth, value: 10),
+                    Flavor(type: .greatPeople, value: 3),
+                    Flavor(type: .science, value: 4),
+                    Flavor(type: .tileImprovement, value: 3),
+                    Flavor(type: .gold, value: 2),
+                    Flavor(type: .production, value: 3),
+                    Flavor(type: .offense, value: 1),
+                    Flavor(type: .defense, value: 1)
+                ]
+            )
         case .monument:
             // https://civilization.fandom.com/wiki/Monument_(Civ6)
             return BuildingTypeData(
@@ -461,232 +486,308 @@ public enum BuildingType: Int, Codable {
         case .waterMill:
             // https://civilization.fandom.com/wiki/Water_Mill_(Civ6)
             // FIXME It can be built in the City Center if the city is next to a River.
-            return BuildingTypeData(name: "Water Mill",
-                                    effects: [
-                                        "+1 Food",
-                                        "+1 Production",
-                                        "Bonus resources improved by Farms gain +1 Food Food each." // #
-                                    ],
-                                    category: .military,
-                                    era: .ancient,
-                                    district: .cityCenter,
-                                    requiredTech: .wheel,
-                                    requiredCivic: nil,
-                                    requiredBuilding: nil,
-                                    productionCost: 80,
-                                    goldCost: 80,
-                                    faithCost: -1,
-                                    maintenanceCost: 0,
-                                    yields: Yields(food: 1, production: 1, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
-                                    defense: 0,
-                                    slots: [],
-                                    specialSlots: nil,
-                                    flavours: [Flavor(type: .growth, value: 7), Flavor(type: .science, value: 4), Flavor(type: .tileImprovement, value: 3), Flavor(type: .production, value: 3), Flavor(type: .offense, value: 1), Flavor(type: .defense, value: 1)])
+            return BuildingTypeData(
+                name: "Water Mill",
+                effects: [
+                    "+1 Food",
+                    "+1 Production",
+                    "Bonus resources improved by Farms gain +1 Food each." // #
+                ],
+                category: .military,
+                era: .ancient,
+                district: .cityCenter,
+                requiredTech: .wheel,
+                requiredCivic: nil,
+                requiredBuilding: nil,
+                productionCost: 80,
+                goldCost: 80,
+                faithCost: -1,
+                maintenanceCost: 0,
+                yields: Yields(food: 1, production: 1, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: nil,
+                flavours: [
+                    Flavor(type: .growth, value: 7),
+                    Flavor(type: .science, value: 4),
+                    Flavor(type: .tileImprovement, value: 3),
+                    Flavor(type: .production, value: 3),
+                    Flavor(type: .offense, value: 1),
+                    Flavor(type: .defense, value: 1)
+                ]
+            )
 
             // classical
         case .amphitheater:
             // https://civilization.fandom.com/wiki/Amphitheater_(Civ6)
-            return BuildingTypeData(name: "Amphitheater",
-                                    effects: [
-                                        "+2 Culture",
-                                        "+1 Citizen slot",
-                                        "+1 Great Writer point per turn",
-                                        "+2 Great Work of Writing slot"
-                                    ],
-                                    category: .cultural,
-                                    era: .classical,
-                                    district: .entertainment,
-                                    requiredTech: nil,
-                                    requiredCivic: .dramaAndPoetry,
-                                    requiredBuilding: nil,
-                                    productionCost: 150,
-                                    goldCost: 150,
-                                    faithCost: -1,
-                                    maintenanceCost: 1,
-                                    yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 2, faith: 0, housing: 0),
-                                    defense: 0,
-                                    slots: [.written, .written],
-                                    specialSlots: SpecialistSlots(type: .artist, amount: 1),
-                                    flavours: [Flavor(type: .growth, value: 4), Flavor(type: .culture, value: 8), Flavor(type: .wonder, value: 1)])
+            return BuildingTypeData(
+                name: "Amphitheater",
+                effects: [
+                    "+2 Culture",
+                    "+1 Citizen slot",
+                    "+1 Great Writer point per turn",
+                    "+2 Great Work of Writing slot"
+                ],
+                category: .cultural,
+                era: .classical,
+                district: .entertainment,
+                requiredTech: nil,
+                requiredCivic: .dramaAndPoetry,
+                requiredBuilding: nil,
+                productionCost: 150,
+                goldCost: 150,
+                faithCost: -1,
+                maintenanceCost: 1,
+                yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 2, faith: 0, housing: 0),
+                defense: 0,
+                slots: [.written, .written],
+                specialSlots: SpecialistSlots(type: .artist, amount: 1),
+                flavours: [
+                    Flavor(type: .growth, value: 4),
+                    Flavor(type: .culture, value: 8),
+                    Flavor(type: .wonder, value: 1)
+                ]
+            )
         case .lighthouse:
             // https://civilization.fandom.com/wiki/Lighthouse_(Civ6)
-            // FIXME +25% combat XP for all naval units trained in this city
             // FIXME +1 TradeRoute6 Trade Route capacity if this city doesn't have a Market.
-            return BuildingTypeData(name: "Lighthouse",
-                                    effects: [
-                                        "+25% combat experience for all naval units trained in this city.",
-                                        "+1 Food",
-                                        "+1 Gold",
-                                        "+1 Housing (+2 additional Housing if City Center is adjacent to Coast)",
-                                        "+1 Citizen Citizen slot",
-                                        "+1 Great Admiral point per turn"
-                                    ],
-                                    category: .cultural,
-                                    era: .classical,
-                                    district: .harbor,
-                                    requiredTech: .celestialNavigation,
-                                    requiredCivic: nil,
-                                    requiredBuilding: nil,
-                                    productionCost: 120,
-                                    goldCost: 120,
-                                    faithCost: -1,
-                                    maintenanceCost: 0,
-                                    yields: Yields(food: 1, production: 0, gold: 1, science: 0, culture: 0, faith: 0, housing: 1),
-                                    defense: 0,
-                                    slots: [],
-                                    specialSlots: SpecialistSlots(type: .captain, amount: 1),
-                                    flavours: [Flavor(type: .growth, value: 7), Flavor(type: .science, value: 4), Flavor(type: .navalTileImprovement, value: 8), Flavor(type: .gold, value: 3), Flavor(type: .offense, value: 1), Flavor(type: .defense, value: 1)])
+            return BuildingTypeData(
+                name: "Lighthouse",
+                effects: [
+                    "+25% combat experience for all naval units trained in this city.", // #
+                    "+1 Food",
+                    "+1 Gold",
+                    "+1 Housing (+2 additional Housing if City Center is adjacent to Coast)",
+                    "+1 Citizen Citizen slot",
+                    "+1 Great Admiral point per turn"
+                ],
+                category: .cultural,
+                era: .classical,
+                district: .harbor,
+                requiredTech: .celestialNavigation,
+                requiredCivic: nil,
+                requiredBuilding: nil,
+                productionCost: 120,
+                goldCost: 120,
+                faithCost: -1,
+                maintenanceCost: 0,
+                yields: Yields(food: 1, production: 0, gold: 1, science: 0, culture: 0, faith: 0, housing: 1),
+                defense: 0,
+                slots: [],
+                specialSlots: SpecialistSlots(type: .captain, amount: 1),
+                flavours: [
+                    Flavor(type: .growth, value: 7),
+                    Flavor(type: .science, value: 4),
+                    Flavor(type: .navalTileImprovement, value: 8),
+                    Flavor(type: .gold, value: 3),
+                    Flavor(type: .offense, value: 1),
+                    Flavor(type: .defense, value: 1)
+                ]
+            )
         case .stable:
             // https://civilization.fandom.com/wiki/Stable_(Civ6)
-            // FIXME +25% combat experience for all light and heavy cavalry units trained in this city
-            // FIXME +25% combat experience for all siege units trained in this city
-            // FIXME Cannot be built if Barracks has already been built in this district.
-            return BuildingTypeData(name: "Stable",
-                                    effects: [
-                                        "+25% combat experience for all cavalry and siege class units trained in this city. May not be built in an Encampment district that already has a Barracks",
-                                        "+1 Production Production",
-                                        "+1 Housing",
-                                        "+1 Citizen slot",
-                                        "+1 Great General point per turn"
-                                    ],
-                                    category: .military,
-                                    era: .classical,
-                                    district: .encampment,
-                                    requiredTech: .horsebackRiding,
-                                    requiredCivic: nil,
-                                    requiredBuilding: nil,
-                                    productionCost: 120,
-                                    goldCost: 120,
-                                    faithCost: -1,
-                                    maintenanceCost: 1,
-                                    yields: Yields(food: 0, production: 1, gold: 0, science: 0, culture: 0, faith: 0, housing: 1),
-                                    defense: 0,
-                                    slots: [],
-                                    specialSlots: SpecialistSlots(type: .commander, amount: 1),
-                                    flavours: [Flavor(type: .cityDefense, value: 6), Flavor(type: .greatPeople, value: 5), Flavor(type: .offense, value: 8), Flavor(type: .defense, value: 4), Flavor(type: .wonder, value: 1), Flavor(type: .production, value: 1)])
+            return BuildingTypeData(
+                name: "Stable",
+                effects: [
+                    "+25% combat experience for all cavalry and siege class units trained in this city.", // #
+                    "May not be built in an Encampment district that already has a Barracks", // #
+                    "+1 Production Production",
+                    "+1 Housing",
+                    "+1 Citizen slot",
+                    "+1 Great General point per turn"
+                ],
+                category: .military,
+                era: .classical,
+                district: .encampment,
+                requiredTech: .horsebackRiding,
+                requiredCivic: nil,
+                requiredBuilding: nil,
+                productionCost: 120,
+                goldCost: 120,
+                faithCost: -1,
+                maintenanceCost: 1,
+                yields: Yields(food: 0, production: 1, gold: 0, science: 0, culture: 0, faith: 0, housing: 1),
+                defense: 0,
+                slots: [],
+                specialSlots: SpecialistSlots(type: .commander, amount: 1),
+                flavours: [
+                    Flavor(type: .cityDefense, value: 6),
+                    Flavor(type: .greatPeople, value: 5),
+                    Flavor(type: .offense, value: 8),
+                    Flavor(type: .defense, value: 4),
+                    Flavor(type: .wonder, value: 1),
+                    Flavor(type: .production, value: 1)
+                ]
+            )
         case .arena:
             // https://civilization.fandom.com/wiki/Arena_(Civ6)
-            // FIXME +1 Tourism after developing the Conservation civic
-            return BuildingTypeData(name: "Arena",
-                                    effects: [
-                                        "+2 Amenities",
-                                        "+1 Culture",
-                                        "+1 Tourism (with Conservation)"
-                                    ],
-                                    category: .entertainment,
-                                    era: .classical,
-                                    district: .entertainment,
-                                    requiredTech: nil,
-                                    requiredCivic: .gamesAndRecreation,
-                                    requiredBuilding: nil,
-                                    productionCost: 150,
-                                    goldCost: 150,
-                                    faithCost: -1,
-                                    maintenanceCost: 1,
-                                    yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 1, faith: 0, housing: 0),
-                                    defense: 0,
-                                    slots: [],
-                                    specialSlots: nil,
-                                    flavours: [Flavor(type: .culture, value: 7), Flavor(type: .tourism, value: 3), Flavor(type: .expansion, value: 2), Flavor(type: .growth, value: 2), Flavor(type: .wonder, value: 1), Flavor(type: .gold, value: 1), Flavor(type: .greatPeople, value: 1), Flavor(type: .production, value: 1), Flavor(type: .happiness, value: 1), Flavor(type: .science, value: 1), Flavor(type: .diplomacy, value: 1), Flavor(type: .offense, value: 1), Flavor(type: .defense, value: 1), Flavor(type: .cityDefense, value: 1), Flavor(type: .naval, value: 1), Flavor(type: .navalTileImprovement, value: 1), Flavor(type: .religion, value: 1)])
+            return BuildingTypeData(
+                name: "Arena",
+                effects: [
+                    "+2 Amenities",
+                    "+1 Culture",
+                    "+1 Tourism (with Conservation)" // #
+                ],
+                category: .entertainment,
+                era: .classical,
+                district: .entertainment,
+                requiredTech: nil,
+                requiredCivic: .gamesAndRecreation,
+                requiredBuilding: nil,
+                productionCost: 150,
+                goldCost: 150,
+                faithCost: -1,
+                maintenanceCost: 1,
+                yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 1, faith: 0, housing: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: nil,
+                flavours: [
+                    Flavor(type: .culture, value: 7),
+                    Flavor(type: .tourism, value: 3),
+                    Flavor(type: .expansion, value: 2),
+                    Flavor(type: .growth, value: 2),
+                    Flavor(type: .wonder, value: 1),
+                    Flavor(type: .gold, value: 1),
+                    Flavor(type: .greatPeople, value: 1),
+                    Flavor(type: .production, value: 1),
+                    Flavor(type: .happiness, value: 1),
+                    Flavor(type: .science, value: 1),
+                    Flavor(type: .diplomacy, value: 1),
+                    Flavor(type: .offense, value: 1),
+                    Flavor(type: .defense, value: 1),
+                    Flavor(type: .cityDefense, value: 1),
+                    Flavor(type: .naval, value: 1),
+                    Flavor(type: .navalTileImprovement, value: 1),
+                    Flavor(type: .religion, value: 1)
+                ]
+            )
         case .market:
             // https://civilization.fandom.com/wiki/Market_(Civ6)
             // FIXME +1 Trade Route capacity if this city doesn't have a Lighthouse.
-            return BuildingTypeData(name: "Market",
-                                    effects: [
-                                        "+3 Gold",
-                                        "+1 Citizen slot",
-                                        "+1 Great Merchant point per turn"
-                                    ],
-                                    category: .economic,
-                                    era: .classical,
-                                    district: .commercialHub,
-                                    requiredTech: .currency,
-                                    requiredCivic: nil,
-                                    requiredBuilding: nil,
-                                    productionCost: 120,
-                                    goldCost: 120,
-                                    faithCost: -1,
-                                    maintenanceCost: 0,
-                                    yields: Yields(food: 0, production: 0, gold: 3, science: 0, culture: 0, faith: 0, housing: 0),
-                                    defense: 0,
-                                    slots: [],
-                                    specialSlots: SpecialistSlots(type: .merchant, amount: 1),
-                                    flavours: [Flavor(type: .cityDefense, value: 2), Flavor(type: .greatPeople, value: 5), Flavor(type: .gold, value: 8), Flavor(type: .offense, value: 1), Flavor(type: .defense, value: 1), Flavor(type: .wonder, value: 1), Flavor(type: .production, value: 1)])
+            return BuildingTypeData(
+                name: "Market",
+                effects: [
+                    "+3 Gold",
+                    "+1 Citizen slot",
+                    "+1 Great Merchant point per turn"
+                ],
+                category: .economic,
+                era: .classical,
+                district: .commercialHub,
+                requiredTech: .currency,
+                requiredCivic: nil,
+                requiredBuilding: nil,
+                productionCost: 120,
+                goldCost: 120,
+                faithCost: -1,
+                maintenanceCost: 0,
+                yields: Yields(food: 0, production: 0, gold: 3, science: 0, culture: 0, faith: 0, housing: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: SpecialistSlots(type: .merchant, amount: 1),
+                flavours: [
+                    Flavor(type: .cityDefense, value: 2),
+                    Flavor(type: .greatPeople, value: 5),
+                    Flavor(type: .gold, value: 8),
+                    Flavor(type: .offense, value: 1),
+                    Flavor(type: .defense, value: 1),
+                    Flavor(type: .wonder, value: 1),
+                    Flavor(type: .production, value: 1)
+                ]
+            )
         case .temple:
             // https://civilization.fandom.com/wiki/Temple_(Civ6)
-            return BuildingTypeData(name: "Temple",
-                                    effects: [
-                                        "+4 Faith",
-                                        "+1 Citizen slot",
-                                        "+1 Great Prophet point per turn",
-                                        "+1 Relic slot",
-                                        "Allows the purchasing of Apostles, Gurus, and Inquisitors (after an Apostle uses its Launch Inquisition ability) with Faith Faith."
-                                    ],
-                                    category: .religious,
-                                    era: .classical,
-                                    district: .holySite,
-                                    requiredTech: nil,
-                                    requiredCivic: .theology,
-                                    requiredBuilding: .shrine,
-                                    productionCost: 120,
-                                    goldCost: 120,
-                                    faithCost: -1,
-                                    maintenanceCost: 2,
-                                    yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 4, housing: 0),
-                                    defense: 0,
-                                    slots: [.relic],
-                                    specialSlots: SpecialistSlots(type: .priest, amount: 1),
-                                    flavours: [Flavor(type: .greatPeople, value: 5), Flavor(type: .religion, value: 10)])
+            return BuildingTypeData(
+                name: "Temple",
+                effects: [
+                    "+4 Faith",
+                    "+1 Citizen slot",
+                    "+1 Great Prophet point per turn",
+                    "+1 Relic slot",
+                    "Allows the purchasing of Apostles, Gurus, and Inquisitors (after an Apostle uses its Launch Inquisition ability) with Faith Faith."
+                ],
+                category: .religious,
+                era: .classical,
+                district: .holySite,
+                requiredTech: nil,
+                requiredCivic: .theology,
+                requiredBuilding: .shrine,
+                productionCost: 120,
+                goldCost: 120,
+                faithCost: -1,
+                maintenanceCost: 2,
+                yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 4, housing: 0),
+                defense: 0,
+                slots: [.relic],
+                specialSlots: SpecialistSlots(type: .priest, amount: 1),
+                flavours: [
+                    Flavor(type: .greatPeople, value: 5),
+                    Flavor(type: .religion, value: 10)
+                ]
+            )
 
             // --------------------------------------
             // medieval
         case .medievalWalls:
             // https://civilization.fandom.com/wiki/Medieval_Walls_(Civ6)
-            // FIXME +2 Housing under the Monarchy Government
             // FIXME +2 Tourism (with Conservation)
-            return BuildingTypeData(name: "Medieval Walls",
-                                    effects: [
-                                        "+100 Outer Defense Strength",
-                                        "+2 Housing under the Monarchy Government."
-                                    ],
-                                    category: .defensive,
-                                    era: .medieval,
-                                    district: .cityCenter,
-                                    requiredTech: .castles,
-                                    requiredCivic: nil,
-                                    requiredBuilding: .ancientWalls,
-                                    productionCost: 225,
-                                    goldCost: -1,
-                                    faithCost: -1,
-                                    maintenanceCost: 0,
-                                    yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
-                                    defense: 100,
-                                    slots: [],
-                                    specialSlots: nil,
-                                    flavours: [Flavor(type: .militaryTraining, value: 7), Flavor(type: .offense, value: 5), Flavor(type: .defense, value: 6), Flavor(type: .production, value: 2), Flavor(type: .naval, value: 2), Flavor(type: .tileImprovement, value: 2)])
+            return BuildingTypeData(
+                name: "Medieval Walls",
+                effects: [
+                    "+100 Outer Defense Strength",
+                    "+2 Housing under the Monarchy Government." // #
+                ],
+                category: .defensive,
+                era: .medieval,
+                district: .cityCenter,
+                requiredTech: .castles,
+                requiredCivic: nil,
+                requiredBuilding: .ancientWalls,
+                productionCost: 225,
+                goldCost: -1,
+                faithCost: -1,
+                maintenanceCost: 0,
+                yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
+                defense: 100,
+                slots: [],
+                specialSlots: nil,
+                flavours: [
+                    Flavor(type: .militaryTraining, value: 7),
+                    Flavor(type: .offense, value: 5),
+                    Flavor(type: .defense, value: 6),
+                    Flavor(type: .production, value: 2),
+                    Flavor(type: .naval, value: 2),
+                    Flavor(type: .tileImprovement, value: 2)
+                ]
+            )
         case .workshop:
             // https://civilization.fandom.com/wiki/Workshop_(Civ6)
-            return BuildingTypeData(name: "Workshop",
-                                    effects: [
-                                        "+3 Production",
-                                        "+1 Citizen slot",
-                                        "+1 Great Engineer point per turn"
-                                    ],
-                                    category: .production,
-                                    era: .medieval,
-                                    district: .industrial,
-                                    requiredTech: .apprenticeship,
-                                    requiredCivic: nil,
-                                    requiredBuilding: nil,
-                                    productionCost: 195,
-                                    goldCost: 195,
-                                    faithCost: -1,
-                                    maintenanceCost: 1,
-                                    yields: Yields(food: 0, production: 2, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
-                                    defense: 0,
-                                    slots: [],
-                                    specialSlots: SpecialistSlots(type: .engineer, amount: 1),
-                                    flavours: [Flavor(type: .production, value: 7)])
+            return BuildingTypeData(
+                name: "Workshop",
+                effects: [
+                    "+3 Production",
+                    "+1 Citizen slot",
+                    "+1 Great Engineer point per turn"
+                ],
+                category: .production,
+                era: .medieval,
+                district: .industrial,
+                requiredTech: .apprenticeship,
+                requiredCivic: nil,
+                requiredBuilding: nil,
+                productionCost: 195,
+                goldCost: 195,
+                faithCost: -1,
+                maintenanceCost: 1,
+                yields: Yields(food: 0, production: 2, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: SpecialistSlots(type: .engineer, amount: 1),
+                flavours: [
+                    Flavor(type: .production, value: 7)
+                ]
+            )
 
             // --------------------------------------
             // renaissance
@@ -694,50 +795,64 @@ public enum BuildingType: Int, Codable {
             // https://civilization.fandom.com/wiki/Renaissance_Walls_(Civ6)
             // FIXME +3 Tourism (with Conservation)
             // FIXME +2 Science with the Military Research Policy
-            return BuildingTypeData(name: "Renaissance Walls",
-                                    effects: [
-                                        "+100 Outer Defense Strength"
-                                    ],
-                                    category: .defensive,
-                                    era: .renaissance,
-                                    district: .cityCenter,
-                                    requiredTech: .siegeTactics,
-                                    requiredCivic: nil,
-                                    requiredBuilding: .medievalWalls,
-                                    productionCost: 305,
-                                    goldCost: -1,
-                                    faithCost: -1,
-                                    maintenanceCost: 0,
-                                    yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
-                                    defense: 100,
-                                    slots: [],
-                                    specialSlots: nil,
-                                    flavours: [Flavor(type: .militaryTraining, value: 7), Flavor(type: .offense, value: 5), Flavor(type: .defense, value: 7), Flavor(type: .production, value: 2), Flavor(type: .naval, value: 2), Flavor(type: .tileImprovement, value: 2)])
+            return BuildingTypeData(
+                name: "Renaissance Walls",
+                effects: [
+                    "+100 Outer Defense Strength"
+                ],
+                category: .defensive,
+                era: .renaissance,
+                district: .cityCenter,
+                requiredTech: .siegeTactics,
+                requiredCivic: nil,
+                requiredBuilding: .medievalWalls,
+                productionCost: 305,
+                goldCost: -1,
+                faithCost: -1,
+                maintenanceCost: 0,
+                yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
+                defense: 100,
+                slots: [],
+                specialSlots: nil,
+                flavours: [
+                    Flavor(type: .militaryTraining, value: 7),
+                    Flavor(type: .offense, value: 5),
+                    Flavor(type: .defense, value: 7),
+                    Flavor(type: .production, value: 2),
+                    Flavor(type: .naval, value: 2),
+                    Flavor(type: .tileImprovement, value: 2)
+                ]
+            )
         case .shipyard:
             // https://civilization.fandom.com/wiki/Shipyard_(Civ6)
-            return BuildingTypeData(name: "Shipyard",
-                                    effects: [
-                                        "+25% combat experience for all naval units trained in this city.",
-                                        "Bonus Production equal to the adjacency Gold bonus of its district.",
-                                        "+1 Production to all unimproved Coast and Lake tiles in the city.",
-                                        "+1 Citizen slot",
-                                        "+1 Great Admiral point per turn"
-                                    ],
-                                    category: .maritime,
-                                    era: .renaissance,
-                                    district: .harbor,
-                                    requiredTech: .massProduction,
-                                    requiredCivic: nil,
-                                    requiredBuilding: .lighthouse,
-                                    productionCost: 290,
-                                    goldCost: 290,
-                                    faithCost: -1,
-                                    maintenanceCost: 2,
-                                    yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
-                                    defense: 0,
-                                    slots: [],
-                                    specialSlots: SpecialistSlots(type: .captain, amount: 1),
-                                    flavours: [Flavor(type: .naval, value: 7), Flavor(type: .militaryTraining, value: 7) ])
+            return BuildingTypeData(
+                name: "Shipyard",
+                effects: [
+                    "+25% combat experience for all naval units trained in this city.",
+                    "Bonus Production equal to the adjacency Gold bonus of its district.",
+                    "+1 Production to all unimproved Coast and Lake tiles in the city.",
+                    "+1 Citizen slot",
+                    "+1 Great Admiral point per turn"
+                ],
+                category: .maritime,
+                era: .renaissance,
+                district: .harbor,
+                requiredTech: .massProduction,
+                requiredCivic: nil,
+                requiredBuilding: .lighthouse,
+                productionCost: 290,
+                goldCost: 290,
+                faithCost: -1,
+                maintenanceCost: 2,
+                yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: SpecialistSlots(type: .captain, amount: 1),
+                flavours: [
+                    Flavor(type: .naval, value: 7),
+                    Flavor(type: .militaryTraining, value: 7)
+                ]
+            )
         }
     }
 }

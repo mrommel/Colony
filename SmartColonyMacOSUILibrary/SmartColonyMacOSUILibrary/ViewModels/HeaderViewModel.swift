@@ -57,6 +57,9 @@ class HeaderViewModel: ObservableObject {
     private var displayedTechType: TechType = .none
     private var displayedTechProgress: Double = 0.0
 
+    private var displayedCivicType: CivicType = .none
+    private var displayedCivicProgress: Double = 0.0
+
     init() {
 
         self.scienceHeaderViewModel = HeaderButtonViewModel(type: .science)
@@ -131,11 +134,22 @@ class HeaderViewModel: ObservableObject {
         if let civics = humanPlayer.civics {
             if let currentCivic = civics.currentCivic() {
 
-                let progressPercentage: Int = Int(civics.currentCultureProgress() / Double(currentCivic.cost()) * 100.0)
-                let culturePerTurn = humanPlayer.culture(in: gameModel)
-                let turns: Int = culturePerTurn > 0.0 ? Int((Double(currentCivic.cost()) - civics.currentCultureProgress()) / culturePerTurn) : 0
-                let boosted: Bool = civics.eurekaTriggered(for: currentCivic)
-                self.civicProgressViewModel.update(civicType: currentCivic, progress: progressPercentage, turns: turns, boosted: boosted)
+                if self.displayedCivicType != currentCivic || self.displayedTechProgress < civics.currentCultureProgress() {
+
+                    let progressPercentage: Int = Int(civics.currentCultureProgress() / Double(currentCivic.cost()) * 100.0)
+                    let culturePerTurn = humanPlayer.culture(in: gameModel)
+                    let turns: Int = culturePerTurn > 0.0 ? Int((Double(currentCivic.cost()) - civics.currentCultureProgress()) / culturePerTurn) : 0
+                    let boosted: Bool = civics.eurekaTriggered(for: currentCivic)
+                    self.civicProgressViewModel.update(
+                        civicType: currentCivic,
+                        progress: progressPercentage,
+                        turns: turns,
+                        boosted: boosted
+                    )
+
+                    self.displayedCivicType = currentCivic
+                    self.displayedCivicProgress = civics.currentCultureProgress()
+                }
             } else {
                 self.civicProgressViewModel.update(civicType: .none, progress: 0, turns: 0, boosted: false)
             }

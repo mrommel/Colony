@@ -86,7 +86,10 @@ class ChangePoliciesDialog: Dialog {
     private func setupScrollView() {
 
         // scroll area
-        self.scrollNode = ScrollNode(size: CGSize(width: 310, height: 370), contentSize: CGSize(width: 310, height: PolicyCardType.all.count / 3 * 105 + 10))
+        self.scrollNode = ScrollNode(
+            size: CGSize(width: 310, height: 370),
+            contentSize: CGSize(width: 310, height: PolicyCardType.all.count / 3 * 105 + 10)
+        )
         self.scrollNode?.position = CGPoint(x: 0, y: -400)
         self.scrollNode?.zPosition = self.zPosition + 1
         self.addChild(self.scrollNode!)

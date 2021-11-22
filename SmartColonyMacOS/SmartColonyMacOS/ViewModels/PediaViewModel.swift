@@ -117,10 +117,10 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
     init(terrain: TerrainType) {
 
         self.title = terrain.name()
-        var summaryText = "Base terrain of the \(terrain.domain()) domain."
+        let summaryText = "Base terrain of the \(terrain.domain()) domain."
         self.summary = summaryText
 
-        var detailText = "Yields: \(terrain.yields().food) [Food] Food, \(terrain.yields().production) " +
+        let detailText = "Yields: \(terrain.yields().food) [Food] Food, \(terrain.yields().production) " +
             "[Production] Production and \(terrain.yields().gold) Gold"
         self.detail = detailText
         self.imageName = terrain.textureNames().first ?? "no_image" // add default

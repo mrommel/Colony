@@ -28,7 +28,7 @@ class AssetExtractionTests: XCTestCase {
             XCTAssertEqual(image.size.width, 782)
             XCTAssertEqual(image.size.height, 782)
         } else {
-            XCTFail()
+            XCTFail("could not load arbalest")
         }
         #elseif os(OSX)
         let bundle = Bundle.init(for: type(of: self))
@@ -36,7 +36,7 @@ class AssetExtractionTests: XCTestCase {
             XCTAssertEqual(image.size.width, 782)
             XCTAssertEqual(image.size.height, 782)
         } else {
-            XCTFail()
+            XCTFail("could not load arbalest")
         }
         #endif
 

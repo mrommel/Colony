@@ -5,7 +5,6 @@ import SwiftUI
 import PlaygroundSupport
 
 import Combine
-import SwiftUI
 
 struct SnapPointPreferenceData {
     let frame: Anchor<CGRect>

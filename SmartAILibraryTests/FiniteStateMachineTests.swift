@@ -9,8 +9,6 @@
 import XCTest
 @testable import SmartAILibrary
 
-// swiftlint:disable force_try
-
 enum TestState: Int, Equatable {
 
     case stateA = 0

@@ -183,7 +183,13 @@ class PediaScene: BaseScene {
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
         mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
 
-        let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
 
         // AI
         aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
@@ -236,7 +242,13 @@ class PediaScene: BaseScene {
 
         mapModel.set(improvement: .barbarianCamp, at: HexPoint(x: 6, y: 5))
 
-        let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
 
         // AI
         aiPlayer.found(at: HexPoint(x: 16, y: 5), named: "AI Capital", in: gameModel)
@@ -291,7 +303,13 @@ class PediaScene: BaseScene {
         mapModel.set(improvement: .mine, at: HexPoint(x: 2, y: 5))
         mapModel.set(improvement: .farm, at: HexPoint(x: 3, y: 4))
 
-        let gameModel = GameModel(victoryTypes: [.domination], handicap: .settler, turnsElapsed: 0, players: [barbarPlayer, aiPlayer, humanPlayer], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .settler,
+            turnsElapsed: 0,
+            players: [barbarPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
 
         // AI
         aiPlayer.found(at: HexPoint(x: 18, y: 5), named: "AI Capital", in: gameModel) // found out of sight
@@ -436,7 +454,14 @@ class PediaScene: BaseScene {
 
         let gameModel = GameModel(victoryTypes: [.domination], handicap: .settler, turnsElapsed: 0, players: [otherPlayer, humanPlayer], on: mapModel)
 
-        let viewModel = DiplomaticDialogViewModel(for: humanPlayer, and: otherPlayer, state: .intro, message: .messageIntro, emotion: .neutral, in: gameModel)
+        let viewModel = DiplomaticDialogViewModel(
+            for: humanPlayer,
+            and: otherPlayer,
+            state: .intro,
+            message: .messageIntro,
+            emotion: .neutral,
+            in: gameModel
+        )
 
         let diplomaticDialog = DiplomaticDialog(viewModel: viewModel)
         diplomaticDialog.zPosition = 250
