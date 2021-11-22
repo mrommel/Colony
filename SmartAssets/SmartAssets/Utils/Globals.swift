@@ -121,3 +121,15 @@ public extension Globals {
         }
     }
 }
+
+public extension Globals {
+
+    struct Fonts {
+
+        // public static let systemFontBold = NSFont.systemFont(ofSize: 24, weight: UIFont.Weight.bold)
+        // public static let systemFontBoldFamilyname = systemFontBold.familyName
+
+        public static let tooltipTitleFont = NSFont.systemFont(ofSize: 16)
+        //public static let systemFontFamilyname = systemFont.familyName
+    }
+}

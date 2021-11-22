@@ -141,6 +141,7 @@
 		C99AB18E27477FB900BF0B4D /* WonderLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99AB18D27477FB900BF0B4D /* WonderLayer.swift */; };
 		C99EA75926BD72DE006FAA40 /* ReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EA75826BD72DE006FAA40 /* ReplyView.swift */; };
 		C99EA75B26BD74F0006FAA40 /* ReplyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EA75A26BD74F0006FAA40 /* ReplyViewModel.swift */; };
+		C99EB0F9274BD27C00D2FAE6 /* CustomToolTip in Frameworks */ = {isa = PBXBuildFile; productRef = C99EB0F8274BD27C00D2FAE6 /* CustomToolTip */; };
 		C9A12B6F26FAFE370094B980 /* HeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A12B6E26FAFE370094B980 /* HeaderViewModel.swift */; };
 		C9A12B7126FB0C420094B980 /* CityLoyaltyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A12B7026FB0C420094B980 /* CityLoyaltyViewModel.swift */; };
 		C9A12B7326FB0CD90094B980 /* CityLoyaltyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A12B7226FB0CD90094B980 /* CityLoyaltyView.swift */; };
@@ -422,6 +423,7 @@
 		C99AB18D27477FB900BF0B4D /* WonderLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderLayer.swift; sourceTree = "<group>"; };
 		C99EA75826BD72DE006FAA40 /* ReplyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyView.swift; sourceTree = "<group>"; };
 		C99EA75A26BD74F0006FAA40 /* ReplyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyViewModel.swift; sourceTree = "<group>"; };
+		C99EB0F4274BCFD600D2FAE6 /* CustomToolTip */ = {isa = PBXFileReference; lastKnownFileType = folder; name = CustomToolTip; path = ../../CustomToolTip; sourceTree = "<group>"; };
 		C9A12B6E26FAFE370094B980 /* HeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewModel.swift; sourceTree = "<group>"; };
 		C9A12B7026FB0C420094B980 /* CityLoyaltyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityLoyaltyViewModel.swift; sourceTree = "<group>"; };
 		C9A12B7226FB0CD90094B980 /* CityLoyaltyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityLoyaltyView.swift; sourceTree = "<group>"; };
@@ -556,6 +558,7 @@
 				C99A887E2607A06C003B8B73 /* SmartAILibrary.framework in Frameworks */,
 				C95C7A76273827E300B2CE1A /* Charts in Frameworks */,
 				C99A88842607A190003B8B73 /* SmartAssets.framework in Frameworks */,
+				C99EB0F9274BD27C00D2FAE6 /* CustomToolTip in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -712,6 +715,7 @@
 		C99A885226079F4C003B8B73 = {
 			isa = PBXGroup;
 			children = (
+				C99EB0F3274BCFD600D2FAE6 /* Packages */,
 				C99A885E26079F4C003B8B73 /* SmartColonyMacOSUILibrary */,
 				C99A885D26079F4C003B8B73 /* Products */,
 				C99A887C2607A06C003B8B73 /* Frameworks */,
@@ -811,6 +815,14 @@
 				C925676E26563C7700B895BD /* CityBuildQueueManager.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		C99EB0F3274BCFD600D2FAE6 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				C99EB0F4274BCFD600D2FAE6 /* CustomToolTip */,
+			);
+			name = Packages;
 			sourceTree = "<group>";
 		};
 		C9A3761D2635F6FD0057923E /* Nodes */ = {
@@ -1065,10 +1077,12 @@
 			buildRules = (
 			);
 			dependencies = (
+				C99EB0C6274BBCCC00D2FAE6 /* PBXTargetDependency */,
 			);
 			name = SmartMacOSUILibrary;
 			packageProductDependencies = (
 				C95C7A75273827E300B2CE1A /* Charts */,
+				C99EB0F8274BD27C00D2FAE6 /* CustomToolTip */,
 			);
 			productName = SmartColonyMacOSUILibrary;
 			productReference = C99A885C26079F4C003B8B73 /* SmartMacOSUILibrary.framework */;
@@ -1099,6 +1113,7 @@
 			mainGroup = C99A885226079F4C003B8B73;
 			packageReferences = (
 				C95C7A74273827E300B2CE1A /* XCRemoteSwiftPackageReference "Charts" */,
+				C99EB0F7274BD27C00D2FAE6 /* XCRemoteSwiftPackageReference "CustomToolTip" */,
 			);
 			productRefGroup = C99A885D26079F4C003B8B73 /* Products */;
 			projectDirPath = "";
@@ -1421,6 +1436,13 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		C99EB0C6274BBCCC00D2FAE6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = C99EB0C5274BBCCC00D2FAE6 /* CustomToolTip */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		C99A886226079F4C003B8B73 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1628,6 +1650,22 @@
 				minimumVersion = 4.0.0;
 			};
 		};
+		C99EB0F7274BD27C00D2FAE6 /* XCRemoteSwiftPackageReference "CustomToolTip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mrommel/CustomToolTip";
+			requirement = {
+				kind = exactVersion;
+				version = 1.0.4;
+			};
+		};
+		C9CB7B7D274BB1440080B96B /* XCRemoteSwiftPackageReference "CustomToolTip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/chipjarred/CustomToolTip";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1635,6 +1673,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C95C7A74273827E300B2CE1A /* XCRemoteSwiftPackageReference "Charts" */;
 			productName = Charts;
+		};
+		C99EB0C5274BBCCC00D2FAE6 /* CustomToolTip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C9CB7B7D274BB1440080B96B /* XCRemoteSwiftPackageReference "CustomToolTip" */;
+			productName = CustomToolTip;
+		};
+		C99EB0F8274BD27C00D2FAE6 /* CustomToolTip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C99EB0F7274BD27C00D2FAE6 /* XCRemoteSwiftPackageReference "CustomToolTip" */;
+			productName = CustomToolTip;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

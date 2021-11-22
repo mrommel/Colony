@@ -54,6 +54,9 @@ class HeaderViewModel: ObservableObject {
 
     weak var delegate: GameViewModelDelegate?
 
+    private var displayedTechType: TechType = .none
+    private var displayedTechProgress: Double = 0.0
+
     init() {
 
         self.scienceHeaderViewModel = HeaderButtonViewModel(type: .science)
@@ -104,11 +107,22 @@ class HeaderViewModel: ObservableObject {
         if let techs = humanPlayer.techs {
             if let currentTech = techs.currentTech() {
 
-                let progressPercentage: Int = Int(techs.currentScienceProgress() / Double(currentTech.cost()) * 100.0)
-                let sciencePerTurn = humanPlayer.science(in: gameModel)
-                let turns: Int = sciencePerTurn > 0.0 ? Int((Double(currentTech.cost()) - techs.currentScienceProgress()) / sciencePerTurn) : 0
-                let boosted: Bool = techs.eurekaTriggered(for: currentTech)
-                self.techProgressViewModel.update(techType: currentTech, progress: progressPercentage, turns: turns, boosted: boosted)
+                if self.displayedTechType != currentTech || self.displayedTechProgress < techs.currentScienceProgress() {
+
+                    let progressPercentage: Int = Int(techs.currentScienceProgress() / Double(currentTech.cost()) * 100.0)
+                    let sciencePerTurn = humanPlayer.science(in: gameModel)
+                    let turns: Int = sciencePerTurn > 0.0 ? Int((Double(currentTech.cost()) - techs.currentScienceProgress()) / sciencePerTurn) : 0
+                    let boosted: Bool = techs.eurekaTriggered(for: currentTech)
+                    self.techProgressViewModel.update(
+                        techType: currentTech,
+                        progress: progressPercentage,
+                        turns: turns,
+                        boosted: boosted
+                    )
+
+                    self.displayedTechType = currentTech
+                    self.displayedTechProgress = techs.currentScienceProgress()
+                }
             } else {
                 self.techProgressViewModel.update(techType: .none, progress: 0, turns: 0, boosted: false)
             }

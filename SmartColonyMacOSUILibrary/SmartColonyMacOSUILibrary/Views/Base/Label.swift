@@ -8,32 +8,48 @@
 import SwiftUI
 import SmartAssets
 
+extension NSTextAttachment {
+
+    func setImage(height: CGFloat) {
+
+        guard let image = image else { return }
+
+        let ratio = image.size.width / image.size.height
+
+        self.bounds = CGRect(x: bounds.origin.x, y: bounds.origin.y, width: ratio * height, height: height)
+    }
+}
+
 public struct Label: NSViewRepresentable {
 
-    //fileprivate var configuration = { (view: TheNSView) in }
+    static let tokenizer = LabelTokenizer()
     let text: NSAttributedString
 
     public init(text rawText: String) {
 
-        var test = ""
-        let tokenizer = LabelTokenizer()
-        var attributedString = NSMutableAttributedString()
+        let attributedString = NSMutableAttributedString()
 
-        for token in tokenizer.tokenize(text: rawText) {
+        for token in Label.tokenizer.tokenize(text: rawText) {
 
             switch token {
 
             case .text(content: let content):
                 attributedString.append(NSAttributedString(string: content))
+
+            case .translation(key: let key):
+                let content = NSLocalizedString(key, comment: "automated translation for '\(key)'")
+                attributedString.append(NSAttributedString(string: content))
+
             case .image(type: let type):
                 let attachment: NSTextAttachment = NSTextAttachment()
                 attachment.image = type.image()
-                // attachment.setImageHeight(height: 20)
+                attachment.setImage(height: 12)
 
                 let attachmentString: NSAttributedString = NSAttributedString(attachment: attachment)
                 attributedString.append(attachmentString)
-                //test += "-" + type + "."
             }
+
+            attributedString.append(NSAttributedString(string: " "))
         }
 
         self.text = attributedString

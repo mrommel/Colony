@@ -87,7 +87,7 @@ init(techType: TechType, progress: Int, turns: Int, boosted: Bool) {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: buildingType.iconTexture(),
-                    toolTipText: buildingType.name()
+                    toolTipText: buildingType.toolTip()
                 )
             )
         }
@@ -96,7 +96,7 @@ init(techType: TechType, progress: Int, turns: Int, boosted: Bool) {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: unitType.typeTexture(),
-                    toolTipText: unitType.name()
+                    toolTipText: unitType.toolTip()
                 )
             )
         }
@@ -105,7 +105,7 @@ init(techType: TechType, progress: Int, turns: Int, boosted: Bool) {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: wonderType.iconTexture(),
-                    toolTipText: wonderType.name()
+                    toolTipText: wonderType.toolTip()
                 )
             )
         }
@@ -114,7 +114,7 @@ init(techType: TechType, progress: Int, turns: Int, boosted: Bool) {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: buildType.iconTexture(),
-                    toolTipText: buildType.name()
+                    toolTipText: buildType.toolTip()
                 )
             )
         }
@@ -123,7 +123,7 @@ init(techType: TechType, progress: Int, turns: Int, boosted: Bool) {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: districtType.iconTexture(),
-                    toolTipText: districtType.name()
+                    toolTipText: districtType.toolTip()
                 )
             )
         }

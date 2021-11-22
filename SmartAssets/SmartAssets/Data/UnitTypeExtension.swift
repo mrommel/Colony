@@ -10,6 +10,19 @@ import SmartAILibrary
 
 extension UnitType {
 
+    public func toolTip() -> NSAttributedString {
+
+        let toolTopText = NSMutableAttributedString()
+
+        let title = NSAttributedString(string: self.name(), attributes: [NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont])
+        toolTopText.append(title)
+
+        let effects = NSAttributedString(string: self.effects().reduce("\n\n", { $0 + $1 + "\n" }))
+        toolTopText.append(effects)
+
+        return toolTopText
+    }
+
     public func iconTexture() -> NSImage {
 
         if let texture = self.idleAtlas?.textures.first {

@@ -13,13 +13,26 @@ public enum LabelImageType {
     // yields
     case food
     case production
+    case gold
+
+    case tradeRoute
+    case loyalty
+    case capital
+    case strength
 
     static func fromString(value: String) -> LabelImageType {
 
         switch value {
 
+            // yields
         case "[Food]": return .food
         case "[Production]": return .production
+        case "[Gold]": return .gold
+
+        case "[TradeRoute]": return .tradeRoute
+        case "[Loyalty]": return .loyalty
+        case "[Capital]": return .capital
+        case "[Strength]": return .strength
 
         default:
             fatalError("Value: '\(value)' not handled.")
@@ -30,8 +43,16 @@ public enum LabelImageType {
 
         switch self {
 
+            // yields
         case .food: return Globals.Icons.food
         case .production: return Globals.Icons.production
+        case .gold: return Globals.Icons.gold
+
+        case .tradeRoute: return Globals.Icons.tradeRoute
+        case .loyalty: return Globals.Icons.loyalty
+        case .capital: return Globals.Icons.capital
+        case .strength: return Globals.Icons.strength
+
         }
     }
 }
@@ -39,6 +60,7 @@ public enum LabelImageType {
 public enum LabelTokenType {
 
     case text(content: String)
+    case translation(key: String)
     case image(type: LabelImageType)
 }
 
@@ -50,6 +72,9 @@ extension LabelTokenType: Equatable {
 
         case (.text(content: let lhsContent), .text(content: let rhsContent)):
             return lhsContent == rhsContent
+
+        case (.translation(key: let lhsKey), .translation(key: let rhsKey)):
+            return lhsKey == rhsKey
 
         case (.image(type: let lhsType), .image(type: let rhsType)):
             return lhsType == rhsType
@@ -89,7 +114,6 @@ public class LabelTokenizer {
 
         for match in matches {
 
-            // print("resultType: \(match.resultType)")
             if String.Index(utf16Offset: match.range.location, in: text) != endLastMatchLocation {
 
                 let start = endLastMatchLocation
@@ -115,26 +139,14 @@ public class LabelTokenizer {
             let end = String.Index(utf16Offset: text.utf16.count, in: text)
 
             let content: String = String(text.utf16[start..<end])!.trimmingCharacters(in: .whitespacesAndNewlines)
-            matchResults.append(LabelTokenType.text(content: content))
+
+            if content.starts(with: "TXT_KEY_") {
+                matchResults.append(LabelTokenType.translation(key: content))
+            } else {
+                matchResults.append(LabelTokenType.text(content: content))
+            }
         }
 
-        print(matchResults)
         return matchResults
-
-        // the combination of zip, dropFirst and map to optional here is a trick
-        // to be able to map on [(result1, result2), (result2, result3), (result3, nil)]
-        /*let results = zip(matches, matches.dropFirst().map { Optional.some($0) } + [nil]).map { current, next -> String in
-            let range = current.range(at: 0)
-            let start = String.Index(utf16Offset: range.location, in: text)
-            // if there's a next, use it's starting location as the ending of our match
-            // otherwise, go to the end of the searched string
-            let end = next
-                .map { $0.range(at: 0) }
-                .map { String.Index(utf16Offset: $0.location, in: text) } ?? String.Index(utf16Offset: text.utf16.count, in: text)
-
-            return String(text.utf16[start..<end])!
-        }
-
-        return results*/
     }
 }

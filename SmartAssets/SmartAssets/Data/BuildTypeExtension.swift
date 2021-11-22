@@ -9,6 +9,16 @@ import SmartAILibrary
 
 extension BuildType {
 
+    public func toolTip() -> NSAttributedString {
+
+        let toolTopText = NSMutableAttributedString()
+
+        let title = NSAttributedString(string: self.name(), attributes: [NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont])
+        toolTopText.append(title)
+
+        return toolTopText
+    }
+
     public func iconTexture() -> String {
 
         switch self {

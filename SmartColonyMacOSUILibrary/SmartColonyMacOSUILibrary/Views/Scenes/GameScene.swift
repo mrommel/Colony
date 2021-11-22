@@ -321,6 +321,7 @@ extension GameScene {
     }
 
     override func mouseMoved(with event: NSEvent) {
+
         print("moved")
     }
 

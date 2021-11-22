@@ -89,7 +89,7 @@ class TechViewModel: ObservableObject, Identifiable {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: buildingType.iconTexture(),
-                    toolTipText: buildingType.name()
+                    toolTipText: buildingType.toolTip()
                 )
             )
         }
@@ -98,7 +98,7 @@ class TechViewModel: ObservableObject, Identifiable {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: unitType.typeTexture(),
-                    toolTipText: unitType.name()
+                    toolTipText: unitType.toolTip()
                 )
             )
         }
@@ -107,7 +107,7 @@ class TechViewModel: ObservableObject, Identifiable {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: wonderType.iconTexture(),
-                    toolTipText: wonderType.name()
+                    toolTipText: wonderType.toolTip()
                 )
             )
         }
@@ -116,7 +116,7 @@ class TechViewModel: ObservableObject, Identifiable {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: buildType.iconTexture(),
-                    toolTipText: buildType.name()
+                    toolTipText: buildType.toolTip()
                 )
             )
         }
@@ -125,7 +125,7 @@ class TechViewModel: ObservableObject, Identifiable {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: districtType.iconTexture(),
-                    toolTipText: districtType.name()
+                    toolTipText: districtType.toolTip()
                 )
             )
         }

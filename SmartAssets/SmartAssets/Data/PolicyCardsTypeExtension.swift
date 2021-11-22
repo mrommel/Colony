@@ -9,6 +9,19 @@ import SmartAILibrary
 
 extension PolicyCardType {
 
+    public func toolTip() -> NSAttributedString {
+
+        let toolTopText = NSMutableAttributedString()
+
+        let title = NSAttributedString(string: self.name(), attributes: [NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont])
+        toolTopText.append(title)
+
+        let effects = NSAttributedString(string: self.bonus())
+        toolTopText.append(effects)
+
+        return toolTopText
+    }
+
     public func iconTexture() -> String {
 
         if self == .slot {

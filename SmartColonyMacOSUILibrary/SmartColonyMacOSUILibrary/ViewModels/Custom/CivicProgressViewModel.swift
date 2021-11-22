@@ -87,7 +87,7 @@ class CivicProgressViewModel: ObservableObject {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: buildingType.iconTexture(),
-                    toolTipText: buildingType.name()
+                    toolTipText: buildingType.toolTip()
                 )
             )
         }
@@ -96,7 +96,7 @@ class CivicProgressViewModel: ObservableObject {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: unitType.typeTexture(),
-                    toolTipText: unitType.name()
+                    toolTipText: unitType.toolTip()
                 )
             )
         }
@@ -105,7 +105,7 @@ class CivicProgressViewModel: ObservableObject {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: wonderType.iconTexture(),
-                    toolTipText: wonderType.name()
+                    toolTipText: wonderType.toolTip()
                 )
             )
         }
@@ -114,7 +114,7 @@ class CivicProgressViewModel: ObservableObject {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: buildType.iconTexture(),
-                    toolTipText: buildType.name()
+                    toolTipText: buildType.toolTip()
                 )
             )
         }
@@ -123,7 +123,7 @@ class CivicProgressViewModel: ObservableObject {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: districtType.iconTexture(),
-                    toolTipText: districtType.name()
+                    toolTipText: districtType.toolTip()
                 )
             )
         }
@@ -132,7 +132,7 @@ class CivicProgressViewModel: ObservableObject {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: policyCard.iconTexture(),
-                    toolTipText: policyCard.name()
+                    toolTipText: policyCard.toolTip()
                 )
             )
         }
@@ -141,7 +141,7 @@ class CivicProgressViewModel: ObservableObject {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: "header-button-governors-active",
-                    toolTipText: "Governor title"
+                    toolTipText: NSAttributedString(string: "Governor title")
                 )
             )
         }
