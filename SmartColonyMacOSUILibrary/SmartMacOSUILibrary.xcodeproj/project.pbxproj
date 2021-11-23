@@ -95,6 +95,8 @@
 		C968F2A92639E97400612D0E /* CityObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F2A82639E97400612D0E /* CityObject.swift */; };
 		C968F2AC2639ED6C00612D0E /* NineGridTextureSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F2AB2639ED6C00612D0E /* NineGridTextureSprite.swift */; };
 		C968F2AE2639EE3C00612D0E /* SKLabelNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F2AD2639EE3C00612D0E /* SKLabelNodeExtension.swift */; };
+		C96FEA35274CE4B400A9194C /* UnitCommandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96FEA34274CE4B400A9194C /* UnitCommandViewModel.swift */; };
+		C96FEA37274CE5E400A9194C /* UnitCommandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96FEA36274CE5E400A9194C /* UnitCommandView.swift */; };
 		C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9711125262569D600B58AAE /* NSMenuItemExtension.swift */; };
 		C971FDCF27070C5600F818EE /* GreatPeopleDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C971FDCE27070C5600F818EE /* GreatPeopleDialogView.swift */; };
 		C971FDD127070D9300F818EE /* GreatPeopleDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C971FDD027070D9200F818EE /* GreatPeopleDialogViewModel.swift */; };
@@ -374,6 +376,8 @@
 		C968F2A82639E97400612D0E /* CityObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityObject.swift; sourceTree = "<group>"; };
 		C968F2AB2639ED6C00612D0E /* NineGridTextureSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineGridTextureSprite.swift; sourceTree = "<group>"; };
 		C968F2AD2639EE3C00612D0E /* SKLabelNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKLabelNodeExtension.swift; sourceTree = "<group>"; };
+		C96FEA34274CE4B400A9194C /* UnitCommandViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitCommandViewModel.swift; sourceTree = "<group>"; };
+		C96FEA36274CE5E400A9194C /* UnitCommandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitCommandView.swift; sourceTree = "<group>"; };
 		C9711125262569D600B58AAE /* NSMenuItemExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMenuItemExtension.swift; sourceTree = "<group>"; };
 		C971FDCE27070C5600F818EE /* GreatPeopleDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPeopleDialogView.swift; sourceTree = "<group>"; };
 		C971FDD027070D9200F818EE /* GreatPeopleDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPeopleDialogViewModel.swift; sourceTree = "<group>"; };
@@ -891,6 +895,7 @@
 				C93FD2E42733CCEF003348FB /* CultureRankingView.swift */,
 				C92AB9202734689D003647D8 /* DominationRankingView.swift */,
 				C9911EAA27367F3000273C8A /* ReligiousRankingView.swift */,
+				C96FEA36274CE5E400A9194C /* UnitCommandView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1044,6 +1049,7 @@
 				C93FD2E22733C9FF003348FB /* CultureRankingViewModel.swift */,
 				C90039212734248200E1AA7F /* DominationRankingViewModel.swift */,
 				C9911EA827367E2E00273C8A /* ReligiousRankingViewModel.swift */,
+				C96FEA34274CE4B400A9194C /* UnitCommandViewModel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1211,6 +1217,7 @@
 				C984642E26F4B34B00C40EA7 /* GovernorView.swift in Sources */,
 				C9452E272668061D005EF985 /* EurekaCivicActivatedPopupView.swift in Sources */,
 				C9AC100326DE6EA100B65288 /* PromotionView.swift in Sources */,
+				C96FEA37274CE5E400A9194C /* UnitCommandView.swift in Sources */,
 				C9CE216D2649675F00B47ED4 /* CheckboxCircleToggleStyle.swift in Sources */,
 				C900391E273422F500E1AA7F /* DominationRankingDialogView.swift in Sources */,
 				C9D191AD265A8659008C9622 /* CityReligionView.swift in Sources */,
@@ -1272,6 +1279,7 @@
 				C98031CB26EE5740008F460B /* CityListDialogViewModel.swift in Sources */,
 				C9B087C826679E1D0016DFCA /* GoodyHutRewardPopupView.swift in Sources */,
 				C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */,
+				C96FEA35274CE4B400A9194C /* UnitCommandViewModel.swift in Sources */,
 				C9A8F0D72651969D00584199 /* GameViewModelDialogs.swift in Sources */,
 				C98031CD26EE5756008F460B /* CityListDialogView.swift in Sources */,
 				C9452E2526680532005EF985 /* EurekaCivicActivatedPopupViewModel.swift in Sources */,

@@ -284,6 +284,9 @@ public class GameViewModel: ObservableObject {
 
     public weak var delegate: CloseGameViewModelDelegate?
 
+    private var unitType: UnitType = .none
+    private var unitLocation: HexPoint = .invalid
+
     // MARK: constructor
 
     public init(preloadAssets: Bool = false) {
@@ -822,12 +825,20 @@ extension GameViewModel: GameViewModelDelegate {
 
     func showUnitBanner() {
 
+        guard !self.unitBannerViewModel.showBanner else {
+            return
+        }
+
         self.unitBannerViewModel.showBanner = true
         self.cityBannerViewModel.showBanner = false
         //self.combatBannerViewModel.showBanner = false
     }
 
     func hideUnitBanner() {
+
+        guard self.unitBannerViewModel.showBanner else {
+            return
+        }
 
         self.unitBannerViewModel.showBanner = false
         //self.combatBannerViewModel.showBanner = false
@@ -840,7 +851,13 @@ extension GameViewModel: GameViewModelDelegate {
 
     func selectedUnitChanged(to unit: AbstractUnit?, commands: [Command], in gameModel: GameModel?) {
 
+        guard self.unitType != unit?.type || self.unitLocation != unit?.location else {
+            return
+        }
+
         self.unitBannerViewModel.selectedUnitChanged(to: unit, commands: commands, in: gameModel)
+        self.unitType = unit?.type ?? .none
+        self.unitLocation = unit?.location ?? .invalid
     }
 
     func showMeleeTargets(of unit: AbstractUnit?) {

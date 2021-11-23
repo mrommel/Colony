@@ -13,7 +13,10 @@ extension WonderType {
 
         let toolTopText = NSMutableAttributedString()
 
-        let title = NSAttributedString(string: self.name(), attributes: [NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont])
+        let title = NSAttributedString(
+            string: self.name(),
+            attributes: [NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont]
+        )
         toolTopText.append(title)
 
         let effects = NSAttributedString(string: self.effects().reduce("\n\n", { $0 + $1 + "\n" }))

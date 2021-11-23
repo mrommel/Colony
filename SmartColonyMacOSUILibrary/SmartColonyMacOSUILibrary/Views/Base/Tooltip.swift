@@ -16,26 +16,31 @@ struct ToolTip: NSViewRepresentable {
     func makeNSView(context: NSViewRepresentableContext<ToolTip>) -> NSView {
 
         let view = NSView()
-        view.addCustomToolTip(from: toolTipText)
-
         return view
     }
 
     func updateNSView(_ nsView: NSView, context: NSViewRepresentableContext<ToolTip>) {
 
-        // NOOP
+        nsView.addCustomToolTip(from: toolTipText)
     }
 }
 
+// hit testing effect: https://stackoverflow.com/questions/58235820/swiftui-overlay-cancels-touches
 public extension View {
 
     func toolTip(_ toolTipText: String) -> some View {
 
-        self.overlay(ToolTip(toolTipText: NSAttributedString(string: toolTipText)))
+        self.overlay(
+            ToolTip(toolTipText: NSAttributedString(string: toolTipText))
+                .allowsHitTesting(false) // !!! must be exactly here
+        )
     }
 
     func toolTip(_ toolTipText: NSAttributedString) -> some View {
 
-        self.overlay(ToolTip(toolTipText: toolTipText))
+        self.overlay(
+            ToolTip(toolTipText: toolTipText)
+                .allowsHitTesting(false) // !!! must be exactly here
+        )
     }
 }

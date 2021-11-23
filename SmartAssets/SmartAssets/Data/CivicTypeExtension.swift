@@ -13,7 +13,10 @@ extension CivicType {
 
         let toolTopText = NSMutableAttributedString()
 
-        let title = NSAttributedString(string: self.name(), attributes: [NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont])
+        let title = NSAttributedString(
+            string: self.name(),
+            attributes: [NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont]
+        )
         toolTopText.append(title)
 
         let eureka = NSAttributedString(string: self.eurekaSummary())

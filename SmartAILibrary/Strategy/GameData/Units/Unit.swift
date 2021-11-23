@@ -3057,6 +3057,9 @@ public class Unit: AbstractUnit {
 
         switch command {
 
+        case .none:
+            return false
+
         case .rename:
             return true // always possible
 

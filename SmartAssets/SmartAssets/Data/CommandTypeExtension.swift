@@ -13,6 +13,8 @@ extension CommandType {
 
         switch self {
 
+        case .none: return "command-default"
+
         case .rename: return "command-default"
         case .found: return "command-found"
         case .buildFarm: return "command-farm"
@@ -48,6 +50,8 @@ extension CommandType {
     public func buttonTexture() -> String {
 
         switch self {
+
+        case .none: return "command-button-default"
 
         case .rename: return "command-button-rename"
         case .found: return "command-button-found"

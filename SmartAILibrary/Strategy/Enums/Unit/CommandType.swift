@@ -11,6 +11,8 @@ import Foundation
 // https://civilization.fandom.com/wiki/List_of_unit_actions_in_Civ6
 public enum CommandType {
 
+    case none
+
     case rename
     case found
     case buildFarm
@@ -77,6 +79,8 @@ public enum CommandType {
     public func title() -> String {
 
         switch self {
+
+        case .none: return ""
 
         case .rename: return "Rename"
         case .found: return "Found City"
