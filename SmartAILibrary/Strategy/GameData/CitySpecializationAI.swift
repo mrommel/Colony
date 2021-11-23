@@ -204,7 +204,8 @@ public class CitySpecializationAI {
         self.productionSubtypeWeights.items.removeAll()
 
         // Must have a capital to do any specialization
-        if let capital = gameModel.capital(of: player), let capitalArea = gameModel.area(of: capital.location) {
+        if let capital = gameModel.capital(of: player),
+            let capitalArea = gameModel.area(of: capital.location) {
 
             let flavorExpansion = max(0.0, Double(player.valueOfPersonalityFlavor(of: .expansion)))
             let flavorWonder = max(0.0, Double(player.valueOfPersonalityFlavor(of: .wonder)))
@@ -257,7 +258,8 @@ public class CitySpecializationAI {
             //let generalEconomicWeight = 200.0 /* AI_CITY_SPECIALIZATION_GENERAL_ECONOMIC_WEIGHT */
 
             //   Add in any contribution from the current grand strategy
-            for grandStrategyType in GrandStrategyAIType.all where player.grandStrategyAI?.activeStrategy == grandStrategyType {
+            for grandStrategyType in GrandStrategyAIType.all
+                where player.grandStrategyAI?.activeStrategy == grandStrategyType {
 
                 foodYieldWeight += grandStrategyType.yields().food
                 goldYieldWeight += grandStrategyType.yields().gold

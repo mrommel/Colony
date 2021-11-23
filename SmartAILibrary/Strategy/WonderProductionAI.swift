@@ -78,6 +78,8 @@ public class WonderProductionAI: Codable {
         }
     }
 
+    // swiftlint:disable function_body_length
+    // swiftlint:disable cyclomatic_complexity
     func chooseWonder(adjustForOtherPlayers: Bool, nextWonderWeight: Int, in gameModel: GameModel?) -> WonderSelection {
 
         guard let gameModel = gameModel else {

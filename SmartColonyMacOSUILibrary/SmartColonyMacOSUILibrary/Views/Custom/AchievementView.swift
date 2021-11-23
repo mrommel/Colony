@@ -36,11 +36,26 @@ struct AchievementView_Previews: PreviewProvider {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
-        AchievementView(viewModel: AchievementViewModel(imageName: TechType.animalHusbandry.iconTexture(), toolTipText: TechType.animalHusbandry.toolTip()))
+        AchievementView(
+            viewModel: AchievementViewModel(
+                imageName: TechType.animalHusbandry.iconTexture(),
+                toolTipText: TechType.animalHusbandry.toolTip()
+            )
+        )
 
-        AchievementView(viewModel: AchievementViewModel(imageName: CivicType.codeOfLaws.iconTexture(), toolTipText: CivicType.codeOfLaws.toolTip()))
+        AchievementView(
+            viewModel: AchievementViewModel(
+                imageName: CivicType.codeOfLaws.iconTexture(),
+                toolTipText: CivicType.codeOfLaws.toolTip()
+            )
+        )
 
-        AchievementView(viewModel: AchievementViewModel(imageName: UnitType.archer.typeTexture(), toolTipText: UnitType.archer.toolTip()))
+        AchievementView(
+            viewModel: AchievementViewModel(
+                imageName: UnitType.archer.typeTexture(),
+                toolTipText: UnitType.archer.toolTip()
+            )
+        )
     }
 }
 #endif

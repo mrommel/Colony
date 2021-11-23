@@ -2023,7 +2023,8 @@ public class Tile: AbstractTile {
 
         var result: [BuildingType] = []
 
-        for buildingType in BuildingType.all where buildingType.district() == self.districtValue && city.has(building: buildingType) {
+        for buildingType in BuildingType.all
+            where buildingType.district() == self.districtValue && city.has(building: buildingType) {
 
             result.append(buildingType)
         }
