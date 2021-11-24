@@ -291,6 +291,16 @@ class UnitBannerViewModel: ObservableObject {
                 selectedUnit.push(mission: fishingBuildMission, in: gameModel)
             }
 
+        case .removeFeature:
+            if let selectedUnit = self.selectedUnit {
+                selectedUnit.doRemoveFeature(in: gameModel)
+            }
+
+        case .plantForest:
+            if let selectedUnit = self.selectedUnit {
+                selectedUnit.doPlantForest(in: gameModel)
+            }
+
         case .pillage:
             if let selectedUnit = self.selectedUnit {
                 selectedUnit.doPillage(in: gameModel)

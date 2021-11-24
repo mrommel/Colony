@@ -22,6 +22,8 @@ public enum CommandType {
     case buildQuarry
     case buildPlantation
     case buildFishingBoats
+    case removeFeature
+    case plantForest
 
     case pillage
     case fortify
@@ -58,6 +60,9 @@ public enum CommandType {
             .buildQuarry,
             .buildPlantation,
             .buildFishingBoats,
+            .removeFeature,
+            .plantForest,
+
             .pillage,
             .fortify,
             .hold,
@@ -92,6 +97,9 @@ public enum CommandType {
         case .buildPlantation: return "Plantation"
         case .buildFishingBoats: return "Fishing Boats"
         //case .buildRoute: return "Build Route"
+        case .removeFeature: return "Remove Feature"
+        case .plantForest: return "Plant Forest"
+
         case .pillage: return "Pillage Improvement"
         case .fortify: return "Fortify"
         case .hold: return "Hold"

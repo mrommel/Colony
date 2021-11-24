@@ -148,6 +148,9 @@ public protocol AbstractUnit: AnyObject, Codable {
     func changeBuildCharges(change: Int)
     func buildCharges() -> Int
 
+    @discardableResult func doRemoveFeature(in gameModel: GameModel?) -> Bool
+    @discardableResult func doPlantForest(in gameModel: GameModel?) -> Bool
+
     @discardableResult func doPillage(in gameModel: GameModel?) -> Bool
     func canPillage(at point: HexPoint, in gameModel: GameModel?) -> Bool
     func doRebase(to point: HexPoint) -> Bool
@@ -2747,6 +2750,40 @@ public class Unit: AbstractUnit {
         }
     }
 
+    func canRemoveFeature(at point: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let tile = gameModel?.tile(at: point) else {
+            return false
+        }
+
+        return tile.has(feature: .forest) || tile.has(feature: .rainforest) || tile.has(feature: .marsh)
+    }
+
+    func canPlantForest(at point: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let civics = self.player?.civics else {
+            fatalError("cant get player civics")
+        }
+
+        guard civics.has(civic: .conservation) else {
+            return false
+        }
+
+        guard let tile = gameModel?.tile(at: point) else {
+            return false
+        }
+
+        guard tile.terrain() == .grass || tile.terrain() == .plains || tile.terrain() == .tundra else {
+            return false
+        }
+
+        guard !tile.has(feature: .forest) && !tile.has(feature: .rainforest) && !tile.has(feature: .marsh) else {
+            return false
+        }
+
+        return true
+    }
+
     // MARK: fortification
 
     public func canFortify(at point: HexPoint, in gameModel: GameModel?) -> Bool {
@@ -3086,6 +3123,12 @@ public class Unit: AbstractUnit {
 
         case .buildFishingBoats:
             return self.canBuild(build: .fishingBoats, at: self.location, testVisible: true, testGold: true, in: gameModel)
+
+        case .removeFeature:
+            return self.canRemoveFeature(at: self.location, in: gameModel)
+
+        case .plantForest:
+            return self.canPlantForest(at: self.location, in: gameModel)
 
         case .fortify:
             return self.canFortify(at: self.location, in: gameModel)
@@ -3894,6 +3937,54 @@ public class Unit: AbstractUnit {
 
         // no enemy unit or city in range
         return false
+    }
+
+    @discardableResult public func doRemoveFeature(in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let tile = gameModel.tile(at: self.location) else {
+            fatalError("cant get tile")
+        }
+
+        guard self.canRemoveFeature(at: self.location, in: gameModel) else {
+            return false
+        }
+
+        self.buildChargesValue -= 1
+        self.finishMoves()
+
+        tile.set(feature: .none)
+
+        gameModel.userInterface?.refresh(tile: tile)
+
+        return true
+    }
+
+    @discardableResult public func doPlantForest(in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let tile = gameModel.tile(at: self.location) else {
+            fatalError("cant get tile")
+        }
+
+        guard self.canPlantForest(at: self.location, in: gameModel) else {
+            return false
+        }
+
+        self.buildChargesValue -= 1
+        self.finishMoves()
+
+        tile.set(feature: .forest)
+
+        gameModel.userInterface?.refresh(tile: tile)
+
+        return true
     }
 
     @discardableResult public func doPillage(in gameModel: GameModel?) -> Bool {
