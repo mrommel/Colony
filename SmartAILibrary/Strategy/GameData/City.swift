@@ -2568,6 +2568,10 @@ public class City: AbstractCity {
                 continue
             }
 
+            if tile.workingCity()?.location != self.location {
+                continue
+            }
+
             if wonderType.canBuild(on: loopLocation, in: gameModel) {
                 anyValidLocation = true
             }
@@ -2600,6 +2604,10 @@ public class City: AbstractCity {
 
         // cant build wonders in cities, districts or other wonders
         if tile.isCity() || tile.district() != .none || tile.wonder() != .none {
+            return false
+        }
+
+        if tile.workingCity()?.location != self.location {
             return false
         }
 
@@ -2710,6 +2718,10 @@ public class City: AbstractCity {
                 continue
             }
 
+            if tile.workingCity()?.location != self.location {
+                continue
+            }
+
             if districtType.canBuild(on: loopLocation, in: gameModel) {
                 anyValidLocation = true
             }
@@ -2738,6 +2750,10 @@ public class City: AbstractCity {
 
         // cant build districts in cities, wonders or other districts
         if tile.isCity() || tile.district() != .none || tile.wonder() != .none {
+            return false
+        }
+
+        if tile.workingCity()?.location != self.location {
             return false
         }
 

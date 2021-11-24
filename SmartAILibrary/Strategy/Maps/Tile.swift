@@ -108,6 +108,7 @@ public protocol AbstractTile: Codable, NSCopying {
     // district
     func startBuilding(district: DistrictType)
     func isBuilding(district: DistrictType) -> Bool
+    func cancelBuildingDistrict()
     func buildingDistrict() -> DistrictType
 
     func build(district: DistrictType)
@@ -119,6 +120,7 @@ public protocol AbstractTile: Codable, NSCopying {
     // wonder
     func startBuilding(wonder: WonderType)
     func isBuilding(wonder: WonderType) -> Bool
+    func cancelBuildingWonder()
     func buildingWonder() -> WonderType
 
     func build(wonder: WonderType)
@@ -2134,6 +2136,12 @@ public class Tile: AbstractTile {
 
         return self.buildingDistrictValue == district
     }
+
+    public func cancelBuildingDistrict() {
+
+        self.buildingDistrictValue = .none
+    }
+
     public func buildingDistrict() -> DistrictType {
 
         return self.buildingDistrictValue
@@ -2185,6 +2193,11 @@ public class Tile: AbstractTile {
     public func isBuilding(wonder: WonderType) -> Bool {
 
         return self.buildingWonderValue == wonder
+    }
+
+    public func cancelBuildingWonder() {
+
+        self.buildingWonderValue = .none
     }
 
     public func buildingWonder() -> WonderType {

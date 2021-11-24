@@ -742,7 +742,20 @@ public enum ImprovementType: Int, Codable, Hashable {
         }
 
         let validResources: [ResourceType] = [
-            .bananas, .citrus, .cocoa, /*.coffee,*/ .cotton, .dyes, .silk, .sugar, .tea, /*.tobacco,*/ .wine /*.olives*/
+            .bananas,
+            .citrus,
+            .cocoa,
+            /*.coffee,*/
+            .cotton,
+            .dyes,
+            .incense,
+            /*.olives*/
+            .silk,
+            .spices,
+            .sugar,
+            .tea,
+            /*.tobacco,*/
+            .wine
         ]
 
         for validResource in validResources where tile.has(resource: validResource, for: owner) {

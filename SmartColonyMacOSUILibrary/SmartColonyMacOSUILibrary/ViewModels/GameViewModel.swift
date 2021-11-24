@@ -615,7 +615,7 @@ public class GameViewModel: ObservableObject {
         }
 
         print("- load \(textures.districtTextureNames.count) district textures")
-        for textureName in textures.districtTypeTextureNames {
+        for textureName in textures.districtTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
         }
 

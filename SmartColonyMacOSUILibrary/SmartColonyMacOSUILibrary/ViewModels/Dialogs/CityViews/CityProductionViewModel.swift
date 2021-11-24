@@ -87,7 +87,8 @@ class CityProductionViewModel: ObservableObject {
             self.unitViewModels = possibleUnitTypes.map { unitType in
 
                 let productionCost = unitType.productionCost()
-                let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
+                let productionPerTurn = city.productionPerTurn(in: gameModel)
+                let turns = productionPerTurn > 0 ? Int(ceil(Double(productionCost) / productionPerTurn)) : 1000
                 let unitViewModel = UnitViewModel(unitType: unitType, turns: turns)
                 unitViewModel.delegate = self
                 return unitViewModel
@@ -115,7 +116,8 @@ class CityProductionViewModel: ObservableObject {
                     let buildingViewModels: [BuildingViewModel] = possibleBuildingTypes.map { buildingType in
 
                         let productionCost = buildingType.productionCost()
-                        let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
+                        let productionPerTurn = city.productionPerTurn(in: gameModel)
+                        let turns = productionPerTurn > 0 ? Int(ceil(Double(productionCost) / productionPerTurn)) : 1000
                         if city.buildQueue.isBuilding(building: buildingType) {
                             // buildingNode.disable()
                         }
@@ -128,7 +130,8 @@ class CityProductionViewModel: ObservableObject {
                 } else {
 
                     let productionCost = districtType.productionCost()
-                    let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
+                    let productionPerTurn = city.productionPerTurn(in: gameModel)
+                    let turns = productionPerTurn > 0 ? Int(ceil(Double(productionCost) / productionPerTurn)) : 1000
                     let districtModel = DistrictViewModel(districtType: districtType, turns: turns, active: false)
                     districtModel.delegate = self
                     return DistrictSectionViewModel(districtViewModel: districtModel, buildingViewModels: [])
@@ -142,7 +145,8 @@ class CityProductionViewModel: ObservableObject {
             self.wonderViewModels = possibleWonderTypes.map { wonderType in
 
                 let productionCost = wonderType.productionCost()
-                let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
+                let productionPerTurn = city.productionPerTurn(in: gameModel)
+                let turns = productionPerTurn > 0 ? Int(ceil(Double(productionCost) / productionPerTurn)) : 1000
                 let wonderViewModel = WonderViewModel(wonderType: wonderType, turns: turns)
                 wonderViewModel.delegate = self
                 return wonderViewModel
@@ -267,19 +271,15 @@ extension CityProductionViewModel: UnitViewModelDelegate {
 
 extension CityProductionViewModel: DistrictViewModelDelegate {
 
-    func clicked(on districtType: DistrictType, at index: Int) {
+    func clicked(on districtType: DistrictType, at index: Int, in gameModel: GameModel?) {
 
         print("clicked on \(districtType)")
-
-        guard let gameModel = self.gameEnvironment.game.value else {
-            return
-        }
 
         guard let city = self.city else {
             fatalError("cant get city")
         }
 
-        guard let humanPlayer = gameModel.humanPlayer() else {
+        guard let humanPlayer = gameModel?.humanPlayer() else {
             fatalError("cant get human player")
         }
 
@@ -289,6 +289,7 @@ extension CityProductionViewModel: DistrictViewModelDelegate {
 
         self.hexagonGridViewModel.mode = .districtLocation(type: districtType)
         self.hexagonGridViewModel.update(for: city, with: gameModel)
+        self.hexagonGridViewModel.updateWorkingTiles(in: gameModel)
         self.showLocationPicker = true
 
         // now we wait for the result of the location picker in
@@ -330,7 +331,7 @@ extension CityProductionViewModel: BuildingViewModelDelegate {
 
 extension CityProductionViewModel: WonderViewModelDelegate {
 
-    func clicked(on wonderType: WonderType, at index: Int) {
+    func clicked(on wonderType: WonderType, at index: Int, in gameModel: GameModel?) {
 
         print("clicked on \(wonderType)")
 
@@ -352,6 +353,7 @@ extension CityProductionViewModel: WonderViewModelDelegate {
 
         self.hexagonGridViewModel.mode = .wonderLocation(type: wonderType)
         self.hexagonGridViewModel.update(for: city, with: gameModel)
+        self.hexagonGridViewModel.updateWorkingTiles(in: gameModel)
         self.showLocationPicker = true
 
         // now we wait for the result of the location picker in

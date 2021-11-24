@@ -51,13 +51,15 @@ struct HexagonView: View {
                     .resizable()
                     .frame(width: height, height: height, alignment: .center)
 
-                Text(self.viewModel.costText)
-                    .font(.system(size: 16))
-                    .foregroundColor(.white)
-                    .padding(.all, 2)
-                    .background(Color.black.opacity(0.5))
-                    .cornerRadius(5)
-                    .offset(x: 0, y: 15.0)
+                if self.viewModel.costText != "" {
+                    Text(self.viewModel.costText)
+                        .font(.system(size: 16))
+                        .foregroundColor(.white)
+                        .padding(.all, 2)
+                        .background(Color.black.opacity(0.5))
+                        .cornerRadius(5)
+                        .offset(x: 0, y: 15.0)
+                }
             }
             .frame(width: width, height: height, alignment: .center)
             .onTapGesture {
@@ -82,8 +84,8 @@ struct HexagonView_Previews: PreviewProvider {
             hills: nil,
             forest: nil,
             city: nil,
-            tileAction: TileActionType.purchasable.textureName,
-            cost: 100,
+            tileAction: TileActionType.districtAvailable.textureName,
+            cost: nil,
             showCitizenIcons: true
         )
         HexagonView(viewModel: viewModel)

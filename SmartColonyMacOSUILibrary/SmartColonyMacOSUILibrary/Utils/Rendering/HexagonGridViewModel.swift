@@ -179,24 +179,26 @@ class HexagonGridViewModel: ObservableObject {
                     tileAction = self.tileActionTextureName(of: tile, with: city, for: humanPlayer, in: gameModel)
                     cost = city.buyPlotCost(at: HexPoint(x: x, y: y), in: gameModel)
                 case .districtLocation(type: let districtType):
-                    if city.canBuild(district: districtType, in: gameModel) {
+                    if city.canBuild(district: districtType, at: tile.point, in: gameModel) {
                         tileAction = TileActionType.districtAvailable.textureName
                     }
                 case .wonderLocation(type: let wonderType):
-                    if city.canBuild(wonder: wonderType, in: gameModel) {
+                    if city.canBuild(wonder: wonderType, at: tile.point, in: gameModel) {
                         tileAction = TileActionType.wonderAvailable.textureName
                     }
                 }
 
-                let hexagonViewModel = HexagonViewModel(at: tile.point,
-                                                        tileColor: color,
-                                                        mountains: mountains,
-                                                        hills: hills,
-                                                        forest: forest,
-                                                        city: cityTexture,
-                                                        tileAction: tileAction,
-                                                        cost: cost,
-                                                        showCitizenIcons: self.showCitizenIcons)
+                let hexagonViewModel = HexagonViewModel(
+                    at: tile.point,
+                    tileColor: color,
+                    mountains: mountains,
+                    hills: hills,
+                    forest: forest,
+                    city: cityTexture,
+                    tileAction: tileAction,
+                    cost: cost,
+                    showCitizenIcons: self.showCitizenIcons
+                )
                 hexagonViewModel.delegate = self
                 tmpHexagonViewModels.append(hexagonViewModel)
             }
@@ -234,8 +236,27 @@ class HexagonGridViewModel: ObservableObject {
 
             if let model = self.hexagonViewModels.first(where: { $0.point == tile.point }) {
 
-                let tileAction: String? = self.tileActionTextureName(of: tile, with: city, for: humanPlayer, in: gameModel)
-                model.update(tileAction: tileAction)
+                switch self.mode {
+
+                case .empty:
+                    // NOOP
+                    break
+                case .citizen:
+                    let tileAction: String? = self.tileActionTextureName(of: tile, with: city, for: humanPlayer, in: gameModel)
+                    model.update(tileAction: tileAction)
+                case .districtLocation(type: let districtType):
+                    /*if city.canBuild(district: districtType, at: tile.point, in: gameModel) {
+                        tileAction = TileActionType.districtAvailable.textureName
+                    }*/
+                    // NOOP
+                    break
+                case .wonderLocation(type: let wonderType):
+                    /*if city.canBuild(wonder: wonderType, at: tile.point, in: gameModel) {
+                        tileAction = TileActionType.wonderAvailable.textureName
+                    }*/
+                    // NOOP
+                    break
+                }
             }
         }
     }

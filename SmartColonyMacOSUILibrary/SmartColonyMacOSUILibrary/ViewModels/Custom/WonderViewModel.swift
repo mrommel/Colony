@@ -11,10 +11,13 @@ import SmartAssets
 
 protocol WonderViewModelDelegate: AnyObject {
 
-    func clicked(on wonderType: WonderType, at index: Int)
+    func clicked(on wonderType: WonderType, at index: Int, in gameModel: GameModel?)
 }
 
 class WonderViewModel: QueueViewModel, ObservableObject {
+
+    @Environment(\.gameEnvironment)
+    var gameEnvironment: GameEnvironment
 
     let wonderType: WonderType
     let turns: Int
@@ -84,7 +87,11 @@ class WonderViewModel: QueueViewModel, ObservableObject {
 
     func clicked() {
 
-        self.delegate?.clicked(on: self.wonderType, at: self.index)
+        guard let gameModel = self.gameEnvironment.game.value else {
+            return
+        }
+
+        self.delegate?.clicked(on: self.wonderType, at: self.index, in: gameModel)
     }
 }
 

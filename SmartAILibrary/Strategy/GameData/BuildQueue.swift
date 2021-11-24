@@ -74,7 +74,7 @@ public class BuildQueue: Codable {
         return false
     }
 
-    func wonder(of wonderType: WonderType) -> BuildableItem? {
+    public func wonder(of wonderType: WonderType) -> BuildableItem? {
 
         if let item = self.items.first(where: { $0.type == .wonder && $0.wonderType == wonderType }) {
             return item
@@ -97,7 +97,7 @@ public class BuildQueue: Codable {
         return false
     }
 
-    func district(of districtType: DistrictType) -> BuildableItem? {
+    public func district(of districtType: DistrictType) -> BuildableItem? {
 
         if let item = self.items.first(where: { $0.type == .district && $0.districtType == districtType }) {
             return item
