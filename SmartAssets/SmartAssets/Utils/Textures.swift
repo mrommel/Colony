@@ -431,17 +431,17 @@ public class Textures {
             let mountainsNW = (neighborTiles[.northwest]??.feature() ?? .none) == .mountains
 
             if !mountainsN && mountainsNE && !mountainsSE && !mountainsS && !mountainsSW && !mountainsNW {
-                textureName = "feature-mountains_ne"
+                textureName = "feature-mountains-ne"
             } else if !mountainsN && !mountainsNE && !mountainsSE && !mountainsS && mountainsSW && !mountainsNW {
-                textureName = "feature-mountains_sw"
+                textureName = "feature-mountains-sw"
             } else if !mountainsN && mountainsNE && !mountainsSE && !mountainsS && mountainsSW && !mountainsNW {
-                textureName = "feature-mountains_ne_sw"
+                textureName = "feature-mountains-ne-sw"
             } else if !mountainsN && !mountainsNE && mountainsSE && !mountainsS && !mountainsSW && !mountainsNW {
-                textureName = "feature-mountains_se"
+                textureName = "feature-mountains-se"
             } else if !mountainsN && !mountainsNE && !mountainsSE && !mountainsS && !mountainsSW && mountainsNW {
-                textureName = "feature-mountains_nw"
+                textureName = "feature-mountains-nw"
             } else if !mountainsN && !mountainsNE && mountainsSE && !mountainsS && !mountainsSW && mountainsNW {
-                textureName = "feature-mountains_se_nw"
+                textureName = "feature-mountains-se-nw"
             } else {
                 textureName = feature.textureNames().item(from: tile.point)
             }
