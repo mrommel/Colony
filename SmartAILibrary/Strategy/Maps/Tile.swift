@@ -125,6 +125,10 @@ public protocol AbstractTile: Codable, NSCopying {
     func has(wonder: WonderType) -> Bool
     func wonder() -> WonderType
 
+    // appeal
+    func appealLevel(in gameModel: GameModel?) -> AppealLevel
+    func appeal(in gameModel: GameModel?) -> Int
+
     func defenseModifier(for player: AbstractPlayer?) -> Int
     func isFriendlyTerritory(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool
     func isFriendlyCity(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool
@@ -1979,6 +1983,146 @@ public class Tile: AbstractTile {
     public func buildProgress(of buildType: BuildType) -> Int {
 
         return Int(self.buildProgressList.weight(of: buildType))
+    }
+
+    public func appealLevel(in gameModel: GameModel?) -> AppealLevel {
+
+        return AppealLevel.from(appeal: self.appeal(in: gameModel))
+    }
+
+    public func appeal(in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        // Mountain tiles have a base Appeal of Breathtaking (4),
+        // which is unaffected by surrounding features.
+        if self.featureValue == .mountains {
+            return 4
+        }
+
+        // Natural wonder tiles have a base Appeal of Breathtaking (5),
+        // which is also unaffected by surrounding features.
+        if self.featureValue.isWonder() {
+            return 5
+        }
+
+        var appealValue: Int = 0
+        var nextRiverOrLake: Bool = gameModel.river(at: self.point)
+        var neighborCliffsOfDoverOrUluru: Bool = false
+        var neighborPillagedCount: Int = 0
+        var neighborBadFeaturesCount: Int = 0
+        var neighborBadImprovementsCount: Int = 0
+        var neighborBadDistrictsCount: Int = 0
+        var neighborGoodTerrainsCount: Int = 0
+        var neighborGoodDistrictsCount: Int = 0
+        var neighborWondersCount: Int = 0
+        var neighborNaturalWondersCount: Int = 0
+
+        for neighbor in self.point.neighbors() {
+
+            guard let neighborTile = gameModel.tile(at: neighbor) else {
+                continue
+            }
+
+            if neighborTile.has(feature: .lake) {
+                nextRiverOrLake = true
+            }
+
+            if neighborTile.has(feature: .rainforest) || neighborTile.has(feature: .marsh) || neighborTile.has(feature: .floodplains) {
+                neighborBadFeaturesCount += 1
+            }
+
+            if neighborTile.has(feature: .cliffsOfDover) || neighborTile.has(feature: .uluru) {
+                neighborCliffsOfDoverOrUluru = true
+            }
+
+            if neighborTile.feature().isWonder() && !(neighborTile.has(feature: .cliffsOfDover) || neighborTile.has(feature: .uluru)) {
+                neighborNaturalWondersCount += 1
+            }
+
+            if neighborTile.isImprovementPillaged() {
+                neighborPillagedCount += 1
+            }
+
+            if neighborTile.has(improvement: .barbarianCamp) ||
+                neighborTile.has(improvement: .mine) ||
+                neighborTile.has(improvement: .quarry) ||
+                neighborTile.has(improvement: .oilWell) {
+
+                neighborBadImprovementsCount += 1
+            }
+
+            if neighborTile.has(district: .industrial) ||
+                neighborTile.has(district: .encampment) ||
+                // neighborTile.has(district: .aerodrome) ||
+                neighborTile.has(district: .spaceport) {
+
+                neighborBadDistrictsCount += 1
+            }
+
+            if gameModel.isCoastal(at: neighbor) ||
+                neighborTile.has(feature: .mountains) ||
+                neighborTile.has(feature: .forest) ||
+                neighborTile.has(feature: .oasis) {
+
+                neighborGoodTerrainsCount += 1
+            }
+
+            if neighborTile.wonder() != .none {
+
+                neighborWondersCount += 1
+            }
+
+            if neighborTile.has(district: .holySite) ||
+                neighborTile.has(district: .theatherSquare) ||
+                neighborTile.has(district: .entertainment)
+                // # water park
+                // # dam
+                // # canal
+                // # preserve
+                {
+
+                neighborGoodDistrictsCount += 1
+            }
+        }
+
+        // +2 for each adjacent Sphinx (in Gathering Storm), Ice Hockey Rink, City Park, or natural wonder (except the ones that provide a larger bonus).
+        // #
+        appealValue += neighborNaturalWondersCount * 2
+
+        // +1 for each adjacent Holy Site, Theater Square, Entertainment Complex, Water Park, Dam, Canal, Preserve, or wonder.
+        appealValue += neighborGoodDistrictsCount
+        appealValue += neighborWondersCount
+
+        // +1 for each adjacent Sphinx (in vanilla Civilization VI and Rise and Fall), Château, Pairidaeza, Golf Course, Nazca Line, or Rock-Hewn Church.
+        // #
+
+        // +1 for each adjacent Mountain, Coast, Woods, or Oasis.
+        appealValue += neighborGoodTerrainsCount
+
+        // -1 for each adjacent barbarian outpost, Mine, Quarry, Oil Well, Offshore Oil Rig, Airstrip, Industrial Zone, Encampment, Aerodrome, or Spaceport.
+        appealValue -= neighborBadImprovementsCount
+        appealValue -= neighborBadDistrictsCount
+
+        // -1 for each adjacent Rainforest, Marsh, or Floodplain.
+        appealValue -= neighborBadFeaturesCount
+
+        // -1 for each adjacent pillaged tile.
+        appealValue -= neighborPillagedCount
+
+        // +1 if the tile is next to a River or Lake.
+        if nextRiverOrLake {
+            appealValue += 1
+        }
+
+        // +4 if adjacent to the Cliffs of Dover (in Gathering Storm) or Uluru.
+        if neighborCliffsOfDoverOrUluru {
+            appealValue += 4
+        }
+
+        return appealValue
     }
 
     public func startBuilding(district: DistrictType) {

@@ -8,6 +8,7 @@
 
 import Foundation
 
+// swiftlint:disable type_body_length
 public enum FeatureType: Int, Codable {
 
     case none
@@ -43,6 +44,7 @@ public enum FeatureType: Int, Codable {
     case potosi // civ5
     case fountainOfYouth // civ5 + civ6
     case lakeVictoria
+    case cliffsOfDover
 
     public static var all: [FeatureType] {
         return [
@@ -53,7 +55,8 @@ public enum FeatureType: Int, Codable {
     public static var naturalWonders: [FeatureType] {
         return [
             .delicateArch, .galapagos, .greatBarrierReef, .mountEverest, .mountKilimanjaro, .pantanal, .yosemite,
-            .uluru, .fuji, .barringCrater, .mesa, .gibraltar, .geyser, .potosi, .fountainOfYouth, .lakeVictoria
+            .uluru, .fuji, .barringCrater, .mesa, .gibraltar, .geyser, .potosi, .fountainOfYouth, .lakeVictoria,
+            .cliffsOfDover
         ]
     }
 
@@ -120,6 +123,7 @@ public enum FeatureType: Int, Codable {
         case .potosi: return self.isPotosiPossible(on: tile)
         case .fountainOfYouth: return self.isFountainOfYouthPossible(on: tile)
         case .lakeVictoria: return self.isLakeVictoriaPossible(on: tile)
+        case .cliffsOfDover: return false // #
 
         }
     }
@@ -161,6 +165,7 @@ public enum FeatureType: Int, Codable {
         case .potosi: return false
         case .fountainOfYouth: return false
         case .lakeVictoria: return false
+        case .cliffsOfDover: return false
         }
     }
 
@@ -201,6 +206,7 @@ public enum FeatureType: Int, Codable {
         case .potosi: return true
         case .fountainOfYouth: return true
         case .lakeVictoria: return true
+        case .cliffsOfDover: return true
         }
     }
 
@@ -241,6 +247,7 @@ public enum FeatureType: Int, Codable {
         case .potosi: return 0
         case .fountainOfYouth: return 0
         case .lakeVictoria: return 0
+        case .cliffsOfDover: return 0
         }
     }
 
@@ -281,6 +288,7 @@ public enum FeatureType: Int, Codable {
         case .potosi: return 0
         case .fountainOfYouth: return 0
         case .lakeVictoria: return 0
+        case .cliffsOfDover: return 0
         }
     }
 
@@ -321,6 +329,7 @@ public enum FeatureType: Int, Codable {
         case .potosi: return UnitMovementType.max
         case .fountainOfYouth: return UnitMovementType.max
         case .lakeVictoria: return UnitMovementType.max
+        case .cliffsOfDover: return UnitMovementType.max
         }
     }
 
@@ -362,6 +371,7 @@ public enum FeatureType: Int, Codable {
         case .potosi: return 2
         case .fountainOfYouth: return 2
         case .lakeVictoria: return 2
+        case .cliffsOfDover: return 4
         }
     }
 
@@ -388,22 +398,108 @@ public enum FeatureType: Int, Codable {
         case .fallout: return FeatureData(name: "Fallout", yields: Yields(food: -3, production: -3, gold: -3, science: 0), isWonder: false)
 
         // natural wonders
-        case .delicateArch: return FeatureData(name: "Delicate Arch", yields: Yields(food: 0, production: 0, gold: 1, science: 0, faith: 2), isWonder: true)
-        case .galapagos: return FeatureData(name: "Galapagos", yields: Yields(food: 0, production: 0, gold: 0, science: 2), isWonder: true)
-        case .greatBarrierReef: return FeatureData(name: "Great Barrier Reef", yields: Yields(food: 3, production: 0, gold: 0, science: 2), isWonder: true)
-        case .mountEverest: return FeatureData(name: "Mount Kilimanjaro", yields: Yields(food: 2, production: 0, gold: 0, science: 0, faith: 1), isWonder: true)
-        case .mountKilimanjaro: return FeatureData(name: "Mount Kilimanjaro", yields: Yields(food: 2, production: 0, gold: 0, science: 0), isWonder: true)
-        case .pantanal: return FeatureData(name: "Pantanal", yields: Yields(food: 2, production: 0, gold: 0, science: 0, culture: 2), isWonder: true)
-        case .yosemite: return FeatureData(name: "Yosemite", yields: Yields(food: 0, production: 0, gold: 1, science: 1), isWonder: true)
-        case .uluru: return FeatureData(name: "Uluru", yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 2, faith: 2), isWonder: true)
-        case .fuji: return FeatureData(name: "Fuji", yields: Yields(food: 0, production: 0, gold: 2, science: 0, culture: 2, faith: 2), isWonder: true)
-        case .barringCrater: return FeatureData(name: "The Barringer Crater", yields: Yields(food: 0, production: 0, gold: 2, science: 3, culture: 0, faith: 0), isWonder: true)
-        case .mesa: return FeatureData(name: "The Grand Mesa", yields: Yields(food: 0, production: 2, gold: 3, science: 0, culture: 0, faith: 0), isWonder: true)
-        case .gibraltar: return FeatureData(name: "Rock of Gibraltar", yields: Yields(food: 2, production: 0, gold: 5, science: 0, culture: 0, faith: 0), isWonder: true)
-        case .geyser: return FeatureData(name: "Old Faithful", yields: Yields(food: 0, production: 0, gold: 0, science: 2, culture: 0, faith: 0), isWonder: true)
-        case .potosi: return FeatureData(name: "Cerro de Potosi", yields: Yields(food: 0, production: 0, gold: 10, science: 0, culture: 0, faith: 0), isWonder: true)
-        case .fountainOfYouth: return FeatureData(name: "Fountain of Youth", yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0), isWonder: true) // fixme: 10 happiness
-        case .lakeVictoria: return FeatureData(name: "Lake Victoria", yields: Yields(food: 6, production: 0, gold: 0, science: 0, culture: 0, faith: 0), isWonder: true)
+        case .delicateArch:
+            return FeatureData(
+                name: "Delicate Arch",
+                yields: Yields(food: 0, production: 0, gold: 1, science: 0, faith: 2),
+                isWonder: true
+            )
+        case .galapagos:
+            return FeatureData(
+                name: "Galapagos",
+                yields: Yields(food: 0, production: 0, gold: 0, science: 2),
+                isWonder: true
+            )
+        case .greatBarrierReef:
+            return FeatureData(
+                name: "Great Barrier Reef",
+                yields: Yields(food: 3, production: 0, gold: 0, science: 2),
+                isWonder: true
+            )
+        case .mountEverest:
+            return FeatureData(
+                name: "Mount Kilimanjaro",
+                yields: Yields(food: 2, production: 0, gold: 0, science: 0, faith: 1),
+                isWonder: true
+            )
+        case .mountKilimanjaro:
+            return FeatureData(
+                name: "Mount Kilimanjaro",
+                yields: Yields(food: 2, production: 0, gold: 0, science: 0),
+                isWonder: true
+            )
+        case .pantanal:
+            return FeatureData(
+                name: "Pantanal",
+                yields: Yields(food: 2, production: 0, gold: 0, science: 0, culture: 2),
+                isWonder: true
+            )
+        case .yosemite:
+            return FeatureData(
+                name: "Yosemite",
+                yields: Yields(food: 0, production: 0, gold: 1, science: 1),
+                isWonder: true
+            )
+        case .uluru:
+            return FeatureData(
+                name: "Uluru",
+                yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 2, faith: 2),
+                isWonder: true
+            )
+        case .fuji:
+            return FeatureData(
+                name: "Fuji",
+                yields: Yields(food: 0, production: 0, gold: 2, science: 0, culture: 2, faith: 2),
+                isWonder: true
+            )
+        case .barringCrater:
+            return FeatureData(
+                name: "The Barringer Crater",
+                yields: Yields(food: 0, production: 0, gold: 2, science: 3, culture: 0, faith: 0),
+                isWonder: true
+            )
+        case .mesa:
+            return FeatureData(
+                name: "The Grand Mesa",
+                yields: Yields(food: 0, production: 2, gold: 3, science: 0, culture: 0, faith: 0),
+                isWonder: true
+            )
+        case .gibraltar:
+            return FeatureData(
+                name: "Rock of Gibraltar",
+                yields: Yields(food: 2, production: 0, gold: 5, science: 0, culture: 0, faith: 0),
+                isWonder: true
+            )
+        case .geyser:
+            return FeatureData(
+                name: "Old Faithful",
+                yields: Yields(food: 0, production: 0, gold: 0, science: 2, culture: 0, faith: 0),
+                isWonder: true
+            )
+        case .potosi:
+            return FeatureData(
+                name: "Cerro de Potosi",
+                yields: Yields(food: 0, production: 0, gold: 10, science: 0, culture: 0, faith: 0),
+                isWonder: true
+            )
+        case .fountainOfYouth:
+            return FeatureData(
+                name: "Fountain of Youth",
+                yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0),
+                isWonder: true
+            ) // fixme: 10 happiness
+        case .lakeVictoria:
+            return FeatureData(
+                name: "Lake Victoria",
+                yields: Yields(food: 6, production: 0, gold: 0, science: 0, culture: 0, faith: 0),
+                isWonder: true
+            )
+        case .cliffsOfDover:
+            return FeatureData(
+                name: "Cliffs of Dover",
+                yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0), // #
+                isWonder: true
+            )
         }
     }
 

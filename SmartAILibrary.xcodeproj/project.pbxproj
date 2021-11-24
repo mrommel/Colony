@@ -105,6 +105,7 @@
 		C93D66A824028DB500F5157B /* HexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D66A724028DB500F5157B /* HexPath.swift */; };
 		C93D66AA2402913100F5157B /* UnitMovementType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D66A92402913100F5157B /* UnitMovementType.swift */; };
 		C93D66AC24044EA700F5157B /* TacticalAnalysisMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D66AB24044EA700F5157B /* TacticalAnalysisMap.swift */; };
+		C94CB3CD274D8E54002F3083 /* TileAppealTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94CB3CC274D8E54002F3083 /* TileAppealTests.swift */; };
 		C95503C324585F6E00D4B3D8 /* MapOptionResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95503C224585F6D00D4B3D8 /* MapOptionResources.swift */; };
 		C95503C5245864A200D4B3D8 /* StartPositioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95503C4245864A200D4B3D8 /* StartPositioner.swift */; };
 		C955561823FEB41600A4E312 /* UnitMissionTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C955561723FEB41600A4E312 /* UnitMissionTypes.swift */; };
@@ -332,6 +333,7 @@
 		C9DFCF8023F2C69F0032243D /* TileFertilityEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DFCF7F23F2C69F0032243D /* TileFertilityEvaluator.swift */; };
 		C9DFCF8223F30BDC0032243D /* StrengthType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DFCF8123F30BDC0032243D /* StrengthType.swift */; };
 		C9DFCF8423F30C310032243D /* PlayerWarFaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DFCF8323F30C310032243D /* PlayerWarFaceType.swift */; };
+		C9E0066F274D713F00211300 /* AppealLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0066E274D713F00211300 /* AppealLevel.swift */; };
 		C9E0576E26E3F33800C3FFB9 /* GameModelSightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0576D26E3F33800C3FFB9 /* GameModelSightTests.swift */; };
 		C9E0D57024424C0C001AA97A /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D56F24424C0C001AA97A /* Notifications.swift */; };
 		C9E0D57224424C66001AA97A /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D57124424C66001AA97A /* NotificationType.swift */; };
@@ -484,6 +486,7 @@
 		C93D66A724028DB500F5157B /* HexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexPath.swift; sourceTree = "<group>"; };
 		C93D66A92402913100F5157B /* UnitMovementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitMovementType.swift; sourceTree = "<group>"; };
 		C93D66AB24044EA700F5157B /* TacticalAnalysisMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalAnalysisMap.swift; sourceTree = "<group>"; };
+		C94CB3CC274D8E54002F3083 /* TileAppealTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileAppealTests.swift; sourceTree = "<group>"; };
 		C95503C224585F6D00D4B3D8 /* MapOptionResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOptionResources.swift; sourceTree = "<group>"; };
 		C95503C4245864A200D4B3D8 /* StartPositioner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPositioner.swift; sourceTree = "<group>"; };
 		C955561723FEB41600A4E312 /* UnitMissionTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitMissionTypes.swift; sourceTree = "<group>"; };
@@ -711,6 +714,7 @@
 		C9DFCF7F23F2C69F0032243D /* TileFertilityEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileFertilityEvaluator.swift; sourceTree = "<group>"; };
 		C9DFCF8123F30BDC0032243D /* StrengthType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrengthType.swift; sourceTree = "<group>"; };
 		C9DFCF8323F30C310032243D /* PlayerWarFaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerWarFaceType.swift; sourceTree = "<group>"; };
+		C9E0066E274D713F00211300 /* AppealLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealLevel.swift; sourceTree = "<group>"; };
 		C9E0576D26E3F33800C3FFB9 /* GameModelSightTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelSightTests.swift; sourceTree = "<group>"; };
 		C9E0D56F24424C0C001AA97A /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		C9E0D57124424C66001AA97A /* NotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
@@ -1015,6 +1019,7 @@
 				C98DBFB723E0D86000B6CE25 /* TechTests.swift */,
 				C907086723ED579900281161 /* TileDiscoveredTests.swift */,
 				C91A154D270E2DC200A2EC91 /* TileImprovementTests.swift */,
+				C94CB3CC274D8E54002F3083 /* TileAppealTests.swift */,
 				C98DBFB123E0580E00B6CE25 /* TileTests.swift */,
 				C956BF6924F3C7B9009702B4 /* TradeRouteTests.swift */,
 				C99047F526CA45A600B1A7A6 /* UnitTests.swift */,
@@ -1103,6 +1108,7 @@
 				C98DBFAF23E0469800B6CE25 /* TerrainType.swift */,
 				C92D221A23E2D80500BB9238 /* FeatureType.swift */,
 				C92D220C23E20B7C00BB9238 /* ImprovementType.swift */,
+				C9E0066E274D713F00211300 /* AppealLevel.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -1806,6 +1812,7 @@
 				C9C0DCDD24D457A4004D9F06 /* GreatWork.swift in Sources */,
 				C92317C823D7577C001FC723 /* RuleBasedMatch.swift in Sources */,
 				C960E1DC24E675870049DC83 /* CityTradingPosts.swift in Sources */,
+				C9E0066F274D713F00211300 /* AppealLevel.swift in Sources */,
 				C93D66AC24044EA700F5157B /* TacticalAnalysisMap.swift in Sources */,
 				C93D66AA2402913100F5157B /* UnitMovementType.swift in Sources */,
 				C925594025F8A7BE00C2BF28 /* TribeType.swift in Sources */,
@@ -1925,6 +1932,7 @@
 				C93479492529AF2A00A4B113 /* AStarPathFinderTests.swift in Sources */,
 				C92D220923E1DC3300BB9238 /* PlayerTechTests.swift in Sources */,
 				C986A5F22664F56F0055D3D4 /* ReligionTests.swift in Sources */,
+				C94CB3CD274D8E54002F3083 /* TileAppealTests.swift in Sources */,
 				C92317BD23D6EAB5001FC723 /* HierarchicalStateMachineTests.swift in Sources */,
 				C956BF6A24F3C7B9009702B4 /* TradeRouteTests.swift in Sources */,
 				C99496932519E4300049C2D6 /* BasicCityAttackOperationTests.swift in Sources */,

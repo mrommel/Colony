@@ -27,63 +27,65 @@ extension FeatureType {
         case .none:
             return []
         case .forest:
-            return ["feature_forest1", "feature_forest2"]
+            return ["feature-forest1", "feature-forest2"]
         case .rainforest:
-            return ["feature_rainforest1", "feature_rainforest2"]
+            return ["feature-rainforest1", "feature-rainforest2"]
         case .floodplains:
-            return ["feature_floodplains"]
+            return ["feature-floodplains"]
         case .marsh:
-            return ["feature_marsh1", "feature_marsh2"]
+            return ["feature-marsh1", "feature-marsh2"]
         case .oasis:
-            return ["feature_oasis1", "feature_oasis2"]
+            return ["feature-oasis1", "feature-oasis2"]
         case .reef:
-            return ["feature_reef"]
+            return ["feature-reef"]
         case .ice:
-            return ["feature_ice1", "feature_ice2", "feature_ice3", "feature_ice4", "feature_ice5", "feature_ice6"]
+            return ["feature-ice1", "feature-ice2", "feature-ice3", "feature-ice4", "feature-ice5", "feature-ice6"]
         case .atoll:
-            return ["feature_atoll"]
+            return ["feature-atoll"]
         case .volcano:
-            return ["feature_volcano"]
+            return ["feature-volcano"]
 
         case .mountains:
-            return ["feature_mountains1", "feature_mountains2", "feature_mountains3"]
+            return ["feature-mountains1", "feature-mountains2", "feature-mountains3"]
         case .lake:
-            return ["feature_lake"]
+            return ["feature-lake"]
         case .fallout:
-            return ["feature_fallout"]
+            return ["feature-fallout"]
 
         case .delicateArch:
-            return ["feature_delicateArch"]
+            return ["feature-delicateArch"]
         case .galapagos:
-            return ["feature_galapagos"]
+            return ["feature-galapagos"]
         case .greatBarrierReef:
-            return ["feature_greatBarrierReef"]
+            return ["feature-greatBarrierReef"]
         case .mountEverest:
-            return ["feature_mountEverest"]
+            return ["feature-mountEverest"]
         case .mountKilimanjaro:
-            return ["feature_mountKilimanjaro"]
+            return ["feature-mountKilimanjaro"]
         case .pantanal:
-            return ["feature_pantanal"]
+            return ["feature-pantanal"]
         case .yosemite:
-            return ["feature_yosemite"]
+            return ["feature-yosemite"]
         case .uluru:
-            return ["feature_uluru"]
+            return ["feature-uluru"]
         case .fuji:
-            return ["feature_fuji"]
+            return ["feature-fuji"]
         case .barringCrater:
-            return ["feature_barringCrater"]
+            return ["feature-barringCrater"]
         case .mesa:
-            return ["feature_mesa"]
+            return ["feature-mesa"]
         case .gibraltar:
-            return ["feature_gibraltar"]
+            return ["feature-gibraltar"]
         case .geyser:
-            return ["feature_geyser"]
+            return ["feature-geyser"]
         case .potosi:
-            return ["feature_potosi"]
+            return ["feature-potosi"]
         case .fountainOfYouth:
-            return ["feature_fountainOfYouth"]
+            return ["feature-fountainOfYouth"]
         case .lakeVictoria:
-            return ["feature_lakeVictoria"]
+            return ["feature-lakeVictoria"]
+        case .cliffsOfDover:
+            return ["feature-cliffsOfDover"]
         }
     }
 }
