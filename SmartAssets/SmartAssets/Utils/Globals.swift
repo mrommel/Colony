@@ -96,6 +96,22 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "gold")
         }
 
+        public static var housing: NSImage {
+            return Icons.loadCachedTexture(with: "housing")
+        }
+
+        public static var tourism: NSImage {
+            return Icons.loadCachedTexture(with: "tourism")
+        }
+
+        public static var science: NSImage {
+            return Icons.loadCachedTexture(with: "science")
+        }
+
+        public static var culture: NSImage {
+            return Icons.loadCachedTexture(with: "culture")
+        }
+
         public static var turns: NSImage {
             return Icons.loadCachedTexture(with: "turns")
         }

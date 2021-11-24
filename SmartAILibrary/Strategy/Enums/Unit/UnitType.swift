@@ -204,7 +204,7 @@ public enum UnitType: Int, Codable {
         return 0
     }
 
-    func unitClass() -> UnitClassType {
+    public func unitClass() -> UnitClassType {
 
         return self.data().targetType
     }

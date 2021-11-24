@@ -96,18 +96,19 @@ public class Textures {
         ]
 
         self.allFeatureTextureNames = [
-            "feature_atoll", "feature_lake", "feature_mountains_ne_sw", "feature_ice5",
-            "feature_rainforest1", "feature_delicateArch", "feature_mountains_nw", "feature_ice6",
-            "feature_rainforest2", "feature_floodplains", "feature_mountains_se", "feature_marsh1",
-            "feature_mountains_se_nw", "feature_reef", "feature_forest1", "feature_marsh2",
-            "feature_mountains_sw", "feature_uluru", "feature_forest2", "feature_mountEverest",
-            "feature_none", "feature_galapagos", "feature_mountKilimanjaro", "feature_yosemite",
-            "feature_greatBarrierReef", "feature_mountains1", "feature_oasis1", "feature_ice1",
-            "feature_mountains2", "feature_oasis2", "feature_ice2", "feature_mountains3",
-            "feature_pantanal", "feature_ice3", "feature_pine1", "feature_mountains_ne",
-            "feature_ice4", "feature_pine1", "feature_pine2", "feature_volcano", "feature_fallout",
-            "feature_fuji", "feature_barringCrater", "feature_mesa", "feature_gibraltar",
-            "feature_geyser", "feature_potosi", "feature_fountainOfYouth", "feature_lakeVictoria"
+            "feature-atoll", "feature-lake", "feature-mountains-ne-sw", "feature-ice5",
+            "feature-rainforest1", "feature-delicateArch", "feature-mountains-nw", "feature-ice6",
+            "feature-rainforest2", "feature-floodplains", "feature-mountains-se", "feature-marsh1",
+            "feature-mountains-se-nw", "feature-reef", "feature-forest1", "feature-marsh2",
+            "feature-mountains-sw", "feature-uluru", "feature-forest2", "feature-mountEverest",
+            "feature-none", "feature-galapagos", "feature-mountKilimanjaro", "feature-yosemite",
+            "feature-greatBarrierReef", "feature-mountains1", "feature-oasis1", "feature-ice1",
+            "feature-mountains2", "feature-oasis2", "feature-ice2", "feature-mountains3",
+            "feature-pantanal", "feature-ice3", "feature-pine1", "feature-mountains-ne",
+            "feature-ice4", "feature-pine1", "feature-pine2", "feature-volcano", "feature-fallout",
+            "feature-fuji", "feature-barringCrater", "feature-mesa", "feature-gibraltar",
+            "feature-geyser", "feature-potosi", "feature-fountainOfYouth", "feature-lakeVictoria",
+            "feature-cliffsOfDover"
         ]
 
         self.allSnowFeatureTextureNames = Textures.allTextureSuffixes.map({ "snow\($0)" }) +
@@ -419,7 +420,7 @@ public class Textures {
 
         let textureName: String
         if tile.terrain() == .tundra && feature == .forest {
-            textureName = ["feature_pine1", "feature_pine2"].item(from: tile.point)
+            textureName = ["feature-pine1", "feature-pine2"].item(from: tile.point)
         } else if feature == .mountains {
 
             let mountainsN = (neighborTiles[.north]??.feature() ?? .none) == .mountains
@@ -430,17 +431,17 @@ public class Textures {
             let mountainsNW = (neighborTiles[.northwest]??.feature() ?? .none) == .mountains
 
             if !mountainsN && mountainsNE && !mountainsSE && !mountainsS && !mountainsSW && !mountainsNW {
-                textureName = "feature_mountains_ne"
+                textureName = "feature-mountains_ne"
             } else if !mountainsN && !mountainsNE && !mountainsSE && !mountainsS && mountainsSW && !mountainsNW {
-                textureName = "feature_mountains_sw"
+                textureName = "feature-mountains_sw"
             } else if !mountainsN && mountainsNE && !mountainsSE && !mountainsS && mountainsSW && !mountainsNW {
-                textureName = "feature_mountains_ne_sw"
+                textureName = "feature-mountains_ne_sw"
             } else if !mountainsN && !mountainsNE && mountainsSE && !mountainsS && !mountainsSW && !mountainsNW {
-                textureName = "feature_mountains_se"
+                textureName = "feature-mountains_se"
             } else if !mountainsN && !mountainsNE && !mountainsSE && !mountainsS && !mountainsSW && mountainsNW {
-                textureName = "feature_mountains_nw"
+                textureName = "feature-mountains_nw"
             } else if !mountainsN && !mountainsNE && mountainsSE && !mountainsS && !mountainsSW && mountainsNW {
-                textureName = "feature_mountains_se_nw"
+                textureName = "feature-mountains_se_nw"
             } else {
                 textureName = feature.textureNames().item(from: tile.point)
             }

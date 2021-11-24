@@ -14,6 +14,7 @@ public enum LabelImageType {
     case food
     case production
     case gold
+    case housing
 
     case tradeRoute
     case loyalty
@@ -28,6 +29,7 @@ public enum LabelImageType {
         case "[Food]": return .food
         case "[Production]": return .production
         case "[Gold]": return .gold
+        case "[Housing]": return .housing
 
         case "[TradeRoute]": return .tradeRoute
         case "[Loyalty]": return .loyalty
@@ -47,6 +49,7 @@ public enum LabelImageType {
         case .food: return Globals.Icons.food
         case .production: return Globals.Icons.production
         case .gold: return Globals.Icons.gold
+        case .housing: return Globals.Icons.housing
 
         case .tradeRoute: return Globals.Icons.tradeRoute
         case .loyalty: return Globals.Icons.loyalty

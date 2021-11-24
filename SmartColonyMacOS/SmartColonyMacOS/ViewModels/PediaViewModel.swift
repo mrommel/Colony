@@ -144,13 +144,34 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         self.imageName = resource.textureName()
     }
 
-    /*init(unit: UnitType) {
+    init(unit: UnitType) {
 
+        self.title = unit.name()
+        self.summary = "Unit of class \(unit.unitClass().name())"
+        var detailText = "Effects: \n"
+        unit.effects().forEach { detailText += ("* " + $0 + "\n") }
+        self.detail = detailText
+        self.imageName = unit.portraitTexture()
     }
 
     init(building: BuildingType) {
 
-    }*/
+        self.title = building.name()
+
+        var requiredText = ""
+        if let requiredTech = building.requiredTech() {
+            requiredText = requiredTech.name()
+        }
+        if let requiredCivic = building.requiredCivic() {
+            requiredText = requiredCivic.name()
+        }
+        self.summary = "Building that can be built with \(building.productionCost()) [Production] production. " +
+            "It requires \(requiredText) to be researched."
+        var detailText = "Effects: \n"
+        building.effects().forEach { detailText += ("* " + $0 + "\n") }
+        self.detail = detailText
+        self.imageName = building.iconTexture()
+    }
 
     init(district: DistrictType) {
 
@@ -163,22 +184,51 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         if let requiredCivic = district.requiredCivic() {
             requiredText = requiredCivic.name()
         }
-        self.summary = "District that can be built with \(district.productionCost()) production. " +
+        self.summary = "District that can be built with \(district.productionCost()) [Production] production. " +
             "It requires \(requiredText) to be researched."
 
-        var detailText = "Effect: \n"
+        var detailText = "Effects: \n"
         district.effects().forEach { detailText += ("* " + $0 + "\n") }
         self.detail = detailText
         self.imageName = district.iconTexture()
     }
 
-    /*init(wonder: WonderType) {
+    init(wonder: WonderType) {
 
+        self.title = wonder.name()
+
+        var requiredText = ""
+        if let requiredTech = wonder.requiredTech() {
+            requiredText = requiredTech.name()
+        }
+        if let requiredCivic = wonder.requiredCivic() {
+            requiredText = requiredCivic.name()
+        }
+        self.summary = "Wonder that can be built with \(wonder.productionCost()) [Production] production. " +
+            "It requires \(requiredText) to be researched."
+
+        var detailText = "Effects: \n"
+        wonder.effects().forEach { detailText += ("* " + $0 + "\n") }
+        self.detail = detailText
+        self.imageName = wonder.iconTexture()
     }
 
     init(improvement: ImprovementType) {
 
-    }*/
+        self.title = improvement.name()
+
+        var requiredText = ""
+        if let requiredTech = improvement.requiredTech() {
+            requiredText = requiredTech.name()
+        }
+        self.summary = "Improvement that can be built when \(requiredText) is researched."
+
+        var detailText = "Effects: \n"
+        improvement.effects().forEach { detailText += ("* " + $0 + "\n") }
+        self.detail = detailText
+
+        self.imageName = improvement.textureNames()[0]
+    }
 
     init(tech: TechType) {
 
@@ -307,8 +357,22 @@ class PediaViewModel: ObservableObject {
             )
         }
 
-        // units
-        // buildings
+        let unitPortraitTextures = UnitType.all.map { $0.portraitTexture() }
+        print("- load \(unitPortraitTextures.count) units")
+        for textureName in unitPortraitTextures {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        print("- load \(textures.buildingTypeTextureNames.count) buildings")
+        for textureName in textures.buildingTypeTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
 
         print("- load \(textures.districtTypeTextureNames.count) districts")
         for textureName in textures.districtTypeTextureNames {
@@ -318,8 +382,21 @@ class PediaViewModel: ObservableObject {
             )
         }
 
-        // wonders
-        // improvements
+        print("- load \(textures.wonderTypeTextureNames.count) wonders")
+        for textureName in textures.wonderTypeTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        print("- load \(textures.allImprovementTextureNames.count) improvements")
+        for textureName in textures.allImprovementTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
 
         print("- load \(textures.techTextureNames.count) techs")
         for textureName in textures.techTextureNames {
@@ -358,20 +435,26 @@ class PediaViewModel: ObservableObject {
             for resourceType in ResourceType.all {
                 self.pediaDetailViewModels.append(PediaDetailViewModel(resource: resourceType))
             }
-
         case .units:
-            print("units")
+            for unitType in UnitType.all {
+                self.pediaDetailViewModels.append(PediaDetailViewModel(unit: unitType))
+            }
         case .buildings:
-            print("buildings")
+            for buildingType in BuildingType.all {
+                self.pediaDetailViewModels.append(PediaDetailViewModel(building: buildingType))
+            }
         case .districts:
             for districtType in DistrictType.all {
                 self.pediaDetailViewModels.append(PediaDetailViewModel(district: districtType))
             }
         case .wonders:
-            print("wonders")
+            for wonderType in WonderType.all {
+                self.pediaDetailViewModels.append(PediaDetailViewModel(wonder: wonderType))
+            }
         case .improvements:
-            print("improvements")
-
+            for improvementType in ImprovementType.all {
+                self.pediaDetailViewModels.append(PediaDetailViewModel(improvement: improvementType))
+            }
         case .techs:
             for techType in TechType.all {
                 self.pediaDetailViewModels.append(PediaDetailViewModel(tech: techType))
