@@ -2756,7 +2756,32 @@ public class Unit: AbstractUnit {
             return false
         }
 
-        return tile.has(feature: .forest) || tile.has(feature: .rainforest) || tile.has(feature: .marsh)
+        guard let techs = self.player?.techs else {
+            fatalError("cant get player techs")
+        }
+
+        if tile.has(feature: .forest) &&
+            self.type.canBuild(build: .removeForest) &&
+            techs.has(tech: .mining) {
+            
+            return true
+        }
+
+        if tile.has(feature: .rainforest) &&
+            self.type.canBuild(build: .removeRainforest) &&
+            techs.has(tech: .bronzeWorking) {
+
+            return true
+        }
+
+        if tile.has(feature: .marsh) &&
+            self.type.canBuild(build: .removeMarsh) &&
+            techs.has(tech: .masonry) {
+
+            return true
+        }
+
+        return false
     }
 
     func canPlantForest(at point: HexPoint, in gameModel: GameModel?) -> Bool {
