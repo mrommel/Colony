@@ -113,7 +113,6 @@ class GameModelTests: XCTestCase {
 
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
-        mapModel.set(terrain: .desert, at: HexPoint(x: 1, y: 2))
 
         // game
         let gameModel = GameModel(
@@ -124,20 +123,29 @@ class GameModelTests: XCTestCase {
             on: mapModel
         )
 
+        let cityLocation = HexPoint(x: 1, y: 2)
+        let wonderLocation = cityLocation.neighbor(in: .south)
+
+        mapModel.set(terrain: .desert, at: wonderLocation)
+
         // city
-        let city = City(name: "Berlin", at: HexPoint.zero, owner: playerAlexander)
+        let city = City(name: "Berlin", at: cityLocation, owner: playerAlexander)
         city.initialize(in: gameModel)
         gameModel.add(city: city)
         let canBuildBefore = city.canBuild(wonder: .pyramids, in: gameModel)
+        let canBuildAtBefore = city.canBuild(wonder: .pyramids, at: wonderLocation, in: gameModel)
 
         // WHEN
-        city.startBuilding(wonder: .pyramids, at: HexPoint(x: 0, y: 1), in: gameModel)
+        city.startBuilding(wonder: .pyramids, at: wonderLocation, in: gameModel)
         city.updateProduction(for: 2000, in: gameModel)
         let canBuildAfter = city.canBuild(wonder: .pyramids, in: gameModel)
+        let canBuildAtAfter = city.canBuild(wonder: .pyramids, at: wonderLocation, in: gameModel)
 
         // THEN
         XCTAssertEqual(canBuildBefore, true)
+        XCTAssertEqual(canBuildAtBefore, true)
         XCTAssertEqual(canBuildAfter, false)
+        XCTAssertEqual(canBuildAtAfter, false)
     }
 
     // https://github.com/mrommel/Colony/issues/68
@@ -169,7 +177,6 @@ class GameModelTests: XCTestCase {
 
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
-        mapModel.set(terrain: .desert, at: HexPoint(x: 19, y: 19))
 
         // game
         let gameModel = GameModel(
@@ -180,19 +187,23 @@ class GameModelTests: XCTestCase {
             on: mapModel
         )
 
+        let cityLocation = HexPoint(x: 20, y: 20)
+        let wonderLocation = cityLocation.neighbor(in: .south)
+        mapModel.set(terrain: .desert, at: wonderLocation)
+
         // city 1
         let city1 = City(name: "Berlin", at: HexPoint.zero, owner: playerAlexander)
         city1.initialize(in: gameModel)
         gameModel.add(city: city1)
 
         // city 2
-        let city2 = City(name: "Potsdam", at: HexPoint(x: 20, y: 20), owner: playerTrajan)
+        let city2 = City(name: "Potsdam", at: cityLocation, owner: playerTrajan)
         city2.initialize(in: gameModel)
         gameModel.add(city: city2)
         let canBuildBefore = city2.canBuild(wonder: .pyramids, in: gameModel)
 
         // WHEN
-        city1.startBuilding(wonder: .pyramids, at: HexPoint(x: 1, y: 0), in: gameModel)
+        city1.startBuilding(wonder: .pyramids, at: wonderLocation, in: gameModel)
         city1.updateProduction(for: 2000, in: gameModel)
         let canBuildAfter = city2.canBuild(wonder: .pyramids, in: gameModel)
 
