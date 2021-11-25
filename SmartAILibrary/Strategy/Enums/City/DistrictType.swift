@@ -267,10 +267,10 @@ public enum DistrictType: Int, Codable {
                 name: "Harbor",
                 specialty: true,
                 effects: [
-                    "Major bonus (+2 Gold) for being adjacent to the City Center", // #
-                    "Standard bonus (+1 Gold) for each adjacent Sea resource", // #
-                    "Minor bonus (+½ Gold) for each adjacent District", // #
-                    "+1 Great Admiral point per turn", // #
+                    "Major bonus (+2 Gold) for being adjacent to the City Center",
+                    "Standard bonus (+1 Gold) for each adjacent Sea resource",
+                    "Minor bonus (+½ Gold) for each adjacent District",
+                    "+1 Great Admiral point per turn",
                     "+1 Trade Route capacity if this city doesn't already have a Commercial Hub. (Requires a Lighthouse)", // #
                     "Allows its parent city to build ships, even if the City Center is inland", // #
                     "Newly produced or purchased ships will spawn at the Harbor tile (as long as the Harbor tile is unoccupied)", // #
@@ -298,9 +298,11 @@ public enum DistrictType: Int, Codable {
                 name: "Entertainment",
                 specialty: false,
                 effects: [
-                    "+1 Amenity from entertainment to parent city",
-                    "Amenities from the Zoo and Stadium buildings extend to cities whose City Centers are up to 6 tiles away from the district. (Stacks with Water Park.)",
-                    "+1 Appeal to adjacent tiles"
+                    "+1 Amenity from entertainment to parent city", // #
+                    "Amenities from the Zoo and Stadium buildings extend to cities whose City Centers are up to 6 tiles away from the district. (Stacks with Water Park.)", // #
+                    "Domestic Destination: +1 [Food] Food.", // #
+                    "International Destination: +1 [Food] Food.", // #
+                    "+1 Appeal to adjacent tiles" // #
                 ],
                 productionCost: 54,
                 maintenanceCost: 1,
@@ -320,11 +322,11 @@ public enum DistrictType: Int, Codable {
                 specialty: true,
                 effects: [
                     "Major bonus (+2 Gold) for a nearby River or a Harbor District.",
-                    "Major bonus (+2 Gold) for each adjacent Pamukkale tile.",
+                    // "Major bonus (+2 Gold) for each adjacent Pamukkale tile.", // #
                     "Minor bonus (+½ Gold) for each nearby District.",
-                    "+1 Trade Route capacity if this city doesn't already have a Harbor. (Requires a Market)",
+                    "+1 Trade Route capacity if this city doesn't already have a Harbor. (Requires a Market)", // #
                     "+1 Great Merchant point per turn",
-                    "Specialists add +4 Gold each"
+                    "Specialists add +4 Gold each" // #
                 ],
                 productionCost: 54,
                 maintenanceCost: 0,
@@ -345,9 +347,9 @@ public enum DistrictType: Int, Codable {
                     "Standard bonus (+1 Production) for each adjacent Mine or a Quarry",
                     "Minor bonus (+½ Production) for each adjacent district tile",
                     "+1 Great Engineer point per turn",
-                    "Lowers the Appeal of nearby tiles",
-                    "Production from Factory and Power Plant buildings extends to cities whose City Centers are within 6 tiles of this district",
-                    "Specialists provide +2 Production each"
+                    "Lowers the Appeal of nearby tiles", // #
+                    "Production from Factory and Power Plant buildings extends to cities whose City Centers are within 6 tiles of this district", // #
+                    "Specialists provide +2 Production each" // #
                 ],
                 productionCost: 54,
                 maintenanceCost: 0,
@@ -368,8 +370,8 @@ public enum DistrictType: Int, Codable {
                 name: "Aqueduct",
                 specialty: false,
                 effects: [
-                    "Cities that do not yet have existing fresh water receive up to 6 Housing.", // #
-                    "Cities that already have existing fresh water will instead get 2 Housing.", // #
+                    "Cities that do not yet have existing fresh water receive up to 6 Housing.",
+                    "Cities that already have existing fresh water will instead get 2 Housing.",
                     "Prevents Food loss during droughts.", // #
                     "+1 Amenity if adjacent to a Geothermal Fissure.", // #
                     "Military Engineers can spend a charge to complete 20% (rounding down) of an Aqueduct's production.", // #

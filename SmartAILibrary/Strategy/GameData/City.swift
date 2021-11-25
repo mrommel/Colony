@@ -146,7 +146,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func baseHousing(in gameModel: GameModel?) -> Double
     func housingFromBuildings() -> Double
     func housingFromWonders(in gameModel: GameModel?) -> Double
-    func housingFromDistricts() -> Double
+    func housingFromDistricts(in gameModel: GameModel?) -> Double
 
     func amenitiesPerTurn(in gameModel: GameModel?) -> Double
     func amenitiesFromDistrict() -> Double

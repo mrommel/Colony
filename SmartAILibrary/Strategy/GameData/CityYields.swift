@@ -228,6 +228,28 @@ extension City {
             }
         }
 
+        // commercialHub - +1 Great Merchant point per turn
+        if districts.has(district: .commercialHub) {
+
+            greatPeoplePoints.greatMerchant += 1
+
+            // Districts in this city provide +2 Great Person points of their type.
+            if self.has(wonder: .oracle) {
+                greatPeoplePoints.greatMerchant += 2
+            }
+        }
+
+        // industrial - +1 Great Engineer point per turn
+        if districts.has(district: .industrial) {
+
+            greatPeoplePoints.greatEngineer += 1
+
+            // Districts in this city provide +2 Great Person points of their type.
+            if self.has(wonder: .oracle) {
+                greatPeoplePoints.greatEngineer += 2
+            }
+        }
+
         return greatPeoplePoints
     }
 
@@ -239,6 +261,7 @@ extension City {
 
         productionPerTurn += YieldValues(value: self.productionFromTiles(in: gameModel))
         productionPerTurn += YieldValues(value: self.productionFromGovernmentType())
+        productionPerTurn += YieldValues(value: self.productionFromDistricts(in: gameModel))
         productionPerTurn += YieldValues(value: self.productionFromBuildings())
         productionPerTurn += YieldValues(value: self.productionFromTradeRoutes(in: gameModel))
         productionPerTurn += YieldValues(value: self.featureProduction())
@@ -352,6 +375,40 @@ extension City {
         }
 
         return productionFromGovernmentType
+    }
+
+    func productionFromDistricts(in gameModel: GameModel?) -> Double {
+
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
+        var productionFromDistricts: Double = 0.0
+
+        if districts.has(district: .industrial) {
+
+            if let industrialLocation = self.location(of: .industrial) {
+
+                for neighbor in industrialLocation.neighbors() {
+
+                    guard let neighborTile = gameModel?.tile(at: neighbor) else {
+                        continue
+                    }
+
+                    // Standard bonus (+1 Production) for each adjacent Mine or a Quarry
+                    if neighborTile.has(improvement: .mine) || neighborTile.has(improvement: .quarry) {
+                        productionFromDistricts += 1
+                    }
+
+                    // Minor bonus (+½ Production) for each adjacent district tile
+                    if neighborTile.district() != .none {
+                        productionFromDistricts += 0.5
+                    }
+                }
+            }
+        }
+
+        return productionFromDistricts
     }
 
     func productionFromBuildings() -> Double {
@@ -920,6 +977,10 @@ extension City {
 
     private func goldFromDistricts(in gameModel: GameModel?) -> Double {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
@@ -932,7 +993,7 @@ extension City {
 
                 for neighbor in harborLocation.neighbors() {
 
-                    guard let neighborTile = gameModel?.tile(at: neighbor) else {
+                    guard let neighborTile = gameModel.tile(at: neighbor) else {
                         continue
                     }
 
@@ -940,6 +1001,52 @@ extension City {
                     if neighborTile.point == self.location {
                         goldFromDistricts += 2.0
                     }
+
+                    // Standard bonus (+1 Gold) for each adjacent Sea resource
+                    if neighborTile.isWater() && neighborTile.hasAnyResource(for: self.player) {
+                        goldFromDistricts += 1.0
+                    }
+
+                    // Minor bonus (+½ Gold) for each adjacent District
+                    if neighborTile.district() != .none {
+                        goldFromDistricts += 0.5
+                    }
+                }
+            }
+        }
+
+        if districts.has(district: .commercialHub) {
+
+            if let commercialHubLocation = self.location(of: .commercialHub) {
+
+                var harborOrRiver: Bool = false
+
+                for neighbor in commercialHubLocation.neighbors() {
+
+                    guard let neighborTile = gameModel.tile(at: neighbor) else {
+                        continue
+                    }
+
+                    // Major bonus (+2 Gold) for a nearby River or a Harbor District.",
+                    if neighborTile.has(district: .harbor) {
+                        harborOrRiver = true
+                    }
+
+                    // Major bonus (+2 Gold) for each adjacent Pamukkale tile.",
+
+                    // Minor bonus (+½ Gold) for each nearby District.",
+                    if neighborTile.district() != .none {
+                        goldFromDistricts += 0.5
+                    }
+                }
+
+                // Major bonus (+2 Gold) for a nearby River or a Harbor District.",
+                if gameModel.river(at: commercialHubLocation) {
+                    harborOrRiver = true
+                }
+
+                if harborOrRiver {
+                    goldFromDistricts += 2.0
                 }
             }
         }
@@ -1408,9 +1515,10 @@ extension City {
 
         housingPerTurn += YieldValues(value: self.baseHousing(in: gameModel))
         housingPerTurn += YieldValues(value: self.housingFromBuildings())
-        housingPerTurn += YieldValues(value: self.housingFromDistricts())
+        housingPerTurn += YieldValues(value: self.housingFromDistricts(in: gameModel))
         housingPerTurn += YieldValues(value: self.housingFromWonders(in: gameModel))
         housingPerTurn += YieldValues(value: self.housingFromImprovements(in: gameModel))
+        housingPerTurn += YieldValues(value: housingFromGovernment())
         housingPerTurn += YieldValues(value: self.housingFromGovernors())
 
         // cap yields based on loyalty
@@ -1451,7 +1559,53 @@ extension City {
         return buildings.housing()
     }
 
-    public func housingFromDistricts() -> Double {
+    public func housingFromDistricts(in gameModel: GameModel?) -> Double {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var housingFromDistricts: Double = 0.0
+
+        // district
+        if self.has(district: .aqueduct) {
+
+            var hasFreshWater: Bool = false
+            if let tile = gameModel.tile(at: self.location) {
+                for neighbor in self.location.neighbors() {
+                    if let neighborTile = gameModel.tile(at: neighbor) {
+                        if tile.isRiverToCross(towards: neighborTile) {
+                            hasFreshWater = true
+                        }
+                    }
+                }
+            }
+
+            // Cities that do not yet have existing fresh water receive up to 6 Housing.
+            if !hasFreshWater {
+                housingFromDistricts += 6
+            } else {
+                // Cities that already have existing fresh water will instead get 2 Housing.
+                housingFromDistricts += 2
+            }
+        }
+
+        // for now there can only be one
+        if self.has(district: .neighborhood) {
+
+            // A district in your city that provides Housing based on the Appeal of the tile.
+            if let neighborhoodLocation = self.location(of: .neighborhood) {
+                if let neighborhoodTile = gameModel.tile(at: neighborhoodLocation) {
+                    let appeal = neighborhoodTile.appealLevel(in: gameModel)
+                    housingFromDistricts += Double(appeal.housing())
+                }
+            }
+        }
+
+        return housingFromDistricts
+    }
+
+    public func housingFromGovernment() -> Double {
 
         guard let government = self.player?.government else {
             fatalError("cant get government")
