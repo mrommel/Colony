@@ -342,7 +342,7 @@ class DebugViewModel: ObservableObject {
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
                 humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
-                try! humanCity.districts?.build(district: .holySite)
+                try! humanCity.districts?.build(district: .holySite, at: HexPoint(x: 3, y: 4))
             }
 
             humanPlayer.religion?.foundPantheon(with: .danceOfTheAurora, in: gameModel)

@@ -3465,11 +3465,13 @@ public class Player: AbstractPlayer {
 
         abEverOwned[GetID()] = true;*/
 
-        var oldDistricts: [DistrictType] = []
+        var oldDistricts: [DistrictItem] = []
         for districtType in DistrictType.all {
 
             if oldCity.has(district: districtType) {
-                oldDistricts.append(districtType)
+                if let oldLocation = oldCity.location(of: districtType) {
+                    oldDistricts.append(DistrictItem(type: districtType, location: oldLocation))
+                }
             }
         }
 
@@ -3558,7 +3560,7 @@ public class Player: AbstractPlayer {
 
         for district in oldDistricts {
             do {
-                try newCity.districts?.build(district: district)
+                try newCity.districts?.build(district: district.type, at: district.location)
             } catch {
 
             }

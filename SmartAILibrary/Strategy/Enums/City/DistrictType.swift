@@ -158,12 +158,12 @@ public enum DistrictType: Int, Codable {
                 specialty: true,
                 effects: [
                     "Major bonus (+2 Science) for each adjacent Geothermal Fissure and Reef tile.",
-                    "Major bonus (+2 Science) for each adjacent Pamukkale tile.",
+                    // "Major bonus (+2 Science) for each adjacent Pamukkale tile.", // #
                     "Major bonus (+2 Science) for each adjacent Great Barrier Reef tile.",
                     "Standard bonus (+1 Science) for each adjacent Mountain tile.",
                     "Minor bonus (+½ Science) for each adjacent Rainforest and district tile.",
                     "+1 Great Scientist point per turn.",
-                    "Specialists add +2 Science each"
+                    "Specialists add +2 Science each" // #
                 ],
                 productionCost: 54,
                 maintenanceCost: 1,
@@ -182,14 +182,14 @@ public enum DistrictType: Int, Codable {
                 name: "Theater Square",
                 specialty: true,
                 effects: [
-                    "Major bonus (+2 Culture) for each adjacent Wonder", // #
-                    "Major bonus (+2 Culture) for each adjacent Water Park or Entertainment Complex district tile", // #
-                    "Major bonus (+2 Culture) for each adjacent Pamukkale tile", // #
-                    "Minor bonus (+½ Culture) for each adjacent district tile", // #
-                    "+1 Great Writer point per turn", // #
-                    "+1 Great Artist point per turn", // #
-                    "+1 Great Musician point per turn", // #
-                    "Buildings have slots for Great Works and Artifacts", // #
+                    "Major bonus (+2 Culture) for each adjacent Wonder",
+                    "Major bonus (+2 Culture) for each adjacent Water Park or Entertainment Complex district tile",
+                    // "Major bonus (+2 Culture) for each adjacent Pamukkale tile",
+                    "Minor bonus (+½ Culture) for each adjacent district tile",
+                    "+1 Great Writer point per turn",
+                    "+1 Great Artist point per turn",
+                    "+1 Great Musician point per turn",
+                    "Buildings have slots for Great Works and Artifacts",
                     "Specialists add +2 Culture each", // #
                     "+1 Appeal to adjacent tiles" // #
                 ],
@@ -240,14 +240,14 @@ public enum DistrictType: Int, Codable {
                 specialty: true,
                 effects: [
                     "+1 Great General point per turn",
-                    "Acquires Outer Defenses and Ranged Strike along with the City Center once Walls have been built",
-                    "Blocks movement of foreign units to this tile, unless the district is pillaged",
-                    "Spawns all land military units the city produces or purchases",
-                    "Provides XP bonus to units built in it once buildings have been added to the district",
-                    "When a Military Academy is built, parent city may also build units as Corps and Armies",
-                    "Specialists provide +1 Production Production and 2 Gold each",
-                    "Gives its parent city the ability to build land units with only 1 count of the relative Strategic Resource",
-                    "Increases Strategic Resource stockpiles by 10 for each building inside"
+                    "Acquires Outer Defenses and Ranged Strike along with the City Center once Walls have been built", // #
+                    "Blocks movement of foreign units to this tile, unless the district is pillaged", // #
+                    "Spawns all land military units the city produces or purchases", // #
+                    "Provides XP bonus to units built in it once buildings have been added to the district", // #
+                    "When a Military Academy is built, parent city may also build units as Corps and Armies", // #
+                    "Specialists provide +1 [Production] Production and 2 Gold each", // #
+                    "Gives its parent city the ability to build land units with only 1 count of the relative Strategic Resource", // #
+                    "Increases Strategic Resource stockpiles by 10 for each building inside" // #
                 ],
                 productionCost: 54,
                 maintenanceCost: 0,
@@ -267,18 +267,18 @@ public enum DistrictType: Int, Codable {
                 name: "Harbor",
                 specialty: true,
                 effects: [
-                    "Major bonus (+2 Gold) for being adjacent to the City Center",
-                    "Standard bonus (+1 Gold) for each adjacent Sea resource",
-                    "Minor bonus (+½ Gold) for each adjacent District",
-                    "+1 Great Admiral point per turn",
-                    "+1 Trade Route capacity if this city doesn't already have a Commercial Hub. (Requires a Lighthouse)",
-                    "Allows its parent city to build ships, even if the City Center is inland",
-                    "Newly produced or purchased ships will spawn at the Harbor tile (as long as the Harbor tile is unoccupied)",
-                    "Removes movement penalties for units Embarking to and from its tile (even if the district is still under construction)",
-                    "Allows its parent city to build Ships requiring Strategic Resources with only 1 count of the relevant resource",
-                    "When the Seaport is built, the parent city may construct Fleets and Armadas",
-                    "Buildings grant experience bonuses to ships built in this city",
-                    "Specialists add +2 Gold and +1 Food each"
+                    "Major bonus (+2 Gold) for being adjacent to the City Center", // #
+                    "Standard bonus (+1 Gold) for each adjacent Sea resource", // #
+                    "Minor bonus (+½ Gold) for each adjacent District", // #
+                    "+1 Great Admiral point per turn", // #
+                    "+1 Trade Route capacity if this city doesn't already have a Commercial Hub. (Requires a Lighthouse)", // #
+                    "Allows its parent city to build ships, even if the City Center is inland", // #
+                    "Newly produced or purchased ships will spawn at the Harbor tile (as long as the Harbor tile is unoccupied)", // #
+                    "Removes movement penalties for units Embarking to and from its tile (even if the district is still under construction)", // #
+                    "Allows its parent city to build Ships requiring Strategic Resources with only 1 count of the relevant resource", // #
+                    "When the Seaport is built, the parent city may construct Fleets and Armadas", // #
+                    "Buildings grant experience bonuses to ships built in this city", // #
+                    "Specialists add +2 Gold and +1 Food each" // #
                 ],
                 productionCost: 54,
                 maintenanceCost: 0,

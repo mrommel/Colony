@@ -71,6 +71,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func preKill(in gameModel: GameModel?)
 
     func has(district: DistrictType) -> Bool
+    func location(of district: DistrictType) -> HexPoint?
     func has(building: BuildingType) -> Bool
     func has(wonder: WonderType) -> Bool
     func has(project: ProjectType) -> Bool
@@ -100,7 +101,7 @@ public protocol AbstractCity: AnyObject, Codable {
     @discardableResult
     func purchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
     @discardableResult
-    func purchase(district districtType: DistrictType, in gameModel: GameModel?) -> Bool
+    func purchase(district districtType: DistrictType, at location: HexPoint, in gameModel: GameModel?) -> Bool
     @discardableResult
     func purchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
     @discardableResult
@@ -603,7 +604,7 @@ public class City: AbstractCity {
 
         self.districts = Districts(city: self)
         do {
-            try self.districts?.build(district: .cityCenter)
+            try self.districts?.build(district: .cityCenter, at: self.location)
         } catch {}
 
         self.buildings = Buildings(city: self)
@@ -2468,7 +2469,7 @@ public class City: AbstractCity {
         }
 
         do {
-            try self.districts?.build(district: districtType)
+            try self.districts?.build(district: districtType, at: point)
             self.updateEurekas(in: gameModel)
 
             tile.build(district: districtType)
@@ -3007,6 +3008,19 @@ public class City: AbstractCity {
         return districts.has(district: district)
     }
 
+    public func location(of district: DistrictType) -> HexPoint? {
+
+        if district == .cityCenter {
+            return self.location
+        }
+
+        guard let districts = self.districts else {
+            return nil
+        }
+
+        return districts.location(of: district)
+    }
+
     public func has(building: BuildingType) -> Bool {
 
         guard let buildings = self.buildings else {
@@ -3216,7 +3230,7 @@ public class City: AbstractCity {
     }
 
     /// --- WARNING: THIS IS FOR TESTING ONLY ---
-    public func purchase(district districtType: DistrictType, in gameModel: GameModel?) -> Bool {
+    public func purchase(district districtType: DistrictType, at location: HexPoint, in gameModel: GameModel?) -> Bool {
 
         if !Thread.current.isRunningXCTest {
             fatalError("--- WARNING: THIS IS FOR TESTING ONLY ---")
@@ -3227,7 +3241,7 @@ public class City: AbstractCity {
         }
 
         do {
-            try districts.build(district: districtType)
+            try districts.build(district: districtType, at: location)
             return true
         } catch {
             return false

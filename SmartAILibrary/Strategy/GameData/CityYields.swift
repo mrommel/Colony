@@ -166,6 +166,7 @@ extension City {
 
         // campus - +1 Great Scientist Great Scientist point per turn.
         if districts.has(district: .campus) {
+
             greatPeoplePoints.greatScientist += 1
 
             // Districts in this city provide +2 Great Person points of their type.
@@ -176,6 +177,7 @@ extension City {
 
         // harbor - +1 Great Admiral point per turn
         if districts.has(district: .harbor) {
+
             greatPeoplePoints.greatAdmiral += 1
 
             // Districts in this city provide +2 Great Person points of their type.
@@ -186,11 +188,43 @@ extension City {
 
         // holySite - +1 Great Prophet point per turn
         if districts.has(district: .holySite) {
+
             greatPeoplePoints.greatProphet += 1
 
             // Districts in this city provide +2 Great Person points of their type.
             if self.has(wonder: .oracle) {
                 greatPeoplePoints.greatProphet += 2
+            }
+        }
+
+        // theatherSquare
+        if districts.has(district: .theatherSquare) {
+
+            // +1 Great Writer point per turn
+            greatPeoplePoints.greatWriter += 1
+
+            // +1 Great Artist point per turn
+            greatPeoplePoints.greatArtist += 1
+
+            // +1 Great Musician point per turn
+            greatPeoplePoints.greatMusician += 1
+
+            // Districts in this city provide +2 Great Person points of their type.
+            if self.has(wonder: .oracle) {
+                greatPeoplePoints.greatWriter += 2
+                greatPeoplePoints.greatArtist += 2
+                greatPeoplePoints.greatMusician += 2
+            }
+        }
+
+        // encampment - +1 Great General point per turn
+        if districts.has(district: .encampment) {
+
+            greatPeoplePoints.greatGeneral += 1
+
+            // Districts in this city provide +2 Great Person points of their type.
+            if self.has(wonder: .oracle) {
+                greatPeoplePoints.greatGeneral += 2
             }
         }
 
@@ -476,25 +510,28 @@ extension City {
 
         if districts.has(district: .holySite) {
 
-            for neighbor in self.location.neighbors() {
+            if let holySiteLocation = self.location(of: .holySite) {
 
-                guard let neighborTile = gameModel?.tile(at: neighbor) else {
-                    continue
-                }
+                for neighbor in holySiteLocation.neighbors() {
 
-                if neighborTile.feature().isWonder() {
-                    // Major bonus (+2 Faith) for each adjacent Natural Wonder
-                    faithFromDistricts += 2.0
-                }
+                    guard let neighborTile = gameModel?.tile(at: neighbor) else {
+                        continue
+                    }
 
-                if neighborTile.feature() == .mountains {
-                    // Standard bonus (+1 Faith) for each adjacent Mountain tile
-                    faithFromDistricts += 1.0
-                }
+                    if neighborTile.feature().isWonder() {
+                        // Major bonus (+2 Faith) for each adjacent Natural Wonder
+                        faithFromDistricts += 2.0
+                    }
 
-                if neighborTile.feature() == .forest || neighborTile.feature() == .rainforest {
-                    // Minor bonus (+½ Faith) for each adjacent District District tile and each adjacent unimproved Woods tile
-                    faithFromDistricts += 0.5
+                    if neighborTile.feature() == .mountains {
+                        // Standard bonus (+1 Faith) for each adjacent Mountain tile
+                        faithFromDistricts += 1.0
+                    }
+
+                    if neighborTile.feature() == .forest || neighborTile.feature() == .rainforest {
+                        // Minor bonus (+½ Faith) for each adjacent District District tile and each adjacent unimproved Woods tile
+                        faithFromDistricts += 0.5
+                    }
                 }
             }
         }
@@ -566,6 +603,7 @@ extension City {
 
         culturePerTurn += YieldValues(value: self.cultureFromTiles(in: gameModel))
         culturePerTurn += YieldValues(value: self.cultureFromGovernmentType())
+        culturePerTurn += YieldValues(value: self.cultureFromDistricts(in: gameModel))
         culturePerTurn += YieldValues(value: self.cultureFromBuildings())
         culturePerTurn += YieldValues(value: self.cultureFromWonders(in: gameModel))
         culturePerTurn += YieldValues(value: self.cultureFromPopulation())
@@ -641,6 +679,48 @@ extension City {
         }
 
         return cultureFromGovernmentValue
+    }
+
+    private func cultureFromDistricts(in gameModel: GameModel?) -> Double {
+
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
+        var cultureFromDistricts: Double = 0.0
+
+        // district
+        if districts.has(district: .campus) {
+
+            if let campusLocation = self.location(of: .campus) {
+
+                for neighbor in campusLocation.neighbors() {
+
+                    guard let neighborTile = gameModel?.tile(at: neighbor) else {
+                        continue
+                    }
+
+                    // Major bonus (+2 Culture) for each adjacent Wonder
+                    if neighborTile.feature().isWonder() {
+                        cultureFromDistricts += 2
+                    }
+
+                    // Major bonus (+2 Culture) for each adjacent Water Park or Entertainment Complex district tile
+                    if neighborTile.district() == .entertainment {
+                        cultureFromDistricts += 2
+                    }
+
+                    // Major bonus (+2 Culture) for each adjacent Pamukkale tile
+
+                    // Minor bonus (+½ Culture) for each adjacent district tile
+                    if neighborTile.district() != .none {
+                        cultureFromDistricts += 0.5
+                    }
+                }
+            }
+        }
+
+        return cultureFromDistricts
     }
 
     private func cultureFromBuildings() -> Double {
@@ -758,6 +838,7 @@ extension City {
 
         goldPerTurn += YieldValues(value: self.goldFromTiles(in: gameModel))
         goldPerTurn += YieldValues(value: self.goldFromGovernmentType())
+        goldPerTurn += YieldValues(value: self.goldFromDistricts(in: gameModel))
         goldPerTurn += YieldValues(value: self.goldFromBuildings())
         goldPerTurn += YieldValues(value: self.goldFromWonders())
         goldPerTurn += YieldValues(value: self.goldFromTradeRoutes(in: gameModel))
@@ -837,6 +918,35 @@ extension City {
         return goldFromGovernmentValue
     }
 
+    private func goldFromDistricts(in gameModel: GameModel?) -> Double {
+
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
+        var goldFromDistricts: Double = 0.0
+
+        if districts.has(district: .harbor) {
+
+            if let harborLocation = self.location(of: .harbor) {
+
+                for neighbor in harborLocation.neighbors() {
+
+                    guard let neighborTile = gameModel?.tile(at: neighbor) else {
+                        continue
+                    }
+
+                    // Major bonus (+2 Gold) for being adjacent to the City Center
+                    if neighborTile.point == self.location {
+                        goldFromDistricts += 2.0
+                    }
+                }
+            }
+        }
+
+        return goldFromDistricts
+    }
+
     private func goldFromBuildings() -> Double {
 
         guard let buildings = self.buildings else {
@@ -912,6 +1022,7 @@ extension City {
         sciencePerTurn += YieldValues(value: self.scienceFromTiles(in: gameModel))
         sciencePerTurn += YieldValues(value: self.scienceFromGovernmentType())
         sciencePerTurn += YieldValues(value: self.scienceFromBuildings())
+        sciencePerTurn += YieldValues(value: self.scienceFromDistricts(in: gameModel))
         sciencePerTurn += YieldValues(value: self.scienceFromWonders())
         sciencePerTurn += YieldValues(value: self.scienceFromPopulation())
         sciencePerTurn += YieldValues(value: self.scienceFromTradeRoutes(in: gameModel))
@@ -996,6 +1107,51 @@ extension City {
         }
 
         return scienceFromGovernmentValue
+    }
+
+    private func scienceFromDistricts(in gameModel: GameModel?) -> Double {
+
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
+        var scienceFromDistricts: Double = 0.0
+
+        // district
+        if districts.has(district: .campus) {
+
+            if let campusLocation = self.location(of: .campus) {
+
+                for neighbor in campusLocation.neighbors() {
+
+                    guard let neighborTile = gameModel?.tile(at: neighbor) else {
+                        continue
+                    }
+
+                    // Major bonus (+2 Science) for each adjacent Geothermal Fissure and Reef tile.
+                    if neighborTile.has(feature: /*.geothermalFissure*/.geyser) || neighborTile.has(feature: .reef) {
+                        scienceFromDistricts += 2.0
+                    }
+
+                    // Major bonus (+2 Science) for each adjacent Great Barrier Reef tile.
+                    if neighborTile.has(feature: .greatBarrierReef) {
+                        scienceFromDistricts += 2.0
+                    }
+
+                    // Standard bonus (+1 Science) for each adjacent Mountain tile.
+                    if neighborTile.has(feature: .mountains) {
+                        scienceFromDistricts += 1.0
+                    }
+
+                    // Minor bonus (+½ Science) for each adjacent Rainforest and district tile.
+                    if neighborTile.has(feature: .rainforest) || neighborTile.district() != .none {
+                        scienceFromDistricts += 0.5
+                    }
+                }
+            }
+        }
+
+        return scienceFromDistricts
     }
 
     private func scienceFromBuildings() -> Double {
