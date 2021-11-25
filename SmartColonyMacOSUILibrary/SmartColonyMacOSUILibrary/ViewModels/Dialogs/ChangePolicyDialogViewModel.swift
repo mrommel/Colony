@@ -35,12 +35,16 @@ class ChangePolicyDialogViewModel: ObservableObject {
 
     func update() {
 
-        guard let government = self.gameEnvironment.game.value?.humanPlayer()?.government else {
+        guard let gameModel = self.gameEnvironment.game.value else {
+            return
+        }
+
+        guard let government = gameModel.humanPlayer()?.government else {
             return
         }
 
         self.choosenPolicyCardSet = government.policyCardSet()
-        self.slots = government.policyCardSlots()
+        self.slots = government.policyCardSlots(in: gameModel)
 
         self.selectedPolicyCards = government.policyCardSet().cards()
         self.possiblePolicyCards = government.possiblePolicyCards()
@@ -78,12 +82,16 @@ class ChangePolicyDialogViewModel: ObservableObject {
 
     func policyCardSlotTypeText(of policyCardSlotType: PolicyCardSlotType) -> String {
 
-        guard let government = self.gameEnvironment.game.value?.humanPlayer()?.government else {
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let government = gameModel.humanPlayer()?.government else {
             fatalError("cant get government")
         }
 
         let selected = self.choosenPolicyCardSet.cardsFilled(in: policyCardSlotType, of: self.slots).count
-        let slots = government.policyCardSlots().numberOfSlots(in: policyCardSlotType)
+        let slots = government.policyCardSlots(in: gameModel).numberOfSlots(in: policyCardSlotType)
 
         return "\(selected) / \(slots)"
     }

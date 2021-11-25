@@ -244,13 +244,13 @@ class HexagonGridViewModel: ObservableObject {
                 case .citizen:
                     let tileAction: String? = self.tileActionTextureName(of: tile, with: city, for: humanPlayer, in: gameModel)
                     model.update(tileAction: tileAction)
-                case .districtLocation(type: let districtType):
+                case .districtLocation(type: _):
                     /*if city.canBuild(district: districtType, at: tile.point, in: gameModel) {
                         tileAction = TileActionType.districtAvailable.textureName
                     }*/
                     // NOOP
                     break
-                case .wonderLocation(type: let wonderType):
+                case .wonderLocation(type: _):
                     /*if city.canBuild(wonder: wonderType, at: tile.point, in: gameModel) {
                         tileAction = TileActionType.wonderAvailable.textureName
                     }*/

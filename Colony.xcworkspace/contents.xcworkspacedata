@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:SmartColonyMacOS/SmartColonyMacOS.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:/Users/michaelrommel/Prog/Colony/SmartColonyMacOSUILibrary/SmartMacOSUILibrary.xcodeproj">
    </FileRef>
    <FileRef
@@ -9,9 +12,6 @@
    </FileRef>
    <FileRef
       location = "group:SmartColony.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:SmartColonyMacOS/SmartColonyMacOS.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:SmartMapEditor.xcodeproj">

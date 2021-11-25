@@ -161,6 +161,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     // wonders
     func has(wonder: WonderType, in gameModel: GameModel?) -> Bool
+    func city(with wonder: WonderType, in gameModel: GameModel?) -> AbstractCity?
 
     // advisors
     func advisorMessages() -> [AdvisorMessage]
@@ -1338,7 +1339,7 @@ public class Player: AbstractPlayer {
             }
         }
 
-        if !government.hasPolicyCardsFilled() && self.capitalCity(in: gameModel) != nil {
+        if !government.hasPolicyCardsFilled(in: gameModel) && self.capitalCity(in: gameModel) != nil {
 
             if self.isHuman() {
                 notifications.add(notification: .policiesNeeded)
@@ -2314,6 +2315,26 @@ public class Player: AbstractPlayer {
         }
 
         return false
+    }
+
+    public func city(with wonderType: WonderType, in gameModel: GameModel?) -> AbstractCity? {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(wonder: wonderType) {
+                return cityRef
+            }
+        }
+
+        return nil
     }
 
     public func advisorMessages() -> [AdvisorMessage] {

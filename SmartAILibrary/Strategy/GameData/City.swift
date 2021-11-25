@@ -144,7 +144,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func housingPerTurn(in gameModel: GameModel?) -> Double
     func baseHousing(in gameModel: GameModel?) -> Double
     func housingFromBuildings() -> Double
-    func housingFromWonders() -> Double
+    func housingFromWonders(in gameModel: GameModel?) -> Double
     func housingFromDistricts() -> Double
 
     func amenitiesPerTurn(in gameModel: GameModel?) -> Double
@@ -1170,6 +1170,39 @@ public class City: AbstractCity {
         return 0
     }
 
+    public func loyaltyFromWonders(in gameModel: GameModel?) -> Double {
+
+        guard let gameModel = gameModel else {
+            fatalError("no game model provided")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        var loyaltyFromWonders: Double = 0.0
+
+        var locationOfColosseum: HexPoint = .invalid
+
+        for cityRef in gameModel.cities(of: player) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(wonder: .colosseum) {
+                locationOfColosseum = city.location
+            }
+        }
+
+        // colosseum - +2 Loyalty for every city in 6 tiles
+        if self.has(wonder: .colosseum) || locationOfColosseum.distance(to: self.location) <= 6 {
+            loyaltyFromWonders += 2.0
+        }
+
+        return loyaltyFromWonders
+    }
+
     public func loyaltyFromOthersEffects(in gameModel: GameModel?) -> Double {
 
         guard let player = self.player else {
@@ -1237,19 +1270,14 @@ public class City: AbstractCity {
     // https://civilization.fandom.com/wiki/Loyalty_(Civ6)
     func updateLoyaltyValue(in gameModel: GameModel?) {
 
-        let pressureFromNearbyCitizens = self.loyaltyPressureFromNearbyCitizen(in: gameModel)
+        var loyalty: Double = 0.0
 
-        let loyaltyFromGovernors = self.loyaltyFromGovernors(in: gameModel)
-
-        let happinessOfTheCitizens = self.loyaltyFromHappiness(in: gameModel)
-
-        let tradeRouteLoyalty = self.loyaltyFromTradeRoutes(in: gameModel)
-
-        // Other factors.
-        let otherFactors = self.loyaltyFromOthersEffects(in: gameModel)
-
-        // sum
-        let loyalty = pressureFromNearbyCitizens + loyaltyFromGovernors + happinessOfTheCitizens + tradeRouteLoyalty + otherFactors
+        loyalty += self.loyaltyPressureFromNearbyCitizen(in: gameModel)
+        loyalty += self.loyaltyFromGovernors(in: gameModel)
+        loyalty += self.loyaltyFromWonders(in: gameModel)
+        loyalty += self.loyaltyFromHappiness(in: gameModel)
+        loyalty += self.loyaltyFromTradeRoutes(in: gameModel)
+        loyalty += self.loyaltyFromOthersEffects(in: gameModel)
 
         self.loyaltyValue = loyalty
     }
@@ -1465,21 +1493,34 @@ public class City: AbstractCity {
             fatalError("cant get gameModel")
         }
 
-        guard let wonders = self.wonders else {
-            fatalError("cant get wonders")
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        var locationOfColosseum: HexPoint = .invalid
+
+        for cityRef in gameModel.cities(of: player) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(wonder: .colosseum) {
+                locationOfColosseum = city.location
+            }
         }
 
         var amenitiesFromWonders: Double = 0.0
 
         // gather amenities from buildingss
         for wonder in WonderType.all {
-            if wonders.has(wonder: wonder) {
+            if self.has(wonder: wonder) {
                 amenitiesFromWonders += Double(wonder.amenities())
             }
         }
 
         // temple of artemis
-        if wonders.has(wonder: .templeOfArtemis) {
+        if self.has(wonder: .templeOfArtemis) {
             for loopPoint in self.location.areaWith(radius: 3) {
 
                 guard let loopTile = gameModel.tile(at: loopPoint) else {
@@ -1490,6 +1531,12 @@ public class City: AbstractCity {
                     amenitiesFromWonders += 1.0
                 }
             }
+        }
+
+        // colosseum - +2 [Culture] Culture, +2 Loyalty, +2 [Amenities] Amenities from entertainment
+        // to each City Center within 6 tiles.
+        if self.has(wonder: .colosseum) || locationOfColosseum.distance(to: self.location) <= 6 {
+            amenitiesFromWonders += 2.0
         }
 
         return amenitiesFromWonders
@@ -1519,10 +1566,55 @@ public class City: AbstractCity {
         return amenitiesFromDistrict
     }
 
+    private func amenitiesFromTiles(in gameModel: GameModel?) -> Double {
+
+        guard let gameModel = gameModel else {
+            fatalError("no game model provided")
+        }
+
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("no cityCitizens provided")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        var amenitiesFromTiles: Double = 0.0
+
+        var hueyTeocalliLocation: HexPoint = .invalid
+        if player.has(wonder: .hueyTeocalli, in: gameModel) {
+            for point in cityCitizens.workingTileLocations() {
+                if cityCitizens.isWorked(at: point) {
+                    if let adjacentTile = gameModel.tile(at: point) {
+                        if adjacentTile.has(wonder: .hueyTeocalli) {
+                            hueyTeocalliLocation = point
+                        }
+                    }
+                }
+            }
+        }
+
+        // +1 Amenity from entertainment for each Lake tile within one tile of Huey Teocalli.
+        // (This includes the Lake tile where the wonder is placed.)
+        for point in cityCitizens.workingTileLocations() {
+            if cityCitizens.isWorked(at: point) {
+                //if let adjacentTile = gameModel.tile(at: point) {
+                if point == hueyTeocalliLocation || point.isNeighbor(of: hueyTeocalliLocation) {
+                    amenitiesFromTiles += 1
+                }
+                //}
+            }
+        }
+
+        return amenitiesFromTiles
+    }
+
     public func amenitiesPerTurn(in gameModel: GameModel?) -> Double {
 
         var amenitiesPerTurn: Double = 0.0
 
+        amenitiesPerTurn += self.amenitiesFromTiles(in: gameModel)
         amenitiesPerTurn += self.amenitiesFromLuxuries()
         amenitiesPerTurn += self.amenitiesFromDistrict()
         amenitiesPerTurn += self.amenitiesFromBuildings()
@@ -1657,7 +1749,13 @@ public class City: AbstractCity {
                 if self.populationValue <= 5 {
 
                     if player.isHuman() {
-                        self.player?.notifications()?.add(notification: .cityGrowth(cityName: self.name, population: self.population(), location: self.location))
+                        self.player?.notifications()?.add(
+                            notification: .cityGrowth(
+                                cityName: self.name,
+                                population: self.population(),
+                                location: self.location
+                            )
+                        )
                     }
                 }
             }
@@ -2038,7 +2136,7 @@ public class City: AbstractCity {
 
             var production: Double = self.productionPerTurn(in: gameModel)
 
-            // +1 Civ6Production Production in all cities.
+            // +1 Production in all cities.
             if government.has(card: .urbanPlanning) {
                 production += 1.0
             }
@@ -2062,7 +2160,7 @@ public class City: AbstractCity {
                 }
             }
 
-            // +50% Civ6Production Production toward Units.
+            // +50% Production toward Units.
             if government.currentGovernment() == .fascism {
 
                 if self.buildQueue.isCurrentlyTrainingUnit() {
@@ -2070,7 +2168,7 @@ public class City: AbstractCity {
                 }
             }
 
-            // +15% Civ6Production Production.
+            // +15% Production.
             if government.currentGovernment() == .communism {
                 modifierPercentage += 0.15
             }
@@ -2159,6 +2257,15 @@ public class City: AbstractCity {
                 if let unitType = self.productionUnitType() {
                     if unitType.unitClass() == .navalRanged {
                         modifierPercentage += 0.20
+                    }
+                }
+            }
+
+            // statueOfZeus - +50% Production towards anti-cavalry units.
+            if self.has(wonder: .statueOfZeus) {
+                if let unitType = self.productionUnitType() {
+                    if unitType.unitClass() == .antiCavalry {
+                        modifierPercentage += 0.50
                     }
                 }
             }
@@ -2374,7 +2481,11 @@ public class City: AbstractCity {
 
     private func build(wonder wonderType: WonderType, at point: HexPoint, in gameModel: GameModel?) {
 
-        guard let tile = gameModel?.tile(at: point) else {
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let tile = gameModel.tile(at: point) else {
             fatalError("cant get tile")
         }
 
@@ -2390,15 +2501,15 @@ public class City: AbstractCity {
             try self.wonders?.build(wonder: wonderType)
             self.greatWorks?.addPlaces(for: wonderType)
 
-            gameModel?.build(wonder: wonderType)
+            gameModel.build(wonder: wonderType)
 
             // pyramids
             if wonderType == .pyramids {
 
                 // Grants a free Builder.
                 let extraBuilder = Unit(at: self.location, type: .builder, owner: self.player)
-                gameModel?.add(unit: extraBuilder)
-                gameModel?.userInterface?.show(unit: extraBuilder)
+                gameModel.add(unit: extraBuilder)
+                gameModel.userInterface?.show(unit: extraBuilder)
             }
 
             // stonehenge
@@ -2406,8 +2517,8 @@ public class City: AbstractCity {
 
                 // Grants a free Great Prophet.
                 let extraProphet = Unit(at: self.location, type: .prophet, owner: self.player)
-                gameModel?.add(unit: extraProphet)
-                gameModel?.userInterface?.show(unit: extraProphet)
+                gameModel.add(unit: extraProphet)
+                gameModel.userInterface?.show(unit: extraProphet)
             }
 
             // great library
@@ -2424,19 +2535,55 @@ public class City: AbstractCity {
                 }
             }
 
-            // stonehenge
+            // angkorWat
+            if wonderType == .angkorWat {
+
+                // +1 Citizen Population in all current cities when built.
+                for cityRef in gameModel.cities(of: player) {
+
+                    guard let city = cityRef else {
+                        continue
+                    }
+
+                    city.change(population: 1, reassignCitizen: true, in: gameModel)
+                }
+            }
+
+            // colossus
             if wonderType == .colossus {
 
-                // FIXME Grants a Trader unit.
-                // let extraTrader = Unit(at: self.location, type: .trader, owner: self.player)
-                // gameModel?.add(unit: extraTrader)
-                // gameModel?.userInterface?.show(unit: extraTrader)
+                // Grants a Trader unit.
+                let extraTrader = Unit(at: self.location, type: .trader, owner: self.player)
+                gameModel.add(unit: extraTrader)
+                gameModel.userInterface?.show(unit: extraTrader)
+            }
+
+            // statueOfZeus
+            if wonderType == .statueOfZeus {
+
+                // Grants 3 Spearmen, 3 Archers, and a Battering Ram.
+                for _ in 0..<3 {
+                    let extraSpearmen = Unit(at: self.location, type: .spearman, owner: self.player)
+                    gameModel.add(unit: extraSpearmen)
+                    extraSpearmen.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
+                    gameModel.userInterface?.show(unit: extraSpearmen)
+
+                    let extraArcher = Unit(at: self.location, type: .archer, owner: self.player)
+                    gameModel.add(unit: extraArcher)
+                    extraArcher.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
+                    gameModel.userInterface?.show(unit: extraArcher)
+                }
+
+                let extraBatteringRam = Unit(at: self.location, type: .batteringRam, owner: self.player)
+                gameModel.add(unit: extraBatteringRam)
+                extraBatteringRam.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
+                gameModel.userInterface?.show(unit: extraBatteringRam)
             }
 
             // mahabodhiTemple
             if wonderType == .mahabodhiTemple {
 
-                // FIXME Grants 2 Apostles.
+                // Grants 2 Apostles.
                 // let extraApostle = Unit(at: self.location, type: .apostle, owner: self.player)
                 // gameModel?.add(unit: extraApostle)
                 // gameModel?.userInterface?.show(unit: extraApostle)
@@ -2447,11 +2594,11 @@ public class City: AbstractCity {
             }
 
             tile.build(wonder: wonderType)
-            gameModel?.userInterface?.refresh(tile: tile)
+            gameModel.userInterface?.refresh(tile: tile)
 
             if player.isHuman() {
 
-                gameModel?.userInterface?.showPopup(popupType: .wonderBuilt(wonder: wonderType))
+                gameModel.userInterface?.showPopup(popupType: .wonderBuilt(wonder: wonderType))
             }
 
         } catch {

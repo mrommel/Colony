@@ -8,6 +8,31 @@
 
 import Foundation
 
+struct YieldValues {
+
+    let value: Double
+    let percentage: Double
+
+    init(value: Double, percentage: Double = 0.0) {
+
+        self.value = value
+        self.percentage = percentage
+    }
+
+    func calc() -> Double {
+
+        return self.value * self.percentage
+    }
+}
+
+func + (left: YieldValues, right: YieldValues) -> YieldValues {
+
+    return YieldValues(value: left.value + right.value, percentage: left.percentage + right.percentage)
+}
+
+// infix operator +=
+func += (lhs: inout YieldValues, rhs: YieldValues) { lhs = (lhs + rhs) }
+
 extension City {
 
     // MARK: greatPeople functions
@@ -53,6 +78,12 @@ extension City {
 
         // terracottaArmy
         if wonders.has(wonder: .terracottaArmy) {
+            // +2 Great General points per turn
+            greatPeoplePoints.greatGeneral += 2
+        }
+
+        // alhambra
+        if wonders.has(wonder: .alhambra) {
             // +2 Great General points per turn
             greatPeoplePoints.greatGeneral += 2
         }
@@ -133,16 +164,34 @@ extension City {
 
         let greatPeoplePoints: GreatPersonPoints = GreatPersonPoints()
 
-        // harbor
-        if districts.has(district: .harbor) {
-            // +1 Great Admiral point per turn
-            greatPeoplePoints.greatAdmiral += 1
+        // campus - +1 Great Scientist Great Scientist point per turn.
+        if districts.has(district: .campus) {
+            greatPeoplePoints.greatScientist += 1
+
+            // Districts in this city provide +2 Great Person points of their type.
+            if self.has(wonder: .oracle) {
+                greatPeoplePoints.greatScientist += 2
+            }
         }
 
-        // holySite
+        // harbor - +1 Great Admiral point per turn
+        if districts.has(district: .harbor) {
+            greatPeoplePoints.greatAdmiral += 1
+
+            // Districts in this city provide +2 Great Person points of their type.
+            if self.has(wonder: .oracle) {
+                greatPeoplePoints.greatAdmiral += 2
+            }
+        }
+
+        // holySite - +1 Great Prophet point per turn
         if districts.has(district: .holySite) {
-            // +1 Great Prophet point per turn.
             greatPeoplePoints.greatProphet += 1
+
+            // Districts in this city provide +2 Great Person points of their type.
+            if self.has(wonder: .oracle) {
+                greatPeoplePoints.greatProphet += 2
+            }
         }
 
         return greatPeoplePoints
@@ -152,18 +201,18 @@ extension City {
 
     public func productionPerTurn(in gameModel: GameModel?) -> Double {
 
-        var productionPerTurn: Double = 0.0
+        var productionPerTurn: YieldValues = YieldValues(value: 0.0, percentage: 1.0)
 
-        productionPerTurn += self.productionFromTiles(in: gameModel)
-        productionPerTurn += self.productionFromGovernmentType()
-        productionPerTurn += self.productionFromBuildings()
-        productionPerTurn += self.productionFromTradeRoutes(in: gameModel)
-        productionPerTurn += self.featureProduction()
+        productionPerTurn += YieldValues(value: self.productionFromTiles(in: gameModel))
+        productionPerTurn += YieldValues(value: self.productionFromGovernmentType())
+        productionPerTurn += YieldValues(value: self.productionFromBuildings())
+        productionPerTurn += YieldValues(value: self.productionFromTradeRoutes(in: gameModel))
+        productionPerTurn += YieldValues(value: self.featureProduction())
 
         // cap yields based on loyalty
-        productionPerTurn *= self.loyaltyState().yieldFactor()
+        productionPerTurn += YieldValues(value: 0.0, percentage: self.loyaltyState().yieldPercentage())
 
-        return productionPerTurn
+        return productionPerTurn.calc()
     }
 
     private func productionFromTiles(in gameModel: GameModel?) -> Double {
@@ -180,6 +229,11 @@ extension City {
             fatalError("cant get wonders")
         }
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        let hasHueyTeocalli = player.has(wonder: .hueyTeocalli, in: gameModel)
         var productionValue: Double = 0.0
 
         if let centerTile = gameModel.tile(at: self.location) {
@@ -197,14 +251,34 @@ extension City {
                 if let adjacentTile = gameModel.tile(at: point) {
                     productionValue += adjacentTile.yields(for: self.player, ignoreFeature: false).production
 
+                    // city has petra: +2 Food, +2 Gold, and +1 Production on all Desert tiles for this city (non-Floodplains).
                     if adjacentTile.terrain() == .desert && !adjacentTile.has(feature: .floodplains) && wonders.has(wonder: .petra) {
-                        // +2 Food, +2 Gold, and +1 Production on all Desert tiles for this city (non-Floodplains).
                         productionValue += 1.0
                     }
 
                     // motherRussia
-                    if adjacentTile.terrain() == .tundra && player?.leader.civilization().ability() == .motherRussia {
+                    if adjacentTile.terrain() == .tundra && player.leader.civilization().ability() == .motherRussia {
                         // Tundra tiles provide +1 Faith and +1 Production, in addition to their usual yields.
+                        productionValue += 1.0
+                    }
+
+                    // player has hueyTeocalli: +1 Food and +1 Production for each Lake tile in your empire.
+                    if adjacentTile.has(feature: .lake) && hasHueyTeocalli {
+                        productionValue += 1.0
+                    }
+
+                    // city has chichenItza: +2 Culture and +1 Production to all Rainforest tiles for this city.
+                    if adjacentTile.has(feature: .rainforest) && self.has(wonder: .chichenItza) {
+                        productionValue += 1.0
+                    }
+
+                    // etemenanki - +2 Science and +1 Production to all Marsh tiles in your empire.
+                    if adjacentTile.has(feature: .marsh) && player.has(wonder: .etemenanki, in: gameModel) {
+                        productionValue += 1.0
+                    }
+
+                    // etemenanki - +1 Science and +1 Production on all Floodplains tiles in this city.
+                    if adjacentTile.has(feature: .floodplains) && self.has(wonder: .etemenanki) {
                         productionValue += 1.0
                     }
                 }
@@ -283,19 +357,19 @@ extension City {
 
     public func faithPerTurn(in gameModel: GameModel?) -> Double {
 
-        var faithPerTurn: Double = 0.0
+        var faithPerTurn: YieldValues = YieldValues(value: 0.0, percentage: 1.0)
 
-        faithPerTurn += self.faithFromTiles(in: gameModel)
-        faithPerTurn += self.faithFromGovernmentType()
-        faithPerTurn += self.faithFromBuildings()
-        faithPerTurn += self.faithFromDistricts(in: gameModel)
-        faithPerTurn += self.faithFromWonders()
-        faithPerTurn += self.faithFromTradeRoutes(in: gameModel)
+        faithPerTurn += YieldValues(value: self.faithFromTiles(in: gameModel))
+        faithPerTurn += YieldValues(value: self.faithFromGovernmentType())
+        faithPerTurn += YieldValues(value: self.faithFromBuildings())
+        faithPerTurn += YieldValues(value: self.faithFromDistricts(in: gameModel))
+        faithPerTurn += self.faithFromWonders(in: gameModel)
+        faithPerTurn += YieldValues(value: self.faithFromTradeRoutes(in: gameModel))
 
         // cap yields based on loyalty
-        faithPerTurn *= self.loyaltyState().yieldFactor()
+        faithPerTurn += YieldValues(value: 0.0, percentage: self.loyaltyState().yieldPercentage())
 
-        return faithPerTurn
+        return faithPerTurn.calc()
     }
 
     private func faithFromTiles(in gameModel: GameModel?) -> Double {
@@ -428,33 +502,45 @@ extension City {
         return faithFromDistricts
     }
 
-    private func faithFromWonders() -> Double {
+    private func faithFromWonders(in gameModel: GameModel?) -> YieldValues {
 
-        guard let wonders = self.wonders else {
-            fatalError("cant get wonders")
+        guard let player = self.player else {
+            fatalError("cant get player")
         }
 
         var faithFromWonders: Double = 0.0
+        var faithPercentageFromWonders: Double = 0.0
 
-        // stonehenge
-        if wonders.has(wonder: .stonehenge) {
-            // +2 Faith
+        // stonehenge - +2 Faith
+        if self.has(wonder: .stonehenge) {
             faithFromWonders += 2.0
         }
 
-        // oracle
-        if wonders.has(wonder: .oracle) {
-            // +1 Faith
+        // oracle - +1 Faith
+        if self.has(wonder: .oracle) {
             faithFromWonders += 1.0
         }
 
-        // mahabodhiTemple
-        if wonders.has(wonder: .mahabodhiTemple) {
-            // +4 Faith
+        // mahabodhiTemple - +4 Faith
+        if self.has(wonder: .mahabodhiTemple) {
             faithFromWonders += 4.0
         }
 
-        return faithFromWonders
+        // kotokuIn - +20% Faith in this city.
+        if self.has(wonder: .kotokuIn) {
+            faithPercentageFromWonders += 0.2
+        }
+
+        // jebelBarkal - Provides +4 Faith to all your cities that are within 6 tiles.
+        if player.has(wonder: .jebelBarkal, in: gameModel) {
+            if let wonderCity = player.city(with: .jebelBarkal, in: gameModel) {
+                if wonderCity.location.distance(to: self.location) <= 6 {
+                    faithFromWonders += 4.0
+                }
+            }
+        }
+
+        return YieldValues(value: faithFromWonders, percentage: faithPercentageFromWonders)
     }
 
     private func faithFromTradeRoutes(in gameModel: GameModel?) -> Double {
@@ -476,27 +562,21 @@ extension City {
 
     public func culturePerTurn(in gameModel: GameModel?) -> Double {
 
-        var culturePerTurn: Double = 0.0
-        var cultureFactor: Double = 1.0
+        var culturePerTurn: YieldValues = YieldValues(value: 0.0, percentage: 1.0)
 
-        culturePerTurn += self.cultureFromTiles(in: gameModel)
-        culturePerTurn += self.cultureFromGovernmentType()
-        culturePerTurn += self.cultureFromBuildings()
-        culturePerTurn += self.cultureFromWonders()
-        culturePerTurn += self.cultureFromPopulation()
-        culturePerTurn += self.cultureFromTradeRoutes(in: gameModel)
+        culturePerTurn += YieldValues(value: self.cultureFromTiles(in: gameModel))
+        culturePerTurn += YieldValues(value: self.cultureFromGovernmentType())
+        culturePerTurn += YieldValues(value: self.cultureFromBuildings())
+        culturePerTurn += YieldValues(value: self.cultureFromWonders(in: gameModel))
+        culturePerTurn += YieldValues(value: self.cultureFromPopulation())
+        culturePerTurn += YieldValues(value: self.cultureFromTradeRoutes(in: gameModel))
         culturePerTurn += self.cultureFromGovernors()
-        culturePerTurn += self.baseYieldRateFromSpecialists.weight(of: .culture)
-
-        cultureFactor += self.cultureFactorFromGovernors()
-
-        // apply factor
-        culturePerTurn *= cultureFactor
+        culturePerTurn += YieldValues(value: self.baseYieldRateFromSpecialists.weight(of: .culture))
 
         // cap yields based on loyalty
-        culturePerTurn *= self.loyaltyState().yieldFactor()
+        culturePerTurn += YieldValues(value: 0.0, percentage: self.loyaltyState().yieldPercentage())
 
-        return culturePerTurn
+        return culturePerTurn.calc()
     }
 
     private func cultureFromTiles(in gameModel: GameModel?) -> Double {
@@ -507,10 +587,6 @@ extension City {
 
         guard let cityCitizens = self.cityCitizens else {
             fatalError("no cityCitizens provided")
-        }
-
-        guard let wonders = self.wonders else {
-            fatalError("cant get wonders")
         }
 
         var cultureFromTiles: Double = 0.0
@@ -525,10 +601,14 @@ extension City {
                 if let adjacentTile = gameModel.tile(at: point) {
                     cultureFromTiles += adjacentTile.yields(for: self.player, ignoreFeature: false).culture
 
-                    // mausoleumAtHalicarnassus
-                    if adjacentTile.terrain() == .shore && wonders.has(wonder: .mausoleumAtHalicarnassus) {
-                        // +1 Science, +1 Faith, and +1 Culture to all Coast tiles in this city.
+                    // city has mausoleumAtHalicarnassus: +1 Science, +1 Faith, and +1 Culture to all Coast tiles in this city.
+                    if adjacentTile.terrain() == .shore && self.has(wonder: .mausoleumAtHalicarnassus) {
                         cultureFromTiles += 1.0
+                    }
+
+                    // city has chichenItza: +2 Culture and +1 Production to all Rainforest tiles for this city.
+                    if adjacentTile.has(feature: .rainforest) && self.has(wonder: .chichenItza) {
+                        cultureFromTiles += 2.0
                     }
                 }
             }
@@ -587,29 +667,45 @@ extension City {
         return cultureFromBuildings
     }
 
-    private func cultureFromWonders() -> Double {
+    private func cultureFromWonders(in gameModel: GameModel?) -> Double {
 
-        guard let wonders = self.wonders else {
-            fatalError("cant get wonders")
+        guard let gameModel = gameModel else {
+            fatalError("no game model provided")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
         }
 
         var cultureFromWonders: Double = 0.0
 
+        var locationOfColosseum: HexPoint = .invalid
+
+        for cityRef in gameModel.cities(of: player) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(wonder: .colosseum) {
+                locationOfColosseum = city.location
+            }
+        }
+
         // pyramids
-        if wonders.has(wonder: .pyramids) {
+        if self.has(wonder: .pyramids) {
             // +2 Culture
             cultureFromWonders += 2.0
         }
 
         // oracle
-        if wonders.has(wonder: .oracle) {
+        if self.has(wonder: .oracle) {
             // +1 Culture
             cultureFromWonders += 1.0
         }
 
-        // colosseum
-        if wonders.has(wonder: .colosseum) {
-            // +2 Culture
+        // colosseum - +2 Culture for every city in 6 tiles
+        if self.has(wonder: .colosseum) || locationOfColosseum.distance(to: self.location) <= 6 {
             cultureFromWonders += 2.0
         }
 
@@ -637,46 +733,39 @@ extension City {
         return cultureFromTradeRoutes
     }
 
-    private func cultureFromGovernors() -> Double {
+    private func cultureFromGovernors() -> YieldValues {
 
-        var cultureFromGovernors: Double = 0.0
+        var cultureFromGovernors: YieldValues = YieldValues(value: 0.0, percentage: 0.0)
 
         // +1 Culture per turn for each Citizen Citizen in the city.
         if self.hasGovernorTitle(of: .connoisseur) {
-            cultureFromGovernors += Double(self.population())
+            cultureFromGovernors += YieldValues(value: Double(self.population()))
         }
-
-        return cultureFromGovernors
-    }
-
-    private func cultureFactorFromGovernors() -> Double {
-
-        var factor: Double = 0.0
 
         // 15% increase in Science and Culture generated by the city.
         if self.hasGovernorTitle(of: .librarian) {
-            factor += 0.15
+            cultureFromGovernors += YieldValues(value: 0.0, percentage: 0.15)
         }
 
-        return factor
+        return cultureFromGovernors
     }
 
     // MARK: gold functions
 
     public func goldPerTurn(in gameModel: GameModel?) -> Double {
 
-        var goldPerTurn: Double = 0.0
+        var goldPerTurn: YieldValues = YieldValues(value: 0.0, percentage: 1.0)
 
-        goldPerTurn += self.goldFromTiles(in: gameModel)
-        goldPerTurn += self.goldFromGovernmentType()
-        goldPerTurn += self.goldFromBuildings()
-        goldPerTurn += self.goldFromWonders()
-        goldPerTurn += self.goldFromTradeRoutes(in: gameModel)
+        goldPerTurn += YieldValues(value: self.goldFromTiles(in: gameModel))
+        goldPerTurn += YieldValues(value: self.goldFromGovernmentType())
+        goldPerTurn += YieldValues(value: self.goldFromBuildings())
+        goldPerTurn += YieldValues(value: self.goldFromWonders())
+        goldPerTurn += YieldValues(value: self.goldFromTradeRoutes(in: gameModel))
 
         // cap yields based on loyalty
-        goldPerTurn *= self.loyaltyState().yieldFactor()
+        goldPerTurn += YieldValues(value: 0.0, percentage: self.loyaltyState().yieldPercentage())
 
-        return goldPerTurn
+        return goldPerTurn.calc()
     }
 
     private func goldFromTiles(in gameModel: GameModel?) -> Double {
@@ -818,27 +907,21 @@ extension City {
 
     public func sciencePerTurn(in gameModel: GameModel?) -> Double {
 
-        var sciencePerTurn: Double = 0.0
-        var scienceFactor: Double = 1.0
+        var sciencePerTurn: YieldValues = YieldValues(value: 0.0, percentage: 1.0)
 
-        sciencePerTurn += self.scienceFromTiles(in: gameModel)
-        sciencePerTurn += self.scienceFromGovernmentType()
-        sciencePerTurn += self.scienceFromBuildings()
-        sciencePerTurn += self.scienceFromWonders()
-        sciencePerTurn += self.scienceFromPopulation()
-        sciencePerTurn += self.scienceFromTradeRoutes(in: gameModel)
+        sciencePerTurn += YieldValues(value: self.scienceFromTiles(in: gameModel))
+        sciencePerTurn += YieldValues(value: self.scienceFromGovernmentType())
+        sciencePerTurn += YieldValues(value: self.scienceFromBuildings())
+        sciencePerTurn += YieldValues(value: self.scienceFromWonders())
+        sciencePerTurn += YieldValues(value: self.scienceFromPopulation())
+        sciencePerTurn += YieldValues(value: self.scienceFromTradeRoutes(in: gameModel))
         sciencePerTurn += self.scienceFromGovernors()
-        sciencePerTurn += self.baseYieldRateFromSpecialists.weight(of: .science)
-
-        scienceFactor += self.scienceFactorFromGovernors()
-
-        // apply factors
-        sciencePerTurn *= scienceFactor
+        sciencePerTurn += YieldValues(value: self.baseYieldRateFromSpecialists.weight(of: .science))
 
         // cap yields based on loyalty
-        sciencePerTurn *= self.loyaltyState().yieldFactor()
+        sciencePerTurn += YieldValues(value: 0.0, percentage: self.loyaltyState().yieldPercentage())
 
-        return sciencePerTurn
+        return sciencePerTurn.calc()
     }
 
     private func scienceFromTiles(in gameModel: GameModel?) -> Double {
@@ -851,8 +934,8 @@ extension City {
             fatalError("no cityCitizens provided")
         }
 
-        guard let wonders = self.wonders else {
-            fatalError("cant get wonders")
+        guard let player = self.player else {
+            fatalError("no player provided")
         }
 
         var scienceFromTiles: Double = 0.0
@@ -868,8 +951,18 @@ extension City {
                     scienceFromTiles += adjacentTile.yields(for: self.player, ignoreFeature: false).science
 
                     // mausoleumAtHalicarnassus
-                    if adjacentTile.terrain() == .shore && wonders.has(wonder: .mausoleumAtHalicarnassus) {
+                    if adjacentTile.terrain() == .shore && self.has(wonder: .mausoleumAtHalicarnassus) {
                         // +1 Science, +1 Faith, and +1 Culture to all Coast tiles in this city.
+                        scienceFromTiles += 1.0
+                    }
+
+                    // etemenanki - +2 Science and +1 Production to all Marsh tiles in your empire.
+                    if adjacentTile.has(feature: .marsh) && player.has(wonder: .etemenanki, in: gameModel) {
+                        scienceFromTiles += 2.0
+                    }
+
+                    // etemenanki - +1 Science and +1 Production on all Floodplains tiles in this city.
+                    if adjacentTile.has(feature: .floodplains) && self.has(wonder: .etemenanki) {
                         scienceFromTiles += 1.0
                     }
                 }
@@ -941,8 +1034,8 @@ extension City {
 
         var scienceFromWonders: Double = 0.0
 
+        // greatLibrary - +2 Science
         if wonders.has(wonder: .greatLibrary) {
-            // +2 Civ6Science Science
             scienceFromWonders += 2.0
         }
 
@@ -970,46 +1063,39 @@ extension City {
         return scienceFromTradeRoutes
     }
 
-    private func scienceFromGovernors() -> Double {
+    private func scienceFromGovernors() -> YieldValues {
 
-        var scienceFromGovernors: Double = 0.0
+        var scienceFromGovernors: YieldValues = YieldValues(value: 0.0, percentage: 1.0)
 
         // +1 Science per turn for each Citizen in the city.
         if self.hasGovernorTitle(of: .researcher) {
-            scienceFromGovernors += Double(self.population())
+            scienceFromGovernors += YieldValues(value: Double(self.population()))
         }
-
-        return scienceFromGovernors
-    }
-
-    private func scienceFactorFromGovernors() -> Double {
-
-        var factor = 0.0
 
         // 15% increase in Science and Culture generated by the city.
         if self.hasGovernorTitle(of: .librarian) {
-            factor += 0.15
+            scienceFromGovernors += YieldValues(value: 0.0, percentage: 0.15)
         }
 
-        return factor
+        return scienceFromGovernors
     }
 
     // MARK: food functions
 
     public func foodPerTurn(in gameModel: GameModel?) -> Double {
 
-        var foodPerTurn: Double = 0.0
+        var foodPerTurn: YieldValues = YieldValues(value: 0.0, percentage: 1.0)
 
-        foodPerTurn += self.foodFromTiles(in: gameModel)
-        foodPerTurn += self.foodFromGovernmentType()
-        foodPerTurn += self.foodFromBuildings(in: gameModel)
-        foodPerTurn += self.foodFromWonders(in: gameModel)
-        foodPerTurn += self.foodFromTradeRoutes(in: gameModel)
+        foodPerTurn += YieldValues(value:self.foodFromTiles(in: gameModel))
+        foodPerTurn += YieldValues(value:self.foodFromGovernmentType())
+        foodPerTurn += YieldValues(value:self.foodFromBuildings(in: gameModel))
+        foodPerTurn += YieldValues(value:self.foodFromWonders(in: gameModel))
+        foodPerTurn += YieldValues(value:self.foodFromTradeRoutes(in: gameModel))
 
         // cap yields based on loyalty
-        foodPerTurn *= self.loyaltyState().yieldFactor()
+        foodPerTurn += YieldValues(value: 0.0, percentage: self.loyaltyState().yieldPercentage())
 
-        return foodPerTurn
+        return foodPerTurn.calc()
     }
 
     private func foodFromTiles(in gameModel: GameModel?) -> Double {
@@ -1026,6 +1112,11 @@ extension City {
             fatalError("cant get wonders")
         }
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        let hasHueyTeocalli = player.has(wonder: .hueyTeocalli, in: gameModel)
         var foodValue: Double = 0.0
 
         if let centerTile = gameModel.tile(at: self.location) {
@@ -1054,6 +1145,11 @@ extension City {
                     if adjacentTile.terrain() == .desert && !adjacentTile.has(feature: .floodplains) && wonders.has(wonder: .petra) {
                         // +2 Food, +2 Gold, and +1 Production on all Desert tiles for this city (non-Floodplains).
                         foodValue += 2.0
+                    }
+
+                    // +1 Food and +1 Production for each Lake tile in your empire.
+                    if adjacentTile.has(feature: .lake) && hasHueyTeocalli {
+                        foodValue += 1.0
                     }
                 }
             }
@@ -1152,17 +1248,19 @@ extension City {
 
     public func housingPerTurn(in gameModel: GameModel?) -> Double {
 
-        var housing = self.baseHousing(in: gameModel)
-        housing += self.housingFromBuildings()
-        housing += self.housingFromDistricts()
-        housing += self.housingFromWonders()
-        housing += self.housingFromImprovements(in: gameModel)
-        housing += self.housingFromGovernors()
+        var housingPerTurn: YieldValues = YieldValues(value: 0.0, percentage: 1.0)
+
+        housingPerTurn += YieldValues(value: self.baseHousing(in: gameModel))
+        housingPerTurn += YieldValues(value: self.housingFromBuildings())
+        housingPerTurn += YieldValues(value: self.housingFromDistricts())
+        housingPerTurn += YieldValues(value: self.housingFromWonders(in: gameModel))
+        housingPerTurn += YieldValues(value: self.housingFromImprovements(in: gameModel))
+        housingPerTurn += YieldValues(value: self.housingFromGovernors())
 
         // cap yields based on loyalty
-        housing *= self.loyaltyState().yieldFactor()
+        housingPerTurn += YieldValues(value: 0.0, percentage: self.loyaltyState().yieldPercentage())
 
-        return housing
+        return housingPerTurn.calc()
     }
 
     public func baseHousing(in gameModel: GameModel?) -> Double {
@@ -1232,21 +1330,26 @@ extension City {
         return housingFromDistricts
     }
 
-    public func housingFromWonders() -> Double {
+    public func housingFromWonders(in gameModel: GameModel?) -> Double {
 
-        guard let wonders = self.wonders else {
-            fatalError("cant get wonders")
+        guard let player = self.player else {
+            fatalError("cant get player")
         }
 
         var housingFromWonders: Double = 0.0
 
-        if wonders.has(wonder: .templeOfArtemis) {
-            // +3 Housing6 Housing
+        // city has templeOfArtemis: +3 Housing
+        if self.has(wonder: .templeOfArtemis) {
             housingFromWonders += 3.0
         }
 
-        if wonders.has(wonder: .hangingGardens) {
-            // +2 Housing6 Housing
+        // city has hangingGardens: +2 Housing
+        if self.has(wonder: .hangingGardens) {
+            housingFromWonders += 2.0
+        }
+
+        // player has angkorWat: +1 Housing in all cities.
+        if player.has(wonder: .angkorWat, in: gameModel) {
             housingFromWonders += 2.0
         }
 

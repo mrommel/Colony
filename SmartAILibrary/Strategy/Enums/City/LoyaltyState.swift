@@ -30,18 +30,18 @@ public enum LoyaltyState {
         }
     }
 
-    public func yieldFactor() -> Double {
+    public func yieldPercentage() -> Double {
 
         switch self {
 
         case .loyal:
-            return 1.0
-        case .wavering:
-            return 0.75
-        case .disloyal:
-            return 0.5
-        case .unrest:
             return 0.0
+        case .wavering:
+            return -0.25
+        case .disloyal:
+            return -0.5
+        case .unrest:
+            return -1.0
         }
     }
 }

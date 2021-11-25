@@ -122,7 +122,7 @@ class CityGrowthViewModel: ObservableObject {
             self.amenitiesFromReligion = "0"
 
             // housing
-            self.housingFromBuildings = "\(city.housingFromBuildings() + city.housingFromWonders())"
+            self.housingFromBuildings = "\(city.housingFromBuildings() + city.housingFromWonders(in: gameModel))"
             self.housingFromDistricts = "\(city.housingFromDistricts())"
             self.housingFromWater = "\(city.baseHousing(in: gameModel))"
 
