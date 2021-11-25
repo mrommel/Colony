@@ -445,6 +445,7 @@ public enum ImprovementType: Int, Codable, Hashable {
             }
 
             return yield
+
         case .oilWell:
             // https://civilization.fandom.com/wiki/Oil_Well_(Civ6)
             let yield =  Yields(food: 0, production: 2, gold: 0, appeal: -1)
@@ -519,8 +520,8 @@ public enum ImprovementType: Int, Codable, Hashable {
         case .fishingBoats: return self.isFishingBoatsPossible(on: tile)
         case .oilWell: return self.isOilWellPossible(on: tile)
 
-        case .fort: return true // FIXME
-        case .citadelle: return false // FIXME
+        case .fort: return true // #
+        case .citadelle: return false // #
         }
     }
 
@@ -707,7 +708,10 @@ public enum ImprovementType: Int, Codable, Hashable {
             return false
         }
 
-        return tile.has(resource: .deer, for: owner) || tile.has(resource: .furs, for: owner) || tile.has(resource: .ivory, for: owner) // || tile.has(resource: .truffles, for: owner) 
+        return tile.has(resource: .deer, for: owner) ||
+            tile.has(resource: .furs, for: owner) ||
+            tile.has(resource: .ivory, for: owner)
+            // || tile.has(resource: .truffles, for: owner)
     }
 
     private func isPasturePossible(on tile: AbstractTile?) -> Bool {

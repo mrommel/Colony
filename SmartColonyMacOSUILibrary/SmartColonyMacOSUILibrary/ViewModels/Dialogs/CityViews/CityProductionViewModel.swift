@@ -230,6 +230,11 @@ class CityProductionViewModel: ObservableObject {
 
         self.queueViewModels = tmpBuildQueueModels
     }
+
+    func cancelLocationPicker() {
+
+        self.showLocationPicker = false
+    }
 }
 
 extension CityProductionViewModel: UnitViewModelDelegate {

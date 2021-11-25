@@ -2763,7 +2763,7 @@ public class Unit: AbstractUnit {
         if tile.has(feature: .forest) &&
             self.type.canBuild(build: .removeForest) &&
             techs.has(tech: .mining) {
-            
+
             return true
         }
 

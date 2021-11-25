@@ -308,7 +308,8 @@ extension City {
                 if let adjacentTile = gameModel.tile(at: point) {
                     productionValue += adjacentTile.yields(for: self.player, ignoreFeature: false).production
 
-                    // city has petra: +2 Food, +2 Gold, and +1 Production on all Desert tiles for this city (non-Floodplains).
+                    // city has petra: +2 Food, +2 Gold, and +1 Production
+                    // on all Desert tiles for this city (non-Floodplains).
                     if adjacentTile.terrain() == .desert && !adjacentTile.has(feature: .floodplains) && wonders.has(wonder: .petra) {
                         productionValue += 1.0
                     }
@@ -696,7 +697,8 @@ extension City {
                 if let adjacentTile = gameModel.tile(at: point) {
                     cultureFromTiles += adjacentTile.yields(for: self.player, ignoreFeature: false).culture
 
-                    // city has mausoleumAtHalicarnassus: +1 Science, +1 Faith, and +1 Culture to all Coast tiles in this city.
+                    // city has mausoleumAtHalicarnassus: +1 Science, +1 Faith,
+                    // and +1 Culture to all Coast tiles in this city.
                     if adjacentTile.terrain() == .shore && self.has(wonder: .mausoleumAtHalicarnassus) {
                         cultureFromTiles += 1.0
                     }
@@ -1236,7 +1238,7 @@ extension City {
                     }
 
                     // Major bonus (+2 Science) for each adjacent Geothermal Fissure and Reef tile.
-                    if neighborTile.has(feature: /*.geothermalFissure*/.geyser) || neighborTile.has(feature: .reef) {
+                    if neighborTile.has(feature: .geyser) || neighborTile.has(feature: .reef) {
                         scienceFromDistricts += 2.0
                     }
 
@@ -1349,11 +1351,11 @@ extension City {
 
         var foodPerTurn: YieldValues = YieldValues(value: 0.0, percentage: 1.0)
 
-        foodPerTurn += YieldValues(value:self.foodFromTiles(in: gameModel))
-        foodPerTurn += YieldValues(value:self.foodFromGovernmentType())
-        foodPerTurn += YieldValues(value:self.foodFromBuildings(in: gameModel))
-        foodPerTurn += YieldValues(value:self.foodFromWonders(in: gameModel))
-        foodPerTurn += YieldValues(value:self.foodFromTradeRoutes(in: gameModel))
+        foodPerTurn += YieldValues(value: self.foodFromTiles(in: gameModel))
+        foodPerTurn += YieldValues(value: self.foodFromGovernmentType())
+        foodPerTurn += YieldValues(value: self.foodFromBuildings(in: gameModel))
+        foodPerTurn += YieldValues(value: self.foodFromWonders(in: gameModel))
+        foodPerTurn += YieldValues(value: self.foodFromTradeRoutes(in: gameModel))
 
         // cap yields based on loyalty
         foodPerTurn += YieldValues(value: 0.0, percentage: self.loyaltyState().yieldPercentage())

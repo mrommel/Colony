@@ -257,7 +257,7 @@ public enum WonderType: Int, Codable {
 
         case .stonehenge:
             // https://civilization.fandom.com/wiki/Stonehenge_(Civ6)
-            // FIXME Great Prophets may found a religion on Stonehenge instead of a Holy Site.
+            // Great Prophets may found a religion on Stonehenge instead of a Holy Site.
             return WonderTypeData(
                 name: "Stonehenge",
                 effects: [
@@ -610,7 +610,7 @@ public enum WonderType: Int, Codable {
                 effects: [
                     "+2 Amenities",
                     "+2 Great General points per turn",
-                    "+1 Military policy slot", 
+                    "+1 Military policy slot",
                     "Provides the same defensive bonuses as the Fort improvement" // #
                 ],
                 era: .medieval,
@@ -1252,7 +1252,8 @@ public enum WonderType: Int, Codable {
             return self.adjacentTo(district: .harbor, on: point, in: gameModel)
 
         case .mahabodhiTemple:
-            // Must be built on Woods adjacent to a Holy Site district with a Temple, and player must have founded a religion.
+            // Must be built on Woods adjacent to a Holy Site district with a Temple,
+            // and player must have founded a religion.
             guard tile.has(feature: .forest) else {
                 return false
             }

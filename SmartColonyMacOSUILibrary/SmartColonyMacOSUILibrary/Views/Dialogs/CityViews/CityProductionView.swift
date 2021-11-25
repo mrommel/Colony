@@ -127,9 +127,16 @@ struct CityProductionView: View {
             HexagonGridView(viewModel: self.viewModel.hexagonGridViewModel)
                 .frame(width: 300, height: 300, alignment: .top)
 
+            Button("Cancel") {
+                self.viewModel.cancelLocationPicker()
+            }
+            .buttonStyle(GameButtonStyle())
+            .padding(.top, 20)
+            .padding(.trailing, 20)
+
             Spacer()
         })
-        .frame(width: 340, height: 300, alignment: .top)
+            .frame(width: 340, height: 300, alignment: .top)
     }
 }
 
