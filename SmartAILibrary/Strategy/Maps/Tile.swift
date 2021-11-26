@@ -856,7 +856,8 @@ public class Tile: AbstractTile {
 
                 // Culture from Improvement
                 if let player = self.owner() {
-                    let culture = improvementType.yields(for: player, on: resource(for: player)).culture //ComputeCultureFromImprovement(newImprovementEntry, eNewValue);
+                    let culture = improvementType.yields(for: player, on: resource(for: player)).culture
+                    //ComputeCultureFromImprovement(newImprovementEntry, eNewValue);
                     if culture != 0 {
                     //self.changeCulture(culture)
                     }
@@ -1836,7 +1837,8 @@ public class Tile: AbstractTile {
 
                                 gameModel?.userInterface?.showTooltip(
                                     at: self.point,
-                                    text: "The removal of \(self.feature().name()) has gained you \(production) [ICON_PRODUCTION] for your city \(city.name).",
+                                    text: "The removal of \(self.feature().name()) has gained you \(production) [Production] " +
+                                        "for your city \(city.name).",
                                     delay: 3
                                 )
                             }
@@ -2032,7 +2034,9 @@ public class Tile: AbstractTile {
                 nextRiverOrLake = true
             }
 
-            if neighborTile.has(feature: .rainforest) || neighborTile.has(feature: .marsh) || neighborTile.has(feature: .floodplains) {
+            if neighborTile.has(feature: .rainforest) ||
+                neighborTile.has(feature: .marsh) ||
+                neighborTile.has(feature: .floodplains) {
                 neighborBadFeaturesCount += 1
             }
 
@@ -2040,7 +2044,8 @@ public class Tile: AbstractTile {
                 neighborCliffsOfDoverOrUluru = true
             }
 
-            if neighborTile.feature().isWonder() && !(neighborTile.has(feature: .cliffsOfDover) || neighborTile.has(feature: .uluru)) {
+            if neighborTile.feature().isWonder() &&
+                !(neighborTile.has(feature: .cliffsOfDover) || neighborTile.has(feature: .uluru)) {
                 neighborNaturalWondersCount += 1
             }
 

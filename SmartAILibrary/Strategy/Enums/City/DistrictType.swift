@@ -459,39 +459,47 @@ public enum DistrictType: Int, Codable {
         case .entertainment: return tile.isLand()
         case .industrial: return tile.isLand()
             // waterPark
-        case .aqueduct:
-            // Must be built adjacent to both the City Center and one of the following: River, Lake, Oasis, or Mountain.
-            var nextToCityCenter: Bool = false
-            var nextToWaterSource: Bool = false
-
-            for neighbor in point.neighbors() {
-
-                guard let neighborTile = gameModel.tile(at: neighbor) else {
-                    continue
-                }
-
-                if neighborTile.isRiver() || neighborTile.has(feature: .lake) ||
-                    neighborTile.has(feature: .oasis) || neighborTile.has(feature: .mountains) {
-
-                    nextToWaterSource = true
-                }
-
-                if tile.workingCity()?.location == neighbor {
-                    nextToCityCenter = true
-                }
-            }
-
-            return nextToCityCenter && nextToWaterSource
-
+        case .aqueduct: return self.canBuildAqueduct(on: tile.point, in: gameModel)
         case .neighborhood: return tile.isLand()
             // canal
             // dam
             // areodrome
         case .spaceport: return tile.isLand() && !tile.hasHills()
-
-        @unknown default:
-            return false
         }
+    }
+
+    private func canBuildAqueduct(on point: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let tile = gameModel.tile(at: point) else {
+            fatalError("cant get tile")
+        }
+
+        // Must be built adjacent to both the City Center and one of the following: River, Lake, Oasis, or Mountain.
+        var nextToCityCenter: Bool = false
+        var nextToWaterSource: Bool = false
+
+        for neighbor in point.neighbors() {
+
+            guard let neighborTile = gameModel.tile(at: neighbor) else {
+                continue
+            }
+
+            if neighborTile.isRiver() || neighborTile.has(feature: .lake) ||
+                neighborTile.has(feature: .oasis) || neighborTile.has(feature: .mountains) {
+
+                nextToWaterSource = true
+            }
+
+            if tile.workingCity()?.location == neighbor {
+                nextToCityCenter = true
+            }
+        }
+
+        return nextToCityCenter && nextToWaterSource
     }
 
     func flavor(for flavorType: FlavorType) -> Int {
