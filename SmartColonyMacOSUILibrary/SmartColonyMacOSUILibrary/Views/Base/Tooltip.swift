@@ -27,10 +27,6 @@ struct ToolTip: NSViewRepresentable {
         CustomToolTip.defaultBorderColor = Globals.Colors.toolTipBorderColor
 
         nsView.addCustomToolTip(from: self.toolTipText)
-
-        // configure tooltip
-        //nsView.customToolTip?.customToolTipBackgroundColor = Globals.Colors.toolTipBackgroundColor
-        //nsView.customToolTip?.customToolTipBorderColor = Globals.Colors.toolTipBorderColor
     }
 }
 
