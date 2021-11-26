@@ -275,6 +275,14 @@ class BarbarianAI: Codable {
                                                         loopPlot.set(improvement: .barbarianCamp)
                                                         self.doCampActivationNotice(at: plotLocation, in: gameModel)
 
+                                                        // show notification, when tile is visible to human player
+                                                        if loopPlot.isVisible(to: gameModel.humanPlayer()) {
+
+                                                            gameModel.humanPlayer()?.notifications()?.add(
+                                                                notification: .barbarianCampDiscovered(location: loopPlot.point)
+                                                            )
+                                                        }
+
                                                         if let bestUnitType = self.randomBarbarianUnitType(in: area, for: .defense, in: gameModel) {
                                                             let barbarianUnit = Unit(at: loopPlot.point, type: bestUnitType, owner: barbarianPlayer)
                                                             gameModel.add(unit: barbarianUnit)
@@ -284,7 +292,8 @@ class BarbarianAI: Codable {
                                                         numCampsToAdd -= 1
 
                                                         // Seed the next Camp for Coast or not
-                                                        wantsCoastal = Int.random(number: 5 /* BARBARIAN_CAMP_COASTAL_SPAWN_ROLL */) == 0 ? true : false
+                                                        /* BARBARIAN_CAMP_COASTAL_SPAWN_ROLL */
+                                                        wantsCoastal = Int.random(number: 5) == 0 ? true : false
                                                     }
                                                 }
                                             }
