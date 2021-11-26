@@ -44,6 +44,22 @@ class HeaderButtonViewModel: ObservableObject {
         return NSImage()
     }
 
+    func toolTip() -> NSAttributedString {
+
+        let toolTopText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: self.type.name(),
+            attributes: [
+                NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont,
+                NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipTitleColor
+            ]
+        )
+        toolTopText.append(title)
+
+        return toolTopText
+    }
+
     func clicked() {
 
         print("clicked on header: \(self.type)")

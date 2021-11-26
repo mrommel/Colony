@@ -15,7 +15,10 @@ extension BuildType {
 
         let title = NSAttributedString(
             string: self.name(),
-            attributes: [NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont]
+            attributes: [
+                NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont,
+                NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipTitleColor
+            ]
         )
         toolTopText.append(title)
 

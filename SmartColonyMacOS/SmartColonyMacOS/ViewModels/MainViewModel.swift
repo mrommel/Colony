@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
-import SmartMacOSUILibrary
 import SmartAILibrary
+import SmartAssets
+import SmartMacOSUILibrary
 
 enum PresentedViewType {
 

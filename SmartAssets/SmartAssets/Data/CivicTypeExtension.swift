@@ -15,11 +15,20 @@ extension CivicType {
 
         let title = NSAttributedString(
             string: self.name(),
-            attributes: [NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont]
+            attributes: [
+                NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont,
+                NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipTitleColor
+            ]
         )
         toolTopText.append(title)
 
-        let eureka = NSAttributedString(string: self.eurekaSummary())
+        let eureka = NSAttributedString(
+            string: "\n\n" + self.eurekaSummary(),
+            attributes: [
+                NSAttributedString.Key.font: Globals.Fonts.tooltipContentFont,
+                NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipContentColor
+            ]
+        )
         toolTopText.append(eureka)
 
         return toolTopText

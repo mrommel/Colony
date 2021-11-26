@@ -1663,7 +1663,7 @@
 			repositoryURL = "https://github.com/mrommel/CustomToolTip";
 			requirement = {
 				kind = exactVersion;
-				version = 1.0.4;
+				version = 1.0.8;
 			};
 		};
 		C9CB7B7D274BB1440080B96B /* XCRemoteSwiftPackageReference "CustomToolTip" */ = {

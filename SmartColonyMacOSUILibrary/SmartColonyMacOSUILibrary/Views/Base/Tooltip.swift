@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CustomToolTip
+import SmartAssets
 
 // https://stackoverflow.com/questions/63217860/how-to-add-tooltip-on-macos-10-15-with-swiftui
 struct ToolTip: NSViewRepresentable {
@@ -21,7 +22,15 @@ struct ToolTip: NSViewRepresentable {
 
     func updateNSView(_ nsView: NSView, context: NSViewRepresentableContext<ToolTip>) {
 
-        nsView.addCustomToolTip(from: toolTipText)
+        // configure tooltip
+        CustomToolTip.defaultBackgroundColor = Globals.Colors.toolTipBackgroundColor
+        CustomToolTip.defaultBorderColor = Globals.Colors.toolTipBorderColor
+
+        nsView.addCustomToolTip(from: self.toolTipText)
+
+        // configure tooltip
+        //nsView.customToolTip?.customToolTipBackgroundColor = Globals.Colors.toolTipBackgroundColor
+        //nsView.customToolTip?.customToolTipBorderColor = Globals.Colors.toolTipBorderColor
     }
 }
 

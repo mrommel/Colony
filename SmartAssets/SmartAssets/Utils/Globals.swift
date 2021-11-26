@@ -6,6 +6,7 @@
 //
 
 import Cocoa
+import SwiftUI
 
 public struct Globals {
 
@@ -143,10 +144,50 @@ public extension Globals {
 
     struct Fonts {
 
-        // public static let systemFontBold = NSFont.systemFont(ofSize: 24, weight: UIFont.Weight.bold)
-        // public static let systemFontBoldFamilyname = systemFontBold.familyName
+        public static let tooltipTitleFont = NSFont.systemFont(ofSize: 14)
+        public static let tooltipContentFont = NSFont.systemFont(ofSize: 10)
+    }
+}
 
-        public static let tooltipTitleFont = NSFont.systemFont(ofSize: 16)
-        //public static let systemFontFamilyname = systemFont.familyName
+public extension Globals {
+
+    struct Colors {
+
+        public static let buttonBackground: TypeColor = TypeColor.matterhornGray.withAlphaComponent(0.5)
+        public static let buttonSelectedBackground: TypeColor = TypeColor.crusoe.withAlphaComponent(0.5)
+
+        public static let progressColor: TypeColor = TypeColor.white
+        public static let progressBackground: TypeColor = TypeColor.matterhornGray.withAlphaComponent(0.5)
+
+        public static let toolTipBackgroundColor: TypeColor = TypeColor.white
+        public static let toolTipBorderColor: TypeColor = TypeColor.white
+        public static let tooltipTitleColor: TypeColor = TypeColor.matterhornGray
+        public static let tooltipContentColor: TypeColor = TypeColor.matterhornGray
+
+        // UI
+        public static var districtActive: TypeColor = TypeColor.UI.veryDarkBlue
+        public static var dialogBackground: TypeColor = TypeColor.UI.midnight
+        public static var dialogCenter: TypeColor = TypeColor.UI.nileBlue
+        public static var dialogBorder: TypeColor = TypeColor.supernova
+
+        // great person
+        public static var greatPersonBackground: TypeColor = TypeColor.UI.eclipse
+
+        // Overview
+        public static var overviewBackground: TypeColor = TypeColor.Terrain.pergament
+    }
+}
+
+public extension Globals {
+
+    struct Style {
+
+        public static var dialogGradient: Gradient = Gradient(colors: [Color(Globals.Colors.dialogCenter), Color(Globals.Colors.dialogBackground)])
+
+        public static var dialogBackground: RadialGradient = RadialGradient(
+            gradient: Globals.Style.dialogGradient,
+            center: .center,
+            startRadius: 100,
+            endRadius: 200)
     }
 }

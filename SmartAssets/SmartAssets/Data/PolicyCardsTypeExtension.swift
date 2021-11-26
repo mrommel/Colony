@@ -15,11 +15,20 @@ extension PolicyCardType {
 
         let title = NSAttributedString(
             string: self.name(),
-            attributes: [NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont]
+            attributes: [
+                NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont,
+                NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipTitleColor
+            ]
         )
         toolTopText.append(title)
 
-        let effects = NSAttributedString(string: self.bonus())
+        let effects = NSAttributedString(
+            string: "\n\n" + self.bonus(),
+            attributes: [
+                NSAttributedString.Key.font: Globals.Fonts.tooltipContentFont,
+                NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipContentColor
+            ]
+        )
         toolTopText.append(effects)
 
         return toolTopText
