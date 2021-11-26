@@ -170,6 +170,9 @@ public class NotificationItem: Codable, Equatable {
         case .goodyHutDiscovered(location: let location):
             gameModel?.userInterface?.focus(on: location)
 
+        case .barbarianCampDiscovered(location: let location):
+            gameModel?.userInterface?.focus(on: location)
+
         default:
             print("activate \(self.type) not handled")
         }
@@ -294,6 +297,18 @@ public class NotificationItem: Codable, Equatable {
             }
 
             if tile.has(improvement: .goodyHut) {
+                return false
+            }
+
+            return true
+
+        case .barbarianCampDiscovered(location: let location):
+
+            guard let tile = gameModel.tile(at: location) else {
+                fatalError("goodyHut notification outside game map")
+            }
+
+            if tile.has(improvement: .barbarianCamp) {
                 return false
             }
 

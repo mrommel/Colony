@@ -1751,10 +1751,16 @@ open class GameModel: Codable {
 
             if let tile = self.tile(at: areaPoint) {
 
-                // inform the player about a goodyhut
+                // inform the player about a goody hut
                 if tile.has(improvement: .goodyHut) && !tile.isDiscovered(by: player) {
 
                     player?.notifications()?.add(notification: .goodyHutDiscovered(location: areaPoint))
+                }
+
+                // inform the player about a barbarian camp
+                if tile.has(improvement: .barbarianCamp) && !tile.isDiscovered(by: player) {
+
+                    player?.notifications()?.add(notification: .barbarianCampDiscovered(location: areaPoint))
                 }
 
                 tile.sight(by: player)
