@@ -244,18 +244,21 @@ class HexagonGridViewModel: ObservableObject {
                 case .citizen:
                     let tileAction: String? = self.tileActionTextureName(of: tile, with: city, for: humanPlayer, in: gameModel)
                     model.update(tileAction: tileAction)
-                case .districtLocation(type: _):
-                    /*if city.canBuild(district: districtType, at: tile.point, in: gameModel) {
+
+                case .districtLocation(type: let districtType):
+                    var tileAction: String?
+                    if city.canBuild(district: districtType, at: tile.point, in: gameModel) {
                         tileAction = TileActionType.districtAvailable.textureName
-                    }*/
-                    // NOOP
-                    break
-                case .wonderLocation(type: _):
-                    /*if city.canBuild(wonder: wonderType, at: tile.point, in: gameModel) {
+                    }
+                    model.update(tileAction: tileAction)
+
+                case .wonderLocation(type: let wonderType):
+                    var tileAction: String?
+                    if city.canBuild(wonder: wonderType, at: tile.point, in: gameModel) {
                         tileAction = TileActionType.wonderAvailable.textureName
-                    }*/
-                    // NOOP
-                    break
+                    }
+
+                    model.update(tileAction: tileAction)
                 }
             }
         }

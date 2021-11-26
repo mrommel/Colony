@@ -95,6 +95,8 @@ class GameScene: BaseScene {
         // only check once per 0.5 sec
         if self.lastExecuted + 0.5 < currentTime {
 
+            self.lastExecuted = currentTime
+
             guard let humanPlayer = gameModel.humanPlayer() else {
                 fatalError("cant get human")
             }
@@ -137,8 +139,6 @@ class GameScene: BaseScene {
                     }
                 }
             }
-
-            self.lastExecuted = currentTime
         }
 
         if self.viewModel?.refreshCities ?? false {

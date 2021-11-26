@@ -154,6 +154,7 @@ class CityProductionViewModel: ObservableObject {
 
             // picker view
             self.hexagonGridViewModel.update(for: city, with: gameModel)
+            self.hexagonGridViewModel.updateWorkingTiles(in: gameModel)
             self.showLocationPicker = false
         }
     }

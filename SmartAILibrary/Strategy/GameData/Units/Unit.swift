@@ -3985,6 +3985,11 @@ public class Unit: AbstractUnit {
 
         gameModel.userInterface?.refresh(tile: tile)
 
+        // handle builder expended
+        if !self.hasBuildCharges() {
+            self.doKill(delayed: true, by: nil, in: gameModel)
+        }
+
         return true
     }
 
@@ -4008,6 +4013,11 @@ public class Unit: AbstractUnit {
         tile.set(feature: .forest)
 
         gameModel.userInterface?.refresh(tile: tile)
+
+        // handle builder expended
+        if !self.hasBuildCharges() {
+            self.doKill(delayed: true, by: nil, in: gameModel)
+        }
 
         return true
     }
