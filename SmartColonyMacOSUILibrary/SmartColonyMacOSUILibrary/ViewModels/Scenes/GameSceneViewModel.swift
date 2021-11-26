@@ -211,6 +211,8 @@ public class GameSceneViewModel: ObservableObject {
             print("--- unhandled notification type: \(self.turnButtonNotificationType)")
         case .goodyHutDiscovered(location: _):
             print("--- unhandled notification type: \(self.turnButtonNotificationType)")
+        case .barbarianCampDiscovered(location: _):
+            print("--- unhandled notification type: \(self.turnButtonNotificationType)")
         }
     }
 
