@@ -10,9 +10,9 @@ import SpriteKit
 
 enum DialogTextAlign: String, Codable {
 
-    case center = "center"
-    case left = "left"
-    case right = "right"
+    case center
+    case left
+    case right
 
     func toHorizontalAlignmentMode() -> SKLabelHorizontalAlignmentMode {
 

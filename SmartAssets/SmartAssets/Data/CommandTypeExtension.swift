@@ -13,6 +13,8 @@ extension CommandType {
 
         switch self {
 
+        case .none: return "command-default"
+
         case .rename: return "command-default"
         case .found: return "command-found"
         case .buildFarm: return "command-farm"
@@ -22,6 +24,8 @@ extension CommandType {
         case .buildQuarry: return "command-quarry"
         case .buildPlantation: return "command-plantation"
         case .buildFishingBoats: return "command-fishingBoats"
+        case .removeFeature: return "command-removeFeature"
+        case .plantForest: return "command-plantForest"
 
         case .hold: return "command-hold"
         case .fortify: return "command-fortify"
@@ -49,6 +53,8 @@ extension CommandType {
 
         switch self {
 
+        case .none: return "command-button-default"
+
         case .rename: return "command-button-rename"
         case .found: return "command-button-found"
         case .buildFarm: return "command-button-farm"
@@ -58,6 +64,8 @@ extension CommandType {
         case .buildQuarry: return "command-button-quarry"
         case .buildPlantation: return "command-button-plantation"
         case .buildFishingBoats: return "command-button-fishingBoats"
+        case .removeFeature: return "command-button-removeFeature"
+        case .plantForest: return "command-button-plantForest"
 
         case .hold: return "command-button-hold"
         case .fortify: return "command-button-fortify"

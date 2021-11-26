@@ -14,12 +14,12 @@ class AchievementViewModel: ObservableObject, Identifiable {
     // private
     let id: UUID = UUID()
     let imageName: String
-    let toolTipText: String
+    let toolTipText: NSAttributedString
 
     @Published
     var image: NSImage
 
-    init(imageName: String, toolTipText: String) {
+    init(imageName: String, toolTipText: NSAttributedString) {
 
         self.imageName = imageName
         self.toolTipText = toolTipText

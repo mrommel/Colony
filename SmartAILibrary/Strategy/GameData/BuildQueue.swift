@@ -74,6 +74,15 @@ public class BuildQueue: Codable {
         return false
     }
 
+    public func wonder(of wonderType: WonderType) -> BuildableItem? {
+
+        if let item = self.items.first(where: { $0.type == .wonder && $0.wonderType == wonderType }) {
+            return item
+        }
+
+        return nil
+    }
+
     public func isBuilding(wonder wonderType: WonderType) -> Bool {
 
         for item in self.items where item.type == .wonder {
@@ -86,6 +95,15 @@ public class BuildQueue: Codable {
         }
 
         return false
+    }
+
+    public func district(of districtType: DistrictType) -> BuildableItem? {
+
+        if let item = self.items.first(where: { $0.type == .district && $0.districtType == districtType }) {
+            return item
+        }
+
+        return nil
     }
 
     func isCurrentlyBuildingDistrict() -> Bool {

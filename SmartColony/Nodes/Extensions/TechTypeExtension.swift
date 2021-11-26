@@ -10,6 +10,7 @@ import SmartAILibrary
 
 extension TechType {
 
+    // swiftlint:disable cyclomatic_complexity
     func iconTexture() -> String {
 
         switch self {

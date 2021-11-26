@@ -9,6 +9,7 @@
 import Foundation
 
 /// Information about the Grand Strategy of a single AI player
+// swiftlint:disable type_body_length
 public class GrandStrategyAI: Codable {
 
     enum CodingKeys: String, CodingKey {
@@ -90,7 +91,8 @@ public class GrandStrategyAI: Codable {
         }
 
         public var description: String {
-            return "GradStrategyAIDict:\n- conquest: \(self.conquestStrat.value)\n- culture: \(self.cultureStrat.value)\n- council: \(self.councilStrat.value)\n"
+            return "GradStrategyAIDict:\n- conquest: \(self.conquestStrat.value)\n" +
+                "- culture: \(self.cultureStrat.value)\n- council: \(self.councilStrat.value)\n"
         }
     }
 
@@ -145,7 +147,10 @@ public class GrandStrategyAI: Codable {
 
             public var description: String {
 
-                return "GrandStrategyAIPlayerGuess:\n- player: \(self.player?.leader ?? LeaderType.alexander)\n- strategy: \(self.strategy)\n- confidence: \(self.confidence)\n"
+                return "GrandStrategyAIPlayerGuess:\n" +
+                    "- player: \(self.player?.leader ?? LeaderType.alexander)\n" +
+                    "- strategy: \(self.strategy)\n" +
+                    "- confidence: \(self.confidence)\n"
             }
         }
 

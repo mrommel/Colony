@@ -1993,7 +1993,7 @@ extension GameModel {
         }*/
 
         var civsToCount = 0.0
-        var cityStatesToCount = 0.0
+        let cityStatesToCount = 0.0
 
         for player in self.players {
 

@@ -200,7 +200,7 @@ extension GameViewModel {
 
         if self.currentScreenType == .none {
             self.cityDialogViewModel.update(for: city)
-            self.cityDialogViewModel.show(detail: .buildings)
+            self.cityDialogViewModel.show(detail: .production)
             self.currentScreenType = .city
         }
     }
@@ -214,7 +214,7 @@ extension GameViewModel {
 
         if self.currentScreenType == .none {
             self.cityDialogViewModel.update(for: city)
-            self.cityDialogViewModel.cityDetailViewType = .production
+            self.cityDialogViewModel.show(detail: .production)
             self.currentScreenType = .city
         }
     }
@@ -228,7 +228,7 @@ extension GameViewModel {
 
         if self.currentScreenType == .none {
             self.cityDialogViewModel.update(for: city)
-            self.cityDialogViewModel.cityDetailViewType = .buildings
+            self.cityDialogViewModel.show(detail: .buildings)
             self.currentScreenType = .city
         }
     }

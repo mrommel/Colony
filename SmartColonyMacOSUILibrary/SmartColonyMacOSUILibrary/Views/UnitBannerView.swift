@@ -43,67 +43,13 @@ struct UnitBannerView: View {
 
                 Spacer()
 
-                ZStack(alignment: .bottom) {
+                VStack(alignment: .center, spacing: 0) {
 
                     self.commandsView
 
-                    Image(nsImage: ImageCache.shared.image(for: "unit-banner"))
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 340)
-
-                    ProgressCircle(value: self.$viewModel.unitHealthValue,
-                                   maxValue: 1.0,
-                                   style: .line,
-                                   backgroundColor: Color(Globals.Colors.progressBackground),
-                                   foregroundColor: Color(.green),
-                                   lineWidth: 5)
-                        .frame(height: 52)
-                        .offset(x: -122.3, y: -26.5)
-
-                    Image(nsImage: self.viewModel.unitTypeImage())
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 46, height: 46)
-                        .background(Color(Globals.Colors.dialogBackground))
-                        .clipShape(Circle())
-                        .offset(x: -122.3, y: -29.5)
-
-                    GroupBox(content: {
-                        Text(self.viewModel.unitName())
-                            .frame(width: 120, alignment: .leading)
-                    })
-                    .groupBoxStyle(UnitGroupBoxStyle())
-                    .offset(x: 25, y: -76)
-
-                    GroupBox(content: {
-                        Text(self.viewModel.unitMoves())
-                            .frame(width: 120, alignment: .leading)
-                    })
-                    .groupBoxStyle(UnitGroupBoxStyle())
-                    .offset(x: 25, y: -54)
-
-                    GroupBox(content: {
-                        Text(self.viewModel.unitHealth())
-                            .frame(width: 120, alignment: .leading)
-                    })
-                    .groupBoxStyle(UnitGroupBoxStyle())
-                    .offset(x: 25, y: -32)
-
-                    if !self.viewModel.unitCharges().isEmpty {
-                        GroupBox(content: {
-                            Text(self.viewModel.unitCharges())
-                            .frame(width: 120, alignment: .leading)
-                        })
-                        .groupBoxStyle(UnitGroupBoxStyle())
-                        .offset(x: 25, y: -10)
-                    }
-
-                    self.promotionsView
-                        .frame(width: 120, alignment: .leading)
-                        .offset(x: 20, y: 48)
+                    self.bannerView
                 }
-                .frame(width: 300, height: 112, alignment: .bottomTrailing)
+                .frame(width: 300)
                 .offset(x: 0, y: self.showBanner ? 0 : 150)
                 .onReceive(self.viewModel.$showBanner, perform: { value in
                     withAnimation(.easeInOut(duration: 0.5)) {
@@ -119,86 +65,94 @@ struct UnitBannerView: View {
 
     private var commandsView: some View {
 
-        Group {
+        HStack(alignment: .bottom, spacing: 1) {
             Image(nsImage: self.viewModel.listImage())
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 32, height: 32)
-                .offset(x: -122, y: -105)
                 .onTapGesture {
                     self.viewModel.listClicked()
                 }
-                .toolTip("Units")
+                .toolTip("Unit list")
 
-            Image(nsImage: self.viewModel.commandImage(at: 6))
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 32, height: 32)
-                .offset(x: -90, y: -105)
-                .onTapGesture {
-                    self.viewModel.commandClicked(at: 6)
-                }
-                .toolTip(self.viewModel.commandToolTip(at: 6))
+            Spacer()
+                .frame(minHeight: 0, maxHeight: 50)
 
-            Image(nsImage: self.viewModel.commandImage(at: 5))
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 32, height: 32)
-                .offset(x: -55, y: -105)
-                .onTapGesture {
-                    self.viewModel.commandClicked(at: 5)
-                }
-                .toolTip(self.viewModel.commandToolTip(at: 5))
+            UnitCommandView(viewModel: self.viewModel.command5ViewModel)
 
-            Image(nsImage: self.viewModel.commandImage(at: 4))
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 32, height: 32)
-                .offset(x: -20, y: -105)
-                .onTapGesture {
-                    self.viewModel.commandClicked(at: 4)
-                }
-                .toolTip(self.viewModel.commandToolTip(at: 4))
+            UnitCommandView(viewModel: self.viewModel.command4ViewModel)
 
-            Image(nsImage: self.viewModel.commandImage(at: 3))
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 32, height: 32)
-                .offset(x: 15, y: -105)
-                .onTapGesture {
-                    self.viewModel.commandClicked(at: 3)
-                }
-                .toolTip(self.viewModel.commandToolTip(at: 3))
+            UnitCommandView(viewModel: self.viewModel.command3ViewModel)
 
-            Image(nsImage: self.viewModel.commandImage(at: 2))
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 32, height: 32)
-                .offset(x: 50, y: -105)
-                .onTapGesture {
-                    self.viewModel.commandClicked(at: 2)
-                }
-                .toolTip(self.viewModel.commandToolTip(at: 2))
+            UnitCommandView(viewModel: self.viewModel.command2ViewModel)
 
-            Image(nsImage: self.viewModel.commandImage(at: 1))
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 32, height: 32)
-                .offset(x: 85, y: -105)
-                .onTapGesture {
-                    self.viewModel.commandClicked(at: 1)
-                }
-                .toolTip(self.viewModel.commandToolTip(at: 1))
+            UnitCommandView(viewModel: self.viewModel.command1ViewModel)
 
-            Image(nsImage: self.viewModel.commandImage(at: 0))
+            UnitCommandView(viewModel: self.viewModel.command0ViewModel)
+
+        }
+        .frame(width: 280, height: 32)
+    }
+
+    private var bannerView: some View {
+
+        ZStack(alignment: .bottom) {
+
+            Image(nsImage: ImageCache.shared.image(for: "unit-banner"))
                 .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 32, height: 32)
-                .offset(x: 120, y: -105)
-                .onTapGesture {
-                    self.viewModel.commandClicked(at: 0)
-                }
-                .toolTip(self.viewModel.commandToolTip(at: 1))
+                .scaledToFit()
+                .frame(width: 340, height: 106)
+
+            ProgressCircle(value: self.$viewModel.unitHealthValue,
+                           maxValue: 1.0,
+                           style: .line,
+                           backgroundColor: Color(Globals.Colors.progressBackground),
+                           foregroundColor: Color(.green),
+                           lineWidth: 5)
+                .frame(height: 52)
+                .offset(x: -122.3, y: -26.5)
+
+            Image(nsImage: self.viewModel.unitTypeImage())
+                .resizable()
+                .scaledToFit()
+                .frame(width: 46, height: 46)
+                .background(Color(Globals.Colors.dialogBackground))
+                .clipShape(Circle())
+                .offset(x: -122.3, y: -29.5)
+
+            GroupBox(content: {
+                Text(self.viewModel.unitName())
+                    .frame(width: 120, alignment: .leading)
+            })
+            .groupBoxStyle(UnitGroupBoxStyle())
+            .offset(x: 25, y: -76)
+
+            GroupBox(content: {
+                Text(self.viewModel.unitMoves())
+                    .frame(width: 120, alignment: .leading)
+            })
+            .groupBoxStyle(UnitGroupBoxStyle())
+            .offset(x: 25, y: -54)
+
+            GroupBox(content: {
+                Text(self.viewModel.unitHealth())
+                    .frame(width: 120, alignment: .leading)
+            })
+            .groupBoxStyle(UnitGroupBoxStyle())
+            .offset(x: 25, y: -32)
+
+            if !self.viewModel.unitCharges().isEmpty {
+                GroupBox(content: {
+                    Text(self.viewModel.unitCharges())
+                    .frame(width: 120, alignment: .leading)
+                })
+                .groupBoxStyle(UnitGroupBoxStyle())
+                .offset(x: 25, y: -10)
+            }
+
+            self.promotionsView
+                .frame(width: 120, height: 20, alignment: .leading)
+                .offset(x: 20, y: -4)
         }
     }
 

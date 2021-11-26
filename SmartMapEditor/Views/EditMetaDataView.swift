@@ -40,13 +40,13 @@ struct EditMetaDataView: View {
 
                 Spacer()
 
-                Button(action: { viewModel.cancel() }) {
+                Button(action: { viewModel.cancel() }, label: {
                     Text("Cancel")
-                }
+                })
 
-                Button(action: { viewModel.save() }) {
+                Button(action: { viewModel.save() }, label: {
                     Text("Save")
-                }
+                })
             }.padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
 
         }.padding()

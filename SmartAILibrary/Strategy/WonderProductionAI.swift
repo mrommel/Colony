@@ -18,7 +18,19 @@ class WonderWeigths: WeightedList<WonderType> {
     }
 }
 
-public class WonderProductionAI {
+public class WonderProductionAI: Codable {
+
+    enum CodingKeys: String, CodingKey {
+
+        case weights
+    }
+
+    struct WonderSelection {
+
+        let wonder: WonderType
+        let location: HexPoint
+        let totalWeights: Int
+    }
 
     internal var player: AbstractPlayer?
     private var weights: WonderWeigths
@@ -31,6 +43,20 @@ public class WonderProductionAI {
         self.weights.fill()
 
         self.initWeights()
+    }
+
+    required public init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.weights = try container.decode(WonderWeigths.self, forKey: .weights)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.weights, forKey: .weights)
     }
 
     func initWeights() {
@@ -50,10 +76,11 @@ public class WonderProductionAI {
                 self.weights.add(weight: wonderFlavor * leaderFlavor, for: wonderType)
             }
         }
-
     }
 
-    func chooseWonder(adjustForOtherPlayers: Bool, nextWonderWeight: Int, in gameModel: GameModel?) -> (WonderType, Int) {
+    // swiftlint:disable function_body_length
+    // swiftlint:disable cyclomatic_complexity
+    func chooseWonder(adjustForOtherPlayers: Bool, nextWonderWeight: Int, in gameModel: GameModel?) -> WonderSelection {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -83,7 +110,7 @@ public class WonderProductionAI {
         }
 
         guard let wonderCity = wonderCityRef else {
-            return (.none, 0)
+            return WonderSelection(wonder: .none, location: .invalid, totalWeights: 0)
         }
 
         var estimatedProductionPerTurn = wonderCity.productionLastTurn() // getProduction
@@ -131,17 +158,37 @@ public class WonderProductionAI {
             //LogPossibleWonders();
 
             if buildables.totalWeights() > 0.0 {
-                if let selection = buildables.chooseFromTopChoices() {
-                    return (selection, Int(buildables.totalWeights()))
+                if let selectedWonder = buildables.chooseFromTopChoices() {
+
+                    var selectedLocation: HexPoint = .invalid
+                    for loopCityRef in cities {
+
+                        guard let loopCity = loopCityRef, let cityCitizens = loopCity.cityCitizens else {
+                            continue
+                        }
+
+                        for loopLocation in cityCitizens.workingTileLocations() {
+
+                            if loopCity.canBuild(wonder: selectedWonder, at: loopLocation, in: gameModel) {
+                                selectedLocation = loopLocation
+                            }
+                        }
+                    }
+
+                    return WonderSelection(
+                        wonder: selectedWonder,
+                        location: selectedLocation,
+                        totalWeights: Int(buildables.totalWeights())
+                    )
                 }
             }
 
             // Nothing with any weight
-            return (.none, 0)
+            return WonderSelection(wonder: .none, location: .invalid, totalWeights: 0)
 
         } else {
             // Unless we didn't find any
-            return (.none, 0)
+            return WonderSelection(wonder: .none, location: .invalid, totalWeights: 0)
         }
     }
 
@@ -158,15 +205,27 @@ public class WonderProductionAI {
 
         for loopCityRef in gameModel.cities(of: player) {
 
-            guard let loopCity = loopCityRef else {
+            guard let loopCity = loopCityRef, let cityCitizens = loopCity.cityCitizens else {
                 continue
             }
 
-            if loopCity.canBuild(wonder: wonderType, in: gameModel) {
-                return true
+            for loopLocation in cityCitizens.workingTileLocations() {
+
+                if loopCity.canBuild(wonder: wonderType, at: loopLocation, in: gameModel) {
+                    return true
+                }
             }
         }
 
         return false
+    }
+
+    func weight(for wonderType: WonderType) -> Int {
+
+        if let wonderWeight = self.weights.items.first(where: { $0.key == wonderType }) {
+            return Int(wonderWeight.value)
+        }
+
+        return 0
     }
 }

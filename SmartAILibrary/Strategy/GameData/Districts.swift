@@ -12,6 +12,20 @@ enum DistrictError: Error {
     case alreadyBuild
 }
 
+struct DistrictItem: Codable {
+
+    let type: DistrictType
+    let location: HexPoint
+}
+
+extension DistrictItem: Equatable {
+
+    public static func == (lhs: DistrictItem, rhs: DistrictItem) -> Bool {
+
+        return lhs.type == rhs.type && lhs.location == rhs.location
+    }
+}
+
 public protocol AbstractDistricts: Codable {
 
     var city: AbstractCity? { get set }
@@ -19,7 +33,8 @@ public protocol AbstractDistricts: Codable {
     // districts
     func has(district: DistrictType) -> Bool
     func hasAny() -> Bool
-    func build(district: DistrictType) throws
+    func build(district: DistrictType, at location: HexPoint) throws
+    func location(of district: DistrictType) -> HexPoint?
 
     func numberOfBuiltDistricts() -> Int
     func clear()
@@ -40,7 +55,7 @@ class Districts: AbstractDistricts {
         case housing
     }
 
-    private var districts: [DistrictType]
+    private var districts: [DistrictItem]
     internal var city: AbstractCity?
 
     private var housingVal: Double
@@ -58,7 +73,7 @@ class Districts: AbstractDistricts {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.city = nil
-        self.districts = try container.decode([DistrictType].self, forKey: .districts)
+        self.districts = try container.decode([DistrictItem].self, forKey: .districts)
 
         self.housingVal = try container.decode(Double.self, forKey: .housing)
     }
@@ -74,7 +89,7 @@ class Districts: AbstractDistricts {
 
     func has(district: DistrictType) -> Bool {
 
-        return self.districts.contains(district)
+        return self.districts.contains(where: { $0.type == district })
     }
 
     func hasAny() -> Bool {
@@ -82,13 +97,24 @@ class Districts: AbstractDistricts {
         return self.districts.count > 1 // cityCenter does not count
     }
 
-    func build(district: DistrictType) throws {
+    func build(district: DistrictType, at location: HexPoint) throws {
 
-        if self.districts.contains(district) {
+        let newItem = DistrictItem(type: district, location: location)
+
+        if self.districts.contains(newItem) {
             throw DistrictError.alreadyBuild
         }
 
-        self.districts.append(district)
+        self.districts.append(newItem)
+    }
+
+    func location(of district: DistrictType) -> HexPoint? {
+
+        if let item = self.districts.first(where: { $0.type == district }) {
+            return item.location
+        }
+
+        return nil
     }
 
     func numberOfBuiltDistricts() -> Int {

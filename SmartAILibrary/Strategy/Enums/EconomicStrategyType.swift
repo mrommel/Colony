@@ -119,7 +119,7 @@ enum EconomicStrategyType: Int, Codable {
                 Flavor(type: .naval, value: 50),
                 Flavor(type: .navalTileImprovement, value: 10),
                 Flavor(type: .navalGrowth, value: 5),
-                //Flavor(type: .waterConnection, value: 5), FIXME
+                //Flavor(type: .waterConnection, value: 5), #
                 Flavor(type: .expansion, value: 10),
                 Flavor(type: .recon, value: -20)
             ]
@@ -313,7 +313,7 @@ enum EconomicStrategyType: Int, Codable {
         let maxCultureCities = 6 // AI_GS_CULTURE_MAX_CITIES
 
         var desiredCities = (3 * flavorExpansion) / max(flavorGrowth, 1)
-        let difficulty = 0 // FIXME max(0,GC.getGame().getHandicapInfo().GetID() - 3)
+        let difficulty = max(0, gameModel.handicap.rawValue - 3)
         desiredCities += difficulty
 
         if player.grandStrategyAI?.activeStrategy == .culture {

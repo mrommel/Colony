@@ -148,8 +148,7 @@ public enum CivicType: String, Codable {
         return self.data().cost
     }
 
-    // https://github.com/caiobelfort/civ6_personal_mod/blob/9fdf8736016d855990556c71cc76a62f124f5822/Gameplay/Data/Civics.xml
-    func required() -> [CivicType] {
+    public func required() -> [CivicType] {
 
         return self.data().required
     }
@@ -268,6 +267,7 @@ public enum CivicType: String, Codable {
 
     // swiftlint:disable line_length
     // swiftlint:disable function_body_length
+    // https://github.com/caiobelfort/civ6_personal_mod/blob/9fdf8736016d855990556c71cc76a62f124f5822/Gameplay/Data/Civics.xml
     private func data() -> CivicTypeData {
 
         switch self {

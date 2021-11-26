@@ -163,8 +163,8 @@ public protocol AbstractGovernment: AnyObject, Codable {
     func chooseBestGovernment(in gameModel: GameModel?)
     func possibleGovernments() -> [GovernmentType]
 
-    func hasPolicyCardsFilled() -> Bool
-    func policyCardSlots() -> PolicyCardSlots
+    func hasPolicyCardsFilled(in gameModel: GameModel?) -> Bool
+    func policyCardSlots(in gameModel: GameModel?) -> PolicyCardSlots
     func possiblePolicyCards() -> [PolicyCardType]
     func fillPolicyCards()
 
@@ -372,18 +372,23 @@ public class Government: AbstractGovernment {
         return self.policyCardsVal
     }
 
-    public func policyCardSlots() -> PolicyCardSlots {
+    public func policyCardSlots(in gameModel: GameModel?) -> PolicyCardSlots {
 
-        guard let civilization = self.player?.leader.civilization() else {
-            fatalError("cant get civilization")
+        guard let player = self.player else {
+            fatalError("cant get player")
         }
 
         if let government = self.currentGovernmentVal {
 
             let policyCardSlots = government.policyCardSlots()
 
-            if civilization.ability() == .platosRepublic {
+            if player.leader.civilization().ability() == .platosRepublic {
                 policyCardSlots.wildcard += 1
+            }
+
+            // alhambra: +1 Military policy slot
+            if player.has(wonder: .alhambra, in: gameModel) {
+                policyCardSlots.military += 1
             }
 
             return policyCardSlots
@@ -445,9 +450,9 @@ public class Government: AbstractGovernment {
         return self.policyCardsVal.has(card: card)
     }
 
-    public func hasPolicyCardsFilled() -> Bool {
+    public func hasPolicyCardsFilled(in gameModel: GameModel?) -> Bool {
 
-        return self.policyCardsVal.filled(in: self.policyCardSlots())
+        return self.policyCardsVal.filled(in: self.policyCardSlots(in: gameModel))
     }
 
     public func verify(in gameModel: GameModel?) {

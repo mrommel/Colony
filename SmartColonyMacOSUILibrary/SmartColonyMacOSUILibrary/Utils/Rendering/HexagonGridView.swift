@@ -45,7 +45,7 @@ struct HexagonGridView_Previews: PreviewProvider {
 
         let demoGameModel = DemoGameModel()
 
-        HexagonGridView(viewModel: HexagonGridViewModel(gameModel: demoGameModel))
+        HexagonGridView(viewModel: HexagonGridViewModel(mode: .citizen, gameModel: demoGameModel))
     }
 }
 #endif

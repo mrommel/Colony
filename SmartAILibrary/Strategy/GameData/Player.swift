@@ -161,6 +161,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     // wonders
     func has(wonder: WonderType, in gameModel: GameModel?) -> Bool
+    func city(with wonder: WonderType, in gameModel: GameModel?) -> AbstractCity?
 
     // advisors
     func advisorMessages() -> [AdvisorMessage]
@@ -1338,7 +1339,7 @@ public class Player: AbstractPlayer {
             }
         }
 
-        if !government.hasPolicyCardsFilled() && self.capitalCity(in: gameModel) != nil {
+        if !government.hasPolicyCardsFilled(in: gameModel) && self.capitalCity(in: gameModel) != nil {
 
             if self.isHuman() {
                 notifications.add(notification: .policiesNeeded)
@@ -2314,6 +2315,26 @@ public class Player: AbstractPlayer {
         }
 
         return false
+    }
+
+    public func city(with wonderType: WonderType, in gameModel: GameModel?) -> AbstractCity? {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(wonder: wonderType) {
+                return cityRef
+            }
+        }
+
+        return nil
     }
 
     public func advisorMessages() -> [AdvisorMessage] {
@@ -3444,11 +3465,13 @@ public class Player: AbstractPlayer {
 
         abEverOwned[GetID()] = true;*/
 
-        var oldDistricts: [DistrictType] = []
+        var oldDistricts: [DistrictItem] = []
         for districtType in DistrictType.all {
 
             if oldCity.has(district: districtType) {
-                oldDistricts.append(districtType)
+                if let oldLocation = oldCity.location(of: districtType) {
+                    oldDistricts.append(DistrictItem(type: districtType, location: oldLocation))
+                }
             }
         }
 
@@ -3537,7 +3560,7 @@ public class Player: AbstractPlayer {
 
         for district in oldDistricts {
             do {
-                try newCity.districts?.build(district: district)
+                try newCity.districts?.build(district: district.type, at: district.location)
             } catch {
 
             }

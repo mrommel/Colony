@@ -45,7 +45,14 @@ class CivicDisplayNode: BaseDisplayNode {
             iconTextures.append(SKTexture(imageNamed: governmentType.iconTexture()))
         }
 
-        super.init(texture: self.civicType.iconTexture(), type: .culture, name: self.civicType.name(), progress: progress, iconTextures: iconTextures, size: size)
+        super.init(
+            texture: self.civicType.iconTexture(),
+            type: .culture,
+            name: self.civicType.name(),
+            progress: progress,
+            iconTextures: iconTextures,
+            size: size
+        )
     }
 
     required init?(coder aDecoder: NSCoder) {

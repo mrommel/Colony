@@ -71,20 +71,25 @@ public protocol AbstractCity: AnyObject, Codable {
     func preKill(in gameModel: GameModel?)
 
     func has(district: DistrictType) -> Bool
+    func location(of district: DistrictType) -> HexPoint?
     func has(building: BuildingType) -> Bool
     func has(wonder: WonderType) -> Bool
     func has(project: ProjectType) -> Bool
 
-    func canBuild(building: BuildingType, in gameModel: GameModel?) -> Bool
     func canTrain(unit: UnitType, in gameModel: GameModel?) -> Bool
+    func canBuild(building: BuildingType, in gameModel: GameModel?) -> Bool
     func canBuild(wonder: WonderType, in gameModel: GameModel?) -> Bool
-    func canConstruct(district: DistrictType, in gameModel: GameModel?) -> Bool
+    func canBuild(wonder: WonderType, at point: HexPoint, in gameModel: GameModel?) -> Bool
+    func bestLocation(for wonderType: WonderType, in gameModel: GameModel?) -> HexPoint?
+    func canBuild(district districtType: DistrictType, in gameModel: GameModel?) -> Bool
+    func canBuild(district: DistrictType, at point: HexPoint, in gameModel: GameModel?) -> Bool
+    func bestLocation(for districtType: DistrictType, in gameModel: GameModel?) -> HexPoint?
     func canBuild(project: ProjectType) -> Bool
 
     func startTraining(unit: UnitType)
     func startBuilding(building: BuildingType)
-    func startBuilding(wonder: WonderType)
-    func startBuilding(district: DistrictType)
+    func startBuilding(wonder: WonderType, at point: HexPoint, in gameModel: GameModel?)
+    func startBuilding(district: DistrictType, at point: HexPoint, in gameModel: GameModel?)
     func startBuilding(project: ProjectType)
 
     func canPurchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
@@ -96,7 +101,7 @@ public protocol AbstractCity: AnyObject, Codable {
     @discardableResult
     func purchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
     @discardableResult
-    func purchase(district districtType: DistrictType, in gameModel: GameModel?) -> Bool
+    func purchase(district districtType: DistrictType, at location: HexPoint, in gameModel: GameModel?) -> Bool
     @discardableResult
     func purchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
     @discardableResult
@@ -106,6 +111,8 @@ public protocol AbstractCity: AnyObject, Codable {
 
     func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int
     func unitProductionTurnsLeft(for unitType: UnitType) -> Int
+    func districtProductionTurnsLeft(for districtType: DistrictType) -> Int
+    func wonderProductionTurnsLeft(for wonderType: WonderType) -> Int
 
     func featureProduction() -> Double
     func changeFeatureProduction(change: Double)
@@ -138,8 +145,8 @@ public protocol AbstractCity: AnyObject, Codable {
     func housingPerTurn(in gameModel: GameModel?) -> Double
     func baseHousing(in gameModel: GameModel?) -> Double
     func housingFromBuildings() -> Double
-    func housingFromWonders() -> Double
-    func housingFromDistricts() -> Double
+    func housingFromWonders(in gameModel: GameModel?) -> Double
+    func housingFromDistricts(in gameModel: GameModel?) -> Double
 
     func amenitiesPerTurn(in gameModel: GameModel?) -> Double
     func amenitiesFromDistrict() -> Double
@@ -597,7 +604,7 @@ public class City: AbstractCity {
 
         self.districts = Districts(city: self)
         do {
-            try self.districts?.build(district: .cityCenter)
+            try self.districts?.build(district: .cityCenter, at: self.location)
         } catch {}
 
         self.buildings = Buildings(city: self)
@@ -970,10 +977,6 @@ public class City: AbstractCity {
             fatalError("cant get gameModel")
         }
 
-        guard let player = self.player else {
-            fatalError("cant get player")
-        }
-
         guard let techs = self.player?.techs else {
             fatalError("cant get techs")
         }
@@ -1168,6 +1171,39 @@ public class City: AbstractCity {
         return 0
     }
 
+    public func loyaltyFromWonders(in gameModel: GameModel?) -> Double {
+
+        guard let gameModel = gameModel else {
+            fatalError("no game model provided")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        var loyaltyFromWonders: Double = 0.0
+
+        var locationOfColosseum: HexPoint = .invalid
+
+        for cityRef in gameModel.cities(of: player) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(wonder: .colosseum) {
+                locationOfColosseum = city.location
+            }
+        }
+
+        // colosseum - +2 Loyalty for every city in 6 tiles
+        if self.has(wonder: .colosseum) || locationOfColosseum.distance(to: self.location) <= 6 {
+            loyaltyFromWonders += 2.0
+        }
+
+        return loyaltyFromWonders
+    }
+
     public func loyaltyFromOthersEffects(in gameModel: GameModel?) -> Double {
 
         guard let player = self.player else {
@@ -1235,19 +1271,14 @@ public class City: AbstractCity {
     // https://civilization.fandom.com/wiki/Loyalty_(Civ6)
     func updateLoyaltyValue(in gameModel: GameModel?) {
 
-        let pressureFromNearbyCitizens = self.loyaltyPressureFromNearbyCitizen(in: gameModel)
+        var loyalty: Double = 0.0
 
-        let loyaltyFromGovernors = self.loyaltyFromGovernors(in: gameModel)
-
-        let happinessOfTheCitizens = self.loyaltyFromHappiness(in: gameModel)
-
-        let tradeRouteLoyalty = self.loyaltyFromTradeRoutes(in: gameModel)
-
-        // Other factors.
-        let otherFactors = self.loyaltyFromOthersEffects(in: gameModel)
-
-        // sum
-        let loyalty = pressureFromNearbyCitizens + loyaltyFromGovernors + happinessOfTheCitizens + tradeRouteLoyalty + otherFactors
+        loyalty += self.loyaltyPressureFromNearbyCitizen(in: gameModel)
+        loyalty += self.loyaltyFromGovernors(in: gameModel)
+        loyalty += self.loyaltyFromWonders(in: gameModel)
+        loyalty += self.loyaltyFromHappiness(in: gameModel)
+        loyalty += self.loyaltyFromTradeRoutes(in: gameModel)
+        loyalty += self.loyaltyFromOthersEffects(in: gameModel)
 
         self.loyaltyValue = loyalty
     }
@@ -1463,21 +1494,34 @@ public class City: AbstractCity {
             fatalError("cant get gameModel")
         }
 
-        guard let wonders = self.wonders else {
-            fatalError("cant get wonders")
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        var locationOfColosseum: HexPoint = .invalid
+
+        for cityRef in gameModel.cities(of: player) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(wonder: .colosseum) {
+                locationOfColosseum = city.location
+            }
         }
 
         var amenitiesFromWonders: Double = 0.0
 
         // gather amenities from buildingss
         for wonder in WonderType.all {
-            if wonders.has(wonder: wonder) {
+            if self.has(wonder: wonder) {
                 amenitiesFromWonders += Double(wonder.amenities())
             }
         }
 
         // temple of artemis
-        if wonders.has(wonder: .templeOfArtemis) {
+        if self.has(wonder: .templeOfArtemis) {
             for loopPoint in self.location.areaWith(radius: 3) {
 
                 guard let loopTile = gameModel.tile(at: loopPoint) else {
@@ -1488,6 +1532,12 @@ public class City: AbstractCity {
                     amenitiesFromWonders += 1.0
                 }
             }
+        }
+
+        // colosseum - +2 [Culture] Culture, +2 Loyalty, +2 [Amenities] Amenities from entertainment
+        // to each City Center within 6 tiles.
+        if self.has(wonder: .colosseum) || locationOfColosseum.distance(to: self.location) <= 6 {
+            amenitiesFromWonders += 2.0
         }
 
         return amenitiesFromWonders
@@ -1517,10 +1567,55 @@ public class City: AbstractCity {
         return amenitiesFromDistrict
     }
 
+    private func amenitiesFromTiles(in gameModel: GameModel?) -> Double {
+
+        guard let gameModel = gameModel else {
+            fatalError("no game model provided")
+        }
+
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("no cityCitizens provided")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        var amenitiesFromTiles: Double = 0.0
+
+        var hueyTeocalliLocation: HexPoint = .invalid
+        if player.has(wonder: .hueyTeocalli, in: gameModel) {
+            for point in cityCitizens.workingTileLocations() {
+                if cityCitizens.isWorked(at: point) {
+                    if let adjacentTile = gameModel.tile(at: point) {
+                        if adjacentTile.has(wonder: .hueyTeocalli) {
+                            hueyTeocalliLocation = point
+                        }
+                    }
+                }
+            }
+        }
+
+        // +1 Amenity from entertainment for each Lake tile within one tile of Huey Teocalli.
+        // (This includes the Lake tile where the wonder is placed.)
+        for point in cityCitizens.workingTileLocations() {
+            if cityCitizens.isWorked(at: point) {
+                //if let adjacentTile = gameModel.tile(at: point) {
+                if point == hueyTeocalliLocation || point.isNeighbor(of: hueyTeocalliLocation) {
+                    amenitiesFromTiles += 1
+                }
+                //}
+            }
+        }
+
+        return amenitiesFromTiles
+    }
+
     public func amenitiesPerTurn(in gameModel: GameModel?) -> Double {
 
         var amenitiesPerTurn: Double = 0.0
 
+        amenitiesPerTurn += self.amenitiesFromTiles(in: gameModel)
         amenitiesPerTurn += self.amenitiesFromLuxuries()
         amenitiesPerTurn += self.amenitiesFromDistrict()
         amenitiesPerTurn += self.amenitiesFromBuildings()
@@ -1655,7 +1750,13 @@ public class City: AbstractCity {
                 if self.populationValue <= 5 {
 
                     if player.isHuman() {
-                        self.player?.notifications()?.add(notification: .cityGrowth(cityName: self.name, population: self.population(), location: self.location))
+                        self.player?.notifications()?.add(
+                            notification: .cityGrowth(
+                                cityName: self.name,
+                                population: self.population(),
+                                location: self.location
+                            )
+                        )
                     }
                 }
             }
@@ -1945,16 +2046,16 @@ public class City: AbstractCity {
 
         switch item.type {
 
-            case .unit:
-                return self.canTrain(unit: item.unitType!, in: gameModel)
-            case .building:
-                return self.canBuild(building: item.buildingType!, in: gameModel)
-            case .wonder:
-                return self.canBuild(wonder: item.wonderType!, in: gameModel)
-            case .district:
-                return self.canConstruct(district: item.districtType!, in: gameModel)
-            case .project:
-                return self.canBuild(project: item.projectType!)
+        case .unit:
+            return self.canTrain(unit: item.unitType!, in: gameModel)
+        case .building:
+            return self.canBuild(building: item.buildingType!, in: gameModel)
+        case .wonder:
+            return self.canBuild(wonder: item.wonderType!, at: item.location!, in: gameModel)
+        case .district:
+            return self.canBuild(district: item.districtType!, at: item.location!, in: gameModel)
+        case .project:
+            return self.canBuild(project: item.projectType!)
         }
     }
 
@@ -2036,7 +2137,7 @@ public class City: AbstractCity {
 
             var production: Double = self.productionPerTurn(in: gameModel)
 
-            // +1 Civ6Production Production in all cities.
+            // +1 Production in all cities.
             if government.has(card: .urbanPlanning) {
                 production += 1.0
             }
@@ -2060,7 +2161,7 @@ public class City: AbstractCity {
                 }
             }
 
-            // +50% Civ6Production Production toward Units.
+            // +50% Production toward Units.
             if government.currentGovernment() == .fascism {
 
                 if self.buildQueue.isCurrentlyTrainingUnit() {
@@ -2068,7 +2169,7 @@ public class City: AbstractCity {
                 }
             }
 
-            // +15% Civ6Production Production.
+            // +15% Production.
             if government.currentGovernment() == .communism {
                 modifierPercentage += 0.15
             }
@@ -2161,6 +2262,15 @@ public class City: AbstractCity {
                 }
             }
 
+            // statueOfZeus - +50% Production towards anti-cavalry units.
+            if self.has(wonder: .statueOfZeus) {
+                if let unitType = self.productionUnitType() {
+                    if unitType.unitClass() == .antiCavalry {
+                        modifierPercentage += 0.50
+                    }
+                }
+            }
+
             production *= (1.0 + modifierPercentage)
 
             self.updateProduction(for: production, in: gameModel)
@@ -2199,10 +2309,10 @@ public class City: AbstractCity {
             // So we're the wonder building city but it is not underway yet...
 
             // Has the designated wonder been poached by another civ?
-            let nextWonderType = citySpecializationAI.nextWonderDesired()
-            if !self.canBuild(wonder: nextWonderType, in: gameModel) {
+            let (nextWonderType, nextWonderLocation) = citySpecializationAI.nextWonderDesired()
+            if !self.canBuild(wonder: nextWonderType, at: nextWonderLocation, in: gameModel) {
                 // Reset city specialization
-                //citySpecializationAI.->SetSpecializationsDirty(SPECIALIZATION_UPDATE_WONDER_BUILT_BY_RIVAL);
+                // citySpecializationAI.->SetSpecializationsDirty(SPECIALIZATION_UPDATE_WONDER_BUILT_BY_RIVAL);
                 fatalError("need to trigger the selection of new wonder")
             } else {
                 buildWonder = true
@@ -2211,7 +2321,8 @@ public class City: AbstractCity {
 
         if buildWonder {
 
-            self.startBuilding(wonder: citySpecializationAI.nextWonderDesired())
+            let (nextWonderType, nextWonderLocation) = citySpecializationAI.nextWonderDesired()
+            self.startBuilding(wonder: nextWonderType, at: nextWonderLocation, in: gameModel)
 
             /*if (GC.getLogging() && GC.getAILogging())
             {
@@ -2351,17 +2462,33 @@ public class City: AbstractCity {
         }
     }
 
-    private func build(district districtType: DistrictType, in gameModel: GameModel?) {
+    private func build(district districtType: DistrictType, at point: HexPoint, in gameModel: GameModel?) {
+
+        guard let tile = gameModel?.tile(at: point) else {
+            fatalError("cant get tile")
+        }
 
         do {
-            try self.districts?.build(district: districtType)
+            try self.districts?.build(district: districtType, at: point)
             self.updateEurekas(in: gameModel)
+
+            tile.build(district: districtType)
+
+            gameModel?.userInterface?.refresh(tile: tile)
         } catch {
             fatalError("cant build district: already build")
         }
     }
 
-    private func build(wonder wonderType: WonderType, in gameModel: GameModel?) {
+    private func build(wonder wonderType: WonderType, at point: HexPoint, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let tile = gameModel.tile(at: point) else {
+            fatalError("cant get tile")
+        }
 
         guard let player = self.player else {
             fatalError("cant get player ")
@@ -2375,15 +2502,15 @@ public class City: AbstractCity {
             try self.wonders?.build(wonder: wonderType)
             self.greatWorks?.addPlaces(for: wonderType)
 
-            gameModel?.build(wonder: wonderType)
+            gameModel.build(wonder: wonderType)
 
             // pyramids
             if wonderType == .pyramids {
 
                 // Grants a free Builder.
                 let extraBuilder = Unit(at: self.location, type: .builder, owner: self.player)
-                gameModel?.add(unit: extraBuilder)
-                gameModel?.userInterface?.show(unit: extraBuilder)
+                gameModel.add(unit: extraBuilder)
+                gameModel.userInterface?.show(unit: extraBuilder)
             }
 
             // stonehenge
@@ -2391,8 +2518,8 @@ public class City: AbstractCity {
 
                 // Grants a free Great Prophet.
                 let extraProphet = Unit(at: self.location, type: .prophet, owner: self.player)
-                gameModel?.add(unit: extraProphet)
-                gameModel?.userInterface?.show(unit: extraProphet)
+                gameModel.add(unit: extraProphet)
+                gameModel.userInterface?.show(unit: extraProphet)
             }
 
             // great library
@@ -2409,19 +2536,55 @@ public class City: AbstractCity {
                 }
             }
 
-            // stonehenge
+            // angkorWat
+            if wonderType == .angkorWat {
+
+                // +1 Citizen Population in all current cities when built.
+                for cityRef in gameModel.cities(of: player) {
+
+                    guard let city = cityRef else {
+                        continue
+                    }
+
+                    city.change(population: 1, reassignCitizen: true, in: gameModel)
+                }
+            }
+
+            // colossus
             if wonderType == .colossus {
 
-                // FIXME Grants a Trader unit.
-                // let extraTrader = Unit(at: self.location, type: .trader, owner: self.player)
-                // gameModel?.add(unit: extraTrader)
-                // gameModel?.userInterface?.show(unit: extraTrader)
+                // Grants a Trader unit.
+                let extraTrader = Unit(at: self.location, type: .trader, owner: self.player)
+                gameModel.add(unit: extraTrader)
+                gameModel.userInterface?.show(unit: extraTrader)
+            }
+
+            // statueOfZeus
+            if wonderType == .statueOfZeus {
+
+                // Grants 3 Spearmen, 3 Archers, and a Battering Ram.
+                for _ in 0..<3 {
+                    let extraSpearmen = Unit(at: self.location, type: .spearman, owner: self.player)
+                    gameModel.add(unit: extraSpearmen)
+                    extraSpearmen.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
+                    gameModel.userInterface?.show(unit: extraSpearmen)
+
+                    let extraArcher = Unit(at: self.location, type: .archer, owner: self.player)
+                    gameModel.add(unit: extraArcher)
+                    extraArcher.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
+                    gameModel.userInterface?.show(unit: extraArcher)
+                }
+
+                let extraBatteringRam = Unit(at: self.location, type: .batteringRam, owner: self.player)
+                gameModel.add(unit: extraBatteringRam)
+                extraBatteringRam.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
+                gameModel.userInterface?.show(unit: extraBatteringRam)
             }
 
             // mahabodhiTemple
             if wonderType == .mahabodhiTemple {
 
-                // FIXME Grants 2 Apostles.
+                // Grants 2 Apostles.
                 // let extraApostle = Unit(at: self.location, type: .apostle, owner: self.player)
                 // gameModel?.add(unit: extraApostle)
                 // gameModel?.userInterface?.show(unit: extraApostle)
@@ -2431,8 +2594,12 @@ public class City: AbstractCity {
                 // gameModel?.userInterface?.show(unit: extraApostle)
             }
 
+            tile.build(wonder: wonderType)
+            gameModel.userInterface?.refresh(tile: tile)
+
             if player.isHuman() {
-                gameModel?.userInterface?.showPopup(popupType: .wonderBuilt(wonder: wonderType))
+
+                gameModel.userInterface?.showPopup(popupType: .wonderBuilt(wonder: wonderType))
             }
 
         } catch {
@@ -2483,7 +2650,89 @@ public class City: AbstractCity {
         return true
     }
 
-    public func canBuild(wonder: WonderType, in gameModel: GameModel?) -> Bool {
+    public func canBuild(wonder wonderType: WonderType, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("cant get city citizens")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let wonders = self.wonders else {
+            fatalError("cant get wonders")
+        }
+
+        if wonders.has(wonder: wonderType) {
+            return false
+        }
+
+        if let requiredTech = wonderType.requiredTech() {
+            if !player.has(tech: requiredTech) {
+                return false
+            }
+        }
+
+        if let requiredCivic = wonderType.requiredCivic() {
+            if !player.has(civic: requiredCivic) {
+                return false
+            }
+        }
+
+        // check other cities of user (if they are currently building)
+        let cities = gameModel.cities(of: player)
+
+        // loop thru all cities but skip this city
+        for cityRef in cities where cityRef?.location != self.location {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.buildQueue.isBuilding(wonder: wonderType) {
+                return false
+            }
+        }
+
+        // has another player built this wonder already?
+        if gameModel.alreadyBuilt(wonder: wonderType) {
+            return false
+        }
+
+        var anyValidLocation: Bool = false
+        for loopLocation in cityCitizens.workingTileLocations() {
+
+            guard let tile = gameModel.tile(at: loopLocation) else {
+                continue
+            }
+
+            // cant build wonders in cities, districts or other wonders
+            if tile.isCity() || tile.district() != .none || tile.wonder() != .none {
+                continue
+            }
+
+            if tile.workingCity()?.location != self.location {
+                continue
+            }
+
+            if wonderType.canBuild(on: loopLocation, in: gameModel) {
+                anyValidLocation = true
+            }
+        }
+
+        if !anyValidLocation {
+            return false
+        }
+
+        return true
+    }
+
+    public func canBuild(wonder: WonderType, at location: HexPoint, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -2495,6 +2744,19 @@ public class City: AbstractCity {
 
         guard let wonders = self.wonders else {
             fatalError("cant get wonders")
+        }
+
+        guard let tile = gameModel.tile(at: location) else {
+            fatalError("cant get tile")
+        }
+
+        // cant build wonders in cities, districts or other wonders
+        if tile.isCity() || tile.district() != .none || tile.wonder() != .none {
+            return false
+        }
+
+        if tile.workingCity()?.location != self.location {
+            return false
         }
 
         if wonders.has(wonder: wonder) {
@@ -2511,6 +2773,11 @@ public class City: AbstractCity {
             if !player.has(civic: requiredCivic) {
                 return false
             }
+        }
+
+        // check tile
+        if !wonder.canBuild(on: location, in: gameModel) {
+            return false
         }
 
         // check other cities of user (if they are currently building)
@@ -2536,10 +2803,34 @@ public class City: AbstractCity {
         return true
     }
 
-    public func canConstruct(district districtType: DistrictType, in gameModel: GameModel?) -> Bool {
+    public func bestLocation(for wonderType: WonderType, in gameModel: GameModel?) -> HexPoint? {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
+        }
+
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("cant get city citizens")
+        }
+
+        for loopLocation in cityCitizens.workingTileLocations() {
+
+            if wonderType.canBuild(on: loopLocation, in: gameModel) {
+                return loopLocation
+            }
+        }
+
+        return nil
+    }
+
+    public func canBuild(district districtType: DistrictType, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("cant get city citizens")
         }
 
         guard let player = self.player else {
@@ -2563,18 +2854,94 @@ public class City: AbstractCity {
             }
         }
 
-        var foundValidNeighbor = false
-        for neighbor in self.location.neighbors() {
-            if districtType.canConstruct(on: neighbor, in: gameModel) {
-                foundValidNeighbor = true
+        var anyValidLocation: Bool = false
+        for loopLocation in cityCitizens.workingTileLocations() {
+
+            guard let tile = gameModel.tile(at: loopLocation) else {
+                continue
+            }
+
+            // cant build districts in cities, wonders or other districts
+            if tile.isCity() || tile.district() != .none || tile.wonder() != .none {
+                continue
+            }
+
+            if tile.workingCity()?.location != self.location {
+                continue
+            }
+
+            if districtType.canBuild(on: loopLocation, in: gameModel) {
+                anyValidLocation = true
             }
         }
 
-        if foundValidNeighbor == false {
+        if !anyValidLocation {
             return false
         }
 
         return true
+    }
+
+    public func canBuild(district districtType: DistrictType, at location: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let tile = gameModel.tile(at: location) else {
+            fatalError("cant get tile")
+        }
+
+        // cant build districts in cities, wonders or other districts
+        if tile.isCity() || tile.district() != .none || tile.wonder() != .none {
+            return false
+        }
+
+        if tile.workingCity()?.location != self.location {
+            return false
+        }
+
+        if let requiredTech = districtType.requiredTech() {
+            if !player.has(tech: requiredTech) {
+                return false
+            }
+        }
+
+        if let requiredCivic = districtType.requiredCivic() {
+            if !player.has(civic: requiredCivic) {
+                return false
+            }
+        }
+
+        if !districtType.canBuild(on: location, in: gameModel) {
+            return false
+        }
+
+        return true
+    }
+
+    public func bestLocation(for districtType: DistrictType, in gameModel: GameModel?) -> HexPoint? {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("cant get city citizens")
+        }
+
+        for loopLocation in cityCitizens.workingTileLocations() {
+
+            if districtType.canBuild(on: loopLocation, in: gameModel) {
+                return loopLocation
+            }
+        }
+
+        return nil
     }
 
     public func canTrain(unit unitType: UnitType, in gameModel: GameModel?) -> Bool {
@@ -2639,6 +3006,19 @@ public class City: AbstractCity {
         }
 
         return districts.has(district: district)
+    }
+
+    public func location(of district: DistrictType) -> HexPoint? {
+
+        if district == .cityCenter {
+            return self.location
+        }
+
+        guard let districts = self.districts else {
+            return nil
+        }
+
+        return districts.location(of: district)
     }
 
     public func has(building: BuildingType) -> Bool {
@@ -2724,14 +3104,28 @@ public class City: AbstractCity {
         self.buildQueue.add(item: BuildableItem(buildingType: buildingType))
     }
 
-    public func startBuilding(wonder wonderType: WonderType) {
+    public func startBuilding(wonder wonderType: WonderType, at location: HexPoint, in gameModel: GameModel?) {
 
-        self.buildQueue.add(item: BuildableItem(wonderType: wonderType))
+        guard let tile = gameModel?.tile(at: location) else {
+            fatalError("cant get tile")
+        }
+
+        tile.startBuilding(wonder: wonderType)
+        gameModel?.userInterface?.refresh(tile: tile)
+
+        self.buildQueue.add(item: BuildableItem(wonderType: wonderType, at: location))
     }
 
-    public func startBuilding(district: DistrictType) {
+    public func startBuilding(district districtType: DistrictType, at location: HexPoint, in gameModel: GameModel?) {
 
-        self.buildQueue.add(item: BuildableItem(districtType: district))
+        guard let tile = gameModel?.tile(at: location) else {
+            fatalError("cant get tile")
+        }
+
+        tile.startBuilding(district: districtType)
+        gameModel?.userInterface?.refresh(tile: tile)
+
+        self.buildQueue.add(item: BuildableItem(districtType: districtType, at: location))
     }
 
     public func startBuilding(project: ProjectType) {
@@ -2836,7 +3230,7 @@ public class City: AbstractCity {
     }
 
     /// --- WARNING: THIS IS FOR TESTING ONLY ---
-    public func purchase(district districtType: DistrictType, in gameModel: GameModel?) -> Bool {
+    public func purchase(district districtType: DistrictType, at location: HexPoint, in gameModel: GameModel?) -> Bool {
 
         if !Thread.current.isRunningXCTest {
             fatalError("--- WARNING: THIS IS FOR TESTING ONLY ---")
@@ -2847,7 +3241,7 @@ public class City: AbstractCity {
         }
 
         do {
-            try districts.build(district: districtType)
+            try districts.build(district: districtType, at: location)
             return true
         } catch {
             return false
@@ -2945,6 +3339,24 @@ public class City: AbstractCity {
         return 100
     }
 
+    public func districtProductionTurnsLeft(for districtType: DistrictType) -> Int {
+
+        if let districtTypeItem = self.buildQueue.district(of: districtType) {
+            return Int(districtTypeItem.productionLeft() / self.productionLastTurnValue)
+        }
+
+        return 100
+    }
+
+    public func wonderProductionTurnsLeft(for wonderType: WonderType) -> Int {
+
+        if let wonderTypeItem = self.buildQueue.wonder(of: wonderType) {
+            return Int(wonderTypeItem.productionLeft() / self.productionLastTurnValue)
+        }
+
+        return 100
+    }
+
     public func currentBuildableItem() -> BuildableItem? {
 
         return self.buildQueue.peek()
@@ -2999,16 +3411,18 @@ public class City: AbstractCity {
 
                 case .wonder:
 
-                    if let wonderType = currentBuilding.wonderType {
+                    if let wonderType = currentBuilding.wonderType,
+                       let wonderLocation = currentBuilding.location {
 
-                        self.build(wonder: wonderType, in: gameModel)
+                        self.build(wonder: wonderType, at: wonderLocation, in: gameModel)
                     }
 
                 case .district:
 
-                    if let districtType = currentBuilding.districtType {
+                    if let districtType = currentBuilding.districtType,
+                       let districtLocation = currentBuilding.location {
 
-                        self.build(district: districtType, in: gameModel)
+                        self.build(district: districtType, at: districtLocation, in: gameModel)
                     }
 
                 case .project:

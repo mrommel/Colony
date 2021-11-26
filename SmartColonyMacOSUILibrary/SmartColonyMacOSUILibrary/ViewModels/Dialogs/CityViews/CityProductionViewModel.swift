@@ -28,19 +28,30 @@ class CityProductionViewModel: ObservableObject {
     private var city: AbstractCity?
     private var queueManager: CityBuildQueueManager
 
+    @Published
+    var showLocationPicker: Bool
+
+    @Published
+    var hexagonGridViewModel: HexagonGridViewModel
+
     weak var delegate: GameViewModelDelegate?
 
     init(city: AbstractCity? = nil) {
 
         self.queueManager = CityBuildQueueManager(city: city)
-        self.queueManager.delegate = self
 
-        if city != nil {
-            self.update(for: city)
-        }
+        self.showLocationPicker = false
+        self.hexagonGridViewModel = HexagonGridViewModel(mode: .empty)
+        self.hexagonGridViewModel.delegate = self
+
+        self.queueManager.delegate = self
     }
 
-    func update(for city: AbstractCity?) {
+    func update(for city: AbstractCity?, with gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            return
+        }
 
         self.city = city
 
@@ -49,10 +60,6 @@ class CityProductionViewModel: ObservableObject {
 
         // populate values
         if let city = city {
-
-            guard let gameModel = self.gameEnvironment.game.value else {
-                return
-            }
 
             guard let humanPlayer = gameModel.humanPlayer() else {
                 fatalError("cant get human player")
@@ -80,15 +87,16 @@ class CityProductionViewModel: ObservableObject {
             self.unitViewModels = possibleUnitTypes.map { unitType in
 
                 let productionCost = unitType.productionCost()
-                let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
+                let productionPerTurn = city.productionPerTurn(in: gameModel)
+                let turns = productionPerTurn > 0 ? Int(ceil(Double(productionCost) / productionPerTurn)) : 1000
                 let unitViewModel = UnitViewModel(unitType: unitType, turns: turns)
                 unitViewModel.delegate = self
                 return unitViewModel
             }
 
             // districts / buildings
-            let possibleDistrictTypes = DistrictType.all.filter { districtType in
-                return city.canConstruct(district: districtType, in: gameModel) || districts.has(district: districtType)
+            let possibleDistrictTypes: [DistrictType] = DistrictType.all.filter { districtType in
+                return city.canBuild(district: districtType, in: gameModel) || districts.has(district: districtType)
             }
             self.districtSectionViewModels = possibleDistrictTypes.map { districtType in
 
@@ -98,16 +106,18 @@ class CityProductionViewModel: ObservableObject {
                     districtModel.delegate = self
 
                     // filter buildingTypes
-                    let possibleBuildingTypes = BuildingType.all.filter {
-                        buildingType in
+                    let possibleBuildingTypes = BuildingType.all.filter { buildingType in
 
-                        return city.canBuild(building: buildingType, in: gameModel) && !buildings.has(building: buildingType) && buildingType.district() == districtType
+                        return city.canBuild(building: buildingType, in: gameModel) &&
+                            !buildings.has(building: buildingType) &&
+                            buildingType.district() == districtType
                     }
 
                     let buildingViewModels: [BuildingViewModel] = possibleBuildingTypes.map { buildingType in
 
                         let productionCost = buildingType.productionCost()
-                        let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
+                        let productionPerTurn = city.productionPerTurn(in: gameModel)
+                        let turns = productionPerTurn > 0 ? Int(ceil(Double(productionCost) / productionPerTurn)) : 1000
                         if city.buildQueue.isBuilding(building: buildingType) {
                             // buildingNode.disable()
                         }
@@ -120,7 +130,8 @@ class CityProductionViewModel: ObservableObject {
                 } else {
 
                     let productionCost = districtType.productionCost()
-                    let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
+                    let productionPerTurn = city.productionPerTurn(in: gameModel)
+                    let turns = productionPerTurn > 0 ? Int(ceil(Double(productionCost) / productionPerTurn)) : 1000
                     let districtModel = DistrictViewModel(districtType: districtType, turns: turns, active: false)
                     districtModel.delegate = self
                     return DistrictSectionViewModel(districtViewModel: districtModel, buildingViewModels: [])
@@ -128,17 +139,23 @@ class CityProductionViewModel: ObservableObject {
             }
 
             // wonders
-            let possibleWonderTypes = WonderType.all.filter { wonderType in
+            let possibleWonderTypes: [WonderType] = WonderType.all.filter { wonderType in
                 return city.canBuild(wonder: wonderType, in: gameModel)
             }
             self.wonderViewModels = possibleWonderTypes.map { wonderType in
 
                 let productionCost = wonderType.productionCost()
-                let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
+                let productionPerTurn = city.productionPerTurn(in: gameModel)
+                let turns = productionPerTurn > 0 ? Int(ceil(Double(productionCost) / productionPerTurn)) : 1000
                 let wonderViewModel = WonderViewModel(wonderType: wonderType, turns: turns)
                 wonderViewModel.delegate = self
                 return wonderViewModel
             }
+
+            // picker view
+            self.hexagonGridViewModel.update(for: city, with: gameModel)
+            self.hexagonGridViewModel.updateWorkingTiles(in: gameModel)
+            self.showLocationPicker = false
         }
     }
 
@@ -214,6 +231,11 @@ class CityProductionViewModel: ObservableObject {
 
         self.queueViewModels = tmpBuildQueueModels
     }
+
+    func cancelLocationPicker() {
+
+        self.showLocationPicker = false
+    }
 }
 
 extension CityProductionViewModel: UnitViewModelDelegate {
@@ -255,19 +277,15 @@ extension CityProductionViewModel: UnitViewModelDelegate {
 
 extension CityProductionViewModel: DistrictViewModelDelegate {
 
-    func clicked(on districtType: DistrictType, at index: Int) {
+    func clicked(on districtType: DistrictType, at index: Int, in gameModel: GameModel?) {
 
         print("clicked on \(districtType)")
-
-        guard let game = self.gameEnvironment.game.value else {
-            return
-        }
 
         guard let city = self.city else {
             fatalError("cant get city")
         }
 
-        guard let humanPlayer = game.humanPlayer() else {
+        guard let humanPlayer = gameModel?.humanPlayer() else {
             fatalError("cant get human player")
         }
 
@@ -275,13 +293,13 @@ extension CityProductionViewModel: DistrictViewModelDelegate {
             fatalError("human player not city owner")
         }
 
-        if city.canConstruct(district: districtType, in: game) {
-            city.startBuilding(district: districtType)
+        self.hexagonGridViewModel.mode = .districtLocation(type: districtType)
+        self.hexagonGridViewModel.update(for: city, with: gameModel)
+        self.hexagonGridViewModel.updateWorkingTiles(in: gameModel)
+        self.showLocationPicker = true
 
-            self.updateBuildQueue()
-        } else {
-            print("--- this should not happen - selected a district type \(districtType) that cannot be constructed in \(city.name) ---")
-        }
+        // now we wait for the result of the location picker in
+        // func selected(district districtType: DistrictType, on districtLocation: HexPoint)
     }
 }
 
@@ -319,11 +337,11 @@ extension CityProductionViewModel: BuildingViewModelDelegate {
 
 extension CityProductionViewModel: WonderViewModelDelegate {
 
-    func clicked(on wonderType: WonderType, at index: Int) {
+    func clicked(on wonderType: WonderType, at index: Int, in gameModel: GameModel?) {
 
         print("clicked on \(wonderType)")
 
-        guard let game = self.gameEnvironment.game.value else {
+        guard let gameModel = self.gameEnvironment.game.value else {
             return
         }
 
@@ -331,7 +349,7 @@ extension CityProductionViewModel: WonderViewModelDelegate {
             fatalError("cant get city")
         }
 
-        guard let humanPlayer = game.humanPlayer() else {
+        guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get human player")
         }
 
@@ -339,13 +357,13 @@ extension CityProductionViewModel: WonderViewModelDelegate {
             fatalError("human player not city owner")
         }
 
-        if city.canBuild(wonder: wonderType, in: game) {
-            city.startBuilding(wonder: wonderType)
+        self.hexagonGridViewModel.mode = .wonderLocation(type: wonderType)
+        self.hexagonGridViewModel.update(for: city, with: gameModel)
+        self.hexagonGridViewModel.updateWorkingTiles(in: gameModel)
+        self.showLocationPicker = true
 
-            self.updateBuildQueue()
-        } else {
-            print("--- this should not happen - selected a wonder type \(wonderType) that cannot be constructed in \(city.name) ---")
-        }
+        // now we wait for the result of the location picker in
+        // func selected(wonder wonderType: WonderType, on wonderLocation: HexPoint)
     }
 }
 
@@ -354,5 +372,67 @@ extension CityProductionViewModel: CityBuildQueueManagerDelegate {
     func queueUpdated() {
 
         self.updateBuildQueue()
+    }
+}
+
+extension CityProductionViewModel: HexagonGridViewModelDelegate {
+
+    func purchaseTile(at point: HexPoint) {
+
+        print("purchase")
+    }
+
+    func forceWorking(on point: HexPoint) {
+
+        print("forceWorking")
+    }
+
+    func stopWorking(on point: HexPoint) {
+
+        print("stopWorking")
+    }
+
+    func selected(wonder wonderType: WonderType, on wonderLocation: HexPoint) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            return
+        }
+
+        guard let city = self.city else {
+            fatalError("cant get city")
+        }
+
+        if city.canBuild(wonder: wonderType, at: wonderLocation, in: gameModel) {
+
+            city.startBuilding(wonder: wonderType, at: wonderLocation, in: gameModel)
+
+            self.updateBuildQueue()
+
+            self.showLocationPicker = false
+        } else {
+            print("--- this should not happen - selected a wonder type \(wonderType) that cannot be constructed in \(city.name) ---")
+        }
+    }
+
+    func selected(district districtType: DistrictType, on districtLocation: HexPoint) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            return
+        }
+
+        guard let city = self.city else {
+            fatalError("cant get city")
+        }
+
+        if city.canBuild(district: districtType, at: districtLocation, in: gameModel) {
+
+            city.startBuilding(district: districtType, at: districtLocation, in: gameModel)
+
+            self.updateBuildQueue()
+
+            self.showLocationPicker = false
+        } else {
+            print("--- this should not happen - selected a district type \(districtType) that cannot be constructed in \(city.name) ---")
+        }
     }
 }

@@ -32,4 +32,28 @@ public enum UnitClassType {
     case support
 
     case city
+
+    public func name() -> String {
+
+        switch self {
+
+        case .civilian: return "Civilian"
+        case .melee: return "Melee"
+        case .recon: return "Recon"
+        case .ranged: return "Ranged"
+        case .antiCavalry: return "Anti-Cavalry"
+        case .lightCavalry: return "Light Cavalry"
+        case .heavyCavalry: return "Heavy Cavalry"
+        case .siege: return "Siege"
+        case .navalMelee: return "Naval Melee"
+        case .navalRanged: return "Naval Ranged"
+        case .navalRaider: return "Naval Raider"
+        case .navalCarrier: return "Naval Carrier"
+        case .airFighter: return "Air Fighter"
+        case .airBomber: return "Air Bomber"
+        case .support: return "Support"
+
+        case .city: return "City"
+        }
+    }
 }

@@ -11,10 +11,13 @@ import SmartAssets
 
 protocol DistrictViewModelDelegate: AnyObject {
 
-    func clicked(on districtType: DistrictType, at index: Int)
+    func clicked(on districtType: DistrictType, at index: Int, in gameModel: GameModel?)
 }
 
 class DistrictViewModel: QueueViewModel, ObservableObject {
+
+    @Environment(\.gameEnvironment)
+    var gameEnvironment: GameEnvironment
 
     let districtType: DistrictType
     let turns: Int
@@ -93,6 +96,10 @@ class DistrictViewModel: QueueViewModel, ObservableObject {
 
     func clicked() {
 
-        self.delegate?.clicked(on: self.districtType, at: self.index)
+        guard let gameModel = self.gameEnvironment.game.value else {
+            return
+        }
+
+        self.delegate?.clicked(on: self.districtType, at: self.index, in: gameModel)
     }
 }

@@ -107,7 +107,15 @@ struct CityBuildingsView_Previews: PreviewProvider {
         let game = DemoGameModel()
         let environment = GameEnvironment(game: game)
 
-        CityBuildingsView(viewModel: CityBuildingsViewModel(city: City(name: "Berlin", at: HexPoint(x: 7, y: 4), capital: true, owner: game.humanPlayer())))
+        let city = City(
+            name: "Berlin",
+            at: HexPoint(x: 7, y: 4),
+            capital: true,
+            owner: game.humanPlayer()
+        )
+        let viewModel = CityBuildingsViewModel( city: city)
+
+        CityBuildingsView(viewModel: viewModel)
             .environment(\.gameEnvironment, environment)
     }
 }

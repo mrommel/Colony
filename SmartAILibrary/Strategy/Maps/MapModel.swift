@@ -15,6 +15,7 @@ public enum UnitMapType {
     case civilian
 }
 
+// swiftlint:disable type_body_length
 open class MapModel: Codable {
 
     enum CodingKeys: CodingKey {
@@ -777,10 +778,9 @@ open class MapModel: Codable {
 
     func continent(by identifier: String) -> Continent? {
 
-        for continent in self.continents {
-            if "\(continent.identifier)" == identifier {
-                return continent
-            }
+        for continent in self.continents where "\(continent.identifier)" == identifier {
+
+            return continent
         }
 
         return nil

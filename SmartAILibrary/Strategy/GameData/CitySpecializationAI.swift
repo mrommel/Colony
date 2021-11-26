@@ -55,6 +55,7 @@ class CitySpecializationList: WeightedList<CitySpecializationType> {
     }
 }
 
+// swiftlint:disable type_body_length
 public class CitySpecializationAI {
 
     var player: Player?
@@ -71,6 +72,7 @@ public class CitySpecializationAI {
 
     private var nextWonderWeight: Int
     private var nextWonderDesiredValue: WonderType
+    private var nextWonderLocationValue: HexPoint
 
     private var numSpecializationsForThisYield: YieldList
     private var numSpecializationsForThisSubtype: ProductionSpecializationList
@@ -90,6 +92,7 @@ public class CitySpecializationAI {
 
         self.nextWonderWeight = 0
         self.nextWonderDesiredValue = .none
+        self.nextWonderLocationValue = .invalid
 
         self.numSpecializationsForThisYield = YieldList()
         self.numSpecializationsForThisYield.fill()
@@ -132,7 +135,16 @@ public class CitySpecializationAI {
         // See if need to update assignments
         if self.specializationsDirty || self.lastTurnEvaluated + 50 /* AI_CITY_SPECIALIZATION_REEVALUATION_INTERVAL */ > gameModel.currentTurn {
 
-            (self.nextWonderDesiredValue, self.nextWonderWeight) = wonderProductionAI.chooseWonder(adjustForOtherPlayers: true, nextWonderWeight: self.nextWonderWeight, in: gameModel)
+            let wonderSelection =
+                wonderProductionAI.chooseWonder(
+                    adjustForOtherPlayers: true,
+                    nextWonderWeight: self.nextWonderWeight,
+                    in: gameModel
+                )
+
+            self.nextWonderDesiredValue = wonderSelection.wonder
+            self.nextWonderLocationValue = wonderSelection.location
+            self.nextWonderWeight = wonderSelection.totalWeights
 
             self.weightSpecializations(in: gameModel)
             self.assignSpecializations(in: gameModel)
@@ -192,7 +204,8 @@ public class CitySpecializationAI {
         self.productionSubtypeWeights.items.removeAll()
 
         // Must have a capital to do any specialization
-        if let capital = gameModel.capital(of: player), let capitalArea = gameModel.area(of: capital.location) {
+        if let capital = gameModel.capital(of: player),
+            let capitalArea = gameModel.area(of: capital.location) {
 
             let flavorExpansion = max(0.0, Double(player.valueOfPersonalityFlavor(of: .expansion)))
             let flavorWonder = max(0.0, Double(player.valueOfPersonalityFlavor(of: .wonder)))
@@ -212,7 +225,8 @@ public class CitySpecializationAI {
                 foodYieldWeight += 500.0 /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_EARLY_EXPANSION */
             }
             foodYieldWeight += flavorExpansion * 5.0 /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_FLAVOR_EXPANSION */
-            foodYieldWeight += (Double(numUnownedTiles) * 100.0) / Double(tilesInCapitalArea.count) * 5.0  /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_PERCENT_CONTINENT_UNOWNED */
+            foodYieldWeight += (Double(numUnownedTiles) * 100.0) / Double(tilesInCapitalArea.count) * 5.0
+                /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_PERCENT_CONTINENT_UNOWNED */
             foodYieldWeight += Double(numCities) * -50.0 /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_NUM_CITIES */
             foodYieldWeight += Double(numSettlers) * -40.0 /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_NUM_SETTLERS */
 
@@ -225,7 +239,11 @@ public class CitySpecializationAI {
             }
 
             //   Production
-            productionYieldWeight = Double(self.weightProductionSubtypes(flavorWonder: Int(flavorWonder), flavorSpaceship: Int(flavorSpaceship), in: gameModel))
+            productionYieldWeight = Double(self.weightProductionSubtypes(
+                flavorWonder: Int(flavorWonder),
+                flavorSpaceship: Int(flavorSpaceship),
+                in: gameModel
+            ))
 
             //   Trade
             let landDisputeLevel = diplomacyAI.totalLandDisputeLevel(in: gameModel)
@@ -240,13 +258,12 @@ public class CitySpecializationAI {
             //let generalEconomicWeight = 200.0 /* AI_CITY_SPECIALIZATION_GENERAL_ECONOMIC_WEIGHT */
 
             //   Add in any contribution from the current grand strategy
-            for grandStrategyType in GrandStrategyAIType.all {
+            for grandStrategyType in GrandStrategyAIType.all
+                where player.grandStrategyAI?.activeStrategy == grandStrategyType {
 
-                if player.grandStrategyAI?.activeStrategy == grandStrategyType {
-                    foodYieldWeight += grandStrategyType.yields().food
-                    goldYieldWeight += grandStrategyType.yields().gold
-                    scienceYieldWeight += grandStrategyType.yields().science
-                }
+                foodYieldWeight += grandStrategyType.yields().food
+                goldYieldWeight += grandStrategyType.yields().gold
+                scienceYieldWeight += grandStrategyType.yields().science
             }
 
             // Add weights to our weighted vector
@@ -620,7 +637,8 @@ public class CitySpecializationAI {
                 // Reduce weight for this specialization based on dividing original weight by <num of this type + 1>
                 let oldWeight = yield.1
                 self.numSpecializationsForThisYield.add(weight: 1, for: yield.0)
-                let newWeight = oldWeight * self.numSpecializationsForThisYield.weight(of: yield.0) / (self.numSpecializationsForThisYield.weight(of: yield.0) + 1.0)
+                let newWeight = oldWeight * self.numSpecializationsForThisYield.weight(of: yield.0) /
+                    (self.numSpecializationsForThisYield.weight(of: yield.0) + 1.0)
                 self.yieldWeights.set(weight: newWeight, for: yield.0)
             }
 
@@ -667,7 +685,8 @@ public class CitySpecializationAI {
             // Reduce weight for this subtype based on dividing original weight by <num of this type + 1>
             let oldWeight = self.productionSubtypeWeights.weight(of: subtype)
             self.numSpecializationsForThisSubtype.add(weight: 1, for: subtype)
-            let newWeight = oldWeight * self.numSpecializationsForThisSubtype.weight(of: subtype) / (self.numSpecializationsForThisSubtype.weight(of: subtype) + 1.0)
+            let newWeight = oldWeight * self.numSpecializationsForThisSubtype.weight(of: subtype) /
+                (self.numSpecializationsForThisSubtype.weight(of: subtype) + 1.0)
             reductionAmount = oldWeight - newWeight
             self.productionSubtypeWeights.set(weight: newWeight, for: subtype)
         }
@@ -734,7 +753,8 @@ public class CitySpecializationAI {
                 }
             }
 
-            potentialYield = loopPlot.yields(for: self.player, ignoreFeature: false).food + loopPlot.yields(for: self.player, ignoreFeature: false).science
+            potentialYield = loopPlot.yields(for: self.player, ignoreFeature: false).food +
+                loopPlot.yields(for: self.player, ignoreFeature: false).science
 
             // If owned by someone else, not worth anything
             if loopPlot.hasOwner() && loopPlot.owner()?.leader != self.player?.leader {
@@ -863,8 +883,10 @@ public class CitySpecializationAI {
         //militaryTrainingWeight += m_pPlayer->GetDiplomacyAI()->GetPersonalityMajorCivApproachBias(MAJOR_CIV_APPROACH_WAR) * 10 /* AI_CITY_SPECIALIZATION_PRODUCTION_TRAINING_PER_PERSONALITY */
 
         // EMERGENCY UNITS
-        emergencyUnitWeight += Double(unitsRequested) * 10.0 /* AI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_OPERATIONAL_UNITS_REQUESTED */
-        emergencyUnitWeight += Double(militaryAI.numberOfPlayersAtWarWith(in: gameModel)) * 100.0 /* AI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_CIVS_AT_WAR_WITH */
+        emergencyUnitWeight += Double(unitsRequested) * 10.0
+            /* AI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_OPERATIONAL_UNITS_REQUESTED */
+        emergencyUnitWeight += Double(militaryAI.numberOfPlayersAtWarWith(in: gameModel)) * 100.0
+            /* AI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_CIVS_AT_WAR_WITH */
 
         // Is our capital under threat?
         let capitalUnterThreatCityStrategy: CityStrategyType = CityStrategyType.capitalUnderThreat
@@ -923,18 +945,16 @@ public class CitySpecializationAI {
             spaceshipWeight += iFlavorSpaceship * GC.getAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_FLAVOR_SPACESHIP() /* 5 */;
         }*/
 
-        for grandStrategy in GrandStrategyAIType.all {
+        for grandStrategy in GrandStrategyAIType.all where player.grandStrategyAI?.activeStrategy == grandStrategy {
 
-            if player.grandStrategyAI?.activeStrategy == grandStrategy {
-                if grandStrategy.yields().value(of: .production) > 0.0 {
+            if grandStrategy.yields().value(of: .production) > 0.0 {
 
-                    if grandStrategy.flavor(for: .offense) > 0 {
-                        militaryTrainingWeight += grandStrategy.yields().production
-                    } /*else if (grandStrategy->GetFlavorValue((FlavorTypes)GC.getInfoTypeForString("FLAVOR_SPACESHIP")) > 0)
-                        {
-                            spaceshipWeight += grandStrategy->GetSpecializationBoost(YIELD_PRODUCTION);
-                        }*/
-                }
+                if grandStrategy.flavor(for: .offense) > 0 {
+                    militaryTrainingWeight += grandStrategy.yields().production
+                } /*else if (grandStrategy->GetFlavorValue((FlavorTypes)GC.getInfoTypeForString("FLAVOR_SPACESHIP")) > 0)
+                    {
+                        spaceshipWeight += grandStrategy->GetSpecializationBoost(YIELD_PRODUCTION);
+                    }*/
             }
         }
 
@@ -948,9 +968,9 @@ public class CitySpecializationAI {
         return Int(militaryTrainingWeight + emergencyUnitWeight + seaWeight + wonderWeight + spaceshipWeight)
     }
 
-    func nextWonderDesired() -> WonderType {
+    func nextWonderDesired() -> (WonderType, HexPoint) {
 
-        return self.nextWonderDesiredValue
+        return (self.nextWonderDesiredValue, self.nextWonderLocationValue)
     }
 
     func setSpecializationsDirty() {

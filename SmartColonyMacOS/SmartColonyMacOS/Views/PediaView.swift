@@ -80,6 +80,7 @@ struct PediaView: View {
                 VStack(alignment: .leading, spacing: 10) {
 
                     Text(self.viewModel.selectedPediaCategory.title())
+                        .font(.title)
 
                     ForEach(self.viewModel.pediaDetailViewModels, id: \.self) { pediaDetailViewModel in
 
@@ -94,10 +95,10 @@ struct PediaView: View {
                                     .frame(width: 32, height: 32)
 
                                 VStack(alignment: .leading) {
-                                    Text(pediaDetailViewModel.summary)
+                                    Label(text: pediaDetailViewModel.summary)
                                         .frame(width: 520, alignment: .leading)
 
-                                    Text(pediaDetailViewModel.detail)
+                                    Label(text: pediaDetailViewModel.detail)
                                         .frame(width: 520, alignment: .leading)
 
                                     Spacer()

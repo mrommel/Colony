@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
-import SmartMacOSUILibrary
 import SmartAILibrary
+import SmartAssets
+import SmartMacOSUILibrary
 
 enum PresentedViewType {
 
@@ -138,11 +139,13 @@ extension MainViewModel: MenuViewModelDelegate {
 
     func showDebug() {
 
+        self.debugViewModel.prepare()
         self.presentedView = .debug
     }
 
     func showPedia() {
 
+        self.pediaViewModel.prepare()
         self.presentedView = .pedia
     }
 }

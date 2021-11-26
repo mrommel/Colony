@@ -93,7 +93,12 @@ extension UIImage {
         defer {
             destData.deallocate()
         }
-        var destBuffer = vImage_Buffer(data: destData, height: vImagePixelCount(destHeight), width: vImagePixelCount(destWidth), rowBytes: destBytesPerRow)
+        var destBuffer = vImage_Buffer(
+            data: destData,
+            height: vImagePixelCount(destHeight),
+            width: vImagePixelCount(destWidth),
+            rowBytes: destBytesPerRow
+        )
 
         // scale the image
         error = vImageScale_ARGB8888(&sourceBuffer, &destBuffer, nil, numericCast(kvImageHighQualityResampling))

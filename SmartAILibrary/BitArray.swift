@@ -129,7 +129,7 @@ final class BitArray: NSObject, NSCoding, Codable {
 
     //Util
     private func checkIndexBound(index: Int, lowerBound: Int, upperBound: Int) {
-        if(index < lowerBound || index > upperBound) {
+        if index < lowerBound || index > upperBound {
             NSException.init(name: NSExceptionName(rawValue: "BitArray Exception"), reason: "index out of bounds", userInfo: nil).raise()
         }
     }

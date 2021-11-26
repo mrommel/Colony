@@ -47,6 +47,204 @@ public enum ImprovementType: Int, Codable, Hashable {
         ]
     }
 
+    public func name() -> String {
+
+        return self.data().name
+    }
+
+    public func effects() -> [String] {
+
+        return self.data().effects
+    }
+
+    public func requiredTech() -> TechType? {
+
+        return self.data().requiredTech
+    }
+
+    private struct ImprovementTypeData {
+
+        let name: String
+        let effects: [String]
+        let requiredTech: TechType?
+        let civilization: CivilizationType?
+        let flavors: [Flavor]
+    }
+
+    private func data() -> ImprovementTypeData {
+
+        switch self {
+
+        case .none:
+            return ImprovementTypeData(
+                name: "",
+                effects: [],
+                requiredTech: nil,
+                civilization: nil,
+                flavors: []
+            )
+        case .barbarianCamp:
+            return ImprovementTypeData(
+                name: "Barbarian camp",
+                effects: [],
+                requiredTech: nil,
+                civilization: nil,
+                flavors: []
+            )
+        case .goodyHut:
+            return ImprovementTypeData(
+                name: "Goodyhut",
+                effects: [],
+                requiredTech: nil,
+                civilization: nil,
+                flavors: []
+            )
+        case .ruins:
+            return ImprovementTypeData(
+                name: "Ruins",
+                effects: [],
+                requiredTech: nil,
+                civilization: nil,
+                flavors: []
+            )
+        case .farm:
+            // https://civilization.fandom.com/wiki/Farm_(Civ6)
+            return ImprovementTypeData(
+                name: "Farm",
+                effects: [
+                    "+1 [Food] Food",
+                    "+0.5 [Housing] Housing",
+                    "+1 [Food] Food with two adjacent Farms (Feudalism)",
+                    "+1 [Food] Food for each adjacent Farm (Replaceable Parts)"
+                ],
+                requiredTech: nil,
+                civilization: nil,
+                flavors: []
+            )
+        case .mine:
+            // https://civilization.fandom.com/wiki/Mine_(Civ6)
+            return ImprovementTypeData(
+                name: "Mine",
+                effects: [
+                    "-1 Appeal",
+                    "+1 [Production] Production",
+                    "+1 [Production] Production (Apprenticeship)",
+                    "+1 [Production] Production (Industrialization)",
+                    "+1 [Production] Production (Smart Materials)"
+                ],
+                requiredTech: .mining,
+                civilization: nil,
+                flavors: []
+            )
+        case .quarry:
+            // https://civilization.fandom.com/wiki/Quarry_(Civ6)
+            return ImprovementTypeData(
+                name: "Quarry",
+                effects: [
+                    "-1 Appeal",
+                    "+1 [Production] Production",
+                    "+2 [Gold] Gold (Banking)",
+                    "+1 [Production] Production (Rocketry)",
+                    "+1 [Production] Production (Gunpowder)",
+                    "+1 [Production] Production (Predictive Systems)"
+                ],
+                requiredTech: .mining,
+                civilization: nil,
+                flavors: []
+            )
+        case .camp:
+            // https://civilization.fandom.com/wiki/Camp_(Civ6)
+            return ImprovementTypeData(
+                name: "Camp",
+                effects: [
+                    "+2 [Gold] Gold",
+                    "+0.5 [Housing] Housing",
+                    "+1 [Food] Food (Mercantilism)",
+                    "+1 [Production] (Mercantilism)",
+                    "+1 [Gold] Gold (Synthetic Materials)"
+                ],
+                requiredTech: .animalHusbandry,
+                civilization: nil,
+                flavors: []
+            )
+        case .pasture:
+            // https://civilization.fandom.com/wiki/Pasture_(Civ6)
+            return ImprovementTypeData(
+                name: "Pasture",
+                effects: [
+                    "+1 [Production] Production",
+                    "+0.5 [Housing] Housing",
+                    "+1 [Food] Food (Stirrups)",
+                    "+1 [Production] Production (Robotics)"
+                ],
+                requiredTech: .animalHusbandry,
+                civilization: nil,
+                flavors: []
+            )
+        case .plantation:
+            // https://civilization.fandom.com/wiki/Plantation_(Civ6)
+            return ImprovementTypeData(
+                name: "Plantation",
+                effects: [
+                    "+2 [Gold] Gold",
+                    "+0.5 [Housing] Housing",
+                    "+1 [Food] Food (Scientific Theory)",
+                    "+2 [Gold] Gold (Globalization)"
+                ],
+                requiredTech: .irrigation,
+                civilization: nil,
+                flavors: []
+            )
+        case .fishingBoats:
+            // https://civilization.fandom.com/wiki/Fishing_Boats_(Civ6)
+            return ImprovementTypeData(
+                name: "Fishing Boats",
+                effects: [
+                    "+1 [Food] Food",
+                    "+0.5 [Housing] Housing",
+                    "+2 [Gold] Gold (Cartography)",
+                    "+1 [Food] Food (Plastics)"
+                ],
+                requiredTech: .sailing,
+                civilization: nil,
+                flavors: []
+            )
+        case .oilWell:
+            // https://civilization.fandom.com/wiki/Oil_Well_(Civ6)
+            return ImprovementTypeData(
+                name: "Oil well",
+                effects: [
+                    "-1 Appeal",
+                    "+2 [Production] Production"
+                ],
+                requiredTech: .steel,
+                civilization: nil,
+                flavors: []
+            )
+        case .fort:
+            // https://civilization.fandom.com/wiki/Fort_(Civ6)
+            return ImprovementTypeData(
+                name: "Fort",
+                effects: [
+                    "Occupying unit receives +4 Defense Strength and 2 turns of fortification.",
+                    "Built by a Military Engineer."
+                ],
+                requiredTech: .siegeTactics,
+                civilization: nil,
+                flavors: []
+            )
+        case .citadelle:
+            return ImprovementTypeData(
+                name: "Citadelle",
+                effects: [
+                ],
+                requiredTech: .siegeTactics,
+                civilization: nil,
+                flavors: []
+            )
+        }
+    }
+
     // https://civilization.fandom.com/wiki/Tile_improvement_(Civ6)
     func yields(for player: AbstractPlayer?, on resource: ResourceType) -> Yields {
 
@@ -247,6 +445,7 @@ public enum ImprovementType: Int, Codable, Hashable {
             }
 
             return yield
+
         case .oilWell:
             // https://civilization.fandom.com/wiki/Oil_Well_(Civ6)
             let yield =  Yields(food: 0, production: 2, gold: 0, appeal: -1)
@@ -321,8 +520,8 @@ public enum ImprovementType: Int, Codable, Hashable {
         case .fishingBoats: return self.isFishingBoatsPossible(on: tile)
         case .oilWell: return self.isOilWellPossible(on: tile)
 
-        case .fort: return true // FIXME
-        case .citadelle: return false // FIXME
+        case .fort: return true // #
+        case .citadelle: return false // #
         }
     }
 
@@ -502,14 +701,17 @@ public enum ImprovementType: Int, Codable, Hashable {
         }
 
         guard let owner = tile.owner() else {
-            fatalError("can check without owner")
+            fatalError("cant check without owner")
         }
 
         if !owner.has(tech: .animalHusbandry) {
             return false
         }
 
-        return tile.has(resource: .deer, for: owner) || tile.has(resource: .furs, for: owner) || tile.has(resource: .ivory, for: owner) // || tile.has(resource: .truffles, for: owner) 
+        return tile.has(resource: .deer, for: owner) ||
+            tile.has(resource: .furs, for: owner) ||
+            tile.has(resource: .ivory, for: owner)
+            // || tile.has(resource: .truffles, for: owner)
     }
 
     private func isPasturePossible(on tile: AbstractTile?) -> Bool {
@@ -519,7 +721,7 @@ public enum ImprovementType: Int, Codable, Hashable {
         }
 
         guard let owner = tile.owner() else {
-            fatalError("can check without owner")
+            fatalError("cant check without owner")
         }
 
         if !owner.has(tech: .animalHusbandry) {
@@ -536,7 +738,7 @@ public enum ImprovementType: Int, Codable, Hashable {
         }
 
         guard let owner = tile.owner() else {
-            fatalError("can check without owner")
+            fatalError("cant check without owner")
         }
 
         if !owner.has(tech: .irrigation) {
@@ -544,7 +746,20 @@ public enum ImprovementType: Int, Codable, Hashable {
         }
 
         let validResources: [ResourceType] = [
-            .bananas, .citrus, .cocoa, /*.coffee,*/ .cotton, .dyes, .silk, .sugar, .tea, /*.tobacco,*/ .wine /*.olives*/
+            .bananas,
+            .citrus,
+            .cocoa,
+            /*.coffee,*/
+            .cotton,
+            .dyes,
+            .incense,
+            /*.olives*/
+            .silk,
+            .spices,
+            .sugar,
+            .tea,
+            /*.tobacco,*/
+            .wine
         ]
 
         for validResource in validResources where tile.has(resource: validResource, for: owner) {
@@ -621,7 +836,7 @@ public enum ImprovementType: Int, Codable, Hashable {
     // is this improvment special to a civilization?
     func civilization() -> CivilizationType? {
 
-        return nil
+        return self.data().civilization
     }
 
     func flavor(for flavorType: FlavorType) -> Int {
@@ -635,68 +850,6 @@ public enum ImprovementType: Int, Codable, Hashable {
 
     func flavors() -> [Flavor] {
 
-        switch self {
-
-        case .none: return []
-        case .ruins: return []
-
-        case .barbarianCamp: return []
-        case .goodyHut: return []
-        case .farm: return []
-        case .mine: return []
-        case .quarry: return []
-        case .camp: return []
-        case .pasture: return []
-        case .plantation: return []
-        case .fishingBoats: return []
-        case .oilWell: return []
-
-        case .fort: return []
-        case .citadelle: return []
-        }
+        return self.data().flavors
     }
-
-    /* func enables(resource: ResourceType) -> Bool {
-
-        if self == .farm && (resource == .wheat || resource == .rice) {
-            return true
-        }
-
-        // Copper Diamonds Gold Ore  Iron  Jade  Mercury  Salt  Niter  Coal  Aluminum  Uranium  Amber
-        if self == .mine && (resource == .iron || resource == .copper ) {
-            return true
-        }
-
-        // Gypsum
-        if self == .quarry && (resource == .stone || resource == .marble) {
-            return true
-        }
-
-        // Bananas Citrus Cocoa Coffee Cotton Dyes Silk Sugar Tea Tobacco Wine Olives
-        if self == .plantation && (resource == .bananas || resource == .citrus || resource == .tea) {
-            return true
-        }
-
-        // Deer Furs Ivory Truffles
-        if self == .camp && (resource == .deer || resource == .furs) {
-            return true
-        }
-
-        // Sheep Cattle Horses
-        if self == .pasture && (resource == .sheep || resource == .cattle || resource == .horses) {
-            return true
-        }
-
-        // Fish Crabs Whales Pearls Amber Turtles
-        if self == .fishingBoats && (resource == .fish || resource == .whales || resource == .pearls) {
-            return true
-        }
-
-        // oil
-        if self == .oilWell && resource == .oil {
-            return true
-        }
-
-        return false
-    } */
 }

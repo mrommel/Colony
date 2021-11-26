@@ -93,7 +93,9 @@ class GameScene: BaseScene {
         }
 
         // only check once per 0.5 sec
-        if self.lastExecuted + 0.5 < currentTime {
+        if self.lastExecuted + 1.0 < currentTime {
+
+            self.lastExecuted = currentTime
 
             guard let humanPlayer = gameModel.humanPlayer() else {
                 fatalError("cant get human")
@@ -137,8 +139,6 @@ class GameScene: BaseScene {
                     }
                 }
             }
-
-            self.lastExecuted = currentTime
         }
 
         if self.viewModel?.refreshCities ?? false {
@@ -321,7 +321,8 @@ extension GameScene {
     }
 
     override func mouseMoved(with event: NSEvent) {
-        print("moved")
+
+        // print("moved")
     }
 
     override func mouseDragged(with event: NSEvent) {

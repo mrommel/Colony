@@ -154,7 +154,8 @@ class BottomLeftBar: SizedNode {
         self.unitTypeBackgroundNode?.position = self.position + CGPoint(x: 5, y: 5)
         self.unitTypeIconNode?.position = self.position + CGPoint(x: 5, y: 5)
         self.glassCanvasNode?.position = self.position + CGPoint(x: 3, y: 3)
-        self.unitCommandsCanvasNode?.position = self.position + (self.unitCommandsVisible ? BottomLeftBar.unitCommandsVisiblePosition : BottomLeftBar.unitCommandsInvisiblePosition)
+        self.unitCommandsCanvasNode?.position = self.position + (self.unitCommandsVisible ?
+            BottomLeftBar.unitCommandsVisiblePosition : BottomLeftBar.unitCommandsInvisiblePosition)
     }
 
     func handleTouches(_ touches: Set<UITouch>, with event: UIEvent?) -> Bool {

@@ -41,9 +41,21 @@ extension CityBuildQueueManager: UnitViewModelDelegate {
 
 extension CityBuildQueueManager: DistrictViewModelDelegate {
 
-    func clicked(on districtType: DistrictType, at index: Int) {
+    func clicked(on districtType: DistrictType, at index: Int, in gameModel: GameModel?) {
 
         print("remove districtType: \(districtType) at \(index)")
+        guard let buildableItem = self.city?.buildQueue.district(of: districtType) else {
+            fatalError("cant get buildableItem")
+        }
+
+        guard let districtLocation = buildableItem.location,
+              let tile = gameModel?.tile(at: districtLocation) else {
+            fatalError("cant get tile")
+        }
+
+        tile.cancelBuildingDistrict()
+        gameModel?.userInterface?.refresh(tile: tile)
+
         self.city?.buildQueue.remove(at: index)
         self.delegate?.queueUpdated()
     }
@@ -61,9 +73,21 @@ extension CityBuildQueueManager: BuildingViewModelDelegate {
 
 extension CityBuildQueueManager: WonderViewModelDelegate {
 
-    func clicked(on wonderType: WonderType, at index: Int) {
+    func clicked(on wonderType: WonderType, at index: Int, in gameModel: GameModel?) {
 
         print("remove wonderType: \(wonderType) at \(index)")
+        guard let buildableItem = self.city?.buildQueue.wonder(of: wonderType) else {
+            fatalError("cant get buildableItem")
+        }
+
+        guard let wonderLocation = buildableItem.location,
+              let tile = gameModel?.tile(at: wonderLocation) else {
+            fatalError("cant get tile")
+        }
+
+        tile.cancelBuildingWonder()
+        gameModel?.userInterface?.refresh(tile: tile)
+
         self.city?.buildQueue.remove(at: index)
         self.delegate?.queueUpdated()
     }

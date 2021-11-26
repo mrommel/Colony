@@ -111,18 +111,15 @@ class CityLayer: SKNode {
             isVisible = true
         }
 
-        for cityLoopObject in self.cityObjects {
+        for cityLoopObject in self.cityObjects where city.location == cityLoopObject.city?.location {
 
-            if city.location == cityLoopObject.city?.location {
+            if isVisible {
+                cityLoopObject.showCityBanner()
 
-                if isVisible {
-                    cityLoopObject.showCityBanner()
-
-                    // FIXME update city size / buildings
-                }
-
-                shown = true
+                // FIXME update city size / buildings
             }
+
+            shown = true
         }
 
         if isDiscovered && !shown {

@@ -106,7 +106,7 @@ class CityDialogViewModel: ObservableObject {
             self.goldYieldViewModel.delta = city.goldPerTurn(in: game)
             self.faithYieldViewModel.delta = city.faithPerTurn(in: game)
 
-            self.productionViewModel.update(for: city)
+            self.productionViewModel.update(for: city, with: game)
             self.buildingsViewModel.update(for: city)
             self.growthViewModel.update(for: city)
             self.citizenViewModel.update(for: city)

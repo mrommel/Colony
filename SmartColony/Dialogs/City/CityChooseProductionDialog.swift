@@ -146,9 +146,14 @@ class CityChooseProductionDialog: Dialog {
 
                 for buildingType in BuildingType.all {
 
-                    if city.canBuild(building: buildingType, in: gameModel) && !buildings.has(building: buildingType) && buildingType.district() == districtType {
+                    if city.canBuild(building: buildingType, in: gameModel) &&
+                        !buildings.has(building: buildingType) &&
+                        buildingType.district() == districtType {
 
-                        let buildingNode = BuildingBuildingItemDisplayNode(buildingType: buildingType, size: CGSize(width: 200, height: 40))
+                        let buildingNode = BuildingBuildingItemDisplayNode(
+                            buildingType: buildingType,
+                            size: CGSize(width: 200, height: 40)
+                        )
                         if city.buildQueue.isBuilding(building: buildingType) {
                             buildingNode.disable()
                         }

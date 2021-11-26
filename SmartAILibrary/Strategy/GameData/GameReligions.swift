@@ -429,9 +429,9 @@ class GameReligions: AbstractGameReligions, Codable {
             fatalError("cant get from city")
         }
 
-        guard let toCity = toCityRef else {
+        /*guard let toCity = toCityRef else {
             fatalError("cant get to city")
-        }
+        }*/
 
         guard let pReligion = fromCity.cityReligion?.religiousMajority() else {
             return false

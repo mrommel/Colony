@@ -57,6 +57,7 @@ public class CityStrategyAI: Codable {
 
         case buildingProductionAI
         case unitProductionAI
+        case wonderProductionAI
 
         case defaultSpecialization
         case specialization
@@ -74,6 +75,7 @@ public class CityStrategyAI: Codable {
 
     private var buildingProductionAI: BuildingProductionAI?
     private var unitProductionAI: UnitProductionAI?
+    private var wonderProductionAI: WonderProductionAI?
 
     private var defaultSpecializationValue: CitySpecializationType
     private var specializationValue: CitySpecializationType
@@ -204,8 +206,9 @@ public class CityStrategyAI: Codable {
         self.flavors = Flavors()
         self.focusYield = .none
 
-        self.buildingProductionAI = BuildingProductionAI()
+        self.buildingProductionAI = BuildingProductionAI(player: city?.player)
         self.unitProductionAI = UnitProductionAI()
+        self.wonderProductionAI = WonderProductionAI(player: city?.player)
 
         self.specializationValue = .generalEconomic
         self.defaultSpecializationValue = .generalEconomic
@@ -229,6 +232,7 @@ public class CityStrategyAI: Codable {
 
         self.buildingProductionAI = try container.decode(BuildingProductionAI.self, forKey: .buildingProductionAI)
         self.unitProductionAI = try container.decode(UnitProductionAI.self, forKey: .unitProductionAI)
+        self.wonderProductionAI = try container.decode(WonderProductionAI.self, forKey: .wonderProductionAI)
 
         self.defaultSpecializationValue = try container.decode(CitySpecializationType.self, forKey: .defaultSpecialization)
         self.specializationValue = try container.decode(CitySpecializationType.self, forKey: .specialization)
@@ -250,6 +254,7 @@ public class CityStrategyAI: Codable {
 
         try container.encode(self.buildingProductionAI, forKey: .buildingProductionAI)
         try container.encode(self.unitProductionAI, forKey: .unitProductionAI)
+        try container.encode(self.wonderProductionAI, forKey: .wonderProductionAI)
 
         try container.encode(self.defaultSpecializationValue, forKey: .defaultSpecialization)
         try container.encode(self.specializationValue, forKey: .specialization)
@@ -400,7 +405,6 @@ public class CityStrategyAI: Codable {
                 flavorValue = 0
             }
 
-            self.buildingProductionAI?.add(weight: flavorValue, for: flavorType)
             self.unitProductionAI?.add(weight: flavorValue, for: flavorType)
         }
     }
@@ -427,6 +431,10 @@ public class CityStrategyAI: Codable {
             fatalError("no unitProductionAI given")
         }
 
+        guard let wonderProductionAI = self.wonderProductionAI else {
+            fatalError("no wonderProductionAI given")
+        }
+
         let unitsOfPlayer = gameModel.units(of: player)
         let buildables = BuildableItemWeights()
 
@@ -434,6 +442,23 @@ public class CityStrategyAI: Codable {
 
         // Check units for operations first
         // FIXME
+
+        // Loop through adding the available districts
+        for districtType in DistrictType.all {
+
+            if city.canBuild(district: districtType, in: gameModel) {
+
+                let weight: Double = Double(buildingProductionAI.weight(of: districtType))
+                guard let bestDistrictLocation = city.bestLocation(for: districtType, in: gameModel) else {
+                    fatalError("cant get best district location")
+                }
+                let buildableItem = BuildableItem(districtType: districtType, at: bestDistrictLocation)
+
+                // reweight
+
+                buildables.add(weight: weight, for: buildableItem)
+            }
+        }
 
         // Loop through adding the available buildings
         for buildingType in BuildingType.all {
@@ -480,6 +505,28 @@ public class CityStrategyAI: Codable {
             }
         }
 
+        // Loop through adding the available wonders
+        for wonderType in WonderType.all {
+
+            if city.canBuild(wonder: wonderType, in: gameModel) {
+
+                var weight: Double = Double(wonderProductionAI.weight(for: wonderType))
+
+                guard let wonderLocation = city.bestLocation(for: wonderType, in: gameModel) else {
+                    fatalError("cant get valid wonder location")
+                }
+                let buildableItem = BuildableItem(wonderType: wonderType, at: wonderLocation)
+
+                // reweight
+                let turnsLeft = city.wonderProductionTurnsLeft(for: wonderType)
+                let totalCostFactor = 0.15 /* AI_PRODUCTION_WEIGHT_BASE_MOD */ + 0.004 /* AI_PRODUCTION_WEIGHT_MOD_PER_TURN_LEFT */ * Double(turnsLeft)
+                let weightDivisor = pow(Double(turnsLeft), totalCostFactor)
+                weight /= weightDivisor
+
+                buildables.add(weight: weight, for: buildableItem)
+            }
+        }
+
         // Loop through adding the available projects
         for projectType in ProjectType.all {
 
@@ -506,13 +553,13 @@ public class CityStrategyAI: Codable {
                 }
 
             case .wonder:
-                if let wonderType = selection.wonderType {
-                    city.startBuilding(wonder: wonderType)
+                if let wonderType = selection.wonderType, let wonderLocation = selection.location {
+                    city.startBuilding(wonder: wonderType, at: wonderLocation, in: gameModel)
                 }
 
             case .district:
-                if let districtType = selection.districtType {
-                    city.startBuilding(district: districtType)
+                if let districtType = selection.districtType, let districtLocation = selection.location {
+                    city.startBuilding(district: districtType, at: districtLocation, in: gameModel)
                 }
             case .project:
                 // FIXME

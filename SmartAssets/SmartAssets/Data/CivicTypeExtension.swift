@@ -9,6 +9,31 @@ import SmartAILibrary
 
 extension CivicType {
 
+    public func toolTip() -> NSAttributedString {
+
+        let toolTopText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: self.name(),
+            attributes: [
+                NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont,
+                NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipTitleColor
+            ]
+        )
+        toolTopText.append(title)
+
+        let eureka = NSAttributedString(
+            string: "\n\n" + self.eurekaSummary(),
+            attributes: [
+                NSAttributedString.Key.font: Globals.Fonts.tooltipContentFont,
+                NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipContentColor
+            ]
+        )
+        toolTopText.append(eureka)
+
+        return toolTopText
+    }
+
     public func iconTexture() -> String {
 
         switch self {

@@ -3,13 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		C9022F962608ED1500C6773A /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9022F952608ED1500C6773A /* Icons.xcassets */; };
 		C9022FA026093D5300C6773A /* LeaderTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9022F9F26093D5300C6773A /* LeaderTypeExtension.swift */; };
 		C9022FA22609D06A00C6773A /* HandicapTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9022FA12609D06A00C6773A /* HandicapTypeExtension.swift */; };
+		C903D065274A5BE4003C50B9 /* LabelTokenizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903D064274A5BE4003C50B9 /* LabelTokenizerTests.swift */; };
+		C903D066274A5BE4003C50B9 /* SmartAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C931ADC52577D06D0002BA2F /* SmartAssets.framework */; platformFilter = ios; };
+		C903D06D274A5BF7003C50B9 /* LabelTokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903D06C274A5BF7003C50B9 /* LabelTokenizer.swift */; };
 		C91B484E26E615BE002157C4 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91B484D26E615BE002157C4 /* ImageCache.swift */; };
 		C91B485026E61AED002157C4 /* HeaderButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91B484F26E61AED002157C4 /* HeaderButtonType.swift */; };
 		C925594A25F9569700C2BF28 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925594925F9569700C2BF28 /* ColorExtension.swift */; };
@@ -83,6 +86,16 @@
 		C9E87BC3264DB58100514B9A /* BuildTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BC2264DB58100514B9A /* BuildTypeExtension.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		C903D067274A5BE4003C50B9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C931ADBC2577D06D0002BA2F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C931ADC42577D06D0002BA2F;
+			remoteInfo = SmartAssets;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		C931ADDA2577D0F80002BA2F /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -101,6 +114,9 @@
 		C9022F952608ED1500C6773A /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 		C9022F9F26093D5300C6773A /* LeaderTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderTypeExtension.swift; sourceTree = "<group>"; };
 		C9022FA12609D06A00C6773A /* HandicapTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandicapTypeExtension.swift; sourceTree = "<group>"; };
+		C903D062274A5BE3003C50B9 /* SmartAssetsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartAssetsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C903D064274A5BE4003C50B9 /* LabelTokenizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTokenizerTests.swift; sourceTree = "<group>"; };
+		C903D06C274A5BF7003C50B9 /* LabelTokenizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTokenizer.swift; sourceTree = "<group>"; };
 		C91B484D26E615BE002157C4 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		C91B484F26E61AED002157C4 /* HeaderButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderButtonType.swift; sourceTree = "<group>"; };
 		C925594925F9569700C2BF28 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
@@ -177,6 +193,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C903D05F274A5BE3003C50B9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C903D066274A5BE4003C50B9 /* SmartAssets.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C931ADC22577D06D0002BA2F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -188,10 +212,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C903D063274A5BE4003C50B9 /* SmartAssetsTests */ = {
+			isa = PBXGroup;
+			children = (
+				C903D064274A5BE4003C50B9 /* LabelTokenizerTests.swift */,
+			);
+			path = SmartAssetsTests;
+			sourceTree = "<group>";
+		};
 		C931ADBB2577D06D0002BA2F = {
 			isa = PBXGroup;
 			children = (
 				C931ADC72577D06D0002BA2F /* SmartAssets */,
+				C903D063274A5BE4003C50B9 /* SmartAssetsTests */,
 				C931ADC62577D06D0002BA2F /* Products */,
 				C931ADD62577D0F80002BA2F /* Frameworks */,
 			);
@@ -201,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				C931ADC52577D06D0002BA2F /* SmartAssets.framework */,
+				C903D062274A5BE3003C50B9 /* SmartAssetsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -288,6 +322,7 @@
 				C9A37610263448AC0057923E /* Globals.swift */,
 				C950F99E2649290A0057A7D1 /* StringExtension.swift */,
 				C91B484D26E615BE002157C4 /* ImageCache.swift */,
+				C903D06C274A5BF7003C50B9 /* LabelTokenizer.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -348,6 +383,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		C903D061274A5BE3003C50B9 /* SmartAssetsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C903D06B274A5BE4003C50B9 /* Build configuration list for PBXNativeTarget "SmartAssetsTests" */;
+			buildPhases = (
+				C903D05E274A5BE3003C50B9 /* Sources */,
+				C903D05F274A5BE3003C50B9 /* Frameworks */,
+				C903D060274A5BE3003C50B9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C903D068274A5BE4003C50B9 /* PBXTargetDependency */,
+			);
+			name = SmartAssetsTests;
+			productName = SmartAssetsTests;
+			productReference = C903D062274A5BE3003C50B9 /* SmartAssetsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		C931ADC42577D06D0002BA2F /* SmartAssets */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C931ADCD2577D06D0002BA2F /* Build configuration list for PBXNativeTarget "SmartAssets" */;
@@ -374,8 +427,12 @@
 		C931ADBC2577D06D0002BA2F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1300;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
+					C903D061274A5BE3003C50B9 = {
+						CreatedOnToolsVersion = 13.0;
+					};
 					C931ADC42577D06D0002BA2F = {
 						CreatedOnToolsVersion = 12.2;
 					};
@@ -395,11 +452,19 @@
 			projectRoot = "";
 			targets = (
 				C931ADC42577D06D0002BA2F /* SmartAssets */,
+				C903D061274A5BE3003C50B9 /* SmartAssetsTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C903D060274A5BE3003C50B9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C931ADC32577D06D0002BA2F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -457,6 +522,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C903D05E274A5BE3003C50B9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C903D065274A5BE4003C50B9 /* LabelTokenizerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C931ADC12577D06D0002BA2F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -485,6 +558,7 @@
 				C9B60BF2269DCF6500F10177 /* PantheonTypeExtension.swift in Sources */,
 				C9E87BBB264DAA7000514B9A /* CivicTypeExtension.swift in Sources */,
 				C9022FA026093D5300C6773A /* LeaderTypeExtension.swift in Sources */,
+				C903D06D274A5BF7003C50B9 /* LabelTokenizer.swift in Sources */,
 				C9E87BBD264DB49100514B9A /* BuildingTypeExtension.swift in Sources */,
 				C9E87BBF264DB4D600514B9A /* WonderTypeExtension.swift in Sources */,
 				C9CAC8A2264BC4B200D0668D /* GovernmentState.swift in Sources */,
@@ -510,7 +584,62 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		C903D068274A5BE4003C50B9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			platformFilter = ios;
+			target = C931ADC42577D06D0002BA2F /* SmartAssets */;
+			targetProxy = C903D067274A5BE4003C50B9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		C903D069274A5BE4003C50B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartAssetsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C903D06A274A5BE4003C50B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartAssetsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		C931ADCB2577D06D0002BA2F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -689,6 +818,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C903D06B274A5BE4003C50B9 /* Build configuration list for PBXNativeTarget "SmartAssetsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C903D069274A5BE4003C50B9 /* Debug */,
+				C903D06A274A5BE4003C50B9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C931ADBF2577D06D0002BA2F /* Build configuration list for PBXProject "SmartAssets" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

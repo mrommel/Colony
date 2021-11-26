@@ -154,7 +154,7 @@ class CityTests: XCTestCase {
         XCTAssertEqual(yields?.housing, 1.0)*/
     }
 
-    func testBuildGranary() {
+    func testBuildAncientWalls() {
 
         // GIVEN
         let barbarianPlayer = Player(leader: .barbar, isHuman: false)
@@ -193,7 +193,7 @@ class CityTests: XCTestCase {
 
         // THEN
         XCTAssertEqual(current?.type, .building)
-        XCTAssertEqual(current?.buildingType, .granary)
+        XCTAssertEqual(current?.buildingType, .ancientWalls)
     }
 
     func testBuildWalls() {
@@ -295,6 +295,7 @@ class CityTests: XCTestCase {
         playerTrajan.initialize()
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
@@ -303,21 +304,26 @@ class CityTests: XCTestCase {
             on: mapModel
         )
 
-        let city = City(name: "Potsdam", at: HexPoint(x: 10, y: 1), owner: playerAlexander)
+        let cityLocation = HexPoint(x: 10, y: 1)
+        let wonderLocation = cityLocation.neighbor(in: .south)
+
+        mapModel.set(terrain: .desert, at: wonderLocation) // needed for pyramids
+
+        let city = City(name: "Potsdam", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         city.initialize(in: gameModel)
         gameModel.add(city: city)
 
-        self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
+        self.objectToTest = City(name: "Berlin", at: cityLocation, capital: true, owner: playerAlexander)
         self.objectToTest?.initialize(in: gameModel)
         gameModel.add(city: self.objectToTest)
 
-        let canBuildBefore = self.objectToTest?.canBuild(wonder: .pyramids, in: gameModel)
+        let canBuildBefore = self.objectToTest?.canBuild(wonder: .pyramids, at: wonderLocation, in: gameModel)
 
         // WHEN
-        city.startBuilding(wonder: .pyramids)
-        let canBuildMiddle = self.objectToTest?.canBuild(wonder: .pyramids, in: gameModel)
+        city.startBuilding(wonder: .pyramids, at: wonderLocation, in: gameModel)
+        let canBuildMiddle = self.objectToTest?.canBuild(wonder: .pyramids, at: wonderLocation, in: gameModel)
         city.startBuilding(building: .granary)
-        let canBuildAfter = self.objectToTest?.canBuild(wonder: .pyramids, in: gameModel)
+        let canBuildAfter = self.objectToTest?.canBuild(wonder: .pyramids, at: wonderLocation, in: gameModel)
 
         // THEN
         XCTAssertEqual(canBuildBefore, true)

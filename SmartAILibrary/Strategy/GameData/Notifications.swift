@@ -238,7 +238,7 @@ public class NotificationItem: Codable, Equatable {
                 fatalError("cant get government")
             }
 
-            return government.hasPolicyCardsFilled()
+            return government.hasPolicyCardsFilled(in: gameModel)
 
         case .unitPromotion:
             guard let currentPlayer = player else {

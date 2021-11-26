@@ -27,7 +27,7 @@ class CityCitizenViewModel: ObservableObject {
 
     init(city: AbstractCity? = nil) {
 
-        self.hexagonGridViewModel = HexagonGridViewModel()
+        self.hexagonGridViewModel = HexagonGridViewModel(mode: .citizen)
         self.hexagonGridViewModel.delegate = self
 
         if city != nil {
@@ -118,5 +118,15 @@ extension CityCitizenViewModel: HexagonGridViewModelDelegate {
 
         self.hexagonGridViewModel.updateWorkingTiles(in: gameModel)
         self.delegate?.yieldsUpdated()
+    }
+
+    func selected(district: DistrictType, on point: HexPoint) {
+
+        // NOOP
+    }
+
+    func selected(wonder: WonderType, on point: HexPoint) {
+
+        // NOOP
     }
 }

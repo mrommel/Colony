@@ -9,7 +9,7 @@ import SwiftUI
 import SmartAILibrary
 import SDWebImageSwiftUI
 
-protocol MapLoadingViewDelegate: NSObject {
+protocol MapLoadingViewDelegate: class {
 
     func loaded(map: MapModel?)
 }

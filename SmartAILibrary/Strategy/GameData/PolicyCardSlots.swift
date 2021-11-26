@@ -10,9 +10,9 @@ import Foundation
 
 public class PolicyCardSlots {
 
-    public let military: Int // red
-    public let economic: Int // yellow
-    public let diplomatic: Int // green
+    public var military: Int // red
+    public var economic: Int // yellow
+    public var diplomatic: Int // green
     public var wildcard: Int // lila
 
     public init(military: Int, economic: Int, diplomatic: Int, wildcard: Int) {

@@ -41,6 +41,8 @@ class GameScenePopupData {
     }
 }
 
+// swiftlint:disable type_body_length
+
 class GameScene: BaseScene {
 
     // Constants
@@ -458,7 +460,11 @@ class GameScene: BaseScene {
 
                 if let currentCivic = civics.currentCivic() {
                     let progressPercentage = civics.currentCultureProgress() / Double(currentCivic.cost()) * 100.0
-                    self.cultureProgressNode?.update(civic: currentCivic, progress: Int(progressPercentage), turnsRemaining: civics.currentCultureTurnsRemaining())
+                    self.cultureProgressNode?.update(
+                        civic: currentCivic,
+                        progress: Int(progressPercentage),
+                        turnsRemaining: civics.currentCultureTurnsRemaining()
+                    )
                 } else {
                     self.cultureProgressNode?.update(civic: .none, progress: 0, turnsRemaining: 0)
                 }

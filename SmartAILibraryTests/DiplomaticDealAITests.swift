@@ -138,7 +138,8 @@ class DiplomaticDealAITests: XCTestCase {
         self.objectToTest = DiplomaticDealAI(player: playerAlexander)
         let deal = DiplomaticDeal(from: .alexander, to: .trajan)
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .give, amount: 4))
-        deal.tradeItems.append(DiplomaticGoldPerTurnDealItem(direction: .receive, amount: 1, duration: 5)) // gold per turn is valued only 80% because of the risk
+        // gold per turn is valued only 80% because of the risk
+        deal.tradeItems.append(DiplomaticGoldPerTurnDealItem(direction: .receive, amount: 1, duration: 5))
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
 

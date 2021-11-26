@@ -74,9 +74,12 @@ public class ContinentFinder {
             let nortwestPoint = currentPoint.neighbor(in: .northwest)
             let southPoint = currentPoint.neighbor(in: .southwest)
 
-            let northContinent = (map?.valid(point: northPoint) ?? false) ? self.continentIdentifiers[northPoint.x, northPoint.y] : ContinentConstants.kNotAnalyzed
-            let nortwestContinent = (map?.valid(point: nortwestPoint) ?? false) ? self.continentIdentifiers[nortwestPoint.x, nortwestPoint.y] : ContinentConstants.kNotAnalyzed
-            let southContinent = (map?.valid(point: southPoint) ?? false) ? self.continentIdentifiers[southPoint.x, southPoint.y] : ContinentConstants.kNotAnalyzed
+            let northContinent = (map?.valid(point: northPoint) ?? false) ?
+                self.continentIdentifiers[northPoint.x, northPoint.y] : ContinentConstants.kNotAnalyzed
+            let nortwestContinent = (map?.valid(point: nortwestPoint) ?? false) ?
+                self.continentIdentifiers[nortwestPoint.x, nortwestPoint.y] : ContinentConstants.kNotAnalyzed
+            let southContinent = (map?.valid(point: southPoint) ?? false) ?
+                self.continentIdentifiers[southPoint.x, southPoint.y] : ContinentConstants.kNotAnalyzed
 
             if self.evaluated(value: northContinent!) {
                 self.continentIdentifiers[x, y] = northContinent

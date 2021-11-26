@@ -41,7 +41,14 @@ class TechDisplayNode: BaseDisplayNode {
             iconTextures.append(SKTexture(imageNamed: districtType.iconTexture()))
         }
 
-        super.init(texture: self.techType.iconTexture(), type: .science, name: self.techType.name(), progress: progress, iconTextures: iconTextures, size: size)
+        super.init(
+            texture: self.techType.iconTexture(),
+            type: .science,
+            name: self.techType.name(),
+            progress: progress,
+            iconTextures: iconTextures,
+            size: size
+        )
     }
 
     required init?(coder aDecoder: NSCoder) {

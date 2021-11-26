@@ -21,7 +21,22 @@ class UnitBannerViewModel: ObservableObject {
     var showBanner: Bool = false
 
     @Published
-    var commands: [Command] = []
+    var command0ViewModel: UnitCommandViewModel
+
+    @Published
+    var command1ViewModel: UnitCommandViewModel
+
+    @Published
+    var command2ViewModel: UnitCommandViewModel
+
+    @Published
+    var command3ViewModel: UnitCommandViewModel
+
+    @Published
+    var command4ViewModel: UnitCommandViewModel
+
+    @Published
+    var command5ViewModel: UnitCommandViewModel
 
     @Published
     var promotionViewModels: [PromotionViewModel] = []
@@ -37,18 +52,39 @@ class UnitBannerViewModel: ObservableObject {
 
         self.selectedUnit = selectedUnit
 
+        self.command0ViewModel = UnitCommandViewModel()
+        self.command1ViewModel = UnitCommandViewModel()
+        self.command2ViewModel = UnitCommandViewModel()
+        self.command3ViewModel = UnitCommandViewModel()
+        self.command4ViewModel = UnitCommandViewModel()
+        self.command5ViewModel = UnitCommandViewModel()
+
         if let selectedUnit = selectedUnit {
             self.unitImage = ImageCache.shared.image(for: selectedUnit.type.portraitTexture())
         } else {
             self.unitImage = NSImage()
         }
+
+        self.command0ViewModel.delegate = self
+        self.command1ViewModel.delegate = self
+        self.command2ViewModel.delegate = self
+        self.command3ViewModel.delegate = self
+        self.command4ViewModel.delegate = self
+        self.command5ViewModel.delegate = self
     }
 
 #if DEBUG
     init(selectedUnit: AbstractUnit? = nil, commands: [Command], in gameModel: GameModel?) {
 
         self.selectedUnit = selectedUnit
-        self.commands = commands
+
+        self.command0ViewModel = UnitCommandViewModel()
+        self.command1ViewModel = UnitCommandViewModel()
+        self.command2ViewModel = UnitCommandViewModel()
+        self.command3ViewModel = UnitCommandViewModel()
+        self.command4ViewModel = UnitCommandViewModel()
+        self.command5ViewModel = UnitCommandViewModel()
+
         if let selectedUnit = selectedUnit {
             self.unitImage = selectedUnit.type.iconTexture()
         } else {
@@ -61,6 +97,13 @@ class UnitBannerViewModel: ObservableObject {
         if let selectedUnit = self.selectedUnit {
             self.unitHealthValue = CGFloat(selectedUnit.healthPoints()) / 100.0
         }
+
+        self.command0ViewModel.delegate = self
+        self.command1ViewModel.delegate = self
+        self.command2ViewModel.delegate = self
+        self.command3ViewModel.delegate = self
+        self.command4ViewModel.delegate = self
+        self.command5ViewModel.delegate = self
 
         self.promotionViewModels = [
             PromotionViewModel(promotionType: .alpine, state: .gained),
@@ -151,46 +194,18 @@ class UnitBannerViewModel: ObservableObject {
         self.delegate?.showUnitListDialog()
     }
 
-    func commandImage(at index: Int) -> NSImage {
-
-        if 0 <= index && index < self.commands.count {
-
-            let command = self.commands[index]
-            return ImageCache.shared.image(for: command.type.buttonTexture())
-        }
-
-        return NSImage(size: NSSize(width: 32, height: 32))
-    }
-
-    func commandClicked(at index: Int) {
-
-        if 0 <= index && index < self.commands.count {
-
-            let command = self.commands[index]
-            print("commandClicked(at: \(command.title()))")
-            self.handle(command: command)
-        }
-    }
-
-    func commandToolTip(at index: Int) -> String {
-
-        if 0 <= index && index < self.commands.count {
-
-            let command = self.commands[index]
-            return command.type.title()
-        }
-
-        return ""
-    }
-
     // swiftlint:disable cyclomatic_complexity
-    func handle(command: Command) {
+    func handle(command: CommandType) {
 
         guard let gameModel = self.gameEnvironment.game.value else {
             fatalError("cant get game")
         }
 
-        switch command.type {
+        switch command {
+
+        case .none:
+            // NOOP
+            break
 
         case .rename:
             if let selectedUnit = self.selectedUnit {
@@ -274,6 +289,16 @@ class UnitBannerViewModel: ObservableObject {
             if let selectedUnit = self.selectedUnit {
                 let fishingBuildMission = UnitMission(type: .build, buildType: .fishingBoats, at: selectedUnit.location)
                 selectedUnit.push(mission: fishingBuildMission, in: gameModel)
+            }
+
+        case .removeFeature:
+            if let selectedUnit = self.selectedUnit {
+                selectedUnit.doRemoveFeature(in: gameModel)
+            }
+
+        case .plantForest:
+            if let selectedUnit = self.selectedUnit {
+                selectedUnit.doPlantForest(in: gameModel)
             }
 
         case .pillage:
@@ -471,8 +496,14 @@ class UnitBannerViewModel: ObservableObject {
 
             if let selectedUnit = self.selectedUnit {
                 // update commands
+
                 let commands = selectedUnit.commands(in: gameModel)
-                self.commands = commands
+                self.command0ViewModel.update(command: !commands.isEmpty ? commands[0].type : .none)
+                self.command1ViewModel.update(command: commands.count > 1 ? commands[1].type : .none)
+                self.command2ViewModel.update(command: commands.count > 2 ? commands[2].type : .none)
+                self.command3ViewModel.update(command: commands.count > 3 ? commands[3].type : .none)
+                self.command4ViewModel.update(command: commands.count > 4 ? commands[4].type : .none)
+                self.command5ViewModel.update(command: commands.count > 5 ? commands[5].type : .none)
             }
         }
     }
@@ -480,11 +511,24 @@ class UnitBannerViewModel: ObservableObject {
     func selectedUnitChanged(to unit: AbstractUnit?, commands: [Command], in gameModel: GameModel?) {
 
         self.selectedUnit = unit
-        self.commands = commands
+
+        self.command0ViewModel.update(command: !commands.isEmpty ? commands[0].type : .none)
+        self.command1ViewModel.update(command: commands.count > 1 ? commands[1].type : .none)
+        self.command2ViewModel.update(command: commands.count > 2 ? commands[2].type : .none)
+        self.command3ViewModel.update(command: commands.count > 3 ? commands[3].type : .none)
+        self.command4ViewModel.update(command: commands.count > 4 ? commands[4].type : .none)
+        self.command5ViewModel.update(command: commands.count > 5 ? commands[5].type : .none)
 
         if let selectedUnit = self.selectedUnit {
             self.unitHealthValue = CGFloat(selectedUnit.healthPoints()) / 100.0
             self.unitImage = ImageCache.shared.image(for: selectedUnit.type.portraitTexture())
         }
+    }
+}
+extension UnitBannerViewModel: UnitCommandViewModelDelegate {
+
+    func clicked(on commandType: CommandType) {
+
+        self.handle(command: commandType)
     }
 }

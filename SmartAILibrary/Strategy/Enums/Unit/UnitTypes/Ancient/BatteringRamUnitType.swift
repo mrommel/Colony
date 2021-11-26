@@ -18,7 +18,8 @@ internal class BatteringRamUnitType: UnitTypeData {
             baseType: .batteringRam,
             domain: .land,
             effects: [
-                "When this unit is adjacent to a District with Defenses, all melee units and anti-cavalry units (including naval melee) attacking it do full damage to the District walls.",
+                "When this unit is adjacent to a District with Defenses, all melee units and " +
+                "anti-cavalry units (including naval melee) attacking it do full damage to the District walls.",
                 "Only effective against Ancient Walls."
             ],
             abilities: [],

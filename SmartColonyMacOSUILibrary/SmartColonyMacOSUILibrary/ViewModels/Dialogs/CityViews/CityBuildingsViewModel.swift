@@ -72,8 +72,7 @@ class CityBuildingsViewModel: ObservableObject {
                 districtModel.delegate = self
 
                 // filter buildingTypes
-                let constructedBuildingTypes = BuildingType.all.filter {
-                    buildingType in
+                let constructedBuildingTypes = BuildingType.all.filter { buildingType in
 
                     return buildings.has(building: buildingType) && buildingType.district() == districtType
                 }
@@ -116,7 +115,7 @@ class CityBuildingsViewModel: ObservableObject {
 
 extension CityBuildingsViewModel: DistrictViewModelDelegate {
 
-    func clicked(on districtType: DistrictType, at index: Int) {
+    func clicked(on districtType: DistrictType, at index: Int, in gameModel: GameModel?) {
 
         print("clicked on \(districtType)")
 
@@ -184,7 +183,7 @@ extension CityBuildingsViewModel: BuildingViewModelDelegate {
 
 extension CityBuildingsViewModel: WonderViewModelDelegate {
 
-    func clicked(on wonderType: WonderType, at index: Int) {
+    func clicked(on wonderType: WonderType, at index: Int, in gameModel: GameModel?) {
 
         print("clicked on \(wonderType)")
 

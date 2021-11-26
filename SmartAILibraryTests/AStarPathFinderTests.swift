@@ -30,7 +30,13 @@ class AStarPathFinderTests: XCTestCase {
         mapModel.set(terrain: .plains, at: HexPoint(x: 2, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
 
-        let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
 
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: false)
@@ -63,7 +69,13 @@ class AStarPathFinderTests: XCTestCase {
         mapModel.set(terrain: .plains, at: HexPoint(x: 2, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
 
-        let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
 
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: false)
@@ -100,7 +112,13 @@ class AStarPathFinderTests: XCTestCase {
         mapModel.set(terrain: .plains, at: HexPoint(x: 2, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
 
-        let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
 
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: false)
@@ -137,7 +155,13 @@ class AStarPathFinderTests: XCTestCase {
         mapModel.set(terrain: .plains, at: HexPoint(x: 2, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
 
-        let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
 
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: false)
@@ -170,7 +194,13 @@ class AStarPathFinderTests: XCTestCase {
         mapModel.set(terrain: .plains, at: HexPoint(x: 2, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
 
-        let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
 
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: true)
@@ -209,7 +239,13 @@ class AStarPathFinderTests: XCTestCase {
         mapModel.set(terrain: .plains, at: HexPoint(x: 6, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 7, y: 2))
 
-        let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
 
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: true)

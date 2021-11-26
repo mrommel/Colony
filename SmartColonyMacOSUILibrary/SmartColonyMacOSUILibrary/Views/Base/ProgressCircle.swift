@@ -33,22 +33,23 @@ public struct ProgressCircle: View {
     private let foregroundColor: Color
     private let lineWidth: CGFloat
 
-    public init(value: Binding<CGFloat>,
-         maxValue: CGFloat,
-         style: Stroke = .line,
-         backgroundEnabled: Bool = true,
-         backgroundColor: Color = Color(NSColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1.0)),
-         foregroundColor: Color = Color.black,
-         lineWidth: CGFloat = 10) {
+    public init(
+        value: Binding<CGFloat>,
+        maxValue: CGFloat,
+        style: Stroke = .line,
+        backgroundEnabled: Bool = true,
+        backgroundColor: Color = Color(NSColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1.0)),
+        foregroundColor: Color = Color.black,
+        lineWidth: CGFloat = 10) {
 
-        self._value = value
-        self.maxValue = maxValue
-        self.style = style
-        self.backgroundEnabled = backgroundEnabled
-        self.backgroundColor = backgroundColor
-        self.foregroundColor = foregroundColor
-        self.lineWidth = lineWidth
-    }
+            self._value = value
+            self.maxValue = maxValue
+            self.style = style
+            self.backgroundEnabled = backgroundEnabled
+            self.backgroundColor = backgroundColor
+            self.foregroundColor = foregroundColor
+            self.lineWidth = lineWidth
+        }
 
     public var body: some View {
         ZStack {

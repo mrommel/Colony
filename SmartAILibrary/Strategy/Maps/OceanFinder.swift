@@ -74,9 +74,12 @@ public class OceanFinder {
             let nortwestPoint = currentPoint.neighbor(in: .northwest)
             let southPoint = currentPoint.neighbor(in: .southwest)
 
-            let northContinent = (map?.valid(point: northPoint) ?? false) ? self.oceanIdentifiers[northPoint.x, northPoint.y] : OceanConstants.kNotAnalyzed
-            let nortwestContinent = (map?.valid(point: nortwestPoint) ?? false) ? self.oceanIdentifiers[nortwestPoint.x, nortwestPoint.y] : OceanConstants.kNotAnalyzed
-            let southContinent = (map?.valid(point: southPoint) ?? false) ? self.oceanIdentifiers[southPoint.x, southPoint.y] : OceanConstants.kNotAnalyzed
+            let northContinent = (map?.valid(point: northPoint) ?? false) ?
+                self.oceanIdentifiers[northPoint.x, northPoint.y] : OceanConstants.kNotAnalyzed
+            let nortwestContinent = (map?.valid(point: nortwestPoint) ?? false) ?
+                self.oceanIdentifiers[nortwestPoint.x, nortwestPoint.y] : OceanConstants.kNotAnalyzed
+            let southContinent = (map?.valid(point: southPoint) ?? false) ?
+                self.oceanIdentifiers[southPoint.x, southPoint.y] : OceanConstants.kNotAnalyzed
 
             if self.evaluated(value: northContinent!) {
                 self.oceanIdentifiers[x, y] = northContinent

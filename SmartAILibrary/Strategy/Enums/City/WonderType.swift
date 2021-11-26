@@ -196,7 +196,6 @@ public enum WonderType: Int, Codable {
             // ancient
         case .greatBath:
             // https://civilization.fandom.com/wiki/Great_Bath_(Civ6)
-            // It must be built on Floodplains.
             return WonderTypeData(
                 name: "Great Bath",
                 effects: [
@@ -221,8 +220,8 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Etemenanki",
                 effects: [
-                    "+2 Science and +1 Production to all Marsh tiles in your empire.", // #
-                    "+1 Science and +1 Production on all Floodplains tiles in this city.", // #
+                    "+2 Science and +1 Production to all Marsh tiles in your empire.",
+                    "+1 Science and +1 Production on all Floodplains tiles in this city.",
                     "+2 Science"
                 ],
                 era: .ancient,
@@ -258,7 +257,7 @@ public enum WonderType: Int, Codable {
 
         case .stonehenge:
             // https://civilization.fandom.com/wiki/Stonehenge_(Civ6)
-            // FIXME Great Prophets may found a religion on Stonehenge instead of a Holy Site.
+            // Great Prophets may found a religion on Stonehenge instead of a Holy Site.
             return WonderTypeData(
                 name: "Stonehenge",
                 effects: [
@@ -280,7 +279,6 @@ public enum WonderType: Int, Codable {
 
         case .templeOfArtemis:
             // https://civilization.fandom.com/wiki/Temple_of_Artemis_(Civ6)
-            // FIXME Must be built next to a Camp.
             return WonderTypeData(
                 name: "Temple of Artemis",
                 effects: [
@@ -325,14 +323,12 @@ public enum WonderType: Int, Codable {
 
         case .oracle:
             // https://civilization.fandom.com/wiki/Oracle_(Civ6)
-            // FIXME Patronage of Great People costs 25% less Faith.
-            // FIXME Districts in this city provide +2 Great Person points of their type.
             return WonderTypeData(
                 name: "Oracle",
                 effects: [
                     "+1 Culture",
                     "+1 Faith",
-                    "Patronage of Great People costs 25% less Faith.",
+                    "Patronage of Great People costs 25% less Faith.", // #
                     "Districts in this city provide +2 Great Person points of their type."
                 ],
                 era: .ancient,
@@ -351,7 +347,6 @@ public enum WonderType: Int, Codable {
             // classical
         case .greatLighthouse:
             // https://civilization.fandom.com/wiki/Great_Lighthouse_(Civ6)
-            // FIXME Must be built on the Coast and adjacent to a Harbor district with a Lighthouse.
             return WonderTypeData(
                 name: "Great Lighthouse",
                 effects: [
@@ -400,12 +395,11 @@ public enum WonderType: Int, Codable {
 
         case .apadana:
             // https://civilization.fandom.com/wiki/Apadana_(Civ6)
-            // FIXME +2 Envoys when you build a wonder, including Apadana, in this city.
             return WonderTypeData(
                 name: "Apadana",
                 effects: [
                     "+2 Great Work slots",
-                    "+2 Envoys when you build a wonder, including Apadana, in this city."
+                    "+2 Envoys when you build a wonder, including Apadana, in this city." // #
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -425,14 +419,14 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Colosseum",
                 effects: [
-                    "+2 Culture",
-                    "+2 Loyalty and +2 Amenities from entertainment" // #
+                    "+2 [Culture] Culture, +2 Loyalty, +2 [Amenities] Amenities from entertainment " +
+                        "to each City Center within 6 tiles."
                 ],
                 era: .classical,
                 productionCost: 400,
                 requiredTech: nil,
                 requiredCivic: .gamesAndRecreation,
-                amenities: 2.0,
+                amenities: 0.0, // is handled differently !
                 yields: Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 2.0),
                 slots: [],
                 flavours: [
@@ -449,7 +443,8 @@ public enum WonderType: Int, Codable {
                     "+3 Gold",
                     "+1 Great Admiral point per turn",
                     "+1 Trade Route capacity",
-                    "Grants a Trader unit."],
+                    "Grants a Trader unit."
+                ],
                 era: .classical,
                 productionCost: 400,
                 requiredTech: .shipBuilding,
@@ -466,12 +461,10 @@ public enum WonderType: Int, Codable {
 
         case .jebelBarkal:
             // https://civilization.fandom.com/wiki/Jebel_Barkal_(Civ6)
-            // FIXME Awards 2 Iron (Civ6) Iron.
-            // FIXME It must be built on a Desert Hills tile
             return WonderTypeData(
                 name: "Jebel Barkal",
                 effects: [
-                    "Awards 2 Iron.",
+                    "Awards 2 Iron.", // #
                     "Provides +4 Faith to all your cities that are within 6 tiles."
                 ],
                 era: .classical,
@@ -489,12 +482,12 @@ public enum WonderType: Int, Codable {
 
         case .mausoleumAtHalicarnassus:
             // https://civilization.fandom.com/wiki/Mausoleum_at_Halicarnassus_(Civ6)
-            // FIXME It must be built adjacent to a Harbor.
-            // FIXME All Great Engineers have an additional charge.
             return WonderTypeData(
                 name: "Mausoleum at Halicarnassus",
-                effects: ["+1 Science, +1 Faith and +1 Culture on all Coast tiles in this city.",
-                          "All Great Engineers have an additional charge."],
+                effects: [
+                    "+1 Science, +1 Faith and +1 Culture on all Coast tiles in this city.",
+                    "All Great Engineers have an additional charge." // #
+                ],
                 era: .classical,
                 productionCost: 400,
                 requiredTech: nil,
@@ -512,11 +505,12 @@ public enum WonderType: Int, Codable {
 
         case .mahabodhiTemple:
             // https://civilization.fandom.com/wiki/Mahabodhi_Temple_(Civ6)
-            // FIXME Grants 2 Apostles.
             return WonderTypeData(
                 name: "Mahabodhi Temple",
-                effects: ["+4 Faith",
-                          "Grants 2 Apostles."],
+                effects: [
+                    "+4 Faith",
+                    "Grants 2 Apostles." // #
+                ],
                 era: .classical,
                 productionCost: 400,
                 requiredTech: nil,
@@ -532,22 +526,27 @@ public enum WonderType: Int, Codable {
 
         case .petra:
             // https://civilization.fandom.com/wiki/Petra_(Civ6)
-            // FIXME It must be built on Desert or Floodplains without Hills.
-            return WonderTypeData(name: "Petra",
-                                  effects: ["+2 Food, +2 Gold and +1 Production on all Desert tiles for this city (non-Floodplains)."],
-                                  era: .classical,
-                                  productionCost: 400,
-                                  requiredTech: .mathematics,
-                                  requiredCivic: nil,
-                                  amenities: 0.0,
-                                  yields: Yields(food: 2.0, production: 1.0, gold: 2.0),
-                                  slots: [],
-                                  flavours: [Flavor(type: .tileImprovement, value: 10), Flavor(type: .growth, value: 12), Flavor(type: .gold, value: 10) ])
+            return WonderTypeData(
+                name: "Petra",
+                effects: [
+                    "+2 Food, +2 Gold and +1 Production on all Desert tiles for this city (non-Floodplains)."
+                ],
+                era: .classical,
+                productionCost: 400,
+                requiredTech: .mathematics,
+                requiredCivic: nil,
+                amenities: 0.0,
+                yields: Yields(food: 2.0, production: 1.0, gold: 2.0),
+                slots: [],
+                flavours: [
+                    Flavor(type: .tileImprovement, value: 10),
+                    Flavor(type: .growth, value: 12),
+                    Flavor(type: .gold, value: 10)
+                ]
+            )
 
         case .terracottaArmy:
             // https://civilization.fandom.com/wiki/Terracotta_Army_(Civ6)
-            // FIXME It must be built on flat Grassland or Plains adjacent to an Encampment with a Barracks or Stable.
-            // FIXME All current land units gain a promotion level.
             return WonderTypeData(
                 name: "Terracotta Army",
                 effects: ["+2 Great General points per turn",
@@ -572,7 +571,7 @@ public enum WonderType: Int, Codable {
                 effects: [
                     "+4 Gold",
                     "Mountain tiles provide a standard adjacency bonus to Commercial Hub, " +
-                    "Theater Square and Industrial Zone districts in all cities." // #
+                        "Theater Square and Industrial Zone districts in all cities." // #
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -590,8 +589,8 @@ public enum WonderType: Int, Codable {
                 name: "Statue of Zeus",
                 effects: [
                     "+3 Gold",
-                    "Grants 3 Spearmen, 3 Archers, and a Battering Ram.", // #
-                    "+50% Production towards anti-cavalry units." // #
+                    "Grants 3 Spearmen, 3 Archers, and a Battering Ram.",
+                    "+50% Production towards anti-cavalry units."
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -610,8 +609,8 @@ public enum WonderType: Int, Codable {
                 name: "Alhambra",
                 effects: [
                     "+2 Amenities",
-                    "+2 Great General points per turn", // #
-                    "+1 Military policy slot", // #
+                    "+2 Great General points per turn",
+                    "+1 Military policy slot",
                     "Provides the same defensive bonuses as the Fort improvement" // #
                 ],
                 era: .medieval,
@@ -633,8 +632,8 @@ public enum WonderType: Int, Codable {
                 name: "Angkor Wat",
                 effects: [
                     "+2 Faith",
-                    "+1 Citizen Population in all current cities when built.", // #
-                    "+1 Housing in all cities." // #
+                    "+1 Citizen Population in all current cities when built.",
+                    "+1 Housing in all cities."
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -654,7 +653,7 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Chichen Itza",
                 effects: [
-                    "+2 Culture and +1 Production to all Rainforest tiles for this city." // #
+                    "+2 Culture and +1 Production to all Rainforest tiles for this city."
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -678,7 +677,7 @@ public enum WonderType: Int, Codable {
                 ],
                 era: .medieval,
                 productionCost: 710,
-                requiredTech: .education,
+                requiredTech: .buttress,
                 requiredCivic: nil,
                 amenities: 0,
                 yields: Yields(food: 0.0, production: 0.0, gold: 0.0, faith: 4),
@@ -693,8 +692,9 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Huey Teocalli",
                 effects: [
-                    "+1 Amenity from entertainment for each Lake tile within one tile of Huey Teocalli. (This includes the Lake tile where the wonder is placed.)", // #
-                    "+1 Food and +1 Production for each Lake tile in your empire." // #
+                    "+1 Amenity from entertainment for each Lake tile within one tile of Huey Teocalli. " +
+                        "(This includes the Lake tile where the wonder is placed.)",
+                    "+1 Food and +1 Production for each Lake tile in your empire."
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -735,8 +735,9 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Kotoku-in",
                 effects: [
-                    "+20% Faith in this city.", // #
-                    "Grants 4 Warrior Monks (if player has founded a religion or if there is a majority religion for this player or city)." // #
+                    "+20% Faith in this city.",
+                    "Grants 4 Warrior Monks (if player has founded a religion or if there is " +
+                        "a majority religion for this player or city)." // #
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -779,7 +780,8 @@ public enum WonderType: Int, Codable {
                 effects: [
                     "+2 Faith",
                     "2 Relic slots",
-                    "All Apostles you create gain the Martyr ability in addition to a second ability you choose normally."
+                    "All Apostles you create gain the Martyr ability in addition to a " +
+                        "second ability you choose normally." // #
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -958,7 +960,8 @@ public enum WonderType: Int, Codable {
                 name: "Torre de Belém",
                 effects: [
                     "International Trade Route from this city receive +2 Gold for every luxury resource at the destination", // #
-                    "When the Torre de Belém is constructed, cities not on your home continent receive the lowest Production cost building they can currently construct", // #
+                    "When the Torre de Belém is constructed, cities not on your home continent " +
+                        "receive the lowest Production cost building they can currently construct", // #
                     "+5 Gold",
                     "+1 Great Admiral point per turn" // #
                 ],
@@ -996,6 +999,486 @@ public enum WonderType: Int, Codable {
                 ]
             )
 
+        }
+    }
+
+    private func adjacentTo(district: DistrictType, on point: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var nextToDistrict: Bool = false
+
+        for neighbor in point.neighbors() {
+
+            guard let neighborTile = gameModel.tile(at: neighbor) else {
+                continue
+            }
+
+            if neighborTile.has(district: district) {
+                nextToDistrict = true
+            }
+        }
+
+        return nextToDistrict
+    }
+
+    private func adjacentTo(resource: ResourceType, on point: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var nextToResource: Bool = false
+
+        for neighbor in point.neighbors() {
+
+            guard let neighborTile = gameModel.tile(at: neighbor) else {
+                continue
+            }
+
+            guard let player = neighborTile.owner() else {
+                continue
+            }
+
+            if neighborTile.has(resource: resource, for: player) {
+                nextToResource = true
+            }
+        }
+
+        return nextToResource
+    }
+
+    private func adjacentTo(feature: FeatureType, on point: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var nextToFeature: Bool = false
+
+        for neighbor in point.neighbors() {
+
+            guard let neighborTile = gameModel.tile(at: neighbor) else {
+                continue
+            }
+
+            if neighborTile.has(feature: feature) {
+                nextToFeature = true
+            }
+        }
+
+        return nextToFeature
+    }
+
+    private func adjacentTo(improvement: ImprovementType, on point: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var nextToImprovement: Bool = false
+
+        for neighbor in point.neighbors() {
+
+            guard let neighborTile = gameModel.tile(at: neighbor) else {
+                continue
+            }
+
+            if neighborTile.has(improvement: improvement) {
+                nextToImprovement = true
+            }
+        }
+
+        return nextToImprovement
+    }
+
+    private func adjacentTo(building: BuildingType, on point: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var nextToBuilding: Bool = false
+
+        for neighbor in point.neighbors() {
+
+            guard let neighborTile = gameModel.tile(at: neighbor) else {
+                continue
+            }
+
+            guard let city = neighborTile.workingCity() else {
+                continue
+            }
+
+            if city.has(building: building) {
+                nextToBuilding = true
+            }
+        }
+
+        return nextToBuilding
+    }
+
+    // swiftlint:disable cyclomatic_complexity
+    func canBuild(on point: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let tile = gameModel.tile(at: point) else {
+            fatalError("cant get tile")
+        }
+
+        let hasReligion = tile.owner()?.religion?.currentReligion() != ReligionType.none
+
+        switch self {
+
+        case .none:
+            return false
+
+        case .greatBath:
+            // It must be built on Floodplains.
+            return tile.has(feature: .floodplains)
+
+        case .etemenanki:
+            // Must be built on Floodplains or Marsh.
+            return tile.has(feature: .floodplains) || tile.has(feature: .marsh)
+
+        case .pyramids:
+            // Must be built on Desert (including Floodplains) without Hills.
+            guard tile.isLand() && !tile.hasHills() else {
+                return false
+            }
+
+            return tile.terrain() == .desert || tile.has(feature: .floodplains)
+
+        case .hangingGardens:
+            // Must be built next to a River.
+            return gameModel.river(at: point)
+
+        case .oracle:
+            // Must be built on Hills.
+            guard tile.isLand() && tile.hasHills() else {
+                return false
+            }
+
+            return true
+
+        case .stonehenge:
+            // Must be built on flat land adjacent to Stone.
+            guard tile.isLand() && !tile.hasHills() else {
+                return false
+            }
+
+            return self.adjacentTo(resource: .stone, on: point, in: gameModel)
+
+        case .templeOfArtemis:
+            // Must be built next to a Camp.
+            return self.adjacentTo(improvement: .camp, on: point, in: gameModel)
+
+        case .greatLighthouse:
+            // Must be built on the Coast and adjacent to a Harbor district with a Lighthouse.
+            guard tile.terrain() == .shore else {
+                return false
+            }
+
+            guard self.adjacentTo(building: .lighthouse, on: point, in: gameModel) else {
+                return false
+            }
+
+            return self.adjacentTo(district: .harbor, on: point, in: gameModel)
+
+        case .greatLibrary:
+            // Must be built on flat land adjacent to a Campus with a Library.
+            guard tile.isLand() && !tile.hasHills() else {
+                return false
+            }
+
+            guard self.adjacentTo(building: .library, on: point, in: gameModel) else {
+                return false
+            }
+
+            return self.adjacentTo(district: .campus, on: point, in: gameModel)
+
+        case .apadana:
+            // Must be built adjacent to a Capital.
+            for player in gameModel.players {
+                for cityRef in gameModel.cities(of: player) {
+
+                    guard let city = cityRef else {
+                        continue
+                    }
+
+                    if city.isCapital() && point.isNeighbor(of: city.location) {
+                        return true
+                    }
+                }
+            }
+
+            return false
+
+        case .colosseum:
+            // Must be built on flat land adjacent to an Entertainment Complex district with an Arena.
+            guard tile.isLand() && !tile.hasHills() else {
+                return false
+            }
+
+            guard self.adjacentTo(building: .arena, on: point, in: gameModel) else {
+                return false
+            }
+
+            return self.adjacentTo(district: .entertainment, on: point, in: gameModel)
+
+        case .colossus:
+            // Must be built on Coast and adjacent to a Harbor district.
+            guard tile.terrain() == .shore else {
+                return false
+            }
+
+            return self.adjacentTo(district: .harbor, on: point, in: gameModel)
+
+        case .jebelBarkal:
+            // Must be built on a Desert Hills tile.
+            return tile.terrain() == .desert
+
+        case .mausoleumAtHalicarnassus:
+            // Must be built on a coastal tile adjacent to a Harbor district.
+            guard gameModel.isCoastal(at: point) else {
+                return false
+            }
+
+            return self.adjacentTo(district: .harbor, on: point, in: gameModel)
+
+        case .mahabodhiTemple:
+            // Must be built on Woods adjacent to a Holy Site district with a Temple,
+            // and player must have founded a religion.
+            guard tile.has(feature: .forest) else {
+                return false
+            }
+
+            guard hasReligion else {
+                return false
+            }
+
+            guard self.adjacentTo(building: .temple, on: point, in: gameModel) else {
+                return false
+            }
+
+            return self.adjacentTo(district: .holySite, on: point, in: gameModel)
+
+        case .petra:
+            // Must be built on Desert or Floodplains without Hills.
+            guard tile.isLand() && !tile.hasHills() else {
+                return false
+            }
+
+            return tile.terrain() == .desert || tile.has(feature: .floodplains)
+
+        case .terracottaArmy:
+            // Must be built on flat Grassland or Plains adjacent to an Encampment district with a Barracks or Stable.
+            guard tile.isLand() && !tile.hasHills() else {
+                return false
+            }
+
+            guard tile.terrain() == .grass || tile.terrain() == .plains else {
+                return false
+            }
+
+            guard self.adjacentTo(building: .barracks, on: point, in: gameModel) ||
+                    self.adjacentTo(building: .stable, on: point, in: gameModel) else {
+                return false
+            }
+
+            return self.adjacentTo(district: .encampment, on: point, in: gameModel)
+
+        case .machuPicchu:
+            // Must be built on a Mountain tile that does not contain a Volcano.
+            return tile.has(feature: .mountains)
+
+        case .statueOfZeus:
+            // Must be built on flat land adjacent to an Encampment with a Barracks.
+            guard tile.isLand() && !tile.hasHills() else {
+                return false
+            }
+
+            guard self.adjacentTo(building: .barracks, on: point, in: gameModel) else {
+                return false
+            }
+
+            return self.adjacentTo(district: .encampment, on: point, in: gameModel)
+
+        case .alhambra:
+            // Must be built on Hills adjacent to an Encampment district.
+            guard tile.hasHills() else {
+                return false
+            }
+
+            return self.adjacentTo(district: .encampment, on: point, in: gameModel)
+
+        case .angkorWat:
+            // Must be built adjacent to an Aqueduct district.
+            return self.adjacentTo(district: .aqueduct, on: point, in: gameModel)
+
+        case .chichenItza:
+            // Must be built on Rainforest.
+            return tile.has(feature: .rainforest)
+
+        case .hagiaSophia:
+            // Must be built on flat land adjacent to a Holy Site district, and player must have founded a religion.
+            guard !tile.hasHills() && tile.isLand() else {
+                return false
+            }
+
+            guard hasReligion else {
+                return false
+            }
+
+            return self.adjacentTo(district: .holySite, on: point, in: gameModel)
+
+        case .hueyTeocalli:
+            // Must be built on a Lake tile adjacent to land.
+            guard !tile.has(feature: .lake) else {
+                return false
+            }
+
+            var nextToLand: Bool = false
+
+            for neighbor in point.neighbors() {
+
+                guard let neighborTile = gameModel.tile(at: neighbor) else {
+                    continue
+                }
+
+                if neighborTile.isLand() {
+                    nextToLand = true
+                }
+            }
+
+            return nextToLand
+        case .kilwaKisiwani:
+            // Must be built on a flat tile adjacent to a Coast.
+            guard !tile.hasHills() && tile.isLand() else {
+                return false
+            }
+
+            var nextToCoast: Bool = false
+
+            for neighbor in point.neighbors() {
+
+                guard let neighborTile = gameModel.tile(at: neighbor) else {
+                    continue
+                }
+
+                if neighborTile.isWater() {
+                    nextToCoast = true
+                }
+            }
+
+            return nextToCoast
+        case .kotokuIn:
+            // Must be built adjacent to a Holy Site with a Temple.
+            guard self.adjacentTo(district: .holySite, on: point, in: gameModel) else {
+                return false
+            }
+
+            guard self.adjacentTo(building: .temple, on: point, in: gameModel) else {
+                return false
+            }
+
+            return true
+        case .meenakshiTemple:
+            // Must be built adjacent to a Holy Site district, and player must have founded a religion.
+            guard hasReligion else {
+                return false
+            }
+            return self.adjacentTo(district: .holySite, on: point, in: gameModel)
+
+        case .montStMichel:
+            // Must be built on Floodplains or Marsh.
+            guard tile.has(feature: .floodplains) || tile.has(feature: .marsh) else {
+                return false
+            }
+
+            return true
+
+        case .universityOfSankore:
+            // Must be built on a Desert or Desert Hill adjacent to a Campus with a University.
+            guard tile.terrain() == .desert else {
+                return false
+            }
+
+            if !self.adjacentTo(district: .campus, on: point, in: gameModel) {
+                return false
+            }
+
+            /*guard self.adjacentTo(building: .university, on: point, in: gameModel) else {
+                return false
+            }*/
+
+            return true
+
+        case .casaDeContratacion:
+            // Must be built adjacent to a Government Plaza.
+            // return self.adjacentTo(district: .governmentPlaza, on: point, in: gameModel)
+            return true
+
+        case .forbiddenCity:
+            // Must be built on flat land adjacent to City Center.
+            guard tile.isLand() && !tile.hasHills() else {
+                return false
+            }
+
+            return self.adjacentTo(district: .cityCenter, on: point, in: gameModel)
+
+        case .greatZimbabwe:
+            // Must be built adjacent to Cattle and a Commercial Hub district with a Market.
+            if !self.adjacentTo(resource: .cattle, on: point, in: gameModel) {
+                return false
+            }
+
+            if !self.adjacentTo(district: .commercialHub, on: point, in: gameModel) {
+                return false
+            }
+
+            guard self.adjacentTo(building: .market, on: point, in: gameModel) else {
+                return false
+            }
+
+            return true
+
+        case .potalaPalace:
+            // Must be built on a Hill adjacent to a Mountain.
+            guard tile.hasHills() else {
+                return false
+            }
+
+            return self.adjacentTo(feature: .mountains, on: point, in: gameModel)
+
+        case .stBasilsCathedral:
+            // Must be built adjacent to a City Center
+            return self.adjacentTo(district: .cityCenter, on: point, in: gameModel)
+
+        case .tajMahal:
+            // Must be built next to a River.
+            return gameModel.river(at: point)
+
+        case .torreDeBelem:
+            // It must be built on Coast adjacent to land and a Harbor. It cannot be built on a Lake.
+            guard tile.isWater() else {
+                return false
+            }
+
+            return self.adjacentTo(district: .harbor, on: point, in: gameModel)
+
+        case .venetianArsenal:
+            // It must be built on Coast adjacent to an Industrial Zone. It cannot be built on a Lake.
+            guard tile.isWater() else {
+                return false
+            }
+
+            return self.adjacentTo(district: .industrial, on: point, in: gameModel)
         }
     }
 }

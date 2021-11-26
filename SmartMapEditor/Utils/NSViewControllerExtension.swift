@@ -33,10 +33,9 @@ public extension NSViewController {
     /// - parameter containerView: It will be removed from this view
     func removeSwiftUI<V: View>(_ view: V?, from containerView: NSView) {
 
-        for subview in containerView.subviews {
-            if subview is NSHostingView<V> {
-                subview.removeFromSuperview()
-            }
+        for subview in containerView.subviews where subview is NSHostingView<V> {
+
+            subview.removeFromSuperview()
         }
     }
 }

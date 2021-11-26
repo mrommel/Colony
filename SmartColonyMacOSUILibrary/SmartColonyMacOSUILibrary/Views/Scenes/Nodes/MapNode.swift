@@ -24,6 +24,8 @@ class MapNode: SKNode {
     var improvementLayer: ImprovementLayer
     var borderLayer: BorderLayer
     var tooltipLayer: TooltipLayer
+    var districtLayer: DistrictLayer
+    var wonderLayer: WonderLayer
 
     // can be shown by map options
     var yieldLayer: YieldLayer
@@ -102,6 +104,14 @@ class MapNode: SKNode {
         self.hexCoordLayer.populate(with: self.game)
         self.hexCoordLayer.zPosition = Globals.ZLevels.hexCoords
 
+        self.districtLayer = DistrictLayer(player: humanPlayer)
+        self.districtLayer.populate(with: self.game)
+        self.districtLayer.zPosition = Globals.ZLevels.district
+
+        self.wonderLayer = WonderLayer(player: humanPlayer)
+        self.wonderLayer.populate(with: self.game)
+        self.wonderLayer.zPosition = Globals.ZLevels.wonder
+
         super.init()
         self.zPosition = 51
 
@@ -117,6 +127,8 @@ class MapNode: SKNode {
         self.addChild(self.borderLayer)
         self.addChild(self.tooltipLayer)
         self.addChild(self.hexCoordLayer) // ???
+        self.addChild(self.districtLayer)
+        self.addChild(self.wonderLayer)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -215,6 +227,10 @@ class MapNode: SKNode {
         //self.addChild(self.tooltipLayer)
         self.hexCoordLayer.showCompleteMap = true
         self.hexCoordLayer.rebuild()
+        self.districtLayer.showCompleteMap = true
+        self.districtLayer.rebuild()
+        self.wonderLayer.showCompleteMap = true
+        self.wonderLayer.rebuild()
     }
 
     func showVisibleMap() {
@@ -251,6 +267,10 @@ class MapNode: SKNode {
         //self.addChild(self.tooltipLayer)
         self.hexCoordLayer.showCompleteMap = false
         self.hexCoordLayer.rebuild()
+        self.districtLayer.showCompleteMap = false
+        self.districtLayer.rebuild()
+        self.wonderLayer.showCompleteMap = false
+        self.wonderLayer.rebuild()
     }
 
     func updateLayout() {
@@ -270,5 +290,7 @@ class MapNode: SKNode {
         self.waterLayer.update(tile: tile)
         self.borderLayer.update(tile: tile)
         self.hexCoordLayer.update(tile: tile)
+        self.districtLayer.update(tile: tile)
+        self.wonderLayer.update(tile: tile)
     }
 }

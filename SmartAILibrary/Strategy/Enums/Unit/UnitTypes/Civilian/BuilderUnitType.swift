@@ -18,8 +18,9 @@ internal class BuilderUnitType: UnitTypeData {
             baseType: .builder,
             domain: .land,
             effects: [
-                "May create tile improvements or remove features like Woods or Rainforest. Build charges number can be increased through policies or wonders like the Pyramids.",
-                "Production cost is progressive."
+                "May create tile improvements or remove features like Woods or Rainforest. " +
+                "Build charges number can be increased through policies or wonders like the Pyramids.",
+                "Production cost is progressive." // #
             ],
             abilities: [.canImprove],
             era: .ancient,

@@ -8,7 +8,7 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-protocol MapSavingViewDelegate: NSObject {
+protocol MapSavingViewDelegate: AnyObject {
 
     func saved(with success: Bool)
 }

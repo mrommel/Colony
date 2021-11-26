@@ -99,142 +99,176 @@ public enum UnitPromotionType: Int, Codable {
         switch self {
 
         case .embarkation:
-            return PromotionData(name: "Embarkation", // FIXME
-                                 effect: "---",
-                                 tier: 0,
-                                 unitClass: .melee, required: [],
-                                 consumable: false)
+            return PromotionData(
+                name: "Embarkation", // #
+                effect: "---",
+                tier: 0,
+                unitClass: .melee,
+                required: [],
+                consumable: false)
 
             // general
         case .healthBoostRecon:
-            return PromotionData(name: "Health Boost", // FIXME
-                                 effect: "---",
-                                 tier: 0,
-                                 unitClass: .recon,
-                                 required: [],
-                                 consumable: true)
+            return PromotionData(
+                name: "Health Boost", // #
+                effect: "---",
+                tier: 0,
+                unitClass: .recon,
+                required: [],
+                consumable: true
+            )
         case .healthBoostMelee:
-            return PromotionData(name: "Health Boost", // FIXME
-                                 effect: "---",
-                                 tier: 0,
-                                 unitClass: .melee,
-                                 required: [],
-                                 consumable: true)
+            return PromotionData(
+                name: "Health Boost", // #
+                effect: "---",
+                tier: 0,
+                unitClass: .melee,
+                required: [],
+                consumable: true
+            )
 
             // recon
         case .ranger:
             // https://civilization.fandom.com/wiki/Ranger_(promotion)_(Civ6)
-            return PromotionData(name: "Ranger",
-                                 effect: "Faster Movement in Woods and Jungle terrain.", // FIXME
-                                 tier: 1,
-                                 unitClass: .recon,
-                                 required: [],
-                                 consumable: false)
+            return PromotionData(
+                name: "Ranger",
+                effect: "Faster Movement in Woods and Jungle terrain.", // #
+                tier: 1,
+                unitClass: .recon,
+                required: [],
+                consumable: false
+            )
         case .alpine:
             // https://civilization.fandom.com/wiki/Alpine_(Civ6)
-            return PromotionData(name: "Alpine",
-                                 effect: "Faster Movement on Hill terrain.", // FIXME
-                                 tier: 1,
-                                 unitClass: .recon,
-                                 required: [],
-                                 consumable: false)
+            return PromotionData(
+                name: "Alpine",
+                effect: "Faster Movement on Hill terrain.", // #
+                tier: 1,
+                unitClass: .recon,
+                required: [],
+                consumable: false
+            )
         case .sentry:
             // https://civilization.fandom.com/wiki/Sentry_(Civ6)
-            return PromotionData(name: "Sentry",
-                                 effect: "Can see through Woods and Jungle.", // FIXME
-                                 tier: 2,
-                                 unitClass: .recon,
-                                 required: [.ranger, .alpine],
-                                 consumable: false)
+            return PromotionData(
+                name: "Sentry",
+                effect: "Can see through Woods and Jungle.", // #
+                tier: 2,
+                unitClass: .recon,
+                required: [.ranger, .alpine],
+                consumable: false
+            )
         case .guerrilla:
             // https://civilization.fandom.com/wiki/Guerrilla_(Civ6)
-            return PromotionData(name: "Guerrilla",
-                                 effect: "Can move after attacking.", // FIXME
-                                 tier: 2,
-                                 unitClass: .recon,
-                                 required: [.ranger, .alpine],
-                                 consumable: false)
+            return PromotionData(
+                name: "Guerrilla",
+                effect: "Can move after attacking.", // #
+                tier: 2,
+                unitClass: .recon,
+                required: [.ranger, .alpine],
+                consumable: false
+            )
         case .spyglass:
-            return PromotionData(name: "Spyglass",
-                                 effect: "+1 sight range.",
-                                 tier: 3,
-                                 unitClass: .recon,
-                                 required: [.sentry],
-                                 consumable: false)
+            return PromotionData(
+                name: "Spyglass",
+                effect: "+1 sight range.",
+                tier: 3,
+                unitClass: .recon,
+                required: [.sentry],
+                consumable: false
+            )
         case .ambush:
             // https://civilization.fandom.com/wiki/Ambush_(Civ6)
-            return PromotionData(name: "Ambush",
-                                 effect: "+20 Combat Strength in all situations.", // FIXME
-                                 tier: 3,
-                                 unitClass: .recon,
-                                 required: [.guerrilla],
-                                 consumable: false)
+            return PromotionData(
+                name: "Ambush",
+                effect: "+20 Combat Strength in all situations.", // #
+                tier: 3,
+                unitClass: .recon,
+                required: [.guerrilla],
+                consumable: false
+            )
         case .camouflage:
             // https://civilization.fandom.com/wiki/Camouflage_(Civ6)
-            return PromotionData(name: "Camouflage",
-                                 effect: "Only adjacent enemy units can reveal this unit.", // FIXME
-                                 tier: 4,
-                                 unitClass: .recon,
-                                 required: [.spyglass, .ambush],
-                                 consumable: false)
+            return PromotionData(
+                name: "Camouflage",
+                effect: "Only adjacent enemy units can reveal this unit.", // #
+                tier: 4,
+                unitClass: .recon,
+                required: [.spyglass, .ambush],
+                consumable: false
+            )
 
             // melee
         case .battleCry:
             // https://civilization.fandom.com/wiki/Battlecry_(Civ6)
-            return PromotionData(name: "Battlecry",
-                                 effect: "+7 Combat Strength vs. melee and ranged units.",
-                                 tier: 1,
-                                 unitClass: .melee,
-                                 required: [],
-                                 consumable: false)
+            return PromotionData(
+                name: "Battlecry",
+                effect: "+7 Combat Strength vs. melee and ranged units.",
+                tier: 1,
+                unitClass: .melee,
+                required: [],
+                consumable: false
+            )
         case .tortoise:
             // https://civilization.fandom.com/wiki/Tortoise_(Civ6)
-            return PromotionData(name: "Tortoise",
-                                 effect: "+10 Combat Strength when defending against ranged attacks.",
-                                 tier: 1,
-                                 unitClass: .melee,
-                                 required: [],
-                                 consumable: false)
+            return PromotionData(
+                name: "Tortoise",
+                effect: "+10 Combat Strength when defending against ranged attacks.",
+                tier: 1,
+                unitClass: .melee,
+                required: [],
+                consumable: false
+            )
         case .commando:
             // https://civilization.fandom.com/wiki/Commando_(Civ6)
-            return PromotionData(name: "Commando",
-                                 effect: "Can scale Cliff walls. +1 Movement.", // FIXME
-                                 tier: 2,
-                                 unitClass: .melee,
-                                 required: [.battleCry, .amphibious],
-                                 consumable: false)
+            return PromotionData(
+                name: "Commando",
+                effect: "Can scale Cliff walls. +1 Movement.", // #
+                tier: 2,
+                unitClass: .melee,
+                required: [.battleCry, .amphibious],
+                consumable: false
+            )
         case .amphibious:
             // https://civilization.fandom.com/wiki/Amphibious_(Civ6)
-            return PromotionData(name: "Amphibious",
-                                 effect: "No Combat Strength and Movement penalty when attacking from Sea or over a River.", // FIXME
-                                 tier: 2,
-                                 unitClass: .melee,
-                                 required: [.tortoise, .commando],
-                                 consumable: false)
+            return PromotionData(
+                name: "Amphibious",
+                effect: "No Combat Strength and Movement penalty when attacking from Sea or over a River.", // #
+                tier: 2,
+                unitClass: .melee,
+                required: [.tortoise, .commando],
+                consumable: false
+            )
         case .zweihander:
             // https://civilization.fandom.com/wiki/Zweihander_(Civ6)
-            return PromotionData(name: "Zweihander",
-                                 effect: "+7 Combat Strength vs. anti-cavalry units.", // FIXME
-                                 tier: 3,
-                                 unitClass: .melee,
-                                 required: [.tortoise, .amphibious],
-                                 consumable: false)
+            return PromotionData(
+                name: "Zweihander",
+                effect: "+7 Combat Strength vs. anti-cavalry units.", // #
+                tier: 3,
+                unitClass: .melee,
+                required: [.tortoise, .amphibious],
+                consumable: false
+            )
         case .urbanWarfare:
             // https://civilization.fandom.com/wiki/Urban_Warfare_(Civ6)
-            return PromotionData(name: "Urban warfare",
-                                 effect: "+10 Combat Strength when fighting in a city.", // FIXME
-                                 tier: 3,
-                                 unitClass: .melee,
-                                 required: [.commando, .amphibious],
-                                 consumable: false)
+            return PromotionData(
+                name: "Urban warfare",
+                effect: "+10 Combat Strength when fighting in a city.", // #
+                tier: 3,
+                unitClass: .melee,
+                required: [.commando, .amphibious],
+                consumable: false
+            )
         case .eliteGuard:
             // https://civilization.fandom.com/wiki/Elite_Guard_(Civ6)
-            return PromotionData(name: "Elite guard",
-                                 effect: "+1 additional attack per turn if Movement allows. Can move after attacking.", // FIXME
-                                 tier: 4,
-                                 unitClass: .melee,
-                                 required: [.zweihander, .urbanWarfare],
-                                 consumable: false)
+            return PromotionData(
+                name: "Elite guard",
+                effect: "+1 additional attack per turn if Movement allows. Can move after attacking.", // #
+                tier: 4,
+                unitClass: .melee,
+                required: [.zweihander, .urbanWarfare],
+                consumable: false
+            )
 
         }
     }

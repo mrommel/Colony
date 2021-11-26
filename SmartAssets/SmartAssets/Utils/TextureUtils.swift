@@ -36,6 +36,10 @@ public class TextureUtils {
         var improvementSprite: SKSpriteNode?
         var routeSprite: SKSpriteNode?
         var hexLabel: SKLabelNode?
+        var districtSprite: SKSpriteNode?
+        var districtBuildingSprite: SKSpriteNode?
+        var wonderSprite: SKSpriteNode?
+        var wonderBuildingSprite: SKSpriteNode?
 
         init(point: HexPoint) {
 
@@ -220,5 +224,45 @@ public class TextureUtils {
     public func hexLabel(at point: HexPoint) -> SKLabelNode? {
 
         return self.tileTextures?[point.x, point.y]?.hexLabel
+    }
+
+    public func set(districtSprite: SKSpriteNode?, at point: HexPoint) {
+
+        self.tileTextures?[point.x, point.y]?.districtSprite = districtSprite
+    }
+
+    public func districtSprite(at point: HexPoint) -> SKSpriteNode? {
+
+        return self.tileTextures?[point.x, point.y]?.districtSprite
+    }
+
+    public func set(districtBuildingSprite: SKSpriteNode?, at point: HexPoint) {
+
+        self.tileTextures?[point.x, point.y]?.districtBuildingSprite = districtBuildingSprite
+    }
+
+    public func districtBuildingSprite(at point: HexPoint) -> SKSpriteNode? {
+
+        return self.tileTextures?[point.x, point.y]?.districtBuildingSprite
+    }
+
+    public func set(wonderSprite: SKSpriteNode?, at point: HexPoint) {
+
+        self.tileTextures?[point.x, point.y]?.wonderSprite = wonderSprite
+    }
+
+    public func wonderSprite(at point: HexPoint) -> SKSpriteNode? {
+
+        return self.tileTextures?[point.x, point.y]?.wonderSprite
+    }
+
+    public func set(wonderBuildingSprite: SKSpriteNode?, at point: HexPoint) {
+
+        self.tileTextures?[point.x, point.y]?.wonderBuildingSprite = wonderBuildingSprite
+    }
+
+    public func wonderBuildingSprite(at point: HexPoint) -> SKSpriteNode? {
+
+        return self.tileTextures?[point.x, point.y]?.wonderBuildingSprite
     }
 }

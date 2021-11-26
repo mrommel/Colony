@@ -89,7 +89,8 @@ extension MapModel {
 
         tribesItem.inhabitants = tmpInhabitants - tmpMigratants
 
-        print("tribe at (\(x), \(y)): \(civilizationType.rawValue) - \(tribesItem.inhabitants) people - growthRate: \(growthRate), migratants: \(tmpMigratants) people")
+        print("tribe at (\(x), \(y)): \(civilizationType.rawValue) - " +
+              "\(tribesItem.inhabitants) people - growthRate: \(growthRate), migratants: \(tmpMigratants) people")
     }
 
     fileprivate func setupNewTile(at position: HexPoint, for civilizationType: CivilizationType, with people: Int) {
@@ -341,7 +342,12 @@ extension MapModel {
 
                     // verify that a path can be found
                     let pathfinder = AStarPathfinder()
-                    pathfinder.dataSource = MoveTypeIgnoreUnitsPathfinderDataSource(in: self, for: .walk, for: nil, options: MoveTypeIgnoreUnitsOptions(unitMapType: .civilian, canEmbark: false))
+                    pathfinder.dataSource = MoveTypeIgnoreUnitsPathfinderDataSource(
+                        in: self,
+                        for: .walk,
+                        for: nil,
+                        options: MoveTypeIgnoreUnitsOptions(unitMapType: .civilian, canEmbark: false)
+                    )
 
                     if !pathfinder.doesPathExist(fromTileCoord: tribe.capital, toTileCoord: locationToSpawn) {
                         continue

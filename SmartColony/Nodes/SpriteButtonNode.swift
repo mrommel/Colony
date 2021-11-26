@@ -37,7 +37,11 @@ class SpriteButtonNode: SKNode {
         self.enabledButton.anchorPoint = .middleCenter
 
         // hover button state
-        self.hoverButton = NineGridTextureSprite(imageNamed: hoverButtonImage.isEmpty ? enabledButtonImage : hoverButtonImage, size: size, isNineGrid: isNineGrid)
+        self.hoverButton = NineGridTextureSprite(
+            imageNamed: hoverButtonImage.isEmpty ? enabledButtonImage : hoverButtonImage,
+            size: size,
+            isNineGrid: isNineGrid
+        )
         self.hoverButton.isHidden = true
         self.hoverButton.anchorPoint = .middleCenter
 
@@ -79,7 +83,11 @@ class SpriteButtonNode: SKNode {
         self.enabledButton.anchorPoint = .middleCenter
 
         // hover button state
-        self.hoverButton = NineGridTextureSprite(imageNamed: hoverButtonImage.isEmpty ? enabledButtonImage : hoverButtonImage, size: size, isNineGrid: isNineGrid)
+        self.hoverButton = NineGridTextureSprite(
+            imageNamed: hoverButtonImage.isEmpty ? enabledButtonImage : hoverButtonImage,
+            size: size,
+            isNineGrid: isNineGrid
+        )
         self.hoverButton.isHidden = true
         self.hoverButton.anchorPoint = .middleCenter
 

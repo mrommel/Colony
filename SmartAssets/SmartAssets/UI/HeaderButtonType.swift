@@ -20,6 +20,31 @@ public enum HeaderButtonType {
     case ranking
     case tradeRoutes
 
+    public func name() -> String {
+
+        switch self {
+
+        case .science:
+            return "Science"
+        case .culture:
+            return "Culture"
+        case .government:
+            return "Government"
+        case .religion:
+            return "Religion"
+        case .greatPeople:
+            return "Great People"
+        case .log:
+            return "Log"
+        case .governors:
+            return "Governors"
+        case .ranking:
+            return "Ranking"
+        case .tradeRoutes:
+            return "Trade Routes"
+        }
+    }
+
     public func iconTexture(for state: Bool) -> String {
 
         switch self {
