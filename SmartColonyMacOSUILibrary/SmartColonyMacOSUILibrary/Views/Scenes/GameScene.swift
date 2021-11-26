@@ -93,7 +93,7 @@ class GameScene: BaseScene {
         }
 
         // only check once per 0.5 sec
-        if self.lastExecuted + 0.5 < currentTime {
+        if self.lastExecuted + 1.0 < currentTime {
 
             self.lastExecuted = currentTime
 
