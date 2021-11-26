@@ -66,7 +66,7 @@ public enum NotificationType {
         .barbarianCampDiscovered(location: HexPoint.invalid)
     ]
 
-    func title() -> String {
+    public func title() -> String {
 
         switch self {
 

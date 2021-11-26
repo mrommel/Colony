@@ -32,9 +32,6 @@ struct NotificationView: View {
                 .padding(.top, 13.5)
                 .padding(.leading, 14)
 
-            //Text(self.viewModel.title)
-            //    .font(.footnote)
-
             Circle()
                 .fill(Color.white.opacity(0.01))
                 .frame(width: 40, height: 40)
@@ -45,6 +42,7 @@ struct NotificationView: View {
                 }
         }
         .frame(width: 61, height: 65, alignment: .center)
+        .toolTip(self.viewModel.toolTip)
     }
 }
 

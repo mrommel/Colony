@@ -17,7 +17,10 @@ protocol NotificationViewModelDelegate: AnyObject {
 class NotificationViewModel: ObservableObject, Identifiable {
 
     @Published
-    var title: String
+    var toolTip: NSAttributedString
+
+    @Published
+    var amount: Int
 
     private let item: NotificationItem
 
@@ -26,7 +29,20 @@ class NotificationViewModel: ObservableObject, Identifiable {
     init(item: NotificationItem) {
 
         self.item = item
-        self.title = item.type.iconTexture()
+        self.amount = 1 // #
+
+        let toolTopText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: item.type.title(),
+            attributes: [
+                NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont,
+                NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipTitleColor
+            ]
+        )
+        toolTopText.append(title)
+
+        self.toolTip = toolTopText
     }
 
     func icon() -> NSImage {
