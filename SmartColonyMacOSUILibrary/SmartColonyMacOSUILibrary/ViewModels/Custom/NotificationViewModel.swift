@@ -22,19 +22,23 @@ class NotificationViewModel: ObservableObject, Identifiable {
     @Published
     var amount: Int
 
-    private let item: NotificationItem
+    private let items: [NotificationItem]
 
     weak var delegate: NotificationViewModelDelegate?
 
-    init(item: NotificationItem) {
+    init(items: [NotificationItem]) {
 
-        self.item = item
-        self.amount = 1 // #
+        self.items = items
+        self.amount = items.count
+
+        guard let firstItem = items.first else {
+            fatalError("cant get first item")
+        }
 
         let toolTopText = NSMutableAttributedString()
 
         let title = NSAttributedString(
-            string: item.type.title(),
+            string: firstItem.type.title(),
             attributes: [
                 NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont,
                 NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipTitleColor
@@ -47,7 +51,11 @@ class NotificationViewModel: ObservableObject, Identifiable {
 
     func icon() -> NSImage {
 
-        return ImageCache.shared.image(for: self.item.type.iconTexture())
+        guard let firstItem = items.first else {
+            fatalError("cant get first item")
+        }
+
+        return ImageCache.shared.image(for: firstItem.type.iconTexture())
     }
 
     func background() -> NSImage {
@@ -57,12 +65,20 @@ class NotificationViewModel: ObservableObject, Identifiable {
 
     func click() {
 
-        self.delegate?.clicked(on: self.item)
+        guard let firstItem = items.first else { // stepper
+            fatalError("cant get first item")
+        }
+
+        self.delegate?.clicked(on: firstItem)
     }
 
     func equal(to item: NotificationItem) -> Bool {
 
-        return self.item == item
+        guard let firstItem = items.first else {
+            fatalError("cant get first item")
+        }
+
+        return firstItem == item
     }
 }
 
@@ -70,11 +86,14 @@ extension NotificationViewModel: Hashable {
 
     static func == (lhs: NotificationViewModel, rhs: NotificationViewModel) -> Bool {
 
-        return lhs.item == rhs.item
+        return lhs.items == rhs.items
     }
 
     func hash(into hasher: inout Hasher) {
 
-        hasher.combine(self.item.type)
+        for item in self.items {
+
+            hasher.combine(item.type)
+        }
     }
 }

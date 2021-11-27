@@ -27,7 +27,7 @@ class NotificationsViewModel: ObservableObject {
     init(items: [NotificationItem]) {
 
         self.notificationViewModels = items.map {
-            let viewModel = NotificationViewModel(item: $0)
+            let viewModel = NotificationViewModel(items: [$0])
             viewModel.delegate = self
             return viewModel
         }
@@ -39,7 +39,7 @@ class NotificationsViewModel: ObservableObject {
         print("=== add notification: \(notification.type) ===")
 
         DispatchQueue.main.async {
-            let viewModel = NotificationViewModel(item: notification)
+            let viewModel = NotificationViewModel(items: [notification])
             viewModel.delegate = self
             self.notificationViewModels.append(viewModel)
         }
