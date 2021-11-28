@@ -28,9 +28,10 @@ struct NotificationDetailView: View {
                 .padding(.top, 4)
 
             PageControlView(pages: self.viewModel.pages)
-                .frame(height: 30)
-                .frame(maxWidth: 200)
+                .frame(height: 20)
+                .frame(maxWidth: 240)
         }
+        .frame(height: 65)
         .background(Color(Globals.Colors.notificationDetailBodyColor))
             .cornerRadius(15)
         .clipShape(RoundedRectangle(cornerRadius: 15))
@@ -40,7 +41,7 @@ struct NotificationDetailView: View {
 
         Text(self.viewModel.titleText)
             .padding(.all, 4)
-            .frame(width: 200)
+            .frame(width: 240)
             .background(Color(Globals.Colors.notificationDetailTitleColor))
     }
 
