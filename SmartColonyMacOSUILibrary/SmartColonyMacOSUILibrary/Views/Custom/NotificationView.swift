@@ -53,9 +53,14 @@ struct NotificationView: View {
                             .padding(1)
                     )
                     .offset(x: 8, y: 44)
+
+                if self.viewModel.expanded {
+                    NotificationDetailView(viewModel: self.viewModel.detailViewModel)
+                        .offset(x: 70, y: 0)
+                }
             }
         }
-        .frame(width: 61, height: 65, alignment: .center)
+        .frame(height: 65, alignment: .leading)
         .toolTip(self.viewModel.toolTip)
     }
 }

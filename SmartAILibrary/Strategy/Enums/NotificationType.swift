@@ -220,6 +220,11 @@ public enum NotificationType {
             return 21
         }
     }
+
+    public func sameType(as type: NotificationType) -> Bool {
+
+        return self.value() == type.value()
+    }
 }
 
 extension NotificationType: Codable {

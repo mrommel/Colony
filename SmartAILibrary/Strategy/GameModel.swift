@@ -1781,6 +1781,29 @@ open class GameModel: Codable {
         }
     }
 
+    public func resendGoodyHutAndBarbarianCampNotifications() {
+
+        // add barbarian camp / goody hut notifications
+        for point in self.points() {
+
+            guard let tile = self.tile(at: point) else {
+                continue
+            }
+
+            if tile.isVisible(to: self.humanPlayer()) {
+
+                if tile.has(improvement: .barbarianCamp) {
+
+                    self.humanPlayer()?.notifications()?.add(notification: .barbarianCampDiscovered(location: tile.point))
+
+                } else if tile.has(improvement: .goodyHut) {
+
+                    self.humanPlayer()?.notifications()?.add(notification: .goodyHutDiscovered(location: tile.point))
+                }
+            }
+        }
+    }
+
     func numTradeRoutes(at point: HexPoint) -> Int {
 
         // FIXME

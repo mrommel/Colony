@@ -24,12 +24,12 @@ struct NotificationsView: View {
 
         HStack(alignment: .top, spacing: 10) {
 
-            VStack(alignment: .trailing, spacing: 0 ) {
+            VStack(alignment: .leading, spacing: 0) {
 
                 Spacer()
 
                 Image(nsImage: ImageCache.shared.image(for: "notification-top"))
-                    .frame(width: 61, height: 31, alignment: .center)
+                    .frame(width: 61, height: 31)
 
                 ForEach(self.viewModel.notificationViewModels) { notificationViewModel in
 
@@ -38,7 +38,7 @@ struct NotificationsView: View {
 
                 Image(nsImage: ImageCache.shared.image(for: "notification-bottom"))
                     .resizable()
-                    .frame(width: 61, height: 120, alignment: .center)
+                    .frame(width: 61, height: 120)
             }
 
             Spacer()
@@ -54,9 +54,29 @@ struct NotificationsView_Previews: PreviewProvider {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
         let item0: NotificationItem = NotificationItem(
-            type: .cityGrowth(cityName: "", population: 3, location: HexPoint(x: 3, y: 3))
+            type: .cityGrowth(
+                cityName: "Berlin",
+                population: 3,
+                location: HexPoint(x: 3, y: 3)
+            )
         )
-        let viewModel = NotificationsViewModel(items: [item0])
+        let item1: NotificationItem = NotificationItem(
+            type: .cityGrowth(
+                cityName: "Potsdam",
+                population: 3,
+                location: HexPoint(x: 5, y: 3)
+            )
+        )
+
+        let item2: NotificationItem = NotificationItem(
+            type: .barbarianCampDiscovered(
+                location: HexPoint(x: 5, y: 13)
+            )
+        )
+
+        let viewModel = NotificationsViewModel(
+            items: [item0, item1, item2]
+        )
 
         NotificationsView(viewModel: viewModel)
     }

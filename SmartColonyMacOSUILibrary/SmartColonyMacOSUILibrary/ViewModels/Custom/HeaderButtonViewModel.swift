@@ -50,10 +50,7 @@ class HeaderButtonViewModel: ObservableObject {
 
         let title = NSAttributedString(
             string: self.type.name(),
-            attributes: [
-                NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont,
-                NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipTitleColor
-            ]
+            attributes: Globals.Attributs.tooltipTitleAttributs
         )
         toolTopText.append(title)
 

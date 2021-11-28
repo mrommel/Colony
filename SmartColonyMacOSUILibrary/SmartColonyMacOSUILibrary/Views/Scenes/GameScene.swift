@@ -84,6 +84,8 @@ class GameScene: BaseScene {
         self.viewHex?.addChild(self.mapNode!)
 
         viewModel.game?.userInterface = self
+
+        viewModel.game?.resendGoodyHutAndBarbarianCampNotifications()
     }
 
     override func update(_ currentTime: TimeInterval) {

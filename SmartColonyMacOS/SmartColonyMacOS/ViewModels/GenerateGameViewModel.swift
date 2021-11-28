@@ -178,7 +178,7 @@ class GenerateGameViewModel: ObservableObject {
                 }
             }
 
-            // debug - FIXME - TODO
+            // debug
             if startLocation.isHuman {
                 // print("remove me - this is cheating")
                 // MapUtils.discover(mapModel: &map, by: player)

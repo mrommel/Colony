@@ -22,7 +22,14 @@ class NotificationViewModel: ObservableObject, Identifiable {
     @Published
     var amount: Int
 
-    private let items: [NotificationItem]
+    @Published
+    var expanded: Bool
+
+    @Published
+    var detailViewModel: NotificationDetailViewModel
+
+    let type: NotificationType
+    let items: [NotificationItem]
 
     weak var delegate: NotificationViewModelDelegate?
 
@@ -30,23 +37,30 @@ class NotificationViewModel: ObservableObject, Identifiable {
 
         self.items = items
         self.amount = items.count
+        self.expanded = false // items.count > 1
 
         guard let firstItem = items.first else {
             fatalError("cant get first item")
         }
 
+        self.type = firstItem.type
+
         let toolTopText = NSMutableAttributedString()
 
         let title = NSAttributedString(
             string: firstItem.type.title(),
-            attributes: [
-                NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont,
-                NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipTitleColor
-            ]
+            attributes: Globals.Attributs.tooltipTitleAttributs
         )
         toolTopText.append(title)
 
         self.toolTip = toolTopText
+
+        self.detailViewModel = NotificationDetailViewModel(
+            title: "\(items.count) \(firstItem.type.title())",
+            texts: items.map { item in
+                item.type.title()
+            }
+        )
     }
 
     func icon() -> NSImage {
@@ -65,11 +79,18 @@ class NotificationViewModel: ObservableObject, Identifiable {
 
     func click() {
 
-        guard let firstItem = items.first else { // stepper
-            fatalError("cant get first item")
-        }
+        // if there is only one item - we can directly open it
+        if self.items.count == 1 {
 
-        self.delegate?.clicked(on: firstItem)
+            guard let firstItem = items.first else {
+                fatalError("cant get first item")
+            }
+
+            self.delegate?.clicked(on: firstItem)
+        } else {
+            // otherwise we need to expand the details
+            self.expanded = !self.expanded
+        }
     }
 
     func equal(to item: NotificationItem) -> Bool {
