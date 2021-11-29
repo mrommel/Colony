@@ -38,7 +38,9 @@ class NotificationsViewModel: ObservableObject {
 
         DispatchQueue.main.async {
 
-            if let existingNotificationViewModel = self.notificationViewModels.first(where: { $0.type.sameType(as: notification.type) }) {
+            if let existingNotificationViewModel = self.notificationViewModels.first(
+                where: { $0.type.sameType(as: notification.type) }
+            ) {
 
                 self.notificationViewModels.removeAll(where: { $0.type.sameType(as: notification.type) })
                 var items = existingNotificationViewModel.items
@@ -62,7 +64,9 @@ class NotificationsViewModel: ObservableObject {
 
         DispatchQueue.main.async {
 
-            if let existingNotificationViewModel = self.notificationViewModels.first(where: { $0.type.sameType(as: notification.type) }) {
+            if let existingNotificationViewModel = self.notificationViewModels.first(
+                where: { $0.type.sameType(as: notification.type) }
+            ) {
 
                 self.notificationViewModels.removeAll(where: { $0.type.sameType(as: notification.type) })
                 var items = existingNotificationViewModel.items

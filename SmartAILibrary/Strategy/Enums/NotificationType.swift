@@ -165,7 +165,7 @@ public enum NotificationType {
             return "greatPersonJoined"
         case .canRecruitGreatPerson(greatPerson: let greatPerson):
             return "You can recruit \(greatPerson.name())"
-            
+
         case .cityConquered(location: let location):
 
             guard let city = gameModel.city(at: location) else {

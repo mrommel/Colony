@@ -9,8 +9,8 @@ import SwiftUI
 
 public class NSPageControl: NSView {
 
-    public var numberOfPages: Int   = 0
-    public var currentPage: Int     = 0 {
+    public var numberOfPages: Int = 0
+    public var currentPage: Int = 0 {
         didSet(oldValue) {
             if currentPage < 0 {
                 currentPage = 0
@@ -34,39 +34,39 @@ public class NSPageControl: NSView {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
-        let dotWidthSum: CGFloat          = dotLength * CGFloat(numberOfPages)
-        let marginWidthSum: CGFloat       = dotMargin * CGFloat((numberOfPages - 1))
-        let minimumRequiredWidth: CGFloat =  dotWidthSum + marginWidthSum
+        let dotWidthSum: CGFloat = dotLength * CGFloat(numberOfPages)
+        let marginWidthSum: CGFloat = dotMargin * CGFloat((numberOfPages - 1))
+        let minimumRequiredWidth: CGFloat = dotWidthSum + marginWidthSum
 
-        let hasEnoughHeight: Bool   = dirtyRect.height >= dotLength
-        let hasEnoughWidth: Bool    = dirtyRect.width >= minimumRequiredWidth
+        let hasEnoughHeight: Bool = dirtyRect.height >= dotLength
+        let hasEnoughWidth: Bool = dirtyRect.width >= minimumRequiredWidth
         if !hasEnoughWidth || !hasEnoughHeight {
             Swift.print("dirtyRect doesn't have enough space to draw all dots")
-            Swift.print("current Rect :\(dirtyRect)")
-            Swift.print("required Size:\(CGSize(width: minimumRequiredWidth, height: dotLength))")
+            Swift.print("current Rect: \(dirtyRect)")
+            Swift.print("required Size: \(CGSize(width: minimumRequiredWidth, height: dotLength))")
         }
 
         for layer in dotLayers {
             layer.removeFromSuperlayer()
         }
         dotLayers = []
-        self.layer      = CALayer()
+        self.layer = CALayer()
         self.wantsLayer = true
 
         for index: Int in 0..<numberOfPages {
-            let minX: CGFloat           = (dirtyRect.width - minimumRequiredWidth) / 2
-            let indexOffset: CGFloat    = (dotLength + dotMargin) * CGFloat(index)
-            let x: CGFloat              = minX + indexOffset
+            let minX: CGFloat = (dirtyRect.width - minimumRequiredWidth) / 2
+            let indexOffset: CGFloat = (dotLength + dotMargin) * CGFloat(index)
+            let x: CGFloat = minX + indexOffset
             let verticalCenter: CGFloat = (dirtyRect.height - dotLength) / 2
-            let y: CGFloat              = verticalCenter - dotLength / 2
-            let rect: CGRect            = NSRect(x: x, y: y, width: dotLength, height: dotLength)
-            let cgPath: CGMutablePath   = CGMutablePath()
+            let y: CGFloat = verticalCenter - dotLength / 2
+            let rect: CGRect = NSRect(x: x, y: y, width: dotLength, height: dotLength)
+            let cgPath: CGMutablePath = CGMutablePath()
             cgPath.addEllipse(in: rect)
 
-            let fillColor: NSColor          = (index == currentPage) ? currentPageIndicatorTintColor : pageIndicatorTintColor
-            let shapeLayer: CAShapeLayer    = CAShapeLayer()
-            shapeLayer.path                 = cgPath
-            shapeLayer.fillColor            = fillColor.cgColor
+            let fillColor: NSColor = (index == currentPage) ? currentPageIndicatorTintColor : pageIndicatorTintColor
+            let shapeLayer: CAShapeLayer = CAShapeLayer()
+            shapeLayer.path = cgPath
+            shapeLayer.fillColor = fillColor.cgColor
 
             layer?.addSublayer(shapeLayer)
             dotLayers.append(shapeLayer)
@@ -75,6 +75,7 @@ public class NSPageControl: NSView {
 
     // MARK: - private
     private func didSetCurrentPage(_ selectedPage: Int, newlySelectedPage: Int) {
+
         if selectedPage == newlySelectedPage {
             return
         }
@@ -86,9 +87,10 @@ public class NSPageControl: NSView {
     }
 
     private func fillColorAnimation(with color: NSColor) -> CABasicAnimation {
+
         let fillColorAnimation: CABasicAnimation = CABasicAnimation(keyPath: "fillColor")
-        fillColorAnimation.toValue    = color.cgColor
-        fillColorAnimation.duration   = animationDuration
+        fillColorAnimation.toValue = color.cgColor
+        fillColorAnimation.duration = animationDuration
         fillColorAnimation.fillMode = CAMediaTimingFillMode.forwards
         fillColorAnimation.isRemovedOnCompletion = false
         return fillColorAnimation
