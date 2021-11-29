@@ -69,7 +69,7 @@ class NotificationsViewModel: ObservableObject {
 
                 items.removeAll(where: { $0.type == notification.type })
 
-                if items.count > 0 {
+                if !items.isEmpty {
                     let viewModel = NotificationViewModel(items: items)
                     viewModel.delegate = self
                     self.notificationViewModels.append(viewModel)
