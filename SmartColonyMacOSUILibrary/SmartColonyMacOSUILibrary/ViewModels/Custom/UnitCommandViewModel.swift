@@ -42,19 +42,13 @@ class UnitCommandViewModel: ObservableObject {
 
         let title = NSAttributedString(
             string: commandType.title(),
-            attributes: [
-                NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont,
-                NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipTitleColor
-            ]
+            attributes: Globals.Attributs.tooltipTitleAttributs
         )
         toolTipText.append(title)
 
         let effects = NSAttributedString(
             string: "\n\nDescription",
-            attributes: [
-                NSAttributedString.Key.font: Globals.Fonts.tooltipContentFont,
-                NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipContentColor
-            ]
+            attributes: Globals.Attributs.tooltipContentAttributs
         )
         toolTipText.append(effects)
 

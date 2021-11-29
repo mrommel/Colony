@@ -26,10 +26,8 @@ class NotificationsViewModel: ObservableObject {
 #if DEBUG
     init(items: [NotificationItem]) {
 
-        self.notificationViewModels = items.map {
-            let viewModel = NotificationViewModel(item: $0)
-            viewModel.delegate = self
-            return viewModel
+        items.forEach { item in
+            self.add(notification: item)
         }
     }
 #endif
@@ -39,9 +37,24 @@ class NotificationsViewModel: ObservableObject {
         print("=== add notification: \(notification.type) ===")
 
         DispatchQueue.main.async {
-            let viewModel = NotificationViewModel(item: notification)
-            viewModel.delegate = self
-            self.notificationViewModels.append(viewModel)
+
+            if let existingNotificationViewModel = self.notificationViewModels.first(
+                where: { $0.type.sameType(as: notification.type) }
+            ) {
+
+                self.notificationViewModels.removeAll(where: { $0.type.sameType(as: notification.type) })
+                var items = existingNotificationViewModel.items
+                items.append(notification)
+
+                let viewModel = NotificationViewModel(items: items)
+                viewModel.delegate = self
+                self.notificationViewModels.append(viewModel)
+
+            } else {
+                let viewModel = NotificationViewModel(items: [notification])
+                viewModel.delegate = self
+                self.notificationViewModels.append(viewModel)
+            }
         }
     }
 
@@ -50,7 +63,22 @@ class NotificationsViewModel: ObservableObject {
         print("=== remove notification: \(notification.type) ===")
 
         DispatchQueue.main.async {
-            self.notificationViewModels.removeAll(where: { $0.equal(to: notification) })
+
+            if let existingNotificationViewModel = self.notificationViewModels.first(
+                where: { $0.type.sameType(as: notification.type) }
+            ) {
+
+                self.notificationViewModels.removeAll(where: { $0.type.sameType(as: notification.type) })
+                var items = existingNotificationViewModel.items
+
+                items.removeAll(where: { $0.type == notification.type })
+
+                if !items.isEmpty {
+                    let viewModel = NotificationViewModel(items: items)
+                    viewModel.delegate = self
+                    self.notificationViewModels.append(viewModel)
+                }
+            }
         }
     }
 }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAILibrary
+import SmartAssets
 
 struct NotificationView: View {
 
@@ -32,9 +33,6 @@ struct NotificationView: View {
                 .padding(.top, 13.5)
                 .padding(.leading, 14)
 
-            //Text(self.viewModel.title)
-            //    .font(.footnote)
-
             Circle()
                 .fill(Color.white.opacity(0.01))
                 .frame(width: 40, height: 40)
@@ -43,8 +41,27 @@ struct NotificationView: View {
                 .onTapGesture {
                     self.viewModel.click()
                 }
+
+            if self.viewModel.amount > 1 {
+                Text("\(self.viewModel.amount)")
+                    .frame(width: 8, height: 8, alignment: .center)
+                    .padding(4)
+                    .background(
+                        Circle()
+                            .strokeBorder(Color.orange, lineWidth: 1)
+                            .background(Circle().fill(Color(Globals.Colors.dialogCenter)))
+                            .padding(1)
+                    )
+                    .offset(x: 8, y: 44)
+            }
+
+            if self.viewModel.expanded {
+                NotificationDetailView(viewModel: self.viewModel.detailViewModel)
+                    .offset(x: 70, y: 0)
+            }
         }
-        .frame(width: 61, height: 65, alignment: .center)
+        .frame(height: 65, alignment: .leading)
+        .toolTip(self.viewModel.toolTip)
     }
 }
 
@@ -54,13 +71,37 @@ struct NotificationView_Previews: PreviewProvider {
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = NotificationViewModel(
-            item: NotificationItem(
-                type: .cityGrowth(cityName: "", population: 3, location: HexPoint(x: 3, y: 3))
-            )
+
+        let growthViewModel = NotificationViewModel(
+            items: [
+                NotificationItem(
+                    type: .cityGrowth(
+                        cityName: "Berlin",
+                        population: 3,
+                        location: HexPoint(x: 3, y: 3)
+                    )
+                )
+            ]
         )
 
-        NotificationView(viewModel: viewModel)
+        NotificationView(viewModel: growthViewModel)
+
+        let barbarianCampViewModel = NotificationViewModel(
+            items: [
+                NotificationItem(
+                    type: .barbarianCampDiscovered(
+                        location: HexPoint(x: 3, y: 3)
+                    )
+                ),
+                NotificationItem(
+                    type: .barbarianCampDiscovered(
+                        location: HexPoint(x: 6, y: 7)
+                    )
+                )
+            ]
+        )
+
+        NotificationView(viewModel: barbarianCampViewModel)
     }
 }
 #endif

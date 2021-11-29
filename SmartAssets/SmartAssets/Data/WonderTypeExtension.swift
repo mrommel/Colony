@@ -15,19 +15,13 @@ extension WonderType {
 
         let title = NSAttributedString(
             string: self.name(),
-            attributes: [
-                NSAttributedString.Key.font: Globals.Fonts.tooltipTitleFont,
-                NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipTitleColor
-            ]
+            attributes: Globals.Attributs.tooltipTitleAttributs
         )
         toolTopText.append(title)
 
         let effects = NSAttributedString(
             string: self.effects().reduce("\n\n", { $0 + $1 + "\n" }),
-            attributes: [
-                NSAttributedString.Key.font: Globals.Fonts.tooltipContentFont,
-                NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipContentColor
-            ]
+            attributes: Globals.Attributs.tooltipContentAttributs
         )
         toolTopText.append(effects)
 

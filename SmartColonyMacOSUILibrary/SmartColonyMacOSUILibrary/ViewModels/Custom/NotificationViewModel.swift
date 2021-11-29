@@ -5,6 +5,7 @@
 //  Created by Michael Rommel on 16.05.21.
 //
 
+import SwiftUI
 import SmartAILibrary
 import Cocoa
 import SmartAssets
@@ -16,22 +17,58 @@ protocol NotificationViewModelDelegate: AnyObject {
 
 class NotificationViewModel: ObservableObject, Identifiable {
 
-    @Published
-    var title: String
+    @Environment(\.gameEnvironment)
+    var gameEnvironment: GameEnvironment
 
-    private let item: NotificationItem
+    @Published
+    var toolTip: NSAttributedString
+
+    @Published
+    var amount: Int
+
+    @Published
+    var expanded: Bool
+
+    @Published
+    var detailViewModel: NotificationDetailViewModel
+
+    let type: NotificationType
+    let items: [NotificationItem]
 
     weak var delegate: NotificationViewModelDelegate?
 
-    init(item: NotificationItem) {
+    init(items: [NotificationItem]) {
 
-        self.item = item
-        self.title = item.type.iconTexture()
+        self.items = items
+        self.amount = items.count
+        self.expanded = false // items.count > 1
+
+        guard let firstItem = items.first else {
+            fatalError("cant get first item")
+        }
+
+        self.type = firstItem.type
+
+        let toolTopText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: firstItem.type.title(),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTopText.append(title)
+
+        self.toolTip = toolTopText
+
+        self.detailViewModel = NotificationDetailViewModel(title: "default", texts: ["default"])
     }
 
     func icon() -> NSImage {
 
-        return ImageCache.shared.image(for: self.item.type.iconTexture())
+        guard let firstItem = items.first else {
+            fatalError("cant get first item")
+        }
+
+        return ImageCache.shared.image(for: firstItem.type.iconTexture())
     }
 
     func background() -> NSImage {
@@ -41,12 +78,36 @@ class NotificationViewModel: ObservableObject, Identifiable {
 
     func click() {
 
-        self.delegate?.clicked(on: self.item)
+        // we need to expand the details
+        self.expanded = !self.expanded
+
+        if self.expanded {
+
+            guard let gameModel = self.gameEnvironment.game.value else {
+                fatalError("need to assign a valid game")
+            }
+
+            guard let firstItem = self.items.first else {
+                fatalError("cant get first item")
+            }
+
+            self.detailViewModel = NotificationDetailViewModel(
+                title: "\(items.count) \(firstItem.type.title())",
+                texts: items.map { item in
+                    item.type.message(in: gameModel)
+                }
+            )
+            self.detailViewModel.delegate = self
+        }
     }
 
     func equal(to item: NotificationItem) -> Bool {
 
-        return self.item == item
+        guard let firstItem = items.first else {
+            fatalError("cant get first item")
+        }
+
+        return firstItem == item
     }
 }
 
@@ -54,11 +115,24 @@ extension NotificationViewModel: Hashable {
 
     static func == (lhs: NotificationViewModel, rhs: NotificationViewModel) -> Bool {
 
-        return lhs.item == rhs.item
+        return lhs.items == rhs.items
     }
 
     func hash(into hasher: inout Hasher) {
 
-        hasher.combine(self.item.type)
+        for item in self.items {
+
+            hasher.combine(item.type)
+        }
+    }
+}
+
+extension NotificationViewModel: NotificationDetailViewModelDelegate {
+
+    func clickedContent(with index: Int) {
+
+        let item = self.items[index]
+
+        self.delegate?.clicked(on: item)
     }
 }
