@@ -53,11 +53,11 @@ struct NotificationView: View {
                             .padding(1)
                     )
                     .offset(x: 8, y: 44)
+            }
 
-                if self.viewModel.expanded {
-                    NotificationDetailView(viewModel: self.viewModel.detailViewModel)
-                        .offset(x: 70, y: 0)
-                }
+            if self.viewModel.expanded {
+                NotificationDetailView(viewModel: self.viewModel.detailViewModel)
+                    .offset(x: 70, y: 0)
             }
         }
         .frame(height: 65, alignment: .leading)

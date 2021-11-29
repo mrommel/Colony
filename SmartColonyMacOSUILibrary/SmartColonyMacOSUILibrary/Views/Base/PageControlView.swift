@@ -97,11 +97,14 @@ public class NSPageControl: NSView {
 
 struct PageControlView: NSViewRepresentable {
 
-    var current = 0
+    @Binding
+    var current: Int
+
     let pages: Int
 
-    init(pages: Int) {
+    init(current: Binding<Int>, pages: Int) {
 
+        self._current = current
         self.pages = pages
     }
 
@@ -115,6 +118,7 @@ struct PageControlView: NSViewRepresentable {
     }
 
     func updateNSView(_ uiView: NSPageControl, context: NSViewRepresentableContext<PageControlView>) {
-        uiView.currentPage = current
+
+        uiView.currentPage = self.current
     }
 }

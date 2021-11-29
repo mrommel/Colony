@@ -26,10 +26,18 @@ struct NotificationDetailView: View {
 
             self.contentView
                 .padding(.top, 4)
+                .onTapGesture {
+                    self.viewModel.clicked()
+                }
 
-            PageControlView(pages: self.viewModel.pages)
+            PageControlView(
+                current: self.$viewModel.selected,
+                pages: self.viewModel.pages)
                 .frame(height: 20)
                 .frame(maxWidth: 240)
+                .onTapGesture {
+                    self.viewModel.selectNextClicked()
+                }
         }
         .frame(height: 65)
         .background(Color(Globals.Colors.notificationDetailBodyColor))

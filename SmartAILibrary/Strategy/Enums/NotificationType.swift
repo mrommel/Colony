@@ -109,15 +109,19 @@ public enum NotificationType {
         case .canRecruitGreatPerson(greatPerson: _):
             return "Great Person can be recruited"
         case .cityConquered(location: _):
-            return "City conquered at xy"
+            return "City conquered"
         case .goodyHutDiscovered(location: _):
-            return "Goodyhut discovered at xy"
+            return "Goodyhut discovered"
         case .barbarianCampDiscovered(location: _):
-            return "Barbarian Camp discovered at xy"
+            return "Barbarian Camp discovered"
         }
     }
 
-    func message() -> String {
+    public func message(in gameModel: GameModel?) -> String {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
 
         switch self {
 
@@ -161,11 +165,33 @@ public enum NotificationType {
             return "greatPersonJoined"
         case .canRecruitGreatPerson(greatPerson: let greatPerson):
             return "You can recruit \(greatPerson.name())"
-        case .cityConquered(location: _):
-            return "City qonquered"
-        case .goodyHutDiscovered(location: _):
+            
+        case .cityConquered(location: let location):
+
+            guard let city = gameModel.city(at: location) else {
+                fatalError("cant get city")
+            }
+
+            if let newOwnerName = city.player?.leader.name() {
+                return "\(city.name) has been conquered by \(newOwnerName)"
+            }
+
+            return "\(city.name) has been conquered"
+
+        case .goodyHutDiscovered(location: let location):
+
+            if let city = gameModel.nearestCity(at: location, of: gameModel.humanPlayer()) {
+                return "Goodyhut near \(city.name) discovered"
+            }
+
             return "Goodyhut discovered"
-        case .barbarianCampDiscovered(location: _):
+
+        case .barbarianCampDiscovered(location: let location):
+
+            if let city = gameModel.nearestCity(at: location, of: gameModel.humanPlayer()) {
+                return "Barbarian Camp near \(city.name) discovered"
+            }
+
             return "Barbarian Camp discovered"
         }
     }

@@ -5,6 +5,7 @@
 //  Created by Michael Rommel on 16.05.21.
 //
 
+import SwiftUI
 import SmartAILibrary
 import Cocoa
 import SmartAssets
@@ -15,6 +16,9 @@ protocol NotificationViewModelDelegate: AnyObject {
 }
 
 class NotificationViewModel: ObservableObject, Identifiable {
+
+    @Environment(\.gameEnvironment)
+    var gameEnvironment: GameEnvironment
 
     @Published
     var toolTip: NSAttributedString
@@ -55,12 +59,7 @@ class NotificationViewModel: ObservableObject, Identifiable {
 
         self.toolTip = toolTopText
 
-        self.detailViewModel = NotificationDetailViewModel(
-            title: "\(items.count) \(firstItem.type.title())",
-            texts: items.map { item in
-                item.type.title()
-            }
-        )
+        self.detailViewModel = NotificationDetailViewModel(title: "default", texts: ["default"])
     }
 
     func icon() -> NSImage {
@@ -79,17 +78,26 @@ class NotificationViewModel: ObservableObject, Identifiable {
 
     func click() {
 
-        // if there is only one item - we can directly open it
-        if self.items.count == 1 {
+        // we need to expand the details
+        self.expanded = !self.expanded
 
-            guard let firstItem = items.first else {
+        if self.expanded {
+
+            guard let gameModel = self.gameEnvironment.game.value else {
+                fatalError("need to assign a valid game")
+            }
+
+            guard let firstItem = self.items.first else {
                 fatalError("cant get first item")
             }
 
-            self.delegate?.clicked(on: firstItem)
-        } else {
-            // otherwise we need to expand the details
-            self.expanded = !self.expanded
+            self.detailViewModel = NotificationDetailViewModel(
+                title: "\(items.count) \(firstItem.type.title())",
+                texts: items.map { item in
+                    item.type.message(in: gameModel)
+                }
+            )
+            self.detailViewModel.delegate = self
         }
     }
 
@@ -116,5 +124,15 @@ extension NotificationViewModel: Hashable {
 
             hasher.combine(item.type)
         }
+    }
+}
+
+extension NotificationViewModel: NotificationDetailViewModelDelegate {
+
+    func clickedContent(with index: Int) {
+
+        let item = self.items[index]
+
+        self.delegate?.clicked(on: item)
     }
 }

@@ -61,7 +61,20 @@ class NotificationsViewModel: ObservableObject {
         print("=== remove notification: \(notification.type) ===")
 
         DispatchQueue.main.async {
-            self.notificationViewModels.removeAll(where: { $0.equal(to: notification) })
+
+            if let existingNotificationViewModel = self.notificationViewModels.first(where: { $0.type.sameType(as: notification.type) }) {
+
+                self.notificationViewModels.removeAll(where: { $0.type.sameType(as: notification.type) })
+                var items = existingNotificationViewModel.items
+
+                items.removeAll(where: { $0.type == notification.type })
+
+                if items.count > 0 {
+                    let viewModel = NotificationViewModel(items: items)
+                    viewModel.delegate = self
+                    self.notificationViewModels.append(viewModel)
+                }
+            }
         }
     }
 }
