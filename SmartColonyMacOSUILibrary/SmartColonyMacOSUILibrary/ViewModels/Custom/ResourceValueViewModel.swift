@@ -22,13 +22,22 @@ class ResourceValueViewModel: ObservableObject {
     @Published
     var valueText: String
 
+    @Published
+    var tooltip: NSAttributedString
+
     var withBackground: Bool
 
-    init(resourceType: ResourceType, initial value: Int, withBackground: Bool = true) {
+    init(
+        resourceType: ResourceType,
+        initial value: Int,
+        withBackground: Bool = true,
+        tooltip: NSAttributedString = NSAttributedString(string: "default")
+    ) {
 
         self.resourceType = resourceType
         self.value = value
         self.withBackground = withBackground
+        self.tooltip = tooltip
 
         self.valueText = "\(self.value)"
     }

@@ -69,7 +69,6 @@ public class GameSceneViewModel: ObservableObject {
 
             if self.selectedUnit != nil {
                 self.delegate?.showUnitBanner()
-                // self.buttonViewModel.show(image: selectedUnit.type.iconTexture())
             } else {
                 self.delegate?.hideUnitBanner()
             }
@@ -119,8 +118,6 @@ public class GameSceneViewModel: ObservableObject {
         }
     }
 
-    // var turnButtonNotificationLocation: HexPoint = .zero
-
     @Published
     var uiTurnState: GameSceneTurnState = .humanTurns
 
@@ -153,7 +150,7 @@ public class GameSceneViewModel: ObservableObject {
 
         self.game = nil
 
-        let buttonImage = NSImage() // ImageCache.shared.image(for: NotificationType.unitNeedsOrders.iconTexture())
+        let buttonImage = NSImage()
         self.buttonViewModel = AnimatedImageViewModel(image: buttonImage)
         self.topBarViewModel = TopBarViewModel()
         self.mapOverviewViewModel = MapOverviewViewModel()
@@ -250,10 +247,6 @@ public class GameSceneViewModel: ObservableObject {
     }
 
     func changeUITurnState(to state: GameSceneTurnState) {
-
-        /*guard let gameModel = self.game else {
-            fatalError("cant get game")
-        }*/
 
         switch state {
 
@@ -472,15 +465,6 @@ extension GameSceneViewModel {
 
 extension GameSceneViewModel: TopBarViewModelDelegate {
 
-    func religionClicked() {
-
-        self.delegate?.showReligionDialog()
-    }
-
-    func treasuryClicked() {
-
-        self.delegate?.showTreasuryDialog()
-    }
 }
 
 extension GameSceneViewModel: MapOverviewViewModelDelegate {

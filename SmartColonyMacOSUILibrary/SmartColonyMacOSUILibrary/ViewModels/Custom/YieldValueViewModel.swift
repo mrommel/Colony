@@ -35,17 +35,26 @@ class YieldValueViewModel: ObservableObject {
     @Published
     var valueText: String
 
+    @Published
+    var tooltip: NSAttributedString
+
     var withBackground: Bool
 
     var type: YieldValueDisplayType
 
-    init(yieldType: YieldType, initial value: Double, type: YieldValueDisplayType, withBackground: Bool = true) {
-
+    init(
+        yieldType: YieldType,
+        initial value: Double,
+        type: YieldValueDisplayType,
+        withBackground: Bool = true,
+        tooltip: NSAttributedString = NSAttributedString(string: "default")
+    ) {
         self.yieldType = yieldType
         self.value = value
         self.delta = 0.0
         self.withBackground = withBackground
         self.type = type
+        self.tooltip = tooltip
 
         self.valueText = ""
 
@@ -88,7 +97,6 @@ class YieldValueViewModel: ObservableObject {
         if self.withBackground {
             return self.yieldType.fontColor()
         } else {
-            //return self.yieldType.fontColor().lighter(componentDelta: 0.2)
             return .white
         }
     }

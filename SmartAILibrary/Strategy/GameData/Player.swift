@@ -183,8 +183,11 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     // yields
     func science(in gameModel: GameModel?) -> Double
+    func scienceFromCities(in gameModel: GameModel?) -> Double
     func culture(in gameModel: GameModel?) -> Double
+    func cultureFromCities(in gameModel: GameModel?) -> Double
     func faith(in gameModel: GameModel?) -> Double
+    func faithFromCities(in gameModel: GameModel?) -> Double
 
     // operation methods
     func operationsOf(type: UnitOperationType) -> [Operation]
@@ -208,6 +211,8 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     func numAvailable(resource: ResourceType) -> Int
     func changeNumAvailable(resource: ResourceType, change: Int)
+    func numStockpile(of resource: ResourceType) -> Int
+    func numMaxStockpile(of resource: ResourceType) -> Int
 
     // units
     func canTrain(unitType: UnitType, continueFlag: Bool, testVisible: Bool, ignoreCost: Bool, ignoreUniqueUnitStatus: Bool) -> Bool
@@ -333,7 +338,9 @@ public class Player: AbstractPlayer {
 
         case operations
         case notifications
-        case resourceInventory
+        case resourceProduction
+        case resourceStockpile
+        case resourceMaxStockpile
 
         case originalCapitalLocation
         case lostCapital
@@ -385,7 +392,9 @@ public class Player: AbstractPlayer {
     public var area: HexArea
     internal var numPlotsBoughtValue: Int
 
-    internal var resourceInventory: ResourceInventory?
+    internal var resourceProduction: ResourceInventory?
+    internal var resourceStockpile: ResourceInventory?
+    internal var resourceMaxStockpile: ResourceInventory?
     internal var improvementCountList: ImprovementCountList
     internal var totalImprovementsBuilt: Int
     internal var citiesFoundValue: Int
@@ -489,7 +498,9 @@ public class Player: AbstractPlayer {
         self.operations = try container.decode(Operations.self, forKey: .operations)
         self.notificationsValue = try container.decode(Notifications.self, forKey: .notifications)
 
-        self.resourceInventory = try container.decode(ResourceInventory.self, forKey: .resourceInventory)
+        self.resourceProduction = try container.decode(ResourceInventory.self, forKey: .resourceProduction)
+        self.resourceStockpile = try container.decode(ResourceInventory.self, forKey: .resourceStockpile)
+        self.resourceMaxStockpile = try container.decode(ResourceInventory.self, forKey: .resourceMaxStockpile)
 
         self.originalCapitalLocationValue = try container.decode(HexPoint.self, forKey: .originalCapitalLocation)
         self.lostCapitalValue = try container.decode(Bool.self, forKey: .lostCapital)
@@ -575,7 +586,9 @@ public class Player: AbstractPlayer {
 
         try container.encode(self.operations, forKey: .operations)
         try container.encode(self.notificationsValue, forKey: .notifications)
-        try container.encode(self.resourceInventory, forKey: .resourceInventory)
+        try container.encode(self.resourceProduction, forKey: .resourceProduction)
+        try container.encode(self.resourceStockpile, forKey: .resourceStockpile)
+        try container.encode(self.resourceMaxStockpile, forKey: .resourceMaxStockpile)
 
         try container.encode(self.originalCapitalLocationValue, forKey: .originalCapitalLocation)
         try container.encode(self.lostCapitalValue, forKey: .lostCapital)
@@ -622,8 +635,15 @@ public class Player: AbstractPlayer {
         self.operations = Operations()
         self.notificationsValue = Notifications(player: self)
 
-        self.resourceInventory = ResourceInventory()
-        self.resourceInventory?.fill()
+        self.resourceProduction = ResourceInventory()
+        self.resourceProduction?.fill()
+        self.resourceStockpile = ResourceInventory()
+        self.resourceStockpile?.fill()
+        self.resourceMaxStockpile = ResourceInventory()
+
+        for resource in ResourceType.strategic {
+            self.resourceMaxStockpile?.add(weight: 50, for: resource)
+        }
     }
 
     public func hasActiveDiplomacyRequests() -> Bool {
@@ -1209,6 +1229,7 @@ public class Player: AbstractPlayer {
         }
 
         self.doEurekas(in: gameModel)
+        self.doResourceStockpile()
         self.doSpaceRace(in: gameModel)
         self.tourism?.doTurn(in: gameModel)
 
@@ -1500,6 +1521,26 @@ public class Player: AbstractPlayer {
     func doProcessAge(in gameModel: GameModel?) {
 
         // 
+    }
+
+    func doResourceStockpile() {
+
+        guard let resourceStockpile = self.resourceStockpile,
+              let resourceMaxStockpile = self.resourceMaxStockpile else {
+            fatalError("cant get stock piles")
+        }
+
+        for resource in ResourceType.strategic {
+
+            let newResource = self.numAvailable(resource: resource)
+            resourceStockpile.add(weight: newResource, for: resource)
+
+            // limit
+            let maxStockpileValue = resourceMaxStockpile.weight(of: resource)
+            if resourceStockpile.weight(of: resource) > maxStockpileValue {
+                resourceStockpile.set(weight: maxStockpileValue, for: resource)
+            }
+        }
     }
 
     func doCityAmenities(in gameModel: GameModel?) {
@@ -3016,7 +3057,7 @@ public class Player: AbstractPlayer {
 
     public func numAvailable(resource: ResourceType) -> Int {
 
-        if let resourceInventory = self.resourceInventory {
+        if let resourceInventory = self.resourceProduction {
             return Int(resourceInventory.weight(of: resource))
         }
 
@@ -3025,7 +3066,7 @@ public class Player: AbstractPlayer {
 
     public func numForCityAvailable(resource: ResourceType) -> Int {
 
-        if let resourceInventory = self.resourceInventory {
+        if let resourceInventory = self.resourceProduction {
             return Int(resourceInventory.weight(of: resource)) * resource.amenities()
         }
 
@@ -3034,11 +3075,29 @@ public class Player: AbstractPlayer {
 
     public func changeNumAvailable(resource: ResourceType, change: Int) {
 
-        guard let resourceInventory = self.resourceInventory else {
+        guard let resourceInventory = self.resourceProduction else {
             fatalError("cant get resourceInventory")
         }
 
         resourceInventory.add(weight: change, for: resource)
+    }
+
+    public func numStockpile(of resource: ResourceType) -> Int {
+
+        if let resourceStockpile = self.resourceStockpile {
+            return Int(resourceStockpile.weight(of: resource))
+        }
+
+        return 0
+    }
+
+    public func numMaxStockpile(of resource: ResourceType) -> Int {
+
+        if let resourceMaxStockpile = self.resourceMaxStockpile {
+            return Int(resourceMaxStockpile.weight(of: resource))
+        }
+
+        return 0
     }
 
     public func numUnitsNeededToBeBuilt() -> Int {

@@ -48,19 +48,6 @@ extension GameViewModel {
         }
     }
 
-    func showTreasuryDialog() {
-
-        if self.currentScreenType == .treasury {
-            // already shown
-            return
-        }
-
-        if self.currentScreenType == .none {
-            self.treasuryDialogViewModel.update()
-            self.currentScreenType = .treasury
-        }
-    }
-
     func showGreatPeopleDialog() {
 
         if self.currentScreenType == .greatPeople {

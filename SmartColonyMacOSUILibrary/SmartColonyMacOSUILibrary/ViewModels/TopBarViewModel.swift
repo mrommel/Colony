@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
+import SmartAILibrary
+import SmartAssets
 
 protocol TopBarViewModelDelegate: AnyObject {
 
-    func religionClicked()
-    func treasuryClicked()
 }
 
 public class TopBarViewModel: ObservableObject {
@@ -60,7 +60,7 @@ public class TopBarViewModel: ObservableObject {
     var uraniumValueViewModel: ResourceValueViewModel
 
     @Published
-    var turnLabelText: String
+    var turnYearText: String
 
     weak var delegate: TopBarViewModelDelegate?
 
@@ -82,7 +82,7 @@ public class TopBarViewModel: ObservableObject {
         self.aluminiumValueViewModel = ResourceValueViewModel(resourceType: .aluminium, initial: 1)
         self.uraniumValueViewModel = ResourceValueViewModel(resourceType: .uranium, initial: 1)
 
-        self.turnLabelText = "-"
+        self.turnYearText = "-"
 
         self.scienceYieldValueViewModel.delta = 0.0
         self.cultureYieldValueViewModel.delta = 0.0
@@ -104,35 +104,432 @@ public class TopBarViewModel: ObservableObject {
         }
 
         self.scienceYieldValueViewModel.delta = humanPlayer.science(in: gameModel)
+        self.scienceYieldValueViewModel.tooltip = self.scienceTooltip(for: humanPlayer, in: gameModel)
+
         self.cultureYieldValueViewModel.delta = humanPlayer.culture(in: gameModel)
+        self.cultureYieldValueViewModel.tooltip = self.cultureTooltip(for: humanPlayer, in: gameModel)
+
         self.faithYieldValueViewModel.value = humanPlayer.religion?.faith() ?? 0.0
         self.faithYieldValueViewModel.delta = humanPlayer.faith(in: gameModel)
+        self.faithYieldValueViewModel.tooltip = self.faithTooltip(for: humanPlayer, in: gameModel)
+
         self.goldYieldValueViewModel.value = humanPlayer.treasury?.value() ?? 0.0
         self.goldYieldValueViewModel.delta = humanPlayer.treasury?.calculateGrossGold(in: gameModel) ?? 0.0
+        self.goldYieldValueViewModel.tooltip = self.goldTooltip(for: humanPlayer, in: gameModel)
+
         self.tourismYieldValueViewModel.value = humanPlayer.currentTourism(in: gameModel)
+        self.tourismYieldValueViewModel.tooltip = self.tourismTooltip(for: humanPlayer, in: gameModel)
 
         let numberOfTradeRoutes = humanPlayer.numberOfTradeRoutes()
         let tradingCapacity = humanPlayer.tradingCapacity(in: gameModel)
         self.tradeRoutesLabelText = "\(numberOfTradeRoutes)/\(tradingCapacity)"
 
-        self.horsesValueViewModel.value = humanPlayer.numAvailable(resource: .horses)
-        self.ironValueViewModel.value = humanPlayer.numAvailable(resource: .iron)
-        self.niterValueViewModel.value = humanPlayer.numAvailable(resource: .niter)
-        self.coalValueViewModel.value = humanPlayer.numAvailable(resource: .coal)
-        self.oilValueViewModel.value = humanPlayer.numAvailable(resource: .oil)
-        self.aluminiumValueViewModel.value = humanPlayer.numAvailable(resource: .aluminium)
-        self.uraniumValueViewModel.value = humanPlayer.numAvailable(resource: .uranium)
+        self.horsesValueViewModel.value = humanPlayer.numStockpile(of: .horses)
+        self.horsesValueViewModel.tooltip = self.resourceTooltip(of: .horses, for: humanPlayer)
 
-        self.turnLabelText = gameModel.turnYear()
+        self.ironValueViewModel.value = humanPlayer.numStockpile(of: .iron)
+        self.ironValueViewModel.tooltip = self.resourceTooltip(of: .iron, for: humanPlayer)
+
+        self.niterValueViewModel.value = humanPlayer.numStockpile(of: .niter)
+        self.niterValueViewModel.tooltip = self.resourceTooltip(of: .niter, for: humanPlayer)
+
+        self.coalValueViewModel.value = humanPlayer.numStockpile(of: .coal)
+        self.coalValueViewModel.tooltip = self.resourceTooltip(of: .coal, for: humanPlayer)
+
+        self.oilValueViewModel.value = humanPlayer.numStockpile(of: .oil)
+        self.oilValueViewModel.tooltip = self.resourceTooltip(of: .oil, for: humanPlayer)
+
+        self.aluminiumValueViewModel.value = humanPlayer.numStockpile(of: .aluminium)
+        self.aluminiumValueViewModel.tooltip = self.resourceTooltip(of: .aluminium, for: humanPlayer)
+
+        self.uraniumValueViewModel.value = humanPlayer.numStockpile(of: .uranium)
+        self.uraniumValueViewModel.tooltip = self.resourceTooltip(of: .uranium, for: humanPlayer)
+
+        self.turnYearText = gameModel.turnYear()
+    }
+}
+
+extension TopBarViewModel {
+
+    func scienceTooltip(for player: AbstractPlayer?, in gameModel: GameModel?) -> NSAttributedString {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = player else {
+            fatalError("cant get player")
+        }
+
+        let tooltipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: "Science per turn",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(title)
+
+        let line = NSAttributedString(
+            string: "\n-------------",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(line)
+
+        let cities = gameModel.cities(of: player)
+
+        if !cities.isEmpty {
+
+            let scienceFromCities = player.scienceFromCities(in: gameModel)
+            let citiesYield = NSAttributedString(
+                string: "\n+\(scienceFromCities) from Cities",
+                attributes: Globals.Attributs.tooltipContentAttributs
+            )
+            tooltipText.append(citiesYield)
+
+            for cityRef in cities {
+
+                guard let city = cityRef else {
+                    continue
+                }
+
+                let scienceFromCity = city.sciencePerTurn(in: gameModel)
+                let cityYield = NSAttributedString(
+                    string: "\n   +\(scienceFromCity) from \(city.name)",
+                    attributes: Globals.Attributs.tooltipContentAttributs
+                )
+                tooltipText.append(cityYield)
+            }
+        }
+
+        return tooltipText
     }
 
-    func religionClicked() {
+    func cultureTooltip(for player: AbstractPlayer?, in gameModel: GameModel?) -> NSAttributedString {
 
-        self.delegate?.religionClicked()
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = player else {
+            fatalError("cant get player")
+        }
+
+        let tooltipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: "Culture per turn",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(title)
+
+        let line = NSAttributedString(
+            string: "\n-------------",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(line)
+
+        let cities = gameModel.cities(of: player)
+
+        if !cities.isEmpty {
+
+            let cultureFromCities = player.cultureFromCities(in: gameModel)
+            let citiesYield = NSAttributedString(
+                string: "\n+\(cultureFromCities) from Cities",
+                attributes: Globals.Attributs.tooltipContentAttributs
+            )
+            tooltipText.append(citiesYield)
+
+            for cityRef in cities {
+
+                guard let city = cityRef else {
+                    continue
+                }
+
+                let cultureFromCity = city.culturePerTurn(in: gameModel)
+                let cityYield = NSAttributedString(
+                    string: "\n   +\(cultureFromCity) from \(city.name)",
+                    attributes: Globals.Attributs.tooltipContentAttributs
+                )
+                tooltipText.append(cityYield)
+            }
+        }
+
+        return tooltipText
     }
 
-    func treasuryClicked() {
+    func faithTooltip(for player: AbstractPlayer?, in gameModel: GameModel?) -> NSAttributedString {
 
-        self.delegate?.treasuryClicked()
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = player else {
+            fatalError("cant get player")
+        }
+
+        let tooltipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: "Faith per turn",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(title)
+
+        let line = NSAttributedString(
+            string: "\n-------------",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(line)
+
+        let cities = gameModel.cities(of: player)
+
+        if !cities.isEmpty {
+
+            let faithFromCities = player.faithFromCities(in: gameModel)
+            let citiesYield = NSAttributedString(
+                string: "\n+\(faithFromCities) from Cities",
+                attributes: Globals.Attributs.tooltipContentAttributs
+            )
+            tooltipText.append(citiesYield)
+
+            for cityRef in cities {
+
+                guard let city = cityRef else {
+                    continue
+                }
+
+                let faithFromCity = city.faithPerTurn(in: gameModel)
+                let cityYield = NSAttributedString(
+                    string: "\n   +\(faithFromCity) from \(city.name)",
+                    attributes: Globals.Attributs.tooltipContentAttributs
+                )
+                tooltipText.append(cityYield)
+            }
+        }
+
+        return tooltipText
+    }
+
+    func goldTooltip(for player: AbstractPlayer?, in gameModel: GameModel?) -> NSAttributedString {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = player else {
+            fatalError("cant get player")
+        }
+
+        guard let treasury = player.treasury else {
+            fatalError("can't get treasury")
+        }
+
+        let attachment: NSTextAttachment = NSTextAttachment()
+        attachment.image = Globals.Icons.gold
+        attachment.setImage(height: 12)
+
+        let tooltipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: "Gold per turn",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(title)
+
+        let line = NSAttributedString(
+            string: "\n-------------",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(line)
+
+        // in
+        let cityIncome = treasury.goldFromCities(in: gameModel)
+        let dealIncome = treasury.goldPerTurnFromDiplomacy(in: gameModel)
+        let tradeRoutes = treasury.goldFromTradeRoutes(in: gameModel)
+        let income = cityIncome + dealIncome + tradeRoutes
+
+        let goldIncome = String(format: "%.1f", income)
+        let goldFromCities = String(format: "%.1f", cityIncome)
+        let goldFromDeals = String(format: "%.1f", dealIncome)
+        let goldFromTradeRoutes = String(format: "%.1f", tradeRoutes)
+
+        let incomeTitle = NSAttributedString(
+            string: "\nIncome",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(incomeTitle)
+
+        let incomeFromCities = NSAttributedString(
+            string: "\n\(goldFromCities) from cities",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(incomeFromCities)
+
+        let incomeFromDeals = NSAttributedString(
+            string: "\n\(goldFromDeals) from deals",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(incomeFromDeals)
+
+        let incomeFromTradeRoutes = NSAttributedString(
+            string: "\n\(goldFromTradeRoutes) from trade routes",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(incomeFromTradeRoutes)
+
+        let incomeSum = NSAttributedString(
+            string: "\nSum: \(goldIncome)",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(incomeSum)
+
+        let attachmentString: NSAttributedString = NSAttributedString(attachment: attachment)
+        tooltipText.append(attachmentString)
+
+        // out
+        let cityMaintenance = treasury.goldForBuildingMaintenance(in: gameModel)
+        let unitMaintenance = treasury.goldForUnitMaintenance(in: gameModel)
+        let dealExpenses = treasury.goldPerTurnForDiplomacy(in: gameModel)
+        let expenses = cityMaintenance + unitMaintenance + dealExpenses
+
+        let goldExpenses = String(format: "%.1f", expenses)
+        let goldForCityMaintenance = String(format: "%.1f", cityMaintenance)
+        let goldForUnitMaintenance = String(format: "%.1f", unitMaintenance)
+        let goldForDeals = String(format: "%.1f", dealExpenses)
+
+        let expensesTitle = NSAttributedString(
+            string: "\n\nExpenses",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(expensesTitle)
+
+        let maintenanceForCities = NSAttributedString(
+            string: "\n\n\(goldForCityMaintenance) for cities",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(maintenanceForCities)
+
+        let maintenanceForUnits = NSAttributedString(
+            string: "\n\(goldForUnitMaintenance) for units",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(maintenanceForUnits)
+
+        let moneyForDeals = NSAttributedString(
+            string: "\n\(goldForDeals) for deals",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(moneyForDeals)
+
+        let sumExpenses = NSAttributedString(
+            string: "\nSum: \(goldExpenses)",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(sumExpenses)
+        tooltipText.append(attachmentString)
+
+        return tooltipText
+    }
+
+    func tourismTooltip(for player: AbstractPlayer?, in gameModel: GameModel?) -> NSAttributedString {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = player else {
+            fatalError("cant get player")
+        }
+
+        guard let tourism = player.tourism else {
+            fatalError("cant get tourism")
+        }
+
+        let tooltipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: "Tourism per turn",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(title)
+
+        let line = NSAttributedString(
+            string: "\n-------------",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(line)
+
+        let cities = gameModel.cities(of: player)
+
+        if !cities.isEmpty {
+
+            let tourismFromCities = tourism.currentTourism(in: gameModel)
+            let citiesYield = NSAttributedString(
+                string: "\n+\(tourismFromCities) from Cities",
+                attributes: Globals.Attributs.tooltipContentAttributs
+            )
+            tooltipText.append(citiesYield)
+
+            for cityRef in cities {
+
+                guard let city = cityRef else {
+                    continue
+                }
+
+                let tourismFromCity = city.baseTourism(in: gameModel)
+                let cityYield = NSAttributedString(
+                    string: "\n   +\(tourismFromCity) from \(city.name)",
+                    attributes: Globals.Attributs.tooltipContentAttributs
+                )
+                tooltipText.append(cityYield)
+            }
+        }
+
+        return tooltipText
+    }
+
+    func resourceTooltip(of resource: ResourceType, for player: AbstractPlayer?) -> NSAttributedString {
+
+        guard let player = player else {
+            fatalError("cant get player")
+        }
+
+        let attachment: NSTextAttachment = NSTextAttachment()
+        attachment.image = ImageCache.shared.image(for: resource.textureMarkerName())
+        attachment.setImage(height: 12)
+
+        let tooltipText = NSMutableAttributedString()
+
+        let attachmentString: NSAttributedString = NSAttributedString(attachment: attachment)
+        tooltipText.append(attachmentString)
+
+        let title = NSAttributedString(
+            string: resource.name(),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        tooltipText.append(title)
+
+        let stockpileValue = player.numStockpile(of: resource)
+        let stockCapacity = player.numMaxStockpile(of: resource)
+        let stockpile = NSAttributedString(
+            string: "\n\(stockpileValue)/\(stockCapacity) in stockpile",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(stockpile)
+
+        let stockAccumulating = player.numAvailable(resource: resource)
+        let accumulating = NSAttributedString(
+            string: "\nAccumulating: +\(stockAccumulating) per turn.",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(accumulating)
+
+        let fromImprovements = NSAttributedString(
+            string: "\n* +\(stockAccumulating) from Improvements",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(fromImprovements)
+
+        return tooltipText
     }
 }
