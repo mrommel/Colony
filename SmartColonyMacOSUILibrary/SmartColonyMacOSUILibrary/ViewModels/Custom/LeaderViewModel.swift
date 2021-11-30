@@ -40,6 +40,7 @@ class LeaderViewModel: ObservableObject {
         // all properties initilized
     }
 
+    // update tooltip
     func update() {
 
         guard let gameModel = self.gameEnvironment.game.value else {
