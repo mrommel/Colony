@@ -2500,6 +2500,11 @@ public class Unit: AbstractUnit {
             return false
         }
 
+        // settler and builder cannot enter barbarian camps
+        if tile.has(improvement: .barbarianCamp) && self.type.unitClass() == .civilian {
+            return false
+        }
+
         let owner = tile.owner()
         if !self.canEnterTerritory(of: owner, ignoreRightOfPassage: false, isDeclareWarMove: options.contains(.declareWar)) {
 
