@@ -23,6 +23,7 @@ struct LeaderView: View {
                     self.viewModel.clicked()
                 }
         }
+        .toolTip(self.viewModel.toolTip)
     }
 }
 

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum StrengthType: Int, Codable, Comparable {
+public enum StrengthType: Int, Codable, Comparable {
 
     case immense
     case powerful
@@ -18,7 +18,21 @@ enum StrengthType: Int, Codable, Comparable {
     case weak
     case pathetic
 
-    static func < (lhs: StrengthType, rhs: StrengthType) -> Bool {
+    public static func < (lhs: StrengthType, rhs: StrengthType) -> Bool {
         return lhs.rawValue < rhs.rawValue
+    }
+
+    public func name() -> String {
+
+        switch self {
+
+        case .immense: return "Immense"
+        case .powerful: return "Powerful"
+        case .strong: return "Strong"
+        case .average: return "Average"
+        case .poor: return "Poor"
+        case .weak: return "Weak"
+        case .pathetic: return "Pathetic"
+        }
     }
 }

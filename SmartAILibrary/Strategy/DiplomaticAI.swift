@@ -3510,7 +3510,6 @@ public class DiplomaticAI: Codable {
             self.playerDict.updateOpinion(towards: otherPlayer, to: .ally)
             return
         }
-
     }
 
     private func updateWarStates(in gameModel: GameModel?) {
@@ -4683,7 +4682,7 @@ public class DiplomaticAI: Codable {
         return self.playerDict.militaryThreat(of: otherPlayer)
     }
 
-    func militaryStrength(of other: AbstractPlayer?) -> StrengthType {
+    public func militaryStrength(of other: AbstractPlayer?) -> StrengthType {
 
         return self.playerDict.militaryStrengthComparedToUs(of: other)
     }
