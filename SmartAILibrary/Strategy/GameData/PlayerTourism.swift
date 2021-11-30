@@ -168,7 +168,7 @@ class PlayerTourism: AbstractPlayerTourism {
         return tourists
     }
 
-    func baseTourism(in gameModel: GameModel?) -> Double {
+    public func baseTourism(in gameModel: GameModel?) -> Double {
 
         guard let gameModel = gameModel else {
             fatalError("cant get game")

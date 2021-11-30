@@ -141,23 +141,23 @@ class GameScene: BaseScene {
                     }
                 }
             }
-        }
 
-        if self.viewModel?.refreshCities ?? false {
+            if self.viewModel?.refreshCities ?? false {
 
-            //self.mapNode?.unitLayer.populate(with: gameModel)
-            for player in gameModel.players {
-                for city in gameModel.cities(of: player) {
-                    self.mapNode?.cityLayer.update(city: city)
+                // self.mapNode?.unitLayer.populate(with: gameModel)
+                for player in gameModel.players {
+                    for city in gameModel.cities(of: player) {
+                        self.mapNode?.cityLayer.update(city: city)
+                    }
                 }
+
+                self.viewModel?.refreshCities = false
             }
 
-            self.viewModel?.refreshCities = false
-        }
-
-        if let focus = self.viewModel?.focus() {
-            self.center(on: focus)
-            self.viewModel?.unFocus()
+            if let focus = self.viewModel?.focus() {
+                self.center(on: focus)
+                self.viewModel?.unFocus()
+            }
         }
     }
 

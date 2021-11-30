@@ -109,7 +109,6 @@ public enum ScreenType {
     case civicTree
     case civicList
 
-    case treasury
     case interimRanking // not needed?
     case diplomatic
     case governors

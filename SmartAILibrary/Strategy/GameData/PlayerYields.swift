@@ -22,7 +22,7 @@ extension Player {
         return value
     }
 
-    private func faithFromCities(in gameModel: GameModel?) -> Double {
+    public func faithFromCities(in gameModel: GameModel?) -> Double {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -67,7 +67,7 @@ extension Player {
         return max(value, 0)
     }
 
-    private func scienceFromCities(in gameModel: GameModel?) -> Double {
+    public func scienceFromCities(in gameModel: GameModel?) -> Double {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -103,7 +103,7 @@ extension Player {
         return value
     }
 
-    private func cultureFromCities(in gameModel: GameModel?) -> Double {
+    public func cultureFromCities(in gameModel: GameModel?) -> Double {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")

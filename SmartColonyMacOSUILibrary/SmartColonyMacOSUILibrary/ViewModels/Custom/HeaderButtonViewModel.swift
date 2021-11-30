@@ -46,15 +46,15 @@ class HeaderButtonViewModel: ObservableObject {
 
     func toolTip() -> NSAttributedString {
 
-        let toolTopText = NSMutableAttributedString()
+        let toolTipText = NSMutableAttributedString()
 
         let title = NSAttributedString(
             string: self.type.name(),
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
-        toolTopText.append(title)
+        toolTipText.append(title)
 
-        return toolTopText
+        return toolTipText
     }
 
     func clicked() {

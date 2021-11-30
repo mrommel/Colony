@@ -81,6 +81,13 @@ public enum ResourceType: Int, Codable {
         ]
     }
 
+    public static var strategic: [ResourceType] {
+        return [
+            // strategic
+            .horses, .iron, .coal, .oil, .aluminium, .uranium, .niter
+        ]
+    }
+
     // MARK: methods
 
     public func name() -> String {

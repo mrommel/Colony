@@ -49,15 +49,15 @@ class NotificationViewModel: ObservableObject, Identifiable {
 
         self.type = firstItem.type
 
-        let toolTopText = NSMutableAttributedString()
+        let toolTipText = NSMutableAttributedString()
 
         let title = NSAttributedString(
             string: firstItem.type.title(),
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
-        toolTopText.append(title)
+        toolTipText.append(title)
 
-        self.toolTip = toolTopText
+        self.toolTip = toolTipText
 
         self.detailViewModel = NotificationDetailViewModel(title: "default", texts: ["default"])
     }

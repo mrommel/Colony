@@ -84,13 +84,13 @@ public class BaseMapHandler {
 
                 if tile.canHave(resource: resource, ignoreLatitude: true, in: grid) {
 
-                    let resourceNum = 1
+                    var resourceNum = 1
 
-                    // if Legendary Start
-                    // resourceNum = 2
-
-                    // if Low fertility per region
-                    // resourceNum += 1
+                    if resource == .horses || resource == .iron || resource == .niter || resource == .aluminium {
+                        resourceNum = 2
+                    } else if resource == .oil || resource == .coal || resource == .uranium {
+                        resourceNum = 3
+                    }
 
                     tile.set(resourceQuantity: resourceNum)
                     tile.set(resource: resource)

@@ -11,21 +11,21 @@ extension PolicyCardType {
 
     public func toolTip() -> NSAttributedString {
 
-        let toolTopText = NSMutableAttributedString()
+        let toolTipText = NSMutableAttributedString()
 
         let title = NSAttributedString(
             string: self.name(),
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
-        toolTopText.append(title)
+        toolTipText.append(title)
 
         let effects = NSAttributedString(
             string: "\n\n" + self.bonus(),
             attributes: Globals.Attributs.tooltipContentAttributs
         )
-        toolTopText.append(effects)
+        toolTipText.append(effects)
 
-        return toolTopText
+        return toolTipText
     }
 
     public func iconTexture() -> String {

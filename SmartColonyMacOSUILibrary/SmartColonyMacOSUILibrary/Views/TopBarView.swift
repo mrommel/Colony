@@ -30,7 +30,7 @@ public struct TopBarView: View {
 
                 Spacer()
 
-                Text(self.viewModel.turnLabelText)
+                Text(self.viewModel.turnYearText)
                     .padding(.trailing, 3)
             }
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 24, maxHeight: 24, alignment: .topLeading)
@@ -54,14 +54,8 @@ public struct TopBarView: View {
                 YieldValueView(viewModel: self.viewModel.cultureYieldValueViewModel)
 
                 YieldValueView(viewModel: self.viewModel.faithYieldValueViewModel)
-                    .onTapGesture {
-                        self.viewModel.religionClicked()
-                    }
 
                 YieldValueView(viewModel: self.viewModel.goldYieldValueViewModel)
-                    .onTapGesture {
-                        self.viewModel.treasuryClicked()
-                    }
 
                 YieldValueView(viewModel: self.viewModel.tourismYieldValueViewModel)
             }

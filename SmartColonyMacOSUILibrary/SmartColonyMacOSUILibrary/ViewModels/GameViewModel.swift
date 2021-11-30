@@ -55,7 +55,6 @@ protocol GameViewModelDelegate: AnyObject {
     func showGovernmentDialog()
     func showChangeGovernmentDialog()
     func showChangePoliciesDialog()
-    func showTreasuryDialog()
     func showGovernorsDialog()
     func showGreatPeopleDialog()
     func showTradeRouteDialog()
@@ -188,9 +187,6 @@ public class GameViewModel: ObservableObject {
     var selectPantheonDialogViewModel: SelectPantheonDialogViewModel
 
     @Published
-    var treasuryDialogViewModel: TreasuryDialogViewModel
-
-    @Published
     var governorsDialogViewModel: GovernorsDialogViewModel
 
     @Published
@@ -273,7 +269,7 @@ public class GameViewModel: ObservableObject {
         "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching",
         "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active",
         "grid9-button-clicked", "banner", "science-progress", "culture-progress", "header-bar-button",
-        "grid9-progress",
+        "grid9-progress", "leader-bagde",
         "header-bar-left", "header-bar-right", "city-banner", "grid9-button-district-active",
         "grid9-button-district", "grid9-button-highlighted", "questionmark", "tile-purchase-active",
         "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced",
@@ -314,7 +310,6 @@ public class GameViewModel: ObservableObject {
         self.cityListDialogViewModel = CityListDialogViewModel()
         self.selectPromotionDialogViewModel = SelectPromotionDialogViewModel()
         self.selectPantheonDialogViewModel = SelectPantheonDialogViewModel()
-        self.treasuryDialogViewModel = TreasuryDialogViewModel()
         self.governorsDialogViewModel = GovernorsDialogViewModel()
         self.tradeRoutesDialogViewModel = TradeRoutesDialogViewModel()
         self.greatPeopleDialogViewModel = GreatPeopleDialogViewModel()
@@ -345,7 +340,6 @@ public class GameViewModel: ObservableObject {
         self.cityListDialogViewModel.delegate = self
         self.selectPromotionDialogViewModel.delegate = self
         self.selectPantheonDialogViewModel.delegate = self
-        self.treasuryDialogViewModel.delegate = self
         self.governorsDialogViewModel.delegate = self
         self.tradeRoutesDialogViewModel.delegate = self
         self.greatPeopleDialogViewModel.delegate = self
@@ -1142,9 +1136,6 @@ extension GameViewModel: GameViewModelDelegate {
 
         case .civicList:
             self.showCivicListDialog()
-
-        case .treasury:
-            self.showTreasuryDialog()
 
         case .menu:
             // self.showMenuDialog()
