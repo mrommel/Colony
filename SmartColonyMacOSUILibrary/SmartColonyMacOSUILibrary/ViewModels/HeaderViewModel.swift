@@ -155,23 +155,30 @@ class HeaderViewModel: ObservableObject {
             }
         }
 
-        var tmpLeaderViewModels: [LeaderViewModel] = []
+        if self.leaderViewModels.isEmpty {
 
-        for player in gameModel.players {
+            var tmpLeaderViewModels: [LeaderViewModel] = []
 
-            if humanPlayer.isEqual(to: player) {
-                continue
-            }
-
-            if diplomacyAI.hasMet(with: player) {
+            for player in gameModel.players {
 
                 let leaderViewModel = LeaderViewModel(leaderType: player.leader)
+                leaderViewModel.show = false
                 leaderViewModel.delegate = self
                 tmpLeaderViewModels.append(leaderViewModel)
             }
+
+            self.leaderViewModels = tmpLeaderViewModels
         }
 
-        self.leaderViewModels = tmpLeaderViewModels
+        for (index, player) in gameModel.players.enumerated() {
+
+            if humanPlayer.isEqual(to: player) || !diplomacyAI.hasMet(with: player) {
+                self.leaderViewModels[index].show = false
+            } else {
+                self.leaderViewModels[index].update()
+                self.leaderViewModels[index].show = true
+            }
+        }
     }
 }
 

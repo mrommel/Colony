@@ -66,36 +66,34 @@ struct HeaderView: View {
         )
     }
 
-    private var rightButtons: AnyView {
+    private var rightButtons: some View {
 
-        AnyView(
-            HStack(alignment: .center, spacing: 0) {
+        HStack(alignment: .center, spacing: 0) {
 
-                Image(nsImage: ImageCache.shared.image(for: "header-bar-right"))
-                    .resizable()
-                    .frame(width: 35, height: 47, alignment: .center)
+            Image(nsImage: ImageCache.shared.image(for: "header-bar-right"))
+                .resizable()
+                .frame(width: 35, height: 47, alignment: .center)
 
-                // ranking
-                HeaderButtonView(viewModel: self.viewModel.rankingHeaderViewModel)
+            // ranking
+            HeaderButtonView(viewModel: self.viewModel.rankingHeaderViewModel)
 
-                // trade routes
-                HeaderButtonView(viewModel: self.viewModel.tradeRoutesHeaderViewModel)
-            }
-        )
+            // trade routes
+            HeaderButtonView(viewModel: self.viewModel.tradeRoutesHeaderViewModel)
+        }
+        .frame(height: 47)
     }
 
-    private var leaderButtons: AnyView {
+    private var leaderButtons: some View {
 
-        AnyView(
-            LazyHStack(spacing: 4) {
+        LazyHStack(spacing: 4) {
 
-                ForEach(self.viewModel.leaderViewModels, id: \.self) { leaderViewModel in
+            ForEach(self.viewModel.leaderViewModels, id: \.self) { leaderViewModel in
 
-                    LeaderView(viewModel: leaderViewModel)
-                }
+                LeaderView(viewModel: leaderViewModel)
+                    .id("leader-\(leaderViewModel.id)")
             }
-                .frame(height: 42)
-        )
+        }
+        .frame(height: 52)
     }
 }
 

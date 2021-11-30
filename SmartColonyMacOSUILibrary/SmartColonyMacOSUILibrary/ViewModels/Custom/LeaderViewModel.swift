@@ -22,6 +22,9 @@ class LeaderViewModel: ObservableObject {
     var gameEnvironment: GameEnvironment
 
     @Published
+    var show: Bool
+
+    @Published
     var toolTip: NSAttributedString
 
     let leaderType: LeaderType
@@ -31,9 +34,13 @@ class LeaderViewModel: ObservableObject {
     init(leaderType: LeaderType) {
 
         self.leaderType = leaderType
+        self.show = false
         self.toolTip = NSMutableAttributedString()
 
         // all properties initilized
+    }
+
+    func update() {
 
         guard let gameModel = self.gameEnvironment.game.value else {
             return
@@ -51,34 +58,34 @@ class LeaderViewModel: ObservableObject {
             fatalError("cant get religion")
         }
 
-        let toolTipText = NSMutableAttributedString()
+        let tooltipText = NSMutableAttributedString()
 
         let leaderName = NSAttributedString(
             string: self.leaderType.name(),
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
-        toolTipText.append(leaderName)
+        tooltipText.append(leaderName)
 
         // empire
         let empireName = NSAttributedString(
             string: "\n\(self.leaderType.civilization().name()) Empire",
             attributes: Globals.Attributs.tooltipContentAttributs
         )
-        toolTipText.append(empireName)
+        tooltipText.append(empireName)
 
         // government
         let governmentName = NSAttributedString(
             string: "\nGovernment: \(government.currentGovernment()?.name() ?? "-")",
             attributes: Globals.Attributs.tooltipContentAttributs
         )
-        toolTipText.append(governmentName)
+        tooltipText.append(governmentName)
 
         // religion
         let religionName = NSAttributedString(
             string: "\nReligion: \(religion.currentReligion().name())",
             attributes: Globals.Attributs.tooltipContentAttributs
         )
-        toolTipText.append(religionName)
+        tooltipText.append(religionName)
 
         // cities / population
         let cities = gameModel.cities(of: player)
@@ -88,9 +95,14 @@ class LeaderViewModel: ObservableObject {
             string: "\nCities: \(numCities) Population: \(numPopulation)",
             attributes: Globals.Attributs.tooltipContentAttributs
         )
-        toolTipText.append(citiesName)
+        tooltipText.append(citiesName)
 
-        // ----
+        let line = NSAttributedString(
+            string: "\n-------------",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(line)
+
         // Score
         // diplomatic favor
         // gold
@@ -105,12 +117,23 @@ class LeaderViewModel: ObservableObject {
             string: "\nMilitary Strength: \(militaryStrength)",
             attributes: Globals.Attributs.tooltipContentAttributs
         )
-        toolTipText.append(militaryStrengthName)
-        // ----
+        tooltipText.append(militaryStrengthName)
+
+        let line2 = NSAttributedString(
+            string: "\n-------------",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        tooltipText.append(line2)
+
         // strategic
         // luxuries
 
-        self.toolTip = toolTipText
+        self.toolTip = tooltipText
+    }
+
+    func badgeImage() -> NSImage {
+
+        return ImageCache.shared.image(for: "leader-bagde")
     }
 
     func image() -> NSImage {

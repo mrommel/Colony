@@ -14,16 +14,25 @@ struct LeaderView: View {
 
     var body: some View {
 
-        HStack(alignment: .top, spacing: 4) {
+        if self.viewModel.show {
+            ZStack {
 
-            Image(nsImage: self.viewModel.image())
-                .resizable()
-                .frame(width: 42, height: 42, alignment: .topLeading)
-                .onTapGesture {
-                    self.viewModel.clicked()
-                }
+                Image(nsImage: self.viewModel.badgeImage())
+                    .resizable()
+                    .frame(width: 52, height: 52)
+
+                Image(nsImage: self.viewModel.image())
+                    .resizable()
+                    .frame(width: 42, height: 42)
+                    .onTapGesture {
+                        self.viewModel.clicked()
+                    }
+            }
+            .frame(width: 52, height: 52)
+            .toolTip(self.viewModel.toolTip)
+        } else {
+            EmptyView()
         }
-        .toolTip(self.viewModel.toolTip)
     }
 }
 

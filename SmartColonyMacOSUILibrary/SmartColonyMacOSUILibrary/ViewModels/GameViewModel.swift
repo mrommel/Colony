@@ -269,7 +269,7 @@ public class GameViewModel: ObservableObject {
         "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching",
         "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active",
         "grid9-button-clicked", "banner", "science-progress", "culture-progress", "header-bar-button",
-        "grid9-progress",
+        "grid9-progress", "leader-bagde",
         "header-bar-left", "header-bar-right", "city-banner", "grid9-button-district-active",
         "grid9-button-district", "grid9-button-highlighted", "questionmark", "tile-purchase-active",
         "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced",
