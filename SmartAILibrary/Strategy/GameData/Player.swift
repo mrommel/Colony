@@ -245,6 +245,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func reportGoldFromKills(at point: HexPoint, gold goldVal: Int, in gameModel: GameModel?)
 
     func doGoodyHut(at tile: AbstractTile?, by unit: AbstractUnit?, in gameModel: GameModel?)
+    func doClearBarbarianCamp(at tile: AbstractTile?, in gameModel: GameModel?)
 
     func score(for gameModel: GameModel?) -> Int
 
@@ -3922,6 +3923,41 @@ public class Player: AbstractPlayer {
 
             } else {
                 self.receiveGoody(at: tile, goody: validGoodies[0], unit: unit, in: gameModel)
+            }
+        }
+    }
+
+    public func doClearBarbarianCamp(at tile: AbstractTile?, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+
+        if !self.isBarbarian() {
+            // See if we need to remove a temporary dominance zone
+            self.tacticalAI?.deleteTemporaryZone(at: tile.point)
+
+            let numGold = gameModel.handicap.barbarianCampGold()
+
+            // Normal way to handle it
+            if self.isEqual(to: gameModel.humanPlayer()) {
+                gameModel.userInterface?.showTooltip(at: tile.point, text: "TXT_KEY_MISC_DESTROYED_BARBARIAN_CAMP", delay: 3.0)
+            }
+
+            tile.set(improvement: .none)
+
+            gameModel.doBarbCampCleared(at: tile.point)
+
+            self.treasury?.changeGold(by: Double(numGold))
+
+            // If it's the active player then show the popup
+            if self.isEqual(to: gameModel.humanPlayer()) {
+
+                gameModel.userInterface?.showPopup(popupType: .barbarianCampCleared(location: tile.point, gold: numGold))
             }
         }
     }
