@@ -204,6 +204,7 @@
 		C9B3141E2657FF1100726CAA /* YieldValueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3141D2657FF1100726CAA /* YieldValueViewModel.swift */; };
 		C9B43FAF263E8FB900241012 /* AskYesNoAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B43FAE263E8FB900241012 /* AskYesNoAlertView.swift */; };
 		C9B43FB1263E905B00241012 /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B43FB0263E905B00241012 /* CGSizeExtension.swift */; };
+		C9B5E9142757CD3E001E0A94 /* BottomRightBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B5E9132757CD3E001E0A94 /* BottomRightBarViewModel.swift */; };
 		C9B60BEE269DC61200F10177 /* SelectPantheonDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B60BED269DC61100F10177 /* SelectPantheonDialogView.swift */; };
 		C9B60BF0269DC68800F10177 /* SelectPantheonDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B60BEF269DC68800F10177 /* SelectPantheonDialogViewModel.swift */; };
 		C9BA399726657499008B3476 /* AnimatedImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BA399626657499008B3476 /* AnimatedImageViewModel.swift */; };
@@ -489,6 +490,7 @@
 		C9B3141D2657FF1100726CAA /* YieldValueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldValueViewModel.swift; sourceTree = "<group>"; };
 		C9B43FAE263E8FB900241012 /* AskYesNoAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskYesNoAlertView.swift; sourceTree = "<group>"; };
 		C9B43FB0263E905B00241012 /* CGSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
+		C9B5E9132757CD3E001E0A94 /* BottomRightBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomRightBarViewModel.swift; sourceTree = "<group>"; };
 		C9B60BED269DC61100F10177 /* SelectPantheonDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPantheonDialogView.swift; sourceTree = "<group>"; };
 		C9B60BEF269DC68800F10177 /* SelectPantheonDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPantheonDialogViewModel.swift; sourceTree = "<group>"; };
 		C9BA399626657499008B3476 /* AnimatedImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImageViewModel.swift; sourceTree = "<group>"; };
@@ -780,6 +782,7 @@
 				C9E0598226551F4800C08463 /* Custom */,
 				C950F98C26427E060057A7D1 /* Scenes */,
 				C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */,
+				C9B5E9132757CD3E001E0A94 /* BottomRightBarViewModel.swift */,
 				C9BDCF8C2624771C002488F6 /* GameViewModel.swift */,
 				C9A8F0D62651969D00584199 /* GameViewModelDialogs.swift */,
 				C9FBBE3D26837991005D7CE6 /* TopBarViewModel.swift */,
@@ -1248,6 +1251,7 @@
 				C9072E7F2732AFA000560429 /* OverallRankingView.swift in Sources */,
 				C9E87BB1264D1C2600514B9A /* TechDialogViewModel.swift in Sources */,
 				C9B60BF0269DC68800F10177 /* SelectPantheonDialogViewModel.swift in Sources */,
+				C9B5E9142757CD3E001E0A94 /* BottomRightBarViewModel.swift in Sources */,
 				C94816BD26A82BB000765029 /* TradeCityViewModel.swift in Sources */,
 				C939DDD52684D396001CBC6C /* CityBannerViewModel.swift in Sources */,
 				C93FD2E52733CCEF003348FB /* CultureRankingView.swift in Sources */,

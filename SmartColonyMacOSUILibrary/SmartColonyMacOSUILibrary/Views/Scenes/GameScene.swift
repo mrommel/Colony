@@ -198,7 +198,7 @@ class GameScene: BaseScene {
         self.cameraNode.run(centerAction)
 
         let viewSize = self.viewSizeInLocalCoordinates(ignoreCameraScale: false)
-        self.viewModel?.mapOverviewViewModel.updateRect(at: hex, size: viewSize)
+        self.viewModel?.delegate?.updateRect(at: hex, size: viewSize)
 
         // Debug
         /*print("viewSize: \(viewSize)")
@@ -380,7 +380,7 @@ extension GameScene {
 
             let position: HexPoint = HexPoint(screen: transformedLocation)
             let viewSize = self.viewSizeInLocalCoordinates(ignoreCameraScale: false)
-            self.viewModel?.mapOverviewViewModel.updateRect(at: position, size: viewSize)
+            self.viewModel?.delegate?.updateRect(at: position, size: viewSize)
 
             self.previousLocation = event.location(in: self)
 

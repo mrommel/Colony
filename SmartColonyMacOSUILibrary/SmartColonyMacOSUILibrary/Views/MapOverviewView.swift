@@ -61,6 +61,10 @@ public struct MapOverviewView: View {
         .onReceive(gameEnvironment.visibleRect) { rect in
             print("visible rect changed: \(rect)")
         }
+        .onReceive(gameEnvironment.game) { game in
+            print(" - game changed - ")
+            self.viewModel.assign(game: game)
+        }
     }
 }
 

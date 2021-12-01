@@ -202,7 +202,7 @@ extension GameScene: UserInterfaceDelegate {
         DispatchQueue.main.async {
 
             self.mapNode?.update(tile: tile)
-            self.viewModel?.mapOverviewViewModel.changed(at: tile!.point)
+            self.viewModel?.delegate?.refreshTile(at: tile!.point)
 
             for unitRef in gameModel.units(at: tile!.point) {
 

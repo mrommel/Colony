@@ -10,7 +10,7 @@ import SwiftUI
 public struct BottomRightBarView: View {
 
     @ObservedObject
-    public var viewModel: GameSceneViewModel
+    public var viewModel: BottomRightBarViewModel
 
     public var body: some View {
         HStack {
@@ -28,10 +28,23 @@ public struct BottomRightBarView: View {
 }
 
 /*struct BottomRightBarView_Previews: PreviewProvider {
-    
+
+    static func viewModel() -> GameSceneViewModel {
+
+        let viewModel = GameSceneViewModel()
+
+        let game = DemoGameModel()
+        viewModel.game = game
+
+        return viewModel
+    }
+
     static var previews: some View {
-        
-        let viewModel = MapViewModel(game: <#Binding<GameModel?>#>)
+
+        // swiftlint:disable:next redundant_discardable_let
+        let _ = GameViewModel(preloadAssets: true)
+
+        let viewModel = BottomRightBarView_Previews.viewModel()
         BottomRightBarView(viewModel: viewModel)
     }
 }*/
