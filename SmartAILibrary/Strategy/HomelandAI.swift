@@ -1841,7 +1841,7 @@ public class HomelandAI {
                     print("Unit \(unit.name()) at \(unit.location) has goody target at \(goodyPlot.point)")
 
                     if (goodyPlot.has(improvement: .goodyHut) || goodyPlot.has(improvement: .barbarianCamp)) &&
-                        gameModel.visibleEnemy(at: goodyPlot.point, for: player) != nil {
+                        gameModel.visibleEnemy(at: goodyPlot.point, for: player) == nil {
 
                         if let path = pathfinder.shortestPath(fromTileCoord: unit.location, toTileCoord: goodyPlot.point) {
 
