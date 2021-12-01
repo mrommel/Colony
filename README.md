@@ -2,13 +2,13 @@
 
 ![Swift](https://github.com/mrommel/Colony/workflows/Swift/badge.svg) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/250267c7467d403c9a3c1c0b4af7271f)](https://www.codacy.com/gh/mrommel/Colony/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mrommel/Colony&amp;utm_campaign=Badge_Grade)
 
-Civ5/Civ6 based iOS/macos App
+## Civ5/Civ6 based iOS/macos App
+
+![menu](/Screenshots/screenshot-1-menu.png)
+![setup](/Screenshots/screenshot-2-setup.png)
+![game](/Screenshots/screenshot-3-game.png)
 
 ## Memo
-
-Asset:
-Icon made by Freepik from www.flaticon.com
-
 Tile size:
 96x96 - @2x
 144x144 - @3x
@@ -30,8 +30,3 @@ Tile size:
 - https://swiftui-lab.com/a-powerful-combo/
 - https://medium.com/@theboi/macos-apps-without-storyboard-or-xib-menu-bar-in-swift-5-menubar-and-toolbar-6f6f2fa39ccb
 - https://github.com/lukakerr/NSWindowStyles
-
-## GIT
-git branch -a
-... list of branches
-git checkout --track ...
