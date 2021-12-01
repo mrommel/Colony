@@ -4,9 +4,9 @@
 
 ## Civ5/Civ6 based iOS/macos App
 
-![menu](/screenshots/screenshot-1-menu.png)
-![setup](/screenshots/screenshot-2-setup.png)
-![game](/screenshots/screenshot-3-game.png)
+![menu](/Screenshots/screenshot-1-menu.png)
+![setup](/Screenshots/screenshot-2-setup.png)
+![game](/Screenshots/screenshot-3-game.png)
 
 ## Memo
 Tile size:
