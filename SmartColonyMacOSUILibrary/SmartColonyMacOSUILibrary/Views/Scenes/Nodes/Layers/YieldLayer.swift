@@ -40,33 +40,68 @@ class YieldLayer: BaseLayer {
         self.rebuild()
     }
 
-    /// handles all terrain
+    /// handles all yields
     func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
 
         let yields = tile.yields(for: self.player, ignoreFeature: false)
 
-        // yield textures
-        if let textureName = self.textures?.yieldTexture(for: yields) {
+        // food texture
+        if let textureName = self.textures?.foodTexture(for: yields) {
 
             let image = ImageCache.shared.image(for: textureName)
 
-            let yieldsSprite = SKSpriteNode(texture: SKTexture(image: image), size: YieldLayer.kTextureSize)
-            yieldsSprite.position = position
-            yieldsSprite.zPosition = Globals.ZLevels.yields
-            yieldsSprite.anchorPoint = CGPoint(x: 0, y: 0)
-            yieldsSprite.color = .black
-            yieldsSprite.colorBlendFactor = 1.0 - alpha
-            self.addChild(yieldsSprite)
+            let foodSprite = SKSpriteNode(texture: SKTexture(image: image), size: YieldLayer.kTextureSize)
+            foodSprite.position = position
+            foodSprite.zPosition = Globals.ZLevels.yields
+            foodSprite.anchorPoint = CGPoint(x: 0, y: 0)
+            foodSprite.color = .black
+            foodSprite.colorBlendFactor = 1.0 - alpha
+            self.addChild(foodSprite)
 
-            self.textureUtils?.set(yieldsSprite: yieldsSprite, at: tile.point)
+            self.textureUtils?.set(foodSprite: foodSprite, at: tile.point)
+        }
+
+        // production texture
+        if let textureName = self.textures?.productionTexture(for: yields) {
+
+            let image = ImageCache.shared.image(for: textureName)
+
+            let productionSprite = SKSpriteNode(texture: SKTexture(image: image), size: YieldLayer.kTextureSize)
+            productionSprite.position = position
+            productionSprite.zPosition = Globals.ZLevels.yields
+            productionSprite.anchorPoint = CGPoint(x: 0, y: 0)
+            productionSprite.color = .black
+            productionSprite.colorBlendFactor = 1.0 - alpha
+            self.addChild(productionSprite)
+
+            self.textureUtils?.set(productionSprite: productionSprite, at: tile.point)
+        }
+
+        // gold texture
+        if let textureName = self.textures?.goldTexture(for: yields) {
+
+            let image = ImageCache.shared.image(for: textureName)
+
+            let goldSprite = SKSpriteNode(texture: SKTexture(image: image), size: YieldLayer.kTextureSize)
+            goldSprite.position = position
+            goldSprite.zPosition = Globals.ZLevels.yields
+            goldSprite.anchorPoint = CGPoint(x: 0, y: 0)
+            goldSprite.color = .black
+            goldSprite.colorBlendFactor = 1.0 - alpha
+            self.addChild(goldSprite)
+
+            self.textureUtils?.set(goldSprite: goldSprite, at: tile.point)
         }
     }
 
     func clear(tile: AbstractTile?) {
 
         if let tile = tile {
-            if let yieldsSprite = self.textureUtils?.yieldsSprite(at: tile.point) {
-                self.removeChildren(in: [yieldsSprite])
+            if let foodSprite = self.textureUtils?.foodSprite(at: tile.point),
+                let productionSprite = self.textureUtils?.productionSprite(at: tile.point),
+                let goldSprite = self.textureUtils?.goldSprite(at: tile.point) {
+
+                self.removeChildren(in: [foodSprite, productionSprite, goldSprite])
             }
         }
     }

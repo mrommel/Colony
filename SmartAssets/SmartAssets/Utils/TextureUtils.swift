@@ -30,7 +30,9 @@ public class TextureUtils {
         var iceSprite: SKSpriteNode?
         var mainBorderSprite: SKSpriteNode?
         var accentBorderSprite: SKSpriteNode?
-        var yieldsSprite: SKSpriteNode?
+        var foodSprite: SKSpriteNode?
+        var productionSprite: SKSpriteNode?
+        var goldSprite: SKSpriteNode?
         var waterSprite: SKSpriteNode?
         var riverSprite: SKSpriteNode?
         var improvementSprite: SKSpriteNode?
@@ -166,14 +168,34 @@ public class TextureUtils {
         return self.tileTextures?[point.x, point.y]?.iceSprite
     }
 
-    public func set(yieldsSprite: SKSpriteNode?, at point: HexPoint) {
+    public func set(foodSprite: SKSpriteNode?, at point: HexPoint) {
 
-        self.tileTextures?[point.x, point.y]?.yieldsSprite = yieldsSprite
+        self.tileTextures?[point.x, point.y]?.foodSprite = foodSprite
     }
 
-    public func yieldsSprite(at point: HexPoint) -> SKSpriteNode? {
+    public func foodSprite(at point: HexPoint) -> SKSpriteNode? {
 
-        return self.tileTextures?[point.x, point.y]?.yieldsSprite
+        return self.tileTextures?[point.x, point.y]?.foodSprite
+    }
+
+    public func set(productionSprite: SKSpriteNode?, at point: HexPoint) {
+
+        self.tileTextures?[point.x, point.y]?.productionSprite = productionSprite
+    }
+
+    public func productionSprite(at point: HexPoint) -> SKSpriteNode? {
+
+        return self.tileTextures?[point.x, point.y]?.productionSprite
+    }
+
+    public func set(goldSprite: SKSpriteNode?, at point: HexPoint) {
+
+        self.tileTextures?[point.x, point.y]?.goldSprite = goldSprite
+    }
+
+    public func goldSprite(at point: HexPoint) -> SKSpriteNode? {
+
+        return self.tileTextures?[point.x, point.y]?.goldSprite
     }
 
     public func set(waterSprite: SKSpriteNode?, at point: HexPoint) {
