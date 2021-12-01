@@ -135,42 +135,14 @@ public class Textures {
             ["border-main-all", "border-accent-all"]
 
         self.allYieldsTextureNames = [
-            // 0
-            "yield-0-0-1", "yield-0-0-2", "yield-0-0-3",
-            "yield-0-1-0", "yield-0-1-1", "yield-0-1-2", "yield-0-1-3",
-            "yield-0-2-0",
-            // 1
-            "yield-1-0-0", "yield-1-0-1", "yield-1-0-2", "yield-1-0-3",
-            "yield-1-1-0", "yield-1-1-1", "yield-1-1-2", "yield-1-1-3", "yield-1-1-4", "yield-1-1-5",
-            "yield-1-2-0", "yield-1-2-1", "yield-1-2-2", "yield-1-2-3",
-            "yield-1-3-0", "yield-1-3-1", "yield-1-3-2", "yield-1-3-3",
-            "yield-1-4-0",
-            "yield-1-5-0",
-            // 2
-            "yield-2-0-0", "yield-2-0-1", "yield-2-0-2", "yield-2-0-3",
-            "yield-2-1-0", "yield-2-1-1", "yield-2-1-2", "yield-2-1-3",
-            "yield-2-2-0", "yield-2-2-1", "yield-2-2-2", "yield-2-2-3",
-            "yield-2-3-0", "yield-2-3-1", "yield-2-3-2", "yield-2-3-3",
-            "yield-2-4-0",
-            "yield-2-5-0",
-            // 3
-            "yield-3-0-0", "yield-3-0-1", "yield-3-0-2", "yield-3-0-3",
-            "yield-3-1-0", "yield-3-1-1", "yield-3-1-2", "yield-3-1-3",
-            "yield-3-2-0", "yield-3-2-1", "yield-3-2-2", "yield-3-2-3",
-            // 4
-            "yield-4-0-0", "yield-4-0-1", "yield-4-0-2", "yield-4-0-3",
-            "yield-4-1-0", "yield-4-1-1", "yield-4-1-2", "yield-4-1-3",
-            "yield-4-2-0", "yield-4-2-1", "yield-4-2-2", "yield-4-2-3", "yield-4-2-4",
-            // 5
-            "yield-5-0-0", "yield-5-0-1", "yield-5-0-2", "yield-5-0-3",
-            "yield-5-1-0", "yield-5-1-1", "yield-5-1-2",
-            "yield-5-2-0",
-            "yield-5-3-0",
-            // 6
-            "yield-6-0-0", "yield-6-0-1",
-            "yield-6-1-0", "yield-6-1-1",
-            // 7
-            "yield-7-0-0"
+            // food
+            "yield-food-1", "yield-food-2", "yield-food-3", "yield-food-4", "yield-food-5",
+            "yield-food-6", "yield-food-7",
+            // production
+            "yield-production-1", "yield-production-2", "yield-production-3",
+            "yield-production-4", "yield-production-5",
+            // gold
+            "yield-gold-1", "yield-gold-2", "yield-gold-3", "yield-gold-4", "yield-gold-5"
         ]
 
         self.allBoardTextureNames = ["board-s-sw", "board-se-s-sw", "board-se-s", "board-se", "board-sw"]
@@ -607,17 +579,37 @@ public class Textures {
         return textureName
     }
 
-    public func yieldTexture(for yields: Yields) -> String? {
+    public func foodTexture(for yields: Yields) -> String? {
 
         let food = Int(yields.food)
-        let production = Int(yields.production)
-        let gold = Int(yields.gold)
 
-        if food == 0 && production == 0 && gold == 0 {
+        if food == 0 {
             return nil
         }
 
-        return "yield-\(food)-\(production)-\(gold)"
+        return "yield-food-\(food)"
+    }
+
+    public func productionTexture(for yields: Yields) -> String? {
+
+        let production = Int(yields.production)
+
+        if production == 0 {
+            return nil
+        }
+
+        return "yield-production-\(production)"
+    }
+
+    public func goldTexture(for yields: Yields) -> String? {
+
+        let gold = Int(yields.gold)
+
+        if gold == 0 {
+            return nil
+        }
+
+        return "yield-gold-\(gold)"
     }
 
     public func calderaTexure(at hex: HexPoint) -> String? {
