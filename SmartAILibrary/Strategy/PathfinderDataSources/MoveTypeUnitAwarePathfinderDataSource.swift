@@ -84,6 +84,11 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                         }
                     }
 
+                    // civilian cant walk on barbarian camps
+                    if self.options.unitMapType == .civilian && toTile.has(improvement: .barbarianCamp) {
+                        continue
+                    }
+
                     // use sight?
                     if !self.options.ignoreSight {
 

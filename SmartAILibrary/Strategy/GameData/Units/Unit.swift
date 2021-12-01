@@ -2180,38 +2180,8 @@ public class Unit: AbstractUnit {
                 self.player?.doGoodyHut(at: newPlot, by: self, in: gameModel)
             }
 
-            if !self.isBarbarian() {
-
-                if newPlot.improvement() == .barbarianCamp {
-
-                    // See if we need to remove a temporary dominance zone
-                    player.tacticalAI?.deleteTemporaryZone(at: newPlot.point)
-
-                    let numGold = gameModel.handicap.barbarianCampGold()
-
-                    // Normal way to handle it
-                    if player.isEqual(to: gameModel.humanPlayer()) {
-                        gameModel.userInterface?.showTooltip(at: newPlot.point, text: "TXT_KEY_MISC_DESTROYED_BARBARIAN_CAMP", delay: 3.0)
-                    }
-
-                    newPlot.set(improvement: .none)
-
-                    gameModel.doBarbCampCleared(at: newPlot.point)
-
-                    player.treasury?.changeGold(by: Double(numGold))
-
-                    // Set who last cleared the camp here
-                    //newPlot->SetPlayerThatClearedBarbCampHere(getOwner());
-
-                    // If it's the active player then show the popup
-                    if player.isEqual(to: gameModel.humanPlayer()) {
-
-                        gameModel.userInterface?.showPopup(popupType: .barbarianCampCleared(location: newPlot.point, gold: numGold))
-
-                        // We are adding a popup that the player must make a choice in, make sure they are not in the end-turn phase.
-                        // FIXME self.cancelActivePlayerEndTurn();
-                    }
-                }
+            if newPlot.has(improvement: .barbarianCamp) {
+                player.doClearBarbarianCamp(at: newPlot, in: gameModel)
             }
         }
 
@@ -2497,6 +2467,11 @@ public class Unit: AbstractUnit {
 
         // other unit of same type
         if gameModel.unit(at: point, of: self.unitMapType()) != nil {
+            return false
+        }
+
+        // settler and builder cannot enter barbarian camps
+        if tile.has(improvement: .barbarianCamp) && self.type.unitClass() == .civilian {
             return false
         }
 
@@ -3343,6 +3318,19 @@ public class Unit: AbstractUnit {
 
         if !self.canFound(at: self.location, in: gameModel) {
             return false
+        }
+
+        for neighbor in self.location.neighbors() {
+
+            guard let newPlot = gameModel.tile(at: neighbor) else {
+                continue
+            }
+
+            if newPlot.has(improvement: .barbarianCamp) {
+                self.player?.doClearBarbarianCamp(at: newPlot, in: gameModel)
+            } else if newPlot.has(improvement: .goodyHut) {
+                self.player?.doGoodyHut(at: newPlot, by: self, in: gameModel)
+            }
         }
 
         player.found(at: self.location, named: name, in: gameModel)
