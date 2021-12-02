@@ -686,4 +686,14 @@ extension GameScene {
 
         self.mapNode?.hideResourceMarker()
     }
+
+    func currentMapLens() -> MapLensType {
+
+        return self.mapNode?.currentMapLens() ?? .none
+    }
+
+    func set(mapLens: MapLensType) {
+
+        self.mapNode?.set(mapLens: mapLens)
+    }
 }

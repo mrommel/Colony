@@ -282,7 +282,7 @@ public class GameViewModel: ObservableObject {
         "tile-districtAvailable", "tile-wonderAvailable", "tile-notAvailable",
         "city-canvas", "pantheon-background", "turns", "unit-banner", "combat-view",
         "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty",
-        "map-overview-canvas", "map-lens", "map-marker", "map-options"
+        "map-overview-canvas", "map-lens", "map-lens-active", "map-marker", "map-options"
     ]
 
     public weak var delegate: CloseGameViewModelDelegate?
@@ -1245,4 +1245,8 @@ extension GameViewModel: GameViewModelDelegate {
 
 extension GameViewModel: BottomRightBarViewModelDelegate {
 
+    func selected(mapLens: MapLensType) {
+
+        self.gameEnvironment.displayOptions.value.mapLens = mapLens
+    }
 }

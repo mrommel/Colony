@@ -42,6 +42,7 @@ public class TextureUtils {
         var districtBuildingSprite: SKSpriteNode?
         var wonderSprite: SKSpriteNode?
         var wonderBuildingSprite: SKSpriteNode?
+        var lensSprite: SKSpriteNode?
 
         init(point: HexPoint) {
 
@@ -286,5 +287,15 @@ public class TextureUtils {
     public func wonderBuildingSprite(at point: HexPoint) -> SKSpriteNode? {
 
         return self.tileTextures?[point.x, point.y]?.wonderBuildingSprite
+    }
+
+    public func set(lensSprite: SKSpriteNode?, at point: HexPoint) {
+
+        self.tileTextures?[point.x, point.y]?.lensSprite = lensSprite
+    }
+
+    public func lensSprite(at point: HexPoint) -> SKSpriteNode? {
+
+        return self.tileTextures?[point.x, point.y]?.lensSprite
     }
 }

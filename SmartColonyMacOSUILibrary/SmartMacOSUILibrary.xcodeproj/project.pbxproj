@@ -109,6 +109,7 @@
 		C9755FED270AE7D500C9CAB7 /* ReligionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9755FEC270AE7D500C9CAB7 /* ReligionView.swift */; };
 		C9755FF1270AF02800C9CAB7 /* BeliefView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9755FF0270AF02800C9CAB7 /* BeliefView.swift */; };
 		C9755FF3270AFD8700C9CAB7 /* ReligionDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9755FF2270AFD8700C9CAB7 /* ReligionDialogView.swift */; };
+		C975CCBC27590006007DA850 /* MapLensLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975CCBB27590006007DA850 /* MapLensLayer.swift */; };
 		C98031CB26EE5740008F460B /* CityListDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98031CA26EE5740008F460B /* CityListDialogViewModel.swift */; };
 		C98031CD26EE5756008F460B /* CityListDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98031CC26EE5756008F460B /* CityListDialogView.swift */; };
 		C98031CF26EE57F6008F460B /* CityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98031CE26EE57F6008F460B /* CityViewModel.swift */; };
@@ -392,6 +393,7 @@
 		C9755FEC270AE7D500C9CAB7 /* ReligionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionView.swift; sourceTree = "<group>"; };
 		C9755FF0270AF02800C9CAB7 /* BeliefView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeliefView.swift; sourceTree = "<group>"; };
 		C9755FF2270AFD8700C9CAB7 /* ReligionDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionDialogView.swift; sourceTree = "<group>"; };
+		C975CCBB27590006007DA850 /* MapLensLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLensLayer.swift; sourceTree = "<group>"; };
 		C98031CA26EE5740008F460B /* CityListDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityListDialogViewModel.swift; sourceTree = "<group>"; };
 		C98031CC26EE5756008F460B /* CityListDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityListDialogView.swift; sourceTree = "<group>"; };
 		C98031CE26EE57F6008F460B /* CityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityViewModel.swift; sourceTree = "<group>"; };
@@ -594,6 +596,7 @@
 				C9F2B55026695BAC0016D4F3 /* TooltipLayer.swift */,
 				C99AB18B27477FAC00BF0B4D /* DistrictLayer.swift */,
 				C99AB18D27477FB900BF0B4D /* WonderLayer.swift */,
+				C975CCBB27590006007DA850 /* MapLensLayer.swift */,
 			);
 			path = Layers;
 			sourceTree = "<group>";
@@ -1190,6 +1193,7 @@
 			files = (
 				C91E7F9E2732E1DA000463F3 /* CityDetailViewType.swift in Sources */,
 				C9D191BF265D4175008C9622 /* TradePostView.swift in Sources */,
+				C975CCBC27590006007DA850 /* MapLensLayer.swift in Sources */,
 				C93FD2DF2733C2B1003348FB /* CultureRankingDialogView.swift in Sources */,
 				C980E77726E21F3C0089053A /* CombatModifierViewModel.swift in Sources */,
 				C92F948F265E25C5000968AB /* CityCitizenView.swift in Sources */,

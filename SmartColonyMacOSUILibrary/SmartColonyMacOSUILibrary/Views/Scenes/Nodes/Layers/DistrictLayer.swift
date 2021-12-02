@@ -19,7 +19,7 @@ class DistrictLayer: BaseLayer {
 
         super.init(player: player)
         self.zPosition = Globals.ZLevels.district
-        self.name = HexCoordLayer.kName
+        self.name = DistrictLayer.kName
     }
 
     required init?(coder aDecoder: NSCoder) {

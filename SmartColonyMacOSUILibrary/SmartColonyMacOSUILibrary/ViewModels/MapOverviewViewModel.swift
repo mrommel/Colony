@@ -10,9 +10,43 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
+public enum MapLensType: Int {
+
+    case none
+    case religion
+    case continents
+    case appeal
+    // ..
+
+    public static var all: [MapLensType] = [
+
+        .religion,
+        .continents,
+        .appeal
+    ]
+
+    public func title() -> String {
+
+        switch self {
+
+        case .none: return "None"
+        case .religion: return "Religion"
+        case .continents: return "Continents"
+        case .appeal: return "Appeal"
+        }
+    }
+}
+
+extension MapLensType: Identifiable {
+
+    public var id: RawValue { rawValue }
+}
+
 protocol MapOverviewViewModelDelegate: AnyObject {
 
     func minimapClicked(on point: HexPoint)
+
+    func selected(mapLens: MapLensType)
 }
 
 public class MapOverviewViewModel: ObservableObject {
@@ -45,9 +79,29 @@ public class MapOverviewViewModel: ObservableObject {
     @Published
     var bottomRight: CGPoint = CGPoint(x: 50, y: 50)
 
+    @Published
+    var showMapLens: Bool {
+        didSet {
+            if !self.showMapLens {
+                self.delegate?.selected(mapLens: .none)
+            }
+        }
+    }
+
+    @Published
+    var selectedMapLens: MapLensType {
+        didSet {
+            print("selected map lens: \(self.selectedMapLens)")
+            self.delegate?.selected(mapLens: self.selectedMapLens)
+        }
+    }
+
     weak var delegate: MapOverviewViewModelDelegate?
 
     public init() {
+
+        self.showMapLens = false
+        self.selectedMapLens = MapLensType.none
 
         if let game = gameEnvironment.game.value {
 
@@ -94,12 +148,16 @@ public class MapOverviewViewModel: ObservableObject {
 
     func mapLensImage() -> NSImage {
 
-        return ImageCache.shared.image(for: "map-lens")
+        if self.showMapLens {
+            return ImageCache.shared.image(for: "map-lens-active")
+        } else {
+            return ImageCache.shared.image(for: "map-lens")
+        }
     }
 
     func mapLensClicked() {
 
-        print("mapLensClicked")
+        self.showMapLens = !self.showMapLens
     }
 
     func mapMarkerImage() -> NSImage {

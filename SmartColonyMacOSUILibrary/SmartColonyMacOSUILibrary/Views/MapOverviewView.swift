@@ -23,6 +23,8 @@ public struct MapOverviewView: View {
     @ObservedObject
     var viewModel: MapOverviewViewModel
 
+    private let cornerRadius: CGFloat = 5
+
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
 
@@ -58,6 +60,8 @@ public struct MapOverviewView: View {
             .offset(x: -8.0, y: -2.0)
 
             self.optionsView
+
+            self.optionPickerView
         }
         .frame(width: 200, height: 132)
         .onReceive(gameEnvironment.visibleRect) { rect in
@@ -98,6 +102,34 @@ public struct MapOverviewView: View {
                 }
         }
         .offset(x: -8.0, y: -93.0)
+    }
+
+    var optionPickerView: some View {
+
+        if self.viewModel.showMapLens {
+            return AnyView(
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Lenses")
+
+                    Picker("", selection: self.$viewModel.selectedMapLens, content: {
+                        ForEach(MapLensType.all) { mapLens in
+                            Text(mapLens.title())
+                                .tag(mapLens)
+                        }
+                    })
+                        .pickerStyle(RadioGroupPickerStyle())
+                }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: self.cornerRadius)
+                            .strokeBorder(Color.white, lineWidth: 1)
+                            .background(Color(Globals.Colors.dialogBackground))
+                    )
+                    .offset(x: -8.0, y: -120.0)
+            )
+        } else {
+            return AnyView(EmptyView())
+        }
     }
 }
 

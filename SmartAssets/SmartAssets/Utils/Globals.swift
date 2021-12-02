@@ -51,7 +51,8 @@ public struct Globals {
 
         public static let labels: CGFloat = 50.0
 
-        public static let tooltips: CGFloat = 50.0
+        public static let tooltips: CGFloat = 50.5
+        public static let mapLens: CGFloat = 50.7
 
         public static let sceneElements: CGFloat = 51.0
         public static let dialogs: CGFloat = 52.0

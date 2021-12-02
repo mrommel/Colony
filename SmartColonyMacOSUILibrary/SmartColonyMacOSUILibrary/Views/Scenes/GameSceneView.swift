@@ -103,6 +103,11 @@ struct GameSceneView: NSViewRepresentable {
             context.coordinator.gameScene?.hideWater()
         }
 
+        let mapLens = self.gameEnvironment.displayOptions.value.mapLens
+        if context.coordinator.gameScene?.currentMapLens() != mapLens {
+            context.coordinator.gameScene?.set(mapLens: mapLens)
+        }
+
         context.coordinator.gameScene?.updateLayout()
     }
 }

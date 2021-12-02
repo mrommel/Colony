@@ -11,6 +11,8 @@ import SmartAILibrary
 protocol BottomRightBarViewModelDelegate: AnyObject {
 
     func focus(on point: HexPoint)
+
+    func selected(mapLens: MapLensType)
 }
 
 public class BottomRightBarViewModel: ObservableObject {
@@ -43,5 +45,10 @@ extension BottomRightBarViewModel: MapOverviewViewModelDelegate {
     func minimapClicked(on point: HexPoint) {
 
         self.delegate?.focus(on: point)
+    }
+
+    func selected(mapLens: MapLensType) {
+
+        self.delegate?.selected(mapLens: mapLens)
     }
 }
