@@ -87,9 +87,52 @@ public class MapOverviewViewModel: ObservableObject {
         }
     }
 
+    func canvasImage() -> NSImage {
+
+        return ImageCache.shared.image(for: "map-overview-canvas")
+    }
+
+    func mapLensImage() -> NSImage {
+
+        return ImageCache.shared.image(for: "map-lens")
+    }
+
+    func mapLensClicked() {
+
+        print("mapLensClicked")
+    }
+
+    func mapMarkerImage() -> NSImage {
+
+        return ImageCache.shared.image(for: "map-marker")
+    }
+
+    func mapMarkerClicked() {
+
+        print("mapMarkerClicked")
+    }
+
+    func mapOptionImage() -> NSImage {
+
+        return ImageCache.shared.image(for: "map-options")
+    }
+
+    func mapOptionClicked() {
+
+        print("mapOptionClicked")
+    }
+
     func assign(game: GameModel?) {
 
-        guard let game = self.gameEnvironment.game.value else {
+        var gameRef: GameModel?
+        if self.gameEnvironment.game.value == nil {
+            self.gameEnvironment.game.send(game)
+            gameRef = game
+        } else {
+            gameRef = self.gameEnvironment.game.value
+        }
+
+        guard let game = gameRef else {
             fatalError("need to assign a valid game")
         }
 

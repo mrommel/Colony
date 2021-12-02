@@ -281,7 +281,8 @@ public class GameViewModel: ObservableObject {
         "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced",
         "tile-districtAvailable", "tile-wonderAvailable", "tile-notAvailable",
         "city-canvas", "pantheon-background", "turns", "unit-banner", "combat-view",
-        "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty"
+        "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty",
+        "map-overview-canvas", "map-lens", "map-marker", "map-options"
     ]
 
     public weak var delegate: CloseGameViewModelDelegate?

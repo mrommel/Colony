@@ -27,24 +27,17 @@ public struct BottomRightBarView: View {
     }
 }
 
-/*struct BottomRightBarView_Previews: PreviewProvider {
-
-    static func viewModel() -> GameSceneViewModel {
-
-        let viewModel = GameSceneViewModel()
-
-        let game = DemoGameModel()
-        viewModel.game = game
-
-        return viewModel
-    }
+struct BottomRightBarView_Previews: PreviewProvider {
 
     static var previews: some View {
-
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
-        let viewModel = BottomRightBarView_Previews.viewModel()
+        let game = DemoGameModel()
+        let environment = GameEnvironment(game: game)
+
+        let viewModel = BottomRightBarViewModel()
         BottomRightBarView(viewModel: viewModel)
+            .environment(\.gameEnvironment, environment)
     }
-}*/
+}

@@ -32,7 +32,7 @@ public struct MapOverviewView: View {
 
         ZStack(alignment: .bottomTrailing) {
 
-            Image("map_overview_canvas")
+            Image(nsImage: self.viewModel.canvasImage())
                 .resizable()
                 .scaledToFit()
                 .frame(width: 200, height: 112, alignment: .bottomTrailing) // 400 × 224
@@ -56,8 +56,10 @@ public struct MapOverviewView: View {
             }
             .stroke(Color.white, lineWidth: 1)
             .offset(x: -8.0, y: -2.0)
+
+            self.optionsView
         }
-        .frame(width: 200, height: 112)
+        .frame(width: 200, height: 132)
         .onReceive(gameEnvironment.visibleRect) { rect in
             print("visible rect changed: \(rect)")
         }
@@ -66,13 +68,50 @@ public struct MapOverviewView: View {
             self.viewModel.assign(game: game)
         }
     }
+
+    var optionsView: some View {
+
+        HStack {
+
+            Image(nsImage: self.viewModel.mapMarkerImage())
+                .resizable()
+                .scaledToFit()
+                .frame(width: 29.9, height: 25.35)
+                .onTapGesture {
+                    self.viewModel.mapMarkerClicked()
+                }
+
+            Image(nsImage: self.viewModel.mapOptionImage())
+                .resizable()
+                .scaledToFit()
+                .frame(width: 29.9, height: 25.35)
+                .onTapGesture {
+                    self.viewModel.mapOptionClicked()
+                }
+
+            Image(nsImage: self.viewModel.mapLensImage())
+                .resizable()
+                .scaledToFit()
+                .frame(width: 29.9, height: 25.35)
+                .onTapGesture {
+                    self.viewModel.mapLensClicked()
+                }
+        }
+        .offset(x: -8.0, y: -93.0)
+    }
 }
 
-/*struct MapOverviewView_Previews: PreviewProvider {
-    
+struct MapOverviewView_Previews: PreviewProvider {
+
     static var previews: some View {
-        
-        let viewModel = MapOverviewViewModel(with: DemoGameModel())
-        MapOverviewView(viewModel: viewModel, visibleRect: <#Binding<CGRect>#>)
+        // swiftlint:disable:next redundant_discardable_let
+        let _ = GameViewModel(preloadAssets: true)
+
+        let game = DemoGameModel()
+        let environment = GameEnvironment(game: game)
+
+        let viewModel = MapOverviewViewModel()
+        MapOverviewView(viewModel: viewModel)
+            .environment(\.gameEnvironment, environment)
     }
-}*/
+}
