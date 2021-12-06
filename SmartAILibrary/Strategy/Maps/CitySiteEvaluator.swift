@@ -8,6 +8,24 @@
 
 import Foundation
 
+public enum CitySiteEvaluationType {
+
+    case freshWater
+    case coastalWater
+    case noWater
+    case tooCloseToAnotherCity
+    case invalidTerrain
+
+    public static var all: [CitySiteEvaluationType] = [
+
+        .freshWater,
+        .coastalWater,
+        .noWater,
+        .tooCloseToAnotherCity,
+        .invalidTerrain
+    ]
+}
+
 public class CitySiteEvaluator: BaseSiteEvaluator {
 
     let map: MapModel?
@@ -60,6 +78,40 @@ public class CitySiteEvaluator: BaseSiteEvaluator {
         }
 
         return true
+    }
+
+    public func evaluationType(of point: HexPoint, for player: AbstractPlayer?) -> CitySiteEvaluationType {
+
+        guard let map = self.map else {
+            return .invalidTerrain
+        }
+
+        guard let tile = map.tile(at: point) else {
+            fatalError("cant get tile")
+        }
+
+        if tile.terrain() == .ocean || tile.terrain() == .shore || tile.has(feature: .mountains) || tile.has(feature: .ice) {
+            return .invalidTerrain
+        }
+
+        let area = point.areaWith(radius: self.minCityDistance)
+
+        for areaPoint in area {
+
+            if map.city(at: areaPoint) != nil {
+                return .tooCloseToAnotherCity
+            }
+        }
+
+        if map.river(at: point) {
+            return .freshWater
+        }
+
+        if map.isCoastal(at: point) {
+            return .coastalWater
+        }
+
+        return .noWater
     }
 
     public override func value(of point: HexPoint, for player: AbstractPlayer?) -> Double {

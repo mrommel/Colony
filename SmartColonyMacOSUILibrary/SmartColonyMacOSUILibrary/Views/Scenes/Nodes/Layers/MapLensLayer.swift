@@ -43,8 +43,17 @@ class MapLensLayer: BaseLayer {
         let bundle = Bundle.init(for: Textures.self)
 
         // pre-load textures
-        let appealLevelTextureName = AppealLevel.all.map { $0.textureName() }
-        for textureName in appealLevelTextureName {
+        let appealLevelTextureNames = AppealLevel.all.map { $0.textureName() }
+        for textureName in appealLevelTextureNames {
+
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let settlerTextureNames = CitySiteEvaluationType.all.map { $0.textureName() }
+        for textureName in settlerTextureNames {
 
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
@@ -77,8 +86,14 @@ class MapLensLayer: BaseLayer {
                 textureName = appealLevel.textureName()
             }
         case .settler:
-            // NOOP
-            break
+            if visibleToHuman {
+                guard let citySiteEvaluator = self.gameModel?.citySiteEvaluator() else {
+                    return
+                }
+
+                let citySiteEvaluationType = citySiteEvaluator.evaluationType(of: tile.point, for: self.gameModel?.humanPlayer())
+                textureName = citySiteEvaluationType.textureName()
+            }
         case .government:
             // NOOP
             break

@@ -1528,7 +1528,7 @@ open class GameModel: Codable {
         return area.map({ self.map.tile(at: $0) })
     }
 
-    func citySiteEvaluator() -> CitySiteEvaluator {
+    public func citySiteEvaluator() -> CitySiteEvaluator {
 
         return CitySiteEvaluator(map: self.map)
     }
