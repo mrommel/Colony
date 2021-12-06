@@ -32,44 +32,49 @@ public struct MapOverviewView: View {
 
     public var body: some View {
 
-        ZStack(alignment: .bottomTrailing) {
+        VStack {
 
-            Image(nsImage: self.viewModel.canvasImage())
-                .resizable()
-                .scaledToFit()
-                .frame(width: 200, height: 112, alignment: .bottomTrailing) // 400 × 224
-
-            self.viewModel.image
-                .mapOverview()
-                .offset(x: -8.0, y: -2.0)
-                .gesture(
-                    DragGesture(minimumDistance: 0)
-                        .onEnded({ (value) in
-                            self.viewModel.clicked(on: value.location)
-                        })
-                )
-
-            Path { path in
-                path.move(to: self.viewModel.topLeft)
-                path.addLine(to: self.viewModel.topRight)
-                path.addLine(to: self.viewModel.bottomRight)
-                path.addLine(to: self.viewModel.bottomLeft)
-                path.addLine(to: self.viewModel.topLeft)
-            }
-            .stroke(Color.white, lineWidth: 1)
-            .offset(x: -8.0, y: -2.0)
-
-            self.optionsView
+            self.legendView
 
             self.optionPickerView
-        }
-        .frame(width: 200, height: 200)
-        .onReceive(gameEnvironment.visibleRect) { rect in
-            print("visible rect changed: \(rect)")
-        }
-        .onReceive(gameEnvironment.game) { game in
-            print(" - game changed - ")
-            self.viewModel.assign(game: game)
+
+            ZStack(alignment: .bottomTrailing) {
+
+                Image(nsImage: self.viewModel.canvasImage())
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 200, height: 112, alignment: .bottomTrailing) // 400 × 224
+
+                self.viewModel.image
+                    .mapOverview()
+                    .offset(x: -8.0, y: -2.0)
+                    .gesture(
+                        DragGesture(minimumDistance: 0)
+                            .onEnded({ (value) in
+                                self.viewModel.clicked(on: value.location)
+                            })
+                    )
+
+                Path { path in
+                    path.move(to: self.viewModel.topLeft)
+                    path.addLine(to: self.viewModel.topRight)
+                    path.addLine(to: self.viewModel.bottomRight)
+                    path.addLine(to: self.viewModel.bottomLeft)
+                    path.addLine(to: self.viewModel.topLeft)
+                }
+                .stroke(Color.white, lineWidth: 1)
+                .offset(x: -8.0, y: -2.0)
+
+                self.optionsView
+            }
+            .frame(width: 200, height: 120)
+            .onReceive(gameEnvironment.visibleRect) { rect in
+                print("visible rect changed: \(rect)")
+            }
+            .onReceive(gameEnvironment.game) { game in
+                print(" - game changed - ")
+                self.viewModel.assign(game: game)
+            }
         }
     }
 
@@ -108,24 +113,60 @@ public struct MapOverviewView: View {
 
         if self.viewModel.showMapLens {
             return AnyView(
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .center, spacing: 4) {
                     Text("Lenses")
 
-                    Picker("", selection: self.$viewModel.selectedMapLens, content: {
-                        ForEach(MapLensType.all) { mapLens in
-                            Text(mapLens.title())
-                                .tag(mapLens)
-                        }
+                    ScrollView(.vertical, showsIndicators: true, content: {
+                        Picker("", selection: self.$viewModel.selectedMapLens, content: {
+                            ForEach(MapLensType.all) { mapLens in
+                                Text(mapLens.title())
+                                    .tag(mapLens)
+                                    .frame(width: 130, alignment: .leading)
+                                    .padding(.leading, 4)
+                            }
+                        })
+                            .pickerStyle(RadioGroupPickerStyle())
+
                     })
-                        .pickerStyle(RadioGroupPickerStyle())
+                        .frame(width: 150, height: 150)
                 }
-                    .padding()
+                    .padding(.all, 4)
                     .background(
                         RoundedRectangle(cornerRadius: self.cornerRadius)
                             .strokeBorder(Color.white, lineWidth: 1)
                             .background(Color(Globals.Colors.dialogBackground))
                     )
-                    .offset(x: -8.0, y: -120.0)
+            )
+        } else {
+            return AnyView(EmptyView())
+        }
+    }
+
+    var legendView: some View {
+
+        if self.viewModel.showMapLens {
+            return AnyView(
+                VStack(alignment: .center, spacing: 4) {
+                    Text("Legend")
+
+                    ForEach(self.viewModel.mapLensLegendViewModel.items, id: \.self) { legendItemViewModel in
+
+                        HStack {
+                            Image(nsImage: legendItemViewModel.image())
+                                .resizable()
+                                .frame(width: 16, height: 16)
+
+                            Label(text: legendItemViewModel.legend)
+                        }
+                    }
+                }
+                    .frame(width: 150)
+                    .padding(.all, 4)
+                    .background(
+                        RoundedRectangle(cornerRadius: self.cornerRadius)
+                            .strokeBorder(Color.white, lineWidth: 1)
+                            .background(Color(Globals.Colors.dialogBackground))
+                    )
             )
         } else {
             return AnyView(EmptyView())

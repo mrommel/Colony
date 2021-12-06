@@ -67,7 +67,6 @@ class MapLensLayer: BaseLayer {
     func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
 
         var textureName: String?
-        let visibleToHuman = tile.isVisible(to: self.gameModel?.humanPlayer())
 
         switch self.mapLens {
 
@@ -81,19 +80,15 @@ class MapLensLayer: BaseLayer {
             // NOOP
             break
         case .appeal:
-            if visibleToHuman {
-                let appealLevel = tile.appealLevel(in: self.gameModel)
-                textureName = appealLevel.textureName()
-            }
+            let appealLevel = tile.appealLevel(in: self.gameModel)
+            textureName = appealLevel.textureName()
         case .settler:
-            if visibleToHuman {
-                guard let citySiteEvaluator = self.gameModel?.citySiteEvaluator() else {
-                    return
-                }
-
-                let citySiteEvaluationType = citySiteEvaluator.evaluationType(of: tile.point, for: self.gameModel?.humanPlayer())
-                textureName = citySiteEvaluationType.textureName()
+            guard let citySiteEvaluator = self.gameModel?.citySiteEvaluator() else {
+                return
             }
+
+            let citySiteEvaluationType = citySiteEvaluator.evaluationType(of: tile.point, for: self.gameModel?.humanPlayer())
+            textureName = citySiteEvaluationType.textureName()
         case .government:
             // NOOP
             break

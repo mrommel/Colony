@@ -20,4 +20,16 @@ extension AppealLevel {
         case .disgusting: return "appeal-tile-disgusting"
         }
     }
+
+    public func legendText() -> String {
+
+        switch self {
+
+        case .breathtaking: return "Breathtaking"
+        case .charming: return "Charming"
+        case .average: return "Average"
+        case .uninviting: return "Uninviting"
+        case .disgusting: return "Disgusting"
+        }
+    }
 }

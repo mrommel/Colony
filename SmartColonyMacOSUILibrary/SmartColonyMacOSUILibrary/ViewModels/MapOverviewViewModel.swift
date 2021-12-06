@@ -53,11 +53,94 @@ public enum MapLensType: Int {
         case .empire: return "Empire"
         }
     }
+
+    public func legendItems() -> [MapLensLegendItemViewModel] {
+
+        var legendItems: [MapLensLegendItemViewModel] = []
+
+        switch self {
+
+        case .appeal:
+            for appealLevel in AppealLevel.all {
+                legendItems.append(
+                    MapLensLegendItemViewModel(
+                        textureName: appealLevel.textureName(),
+                        legend: appealLevel.legendText()
+                    )
+                )
+            }
+
+        case .settler:
+            for citySiteEvaluationType in CitySiteEvaluationType.all {
+                legendItems.append(
+                    MapLensLegendItemViewModel(
+                        textureName: citySiteEvaluationType.textureName(),
+                        legend: citySiteEvaluationType.legendText()
+                    )
+                )
+            }
+
+        default:
+            // NOOP
+            break
+        }
+
+        return legendItems
+    }
 }
 
 extension MapLensType: Identifiable {
 
     public var id: RawValue { rawValue }
+}
+
+public class MapLensLegendItemViewModel: ObservableObject, Identifiable {
+
+    public let id: UUID = UUID()
+    let textureName: String
+    let legend: String
+
+    init(textureName: String, legend: String) {
+
+        self.textureName = textureName
+        self.legend = legend
+    }
+
+    func image() -> NSImage {
+
+        return ImageCache.shared.image(for: self.textureName)
+    }
+}
+
+extension MapLensLegendItemViewModel: Hashable {
+
+    public static func == (lhs: MapLensLegendItemViewModel, rhs: MapLensLegendItemViewModel) -> Bool {
+
+        return lhs.id == rhs.id
+    }
+
+    public func hash(into hasher: inout Hasher) {
+
+        hasher.combine(self.id)
+    }
+}
+
+public class MapLensLegendViewModel: ObservableObject {
+
+    @Published
+    var items: [MapLensLegendItemViewModel]
+
+    var mapLens: MapLensType {
+        didSet {
+            self.items = self.mapLens.legendItems()
+        }
+    }
+
+    init() {
+
+        self.mapLens = .none
+        self.items = []
+    }
 }
 
 protocol MapOverviewViewModelDelegate: AnyObject {
@@ -110,8 +193,12 @@ public class MapOverviewViewModel: ObservableObject {
     var selectedMapLens: MapLensType {
         didSet {
             self.delegate?.selected(mapLens: self.selectedMapLens)
+            self.mapLensLegendViewModel.mapLens = self.selectedMapLens
         }
     }
+
+    @Published
+    var mapLensLegendViewModel: MapLensLegendViewModel
 
     weak var delegate: MapOverviewViewModelDelegate?
 
@@ -119,6 +206,7 @@ public class MapOverviewViewModel: ObservableObject {
 
         self.showMapLens = false
         self.selectedMapLens = MapLensType.none
+        self.mapLensLegendViewModel = MapLensLegendViewModel()
 
         if let game = gameEnvironment.game.value {
 
