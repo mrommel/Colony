@@ -133,6 +133,7 @@ public class GameSceneViewModel: ObservableObject {
     var refreshCities: Bool = false
 
     private var centerOn: HexPoint?
+    private var lens: MapLensType?
 
     var globeImages: [NSImage] = []
 
@@ -337,11 +338,6 @@ public class GameSceneViewModel: ObservableObject {
         }
     }
 
-    func hasFocus() -> Bool {
-
-        return self.centerOn != nil
-    }
-
     func focus(on point: HexPoint) {
 
         self.centerOn = point
@@ -355,6 +351,21 @@ public class GameSceneViewModel: ObservableObject {
     func focus() -> HexPoint? {
 
         return self.centerOn
+    }
+
+    func show(mapLens: MapLensType) {
+
+        self.lens = mapLens
+    }
+
+    func hideMapLens() {
+
+        self.lens = nil
+    }
+
+    func mapLens() -> MapLensType? {
+
+        return self.lens
     }
 }
 

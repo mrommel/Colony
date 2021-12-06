@@ -13,16 +13,28 @@ import SmartAssets
 public enum MapLensType: Int {
 
     case none
+
     case religion
     case continents
     case appeal
-    // ..
+    case settler
+    case government
+    case political
+    case tourism
+    case empire
+    // builder
+    // scout
 
     public static var all: [MapLensType] = [
 
         .religion,
         .continents,
-        .appeal
+        .appeal,
+        .settler,
+        .government,
+        .political,
+        .tourism,
+        .empire
     ]
 
     public func title() -> String {
@@ -30,9 +42,15 @@ public enum MapLensType: Int {
         switch self {
 
         case .none: return "None"
+
         case .religion: return "Religion"
         case .continents: return "Continents"
         case .appeal: return "Appeal"
+        case .settler: return "Settler"
+        case .government: return "Government"
+        case .political: return "Political"
+        case .tourism: return "Tourism"
+        case .empire: return "Empire"
         }
     }
 }
@@ -91,7 +109,6 @@ public class MapOverviewViewModel: ObservableObject {
     @Published
     var selectedMapLens: MapLensType {
         didSet {
-            print("selected map lens: \(self.selectedMapLens)")
             self.delegate?.selected(mapLens: self.selectedMapLens)
         }
     }
@@ -158,6 +175,11 @@ public class MapOverviewViewModel: ObservableObject {
     func mapLensClicked() {
 
         self.showMapLens = !self.showMapLens
+
+        // if map lens is toogle on, we send the map lens to the view options again
+        if self.showMapLens {
+            self.delegate?.selected(mapLens: self.selectedMapLens)
+        }
     }
 
     func mapMarkerImage() -> NSImage {

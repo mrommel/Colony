@@ -212,12 +212,12 @@ class MapNode: SKNode {
             return
         }
 
-        if oldMapLens != mapLens {
+        if oldMapLens != mapLens || self.mapLensLayer.parent == nil {
 
             self.mapLensLayer.mapLens = mapLens
             self.mapLensLayer.rebuild()
 
-            if oldMapLens == .none {
+            if oldMapLens == .none || self.mapLensLayer.parent == nil {
                 self.addChild(self.mapLensLayer)
             }
         }

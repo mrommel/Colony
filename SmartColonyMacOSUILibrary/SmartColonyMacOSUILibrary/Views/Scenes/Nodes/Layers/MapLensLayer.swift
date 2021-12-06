@@ -40,6 +40,17 @@ class MapLensLayer: BaseLayer {
 
         self.textureUtils = TextureUtils(with: gameModel)
         self.textures = Textures(game: gameModel)
+        let bundle = Bundle.init(for: Textures.self)
+
+        // pre-load textures
+        let appealLevelTextureName = AppealLevel.all.map { $0.textureName() }
+        for textureName in appealLevelTextureName {
+
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
 
         self.rebuild()
     }
@@ -47,21 +58,41 @@ class MapLensLayer: BaseLayer {
     func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
 
         var textureName: String?
+        let visibleToHuman = tile.isVisible(to: self.gameModel?.humanPlayer())
 
         switch self.mapLens {
 
         case .none:
             // NOOP
             break
+
         case .religion:
             textureName = "water"
         case .continents:
             // NOOP
             break
         case .appeal:
+            if visibleToHuman {
+                let appealLevel = tile.appealLevel(in: self.gameModel)
+                textureName = appealLevel.textureName()
+            }
+        case .settler:
+            // NOOP
+            break
+        case .government:
+            // NOOP
+            break
+        case .political:
+            // NOOP
+            break
+        case .tourism:
+            // NOOP
+            break
+        case .empire:
             // NOOP
             break
         }
+
         // place texture
         if let lensTextureName = textureName {
 

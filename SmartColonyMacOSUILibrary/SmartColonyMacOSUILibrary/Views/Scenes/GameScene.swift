@@ -158,6 +158,11 @@ class GameScene: BaseScene {
                 self.center(on: focus)
                 self.viewModel?.unFocus()
             }
+
+            if let mapLens = self.viewModel?.mapLens() {
+                self.mapNode?.set(mapLens: mapLens)
+                self.viewModel?.hideMapLens()
+            }
         }
     }
 

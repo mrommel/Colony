@@ -63,7 +63,7 @@ public struct MapOverviewView: View {
 
             self.optionPickerView
         }
-        .frame(width: 200, height: 132)
+        .frame(width: 200, height: 200)
         .onReceive(gameEnvironment.visibleRect) { rect in
             print("visible rect changed: \(rect)")
         }

@@ -16,6 +16,15 @@ public enum AppealLevel {
     case uninviting
     case disgusting
 
+    public static var all: [AppealLevel] = [
+
+        .breathtaking,
+        .charming,
+        .average,
+        .uninviting,
+        .disgusting
+    ]
+
     public static func from(appeal: Int) -> AppealLevel {
 
         if appeal >= 4 {
