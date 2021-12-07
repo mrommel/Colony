@@ -16,10 +16,7 @@ public class MapLensLegendViewModel: ObservableObject {
 
     var mapLens: MapLensType {
         didSet {
-            self.items = self.mapLens.legendItems()
-                .map { item in
-                    MapLensLegendItemViewModel(textureName: item.textureName, legend: item.title)
-                }
+            self.updateItems()
         }
     }
 
@@ -27,5 +24,16 @@ public class MapLensLegendViewModel: ObservableObject {
 
         self.mapLens = .none
         self.items = []
+    }
+
+    private func updateItems() {
+
+        self.items = self.mapLens.legendItems()
+            .map { item in
+                MapLensLegendItemViewModel(
+                    textureName: item.textureName,
+                    legend: item.title
+                )
+            }
     }
 }

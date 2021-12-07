@@ -151,13 +151,7 @@ public struct MapOverviewView: View {
 
                     ForEach(self.viewModel.mapLensLegendViewModel.items, id: \.self) { legendItemViewModel in
 
-                        HStack {
-                            Image(nsImage: legendItemViewModel.image())
-                                .resizable()
-                                .frame(width: 16, height: 16)
-
-                            Label(text: legendItemViewModel.legend)
-                        }
+                        MapLensLegendItemView(viewModel: legendItemViewModel)
                     }
                 }
                     .frame(width: 150)

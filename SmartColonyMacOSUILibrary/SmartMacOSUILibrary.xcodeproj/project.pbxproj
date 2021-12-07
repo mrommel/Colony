@@ -105,6 +105,7 @@
 		C974E44126BD14AF004DD34F /* DiplomaticDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C974E44026BD14AF004DD34F /* DiplomaticDialogView.swift */; };
 		C9754D5E275F3ACA000A1B70 /* MapLensLegendItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9754D5D275F3ACA000A1B70 /* MapLensLegendItemViewModel.swift */; };
 		C9754D60275F3B21000A1B70 /* MapLensLegendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9754D5F275F3B21000A1B70 /* MapLensLegendViewModel.swift */; };
+		C9754D62275F3F5C000A1B70 /* MapLensLegendItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9754D61275F3F5C000A1B70 /* MapLensLegendItemView.swift */; };
 		C9755FE7270AE3A400C9CAB7 /* ReligionDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9755FE6270AE3A400C9CAB7 /* ReligionDialogViewModel.swift */; };
 		C9755FE9270AE41B00C9CAB7 /* ReligionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9755FE8270AE41B00C9CAB7 /* ReligionViewModel.swift */; };
 		C9755FEB270AE6F900C9CAB7 /* BeliefViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9755FEA270AE6F900C9CAB7 /* BeliefViewModel.swift */; };
@@ -391,6 +392,7 @@
 		C974E44026BD14AF004DD34F /* DiplomaticDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticDialogView.swift; sourceTree = "<group>"; };
 		C9754D5D275F3ACA000A1B70 /* MapLensLegendItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLensLegendItemViewModel.swift; sourceTree = "<group>"; };
 		C9754D5F275F3B21000A1B70 /* MapLensLegendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLensLegendViewModel.swift; sourceTree = "<group>"; };
+		C9754D61275F3F5C000A1B70 /* MapLensLegendItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLensLegendItemView.swift; sourceTree = "<group>"; };
 		C9755FE6270AE3A400C9CAB7 /* ReligionDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionDialogViewModel.swift; sourceTree = "<group>"; };
 		C9755FE8270AE41B00C9CAB7 /* ReligionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionViewModel.swift; sourceTree = "<group>"; };
 		C9755FEA270AE6F900C9CAB7 /* BeliefViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeliefViewModel.swift; sourceTree = "<group>"; };
@@ -909,6 +911,7 @@
 				C92AB9202734689D003647D8 /* DominationRankingView.swift */,
 				C9911EAA27367F3000273C8A /* ReligiousRankingView.swift */,
 				C96FEA36274CE5E400A9194C /* UnitCommandView.swift */,
+				C9754D61275F3F5C000A1B70 /* MapLensLegendItemView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1250,6 +1253,7 @@
 				C98031CF26EE57F6008F460B /* CityViewModel.swift in Sources */,
 				C968F28F2639455700612D0E /* BaseLayer.swift in Sources */,
 				C9E87BB3264D1CB500514B9A /* TechViewModel.swift in Sources */,
+				C9754D62275F3F5C000A1B70 /* MapLensLegendItemView.swift in Sources */,
 				C968F2A92639E97400612D0E /* CityObject.swift in Sources */,
 				C9AC100526DFA3AE00B65288 /* BaseDialogView.swift in Sources */,
 				C950F98E26427E110057A7D1 /* GameSceneViewModel.swift in Sources */,

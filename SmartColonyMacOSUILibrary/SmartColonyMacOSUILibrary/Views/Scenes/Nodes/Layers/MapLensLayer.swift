@@ -110,7 +110,7 @@ class MapLensLayer: BaseLayer {
 
             let lensSprite = SKSpriteNode(texture: SKTexture(image: image), size: MapLensLayer.kTextureSize)
             lensSprite.position = position
-            lensSprite.zPosition = Globals.ZLevels.wonder
+            lensSprite.zPosition = Globals.ZLevels.mapLens
             lensSprite.anchorPoint = CGPoint(x: 0, y: 0)
             lensSprite.color = .black
             lensSprite.colorBlendFactor = 1.0 - alpha
