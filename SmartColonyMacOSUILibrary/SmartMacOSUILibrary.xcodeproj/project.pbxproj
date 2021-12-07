@@ -103,6 +103,8 @@
 		C971FDD327070FB100F818EE /* GreatPersonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C971FDD227070FB100F818EE /* GreatPersonViewModel.swift */; };
 		C971FDD52707120100F818EE /* GreatPersonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C971FDD42707120100F818EE /* GreatPersonView.swift */; };
 		C974E44126BD14AF004DD34F /* DiplomaticDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C974E44026BD14AF004DD34F /* DiplomaticDialogView.swift */; };
+		C9754D5E275F3ACA000A1B70 /* MapLensLegendItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9754D5D275F3ACA000A1B70 /* MapLensLegendItemViewModel.swift */; };
+		C9754D60275F3B21000A1B70 /* MapLensLegendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9754D5F275F3B21000A1B70 /* MapLensLegendViewModel.swift */; };
 		C9755FE7270AE3A400C9CAB7 /* ReligionDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9755FE6270AE3A400C9CAB7 /* ReligionDialogViewModel.swift */; };
 		C9755FE9270AE41B00C9CAB7 /* ReligionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9755FE8270AE41B00C9CAB7 /* ReligionViewModel.swift */; };
 		C9755FEB270AE6F900C9CAB7 /* BeliefViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9755FEA270AE6F900C9CAB7 /* BeliefViewModel.swift */; };
@@ -387,6 +389,8 @@
 		C971FDD227070FB100F818EE /* GreatPersonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPersonViewModel.swift; sourceTree = "<group>"; };
 		C971FDD42707120100F818EE /* GreatPersonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPersonView.swift; sourceTree = "<group>"; };
 		C974E44026BD14AF004DD34F /* DiplomaticDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticDialogView.swift; sourceTree = "<group>"; };
+		C9754D5D275F3ACA000A1B70 /* MapLensLegendItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLensLegendItemViewModel.swift; sourceTree = "<group>"; };
+		C9754D5F275F3B21000A1B70 /* MapLensLegendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLensLegendViewModel.swift; sourceTree = "<group>"; };
 		C9755FE6270AE3A400C9CAB7 /* ReligionDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionDialogViewModel.swift; sourceTree = "<group>"; };
 		C9755FE8270AE41B00C9CAB7 /* ReligionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionViewModel.swift; sourceTree = "<group>"; };
 		C9755FEA270AE6F900C9CAB7 /* BeliefViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeliefViewModel.swift; sourceTree = "<group>"; };
@@ -1059,6 +1063,8 @@
 				C90039212734248200E1AA7F /* DominationRankingViewModel.swift */,
 				C9911EA827367E2E00273C8A /* ReligiousRankingViewModel.swift */,
 				C96FEA34274CE4B400A9194C /* UnitCommandViewModel.swift */,
+				C9754D5D275F3ACA000A1B70 /* MapLensLegendItemViewModel.swift */,
+				C9754D5F275F3B21000A1B70 /* MapLensLegendViewModel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1207,6 +1213,7 @@
 				C9B087CF2667BC550016DFCA /* EurekaTechActivatedPopupViewModel.swift in Sources */,
 				C94F94DE27295C1E006BF135 /* Tooltip.swift in Sources */,
 				C9077A8A26D65639004BE679 /* DialogButtonStyle.swift in Sources */,
+				C9754D60275F3B21000A1B70 /* MapLensLegendViewModel.swift in Sources */,
 				C9077A8226D626AC004BE679 /* TradeRoutesDialogView.swift in Sources */,
 				C9A61D81261EE55600341241 /* PixelBuffer.swift in Sources */,
 				C91A07A826D9135C008E9F86 /* WonderBuiltPopupView.swift in Sources */,
@@ -1291,6 +1298,7 @@
 				C94CE28726DCDA4F00B58A9C /* CombatBannerView.swift in Sources */,
 				C98031CB26EE5740008F460B /* CityListDialogViewModel.swift in Sources */,
 				C9B087C826679E1D0016DFCA /* GoodyHutRewardPopupView.swift in Sources */,
+				C9754D5E275F3ACA000A1B70 /* MapLensLegendItemViewModel.swift in Sources */,
 				C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */,
 				C96FEA35274CE4B400A9194C /* UnitCommandViewModel.swift in Sources */,
 				C9A8F0D72651969D00584199 /* GameViewModelDialogs.swift in Sources */,
