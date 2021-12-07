@@ -192,6 +192,13 @@ public extension Globals {
 
         // Overview
         public static var overviewBackground: TypeColor = TypeColor.Terrain.pergament
+
+        // Lenses
+        public static var breathtakingAppeal: TypeColor = TypeColor.Lenses.green
+        public static var charmingAppeal: TypeColor = TypeColor.Lenses.lightGreen
+        public static var averageAppeal: TypeColor = TypeColor.Lenses.average
+        public static var uninvitingAppeal: TypeColor = TypeColor.Lenses.lightRed
+        public static var disgustingAppeal: TypeColor = TypeColor.Lenses.red
     }
 }
 

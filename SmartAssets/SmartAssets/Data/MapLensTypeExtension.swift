@@ -10,6 +10,7 @@ import SmartAILibrary
 public struct LegendItem {
 
     public let textureName: String
+    public let color: TypeColor
     public let title: String
 }
 
@@ -43,6 +44,7 @@ extension MapLensType {
                 legendItems.append(
                     LegendItem(
                         textureName: appealLevel.textureName(),
+                        color: appealLevel.legendColor(),
                         title: appealLevel.legendText()
                     )
                 )

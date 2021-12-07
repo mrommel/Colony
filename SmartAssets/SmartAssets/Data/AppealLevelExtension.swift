@@ -21,6 +21,18 @@ extension AppealLevel {
         }
     }
 
+    public func legendColor() -> TypeColor {
+
+        switch self {
+
+        case .breathtaking: return Globals.Colors.breathtakingAppeal
+        case .charming: return Globals.Colors.charmingAppeal
+        case .average: return Globals.Colors.averageAppeal
+        case .uninviting: return Globals.Colors.uninvitingAppeal
+        case .disgusting: return Globals.Colors.disgustingAppeal
+        }
+    }
+
     public func legendText() -> String {
 
         switch self {

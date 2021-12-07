@@ -69,6 +69,16 @@ extension TypeColor {
         public static var ice: TypeColor = TypeColor(hex: "#d1e4f2")!
     }
 
+    public struct Lenses {
+
+        // appeal
+        public static var green: TypeColor = TypeColor(hex: "#00ff00")!
+        public static var lightGreen: TypeColor = TypeColor(hex: "#7fff7f")!
+        public static var average: TypeColor = TypeColor(hex: "#bfbfbf")!
+        public static var lightRed: TypeColor = TypeColor(hex: "#ff7f00")!
+        public static var red: TypeColor = TypeColor(hex: "#ff0000")!
+    }
+
     public struct UI {
 
         // pick color names - https://hexcolor.co/hex/180e0c
