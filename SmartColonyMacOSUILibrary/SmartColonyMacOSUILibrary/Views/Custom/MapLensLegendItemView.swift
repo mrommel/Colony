@@ -19,7 +19,7 @@ public struct MapLensLegendItemView: View {
                 .resizable()
                 .frame(width: 16, height: 16)
 
-            Label(text: self.viewModel.legend)
+            Label(text: self.viewModel.legendTitle)
         }
     }
 }

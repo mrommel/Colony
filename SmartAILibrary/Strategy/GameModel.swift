@@ -1992,6 +1992,22 @@ open class GameModel: Codable {
 
         return religions.availableReligions(in: self)
     }
+
+    public func religionsInUse() -> [ReligionType] {
+
+        guard let religions = self.religionsVal else {
+            fatalError("cant get religions")
+        }
+
+        return religions.religions(in: self)
+            .map { $0?.currentReligion() ?? .none }
+            .filter { $0 != .none }
+    }
+
+    public func continents() -> [Continent] {
+
+        return self.map.continents
+    }
 }
 
 // MARK: 

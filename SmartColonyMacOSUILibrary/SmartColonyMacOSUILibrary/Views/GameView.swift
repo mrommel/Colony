@@ -36,7 +36,7 @@ public struct GameView: View {
                     }
                 }
                 .onReceive(self.gameEnvironment.displayOptions) { option in
-                    print("display options have changed to: \(option.mapLens)")
+                    // print("display options have changed to: \(option.mapLens)")
                     self.viewModel.gameSceneViewModel.show(mapLens: option.mapLens)
                 }
 

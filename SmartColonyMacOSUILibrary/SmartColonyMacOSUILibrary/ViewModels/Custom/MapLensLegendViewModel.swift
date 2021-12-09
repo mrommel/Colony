@@ -11,6 +11,9 @@ import SmartAssets
 
 public class MapLensLegendViewModel: ObservableObject {
 
+    @Environment(\.gameEnvironment)
+    var gameEnvironment: GameEnvironment
+
     @Published
     var items: [MapLensLegendItemViewModel]
 
@@ -28,11 +31,15 @@ public class MapLensLegendViewModel: ObservableObject {
 
     private func updateItems() {
 
-        self.items = self.mapLens.legendItems()
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        self.items = self.mapLens.legendItems(in: gameModel)
             .map { item in
                 MapLensLegendItemViewModel(
-                    textureName: item.textureName,
-                    legend: item.title
+                    legendColor: item.color,
+                    legendTitle: item.title
                 )
             }
     }

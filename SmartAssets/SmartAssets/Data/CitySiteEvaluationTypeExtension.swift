@@ -9,15 +9,15 @@ import SmartAILibrary
 
 extension CitySiteEvaluationType {
 
-    public func textureName() -> String {
+    public func legendColor() -> TypeColor {
 
         switch self {
 
-        case .freshWater: return "settler-tile-freshWater"
-        case .coastalWater: return "settler-tile-coastalWater"
-        case .noWater: return "settler-tile-noWater"
-        case .tooCloseToAnotherCity: return "settler-tile-tooCloseToAnotherCity"
-        case .invalidTerrain: return "settler-tile-invalidTerrain"
+        case .freshWater: return Globals.Colors.freshWater
+        case .coastalWater: return Globals.Colors.coastalWater
+        case .noWater: return Globals.Colors.noWater
+        case .tooCloseToAnotherCity: return Globals.Colors.tooCloseToAnotherCity
+        case .invalidTerrain: return Globals.Colors.invalidTerrain
         }
     }
 
@@ -28,7 +28,7 @@ extension CitySiteEvaluationType {
         case .freshWater: return "Fresh Water +3 [Housing]"
         case .coastalWater: return "Coastal Water +3 [Housing]"
         case .noWater: return "No Water"
-        case .tooCloseToAnotherCity: return "Too close to another city"
+        case .tooCloseToAnotherCity: return "Too close to\nanother city"
         case .invalidTerrain: return "Invalid Terrain"
         }
     }

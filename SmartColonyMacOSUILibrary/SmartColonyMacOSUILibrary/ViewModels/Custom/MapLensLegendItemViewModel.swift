@@ -12,18 +12,27 @@ public class MapLensLegendItemViewModel: ObservableObject, Identifiable {
 
     public let id: UUID = UUID()
 
-    let textureName: String
-    let legend: String
+    let legendColor: TypeColor
+    let legendTitle: String
 
-    init(textureName: String, legend: String) {
+    init(legendColor: TypeColor, legendTitle: String) {
 
-        self.textureName = textureName
-        self.legend = legend
+        self.legendColor = legendColor
+        self.legendTitle = legendTitle
     }
 
     func image() -> NSImage {
 
-        return ImageCache.shared.image(for: self.textureName)
+        if !ImageCache.shared.exists(key: "tile") {
+
+            let bundle = Bundle.init(for: Textures.self)
+            let tileTexture = bundle.image(forResource: "tile")!
+            ImageCache.shared.add(image: tileTexture, for: "tile")
+            return tileTexture.tint(with: self.legendColor)
+        }
+
+        return ImageCache.shared.image(for: "tile")
+            .tint(with: self.legendColor)
     }
 }
 

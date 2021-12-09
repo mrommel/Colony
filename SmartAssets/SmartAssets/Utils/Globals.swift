@@ -199,6 +199,30 @@ public extension Globals {
         public static var averageAppeal: TypeColor = TypeColor.Lenses.average
         public static var uninvitingAppeal: TypeColor = TypeColor.Lenses.lightRed
         public static var disgustingAppeal: TypeColor = TypeColor.Lenses.red
+
+        // settler
+        public static var freshWater: TypeColor = TypeColor.Lenses.green
+        public static var coastalWater: TypeColor = TypeColor.Lenses.lightGreen
+        public static var noWater: TypeColor = TypeColor.Lenses.average
+        public static var tooCloseToAnotherCity: TypeColor = TypeColor.Lenses.red
+        public static var invalidTerrain: TypeColor = TypeColor.Lenses.red
+
+        // religion
+        public static var noneReligion: TypeColor = TypeColor.silverFoil
+        public static var atheismReligion: TypeColor = TypeColor.silverFoil
+        public static var buddhismReligion: TypeColor = TypeColor.magenta
+        public static var catholicismReligion: TypeColor = TypeColor.venetianRed
+        public static var confucianismReligion: TypeColor = TypeColor.lightGreen
+        public static var hinduismReligion: TypeColor = TypeColor.Lenses.green // #
+        public static var islamReligion: TypeColor = TypeColor.Lenses.green // #
+        public static var judaismReligion: TypeColor = TypeColor.Lenses.green // #
+        public static var easternOrthodoxyReligion: TypeColor = TypeColor.kellyGreen
+        public static var protestantismReligion: TypeColor = TypeColor.supernova
+        public static var shintoReligion: TypeColor = TypeColor.Lenses.green // #
+        public static var sikhismReligion: TypeColor = TypeColor.Lenses.green // #
+        public static var taoismReligion: TypeColor = TypeColor.geraldine
+        public static var zoroastrianismReligion: TypeColor = TypeColor.darkViolet
+        public static var customReligion: TypeColor = TypeColor.silverFoil
     }
 }
 

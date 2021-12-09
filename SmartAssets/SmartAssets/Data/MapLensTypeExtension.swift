@@ -9,7 +9,6 @@ import SmartAILibrary
 
 public struct LegendItem {
 
-    public let textureName: String
     public let color: TypeColor
     public let title: String
 }
@@ -33,17 +32,44 @@ extension MapLensType {
         }
     }
 
-    public func legendItems() -> [LegendItem] {
+    public func legendItems(in gameModel: GameModel?) -> [LegendItem] {
 
         var legendItems: [LegendItem] = []
 
         switch self {
 
+        case .religion:
+            guard let gameModel = gameModel else {
+                break
+            }
+
+            for religion in gameModel.religionsInUse() {
+                legendItems.append(
+                    LegendItem(
+                        color: religion.legendColor(),
+                        title: religion.name()
+                    )
+                )
+            }
+
+        case .continents:
+            guard let gameModel = gameModel else {
+                break
+            }
+
+            for continent in gameModel.continents().map( { $0.type() } ) {
+                legendItems.append(
+                    LegendItem(
+                        color: continent.legendColor(),
+                        title: continent.legendText()
+                    )
+                )
+            }
+
         case .appeal:
             for appealLevel in AppealLevel.all {
                 legendItems.append(
                     LegendItem(
-                        textureName: appealLevel.textureName(),
                         color: appealLevel.legendColor(),
                         title: appealLevel.legendText()
                     )
@@ -54,7 +80,7 @@ extension MapLensType {
             for citySiteEvaluationType in CitySiteEvaluationType.all {
                 legendItems.append(
                     LegendItem(
-                        textureName: citySiteEvaluationType.textureName(),
+                        color: citySiteEvaluationType.legendColor(),
                         title: citySiteEvaluationType.legendText()
                     )
                 )

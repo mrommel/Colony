@@ -14,12 +14,16 @@ class MapLensLayer: BaseLayer {
     static let kName: String = "MapLensLayer"
 
     var mapLens: MapLensType
+    let tileTexture: NSImage
 
     // MARK: constructor
 
     override init(player: AbstractPlayer?) {
 
         self.mapLens = .none
+
+        let bundle = Bundle.init(for: Textures.self)
+        self.tileTexture = bundle.image(forResource: "tile")!
 
         super.init(player: player)
         self.zPosition = Globals.ZLevels.mapLens
@@ -40,33 +44,17 @@ class MapLensLayer: BaseLayer {
 
         self.textureUtils = TextureUtils(with: gameModel)
         self.textures = Textures(game: gameModel)
-        let bundle = Bundle.init(for: Textures.self)
-
-        // pre-load textures
-        let appealLevelTextureNames = AppealLevel.all.map { $0.textureName() }
-        for textureName in appealLevelTextureNames {
-
-            ImageCache.shared.add(
-                image: bundle.image(forResource: textureName),
-                for: textureName
-            )
-        }
-
-        let settlerTextureNames = CitySiteEvaluationType.all.map { $0.textureName() }
-        for textureName in settlerTextureNames {
-
-            ImageCache.shared.add(
-                image: bundle.image(forResource: textureName),
-                for: textureName
-            )
-        }
 
         self.rebuild()
     }
 
     func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
 
-        var textureName: String?
+        guard let gameModel = self.gameModel else {
+            fatalError("gameModel not set")
+        }
+
+        var textureColor: TypeColor?
 
         switch self.mapLens {
 
@@ -75,20 +63,32 @@ class MapLensLayer: BaseLayer {
             break
 
         case .religion:
-            textureName = "water"
+            guard let city = tile.workingCity() else {
+                return
+            }
+
+            guard let religion = gameModel.player(for: city.leader)?.religion?.currentReligion() else {
+                return
+            }
+
+            guard religion != .none else {
+                return
+            }
+
+            textureColor = religion.legendColor()
         case .continents:
             // NOOP
             break
         case .appeal:
             let appealLevel = tile.appealLevel(in: self.gameModel)
-            textureName = appealLevel.textureName()
+            textureColor = appealLevel.legendColor()
         case .settler:
             guard let citySiteEvaluator = self.gameModel?.citySiteEvaluator() else {
                 return
             }
 
             let citySiteEvaluationType = citySiteEvaluator.evaluationType(of: tile.point, for: self.gameModel?.humanPlayer())
-            textureName = citySiteEvaluationType.textureName()
+            textureColor = citySiteEvaluationType.legendColor()
         case .government:
             // NOOP
             break
@@ -104,16 +104,14 @@ class MapLensLayer: BaseLayer {
         }
 
         // place texture
-        if let lensTextureName = textureName {
+        if let textureColor = textureColor {
 
-            let image = ImageCache.shared.image(for: lensTextureName)
-
-            let lensSprite = SKSpriteNode(texture: SKTexture(image: image), size: MapLensLayer.kTextureSize)
+            let lensSprite = SKSpriteNode(texture: SKTexture(image: self.tileTexture), size: MapLensLayer.kTextureSize)
             lensSprite.position = position
             lensSprite.zPosition = Globals.ZLevels.mapLens
             lensSprite.anchorPoint = CGPoint(x: 0, y: 0)
-            lensSprite.color = .black
-            lensSprite.colorBlendFactor = 1.0 - alpha
+            lensSprite.color = textureColor
+            lensSprite.colorBlendFactor = 1.0
             self.addChild(lensSprite)
 
             self.textureUtils?.set(lensSprite: lensSprite, at: tile.point)

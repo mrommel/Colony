@@ -9,6 +9,31 @@ import SmartAILibrary
 
 extension ReligionType {
 
+    public func legendColor() -> TypeColor {
+
+        switch self {
+
+        case .none: return Globals.Colors.noneReligion
+
+        case .atheism: return Globals.Colors.atheismReligion
+        case .buddhism: return Globals.Colors.buddhismReligion
+        case .catholicism: return Globals.Colors.catholicismReligion
+        case .confucianism: return Globals.Colors.confucianismReligion
+        case .hinduism: return Globals.Colors.hinduismReligion
+        case .islam: return Globals.Colors.islamReligion
+        case .judaism: return Globals.Colors.judaismReligion
+        case .easternOrthodoxy: return Globals.Colors.easternOrthodoxyReligion
+        case .protestantism: return Globals.Colors.protestantismReligion
+        case .shinto: return Globals.Colors.shintoReligion
+        case .sikhism: return Globals.Colors.sikhismReligion
+        case .taoism: return Globals.Colors.taoismReligion
+        case .zoroastrianism: return Globals.Colors.zoroastrianismReligion
+
+        case .custom(title: _):
+            return Globals.Colors.customReligion
+        }
+    }
+
     public func iconTexture() -> String {
 
         switch self {
