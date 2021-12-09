@@ -289,6 +289,7 @@
 		C9D1919D265968F3008C9622 /* ReligionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D1919C265968F3008C9622 /* ReligionType.swift */; };
 		C9D1919F265969CF008C9622 /* BeliefType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D1919E265969CF008C9622 /* BeliefType.swift */; };
 		C9D191B1265A8975008C9622 /* CityReligion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D191B0265A8975008C9622 /* CityReligion.swift */; };
+		C9D5F67C276255C300B34AA3 /* ContinentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D5F67B276255C300B34AA3 /* ContinentType.swift */; };
 		C9D645EB272295D900646BB8 /* BarbarianWarriorUnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D645EA272295D900646BB8 /* BarbarianWarriorUnitType.swift */; };
 		C9D645ED27229C5800646BB8 /* BarbarianArcherUnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D645EC27229C5800646BB8 /* BarbarianArcherUnitType.swift */; };
 		C9D645EF27229C8F00646BB8 /* SettlerUnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D645EE27229C8F00646BB8 /* SettlerUnitType.swift */; };
@@ -670,6 +671,7 @@
 		C9D1919C265968F3008C9622 /* ReligionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionType.swift; sourceTree = "<group>"; };
 		C9D1919E265969CF008C9622 /* BeliefType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeliefType.swift; sourceTree = "<group>"; };
 		C9D191B0265A8975008C9622 /* CityReligion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityReligion.swift; sourceTree = "<group>"; };
+		C9D5F67B276255C300B34AA3 /* ContinentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentType.swift; sourceTree = "<group>"; };
 		C9D645EA272295D900646BB8 /* BarbarianWarriorUnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarbarianWarriorUnitType.swift; sourceTree = "<group>"; };
 		C9D645EC27229C5800646BB8 /* BarbarianArcherUnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarbarianArcherUnitType.swift; sourceTree = "<group>"; };
 		C9D645EE27229C8F00646BB8 /* SettlerUnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettlerUnitType.swift; sourceTree = "<group>"; };
@@ -1112,6 +1114,7 @@
 				C92D220C23E20B7C00BB9238 /* ImprovementType.swift */,
 				C9E0066E274D713F00211300 /* AppealLevel.swift */,
 				C9754D59275F39CB000A1B70 /* MapLensType.swift */,
+				C9D5F67B276255C300B34AA3 /* ContinentType.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -1669,6 +1672,7 @@
 				C91BE62B23FED2F300912962 /* Operations.swift in Sources */,
 				C9A1B57C2523121300AC2292 /* QueuedAttack.swift in Sources */,
 				C9EE60AA2401DCC300535B93 /* TacticalAI.swift in Sources */,
+				C9D5F67C276255C300B34AA3 /* ContinentType.swift in Sources */,
 				C98DBFA823DF2F5300B6CE25 /* EraType.swift in Sources */,
 				C98CBE0624338D12005EE397 /* MapOptionClimate.swift in Sources */,
 				C92F9497265E7B8E000968AB /* GameReligions.swift in Sources */,

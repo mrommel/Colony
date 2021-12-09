@@ -223,6 +223,53 @@ public extension Globals {
         public static var taoismReligion: TypeColor = TypeColor.geraldine
         public static var zoroastrianismReligion: TypeColor = TypeColor.darkViolet
         public static var customReligion: TypeColor = TypeColor.silverFoil
+
+        // continents
+        public static var continentNone: TypeColor = TypeColor.silverFoil
+
+        public static var continentAfrica: TypeColor = TypeColor.geraldine
+        public static var continentAmasia: TypeColor = TypeColor.venetianRed
+        public static var continentAmerica: TypeColor = TypeColor.sangria
+        public static var continentAntarctica: TypeColor = TypeColor.supernova
+        public static var continentArctica: TypeColor = TypeColor.pumpkin
+        public static var continentAsia: TypeColor = TypeColor.saddleBrown
+        public static var continentAsiamerica: TypeColor = TypeColor.witchHaze
+        public static var continentAtlantica: TypeColor = TypeColor.schoolBusYellow
+        public static var continentAtlantis: TypeColor = TypeColor.olive
+        public static var continentAustralia: TypeColor = TypeColor.lightGreen
+        public static var continentAvalonia: TypeColor = TypeColor.kellyGreen
+        public static var continentAzania: TypeColor = TypeColor.crusoe
+        public static var continentBaltica: TypeColor = TypeColor.turquoiseBlue
+        public static var continentCimmeria: TypeColor = TypeColor.caribbeanGreen
+        public static var continentColumbia: TypeColor = TypeColor.sherpaBlue
+        public static var continentCongoCraton: TypeColor = TypeColor.cornflowerBlue
+        public static var continentEuramerica: TypeColor = TypeColor.navyBlue
+        public static var continentEurope: TypeColor = TypeColor.saphire
+        public static var continentGondwana: TypeColor = TypeColor.bilobaFlower
+        public static var continentKalaharia: TypeColor = TypeColor.darkViolet
+        public static var continentKazakhstania: TypeColor = TypeColor.purple
+        public static var continentKernorland: TypeColor = TypeColor.violet
+        public static var continentKumariKandam: TypeColor = TypeColor.fuchsia
+        public static var continentLaurasia: TypeColor = TypeColor.magenta
+
+        public static var continentLaurentia: TypeColor = TypeColor.geraldine
+        public static var continentLemuria: TypeColor = TypeColor.venetianRed
+        public static var continentMu: TypeColor = TypeColor.sangria
+        public static var continentNena: TypeColor = TypeColor.supernova
+        public static var continentNorthAmerica: TypeColor = TypeColor.pumpkin
+        public static var continentNovoPangaea: TypeColor = TypeColor.saddleBrown
+        public static var continentNuna: TypeColor = TypeColor.witchHaze
+        public static var continentPangaea: TypeColor = TypeColor.schoolBusYellow
+        public static var continentPangaeaUltima: TypeColor = TypeColor.olive
+        public static var continentPannotia: TypeColor = TypeColor.lightGreen
+        public static var continentRodinia: TypeColor = TypeColor.kellyGreen
+        public static var continentSiberia: TypeColor = TypeColor.crusoe
+        public static var continentSouthAmerica: TypeColor = TypeColor.turquoiseBlue
+        public static var continentTerraAustralis: TypeColor = TypeColor.caribbeanGreen
+        public static var continentUr: TypeColor = TypeColor.sherpaBlue
+        public static var continentVaalbara: TypeColor = TypeColor.cornflowerBlue
+        public static var continentVendian: TypeColor = TypeColor.navyBlue
+        public static var continentZealandia: TypeColor = TypeColor.saphire
     }
 }
 
