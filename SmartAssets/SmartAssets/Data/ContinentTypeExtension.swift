@@ -15,7 +15,7 @@ extension ContinentType {
         switch self {
 
         case .none: return Globals.Colors.continentNone
-            
+
         case .africa: return Globals.Colors.continentAfrica
         case .amasia: return Globals.Colors.continentAmasia
         case .america: return Globals.Colors.continentAmerica

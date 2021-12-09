@@ -76,12 +76,14 @@ class MapLensLayer: BaseLayer {
             }
 
             textureColor = religion.legendColor()
+
         case .continents:
-            // NOOP
-            break
+            textureColor = gameModel.continent(at: tile.point)?.type().legendColor()
+
         case .appeal:
             let appealLevel = tile.appealLevel(in: self.gameModel)
             textureColor = appealLevel.legendColor()
+
         case .settler:
             guard let citySiteEvaluator = self.gameModel?.citySiteEvaluator() else {
                 return
@@ -89,6 +91,7 @@ class MapLensLayer: BaseLayer {
 
             let citySiteEvaluationType = citySiteEvaluator.evaluationType(of: tile.point, for: self.gameModel?.humanPlayer())
             textureColor = citySiteEvaluationType.legendColor()
+
         case .government:
             // NOOP
             break

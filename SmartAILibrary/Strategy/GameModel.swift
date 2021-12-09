@@ -2008,6 +2008,19 @@ open class GameModel: Codable {
 
         return self.map.continents
     }
+
+    public func continent(at point: HexPoint) -> Continent? {
+
+        guard let tile = self.tile(at: point) else {
+            fatalError("cant get tile at \(point)")
+        }
+
+        if let identifier = tile.continentIdentifier() {
+            return self.map.continent(by: identifier)
+        }
+
+        return nil
+    }
 }
 
 // MARK: 

@@ -57,11 +57,14 @@ extension MapLensType {
                 break
             }
 
-            for continent in gameModel.continents().map( { $0.type() } ) {
+            let continentTypes = gameModel.continents()
+                .map( { $0.type() } )
+                .filter( { $0 != .none })
+            for continentType in continentTypes {
                 legendItems.append(
                     LegendItem(
-                        color: continent.legendColor(),
-                        title: continent.legendText()
+                        color: continentType.legendColor(),
+                        title: continentType.legendText()
                     )
                 )
             }
