@@ -1528,7 +1528,7 @@ open class GameModel: Codable {
         return area.map({ self.map.tile(at: $0) })
     }
 
-    func citySiteEvaluator() -> CitySiteEvaluator {
+    public func citySiteEvaluator() -> CitySiteEvaluator {
 
         return CitySiteEvaluator(map: self.map)
     }
@@ -1991,6 +1991,35 @@ open class GameModel: Codable {
         }
 
         return religions.availableReligions(in: self)
+    }
+
+    public func religionsInUse() -> [ReligionType] {
+
+        guard let religions = self.religionsVal else {
+            fatalError("cant get religions")
+        }
+
+        return religions.religions(in: self)
+            .map { $0?.currentReligion() ?? .none }
+            .filter { $0 != .none }
+    }
+
+    public func continents() -> [Continent] {
+
+        return self.map.continents
+    }
+
+    public func continent(at point: HexPoint) -> Continent? {
+
+        guard let tile = self.tile(at: point) else {
+            fatalError("cant get tile at \(point)")
+        }
+
+        if let identifier = tile.continentIdentifier() {
+            return self.map.continent(by: identifier)
+        }
+
+        return nil
     }
 }
 

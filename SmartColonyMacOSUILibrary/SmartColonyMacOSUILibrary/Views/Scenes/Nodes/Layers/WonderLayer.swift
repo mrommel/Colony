@@ -19,7 +19,7 @@ class WonderLayer: BaseLayer {
 
         super.init(player: player)
         self.zPosition = Globals.ZLevels.wonder
-        self.name = HexCoordLayer.kName
+        self.name = WonderLayer.kName
     }
 
     required init?(coder aDecoder: NSCoder) {

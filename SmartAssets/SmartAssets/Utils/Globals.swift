@@ -51,7 +51,8 @@ public struct Globals {
 
         public static let labels: CGFloat = 50.0
 
-        public static let tooltips: CGFloat = 50.0
+        public static let tooltips: CGFloat = 50.5
+        public static let mapLens: CGFloat = 50.7
 
         public static let sceneElements: CGFloat = 51.0
         public static let dialogs: CGFloat = 52.0
@@ -191,6 +192,97 @@ public extension Globals {
 
         // Overview
         public static var overviewBackground: TypeColor = TypeColor.Terrain.pergament
+
+        // Lenses
+        public static var breathtakingAppeal: TypeColor = TypeColor.Lenses.green
+        public static var charmingAppeal: TypeColor = TypeColor.Lenses.lightGreen
+        public static var averageAppeal: TypeColor = TypeColor.Lenses.average
+        public static var uninvitingAppeal: TypeColor = TypeColor.Lenses.lightRed
+        public static var disgustingAppeal: TypeColor = TypeColor.Lenses.red
+
+        // settler
+        public static var freshWater: TypeColor = TypeColor.Lenses.green
+        public static var coastalWater: TypeColor = TypeColor.Lenses.lightGreen
+        public static var noWater: TypeColor = TypeColor.Lenses.average
+        public static var tooCloseToAnotherCity: TypeColor = TypeColor.Lenses.red
+        public static var invalidTerrain: TypeColor = TypeColor.Lenses.red
+
+        // religion
+        public static var noneReligion: TypeColor = TypeColor.silverFoil
+        public static var atheismReligion: TypeColor = TypeColor.silverFoil
+        public static var buddhismReligion: TypeColor = TypeColor.magenta
+        public static var catholicismReligion: TypeColor = TypeColor.venetianRed
+        public static var confucianismReligion: TypeColor = TypeColor.lightGreen
+        public static var hinduismReligion: TypeColor = TypeColor.Lenses.green // #
+        public static var islamReligion: TypeColor = TypeColor.Lenses.green // #
+        public static var judaismReligion: TypeColor = TypeColor.Lenses.green // #
+        public static var easternOrthodoxyReligion: TypeColor = TypeColor.kellyGreen
+        public static var protestantismReligion: TypeColor = TypeColor.supernova
+        public static var shintoReligion: TypeColor = TypeColor.Lenses.green // #
+        public static var sikhismReligion: TypeColor = TypeColor.Lenses.green // #
+        public static var taoismReligion: TypeColor = TypeColor.geraldine
+        public static var zoroastrianismReligion: TypeColor = TypeColor.darkViolet
+        public static var customReligion: TypeColor = TypeColor.silverFoil
+
+        // continents
+        public static var continentNone: TypeColor = TypeColor.silverFoil
+
+        public static var continentAfrica: TypeColor = TypeColor.geraldine
+        public static var continentAmasia: TypeColor = TypeColor.venetianRed
+        public static var continentAmerica: TypeColor = TypeColor.sangria
+        public static var continentAntarctica: TypeColor = TypeColor.supernova
+        public static var continentArctica: TypeColor = TypeColor.pumpkin
+        public static var continentAsia: TypeColor = TypeColor.saddleBrown
+        public static var continentAsiamerica: TypeColor = TypeColor.witchHaze
+        public static var continentAtlantica: TypeColor = TypeColor.schoolBusYellow
+        public static var continentAtlantis: TypeColor = TypeColor.olive
+        public static var continentAustralia: TypeColor = TypeColor.lightGreen
+        public static var continentAvalonia: TypeColor = TypeColor.kellyGreen
+        public static var continentAzania: TypeColor = TypeColor.crusoe
+        public static var continentBaltica: TypeColor = TypeColor.turquoiseBlue
+        public static var continentCimmeria: TypeColor = TypeColor.caribbeanGreen
+        public static var continentColumbia: TypeColor = TypeColor.sherpaBlue
+        public static var continentCongoCraton: TypeColor = TypeColor.cornflowerBlue
+        public static var continentEuramerica: TypeColor = TypeColor.navyBlue
+        public static var continentEurope: TypeColor = TypeColor.saphire
+        public static var continentGondwana: TypeColor = TypeColor.bilobaFlower
+        public static var continentKalaharia: TypeColor = TypeColor.darkViolet
+        public static var continentKazakhstania: TypeColor = TypeColor.purple
+        public static var continentKernorland: TypeColor = TypeColor.violet
+        public static var continentKumariKandam: TypeColor = TypeColor.fuchsia
+        public static var continentLaurasia: TypeColor = TypeColor.magenta
+
+        public static var continentLaurentia: TypeColor = TypeColor.geraldine
+        public static var continentLemuria: TypeColor = TypeColor.venetianRed
+        public static var continentMu: TypeColor = TypeColor.sangria
+        public static var continentNena: TypeColor = TypeColor.supernova
+        public static var continentNorthAmerica: TypeColor = TypeColor.pumpkin
+        public static var continentNovoPangaea: TypeColor = TypeColor.saddleBrown
+        public static var continentNuna: TypeColor = TypeColor.witchHaze
+        public static var continentPangaea: TypeColor = TypeColor.schoolBusYellow
+        public static var continentPangaeaUltima: TypeColor = TypeColor.olive
+        public static var continentPannotia: TypeColor = TypeColor.lightGreen
+        public static var continentRodinia: TypeColor = TypeColor.kellyGreen
+        public static var continentSiberia: TypeColor = TypeColor.crusoe
+        public static var continentSouthAmerica: TypeColor = TypeColor.turquoiseBlue
+        public static var continentTerraAustralis: TypeColor = TypeColor.caribbeanGreen
+        public static var continentUr: TypeColor = TypeColor.sherpaBlue
+        public static var continentVaalbara: TypeColor = TypeColor.cornflowerBlue
+        public static var continentVendian: TypeColor = TypeColor.navyBlue
+        public static var continentZealandia: TypeColor = TypeColor.saphire
+
+        public static var governmentChiefdom: TypeColor = TypeColor.supernova
+        public static var governmentAutocracy: TypeColor = TypeColor.turquoiseBlue
+        public static var governmentOligarchy: TypeColor = TypeColor.saphire
+        public static var governmentClassicalRepublic: TypeColor = TypeColor.sherpaBlue
+        public static var governmentMerchantRepublic: TypeColor = TypeColor.lightGreen
+        public static var governmentMonarchy: TypeColor = TypeColor.bilobaFlower
+        public static var governmentTheocracy: TypeColor = TypeColor.geraldine
+        public static var governmentFascism: TypeColor = TypeColor.matterhornGray
+        public static var governmentCommunism: TypeColor = TypeColor.venetianRed
+        public static var governmentDemocracy: TypeColor = TypeColor.silverFoil
+
+        public static var tourismLens: TypeColor = TypeColor.schoolBusYellow
     }
 }
 

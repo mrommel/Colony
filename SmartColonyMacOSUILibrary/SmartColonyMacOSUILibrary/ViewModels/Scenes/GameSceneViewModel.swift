@@ -27,9 +27,6 @@ public class GameSceneViewModel: ObservableObject {
         case humanBlocked // dialog shown
     }
 
-    @Environment(\.gameEnvironment)
-    var gameEnvironment: GameEnvironment
-
     @Published
     var game: GameModel? {
         willSet {
@@ -44,8 +41,6 @@ public class GameSceneViewModel: ObservableObject {
                 guard let humanPlayer = game.humanPlayer() else {
                     return
                 }
-
-                self.mapOverviewViewModel.assign(game: game)
 
                 let unitRefs = game.units(of: humanPlayer)
 
@@ -128,9 +123,6 @@ public class GameSceneViewModel: ObservableObject {
     var topBarViewModel: TopBarViewModel
 
     @Published
-    var mapOverviewViewModel: MapOverviewViewModel
-
-    @Published
     var showCommands: Bool = false
 
     @Published
@@ -141,6 +133,7 @@ public class GameSceneViewModel: ObservableObject {
     var refreshCities: Bool = false
 
     private var centerOn: HexPoint?
+    private var lens: MapLensType?
 
     var globeImages: [NSImage] = []
 
@@ -153,11 +146,9 @@ public class GameSceneViewModel: ObservableObject {
         let buttonImage = NSImage()
         self.buttonViewModel = AnimatedImageViewModel(image: buttonImage)
         self.topBarViewModel = TopBarViewModel()
-        self.mapOverviewViewModel = MapOverviewViewModel()
 
         // connect delegates
         self.topBarViewModel.delegate = self
-        self.mapOverviewViewModel.delegate = self
     }
 
     public func doTurn() {
@@ -347,11 +338,6 @@ public class GameSceneViewModel: ObservableObject {
         }
     }
 
-    func hasFocus() -> Bool {
-
-        return self.centerOn != nil
-    }
-
     func focus(on point: HexPoint) {
 
         self.centerOn = point
@@ -365,6 +351,21 @@ public class GameSceneViewModel: ObservableObject {
     func focus() -> HexPoint? {
 
         return self.centerOn
+    }
+
+    func show(mapLens: MapLensType) {
+
+        self.lens = mapLens
+    }
+
+    func hideMapLens() {
+
+        self.lens = nil
+    }
+
+    func mapLens() -> MapLensType? {
+
+        return self.lens
     }
 }
 
@@ -461,16 +462,13 @@ extension GameSceneViewModel {
 
         self.delegate?.showSelectPromotionDialog(for: unit)
     }
+
+    func updateRect(at point: HexPoint, size: CGSize) {
+
+        self.delegate?.updateRect(at: point, size: size)
+    }
 }
 
 extension GameSceneViewModel: TopBarViewModelDelegate {
 
-}
-
-extension GameSceneViewModel: MapOverviewViewModelDelegate {
-
-    func minimapClicked(on point: HexPoint) {
-
-        self.focus(on: point)
-    }
 }

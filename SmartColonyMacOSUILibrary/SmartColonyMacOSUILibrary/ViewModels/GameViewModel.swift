@@ -26,6 +26,9 @@ protocol GameViewModelDelegate: AnyObject {
     func select(unit: AbstractUnit?)
     func selectedUnitChanged(to unit: AbstractUnit?, commands: [Command], in gameModel: GameModel?)
 
+    func refreshTile(at point: HexPoint)
+    func updateRect(at point: HexPoint, size: CGSize)
+
     func showMeleeTargets(of unit: AbstractUnit?)
     func showRangedTargets(of unit: AbstractUnit?)
     func cancelAttacks()
@@ -144,6 +147,9 @@ public class GameViewModel: ObservableObject {
 
     @Published
     var headerViewModel: HeaderViewModel
+
+    @Published
+    var bottomRightBarViewModel: BottomRightBarViewModel
 
     // dialogs
 
@@ -275,7 +281,8 @@ public class GameViewModel: ObservableObject {
         "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced",
         "tile-districtAvailable", "tile-wonderAvailable", "tile-notAvailable",
         "city-canvas", "pantheon-background", "turns", "unit-banner", "combat-view",
-        "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty"
+        "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty",
+        "map-overview-canvas", "map-lens", "map-lens-active", "map-marker", "map-options"
     ]
 
     public weak var delegate: CloseGameViewModelDelegate?
@@ -294,6 +301,7 @@ public class GameViewModel: ObservableObject {
         self.cityBannerViewModel = CityBannerViewModel()
         self.unitBannerViewModel = UnitBannerViewModel(selectedUnit: nil)
         self.combatBannerViewModel = CombatBannerViewModel()
+        self.bottomRightBarViewModel = BottomRightBarViewModel()
 
         // dialogs
         self.governmentDialogViewModel = GovernmentDialogViewModel()
@@ -325,6 +333,7 @@ public class GameViewModel: ObservableObject {
         self.cityBannerViewModel.delegate = self
         self.unitBannerViewModel.delegate = self
         self.combatBannerViewModel.delegate = self
+        self.bottomRightBarViewModel.delegate = self
 
         self.governmentDialogViewModel.delegate = self
         self.changeGovernmentDialogViewModel.delegate = self
@@ -812,6 +821,16 @@ public class GameViewModel: ObservableObject {
 
 extension GameViewModel: GameViewModelDelegate {
 
+    func refreshTile(at point: HexPoint) {
+
+        self.bottomRightBarViewModel.refreshTile(at: point)
+    }
+
+    func updateRect(at point: HexPoint, size: CGSize) {
+
+        self.bottomRightBarViewModel.updateRect(at: point, size: size)
+    }
+
     func focus(on point: HexPoint) {
 
         self.gameSceneViewModel.focus(on: point)
@@ -1221,5 +1240,13 @@ extension GameViewModel: GameViewModelDelegate {
     func closeGame() {
 
         self.delegate?.closeGame()
+    }
+}
+
+extension GameViewModel: BottomRightBarViewModelDelegate {
+
+    func selected(mapLens: MapLensType) {
+
+        self.gameEnvironment.displayOptions.value.mapLens = mapLens
     }
 }

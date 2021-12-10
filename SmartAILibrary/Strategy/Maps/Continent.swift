@@ -20,11 +20,13 @@ public class Continent: Codable {
 
         case identifier
         case name
+        case type
         case points
     }
 
     var identifier: Int
     var name: String
+    var typeVal: ContinentType
     var points: [HexPoint]
     var map: MapModel?
 
@@ -32,6 +34,7 @@ public class Continent: Codable {
 
         self.identifier = ContinentConstants.kNotAnalyzed
         self.name = "NoName"
+        self.typeVal = .none
         self.points = []
         self.map = nil
     }
@@ -39,6 +42,7 @@ public class Continent: Codable {
     init(identifier: Int, name: String, on map: MapModel?) {
 
         self.identifier = identifier
+        self.typeVal = .none
         self.name = name
         self.points = []
         self.map = map
@@ -50,6 +54,7 @@ public class Continent: Codable {
 
         self.identifier = try container.decode(Int.self, forKey: .identifier)
         self.name = try container.decode(String.self, forKey: .name)
+        self.typeVal = try container.decode(ContinentType.self, forKey: .type)
         self.points = try container.decode([HexPoint].self, forKey: .points)
     }
 
@@ -59,11 +64,17 @@ public class Continent: Codable {
 
         try container.encode(self.identifier, forKey: .identifier)
         try container.encode(self.name, forKey: .name)
+        try container.encode(self.typeVal, forKey: .type)
         try container.encode(self.points, forKey: .points)
     }
 
     func add(point: HexPoint) {
 
         self.points.append(point)
+    }
+
+    public func type() -> ContinentType {
+
+        return self.typeVal
     }
 }

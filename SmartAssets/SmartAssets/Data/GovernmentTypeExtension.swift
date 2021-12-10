@@ -56,4 +56,33 @@ extension GovernmentType {
         case .democracy: return "government-ambient-democracy"
         }
     }
+
+    public func legendColor() -> TypeColor {
+
+        switch self {
+
+            // ancient
+        case .chiefdom: return Globals.Colors.governmentChiefdom
+
+            // classical
+        case .autocracy: return Globals.Colors.governmentAutocracy
+        case .classicalRepublic: return Globals.Colors.governmentClassicalRepublic
+        case .oligarchy: return Globals.Colors.governmentOligarchy
+
+            //
+        case .merchantRepublic: return Globals.Colors.governmentMerchantRepublic
+        case .monarchy: return Globals.Colors.governmentMonarchy
+        case .theocracy: return Globals.Colors.governmentTheocracy
+
+            // modern
+        case .fascism: return Globals.Colors.governmentFascism
+        case .communism: return Globals.Colors.governmentCommunism
+        case .democracy: return Globals.Colors.governmentDemocracy
+        }
+    }
+
+    public func legendText() -> String {
+
+        return self.name()
+    }
 }

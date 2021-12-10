@@ -31,6 +31,7 @@ class MapNode: SKNode {
     var yieldLayer: YieldLayer
     var waterLayer: WaterLayer
     var hexCoordLayer: HexCoordLayer
+    var mapLensLayer: MapLensLayer
 
     // MARK: properties
 
@@ -103,6 +104,10 @@ class MapNode: SKNode {
         self.hexCoordLayer = HexCoordLayer(player: humanPlayer)
         self.hexCoordLayer.populate(with: self.game)
         self.hexCoordLayer.zPosition = Globals.ZLevels.hexCoords
+
+        self.mapLensLayer = MapLensLayer(player: humanPlayer)
+        self.mapLensLayer.populate(with: self.game)
+        self.mapLensLayer.zPosition = Globals.ZLevels.mapLens
 
         self.districtLayer = DistrictLayer(player: humanPlayer)
         self.districtLayer.populate(with: self.game)
@@ -193,6 +198,31 @@ class MapNode: SKNode {
         }
     }
 
+    func currentMapLens() -> MapLensType {
+
+        return self.mapLensLayer.mapLens
+    }
+
+    func set(mapLens: MapLensType) {
+
+        let oldMapLens = self.mapLensLayer.mapLens
+
+        if mapLens == .none {
+            self.mapLensLayer.removeFromParent()
+            return
+        }
+
+        if oldMapLens != mapLens || self.mapLensLayer.parent == nil {
+
+            self.mapLensLayer.mapLens = mapLens
+            self.mapLensLayer.rebuild()
+
+            if oldMapLens == .none || self.mapLensLayer.parent == nil {
+                self.addChild(self.mapLensLayer)
+            }
+        }
+    }
+
     func showCompleteMap() {
 
         if self.terrainLayer.showCompleteMap {
@@ -231,6 +261,8 @@ class MapNode: SKNode {
         self.districtLayer.rebuild()
         self.wonderLayer.showCompleteMap = true
         self.wonderLayer.rebuild()
+        self.mapLensLayer.showCompleteMap = true
+        self.mapLensLayer.rebuild()
     }
 
     func showVisibleMap() {
@@ -271,6 +303,8 @@ class MapNode: SKNode {
         self.districtLayer.rebuild()
         self.wonderLayer.showCompleteMap = false
         self.wonderLayer.rebuild()
+        self.mapLensLayer.showCompleteMap = false
+        self.mapLensLayer.rebuild()
     }
 
     func updateLayout() {
@@ -292,5 +326,6 @@ class MapNode: SKNode {
         self.hexCoordLayer.update(tile: tile)
         self.districtLayer.update(tile: tile)
         self.wonderLayer.update(tile: tile)
+        self.mapLensLayer.update(tile: tile)
     }
 }

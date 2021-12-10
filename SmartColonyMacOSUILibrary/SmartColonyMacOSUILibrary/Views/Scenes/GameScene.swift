@@ -158,6 +158,11 @@ class GameScene: BaseScene {
                 self.center(on: focus)
                 self.viewModel?.unFocus()
             }
+
+            if let mapLens = self.viewModel?.mapLens() {
+                self.mapNode?.set(mapLens: mapLens)
+                self.viewModel?.hideMapLens()
+            }
         }
     }
 
@@ -198,7 +203,7 @@ class GameScene: BaseScene {
         self.cameraNode.run(centerAction)
 
         let viewSize = self.viewSizeInLocalCoordinates(ignoreCameraScale: false)
-        self.viewModel?.mapOverviewViewModel.updateRect(at: hex, size: viewSize)
+        self.viewModel?.delegate?.updateRect(at: hex, size: viewSize)
 
         // Debug
         /*print("viewSize: \(viewSize)")
@@ -380,7 +385,7 @@ extension GameScene {
 
             let position: HexPoint = HexPoint(screen: transformedLocation)
             let viewSize = self.viewSizeInLocalCoordinates(ignoreCameraScale: false)
-            self.viewModel?.mapOverviewViewModel.updateRect(at: position, size: viewSize)
+            self.viewModel?.delegate?.updateRect(at: position, size: viewSize)
 
             self.previousLocation = event.location(in: self)
 
@@ -685,5 +690,15 @@ extension GameScene {
     func hideResourceMarkers() {
 
         self.mapNode?.hideResourceMarker()
+    }
+
+    func currentMapLens() -> MapLensType {
+
+        return self.mapNode?.currentMapLens() ?? .none
+    }
+
+    func set(mapLens: MapLensType) {
+
+        self.mapNode?.set(mapLens: mapLens)
     }
 }

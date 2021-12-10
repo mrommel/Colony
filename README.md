@@ -13,6 +13,10 @@ Tile size:
 96x96 - @2x
 144x144 - @3x
 
+## Civ5/6 Links
+- https://civilization.fandom.com/wiki/Civilization_VI
+- https://github.com/Gedemon/Civ6-YnAMP/tree/master/Maps
+
 ## Map Links
 - https://www.redblobgames.com/grids/hexagons/
 - https://drtardigrade.itch.io/worldhistorysim

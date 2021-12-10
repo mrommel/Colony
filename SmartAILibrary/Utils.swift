@@ -104,7 +104,7 @@ extension Array {
 
 extension Array {
 
-    func unique<T: Hashable>(map: ((Element) -> (T))) -> [Element] {
+    public func unique<T: Hashable>(map: ((Element) -> (T))) -> [Element] {
         var set = Set<T>() //the unique list kept in a Set for fast retrieval
         var arrayOrdered = [Element]() //keeping the unique list of elements but ordered
         for value in self {
@@ -134,6 +134,14 @@ extension IteratorProtocol {
     mutating func skip(_ items: Int) -> Element? {
         guard items > 0 else { return next() }
         return skip(items - 1)
+    }
+}
+
+extension Sequence where Element: Hashable {
+
+    public func uniqued() -> [Element] {
+        var set = Set<Element>()
+        return filter { set.insert($0).inserted }
     }
 }
 

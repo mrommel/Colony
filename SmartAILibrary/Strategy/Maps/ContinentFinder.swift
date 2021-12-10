@@ -61,6 +61,19 @@ public class ContinentFinder {
             }
         }
 
+        // set continent types
+        var availableContinentTypes: [ContinentType] = ContinentType.all
+        for continent in continents {
+
+            guard continent.points.count > 10 else {
+                continue
+            }
+
+            let pickContinent = availableContinentTypes.chooseOne
+            continent.typeVal = pickContinent
+            availableContinentTypes.removeAll(where: { $0 == pickContinent })
+        }
+
         return continents
     }
 

@@ -10,9 +10,16 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
+extension MapLensType: Identifiable {
+
+    public var id: RawValue { rawValue }
+}
+
 protocol MapOverviewViewModelDelegate: AnyObject {
 
     func minimapClicked(on point: HexPoint)
+
+    func selected(mapLens: MapLensType)
 }
 
 public class MapOverviewViewModel: ObservableObject {
@@ -45,9 +52,33 @@ public class MapOverviewViewModel: ObservableObject {
     @Published
     var bottomRight: CGPoint = CGPoint(x: 50, y: 50)
 
+    @Published
+    var showMapLens: Bool {
+        didSet {
+            if !self.showMapLens {
+                self.delegate?.selected(mapLens: .none)
+            }
+        }
+    }
+
+    @Published
+    var selectedMapLens: MapLensType {
+        didSet {
+            self.delegate?.selected(mapLens: self.selectedMapLens)
+            self.mapLensLegendViewModel.mapLens = self.selectedMapLens
+        }
+    }
+
+    @Published
+    var mapLensLegendViewModel: MapLensLegendViewModel
+
     weak var delegate: MapOverviewViewModelDelegate?
 
     public init() {
+
+        self.showMapLens = false
+        self.selectedMapLens = MapLensType.none
+        self.mapLensLegendViewModel = MapLensLegendViewModel()
 
         if let game = gameEnvironment.game.value {
 
@@ -87,9 +118,61 @@ public class MapOverviewViewModel: ObservableObject {
         }
     }
 
+    func canvasImage() -> NSImage {
+
+        return ImageCache.shared.image(for: "map-overview-canvas")
+    }
+
+    func mapLensImage() -> NSImage {
+
+        if self.showMapLens {
+            return ImageCache.shared.image(for: "map-lens-active")
+        } else {
+            return ImageCache.shared.image(for: "map-lens")
+        }
+    }
+
+    func mapLensClicked() {
+
+        self.showMapLens = !self.showMapLens
+
+        // if map lens is toogle on, we send the map lens to the view options again
+        if self.showMapLens {
+            self.delegate?.selected(mapLens: self.selectedMapLens)
+        }
+    }
+
+    func mapMarkerImage() -> NSImage {
+
+        return ImageCache.shared.image(for: "map-marker")
+    }
+
+    func mapMarkerClicked() {
+
+        print("mapMarkerClicked")
+    }
+
+    func mapOptionImage() -> NSImage {
+
+        return ImageCache.shared.image(for: "map-options")
+    }
+
+    func mapOptionClicked() {
+
+        print("mapOptionClicked")
+    }
+
     func assign(game: GameModel?) {
 
-        guard let game = self.gameEnvironment.game.value else {
+        var gameRef: GameModel?
+        if self.gameEnvironment.game.value == nil {
+            self.gameEnvironment.game.send(game)
+            gameRef = game
+        } else {
+            gameRef = self.gameEnvironment.game.value
+        }
+
+        guard let game = gameRef else {
             fatalError("need to assign a valid game")
         }
 
