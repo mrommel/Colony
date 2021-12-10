@@ -281,6 +281,8 @@ public extension Globals {
         public static var governmentFascism: TypeColor = TypeColor.matterhornGray
         public static var governmentCommunism: TypeColor = TypeColor.venetianRed
         public static var governmentDemocracy: TypeColor = TypeColor.silverFoil
+
+        public static var tourismLens: TypeColor = TypeColor.schoolBusYellow
     }
 }
 

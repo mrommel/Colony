@@ -26,9 +26,7 @@ extension MapLensType {
         case .appeal: return "Appeal"
         case .settler: return "Settler"
         case .government: return "Government"
-        case .political: return "Political"
         case .tourism: return "Tourism"
-        case .empire: return "Empire"
         }
     }
 
@@ -105,6 +103,10 @@ extension MapLensType {
                     )
                 )
             }
+
+        case .tourism:
+            // NOOP
+            break
 
         default:
             // NOOP

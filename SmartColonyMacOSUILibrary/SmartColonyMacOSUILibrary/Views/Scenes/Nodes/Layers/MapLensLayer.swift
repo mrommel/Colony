@@ -95,15 +95,21 @@ class MapLensLayer: BaseLayer {
 
             textureColor = government.legendColor()
 
-        case .political:
-            // NOOP
-            break
         case .tourism:
-            // NOOP
-            break
-        case .empire:
-            // NOOP
-            break
+            var tourismValue = 0.0
+            if tile.wonder() != .none {
+                tourismValue += 5.0
+            }
+
+            if tile.isCity() {
+                if let city = gameModel.city(at: tile.point) {
+                    tourismValue += city.baseTourism(in: gameModel)
+                }
+            }
+
+            if tourismValue > 0.0 {
+                textureColor = Globals.Colors.tourismLens
+            }
         }
 
         // place texture
