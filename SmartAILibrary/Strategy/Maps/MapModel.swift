@@ -28,8 +28,6 @@ open class MapModel: Codable {
         case cities
         case units
         case tiles
-        case tribeTiles
-        case tribes
 
         case continents
         case oceans
@@ -45,8 +43,6 @@ open class MapModel: Codable {
     private var cities: [AbstractCity?]
     private var units: [AbstractUnit?]
     private var tiles: TileArray2D
-    internal var tribeTiles: TribeArray2D
-    public var tribes: [TribeInfo]
 
     // prepared values
     internal var continents: [Continent] = []
@@ -70,8 +66,6 @@ open class MapModel: Codable {
         self.cities = []
         self.units = []
         self.tiles = TileArray2D(size: size)
-        self.tribeTiles = TribeArray2D(size: size)
-        self.tribes = []
         self.areas = []
         self.rivers = []
 
@@ -79,8 +73,6 @@ open class MapModel: Codable {
             for y in 0..<size.height() {
                 let point = HexPoint(x: x, y: y)
                 self.set(tile: Tile(point: point, terrain: .ocean), at: point)
-
-                self.tribeTiles[x, y] = TribeTileInfo()
             }
         }
     }
@@ -102,8 +94,6 @@ open class MapModel: Codable {
         self.cities = try container.decode([City?].self, forKey: .cities)
         self.units = try container.decode([Unit?].self, forKey: .units)
         self.tiles = try container.decode(TileArray2D.self, forKey: .tiles)
-        self.tribeTiles = try container.decodeIfPresent(TribeArray2D.self, forKey: .tribeTiles) ?? TribeArray2D(size: MapSize.duel)
-        self.tribes = try container.decodeIfPresent([TribeInfo].self, forKey: .tribes) ?? []
 
         self.continents = try container.decode([Continent].self, forKey: .continents)
         self.oceans = try container.decode([Ocean].self, forKey: .oceans)
@@ -178,8 +168,6 @@ open class MapModel: Codable {
         let wrappedUnits: [Unit?] = self.units.map { $0 as? Unit }
         try container.encode(wrappedUnits, forKey: .units)
         try container.encode(self.tiles, forKey: .tiles)
-        try container.encode(self.tribeTiles, forKey: .tribeTiles)
-        try container.encode(self.tribes, forKey: .tribes)
 
         try container.encode(self.continents, forKey: .continents)
         try container.encode(self.oceans, forKey: .oceans)

@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension MapModel {
+/*extension MapModel {
 
     public func setupTribes(at startLocations: [StartLocation]) {
 
@@ -382,4 +382,4 @@ extension MapModel {
             }
         }
     }
-}
+}*/
