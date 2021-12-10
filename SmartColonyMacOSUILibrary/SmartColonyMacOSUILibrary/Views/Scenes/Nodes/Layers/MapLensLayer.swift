@@ -63,11 +63,7 @@ class MapLensLayer: BaseLayer {
             break
 
         case .religion:
-            guard let city = tile.workingCity() else {
-                return
-            }
-
-            guard let religion = gameModel.player(for: city.leader)?.religion?.currentReligion() else {
+            guard let religion = tile.owner()?.religion?.currentReligion() else {
                 return
             }
 
@@ -93,8 +89,12 @@ class MapLensLayer: BaseLayer {
             textureColor = citySiteEvaluationType.legendColor()
 
         case .government:
-            // NOOP
-            break
+            guard let government = tile.owner()?.government?.currentGovernment() else {
+                return
+            }
+
+            textureColor = government.legendColor()
+
         case .political:
             // NOOP
             break

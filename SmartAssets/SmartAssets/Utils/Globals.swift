@@ -270,6 +270,17 @@ public extension Globals {
         public static var continentVaalbara: TypeColor = TypeColor.cornflowerBlue
         public static var continentVendian: TypeColor = TypeColor.navyBlue
         public static var continentZealandia: TypeColor = TypeColor.saphire
+
+        public static var governmentChiefdom: TypeColor = TypeColor.supernova
+        public static var governmentAutocracy: TypeColor = TypeColor.turquoiseBlue
+        public static var governmentOligarchy: TypeColor = TypeColor.saphire
+        public static var governmentClassicalRepublic: TypeColor = TypeColor.sherpaBlue
+        public static var governmentMerchantRepublic: TypeColor = TypeColor.lightGreen
+        public static var governmentMonarchy: TypeColor = TypeColor.bilobaFlower
+        public static var governmentTheocracy: TypeColor = TypeColor.geraldine
+        public static var governmentFascism: TypeColor = TypeColor.matterhornGray
+        public static var governmentCommunism: TypeColor = TypeColor.venetianRed
+        public static var governmentDemocracy: TypeColor = TypeColor.silverFoil
     }
 }
 

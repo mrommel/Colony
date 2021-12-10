@@ -58,8 +58,8 @@ extension MapLensType {
             }
 
             let continentTypes = gameModel.continents()
-                .map( { $0.type() } )
-                .filter( { $0 != .none })
+                .map { $0.type() }
+                .filter { $0 != .none }
             for continentType in continentTypes {
                 legendItems.append(
                     LegendItem(
@@ -85,6 +85,23 @@ extension MapLensType {
                     LegendItem(
                         color: citySiteEvaluationType.legendColor(),
                         title: citySiteEvaluationType.legendText()
+                    )
+                )
+            }
+
+        case .government:
+            guard let gameModel = gameModel else {
+                break
+            }
+
+            let governmentTypes: [GovernmentType] = gameModel.players
+                .map { $0.government?.currentGovernment() ?? .chiefdom }
+                .uniqued()
+            for governmentType in governmentTypes {
+                legendItems.append(
+                    LegendItem(
+                        color: governmentType.legendColor(),
+                        title: governmentType.legendText()
                     )
                 )
             }
