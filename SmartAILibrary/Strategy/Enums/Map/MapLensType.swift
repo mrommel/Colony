@@ -26,6 +26,6 @@ public enum MapLensType: Int {
         .appeal,
         .settler,
         .government,
-        .tourism,
+        .tourism
     ]
 }

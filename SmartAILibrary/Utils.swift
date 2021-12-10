@@ -138,7 +138,7 @@ extension IteratorProtocol {
 }
 
 extension Sequence where Element: Hashable {
-    
+
     public func uniqued() -> [Element] {
         var set = Set<Element>()
         return filter { set.insert($0).inserted }
