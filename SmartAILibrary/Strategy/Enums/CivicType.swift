@@ -288,10 +288,13 @@ public enum CivicType: String, Codable {
             // ancient
         case .codeOfLaws:
             return CivicTypeData(
-                name: "Code of Laws",
-                eurekaSummary: "-",
-                eurekaDescription: "",
-                quoteTexts: ["“It is not wisdom but authority that makes a law.” [NEWLINE]– Thomas Hobbes", "“At his best, man is the noblest of all animals; separated from law and justice he is the worst.” [NEWLINE]– Aristotle"],
+                name: "TXT_KEY_CIVIC_CODE_OF_LAWS_TITLE",
+                eurekaSummary: "TXT_KEY_CIVIC_CODE_OF_LAWS_EUREKA",
+                eurekaDescription: "TXT_KEY_CIVIC_CODE_OF_LAWS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_CODE_OF_LAWS_QUOTE1",
+                    "TXT_KEY_CIVIC_CODE_OF_LAWS_QUOTE2"
+                ],
                 era: .ancient,
                 cost: 20,
                 required: [],
@@ -303,7 +306,10 @@ public enum CivicType: String, Codable {
                 name: "State Workforce",
                 eurekaSummary: "Build any district.",
                 eurekaDescription: "",
-                quoteTexts: ["“A strong economy begins with a strong, well-educated workforce.“ [NEWLINE]– Bill Owens", "“It is equally important to have a happy and engaged workforce as it is to have a profitable bottom line.“ [NEWLINE]– Vern Dosch "],
+                quoteTexts: [
+                    "“A strong economy begins with a strong, well-educated workforce.“ [NEWLINE]– Bill Owens",
+                    "“It is equally important to have a happy and engaged workforce as it is to have a profitable bottom line.“ [NEWLINE]– Vern Dosch "
+                ],
                 era: .ancient,
                 cost: 70,
                 required: [.craftsmanship],
@@ -315,7 +321,10 @@ public enum CivicType: String, Codable {
                 name: "Craftmanship",
                 eurekaSummary: "Improve 3 tiles.",
                 eurekaDescription: "With the land around our first city developing nicely, we can fine tune our production techniques.",
-                quoteTexts: ["“Without craftsmanship, inspiration is a mere reed shaken in the wind.”[NEWLINE] – Johannes Brahms", "“Skill without imagination is craftsmanship and gives us many useful objects such as wickerwork picnic baskets.” [NEWLINE]– Tom Stoppard"],
+                quoteTexts: [
+                    "“Without craftsmanship, inspiration is a mere reed shaken in the wind.”[NEWLINE]– Johannes Brahms",
+                    "“Skill without imagination is craftsmanship and gives us many useful objects such as wickerwork picnic baskets.” [NEWLINE]– Tom Stoppard"
+                ],
                 era: .ancient,
                 cost: 40,
                 required: [.codeOfLaws],
@@ -327,7 +336,10 @@ public enum CivicType: String, Codable {
                 name: "Early Empire",
                 eurekaSummary: "Grow your civilization to at least 6 population.",
                 eurekaDescription: "The growing number of citizens in your lands dream of having an empire.",
-                quoteTexts: [],
+                quoteTexts: [
+                    "“Look back over the past, with its changing empires that rose and fell, and you can foresee the future, too.“[NEWLINE]– Marcus Aurelius",
+                     "“It was luxuries like air conditioning that brought down the Roman Empire. With air conditioning their windows were shut; they couldn't hear the barbarians coming.“[NEWLINE]– Garrison Keillor"
+                ],
                 era: .ancient,
                 cost: 70,
                 required: [.foreignTrade],
@@ -340,8 +352,8 @@ public enum CivicType: String, Codable {
                 eurekaSummary: "Discover a second Continent.",
                 eurekaDescription: "Having discovered another continent we realize there is a wide world of trading opportunities.",
                 quoteTexts: [
-                    "“Every nation lives by exchanging.“[NEWLINE] – Adam Smith",
-                    "“That's the positive aspect of trade I suppose. The world gets stirred up together.“[NEWLINE] – Isabel Hoving "
+                    "“Every nation lives by exchanging.“[NEWLINE]– Adam Smith",
+                    "“That's the positive aspect of trade I suppose. The world gets stirred up together.“[NEWLINE]– Isabel Hoving "
                 ],
                 era: .ancient,
                 cost: 40,
@@ -355,8 +367,8 @@ public enum CivicType: String, Codable {
                 eurekaSummary: "Found a Pantheon.",
                 eurekaDescription: "Worship of your pantheon of gods has brought up further questions about spiritual forces in our world.",
                 quoteTexts: [
-                    "“Mysticism is the mistake of an accidental and individual symbol for a universal one.“[NEWLINE] – Ralph Waldo Emerson",
-                    "“I like to say I practice militant mysticism. I'm absolutely sure of some things that I don't quite know.“[NEWLINE] – Rob Bell"
+                    "“Mysticism is the mistake of an accidental and individual symbol for a universal one.“[NEWLINE]– Ralph Waldo Emerson",
+                    "“I like to say I practice militant mysticism. I'm absolutely sure of some things that I don't quite know.“[NEWLINE]– Rob Bell"
                 ],
                 era: .ancient,
                 cost: 50,
@@ -369,7 +381,10 @@ public enum CivicType: String, Codable {
                 name: "Military Tradition",
                 eurekaSummary: "Build an Encampment.",
                 eurekaDescription: "Your soldiers hope your victory over a Barbarian Outpost is the start of a long line of military successes.",
-                quoteTexts: [],
+                quoteTexts: [
+                    "“Bravery is being the only one who knows you're afraid.“[NEWLINE]– Colonel David Hackworth",
+                    "“I don't underrate the value of military knowledge, but if men make war in slavish obedience to rules, they will fail.“[NEWLINE]– Ulysses S. Grant"
+                ],
                 era: .ancient,
                 cost: 50,
                 required: [.craftsmanship],

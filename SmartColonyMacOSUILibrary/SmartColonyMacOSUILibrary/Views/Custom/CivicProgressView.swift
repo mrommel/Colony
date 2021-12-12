@@ -61,7 +61,7 @@ struct CivicProgressView: View {
                 .padding(.top, 39)
                 .padding(.leading, 14)
 
-            Text(self.viewModel.boostText())
+            Text(self.viewModel.boostText().localized())
                 .font(.system(size: 6))
                 .padding(.top, 38)
                 .padding(.leading, 39)

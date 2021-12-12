@@ -15,6 +15,7 @@
 		C903D06D274A5BF7003C50B9 /* LabelTokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903D06C274A5BF7003C50B9 /* LabelTokenizer.swift */; };
 		C91B484E26E615BE002157C4 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91B484D26E615BE002157C4 /* ImageCache.swift */; };
 		C91B485026E61AED002157C4 /* HeaderButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91B484F26E61AED002157C4 /* HeaderButtonType.swift */; };
+		C91C92AA276533EB009A1167 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C91C92A9276533EB009A1167 /* Localizable.strings */; };
 		C925594A25F9569700C2BF28 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925594925F9569700C2BF28 /* ColorExtension.swift */; };
 		C925594C25F95F9800C2BF28 /* CivilizationTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925594B25F95F9800C2BF28 /* CivilizationTypeExtension.swift */; };
 		C931ADCA2577D06D0002BA2F /* SmartAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = C931ADC82577D06D0002BA2F /* SmartAssets.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -123,6 +124,7 @@
 		C903D06C274A5BF7003C50B9 /* LabelTokenizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTokenizer.swift; sourceTree = "<group>"; };
 		C91B484D26E615BE002157C4 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		C91B484F26E61AED002157C4 /* HeaderButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderButtonType.swift; sourceTree = "<group>"; };
+		C91C92A9276533EB009A1167 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		C925594925F9569700C2BF28 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		C925594B25F95F9800C2BF28 /* CivilizationTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivilizationTypeExtension.swift; sourceTree = "<group>"; };
 		C931ADC52577D06D0002BA2F /* SmartAssets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartAssets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -317,6 +319,7 @@
 				C98E68B62577D8C900BD93CA /* Tiles.xcassets */,
 				C9022F952608ED1500C6773A /* Icons.xcassets */,
 				C988EAE6261B916800300C39 /* Units.xcassets */,
+				C91C92A9276533EB009A1167 /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				C9A09847261CB6930098C5E1 /* horseman.png in Resources */,
 				C9A0984F261CB6930098C5E1 /* long_swordman.png in Resources */,
 				C9A09853261CB6930098C5E1 /* horseman.xml in Resources */,
+				C91C92AA276533EB009A1167 /* Localizable.strings in Resources */,
 				C9A09857261CB6930098C5E1 /* archer.png in Resources */,
 				C9A09849261CB6930098C5E1 /* man_at_arms.png in Resources */,
 				C9A0984C261CB6930098C5E1 /* warrior.png in Resources */,

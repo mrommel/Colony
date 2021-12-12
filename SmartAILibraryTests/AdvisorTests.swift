@@ -74,7 +74,7 @@ class AdvisorTests: XCTestCase {
                 playerAlexander.finishTurn()
                 playerAlexander.setAutoMoves(to: true)
             }
-        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         let messages = playerAlexander.advisorMessages()
 
@@ -139,7 +139,7 @@ class AdvisorTests: XCTestCase {
                     playerAlexander.finishTurn()
                     playerAlexander.setAutoMoves(to: true)
                 }
-            } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
+            } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
         }
 
         // THEN
@@ -208,7 +208,7 @@ class AdvisorTests: XCTestCase {
                     playerAlexander.finishTurn()
                     playerAlexander.setAutoMoves(to: true)
                 }
-            } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
+            } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
         }
         let messages = playerAlexander.advisorMessages()
 

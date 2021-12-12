@@ -209,7 +209,7 @@ class DebugViewModel: ObservableObject {
                         humanPlayer.finishTurn()
                         humanPlayer.setAutoMoves(to: true)
                     }
-                } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
+                } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.turnFinished())
 
                 turnCounter += 1
             } while turnCounter < 20

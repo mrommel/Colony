@@ -1,0 +1,17 @@
+/* 
+  Localizable.strings
+  SmartAssets
+
+  Created by Michael Rommel on 11.12.21.
+  
+*/
+
+// Advisor texts
+"TXT_KEY_ECONOMICAISTRATEGY_NEED_RECON" = "We should continue exploring the world to discover abandoned villages, natural wonders, and other civilizations!";
+
+// civic texts
+"TXT_KEY_CIVIC_CODE_OF_LAWS_TITLE" = "Code of Laws";
+"TXT_KEY_CIVIC_CODE_OF_LAWS_EUREKA" = "-";
+"TXT_KEY_CIVIC_CODE_OF_LAWS_EUREKA_TEXT" = "";
+"TXT_KEY_CIVIC_CODE_OF_LAWS_QUOTE1" = "“It is not wisdom but authority that makes a law.” [NEWLINE]– Thomas Hobbes";
+"TXT_KEY_CIVIC_CODE_OF_LAWS_QUOTE2" = "“At his best, man is the noblest of all animals; separated from law and justice he is the worst.” [NEWLINE]– Aristotle";

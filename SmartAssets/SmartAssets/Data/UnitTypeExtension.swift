@@ -15,13 +15,13 @@ extension UnitType {
         let toolTipText = NSMutableAttributedString()
 
         let title = NSAttributedString(
-            string: self.name(),
+            string: self.name().localized(),
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
         toolTipText.append(title)
 
         let effects = NSAttributedString(
-            string: self.effects().reduce("\n\n", { $0 + $1 + "\n" }),
+            string: self.effects().reduce("\n\n", { $0 + $1.localized() + "\n" }),
             attributes: Globals.Attributs.tooltipContentAttributs
         )
         toolTipText.append(effects)

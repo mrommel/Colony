@@ -104,7 +104,7 @@ class GameScene: BaseScene {
             }
 
             // check state
-            if humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed() {
+            if humanPlayer.hasProcessedAutoMoves() && humanPlayer.turnFinished() {
 
                 self.viewModel?.changeUITurnState(to: .aiTurns)
             }

@@ -78,7 +78,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     func hasActiveDiplomacyRequests() -> Bool
     func canFinishTurn() -> Bool
-    func finishTurnButtonPressed() -> Bool // TODO: rename to finishedTurn
+    func turnFinished() -> Bool
     func doTurnPostDiplomacy(in gameModel: GameModel?)
     func finishTurn()
     func resetFinishTurnButtonPressed()
@@ -677,7 +677,7 @@ public class Player: AbstractPlayer {
         return true
     }
 
-    public func finishTurnButtonPressed() -> Bool {
+    public func turnFinished() -> Bool {
 
         return self.finishTurnButtonPressedValue
     }

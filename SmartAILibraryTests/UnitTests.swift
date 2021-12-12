@@ -68,7 +68,7 @@ class UnitTests: XCTestCase {
                     humanPlayer.finishTurn()
                     humanPlayer.setAutoMoves(to: true)
                 }
-            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
+            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.turnFinished())
 
             hasVisited = humanPlayerWarrior.location == HexPoint(x: 6, y: 2)
             turnCounter += 1
@@ -119,7 +119,7 @@ class UnitTests: XCTestCase {
                     humanPlayer.finishTurn()
                     humanPlayer.setAutoMoves(to: true)
                 }
-            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
+            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.turnFinished())
 
             hasStayed = humanPlayerScout.location == HexPoint(x: 2, y: 2)
             turnCounter += 1

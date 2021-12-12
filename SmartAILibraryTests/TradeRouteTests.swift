@@ -97,7 +97,7 @@ class TradeRouteTests: XCTestCase {
                     humanPlayer.finishTurn()
                     humanPlayer.setAutoMoves(to: true)
                 }
-            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
+            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.turnFinished())
 
             turnCounter += 1
         } while turnCounter < 20 && !self.hasVisited
@@ -187,7 +187,7 @@ class TradeRouteTests: XCTestCase {
                     humanPlayer.finishTurn()
                     humanPlayer.setAutoMoves(to: true)
                 }
-            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
+            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.turnFinished())
 
             if !traderUnit.isTrading() {
                 self.hasExpired = true

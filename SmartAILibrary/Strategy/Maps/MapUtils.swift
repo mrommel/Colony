@@ -24,6 +24,35 @@ public class MapUtils {
         return mapModel
     }
 
+    public static func simple() -> MapModel {
+
+        let size = MapSize.duel
+        let mapModel = MapModel(size: size)
+
+        for x in 0..<size.width() {
+            for y in 0..<size.height() {
+
+                mapModel.set(terrain: .shore, at: HexPoint(x: x, y: y))
+            }
+        }
+
+        for point in HexPoint(x: 5, y: 2).areaWith(radius: 3) {
+            if mapModel.valid(point: point) {
+                mapModel.set(terrain: .grass, at: point)
+            }
+        }
+
+        for point in HexPoint(x: 5, y: 12).areaWith(radius: 3) {
+            if mapModel.valid(point: point) {
+                mapModel.set(terrain: .grass, at: point)
+            }
+        }
+
+        mapModel.analyze()
+
+        return mapModel
+    }
+
     public static func add(area: HexArea, with terrain: TerrainType, to mapModel: MapModel?) {
 
         for point in area {

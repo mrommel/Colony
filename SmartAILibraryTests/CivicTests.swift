@@ -56,49 +56,4 @@ class CivicTests: XCTestCase {
         //print("nextCivic: \(nextCivic)")
         XCTAssertTrue([.craftsmanship, .mysticism, .earlyEmpire].contains(nextCivic))
     }
-
-    func testEurekaOfCraftsmanship() {
-
-        // GIVEN
-        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
-        barbarianPlayer.initialize()
-
-        let playerAlexander = Player(leader: .victoria)
-        playerAlexander.initialize()
-        self.objectToTest = playerAlexander.civics
-        try! self.objectToTest?.discover(civic: .codeOfLaws)
-
-        let playerTrajan = Player(leader: .trajan, isHuman: true)
-        playerTrajan.initialize()
-
-        // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
-
-        // game
-        let gameModel = GameModel(
-            victoryTypes: [.domination],
-            handicap: .chieftain,
-            turnsElapsed: 0,
-            players: [barbarianPlayer, playerAlexander, playerTrajan],
-            on: mapModel
-        )
-
-        let tile0 = mapModel.tile(at: HexPoint(x: 0, y: 0))
-        try! tile0?.set(owner: playerAlexander)
-        let tile1 = mapModel.tile(at: HexPoint(x: 1, y: 0))
-        try! tile1?.set(owner: playerAlexander)
-        let tile2 = mapModel.tile(at: HexPoint(x: 0, y: 1))
-        try! tile2?.set(owner: playerAlexander)
-
-        // WHEN
-        let beforeEureka = self.objectToTest?.eurekaTriggered(for: .craftsmanship)
-        tile0?.changeBuildProgress(of: BuildType.farm, change: 1000, for: playerAlexander, in: gameModel)
-        tile1?.changeBuildProgress(of: BuildType.farm, change: 1000, for: playerAlexander, in: gameModel)
-        tile2?.changeBuildProgress(of: BuildType.farm, change: 1000, for: playerAlexander, in: gameModel)
-        let afterEureka = self.objectToTest?.eurekaTriggered(for: .craftsmanship)
-
-        // THEN
-        XCTAssertEqual(beforeEureka, false)
-        XCTAssertEqual(afterEureka, true)
-    }
 }

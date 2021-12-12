@@ -346,7 +346,7 @@ open class GameModel: Codable {
             if player.isAlive() && player.isActive() {
 
                 // For some reason, AI players don't set EndTurn, why not?
-                if player.finishTurnButtonPressed() || (!player.isHuman() && !player.hasActiveDiplomacyRequests()) {
+                if player.turnFinished() || (!player.isHuman() && !player.hasActiveDiplomacyRequests()) {
 
                     if player.hasProcessedAutoMoves() {
 
@@ -497,7 +497,7 @@ open class GameModel: Codable {
                                 // Does the unit still have movement points left over?
                                 if player.isHuman() && loopUnit.hasCompletedMoveMission(in: self) && loopUnit.canMove() /*&& !loopUnit.isDoingPartialMove()*/ && !loopUnit.isAutomated() {
 
-                                    if player.finishTurnButtonPressed() {
+                                    if player.turnFinished() {
 
                                         repeatAutomoves = true // Do another pass.
 
@@ -567,13 +567,13 @@ open class GameModel: Codable {
                         }
 
                         // If we completed the processing of the auto-moves, flag it.
-                        if player.finishTurnButtonPressed() || !player.isHuman() {
+                        if player.turnFinished() || !player.isHuman() {
                             player.setProcessedAutoMoves(value: true)
                         }
                     }
 
                     // KWG: This code should go into CheckPlayerTurnDeactivate
-                    if !player.finishTurnButtonPressed() && player.isHuman() {
+                    if !player.turnFinished() && player.isHuman() {
 
                         if !player.hasBusyUnitOrCity() {
 
@@ -1761,6 +1761,26 @@ open class GameModel: Codable {
                 if tile.has(improvement: .barbarianCamp) && !tile.isDiscovered(by: player) {
 
                     player?.notifications()?.add(notification: .barbarianCampDiscovered(location: areaPoint))
+                }
+
+                // check if tile is on another continent than the (original) capital
+                guard let civics = player?.civics else {
+                    fatalError("cant get civics")
+                }
+
+                if let tileContinent: ContinentType = self.continent(at: areaPoint)?.type() {
+                    if let capitalLocation = player?.originalCapitalLocation() {
+                        if let capitalContinent = self.continent(at: capitalLocation) {
+                            if tileContinent != capitalContinent.type() &&
+                                capitalContinent.type() != .none &&
+                                tileContinent != .none {
+                                
+                                if !civics.eurekaTriggered(for: .foreignTrade) {
+                                    civics.triggerEureka(for: .foreignTrade, in: self)
+                                }
+                            }
+                        }
+                    }
                 }
 
                 tile.sight(by: player)

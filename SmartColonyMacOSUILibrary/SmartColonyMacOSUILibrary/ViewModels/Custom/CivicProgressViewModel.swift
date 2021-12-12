@@ -61,7 +61,7 @@ class CivicProgressViewModel: ObservableObject {
 
     func title() -> String {
 
-        return self.civicType.name()
+        return self.civicType.name().localized()
     }
 
     func iconImage() -> NSImage {
@@ -156,9 +156,9 @@ class CivicProgressViewModel: ObservableObject {
         }
 
         if self.boosted {
-            return "Boosted: " + self.civicType.eurekaSummary()
+            return "Boosted: " + self.civicType.eurekaSummary().localized()
         } else {
-            return "To boost: " + self.civicType.eurekaSummary()
+            return "To boost: " + self.civicType.eurekaSummary().localized()
         }
     }
 }

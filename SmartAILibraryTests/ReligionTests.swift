@@ -96,7 +96,7 @@ class ReligionTests: XCTestCase {
                     playerAlexander.finishTurn()
                     playerAlexander.setAutoMoves(to: true)
                 }
-            } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
+            } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
             print("faith: \(playerTrajan.religion!.faith())")
 
