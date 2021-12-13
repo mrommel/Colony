@@ -66,7 +66,7 @@ class CivicViewModel: ObservableObject, Identifiable {
 
     func title() -> String {
 
-        return self.civicType.name()
+        return self.civicType.name().localized()
     }
 
     func icon() -> NSImage {

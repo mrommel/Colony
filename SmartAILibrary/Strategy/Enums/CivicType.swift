@@ -303,12 +303,12 @@ public enum CivicType: String, Codable {
             )
         case .stateWorkforce:
             return CivicTypeData(
-                name: "State Workforce",
-                eurekaSummary: "Build any district.",
-                eurekaDescription: "",
+                name: "TXT_KEY_CIVIC_STATE_WORKFORCE_TITLE",
+                eurekaSummary: "TXT_KEY_CIVIC_STATE_WORKFORCE_EUREKA",
+                eurekaDescription: "TXT_KEY_CIVIC_STATE_WORKFORCE_EUREKA_TEXT",
                 quoteTexts: [
-                    "“A strong economy begins with a strong, well-educated workforce.“ [NEWLINE]– Bill Owens",
-                    "“It is equally important to have a happy and engaged workforce as it is to have a profitable bottom line.“ [NEWLINE]– Vern Dosch "
+                    "TXT_KEY_CIVIC_STATE_WORKFORCE_QUOTE1",
+                    "TXT_KEY_CIVIC_STATE_WORKFORCE_QUOTE2"
                 ],
                 era: .ancient,
                 cost: 70,
@@ -318,12 +318,12 @@ public enum CivicType: String, Codable {
             )
         case .craftsmanship:
             return CivicTypeData(
-                name: "Craftmanship",
-                eurekaSummary: "Improve 3 tiles.",
-                eurekaDescription: "With the land around our first city developing nicely, we can fine tune our production techniques.",
+                name: "TXT_KEY_CIVIC_CRAFTMANSHIP_TITLE",
+                eurekaSummary: "TXT_KEY_CIVIC_CRAFTMANSHIP_EUREKA",
+                eurekaDescription: "TXT_KEY_CIVIC_CRAFTMANSHIP_EUREKA_TEXT",
                 quoteTexts: [
-                    "“Without craftsmanship, inspiration is a mere reed shaken in the wind.”[NEWLINE]– Johannes Brahms",
-                    "“Skill without imagination is craftsmanship and gives us many useful objects such as wickerwork picnic baskets.” [NEWLINE]– Tom Stoppard"
+                    "TXT_KEY_CIVIC_CRAFTMANSHIP_QUOTE1",
+                    "TXT_KEY_CIVIC_CRAFTMANSHIP_QUOTE2"
                 ],
                 era: .ancient,
                 cost: 40,

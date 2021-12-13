@@ -13,7 +13,13 @@ extension String {
     public func localized(withComment comment: String? = nil) -> String {
 
         if self.starts(with: "TXT_KEY_") {
-            return NSLocalizedString(self, tableName: nil, bundle: Bundle.main, value: "", comment: comment ?? "")
+            return NSLocalizedString(
+                self,
+                tableName: nil,
+                bundle: Bundle.init(for: Textures.self),
+                value: "",
+                comment: comment ?? ""
+            )
         }
 
         return self

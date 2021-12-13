@@ -18,3 +18,15 @@
 "TXT_KEY_CIVIC_CODE_OF_LAWS_EUREKA_TEXT" = "";
 "TXT_KEY_CIVIC_CODE_OF_LAWS_QUOTE1" = "“It is not wisdom but authority that makes a law.” [NEWLINE]– Thomas Hobbes";
 "TXT_KEY_CIVIC_CODE_OF_LAWS_QUOTE2" = "“At his best, man is the noblest of all animals; separated from law and justice he is the worst.” [NEWLINE]– Aristotle";
+
+"TXT_KEY_CIVIC_CRAFTMANSHIP_TITLE" = "Craftmanship";
+"TXT_KEY_CIVIC_CRAFTMANSHIP_EUREKA" = "Improve 3 tiles.";
+"TXT_KEY_CIVIC_CRAFTMANSHIP_EUREKA_TEXT" = "With the land around our first city developing nicely, we can fine tune our production techniques.";
+"TXT_KEY_CIVIC_CRAFTMANSHIP_QUOTE1" = "“Without craftsmanship, inspiration is a mere reed shaken in the wind.”[NEWLINE]– Johannes Brahms";
+"TXT_KEY_CIVIC_CRAFTMANSHIP_QUOTE2" = "“Skill without imagination is craftsmanship and gives us many useful objects such as wickerwork picnic baskets.” [NEWLINE]– Tom Stoppard";
+
+"TXT_KEY_CIVIC_STATE_WORKFORCE_TITLE" = "State Workforce";
+"TXT_KEY_CIVIC_STATE_WORKFORCE_EUREKA" = "Build any district.";
+"TXT_KEY_CIVIC_STATE_WORKFORCE_EUREKA_TEXT" = "Build any district.";
+"TXT_KEY_CIVIC_STATE_WORKFORCE_QUOTE1" = "“A strong economy begins with a strong, well-educated workforce.“ [NEWLINE]– Bill Owens";
+"TXT_KEY_CIVIC_STATE_WORKFORCE_QUOTE2" = "“It is equally important to have a happy and engaged workforce as it is to have a profitable bottom line.“ [NEWLINE]– Vern Dosch";
