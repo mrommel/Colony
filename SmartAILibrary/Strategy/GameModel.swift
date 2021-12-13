@@ -1770,13 +1770,15 @@ open class GameModel: Codable {
 
                 if let tileContinent: ContinentType = self.continent(at: areaPoint)?.type() {
                     if let capitalLocation = player?.originalCapitalLocation() {
-                        if let capitalContinent = self.continent(at: capitalLocation) {
-                            if tileContinent != capitalContinent.type() &&
-                                capitalContinent.type() != .none &&
-                                tileContinent != .none {
-                                
-                                if !civics.eurekaTriggered(for: .foreignTrade) {
-                                    civics.triggerEureka(for: .foreignTrade, in: self)
+                        if capitalLocation != HexPoint.invalid {
+                            if let capitalContinent = self.continent(at: capitalLocation) {
+                                if tileContinent != capitalContinent.type() &&
+                                    capitalContinent.type() != .none &&
+                                    tileContinent != .none {
+                                    
+                                    if !civics.eurekaTriggered(for: .foreignTrade) {
+                                        civics.triggerEureka(for: .foreignTrade, in: self)
+                                    }
                                 }
                             }
                         }

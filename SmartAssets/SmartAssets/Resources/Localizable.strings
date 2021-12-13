@@ -9,6 +9,9 @@
 // Advisor texts
 "TXT_KEY_ECONOMICAISTRATEGY_NEED_RECON" = "We should continue exploring the world to discover abandoned villages, natural wonders, and other civilizations!";
 
+// governor texts
+"TXT_KEY_GOVERNOR_TITLE" = "Governor title";
+
 // civic texts
 "TXT_KEY_CIVIC_CODE_OF_LAWS_TITLE" = "Code of Laws";
 "TXT_KEY_CIVIC_CODE_OF_LAWS_EUREKA" = "-";

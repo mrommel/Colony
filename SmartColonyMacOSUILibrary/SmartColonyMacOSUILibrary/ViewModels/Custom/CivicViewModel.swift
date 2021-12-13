@@ -143,7 +143,7 @@ class CivicViewModel: ObservableObject, Identifiable {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: "header-button-governors-active",
-                    toolTipText: NSAttributedString(string: "Governor title")
+                    toolTipText: NSAttributedString(string: "TXT_KEY_GOVERNOR_TITLE".localized())
                 )
             )
         }
@@ -157,7 +157,7 @@ class CivicViewModel: ObservableObject, Identifiable {
             return ""
         }
 
-        return "Turns \(self.turns)"
+        return "Turns \(self.turns)" // TODO localize
     }
 
     func boostText() -> String {
@@ -167,9 +167,9 @@ class CivicViewModel: ObservableObject, Identifiable {
         }
 
         if self.boosted {
-            return "Boosted: " + self.civicType.eurekaSummary().localized()
+            return "Boosted: " + self.civicType.eurekaSummary().localized() // TODO localize
         } else {
-            return "To boost: " + self.civicType.eurekaSummary().localized()
+            return "To boost: " + self.civicType.eurekaSummary().localized() // TODO localize
         }
     }
 

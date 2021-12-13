@@ -141,7 +141,7 @@ class CivicProgressViewModel: ObservableObject {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: "header-button-governors-active",
-                    toolTipText: NSAttributedString(string: "Governor title")
+                    toolTipText: NSAttributedString(string: "TXT_KEY_GOVERNOR_TITLE".localized())
                 )
             )
         }
@@ -156,9 +156,9 @@ class CivicProgressViewModel: ObservableObject {
         }
 
         if self.boosted {
-            return "Boosted: " + self.civicType.eurekaSummary().localized()
+            return "Boosted: " + self.civicType.eurekaSummary().localized() // TODO localize
         } else {
-            return "To boost: " + self.civicType.eurekaSummary().localized()
+            return "To boost: " + self.civicType.eurekaSummary().localized() // TODO localize
         }
     }
 }
