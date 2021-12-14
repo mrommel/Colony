@@ -333,12 +333,12 @@ public enum CivicType: String, Codable {
             )
         case .earlyEmpire:
             return CivicTypeData(
-                name: "Early Empire",
-                eurekaSummary: "Grow your civilization to at least 6 population.",
-                eurekaDescription: "The growing number of citizens in your lands dream of having an empire.",
+                name: "TXT_KEY_CIVIC_STATE_EARLY_EMPIRE_TITLE",
+                eurekaSummary: "TXT_KEY_CIVIC_STATE_EARLY_EMPIRE_EUREKA",
+                eurekaDescription: "TXT_KEY_CIVIC_STATE_EARLY_EMPIRE_EUREKA_TEXT",
                 quoteTexts: [
-                    "“Look back over the past, with its changing empires that rose and fell, and you can foresee the future, too.“[NEWLINE]– Marcus Aurelius",
-                     "“It was luxuries like air conditioning that brought down the Roman Empire. With air conditioning their windows were shut; they couldn't hear the barbarians coming.“[NEWLINE]– Garrison Keillor"
+                    "TXT_KEY_CIVIC_STATE_EARLY_EMPIRE_QUOTE1",
+                    "TXT_KEY_CIVIC_STATE_EARLY_EMPIRE_QUOTE2"
                 ],
                 era: .ancient,
                 cost: 70,
@@ -348,12 +348,12 @@ public enum CivicType: String, Codable {
             )
         case .foreignTrade:
             return CivicTypeData(
-                name: "Foreign Trade",
-                eurekaSummary: "Discover a second Continent.",
-                eurekaDescription: "Having discovered another continent we realize there is a wide world of trading opportunities.",
+                name: "TXT_KEY_CIVIC_STATE_FOREIGN_TRADE_TITLE",
+                eurekaSummary: "TXT_KEY_CIVIC_STATE_FOREIGN_TRADE_EUREKA",
+                eurekaDescription: "TXT_KEY_CIVIC_STATE_FOREIGN_TRADE_EUREKA_TEXT",
                 quoteTexts: [
-                    "“Every nation lives by exchanging.“[NEWLINE]– Adam Smith",
-                    "“That's the positive aspect of trade I suppose. The world gets stirred up together.“[NEWLINE]– Isabel Hoving "
+                    "TXT_KEY_CIVIC_STATE_FOREIGN_TRADE_QUOTE1",
+                    "TXT_KEY_CIVIC_STATE_FOREIGN_TRADE_QUOTE2"
                 ],
                 era: .ancient,
                 cost: 40,
@@ -363,12 +363,12 @@ public enum CivicType: String, Codable {
             )
         case .mysticism:
             return CivicTypeData(
-                name: "Mysticism",
-                eurekaSummary: "Found a Pantheon.",
-                eurekaDescription: "Worship of your pantheon of gods has brought up further questions about spiritual forces in our world.",
+                name: "TXT_KEY_CIVIC_STATE_MYSTICISM_TITLE",
+                eurekaSummary: "TXT_KEY_CIVIC_STATE_MYSTICISM_EUREKA",
+                eurekaDescription: "TXT_KEY_CIVIC_STATE_MYSTICISM_EUREKA_TEXT",
                 quoteTexts: [
-                    "“Mysticism is the mistake of an accidental and individual symbol for a universal one.“[NEWLINE]– Ralph Waldo Emerson",
-                    "“I like to say I practice militant mysticism. I'm absolutely sure of some things that I don't quite know.“[NEWLINE]– Rob Bell"
+                    "TXT_KEY_CIVIC_STATE_MYSTICISM_QUOTE1",
+                    "TXT_KEY_CIVIC_STATE_MYSTICISM_QUOTE2"
                 ],
                 era: .ancient,
                 cost: 50,

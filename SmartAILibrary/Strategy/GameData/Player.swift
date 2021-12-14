@@ -173,6 +173,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     // city methods
     func found(at location: HexPoint, named name: String?, in gameModel: GameModel?)
     func newCityName(in gameModel: GameModel?) -> String
+    func registerBuild(cityName: String)
     func cityStrengthModifier() -> Int
     func acquire(city oldCity: AbstractCity?, conquest: Bool, gift: Bool, in gameModel: GameModel?)
     func numOfCitiesFounded() -> Int
@@ -307,6 +308,7 @@ public class Player: AbstractPlayer {
         case totalImprovementsBuilt
         case citiesFound
         case citiesLost
+        case builtCityNames
 
         case techs
         case civics
@@ -400,6 +402,7 @@ public class Player: AbstractPlayer {
     internal var totalImprovementsBuilt: Int
     internal var citiesFoundValue: Int
     internal var citiesLostValue: Int
+    internal var builtCityNames: [String]
 
     private var turnActive: Bool = false
     private var finishTurnButtonPressedValue: Bool = false
@@ -440,6 +443,7 @@ public class Player: AbstractPlayer {
         self.totalImprovementsBuilt = 0
         self.citiesFoundValue = 0
         self.citiesLostValue = 0
+        self.builtCityNames = []
 
         self.originalCapitalLocationValue = HexPoint.invalid
         self.lostCapitalValue = false
@@ -466,6 +470,7 @@ public class Player: AbstractPlayer {
         self.totalImprovementsBuilt = try container.decode(Int.self, forKey: .totalImprovementsBuilt)
         self.citiesFoundValue = try container.decode(Int.self, forKey: .citiesFound)
         self.citiesLostValue = try container.decode(Int.self, forKey: .citiesLost)
+        self.builtCityNames = try container.decode([String].self, forKey: .builtCityNames)
 
         self.grandStrategyAI = try container.decode(GrandStrategyAI.self, forKey: .grandStrategyAI)
         self.diplomacyAI = try container.decode(DiplomaticAI.self, forKey: .diplomacyAI)
@@ -556,6 +561,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.totalImprovementsBuilt, forKey: .totalImprovementsBuilt)
         try container.encode(self.citiesFoundValue, forKey: .citiesFound)
         try container.encode(self.citiesLostValue, forKey: .citiesLost)
+        try container.encode(self.builtCityNames, forKey: .builtCityNames)
 
         try container.encode(self.grandStrategyAI, forKey: .grandStrategyAI)
         try container.encode(self.diplomacyAI, forKey: .diplomacyAI)
@@ -2543,6 +2549,10 @@ public class Player: AbstractPlayer {
 
         var possibleNames = self.leader.civilization().cityNames()
 
+        for builtCityName in self.builtCityNames {
+            possibleNames.removeAll(where: { $0 == builtCityName })
+        }
+
         for cityRef in gameModel.cities(of: self) {
 
             guard let city = cityRef else {
@@ -2556,7 +2566,12 @@ public class Player: AbstractPlayer {
             return firstName
         }
 
-        return "TXT_KEY_CITY"
+        return "TXT_KEY_CITY_NAME_GENERIC"
+    }
+
+    public func registerBuild(cityName: String) {
+
+        self.builtCityNames.append(cityName)
     }
 
     public func cityStrengthModifier() -> Int {

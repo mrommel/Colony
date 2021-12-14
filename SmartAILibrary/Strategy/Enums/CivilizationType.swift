@@ -117,17 +117,41 @@ public enum CivilizationType: String, Codable {
         switch self {
 
         case .barbarian:
-            return CivilizationTypeData(name: "Barbarians",
-                                        plural: true,
-                                        ability: .none,
-                                        cityNames: [])
+            return CivilizationTypeData(
+                name: "Barbarians",
+                plural: true,
+                ability: .none,
+                cityNames: []
+            )
+
         case .greek:
             // https://civilization.fandom.com/wiki/Greek_(Civ6)
             // cities taken from here: https://civilization.fandom.com/wiki/Greek_cities_(Civ6)
-            return CivilizationTypeData(name: "Greeks",
-                                        plural: true,
-                                        ability: .platosRepublic,
-                                        cityNames: ["Athens", "Sparta", "Corinth", "Argos", "Knossos", "Mycenae", "Pharsalos", "Ephesus", "Halicarnassus", "Rhodes", "Eretria", "Pergamon", "Miletos"])
+            return CivilizationTypeData(
+                name: "Greeks",
+                plural: true,
+                ability: .platosRepublic,
+                cityNames: [
+                    "TXT_KEY_CITY_NAME_ATHENS",
+                    "TXT_KEY_CITY_NAME_SPARTA",
+                    "TXT_KEY_CITY_NAME_CORINTH",
+                    "TXT_KEY_CITY_NAME_EPHESUS",
+                    "TXT_KEY_CITY_NAME_ARGOS",
+                    "TXT_KEY_CITY_NAME_KNOSSOS",
+                    "TXT_KEY_CITY_NAME_MYCENAE",
+                    "TXT_KEY_CITY_NAME_PHARSALOS",
+                    "TXT_KEY_CITY_NAME_RHODES",
+                    "TXT_KEY_CITY_NAME_OLYMPIA",
+                    "TXT_KEY_CITY_NAME_ERETRIA",
+                    "TXT_KEY_CITY_NAME_PERGAMON",
+                    "TXT_KEY_CITY_NAME_MILETOS",
+                    "TXT_KEY_CITY_NAME_MEGARA",
+                    "TXT_KEY_CITY_NAME_PHOCAEA",
+                    "TXT_KEY_CITY_NAME_DELPHI",
+                    "TXT_KEY_CITY_NAME_MARATHON",
+                    "TXT_KEY_CITY_NAME_PATRAS"
+                ]
+            )
         case .roman:
             // https://civilization.fandom.com/wiki/Roman_(Civ6)
             // cities taken from here: https://civilization.fandom.com/wiki/Roman_cities_(Civ6)

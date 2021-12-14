@@ -289,9 +289,9 @@ extension GameViewModel {
     func showRenameDialog(
         title: String,
         summary: String,
-        value: String,
-        confirm: String = "Rename",
-        cancel: String = "Cancel",
+        value: String, // not localized
+        confirm: String = "TXT_KEY_RENAME".localized(),
+        cancel: String = "TXT_KEY_CANCEL".localized(),
         completion: @escaping (String) -> Void
     ) {
 

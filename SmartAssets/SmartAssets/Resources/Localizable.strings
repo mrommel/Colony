@@ -3,6 +3,10 @@
   SmartAssets
 
   Created by Michael Rommel on 11.12.21.
+
+ Sources:
+ - https://github.com/Swiftwork/civ6-explorer/blob/dbe3ca6d5468828ef0b26ef28f69555de0bcb959/src/assets/game/BaseGame/Locale/en_US/Civics_Text.xml
+ - https://raw.githubusercontent.com/Swiftwork/civ6-explorer/master/src/assets/game/BaseGame/Locale/Vanilla_de_DE.xml
   
 */
 
@@ -10,6 +14,9 @@
 "TXT_KEY_CIVIC_BOOSTED" = "Boosted:";
 "TXT_KEY_CIVIC_TO_BOOST" = "To boost:";
 "TXT_KEY_TURNS" = "Turns";
+"TXT_KEY_FOUND" = "Found";
+"TXT_KEY_RENAME" = "Rename";
+"TXT_KEY_CANCEL" = "Cancel";
 
 // Advisor texts
 "TXT_KEY_ECONOMICAISTRATEGY_NEED_RECON" = "We should continue exploring the world to discover abandoned villages, natural wonders, and other civilizations!";
@@ -18,23 +25,48 @@
 "TXT_KEY_GOVERNOR_TITLE" = "Governor title";
 
 // civic texts
+
+// civic - Code of Laws
 "TXT_KEY_CIVIC_CODE_OF_LAWS_TITLE" = "Code of Laws";
 "TXT_KEY_CIVIC_CODE_OF_LAWS_EUREKA" = "-";
 "TXT_KEY_CIVIC_CODE_OF_LAWS_EUREKA_TEXT" = "";
 "TXT_KEY_CIVIC_CODE_OF_LAWS_QUOTE1" = "“It is not wisdom but authority that makes a law.”\n– Thomas Hobbes";
 "TXT_KEY_CIVIC_CODE_OF_LAWS_QUOTE2" = "“At his best, man is the noblest of all animals; separated from law and justice he is the worst.”\n– Aristotle";
 
+// civic - Craftmanship
 "TXT_KEY_CIVIC_CRAFTMANSHIP_TITLE" = "Craftmanship";
 "TXT_KEY_CIVIC_CRAFTMANSHIP_EUREKA" = "Improve 3 tiles.";
 "TXT_KEY_CIVIC_CRAFTMANSHIP_EUREKA_TEXT" = "With the land around our first city developing nicely, we can fine tune our production techniques.";
 "TXT_KEY_CIVIC_CRAFTMANSHIP_QUOTE1" = "“Without craftsmanship, inspiration is a mere reed shaken in the wind.”\n– Johannes Brahms";
 "TXT_KEY_CIVIC_CRAFTMANSHIP_QUOTE2" = "“Skill without imagination is craftsmanship and gives us many useful objects such as wickerwork picnic baskets.”\n– Tom Stoppard";
 
+// civic - State Workforce
 "TXT_KEY_CIVIC_STATE_WORKFORCE_TITLE" = "State Workforce";
-"TXT_KEY_CIVIC_STATE_WORKFORCE_EUREKA" = "Build any district.";
-"TXT_KEY_CIVIC_STATE_WORKFORCE_EUREKA_TEXT" = "Build any district.";
+"TXT_KEY_CIVIC_STATE_WORKFORCE_EUREKA" = "Build any specialty district.";
+"TXT_KEY_CIVIC_STATE_WORKFORCE_EUREKA_TEXT" = "Bringing our first district online has proven the value of conscripting workers for state projects.";
 "TXT_KEY_CIVIC_STATE_WORKFORCE_QUOTE1" = "“A strong economy begins with a strong, well-educated workforce.“\n– Bill Owens";
 "TXT_KEY_CIVIC_STATE_WORKFORCE_QUOTE2" = "“It is equally important to have a happy and engaged workforce as it is to have a profitable bottom line.“\n– Vern Dosch";
+
+// civic - early empire
+"TXT_KEY_CIVIC_STATE_EARLY_EMPIRE_TITLE" = "Early Empire";
+"TXT_KEY_CIVIC_STATE_EARLY_EMPIRE_EUREKA" = "Grow your civilization to at least 6 population.";
+"TXT_KEY_CIVIC_STATE_EARLY_EMPIRE_EUREKA_TEXT" = "The growing number of citizens in your lands dream of having an empire.";
+"TXT_KEY_CIVIC_STATE_EARLY_EMPIRE_QUOTE1" = "“Look back over the past, with its changing empires that rose and fell, and you can foresee the future, too.“\n– Marcus Aurelius";
+"TXT_KEY_CIVIC_STATE_EARLY_EMPIRE_QUOTE2" = "“It was luxuries like air conditioning that brought down the Roman Empire. With air conditioning their windows were shut; they couldn't hear the barbarians coming.“\n– Garrison Keillor";
+
+// civic - foreign trade
+"TXT_KEY_CIVIC_STATE_FOREIGN_TRADE_TITLE" = "Foreign Trade";
+"TXT_KEY_CIVIC_STATE_FOREIGN_TRADE_EUREKA" = "Discover a second Continent.";
+"TXT_KEY_CIVIC_STATE_FOREIGN_TRADE_EUREKA_TEXT" = "Having discovered another continent we realize there is a wide world of trading opportunities.";
+"TXT_KEY_CIVIC_STATE_FOREIGN_TRADE_QUOTE1" = "“Every nation lives by exchanging.“\n– Adam Smith";
+"TXT_KEY_CIVIC_STATE_FOREIGN_TRADE_QUOTE2" = "“That's the positive aspect of trade I suppose. The world gets stirred up together.“\n– Isabel Hoving";
+
+// civic - mysticism
+"TXT_KEY_CIVIC_STATE_MYSTICISM_TITLE" = "Mysticism";
+"TXT_KEY_CIVIC_STATE_MYSTICISM_EUREKA" = "Found a Pantheon.";
+"TXT_KEY_CIVIC_STATE_MYSTICISM_EUREKA_TEXT" = "Worship of your pantheon of gods has brought up further questions about spiritual forces in our world.";
+"TXT_KEY_CIVIC_STATE_MYSTICISM_QUOTE1" = "“Mysticism is the mistake of an accidental and individual symbol for a universal one.“\n– Ralph Waldo Emerson";
+"TXT_KEY_CIVIC_STATE_MYSTICISM_QUOTE2" = "“I like to say I practice militant mysticism. I'm absolutely sure of some things that I don't quite know.“\n– Rob Bell";
 
 // policy cards
 "TXT_KEY_POLICY_CARD_SURVEY_TITLE" = "Survey";

@@ -211,11 +211,11 @@ class UnitBannerViewModel: ObservableObject {
             if let selectedUnit = self.selectedUnit {
 
                 gameModel.userInterface?.askForInput(
-                    title: "Rename",
+                    title: "TXT_KEY_RENAME".localized(),
                     summary: "Please provide a new Name:",
                     value: selectedUnit.name(),
-                    confirm: "Rename",
-                    cancel: "Cancel",
+                    confirm: "TXT_KEY_RENAME".localized(),
+                    cancel: "TXT_KEY_CANCEL".localized(),
                     completion: { newValue in
 
                         selectedUnit.rename(to: newValue)
@@ -230,16 +230,21 @@ class UnitBannerViewModel: ObservableObject {
                     fatalError("cant get unit player")
                 }
 
+                let cityName = player.newCityName(in: gameModel) // not localized !
+
                 gameModel.userInterface?.askForInput(
                     title: "City Name",
                     summary: "Please provide a name:",
-                    value: player.newCityName(in: gameModel),
-                    confirm: "Found",
-                    cancel: "Cancel",
+                    value: cityName.localized(),
+                    confirm: "TXT_KEY_FOUND".localized(),
+                    cancel: "TXT_KEY_CANCEL".localized(),
                     completion: { newValue in
 
                         let location = selectedUnit.location
                         selectedUnit.doFound(with: newValue, in: gameModel)
+                        if cityName.localized() == newValue {
+                            player.registerBuild(cityName: cityName)
+                        }
                         gameModel.userInterface?.unselect()
 
                         if let city = gameModel.city(at: location) {
