@@ -21,36 +21,36 @@
 "TXT_KEY_CIVIC_CODE_OF_LAWS_TITLE" = "Code of Laws";
 "TXT_KEY_CIVIC_CODE_OF_LAWS_EUREKA" = "-";
 "TXT_KEY_CIVIC_CODE_OF_LAWS_EUREKA_TEXT" = "";
-"TXT_KEY_CIVIC_CODE_OF_LAWS_QUOTE1" = "“It is not wisdom but authority that makes a law.” [NEWLINE]– Thomas Hobbes";
-"TXT_KEY_CIVIC_CODE_OF_LAWS_QUOTE2" = "“At his best, man is the noblest of all animals; separated from law and justice he is the worst.” [NEWLINE]– Aristotle";
+"TXT_KEY_CIVIC_CODE_OF_LAWS_QUOTE1" = "“It is not wisdom but authority that makes a law.”\n– Thomas Hobbes";
+"TXT_KEY_CIVIC_CODE_OF_LAWS_QUOTE2" = "“At his best, man is the noblest of all animals; separated from law and justice he is the worst.”\n– Aristotle";
 
 "TXT_KEY_CIVIC_CRAFTMANSHIP_TITLE" = "Craftmanship";
 "TXT_KEY_CIVIC_CRAFTMANSHIP_EUREKA" = "Improve 3 tiles.";
 "TXT_KEY_CIVIC_CRAFTMANSHIP_EUREKA_TEXT" = "With the land around our first city developing nicely, we can fine tune our production techniques.";
-"TXT_KEY_CIVIC_CRAFTMANSHIP_QUOTE1" = "“Without craftsmanship, inspiration is a mere reed shaken in the wind.”[NEWLINE]– Johannes Brahms";
-"TXT_KEY_CIVIC_CRAFTMANSHIP_QUOTE2" = "“Skill without imagination is craftsmanship and gives us many useful objects such as wickerwork picnic baskets.” [NEWLINE]– Tom Stoppard";
+"TXT_KEY_CIVIC_CRAFTMANSHIP_QUOTE1" = "“Without craftsmanship, inspiration is a mere reed shaken in the wind.”\n– Johannes Brahms";
+"TXT_KEY_CIVIC_CRAFTMANSHIP_QUOTE2" = "“Skill without imagination is craftsmanship and gives us many useful objects such as wickerwork picnic baskets.”\n– Tom Stoppard";
 
 "TXT_KEY_CIVIC_STATE_WORKFORCE_TITLE" = "State Workforce";
 "TXT_KEY_CIVIC_STATE_WORKFORCE_EUREKA" = "Build any district.";
 "TXT_KEY_CIVIC_STATE_WORKFORCE_EUREKA_TEXT" = "Build any district.";
-"TXT_KEY_CIVIC_STATE_WORKFORCE_QUOTE1" = "“A strong economy begins with a strong, well-educated workforce.“ [NEWLINE]– Bill Owens";
-"TXT_KEY_CIVIC_STATE_WORKFORCE_QUOTE2" = "“It is equally important to have a happy and engaged workforce as it is to have a profitable bottom line.“ [NEWLINE]– Vern Dosch";
+"TXT_KEY_CIVIC_STATE_WORKFORCE_QUOTE1" = "“A strong economy begins with a strong, well-educated workforce.“\n– Bill Owens";
+"TXT_KEY_CIVIC_STATE_WORKFORCE_QUOTE2" = "“It is equally important to have a happy and engaged workforce as it is to have a profitable bottom line.“\n– Vern Dosch";
 
 // policy cards
 "TXT_KEY_POLICY_CARD_SURVEY_TITLE" = "Survey";
-"TXT_KEY_POLICY_CARD_SURVEY_BONUS" = "Doubles\nexperience\nfor recon\nunits.";
+"TXT_KEY_POLICY_CARD_SURVEY_BONUS" = "Doubles experience for recon units.";
 
 "TXT_KEY_POLICY_CARD_GOD_KING_TITLE" = "God King";
-"TXT_KEY_POLICY_CARD_GOD_KING_BONUS" = "+1 [Faith] Faith and\n+1 Gold [Gold] in the [Capital] Capital.";
+"TXT_KEY_POLICY_CARD_GOD_KING_BONUS" = "+1 [Faith] Faith and +1 Gold [Gold] in the [Capital] Capital.";
 
 "TXT_KEY_POLICY_CARD_DISCIPLINE_TITLE" = "Discipline";
 "TXT_KEY_POLICY_CARD_DISCIPLINE_BONUS" = "+5 [Strength] Combat Strength when fighting Barbarians.";
 
 "TXT_KEY_POLICY_CARD_URBAN_PLANNING_TITLE" = "Urban Planning";
-"TXT_KEY_POLICY_CARD_URBAN_PLANNING_BONUS" = "+1 [Production] Production in\nall cities.";
+"TXT_KEY_POLICY_CARD_URBAN_PLANNING_BONUS" = "+1 [Production] Production in all cities.";
 
 "TXT_KEY_POLICY_CARD_ILKUM_TITLE" = "Ilkum";
-"TXT_KEY_POLICY_CARD_ILKUM_BONUS" = "+30% [Production] Production\ntoward Builders.";
+"TXT_KEY_POLICY_CARD_ILKUM_BONUS" = "+30% [Production] Production toward Builders.";
 
 "TXT_KEY_POLICY_CARD_AGOGE_TITLE" = "Agoge";
-"TXT_KEY_POLICY_CARD_AGOGE_BONUS" = "+50% [Production] Production\ntoward Ancient and\nClassical era melee,\nranged units and\nanti-cavalry units.";
+"TXT_KEY_POLICY_CARD_AGOGE_BONUS" = "+50% [Production] Production toward Ancient and Classical era melee, ranged units and anti-cavalry units.";
