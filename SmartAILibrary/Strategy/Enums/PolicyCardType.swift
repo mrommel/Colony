@@ -161,8 +161,8 @@ public enum PolicyCardType: Int, Codable {
         case .survey:
             // https://civilization.fandom.com/wiki/Survey_(Civ6)
             return PolicyCardTypeData(
-                name: "Survey",
-                bonus: "Doubles experience for recon units.",
+                name: "TXT_KEY_POLICY_CARD_SURVEY_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_SURVEY_BONUS",
                 slot: .military,
                 required: .codeOfLaws,
                 obsolete: .exploration,
@@ -172,8 +172,8 @@ public enum PolicyCardType: Int, Codable {
         case .godKing:
             // https://civilization.fandom.com/wiki/God_King_(Civ6)
             return PolicyCardTypeData(
-                name: "God King",
-                bonus: "+1 Faith and +1 Gold in the Capital.",
+                name: "TXT_KEY_POLICY_CARD_GOD_KING_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_GOD_KING_BONUS",
                 slot: .economic,
                 required: .codeOfLaws,
                 obsolete: .theology,
@@ -186,8 +186,8 @@ public enum PolicyCardType: Int, Codable {
         case .discipline:
             // https://civilization.fandom.com/wiki/Discipline_(Civ6)
             return PolicyCardTypeData(
-                name: "Discipline",
-                bonus: "+5 Combat Strength when fighting Barbarians.",
+                name: "TXT_KEY_POLICY_CARD_DISCIPLINE_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_DISCIPLINE_BONUS",
                 slot: .military,
                 required: .codeOfLaws,
                 obsolete: .colonialism,
@@ -199,8 +199,8 @@ public enum PolicyCardType: Int, Codable {
             )
         case .urbanPlanning:
             return PolicyCardTypeData(
-                name: "Urban Planning",
-                bonus: "+1 Production in all cities.",
+                name: "TXT_KEY_POLICY_CARD_URBAN_PLANNING_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_URBAN_PLANNING_BONUS",
                 slot: .economic,
                 required: .codeOfLaws,
                 obsolete: .gamesAndRecreation,
@@ -213,8 +213,8 @@ public enum PolicyCardType: Int, Codable {
         case .ilkum:
             // https://civilization.fandom.com/wiki/Ilkum_(Civ6)
             return PolicyCardTypeData(
-                name: "Ilkum",
-                bonus: "+30% Production toward Builders.",
+                name: "TXT_KEY_POLICY_CARD_ILKUM_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_ILKUM_BONUS",
                 slot: .economic,
                 required: .craftsmanship,
                 obsolete: .gamesAndRecreation,
@@ -227,8 +227,8 @@ public enum PolicyCardType: Int, Codable {
         case .agoge:
             // https://civilization.fandom.com/wiki/Agoge_(Civ6)
             return PolicyCardTypeData(
-                name: "Agoge",
-                bonus: "+50% Production toward Ancient and Classical era melee, ranged units and anti-cavalry units.",
+                name: "TXT_KEY_POLICY_CARD_AGOGE_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_AGOGE_BONUS",
                 slot: .military,
                 required: .craftsmanship,
                 obsolete: .feudalism,

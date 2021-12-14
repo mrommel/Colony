@@ -72,12 +72,12 @@ class PolicyCardViewModel: ObservableObject {
 
     func title() -> String {
 
-        return self.policyCardType.name()
+        return self.policyCardType.name().localized()
     }
 
     func summary() -> String {
 
-        return self.policyCardType.bonus().replaceIcons()
+        return self.policyCardType.bonus().localized()
     }
 
     func background() -> NSImage {

@@ -15,6 +15,8 @@ public enum LabelImageType {
     case production
     case gold
     case housing
+    case science
+    case faith
 
     case tradeRoute
     case loyalty
@@ -30,6 +32,8 @@ public enum LabelImageType {
         case "[Production]": return .production
         case "[Gold]": return .gold
         case "[Housing]": return .housing
+        case "[Science]": return .science
+        case "[Faith]": return .faith
 
         case "[TradeRoute]": return .tradeRoute
         case "[Loyalty]": return .loyalty
@@ -50,6 +54,8 @@ public enum LabelImageType {
         case .production: return Globals.Icons.production
         case .gold: return Globals.Icons.gold
         case .housing: return Globals.Icons.housing
+        case .science: return Globals.Icons.science
+        case .faith: return Globals.Icons.faith
 
         case .tradeRoute: return Globals.Icons.tradeRoute
         case .loyalty: return Globals.Icons.loyalty

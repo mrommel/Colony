@@ -6,6 +6,11 @@
   
 */
 
+// UI
+"TXT_KEY_CIVIC_BOOSTED" = "Boosted:";
+"TXT_KEY_CIVIC_TO_BOOST" = "To boost:";
+"TXT_KEY_TURNS" = "Turns";
+
 // Advisor texts
 "TXT_KEY_ECONOMICAISTRATEGY_NEED_RECON" = "We should continue exploring the world to discover abandoned villages, natural wonders, and other civilizations!";
 
@@ -30,3 +35,22 @@
 "TXT_KEY_CIVIC_STATE_WORKFORCE_EUREKA_TEXT" = "Build any district.";
 "TXT_KEY_CIVIC_STATE_WORKFORCE_QUOTE1" = "“A strong economy begins with a strong, well-educated workforce.“ [NEWLINE]– Bill Owens";
 "TXT_KEY_CIVIC_STATE_WORKFORCE_QUOTE2" = "“It is equally important to have a happy and engaged workforce as it is to have a profitable bottom line.“ [NEWLINE]– Vern Dosch";
+
+// policy cards
+"TXT_KEY_POLICY_CARD_SURVEY_TITLE" = "Survey";
+"TXT_KEY_POLICY_CARD_SURVEY_BONUS" = "Doubles\nexperience\nfor recon\nunits.";
+
+"TXT_KEY_POLICY_CARD_GOD_KING_TITLE" = "God King";
+"TXT_KEY_POLICY_CARD_GOD_KING_BONUS" = "+1 [Faith] Faith and\n+1 Gold [Gold] in the [Capital] Capital.";
+
+"TXT_KEY_POLICY_CARD_DISCIPLINE_TITLE" = "Discipline";
+"TXT_KEY_POLICY_CARD_DISCIPLINE_BONUS" = "+5 [Strength] Combat Strength when fighting Barbarians.";
+
+"TXT_KEY_POLICY_CARD_URBAN_PLANNING_TITLE" = "Urban Planning";
+"TXT_KEY_POLICY_CARD_URBAN_PLANNING_BONUS" = "+1 [Production] Production in\nall cities.";
+
+"TXT_KEY_POLICY_CARD_ILKUM_TITLE" = "Ilkum";
+"TXT_KEY_POLICY_CARD_ILKUM_BONUS" = "+30% [Production] Production\ntoward Builders.";
+
+"TXT_KEY_POLICY_CARD_AGOGE_TITLE" = "Agoge";
+"TXT_KEY_POLICY_CARD_AGOGE_BONUS" = "+50% [Production] Production\ntoward Ancient and\nClassical era melee,\nranged units and\nanti-cavalry units.";

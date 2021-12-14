@@ -89,7 +89,7 @@ class UnitViewModel: QueueViewModel, ObservableObject {
         }
 
         if self.turns != -1 {
-            return ImageCache.shared.image(for: "turns")
+            return Globals.Icons.turns
         }
 
         return NSImage()

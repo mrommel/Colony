@@ -20,8 +20,9 @@ struct PolicyCardView: View {
                 Text(self.viewModel.title())
                     .font(.headline)
 
-                Text(self.viewModel.summary())
+                Label(text: self.viewModel.summary())
                     .font(.footnote)
+                    .frame(width: 80)
                     .padding(.top, 1)
                     .background(Color.black.opacity(0.3))
             }
@@ -53,9 +54,13 @@ struct PolicyCardView_Previews: PreviewProvider {
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = PolicyCardViewModel(policyCardType: .agoge, state: .selected)
 
-        PolicyCardView(viewModel: viewModel)
+        let agogeViewModel = PolicyCardViewModel(policyCardType: .agoge, state: .selected)
+        PolicyCardView(viewModel: agogeViewModel)
+
+        let chivalryViewModel = PolicyCardViewModel(policyCardType: .chivalry, state: .active)
+
+        PolicyCardView(viewModel: chivalryViewModel)
     }
 }
 #endif

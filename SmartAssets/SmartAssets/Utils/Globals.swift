@@ -111,6 +111,10 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "science")
         }
 
+        public static var faith: NSImage {
+            return Icons.loadCachedTexture(with: "faith")
+        }
+
         public static var culture: NSImage {
             return Icons.loadCachedTexture(with: "culture")
         }

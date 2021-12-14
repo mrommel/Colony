@@ -57,7 +57,7 @@ class WonderViewModel: QueueViewModel, ObservableObject {
 
     func turnsIcon() -> NSImage {
 
-        return ImageCache.shared.image(for: "turns")
+        return Globals.Icons.turns
     }
 
     func background() -> NSImage {

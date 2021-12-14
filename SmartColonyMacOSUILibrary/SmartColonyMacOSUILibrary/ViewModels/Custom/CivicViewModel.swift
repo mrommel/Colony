@@ -157,7 +157,7 @@ class CivicViewModel: ObservableObject, Identifiable {
             return ""
         }
 
-        return "Turns \(self.turns)" // TODO localize
+        return "TXT_KEY_TURNS".localized() + " " + "\(self.turns)"
     }
 
     func boostText() -> String {
@@ -167,9 +167,11 @@ class CivicViewModel: ObservableObject, Identifiable {
         }
 
         if self.boosted {
-            return "Boosted: " + self.civicType.eurekaSummary().localized() // TODO localize
+            return "TXT_KEY_CIVIC_BOOSTED".localized() + " " +
+                self.civicType.eurekaSummary().localized()
         } else {
-            return "To boost: " + self.civicType.eurekaSummary().localized() // TODO localize
+            return "TXT_KEY_CIVIC_TO_BOOST".localized() + " " +
+                self.civicType.eurekaSummary().localized()
         }
     }
 

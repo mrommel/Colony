@@ -23,7 +23,7 @@ extension NSTextAttachment {
 public struct Label: NSViewRepresentable {
 
     static let tokenizer = LabelTokenizer()
-    let text: NSAttributedString
+    let attributedString: NSAttributedString
 
     public init(text rawText: String) {
 
@@ -52,21 +52,47 @@ public struct Label: NSViewRepresentable {
             attributedString.append(NSAttributedString(string: " "))
         }
 
-        self.text = attributedString
+        self.attributedString = attributedString
+    }
+
+    public init(text rawText: NSAttributedString) {
+
+        self.attributedString = rawText
     }
 
     public func makeNSView(context: Context) -> NSTextField {
 
-        let label = NSTextField()
-        label.isBezeled = false
-        label.drawsBackground = false
-        label.isEditable = false
-        label.isSelectable = false
-        return label
+        let textField = NSTextField()
+
+        textField.isBezeled = false
+        textField.drawsBackground = false
+        textField.isEditable = false
+        textField.isSelectable = false
+
+        textField.maximumNumberOfLines = 0
+        textField.alignment = .left
+        textField.lineBreakMode = .byWordWrapping
+        textField.autoresizesSubviews = true
+
+        textField.setContentCompressionResistancePriority(NSLayoutConstraint.Priority(250), for: .horizontal)
+        textField.autoresizingMask = [NSView.AutoresizingMask.width, NSView.AutoresizingMask.height]
+
+        return textField
     }
 
     public func updateNSView(_ nsView: NSTextField, context: Context) {
 
-        nsView.attributedStringValue = text
+        nsView.attributedStringValue = self.attributedString
+    }
+
+    public func font(_ style: NSFont.TextStyle) -> Label {
+
+        let mutableAttributedString = NSMutableAttributedString(attributedString: self.attributedString)
+        let completeRange = NSRange(location: 0, length: mutableAttributedString.length)
+        let font = NSFont.preferredFont(forTextStyle: style)
+
+        mutableAttributedString.addAttribute(NSAttributedString.Key.font, value: NSFont.systemFont(ofSize: font.pointSize), range: completeRange)
+
+        return Label(text: mutableAttributedString)
     }
 }

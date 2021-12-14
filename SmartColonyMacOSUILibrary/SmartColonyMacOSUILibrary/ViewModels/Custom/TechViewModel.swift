@@ -139,7 +139,7 @@ class TechViewModel: ObservableObject, Identifiable {
             return ""
         }
 
-        return "Turns \(self.turns)"
+        return "TXT_KEY_TURNS".localized() + " " + "\(self.turns)"
     }
 
     func boostText() -> String {

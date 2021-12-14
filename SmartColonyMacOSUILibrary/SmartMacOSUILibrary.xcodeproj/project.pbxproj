@@ -224,7 +224,6 @@
 		C9CE216B2649675B00B47ED4 /* MenuButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C986D16E264938D9006EF052 /* MenuButtonStyle.swift */; };
 		C9CE216C2649675C00B47ED4 /* CheckboxSquareToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C986D16F264938D9006EF052 /* CheckboxSquareToggleStyle.swift */; };
 		C9CE216D2649675F00B47ED4 /* CheckboxCircleToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C986D170264938D9006EF052 /* CheckboxCircleToggleStyle.swift */; };
-		C9CE216F2649678900B47ED4 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CE216E2649678900B47ED4 /* Globals.swift */; };
 		C9D03F102753827C0008528E /* NotificationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D03F0F2753827B0008528E /* NotificationDetailView.swift */; };
 		C9D03F122753887D0008528E /* PageControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D03F112753887D0008528E /* PageControlView.swift */; };
 		C9D03F142753B6080008528E /* NotificationDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D03F132753B6080008528E /* NotificationDetailViewModel.swift */; };
@@ -511,7 +510,6 @@
 		C9CAC89C264ABCBE00D0668D /* GovernmentCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentCardView.swift; sourceTree = "<group>"; };
 		C9CAC89E264ABCC600D0668D /* GovernmentCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentCardViewModel.swift; sourceTree = "<group>"; };
 		C9CAC8A3264BC58E00D0668D /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
-		C9CE216E2649678900B47ED4 /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		C9D03F0F2753827B0008528E /* NotificationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDetailView.swift; sourceTree = "<group>"; };
 		C9D03F112753887D0008528E /* PageControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControlView.swift; sourceTree = "<group>"; };
 		C9D03F132753B6080008528E /* NotificationDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDetailViewModel.swift; sourceTree = "<group>"; };
@@ -722,7 +720,6 @@
 				C986D16E264938D9006EF052 /* MenuButtonStyle.swift */,
 				C986D16F264938D9006EF052 /* CheckboxSquareToggleStyle.swift */,
 				C986D170264938D9006EF052 /* CheckboxCircleToggleStyle.swift */,
-				C9CE216E2649678900B47ED4 /* Globals.swift */,
 				C9AA64FC26559C4200907DE1 /* GameButtonStyle.swift */,
 				C9077A8926D65639004BE679 /* DialogButtonStyle.swift */,
 			);
@@ -1440,7 +1437,6 @@
 				C9D5D25B26F9D8CF00009817 /* SelectItemsDialogView.swift in Sources */,
 				C91E7F992732E0A5000463F3 /* OverallRankingDialogViewModel.swift in Sources */,
 				C9A3761F2635F70F0057923E /* MapNode.swift in Sources */,
-				C9CE216F2649678900B47ED4 /* Globals.swift in Sources */,
 				C9988F27273280180047F111 /* RankingDialogViewModel.swift in Sources */,
 				C91E7F9C2732E149000463F3 /* OverallRankingDialogView.swift in Sources */,
 				C9A3762F263600800057923E /* ResourceMarkerLayer.swift in Sources */,
