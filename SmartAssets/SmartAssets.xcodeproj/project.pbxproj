@@ -78,6 +78,8 @@
 		C9AC0FFF26DE67DB00B65288 /* PromotionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0FFE26DE67DB00B65288 /* PromotionState.swift */; };
 		C9AC100126DE68A800B65288 /* UnitPromotionTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC100026DE68A800B65288 /* UnitPromotionTypeExtension.swift */; };
 		C9B60BF2269DCF6500F10177 /* PantheonTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B60BF1269DCF6500F10177 /* PantheonTypeExtension.swift */; };
+		C9BB56DA276915FD00053AE7 /* Civics.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9BB56D9276915FD00053AE7 /* Civics.strings */; };
+		C9BB56DC27692FE600053AE7 /* Civilizations.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9BB56DB27692FE600053AE7 /* Civilizations.strings */; };
 		C9C234A52768EEB400905C97 /* CityNames.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9C234A42768EEB400905C97 /* CityNames.strings */; };
 		C9CAC8A2264BC4B200D0668D /* GovernmentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */; };
 		C9CAC8A6264BD17000D0668D /* GovernmentTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC8A5264BD17000D0668D /* GovernmentTypeExtension.swift */; };
@@ -190,6 +192,8 @@
 		C9AC0FFE26DE67DB00B65288 /* PromotionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionState.swift; sourceTree = "<group>"; };
 		C9AC100026DE68A800B65288 /* UnitPromotionTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitPromotionTypeExtension.swift; sourceTree = "<group>"; };
 		C9B60BF1269DCF6500F10177 /* PantheonTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantheonTypeExtension.swift; sourceTree = "<group>"; };
+		C9BB56D9276915FD00053AE7 /* Civics.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Civics.strings; sourceTree = "<group>"; };
+		C9BB56DB27692FE600053AE7 /* Civilizations.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Civilizations.strings; sourceTree = "<group>"; };
 		C9C234A42768EEB400905C97 /* CityNames.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = CityNames.strings; sourceTree = "<group>"; };
 		C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentState.swift; sourceTree = "<group>"; };
 		C9CAC8A5264BD17000D0668D /* GovernmentTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentTypeExtension.swift; sourceTree = "<group>"; };
@@ -321,8 +325,7 @@
 				C98E68B62577D8C900BD93CA /* Tiles.xcassets */,
 				C9022F952608ED1500C6773A /* Icons.xcassets */,
 				C988EAE6261B916800300C39 /* Units.xcassets */,
-				C91C92A9276533EB009A1167 /* Localizable.strings */,
-				C9C234A42768EEB400905C97 /* CityNames.strings */,
+				C9BB56DD276930AD00053AE7 /* Strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -374,6 +377,17 @@
 				C9A09840261CB6920098C5E1 /* warrior.xml */,
 			);
 			path = Units;
+			sourceTree = "<group>";
+		};
+		C9BB56DD276930AD00053AE7 /* Strings */ = {
+			isa = PBXGroup;
+			children = (
+				C91C92A9276533EB009A1167 /* Localizable.strings */,
+				C9C234A42768EEB400905C97 /* CityNames.strings */,
+				C9BB56D9276915FD00053AE7 /* Civics.strings */,
+				C9BB56DB27692FE600053AE7 /* Civilizations.strings */,
+			);
+			path = Strings;
 			sourceTree = "<group>";
 		};
 		C9CAC8A0264BC4A100D0668D /* UI */ = {
@@ -492,8 +506,10 @@
 				C9A09859261CB6930098C5E1 /* spearman.xml in Resources */,
 				C9A25C1327023BD50071B186 /* prophet.xml in Resources */,
 				C9A09851261CB6930098C5E1 /* archer.xml in Resources */,
+				C9BB56DC27692FE600053AE7 /* Civilizations.strings in Resources */,
 				C988EAE7261B916800300C39 /* Units.xcassets in Resources */,
 				C9022F962608ED1500C6773A /* Icons.xcassets in Resources */,
+				C9BB56DA276915FD00053AE7 /* Civics.strings in Resources */,
 				C9C234A52768EEB400905C97 /* CityNames.strings in Resources */,
 				C9A09855261CB6930098C5E1 /* scout.png in Resources */,
 				C9A0985B261CB6930098C5E1 /* man_at_arms.xml in Resources */,

@@ -22,6 +22,26 @@ extension String {
             )
         }
 
+        if self.starts(with: "TXT_KEY_CIVIC_") {
+            return NSLocalizedString(
+                self,
+                tableName: "Civics",
+                bundle: Bundle.init(for: Textures.self),
+                value: "",
+                comment: comment ?? ""
+            )
+        }
+
+        if self.starts(with: "TXT_KEY_CIVILIZATION_") {
+            return NSLocalizedString(
+                self,
+                tableName: "Civilizations",
+                bundle: Bundle.init(for: Textures.self),
+                value: "",
+                comment: comment ?? ""
+            )
+        }
+
         if self.starts(with: "TXT_KEY_") {
             return NSLocalizedString(
                 self,

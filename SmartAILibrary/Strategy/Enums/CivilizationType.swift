@@ -128,7 +128,7 @@ public enum CivilizationType: String, Codable {
             // https://civilization.fandom.com/wiki/Greek_(Civ6)
             // cities taken from here: https://civilization.fandom.com/wiki/Greek_cities_(Civ6)
             return CivilizationTypeData(
-                name: "Greeks",
+                name: "TXT_KEY_CIVILIZATION_GREEK",
                 plural: true,
                 ability: .platosRepublic,
                 cityNames: [
@@ -155,22 +155,115 @@ public enum CivilizationType: String, Codable {
         case .roman:
             // https://civilization.fandom.com/wiki/Roman_(Civ6)
             // cities taken from here: https://civilization.fandom.com/wiki/Roman_cities_(Civ6)
-            return CivilizationTypeData(name: "Romans",
-                                        plural: true,
-                                        ability: .allRoadsLeadToRome,
-                                        cityNames: ["Rome", "Ostia", "Antium", "Cumae", "Aquileia", "Ravenna", "Puteoli", "Arretium", "Mediolanum", "Lugdunum", "Arpinum", "Setia"])
+            return CivilizationTypeData(
+                name: "TXT_KEY_CIVILIZATION_ROMAN",
+                plural: true,
+                ability: .allRoadsLeadToRome,
+                cityNames: [
+                    "TXT_KEY_CITY_NAME_ROME",
+                    "TXT_KEY_CITY_NAME_OSTIA",
+                    "TXT_KEY_CITY_NAME_ANTIUM",
+                    "TXT_KEY_CITY_NAME_CUMAE",
+                    "TXT_KEY_CITY_NAME_AQUILEIA",
+                    "TXT_KEY_CITY_NAME_RAVENNA",
+                    "TXT_KEY_CITY_NAME_PUTEOLI",
+                    "TXT_KEY_CITY_NAME_ARRETIUM",
+                    "TXT_KEY_CITY_NAME_MEDIOLANUM",
+                    "TXT_KEY_CITY_NAME_LUGDUNUM",
+                    "TXT_KEY_CITY_NAME_ARPINUM",
+                    "TXT_KEY_CITY_NAME_SETIA",
+                    "TXT_KEY_CITY_NAME_VELITRAE",
+                    "TXT_KEY_CITY_NAME_DUROCORTORUM",
+                    "TXT_KEY_CITY_NAME_BRUNDISIUM",
+                    "TXT_KEY_CITY_NAME_CAESARAUGUSTA",
+                    "TXT_KEY_CITY_NAME_PALMYRA",
+                    "TXT_KEY_CITY_NAME_HISPALIS",
+                    "TXT_KEY_CITY_NAME_CAESAREA",
+                    "TXT_KEY_CITY_NAME_ARTAXATA",
+                    "TXT_KEY_CITY_NAME_PAPHOS",
+                    "TXT_KEY_CITY_NAME_SALONAE",
+                    "TXT_KEY_CITY_NAME_EBURACUM",
+                    "TXT_KEY_CITY_NAME_LAURIACUM",
+                    "TXT_KEY_CITY_NAME_VERONA",
+                    "TXT_KEY_CITY_NAME_COLONIA_AGRIPPINA",
+                    "TXT_KEY_CITY_NAME_NARBO",
+                    "TXT_KEY_CITY_NAME_TINGI",
+                    "TXT_KEY_CITY_NAME_SARMIZEGETUSA",
+                    "TXT_KEY_CITY_NAME_SIRMIUM"
+                ]
+            )
         case .english:
             // cities taken from here: https://civilization.fandom.com/wiki/English_cities_(Civ6)
-            return CivilizationTypeData(name: "English",
-                                        plural: true,
-                                        ability: .workshopOfTheWorld,
-                                        cityNames: ["London", "York", "Nottingham", "Hastings", "Canterbury", "Coventry", "Warwick", "Newcastle", "Oxford", "Liverpool"])
+            return CivilizationTypeData(
+                name: "TXT_KEY_CIVILIZATION_ENGLISH",
+                plural: true,
+                ability: .workshopOfTheWorld,
+                cityNames: [
+                    "TXT_KEY_CITY_NAME_LONDON",
+                    "TXT_KEY_CITY_NAME_LIVERPOOL",
+                    "TXT_KEY_CITY_NAME_MANCHESTER",
+                    "TXT_KEY_CITY_NAME_BIRMINGHAM",
+                    "TXT_KEY_CITY_NAME_LEEDS",
+                    "TXT_KEY_CITY_NAME_SHEFFIELD",
+                    "TXT_KEY_CITY_NAME_BRISTOL",
+                    "TXT_KEY_CITY_NAME_PLYMOUTH",
+                    "TXT_KEY_CITY_NAME_NEWCASTLE_UPON_TYNE",
+                    "TXT_KEY_CITY_NAME_BRADFORD",
+                    "TXT_KEY_CITY_NAME_STOKE_UPON_TRENT",
+                    "TXT_KEY_CITY_NAME_HULL",
+                    "TXT_KEY_CITY_NAME_PORTSMOUTH",
+                    "TXT_KEY_CITY_NAME_PRESTON",
+                    "TXT_KEY_CITY_NAME_SUNDERLAND",
+                    "TXT_KEY_CITY_NAME_BRIGHTON",
+                    "TXT_KEY_CITY_NAME_NORWICH",
+                    "TXT_KEY_CITY_NAME_YORK",
+                    "TXT_KEY_CITY_NAME_NOTTINGHAM",
+                    "TXT_KEY_CITY_NAME_LEICESTER",
+                    "TXT_KEY_CITY_NAME_BLACKBURN",
+                    "TXT_KEY_CITY_NAME_WOLVERHAMPTON",
+                    "TXT_KEY_CITY_NAME_BATH",
+                    "TXT_KEY_CITY_NAME_CONVENTRY",
+                    "TXT_KEY_CITY_NAME_EXETER",
+                    "TXT_KEY_CITY_NAME_LINCOLN",
+                    "TXT_KEY_CITY_NAME_CANTERBURY",
+                    "TXT_KEY_CITY_NAME_IPSWICH",
+                    "TXT_KEY_CITY_NAME_DOVER",
+                    "TXT_KEY_CITY_NAME_HASTINGS",
+                    "TXT_KEY_CITY_NAME_OXFORD",
+                    "TXT_KEY_CITY_NAME_SHREWSBURY",
+                    "TXT_KEY_CITY_NAME_CAMBRIDGE",
+                    "TXT_KEY_CITY_NAME_NEWCASTLE",
+                    "TXT_KEY_CITY_NAME_WARWICK"
+                ]
+            )
         case .aztecs:
             // cities taken from here: https://civilization.fandom.com/wiki/Aztec_cities_(Civ6)
-            return CivilizationTypeData(name: "Aztecs",
-                                        plural: true,
-                                        ability: .legendOfTheFiveSuns,
-                                        cityNames: ["Tenochtitlan", "Texcoco", "Atzcapotzalco", "Teotihuacán", "Tlacopán", "Xochicalco", "Malinalco", "Teayo", "Cempoala", "Chalco", "Ixtapaluca", "Tenayuca", "Huexotla", "Chapultepec", "Tepexpan", "Zitlaltepec", "Xalapa", "Tamuín", "Teloloapan"])
+            return CivilizationTypeData(
+                name: "TXT_KEY_CIVILIZATION_AZTECS",
+                plural: true,
+                ability: .legendOfTheFiveSuns,
+                cityNames: [
+                    "TXT_KEY_CITY_NAME_TENOCHTITLAN",
+                    "TXT_KEY_CITY_NAME_TEXCOCO",
+                    "TXT_KEY_CITY_NAME_ATZCAPOTZALCO",
+                    "TXT_KEY_CITY_NAME_TEOTIHUACAN",
+                    "TXT_KEY_CITY_NAME_TLACOPAN",
+                    "TXT_KEY_CITY_NAME_XOCHICALCO",
+                    "TXT_KEY_CITY_NAME_MALINALCO",
+                    "TXT_KEY_CITY_NAME_TEAYO",
+                    "TXT_KEY_CITY_NAME_CEMPOALA",
+                    "TXT_KEY_CITY_NAME_CHALCO",
+                    "TXT_KEY_CITY_NAME_IXTAPALUCA",
+                    "TXT_KEY_CITY_NAME_TENAYUCA",
+                    "TXT_KEY_CITY_NAME_HUEXOTLA",
+                    "TXT_KEY_CITY_NAME_CHAPULTEPEC",
+                    "TXT_KEY_CITY_NAME_TEPEXPAN",
+                    "TXT_KEY_CITY_NAME_ZITLALTEPEC",
+                    "TXT_KEY_CITY_NAME_XALAPA",
+                    "TXT_KEY_CITY_NAME_TAMUIN",
+                    "TXT_KEY_CITY_NAME_TELOLOAPAN"
+                ]
+            )
         case .persian:
             // https://civilization.fandom.com/wiki/Persian_(Civ6)
             // cities taken from here: https://civilization.fandom.com/wiki/Persian_cities_(Civ6)
@@ -195,10 +288,45 @@ public enum CivilizationType: String, Codable {
         case .german:
             // https://civilization.fandom.com/wiki/German_(Civ6)
             // cities taken from here: https://civilization.fandom.com/wiki/German_cities_(Civ6)
-            return CivilizationTypeData(name: "German",
-                                        plural: true,
-                                        ability: .freeImperialCities,
-                                        cityNames: ["Aachen", "Cologne", "Frankfurt", "Magdeburg", "Mainz", "Heidelberg", "Trier", "Berlin", "Ulm", "Hamburg", "Munich", "Dortmund", "Nuremberg", "Bremen", "Augsburg", "Münster", "Regensburg", "Erfurt", "Lübeck", "Freiburg", "Würzburg", "Hannover", "Rostock"])
+            return CivilizationTypeData(
+                name: "TXT_KEY_CIVILIZATION_GERMAN",
+                plural: true,
+                ability: .freeImperialCities,
+                cityNames: [
+                    "TXT_KEY_CITY_NAME_AACHEN",
+                    "TXT_KEY_CITY_NAME_COLOGNE",
+                    "TXT_KEY_CITY_NAME_FRANKFURT",
+                    "TXT_KEY_CITY_NAME_MAGDEBURG",
+                    "TXT_KEY_CITY_NAME_MAINZ",
+                    "TXT_KEY_CITY_NAME_HEIDELBERG",
+                    "TXT_KEY_CITY_NAME_TRIER",
+                    "TXT_KEY_CITY_NAME_BERLIN",
+                    "TXT_KEY_CITY_NAME_ULM",
+                    "TXT_KEY_CITY_NAME_HAMBURG",
+                    "TXT_KEY_CITY_NAME_DORTMUND",
+                    "TXT_KEY_CITY_NAME_NUREMBERG",
+                    "TXT_KEY_CITY_NAME_BREMEN",
+                    "TXT_KEY_CITY_NAME_AUGSBURG",
+                    "TXT_KEY_CITY_NAME_MUNSTER",
+                    "TXT_KEY_CITY_NAME_REGENSBURG",
+                    "TXT_KEY_CITY_NAME_ERFURT",
+                    "TXT_KEY_CITY_NAME_LUBECK",
+                    "TXT_KEY_CITY_NAME_FREIBURG",
+                    "TXT_KEY_CITY_NAME_WURZBURG",
+                    "TXT_KEY_CITY_NAME_HANOVER",
+                    "TXT_KEY_CITY_NAME_ROSTOCK",
+                    "TXT_KEY_CITY_NAME_MUNICH",
+                    "TXT_KEY_CITY_NAME_SCHWERIN",
+                    "TXT_KEY_CITY_NAME_LEIPZIG",
+                    "TXT_KEY_CITY_NAME_BONN",
+                    "TXT_KEY_CITY_NAME_ESSEN",
+                    "TXT_KEY_CITY_NAME_STUTTGART",
+                    "TXT_KEY_CITY_NAME_DRESDEN",
+                    "TXT_KEY_CITY_NAME_DUSSELDORF",
+                    "TXT_KEY_CITY_NAME_WORMS",
+                    "TXT_KEY_CITY_NAME_POTSDAM"
+                ]
+            )
         case .russian:
             // cities taken from here: https://civilization.fandom.com/wiki/Russian_cities_(Civ6)
             return CivilizationTypeData(name: "Russian",

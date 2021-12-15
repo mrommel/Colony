@@ -1,28 +1,10 @@
 /* 
-  Localizable.strings
+  Civics.strings
   SmartAssets
 
-  Created by Michael Rommel on 11.12.21.
-
- Sources:
- - https://github.com/Swiftwork/civ6-explorer/blob/dbe3ca6d5468828ef0b26ef28f69555de0bcb959/src/assets/game/BaseGame/Locale/en_US/Civics_Text.xml
- - https://raw.githubusercontent.com/Swiftwork/civ6-explorer/master/src/assets/game/BaseGame/Locale/Vanilla_de_DE.xml
+  Created by Michael Rommel on 14.12.21.
   
 */
-
-// UI
-"TXT_KEY_CIVIC_BOOSTED" = "Boosted:";
-"TXT_KEY_CIVIC_TO_BOOST" = "To boost:";
-"TXT_KEY_TURNS" = "Turns";
-"TXT_KEY_FOUND" = "Found";
-"TXT_KEY_RENAME" = "Rename";
-"TXT_KEY_CANCEL" = "Cancel";
-
-// Advisor texts
-"TXT_KEY_ECONOMICAISTRATEGY_NEED_RECON" = "We should continue exploring the world to discover abandoned villages, natural wonders, and other civilizations!";
-
-// governor texts
-"TXT_KEY_GOVERNOR_TITLE" = "Governor title";
 
 // civic texts
 
@@ -67,22 +49,3 @@
 "TXT_KEY_CIVIC_STATE_MYSTICISM_EUREKA_TEXT" = "Worship of your pantheon of gods has brought up further questions about spiritual forces in our world.";
 "TXT_KEY_CIVIC_STATE_MYSTICISM_QUOTE1" = "“Mysticism is the mistake of an accidental and individual symbol for a universal one.“\n– Ralph Waldo Emerson";
 "TXT_KEY_CIVIC_STATE_MYSTICISM_QUOTE2" = "“I like to say I practice militant mysticism. I'm absolutely sure of some things that I don't quite know.“\n– Rob Bell";
-
-// policy cards
-"TXT_KEY_POLICY_CARD_SURVEY_TITLE" = "Survey";
-"TXT_KEY_POLICY_CARD_SURVEY_BONUS" = "Doubles experience for recon units.";
-
-"TXT_KEY_POLICY_CARD_GOD_KING_TITLE" = "God King";
-"TXT_KEY_POLICY_CARD_GOD_KING_BONUS" = "+1 [Faith] Faith and +1 Gold [Gold] in the [Capital] Capital.";
-
-"TXT_KEY_POLICY_CARD_DISCIPLINE_TITLE" = "Discipline";
-"TXT_KEY_POLICY_CARD_DISCIPLINE_BONUS" = "+5 [Strength] Combat Strength when fighting Barbarians.";
-
-"TXT_KEY_POLICY_CARD_URBAN_PLANNING_TITLE" = "Urban Planning";
-"TXT_KEY_POLICY_CARD_URBAN_PLANNING_BONUS" = "+1 [Production] Production in all cities.";
-
-"TXT_KEY_POLICY_CARD_ILKUM_TITLE" = "Ilkum";
-"TXT_KEY_POLICY_CARD_ILKUM_BONUS" = "+30% [Production] Production toward Builders.";
-
-"TXT_KEY_POLICY_CARD_AGOGE_TITLE" = "Agoge";
-"TXT_KEY_POLICY_CARD_AGOGE_BONUS" = "+50% [Production] Production toward Ancient and Classical era melee, ranged units and anti-cavalry units.";
