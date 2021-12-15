@@ -92,12 +92,6 @@ public enum CivilizationType: String, Codable {
 
     // MARK: private functions
 
-    private struct CivilizationAbilityData {
-
-        let name: String
-        let effect: String
-    }
-
     private struct CivilizationTypeData {
 
         let name: String
@@ -267,24 +261,130 @@ public enum CivilizationType: String, Codable {
         case .persian:
             // https://civilization.fandom.com/wiki/Persian_(Civ6)
             // cities taken from here: https://civilization.fandom.com/wiki/Persian_cities_(Civ6)
-            return CivilizationTypeData(name: "Persians",
-                                        plural: true,
-                                        ability: .satrapies,
-                                        cityNames: ["Pasargadae", "Susa", "Hagmatana", "Tarsus", "Bakhtri", "Sparda", "Gordian", "Tushpa", "Ray", "Zranka"])
+            return CivilizationTypeData(
+                name: "TXT_KEY_CIVILIZATION_PERSIANS",
+                plural: true,
+                ability: .satrapies,
+                cityNames: [
+                    "TXT_KEY_CITY_NAME_PASARGADAE",
+                    "TXT_KEY_CITY_NAME_SUSA",
+                    "TXT_KEY_CITY_NAME_HAGMATANA",
+                    "TXT_KEY_CITY_NAME_TARSUS",
+                    "TXT_KEY_CITY_NAME_BAKHTRI",
+                    "TXT_KEY_CITY_NAME_SPARDA",
+                    "TXT_KEY_CITY_NAME_GORDIAN",
+                    "TXT_KEY_CITY_NAME_TUSHPA",
+                    "TXT_KEY_CITY_NAME_RAY",
+                    "TXT_KEY_CITY_NAME_ZRANKA",
+                    "TXT_KEY_CITY_NAME_SHAHR_I_QUMIS",
+                    "TXT_KEY_CITY_NAME_PARSA",
+                    "TXT_KEY_CITY_NAME_HALICARNASSUS",
+                    "TXT_KEY_CITY_NAME_ISPAHAN",
+                    "TXT_KEY_CITY_NAME_TYAIY_DRAYAHYA",
+                    "TXT_KEY_CITY_NAME_MAZAKA",
+                    "TXT_KEY_CITY_NAME_HARAIVA",
+                    "TXT_KEY_CITY_NAME_ANASHAN",
+                    "TXT_KEY_CITY_NAME_PUSHKALAVATI",
+                    "TXT_KEY_CITY_NAME_PURA",
+                    "TXT_KEY_CITY_NAME_TAXILA",
+                    "TXT_KEY_CITY_NAME_BUKHARA",
+                    "TXT_KEY_CITY_NAME_GANZAK",
+                    "TXT_KEY_CITY_NAME_MARAKANDA",
+                    "TXT_KEY_CITY_NAME_THAPSACUS",
+                    "TXT_KEY_CITY_NAME_ISTAKHR",
+                    "TXT_KEY_CITY_NAME_ARTASHAT",
+                    "TXT_KEY_CITY_NAME_IZKI",
+                    "TXT_KEY_CITY_NAME_BORAZJAN",
+                    "TXT_KEY_CITY_NAME_CYRA",
+                    "TXT_KEY_CITY_NAME_TOPRAK_QALA"
+                ]
+            )
         case .french:
             // https://civilization.fandom.com/wiki/French_(Civ6)
             // cities taken from here:  https://civilization.fandom.com/wiki/French_cities_(Civ6)
-            return CivilizationTypeData(name: "French",
-                                        plural: true,
-                                        ability: .grandTour,
-                                        cityNames: ["Paris", "Alba-La-Romaine", "Amboise", "Amiens", "Avignon", "Briançon", "Blois", "Bordeaux", "Boulogne", "Calais", "Carcassonne", "Chartres", "Dieppe", "Dijon", "Grenoble", "La Rochelle", "Limoges", "Lyon", "Marseille"])
+            return CivilizationTypeData(
+                name: "TXT_KEY_CIVILIZATION_FRENCH",
+                plural: true,
+                ability: .grandTour,
+                cityNames: [
+                    "TXT_KEY_CITY_NAME_PARIS",
+                    "TXT_KEY_CITY_NAME_LYON",
+                    "TXT_KEY_CITY_NAME_ROUEN",
+                    "TXT_KEY_CITY_NAME_BORDEAUX",
+                    "TXT_KEY_CITY_NAME_MARSEILLE",
+                    "TXT_KEY_CITY_NAME_TOULOUSE",
+                    "TXT_KEY_CITY_NAME_LA_ROCHELLE",
+                    "TXT_KEY_CITY_NAME_AMBOISE",
+                    "TXT_KEY_CITY_NAME_NANTES",
+                    "TXT_KEY_CITY_NAME_RENNES",
+                    "TXT_KEY_CITY_NAME_CALAIS",
+                    "TXT_KEY_CITY_NAME_RHEIMS",
+                    "TXT_KEY_CITY_NAME_AVIGNON",
+                    "TXT_KEY_CITY_NAME_BOULOGNE",
+                    "TXT_KEY_CITY_NAME_DIJON",
+                    "TXT_KEY_CITY_NAME_MONTPELLIER",
+                    "TXT_KEY_CITY_NAME_LIMOGES",
+                    "TXT_KEY_CITY_NAME_CHARTRES",
+                    "TXT_KEY_CITY_NAME_BLOIS",
+                    "TXT_KEY_CITY_NAME_TOURS",
+                    "TXT_KEY_CITY_NAME_VERDUN",
+                    "TXT_KEY_CITY_NAME_GRENOBLE",
+                    "TXT_KEY_CITY_NAME_JARNAC",
+                    "TXT_KEY_CITY_NAME_AMIENS",
+                    "TXT_KEY_CITY_NAME_TROYES",
+                    "TXT_KEY_CITY_NAME_DIEPPE",
+                    "TXT_KEY_CITY_NAME_TOUL",
+                    "TXT_KEY_CITY_NAME_BRIANCON",
+                    "TXT_KEY_CITY_NAME_METZ",
+                    "TXT_KEY_CITY_NAME_MONTELIMAR",
+                    "TXT_KEY_CITY_NAME_CARCASSONNE",
+                    "TXT_KEY_CITY_NAME_GAP",
+                    "TXT_KEY_CITY_NAME_ALBA_LA_ROMAINE"
+                ]
+            )
+
         case .egyptian:
             // https://civilization.fandom.com/wiki/Egyptian_(Civ6)
             // cities taken from here: https://civilization.fandom.com/wiki/Egyptian_cities_(Civ6)
-            return CivilizationTypeData(name: "Egyptian",
-                                        plural: true,
-                                        ability: .iteru,
-                                        cityNames: ["Râ-Kedet", "Thebes", "Memphis", "Akhetaten", "Shedet", "Swenett", "Nekhen", "Abydos", "Apu", "Edfu", "Mendes", "Cyrene", "Giza", "Oryx", "Arsinoe", "Karnak"])
+            return CivilizationTypeData(
+                name: "TXT_KEY_CIVILIZATION_EGYPTIAN",
+                plural: true,
+                ability: .iteru,
+                cityNames: [
+                    "TXT_KEY_CITY_NAME_RA_KEDET",
+                    "TXT_KEY_CITY_NAME_THEBES",
+                    "TXT_KEY_CITY_NAME_MEMPHIS",
+                    "TXT_KEY_CITY_NAME_AKHETATEN",
+                    "TXT_KEY_CITY_NAME_SHEDET",
+                    "TXT_KEY_CITY_NAME_IWNW",
+                    "TXT_KEY_CITY_NAME_SWENETT",
+                    "TXT_KEY_CITY_NAME_NEKHEN",
+                    "TXT_KEY_CITY_NAME_SAIS",
+                    "TXT_KEY_CITY_NAME_ABYDOS",
+                    "TXT_KEY_CITY_NAME_APU",
+                    "TXT_KEY_CITY_NAME_EDFU",
+                    "TXT_KEY_CITY_NAME_MENDES",
+                    "TXT_KEY_CITY_NAME_SENA",
+                    "TXT_KEY_CITY_NAME_CYRENE",
+                    "TXT_KEY_CITY_NAME_BUTO",
+                    "TXT_KEY_CITY_NAME_GIZA",
+                    "TXT_KEY_CITY_NAME_KHMUN",
+                    "TXT_KEY_CITY_NAME_ASYUT",
+                    "TXT_KEY_CITY_NAME_PITHOM",
+                    "TXT_KEY_CITY_NAME_BUSIRIS",
+                    "TXT_KEY_CITY_NAME_PIEMRO",
+                    "TXT_KEY_CITY_NAME_ORYX",
+                    "TXT_KEY_CITY_NAME_HUT_HERYIB",
+                    "TXT_KEY_CITY_NAME_TANIS",
+                    "TXT_KEY_CITY_NAME_PER_BAST",
+                    "TXT_KEY_CITY_NAME_THIS",
+                    "TXT_KEY_CITY_NAME_ARSINOE",
+                    "TXT_KEY_CITY_NAME_TJEBNUTJER",
+                    "TXT_KEY_CITY_NAME_AKHMIM",
+                    "TXT_KEY_CITY_NAME_KARNAK"
+                ]
+            )
+
         case .german:
             // https://civilization.fandom.com/wiki/German_(Civ6)
             // cities taken from here: https://civilization.fandom.com/wiki/German_cities_(Civ6)
@@ -329,10 +429,45 @@ public enum CivilizationType: String, Codable {
             )
         case .russian:
             // cities taken from here: https://civilization.fandom.com/wiki/Russian_cities_(Civ6)
-            return CivilizationTypeData(name: "Russian",
-                                        plural: true,
-                                        ability: .motherRussia,
-                                        cityNames: ["St. Petersburg", "Moscow", "Novgorod", "Kazan", "Astrakhan", "Yaroslavl", "Smolensk", "Voronezh", "Tula", "Solikamsk", "Tver", "Nizhniy Novgorod", "Arkhangelsk", "Vologda", "Olonets", "Saratov", "Tambov", "Pskov", "Krasnoyarsk"])
+            return CivilizationTypeData(
+                name: "TXT_KEY_CIVILIZATION_RUSSIAN",
+                plural: true,
+                ability: .motherRussia,
+                cityNames: [
+                    "TXT_KEY_CITY_NAME_ST_PETERSBURG",
+                    "TXT_KEY_CITY_NAME_MOSCOW",
+                    "TXT_KEY_CITY_NAME_NOVGOROD",
+                    "TXT_KEY_CITY_NAME_KAZAN",
+                    "TXT_KEY_CITY_NAME_ASTRAKHAN",
+                    "TXT_KEY_CITY_NAME_YAROSLAVL",
+                    "TXT_KEY_CITY_NAME_SMOLENSK",
+                    "TXT_KEY_CITY_NAME_VORONEZH",
+                    "TXT_KEY_CITY_NAME_TULA",
+                    "TXT_KEY_CITY_NAME_SOLIKAMSK",
+                    "TXT_KEY_CITY_NAME_TVER",
+                    "TXT_KEY_CITY_NAME_NIZHNIY_NOVGOROD",
+                    "TXT_KEY_CITY_NAME_ARKHANGELSK",
+                    "TXT_KEY_CITY_NAME_VOLOGDA",
+                    "TXT_KEY_CITY_NAME_OLONETS",
+                    "TXT_KEY_CITY_NAME_SARATOV",
+                    "TXT_KEY_CITY_NAME_TAMBOV",
+                    "TXT_KEY_CITY_NAME_PSKOV",
+                    "TXT_KEY_CITY_NAME_KRASNOYARSK",
+                    "TXT_KEY_CITY_NAME_IRKUTSK",
+                    "TXT_KEY_CITY_NAME_YEKATERINBURG",
+                    "TXT_KEY_CITY_NAME_ROSTOV",
+                    "TXT_KEY_CITY_NAME_BRYANSK",
+                    "TXT_KEY_CITY_NAME_YAKUTSK",
+                    "TXT_KEY_CITY_NAME_STARAYA_RUSSA",
+                    "TXT_KEY_CITY_NAME_PERM",
+                    "TXT_KEY_CITY_NAME_PETROZAVODSK",
+                    "TXT_KEY_CITY_NAME_OKHOTSK",
+                    "TXT_KEY_CITY_NAME_KOSTROMA",
+                    "TXT_KEY_CITY_NAME_NIZHNEKOLYMSK",
+                    "TXT_KEY_CITY_NAME_SERGIYEV_POSAD",
+                    "TXT_KEY_CITY_NAME_OMSK"
+                ]
+            )
 
         case .unmet:
             return CivilizationTypeData(
