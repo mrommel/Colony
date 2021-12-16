@@ -19,10 +19,10 @@ extension WonderType {
         )
         toolTipText.append(title)
 
-        let effects = NSAttributedString(
-            string: self.effects().reduce("\n\n", { $0 + $1.localized() + "\n" }),
-            attributes: Globals.Attributs.tooltipContentAttributs
-        )
+        let tokenizer = LabelTokenizer()
+        let effectsText = self.effects().reduce("\n\n", { $0 + $1.localized() + "\n" })
+        let effects = tokenizer.convert(text: effectsText, with: Globals.Attributs.tooltipContentAttributs)
+
         toolTipText.append(effects)
 
         return toolTipText

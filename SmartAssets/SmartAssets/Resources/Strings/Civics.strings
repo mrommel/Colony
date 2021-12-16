@@ -49,3 +49,24 @@
 "TXT_KEY_CIVIC_STATE_MYSTICISM_EUREKA_TEXT" = "Worship of your pantheon of gods has brought up further questions about spiritual forces in our world.";
 "TXT_KEY_CIVIC_STATE_MYSTICISM_QUOTE1" = "“Mysticism is the mistake of an accidental and individual symbol for a universal one.“\n– Ralph Waldo Emerson";
 "TXT_KEY_CIVIC_STATE_MYSTICISM_QUOTE2" = "“I like to say I practice militant mysticism. I'm absolutely sure of some things that I don't quite know.“\n– Rob Bell";
+
+// civic - military tradition
+"TXT_KEY_CIVIC_STATE_MILITARY_TRADITION_TITLE" = "Military Tradition";
+"TXT_KEY_CIVIC_STATE_MILITARY_TRADITION_EUREKA" = "Build an Encampment.";
+"TXT_KEY_CIVIC_STATE_MILITARY_TRADITION_EUREKA_TEXT" = "Your soldiers hope your victory over a Barbarian Outpost is the start of a long line of military successes.";
+"TXT_KEY_CIVIC_STATE_MILITARY_TRADITION_QUOTE1" = "“Bravery is being the only one who knows you're afraid.“\n– Colonel David Hackworth";
+"TXT_KEY_CIVIC_STATE_MILITARY_TRADITION_QUOTE2" = "“I don't underrate the value of military knowledge, but if men make war in slavish obedience to rules, they will fail.“\n– Ulysses S. Grant";
+
+// civic - defensive tactics
+"TXT_KEY_CIVIC_STATE_DEFENSIVE_TACTICS_TITLE" = "Defensive Tactics";
+"TXT_KEY_CIVIC_STATE_DEFENSIVE_TACTICS_EUREKA" = "Be the target of a Declaration of War.";
+"TXT_KEY_CIVIC_STATE_DEFENSIVE_TACTICS_EUREKA_TEXT" = "Faced with the threat of invasion, your people are ready to come up with innovative defenses.";
+"TXT_KEY_CIVIC_STATE_DEFENSIVE_TACTICS_QUOTE1" = "“Invincibility lies in the defense; the possibility of victory in the attack.”\n– Sun Tzu";
+"TXT_KEY_CIVIC_STATE_DEFENSIVE_TACTICS_QUOTE2" = "“Defense is superior to opulence.”\n– Adam Smith";
+
+// civic - games and recreation
+"TXT_KEY_CIVIC_STATE_GAMES_AND_RECREATION_TITLE" = "Games and Recreation";
+"TXT_KEY_CIVIC_STATE_GAMES_AND_RECREATION_EUREKA" = "Research the Construction technology.";
+"TXT_KEY_CIVIC_STATE_GAMES_AND_RECREATION_EUREKA_TEXT" = "Your new skills in construction will surely help create venues for games and entertainment.";
+"TXT_KEY_CIVIC_STATE_GAMES_AND_RECREATION_QUOTE1" = "“If bread is the first necessity of life, recreation is a close second.”\n– Edward Bellamy";
+"TXT_KEY_CIVIC_STATE_GAMES_AND_RECREATION_QUOTE2" = "“People who cannot find time for recreation are sooner or later to find time for illness.”\n– John Wanamaker";

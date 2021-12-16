@@ -49,7 +49,7 @@ class HeaderButtonViewModel: ObservableObject {
         let toolTipText = NSMutableAttributedString()
 
         let title = NSAttributedString(
-            string: self.type.name(),
+            string: self.type.name().localized(),
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
         toolTipText.append(title)
@@ -59,7 +59,7 @@ class HeaderButtonViewModel: ObservableObject {
 
     func clicked() {
 
-        print("clicked on header: \(self.type)")
+        // print("clicked on header: \(self.type)")
         self.delegate?.clicked(on: self.type)
     }
 }

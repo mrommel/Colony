@@ -378,12 +378,12 @@ public enum CivicType: String, Codable {
             )
         case .militaryTradition:
             return CivicTypeData(
-                name: "Military Tradition",
-                eurekaSummary: "Build an Encampment.",
-                eurekaDescription: "Your soldiers hope your victory over a Barbarian Outpost is the start of a long line of military successes.",
+                name: "TXT_KEY_CIVIC_STATE_MILITARY_TRADITION_TITLE",
+                eurekaSummary: "TXT_KEY_CIVIC_STATE_MILITARY_TRADITION_EUREKA",
+                eurekaDescription: "TXT_KEY_CIVIC_STATE_MILITARY_TRADITION_EUREKA_TEXT",
                 quoteTexts: [
-                    "“Bravery is being the only one who knows you're afraid.“[NEWLINE]– Colonel David Hackworth",
-                    "“I don't underrate the value of military knowledge, but if men make war in slavish obedience to rules, they will fail.“[NEWLINE]– Ulysses S. Grant"
+                    "TXT_KEY_CIVIC_STATE_MILITARY_TRADITION_QUOTE1",
+                    "TXT_KEY_CIVIC_STATE_MILITARY_TRADITION_QUOTE2"
                 ],
                 era: .ancient,
                 cost: 50,
@@ -395,10 +395,13 @@ public enum CivicType: String, Codable {
             // classical
         case .defensiveTactics:
             return CivicTypeData(
-                name: "Defensive Tactics",
-                eurekaSummary: "Be the target of a Declaration of War.",
-                eurekaDescription: "Faced with the threat of invasion, your people are ready to come up with innovative defenses.",
-                quoteTexts: [],
+                name: "TXT_KEY_CIVIC_STATE_DEFENSIVE_TACTICS_TITLE",
+                eurekaSummary: "TXT_KEY_CIVIC_STATE_DEFENSIVE_TACTICS_EUREKA",
+                eurekaDescription: "TXT_KEY_CIVIC_STATE_DEFENSIVE_TACTICS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_STATE_DEFENSIVE_TACTICS_QUOTE1",
+                    "TXT_KEY_CIVIC_STATE_DEFENSIVE_TACTICS_QUOTE2"
+                ],
                 era: .classical,
                 cost: 175,
                 required: [.gamesAndRecreation, .politicalPhilosophy],
@@ -407,10 +410,13 @@ public enum CivicType: String, Codable {
             )
         case .gamesAndRecreation:
             return CivicTypeData(
-                name: "Games and Recreation",
-                eurekaSummary: "Research the Construction technology.",
-                eurekaDescription: "Your new skills in construction will surely help create venues for games and entertainment.",
-                quoteTexts: [],
+                name: "TXT_KEY_CIVIC_STATE_GAMES_AND_RECREATION_TITLE",
+                eurekaSummary: "TXT_KEY_CIVIC_STATE_GAMES_AND_RECREATION_EUREKA",
+                eurekaDescription: "TXT_KEY_CIVIC_STATE_GAMES_AND_RECREATION_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_STATE_GAMES_AND_RECREATION_QUOTE1",
+                    "TXT_KEY_CIVIC_STATE_GAMES_AND_RECREATION_QUOTE2"
+                ],
                 era: .classical,
                 cost: 110,
                 required: [.stateWorkforce],

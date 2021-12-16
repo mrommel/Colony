@@ -19,10 +19,9 @@ extension PolicyCardType {
         )
         toolTipText.append(title)
 
-        let effects = NSAttributedString(
-            string: "\n\n" + self.bonus().localized(),
-            attributes: Globals.Attributs.tooltipContentAttributs
-        )
+        let tokenizer = LabelTokenizer()
+        let effectsText = "\n\n" + self.bonus().localized()
+        let effects = tokenizer.convert(text: effectsText, with: Globals.Attributs.tooltipContentAttributs)
         toolTipText.append(effects)
 
         return toolTipText

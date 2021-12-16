@@ -167,10 +167,10 @@ class CivicViewModel: ObservableObject, Identifiable {
         }
 
         if self.boosted {
-            return "TXT_KEY_CIVIC_BOOSTED".localized() + " " +
+            return "TXT_KEY_BOOSTED".localized() + " " +
                 self.civicType.eurekaSummary().localized()
         } else {
-            return "TXT_KEY_CIVIC_TO_BOOST".localized() + " " +
+            return "TXT_KEY_TO_BOOST".localized() + " " +
                 self.civicType.eurekaSummary().localized()
         }
     }

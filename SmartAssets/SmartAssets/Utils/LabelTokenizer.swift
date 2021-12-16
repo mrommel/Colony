@@ -8,6 +8,18 @@
 import Foundation
 import Cocoa
 
+extension NSTextAttachment {
+
+    public func setImage(height: CGFloat) {
+
+        guard let image = image else { return }
+
+        let ratio = image.size.width / image.size.height
+
+        self.bounds = CGRect(x: bounds.origin.x, y: bounds.origin.y, width: ratio * height, height: height)
+    }
+}
+
 public enum LabelImageType {
 
     // yields
@@ -16,10 +28,12 @@ public enum LabelImageType {
     case gold
     case housing
     case science
+    case culture
     case faith
 
     case tradeRoute
     case loyalty
+    case amenities
     case capital
     case strength
 
@@ -33,10 +47,12 @@ public enum LabelImageType {
         case "[Gold]": return .gold
         case "[Housing]": return .housing
         case "[Science]": return .science
+        case "[Culture]": return .culture
         case "[Faith]": return .faith
 
         case "[TradeRoute]": return .tradeRoute
         case "[Loyalty]": return .loyalty
+        case "[Amenities]": return .amenities
         case "[Capital]": return .capital
         case "[Strength]": return .strength
 
@@ -55,10 +71,12 @@ public enum LabelImageType {
         case .gold: return Globals.Icons.gold
         case .housing: return Globals.Icons.housing
         case .science: return Globals.Icons.science
+        case .culture: return Globals.Icons.culture
         case .faith: return Globals.Icons.faith
 
         case .tradeRoute: return Globals.Icons.tradeRoute
         case .loyalty: return Globals.Icons.loyalty
+        case .amenities: return Globals.Icons.amenities
         case .capital: return Globals.Icons.capital
         case .strength: return Globals.Icons.strength
 
@@ -102,7 +120,23 @@ public class LabelTokenizer {
 
     }
 
-    public func tokenize(text: String) -> [LabelTokenType] {
+    public func convert(text rawText: String, with attributes: [NSAttributedString.Key: Any]? = nil) -> NSAttributedString {
+
+        let tokens = self.tokenize(text: rawText)
+        let attributedString = self.join(tokens: tokens)
+
+        if let attributes = attributes {
+            let mutableAttributedString = NSMutableAttributedString(attributedString: attributedString)
+            let completeRange = NSRange(location: 0, length: mutableAttributedString.length)
+
+            mutableAttributedString.addAttributes(attributes, range: completeRange)
+            return mutableAttributedString
+        }
+
+        return attributedString
+    }
+
+    private func tokenize(text: String) -> [LabelTokenType] {
 
         var regex: NSRegularExpression
 
@@ -157,5 +191,35 @@ public class LabelTokenizer {
         }
 
         return matchResults
+    }
+
+    private func join(tokens: [LabelTokenType]) -> NSAttributedString {
+
+        let attributedString = NSMutableAttributedString()
+
+        for token in tokens {
+
+            switch token {
+
+            case .text(content: let content):
+                attributedString.append(NSAttributedString(string: content))
+
+            case .translation(key: let key):
+                let content = key.localized()
+                attributedString.append(NSAttributedString(string: content))
+
+            case .image(type: let type):
+                let attachment: NSTextAttachment = NSTextAttachment()
+                attachment.image = type.image()
+                attachment.setImage(height: 12)
+
+                let attachmentString: NSAttributedString = NSAttributedString(attachment: attachment)
+                attributedString.append(attachmentString)
+            }
+
+            attributedString.append(NSAttributedString(string: " "))
+        }
+
+        return attributedString
     }
 }

@@ -131,6 +131,10 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "loyalty")
         }
 
+        public static var amenities: NSImage {
+            return Icons.loadCachedTexture(with: "amenities")
+        }
+
         public static var capital: NSImage {
             return Icons.loadCachedTexture(with: "capital")
         }

@@ -25,19 +25,19 @@ extension MapType {
         switch self {
 
         case .empty:
-            return "Empty"
+            return "TXT_KEY_MAP_TYPE_EMPTY"
         case .earth:
-            return "Earth"
+            return "TXT_KEY_MAP_TYPE_EARTH"
         case .pangaea:
-            return "Pangaea"
+            return "TXT_KEY_MAP_TYPE_PANGAEA"
         case .continents:
-            return "Continents"
+            return "TXT_KEY_MAP_TYPE_CONTINENTS"
         case .archipelago:
-            return "Archipelago"
+            return "TXT_KEY_MAP_TYPE_ARCHIPELAGO"
         case .inlandsea:
-            return "Inlandsea"
+            return "TXT_KEY_MAP_TYPE_INLANDSEA"
         case .custom:
-            return "Custom"
+            return "TXT_KEY_MAP_TYPE_CUSTOM"
         }
     }
 

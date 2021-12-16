@@ -25,23 +25,23 @@ public enum HeaderButtonType {
         switch self {
 
         case .science:
-            return "Science"
+            return "TXT_KEY_HEADER_SCIENCE"
         case .culture:
-            return "Culture"
+            return "TXT_KEY_HEADER_CULTURE"
         case .government:
-            return "Government"
+            return "TXT_KEY_HEADER_GOVERNMENT"
         case .religion:
-            return "Religion"
+            return "TXT_KEY_HEADER_RELIGION"
         case .greatPeople:
-            return "Great People"
+            return "TXT_KEY_HEADER_GREAT_PEOPLE"
         case .log:
-            return "Log"
+            return "TXT_KEY_HEADER_LOG"
         case .governors:
-            return "Governors"
+            return "TXT_KEY_HEADER_GOVERNORS"
         case .ranking:
-            return "Ranking"
+            return "TXT_KEY_HEADER_RANKING"
         case .tradeRoutes:
-            return "Trade Routes"
+            return "TXT_KEY_HEADER_TRADE_ROUTES"
         }
     }
 

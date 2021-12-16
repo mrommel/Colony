@@ -48,7 +48,12 @@ class CreateGameMenuViewModel: ObservableObject {
         var array: [PickerData] = []
 
         for handicapType in HandicapType.all {
-            array.append(PickerData(name: handicapType.name(), image: self.handicapImage(for: handicapType)))
+            array.append(
+                PickerData(
+                    name: handicapType.name(),
+                    image: self.handicapImage(for: handicapType)
+                )
+            )
         }
 
         return array
@@ -59,7 +64,12 @@ class CreateGameMenuViewModel: ObservableObject {
         var array: [PickerData] = []
 
         for mapType in MapType.all {
-            array.append(PickerData(name: mapType.name(), image: self.mapTypeImage(for: mapType)))
+            array.append(
+                PickerData(
+                    name: mapType.name().localized(),
+                    image: self.mapTypeImage(for: mapType)
+                )
+            )
         }
 
         return array

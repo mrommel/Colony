@@ -11,12 +11,38 @@
 */
 
 // UI
-"TXT_KEY_CIVIC_BOOSTED" = "Boosted:";
-"TXT_KEY_CIVIC_TO_BOOST" = "To boost:";
+"TXT_KEY_BOOSTED" = "Boosted:";
+"TXT_KEY_TO_BOOST" = "To boost:";
 "TXT_KEY_TURNS" = "Turns";
 "TXT_KEY_FOUND" = "Found";
 "TXT_KEY_RENAME" = "Rename";
 "TXT_KEY_CANCEL" = "Cancel";
+
+// civic texts
+"TXT_KEY_INSPIRATION" = "Inspiration";
+"TXT_KEY_EUREKA_TRIGGERED" = "Your progress towards %@ has advanced considerably.";
+
+// Header
+"TXT_KEY_HEADER_SCIENCE" = "Science";
+"TXT_KEY_HEADER_CULTURE" = "Culture";
+"TXT_KEY_HEADER_GOVERNMENT" = "Government";
+"TXT_KEY_HEADER_RELIGION" = "Religion";
+"TXT_KEY_HEADER_GREAT_PEOPLE" = "Great People";
+"TXT_KEY_HEADER_LOG" = "Log";
+"TXT_KEY_HEADER_GOVERNORS" = "Governors";
+"TXT_KEY_HEADER_RANKING" = "Ranking";
+"TXT_KEY_HEADER_TRADE_ROUTES" = "Trade Routes";
+
+// Map sizes
+
+// Map types
+"TXT_KEY_MAP_TYPE_EMPTY" = "Empty";
+"TXT_KEY_MAP_TYPE_EARTH" = "Earth";
+"TXT_KEY_MAP_TYPE_PANGAEA" = "Pangaea";
+"TXT_KEY_MAP_TYPE_CONTINENTS" = "Continents";
+"TXT_KEY_MAP_TYPE_ARCHIPELAGO" = "Archipelago";
+"TXT_KEY_MAP_TYPE_INLANDSEA" = "Inlandsea";
+"TXT_KEY_MAP_TYPE_CUSTOM" = "Custom";
 
 // Advisor texts
 "TXT_KEY_ECONOMICAISTRATEGY_NEED_RECON" = "We should continue exploring the world to discover abandoned villages, natural wonders, and other civilizations!";
