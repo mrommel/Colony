@@ -2127,6 +2127,12 @@ public class Unit: AbstractUnit {
                 let feature = adjacentPlot.feature()
                 if feature.isWonder() {
 
+                    // check if wonder is discovered by player already
+                    if !player.hasDiscovered(naturalWonder: feature) {
+                        player.doDiscover(naturalWonder: feature)
+                        player.addMoment(of: .find(naturalWonder: feature), in: gameModel.currentTurn)
+                    }
+
                     /*PromotionTypes ePromotion = (PromotionTypes)GC.getFeatureInfo(eFeature)->getAdjacentUnitFreePromotion();
                     if (ePromotion != NO_PROMOTION)
                     {
@@ -3330,6 +3336,14 @@ public class Unit: AbstractUnit {
                 self.player?.doClearBarbarianCamp(at: newPlot, in: gameModel)
             } else if newPlot.has(improvement: .goodyHut) {
                 self.player?.doGoodyHut(at: newPlot, by: self, in: gameModel)
+            }
+        }
+
+        // check if tile is on a continent that the player has not settler yet
+        if let tileContinent: ContinentType = gameModel.continent(at: self.location)?.type() {
+            if !player.hasSettled(on: tileContinent) {
+                player.markSettled(on: tileContinent)
+                player.addMoment(of: .cityOnNewContinent, in: gameModel.currentTurn)
             }
         }
 

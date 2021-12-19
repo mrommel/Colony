@@ -230,6 +230,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func faithPurchaseType() -> FaithPurchaseType
     func set(faithPurchaseType: FaithPurchaseType)
     func majorityOfCitiesFollows(religion: ReligionType, in gameModel: GameModel?) -> Bool
+    func doFound(religion: ReligionType, at city: AbstractCity?, in gameModel: GameModel?)
 
     func hasCapital(in gameModel: GameModel?) -> Bool
     func hasDiscoveredCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool
@@ -288,6 +289,17 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func currentTourism(in gameModel: GameModel?) -> Double
     func tourismModifier(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Int // in percent
 
+    // moments
+    func add(moment: Moment)
+    func addMoment(of type: MomentType, in turn: Int)
+    func moments() -> [Moment]
+
+    // moment helper
+    func hasDiscovered(naturalWonder: FeatureType) -> Bool
+    func doDiscover(naturalWonder: FeatureType)
+    func hasSettled(on continent: ContinentType) -> Bool
+    func markSettled(on continent: ContinentType)
+
     // intern
     func isEqual(to other: AbstractPlayer?) -> Bool
 }
@@ -317,6 +329,7 @@ public class Player: AbstractPlayer {
         case greatPeople
         case government
         case tourism
+        case moments
 
         case currentEra
 
@@ -353,6 +366,8 @@ public class Player: AbstractPlayer {
 
         case faithPurchaseType
         case boostExoplanetExpedition
+        case discoveredNaturalWonders
+        case settledContinents
     }
 
     public var leader: LeaderType
@@ -385,6 +400,7 @@ public class Player: AbstractPlayer {
     public var tradeRoutes: AbstractTradeRoutes?
     public var governors: AbstractPlayerGovernors?
     public var tourism: AbstractPlayerTourism?
+    public var momentsVal: AbstractPlayerMoments?
 
     public var government: AbstractGovernment?
     internal var currentEraVal: EraType = .ancient
@@ -423,6 +439,8 @@ public class Player: AbstractPlayer {
 
     private var canChangeGovernmentValue: Bool = false
     private var faithPurchaseTypeVal: FaithPurchaseType = .noAutomaticFaithPurchase
+    private var discoveredNaturalWonders: [FeatureType] = []
+    private var settledContinents: [ContinentType] = []
 
     // MARK: constructor
 
@@ -450,6 +468,8 @@ public class Player: AbstractPlayer {
         self.conquerorValue = nil
 
         self.faithPurchaseTypeVal = .noAutomaticFaithPurchase
+        self.discoveredNaturalWonders = []
+        self.settledContinents = []
     }
 
     public required init(from decoder: Decoder) throws {
@@ -491,6 +511,7 @@ public class Player: AbstractPlayer {
         self.tradeRoutes = try container.decode(TradeRoutes.self, forKey: .tradeRoutes)
         self.governors = try container.decode(PlayerGovernors.self, forKey: .governors)
         self.tourism = try container.decode(PlayerTourism.self, forKey: .tourism)
+        self.momentsVal = try container.decode(PlayerMoments.self, forKey: .moments)
 
         self.techs = try container.decode(Techs.self, forKey: .techs)
         self.civics = try container.decode(Civics.self, forKey: .civics)
@@ -515,6 +536,8 @@ public class Player: AbstractPlayer {
         self.canChangeGovernmentValue = try container.decode(Bool.self, forKey: .canChangeGovernment)
         self.faithPurchaseTypeVal = try container.decode(FaithPurchaseType.self, forKey: .faithPurchaseType)
         self.boostExoplanetExpeditionValue = try container.decode(Int.self, forKey: .boostExoplanetExpedition)
+        self.discoveredNaturalWonders = try container.decode([FeatureType].self, forKey: .discoveredNaturalWonders)
+        self.settledContinents = try container.decode([ContinentType].self, forKey: .settledContinents)
 
         // setup
         self.techs?.player = self
@@ -526,6 +549,7 @@ public class Player: AbstractPlayer {
         self.tradeRoutes?.player = self
         self.governors?.player = self
         self.tourism?.player = self
+        self.momentsVal?.player = self
 
         self.grandStrategyAI?.player = self
         self.diplomacyAI?.player = self
@@ -587,6 +611,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.treasury as! Treasury, forKey: .treasury)
         try container.encode(self.greatPeople as! GreatPeople, forKey: .greatPeople)
         try container.encode(self.tourism as! PlayerTourism, forKey: .tourism)
+        try container.encode(self.momentsVal as! PlayerMoments, forKey: .moments)
 
         try container.encode(self.government as! Government, forKey: .government)
         try container.encode(self.currentEraVal, forKey: .currentEra)
@@ -604,6 +629,8 @@ public class Player: AbstractPlayer {
         try container.encode(self.canChangeGovernmentValue, forKey: .canChangeGovernment)
         try container.encode(self.faithPurchaseTypeVal, forKey: .faithPurchaseType)
         try container.encode(self.boostExoplanetExpeditionValue, forKey: .boostExoplanetExpedition)
+        try container.encode(self.discoveredNaturalWonders, forKey: .discoveredNaturalWonders)
+        try container.encode(self.settledContinents, forKey: .settledContinents)
     }
     // swiftlint:enable force_cast
 
@@ -755,7 +782,10 @@ public class Player: AbstractPlayer {
         self.diplomacyAI?.doFirstContact(with: otherPlayer, in: gameModel)
         otherPlayer.diplomacyAI?.doFirstContact(with: self, in: gameModel)
 
-        // update eureka
+        // moment
+        self.addMoment(of: .metNew(civilization: otherPlayer.leader.civilization()), in: gameModel?.currentTurn ?? 0)
+
+        // update eurekas
         if !techs.eurekaTriggered(for: .writing) {
             techs.triggerEureka(for: .writing, in: gameModel)
         }
@@ -2298,9 +2328,12 @@ public class Player: AbstractPlayer {
 
     public func set(era: EraType) {
 
-        // FIXME: should not be older era
+        guard era > self.currentEraVal else {
+            fatalError("era should be greater")
+        }
 
         self.currentEraVal = era
+        self.momentsVal?.resetEraScore()
     }
 
     public func has(tech techType: TechType) -> Bool {
@@ -3966,6 +3999,7 @@ public class Player: AbstractPlayer {
             tile.set(improvement: .none)
 
             gameModel.doBarbCampCleared(at: tile.point)
+            self.addMoment(of: .barbarianCampDestroyed, in: gameModel.currentTurn)
 
             self.treasury?.changeGold(by: Double(numGold))
 
@@ -4519,6 +4553,20 @@ public class Player: AbstractPlayer {
         return numCitiesFollowingReligion >= numCitiesAll / 2.0
     }
 
+    public func doFound(religion: ReligionType, at city: AbstractCity?, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let playerReligion = self.religion else {
+            fatalError("cant get player religion")
+        }
+
+        playerReligion.found(religion: religion, at: city, in: gameModel)
+        self.addMoment(of: .founded(religion: religion), in: gameModel.currentTurn)
+    }
+
     // MARK: discovery
 
     public func hasCapital(in gameModel: GameModel?) -> Bool {
@@ -4858,6 +4906,48 @@ public class Player: AbstractPlayer {
         }
 
         return modifier
+    }
+
+    // MARK: moments
+
+    public func add(moment: Moment) {
+
+        self.momentsVal?.add(moment: moment)
+    }
+
+    public func addMoment(of type: MomentType, in turn: Int) {
+
+        self.momentsVal?.addMoment(of: type, in: turn)
+    }
+
+    public func moments() -> [Moment] {
+
+        return self.momentsVal?.moments() ?? []
+    }
+
+    public func eraScore() -> Int {
+
+        return self.momentsVal?.eraScore() ?? 0
+    }
+
+    public func hasDiscovered(naturalWonder: FeatureType) -> Bool {
+
+        return self.discoveredNaturalWonders.contains(naturalWonder)
+    }
+
+    public func doDiscover(naturalWonder: FeatureType) {
+
+        self.discoveredNaturalWonders.append(naturalWonder)
+    }
+
+    public func hasSettled(on continent: ContinentType) -> Bool {
+
+        return self.settledContinents.contains(continent)
+    }
+
+    public func markSettled(on continent: ContinentType) {
+
+        self.settledContinents.append(continent)
     }
 }
 

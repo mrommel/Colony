@@ -18,12 +18,12 @@ extension MapSize {
 
         switch self {
 
-        case .duel: return "Duel"
-        case .tiny: return "Tiny"
-        case .small: return "Small"
-        case .standard: return "Standard"
-        case .large: return "Large"
-        case .huge: return "Huge"
+        case .duel: return "TXT_KEY_MAP_TYPE_DUEL"
+        case .tiny: return "TXT_KEY_MAP_TYPE_TINY"
+        case .small: return "TXT_KEY_MAP_TYPE_SMALL"
+        case .standard: return "TXT_KEY_MAP_TYPE_STANDARD"
+        case .large: return "TXT_KEY_MAP_TYPE_LARGE"
+        case .huge: return "TXT_KEY_MAP_TYPE_HUGE"
 
         case .custom(width: let width, height: let height):
             return "Custom(\(width), \(height))"

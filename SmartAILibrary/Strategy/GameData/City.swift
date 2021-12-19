@@ -2502,6 +2502,8 @@ public class City: AbstractCity {
             try self.wonders?.build(wonder: wonderType)
             self.greatWorks?.addPlaces(for: wonderType)
 
+            self.player?.addMoment(of: .completed(wonder: wonderType), in: gameModel.currentTurn)
+
             gameModel.build(wonder: wonderType)
 
             // pyramids

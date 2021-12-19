@@ -28,14 +28,14 @@ public enum HandicapType: Int, Codable {
 
         switch self {
 
-        case .settler: return "Settler"
-        case .chieftain: return "Chieftain"
-        case .warlord: return "Warlord"
-        case .prince: return "Prince"
-        case .king: return "King"
-        case .emperor: return "Emperor"
-        case .immortal: return "Immortal"
-        case .deity: return "Deity"
+        case .settler: return "TXT_KEY_HANDICAP_SETTLER"
+        case .chieftain: return "TXT_KEY_HANDICAP_CHIEFTAIN"
+        case .warlord: return "TXT_KEY_HANDICAP_WARLORD"
+        case .prince: return "TXT_KEY_HANDICAP_PRINCE"
+        case .king: return "TXT_KEY_HANDICAP_KING"
+        case .emperor: return "TXT_KEY_HANDICAP_EMPEROR"
+        case .immortal: return "TXT_KEY_HANDICAP_IMMORTAL"
+        case .deity: return "TXT_KEY_HANDICAP_DEITY"
         }
     }
 

@@ -34,6 +34,14 @@
 "TXT_KEY_HEADER_TRADE_ROUTES" = "Trade Routes";
 
 // Map sizes
+"TXT_KEY_MAP_TYPE_DUEL" = "Duel";
+"TXT_KEY_MAP_TYPE_TINY" = "Tiny";
+"TXT_KEY_MAP_TYPE_SMALL" = "Small";
+"TXT_KEY_MAP_TYPE_STANDARD" = "Standard";
+"TXT_KEY_MAP_TYPE_LARGE" = "Large";
+"TXT_KEY_MAP_TYPE_HUGE" = "Huge";
+
+"TXT_KEY_MAP_SIZE_CUSTOM" = "Custom(%@, %@)";
 
 // Map types
 "TXT_KEY_MAP_TYPE_EMPTY" = "Empty";
@@ -43,6 +51,16 @@
 "TXT_KEY_MAP_TYPE_ARCHIPELAGO" = "Archipelago";
 "TXT_KEY_MAP_TYPE_INLANDSEA" = "Inlandsea";
 "TXT_KEY_MAP_TYPE_CUSTOM" = "Custom";
+
+// handicap
+"TXT_KEY_HANDICAP_SETTLER" = "Settler";
+"TXT_KEY_HANDICAP_CHIEFTAIN" = "Chieftain";
+"TXT_KEY_HANDICAP_WARLORD" = "Warlord";
+"TXT_KEY_HANDICAP_PRINCE" = "Prince";
+"TXT_KEY_HANDICAP_KING" = "King";
+"TXT_KEY_HANDICAP_EMPEROR" = "Emperor";
+"TXT_KEY_HANDICAP_IMMORTAL" = "Immortal";
+"TXT_KEY_HANDICAP_DEITY" = "Deity";
 
 // Advisor texts
 "TXT_KEY_ECONOMICAISTRATEGY_NEED_RECON" = "We should continue exploring the world to discover abandoned villages, natural wonders, and other civilizations!";

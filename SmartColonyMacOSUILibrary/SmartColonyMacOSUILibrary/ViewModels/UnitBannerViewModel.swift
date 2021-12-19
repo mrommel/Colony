@@ -408,11 +408,11 @@ class UnitBannerViewModel: ObservableObject {
                     let religion = possibleReligions[selectedIndex]
                     print("### selected religion: \(religion) ###")
 
-                    guard let playerReligion = self.selectedUnit?.player?.religion else {
-                        fatalError("cant get player religion")
+                    guard let player = self.selectedUnit?.player else {
+                        fatalError("cant get player")
                     }
 
-                    playerReligion.found(religion: religion, at: city, in: gameModel)
+                    player.doFound(religion: religion, at: city, in: gameModel)
 
                     // first two beliefs still need to be selected
                     gameModel.userInterface?.showScreen(
