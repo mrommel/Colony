@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SmartAILibrary
 
 struct LeaderView: View {
 
@@ -39,13 +40,34 @@ struct LeaderView: View {
 #if DEBUG
 struct LeaderView_Previews: PreviewProvider {
 
+    static func viewModel(leader: LeaderType) -> LeaderViewModel {
+
+        let viewModel = LeaderViewModel(leaderType: leader)
+        viewModel.show = true
+
+        let game = DemoGameModel()
+
+        viewModel.gameEnvironment.game.value = game
+        viewModel.update()
+
+        return viewModel
+    }
+
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
-        LeaderView(viewModel: LeaderViewModel(leaderType: .cyrus))
+        LeaderView(
+            viewModel: LeaderView_Previews.viewModel(
+                leader: .cyrus
+            )
+        )
 
-        LeaderView(viewModel: LeaderViewModel(leaderType: .cleopatra))
+        LeaderView(
+            viewModel: LeaderView_Previews.viewModel(
+                leader: .cleopatra
+            )
+        )
     }
 }
 #endif

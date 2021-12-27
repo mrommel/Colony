@@ -9,6 +9,18 @@
 import Foundation
 import SwiftUI
 
+public class AgeThresholds {
+
+    public let lower: Int
+    public let upper: Int
+
+    init(lower: Int, upper: Int) {
+
+        self.lower = lower
+        self.upper = upper
+    }
+}
+
 class ResourceInventory: WeightedList<ResourceType> {
 
     override func fill() {
@@ -148,6 +160,8 @@ public protocol AbstractPlayer: AnyObject, Codable {
     // era
     func currentEra() -> EraType
     func set(era: EraType)
+    func ageThresholds(in gameModel: GameModel?) -> AgeThresholds
+    func estimateNextAge(in gameModel: GameModel?) -> AgeType
 
     // tech
     func has(tech: TechType) -> Bool
@@ -332,6 +346,10 @@ public class Player: AbstractPlayer {
         case moments
 
         case currentEra
+        case currentAge
+        case numberOfDarkAges
+        case numberOfGoldenAges
+        case currentDedications
 
         case grandStrategyAI
         case diplomacyAI
@@ -404,6 +422,10 @@ public class Player: AbstractPlayer {
 
     public var government: AbstractGovernment?
     internal var currentEraVal: EraType = .ancient
+    internal var currentAgeVal: AgeType = .normal
+    internal var currentDedicationsVal: [DedicationType] = []
+    internal var numberOfDarkAgesVal: Int = 0
+    internal var numberOfGoldenAgesVal: Int = 0
 
     internal var operations: Operations?
     public var armies: Armies?
@@ -518,9 +540,13 @@ public class Player: AbstractPlayer {
         self.religion = try container.decode(PlayerReligion.self, forKey: .religion)
         self.treasury = try container.decode(Treasury.self, forKey: .treasury)
         self.greatPeople = try container.decode(GreatPeople.self, forKey: .greatPeople)
-
         self.government = try container.decode(Government.self, forKey: .government)
+
         self.currentEraVal = try container.decode(EraType.self, forKey: .currentEra)
+        self.currentAgeVal = try container.decode(AgeType.self, forKey: .currentAge)
+        self.currentDedicationsVal = try container.decode([DedicationType].self, forKey: .currentDedications)
+        self.numberOfDarkAgesVal = try container.decode(Int.self, forKey: .numberOfDarkAges)
+        self.numberOfGoldenAgesVal = try container.decode(Int.self, forKey: .numberOfGoldenAges)
 
         self.operations = try container.decode(Operations.self, forKey: .operations)
         self.notificationsValue = try container.decode(Notifications.self, forKey: .notifications)
@@ -612,9 +638,13 @@ public class Player: AbstractPlayer {
         try container.encode(self.greatPeople as! GreatPeople, forKey: .greatPeople)
         try container.encode(self.tourism as! PlayerTourism, forKey: .tourism)
         try container.encode(self.momentsVal as! PlayerMoments, forKey: .moments)
-
         try container.encode(self.government as! Government, forKey: .government)
+
         try container.encode(self.currentEraVal, forKey: .currentEra)
+        try container.encode(self.currentAgeVal, forKey: .currentAge)
+        try container.encode(self.currentDedicationsVal, forKey: .currentDedications)
+        try container.encode(self.numberOfDarkAgesVal, forKey: .numberOfDarkAges)
+        try container.encode(self.numberOfGoldenAgesVal, forKey: .numberOfGoldenAges)
 
         try container.encode(self.operations, forKey: .operations)
         try container.encode(self.notificationsValue, forKey: .notifications)
@@ -1142,9 +1172,51 @@ public class Player: AbstractPlayer {
         return self.isHumanVal
     }
 
+    // https://civilization.fandom.com/wiki/Age_(Civ6)
+    public func ageThresholds(in gameModel: GameModel?) -> AgeThresholds {
+
+        let numberOfGoldenAges = self.numberOfGoldenAgesVal
+        let numberOfDarkAges = self.numberOfDarkAgesVal
+        let cities = gameModel?.cities(of: self).count ?? 0
+        let lowerThreshold = numberOfGoldenAges * 5 - numberOfDarkAges * 5 + cities
+        let upperThreshold = lowerThreshold + 12
+
+        return AgeThresholds(
+            lower: lowerThreshold,
+            upper: upperThreshold
+        )
+    }
+
+    public func estimateNextAge(in gameModel: GameModel?) -> AgeType {
+
+        let eraScore = self.momentsVal?.eraScore() ?? 0
+        let thresholds = self.ageThresholds(in: gameModel)
+
+        if eraScore < thresholds.lower {
+            return .dark
+        } else if eraScore >= thresholds.upper {
+            return .golden
+        } else {
+            return .normal
+        }
+    }
+
+    func selectCurrentAge(in gameModel: GameModel?) {
+
+        let nextAge = self.estimateNextAge(in: gameModel)
+
+        if nextAge == .dark {
+            self.numberOfDarkAgesVal += 1
+        } else if nextAge == .golden {
+            self.numberOfGoldenAgesVal += 1
+        }
+
+        self.currentAgeVal = nextAge
+    }
+
     public func currentAge() -> AgeType {
 
-        return .normal
+        return self.currentAgeVal
     }
 
     public func currentDedication() -> DedicationType {
@@ -2333,6 +2405,11 @@ public class Player: AbstractPlayer {
         }
 
         self.currentEraVal = era
+
+        // check golden age / dark age
+        fatalError("check golden age / dark age")
+        //self.selectCurrentAge(in: <#T##GameModel?#>)
+
         self.momentsVal?.resetEraScore()
     }
 
@@ -4558,7 +4635,7 @@ public class Player: AbstractPlayer {
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let playerReligion = self.religion else {
             fatalError("cant get player religion")
         }

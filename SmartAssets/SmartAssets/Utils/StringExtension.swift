@@ -56,6 +56,16 @@ extension String {
             )
         }
 
+        if self.starts(with: "TXT_KEY_DEDICATION_") {
+            return NSLocalizedString(
+                self,
+                tableName: "Dedications",
+                bundle: Bundle.init(for: Textures.self),
+                value: "",
+                comment: comment ?? ""
+            )
+        }
+
         if self.starts(with: "TXT_KEY_") {
             return NSLocalizedString(
                 self,

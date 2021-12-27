@@ -79,6 +79,9 @@ struct HeaderView: View {
 
             // trade routes
             HeaderButtonView(viewModel: self.viewModel.tradeRoutesHeaderViewModel)
+
+            // eraProgress
+            HeaderButtonView(viewModel: self.viewModel.eraProgressHeaderViewModel)
         }
         .frame(height: 47)
     }

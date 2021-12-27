@@ -423,4 +423,17 @@ extension GameViewModel {
             self.currentScreenType = .selectPantheon
         }
     }
+
+    func showEraProgressDialog() {
+
+        if self.currentScreenType == .eraProgress {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.eraProgressDialogViewModel.update()
+            self.currentScreenType = .eraProgress
+        }
+    }
 }

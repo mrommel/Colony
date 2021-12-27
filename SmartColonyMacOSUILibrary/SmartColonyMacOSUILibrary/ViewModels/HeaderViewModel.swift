@@ -44,6 +44,9 @@ class HeaderViewModel: ObservableObject {
     var tradeRoutesHeaderViewModel: HeaderButtonViewModel
 
     @Published
+    var eraProgressHeaderViewModel: HeaderButtonViewModel
+
+    @Published
     var techProgressViewModel: TechProgressViewModel
 
     @Published
@@ -71,6 +74,7 @@ class HeaderViewModel: ObservableObject {
         self.governorsHeaderViewModel = HeaderButtonViewModel(type: .governors)
         self.rankingHeaderViewModel = HeaderButtonViewModel(type: .ranking)
         self.tradeRoutesHeaderViewModel = HeaderButtonViewModel(type: .tradeRoutes)
+        self.eraProgressHeaderViewModel = HeaderButtonViewModel(type: .eraProgress)
 
         self.techProgressViewModel = TechProgressViewModel()
         self.civicProgressViewModel = CivicProgressViewModel()
@@ -87,6 +91,7 @@ class HeaderViewModel: ObservableObject {
         self.governorsHeaderViewModel.delegate = self
         self.rankingHeaderViewModel.delegate = self
         self.tradeRoutesHeaderViewModel.delegate = self
+        self.eraProgressHeaderViewModel.delegate = self
     }
 
     func update() {
@@ -206,6 +211,8 @@ extension HeaderViewModel: HeaderButtonViewModelDelegate {
             self.delegate?.showRankingDialog()
         case .tradeRoutes:
             self.delegate?.showTradeRouteDialog()
+        case .eraProgress:
+            self.delegate?.showEraProgressDialog()
         }
     }
 }

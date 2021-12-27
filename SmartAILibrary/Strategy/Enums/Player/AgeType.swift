@@ -9,7 +9,7 @@
 import Foundation
 
 // https://civilization.fandom.com/wiki/Age_(Civ6)
-public enum AgeType {
+public enum AgeType: Int, Codable {
 
     case dark
     case normal

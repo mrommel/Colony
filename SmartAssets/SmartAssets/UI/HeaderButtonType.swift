@@ -19,6 +19,7 @@ public enum HeaderButtonType {
 
     case ranking
     case tradeRoutes
+    case eraProgress
 
     public func name() -> String {
 
@@ -42,6 +43,8 @@ public enum HeaderButtonType {
             return "TXT_KEY_HEADER_RANKING"
         case .tradeRoutes:
             return "TXT_KEY_HEADER_TRADE_ROUTES"
+        case .eraProgress:
+            return "TXT_KEY_HEADER_ERA_PROGRESS"
         }
     }
 
@@ -67,6 +70,8 @@ public enum HeaderButtonType {
             return state ?  "header-button-ranking-active" : "header-button-ranking-disabled"
         case .tradeRoutes:
             return state ? "header-button-tradeRoutes-active" : "header-button-tradeRoutes-disabled"
+        case .eraProgress:
+            return state ? "header-button-eraProgress-active" : "header-button-eraProgress-disabled"
         }
     }
 }

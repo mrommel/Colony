@@ -1,0 +1,67 @@
+/* 
+  Dedications.strings
+  SmartAssets
+
+  Created by Michael Rommel on 23.12.21.
+  
+*/
+
+// monumentality
+"TXT_KEY_DEDICATION_MONUMENTALITY_TITLE" = "Monumentality";
+"TXT_KEY_DEDICATION_MONUMENTALITY_NORMAL_EFFECT" = "Gain +1 Era Score each time you construct a Specialty District.";
+"TXT_KEY_DEDICATION_MONUMENTALITY_GOLDEN_EFFECT" = "+2 Movement for Builders. Civilian units may be purchased with [Faith] Faith. Settlers and Builders' Purchases are 30% cheaper.";
+
+// penBrushAndVoice
+"TXT_KEY_DEDICATION_PEN_BRUSH_VOICE_TITLE" = "Pen, Brush and Voice";
+"TXT_KEY_DEDICATION_PEN_BRUSH_VOICE_NORMAL_EFFECT" = "Gain +1 Era Score when you trigger an [Inspiration] Inspiration, and when you construct a building with a Great Work slot.";
+"TXT_KEY_DEDICATION_PEN_BRUSH_VOICE_GOLDEN_EFFECT" = "Inspiration [Inspiration] provide an additional 10% of Civic costs. +1 [Culture] Culture per Specialty District for each city.";
+
+// freeInquiry
+"TXT_KEY_DEDICATION_FREE_INQUIRY_TITLE" = "Free Inquiry";
+"TXT_KEY_DEDICATION_FREE_INQUIRY_NORMAL_EFFECT" = "Gain +1 Era Score when you trigger a [Eureka] Eureka, and when constructing a building which provides [Science] Science.";
+"TXT_KEY_DEDICATION_FREE_INQUIRY_GOLDEN_EFFECT" = "[Eureka] Eureka provide an additional 10% of Technology costs. Commercial Hubs and Harbors provide [Science] Science equal to their [Gold] Gold bonus.";
+
+// exodusOfTheEvangelists
+"TXT_KEY_DEDICATION_EXODUS_EVANGELISTS_TITLE" = "Exodus of the Evangelists";
+"TXT_KEY_DEDICATION_EXODUS_EVANGELISTS_NORMAL_EFFECT" = "Gain +2 Era Score when you convert a city to your religion for the first time.";
+"TXT_KEY_DEDICATION_EXODUS_EVANGELISTS_GOLDEN_EFFECT" = "+2 [Movement] Movement for Missionaries, Apostles and Inquisitors; newly-trained ones receive +2 Charges. +4 [GreatProphet] Great Prophet points per turn.";
+
+// hicSuntDracones
+"TXT_KEY_DEDICATION_DRACONES_TITLE" = "Hic Sunt Dracones";
+"TXT_KEY_DEDICATION_DRACONES_NORMAL_EFFECT" = "Gain +3 Era Score when you discover a new continent or Natural Wonder. +1 Era Score when you kill a non-Barbarian naval unit.";
+"TXT_KEY_DEDICATION_DRACONES_GOLDEN_EFFECT" = "Cities settled on a continent different than your [Capital] Capital's gain +3 [Citizen] Population and +2 Loyalty per turn. Naval and Embarked units gain +2 [Movement] Movement.";
+
+// reformTheCoinage
+"TXT_KEY_DEDICATION_REFORM_COINAGE_TITLE" = "Reform the Coinage";
+"TXT_KEY_DEDICATION_REFORM_COINAGE_NORMAL_EFFECT" = "Gain +1 Era Score each time you successfully complete a [TradeRoute] Trade Route.";
+"TXT_KEY_DEDICATION_REFORM_COINAGE_GOLDEN_EFFECT" = "Your Traders cannot be Plundered. International [TradeRoute] Trade Routes provide +3 [Gold] Gold per specialty [District] District in the foreign city.";
+
+// heartbeatOfSteam
+"TXT_KEY_DEDICATION_HEARTBEAT_STEAM_TITLE" = "Heartbeat of Steam";
+"TXT_KEY_DEDICATION_HEARTBEAT_STEAM_NORMAL_EFFECT" = "Gain +2 Era Score for each Industrial or later building constructed.";
+"TXT_KEY_DEDICATION_HEARTBEAT_STEAM_GOLDEN_EFFECT" = "+10% [Production] Production toward Industrial Era and later wonders. Campus district's [Science] Science adjacency bonus provides [Production] Production as well.";
+
+// toArms
+"TXT_KEY_DEDICATION_ARMS_TITLE" = "To Arms!";
+"TXT_KEY_DEDICATION_ARMS_NORMAL_EFFECT" = "Gain +1 Era Score each time you kill a non-Barbarian Corps in combat and +2 Era Score each time you kill a non-Barbarian Army in combat.";
+"TXT_KEY_DEDICATION_ARMS_GOLDEN_EFFECT" = "Unlocks a special Casus Belli which gives 75% less warmonger penalties than formal war and can be used immediately after Denouncing the target. +15% [Production] Production towards military units.";
+
+// wishYouWereHere
+"TXT_KEY_DEDICATION_WISH_HERE_TITLE" = "Wish You Were Here";
+"TXT_KEY_DEDICATION_WISH_HERE_NORMAL_EFFECT" = "Gain +1 Era Score for each [Artifact] Artifact extracted.";
+"TXT_KEY_DEDICATION_WISH_HERE_GOLDEN_EFFECT" = "Cities with Governors receive 50% [Tourism] Tourism from World Wonders. +100% [Tourism] Tourism to all National Parks.";
+
+// bodyguardOfLies
+"TXT_KEY_DEDICATION_BODYGUARD_LIES_TITLE" = "Bodyguard of Lies";
+"TXT_KEY_DEDICATION_BODYGUARD_LIES_NORMAL_EFFECT" = "Gain +1 Era Score for each successful offensive operation.";
+"TXT_KEY_DEDICATION_BODYGUARD_LIES_GOLDEN_EFFECT" = "Spies take no time to establish presence in an enemy city. Time to complete all offensive spy operations reduced by 25%.";
+
+// skyAndStars
+"TXT_KEY_DEDICATION_SKY_STARS_TITLE" = "Sky and Stars";
+"TXT_KEY_DEDICATION_SKY_STARS_NORMAL_EFFECT" = "Gain +1 Era Score for each Aerodrome building constructed. Gain +1 Era Score each time a Great Person Great Person is Earned.";
+"TXT_KEY_DEDICATION_SKY_STARS_GOLDEN_EFFECT" = "Unlocks the [Eureka] Eurekas for Satellites, Nuclear Fusion, and Nanotechnology if in the Information Era. When chosen in the Future Era the Eureka Eurekas for Smart Materials, Predictive Systems, and Offworld Mission are unlocked. +100% XP earned for all Air Units. Aluminum Aluminum mines accumulate +2 more resources per turn.";
+
+// automatonWarfare
+"TXT_KEY_DEDICATION_AUTOMATON_WARFARE_TITLE" = "Automaton Warfare";
+"TXT_KEY_DEDICATION_AUTOMATON_NORMAL_EFFECT" = "Gain +1 Era Score each time you kill a non-Barbarian unit with a Giant Death Robot.";
+"TXT_KEY_DEDICATION_AUTOMATON_GOLDEN_EFFECT" = "Gain a Giant Death Robot in your capital. Receive 3 Uranium Uranium per turn. Uranium Uranium mines accumulate +1 more resource per turn.";

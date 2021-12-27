@@ -32,6 +32,7 @@
 "TXT_KEY_HEADER_GOVERNORS" = "Governors";
 "TXT_KEY_HEADER_RANKING" = "Ranking";
 "TXT_KEY_HEADER_TRADE_ROUTES" = "Trade Routes";
+"TXT_KEY_HEADER_ERA_PROGRESS" = "Era Progress";
 
 // Map sizes
 "TXT_KEY_MAP_TYPE_DUEL" = "Duel";
