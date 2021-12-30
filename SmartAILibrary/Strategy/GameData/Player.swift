@@ -160,6 +160,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     // era
     func currentEra() -> EraType
     func set(era: EraType)
+    func eraScore() -> Int
     func ageThresholds(in gameModel: GameModel?) -> AgeThresholds
     func estimateNextAge(in gameModel: GameModel?) -> AgeType
 
@@ -1170,6 +1171,11 @@ public class Player: AbstractPlayer {
     public func isHuman() -> Bool {
 
         return self.isHumanVal
+    }
+
+    public func eraScore() -> Int {
+
+        return self.momentsVal?.eraScore() ?? 0
     }
 
     // https://civilization.fandom.com/wiki/Age_(Civ6)
@@ -5000,11 +5006,6 @@ public class Player: AbstractPlayer {
     public func moments() -> [Moment] {
 
         return self.momentsVal?.moments() ?? []
-    }
-
-    public func eraScore() -> Int {
-
-        return self.momentsVal?.eraScore() ?? 0
     }
 
     public func hasDiscovered(naturalWonder: FeatureType) -> Bool {

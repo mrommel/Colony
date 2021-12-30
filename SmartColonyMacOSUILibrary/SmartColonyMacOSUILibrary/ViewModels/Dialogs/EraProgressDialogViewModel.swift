@@ -24,10 +24,43 @@ class EraProgressDialogViewModel: ObservableObject {
     var leaderViewModel: LeaderViewModel
 
     @Published
+    var currentScoreText: String
+
+    @Published
+    var currentAgeText: String
+
+    @Published
     var darkAgeImage: NSImage
 
     @Published
+    var darkAgeLimitText: String
+
+    @Published
     var darkAgeCheckmarkImage: NSImage
+
+    @Published
+    var normalAgeImage: NSImage
+
+    @Published
+    var normalAgeLimitText: String
+
+    @Published
+    var normalAgeCheckmarkImage: NSImage
+
+    @Published
+    var goldenAgeImage: NSImage
+
+    @Published
+    var goldenAgeLimitText: String
+
+    @Published
+    var goldenAgeCheckmarkImage: NSImage
+
+    @Published
+    var currentAgeEffectText: String
+
+    @Published
+    var loyaltyEffectText: String
 
     weak var delegate: GameViewModelDelegate?
 
@@ -36,8 +69,23 @@ class EraProgressDialogViewModel: ObservableObject {
         self.title = "Era Progress"
         self.eraTitle = "The Ancient Era"
         self.leaderViewModel = LeaderViewModel(leaderType: .alexander)
-        self.darkAgeImage = Globals.Icons.questionmark // todo Globals.Icons.darkAge
+        self.currentScoreText = "?"
+        self.currentAgeText = "?"
+
+        self.darkAgeImage = Globals.Icons.darkAge
+        self.darkAgeLimitText = "0 - ?"
         self.darkAgeCheckmarkImage = NSImage()
+
+        self.normalAgeImage = Globals.Icons.normalAge
+        self.normalAgeLimitText = "? - ?"
+        self.normalAgeCheckmarkImage = NSImage()
+
+        self.goldenAgeImage = Globals.Icons.goldenAge
+        self.goldenAgeLimitText = "? - ?"
+        self.goldenAgeCheckmarkImage = NSImage()
+
+        self.currentAgeEffectText = ""
+        self.loyaltyEffectText = ""
     }
 
     func update() {
@@ -53,13 +101,35 @@ class EraProgressDialogViewModel: ObservableObject {
         self.eraTitle = humanPlayer.currentEra().title()
         self.leaderViewModel = LeaderViewModel(leaderType: humanPlayer.leader)
         self.leaderViewModel.show = true
+        self.currentScoreText = "\(humanPlayer.eraScore())"
+        self.currentAgeText = "\(humanPlayer.currentAge())"
 
+        let ageThresholds = humanPlayer.ageThresholds(in: gameModel)
         let nextAge = humanPlayer.estimateNextAge(in: gameModel)
+
+        self.darkAgeLimitText = "0 - \(ageThresholds.lower-1)"
         if nextAge == .dark {
-            self.darkAgeCheckmarkImage = Globals.Icons.questionmark // todo checkmark
+            self.darkAgeCheckmarkImage = Globals.Icons.checkmark
         } else {
             self.darkAgeCheckmarkImage = NSImage()
         }
+
+        self.normalAgeLimitText = "\(ageThresholds.lower) - \(ageThresholds.upper)"
+        if nextAge == .normal {
+            self.normalAgeCheckmarkImage = Globals.Icons.checkmark
+        } else {
+            self.normalAgeCheckmarkImage = NSImage()
+        }
+
+        self.goldenAgeLimitText = "\(ageThresholds.upper+1)+"
+        if nextAge == .normal {
+            self.goldenAgeCheckmarkImage = Globals.Icons.checkmark
+        } else {
+            self.goldenAgeCheckmarkImage = NSImage()
+        }
+
+        self.currentAgeEffectText = "You are in a [NormalAge] Normal Age during this era."
+        self.loyaltyEffectText = "- Each of your [Citizen] Citizen exerts 1 Loyalty pressure in their city. This pressure also affects other cities within 9 tiles, but is 10% less effective per tile."
     }
 }
 

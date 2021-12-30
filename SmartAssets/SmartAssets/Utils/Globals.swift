@@ -143,8 +143,28 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "strength")
         }
 
+        public static var citizen: NSImage {
+            return Icons.loadCachedTexture(with: "citizen")
+        }
+
         public static var questionmark: NSImage {
             return Icons.loadCachedTexture(with: "questionmark")
+        }
+
+        public static var checkmark: NSImage {
+            return Icons.loadCachedTexture(with: "checkmark")
+        }
+
+        public static var darkAge: NSImage {
+            return Icons.loadCachedTexture(with: "dark-age")
+        }
+
+        public static var normalAge: NSImage {
+            return Icons.loadCachedTexture(with: "normal-age")
+        }
+
+        public static var goldenAge: NSImage {
+            return Icons.loadCachedTexture(with: "golden-age")
         }
     }
 }
