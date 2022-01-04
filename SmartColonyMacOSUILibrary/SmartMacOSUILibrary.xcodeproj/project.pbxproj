@@ -144,7 +144,6 @@
 		C99A88882607A1D3003B8B73 /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88872607A1D3003B8B73 /* CGPointExtension.swift */; };
 		C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88912607A269003B8B73 /* NSImageExtension.swift */; };
 		C99A88982607A2CC003B8B73 /* CGImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88972607A2CC003B8B73 /* CGImageExtension.swift */; };
-		C99A889C2607A319003B8B73 /* CGContextExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A889B2607A319003B8B73 /* CGContextExtension.swift */; };
 		C99AB18C27477FAC00BF0B4D /* DistrictLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99AB18B27477FAC00BF0B4D /* DistrictLayer.swift */; };
 		C99AB18E27477FB900BF0B4D /* WonderLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99AB18D27477FB900BF0B4D /* WonderLayer.swift */; };
 		C99EA75926BD72DE006FAA40 /* ReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EA75826BD72DE006FAA40 /* ReplyView.swift */; };
@@ -435,7 +434,6 @@
 		C99A88872607A1D3003B8B73 /* CGPointExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
 		C99A88912607A269003B8B73 /* NSImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImageExtension.swift; sourceTree = "<group>"; };
 		C99A88972607A2CC003B8B73 /* CGImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImageExtension.swift; sourceTree = "<group>"; };
-		C99A889B2607A319003B8B73 /* CGContextExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGContextExtension.swift; sourceTree = "<group>"; };
 		C99AB18B27477FAC00BF0B4D /* DistrictLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictLayer.swift; sourceTree = "<group>"; };
 		C99AB18D27477FB900BF0B4D /* WonderLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderLayer.swift; sourceTree = "<group>"; };
 		C99EA75826BD72DE006FAA40 /* ReplyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyView.swift; sourceTree = "<group>"; };
@@ -827,7 +825,6 @@
 				C93AA6AA260F24640053DF74 /* CGRectExtension.swift */,
 				C9B43FB0263E905B00241012 /* CGSizeExtension.swift */,
 				C99A88972607A2CC003B8B73 /* CGImageExtension.swift */,
-				C99A889B2607A319003B8B73 /* CGContextExtension.swift */,
 				C9A61D80261EE55600341241 /* PixelBuffer.swift */,
 				C9FD308426223EA200153752 /* DemoGameModel.swift */,
 				C9711125262569D600B58AAE /* NSMenuItemExtension.swift */,
@@ -1358,7 +1355,6 @@
 				C9A48D342652FBE600260EE0 /* TechProgressViewModel.swift in Sources */,
 				C9CAC89D264ABCBE00D0668D /* GovernmentCardView.swift in Sources */,
 				C9755FE9270AE41B00C9CAB7 /* ReligionViewModel.swift in Sources */,
-				C99A889C2607A319003B8B73 /* CGContextExtension.swift in Sources */,
 				C94816BF26A82D4E00765029 /* SelectTradeCityDialogView.swift in Sources */,
 				C9CAC899264ABBC400D0668D /* ChangeGovernmentDialogView.swift in Sources */,
 				C968F29F2639BAD500612D0E /* BorderLayer.swift in Sources */,

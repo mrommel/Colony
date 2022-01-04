@@ -128,8 +128,8 @@ class EraProgressDialogViewModel: ObservableObject {
             self.goldenAgeCheckmarkImage = NSImage()
         }
 
-        self.currentAgeEffectText = "You are in a [NormalAge] Normal Age during this era."
-        self.loyaltyEffectText = "- Each of your [Citizen] Citizen exerts 1 Loyalty pressure in their city. This pressure also affects other cities within 9 tiles, but is 10% less effective per tile."
+        self.currentAgeEffectText = humanPlayer.currentAge().summary().localized()
+        self.loyaltyEffectText = humanPlayer.currentAge().loyaltyEffect().localized()
     }
 }
 

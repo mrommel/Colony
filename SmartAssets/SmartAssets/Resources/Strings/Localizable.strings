@@ -22,6 +22,15 @@
 "TXT_KEY_INSPIRATION" = "Inspiration";
 "TXT_KEY_EUREKA_TRIGGERED" = "Your progress towards %@ has advanced considerably.";
 
+// age texts
+"TXT_KEY_AGE_DARK_SUMMARY" = "You are in a [DarkAge] Dark Age during this era.";
+"TXT_KEY_AGE_NORMAL_SUMMARY" = "You are in a [NormalAge] Normal Age during this era.";
+"TXT_KEY_AGE_GOLDEN_SUMMARY" = "You are in a [GoldenAge] Golden Age during this era.";
+
+"TXT_KEY_AGE_DARK_LOYALTY" = " - Each of your [Citizen] Citizen exerts 0.5 Loyalty pressure in their city. This pressure also affects other cities within 9 tiles, but is 10% less effective per tile. It will be harder to maintain Loyalty in your cities and challange the Loyalty of nearby foreign cities.";
+"TXT_KEY_AGE_NORMAL_LOYALTY" = " - Each of your [Citizen] Citizen exerts 1 Loyalty pressure in their city. This pressure also affects other cities within 9 tiles, but is 10% less effective per tile.";
+"TXT_KEY_AGE_GOLDEN_LOYALTY" = " - Each of your [Citizen] Citizen exerts 1.5 Loyalty pressure in their city. This pressure also affects other cities within 9 tiles, but is 10% less effective per tile. It will be easier to maintain Loyalty in your cities and challange the Loyalty of nearby foreign cities.";
+
 // Header
 "TXT_KEY_HEADER_SCIENCE" = "Science";
 "TXT_KEY_HEADER_CULTURE" = "Culture";
