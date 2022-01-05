@@ -140,6 +140,7 @@
 		C9588ACD241E3E3A00304E9A /* SpecialistType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9588ACC241E3E3A00304E9A /* SpecialistType.swift */; };
 		C960E1DC24E675870049DC83 /* CityTradingPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C960E1DB24E675870049DC83 /* CityTradingPosts.swift */; };
 		C960E1DE24E688240049DC83 /* TradeRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C960E1DD24E688240049DC83 /* TradeRoutes.swift */; };
+		C963AD1427863DBF00981EF3 /* DedicationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C963AD1327863DBF00981EF3 /* DedicationTests.swift */; };
 		C964BA1923EAD18200CA379C /* UnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C964BA1823EAD18200CA379C /* UnitType.swift */; };
 		C964BA1B23EAE5A100CA379C /* BuildableItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C964BA1A23EAE5A100CA379C /* BuildableItem.swift */; };
 		C964BA1D23EAE76C00CA379C /* CityStrategyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C964BA1C23EAE76C00CA379C /* CityStrategyType.swift */; };
@@ -526,6 +527,7 @@
 		C9588ACC241E3E3A00304E9A /* SpecialistType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialistType.swift; sourceTree = "<group>"; };
 		C960E1DB24E675870049DC83 /* CityTradingPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityTradingPosts.swift; sourceTree = "<group>"; };
 		C960E1DD24E688240049DC83 /* TradeRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeRoutes.swift; sourceTree = "<group>"; };
+		C963AD1327863DBF00981EF3 /* DedicationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DedicationTests.swift; sourceTree = "<group>"; };
 		C964BA1823EAD18200CA379C /* UnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitType.swift; sourceTree = "<group>"; };
 		C964BA1A23EAE5A100CA379C /* BuildableItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildableItem.swift; sourceTree = "<group>"; };
 		C964BA1C23EAE76C00CA379C /* CityStrategyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityStrategyType.swift; sourceTree = "<group>"; };
@@ -1007,6 +1009,7 @@
 				C9F76AAE243314B80018672A /* CivicTests.swift */,
 				C9D5F67D2763EA0700B34AA3 /* CivicEurekaTests.swift */,
 				C9FE140D2412F8B0008CC6B3 /* CombatTests.swift */,
+				C963AD1327863DBF00981EF3 /* DedicationTests.swift */,
 				C9D8DF7523EF6D0B0091C917 /* DiplomacyAITests.swift */,
 				C9B6321D23DCDAB400E15A5F /* DiplomaticDealAITests.swift */,
 				C907085923ECB30900281161 /* EconomicAIReconStateTests.swift */,
@@ -1962,6 +1965,7 @@
 				C9FEEB9C245B5C2E00C51552 /* CityCitizensTests.swift in Sources */,
 				C92AB92327347827003647D8 /* GameModelVictoryTests.swift in Sources */,
 				C9DFCF7A23F2AFB10032243D /* MapModelTests.swift in Sources */,
+				C963AD1427863DBF00981EF3 /* DedicationTests.swift in Sources */,
 				C92D221523E2118400BB9238 /* GovernmentTypeTests.swift in Sources */,
 				C965A53823FD186E00BCEB54 /* CityStrategyAITests.swift in Sources */,
 				C98CBE1224339A0B005EE397 /* MapGeneratorTests.swift in Sources */,

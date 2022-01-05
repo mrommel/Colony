@@ -80,6 +80,12 @@ public enum EraType: Int, Codable {
         case .future: return .none
         }
     }
+
+    public func dedications() -> [DedicationType] {
+
+        return DedicationType.all
+            .filter { $0.eras().contains(self) }
+    }
 }
 
 extension EraType: Comparable {

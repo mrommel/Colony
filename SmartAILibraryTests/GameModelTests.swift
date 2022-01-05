@@ -22,15 +22,12 @@ class GameModelTests: XCTestCase {
 
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
-        playerAlexander.set(era: .classical)
 
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
-        playerAugustus.set(era: .medieval)
 
         let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
-        playerElizabeth.set(era: .medieval)
 
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
@@ -43,6 +40,10 @@ class GameModelTests: XCTestCase {
             players: [barbarianPlayer, playerElizabeth, playerAugustus, playerAlexander],
             on: mapModel
         )
+
+        playerAlexander.set(era: .classical, in: gameModel)
+        playerAugustus.set(era: .medieval, in: gameModel)
+        playerElizabeth.set(era: .medieval, in: gameModel)
 
         // WHEN
         let worldEra = gameModel.worldEra()
@@ -60,17 +61,14 @@ class GameModelTests: XCTestCase {
 
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
-        playerAlexander.set(era: .classical)
 
         // player 2
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
-        playerAugustus.set(era: .medieval)
 
         // player 3
         let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
-        playerElizabeth.set(era: .renaissance)
 
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
@@ -83,6 +81,10 @@ class GameModelTests: XCTestCase {
             players: [barbarianPlayer, playerElizabeth, playerAugustus, playerAlexander],
             on: mapModel
         )
+
+        playerAlexander.set(era: .classical, in: gameModel)
+        playerAugustus.set(era: .medieval, in: gameModel)
+        playerElizabeth.set(era: .renaissance, in: gameModel)
 
         // WHEN
         let worldEra = gameModel.worldEra()
@@ -100,7 +102,6 @@ class GameModelTests: XCTestCase {
 
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
-        playerAlexander.set(era: .classical)
         do {
             try playerAlexander.techs?.discover(tech: .masonry)
         } catch {
@@ -109,7 +110,6 @@ class GameModelTests: XCTestCase {
 
         let playerTrajan = Player(leader: .trajan)
         playerTrajan.initialize()
-        playerTrajan.set(era: .medieval)
 
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
@@ -122,6 +122,9 @@ class GameModelTests: XCTestCase {
             players: [barbarianPlayer, playerTrajan, playerAlexander],
             on: mapModel
         )
+
+        playerAlexander.set(era: .classical, in: gameModel)
+        playerTrajan.set(era: .medieval, in: gameModel)
 
         let cityLocation = HexPoint(x: 1, y: 2)
         let wonderLocation = cityLocation.neighbor(in: .south)
@@ -158,7 +161,6 @@ class GameModelTests: XCTestCase {
 
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
-        playerAlexander.set(era: .classical)
         do {
             try playerAlexander.techs?.discover(tech: .masonry)
         } catch {
@@ -168,7 +170,6 @@ class GameModelTests: XCTestCase {
         // player 2
         let playerTrajan = Player(leader: .trajan)
         playerTrajan.initialize()
-        playerTrajan.set(era: .classical)
         do {
             try playerTrajan.techs?.discover(tech: .masonry)
         } catch {
@@ -186,6 +187,9 @@ class GameModelTests: XCTestCase {
             players: [barbarianPlayer, playerTrajan, playerAlexander],
             on: mapModel
         )
+
+        playerAlexander.set(era: .classical, in: gameModel)
+        playerTrajan.set(era: .classical, in: gameModel)
 
         let cityLocation = HexPoint(x: 20, y: 20)
         let wonderLocation = cityLocation.neighbor(in: .south)

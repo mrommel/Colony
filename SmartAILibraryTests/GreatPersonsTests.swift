@@ -60,15 +60,12 @@ class GreatPersonsTests: XCTestCase {
 
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
-        playerAlexander.set(era: .classical)
 
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
-        playerAugustus.set(era: .medieval)
 
         let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
-        playerElizabeth.set(era: .medieval)
 
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
@@ -81,6 +78,10 @@ class GreatPersonsTests: XCTestCase {
             players: [barbarianPlayer, playerElizabeth, playerAugustus, playerAlexander],
             on: mapModel
         )
+
+        playerAlexander.set(era: .classical, in: gameModel)
+        playerAugustus.set(era: .medieval, in: gameModel)
+        playerElizabeth.set(era: .medieval, in: gameModel)
 
         let greatPersons = GreatPersons()
         let person = greatPersons.person(of: GreatPersonType.greatGeneral)
@@ -103,15 +104,12 @@ class GreatPersonsTests: XCTestCase {
 
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
-        playerAlexander.set(era: .classical)
 
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
-        playerAugustus.set(era: .medieval)
 
         let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
-        playerElizabeth.set(era: .medieval)
 
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
@@ -124,6 +122,10 @@ class GreatPersonsTests: XCTestCase {
             players: [barbarianPlayer, playerElizabeth, playerAugustus, playerAlexander],
             on: mapModel
         )
+
+        playerAlexander.set(era: .classical, in: gameModel)
+        playerAugustus.set(era: .medieval, in: gameModel)
+        playerElizabeth.set(era: .medieval, in: gameModel)
 
         // WHEN
         let cost = gameModel.cost(of: .greatGeneral, for: playerAlexander)
@@ -142,17 +144,14 @@ class GreatPersonsTests: XCTestCase {
 
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
-        playerAlexander.set(era: .classical)
 
         // player 2
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
-        playerAugustus.set(era: .medieval)
 
         // player 3
         let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
-        playerElizabeth.set(era: .medieval)
 
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
@@ -165,6 +164,10 @@ class GreatPersonsTests: XCTestCase {
             players: [barbarianPlayer, playerElizabeth, playerAugustus, playerAlexander],
             on: mapModel
         )
+
+        playerAlexander.set(era: .classical, in: gameModel)
+        playerAugustus.set(era: .medieval, in: gameModel)
+        playerElizabeth.set(era: .medieval, in: gameModel)
 
         // WHEN
         //playerAlexander.greatPeople?.add(points: GreatPersonPoints(greatGeneral: 61))

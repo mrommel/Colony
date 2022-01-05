@@ -2422,8 +2422,7 @@ public class Player: AbstractPlayer {
         self.momentsVal?.resetEraScore()
 
         if !self.isHumanVal {
-            var dedications = DedicationType.all
-                .filter { $0.eras().contains(era) }
+            var dedications: [DedicationType] = era.dedications()
 
             let selectable = self.currentAgeVal.numDedicationsSelectable()
             var selected: [DedicationType] = []

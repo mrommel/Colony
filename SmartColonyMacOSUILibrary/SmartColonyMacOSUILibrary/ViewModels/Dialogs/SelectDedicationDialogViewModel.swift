@@ -50,8 +50,7 @@ class SelectDedicationDialogViewModel: ObservableObject {
 
         self.summaryText = "TXT_KEY_MAKE_DEDICATION".localizedWithFormat(with: [currentEra.title().localized()])
 
-        self.dedicationViewModels = DedicationType.all
-            .filter { $0.eras().contains(currentEra) }
+        self.dedicationViewModels = currentEra.dedications()
             .map { DedicationViewModel(dedication: $0, goldenAge: nextAge == .golden || nextAge == .heroic) }
 
         self.dedicationsText = nextAge.earnedText().localized()
