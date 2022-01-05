@@ -129,7 +129,7 @@ class EraProgressDialogViewModel: ObservableObject {
         }
 
         self.currentAgeEffectText = humanPlayer.currentAge().summaryText().localized()
-        self.loyaltyEffectText = humanPlayer.currentAge().loyaltyEffect().localized()
+        self.loyaltyEffectText = humanPlayer.currentAge().loyalityEffect().localized()
     }
 }
 
