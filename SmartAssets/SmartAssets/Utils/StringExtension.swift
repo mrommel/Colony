@@ -15,9 +15,10 @@ extension String {
     /// - Parameter comment: comment to this string
     /// - Returns: localized string
     /// https://stackoverflow.com/questions/26277626/how-to-use-nslocalizedstring-function-with-variables-in-swift
-    public func localizedWithFormat(with arguments: CVarArg...) -> String {
+    public func localizedWithFormat(with arguments: [CVarArg]) -> String {
 
-        return String(format: self.localized(), arguments: arguments)
+        let template = self.localized()
+        return String(format: template, arguments: arguments)
     }
 
     /// Fetches a localized String
