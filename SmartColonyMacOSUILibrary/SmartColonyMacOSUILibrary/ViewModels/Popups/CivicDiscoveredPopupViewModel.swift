@@ -31,11 +31,11 @@ class CivicDiscoveredPopupViewModel: ObservableObject {
 
         self.civicType = civicType
 
-        self.title = "Research completed"
-        self.nameText = self.civicType.name()
+        self.title = "Research completed" // todo localize
+        self.nameText = self.civicType.name().localized()
 
         let quotes = self.civicType.quoteTexts()
-        self.quoteText = !quotes.isEmpty ? quotes.randomItem() : "-"
+        self.quoteText = !quotes.isEmpty ? quotes.randomItem().localized() : "-"
     }
 
     func icon() -> NSImage {

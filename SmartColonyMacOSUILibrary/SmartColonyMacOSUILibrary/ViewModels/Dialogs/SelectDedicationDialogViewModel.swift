@@ -48,22 +48,23 @@ class SelectDedicationDialogViewModel: ObservableObject {
         let currentEra = humanPlayer.currentEra()
         let nextAge = humanPlayer.estimateNextAge(in: gameModel)
 
-        self.summaryText = "Make your dedication for the \(currentEra.title()) era"
+        self.summaryText = "Make your dedication for the \(currentEra.title()) era" // todo
 
         self.dedicationViewModels = DedicationType.all
             .filter { $0.eras().contains(currentEra) }
-            .map { DedicationViewModel(dedication: $0, goldenAge: nextAge == .golden) }
+            .map { DedicationViewModel(dedication: $0, goldenAge: nextAge == .golden || nextAge == .heroic) }
 
         if nextAge == .heroic {
-            self.dedicationsText = "Because you earned a Heroic Age, you may make three Dedication."
+            self.dedicationsText = "Because you earned a Heroic Age, you may make three Dedications." // todo
         } else {
-            self.dedicationsText = "Because you earned a \(nextAge.name()) Age, you may make one Dedication."
+            self.dedicationsText = "Because you earned a \(nextAge.name().localized()) Age, you may make one Dedication." // todo
         }
     }
 }
 
 extension SelectDedicationDialogViewModel: BaseDialogViewModel {
 
+    // when confirm is clicked
     func closeDialog() {
 
         guard let gameModel = self.gameEnvironment.game.value else {
@@ -75,9 +76,17 @@ extension SelectDedicationDialogViewModel: BaseDialogViewModel {
         }
 
         let nextAge = humanPlayer.estimateNextAge(in: gameModel)
-        let numDedicationsSelectable = nextAge.numDedicationsSelectable()
+        let numDedicationsSelectable: Int = nextAge.numDedicationsSelectable()
+        let selectedDedicationViewModels = self.dedicationViewModels.filter({ $0.selected })
 
-        fatalError("need to save dedication")
-        self.delegate?.closeDialog()
+        if selectedDedicationViewModels.count == numDedicationsSelectable {
+
+            let dedications: [DedicationType] = selectedDedicationViewModels.map { $0.dedication }
+            humanPlayer.select(dedications: dedications)
+
+            self.delegate?.closeDialog()
+        } else {
+            print("wrong number of dedications: \(selectedDedicationViewModels.count) selected / \(numDedicationsSelectable) needed")
+        }
     }
 }

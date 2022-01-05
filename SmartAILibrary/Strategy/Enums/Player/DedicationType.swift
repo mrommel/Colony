@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum DedicationType: Int, Codable {
+public enum DedicationType: Int, Codable, Equatable {
 
     case none
 

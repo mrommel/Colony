@@ -28,9 +28,9 @@ class EurekaTechActivatedPopupViewModel: ObservableObject {
 
         self.techType = techType
 
-        self.title = "Eureka"
-        self.summaryText = techType.eurekaDescription()
-        self.descriptionText = "Your knowledge of \(techType) has advanced considerably."
+        self.title = "TXT_KEY_EUREKA".localized()
+        self.summaryText = techType.eurekaDescription().localized()
+        self.descriptionText = "TXT_KEY_EUREKA_TRIGGERED".localizedWithFormat(with: [techType.name().localized()])
     }
 
     func icon() -> NSImage {

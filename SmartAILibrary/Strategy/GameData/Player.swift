@@ -119,7 +119,8 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     func calculateGoldPerTurn(in gamemModel: GameModel?) -> Double
     func currentAge() -> AgeType
-    func currentDedication() -> DedicationType
+    func currentDedications() -> [DedicationType]
+    func select(dedications: [DedicationType])
 
     func prepareTurn(in gamemModel: GameModel?)
     func startTurn(in gameModel: GameModel?)
@@ -159,7 +160,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     // era
     func currentEra() -> EraType
-    func set(era: EraType)
+    func set(era: EraType, in gameModel: GameModel?)
     func eraScore() -> Int
     func ageThresholds(in gameModel: GameModel?) -> AgeThresholds
     func estimateNextAge(in gameModel: GameModel?) -> AgeType
@@ -1225,9 +1226,14 @@ public class Player: AbstractPlayer {
         return self.currentAgeVal
     }
 
-    public func currentDedication() -> DedicationType {
+    public func currentDedications() -> [DedicationType] {
 
-        return .none
+        return self.currentDedicationsVal
+    }
+
+    public func select(dedications: [DedicationType]) {
+
+        self.currentDedicationsVal = dedications
     }
 
     public func calculateGoldPerTurn(in gameModel: GameModel?) -> Double {
@@ -2404,19 +2410,31 @@ public class Player: AbstractPlayer {
         return self.currentEraVal
     }
 
-    public func set(era: EraType) {
+    public func set(era: EraType, in gameModel: GameModel?) {
 
         guard era > self.currentEraVal else {
             fatalError("era should be greater")
         }
 
         self.currentEraVal = era
-
-        // check golden age / dark age
-        fatalError("check golden age / dark age")
-        //self.selectCurrentAge(in: <#T##GameModel?#>)
+        self.selectCurrentAge(in: gameModel)
 
         self.momentsVal?.resetEraScore()
+
+        if !self.isHumanVal {
+            var dedications = DedicationType.all
+                .filter { $0.eras().contains(era) }
+
+            let selectable = self.currentAgeVal.numDedicationsSelectable()
+            var selected: [DedicationType] = []
+            for _ in 0..<selectable {
+                let selectedDedication = dedications.randomItem()
+                selected.append(selectedDedication)
+                dedications.removeAll(where: { $0 == selectedDedication })
+            }
+
+            self.select(dedications: selected)
+        }
     }
 
     public func has(tech techType: TechType) -> Bool {

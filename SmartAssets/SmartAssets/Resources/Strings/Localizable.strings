@@ -20,6 +20,9 @@
 
 // civic texts
 "TXT_KEY_INSPIRATION" = "Inspiration";
+"TXT_KEY_INSPIRATION_TRIGGERED" = "Your progress towards %@ has advanced considerably.";
+
+"TXT_KEY_EUREKA" = "Eureka";
 "TXT_KEY_EUREKA_TRIGGERED" = "Your progress towards %@ has advanced considerably.";
 
 // age texts

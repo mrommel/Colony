@@ -22,7 +22,7 @@ class DedicationViewModel: ObservableObject, Identifiable {
     @Published
     var selected: Bool
 
-    private let dedication: DedicationType
+    let dedication: DedicationType
 
     init(dedication: DedicationType, goldenAge: Bool) {
 

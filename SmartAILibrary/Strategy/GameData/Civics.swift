@@ -346,12 +346,11 @@ class Civics: AbstractCivics {
                 if currentCivic.era() > player.currentEra() {
 
                     gameModel?.enter(era: currentCivic.era(), for: player)
+                    player.set(era: currentCivic.era(), in: gameModel)
 
                     if player.isHuman() {
                         gameModel?.userInterface?.showPopup(popupType: .eraEntered(era: currentCivic.era()))
                     }
-
-                    player.set(era: currentCivic.era())
                 }
 
                 self.currentCivicValue = nil

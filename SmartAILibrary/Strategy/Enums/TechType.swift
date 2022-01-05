@@ -280,115 +280,234 @@ public enum TechType: String, Codable {
         switch self {
 
         case .none:
-            return TechTypeData(name: "---",
-                                eurekaSummary: "",
-                                eurekaDescription: "",
-                                quoteTexts: [],
-                                era: .ancient,
-                                cost: -1,
-                                required: [],
-                                flavors: [])
+            return TechTypeData(
+                name: "---",
+                eurekaSummary: "",
+                eurekaDescription: "",
+                quoteTexts: [],
+                era: .ancient,
+                cost: -1,
+                required: [],
+                flavors: []
+            )
 
             // ancient
         case .mining:
-            return TechTypeData(name: "Mining",
-                                eurekaSummary: "",
-                                eurekaDescription: "",
-                                quoteTexts: ["”Who deserves more credit than the wife of a coal miner?” [NEWLINE]– Merle Travis", "vWhen you find yourself in a hole, quit digging.” [NEWLINE]- Will Rogers"],
-                                era: .ancient,
-                                cost: 25,
-                                required: [],
-                                flavors: [Flavor(type: .production, value: 3), Flavor(type: .tileImprovement, value: 2)])
+            // https://civilization.fandom.com/wiki/Mining_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_MINING_NAME",
+                eurekaSummary: "TXT_KEY_TECH_MINING_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_MINING_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_MINING_QUOTE1",
+                    "TXT_KEY_TECH_MINING_QUOTE2"
+                ],
+                era: .ancient,
+                cost: 25,
+                required: [],
+                flavors: [
+                    Flavor(type: .production, value: 3),
+                    Flavor(type: .tileImprovement, value: 2)
+                ]
+            )
+
         case .pottery:
-            return TechTypeData(name: "Pottery",
-                                eurekaSummary: "",
-                                eurekaDescription: "",
-                                quoteTexts: ["“No man ever wetted clay and then left it, as if there would be bricks by chance and fortune.” [NEWLINE]- Plutarch", "“I thought clay must feel happy in the good potter’s hand.” [NEWLINE]– Janet Fitch"],
-                                era: .ancient,
-                                cost: 25,
-                                required: [],
-                                flavors: [Flavor(type: .growth, value: 5)])
+            // https://civilization.fandom.com/wiki/Pottery_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_POTTERY_NAME",
+                eurekaSummary: "TXT_KEY_TECH_POTTERY_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_POTTERY_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_POTTERY_QUOTE1",
+                    "TXT_KEY_TECH_POTTERY_QUOTE2"
+                ],
+                era: .ancient,
+                cost: 25,
+                required: [],
+                flavors: [
+                    Flavor(type: .growth, value: 5)
+                ]
+            )
+
         case .animalHusbandry:
-            return TechTypeData(name: "Animal Husbandry",
-                                eurekaSummary: "",
-                                eurekaDescription: "",
-                                quoteTexts: ["“If there are no dogs in Heaven, then when I die I want to go where they went.“ [NEWLINE]- Will Rogers", "“I am fond of pigs. Dogs look up to us. Cats look down on us. Pigs treat us as equals.” [NEWLINE]- Winston S. Churchill "],
-                                era: .ancient,
-                                cost: 25,
-                                required: [],
-                                flavors: [Flavor(type: .mobile, value: 4), Flavor(type: .tileImprovement, value: 1)])
+            // https://civilization.fandom.com/wiki/Animal_Husbandry_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_ANIMAL_HUSBANDRY_NAME",
+                eurekaSummary: "TXT_KEY_TECH_ANIMAL_HUSBANDRY_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_ANIMAL_HUSBANDRY_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_ANIMAL_HUSBANDRY_QUOTE1",
+                    "TXT_KEY_TECH_ANIMAL_HUSBANDRY_QUOTE2"
+                ],
+                era: .ancient,
+                cost: 25,
+                required: [],
+                flavors: [
+                    Flavor(type: .mobile, value: 4),
+                    Flavor(type: .tileImprovement, value: 1)
+                ]
+            )
+
         case .sailing:
-            return TechTypeData(name: "Sailing",
-                                eurekaSummary: "Found a city on the Coast",
-                                eurekaDescription: "Founding a city on the Coast has given your civilization insight into navigating the waves.",
-                                quoteTexts: ["“Vessels large may venture more, but little boats should keep near shore.“ [NEWLINE]-Benjamin Franklin", "“It is not that life ashore is distasteful to me. But life at sea is better.” [NEWLINE]– Sir Francis Drake"],
-                                era: .ancient,
-                                cost: 50,
-                                required: [],
-                                flavors: [Flavor(type: .naval, value: 3), Flavor(type: .navalTileImprovement, value: 3), Flavor(type: .wonder, value: 3), Flavor(type: .navalRecon, value: 2)])
+            // https://civilization.fandom.com/wiki/Sailing_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_SAILING_NAME",
+                eurekaSummary: "TXT_KEY_TECH_SAILING_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_SAILING_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_SAILING_QUOTE1",
+                    "TXT_KEY_TECH_SAILING_QUOTE2"
+                ],
+                era: .ancient,
+                cost: 50,
+                required: [],
+                flavors: [
+                    Flavor(type: .naval, value: 3),
+                    Flavor(type: .navalTileImprovement, value: 3),
+                    Flavor(type: .wonder, value: 3),
+                    Flavor(type: .navalRecon, value: 2)
+                ]
+            )
+
         case .astrology:
-            return TechTypeData(name: "Astrology",
-                                eurekaSummary: "Find a Natural Wonder",
-                                eurekaDescription: "Discovering a natural wonder has inspired your people with the majesty of the universe.",
-                                quoteTexts: ["“I don’t believe in astrology; I’m a Sagittarius and we’re skeptical.” [NEWLINE]– Arthur C. Clarke", "“A physician without a knowledge of astrology has no right to call himself a physician.” [NEWLINE]- Hippocrates"],
-                                era: .ancient,
-                                cost: 50,
-                                required: [],
-                                flavors: [Flavor(type: .happiness, value: 10), Flavor(type: .tileImprovement, value: 2), Flavor(type: .wonder, value: 4)])
+            // https://civilization.fandom.com/wiki/Astrology_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_ASTROLOGY_NAME",
+                eurekaSummary: "TXT_KEY_TECH_ASTROLOGY_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_ASTROLOGY_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_ASTROLOGY_QUOTE1",
+                    "TXT_KEY_TECH_ASTROLOGY_QUOTE2"
+                ],
+                era: .ancient,
+                cost: 50,
+                required: [],
+                flavors: [
+                    Flavor(type: .happiness, value: 10),
+                    Flavor(type: .tileImprovement, value: 2),
+                    Flavor(type: .wonder, value: 4)
+                ]
+            )
+
         case .irrigation:
-            return TechTypeData(name: "Irrigation",
-                                eurekaSummary: "Farm a resource",
-                                eurekaDescription: "Farming a resource has given you an appreciation of the importance of irrigating your crops.",
-                                quoteTexts: ["“Thousands have lived without love, not one without water.” [NEWLINE]-W. H. Auden", "“The man who has grit enough to bring about the afforestation or the irrigation of a country is not less worthy of honor than its conqueror.” [NEWLINE]– Sir John Thomson"],
-                                era: .ancient,
-                                cost: 50,
-                                required: [.pottery],
-                                flavors: [Flavor(type: .growth, value: 5)])
+            // https://civilization.fandom.com/wiki/Irrigation_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_IRRIGATION_NAME",
+                eurekaSummary: "TXT_KEY_TECH_IRRIGATION_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_IRRIGATION_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_IRRIGATION_QUOTE1",
+                    "TXT_KEY_TECH_IRRIGATION_QUOTE2"
+                ],
+                era: .ancient,
+                cost: 50,
+                required: [.pottery],
+                flavors: [
+                    Flavor(type: .growth, value: 5)
+                ]
+            )
+
         case .writing:
-            return TechTypeData(name: "Writing",
-                                eurekaSummary: "Meet another civilization",
-                                eurekaDescription: "After meeting another civilization you see the need for new ways to communicate.",
-                                quoteTexts: ["“Writing means sharing. It’s part of the human condition to want to share things – thoughts, ideas, opinions.” [NEWLINE]– Paulo Coelho", "“Writing is easy. All you have to do is cross out the wrong words.“ [NEWLINE]-Mark Twain"],
-                                era: .ancient,
-                                cost: 50,
-                                required: [.pottery],
-                                flavors: [Flavor(type: .science, value: 6), Flavor(type: .wonder, value: 2), Flavor(type: .diplomacy, value: 2)])
+            // https://civilization.fandom.com/wiki/Writing_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_WRITING_NAME",
+                eurekaSummary: "TXT_KEY_TECH_WRITING_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_WRITING_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_WRITING_QUOTE1",
+                    "TXT_KEY_TECH_WRITING_QUOTE2"
+                ],
+                era: .ancient,
+                cost: 50,
+                required: [.pottery],
+                flavors: [
+                    Flavor(type: .science, value: 6),
+                    Flavor(type: .wonder, value: 2),
+                    Flavor(type: .diplomacy, value: 2)
+                ]
+            )
+
         case .masonry:
-            return TechTypeData(name: "Masonry",
-                                eurekaSummary: "Build a Quarry",
-                                eurekaDescription: "Quarrying a resource has given you the raw materials you need to employ masons.",
-                                quoteTexts: ["“Each of us is carving a stone, erecting a column, or cutting a piece of stained glass in the construction of something much bigger than ourselves.”[NEWLINE]– Adrienne Clarkson", "“When wasteful war shall statues overturn, and broils root out the work of masonry.” [NEWLINE]– William Shakespeare"],
-                                era: .ancient,
-                                cost: 80,
-                                required: [.mining],
-                                flavors: [Flavor(type: .cityDefense, value: 4), Flavor(type: .happiness, value: 2), Flavor(type: .tileImprovement, value: 2), Flavor(type: .wonder, value: 2)])
+            // https://civilization.fandom.com/wiki/Masonry_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_MASONRY_NAME",
+                eurekaSummary: "TXT_KEY_TECH_MASONRY_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_MASONRY_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_MASONRY_QUOTE1",
+                    "TXT_KEY_TECH_MASONRY_QUOTE2"
+                ],
+                era: .ancient,
+                cost: 80,
+                required: [.mining],
+                flavors: [
+                    Flavor(type: .cityDefense, value: 4),
+                    Flavor(type: .happiness, value: 2),
+                    Flavor(type: .tileImprovement, value: 2),
+                    Flavor(type: .wonder, value: 2)
+                ]
+            )
+
         case .archery:
-            return TechTypeData(name: "Archery",
-                                eurekaSummary: "Kill a unit with a Slinger",
-                                eurekaDescription: "After finally killing an enemy with a Slinger, you long for a stronger ranged weapon.",
-                                quoteTexts: ["“I shot an arrow into the air. It fell to earth, I knew not where.” [NEWLINE]– Henry Wadsworth Longfellow", "“May the forces of evil become confused while your arrow is on its way to the target.” [NEWLINE]– George Carlin"],
-                                era: .ancient,
-                                cost: 50,
-                                required: [.animalHusbandry],
-                                flavors: [Flavor(type: .ranged, value: 4), Flavor(type: .offense, value: 1)])
+            // https://civilization.fandom.com/wiki/Archery_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_ARCHERY_NAME",
+                eurekaSummary: "TXT_KEY_TECH_ARCHERY_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_ARCHERY_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_ARCHERY_QUOTE1",
+                    "TXT_KEY_TECH_ARCHERY_QUOTE2"
+                ],
+                era: .ancient,
+                cost: 50,
+                required: [.animalHusbandry],
+                flavors: [
+                    Flavor(type: .ranged, value: 4),
+                    Flavor(type: .offense, value: 1)
+                ]
+            )
+
         case .bronzeWorking:
-            return TechTypeData(name: "Bronze Working",
-                                eurekaSummary: "Kill 3 Barbarians",
-                                eurekaDescription: "Your fights with Barbarians highlight the need for stronger weaponry.",
-                                quoteTexts: ["“Bronze is the mirror of the form, wine of the mind.” [NEWLINE]– Aeschylus", "“I’m also interested in creating a lasting legacy … because bronze will last for thousands of years.” [NEWLINE]- Richard MacDonald"],
-                                era: .ancient,
-                                cost: 80,
-                                required: [.mining],
-                                flavors: [Flavor(type: .defense, value: 4), Flavor(type: .militaryTraining, value: 4), Flavor(type: .wonder, value: 2)])
+            // https://civilization.fandom.com/wiki/Bronze_Working_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_BRONZE_WORKING_NAME",
+                eurekaSummary: "TXT_KEY_TECH_BRONZE_WORKING_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_BRONZE_WORKING_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_BRONZE_WORKING_QUOTE1",
+                    "TXT_KEY_TECH_BRONZE_WORKING_QUOTE2"
+                ],
+                era: .ancient,
+                cost: 80,
+                required: [.mining],
+                flavors: [
+                    Flavor(type: .defense, value: 4),
+                    Flavor(type: .militaryTraining, value: 4),
+                    Flavor(type: .wonder, value: 2)
+                ]
+            )
+
         case .wheel:
-            return TechTypeData(name: "Wheel",
-                                eurekaSummary: "Mine a resource",
-                                eurekaDescription: "Your mining operations have given you the ability to create an axle. Will the wheel follow?",
-                                quoteTexts: ["“Sometimes the wheel turns slowly, but it turns.” [NEWLINE]– Lorne Michaels", "“Don’t reinvent the wheel, just realign it.” [NEWLINE]– Anthony D’Angelo"],
-                                era: .ancient,
-                                cost: 80,
-                                required: [.mining],
-                                flavors: [Flavor(type: .mobile, value: 2), Flavor(type: .growth, value: 2), Flavor(type: .ranged, value: 2), Flavor(type: .infrastructure, value: 2), Flavor(type: .gold, value: 6)])
+            // https://civilization.fandom.com/wiki/Wheel_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_WHEEL_NAME",
+                eurekaSummary: "TXT_KEY_TECH_WHEEL_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_WHEEL_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_WHEEL_QUOTE1",
+                    "TXT_KEY_TECH_WHEEL_QUOTE2"
+                ],
+                era: .ancient,
+                cost: 80,
+                required: [.mining],
+                flavors: [
+                    Flavor(type: .mobile, value: 2),
+                    Flavor(type: .growth, value: 2),
+                    Flavor(type: .ranged, value: 2),
+                    Flavor(type: .infrastructure, value: 2),
+                    Flavor(type: .gold, value: 6)
+                ]
+            )
 
             // classical
         // https://github.com/kondeeza/Anki_Python_Addon/blob/96c7474b14aad4a276312f7b1cb25120f1045830/Civ6_Mod/Language_Mod/Input2/en_US/Quotes_Text.xml

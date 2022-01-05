@@ -388,12 +388,11 @@ class Techs: AbstractTechs {
                 if currentTech.era() > player.currentEra() {
 
                     gameModel?.enter(era: currentTech.era(), for: player)
+                    player.set(era: currentTech.era(), in: gameModel)
 
                     if player.isHuman() {
                         gameModel?.userInterface?.showPopup(popupType: .eraEntered(era: currentTech.era()))
                     }
-
-                    player.set(era: currentTech.era())
                 }
 
                 self.currentTechValue = nil

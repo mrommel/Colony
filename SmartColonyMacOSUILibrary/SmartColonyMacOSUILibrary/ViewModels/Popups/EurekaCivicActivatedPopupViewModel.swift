@@ -30,7 +30,7 @@ class EurekaCivicActivatedPopupViewModel: ObservableObject {
 
         self.title = "TXT_KEY_INSPIRATION".localized()
         self.summaryText = civicType.eurekaDescription().localized()
-        self.descriptionText = "TXT_KEY_EUREKA_TRIGGERED".localizedWithFormat(with: [civicType])
+        self.descriptionText = "TXT_KEY_INSPIRATION_TRIGGERED".localizedWithFormat(with: [civicType.name().localized()])
     }
 
     func icon() -> NSImage {

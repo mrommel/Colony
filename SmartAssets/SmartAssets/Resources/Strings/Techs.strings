@@ -1,0 +1,92 @@
+/* 
+  Techs.strings
+  SmartAssets
+
+  Created by Michael Rommel on 05.01.22.
+  
+*/
+
+// tech texts
+
+// ///////////////////////////////////////
+// ancient
+
+// mining
+"TXT_KEY_TECH_MINING_NAME" = "Mining";
+"TXT_KEY_TECH_MINING_EUREKA" = "";
+"TXT_KEY_TECH_MINING_EUREKA_TEXT" = "";
+"TXT_KEY_TECH_MINING_QUOTE1" = "”Who deserves more credit than the wife of a coal miner?”\n– Merle Travis";
+"TXT_KEY_TECH_MINING_QUOTE2" = "When you find yourself in a hole, quit digging.”\n- Will Rogers";
+
+// pottery
+"TXT_KEY_TECH_POTTERY_NAME" = "Pottery";
+"TXT_KEY_TECH_POTTERY_EUREKA" = "";
+"TXT_KEY_TECH_POTTERY_EUREKA_TEXT" = "";
+"TXT_KEY_TECH_POTTERY_QUOTE1" = "“No man ever wetted clay and then left it, as if there would be bricks by chance and fortune.”\n- Plutarch";
+"TXT_KEY_TECH_POTTERY_QUOTE2" = "“I thought clay must feel happy in the good potter’s hand.”\n– Janet Fitch";
+
+// animalHusbandry
+"TXT_KEY_TECH_ANIMAL_HUSBANDRY_NAME" = "Animal Husbandry";
+"TXT_KEY_TECH_ANIMAL_HUSBANDRY_EUREKA" = "";
+"TXT_KEY_TECH_ANIMAL_HUSBANDRY_EUREKA_TEXT" = "";
+"TXT_KEY_TECH_ANIMAL_HUSBANDRY_QUOTE1" = "“If there are no dogs in Heaven, then when I die I want to go where they went.“\n- Will Rogers";
+"TXT_KEY_TECH_ANIMAL_HUSBANDRY_QUOTE2" = "“I am fond of pigs. Dogs look up to us. Cats look down on us. Pigs treat us as equals.”\n- Winston S. Churchill";
+
+// sailing
+"TXT_KEY_TECH_SAILING_NAME" = "Sailing";
+"TXT_KEY_TECH_SAILING_EUREKA" = "Found a city on the Coast";
+"TXT_KEY_TECH_SAILING_EUREKA_TEXT" = "Founding a city on the Coast has given your civilization insight into navigating the waves.";
+"TXT_KEY_TECH_SAILING_QUOTE1" = "“Vessels large may venture more, but little boats should keep near shore.“\n-Benjamin Franklin";
+"TXT_KEY_TECH_SAILING_QUOTE2" = "“It is not that life ashore is distasteful to me. But life at sea is better.”\n– Sir Francis Drake";
+
+// astrology
+"TXT_KEY_TECH_ASTROLOGY_NAME" = "Astrology";
+"TXT_KEY_TECH_ASTROLOGY_EUREKA" = "Find a Natural Wonder";
+"TXT_KEY_TECH_ASTROLOGY_EUREKA_TEXT" = "Discovering a natural wonder has inspired your people with the majesty of the universe.";
+"TXT_KEY_TECH_ASTROLOGY_QUOTE1" = "“I don’t believe in astrology; I’m a Sagittarius and we’re skeptical.”\n– Arthur C. Clarke";
+"TXT_KEY_TECH_ASTROLOGY_QUOTE2" = "“A physician without a knowledge of astrology has no right to call himself a physician.”\n- Hippocrates";
+
+// irrigation
+"TXT_KEY_TECH_IRRIGATION_NAME" = "Irrigation";
+"TXT_KEY_TECH_IRRIGATION_EUREKA" = "Farm a resource";
+"TXT_KEY_TECH_IRRIGATION_EUREKA_TEXT" = "Farming a resource has given you an appreciation of the importance of irrigating your crops.";
+"TXT_KEY_TECH_IRRIGATION_QUOTE1" = "“Thousands have lived without love, not one without water.”\n-W. H. Auden";
+"TXT_KEY_TECH_IRRIGATION_QUOTE2" = "“The man who has grit enough to bring about the afforestation or the irrigation of a country is not less worthy of honor than its conqueror.”\n– Sir John Thomson";
+
+// writing
+"TXT_KEY_TECH_WRITING_NAME" = "Writing";
+"TXT_KEY_TECH_WRITING_EUREKA" = "Meet another civilization";
+"TXT_KEY_TECH_WRITING_EUREKA_TEXT" = "After meeting another civilization you see the need for new ways to communicate.";
+"TXT_KEY_TECH_WRITING_QUOTE1" = "“Writing means sharing. It’s part of the human condition to want to share things – thoughts, ideas, opinions.”\n– Paulo Coelho";
+"TXT_KEY_TECH_WRITING_QUOTE2" = "“Writing is easy. All you have to do is cross out the wrong words.“\n-Mark Twain";
+
+// masonry
+"TXT_KEY_TECH_MASONRY_NAME" = "Masonry";
+"TXT_KEY_TECH_MASONRY_EUREKA" = "Build a Quarry";
+"TXT_KEY_TECH_MASONRY_EUREKA_TEXT" = "Quarrying a resource has given you the raw materials you need to employ masons.";
+"TXT_KEY_TECH_MASONRY_QUOTE1" = "“Each of us is carving a stone, erecting a column, or cutting a piece of stained glass in the construction of something much bigger than ourselves.”\n– Adrienne Clarkson";
+"TXT_KEY_TECH_MASONRY_QUOTE2" = "“When wasteful war shall statues overturn, and broils root out the work of masonry.”\n– William Shakespeare";
+
+// archery
+"TXT_KEY_TECH_ARCHERY_NAME" = "Archery";
+"TXT_KEY_TECH_ARCHERY_EUREKA" = "Kill a unit with a Slinger";
+"TXT_KEY_TECH_ARCHERY_EUREKA_TEXT" = "After finally killing an enemy with a Slinger, you long for a stronger ranged weapon.";
+"TXT_KEY_TECH_ARCHERY_QUOTE1" = "“I shot an arrow into the air. It fell to earth, I knew not where.”\n– Henry Wadsworth Longfellow";
+"TXT_KEY_TECH_ARCHERY_QUOTE2" = "“May the forces of evil become confused while your arrow is on its way to the target.”\n– George Carlin";
+
+// bronzeWorking
+"TXT_KEY_TECH_BRONZE_WORKING_NAME" = "Bronze Working";
+"TXT_KEY_TECH_BRONZE_WORKING_EUREKA" = "Kill 3 Barbarians";
+"TXT_KEY_TECH_BRONZE_WORKING_EUREKA_TEXT" = "Your fights with Barbarians highlight the need for stronger weaponry.";
+"TXT_KEY_TECH_BRONZE_WORKING_QUOTE1" = "“Bronze is the mirror of the form, wine of the mind.”\n– Aeschylus";
+"TXT_KEY_TECH_BRONZE_WORKING_QUOTE2" = "“I’m also interested in creating a lasting legacy … because bronze will last for thousands of years.”\n- Richard MacDonald";
+
+// wheel
+"TXT_KEY_TECH_WHEEL_NAME" = "Wheel";
+"TXT_KEY_TECH_WHEEL_EUREKA" = "Mine a resource";
+"TXT_KEY_TECH_WHEEL_EUREKA_TEXT" = "Your mining operations have given you the ability to create an axle. Will the wheel follow?";
+"TXT_KEY_TECH_WHEEL_QUOTE1" = "“Sometimes the wheel turns slowly, but it turns.”\n– Lorne Michaels";
+"TXT_KEY_TECH_WHEEL_QUOTE2" = "“Don’t reinvent the wheel, just realign it.”\n– Anthony D’Angelo";
+
+// ///////////////////////////////////////
+// classical
