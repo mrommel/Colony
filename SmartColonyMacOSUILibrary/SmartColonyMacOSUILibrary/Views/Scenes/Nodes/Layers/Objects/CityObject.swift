@@ -149,7 +149,8 @@ class CityObject {
         }
 
         // city banner
-        let nameLabelWidth: CGFloat = CGFloat(city.name.count) * 4.2
+        let cityName = city.name.localized()
+        let nameLabelWidth: CGFloat = CGFloat(cityName.count) * 4.2
         let leftExtra: CGFloat = 10.0 // city.isCapital() ? 10.0 : 0
         let rightExtra: CGFloat = 10.0 // city.governor() != nil ? 10.0 : 0
         let bannerBackgroundWidth = leftExtra + nameLabelWidth + rightExtra + 18.0
@@ -217,7 +218,7 @@ class CityObject {
             }
         }
 
-        self.nameLabel = SKLabelNode(text: "\(city.name)")
+        self.nameLabel = SKLabelNode(text: cityName)
         self.nameLabel?.fontSize = 8
         self.nameLabel?.position = CGPoint(x: nameOffset, y: 36)
         self.nameLabel?.zPosition = Globals.ZLevels.cityName

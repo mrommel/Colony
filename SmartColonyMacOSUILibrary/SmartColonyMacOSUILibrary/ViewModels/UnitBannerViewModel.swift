@@ -403,7 +403,10 @@ class UnitBannerViewModel: ObservableObject {
                         subtitle: "")
                 }
 
-                gameModel.userInterface?.askForSelection(title: "Found Religion", items: selectableItems, completion: { selectedIndex in
+                gameModel.userInterface?.askForSelection(
+                    title: "Found Religion",
+                    items: selectableItems,
+                    completion: { selectedIndex in
 
                     let religion = possibleReligions[selectedIndex]
                     print("### selected religion: \(religion) ###")
