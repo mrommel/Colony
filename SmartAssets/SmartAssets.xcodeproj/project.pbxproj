@@ -32,6 +32,7 @@
 		C952B9AC261E3930008822DD /* ObjectTextureAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952B9AB261E3930008822DD /* ObjectTextureAtlas.swift */; };
 		C952B9AE261E396F008822DD /* TextureAtlasExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952B9AD261E396F008822DD /* TextureAtlasExtension.swift */; };
 		C963AD102785E27100981EF3 /* Techs.strings in Resources */ = {isa = PBXBuildFile; fileRef = C963AD0F2785E27100981EF3 /* Techs.strings */; };
+		C963AD12278627BD00981EF3 /* AgeTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C963AD11278627BC00981EF3 /* AgeTypeExtension.swift */; };
 		C968F29D2639BA4F00612D0E /* ImprovementTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F29C2639BA4F00612D0E /* ImprovementTypeExtension.swift */; };
 		C971FDD7270A41A800F818EE /* ReligionTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C971FDD6270A41A800F818EE /* ReligionTypeExtension.swift */; };
 		C9754D56275E18AC000A1B70 /* AppealLevelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9754D55275E18AC000A1B70 /* AppealLevelExtension.swift */; };
@@ -148,6 +149,7 @@
 		C952B9AB261E3930008822DD /* ObjectTextureAtlas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectTextureAtlas.swift; sourceTree = "<group>"; };
 		C952B9AD261E396F008822DD /* TextureAtlasExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureAtlasExtension.swift; sourceTree = "<group>"; };
 		C963AD0F2785E27100981EF3 /* Techs.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Techs.strings; sourceTree = "<group>"; };
+		C963AD11278627BC00981EF3 /* AgeTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeTypeExtension.swift; sourceTree = "<group>"; };
 		C968F29C2639BA4F00612D0E /* ImprovementTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementTypeExtension.swift; sourceTree = "<group>"; };
 		C971FDD6270A41A800F818EE /* ReligionTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionTypeExtension.swift; sourceTree = "<group>"; };
 		C9754D55275E18AC000A1B70 /* AppealLevelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealLevelExtension.swift; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 				C9754D5B275F3A0F000A1B70 /* MapLensTypeExtension.swift */,
 				C9CB34002761EB12008835D0 /* ContinentTypeExtension.swift */,
 				C9C8A7482785788200BC68CF /* DedicationTypeExtension.swift */,
+				C963AD11278627BC00981EF3 /* AgeTypeExtension.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -584,6 +587,7 @@
 				C950F99D26490A790057A7D1 /* PolicyCardsTypeExtension.swift in Sources */,
 				C931ADD22577D0E30002BA2F /* Textures.swift in Sources */,
 				C9E87BC3264DB58100514B9A /* BuildTypeExtension.swift in Sources */,
+				C963AD12278627BD00981EF3 /* AgeTypeExtension.swift in Sources */,
 				C91B485026E61AED002157C4 /* HeaderButtonType.swift in Sources */,
 				C9022FA22609D06A00C6773A /* HandicapTypeExtension.swift in Sources */,
 				C971FDD7270A41A800F818EE /* ReligionTypeExtension.swift in Sources */,

@@ -14,56 +14,79 @@ public enum AgeType: Int, Codable {
     case golden
     case heroic
 
+    public static var all: [AgeType] = [
+
+        .dark,
+        .normal,
+        .golden,
+        .heroic
+    ]
+
+    public func name() -> String {
+
+        return self.data().name
+    }
+
     public func loyalityFactor() -> Double {
 
-        switch self {
-
-        case .dark: return 0.5
-        case .normal: return 1.0
-        case .golden, .heroic: return 1.5
-        }
+        return self.data().loyalityFactor
     }
 
     public func numDedicationsSelectable() -> Int {
 
-        switch self {
-
-        case .dark: return 1
-        case .normal, .golden: return 1
-        case .heroic: return 2
-        }
+        return self.data().numDedicationsSelectable
     }
 
-    public func name() -> String {
+    public func loyalityEffect() -> String {
 
-        switch self {
-
-        case .dark: return "TXT_KEY_AGE_DARK_NAME"
-        case .normal: return "TXT_KEY_AGE_NORMAL_NAME"
-        case .golden: return "TXT_KEY_AGE_GOLDEN_NAME"
-        case .heroic: return "TXT_KEY_AGE_HEROIC_NAME"
-        }
+        return self.data().loyalityEffect
     }
 
-    public func loyaltyEffect() -> String {
+    // private methods
 
-        switch self {
+    private struct AgeTypeData {
 
-        case .dark: return "TXT_KEY_AGE_DARK_LOYALTY"
-        case .normal: return "TXT_KEY_AGE_NORMAL_LOYALTY"
-        case .golden: return "TXT_KEY_AGE_GOLDEN_LOYALTY"
-        case .heroic: return "TXT_KEY_AGE_HEROIC_LOYALTY"
-        }
+        let name: String
+        let loyalityFactor: Double
+        let loyalityEffect: String
+        let numDedicationsSelectable: Int
     }
 
-    public func summary() -> String {
+    private func data() -> AgeTypeData {
 
         switch self {
 
-        case .dark: return "TXT_KEY_AGE_DARK_SUMMARY"
-        case .normal: return "TXT_KEY_AGE_NORMAL_SUMMARY"
-        case .golden: return "TXT_KEY_AGE_GOLDEN_SUMMARY"
-        case .heroic: return "TXT_KEY_AGE_HEROIC_SUMMARY"
+        case .dark:
+            return AgeTypeData(
+                name: "TXT_KEY_AGE_DARK_NAME",
+                loyalityFactor: 0.5,
+                loyalityEffect: "TXT_KEY_AGE_DARK_LOYALTY",
+                numDedicationsSelectable: 1
+            )
+
+        case .normal:
+            return AgeTypeData(
+                name: "TXT_KEY_AGE_NORMAL_NAME",
+                loyalityFactor: 1.0,
+                loyalityEffect: "TXT_KEY_AGE_NORMAL_LOYALTY",
+                numDedicationsSelectable: 1
+            )
+
+        case .golden:
+            return AgeTypeData(
+                name: "TXT_KEY_AGE_GOLDEN_NAME",
+                loyalityFactor: 1.5,
+                loyalityEffect: "TXT_KEY_AGE_GOLDEN_LOYALTY",
+                numDedicationsSelectable: 1
+            )
+
+        case .heroic:
+            return AgeTypeData(
+                name: "TXT_KEY_AGE_HEROIC_NAME",
+                loyalityFactor: 1.5,
+                loyalityEffect: "TXT_KEY_AGE_HEROIC_LOYALTY",
+                numDedicationsSelectable: 3
+            )
         }
     }
 }

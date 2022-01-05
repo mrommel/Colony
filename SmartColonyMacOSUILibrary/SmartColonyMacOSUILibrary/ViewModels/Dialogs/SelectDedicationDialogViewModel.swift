@@ -29,8 +29,8 @@ class SelectDedicationDialogViewModel: ObservableObject {
 
     init() {
 
-        self.title = "Dedication"
-        self.summaryText = "Make your dedication for the XXX era"
+        self.title = "TXT_KEY_DEDICATION".localized()
+        self.summaryText = "TXT_KEY_MAKE_DEDICATION".localizedWithFormat(with: [EraType.ancient.title().localized()])
         self.dedicationViewModels = []
         self.dedicationsText = ""
     }
@@ -48,17 +48,13 @@ class SelectDedicationDialogViewModel: ObservableObject {
         let currentEra = humanPlayer.currentEra()
         let nextAge = humanPlayer.estimateNextAge(in: gameModel)
 
-        self.summaryText = "Make your dedication for the \(currentEra.title()) era" // todo
+        self.summaryText = "TXT_KEY_MAKE_DEDICATION".localizedWithFormat(with: [currentEra.title().localized()])
 
         self.dedicationViewModels = DedicationType.all
             .filter { $0.eras().contains(currentEra) }
             .map { DedicationViewModel(dedication: $0, goldenAge: nextAge == .golden || nextAge == .heroic) }
 
-        if nextAge == .heroic {
-            self.dedicationsText = "Because you earned a Heroic Age, you may make three Dedications." // todo
-        } else {
-            self.dedicationsText = "Because you earned a \(nextAge.name().localized()) Age, you may make one Dedication." // todo
-        }
+        self.dedicationsText = nextAge.earnedText().localized()
     }
 }
 

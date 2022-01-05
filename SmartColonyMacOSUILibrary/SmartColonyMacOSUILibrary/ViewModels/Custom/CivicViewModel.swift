@@ -76,7 +76,8 @@ class CivicViewModel: ObservableObject, Identifiable {
 
     func background() -> NSImage {
 
-        return ImageCache.shared.image(for: self.state.backgroundTexture()).resize(withSize: NSSize(width: 42, height: 42))!
+        return ImageCache.shared.image(for: self.state.backgroundTexture())
+            .resize(withSize: NSSize(width: 42, height: 42))!
     }
 
     private func achievements() -> [AchievementViewModel] {

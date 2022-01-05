@@ -33,7 +33,7 @@ struct SelectDedicationDialogView: View {
 
                     ScrollView(.vertical, showsIndicators: true, content: {
 
-                        LazyHStack(spacing: 4) {
+                        LazyVStack(spacing: 4) {
 
                             ForEach(self.viewModel.dedicationViewModels, id: \.self) { dedicationViewModel in
 

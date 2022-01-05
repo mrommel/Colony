@@ -61,7 +61,7 @@ init(techType: TechType, progress: Int, turns: Int, boosted: Bool) {
 
     func title() -> String {
 
-        return self.techType.name()
+        return self.techType.name().localized()
     }
 
     func iconImage() -> NSImage {
@@ -138,9 +138,11 @@ init(techType: TechType, progress: Int, turns: Int, boosted: Bool) {
         }
 
         if self.boosted {
-            return "Boosted: " + self.techType.eurekaSummary()
+            return "TXT_KEY_BOOSTED".localized() + " " +
+                self.techType.eurekaSummary()
         } else {
-            return "To boost: " + self.techType.eurekaSummary()
+            return "TXT_KEY_TO_BOOST".localized() + " " +
+                self.techType.eurekaSummary()
         }
     }
 }

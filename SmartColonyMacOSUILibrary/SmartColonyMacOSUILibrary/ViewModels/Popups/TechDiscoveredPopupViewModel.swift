@@ -31,11 +31,11 @@ class TechDiscoveredPopupViewModel: ObservableObject {
 
         self.techType = techType
 
-        self.title = "Research completed"
-        self.nameText = self.techType.name()
+        self.title = "TXT_KEY_RESEARCH_COMPLETED".localized()
+        self.nameText = self.techType.name().localized()
 
         let quotes = self.techType.quoteTexts()
-        self.quoteText = !quotes.isEmpty ? quotes.randomItem() : "-"
+        self.quoteText = !quotes.isEmpty ? quotes.randomItem().localized() : "-"
     }
 
     func icon() -> NSImage {

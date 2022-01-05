@@ -128,7 +128,7 @@ class EraProgressDialogViewModel: ObservableObject {
             self.goldenAgeCheckmarkImage = NSImage()
         }
 
-        self.currentAgeEffectText = humanPlayer.currentAge().summary().localized()
+        self.currentAgeEffectText = humanPlayer.currentAge().summaryText().localized()
         self.loyaltyEffectText = humanPlayer.currentAge().loyaltyEffect().localized()
     }
 }

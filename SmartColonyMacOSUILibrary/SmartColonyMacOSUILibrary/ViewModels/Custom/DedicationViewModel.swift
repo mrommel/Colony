@@ -37,6 +37,11 @@ class DedicationViewModel: ObservableObject, Identifiable {
 
         return ImageCache.shared.image(for: self.dedication.iconTexture())
     }
+
+    func clicked() {
+
+        self.selected = !self.selected
+    }
 }
 
 extension DedicationViewModel: Hashable {

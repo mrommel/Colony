@@ -36,14 +36,24 @@
 "TXT_KEY_CHOOSE_MAP_TYPE" = "Choose Map Type";
 "TXT_KEY_CHOOSE_MAP_SIZE" = "Choose Map Size";
 
-// civic texts
+// civic/tech texts
 "TXT_KEY_INSPIRATION" = "Inspiration";
 "TXT_KEY_INSPIRATION_TRIGGERED" = "Your progress towards %@ has advanced considerably.";
 
 "TXT_KEY_EUREKA" = "Eureka";
 "TXT_KEY_EUREKA_TRIGGERED" = "Your progress towards %@ has advanced considerably.";
 
+"TXT_KEY_RESEARCH_COMPLETED" = "Research completed";
+
 // age texts
+"TXT_KEY_DEDICATION" = "Dedication";
+"TXT_KEY_MAKE_DEDICATION" = "Make your dedication for the %@ era";
+
+"TXT_KEY_EARNED_DARK_AGE" = "Because you earned a [DarkAge] Dark Age, you may make one Dedication.";
+"TXT_KEY_EARNED_NORMAL_AGE" = "Because you earned a [NormalAge] Normal Age, you may make one Dedication.";
+"TXT_KEY_EARNED_GOLDEN_AGE" = "Because you earned a [GoldenAge] Golden Age, you may make one Dedication.";
+"TXT_KEY_EARNED_HEROIC_AGE" = "Because you earned a Heroic Age, you may make three Dedications.";
+
 "TXT_KEY_AGE_DARK_SUMMARY" = "You are in a [DarkAge] Dark Age during this era.";
 "TXT_KEY_AGE_NORMAL_SUMMARY" = "You are in a [NormalAge] Normal Age during this era.";
 "TXT_KEY_AGE_GOLDEN_SUMMARY" = "You are in a [GoldenAge] Golden Age during this era.";

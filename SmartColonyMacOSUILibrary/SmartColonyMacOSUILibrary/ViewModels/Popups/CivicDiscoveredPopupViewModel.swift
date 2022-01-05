@@ -31,7 +31,7 @@ class CivicDiscoveredPopupViewModel: ObservableObject {
 
         self.civicType = civicType
 
-        self.title = "Research completed" // todo localize
+        self.title = "TXT_KEY_RESEARCH_COMPLETED".localized()
         self.nameText = self.civicType.name().localized()
 
         let quotes = self.civicType.quoteTexts()

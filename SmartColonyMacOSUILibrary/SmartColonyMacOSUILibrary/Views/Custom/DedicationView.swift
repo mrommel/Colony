@@ -41,7 +41,7 @@ struct DedicationView: View {
                 .frame(minWidth: 0, maxWidth: 32)
 
             if self.viewModel.selected {
-                Image(nsImage: Globals.Icons.questionmark)
+                Image(nsImage: Globals.Icons.checkmark)
                     .resizable()
                     .frame(width: 24, height: 24, alignment: .topLeading)
                     .padding(.horizontal, 8)
@@ -54,6 +54,9 @@ struct DedicationView: View {
                 .resizable(capInsets: EdgeInsets(all: 15))
                 //.hueRotation(Angle(degrees: 135))
         )
+        .onTapGesture {
+            self.viewModel.clicked()
+        }
     }
 }
 
