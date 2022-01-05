@@ -20,7 +20,8 @@ struct GenerateGameView: View {
 
             Spacer(minLength: 1)
 
-            Text("SmartColony").font(.largeTitle)
+            Text("TXT_KEY_GAME".localized())
+                .font(.largeTitle)
 
             Divider()
 

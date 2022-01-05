@@ -11,12 +11,30 @@
 */
 
 // UI
+"TXT_KEY_GAME" = "SmartColony";
+
 "TXT_KEY_BOOSTED" = "Boosted:";
 "TXT_KEY_TO_BOOST" = "To boost:";
 "TXT_KEY_TURNS" = "Turns";
 "TXT_KEY_FOUND" = "Found";
 "TXT_KEY_RENAME" = "Rename";
 "TXT_KEY_CANCEL" = "Cancel";
+"TXT_KEY_START" = "Start";
+"TXT_KEY_QUIT" = "Quit";
+"TXT_KEY_QUIT_CONFIRM" = "Do you really want to quit?";
+"TXT_KEY_PEDIA" = "Pedia";
+"TXT_KEY_DEBUG" = "Debug";
+"TXT_KEY_TUTORIALS" = "Tutorials";
+"TXT_KEY_RESUME_GAME" = "Resume Game";
+"TXT_KEY_NEW_GAME" = "New Game";
+"TXT_KEY_LOAD_GAME" = "Load Game";
+"TXT_KEY_OPTIONS" = "Options";
+
+// create game
+"TXT_KEY_CHOOSE_LEADER" = "Choose Leader";
+"TXT_KEY_CHOOSE_DIFFICULTY" = "Choose Difficulty";
+"TXT_KEY_CHOOSE_MAP_TYPE" = "Choose Map Type";
+"TXT_KEY_CHOOSE_MAP_SIZE" = "Choose Map Size";
 
 // civic texts
 "TXT_KEY_INSPIRATION" = "Inspiration";

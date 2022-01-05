@@ -19,7 +19,7 @@ struct MenuView: View {
 
             Spacer(minLength: 1)
 
-            Text("SmartColony")
+            Text("TXT_KEY_GAME".localized())
                 .font(.largeTitle)
 
             Divider()
@@ -27,41 +27,38 @@ struct MenuView: View {
             GroupBox {
 
                 VStack(alignment: .center, spacing: 10) {
-                    Button(
-                        action: { print("tutorials") },
-                        label: { Text("Tutorials") }
-                    )
-                        .buttonStyle(GameButtonStyle())
+                    Button("TXT_KEY_TUTORIALS".localized()) {
+                        print("tutorials")
+                    }.buttonStyle(GameButtonStyle())
 
-                    Button("Resume Game") {
+                    Button("TXT_KEY_RESUME_GAME".localized()) {
                         print("resume game")
                     }.buttonStyle(GameButtonStyle())
 
-                    Button("New Game") {
-                        print("new game")
+                    Button("TXT_KEY_NEW_GAME".localized()) {
                         self.viewModel.startNewGame()
                     }
                     .buttonStyle(GameButtonStyle(state: .highlighted))
 
-                    Button("Load Game") {
+                    Button("TXT_KEY_LOAD_GAME".localized()) {
                         print("load game")
                     }.buttonStyle(GameButtonStyle())
 
-                    Button("Options") {
+                    Button("TXT_KEY_OPTIONS".localized()) {
                         print("options")
                     }.buttonStyle(GameButtonStyle())
 
-                    Button("Pedia") {
+                    Button("TXT_KEY_PEDIA".localized()) {
                         self.viewModel.startPedia()
                     }.buttonStyle(GameButtonStyle())
 
 #if DEBUG
-                    Button("Debug") {
+                    Button("TXT_KEY_DEBUG".localized()) {
                         self.viewModel.startDebug()
                     }.buttonStyle(GameButtonStyle())
 #endif
 
-                    Button("Quit") {
+                    Button("TXT_KEY_QUIT".localized()) {
                         self.viewModel.showingQuitConfirmationAlert = true
                     }
                     .buttonStyle(GameButtonStyle())
@@ -75,9 +72,9 @@ struct MenuView: View {
 
         .alert(isPresented: self.$viewModel.showingQuitConfirmationAlert) {
             Alert(
-                title: Text("Quit"),
-                message: Text("Do you really want to quit?"),
-                primaryButton: .destructive(Text("Quit")) {
+                title: Text("TXT_KEY_QUIT".localized()),
+                message: Text("TXT_KEY_QUIT_CONFIRM".localized()),
+                primaryButton: .destructive(Text("TXT_KEY_QUIT".localized())) {
                     NSApplication.shared.terminate(self)
                 },
                 secondaryButton: .cancel()

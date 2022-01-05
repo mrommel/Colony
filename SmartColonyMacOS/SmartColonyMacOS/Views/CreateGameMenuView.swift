@@ -21,26 +21,26 @@ struct CreateGameMenuView: View {
 
             Spacer(minLength: 1)
 
-            Text("SmartColony")
+            Text("TXT_KEY_GAME".localized())
                 .font(.largeTitle)
 
             Divider()
 
             Form {
                 Section {
-                    DataPicker(title: "Choose Leader",
+                    DataPicker(title: "TXT_KEY_CHOOSE_LEADER".localized(),
                                data: self.viewModel.leaders,
                                selection: $viewModel.selectedLeaderIndex)
 
-                    DataPicker(title: "Choose Difficulty",
+                    DataPicker(title: "TXT_KEY_CHOOSE_DIFFICULTY".localized(),
                                data: self.viewModel.handicaps,
                                selection: $viewModel.selectedDifficultyIndex)
 
-                    DataPicker(title: "Choose Map Type",
+                    DataPicker(title: "TXT_KEY_CHOOSE_MAP_TYPE".localized(),
                                data: self.viewModel.mapTypes,
                                selection: $viewModel.selectedMapTypeIndex)
 
-                    DataPicker(title: "Choose Map Size",
+                    DataPicker(title: "TXT_KEY_CHOOSE_MAP_SIZE".localized(),
                                data: self.viewModel.mapSizes,
                                selection: $viewModel.selectedMapSizeIndex)
                 }
@@ -49,11 +49,11 @@ struct CreateGameMenuView: View {
             Divider()
 
             HStack {
-                Button("Cancel") {
+                Button("TXT_KEY_CANCEL".localized()) {
                     self.viewModel.cancel()
                 }.buttonStyle(GameButtonStyle()).padding(.top, 20).padding(.trailing, 20)
 
-                Button("Start") {
+                Button("TXT_KEY_START".localized()) {
                     self.viewModel.start()
                 }.buttonStyle(GameButtonStyle(state: .highlighted)).padding(.top, 20)
             }
