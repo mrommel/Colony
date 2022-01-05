@@ -71,6 +71,7 @@ protocol GameViewModelDelegate: AnyObject {
     func showDiplomaticDialog(with otherPlayer: AbstractPlayer?, data: DiplomaticData?, deal: DiplomaticDeal?)
 
     func showSelectPantheonDialog()
+    func showSelectDedicationDialog()
 
     func showUnitListDialog()
     func showCityListDialog()
@@ -220,6 +221,9 @@ public class GameViewModel: ObservableObject {
     @Published
     var eraProgressDialogViewModel: EraProgressDialogViewModel
 
+    @Published
+    var selectDedicationDialogViewModel: SelectDedicationDialogViewModel
+
     // UI
 
     @Published
@@ -330,6 +334,7 @@ public class GameViewModel: ObservableObject {
         self.rankingDialogViewModel = RankingDialogViewModel()
         self.victoryDialogViewModel = VictoryDialogViewModel()
         self.eraProgressDialogViewModel = EraProgressDialogViewModel()
+        self.selectDedicationDialogViewModel = SelectDedicationDialogViewModel()
 
         // connect models
         self.gameSceneViewModel.delegate = self
@@ -362,6 +367,7 @@ public class GameViewModel: ObservableObject {
         self.rankingDialogViewModel.delegate = self
         self.victoryDialogViewModel.delegate = self
         self.eraProgressDialogViewModel.delegate = self
+        self.selectDedicationDialogViewModel.delegate = self
 
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -684,6 +690,14 @@ public class GameViewModel: ObservableObject {
 
         print("- load \(textures.victoryTypesTextureNames.count) victory textures")
         for textureName in textures.victoryTypesTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        print("- load \(textures.dedicationTypesTextureNames.count) dedication textures")
+        for textureName in textures.dedicationTypesTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName

@@ -24,12 +24,13 @@ class EraEnteredPopupViewModel: ObservableObject {
 
         self.eraType = eraType
 
-        self.title = "New Era"
-        self.summaryText = "The XXX empire entered the \(eraType) era."
+        self.title = "New Era started"
+        self.summaryText = "The World has entered the \(eraType) Era"
     }
 
     func closePopup() {
 
         self.delegate?.closePopup()
+        self.delegate?.showSelectDedicationDialog()
     }
 }

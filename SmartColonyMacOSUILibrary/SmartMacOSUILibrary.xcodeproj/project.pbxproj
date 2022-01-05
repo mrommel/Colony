@@ -30,6 +30,8 @@
 		C91E7F992732E0A5000463F3 /* OverallRankingDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91E7F982732E0A5000463F3 /* OverallRankingDialogViewModel.swift */; };
 		C91E7F9C2732E149000463F3 /* OverallRankingDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91E7F9B2732E149000463F3 /* OverallRankingDialogView.swift */; };
 		C91E7F9E2732E1DA000463F3 /* CityDetailViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91E7F9D2732E1DA000463F3 /* CityDetailViewType.swift */; };
+		C92099DA2784A65400E81A8F /* SelectDedicationDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92099D92784A65400E81A8F /* SelectDedicationDialogViewModel.swift */; };
+		C92099DC2784AF3B00E81A8F /* SelectDedicationDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92099DB2784AF3B00E81A8F /* SelectDedicationDialogView.swift */; };
 		C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C920C425262EB03F0024EC0E /* GameEnvironment.swift */; };
 		C925676D265635C000B895BD /* QueueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925676C265635C000B895BD /* QueueViewModel.swift */; };
 		C925676F26563C7700B895BD /* CityBuildQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925676E26563C7700B895BD /* CityBuildQueueManager.swift */; };
@@ -217,6 +219,8 @@
 		C9BDCF8D2624771C002488F6 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDCF8C2624771C002488F6 /* GameViewModel.swift */; };
 		C9C1B1D72726B4A400046D23 /* ResourceValueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1B1D62726B4A300046D23 /* ResourceValueViewModel.swift */; };
 		C9C1B1D92726B5C600046D23 /* ResourceValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1B1D82726B5C500046D23 /* ResourceValueView.swift */; };
+		C9C8A745278571DB00BC68CF /* DedicationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C8A744278571DB00BC68CF /* DedicationView.swift */; };
+		C9C8A7472785728800BC68CF /* DedicationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C8A7462785728800BC68CF /* DedicationViewModel.swift */; };
 		C9CAC899264ABBC400D0668D /* ChangeGovernmentDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC898264ABBC400D0668D /* ChangeGovernmentDialogView.swift */; };
 		C9CAC89B264ABC6D00D0668D /* ChangeGovernmentDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC89A264ABC6D00D0668D /* ChangeGovernmentDialogViewModel.swift */; };
 		C9CAC89D264ABCBE00D0668D /* GovernmentCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC89C264ABCBE00D0668D /* GovernmentCardView.swift */; };
@@ -318,6 +322,8 @@
 		C91E7F982732E0A5000463F3 /* OverallRankingDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallRankingDialogViewModel.swift; sourceTree = "<group>"; };
 		C91E7F9B2732E149000463F3 /* OverallRankingDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallRankingDialogView.swift; sourceTree = "<group>"; };
 		C91E7F9D2732E1DA000463F3 /* CityDetailViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityDetailViewType.swift; sourceTree = "<group>"; };
+		C92099D92784A65400E81A8F /* SelectDedicationDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDedicationDialogViewModel.swift; sourceTree = "<group>"; };
+		C92099DB2784AF3B00E81A8F /* SelectDedicationDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDedicationDialogView.swift; sourceTree = "<group>"; };
 		C920C425262EB03F0024EC0E /* GameEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEnvironment.swift; sourceTree = "<group>"; };
 		C925676C265635C000B895BD /* QueueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueViewModel.swift; sourceTree = "<group>"; };
 		C925676E26563C7700B895BD /* CityBuildQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityBuildQueueManager.swift; sourceTree = "<group>"; };
@@ -507,6 +513,8 @@
 		C9BDCF8C2624771C002488F6 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		C9C1B1D62726B4A300046D23 /* ResourceValueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceValueViewModel.swift; sourceTree = "<group>"; };
 		C9C1B1D82726B5C500046D23 /* ResourceValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceValueView.swift; sourceTree = "<group>"; };
+		C9C8A744278571DB00BC68CF /* DedicationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DedicationView.swift; sourceTree = "<group>"; };
+		C9C8A7462785728800BC68CF /* DedicationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DedicationViewModel.swift; sourceTree = "<group>"; };
 		C9CAC898264ABBC400D0668D /* ChangeGovernmentDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeGovernmentDialogView.swift; sourceTree = "<group>"; };
 		C9CAC89A264ABC6D00D0668D /* ChangeGovernmentDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeGovernmentDialogViewModel.swift; sourceTree = "<group>"; };
 		C9CAC89C264ABCBE00D0668D /* GovernmentCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentCardView.swift; sourceTree = "<group>"; };
@@ -690,6 +698,7 @@
 				C9988F28273280DB0047F111 /* RankingDialogView.swift */,
 				C9911EB02736DDDB00273C8A /* VictoryDialogView.swift */,
 				C913A2D4277A27ED001D2CC2 /* EraProgressDialogView.swift */,
+				C92099DB2784AF3B00E81A8F /* SelectDedicationDialogView.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -911,6 +920,7 @@
 				C9911EAA27367F3000273C8A /* ReligiousRankingView.swift */,
 				C96FEA36274CE5E400A9194C /* UnitCommandView.swift */,
 				C9754D61275F3F5C000A1B70 /* MapLensLegendItemView.swift */,
+				C9C8A744278571DB00BC68CF /* DedicationView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -943,6 +953,7 @@
 				C9988F26273280180047F111 /* RankingDialogViewModel.swift */,
 				C9911EB22736DE3D00273C8A /* VictoryDialogViewModel.swift */,
 				C913A2D6277A2850001D2CC2 /* EraProgressDialogViewModel.swift */,
+				C92099D92784A65400E81A8F /* SelectDedicationDialogViewModel.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -1068,6 +1079,7 @@
 				C96FEA34274CE4B400A9194C /* UnitCommandViewModel.swift */,
 				C9754D5D275F3ACA000A1B70 /* MapLensLegendItemViewModel.swift */,
 				C9754D5F275F3B21000A1B70 /* MapLensLegendViewModel.swift */,
+				C9C8A7462785728800BC68CF /* DedicationViewModel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1251,6 +1263,7 @@
 				C94816C126A82DB000765029 /* TradeCityView.swift in Sources */,
 				C93FD2DD27332272003348FB /* ScienceRankingView.swift in Sources */,
 				C98031CF26EE57F6008F460B /* CityViewModel.swift in Sources */,
+				C92099DC2784AF3B00E81A8F /* SelectDedicationDialogView.swift in Sources */,
 				C968F28F2639455700612D0E /* BaseLayer.swift in Sources */,
 				C9E87BB3264D1CB500514B9A /* TechViewModel.swift in Sources */,
 				C9754D62275F3F5C000A1B70 /* MapLensLegendItemView.swift in Sources */,
@@ -1272,6 +1285,7 @@
 				C93FD2E52733CCEF003348FB /* CultureRankingView.swift in Sources */,
 				C9A37609263446360057923E /* TerrainLayer.swift in Sources */,
 				C9A61D8D261EF87000341241 /* BottomLeftBarView.swift in Sources */,
+				C92099DA2784A65400E81A8F /* SelectDedicationDialogViewModel.swift in Sources */,
 				C968F2A32639E56F00612D0E /* UnitObject.swift in Sources */,
 				C9755FE7270AE3A400C9CAB7 /* ReligionDialogViewModel.swift in Sources */,
 				C9A48D472653EB6100260EE0 /* NameInputDialogViewModel.swift in Sources */,
@@ -1365,6 +1379,7 @@
 				C9A3760526340F9B0057923E /* GameSceneView.swift in Sources */,
 				C9FBBE4026837AA7005D7CE6 /* CityBannerView.swift in Sources */,
 				C950F999264908760057A7D1 /* PolicyCardView.swift in Sources */,
+				C9C8A7472785728800BC68CF /* DedicationViewModel.swift in Sources */,
 				C968F2AC2639ED6C00612D0E /* NineGridTextureSprite.swift in Sources */,
 				C9D191A9265A49D5008C9622 /* CityBuildingsView.swift in Sources */,
 				C99AB18E27477FB900BF0B4D /* WonderLayer.swift in Sources */,
@@ -1402,6 +1417,7 @@
 				C9E0597D2654E9A200C08463 /* DistrictView.swift in Sources */,
 				C9A48D492653EC3A00260EE0 /* NameInputDialogView.swift in Sources */,
 				C950F995264902990057A7D1 /* ChangePolicyDialogView.swift in Sources */,
+				C9C8A745278571DB00BC68CF /* DedicationView.swift in Sources */,
 				C9452E2F26680C95005EF985 /* TechDiscoveredPopupViewModel.swift in Sources */,
 				C9A8F0DB2651A61E00584199 /* NotificationsViewModel.swift in Sources */,
 				C968F2972639817A00612D0E /* ProgressCircle.swift in Sources */,

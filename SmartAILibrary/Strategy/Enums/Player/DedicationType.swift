@@ -43,9 +43,29 @@ public enum DedicationType: Int, Codable {
 
     // MARK: public methods
 
+    public func name() -> String {
+
+        return self.data().name
+    }
+
+    public func normalEffect() -> String {
+
+        return self.data().normalEffect
+    }
+
+    public func goldenEffect() -> String {
+
+        return self.data().goldenEffect
+    }
+
+    public func eras() -> [EraType] {
+
+        return self.data().eras
+    }
+
     // MARK: private methods
 
-    struct DedicationTypeData {
+    private struct DedicationTypeData {
 
         let name: String
         let normalEffect: String

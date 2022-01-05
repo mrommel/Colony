@@ -82,6 +82,7 @@ public class Textures {
     public let promotionStateBackgroundTextureNames: [String]
     public let governorPortraitTextureNames: [String]
     public let victoryTypesTextureNames: [String]
+    public let dedicationTypesTextureNames: [String]
 
     public init(game: GameModel?) {
 
@@ -227,6 +228,7 @@ public class Textures {
             "victoryType-diplomatic", "victoryType-culture", "victoryType-score",
             "victoryType-overall"
         ]
+        self.dedicationTypesTextureNames = DedicationType.all.map { $0.iconTexture() }
     }
 
     public func terrainTexture(at point: HexPoint) -> String {

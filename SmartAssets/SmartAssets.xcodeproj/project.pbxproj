@@ -82,6 +82,7 @@
 		C9BB56DA276915FD00053AE7 /* Civics.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9BB56D9276915FD00053AE7 /* Civics.strings */; };
 		C9BB56DC27692FE600053AE7 /* Civilizations.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9BB56DB27692FE600053AE7 /* Civilizations.strings */; };
 		C9C234A52768EEB400905C97 /* CityNames.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9C234A42768EEB400905C97 /* CityNames.strings */; };
+		C9C8A7492785788200BC68CF /* DedicationTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C8A7482785788200BC68CF /* DedicationTypeExtension.swift */; };
 		C9CAC8A2264BC4B200D0668D /* GovernmentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */; };
 		C9CAC8A6264BD17000D0668D /* GovernmentTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC8A5264BD17000D0668D /* GovernmentTypeExtension.swift */; };
 		C9CB34012761EB12008835D0 /* ContinentTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CB34002761EB12008835D0 /* ContinentTypeExtension.swift */; };
@@ -197,6 +198,7 @@
 		C9BB56D9276915FD00053AE7 /* Civics.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Civics.strings; sourceTree = "<group>"; };
 		C9BB56DB27692FE600053AE7 /* Civilizations.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Civilizations.strings; sourceTree = "<group>"; };
 		C9C234A42768EEB400905C97 /* CityNames.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = CityNames.strings; sourceTree = "<group>"; };
+		C9C8A7482785788200BC68CF /* DedicationTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DedicationTypeExtension.swift; sourceTree = "<group>"; };
 		C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentState.swift; sourceTree = "<group>"; };
 		C9CAC8A5264BD17000D0668D /* GovernmentTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentTypeExtension.swift; sourceTree = "<group>"; };
 		C9CB34002761EB12008835D0 /* ContinentTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentTypeExtension.swift; sourceTree = "<group>"; };
@@ -316,6 +318,7 @@
 				C9754D57275E3BA7000A1B70 /* CitySiteEvaluationTypeExtension.swift */,
 				C9754D5B275F3A0F000A1B70 /* MapLensTypeExtension.swift */,
 				C9CB34002761EB12008835D0 /* ContinentTypeExtension.swift */,
+				C9C8A7482785788200BC68CF /* DedicationTypeExtension.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -603,6 +606,7 @@
 				C9E87BBD264DB49100514B9A /* BuildingTypeExtension.swift in Sources */,
 				C9CB34012761EB12008835D0 /* ContinentTypeExtension.swift in Sources */,
 				C9E87BBF264DB4D600514B9A /* WonderTypeExtension.swift in Sources */,
+				C9C8A7492785788200BC68CF /* DedicationTypeExtension.swift in Sources */,
 				C9754D56275E18AC000A1B70 /* AppealLevelExtension.swift in Sources */,
 				C9CAC8A2264BC4B200D0668D /* GovernmentState.swift in Sources */,
 				C950F9922647E2140057A7D1 /* NotificationTypeExtension.swift in Sources */,

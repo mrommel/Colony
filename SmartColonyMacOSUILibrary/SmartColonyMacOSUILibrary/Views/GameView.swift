@@ -130,6 +130,8 @@ extension GameView {
             return AnyView(VictoryDialogView(viewModel: self.viewModel.victoryDialogViewModel))
         case .eraProgress:
             return AnyView(EraProgressDialogView(viewModel: self.viewModel.eraProgressDialogViewModel))
+        case .selectDedication:
+            return AnyView(SelectDedicationDialogView(viewModel: self.viewModel.selectDedicationDialogViewModel))
 
         case .confirm:
             return AnyView(ConfirmationDialogView(viewModel: self.viewModel.confirmationDialogViewModel))

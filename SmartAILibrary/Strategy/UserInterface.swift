@@ -137,6 +137,7 @@ public enum ScreenType {
 
     case victory
     case eraProgress
+    case selectDedication
 }
 
 public enum UnitAnimationType {

@@ -436,4 +436,17 @@ extension GameViewModel {
             self.currentScreenType = .eraProgress
         }
     }
+
+    func showSelectDedicationDialog() {
+
+        if self.currentScreenType == .selectDedication {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.selectDedicationDialogViewModel.update()
+            self.currentScreenType = .selectDedication
+        }
+    }
 }
