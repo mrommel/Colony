@@ -342,7 +342,7 @@ class UnitTests: XCTestCase {
                                   on: mapModel)
 
         try! humanPlayer.techs?.discover(tech: .ironWorking, in: gameModel)
-        
+
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
