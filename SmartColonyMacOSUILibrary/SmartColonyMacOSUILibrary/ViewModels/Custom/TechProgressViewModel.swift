@@ -139,10 +139,10 @@ init(techType: TechType, progress: Int, turns: Int, boosted: Bool) {
 
         if self.boosted {
             return "TXT_KEY_BOOSTED".localized() + " " +
-                self.techType.eurekaSummary()
+            self.techType.eurekaSummary().localized()
         } else {
             return "TXT_KEY_TO_BOOST".localized() + " " +
-                self.techType.eurekaSummary()
+                self.techType.eurekaSummary().localized()
         }
     }
 }

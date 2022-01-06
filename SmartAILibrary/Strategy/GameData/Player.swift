@@ -120,6 +120,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func calculateGoldPerTurn(in gamemModel: GameModel?) -> Double
     func currentAge() -> AgeType
     func currentDedications() -> [DedicationType]
+    func has(dedication: DedicationType) -> Bool
     func select(dedications: [DedicationType])
 
     func prepareTurn(in gamemModel: GameModel?)
@@ -1229,6 +1230,11 @@ public class Player: AbstractPlayer {
     public func currentDedications() -> [DedicationType] {
 
         return self.currentDedicationsVal
+    }
+
+    public func has(dedication: DedicationType) -> Bool {
+
+        return self.currentDedicationsVal.contains(dedication)
     }
 
     public func select(dedications: [DedicationType]) {

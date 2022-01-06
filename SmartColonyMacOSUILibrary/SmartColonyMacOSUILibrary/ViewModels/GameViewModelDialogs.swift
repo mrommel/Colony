@@ -449,4 +449,17 @@ extension GameViewModel {
             self.currentScreenType = .selectDedication
         }
     }
+
+    func showMomentsDialog() {
+
+        if self.currentScreenType == .moments {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.momentsDialogViewModel.update()
+            self.currentScreenType = .moments
+        }
+    }
 }

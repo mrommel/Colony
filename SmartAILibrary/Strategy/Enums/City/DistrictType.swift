@@ -58,6 +58,11 @@ public enum DistrictType: Int, Codable {
         return self.data().name
     }
 
+    public func isSpecialty() -> Bool {
+
+        return self.data().specialty
+    }
+
     public func effects() -> [String] {
 
         return self.data().effects

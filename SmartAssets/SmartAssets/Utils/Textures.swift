@@ -175,7 +175,7 @@ public class Textures {
             "header-button-government-active", "header-button-government-disabled",
             "header-button-religion-active", "header-button-religion-disabled",
             "header-button-greatPeople-active", "header-button-greatPeople-disabled",
-            "header-button-log-active", "header-button-log-disabled",
+            "header-button-moments-active", "header-button-moments-disabled",
             "header-button-tradeRoutes-active", "header-button-tradeRoutes-disabled",
             "header-button-governors-active", "header-button-governors-disabled",
             "header-button-ranking-active", "header-button-ranking-disabled",

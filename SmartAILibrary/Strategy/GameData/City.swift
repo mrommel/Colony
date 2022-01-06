@@ -2464,7 +2464,15 @@ public class City: AbstractCity {
 
     private func build(district districtType: DistrictType, at point: HexPoint, in gameModel: GameModel?) {
 
-        guard let tile = gameModel?.tile(at: point) else {
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let tile = gameModel.tile(at: point) else {
             fatalError("cant get tile")
         }
 
@@ -2472,9 +2480,12 @@ public class City: AbstractCity {
             try self.districts?.build(district: districtType, at: point)
             self.updateEurekas(in: gameModel)
 
-            tile.build(district: districtType)
+            if districtType.isSpecialty() && player.currentAge() == .normal && player.has(dedication: .monumentality) {
+                player.addMoment(of: .constructSpecialtyDistrict, in: gameModel.currentTurn)
+            }
 
-            gameModel?.userInterface?.refresh(tile: tile)
+            tile.build(district: districtType)
+            gameModel.userInterface?.refresh(tile: tile)
         } catch {
             fatalError("cant build district: already build")
         }

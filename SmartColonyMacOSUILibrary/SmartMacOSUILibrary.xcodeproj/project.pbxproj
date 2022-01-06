@@ -87,6 +87,10 @@
 		C95EEA03273158060052C7F8 /* LeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95EEA02273158060052C7F8 /* LeaderViewModel.swift */; };
 		C962A83A26A08C570045AF0E /* CanFoundPantheonPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962A83926A08C570045AF0E /* CanFoundPantheonPopupView.swift */; };
 		C962A83C26A08C620045AF0E /* CanFoundPantheonPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962A83B26A08C620045AF0E /* CanFoundPantheonPopupViewModel.swift */; };
+		C963AD162786D3FB00981EF3 /* MomentsDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C963AD152786D3FB00981EF3 /* MomentsDialogView.swift */; };
+		C963AD182786D4C600981EF3 /* MomentsDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C963AD172786D4C600981EF3 /* MomentsDialogViewModel.swift */; };
+		C963AD1A2786DAB600981EF3 /* MomentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C963AD192786DAB600981EF3 /* MomentViewModel.swift */; };
+		C963AD1C2786DB6500981EF3 /* MomentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C963AD1B2786DB6500981EF3 /* MomentView.swift */; };
 		C968F28F2639455700612D0E /* BaseLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F28E2639455700612D0E /* BaseLayer.swift */; };
 		C968F2972639817A00612D0E /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F2962639817A00612D0E /* ProgressCircle.swift */; };
 		C968F299263981DD00612D0E /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F298263981DD00612D0E /* ProgressBar.swift */; };
@@ -378,6 +382,10 @@
 		C95EEA02273158060052C7F8 /* LeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderViewModel.swift; sourceTree = "<group>"; };
 		C962A83926A08C570045AF0E /* CanFoundPantheonPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanFoundPantheonPopupView.swift; sourceTree = "<group>"; };
 		C962A83B26A08C620045AF0E /* CanFoundPantheonPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CanFoundPantheonPopupViewModel.swift; path = SmartColonyMacOSUILibrary/Views/Popups/CanFoundPantheonPopupViewModel.swift; sourceTree = SOURCE_ROOT; };
+		C963AD152786D3FB00981EF3 /* MomentsDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsDialogView.swift; sourceTree = "<group>"; };
+		C963AD172786D4C600981EF3 /* MomentsDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsDialogViewModel.swift; sourceTree = "<group>"; };
+		C963AD192786DAB600981EF3 /* MomentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentViewModel.swift; sourceTree = "<group>"; };
+		C963AD1B2786DB6500981EF3 /* MomentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentView.swift; sourceTree = "<group>"; };
 		C968F28E2639455700612D0E /* BaseLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLayer.swift; sourceTree = "<group>"; };
 		C968F2962639817A00612D0E /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
 		C968F298263981DD00612D0E /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
@@ -699,6 +707,7 @@
 				C9911EB02736DDDB00273C8A /* VictoryDialogView.swift */,
 				C913A2D4277A27ED001D2CC2 /* EraProgressDialogView.swift */,
 				C92099DB2784AF3B00E81A8F /* SelectDedicationDialogView.swift */,
+				C963AD152786D3FB00981EF3 /* MomentsDialogView.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -921,6 +930,7 @@
 				C96FEA36274CE5E400A9194C /* UnitCommandView.swift */,
 				C9754D61275F3F5C000A1B70 /* MapLensLegendItemView.swift */,
 				C9C8A744278571DB00BC68CF /* DedicationView.swift */,
+				C963AD1B2786DB6500981EF3 /* MomentView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -954,6 +964,7 @@
 				C9911EB22736DE3D00273C8A /* VictoryDialogViewModel.swift */,
 				C913A2D6277A2850001D2CC2 /* EraProgressDialogViewModel.swift */,
 				C92099D92784A65400E81A8F /* SelectDedicationDialogViewModel.swift */,
+				C963AD172786D4C600981EF3 /* MomentsDialogViewModel.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -1080,6 +1091,7 @@
 				C9754D5D275F3ACA000A1B70 /* MapLensLegendItemViewModel.swift */,
 				C9754D5F275F3B21000A1B70 /* MapLensLegendViewModel.swift */,
 				C9C8A7462785728800BC68CF /* DedicationViewModel.swift */,
+				C963AD192786DAB600981EF3 /* MomentViewModel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1278,6 +1290,7 @@
 				C9452E2D266809A6005EF985 /* EraEnteredPopupViewModel.swift in Sources */,
 				C9072E7F2732AFA000560429 /* OverallRankingView.swift in Sources */,
 				C9E87BB1264D1C2600514B9A /* TechDialogViewModel.swift in Sources */,
+				C963AD182786D4C600981EF3 /* MomentsDialogViewModel.swift in Sources */,
 				C9B60BF0269DC68800F10177 /* SelectPantheonDialogViewModel.swift in Sources */,
 				C9B5E9142757CD3E001E0A94 /* BottomRightBarViewModel.swift in Sources */,
 				C94816BD26A82BB000765029 /* TradeCityViewModel.swift in Sources */,
@@ -1335,6 +1348,7 @@
 				C9A48D432653CD4300260EE0 /* CivicProgressView.swift in Sources */,
 				C971FDD127070D9300F818EE /* GreatPeopleDialogViewModel.swift in Sources */,
 				C962A83C26A08C620045AF0E /* CanFoundPantheonPopupViewModel.swift in Sources */,
+				C963AD1A2786DAB600981EF3 /* MomentViewModel.swift in Sources */,
 				C9FBBE3E26837991005D7CE6 /* TopBarViewModel.swift in Sources */,
 				C94507A9262232E400CFD27D /* DataPicker.swift in Sources */,
 				C974E44126BD14AF004DD34F /* DiplomaticDialogView.swift in Sources */,
@@ -1356,6 +1370,7 @@
 				C9D5D25526F9B92800009817 /* GovernorAbilityView.swift in Sources */,
 				C93FD2D12732F7FB003348FB /* ScoreRankingDialogViewModel.swift in Sources */,
 				C9F2B555266A58760016D4F3 /* ConfirmationDialogView.swift in Sources */,
+				C963AD162786D3FB00981EF3 /* MomentsDialogView.swift in Sources */,
 				C9A48D362653004100260EE0 /* HeaderView.swift in Sources */,
 				C9D191B9265C24EA008C9622 /* CitizenReligionView.swift in Sources */,
 				C92AB9212734689D003647D8 /* DominationRankingView.swift in Sources */,
@@ -1461,6 +1476,7 @@
 				C91E7F9C2732E149000463F3 /* OverallRankingDialogView.swift in Sources */,
 				C9A3762F263600800057923E /* ResourceMarkerLayer.swift in Sources */,
 				C9E059842655200F00C08463 /* UnitViewModel.swift in Sources */,
+				C963AD1C2786DB6500981EF3 /* MomentView.swift in Sources */,
 				C9E059862655203A00C08463 /* DistrictSectionViewModel.swift in Sources */,
 				C92F9489265E2298000968AB /* RegularPolygonPath.swift in Sources */,
 				C93FD2D52732F9E3003348FB /* ScoreRankingView.swift in Sources */,
@@ -1544,7 +1560,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MACOSX_DEPLOYMENT_TARGET = 12.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1602,7 +1618,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MACOSX_DEPLOYMENT_TARGET = 12.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;

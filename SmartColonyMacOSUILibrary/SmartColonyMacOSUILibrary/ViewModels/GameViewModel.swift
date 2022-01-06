@@ -64,6 +64,7 @@ protocol GameViewModelDelegate: AnyObject {
     func showReligionDialog()
     func showRankingDialog()
     func showEraProgressDialog()
+    func showMomentsDialog()
 
     func showCityDialog(for city: AbstractCity?)
     func showCityChooseProductionDialog(for city: AbstractCity?)
@@ -224,6 +225,9 @@ public class GameViewModel: ObservableObject {
     @Published
     var selectDedicationDialogViewModel: SelectDedicationDialogViewModel
 
+    @Published
+    var momentsDialogViewModel: MomentsDialogViewModel
+
     // UI
 
     @Published
@@ -335,6 +339,7 @@ public class GameViewModel: ObservableObject {
         self.victoryDialogViewModel = VictoryDialogViewModel()
         self.eraProgressDialogViewModel = EraProgressDialogViewModel()
         self.selectDedicationDialogViewModel = SelectDedicationDialogViewModel()
+        self.momentsDialogViewModel = MomentsDialogViewModel()
 
         // connect models
         self.gameSceneViewModel.delegate = self
@@ -368,6 +373,7 @@ public class GameViewModel: ObservableObject {
         self.victoryDialogViewModel.delegate = self
         self.eraProgressDialogViewModel.delegate = self
         self.selectDedicationDialogViewModel.delegate = self
+        self.momentsDialogViewModel.delegate = self
 
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater

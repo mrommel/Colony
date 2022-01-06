@@ -32,7 +32,7 @@ class HeaderViewModel: ObservableObject {
     var greatPeopleHeaderViewModel: HeaderButtonViewModel
 
     @Published
-    var logHeaderViewModel: HeaderButtonViewModel
+    var momentsHeaderViewModel: HeaderButtonViewModel
 
     @Published
     var governorsHeaderViewModel: HeaderButtonViewModel
@@ -70,7 +70,7 @@ class HeaderViewModel: ObservableObject {
         self.governmentHeaderViewModel = HeaderButtonViewModel(type: .government)
         self.religionHeaderViewModel = HeaderButtonViewModel(type: .religion)
         self.greatPeopleHeaderViewModel = HeaderButtonViewModel(type: .greatPeople)
-        self.logHeaderViewModel = HeaderButtonViewModel(type: .log)
+        self.momentsHeaderViewModel = HeaderButtonViewModel(type: .moments)
         self.governorsHeaderViewModel = HeaderButtonViewModel(type: .governors)
         self.rankingHeaderViewModel = HeaderButtonViewModel(type: .ranking)
         self.tradeRoutesHeaderViewModel = HeaderButtonViewModel(type: .tradeRoutes)
@@ -87,7 +87,7 @@ class HeaderViewModel: ObservableObject {
         self.governmentHeaderViewModel.delegate = self
         self.religionHeaderViewModel.delegate = self
         self.greatPeopleHeaderViewModel.delegate = self
-        self.logHeaderViewModel.delegate = self
+        self.momentsHeaderViewModel.delegate = self
         self.governorsHeaderViewModel.delegate = self
         self.rankingHeaderViewModel.delegate = self
         self.tradeRoutesHeaderViewModel.delegate = self
@@ -108,7 +108,6 @@ class HeaderViewModel: ObservableObject {
             fatalError("cant get diplomacyAI")
         }
 
-        self.logHeaderViewModel.active = false
         self.governorsHeaderViewModel.alert = (humanPlayer.governors?.numTitlesAvailable() ?? 0) > 0
         self.greatPeopleHeaderViewModel.alert = humanPlayer.canRecruitGreatPerson(in: gameModel)
 
@@ -203,8 +202,8 @@ extension HeaderViewModel: HeaderButtonViewModelDelegate {
             self.delegate?.showReligionDialog()
         case .greatPeople:
             self.delegate?.showGreatPeopleDialog()
-        case .log:
-            print("log")
+        case .moments:
+            self.delegate?.showMomentsDialog()
         case .governors:
             self.delegate?.showGovernorsDialog()
         case .ranking:

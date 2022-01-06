@@ -10,8 +10,9 @@ import Foundation
 
 public enum MomentCategory {
 
-    case minor
     case major
+    case minor
+    case hidden // just for scores
 }
 
 // https://www.civilopedia.net/gathering-storm/moments/moment_artifact_extracted
@@ -36,6 +37,9 @@ public enum MomentType {
     case metNew(civilization: CivilizationType)
     // ...
     case completed(wonder: WonderType)
+
+    // hidden
+    case constructSpecialtyDistrict // monumentality
 
     // MARK: public methods
 
@@ -90,6 +94,8 @@ public enum MomentType {
     private func data() -> MomentTypeData {
 
         switch self {
+
+            // -- major ---------------------------------
 
         case .founded(religion: _):
             return MomentTypeData(
@@ -203,6 +209,16 @@ public enum MomentType {
                 summary: "A world wonder is completed, showing our grandeur over other civilizations.",
                 category: .minor,
                 eraScore: 4
+            )
+
+            // -- hidden -----------------------
+
+        case .constructSpecialtyDistrict:
+            return MomentTypeData(
+                name: "Specialty District constructed",
+                summary: "",
+                category: .hidden,
+                eraScore: 1
             )
 
         }
