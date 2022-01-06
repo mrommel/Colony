@@ -144,7 +144,7 @@ class GenerateGameViewModel: ObservableObject {
                 }
 
                 for civic in handicap.freeHumanCivics() {
-                    try! player.civics?.discover(civic: civic)
+                    try! player.civics?.discover(civic: civic, in: nil)
                 }
             } else {
                 for tech in handicap.freeAITechs() {
@@ -152,7 +152,7 @@ class GenerateGameViewModel: ObservableObject {
                 }
 
                 for civic in handicap.freeAICivics() {
-                    try! player.civics?.discover(civic: civic)
+                    try! player.civics?.discover(civic: civic, in: nil)
                 }
             }
 

@@ -113,8 +113,8 @@ class DebugViewModel: ObservableObject {
             humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
             try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
-            try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-            try! humanPlayer.civics?.discover(civic: .foreignTrade)
+            try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
             try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
@@ -174,8 +174,8 @@ class DebugViewModel: ObservableObject {
             humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
             try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
-            try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-            try! humanPlayer.civics?.discover(civic: .foreignTrade)
+            try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
             try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
@@ -265,8 +265,8 @@ class DebugViewModel: ObservableObject {
             try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
             try! humanPlayer.techs?.discover(tech: .sailing, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
-            try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-            try! humanPlayer.civics?.discover(civic: .foreignTrade)
+            try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
             try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
@@ -336,8 +336,8 @@ class DebugViewModel: ObservableObject {
             humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
             try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
-            try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-            try! humanPlayer.civics?.discover(civic: .foreignTrade)
+            try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
             try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
@@ -416,8 +416,8 @@ class DebugViewModel: ObservableObject {
             try! humanPlayer.techs?.discover(tech: .animalHusbandry, in: gameModel)
             try! humanPlayer.techs?.discover(tech: .sailing, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .archery, in: gameModel)
-            try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-            try! humanPlayer.civics?.discover(civic: .foreignTrade)
+            try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
             try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
@@ -490,10 +490,10 @@ class DebugViewModel: ObservableObject {
             try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
 
-            try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-            try! humanPlayer.civics?.discover(civic: .foreignTrade)
-            try! humanPlayer.civics?.discover(civic: .craftsmanship)
-            try! humanPlayer.civics?.discover(civic: .militaryTradition)
+            try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .craftsmanship, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .militaryTradition, in: gameModel)
             //try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
