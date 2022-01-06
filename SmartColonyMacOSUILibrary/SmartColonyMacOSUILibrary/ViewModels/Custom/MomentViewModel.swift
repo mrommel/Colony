@@ -15,9 +15,13 @@ class MomentViewModel: ObservableObject {
     @Published
     var title: String
 
+    @Published
+    var summary: String
+
     init(moment: Moment) {
 
         self.title = moment.type.name()
+        self.summary = moment.type.summary()
     }
 }
 

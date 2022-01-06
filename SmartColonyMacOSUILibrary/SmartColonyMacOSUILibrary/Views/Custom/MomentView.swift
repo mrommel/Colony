@@ -22,6 +22,8 @@ struct MomentView: View {
 
         VStack {
             Text(self.viewModel.title)
+
+            Label(text: self.viewModel.summary)
         }
         .frame(width: 200, height: 200)
     }
