@@ -29,8 +29,8 @@ class CivicTests: XCTestCase {
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
         self.objectToTest = Civics(player: playerAlexander)
-        try! self.objectToTest?.discover(civic: .codeOfLaws)
-        try! self.objectToTest?.discover(civic: .foreignTrade)
+        try! self.objectToTest?.discover(civic: .codeOfLaws, in: nil)
+        try! self.objectToTest?.discover(civic: .foreignTrade, in: nil)
 
         // WHEN
         let possibleCivics = self.objectToTest?.possibleCivics()
@@ -46,8 +46,8 @@ class CivicTests: XCTestCase {
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
         self.objectToTest = Civics(player: playerAlexander)
-        try! self.objectToTest?.discover(civic: .codeOfLaws)
-        try! self.objectToTest?.discover(civic: .foreignTrade)
+        try! self.objectToTest?.discover(civic: .codeOfLaws, in: nil)
+        try! self.objectToTest?.discover(civic: .foreignTrade, in: nil)
 
         // WHEN
         let nextCivic = self.objectToTest?.chooseNextCivic()

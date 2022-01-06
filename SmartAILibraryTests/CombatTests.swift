@@ -66,8 +66,6 @@ class CombatTests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        try! playerAlexander.civics?.discover(civic: .militaryTradition)
-
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
@@ -82,6 +80,8 @@ class CombatTests: XCTestCase {
             players: [barbarianPlayer, playerAugustus, playerAlexander],
             on: mapModel
         )
+
+        try! playerAlexander.civics?.discover(civic: .militaryTradition, in: gameModel)
 
         let attacker = Unit(at: HexPoint(x: 5, y: 6), type: .warrior, owner: playerAlexander)
         gameModel.add(unit: attacker)
@@ -156,8 +156,6 @@ class CombatTests: XCTestCase {
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
-        try! playerAugustus.techs?.discover(tech: .masonry)
-
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
@@ -169,6 +167,8 @@ class CombatTests: XCTestCase {
             players: [barbarianPlayer, playerAugustus, playerAlexander],
             on: mapModel
         )
+
+        try! playerAugustus.techs?.discover(tech: .masonry, in: gameModel)
 
         let attacker = Unit(at: HexPoint(x: 5, y: 6), type: .warrior, owner: playerAlexander)
         gameModel.add(unit: attacker)

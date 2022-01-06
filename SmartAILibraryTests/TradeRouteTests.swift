@@ -58,10 +58,10 @@ class TradeRouteTests: XCTestCase {
 
         // Human
         humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-        try! humanPlayer.techs?.discover(tech: .pottery)
+        try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
         try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
-        try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-        try! humanPlayer.civics?.discover(civic: .foreignTrade)
+        try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+        try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
         try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
         humanPlayer.government?.set(governmentType: .chiefdom)
         try! humanPlayer.government?.set(policyCardSet: PolicyCardSet(cards: [.godKing, .discipline]))
@@ -134,10 +134,10 @@ class TradeRouteTests: XCTestCase {
         )
 
         // Human - setup
-        try! humanPlayer.techs?.discover(tech: .pottery)
+        try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
         try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
-        try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-        try! humanPlayer.civics?.discover(civic: .foreignTrade)
+        try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+        try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
         try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
         humanPlayer.government?.set(governmentType: .chiefdom)
         try! humanPlayer.government?.set(policyCardSet: PolicyCardSet(cards: [.godKing, .discipline]))

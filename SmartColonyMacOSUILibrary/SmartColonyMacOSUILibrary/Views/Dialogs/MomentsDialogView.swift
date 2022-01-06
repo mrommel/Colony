@@ -27,6 +27,7 @@ struct MomentsDialogView: View {
             viewModel: self.viewModel) {
 
                 VStack(alignment: .center) {
+
                     ScrollView(.horizontal, showsIndicators: true, content: {
 
                         LazyHStack(spacing: 4) {
@@ -38,8 +39,6 @@ struct MomentsDialogView: View {
                         }
                         .padding(.top, 8)
                     })
-
-                    Spacer()
                 }
                 .frame(width: 750, height: 330)
                 .background(

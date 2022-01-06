@@ -68,7 +68,7 @@ class ReligionTests: XCTestCase {
 
         // science
 
-        try! playerTrajan.techs?.discover(tech: .astrology)
+        try! playerTrajan.techs?.discover(tech: .astrology, in: gameModel)
 
         // initial cities
 

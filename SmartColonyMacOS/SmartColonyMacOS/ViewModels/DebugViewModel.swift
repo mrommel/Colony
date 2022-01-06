@@ -111,7 +111,7 @@ class DebugViewModel: ObservableObject {
 
             // Human
             humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-            try! humanPlayer.techs?.discover(tech: .pottery)
+            try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
             try! humanPlayer.civics?.discover(civic: .codeOfLaws)
             try! humanPlayer.civics?.discover(civic: .foreignTrade)
@@ -172,7 +172,7 @@ class DebugViewModel: ObservableObject {
 
             // Human
             humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-            try! humanPlayer.techs?.discover(tech: .pottery)
+            try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
             try! humanPlayer.civics?.discover(civic: .codeOfLaws)
             try! humanPlayer.civics?.discover(civic: .foreignTrade)
@@ -262,8 +262,8 @@ class DebugViewModel: ObservableObject {
 
             // Human
             humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-            try! humanPlayer.techs?.discover(tech: .pottery)
-            try! humanPlayer.techs?.discover(tech: .sailing)
+            try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
+            try! humanPlayer.techs?.discover(tech: .sailing, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
             try! humanPlayer.civics?.discover(civic: .codeOfLaws)
             try! humanPlayer.civics?.discover(civic: .foreignTrade)
@@ -334,7 +334,7 @@ class DebugViewModel: ObservableObject {
 
             // Human
             humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-            try! humanPlayer.techs?.discover(tech: .pottery)
+            try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
             try! humanPlayer.civics?.discover(civic: .codeOfLaws)
             try! humanPlayer.civics?.discover(civic: .foreignTrade)
@@ -410,11 +410,11 @@ class DebugViewModel: ObservableObject {
 
             // Human
             humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-            try! humanPlayer.techs?.discover(tech: .pottery)
-            try! humanPlayer.techs?.discover(tech: .bronzeWorking)
-            try! humanPlayer.techs?.discover(tech: .irrigation)
-            try! humanPlayer.techs?.discover(tech: .animalHusbandry)
-            try! humanPlayer.techs?.discover(tech: .sailing)
+            try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
+            try! humanPlayer.techs?.discover(tech: .bronzeWorking, in: gameModel)
+            try! humanPlayer.techs?.discover(tech: .irrigation, in: gameModel)
+            try! humanPlayer.techs?.discover(tech: .animalHusbandry, in: gameModel)
+            try! humanPlayer.techs?.discover(tech: .sailing, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .archery, in: gameModel)
             try! humanPlayer.civics?.discover(civic: .codeOfLaws)
             try! humanPlayer.civics?.discover(civic: .foreignTrade)
@@ -487,7 +487,7 @@ class DebugViewModel: ObservableObject {
 
             // Human
             humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-            try! humanPlayer.techs?.discover(tech: .pottery)
+            try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
 
             try! humanPlayer.civics?.discover(civic: .codeOfLaws)

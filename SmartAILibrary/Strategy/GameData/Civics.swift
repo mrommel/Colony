@@ -20,7 +20,7 @@ public protocol AbstractCivics: AnyObject, Codable {
 
     // civics
     func has(civic: CivicType) -> Bool
-    func discover(civic: CivicType) throws
+    func discover(civic: CivicType, in gameModel: GameModel?) throws
 
     func currentCultureProgress() -> Double
     func currentCultureTurnsRemaining() -> Int
@@ -166,7 +166,7 @@ class Civics: AbstractCivics {
         return self.civics.contains(civic)
     }
 
-    func discover(civic: CivicType) throws {
+    func discover(civic: CivicType, in gameModel: GameModel?) throws {
 
         if self.civics.contains(civic) {
             throw CivicError.alreadyDiscovered
@@ -174,6 +174,12 @@ class Civics: AbstractCivics {
 
         if civic.governorTitle() {
             self.player?.addGovernorTitle()
+        }
+
+        // check if this tech is the first of a new era
+        let civicsInEra = self.civics.count(where: { $0.era() == civic.era() })
+        if civicsInEra == 0 {
+            self.player?.addMoment(of: .firstCivicOfNewEra, in: gameModel?.currentTurn ?? 0)
         }
 
         self.civics.append(civic)
@@ -335,7 +341,7 @@ class Civics: AbstractCivics {
         if self.currentCultureProgress() >= Double(currentCivic.cost()) {
 
             do {
-                try self.discover(civic: currentCivic)
+                try self.discover(civic: currentCivic, in: gameModel)
 
                 // trigger event to user
                 if player.isHuman() {

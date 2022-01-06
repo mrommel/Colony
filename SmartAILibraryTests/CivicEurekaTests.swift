@@ -33,7 +33,6 @@ class CivicEurekaTests: XCTestCase {
         let playerAlexander = Player(leader: .victoria)
         playerAlexander.initialize()
         self.objectToTest = playerAlexander.civics
-        try! self.objectToTest?.discover(civic: .codeOfLaws)
 
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
@@ -49,6 +48,8 @@ class CivicEurekaTests: XCTestCase {
             players: [barbarianPlayer, playerAlexander, playerTrajan],
             on: mapModel
         )
+
+        try! self.objectToTest?.discover(civic: .codeOfLaws, in: gameModel)
 
         let tile0 = mapModel.tile(at: HexPoint(x: 0, y: 0))
         try! tile0?.set(owner: playerAlexander)

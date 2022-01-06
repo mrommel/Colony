@@ -14,7 +14,7 @@ public protocol AbstractTechs: AnyObject, Codable {
 
     // techs
     func has(tech: TechType) -> Bool
-    func discover(tech: TechType) throws
+    func discover(tech: TechType, in gameModel: GameModel?) throws
 
     func currentScienceProgress() -> Double
     func currentScienceTurnsRemaining() -> Int
@@ -228,10 +228,16 @@ class Techs: AbstractTechs {
         return self.techs.contains(tech)
     }
 
-    func discover(tech: TechType) throws {
+    func discover(tech: TechType, in gameModel: GameModel?) throws {
 
         if self.techs.contains(tech) {
             throw TechError.alreadyDiscovered
+        }
+
+        // check if this tech is the first of a new era
+        let techsInEra = self.techs.count(where: { $0.era() == tech.era() })
+        if techsInEra == 0 {
+            self.player?.addMoment(of: .firstTechnologyOfNewEra, in: gameModel?.currentTurn ?? 0)
         }
 
         self.techs.append(tech)
@@ -377,7 +383,7 @@ class Techs: AbstractTechs {
         if self.currentScienceProgress() >= Double(currentTech.cost()) {
 
             do {
-                try self.discover(tech: currentTech)
+                try self.discover(tech: currentTech, in: gameModel)
 
                 // trigger event to user
                 if player.isHuman() {

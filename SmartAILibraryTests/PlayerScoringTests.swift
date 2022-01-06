@@ -147,7 +147,7 @@ class PlayerScoringTests: XCTestCase {
             on: mapModel
         )
 
-        try! self.objectToTest?.techs?.discover(tech: .pottery)
+        try! self.objectToTest?.techs?.discover(tech: .pottery, in: gameModel)
 
         // WHEN
         let score = self.objectToTest!.score(for: gameModel)
@@ -175,8 +175,8 @@ class PlayerScoringTests: XCTestCase {
             on: mapModel
         )
 
-        try! self.objectToTest?.techs?.discover(tech: .pottery)
-        try! self.objectToTest?.techs?.discover(tech: .mining)
+        try! self.objectToTest?.techs?.discover(tech: .pottery, in: gameModel)
+        try! self.objectToTest?.techs?.discover(tech: .mining, in: gameModel)
 
         // WHEN
         let score = self.objectToTest!.score(for: gameModel)

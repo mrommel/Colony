@@ -30,8 +30,8 @@ class TechTests: XCTestCase {
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
         self.objectToTest = Techs(player: playerAlexander)
-        try! self.objectToTest?.discover(tech: .pottery)
-        try! self.objectToTest?.discover(tech: .animalHusbandry)
+        try! self.objectToTest?.discover(tech: .pottery, in: nil)
+        try! self.objectToTest?.discover(tech: .animalHusbandry, in: nil)
 
         // WHEN
         let possibleTechs = self.objectToTest?.possibleTechs()
@@ -53,8 +53,8 @@ class TechTests: XCTestCase {
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
         self.objectToTest = Techs(player: playerAlexander)
-        try! self.objectToTest?.discover(tech: .pottery)
-        try! self.objectToTest?.discover(tech: .animalHusbandry)
+        try! self.objectToTest?.discover(tech: .pottery, in: nil)
+        try! self.objectToTest?.discover(tech: .animalHusbandry, in: nil)
 
         // WHEN
         let nextTech = self.objectToTest?.chooseNextTech()
@@ -82,8 +82,8 @@ class TechTests: XCTestCase {
         // GIVEN
         let playerAlexander = Player(leader: .trajan)
         self.objectToTest = Techs(player: playerAlexander)
-        try! self.objectToTest?.discover(tech: .pottery)
-        try! self.objectToTest?.discover(tech: .animalHusbandry)
+        try! self.objectToTest?.discover(tech: .pottery, in: nil)
+        try! self.objectToTest?.discover(tech: .animalHusbandry, in: nil)
 
         // WHEN
         let nextTech = self.objectToTest?.chooseNextTech()
@@ -98,8 +98,8 @@ class TechTests: XCTestCase {
         // GIVEN
         let playerAlexander = Player(leader: .victoria)
         self.objectToTest = Techs(player: playerAlexander)
-        try! self.objectToTest?.discover(tech: .pottery)
-        try! self.objectToTest?.discover(tech: .animalHusbandry)
+        try! self.objectToTest?.discover(tech: .pottery, in: nil)
+        try! self.objectToTest?.discover(tech: .animalHusbandry, in: nil)
 
         // WHEN
         let nextTech = self.objectToTest?.chooseNextTech()
@@ -118,7 +118,7 @@ class TechTests: XCTestCase {
         let playerAlexander = Player(leader: .victoria, isHuman: true)
         playerAlexander.initialize()
         self.objectToTest = playerAlexander.techs
-        try! self.objectToTest?.discover(tech: .pottery)
+        try! self.objectToTest?.discover(tech: .pottery, in: nil)
 
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)

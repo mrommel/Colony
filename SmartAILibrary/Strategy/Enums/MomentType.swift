@@ -25,14 +25,14 @@ public enum MomentType {
     case firstTier1Government // #
     case firstTier1GovernmentInWorld // #
     // ...
-    case firstTechnologyOfNewEra // #
-    case firstCivicOfNewEra // #
+    case firstTechnologyOfNewEra
+    case firstCivicOfNewEra
 
     // minor
     case aggressiveCityPlacement // #
     case artifactExtracted // #
     case barbarianCampDestroyed
-    case battleFought // #
+    case battleFought
     // ...
     case metNew(civilization: CivilizationType)
     // ...

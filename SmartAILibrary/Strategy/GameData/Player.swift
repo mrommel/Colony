@@ -4313,7 +4313,7 @@ public class Player: AbstractPlayer {
                 fatalError("cant get tech to discover")
             }
             do {
-                try techs.discover(tech: possibleTech)
+                try techs.discover(tech: possibleTech, in: gameModel)
             } catch {}
 
             if self.isHuman() {

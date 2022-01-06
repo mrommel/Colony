@@ -98,8 +98,6 @@ class GovernmentTypeTests: XCTestCase {
         playerAlexander.initialize()
         self.objectToTest = playerAlexander.government
 
-        try! playerAlexander.civics?.discover(civic: .codeOfLaws)
-
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
@@ -111,6 +109,8 @@ class GovernmentTypeTests: XCTestCase {
             players: [barbarianPlayer, playerAlexander],
             on: mapModel
         )
+
+        try! playerAlexander.civics?.discover(civic: .codeOfLaws, in: gameModel)
 
         // add UI
         let userInterface = TestUI()

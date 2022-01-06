@@ -1291,6 +1291,8 @@ public class Unit: AbstractUnit {
                 attack = true
 
                 Combat.doMeleeAttack(between: self, and: defenderUnit, in: gameModel)
+
+                unitPlayer.addMoment(of: .battleFought, in: gameModel.currentTurn)
             }
 
             // Barb camp here that was attacked?

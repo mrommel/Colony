@@ -11,6 +11,7 @@ import Foundation
 import XCTest
 @testable import SmartAILibrary
 
+// swiftlint:disable force_try
 class UnitTests: XCTestCase {
 
     // Embarked Units cant move in water #67
@@ -25,10 +26,6 @@ class UnitTests: XCTestCase {
 
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
-
-        do {
-            try humanPlayer.techs?.discover(tech: .sailing)
-        } catch {}
 
         let mapModel = MapUtils.mapFilled(with: .ocean, sized: .small)
 
@@ -45,6 +42,8 @@ class UnitTests: XCTestCase {
                                   turnsElapsed: 0,
                                   players: [barbarianPlayer, aiPlayer, humanPlayer],
                                   on: mapModel)
+
+        try! humanPlayer.techs?.discover(tech: .sailing, in: gameModel)
 
         // add UI
         let userInterface = TestUI()
@@ -332,9 +331,6 @@ class UnitTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        do {
-            try humanPlayer.techs?.discover(tech: .ironWorking)
-        } catch {}
         humanPlayer.treasury?.changeGold(by: 1000.0)
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
@@ -345,6 +341,8 @@ class UnitTests: XCTestCase {
                                   players: [barbarianPlayer, aiPlayer, humanPlayer],
                                   on: mapModel)
 
+        try! humanPlayer.techs?.discover(tech: .ironWorking, in: gameModel)
+        
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface

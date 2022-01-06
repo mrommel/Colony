@@ -11,6 +11,7 @@ import Foundation
 import XCTest
 @testable import SmartAILibrary
 
+// swiftlint:disable force_try
 class GameModelTests: XCTestCase {
 
     func testWorldEraMedieval() {
@@ -102,11 +103,6 @@ class GameModelTests: XCTestCase {
 
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
-        do {
-            try playerAlexander.techs?.discover(tech: .masonry)
-        } catch {
-            fatalError("cant discover masonry")
-        }
 
         let playerTrajan = Player(leader: .trajan)
         playerTrajan.initialize()
@@ -122,6 +118,8 @@ class GameModelTests: XCTestCase {
             players: [barbarianPlayer, playerTrajan, playerAlexander],
             on: mapModel
         )
+
+        try! playerAlexander.techs?.discover(tech: .masonry, in: gameModel)
 
         playerAlexander.set(era: .classical, in: gameModel)
         playerTrajan.set(era: .medieval, in: gameModel)
@@ -161,20 +159,10 @@ class GameModelTests: XCTestCase {
 
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
-        do {
-            try playerAlexander.techs?.discover(tech: .masonry)
-        } catch {
-            fatalError("cant discover masonry")
-        }
 
         // player 2
         let playerTrajan = Player(leader: .trajan)
         playerTrajan.initialize()
-        do {
-            try playerTrajan.techs?.discover(tech: .masonry)
-        } catch {
-            fatalError("cant discover masonry")
-        }
 
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
@@ -187,6 +175,9 @@ class GameModelTests: XCTestCase {
             players: [barbarianPlayer, playerTrajan, playerAlexander],
             on: mapModel
         )
+
+        try! playerAlexander.techs?.discover(tech: .masonry, in: gameModel)
+        try! playerTrajan.techs?.discover(tech: .masonry, in: gameModel)
 
         playerAlexander.set(era: .classical, in: gameModel)
         playerTrajan.set(era: .classical, in: gameModel)
