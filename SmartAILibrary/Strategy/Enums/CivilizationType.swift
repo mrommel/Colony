@@ -8,6 +8,7 @@
 
 import Foundation
 
+// swiftlint:disable type_body_length
 public enum CivilizationType: String, Codable {
 
     case barbarian
@@ -100,7 +101,7 @@ public enum CivilizationType: String, Codable {
         let cityNames: [String]
     }
 
-    // swiftlint:disable line_length
+    // swiftlint:disable function_body_length
     private func data() -> CivilizationTypeData {
 
         // french cities taken from here: https://civilization.fandom.com/wiki/French_cities_(Civ6)

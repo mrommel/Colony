@@ -52,7 +52,6 @@ struct DedicationView: View {
         .background(
             Image(nsImage: ImageCache.shared.image(for: "grid9-button-clicked"))
                 .resizable(capInsets: EdgeInsets(all: 15))
-                //.hueRotation(Angle(degrees: 135))
         )
         .onTapGesture {
             self.viewModel.clicked()

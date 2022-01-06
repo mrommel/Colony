@@ -65,7 +65,7 @@ struct SelectDedicationDialogView_Previews: PreviewProvider {
         let viewModel = SelectDedicationDialogViewModel()
 
         let game = DemoGameModel()
-        //game.humanPlayer()?.add(moment: Moment(type: .metNew(civilization: .english), turn: 28))
+        game.humanPlayer()?.set(era: .classical, in: game)
 
         viewModel.gameEnvironment.game.value = game
         viewModel.update()

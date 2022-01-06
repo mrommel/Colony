@@ -9,6 +9,7 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
+// swiftlint:disable type_body_length
 class UnitBannerViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
