@@ -3347,7 +3347,7 @@ public class Unit: AbstractUnit {
                 player.markSettled(on: tileContinent)
 
                 // only from second city (capital == first city is also founded on a 'new' continent)
-                if gameModel.cities(of: player).count > 0 {
+                if !gameModel.cities(of: player).isEmpty {
                     player.addMoment(of: .cityOnNewContinent, in: gameModel.currentTurn)
                 }
             }
