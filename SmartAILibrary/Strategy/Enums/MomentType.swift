@@ -27,6 +27,9 @@ public enum MomentType {
     // ...
     case firstTechnologyOfNewEra
     case firstCivicOfNewEra
+    // ...
+    case worldsFirstPantheon
+    case worldsFirstReligion
 
     // minor
     case aggressiveCityPlacement // #
@@ -155,6 +158,24 @@ public enum MomentType {
                 eraScore: 1
             )
 
+            // ...
+
+        case .worldsFirstPantheon:
+            return MomentTypeData(
+                name: "World's First Pantheon",
+                summary: "Your people are the first in the world to adopt Belief in a Pantheon.",
+                category: .major,
+                eraScore: 2
+            )
+
+        case .worldsFirstReligion:
+            return MomentTypeData(
+                name: "World's First Religion",
+                summary: "Your people are the first to form a Religion, bringing light to the world at large!",
+                category: .major,
+                eraScore: 3
+            )
+
             // -- minor --------------------------------------
 
         case .aggressiveCityPlacement:
@@ -261,11 +282,84 @@ extension MomentType: Codable {
         switch self {
 
         case .founded(religion: let religion):
-            try container.encode(religion, forKey: .religion)
             try container.encode(0, forKey: .rawValue)
+            try container.encode(religion, forKey: .religion)
 
         default:
             fatalError("not handled: \(self.name())")
+        }
+    }
+}
+
+extension MomentType: Equatable {
+
+    public static func == (lhs: MomentType, rhs: MomentType) -> Bool {
+
+        switch (lhs, rhs) {
+
+        case (.founded(religion: let lhsReligion), .founded(religion: let rhsReligion)):
+            return lhsReligion == rhsReligion
+
+         case (.find(naturalWonder: let lhsWonder), .find(naturalWonder: let rhsWonder)):
+            return lhsWonder == rhsWonder
+
+        case (.cityOnNewContinent, .cityOnNewContinent):
+            return true
+
+        case (.firstTier1Government, .firstTier1Government):
+            return true
+
+        case (.firstTier1GovernmentInWorld, .firstTier1GovernmentInWorld):
+            return true
+
+         // ...
+
+        case (.firstTechnologyOfNewEra, .firstTechnologyOfNewEra):
+            return true
+
+        case (.firstCivicOfNewEra, .firstCivicOfNewEra):
+            return true
+
+         // ...
+
+        case (.worldsFirstPantheon, .worldsFirstPantheon):
+            return true
+
+        case (.worldsFirstReligion, .worldsFirstReligion):
+            return true
+
+         // minor
+
+        case (.aggressiveCityPlacement, .aggressiveCityPlacement):
+            return true
+
+        case (.artifactExtracted, .artifactExtracted):
+            return true
+
+        case (.barbarianCampDestroyed, .barbarianCampDestroyed):
+            return true
+
+        case (.battleFought, .battleFought):
+            return true
+
+         // ...
+
+        case (.metNew(civilization: let lhsCivilization), .metNew(civilization: let rhsCivilization)):
+            return lhsCivilization == rhsCivilization
+
+         // ...
+
+        case (.completed(wonder: let lhsWonder), .completed(wonder: let rhsWonder)):
+            return lhsWonder == rhsWonder
+
+         // hidden
+
+        case (.constructSpecialtyDistrict, .constructSpecialtyDistrict):
+            return true
+
+        default:
+            print("warning: compare MomentTypes \(lhs) != \(rhs)")
+            return false
         }
     }
 }

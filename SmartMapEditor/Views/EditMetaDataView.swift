@@ -8,7 +8,7 @@
 import SwiftUI
 import SmartAILibrary
 
-protocol EditMetaDataViewDelegate: NSObject {
+protocol EditMetaDataViewDelegate: AnyObject {
 
     func closed()
 }

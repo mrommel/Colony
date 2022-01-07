@@ -3345,7 +3345,11 @@ public class Unit: AbstractUnit {
         if let tileContinent: ContinentType = gameModel.continent(at: self.location)?.type() {
             if !player.hasSettled(on: tileContinent) {
                 player.markSettled(on: tileContinent)
-                player.addMoment(of: .cityOnNewContinent, in: gameModel.currentTurn)
+
+                // only from second city (capital == first city is also founded on a 'new' continent)
+                if gameModel.cities(of: player).count > 0 {
+                    player.addMoment(of: .cityOnNewContinent, in: gameModel.currentTurn)
+                }
             }
         }
 

@@ -307,8 +307,8 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func tourismModifier(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Int // in percent
 
     // moments
-    func add(moment: Moment)
     func addMoment(of type: MomentType, in turn: Int)
+    func hasMoment(of type: MomentType) -> Bool
     func moments() -> [Moment]
 
     // moment helper
@@ -690,6 +690,7 @@ public class Player: AbstractPlayer {
         self.tradeRoutes = TradeRoutes(player: self)
         self.governors = PlayerGovernors(player: self)
         self.tourism = PlayerTourism(player: self)
+        self.momentsVal = PlayerMoments(player: self)
 
         self.techs = Techs(player: self)
         self.civics = Civics(player: self)
@@ -5016,14 +5017,18 @@ public class Player: AbstractPlayer {
 
     // MARK: moments
 
-    public func add(moment: Moment) {
-
-        self.momentsVal?.add(moment: moment)
-    }
-
     public func addMoment(of type: MomentType, in turn: Int) {
 
         self.momentsVal?.addMoment(of: type, in: turn)
+    }
+
+    public func hasMoment(of type: MomentType) -> Bool {
+
+        return self.momentsVal?.moments().contains(
+            where: {
+                return $0.type == type
+            }
+        ) ?? false
     }
 
     public func moments() -> [Moment] {

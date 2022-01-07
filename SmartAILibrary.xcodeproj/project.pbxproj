@@ -369,6 +369,7 @@
 		C9EE60AE2402714C00535B93 /* Army.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE60AD2402714C00535B93 /* Army.swift */; };
 		C9EF13972423C02C003B3DAD /* LandDisputeLevelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF13962423C02C003B3DAD /* LandDisputeLevelType.swift */; };
 		C9EF13992423E1EA003B3DAD /* AggressivePostureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF13982423E1EA003B3DAD /* AggressivePostureType.swift */; };
+		C9EF39C5278818F30066A507 /* PlayerMomentsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF39C4278818F30066A507 /* PlayerMomentsTests.swift */; };
 		C9F020FD276BD87400AF5E49 /* CasusBelliType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F020FC276BD87400AF5E49 /* CasusBelliType.swift */; };
 		C9F020FF276C997800AF5E49 /* MomentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F020FE276C997800AF5E49 /* MomentType.swift */; };
 		C9F02101276CED9800AF5E49 /* PlayerMoments.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F02100276CED9800AF5E49 /* PlayerMoments.swift */; };
@@ -757,6 +758,7 @@
 		C9EE60AD2402714C00535B93 /* Army.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Army.swift; sourceTree = "<group>"; };
 		C9EF13962423C02C003B3DAD /* LandDisputeLevelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandDisputeLevelType.swift; sourceTree = "<group>"; };
 		C9EF13982423E1EA003B3DAD /* AggressivePostureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggressivePostureType.swift; sourceTree = "<group>"; };
+		C9EF39C4278818F30066A507 /* PlayerMomentsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerMomentsTests.swift; sourceTree = "<group>"; };
 		C9F020FC276BD87400AF5E49 /* CasusBelliType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasusBelliType.swift; sourceTree = "<group>"; };
 		C9F020FE276C997800AF5E49 /* MomentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentType.swift; sourceTree = "<group>"; };
 		C9F02100276CED9800AF5E49 /* PlayerMoments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerMoments.swift; sourceTree = "<group>"; };
@@ -1026,6 +1028,7 @@
 				C9B1D2A02436126300033791 /* MapLoadingTests.swift */,
 				C9DFCF7923F2AFB10032243D /* MapModelTests.swift */,
 				C935FBA727043EE3000CCA49 /* PlayerTests.swift */,
+				C9EF39C4278818F30066A507 /* PlayerMomentsTests.swift */,
 				C9C52FCB23D8EFCC00B34140 /* PlayerScoringTests.swift */,
 				C92D220823E1DC3300BB9238 /* PlayerTechTests.swift */,
 				C92D221623E22D6600BB9238 /* PolicyCardsTests.swift */,
@@ -1957,6 +1960,7 @@
 				C966A3FF251E68C9000C24B8 /* DestroyBarbarianCampOperationTests.swift in Sources */,
 				C93479492529AF2A00A4B113 /* AStarPathFinderTests.swift in Sources */,
 				C92D220923E1DC3300BB9238 /* PlayerTechTests.swift in Sources */,
+				C9EF39C5278818F30066A507 /* PlayerMomentsTests.swift in Sources */,
 				C986A5F22664F56F0055D3D4 /* ReligionTests.swift in Sources */,
 				C94CB3CD274D8E54002F3083 /* TileAppealTests.swift in Sources */,
 				C92317BD23D6EAB5001FC723 /* HierarchicalStateMachineTests.swift in Sources */,

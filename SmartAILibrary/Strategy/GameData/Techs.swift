@@ -236,7 +236,7 @@ class Techs: AbstractTechs {
 
         // check if this tech is the first of a new era
         let techsInEra = self.techs.count(where: { $0.era() == tech.era() })
-        if techsInEra == 0 {
+        if techsInEra == 0 && tech.era() != .ancient {
             self.player?.addMoment(of: .firstTechnologyOfNewEra, in: gameModel?.currentTurn ?? 0)
         }
 

@@ -216,7 +216,7 @@ struct EraProgressDialogView_Previews: PreviewProvider {
         let viewModel = EraProgressDialogViewModel()
 
         let game = DemoGameModel()
-        game.humanPlayer()?.add(moment: Moment(type: .metNew(civilization: .english), turn: 28))
+        game.humanPlayer()?.addMoment(of: .metNew(civilization: .english), in: 28)
 
         viewModel.gameEnvironment.game.value = game
         viewModel.update()

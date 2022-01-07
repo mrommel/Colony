@@ -181,8 +181,18 @@ class PlayerReligion: AbstractPlayerReligion {
 
     func foundPantheon(with pantheonType: PantheonType, in gameModel: GameModel?) {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
         guard let civics = self.player?.civics else {
             fatalError("cant get civics")
+        }
+
+        let numPantheonsFounded: Int = gameModel.religions()
+            .count(where: { $0?.pantheon() != PantheonType.none })
+        if numPantheonsFounded == 0 {
+            self.player?.addMoment(of: .worldsFirstPantheon, in: gameModel.currentTurn)
         }
 
         self.pantheonVal = pantheonType
@@ -340,11 +350,19 @@ class PlayerReligion: AbstractPlayerReligion {
 
     func found(religion religionType: ReligionType, at cityRef: AbstractCity?, in gameModel: GameModel?) {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
         guard let city = cityRef else {
             fatalError("cant get religion found city")
         }
 
-        gameModel?.religions()
+        let numReligionsFounded: Int = gameModel.religions()
+            .count(where: { $0?.currentReligion() != ReligionType.none })
+        if numReligionsFounded == 0 {
+            self.player?.addMoment(of: .worldsFirstReligion, in: gameModel.currentTurn)
+        }
 
         self.religionFounded = religionType
         self.holyCityLocationVal = city.location
