@@ -9,7 +9,7 @@
 import SpriteKit
 import SmartAILibrary
 
-fileprivate class TextureItem: Codable, Equatable {
+private class TextureItem: Codable, Equatable {
 
     enum CodingKeys: CodingKey {
         case point
@@ -58,7 +58,7 @@ fileprivate class TextureItem: Codable, Equatable {
 public class TextureUtils {
 
     weak var gameModel: GameModel?
-    fileprivate var tileTextures: Array2D<TextureItem>?
+    private var tileTextures: Array2D<TextureItem>?
 
     public init(with gameModel: GameModel?) {
 
