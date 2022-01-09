@@ -36,13 +36,43 @@ public enum MomentType {
     case artifactExtracted // #
     case barbarianCampDestroyed
     case battleFought
-    // ...
+    case causeForWar // #
+    case cityReturnsToOriginalOwner // #
+    // case cityStateArmyLevied // #
+    // case coastalFloodMitigated // #
+    case desertCity
+    case diplomaticVictoryResolutionWon // #
+    // case firstArmada
+    case firstArmy // #
+    // case firstCorps // #
+    case firstFleet // #
+    case foreignCapitalTaken // #
+    case greatPersonRecruited
+    // case heroClaimed // #
+    // case heroDeparted // #
+    // case heroRecalled // #
+    case landedOnTheMoon // #
+    case manhattanProjectCompleted // #
+    case martianColonyEstablished // #
+    case masterSpyEarned // #
     case metNew(civilization: CivilizationType)
-    // ...
-    case completed(wonder: WonderType)
+    case oldGreatPersonRecruited
+    case oldWorldWonderCompleted
+    // case Operation Ivy Completed
+    case pantheonFounded
+    case riverFloodMitigated // #
+    case satelliteLaunchedIntoOrbit // #
+    case snowCity
+    case strategicResourcePotentialUnleashed // #
+    case tradingPostEstablishedInNewCivilization
+    case tribalVillageContacted
+    case tundraCity
+    case unitPromotedWithDistinction
+    case wonderCompleted(wonder: WonderType)
 
     // hidden
-    case constructSpecialtyDistrict // monumentality
+    case constructSpecialtyDistrict // for dedication monumentality
+    case shipSunk // for artifacts
 
     // MARK: public methods
 
@@ -64,6 +94,16 @@ public enum MomentType {
     public func eraScore() -> Int {
 
         return self.data().eraScore
+    }
+
+    public func minEra() -> EraType {
+
+        return self.data().minEra
+    }
+
+    public func maxEra() -> EraType {
+
+        return self.data().maxEra
     }
 
     // MARK: private methods
@@ -212,7 +252,103 @@ public enum MomentType {
                 eraScore: 0
             )
 
-            // ...
+        case .causeForWar:
+            return MomentTypeData(
+                name: "Cause for War",
+                summary: "You have utilized a Casus Belli to make war on another civilization.",
+                category: .minor,
+                eraScore: 2
+            )
+
+        case .cityReturnsToOriginalOwner:
+            return MomentTypeData(
+                name: "City Returns to Original Owner",
+                summary: "A city has returned to its original owner.",
+                category: .minor,
+                eraScore: 2
+            )
+        // case .cityStateArmyLevied:
+        // case .coastalFloodMitigated:
+        case .desertCity:
+            return MomentTypeData(
+                name: "Desert City",
+                summary: "A city is established on difficult Desert terrain, expanding your reach into the wilds.",
+                category: .minor,
+                eraScore: 1
+            )
+
+        case .diplomaticVictoryResolutionWon:
+            return MomentTypeData(
+                name: "Diplomatic Victory Resolution Won",
+                summary: "You have won the Diplomatic Victory resolution and earned Victory Points.",
+                category: .minor,
+                eraScore: 2
+            )
+        // case .firstArmada:
+        case .firstArmy:
+            return MomentTypeData(
+                name: "First Army",
+                summary: "Your civilization's first Army is formed.",
+                category: .minor,
+                eraScore: 1,
+                maxEra: .modern
+            )
+        // case firstCorps // #
+        case .firstFleet:
+            return MomentTypeData(
+                name: "First Fleet",
+                summary: "Your civilization's first Fleet is formed.",
+                category: .minor,
+                eraScore: 1
+            )
+        case .foreignCapitalTaken:
+            return MomentTypeData(
+                name: "Foreign Capital Taken",
+                summary: "You have taken control of a foreign power's original capital city.",
+                category: .minor,
+                eraScore: 4
+            )
+        case .greatPersonRecruited:
+            return MomentTypeData(
+                name: "Great Person Recruited",
+                summary: "A  Great Person has traveled to our lands to share unique talents.",
+                category: .minor,
+                eraScore: 1
+            )
+        // case .heroClaimed:
+        // case .heroDeparted:
+        // case .heroRecalled:
+        case .landedOnTheMoon:
+            return MomentTypeData(
+                name: "Landed on the Moon",
+                summary: "You send a successful mission to land on the moon.",
+                category: .minor,
+                eraScore: 2
+            )
+
+        case .manhattanProjectCompleted:
+            return MomentTypeData(
+                name: "Manhattan Project Completed",
+                summary: "Your scientists completed the Manhattan Project.",
+                category: .minor,
+                eraScore: 2
+            )
+
+        case .martianColonyEstablished:
+            return MomentTypeData(
+                name: "Martian Colony Established",
+                summary: "You have established a colony on Mars.",
+                category: .minor,
+                eraScore: 2
+            )
+
+        case .masterSpyEarned:
+            return MomentTypeData(
+                name: "Master Spy Earned",
+                summary: "One of your Spies has reached its maximum promotion level.",
+                category: .minor,
+                eraScore: 1
+            )
 
         case .metNew(civilization: _):
             return MomentTypeData(
@@ -222,9 +358,98 @@ public enum MomentType {
                 eraScore: 1
             )
 
-            // ...
+        case .oldGreatPersonRecruited:
+            return MomentTypeData(
+                name: "Old Great Person Recruited",
+                summary: "A  Great Person has traveled to our lands. Though better suited to a past era, they will still contribute great things to our civilization.",
+                category: .minor,
+                eraScore: 1
+            )
 
-        case .completed(wonder: _):
+        case .oldWorldWonderCompleted:
+            return MomentTypeData(
+                name: "Old World Wonder Completed",
+                summary: "A World Wonder is completed. Even though it belongs to a bygone era, it will still show our grandeur over other civilizations.",
+                category: .minor,
+                eraScore: 3
+            )
+        // case .operationIvyCompleted:
+        case .pantheonFounded:
+            return MomentTypeData(
+                name: "Pantheon Founded",
+                summary: "Your people adopt Belief in a Pantheon.",
+                category: .minor,
+                eraScore: 1,
+                maxEra: .classical
+            )
+
+        case .riverFloodMitigated:
+            return MomentTypeData(
+                name: "River Flood Mitigated",
+                summary: "Your constructed infrastructure has prevented damage from a river flood.",
+                category: .minor,
+                eraScore: 1
+            )
+
+        case .satelliteLaunchedIntoOrbit:
+            return MomentTypeData(
+                name: "Satellite Launched Into Orbit",
+                summary: "You launched your civilization's first satellite into orbit.",
+                category: .minor,
+                eraScore: 2
+            )
+
+        case .snowCity:
+            return MomentTypeData(
+                name: "Snow City",
+                summary: "A city is established on difficult Snow terrain, expanding your reach into the wilds.",
+                category: .minor,
+                eraScore: 1
+            )
+
+        case .strategicResourcePotentialUnleashed:
+            return MomentTypeData(
+                name: "Strategic Resource Potential Unleashed",
+                summary: "You own your first unit that uses this strategic resource.",
+                category: .minor,
+                eraScore: 1
+            )
+
+        case .tradingPostEstablishedInNewCivilization:
+            return MomentTypeData(
+                name: "Trading Post Established in New Civilization",
+                summary: "You have established your first  Trading Post in this civilization, opening up access to new markets.",
+                category: .minor,
+                eraScore: 1
+            )
+
+        case .tribalVillageContacted:
+            return MomentTypeData(
+                name: "Tribal Village Contacted",
+                summary: "A Tribal Village was contacted, giving strength to our budding cities.",
+                category: .minor,
+                eraScore: 1,
+                minEra: .ancient,
+                maxEra: .ancient
+            )
+
+        case .tundraCity:
+            return MomentTypeData(
+                name: "Tundra City",
+                summary: "A city is established on difficult Tundra terrain, expanding your reach into the wilds.",
+                category: .minor,
+                eraScore: 1
+            )
+
+        case .unitPromotedWithDistinction:
+            return MomentTypeData(
+                name: "Unit Promoted with Distinction",
+                summary: "One of your units reaches its fourth level of promotion.",
+                category: .minor,
+                eraScore: 1
+            )
+
+        case .wonderCompleted(wonder: _):
             return MomentTypeData(
                 name: "World Wonder Completed",
                 summary: "A world wonder is completed, showing our grandeur over other civilizations.",
@@ -240,6 +465,14 @@ public enum MomentType {
                 summary: "",
                 category: .hidden,
                 eraScore: 1
+            )
+
+        case .shipSunk:
+            return MomentTypeData(
+                name: "Ship Sunk",
+                summary: "A naval unit was sunk in combat. Used by the Archaeology system to potentially generate Shipwreck resources.",
+                category: .hidden,
+                eraScore: 0
             )
 
         }

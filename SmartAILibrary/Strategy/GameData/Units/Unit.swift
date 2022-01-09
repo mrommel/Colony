@@ -103,7 +103,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func isPromotionReady() -> Bool
     func gainedPromotions() -> [UnitPromotionType]
     func possiblePromotions() -> [UnitPromotionType]
-    func doPromote(with promotionType: UnitPromotionType)
+    func doPromote(with promotionType: UnitPromotionType, in gameModel: GameModel?)
 
     func power() -> Int
     func isCombatUnit() -> Bool
@@ -744,7 +744,7 @@ public class Unit: AbstractUnit {
         let newUnit = Unit(at: location, type: unitType, owner: player)
         newUnit.rename(to: name)
         for promotion in promotions {
-            newUnit.doPromote(with: promotion)
+            newUnit.doPromote(with: promotion, in: gameModel)
         }
         gameModel?.add(unit: newUnit)
         gameModel?.userInterface?.show(unit: newUnit)
@@ -2998,10 +2998,18 @@ public class Unit: AbstractUnit {
         return promotions.possiblePromotions()
     }
 
-    public func doPromote(with promotionType: UnitPromotionType) {
+    public func doPromote(with promotionType: UnitPromotionType, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
 
         guard let promotions = self.promotions else {
             fatalError("cant get promotions")
+        }
+
+        if promotionType.tier() == 4 {
+            self.player?.addMoment(of: .unitPromotedWithDistinction, in: gameModel.currentTurn)
         }
 
         do {
@@ -3338,18 +3346,6 @@ public class Unit: AbstractUnit {
                 self.player?.doClearBarbarianCamp(at: newPlot, in: gameModel)
             } else if newPlot.has(improvement: .goodyHut) {
                 self.player?.doGoodyHut(at: newPlot, by: self, in: gameModel)
-            }
-        }
-
-        // check if tile is on a continent that the player has not settler yet
-        if let tileContinent: ContinentType = gameModel.continent(at: self.location)?.type() {
-            if !player.hasSettled(on: tileContinent) {
-                player.markSettled(on: tileContinent)
-
-                // only from second city (capital == first city is also founded on a 'new' continent)
-                if !gameModel.cities(of: player).isEmpty {
-                    player.addMoment(of: .cityOnNewContinent, in: gameModel.currentTurn)
-                }
             }
         }
 

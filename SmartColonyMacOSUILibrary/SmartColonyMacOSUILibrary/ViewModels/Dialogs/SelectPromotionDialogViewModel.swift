@@ -69,7 +69,11 @@ extension SelectPromotionDialogViewModel: PromotionViewModelDelegate {
 
     func clicked(on promotion: UnitPromotionType) {
 
-        self.unit?.doPromote(with: promotion)
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        self.unit?.doPromote(with: promotion, in: gameModel)
         self.delegate?.closeDialog()
     }
 }

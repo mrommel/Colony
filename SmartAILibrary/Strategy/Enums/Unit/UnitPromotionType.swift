@@ -72,7 +72,7 @@ public enum UnitPromotionType: Int, Codable {
         return self.data().effect
     }
 
-    func tier() -> Int {
+    public func tier() -> Int {
 
         return self.data().tier
     }

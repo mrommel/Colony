@@ -2513,7 +2513,12 @@ public class City: AbstractCity {
             try self.wonders?.build(wonder: wonderType)
             self.greatWorks?.addPlaces(for: wonderType)
 
-            self.player?.addMoment(of: .completed(wonder: wonderType), in: gameModel.currentTurn)
+            // moments
+            self.player?.addMoment(of: .wonderCompleted(wonder: wonderType), in: gameModel.currentTurn)
+
+            if wonderType.era() < player.currentEra() {
+                self.player?.addMoment(of: .oldWorldWonderCompleted, in: gameModel.currentTurn)
+            }
 
             gameModel.build(wonder: wonderType)
 

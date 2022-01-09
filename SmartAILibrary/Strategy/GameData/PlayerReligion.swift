@@ -185,14 +185,26 @@ class PlayerReligion: AbstractPlayerReligion {
             fatalError("cant get game")
         }
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         guard let civics = self.player?.civics else {
             fatalError("cant get civics")
         }
 
+        // moments
         let numPantheonsFounded: Int = gameModel.religions()
             .count(where: { $0?.pantheon() != PantheonType.none })
         if numPantheonsFounded == 0 {
+            
             self.player?.addMoment(of: .worldsFirstPantheon, in: gameModel.currentTurn)
+        }
+
+        if MomentType.pantheonFounded.minEra() <= player.currentEra() &&
+            player.currentEra() <=  MomentType.pantheonFounded.maxEra() {
+
+            self.player?.addMoment(of: .pantheonFounded, in: gameModel.currentTurn)
         }
 
         self.pantheonVal = pantheonType

@@ -1597,6 +1597,13 @@ public class Player: AbstractPlayer {
             // add units
             capital.doSpawn(greatPerson: greatPerson, in: gameModel)
 
+            // moments
+            self.addMoment(of: .greatPersonRecruited, in: gameModel.currentTurn)
+
+            if greatPerson.era() < self.currentEraVal {
+                self.addMoment(of: .oldGreatPersonRecruited, in: gameModel.currentTurn)
+            }
+
             // notify the user
             self.notifications()?.add(notification: .greatPersonJoined)
 
@@ -2595,6 +2602,10 @@ public class Player: AbstractPlayer {
             fatalError("cant get gameModel")
         }
 
+        guard let tile = gameModel.tile(at: location) else {
+            fatalError("cant get tile")
+        }
+
         guard let techs = self.techs else {
             fatalError("cant get techs")
         }
@@ -2610,6 +2621,31 @@ public class Player: AbstractPlayer {
         city.initialize(in: gameModel)
 
         gameModel.add(city: city)
+
+        // moments
+        // check if tile is on a continent that the player has not settler yet
+        if let tileContinent: ContinentType = gameModel.continent(at: location)?.type() {
+            if !self.hasSettled(on: tileContinent) {
+                self.markSettled(on: tileContinent)
+
+                // only from second city (capital == first city is also founded on a 'new' continent)
+                if !gameModel.cities(of: self).isEmpty {
+                    self.addMoment(of: .cityOnNewContinent, in: gameModel.currentTurn)
+                }
+            }
+        }
+
+        if tile.terrain() == .tundra {
+            self.addMoment(of: .tundraCity, in: gameModel.currentTurn)
+        }
+
+        if tile.terrain() == .desert {
+            self.addMoment(of: .desertCity, in: gameModel.currentTurn)
+        }
+
+        if tile.terrain() == .snow {
+            self.addMoment(of: .snowCity, in: gameModel.currentTurn)
+        }
 
         if self.isHuman() {
 
@@ -3461,8 +3497,20 @@ public class Player: AbstractPlayer {
 
     public func doEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
         guard let tradeRoutes = self.tradeRoutes else {
             fatalError("cant get tradeRoutes")
+        }
+
+        guard let targetCity = targetCity else {
+            fatalError("cant get targetCity")
+        }
+
+        if targetCity.player?.leader != self.leader {
+            self.addMoment(of: .tradingPostEstablishedInNewCivilization, in: gameModel.currentTurn)
         }
 
         // no check ?
@@ -4038,47 +4086,55 @@ public class Player: AbstractPlayer {
             fatalError("cant get tile")
         }
 
-        if !self.isBarbarian() {
+        if self.isBarbarian() {
+            return
+        }
 
-            tile.removeImprovement()
+        tile.removeImprovement()
 
-            // Make a list of valid Goodies to pick randomly from
-            var validGoodies: [GoodyType] = []
-            var validGoodyCategories: [GoodyCategory] = []
+        // moment
+        if MomentType.tribalVillageContacted.minEra() <= self.currentEra() &&
+            self.currentEra() <=  MomentType.tribalVillageContacted.maxEra() {
 
-            for goody in GoodyType.all {
+            self.addMoment(of: .tribalVillageContacted, in: gameModel.currentTurn)
+        }
 
-                if self.canReceiveGoody(at: tile, goody: goody, unit: unit, in: gameModel) {
-                    validGoodies.append(goody)
-                    validGoodyCategories.append(goody.category())
-                }
+        // Make a list of valid Goodies to pick randomly from
+        var validGoodies: [GoodyType] = []
+        var validGoodyCategories: [GoodyCategory] = []
+
+        for goody in GoodyType.all {
+
+            if self.canReceiveGoody(at: tile, goody: goody, unit: unit, in: gameModel) {
+                validGoodies.append(goody)
+                validGoodyCategories.append(goody.category())
+            }
+        }
+
+        // Any valid Goodies categories?
+        guard let goodyCategory = validGoodyCategories.randomElement() else {
+            fatalError("no goody categories found")
+        }
+
+        validGoodies = validGoodies.filter({ $0.category() == goodyCategory }) // goodyCategory
+
+        if validGoodies.count > 1 {
+            let goodies = WeightedList<GoodyType>()
+
+            for validGoody in validGoodies {
+                goodies.add(weight: validGoody.probability(), for: validGoody)
             }
 
-            // Any valid Goodies categories?
-            guard let goodyCategory = validGoodyCategories.randomElement() else {
-                fatalError("no goody categories found")
+            let randValue = Int.random(number: Int(goodies.totalWeights()))
+
+            guard let selectedValue = goodies.item(by: Double(randValue)) else {
+                fatalError("no goody found")
             }
 
-            validGoodies = validGoodies.filter({ $0.category() == goodyCategory }) // goodyCategory
+            self.receiveGoody(at: tile, goody: selectedValue, unit: unit, in: gameModel)
 
-            if validGoodies.count > 1 {
-                let goodies = WeightedList<GoodyType>()
-
-                for validGoody in validGoodies {
-                    goodies.add(weight: validGoody.probability(), for: validGoody)
-                }
-
-                let randValue = Int.random(number: Int(goodies.totalWeights()))
-
-                guard let selectedValue = goodies.item(by: Double(randValue)) else {
-                    fatalError("no goody found")
-                }
-
-                self.receiveGoody(at: tile, goody: selectedValue, unit: unit, in: gameModel)
-
-            } else {
-                self.receiveGoody(at: tile, goody: validGoodies[0], unit: unit, in: gameModel)
-            }
+        } else {
+            self.receiveGoody(at: tile, goody: validGoodies[0], unit: unit, in: gameModel)
         }
     }
 
@@ -4106,7 +4162,11 @@ public class Player: AbstractPlayer {
             tile.set(improvement: .none)
 
             gameModel.doBarbCampCleared(at: tile.point)
-            self.addMoment(of: .barbarianCampDestroyed, in: gameModel.currentTurn)
+            if MomentType.barbarianCampDestroyed.minEra() <= self.currentEraVal &&
+                self.currentEraVal <=  MomentType.barbarianCampDestroyed.maxEra() {
+                
+                self.addMoment(of: .barbarianCampDestroyed, in: gameModel.currentTurn)
+            }
 
             self.treasury?.changeGold(by: Double(numGold))
 
