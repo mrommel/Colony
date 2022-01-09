@@ -16,7 +16,7 @@ public enum MomentCategory {
 }
 
 // https://www.civilopedia.net/gathering-storm/moments/moment_artifact_extracted
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length inclusive_language
 public enum MomentType {
 
     // major

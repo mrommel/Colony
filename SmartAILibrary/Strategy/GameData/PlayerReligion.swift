@@ -197,7 +197,7 @@ class PlayerReligion: AbstractPlayerReligion {
         let numPantheonsFounded: Int = gameModel.religions()
             .count(where: { $0?.pantheon() != PantheonType.none })
         if numPantheonsFounded == 0 {
-            
+
             self.player?.addMoment(of: .worldsFirstPantheon, in: gameModel.currentTurn)
         }
 
