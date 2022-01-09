@@ -68,9 +68,7 @@ public class MapUtils {
 
         for x in 0..<mapSize.width() {
             for y in 0..<mapSize.height() {
-
-                let tile = mapModel.tile(at: HexPoint(x: x, y: y))
-                tile?.discover(by: player, in: gameModel)
+                mapModel.discover(by: player, at: HexPoint(x: x, y: y), in: gameModel)
             }
         }
     }
@@ -78,9 +76,7 @@ public class MapUtils {
     static func discover(area: HexArea, mapModel: inout MapModel, by player: AbstractPlayer?, in gameModel: GameModel?) {
 
         for pt in area {
-
-            let tile = mapModel.tile(at: pt)
-            tile?.discover(by: player, in: gameModel)
+            mapModel.discover(by: player, at: pt, in: gameModel)
         }
     }
 }

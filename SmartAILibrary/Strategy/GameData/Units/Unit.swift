@@ -2132,7 +2132,7 @@ public class Unit: AbstractUnit {
                     // check if wonder is discovered by player already
                     if !player.hasDiscovered(naturalWonder: feature) {
                         player.doDiscover(naturalWonder: feature)
-                        player.addMoment(of: .find(naturalWonder: feature), in: gameModel.currentTurn)
+                        player.addMoment(of: .discoveryOfANaturalWonder(naturalWonder: feature), in: gameModel.currentTurn)
                     }
 
                     /*PromotionTypes ePromotion = (PromotionTypes)GC.getFeatureInfo(eFeature)->getAdjacentUnitFreePromotion();

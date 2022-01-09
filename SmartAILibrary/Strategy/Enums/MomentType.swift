@@ -16,12 +16,27 @@ public enum MomentCategory {
 }
 
 // https://www.civilopedia.net/gathering-storm/moments/moment_artifact_extracted
+// swiftlint:disable type_body_length
 public enum MomentType {
 
     // major
-    case founded(religion: ReligionType)
-    case find(naturalWonder: FeatureType)
+    case admiralDefeatsEnemy // #
+    case allGovernorsAppointed // #
+    case canalCompleted // #
+    case cityNearFloodableRiver // #
+    case cityNearVolcano // #
+    case cityOfAwe // #
     case cityOnNewContinent
+    // City-State's First Suzerain
+    // City-State Army Levied Near Enemy
+    // Climate Change Phase
+    case darkAgeBegins
+    case discoveryOfANaturalWonder(naturalWonder: FeatureType)
+    // Emergency Completed Successfully
+    // Emergency Successfully Defended
+    case enemyCityAdoptsOurReligion // #
+    // ...
+    case founded(religion: ReligionType)
     case firstTier1Government // #
     case firstTier1GovernmentInWorld // #
     // ...
@@ -30,6 +45,8 @@ public enum MomentType {
     // ...
     case worldsFirstPantheon
     case worldsFirstReligion
+    // ...
+    case worldCircumnavigated
 
     // minor
     case aggressiveCityPlacement // #
@@ -134,11 +151,93 @@ public enum MomentType {
         }
     }
 
+    // swiftlint:disable function_body_length
     private func data() -> MomentTypeData {
 
         switch self {
 
             // -- major ---------------------------------
+
+        case .admiralDefeatsEnemy:
+            return MomentTypeData(
+                name: "Admiral Defeats Enemy",
+                summary: "One of your [Great Admiral] Great Admirals has overseen their first victorious offensive against an enemy unit.",
+                category: .major,
+                eraScore: 2
+            )
+
+        case .allGovernorsAppointed:
+            return MomentTypeData(
+                name: "All Governors Appointed",
+                summary: "You have appointed all available  Governors, securing the prosperity of many cities.",
+                category: .major,
+                eraScore: 1
+            )
+
+        case .canalCompleted:
+            return MomentTypeData(
+                name: "Canal Completed",
+                summary: "You have completed your civilization's first Canal district.",
+                category: .major,
+                eraScore: 2
+            )
+
+        case .cityNearFloodableRiver:
+            return MomentTypeData(
+                name: "City near Floodable River",
+                summary: "A city is placed within 2 tiles of a river that could flood.",
+                category: .major,
+                eraScore: 1
+            )
+
+        case .cityNearVolcano:
+            return MomentTypeData(
+                name: "City near Volcano",
+                summary: "A city is placed within 2 tiles of a volcano that could erupt.",
+                category: .major,
+                eraScore: 1
+            )
+
+        case .cityOfAwe:
+            return MomentTypeData(
+                name: "City of Awe",
+                summary: "A city is placed within 2 tiles of a natural wonder.",
+                category: .major,
+                eraScore: 3
+            )
+
+        case .cityOnNewContinent:
+            return MomentTypeData(
+                name: "City on New Continent",
+                summary: "A city is placed on a continent you have not yet settled.",
+                category: .major,
+                eraScore: 2
+            )
+
+        // City-State's First Suzerain
+        // City-State Army Levied Near Enemy
+        // Climate Change Phase
+
+        case .darkAgeBegins:
+            return MomentTypeData(
+                name: "Dark Age Begins",
+                summary: "The game enters a new era, and your civilization has the challenges of a Dark Age to overcome.",
+                category: .major,
+                eraScore: 0
+            )
+
+        case .discoveryOfANaturalWonder(naturalWonder: _):
+            return MomentTypeData(
+                name: "Discovery of a Natural Wonder",
+                summary: "Your civilization discovers this natural wonder for the first time.",
+                category: .major,
+                eraScore: 1
+            )
+
+        // Emergency Completed Successfully
+        // Emergency Successfully Defended
+
+        // ...
 
         case .founded(religion: _):
             return MomentTypeData(
@@ -148,20 +247,12 @@ public enum MomentType {
                 eraScore: 2
             )
 
-        case .find(naturalWonder: _):
+        case .enemyCityAdoptsOurReligion:
             return MomentTypeData(
-                name: "Discovery of a Natural Wonder",
-                summary: "Your civilization discovers this natural wonder for the first time.",
+                name: "Enemy City Adopts Our Religion",
+                summary: "An enemy city, despite being at war, has seen the light and adopted our Religion.",
                 category: .major,
-                eraScore: 1
-            )
-
-        case .cityOnNewContinent:
-            return MomentTypeData(
-                name: "City on New Continent",
-                summary: "A city is placed on a continent you have not yet settled.",
-                category: .major,
-                eraScore: 2
+                eraScore: 3
             )
 
         case .firstTier1Government:
@@ -212,6 +303,17 @@ public enum MomentType {
             return MomentTypeData(
                 name: "World's First Religion",
                 summary: "Your people are the first to form a Religion, bringing light to the world at large!",
+                category: .major,
+                eraScore: 3
+            )
+
+            // ...
+
+        case .worldCircumnavigated:
+            return MomentTypeData(
+                name: "World Circumnavigated",
+                summary: "Your civilization has revealed a tile in every vertical line of the map." +
+                    "This forms a path around the world, even if the path does not end where it began.",
                 category: .major,
                 eraScore: 3
             )
@@ -361,7 +463,8 @@ public enum MomentType {
         case .oldGreatPersonRecruited:
             return MomentTypeData(
                 name: "Old Great Person Recruited",
-                summary: "A  Great Person has traveled to our lands. Though better suited to a past era, they will still contribute great things to our civilization.",
+                summary: "A  Great Person has traveled to our lands." +
+                    "Though better suited to a past era, they will still contribute great things to our civilization.",
                 category: .minor,
                 eraScore: 1
             )
@@ -369,7 +472,8 @@ public enum MomentType {
         case .oldWorldWonderCompleted:
             return MomentTypeData(
                 name: "Old World Wonder Completed",
-                summary: "A World Wonder is completed. Even though it belongs to a bygone era, it will still show our grandeur over other civilizations.",
+                summary: "A World Wonder is completed." +
+                    "Even though it belongs to a bygone era, it will still show our grandeur over other civilizations.",
                 category: .minor,
                 eraScore: 3
             )

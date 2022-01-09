@@ -497,6 +497,8 @@ open class MapModel: Codable {
         if let tile = self.tile(at: point) {
             tile.discover(by: player, in: gameModel)
         }
+
+        player?.checkWorldCircumnavigated(in: gameModel)
     }
 
     func owner(at point: HexPoint) -> AbstractPlayer? {

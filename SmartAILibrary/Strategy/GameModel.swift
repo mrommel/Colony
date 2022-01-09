@@ -1787,6 +1787,7 @@ open class GameModel: Codable {
 
                 tile.sight(by: player)
                 tile.discover(by: player, in: self)
+                player?.checkWorldCircumnavigated(in: self)
                 self.userInterface?.refresh(tile: tile)
             }
         }
@@ -1798,6 +1799,7 @@ open class GameModel: Codable {
 
             if let tile = self.tile(at: pt) {
                 tile.discover(by: player, in: self)
+                player?.checkWorldCircumnavigated(in: self)
                 self.userInterface?.refresh(tile: tile)
             }
         }

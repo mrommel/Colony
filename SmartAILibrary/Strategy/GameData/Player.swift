@@ -316,6 +316,9 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func doDiscover(naturalWonder: FeatureType)
     func hasSettled(on continent: ContinentType) -> Bool
     func markSettled(on continent: ContinentType)
+    func checkWorldCircumnavigated(in gameModel: GameModel?)
+    func hasWorldCircumnavigated() -> Bool
+    func set(worldCircumnavigated: Bool)
 
     // intern
     func isEqual(to other: AbstractPlayer?) -> Bool
@@ -389,6 +392,7 @@ public class Player: AbstractPlayer {
         case boostExoplanetExpedition
         case discoveredNaturalWonders
         case settledContinents
+        case hasWorldCircumnavigated
     }
 
     public var leader: LeaderType
@@ -466,6 +470,7 @@ public class Player: AbstractPlayer {
     private var faithPurchaseTypeVal: FaithPurchaseType = .noAutomaticFaithPurchase
     private var discoveredNaturalWonders: [FeatureType] = []
     private var settledContinents: [ContinentType] = []
+    private var hasWorldCircumnavigatedVal: Bool = false
 
     // MARK: constructor
 
@@ -495,6 +500,7 @@ public class Player: AbstractPlayer {
         self.faithPurchaseTypeVal = .noAutomaticFaithPurchase
         self.discoveredNaturalWonders = []
         self.settledContinents = []
+        self.hasWorldCircumnavigatedVal = false
     }
 
     public required init(from decoder: Decoder) throws {
@@ -567,6 +573,7 @@ public class Player: AbstractPlayer {
         self.boostExoplanetExpeditionValue = try container.decode(Int.self, forKey: .boostExoplanetExpedition)
         self.discoveredNaturalWonders = try container.decode([FeatureType].self, forKey: .discoveredNaturalWonders)
         self.settledContinents = try container.decode([ContinentType].self, forKey: .settledContinents)
+        self.hasWorldCircumnavigatedVal = try container.decode(Bool.self, forKey: .hasWorldCircumnavigated)
 
         // setup
         self.techs?.player = self
@@ -664,6 +671,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.boostExoplanetExpeditionValue, forKey: .boostExoplanetExpedition)
         try container.encode(self.discoveredNaturalWonders, forKey: .discoveredNaturalWonders)
         try container.encode(self.settledContinents, forKey: .settledContinents)
+        try container.encode(self.hasWorldCircumnavigatedVal, forKey: .hasWorldCircumnavigated)
     }
     // swiftlint:enable force_cast
 
@@ -1212,10 +1220,16 @@ public class Player: AbstractPlayer {
 
     func selectCurrentAge(in gameModel: GameModel?) {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
         let nextAge = self.estimateNextAge(in: gameModel)
 
         if nextAge == .dark {
             self.numberOfDarkAgesVal += 1
+
+            self.addMoment(of: .darkAgeBegins, in: gameModel.currentTurn)
         } else if nextAge == .golden {
             self.numberOfGoldenAgesVal += 1
         }
@@ -5114,6 +5128,54 @@ public class Player: AbstractPlayer {
     public func markSettled(on continent: ContinentType) {
 
         self.settledContinents.append(continent)
+    }
+
+    public func checkWorldCircumnavigated(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        if self.hasWorldCircumnavigatedVal {
+            return
+        }
+
+        let mapSize = gameModel.mapSize()
+
+        for x in 0..<mapSize.width() {
+
+            var foundVisible = false
+
+            for y in 0..<mapSize.height() {
+
+                guard let tile = gameModel.tile(x: x, y: y) else {
+                    continue
+                }
+
+                if tile.isDiscovered(by: self) {
+                    foundVisible = true
+                    break
+                }
+            }
+
+            if !foundVisible {
+                return
+            }
+        }
+
+        self.set(worldCircumnavigated: true)
+
+        self.addMoment(of: .worldCircumnavigated, in: gameModel.currentTurn)
+    }
+
+    public func hasWorldCircumnavigated() -> Bool {
+
+        return self.hasWorldCircumnavigatedVal
+    }
+
+    public func set(worldCircumnavigated: Bool) {
+
+        self.hasWorldCircumnavigatedVal = worldCircumnavigated
     }
 }
 
