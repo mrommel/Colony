@@ -86,12 +86,12 @@ class WonderLayer: BaseLayer {
         }
 
         if let tile = tile {
-            if let districtSprite = textureUtils.districtSprite(at: tile.point) {
-                self.removeChildren(in: [districtSprite])
+            if let wonderSprite = textureUtils.wonderSprite(at: tile.point) {
+                self.removeChildren(in: [wonderSprite])
             }
 
-            if let districtSprite = textureUtils.districtBuildingSprite(at: tile.point) {
-                self.removeChildren(in: [districtSprite])
+            if let wonderBuildingSprite = textureUtils.wonderBuildingSprite(at: tile.point) {
+                self.removeChildren(in: [wonderBuildingSprite])
             }
         }
     }

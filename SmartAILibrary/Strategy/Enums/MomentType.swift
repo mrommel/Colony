@@ -21,7 +21,7 @@ public enum MomentType {
 
     // major
     case admiralDefeatsEnemy // #
-    case allGovernorsAppointed // #
+    case allGovernorsAppointed
     case canalCompleted // #
     case cityNearFloodableRiver // #
     case cityNearVolcano // #
