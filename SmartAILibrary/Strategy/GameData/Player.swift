@@ -2661,6 +2661,10 @@ public class Player: AbstractPlayer {
             self.addMoment(of: .snowCity, in: gameModel.currentTurn)
         }
 
+        if gameModel.isLargest(player: self) && !self.hasMoment(of: .worldsLargestCivilization) {
+            self.addMoment(of: .worldsLargestCivilization, in: gameModel.currentTurn)
+        }
+
         if self.isHuman() {
 
             // Human player is prompted to choose production BEFORE the AI runs for the turn.
@@ -5165,7 +5169,11 @@ public class Player: AbstractPlayer {
 
         self.set(worldCircumnavigated: true)
 
-        self.addMoment(of: .worldCircumnavigated, in: gameModel.currentTurn)
+        if gameModel.anyHasMoment(of: .worldsFirstCircumnavigation) {
+            self.addMoment(of: .worldCircumnavigated, in: gameModel.currentTurn)
+        } else {
+            self.addMoment(of: .worldsFirstCircumnavigation, in: gameModel.currentTurn)
+        }
     }
 
     public func hasWorldCircumnavigated() -> Bool {

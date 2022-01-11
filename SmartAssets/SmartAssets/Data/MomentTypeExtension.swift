@@ -142,6 +142,9 @@ extension MomentType {
         case .worldsFirstPantheon: return "moment-default"
         case .worldsFirstReligion: return "moment-default"
             // ...
+        case ..worldsFirstTechnologyOfNewEra(eraType: let eraType):
+            return MomentType.iconTextureOfTech(for: eraType)
+            // ...
         case .worldCircumnavigated: return "moment-worldCircumnavigated"
 
             // minor

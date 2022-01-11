@@ -118,8 +118,8 @@ public enum MomentType {
     // World's First Armada
     // World's First Army
     case worldsFirstBustlingCity
-    case worldsFirstCircumnavigation // #
-    case worldsFirstCivicOfNewEra(eraType: EraType) // #
+    case worldsFirstCircumnavigation
+    case worldsFirstCivicOfNewEra(eraType: EraType)
     // World's First Corps
     case worldsFirstEnormousCity
     case worldsFirstExoplanetExpeditionLaunched // #
@@ -135,6 +135,9 @@ public enum MomentType {
     case worldsFirstPantheon
     case worldsFirstReligion
     // ...
+    case worldsFirstTechnologyOfNewEra(eraType: EraType)
+    case worldsFirstToMeetAllCivilizations // #
+    case worldsLargestCivilization
     case worldCircumnavigated
 
     // minor
@@ -297,6 +300,9 @@ public enum MomentType {
         .worldsFirstPantheon,
         .worldsFirstReligion,
         // ...
+        .worldsFirstTechnologyOfNewEra(eraType: EraType.none),
+        .worldsFirstToMeetAllCivilizations,
+        .worldsLargestCivilization,
         .worldCircumnavigated,
 
         // minor
@@ -1052,6 +1058,30 @@ public enum MomentType {
             )
 
             // ...
+
+        case .worldsFirstTechnologyOfNewEra(eraType: _):
+            return MomentTypeData(
+                name: "World's First Technology of New Era",
+                summary: "You have completed the world's first technology from a new era of discovery.",
+                category: .major,
+                eraScore: 2
+            )
+
+        case .worldsFirstToMeetAllCivilizations:
+            return MomentTypeData(
+                name: "World's First to Meet All Civilizations",
+                summary: "You are the first to meet all living civilizations in the world.",
+                category: .major,
+                eraScore: 5
+            )
+
+        case .worldsLargestCivilization:
+            return MomentTypeData(
+                name: "World's Largest Civilization",
+                summary: "Your civilization has become the largest in the world, with at least 3 more cities than its next biggest rival.",
+                category: .major,
+                eraScore: 3
+            )
 
         case .worldCircumnavigated:
             return MomentTypeData(

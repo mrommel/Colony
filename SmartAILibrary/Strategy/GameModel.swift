@@ -2046,6 +2046,21 @@ open class GameModel: Codable {
         return nil
     }
 
+    /// check if moment worldsLargestCivilization should trigger
+    ///
+    /// - Parameter civilization: civilization to check
+    /// - Returns:  has the civilization at least 3 more cities than the next biggest civilization
+    public func isLargest(player: AbstractPlayer) -> Bool {
+
+        let numPlayerCities = self.cities(of: player).count
+        let numAllOtherCities = self.players
+            .filter { $0.leader != player.leader }
+            .map { self.cities(of: $0).count }
+        let numNextBestPlayersCities = numAllOtherCities.max() ?? 0
+
+        return numPlayerCities >= (numNextBestPlayersCities + 3)
+    }
+
     public func anyHasMoment(of moment: MomentType) -> Bool {
 
         for player in self.players {
