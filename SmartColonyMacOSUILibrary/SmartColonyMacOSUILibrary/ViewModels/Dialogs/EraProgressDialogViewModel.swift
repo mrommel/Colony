@@ -122,7 +122,7 @@ class EraProgressDialogViewModel: ObservableObject {
         }
 
         self.goldenAgeLimitText = "\(ageThresholds.upper+1)+"
-        if nextAge == .normal {
+        if nextAge == .golden {
             self.goldenAgeCheckmarkImage = Globals.Icons.checkmark
         } else {
             self.goldenAgeCheckmarkImage = NSImage()

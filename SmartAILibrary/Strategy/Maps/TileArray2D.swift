@@ -108,6 +108,7 @@ extension TileArray2D {
 
 // MARK: grid methods
 
+// swiftlint:disable implicit_getter
 extension TileArray2D {
 
     subscript(gridPoint: HexPoint) -> AbstractTile? {

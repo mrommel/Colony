@@ -168,10 +168,6 @@ class Civics: AbstractCivics {
 
     func discover(civic: CivicType, in gameModel: GameModel?) throws {
 
-        guard let gameModel = gameModel else {
-            fatalError("cant get game")
-        }
-
         if self.civics.contains(civic) {
             throw CivicError.alreadyDiscovered
         }
@@ -183,6 +179,11 @@ class Civics: AbstractCivics {
         // check if this tech is the first of a new era
         let civicsInEra = self.civics.count(where: { $0.era() == civic.era() })
         if civicsInEra == 0 && civic.era() != .ancient {
+
+            guard let gameModel = gameModel else {
+                fatalError("cant get game")
+            }
+
             if gameModel.anyHasMoment(of: .worldsFirstCivicOfNewEra(eraType: civic.era())) {
                 self.player?.addMoment(of: .firstCivicOfNewEra(eraType: civic.era()), in: gameModel.currentTurn)
             } else {

@@ -140,13 +140,13 @@ public enum MapSize {
 
 extension MapSize: Codable {
 
-    enum Key: CodingKey {
+    enum CodingKeys: CodingKey {
         case rawValue
     }
 
     public init(from decoder: Decoder) throws {
 
-        let container = try decoder.container(keyedBy: Key.self)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
 
         let rawValue = try container.decode(Int.self, forKey: .rawValue)
 
@@ -168,7 +168,7 @@ extension MapSize: Codable {
 
     public func encode(to encoder: Encoder) throws {
 
-        var container = encoder.container(keyedBy: Key.self)
+        var container = encoder.container(keyedBy: CodingKeys.self)
 
         switch self {
 

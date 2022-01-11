@@ -52,6 +52,11 @@ struct PediaView: View {
         }
     }
 
+    func buttonState(for category: PediaCategory) -> GameButtonState {
+
+        return category == self.viewModel.selectedPediaCategory ? .highlighted : .normal
+    }
+
     var master: some View {
 
         ScrollView(.vertical, showsIndicators: true, content: {
@@ -62,7 +67,7 @@ struct PediaView: View {
                     Button(pediaCategoryViewModel.title()) {
                         self.viewModel.selectedPediaCategory = pediaCategoryViewModel.category
                     }
-                    .buttonStyle(GameButtonStyle(state: pediaCategoryViewModel.category == self.viewModel.selectedPediaCategory ? .highlighted : .normal))
+                    .buttonStyle(GameButtonStyle(state: self.buttonState(for: pediaCategoryViewModel.category)))
                 }
             }
         })

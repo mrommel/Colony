@@ -90,7 +90,8 @@ extension ChangeGovernmentDialogViewModel: GovernmentCardViewModelDelegate {
         let governmentEras = Array(Set(GovernmentType.all.map { $0.era() })).sorted()
         self.governmentSectionViewModels = governmentEras.map { era in
 
-            return ChangeGovernmentSectionViewModel(era: era, governmentCardViewModels: governmentCardViewModels.filter { $0.governmentType.era() == era })
+            let models = governmentCardViewModels.filter { $0.governmentType.era() == era }
+            return ChangeGovernmentSectionViewModel(era: era, governmentCardViewModels: models)
         }
     }
 }

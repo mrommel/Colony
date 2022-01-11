@@ -1195,7 +1195,7 @@ public class Player: AbstractPlayer {
         let numberOfGoldenAges = self.numberOfGoldenAgesVal
         let numberOfDarkAges = self.numberOfDarkAgesVal
         let cities = gameModel?.cities(of: self).count ?? 0
-        let lowerThreshold = numberOfGoldenAges * 5 - numberOfDarkAges * 5 + cities
+        let lowerThreshold = 11 + numberOfGoldenAges * 5 - numberOfDarkAges * 5 + cities
         let upperThreshold = lowerThreshold + 12
 
         return AgeThresholds(

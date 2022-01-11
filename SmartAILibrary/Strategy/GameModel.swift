@@ -1588,13 +1588,13 @@ open class GameModel: Codable {
 
     public func ignoreUnitsPathfinderDataSource(for movementType: UnitMovementType, for player: AbstractPlayer?, unitMapType: UnitMapType, canEmbark: Bool) -> PathfinderDataSource {
 
-        return MoveTypeIgnoreUnitsPathfinderDataSource(in: self.map, for: movementType, for: player, options: MoveTypeIgnoreUnitsOptions(unitMapType: unitMapType, canEmbark: canEmbark))
+        let options = MoveTypeIgnoreUnitsOptions(unitMapType: unitMapType, canEmbark: canEmbark)
+        return MoveTypeIgnoreUnitsPathfinderDataSource(in: self.map, for: movementType, for: player, options: options)
     }
 
     public func unitAwarePathfinderDataSource(for movementType: UnitMovementType, for player: AbstractPlayer?, ignoreOwner: Bool = false, unitMapType: UnitMapType, canEmbark: Bool) -> PathfinderDataSource {
 
         let options = MoveTypeUnitAwareOptions(ignoreSight: true, ignoreOwner: ignoreOwner, unitMapType: unitMapType, canEmbark: canEmbark)
-
         return MoveTypeUnitAwarePathfinderDataSource(in: self, for: movementType, for: player, options: options)
     }
 
@@ -1819,14 +1819,20 @@ open class GameModel: Codable {
     ///   - player: player to trigger the moment for
     public func checkDiscovered(continent continentType: ContinentType, for player: AbstractPlayer?) {
 
+        guard let player = player else {
+            fatalError("cant get player")
+        }
+
         if !self.hasDiscovered(continent: continentType) {
 
             self.markDiscovered(continent: continentType)
 
             if let continent = self.map.continent(by: continentType) {
 
-                if continent.points.count > 8 {
-                    player?.addMoment(of: .firstDiscoveryOfANewContinent, in: self.currentTurn)
+                // only trigger discovery of new continent, if player has at least one city
+                // this prevents
+                if continent.points.count > 8 && !self.cities(of: player).isEmpty {
+                    player.addMoment(of: .firstDiscoveryOfANewContinent, in: self.currentTurn)
                 }
             }
         }
@@ -2170,12 +2176,12 @@ extension GameModel {
         // Number of delegates needed to win increases the more civs and city-states there are in the game,
         // but these two scale differently since civs' delegates are harder to secure. These functions
         // are based on a logarithmic regression.
-        var civVotesPortion = ( 1.443 /* DIPLO_VICTORY_CIV_DELEGATES_COEFFICIENT */ * log(civsToCount)) + 7.000 /* DIPLO_VICTORY_CIV_DELEGATES_CONSTANT */
+        var civVotesPortion = ( 1.443 * log(civsToCount)) + 7.000
         if civVotesPortion < 0.0 {
             civVotesPortion = 0.0
         }
 
-        var cityStateVotesPortion = ( 16.023 /* DIPLO_VICTORY_CS_DELEGATES_COEFFICIENT */ * log(cityStatesToCount)) + -13.758 /* DIPLO_VICTORY_CS_DELEGATES_CONSTANT */
+        var cityStateVotesPortion = ( 16.023 * log(cityStatesToCount)) + -13.758
         if cityStateVotesPortion < 0.0 {
             cityStateVotesPortion = 0.0
         }
