@@ -825,7 +825,7 @@ public class Player: AbstractPlayer {
         otherPlayer.diplomacyAI?.doFirstContact(with: self, in: gameModel)
 
         // moment
-        self.addMoment(of: .metNew(civilization: otherPlayer.leader.civilization()), in: gameModel?.currentTurn ?? 0)
+        self.addMoment(of: .metNewCivilization(civilization: otherPlayer.leader.civilization()), in: gameModel?.currentTurn ?? 0)
 
         // update eurekas
         if !techs.eurekaTriggered(for: .writing) {

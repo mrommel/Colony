@@ -18,7 +18,7 @@ public enum VictoryType: Int, Codable, Comparable {
     case score
     case conquest
 
-    static var all: [VictoryType] {
+    public static var all: [VictoryType] {
         return [.domination, .cultural, .science, .diplomatic, .religious, .conquest]
     }
 

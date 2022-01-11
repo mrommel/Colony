@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAILibrary
+import SmartAssets
 
 class MomentViewModel: ObservableObject {
 
@@ -18,10 +19,19 @@ class MomentViewModel: ObservableObject {
     @Published
     var summary: String
 
+    private let momentType: MomentType
+
     init(moment: Moment) {
 
-        self.title = moment.type.name()
-        self.summary = moment.type.summary()
+        self.title = moment.type.name().localized()
+        self.summary = moment.type.summary().localized()
+
+        self.momentType = moment.type
+    }
+
+    func image() -> NSImage {
+
+        return ImageCache.shared.image(for: self.momentType.iconTexture())
     }
 }
 

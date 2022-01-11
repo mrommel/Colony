@@ -21,6 +21,11 @@ struct MomentView: View {
     var body: some View {
 
         VStack {
+            Image(nsImage: self.viewModel.image())
+                .resizable()
+                .frame(width: 184, height: 134)
+                .padding(.all, 8)
+
             Text(self.viewModel.title)
 
             Label(text: self.viewModel.summary)

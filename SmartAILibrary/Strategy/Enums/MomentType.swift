@@ -42,7 +42,7 @@ public enum MomentType {
     case finalForeignCityTaken // #
     case firstAerodromeFullyDeveloped // #
     case firstBustlingCity // #
-    case firstCivicOfNewEra
+    case firstCivicOfNewEra(eraType: EraType)
     // case firstCorporationCreated
     // case firstCorporationInTheWorld
     case firstDiscoveryOfANaturalWonder // #
@@ -74,15 +74,15 @@ public enum MomentType {
     // case First Rock Band Concert in World
     // case First Seaside Resort
     case firstShipwreckExcavated // #
-    case firstTechnologyOfNewEra
-    case firstTier1Government // #
-    case firstTier1GovernmentInWorld // #
-    case firstTier2Government // #
-    case firstTier2GovernmentInWorld // #
-    case firstTier3Government // #
-    case firstTier3GovernmentInWorld // #
-    case firstTier4Government // #
-    case firstTier4GovernmentInWorld // #
+    case firstTechnologyOfNewEra(eraType: EraType)
+    case firstTier1Government(governmentType: GovernmentType) // #
+    case firstTier1GovernmentInWorld(governmentType: GovernmentType) // #
+    case firstTier2Government(governmentType: GovernmentType) // #
+    case firstTier2GovernmentInWorld(governmentType: GovernmentType) // #
+    case firstTier3Government(governmentType: GovernmentType) // #
+    case firstTier3GovernmentInWorld(governmentType: GovernmentType) // #
+    case firstTier4Government(governmentType: GovernmentType) // #
+    case firstTier4GovernmentInWorld(governmentType: GovernmentType) // #
     case firstTradingPostsInAllCivilizations // #
     case firstUnitPromotedWithDistinction // #
     // case firstWaterParkFullyDeveloped
@@ -119,7 +119,7 @@ public enum MomentType {
     // World's First Army
     case worldsFirstBustlingCity // #
     case worldsFirstCircumnavigation // #
-    case worldsFirstCivicOfNewEra // #
+    case worldsFirstCivicOfNewEra(eraType: EraType) // #
     // World's First Corps
     case worldsFirstEnormousCity // #
     case worldsFirstExoplanetExpeditionLaunched // #
@@ -161,7 +161,7 @@ public enum MomentType {
     case manhattanProjectCompleted // #
     case martianColonyEstablished // #
     case masterSpyEarned // #
-    case metNew(civilization: CivilizationType)
+    case metNewCivilization(civilization: CivilizationType)
     case oldGreatPersonRecruited
     case oldWorldWonderCompleted
     // case Operation Ivy Completed
@@ -204,7 +204,7 @@ public enum MomentType {
         .finalForeignCityTaken,
         .firstAerodromeFullyDeveloped,
         .firstBustlingCity,
-        .firstCivicOfNewEra,
+        .firstCivicOfNewEra(eraType: EraType.none),
         // case firstCorporationCreated
         // case firstCorporationInTheWorld
         .firstDiscoveryOfANaturalWonder,
@@ -236,15 +236,15 @@ public enum MomentType {
         // case First Rock Band Concert in World
         // case First Seaside Resort
         .firstShipwreckExcavated,
-        .firstTechnologyOfNewEra,
-        .firstTier1Government,
-        .firstTier1GovernmentInWorld,
-        .firstTier2Government,
-        .firstTier2GovernmentInWorld,
-        .firstTier3Government,
-        .firstTier3GovernmentInWorld,
-        .firstTier4Government,
-        .firstTier4GovernmentInWorld,
+        .firstTechnologyOfNewEra(eraType: EraType.none),
+        .firstTier1Government(governmentType: GovernmentType.chiefdom),
+        .firstTier1GovernmentInWorld(governmentType: GovernmentType.chiefdom),
+        .firstTier2Government(governmentType: GovernmentType.chiefdom),
+        .firstTier2GovernmentInWorld(governmentType: GovernmentType.chiefdom),
+        .firstTier3Government(governmentType: GovernmentType.chiefdom),
+        .firstTier3GovernmentInWorld(governmentType: GovernmentType.chiefdom),
+        .firstTier4Government(governmentType: GovernmentType.chiefdom),
+        .firstTier4GovernmentInWorld(governmentType: GovernmentType.chiefdom),
         .firstTradingPostsInAllCivilizations,
         .firstUnitPromotedWithDistinction,
         // case firstWaterParkFullyDeveloped
@@ -281,7 +281,7 @@ public enum MomentType {
         // World's First Army
         .worldsFirstBustlingCity,
         .worldsFirstCircumnavigation,
-        .worldsFirstCivicOfNewEra,
+        .worldsFirstCivicOfNewEra(eraType: EraType.none),
         // World's First Corps
         .worldsFirstEnormousCity,
         .worldsFirstExoplanetExpeditionLaunched,
@@ -323,7 +323,7 @@ public enum MomentType {
         .manhattanProjectCompleted,
         .martianColonyEstablished,
         .masterSpyEarned,
-        .metNew(civilization: CivilizationType.unmet),
+        .metNewCivilization(civilization: CivilizationType.unmet),
         .oldGreatPersonRecruited,
         .oldWorldWonderCompleted,
         // case Operation Ivy Completed
@@ -436,32 +436,32 @@ public enum MomentType {
 
         case .cityNearFloodableRiver:
             return MomentTypeData(
-                name: "City near Floodable River",
-                summary: "A city is placed within 2 tiles of a river that could flood.",
+                name: "TXT_KEY_MOMENT_CITY_NEAR_FLOODABLE_RIVER_TITLE",
+                summary: "TXT_KEY_MOMENT_CITY_NEAR_FLOODABLE_RIVER_SUMMARY",
                 category: .major,
                 eraScore: 1
             )
 
         case .cityNearVolcano:
             return MomentTypeData(
-                name: "City near Volcano",
-                summary: "A city is placed within 2 tiles of a volcano that could erupt.",
+                name: "TXT_KEY_MOMENT_CITY_NEAR_VOLCANO_TITLE",
+                summary: "TXT_KEY_MOMENT_CITY_NEAR_VOLCANO_SUMMARY",
                 category: .major,
                 eraScore: 1
             )
 
         case .cityOfAwe:
             return MomentTypeData(
-                name: "City of Awe",
-                summary: "A city is placed within 2 tiles of a natural wonder.",
+                name: "TXT_KEY_MOMENT_CITY_OF_AWE_TITLE",
+                summary: "TXT_KEY_MOMENT_CITY_OF_AWE_SUMMARY",
                 category: .major,
                 eraScore: 3
             )
 
         case .cityOnNewContinent:
             return MomentTypeData(
-                name: "City on New Continent",
-                summary: "A city is placed on a continent you have not yet settled.",
+                name: "TXT_KEY_MOMENT_CITY_ON_NEW_CONTINENT_TITLE",
+                summary: "TXT_KEY_MOMENT_CITY_OF_NEW_CONTINENT_SUMMARY",
                 category: .major,
                 eraScore: 2
             )
@@ -472,16 +472,16 @@ public enum MomentType {
 
         case .darkAgeBegins:
             return MomentTypeData(
-                name: "Dark Age Begins",
-                summary: "The game enters a new era, and your civilization has the challenges of a Dark Age to overcome.",
+                name: "TXT_KEY_MOMENT_DARK_AGE_BEGINS_TITLE",
+                summary: "TXT_KEY_MOMENT_DARK_AGE_BEGINS_SUMMARY",
                 category: .major,
                 eraScore: 0
             )
 
         case .discoveryOfANaturalWonder(naturalWonder: _):
             return MomentTypeData(
-                name: "Discovery of a Natural Wonder",
-                summary: "Your civilization discovers this natural wonder for the first time.",
+                name: "TXT_KEY_MOMENT_DISCOVERY_OF_A_NATURAL_WONDER_TITLE",
+                summary: "TXT_KEY_MOMENT_DISCOVERY_OF_A_NATURAL_WONDER_SUMMARY",
                 category: .major,
                 eraScore: 1
             )
@@ -491,8 +491,8 @@ public enum MomentType {
 
         case .enemyCityAdoptsOurReligion:
             return MomentTypeData(
-                name: "Enemy City Adopts Our Religion",
-                summary: "An enemy city, despite being at war, has seen the light and adopted our Religion.",
+                name: "TXT_KEY_MOMENT_ENEMY_CITY_ADOPTS_OUR_RELIGION_TITLE",
+                summary: "TXT_KEY_MOMENT_ENEMY_CITY_ADOPTS_OUR_RELIGION_SUMMARY",
                 category: .major,
                 eraScore: 3
             )
@@ -1196,7 +1196,7 @@ public enum MomentType {
                 eraScore: 1
             )
 
-        case .metNew(civilization: _):
+        case .metNewCivilization(civilization: _):
             return MomentTypeData(
                 name: "Met New Civilization",
                 summary: "You have made contact with a new civilization.",

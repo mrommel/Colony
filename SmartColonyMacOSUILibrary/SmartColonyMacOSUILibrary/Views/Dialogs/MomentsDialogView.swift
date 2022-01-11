@@ -58,7 +58,7 @@ struct MomentsDialogView_Previews: PreviewProvider {
         let viewModel = MomentsDialogViewModel()
 
         let game = DemoGameModel()
-        game.humanPlayer()?.addMoment(of: .metNew(civilization: .english), in: 4)
+        game.humanPlayer()?.addMoment(of: .metNewCivilization(civilization: .english), in: 4)
         game.humanPlayer()?.addMoment(of: .battleFought, in: 6)
         game.humanPlayer()?.addMoment(of: .barbarianCampDestroyed, in: 12)
 

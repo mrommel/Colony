@@ -710,6 +710,14 @@ public class GameViewModel: ObservableObject {
             )
         }
 
+        print("- load \(textures.momentTypeTextureNames.count) moment textures")
+        for textureName in textures.momentTypeTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
         print("-- all textures loaded --")
     }
 

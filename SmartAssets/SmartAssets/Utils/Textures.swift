@@ -83,6 +83,7 @@ public class Textures {
     public let governorPortraitTextureNames: [String]
     public let victoryTypesTextureNames: [String]
     public let dedicationTypesTextureNames: [String]
+    public let momentTypeTextureNames: [String]
 
     public init(game: GameModel?) {
 
@@ -223,12 +224,15 @@ public class Textures {
         self.promotionStateBackgroundTextureNames = PromotionState.all.map { $0.iconTexture() }
         self.governorPortraitTextureNames = GovernorType.all.map { $0.portraitTexture() }
 
-        self.victoryTypesTextureNames = [
-            "victoryType-science", "victoryType-religion", "victoryType-domination",
-            "victoryType-diplomatic", "victoryType-culture", "victoryType-score",
-            "victoryType-overall"
-        ]
+        self.victoryTypesTextureNames = VictoryType.all.map { $0.iconTexture() } + ["victoryType-overall"]
         self.dedicationTypesTextureNames = DedicationType.all.map { $0.iconTexture() }
+        self.momentTypeTextureNames = (
+            MomentType.all.map { $0.iconTexture() } +
+            FeatureType.naturalWonders.map { MomentType.discoveryOfANaturalWonder(naturalWonder: $0).iconTexture() } +
+            GovernmentType.all.map { MomentType.firstTier1Government(governmentType: $0).iconTexture() } +
+            EraType.all.map { MomentType.firstCivicOfNewEra(eraType: $0).iconTexture() } +
+            EraType.all.map { MomentType.firstTechnologyOfNewEra(eraType: $0).iconTexture() } 
+        ).uniqued()
     }
 
     public func terrainTexture(at point: HexPoint) -> String {

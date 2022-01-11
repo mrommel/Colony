@@ -18,72 +18,43 @@
 "TXT_KEY_MOMENT_CANAL_COMPLETED_TITLE" = "Canal Completed";
 "TXT_KEY_MOMENT_CANAL_COMPLETED_SUMMARY" = "You have completed your civilization's first Canal district.";
 
-/*
-case .cityNearFloodableRiver:
-    return MomentTypeData(
-        name: "City near Floodable River",
-        summary: "A city is placed within 2 tiles of a river that could flood.",
-        category: .major,
-        eraScore: 1
-    )
+// cityNearFloodableRiver
+"TXT_KEY_MOMENT_CITY_NEAR_FLOODABLE_RIVER_TITLE" = "City near Floodable River";
+"TXT_KEY_MOMENT_CITY_NEAR_FLOODABLE_RIVER_SUMMARY" = "A city is placed within 2 tiles of a river that could flood.";
 
-case .cityNearVolcano:
-    return MomentTypeData(
-        name: "City near Volcano",
-        summary: "A city is placed within 2 tiles of a volcano that could erupt.",
-        category: .major,
-        eraScore: 1
-    )
+// cityNearVolcano
+"TXT_KEY_MOMENT_CITY_NEAR_VOLCANO_TITLE" = "City near Volcano";
+"TXT_KEY_MOMENT_CITY_NEAR_VOLCANO_SUMMARY" = "A city is placed within 2 tiles of a volcano that could erupt.";
 
-case .cityOfAwe:
-    return MomentTypeData(
-        name: "City of Awe",
-        summary: "A city is placed within 2 tiles of a natural wonder.",
-        category: .major,
-        eraScore: 3
-    )
+// cityOfAwe
+"TXT_KEY_MOMENT_CITY_OF_AWE_TITLE" = "City of Awe";
+"TXT_KEY_MOMENT_CITY_OF_AWE_SUMMARY" = "A city is placed within 2 tiles of a natural wonder.";
 
-case .cityOnNewContinent:
-    return MomentTypeData(
-        name: "City on New Continent",
-        summary: "A city is placed on a continent you have not yet settled.",
-        category: .major,
-        eraScore: 2
-    )
+// cityOnNewContinent
+"TXT_KEY_MOMENT_CITY_ON_NEW_CONTINENT_TITLE" = "City on New Continent";
+"TXT_KEY_MOMENT_CITY_OF_NEW_CONTINENT_SUMMARY" = "A city is placed on a continent you have not yet settled.";
 
 // City-State's First Suzerain
 // City-State Army Levied Near Enemy
 // Climate Change Phase
 
-case .darkAgeBegins:
-    return MomentTypeData(
-        name: "Dark Age Begins",
-        summary: "The game enters a new era, and your civilization has the challenges of a Dark Age to overcome.",
-        category: .major,
-        eraScore: 0
-    )
+// darkAgeBegins
+"TXT_KEY_MOMENT_DARK_AGE_BEGINS_TITLE" = "Dark Age Begins";
+"TXT_KEY_MOMENT_DARK_AGE_BEGINS_SUMMARY" = "The game enters a new era, and your civilization has the challenges of a Dark Age to overcome.";
 
-case .discoveryOfANaturalWonder(naturalWonder: _):
-    return MomentTypeData(
-        name: "Discovery of a Natural Wonder",
-        summary: "Your civilization discovers this natural wonder for the first time.",
-        category: .major,
-        eraScore: 1
-    )
+// discoveryOfANaturalWonder
+"TXT_KEY_MOMENT_DISCOVERY_OF_A_NATURAL_WONDER_TITLE" = "Discovery of a Natural Wonder";
+"TXT_KEY_MOMENT_DISCOVERY_OF_A_NATURAL_WONDER_SUMMARY" = "Your civilization discovers this natural wonder for the first time.";
 
 // Emergency Completed Successfully
 // Emergency Successfully Defended
 
-case .enemyCityAdoptsOurReligion:
-    return MomentTypeData(
-        name: "Enemy City Adopts Our Religion",
-        summary: "An enemy city, despite being at war, has seen the light and adopted our Religion.",
-        category: .major,
-        eraScore: 3
-    )
+// enemyCityAdoptsOurReligion
+"TXT_KEY_MOMENT_ENEMY_CITY_ADOPTS_OUR_RELIGION_TITLE" = "Enemy City Adopts Our Religion";
+"TXT_KEY_MOMENT_ENEMY_CITY_ADOPTS_OUR_RELIGION_SUMMARY" = "An enemy city, despite being at war, has seen the light and adopted our Religion.";
 
 // case enemyCityStatePacified
-
+/*
 case .enemyFormationDefeated:
     return MomentTypeData(
         name: "Enemy Formation Defeated",
@@ -727,7 +698,7 @@ case .masterSpyEarned:
         eraScore: 1
     )
 
-case .metNew(civilization: _):
+case .metNewCivilization(civilization: _):
     return MomentTypeData(
         name: "Met New Civilization",
         summary: "You have made contact with a new civilization.",

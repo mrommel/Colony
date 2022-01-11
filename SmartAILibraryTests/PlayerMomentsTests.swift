@@ -41,6 +41,6 @@ class PlayerMomentsTests: XCTestCase {
         playerTrajan.doFirstContact(with: playerAlexander, in: gameModel)
 
         // THEN
-        XCTAssertEqual(playerTrajan.hasMoment(of: MomentType.metNew(civilization: .greek)), true)
+        XCTAssertEqual(playerTrajan.hasMoment(of: MomentType.metNewCivilization(civilization: .greek)), true)
     }
 }

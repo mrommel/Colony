@@ -179,7 +179,7 @@ class Civics: AbstractCivics {
         // check if this tech is the first of a new era
         let civicsInEra = self.civics.count(where: { $0.era() == civic.era() })
         if civicsInEra == 0 && civic.era() != .ancient {
-            self.player?.addMoment(of: .firstCivicOfNewEra, in: gameModel?.currentTurn ?? 0)
+            self.player?.addMoment(of: .firstCivicOfNewEra(eraType: civic.era()), in: gameModel?.currentTurn ?? 0)
         }
 
         self.civics.append(civic)
