@@ -149,7 +149,7 @@ extension GovernorsDialogViewModel: GovernorViewModelDelegate {
 
             let selectedPromotion: GovernorTitleType = promotions[selectedIndex]
 
-            humanPlayer.governors?.promote(governor: governor, with: selectedPromotion)
+            humanPlayer.governors?.promote(governor: governor, with: selectedPromotion, in: gameModel)
 
             self.updateGovernors()
         })

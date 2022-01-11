@@ -1759,6 +1759,55 @@ public class City: AbstractCity {
                         )
                     }
                 }
+
+                // moments
+                if self.populationValue > 10 {
+                    if !player.hasMoment(of: .firstBustlingCity) && !player.hasMoment(of: .worldsFirstBustlingCity) {
+
+                        // check if someone else already had a bustling city
+                        if gameModel.anyHasMoment(of: .worldsFirstBustlingCity) {
+                            player.addMoment(of: .firstBustlingCity, in: gameModel.currentTurn)
+                        } else {
+                            player.addMoment(of: .worldsFirstBustlingCity, in: gameModel.currentTurn)
+                        }
+                    }
+                }
+
+                if self.populationValue > 15 {
+                    if !player.hasMoment(of: .firstLargeCity) && !player.hasMoment(of: .worldsFirstLargeCity) {
+
+                        // check if someone else already had a bustling city
+                        if gameModel.anyHasMoment(of: .worldsFirstLargeCity) {
+                            player.addMoment(of: .firstLargeCity, in: gameModel.currentTurn)
+                        } else {
+                            player.addMoment(of: .worldsFirstLargeCity, in: gameModel.currentTurn)
+                        }
+                    }
+                }
+
+                if self.populationValue > 20 {
+                    if !player.hasMoment(of: .firstEnormousCity) && !player.hasMoment(of: .worldsFirstEnormousCity) {
+
+                        // check if someone else already had a bustling city
+                        if gameModel.anyHasMoment(of: .worldsFirstEnormousCity) {
+                            player.addMoment(of: .firstEnormousCity, in: gameModel.currentTurn)
+                        } else {
+                            player.addMoment(of: .worldsFirstEnormousCity, in: gameModel.currentTurn)
+                        }
+                    }
+                }
+
+                if self.populationValue > 25 {
+                    if !player.hasMoment(of: .firstGiganticCity) && !player.hasMoment(of: .worldsFirstGiganticCity) {
+
+                        // check if someone else already had a bustling city
+                        if gameModel.anyHasMoment(of: .worldsFirstGiganticCity) {
+                            player.addMoment(of: .firstGiganticCity, in: gameModel.currentTurn)
+                        } else {
+                            player.addMoment(of: .worldsFirstGiganticCity, in: gameModel.currentTurn)
+                        }
+                    }
+                }
             }
         } else if self.foodBasket() < 0 {
 
@@ -2480,8 +2529,22 @@ public class City: AbstractCity {
             try self.districts?.build(district: districtType, at: point)
             self.updateEurekas(in: gameModel)
 
+            // moments
             if districtType.isSpecialty() && player.currentAge() == .normal && player.has(dedication: .monumentality) {
                 player.addMoment(of: .constructSpecialtyDistrict, in: gameModel.currentTurn)
+            }
+
+            if districtType == .neighborhood {
+                if !player.hasMoment(of: .firstNeighborhoodCompleted) && !player.hasMoment(of: .worldsFirstNeighborhood) {
+
+                    // check if someone else already had a built a neighborhood district
+                    if gameModel.anyHasMoment(of: .worldsFirstNeighborhood) {
+                        player.addMoment(of: .firstNeighborhoodCompleted, in: gameModel.currentTurn)
+                    } else {
+                        player.addMoment(of: .worldsFirstNeighborhood, in: gameModel.currentTurn)
+                    }
+
+                }
             }
 
             tile.build(district: districtType)

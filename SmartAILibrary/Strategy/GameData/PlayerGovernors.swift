@@ -21,7 +21,7 @@ public protocol AbstractPlayerGovernors: AnyObject, Codable {
     func governor(with type: GovernorType) -> Governor?
 
     func appoint(governor governorType: GovernorType, in gameModel: GameModel?)
-    func promote(governor: Governor?, with title: GovernorTitleType)
+    func promote(governor: Governor?, with title: GovernorTitleType, in gameModel: GameModel?)
     func assign(governor: Governor?, to selectedCity: AbstractCity?, in gameModel: GameModel?)
 }
 
@@ -206,6 +206,10 @@ class PlayerGovernors: AbstractPlayerGovernors {
             fatalError("cant get game")
         }
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         guard self.numTitlesAvailableValue > 0 else {
             fatalError("try to appoint a governor without available titles")
         }
@@ -216,18 +220,30 @@ class PlayerGovernors: AbstractPlayerGovernors {
         self.numTitlesSpentValue += 1
         self.numTitlesAvailableValue -= 1
 
-        if self.governors.count == GovernorType.all.count {
+        if self.governors.count == GovernorType.all.count && !player.hasMoment(of: .allGovernorsAppointed) {
             self.player?.addMoment(of: .allGovernorsAppointed, in: gameModel.currentTurn)
         }
     }
 
-    public func promote(governor: Governor?, with title: GovernorTitleType) {
+    public func promote(governor: Governor?, with title: GovernorTitleType, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
 
         guard self.numTitlesAvailableValue > 0 else {
             fatalError("try to promote a governor without available titles")
         }
 
         governor?.promote(with: title)
+
+        if governor?.titles.count == 6 && !player.hasMoment(of: .governorFullyPromoted) {
+            player.addMoment(of: .governorFullyPromoted, in: gameModel.currentTurn)
+        }
 
         self.numTitlesSpentValue += 1
         self.numTitlesAvailableValue -= 1

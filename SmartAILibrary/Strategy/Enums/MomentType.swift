@@ -41,16 +41,16 @@ public enum MomentType {
     case exoplanetExpeditionLaunched // #
     case finalForeignCityTaken // #
     case firstAerodromeFullyDeveloped // #
-    case firstBustlingCity // #
+    case firstBustlingCity
     case firstCivicOfNewEra(eraType: EraType)
     // case firstCorporationCreated
     // case firstCorporationInTheWorld
     case firstDiscoveryOfANaturalWonder // #
     case firstDiscoveryOfANewContinent // #
     case firstEncampmentFullyDeveloped // #
-    case firstEnormousCity // #
+    case firstEnormousCity
     case firstEntertainmentComplexFullyDeveloped // #
-    case firstGiganticCity // #
+    case firstGiganticCity
     // case firstGreenImprovement
     // case First Green Improvement in World
     // case First Hero Claimed
@@ -59,13 +59,13 @@ public enum MomentType {
     // case First Improvement after Natural Disaster
     // case First Industry Created
     // case First Industry in the World
-    case firstLargeCity // #
+    case firstLargeCity
     // case firstLuxuryResourceMonopoly
     // case firstLuxuryResourceMonopolyInTheWorld
     // case firstMasterSpyEarned
     // case firstMountainTunnel
     // case firstMountainTunnelInTheWorld
-    case firstNeighborhoodCompleted // #
+    case firstNeighborhoodCompleted
     // case First Railroad Connection
     // case First Railroad Connection in World
     // case First Resource consumed for Power
@@ -89,7 +89,7 @@ public enum MomentType {
     // case freeCityJoins
     case generalDefeatsEnemy // #
     case goldenAgeBegins // #
-    case governorFullyPromoted // #
+    case governorFullyPromoted
     // case greatPersonLuredByFaith
     // case greatPersonLuredByGold
     case heroicAgeBegins // #
@@ -117,21 +117,21 @@ public enum MomentType {
     // Unique Unit Marches
     // World's First Armada
     // World's First Army
-    case worldsFirstBustlingCity // #
+    case worldsFirstBustlingCity
     case worldsFirstCircumnavigation // #
     case worldsFirstCivicOfNewEra(eraType: EraType) // #
     // World's First Corps
-    case worldsFirstEnormousCity // #
+    case worldsFirstEnormousCity
     case worldsFirstExoplanetExpeditionLaunched // #
     case worldsFirstFleet // #
     case worldsFirstFlight // #
-    case worldsFirstGiganticCity // #
+    case worldsFirstGiganticCity
     // World's First Inquisition
     case worldsFirstLandingOnTheMoon // #
-    case worldsFirstLargeCity // #
+    case worldsFirstLargeCity
     case worldsFirstMartianColonyEstablished // #
     case worldsFirstNationalPark // #
-    case worldsFirstNeighborhood // #
+    case worldsFirstNeighborhood
     case worldsFirstPantheon
     case worldsFirstReligion
     // ...

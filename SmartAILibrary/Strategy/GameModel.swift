@@ -2045,6 +2045,17 @@ open class GameModel: Codable {
 
         return nil
     }
+
+    public func anyHasMoment(of moment: MomentType) -> Bool {
+
+        for player in self.players {
+            if player.hasMoment(of: moment) {
+                return true
+            }
+        }
+
+        return false
+    }
 }
 
 // MARK: 
