@@ -105,7 +105,7 @@ extension MomentType {
         case .nationalParkFounded: return "moment-nationalParkFounded"
         case .normalAgeBegins: return "moment-default"
         case .onTheWaves: return "moment-default"
-        case .religionAdoptsAllBeliefs: return "moment-default"
+        case .religionAdoptsAllBeliefs: return "moment-religionFounded"
         case .religionFounded(religion: _): return "moment-religionFounded"
         case .rivalHolyCityConverted: return "moment-default"
         case .splendidCampusCompleted: return "moment-default"
@@ -139,12 +139,18 @@ extension MomentType {
         case .worldsFirstMartianColonyEstablished: return "moment-default"
         case .worldsFirstNationalPark: return "moment-default"
         case .worldsFirstNeighborhood: return "moment-default"
-        case .worldsFirstPantheon: return "moment-default"
-        case .worldsFirstReligion: return "moment-default"
-            // ...
-        case ..worldsFirstTechnologyOfNewEra(eraType: let eraType):
+        case .worldsFirstPantheon: return "moment-pantheonFounded"
+        case .worldsFirstReligion: return "moment-religionFounded"
+        case .worldsFirstReligionToAdoptAllBeliefs: return "moment-default"
+        case .worldsFirstSatelliteInOrbit: return "moment-default"
+        case .worldsFirstSeafaring: return "moment-default"
+        case .worldsFirstSeasideResort: return "moment-default"
+        case .worldsFirstShipwreckExcavated: return "moment-default"
+        case .worldsFirstStrategicResourcePotentialUnleashed: return "moment-default"
+        case .worldsFirstTechnologyOfNewEra(eraType: let eraType):
             return MomentType.iconTextureOfTech(for: eraType)
-            // ...
+        case .worldsFirstToMeetAllCivilizations: return "moment-default"
+        case .worldsLargestCivilization: return "moment-default"
         case .worldCircumnavigated: return "moment-worldCircumnavigated"
 
             // minor

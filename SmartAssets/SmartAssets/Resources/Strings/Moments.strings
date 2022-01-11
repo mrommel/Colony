@@ -553,7 +553,12 @@ case .worldsFirstReligion:
         eraScore: 3
     )
 
-    // ...
+ case worldsFirstReligionToAdoptAllBeliefs
+ case worldsFirstSatelliteInOrbit
+ case worldsFirstSeafaring
+ case worldsFirstSeasideResort
+ case worldsFirstShipwreckExcavated
+ case worldsFirstStrategicResourcePotentialUnleashed
 
 case .worldCircumnavigated:
     return MomentTypeData(

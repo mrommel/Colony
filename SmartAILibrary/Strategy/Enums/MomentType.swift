@@ -134,7 +134,12 @@ public enum MomentType {
     case worldsFirstNeighborhood
     case worldsFirstPantheon
     case worldsFirstReligion
-    // ...
+    case worldsFirstReligionToAdoptAllBeliefs // #
+    case worldsFirstSatelliteInOrbit // #
+    case worldsFirstSeafaring // #
+    case worldsFirstSeasideResort // #
+    case worldsFirstShipwreckExcavated // #
+    case worldsFirstStrategicResourcePotentialUnleashed // #
     case worldsFirstTechnologyOfNewEra(eraType: EraType)
     case worldsFirstToMeetAllCivilizations // #
     case worldsLargestCivilization
@@ -299,7 +304,12 @@ public enum MomentType {
         .worldsFirstNeighborhood,
         .worldsFirstPantheon,
         .worldsFirstReligion,
-        // ...
+        .worldsFirstReligionToAdoptAllBeliefs,
+        .worldsFirstSatelliteInOrbit,
+        .worldsFirstSeafaring,
+        .worldsFirstSeasideResort,
+        .worldsFirstShipwreckExcavated,
+        .worldsFirstStrategicResourcePotentialUnleashed,
         .worldsFirstTechnologyOfNewEra(eraType: EraType.none),
         .worldsFirstToMeetAllCivilizations,
         .worldsLargestCivilization,
@@ -1057,7 +1067,53 @@ public enum MomentType {
                 eraScore: 3
             )
 
-            // ...
+        case .worldsFirstReligionToAdoptAllBeliefs:
+            return MomentTypeData(
+                name: "World's First Religion to Adopt All Beliefs",
+                summary: "Your Religion is the first in the world to add its final Belief and become complete.",
+                category: .major,
+                eraScore: 4
+            )
+
+        case .worldsFirstSatelliteInOrbit:
+            return MomentTypeData(
+                name: "World's First Satellite in Orbit",
+                summary: "You launched the world's first satellite into orbit.",
+                category: .major,
+                eraScore: 4
+            )
+
+        case .worldsFirstSeafaring:
+            return MomentTypeData(
+                name: "World's First Seafaring",
+                summary: "You own the world's first seafaring unit! A world of possibility awaits on the horizon.",
+                category: .major,
+                eraScore: 3
+            )
+
+        case .worldsFirstSeasideResort:
+            return MomentTypeData(
+                name: "World's First Seaside Resort",
+                summary: "You have completed the world's first Seaside Resort tile improvement.",
+                category: .major,
+                eraScore: 3
+            )
+
+        case .worldsFirstShipwreckExcavated:
+            return MomentTypeData(
+                name: "World's First Shipwreck Excavated",
+                summary: "Your archaeologists have completed the world's first excavation of a shipwreck.",
+                category: .major,
+                eraScore: 3
+            )
+
+        case .worldsFirstStrategicResourcePotentialUnleashed:
+            return MomentTypeData(
+                name: "World's First Strategic Resource Potential Unleashed",
+                summary: "You are the world's first civilization to own a unit using this strategic resource.",
+                category: .major,
+                eraScore: 2
+            )
 
         case .worldsFirstTechnologyOfNewEra(eraType: _):
             return MomentTypeData(
