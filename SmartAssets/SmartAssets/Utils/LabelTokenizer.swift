@@ -32,11 +32,16 @@ public enum LabelImageType {
     case faith
 
     case tradeRoute
+    case tradingPost
     case loyalty
     case amenities
     case capital
     case strength
     case citizen
+    case governor
+
+    case greatAdmiral
+    case greatGeneral
 
     case darkAge
     case normalAge
@@ -56,11 +61,16 @@ public enum LabelImageType {
         case "[Faith]": return .faith
 
         case "[TradeRoute]": return .tradeRoute
+        case "[TradingPost]": return .tradingPost
         case "[Loyalty]": return .loyalty
         case "[Amenities]": return .amenities
         case "[Capital]": return .capital
         case "[Strength]": return .strength
         case "[Citizen]": return .citizen
+        case "[Governor]": return .governor
+
+        case "[GreatAdmiral]": return .greatAdmiral
+        case "[GreatGeneral]": return .greatGeneral
 
         case "[DarkAge]": return .darkAge
         case "[NormalAge]": return .normalAge
@@ -85,11 +95,16 @@ public enum LabelImageType {
         case .faith: return Globals.Icons.faith
 
         case .tradeRoute: return Globals.Icons.tradeRoute
+        case .tradingPost: return Globals.Icons.tradingPost
         case .loyalty: return Globals.Icons.loyalty
         case .amenities: return Globals.Icons.amenities
         case .capital: return Globals.Icons.capital
         case .strength: return Globals.Icons.strength
         case .citizen: return Globals.Icons.citizen
+        case .governor: return Globals.Icons.governor
+
+        case .greatAdmiral: return Globals.Icons.greatAdmiral
+        case .greatGeneral: return Globals.Icons.greatGeneral
 
         case .darkAge: return Globals.Icons.darkAge
         case .normalAge: return Globals.Icons.normalAge

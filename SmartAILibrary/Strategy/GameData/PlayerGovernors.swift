@@ -354,7 +354,7 @@ class PlayerGovernors: AbstractPlayerGovernors {
         guard let gameModel = gameModel else {
             fatalError("cant get game")
         }
-        
+
         if let governorType = self.chooseBestNewGovernor() {
 
             // find best city for this governor

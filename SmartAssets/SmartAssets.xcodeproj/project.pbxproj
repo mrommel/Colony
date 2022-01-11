@@ -88,6 +88,7 @@
 		C9CAC8A2264BC4B200D0668D /* GovernmentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */; };
 		C9CAC8A6264BD17000D0668D /* GovernmentTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC8A5264BD17000D0668D /* GovernmentTypeExtension.swift */; };
 		C9CB34012761EB12008835D0 /* ContinentTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CB34002761EB12008835D0 /* ContinentTypeExtension.swift */; };
+		C9CD3193278CB711002D53C4 /* Moments.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9CD3192278CB711002D53C4 /* Moments.strings */; };
 		C9D5D25326F8630A00009817 /* GovernorTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D5D25226F8630A00009817 /* GovernorTypeExtension.swift */; };
 		C9E87BA7264C573200514B9A /* YieldTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BA6264C573200514B9A /* YieldTypeExtension.swift */; };
 		C9E87BB9264DA63700514B9A /* TechTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BB8264DA63700514B9A /* TechTypeExtension.swift */; };
@@ -206,6 +207,7 @@
 		C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentState.swift; sourceTree = "<group>"; };
 		C9CAC8A5264BD17000D0668D /* GovernmentTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentTypeExtension.swift; sourceTree = "<group>"; };
 		C9CB34002761EB12008835D0 /* ContinentTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentTypeExtension.swift; sourceTree = "<group>"; };
+		C9CD3192278CB711002D53C4 /* Moments.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Moments.strings; sourceTree = "<group>"; };
 		C9D5D25226F8630A00009817 /* GovernorTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorTypeExtension.swift; sourceTree = "<group>"; };
 		C9E87BA6264C573200514B9A /* YieldTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldTypeExtension.swift; sourceTree = "<group>"; };
 		C9E87BB8264DA63700514B9A /* TechTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechTypeExtension.swift; sourceTree = "<group>"; };
@@ -398,6 +400,7 @@
 				C963AD0F2785E27100981EF3 /* Techs.strings */,
 				C9BB56DB27692FE600053AE7 /* Civilizations.strings */,
 				C932BA832774AC4E00F4640D /* Dedications.strings */,
+				C9CD3192278CB711002D53C4 /* Moments.strings */,
 			);
 			path = Strings;
 			sourceTree = "<group>";
@@ -523,6 +526,7 @@
 				C9022F962608ED1500C6773A /* Icons.xcassets in Resources */,
 				C9BB56DA276915FD00053AE7 /* Civics.strings in Resources */,
 				C9C234A52768EEB400905C97 /* CityNames.strings in Resources */,
+				C9CD3193278CB711002D53C4 /* Moments.strings in Resources */,
 				C9A09855261CB6930098C5E1 /* scout.png in Resources */,
 				C9A0985B261CB6930098C5E1 /* man_at_arms.xml in Resources */,
 				C9A0985C261CB6930098C5E1 /* scout.xml in Resources */,

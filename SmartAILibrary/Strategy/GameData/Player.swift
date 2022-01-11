@@ -4745,7 +4745,7 @@ public class Player: AbstractPlayer {
         }
 
         playerReligion.found(religion: religion, at: city, in: gameModel)
-        self.addMoment(of: .founded(religion: religion), in: gameModel.currentTurn)
+        self.addMoment(of: .religionFounded(religion: religion), in: gameModel.currentTurn)
     }
 
     // MARK: discovery

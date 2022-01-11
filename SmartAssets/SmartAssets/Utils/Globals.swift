@@ -127,6 +127,10 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "tradeRoute")
         }
 
+        public static var tradingPost: NSImage {
+            return Icons.loadCachedTexture(with: "tradingPost")
+        }
+
         public static var loyalty: NSImage {
             return Icons.loadCachedTexture(with: "loyalty")
         }
@@ -145,6 +149,18 @@ public extension Globals {
 
         public static var citizen: NSImage {
             return Icons.loadCachedTexture(with: "citizen")
+        }
+
+        public static var governor: NSImage {
+            return Icons.loadCachedTexture(with: "governor")
+        }
+
+        public static var greatAdmiral: NSImage {
+            return Icons.loadCachedTexture(with: "greatAdmiral")
+        }
+
+        public static var greatGeneral: NSImage {
+            return Icons.loadCachedTexture(with: "greatGeneral")
         }
 
         public static var questionmark: NSImage {

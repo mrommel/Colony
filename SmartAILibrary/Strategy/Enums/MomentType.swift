@@ -35,14 +35,103 @@ public enum MomentType {
     // Emergency Completed Successfully
     // Emergency Successfully Defended
     case enemyCityAdoptsOurReligion // #
-    // ...
-    case founded(religion: ReligionType)
+    // case enemyCityStatePacified
+    case enemyFormationDefeated // #
+    case enemyVeteranDefeated // #
+    case exoplanetExpeditionLaunched // #
+    case finalForeignCityTaken // #
+    case firstAerodromeFullyDeveloped // #
+    case firstBustlingCity // #
+    case firstCivicOfNewEra
+    // case firstCorporationCreated
+    // case firstCorporationInTheWorld
+    case firstDiscoveryOfANaturalWonder // #
+    case firstDiscoveryOfANewContinent // #
+    case firstEncampmentFullyDeveloped // #
+    case firstEnormousCity // #
+    case firstEntertainmentComplexFullyDeveloped // #
+    case firstGiganticCity // #
+    // case firstGreenImprovement
+    // case First Green Improvement in World
+    // case First Hero Claimed
+    // case First Hero Departed
+    // case First Hero Recalled
+    // case First Improvement after Natural Disaster
+    // case First Industry Created
+    // case First Industry in the World
+    case firstLargeCity // #
+    // case firstLuxuryResourceMonopoly
+    // case firstLuxuryResourceMonopolyInTheWorld
+    // case firstMasterSpyEarned
+    // case firstMountainTunnel
+    // case firstMountainTunnelInTheWorld
+    case firstNeighborhoodCompleted // #
+    // case First Railroad Connection
+    // case First Railroad Connection in World
+    // case First Resource consumed for Power
+    // case First Resource consumed for Power in World
+    // case First Rock Band Concert
+    // case First Rock Band Concert in World
+    // case First Seaside Resort
+    case firstShipwreckExcavated // #
+    case firstTechnologyOfNewEra
     case firstTier1Government // #
     case firstTier1GovernmentInWorld // #
-    // ...
-    case firstTechnologyOfNewEra
-    case firstCivicOfNewEra
-    // ...
+    case firstTier2Government // #
+    case firstTier2GovernmentInWorld // #
+    case firstTier3Government // #
+    case firstTier3GovernmentInWorld // #
+    case firstTier4Government // #
+    case firstTier4GovernmentInWorld // #
+    case firstTradingPostsInAllCivilizations // #
+    case firstUnitPromotedWithDistinction // #
+    // case firstWaterParkFullyDeveloped
+    // case freeCityJoins
+    case generalDefeatsEnemy // #
+    case goldenAgeBegins // #
+    case governorFullyPromoted // #
+    // case greatPersonLuredByFaith
+    // case greatPersonLuredByGold
+    case heroicAgeBegins // #
+    // case inquisitionBegins
+    // case Levied Army Stands Down
+    case metAllCivilizations // #
+    case nationalParkFounded // #
+    case normalAgeBegins // #
+    case onTheWaves // #
+    case religionAdoptsAllBeliefs // #
+    case religionFounded(religion: ReligionType)
+    case rivalHolyCityConverted // #
+    case splendidCampusCompleted // #
+    case splendidCommercialHubCompleted // #
+    case splendidHarborCompleted // #
+    case splendidHolySiteCompleted // #
+    case splendidIndustrialZoneCompleted // #
+    case splendidTheaterSquareCompleted // #
+    case takingFlight // #
+    case threateningCampDestroyed // #
+    case tradingPostsInAllCivilizations // #
+    // Unique Building Constructed
+    // Unique District Completed
+    // Unique Tile Improvement Built
+    // Unique Unit Marches
+    // World's First Armada
+    // World's First Army
+    case worldsFirstBustlingCity // #
+    case worldsFirstCircumnavigation // #
+    case worldsFirstCivicOfNewEra // #
+    // World's First Corps
+    case worldsFirstEnormousCity // #
+    case worldsFirstExoplanetExpeditionLaunched // #
+    case worldsFirstFleet // #
+    case worldsFirstFlight // #
+    case worldsFirstGiganticCity // #
+    // World's First Inquisition
+    case worldsFirstLandingOnTheMoon // #
+    case worldsFirstLargeCity // #
+    case worldsFirstMartianColonyEstablished // #
+    case worldsFirstNationalPark // #
+    case worldsFirstNeighborhood // #
     case worldsFirstPantheon
     case worldsFirstReligion
     // ...
@@ -90,6 +179,169 @@ public enum MomentType {
     // hidden
     case constructSpecialtyDistrict // for dedication monumentality
     case shipSunk // for artifacts
+
+    public static var all: [MomentType] = [
+
+        .admiralDefeatsEnemy,
+        .allGovernorsAppointed,
+        .canalCompleted,
+        .cityNearFloodableRiver,
+        .cityNearVolcano,
+        .cityOfAwe,
+        .cityOnNewContinent,
+        // City-State's First Suzerain
+        // City-State Army Levied Near Enemy
+        // Climate Change Phase
+        .darkAgeBegins,
+        .discoveryOfANaturalWonder(naturalWonder: FeatureType.none),
+        // Emergency Completed Successfully
+        // Emergency Successfully Defended
+        .enemyCityAdoptsOurReligion,
+        // case enemyCityStatePacified
+        .enemyFormationDefeated,
+        .enemyVeteranDefeated,
+        .exoplanetExpeditionLaunched,
+        .finalForeignCityTaken,
+        .firstAerodromeFullyDeveloped,
+        .firstBustlingCity,
+        .firstCivicOfNewEra,
+        // case firstCorporationCreated
+        // case firstCorporationInTheWorld
+        .firstDiscoveryOfANaturalWonder,
+        .firstDiscoveryOfANewContinent,
+        .firstEncampmentFullyDeveloped,
+        .firstEnormousCity,
+        .firstEntertainmentComplexFullyDeveloped,
+        .firstGiganticCity,
+        // case firstGreenImprovement
+        // case First Green Improvement in World
+        // case First Hero Claimed
+        // case First Hero Departed
+        // case First Hero Recalled
+        // case First Improvement after Natural Disaster
+        // case First Industry Created
+        // case First Industry in the World
+        .firstLargeCity,
+        // case firstLuxuryResourceMonopoly
+        // case firstLuxuryResourceMonopolyInTheWorld
+        // case firstMasterSpyEarned
+        // case firstMountainTunnel
+        // case firstMountainTunnelInTheWorld
+        .firstNeighborhoodCompleted,
+        // case First Railroad Connection
+        // case First Railroad Connection in World
+        // case First Resource consumed for Power
+        // case First Resource consumed for Power in World
+        // case First Rock Band Concert
+        // case First Rock Band Concert in World
+        // case First Seaside Resort
+        .firstShipwreckExcavated,
+        .firstTechnologyOfNewEra,
+        .firstTier1Government,
+        .firstTier1GovernmentInWorld,
+        .firstTier2Government,
+        .firstTier2GovernmentInWorld,
+        .firstTier3Government,
+        .firstTier3GovernmentInWorld,
+        .firstTier4Government,
+        .firstTier4GovernmentInWorld,
+        .firstTradingPostsInAllCivilizations,
+        .firstUnitPromotedWithDistinction,
+        // case firstWaterParkFullyDeveloped
+        // case freeCityJoins
+        .generalDefeatsEnemy,
+        .goldenAgeBegins,
+        .governorFullyPromoted,
+        // case greatPersonLuredByFaith
+        // case greatPersonLuredByGold
+        .heroicAgeBegins,
+        // case inquisitionBegins
+        // case Levied Army Stands Down
+        .metAllCivilizations,
+        .nationalParkFounded,
+        .normalAgeBegins,
+        .onTheWaves,
+        .religionAdoptsAllBeliefs,
+        .religionFounded(religion: ReligionType.none),
+        .rivalHolyCityConverted,
+        .splendidCampusCompleted,
+        .splendidCommercialHubCompleted,
+        .splendidHarborCompleted,
+        .splendidHolySiteCompleted,
+        .splendidIndustrialZoneCompleted,
+        .splendidTheaterSquareCompleted,
+        .takingFlight,
+        .threateningCampDestroyed,
+        .tradingPostsInAllCivilizations,
+        // Unique Building Constructed
+        // Unique District Completed
+        // Unique Tile Improvement Built
+        // Unique Unit Marches
+        // World's First Armada
+        // World's First Army
+        .worldsFirstBustlingCity,
+        .worldsFirstCircumnavigation,
+        .worldsFirstCivicOfNewEra,
+        // World's First Corps
+        .worldsFirstEnormousCity,
+        .worldsFirstExoplanetExpeditionLaunched,
+        .worldsFirstFleet,
+        .worldsFirstFlight,
+        .worldsFirstGiganticCity,
+        // World's First Inquisition
+        .worldsFirstLandingOnTheMoon,
+        .worldsFirstLargeCity,
+        .worldsFirstMartianColonyEstablished,
+        .worldsFirstNationalPark,
+        .worldsFirstNeighborhood,
+        .worldsFirstPantheon,
+        .worldsFirstReligion,
+        // ...
+        .worldCircumnavigated,
+
+        // minor
+        .aggressiveCityPlacement,
+        .artifactExtracted,
+        .barbarianCampDestroyed,
+        .battleFought,
+        .causeForWar,
+        .cityReturnsToOriginalOwner,
+        // case cityStateArmyLevied // #
+        // case coastalFloodMitigated // #
+        .desertCity,
+        .diplomaticVictoryResolutionWon,
+        // case firstArmada
+        .firstArmy,
+        // case firstCorps // #
+        .firstFleet,
+        .foreignCapitalTaken,
+        .greatPersonRecruited,
+        // case heroClaimed // #
+        // case heroDeparted // #
+        // case heroRecalled // #
+        .landedOnTheMoon,
+        .manhattanProjectCompleted,
+        .martianColonyEstablished,
+        .masterSpyEarned,
+        .metNew(civilization: CivilizationType.unmet),
+        .oldGreatPersonRecruited,
+        .oldWorldWonderCompleted,
+        // case Operation Ivy Completed
+        .pantheonFounded,
+        .riverFloodMitigated,
+        .satelliteLaunchedIntoOrbit,
+        .snowCity,
+        .strategicResourcePotentialUnleashed,
+        .tradingPostEstablishedInNewCivilization,
+        .tribalVillageContacted,
+        .tundraCity,
+        .unitPromotedWithDistinction,
+        .wonderCompleted(wonder: WonderType.none),
+
+        // hidden
+        .constructSpecialtyDistrict,
+        .shipSunk
+    ]
 
     // MARK: public methods
 
@@ -151,7 +403,7 @@ public enum MomentType {
         }
     }
 
-    // swiftlint:disable function_body_length
+    // swiftlint:disable function_body_length cyclomatic_complexity
     private func data() -> MomentTypeData {
 
         switch self {
@@ -160,24 +412,24 @@ public enum MomentType {
 
         case .admiralDefeatsEnemy:
             return MomentTypeData(
-                name: "Admiral Defeats Enemy",
-                summary: "One of your [Great Admiral] Great Admirals has overseen their first victorious offensive against an enemy unit.",
+                name: "TXT_KEY_MOMENT_ADMIRAL_DEFEATS_ENEMY_TITLE",
+                summary: "TXT_KEY_MOMENT_ADMIRAL_DEFEATS_ENEMY_SUMMARY",
                 category: .major,
                 eraScore: 2
             )
 
         case .allGovernorsAppointed:
             return MomentTypeData(
-                name: "All Governors Appointed",
-                summary: "You have appointed all available  Governors, securing the prosperity of many cities.",
+                name: "TXT_KEY_MOMENT_ALL_GOVERNORS_APPOINTED_TITLE",
+                summary: "TXT_KEY_MOMENT_ALL_GOVERNORS_APPOINTED_SUMMARY",
                 category: .major,
                 eraScore: 1
             )
 
         case .canalCompleted:
             return MomentTypeData(
-                name: "Canal Completed",
-                summary: "You have completed your civilization's first Canal district.",
+                name: "TXT_KEY_MOMENT_CANAL_COMPLETED_TITLE",
+                summary: "TXT_KEY_MOMENT_CANAL_COMPLETED_SUMMARY",
                 category: .major,
                 eraScore: 2
             )
@@ -237,16 +489,6 @@ public enum MomentType {
         // Emergency Completed Successfully
         // Emergency Successfully Defended
 
-        // ...
-
-        case .founded(religion: _):
-            return MomentTypeData(
-                name: "Religion Founded",
-                summary: "A Great Prophet founds a Religion, bringing light to your people.",
-                category: .major,
-                eraScore: 2
-            )
-
         case .enemyCityAdoptsOurReligion:
             return MomentTypeData(
                 name: "Enemy City Adopts Our Religion",
@@ -255,28 +497,52 @@ public enum MomentType {
                 eraScore: 3
             )
 
-        case .firstTier1Government:
+        // case enemyCityStatePacified
+
+        case .enemyFormationDefeated:
             return MomentTypeData(
-                name: "First Tier 1 Government",
-                summary: "Your civilization adopts its first Tier 1 Government.",
+                name: "Enemy Formation Defeated",
+                summary: "One of your units defeated an enemy unit with a superior military formation.",
                 category: .major,
-                eraScore: 2
+                eraScore: 1
             )
 
-        case .firstTier1GovernmentInWorld:
+        case .enemyVeteranDefeated:
             return MomentTypeData(
-                name: "First Tier 1 Government in World",
-                summary: "Your civilization is the first to adopt a Tier 1 Government in the world.",
+                name: "Enemy Veteran Defeated",
+                summary: "One of your units defeated an enemy unit with at least 2 more promotions than it.",
                 category: .major,
                 eraScore: 3
             )
 
-            // ...
-
-        case .firstTechnologyOfNewEra:
+        case .exoplanetExpeditionLaunched:
             return MomentTypeData(
-                name: "First Technology of New Era",
-                summary: "You have completed your civilization's first technology from a new era of discovery.",
+                name: "Exoplanet Expedition Launched",
+                summary: "You have launched your civilization's expedition to a distant planet.",
+                category: .major,
+                eraScore: 2
+            )
+
+        case .finalForeignCityTaken:
+            return MomentTypeData(
+                name: "Final Foreign City Taken",
+                summary: "You have taken control of a civilization's last remaining city.",
+                category: .major,
+                eraScore: 5
+            )
+
+        case .firstAerodromeFullyDeveloped:
+            return MomentTypeData(
+                name: "First Aerodrome Fully Developed",
+                summary: "You have completed every building in an Aerodrome district for the first time.",
+                category: .major,
+                eraScore: 3
+            )
+
+        case .firstBustlingCity:
+            return MomentTypeData(
+                name: "First Bustling City",
+                summary: "A city has reached 10 [Population] Population for the first time in your civilization.",
                 category: .major,
                 eraScore: 1
             )
@@ -287,6 +553,484 @@ public enum MomentType {
                 summary: "You have completed your civilization's first civic from a new era of discovery.",
                 category: .major,
                 eraScore: 1
+            )
+
+        // case firstCorporationCreated
+        // case firstCorporationInTheWorld
+
+        case .firstDiscoveryOfANaturalWonder:
+            return MomentTypeData(
+                name: "First Discovery of a Natural Wonder",
+                summary: "Our civilization's explorers are the first in the world to behold this natural wonder.",
+                category: .major,
+                eraScore: 3
+            )
+
+        case .firstDiscoveryOfANewContinent:
+            return MomentTypeData(
+                name: "First Discovery of a New Continent",
+                summary: "Our civilization's explorers are the first in the world to find this continent.",
+                category: .major,
+                eraScore: 4
+            )
+
+        case .firstEncampmentFullyDeveloped:
+            return MomentTypeData(
+                name: "First Encampment Fully Developed",
+                summary: "You have completed every building in an Encampment district for the first time.",
+                category: .major,
+                eraScore: 3
+            )
+
+        case .firstEnormousCity:
+            return MomentTypeData(
+                name: "First Enormous City",
+                summary: "A city has reached 20 [Population] Population for the first time in your civilization.",
+                category: .major,
+                eraScore: 1
+            )
+
+        case .firstEntertainmentComplexFullyDeveloped:
+            return MomentTypeData(
+                name: "First Entertainment Complex Fully Developed",
+                summary: "You have completed every building in an Entertainment Complex district for the first time.",
+                category: .major,
+                eraScore: 3
+            )
+
+        case .firstGiganticCity:
+            return MomentTypeData(
+                name: "First Gigantic City",
+                summary: "A city has reached 25 [Population] Population for the first time in your civilization.",
+                category: .major,
+                eraScore: 1
+            )
+
+        // case firstGreenImprovement
+        // case First Green Improvement in World
+        // case First Hero Claimed
+        // case First Hero Departed
+        // case First Hero Recalled
+        // case First Improvement after Natural Disaster
+        // case First Industry Created
+        // case First Industry in the World
+
+        case .firstLargeCity:
+            return MomentTypeData(
+                name: "First Large City",
+                summary: "A city has reached 15 [Population] Population for the first time in your civilization.",
+                category: .major,
+                eraScore: 1
+            )
+
+        // case firstLuxuryResourceMonopoly
+        // case firstLuxuryResourceMonopolyInTheWorld
+        // case firstMasterSpyEarned
+        // case firstMountainTunnel
+        // case firstMountainTunnelInTheWorld
+
+        case .firstNeighborhoodCompleted:
+            return MomentTypeData(
+                name: "First Neighborhood Completed",
+                summary: "You have completed your civilization's first Neighborhood district.",
+                category: .major,
+                eraScore: 2
+            )
+
+        // case First Railroad Connection
+        // case First Railroad Connection in World
+        // case First Resource consumed for Power
+        // case First Resource consumed for Power in World
+        // case First Rock Band Concert
+        // case First Rock Band Concert in World
+        // case First Seaside Resort
+
+        case .firstShipwreckExcavated:
+            return MomentTypeData(
+                name: "You have completed your civilization's first Neighborhood district.",
+                summary: "Your archaeologists have excavated their first shipwreck.",
+                category: .major,
+                eraScore: 2
+            )
+
+        case .firstTechnologyOfNewEra:
+            return MomentTypeData(
+                name: "First Technology of New Era",
+                summary: "You have completed your civilization's first technology from a new era of discovery.",
+                category: .major,
+                eraScore: 1
+            )
+
+        case .firstTier1Government:
+            return MomentTypeData(
+                name: "First Tier 1 Government",
+                summary: "Your civilization adopts its first Tier 1 Government.",
+                category: .major,
+                eraScore: 2,
+                maxEra: .classical
+            )
+
+        case .firstTier1GovernmentInWorld:
+            return MomentTypeData(
+                name: "First Tier 1 Government in World",
+                summary: "Your civilization is the first to adopt a Tier 1 Government in the world.",
+                category: .major,
+                eraScore: 3,
+                maxEra: .classical
+            )
+
+        case .firstTier2Government:
+            return MomentTypeData(
+                name: "First Tier 2 Government",
+                summary: "Your civilization adopts its first Tier 2 Government.",
+                category: .major,
+                eraScore: 2,
+                maxEra: .medieval
+            )
+
+        case .firstTier2GovernmentInWorld:
+            return MomentTypeData(
+                name: "First Tier 2 Government in World",
+                summary: "Your civilization is the first to adopt a Tier 2 Government in the world.",
+                category: .major,
+                eraScore: 3,
+                maxEra: .medieval
+            )
+
+        case .firstTier3Government:
+            return MomentTypeData(
+                name: "First Tier 3 Government",
+                summary: "Your civilization adopts its first Tier 3 Government.",
+                category: .major,
+                eraScore: 2,
+                maxEra: .modern
+            )
+
+        case .firstTier3GovernmentInWorld:
+            return MomentTypeData(
+                name: "First Tier 3 Government in World",
+                summary: "Your civilization is the first to adopt a Tier 3 Government in the world.",
+                category: .major,
+                eraScore: 3,
+                maxEra: .modern
+            )
+
+        case .firstTier4Government:
+            return MomentTypeData(
+                name: "First Tier 4 Government",
+                summary: "Your civilization adopts its first Tier 4 Government.",
+                category: .major,
+                eraScore: 2,
+                maxEra: .information
+            )
+
+        case .firstTier4GovernmentInWorld:
+            return MomentTypeData(
+                name: "First Tier 4 Government in World",
+                summary: "Your civilization is the first to adopt a Tier 4 Government in the world.",
+                category: .major,
+                eraScore: 3,
+                maxEra: .information
+            )
+
+        case .firstTradingPostsInAllCivilizations:
+            return MomentTypeData(
+                name: "First Trading Posts in All Civilizations",
+                summary: "You are the first in the world to establish a [TradingPost] Trading Post in all civilizations.",
+                category: .major,
+                eraScore: 5
+            )
+
+        case .firstUnitPromotedWithDistinction:
+            return MomentTypeData(
+                name: "First Unit Promoted with Distinction",
+                summary: "For the first time, one of your units reaches its fourth level of promotion.",
+                category: .major,
+                eraScore: 1
+            )
+
+        // case firstWaterParkFullyDeveloped
+        // case freeCityJoins
+
+        case .generalDefeatsEnemy:
+            return MomentTypeData(
+                name: "General Defeats Enemy",
+                summary: "One of your [GreatGeneral] Great Generals has overseen their first victorious offensive against an enemy unit.",
+                category: .major,
+                eraScore: 2
+            )
+
+        case .goldenAgeBegins:
+            return MomentTypeData(
+                name: "Golden Age Begins",
+                summary: "Golden Age Begins",
+                category: .major,
+                eraScore: 0
+            )
+
+        case .governorFullyPromoted:
+            return MomentTypeData(
+                name: "Governor Fully Promoted",
+                summary: "You have fully promoted a [Governor] Governor for the first time, unlocking powerful abilities to help a city.",
+                category: .major,
+                eraScore: 1
+            )
+
+        // case greatPersonLuredByFaith
+        // case greatPersonLuredByGold
+        case .heroicAgeBegins:
+            return MomentTypeData(
+                name: "TXT_KEY_MOMENT_HEROIC_AGE_BEGINS_TITLE",
+                summary: "TXT_KEY_MOMENT_HEROIC_AGE_BEGINS_SUMMARY",
+                category: .major,
+                eraScore: 0
+            )
+        // case inquisitionBegins
+        // case Levied Army Stands Down
+
+        case .metAllCivilizations:
+            return MomentTypeData(
+                name: "TXT_KEY_MOMENT_MET_ALL_CIVILIZATION_TITLE",
+                summary: "TXT_KEY_MOMENT_MET_ALL_CIVILIZATION_SUMMARY",
+                category: .major,
+                eraScore: 3
+            )
+
+        case .nationalParkFounded:
+            return MomentTypeData(
+                name: "TXT_KEY_MOMENT_NATIONAL_PARK_FOUNDED_TITLE",
+                summary: "TXT_KEY_MOMENT_NATIONAL_PARK_FOUNDED_SUMMARY",
+                category: .major,
+                eraScore: 3
+            )
+
+        case .normalAgeBegins:
+            return MomentTypeData(
+                name: "TXT_KEY_MOMENT_NORMAL_AGE_BEGINS_TITLE",
+                summary: "TXT_KEY_MOMENT_NORMAL_AGE_BEGINS_SUMMARY",
+                category: .major,
+                eraScore: 0
+            )
+
+        case .onTheWaves:
+            return MomentTypeData(
+                name: "TXT_KEY_MOMENT_ON_THE_WAVES_TITLE",
+                summary: "TXT_KEY_MOMENT_ON_THE_WAVES_SUMMARY",
+                category: .major,
+                eraScore: 2
+            )
+
+        case .religionAdoptsAllBeliefs:
+            return MomentTypeData(
+                name: "TXT_KEY_MOMENT_RELIGION_ADOPTS_ALL_BELIEFS_TITLE",
+                summary: "TXT_KEY_MOMENT_RELIGION_ADOPTS_ALL_BELIEFS_SUMMARY",
+                category: .major,
+                eraScore: 3
+            )
+
+        case .religionFounded(religion: _):
+            return MomentTypeData(
+                name: "TXT_KEY_MOMENT_RELIGION_FOUNDED_TITLE",
+                summary: "TXT_KEY_MOMENT_RELIGION_FOUNDED_SUMMARY",
+                category: .major,
+                eraScore: 2
+            )
+
+        case .rivalHolyCityConverted:
+            return MomentTypeData(
+                name: "TXT_KEY_MOMENT_RIVAL_HOLY_CITY_CONVERTED_TITLE",
+                summary: "TXT_KEY_MOMENT_RIVAL_HOLY_CITY_CONVERTED_SUMMARY",
+                category: .major,
+                eraScore: 4
+            )
+
+        case .splendidCampusCompleted:
+            return MomentTypeData(
+                name: "TXT_KEY_MOMENT_SPLENDID_CAMPUS_COMPLETED_TITLE",
+                summary: "TXT_KEY_MOMENT_SPLENDID_CAMPUS_COMPLETED_SUMMARY",
+                category: .major,
+                eraScore: 3
+            )
+
+        case .splendidCommercialHubCompleted:
+            return MomentTypeData(
+                name: "TXT_KEY_MOMENT_SPLENDID_COMMERCIAL_HUB_COMPLETED_TITLE",
+                summary: "TXT_KEY_MOMENT_SPLENDID_COMMERCIAL_HUB_COMPLETED_SUMMARY",
+                category: .major,
+                eraScore: 3
+            )
+
+        case .splendidHarborCompleted:
+            return MomentTypeData(
+                name: "TXT_KEY_MOMENT_SPLENDID_HARBOR_COMPLETED_TITLE",
+                summary: "TXT_KEY_MOMENT_SPLENDID_HARBOR_COMPLETED_SUMMARY",
+                category: .major,
+                eraScore: 3
+            )
+
+        case .splendidHolySiteCompleted:
+            return MomentTypeData(
+                name: "TXT_KEY_MOMENT_SPLENDID_HOLY_SITE_COMPLETED_TITLE",
+                summary: "TXT_KEY_MOMENT_SPLENDID_HOLY_SITE_COMPLETED_SUMMARY",
+                category: .major,
+                eraScore: 3
+            )
+
+        case .splendidIndustrialZoneCompleted:
+            return MomentTypeData(
+                name: "TXT_KEY_MOMENT_SPLENDID_INDUSTRIAL_ZONE_COMPLETED_TITLE",
+                summary: "TXT_KEY_MOMENT_SPLENDID_INDUSTRIAL_ZONE_COMPLETED_SUMMARY",
+                category: .major,
+                eraScore: 3
+            )
+
+        case .splendidTheaterSquareCompleted:
+            return MomentTypeData(
+                name: "TXT_KEY_MOMENT_SPLENDID_THEATER_SQUARE_COMPLETED_TITLE",
+                summary: "TXT_KEY_MOMENT_SPLENDID_THEATER_SQUARE_COMPLETED_SUMMARY",
+                category: .major,
+                eraScore: 3
+            )
+
+        case .takingFlight:
+            return MomentTypeData(
+                name: "Taking Flight",
+                summary: "You own your first flying unit. People rejoice at the new possibilities this entails.",
+                category: .major,
+                eraScore: 3
+            )
+
+        case .threateningCampDestroyed:
+            return MomentTypeData(
+                name: "Threatening Camp Destroyed",
+                summary: "A hostile barbarian camp within 6 tiles of one of your cities was destroyed by a unit.",
+                category: .major,
+                eraScore: 3,
+                minEra: .ancient,
+                maxEra: .medieval
+            )
+
+        case .tradingPostsInAllCivilizations:
+            return MomentTypeData(
+                name: "Trading Posts in All Civilizations",
+                summary: "You have established a [TradingPost] Trading Post in all civilizations.",
+                category: .major,
+                eraScore: 3
+            )
+
+        // Unique Building Constructed
+        // Unique District Completed
+        // Unique Tile Improvement Built
+        // Unique Unit Marches
+        // World's First Armada
+        // World's First Army
+
+        case .worldsFirstBustlingCity:
+            return MomentTypeData(
+                name: "World's First Bustling City",
+                summary: "A city has reached 10 [Population] Population for the first time in the world.",
+                category: .major,
+                eraScore: 2
+            )
+
+        case .worldsFirstCircumnavigation:
+            return MomentTypeData(
+                name: "TXT_KEY_MOMENT_WORLDS_FIRST_CIRCUMNAVIGATION_TITLE",
+                summary: "TXT_KEY_MOMENT_WORLDS_FIRST_CIRCUMNAVIGATION_SUMMARY",
+                category: .major,
+                eraScore: 5
+            )
+
+        case .worldsFirstCivicOfNewEra:
+            return MomentTypeData(
+                name: "World's First Civic of New Era",
+                summary: "You have completed the world's first civic from a new era of discovery.",
+                category: .major,
+                eraScore: 2
+            )
+
+        // World's First Corps
+
+        case .worldsFirstEnormousCity:
+            return MomentTypeData(
+                name: "World's First Enormous City",
+                summary: "A city has reached 20 [Population] Population for the first time in the world.",
+                category: .major,
+                eraScore: 2
+            )
+
+        case .worldsFirstExoplanetExpeditionLaunched:
+            return MomentTypeData(
+                name: "World's First Exoplanet Expedition Launched",
+                summary: "You are the first in the world to launch an expedition to a distant planet.",
+                category: .major,
+                eraScore: 4
+            )
+
+        case .worldsFirstFleet:
+            return MomentTypeData(
+                name: "World's First Fleet",
+                summary: "The world's very first Fleet is formed, under your command.",
+                category: .major,
+                eraScore: 2
+            )
+
+        case .worldsFirstFlight:
+            return MomentTypeData(
+                name: "World's First Flight",
+                summary: "You own the world's first flying unit! People rejoice at the new possibilities this entails.",
+                category: .major,
+                eraScore: 5
+            )
+
+        case .worldsFirstGiganticCity:
+            return MomentTypeData(
+                name: "World's First Gigantic City",
+                summary: "A city has reached 25 [Population] Population for the first time in the world.",
+                category: .major,
+                eraScore: 2
+            )
+
+        // World's First Inquisition
+
+        case .worldsFirstLandingOnTheMoon:
+            return MomentTypeData(
+                name: "World's First Landing on the Moon",
+                summary: "You are the first in the world to land on the moon.",
+                category: .major,
+                eraScore: 4
+            )
+
+        case .worldsFirstLargeCity:
+            return MomentTypeData(
+                name: "World's First Large City",
+                summary: "A city has reached 15 [Population] Population for the first time in the world.",
+                category: .major,
+                eraScore: 2
+            )
+
+        case .worldsFirstMartianColonyEstablished:
+            return MomentTypeData(
+                name: "World's First Martian Colony Established",
+                summary: "You are the first in the world to establish a colony on Mars.",
+                category: .major,
+                eraScore: 4
+            )
+
+        case .worldsFirstNationalPark:
+            return MomentTypeData(
+                name: "World's First National Park",
+                summary: "You have founded the world's first National Park.",
+                category: .major,
+                eraScore: 4
+            )
+
+        case .worldsFirstNeighborhood:
+            return MomentTypeData(
+                name: "World's First Neighborhood",
+                summary: "You have completed the world's first Neighborhood district.",
+                category: .major,
+                eraScore: 3
             )
 
             // ...
@@ -605,7 +1349,7 @@ extension MomentType: Codable {
 
         case 0:
             let religion = try container.decode(ReligionType.self, forKey: .religion)
-            self = .founded(religion: religion)
+            self = .religionFounded(religion: religion)
 
         default:
             fatalError("not handled: \(rawValue)")
@@ -618,7 +1362,7 @@ extension MomentType: Codable {
 
         switch self {
 
-        case .founded(religion: let religion):
+        case .religionFounded(religion: let religion):
             try container.encode(0, forKey: .rawValue)
             try container.encode(religion, forKey: .religion)
 
