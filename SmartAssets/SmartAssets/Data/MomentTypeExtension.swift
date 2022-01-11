@@ -37,7 +37,7 @@ extension MomentType {
         case .exoplanetExpeditionLaunched: return "moment-default"
         case .finalForeignCityTaken: return "moment-default"
         case .firstAerodromeFullyDeveloped: return "moment-default"
-        case .firstBustlingCity: return "moment-default"
+        case .firstBustlingCity: return "moment-firstBustlingCity"
         case .firstCivicOfNewEra(eraType: let eraType):
             return MomentType.iconTextureOfCivic(for: eraType)
             // case firstCorporationCreated
@@ -45,9 +45,9 @@ extension MomentType {
         case .firstDiscoveryOfANaturalWonder: return "moment-default"
         case .firstDiscoveryOfANewContinent: return "moment-default"
         case .firstEncampmentFullyDeveloped: return "moment-default"
-        case .firstEnormousCity: return "moment-default"
+        case .firstEnormousCity: return "moment-firstEnormousCity"
         case .firstEntertainmentComplexFullyDeveloped: return "moment-default"
-        case .firstGiganticCity: return "moment-default"
+        case .firstGiganticCity: return "moment-firstGiganticCity"
             // case firstGreenImprovement
             // case First Green Improvement in World
             // case First Hero Claimed
@@ -56,7 +56,7 @@ extension MomentType {
             // case First Improvement after Natural Disaster
             // case First Industry Created
             // case First Industry in the World
-        case .firstLargeCity: return "moment-default"
+        case .firstLargeCity: return "moment-firstLargeCity"
             // case firstLuxuryResourceMonopoly
             // case firstLuxuryResourceMonopolyInTheWorld
             // case firstMasterSpyEarned
@@ -123,19 +123,19 @@ extension MomentType {
             // Unique Unit Marches
             // World's First Armada
             // World's First Army
-        case .worldsFirstBustlingCity: return "moment-default"
+        case .worldsFirstBustlingCity: return "moment-firstBustlingCity"
         case .worldsFirstCircumnavigation: return "moment-worldCircumnavigated"
         case .worldsFirstCivicOfNewEra(eraType: let eraType):
             return MomentType.iconTextureOfCivic(for: eraType)
             // World's First Corps
-        case .worldsFirstEnormousCity: return "moment-default"
+        case .worldsFirstEnormousCity: return "moment-firstEnormousCity"
         case .worldsFirstExoplanetExpeditionLaunched: return "moment-default"
         case .worldsFirstFleet: return "moment-default"
         case .worldsFirstFlight: return "moment-default"
-        case .worldsFirstGiganticCity: return "moment-default"
+        case .worldsFirstGiganticCity: return "moment-firstGiganticCity"
             // World's First Inquisition
         case .worldsFirstLandingOnTheMoon: return "moment-default"
-        case .worldsFirstLargeCity: return "moment-default"
+        case .worldsFirstLargeCity: return "moment-firstLargeCity"
         case .worldsFirstMartianColonyEstablished: return "moment-default"
         case .worldsFirstNationalPark: return "moment-default"
         case .worldsFirstNeighborhood: return "moment-default"
