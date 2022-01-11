@@ -40,6 +40,7 @@ open class GameModel: Codable {
         case religions
 
         case map
+        case discoveredContinents
         case wondersBuilt
         case greatPersons
 
@@ -63,6 +64,7 @@ open class GameModel: Codable {
     static let turnInterimRankingFrequency = 25 /* PROGRESS_POPUP_TURN_FREQUENCY */
 
     private let map: MapModel
+    private var discoveredContinents: [ContinentType] = []
     private let tacticalAnalysisMapVal: TacticalAnalysisMap
     public weak var userInterface: UserInterfaceDelegate?
     private var waitDiploPlayer: AbstractPlayer?
@@ -106,6 +108,7 @@ open class GameModel: Codable {
         self.players = players
         self.religionsVal = GameReligions()
         self.map = map
+        self.discoveredContinents = []
 
         self.tacticalAnalysisMapVal = TacticalAnalysisMap(with: self.map.size)
         self.gameStateValue = .on
@@ -138,6 +141,7 @@ open class GameModel: Codable {
         self.religionsVal = try container.decode(GameReligions.self, forKey: .religions)
 
         self.map = try container.decode(MapModel.self, forKey: .map)
+        self.discoveredContinents = try container.decode([ContinentType].self, forKey: .discoveredContinents)
         self.wondersBuilt = try container.decode(Wonders.self, forKey: .wondersBuilt)
         self.greatPersons = try container.decode(GreatPersons.self, forKey: .greatPersons)
 
@@ -219,6 +223,7 @@ open class GameModel: Codable {
         try container.encode(self.religionsVal as! GameReligions, forKey: .religions)
 
         try container.encode(self.map, forKey: .map)
+        try container.encode(self.discoveredContinents, forKey: .discoveredContinents)
         try container.encode(self.wondersBuilt as! Wonders, forKey: .wondersBuilt)
         try container.encode(self.greatPersons, forKey: .greatPersons)
 
@@ -1788,6 +1793,7 @@ open class GameModel: Codable {
                 tile.sight(by: player)
                 tile.discover(by: player, in: self)
                 player?.checkWorldCircumnavigated(in: self)
+                self.checkDiscovered(continent: self.continent(at: areaPoint)?.type() ?? ContinentType.none, for: player)
                 self.userInterface?.refresh(tile: tile)
             }
         }
@@ -1800,9 +1806,40 @@ open class GameModel: Codable {
             if let tile = self.tile(at: pt) {
                 tile.discover(by: player, in: self)
                 player?.checkWorldCircumnavigated(in: self)
+                self.checkDiscovered(continent: self.continent(at: pt)?.type() ?? ContinentType.none, for: player)
                 self.userInterface?.refresh(tile: tile)
             }
         }
+    }
+
+    /// method to trigger the firstDiscoveryOfANewContinent moment, when player has discovered a new continent before everybody else
+    ///
+    /// - Parameters:
+    ///   - continent: continent to check
+    ///   - player: player to trigger the moment for
+    public func checkDiscovered(continent continentType: ContinentType, for player: AbstractPlayer?) {
+
+        if !self.hasDiscovered(continent: continentType) {
+
+            self.markDiscovered(continent: continentType)
+
+            if let continent = self.map.continent(by: continentType) {
+
+                if continent.points.count > 8 {
+                    player?.addMoment(of: .firstDiscoveryOfANewContinent, in: self.currentTurn)
+                }
+            }
+        }
+    }
+
+    public func hasDiscovered(continent continentType: ContinentType) -> Bool {
+
+        return self.discoveredContinents.contains(continentType)
+    }
+
+    public func markDiscovered(continent continentType: ContinentType) {
+
+        self.discoveredContinents.append(continentType)
     }
 
     public func resendGoodyHutAndBarbarianCampNotifications() {

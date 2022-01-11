@@ -2628,14 +2628,6 @@ public class Player: AbstractPlayer {
             fatalError("cant get civics")
         }
 
-        let cityName = name ?? self.newCityName(in: gameModel)
-        let isCapital = gameModel.cities(of: self).isEmpty
-
-        let city = City(name: cityName, at: location, capital: isCapital, owner: self)
-        city.initialize(in: gameModel)
-
-        gameModel.add(city: city)
-
         // moments
         // check if tile is on a continent that the player has not settler yet
         if let tileContinent: ContinentType = gameModel.continent(at: location)?.type() {
@@ -2689,6 +2681,14 @@ public class Player: AbstractPlayer {
         if nearNaturalWonder && !self.hasMoment(of: .cityOfAwe) {
             self.addMoment(of: .cityOfAwe, in: gameModel.currentTurn)
         }
+
+        let cityName = name ?? self.newCityName(in: gameModel)
+        let isCapital = gameModel.cities(of: self).isEmpty
+
+        let city = City(name: cityName, at: location, capital: isCapital, owner: self)
+        city.initialize(in: gameModel)
+
+        gameModel.add(city: city)
 
         if self.isHuman() {
 

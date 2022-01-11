@@ -776,6 +776,16 @@ open class MapModel: Codable {
         return nil
     }
 
+    func continent(by continentType: ContinentType) -> Continent? {
+
+        for continent in self.continents where continent.type() == continentType {
+
+            return continent
+        }
+
+        return nil
+    }
+
     // MARK: statistics
 
     func updateStatistics() {

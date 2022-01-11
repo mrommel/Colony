@@ -46,7 +46,7 @@ public enum MomentType {
     // case firstCorporationCreated
     // case firstCorporationInTheWorld
     case firstDiscoveryOfANaturalWonder // #
-    case firstDiscoveryOfANewContinent // #
+    case firstDiscoveryOfANewContinent
     case firstEncampmentFullyDeveloped // #
     case firstEnormousCity
     case firstEntertainmentComplexFullyDeveloped // #
