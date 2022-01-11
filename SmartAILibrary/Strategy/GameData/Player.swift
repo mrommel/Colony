@@ -3543,7 +3543,7 @@ public class Player: AbstractPlayer {
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let tradeRoutes = self.tradeRoutes else {
             fatalError("cant get tradeRoutes")
         }
@@ -4207,7 +4207,7 @@ public class Player: AbstractPlayer {
             gameModel.doBarbCampCleared(at: tile.point)
             if MomentType.barbarianCampDestroyed.minEra() <= self.currentEraVal &&
                 self.currentEraVal <=  MomentType.barbarianCampDestroyed.maxEra() {
-                
+
                 self.addMoment(of: .barbarianCampDestroyed, in: gameModel.currentTurn)
             }
 

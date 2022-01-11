@@ -10,7 +10,7 @@ import SmartAILibrary
 extension VictoryType {
 
     public func iconTexture() -> String {
-        
+
         switch self {
 
         case .domination: return "victoryType-domination"

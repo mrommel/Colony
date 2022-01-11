@@ -231,7 +231,7 @@ public class Textures {
             FeatureType.naturalWonders.map { MomentType.discoveryOfANaturalWonder(naturalWonder: $0).iconTexture() } +
             GovernmentType.all.map { MomentType.firstTier1Government(governmentType: $0).iconTexture() } +
             EraType.all.map { MomentType.firstCivicOfNewEra(eraType: $0).iconTexture() } +
-            EraType.all.map { MomentType.firstTechnologyOfNewEra(eraType: $0).iconTexture() } 
+            EraType.all.map { MomentType.firstTechnologyOfNewEra(eraType: $0).iconTexture() }
         ).uniqued()
     }
 
