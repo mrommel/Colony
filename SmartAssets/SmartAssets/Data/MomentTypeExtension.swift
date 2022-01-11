@@ -147,9 +147,9 @@ extension MomentType {
             // minor
         case .aggressiveCityPlacement: return "moment-default"
         case .artifactExtracted: return "moment-default"
-        case .barbarianCampDestroyed: return "moment-default"
+        case .barbarianCampDestroyed: return "moment-barbarianCampDestroyed"
         case .battleFought: return "moment-default"
-        case .causeForWar: return "moment-default"
+        case .causeForWar: return "moment-causeForWar"
         case .cityReturnsToOriginalOwner: return "moment-default"
             // case cityStateArmyLevied // #
             // case coastalFloodMitigated // #
@@ -178,7 +178,7 @@ extension MomentType {
         case .snowCity: return "moment-default"
         case .strategicResourcePotentialUnleashed: return "moment-default"
         case .tradingPostEstablishedInNewCivilization: return "moment-default"
-        case .tribalVillageContacted: return "moment-default"
+        case .tribalVillageContacted: return "moment-tribalVillageContacted"
         case .tundraCity: return "moment-default"
         case .unitPromotedWithDistinction: return "moment-default"
         case .wonderCompleted(wonder: _): return "moment-default"
