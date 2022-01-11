@@ -16,7 +16,7 @@ public enum MomentCategory {
 }
 
 // https://www.civilopedia.net/gathering-storm/moments/moment_artifact_extracted
-// swiftlint:disable type_body_length inclusive_language
+// swiftlint:disable type_body_length inclusive_language identifier_name
 public enum MomentType {
 
     // major
@@ -24,8 +24,8 @@ public enum MomentType {
     case allGovernorsAppointed
     case canalCompleted // #
     case cityNearFloodableRiver // #
-    case cityNearVolcano // #
-    case cityOfAwe // #
+    case cityNearVolcano
+    case cityOfAwe
     case cityOnNewContinent
     // City-State's First Suzerain
     // City-State Army Levied Near Enemy

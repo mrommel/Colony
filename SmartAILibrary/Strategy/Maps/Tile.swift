@@ -1150,7 +1150,7 @@ public class Tile: AbstractTile {
 
         if !self.isDiscovered(by: player) {
 
-            if self.featureValue.isWonder() {
+            if self.featureValue.isNaturalWonder() {
                 if !techs.eurekaTriggered(for: .astrology) {
                     techs.triggerEureka(for: .astrology, in: gameModel)
                 }
@@ -2008,7 +2008,7 @@ public class Tile: AbstractTile {
 
         // Natural wonder tiles have a base Appeal of Breathtaking (5),
         // which is also unaffected by surrounding features.
-        if self.featureValue.isWonder() {
+        if self.featureValue.isNaturalWonder() {
             return 5
         }
 
@@ -2044,7 +2044,7 @@ public class Tile: AbstractTile {
                 neighborCliffsOfDoverOrUluru = true
             }
 
-            if neighborTile.feature().isWonder() &&
+            if neighborTile.feature().isNaturalWonder() &&
                 !(neighborTile.has(feature: .cliffsOfDover) || neighborTile.has(feature: .uluru)) {
                 neighborNaturalWondersCount += 1
             }

@@ -2665,6 +2665,31 @@ public class Player: AbstractPlayer {
             self.addMoment(of: .worldsLargestCivilization, in: gameModel.currentTurn)
         }
 
+        var nearVolcano: Bool = false
+        var nearNaturalWonder: Bool = false
+        for neighbor in location.areaWith(radius: 2) {
+
+            guard let neighborTile = gameModel.tile(at: neighbor) else {
+                fatalError("cant get neighbor tile")
+            }
+
+            if neighborTile.has(feature: .volcano) {
+                nearVolcano = true
+            }
+
+            if neighborTile.feature().isNaturalWonder() {
+                nearNaturalWonder = true
+            }
+        }
+
+        if nearVolcano && !self.hasMoment(of: .cityNearVolcano) {
+            self.addMoment(of: .cityNearVolcano, in: gameModel.currentTurn)
+        }
+
+        if nearNaturalWonder && !self.hasMoment(of: .cityOfAwe) {
+            self.addMoment(of: .cityOfAwe, in: gameModel.currentTurn)
+        }
+
         if self.isHuman() {
 
             // Human player is prompted to choose production BEFORE the AI runs for the turn.

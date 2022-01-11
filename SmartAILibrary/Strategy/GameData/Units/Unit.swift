@@ -2127,7 +2127,7 @@ public class Unit: AbstractUnit {
 
                 // Natural wonder that provides free promotions?
                 let feature = adjacentPlot.feature()
-                if feature.isWonder() {
+                if feature.isNaturalWonder() {
 
                     // check if wonder is discovered by player already
                     if !player.hasDiscovered(naturalWonder: feature) {

@@ -576,7 +576,7 @@ extension City {
                         continue
                     }
 
-                    if neighborTile.feature().isWonder() {
+                    if neighborTile.feature().isNaturalWonder() {
                         // Major bonus (+2 Faith) for each adjacent Natural Wonder
                         faithFromDistricts += 2.0
                     }
@@ -760,7 +760,7 @@ extension City {
                     }
 
                     // Major bonus (+2 Culture) for each adjacent Wonder
-                    if neighborTile.feature().isWonder() {
+                    if neighborTile.feature().isNaturalWonder() {
                         cultureFromDistricts += 2
                     }
 

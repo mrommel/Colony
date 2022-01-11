@@ -4498,7 +4498,7 @@ public class City: AbstractCity {
                     }
 
                     // while we're at it, grab Natural Wonders quickly also
-                    if loopPlot.feature().isWonder() {
+                    if loopPlot.feature().isNaturalWonder() {
                         influenceCost += iPLOT_INFLUENCE_NW_COST
                     }
 
@@ -4525,7 +4525,7 @@ public class City: AbstractCity {
                                     }
                                 }
 
-                                if adjacentPlot.feature().isWonder() {
+                                if adjacentPlot.feature().isNaturalWonder() {
                                     if plotDistance <= 3 {
                                         // grab for this city
                                         unownedNaturalWonderAdjacentCount = true
