@@ -52,6 +52,7 @@ public struct GameView: View {
 
                 CombatBannerView(viewModel: self.viewModel.combatBannerViewModel)
 
+                #if DEBUG
                 if #available(macOS 12.0, *) {
                     VStack {
                         // var _ = print(Self._printChanges())
@@ -63,6 +64,7 @@ public struct GameView: View {
                     }
                     .padding(.top, 24)
                 }
+                #endif
             }
 
             BottomRightBarView(viewModel: self.viewModel.bottomRightBarViewModel)
