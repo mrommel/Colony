@@ -221,7 +221,7 @@ class PlayerGovernors: AbstractPlayerGovernors {
         self.numTitlesAvailableValue -= 1
 
         if self.governors.count == GovernorType.all.count && !player.hasMoment(of: .allGovernorsAppointed) {
-            self.player?.addMoment(of: .allGovernorsAppointed, in: gameModel.currentTurn)
+            self.player?.addMoment(of: .allGovernorsAppointed, in: gameModel)
         }
     }
 
@@ -242,7 +242,7 @@ class PlayerGovernors: AbstractPlayerGovernors {
         governor?.promote(with: title)
 
         if governor?.titles.count == 6 && !player.hasMoment(of: .governorFullyPromoted) {
-            player.addMoment(of: .governorFullyPromoted, in: gameModel.currentTurn)
+            player.addMoment(of: .governorFullyPromoted, in: gameModel)
         }
 
         self.numTitlesSpentValue += 1
@@ -381,7 +381,7 @@ class PlayerGovernors: AbstractPlayerGovernors {
                 self.governors.append(governor)
 
                 if self.governors.count == GovernorType.all.count {
-                    self.player?.addMoment(of: .allGovernorsAppointed, in: gameModel.currentTurn)
+                    self.player?.addMoment(of: .allGovernorsAppointed, in: gameModel)
                 }
 
                 // directly assign

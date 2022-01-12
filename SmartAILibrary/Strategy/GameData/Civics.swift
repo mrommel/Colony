@@ -185,9 +185,9 @@ class Civics: AbstractCivics {
             }
 
             if gameModel.anyHasMoment(of: .worldsFirstCivicOfNewEra(eraType: civic.era())) {
-                self.player?.addMoment(of: .firstCivicOfNewEra(eraType: civic.era()), in: gameModel.currentTurn)
+                self.player?.addMoment(of: .firstCivicOfNewEra(eraType: civic.era()), in: gameModel)
             } else {
-                self.player?.addMoment(of: .worldsFirstCivicOfNewEra(eraType: civic.era()), in: gameModel.currentTurn)
+                self.player?.addMoment(of: .worldsFirstCivicOfNewEra(eraType: civic.era()), in: gameModel)
             }
         }
 

@@ -1832,7 +1832,7 @@ open class GameModel: Codable {
                 // only trigger discovery of new continent, if player has at least one city
                 // this prevents
                 if continent.points.count > 8 && !self.cities(of: player).isEmpty {
-                    player.addMoment(of: .firstDiscoveryOfANewContinent, in: self.currentTurn)
+                    player.addMoment(of: .firstDiscoveryOfANewContinent, in: self)
                 }
             }
         }

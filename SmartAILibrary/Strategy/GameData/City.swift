@@ -1803,9 +1803,9 @@ public class City: AbstractCity {
 
                         // check if someone else already had a bustling city
                         if gameModel.anyHasMoment(of: .worldsFirstBustlingCity) {
-                            player.addMoment(of: .firstBustlingCity, in: gameModel.currentTurn)
+                            player.addMoment(of: .firstBustlingCity, in: gameModel)
                         } else {
-                            player.addMoment(of: .worldsFirstBustlingCity, in: gameModel.currentTurn)
+                            player.addMoment(of: .worldsFirstBustlingCity, in: gameModel)
                         }
                     }
                 }
@@ -1815,9 +1815,9 @@ public class City: AbstractCity {
 
                         // check if someone else already had a bustling city
                         if gameModel.anyHasMoment(of: .worldsFirstLargeCity) {
-                            player.addMoment(of: .firstLargeCity, in: gameModel.currentTurn)
+                            player.addMoment(of: .firstLargeCity, in: gameModel)
                         } else {
-                            player.addMoment(of: .worldsFirstLargeCity, in: gameModel.currentTurn)
+                            player.addMoment(of: .worldsFirstLargeCity, in: gameModel)
                         }
                     }
                 }
@@ -1827,9 +1827,9 @@ public class City: AbstractCity {
 
                         // check if someone else already had a bustling city
                         if gameModel.anyHasMoment(of: .worldsFirstEnormousCity) {
-                            player.addMoment(of: .firstEnormousCity, in: gameModel.currentTurn)
+                            player.addMoment(of: .firstEnormousCity, in: gameModel)
                         } else {
-                            player.addMoment(of: .worldsFirstEnormousCity, in: gameModel.currentTurn)
+                            player.addMoment(of: .worldsFirstEnormousCity, in: gameModel)
                         }
                     }
                 }
@@ -1839,9 +1839,9 @@ public class City: AbstractCity {
 
                         // check if someone else already had a bustling city
                         if gameModel.anyHasMoment(of: .worldsFirstGiganticCity) {
-                            player.addMoment(of: .firstGiganticCity, in: gameModel.currentTurn)
+                            player.addMoment(of: .firstGiganticCity, in: gameModel)
                         } else {
-                            player.addMoment(of: .worldsFirstGiganticCity, in: gameModel.currentTurn)
+                            player.addMoment(of: .worldsFirstGiganticCity, in: gameModel)
                         }
                     }
                 }
@@ -2596,7 +2596,7 @@ public class City: AbstractCity {
 
             // moments
             if districtType.isSpecialty() && player.currentAge() == .normal && player.has(dedication: .monumentality) {
-                player.addMoment(of: .constructSpecialtyDistrict, in: gameModel.currentTurn)
+                player.addMoment(of: .constructSpecialtyDistrict, in: gameModel)
             }
 
             if districtType == .neighborhood {
@@ -2604,11 +2604,10 @@ public class City: AbstractCity {
 
                     // check if someone else already had a built a neighborhood district
                     if gameModel.anyHasMoment(of: .worldsFirstNeighborhood) {
-                        player.addMoment(of: .firstNeighborhoodCompleted, in: gameModel.currentTurn)
+                        player.addMoment(of: .firstNeighborhoodCompleted, in: gameModel)
                     } else {
-                        player.addMoment(of: .worldsFirstNeighborhood, in: gameModel.currentTurn)
+                        player.addMoment(of: .worldsFirstNeighborhood, in: gameModel)
                     }
-
                 }
             }
 
@@ -2642,10 +2641,10 @@ public class City: AbstractCity {
             self.greatWorks?.addPlaces(for: wonderType)
 
             // moments
-            self.player?.addMoment(of: .wonderCompleted(wonder: wonderType), in: gameModel.currentTurn)
+            self.player?.addMoment(of: .wonderCompleted(wonder: wonderType), in: gameModel)
 
             if wonderType.era() < player.currentEra() {
-                self.player?.addMoment(of: .oldWorldWonderCompleted, in: gameModel.currentTurn)
+                self.player?.addMoment(of: .oldWorldWonderCompleted, in: gameModel)
             }
 
             gameModel.build(wonder: wonderType)

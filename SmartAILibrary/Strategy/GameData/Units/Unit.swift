@@ -1292,7 +1292,7 @@ public class Unit: AbstractUnit {
 
                 Combat.doMeleeAttack(between: self, and: defenderUnit, in: gameModel)
 
-                unitPlayer.addMoment(of: .battleFought, in: gameModel.currentTurn)
+                unitPlayer.addMoment(of: .battleFought, in: gameModel)
             }
 
             // Barb camp here that was attacked?
@@ -2132,7 +2132,7 @@ public class Unit: AbstractUnit {
                     // check if wonder is discovered by player already
                     if !player.hasDiscovered(naturalWonder: feature) {
                         player.doDiscover(naturalWonder: feature)
-                        player.addMoment(of: .discoveryOfANaturalWonder(naturalWonder: feature), in: gameModel.currentTurn)
+                        player.addMoment(of: .discoveryOfANaturalWonder(naturalWonder: feature), in: gameModel)
                     }
 
                     /*PromotionTypes ePromotion = (PromotionTypes)GC.getFeatureInfo(eFeature)->getAdjacentUnitFreePromotion();
@@ -3009,7 +3009,7 @@ public class Unit: AbstractUnit {
         }
 
         if promotionType.tier() == 4 {
-            self.player?.addMoment(of: .unitPromotedWithDistinction, in: gameModel.currentTurn)
+            self.player?.addMoment(of: .unitPromotedWithDistinction, in: gameModel)
         }
 
         do {

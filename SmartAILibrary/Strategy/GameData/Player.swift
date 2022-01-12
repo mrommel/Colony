@@ -307,7 +307,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func tourismModifier(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Int // in percent
 
     // moments
-    func addMoment(of type: MomentType, in turn: Int)
+    func addMoment(of type: MomentType, in gameModel: GameModel?)
     func hasMoment(of type: MomentType) -> Bool
     func moments() -> [Moment]
 
@@ -826,7 +826,7 @@ public class Player: AbstractPlayer {
         otherPlayer.diplomacyAI?.doFirstContact(with: self, in: gameModel)
 
         // moment
-        self.addMoment(of: .metNewCivilization(civilization: otherPlayer.leader.civilization()), in: gameModel?.currentTurn ?? 0)
+        self.addMoment(of: .metNewCivilization(civilization: otherPlayer.leader.civilization()), in: gameModel)
 
         // update eurekas
         if !techs.eurekaTriggered(for: .writing) {
@@ -1221,16 +1221,12 @@ public class Player: AbstractPlayer {
 
     func selectCurrentAge(in gameModel: GameModel?) {
 
-        guard let gameModel = gameModel else {
-            fatalError("cant get game")
-        }
-
         let nextAge = self.estimateNextAge(in: gameModel)
 
         if nextAge == .dark {
             self.numberOfDarkAgesVal += 1
 
-            self.addMoment(of: .darkAgeBegins, in: gameModel.currentTurn)
+            self.addMoment(of: .darkAgeBegins, in: gameModel)
         } else if nextAge == .golden {
             self.numberOfGoldenAgesVal += 1
         }
@@ -1613,10 +1609,10 @@ public class Player: AbstractPlayer {
             capital.doSpawn(greatPerson: greatPerson, in: gameModel)
 
             // moments
-            self.addMoment(of: .greatPersonRecruited, in: gameModel.currentTurn)
+            self.addMoment(of: .greatPersonRecruited, in: gameModel)
 
             if greatPerson.era() < self.currentEraVal {
-                self.addMoment(of: .oldGreatPersonRecruited, in: gameModel.currentTurn)
+                self.addMoment(of: .oldGreatPersonRecruited, in: gameModel)
             }
 
             // notify the user
@@ -2638,25 +2634,25 @@ public class Player: AbstractPlayer {
 
                 // only from second city (capital == first city is also founded on a 'new' continent)
                 if !gameModel.cities(of: self).isEmpty {
-                    self.addMoment(of: .cityOnNewContinent, in: gameModel.currentTurn)
+                    self.addMoment(of: .cityOnNewContinent, in: gameModel)
                 }
             }
         }
 
         if tile.terrain() == .tundra {
-            self.addMoment(of: .tundraCity, in: gameModel.currentTurn)
+            self.addMoment(of: .tundraCity, in: gameModel)
         }
 
         if tile.terrain() == .desert {
-            self.addMoment(of: .desertCity, in: gameModel.currentTurn)
+            self.addMoment(of: .desertCity, in: gameModel)
         }
 
         if tile.terrain() == .snow {
-            self.addMoment(of: .snowCity, in: gameModel.currentTurn)
+            self.addMoment(of: .snowCity, in: gameModel)
         }
 
         if gameModel.isLargest(player: self) && !self.hasMoment(of: .worldsLargestCivilization) {
-            self.addMoment(of: .worldsLargestCivilization, in: gameModel.currentTurn)
+            self.addMoment(of: .worldsLargestCivilization, in: gameModel)
         }
 
         var nearVolcano: Bool = false
@@ -2677,11 +2673,11 @@ public class Player: AbstractPlayer {
         }
 
         if nearVolcano && !self.hasMoment(of: .cityNearVolcano) {
-            self.addMoment(of: .cityNearVolcano, in: gameModel.currentTurn)
+            self.addMoment(of: .cityNearVolcano, in: gameModel)
         }
 
         if nearNaturalWonder && !self.hasMoment(of: .cityOfAwe) {
-            self.addMoment(of: .cityOfAwe, in: gameModel.currentTurn)
+            self.addMoment(of: .cityOfAwe, in: gameModel)
         }
 
         let cityName = name ?? self.newCityName(in: gameModel)
@@ -3555,7 +3551,7 @@ public class Player: AbstractPlayer {
         }
 
         if targetCity.player?.leader != self.leader {
-            self.addMoment(of: .tradingPostEstablishedInNewCivilization, in: gameModel.currentTurn)
+            self.addMoment(of: .tradingPostEstablishedInNewCivilization, in: gameModel)
         }
 
         // no check ?
@@ -4138,11 +4134,7 @@ public class Player: AbstractPlayer {
         tile.removeImprovement()
 
         // moment
-        if MomentType.tribalVillageContacted.minEra() <= self.currentEra() &&
-            self.currentEra() <=  MomentType.tribalVillageContacted.maxEra() {
-
-            self.addMoment(of: .tribalVillageContacted, in: gameModel.currentTurn)
-        }
+        self.addMoment(of: .tribalVillageContacted, in: gameModel)
 
         // Make a list of valid Goodies to pick randomly from
         var validGoodies: [GoodyType] = []
@@ -4208,11 +4200,7 @@ public class Player: AbstractPlayer {
 
             gameModel.doBarbCampCleared(at: tile.point)
 
-            if MomentType.barbarianCampDestroyed.minEra() <= self.currentEraVal &&
-                self.currentEraVal <=  MomentType.barbarianCampDestroyed.maxEra() {
-
-                self.addMoment(of: .barbarianCampDestroyed, in: gameModel.currentTurn)
-            }
+            self.addMoment(of: .barbarianCampDestroyed, in: gameModel)
 
             // initiationRites - +50 [Faith] Faith for each Barbarian Outpost cleared. The unit that cleared the Barbarian Outpost heals +100 HP.
             if self.religion?.pantheon() == .initiationRites {
@@ -4782,7 +4770,7 @@ public class Player: AbstractPlayer {
         }
 
         playerReligion.found(religion: religion, at: city, in: gameModel)
-        self.addMoment(of: .religionFounded(religion: religion), in: gameModel.currentTurn)
+        self.addMoment(of: .religionFounded(religion: religion), in: gameModel)
     }
 
     // MARK: discovery
@@ -5128,9 +5116,17 @@ public class Player: AbstractPlayer {
 
     // MARK: moments
 
-    public func addMoment(of type: MomentType, in turn: Int) {
+    public func addMoment(of type: MomentType, in gameModel: GameModel?) {
 
-        self.momentsVal?.addMoment(of: type, in: turn)
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard type.minEra() <= self.currentEraVal && self.currentEraVal <= type.maxEra() else {
+            return
+        }
+
+        self.momentsVal?.addMoment(of: type, in: gameModel.currentTurn)
     }
 
     public func hasMoment(of type: MomentType) -> Bool {
@@ -5203,9 +5199,9 @@ public class Player: AbstractPlayer {
         self.set(worldCircumnavigated: true)
 
         if gameModel.anyHasMoment(of: .worldsFirstCircumnavigation) {
-            self.addMoment(of: .worldCircumnavigated, in: gameModel.currentTurn)
+            self.addMoment(of: .worldCircumnavigated, in: gameModel)
         } else {
-            self.addMoment(of: .worldsFirstCircumnavigation, in: gameModel.currentTurn)
+            self.addMoment(of: .worldsFirstCircumnavigation, in: gameModel)
         }
     }
 

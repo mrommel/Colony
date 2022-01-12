@@ -243,9 +243,9 @@ class Techs: AbstractTechs {
             }
 
             if gameModel.anyHasMoment(of: .worldsFirstTechnologyOfNewEra(eraType: tech.era())) {
-                self.player?.addMoment(of: .firstTechnologyOfNewEra(eraType: tech.era()), in: gameModel.currentTurn)
+                self.player?.addMoment(of: .firstTechnologyOfNewEra(eraType: tech.era()), in: gameModel)
             } else {
-                self.player?.addMoment(of: .worldsFirstTechnologyOfNewEra(eraType: tech.era()), in: gameModel.currentTurn)
+                self.player?.addMoment(of: .worldsFirstTechnologyOfNewEra(eraType: tech.era()), in: gameModel)
             }
         }
 

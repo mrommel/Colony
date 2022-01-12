@@ -198,13 +198,9 @@ class PlayerReligion: AbstractPlayerReligion {
             .count(where: { $0?.pantheon() != PantheonType.none })
         if numPantheonsFounded == 0 {
 
-            self.player?.addMoment(of: .worldsFirstPantheon, in: gameModel.currentTurn)
-        }
-
-        if MomentType.pantheonFounded.minEra() <= player.currentEra() &&
-            player.currentEra() <=  MomentType.pantheonFounded.maxEra() {
-
-            self.player?.addMoment(of: .pantheonFounded, in: gameModel.currentTurn)
+            player.addMoment(of: .worldsFirstPantheon, in: gameModel)
+        } else {
+            player.addMoment(of: .pantheonFounded, in: gameModel)
         }
 
         if !civics.eurekaTriggered(for: .mysticism) {
@@ -389,7 +385,7 @@ class PlayerReligion: AbstractPlayerReligion {
         let numReligionsFounded: Int = gameModel.religions()
             .count(where: { $0?.currentReligion() != ReligionType.none })
         if numReligionsFounded == 0 {
-            self.player?.addMoment(of: .worldsFirstReligion, in: gameModel.currentTurn)
+            self.player?.addMoment(of: .worldsFirstReligion, in: gameModel)
         }
 
         self.religionFounded = religionType
