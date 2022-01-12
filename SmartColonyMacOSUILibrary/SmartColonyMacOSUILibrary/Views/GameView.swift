@@ -42,7 +42,7 @@ public struct GameView: View {
 
             NotificationsView(viewModel: self.viewModel.notificationsViewModel)
 
-            BottomLeftBarView(viewModel: self.viewModel.gameSceneViewModel)
+            BottomLeftBarView(viewModel: self.viewModel.bottomLeftBarViewModel)
 
             Group {
 
@@ -54,7 +54,7 @@ public struct GameView: View {
 
                 if #available(macOS 12.0, *) {
                     VStack {
-
+                        // var _ = print(Self._printChanges())
                         Text("Debug")
                             .frame(width: 60, height: 20)
                             .background(.random)
@@ -67,7 +67,7 @@ public struct GameView: View {
 
             BottomRightBarView(viewModel: self.viewModel.bottomRightBarViewModel)
 
-            TopBarView(viewModel: self.viewModel.gameSceneViewModel.topBarViewModel)
+            TopBarView(viewModel: self.viewModel.topBarViewModel)
 
             HeaderView(viewModel: self.viewModel.headerViewModel)
 
@@ -75,7 +75,7 @@ public struct GameView: View {
 
             self.popup
 
-            BannerView(viewModel: self.viewModel.gameSceneViewModel)
+            BannerView(viewModel: self.viewModel.bannerViewModel)
         }
     }
 }

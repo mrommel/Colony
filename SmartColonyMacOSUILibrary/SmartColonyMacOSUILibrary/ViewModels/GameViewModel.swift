@@ -20,6 +20,11 @@ enum UICombatMode {
 
 protocol GameViewModelDelegate: AnyObject {
 
+    var selectedCity: AbstractCity? { get set }
+    var selectedUnit: AbstractUnit? { get set }
+
+    func changeUITurnState(to state: GameSceneTurnState)
+
     func focus(on point: HexPoint)
     func showUnitBanner()
     func hideUnitBanner()
@@ -43,7 +48,7 @@ protocol GameViewModelDelegate: AnyObject {
     func doRangedCombat(of attacker: AbstractCity?, against defender: AbstractUnit?)
     func doRangedCombat(of attacker: AbstractUnit?, against defender: AbstractCity?)
 
-    func showCityBanner(for city: AbstractCity?)
+    func showCityBanner()
     func hideCityBanner()
     func showRangedTargets(of city: AbstractCity?)
 
@@ -113,8 +118,6 @@ protocol GameViewModelDelegate: AnyObject {
     func closeDialog()
     func closePopup()
 
-    func update()
-
     func closeGame()
 }
 
@@ -149,7 +152,16 @@ public class GameViewModel: ObservableObject {
     var combatBannerViewModel: CombatBannerViewModel
 
     @Published
+    var topBarViewModel: TopBarViewModel
+
+    @Published
     var headerViewModel: HeaderViewModel
+
+    @Published
+    var bannerViewModel: BannerViewModel
+
+    @Published
+    var bottomLeftBarViewModel: BottomLeftBarViewModel
 
     @Published
     var bottomRightBarViewModel: BottomRightBarViewModel
@@ -231,6 +243,9 @@ public class GameViewModel: ObservableObject {
     // UI
 
     @Published
+    var uiTurnState: GameSceneTurnState = .humanTurns
+
+    @Published
     var currentScreenType: ScreenType = .none
 
     @Published
@@ -239,6 +254,41 @@ public class GameViewModel: ObservableObject {
     var popups: [PopupType] = []
 
     var uiCombatMode: UICombatMode = .none
+
+    @Published
+    var selectedUnit: AbstractUnit? = nil {
+
+        didSet {
+            if self.uiTurnState != .humanTurns {
+                return
+            }
+
+            if let unit = self.selectedUnit {
+                self.showUnitBanner()
+                self.bottomLeftBarViewModel.selectedUnitCivilization = unit.player?.leader.civilization() ?? .unmet
+                self.bottomLeftBarViewModel.selectedUnitType = unit.type
+                self.bottomLeftBarViewModel.selectedUnitLocation = unit.location
+            } else {
+                self.hideUnitBanner()
+                self.bottomLeftBarViewModel.selectedUnitCivilization = nil
+                self.bottomLeftBarViewModel.selectedUnitType = nil
+                self.bottomLeftBarViewModel.selectedUnitLocation = nil
+            }
+        }
+    }
+
+    @Published
+    var selectedCity: AbstractCity? = nil {
+
+        didSet {
+            if let selectedCity = self.selectedCity {
+                print("select city: \(selectedCity.name)")
+                self.showCityBanner()
+            } else {
+                self.hideCityBanner()
+            }
+        }
+    }
 
     // MARK: map display options
 
@@ -294,13 +344,11 @@ public class GameViewModel: ObservableObject {
         "tile-districtAvailable", "tile-wonderAvailable", "tile-notAvailable",
         "city-canvas", "pantheon-background", "turns", "unit-banner", "combat-view",
         "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty",
-        "map-overview-canvas", "map-lens", "map-lens-active", "map-marker", "map-options"
+        "map-overview-canvas", "map-lens", "map-lens-active", "map-marker", "map-options",
+        "unit-canvas"
     ]
 
     public weak var delegate: CloseGameViewModelDelegate?
-
-    private var unitType: UnitType = .none
-    private var unitLocation: HexPoint = .invalid
 
     // MARK: constructor
 
@@ -309,10 +357,13 @@ public class GameViewModel: ObservableObject {
         // init models
         self.gameSceneViewModel = GameSceneViewModel()
         self.notificationsViewModel = NotificationsViewModel()
-        self.headerViewModel = HeaderViewModel()
         self.cityBannerViewModel = CityBannerViewModel()
         self.unitBannerViewModel = UnitBannerViewModel(selectedUnit: nil)
         self.combatBannerViewModel = CombatBannerViewModel()
+        self.topBarViewModel = TopBarViewModel()
+        self.headerViewModel = HeaderViewModel()
+        self.bannerViewModel = BannerViewModel()
+        self.bottomLeftBarViewModel = BottomLeftBarViewModel()
         self.bottomRightBarViewModel = BottomRightBarViewModel()
 
         // dialogs
@@ -344,10 +395,13 @@ public class GameViewModel: ObservableObject {
         // connect models
         self.gameSceneViewModel.delegate = self
         self.notificationsViewModel.delegate = self
-        self.headerViewModel.delegate = self
         self.cityBannerViewModel.delegate = self
         self.unitBannerViewModel.delegate = self
         self.combatBannerViewModel.delegate = self
+
+        self.topBarViewModel.delegate = self
+        self.headerViewModel.delegate = self
+        self.bottomLeftBarViewModel.delegate = self
         self.bottomRightBarViewModel.delegate = self
 
         self.governmentDialogViewModel.delegate = self
@@ -748,11 +802,6 @@ public class GameViewModel: ObservableObject {
         print("cant center on capital: no capital nor units")
     }
 
-    func update() {
-
-        self.headerViewModel.update()
-    }
-
     public func centerOnCursor() {
 
         let cursor = self.gameEnvironment.cursor.value
@@ -870,6 +919,50 @@ extension GameViewModel: GameViewModelDelegate {
         self.gameSceneViewModel.focus(on: point)
     }
 
+    func changeUITurnState(to state: GameSceneTurnState) {
+
+        guard state != self.uiTurnState else {
+            return
+        }
+
+        switch state {
+
+        case .aiTurns:
+            // show AI is working banner
+            self.bannerViewModel.showBanner()
+
+            // show AI turn
+            self.bottomLeftBarViewModel.showSpinningGlobe()
+
+        case .humanTurns:
+
+            // dirty hacks
+            self.gameSceneViewModel.refreshCities = true
+
+            // hide AI is working banner
+            self.bannerViewModel.hideBanner()
+
+            // update nodes
+            self.topBarViewModel.update()
+            self.headerViewModel.update()
+
+            // update
+            //self.updateLeaders()
+
+            // update state
+            self.bottomLeftBarViewModel.updateTurnButton()
+
+        case .humanBlocked:
+            // NOOP
+
+            // self.view?.preferredFramesPerSecond = 60
+
+            break
+        }
+
+        self.uiTurnState = state
+    }
+
     func showUnitBanner() {
 
         guard !self.unitBannerViewModel.showBanner else {
@@ -893,18 +986,13 @@ extension GameViewModel: GameViewModelDelegate {
 
     func select(unit: AbstractUnit?) {
 
-        self.gameSceneViewModel.selectedUnit = unit
+        self.selectedUnit = unit
     }
 
     func selectedUnitChanged(to unit: AbstractUnit?, commands: [Command], in gameModel: GameModel?) {
 
-        guard self.unitType != unit?.type || self.unitLocation != unit?.location else {
-            return
-        }
-
+        self.selectedUnit = unit
         self.unitBannerViewModel.selectedUnitChanged(to: unit, commands: commands, in: gameModel)
-        self.unitType = unit?.type ?? .none
-        self.unitLocation = unit?.location ?? .invalid
     }
 
     func showMeleeTargets(of unit: AbstractUnit?) {
@@ -1105,9 +1193,9 @@ extension GameViewModel: GameViewModelDelegate {
         self.combatBannerViewModel.showBanner = false
     }
 
-    func showCityBanner(for city: AbstractCity?) {
+    func showCityBanner() {
 
-        self.cityBannerViewModel.update(for: city)
+        self.cityBannerViewModel.update(for: self.selectedCity)
         self.cityBannerViewModel.showBanner = true
         self.unitBannerViewModel.showBanner = false
         self.combatBannerViewModel.showBanner = false
@@ -1277,10 +1365,128 @@ extension GameViewModel: GameViewModelDelegate {
     }
 }
 
+extension GameViewModel: TopBarViewModelDelegate {
+
+}
+
 extension GameViewModel: BottomRightBarViewModelDelegate {
 
     func selected(mapLens: MapLensType) {
 
         self.gameEnvironment.displayOptions.value.mapLens = mapLens
+    }
+}
+
+extension GameViewModel: BottomLeftBarViewModelDelegate {
+
+    func handleMainButtonClicked() {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        let turnButtonNotificationType = humanPlayer.blockingNotification()?.type ?? .turn
+        print("do turn: \(turnButtonNotificationType)")
+
+        switch turnButtonNotificationType {
+
+        case .turn:
+            self.handleTurnButtonClicked()
+        case .techNeeded:
+            self.showTechListDialog()
+        case .civicNeeded:
+            self.showCivicListDialog()
+        case .productionNeeded(cityName: _, location: let location):
+            self.handleProductionNeeded(at: location)
+        case .policiesNeeded:
+            self.showChangePoliciesDialog()
+        case .unitPromotion(location: let location):
+            self.handleUnitPromotion(at: location)
+        case .unitNeedsOrders:
+            self.handleFocusOnUnit()
+        default:
+            print("--- unhandled notification type: \(turnButtonNotificationType)")
+        }
+    }
+
+    func handleTurnButtonClicked() {
+
+        print("---- turn pressed ------")
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        if self.uiTurnState == .humanTurns {
+
+            if humanPlayer.isTurnActive() {
+                humanPlayer.finishTurn()
+                humanPlayer.setAutoMoves(to: true)
+            }
+        }
+    }
+
+    func handleFocusOnUnit() {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        if let unit = self.selectedUnit {
+            print("click on unit icon - \(unit.type)")
+
+            if !unit.readyToSelect() {
+                gameModel.userInterface?.unselect()
+                return
+            }
+
+            self.focus(on: unit.location)
+        } else {
+
+            guard let humanPlayer = gameModel.humanPlayer() else {
+                fatalError("cant get human")
+            }
+
+            if let unit = humanPlayer.firstReadyUnit(in: gameModel) {
+
+                gameModel.userInterface?.select(unit: unit)
+                self.focus(on: unit.location)
+                return
+            }
+        }
+    }
+
+    func handleProductionNeeded(at location: HexPoint) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let city = gameModel.city(at: location) else {
+            fatalError("cant get city at \(location)")
+        }
+
+        self.showCityDialog(for: city)
+    }
+
+    func handleUnitPromotion(at point: HexPoint) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let unit = gameModel.unit(at: point, of: .combat) else {
+            fatalError("cant get unit at \(point)")
+        }
+
+        self.showSelectPromotionDialog(for: unit)
     }
 }

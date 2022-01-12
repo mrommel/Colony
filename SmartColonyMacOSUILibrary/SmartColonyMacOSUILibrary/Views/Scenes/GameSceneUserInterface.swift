@@ -8,6 +8,7 @@
 import SmartAILibrary
 import SpriteKit
 
+// idea: UserInterfaceDelegate should conform GameViewModel
 extension GameScene: UserInterfaceDelegate {
 
     func showPopup(popupType: PopupType) {
@@ -56,13 +57,13 @@ extension GameScene: UserInterfaceDelegate {
 
     func select(city: AbstractCity?) { // todo: add to interface
 
-        self.viewModel?.selectedCity = city
+        self.viewModel?.delegate?.selectedCity = city
     }
 
     func select(unit: AbstractUnit?) {
 
         self.mapNode?.unitLayer.showFocus(for: unit)
-        self.viewModel?.selectedUnit = unit
+        self.viewModel?.delegate?.selectedUnit = unit
         self.updateCommands(for: unit)
     }
 
@@ -71,8 +72,8 @@ extension GameScene: UserInterfaceDelegate {
         self.mapNode?.unitLayer.hideFocus()
         self.mapNode?.unitLayer.clearPathSpriteBuffer()
         self.mapNode?.unitLayer.clearAttackFocus()
-        self.viewModel?.selectedCity = nil
-        self.viewModel?.selectedUnit = nil
+        self.viewModel?.delegate?.selectedCity = nil
+        self.viewModel?.delegate?.selectedUnit = nil
         self.viewModel?.combatUnitTarget = nil
         self.viewModel?.delegate?.selectedUnitChanged(to: nil, commands: [], in: nil)
     }

@@ -130,6 +130,7 @@ public struct TopBarView: View {
     }
 }
 
+#if DEBUG
 struct TopBarView_Previews: PreviewProvider {
 
     static var previews: some View {
@@ -140,3 +141,4 @@ struct TopBarView_Previews: PreviewProvider {
         TopBarView(viewModel: viewModel)
     }
 }
+#endif

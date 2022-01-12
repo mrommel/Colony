@@ -11,7 +11,7 @@ import SmartAssets
 struct BannerView: View {
 
     @ObservedObject
-    public var viewModel: GameSceneViewModel
+    public var viewModel: BannerViewModel
 
     public var body: some View {
 
@@ -23,14 +23,14 @@ struct BannerView: View {
 
                 Spacer()
 
-                if self.viewModel.showBanner {
+                if self.viewModel.bannerVisible {
                     VStack(alignment: .center, spacing: 0) {
 
                         Image(nsImage: ImageCache.shared.image(for: "banner"))
                             .resizable()
                             .frame(width: 208, height: 89, alignment: .center)
 
-                        Text("Other players are taking their turns, please wait ...")
+                        Text(self.viewModel.bannerText)
                             .frame(width: 360, height: 40, alignment: .center)
                             .background(
                                 Image(nsImage: ImageCache.shared.image(for: "grid9-button-active"))
@@ -54,8 +54,8 @@ struct BannerView_Previews: PreviewProvider {
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = GameSceneViewModel()
 
+        let viewModel = BannerViewModel()
         BannerView(viewModel: viewModel)
     }
 }

@@ -106,13 +106,13 @@ class GameScene: BaseScene {
             // check state
             if humanPlayer.hasProcessedAutoMoves() && humanPlayer.turnFinished() {
 
-                self.viewModel?.changeUITurnState(to: .aiTurns)
+                self.viewModel?.delegate?.changeUITurnState(to: .aiTurns)
             }
 
             if self.viewModel!.readyUpdatingAI {
 
                 if humanPlayer.isActive() {
-                    self.viewModel?.changeUITurnState(to: .humanTurns)
+                    self.viewModel?.delegate?.changeUITurnState(to: .humanTurns)
 
                     if self.viewModel!.readyUpdatingHuman {
 
@@ -334,7 +334,7 @@ extension GameScene {
 
     override func mouseDragged(with event: NSEvent) {
 
-        if let selectedUnit = self.viewModel?.selectedUnit {
+        if let selectedUnit = self.viewModel?.delegate?.selectedUnit {
 
             let location = event.location(in: self)
             let touchLocation = self.convert(location, to: self.viewHex!)
@@ -404,7 +404,7 @@ extension GameScene {
 
         let position = HexPoint(screen: location)
 
-        if let selectedUnit = self.viewModel?.selectedUnit {
+        if let selectedUnit = self.viewModel?.delegate?.selectedUnit {
 
             guard let unitSelectionMode = self.viewModel?.unitSelectionMode else {
                 fatalError("cant get selection mode")
@@ -560,7 +560,7 @@ extension GameScene {
             }
         }
 
-        if let selectedCity = self.viewModel?.selectedCity {
+        if let selectedCity = self.viewModel?.delegate?.selectedCity {
 
             guard let unitSelectionMode = self.viewModel?.unitSelectionMode else {
                 fatalError("cant get selection mode")

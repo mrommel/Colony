@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import SmartAssets
 
 public struct BottomLeftBarView: View {
 
     @ObservedObject
-    public var viewModel: GameSceneViewModel
+    public var viewModel: BottomLeftBarViewModel
 
     @State
     var showCommandsBody: Bool = false
@@ -35,7 +36,7 @@ public struct BottomLeftBarView: View {
                         .frame(width: 83, height: 83)
                         .offset(x: 6, y: -7)
                         .onTapGesture {
-                            self.viewModel.doTurn()
+                            self.viewModel.buttonClicked()
                         }
 
                     ZStack(alignment: .bottomLeading) {
@@ -54,11 +55,26 @@ public struct BottomLeftBarView: View {
                     .clipShape(Circle())
                     .offset(x: 5, y: -5)
 
-                    Image("unit_canvas")
+                    Image(nsImage: ImageCache.shared.image(for: "unit-canvas"))
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 111, height: 112)
                         .allowsHitTesting(false)
+
+                    HStack(alignment: .center, spacing: 2) {
+
+                        Image(nsImage: self.viewModel.currentAgeImage())
+                            .resizable()
+                            .frame(width: 10, height: 10)
+                            .padding(.leading, 4)
+
+                        Text("62 / 81")
+                            .font(.caption)
+                            .padding(.trailing, 4)
+                    }
+                    .background(Color.black)
+                    .border(Color.white, width: 1, cornerRadius: 6)
+                    .offset(x: 25, y: 0)
                 }
             }
 
@@ -68,13 +84,16 @@ public struct BottomLeftBarView: View {
     }
 }
 
-/*
+#if DEBUG
 struct BottomLeftBarView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
-        
-        let viewModel = GameSceneViewModel()
+
+        // swiftlint:disable:next redundant_discardable_let
+        let _ = GameViewModel(preloadAssets: true)
+
+        let viewModel = BottomLeftBarViewModel()
         BottomLeftBarView(viewModel: viewModel)
     }
 }
-*/
+#endif

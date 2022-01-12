@@ -9,6 +9,17 @@ import SmartAILibrary
 
 extension AgeType {
 
+    public func iconTexture() -> String {
+
+        switch self {
+
+        case .dark: return "dark-age"
+        case .normal: return "normal-age"
+        case .golden: return "golden-age"
+        case .heroic: return "golden-age"
+        }
+    }
+
     public func summaryText() -> String {
 
         switch self {

@@ -27,6 +27,7 @@ public struct BottomRightBarView: View {
     }
 }
 
+#if DEBUG
 struct BottomRightBarView_Previews: PreviewProvider {
 
     static var previews: some View {
@@ -41,3 +42,4 @@ struct BottomRightBarView_Previews: PreviewProvider {
             .environment(\.gameEnvironment, environment)
     }
 }
+#endif
