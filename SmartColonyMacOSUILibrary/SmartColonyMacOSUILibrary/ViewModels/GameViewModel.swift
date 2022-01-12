@@ -947,7 +947,7 @@ extension GameViewModel: GameViewModelDelegate {
             self.headerViewModel.update()
 
             // update
-            //self.updateLeaders()
+            // self.updateLeaders()
 
             // update state
             self.bottomLeftBarViewModel.updateTurnButton()

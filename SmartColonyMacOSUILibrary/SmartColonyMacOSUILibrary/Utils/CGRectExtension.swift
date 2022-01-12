@@ -8,7 +8,6 @@
 import Foundation
 
 // https://gist.github.com/cotkjaer/9b5af14a473e7c20fec1b0e965fe302b
-// swiftlint:disable implicit_getter
 extension CGRect {
     /** Creates a rectangle with the given center and dimensions
     - parameter center: The center of the new rectangle
