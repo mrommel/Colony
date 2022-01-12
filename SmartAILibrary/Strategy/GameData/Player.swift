@@ -2662,7 +2662,7 @@ public class Player: AbstractPlayer {
         for neighbor in location.areaWith(radius: 2) {
 
             guard let neighborTile = gameModel.tile(at: neighbor) else {
-                fatalError("cant get neighbor tile")
+                continue
             }
 
             if neighborTile.has(feature: .volcano) {

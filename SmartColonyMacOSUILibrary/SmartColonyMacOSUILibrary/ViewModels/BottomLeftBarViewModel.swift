@@ -75,7 +75,7 @@ public class BottomLeftBarViewModel: ObservableObject {
         }
     }
 
-    func currentAgeImage() -> NSImage {
+    func nextAgeImage() -> NSImage {
 
         guard let gameModel = self.gameEnvironment.game.value else {
             return ImageCache.shared.image(for: AgeType.normal.iconTexture())
@@ -85,7 +85,31 @@ public class BottomLeftBarViewModel: ObservableObject {
             fatalError("cant get game model")
         }
 
-        return ImageCache.shared.image(for: humanPlayer.currentAge().iconTexture())
+        let nextAge = humanPlayer.estimateNextAge(in: gameModel)
+
+        return ImageCache.shared.image(for: nextAge.iconTexture())
+    }
+
+    func nextAgeProgress() -> String {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            return ImageCache.shared.image(for: AgeType.normal.iconTexture())
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get game model")
+        }
+
+        let eraScore = humanPlayer.moments().eraScore()
+        let thresholds = humanPlayer.ageThresholds(in: gameModel)
+
+        if eraScore < thresholds.lower {
+            return "\(eraScore) / \(thresholds.lower)"
+        } else if eraScore < thresholds.upper {
+            return "\(eraScore) / \(thresholds.upper)"
+        } else {
+            return "\(eraScore) / ??"
+        }
     }
 
     func updateTurnButton() {

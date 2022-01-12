@@ -63,12 +63,12 @@ public struct BottomLeftBarView: View {
 
                     HStack(alignment: .center, spacing: 2) {
 
-                        Image(nsImage: self.viewModel.currentAgeImage())
+                        Image(nsImage: self.viewModel.nextAgeImage())
                             .resizable()
                             .frame(width: 10, height: 10)
                             .padding(.leading, 4)
 
-                        Text("62 / 81")
+                        Text(self.viewModel.nextAgeProgress())
                             .font(.caption)
                             .padding(.trailing, 4)
                     }
