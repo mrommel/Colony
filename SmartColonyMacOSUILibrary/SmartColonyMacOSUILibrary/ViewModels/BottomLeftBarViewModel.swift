@@ -93,14 +93,14 @@ public class BottomLeftBarViewModel: ObservableObject {
     func nextAgeProgress() -> String {
 
         guard let gameModel = self.gameEnvironment.game.value else {
-            return ImageCache.shared.image(for: AgeType.normal.iconTexture())
+            return ""
         }
 
         guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get game model")
         }
 
-        let eraScore = humanPlayer.moments().eraScore()
+        let eraScore: Int = humanPlayer.eraScore()
         let thresholds = humanPlayer.ageThresholds(in: gameModel)
 
         if eraScore < thresholds.lower {
