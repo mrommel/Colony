@@ -149,7 +149,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func housingFromDistricts(in gameModel: GameModel?) -> Double
 
     func amenitiesPerTurn(in gameModel: GameModel?) -> Double
-    func amenitiesFromDistrict() -> Double
+    func amenitiesFromDistrict(in gameModel: GameModel?) -> Double
     func amenitiesFromWonders(in gameModel: GameModel?) -> Double
     func amenitiesFromBuildings() -> Double
     func amenitiesFromLuxuries() -> Double
@@ -1550,7 +1550,11 @@ public class City: AbstractCity {
     }
 
     // amenities from districts
-    public func amenitiesFromDistrict() -> Double {
+    public func amenitiesFromDistrict(in gameModel: GameModel?) -> Double {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
 
         guard let government = self.player?.government else {
             fatalError("cant get government")
@@ -1567,6 +1571,27 @@ public class City: AbstractCity {
 
             if districts.hasAny() {
                 amenitiesFromDistrict += 1.0
+            }
+        }
+
+        if self.has(district: .holySite) {
+
+            // riverGoddess - +2 [Amenities] Amenities and +2 [Housing] Housing to cities if they have a Holy Site district adjacent to a River.
+            if let holySiteLocation = self.location(of: .holySite) {
+
+                var isHolySiteAdjacentToRiver = false
+
+                for neighbor in holySiteLocation.neighbors() {
+
+                    if gameModel.river(at: neighbor) {
+                        isHolySiteAdjacentToRiver = true
+                        break
+                    }
+                }
+
+                if isHolySiteAdjacentToRiver {
+                    amenitiesFromDistrict += 2.0
+                }
             }
         }
 
@@ -1623,7 +1648,7 @@ public class City: AbstractCity {
 
         amenitiesPerTurn += self.amenitiesFromTiles(in: gameModel)
         amenitiesPerTurn += self.amenitiesFromLuxuries()
-        amenitiesPerTurn += self.amenitiesFromDistrict()
+        amenitiesPerTurn += self.amenitiesFromDistrict(in: gameModel)
         amenitiesPerTurn += self.amenitiesFromBuildings()
         amenitiesPerTurn += self.amenitiesFromWonders(in: gameModel)
 
@@ -2312,6 +2337,25 @@ public class City: AbstractCity {
                 if !districts.hasAnySpecialtyDistrict() {
                     if self.buildQueue.isCurrentlyBuildingDistrict() {
                         modifierPercentage += 0.25
+                    }
+                }
+            }
+
+            // godOfTheForge - +25% [Production] Production toward Ancient and Classical military units.
+            if player.religion?.pantheon() == .godOfTheForge {
+                if let unitType = self.productionUnitType() {
+                    if (unitType.unitClass() == .melee || unitType.unitClass() == .ranged) &&
+                        (unitType.era() == .ancient || unitType.era() == .classical) {
+                        modifierPercentage += 0.25
+                    }
+                }
+            }
+
+            // monumentToTheGods - +15% [Production] Production to Ancient and Classical era Wonders.
+            if player.religion?.pantheon() == .monumentToTheGods {
+                if let wonderType = self.productionWonderType() {
+                    if wonderType.era() == .ancient || wonderType.era() == .classical {
+                        modifierPercentage += 0.15
                     }
                 }
             }

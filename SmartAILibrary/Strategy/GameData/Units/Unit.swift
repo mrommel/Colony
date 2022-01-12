@@ -3344,6 +3344,12 @@ public class Unit: AbstractUnit {
 
             if newPlot.has(improvement: .barbarianCamp) {
                 self.player?.doClearBarbarianCamp(at: newPlot, in: gameModel)
+
+                // initiationRites - +50 [Faith] Faith for each Barbarian Outpost cleared. The unit that cleared the Barbarian Outpost heals +100 HP.
+                if player.religion?.pantheon() == .initiationRites {
+                    self.set(healthPoints: self.maxHealthPoints())
+                }
+
             } else if newPlot.has(improvement: .goodyHut) {
                 self.player?.doGoodyHut(at: newPlot, by: self, in: gameModel)
             }

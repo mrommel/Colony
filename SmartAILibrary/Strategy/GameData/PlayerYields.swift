@@ -18,6 +18,9 @@ extension Player {
 
         // faith from our Cities
         value += self.faithFromCities(in: gameModel)
+        value += Double(self.faithEarned)
+        // ....
+        self.faithEarned = 0
 
         return value
     }

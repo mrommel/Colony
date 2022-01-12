@@ -16,25 +16,25 @@ public enum PantheonType: Int, Codable {
     case cityPatronGoddess
     case danceOfTheAurora
     case desertFolklore
-    case divineSpark // #
-    case earthGoddess // #
+    case divineSpark
+    case earthGoddess
     case fertilityRites
     case fireGoddess // #
-    case godOfCraftsmen // #
+    case godOfCraftsmen
     case godOfHealing // #
-    case godOfTheForge // #
+    case godOfTheForge
     case godOfTheOpenSky
     case godOfTheSea
     case godOfWar // #
     case goddessOfFestivals
     case goddessOfTheHarvest // #
-    case goddessOfTheHunt // #
-    case initiationRites // #
+    case goddessOfTheHunt
+    case initiationRites
     case ladyOfTheReedsAndMarshes
-    case monumentToTheGods // #
+    case monumentToTheGods
     case oralTradition // #
-    case religiousIdols // #
-    case riverGoddess // #
+    case religiousIdols
+    case riverGoddess
     case religiousSettlements
     case sacredPath
     case stoneCircles

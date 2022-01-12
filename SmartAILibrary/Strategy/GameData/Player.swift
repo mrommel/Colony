@@ -457,6 +457,7 @@ public class Player: AbstractPlayer {
     private var lastSliceMovedValue: Int = 0
 
     internal var cultureEarned: Int = 0
+    internal var faithEarned: Int = 0
     internal var boostExoplanetExpeditionValue: Int = 0
 
     private var notificationsValue: Notifications?
@@ -4206,10 +4207,16 @@ public class Player: AbstractPlayer {
             tile.set(improvement: .none)
 
             gameModel.doBarbCampCleared(at: tile.point)
+
             if MomentType.barbarianCampDestroyed.minEra() <= self.currentEraVal &&
                 self.currentEraVal <=  MomentType.barbarianCampDestroyed.maxEra() {
 
                 self.addMoment(of: .barbarianCampDestroyed, in: gameModel.currentTurn)
+            }
+
+            // initiationRites - +50 [Faith] Faith for each Barbarian Outpost cleared. The unit that cleared the Barbarian Outpost heals +100 HP.
+            if self.religion?.pantheon() == .initiationRites {
+                self.faithEarned += 50
             }
 
             self.treasury?.changeGold(by: Double(numGold))
