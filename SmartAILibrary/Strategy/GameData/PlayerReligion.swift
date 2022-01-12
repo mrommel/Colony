@@ -207,11 +207,27 @@ class PlayerReligion: AbstractPlayerReligion {
             self.player?.addMoment(of: .pantheonFounded, in: gameModel.currentTurn)
         }
 
-        self.pantheonVal = pantheonType
-
         if !civics.eurekaTriggered(for: .mysticism) {
             civics.triggerEureka(for: .mysticism, in: gameModel)
         }
+
+        if pantheonType == .fertilityRites {
+            // When chosen receive a Builder in your [Capital] capital.
+            if let capital = self.player?.capitalCity(in: gameModel) {
+                let builder = Unit(at: capital.location, name: nil, type: .builder, owner: self.player)
+                gameModel.add(unit: builder)
+            }
+        }
+
+        if pantheonType == .religiousSettlements {
+            // When chosen receive a Settler in your [Capital] capital.
+            if let capital = self.player?.capitalCity(in: gameModel) {
+                let settler = Unit(at: capital.location, name: nil, type: .settler, owner: self.player)
+                gameModel.add(unit: settler)
+            }
+        }
+
+        self.pantheonVal = pantheonType
     }
 
     func hasCreatedPantheon() -> Bool {

@@ -20,7 +20,7 @@ struct PolicyCardView: View {
                 Text(self.viewModel.title())
                     .font(.headline)
 
-                Label(text: self.viewModel.summary())
+                Label(self.viewModel.summary())
                     .font(.footnote)
                     .frame(width: 80)
                     .padding(.top, 1)

@@ -100,10 +100,10 @@ struct PediaView: View {
                                     .frame(width: 32, height: 32)
 
                                 VStack(alignment: .leading) {
-                                    Label(text: pediaDetailViewModel.summary)
+                                    Label(pediaDetailViewModel.summary)
                                         .frame(width: 520, alignment: .leading)
 
-                                    Label(text: pediaDetailViewModel.detail)
+                                    Label(pediaDetailViewModel.detail)
                                         .frame(width: 520, alignment: .leading)
 
                                     Spacer()

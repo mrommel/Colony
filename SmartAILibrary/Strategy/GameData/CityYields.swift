@@ -339,6 +339,17 @@ extension City {
                     if adjacentTile.has(feature: .floodplains) && self.has(wonder: .etemenanki) {
                         productionValue += 1.0
                     }
+
+                    // godOfTheSea - 1 [Production] Production from Fishing Boats.
+                    if adjacentTile.improvement() == .fishingBoats && self.player?.religion?.pantheon() == .godOfTheSea {
+                        productionValue += 1.0
+                    }
+
+                    // ladyOfTheReedsAndMarshes - +2 [Production] Production from Marsh, Oasis, and Desert Floodplains.
+                    if (adjacentTile.has(feature: .marsh) || adjacentTile.has(feature: .oasis) || adjacentTile.has(feature: .floodplains)) &&
+                        self.player?.religion?.pantheon() == .ladyOfTheReedsAndMarshes {
+                        productionValue += 1.0
+                    }
                 }
             }
         }
@@ -501,6 +512,14 @@ extension City {
                         // Tundra tiles provide +1 Faith and +1 Production, in addition to their usual yields.
                         faithFromTiles += 1.0
                     }
+
+                    // stoneCircles
+                    if self.player?.religion?.pantheon() == .stoneCircles {
+                        if adjacentTile.improvement() == .quarry {
+                            // +2 [Faith] Faith from Quarries.
+                            faithFromTiles += 2.0
+                        }
+                    }
                 }
             }
         }
@@ -589,6 +608,27 @@ extension City {
                     if neighborTile.feature() == .forest || neighborTile.feature() == .rainforest {
                         // Minor bonus (+½ Faith) for each adjacent District District tile and each adjacent unimproved Woods tile
                         faithFromDistricts += 0.5
+                    }
+
+                    if self.player?.religion?.pantheon() == .danceOfTheAurora {
+                        if neighborTile.terrain() == .tundra {
+                            // Holy Site districts get +1 [Faith] Faith from adjacent Tundra tiles.
+                            faithFromDistricts += 1.0
+                        }
+                    }
+
+                    if self.player?.religion?.pantheon() == .desertFolklore {
+                        if neighborTile.terrain() == .desert {
+                            // Holy Site districts get +1 [Faith] Faith from adjacent Desert tiles.
+                            faithFromDistricts += 1.0
+                        }
+                    }
+
+                    if self.player?.religion?.pantheon() == .desertFolklore {
+                        if neighborTile.has(feature: .rainforest) {
+                            // Holy Site districts get +1 [Faith] Faith from adjacent Rainforest tiles.
+                            faithFromDistricts += 1.0
+                        }
                     }
                 }
             }
@@ -706,6 +746,16 @@ extension City {
                     // city has chichenItza: +2 Culture and +1 Production to all Rainforest tiles for this city.
                     if adjacentTile.has(feature: .rainforest) && self.has(wonder: .chichenItza) {
                         cultureFromTiles += 2.0
+                    }
+
+                    // godOfTheOpenSky - +1 Culture from Pastures.
+                    if adjacentTile.improvement() == .pasture && self.player?.religion?.pantheon() == .godOfTheOpenSky {
+                        cultureFromTiles += 1.0
+                    }
+
+                    // goddessOfFestivals - +1 [Culture] Culture from Plantations.
+                    if adjacentTile.improvement() == .plantation && self.player?.religion?.pantheon() == .goddessOfFestivals {
+                        cultureFromTiles += 1.0
                     }
                 }
             }

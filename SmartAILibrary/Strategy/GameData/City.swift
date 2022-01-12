@@ -841,9 +841,15 @@ public class City: AbstractCity {
             // self.doTestResourceDemanded();
 
             // Culture accumulation
-            let currentCulture = self.culturePerTurn(in: gameModel)
+            var currentCulture = self.culturePerTurn(in: gameModel)
+
+            if self.player?.religion?.pantheon() == .religiousSettlements {
+                // Border expansion rate is 15% faster.
+                currentCulture *= 1.15
+            }
+
             if currentCulture > 0 {
-                self.updateCultureStored(to: self.cultureStored() + currentCulture) // FIXME: another func
+                self.updateCultureStored(to: self.cultureStored() + currentCulture)
             }
 
             // Enough Culture to acquire a new Plot?
@@ -1702,7 +1708,13 @@ public class City: AbstractCity {
         // hanging gardens
         if player.has(wonder: .hangingGardens, in: gameModel) {
             // Increases growth by 15% in all cities.
-            wonderModifier = 1.15
+            wonderModifier += 0.15
+        }
+
+        // fertilityRites
+        if player.religion?.pantheon() == .fertilityRites {
+            // City growth rate is 10% higher.
+            wonderModifier = 0.10
         }
 
         // update housing value
@@ -2291,6 +2303,15 @@ public class City: AbstractCity {
                 if let unitType = self.productionUnitType() {
                     if (unitType.unitClass() == .melee || unitType.unitClass() == .ranged || unitType.unitClass() == .antiCavalry) && (unitType.era() == .ancient || unitType.era() == .classical) {
                         modifierPercentage += 0.50
+                    }
+                }
+            }
+
+            // cityPatronGoddess - +25% [Production] Production toward districts in cities without a specialty district.
+            if player.religion?.pantheon() == .cityPatronGoddess {
+                if !districts.hasAnySpecialtyDistrict() {
+                    if self.buildQueue.isCurrentlyBuildingDistrict() {
+                        modifierPercentage += 0.25
                     }
                 }
             }

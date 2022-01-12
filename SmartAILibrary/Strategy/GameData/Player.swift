@@ -1844,6 +1844,7 @@ public class Player: AbstractPlayer {
                 } else {
                     // const BeliefTypes eBelief = kPlayer.GetReligionAI()->ChoosePantheonBelief();
                     let pantheonType = religionAI.choosePantheonType(in: gameModel)
+                    self.religion?.foundPantheon(with: pantheonType, in: gameModel)
                     gameModel?.foundPantheon(for: self, with: pantheonType)
                 }
             }

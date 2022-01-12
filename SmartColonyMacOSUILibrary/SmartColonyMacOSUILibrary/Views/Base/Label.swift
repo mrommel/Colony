@@ -16,7 +16,7 @@ public struct Label: NSViewRepresentable {
     let preferredMaxLayoutWidth: CGFloat
     let textAlignment: NSTextAlignment
 
-    public init(text rawText: String,
+    public init(_ rawText: String,
                 width: CGFloat? = nil,
                 alignment: NSTextAlignment? = nil) {
 
@@ -35,7 +35,7 @@ public struct Label: NSViewRepresentable {
         self.attributedString = Label.tokenizer.convert(text: rawText)
     }
 
-    public init(text rawText: NSAttributedString,
+    public init(_ rawText: NSAttributedString,
                 width: CGFloat? = nil,
                 alignment: NSTextAlignment? = nil) {
 
@@ -91,12 +91,12 @@ public struct Label: NSViewRepresentable {
     /// text views inside that container:
     ///
     ///     VStack {
-    ///         Label(text: "Font applied to a text view.")
+    ///         Label("Font applied to a text view.")
     ///             .font(.largeTitle)
     ///
     ///         VStack {
-    ///             Label(text: "These two text views have the same font")
-    ///             Label(text: "applied to their parent view.")
+    ///             Label("These two text views have the same font")
+    ///             Label("applied to their parent view.")
     ///         }
     ///         .font(.system(size: 16, weight: .light, design: .default))
     ///     }
@@ -111,7 +111,7 @@ public struct Label: NSViewRepresentable {
 
         mutableAttributedString.addAttribute(NSAttributedString.Key.font, value: NSFont.systemFont(ofSize: font.pointSize), range: completeRange)
 
-        return Label(text: mutableAttributedString)
+        return Label(mutableAttributedString)
     }
 
     public func frame(width: CGFloat? = nil, alignment: Alignment = .center) -> Label {
@@ -128,7 +128,7 @@ public struct Label: NSViewRepresentable {
         }
 
         return Label(
-            text: self.attributedString,
+            self.attributedString,
             width: width, alignment: textAlignment)
     }
 }
@@ -152,29 +152,29 @@ struct Label_Previews: PreviewProvider {
 
     static var previews: some View {
 
-        Label(text: "Normal text")
+        Label("Normal text")
             .frame(width: 120)
 
-        Label(text: "Footnote text")
+        Label("Footnote text")
             .font(.footnote)
             .frame(width: 120)
 
-        Label(text: "Title1 text")
+        Label("Title1 text")
             .font(.title1)
             .frame(width: 120)
 
-        Label(text: Label_Previews.loremIpsum)
+        Label(Label_Previews.loremIpsum)
             .frame(width: 120)
             .fixedSize(horizontal: false, vertical: true)
             .previewLayout(.sizeThatFits)
 
-        Label(text: "Attributed parsed [Production]")
+        Label("Attributed parsed [Production]")
             .frame(width: 120)
 
-        Label(text: "Very Long Attributed parsed [Production] without line [Food] breaks")
+        Label("Very Long Attributed parsed [Production] without line [Food] breaks")
             .frame(width: 120)
 
-        Label(text: NSAttributedString(string: "Native Attributed"))
+        Label(NSAttributedString(string: "Native Attributed"))
             .frame(width: 120)
     }
 }

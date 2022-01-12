@@ -921,6 +921,9 @@ extension GameViewModel: GameViewModelDelegate {
 
     func changeUITurnState(to state: GameSceneTurnState) {
 
+        // update state
+        self.bottomLeftBarViewModel.updateTurnButton()
+
         guard state != self.uiTurnState else {
             return
         }
@@ -948,9 +951,6 @@ extension GameViewModel: GameViewModelDelegate {
 
             // update
             // self.updateLeaders()
-
-            // update state
-            self.bottomLeftBarViewModel.updateTurnButton()
 
         case .humanBlocked:
             // NOOP
@@ -1354,6 +1354,8 @@ extension GameViewModel: GameViewModelDelegate {
     func closeDialog() {
 
         // update some models
+        self.topBarViewModel.update()
+        self.headerViewModel.update()
         self.governmentDialogViewModel.update()
 
         self.currentScreenType = .none
@@ -1406,7 +1408,7 @@ extension GameViewModel: BottomLeftBarViewModelDelegate {
             self.showChangePoliciesDialog()
         case .unitPromotion(location: let location):
             self.handleUnitPromotion(at: location)
-        case .unitNeedsOrders:
+        case .unitNeedsOrders(location: let location):
             self.handleFocusOnUnit()
         default:
             print("--- unhandled notification type: \(turnButtonNotificationType)")

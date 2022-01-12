@@ -87,6 +87,16 @@ extension String {
             )
         }
 
+        if self.starts(with: "TXT_KEY_RELIGION_") {
+            return NSLocalizedString(
+                self,
+                tableName: "Religions",
+                bundle: Bundle.init(for: Textures.self),
+                value: "",
+                comment: comment ?? ""
+            )
+        }
+
         if self.starts(with: "TXT_KEY_") {
             return NSLocalizedString(
                 self,

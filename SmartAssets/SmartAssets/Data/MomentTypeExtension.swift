@@ -43,7 +43,7 @@ extension MomentType {
             // case firstCorporationCreated
             // case firstCorporationInTheWorld
         case .firstDiscoveryOfANaturalWonder: return "moment-default"
-        case .firstDiscoveryOfANewContinent: return "moment-default"
+        case .firstDiscoveryOfANewContinent: return "moment-firstDiscoveryOfANewContinent"
         case .firstEncampmentFullyDeveloped: return "moment-default"
         case .firstEnormousCity: return "moment-firstEnormousCity"
         case .firstEntertainmentComplexFullyDeveloped: return "moment-default"

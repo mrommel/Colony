@@ -28,7 +28,7 @@ struct MomentView: View {
 
             Text(self.viewModel.title)
 
-            Label(text: self.viewModel.summary)
+            Label(self.viewModel.summary)
         }
         .frame(width: 200, height: 200)
     }

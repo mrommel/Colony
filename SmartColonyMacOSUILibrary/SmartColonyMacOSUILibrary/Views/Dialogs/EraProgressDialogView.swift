@@ -199,10 +199,10 @@ struct EraProgressDialogView: View {
 
             Divider()
 
-            Label(text: self.viewModel.currentAgeEffectText)
+            Label(self.viewModel.currentAgeEffectText)
                 .frame(width: 330, alignment: .leading)
 
-            Label(text: self.viewModel.loyaltyEffectText)
+            Label(self.viewModel.loyaltyEffectText)
                 .frame(width: 330, alignment: .leading)
         }
     }
