@@ -34,12 +34,12 @@ class PantheonViewModel: ObservableObject, Identifiable {
 
     func name() -> String {
 
-        return self.pantheonType.name()
+        return self.pantheonType.name().localized()
     }
 
     func summary() -> String {
 
-        return self.pantheonType.bonus()
+        return self.pantheonType.bonus().localized()
     }
 
     func background() -> NSImage {
