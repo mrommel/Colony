@@ -45,26 +45,54 @@ class MomentViewModel: ObservableObject {
 
     private func generateSummaryText() -> String {
 
+        let translatedFormatText = self.momentType.instanceText().localized()
+
         switch self.momentType {
 
         case .causeForWar(warType: let warType, civilizationType: let civilizationType):
-            let translatedFormatText = self.momentType.instanceText().localized()
             return String(format: translatedFormatText, warType.name().localized(), civilizationType.name().localized())
 
+        case .cityOnNewContinent(cityName: let cityName, continentName: let continentName):
+            return String(format: translatedFormatText, cityName, continentName)
+
+        case .cityReturnsToOriginalOwner(cityName: let cityName, originalCivilization: let civilizationType):
+            return String(format: translatedFormatText, cityName, civilizationType.name().localized())
+
+        case .firstBustlingCity(cityName: let cityName):
+            return String(format: translatedFormatText, cityName)
+
+        case .firstEnormousCity(cityName: let cityName):
+            return String(format: translatedFormatText, cityName)
+
+        case .firstGiganticCity(cityName: let cityName):
+            return String(format: translatedFormatText, cityName)
+
+        case .firstLargeCity(cityName: let cityName):
+            return String(format: translatedFormatText, cityName)
+
         case .snowCity(cityName: let cityName):
-            let translatedFormatText = self.momentType.instanceText().localized()
             return String(format: translatedFormatText, cityName)
 
         case .tradingPostEstablishedInNewCivilization(civilization: let civilization):
-            let translatedFormatText = self.momentType.instanceText().localized()
             return String(format: translatedFormatText, civilization.name().localized())
 
         case .tundraCity(cityName: let cityName):
-            let translatedFormatText = self.momentType.instanceText().localized()
+            return String(format: translatedFormatText, cityName)
+
+        case .worldsFirstBustlingCity(cityName: let cityName):
+            return String(format: translatedFormatText, cityName)
+
+        case .worldsFirstEnormousCity(cityName: let cityName):
+            return String(format: translatedFormatText, cityName)
+
+        case .worldsFirstGiganticCity(cityName: let cityName):
+            return String(format: translatedFormatText, cityName)
+
+        case .worldsFirstLargeCity(cityName: let cityName):
             return String(format: translatedFormatText, cityName)
 
         default:
-            return self.momentType.instanceText().localized()
+            return translatedFormatText
         }
 
     }

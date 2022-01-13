@@ -1799,49 +1799,53 @@ public class City: AbstractCity {
 
                 // moments
                 if self.populationValue > 10 {
-                    if !player.hasMoment(of: .firstBustlingCity) && !player.hasMoment(of: .worldsFirstBustlingCity) {
+                    if !player.hasMoment(of: .firstBustlingCity(cityName: self.name)) &&
+                        !player.hasMoment(of: .worldsFirstBustlingCity(cityName: self.name)) {
 
                         // check if someone else already had a bustling city
-                        if gameModel.anyHasMoment(of: .worldsFirstBustlingCity) {
-                            player.addMoment(of: .firstBustlingCity, in: gameModel)
+                        if gameModel.anyHasMoment(of: .worldsFirstBustlingCity(cityName: self.name)) {
+                            player.addMoment(of: .firstBustlingCity(cityName: self.name), in: gameModel)
                         } else {
-                            player.addMoment(of: .worldsFirstBustlingCity, in: gameModel)
+                            player.addMoment(of: .worldsFirstBustlingCity(cityName: self.name), in: gameModel)
                         }
                     }
                 }
 
                 if self.populationValue > 15 {
-                    if !player.hasMoment(of: .firstLargeCity) && !player.hasMoment(of: .worldsFirstLargeCity) {
+                    if !player.hasMoment(of: .firstLargeCity(cityName: self.name)) &&
+                        !player.hasMoment(of: .worldsFirstLargeCity(cityName: self.name)) {
 
                         // check if someone else already had a bustling city
-                        if gameModel.anyHasMoment(of: .worldsFirstLargeCity) {
-                            player.addMoment(of: .firstLargeCity, in: gameModel)
+                        if gameModel.anyHasMoment(of: .worldsFirstLargeCity(cityName: self.name)) {
+                            player.addMoment(of: .firstLargeCity(cityName: self.name), in: gameModel)
                         } else {
-                            player.addMoment(of: .worldsFirstLargeCity, in: gameModel)
+                            player.addMoment(of: .worldsFirstLargeCity(cityName: self.name), in: gameModel)
                         }
                     }
                 }
 
                 if self.populationValue > 20 {
-                    if !player.hasMoment(of: .firstEnormousCity) && !player.hasMoment(of: .worldsFirstEnormousCity) {
+                    if !player.hasMoment(of: .firstEnormousCity(cityName: self.name)) &&
+                        !player.hasMoment(of: .worldsFirstEnormousCity(cityName: self.name)) {
 
                         // check if someone else already had a bustling city
-                        if gameModel.anyHasMoment(of: .worldsFirstEnormousCity) {
-                            player.addMoment(of: .firstEnormousCity, in: gameModel)
+                        if gameModel.anyHasMoment(of: .worldsFirstEnormousCity(cityName: self.name)) {
+                            player.addMoment(of: .firstEnormousCity(cityName: self.name), in: gameModel)
                         } else {
-                            player.addMoment(of: .worldsFirstEnormousCity, in: gameModel)
+                            player.addMoment(of: .worldsFirstEnormousCity(cityName: self.name), in: gameModel)
                         }
                     }
                 }
 
                 if self.populationValue > 25 {
-                    if !player.hasMoment(of: .firstGiganticCity) && !player.hasMoment(of: .worldsFirstGiganticCity) {
+                    if !player.hasMoment(of: .firstGiganticCity(cityName: self.name)) &&
+                        !player.hasMoment(of: .worldsFirstGiganticCity(cityName: self.name)) {
 
                         // check if someone else already had a bustling city
-                        if gameModel.anyHasMoment(of: .worldsFirstGiganticCity) {
-                            player.addMoment(of: .firstGiganticCity, in: gameModel)
+                        if gameModel.anyHasMoment(of: .worldsFirstGiganticCity(cityName: self.name)) {
+                            player.addMoment(of: .firstGiganticCity(cityName: self.name), in: gameModel)
                         } else {
-                            player.addMoment(of: .worldsFirstGiganticCity, in: gameModel)
+                            player.addMoment(of: .worldsFirstGiganticCity(cityName: self.name), in: gameModel)
                         }
                     }
                 }

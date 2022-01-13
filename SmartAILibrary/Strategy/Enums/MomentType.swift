@@ -26,14 +26,14 @@ public enum MomentType {
     case cityNearFloodableRiver // #
     case cityNearVolcano
     case cityOfAwe
-    case cityOnNewContinent
-    // City-State's First Suzerain
-    // City-State Army Levied Near Enemy
-    // Climate Change Phase
+    case cityOnNewContinent(cityName: String, continentName: String)
+    // case cityStatesFirstSuzerain
+    // case cityStateArmyLeviedNearEnemy
+    // case climateChangePhase
     case darkAgeBegins
     case discoveryOfANaturalWonder(naturalWonder: FeatureType)
-    // Emergency Completed Successfully
-    // Emergency Successfully Defended
+    // case emergencyCompletedSuccessfully
+    // case emergencySuccessfullyDefended
     case enemyCityAdoptsOurReligion // #
     // case enemyCityStatePacified
     case enemyFormationDefeated // #
@@ -41,38 +41,38 @@ public enum MomentType {
     case exoplanetExpeditionLaunched // #
     case finalForeignCityTaken // #
     case firstAerodromeFullyDeveloped // #
-    case firstBustlingCity
+    case firstBustlingCity(cityName: String)
     case firstCivicOfNewEra(eraType: EraType)
     // case firstCorporationCreated
     // case firstCorporationInTheWorld
     case firstDiscoveryOfANaturalWonder // #
     case firstDiscoveryOfANewContinent
     case firstEncampmentFullyDeveloped // #
-    case firstEnormousCity
+    case firstEnormousCity(cityName: String)
     case firstEntertainmentComplexFullyDeveloped // #
-    case firstGiganticCity
+    case firstGiganticCity(cityName: String)
     // case firstGreenImprovement
-    // case First Green Improvement in World
-    // case First Hero Claimed
-    // case First Hero Departed
-    // case First Hero Recalled
-    // case First Improvement after Natural Disaster
-    // case First Industry Created
-    // case First Industry in the World
-    case firstLargeCity
+    // case firstGreenImprovementInWorld
+    // case firstHeroClaimed
+    // case firstHeroDeparted
+    // case firstHeroRecalled
+    // case firstImprovementAfterNaturalDisaster
+    // case firstIndustryCreated
+    // case firstIndustryInTheWorld
+    case firstLargeCity(cityName: String)
     // case firstLuxuryResourceMonopoly
     // case firstLuxuryResourceMonopolyInTheWorld
     // case firstMasterSpyEarned
     // case firstMountainTunnel
     // case firstMountainTunnelInTheWorld
     case firstNeighborhoodCompleted
-    // case First Railroad Connection
-    // case First Railroad Connection in World
-    // case First Resource consumed for Power
-    // case First Resource consumed for Power in World
-    // case First Rock Band Concert
-    // case First Rock Band Concert in World
-    // case First Seaside Resort
+    // case firstRailroadConnection
+    // case firstRailroadConnectionInWorld
+    // case firstResourceConsumedForPower
+    // case firstResourceConsumedForPowerInWorld
+    // case firstRockBandConcert
+    // case firstRockBandConcertInWorld
+    // case firstSeasideResort
     case firstShipwreckExcavated // #
     case firstTechnologyOfNewEra(eraType: EraType)
     case firstTier1Government(governmentType: GovernmentType) // #
@@ -94,7 +94,7 @@ public enum MomentType {
     // case greatPersonLuredByGold
     case heroicAgeBegins // #
     // case inquisitionBegins
-    // case Levied Army Stands Down
+    // case leviedArmyStandsDown
     case metAllCivilizations // #
     case nationalParkFounded // #
     case normalAgeBegins // #
@@ -111,24 +111,24 @@ public enum MomentType {
     case takingFlight // #
     case threateningCampDestroyed // #
     case tradingPostsInAllCivilizations // #
-    // Unique Building Constructed
-    // Unique District Completed
-    // Unique Tile Improvement Built
-    // Unique Unit Marches
-    // World's First Armada
-    // World's First Army
-    case worldsFirstBustlingCity
+    // case uniqueBuildingConstructed
+    // case uniqueDistrictCompleted
+    // case uniqueTileImprovementBuilt
+    // case uniqueUnitMarches
+    // case worldsFirstArmada
+    // case worldsFirstArmy
+    case worldsFirstBustlingCity(cityName: String)
     case worldsFirstCircumnavigation
     case worldsFirstCivicOfNewEra(eraType: EraType)
-    // World's First Corps
-    case worldsFirstEnormousCity
+    // case worldsFirstCorps
+    case worldsFirstEnormousCity(cityName: String)
     case worldsFirstExoplanetExpeditionLaunched // #
     case worldsFirstFleet // #
     case worldsFirstFlight // #
-    case worldsFirstGiganticCity
-    // World's First Inquisition
+    case worldsFirstGiganticCity(cityName: String)
+    // worldsFirstInquisition
     case worldsFirstLandingOnTheMoon // #
-    case worldsFirstLargeCity
+    case worldsFirstLargeCity(cityName: String)
     case worldsFirstMartianColonyEstablished // #
     case worldsFirstNationalPark // #
     case worldsFirstNeighborhood
@@ -150,10 +150,10 @@ public enum MomentType {
     case artifactExtracted // #
     case barbarianCampDestroyed
     case causeForWar(warType: CasusBelliType, civilizationType: CivilizationType) // #
-    case cityReturnsToOriginalOwner // #
+    case cityReturnsToOriginalOwner(cityName: String, originalCivilization: CivilizationType) // #
     // case cityStateArmyLevied // #
     // case coastalFloodMitigated // #
-    case desertCity
+    case desertCity(cityName: String)
     case diplomaticVictoryResolutionWon // #
     // case firstArmada
     case firstArmy // #
@@ -171,7 +171,7 @@ public enum MomentType {
     case metNewCivilization(civilization: CivilizationType)
     case oldGreatPersonRecruited
     case oldWorldWonderCompleted
-    // case Operation Ivy Completed
+    // case operationIvyCompleted
     case pantheonFounded
     case riverFloodMitigated // #
     case satelliteLaunchedIntoOrbit // #
@@ -196,7 +196,7 @@ public enum MomentType {
         .cityNearFloodableRiver,
         .cityNearVolcano,
         .cityOfAwe,
-        .cityOnNewContinent,
+        .cityOnNewContinent(cityName: "", continentName: ""),
         // City-State's First Suzerain
         // City-State Army Levied Near Enemy
         // Climate Change Phase
@@ -211,16 +211,16 @@ public enum MomentType {
         .exoplanetExpeditionLaunched,
         .finalForeignCityTaken,
         .firstAerodromeFullyDeveloped,
-        .firstBustlingCity,
+        .firstBustlingCity(cityName: ""),
         .firstCivicOfNewEra(eraType: EraType.none),
         // case firstCorporationCreated
         // case firstCorporationInTheWorld
         .firstDiscoveryOfANaturalWonder,
         .firstDiscoveryOfANewContinent,
         .firstEncampmentFullyDeveloped,
-        .firstEnormousCity,
+        .firstEnormousCity(cityName: ""),
         .firstEntertainmentComplexFullyDeveloped,
-        .firstGiganticCity,
+        .firstGiganticCity(cityName: ""),
         // case firstGreenImprovement
         // case First Green Improvement in World
         // case First Hero Claimed
@@ -229,7 +229,7 @@ public enum MomentType {
         // case First Improvement after Natural Disaster
         // case First Industry Created
         // case First Industry in the World
-        .firstLargeCity,
+        .firstLargeCity(cityName: ""),
         // case firstLuxuryResourceMonopoly
         // case firstLuxuryResourceMonopolyInTheWorld
         // case firstMasterSpyEarned
@@ -287,18 +287,18 @@ public enum MomentType {
         // Unique Unit Marches
         // World's First Armada
         // World's First Army
-        .worldsFirstBustlingCity,
+        .worldsFirstBustlingCity(cityName: ""),
         .worldsFirstCircumnavigation,
         .worldsFirstCivicOfNewEra(eraType: EraType.none),
         // World's First Corps
-        .worldsFirstEnormousCity,
+        .worldsFirstEnormousCity(cityName: ""),
         .worldsFirstExoplanetExpeditionLaunched,
         .worldsFirstFleet,
         .worldsFirstFlight,
-        .worldsFirstGiganticCity,
+        .worldsFirstGiganticCity(cityName: ""),
         // World's First Inquisition
         .worldsFirstLandingOnTheMoon,
-        .worldsFirstLargeCity,
+        .worldsFirstLargeCity(cityName: ""),
         .worldsFirstMartianColonyEstablished,
         .worldsFirstNationalPark,
         .worldsFirstNeighborhood,
@@ -320,10 +320,10 @@ public enum MomentType {
         .artifactExtracted,
         .barbarianCampDestroyed,
         .causeForWar(warType: CasusBelliType.ancientWar, civilizationType: CivilizationType.unmet),
-        .cityReturnsToOriginalOwner,
+        .cityReturnsToOriginalOwner(cityName: "", originalCivilization: CivilizationType.unmet), // #
         // case cityStateArmyLevied // #
         // case coastalFloodMitigated // #
-        .desertCity,
+        .desertCity(cityName: ""),
         .diplomaticVictoryResolutionWon,
         // case firstArmada
         .firstArmy,
@@ -569,8 +569,9 @@ public enum MomentType {
 
         case .firstBustlingCity:
             return MomentTypeData(
-                name: "First Bustling City",
-                summary: "A city has reached 10 [Population] Population for the first time in your civilization.",
+                name: "TXT_KEY_MOMENT_FIRST_BUSTLING_CITY_TITLE",
+                summary: "TXT_KEY_MOMENT_FIRST_BUSTLING_CITY_SUMMARY",
+                instanceText: "TXT_KEY_MOMENT_FIRST_BUSTLING_CITY_INSTANCE",
                 category: .major,
                 eraScore: 1
             )
@@ -612,8 +613,9 @@ public enum MomentType {
 
         case .firstEnormousCity:
             return MomentTypeData(
-                name: "First Enormous City",
-                summary: "A city has reached 20 [Population] Population for the first time in your civilization.",
+                name: "TXT_KEY_MOMENT_FIRST_ENORMOUS_CITY_TITLE",
+                summary: "TXT_KEY_MOMENT_FIRST_ENORMOUS_CITY_SUMMARY",
+                instanceText: "TXT_KEY_MOMENT_FIRST_ENORMOUS_CITY_INSTANCE",
                 category: .major,
                 eraScore: 1
             )
@@ -628,8 +630,9 @@ public enum MomentType {
 
         case .firstGiganticCity:
             return MomentTypeData(
-                name: "First Gigantic City",
-                summary: "A city has reached 25 [Population] Population for the first time in your civilization.",
+                name: "TXT_KEY_MOMENT_FIRST_GIGANTIC_CITY_TITLE",
+                summary: "TXT_KEY_MOMENT_FIRST_GIGANTIC_CITY_SUMMARY",
+                instanceText: "TXT_KEY_MOMENT_FIRST_GIGANTIC_CITY_INSTANCE",
                 category: .major,
                 eraScore: 1
             )
@@ -645,8 +648,9 @@ public enum MomentType {
 
         case .firstLargeCity:
             return MomentTypeData(
-                name: "First Large City",
-                summary: "A city has reached 15 [Population] Population for the first time in your civilization.",
+                name: "TXT_KEY_MOMENT_FIRST_LARGE_CITY_TITLE",
+                summary: "TXT_KEY_MOMENT_FIRST_LARGE_CITY_SUMMARY",
+                instanceText: "TXT_KEY_MOMENT_FIRST_LARGE_CITY_INSTANCE",
                 category: .major,
                 eraScore: 1
             )
@@ -955,8 +959,9 @@ public enum MomentType {
 
         case .worldsFirstBustlingCity:
             return MomentTypeData(
-                name: "World's First Bustling City",
-                summary: "A city has reached 10 [Population] Population for the first time in the world.",
+                name: "TXT_KEY_MOMENT_WORLDS_FIRST_BUSTLING_CITY_TITLE",
+                summary: "TXT_KEY_MOMENT_WORLDS_FIRST_BUSTLING_CITY_SUMMARY",
+                instanceText: "TXT_KEY_MOMENT_WORLDS_FIRST_BUSTLING_CITY_INSTANCE",
                 category: .major,
                 eraScore: 2
             )
@@ -981,8 +986,9 @@ public enum MomentType {
 
         case .worldsFirstEnormousCity:
             return MomentTypeData(
-                name: "World's First Enormous City",
-                summary: "A city has reached 20 [Population] Population for the first time in the world.",
+                name: "TXT_KEY_MOMENT_WORLDS_FIRST_ENORMOUS_CITY_TITLE",
+                summary: "TXT_KEY_MOMENT_WORLDS_FIRST_ENORMOUS_CITY_SUMMARY",
+                instanceText: "TXT_KEY_MOMENT_WORLDS_FIRST_ENORMOUS_CITY_INSTANCE",
                 category: .major,
                 eraScore: 2
             )
@@ -1013,8 +1019,9 @@ public enum MomentType {
 
         case .worldsFirstGiganticCity:
             return MomentTypeData(
-                name: "World's First Gigantic City",
-                summary: "A city has reached 25 [Population] Population for the first time in the world.",
+                name: "TXT_KEY_MOMENT_WORLDS_FIRST_GIGANTIC_CITY_TITLE",
+                summary: "TXT_KEY_MOMENT_WORLDS_FIRST_GIGANTIC_CITY_SUMMARY",
+                instanceText: "TXT_KEY_MOMENT_WORLDS_FIRST_GIGANTIC_CITY_INSTANCE",
                 category: .major,
                 eraScore: 2
             )
@@ -1031,8 +1038,9 @@ public enum MomentType {
 
         case .worldsFirstLargeCity:
             return MomentTypeData(
-                name: "World's First Large City",
-                summary: "A city has reached 15 [Population] Population for the first time in the world.",
+                name: "TXT_KEY_MOMENT_WORLDS_FIRST_LARGE_CITY_TITLE",
+                summary: "TXT_KEY_MOMENT_WORLDS_FIRST_LARGE_CITY_SUMMARY",
+                instanceText: "TXT_KEY_MOMENT_WORLDS_FIRST_LARGE_CITY_INSTANCE",
                 category: .major,
                 eraScore: 2
             )
@@ -1198,19 +1206,21 @@ public enum MomentType {
                 eraScore: 2
             )
 
-        case .cityReturnsToOriginalOwner:
+        case .cityReturnsToOriginalOwner(cityName: _, originalCivilization: _):
             return MomentTypeData(
-                name: "City Returns to Original Owner",
-                summary: "A city has returned to its original owner.",
+                name: "TXT_KEY_MOMENT_CITY_RETURNS_TO_ORIGINAL_OWNER_TITLE",
+                summary: "TXT_KEY_MOMENT_CITY_RETURNS_TO_ORIGINAL_OWNER_SUMMARY",
+                instanceText: "TXT_KEY_MOMENT_CITY_RETURNS_TO_ORIGINAL_OWNER_INSTANCE",
                 category: .minor,
                 eraScore: 2
             )
         // case .cityStateArmyLevied:
         // case .coastalFloodMitigated:
-        case .desertCity:
+        case .desertCity(cityName: _):
             return MomentTypeData(
-                name: "Desert City",
-                summary: "A city is established on difficult Desert terrain, expanding your reach into the wilds.",
+                name: "TXT_KEY_MOMENT_DESERT_CITY_TITLE",
+                summary: "TXT_KEY_MOMENT_DESERT_CITY_SUMMARY",
+                instanceText: "TXT_KEY_MOMENT_DESERT_CITY_INSTANCE",
                 category: .minor,
                 eraScore: 1
             )
@@ -1441,6 +1451,7 @@ extension MomentType: Codable {
         case feature // FeatureType
         case civilization // CivilizationType
         case wonder // WonderType
+        case cityName // String
     }
 
     public init(from decoder: Decoder) throws {
@@ -1478,4 +1489,295 @@ extension MomentType: Codable {
 
 extension MomentType: Equatable {
 
+    public static func == (lhs: MomentType, rhs: MomentType) -> Bool {
+
+        switch (lhs, rhs) {
+
+        case (.admiralDefeatsEnemy, .admiralDefeatsEnemy):
+            return true
+        case (.allGovernorsAppointed, .allGovernorsAppointed):
+            return true
+        case (.canalCompleted, .canalCompleted):
+            return true
+        case (.cityNearFloodableRiver, .cityNearFloodableRiver):
+            return true
+        case (.cityNearVolcano, .cityNearVolcano):
+            return true
+        case (.cityOfAwe, .cityOfAwe):
+            return true
+        case (.cityOnNewContinent(cityName: _, continentName: _), .cityOnNewContinent(cityName: _, continentName: _)):
+            return true
+        // case cityStatesFirstSuzerain
+        // case cityStateArmyLeviedNearEnemy
+        // case climateChangePhase
+        case (.darkAgeBegins, .darkAgeBegins):
+            return true
+        case (.discoveryOfANaturalWonder(naturalWonder: _), .discoveryOfANaturalWonder(naturalWonder: _)):
+            return true
+        // case emergencyCompletedSuccessfully
+        // case emergencySuccessfullyDefended
+        case (.enemyCityAdoptsOurReligion, enemyCityAdoptsOurReligion):
+            return true
+        // case enemyCityStatePacified
+        case (.enemyFormationDefeated, .enemyFormationDefeated):
+            return true
+        case (.enemyVeteranDefeated, .enemyVeteranDefeated):
+            return true
+        case (.exoplanetExpeditionLaunched, .exoplanetExpeditionLaunched):
+            return true
+        case (.finalForeignCityTaken, .finalForeignCityTaken):
+            return true
+        case (.firstAerodromeFullyDeveloped, .firstAerodromeFullyDeveloped):
+            return true
+        case (.firstBustlingCity(cityName: _), .firstBustlingCity(cityName: _)):
+            return true
+        case (.firstCivicOfNewEra(eraType: _), .firstCivicOfNewEra(eraType: _)):
+            return true
+        // case firstCorporationCreated
+        // case firstCorporationInTheWorld
+        case (.firstDiscoveryOfANaturalWonder, .firstDiscoveryOfANaturalWonder):
+            return true
+        case (.firstDiscoveryOfANewContinent, .firstDiscoveryOfANewContinent):
+            return true
+        case (.firstEncampmentFullyDeveloped, .firstEncampmentFullyDeveloped):
+            return true
+        case (.firstEnormousCity(cityName: _), .firstEnormousCity(cityName: _)):
+            return true
+        case (.firstEntertainmentComplexFullyDeveloped, .firstEntertainmentComplexFullyDeveloped):
+            return true
+        case (.firstGiganticCity(cityName: _), .firstGiganticCity(cityName: _)):
+            return true
+        // case firstGreenImprovement
+        // case firstGreenImprovementInWorld
+        // case firstHeroClaimed
+        // case firstHeroDeparted
+        // case firstHeroRecalled
+        // case firstImprovementAfterNaturalDisaster
+        // case firstIndustryCreated
+        // case firstIndustryInTheWorld
+        case (.firstLargeCity(cityName: _), .firstLargeCity(cityName: _)):
+            return true
+        // case firstLuxuryResourceMonopoly
+        // case firstLuxuryResourceMonopolyInTheWorld
+        // case firstMasterSpyEarned
+        // case firstMountainTunnel
+        // case firstMountainTunnelInTheWorld
+        case (.firstNeighborhoodCompleted, .firstNeighborhoodCompleted):
+            return true
+        // case firstRailroadConnection
+        // case firstRailroadConnectionInWorld
+        // case firstResourceConsumedForPower
+        // case firstResourceConsumedForPowerInWorld
+        // case firstRockBandConcert
+        // case firstRockBandConcertInWorld
+        // case firstSeasideResort
+        case (.firstShipwreckExcavated, .firstShipwreckExcavated):
+            return true
+        case (.firstTechnologyOfNewEra(eraType: _), .firstTechnologyOfNewEra(eraType: _)):
+            return true
+        case (.firstTier1Government(governmentType: _), .firstTier1Government(governmentType: _)):
+            return true
+        case (.firstTier1GovernmentInWorld(governmentType: _), .firstTier1GovernmentInWorld(governmentType: _)):
+            return true
+        case (.firstTier2Government(governmentType: _), .firstTier2Government(governmentType: _)):
+            return true
+        case (.firstTier2GovernmentInWorld(governmentType: _), .firstTier2GovernmentInWorld(governmentType: _)):
+            return true
+        case (.firstTier3Government(governmentType: _), .firstTier3Government(governmentType: _)):
+            return true
+        case (.firstTier3GovernmentInWorld(governmentType: _), .firstTier3GovernmentInWorld(governmentType: _)):
+            return true
+        case (.firstTier4Government(governmentType: _), .firstTier4Government(governmentType: _)):
+            return true
+        case (.firstTier4GovernmentInWorld(governmentType: _), .firstTier4GovernmentInWorld(governmentType: _)):
+            return true
+        case (.firstTradingPostsInAllCivilizations, .firstTradingPostsInAllCivilizations):
+            return true
+        case (.firstUnitPromotedWithDistinction, .firstUnitPromotedWithDistinction):
+            return true
+        // case firstWaterParkFullyDeveloped
+        // case freeCityJoins
+        case (.generalDefeatsEnemy, .generalDefeatsEnemy):
+            return true
+        case (.goldenAgeBegins, .goldenAgeBegins):
+            return true
+        case (.governorFullyPromoted, .governorFullyPromoted):
+            return true
+        // case greatPersonLuredByFaith
+        // case greatPersonLuredByGold
+        case (.heroicAgeBegins, .heroicAgeBegins):
+            return true
+        // case inquisitionBegins
+        // case leviedArmyStandsDown
+        case (.metAllCivilizations, .metAllCivilizations):
+            return true
+        case (.nationalParkFounded, .nationalParkFounded):
+            return true
+        case (.normalAgeBegins, .normalAgeBegins):
+            return true
+        case (.onTheWaves, .onTheWaves):
+            return true
+        case (.religionAdoptsAllBeliefs, .religionAdoptsAllBeliefs):
+            return true
+        case (.religionFounded(religion: _), .religionFounded(religion: _)):
+            return true
+        case (.rivalHolyCityConverted, .rivalHolyCityConverted):
+            return true
+        case (.splendidCampusCompleted, .splendidCampusCompleted):
+            return true
+        case (.splendidCommercialHubCompleted, .splendidCommercialHubCompleted):
+            return true
+        case (.splendidHarborCompleted, .splendidHarborCompleted):
+            return true
+        case (.splendidHolySiteCompleted, .splendidHolySiteCompleted):
+            return true
+        case (.splendidIndustrialZoneCompleted, .splendidIndustrialZoneCompleted):
+            return true
+        case (.splendidTheaterSquareCompleted, .splendidTheaterSquareCompleted):
+            return true
+        case (.takingFlight, .takingFlight):
+            return true
+        case (.threateningCampDestroyed, .threateningCampDestroyed):
+            return true
+        case (.tradingPostsInAllCivilizations, .tradingPostsInAllCivilizations):
+            return true
+        // case uniqueBuildingConstructed
+        // case uniqueDistrictCompleted
+        // case uniqueTileImprovementBuilt
+        // case uniqueUnitMarches
+        // case worldsFirstArmada
+        // case worldsFirstArmy
+        case (.worldsFirstBustlingCity(cityName: _), .worldsFirstBustlingCity(cityName: _)):
+            return true
+        case (.worldsFirstCircumnavigation, .worldsFirstCircumnavigation):
+            return true
+        case (.worldsFirstCivicOfNewEra(eraType: _), .worldsFirstCivicOfNewEra(eraType: _)):
+            return true
+        // case worldsFirstCorps
+        case (.worldsFirstEnormousCity(cityName: _), .worldsFirstEnormousCity(cityName: _)):
+            return true
+        case (.worldsFirstExoplanetExpeditionLaunched, .worldsFirstExoplanetExpeditionLaunched):
+            return true
+        case (.worldsFirstFleet, .worldsFirstFleet):
+            return true
+        case (.worldsFirstFlight, .worldsFirstFlight):
+            return true
+        case (.worldsFirstGiganticCity(cityName: _), .worldsFirstGiganticCity(cityName: _)):
+            return true
+
+        // worldsFirstInquisition
+        case (.worldsFirstLandingOnTheMoon, .worldsFirstLandingOnTheMoon):
+            return true
+        case (.worldsFirstLargeCity(cityName: _), .worldsFirstLargeCity(cityName: _)):
+            return true
+        case (.worldsFirstMartianColonyEstablished, .worldsFirstMartianColonyEstablished):
+            return true
+        case (.worldsFirstNationalPark, .worldsFirstNationalPark):
+            return true
+        case (.worldsFirstNeighborhood, .worldsFirstNeighborhood):
+            return true
+        case (.worldsFirstPantheon, .worldsFirstPantheon):
+            return true
+        case (.worldsFirstReligion, .worldsFirstReligion):
+            return true
+        case (.worldsFirstReligionToAdoptAllBeliefs, .worldsFirstReligionToAdoptAllBeliefs):
+            return true
+        case (.worldsFirstSatelliteInOrbit, .worldsFirstSatelliteInOrbit):
+            return true
+        case (.worldsFirstSeafaring, .worldsFirstSeafaring):
+            return true
+        case (.worldsFirstSeasideResort, .worldsFirstSeasideResort):
+            return true
+        case (.worldsFirstShipwreckExcavated, .worldsFirstShipwreckExcavated):
+            return true
+        case (.worldsFirstStrategicResourcePotentialUnleashed, .worldsFirstStrategicResourcePotentialUnleashed):
+            return true
+        case (.worldsFirstTechnologyOfNewEra(eraType: _), .worldsFirstTechnologyOfNewEra(eraType: _)):
+            return true
+        case (.worldsFirstToMeetAllCivilizations, .worldsFirstToMeetAllCivilizations):
+            return true
+        case (.worldsLargestCivilization, .worldsLargestCivilization):
+            return true
+        case (.worldCircumnavigated, .worldCircumnavigated):
+            return true
+
+        // minor
+        case (.aggressiveCityPlacement, .aggressiveCityPlacement):
+            return true
+        case (.artifactExtracted, .artifactExtracted):
+            return true
+        case (.barbarianCampDestroyed, .barbarianCampDestroyed):
+            return true
+        case (.causeForWar(warType: _, civilizationType: _), .causeForWar(warType: _, civilizationType: _)):
+            return true
+        case (.cityReturnsToOriginalOwner(cityName: _, originalCivilization: _), .cityReturnsToOriginalOwner(cityName: _, originalCivilization: _)):
+            return true
+        // case cityStateArmyLevied // #
+        // case coastalFloodMitigated // #
+        case (.desertCity(cityName: _), .desertCity(cityName: _)):
+            return true
+        case (.diplomaticVictoryResolutionWon, .diplomaticVictoryResolutionWon):
+            return true
+        // case firstArmada
+        case (.firstArmy, .firstArmy):
+            return true
+        // case firstCorps // #
+        case (.firstFleet, .firstFleet):
+            return true
+        case (.foreignCapitalTaken, .foreignCapitalTaken):
+            return true
+        case (.greatPersonRecruited, .greatPersonRecruited):
+            return true
+        // case heroClaimed // #
+        // case heroDeparted // #
+        // case heroRecalled // #
+        case (.landedOnTheMoon, .landedOnTheMoon):
+            return true
+        case (.manhattanProjectCompleted, .manhattanProjectCompleted):
+            return true
+        case (.martianColonyEstablished, .martianColonyEstablished):
+            return true
+        case (.masterSpyEarned, .masterSpyEarned):
+            return true
+        case (.metNewCivilization(civilization: _), .metNewCivilization(civilization: _)):
+            return true
+        case (.oldGreatPersonRecruited, .oldGreatPersonRecruited):
+            return true
+        case (.oldWorldWonderCompleted, .oldWorldWonderCompleted):
+            return true
+        // case operationIvyCompleted
+        case (.pantheonFounded, .pantheonFounded):
+            return true
+        case (.riverFloodMitigated, .riverFloodMitigated):
+            return true
+        case (.satelliteLaunchedIntoOrbit, .satelliteLaunchedIntoOrbit):
+            return true
+        case (.snowCity(cityName: _), .snowCity(cityName: _)):
+            return true
+        case (.strategicResourcePotentialUnleashed, .strategicResourcePotentialUnleashed):
+            return true
+        case (.tradingPostEstablishedInNewCivilization(civilization: _), .tradingPostEstablishedInNewCivilization(civilization: _)):
+            return true
+        case (.tribalVillageContacted, .tribalVillageContacted):
+            return true
+        case (.tundraCity(cityName: _), .tundraCity(cityName: _)):
+            return true
+        case (.unitPromotedWithDistinction, .unitPromotedWithDistinction):
+            return true
+        case (.wonderCompleted(wonder: _), .wonderCompleted(wonder: _)):
+            return true
+
+        // hidden
+        case (.constructSpecialtyDistrict, .constructSpecialtyDistrict):
+            return true
+        case (.shipSunk, .shipSunk):
+            return true
+        case (.battleFought, .battleFought):
+            return true
+
+        default:
+            print("try to compare \(lhs) with \(rhs)")
+            return false
+        }
+    }
 }

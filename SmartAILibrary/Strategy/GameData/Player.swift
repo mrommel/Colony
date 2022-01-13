@@ -2644,7 +2644,8 @@ public class Player: AbstractPlayer {
 
                 // only from second city (capital == first city is also founded on a 'new' continent)
                 if !gameModel.cities(of: self).isEmpty {
-                    self.addMoment(of: .cityOnNewContinent, in: gameModel)
+                    let momentType: MomentType = .cityOnNewContinent(cityName: cityName, continentName: tileContinent.name())
+                    self.addMoment(of: momentType, in: gameModel)
                 }
             }
         }
@@ -2654,7 +2655,7 @@ public class Player: AbstractPlayer {
         }
 
         if tile.terrain() == .desert {
-            self.addMoment(of: .desertCity, in: gameModel)
+            self.addMoment(of: .desertCity(cityName: cityName), in: gameModel)
         }
 
         if tile.terrain() == .snow {

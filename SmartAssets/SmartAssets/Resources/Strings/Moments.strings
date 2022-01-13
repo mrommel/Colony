@@ -6,6 +6,8 @@
   
 */
 
+// https://civilization.fandom.com/wiki/Module:Data/Civ6/RF/Moments
+
 // admiralDefeatsEnemy
 "TXT_KEY_MOMENT_ADMIRAL_DEFEATS_ENEMY_TITLE" = "Admiral Defeats Enemy";
 "TXT_KEY_MOMENT_ADMIRAL_DEFEATS_ENEMY_SUMMARY" = "One of your [GreatAdmiral] Great Admirals has overseen their first victorious offensive against an enemy unit.";
@@ -94,15 +96,14 @@ case .firstAerodromeFullyDeveloped:
         category: .major,
         eraScore: 3
     )
+*/
 
-case .firstBustlingCity:
-    return MomentTypeData(
-        name: "First Bustling City",
-        summary: "A city has reached 10 [Population] Population for the first time in your civilization.",
-        category: .major,
-        eraScore: 1
-    )
+// firstBustlingCity
+"TXT_KEY_MOMENT_FIRST_BUSTLING_CITY_TITLE" = "First Bustling City";
+"TXT_KEY_MOMENT_FIRST_BUSTLING_CITY_SUMMARY" = "A city has reached 10 [Population] Population for the first time in your civilization.";
+"TXT_KEY_MOMENT_FIRST_BUSTLING_CITY_INSTANCE" = "%@ grows and its people take pride in the thriving metropolitan life.";
 
+/*
 case .firstCivicOfNewEra:
     return MomentTypeData(
         name: "First Civic of New Era",
@@ -137,15 +138,14 @@ case .firstEncampmentFullyDeveloped:
         category: .major,
         eraScore: 3
     )
+*/
 
-case .firstEnormousCity:
-    return MomentTypeData(
-        name: "First Enormous City",
-        summary: "A city has reached 20 [Population] Population for the first time in your civilization.",
-        category: .major,
-        eraScore: 1
-    )
+// firstEnormousCity
+"TXT_KEY_MOMENT_FIRST_ENORMOUS_CITY_TITLE" = "First Enormous City";
+"TXT_KEY_MOMENT_FIRST_ENORMOUS_CITY_SUMMARY" = "A city has reached 20 [Population] Population for the first time in your civilization.";
+"TXT_KEY_MOMENT_FIRST_ENORMOUS_CITY_INSTANCE" = "%@ grows and its people take pride in the thriving metropolitan life.";
 
+/*
 case .firstEntertainmentComplexFullyDeveloped:
     return MomentTypeData(
         name: "First Entertainment Complex Fully Developed",
@@ -153,15 +153,14 @@ case .firstEntertainmentComplexFullyDeveloped:
         category: .major,
         eraScore: 3
     )
+*/
 
-case .firstGiganticCity:
-    return MomentTypeData(
-        name: "First Gigantic City",
-        summary: "A city has reached 25 [Population] Population for the first time in your civilization.",
-        category: .major,
-        eraScore: 1
-    )
+// firstGiganticCity
+"TXT_KEY_MOMENT_FIRST_GIGANTIC_CITY_TITLE" = "First Gigantic City";
+"TXT_KEY_MOMENT_FIRST_GIGANTIC_CITY_SUMMARY" = "A city has reached 25 [Population] Population for the first time in your civilization.";
+"TXT_KEY_MOMENT_FIRST_GIGANTIC_CITY_INSTANCE" = "From its towers to its tenements, the citizens of %@ are linked by their civic pride in our civilization’s largest city.";
 
+/*
 // case firstGreenImprovement
 // case First Green Improvement in World
 // case First Hero Claimed
@@ -170,15 +169,14 @@ case .firstGiganticCity:
 // case First Improvement after Natural Disaster
 // case First Industry Created
 // case First Industry in the World
+*/
 
-case .firstLargeCity:
-    return MomentTypeData(
-        name: "First Large City",
-        summary: "A city has reached 15 [Population] Population for the first time in your civilization.",
-        category: .major,
-        eraScore: 1
-    )
+// firstLargeCity
+"TXT_KEY_MOMENT_FIRST_LARGE_CITY_TITLE" = "First Large City";
+"TXT_KEY_MOMENT_FIRST_LARGE_CITY_SUMMARY" = "A city has reached 15 [Population] Population for the first time in your civilization";
+"TXT_KEY_MOMENT_FIRST_LARGE_CITY_INSTANCE" = "%@ expands further, and becomes the largest city of our people.";
 
+/*
 // case firstLuxuryResourceMonopoly
 // case firstLuxuryResourceMonopolyInTheWorld
 // case firstMasterSpyEarned
@@ -428,15 +426,12 @@ case .tradingPostsInAllCivilizations:
 // Unique Unit Marches
 // World's First Armada
 // World's First Army
-
-case .worldsFirstBustlingCity:
-    return MomentTypeData(
-        name: "World's First Bustling City",
-        summary: "A city has reached 10 [Population] Population for the first time in the world.",
-        category: .major,
-        eraScore: 2
-    )
 */
+
+// worldsFirstBustlingCity
+"TXT_KEY_MOMENT_WORLDS_FIRST_BUSTLING_CITY_TITLE" = "World's First Bustling City";
+"TXT_KEY_MOMENT_WORLDS_FIRST_BUSTLING_CITY_SUMMARY" = "A city has reached 10 [Population] Population for the first time in the world.";
+"TXT_KEY_MOMENT_WORLDS_FIRST_BUSTLING_CITY_INSTANCE" = "Visitors speak in awe of %@, the largest city in the world. How do so many people live together in peace?";
 
 // worldsFirstCircumnavigation
 "TXT_KEY_MOMENT_WORLDS_FIRST_CIRCUMNAVIGATION_TITLE" = "World's First Circumnavigation";
@@ -451,16 +446,15 @@ case .worldsFirstCivicOfNewEra:
         eraScore: 2
     )
 
-// World's First Corps
+// worldsFirstCorps
+ */
 
-case .worldsFirstEnormousCity:
-    return MomentTypeData(
-        name: "World's First Enormous City",
-        summary: "A city has reached 20 [Population] Population for the first time in the world.",
-        category: .major,
-        eraScore: 2
-    )
+// worldsFirstEnormousCity
+"TXT_KEY_MOMENT_WORLDS_FIRST_ENORMOUS_CITY_TITLE" = "World's First Enormous City";
+"TXT_KEY_MOMENT_WORLDS_FIRST_ENORMOUS_CITY_SUMMARY" = "A city has reached 20 [Population] Population for the first time in the world.";
+"TXT_KEY_MOMENT_WORLDS_FIRST_ENORMOUS_CITY_INSTANCE" = "They say you haven't lived until you've seen the crowds in %@ walking its boulevards and avenues, and taken in the spectacle of humanity's largest city.";
 
+/*
 case .worldsFirstExoplanetExpeditionLaunched:
     return MomentTypeData(
         name: "World's First Exoplanet Expedition Launched",
@@ -484,15 +478,14 @@ case .worldsFirstFlight:
         category: .major,
         eraScore: 5
     )
+*/
 
-case .worldsFirstGiganticCity:
-    return MomentTypeData(
-        name: "World's First Gigantic City",
-        summary: "A city has reached 25 [Population] Population for the first time in the world.",
-        category: .major,
-        eraScore: 2
-    )
+// worldsFirstGiganticCity
+"TXT_KEY_MOMENT_WORLDS_FIRST_GIGANTIC_CITY_TITLE" = "World's First Gigantic City";
+"TXT_KEY_MOMENT_WORLDS_FIRST_GIGANTIC_CITY_SUMMARY" = "A city has reached 25 [Population] Population for the first time in the world.";
+"TXT_KEY_MOMENT_WORLDS_FIRST_GIGANTIC_CITY_INSTANCE" = "Bustling and cosmopolitan, %@ never sleeps, but the stories of its citizens weave together into a magnificent shared waking dream.";
 
+/*
 // World's First Inquisition
 
 case .worldsFirstLandingOnTheMoon:
@@ -502,15 +495,14 @@ case .worldsFirstLandingOnTheMoon:
         category: .major,
         eraScore: 4
     )
+*/
 
-case .worldsFirstLargeCity:
-    return MomentTypeData(
-        name: "World's First Large City",
-        summary: "A city has reached 15 [Population] Population for the first time in the world.",
-        category: .major,
-        eraScore: 2
-    )
+// worldsFirstLargeCity
+"TXT_KEY_MOMENT_WORLDS_FIRST_LARGE_CITY_TITLE" = "World's First Large City";
+"TXT_KEY_MOMENT_WORLDS_FIRST_LARGE_CITY_SUMMARY" = "A city has reached 15 [Population] Population for the first time in the world.";
+"TXT_KEY_MOMENT_WORLDS_FIRST_LARGE_CITY_INSTANCE" = "The residents of %@ brag of living in the world's largest, most sophisticated city.";
 
+/*
 case .worldsFirstMartianColonyEstablished:
     return MomentTypeData(
         name: "World's First Martian Colony Established",
@@ -602,24 +594,20 @@ case .artifactExtracted:
 "TXT_KEY_MOMENT_CAUSE_FOR_WAR_SUMMARY" = "You have utilized a Casus Belli to make war on another civilization.";
 "TXT_KEY_MOMENT_CAUSE_FOR_WAR_INSTANCE" = "The world agrees that our %1$@ against %2$@ is well justified."; // WarType + TargetPlayerCivName
 
-/*
-case .cityReturnsToOriginalOwner:
-    return MomentTypeData(
-        name: "City Returns to Original Owner",
-        summary: "A city has returned to its original owner.",
-        category: .minor,
-        eraScore: 2
-    )
-// case .cityStateArmyLevied:
-// case .coastalFloodMitigated:
-case .desertCity:
-    return MomentTypeData(
-        name: "Desert City",
-        summary: "A city is established on difficult Desert terrain, expanding your reach into the wilds.",
-        category: .minor,
-        eraScore: 1
-    )
+// cityReturnsToOriginalOwner
+"TXT_KEY_MOMENT_CITY_RETURNS_TO_ORIGINAL_OWNER_TITLE" = "City Returns to Original Owner";
+"TXT_KEY_MOMENT_CITY_RETURNS_TO_ORIGINAL_OWNER_SUMMARY" = "A city has returned to its original owner.";
+"TXT_KEY_MOMENT_CITY_RETURNS_TO_ORIGINAL_OWNER_INSTANCE" = "%@ returns to %@ once more!";
 
+// cityStateArmyLevied
+// coastalFloodMitigated
+
+// desertCity
+"TXT_KEY_MOMENT_DESERT_CITY_TITLE" = "Desert City";
+"TXT_KEY_MOMENT_DESERT_CITY_SUMMARY" = "A city is established on difficult Desert terrain, expanding your reach into the wilds.";
+"TXT_KEY_MOMENT_DESERT_CITY_INSTANCE" = "Visitors complain about the heat of %@, but at least it's a dry heat.";
+
+/*
 case .diplomaticVictoryResolutionWon:
     return MomentTypeData(
         name: "Diplomatic Victory Resolution Won",
