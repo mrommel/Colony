@@ -40,6 +40,7 @@ public enum LabelImageType {
     case citizen
     case governor
 
+    case greatPerson
     case greatAdmiral
     case greatGeneral
 
@@ -68,7 +69,9 @@ public enum LabelImageType {
         case "[Strength]": return .strength
         case "[Citizen]": return .citizen
         case "[Governor]": return .governor
+        case "[Population]": return .citizen
 
+        case "[GreatPerson]": return .greatPerson
         case "[GreatAdmiral]": return .greatAdmiral
         case "[GreatGeneral]": return .greatGeneral
 
@@ -103,6 +106,7 @@ public enum LabelImageType {
         case .citizen: return Globals.Icons.citizen
         case .governor: return Globals.Icons.governor
 
+        case .greatPerson: return Globals.Icons.greatPerson
         case .greatAdmiral: return Globals.Icons.greatAdmiral
         case .greatGeneral: return Globals.Icons.greatGeneral
 

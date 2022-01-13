@@ -38,7 +38,7 @@ class TechProgressViewModel: ObservableObject {
     }
 
 #if DEBUG
-init(techType: TechType, progress: Int, turns: Int, boosted: Bool) {
+    init(techType: TechType, progress: Int, turns: Int, boosted: Bool) {
 
         self.techType = techType
         self.progress = progress

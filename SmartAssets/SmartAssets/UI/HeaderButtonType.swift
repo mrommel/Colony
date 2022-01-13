@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum HeaderButtonType {
+public enum HeaderButtonType: CaseIterable {
 
     case science
     case culture

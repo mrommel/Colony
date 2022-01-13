@@ -47,6 +47,7 @@
 		C92F9491265E262A000968AB /* CityCitizenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92F9490265E262A000968AB /* CityCitizenViewModel.swift */; };
 		C939DDD52684D396001CBC6C /* CityBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C939DDD42684D396001CBC6C /* CityBannerViewModel.swift */; };
 		C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA6AA260F24640053DF74 /* CGRectExtension.swift */; };
+		C93D38D42790AF09005D421F /* GameViewModel+Preloading.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D38D32790AF09005D421F /* GameViewModel+Preloading.swift */; };
 		C93FD2CF2732F788003348FB /* ScoreRankingDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93FD2CE2732F788003348FB /* ScoreRankingDialogView.swift */; };
 		C93FD2D12732F7FB003348FB /* ScoreRankingDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93FD2D02732F7FB003348FB /* ScoreRankingDialogViewModel.swift */; };
 		C93FD2D32732F8C5003348FB /* ScoreRankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93FD2D22732F8C5003348FB /* ScoreRankingViewModel.swift */; };
@@ -346,6 +347,7 @@
 		C92F9490265E262A000968AB /* CityCitizenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCitizenViewModel.swift; sourceTree = "<group>"; };
 		C939DDD42684D396001CBC6C /* CityBannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityBannerViewModel.swift; sourceTree = "<group>"; };
 		C93AA6AA260F24640053DF74 /* CGRectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExtension.swift; sourceTree = "<group>"; };
+		C93D38D32790AF09005D421F /* GameViewModel+Preloading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameViewModel+Preloading.swift"; sourceTree = "<group>"; };
 		C93FD2CE2732F788003348FB /* ScoreRankingDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreRankingDialogView.swift; sourceTree = "<group>"; };
 		C93FD2D02732F7FB003348FB /* ScoreRankingDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreRankingDialogViewModel.swift; sourceTree = "<group>"; };
 		C93FD2D22732F8C5003348FB /* ScoreRankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreRankingViewModel.swift; sourceTree = "<group>"; };
@@ -820,6 +822,7 @@
 				C9B71F0D278E29580091BADD /* BottomLeftBarViewModel.swift */,
 				C9B5E9132757CD3E001E0A94 /* BottomRightBarViewModel.swift */,
 				C9BDCF8C2624771C002488F6 /* GameViewModel.swift */,
+				C93D38D32790AF09005D421F /* GameViewModel+Preloading.swift */,
 				C9A8F0D62651969D00584199 /* GameViewModelDialogs.swift */,
 				C9FBBE3D26837991005D7CE6 /* TopBarViewModel.swift */,
 				C9A8F0DA2651A61E00584199 /* NotificationsViewModel.swift */,
@@ -1279,6 +1282,7 @@
 				C9CE216B2649675B00B47ED4 /* MenuButtonStyle.swift in Sources */,
 				C980E77526E21EAE0089053A /* CombatUnitViewModel.swift in Sources */,
 				C93FD2D927331E20003348FB /* ScienceRankingViewModel.swift in Sources */,
+				C93D38D42790AF09005D421F /* GameViewModel+Preloading.swift in Sources */,
 				C980E77926E250F60089053A /* CombatPromotionViewModel.swift in Sources */,
 				C9072E832732B41200560429 /* OverallRankingViewModel.swift in Sources */,
 				C94816C126A82DB000765029 /* TradeCityView.swift in Sources */,

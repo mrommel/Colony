@@ -155,6 +155,10 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "governor")
         }
 
+        public static var greatPerson: NSImage {
+            return Icons.loadCachedTexture(with: "greatPerson")
+        }
+
         public static var greatAdmiral: NSImage {
             return Icons.loadCachedTexture(with: "greatAdmiral")
         }
