@@ -51,6 +51,14 @@ class MomentViewModel: ObservableObject {
             let translatedFormatText = self.momentType.instanceText().localized()
             return String(format: translatedFormatText, warType.name().localized(), civilizationType.name().localized())
 
+        case .snowCity(cityName: let cityName):
+            let translatedFormatText = self.momentType.instanceText().localized()
+            return String(format: translatedFormatText, cityName)
+
+        case .tradingPostEstablishedInNewCivilization(civilization: let civilization):
+            let translatedFormatText = self.momentType.instanceText().localized()
+            return String(format: translatedFormatText, civilization.name().localized())
+
         case .tundraCity(cityName: let cityName):
             let translatedFormatText = self.momentType.instanceText().localized()
             return String(format: translatedFormatText, cityName)

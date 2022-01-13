@@ -743,15 +743,14 @@ case .satelliteLaunchedIntoOrbit:
         category: .minor,
         eraScore: 2
     )
+*/
 
-case .snowCity:
-    return MomentTypeData(
-        name: "Snow City",
-        summary: "A city is established on difficult Snow terrain, expanding your reach into the wilds.",
-        category: .minor,
-        eraScore: 1
-    )
+// snowCity
+"TXT_KEY_MOMENT_SNOW_CITY_TITLE" = "Snow City";
+"TXT_KEY_MOMENT_SNOW_CITY_SUMMARY" = "A city is established on difficult Snow terrain, expanding your reach into the wilds.";
+"TXT_KEY_MOMENT_SNOW_CITY_INSTANCE" = "The citizens of %@ have a hundred words for \"snow.\"";
 
+/*
 case .strategicResourcePotentialUnleashed:
     return MomentTypeData(
         name: "Strategic Resource Potential Unleashed",
@@ -759,20 +758,16 @@ case .strategicResourcePotentialUnleashed:
         category: .minor,
         eraScore: 1
     )
-
-case .tradingPostEstablishedInNewCivilization:
-    return MomentTypeData(
-        name: "Trading Post Established in New Civilization",
-        summary: "You have established your first  Trading Post in this civilization, opening up access to new markets.",
-        category: .minor,
-        eraScore: 1
-    )
-*/
+ */
+// tradingPostEstablishedInNewCivilization
+"TXT_KEY_MOMENT_TRADING_POST_ESTABLISHED_IN_NEW_CIVILIZATION_TITLE" = "Trading Post Established in New Civilization";
+"TXT_KEY_MOMENT_TRADING_POST_ESTABLISHED_IN_NEW_CIVILIZATION_SUMMARY" = "You have established your first [TradingPost] Trading Post in this civilization, opening up access to new markets.";
+"TXT_KEY_MOMENT_TRADING_POST_ESTABLISHED_IN_NEW_CIVILIZATION_INSTANCE" = "Dusty and tired but eager to haggle, merchants open our first Trading Post in the lands of %@.";
 
 // tribalVillageContacted
-"TXT_KEY_MOMENT_TRIBAL_VILLAGECONTACTED_TITLE" = "Tribal Village Contacted";
-"TXT_KEY_MOMENT_TRIBAL_VILLAGECONTACTED_SUMMARY" = "A Tribal Village was contacted, giving strength to our budding cities.";
-"TXT_KEY_MOMENT_TRIBAL_VILLAGECONTACTED_INSTANCE" = "Villagers bring gifts as they join our civilization.";
+"TXT_KEY_MOMENT_TRIBAL_VILLAGE_CONTACTED_TITLE" = "Tribal Village Contacted";
+"TXT_KEY_MOMENT_TRIBAL_VILLAGE_CONTACTED_SUMMARY" = "A Tribal Village was contacted, giving strength to our budding cities.";
+"TXT_KEY_MOMENT_TRIBAL_VILLAGE_CONTACTED_INSTANCE" = "Villagers bring gifts as they join our civilization.";
 
 // tundraCity
 "TXT_KEY_MOMENT_TUNDRA_CITY_TITLE" = "Tundra City";

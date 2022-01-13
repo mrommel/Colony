@@ -175,9 +175,9 @@ public enum MomentType {
     case pantheonFounded
     case riverFloodMitigated // #
     case satelliteLaunchedIntoOrbit // #
-    case snowCity
+    case snowCity(cityName: String)
     case strategicResourcePotentialUnleashed // #
-    case tradingPostEstablishedInNewCivilization
+    case tradingPostEstablishedInNewCivilization(civilization: CivilizationType)
     case tribalVillageContacted
     case tundraCity(cityName: String)
     case unitPromotedWithDistinction
@@ -345,9 +345,9 @@ public enum MomentType {
         .pantheonFounded,
         .riverFloodMitigated,
         .satelliteLaunchedIntoOrbit,
-        .snowCity,
+        .snowCity(cityName: ""),
         .strategicResourcePotentialUnleashed,
-        .tradingPostEstablishedInNewCivilization,
+        .tradingPostEstablishedInNewCivilization(civilization: CivilizationType.unmet),
         .tribalVillageContacted,
         .tundraCity(cityName: ""),
         .unitPromotedWithDistinction,
@@ -1341,8 +1341,9 @@ public enum MomentType {
 
         case .snowCity:
             return MomentTypeData(
-                name: "Snow City",
-                summary: "A city is established on difficult Snow terrain, expanding your reach into the wilds.",
+                name: "TXT_KEY_MOMENT_SNOW_CITY_TITLE",
+                summary: "TXT_KEY_MOMENT_SNOW_CITY_SUMMARY",
+                instanceText: "TXT_KEY_MOMENT_SNOW_CITY_INSTANCE",
                 category: .minor,
                 eraScore: 1
             )
@@ -1357,17 +1358,18 @@ public enum MomentType {
 
         case .tradingPostEstablishedInNewCivilization:
             return MomentTypeData(
-                name: "Trading Post Established in New Civilization",
-                summary: "You have established your first  Trading Post in this civilization, opening up access to new markets.",
+                name: "TXT_KEY_MOMENT_TRADING_POST_ESTABLISHED_IN_NEW_CIVILIZATION_TITLE",
+                summary: "TXT_KEY_MOMENT_TRADING_POST_ESTABLISHED_IN_NEW_CIVILIZATION_SUMMARY",
+                instanceText: "TXT_KEY_MOMENT_TRADING_POST_ESTABLISHED_IN_NEW_CIVILIZATION_INSTANCE",
                 category: .minor,
                 eraScore: 1
             )
 
         case .tribalVillageContacted:
             return MomentTypeData(
-                name: "TXT_KEY_MOMENT_TRIBAL_VILLAGECONTACTED_TITLE",
-                summary: "TXT_KEY_MOMENT_TRIBAL_VILLAGECONTACTED_SUMMARY",
-                instanceText: "TXT_KEY_MOMENT_TRIBAL_VILLAGECONTACTED_INSTANCE",
+                name: "TXT_KEY_MOMENT_TRIBAL_VILLAGE_CONTACTED_TITLE",
+                summary: "TXT_KEY_MOMENT_TRIBAL_VILLAGE_CONTACTED_SUMMARY",
+                instanceText: "TXT_KEY_MOMENT_TRIBAL_VILLAGE_CONTACTED_INSTANCE",
                 category: .minor,
                 eraScore: 1,
                 minEra: .ancient,

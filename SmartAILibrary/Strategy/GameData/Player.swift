@@ -319,6 +319,9 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func checkWorldCircumnavigated(in gameModel: GameModel?)
     func hasWorldCircumnavigated() -> Bool
     func set(worldCircumnavigated: Bool)
+    func hasEverEstablishedTradingPost(with leader: LeaderType) -> Bool
+    func markEstablishedTradingPost(with leader: LeaderType)
+    func numEverEstablishedTradingPosts(in gameModel: GameModel?) -> Int
 
     // intern
     func isEqual(to other: AbstractPlayer?) -> Bool
@@ -393,6 +396,7 @@ public class Player: AbstractPlayer {
         case discoveredNaturalWonders
         case settledContinents
         case hasWorldCircumnavigated
+        case establishedTradingPosts
     }
 
     public var leader: LeaderType
@@ -472,6 +476,7 @@ public class Player: AbstractPlayer {
     private var discoveredNaturalWonders: [FeatureType] = []
     private var settledContinents: [ContinentType] = []
     private var hasWorldCircumnavigatedVal: Bool = false
+    private var establishedTradingPosts: [LeaderType] = []
 
     // MARK: constructor
 
@@ -502,6 +507,7 @@ public class Player: AbstractPlayer {
         self.discoveredNaturalWonders = []
         self.settledContinents = []
         self.hasWorldCircumnavigatedVal = false
+        self.establishedTradingPosts = []
     }
 
     public required init(from decoder: Decoder) throws {
@@ -575,6 +581,7 @@ public class Player: AbstractPlayer {
         self.discoveredNaturalWonders = try container.decode([FeatureType].self, forKey: .discoveredNaturalWonders)
         self.settledContinents = try container.decode([ContinentType].self, forKey: .settledContinents)
         self.hasWorldCircumnavigatedVal = try container.decode(Bool.self, forKey: .hasWorldCircumnavigated)
+        self.establishedTradingPosts = try container.decode([LeaderType].self, forKey: .establishedTradingPosts)
 
         // setup
         self.techs?.player = self
@@ -673,6 +680,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.discoveredNaturalWonders, forKey: .discoveredNaturalWonders)
         try container.encode(self.settledContinents, forKey: .settledContinents)
         try container.encode(self.hasWorldCircumnavigatedVal, forKey: .hasWorldCircumnavigated)
+        try container.encode(self.establishedTradingPosts, forKey: .establishedTradingPosts)
     }
     // swiftlint:enable force_cast
 
@@ -2650,7 +2658,7 @@ public class Player: AbstractPlayer {
         }
 
         if tile.terrain() == .snow {
-            self.addMoment(of: .snowCity, in: gameModel)
+            self.addMoment(of: .snowCity(cityName: cityName), in: gameModel)
         }
 
         if gameModel.isLargest(player: self) && !self.hasMoment(of: .worldsLargestCivilization) {
@@ -3551,8 +3559,26 @@ public class Player: AbstractPlayer {
             fatalError("cant get targetCity")
         }
 
-        if targetCity.player?.leader != self.leader {
-            self.addMoment(of: .tradingPostEstablishedInNewCivilization, in: gameModel)
+        guard let targetLeader = targetCity.player?.leader else {
+            fatalError("cant get target leader")
+        }
+
+        if targetLeader != self.leader {
+
+            if !self.hasEverEstablishedTradingPost(with: targetLeader) {
+                self.markEstablishedTradingPost(with: targetLeader)
+
+                self.addMoment(of: .tradingPostEstablishedInNewCivilization(civilization: targetLeader.civilization()), in: gameModel)
+
+                let possibleTradingPosts = (gameModel.players.filter { $0.isAlive() }.count - 1)
+                if self.numEverEstablishedTradingPosts(in: gameModel) == possibleTradingPosts {
+                    if gameModel.anyHasMoment(of: .firstTradingPostsInAllCivilizations) {
+                        self.addMoment(of: .tradingPostsInAllCivilizations, in: gameModel)
+                    } else {
+                        self.addMoment(of: .firstTradingPostsInAllCivilizations, in: gameModel)
+                    }
+                }
+            }
         }
 
         // no check ?
@@ -5214,6 +5240,29 @@ public class Player: AbstractPlayer {
     public func set(worldCircumnavigated: Bool) {
 
         self.hasWorldCircumnavigatedVal = worldCircumnavigated
+    }
+
+    public func hasEverEstablishedTradingPost(with leader: LeaderType) -> Bool {
+
+        return self.establishedTradingPosts.contains(leader)
+    }
+
+    public func markEstablishedTradingPost(with leader: LeaderType) {
+
+        if !self.hasEverEstablishedTradingPost(with: leader) {
+            self.establishedTradingPosts.append(leader)
+        }
+    }
+
+    public func numEverEstablishedTradingPosts(in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        return self.establishedTradingPosts
+            .filter { gameModel.player(for: $0)?.isAlive() ?? false  }
+            .count
     }
 }
 
