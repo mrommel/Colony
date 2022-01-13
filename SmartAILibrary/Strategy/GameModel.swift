@@ -961,12 +961,12 @@ open class GameModel: Codable {
     }
 
     // https://gaming.stackexchange.com/questions/51233/what-is-the-turn-length-in-civilization
-    public func turnYear() -> String {
+    public static func yearText(for turn: Int) -> String {
 
-        if self.currentTurn <= 250 {
+        if turn <= 250 {
 
             // 4000 BC - 1000 AD: 20 years per turn (total of 250 turns)
-            let year = -4000 + (self.currentTurn * 20)
+            let year = -4000 + (turn * 20)
             if year < 0 {
                 return "\(-year) BC"
             } else if year == 0 {
@@ -975,26 +975,31 @@ open class GameModel: Codable {
                 return "\(year) AD"
             }
 
-        } else if self.currentTurn <= 300 {
+        } else if turn <= 300 {
 
             // 1000 AD - 1500 AD: 10 years per turn (total of 50 turns)
-            let year = 1000 + (self.currentTurn - 250) * 10
+            let year = 1000 + (turn - 250) * 10
             return "\(year) AD"
-        } else if self.currentTurn <= 350 {
+        } else if turn <= 350 {
 
             // 1500 AD - 1750 AD: 5 years per turn (total of 50 turns)
-            let year = 1500 + (self.currentTurn - 300) * 5
+            let year = 1500 + (turn - 300) * 5
             return "\(year) AD"
-        } else if self.currentTurn <= 400 {
+        } else if turn <= 400 {
 
             // 1750 AD - 1850 AD: 2 years per turn (total of 50 turns)
-            let year = 1750 + (self.currentTurn - 350) * 2
+            let year = 1750 + (turn - 350) * 2
             return "\(year) AD"
         } else {
             // 1850 AD - End of game: 1 year per turn (total of 170 to 250 turns)
-            let year = 1850 + (self.currentTurn - 400) * 1
+            let year = 1850 + (turn - 400) * 1
             return "\(year) AD"
         }
+    }
+
+    public func turnYear() -> String {
+
+        return GameModel.yearText(for: self.currentTurn)
     }
 
     // https://gaming.stackexchange.com/questions/51233/what-is-the-turn-length-in-civilization

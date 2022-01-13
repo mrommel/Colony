@@ -26,9 +26,26 @@ struct MomentView: View {
                 .frame(width: 184, height: 134)
                 .padding(.all, 8)
 
-            Text(self.viewModel.title)
+            Label(self.viewModel.summaryText)
+                .toolTip(self.viewModel.tooltipText)
 
-            Label(self.viewModel.summary)
+            HStack {
+
+                Text(self.viewModel.yearText)
+                    .font(.caption)
+
+                Text("|")
+                    .font(.caption)
+
+                Text(self.viewModel.turnText)
+                    .font(.caption)
+
+                Text("|")
+                    .font(.caption)
+
+                Text(self.viewModel.scoreText)
+                    .font(.caption)
+            }
         }
         .frame(width: 200, height: 200)
     }

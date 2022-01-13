@@ -14,19 +14,51 @@ class MomentViewModel: ObservableObject {
     public let id: UUID = UUID()
 
     @Published
-    var title: String
+    var summaryText: String
 
     @Published
-    var summary: String
+    var tooltipText: String
+
+    @Published
+    var yearText: String
+
+    @Published
+    var turnText: String
+
+    @Published
+    var scoreText: String
 
     private let momentType: MomentType
 
     init(moment: Moment) {
 
-        self.title = moment.type.name().localized()
-        self.summary = moment.type.summary().localized()
+        self.summaryText = ""
+        self.tooltipText = moment.type.summary().localized()
+        self.yearText = GameModel.yearText(for: moment.turn)
+        self.turnText = "Turn \(moment.turn)"
+        self.scoreText = "+\(moment.type.eraScore()) Era Score"
 
         self.momentType = moment.type
+
+        self.summaryText = self.generateSummaryText()
+    }
+
+    private func generateSummaryText() -> String {
+
+        switch self.momentType {
+
+        case .causeForWar(warType: let warType, civilizationType: let civilizationType):
+            let translatedFormatText = self.momentType.instanceText().localized()
+            return String(format: translatedFormatText, warType.name().localized(), civilizationType.name().localized())
+
+        case .tundraCity(cityName: let cityName):
+            let translatedFormatText = self.momentType.instanceText().localized()
+            return String(format: translatedFormatText, cityName)
+
+        default:
+            return self.momentType.instanceText().localized()
+        }
+
     }
 
     func image() -> NSImage {

@@ -586,33 +586,23 @@ case .artifactExtracted:
         category: .minor,
         eraScore: 1
     )
+ */
 
-case .barbarianCampDestroyed:
-    return MomentTypeData(
-        name: "Barbarian Camp Destroyed",
-        summary: "A hostile barbarian camp was leveled to the ground by a unit, spreading peace through the area.",
-        category: .minor,
-        eraScore: 2,
-        minEra: .ancient,
-        maxEra: .medieval
-    )
+// barbarianCampDestroyed
+"TXT_KEY_MOMENT_BARBARIAN_CAMP_DESTROYED_TITLE" = "Barbarian Camp Destroyed";
+"TXT_KEY_MOMENT_BARBARIAN_CAMP_DESTROYED_SUMMARY" = "A hostile barbarian camp was leveled to the ground by a unit, spreading peace through the area.";
+"TXT_KEY_MOMENT_BARBARIAN_CAMP_DESTROYED_INSTANCE" = "Our forces clear a barbarian camp, and a threat to our growing civilization is vanquished.";
 
-case .battleFought:
-    return MomentTypeData(
-        name: "Battle Fought",
-        summary: "A battle was fought between adversaries. Used by the Archaeology system to potentially generate Antiquity Site resources.",
-        category: .minor,
-        eraScore: 0
-    )
+// battleFought
+"TXT_KEY_MOMENT_BATTLE_FOUGHT_TITLE" = "Battle Fought";
+"TXT_KEY_MOMENT_BATTLE_FOUGHT_SUMMARY" = "A battle was fought between adversaries. Used by the Archaeology system to potentially generate Antiquity Site resources.";
 
-case .causeForWar:
-    return MomentTypeData(
-        name: "Cause for War",
-        summary: "You have utilized a Casus Belli to make war on another civilization.",
-        category: .minor,
-        eraScore: 2
-    )
+// causeForWar
+"TXT_KEY_MOMENT_CAUSE_FOR_WAR_TITLE" = "Cause for War";
+"TXT_KEY_MOMENT_CAUSE_FOR_WAR_SUMMARY" = "You have utilized a Casus Belli to make war on another civilization.";
+"TXT_KEY_MOMENT_CAUSE_FOR_WAR_INSTANCE" = "The world agrees that our %1$@ against %2$@ is well justified."; // WarType + TargetPlayerCivName
 
+/*
 case .cityReturnsToOriginalOwner:
     return MomentTypeData(
         name: "City Returns to Original Owner",
@@ -777,25 +767,19 @@ case .tradingPostEstablishedInNewCivilization:
         category: .minor,
         eraScore: 1
     )
+*/
 
-case .tribalVillageContacted:
-    return MomentTypeData(
-        name: "Tribal Village Contacted",
-        summary: "A Tribal Village was contacted, giving strength to our budding cities.",
-        category: .minor,
-        eraScore: 1,
-        minEra: .ancient,
-        maxEra: .ancient
-    )
+// tribalVillageContacted
+"TXT_KEY_MOMENT_TRIBAL_VILLAGECONTACTED_TITLE" = "Tribal Village Contacted";
+"TXT_KEY_MOMENT_TRIBAL_VILLAGECONTACTED_SUMMARY" = "A Tribal Village was contacted, giving strength to our budding cities.";
+"TXT_KEY_MOMENT_TRIBAL_VILLAGECONTACTED_INSTANCE" = "Villagers bring gifts as they join our civilization.";
 
-case .tundraCity:
-    return MomentTypeData(
-        name: "Tundra City",
-        summary: "A city is established on difficult Tundra terrain, expanding your reach into the wilds.",
-        category: .minor,
-        eraScore: 1
-    )
+// tundraCity
+"TXT_KEY_MOMENT_TUNDRA_CITY_TITLE" = "Tundra City";
+"TXT_KEY_MOMENT_TUNDRA_CITY_SUMMARY" = "A city is established on difficult Tundra terrain, expanding your reach into the wilds.";
+"TXT_KEY_MOMENT_TUNDRA_CITY_INSTANCE" = "The citizens of %@ take pride in the land's rugged beauty and their own hardiness.";
 
+/*
 case .unitPromotedWithDistinction:
     return MomentTypeData(
         name: "Unit Promoted with Distinction",

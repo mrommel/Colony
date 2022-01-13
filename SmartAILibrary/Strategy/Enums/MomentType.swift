@@ -149,8 +149,7 @@ public enum MomentType {
     case aggressiveCityPlacement // #
     case artifactExtracted // #
     case barbarianCampDestroyed
-    case battleFought
-    case causeForWar // #
+    case causeForWar(warType: CasusBelliType, civilizationType: CivilizationType) // #
     case cityReturnsToOriginalOwner // #
     // case cityStateArmyLevied // #
     // case coastalFloodMitigated // #
@@ -180,13 +179,14 @@ public enum MomentType {
     case strategicResourcePotentialUnleashed // #
     case tradingPostEstablishedInNewCivilization
     case tribalVillageContacted
-    case tundraCity
+    case tundraCity(cityName: String)
     case unitPromotedWithDistinction
     case wonderCompleted(wonder: WonderType)
 
     // hidden
     case constructSpecialtyDistrict // for dedication monumentality
     case shipSunk // for artifacts
+    case battleFought
 
     public static var all: [MomentType] = [
 
@@ -319,8 +319,7 @@ public enum MomentType {
         .aggressiveCityPlacement,
         .artifactExtracted,
         .barbarianCampDestroyed,
-        .battleFought,
-        .causeForWar,
+        .causeForWar(warType: CasusBelliType.ancientWar, civilizationType: CivilizationType.unmet),
         .cityReturnsToOriginalOwner,
         // case cityStateArmyLevied // #
         // case coastalFloodMitigated // #
@@ -350,13 +349,14 @@ public enum MomentType {
         .strategicResourcePotentialUnleashed,
         .tradingPostEstablishedInNewCivilization,
         .tribalVillageContacted,
-        .tundraCity,
+        .tundraCity(cityName: ""),
         .unitPromotedWithDistinction,
         .wonderCompleted(wonder: WonderType.none),
 
         // hidden
         .constructSpecialtyDistrict,
-        .shipSunk
+        .shipSunk,
+        .battleFought
     ]
 
     // MARK: public methods
@@ -367,6 +367,15 @@ public enum MomentType {
     }
 
     public func summary() -> String {
+
+        return self.data().summary
+    }
+
+    public func instanceText() -> String {
+
+        if let text = self.data().instanceText {
+            return text
+        }
 
         return self.data().summary
     }
@@ -397,6 +406,7 @@ public enum MomentType {
 
         let name: String
         let summary: String
+        let instanceText: String?
         let category: MomentCategory
         let eraScore: Int
         let minEra: EraType
@@ -405,6 +415,7 @@ public enum MomentType {
         init(
             name: String,
             summary: String,
+            instanceText: String? = nil,
             category: MomentCategory,
             eraScore: Int,
             minEra: EraType = .ancient,
@@ -412,6 +423,7 @@ public enum MomentType {
 
             self.name = name
             self.summary = summary
+            self.instanceText = instanceText
             self.category = category
             self.eraScore = eraScore
             self.minEra = minEra
@@ -1168,26 +1180,20 @@ public enum MomentType {
 
         case .barbarianCampDestroyed:
             return MomentTypeData(
-                name: "Barbarian Camp Destroyed",
-                summary: "A hostile barbarian camp was leveled to the ground by a unit, spreading peace through the area.",
+                name: "TXT_KEY_MOMENT_BARBARIAN_CAMP_DESTROYED_TITLE",
+                summary: "TXT_KEY_MOMENT_BARBARIAN_CAMP_DESTROYED_SUMMARY",
+                instanceText: "TXT_KEY_MOMENT_BARBARIAN_CAMP_DESTROYED_INSTANCE",
                 category: .minor,
                 eraScore: 2,
                 minEra: .ancient,
                 maxEra: .medieval
             )
 
-        case .battleFought:
-            return MomentTypeData(
-                name: "Battle Fought",
-                summary: "A battle was fought between adversaries. Used by the Archaeology system to potentially generate Antiquity Site resources.",
-                category: .minor,
-                eraScore: 0
-            )
-
         case .causeForWar:
             return MomentTypeData(
-                name: "Cause for War",
-                summary: "You have utilized a Casus Belli to make war on another civilization.",
+                name: "TXT_KEY_MOMENT_CAUSE_FOR_WAR_TITLE",
+                summary: "TXT_KEY_MOMENT_CAUSE_FOR_WAR_SUMMARY",
+                instanceText: "TXT_KEY_MOMENT_CAUSE_FOR_WAR_INSTANCE",
                 category: .minor,
                 eraScore: 2
             )
@@ -1359,18 +1365,20 @@ public enum MomentType {
 
         case .tribalVillageContacted:
             return MomentTypeData(
-                name: "Tribal Village Contacted",
-                summary: "A Tribal Village was contacted, giving strength to our budding cities.",
+                name: "TXT_KEY_MOMENT_TRIBAL_VILLAGECONTACTED_TITLE",
+                summary: "TXT_KEY_MOMENT_TRIBAL_VILLAGECONTACTED_SUMMARY",
+                instanceText: "TXT_KEY_MOMENT_TRIBAL_VILLAGECONTACTED_INSTANCE",
                 category: .minor,
                 eraScore: 1,
                 minEra: .ancient,
                 maxEra: .ancient
             )
 
-        case .tundraCity:
+        case .tundraCity(cityName: _):
             return MomentTypeData(
-                name: "Tundra City",
-                summary: "A city is established on difficult Tundra terrain, expanding your reach into the wilds.",
+                name: "TXT_KEY_MOMENT_TUNDRA_CITY_TITLE",
+                summary: "TXT_KEY_MOMENT_TUNDRA_CITY_SUMMARY",
+                instanceText: "TXT_KEY_MOMENT_TUNDRA_CITY_INSTANCE",
                 category: .minor,
                 eraScore: 1
             )
@@ -1405,6 +1413,14 @@ public enum MomentType {
             return MomentTypeData(
                 name: "Ship Sunk",
                 summary: "A naval unit was sunk in combat. Used by the Archaeology system to potentially generate Shipwreck resources.",
+                category: .hidden,
+                eraScore: 0
+            )
+
+        case .battleFought:
+            return MomentTypeData(
+                name: "TXT_KEY_MOMENT_BATTLE_FOUGHT_TITLE",
+                summary: "TXT_KEY_MOMENT_BATTLE_FOUGHT_SUMMARY",
                 category: .hidden,
                 eraScore: 0
             )

@@ -2626,6 +2626,8 @@ public class Player: AbstractPlayer {
             fatalError("cant get civics")
         }
 
+        let cityName = name ?? self.newCityName(in: gameModel)
+
         // moments
         // check if tile is on a continent that the player has not settler yet
         if let tileContinent: ContinentType = gameModel.continent(at: location)?.type() {
@@ -2640,7 +2642,7 @@ public class Player: AbstractPlayer {
         }
 
         if tile.terrain() == .tundra {
-            self.addMoment(of: .tundraCity, in: gameModel)
+            self.addMoment(of: .tundraCity(cityName: cityName), in: gameModel)
         }
 
         if tile.terrain() == .desert {
@@ -2680,7 +2682,6 @@ public class Player: AbstractPlayer {
             self.addMoment(of: .cityOfAwe, in: gameModel)
         }
 
-        let cityName = name ?? self.newCityName(in: gameModel)
         let isCapital = gameModel.cities(of: self).isEmpty
 
         let city = City(name: cityName, at: location, capital: isCapital, owner: self)

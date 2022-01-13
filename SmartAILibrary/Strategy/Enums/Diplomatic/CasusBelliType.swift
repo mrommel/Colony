@@ -20,4 +20,9 @@ public enum CasusBelliType {
     case protectorateWar
     case colonialWar
     case territorialExpansionWar
+
+    public func name() -> String {
+
+        return "todo proper names"
+    }
 }
