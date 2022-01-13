@@ -20,173 +20,173 @@ public enum MomentCategory {
 public enum MomentType {
 
     // major
-    case admiralDefeatsEnemy // #
-    case allGovernorsAppointed
-    case canalCompleted // #
-    case cityNearFloodableRiver // #
-    case cityNearVolcano
-    case cityOfAwe
-    case cityOnNewContinent(cityName: String, continentName: String)
-    // case cityStatesFirstSuzerain
-    // case cityStateArmyLeviedNearEnemy
-    // case climateChangePhase
-    case darkAgeBegins
-    case discoveryOfANaturalWonder(naturalWonder: FeatureType)
-    // case emergencyCompletedSuccessfully
-    // case emergencySuccessfullyDefended
-    case enemyCityAdoptsOurReligion // #
-    // case enemyCityStatePacified
-    case enemyFormationDefeated // #
-    case enemyVeteranDefeated // #
-    case exoplanetExpeditionLaunched // #
-    case finalForeignCityTaken // #
-    case firstAerodromeFullyDeveloped // #
-    case firstBustlingCity(cityName: String)
-    case firstCivicOfNewEra(eraType: EraType)
-    // case firstCorporationCreated
-    // case firstCorporationInTheWorld
-    case firstDiscoveryOfANaturalWonder // #
-    case firstDiscoveryOfANewContinent
-    case firstEncampmentFullyDeveloped // #
-    case firstEnormousCity(cityName: String)
-    case firstEntertainmentComplexFullyDeveloped // #
-    case firstGiganticCity(cityName: String)
-    // case firstGreenImprovement
-    // case firstGreenImprovementInWorld
-    // case firstHeroClaimed
-    // case firstHeroDeparted
-    // case firstHeroRecalled
-    // case firstImprovementAfterNaturalDisaster
-    // case firstIndustryCreated
-    // case firstIndustryInTheWorld
-    case firstLargeCity(cityName: String)
-    // case firstLuxuryResourceMonopoly
-    // case firstLuxuryResourceMonopolyInTheWorld
-    // case firstMasterSpyEarned
-    // case firstMountainTunnel
-    // case firstMountainTunnelInTheWorld
-    case firstNeighborhoodCompleted
-    // case firstRailroadConnection
-    // case firstRailroadConnectionInWorld
-    // case firstResourceConsumedForPower
-    // case firstResourceConsumedForPowerInWorld
-    // case firstRockBandConcert
-    // case firstRockBandConcertInWorld
-    // case firstSeasideResort
-    case firstShipwreckExcavated // #
-    case firstTechnologyOfNewEra(eraType: EraType)
-    case firstTier1Government(governmentType: GovernmentType) // #
-    case firstTier1GovernmentInWorld(governmentType: GovernmentType) // #
-    case firstTier2Government(governmentType: GovernmentType) // #
-    case firstTier2GovernmentInWorld(governmentType: GovernmentType) // #
-    case firstTier3Government(governmentType: GovernmentType) // #
-    case firstTier3GovernmentInWorld(governmentType: GovernmentType) // #
-    case firstTier4Government(governmentType: GovernmentType) // #
-    case firstTier4GovernmentInWorld(governmentType: GovernmentType) // #
-    case firstTradingPostsInAllCivilizations // #
-    case firstUnitPromotedWithDistinction // #
-    // case firstWaterParkFullyDeveloped
-    // case freeCityJoins
-    case generalDefeatsEnemy // #
-    case goldenAgeBegins // #
-    case governorFullyPromoted
-    // case greatPersonLuredByFaith
-    // case greatPersonLuredByGold
-    case heroicAgeBegins // #
-    // case inquisitionBegins
-    // case leviedArmyStandsDown
-    case metAllCivilizations // #
-    case nationalParkFounded // #
-    case normalAgeBegins // #
-    case onTheWaves // #
-    case religionAdoptsAllBeliefs // #
-    case religionFounded(religion: ReligionType)
-    case rivalHolyCityConverted // #
-    case splendidCampusCompleted // #
-    case splendidCommercialHubCompleted // #
-    case splendidHarborCompleted // #
-    case splendidHolySiteCompleted // #
-    case splendidIndustrialZoneCompleted // #
-    case splendidTheaterSquareCompleted // #
-    case takingFlight // #
-    case threateningCampDestroyed // #
-    case tradingPostsInAllCivilizations // #
-    // case uniqueBuildingConstructed
-    // case uniqueDistrictCompleted
-    // case uniqueTileImprovementBuilt
-    // case uniqueUnitMarches
-    // case worldsFirstArmada
-    // case worldsFirstArmy
-    case worldsFirstBustlingCity(cityName: String)
-    case worldsFirstCircumnavigation
-    case worldsFirstCivicOfNewEra(eraType: EraType)
-    // case worldsFirstCorps
-    case worldsFirstEnormousCity(cityName: String)
-    case worldsFirstExoplanetExpeditionLaunched // #
-    case worldsFirstFleet // #
-    case worldsFirstFlight // #
-    case worldsFirstGiganticCity(cityName: String)
-    // worldsFirstInquisition
-    case worldsFirstLandingOnTheMoon // #
-    case worldsFirstLargeCity(cityName: String)
-    case worldsFirstMartianColonyEstablished // #
-    case worldsFirstNationalPark // #
-    case worldsFirstNeighborhood
-    case worldsFirstPantheon
-    case worldsFirstReligion
-    case worldsFirstReligionToAdoptAllBeliefs // #
-    case worldsFirstSatelliteInOrbit // #
-    case worldsFirstSeafaring // #
-    case worldsFirstSeasideResort // #
-    case worldsFirstShipwreckExcavated // #
-    case worldsFirstStrategicResourcePotentialUnleashed // #
-    case worldsFirstTechnologyOfNewEra(eraType: EraType)
-    case worldsFirstToMeetAllCivilizations // #
-    case worldsLargestCivilization
-    case worldCircumnavigated
+    case admiralDefeatsEnemy // 1 #
+    case allGovernorsAppointed // 2
+    case canalCompleted // 3 #
+    case cityNearFloodableRiver // 4 #
+    case cityNearVolcano // 5
+    case cityOfAwe // 6
+    case cityOnNewContinent(cityName: String, continentName: String) // 7
+    // case cityStatesFirstSuzerain 8
+    // case cityStateArmyLeviedNearEnemy 9
+    // case climateChangePhase 10
+    case darkAgeBegins // 11
+    case discoveryOfANaturalWonder(naturalWonder: FeatureType) // 12
+    // case emergencyCompletedSuccessfully 13
+    // case emergencySuccessfullyDefended 14
+    case enemyCityAdoptsOurReligion // 15 #
+    // case enemyCityStatePacified 16
+    case enemyFormationDefeated // 17 #
+    case enemyVeteranDefeated // 18 #
+    case exoplanetExpeditionLaunched // 19 #
+    case finalForeignCityTaken // 20 #
+    case firstAerodromeFullyDeveloped // 21 #
+    case firstBustlingCity(cityName: String) // 22
+    case firstCivicOfNewEra(eraType: EraType) // 23
+    // case firstCorporationCreated 24
+    // case firstCorporationInTheWorld 25
+    case firstDiscoveryOfANaturalWonder // 26 #
+    case firstDiscoveryOfANewContinent // 27
+    case firstEncampmentFullyDeveloped // 28 #
+    case firstEnormousCity(cityName: String) // 29
+    case firstEntertainmentComplexFullyDeveloped // 30 #
+    case firstGiganticCity(cityName: String) // 31
+    // case firstGreenImprovement 32
+    // case firstGreenImprovementInWorld 33
+    // case firstHeroClaimed 34
+    // case firstHeroDeparted 35
+    // case firstHeroRecalled 36
+    // case firstImprovementAfterNaturalDisaster 37
+    // case firstIndustryCreated 38
+    // case firstIndustryInTheWorld 39
+    case firstLargeCity(cityName: String) // 40
+    // case firstLuxuryResourceMonopoly 41
+    // case firstLuxuryResourceMonopolyInTheWorld 42
+    // case firstMasterSpyEarned 43
+    // case firstMountainTunnel 44
+    // case firstMountainTunnelInTheWorld 45
+    case firstNeighborhoodCompleted // 46
+    // case firstRailroadConnection 47
+    // case firstRailroadConnectionInWorld 48
+    // case firstResourceConsumedForPower 49
+    // case firstResourceConsumedForPowerInWorld 50
+    // case firstRockBandConcert 51
+    // case firstRockBandConcertInWorld 52
+    // case firstSeasideResort 53
+    case firstShipwreckExcavated // 54 #
+    case firstTechnologyOfNewEra(eraType: EraType) // 55
+    case firstTier1Government(governmentType: GovernmentType) // 56 #
+    case firstTier1GovernmentInWorld(governmentType: GovernmentType) // 57 #
+    case firstTier2Government(governmentType: GovernmentType) // 58 #
+    case firstTier2GovernmentInWorld(governmentType: GovernmentType) // 59 #
+    case firstTier3Government(governmentType: GovernmentType) // 60 #
+    case firstTier3GovernmentInWorld(governmentType: GovernmentType) // 61 #
+    case firstTier4Government(governmentType: GovernmentType) // 62 #
+    case firstTier4GovernmentInWorld(governmentType: GovernmentType) // 63 #
+    case firstTradingPostsInAllCivilizations // 64 #
+    case firstUnitPromotedWithDistinction // 65 #
+    // case firstWaterParkFullyDeveloped 66
+    // case freeCityJoins 67
+    case generalDefeatsEnemy // 68 #
+    case goldenAgeBegins // 69 #
+    case governorFullyPromoted // 70
+    // case greatPersonLuredByFaith 71
+    // case greatPersonLuredByGold 72
+    case heroicAgeBegins // 73 #
+    // case inquisitionBegins 74
+    // case leviedArmyStandsDown 75
+    case metAllCivilizations // 76 #
+    case nationalParkFounded // 77 #
+    case normalAgeBegins // 78 #
+    case onTheWaves // 79 #
+    case religionAdoptsAllBeliefs // 80 #
+    case religionFounded(religion: ReligionType) // 81
+    case rivalHolyCityConverted // 82 #
+    case splendidCampusCompleted // 83 #
+    case splendidCommercialHubCompleted // 84 #
+    case splendidHarborCompleted // 85 #
+    case splendidHolySiteCompleted // 86 #
+    case splendidIndustrialZoneCompleted // 87 #
+    case splendidTheaterSquareCompleted // 88 #
+    case takingFlight // 89 #
+    case threateningCampDestroyed // 90 #
+    case tradingPostsInAllCivilizations // 91 #
+    // case uniqueBuildingConstructed 92
+    // case uniqueDistrictCompleted 93
+    // case uniqueTileImprovementBuilt 94
+    // case uniqueUnitMarches 95
+    // case worldsFirstArmada 96
+    // case worldsFirstArmy 97
+    case worldsFirstBustlingCity(cityName: String) // 98
+    case worldsFirstCircumnavigation // 99
+    case worldsFirstCivicOfNewEra(eraType: EraType) // 100
+    // case worldsFirstCorps 101
+    case worldsFirstEnormousCity(cityName: String) // 102
+    case worldsFirstExoplanetExpeditionLaunched // 103 #
+    case worldsFirstFleet // 104 #
+    case worldsFirstFlight // 105 #
+    case worldsFirstGiganticCity(cityName: String) // 106
+    // worldsFirstInquisition 107
+    case worldsFirstLandingOnTheMoon // 108 #
+    case worldsFirstLargeCity(cityName: String) // 109
+    case worldsFirstMartianColonyEstablished // 110 #
+    case worldsFirstNationalPark // 111 #
+    case worldsFirstNeighborhood // 112
+    case worldsFirstPantheon // 113
+    case worldsFirstReligion // 114
+    case worldsFirstReligionToAdoptAllBeliefs // 115 #
+    case worldsFirstSatelliteInOrbit // 116 #
+    case worldsFirstSeafaring // 117 #
+    case worldsFirstSeasideResort // 118 #
+    case worldsFirstShipwreckExcavated // 119 #
+    case worldsFirstStrategicResourcePotentialUnleashed // 120 #
+    case worldsFirstTechnologyOfNewEra(eraType: EraType) // 121
+    case worldsFirstToMeetAllCivilizations // 122 #
+    case worldsLargestCivilization // 123
+    case worldCircumnavigated // 124
 
     // minor
-    case aggressiveCityPlacement // #
-    case artifactExtracted // #
-    case barbarianCampDestroyed
-    case causeForWar(warType: CasusBelliType, civilizationType: CivilizationType) // #
-    case cityReturnsToOriginalOwner(cityName: String, originalCivilization: CivilizationType) // #
-    // case cityStateArmyLevied // #
-    // case coastalFloodMitigated // #
-    case desertCity(cityName: String)
-    case diplomaticVictoryResolutionWon // #
-    // case firstArmada
-    case firstArmy // #
-    // case firstCorps // #
-    case firstFleet // #
-    case foreignCapitalTaken // #
-    case greatPersonRecruited
-    // case heroClaimed // #
-    // case heroDeparted // #
-    // case heroRecalled // #
-    case landedOnTheMoon // #
-    case manhattanProjectCompleted // #
-    case martianColonyEstablished // #
-    case masterSpyEarned // #
-    case metNewCivilization(civilization: CivilizationType)
-    case oldGreatPersonRecruited
-    case oldWorldWonderCompleted
-    // case operationIvyCompleted
-    case pantheonFounded
-    case riverFloodMitigated // #
-    case satelliteLaunchedIntoOrbit // #
-    case snowCity(cityName: String)
-    case strategicResourcePotentialUnleashed // #
-    case tradingPostEstablishedInNewCivilization(civilization: CivilizationType)
-    case tribalVillageContacted
-    case tundraCity(cityName: String)
-    case unitPromotedWithDistinction
-    case wonderCompleted(wonder: WonderType)
+    case aggressiveCityPlacement // 200 #
+    case artifactExtracted // 201 #
+    case barbarianCampDestroyed // 202
+    case causeForWar(warType: CasusBelliType, civilizationType: CivilizationType) // 203 #
+    case cityReturnsToOriginalOwner(cityName: String, originalCivilization: CivilizationType) // 204 #
+    // case cityStateArmyLevied // 205 #
+    // case coastalFloodMitigated // 206 #
+    case desertCity(cityName: String) // 207
+    case diplomaticVictoryResolutionWon // 208 #
+    // case firstArmada 209
+    case firstArmy // 210 #
+    // case firstCorps // 211 #
+    case firstFleet // 212 #
+    case foreignCapitalTaken // 213 #
+    case greatPersonRecruited // 214
+    // case heroClaimed // 215 #
+    // case heroDeparted // 216 #
+    // case heroRecalled // 217 #
+    case landedOnTheMoon // 218 #
+    case manhattanProjectCompleted // 219 #
+    case martianColonyEstablished // 220 #
+    case masterSpyEarned // 221 #
+    case metNewCivilization(civilization: CivilizationType) // 222
+    case oldGreatPersonRecruited // 223
+    case oldWorldWonderCompleted // 224
+    // case operationIvyCompleted 225
+    case pantheonFounded // 226
+    case riverFloodMitigated // 227 #
+    case satelliteLaunchedIntoOrbit // 228 #
+    case snowCity(cityName: String) // 229
+    case strategicResourcePotentialUnleashed // 230 #
+    case tradingPostEstablishedInNewCivilization(civilization: CivilizationType) // 231
+    case tribalVillageContacted // 232
+    case tundraCity(cityName: String) // 233
+    case unitPromotedWithDistinction // 234
+    case wonderCompleted(wonder: WonderType) // 235
 
     // hidden
-    case constructSpecialtyDistrict // for dedication monumentality
-    case shipSunk // for artifacts
-    case battleFought
+    case constructSpecialtyDistrict // 300 for dedication monumentality
+    case shipSunk // 301 for artifacts
+    case battleFought // 302
 
     public static var all: [MomentType] = [
 
