@@ -126,7 +126,7 @@ public enum MomentType {
     case worldsFirstFleet // 104 #
     case worldsFirstFlight // 105 #
     case worldsFirstGiganticCity(cityName: String) // 106
-    // worldsFirstInquisition 107
+    // case worldsFirstInquisition 107
     case worldsFirstLandingOnTheMoon // 108 #
     case worldsFirstLargeCity(cityName: String) // 109
     case worldsFirstMartianColonyEstablished // 110 #
@@ -197,15 +197,15 @@ public enum MomentType {
         .cityNearVolcano,
         .cityOfAwe,
         .cityOnNewContinent(cityName: "", continentName: ""),
-        // City-State's First Suzerain
-        // City-State Army Levied Near Enemy
-        // Climate Change Phase
+        // .cityStatesFirstSuzerain
+        // .cityStateArmyLeviedNearEnemy
+        // .climateChangePhase
         .darkAgeBegins,
         .discoveryOfANaturalWonder(naturalWonder: FeatureType.none),
-        // Emergency Completed Successfully
-        // Emergency Successfully Defended
+        // .emergencyCompletedSuccessfully
+        // .emergencySuccessfullyDefended
         .enemyCityAdoptsOurReligion,
-        // case enemyCityStatePacified
+        // .enemyCityStatePacified
         .enemyFormationDefeated,
         .enemyVeteranDefeated,
         .exoplanetExpeditionLaunched,
@@ -213,36 +213,36 @@ public enum MomentType {
         .firstAerodromeFullyDeveloped,
         .firstBustlingCity(cityName: ""),
         .firstCivicOfNewEra(eraType: EraType.none),
-        // case firstCorporationCreated
-        // case firstCorporationInTheWorld
+        // .firstCorporationCreated
+        // .firstCorporationInTheWorld
         .firstDiscoveryOfANaturalWonder,
         .firstDiscoveryOfANewContinent,
         .firstEncampmentFullyDeveloped,
         .firstEnormousCity(cityName: ""),
         .firstEntertainmentComplexFullyDeveloped,
         .firstGiganticCity(cityName: ""),
-        // case firstGreenImprovement
-        // case First Green Improvement in World
-        // case First Hero Claimed
-        // case First Hero Departed
-        // case First Hero Recalled
-        // case First Improvement after Natural Disaster
-        // case First Industry Created
-        // case First Industry in the World
+        // .firstGreenImprovement
+        // .firstGreenImprovementInWorld
+        // .firstHeroClaimed
+        // .firstHeroDeparted
+        // .firstHeroRecalled
+        // .firstImprovementAfterNaturalDisaster
+        // .firstIndustryCreated
+        // .firstIndustryInTheWorld
         .firstLargeCity(cityName: ""),
-        // case firstLuxuryResourceMonopoly
-        // case firstLuxuryResourceMonopolyInTheWorld
-        // case firstMasterSpyEarned
-        // case firstMountainTunnel
-        // case firstMountainTunnelInTheWorld
+        // .firstLuxuryResourceMonopoly
+        // .firstLuxuryResourceMonopolyInTheWorld
+        // .firstMasterSpyEarned
+        // .firstMountainTunnel
+        // .firstMountainTunnelInTheWorld
         .firstNeighborhoodCompleted,
-        // case First Railroad Connection
-        // case First Railroad Connection in World
-        // case First Resource consumed for Power
-        // case First Resource consumed for Power in World
-        // case First Rock Band Concert
-        // case First Rock Band Concert in World
-        // case First Seaside Resort
+        // .firstRailroadConnection
+        // .firstRailroadConnectionInWorld
+        // .firstResourceConsumedForPower
+        // .firstResourceConsumedForPowerInWorld
+        // .firstRockBandConcert
+        // .firstRockBandConcertInWorld
+        // .firstSeasideResort
         .firstShipwreckExcavated,
         .firstTechnologyOfNewEra(eraType: EraType.none),
         .firstTier1Government(governmentType: GovernmentType.chiefdom),
@@ -255,16 +255,16 @@ public enum MomentType {
         .firstTier4GovernmentInWorld(governmentType: GovernmentType.chiefdom),
         .firstTradingPostsInAllCivilizations,
         .firstUnitPromotedWithDistinction,
-        // case firstWaterParkFullyDeveloped
-        // case freeCityJoins
+        // .firstWaterParkFullyDeveloped,
+        // .freeCityJoins,
         .generalDefeatsEnemy,
         .goldenAgeBegins,
         .governorFullyPromoted,
-        // case greatPersonLuredByFaith
-        // case greatPersonLuredByGold
+        // .greatPersonLuredByFaith,
+        // .greatPersonLuredByGold,
         .heroicAgeBegins,
-        // case inquisitionBegins
-        // case Levied Army Stands Down
+        // .inquisitionBegins,
+        // .leviedArmyStandsDown,
         .metAllCivilizations,
         .nationalParkFounded,
         .normalAgeBegins,
@@ -281,22 +281,22 @@ public enum MomentType {
         .takingFlight,
         .threateningCampDestroyed,
         .tradingPostsInAllCivilizations,
-        // Unique Building Constructed
-        // Unique District Completed
-        // Unique Tile Improvement Built
-        // Unique Unit Marches
-        // World's First Armada
-        // World's First Army
+        // .uniqueBuildingConstructed
+        // .uniqueDistrictCompleted
+        // .uniqueTileImprovement Built
+        // .uniqueUnitMarches
+        // .worldsFirstArmada
+        // .worldsFirstArmy
         .worldsFirstBustlingCity(cityName: ""),
         .worldsFirstCircumnavigation,
         .worldsFirstCivicOfNewEra(eraType: EraType.none),
-        // World's First Corps
+        // .worldsFirstCorps,
         .worldsFirstEnormousCity(cityName: ""),
         .worldsFirstExoplanetExpeditionLaunched,
         .worldsFirstFleet,
         .worldsFirstFlight,
         .worldsFirstGiganticCity(cityName: ""),
-        // World's First Inquisition
+        // .worldsFirstInquisition,
         .worldsFirstLandingOnTheMoon,
         .worldsFirstLargeCity(cityName: ""),
         .worldsFirstMartianColonyEstablished,
@@ -320,20 +320,20 @@ public enum MomentType {
         .artifactExtracted,
         .barbarianCampDestroyed,
         .causeForWar(warType: CasusBelliType.ancientWar, civilizationType: CivilizationType.unmet),
-        .cityReturnsToOriginalOwner(cityName: "", originalCivilization: CivilizationType.unmet), // #
-        // case cityStateArmyLevied // #
-        // case coastalFloodMitigated // #
+        .cityReturnsToOriginalOwner(cityName: "", originalCivilization: CivilizationType.unmet),
+        // case cityStateArmyLevied
+        // case coastalFloodMitigated
         .desertCity(cityName: ""),
         .diplomaticVictoryResolutionWon,
         // case firstArmada
         .firstArmy,
-        // case firstCorps // #
+        // case firstCorps
         .firstFleet,
         .foreignCapitalTaken,
         .greatPersonRecruited,
-        // case heroClaimed // #
-        // case heroDeparted // #
-        // case heroRecalled // #
+        // case heroClaimed
+        // case heroDeparted
+        // case heroRecalled
         .landedOnTheMoon,
         .manhattanProjectCompleted,
         .martianColonyEstablished,
@@ -341,7 +341,7 @@ public enum MomentType {
         .metNewCivilization(civilization: CivilizationType.unmet),
         .oldGreatPersonRecruited,
         .oldWorldWonderCompleted,
-        // case Operation Ivy Completed
+        // case operationIvyCompleted
         .pantheonFounded,
         .riverFloodMitigated,
         .satelliteLaunchedIntoOrbit,
