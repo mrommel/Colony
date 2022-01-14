@@ -29,6 +29,7 @@ class TechTests: XCTestCase {
 
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
         self.objectToTest = Techs(player: playerAlexander)
         try! self.objectToTest?.discover(tech: .pottery, in: nil)
         try! self.objectToTest?.discover(tech: .animalHusbandry, in: nil)
@@ -52,6 +53,7 @@ class TechTests: XCTestCase {
 
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
         self.objectToTest = Techs(player: playerAlexander)
         try! self.objectToTest?.discover(tech: .pottery, in: nil)
         try! self.objectToTest?.discover(tech: .animalHusbandry, in: nil)
@@ -68,6 +70,7 @@ class TechTests: XCTestCase {
 
         // GIVEN
         let playerAlexander = Player(leader: .trajan)
+        playerAlexander.initialize()
         self.objectToTest = Techs(player: playerAlexander)
 
         // WHEN
@@ -81,6 +84,7 @@ class TechTests: XCTestCase {
 
         // GIVEN
         let playerAlexander = Player(leader: .trajan)
+        playerAlexander.initialize()
         self.objectToTest = Techs(player: playerAlexander)
         try! self.objectToTest?.discover(tech: .pottery, in: nil)
         try! self.objectToTest?.discover(tech: .animalHusbandry, in: nil)
@@ -97,6 +101,7 @@ class TechTests: XCTestCase {
 
         // GIVEN
         let playerAlexander = Player(leader: .victoria)
+        playerAlexander.initialize()
         self.objectToTest = Techs(player: playerAlexander)
         try! self.objectToTest?.discover(tech: .pottery, in: nil)
         try! self.objectToTest?.discover(tech: .animalHusbandry, in: nil)
