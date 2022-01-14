@@ -124,12 +124,6 @@ public class BottomLeftBarViewModel: ObservableObject {
             fatalError("cant get human")
         }
 
-        /*if let delegate = self.delegate {
-            if delegate.checkPopups() {
-                return
-            }
-        }*/
-
         if let blockingNotification = humanPlayer.blockingNotification() {
 
             if let location = self.selectedUnitLocation {

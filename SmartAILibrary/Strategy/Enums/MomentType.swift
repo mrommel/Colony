@@ -1776,7 +1776,7 @@ extension MomentType: Equatable {
             return true
 
         default:
-            print("try to compare \(lhs) with \(rhs)")
+            // print("try to compare \(lhs) with \(rhs)")
             return false
         }
     }

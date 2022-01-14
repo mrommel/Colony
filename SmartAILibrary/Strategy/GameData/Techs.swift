@@ -249,7 +249,30 @@ class Techs: AbstractTechs {
             }
         }
 
+        self.updateEurekas(in: gameModel)
+
         self.techs.append(tech)
+    }
+
+    private func updateEurekas(in gameModel: GameModel?) {
+
+        guard let civics = self.player?.civics else {
+            fatalError("cant get civics")
+        }
+
+        // Games and Recreation - Research the Construction technology.
+        if self.has(tech: .construction) {
+            if !civics.eurekaTriggered(for: .gamesAndRecreation) {
+                civics.triggerEureka(for: .gamesAndRecreation, in: gameModel)
+            }
+        }
+
+        // Mass Media - Research Radio.
+        if self.has(tech: .radio) {
+            if !civics.eurekaTriggered(for: .massMedia) {
+                civics.triggerEureka(for: .massMedia, in: gameModel)
+            }
+        }
     }
 
     func needToChooseTech() -> Bool {

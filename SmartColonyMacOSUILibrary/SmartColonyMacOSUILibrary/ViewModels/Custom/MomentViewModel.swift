@@ -58,6 +58,9 @@ class MomentViewModel: ObservableObject {
         case .cityReturnsToOriginalOwner(cityName: let cityName, originalCivilization: let civilizationType):
             return String(format: translatedFormatText, cityName, civilizationType.name().localized())
 
+        case .desertCity(cityName: let cityName):
+            return String(format: translatedFormatText, cityName)
+
         case .firstBustlingCity(cityName: let cityName):
             return String(format: translatedFormatText, cityName)
 

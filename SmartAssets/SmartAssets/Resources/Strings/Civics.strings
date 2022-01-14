@@ -30,43 +30,78 @@
 "TXT_KEY_CIVIC_STATE_WORKFORCE_QUOTE2" = "“It is equally important to have a happy and engaged workforce as it is to have a profitable bottom line.“\n– Vern Dosch";
 
 // civic - early empire
-"TXT_KEY_CIVIC_STATE_EARLY_EMPIRE_TITLE" = "Early Empire";
-"TXT_KEY_CIVIC_STATE_EARLY_EMPIRE_EUREKA" = "Grow your civilization to at least 6 population.";
-"TXT_KEY_CIVIC_STATE_EARLY_EMPIRE_EUREKA_TEXT" = "The growing number of citizens in your lands dream of having an empire.";
-"TXT_KEY_CIVIC_STATE_EARLY_EMPIRE_QUOTE1" = "“Look back over the past, with its changing empires that rose and fell, and you can foresee the future, too.“\n– Marcus Aurelius";
-"TXT_KEY_CIVIC_STATE_EARLY_EMPIRE_QUOTE2" = "“It was luxuries like air conditioning that brought down the Roman Empire. With air conditioning their windows were shut; they couldn't hear the barbarians coming.“\n– Garrison Keillor";
+"TXT_KEY_CIVIC_EARLY_EMPIRE_TITLE" = "Early Empire";
+"TXT_KEY_CIVIC_EARLY_EMPIRE_EUREKA" = "Grow your civilization to at least 6 population.";
+"TXT_KEY_CIVIC_EARLY_EMPIRE_EUREKA_TEXT" = "The growing number of citizens in your lands dream of having an empire.";
+"TXT_KEY_CIVIC_EARLY_EMPIRE_QUOTE1" = "“Look back over the past, with its changing empires that rose and fell, and you can foresee the future, too.“\n– Marcus Aurelius";
+"TXT_KEY_CIVIC_EARLY_EMPIRE_QUOTE2" = "“It was luxuries like air conditioning that brought down the Roman Empire. With air conditioning their windows were shut; they couldn't hear the barbarians coming.“\n– Garrison Keillor";
 
 // civic - foreign trade
-"TXT_KEY_CIVIC_STATE_FOREIGN_TRADE_TITLE" = "Foreign Trade";
-"TXT_KEY_CIVIC_STATE_FOREIGN_TRADE_EUREKA" = "Discover a second Continent.";
-"TXT_KEY_CIVIC_STATE_FOREIGN_TRADE_EUREKA_TEXT" = "Having discovered another continent we realize there is a wide world of trading opportunities.";
-"TXT_KEY_CIVIC_STATE_FOREIGN_TRADE_QUOTE1" = "“Every nation lives by exchanging.“\n– Adam Smith";
-"TXT_KEY_CIVIC_STATE_FOREIGN_TRADE_QUOTE2" = "“That's the positive aspect of trade I suppose. The world gets stirred up together.“\n– Isabel Hoving";
+"TXT_KEY_CIVIC_FOREIGN_TRADE_TITLE" = "Foreign Trade";
+"TXT_KEY_CIVIC_FOREIGN_TRADE_EUREKA" = "Discover a second Continent.";
+"TXT_KEY_CIVIC_FOREIGN_TRADE_EUREKA_TEXT" = "Having discovered another continent we realize there is a wide world of trading opportunities.";
+"TXT_KEY_CIVIC_FOREIGN_TRADE_QUOTE1" = "“Every nation lives by exchanging.“\n– Adam Smith";
+"TXT_KEY_CIVIC_FOREIGN_TRADE_QUOTE2" = "“That's the positive aspect of trade I suppose. The world gets stirred up together.“\n– Isabel Hoving";
 
 // civic - mysticism
-"TXT_KEY_CIVIC_STATE_MYSTICISM_TITLE" = "Mysticism";
-"TXT_KEY_CIVIC_STATE_MYSTICISM_EUREKA" = "Found a Pantheon.";
-"TXT_KEY_CIVIC_STATE_MYSTICISM_EUREKA_TEXT" = "Worship of your pantheon of gods has brought up further questions about spiritual forces in our world.";
-"TXT_KEY_CIVIC_STATE_MYSTICISM_QUOTE1" = "“Mysticism is the mistake of an accidental and individual symbol for a universal one.“\n– Ralph Waldo Emerson";
-"TXT_KEY_CIVIC_STATE_MYSTICISM_QUOTE2" = "“I like to say I practice militant mysticism. I'm absolutely sure of some things that I don't quite know.“\n– Rob Bell";
+"TXT_KEY_CIVIC_MYSTICISM_TITLE" = "Mysticism";
+"TXT_KEY_CIVIC_MYSTICISM_EUREKA" = "Found a Pantheon.";
+"TXT_KEY_CIVIC_MYSTICISM_EUREKA_TEXT" = "Worship of your pantheon of gods has brought up further questions about spiritual forces in our world.";
+"TXT_KEY_CIVIC_MYSTICISM_QUOTE1" = "“Mysticism is the mistake of an accidental and individual symbol for a universal one.“\n– Ralph Waldo Emerson";
+"TXT_KEY_CIVIC_MYSTICISM_QUOTE2" = "“I like to say I practice militant mysticism. I'm absolutely sure of some things that I don't quite know.“\n– Rob Bell";
 
 // civic - military tradition
-"TXT_KEY_CIVIC_STATE_MILITARY_TRADITION_TITLE" = "Military Tradition";
-"TXT_KEY_CIVIC_STATE_MILITARY_TRADITION_EUREKA" = "Build an Encampment.";
-"TXT_KEY_CIVIC_STATE_MILITARY_TRADITION_EUREKA_TEXT" = "Your soldiers hope your victory over a Barbarian Outpost is the start of a long line of military successes.";
-"TXT_KEY_CIVIC_STATE_MILITARY_TRADITION_QUOTE1" = "“Bravery is being the only one who knows you're afraid.“\n– Colonel David Hackworth";
-"TXT_KEY_CIVIC_STATE_MILITARY_TRADITION_QUOTE2" = "“I don't underrate the value of military knowledge, but if men make war in slavish obedience to rules, they will fail.“\n– Ulysses S. Grant";
+"TXT_KEY_CIVIC_MILITARY_TRADITION_TITLE" = "Military Tradition";
+"TXT_KEY_CIVIC_MILITARY_TRADITION_EUREKA" = "Build an Encampment.";
+"TXT_KEY_CIVIC_MILITARY_TRADITION_EUREKA_TEXT" = "Your soldiers hope your victory over a Barbarian Outpost is the start of a long line of military successes.";
+"TXT_KEY_CIVIC_MILITARY_TRADITION_QUOTE1" = "“Bravery is being the only one who knows you're afraid.“\n– Colonel David Hackworth";
+"TXT_KEY_CIVIC_MILITARY_TRADITION_QUOTE2" = "“I don't underrate the value of military knowledge, but if men make war in slavish obedience to rules, they will fail.“\n– Ulysses S. Grant";
 
 // civic - defensive tactics
-"TXT_KEY_CIVIC_STATE_DEFENSIVE_TACTICS_TITLE" = "Defensive Tactics";
-"TXT_KEY_CIVIC_STATE_DEFENSIVE_TACTICS_EUREKA" = "Be the target of a Declaration of War.";
-"TXT_KEY_CIVIC_STATE_DEFENSIVE_TACTICS_EUREKA_TEXT" = "Faced with the threat of invasion, your people are ready to come up with innovative defenses.";
-"TXT_KEY_CIVIC_STATE_DEFENSIVE_TACTICS_QUOTE1" = "“Invincibility lies in the defense; the possibility of victory in the attack.”\n– Sun Tzu";
-"TXT_KEY_CIVIC_STATE_DEFENSIVE_TACTICS_QUOTE2" = "“Defense is superior to opulence.”\n– Adam Smith";
+"TXT_KEY_CIVIC_DEFENSIVE_TACTICS_TITLE" = "Defensive Tactics";
+"TXT_KEY_CIVIC_DEFENSIVE_TACTICS_EUREKA" = "Be the target of a Declaration of War.";
+"TXT_KEY_CIVIC_DEFENSIVE_TACTICS_EUREKA_TEXT" = "Faced with the threat of invasion, your people are ready to come up with innovative defenses.";
+"TXT_KEY_CIVIC_DEFENSIVE_TACTICS_QUOTE1" = "“Invincibility lies in the defense; the possibility of victory in the attack.”\n– Sun Tzu";
+"TXT_KEY_CIVIC_DEFENSIVE_TACTICS_QUOTE2" = "“Defense is superior to opulence.”\n– Adam Smith";
 
 // civic - games and recreation
-"TXT_KEY_CIVIC_STATE_GAMES_AND_RECREATION_TITLE" = "Games and Recreation";
-"TXT_KEY_CIVIC_STATE_GAMES_AND_RECREATION_EUREKA" = "Research the Construction technology.";
-"TXT_KEY_CIVIC_STATE_GAMES_AND_RECREATION_EUREKA_TEXT" = "Your new skills in construction will surely help create venues for games and entertainment.";
-"TXT_KEY_CIVIC_STATE_GAMES_AND_RECREATION_QUOTE1" = "“If bread is the first necessity of life, recreation is a close second.”\n– Edward Bellamy";
-"TXT_KEY_CIVIC_STATE_GAMES_AND_RECREATION_QUOTE2" = "“People who cannot find time for recreation are sooner or later to find time for illness.”\n– John Wanamaker";
+"TXT_KEY_CIVIC_GAMES_AND_RECREATION_TITLE" = "Games and Recreation";
+"TXT_KEY_CIVIC_GAMES_AND_RECREATION_EUREKA" = "Research the Construction technology.";
+"TXT_KEY_CIVIC_GAMES_AND_RECREATION_EUREKA_TEXT" = "Your new skills in construction will surely help create venues for games and entertainment.";
+"TXT_KEY_CIVIC_GAMES_AND_RECREATION_QUOTE1" = "“If bread is the first necessity of life, recreation is a close second.”\n– Edward Bellamy";
+"TXT_KEY_CIVIC_GAMES_AND_RECREATION_QUOTE2" = "“People who cannot find time for recreation are sooner or later to find time for illness.”\n– John Wanamaker";
+
+// civic - political philosophy
+"TXT_KEY_CIVIC_POLITICAL_PHILOSOPHY_TITLE" = "Political Philosophy";
+"TXT_KEY_CIVIC_POLITICAL_PHILOSOPHY_EUREKA" = "Meet 3 City-States";
+"TXT_KEY_CIVIC_POLITICAL_PHILOSOPHY_EUREKA_TEXT" = "Your contact with other states has crystallized your ideas on governing your own people.";
+"TXT_KEY_CIVIC_POLITICAL_PHILOSOPHY_QUOTE1" = "“Politics is the art of the possible, the attainable - the art of the next best.”\n– Otto von Bismarck";
+"TXT_KEY_CIVIC_POLITICAL_PHILOSOPHY_QUOTE2" = "Divide and rule, a sound motto. Unite and lead, a better one.”\n– Johann Wolfgang von Goethe";
+
+// civic - recordedHistory:
+"TXT_KEY_CIVIC_RECORDED_HISTORY_TITLE" = "Recorded History";
+"TXT_KEY_CIVIC_RECORDED_HISTORY_EUREKA" = "Build 2 Campus districts.";
+"TXT_KEY_CIVIC_RECORDED_HISTORY_EUREKA_TEXT" = "With plans to house many scrolls in the libraries of your campuses, your people begin to record the history of your empire.";
+"TXT_KEY_CIVIC_RECORDED_HISTORY_QUOTE1" = "“I've lived through some terrible things in my life, some of which actually happened.”\n– Mark Twain";
+"TXT_KEY_CIVIC_RECORDED_HISTORY_QUOTE2" = "History is the version of past events that people have decided to agree upon.”\n– Napoleon Bonaparte";
+
+// civic - dramaAndPoetry
+"TXT_KEY_CIVIC_DRAMA_AND_POETRY_TITLE" = "Drama and Poetry";
+"TXT_KEY_CIVIC_DRAMA_AND_POETRY_EUREKA" = "Build a wonder.";
+"TXT_KEY_CIVIC_DRAMA_AND_POETRY_EUREKA_TEXT" = "The glory of completing a wonder has energized your people. They are writing works to commemorate this great event.";
+"TXT_KEY_CIVIC_DRAMA_AND_POETRY_QUOTE1" = "“The poets have been mysteriously silent on the subject of cheese.”\n– G. K. Chesterton";
+"TXT_KEY_CIVIC_DRAMA_AND_POETRY_QUOTE2" = "All the world's a stage, and all the men and women merely players.”\n– William Shakespeare";
+
+// civic - theology:
+"TXT_KEY_CIVIC_THEOLOGY_TITLE" = "Theology";
+"TXT_KEY_CIVIC_THEOLOGY_EUREKA" = "Found a Religion.";
+"TXT_KEY_CIVIC_THEOLOGY_EUREKA_TEXT" = "The formation of a Religion by your Great Prophet inspires deeper thought on the nature of the divine.";
+"TXT_KEY_CIVIC_THEOLOGY_QUOTE1" = "“We can no more have exact religious thinking without theology, than exact mensuration and astronomy without mathematics, or exact iron-making without chemistry.”\n– John Hall";
+"TXT_KEY_CIVIC_THEOLOGY_QUOTE2" = "Man suffers only because he takes seriously what the gods made for fun.”\n– Alan W. Watts";
+
+// civic - militaryTraining:
+"TXT_KEY_CIVIC_MILITARY_TRAINING_TITLE" = "Military Training";
+"TXT_KEY_CIVIC_MILITARY_TRAINING_EUREKA" = "Build an Encampment.";
+"TXT_KEY_CIVIC_MILITARY_TRAINING_EUREKA_TEXT" = "With an Encampment now in place, we can formalize our military training.";
+"TXT_KEY_CIVIC_MILITARY_TRAINING_QUOTE1" = "“If it's natural to kill, how come men have to go into training to learn how?”\n– Joan Baez";
+"TXT_KEY_CIVIC_MILITARY_TRAINING_QUOTE2" = "Those who in quarrels interpose, must often wipe a bloody nose.”\n– John Gay";

@@ -638,16 +638,13 @@ public class City: AbstractCity {
         }
 
         // Update Proximity between this Player and all others
-        for otherPlayer in gameModel.players {
+        for otherPlayer in gameModel.players where otherPlayer.leader != self.player?.leader {
 
-            if otherPlayer.leader != self.player?.leader {
-
-                if otherPlayer.isAlive() && diplomacyAI.hasMet(with: otherPlayer) {
-                    // Fixme
-                    // Players do NOT have to know one another in order to calculate proximity.  Having this info available (even when they haven't met) can be useful
-                    player.doUpdateProximity(towards: otherPlayer, in: gameModel)
-                    otherPlayer.doUpdateProximity(towards: player, in: gameModel)
-                }
+            if otherPlayer.isAlive() && diplomacyAI.hasMet(with: otherPlayer) {
+                // Fixme
+                // Players do NOT have to know one another in order to calculate proximity.  Having this info available (even when they haven't met) can be useful
+                player.doUpdateProximity(towards: otherPlayer, in: gameModel)
+                otherPlayer.doUpdateProximity(towards: player, in: gameModel)
             }
         }
 
@@ -2640,6 +2637,10 @@ public class City: AbstractCity {
             fatalError("cant get player techs")
         }
 
+        guard let civics = player.civics else {
+            fatalError("cant get player civics")
+        }
+
         do {
             try self.wonders?.build(wonder: wonderType)
             self.greatWorks?.addPlaces(for: wonderType)
@@ -2741,6 +2742,11 @@ public class City: AbstractCity {
                 // let extraApostle = Unit(at: self.location, type: .apostle, owner: self.player)
                 // gameModel?.add(unit: extraApostle)
                 // gameModel?.userInterface?.show(unit: extraApostle)
+            }
+
+            // Drama and Poetry - Build a Wonder.
+            if !civics.eurekaTriggered(for: .dramaAndPoetry) {
+                civics.triggerEureka(for: .dramaAndPoetry, in: gameModel)
             }
 
             tile.build(wonder: wonderType)
@@ -3441,14 +3447,32 @@ public class City: AbstractCity {
             fatalError("cant get civics")
         }
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
 
-        // Build an Encampment.
+        // militaryTraining - Build any district.
+        if !civics.eurekaTriggered(for: .stateWorkforce) {
+            if districts.hasAny() { // city center is taken into account
+                civics.triggerEureka(for: .stateWorkforce, in: gameModel)
+            }
+        }
+
+        // militaryTraining - Build an Encampment.
         if !civics.eurekaTriggered(for: .militaryTraining) {
             if districts.has(district: .encampment) {
                 civics.triggerEureka(for: .militaryTraining, in: gameModel)
+            }
+        }
+
+        // recordedHistory - Build 2 Campus Districts.
+        if !civics.eurekaTriggered(for: .recordedHistory) {
+            if player.numberOfDistricts(of: .campus, in: gameModel) >= 2 {
+                civics.triggerEureka(for: .recordedHistory, in: gameModel)
             }
         }
     }

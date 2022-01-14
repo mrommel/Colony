@@ -240,8 +240,9 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool
     func hasBusyUnitOrCity() -> Bool
 
-    // buildings
+    // buildings / districts
     func canPurchaseInAnyCity(building: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
+    func numberOfDistricts(of districtType: DistrictType, in gameModel: GameModel?) -> Int
 
     // religion
     func faithPurchaseType() -> FaithPurchaseType
@@ -4209,6 +4210,10 @@ public class Player: AbstractPlayer {
             fatalError("cant get gameModel")
         }
 
+        guard let civics = self.civics else {
+            fatalError("cant get civics")
+        }
+
         guard let tile = tile else {
             fatalError("cant get tile")
         }
@@ -4229,6 +4234,10 @@ public class Player: AbstractPlayer {
             gameModel.doBarbCampCleared(at: tile.point)
 
             self.addMoment(of: .barbarianCampDestroyed, in: gameModel)
+
+            if !civics.eurekaTriggered(for: .militaryTradition) {
+                civics.triggerEureka(for: .militaryTradition, in: gameModel)
+            }
 
             // initiationRites - +50 [Faith] Faith for each Barbarian Outpost cleared. The unit that cleared the Barbarian Outpost heals +100 HP.
             if self.religion?.pantheon() == .initiationRites {
@@ -4751,6 +4760,28 @@ public class Player: AbstractPlayer {
         return false
     }
 
+    public func numberOfDistricts(of districtType: DistrictType, in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var numberOfDistricts = 0
+
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(district: districtType) {
+                numberOfDistricts += 1
+            }
+        }
+
+        return numberOfDistricts
+    }
+
     // MARK: religion methods
 
     public func faithPurchaseType() -> FaithPurchaseType {
@@ -4793,12 +4824,20 @@ public class Player: AbstractPlayer {
             fatalError("cant get gameModel")
         }
 
+        guard let civics = self.civics else {
+            fatalError("cant get player civics")
+        }
+
         guard let playerReligion = self.religion else {
             fatalError("cant get player religion")
         }
 
         playerReligion.found(religion: religion, at: city, in: gameModel)
         self.addMoment(of: .religionFounded(religion: religion), in: gameModel)
+
+        if !civics.eurekaTriggered(for: .theology) {
+            civics.triggerEureka(for: .theology, in: gameModel)
+        }
     }
 
     // MARK: discovery

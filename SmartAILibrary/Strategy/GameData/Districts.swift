@@ -95,7 +95,10 @@ class Districts: AbstractDistricts {
 
     func hasAny() -> Bool {
 
-        return self.districts.count > 1 // cityCenter does not count
+        // cityCenter does not count
+        return !self.districts
+            .filter { $0.type != .cityCenter }
+            .isEmpty
     }
 
     func hasAnySpecialtyDistrict() -> Bool {

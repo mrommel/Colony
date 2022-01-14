@@ -113,6 +113,7 @@ class GameScene: BaseScene {
 
                 if humanPlayer.isActive() {
                     self.viewModel?.delegate?.changeUITurnState(to: .humanTurns)
+                    _ = self.viewModel?.delegate?.checkPopups()
 
                     if self.viewModel!.readyUpdatingHuman {
 
