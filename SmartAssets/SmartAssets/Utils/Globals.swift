@@ -186,6 +186,14 @@ public extension Globals {
         public static var goldenAge: NSImage {
             return Icons.loadCachedTexture(with: "golden-age")
         }
+
+        public static var inspiration: NSImage {
+            return Icons.loadCachedTexture(with: "inspiration")
+        }
+
+        public static var eureka: NSImage {
+            return Icons.loadCachedTexture(with: "eureka")
+        }
     }
 }
 

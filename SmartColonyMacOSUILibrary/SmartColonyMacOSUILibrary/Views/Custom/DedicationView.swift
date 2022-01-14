@@ -32,7 +32,7 @@ struct DedicationView: View {
                 Text(self.viewModel.title)
                     .font(.headline)
 
-                Text(self.viewModel.summary)
+                Label(self.viewModel.summary)
                     .font(.system(size: 8.0))
             }
             .padding(.vertical, 4)

@@ -23,17 +23,21 @@ class CivicDiscoveredPopupViewModel: ObservableObject {
     @Published
     var quoteText: String
 
-    private let civicType: CivicType
+    private var civicType: CivicType = .none
 
     weak var delegate: GameViewModelDelegate?
 
-    init(civicType: CivicType) {
-
-        self.civicType = civicType
+    init() {
 
         self.title = "TXT_KEY_RESEARCH_COMPLETED".localized()
-        self.nameText = self.civicType.name().localized()
+        self.nameText = "-"
+        self.quoteText = "-"
+    }
 
+    func update(for civicType: CivicType) {
+
+        self.civicType = civicType
+        self.nameText = self.civicType.name().localized()
         let quotes = self.civicType.quoteTexts()
         self.quoteText = !quotes.isEmpty ? quotes.randomItem().localized() : "-"
     }

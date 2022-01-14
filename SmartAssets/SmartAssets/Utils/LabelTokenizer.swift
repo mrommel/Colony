@@ -47,6 +47,8 @@ public enum LabelImageType {
     case darkAge
     case normalAge
     case goldenAge
+    case inspiration
+    case eureka
 
     static func fromString(value: String) -> LabelImageType {
 
@@ -78,6 +80,8 @@ public enum LabelImageType {
         case "[DarkAge]": return .darkAge
         case "[NormalAge]": return .normalAge
         case "[GoldenAge]": return .goldenAge
+        case "[Inspiration]": return .inspiration
+        case "[Eureka]": return .eureka
 
         default:
             fatalError("Value: '\(value)' not handled.")
@@ -113,6 +117,8 @@ public enum LabelImageType {
         case .darkAge: return Globals.Icons.darkAge
         case .normalAge: return Globals.Icons.normalAge
         case .goldenAge: return Globals.Icons.goldenAge
+        case .inspiration: return Globals.Icons.inspiration
+        case .eureka: return Globals.Icons.eureka
         }
     }
 }

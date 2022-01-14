@@ -155,12 +155,13 @@ public class BottomLeftBarViewModel: ObservableObject {
         }
 
         self.buttonViewModel.playAnimation(images: self.globeImages, interval: 0.07)
+        self.currentButtonNotificationType = .generic
     }
 
     private func showButtonImage(from buttonNotificationType: NotificationType) {
 
         // only need to update image(s) if the type changes
-        guard currentButtonNotificationType != buttonNotificationType else {
+        guard self.currentButtonNotificationType != buttonNotificationType else {
             return
         }
 

@@ -77,11 +77,19 @@ struct EurekaTechActivatedPopupView: View {
 #if DEBUG
 struct EurekaTechActivatedPopupView_Previews: PreviewProvider {
 
+    static func viewModel() -> EurekaTechActivatedPopupViewModel {
+
+        let viewModel = EurekaTechActivatedPopupViewModel()
+        viewModel.update(for: .archery)
+
+        return viewModel
+    }
+
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = EurekaTechActivatedPopupViewModel(techType: .archery)
 
+        let viewModel = EurekaTechActivatedPopupView_Previews.viewModel()
         EurekaTechActivatedPopupView(viewModel: viewModel)
     }
 }

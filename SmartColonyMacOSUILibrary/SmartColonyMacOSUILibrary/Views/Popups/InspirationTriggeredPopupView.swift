@@ -9,12 +9,12 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
-struct EurekaCivicActivatedPopupView: View {
+struct InspirationTriggeredPopupView: View {
 
     @ObservedObject
-    var viewModel: EurekaCivicActivatedPopupViewModel
+    var viewModel: InspirationTriggeredPopupViewModel
 
-    public init(viewModel: EurekaCivicActivatedPopupViewModel) {
+    public init(viewModel: InspirationTriggeredPopupViewModel) {
 
         self.viewModel = viewModel
     }
@@ -77,12 +77,20 @@ struct EurekaCivicActivatedPopupView: View {
 #if DEBUG
 struct EurekaCivicActivatedPopupView_Previews: PreviewProvider {
 
+    static func viewModel() -> InspirationTriggeredPopupViewModel {
+
+        let viewModel = InspirationTriggeredPopupViewModel()
+        viewModel.update(for: .codeOfLaws)
+
+        return viewModel
+    }
+
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = EurekaCivicActivatedPopupViewModel(civicType: .codeOfLaws)
+        let viewModel = EurekaCivicActivatedPopupView_Previews.viewModel()
 
-        EurekaCivicActivatedPopupView(viewModel: viewModel)
+        InspirationTriggeredPopupView(viewModel: viewModel)
     }
 }
 #endif

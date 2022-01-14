@@ -323,7 +323,7 @@ class Techs: AbstractTechs {
 
         // trigger event to user
         if player.isHuman() {
-            gameModel?.userInterface?.showPopup(popupType: .eurekaTechActivated(tech: techType))
+            gameModel?.userInterface?.showPopup(popupType: .eurekaTriggered(tech: techType))
         }
     }
 

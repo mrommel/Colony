@@ -23,15 +23,21 @@ class TechDiscoveredPopupViewModel: ObservableObject {
     @Published
     var quoteText: String
 
-    private let techType: TechType
+    private var techType: TechType = .none
 
     weak var delegate: GameViewModelDelegate?
 
-    init(techType: TechType) {
+    init() {
+
+        self.title = "TXT_KEY_RESEARCH_COMPLETED".localized()
+        self.nameText = "-"
+        self.quoteText = "-"
+    }
+
+    func update(for techType: TechType) {
 
         self.techType = techType
 
-        self.title = "TXT_KEY_RESEARCH_COMPLETED".localized()
         self.nameText = self.techType.name().localized()
 
         let quotes = self.techType.quoteTexts()

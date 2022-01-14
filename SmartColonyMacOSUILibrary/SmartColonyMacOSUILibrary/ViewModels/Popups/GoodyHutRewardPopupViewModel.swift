@@ -18,9 +18,14 @@ class GoodyHutRewardPopupViewModel: ObservableObject {
 
     weak var delegate: GameViewModelDelegate?
 
-    init(goodyHutType: GoodyType, location: HexPoint) {
+    init() {
 
         self.title = "Received Goodies"
+        self.text = "The people from a tribal village gave you a present."
+    }
+
+    func update(for goodyHutType: GoodyType, at location: HexPoint) {
+
         self.text = "The people from a tribal village gave you a present. \(goodyHutType.effect())"
     }
 

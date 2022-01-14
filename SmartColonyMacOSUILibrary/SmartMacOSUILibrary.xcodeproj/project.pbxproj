@@ -65,8 +65,8 @@
 		C943E90026C100E00038B7E8 /* UnitBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C943E8FF26C100E00038B7E8 /* UnitBannerView.swift */; };
 		C943E90226C1011C0038B7E8 /* UnitBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C943E90126C1011C0038B7E8 /* UnitBannerViewModel.swift */; };
 		C94507A9262232E400CFD27D /* DataPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94507A8262232E400CFD27D /* DataPicker.swift */; };
-		C9452E2526680532005EF985 /* EurekaCivicActivatedPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9452E2426680532005EF985 /* EurekaCivicActivatedPopupViewModel.swift */; };
-		C9452E272668061D005EF985 /* EurekaCivicActivatedPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9452E262668061D005EF985 /* EurekaCivicActivatedPopupView.swift */; };
+		C9452E2526680532005EF985 /* InspirationTriggeredPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9452E2426680532005EF985 /* InspirationTriggeredPopupViewModel.swift */; };
+		C9452E272668061D005EF985 /* InspirationTriggeredPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9452E262668061D005EF985 /* InspirationTriggeredPopupView.swift */; };
 		C9452E2B2668093A005EF985 /* EraEnteredPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9452E2A2668093A005EF985 /* EraEnteredPopupView.swift */; };
 		C9452E2D266809A6005EF985 /* EraEnteredPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9452E2C266809A6005EF985 /* EraEnteredPopupViewModel.swift */; };
 		C9452E2F26680C95005EF985 /* TechDiscoveredPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9452E2E26680C95005EF985 /* TechDiscoveredPopupViewModel.swift */; };
@@ -365,8 +365,8 @@
 		C943E8FF26C100E00038B7E8 /* UnitBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitBannerView.swift; sourceTree = "<group>"; };
 		C943E90126C1011C0038B7E8 /* UnitBannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitBannerViewModel.swift; sourceTree = "<group>"; };
 		C94507A8262232E400CFD27D /* DataPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPicker.swift; sourceTree = "<group>"; };
-		C9452E2426680532005EF985 /* EurekaCivicActivatedPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EurekaCivicActivatedPopupViewModel.swift; sourceTree = "<group>"; };
-		C9452E262668061D005EF985 /* EurekaCivicActivatedPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EurekaCivicActivatedPopupView.swift; sourceTree = "<group>"; };
+		C9452E2426680532005EF985 /* InspirationTriggeredPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspirationTriggeredPopupViewModel.swift; sourceTree = "<group>"; };
+		C9452E262668061D005EF985 /* InspirationTriggeredPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspirationTriggeredPopupView.swift; sourceTree = "<group>"; };
 		C9452E2A2668093A005EF985 /* EraEnteredPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EraEnteredPopupView.swift; sourceTree = "<group>"; };
 		C9452E2C266809A6005EF985 /* EraEnteredPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EraEnteredPopupViewModel.swift; sourceTree = "<group>"; };
 		C9452E2E26680C95005EF985 /* TechDiscoveredPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechDiscoveredPopupViewModel.swift; sourceTree = "<group>"; };
@@ -994,7 +994,7 @@
 			children = (
 				C9B087C726679E1D0016DFCA /* GoodyHutRewardPopupView.swift */,
 				C9B087CC2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift */,
-				C9452E262668061D005EF985 /* EurekaCivicActivatedPopupView.swift */,
+				C9452E262668061D005EF985 /* InspirationTriggeredPopupView.swift */,
 				C9452E2A2668093A005EF985 /* EraEnteredPopupView.swift */,
 				C9452E3026680DB3005EF985 /* TechDiscoveredPopupView.swift */,
 				C9F2B54C2669126E0016D4F3 /* CivicDiscoveredPopupView.swift */,
@@ -1009,7 +1009,7 @@
 			children = (
 				C9B087CA2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift */,
 				C9B087CE2667BC550016DFCA /* EurekaTechActivatedPopupViewModel.swift */,
-				C9452E2426680532005EF985 /* EurekaCivicActivatedPopupViewModel.swift */,
+				C9452E2426680532005EF985 /* InspirationTriggeredPopupViewModel.swift */,
 				C9452E2C266809A6005EF985 /* EraEnteredPopupViewModel.swift */,
 				C9452E2E26680C95005EF985 /* TechDiscoveredPopupViewModel.swift */,
 				C9F2B54E266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift */,
@@ -1271,7 +1271,7 @@
 				C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */,
 				C9A3762B2635FDAF0057923E /* BoardLayer.swift in Sources */,
 				C984642E26F4B34B00C40EA7 /* GovernorView.swift in Sources */,
-				C9452E272668061D005EF985 /* EurekaCivicActivatedPopupView.swift in Sources */,
+				C9452E272668061D005EF985 /* InspirationTriggeredPopupView.swift in Sources */,
 				C9AC100326DE6EA100B65288 /* PromotionView.swift in Sources */,
 				C96FEA37274CE5E400A9194C /* UnitCommandView.swift in Sources */,
 				C9CE216D2649675F00B47ED4 /* CheckboxCircleToggleStyle.swift in Sources */,
@@ -1348,7 +1348,7 @@
 				C96FEA35274CE4B400A9194C /* UnitCommandViewModel.swift in Sources */,
 				C9A8F0D72651969D00584199 /* GameViewModelDialogs.swift in Sources */,
 				C98031CD26EE5756008F460B /* CityListDialogView.swift in Sources */,
-				C9452E2526680532005EF985 /* EurekaCivicActivatedPopupViewModel.swift in Sources */,
+				C9452E2526680532005EF985 /* InspirationTriggeredPopupViewModel.swift in Sources */,
 				C9E18378270314EC00A3082D /* TechListDialogView.swift in Sources */,
 				C9B087CD2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift in Sources */,
 				C9BA399726657499008B3476 /* AnimatedImageViewModel.swift in Sources */,

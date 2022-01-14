@@ -4249,7 +4249,7 @@ public class Player: AbstractPlayer {
             // If it's the active player then show the popup
             if self.isEqual(to: gameModel.humanPlayer()) {
 
-                gameModel.userInterface?.showPopup(popupType: .barbarianCampCleared(location: tile.point, gold: numGold))
+                gameModel.userInterface?.showTooltip(at: tile.point, text: "Barbarian camp cleared", delay: 3)
             }
         }
     }

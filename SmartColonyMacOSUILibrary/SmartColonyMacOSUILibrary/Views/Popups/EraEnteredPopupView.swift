@@ -62,11 +62,19 @@ struct EraEnteredPopupView: View {
 #if DEBUG
 struct EraEnteredPopupView_Previews: PreviewProvider {
 
+    static func viewModel() -> EraEnteredPopupViewModel {
+
+        let viewModel = EraEnteredPopupViewModel()
+        viewModel.update(for: .classical)
+
+        return viewModel
+    }
+
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = EraEnteredPopupViewModel(eraType: .classical)
 
+        let viewModel = EraEnteredPopupView_Previews.viewModel()
         EraEnteredPopupView(viewModel: viewModel)
     }
 }

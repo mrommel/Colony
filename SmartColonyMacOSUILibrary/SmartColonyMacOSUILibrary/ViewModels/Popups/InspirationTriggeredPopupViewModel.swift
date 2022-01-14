@@ -1,5 +1,5 @@
 //
-//  EurekaCivicActivatedPopupViewModel.swift
+//  InspirationTriggeredPopupViewModel.swift
 //  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 02.06.21.
@@ -9,7 +9,7 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
-class EurekaCivicActivatedPopupViewModel: ObservableObject {
+class InspirationTriggeredPopupViewModel: ObservableObject {
 
     @Published
     var title: String
@@ -20,16 +20,22 @@ class EurekaCivicActivatedPopupViewModel: ObservableObject {
     @Published
     var descriptionText: String
 
-    private let civicType: CivicType
+    private var civicType: CivicType = .none
 
     weak var delegate: GameViewModelDelegate?
 
-    init(civicType: CivicType) {
+    init() {
+
+        self.title = "TXT_KEY_INSPIRATION".localized()
+        self.summaryText = "-"
+        self.descriptionText = "-"
+    }
+
+    func update(for civicType: CivicType) {
 
         self.civicType = civicType
 
-        self.title = "TXT_KEY_INSPIRATION".localized()
-        self.summaryText = civicType.eurekaDescription().localized()
+        self.summaryText = civicType.inspirationDescription().localized()
         self.descriptionText = "TXT_KEY_INSPIRATION_TRIGGERED".localizedWithFormat(with: [civicType.name().localized()])
     }
 

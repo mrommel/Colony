@@ -420,7 +420,7 @@ class Civics: AbstractCivics {
 
         // trigger event to user
         if player.isHuman() {
-            gameModel?.userInterface?.showPopup(popupType: .eurekaCivicActivated(civic: civicType))
+            gameModel?.userInterface?.showPopup(popupType: .inspirationTriggered(civic: civicType))
         }
     }
 }

@@ -138,7 +138,7 @@ class HeaderViewModel: ObservableObject {
         if let civics = humanPlayer.civics {
             if let currentCivic = civics.currentCivic() {
 
-                if self.displayedCivicType != currentCivic || self.displayedTechProgress < civics.currentCultureProgress() {
+                if self.displayedCivicType != currentCivic || self.displayedCivicProgress < civics.currentCultureProgress() {
 
                     let progressPercentage: Int = Int(civics.currentCultureProgress() / Double(currentCivic.cost()) * 100.0)
                     let culturePerTurn = humanPlayer.culture(in: gameModel)

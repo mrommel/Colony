@@ -27,7 +27,7 @@ class EurekaActivatedPopupViewModel {
 
         self.iconTexture = civicType.iconTexture()
         self.titleText = "Eureka!"
-        self.summaryText = civicType.eurekaDescription()
+        self.summaryText = civicType.inspirationDescription()
         self.subtitleText = "Your knowledge of \(civicType.name()) has advanced considerably."
     }
 }

@@ -16,15 +16,19 @@ class EraEnteredPopupViewModel: ObservableObject {
     @Published
     var summaryText: String
 
-    private let eraType: EraType
+    private var eraType: EraType = .none
 
     weak var delegate: GameViewModelDelegate?
 
-    init(eraType: EraType) {
-
-        self.eraType = eraType
+    init() {
 
         self.title = "New Era started"
+        self.summaryText = "The World has entered a new Era"
+    }
+
+    func update(for eraType: EraType) {
+
+        self.eraType = eraType
         self.summaryText = "The World has entered the \(eraType) Era"
     }
 

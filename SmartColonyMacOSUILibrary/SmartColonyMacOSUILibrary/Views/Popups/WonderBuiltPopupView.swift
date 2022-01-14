@@ -78,12 +78,19 @@ struct WonderBuiltPopupView: View {
 #if DEBUG
 struct WonderBuiltPopupView_Previews: PreviewProvider {
 
+    static func viewModel() -> WonderBuiltPopupViewModel {
+
+        let viewModel = WonderBuiltPopupViewModel()
+        viewModel.update(for: .pyramids)
+
+        return viewModel
+    }
+
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
-        let viewModel = WonderBuiltPopupViewModel(wonderType: .pyramids)
-
+        let viewModel = WonderBuiltPopupView_Previews.viewModel()
         WonderBuiltPopupView(viewModel: viewModel)
     }
 }

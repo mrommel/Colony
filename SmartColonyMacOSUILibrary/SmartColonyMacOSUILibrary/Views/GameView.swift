@@ -166,38 +166,23 @@ extension GameView {
         case .declareWarQuestion(player: _):
             return AnyView(Text("declareWarQuestion"))
 
-        case .barbarianCampCleared(location: _, gold: _):
-            return AnyView(Text("barbarianCampCleared"))
+        case .goodyHutReward(goodyType: _, location: _):
+            return AnyView(GoodyHutRewardPopupView(viewModel: self.viewModel.goodyHutRewardPopupViewModel))
 
-        case .goodyHutReward(goodyType: let goodyType, location: let location):
-            let viewModel = GoodyHutRewardPopupViewModel(goodyHutType: goodyType, location: location)
-            viewModel.delegate = self.viewModel
-            return AnyView(GoodyHutRewardPopupView(viewModel: viewModel))
+        case .techDiscovered(tech: _):
+            return AnyView(TechDiscoveredPopupView(viewModel: self.viewModel.techDiscoveredPopupViewModel))
 
-        case .techDiscovered(tech: let tech):
-            let viewModel = TechDiscoveredPopupViewModel(techType: tech)
-            viewModel.delegate = self.viewModel
-            return AnyView(TechDiscoveredPopupView(viewModel: viewModel))
+        case .civicDiscovered(civic: _):
+            return AnyView(CivicDiscoveredPopupView(viewModel: self.viewModel.civicDiscoveredPopupViewModel))
 
-        case .civicDiscovered(civic: let civic):
-            let viewModel = CivicDiscoveredPopupViewModel(civicType: civic)
-            viewModel.delegate = self.viewModel
-            return AnyView(CivicDiscoveredPopupView(viewModel: viewModel))
+        case .eraEntered(era: _):
+            return AnyView(EraEnteredPopupView(viewModel: self.viewModel.eraEnteredPopupViewModel))
 
-        case .eraEntered(era: let era):
-            let viewModel = EraEnteredPopupViewModel(eraType: era)
-            viewModel.delegate = self.viewModel
-            return AnyView(EraEnteredPopupView(viewModel: viewModel))
+        case .eurekaTriggered(tech: _):
+            return AnyView(EurekaTechActivatedPopupView(viewModel: self.viewModel.eurekaTechActivatedPopupViewModel))
 
-        case .eurekaTechActivated(tech: let tech):
-            let viewModel = EurekaTechActivatedPopupViewModel(techType: tech)
-            viewModel.delegate = self.viewModel
-            return AnyView(EurekaTechActivatedPopupView(viewModel: viewModel))
-
-        case .eurekaCivicActivated(civic: let civic):
-            let viewModel = EurekaCivicActivatedPopupViewModel(civicType: civic)
-            viewModel.delegate = self.viewModel
-            return AnyView(EurekaCivicActivatedPopupView(viewModel: viewModel))
+        case .inspirationTriggered(civic: _):
+            return AnyView(InspirationTriggeredPopupView(viewModel: self.viewModel.inspirationTriggeredPopupViewModel))
 
         case .unitTrained(unit: _):
             return AnyView(EmptyView())
@@ -205,10 +190,8 @@ extension GameView {
         case .buildingBuilt:
             return AnyView(EmptyView())
 
-        case .wonderBuilt(wonder: let wonderType):
-            let viewModel = WonderBuiltPopupViewModel(wonderType: wonderType)
-            viewModel.delegate = self.viewModel
-            return AnyView(WonderBuiltPopupView(viewModel: viewModel))
+        case .wonderBuilt(wonder: _):
+            return AnyView(WonderBuiltPopupView(viewModel: self.viewModel.wonderBuiltPopupViewModel))
 
         case .religionByCityAdopted(religion: _, location: _):
             return AnyView(Text("religionByCityAdopted"))
@@ -220,9 +203,7 @@ extension GameView {
             return AnyView(Text("religionCanBuyMissionary"))
 
         case .canFoundPantheon:
-            let viewModel = CanFoundPantheonPopupViewModel()
-            viewModel.delegate = self.viewModel
-            return AnyView(CanFoundPantheonPopupView(viewModel: viewModel))
+            return AnyView(CanFoundPantheonPopupView(viewModel: self.viewModel.canFoundPantheonPopupViewModel))
 
         case .religionNeedNewAutomaticFaithSelection:
             return AnyView(Text("religionNeedNewAutomaticFaithSelection"))

@@ -239,6 +239,32 @@ public class GameViewModel: ObservableObject {
     @Published
     var momentsDialogViewModel: MomentsDialogViewModel
 
+    // popups
+
+    @Published
+    var goodyHutRewardPopupViewModel: GoodyHutRewardPopupViewModel
+
+    @Published
+    var techDiscoveredPopupViewModel: TechDiscoveredPopupViewModel
+
+    @Published
+    var civicDiscoveredPopupViewModel: CivicDiscoveredPopupViewModel
+
+    @Published
+    var eraEnteredPopupViewModel: EraEnteredPopupViewModel
+
+    @Published
+    var eurekaTechActivatedPopupViewModel: EurekaTechActivatedPopupViewModel
+
+    @Published
+    var inspirationTriggeredPopupViewModel: InspirationTriggeredPopupViewModel
+
+    @Published
+    var wonderBuiltPopupViewModel: WonderBuiltPopupViewModel
+
+    @Published
+    var canFoundPantheonPopupViewModel: CanFoundPantheonPopupViewModel
+
     // UI
 
     @Published
@@ -372,6 +398,16 @@ public class GameViewModel: ObservableObject {
         self.selectDedicationDialogViewModel = SelectDedicationDialogViewModel()
         self.momentsDialogViewModel = MomentsDialogViewModel()
 
+        // popups
+        self.goodyHutRewardPopupViewModel = GoodyHutRewardPopupViewModel()
+        self.techDiscoveredPopupViewModel = TechDiscoveredPopupViewModel()
+        self.civicDiscoveredPopupViewModel = CivicDiscoveredPopupViewModel()
+        self.eraEnteredPopupViewModel = EraEnteredPopupViewModel()
+        self.eurekaTechActivatedPopupViewModel = EurekaTechActivatedPopupViewModel()
+        self.inspirationTriggeredPopupViewModel = InspirationTriggeredPopupViewModel()
+        self.wonderBuiltPopupViewModel = WonderBuiltPopupViewModel()
+        self.canFoundPantheonPopupViewModel = CanFoundPantheonPopupViewModel()
+
         // connect models
         self.gameSceneViewModel.delegate = self
         self.notificationsViewModel.delegate = self
@@ -408,6 +444,15 @@ public class GameViewModel: ObservableObject {
         self.eraProgressDialogViewModel.delegate = self
         self.selectDedicationDialogViewModel.delegate = self
         self.momentsDialogViewModel.delegate = self
+
+        self.goodyHutRewardPopupViewModel.delegate = self
+        self.techDiscoveredPopupViewModel.delegate = self
+        self.civicDiscoveredPopupViewModel.delegate = self
+        self.eraEnteredPopupViewModel.delegate = self
+        self.eurekaTechActivatedPopupViewModel.delegate = self
+        self.inspirationTriggeredPopupViewModel.delegate = self
+        self.wonderBuiltPopupViewModel.delegate = self
+        self.canFoundPantheonPopupViewModel.delegate = self
 
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -479,68 +524,36 @@ public class GameViewModel: ObservableObject {
 
         if let firstPopup = self.popups.first {
 
-            print("show popup: \(firstPopup)")
+            // print("show popup: \(firstPopup)")
 
             switch firstPopup {
 
-            case .none:
-                // NOOP
-                break
-            case .declareWarQuestion(_):
-                // NOOP
-                break
-            case .barbarianCampCleared:
-                // NOOP
-                break
-
             case .techDiscovered(let techType):
-                self.currentPopupType = .techDiscovered(tech: techType)
+                self.techDiscoveredPopupViewModel.update(for: techType)
 
             case .civicDiscovered(let civicType):
-                self.currentPopupType = .civicDiscovered(civic: civicType)
+                self.civicDiscoveredPopupViewModel.update(for: civicType)
 
             case .eraEntered(let eraType):
-                self.currentPopupType = .eraEntered(era: eraType)
+                self.eraEnteredPopupViewModel.update(for: eraType)
 
-            case .eurekaTechActivated(let techType):
-                self.currentPopupType = .eurekaTechActivated(tech: techType)
+            case .eurekaTriggered(let techType):
+                self.eurekaTechActivatedPopupViewModel.update(for: techType)
 
-            case .eurekaCivicActivated(let civicType):
-                self.currentPopupType = .eurekaCivicActivated(civic: civicType)
+            case .inspirationTriggered(let civicType):
+                self.inspirationTriggeredPopupViewModel.update(for: civicType)
 
             case .goodyHutReward(let goodyType, let location):
-                self.currentPopupType = .goodyHutReward(goodyType: goodyType, location: location)
-
-            case .unitTrained(unit: _):
-                // NOOP
-                break
-
-            case .buildingBuilt:
-                // NOOP
-                break
+                self.goodyHutRewardPopupViewModel.update(for: goodyType, at: location)
 
             case .wonderBuilt(let wonderType):
-                self.currentPopupType = .wonderBuilt(wonder: wonderType)
+                self.wonderBuiltPopupViewModel.update(for: wonderType)
 
-            case .religionByCityAdopted(_, _):
-                fatalError("religionByCityAdopted")
-
-            case .religionNewMajority(_):
-                // TXT_KEY_NOTIFICATION_RELIGION_NEW_PLAYER_MAJORITY
-                fatalError("TXT_KEY_NOTIFICATION_RELIGION_NEW_PLAYER_MAJORITY")
-            case .religionCanBuyMissionary:
-                // TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_MISSIONARY
-                fatalError("TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_MISSIONARY")
-            case .canFoundPantheon:
-                self.currentPopupType = .canFoundPantheon
-
-            case .religionNeedNewAutomaticFaithSelection:
-                // TXT_KEY_NOTIFICATION_NEED_NEW_AUTOMATIC_FAITH_SELECTION
-                fatalError("TXT_KEY_NOTIFICATION_NEED_NEW_AUTOMATIC_FAITH_SELECTION")
-            case .religionEnoughFaithForMissionary:
-                // ENOUGH_FAITH_FOR_MISSIONARY
-                fatalError("ENOUGH_FAITH_FOR_MISSIONARY")
+            default:
+                fatalError("not handled: \(firstPopup)")
             }
+
+            self.currentPopupType = firstPopup
 
             self.popups.removeFirst()
             return

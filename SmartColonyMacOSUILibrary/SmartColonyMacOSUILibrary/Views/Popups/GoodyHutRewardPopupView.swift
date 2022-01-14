@@ -58,15 +58,20 @@ struct GoodyHutRewardPopupView: View {
 #if DEBUG
 struct GoodyHutRewardPopupView_Previews: PreviewProvider {
 
+    static func viewModel() -> GoodyHutRewardPopupViewModel {
+
+        let viewModel = GoodyHutRewardPopupViewModel()
+        viewModel.update(for: .additionalPopulation, at: HexPoint.zero)
+
+        return viewModel
+    }
+
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        //let game = DemoGameModel()
-        //let environment = GameEnvironment(game: game)
-        let viewModel = GoodyHutRewardPopupViewModel(goodyHutType: .additionalPopulation, location: HexPoint.zero)
 
+        let viewModel = GoodyHutRewardPopupView_Previews.viewModel()
         GoodyHutRewardPopupView(viewModel: viewModel)
-            //.environment(\.gameEnvironment, environment)
     }
 }
 #endif

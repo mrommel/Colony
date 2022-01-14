@@ -273,7 +273,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         enables += civic.achievements().wonderTypes.map { $0.name() }
         detailText += ListFormatter.localizedString(byJoining: enables)
         detailText += "\n"
-        detailText += "Is boosted by: " + civic.eurekaSummary()
+        detailText += "Is boosted by: " + civic.inspirationSummary()
         self.detail = detailText
 
         self.imageName = civic.iconTexture()

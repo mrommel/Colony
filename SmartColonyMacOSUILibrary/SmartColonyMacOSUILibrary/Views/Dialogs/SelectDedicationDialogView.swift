@@ -43,7 +43,7 @@ struct SelectDedicationDialogView: View {
                         .padding(.top, 8)
                     })
 
-                    Text(self.viewModel.dedicationsText)
+                    Label(self.viewModel.dedicationsText)
 
                     Spacer()
                 }

@@ -30,7 +30,7 @@ class CultureProgressNode: BaseProgressNode {
         if self.civicType != civic {
             self.iconNode?.texture = SKTexture(imageNamed: civic.iconTexture())
             self.labelNode?.text = civic.name()
-            self.eurekaNode?.text = civic.eurekaSummary()
+            self.eurekaNode?.text = civic.inspirationSummary()
             self.turnsRemainingNode?.text = "\(turnsRemaining)"
 
             self.resetIcons()

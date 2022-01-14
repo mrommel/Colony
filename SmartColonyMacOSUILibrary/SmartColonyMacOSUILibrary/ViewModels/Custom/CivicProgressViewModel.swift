@@ -151,16 +151,16 @@ class CivicProgressViewModel: ObservableObject {
 
     func boostText() -> String {
 
-        if self.civicType.eurekaSummary() == "" {
+        if self.civicType.inspirationSummary() == "" {
             return ""
         }
 
         if self.boosted {
             return "TXT_KEY_BOOSTED".localized() + " " +
-                self.civicType.eurekaSummary().localized()
+                self.civicType.inspirationSummary().localized()
         } else {
             return "TXT_KEY_TO_BOOST".localized() + " " +
-                self.civicType.eurekaSummary().localized()
+                self.civicType.inspirationSummary().localized()
         }
     }
 }

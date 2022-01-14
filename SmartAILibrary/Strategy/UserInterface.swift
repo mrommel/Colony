@@ -13,15 +13,14 @@ public enum PopupType {
     case none
 
     case declareWarQuestion(player: AbstractPlayer?)
-    case barbarianCampCleared(location: HexPoint, gold: Int)
 
     case goodyHutReward(goodyType: GoodyType, location: HexPoint)
 
     case techDiscovered(tech: TechType)
     case civicDiscovered(civic: CivicType)
     case eraEntered(era: EraType)
-    case eurekaTechActivated(tech: TechType)
-    case eurekaCivicActivated(civic: CivicType)
+    case eurekaTriggered(tech: TechType)
+    case inspirationTriggered(civic: CivicType)
 
     case unitTrained(unit: UnitType)
     case wonderBuilt(wonder: WonderType)
@@ -43,9 +42,6 @@ extension PopupType: Equatable {
         case (let .declareWarQuestion(lhs_player), let .declareWarQuestion(rhs_player)):
             return lhs_player?.leader == rhs_player?.leader
 
-        case (let .barbarianCampCleared(lhs_location, lhs_gold), let .barbarianCampCleared(rhs_location, rhs_gold)):
-            return lhs_location == rhs_location && lhs_gold == rhs_gold
-
         case (let .goodyHutReward(lhs_goodyType, lhs_location), let .goodyHutReward(rhs_goodyType, rhs_location)):
             return lhs_goodyType == rhs_goodyType && lhs_location == rhs_location
 
@@ -58,10 +54,10 @@ extension PopupType: Equatable {
         case (let .eraEntered(lhs_era), let .eraEntered(rhs_era)):
             return lhs_era == rhs_era
 
-        case (let .eurekaTechActivated(lhs_tech), let .eurekaTechActivated(rhs_tech)):
+        case (let .eurekaTriggered(lhs_tech), let .eurekaTriggered(rhs_tech)):
             return lhs_tech == rhs_tech
 
-        case (let .eurekaCivicActivated(lhs_civic), let .eurekaCivicActivated(rhs_civic)):
+        case (let .inspirationTriggered(lhs_civic), let .inspirationTriggered(rhs_civic)):
             return lhs_civic == rhs_civic
 
         case (let .unitTrained(lhs_unit), let .unitTrained(rhs_unit)):
