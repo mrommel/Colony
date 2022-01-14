@@ -13,16 +13,6 @@ struct CivicView: View {
     @ObservedObject
     var viewModel: CivicViewModel
 
-    private var gridItemLayout = [
-        GridItem(.fixed(16), spacing: 2.0),
-        GridItem(.fixed(16), spacing: 2.0),
-        GridItem(.fixed(16), spacing: 2.0),
-        GridItem(.fixed(16), spacing: 2.0),
-        GridItem(.fixed(16), spacing: 2.0),
-        GridItem(.fixed(16), spacing: 2.0),
-        GridItem(.fixed(16), spacing: 2.0)
-    ]
-
     public init(viewModel: CivicViewModel) {
 
         self.viewModel = viewModel
@@ -57,15 +47,16 @@ struct CivicView: View {
                                 .padding(.top, 2)
                         }
 
-                        LazyVGrid(columns: gridItemLayout, spacing: 4) {
+                        LazyHStack(spacing: 2) {
 
                             ForEach(self.viewModel.achievementViewModels, id: \.self) { achievementViewModel in
 
                                 AchievementView(viewModel: achievementViewModel)
                                     .id("civic-\(self.viewModel.id)-\(achievementViewModel.id)")
+                                    .frame(width: 16, height: 16)
                             }
                         }
-                        .padding(.top, 4)
+                        .padding(.top, 0)
                         .padding(.trailing, 0)
                         .padding(.leading, 0)
                     }

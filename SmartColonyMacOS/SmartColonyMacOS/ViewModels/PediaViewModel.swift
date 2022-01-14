@@ -179,10 +179,10 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         var requiredText = ""
         if let requiredTech = district.requiredTech() {
-            requiredText = requiredTech.name()
+            requiredText = requiredTech.name().localized()
         }
         if let requiredCivic = district.requiredCivic() {
-            requiredText = requiredCivic.name()
+            requiredText = requiredCivic.name().localized()
         }
         self.summary = "District that can be built with \(district.productionCost()) [Production] production. " +
             "It requires \(requiredText) to be researched."
@@ -199,10 +199,10 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         var requiredText = ""
         if let requiredTech = wonder.requiredTech() {
-            requiredText = requiredTech.name()
+            requiredText = requiredTech.name().localized()
         }
         if let requiredCivic = wonder.requiredCivic() {
-            requiredText = requiredCivic.name()
+            requiredText = requiredCivic.name().localized()
         }
         self.summary = "Wonder that can be built with \(wonder.productionCost()) [Production] production. " +
             "It requires \(requiredText) to be researched."
@@ -219,7 +219,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         var requiredText = ""
         if let requiredTech = improvement.requiredTech() {
-            requiredText = requiredTech.name()
+            requiredText = requiredTech.name().localized()
         }
         self.summary = "Improvement that can be built when \(requiredText) is researched."
 
@@ -234,7 +234,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         self.title = tech.name()
 
-        let requires: [String] = tech.required().map { $0.name() }
+        let requires: [String] = tech.required().map { $0.name().localized() }
         let requiredText = ListFormatter.localizedString(byJoining: requires)
         self.summary = "\(tech.era().title()) tech that needs \(tech.cost()) science. " +
             "It requires \(requiredText) to be researched."
@@ -248,7 +248,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         enables += tech.achievements().wonderTypes.map { $0.name() }
         detailText += ListFormatter.localizedString(byJoining: enables)
         detailText += "\n"
-        detailText += "Is boosted by: " + tech.eurekaSummary()
+        detailText += "Is boosted by: " + tech.eurekaSummary().localized()
         self.detail = detailText
         self.imageName = tech.iconTexture()
     }
@@ -257,7 +257,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         self.title = civic.name()
 
-        let requires: [String] = civic.required().map { $0.name() }
+        let requires: [String] = civic.required().map { $0.name().localized() }
         let requiredText = ListFormatter.localizedString(byJoining: requires)
         self.summary = "\(civic.era().title()) civic that needs \(civic.cost()) culture. " +
             "It requires \(requiredText) to be researched."
@@ -273,7 +273,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         enables += civic.achievements().wonderTypes.map { $0.name() }
         detailText += ListFormatter.localizedString(byJoining: enables)
         detailText += "\n"
-        detailText += "Is boosted by: " + civic.inspirationSummary()
+        detailText += "Is boosted by: " + civic.inspirationSummary().localized()
         self.detail = detailText
 
         self.imageName = civic.iconTexture()

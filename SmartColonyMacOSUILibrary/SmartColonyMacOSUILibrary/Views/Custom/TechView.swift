@@ -13,16 +13,6 @@ struct TechView: View {
     @ObservedObject
     var viewModel: TechViewModel
 
-    private var gridItemLayout = [
-        GridItem(.fixed(16), spacing: 2.0),
-        GridItem(.fixed(16), spacing: 2.0),
-        GridItem(.fixed(16), spacing: 2.0),
-        GridItem(.fixed(16), spacing: 2.0),
-        GridItem(.fixed(16), spacing: 2.0),
-        GridItem(.fixed(16), spacing: 2.0),
-        GridItem(.fixed(16), spacing: 2.0)
-    ]
-
     public init(viewModel: TechViewModel) {
 
         self.viewModel = viewModel
@@ -56,15 +46,16 @@ struct TechView: View {
                                 .padding(.top, 2)
                         }
 
-                        LazyVGrid(columns: gridItemLayout, spacing: 4) {
+                        LazyHStack(spacing: 2) {
 
                             ForEach(self.viewModel.achievementViewModels, id: \.self) { achievementViewModel in
 
                                 AchievementView(viewModel: achievementViewModel)
                                     .id("tech-\(self.viewModel.id)-\(achievementViewModel.id)")
+                                    .frame(width: 16, height: 16)
                             }
                         }
-                        .padding(.top, 4)
+                        .padding(.top, 0)
                         .padding(.trailing, 0)
                         .padding(.leading, 0)
                     }
@@ -104,6 +95,8 @@ struct TechView_Previews: PreviewProvider {
         TechView(viewModel: TechViewModel(techType: .astrology, state: .selected, boosted: false, turns: -1))
 
         TechView(viewModel: TechViewModel(techType: .animalHusbandry, state: .researched, boosted: true, turns: -1))
+
+        TechView(viewModel: TechViewModel(techType: .flight, state: .disabled, boosted: true, turns: 45))
     }
 }
 #endif
