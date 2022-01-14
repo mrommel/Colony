@@ -97,7 +97,7 @@ public class DiplomaticDialogViewModel: ObservableObject {
             return "None"
         }
 
-        return player.leader.civilization().name()
+        return player.leader.civilization().name().localized()
     }
 }
 

@@ -331,26 +331,49 @@ class PediaViewModel: ObservableObject {
         }
 
         let bundle = Bundle.init(for: Textures.self)
-        let textures: Textures = Textures(game: nil)
 
-        print("- load \(textures.allTerrainTextureNames.count) terrains")
-        for textureName in textures.allTerrainTextureNames {
+        let allTerrainTextureNames = [
+            "terrain_desert", "terrain_plains_hills3", "terrain_grass_hills3", "terrain_desert_hills",
+            "terrain_tundra", "terrain_desert_hills2", "terrain_tundra2", "terrain_shore",
+            "terrain_desert_hills3", "terrain_ocean", "terrain_tundra3", "terrain_snow",
+            "terrain_plains", "terrain_snow_hills", "terrain_grass", "terrain_snow_hills2",
+            "terrain_tundra_hills", "terrain_plains_hills", "terrain_plains_hills2",
+            "terrain_grass_hills", "terrain_snow_hills3", "terrain_grass_hills2"
+        ]
+        print("- load \(allTerrainTextureNames.count) terrains")
+        for textureName in allTerrainTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
             )
         }
 
-        print("- load \(textures.allFeatureTextureNames.count) features")
-        for textureName in textures.allFeatureTextureNames {
+        let allFeatureTextureNames = [
+            "feature-atoll", "feature-lake", "feature-mountains-ne-sw", "feature-ice5",
+            "feature-rainforest1", "feature-delicateArch", "feature-mountains-nw", "feature-ice6",
+            "feature-rainforest2", "feature-floodplains", "feature-mountains-se", "feature-marsh1",
+            "feature-mountains-se-nw", "feature-reef", "feature-forest1", "feature-marsh2",
+            "feature-mountains-sw", "feature-uluru", "feature-forest2", "feature-mountEverest",
+            "feature-none", "feature-galapagos", "feature-mountKilimanjaro", "feature-yosemite",
+            "feature-greatBarrierReef", "feature-mountains1", "feature-oasis1", "feature-ice1",
+            "feature-mountains2", "feature-oasis2", "feature-ice2", "feature-mountains3",
+            "feature-pantanal", "feature-ice3", "feature-pine1", "feature-mountains-ne",
+            "feature-ice4", "feature-pine1", "feature-pine2", "feature-volcano", "feature-fallout",
+            "feature-fuji", "feature-barringCrater", "feature-mesa", "feature-gibraltar",
+            "feature-geyser", "feature-potosi", "feature-fountainOfYouth", "feature-lakeVictoria",
+            "feature-cliffsOfDover"
+        ]
+        print("- load \(allFeatureTextureNames.count) features")
+        for textureName in allFeatureTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
             )
         }
 
-        print("- load \(textures.allResourceTextureNames.count) resources")
-        for textureName in textures.allResourceTextureNames {
+        let allResourceTextureNames = ResourceType.all.map { $0.textureName() }
+        print("- load \(allResourceTextureNames.count) resources")
+        for textureName in allResourceTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
@@ -366,48 +389,56 @@ class PediaViewModel: ObservableObject {
             )
         }
 
-        print("- load \(textures.buildingTypeTextureNames.count) buildings")
-        for textureName in textures.buildingTypeTextureNames {
+        let buildingTypeTextureNames = BuildingType.all.map { $0.iconTexture() }
+        print("- load \(buildingTypeTextureNames.count) buildings")
+        for textureName in buildingTypeTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
             )
         }
 
-        print("- load \(textures.districtTypeTextureNames.count) districts")
-        for textureName in textures.districtTypeTextureNames {
+        let districtTypeTextureNames = DistrictType.all.map { $0.iconTexture() }
+        print("- load \(districtTypeTextureNames.count) districts")
+        for textureName in districtTypeTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
             )
         }
 
-        print("- load \(textures.wonderTypeTextureNames.count) wonders")
-        for textureName in textures.wonderTypeTextureNames {
+        let wonderTypeTextureNames = WonderType.all.map { $0.iconTexture() }
+        print("- load \(wonderTypeTextureNames.count) wonders")
+        for textureName in wonderTypeTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
             )
         }
 
-        print("- load \(textures.allImprovementTextureNames.count) improvements")
-        for textureName in textures.allImprovementTextureNames {
+        let allImprovementTextureNames = (
+            ImprovementType.all + [.barbarianCamp, .goodyHut]
+        ).flatMap { $0.textureNames() }
+        print("- load \(allImprovementTextureNames.count) improvements")
+        for textureName in allImprovementTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
             )
         }
 
-        print("- load \(textures.techTextureNames.count) techs")
-        for textureName in textures.techTextureNames {
+        let techTextureNames = TechType.all.map { $0.iconTexture() }
+        print("- load \(techTextureNames.count) techs")
+        for textureName in techTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
             )
         }
 
-        print("- load \(textures.civicTextureNames.count) civics")
-        for textureName in textures.civicTextureNames {
+        let civicTextureNames = CivicType.all.map { $0.iconTexture() }
+        print("- load \(civicTextureNames.count) civics")
+        for textureName in civicTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName

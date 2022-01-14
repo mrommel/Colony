@@ -127,7 +127,6 @@ public protocol CloseGameViewModelDelegate: AnyObject {
     func closeGame()
 }
 
-// swiftlint:disable type_body_length
 public class GameViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)

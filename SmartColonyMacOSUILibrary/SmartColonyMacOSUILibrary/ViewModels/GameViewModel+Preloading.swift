@@ -10,7 +10,7 @@ import SmartAILibrary
 
 extension GameViewModel {
 
-    // swiftlint:disable cyclomatic_complexity
+    // swiftlint:disable cyclomatic_complexity function_body_length
     public func loadAssets() {
 
         let allTextureSuffixes: [String] = [
@@ -29,7 +29,6 @@ extension GameViewModel {
         // load assets into image cache
         print("-- pre-load images --")
         let bundle = Bundle.init(for: Textures.self)
-        let textures: Textures = Textures(game: nil)
 
         let allTerrainTextureNames = [
             "terrain_desert", "terrain_plains_hills3", "terrain_grass_hills3", "terrain_desert_hills",
@@ -634,7 +633,7 @@ extension GameViewModel {
             )
         }
 
-        let momentTypeTextureNames = (
+        let momentTypeTextureNames: [String] = (
             MomentType.all.map { $0.iconTexture() } +
             FeatureType.naturalWonders.map { MomentType.discoveryOfANaturalWonder(naturalWonder: $0).iconTexture() } +
             GovernmentType.all.map { MomentType.firstTier1Government(governmentType: $0).iconTexture() } +
