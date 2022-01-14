@@ -13,8 +13,8 @@
 // UI
 "TXT_KEY_GAME" = "SmartColony";
 
-"TXT_KEY_BOOSTED" = "Boosted:";
-"TXT_KEY_TO_BOOST" = "To boost:";
+"TXT_KEY_BOOSTED" = "Boosted";
+"TXT_KEY_TO_BOOST" = "To boost";
 "TXT_KEY_TURNS" = "Turns";
 "TXT_KEY_FOUND" = "Found";
 "TXT_KEY_RENAME" = "Rename";
@@ -29,6 +29,7 @@
 "TXT_KEY_NEW_GAME" = "New Game";
 "TXT_KEY_LOAD_GAME" = "Load Game";
 "TXT_KEY_OPTIONS" = "Options";
+"TXT_KEY_CONTINUE" = "Continue";
 
 // create game
 "TXT_KEY_CHOOSE_LEADER" = "Choose Leader";
@@ -41,7 +42,7 @@
 "TXT_KEY_INSPIRATION_TRIGGERED" = "Your progress towards %@ has advanced considerably.";
 
 "TXT_KEY_EUREKA" = "Eureka";
-"TXT_KEY_EUREKA_TRIGGERED" = "Your progress towards %@ has advanced considerably.";
+"TXT_KEY_EUREKA_TRIGGERED" = "Your knowledge of %@ has advanced considerably.";
 
 "TXT_KEY_RESEARCH_COMPLETED" = "Research completed";
 

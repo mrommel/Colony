@@ -1,5 +1,5 @@
 //
-//  EurekaActivatedPopup.swift
+//  EurekaActivatedPopupViewModel.swift
 //  SmartColony
 //
 //  Created by Michael Rommel on 19.05.20.

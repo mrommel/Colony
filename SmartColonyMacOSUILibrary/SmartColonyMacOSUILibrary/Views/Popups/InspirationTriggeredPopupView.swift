@@ -44,20 +44,32 @@ struct InspirationTriggeredPopupView: View {
 
                             Image(nsImage: self.viewModel.icon())
 
-                            Text(self.viewModel.descriptionText)
-                                .font(.caption)
-                                .lineLimit(nil)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .padding(.bottom, 10)
-                                .padding(.leading, 20)
-                                .padding(.trailing, 20)
+                            VStack {
+                                Text(self.viewModel.descriptionText)
+                                    .font(.caption)
+                                    .lineLimit(nil)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .padding(.bottom, 10)
+                                    .padding(.leading, 20)
+                                    .padding(.trailing, 20)
+
+                                HStack(spacing: 4) {
+
+                                    Image(nsImage: Globals.Icons.eureka)
+                                        .resizable()
+                                        .frame(width: 12, height: 12)
+
+                                    Text("TXT_KEY_BOOSTED".localized())
+                                        .font(.caption)
+                                }
+                            }
                         }
                     }
 
                     Button(action: {
                         self.viewModel.closePopup()
                     }, label: {
-                        Text("Close")
+                        Text("TXT_KEY_CONTINUE".localized())
                     })
                     .padding(.bottom, 8)
                 }
