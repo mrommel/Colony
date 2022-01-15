@@ -27,14 +27,15 @@ struct EurekaTechActivatedPopupView: View {
                 Text(self.viewModel.title)
                     .font(.title2)
                     .bold()
-                    .padding(.top, 20)
-                    .padding(.bottom, 10)
+                    .padding(.top, 16)
+                    .padding(.bottom, 6)
 
                 VStack(alignment: .center, spacing: 10) {
 
                     Text(self.viewModel.summaryText)
                         .lineLimit(nil)
                         .fixedSize(horizontal: false, vertical: true)
+                        .multilineTextAlignment(.center)
                         .padding(.bottom, 10)
                         .padding(.leading, 20)
                         .padding(.trailing, 20)
@@ -49,7 +50,8 @@ struct EurekaTechActivatedPopupView: View {
                                     .font(.caption)
                                     .lineLimit(nil)
                                     .fixedSize(horizontal: false, vertical: true)
-                                    .padding(.bottom, 10)
+                                    .multilineTextAlignment(.center)
+                                    .padding(.bottom, 4)
                                     .padding(.leading, 20)
                                     .padding(.trailing, 20)
 
@@ -59,9 +61,10 @@ struct EurekaTechActivatedPopupView: View {
                                         .resizable()
                                         .frame(width: 12, height: 12)
 
-                                    Text("TXT_KEY_BOOSTED".localized())
+                                    Text(self.viewModel.boostedText)
                                         .font(.caption)
                                 }
+                                .padding(.bottom, 4)
                             }
                         }
                     }
@@ -69,16 +72,17 @@ struct EurekaTechActivatedPopupView: View {
                     Button(action: {
                         self.viewModel.closePopup()
                     }, label: {
-                        Text("TXT_KEY_CONTINUE".localized())
+                        Text(self.viewModel.buttonText)
                     })
-                    .padding(.bottom, 8)
+                        .padding(.bottom, 8)
+                        .padding(.top, 20)
                 }
-                .frame(width: 362, height: 174, alignment: .center)
-                .background(Color(Globals.Colors.dialogBackground))
+                .frame(width: 374, height: 188, alignment: .center)
+                // .background(Color(Globals.Colors.dialogBackground))
             }
-            .padding(.bottom, 43)
-            .padding(.leading, 19)
-            .padding(.trailing, 19)
+            .padding(.bottom, 29.5)
+            .padding(.leading, 13)
+            .padding(.trailing, 13)
 
         }
         .frame(width: 400, height: 260, alignment: .top)

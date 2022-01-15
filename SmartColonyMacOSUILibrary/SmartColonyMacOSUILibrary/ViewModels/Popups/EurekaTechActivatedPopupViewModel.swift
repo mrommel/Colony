@@ -20,6 +20,12 @@ class EurekaTechActivatedPopupViewModel: ObservableObject {
     @Published
     var descriptionText: String
 
+    @Published
+    var boostedText: String
+
+    @Published
+    var buttonText: String
+
     private var techType: TechType = .none
 
     weak var delegate: GameViewModelDelegate?
@@ -29,6 +35,8 @@ class EurekaTechActivatedPopupViewModel: ObservableObject {
         self.title = "TXT_KEY_EUREKA".localized()
         self.summaryText = "-"
         self.descriptionText = "-"
+        self.boostedText = "TXT_KEY_BOOSTED".localized()
+        self.buttonText = "TXT_KEY_CONTINUE".localized()
     }
 
     func update(for techType: TechType) {
