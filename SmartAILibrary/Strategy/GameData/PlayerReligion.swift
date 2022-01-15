@@ -297,7 +297,7 @@ class PlayerReligion: AbstractPlayerReligion {
                 if player.canPurchaseInAnyCity(unit: unitType, with: .faith, in: gameModel) {
                     let cost = capital.faithPurchaseCost(of: unitType)
 
-                    if cost != 0 && faith > cost {
+                    if cost > 0 && faith > cost {
                         return true
                     }
                 }
@@ -309,7 +309,7 @@ class PlayerReligion: AbstractPlayerReligion {
 
                     let cost = capital.faithPurchaseCost(of: buildingType)
 
-                    if cost != 0 && faith > cost {
+                    if cost > 0 && faith > cost {
                         return true
                     }
                 }

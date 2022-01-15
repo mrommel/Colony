@@ -319,10 +319,17 @@ class Techs: AbstractTechs {
         self.eurekas.eurakaTrigger.trigger(for: techType)
 
         // update progress
-        self.progress.add(weight: Double(techType.cost()) * 0.5, for: techType)
+        var eurekaBoost = 0.5
 
-        // freeInquiry - Gain +1 Era Score when you trigger a [Eureka] Eureka
-        if player.has(dedication: .freeInquiry) {
+        // freeInquiry + golden - [Eureka] Eureka provide an additional 10% of Technology costs.
+        if player.currentAge() == .golden && player.has(dedication: .freeInquiry) {
+            eurekaBoost += 0.1
+        }
+
+        self.progress.add(weight: Double(techType.cost()) * eurekaBoost, for: techType)
+
+        // freeInquiry + normal - Gain +1 Era Score when you trigger a [Eureka] Eureka
+        if player.currentAge() == .normal && player.has(dedication: .freeInquiry) {
             player.addMoment(of: .dedicationTriggered(dedicationType: .freeInquiry), in: gameModel)
         }
 

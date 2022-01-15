@@ -2576,17 +2576,17 @@ public class City: AbstractCity {
             try self.buildings?.build(building: buildingType)
             self.updateEurekas(in: gameModel)
 
-            // penBrushAndVoice - construct a building with a Great Work slot.
-            if player.has(dedication: .penBrushAndVoice) {
+            // penBrushAndVoice + normal - construct a building with a Great Work slot.
+            if player.currentAge() == .normal && player.has(dedication: .penBrushAndVoice) {
                 if !buildingType.slotsForGreatWork().isEmpty {
                     player.addMoment(of: .dedicationTriggered(dedicationType: .penBrushAndVoice), in: gameModel)
                 }
             }
 
-            // freeInquiry - constructing a building which provides [Science] Science
-            if player.has(dedication: .penBrushAndVoice) {
+            // freeInquiry + normal - constructing a building which provides [Science] Science
+            if player.currentAge() == .normal && player.has(dedication: .freeInquiry) {
                 if buildingType.yields().science > 0 {
-                    player.addMoment(of: .dedicationTriggered(dedicationType: .penBrushAndVoice), in: gameModel)
+                    player.addMoment(of: .dedicationTriggered(dedicationType: .freeInquiry), in: gameModel)
                 }
             }
 
@@ -2615,8 +2615,10 @@ public class City: AbstractCity {
             self.updateEurekas(in: gameModel)
 
             // moments
-            if districtType.isSpecialty() && player.currentAge() == .normal && player.has(dedication: .monumentality) {
-                player.addMoment(of: .dedicationTriggered(dedicationType: .monumentality), in: gameModel)
+            if player.currentAge() == .normal && player.has(dedication: .monumentality) {
+                if districtType.isSpecialty() {
+                    player.addMoment(of: .dedicationTriggered(dedicationType: .monumentality), in: gameModel)
+                }
             }
 
             if districtType == .neighborhood {
@@ -3309,6 +3311,10 @@ public class City: AbstractCity {
 
     public func canPurchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         guard yieldType == .faith || yieldType == .gold else {
             fatalError("invalid yield type: \(yieldType)")
         }
@@ -3318,11 +3324,11 @@ public class City: AbstractCity {
         }
 
         if yieldType == .gold {
-            return unitType.purchaseCost() > 0 // -1 is invalid
+            return self.goldPurchaseCost(of: unitType) > 0 // -1 is invalid
         }
 
         if yieldType == .faith {
-            return unitType.faithCost() > 0 // -1 is invalid
+            return self.faithPurchaseCost(of: unitType) > 0 // -1 is invalid
         }
 
         return false
@@ -3371,9 +3377,40 @@ public class City: AbstractCity {
         return true
     }
 
-    public func faithPurchaseCost(of unit: UnitType) -> Double {
+    func goldPurchaseCost(of unitType: UnitType) -> Double {
 
-        let cost = unit.faithCost()
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        let cost = unitType.purchaseCost()
+        var modifier: Double = 1.0
+
+        // monumentality + golden - Settlers and Builders' Purchases are 30% cheaper.
+        if player.has(dedication: .monumentality) && player.currentAge() == .golden {
+            if unitType == .settler || unitType == .builder {
+                modifier -= 0.3
+            }
+        }
+
+        return Double(cost) * modifier
+    }
+
+    public func faithPurchaseCost(of unitType: UnitType) -> Double {
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        let cost = unitType.faithCost()
+
+        // monumentality + golden - Civilian units may be purchased with [Faith] Faith.
+        if player.has(dedication: .monumentality) && player.currentAge() == .golden {
+            if unitType.unitClass() == .civilian {
+                return Double(unitType.productionCost())
+            }
+        }
+
         return cost == -1 ? Double.greatestFiniteMagnitude : Double(cost)
     }
 
@@ -3393,9 +3430,11 @@ public class City: AbstractCity {
         gameModel?.add(unit: unit)
 
         if yieldType == .gold {
-            self.player?.treasury?.changeGold(by: -Double(unitType.purchaseCost()))
+            let purchaseCost = self.goldPurchaseCost(of: unitType)
+            self.player?.treasury?.changeGold(by: -purchaseCost)
         } else if yieldType == .faith {
-            self.player?.religion?.change(faith: -Double(unitType.faithCost()))
+            let faithCost = self.faithPurchaseCost(of: unitType)
+            self.player?.religion?.change(faith: -faithCost)
         } else {
             fatalError("cant buy unit with \(yieldType)")
         }

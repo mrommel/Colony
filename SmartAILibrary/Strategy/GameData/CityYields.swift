@@ -838,6 +838,10 @@ extension City {
 
     private func cultureFromDistricts(in gameModel: GameModel?) -> Double {
 
+        guard let player = self.player else {
+            fatalError("Cant get player")
+        }
+        
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
@@ -870,6 +874,18 @@ extension City {
                     // Minor bonus (+½ Culture) for each adjacent district tile
                     if neighborTile.district() != .none {
                         cultureFromDistricts += 0.5
+                    }
+                }
+            }
+        }
+
+        // penBrushAndVoice + golden - +1 [Culture] Culture per Specialty District for each city.
+        if player.currentAge() == .golden && player.has(dedication: .penBrushAndVoice) {
+
+            for districtType in DistrictType.all {
+                if districts.has(district: districtType) {
+                    if districtType.isSpecialty() {
+                        cultureFromDistricts += 1.0
                     }
                 }
             }
@@ -1316,6 +1332,10 @@ extension City {
 
     private func scienceFromDistricts(in gameModel: GameModel?) -> Double {
 
+        guard let player = self.player else {
+            fatalError("Cant get player")
+        }
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
@@ -1353,6 +1373,17 @@ extension City {
                         scienceFromDistricts += 0.5
                     }
                 }
+            }
+        }
+
+        // freeInquiry + golden - Commercial Hubs and Harbors provide [Science] Science equal to their [Gold] Gold bonus.
+        if player.currentAge() == .golden && player.has(dedication: .freeInquiry) {
+            if districts.has(district: .commercialHub) {
+                scienceFromDistricts += 2.0 // not exactly what the bonus says
+            }
+
+            if districts.has(district: .harbor) {
+                scienceFromDistricts += 2.0 // not exactly what the bonus says
             }
         }
 

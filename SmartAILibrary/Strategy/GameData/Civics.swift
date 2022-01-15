@@ -416,10 +416,17 @@ class Civics: AbstractCivics {
         self.inspirations.inspirationTrigger.trigger(for: civicType)
 
         // update progress
-        self.progress.add(weight: Double(civicType.cost()) * 0.5, for: civicType)
+        var inspirationBoost = 0.5
 
-        // penBrushAndVoice - Gain +1 Era Score when you trigger an [Inspiration] Inspiration
-        if player.has(dedication: .penBrushAndVoice) {
+        // penBrushAndVoice + golden - Inspiration [Inspiration] provide an additional 10% of Civic costs.
+        if player.currentAge() == .golden && player.has(dedication: .penBrushAndVoice) {
+            inspirationBoost += 0.1
+        }
+
+        self.progress.add(weight: Double(civicType.cost()) * inspirationBoost, for: civicType)
+
+        // penBrushAndVoice + normal - Gain +1 Era Score when you trigger an [Inspiration] Inspiration
+        if player.currentAge() == .normal && player.has(dedication: .penBrushAndVoice) {
             player.addMoment(of: .dedicationTriggered(dedicationType: .penBrushAndVoice), in: gameModel)
         }
 

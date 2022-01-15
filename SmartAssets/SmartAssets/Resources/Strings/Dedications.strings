@@ -9,7 +9,7 @@
 // monumentality
 "TXT_KEY_DEDICATION_MONUMENTALITY_TITLE" = "Monumentality";
 "TXT_KEY_DEDICATION_MONUMENTALITY_NORMAL_EFFECT" = "Gain +1 Era Score each time you construct a Specialty District.";
-"TXT_KEY_DEDICATION_MONUMENTALITY_GOLDEN_EFFECT" = "+2 Movement for Builders. Civilian units may be purchased with [Faith] Faith. Settlers and Builders' Purchases are 30% cheaper.";
+"TXT_KEY_DEDICATION_MONUMENTALITY_GOLDEN_EFFECT" = "+2 [Movement] Movement for Builders. Civilian units may be purchased with [Faith] Faith. Settlers and Builders' Purchases are 30% cheaper.";
 
 // penBrushAndVoice
 "TXT_KEY_DEDICATION_PEN_BRUSH_VOICE_TITLE" = "Pen, Brush and Voice";

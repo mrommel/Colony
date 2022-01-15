@@ -2668,6 +2668,10 @@ public class Unit: AbstractUnit {
             fatalError("cant get game model")
         }
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         var moveVal = self.baseMoves(in: gameModel)
 
         if (self.type.era() == .classical || self.type.era() == .medieval) && self.domain() == .land {
@@ -2679,6 +2683,13 @@ public class Unit: AbstractUnit {
             if boudicaNear || hannibalBarcaNear || sunTzuNear {
                 // +1 Movement to Classical and Medieval era land units within 2 tiles.
                 moveVal += 1
+            }
+        }
+
+        // monumentality + golden - +2 Movement for Builders.
+        if player.currentAge() == .golden && player.has(dedication: .monumentality) {
+            if self.type == .builder {
+                moveVal += 2
             }
         }
 

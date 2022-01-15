@@ -13,9 +13,9 @@ public enum DedicationType: Int, Codable, Equatable {
     case none
 
     // normal, golden
-    case monumentality // #, #
-    case penBrushAndVoice // #, #
-    case freeInquiry // #, #
+    case monumentality // +, +
+    case penBrushAndVoice // +, +
+    case freeInquiry // +, +
     case exodusOfTheEvangelists // #, #
     case hicSuntDracones // #, #
     case reformTheCoinage // #, #
