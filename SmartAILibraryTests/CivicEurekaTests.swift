@@ -59,11 +59,11 @@ class CivicEurekaTests: XCTestCase {
         try! tile2?.set(owner: playerAlexander)
 
         // WHEN
-        let beforeEureka = self.objectToTest?.eurekaTriggered(for: .craftsmanship)
+        let beforeEureka = self.objectToTest?.inspirationTriggered(for: .craftsmanship)
         tile0?.changeBuildProgress(of: BuildType.farm, change: 1000, for: playerAlexander, in: gameModel)
         tile1?.changeBuildProgress(of: BuildType.farm, change: 1000, for: playerAlexander, in: gameModel)
         tile2?.changeBuildProgress(of: BuildType.farm, change: 1000, for: playerAlexander, in: gameModel)
-        let afterEureka = self.objectToTest?.eurekaTriggered(for: .craftsmanship)
+        let afterEureka = self.objectToTest?.inspirationTriggered(for: .craftsmanship)
 
         // THEN
         XCTAssertEqual(beforeEureka, false)
@@ -109,9 +109,9 @@ class CivicEurekaTests: XCTestCase {
         XCTAssertNotNil(discoveredContinent)
 
         // WHEN
-        let beforeEureka = self.objectToTest!.eurekaTriggered(for: .foreignTrade)
+        let beforeEureka = self.objectToTest!.inspirationTriggered(for: .foreignTrade)
         _ = galleyUnit.doMoveOnPath(towards: HexPoint(x: 5, y: 8), previousETA: 0, buildingRoute: false, in: gameModel)
-        let afterEureka = self.objectToTest!.eurekaTriggered(for: .foreignTrade)
+        let afterEureka = self.objectToTest!.inspirationTriggered(for: .foreignTrade)
 
         // THEN
         XCTAssertEqual(beforeEureka, false)

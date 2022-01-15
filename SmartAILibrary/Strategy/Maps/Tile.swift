@@ -1949,13 +1949,13 @@ public class Tile: AbstractTile {
         // Civics
         // -----------------------------------------------------
         // Craftmanship - To Boost: Improve 3 tiles
-        if !civics.eurekaTriggered(for: .craftsmanship) {
+        if !civics.inspirationTriggered(for: .craftsmanship) {
 
             // increase for any improvement
-            civics.changeEurekaValue(for: .craftsmanship, change: 1)
+            civics.changeInspirationValue(for: .craftsmanship, change: 1)
 
-            if civics.eurekaValue(for: .craftsmanship) >= 3 {
-                civics.triggerEureka(for: .craftsmanship, in: gameModel)
+            if civics.inspirationValue(for: .craftsmanship) >= 3 {
+                civics.triggerInspiration(for: .craftsmanship, in: gameModel)
             }
         }
     }

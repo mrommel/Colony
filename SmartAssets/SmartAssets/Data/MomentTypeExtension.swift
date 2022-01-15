@@ -17,9 +17,9 @@ extension MomentType {
         case .admiralDefeatsEnemy: return "moment-default"
         case .allGovernorsAppointed: return "moment-default"
         case .canalCompleted: return "moment-default"
-        case .cityNearFloodableRiver: return "moment-cityNearFloodableRiver"
-        case .cityNearVolcano: return "moment-cityNearVolcano"
-        case .cityOfAwe: return "moment-default"
+        case .cityNearFloodableRiver(cityName: _): return "moment-cityNearFloodableRiver"
+        case .cityNearVolcano(cityName: _): return "moment-cityNearVolcano"
+        case .cityOfAwe(cityName: _): return "moment-default"
         case .cityOnNewContinent: return "moment-cityOnNewContinent"
             // City-State's First Suzerain
             // City-State Army Levied Near Enemy
@@ -37,7 +37,7 @@ extension MomentType {
         case .exoplanetExpeditionLaunched: return "moment-default"
         case .finalForeignCityTaken: return "moment-default"
         case .firstAerodromeFullyDeveloped: return "moment-default"
-        case .firstBustlingCity: return "moment-firstBustlingCity"
+        case .firstBustlingCity(cityName: _): return "moment-firstBustlingCity"
         case .firstCivicOfNewEra(eraType: let eraType):
             return MomentType.iconTextureOfCivic(for: eraType)
             // case firstCorporationCreated
@@ -45,9 +45,9 @@ extension MomentType {
         case .firstDiscoveryOfANaturalWonder: return "moment-default"
         case .firstDiscoveryOfANewContinent: return "moment-firstDiscoveryOfANewContinent"
         case .firstEncampmentFullyDeveloped: return "moment-default"
-        case .firstEnormousCity: return "moment-firstEnormousCity"
+        case .firstEnormousCity(cityName: _): return "moment-firstEnormousCity"
         case .firstEntertainmentComplexFullyDeveloped: return "moment-default"
-        case .firstGiganticCity: return "moment-firstGiganticCity"
+        case .firstGiganticCity(cityName: _): return "moment-firstGiganticCity"
             // case firstGreenImprovement
             // case First Green Improvement in World
             // case First Hero Claimed
@@ -56,7 +56,7 @@ extension MomentType {
             // case First Improvement after Natural Disaster
             // case First Industry Created
             // case First Industry in the World
-        case .firstLargeCity: return "moment-firstLargeCity"
+        case .firstLargeCity(cityName: _): return "moment-firstLargeCity"
             // case firstLuxuryResourceMonopoly
             // case firstLuxuryResourceMonopolyInTheWorld
             // case firstMasterSpyEarned
@@ -123,19 +123,19 @@ extension MomentType {
             // Unique Unit Marches
             // World's First Armada
             // World's First Army
-        case .worldsFirstBustlingCity: return "moment-firstBustlingCity"
+        case .worldsFirstBustlingCity(cityName: _): return "moment-firstBustlingCity"
         case .worldsFirstCircumnavigation: return "moment-worldCircumnavigated"
         case .worldsFirstCivicOfNewEra(eraType: let eraType):
             return MomentType.iconTextureOfCivic(for: eraType)
             // World's First Corps
-        case .worldsFirstEnormousCity: return "moment-firstEnormousCity"
+        case .worldsFirstEnormousCity(cityName: _): return "moment-firstEnormousCity"
         case .worldsFirstExoplanetExpeditionLaunched: return "moment-default"
         case .worldsFirstFleet: return "moment-default"
         case .worldsFirstFlight: return "moment-default"
-        case .worldsFirstGiganticCity: return "moment-firstGiganticCity"
+        case .worldsFirstGiganticCity(cityName: _): return "moment-firstGiganticCity"
             // World's First Inquisition
         case .worldsFirstLandingOnTheMoon: return "moment-default"
-        case .worldsFirstLargeCity: return "moment-firstLargeCity"
+        case .worldsFirstLargeCity(cityName: _): return "moment-firstLargeCity"
         case .worldsFirstMartianColonyEstablished: return "moment-default"
         case .worldsFirstNationalPark: return "moment-default"
         case .worldsFirstNeighborhood: return "moment-default"
@@ -157,7 +157,6 @@ extension MomentType {
         case .aggressiveCityPlacement: return "moment-default"
         case .artifactExtracted: return "moment-default"
         case .barbarianCampDestroyed: return "moment-barbarianCampDestroyed"
-        case .battleFought: return "moment-default"
         case .causeForWar: return "moment-causeForWar"
         case .cityReturnsToOriginalOwner: return "moment-default"
             // case cityStateArmyLevied // #
@@ -193,40 +192,28 @@ extension MomentType {
         case .wonderCompleted(wonder: _): return "moment-default"
 
             // hidden
-        case .constructSpecialtyDistrict: return "moment-default"
         case .shipSunk: return "moment-default"
+        case .battleFought: return "moment-default"
+        case .dedicationTriggered(dedicationType: _): return "moment-default"
 
         }
     }
 
     private static func iconTexture(for featureType: FeatureType) -> String {
 
-        if featureType == .cliffsOfDover {
-            return "moment-discoveryOfANaturalWonder-cliffsOfDover"
-        }
-        if featureType == .delicateArch {
-            return "moment-discoveryOfANaturalWonder-delicateArch"
-        }
-        if featureType == .galapagos {
-            return "moment-discoveryOfANaturalWonder-galapagos"
-        }
-        if featureType == .greatBarrierReef {
-            return "moment-discoveryOfANaturalWonder-greatBarrierReef"
-        }
-        if featureType == .mountEverest {
-            return "moment-discoveryOfANaturalWonder-mountEverest"
-        }
-        if featureType == .mountKilimanjaro {
-            return "moment-discoveryOfANaturalWonder-mountKilimanjaro"
-        }
-        if featureType == .pantanal {
-            return "moment-discoveryOfANaturalWonder-pantanal"
-        }
-        if featureType == .yosemite {
-            return "moment-discoveryOfANaturalWonder-yosemite"
-        }
+        switch featureType {
 
-        return "moment-discoveryOfANaturalWonder"
+        case .cliffsOfDover: return "moment-discoveryOfANaturalWonder-cliffsOfDover"
+        case .delicateArch: return "moment-discoveryOfANaturalWonder-delicateArch"
+        case .galapagos: return "moment-discoveryOfANaturalWonder-galapagos"
+        case .greatBarrierReef: return "moment-discoveryOfANaturalWonder-greatBarrierReef"
+        case .mountEverest: return "moment-discoveryOfANaturalWonder-mountEverest"
+        case .mountKilimanjaro: return "moment-discoveryOfANaturalWonder-mountKilimanjaro"
+        case .pantanal: return "moment-discoveryOfANaturalWonder-pantanal"
+        case .yosemite: return "moment-discoveryOfANaturalWonder-yosemite"
+
+        default: return "moment-discoveryOfANaturalWonder"
+        }
     }
 
     private static func iconTexture(for governmentType: GovernmentType) -> String {

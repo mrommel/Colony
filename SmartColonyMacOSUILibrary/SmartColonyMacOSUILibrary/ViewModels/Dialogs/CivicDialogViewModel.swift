@@ -52,7 +52,7 @@ class CivicDialogViewModel: ObservableObject {
             let civicViewModel = CivicViewModel(
                 civicType: civicType,
                 state: .possible,
-                boosted: civics.eurekaTriggered(for: civicType),
+                boosted: civics.inspirationTriggered(for: civicType),
                 turns: -1
             )
             civicViewModel.delegate = self
@@ -79,7 +79,7 @@ class CivicDialogViewModel: ObservableObject {
                     let civicViewModel = CivicViewModel(
                         civicType: civicType,
                         state: state,
-                        boosted: civics.eurekaTriggered(for: civicType),
+                        boosted: civics.inspirationTriggered(for: civicType),
                         turns: turns
                     )
                     civicViewModel.delegate = self

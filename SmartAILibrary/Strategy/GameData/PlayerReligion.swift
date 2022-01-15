@@ -203,8 +203,8 @@ class PlayerReligion: AbstractPlayerReligion {
             player.addMoment(of: .pantheonFounded, in: gameModel)
         }
 
-        if !civics.eurekaTriggered(for: .mysticism) {
-            civics.triggerEureka(for: .mysticism, in: gameModel)
+        if !civics.inspirationTriggered(for: .mysticism) {
+            civics.triggerInspiration(for: .mysticism, in: gameModel)
         }
 
         if pantheonType == .fertilityRites {

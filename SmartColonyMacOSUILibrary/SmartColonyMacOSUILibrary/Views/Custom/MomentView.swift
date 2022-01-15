@@ -67,7 +67,10 @@ struct MomentView_Previews: PreviewProvider {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
-        let momentViewModel = MomentView_Previews.viewModel(momentType: .constructSpecialtyDistrict, turn: 5)
+        let momentViewModel = MomentView_Previews.viewModel(
+            momentType: .cityNearVolcano(cityName: "Berlin"),
+            turn: 5
+        )
         MomentView(viewModel: momentViewModel)
     }
 }

@@ -115,7 +115,7 @@ class PlayerTourism: AbstractPlayerTourism {
         for civic in CivicType.all {
 
             // dont hav civic but eureka enabled
-            if !civics.has(civic: civic) && civics.eurekaTriggered(for: civic) {
+            if !civics.has(civic: civic) && civics.inspirationTriggered(for: civic) {
 
                 eurekaValue += Double(civic.cost()) / 2.0
             }

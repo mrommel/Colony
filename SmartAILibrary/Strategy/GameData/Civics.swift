@@ -37,10 +37,10 @@ public protocol AbstractCivics: AnyObject, Codable {
     func checkCultureProgress(in gameModel: GameModel?) throws
 
     // eurekas
-    func eurekaValue(for civicType: CivicType) -> Int
-    func changeEurekaValue(for civicType: CivicType, change: Int)
-    func eurekaTriggered(for civicType: CivicType) -> Bool
-    func triggerEureka(for civicType: CivicType, in gameModel: GameModel?)
+    func inspirationValue(for civicType: CivicType) -> Int
+    func changeInspirationValue(for civicType: CivicType, change: Int)
+    func inspirationTriggered(for civicType: CivicType) -> Bool
+    func triggerInspiration(for civicType: CivicType, in gameModel: GameModel?)
 }
 
 class Civics: AbstractCivics {
@@ -52,7 +52,7 @@ class Civics: AbstractCivics {
         case lastCultureEarned
         case progress
 
-        case eurekas
+        case inspirations
     }
 
     // civic tree
@@ -65,7 +65,7 @@ class Civics: AbstractCivics {
     private var progress: WeightedCivicList
 
     // heureka
-    private var eurekas: CivicEurekas
+    private var inspirations: CivicInspirations
 
     // MARK: internal types
 
@@ -85,7 +85,7 @@ class Civics: AbstractCivics {
 
         self.player = player
 
-        self.eurekas = CivicEurekas()
+        self.inspirations = CivicInspirations()
         self.progress = WeightedCivicList()
         self.progress.fill()
     }
@@ -98,7 +98,7 @@ class Civics: AbstractCivics {
         self.currentCivicValue = try container.decodeIfPresent(CivicType.self, forKey: .currentCivic)
         self.lastCultureEarnedValue = try container.decode(Double.self, forKey: .lastCultureEarned)
         self.progress = try container.decode(WeightedCivicList.self, forKey: .progress)
-        self.eurekas = try container.decode(CivicEurekas.self, forKey: .eurekas)
+        self.inspirations = try container.decode(CivicInspirations.self, forKey: .inspirations)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -109,7 +109,7 @@ class Civics: AbstractCivics {
         try container.encode(self.currentCivicValue, forKey: .currentCivic)
         try container.encode(self.lastCultureEarnedValue, forKey: .lastCultureEarned)
         try container.encode(self.progress, forKey: .progress)
-        try container.encode(self.eurekas, forKey: .eurekas)
+        try container.encode(self.inspirations, forKey: .inspirations)
     }
 
     public func currentCultureProgress() -> Double {
@@ -382,22 +382,22 @@ class Civics: AbstractCivics {
         }
     }
 
-    func eurekaValue(for civicType: CivicType) -> Int {
+    func inspirationValue(for civicType: CivicType) -> Int {
 
-        return Int(self.eurekas.eurekaCounter.weight(of: civicType))
+        return Int(self.inspirations.inspirationCounter.weight(of: civicType))
     }
 
-    func changeEurekaValue(for civicType: CivicType, change: Int) {
+    func changeInspirationValue(for civicType: CivicType, change: Int) {
 
-        self.eurekas.eurekaCounter.add(weight: change, for: civicType)
+        self.inspirations.inspirationCounter.add(weight: change, for: civicType)
     }
 
-    func eurekaTriggered(for civicType: CivicType) -> Bool {
+    func inspirationTriggered(for civicType: CivicType) -> Bool {
 
-        return self.eurekas.eurakaTrigger.triggered(for: civicType)
+        return self.inspirations.inspirationTrigger.triggered(for: civicType)
     }
 
-    func triggerEureka(for civicType: CivicType, in gameModel: GameModel?) {
+    func triggerInspiration(for civicType: CivicType, in gameModel: GameModel?) {
 
         guard let player = self.player else {
             fatalError("Can't trigger eureka - no player present")
@@ -409,14 +409,19 @@ class Civics: AbstractCivics {
         }
 
         // check if already active
-        if self.eurekaTriggered(for: civicType) {
+        if self.inspirationTriggered(for: civicType) {
             return
         }
 
-        self.eurekas.eurakaTrigger.trigger(for: civicType)
+        self.inspirations.inspirationTrigger.trigger(for: civicType)
 
         // update progress
         self.progress.add(weight: Double(civicType.cost()) * 0.5, for: civicType)
+
+        // penBrushAndVoice - Gain +1 Era Score when you trigger an [Inspiration] Inspiration
+        if player.has(dedication: .penBrushAndVoice) {
+            player.addMoment(of: .dedicationTriggered(dedicationType: .penBrushAndVoice), in: gameModel)
+        }
 
         // trigger event to user
         if player.isHuman() {

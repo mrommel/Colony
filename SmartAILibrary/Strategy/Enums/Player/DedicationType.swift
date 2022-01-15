@@ -12,18 +12,19 @@ public enum DedicationType: Int, Codable, Equatable {
 
     case none
 
-    case monumentality
-    case penBrushAndVoice
-    case freeInquiry
-    case exodusOfTheEvangelists
-    case hicSuntDracones
-    case reformTheCoinage
-    case heartbeatOfSteam
-    case toArms
-    case wishYouWereHere
-    case bodyguardOfLies
-    case skyAndStars
-    case automatonWarfare
+    // normal, golden
+    case monumentality // #, #
+    case penBrushAndVoice // #, #
+    case freeInquiry // #, #
+    case exodusOfTheEvangelists // #, #
+    case hicSuntDracones // #, #
+    case reformTheCoinage // #, #
+    case heartbeatOfSteam // #, #
+    case toArms // #, #
+    case wishYouWereHere // #, #
+    case bodyguardOfLies // #, #
+    case skyAndStars // #, #
+    case automatonWarfare // #, #
 
     public static var all: [DedicationType] = [
 

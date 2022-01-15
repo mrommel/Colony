@@ -262,15 +262,15 @@ class Techs: AbstractTechs {
 
         // Games and Recreation - Research the Construction technology.
         if self.has(tech: .construction) {
-            if !civics.eurekaTriggered(for: .gamesAndRecreation) {
-                civics.triggerEureka(for: .gamesAndRecreation, in: gameModel)
+            if !civics.inspirationTriggered(for: .gamesAndRecreation) {
+                civics.triggerInspiration(for: .gamesAndRecreation, in: gameModel)
             }
         }
 
         // Mass Media - Research Radio.
         if self.has(tech: .radio) {
-            if !civics.eurekaTriggered(for: .massMedia) {
-                civics.triggerEureka(for: .massMedia, in: gameModel)
+            if !civics.inspirationTriggered(for: .massMedia) {
+                civics.triggerInspiration(for: .massMedia, in: gameModel)
             }
         }
     }
@@ -320,6 +320,11 @@ class Techs: AbstractTechs {
 
         // update progress
         self.progress.add(weight: Double(techType.cost()) * 0.5, for: techType)
+
+        // freeInquiry - Gain +1 Era Score when you trigger a [Eureka] Eureka
+        if player.has(dedication: .freeInquiry) {
+            player.addMoment(of: .dedicationTriggered(dedicationType: .freeInquiry), in: gameModel)
+        }
 
         // trigger event to user
         if player.isHuman() {

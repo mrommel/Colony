@@ -1786,8 +1786,8 @@ open class GameModel: Codable {
                                     capitalContinent.type() != .none &&
                                     tileContinent != .none {
 
-                                    if !civics.eurekaTriggered(for: .foreignTrade) {
-                                        civics.triggerEureka(for: .foreignTrade, in: self)
+                                    if !civics.inspirationTriggered(for: .foreignTrade) {
+                                        civics.triggerInspiration(for: .foreignTrade, in: self)
                                     }
                                 }
                             }

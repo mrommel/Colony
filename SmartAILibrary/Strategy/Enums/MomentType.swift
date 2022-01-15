@@ -23,9 +23,9 @@ public enum MomentType {
     case admiralDefeatsEnemy // 1 #
     case allGovernorsAppointed // 2
     case canalCompleted // 3 #
-    case cityNearFloodableRiver // 4 #
-    case cityNearVolcano // 5
-    case cityOfAwe // 6
+    case cityNearFloodableRiver(cityName: String) // 4 #
+    case cityNearVolcano(cityName: String) // 5
+    case cityOfAwe(cityName: String) // 6
     case cityOnNewContinent(cityName: String, continentName: String) // 7
     // case cityStatesFirstSuzerain 8
     // case cityStateArmyLeviedNearEnemy 9
@@ -184,18 +184,18 @@ public enum MomentType {
     case wonderCompleted(wonder: WonderType) // 235
 
     // hidden
-    case constructSpecialtyDistrict // 300 for dedication monumentality
-    case shipSunk // 301 for artifacts
-    case battleFought // 302
+    case shipSunk // 300 for artifacts
+    case battleFought // 301
+    case dedicationTriggered(dedicationType: DedicationType) // 302 for dedications
 
     public static var all: [MomentType] = [
 
         .admiralDefeatsEnemy,
         .allGovernorsAppointed,
         .canalCompleted,
-        .cityNearFloodableRiver,
-        .cityNearVolcano,
-        .cityOfAwe,
+        .cityNearFloodableRiver(cityName: ""),
+        .cityNearVolcano(cityName: ""),
+        .cityOfAwe(cityName: ""),
         .cityOnNewContinent(cityName: "", continentName: ""),
         // .cityStatesFirstSuzerain
         // .cityStateArmyLeviedNearEnemy
@@ -354,9 +354,9 @@ public enum MomentType {
         .wonderCompleted(wonder: WonderType.none),
 
         // hidden
-        .constructSpecialtyDistrict,
         .shipSunk,
-        .battleFought
+        .battleFought,
+        .dedicationTriggered(dedicationType: DedicationType.none)
     ]
 
     // MARK: public methods
@@ -1413,14 +1413,6 @@ public enum MomentType {
 
             // -- hidden -----------------------
 
-        case .constructSpecialtyDistrict:
-            return MomentTypeData(
-                name: "Specialty District constructed",
-                summary: "",
-                category: .hidden,
-                eraScore: 1
-            )
-
         case .shipSunk:
             return MomentTypeData(
                 name: "Ship Sunk",
@@ -1435,6 +1427,14 @@ public enum MomentType {
                 summary: "TXT_KEY_MOMENT_BATTLE_FOUGHT_SUMMARY",
                 category: .hidden,
                 eraScore: 0
+            )
+
+        case .dedicationTriggered(dedicationType: _):
+            return MomentTypeData(
+                name: "Dedication triggered",
+                summary: "",
+                category: .hidden,
+                eraScore: 1
             )
 
         }
@@ -1499,11 +1499,11 @@ extension MomentType: Equatable {
             return true
         case (.canalCompleted, .canalCompleted):
             return true
-        case (.cityNearFloodableRiver, .cityNearFloodableRiver):
+        case (.cityNearFloodableRiver(cityName: _), .cityNearFloodableRiver(cityName: _)):
             return true
-        case (.cityNearVolcano, .cityNearVolcano):
+        case (.cityNearVolcano(cityName: _), .cityNearVolcano(cityName: _)):
             return true
-        case (.cityOfAwe, .cityOfAwe):
+        case (.cityOfAwe(cityName: _), .cityOfAwe(cityName: _)):
             return true
         case (.cityOnNewContinent(cityName: _, continentName: _), .cityOnNewContinent(cityName: _, continentName: _)):
             return true
@@ -1768,7 +1768,7 @@ extension MomentType: Equatable {
             return true
 
         // hidden
-        case (.constructSpecialtyDistrict, .constructSpecialtyDistrict):
+        case (.dedicationTriggered(dedicationType: _), .dedicationTriggered(dedicationType: _)):
             return true
         case (.shipSunk, .shipSunk):
             return true

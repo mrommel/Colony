@@ -143,7 +143,7 @@ class HeaderViewModel: ObservableObject {
                     let progressPercentage: Int = Int(civics.currentCultureProgress() / Double(currentCivic.cost()) * 100.0)
                     let culturePerTurn = humanPlayer.culture(in: gameModel)
                     let turns: Int = culturePerTurn > 0.0 ? Int((Double(currentCivic.cost()) - civics.currentCultureProgress()) / culturePerTurn) : 0
-                    let boosted: Bool = civics.eurekaTriggered(for: currentCivic)
+                    let boosted: Bool = civics.inspirationTriggered(for: currentCivic)
                     self.civicProgressViewModel.update(
                         civicType: currentCivic,
                         progress: progressPercentage,

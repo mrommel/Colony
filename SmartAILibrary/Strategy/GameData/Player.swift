@@ -1465,9 +1465,9 @@ public class Player: AbstractPlayer {
             fatalError("cant get civics")
         }
 
-        if !civics.eurekaTriggered(for: .earlyEmpire) {
+        if !civics.inspirationTriggered(for: .earlyEmpire) {
             if self.population(in: gameModel) >= 6 {
-                civics.triggerEureka(for: .earlyEmpire, in: gameModel)
+                civics.triggerInspiration(for: .earlyEmpire, in: gameModel)
             }
         }
     }
@@ -2684,12 +2684,12 @@ public class Player: AbstractPlayer {
             }
         }
 
-        if nearVolcano && !self.hasMoment(of: .cityNearVolcano) {
-            self.addMoment(of: .cityNearVolcano, in: gameModel)
+        if nearVolcano && !self.hasMoment(of: .cityNearVolcano(cityName: "")) {
+            self.addMoment(of: .cityNearVolcano(cityName: cityName), in: gameModel)
         }
 
-        if nearNaturalWonder && !self.hasMoment(of: .cityOfAwe) {
-            self.addMoment(of: .cityOfAwe, in: gameModel)
+        if nearNaturalWonder && !self.hasMoment(of: .cityOfAwe(cityName: "")) {
+            self.addMoment(of: .cityOfAwe(cityName: cityName), in: gameModel)
         }
 
         let isCapital = gameModel.cities(of: self).isEmpty
@@ -4235,8 +4235,8 @@ public class Player: AbstractPlayer {
 
             self.addMoment(of: .barbarianCampDestroyed, in: gameModel)
 
-            if !civics.eurekaTriggered(for: .militaryTradition) {
-                civics.triggerEureka(for: .militaryTradition, in: gameModel)
+            if !civics.inspirationTriggered(for: .militaryTradition) {
+                civics.triggerInspiration(for: .militaryTradition, in: gameModel)
             }
 
             // initiationRites - +50 [Faith] Faith for each Barbarian Outpost cleared. The unit that cleared the Barbarian Outpost heals +100 HP.
@@ -4310,11 +4310,11 @@ public class Player: AbstractPlayer {
             return true
 
         case .civicMinorBoost:
-            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)})
+            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.inspirationTriggered(for: $0)})
             return possibleCivicsWithoutEureka.count >= 1
 
         case .civicMajorBoost:
-            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)})
+            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.inspirationTriggered(for: $0)})
             return possibleCivicsWithoutEureka.count >= 2
 
         case .relic:
@@ -4393,24 +4393,24 @@ public class Player: AbstractPlayer {
             self.treasury?.changeGold(by: 120.0)
 
         case .civicMinorBoost:
-            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)})
+            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.inspirationTriggered(for: $0)})
             guard let civicToBoost = possibleCivicsWithoutEureka.randomElement() else {
                 fatalError("cant get civic to boost")
             }
-            civics.triggerEureka(for: civicToBoost, in: gameModel)
+            civics.triggerInspiration(for: civicToBoost, in: gameModel)
 
         case .civicMajorBoost:
-            var possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)})
+            var possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.inspirationTriggered(for: $0)})
             guard let civicToBoost1 = possibleCivicsWithoutEureka.randomElement() else {
                 fatalError("cant get civic to boost")
             }
-            civics.triggerEureka(for: civicToBoost1, in: gameModel)
+            civics.triggerInspiration(for: civicToBoost1, in: gameModel)
 
-            possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)})
+            possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.inspirationTriggered(for: $0)})
             guard let civicToBoost2 = possibleCivicsWithoutEureka.randomElement() else {
                 fatalError("cant get civic to boost")
             }
-            civics.triggerEureka(for: civicToBoost2, in: gameModel)
+            civics.triggerInspiration(for: civicToBoost2, in: gameModel)
 
         case .relic:
             // keep the great work in players card
@@ -4835,8 +4835,8 @@ public class Player: AbstractPlayer {
         playerReligion.found(religion: religion, at: city, in: gameModel)
         self.addMoment(of: .religionFounded(religion: religion), in: gameModel)
 
-        if !civics.eurekaTriggered(for: .theology) {
-            civics.triggerEureka(for: .theology, in: gameModel)
+        if !civics.inspirationTriggered(for: .theology) {
+            civics.triggerInspiration(for: .theology, in: gameModel)
         }
     }
 

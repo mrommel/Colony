@@ -2568,9 +2568,28 @@ public class City: AbstractCity {
 
     private func build(building buildingType: BuildingType, in gameModel: GameModel?) {
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         do {
             try self.buildings?.build(building: buildingType)
             self.updateEurekas(in: gameModel)
+
+            // penBrushAndVoice - construct a building with a Great Work slot.
+            if player.has(dedication: .penBrushAndVoice) {
+                if !buildingType.slotsForGreatWork().isEmpty {
+                    player.addMoment(of: .dedicationTriggered(dedicationType: .penBrushAndVoice), in: gameModel)
+                }
+            }
+
+            // freeInquiry - constructing a building which provides [Science] Science
+            if player.has(dedication: .penBrushAndVoice) {
+                if buildingType.yields().science > 0 {
+                    player.addMoment(of: .dedicationTriggered(dedicationType: .penBrushAndVoice), in: gameModel)
+                }
+            }
+
             self.greatWorks?.addPlaces(for: buildingType)
         } catch {
             fatalError("cant build building: already build")
@@ -2597,7 +2616,7 @@ public class City: AbstractCity {
 
             // moments
             if districtType.isSpecialty() && player.currentAge() == .normal && player.has(dedication: .monumentality) {
-                player.addMoment(of: .constructSpecialtyDistrict, in: gameModel)
+                player.addMoment(of: .dedicationTriggered(dedicationType: .monumentality), in: gameModel)
             }
 
             if districtType == .neighborhood {
@@ -2745,8 +2764,8 @@ public class City: AbstractCity {
             }
 
             // Drama and Poetry - Build a Wonder.
-            if !civics.eurekaTriggered(for: .dramaAndPoetry) {
-                civics.triggerEureka(for: .dramaAndPoetry, in: gameModel)
+            if !civics.inspirationTriggered(for: .dramaAndPoetry) {
+                civics.triggerInspiration(for: .dramaAndPoetry, in: gameModel)
             }
 
             tile.build(wonder: wonderType)
@@ -3456,23 +3475,23 @@ public class City: AbstractCity {
         }
 
         // militaryTraining - Build any district.
-        if !civics.eurekaTriggered(for: .stateWorkforce) {
+        if !civics.inspirationTriggered(for: .stateWorkforce) {
             if districts.hasAny() { // city center is taken into account
-                civics.triggerEureka(for: .stateWorkforce, in: gameModel)
+                civics.triggerInspiration(for: .stateWorkforce, in: gameModel)
             }
         }
 
         // militaryTraining - Build an Encampment.
-        if !civics.eurekaTriggered(for: .militaryTraining) {
+        if !civics.inspirationTriggered(for: .militaryTraining) {
             if districts.has(district: .encampment) {
-                civics.triggerEureka(for: .militaryTraining, in: gameModel)
+                civics.triggerInspiration(for: .militaryTraining, in: gameModel)
             }
         }
 
         // recordedHistory - Build 2 Campus Districts.
-        if !civics.eurekaTriggered(for: .recordedHistory) {
+        if !civics.inspirationTriggered(for: .recordedHistory) {
             if player.numberOfDistricts(of: .campus, in: gameModel) >= 2 {
-                civics.triggerEureka(for: .recordedHistory, in: gameModel)
+                civics.triggerInspiration(for: .recordedHistory, in: gameModel)
             }
         }
     }

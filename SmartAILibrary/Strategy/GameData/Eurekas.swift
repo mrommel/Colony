@@ -57,12 +57,12 @@ class TechEurekas: Codable {
     }
 }
 
-class CivicEurekas: Codable {
+class CivicInspirations: Codable {
 
-    var eurekaCounter: EurekaCounterList
-    var eurakaTrigger: EurekaTriggeredList
+    var inspirationCounter: InspirationCounterList
+    var inspirationTrigger: InspirationTriggeredList
 
-    class EurekaCounterList: WeightedList<CivicType> {
+    class InspirationCounterList: WeightedList<CivicType> {
 
         override func fill() {
 
@@ -72,7 +72,7 @@ class CivicEurekas: Codable {
         }
     }
 
-    class EurekaTriggeredList: WeightedList<CivicType> {
+    class InspirationTriggeredList: WeightedList<CivicType> {
 
         override func fill() {
 
@@ -93,15 +93,15 @@ class CivicEurekas: Codable {
     }
 
     init() {
-        self.eurekaCounter = EurekaCounterList()
-        self.eurekaCounter.fill()
+        self.inspirationCounter = InspirationCounterList()
+        self.inspirationCounter.fill()
 
-        self.eurakaTrigger = EurekaTriggeredList()
-        self.eurakaTrigger.fill()
+        self.inspirationTrigger = InspirationTriggeredList()
+        self.inspirationTrigger.fill()
     }
 
     func triggered(for civic: CivicType) -> Bool {
 
-        return self.eurakaTrigger.triggered(for: civic)
+        return self.inspirationTrigger.triggered(for: civic)
     }
 }
