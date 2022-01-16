@@ -226,7 +226,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
     init(wonder: WonderType) {
 
-        self.title = wonder.name()
+        self.title = wonder.name().localized()
 
         var requiredText = ""
         if let requiredTech = wonder.requiredTech() {
@@ -239,7 +239,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
             "It requires \(requiredText) to be researched."
 
         var detailText = "Effects: \n"
-        wonder.effects().forEach { detailText += ("* " + $0 + "\n") }
+        wonder.effects().forEach { detailText += ("* " + $0.localized() + "\n") }
         self.detail = detailText
         self.imageName = wonder.iconTexture()
     }
@@ -276,7 +276,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         enables += tech.achievements().buildingTypes.map { $0.name() }
         enables += tech.achievements().districtTypes.map { $0.name() }
         enables += tech.achievements().unitTypes.map { $0.name() }
-        enables += tech.achievements().wonderTypes.map { $0.name() }
+        enables += tech.achievements().wonderTypes.map { $0.name().localized() }
         detailText += ListFormatter.localizedString(byJoining: enables)
         detailText += "\n"
         detailText += "Is boosted by: " + tech.eurekaSummary().localized()
@@ -301,7 +301,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         enables += civic.achievements().governments.map { $0.name() }
         enables += civic.achievements().policyCards.map { $0.name() }
         enables += civic.achievements().unitTypes.map { $0.name() }
-        enables += civic.achievements().wonderTypes.map { $0.name() }
+        enables += civic.achievements().wonderTypes.map { $0.name().localized() }
         detailText += ListFormatter.localizedString(byJoining: enables)
         detailText += "\n"
         detailText += "Is boosted by: " + civic.inspirationSummary().localized()

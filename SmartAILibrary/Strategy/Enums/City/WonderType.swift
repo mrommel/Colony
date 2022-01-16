@@ -197,13 +197,13 @@ public enum WonderType: Int, Codable {
         case .greatBath:
             // https://civilization.fandom.com/wiki/Great_Bath_(Civ6)
             return WonderTypeData(
-                name: "Great Bath",
+                name: "TXT_KEY_WONDER_GREAT_BATH_TITLE",
                 effects: [
-                    "+3 [Housing] Housing.",
-                    "+1 Amenity from entertainment.",
-                    "Floodplains tiles along the river containing this wonder are now immune to Flood damage.", // #
-                    "-50% [Production] Production and [Food] Food yields from Flood damage.", // #
-                    "+1 [Faith] Faith for every time a tile belonging to this city has been Flooded." // #
+                    "TXT_KEY_WONDER_GREAT_BATH_EFFECT1",
+                    "TXT_KEY_WONDER_GREAT_BATH_EFFECT2",
+                    "TXT_KEY_WONDER_GREAT_BATH_EFFECT3", // #
+                    "TXT_KEY_WONDER_GREAT_BATH_EFFECT4", // #
+                    "TXT_KEY_WONDER_GREAT_BATH_EFFECT5" // #
                 ],
                 era: .ancient,
                 productionCost: 180,
@@ -826,11 +826,11 @@ public enum WonderType: Int, Codable {
             // https://civilization.fandom.com/wiki/Casa_de_Contrataci%C3%B3n_(Civ6)
             // It must be built adjacent to a Government Plaza.
             return WonderTypeData(
-                name: "Casa de Contratación",
+                name: "TXT_KEY_WONDER_CASA_DE_CONTRATACIO_TITLE",
                 effects: [
-                    "+3 [GreatMerchant] Great Merchant points per turn", // #
-                    "Gain 3 Governor Titles.", // #
-                    "All your cities on your non-home continent with a Governor gain +15% [Production] Production, +15% [Faith] Faith and +15% [Gold] Gold." // #
+                    "TXT_KEY_WONDER_CASA_DE_CONTRATACIO_EFFECT1", // #
+                    "TXT_KEY_WONDER_CASA_DE_CONTRATACIO_EFFECT2", // #
+                    "TXT_KEY_WONDER_CASA_DE_CONTRATACIO_EFFECT3" // #
                 ],
                 era: .renaissance,
                 productionCost: 920,
@@ -998,7 +998,6 @@ public enum WonderType: Int, Codable {
                     Flavor(type: .naval, value: 3)
                 ]
             )
-
         }
     }
 

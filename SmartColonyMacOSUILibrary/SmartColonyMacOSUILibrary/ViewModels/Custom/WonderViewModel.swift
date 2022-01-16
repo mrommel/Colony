@@ -43,7 +43,7 @@ class WonderViewModel: QueueViewModel, ObservableObject {
 
     func title() -> String {
 
-        return self.wonderType.name()
+        return self.wonderType.name().localized()
     }
 
     func turnsText() -> String {
