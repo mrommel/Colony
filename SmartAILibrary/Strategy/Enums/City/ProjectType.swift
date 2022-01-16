@@ -128,8 +128,8 @@ public enum ProjectType: Int, Codable {
             return ProjectTypeData(
                 name: "Campus Research Grants",
                 effects: [
-                    "Extra Science while ongoing",
-                    "Extra Great Scientist points at completion"
+                    "Extra [Science] Science while ongoing",
+                    "Extra [GreatScientist] Great Scientist points at completion"
                 ],
                 era: .ancient,
                 required: nil,

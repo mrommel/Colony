@@ -1593,7 +1593,7 @@ public class Player: AbstractPlayer {
             greatPeoplePointsFromPolicyCards.greatWriter += 2
         }
 
-        // navigation - +2 Great Admiral Great Admiral points per turn.
+        // navigation - +2 Great Admiral points per turn.
         if government.has(card: .navigation) {
             greatPeoplePointsFromPolicyCards.greatAdmiral += 2
         }

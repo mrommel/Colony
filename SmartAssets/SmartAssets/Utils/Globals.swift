@@ -163,8 +163,40 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "greatAdmiral")
         }
 
+        public static var greatArtist: NSImage {
+            return Icons.loadCachedTexture(with: "greatArtist")
+        }
+
+        public static var greatEngineer: NSImage {
+            return Icons.loadCachedTexture(with: "greatEngineer")
+        }
+
         public static var greatGeneral: NSImage {
             return Icons.loadCachedTexture(with: "greatGeneral")
+        }
+
+        public static var greatMerchant: NSImage {
+            return Icons.loadCachedTexture(with: "greatMerchant")
+        }
+
+        public static var greatMusician: NSImage {
+            return Icons.loadCachedTexture(with: "greatMusician")
+        }
+
+        public static var greatProphet: NSImage {
+            return Icons.loadCachedTexture(with: "greatProphet")
+        }
+
+        public static var greatScientist: NSImage {
+            return Icons.loadCachedTexture(with: "greatScientist")
+        }
+
+        public static var greatWriter: NSImage {
+            return Icons.loadCachedTexture(with: "greatWriter")
+        }
+
+        public static var relic: NSImage {
+            return Icons.loadCachedTexture(with: "relic")
         }
 
         public static var questionmark: NSImage {

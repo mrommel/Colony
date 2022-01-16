@@ -199,11 +199,11 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Great Bath",
                 effects: [
-                    "+3 Housing.",
+                    "+3 [Housing] Housing.",
                     "+1 Amenity from entertainment.",
                     "Floodplains tiles along the river containing this wonder are now immune to Flood damage.", // #
-                    "-50% Production and Food yields from Flood damage.", // #
-                    "+1 Faith for every time a tile belonging to this city has been Flooded." // #
+                    "-50% [Production] Production and [Food] Food yields from Flood damage.", // #
+                    "+1 [Faith] Faith for every time a tile belonging to this city has been Flooded." // #
                 ],
                 era: .ancient,
                 productionCost: 180,
@@ -220,9 +220,9 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Etemenanki",
                 effects: [
-                    "+2 Science and +1 Production to all Marsh tiles in your empire.",
-                    "+1 Science and +1 Production on all Floodplains tiles in this city.",
-                    "+2 Science"
+                    "+2 [Science] Science and +1 [Production] Production to all Marsh tiles in your empire.",
+                    "+1 [Science] Science and +1 [Production] Production on all Floodplains tiles in this city.",
+                    "+2 [Science] Science"
                 ],
                 era: .ancient,
                 productionCost: 220,
@@ -240,7 +240,7 @@ public enum WonderType: Int, Codable {
                 name: "Hanging Gardens",
                 effects: [
                     "Increases growth by 15% in all cities.",
-                    "+2 Housing"
+                    "+2 [Housing] Housing"
                 ],
                 era: .ancient,
                 productionCost: 180,
@@ -261,8 +261,8 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Stonehenge",
                 effects: [
-                    "+2 Faith",
-                    "Grants a free Great Prophet."
+                    "+2 [Faith] Faith",
+                    "Grants a free [GreatProphet] Great Prophet."
                 ],
                 era: .ancient,
                 productionCost: 180,
@@ -282,8 +282,8 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Temple of Artemis",
                 effects: [
-                    "+4 Food",
-                    "+3 Housing",
+                    "+4 [Food] Food",
+                    "+3 [Housing] Housing",
                     "Each Camp, Pasture, and Plantation improvement within 4 tiles of this wonder provides +1 Amenity."
                 ],
                 era: .ancient,
@@ -304,7 +304,7 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Pyramids",
                 effects: [
-                    "+2 Culture",
+                    "+2 [Culture] Culture",
                     "Grants a free Builder.",
                     "All Builders can build 1 extra improvement."
                 ],
@@ -326,8 +326,8 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Oracle",
                 effects: [
-                    "+1 Culture",
-                    "+1 Faith",
+                    "+1 [Culture] Culture",
+                    "+1 [Faith] Faith",
                     "Patronage of Great People costs 25% less Faith.", // #
                     "Districts in this city provide +2 Great Person points of their type."
                 ],
@@ -351,8 +351,8 @@ public enum WonderType: Int, Codable {
                 name: "Great Lighthouse",
                 effects: [
                     "+1 Movement for all naval units.",
-                    "+3 Gold",
-                    "+1 Great Admiral point per turn"
+                    "+3 [Gold] Gold",
+                    "+1 [GreatAdmiral] Great Admiral point per turn"
                 ],
                 era: .classical,
                 productionCost: 290,
@@ -374,11 +374,11 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Great Library",
                 effects: [
-                    "+2 Science",
-                    "+1 Great Scientist point per turn",
+                    "+2 [Science] Science",
+                    "+1 [GreatScientist] Great Scientist point per turn",
                     "+2 Great Works of Writing slots",
                     "Receive boosts to all Ancient and Classical era technologies.",
-                    "+1 Great Writer point per turn"
+                    "+1 [GreatWriter] Great Writer point per turn"
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -440,9 +440,9 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Colossus",
                 effects: [
-                    "+3 Gold",
-                    "+1 Great Admiral point per turn",
-                    "+1 Trade Route capacity",
+                    "+3 [Gold] Gold",
+                    "+1 [GreatAdmiral] Great Admiral point per turn",
+                    "+1 [TradeRoute] Trade Route capacity",
                     "Grants a Trader unit."
                 ],
                 era: .classical,
@@ -465,7 +465,7 @@ public enum WonderType: Int, Codable {
                 name: "Jebel Barkal",
                 effects: [
                     "Awards 2 Iron.", // #
-                    "Provides +4 Faith to all your cities that are within 6 tiles."
+                    "Provides +4 [Faith] Faith to all your cities that are within 6 tiles."
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -485,8 +485,8 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Mausoleum at Halicarnassus",
                 effects: [
-                    "+1 Science, +1 Faith and +1 Culture on all Coast tiles in this city.",
-                    "All Great Engineers have an additional charge." // #
+                    "+1 [Science] Science, +1 [Faith] Faith and +1 [Culture] Culture on all Coast tiles in this city.",
+                    "All [GreatEngineer] Great Engineers have an additional charge." // #
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -508,7 +508,7 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Mahabodhi Temple",
                 effects: [
-                    "+4 Faith",
+                    "+4 [Faith] Faith",
                     "Grants 2 Apostles." // #
                 ],
                 era: .classical,
@@ -529,7 +529,7 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Petra",
                 effects: [
-                    "+2 Food, +2 Gold and +1 Production on all Desert tiles for this city (non-Floodplains)."
+                    "+2 [Food] Food, +2 [Gold] Gold and +1 [Production] Production on all Desert tiles for this city (non-Floodplains)."
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -549,7 +549,7 @@ public enum WonderType: Int, Codable {
             // https://civilization.fandom.com/wiki/Terracotta_Army_(Civ6)
             return WonderTypeData(
                 name: "Terracotta Army",
-                effects: ["+2 Great General points per turn",
+                effects: ["+2 [GreatGeneral] Great General points per turn",
                           "All current land units gain a promotion level."], // #
                 era: .classical,
                 productionCost: 400,
@@ -569,7 +569,7 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Machu Picchu",
                 effects: [
-                    "+4 Gold",
+                    "+4 [Gold] Gold",
                     "Mountain tiles provide a standard adjacency bonus to Commercial Hub, " +
                         "Theater Square and Industrial Zone districts in all cities." // #
                 ],
@@ -588,9 +588,9 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Statue of Zeus",
                 effects: [
-                    "+3 Gold",
+                    "+3 [Gold] Gold",
                     "Grants 3 Spearmen, 3 Archers, and a Battering Ram.",
-                    "+50% Production towards anti-cavalry units."
+                    "+50% [Production] Production towards anti-cavalry units."
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -609,7 +609,7 @@ public enum WonderType: Int, Codable {
                 name: "Alhambra",
                 effects: [
                     "+2 Amenities",
-                    "+2 Great General points per turn",
+                    "+2 [GreatGeneral] Great General points per turn",
                     "+1 Military policy slot",
                     "Provides the same defensive bonuses as the Fort improvement" // #
                 ],
@@ -631,9 +631,9 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Angkor Wat",
                 effects: [
-                    "+2 Faith",
-                    "+1 Citizen Population in all current cities when built.",
-                    "+1 Housing in all cities."
+                    "+2 [Faith] Faith",
+                    "+1 [Citizen] Population in all current cities when built.",
+                    "+1 [Housing] Housing in all cities."
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -653,7 +653,7 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Chichen Itza",
                 effects: [
-                    "+2 Culture and +1 Production to all Rainforest tiles for this city."
+                    "+2 [Culture] Culture and +1 [Production] Production to all Rainforest tiles for this city."
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -672,7 +672,7 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Hagia Sophia",
                 effects: [
-                    "+4 Faith",
+                    "+4 [Faith] Faith",
                     "Missionaries and Apostles can use Spread Religion 1 extra time." // #
                 ],
                 era: .medieval,
@@ -694,7 +694,7 @@ public enum WonderType: Int, Codable {
                 effects: [
                     "+1 Amenity from entertainment for each Lake tile within one tile of Huey Teocalli. " +
                         "(This includes the Lake tile where the wonder is placed.)",
-                    "+1 Food and +1 Production for each Lake tile in your empire."
+                    "+1 [Food] Food and +1 [Production] Production for each Lake tile in your empire."
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -735,7 +735,7 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Kotoku-in",
                 effects: [
-                    "+20% Faith in this city.",
+                    "+20% [Faith] Faith in this city.",
                     "Grants 4 Warrior Monks (if player has founded a religion or if there is " +
                         "a majority religion for this player or city)." // #
                 ],
@@ -756,7 +756,7 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Meenakshi Temple",
                 effects: [
-                    "+3 Faith.",
+                    "+3 [Faith] Faith.",
                     "+2 Gurus.", // #
                     "Gurus are 30% cheaper to purchase.", // #
                     "Religious units adjacent to Gurus receive +5 Religious Strength in Theological Combat and +1 Movement." // #
@@ -778,8 +778,8 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Mont St. Michel",
                 effects: [
-                    "+2 Faith",
-                    "2 Relic slots",
+                    "+2 [Faith] Faith",
+                    "2 [Relic] Relic slots",
                     "All Apostles you create gain the Martyr ability in addition to a " +
                         "second ability you choose normally." // #
                 ],
@@ -800,12 +800,12 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "University of Sankore",
                 effects: [
-                    "+3 Science",
-                    "+1 Faith",
-                    "+2 Great Scientist points per turn", // #
+                    "+3 [Science] Science",
+                    "+1 [Faith] Faith",
+                    "+2 [GreatScientist] Great Scientist points per turn", // #
                     "Other civilizations' Trade Routes to this city provide +1 Science and +1 Gold for them", // #
-                    "+2 Science for every Trade Route to this city", // #
-                    "Domestic Trade Routes give an additional +1 Faith to this city" // #
+                    "+2 [Science] Science for every Trade Route to this city", // #
+                    "Domestic [TradeRoute] Trade Routes give an additional +1 [Faith] Faith to this city" // #
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -828,9 +828,9 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Casa de Contratación",
                 effects: [
-                    "+3 Great Merchant points per turn", // #
+                    "+3 [GreatMerchant] Great Merchant points per turn", // #
                     "Gain 3 Governor Titles.", // #
-                    "All your cities on your non-home continent with a Governor gain +15% Production, +15% Faith and +15% Gold." // #
+                    "All your cities on your non-home continent with a Governor gain +15% [Production] Production, +15% [Faith] Faith and +15% [Gold] Gold." // #
                 ],
                 era: .renaissance,
                 productionCost: 920,
@@ -850,7 +850,7 @@ public enum WonderType: Int, Codable {
                 name: "Forbidden City",
                 effects: [
                     "+1 Wildcard policy slot", // #
-                    "+5 Culture"
+                    "+5 [Culture] Culture"
                 ],
                 era: .renaissance,
                 productionCost: 920,
@@ -869,9 +869,9 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Great Zimbabwe",
                 effects: [
-                    "+1 Trade Route", // #
-                    "+5 Gold",
-                    "+2 Great Merchant points per turn", // #
+                    "+1 [TradeRoute] Trade Route", // #
+                    "+5 [Gold] Gold",
+                    "+2 [GreatMerchant] Great Merchant points per turn", // #
                     "Trade Routes from this city get +2 Gold for every bonus resource within 3 tiles of the city and in this city's territory" // #
                 ],
                 era: .renaissance,
@@ -893,8 +893,8 @@ public enum WonderType: Int, Codable {
                 name: "Potala Palace",
                 effects: [
                     "+1 Diplomatic policy slot", // #
-                    "+2 Culture",
-                    "+3 Faith",
+                    "+2 [Culture] Culture",
+                    "+3 [Faith] Faith",
                     "+1 Diplomatic Victory Point when built" // #
                 ],
                 era: .renaissance,
@@ -916,9 +916,9 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "St. Basil's Cathedral",
                 effects: [
-                    "+3 Relic slots",
+                    "+3 [Relic] Relic slots",
                     "+100% Religious Tourism from this city.", // #
-                    "+1 Food, +1 Production, and +1 Culture on all Tundra tiles for this city." // #
+                    "+1 [Food] Food, +1 [Production] Production, and +1 [Culture] Culture on all Tundra tiles for this city." // #
                 ],
                 era: .renaissance,
                 productionCost: 920,
@@ -959,11 +959,11 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Torre de Belém",
                 effects: [
-                    "International Trade Route from this city receive +2 Gold for every luxury resource at the destination", // #
+                    "International [TradeRoute] Trade Route from this city receive +2 [Gold] Gold for every luxury resource at the destination", // #
                     "When the Torre de Belém is constructed, cities not on your home continent " +
                         "receive the lowest Production cost building they can currently construct", // #
-                    "+5 Gold",
-                    "+1 Great Admiral point per turn" // #
+                    "+5 [Gold] Gold",
+                    "+1 [GreatAdmiral] Great Admiral point per turn" // #
                 ],
                 era: .renaissance,
                 productionCost: 920,
@@ -983,7 +983,7 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Venetian Arsenal",
                 effects: [
-                    "+2 Great Engineer points per turn", // #
+                    "+2 [GreatEngineer] Great Engineer points per turn", // #
                     "Receive a second naval unit each time you train a naval unit." // #
                 ],
                 era: .renaissance,

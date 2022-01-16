@@ -30,6 +30,7 @@ public enum LabelImageType {
     case science
     case culture
     case faith
+    case tourism
 
     case tradeRoute
     case tradingPost
@@ -42,7 +43,16 @@ public enum LabelImageType {
 
     case greatPerson
     case greatAdmiral
+    case greatArtist
+    case greatEngineer
     case greatGeneral
+    case greatMerchant
+    case greatMusician
+    case greatProphet
+    case greatScientist
+    case greatWriter
+
+    case relic
 
     case darkAge
     case normalAge
@@ -62,6 +72,7 @@ public enum LabelImageType {
         case "[Science]": return .science
         case "[Culture]": return .culture
         case "[Faith]": return .faith
+        case "[Tourism]": return .tourism
 
         case "[TradeRoute]": return .tradeRoute
         case "[TradingPost]": return .tradingPost
@@ -75,7 +86,16 @@ public enum LabelImageType {
 
         case "[GreatPerson]": return .greatPerson
         case "[GreatAdmiral]": return .greatAdmiral
+        case "[GreatArtist]": return .greatArtist
+        case "[GreatEngineer]": return .greatEngineer
         case "[GreatGeneral]": return .greatGeneral
+        case "[GreatMerchant]": return .greatMerchant
+        case "[GreatMusician]": return .greatMusician
+        case "[GreatProphet]": return .greatProphet
+        case "[GreatScientist]": return .greatScientist
+        case "[GreatWriter]": return .greatWriter
+
+        case "[Relic]": return .relic
 
         case "[DarkAge]": return .darkAge
         case "[NormalAge]": return .normalAge
@@ -100,6 +120,7 @@ public enum LabelImageType {
         case .science: return Globals.Icons.science
         case .culture: return Globals.Icons.culture
         case .faith: return Globals.Icons.faith
+        case .tourism: return Globals.Icons.tourism
 
         case .tradeRoute: return Globals.Icons.tradeRoute
         case .tradingPost: return Globals.Icons.tradingPost
@@ -112,7 +133,16 @@ public enum LabelImageType {
 
         case .greatPerson: return Globals.Icons.greatPerson
         case .greatAdmiral: return Globals.Icons.greatAdmiral
+        case .greatArtist: return Globals.Icons.greatArtist
+        case .greatEngineer: return Globals.Icons.greatEngineer
         case .greatGeneral: return Globals.Icons.greatGeneral
+        case .greatMerchant: return Globals.Icons.greatMerchant
+        case .greatMusician: return Globals.Icons.greatMusician
+        case .greatProphet: return Globals.Icons.greatProphet
+        case .greatScientist: return Globals.Icons.greatScientist
+        case .greatWriter: return Globals.Icons.greatWriter
+
+        case .relic: return Globals.Icons.relic
 
         case .darkAge: return Globals.Icons.darkAge
         case .normalAge: return Globals.Icons.normalAge

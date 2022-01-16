@@ -281,7 +281,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Strategos_(Civ6)
             return PolicyCardTypeData(
                 name: "Strategos",
-                bonus: "+2 Great General points per turn.",
+                bonus: "+2 [GreatGeneral] Great General points per turn.",
                 slot: .wildcard,
                 required: .militaryTradition,
                 obsolete: .scorchedEarth,
@@ -306,7 +306,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Corv%C3%A9e_(Civ6)
             return PolicyCardTypeData(
                 name: "Corvee",
-                bonus: "+15% Production toward Ancient and Classical wonders.",
+                bonus: "+15% [Production] Production toward Ancient and Classical wonders.",
                 slot: .economic,
                 required: .stateWorkforce,
                 obsolete: .divineRight,
@@ -331,7 +331,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Colonization_(Civ6)
             return PolicyCardTypeData(
                 name: "Colonization",
-                bonus: "+50% Production toward Settlers.",
+                bonus: "+50% [Production] Production toward Settlers.",
                 slot: .economic,
                 required: .earlyEmpire,
                 obsolete: .scorchedEarth,
@@ -342,7 +342,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Inspiration_(Civ6)
             return PolicyCardTypeData(
                 name: "Inspiration",
-                bonus: "+2 Great Scientist points per turn.",
+                bonus: "+2 [GreatScientist] Great Scientist points per turn.",
                 slot: .wildcard,
                 required: .mysticism,
                 obsolete: .nuclearProgram,
@@ -356,7 +356,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Revelation_(Civ6)
             return PolicyCardTypeData(
                 name: "Revelation",
-                bonus: "+2 Great Prophet points per turn.",
+                bonus: "+2 [GreatProphet] Great Prophet points per turn.",
                 slot: .wildcard,
                 required: .mysticism,
                 obsolete: .humanism,
@@ -383,7 +383,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Insulae_(Civ6)
             return PolicyCardTypeData(
                 name: "Insulae",
-                bonus: "+1 Housing in all cities with at least 2 specialty districts.",
+                bonus: "+1 [Housing] Housing in all cities with at least 2 specialty districts.",
                 slot: .economic,
                 required: .gamesAndRecreation,
                 obsolete: .medievalFaires,
@@ -419,7 +419,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Literary_Tradition_(Civ6)
             return PolicyCardTypeData(
                 name: "Literary Tradition",
-                bonus: "+2 Great Writer points per turn.",
+                bonus: "+2 [GreatWriter] Great Writer points per turn.",
                 slot: .wildcard,
                 required: .dramaAndPoetry,
                 obsolete: nil,
@@ -443,7 +443,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Veterancy_(Civ6)
             return PolicyCardTypeData(
                 name: "Veterancy",
-                bonus: "+30% Production toward Encampment and Harbor districts and buildings for those districts.", // #
+                bonus: "+30% [Production] Production toward Encampment and Harbor districts and buildings for those districts.", // #
                 slot: .military,
                 required: .militaryTraining,
                 obsolete: nil,
@@ -479,7 +479,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Limes_(Civ6)
             return PolicyCardTypeData(
                 name: "Limes",
-                bonus: "+100% Production toward defensive buildings.", // #
+                bonus: "+100% [Production] Production toward defensive buildings.", // #
                 slot: .military,
                 required: .defensiveTactics,
                 obsolete: .totalitarianism,
@@ -515,7 +515,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Praetorium_(Civ6)
             return PolicyCardTypeData(
                 name: "Praetorium",
-                bonus: "Governors provide +2 Loyalty per turn to their city.",
+                bonus: "[Governor] Governors provide +2 Loyalty per turn to their city.",
                 slot: .diplomatic,
                 required: .recordedHistory,
                 obsolete: .socialMedia,
@@ -540,7 +540,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Navigation_(Civ6)
             return PolicyCardTypeData(
                 name: "Navigation",
-                bonus: "+2 Great Admiral Great Admiral points per turn.",
+                bonus: "+2 [GreatAdmiral] Great Admiral points per turn.",
                 slot: .wildcard,
                 required: .navalTradition,
                 obsolete: nil,
@@ -553,7 +553,7 @@ public enum PolicyCardType: Int, Codable {
             return PolicyCardTypeData(
                 name: "Feudal Contract",
                 bonus:
-                    "+50% Production toward Ancient, Classical, Medieval and Renaissance era melee, " + // #
+                    "+50% [Production] Production toward Ancient, Classical, Medieval and Renaissance era melee, " + // #
                     "ranged and anti-cavalry units.",
                 slot: .military,
                 required: .feudalism,
@@ -578,7 +578,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Meritocracy_(Civ6)
             return PolicyCardTypeData(
                 name: "Meritocracy",
-                bonus: "Each city receives +1 Culture for each specialty District it constructs.", // #
+                bonus: "Each city receives +1 [Culture] Culture for each specialty District it constructs.", // #
                 slot: .economic,
                 required: .civilService,
                 obsolete: nil,
@@ -614,7 +614,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Professional_Army_(Civ6)
             return PolicyCardTypeData(
                 name: "Professional Army",
-                bonus: "50% Gold discount on all unit upgrades.",
+                bonus: "50% [Gold] Gold discount on all unit upgrades.",
                 slot: .military,
                 required: .mercenaries,
                 obsolete: .urbanization,
@@ -638,7 +638,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Trade_Confederation_(Civ6)
             return PolicyCardTypeData(
                 name: "Trade Confederation",
-                bonus: "+1 Culture and +1 Science from international Trade Routes.",
+                bonus: "+1 [Culture] Culture and +1 [Science] Science from international [TradeRoute] Trade Routes.",
                 slot: .economic,
                 required: .mercenaries,
                 obsolete: .capitalism,
@@ -650,7 +650,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Merchant_Confederation_(Civ6)
             return PolicyCardTypeData(
                 name: "Merchant Confederation",
-                bonus: "+1 Gold from each of your Envoys at city-states.", // #
+                bonus: "+1 [Gold] Gold from each of your Envoys at city-states.", // #
                 slot: .diplomatic,
                 required: .medievalFaires,
                 obsolete: nil,
@@ -674,7 +674,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Medina_Quarter_(Civ6)
             return PolicyCardTypeData(
                 name: "Medina Quarter",
-                bonus: "+2 Housing in all cities with at least 3 specialty Districts.", // #
+                bonus: "+2 [Housing] Housing in all cities with at least 3 specialty Districts.", // #
                 slot: .economic,
                 required: .medievalFaires,
                 obsolete: .suffrage,
@@ -710,7 +710,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Traveling_Merchants_(Civ6)
             return PolicyCardTypeData(
                 name: "Traveling Merchants",
-                bonus: "+2 Great Merchant points per turn.",
+                bonus: "+2 [GreatMerchant] Great Merchant points per turn.",
                 slot: .wildcard,
                 required: .guilds,
                 obsolete: .capitalism,
@@ -722,7 +722,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Chivalry_(Civ6)
             return PolicyCardTypeData(
                 name: "Chivalry",
-                bonus: "+50% Production toward Industrial era and earlier heavy and light cavalry units.", // #
+                bonus: "+50% [Production] Production toward Industrial era and earlier heavy and light cavalry units.", // #
                 slot: .military,
                 required: .divineRight,
                 obsolete: .totalitarianism,
@@ -734,7 +734,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Gothic_Architecture_(Civ6)
             return PolicyCardTypeData(
                 name: "Gothic Architecture",
-                bonus: "+15% Production toward Ancient, Classical, Medieval and Renaissance wonders.", // #
+                bonus: "+15% [Production] Production toward Ancient, Classical, Medieval and Renaissance wonders.", // #
                 slot: .economic,
                 required: .divineRight,
                 obsolete: .civilEngineering,
@@ -746,7 +746,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Civil_Prestige_(Civ6)
             return PolicyCardTypeData(
                 name: "Civil Prestige",
-                bonus: "Established Governors with at least 2 Promotions provide +1 Amenity and +2 Housing.",
+                bonus: "Established [Governor] Governors with at least 2 Promotions provide +1 Amenity and +2 Housing.",
                 slot: .economic,
                 required: .civilService,
                 obsolete: nil,

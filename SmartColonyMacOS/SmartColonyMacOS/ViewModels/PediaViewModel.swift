@@ -16,8 +16,8 @@ enum PediaCategory {
     case features
     case resources
 
-    // leaders
-    // civilizations
+    case leaders
+    case civilizations
 
     case units
     case buildings
@@ -28,16 +28,21 @@ enum PediaCategory {
     case techs
     case civics
 
-    // governments
-    // policies
+    case governments
+    case policies
 
     // religions
     // pantheons
 
+    // dedications
+    // moments
+
     static var all: [PediaCategory] = [
         .terrains, .features, .resources,
+        .leaders, .civilizations,
         .units, .buildings, .districts, .wonders, .improvements,
-        .techs, .civics
+        .techs, .civics,
+        .governments, .policies
     ]
 
     func title() -> String {
@@ -50,6 +55,11 @@ enum PediaCategory {
             return "Features"
         case .resources:
             return "Resources"
+
+        case .leaders:
+            return "Leaders"
+        case .civilizations:
+            return "Civilizations"
 
         case .units:
             return "Units"
@@ -66,6 +76,11 @@ enum PediaCategory {
             return "Techs"
         case .civics:
             return "Civics"
+
+        case .governments:
+            return "Governments"
+        case .policies:
+            return "Policies"
         }
     }
 }
@@ -144,6 +159,22 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         self.imageName = resource.textureName()
     }
 
+    init(leader: LeaderType) {
+
+        self.title = leader.name().localized()
+        self.summary = "Leader of the " + leader.civilization().name().localized() + " civilization"
+        self.detail = "Leader"
+        self.imageName = leader.iconTexture()
+    }
+
+    init(civilization: CivilizationType) {
+
+        self.title = civilization.name().localized()
+        self.summary = "Civilization"
+        self.detail = "Civilization with the ability " + civilization.ability().name()
+        self.imageName = civilization.iconTexture()
+    }
+
     init(unit: UnitType) {
 
         self.title = unit.name()
@@ -160,10 +191,10 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         var requiredText = ""
         if let requiredTech = building.requiredTech() {
-            requiredText = requiredTech.name()
+            requiredText = requiredTech.name().localized()
         }
         if let requiredCivic = building.requiredCivic() {
-            requiredText = requiredCivic.name()
+            requiredText = requiredCivic.name().localized()
         }
         self.summary = "Building that can be built with \(building.productionCost()) [Production] production. " +
             "It requires \(requiredText) to be researched."
@@ -232,7 +263,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
     init(tech: TechType) {
 
-        self.title = tech.name()
+        self.title = tech.name().localized()
 
         let requires: [String] = tech.required().map { $0.name().localized() }
         let requiredText = ListFormatter.localizedString(byJoining: requires)
@@ -255,7 +286,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
     init(civic: CivicType) {
 
-        self.title = civic.name()
+        self.title = civic.name().localized()
 
         let requires: [String] = civic.required().map { $0.name().localized() }
         let requiredText = ListFormatter.localizedString(byJoining: requires)
@@ -277,6 +308,22 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         self.detail = detailText
 
         self.imageName = civic.iconTexture()
+    }
+
+    init(government: GovernmentType) {
+
+        self.title = government.name().localized()
+        self.summary = "Government from the \(government.era()) era that requires \(government.required().name().localized()) to be researched."
+        self.detail = "\(government.bonus1Summary())\n\(government.bonus2Summary())"
+        self.imageName = government.iconTexture()
+    }
+
+    init(policyCard: PolicyCardType) {
+
+        self.title = policyCard.name().localized()
+        self.summary = "Policy Card that requires \(policyCard.required().name().localized()) to be researched"
+        self.detail = policyCard.bonus().localized()
+        self.imageName = policyCard.slot().iconTexture()
     }
 
     func image() -> NSImage {
@@ -380,6 +427,24 @@ class PediaViewModel: ObservableObject {
             )
         }
 
+        let leaderTextures = LeaderType.all.map { $0.iconTexture() }
+        print("- load \(leaderTextures.count) leaders")
+        for textureName in leaderTextures {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let civilizationTextures = CivilizationType.all.map { $0.iconTexture() }
+        print("- load \(civilizationTextures.count) civilizations")
+        for textureName in civilizationTextures {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
         let unitPortraitTextures = UnitType.all.map { $0.portraitTexture() }
         print("- load \(unitPortraitTextures.count) units")
         for textureName in unitPortraitTextures {
@@ -445,6 +510,24 @@ class PediaViewModel: ObservableObject {
             )
         }
 
+        let governmentTextureNames = GovernmentType.all.map { $0.iconTexture() }
+        print("- load \(governmentTextureNames.count) governments")
+        for textureName in governmentTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let policiesTextureNames = PolicyCardType.all.map { $0.iconTexture() }
+        print("- load \(policiesTextureNames.count) policy cards")
+        for textureName in policiesTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
         self.updateDetailModels()
     }
 
@@ -465,6 +548,14 @@ class PediaViewModel: ObservableObject {
         case .resources:
             for resourceType in ResourceType.all {
                 self.pediaDetailViewModels.append(PediaDetailViewModel(resource: resourceType))
+            }
+        case .leaders:
+            for leaderType in LeaderType.all {
+                self.pediaDetailViewModels.append(PediaDetailViewModel(leader: leaderType))
+            }
+        case .civilizations:
+            for civilizationType in CivilizationType.all {
+                self.pediaDetailViewModels.append(PediaDetailViewModel(civilization: civilizationType))
             }
         case .units:
             for unitType in UnitType.all {
@@ -493,6 +584,14 @@ class PediaViewModel: ObservableObject {
         case .civics:
             for civicType in CivicType.all {
                 self.pediaDetailViewModels.append(PediaDetailViewModel(civic: civicType))
+            }
+        case .governments:
+            for governmentType in GovernmentType.all {
+                self.pediaDetailViewModels.append(PediaDetailViewModel(government: governmentType))
+            }
+        case .policies:
+            for policyCardType in PolicyCardType.all {
+                self.pediaDetailViewModels.append(PediaDetailViewModel(policyCard: policyCardType))
             }
         }
     }

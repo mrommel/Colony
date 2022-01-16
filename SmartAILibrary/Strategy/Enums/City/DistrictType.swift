@@ -162,13 +162,13 @@ public enum DistrictType: Int, Codable {
                 name: "Campus",
                 specialty: true,
                 effects: [
-                    "Major bonus (+2 Science) for each adjacent Geothermal Fissure and Reef tile.",
+                    "Major bonus (+2 [Science] Science) for each adjacent Geothermal Fissure and Reef tile.",
                     // "Major bonus (+2 Science) for each adjacent Pamukkale tile.", // #
-                    "Major bonus (+2 Science) for each adjacent Great Barrier Reef tile.",
-                    "Standard bonus (+1 Science) for each adjacent Mountain tile.",
-                    "Minor bonus (+½ Science) for each adjacent Rainforest and district tile.",
-                    "+1 Great Scientist point per turn.",
-                    "Specialists add +2 Science each" // #
+                    "Major bonus (+2 [Science] Science) for each adjacent Great Barrier Reef tile.",
+                    "Standard bonus (+1 [Science] Science) for each adjacent Mountain tile.",
+                    "Minor bonus (+½ [Science] Science) for each adjacent Rainforest and district tile.",
+                    "+1 [GreatScientist] Great Scientist point per turn.",
+                    "Specialists add +2 [Science] Science each" // #
                 ],
                 productionCost: 54,
                 maintenanceCost: 1,
@@ -187,15 +187,15 @@ public enum DistrictType: Int, Codable {
                 name: "Theater Square",
                 specialty: true,
                 effects: [
-                    "Major bonus (+2 Culture) for each adjacent Wonder",
-                    "Major bonus (+2 Culture) for each adjacent Water Park or Entertainment Complex district tile",
+                    "Major bonus (+2 [Culture] Culture) for each adjacent Wonder",
+                    "Major bonus (+2 [Culture] Culture) for each adjacent Water Park or Entertainment Complex district tile",
                     // "Major bonus (+2 Culture) for each adjacent Pamukkale tile",
-                    "Minor bonus (+½ Culture) for each adjacent district tile",
-                    "+1 Great Writer point per turn",
-                    "+1 Great Artist point per turn",
-                    "+1 Great Musician point per turn",
+                    "Minor bonus (+½ [Culture] Culture) for each adjacent district tile",
+                    "+1 [GreatWriter] Great Writer point per turn",
+                    "+1 [GreatArtist] Great Artist point per turn",
+                    "+1 [GreatMusician] Great Musician point per turn",
                     "Buildings have slots for Great Works and Artifacts",
-                    "Specialists add +2 Culture each", // #
+                    "Specialists add +2 [Culture] Culture each", // #
                     "+1 Appeal to adjacent tiles" // #
                 ],
                 productionCost: 54,
@@ -216,15 +216,15 @@ public enum DistrictType: Int, Codable {
                 name: "HolySite",
                 specialty: true,
                 effects: [
-                    "Major bonus (+2 Faith) for each adjacent Natural Wonder",
-                    "Standard bonus (+1 Faith) for each adjacent Mountain tile",
-                    "Standard bonus (+1 Faith) for each adjacent Pamukkale tile",
-                    "Minor bonus (+½ Faith) for each adjacent District tile and each adjacent unimproved Woods tile",
-                    "+1 Great Prophet point per turn",
+                    "Major bonus (+2 [Faith] Faith) for each adjacent Natural Wonder",
+                    "Standard bonus (+1 [Faith] Faith) for each adjacent Mountain tile",
+                    "Standard bonus (+1 [Faith] Faith) for each adjacent Pamukkale tile",
+                    "Minor bonus (+½ [Faith] Faith) for each adjacent District tile and each adjacent unimproved Woods tile",
+                    "+1 [GreatProphet] Great Prophet point per turn",
                     "A religion can be founded in the Holy Site",
                     "Religious units can be purchased in a city with a Holy Site, spawning in the Holy Site or if that's unavailable in the City Center",
                     "Religious units heal in a Holy Site district and in tiles adjacent to it",
-                    "Specialists add +2 Faith each",
+                    "Specialists add +2 [Faith] Faith each",
                     "+1 Appeal to adjacent tiles"
                 ],
                 productionCost: 54,
@@ -244,7 +244,7 @@ public enum DistrictType: Int, Codable {
                 name: "Encampment",
                 specialty: true,
                 effects: [
-                    "+1 Great General point per turn",
+                    "+1 [GreatGeneral] Great General point per turn",
                     "Acquires Outer Defenses and Ranged Strike along with the City Center once Walls have been built", // #
                     "Blocks movement of foreign units to this tile, unless the district is pillaged", // #
                     "Spawns all land military units the city produces or purchases", // #
@@ -272,10 +272,10 @@ public enum DistrictType: Int, Codable {
                 name: "Harbor",
                 specialty: true,
                 effects: [
-                    "Major bonus (+2 Gold) for being adjacent to the City Center",
-                    "Standard bonus (+1 Gold) for each adjacent Sea resource",
-                    "Minor bonus (+½ Gold) for each adjacent District",
-                    "+1 Great Admiral point per turn",
+                    "Major bonus (+2 [Gold] Gold) for being adjacent to the City Center",
+                    "Standard bonus (+1 [Gold] Gold) for each adjacent Sea resource",
+                    "Minor bonus (+½ [Gold] Gold) for each adjacent District",
+                    "+1 [GreatAdmiral] Great Admiral point per turn",
                     "+1 Trade Route capacity if this city doesn't already have a Commercial Hub. (Requires a Lighthouse)", // #
                     "Allows its parent city to build ships, even if the City Center is inland", // #
                     "Newly produced or purchased ships will spawn at the Harbor tile (as long as the Harbor tile is unoccupied)", // #
@@ -283,7 +283,7 @@ public enum DistrictType: Int, Codable {
                     "Allows its parent city to build Ships requiring Strategic Resources with only 1 count of the relevant resource", // #
                     "When the Seaport is built, the parent city may construct Fleets and Armadas", // #
                     "Buildings grant experience bonuses to ships built in this city", // #
-                    "Specialists add +2 Gold and +1 Food each" // #
+                    "Specialists add +2 [Gold] Gold and +1 [Food] Food each" // #
                 ],
                 productionCost: 54,
                 maintenanceCost: 0,
@@ -326,12 +326,12 @@ public enum DistrictType: Int, Codable {
                 name: "Commercial Hub",
                 specialty: true,
                 effects: [
-                    "Major bonus (+2 Gold) for a nearby River or a Harbor District.",
+                    "Major bonus (+2 [Gold] Gold) for a nearby River or a Harbor District.",
                     // "Major bonus (+2 Gold) for each adjacent Pamukkale tile.", // #
-                    "Minor bonus (+½ Gold) for each nearby District.",
-                    "+1 Trade Route capacity if this city doesn't already have a Harbor. (Requires a Market)", // #
-                    "+1 Great Merchant point per turn",
-                    "Specialists add +4 Gold each" // #
+                    "Minor bonus (+½ [Gold] Gold) for each nearby District.",
+                    "+1 [TradeRoute] Trade Route capacity if this city doesn't already have a Harbor. (Requires a Market)", // #
+                    "+1 [GreatMerchant] Great Merchant point per turn",
+                    "Specialists add +4 [Gold] Gold each" // #
                 ],
                 productionCost: 54,
                 maintenanceCost: 0,
@@ -349,12 +349,12 @@ public enum DistrictType: Int, Codable {
                 name: "Industrial Zone",
                 specialty: false,
                 effects: [
-                    "Standard bonus (+1 Production) for each adjacent Mine or a Quarry",
-                    "Minor bonus (+½ Production) for each adjacent district tile",
-                    "+1 Great Engineer point per turn",
+                    "Standard bonus (+1 [Production] Production) for each adjacent Mine or a Quarry",
+                    "Minor bonus (+½ [Production] Production) for each adjacent district tile",
+                    "+1 [GreatEngineer] Great Engineer point per turn",
                     "Lowers the Appeal of nearby tiles", // #
                     "Production from Factory and Power Plant buildings extends to cities whose City Centers are within 6 tiles of this district", // #
-                    "Specialists provide +2 Production each" // #
+                    "Specialists provide +2 [Production] Production each" // #
                 ],
                 productionCost: 54,
                 maintenanceCost: 0,
@@ -375,9 +375,9 @@ public enum DistrictType: Int, Codable {
                 name: "Aqueduct",
                 specialty: false,
                 effects: [
-                    "Cities that do not yet have existing fresh water receive up to 6 Housing.",
-                    "Cities that already have existing fresh water will instead get 2 Housing.",
-                    "Prevents Food loss during droughts.", // #
+                    "Cities that do not yet have existing fresh water receive up to 6 [Housing] Housing.",
+                    "Cities that already have existing fresh water will instead get 2 [Housing] Housing.",
+                    "Prevents [Food] Food loss during droughts.", // #
                     "+1 Amenity if adjacent to a Geothermal Fissure.", // #
                     "Military Engineers can spend a charge to complete 20% (rounding down) of an Aqueduct's production.", // #
                     "Does not depend on Citizen Population." // #

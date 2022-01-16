@@ -95,7 +95,7 @@
 // civic - theology:
 "TXT_KEY_CIVIC_THEOLOGY_TITLE" = "Theology";
 "TXT_KEY_CIVIC_THEOLOGY_EUREKA" = "Found a Religion.";
-"TXT_KEY_CIVIC_THEOLOGY_EUREKA_TEXT" = "The formation of a Religion by your Great Prophet inspires deeper thought on the nature of the divine.";
+"TXT_KEY_CIVIC_THEOLOGY_EUREKA_TEXT" = "The formation of a Religion by your [GreatProphet] Great Prophet inspires deeper thought on the nature of the divine.";
 "TXT_KEY_CIVIC_THEOLOGY_QUOTE1" = "“We can no more have exact religious thinking without theology, than exact mensuration and astronomy without mathematics, or exact iron-making without chemistry.”\n– John Hall";
 "TXT_KEY_CIVIC_THEOLOGY_QUOTE2" = "Man suffers only because he takes seriously what the gods made for fun.”\n– Alan W. Watts";
 

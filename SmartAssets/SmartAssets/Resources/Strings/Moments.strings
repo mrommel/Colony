@@ -363,7 +363,7 @@ case .governorFullyPromoted:
 
 // religionFounded
 "TXT_KEY_MOMENT_RELIGION_FOUNDED_TITLE" = "Religion Founded";
-"TXT_KEY_MOMENT_RELIGION_FOUNDED_SUMMARY" = "A Great Prophet founds a Religion, bringing light to your people.";
+"TXT_KEY_MOMENT_RELIGION_FOUNDED_SUMMARY" = "A [GreatProphet] Great Prophet founds a Religion, bringing light to your people.";
 
 // rivalHolyCityConverted
 "TXT_KEY_MOMENT_RIVAL_HOLY_CITY_CONVERTED_TITLE" = "Rival Holy City Converted";

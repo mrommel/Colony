@@ -12,7 +12,7 @@ public enum GreatWorkType {
 
     case writing
     case music
-    case artwork
+    case artwork // => 4 types: religious, portrait, landscape, sculpture
     case artifact
     case relic
 
