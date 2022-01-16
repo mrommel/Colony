@@ -1,0 +1,57 @@
+/* 
+  Governments.strings
+  SmartAssets
+
+  Created by Michael Rommel on 16.01.22.
+  
+*/
+
+// chiefdom
+"TXT_KEY_GOVERNMENT_CHIEFDOM_TITLE" = "Chiefdom";
+"TXT_KEY_GOVERNMENT_CHIEFDOM_BONUS1" = "No Bonus.";
+"TXT_KEY_GOVERNMENT_CHIEFDOM_BONUS2" = "No Bonus.";
+
+// autocracy
+"TXT_KEY_GOVERNMENT_AUTOCRACY_TITLE" = "Autocracy";
+"TXT_KEY_GOVERNMENT_AUTOCRACY_BONUS1" = "+1 to all yields for each government building and Palace in a city.";
+"TXT_KEY_GOVERNMENT_AUTOCRACY_BONUS2" = "+10% [Production] Production toward Wonders.";
+
+// classicalRepublic
+"TXT_KEY_GOVERNMENT_CLASSICAL_REPUBLIC_TITLE" = "Classical Republic";
+"TXT_KEY_GOVERNMENT_CLASSICAL_REPUBLIC_BONUS1" = "All cities with a district receive +1 [Housing] Housing and +1 Amenity.";
+"TXT_KEY_GOVERNMENT_CLASSICAL_REPUBLIC_BONUS2" = "+15% [GreatPerson] Great Person points.";
+
+// oligarchy
+"TXT_KEY_GOVERNMENT_OLIGARCHY_TITLE" = "Oligarchy";
+"TXT_KEY_GOVERNMENT_OLIGARCHY_BONUS1" = "All land melee, anti-cavalry, and naval melee class units gain +4 [Strength] Combat Strength.";
+"TXT_KEY_GOVERNMENT_OLIGARCHY_BONUS2" = "+20% Unit Experience.";
+
+// merchantRepublic
+"TXT_KEY_GOVERNMENT_MERCHANT_REPUBLIC_TITLE" = "Merchant Republic";
+"TXT_KEY_GOVERNMENT_MERCHANT_REPUBLIC_BONUS1" = "+10% [Gold] Gold in all cities with an established [Governor] Governor.";
+"TXT_KEY_GOVERNMENT_MERCHANT_REPUBLIC_BONUS2" = "+15% [Production] Production toward Districts.";
+
+// monarchy
+"TXT_KEY_GOVERNMENT_MONARCHY_TITLE" = "Monarchy";
+"TXT_KEY_GOVERNMENT_MONARCHY_BONUS1" = "+1 [Housing] Housing per level of Walls.";
+"TXT_KEY_GOVERNMENT_MONARCHY_BONUS2" = "+50% Influence Points.";
+
+// theocracy
+"TXT_KEY_GOVERNMENT_THEOCRACY_TITLE" = "Theocracy";
+"TXT_KEY_GOVERNMENT_THEOCRACY_BONUS1" = "+5 Religious Strength in Theological Combat. +0.5 [Faith] Faith per [Citizen] Citizen in cities with [Governor] Governors.";
+"TXT_KEY_GOVERNMENT_THEOCRACY_BONUS2" = "15% Discount on Purchases with [Faith] Faith.";
+
+// fascism
+"TXT_KEY_GOVERNMENT_FASCISM_TITLE" = "Fascism";
+"TXT_KEY_GOVERNMENT_FASCISM_BONUS1" = "All units gain +5 [Strength] Combat Strength. War Weariness reduced by 15%.";
+"TXT_KEY_GOVERNMENT_FASCISM_BONUS2" = "+50% [Production] Production toward Units.";
+
+// communism
+"TXT_KEY_GOVERNMENT_COMMUNISM_TITLE" = "Communism";
+"TXT_KEY_GOVERNMENT_COMMUNISM_BONUS1" = "+0.6 [Production] Production per Citizen in cities with [Governor] Governors.";
+"TXT_KEY_GOVERNMENT_COMMUNISM_BONUS2" = "+15% [Production] Production.";
+
+// democracy
+"TXT_KEY_GOVERNMENT_DEMOCRACY_TITLE" = "Democracy";
+"TXT_KEY_GOVERNMENT_DEMOCRACY_BONUS1" = "+1 [Production] Production and +1 [Housing] Housing per District.";
+"TXT_KEY_GOVERNMENT_DEMOCRACY_BONUS2" = "25% Discount on Purchases with [Gold] Gold.";

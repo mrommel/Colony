@@ -181,7 +181,7 @@ public enum UnitPromotionType: Int, Codable {
             // https://civilization.fandom.com/wiki/Ambush_(Civ6)
             return PromotionData(
                 name: "Ambush",
-                effect: "+20 Combat Strength in all situations.", // #
+                effect: "+20 [Strength] Combat Strength in all situations.", // #
                 tier: 3,
                 unitClass: .recon,
                 required: [.guerrilla],
@@ -203,7 +203,7 @@ public enum UnitPromotionType: Int, Codable {
             // https://civilization.fandom.com/wiki/Battlecry_(Civ6)
             return PromotionData(
                 name: "Battlecry",
-                effect: "+7 Combat Strength vs. melee and ranged units.",
+                effect: "+7 [Strength] Combat Strength vs. melee and ranged units.",
                 tier: 1,
                 unitClass: .melee,
                 required: [],
@@ -213,7 +213,7 @@ public enum UnitPromotionType: Int, Codable {
             // https://civilization.fandom.com/wiki/Tortoise_(Civ6)
             return PromotionData(
                 name: "Tortoise",
-                effect: "+10 Combat Strength when defending against ranged attacks.",
+                effect: "+10 [Strength] Combat Strength when defending against ranged attacks.",
                 tier: 1,
                 unitClass: .melee,
                 required: [],
@@ -233,7 +233,7 @@ public enum UnitPromotionType: Int, Codable {
             // https://civilization.fandom.com/wiki/Amphibious_(Civ6)
             return PromotionData(
                 name: "Amphibious",
-                effect: "No Combat Strength and Movement penalty when attacking from Sea or over a River.", // #
+                effect: "No [Strength] Combat Strength and Movement penalty when attacking from Sea or over a River.", // #
                 tier: 2,
                 unitClass: .melee,
                 required: [.tortoise, .commando],
@@ -243,7 +243,7 @@ public enum UnitPromotionType: Int, Codable {
             // https://civilization.fandom.com/wiki/Zweihander_(Civ6)
             return PromotionData(
                 name: "Zweihander",
-                effect: "+7 Combat Strength vs. anti-cavalry units.", // #
+                effect: "+7 [Strength] Combat Strength vs. anti-cavalry units.", // #
                 tier: 3,
                 unitClass: .melee,
                 required: [.tortoise, .amphibious],
@@ -253,7 +253,7 @@ public enum UnitPromotionType: Int, Codable {
             // https://civilization.fandom.com/wiki/Urban_Warfare_(Civ6)
             return PromotionData(
                 name: "Urban warfare",
-                effect: "+10 Combat Strength when fighting in a city.", // #
+                effect: "+10 [Strength] Combat Strength when fighting in a city.", // #
                 tier: 3,
                 unitClass: .melee,
                 required: [.commando, .amphibious],

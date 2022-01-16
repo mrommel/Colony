@@ -34,6 +34,7 @@
 		C963AD102785E27100981EF3 /* Techs.strings in Resources */ = {isa = PBXBuildFile; fileRef = C963AD0F2785E27100981EF3 /* Techs.strings */; };
 		C963AD12278627BD00981EF3 /* AgeTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C963AD11278627BC00981EF3 /* AgeTypeExtension.swift */; };
 		C968F29D2639BA4F00612D0E /* ImprovementTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F29C2639BA4F00612D0E /* ImprovementTypeExtension.swift */; };
+		C970A5F42794841F00381603 /* Governments.strings in Resources */ = {isa = PBXBuildFile; fileRef = C970A5F32794841F00381603 /* Governments.strings */; };
 		C971FDD7270A41A800F818EE /* ReligionTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C971FDD6270A41A800F818EE /* ReligionTypeExtension.swift */; };
 		C9754D56275E18AC000A1B70 /* AppealLevelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9754D55275E18AC000A1B70 /* AppealLevelExtension.swift */; };
 		C9754D58275E3BA7000A1B70 /* CitySiteEvaluationTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9754D57275E3BA7000A1B70 /* CitySiteEvaluationTypeExtension.swift */; };
@@ -155,6 +156,7 @@
 		C963AD0F2785E27100981EF3 /* Techs.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Techs.strings; sourceTree = "<group>"; };
 		C963AD11278627BC00981EF3 /* AgeTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeTypeExtension.swift; sourceTree = "<group>"; };
 		C968F29C2639BA4F00612D0E /* ImprovementTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementTypeExtension.swift; sourceTree = "<group>"; };
+		C970A5F32794841F00381603 /* Governments.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Governments.strings; sourceTree = "<group>"; };
 		C971FDD6270A41A800F818EE /* ReligionTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionTypeExtension.swift; sourceTree = "<group>"; };
 		C9754D55275E18AC000A1B70 /* AppealLevelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealLevelExtension.swift; sourceTree = "<group>"; };
 		C9754D57275E3BA7000A1B70 /* CitySiteEvaluationTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySiteEvaluationTypeExtension.swift; sourceTree = "<group>"; };
@@ -410,6 +412,7 @@
 				C932BA832774AC4E00F4640D /* Dedications.strings */,
 				C9CD3192278CB711002D53C4 /* Moments.strings */,
 				C9B71F11278F09210091BADD /* Religions.strings */,
+				C970A5F32794841F00381603 /* Governments.strings */,
 			);
 			path = Strings;
 			sourceTree = "<group>";
@@ -548,6 +551,7 @@
 				C932BA842774AC4E00F4640D /* Dedications.strings in Resources */,
 				C9A0984F261CB6930098C5E1 /* long_swordman.png in Resources */,
 				C9A09853261CB6930098C5E1 /* horseman.xml in Resources */,
+				C970A5F42794841F00381603 /* Governments.strings in Resources */,
 				C91C92AA276533EB009A1167 /* Localizable.strings in Resources */,
 				C9A09857261CB6930098C5E1 /* archer.png in Resources */,
 				C9A09849261CB6930098C5E1 /* man_at_arms.png in Resources */,

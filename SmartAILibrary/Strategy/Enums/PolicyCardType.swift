@@ -22,7 +22,7 @@ public enum PolicyCardSlotType {
         .wildcard
     ]
 
-    func name() -> String {
+    public func name() -> String {
 
         switch self {
 
@@ -242,7 +242,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Caravansaries_(Civ6)
             return PolicyCardTypeData(
                 name: "Caravansaries",
-                bonus: "+2 Gold from all Trade Routes.",
+                bonus: "+2 [Gold] Gold from all [TradeRoute] Trade Routes.",
                 slot: .economic,
                 required: .foreignTrade,
                 obsolete: .mercantilism,
@@ -253,7 +253,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Maritime_Industries_(Civ6)
             return PolicyCardTypeData(
                 name: "Maritime Industries",
-                bonus: "+100% Production toward Ancient and Classical era naval units.",
+                bonus: "+100% [Production] Production toward Ancient and Classical era naval units.",
                 slot: .military,
                 required: .foreignTrade,
                 obsolete: .colonialism,

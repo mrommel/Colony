@@ -841,7 +841,7 @@ extension City {
         guard let player = self.player else {
             fatalError("Cant get player")
         }
-        
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }

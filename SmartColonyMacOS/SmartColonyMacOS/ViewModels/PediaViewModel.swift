@@ -314,14 +314,17 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         self.title = government.name().localized()
         self.summary = "Government from the \(government.era()) era that requires \(government.required().name().localized()) to be researched."
-        self.detail = "\(government.bonus1Summary())\n\(government.bonus2Summary())"
+        let slots: [String] = PolicyCardSlotType.all
+            .map { "\(government.policyCardSlots().numberOfSlots(in: $0)) \($0.name()) slots" }
+        let slotsText = ListFormatter.localizedString(byJoining: slots)
+        self.detail = "\(government.bonus1Summary().localized())\n\(government.bonus2Summary().localized())\nIt has \(slotsText)."
         self.imageName = government.iconTexture()
     }
 
     init(policyCard: PolicyCardType) {
 
         self.title = policyCard.name().localized()
-        self.summary = "Policy Card that requires \(policyCard.required().name().localized()) to be researched"
+        self.summary = "\(policyCard.slot().name()) Policy Card that requires \(policyCard.required().name().localized()) to be researched"
         self.detail = policyCard.bonus().localized()
         self.imageName = policyCard.slot().iconTexture()
     }

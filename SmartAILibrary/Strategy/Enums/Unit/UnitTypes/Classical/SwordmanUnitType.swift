@@ -18,7 +18,7 @@ internal class SwordmanUnitType: UnitTypeData {
             baseType: .swordman,
             domain: .land,
             effects: [
-                "+5 Combat Strength vs. anti-cavalry units."
+                "+5 [Strength] Combat Strength vs. anti-cavalry units."
             ],
             abilities: [.canCapture],
             era: .classical,

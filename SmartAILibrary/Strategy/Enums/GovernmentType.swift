@@ -123,9 +123,9 @@ public enum GovernmentType: Int, Codable {
             // ancient
         case .chiefdom:
             return GovernmentData(
-                name: "Chiefdom",
-                bonus1Summary: "No Bonus.",
-                bonus2Summary: "No Bonus",
+                name: "TXT_KEY_GOVERNMENT_CHIEFDOM_TITLE",
+                bonus1Summary: "TXT_KEY_GOVERNMENT_CHIEFDOM_BONUS1",
+                bonus2Summary: "TXT_KEY_GOVERNMENT_CHIEFDOM_BONUS2",
                 era: .ancient,
                 required: .codeOfLaws,
                 policyCardSlots: PolicyCardSlots(military: 1, economic: 1, diplomatic: 0, wildcard: 0),
@@ -137,9 +137,9 @@ public enum GovernmentType: Int, Codable {
             // classical
         case .autocracy:
             return GovernmentData(
-                name: "Autocracy",
-                bonus1Summary: "+1 to all yields for each government building and Palace in a city.",
-                bonus2Summary: "+10% Production toward Wonders.",
+                name: "TXT_KEY_GOVERNMENT_AUTOCRACY_TITLE",
+                bonus1Summary: "TXT_KEY_GOVERNMENT_AUTOCRACY_BONUS1",
+                bonus2Summary: "TXT_KEY_GOVERNMENT_AUTOCRACY_BONUS2",
                 era: .classical,
                 required: .politicalPhilosophy,
                 policyCardSlots: PolicyCardSlots(military: 2, economic: 1, diplomatic: 0, wildcard: 0),
@@ -150,9 +150,9 @@ public enum GovernmentType: Int, Codable {
 
         case .classicalRepublic:
             return GovernmentData(
-                name: "ClassicalRepublic",
-                bonus1Summary: "All cities with a district receive +1 Housing and +1 Amenity.",
-                bonus2Summary: "+15% Great Person points.", // FIXME niy
+                name: "TXT_KEY_GOVERNMENT_CLASSICAL_REPUBLIC_TITLE",
+                bonus1Summary: "TXT_KEY_GOVERNMENT_CLASSICAL_REPUBLIC_BONUS1",
+                bonus2Summary: "TXT_KEY_GOVERNMENT_CLASSICAL_REPUBLIC_BONUS2", // #
                 era: .classical,
                 required: .politicalPhilosophy,
                 policyCardSlots: PolicyCardSlots(military: 0, economic: 2, diplomatic: 1, wildcard: 1),
@@ -162,9 +162,9 @@ public enum GovernmentType: Int, Codable {
             )
         case .oligarchy:
             return GovernmentData(
-                name: "Oligarchy",
-                bonus1Summary: "All land melee, anti-cavalry, and naval melee class units gain +4 Combat Strength.",
-                bonus2Summary: "+20% Unit Experience.",
+                name: "TXT_KEY_GOVERNMENT_OLIGARCHY_TITLE",
+                bonus1Summary: "TXT_KEY_GOVERNMENT_OLIGARCHY_BONUS1",
+                bonus2Summary: "TXT_KEY_GOVERNMENT_OLIGARCHY_BONUS2",
                 era: .classical,
                 required: .politicalPhilosophy,
                 policyCardSlots: PolicyCardSlots(military: 1, economic: 1, diplomatic: 1, wildcard: 1),
@@ -176,9 +176,9 @@ public enum GovernmentType: Int, Codable {
             // medieval
         case .merchantRepublic:
             return GovernmentData(
-                name: "MerchantRepublic",
-                bonus1Summary: "+10% Gold in all cities with an established Governor.", // FIXME niy
-                bonus2Summary: "+15% Production toward Districts.",
+                name: "TXT_KEY_GOVERNMENT_MERCHANT_REPUBLIC_TITLE",
+                bonus1Summary: "TXT_KEY_GOVERNMENT_MERCHANT_REPUBLIC_BONUS1", // #
+                bonus2Summary: "TXT_KEY_GOVERNMENT_MERCHANT_REPUBLIC_BONUS2",
                 era: .medieval,
                 required: .exploration,
                 policyCardSlots: PolicyCardSlots(military: 1, economic: 2, diplomatic: 1, wildcard: 2),
@@ -188,9 +188,9 @@ public enum GovernmentType: Int, Codable {
             )
         case .monarchy:
             return GovernmentData(
-                name: "Monarchy",
-                bonus1Summary: "+1 Housing per level of Walls.",
-                bonus2Summary: "+50% Influence Points.", // FIXME niy
+                name: "TXT_KEY_GOVERNMENT_MONARCHY_TITLE",
+                bonus1Summary: "TXT_KEY_GOVERNMENT_MONARCHY_BONUS1",
+                bonus2Summary: "TXT_KEY_GOVERNMENT_MONARCHY_BONUS2", // #
                 era: .medieval,
                 required: .divineRight,
                 policyCardSlots: PolicyCardSlots(military: 3, economic: 1, diplomatic: 1, wildcard: 1),
@@ -202,9 +202,9 @@ public enum GovernmentType: Int, Codable {
             // renaissance
         case .theocracy:
             return GovernmentData(
-                name: "Theocracy",
-                bonus1Summary: "+5 Religious Strength in Theological Combat. +0.5 Faith per Citizen in cities with Governors.", // FIXME niy
-                bonus2Summary: "15% Discount on Purchases with Faith.", // FIXME niy
+                name: "TXT_KEY_GOVERNMENT_THEOCRACY_TITLE",
+                bonus1Summary: "TXT_KEY_GOVERNMENT_THEOCRACY_BONUS1", // #
+                bonus2Summary: "TXT_KEY_GOVERNMENT_THEOCRACY_BONUS2", // #
                 era: .renaissance,
                 required: .reformedChurch,
                 policyCardSlots: PolicyCardSlots(military: 2, economic: 2, diplomatic: 1, wildcard: 1),
@@ -216,9 +216,9 @@ public enum GovernmentType: Int, Codable {
             // modern
         case .fascism:
             return GovernmentData(
-                name: "Fascism",
-                bonus1Summary: "All units gain +5 Combat Strength. War Weariness reduced by 15%.", // FIXME 2nd niy
-                bonus2Summary: "+50% Production toward Units.",
+                name: "TXT_KEY_GOVERNMENT_FASCISM_TITLE",
+                bonus1Summary: "TXT_KEY_GOVERNMENT_FASCISM_BONUS1", // # 2nd
+                bonus2Summary: "TXT_KEY_GOVERNMENT_FASCISM_BONUS2",
                 era: .modern,
                 required: .totalitarianism,
                 policyCardSlots: PolicyCardSlots(military: 4, economic: 1, diplomatic: 1, wildcard: 2),
@@ -228,9 +228,9 @@ public enum GovernmentType: Int, Codable {
             )
         case .communism:
             return GovernmentData(
-                name: "Communism",
-                bonus1Summary: "+0.6 Production per Citizen in cities with Governors.", // FIXME niy
-                bonus2Summary: "+15% Production.",
+                name: "TXT_KEY_GOVERNMENT_COMMUNISM_TITLE",
+                bonus1Summary: "TXT_KEY_GOVERNMENT_COMMUNISM_BONUS1", // #
+                bonus2Summary: "TXT_KEY_GOVERNMENT_COMMUNISM_BONUS2",
                 era: .modern,
                 required: .classStruggle,
                 policyCardSlots: PolicyCardSlots(military: 3, economic: 3, diplomatic: 1, wildcard: 1),
@@ -240,9 +240,9 @@ public enum GovernmentType: Int, Codable {
             )
         case .democracy:
             return GovernmentData(
-                name: "Democracy",
-                bonus1Summary: "+1 Production and +1 Housing per District.",
-                bonus2Summary: "25% Discount on Purchases with Gold.", // FIXME niy
+                name: "TXT_KEY_GOVERNMENT_DEMOCRACY_TITLE",
+                bonus1Summary: "TXT_KEY_GOVERNMENT_DEMOCRACY_BONUS1",
+                bonus2Summary: "TXT_KEY_GOVERNMENT_DEMOCRACY_BONUS2", // #
                 era: .modern,
                 required: .suffrage,
                 policyCardSlots: PolicyCardSlots(military: 1, economic: 3, diplomatic: 2, wildcard: 2),
