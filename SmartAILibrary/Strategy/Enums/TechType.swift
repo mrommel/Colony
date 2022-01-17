@@ -647,7 +647,7 @@ public enum TechType: String, Codable {
                     Flavor(type: .wonder, value: 2)
                 ]
             )
-            
+
         case .engineering:
             // https://civilization.fandom.com/wiki/Engineering_(Civ6)
             return TechTypeData(
@@ -668,79 +668,162 @@ public enum TechType: String, Codable {
                 ]
             )
 
+            // /////////////////////////////////
             // medieval
+
         case .militaryTactics:
-            return TechTypeData(name: "Military Tactics",
-                                eurekaSummary: "Kill a unit with a Spearman",
-                                eurekaDescription: "Your spearmen are proving effective, but now your opponents are stronger and faster. Perhaps a longer weapon is needed?",
-                                quoteTexts: [],
-                                era: .medieval,
-                                cost: 275,
-                                required: [.mathematics],
-                                flavors: [Flavor(type: .offense, value: 3), Flavor(type: .mobile, value: 3), Flavor(type: .cityDefense, value: 2), Flavor(type: .wonder, value: 2) ])
+            // https://civilization.fandom.com/wiki/Military_Tactics_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_MILITARY_TACTICS_NAME",
+                eurekaSummary: "TXT_KEY_TECH_MILITARY_TACTICS_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_MILITARY_TACTICS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_MILITARY_TACTICS_QUOTE1",
+                    "TXT_KEY_TECH_MILITARY_TACTICS_QUOTE2"
+                ],
+                era: .medieval,
+                cost: 275,
+                required: [.mathematics],
+                flavors: [
+                    Flavor(type: .offense, value: 3),
+                    Flavor(type: .mobile, value: 3),
+                    Flavor(type: .cityDefense, value: 2),
+                    Flavor(type: .wonder, value: 2)
+                ]
+            )
+
         case .buttress:
-            return TechTypeData(name: "Buttress",
-                                eurekaSummary: "Build a Classical Era or later Wonder",
-                                eurekaDescription: "",
-                                quoteTexts: [],
-                                era: .medieval,
-                                cost: 300,
-                                required: [.shipBuilding, .mathematics],
-                                flavors: [Flavor(type: .wonder, value: 2)])
+            // https://civilization.fandom.com/wiki/Buttress_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_BUTTRESS_NAME",
+                eurekaSummary: "TXT_KEY_TECH_BUTTRESS_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_BUTTRESS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_BUTTRESS_QUOTE1",
+                    "TXT_KEY_TECH_BUTTRESS_QUOTE2"
+                ],
+                era: .medieval,
+                cost: 300,
+                required: [.shipBuilding, .mathematics],
+                flavors: [
+                    Flavor(type: .wonder, value: 2)
+                ]
+            )
+
         case .apprenticeship:
-            return TechTypeData(name: "Apprenticeship",
-                                eurekaSummary: "Build 3 Mines",
-                                eurekaDescription: "With raw materials now coming in from a wide variety of mines, the need to better teach new craftsmen to use them is essential.",
-                                quoteTexts: [],
-                                era: .medieval,
-                                cost: 275,
-                                required: [.currency, .horsebackRiding],
-                                flavors: [Flavor(type: .gold, value: 5), Flavor(type: .production, value: 3)])
+            // https://civilization.fandom.com/wiki/Apprenticeship_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_APPRENTICESHIP_NAME",
+                eurekaSummary: "TXT_KEY_TECH_APPRENTICESHIP_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_APPRENTICESHIP_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_APPRENTICESHIP_QUOTE1",
+                    "TXT_KEY_TECH_APPRENTICESHIP_QUOTE2"
+                ],
+                era: .medieval,
+                cost: 275,
+                required: [.currency, .horsebackRiding],
+                flavors: [
+                    Flavor(type: .gold, value: 5),
+                    Flavor(type: .production, value: 3)
+                ]
+            )
+
         case .stirrups:
-            return TechTypeData(name: "Stirrups",
-                                eurekaSummary: "Have the Feudalism civic",
-                                eurekaDescription: "The feudal lords in your realm want a champion to defend their lands. Perhaps mounting an armored warrior will do the trick?",
-                                quoteTexts: [],
-                                era: .medieval,
-                                cost: 360,
-                                required: [.horsebackRiding],
-                                flavors: [Flavor(type: .offense, value: 3), Flavor(type: .mobile, value: 3), Flavor(type: .defense, value: 2), Flavor(type: .wonder, value: 2)])
+            // https://civilization.fandom.com/wiki/Stirrups_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_STIRRUPS_NAME",
+                eurekaSummary: "TXT_KEY_TECH_STIRRUPS_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_STIRRUPS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_STIRRUPS_QUOTE1",
+                    "TXT_KEY_TECH_STIRRUPS_QUOTE2"
+                ],
+                era: .medieval,
+                cost: 360,
+                required: [.horsebackRiding],
+                flavors: [
+                    Flavor(type: .offense, value: 3),
+                    Flavor(type: .mobile, value: 3),
+                    Flavor(type: .defense, value: 2),
+                    Flavor(type: .wonder, value: 2)
+                ]
+            )
+
         case .machinery:
-            return TechTypeData(name: "Machinery",
-                                eurekaSummary: "Own 3 Archers",
-                                eurekaDescription: "You look to machinery to improve the performance of your sizable contingent of ranged troops.",
-                                quoteTexts: [],
-                                era: .medieval,
-                                cost: 275,
-                                required: [.ironWorking, .engineering],
-                                flavors: [Flavor(type: .ranged, value: 8), Flavor(type: .infrastructure, value: 2) ])
+            // https://civilization.fandom.com/wiki/Machinery_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_MACHINERY_NAME",
+                eurekaSummary: "TXT_KEY_TECH_MACHINERY_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_MACHINERY_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_MACHINERY_QUOTE1",
+                    "TXT_KEY_TECH_MACHINERY_QUOTE2"
+                ],
+                era: .medieval,
+                cost: 275,
+                required: [.ironWorking, .engineering],
+                flavors: [
+                    Flavor(type: .ranged, value: 8),
+                    Flavor(type: .infrastructure, value: 2)
+                ]
+            )
+
         case .education:
-            return TechTypeData(name: "Education",
-                                eurekaSummary: "Earn a Great Scientist",
-                                eurekaDescription: "The teachings from your [GreatScientist] Great Scientist have inspired a renewed interest in learning in your realm.",
-                                quoteTexts: [],
-                                era: .medieval,
-                                cost: 335,
-                                required: [.apprenticeship, .mathematics],
-                                flavors: [Flavor(type: .science, value: 8), Flavor(type: .wonder, value: 2)])
+            // https://civilization.fandom.com/wiki/Education_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_EDUCATION_NAME",
+                eurekaSummary: "TXT_KEY_TECH_EDUCATION_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_EDUCATION_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_EDUCATION_QUOTE1",
+                    "TXT_KEY_TECH_EDUCATION_QUOTE2"
+                ],
+                era: .medieval,
+                cost: 335,
+                required: [.apprenticeship, .mathematics],
+                flavors: [
+                    Flavor(type: .science, value: 8),
+                    Flavor(type: .wonder, value: 2)
+                ]
+            )
+
         case .militaryEngineering:
-            return TechTypeData(name: "Military Engineering",
-                                eurekaSummary: "Build an Aqueduct",
-                                eurekaDescription: "Your military leaders carefully followed the progress on your aqueduct. They see new ways to use these engineering skills.",
-                                quoteTexts: [],
-                                era: .medieval,
-                                cost: 335,
-                                required: [.construction],
-                                flavors: [Flavor(type: .defense, value: 5), Flavor(type: .production, value: 2)])
+            // https://civilization.fandom.com/wiki/Military_Engineering_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_MILITARY_ENGINEERING_NAME",
+                eurekaSummary: "TXT_KEY_TECH_MILITARY_ENGINEERING_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_MILITARY_ENGINEERING_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_MILITARY_ENGINEERING_QUOTE1",
+                    "TXT_KEY_TECH_MILITARY_ENGINEERING_QUOTE2"
+                ],
+                era: .medieval,
+                cost: 335,
+                required: [.construction],
+                flavors: [
+                    Flavor(type: .defense, value: 5),
+                    Flavor(type: .production, value: 2)
+                ]
+            )
+
         case .castles:
-            return TechTypeData(name: "Castles",
-                                eurekaSummary: "Have a government with 6 policy slots",
-                                eurekaDescription: "Our new government’s defense minister suggests that we might want to build impressive defenses to protect our bustling capital.",
-                                quoteTexts: [],
-                                era: .medieval,
-                                cost: 390,
-                                required: [.construction],
-                                flavors: [Flavor(type: .cityDefense, value: 5)])
+            // https://civilization.fandom.com/wiki/Castles_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_CASTLES_NAME",
+                eurekaSummary: "TXT_KEY_TECH_CASTLES_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_CASTLES_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_CASTLES_QUOTE1",
+                    "TXT_KEY_TECH_CASTLES_QUOTE2"
+                ],
+                era: .medieval,
+                cost: 390,
+                required: [.construction],
+                flavors: [
+                    Flavor(type: .cityDefense, value: 5)
+                ]
+            )
 
             // renaissance
         case .cartography:

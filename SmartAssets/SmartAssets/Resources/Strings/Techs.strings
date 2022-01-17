@@ -149,3 +149,67 @@
 
 // ///////////////////////////////////////
 // medieval
+
+// militaryTactics
+"TXT_KEY_TECH_MILITARY_TACTICS_NAME" = "Military Tactics";
+"TXT_KEY_TECH_MILITARY_TACTICS_EUREKA" = "Kill a unit with a Spearman";
+"TXT_KEY_TECH_MILITARY_TACTICS_EUREKA_TEXT" = "Your spearmen are proving effective, but now your opponents are stronger and faster. Perhaps a longer weapon is needed?";
+"TXT_KEY_TECH_MILITARY_TACTICS_QUOTE1" = "“Tactics mean doing what you can with what you have.”\n– Saul Alinsky";
+"TXT_KEY_TECH_MILITARY_TACTICS_QUOTE2" = "“Strategy requires thought; tactics require observation.”\n– Max Euwe";
+
+// buttress
+"TXT_KEY_TECH_BUTTRESS_NAME" = "Buttress";
+"TXT_KEY_TECH_BUTTRESS_EUREKA" = "Build a Classical Era or later Wonder";
+"TXT_KEY_TECH_BUTTRESS_EUREKA_TEXT" = "Now that you have finished a wonder of the classical world, what will your architects build next?";
+"TXT_KEY_TECH_BUTTRESS_QUOTE1" = "“An architect should live as little in cities as a painter. Send him to our hills, and let him study there what nature understands by a buttress, and what by a dome.”\n– John Ruskin";
+"TXT_KEY_TECH_BUTTRESS_QUOTE2" = "“Him that overcometh will I make a pillar in the temple of my God, and he shall go no more out.”\n– Revelation 3:12";
+
+// apprenticeship
+"TXT_KEY_TECH_APPRENTICESHIP_NAME" = "Apprenticeship";
+"TXT_KEY_TECH_APPRENTICESHIP_EUREKA" = "Build 3 Mines";
+"TXT_KEY_TECH_APPRENTICESHIP_EUREKA_TEXT" = "With raw materials now coming in from a wide variety of mines, the need to better teach new craftsmen to use them is essential.";
+"TXT_KEY_TECH_APPRENTICESHIP_QUOTE1" = "“We are all apprentices in a craft where no one ever becomes a master.”\n– Ernest Hemingway";
+"TXT_KEY_TECH_APPRENTICESHIP_QUOTE2" = "“There is no easy way to train an apprentice. My two tools are example and nagging.”\n– Lemony Snicket";
+
+// stirrups
+"TXT_KEY_TECH_STIRRUPS_NAME" = "Stirrups";
+"TXT_KEY_TECH_STIRRUPS_EUREKA" = "Have the Feudalism civic";
+"TXT_KEY_TECH_STIRRUPS_EUREKA_TEXT" = "The feudal lords in your realm want a champion to defend their lands. Perhaps mounting an armored warrior will do the trick?";
+"TXT_KEY_TECH_STIRRUPS_QUOTE1" = "“Few inventions have been so simple as the stirrup, but few have had so catalytic an influence on history.”\n– Lynn White Jr.";
+"TXT_KEY_TECH_STIRRUPS_QUOTE2" = "“Betwixt the stirrup and the ground, Mercy I asked, mercy I found.”\n– William Camden";
+
+// machinery
+"TXT_KEY_TECH_MACHINERY_NAME" = "Machinery";
+"TXT_KEY_TECH_MACHINERY_EUREKA" = "Own 3 Archers";
+"TXT_KEY_TECH_MACHINERY_EUREKA_TEXT" = "You look to machinery to improve the performance of your sizable contingent of ranged troops.";
+"TXT_KEY_TECH_MACHINERY_QUOTE1" = "“I'd imagine the whole world as one big machine. Machines never come with any spare parts, you know. They always come with the exact amount they need.”\n– Hugo Cabret";
+"TXT_KEY_TECH_MACHINERY_QUOTE2" = "“Remember that people break down, too, not just machinery.”\n– Gregory Benford";
+
+// education
+"TXT_KEY_TECH_EDUCATION_NAME" = "Education";
+"TXT_KEY_TECH_EDUCATION_EUREKA" = "Earn a Great Scientist";
+"TXT_KEY_TECH_EDUCATION_EUREKA_TEXT" = "The teachings from your [GreatScientist] Great Scientist have inspired a renewed interest in learning in your realm.";
+"TXT_KEY_TECH_EDUCATION_QUOTE1" = "“The purpose of education is to replace an empty mind with an open one.”\n– Malcolm Forbes";
+"TXT_KEY_TECH_EDUCATION_QUOTE2" = "“It is the mark of an educated mind to be able to entertain a thought without accepting it.”\n– Aristotle";
+
+// militaryEngineering
+"TXT_KEY_TECH_MILITARY_ENGINEERING_NAME" = "Military Engineering";
+"TXT_KEY_TECH_MILITARY_ENGINEERING_EUREKA" = "Build an Aqueduct";
+"TXT_KEY_TECH_MILITARY_ENGINEERING_EUREKA_TEXT" = "Your military leaders carefully followed the progress on your aqueduct. They see new ways to use these engineering skills.";
+"TXT_KEY_TECH_MILITARY_ENGINEERING_QUOTE1" = "“Blast - Build - Battle”\n– Motto of the U.S. 16th Engineer Brigade";
+"TXT_KEY_TECH_MILITARY_ENGINEERING_QUOTE2" = "“The more science intervenes in warfare, the more will be the need for engineers in the field armies; in the late war there were never enough sappers at any time.”\n– Bernard Montgomery";
+
+// castles
+"TXT_KEY_TECH_CASTLES_NAME" = "Castles";
+"TXT_KEY_TECH_CASTLES_EUREKA" = "Have a government with 6 policy slots";
+"TXT_KEY_TECH_CASTLES_EUREKA_TEXT" = "Our new government’s defense minister suggests that we might want to build impressive defenses to protect our bustling capital.";
+"TXT_KEY_TECH_CASTLES_QUOTE1" = "“Rocks in my path? I keep them all. With them I shall build my castle.”\n– Nemo Nox";
+"TXT_KEY_TECH_CASTLES_QUOTE2" = "“If you see a castle under fog, you must walk there to meet the extraordinary dreams.”\n– Mehmet Murat Ildan";
+
+/*
+ "TXT_KEY_TECH__NAME" = "";
+ "TXT_KEY_TECH__EUREKA" = "";
+ "TXT_KEY_TECH__EUREKA_TEXT" = "";
+ "TXT_KEY_TECH__QUOTE1" = "“”\n– ";
+ "TXT_KEY_TECH__QUOTE2" = "“”\n– ";
+ */
