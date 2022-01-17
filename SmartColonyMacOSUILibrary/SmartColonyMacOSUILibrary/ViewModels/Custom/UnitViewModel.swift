@@ -26,15 +26,17 @@ class UnitViewModel: QueueViewModel, ObservableObject {
     let faith: Int
     let unit: AbstractUnit?
     let index: Int
+    let enabled: Bool
 
     weak var delegate: UnitViewModelDelegate?
 
-    init(unitType: UnitType, turns: Int = -1, gold: Int = -1, faith: Int = -1, at index: Int = -1) {
+    init(unitType: UnitType, turns: Int = -1, gold: Int = -1, faith: Int = -1, enabled: Bool = true, at index: Int = -1) {
 
         self.unitType = unitType
         self.turns = turns
         self.gold = gold
         self.faith = faith
+        self.enabled = enabled
         self.unit = nil
         self.index = index
 
@@ -47,6 +49,7 @@ class UnitViewModel: QueueViewModel, ObservableObject {
         self.turns = -1
         self.gold = -1
         self.faith = -1
+        self.enabled = true
         self.unit = unit
         self.index = index
 
@@ -119,7 +122,11 @@ class UnitViewModel: QueueViewModel, ObservableObject {
 
     func background() -> NSImage {
 
-        return ImageCache.shared.image(for: "grid9-button-active")
+        if self.enabled {
+            return ImageCache.shared.image(for: "grid9-button-active")
+        }
+
+        return ImageCache.shared.image(for: "grid9-button-disabled")
     }
 
     func clicked() {

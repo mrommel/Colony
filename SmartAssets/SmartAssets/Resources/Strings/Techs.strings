@@ -90,3 +90,74 @@
 
 // ///////////////////////////////////////
 // classical
+
+// celestialNavigation
+"TXT_KEY_TECH_CELECSTIAL_NAVIGATION_NAME" = "Celestial Navigation";
+"TXT_KEY_TECH_CELECSTIAL_NAVIGATION_EUREKA" = "Improve 2 Sea Resources";
+"TXT_KEY_TECH_CELECSTIAL_NAVIGATION_EUREKA_TEXT" = "Your fishermen are learning how to guide their travels based on studying the night sky.";
+"TXT_KEY_TECH_CELECSTIAL_NAVIGATION_QUOTE1" = "“And all I ask is a tall ship and a star to steer her by.”\n– John Masefield";
+"TXT_KEY_TECH_CELECSTIAL_NAVIGATION_QUOTE2" = "“Set your course by the stars, not by the lights of every passing ship.”\n– Omar Bradley";
+
+// horsebackRiding
+"TXT_KEY_TECH_HORSEBACK_RIDING_NAME" = "Horseback Riding";
+"TXT_KEY_TECH_HORSEBACK_RIDING_EUREKA" = "Build a Pasture";
+"TXT_KEY_TECH_HORSEBACK_RIDING_EUREKA_TEXT" = "With animals now domesticated into Pastures, it is time to learn to ride.";
+"TXT_KEY_TECH_HORSEBACK_RIDING_QUOTE1" = "“No hour of life is wasted that is spent in the saddle.”\n– Winston Churchill";
+"TXT_KEY_TECH_HORSEBACK_RIDING_QUOTE2" = "“A man on a horse is spiritually as well as physically bigger than a man on foot.”\n– John Steinbeck";
+
+/*
+case .currency:
+    return TechTypeData(name: "Currency",
+                        eurekaSummary: "Make a Trade Route",
+                        eurekaDescription: "Your [TradeRoute] Trade Route directly exchanges goods, but a medium of exchange would make trade more flexible.",
+                        quoteTexts: [],
+                        era: .classical,
+                        cost: 120,
+                        required: [.writing],
+                        flavors: [Flavor(type: .gold, value: 8), Flavor(type: .wonder, value: 2)])
+case .construction:
+    return TechTypeData(name: "Construction",
+                        eurekaSummary: "Build a Water Mill",
+                        eurekaDescription: "Work on the Water Mill has taught your workers much about construction practices.",
+                        quoteTexts: [],
+                        era: .classical,
+                        cost: 200,
+                        required: [.masonry, .horsebackRiding],
+                        flavors: [Flavor(type: .happiness, value: 17), Flavor(type: .infrastructure, value: 2), Flavor(type: .wonder, value: 2)])
+case .ironWorking:
+    return TechTypeData(name: "Iron Working",
+                        eurekaSummary: "Build an Iron Mine",
+                        eurekaDescription: "Access to a steady source of Iron has enabled you to build better weapons and stronger armor.",
+                        quoteTexts: [],
+                        era: .classical,
+                        cost: 120,
+                        required: [.bronzeWorking],
+                        flavors: [Flavor(type: .offense, value: 12), Flavor(type: .defense, value: 6), Flavor(type: .militaryTraining, value: 3)])
+case .shipBuilding:
+    return TechTypeData(name: "Ship Building",
+                        eurekaSummary: "Own 2 Galleys",
+                        eurekaDescription: "Constructing a squadron of Galleys has taught you much about building larger ships.",
+                        quoteTexts: [],
+                        era: .classical,
+                        cost: 200,
+                        required: [.sailing],
+                        flavors: [Flavor(type: .naval, value: 5), Flavor(type: .navalGrowth, value: 3), Flavor(type: .navalRecon, value: 2)])
+case .mathematics:
+    return TechTypeData(name: "Mathematics",
+                        eurekaSummary: "Build 3 Specialty Districts",
+                        eurekaDescription: "Your district planners have worked out the basics of geometry. Maybe a full mathematical system will follow soon?",
+                        quoteTexts: [],
+                        era: .classical,
+                        cost: 200,
+                        required: [.currency],
+                        flavors: [Flavor(type: .ranged, value: 8), Flavor(type: .wonder, value: 2)])
+case .engineering:
+    return TechTypeData(name: "Engeneering",
+                        eurekaSummary: "Build Ancient Walls",
+                        eurekaDescription: "Completing walls around your city demonstrated the principles of engineering needed for Aqueducts and Catapults.",
+                        quoteTexts: [],
+                        era: .classical,
+                        cost: 200,
+                        required: [.wheel],
+                        flavors: [Flavor(type: .defense, value: 2), Flavor(type: .production, value: 5), Flavor(type: .tileImprovement, value: 5)])
+*/

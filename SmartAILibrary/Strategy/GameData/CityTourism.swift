@@ -80,7 +80,7 @@ public class CityTourism: Codable {
             rtnValue += 8.0
         }
 
-        // walls + Conservation civic
+        // buildings + Conservation civic
         if playerCivics.has(civic: .conservation) {
 
             if city.has(building: .ancientWalls) {
@@ -95,6 +95,12 @@ public class CityTourism: Codable {
 
                 // Renaissance Walls generate +3 Tourism after discovering the Conservation civic.
                 rtnValue += 3.0
+            }
+
+            if city.has(building: .arena) {
+
+                // arena - +1 Tourism (with Conservation)
+                rtnValue += 1.0
             }
         }
 

@@ -298,7 +298,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         enables += civic.achievements().buildTypes.map { $0.name() }
         enables += civic.achievements().buildingTypes.map { $0.name() }
         enables += civic.achievements().districtTypes.map { $0.name() }
-        enables += civic.achievements().governments.map { $0.name() }
+        enables += civic.achievements().governments.map { $0.name().localized() }
         enables += civic.achievements().policyCards.map { $0.name() }
         enables += civic.achievements().unitTypes.map { $0.name() }
         enables += civic.achievements().wonderTypes.map { $0.name().localized() }
@@ -536,65 +536,72 @@ class PediaViewModel: ObservableObject {
 
     private func updateDetailModels() {
 
-        self.pediaDetailViewModels = []
+        DispatchQueue.global(qos: .userInitiated).async {
 
-        switch self.selectedPediaCategory {
+            var tmpPediaDetailViewModels: [PediaDetailViewModel] = []
 
-        case .terrains:
-            for terrainType in TerrainType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(terrain: terrainType))
+            switch self.selectedPediaCategory {
+
+            case .terrains:
+                for terrainType in TerrainType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(terrain: terrainType))
+                }
+            case .features:
+                for featureType in FeatureType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(feature: featureType))
+                }
+            case .resources:
+                for resourceType in ResourceType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(resource: resourceType))
+                }
+            case .leaders:
+                for leaderType in LeaderType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(leader: leaderType))
+                }
+            case .civilizations:
+                for civilizationType in CivilizationType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(civilization: civilizationType))
+                }
+            case .units:
+                for unitType in UnitType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(unit: unitType))
+                }
+            case .buildings:
+                for buildingType in BuildingType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(building: buildingType))
+                }
+            case .districts:
+                for districtType in DistrictType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(district: districtType))
+                }
+            case .wonders:
+                for wonderType in WonderType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(wonder: wonderType))
+                }
+            case .improvements:
+                for improvementType in ImprovementType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(improvement: improvementType))
+                }
+            case .techs:
+                for techType in TechType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(tech: techType))
+                }
+            case .civics:
+                for civicType in CivicType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(civic: civicType))
+                }
+            case .governments:
+                for governmentType in GovernmentType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(government: governmentType))
+                }
+            case .policies:
+                for policyCardType in PolicyCardType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(policyCard: policyCardType))
+                }
             }
-        case .features:
-            for featureType in FeatureType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(feature: featureType))
-            }
-        case .resources:
-            for resourceType in ResourceType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(resource: resourceType))
-            }
-        case .leaders:
-            for leaderType in LeaderType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(leader: leaderType))
-            }
-        case .civilizations:
-            for civilizationType in CivilizationType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(civilization: civilizationType))
-            }
-        case .units:
-            for unitType in UnitType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(unit: unitType))
-            }
-        case .buildings:
-            for buildingType in BuildingType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(building: buildingType))
-            }
-        case .districts:
-            for districtType in DistrictType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(district: districtType))
-            }
-        case .wonders:
-            for wonderType in WonderType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(wonder: wonderType))
-            }
-        case .improvements:
-            for improvementType in ImprovementType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(improvement: improvementType))
-            }
-        case .techs:
-            for techType in TechType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(tech: techType))
-            }
-        case .civics:
-            for civicType in CivicType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(civic: civicType))
-            }
-        case .governments:
-            for governmentType in GovernmentType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(government: governmentType))
-            }
-        case .policies:
-            for policyCardType in PolicyCardType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(policyCard: policyCardType))
+
+            DispatchQueue.main.async {
+                self.pediaDetailViewModels = tmpPediaDetailViewModels
             }
         }
     }

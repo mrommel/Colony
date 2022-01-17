@@ -3501,19 +3501,15 @@ public class Player: AbstractPlayer {
                 continue
             }
 
-            guard let loopWonders = loopCity.wonders else {
-                continue
-            }
-
-            guard let loopDistricts = loopCity.districts else {
-                continue
-            }
-
-            if loopDistricts.has(district: .harbor) || loopDistricts.has(district: .commercialHub) {
+            if loopCity.has(district: .harbor) || loopCity.has(district: .commercialHub) {
                 numberOfTradingCapacity += 1
             }
 
-            if loopWonders.has(wonder: .colossus) {
+            if loopCity.has(building: .market) || loopCity.has(building: .lighthouse) {
+                numberOfTradingCapacity += 1
+            }
+
+            if loopCity.has(wonder: .colossus) {
                 // +1 Trade Route capacity
                 numberOfTradingCapacity += 1
             }
@@ -3571,6 +3567,10 @@ public class Player: AbstractPlayer {
             fatalError("cant get target leader")
         }
 
+        guard let tech = self.techs else {
+            fatalError("cant get tech")
+        }
+
         if targetLeader != self.leader {
 
             if !self.hasEverEstablishedTradingPost(with: targetLeader) {
@@ -3587,6 +3587,10 @@ public class Player: AbstractPlayer {
                     }
                 }
             }
+        }
+
+        if !tech.eurekaTriggered(for: .currency) {
+            tech.triggerEureka(for: .currency, in: gameModel)
         }
 
         // no check ?

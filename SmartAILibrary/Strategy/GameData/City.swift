@@ -2799,6 +2799,10 @@ public class City: AbstractCity {
             fatalError("cant get buildings")
         }
 
+        if !building.canBuild(in: self, in: gameModel) {
+            return false
+        }
+
         if buildings.has(building: building) {
             return false
         }

@@ -509,30 +509,51 @@ public enum TechType: String, Codable {
                 ]
             )
 
+            // /////////////////////////////////
             // classical
-        // https://github.com/kondeeza/Anki_Python_Addon/blob/96c7474b14aad4a276312f7b1cb25120f1045830/Civ6_Mod/Language_Mod/Input2/en_US/Quotes_Text.xml
+
         case .celestialNavigation:
-            return TechTypeData(name: "Celestrial Navigation",
-                                eurekaSummary: "Improve 2 Sea Resources",
-                                eurekaDescription: "Your fishermen are learning how to guide their travels based on studying the night sky.",
-                                quoteTexts: [],
-                                era: .classical,
-                                cost: 120,
-                                required: [.sailing, .astrology],
-                                flavors: [Flavor(type: .naval, value: 5), Flavor(type: .navalGrowth, value: 5)])
+            // https://civilization.fandom.com/wiki/Celestial_Navigation_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_CELECSTIAL_NAVIGATION_NAME",
+                eurekaSummary: "TXT_KEY_TECH_CELECSTIAL_NAVIGATION_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_CELECSTIAL_NAVIGATION_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_CELECSTIAL_NAVIGATION_QUOTE1",
+                    "TXT_KEY_TECH_CELECSTIAL_NAVIGATION_QUOTE2"
+                ],
+                era: .classical,
+                cost: 120,
+                required: [.sailing, .astrology],
+                flavors: [
+                    Flavor(type: .naval, value: 5),
+                    Flavor(type: .navalGrowth, value: 5)
+                ]
+            )
+
         case .horsebackRiding:
-            return TechTypeData(name: "Horseback Riding",
-                                eurekaSummary: "Build a Pasture",
-                                eurekaDescription: "With animals now domesticated into Pastures, it is time to learn to ride.",
-                                quoteTexts: [],
-                                era: .classical,
-                                cost: 120,
-                                required: [.animalHusbandry],
-                                flavors: [Flavor(type: .mobile, value: 7), Flavor(type: .happiness, value: 3)])
+            // https://civilization.fandom.com/wiki/Horseback_Riding_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_HORSEBACK_RIDING_NAME",
+                eurekaSummary: "TXT_KEY_TECH_HORSEBACK_RIDING_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_HORSEBACK_RIDING_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_HORSEBACK_RIDING_QUOTE1",
+                    "TXT_KEY_TECH_HORSEBACK_RIDING_QUOTE2"
+                ],
+                era: .classical,
+                cost: 120,
+                required: [.animalHusbandry],
+                flavors: [
+                    Flavor(type: .mobile, value: 7),
+                    Flavor(type: .happiness, value: 3)
+                ]
+            )
+
         case .currency:
             return TechTypeData(name: "Currency",
                                 eurekaSummary: "Make a Trade Route",
-                                eurekaDescription: "Your [ICON_TradeRoute] Trade Route directly exchanges goods, but a medium of exchange would make trade more flexible.",
+                                eurekaDescription: "Your [TradeRoute] Trade Route directly exchanges goods, but a medium of exchange would make trade more flexible.",
                                 quoteTexts: [],
                                 era: .classical,
                                 cost: 120,
@@ -633,7 +654,7 @@ public enum TechType: String, Codable {
         case .education:
             return TechTypeData(name: "Education",
                                 eurekaSummary: "Earn a Great Scientist",
-                                eurekaDescription: "The teachings from your Great Scientist have inspired a renewed interest in learning in your realm.",
+                                eurekaDescription: "The teachings from your [GreatScientist] Great Scientist have inspired a renewed interest in learning in your realm.",
                                 quoteTexts: [],
                                 era: .medieval,
                                 cost: 335,
@@ -799,7 +820,7 @@ public enum TechType: String, Codable {
         case .economics:
             return TechTypeData(name: "Economics",
                                 eurekaSummary: "Build 2 Banks",
-                                eurekaDescription: "The power of your banks in on the rise.  It is time to formally study the forces that are shaping your national economy.",
+                                eurekaDescription: "The power of your banks in on the rise. It is time to formally study the forces that are shaping your national economy.",
                                 quoteTexts: [],
                                 era: .industrial,
                                 cost: 805,

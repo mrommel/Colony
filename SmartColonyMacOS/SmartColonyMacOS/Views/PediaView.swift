@@ -8,6 +8,39 @@
 import SwiftUI
 import SmartMacOSUILibrary
 
+struct PediaDetailView: View {
+
+    @ObservedObject
+    var viewModel: PediaDetailViewModel
+
+    var body: some View {
+
+        GroupBox(label: Text(self.viewModel.title)
+                .font(.headline)
+                .padding(.top, 10)) {
+
+            HStack(alignment: .top) {
+
+                Image(nsImage: self.viewModel.image())
+                    .resizable()
+                    .frame(width: 32, height: 32)
+
+                VStack(alignment: .leading) {
+                    Label(self.viewModel.summary)
+                        .frame(width: 520, alignment: .leading)
+
+                    Label(self.viewModel.detail)
+                        .frame(width: 520, alignment: .leading)
+
+                    Spacer()
+                }
+            }
+            .frame(width: 550, alignment: .leading)
+            .padding(.all, 4)
+        }
+    }
+}
+
 struct PediaView: View {
 
     @ObservedObject
@@ -87,30 +120,11 @@ struct PediaView: View {
                     Text(self.viewModel.selectedPediaCategory.title())
                         .font(.title)
 
-                    ForEach(self.viewModel.pediaDetailViewModels, id: \.self) { pediaDetailViewModel in
+                    LazyVStack(spacing: 4) {
 
-                        GroupBox(label: Text(pediaDetailViewModel.title)
-                                .font(.headline)
-                                .padding(.top, 10)) {
+                        ForEach(self.viewModel.pediaDetailViewModels, id: \.self) { pediaDetailViewModel in
 
-                            HStack(alignment: .top) {
-
-                                Image(nsImage: pediaDetailViewModel.image())
-                                    .resizable()
-                                    .frame(width: 32, height: 32)
-
-                                VStack(alignment: .leading) {
-                                    Label(pediaDetailViewModel.summary)
-                                        .frame(width: 520, alignment: .leading)
-
-                                    Label(pediaDetailViewModel.detail)
-                                        .frame(width: 520, alignment: .leading)
-
-                                    Spacer()
-                                }
-                            }
-                            .frame(width: 550, alignment: .leading)
-                            .padding(.all, 4)
+                            PediaDetailView(viewModel: pediaDetailViewModel)
                         }
                     }
 

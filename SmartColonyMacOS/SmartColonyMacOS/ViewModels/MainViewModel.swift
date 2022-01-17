@@ -139,14 +139,26 @@ extension MainViewModel: MenuViewModelDelegate {
 
     func showDebug() {
 
-        self.debugViewModel.prepare()
-        self.presentedView = .debug
+        DispatchQueue.global(qos: .userInitiated).async {
+
+            self.debugViewModel.prepare()
+
+            DispatchQueue.main.async {
+                self.presentedView = .debug
+            }
+        }
     }
 
     func showPedia() {
 
-        self.pediaViewModel.prepare()
-        self.presentedView = .pedia
+        DispatchQueue.global(qos: .userInitiated).async {
+
+            self.pediaViewModel.prepare()
+
+            DispatchQueue.main.async {
+                self.presentedView = .pedia
+            }
+        }
     }
 }
 

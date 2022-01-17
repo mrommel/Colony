@@ -380,14 +380,13 @@ public enum BuildingType: Int, Codable {
             )
         case .shrine:
             // https://civilization.fandom.com/wiki/Shrine_(Civ6)
-            // FIXME Allows purchasing of Missionaries in this city.
             return BuildingTypeData(
                 name: "Shrine",
                 effects: [
                     "+2 [Faith] Faith",
                     "+1 [Citizen] Citizen slot",
                     "+1 [GreatProphet] Great Prophet point per turn.",
-                    "Allows the purchasing of Missionaries with Faith."
+                    "Allows the purchasing of Missionaries with Faith." // #
                 ],
                 category: .religious,
                 era: .ancient,
@@ -485,7 +484,6 @@ public enum BuildingType: Int, Codable {
 
         case .waterMill:
             // https://civilization.fandom.com/wiki/Water_Mill_(Civ6)
-            // FIXME It can be built in the City Center if the city is next to a River.
             return BuildingTypeData(
                 name: "Water Mill",
                 effects: [
@@ -550,7 +548,6 @@ public enum BuildingType: Int, Codable {
             )
         case .lighthouse:
             // https://civilization.fandom.com/wiki/Lighthouse_(Civ6)
-            // FIXME +1 TradeRoute6 Trade Route capacity if this city doesn't have a Market.
             return BuildingTypeData(
                 name: "Lighthouse",
                 effects: [
@@ -626,7 +623,7 @@ public enum BuildingType: Int, Codable {
                 effects: [
                     "+2 Amenities",
                     "+1 [Culture] Culture",
-                    "+1 [Tourism] Tourism (with Conservation)" // #
+                    "+1 [Tourism] Tourism (with Conservation)"
                 ],
                 category: .entertainment,
                 era: .classical,
@@ -664,7 +661,6 @@ public enum BuildingType: Int, Codable {
             )
         case .market:
             // https://civilization.fandom.com/wiki/Market_(Civ6)
-            // FIXME +1 Trade Route capacity if this city doesn't have a Lighthouse.
             return BuildingTypeData(
                 name: "Market",
                 effects: [
@@ -731,7 +727,6 @@ public enum BuildingType: Int, Codable {
             // medieval
         case .medievalWalls:
             // https://civilization.fandom.com/wiki/Medieval_Walls_(Civ6)
-            // FIXME +2 Tourism (with Conservation)
             return BuildingTypeData(
                 name: "Medieval Walls",
                 effects: [
@@ -793,7 +788,6 @@ public enum BuildingType: Int, Codable {
             // renaissance
         case .renaissanceWalls:
             // https://civilization.fandom.com/wiki/Renaissance_Walls_(Civ6)
-            // FIXME +3 Tourism (with Conservation)
             // FIXME +2 Science with the Military Research Policy
             return BuildingTypeData(
                 name: "Renaissance Walls",
@@ -853,6 +847,44 @@ public enum BuildingType: Int, Codable {
                     Flavor(type: .militaryTraining, value: 7)
                 ]
             )
+        }
+    }
+
+    func canBuild(in city: AbstractCity?, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let city = city else {
+            fatalError("cant get city")
+        }
+
+        switch self {
+
+        case .none: return false
+
+        case .palace: return false
+
+        case .granary: return true
+        case .monument: return true
+        case .library: return true
+        case .shrine: return true
+        case .ancientWalls: return true
+        case .barracks: return true
+        case .waterMill:
+            // It can be built in the City Center if the city is next to a River.
+            return gameModel.river(at: city.location)
+        case .amphitheater: return true
+        case .lighthouse: return true
+        case .stable: return true
+        case .arena: return true
+        case .market: return true
+        case .temple: return true
+        case .medievalWalls: return true //
+        case .workshop: return true
+        case .renaissanceWalls: return true
+        case .shipyard: return true
         }
     }
 }

@@ -61,12 +61,26 @@ class CityGoldPurchaseViewModel: ObservableObject {
             }
             self.unitViewModels = possibleUnitTypes.map { unitType in
 
-                let productionCost = city.goldPurchaseCost(of: unitType)
-                let unitViewModel = UnitViewModel(unitType: unitType, gold: Int(productionCost))
-                // unitViewModel.delegate = self
+                let goldCost = city.goldPurchaseCost(of: unitType)
+                let enabled = goldCost < (humanPlayer.treasury?.value() ?? 0.0)
+                let unitViewModel = UnitViewModel(unitType: unitType, gold: Int(goldCost), enabled: enabled)
+                unitViewModel.delegate = self
                 return unitViewModel
             }
         }
+    }
+}
+
+extension CityGoldPurchaseViewModel: UnitViewModelDelegate {
+
+    func clicked(on unitType: UnitType, at index: Int) {
+
+        print("purchase: \(unitType)")
+    }
+
+    func clicked(on unit: AbstractUnit?, at index: Int) {
+
+        // NOOP
     }
 }
 
@@ -104,7 +118,7 @@ extension CityGoldPurchaseViewModel: HexagonGridViewModelDelegate {
 
         if city.canBuild(district: districtType, at: districtLocation, in: gameModel) {
 
-            fatalError("purchase with gold")
+            print("purchase with gold")
 
             self.showLocationPicker = false
         } else {
