@@ -551,59 +551,122 @@ public enum TechType: String, Codable {
             )
 
         case .currency:
-            return TechTypeData(name: "Currency",
-                                eurekaSummary: "Make a Trade Route",
-                                eurekaDescription: "Your [TradeRoute] Trade Route directly exchanges goods, but a medium of exchange would make trade more flexible.",
-                                quoteTexts: [],
-                                era: .classical,
-                                cost: 120,
-                                required: [.writing],
-                                flavors: [Flavor(type: .gold, value: 8), Flavor(type: .wonder, value: 2)])
+            // https://civilization.fandom.com/wiki/Currency_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_CURRENCY_NAME",
+                eurekaSummary: "TXT_KEY_TECH_CURRENCY_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_CURRENCY_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_CURRENCY_QUOTE1",
+                    "TXT_KEY_TECH_CURRENCY_QUOTE2"
+                ],
+                era: .classical,
+                cost: 120,
+                required: [.writing],
+                flavors: [
+                    Flavor(type: .gold, value: 8),
+                    Flavor(type: .wonder, value: 2)
+                ]
+            )
+
         case .construction:
-            return TechTypeData(name: "Construction",
-                                eurekaSummary: "Build a Water Mill",
-                                eurekaDescription: "Work on the Water Mill has taught your workers much about construction practices.",
-                                quoteTexts: [],
-                                era: .classical,
-                                cost: 200,
-                                required: [.masonry, .horsebackRiding],
-                                flavors: [Flavor(type: .happiness, value: 17), Flavor(type: .infrastructure, value: 2), Flavor(type: .wonder, value: 2)])
+            // https://civilization.fandom.com/wiki/Construction_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_CONSTRUCTION_NAME",
+                eurekaSummary: "TXT_KEY_TECH_CONSTRUCTION_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_CONSTRUCTION_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_CONSTRUCTION_QUOTE1",
+                    "TXT_KEY_TECH_CONSTRUCTION_QUOTE2"
+                ],
+                era: .classical,
+                cost: 200,
+                required: [.masonry, .horsebackRiding],
+                flavors: [
+                    Flavor(type: .happiness, value: 17),
+                    Flavor(type: .infrastructure, value: 2),
+                    Flavor(type: .wonder, value: 2)
+                ]
+            )
+
         case .ironWorking:
-            return TechTypeData(name: "Iron Working",
-                                eurekaSummary: "Build an Iron Mine",
-                                eurekaDescription: "Access to a steady source of Iron has enabled you to build better weapons and stronger armor.",
-                                quoteTexts: [],
-                                era: .classical,
-                                cost: 120,
-                                required: [.bronzeWorking],
-                                flavors: [Flavor(type: .offense, value: 12), Flavor(type: .defense, value: 6), Flavor(type: .militaryTraining, value: 3)])
+            // https://civilization.fandom.com/wiki/Iron_Working_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_IRON_WORKING_NAME",
+                eurekaSummary: "TXT_KEY_TECH_IRON_WORKING_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_IRON_WORKING_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_IRON_WORKING_QUOTE1",
+                    "TXT_KEY_TECH_IRON_WORKING_QUOTE2"
+                ],
+                era: .classical,
+                cost: 120,
+                required: [.bronzeWorking],
+                flavors: [
+                    Flavor(type: .offense, value: 12),
+                    Flavor(type: .defense, value: 6),
+                    Flavor(type: .militaryTraining, value: 3)
+                ]
+            )
+
         case .shipBuilding:
-            return TechTypeData(name: "Ship Building",
-                                eurekaSummary: "Own 2 Galleys",
-                                eurekaDescription: "Constructing a squadron of Galleys has taught you much about building larger ships.",
-                                quoteTexts: [],
-                                era: .classical,
-                                cost: 200,
-                                required: [.sailing],
-                                flavors: [Flavor(type: .naval, value: 5), Flavor(type: .navalGrowth, value: 3), Flavor(type: .navalRecon, value: 2)])
+            // https://civilization.fandom.com/wiki/Shipbuilding_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_SHIP_BUILDING_NAME",
+                eurekaSummary: "TXT_KEY_TECH_SHIP_BUILDING_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_SHIP_BUILDING_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_SHIP_BUILDING_QUOTE1",
+                    "TXT_KEY_TECH_SHIP_BUILDING_QUOTE2"
+                ],
+                era: .classical,
+                cost: 200,
+                required: [.sailing],
+                flavors: [
+                    Flavor(type: .naval, value: 5),
+                    Flavor(type: .navalGrowth, value: 3),
+                    Flavor(type: .navalRecon, value: 2)
+                ]
+            )
+
         case .mathematics:
-            return TechTypeData(name: "Mathematics",
-                                eurekaSummary: "Build 3 Specialty Districts",
-                                eurekaDescription: "Your district planners have worked out the basics of geometry. Maybe a full mathematical system will follow soon?",
-                                quoteTexts: [],
-                                era: .classical,
-                                cost: 200,
-                                required: [.currency],
-                                flavors: [Flavor(type: .ranged, value: 8), Flavor(type: .wonder, value: 2)])
+            // https://civilization.fandom.com/wiki/Mathematics_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_MATHEMATICS_NAME",
+                eurekaSummary: "TXT_KEY_TECH_MATHEMATICS_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_MATHEMATICS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_MATHEMATICS_QUOTE1",
+                    "TXT_KEY_TECH_MATHEMATICS_QUOTE2"
+                ],
+                era: .classical,
+                cost: 200,
+                required: [.currency],
+                flavors: [
+                    Flavor(type: .ranged, value: 8),
+                    Flavor(type: .wonder, value: 2)
+                ]
+            )
+            
         case .engineering:
-            return TechTypeData(name: "Engeneering",
-                                eurekaSummary: "Build Ancient Walls",
-                                eurekaDescription: "Completing walls around your city demonstrated the principles of engineering needed for Aqueducts and Catapults.",
-                                quoteTexts: [],
-                                era: .classical,
-                                cost: 200,
-                                required: [.wheel],
-                                flavors: [Flavor(type: .defense, value: 2), Flavor(type: .production, value: 5), Flavor(type: .tileImprovement, value: 5)])
+            // https://civilization.fandom.com/wiki/Engineering_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_ENGINEERING_NAME",
+                eurekaSummary: "TXT_KEY_TECH_ENGINEERING_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_ENGINEERING_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_ENGINEERING_QUOTE1",
+                    "TXT_KEY_TECH_ENGINEERING_QUOTE2"
+                ],
+                era: .classical,
+                cost: 200,
+                required: [.wheel],
+                flavors: [
+                    Flavor(type: .defense, value: 2),
+                    Flavor(type: .production, value: 5),
+                    Flavor(type: .tileImprovement, value: 5)
+                ]
+            )
 
             // medieval
         case .militaryTactics:

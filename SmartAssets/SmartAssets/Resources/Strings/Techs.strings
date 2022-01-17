@@ -105,59 +105,47 @@
 "TXT_KEY_TECH_HORSEBACK_RIDING_QUOTE1" = "“No hour of life is wasted that is spent in the saddle.”\n– Winston Churchill";
 "TXT_KEY_TECH_HORSEBACK_RIDING_QUOTE2" = "“A man on a horse is spiritually as well as physically bigger than a man on foot.”\n– John Steinbeck";
 
-/*
-case .currency:
-    return TechTypeData(name: "Currency",
-                        eurekaSummary: "Make a Trade Route",
-                        eurekaDescription: "Your [TradeRoute] Trade Route directly exchanges goods, but a medium of exchange would make trade more flexible.",
-                        quoteTexts: [],
-                        era: .classical,
-                        cost: 120,
-                        required: [.writing],
-                        flavors: [Flavor(type: .gold, value: 8), Flavor(type: .wonder, value: 2)])
-case .construction:
-    return TechTypeData(name: "Construction",
-                        eurekaSummary: "Build a Water Mill",
-                        eurekaDescription: "Work on the Water Mill has taught your workers much about construction practices.",
-                        quoteTexts: [],
-                        era: .classical,
-                        cost: 200,
-                        required: [.masonry, .horsebackRiding],
-                        flavors: [Flavor(type: .happiness, value: 17), Flavor(type: .infrastructure, value: 2), Flavor(type: .wonder, value: 2)])
-case .ironWorking:
-    return TechTypeData(name: "Iron Working",
-                        eurekaSummary: "Build an Iron Mine",
-                        eurekaDescription: "Access to a steady source of Iron has enabled you to build better weapons and stronger armor.",
-                        quoteTexts: [],
-                        era: .classical,
-                        cost: 120,
-                        required: [.bronzeWorking],
-                        flavors: [Flavor(type: .offense, value: 12), Flavor(type: .defense, value: 6), Flavor(type: .militaryTraining, value: 3)])
-case .shipBuilding:
-    return TechTypeData(name: "Ship Building",
-                        eurekaSummary: "Own 2 Galleys",
-                        eurekaDescription: "Constructing a squadron of Galleys has taught you much about building larger ships.",
-                        quoteTexts: [],
-                        era: .classical,
-                        cost: 200,
-                        required: [.sailing],
-                        flavors: [Flavor(type: .naval, value: 5), Flavor(type: .navalGrowth, value: 3), Flavor(type: .navalRecon, value: 2)])
-case .mathematics:
-    return TechTypeData(name: "Mathematics",
-                        eurekaSummary: "Build 3 Specialty Districts",
-                        eurekaDescription: "Your district planners have worked out the basics of geometry. Maybe a full mathematical system will follow soon?",
-                        quoteTexts: [],
-                        era: .classical,
-                        cost: 200,
-                        required: [.currency],
-                        flavors: [Flavor(type: .ranged, value: 8), Flavor(type: .wonder, value: 2)])
-case .engineering:
-    return TechTypeData(name: "Engeneering",
-                        eurekaSummary: "Build Ancient Walls",
-                        eurekaDescription: "Completing walls around your city demonstrated the principles of engineering needed for Aqueducts and Catapults.",
-                        quoteTexts: [],
-                        era: .classical,
-                        cost: 200,
-                        required: [.wheel],
-                        flavors: [Flavor(type: .defense, value: 2), Flavor(type: .production, value: 5), Flavor(type: .tileImprovement, value: 5)])
-*/
+// currency
+"TXT_KEY_TECH_CURRENCY_NAME" = "Currency";
+"TXT_KEY_TECH_CURRENCY_EUREKA" = "Make a Trade Route";
+"TXT_KEY_TECH_CURRENCY_EUREKA_TEXT" = "Your [TradeRoute] Trade Route directly exchanges goods, but a medium of exchange would make trade more flexible.";
+"TXT_KEY_TECH_CURRENCY_QUOTE1" = "“Wealth consists not in having great possessions, but in having few wants.”\n– Epictetus";
+"TXT_KEY_TECH_CURRENCY_QUOTE2" = "“Money, if it does not bring you happiness, will at least help you be miserable in comfort.”\n– Helen Gurley Brown";
+
+// construction
+"TXT_KEY_TECH_CONSTRUCTION_NAME" = "Construction";
+"TXT_KEY_TECH_CONSTRUCTION_EUREKA" = "Build a Water Mill";
+"TXT_KEY_TECH_CONSTRUCTION_EUREKA_TEXT" = "Work on the Water Mill has taught your workers much about construction practices.";
+"TXT_KEY_TECH_CONSTRUCTION_QUOTE1" = "“Create with the heart; build with the mind.”\n– Criss Jami";
+"TXT_KEY_TECH_CONSTRUCTION_QUOTE2" = "“The four building blocks of the universe are fire, water, gravel and vinyl.”\n– Dave Barry";
+
+// ironWorking
+"TXT_KEY_TECH_IRON_WORKING_NAME" = "Iron Working";
+"TXT_KEY_TECH_IRON_WORKING_EUREKA" = "Build an Iron Mine";
+"TXT_KEY_TECH_IRON_WORKING_EUREKA_TEXT" = "Access to a steady source of Iron has enabled you to build better weapons and stronger armor.";
+"TXT_KEY_TECH_IRON_WORKING_QUOTE1" = "“The Lord made us all out of iron. Then he turns up the heat to forge some of us into steel.”\n– Marie Osmond";
+"TXT_KEY_TECH_IRON_WORKING_QUOTE2" = "“Everything has its limit – iron ore cannot be educated into gold.”\n– Mark Twain";
+
+// shipBuilding
+"TXT_KEY_TECH_SHIP_BUILDING_NAME" = "Ship Building";
+"TXT_KEY_TECH_SHIP_BUILDING_EUREKA" = "Own 2 Galleys";
+"TXT_KEY_TECH_SHIP_BUILDING_EUREKA_TEXT" = "Constructing a squadron of Galleys has taught you much about building larger ships.";
+"TXT_KEY_TECH_SHIP_BUILDING_QUOTE1" = "“I cannot imagine any condition which would cause a ship to founder … Modern shipbuilding has gone beyond that.”\n– Capt. E.J. Smith, RMS Titanic";
+"TXT_KEY_TECH_SHIP_BUILDING_QUOTE2" = "“There is nothing but a plank between a sailor and eternity.”\n– Thomas Gibbons";
+
+// mathematics
+"TXT_KEY_TECH_MATHEMATICS_NAME" = "Mathematics";
+"TXT_KEY_TECH_MATHEMATICS_EUREKA" = "Build 3 Specialty Districts";
+"TXT_KEY_TECH_MATHEMATICS_EUREKA_TEXT" = "Your district planners have worked out the basics of geometry. Maybe a full mathematical system will follow soon?";
+"TXT_KEY_TECH_MATHEMATICS_QUOTE1" = "“Without mathematics, there's nothing you can do. Everything around you is mathematics. Everything around you is numbers.”\n– Shakuntala Devi";
+"TXT_KEY_TECH_MATHEMATICS_QUOTE2" = "“If I were again beginning my studies, I would follow the advice of Plato and start with mathematics.”\n– Galileo Galilei";
+
+// engineering
+"TXT_KEY_TECH_ENGINEERING_NAME" = "Engineering";
+"TXT_KEY_TECH_ENGINEERING_EUREKA" = "Build Ancient Walls";
+"TXT_KEY_TECH_ENGINEERING_EUREKA_TEXT" = "Completing walls around your city demonstrated the principles of engineering needed for Aqueducts and Catapults.";
+"TXT_KEY_TECH_ENGINEERING_QUOTE1" = "“One man's 'magic' is another man's engineering.”\n– Robert Heinlein";
+"TXT_KEY_TECH_ENGINEERING_QUOTE2" = "“Normal people … believe that if it ain’t broke, don’t fix it. Engineers believe that if it ain’t broke, it doesn’t have enough features yet.”\n– Scott Adams";
+
+// ///////////////////////////////////////
+// medieval
