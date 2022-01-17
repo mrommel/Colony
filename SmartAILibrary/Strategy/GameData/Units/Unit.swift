@@ -2693,6 +2693,13 @@ public class Unit: AbstractUnit {
             }
         }
 
+        // exodusOfTheEvangelists + golden - +2 Movement Movement for Missionaries, Apostles and Inquisitors
+        /*if player.currentAge() == .golden && player.has(dedication: .exodusOfTheEvangelists) {
+            if self.type == .missionary || self.type == .apostle || self.type == .inquisitor {
+                moveVal += 2
+            }
+        }*/
+
         return moveVal
     }
 

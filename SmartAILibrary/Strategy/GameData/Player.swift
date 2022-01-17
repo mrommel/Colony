@@ -1547,6 +1547,12 @@ public class Player: AbstractPlayer {
         // add effects from policy cards
         greatPeople.add(points: self.greatPeoplePointsFromPolicyCards(in: gameModel))
 
+        // add effects from dedication
+        // exodusOfTheEvangelists + golden - +4 Great Prophet Great Prophet points per turn.
+        if self.currentAgeVal == .golden && self.has(dedication: .exodusOfTheEvangelists) {
+            greatPeople.add(points: GreatPersonPoints(greatProphet: 4))
+        }
+
         // check if points are enough to gain a great person
         for greatPersonType in GreatPersonType.all {
 

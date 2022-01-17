@@ -22,15 +22,19 @@ class UnitViewModel: QueueViewModel, ObservableObject {
 
     let unitType: UnitType
     let turns: Int
+    let gold: Int
+    let faith: Int
     let unit: AbstractUnit?
     let index: Int
 
     weak var delegate: UnitViewModelDelegate?
 
-    init(unitType: UnitType, turns: Int = -1, at index: Int = -1) {
+    init(unitType: UnitType, turns: Int = -1, gold: Int = -1, faith: Int = -1, at index: Int = -1) {
 
         self.unitType = unitType
         self.turns = turns
+        self.gold = gold
+        self.faith = faith
         self.unit = nil
         self.index = index
 
@@ -41,6 +45,8 @@ class UnitViewModel: QueueViewModel, ObservableObject {
 
         self.unitType = .barbarianWarrior
         self.turns = -1
+        self.gold = -1
+        self.faith = -1
         self.unit = unit
         self.index = index
 
@@ -79,10 +85,18 @@ class UnitViewModel: QueueViewModel, ObservableObject {
             return "\(self.turns)"
         }
 
+        if self.gold != -1 {
+            return "\(self.gold)"
+        }
+
+        if self.faith != -1 {
+            return "\(self.faith)"
+        }
+
         return ""
     }
 
-    func turnsIcon() -> NSImage {
+    func costTypeIcon() -> NSImage {
 
         if self.unit != nil {
             return NSImage()
@@ -90,6 +104,14 @@ class UnitViewModel: QueueViewModel, ObservableObject {
 
         if self.turns != -1 {
             return Globals.Icons.turns
+        }
+
+        if self.gold != -1 {
+            return Globals.Icons.gold
+        }
+
+        if self.faith != -1 {
+            return Globals.Icons.faith
         }
 
         return NSImage()

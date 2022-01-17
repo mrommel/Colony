@@ -44,6 +44,9 @@ class CityDialogViewModel: ObservableObject {
     var productionViewModel: CityProductionViewModel
 
     @Published
+    var goldPurchaseViewModel: CityGoldPurchaseViewModel
+
+    @Published
     var buildingsViewModel: CityBuildingsViewModel
 
     @Published
@@ -72,6 +75,7 @@ class CityDialogViewModel: ObservableObject {
         self.faithYieldViewModel = YieldValueViewModel(yieldType: .faith, initial: 0.0, type: .onlyDelta)
 
         self.productionViewModel = CityProductionViewModel(city: city)
+        self.goldPurchaseViewModel = CityGoldPurchaseViewModel(city: city)
         self.buildingsViewModel = CityBuildingsViewModel(city: city)
         self.growthViewModel = CityGrowthViewModel(city: city)
         self.citizenViewModel = CityCitizenViewModel(city: city)
@@ -107,6 +111,7 @@ class CityDialogViewModel: ObservableObject {
             self.faithYieldViewModel.delta = city.faithPerTurn(in: game)
 
             self.productionViewModel.update(for: city, with: game)
+            self.goldPurchaseViewModel.update(for: city)
             self.buildingsViewModel.update(for: city)
             self.growthViewModel.update(for: city)
             self.citizenViewModel.update(for: city)

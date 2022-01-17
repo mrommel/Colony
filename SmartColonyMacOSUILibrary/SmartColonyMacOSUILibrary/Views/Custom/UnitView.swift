@@ -31,7 +31,7 @@ struct UnitView: View {
                 .padding(.top, 9)
                 .padding(.trailing, 0)
 
-            Image(nsImage: self.viewModel.turnsIcon())
+            Image(nsImage: self.viewModel.costTypeIcon())
                 .resizable()
                 .frame(width: 24, height: 24, alignment: .topLeading)
                 .padding(.trailing, 16)

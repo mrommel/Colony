@@ -106,6 +106,10 @@
 		C968F2AE2639EE3C00612D0E /* SKLabelNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F2AD2639EE3C00612D0E /* SKLabelNodeExtension.swift */; };
 		C96FEA35274CE4B400A9194C /* UnitCommandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96FEA34274CE4B400A9194C /* UnitCommandViewModel.swift */; };
 		C96FEA37274CE5E400A9194C /* UnitCommandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96FEA36274CE5E400A9194C /* UnitCommandView.swift */; };
+		C970A5F8279554FD00381603 /* CityGoldPurchaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C970A5F7279554FC00381603 /* CityGoldPurchaseViewModel.swift */; };
+		C970A5FA2795551500381603 /* CityFaithPurchaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C970A5F92795551500381603 /* CityFaithPurchaseViewModel.swift */; };
+		C970A5FC27955C5800381603 /* CityGoldPurchaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C970A5FB27955C5800381603 /* CityGoldPurchaseView.swift */; };
+		C970A5FE27955C6500381603 /* CityFaithPurchaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C970A5FD27955C6500381603 /* CityFaithPurchaseView.swift */; };
 		C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9711125262569D600B58AAE /* NSMenuItemExtension.swift */; };
 		C971FDCF27070C5600F818EE /* GreatPeopleDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C971FDCE27070C5600F818EE /* GreatPeopleDialogView.swift */; };
 		C971FDD127070D9300F818EE /* GreatPeopleDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C971FDD027070D9200F818EE /* GreatPeopleDialogViewModel.swift */; };
@@ -405,6 +409,10 @@
 		C968F2AD2639EE3C00612D0E /* SKLabelNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKLabelNodeExtension.swift; sourceTree = "<group>"; };
 		C96FEA34274CE4B400A9194C /* UnitCommandViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitCommandViewModel.swift; sourceTree = "<group>"; };
 		C96FEA36274CE5E400A9194C /* UnitCommandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitCommandView.swift; sourceTree = "<group>"; };
+		C970A5F7279554FC00381603 /* CityGoldPurchaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityGoldPurchaseViewModel.swift; sourceTree = "<group>"; };
+		C970A5F92795551500381603 /* CityFaithPurchaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityFaithPurchaseViewModel.swift; sourceTree = "<group>"; };
+		C970A5FB27955C5800381603 /* CityGoldPurchaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityGoldPurchaseView.swift; sourceTree = "<group>"; };
+		C970A5FD27955C6500381603 /* CityFaithPurchaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityFaithPurchaseView.swift; sourceTree = "<group>"; };
 		C9711125262569D600B58AAE /* NSMenuItemExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMenuItemExtension.swift; sourceTree = "<group>"; };
 		C971FDCE27070C5600F818EE /* GreatPeopleDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPeopleDialogView.swift; sourceTree = "<group>"; };
 		C971FDD027070D9200F818EE /* GreatPeopleDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPeopleDialogViewModel.swift; sourceTree = "<group>"; };
@@ -1033,6 +1041,8 @@
 				C91E7F9D2732E1DA000463F3 /* CityDetailViewType.swift */,
 				C9D191AA265A4A2B008C9622 /* CityBuildingsViewModel.swift */,
 				C9A48D4E2654084200260EE0 /* CityProductionViewModel.swift */,
+				C970A5F7279554FC00381603 /* CityGoldPurchaseViewModel.swift */,
+				C970A5F92795551500381603 /* CityFaithPurchaseViewModel.swift */,
 				C9D191BC265C37ED008C9622 /* CityGrowthViewModel.swift */,
 				C92F9490265E262A000968AB /* CityCitizenViewModel.swift */,
 				C9D191AE265A86C7008C9622 /* CityReligionViewModel.swift */,
@@ -1046,6 +1056,8 @@
 			children = (
 				C9D191A8265A49D5008C9622 /* CityBuildingsView.swift */,
 				C9A48D50265408A700260EE0 /* CityProductionView.swift */,
+				C970A5FB27955C5800381603 /* CityGoldPurchaseView.swift */,
+				C970A5FD27955C6500381603 /* CityFaithPurchaseView.swift */,
 				C9D191BA265C37BA008C9622 /* CityGrowthView.swift */,
 				C92F948E265E25C5000968AB /* CityCitizenView.swift */,
 				C9D191AC265A8659008C9622 /* CityReligionView.swift */,
@@ -1298,6 +1310,7 @@
 				C9D03F142753B6080008528E /* NotificationDetailViewModel.swift in Sources */,
 				C93FD2CF2732F788003348FB /* ScoreRankingDialogView.swift in Sources */,
 				C9AC0FF926DE62B700B65288 /* SelectPromotionDialogView.swift in Sources */,
+				C970A5FA2795551500381603 /* CityFaithPurchaseViewModel.swift in Sources */,
 				C942EC5126BBD9480047E161 /* AchievementViewModel.swift in Sources */,
 				C99EA75926BD72DE006FAA40 /* ReplyView.swift in Sources */,
 				C9452E2D266809A6005EF985 /* EraEnteredPopupViewModel.swift in Sources */,
@@ -1315,6 +1328,7 @@
 				C968F2A32639E56F00612D0E /* UnitObject.swift in Sources */,
 				C9755FE7270AE3A400C9CAB7 /* ReligionDialogViewModel.swift in Sources */,
 				C9A48D472653EB6100260EE0 /* NameInputDialogViewModel.swift in Sources */,
+				C970A5FC27955C5800381603 /* CityGoldPurchaseView.swift in Sources */,
 				C950F997264904150057A7D1 /* ChangePolicyDialogViewModel.swift in Sources */,
 				C9A8F0D92651A39D00584199 /* NotificationsView.swift in Sources */,
 				C9D03F102753827C0008528E /* NotificationDetailView.swift in Sources */,
@@ -1357,6 +1371,7 @@
 				C9D191AF265A86C7008C9622 /* CityReligionViewModel.swift in Sources */,
 				C98031D126EE5AD9008F460B /* CityView.swift in Sources */,
 				C925676D265635C000B895BD /* QueueViewModel.swift in Sources */,
+				C970A5FE27955C6500381603 /* CityFaithPurchaseView.swift in Sources */,
 				C9A48D3E2653B9D200260EE0 /* GovernmentDialogView.swift in Sources */,
 				C9A48D432653CD4300260EE0 /* CivicProgressView.swift in Sources */,
 				C971FDD127070D9300F818EE /* GreatPeopleDialogViewModel.swift in Sources */,
@@ -1444,6 +1459,7 @@
 				C971FDCF27070C5600F818EE /* GreatPeopleDialogView.swift in Sources */,
 				C92F948A265E2298000968AB /* RegularPolygon.swift in Sources */,
 				C9A48D322652E9DF00260EE0 /* TechProgressView.swift in Sources */,
+				C970A5F8279554FD00381603 /* CityGoldPurchaseViewModel.swift in Sources */,
 				C9E0597D2654E9A200C08463 /* DistrictView.swift in Sources */,
 				C9A48D492653EC3A00260EE0 /* NameInputDialogView.swift in Sources */,
 				C950F995264902990057A7D1 /* ChangePolicyDialogView.swift in Sources */,

@@ -97,6 +97,8 @@ public protocol AbstractCity: AnyObject, Codable {
 
     func faithPurchaseCost(of unitType: UnitType) -> Double
     func faithPurchaseCost(of buildingType: BuildingType) -> Double
+    func goldPurchaseCost(of unitType: UnitType) -> Double
+    func goldPurchaseCost(of buildingType: BuildingType) -> Double
 
     @discardableResult
     func purchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
@@ -3311,8 +3313,12 @@ public class City: AbstractCity {
 
     public func canPurchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
 
-        guard let player = self.player else {
-            fatalError("cant get player")
+        guard let playerReligion = self.player?.religion else {
+            fatalError("cant get player religion")
+        }
+
+        guard let playerTreasury = self.player?.treasury else {
+            fatalError("cant get player treasury")
         }
 
         guard yieldType == .faith || yieldType == .gold else {
@@ -3324,11 +3330,25 @@ public class City: AbstractCity {
         }
 
         if yieldType == .gold {
-            return self.goldPurchaseCost(of: unitType) > 0 // -1 is invalid
-        }
+            if unitType.purchaseCost() == -1 { // -1 is invalid
+                return false
+            }
 
-        if yieldType == .faith {
-            return self.faithPurchaseCost(of: unitType) > 0 // -1 is invalid
+            if self.goldPurchaseCost(of: unitType) > playerTreasury.value() {
+                return false
+            }
+
+        } else if yieldType == .faith {
+            if unitType.faithCost() == -1 { // -1 is invalid
+                return false
+            }
+
+            if self.faithPurchaseCost(of: unitType) > playerReligion.faith() {
+                return false
+            }
+
+        } else {
+            return false
         }
 
         return false
@@ -3357,7 +3377,7 @@ public class City: AbstractCity {
                 return false
             }
 
-            if Double(buildingType.purchaseCost()) > playerTreasury.value() {
+            if self.goldPurchaseCost(of: buildingType) > playerTreasury.value() {
                 return false
             }
 
@@ -3366,7 +3386,7 @@ public class City: AbstractCity {
                 return false
             }
 
-            if Double(buildingType.faithCost()) > playerReligion.faith() {
+            if self.faithPurchaseCost(of: buildingType) > playerReligion.faith() {
                 return false
             }
 
@@ -3377,7 +3397,7 @@ public class City: AbstractCity {
         return true
     }
 
-    func goldPurchaseCost(of unitType: UnitType) -> Double {
+    public func goldPurchaseCost(of unitType: UnitType) -> Double {
 
         guard let player = self.player else {
             fatalError("cant get player")
@@ -3404,20 +3424,26 @@ public class City: AbstractCity {
 
         let cost = unitType.faithCost()
 
-        // monumentality + golden - Civilian units may be purchased with [Faith] Faith.
+        // monumentality + golden - Civilian units may be purchased with Faith.
         if player.has(dedication: .monumentality) && player.currentAge() == .golden {
             if unitType.unitClass() == .civilian {
                 return Double(unitType.productionCost())
             }
         }
 
-        return cost == -1 ? Double.greatestFiniteMagnitude : Double(cost)
+        return Double(cost)
+    }
+
+    public func goldPurchaseCost(of building: BuildingType) -> Double {
+
+        let cost = building.purchaseCost()
+        return Double(cost)
     }
 
     public func faithPurchaseCost(of building: BuildingType) -> Double {
 
         let cost = building.faithCost()
-        return cost == -1 ? Double.greatestFiniteMagnitude : Double(cost)
+        return Double(cost)
     }
 
     public func purchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {

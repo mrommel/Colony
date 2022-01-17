@@ -55,13 +55,13 @@ struct CityDialogView: View {
 
                     Spacer(minLength: 0)
 
-                    HStack(spacing: 25) {
+                    HStack(spacing: 8) {
 
                         ForEach(CityDetailViewType.all, id: \.self) { value in
                             Button(action: {
                                 self.viewModel.show(detail: value)
                             }, label: {
-                                Text(value.name())
+                                Label(value.name())
                                     .font(.system(size: 15))
                                     .foregroundColor(value == self.viewModel.cityDetailViewType
                                         ? Color.accentColor
@@ -97,6 +97,10 @@ struct CityDialogView: View {
 
         case .production:
             return AnyView(CityProductionView(viewModel: self.viewModel.productionViewModel))
+        case .goldPurchase:
+            return AnyView(CityGoldPurchaseView(viewModel: self.viewModel.goldPurchaseViewModel))
+        case .faithPurchase:
+            return AnyView(Text("Faith Purchase"))
         case .buildings:
             return AnyView(CityBuildingsView(viewModel: self.viewModel.buildingsViewModel))
         case .growth:
