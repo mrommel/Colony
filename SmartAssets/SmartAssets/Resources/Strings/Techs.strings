@@ -206,6 +206,134 @@
 "TXT_KEY_TECH_CASTLES_QUOTE1" = "“Rocks in my path? I keep them all. With them I shall build my castle.”\n– Nemo Nox";
 "TXT_KEY_TECH_CASTLES_QUOTE2" = "“If you see a castle under fog, you must walk there to meet the extraordinary dreams.”\n– Mehmet Murat Ildan";
 
+// /////////////////////////////////
+// renaissance
+
+// cartography
+"TXT_KEY_TECH_CARTOGRAPHY_NAME" = "Cartography";
+"TXT_KEY_TECH_CARTOGRAPHY_EUREKA" = "Build 2 Harbors";
+"TXT_KEY_TECH_CARTOGRAPHY_EUREKA_TEXT" = "With so many ships leaving the harbors of your empire you long to document your explorations.";
+"TXT_KEY_TECH_CARTOGRAPHY_QUOTE1" = "“If your actions inspire others to dream more, learn more, do more and become more, you are a cartographer.”\n– John Quincy Adams";
+"TXT_KEY_TECH_CARTOGRAPHY_QUOTE2" = "“Not all who wander are lost.”\n– J.R.R. Tolkien";
+
+// massProduction
+"TXT_KEY_TECH_MASS_PRODUCTION_NAME" = "Mass Production";
+"TXT_KEY_TECH_MASS_PRODUCTION_EUREKA" = "Build a Lumber Mill";
+"TXT_KEY_TECH_MASS_PRODUCTION_EUREKA_TEXT" = "Now that you have a ready supply of standardized boards, your shipping industry will soon take off.";
+"TXT_KEY_TECH_MASS_PRODUCTION_QUOTE1" = "“People can have the Model T in any color - so long as it's black.”\n– Henry Ford";
+"TXT_KEY_TECH_MASS_PRODUCTION_QUOTE2" = "“What can be labeled, packaged, mass produced is neither truth nor art.”\n– Marty Rubin";
+
+// banking
+"TXT_KEY_TECH_BANKING_NAME" = "Banking";
+"TXT_KEY_TECH_BANKING_EUREKA" = "Have the Guilds civic";
+"TXT_KEY_TECH_BANKING_EUREKA_TEXT" = "Your emerging guilds have plans that require a large influx of gold. Perhaps we can find a way to let them take out a loan?";
+"TXT_KEY_TECH_BANKING_QUOTE1" = "“If you owe the bank $100 that's your problem. If you owe the bank $100 million, that's the bank's problem.”\n– J. Paul Getty";
+"TXT_KEY_TECH_BANKING_QUOTE2" = "“I saw a bank that said '24-Hour Banking,' but I didn't have that much time.”\n– Steven Wright";
+
+// gunpowder
+"TXT_KEY_TECH_GUNPOWDER_NAME" = "Gunpowder";
+"TXT_KEY_TECH_GUNPOWDER_EUREKA" = "Build an Armory";
+"TXT_KEY_TECH_GUNPOWDER_EUREKA_TEXT" = "Your men at the armory are fashioning a new weapon that will devastate opponents.";
+"TXT_KEY_TECH_GUNPOWDER_QUOTE1" = "“The real use of gunpowder is to make all men tall.”\n– Thomas Carlyle";
+"TXT_KEY_TECH_GUNPOWDER_QUOTE2" = "“Man is a military animal, glories in gunpowder, and loves parades.”\n– Philip Bailey";
+
+// printing
+"TXT_KEY_TECH_PRINTING_NAME" = "Printing";
+"TXT_KEY_TECH_PRINTING_EUREKA" = "Build 2 Universities";
+"TXT_KEY_TECH_PRINTING_EUREKA_TEXT" = "Out of necessity your scholars are devising methods for quickly copying books.";
+"TXT_KEY_TECH_PRINTING_QUOTE1" = "“The pen might not be mightier than the sword, but maybe the printing press is heavier than the siege weapon. Just a few words can change everything.”\n– Terry Pratchett";
+"TXT_KEY_TECH_PRINTING_QUOTE2" = "“What gunpowder did for war the printing press has done for the mind.”\n– Wendell Phillips";
+
+// squareRigging
+"TXT_KEY_TECH_SQUARE_RIGGING_NAME" = "Square Rigging";
+"TXT_KEY_TECH_SQUARE_RIGGING_EUREKA" = "Kill a unit with a Musketman";
+"TXT_KEY_TECH_SQUARE_RIGGING_EUREKA_TEXT" = "The success of your Musketmen on land has spurred a new idea: what if we upgrade to gunpowder weaponry at sea?";
+"TXT_KEY_TECH_SQUARE_RIGGING_QUOTE1" = "“There is little man has made that approaches anything in nature, but a sailing ship does.”\n– Allan Villiers";
+"TXT_KEY_TECH_SQUARE_RIGGING_QUOTE2" = "“It's not the towering sails, but the unseen wind that moves a ship.”\n– English Proverb";
+
+// astronomy
+"TXT_KEY_TECH_ASTRONOMY_NAME" = "Astronomy";
+"TXT_KEY_TECH_ASTRONOMY_EUREKA" = "Build a University next to a Mountain";
+"TXT_KEY_TECH_ASTRONOMY_EUREKA_TEXT" = "Your scientists are hiking into the mountains for a sharper view of the heavens. Maybe a permanent facility would help?";
+"TXT_KEY_TECH_ASTRONOMY_QUOTE1" = "“Astronomy compels the soul to look upwards and leads us from this world to another.”\n– Plato";
+"TXT_KEY_TECH_ASTRONOMY_QUOTE2" = "“Astronomy's much more fun when you're not an astronomer.”\n– Brian May";
+
+// metalCasting
+"TXT_KEY_TECH_METAL_CASTING_NAME" = "Metal Casting";
+"TXT_KEY_TECH_METAL_CASTING_EUREKA" = "Own 2 Crossbowmen";
+"TXT_KEY_TECH_METAL_CASTING_EUREKA_TEXT" = "With so many Crossbowmen in the field, we’ve had a lot of practice studying ranged weapons.";
+"TXT_KEY_TECH_METAL_CASTING_QUOTE1" = "“At first Hephaestus makes a great and massive shield ... And he forged on the shield two noble cities.”\n– Homer";
+"TXT_KEY_TECH_METAL_CASTING_QUOTE2" = "“Don't judge someone until you've stood at his forge and worked with his hammer.”\n– Rick Riordan";
+
+// siegeTactics
+"TXT_KEY_TECH_SIEGE_TACTICS_NAME" = "Siege Tactics";
+"TXT_KEY_TECH_SIEGE_TACTICS_EUREKA" = "Own 2 Bombards";
+"TXT_KEY_TECH_SIEGE_TACTICS_EUREKA_TEXT" = "After creating bombards you realize that castles are not impregnable – you need a stauncher defense!";
+"TXT_KEY_TECH_SIEGE_TACTICS_QUOTE1" = "“The lowest is to attack a city. Siege of a city is only done as a last resort.”\n– Sun Tzu";
+"TXT_KEY_TECH_SIEGE_TACTICS_QUOTE2" = "“All the best romances bloom in the midst of a good siege.”\n– Miles Cameron";
+
+// /////////////////////////////////
+// industrial
+
+// industrialization
+"TXT_KEY_TECH_INDUSTRIALIZATION_NAME" = "Industrialization";
+"TXT_KEY_TECH_INDUSTRIALIZATION_EUREKA" = "Build 3 Workshops";
+"TXT_KEY_TECH_INDUSTRIALIZATION_EUREKA_TEXT" = "The busy workshops of your empire hint at greatness to come. Is an Industrial Revolution about to commence?";
+"TXT_KEY_TECH_INDUSTRIALIZATION_QUOTE1" = "“I think the human race made a big mistake at the beginning of the Industrial Revolution, we leaped for the mechanical things. People need the use of their hands to feel creative.”\n– Andre Norton";
+"TXT_KEY_TECH_INDUSTRIALIZATION_QUOTE2" = "“The key words of violent economics are urbanization, industrialization, centralization, efficiency, quantity, speed.”\n– E.F. Schumacher";
+
+// scientificTheory
+"TXT_KEY_TECH_SCIENTIFIC_THEORY_NAME" = "Scientific Theory";
+"TXT_KEY_TECH_SCIENTIFIC_THEORY_EUREKA" = "Have The Enlightenment civic";
+"TXT_KEY_TECH_SCIENTIFIC_THEORY_EUREKA_TEXT" = "The dawning of an age of enlightenment in our realm has sparked a serious discourse on our scientific methods.";
+"TXT_KEY_TECH_SCIENTIFIC_THEORY_QUOTE1" = "“Claims that cannot be tested, assertions immune to disproof are veridically worthless, whatever value they may have in inspiring us or exciting our sense of wonder.”\n– Carl Sagan";
+"TXT_KEY_TECH_SCIENTIFIC_THEORY_QUOTE2" = "“If facts don't fit the theory, change the facts.”\n– Albert Einstein";
+
+// ballistics
+"TXT_KEY_TECH_BALLISTICS_NAME" = "Ballistics";
+"TXT_KEY_TECH_BALLISTICS_EUREKA" = "Have 2 Forts in your territory";
+"TXT_KEY_TECH_BALLISTICS_EUREKA_TEXT" = "Your cities have been protected by multiple fortifications, what if they could be defended by cannons?";
+"TXT_KEY_TECH_BALLISTICS_QUOTE1" = "“It’s one thing to surmise what happened, but we don’t speculate on that until ballistics confirms what happened …”\n– John Hansen";
+"TXT_KEY_TECH_BALLISTICS_QUOTE2" = "“Let’s get on our knees and pray. I don’t know to whom. Is there a patron saint of ballistics yet?”\n– Adam Savage";
+
+// militaryScience
+"TXT_KEY_TECH_MILITARY_SCIENCE_NAME" = "Military Science";
+"TXT_KEY_TECH_MILITARY_SCIENCE_EUREKA" = "Kill a unit with a Knight";
+"TXT_KEY_TECH_MILITARY_SCIENCE_EUREKA_TEXT" = "Your valiant Knight has vanquished his foe. Let us learn from this victory and become students of military affairs.";
+"TXT_KEY_TECH_MILITARY_SCIENCE_QUOTE1" = "“However beautiful the strategy, you should occasionally look at the results.”\n– Winston Churchill";
+"TXT_KEY_TECH_MILITARY_SCIENCE_QUOTE2" = "“No one starts a war - or rather, no one in his senses ought to do so - without first being clear in his mind what he intends to achieve by that war and how he intends to conduct it.”\n– Karl von Clausewitz";
+
+// steamPower
+"TXT_KEY_TECH_STEAM_POWER_NAME" = "Steam Power";
+"TXT_KEY_TECH_STEAM_POWER_EUREKA" = "Build 2 Shipyards";
+"TXT_KEY_TECH_STEAM_POWER_EUREKA_TEXT" = "Let us apply our industrial acumen to your newly-constructed shipyards. Steam-powered naval vessels could rule the seas.";
+"TXT_KEY_TECH_STEAM_POWER_QUOTE1" = "“It is arguable whether the human race have been gainers by the march of science beyond the steam engine.”\n– Winston Churchill";
+"TXT_KEY_TECH_STEAM_POWER_QUOTE2" = "“Science owes more to the steam engine than the steam engine owes to science.”\n– Lawrence Henderson";
+
+// sanitation
+"TXT_KEY_TECH_SANITATION_NAME" = "Sanitation";
+"TXT_KEY_TECH_SANITATION_EUREKA" = "Build 2 Neighborhoods";
+"TXT_KEY_TECH_SANITATION_EUREKA_TEXT" = "With the introduction of neighborhoods, our cities are growing larger than ever before. Developing a sanitation plan is crucial.";
+"TXT_KEY_TECH_SANITATION_QUOTE1" = "“No innovation in the past 200 years has done more to save lives and improve health than the sanitation revolution triggered by the invention of the toilet.”\n– Sylvia Burwell";
+"TXT_KEY_TECH_SANITATION_QUOTE2" = "“Apart from the sanitation, the medicine, education, wine, public order, roads, the fresh water system, and public health ... what have the Romans ever done for us?”\n– Graham Chapman";
+
+// economics
+"TXT_KEY_TECH_ECONOMICS_NAME" = "Economics";
+"TXT_KEY_TECH_ECONOMICS_EUREKA" = "Build 2 Banks";
+"TXT_KEY_TECH_ECONOMICS_EUREKA_TEXT" = "The power of your banks in on the rise. It is time to formally study the forces that are shaping your national economy.";
+"TXT_KEY_TECH_ECONOMICS_QUOTE1" = "“Economics is a subject that does not greatly respect one's wishes.”\n– Nikita Khrushchev";
+"TXT_KEY_TECH_ECONOMICS_QUOTE2" = "“You and I come by road or rail, but economists travel on infrastructure.”\n– Margaret Thatcher";
+
+// rifling
+"TXT_KEY_TECH_RIFLING_NAME" = "Rifling";
+"TXT_KEY_TECH_RIFLING_EUREKA" = "Build a Niter Mine";
+"TXT_KEY_TECH_RIFLING_EUREKA_TEXT" = "With a source of niter, your firearms industry is switching into top gear. The next step will be to improve our accuracy.";
+"TXT_KEY_TECH_RIFLING_QUOTE1" = "“Bolt actions speak louder than words.”\n– Craig Roberts";
+"TXT_KEY_TECH_RIFLING_QUOTE2" = "“Never criticize a rifleman until you have walked a mile in his shoes. That way, he'll be barefoot and you'll be out of range.”\n– The 2nd Target Company";
+
+// /////////////////////////////////
+// modern
+
 /*
  "TXT_KEY_TECH__NAME" = "";
  "TXT_KEY_TECH__EUREKA" = "";

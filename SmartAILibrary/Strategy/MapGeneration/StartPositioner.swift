@@ -20,6 +20,10 @@ public class StartLocation {
     }
 }
 
+public class WeightedStringList: WeightedList<String> {
+
+}
+
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvStartPositioner
 //!  \brief        Divides the map into regions of each fertility and places one major civ in each
@@ -75,7 +79,7 @@ class StartPositioner {
 
         self.fertilityMap.fill(with: 0)
 
-        let landAreaFert: WeightedList<String> = WeightedList<String>()
+        let landAreaFert: WeightedStringList = WeightedStringList()
 
         // Obtain info on all landmasses for comparision purposes.
         var iGlobalFertilityOfLands = 0
@@ -118,7 +122,7 @@ class StartPositioner {
         //landAreaFert.sortReverse()
 
         // init number of civs on each continent
-        let numberOfCivsPerArea: WeightedList<String> = WeightedList<String>()
+        let numberOfCivsPerArea: WeightedStringList = WeightedStringList()
 
         for landAreaFertItem in landAreaFert.items {
             numberOfCivsPerArea.set(weight: 0.0, for: landAreaFertItem.0)

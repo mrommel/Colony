@@ -210,36 +210,3 @@ public class WeightedList<T: Codable & Hashable>: Codable, CustomDebugStringConv
         return "WeightedList: { \(itemText) }"
     }
 }
-/*
-extension WeightedList: Sequence {
-
-    public func makeIterator() -> WeightedListIterator<T> {
-        return WeightedListIterator<T>(weightedList: self)
-    }
-}
-
-public struct WeightedListIterator<T: Codable & Hashable>: IteratorProtocol {
-
-    private let weightedList: WeightedList<T>
-    private var index = 0
-
-    init(weightedList: WeightedList<T>) {
-        self.weightedList = weightedList
-    }
-
-    mutating public func next() -> WeightedList<T>.WeightedItem<T>? {
-
-        guard 0 <= index else {
-            return nil
-        }
-
-        // prevent out of bounds
-        guard index < self.weightedList.items.count else {
-            return nil
-        }
-
-        let point = self.weightedList.items[index]
-        index += 1
-        return point
-    }
-}*/

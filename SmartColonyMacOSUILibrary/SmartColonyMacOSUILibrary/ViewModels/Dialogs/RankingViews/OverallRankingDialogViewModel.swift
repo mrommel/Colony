@@ -37,7 +37,7 @@ class OverallRankingDialogViewModel: ObservableObject {
 
         for rankingViewType in RankingViewType.values {
 
-            let ranking: WeightedList<LeaderType> = WeightedList<LeaderType>()
+            let ranking: LeaderWeightList = LeaderWeightList()
 
             for player in gameModel.players {
 

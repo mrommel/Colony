@@ -825,164 +825,330 @@ public enum TechType: String, Codable {
                 ]
             )
 
+            // /////////////////////////////////
             // renaissance
+
         case .cartography:
-            return TechTypeData(name: "Cartography",
-                                eurekaSummary: "Build 2 Harbors",
-                                eurekaDescription: "With so many ships leaving the harbors of your empire you long to document your explorations.",
-                                quoteTexts: [],
-                                era: .renaissance,
-                                cost: 490,
-                                required: [.shipBuilding],
-                                flavors: [Flavor(type: .navalRecon, value: 5)])
+            // https://civilization.fandom.com/wiki/Cartography_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_CARTOGRAPHY_NAME",
+                eurekaSummary: "TXT_KEY_TECH_CARTOGRAPHY_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_CARTOGRAPHY_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_CARTOGRAPHY_QUOTE1",
+                    "TXT_KEY_TECH_CARTOGRAPHY_QUOTE2"
+                ],
+                era: .renaissance,
+                cost: 490,
+                required: [.shipBuilding],
+                flavors: [
+                    Flavor(type: .navalRecon, value: 5)
+                ]
+            )
+
         case .massProduction:
-            return TechTypeData(name: "Mass Production",
-                                eurekaSummary: "Build a Lumber Mill",
-                                eurekaDescription: "Now that you have a ready supply of standardized boards, your shipping industry will soon take off.",
-                                quoteTexts: [],
-                                era: .renaissance,
-                                cost: 490,
-                                required: [.education, .shipBuilding],
-                                flavors: [Flavor(type: .production, value: 7)])
+            // https://civilization.fandom.com/wiki/Mass_Production_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_MASS_PRODUCTION_NAME",
+                eurekaSummary: "TXT_KEY_TECH_MASS_PRODUCTION_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_MASS_PRODUCTION_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_MASS_PRODUCTION_QUOTE1",
+                    "TXT_KEY_TECH_MASS_PRODUCTION_QUOTE2"
+                ],
+                era: .renaissance,
+                cost: 490,
+                required: [.education, .shipBuilding],
+                flavors: [
+                    Flavor(type: .production, value: 7)
+                ]
+            )
+
         case .banking:
-            return TechTypeData(name: "Banking",
-                                eurekaSummary: "Have the Guilds civic",
-                                eurekaDescription: "Your emerging guilds have plans that require a large influx of gold. Perhaps we can find a way to let them take out a loan?",
-                                quoteTexts: [],
-                                era: .renaissance,
-                                cost: 490,
-                                required: [.education, .apprenticeship, .stirrups],
-                                flavors: [Flavor(type: .gold, value: 6)])
+            // https://civilization.fandom.com/wiki/Banking_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_BANKING_NAME",
+                eurekaSummary: "TXT_KEY_TECH_BANKING_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_BANKING_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_BANKING_QUOTE1",
+                    "TXT_KEY_TECH_BANKING_QUOTE2"
+                ],
+                era: .renaissance,
+                cost: 490,
+                required: [.education, .apprenticeship, .stirrups],
+                flavors: [
+                    Flavor(type: .gold, value: 6)
+                ]
+            )
+
         case .gunpowder:
-            return TechTypeData(name: "Gunpowder",
-                                eurekaSummary: "Build an Armory",
-                                eurekaDescription: "Your men at the armory are fashioning a new weapon that will devastate opponents.",
-                                quoteTexts: [],
-                                era: .renaissance,
-                                cost: 490,
-                                required: [.militaryEngineering, .stirrups, .apprenticeship],
-                                flavors: [Flavor(type: .production, value: 2), Flavor(type: .defense, value: 3), Flavor(type: .cityDefense, value: 2)])
+            // https://civilization.fandom.com/wiki/Gunpowder_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_GUNPOWDER_NAME",
+                eurekaSummary: "TXT_KEY_TECH_GUNPOWDER_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_GUNPOWDER_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_GUNPOWDER_QUOTE1",
+                    "TXT_KEY_TECH_GUNPOWDER_QUOTE2"
+                ],
+                era: .renaissance,
+                cost: 490,
+                required: [.militaryEngineering, .stirrups, .apprenticeship],
+                flavors: [
+                    Flavor(type: .production, value: 2),
+                    Flavor(type: .defense, value: 3),
+                    Flavor(type: .cityDefense, value: 2)
+                ]
+            )
+            
         case .printing:
-            return TechTypeData(name: "Printing",
-                                eurekaSummary: "Build 2 Universities",
-                                eurekaDescription: "Out of necessity your scholars are devising methods for quickly copying books.",
-                                quoteTexts: [],
-                                era: .renaissance,
-                                cost: 490,
-                                required: [.machinery],
-                                flavors: [Flavor(type: .science, value: 7)])
+            // https://civilization.fandom.com/wiki/Printing_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_PRINTING_NAME",
+                eurekaSummary: "TXT_KEY_TECH_PRINTING_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_PRINTING_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_PRINTING_QUOTE1",
+                    "TXT_KEY_TECH_PRINTING_QUOTE2"
+                ],
+                era: .renaissance,
+                cost: 490,
+                required: [.machinery],
+                flavors: [
+                    Flavor(type: .science, value: 7)
+                ]
+            )
+
         case .squareRigging:
-            return TechTypeData(name: "Square Rigging",
-                                eurekaSummary: "Kill a unit with a Musketman",
-                                eurekaDescription: "The success of your Musketmen on land has spurred a new idea: what if we upgrade to gunpowder weaponry at sea?",
-                                quoteTexts: [],
-                                era: .renaissance,
-                                cost: 600,
-                                required: [.cartography],
-                                flavors: [Flavor(type: .naval, value: 5), Flavor(type: .navalGrowth, value: 2), Flavor(type: .navalRecon, value: 3)])
+            // https://civilization.fandom.com/wiki/Square_Rigging_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_SQUARE_RIGGING_NAME",
+                eurekaSummary: "TXT_KEY_TECH_SQUARE_RIGGING_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_SQUARE_RIGGING_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_SQUARE_RIGGING_QUOTE1",
+                    "TXT_KEY_TECH_SQUARE_RIGGING_QUOTE2"
+                ],
+                era: .renaissance,
+                cost: 600,
+                required: [.cartography],
+                flavors: [
+                    Flavor(type: .naval, value: 5),
+                    Flavor(type: .navalGrowth, value: 2),
+                    Flavor(type: .navalRecon, value: 3)
+                ]
+            )
+            
         case .astronomy:
-            return TechTypeData(name: "Astronomy",
-                                eurekaSummary: "Build a University next to a Mountain",
-                                eurekaDescription: "Your scientists are hiking into the mountains for a sharper view of the heavens. Maybe a permanent facility would help?",
-                                quoteTexts: [],
-                                era: .renaissance,
-                                cost: 600,
-                                required: [.education],
-                                flavors: [Flavor(type: .science, value: 4)])
+            // https://civilization.fandom.com/wiki/Astronomy_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_ASTRONOMY_NAME",
+                eurekaSummary: "TXT_KEY_TECH_ASTRONOMY_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_ASTRONOMY_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_ASTRONOMY_QUOTE1",
+                    "TXT_KEY_TECH_ASTRONOMY_QUOTE2"
+                ],
+                era: .renaissance,
+                cost: 600,
+                required: [.education],
+                flavors: [
+                    Flavor(type: .science, value: 4)
+                ]
+            )
+            
         case .metalCasting:
-            return TechTypeData(name: "Metal Casting",
-                                eurekaSummary: "Own 2 Crossbowmen",
-                                eurekaDescription: "With so many Crossbowmen in the field, we’ve had a lot of practice studying ranged weapons.",
-                                quoteTexts: [],
-                                era: .renaissance,
-                                cost: 660,
-                                required: [.gunpowder],
-                                flavors: [Flavor(type: .production, value: 3)])
+            // https://civilization.fandom.com/wiki/Metal_Casting_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_METAL_CASTING_NAME",
+                eurekaSummary: "TXT_KEY_TECH_METAL_CASTING_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_METAL_CASTING_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_METAL_CASTING_QUOTE1",
+                    "TXT_KEY_TECH_METAL_CASTING_QUOTE2"
+                ],
+                era: .renaissance,
+                cost: 660,
+                required: [.gunpowder],
+                flavors: [
+                    Flavor(type: .production, value: 3)
+                ]
+            )
+            
         case .siegeTactics:
-            return TechTypeData(name: "Siege Tactics",
-                                eurekaSummary: "Own 2 Bombards",
-                                eurekaDescription: "After creating bombards you realize that castles are not impregnable – you need a stauncher defense!",
-                                quoteTexts: [],
-                                era: .renaissance,
-                                cost: 660,
-                                required: [.castles],
-                                flavors: [Flavor(type: .ranged, value: 5), Flavor(type: .offense, value: 3)])
+            // https://civilization.fandom.com/wiki/Siege_Tactics_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_SIEGE_TACTICS_NAME",
+                eurekaSummary: "TXT_KEY_TECH_SIEGE_TACTICS_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_SIEGE_TACTICS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_SIEGE_TACTICS_QUOTE1",
+                    "TXT_KEY_TECH_SIEGE_TACTICS_QUOTE2"
+                ],
+                era: .renaissance,
+                cost: 660,
+                required: [.castles],
+                flavors: [
+                    Flavor(type: .ranged, value: 5),
+                    Flavor(type: .offense, value: 3)
+                ]
+            )
 
+            // /////////////////////////////////
             // industrial
-        case .industrialization:
-            return TechTypeData(name: "Industrialization",
-                                eurekaSummary: "Build 3 Workshops",
-                                eurekaDescription: "The busy workshops of your empire hint at greatness to come. Is an Industrial Revolution about to commence?",
-                                quoteTexts: [],
-                                era: .industrial,
-                                cost: 700,
-                                required: [.massProduction, .squareRigging],
-                                flavors: [Flavor(type: .production, value: 7)])
-        case .scientificTheory:
-            return TechTypeData(name: "Scientific Theory",
-                                eurekaSummary: "Have The Enlightenment civic",
-                                eurekaDescription: "The dawning of an age of enlightenment in our realm has sparked a serious discourse on our scientific methods.",
-                                quoteTexts: [],
-                                era: .industrial,
-                                cost: 700,
-                                required: [.astronomy, .banking],
-                                flavors: [Flavor(type: .diplomacy, value: 5), Flavor(type: .science, value: 5)])
-        case .ballistics:
-            return TechTypeData(name: "Ballistics",
-                                eurekaSummary: "Have 2 Forts in your territory",
-                                eurekaDescription: "Your cities have been protected by multiple fortifications, what if they could be defended by cannons?",
-                                quoteTexts: [],
-                                era: .industrial,
-                                cost: 840,
-                                required: [.metalCasting],
-                                flavors: [Flavor(type: .ranged, value: 5), Flavor(type: .offense, value: 5) ])
-        case .militaryScience:
-            return TechTypeData(name: "Military Science",
-                                eurekaSummary: "Kill a unit with a Knight",
-                                eurekaDescription: "Your valiant Knight has vanquished his foe. Let us learn from this victory and become students of military affairs.",
-                                quoteTexts: [],
-                                era: .industrial,
-                                cost: 845,
-                                required: [.printing, .siegeTactics],
-                                flavors: [Flavor(type: .offense, value: 7) ])
-        case .steamPower:
-            return TechTypeData(name: "Steam Power",
-                                eurekaSummary: "Build 2 Shipyards",
-                                eurekaDescription: "Let us apply our industrial acumen to your newly-constructed shipyards. Steam-powered naval vessels could rule the seas.",
-                                quoteTexts: [],
-                                era: .industrial,
-                                cost: 805,
-                                required: [.industrialization, .squareRigging],
-                                flavors: [Flavor(type: .mobile, value: 5), Flavor(type: .offense, value: 2), Flavor(type: .navalGrowth, value: 3)])
-        case .sanitation:
-            return TechTypeData(name: "Sanitation",
-                                eurekaSummary: "Build 2 Neighborhoods",
-                                eurekaDescription: "With the introduction of neighborhoods, our cities are growing larger than ever before. Developing a sanitation plan is crucial.",
-                                quoteTexts: [],
-                                era: .industrial,
-                                cost: 805,
-                                required: [.scientificTheory],
-                                flavors: [Flavor(type: .growth, value: 5) ])
-        case .economics:
-            return TechTypeData(name: "Economics",
-                                eurekaSummary: "Build 2 Banks",
-                                eurekaDescription: "The power of your banks in on the rise. It is time to formally study the forces that are shaping your national economy.",
-                                quoteTexts: [],
-                                era: .industrial,
-                                cost: 805,
-                                required: [.metalCasting, .scientificTheory],
-                                flavors: [Flavor(type: .wonder, value: 5) ])
-        case .rifling:
-            return TechTypeData(name: "Rifling",
-                                eurekaSummary: "Build a Niter Mine",
-                                eurekaDescription: "With a source of niter, your firearms industry is switching into top gear. The next step will be to improve our accuracy.",
-                                quoteTexts: [],
-                                era: .industrial,
-                                cost: 970,
-                                required: [.ballistics, .militaryScience],
-                                flavors: [Flavor(type: .offense, value: 5) ])
 
+        case .industrialization:
+            // https://civilization.fandom.com/wiki/Industrialization_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_INDUSTRIALIZATION_NAME",
+                eurekaSummary: "TXT_KEY_TECH_INDUSTRIALIZATION_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_INDUSTRIALIZATION_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_INDUSTRIALIZATION_QUOTE1",
+                    "TXT_KEY_TECH_INDUSTRIALIZATION_QUOTE2"
+                ],
+                era: .industrial,
+                cost: 700,
+                required: [.massProduction, .squareRigging],
+                flavors: [
+                    Flavor(type: .production, value: 7)
+                ]
+            )
+
+        case .scientificTheory:
+            // https://civilization.fandom.com/wiki/Scientific_Theory_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_SCIENTIFIC_THEORY_NAME",
+                eurekaSummary: "TXT_KEY_TECH_SCIENTIFIC_THEORY_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_SCIENTIFIC_THEORY_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_SCIENTIFIC_THEORY_QUOTE1",
+                    "TXT_KEY_TECH_SCIENTIFIC_THEORY_QUOTE2"
+                ],
+                era: .industrial,
+                cost: 700,
+                required: [.astronomy, .banking],
+                flavors: [
+                    Flavor(type: .diplomacy, value: 5),
+                    Flavor(type: .science, value: 5)
+                ]
+            )
+
+        case .ballistics:
+            // https://civilization.fandom.com/wiki/Ballistics_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_BALLISTICS_NAME",
+                eurekaSummary: "TXT_KEY_TECH_BALLISTICS_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_BALLISTICS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_BALLISTICS_QUOTE1",
+                    "TXT_KEY_TECH_BALLISTICS_QUOTE2"
+                ],
+                era: .industrial,
+                cost: 840,
+                required: [.metalCasting],
+                flavors: [
+                    Flavor(type: .ranged, value: 5),
+                    Flavor(type: .offense, value: 5)
+                ]
+            )
+
+        case .militaryScience:
+            // https://civilization.fandom.com/wiki/Military_Science_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_MILITARY_SCIENCE_NAME",
+                eurekaSummary: "TXT_KEY_TECH_MILITARY_SCIENCE_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_MILITARY_SCIENCE_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_MILITARY_SCIENCE_QUOTE1",
+                    "TXT_KEY_TECH_MILITARY_SCIENCE_QUOTE2"
+                ],
+                era: .industrial,
+                cost: 845,
+                required: [.printing, .siegeTactics],
+                flavors: [
+                    Flavor(type: .offense, value: 7)
+                ]
+            )
+
+        case .steamPower:
+            // https://civilization.fandom.com/wiki/Steam_Power_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_STEAM_POWER_NAME",
+                eurekaSummary: "TXT_KEY_TECH_STEAM_POWER_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_STEAM_POWER_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_STEAM_POWER_QUOTE1",
+                    "TXT_KEY_TECH_STEAM_POWER_QUOTE2"
+                ],
+                era: .industrial,
+                cost: 805,
+                required: [.industrialization, .squareRigging],
+                flavors: [
+                    Flavor(type: .mobile, value: 5),
+                    Flavor(type: .offense, value: 2),
+                    Flavor(type: .navalGrowth, value: 3)
+                ]
+            )
+
+        case .sanitation:
+            // https://civilization.fandom.com/wiki/Sanitation_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_SANITATION_NAME",
+                eurekaSummary: "TXT_KEY_TECH_SANITATION_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_SANITATION_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_SANITATION_QUOTE1",
+                    "TXT_KEY_TECH_SANITATION_QUOTE2"
+                ],
+                era: .industrial,
+                cost: 805,
+                required: [.scientificTheory],
+                flavors: [
+                    Flavor(type: .growth, value: 5)
+                ]
+            )
+
+        case .economics:
+            // https://civilization.fandom.com/wiki/Economics_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_ECONOMICS_NAME",
+                eurekaSummary: "TXT_KEY_TECH_ECONOMICS_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_ECONOMICS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_ECONOMICS_QUOTE1",
+                    "TXT_KEY_TECH_ECONOMICS_QUOTE2"
+                ],
+                era: .industrial,
+                cost: 805,
+                required: [.metalCasting, .scientificTheory],
+                flavors: [
+                    Flavor(type: .wonder, value: 5)
+                ]
+            )
+
+        case .rifling:
+            // https://civilization.fandom.com/wiki/Rifling_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_RIFLING_NAME",
+                eurekaSummary: "TXT_KEY_TECH_RIFLING_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_RIFLING_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_RIFLING_QUOTE1",
+                    "TXT_KEY_TECH_RIFLING_QUOTE2"
+                ],
+                era: .industrial,
+                cost: 970,
+                required: [.ballistics, .militaryScience],
+                flavors: [
+                    Flavor(type: .offense, value: 5)
+                ]
+            )
+
+            // /////////////////////////////////
             // modern
+
         case .flight:
             return TechTypeData(name: "Flight",
                                 eurekaSummary: "Build an Industrial era or later wonder",
@@ -1055,7 +1221,9 @@ public enum TechType: String, Codable {
                                 required: [.steel, .rifling],
                                 flavors: [Flavor(type: .offense, value: 4), Flavor(type: .wonder, value: 3) ])
 
+            // /////////////////////////////////
             // atomic
+
         case .advancedFlight:
             return TechTypeData(name: "Advanced Flight",
                                 eurekaSummary: "Build 3 Biplanes",
@@ -1129,7 +1297,9 @@ public enum TechType: String, Codable {
                                 required: [.plastics],
                                 flavors: [Flavor(type: .gold, value: 4), Flavor(type: .offense, value: 2)])
 
+            // /////////////////////////////////
             // information
+
         case .telecommunications:
             return TechTypeData(name: "Telecommunications",
                                 eurekaSummary: "Build 2 Broadcast Centers",
@@ -1212,7 +1382,9 @@ public enum TechType: String, Codable {
                                 required: [.composites],
                                 flavors: [Flavor(type: .science, value: 3)])
 
+            // /////////////////////////////////
             // future
+
         case .futureTech:
             return TechTypeData(name: "Future Tech",
                                 eurekaSummary: "---",
