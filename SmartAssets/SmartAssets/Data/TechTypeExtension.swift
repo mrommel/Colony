@@ -97,7 +97,7 @@ extension TechType {
         case .electricity: return "tech-default"
         case .radio: return "tech-default"
         case .chemistry: return "tech-default"
-        case .combustrion: return "tech-default"
+        case .combustion: return "tech-default"
 
             // atomic
         case .advancedFlight: return "tech-default"
@@ -198,7 +198,7 @@ extension TechType {
         case .electricity:          return IndexPath(item: -1, section: -1)
         case .radio:                return IndexPath(item: -1, section: -1)
         case .chemistry:            return IndexPath(item: -1, section: -1)
-        case .combustrion:          return IndexPath(item: -1, section: -1)
+        case .combustion:           return IndexPath(item: -1, section: -1)
         case .advancedFlight:       return IndexPath(item: -1, section: -1)
         case .rocketry:             return IndexPath(item: -1, section: -1)
         case .advancedBallistics:   return IndexPath(item: -1, section: -1)

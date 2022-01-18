@@ -85,7 +85,7 @@ public enum TechType: String, Codable {
     case electricity
     case radio
     case chemistry
-    case combustrion
+    case combustion
 
     // atomic
     case advancedFlight
@@ -128,7 +128,7 @@ public enum TechType: String, Codable {
             .industrialization, .scientificTheory, .ballistics, .militaryScience, .steamPower, .sanitation, .economics, .rifling,
 
             // modern
-            .flight, .replaceableParts, .steel, .refining, .electricity, .radio, .chemistry, .combustrion,
+            .flight, .replaceableParts, .steel, .refining, .electricity, .radio, .chemistry, .combustion,
 
             // atomic
             .advancedFlight, .rocketry, .advancedBallistics, .combinedArms, .plastics, .computers, .nuclearFission, .syntheticMaterials,
@@ -1150,250 +1150,492 @@ public enum TechType: String, Codable {
             // modern
 
         case .flight:
-            return TechTypeData(name: "Flight",
-                                eurekaSummary: "Build an Industrial era or later wonder",
-                                eurekaDescription: "Having completed a modern wonder, our engineers are sure they can tackle anything. What, are they thinking of flying next?",
-                                quoteTexts: [],
-                                era: .modern,
-                                cost: 900, required: [.industrialization, .scientificTheory],
-                                flavors: [Flavor(type: .mobile, value: 5)])
+            // https://civilization.fandom.com/wiki/Flight_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_FLIGHT_NAME",
+                eurekaSummary: "TXT_KEY_TECH_FLIGHT_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_FLIGHT_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_FLIGHT_QUOTE1",
+                    "TXT_KEY_TECH_FLIGHT_QUOTE2"
+                ],
+                era: .modern,
+                cost: 900, required: [.industrialization, .scientificTheory],
+                flavors: [
+                    Flavor(type: .mobile, value: 5)
+                ]
+            )
+            
         case .replaceableParts:
-            return TechTypeData(name: "Replaceable Parts",
-                                eurekaSummary: "Own 3 Musketmen",
-                                eurekaDescription: "Your armament makers are tired of having to hand craft so many muskets.  Perhaps some standardization would help?",
-                                quoteTexts: [],
-                                era: .modern,
-                                cost: 1250,
-                                required: [.economics],
-                                flavors: [Flavor(type: .offense, value: 5), Flavor(type: .gold, value: 3), Flavor(type: .production, value: 3) ])
+            // https://civilization.fandom.com/wiki/Replaceable_Parts_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_REPLACEABLE_PARTS_NAME",
+                eurekaSummary: "TXT_KEY_TECH_REPLACEABLE_PARTS_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_REPLACEABLE_PARTS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_REPLACEABLE_PARTS_QUOTE1",
+                    "TXT_KEY_TECH_REPLACEABLE_PARTS_QUOTE2"
+                ],
+                era: .modern,
+                cost: 1250,
+                required: [.economics],
+                flavors: [
+                    Flavor(type: .offense, value: 5),
+                    Flavor(type: .gold, value: 3),
+                    Flavor(type: .production, value: 3)
+                ]
+            )
+
         case .steel:
-            return TechTypeData(name: "Steel",
-                                eurekaSummary: "Build a Coal Mine",
-                                eurekaDescription: "Your coal-powered blast furnaces should soon allow us to produce the finest-grade steel.",
-                                quoteTexts: [],
-                                era: .modern,
-                                cost: 1140,
-                                required: [.rifling],
-                                flavors: [Flavor(type: .ranged, value: 5), Flavor(type: .wonder, value: 3) ])
+            // https://civilization.fandom.com/wiki/Steel_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_STEEL_NAME",
+                eurekaSummary: "TXT_KEY_TECH_STEEL_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_STEEL_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_STEEL_QUOTE1",
+                    "TXT_KEY_TECH_STEEL_QUOTE2"
+                ],
+                era: .modern,
+                cost: 1140,
+                required: [.rifling],
+                flavors: [
+                    Flavor(type: .ranged, value: 5),
+                    Flavor(type: .wonder, value: 3)
+                ]
+            )
+
         case .refining:
-            return TechTypeData(name: "Refining",
-                                eurekaSummary: "Build 2 Coal Power Plants",
-                                eurekaDescription: "",
-                                quoteTexts: [],
-                                era: .modern,
-                                cost: 1250,
-                                required: [.rifling],
-                                flavors: [Flavor(type: .navalGrowth, value: 5), Flavor(type: .tileImprovement, value: 3) ])
+            // https://civilization.fandom.com/wiki/Refining_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_REFINING_NAME",
+                eurekaSummary: "TXT_KEY_TECH_REFINING_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_REFINING_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_REFINING_QUOTE1"
+                ],
+                era: .modern,
+                cost: 1250,
+                required: [.rifling],
+                flavors: [
+                    Flavor(type: .navalGrowth, value: 5),
+                    Flavor(type: .tileImprovement, value: 3)
+                ]
+            )
+
         case .electricity:
-            return TechTypeData(name: "Electricity",
-                                eurekaSummary: "Own 3 Privateers",
-                                eurekaDescription: "Your crafty privateers are intrigued by the discovery of electric current. Could they use this to create stealthy propulsion?",
-                                quoteTexts: [],
-                                era: .modern,
-                                cost: 985,
-                                required: [.steamPower],
-                                flavors: [Flavor(type: .navalGrowth, value: 5), Flavor(type: .energy, value: 3) ])
+            // https://civilization.fandom.com/wiki/Electricity_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_ELECTRICITY_NAME",
+                eurekaSummary: "TXT_KEY_TECH_ELECTRICITY_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_ELECTRICITY_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_ELECTRICITY_QUOTE1",
+                    "TXT_KEY_TECH_ELECTRICITY_QUOTE2"
+                ],
+                era: .modern,
+                cost: 985,
+                required: [.steamPower],
+                flavors: [
+                    Flavor(type: .navalGrowth, value: 5),
+                    Flavor(type: .energy, value: 3)
+                ]
+            )
+
         case .radio:
-            return TechTypeData(name: "Radio",
-                                eurekaSummary: "Build a National Park",
-                                eurekaDescription: "Your new national park needs visitors. Perhaps a new form of communications will help advertise it?",
-                                quoteTexts: [],
-                                era: .modern,
-                                cost: 985,
-                                required: [.flight, .steamPower],
-                                flavors: [Flavor(type: .expansion, value: 3)])
+            // https://civilization.fandom.com/wiki/Radio_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_RADIO_NAME",
+                eurekaSummary: "TXT_KEY_TECH_RADIO_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_RADIO_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_RADIO_QUOTE1",
+                    "TXT_KEY_TECH_RADIO_QUOTE2"
+                ],
+                era: .modern,
+                cost: 985,
+                required: [.flight, .steamPower],
+                flavors: [
+                    Flavor(type: .expansion, value: 3)
+                ]
+            )
+
         case .chemistry:
-            return TechTypeData(name: "Chemistry",
-                                eurekaSummary: "Complete a Research Agreement.",
-                                eurekaDescription: "Joining forces with other nations has started a chain reaction of scientific advances.  Will the next push be in chemistry?",
-                                quoteTexts: [],
-                                era: .modern,
-                                cost: 985,
-                                required: [.sanitation],
-                                flavors: [Flavor(type: .growth, value: 4), Flavor(type: .science, value: 5)])
-        case .combustrion:
-            return TechTypeData(name: "Combustion",
-                                eurekaSummary: "Extract an Artifact.",
-                                eurekaDescription: "Your archaeologist has noticed petroleum seeping out of the rocks. Perhaps your geologists would like to take a look?",
-                                quoteTexts: [],
-                                era: .modern,
-                                cost: 1250,
-                                required: [.steel, .rifling],
-                                flavors: [Flavor(type: .offense, value: 4), Flavor(type: .wonder, value: 3) ])
+            // https://civilization.fandom.com/wiki/Chemistry_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_CHEMISTRY_NAME",
+                eurekaSummary: "TXT_KEY_TECH_CHEMISTRY_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_CHEMISTRY_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_CHEMISTRY_QUOTE1",
+                    "TXT_KEY_TECH_CHEMISTRY_QUOTE2"
+                ],
+                era: .modern,
+                cost: 985,
+                required: [.sanitation],
+                flavors: [
+                    Flavor(type: .growth, value: 4),
+                    Flavor(type: .science, value: 5)
+                ]
+            )
+
+        case .combustion:
+            // https://civilization.fandom.com/wiki/Combustion_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_COMBUSTION_NAME",
+                eurekaSummary: "TXT_KEY_TECH_COMBUSTION_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_COMBUSTION_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_COMBUSTION_QUOTE1",
+                    "TXT_KEY_TECH_COMBUSTION_QUOTE2"
+                ],
+                era: .modern,
+                cost: 1250,
+                required: [.steel, .rifling],
+                flavors: [
+                    Flavor(type: .offense, value: 4),
+                    Flavor(type: .wonder, value: 3)
+                ]
+            )
 
             // /////////////////////////////////
             // atomic
 
         case .advancedFlight:
-            return TechTypeData(name: "Advanced Flight",
-                                eurekaSummary: "Build 3 Biplanes",
-                                eurekaDescription: "Your extensive experience with biplanes has led to several aeronautic breakthroughs.",
-                                quoteTexts: [],
-                                era: .atomic,
-                                cost: 1065,
-                                required: [.radio],
-                                flavors: [Flavor(type: .offense, value: 4) ])
+            // https://civilization.fandom.com/wiki/Advanced_Flight_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_ADVANCED_FLIGHT_NAME",
+                eurekaSummary: "TXT_KEY_TECH_ADVANCED_FLIGHT_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_ADVANCED_FLIGHT_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_ADVANCED_FLIGHT_QUOTE1",
+                    "TXT_KEY_TECH_ADVANCED_FLIGHT_QUOTE2"
+                ],
+                era: .atomic,
+                cost: 1065,
+                required: [.radio],
+                flavors: [
+                    Flavor(type: .offense, value: 4)
+                ]
+            )
+
         case .rocketry:
-            return TechTypeData(name: "Rocketry",
-                                eurekaSummary: "Boost through Great Scientist or Spy",
-                                eurekaDescription: "",
-                                quoteTexts: [],
-                                era: .atomic,
-                                cost: 1065,
-                                required: [.radio, .chemistry],
-                                flavors: [Flavor(type: .science, value: 5)])
+            // https://civilization.fandom.com/wiki/Rocketry_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_ROCKETRY_NAME",
+                eurekaSummary: "TXT_KEY_TECH_ROCKETRY_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_ROCKETRY_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_ROCKETRY_QUOTE1",
+                    "TXT_KEY_TECH_ROCKETRY_QUOTE2"
+                ],
+                era: .atomic,
+                cost: 1065,
+                required: [.radio, .chemistry],
+                flavors: [
+                    Flavor(type: .science, value: 5)
+                ]
+            )
+
         case .advancedBallistics:
-            return TechTypeData(name: "Advanced Ballistics",
-                                eurekaSummary: "Build 2 Power Plants",
-                                eurekaDescription: "Development of new power plants has spurred on industrial advances that could help your armament production.",
-                                quoteTexts: [],
-                                era: .information,
-                                cost: 1410,
-                                required: [.replaceableParts, .steel],
-                                flavors: [Flavor(type: .offense, value: 5), Flavor(type: .defense, value: 5)])
+            // https://civilization.fandom.com/wiki/Advanced_Ballistics_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_ADVANCED_BALLISTICS_NAME",
+                eurekaSummary: "TXT_KEY_TECH_ADVANCED_BALLISTICS_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_ADVANCED_BALLISTICS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_ADVANCED_BALLISTICS_QUOTE1",
+                    "TXT_KEY_TECH_ADVANCED_BALLISTICS_QUOTE2"
+                ],
+                era: .information,
+                cost: 1410,
+                required: [.replaceableParts, .steel],
+                flavors: [
+                    Flavor(type: .offense, value: 5),
+                    Flavor(type: .defense, value: 5)
+                ]
+            )
+
         case .combinedArms:
-            return TechTypeData(name: "Combined Arms",
-                                eurekaSummary: "Build an Airstrip",
-                                eurekaDescription: "Now that you know how to build portable airstrips on land, why not try one at sea?",
-                                quoteTexts: [],
-                                era: .information,
-                                cost: 1480,
-                                required: [.steel],
-                                flavors: [Flavor(type: .navalGrowth, value: 5) ])
+            // https://civilization.fandom.com/wiki/Combined_Arms_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_COMBINED_ARMS_NAME",
+                eurekaSummary: "TXT_KEY_TECH_COMBINED_ARMS_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_COMBINED_ARMS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_COMBINED_ARMS_QUOTE1",
+                    "TXT_KEY_TECH_COMBINED_ARMS_QUOTE2"
+                ],
+                era: .information,
+                cost: 1480,
+                required: [.steel],
+                flavors: [
+                    Flavor(type: .navalGrowth, value: 5)
+                ]
+            )
+
         case .plastics:
-            return TechTypeData(name: "Plastics",
-                                eurekaSummary: "Build an Oil Well",
-                                eurekaDescription: "Having a source of petrochemicals should lead to many advances. Its plasticity is of particular interest.",
-                                quoteTexts: [],
-                                era: .information,
-                                cost: 1065,
-                                required: [.combustrion],
-                                flavors: [Flavor(type: .offense, value: 5), Flavor(type: .navalTileImprovement, value: 4) ])
+            // https://civilization.fandom.com/wiki/Plastics_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_PLASTICS_NAME",
+                eurekaSummary: "TXT_KEY_TECH_PLASTICS_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_PLASTICS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_PLASTICS_QUOTE1",
+                    "TXT_KEY_TECH_PLASTICS_QUOTE2"
+                ],
+                era: .information,
+                cost: 1065,
+                required: [.combustion],
+                flavors: [
+                    Flavor(type: .offense, value: 5),
+                    Flavor(type: .navalTileImprovement, value: 4)
+                ]
+            )
+
         case .computers:
-            return TechTypeData(name: "Computers",
-                                eurekaSummary: "Have a government with 8 policy slots",
-                                eurekaDescription: "A modern government comes with a lot of bureaucracy. Developing ways to efficiently track data will be a huge help.",
-                                quoteTexts: [],
-                                era: .atomic,
-                                cost: 1195,
-                                required: [.electricity, .radio],
-                                flavors: [Flavor(type: .growth, value: 2), Flavor(type: .science, value: 4), Flavor(type: .diplomacy, value: 5)])
+            // https://civilization.fandom.com/wiki/Computers_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_COMPUTERS_NAME",
+                eurekaSummary: "TXT_KEY_TECH_COMPUTERS_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_COMPUTERS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_COMPUTERS_QUOTE1",
+                    "TXT_KEY_TECH_COMPUTERS_QUOTE2"
+                ],
+                era: .atomic,
+                cost: 1195,
+                required: [.electricity, .radio],
+                flavors: [
+                    Flavor(type: .growth, value: 2),
+                    Flavor(type: .science, value: 4),
+                    Flavor(type: .diplomacy, value: 5)
+                ]
+            )
+
         case .nuclearFission:
-            return TechTypeData(name: "Nuclear Fission",
-                                eurekaSummary: "Boost through Great Scientist or Spy",
-                                eurekaDescription: "",
-                                quoteTexts: [],
-                                era: .atomic,
-                                cost: 1195,
-                                required: [.combinedArms, .advancedBallistics],
-                                flavors: [Flavor(type: .energy, value: 5) ])
+            // https://civilization.fandom.com/wiki/Nuclear_Fission_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_NUCLEAR_FISSION_NAME",
+                eurekaSummary: "TXT_KEY_TECH_NUCLEAR_FISSION_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_NUCLEAR_FISSION_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_NUCLEAR_FISSION_QUOTE1",
+                    "TXT_KEY_TECH_NUCLEAR_FISSION_QUOTE2"
+                ],
+                era: .atomic,
+                cost: 1195,
+                required: [.combinedArms, .advancedBallistics],
+                flavors: [
+                    Flavor(type: .energy, value: 5)
+                ]
+            )
+
         case .syntheticMaterials:
-            return TechTypeData(name: "Synthetic Materials",
-                                eurekaSummary: "Build 2 Aerodromes",
-                                eurekaDescription: "With facilities for aircrafts in multiple cities, your aeronautic industry is taking off.",
-                                quoteTexts: [],
-                                era: .atomic,
-                                cost: 1195,
-                                required: [.plastics],
-                                flavors: [Flavor(type: .gold, value: 4), Flavor(type: .offense, value: 2)])
+            // https://civilization.fandom.com/wiki/Synthetic_Materials_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_SYNTHETIC_MATERIALS_NAME",
+                eurekaSummary: "TXT_KEY_TECH_SYNTHETIC_MATERIALS_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_SYNTHETIC_MATERIALS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_SYNTHETIC_MATERIALS_QUOTE1",
+                    "TXT_KEY_TECH_SYNTHETIC_MATERIALS_QUOTE2"
+                ],
+                era: .atomic,
+                cost: 1195,
+                required: [.plastics],
+                flavors: [
+                    Flavor(type: .gold, value: 4),
+                    Flavor(type: .offense, value: 2)
+                ]
+            )
 
             // /////////////////////////////////
             // information
 
         case .telecommunications:
-            return TechTypeData(name: "Telecommunications",
-                                eurekaSummary: "Build 2 Broadcast Centers",
-                                eurekaDescription: "With your pioneers in radio and television leading the way, you’ve grown adept at transmitting data quickly.",
-                                quoteTexts: [],
-                                era: .information,
-                                cost: 1340,
-                                required: [.computers],
-                                flavors: [Flavor(type: .offense, value: 3)])
+            // https://civilization.fandom.com/wiki/Telecommunications_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_TELECOMMUNICATIONS_NAME",
+                eurekaSummary: "TXT_KEY_TECH_TELECOMMUNICATIONS_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_TELECOMMUNICATIONS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_TELECOMMUNICATIONS_QUOTE1",
+                    "TXT_KEY_TECH_TELECOMMUNICATIONS_QUOTE2"
+                ],
+                era: .information,
+                cost: 1340,
+                required: [.computers],
+                flavors: [
+                    Flavor(type: .offense, value: 3)
+                ]
+            )
+
         case .satellites:
-            return TechTypeData(name: "Satellites",
-                                eurekaSummary: "Boost through Great Scientist or Spy",
-                                eurekaDescription: "",
-                                quoteTexts: [],
-                                era: .information,
-                                cost: 1340,
-                                required: [.advancedFlight, .rocketry],
-                                flavors: [Flavor(type: .science, value: 3), Flavor(type: .expansion, value: 3)])
+            // https://civilization.fandom.com/wiki/Satellites_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_SATELLITES_NAME",
+                eurekaSummary: "TXT_KEY_TECH_SATELLITES_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_SATELLITES_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_SATELLITES_QUOTE1",
+                    "TXT_KEY_TECH_SATELLITES_QUOTE2"
+                ],
+                era: .information,
+                cost: 1340,
+                required: [.advancedFlight, .rocketry],
+                flavors: [
+                    Flavor(type: .science, value: 3),
+                    Flavor(type: .expansion, value: 3)
+                ]
+            )
+
         case .guidanceSystems:
-            return TechTypeData(name: "Guidance Systems",
-                                eurekaSummary: "Kill a Fighter",
-                                eurekaDescription: "Your military has defeated an enemy plane. Now it is time to have the best defense against enemy aircraft.",
-                                quoteTexts: [],
-                                era: .information,
-                                cost: 1580,
-                                required: [.rocketry, .advancedBallistics],
-                                flavors: [Flavor(type: .offense, value: 5) ])
+            // https://civilization.fandom.com/wiki/Guidance_Systems_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_GUIDANCE_SYSTEMS_NAME",
+                eurekaSummary: "TXT_KEY_TECH_GUIDANCE_SYSTEMS_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_GUIDANCE_SYSTEMS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_GUIDANCE_SYSTEMS_QUOTE1",
+                    "TXT_KEY_TECH_GUIDANCE_SYSTEMS_QUOTE2"
+                ],
+                era: .information,
+                cost: 1580,
+                required: [.rocketry, .advancedBallistics],
+                flavors: [
+                    Flavor(type: .offense, value: 5)
+                ]
+            )
+
         case .lasers:
-            return TechTypeData(name: "Lasers",
-                                eurekaSummary: "Boost through Great Scientist or Spy.",
-                                eurekaDescription: "",
-                                quoteTexts: [],
-                                era: .information,
-                                cost: 1340,
-                                required: [.nuclearFission],
-                                flavors: [Flavor(type: .navalGrowth, value: 5) ])
+            // https://civilization.fandom.com/wiki/Lasers_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_LASERS_NAME",
+                eurekaSummary: "TXT_KEY_TECH_LASERS_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_LASERS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_LASERS_QUOTE1",
+                    "TXT_KEY_TECH_LASERS_QUOTE2"
+                ],
+                era: .information,
+                cost: 1340,
+                required: [.nuclearFission],
+                flavors: [
+                    Flavor(type: .navalGrowth, value: 5)
+                ]
+            )
+
         case .composites:
-            return TechTypeData(name: "Composites",
-                                eurekaSummary: "Own 3 Tanks",
-                                eurekaDescription: "Tanks have been the backbone of your army so your scientists are striving for a more advanced model.",
-                                quoteTexts: [],
-                                era: .information,
-                                cost: 1340,
-                                required: [.syntheticMaterials],
-                                flavors: [Flavor(type: .offense, value: 6)])
+            // https://civilization.fandom.com/wiki/Composites_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_COMPOSITES_NAME",
+                eurekaSummary: "TXT_KEY_TECH_COMPOSITES_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_COMPOSITES_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_COMPOSITES_QUOTE1",
+                    "TXT_KEY_TECH_COMPOSITES_QUOTE2"
+                ],
+                era: .information,
+                cost: 1340,
+                required: [.syntheticMaterials],
+                flavors: [
+                    Flavor(type: .offense, value: 6)
+                ]
+            )
+
         case .stealthTechnology:
-            return TechTypeData(name: "Stealth Technology",
-                                eurekaSummary: "Boost through Great Scientist or Spy",
-                                eurekaDescription: "",
-                                quoteTexts: [],
-                                era: .information,
-                                cost: 1340,
-                                required: [.syntheticMaterials],
-                                flavors: [Flavor(type: .offense, value: 3)])
+            // https://civilization.fandom.com/wiki/Stealth_Technology_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_STEALTH_TECHNOLOGY_NAME",
+                eurekaSummary: "TXT_KEY_TECH_STEALTH_TECHNOLOGY_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_STEALTH_TECHNOLOGY_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_STEALTH_TECHNOLOGY_QUOTE1",
+                    "TXT_KEY_TECH_STEALTH_TECHNOLOGY_QUOTE2"
+                ],
+                era: .information,
+                cost: 1340,
+                required: [.syntheticMaterials],
+                flavors: [
+                    Flavor(type: .offense, value: 3)
+                ]
+            )
+
         case .robotics:
-            return TechTypeData(name: "Robotics",
-                                eurekaSummary: "Have the Globalization civic.",
-                                eurekaDescription: "Having a diverse set of metals to experiment on will help your scientists push into new fields.",
-                                quoteTexts: [],
-                                era: .information,
-                                cost: 1560,
-                                required: [.computers],
-                                flavors: [Flavor(type: .production, value: 3), Flavor(type: .offense, value: 3) ])
+            // https://civilization.fandom.com/wiki/Robotics_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_ROBOTICS_NAME",
+                eurekaSummary: "TXT_KEY_TECH_ROBOTICS_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_ROBOTICS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_ROBOTICS_QUOTE1",
+                    "TXT_KEY_TECH_ROBOTICS_QUOTE2"
+                ],
+                era: .information,
+                cost: 1560,
+                required: [.computers],
+                flavors: [
+                    Flavor(type: .production, value: 3),
+                    Flavor(type: .offense, value: 3)
+                ]
+            )
+
         case .nuclearFusion:
-            return TechTypeData(name: "Nuclear Fusion",
-                                eurekaSummary: "Boost through Great Scientist or Spy",
-                                eurekaDescription: "",
-                                quoteTexts: [],
-                                era: .information,
-                                cost: 1560,
-                                required: [.lasers],
-                                flavors: [Flavor(type: .energy, value: 3) ])
+            // https://civilization.fandom.com/wiki/Nuclear_Fusion_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_NUCLEAR_FUSION_NAME",
+                eurekaSummary: "TXT_KEY_TECH_NUCLEAR_FUSION_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_NUCLEAR_FUSION_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_NUCLEAR_FUSION_QUOTE1",
+                    "TXT_KEY_TECH_NUCLEAR_FUSION_QUOTE2"
+                ],
+                era: .information,
+                cost: 1560,
+                required: [.lasers],
+                flavors: [
+                    Flavor(type: .energy, value: 3)
+                ]
+            )
+
         case .nanotechnology:
-            return TechTypeData(name: "Nanotechnology",
-                                eurekaSummary: "Build an Aluminum Mine",
-                                eurekaDescription: "Having a diverse set of metals to experiment on will help your scientists push into new fields.",
-                                quoteTexts: [],
-                                era: .information,
-                                cost: 1560,
-                                required: [.composites],
-                                flavors: [Flavor(type: .science, value: 3)])
+            // https://civilization.fandom.com/wiki/Nanotechnology_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_NANOTECHNOLOGY_NAME",
+                eurekaSummary: "TXT_KEY_TECH_NANOTECHNOLOGY_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_NANOTECHNOLOGY_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_NANOTECHNOLOGY_QUOTE1",
+                    "TXT_KEY_TECH_NANOTECHNOLOGY_QUOTE2"
+                ],
+                era: .information,
+                cost: 1560,
+                required: [.composites],
+                flavors: [
+                    Flavor(type: .science, value: 3)
+                ]
+            )
 
             // /////////////////////////////////
             // future
 
         case .futureTech:
-            return TechTypeData(name: "Future Tech",
-                                eurekaSummary: "---",
-                                eurekaDescription: "",
-                                quoteTexts: [],
-                                era: .future,
-                                cost: 1780,
-                                required: [.robotics, .nuclearFusion],
-                                flavors: [])
+            // https://civilization.fandom.com/wiki/Future_Tech_(Civ6)
+            return TechTypeData(
+                name: "TXT_KEY_TECH_FUTURE_TECH_NAME",
+                eurekaSummary: "TXT_KEY_TECH_FUTURE_TECH_EUREKA",
+                eurekaDescription: "TXT_KEY_TECH_FUTURE_TECH_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_TECH_FUTURE_TECH_QUOTE1",
+                    "TXT_KEY_TECH_FUTURE_TECH_QUOTE2"
+                ],
+                era: .future,
+                cost: 1780,
+                required: [.robotics, .nuclearFusion],
+                flavors: [
+                ]
+            )
         }
     }
 }

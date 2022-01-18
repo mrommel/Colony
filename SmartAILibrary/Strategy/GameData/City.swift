@@ -259,7 +259,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func scratch() -> Int
 }
 
-class LeaderWeightList: WeightedList<LeaderType> {
+public class LeaderWeightList: WeightedList<LeaderType> {
 
     override func fill() {
 
