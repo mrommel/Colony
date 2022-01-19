@@ -154,7 +154,7 @@ public class BottomLeftBarViewModel: ObservableObject {
             }
         }
 
-        self.buttonViewModel.playAnimation(images: self.globeImages, interval: 0.07)
+        self.buttonViewModel.playAnimation(images: self.globeImages, interval: 0.07, loop: true)
         self.currentButtonNotificationType = .generic
     }
 

@@ -115,13 +115,13 @@ class AnimatedImageViewModel: ObservableObject {
                     self.iteration += 1
                 }
 
-                if !idle {
-                    idle = true
+                if !self.idle {
+                    self.idle = true
                 }
             }
         }
 
-        if !self.loop && idle && self.iteration == self.iterations {
+        if !self.loop && self.idle && self.iteration == self.iterations {
             timer.invalidate()
         }
     }

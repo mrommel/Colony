@@ -79,7 +79,7 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                             continue
                         }
                     } else if self.movementType == .swim {
-                        if toTile.isWater() &&  toTile.isImpassable(for: .swim) {
+                        if toTile.isWater() && toTile.isImpassable(for: .swim) {
                             continue
                         }
                     }
@@ -154,9 +154,9 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                         if self.options.canEmbark && self.movementType == .walk {
 
                             if fromTile.isLand() && toTile.isWater() {
-                                embarkedMovementCosts = 2.0
+                                embarkedMovementCosts = 4.0
                             } else if fromTile.isWater() && toTile.isLand() {
-                                embarkedMovementCosts = 2.0
+                                embarkedMovementCosts = 4.0
                             } else {
                                 embarkedMovementCosts = toTile.movementCost(for: .swim, from: fromTile)
                             }
@@ -196,16 +196,15 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
             if self.options.canEmbark && self.movementType == .walk {
 
                 if fromTile.isLand() && toTile.isWater() {
-                    embarkedMovementCosts = 2.0
+                    embarkedMovementCosts = 4.0
                 } else if fromTile.isWater() && toTile.isLand() {
-                    embarkedMovementCosts = 2.0
+                    embarkedMovementCosts = 4.0
                 } else {
                     embarkedMovementCosts = toTile.movementCost(for: .swim, from: fromTile)
                 }
             }
 
             return min(normalMovementCosts, embarkedMovementCosts)
-            // return toTile.movementCost(for: self.movementType, from: fromTile)
         }
 
         return UnitMovementType.max

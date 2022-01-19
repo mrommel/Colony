@@ -19,7 +19,9 @@ class GameScene: BaseScene {
     private var viewHex: SKSpriteNode?
     var previousLocation: CGPoint = .zero
     var lastExecuted: TimeInterval = -1
-    let queue: DispatchQueue = DispatchQueue(label: "update_queue", qos: .background)
+    var lastUpdated: TimeInterval = -1
+    let backgroundQueue: DispatchQueue = DispatchQueue(label: "backgroundQueue", qos: .background)
+    let pathfinderQueue: DispatchQueue = DispatchQueue(label: "pathfinderQueue", qos: .background)
 
     // view model
     var viewModel: GameSceneViewModel?
@@ -95,7 +97,7 @@ class GameScene: BaseScene {
         }
 
         // only check once per 0.5 sec
-        if self.lastExecuted + 0.25 < currentTime {
+        if self.lastExecuted + 0.5 < currentTime {
 
             self.lastExecuted = currentTime
 
@@ -117,13 +119,13 @@ class GameScene: BaseScene {
 
                     if self.viewModel!.readyUpdatingHuman {
 
-                        // update all units strengthss
+                        // update all units strengths
                         for unit in gameModel.units(of: humanPlayer) {
                             self.mapNode?.unitLayer.update(unit: unit)
                         }
 
                         self.viewModel!.readyUpdatingHuman = false
-                        self.queue.async {
+                        self.backgroundQueue.async {
                             //print("-----------> before human processing")
                             gameModel.update()
                             //print("-----------> after human processing")
@@ -134,7 +136,7 @@ class GameScene: BaseScene {
                 } else {
 
                     self.viewModel!.readyUpdatingAI = false
-                    self.queue.async {
+                    self.backgroundQueue.async {
                         //print("-----------> before AI processing")
                         gameModel.update()
                         //print("-----------> after AI processing")
@@ -164,6 +166,15 @@ class GameScene: BaseScene {
                 self.mapNode?.set(mapLens: mapLens)
                 self.viewModel?.hideMapLens()
             }
+        }
+
+        // only update view models once per 5 sex
+        if self.lastUpdated + 2.0 < currentTime {
+
+            self.lastUpdated = currentTime
+
+            self.viewModel?.delegate?.updateStates()
+            self.viewModel?.refreshCities = true
         }
     }
 
@@ -348,22 +359,40 @@ extension GameScene {
 
             if position != selectedUnit.location {
 
-                let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = self.viewModel?.game?.unitAwarePathfinderDataSource(
-                    for: selectedUnit.movementType(),
-                    for: selectedUnit.player,
-                    unitMapType: selectedUnit.unitMapType(),
-                    canEmbark: selectedUnit.canEverEmbark()
-                )
+                self.pathfinderQueue.async {
+                    let pathFinder = AStarPathfinder()
+                    pathFinder.dataSource = self.viewModel?.game?.unitAwarePathfinderDataSource(
+                        for: selectedUnit.movementType(),
+                        for: selectedUnit.player,
+                        unitMapType: selectedUnit.unitMapType(),
+                        canEmbark: selectedUnit.canEverEmbark()
+                    )
 
-                // update
-                self.updateCommands(for: selectedUnit)
+                    if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: position) {
 
-                if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: position) {
-                    path.prepend(point: selectedUnit.location, cost: 0.0)
-                    self.mapNode?.unitLayer.show(path: path, for: selectedUnit)
-                } else {
-                    self.mapNode?.unitLayer.clearPathSpriteBuffer()
+                        if path.contains(point: selectedUnit.location) {
+
+                            path.cropPoints(until: selectedUnit.location)
+                        } else {
+                            if !path.startsWith(point: selectedUnit.location) {
+                                path.prepend(point: selectedUnit.location, cost: 0.0)
+                            }
+                        }
+
+                        DispatchQueue.main.async {
+                            // update
+                            self.updateCommands(for: selectedUnit)
+
+                            self.mapNode?.unitLayer.show(path: path, for: selectedUnit)
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            // update
+                            self.updateCommands(for: selectedUnit)
+
+                            self.mapNode?.unitLayer.clearPathSpriteBuffer()
+                        }
+                    }
                 }
             }
 

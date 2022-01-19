@@ -24,6 +24,7 @@ protocol GameViewModelDelegate: AnyObject {
     var selectedUnit: AbstractUnit? { get set }
 
     func changeUITurnState(to state: GameSceneTurnState)
+    func updateStates()
 
     func focus(on point: HexPoint)
     func showUnitBanner()
@@ -580,11 +581,6 @@ extension GameViewModel: GameViewModelDelegate {
 
     func changeUITurnState(to state: GameSceneTurnState) {
 
-        // update state
-        self.bottomLeftBarViewModel.updateTurnButton()
-        self.topBarViewModel.update()
-        self.headerViewModel.update()
-
         guard state != self.uiTurnState else {
             return
         }
@@ -606,13 +602,6 @@ extension GameViewModel: GameViewModelDelegate {
             // hide AI is working banner
             self.bannerViewModel.hideBanner()
 
-            // update nodes
-            // self.topBarViewModel.update()
-            // self.headerViewModel.update()
-
-            // update
-            // self.updateLeaders()
-
         case .humanBlocked:
             // NOOP
 
@@ -622,6 +611,19 @@ extension GameViewModel: GameViewModelDelegate {
         }
 
         self.uiTurnState = state
+    }
+
+    func updateStates() {
+
+        // update state
+        self.bottomLeftBarViewModel.updateTurnButton()
+
+        // update nodes
+        self.topBarViewModel.update()
+        self.headerViewModel.update()
+
+        // update
+        // self.updateLeaders()
     }
 
     func showUnitBanner() {
@@ -1070,7 +1072,7 @@ extension GameViewModel: BottomLeftBarViewModelDelegate {
         case .unitPromotion(location: let location):
             self.handleUnitPromotion(at: location)
         case .unitNeedsOrders(location: let location):
-            self.handleFocusOnUnit()
+            self.handleFocusOnUnit(at: location)
         default:
             print("--- unhandled notification type: \(turnButtonNotificationType)")
         }
@@ -1097,14 +1099,28 @@ extension GameViewModel: BottomLeftBarViewModelDelegate {
         }
     }
 
-    func handleFocusOnUnit() {
+    func handleFocusOnUnit(at location: HexPoint) {
 
         guard let gameModel = self.gameEnvironment.game.value else {
             fatalError("cant get game")
         }
 
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
         if let unit = self.selectedUnit {
-            print("click on unit icon - \(unit.type)")
+            print("click on unit icon - \(unit.type) at \(location)")
+
+            if unit.location != location {
+                gameModel.userInterface?.unselect()
+
+                if let unit = humanPlayer.firstReadyUnit(in: gameModel) {
+
+                    self.selectedUnit = unit
+                    gameModel.userInterface?.select(unit: unit)
+                }
+            }
 
             if !unit.readyToSelect() {
                 gameModel.userInterface?.unselect()
@@ -1113,10 +1129,6 @@ extension GameViewModel: BottomLeftBarViewModelDelegate {
 
             self.focus(on: unit.location)
         } else {
-
-            guard let humanPlayer = gameModel.humanPlayer() else {
-                fatalError("cant get human")
-            }
 
             if let unit = humanPlayer.firstReadyUnit(in: gameModel) {
 

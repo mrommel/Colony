@@ -46,6 +46,7 @@ class UnitBannerViewModel: ObservableObject {
     private var unitImage: NSImage
 
     weak var delegate: GameViewModelDelegate?
+    private let backgroundQueue: DispatchQueue = DispatchQueue(label: "backgroundQueue", qos: .background)
 
     // MARK: constructors
 
@@ -219,7 +220,9 @@ class UnitBannerViewModel: ObservableObject {
                     cancel: "TXT_KEY_CANCEL".localized(),
                     completion: { newValue in
 
-                        selectedUnit.rename(to: newValue)
+                        self.backgroundQueue.async {
+                            selectedUnit.rename(to: newValue)
+                        }
                     }
                 )
             }
@@ -242,14 +245,20 @@ class UnitBannerViewModel: ObservableObject {
                     completion: { newValue in
 
                         let location = selectedUnit.location
-                        selectedUnit.doFound(with: newValue, in: gameModel)
-                        if cityName.localized() == newValue {
-                            player.registerBuild(cityName: cityName)
-                        }
-                        gameModel.userInterface?.unselect()
+                        self.backgroundQueue.async {
+                            selectedUnit.doFound(with: newValue, in: gameModel)
 
-                        if let city = gameModel.city(at: location) {
-                            gameModel.userInterface?.showScreen(screenType: .city, city: city, other: nil, data: nil)
+                            if cityName.localized() == newValue {
+                                player.registerBuild(cityName: cityName)
+                            }
+
+                            DispatchQueue.main.async {
+                                gameModel.userInterface?.unselect()
+
+                                if let city = gameModel.city(at: location) {
+                                    gameModel.userInterface?.showScreen(screenType: .city, city: city, other: nil, data: nil)
+                                }
+                            }
                         }
                     }
                 )
@@ -257,75 +266,101 @@ class UnitBannerViewModel: ObservableObject {
 
         case .buildFarm:
             if let selectedUnit = self.selectedUnit {
-                let farmBuildMission = UnitMission(type: .build, buildType: .farm, at: selectedUnit.location)
-                selectedUnit.push(mission: farmBuildMission, in: gameModel)
+                self.backgroundQueue.async {
+                    let farmBuildMission = UnitMission(type: .build, buildType: .farm, at: selectedUnit.location)
+                    selectedUnit.push(mission: farmBuildMission, in: gameModel)
+                }
             }
 
         case .buildMine:
             if let selectedUnit = self.selectedUnit {
-                let mineBuildMission = UnitMission(type: .build, buildType: .mine, at: selectedUnit.location)
-                selectedUnit.push(mission: mineBuildMission, in: gameModel)
+                self.backgroundQueue.async {
+                    let mineBuildMission = UnitMission(type: .build, buildType: .mine, at: selectedUnit.location)
+                    selectedUnit.push(mission: mineBuildMission, in: gameModel)
+                }
             }
 
         case .buildCamp:
             if let selectedUnit = self.selectedUnit {
-                let campBuildMission = UnitMission(type: .build, buildType: .camp, at: selectedUnit.location)
-                selectedUnit.push(mission: campBuildMission, in: gameModel)
+                self.backgroundQueue.async {
+                    let campBuildMission = UnitMission(type: .build, buildType: .camp, at: selectedUnit.location)
+                    selectedUnit.push(mission: campBuildMission, in: gameModel)
+                }
             }
 
         case .buildPasture:
             if let selectedUnit = self.selectedUnit {
-                let pastureBuildMission = UnitMission(type: .build, buildType: .pasture, at: selectedUnit.location)
-                selectedUnit.push(mission: pastureBuildMission, in: gameModel)
+                self.backgroundQueue.async {
+                    let pastureBuildMission = UnitMission(type: .build, buildType: .pasture, at: selectedUnit.location)
+                    selectedUnit.push(mission: pastureBuildMission, in: gameModel)
+                }
             }
 
         case .buildQuarry:
             if let selectedUnit = self.selectedUnit {
-                let quarryBuildMission = UnitMission(type: .build, buildType: .quarry, at: selectedUnit.location)
-                selectedUnit.push(mission: quarryBuildMission, in: gameModel)
+                self.backgroundQueue.async {
+                    let quarryBuildMission = UnitMission(type: .build, buildType: .quarry, at: selectedUnit.location)
+                    selectedUnit.push(mission: quarryBuildMission, in: gameModel)
+                }
             }
 
         case .buildPlantation:
             if let selectedUnit = self.selectedUnit {
-                let plantationBuildMission = UnitMission(type: .build, buildType: .plantation, at: selectedUnit.location)
-                selectedUnit.push(mission: plantationBuildMission, in: gameModel)
+                self.backgroundQueue.async {
+                    let plantationBuildMission = UnitMission(type: .build, buildType: .plantation, at: selectedUnit.location)
+                    selectedUnit.push(mission: plantationBuildMission, in: gameModel)
+                }
             }
 
         case .buildFishingBoats:
             if let selectedUnit = self.selectedUnit {
-                let fishingBuildMission = UnitMission(type: .build, buildType: .fishingBoats, at: selectedUnit.location)
-                selectedUnit.push(mission: fishingBuildMission, in: gameModel)
+                self.backgroundQueue.async {
+                    let fishingBuildMission = UnitMission(type: .build, buildType: .fishingBoats, at: selectedUnit.location)
+                    selectedUnit.push(mission: fishingBuildMission, in: gameModel)
+                }
             }
 
         case .removeFeature:
             if let selectedUnit = self.selectedUnit {
-                selectedUnit.doRemoveFeature(in: gameModel)
+                self.backgroundQueue.async {
+                    selectedUnit.doRemoveFeature(in: gameModel)
+                }
             }
 
         case .plantForest:
             if let selectedUnit = self.selectedUnit {
-                selectedUnit.doPlantForest(in: gameModel)
+                self.backgroundQueue.async {
+                    selectedUnit.doPlantForest(in: gameModel)
+                }
             }
 
         case .pillage:
             if let selectedUnit = self.selectedUnit {
-                selectedUnit.doPillage(in: gameModel)
+                self.backgroundQueue.async {
+                    selectedUnit.doPillage(in: gameModel)
+                }
             }
 
         case .fortify:
             if let selectedUnit = self.selectedUnit {
-                selectedUnit.doFortify(in: gameModel)
+                self.backgroundQueue.async {
+                    selectedUnit.doFortify(in: gameModel)
+                }
             }
 
         case .hold:
             if let selectedUnit = self.selectedUnit {
-                selectedUnit.set(activityType: .hold, in: gameModel)
-                //selectedUnit.finishMoves()
+                self.backgroundQueue.async {
+                    selectedUnit.set(activityType: .hold, in: gameModel)
+                    //selectedUnit.finishMoves()
+                }
             }
 
         case .garrison:
             if let selectedUnit = self.selectedUnit {
-                selectedUnit.doGarrison(in: gameModel)
+                self.backgroundQueue.async {
+                    selectedUnit.doGarrison(in: gameModel)
+                }
             }
 
         case .disband:
@@ -339,30 +374,40 @@ class UnitBannerViewModel: ObservableObject {
                     completion: { disband in
 
                     if disband {
-                        selectedUnit.doKill(delayed: false, by: nil, in: gameModel)
+                        self.backgroundQueue.async {
+                            selectedUnit.doKill(delayed: false, by: nil, in: gameModel)
+                        }
                     }
                 })
             }
 
         case .cancelOrder:
             if let selectedUnit = self.selectedUnit {
-                selectedUnit.doCancelOrder()
+                self.backgroundQueue.async {
+                    selectedUnit.doCancelOrder()
+                }
             }
         case .upgrade:
             if let selectedUnit = self.selectedUnit {
                 if let upgradeUnitType = selectedUnit.upgradeType() {
-                    selectedUnit.doUpgrade(to: upgradeUnitType, in: gameModel)
+                    self.backgroundQueue.async {
+                        selectedUnit.doUpgrade(to: upgradeUnitType, in: gameModel)
+                    }
                 }
             }
 
         case .automateExploration:
             if let selectedUnit = self.selectedUnit {
-                selectedUnit.automate(with: .explore)
+                self.backgroundQueue.async {
+                    selectedUnit.automate(with: .explore)
+                }
             }
 
         case .automateBuild:
             if let selectedUnit = self.selectedUnit {
-                selectedUnit.automate(with: .build)
+                self.backgroundQueue.async {
+                    selectedUnit.automate(with: .build)
+                }
             }
 
         case .establishTradeRoute:
@@ -377,8 +422,10 @@ class UnitBannerViewModel: ObservableObject {
                 gameModel.userInterface?.askForCity(start: originCity, of: cities, completion: { (target) in
 
                     if let targetCity = target {
-                        if !selectedUnit.doEstablishTradeRoute(to: targetCity, in: gameModel) {
-                            print("could not establish a trade route to \(targetCity.name)")
+                        self.backgroundQueue.async {
+                            if !selectedUnit.doEstablishTradeRoute(to: targetCity, in: gameModel) {
+                                print("could not establish a trade route to \(targetCity.name)")
+                            }
                         }
                     }
                 })
@@ -409,26 +456,30 @@ class UnitBannerViewModel: ObservableObject {
                     items: selectableItems,
                     completion: { selectedIndex in
 
-                    let religion = possibleReligions[selectedIndex]
-                    print("### selected religion: \(religion) ###")
+                        self.backgroundQueue.async {
+                            let religion = possibleReligions[selectedIndex]
+                            print("### selected religion: \(religion) ###")
 
-                    guard let player = self.selectedUnit?.player else {
-                        fatalError("cant get player")
-                    }
+                            guard let player = self.selectedUnit?.player else {
+                                fatalError("cant get player")
+                            }
 
-                    player.doFound(religion: religion, at: city, in: gameModel)
+                            player.doFound(religion: religion, at: city, in: gameModel)
 
-                    // first two beliefs still need to be selected
-                    gameModel.userInterface?.showScreen(
-                        screenType: .religion,
-                        city: nil,
-                        other: nil,
-                        data: nil
-                    )
+                            DispatchQueue.main.async {
+                                // first two beliefs still need to be selected
+                                gameModel.userInterface?.showScreen(
+                                    screenType: .religion,
+                                    city: nil,
+                                    other: nil,
+                                    data: nil
+                                )
+                            }
 
-                    // finally kill this great prophet
-                    selectedUnit.doKill(delayed: true, by: nil, in: gameModel)
-                })
+                            // finally kill this great prophet
+                            selectedUnit.doKill(delayed: true, by: nil, in: gameModel)
+                        }
+                    })
             }
 
         case .activateGreatPerson:
@@ -442,7 +493,9 @@ class UnitBannerViewModel: ObservableObject {
                     completion: { confirmed in
 
                         if confirmed {
-                            selectedUnit.activateGreatPerson(in: gameModel)
+                            self.backgroundQueue.async {
+                                selectedUnit.activateGreatPerson(in: gameModel)
+                            }
                         }
                     })
             }
@@ -476,9 +529,11 @@ class UnitBannerViewModel: ObservableObject {
                             fatalError("cant get city")
                         }
 
-                        selectedUnit.origin = selectedCity.location
-                        selectedUnit.doTransferToAnother(city: selectedCity, in: gameModel)
-                        selectedUnit.finishMoves()
+                        self.backgroundQueue.async {
+                            selectedUnit.origin = selectedCity.location
+                            selectedUnit.doTransferToAnother(city: selectedCity, in: gameModel)
+                            selectedUnit.finishMoves()
+                        }
                     }
                 )
             }
