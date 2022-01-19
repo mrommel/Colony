@@ -104,6 +104,10 @@
 "TXT_KEY_HANDICAP_IMMORTAL" = "Immortal";
 "TXT_KEY_HANDICAP_DEITY" = "Deity";
 
+// tooltip texts
+"TXT_KEY_MISC_DESTROYED_BARBARIAN_CAMP" = "You have captured a Barbarian Encampment and recovered %d Gold!";
+"TXT_KEY_MISC_CLEARING_FEATURE_RESOURCE" = "Clearing %@ has created %d [Production] for %@."; // feature, gold, cityname
+
 // Advisor texts
 "TXT_KEY_ECONOMICAISTRATEGY_NEED_RECON" = "We should continue exploring the world to discover abandoned villages, natural wonders, and other civilizations!";
 

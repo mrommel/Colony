@@ -10,6 +10,8 @@ import SmartAssets
 
 class TooltipNode: SKNode {
 
+    private static let tokenizer = LabelTokenizer()
+
     var backgroundNode: SKSpriteNode?
     var messageLabelNode: SKLabelNode?
 
@@ -26,7 +28,9 @@ class TooltipNode: SKNode {
         self.backgroundNode?.zPosition = self.zPosition + 1
         self.addChild(self.backgroundNode!)
 
-        self.messageLabelNode = SKLabelNode(text: text)
+        let attributedText = TooltipNode.tokenizer.convert(text: text)
+
+        self.messageLabelNode = SKLabelNode(attributedText: attributedText)
         self.messageLabelNode?.position = CGPoint(x: 0, y: 0)
         self.messageLabelNode?.zPosition = self.zPosition + 2
         self.messageLabelNode?.fontSize = 8

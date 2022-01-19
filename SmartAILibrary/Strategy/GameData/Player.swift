@@ -4234,11 +4234,6 @@ public class Player: AbstractPlayer {
 
             let numGold = gameModel.handicap.barbarianCampGold()
 
-            // Normal way to handle it
-            if self.isEqual(to: gameModel.humanPlayer()) {
-                gameModel.userInterface?.showTooltip(at: tile.point, text: "TXT_KEY_MISC_DESTROYED_BARBARIAN_CAMP", delay: 3.0)
-            }
-
             tile.set(improvement: .none)
 
             gameModel.doBarbCampCleared(at: tile.point)
@@ -4259,7 +4254,7 @@ public class Player: AbstractPlayer {
             // If it's the active player then show the popup
             if self.isEqual(to: gameModel.humanPlayer()) {
 
-                gameModel.userInterface?.showTooltip(at: tile.point, text: "Barbarian camp cleared", delay: 3)
+                gameModel.userInterface?.showTooltip(at: tile.point, type: .barbarianCampCleared(gold: numGold), delay: 3)
             }
         }
     }

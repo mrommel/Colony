@@ -1718,7 +1718,7 @@ public class Unit: AbstractUnit {
 
         var usedPathCost = 0.0
 
-        // print("unit \(self.location) => doMoveOnPath(\(path)")
+        print("unit \(self.location) => doMoveOnPath(\(path)")
         for (index, point) in path.enumerated() {
 
             // skip first point

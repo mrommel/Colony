@@ -316,12 +316,13 @@ class CityObject {
 
             if productionTurns > -1 {
                 self.productionProgressLabel = SKLabelNode(text: "\(productionTurns)")
-                self.productionProgressLabel?.position = CGPoint(x: productionProgressOffset - 4, y: 35)
+                self.productionProgressLabel?.position = CGPoint(x: productionProgressOffset - 0, y: 35)
                 self.productionProgressLabel?.zPosition = Globals.ZLevels.cityName
-                self.productionProgressLabel?.fontSize = 6 * 4
+                self.productionProgressLabel?.fontSize = 8
                 self.productionProgressLabel?.fontColor = .white
                 self.productionProgressLabel?.preferredMaxLayoutWidth = 60
-                self.productionProgressLabel?.setScale(0.20)
+                self.productionProgressLabel?.horizontalAlignmentMode = .right
+                self.productionProgressLabel?.setScale(0.5)
 
                 if let productionProgressLabel = self.productionProgressLabel {
                     self.sprite.addChild(productionProgressLabel)

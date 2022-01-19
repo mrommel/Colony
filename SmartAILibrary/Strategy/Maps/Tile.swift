@@ -1837,8 +1837,7 @@ public class Tile: AbstractTile {
 
                                 gameModel?.userInterface?.showTooltip(
                                     at: self.point,
-                                    text: "The removal of \(self.feature().name()) has gained you \(production) [Production] " +
-                                        "for your city \(city.name).",
+                                    type: .clearedFeature(feature: self.feature(), production: production, cityName: city.name),
                                     delay: 3
                                 )
                             }

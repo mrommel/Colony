@@ -137,6 +137,12 @@ public enum ScreenType {
     case moments
 }
 
+public enum TooltipType {
+
+    case barbarianCampCleared(gold: Int)
+    case clearedFeature(feature: FeatureType, production: Int, cityName: String)
+}
+
 public enum UnitAnimationType {
 
     case fortify
@@ -217,7 +223,8 @@ public protocol UserInterfaceDelegate: AnyObject {
 
     func refresh(tile: AbstractTile?)
 
-    func showTooltip(at point: HexPoint, text: String, delay: Double)
+    func showTooltip(at point: HexPoint, text: String, delay: Double) // deprecate
+    func showTooltip(at point: HexPoint, type: TooltipType, delay: Double)
 
     func focus(on location: HexPoint)
 }

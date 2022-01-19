@@ -247,6 +247,26 @@ extension GameScene: UserInterfaceDelegate {
         }
     }
 
+    func showTooltip(at point: HexPoint, type: TooltipType, delay: Double) {
+
+        var text: String?
+
+        switch type {
+
+        case .barbarianCampCleared(gold: let gold):
+            text = String(format: "TXT_KEY_MISC_DESTROYED_BARBARIAN_CAMP".localized(), gold)
+
+        case .clearedFeature(feature: let feature, production: let production, cityName: let cityName):
+            text = String(format: "TXT_KEY_MISC_CLEARING_FEATURE_RESOURCE".localized(), feature.name().localized(), production, cityName)
+        }
+
+        DispatchQueue.main.async {
+            if let text = text {
+                self.mapNode?.tooltipLayer.show(text: text, at: point, for: delay)
+            }
+        }
+    }
+
     func focus(on location: HexPoint) {
 
         self.viewModel?.focus(on: location)
