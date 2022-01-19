@@ -243,6 +243,10 @@ open class GameModel: Codable {
             fatalError("no UI")
         }
 
+        if Thread.isMainThread {
+            print("Warning: GameModel.update() is executed on main thread")
+        }
+
         if self.isWaitingForBlockingInput() {
             if !userInterface.isShown(screen: .diplomatic) {
                 // when diplomatic screen is visible - we can't update

@@ -32,7 +32,7 @@ struct GoodyHutRewardPopupView: View {
 
                 VStack(spacing: 10) {
 
-                    Text(self.viewModel.text)
+                    Label(self.viewModel.text)
                         .padding(.bottom, 10)
 
                     Button(action: {

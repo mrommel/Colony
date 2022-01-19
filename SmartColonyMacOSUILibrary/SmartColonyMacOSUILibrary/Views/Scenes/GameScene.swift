@@ -19,7 +19,7 @@ class GameScene: BaseScene {
     private var viewHex: SKSpriteNode?
     var previousLocation: CGPoint = .zero
     var lastExecuted: TimeInterval = -1
-    let queue: DispatchQueue = DispatchQueue(label: "update_queue")
+    let queue: DispatchQueue = DispatchQueue(label: "update_queue", qos: .background)
 
     // view model
     var viewModel: GameSceneViewModel?

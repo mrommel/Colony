@@ -47,7 +47,7 @@ struct WonderBuiltPopupView: View {
 
                     ForEach(self.viewModel.bonusTexts, id: \.self) { bonusText in
 
-                        Text(bonusText)
+                        Label(bonusText)
                     }
                     .padding(.top, 2)
                     .padding(.trailing, 0)

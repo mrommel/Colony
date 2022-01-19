@@ -582,10 +582,12 @@ extension GameViewModel: GameViewModelDelegate {
 
         // update state
         self.bottomLeftBarViewModel.updateTurnButton()
+        self.topBarViewModel.update()
+        self.headerViewModel.update()
 
-        /*guard state != self.uiTurnState else {
+        guard state != self.uiTurnState else {
             return
-        }*/
+        }
 
         switch state {
 
@@ -605,8 +607,8 @@ extension GameViewModel: GameViewModelDelegate {
             self.bannerViewModel.hideBanner()
 
             // update nodes
-            self.topBarViewModel.update()
-            self.headerViewModel.update()
+            // self.topBarViewModel.update()
+            // self.headerViewModel.update()
 
             // update
             // self.updateLeaders()

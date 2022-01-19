@@ -62,20 +62,24 @@ extension GameScene: UserInterfaceDelegate {
 
     func select(unit: AbstractUnit?) {
 
-        self.mapNode?.unitLayer.showFocus(for: unit)
-        self.viewModel?.delegate?.selectedUnit = unit
-        self.updateCommands(for: unit)
+        DispatchQueue.main.async {
+            self.mapNode?.unitLayer.showFocus(for: unit)
+            self.viewModel?.delegate?.selectedUnit = unit
+            self.updateCommands(for: unit)
+        }
     }
 
     func unselect() {
 
-        self.mapNode?.unitLayer.hideFocus()
-        self.mapNode?.unitLayer.clearPathSpriteBuffer()
-        self.mapNode?.unitLayer.clearAttackFocus()
-        self.viewModel?.delegate?.selectedCity = nil
-        self.viewModel?.delegate?.selectedUnit = nil
-        self.viewModel?.combatUnitTarget = nil
-        self.viewModel?.delegate?.selectedUnitChanged(to: nil, commands: [], in: nil)
+        DispatchQueue.main.async {
+            self.mapNode?.unitLayer.hideFocus()
+            self.mapNode?.unitLayer.clearPathSpriteBuffer()
+            self.mapNode?.unitLayer.clearAttackFocus()
+            self.viewModel?.delegate?.selectedCity = nil
+            self.viewModel?.delegate?.selectedUnit = nil
+            self.viewModel?.combatUnitTarget = nil
+            self.viewModel?.delegate?.selectedUnitChanged(to: nil, commands: [], in: nil)
+        }
     }
 
     func show(unit: AbstractUnit?) {
@@ -98,7 +102,9 @@ extension GameScene: UserInterfaceDelegate {
     func refresh(unit: AbstractUnit?) {
 
         if unit?.activityType() == .hold || unit?.activityType() == .sleep {
-            self.animate(unit: unit, animation: .fortify)
+            DispatchQueue.main.async {
+                self.animate(unit: unit, animation: .fortify)
+            }
         }
     }
 
@@ -110,13 +116,17 @@ extension GameScene: UserInterfaceDelegate {
         }
 
         let costs: [Double] = [Double].init(repeating: 0.0, count: points.count)
-        self.mapNode?.unitLayer.move(unit: unit, on: HexPath(points: points, costs: costs))
+        DispatchQueue.main.async {
+            self.mapNode?.unitLayer.move(unit: unit, on: HexPath(points: points, costs: costs))
+        }
     }
 
     func animate(unit: AbstractUnit?, animation: UnitAnimationType) {
 
         if animation == .fortify {
-            self.mapNode?.unitLayer.fortify(unit: unit)
+            DispatchQueue.main.async {
+                self.mapNode?.unitLayer.fortify(unit: unit)
+            }
         } else {
             print("cant show unknown animation: \(animation)")
         }
@@ -124,12 +134,16 @@ extension GameScene: UserInterfaceDelegate {
 
     func clearAttackFocus() {
 
-        self.mapNode?.unitLayer.clearAttackFocus()
+        DispatchQueue.main.async {
+            self.mapNode?.unitLayer.clearAttackFocus()
+        }
     }
 
     func showAttackFocus(at point: HexPoint) {
 
-        self.mapNode?.unitLayer.showAttackFocus(at: point)
+        DispatchQueue.main.async {
+            self.mapNode?.unitLayer.showAttackFocus(at: point)
+        }
     }
 
     func select(tech: TechType) {
@@ -180,18 +194,24 @@ extension GameScene: UserInterfaceDelegate {
 
     func show(city: AbstractCity?) {
 
-        self.mapNode?.cityLayer.show(city: city)
+        DispatchQueue.main.async {
+            self.mapNode?.cityLayer.show(city: city)
+        }
     }
 
     func update(city: AbstractCity?) {
 
-        self.mapNode?.cityLayer.update(city: city)
+        DispatchQueue.main.async {
+            self.mapNode?.cityLayer.update(city: city)
+        }
     }
 
     func remove(city: AbstractCity?) {
 
-        self.mapNode?.cityLayer.remove(city: city)
-        self.mapNode?.boardLayer.rebuild()
+        DispatchQueue.main.async {
+            self.mapNode?.cityLayer.remove(city: city)
+            self.mapNode?.boardLayer.rebuild()
+        }
     }
 
     func refresh(tile: AbstractTile?) {
@@ -222,7 +242,9 @@ extension GameScene: UserInterfaceDelegate {
 
     func showTooltip(at point: HexPoint, text: String, delay: Double) {
 
-        self.mapNode?.tooltipLayer.show(text: text, at: point, for: delay)
+        DispatchQueue.main.async {
+            self.mapNode?.tooltipLayer.show(text: text, at: point, for: delay)
+        }
     }
 
     func focus(on location: HexPoint) {

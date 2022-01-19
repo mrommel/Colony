@@ -174,6 +174,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func doFortify(in gameModel: GameModel?)
     func doMobilize(in gameModel: GameModel?)
     func set(fortifiedThisTurn: Bool, in gameModel: GameModel?)
+    func isFortified() -> Bool
 
     @discardableResult
     func doEstablishTradeRoute(to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool
@@ -2868,6 +2869,7 @@ public class Unit: AbstractUnit {
     public func doFortify(in gameModel: GameModel?) {
 
         self.push(mission: .init(type: .fortify), in: gameModel)
+        self.finishMoves()
     }
 
     public func doMobilize(in gameModel: GameModel?) {
@@ -3555,6 +3557,13 @@ public class Unit: AbstractUnit {
         if let improvement = build.improvement() {
             if tile.has(improvement: improvement) {
                 return false
+            }
+
+            // no improvements in cities
+            if improvement != .none {
+                if tile.isCity() {
+                    return false
+                }
             }
         }
 
@@ -4345,6 +4354,11 @@ public class Unit: AbstractUnit {
         }
     }
 
+    public func isFortified() -> Bool {
+
+        return self.fortifyTurnsValue > 0
+    }
+
     func isFortifiedThisTurn() -> Bool {
 
         return self.fortifiedThisTurnValue
@@ -4740,7 +4754,9 @@ extension Unit {
         self.missions.pop()
 
         if self.missions.isEmpty {
-            self.activityTypeValue = .none
+            if self.activityTypeValue == .mission {
+                self.activityTypeValue = .none
+            }
         }
     }
 
