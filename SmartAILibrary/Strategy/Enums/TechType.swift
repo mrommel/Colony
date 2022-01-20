@@ -900,7 +900,7 @@ public enum TechType: String, Codable {
                     Flavor(type: .cityDefense, value: 2)
                 ]
             )
-            
+
         case .printing:
             // https://civilization.fandom.com/wiki/Printing_(Civ6)
             return TechTypeData(
@@ -938,7 +938,7 @@ public enum TechType: String, Codable {
                     Flavor(type: .navalRecon, value: 3)
                 ]
             )
-            
+
         case .astronomy:
             // https://civilization.fandom.com/wiki/Astronomy_(Civ6)
             return TechTypeData(
@@ -956,7 +956,7 @@ public enum TechType: String, Codable {
                     Flavor(type: .science, value: 4)
                 ]
             )
-            
+
         case .metalCasting:
             // https://civilization.fandom.com/wiki/Metal_Casting_(Civ6)
             return TechTypeData(
@@ -1164,7 +1164,7 @@ public enum TechType: String, Codable {
                     Flavor(type: .mobile, value: 5)
                 ]
             )
-            
+
         case .replaceableParts:
             // https://civilization.fandom.com/wiki/Replaceable_Parts_(Civ6)
             return TechTypeData(

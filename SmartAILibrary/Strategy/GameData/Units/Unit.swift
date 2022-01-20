@@ -2365,6 +2365,7 @@ public class Unit: AbstractUnit {
         }
 
         self.set(location: city.location, in: gameModel)
+        gameModel?.userInterface?.show(unit: self)
     }
 
     //    ---------------------------------------------------------------------------

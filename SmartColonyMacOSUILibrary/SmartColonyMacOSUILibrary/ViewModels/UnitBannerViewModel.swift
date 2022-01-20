@@ -510,12 +510,12 @@ class UnitBannerViewModel: ObservableObject {
                 let possibleCities: [AbstractCity?] = gameModel.cities(of: player)
                 let selectableItems: [SelectableItem] = possibleCities.map { cityRef in
 
-                    guard let city = cityRef else {
+                    guard let city = cityRef as? City else {
                         fatalError("cant get city")
                     }
 
                     return SelectableItem(
-                        iconTexture: nil,
+                        iconTexture: city.iconTexture(),
                         title: city.name,
                         subtitle: "")
                 }

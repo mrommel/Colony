@@ -75,7 +75,13 @@ extension CityGoldPurchaseViewModel: UnitViewModelDelegate {
 
     func clicked(on unitType: UnitType, at index: Int) {
 
-        print("purchase: \(unitType)")
+        print("try to purchase: \(unitType)")
+        guard let gameModel = self.gameEnvironment.game.value else {
+            return
+        }
+
+        let success = self.city?.purchase(unit: unitType, with: .gold, in: gameModel) ?? false
+        print("purchase \(unitType): \(success)")
     }
 
     func clicked(on unit: AbstractUnit?, at index: Int) {

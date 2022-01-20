@@ -313,7 +313,7 @@ extension GameScene: UserInterfaceDelegate {
             attackerPlayer: let attackerPlayer,
             attackerDamage: let attackerDamage,
             cityName: let cityName):
-            
+
             let attackerPlayerName: String = attackerPlayer?.leader.name() ?? "Unknown"
             text = String(format: "TXT_KEY_MISC_YOU_CITY_WAS_CONQUERED".localized(), attackerName, attackerPlayerName, attackerDamage, cityName)
         }

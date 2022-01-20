@@ -212,6 +212,7 @@ class PlayerReligion: AbstractPlayerReligion {
             if let capital = self.player?.capitalCity(in: gameModel) {
                 let builder = Unit(at: capital.location, name: nil, type: .builder, owner: self.player)
                 gameModel.add(unit: builder)
+                gameModel.userInterface?.show(unit: builder)
             }
         }
 
@@ -220,6 +221,7 @@ class PlayerReligion: AbstractPlayerReligion {
             if let capital = self.player?.capitalCity(in: gameModel) {
                 let settler = Unit(at: capital.location, name: nil, type: .settler, owner: self.player)
                 gameModel.add(unit: settler)
+                gameModel.userInterface?.show(unit: settler)
             }
         }
 

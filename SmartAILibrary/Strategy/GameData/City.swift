@@ -3458,6 +3458,7 @@ public class City: AbstractCity {
 
         let unit = Unit(at: self.location, type: unitType, owner: self.player)
         gameModel?.add(unit: unit)
+        gameModel?.userInterface?.show(unit: unit)
 
         if yieldType == .gold {
             let purchaseCost = self.goldPurchaseCost(of: unitType)
@@ -3578,7 +3579,6 @@ public class City: AbstractCity {
         unit.changeBuildCharges(change: greatPerson.charges())
 
         gameModel?.add(unit: unit)
-
         gameModel?.userInterface?.show(unit: unit)
     }
 
