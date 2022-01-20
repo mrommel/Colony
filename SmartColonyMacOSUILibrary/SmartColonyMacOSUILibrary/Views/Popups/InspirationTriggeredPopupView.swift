@@ -32,7 +32,7 @@ struct InspirationTriggeredPopupView: View {
 
                 VStack(alignment: .center, spacing: 10) {
 
-                    Text(self.viewModel.summaryText)
+                    Label(self.viewModel.summaryText)
                         .lineLimit(nil)
                         .fixedSize(horizontal: false, vertical: true)
                         .multilineTextAlignment(.center)

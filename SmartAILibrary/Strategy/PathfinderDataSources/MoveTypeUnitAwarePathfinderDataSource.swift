@@ -154,9 +154,9 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                         if self.options.canEmbark && self.movementType == .walk {
 
                             if fromTile.isLand() && toTile.isWater() {
-                                embarkedMovementCosts = 4.0
+                                embarkedMovementCosts = 2.0
                             } else if fromTile.isWater() && toTile.isLand() {
-                                embarkedMovementCosts = 4.0
+                                embarkedMovementCosts = 2.0
                             } else {
                                 embarkedMovementCosts = toTile.movementCost(for: .swim, from: fromTile)
                             }
@@ -196,9 +196,9 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
             if self.options.canEmbark && self.movementType == .walk {
 
                 if fromTile.isLand() && toTile.isWater() {
-                    embarkedMovementCosts = 4.0
+                    embarkedMovementCosts = 2.0
                 } else if fromTile.isWater() && toTile.isLand() {
-                    embarkedMovementCosts = 4.0
+                    embarkedMovementCosts = 2.0
                 } else {
                     embarkedMovementCosts = toTile.movementCost(for: .swim, from: fromTile)
                 }

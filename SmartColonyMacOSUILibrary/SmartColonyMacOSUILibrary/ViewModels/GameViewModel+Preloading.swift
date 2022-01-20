@@ -615,7 +615,8 @@ extension GameViewModel {
             )
         }
 
-        let victoryTypesTextureNames = VictoryType.all.map { $0.iconTexture() } + ["victoryType-overall"]
+        let victoryTypesTextureNames = VictoryType.all.map { $0.iconTexture() } +
+            ["victoryType-overall", "victoryType-score"]
         print("- load \(victoryTypesTextureNames.count) victory textures")
         for textureName in victoryTypesTextureNames {
             ImageCache.shared.add(

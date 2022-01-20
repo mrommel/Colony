@@ -615,15 +615,17 @@ extension GameViewModel: GameViewModelDelegate {
 
     func updateStates() {
 
-        // update state
-        self.bottomLeftBarViewModel.updateTurnButton()
+        if self.uiTurnState == .humanTurns {
+            // update states
+            self.bottomLeftBarViewModel.updateTurnButton()
 
-        // update nodes
-        self.topBarViewModel.update()
-        self.headerViewModel.update()
+            // update nodes
+            self.topBarViewModel.update()
+            self.headerViewModel.update()
 
-        // update
-        // self.updateLeaders()
+            // update
+            // self.updateLeaders()
+        }
     }
 
     func showUnitBanner() {
