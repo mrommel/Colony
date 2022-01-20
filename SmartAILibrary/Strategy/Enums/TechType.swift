@@ -272,7 +272,6 @@ public enum TechType: String, Codable {
     }
 
     // swiftlint:disable function_body_length
-    // swiftlint:disable line_length
     // swiftlint:disable cyclomatic_complexity
     // https://github.com/caiobelfort/civ6_personal_mod/blob/9fdf8736016d855990556c71cc76a62f124f5822/Gameplay/Data/Technologies.xml
     private func data() -> TechTypeData {
@@ -975,7 +974,7 @@ public enum TechType: String, Codable {
                     Flavor(type: .production, value: 3)
                 ]
             )
-            
+
         case .siegeTactics:
             // https://civilization.fandom.com/wiki/Siege_Tactics_(Civ6)
             return TechTypeData(

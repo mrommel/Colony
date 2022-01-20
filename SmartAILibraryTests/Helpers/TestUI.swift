@@ -61,7 +61,7 @@ class TestUI: UserInterfaceDelegate {
 
     func refresh(tile: AbstractTile?) {}
 
-    func showTooltip(at point: HexPoint, text: String, delay: Double) {}
+    func showTooltip(at point: HexPoint, type: TooltipType, delay: Double) {}
 
     func focus(on location: HexPoint) {}
 }

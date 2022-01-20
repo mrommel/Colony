@@ -92,7 +92,7 @@ public class UnitMission {
                 if self.type == .fortify || self.type == .heal || self.type == .alert || self.type == .skip {
                     unit.set(fortifiedThisTurn: true, in: gameModel)
 
-                    //start the animation right now to give feedback to the player
+                    // start the animation right now to give feedback to the player
                     if !unit.isFortified() && !unit.hasMoved(in: gameModel) && unit.canFortify(at: unit.location, in: gameModel) {
                         gameModel.userInterface?.refresh(unit: unit)
                     }
