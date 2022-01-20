@@ -3719,28 +3719,12 @@ public class Player: AbstractPlayer {
 
         if conquest {
             if self.isEqual(to: gameModel.activePlayer()) {
-                let message = "You have captured \(oldCity.name)" // TXT_KEY_MISC_CAPTURED_CITY
-                gameModel.userInterface?.showTooltip(at: oldCity.location, text: message, delay: 3)
+                gameModel.userInterface?.showTooltip(
+                    at: oldCity.location,
+                    type: .capturedCity(cityName: oldCity.name),
+                    delay: 3
+                )
             }
-
-            // inform player
-            /*for (iI = 0; iI < MAX_PLAYERS; iI++)
-            {
-                if ((PlayerTypes)iI == GC.getGame().getActivePlayer())
-                {
-                    if (GET_PLAYER((PlayerTypes)iI).isAlive())
-                    {
-                        if (iI != GetID())
-                        {
-                            if (pOldCity->isRevealed(GET_PLAYER((PlayerTypes)iI).getTeam(), false))
-                            {
-                                strBuffer = GetLocalizedText("TXT_KEY_MISC_CITY_CAPTURED_BY", strName.GetCString(), getCivilizationShortDescriptionKey());
-                                GC.GetEngineUserInterface()->AddCityMessage(0, pOldCity->GetIDInfo(), ((PlayerTypes)iI), false, GC.getEVENT_MESSAGE_TIME(), strBuffer);
-                            }
-                        }
-                    }
-                }
-            }*/
 
             let message = "\(oldCity.name) was captured by the \(self.leader.civilization().name())!!!"
             gameModel.addReplayEvent(type: .major, message: message, at: oldCity.location)
@@ -4123,7 +4107,11 @@ public class Player: AbstractPlayer {
                 self.cultureEarned += culture
 
                 if self.isHuman() {
-                    gameModel.userInterface?.showTooltip(at: point, text: "Gained \(culture) culture from kill.", delay: 3.0)
+                    gameModel.userInterface?.showTooltip(
+                        at: point,
+                        type: .cultureFromKill(culture: culture),
+                        delay: 3.0
+                    )
                 }
             }
         }
@@ -4150,7 +4138,11 @@ public class Player: AbstractPlayer {
                 self.treasury?.changeGold(by: Double(gold))
 
                 if self.isHuman() {
-                    gameModel.userInterface?.showTooltip(at: point, text: "Gained \(gold) gold from kill.", delay: 3.0)
+                    gameModel.userInterface?.showTooltip(
+                        at: point,
+                        type: .goldFromKill(gold: gold),
+                        delay: 3.0
+                    )
                 }
             }
         }

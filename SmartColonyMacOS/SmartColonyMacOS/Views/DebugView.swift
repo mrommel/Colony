@@ -63,6 +63,12 @@ struct DebugView: View {
                         Text("City Combat")
                     }).buttonStyle(GameButtonStyle())
 
+                    Button(action: {
+                        self.viewModel.createSpriteKitView()
+                    }, label: {
+                        Text("SpriteKit")
+                    }).buttonStyle(GameButtonStyle())
+
                     Spacer()
                         .frame(height: 30, alignment: .center)
 

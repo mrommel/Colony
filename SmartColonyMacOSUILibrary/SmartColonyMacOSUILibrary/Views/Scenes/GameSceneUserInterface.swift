@@ -240,13 +240,6 @@ extension GameScene: UserInterfaceDelegate {
         }
     }
 
-    func showTooltip(at point: HexPoint, text: String, delay: Double) {
-
-        DispatchQueue.main.async {
-            self.mapNode?.tooltipLayer.show(text: text, at: point, for: delay)
-        }
-    }
-
     func showTooltip(at point: HexPoint, type: TooltipType, delay: Double) {
 
         var text: String?
@@ -258,6 +251,42 @@ extension GameScene: UserInterfaceDelegate {
 
         case .clearedFeature(feature: let feature, production: let production, cityName: let cityName):
             text = String(format: "TXT_KEY_MISC_CLEARING_FEATURE_RESOURCE".localized(), feature.name().localized(), production, cityName)
+
+        case .capturedCity(cityName: let cityName):
+            text = String(format: "TXT_KEY_MISC_CAPTURED_CITY".localized(), cityName)
+
+        case .cultureFromKill(culture: let culture):
+            text = String(format: "TXT_KEY_MISC_CULTURE_FROM_KILL".localized(), culture)
+
+        case .goldFromKill(gold: let gold):
+            text = String(format: "TXT_KEY_MISC_GOLD_FROM_KILL".localized(), gold)
+
+        case .unitDiedAttacking(attackerName: let attackerName, defenderName: let defenderName, defenderDamage: let defenderDamage):
+            text = String(format: "TXT_KEY_MISC_YOU_UNIT_DIED_ATTACKING".localized(), attackerName, defenderName, defenderDamage)
+
+        case .enemyUnitDiedAttacking(attackerName: let attackerName, attackerPlayer: let attackerPlayer, defenderName: let defenderName, defenderDamage: let defenderDamage):
+            let attackerPlayerName: String = attackerPlayer?.leader.name() ?? "Unknown"
+            text = String(format: "TXT_KEY_MISC_YOU_KILLED_ENEMY_UNIT".localized(), attackerName, attackerPlayerName, defenderName, defenderDamage)
+
+        case .unitDestroyedEnemyUnit(attackerName: let attackerName, attackerDamage: let attackerDamage, defenderName: let defenderName):
+            text = String(format: "TXT_KEY_MISC_YOU_UNIT_DESTROYED_ENEMY".localized(), attackerName, attackerDamage, defenderName)
+
+        case .unitDiedDefending(attackerName: let attackerName, attackerPlayer: let attackerPlayer, attackerDamage: let attackerDamage, defenderName: let defenderName):
+            let attackerPlayerName: String = attackerPlayer?.leader.name() ?? "Unknown"
+            text = String(format: "TXT_KEY_MISC_YOU_UNIT_WAS_DESTROYED".localized(), attackerName, attackerPlayerName, attackerDamage, defenderName)
+
+        case .unitAttackingWithdraw(attackerName: let attackerName, attackerDamage: let attackerDamage, defenderName: let defenderName, defenderDamage: let defenderDamage):
+            text = String(format: "TXT_KEY_MISC_YOU_UNIT_WITHDRAW".localized(), attackerName, attackerDamage, defenderName, defenderDamage)
+
+        case .enemyAttackingWithdraw(attackerName: let attackerName, attackerDamage: let attackerDamage, defenderName: let defenderName, defenderDamage: let defenderDamage):
+            text = String(format: "TXT_KEY_MISC_ENEMY_UNIT_WITHDRAW".localized(), attackerName, attackerDamage, defenderName, defenderDamage)
+
+        case .conqueredEnemyCity(attackerName: let attackerName, attackerDamage: let attackerDamage, cityName: let cityName):
+            text = String(format: "TXT_KEY_MISC_YOU_CONQUERED_ENEMY_CITY".localized(), attackerName, attackerDamage, cityName)
+
+        case .cityCapturedByEnemy(attackerName: let attackerName, attackerPlayer: let attackerPlayer, attackerDamage: let attackerDamage, cityName: let cityName):
+            let attackerPlayerName: String = attackerPlayer?.leader.name() ?? "Unknown"
+            text = String(format: "TXT_KEY_MISC_YOU_CITY_WAS_CONQUERED".localized(), attackerName, attackerPlayerName, attackerDamage, cityName)
         }
 
         DispatchQueue.main.async {

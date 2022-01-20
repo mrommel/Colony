@@ -60,6 +60,8 @@
 		C93FD2E12733C306003348FB /* CultureRankingDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93FD2E02733C306003348FB /* CultureRankingDialogViewModel.swift */; };
 		C93FD2E32733C9FF003348FB /* CultureRankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93FD2E22733C9FF003348FB /* CultureRankingViewModel.swift */; };
 		C93FD2E52733CCEF003348FB /* CultureRankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93FD2E42733CCEF003348FB /* CultureRankingView.swift */; };
+		C9403E9D27994FC600333D23 /* DebugSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9403E9C27994FC600333D23 /* DebugSceneView.swift */; };
+		C9403E9F2799524000333D23 /* DebugScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9403E9E2799524000333D23 /* DebugScene.swift */; };
 		C942EC5126BBD9480047E161 /* AchievementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C942EC5026BBD9470047E161 /* AchievementViewModel.swift */; };
 		C942EC5326BBDA090047E161 /* AchievementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C942EC5226BBDA090047E161 /* AchievementView.swift */; };
 		C943E90026C100E00038B7E8 /* UnitBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C943E8FF26C100E00038B7E8 /* UnitBannerView.swift */; };
@@ -364,6 +366,8 @@
 		C93FD2E02733C306003348FB /* CultureRankingDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CultureRankingDialogViewModel.swift; sourceTree = "<group>"; };
 		C93FD2E22733C9FF003348FB /* CultureRankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CultureRankingViewModel.swift; sourceTree = "<group>"; };
 		C93FD2E42733CCEF003348FB /* CultureRankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CultureRankingView.swift; sourceTree = "<group>"; };
+		C9403E9C27994FC600333D23 /* DebugSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSceneView.swift; sourceTree = "<group>"; };
+		C9403E9E2799524000333D23 /* DebugScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugScene.swift; sourceTree = "<group>"; };
 		C942EC5026BBD9470047E161 /* AchievementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementViewModel.swift; sourceTree = "<group>"; };
 		C942EC5226BBDA090047E161 /* AchievementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementView.swift; sourceTree = "<group>"; };
 		C943E8FF26C100E00038B7E8 /* UnitBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitBannerView.swift; sourceTree = "<group>"; };
@@ -901,7 +905,9 @@
 				C9A3761D2635F6FD0057923E /* Nodes */,
 				C9A37612263456E30057923E /* BaseScene.swift */,
 				C9A37618263457D70057923E /* GameScene.swift */,
+				C9403E9E2799524000333D23 /* DebugScene.swift */,
 				C950F98A26427C560057A7D1 /* GameSceneUserInterface.swift */,
+				C9403E9C27994FC600333D23 /* DebugSceneView.swift */,
 				C9A3760426340F9B0057923E /* GameSceneView.swift */,
 			);
 			path = Scenes;
@@ -1338,6 +1344,7 @@
 				C913A2D5277A27ED001D2CC2 /* EraProgressDialogView.swift in Sources */,
 				C99A88982607A2CC003B8B73 /* CGImageExtension.swift in Sources */,
 				C9A48D38265396FA00260EE0 /* HeaderButtonView.swift in Sources */,
+				C9403E9D27994FC600333D23 /* DebugSceneView.swift in Sources */,
 				C9F2B54F266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift in Sources */,
 				C9D03F122753887D0008528E /* PageControlView.swift in Sources */,
 				C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */,
@@ -1520,6 +1527,7 @@
 				C9E87BA9264D17CC00514B9A /* TechView.swift in Sources */,
 				C9F2B55126695BAC0016D4F3 /* TooltipLayer.swift in Sources */,
 				C9A37613263456E30057923E /* BaseScene.swift in Sources */,
+				C9403E9F2799524000333D23 /* DebugScene.swift in Sources */,
 				C968F299263981DD00612D0E /* ProgressBar.swift in Sources */,
 				C9FD308526223EA200153752 /* DemoGameModel.swift in Sources */,
 				C9077A8826D64EFE004BE679 /* TradeRouteView.swift in Sources */,

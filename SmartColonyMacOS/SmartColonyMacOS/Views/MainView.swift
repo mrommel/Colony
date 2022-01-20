@@ -44,6 +44,8 @@ struct MainView: View {
             return AnyView(self.replayView)
         case .debug:
             return AnyView(self.debugView)
+        case .spriteKit:
+            return AnyView(self.spriteKitView)
         case .pedia:
             return AnyView(self.pediaView)
         }
@@ -76,6 +78,10 @@ extension MainView {
 
     private var debugView: some View {
         DebugView(viewModel: self.viewModel.debugViewModel)
+    }
+
+    private var spriteKitView: some View {
+        DebugSceneView()
     }
 
     private var pediaView: some View {

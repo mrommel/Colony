@@ -189,10 +189,10 @@ public class LabelTokenizer {
 
     }
 
-    public func convert(text rawText: String, with attributes: [NSAttributedString.Key: Any]? = nil) -> NSAttributedString {
+    public func convert(text rawText: String, with attributes: [NSAttributedString.Key: Any]? = nil, extraSpace: Bool = false) -> NSAttributedString {
 
         let tokens = self.tokenize(text: rawText)
-        let attributedString = self.join(tokens: tokens)
+        let attributedString = self.join(tokens: tokens, extraSpace: extraSpace)
 
         if let attributes = attributes {
             let mutableAttributedString = NSMutableAttributedString(attributedString: attributedString)
@@ -262,7 +262,7 @@ public class LabelTokenizer {
         return matchResults
     }
 
-    private func join(tokens: [LabelTokenType]) -> NSAttributedString {
+    private func join(tokens: [LabelTokenType], extraSpace: Bool = false) -> NSAttributedString {
 
         let attributedString = NSMutableAttributedString()
 
@@ -281,6 +281,10 @@ public class LabelTokenizer {
                 let attachment: NSTextAttachment = NSTextAttachment()
                 attachment.image = type.image()
                 attachment.setImage(height: 12)
+
+                if extraSpace {
+                    attributedString.append(NSAttributedString(string: "  "))
+                }
 
                 let attachmentString: NSAttributedString = NSAttributedString(attachment: attachment)
                 attributedString.append(attachmentString)

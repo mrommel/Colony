@@ -105,8 +105,19 @@
 "TXT_KEY_HANDICAP_DEITY" = "Deity";
 
 // tooltip texts
-"TXT_KEY_MISC_DESTROYED_BARBARIAN_CAMP" = "You have captured a Barbarian Encampment and recovered %d Gold!";
+"TXT_KEY_MISC_DESTROYED_BARBARIAN_CAMP" = "You have captured a Barbarian Encampment and recovered %d Gold!"; // gold
 "TXT_KEY_MISC_CLEARING_FEATURE_RESOURCE" = "Clearing %@ has created %d [Production] for %@."; // feature, gold, cityname
+"TXT_KEY_MISC_CAPTURED_CITY" = "You have captured %@!!!"; // cityname
+"TXT_KEY_MISC_GOLD_FROM_KILL" = "Gained %d [Gold] from kill."; // gold
+"TXT_KEY_MISC_CULTURE_FROM_KILL" = "Gained %d [Culture] from kill."; // culture
+"TXT_KEY_MISC_YOU_UNIT_DIED_ATTACKING" = "Your %@ died attacking an enemy %@ (%d damage)!"; // attacker name, defender name, defender damage
+"TXT_KEY_MISC_YOU_KILLED_ENEMY_UNIT" = "While defending, your %3$@ (%1$d damage) killed %2$@ %1$@!"; // attacker name, attacker player, defender name, defender damage
+"TXT_KEY_MISC_YOU_UNIT_DESTROYED_ENEMY" = "Your %@ (%d damage) destroyed an enemy %@!"; // attacker name, attacker damage, defender name
+"TXT_KEY_MISC_YOU_UNIT_WAS_DESTROYED" = "While defending, your %4$@ was destroyed by %2$@ %1$@ (%3$d damage)!"; // attacker name, attacker player, attacker damage, defender name
+"TXT_KEY_MISC_YOU_UNIT_WITHDRAW" = "Your %@ (%d damage) attacked an enemy %@ (%d damage)!"; // attacker name, attacker damage, defender name, defender damage
+"TXT_KEY_MISC_ENEMY_UNIT_WITHDRAW" = "An enemy %@ (%d damage) attacked your %@ (%d damage)!"; // attacker name, attacker damage, defender name, defender damage
+"TXT_KEY_MISC_YOU_CONQUERED_ENEMY_CITY" = "Your %@ (%d damage) captured the enemy City of %@!"; // attacker name, attacker damage, defender city name TXT_KEY_MISC_YOU_UNIT_CAPTURED_ENEMY_CITY
+"TXT_KEY_MISC_YOU_CITY_WAS_CONQUERED" = "While defending, your City of %4$@ was captured by %2$@ %1$@ (%3$d damage)!"; // attacker name, attacker player, attacker damage, defender name TXT_KEY_MISC_YOU_CITY_WAS_CAPTURED
 
 // Advisor texts
 "TXT_KEY_ECONOMICAISTRATEGY_NEED_RECON" = "We should continue exploring the world to discover abandoned villages, natural wonders, and other civilizations!";

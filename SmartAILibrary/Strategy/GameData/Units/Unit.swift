@@ -1945,15 +1945,13 @@ public class Unit: AbstractUnit {
                             } else { // Ran into a noncombat unit
 
                                 var doCapture = false
-                                var strMessage = ""
-                                var strSummary = ""
 
                                 // Some units can't capture civilians. Embarked units are also not captured, they're simply killed. And some aren't a type that gets captured.
                                 if self.type.has(ability: .canCapture) && !loopUnit.isEmbarked() && loopUnit.type.captureType() != nil {
 
                                     doCapture = true
 
-                                    if isBarbarian() {
+                                    /*if isBarbarian() {
                                         strMessage = "TXT_KEY_UNIT_CAPTURED_BARBS_DETAILED"
                                         // strMessage << pLoopUnit->getUnitInfo().GetTextKey();
                                         strSummary = "TXT_KEY_UNIT_CAPTURED_BARBS"
@@ -1961,7 +1959,9 @@ public class Unit: AbstractUnit {
                                         strMessage = "TXT_KEY_UNIT_CAPTURED_DETAILED"
                                         // strMessage << pLoopUnit->getUnitInfo().GetTextKey() << GET_PLAYER(getOwner()).getNameKey();
                                         strSummary = "TXT_KEY_UNIT_CAPTURED"
-                                    }
+                                    }*/
+
+                                    // gameModel.userInterface?.showTooltip()
 
                                 } else { // Unit was killed instead
 
@@ -1969,10 +1969,14 @@ public class Unit: AbstractUnit {
                                         self.changeExperience(by: 1, in: gameModel)
                                     }
 
-                                    gameModel.userInterface?.showTooltip(at: self.location, text: "TXT_KEY_MISC_YOU_UNIT_DESTROYED_ENEMY", delay: 3)
-
-                                    strMessage = "TXT_KEY_UNIT_LOST"
-                                    strSummary = strMessage
+                                    gameModel.userInterface?.showTooltip(
+                                        at: self.location,
+                                        type: .unitDestroyedEnemyUnit(
+                                            attackerName: self.name(),
+                                            attackerDamage: 0,
+                                            defenderName: loopUnit.name()),
+                                        delay: 3
+                                    )
 
                                     player.reportCultureFromKills(
                                         at: newLocation,

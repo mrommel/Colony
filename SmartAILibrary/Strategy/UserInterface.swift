@@ -141,6 +141,18 @@ public enum TooltipType {
 
     case barbarianCampCleared(gold: Int)
     case clearedFeature(feature: FeatureType, production: Int, cityName: String)
+    case capturedCity(cityName: String)
+    case cultureFromKill(culture: Int)
+    case goldFromKill(gold: Int)
+    // combat
+    case unitDiedAttacking(attackerName: String, defenderName: String, defenderDamage: Int)
+    case enemyUnitDiedAttacking(attackerName: String, attackerPlayer: AbstractPlayer?, defenderName: String, defenderDamage: Int)
+    case unitDestroyedEnemyUnit(attackerName: String, attackerDamage: Int, defenderName: String)
+    case unitDiedDefending(attackerName: String, attackerPlayer: AbstractPlayer?, attackerDamage: Int, defenderName: String)
+    case unitAttackingWithdraw(attackerName: String, attackerDamage: Int, defenderName: String, defenderDamage: Int)
+    case enemyAttackingWithdraw(attackerName: String, attackerDamage: Int, defenderName: String, defenderDamage: Int)
+    case conqueredEnemyCity(attackerName: String, attackerDamage: Int, cityName: String)
+    case cityCapturedByEnemy(attackerName: String, attackerPlayer: AbstractPlayer?, attackerDamage: Int, cityName: String)
 }
 
 public enum UnitAnimationType {
@@ -223,7 +235,6 @@ public protocol UserInterfaceDelegate: AnyObject {
 
     func refresh(tile: AbstractTile?)
 
-    func showTooltip(at point: HexPoint, text: String, delay: Double) // deprecate
     func showTooltip(at point: HexPoint, type: TooltipType, delay: Double)
 
     func focus(on location: HexPoint)

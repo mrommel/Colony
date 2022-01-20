@@ -235,6 +235,7 @@ public extension Globals {
 
         public static let tooltipTitleFont = NSFont.systemFont(ofSize: 14)
         public static let tooltipContentFont = NSFont.systemFont(ofSize: 10)
+        public static let tooltipMapFont = NSFont.systemFont(ofSize: 14)
     }
 
     struct Attributs {
@@ -247,6 +248,11 @@ public extension Globals {
         public static let tooltipContentAttributs: [NSAttributedString.Key: Any] = [
             NSAttributedString.Key.font: Globals.Fonts.tooltipContentFont,
             NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipContentColor
+        ]
+
+        public static let tooltipMapAttributs: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.font: Globals.Fonts.tooltipMapFont,
+            NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipMapColor
         ]
     }
 }
@@ -265,6 +271,7 @@ public extension Globals {
         public static let toolTipBorderColor: TypeColor = TypeColor.white
         public static let tooltipTitleColor: TypeColor = TypeColor.matterhornGray
         public static let tooltipContentColor: TypeColor = TypeColor.matterhornGray
+        public static let tooltipMapColor: TypeColor = TypeColor.white
 
         public static let notificationDetailTitleColor: TypeColor = TypeColor(hex: "#2e2422")!
         public static let notificationDetailBodyColor: TypeColor = TypeColor(hex: "#3e3731")!
