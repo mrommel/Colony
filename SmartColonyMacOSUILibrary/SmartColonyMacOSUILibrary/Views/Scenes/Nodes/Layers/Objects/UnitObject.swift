@@ -259,6 +259,8 @@ class UnitObject {
             return
         }
 
+        print("showWalk: \(path)")
+
         self.sprite.removeAction(forKey: UnitObject.idleActionKey)
         self.sprite.removeAction(forKey: UnitObject.fortifiedActionKey)
 

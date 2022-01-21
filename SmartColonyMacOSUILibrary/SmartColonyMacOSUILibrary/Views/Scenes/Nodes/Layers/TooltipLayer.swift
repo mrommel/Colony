@@ -50,6 +50,7 @@ class TooltipLayer: SKNode {
         let tooltipNode = TooltipNode(text: text)
         tooltipNode.position = screenPoint
         tooltipNode.zPosition = Globals.ZLevels.tooltips
+        tooltipNode.setScale(0.5)
         self.addChild(tooltipNode)
 
         // remove after some time

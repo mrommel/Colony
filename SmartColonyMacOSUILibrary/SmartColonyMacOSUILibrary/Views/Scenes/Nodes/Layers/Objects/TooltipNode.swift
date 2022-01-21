@@ -35,74 +35,13 @@ extension NSAttributedString {
     }
 }
 
-extension String {
-
-  func boundingRect(with size: CGSize, attributes: [NSAttributedString.Key: Any]) -> CGRect {
-      let options: NSString.DrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
-      let rect = self.boundingRect(with: size, options: options, attributes: attributes, context: nil)
-      return rect
-  }
-}
-
-// https://stackoverflow.com/questions/57263134/sklabelnode-possible-to-insert-nstextattachment-or-icon-into-block-of-text
-class AdvancedLabelNode: SKLabelNode {
-
-    init(attributedText: NSAttributedString) {
-        super.init()
-        self.attributedText = attributedText
-
-        var lengths: [CGFloat] = []
-        var iconIndices: [Int] = []
-        var iconIndex: Int = 0
-        let completeRange = NSRange(location: 0, length: attributedText.length)
-
-        attributedText.enumerateAttributes(in: completeRange, options: []) { (value, range, _) in
-
-            let part: String = String(attributedText.string[Range(range, in: attributedText.string)!])
-            let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: 20.0)
-            let size = part.boundingRect(with: constraintRect, attributes: value)
-            lengths.append(size.width)
-
-            if value[NSAttributedString.Key.attachment] != nil {
-                iconIndices.append(iconIndex)
-            }
-
-            iconIndex += 1
-        }
-
-        for index in 1..<lengths.count {
-            lengths[index] = lengths[index - 1] + lengths[index]
-        }
-
-        iconIndex = 0 // reset
-
-        attributedText.enumerateAttribute(NSAttributedString.Key.attachment, in: completeRange, options: []) { (value, _, _) in
-
-            if let attachment = value as? NSTextAttachment, let image = attachment.image {
-
-                let texture = SKTexture(image: image)
-                let imageSpriteNode = SKSpriteNode(texture: texture)
-                imageSpriteNode.size = attachment.bounds.size
-                imageSpriteNode.position = CGPoint(x: lengths[iconIndices[iconIndex]] - 6 - (self.frame.width / 2), y: 0)
-                imageSpriteNode.zPosition = self.zPosition + 0.01
-                self.addChild(imageSpriteNode)
-
-                iconIndex += 1
-            }
-        }
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
 class TooltipNode: SKNode {
 
     private static let tokenizer = LabelTokenizer()
 
     var backgroundNode: SKSpriteNode?
-    var messageLabelNode: SKLabelNode?
+    //var messageLabelNode: SKLabelNode?
+    var messageLabelNode: SKSpriteNode?
 
     init(text: String) {
 
@@ -111,6 +50,7 @@ class TooltipNode: SKNode {
         let attributedText = TooltipNode.tokenizer.convert(text: text, with: Globals.Attributs.tooltipMapAttributs, extraSpace: true)
         let height: CGFloat = 20
         let width: CGFloat = attributedText.width(for: height)
+        let size = CGSize(width: width, height: height)
 
         let boxTexture = SKTexture(image: ImageCache.shared.image(for: "box-gold"))
         let boundingBox = CGSize(width: width, height: height)
@@ -120,17 +60,23 @@ class TooltipNode: SKNode {
         self.backgroundNode?.zPosition = self.zPosition + 1
         self.addChild(self.backgroundNode!)
 
-        self.messageLabelNode = AdvancedLabelNode(attributedText: attributedText)
+        let image = drawImageInNSGraphicsContext(size: size) {
+
+            let options: NSString.DrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
+            let strHeight: CGFloat = attributedText.boundingRect(with: size, options: options, context: nil).height
+            let yOffset: CGFloat = (height - strHeight) / 2.0
+
+            attributedText.draw(with: CGRect(x: 0, y: yOffset, width: width, height: strHeight), options: options, context: nil)
+        }
+
+        let texture: SKTexture = SKTexture(cgImage: image.cgImage!)
+
+        self.messageLabelNode = SKSpriteNode(texture: texture, size: CGSize(width: width, height: height))
         self.messageLabelNode?.position = CGPoint(x: 0, y: 0)
         self.messageLabelNode?.zPosition = self.zPosition + 2
-        self.messageLabelNode?.horizontalAlignmentMode = .center
-        self.messageLabelNode?.verticalAlignmentMode = .center
-        self.messageLabelNode?.numberOfLines = 0
-        self.messageLabelNode?.lineBreakMode = .byWordWrapping
-        self.messageLabelNode?.preferredMaxLayoutWidth = width
         self.addChild(self.messageLabelNode!)
 
-        self.setScale(0.5)
+        // self.setScale(0.5)
     }
 
     required init?(coder aDecoder: NSCoder) {

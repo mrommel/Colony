@@ -10,13 +10,13 @@ import Cocoa
 
 extension NSTextAttachment {
 
-    public func setImage(height: CGFloat) {
+    public func setImage(height: CGFloat, offset: CGFloat) {
 
         guard let image = image else { return }
 
         let ratio = image.size.width / image.size.height
 
-        self.bounds = CGRect(x: bounds.origin.x, y: bounds.origin.y, width: ratio * height, height: height)
+        self.bounds = CGRect(x: bounds.origin.x, y: bounds.origin.y + offset, width: ratio * height, height: height)
     }
 }
 
@@ -280,10 +280,10 @@ public class LabelTokenizer {
             case .image(type: let type):
                 let attachment: NSTextAttachment = NSTextAttachment()
                 attachment.image = type.image()
-                attachment.setImage(height: 12)
+                attachment.setImage(height: 12, offset: extraSpace ? 8 : 0)
 
                 if extraSpace {
-                    attributedString.append(NSAttributedString(string: "  "))
+                    attributedString.append(NSAttributedString(string: " "))
                 }
 
                 let attachmentString: NSAttributedString = NSAttributedString(attachment: attachment)
