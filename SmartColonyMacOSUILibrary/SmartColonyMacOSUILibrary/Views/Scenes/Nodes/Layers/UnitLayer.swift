@@ -97,7 +97,7 @@ class UnitLayer: SKNode {
         // already shown, no need to add
         if let unitObject = self.unitObject(of: unit) {
 
-            unitObject.update(strength: unit.healthPoints())
+            unitObject.update()
 
         } else {
 
@@ -107,8 +107,8 @@ class UnitLayer: SKNode {
             unitObject.addTo(node: self)
 
             // make idle
-            unitObject.showIdle()
-            unitObject.update(strength: unit.healthPoints())
+            // unitObject.showIdle()
+            unitObject.update()
 
             // keep reference
             self.unitObjects.append(unitObject)
@@ -129,7 +129,8 @@ class UnitLayer: SKNode {
 
         if let unitObject = self.unitObject(of: unit) {
 
-            unitObject.showFortified()
+            unitObject.fortify()
+            // unitObject.showFortified()
         }
     }
 
@@ -365,9 +366,10 @@ class UnitLayer: SKNode {
 
                     if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: hex) {
 
-                        unitObject.showWalk(on: path, completion: {
+                        unitObject.move(on: path)
+                        /*unitObject.showWalk(on: path, completion: {
                             unitObject.showIdle()
-                        })
+                        })*/
 
                         return
                     }
@@ -382,9 +384,10 @@ class UnitLayer: SKNode {
 
             if let unitObject = self.unitObject(of: selectedUnit) {
 
-                unitObject.showWalk(on: path, completion: {
+                unitObject.move(on: path)
+                /*unitObject.showWalk(on: path, completion: {
                     unitObject.showIdle()
-                })
+                })*/
             } else {
 
                 // most likely foreign unit
@@ -392,9 +395,10 @@ class UnitLayer: SKNode {
 
                 if let unitObject = self.unitObject(of: selectedUnit) {
 
-                    unitObject.showWalk(on: path, completion: {
+                    unitObject.move(on: path)
+                    /*unitObject.showWalk(on: path, completion: {
                         unitObject.showIdle()
-                    })
+                    })*/
                 }
             }
         }
@@ -403,7 +407,7 @@ class UnitLayer: SKNode {
     func update(unit: AbstractUnit?) {
 
         if let unitObject = unitObject(of: unit) {
-            unitObject.update(strength: unit!.healthPoints())
+            unitObject.update()
         }
     }
 }

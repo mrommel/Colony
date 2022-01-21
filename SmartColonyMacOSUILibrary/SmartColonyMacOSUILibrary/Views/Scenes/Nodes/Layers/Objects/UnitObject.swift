@@ -9,6 +9,34 @@ import SpriteKit
 import SmartAILibrary
 import SmartAssets
 
+struct Queue<T> {
+     var list = [T]()
+
+    mutating func enqueue(_ element: T) {
+          list.append(element)
+    }
+
+    mutating func dequeue() -> T? {
+         if !list.isEmpty {
+           return list.removeFirst()
+         } else {
+           return nil
+         }
+    }
+
+    func peek() -> T? {
+         if !list.isEmpty {
+              return list[0]
+         } else {
+           return nil
+         }
+    }
+
+    var isEmpty: Bool {
+         return list.isEmpty
+    }
+}
+
 class UnitObject {
 
     static let idleActionKey: String = "idleActionKey"
@@ -47,6 +75,9 @@ class UnitObject {
     var lastTime: CFTimeInterval = 0
     var animationSpeed = 4.0
 
+    var animationQueue: Queue<UnitAnimationType> = Queue<UnitAnimationType>()
+    var currentAnimation: UnitAnimationType
+
     // internal UI elements
     var sprite: SKSpriteNode
     var typeBackgroundSprite: SKSpriteNode
@@ -66,6 +97,8 @@ class UnitObject {
         guard let civilization = unit.player?.leader.civilization() else {
             fatalError("cant get civilization")
         }
+
+        self.currentAnimation = .idle(location: unit.location)
 
         let unitTexture = SKTexture(imageNamed: unit.type.spriteName)
         self.sprite = SKSpriteNode(texture: unitTexture, color: .black, size: BaseLayer.kTextureSize)
@@ -179,7 +212,13 @@ class UnitObject {
         self.sprite.texture = newTexture
     }
 
-    func update(strength: Int) {
+    func update() {
+
+        guard let unit = self.unit else {
+            fatalError("unit not given")
+        }
+
+        let strength = unit.healthPoints()
 
         if strength >= 100 {
             if self.strengthIndicatorNode.parent != nil {
@@ -191,9 +230,78 @@ class UnitObject {
             }
             self.strengthIndicatorNode.set(strength: strength)
         }
+
+        /*if let currentAnimation = self.currentAnimation {
+            print("## Animation: \(unit.name()) currently = \(currentAnimation) ##")
+        }*/
+
+        if case .idle(location: let location) = self.currentAnimation {
+
+            if !self.animationQueue.isEmpty {
+
+                // print("animationQueue: \(animationQueue)")
+                if let firstAnimation = self.animationQueue.dequeue() {
+
+                    self.currentAnimation = firstAnimation
+
+                    switch firstAnimation {
+
+                    case .move(from: let from, to: let to):
+                        // print("## Animation: \(unit.name()) walk begin ##")
+                        self.walk(from: from, to: to) {
+                            // print("## Animation: \(unit.name()) walk ended ##")
+                            self.currentAnimation = .idle(location: to)
+                        }
+                    case .show:
+                        // print("## Animation: \(unit.name()) show ##")
+                        // self.show
+                        self.currentAnimation = .idle(location: unit.location)
+                    case .hide:
+                        // print("## Animation: \(unit.name()) hide ##")
+                        // self.show
+                        self.currentAnimation = .idle(location: unit.location)
+                    case .fortify:
+                        // print("## Animation: \(unit.name()) fortify ##")
+                        self.showFortified()
+                        self.currentAnimation = .idle(location: unit.location)
+                    case .unfortify:
+                        // print("## Animation: \(unit.name()) unfortify ##")
+                        // noop
+                        self.currentAnimation = .idle(location: unit.location)
+
+                    case .idle(location: let location):
+                        // noop
+                        print("does not happen: idle at \(location)")
+                    }
+                }
+            } else {
+                // print("## Animation: \(unit.name()) idle ##")
+                self.showIdle(at: location)
+            }
+        }
     }
 
-    func showIdle() {
+    func move(on path: HexPath) {
+
+        var lastPoint: HexPoint = HexPoint.invalid
+        for (index, point) in path.enumerated() {
+
+            if index == 0 {
+                lastPoint = point
+            } else {
+                self.animationQueue.enqueue(.move(from: lastPoint, to: point))
+                lastPoint = point
+            }
+        }
+    }
+
+    func fortify() {
+
+        // enqueue animation
+        self.animationQueue.enqueue(.fortify)
+    }
+
+    private func showIdle(at location: HexPoint) {
 
         guard let unit = self.unit else {
             fatalError("unit not given")
@@ -227,7 +335,7 @@ class UnitObject {
         self.sprite.run(idleAnimation, withKey: UnitObject.idleActionKey, completion: { })
     }
 
-    func showFortified() {
+    private func showFortified() {
 
         guard let unit = self.unit else {
             fatalError("unit not given")
@@ -252,7 +360,7 @@ class UnitObject {
         }
     }
 
-    func showWalk(on path: HexPath, completion block: @escaping () -> Swift.Void) {
+    private func showWalk(on path: HexPath, completion block: @escaping () -> Swift.Void) {
 
         guard path.count >= 2 else {
             block()

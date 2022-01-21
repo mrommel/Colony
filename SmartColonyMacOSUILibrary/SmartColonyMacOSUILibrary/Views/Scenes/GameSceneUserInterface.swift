@@ -123,13 +123,13 @@ extension GameScene: UserInterfaceDelegate {
 
     func animate(unit: AbstractUnit?, animation: UnitAnimationType) {
 
-        if animation == .fortify {
+        /*if animation == .fortify {
             DispatchQueue.main.async {
                 self.mapNode?.unitLayer.fortify(unit: unit)
             }
         } else {
             print("cant show unknown animation: \(animation)")
-        }
+        }*/
     }
 
     func clearAttackFocus() {

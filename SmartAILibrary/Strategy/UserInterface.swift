@@ -157,6 +157,10 @@ public enum TooltipType {
 
 public enum UnitAnimationType {
 
+    case idle(location: HexPoint)
+    case move(from: HexPoint, to: HexPoint)
+    case show
+    case hide
     case fortify
     case unfortify
 }
