@@ -40,7 +40,6 @@ class TooltipNode: SKNode {
     private static let tokenizer = LabelTokenizer()
 
     var backgroundNode: SKSpriteNode?
-    //var messageLabelNode: SKLabelNode?
     var messageLabelNode: SKSpriteNode?
 
     init(text: String) {
@@ -53,7 +52,7 @@ class TooltipNode: SKNode {
         let size = CGSize(width: width, height: height)
 
         let boxTexture = SKTexture(image: ImageCache.shared.image(for: "box-gold"))
-        let boundingBox = CGSize(width: width, height: height)
+        let boundingBox = CGSize(width: width + 10, height: height)
 
         self.backgroundNode = NineGridTextureSprite(texture: boxTexture, color: .black, size: boundingBox)
         self.backgroundNode?.position = CGPoint(x: 0, y: 0)
@@ -62,9 +61,9 @@ class TooltipNode: SKNode {
 
         let image = drawImageInNSGraphicsContext(size: size) {
 
-            let options: NSString.DrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
+            let options: NSString.DrawingOptions = [.usesLineFragmentOrigin/*, .usesFontLeading*/]
             let strHeight: CGFloat = attributedText.boundingRect(with: size, options: options, context: nil).height
-            let yOffset: CGFloat = (height - strHeight) / 2.0
+            let yOffset: CGFloat = 0 // (height - strHeight) / 2.0
 
             attributedText.draw(with: CGRect(x: 0, y: yOffset, width: width, height: strHeight), options: options, context: nil)
         }
@@ -75,8 +74,6 @@ class TooltipNode: SKNode {
         self.messageLabelNode?.position = CGPoint(x: 0, y: 0)
         self.messageLabelNode?.zPosition = self.zPosition + 2
         self.addChild(self.messageLabelNode!)
-
-        // self.setScale(0.5)
     }
 
     required init?(coder aDecoder: NSCoder) {
