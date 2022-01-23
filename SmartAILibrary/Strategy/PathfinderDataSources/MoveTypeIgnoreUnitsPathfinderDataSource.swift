@@ -73,7 +73,7 @@ class MoveTypeIgnoreUnitsPathfinderDataSource: PathfinderDataSource {
                         if toTile.terrain() == .ocean && !self.options.canEnterOcean {
                             continue
                         }
-                        
+
                         if toTile.isWater() &&  toTile.isImpassable(for: .swim) {
                             continue
                         }
