@@ -27,7 +27,7 @@ class UnitTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .ocean, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .shore, sized: .small)
 
         // start island
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
@@ -37,13 +37,15 @@ class UnitTests: XCTestCase {
         mapModel.set(terrain: .plains, at: HexPoint(x: 6, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 7, y: 2))
 
-        let gameModel = GameModel(victoryTypes: [.domination],
-                                  handicap: .king,
-                                  turnsElapsed: 0,
-                                  players: [barbarianPlayer, aiPlayer, humanPlayer],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
 
-        try! humanPlayer.techs?.discover(tech: .sailing, in: gameModel)
+        try! humanPlayer.techs?.discover(tech: .shipBuilding, in: gameModel)
 
         // add UI
         let userInterface = TestUI()

@@ -558,7 +558,7 @@ public class MapGenerator: BaseMapHandler {
             in: grid,
             for: .walk,
             for: nil,
-            options: MoveTypeIgnoreUnitsOptions(unitMapType: .civilian, canEmbark: false)
+            options: MoveTypeIgnoreUnitsOptions(unitMapType: .civilian, canEmbark: false, canEnterOcean: false)
         )
 
         var longestRoute = 0

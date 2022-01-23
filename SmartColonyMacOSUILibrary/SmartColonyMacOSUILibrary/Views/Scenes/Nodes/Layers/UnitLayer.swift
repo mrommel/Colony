@@ -361,7 +361,8 @@ class UnitLayer: SKNode {
                         for: selectedUnit.player,
                         ignoreOwner: false,
                         unitMapType: selectedUnit.unitMapType(),
-                        canEmbark: selectedUnit.canEverEmbark()
+                        canEmbark: selectedUnit.canEverEmbark(),
+                        canEnterOcean: selectedUnit.player!.canEnterOcean()
                     )
 
                     if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: hex) {

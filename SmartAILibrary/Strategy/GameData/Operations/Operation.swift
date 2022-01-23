@@ -300,7 +300,8 @@ public class Operation: Codable, Equatable {
                 for: unit.movementType(),
                 for: searchUnit.unit?.player,
                 unitMapType: .combat,
-                canEmbark: true
+                canEmbark: self.player!.canEmbark(),
+                canEnterOcean: self.player!.canEnterOcean()
             )
 
             if let searchUnitLocation = searchUnit.unit?.location {
@@ -774,7 +775,8 @@ public class Operation: Codable, Equatable {
                     for: armyMoveType,
                     for: self.player,
                     unitMapType: .combat,
-                    canEmbark: true
+                    canEmbark: self.player!.canEmbark(),
+                    canEnterOcean: self.player!.canEnterOcean()
                 )
 
                 guard let musterPosition = self.musterPosition else {

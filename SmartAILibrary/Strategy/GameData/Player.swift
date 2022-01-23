@@ -170,7 +170,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func has(tech: TechType) -> Bool
     func numberOfDiscoveredTechs() -> Int
     func canEmbark() -> Bool
-    func canEmbarkAllWaterPassage() -> Bool
+    func canEnterOcean() -> Bool
 
     // civic
     func has(civic: CivicType) -> Bool
@@ -2497,12 +2497,12 @@ public class Player: AbstractPlayer {
 
     public func canEmbark() -> Bool {
 
-        return self.has(tech: .sailing)
+        return self.has(tech: .shipBuilding)
     }
 
-    public func canEmbarkAllWaterPassage() -> Bool {
+    public func canEnterOcean() -> Bool {
 
-        return self.has(tech: .celestialNavigation)
+        return self.has(tech: .cartography)
     }
 
     public func has(civic civicType: CivicType) -> Bool {
@@ -2755,7 +2755,13 @@ public class Player: AbstractPlayer {
                 }
 
                 let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self, unitMapType: .combat, canEmbark: self.canEmbark())
+                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                    for: .walk,
+                    for: self,
+                    unitMapType: .combat,
+                    canEmbark: false,
+                    canEnterOcean: self.canEnterOcean()
+                )
 
                 if let path = pathFinder.shortestPath(fromTileCoord: location, toTileCoord: capital.location) {
                     // If within TradeRoute6 Trade Route range of the Capital6 Capital, a road to it.
@@ -3238,7 +3244,13 @@ public class Player: AbstractPlayer {
         }
 
         let pathfinder = AStarPathfinder()
-        pathfinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self, unitMapType: .combat, canEmbark: self.canEmbark())
+        pathfinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+            for: .walk,
+            for: self,
+            unitMapType: .combat,
+            canEmbark: self.canEmbark(),
+            canEnterOcean: self.canEnterOcean()
+        )
 
         if let _ = pathfinder.shortestPath(fromTileCoord: playerCapital.location, toTileCoord: targetCity.location) {
             return true
@@ -3606,7 +3618,13 @@ public class Player: AbstractPlayer {
 
         var minDistance: Int = Int.max
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self, unitMapType: .civilian, canEmbark: true)
+        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+            for: .walk,
+            for: self,
+            unitMapType: .civilian,
+            canEmbark: true,
+            canEnterOcean: self.canEnterOcean()
+        )
 
         for cityRef in gameModel.cities(of: self) {
 

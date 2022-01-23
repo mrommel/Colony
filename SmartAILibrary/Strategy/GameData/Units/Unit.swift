@@ -1573,7 +1573,8 @@ public class Unit: AbstractUnit {
             for: self.player,
             ignoreOwner: self.type.canMoveInRivalTerritory(),
             unitMapType: self.unitMapType(),
-            canEmbark: self.canEmbark(in: gameModel) || self.isEmbarked()
+            canEmbark: self.canEmbark(in: gameModel) || self.isEmbarked(),
+            canEnterOcean: self.player!.canEnterOcean()
         )
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
@@ -1589,12 +1590,15 @@ public class Unit: AbstractUnit {
 
     public func pathIgnoreUnits(towards target: HexPoint, in gameModel: GameModel?) -> HexPath? {
 
+        let canEmbark = self.canEverEmbark()
+
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(
             for: self.movementType(),
             for: self.player,
             unitMapType: .combat,
-            canEmbark: true
+            canEmbark: canEmbark,
+            canEnterOcean: self.player!.canEnterOcean()
         )
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
@@ -1767,7 +1771,8 @@ public class Unit: AbstractUnit {
             for: self.movementType(),
             for: self.player,
             unitMapType: self.unitMapType(),
-            canEmbark: self.canEmbark(in: gameModel) || self.isEmbarked()
+            canEmbark: self.canEmbark(in: gameModel) || self.isEmbarked(),
+            canEnterOcean: self.player!.canEnterOcean()
         )
 
         if !self.canMove() {
@@ -4107,7 +4112,13 @@ public class Unit: AbstractUnit {
     public func canReach(at point: HexPoint, in turns: Int, in gameModel: GameModel?) -> Bool {
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player, unitMapType: self.unitMapType(), canEmbark: self.canEmbark(in: gameModel))
+        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(
+            for: self.movementType(),
+            for: self.player,
+            unitMapType: self.unitMapType(),
+            canEmbark: self.canEmbark(in: gameModel),
+            canEnterOcean: self.player!.canEnterOcean()
+        )
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
 
@@ -4121,7 +4132,13 @@ public class Unit: AbstractUnit {
     public func turnsToReach(at point: HexPoint, in gameModel: GameModel?) -> Int {
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player, unitMapType: self.unitMapType(), canEmbark: self.canEmbark(in: gameModel))
+        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(
+            for: self.movementType(),
+            for: self.player,
+            unitMapType: self.unitMapType(),
+            canEmbark: self.canEmbark(in: gameModel),
+            canEnterOcean: self.player!.canEnterOcean()
+        )
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
 
@@ -4149,17 +4166,27 @@ public class Unit: AbstractUnit {
         return false
     }
 
+    // https://civilization.fandom.com/wiki/Movement_(Civ6)?so=search#Embarking
     public func canEverEmbark() -> Bool {
 
         guard let player = self.player else {
             fatalError("cant get player")
         }
 
-        if self.domain() == .land && (self.type.has(ability: .canEmbark) || player.canEmbark()) {
-            return true
-        } else {
+        // only land units can embark
+        guard self.domain() == .land else {
             return false
         }
+
+        if self.type == .builder && player.has(tech: .sailing) {
+            return true
+        }
+
+        if player.canEmbark() {
+            return true
+        }
+
+        return false
     }
 
     public func canEmbark(into point: HexPoint? = nil, in gameModel: GameModel?) -> Bool {

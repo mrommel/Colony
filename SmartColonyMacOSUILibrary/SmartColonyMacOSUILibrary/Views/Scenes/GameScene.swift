@@ -365,7 +365,8 @@ extension GameScene {
                         for: selectedUnit.movementType(),
                         for: selectedUnit.player,
                         unitMapType: selectedUnit.unitMapType(),
-                        canEmbark: selectedUnit.canEverEmbark()
+                        canEmbark: selectedUnit.canEverEmbark(),
+                        canEnterOcean: selectedUnit.player!.canEnterOcean()
                     )
 
                     if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: position) {

@@ -39,7 +39,9 @@ class AStarPathFinderTests: XCTestCase {
         )
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: false)
+        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+            for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: false,
+               canEnterOcean: false)
 
         // WHEN
         let path = pathFinder.shortestPath(fromTileCoord: HexPoint(x: 1, y: 2), toTileCoord: HexPoint(x: 3, y: 2))
@@ -78,7 +80,13 @@ class AStarPathFinderTests: XCTestCase {
         )
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: false)
+        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+            for: .walk,
+            for: humanPlayer,
+            unitMapType: .combat,
+            canEmbark: false,
+            canEnterOcean: false
+        )
 
         // obstacle
         let unit = Unit(at: HexPoint(x: 2, y: 2), type: .warrior, owner: humanPlayer)
@@ -121,7 +129,13 @@ class AStarPathFinderTests: XCTestCase {
         )
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: false)
+        pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(
+            for: .walk,
+            for: humanPlayer,
+            unitMapType: .combat,
+            canEmbark: false,
+            canEnterOcean: false
+        )
 
         // obstacle
         let unit = Unit(at: HexPoint(x: 2, y: 2), type: .builder, owner: humanPlayer)
@@ -164,7 +178,13 @@ class AStarPathFinderTests: XCTestCase {
         )
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: false)
+        pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(
+            for: .walk,
+            for: humanPlayer,
+            unitMapType: .combat,
+            canEmbark: false,
+            canEnterOcean: false
+        )
 
         // obstacle
         let unit = Unit(at: HexPoint(x: 2, y: 2), type: .warrior, owner: aiPlayer)
@@ -189,7 +209,7 @@ class AStarPathFinderTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .ocean, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .shore, sized: .small)
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 2, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
@@ -203,7 +223,13 @@ class AStarPathFinderTests: XCTestCase {
         )
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: true)
+        pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(
+            for: .walk,
+            for: humanPlayer,
+            unitMapType: .combat,
+            canEmbark: true,
+            canEnterOcean: false
+        )
 
         // WHEN
         let path = pathFinder.shortestPath(fromTileCoord: HexPoint(x: 1, y: 2), toTileCoord: HexPoint(x: 4, y: 2))
@@ -229,7 +255,7 @@ class AStarPathFinderTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .ocean, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .shore, sized: .small)
 
         // start island
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
@@ -248,7 +274,13 @@ class AStarPathFinderTests: XCTestCase {
         )
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: true)
+        pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(
+            for: .walk,
+            for: humanPlayer,
+            unitMapType: .combat,
+            canEmbark: true,
+            canEnterOcean: false
+        )
 
         // WHEN
         let path = pathFinder.shortestPath(fromTileCoord: HexPoint(x: 1, y: 2), toTileCoord: HexPoint(x: 6, y: 2))
@@ -257,7 +289,7 @@ class AStarPathFinderTests: XCTestCase {
         XCTAssertNotNil(path, "no path found (but we can embark")
         if let path = path {
             XCTAssertEqual(path.count, 5)
-            XCTAssertEqual(path.cost, 7.0)
+            XCTAssertEqual(path.cost, 6.0)
         }
     }
 }

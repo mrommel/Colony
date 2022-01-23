@@ -119,8 +119,15 @@ class TradeRoutePathfinderDataSource: PathfinderDataSource {
             fatalError("cant get target city location")
         }
 
+        // traders cant embark for their land trade routes
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(for: .walk, for: originCity?.player, unitMapType: .combat, canEmbark: true)
+        pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(
+            for: .walk,
+            for: originCity?.player,
+            unitMapType: .combat,
+            canEmbark: false,
+            canEnterOcean: false
+        )
 
         guard let path = pathFinder.shortestPath(fromTileCoord: originCityLocation, toTileCoord: targetCityLocation) else {
             print("no path")

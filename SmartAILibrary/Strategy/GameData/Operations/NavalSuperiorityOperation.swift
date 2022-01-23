@@ -118,7 +118,13 @@ class NavalSuperiorityOperation: NavalOperation {
             else if possibleBetterTarget != self.targetPosition {
 
                 let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: self.player, unitMapType: .combat, canEmbark: true)
+                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                    for: .swim,
+                    for: self.player,
+                    unitMapType: .combat,
+                    canEmbark: true,
+                    canEnterOcean: self.player!.canEnterOcean()
+                )
 
                 // Reset our destination to be a few plots shy of the final target
                 if let path = pathFinder.shortestPath(fromTileCoord: self.army!.position, toTileCoord: possibleBetterTarget!),
@@ -156,7 +162,13 @@ class NavalSuperiorityOperation: NavalOperation {
         var bestTurns = 0
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: self.player, unitMapType: .combat, canEmbark: true)
+        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+            for: .swim,
+            for: self.player,
+            unitMapType: .combat,
+            canEmbark: true,
+            canEnterOcean: self.player!.canEnterOcean()
+        )
 
         if !plots.isEmpty {
 

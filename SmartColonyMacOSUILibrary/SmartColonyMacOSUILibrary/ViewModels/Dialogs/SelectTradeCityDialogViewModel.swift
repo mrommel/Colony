@@ -152,7 +152,12 @@ extension SelectTradeCityDialogViewModel: TradeCityViewModelDelegate {
 
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(
-            for: .walk, for: city?.player, ignoreOwner: true, unitMapType: .civilian, canEmbark: false
+            for: .walk,
+            for: city?.player,
+            ignoreOwner: true,
+            unitMapType: .civilian,
+            canEmbark: false,
+            canEnterOcean: false
         )
 
         if let path = pathFinder.shortestPath(fromTileCoord: startLocation, toTileCoord: selectedLocation) {

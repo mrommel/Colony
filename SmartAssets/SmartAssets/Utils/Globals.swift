@@ -22,20 +22,20 @@ public struct Globals {
         public static let focus: CGFloat = 3.0
 
         public static let river: CGFloat = 4.0
-        public static let road: CGFloat = 4.1
         public static let feature: CGFloat = 4.2
         public static let path: CGFloat = 4.3
         public static let resource: CGFloat = 4.9
 
-        public static let improvement: CGFloat = 5.0 // 4.25 - https://github.com/mrommel/Colony/issues/44
-        public static let district: CGFloat = 5.03
-        public static let wonder: CGFloat = 5.04
-        public static let border: CGFloat = 5.05
-        public static let resourceMarker: CGFloat = 5.1
+        public static let improvement: CGFloat = 5.0
+        public static let border: CGFloat = 5.1
         public static let route: CGFloat = 5.2
+        // public static let improvementUpper: CGFloat = 5.25 // # not implemented yet
+        public static let district: CGFloat = 5.3
+        public static let wonder: CGFloat = 5.4
+        public static let resourceMarker: CGFloat = 5.5
 
-        public static let mountain: CGFloat = 5.4
-        public static let cityName: CGFloat = 5.5
+        public static let mountain: CGFloat = 5.6
+        public static let cityName: CGFloat = 5.7
         public static let city: CGFloat = 5.8
         public static let yields: CGFloat = 5.9
 

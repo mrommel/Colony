@@ -1595,15 +1595,25 @@ open class GameModel: Codable {
         return self.tacticalAnalysisMapVal
     }
 
-    public func ignoreUnitsPathfinderDataSource(for movementType: UnitMovementType, for player: AbstractPlayer?, unitMapType: UnitMapType, canEmbark: Bool) -> PathfinderDataSource {
+    public func ignoreUnitsPathfinderDataSource(for movementType: UnitMovementType, for player: AbstractPlayer?, unitMapType: UnitMapType, canEmbark: Bool, canEnterOcean: Bool) -> PathfinderDataSource {
 
-        let options = MoveTypeIgnoreUnitsOptions(unitMapType: unitMapType, canEmbark: canEmbark)
+        let options = MoveTypeIgnoreUnitsOptions(
+            unitMapType: unitMapType,
+            canEmbark: canEmbark,
+            canEnterOcean: canEnterOcean
+        )
         return MoveTypeIgnoreUnitsPathfinderDataSource(in: self.map, for: movementType, for: player, options: options)
     }
 
-    public func unitAwarePathfinderDataSource(for movementType: UnitMovementType, for player: AbstractPlayer?, ignoreOwner: Bool = false, unitMapType: UnitMapType, canEmbark: Bool) -> PathfinderDataSource {
+    public func unitAwarePathfinderDataSource(for movementType: UnitMovementType, for player: AbstractPlayer?, ignoreOwner: Bool = false, unitMapType: UnitMapType, canEmbark: Bool, canEnterOcean: Bool) -> PathfinderDataSource {
 
-        let options = MoveTypeUnitAwareOptions(ignoreSight: true, ignoreOwner: ignoreOwner, unitMapType: unitMapType, canEmbark: canEmbark)
+        let options = MoveTypeUnitAwareOptions(
+            ignoreSight: true,
+            ignoreOwner: ignoreOwner,
+            unitMapType: unitMapType,
+            canEmbark: canEmbark,
+            canEnterOcean: canEnterOcean
+        )
         return MoveTypeUnitAwarePathfinderDataSource(in: self, for: movementType, for: player, options: options)
     }
 

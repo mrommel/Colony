@@ -14,13 +14,15 @@ class MoveTypeUnitAwareOptions {
     let ignoreOwner: Bool
     let unitMapType: UnitMapType
     let canEmbark: Bool
+    let canEnterOcean: Bool
 
-    init(ignoreSight: Bool = true, ignoreOwner: Bool = false, unitMapType: UnitMapType, canEmbark: Bool) {
+    init(ignoreSight: Bool = true, ignoreOwner: Bool = false, unitMapType: UnitMapType, canEmbark: Bool, canEnterOcean: Bool) {
 
         self.ignoreSight = ignoreSight
         self.ignoreOwner = ignoreOwner
         self.unitMapType = unitMapType
         self.canEmbark = canEmbark
+        self.canEnterOcean = canEnterOcean
     }
 }
 
@@ -67,6 +69,10 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
 
                     // walkable ?
                     if self.movementType == .walk {
+                        if toTile.terrain() == .ocean && !self.options.canEnterOcean {
+                            continue
+                        }
+
                         if toTile.isWater() && !self.options.canEmbark {
                             continue
                         }
@@ -79,6 +85,10 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                             continue
                         }
                     } else if self.movementType == .swim {
+                        if toTile.terrain() == .ocean && !self.options.canEnterOcean {
+                            continue
+                        }
+                        
                         if toTile.isWater() && toTile.isImpassable(for: .swim) {
                             continue
                         }
