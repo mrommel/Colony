@@ -616,7 +616,8 @@ extension GameViewModel: GameViewModelDelegate {
     func updateStates() {
 
         if self.uiTurnState == .humanTurns {
-            // update states
+
+            // update main button
             self.bottomLeftBarViewModel.updateTurnButton()
 
             // update nodes
@@ -625,6 +626,18 @@ extension GameViewModel: GameViewModelDelegate {
 
             // update
             // self.updateLeaders()
+
+            // check selected unit
+            if let unit = self.selectedUnit {
+
+                guard let gameModel = self.gameEnvironment.game.value else {
+                    return
+                }
+
+                if !unit.readyToMove() {
+                    gameModel.userInterface?.unselect()
+                }
+            }
         }
     }
 

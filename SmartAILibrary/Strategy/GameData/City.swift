@@ -267,6 +267,11 @@ public class LeaderWeightList: WeightedList<LeaderType> {
             self.add(weight: 0.0, for: leaderType)
         }
     }
+
+    public func removeAll() {
+
+        self.items.removeAll()
+    }
 }
 
 // swiftlint:disable type_body_length
@@ -3355,7 +3360,7 @@ public class City: AbstractCity {
             return false
         }
 
-        return false
+        return true
     }
 
     public func canPurchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {

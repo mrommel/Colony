@@ -55,6 +55,14 @@ class CityGoldPurchaseViewModel: ObservableObject {
                 fatalError("human player not city owner")
             }
 
+            guard let districts = city.districts else {
+                fatalError("cant get districts")
+            }
+
+            guard let buildings = city.buildings else {
+                fatalError("cant get buildings")
+            }
+
             // units
             let possibleUnitTypes = UnitType.all.filter { unitType in
                 return city.canTrain(unit: unitType, in: gameModel)
@@ -66,6 +74,39 @@ class CityGoldPurchaseViewModel: ObservableObject {
                 let unitViewModel = UnitViewModel(unitType: unitType, gold: Int(goldCost), enabled: enabled)
                 unitViewModel.delegate = self
                 return unitViewModel
+            }
+
+            // only built districts / possible buildings
+            let possibleDistrictTypes: [DistrictType] = DistrictType.all.filter { districtType in
+                return districts.has(district: districtType)
+            }
+            self.districtSectionViewModels = possibleDistrictTypes.map { districtType in
+
+                let districtModel = DistrictViewModel(districtType: districtType, active: true)
+                // districtModel.delegate = self
+
+                // filter buildingTypes
+                let possibleBuildingTypes = BuildingType.all.filter { buildingType in
+
+                    return city.canBuild(building: buildingType, in: gameModel) &&
+                        !buildings.has(building: buildingType) &&
+                        buildingType.district() == districtType
+                }
+
+                let buildingViewModels: [BuildingViewModel] = possibleBuildingTypes.map { buildingType in
+
+                    let productionCost = buildingType.productionCost()
+                    let productionPerTurn = city.productionPerTurn(in: gameModel)
+                    let turns = productionPerTurn > 0 ? Int(ceil(Double(productionCost) / productionPerTurn)) : 1000
+                    if city.buildQueue.isBuilding(building: buildingType) {
+                        // buildingNode.disable()
+                    }
+                    let buildingViewModel = BuildingViewModel(buildingType: buildingType, turns: turns)
+                    buildingViewModel.delegate = self
+                    return buildingViewModel
+                }
+
+                return DistrictSectionViewModel(districtViewModel: districtModel, buildingViewModels: buildingViewModels)
             }
         }
     }
@@ -82,6 +123,10 @@ extension CityGoldPurchaseViewModel: UnitViewModelDelegate {
 
         let success = self.city?.purchase(unit: unitType, with: .gold, in: gameModel) ?? false
         print("purchase \(unitType): \(success)")
+
+        if success {
+            self.delegate?.closeDialog()
+        }
     }
 
     func clicked(on unit: AbstractUnit?, at index: Int) {
@@ -129,6 +174,24 @@ extension CityGoldPurchaseViewModel: HexagonGridViewModelDelegate {
             self.showLocationPicker = false
         } else {
             print("--- this should not happen - selected a district type \(districtType) that cannot be constructed in \(city.name) ---")
+        }
+    }
+}
+
+extension CityGoldPurchaseViewModel: BuildingViewModelDelegate {
+
+    func clicked(on buildingType: BuildingType, at index: Int) {
+
+        print("try to purchase: \(buildingType)")
+        guard let gameModel = self.gameEnvironment.game.value else {
+            return
+        }
+
+        let success = self.city?.purchase(building: buildingType, with: .gold, in: gameModel) ?? false
+        print("purchase \(buildingType): \(success)")
+
+        if success {
+            self.delegate?.closeDialog()
         }
     }
 }
