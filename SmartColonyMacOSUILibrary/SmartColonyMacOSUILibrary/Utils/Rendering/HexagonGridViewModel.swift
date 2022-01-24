@@ -178,7 +178,7 @@ class HexagonGridViewModel: ObservableObject {
                 case .citizen:
                     let tileAction = self.tileAction(of: tile, with: city, for: humanPlayer, in: gameModel)
                     tileActionTextureName = tileAction.textureName
-                    if tileAction == TileActionType.available {
+                    if tileAction == TileActionType.purchasable {
                         cost = city.buyPlotCost(at: HexPoint(x: x, y: y), in: gameModel)
                     }
                 case .districtLocation(type: let districtType):

@@ -32,7 +32,7 @@ struct PromotionView: View {
                 Text(self.viewModel.name)
                     .font(.headline)
 
-                Text(self.viewModel.effect)
+                Label(self.viewModel.effect)
             }
             .padding(.leading, 4)
             .padding(.trailing, 8)
