@@ -455,6 +455,8 @@ extension GameScene {
 
                     self.mapNode?.unitLayer.hideFocus()
                     self.updateCommands(for: selectedUnit)
+
+                    self.viewModel?.game?.userInterface?.unselect()
                 }
 
             case .meleeUnitTargets:

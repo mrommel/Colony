@@ -269,6 +269,10 @@ class UnitBannerViewModel: ObservableObject {
                 self.backgroundQueue.async {
                     let farmBuildMission = UnitMission(type: .build, buildType: .farm, at: selectedUnit.location)
                     selectedUnit.push(mission: farmBuildMission, in: gameModel)
+
+                    DispatchQueue.main.async {
+                        gameModel.userInterface?.unselect()
+                    }
                 }
             }
 
@@ -277,6 +281,10 @@ class UnitBannerViewModel: ObservableObject {
                 self.backgroundQueue.async {
                     let mineBuildMission = UnitMission(type: .build, buildType: .mine, at: selectedUnit.location)
                     selectedUnit.push(mission: mineBuildMission, in: gameModel)
+
+                    DispatchQueue.main.async {
+                        gameModel.userInterface?.unselect()
+                    }
                 }
             }
 
@@ -285,6 +293,10 @@ class UnitBannerViewModel: ObservableObject {
                 self.backgroundQueue.async {
                     let campBuildMission = UnitMission(type: .build, buildType: .camp, at: selectedUnit.location)
                     selectedUnit.push(mission: campBuildMission, in: gameModel)
+
+                    DispatchQueue.main.async {
+                        gameModel.userInterface?.unselect()
+                    }
                 }
             }
 
@@ -293,6 +305,10 @@ class UnitBannerViewModel: ObservableObject {
                 self.backgroundQueue.async {
                     let pastureBuildMission = UnitMission(type: .build, buildType: .pasture, at: selectedUnit.location)
                     selectedUnit.push(mission: pastureBuildMission, in: gameModel)
+
+                    DispatchQueue.main.async {
+                        gameModel.userInterface?.unselect()
+                    }
                 }
             }
 
@@ -301,6 +317,10 @@ class UnitBannerViewModel: ObservableObject {
                 self.backgroundQueue.async {
                     let quarryBuildMission = UnitMission(type: .build, buildType: .quarry, at: selectedUnit.location)
                     selectedUnit.push(mission: quarryBuildMission, in: gameModel)
+
+                    DispatchQueue.main.async {
+                        gameModel.userInterface?.unselect()
+                    }
                 }
             }
 
@@ -309,6 +329,10 @@ class UnitBannerViewModel: ObservableObject {
                 self.backgroundQueue.async {
                     let plantationBuildMission = UnitMission(type: .build, buildType: .plantation, at: selectedUnit.location)
                     selectedUnit.push(mission: plantationBuildMission, in: gameModel)
+
+                    DispatchQueue.main.async {
+                        gameModel.userInterface?.unselect()
+                    }
                 }
             }
 
@@ -317,6 +341,10 @@ class UnitBannerViewModel: ObservableObject {
                 self.backgroundQueue.async {
                     let fishingBuildMission = UnitMission(type: .build, buildType: .fishingBoats, at: selectedUnit.location)
                     selectedUnit.push(mission: fishingBuildMission, in: gameModel)
+
+                    DispatchQueue.main.async {
+                        gameModel.userInterface?.unselect()
+                    }
                 }
             }
 
@@ -324,6 +352,10 @@ class UnitBannerViewModel: ObservableObject {
             if let selectedUnit = self.selectedUnit {
                 self.backgroundQueue.async {
                     selectedUnit.doRemoveFeature(in: gameModel)
+
+                    DispatchQueue.main.async {
+                        gameModel.userInterface?.unselect()
+                    }
                 }
             }
 
@@ -331,6 +363,10 @@ class UnitBannerViewModel: ObservableObject {
             if let selectedUnit = self.selectedUnit {
                 self.backgroundQueue.async {
                     selectedUnit.doPlantForest(in: gameModel)
+
+                    DispatchQueue.main.async {
+                        gameModel.userInterface?.unselect()
+                    }
                 }
             }
 
@@ -345,6 +381,10 @@ class UnitBannerViewModel: ObservableObject {
             if let selectedUnit = self.selectedUnit {
                 self.backgroundQueue.async {
                     selectedUnit.doFortify(in: gameModel)
+
+                    DispatchQueue.main.async {
+                        gameModel.userInterface?.unselect()
+                    }
                 }
             }
 
@@ -352,7 +392,10 @@ class UnitBannerViewModel: ObservableObject {
             if let selectedUnit = self.selectedUnit {
                 self.backgroundQueue.async {
                     selectedUnit.set(activityType: .hold, in: gameModel)
-                    //selectedUnit.finishMoves()
+
+                    DispatchQueue.main.async {
+                        gameModel.userInterface?.unselect()
+                    }
                 }
             }
 
@@ -360,6 +403,10 @@ class UnitBannerViewModel: ObservableObject {
             if let selectedUnit = self.selectedUnit {
                 self.backgroundQueue.async {
                     selectedUnit.doGarrison(in: gameModel)
+
+                    DispatchQueue.main.async {
+                        gameModel.userInterface?.unselect()
+                    }
                 }
             }
 
@@ -376,6 +423,10 @@ class UnitBannerViewModel: ObservableObject {
                     if disband {
                         self.backgroundQueue.async {
                             selectedUnit.doKill(delayed: false, by: nil, in: gameModel)
+
+                            DispatchQueue.main.async {
+                                gameModel.userInterface?.unselect()
+                            }
                         }
                     }
                 })
@@ -392,6 +443,10 @@ class UnitBannerViewModel: ObservableObject {
                 if let upgradeUnitType = selectedUnit.upgradeType() {
                     self.backgroundQueue.async {
                         selectedUnit.doUpgrade(to: upgradeUnitType, in: gameModel)
+
+                        DispatchQueue.main.async {
+                            gameModel.userInterface?.unselect()
+                        }
                     }
                 }
             }
@@ -400,6 +455,10 @@ class UnitBannerViewModel: ObservableObject {
             if let selectedUnit = self.selectedUnit {
                 self.backgroundQueue.async {
                     selectedUnit.automate(with: .explore)
+
+                    DispatchQueue.main.async {
+                        gameModel.userInterface?.unselect()
+                    }
                 }
             }
 
@@ -407,6 +466,10 @@ class UnitBannerViewModel: ObservableObject {
             if let selectedUnit = self.selectedUnit {
                 self.backgroundQueue.async {
                     selectedUnit.automate(with: .build)
+
+                    DispatchQueue.main.async {
+                        gameModel.userInterface?.unselect()
+                    }
                 }
             }
 
@@ -425,6 +488,10 @@ class UnitBannerViewModel: ObservableObject {
                         self.backgroundQueue.async {
                             if !selectedUnit.doEstablishTradeRoute(to: targetCity, in: gameModel) {
                                 print("could not establish a trade route to \(targetCity.name)")
+                            }
+
+                            DispatchQueue.main.async {
+                                gameModel.userInterface?.unselect()
                             }
                         }
                     }
@@ -478,6 +545,10 @@ class UnitBannerViewModel: ObservableObject {
 
                             // finally kill this great prophet
                             selectedUnit.doKill(delayed: true, by: nil, in: gameModel)
+
+                            DispatchQueue.main.async {
+                                gameModel.userInterface?.unselect()
+                            }
                         }
                     })
             }
@@ -495,6 +566,10 @@ class UnitBannerViewModel: ObservableObject {
                         if confirmed {
                             self.backgroundQueue.async {
                                 selectedUnit.activateGreatPerson(in: gameModel)
+
+                                DispatchQueue.main.async {
+                                    gameModel.userInterface?.unselect()
+                                }
                             }
                         }
                     })
@@ -533,6 +608,10 @@ class UnitBannerViewModel: ObservableObject {
                             selectedUnit.origin = selectedCity.location
                             selectedUnit.doTransferToAnother(city: selectedCity, in: gameModel)
                             selectedUnit.finishMoves()
+
+                            DispatchQueue.main.async {
+                                gameModel.userInterface?.unselect()
+                            }
                         }
                     }
                 )

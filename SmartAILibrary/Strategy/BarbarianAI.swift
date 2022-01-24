@@ -323,7 +323,7 @@ class BarbarianAI: Codable {
     }
 
     /// Determines when to Spawn a new Barb Unit from a Camp
-    func shouldSpawnBarbFromCamp(at point: HexPoint) -> Bool {
+    func shouldSpawnBarbarianUnitFromCamp(at point: HexPoint) -> Bool {
 
         if self.barbCampSpawnCounter[point] == 0 {
             return true
@@ -338,7 +338,7 @@ class BarbarianAI: Codable {
             fatalError("cant get gameModel")
         }
 
-        if !canBarbariansSpawn(in: gameModel) {
+        if !self.canBarbariansSpawn(in: gameModel) {
             return
         }
 
@@ -352,7 +352,7 @@ class BarbarianAI: Codable {
                     // Found a Camp to spawn near
                     if loopPlot.has(improvement: .barbarianCamp) {
 
-                        if self.shouldSpawnBarbFromCamp(at: loopPlot.point) {
+                        if self.shouldSpawnBarbarianUnitFromCamp(at: loopPlot.point) {
 
                             self.doSpawnBarbarianUnit(at: loopPlot.point, ignoreMaxBarbarians: false, finishMoves: false, in: gameModel)
                             self.doCampActivationNotice(at: loopPlot.point, in: gameModel)

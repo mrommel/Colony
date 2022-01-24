@@ -404,11 +404,14 @@ public enum UnitType: Int, Codable {
             return self
         }
 
-        if civilization == .barbarian {
+        let baseType = self.baseType()
+
+        // barbarians always have special units
+        if self == baseType && civilization == .barbarian {
             return nil
         }
 
-        return self.baseType()
+        return baseType
     }
 
     func civilianAttackPriority() -> CivilianAttackPriorityType {

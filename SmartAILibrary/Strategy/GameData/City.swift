@@ -5017,6 +5017,13 @@ public class City: AbstractCity {
 
         self.doUpdateCheapestPlotInfluence(in: gameModel)
 
+        // clear barbarian camps / goodyhuts
+        if tile.has(improvement: .barbarianCamp) {
+            self.player?.doClearBarbarianCamp(at: tile, in: gameModel)
+        } else if tile.has(improvement: .goodyHut) {
+            self.player?.doGoodyHut(at: tile, by: nil, in: gameModel)
+        }
+
         // repaint newly acquired tile ...
         gameModel.userInterface?.refresh(tile: tile)
 

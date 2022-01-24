@@ -626,18 +626,6 @@ extension GameViewModel: GameViewModelDelegate {
 
             // update
             // self.updateLeaders()
-
-            // check selected unit
-            if let unit = self.selectedUnit {
-
-                guard let gameModel = self.gameEnvironment.game.value else {
-                    return
-                }
-
-                if !unit.readyToMove() {
-                    gameModel.userInterface?.unselect()
-                }
-            }
         }
     }
 

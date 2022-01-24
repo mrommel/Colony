@@ -4290,14 +4290,11 @@ public class Player: AbstractPlayer {
     }
 
     /// Is a Particular Goody ID a valid Goody for a certain plot?
+    /// unit can be nil
     func canReceiveGoody(at tile: AbstractTile?, goody: GoodyType, unit: AbstractUnit?, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
-        }
-
-        guard let unit = unit else {
-            fatalError("cant get unit")
         }
 
         guard let goodyHuts = self.goodyHuts else {
@@ -4325,11 +4322,13 @@ public class Player: AbstractPlayer {
             return true
 
         case .civicMinorBoost:
-            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.inspirationTriggered(for: $0)})
+            let possibleCivicsWithoutEureka = civics.possibleCivics()
+                .filter { !civics.inspirationTriggered(for: $0)}
             return possibleCivicsWithoutEureka.count >= 1
 
         case .civicMajorBoost:
-            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.inspirationTriggered(for: $0)})
+            let possibleCivicsWithoutEureka = civics.possibleCivics()
+                .filter { !civics.inspirationTriggered(for: $0)}
             return possibleCivicsWithoutEureka.count >= 2
 
         case .relic:
@@ -4349,7 +4348,11 @@ public class Player: AbstractPlayer {
             return true
 
         case .healing:
-            return unit.healthPoints() < unit.maxHealthPoints()
+            if let unit = unit {
+                return unit.healthPoints() < unit.maxHealthPoints()
+            }
+
+            return false
 
         case .freeResource:
             return false
@@ -4358,7 +4361,7 @@ public class Player: AbstractPlayer {
             return false
 
         case .unitUpgrade:
-            if let upgradeType = unit.upgradeType() {
+            if let upgradeType = unit?.upgradeType(), let unit = unit {
                 return unit.canUpgrade(to: upgradeType, in: gameModel)
             }
 
