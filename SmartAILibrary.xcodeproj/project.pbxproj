@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C900A5A9279DED9400D533B3 /* UnitPathfindingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C900A5A8279DED9300D533B3 /* UnitPathfindingTests.swift */; };
 		C904DFB323F5D05700491A16 /* BuildingProductionAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904DFB223F5D05600491A16 /* BuildingProductionAI.swift */; };
 		C906144C23E3337300D316B5 /* BuildingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C906144B23E3337300D316B5 /* BuildingType.swift */; };
 		C906144E23E3362200D316B5 /* Buildings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C906144D23E3362200D316B5 /* Buildings.swift */; };
@@ -394,6 +395,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C900A5A8279DED9300D533B3 /* UnitPathfindingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitPathfindingTests.swift; sourceTree = "<group>"; };
 		C904DFB223F5D05600491A16 /* BuildingProductionAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildingProductionAI.swift; sourceTree = "<group>"; };
 		C906144B23E3337300D316B5 /* BuildingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildingType.swift; sourceTree = "<group>"; };
 		C906144D23E3362200D316B5 /* Buildings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buildings.swift; sourceTree = "<group>"; };
@@ -1042,6 +1044,7 @@
 				C94CB3CC274D8E54002F3083 /* TileAppealTests.swift */,
 				C98DBFB123E0580E00B6CE25 /* TileTests.swift */,
 				C956BF6924F3C7B9009702B4 /* TradeRouteTests.swift */,
+				C900A5A8279DED9300D533B3 /* UnitPathfindingTests.swift */,
 				C99047F526CA45A600B1A7A6 /* UnitTests.swift */,
 				C9A50FE2242244C5006AA47B /* UsecaseTests.swift */,
 			);
@@ -1993,6 +1996,7 @@
 				C907085D23ED45F700281161 /* MapModelHelper.swift in Sources */,
 				C90D2E2F24C317990029AA11 /* AssetExtractionTests.swift in Sources */,
 				C98DBFAA23DF34ED00B6CE25 /* CityTests.swift in Sources */,
+				C900A5A9279DED9400D533B3 /* UnitPathfindingTests.swift in Sources */,
 				C92317CC23D79F2C001FC723 /* GrandStrategyAITests.swift in Sources */,
 				C9D8DF7623EF6D0B0091C917 /* DiplomacyAITests.swift in Sources */,
 				C9D78DF12590893C0024ECF0 /* ResourcePlacingTests.swift in Sources */,

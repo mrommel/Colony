@@ -35,7 +35,7 @@ extension FeatureType {
         case .marsh:
             return ["feature-marsh1", "feature-marsh2"]
         case .oasis:
-            return ["feature-oasis1", "feature-oasis2"]
+            return ["feature-oasis"]
         case .reef:
             return ["feature-reef"]
         case .ice:

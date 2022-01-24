@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "feature-oasis2@1x.png",
+      "filename" : "feature-oasis@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "feature-oasis2@2x.png",
+      "filename" : "feature-oasis@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "feature-oasis2@3x.png",
+      "filename" : "feature-oasis@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
