@@ -167,7 +167,7 @@ class HexagonGridViewModel: ObservableObject {
                 let hills: String? = self.hillsTextureName(of: tile, for: humanPlayer)
                 let forest: String? = self.forestTextureName(of: tile, for: humanPlayer)
                 let cityTexture: String? = self.cityTextureName(of: tile, for: humanPlayer)
-                var tileAction: String?
+                var tileActionTextureName: String?
                 var cost: Int?
 
                 switch self.mode {
@@ -176,15 +176,18 @@ class HexagonGridViewModel: ObservableObject {
                     // NOOP
                     break
                 case .citizen:
-                    tileAction = self.tileActionTextureName(of: tile, with: city, for: humanPlayer, in: gameModel)
-                    cost = city.buyPlotCost(at: HexPoint(x: x, y: y), in: gameModel)
+                    let tileAction = self.tileAction(of: tile, with: city, for: humanPlayer, in: gameModel)
+                    tileActionTextureName = tileAction.textureName
+                    if tileAction == TileActionType.available {
+                        cost = city.buyPlotCost(at: HexPoint(x: x, y: y), in: gameModel)
+                    }
                 case .districtLocation(type: let districtType):
                     if city.canBuild(district: districtType, at: tile.point, in: gameModel) {
-                        tileAction = TileActionType.districtAvailable.textureName
+                        tileActionTextureName = TileActionType.districtAvailable.textureName
                     }
                 case .wonderLocation(type: let wonderType):
                     if city.canBuild(wonder: wonderType, at: tile.point, in: gameModel) {
-                        tileAction = TileActionType.wonderAvailable.textureName
+                        tileActionTextureName = TileActionType.wonderAvailable.textureName
                     }
                 }
 
@@ -195,7 +198,7 @@ class HexagonGridViewModel: ObservableObject {
                     hills: hills,
                     forest: forest,
                     city: cityTexture,
-                    tileAction: tileAction,
+                    tileActionTextureName: tileActionTextureName,
                     cost: cost,
                     showCitizenIcons: self.showCitizenIcons
                 )
@@ -242,7 +245,7 @@ class HexagonGridViewModel: ObservableObject {
                     // NOOP
                     break
                 case .citizen:
-                    let tileAction: String? = self.tileActionTextureName(of: tile, with: city, for: humanPlayer, in: gameModel)
+                    let tileAction: String? = self.tileAction(of: tile, with: city, for: humanPlayer, in: gameModel).textureName
                     model.update(tileAction: tileAction)
 
                 case .districtLocation(type: let districtType):
@@ -335,11 +338,6 @@ class HexagonGridViewModel: ObservableObject {
         } else {
             return nil
         }
-    }
-
-    private func tileActionTextureName(of tile: AbstractTile, with city: AbstractCity, for player: AbstractPlayer, in gameModel: GameModel?) -> String? {
-
-        return self.tileAction(of: tile, with: city, for: player, in: gameModel).textureName
     }
 
     private func tileAction(of tile: AbstractTile, with city: AbstractCity, for player: AbstractPlayer, in gameModel: GameModel?) -> TileActionType {

@@ -58,7 +58,7 @@ class HexagonViewModel: ObservableObject {
          hills: String?,
          forest: String?,
          city: String?,
-         tileAction: String?,
+         tileActionTextureName: String?,
          cost: Int?,
          showCitizenIcons: Bool) {
 
@@ -68,7 +68,7 @@ class HexagonViewModel: ObservableObject {
         self.hillsTextureName = hills
         self.forestTextureName = forest
         self.cityTextureName = city
-        self.tileActionTextureName = tileAction
+        self.tileActionTextureName = tileActionTextureName
         if let costValue = cost {
             self.costText = "\(costValue)"
         } else {
@@ -102,7 +102,7 @@ class HexagonViewModel: ObservableObject {
             self.cityImage = NSImage()
         }
 
-        if let texture = tileAction {
+        if let texture = tileActionTextureName {
             self.actionImage = ImageCache.shared.image(for: texture)
         } else {
             self.actionImage = NSImage()

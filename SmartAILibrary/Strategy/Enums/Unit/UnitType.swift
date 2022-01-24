@@ -149,7 +149,10 @@ public enum UnitType: Int, Codable {
             .medic,
 
             // great people
-            .artist, .engineer, .merchant, .scientist, .admiral, .general, .prophet, .musician, .writer
+            .artist, .engineer, .merchant, .scientist, .admiral, .general, .prophet, .musician, .writer,
+
+            // barbarian
+            .barbarianWarrior, .barbarianArcher
         ]
     }
 
@@ -404,14 +407,13 @@ public enum UnitType: Int, Codable {
             return self
         }
 
-        let baseType = self.baseType()
-
-        // barbarians always have special units
-        if self == baseType && civilization == .barbarian {
-            return nil
+        // if this unit is not for a special civ - we can use it
+        if self.civilization() == nil {
+            return self
         }
 
-        return baseType
+        // otherwise the base type
+        return self.baseType()
     }
 
     func civilianAttackPriority() -> CivilianAttackPriorityType {

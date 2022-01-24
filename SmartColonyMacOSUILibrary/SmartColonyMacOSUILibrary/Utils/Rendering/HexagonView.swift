@@ -84,7 +84,7 @@ struct HexagonView_Previews: PreviewProvider {
             hills: nil,
             forest: nil,
             city: nil,
-            tileAction: TileActionType.districtAvailable.textureName,
+            tileActionTextureName: TileActionType.districtAvailable.textureName,
             cost: nil,
             showCitizenIcons: true
         )
