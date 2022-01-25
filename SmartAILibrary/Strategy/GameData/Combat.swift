@@ -424,7 +424,6 @@ public class Combat {
             }
 
             attacker.doKill(delayed: false, by: nil, in: gameModel)
-            // pkDefender->testPromotionReady();
 
         } else if defender.healthPoints() <= 0 { // Defender died
 
@@ -464,8 +463,6 @@ public class Combat {
                 attacker.doMoveOnPath(towards: defenderTile.point, previousETA: 0, buildingRoute: false, in: gameModel)
             }
 
-            // pkAttacker->testPromotionReady();
-
         } else {
 
             if activePlayer.isEqual(to: attacker.player) {
@@ -493,15 +490,12 @@ public class Combat {
                     delay: 3
                 )
             }
-
-            // pkDefender->testPromotionReady();
-            // pkAttacker->testPromotionReady();
         }
 
         // If a Unit loses his moves after attacking, do so
         if !attacker.canMoveAfterAttacking() {
             attacker.finishMoves()
-            //GC.GetEngineUserInterface()->changeCycleSelectionCounter(1);
+            // GC.GetEngineUserInterface()->changeCycleSelectionCounter(1);
         }
 
         return CombatResult(defenderDamage: defenderDamage, attackerDamage: attackerDamage, value: value)
@@ -612,7 +606,6 @@ public class Combat {
             }
 
             attacker.doKill(delayed: false, by: nil, in: gameModel)
-            // pkDefender->testPromotionReady();
 
         } else if defender.healthPoints() <= 0 { // city has been conquered
 
@@ -681,9 +674,6 @@ public class Combat {
                     delay: 3
                 )
             }
-
-            // pkDefender->testPromotionReady();
-            // pkAttacker->testPromotionReady();
         }
 
         // If a Unit loses his moves after attacking, do so

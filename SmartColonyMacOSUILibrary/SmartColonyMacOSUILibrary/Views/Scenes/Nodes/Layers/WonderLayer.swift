@@ -11,6 +11,47 @@ import SmartAssets
 
 class WonderLayer: BaseLayer {
 
+    // MARK: intern classes
+
+    private class WonderLayerTile: BaseLayerTile {
+
+        let visible: Bool
+        let discovered: Bool
+        let wonderTexture: String
+        let buildingWonderTexture: String
+
+        init(point: HexPoint, visible: Bool, discovered: Bool, wonderTexture: String, buildingWonderTexture: String) {
+
+            self.visible = visible
+            self.discovered = discovered
+            self.wonderTexture = wonderTexture
+            self.buildingWonderTexture = buildingWonderTexture
+
+            super.init(point: point)
+        }
+
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+
+        override func hash(into hasher: inout Hasher) {
+
+            hasher.combine(self.point)
+            hasher.combine(self.visible)
+            hasher.combine(self.discovered)
+            hasher.combine(self.wonderTexture)
+            hasher.combine(self.buildingWonderTexture)
+        }
+    }
+
+    private class WonderLayerHasher: BaseLayerHasher<WonderLayerTile> {
+
+    }
+
+    // MARK: variables
+
+    private var hasher: WonderLayerHasher?
+
     static let kName: String = "WonderLayer"
 
     // MARK: constructor
@@ -36,6 +77,7 @@ class WonderLayer: BaseLayer {
 
         self.textureUtils = TextureUtils(with: gameModel)
         self.textures = Textures(game: gameModel)
+        self.hasher = WonderLayerHasher(with: gameModel)
 
         self.rebuild()
     }
@@ -101,15 +143,47 @@ class WonderLayer: BaseLayer {
         if let tile = tile {
             let pt = tile.point
 
-            self.clear(tile: tile)
+            let currentHashValue = self.hash(for: tile)
+            if !self.hasher!.has(hash: currentHashValue, at: pt) {
 
-            let screenPoint = HexPoint.toScreen(hex: pt)
+                self.clear(tile: tile)
 
-            if tile.isVisible(to: self.player) || self.showCompleteMap {
-                self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
-            } else if tile.isDiscovered(by: self.player) {
-                self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+                let screenPoint = HexPoint.toScreen(hex: pt)
+
+                if tile.isVisible(to: self.player) || self.showCompleteMap {
+                    self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
+                } else if tile.isDiscovered(by: self.player) {
+                    self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+                }
+
+                self.hasher?.update(hash: currentHashValue, at: tile.point)
             }
         }
+    }
+
+    private func hash(for tile: AbstractTile?) -> WonderLayerTile {
+
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+
+        var wonderTexture: String = ""
+        var buildingWonderTexture: String = ""
+        let wonder = tile.wonder()
+        let buildingWonder = tile.buildingWonder()
+
+        if wonder != .none {
+            wonderTexture = wonder.textureName()
+        } else if buildingWonder != .none {
+            buildingWonderTexture = buildingWonder.buildingTextureName()
+        }
+
+        return WonderLayerTile(
+            point: tile.point,
+            visible: tile.isVisible(to: self.player) || self.showCompleteMap,
+            discovered: tile.isDiscovered(by: self.player),
+            wonderTexture: wonderTexture,
+            buildingWonderTexture: buildingWonderTexture
+        )
     }
 }

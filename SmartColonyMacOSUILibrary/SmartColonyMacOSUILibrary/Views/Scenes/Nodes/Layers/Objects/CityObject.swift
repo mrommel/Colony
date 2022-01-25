@@ -83,6 +83,13 @@ class CityObject {
         parent.addChild(self.sprite)
     }
 
+    func updateCityBanner() {
+
+        print("999 show city banner 999")
+        self.hideCityBanner()
+        self.showCityBanner()
+    }
+
     func showCityBanner() {
 
         guard let city = self.city as? City else {
@@ -92,8 +99,6 @@ class CityObject {
         guard let player = city.player else {
             fatalError("cant get player")
         }
-
-        self.hideCityBanner()
 
         self.sprite.texture = SKTexture(image: ImageCache.shared.image(for: city.iconTexture()))
 

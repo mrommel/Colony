@@ -269,7 +269,7 @@ public class GameViewModel: ObservableObject {
     // UI
 
     @Published
-    var uiTurnState: GameSceneTurnState = .humanTurns
+    var uiTurnState: GameSceneTurnState = .aiTurns
 
     @Published
     var currentScreenType: ScreenType = .none
@@ -465,6 +465,8 @@ public class GameViewModel: ObservableObject {
         if preloadAssets {
             self.loadAssets()
         }
+
+        self.bannerViewModel.showBanner()
     }
 
     public func centerCapital() {

@@ -11,6 +11,47 @@ import SmartAssets
 
 class ImprovementLayer: BaseLayer {
 
+    // MARK: intern classes
+
+    private class ImprovementLayerTile: BaseLayerTile {
+
+        let visible: Bool
+        let discovered: Bool
+        let improvementTexture: String
+        let roadTexture: String
+
+        init(point: HexPoint, visible: Bool, discovered: Bool, improvementTexture: String, roadTexture: String) {
+
+            self.visible = visible
+            self.discovered = discovered
+            self.improvementTexture = improvementTexture
+            self.roadTexture = roadTexture
+
+            super.init(point: point)
+        }
+
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+
+        override func hash(into hasher: inout Hasher) {
+
+            hasher.combine(self.point)
+            hasher.combine(self.visible)
+            hasher.combine(self.discovered)
+            hasher.combine(self.improvementTexture)
+            hasher.combine(self.roadTexture)
+        }
+    }
+
+    private class ImprovementLayerHasher: BaseLayerHasher<ImprovementLayerTile> {
+
+    }
+
+    // MARK: variables
+
+    private var hasher: ImprovementLayerHasher?
+
     // MARK: constructor
 
     override init(player: AbstractPlayer?) {
@@ -33,6 +74,7 @@ class ImprovementLayer: BaseLayer {
 
         self.textureUtils = TextureUtils(with: gameModel)
         self.textures = Textures(game: gameModel)
+        self.hasher = ImprovementLayerHasher(with: gameModel)
 
         self.rebuild()
     }
@@ -107,15 +149,50 @@ class ImprovementLayer: BaseLayer {
         if let tile = tile {
             let pt = tile.point
 
-            self.clear(tile: tile)
+            let currentHashValue = self.hash(for: tile)
+            if !self.hasher!.has(hash: currentHashValue, at: pt) {
 
-            let screenPoint = HexPoint.toScreen(hex: pt)
+                self.clear(tile: tile)
 
-            if tile.isVisible(to: self.player) || self.showCompleteMap {
-                self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
-            } else if tile.isDiscovered(by: self.player) {
-                self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+                let screenPoint = HexPoint.toScreen(hex: pt)
+
+                if tile.isVisible(to: self.player) || self.showCompleteMap {
+                    self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
+                } else if tile.isDiscovered(by: self.player) {
+                    self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+                }
+
+                self.hasher?.update(hash: currentHashValue, at: tile.point)
             }
         }
+    }
+
+    private func hash(for tile: AbstractTile?) -> ImprovementLayerTile {
+
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+
+        var improvementTexture: String = ""
+        let improvement = tile.improvement()
+        if improvement != .none {
+            improvementTexture = improvement.textureNames().item(from: tile.point)
+        }
+
+        var roadTexture: String = ""
+        let route = tile.route()
+        if route != .none {
+            if let roadTextureName = self.textures?.roadTexture(at: tile.point) {
+                roadTexture = roadTextureName
+            }
+        }
+
+        return ImprovementLayerTile(
+            point: tile.point,
+            visible: tile.isVisible(to: self.player) || self.showCompleteMap,
+            discovered: tile.isDiscovered(by: self.player),
+            improvementTexture: improvementTexture,
+            roadTexture: roadTexture
+        )
     }
 }

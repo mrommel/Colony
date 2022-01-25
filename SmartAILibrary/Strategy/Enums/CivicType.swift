@@ -197,6 +197,11 @@ public enum CivicType: String, Codable {
         })
 
         let units = UnitType.all.filter({
+
+            if $0.civilization() != nil {
+                return false
+            }
+
             if let civic = $0.requiredCivic() {
                 return civic == self
             } else {

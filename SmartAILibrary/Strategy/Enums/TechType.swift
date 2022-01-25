@@ -220,6 +220,11 @@ public enum TechType: String, Codable {
         })
 
         let units = UnitType.all.filter({
+
+            if $0.civilization() != nil {
+                return false
+            }
+
             if let tech = $0.requiredTech() {
                 return tech == self
             } else {

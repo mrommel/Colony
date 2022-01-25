@@ -650,5 +650,8 @@ extension GameViewModel {
         }
 
         print("-- all textures loaded --")
+
+        self.bottomLeftBarViewModel.preloadAssets()
+        self.bottomLeftBarViewModel.showSpinningGlobe()
     }
 }

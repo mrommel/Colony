@@ -49,6 +49,16 @@ public class BottomLeftBarViewModel: ObservableObject {
         self.buttonViewModel = AnimatedImageViewModel(image: buttonImage)
     }
 
+    func preloadAssets() {
+
+        if self.globeImages.isEmpty {
+            self.globeImages = Array(0...90).map { "globe\($0)" }.map { globeTextureName in
+
+                return ImageCache.shared.image(for: globeTextureName)
+            }
+        }
+    }
+
     public func typeTemplateImage() -> NSImage {
 
         if let civilization = self.selectedUnitCivilization,
@@ -146,13 +156,6 @@ public class BottomLeftBarViewModel: ObservableObject {
     }
 
     func showSpinningGlobe() {
-
-        if self.globeImages.isEmpty {
-            self.globeImages = Array(0...90).map { "globe\($0)" }.map { globeTextureName in
-
-                return ImageCache.shared.image(for: globeTextureName)
-            }
-        }
 
         self.buttonViewModel.playAnimation(images: self.globeImages, interval: 0.07, loop: true)
         self.currentButtonNotificationType = .generic

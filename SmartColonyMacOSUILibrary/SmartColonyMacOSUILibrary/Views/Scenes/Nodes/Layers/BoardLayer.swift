@@ -11,6 +11,46 @@ import SmartAssets
 
 class BoardLayer: BaseLayer {
 
+    // MARK: intern classes
+
+    private class BoardLayerTile: BaseLayerTile {
+
+        let visible: Bool
+        let discovered: Bool
+        let calderaName: String
+
+        init(point: HexPoint, visible: Bool, discovered: Bool, calderaName: String) {
+
+            self.visible = visible
+            self.discovered = discovered
+            self.calderaName = calderaName
+
+            super.init(point: point)
+        }
+
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+
+        override func hash(into hasher: inout Hasher) {
+
+            hasher.combine(self.point)
+            hasher.combine(self.visible)
+            hasher.combine(self.discovered)
+            hasher.combine(self.calderaName)
+        }
+    }
+
+    private class BoardLayerHasher: BaseLayerHasher<BoardLayerTile> {
+
+    }
+
+    // MARK: variables
+
+    private var hasher: BoardLayerHasher?
+
+    // MARK: constructor
+
     override init(player: AbstractPlayer?) {
 
         super.init(player: player)
@@ -31,6 +71,7 @@ class BoardLayer: BaseLayer {
 
         self.textureUtils = TextureUtils(with: gameModel)
         self.textures = Textures(game: gameModel)
+        self.hasher = BoardLayerHasher(with: gameModel)
 
         self.rebuild()
     }
@@ -69,17 +110,42 @@ class BoardLayer: BaseLayer {
         if let tile = tile {
             let pt = tile.point
 
-            self.clear(tile: tile)
+            let currentHashValue = self.hash(for: tile)
+            if !self.hasher!.has(hash: currentHashValue, at: pt) {
 
-            let screenPoint = HexPoint.toScreen(hex: pt)
+                self.clear(tile: tile)
 
-            if let calderaName = self.textures?.calderaTexure(at: tile.point) {
-                if tile.isVisible(to: self.player) || self.showCompleteMap {
-                    self.placeTileHex(for: tile, with: calderaName, at: screenPoint, alpha: 1.0)
-                } else if tile.isDiscovered(by: self.player) {
-                    self.placeTileHex(for: tile, with: calderaName, at: screenPoint, alpha: 0.5)
+                let screenPoint = HexPoint.toScreen(hex: pt)
+
+                if let calderaName = self.textures?.calderaTexure(at: tile.point) {
+                    if tile.isVisible(to: self.player) || self.showCompleteMap {
+                        self.placeTileHex(for: tile, with: calderaName, at: screenPoint, alpha: 1.0)
+                    } else if tile.isDiscovered(by: self.player) {
+                        self.placeTileHex(for: tile, with: calderaName, at: screenPoint, alpha: 0.5)
+                    }
                 }
+
+                self.hasher?.update(hash: currentHashValue, at: tile.point)
             }
         }
+    }
+
+    private func hash(for tile: AbstractTile?) -> BoardLayerTile {
+
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+
+        var calderaName: String = ""
+        if let calderaNameTmp = self.textures?.calderaTexure(at: tile.point) {
+            calderaName = calderaNameTmp
+        }
+
+        return BoardLayerTile(
+            point: tile.point,
+            visible: tile.isVisible(to: self.player) || self.showCompleteMap,
+            discovered: tile.isDiscovered(by: self.player),
+            calderaName: calderaName
+        )
     }
 }

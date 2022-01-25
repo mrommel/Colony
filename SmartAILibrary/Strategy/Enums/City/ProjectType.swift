@@ -74,7 +74,7 @@ public enum ProjectType: Int, Codable {
     }
 
     // in production units
-    func productionCost() -> Int {
+    public func productionCost() -> Int {
 
         return self.data().cost
     }

@@ -11,6 +11,45 @@ import SmartAssets
 
 class TerrainLayer: BaseLayer {
 
+    // MARK: intern classes
+
+    private class TerrainLayerTile: BaseLayerTile {
+
+        let visible: Bool
+        let discovered: Bool
+        let terrainTexture: String
+        let snowTexture: String
+
+        init(point: HexPoint, visible: Bool, discovered: Bool, terrainTexture: String, snowTexture: String) {
+
+            self.visible = visible
+            self.discovered = discovered
+            self.terrainTexture = terrainTexture
+            self.snowTexture = snowTexture
+
+            super.init(point: point)
+        }
+
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+
+        override func hash(into hasher: inout Hasher) {
+
+            hasher.combine(self.point)
+            hasher.combine(self.visible)
+            hasher.combine(self.discovered)
+            hasher.combine(self.terrainTexture)
+            hasher.combine(self.snowTexture)
+        }
+    }
+
+    private class TerrainLayerHasher: BaseLayerHasher<TerrainLayerTile> {
+
+    }
+
+    private var hasher: TerrainLayerHasher?
+
     // MARK: constructor
 
     override init(player: AbstractPlayer?) {
@@ -33,6 +72,7 @@ class TerrainLayer: BaseLayer {
 
         self.textureUtils = TextureUtils(with: gameModel)
         self.textures = Textures(game: gameModel)
+        self.hasher = TerrainLayerHasher(with: gameModel)
 
         let mapSize = gameModel.mapSize()
 
@@ -48,6 +88,8 @@ class TerrainLayer: BaseLayer {
                     } else if tile.isDiscovered(by: self.player) {
                         self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
                     }
+
+                    self.hasher?.update(hash: self.hash(for: tile), at: tile.point)
                 }
             }
         }
@@ -114,15 +156,48 @@ class TerrainLayer: BaseLayer {
         if let tile = tile {
             let pt = tile.point
 
-            self.clear(tile: tile)
+            let currentHashValue = self.hash(for: tile)
+            if !self.hasher!.has(hash: currentHashValue, at: pt) {
 
-            let screenPoint = HexPoint.toScreen(hex: pt)
+                self.clear(tile: tile)
 
-            if tile.isVisible(to: self.player) || self.showCompleteMap {
-                self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
-            } else if tile.isDiscovered(by: self.player) {
-                self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+                let screenPoint = HexPoint.toScreen(hex: pt)
+
+                if tile.isVisible(to: self.player) || self.showCompleteMap {
+                    self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
+                } else if tile.isDiscovered(by: self.player) {
+                    self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+                }
+
+                self.hasher?.update(hash: currentHashValue, at: tile.point)
             }
         }
+    }
+
+    private func hash(for tile: AbstractTile?) -> TerrainLayerTile {
+
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+
+        var terrainTexture: String = ""
+        if let terrainTextureTmp = self.textures?.terrainTexture(at: tile.point) {
+            terrainTexture = terrainTextureTmp
+        }
+
+        var snowTexture: String = ""
+        if tile.terrain() != .snow {
+            if let snowTextureTmp = self.textures?.snowTexture(at: tile.point) {
+                snowTexture = snowTextureTmp
+            }
+        }
+
+        return TerrainLayerTile(
+            point: tile.point,
+            visible: tile.isVisible(to: self.player) || self.showCompleteMap,
+            discovered: tile.isDiscovered(by: self.player),
+            terrainTexture: terrainTexture,
+            snowTexture: snowTexture
+        )
     }
 }
