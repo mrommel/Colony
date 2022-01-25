@@ -262,6 +262,10 @@ class UnitPathfindingTests: XCTestCase {
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 2, y: 2))
 
+        // hores
+        mapModel.set(terrain: .shore, at: HexPoint(x: 3, y: 2))
+        mapModel.set(terrain: .shore, at: HexPoint(x: 5, y: 2))
+
         // target island
         mapModel.set(terrain: .plains, at: HexPoint(x: 6, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 7, y: 2))
@@ -275,6 +279,7 @@ class UnitPathfindingTests: XCTestCase {
         )
 
         try humanPlayer.techs?.discover(tech: .sailing, in: gameModel)
+        try humanPlayer.techs?.discover(tech: .shipBuilding, in: gameModel)
         try humanPlayer.techs?.discover(tech: .cartography, in: gameModel)
 
         // add UI

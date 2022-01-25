@@ -19,29 +19,28 @@ public struct Globals {
 
         public static let snow: CGFloat = 2.0
 
-        public static let focus: CGFloat = 3.0
+        public static let river: CGFloat = 3.0
+        public static let feature: CGFloat = 3.2
+        public static let path: CGFloat = 3.3
+        public static let resource: CGFloat = 3.9
 
-        public static let river: CGFloat = 4.0
-        public static let feature: CGFloat = 4.2
-        public static let path: CGFloat = 4.3
-        public static let resource: CGFloat = 4.9
+        public static let improvement: CGFloat = 4.0
+        public static let route: CGFloat = 4.1
+        public static let border: CGFloat = 4.2
+        public static let focus: CGFloat = 4.3
 
-        public static let improvement: CGFloat = 5.0
-        public static let border: CGFloat = 5.1
-        public static let route: CGFloat = 5.2
         // public static let improvementUpper: CGFloat = 5.25 // # not implemented yet
-        public static let district: CGFloat = 5.3
-        public static let wonder: CGFloat = 5.4
-        public static let resourceMarker: CGFloat = 5.5
+        public static let district: CGFloat = 5.0
+        public static let wonder: CGFloat = 5.1
+        public static let resourceMarker: CGFloat = 5.2
 
-        public static let mountain: CGFloat = 5.6
-        public static let cityName: CGFloat = 5.7
-        public static let city: CGFloat = 5.8
-        public static let yields: CGFloat = 5.9
+        public static let mountain: CGFloat = 6.0
+        public static let cityName: CGFloat = 6.1
+        public static let city: CGFloat = 6.2
+        public static let yields: CGFloat = 6.3
+        public static let hexCoords: CGFloat = 6.95 // debug
 
-        public static let hexCoords: CGFloat = 5.95 // debug
-
-        public static let unit: CGFloat = 6.0
+        public static let unit: CGFloat = 7.0
 
         public static let unitType: CGFloat = 8.0
 
