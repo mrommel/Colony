@@ -109,7 +109,7 @@ class HexagonViewModel: ObservableObject {
         }
     }
 
-    func update(tileAction: String?) {
+    func update(tileAction: String?, and cost: Int?) {
 
         self.tileActionTextureName = tileAction
 
@@ -117,6 +117,12 @@ class HexagonViewModel: ObservableObject {
             self.actionImage = ImageCache.shared.image(for: texture)
         } else {
             self.actionImage = NSImage()
+        }
+
+        if let costValue = cost {
+            self.costText = "\(costValue)"
+        } else {
+            self.costText = ""
         }
     }
 

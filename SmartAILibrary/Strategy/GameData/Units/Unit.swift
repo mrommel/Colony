@@ -1644,6 +1644,9 @@ public class Unit: AbstractUnit {
 
         guard let path = self.path(towards: target, options: .none, in: gameModel) else {
             print("Unable to generate path with BuildRouteFinder")
+            if self.peekMission()?.type == .moveTo {
+                self.popMission()
+            }
             return 0
         }
 
@@ -4833,10 +4836,12 @@ extension Unit {
                     fatalError("boing")
                     //hUnit->SetIgnoreDangerWakeup(true);
                 } else {
-                    if self.activityType() == .mission {
-                        missionNode.continueMission(steps: 0, in: gameModel)
-                    } else {
-                        missionNode.start(in: gameModel)
+                    if !self.isDelayedDeath() {
+                        if self.activityType() == .mission {
+                            missionNode.continueMission(steps: 0, in: gameModel)
+                        } else {
+                            missionNode.start(in: gameModel)
+                        }
                     }
                 }
             }

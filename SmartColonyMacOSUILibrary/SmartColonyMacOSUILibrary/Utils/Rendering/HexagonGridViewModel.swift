@@ -245,15 +245,20 @@ class HexagonGridViewModel: ObservableObject {
                     // NOOP
                     break
                 case .citizen:
-                    let tileAction: String? = self.tileAction(of: tile, with: city, for: humanPlayer, in: gameModel).textureName
-                    model.update(tileAction: tileAction)
+                    let tileAction = self.tileAction(of: tile, with: city, for: humanPlayer, in: gameModel)
+
+                    var cost: Int?
+                    if tileAction == TileActionType.purchasable || tileAction == TileActionType.nonPurchasable {
+                        cost = city.buyPlotCost(at: tile.point, in: gameModel)
+                    }
+                    model.update(tileAction: tileAction.textureName, and: cost)
 
                 case .districtLocation(type: let districtType):
                     var tileAction: String?
                     if city.canBuild(district: districtType, at: tile.point, in: gameModel) {
                         tileAction = TileActionType.districtAvailable.textureName
                     }
-                    model.update(tileAction: tileAction)
+                    model.update(tileAction: tileAction, and: nil)
 
                 case .wonderLocation(type: let wonderType):
                     var tileAction: String?
@@ -261,7 +266,7 @@ class HexagonGridViewModel: ObservableObject {
                         tileAction = TileActionType.wonderAvailable.textureName
                     }
 
-                    model.update(tileAction: tileAction)
+                    model.update(tileAction: tileAction, and: nil)
                 }
             }
         }
