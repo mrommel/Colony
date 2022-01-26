@@ -97,7 +97,7 @@ class TileImprovementTests: XCTestCase {
         let builderUnit = Unit(at: HexPoint(x: 3, y: 4), type: .builder, owner: humanPlayer)
         _ = builderUnit.doMove(on: HexPoint(x: 4, y: 3), in: gameModel)
         gameModel.add(unit: builderUnit)
-        gameModel.userInterface?.show(unit: builderUnit)
+        gameModel.userInterface?.show(unit: builderUnit, at: HexPoint(x: 3, y: 4))
         let canBuildFishingBoats = builderUnit.canDo(command: .buildFishingBoats, in: gameModel)
 
         // THEN

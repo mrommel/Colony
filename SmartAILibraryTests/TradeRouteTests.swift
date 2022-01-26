@@ -73,7 +73,7 @@ class TradeRouteTests: XCTestCase {
         let traderUnit = Unit(at: HexPoint(x: 2, y: 4), type: .trader, owner: humanPlayer)
         traderUnit.origin = HexPoint(x: 3, y: 5)
         gameModel.add(unit: traderUnit)
-        gameModel.userInterface?.show(unit: traderUnit)
+        gameModel.userInterface?.show(unit: traderUnit, at: HexPoint(x: 2, y: 4))
 
         MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
@@ -157,7 +157,7 @@ class TradeRouteTests: XCTestCase {
         let traderUnit = Unit(at: HexPoint(x: 4, y: 5), type: .trader, owner: humanPlayer)
         traderUnit.origin = HexPoint(x: 3, y: 5)
         gameModel.add(unit: traderUnit)
-        gameModel.userInterface?.show(unit: traderUnit)
+        gameModel.userInterface?.show(unit: traderUnit, at: HexPoint(x: 4, y: 5))
 
         MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 

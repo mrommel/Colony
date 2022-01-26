@@ -266,7 +266,7 @@ class UnitObject {
                         self.currentAnimation = .idle(location: location)
                     case .enterCity(location: let location):
                         print("## handle enterCity Animation: \(unit.name()) at \(unit.location) / \(location) ##")
-                        self.sprite.alpha = 0.5
+                        self.sprite.alpha = 0.0
                         self.currentAnimation = .idle(location: location)
                     case .fortify:
                         print("## handle fortify Animation: \(unit.name()) ##")

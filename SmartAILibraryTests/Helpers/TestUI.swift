@@ -55,9 +55,14 @@ class TestUI: UserInterfaceDelegate {
     func select(tech: TechType) {}
     func select(civic: CivicType) {}
 
+    func show(unit: AbstractUnit?, at location: HexPoint) {}
+    func hide(unit: AbstractUnit?, at location: HexPoint) {}
+    func enterCity(unit: AbstractUnit?, at location: HexPoint) {}
+    func leaveCity(unit: AbstractUnit?, at location: HexPoint) {}
+    func remove(city: AbstractCity?) {}
+
     func show(city: AbstractCity?) {}
     func update(city: AbstractCity?) {}
-    func remove(city: AbstractCity?) {}
 
     func refresh(tile: AbstractTile?) {}
 
