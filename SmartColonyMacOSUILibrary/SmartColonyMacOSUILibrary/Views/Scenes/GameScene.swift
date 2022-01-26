@@ -20,8 +20,9 @@ class GameScene: BaseScene {
     var previousLocation: CGPoint = .zero
     var lastExecuted: TimeInterval = -1
     var lastUpdated: TimeInterval = -1
-    let backgroundQueue: DispatchQueue = DispatchQueue(label: "backgroundQueue", qos: .background)
-    let pathfinderQueue: DispatchQueue = DispatchQueue(label: "pathfinderQueue", qos: .background)
+    let gameUpdateBackgroundQueue: DispatchQueue = DispatchQueue(label: "gameUpdateBackgroundQueue", qos: .background, attributes: .concurrent)
+    var gameUpdateMutex: Bool = true // means: can enter gameUpdate
+    let pathfinderQueue: DispatchQueue = DispatchQueue(label: "pathfinderQueue", qos: .background, attributes: .concurrent)
 
     // view model
     var viewModel: GameSceneViewModel?
@@ -125,22 +126,38 @@ class GameScene: BaseScene {
                         }
 
                         self.viewModel!.readyUpdatingHuman = false
-                        self.backgroundQueue.async {
-                            //print("-----------> before human processing")
-                            gameModel.update()
-                            //print("-----------> after human processing")
-                            self.viewModel!.readyUpdatingHuman = true
+
+                        // this will make a gameModel.update() executed only once at a time
+                        if self.gameUpdateMutex {
+                            self.gameUpdateMutex = false
+                            self.gameUpdateBackgroundQueue.async {
+                                //print("-----------> before human processing")
+                                gameModel.update()
+                                self.gameUpdateMutex = true
+                                //print("-----------> after human processing")
+                                self.viewModel!.readyUpdatingHuman = true
+                            }
+                        } else {
+                            print("+++ gameModel.update() skipped +++")
                         }
                     }
 
                 } else {
 
                     self.viewModel!.readyUpdatingAI = false
-                    self.backgroundQueue.async {
-                        //print("-----------> before AI processing")
-                        gameModel.update()
-                        //print("-----------> after AI processing")
-                        self.viewModel!.readyUpdatingAI = true
+
+                    // this will make a gameModel.update() executed only once at a time
+                    if self.gameUpdateMutex {
+                        self.gameUpdateMutex = false
+                        self.gameUpdateBackgroundQueue.async {
+                            //print("-----------> before AI processing")
+                            gameModel.update()
+                            self.gameUpdateMutex = true
+                            //print("-----------> after AI processing")
+                            self.viewModel!.readyUpdatingAI = true
+                        }
+                    } else {
+                        print("+++ gameModel.update() skipped +++")
                     }
                 }
             }
@@ -153,6 +170,8 @@ class GameScene: BaseScene {
                         self.mapNode?.cityLayer.update(city: city)
                     }
                 }
+
+                self.mapNode?.unitLayer.checkDelayedDeath()
 
                 self.viewModel?.refreshCities = false
             }

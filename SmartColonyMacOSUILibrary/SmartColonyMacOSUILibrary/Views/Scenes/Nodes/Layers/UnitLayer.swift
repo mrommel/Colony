@@ -411,4 +411,11 @@ class UnitLayer: SKNode {
             unitObject.update()
         }
     }
+
+    func checkDelayedDeath() {
+
+        for unitObject in self.unitObjects where unitObject.unit?.isDelayedDeath() ?? false {
+            self.hide(unit: unitObject.unit)
+        }
+    }
 }

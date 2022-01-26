@@ -3671,7 +3671,7 @@ public class Unit: AbstractUnit {
     public func changeBuildCharges(change: Int) {
 
         guard self.buildChargesValue + change >= 0 else {
-            fatalError("buildCharges cant be negative")
+            print("buildCharges cant be negative")
         }
 
         self.buildChargesValue += change
