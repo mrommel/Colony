@@ -748,7 +748,7 @@ public class Unit: AbstractUnit {
             newUnit.doPromote(with: promotion, in: gameModel)
         }
         gameModel?.add(unit: newUnit)
-        gameModel?.userInterface?.show(unit: newUnit)
+        gameModel?.userInterface?.show(unit: newUnit, at: location)
     }
 
     /// Current power of unit (raw unit type power adjusted for health)
@@ -2027,7 +2027,7 @@ public class Unit: AbstractUnit {
             // if pNewPlot is NULL than we are "dead" (e.g. a settler) and need to blend out
             if newPlot.isVisible(to: gameModel.humanPlayer()) {
 
-                gameModel.userInterface?.show(unit: self)
+                gameModel.userInterface?.leaveCity(unit: self, at: newPlot.point)
             }
         }
 
@@ -2056,7 +2056,7 @@ public class Unit: AbstractUnit {
 
         // if entering a city, hide the unit
         if newPlot.isCity() {
-            gameModel.userInterface?.hide(unit: self)
+            gameModel.userInterface?.enterCity(unit: self, at: oldPlot.point)
         }
 
         self.doMobilize(in: gameModel) // unfortify
@@ -2373,7 +2373,7 @@ public class Unit: AbstractUnit {
         }
 
         self.set(location: city.location, in: gameModel)
-        gameModel?.userInterface?.show(unit: self)
+        gameModel?.userInterface?.show(unit: self, at: city.location)
     }
 
     //    ---------------------------------------------------------------------------
@@ -3525,7 +3525,7 @@ public class Unit: AbstractUnit {
 
         gameModel.conceal(at: self.location, sight: self.sight(), for: self.player)
 
-        gameModel.userInterface?.hide(unit: self)
+        gameModel.userInterface?.hide(unit: self, at: self.location)
         gameModel.remove(unit: self)
     }
 
@@ -3672,6 +3672,7 @@ public class Unit: AbstractUnit {
 
         guard self.buildChargesValue + change >= 0 else {
             print("buildCharges cant be negative")
+            return
         }
 
         self.buildChargesValue += change
@@ -5061,7 +5062,7 @@ extension Unit {
                 let convertedUnit = Unit(at: newLocation, type: newType, owner: self.player)
 
                 gameModel.add(unit: convertedUnit)
-                gameModel.userInterface?.show(unit: convertedUnit)
+                gameModel.userInterface?.show(unit: convertedUnit, at: newLocation)
             }
         case .hannibalBarca:
             // Grants 1 promotion level to a military land unit.
@@ -5112,7 +5113,7 @@ extension Unit {
             let quadriremeUnit = Unit(at: self.location, type: .quadrireme, owner: self.player)
 
             gameModel.add(unit: quadriremeUnit)
-            gameModel.userInterface?.show(unit: quadriremeUnit)
+            gameModel.userInterface?.show(unit: quadriremeUnit, at: self.location)
 
         default:
             fatalError("activation of \(self.greatPerson) is not handled")

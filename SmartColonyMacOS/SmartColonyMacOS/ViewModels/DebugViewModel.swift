@@ -38,8 +38,10 @@ class TestUI: UserInterfaceDelegate {
     func select(unit: AbstractUnit?) {}
     func unselect() {}
 
-    func show(unit: AbstractUnit?) {}
-    func hide(unit: AbstractUnit?) {}
+    func show(unit: AbstractUnit?, at location: HexPoint) {}
+    func hide(unit: AbstractUnit?, at location: HexPoint) {}
+    func enterCity(unit: AbstractUnit?, at location: HexPoint) {}
+    func leaveCity(unit: AbstractUnit?, at location: HexPoint) {}
     func move(unit: AbstractUnit?, on points: [HexPoint]) {}
     func refresh(unit: AbstractUnit?) {}
     func animate(unit: AbstractUnit?, animation: UnitAnimationType) {}
@@ -126,11 +128,11 @@ class DebugViewModel: ObservableObject {
             let humanWarriorUnit = Unit(at: HexPoint(x: 2, y: 6), type: .warrior, owner: humanPlayer)
             humanWarriorUnit.origin = HexPoint(x: 3, y: 5)
             gameModel.add(unit: humanWarriorUnit)
-            gameModel.userInterface?.show(unit: humanWarriorUnit)
+            gameModel.userInterface?.show(unit: humanWarriorUnit, at: HexPoint(x: 2, y: 6))
 
             let barbarianWarriorUnit = Unit(at: HexPoint(x: 3, y: 6), type: .barbarianWarrior, owner: barbarianPlayer)
             gameModel.add(unit: barbarianWarriorUnit)
-            gameModel.userInterface?.show(unit: barbarianWarriorUnit)
+            gameModel.userInterface?.show(unit: barbarianWarriorUnit, at: HexPoint(x: 3, y: 6))
 
             MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
@@ -186,7 +188,7 @@ class DebugViewModel: ObservableObject {
             let humanTraderUnit = Unit(at: HexPoint(x: 2, y: 6), type: .trader, owner: humanPlayer)
             humanTraderUnit.origin = HexPoint(x: 3, y: 5)
             gameModel.add(unit: humanTraderUnit)
-            gameModel.userInterface?.show(unit: humanTraderUnit)
+            gameModel.userInterface?.show(unit: humanTraderUnit, at: HexPoint(x: 2, y: 6))
 
             MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
@@ -284,7 +286,7 @@ class DebugViewModel: ObservableObject {
                 let unit = Unit(at: HexPoint(x: x, y: 4), type: unitType, owner: humanPlayer)
                 unit.origin = HexPoint(x: 3, y: 5)
                 gameModel.add(unit: unit)
-                gameModel.userInterface?.show(unit: unit)
+                gameModel.userInterface?.show(unit: unit, at: HexPoint(x: x, y: 4))
 
                 x += 1
             }
@@ -350,7 +352,7 @@ class DebugViewModel: ObservableObject {
 
             let prophetUnit = Unit(at: HexPoint(x: 3, y: 4), type: .prophet, owner: humanPlayer)
             gameModel.add(unit: prophetUnit)
-            gameModel.userInterface?.show(unit: prophetUnit)
+            gameModel.userInterface?.show(unit: prophetUnit, at: HexPoint(x: 3, y: 4))
 
             MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
@@ -446,7 +448,7 @@ class DebugViewModel: ObservableObject {
 
             let builderUnit = Unit(at: HexPoint(x: 3, y: 4), type: .builder, owner: humanPlayer)
             gameModel.add(unit: builderUnit)
-            gameModel.userInterface?.show(unit: builderUnit)
+            gameModel.userInterface?.show(unit: builderUnit, at: HexPoint(x: 3, y: 4))
 
             MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
@@ -507,15 +509,15 @@ class DebugViewModel: ObservableObject {
             // add combat units
             let warriorUnit = Unit(at: HexPoint(x: 20, y: 7), type: .warrior, owner: humanPlayer)
             gameModel.add(unit: warriorUnit)
-            gameModel.userInterface?.show(unit: warriorUnit)
+            gameModel.userInterface?.show(unit: warriorUnit, at: HexPoint(x: 20, y: 7))
 
             let warriorUnit2 = Unit(at: HexPoint(x: 21, y: 7), type: .warrior, owner: humanPlayer)
             gameModel.add(unit: warriorUnit2)
-            gameModel.userInterface?.show(unit: warriorUnit2)
+            gameModel.userInterface?.show(unit: warriorUnit2, at: HexPoint(x: 21, y: 7))
 
             let archerUnit = Unit(at: HexPoint(x: 20, y: 6), type: .archer, owner: humanPlayer)
             gameModel.add(unit: archerUnit)
-            gameModel.userInterface?.show(unit: archerUnit)
+            gameModel.userInterface?.show(unit: archerUnit, at: HexPoint(x: 20, y: 6))
 
             MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 

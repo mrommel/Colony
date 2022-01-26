@@ -2568,7 +2568,7 @@ public class City: AbstractCity {
 
         gameModel?.add(unit: unit)
 
-        gameModel?.userInterface?.show(unit: unit)
+        gameModel?.userInterface?.show(unit: unit, at: self.location)
 
         self.updateEurekas(in: gameModel)
     }
@@ -2688,7 +2688,7 @@ public class City: AbstractCity {
                 // Grants a free Builder.
                 let extraBuilder = Unit(at: self.location, type: .builder, owner: self.player)
                 gameModel.add(unit: extraBuilder)
-                gameModel.userInterface?.show(unit: extraBuilder)
+                gameModel.userInterface?.show(unit: extraBuilder, at: self.location)
             }
 
             // stonehenge
@@ -2697,7 +2697,7 @@ public class City: AbstractCity {
                 // Grants a free Great Prophet.
                 let extraProphet = Unit(at: self.location, type: .prophet, owner: self.player)
                 gameModel.add(unit: extraProphet)
-                gameModel.userInterface?.show(unit: extraProphet)
+                gameModel.userInterface?.show(unit: extraProphet, at: self.location)
             }
 
             // great library
@@ -2734,7 +2734,7 @@ public class City: AbstractCity {
                 // Grants a Trader unit.
                 let extraTrader = Unit(at: self.location, type: .trader, owner: self.player)
                 gameModel.add(unit: extraTrader)
-                gameModel.userInterface?.show(unit: extraTrader)
+                gameModel.userInterface?.show(unit: extraTrader, at: self.location)
             }
 
             // statueOfZeus
@@ -2745,18 +2745,18 @@ public class City: AbstractCity {
                     let extraSpearmen = Unit(at: self.location, type: .spearman, owner: self.player)
                     gameModel.add(unit: extraSpearmen)
                     extraSpearmen.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
-                    gameModel.userInterface?.show(unit: extraSpearmen)
+                    gameModel.userInterface?.show(unit: extraSpearmen, at: self.location)
 
                     let extraArcher = Unit(at: self.location, type: .archer, owner: self.player)
                     gameModel.add(unit: extraArcher)
                     extraArcher.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
-                    gameModel.userInterface?.show(unit: extraArcher)
+                    gameModel.userInterface?.show(unit: extraArcher, at: self.location)
                 }
 
                 let extraBatteringRam = Unit(at: self.location, type: .batteringRam, owner: self.player)
                 gameModel.add(unit: extraBatteringRam)
                 extraBatteringRam.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
-                gameModel.userInterface?.show(unit: extraBatteringRam)
+                gameModel.userInterface?.show(unit: extraBatteringRam, at: self.location)
             }
 
             // mahabodhiTemple
@@ -3463,7 +3463,7 @@ public class City: AbstractCity {
 
         let unit = Unit(at: self.location, type: unitType, owner: self.player)
         gameModel?.add(unit: unit)
-        gameModel?.userInterface?.show(unit: unit)
+        gameModel?.userInterface?.show(unit: unit, at: self.location)
 
         if yieldType == .gold {
             let purchaseCost = self.goldPurchaseCost(of: unitType)
@@ -3584,7 +3584,7 @@ public class City: AbstractCity {
         unit.changeBuildCharges(change: greatPerson.charges())
 
         gameModel?.add(unit: unit)
-        gameModel?.userInterface?.show(unit: unit)
+        gameModel?.userInterface?.show(unit: unit, at: self.location)
     }
 
     public func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int {

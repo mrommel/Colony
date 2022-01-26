@@ -286,7 +286,7 @@ class BarbarianAI: Codable {
                                                         if let bestUnitType = self.randomBarbarianUnitType(in: area, for: .defense, in: gameModel) {
                                                             let barbarianUnit = Unit(at: loopPlot.point, type: bestUnitType, owner: barbarianPlayer)
                                                             gameModel.add(unit: barbarianUnit)
-                                                            gameModel.userInterface?.show(unit: barbarianUnit)
+                                                            gameModel.userInterface?.show(unit: barbarianUnit, at: loopPlot.point)
                                                         }
 
                                                         numCampsToAdd -= 1
@@ -387,7 +387,7 @@ class BarbarianAI: Codable {
 
                 let unit = Unit(at: point, type: unitType, owner: barbarianPlayer)
                 gameModel.add(unit: unit)
-                gameModel.userInterface?.show(unit: unit)
+                gameModel.userInterface?.show(unit: unit, at: point)
 
                 if finishMoves {
                     unit.finishMoves()
@@ -456,7 +456,7 @@ class BarbarianAI: Codable {
 
                     let unit = Unit(at: spawnLocation, type: unitType, owner: barbarianPlayer)
                     gameModel.add(unit: unit)
-                    gameModel.userInterface?.show(unit: unit)
+                    gameModel.userInterface?.show(unit: unit, at: spawnLocation)
 
                     if finishMoves {
                         unit.finishMoves()

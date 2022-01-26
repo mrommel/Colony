@@ -82,19 +82,36 @@ extension GameScene: UserInterfaceDelegate {
         }
     }
 
-    func show(unit: AbstractUnit?) {
+    func show(unit: AbstractUnit?, at location: HexPoint) {
 
         // unit gets visible again
         DispatchQueue.main.async {
-            self.mapNode?.unitLayer.show(unit: unit)
+            self.mapNode?.unitLayer.show(unit: unit, at: location)
         }
     }
 
-    func hide(unit: AbstractUnit?) {
+    func hide(unit: AbstractUnit?, at location: HexPoint) {
 
         // unit gets hidden
         DispatchQueue.main.async {
-            self.mapNode?.unitLayer.hide(unit: unit)
+            self.mapNode?.unitLayer.hide(unit: unit, at: location)
+            self.unselect()
+        }
+    }
+
+    func enterCity(unit: AbstractUnit?, at location: HexPoint) {
+
+        // unit gets visible again
+        DispatchQueue.main.async {
+            self.mapNode?.unitLayer.enterCity(unit: unit, at: location)
+        }
+    }
+
+    func leaveCity(unit: AbstractUnit?, at location: HexPoint) {
+
+        // unit gets hidden
+        DispatchQueue.main.async {
+            self.mapNode?.unitLayer.leaveCity(unit: unit, at: location)
             self.unselect()
         }
     }
@@ -235,7 +252,7 @@ extension GameScene: UserInterfaceDelegate {
                     continue
                 }
 
-                self.mapNode?.unitLayer.show(unit: unit)
+                self.mapNode?.unitLayer.show(unit: unit, at: unit.location)
             }
         }
     }

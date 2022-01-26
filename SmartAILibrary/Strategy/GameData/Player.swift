@@ -4490,7 +4490,7 @@ public class Player: AbstractPlayer {
             scoutUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
 
             // make the unit visible
-            gameModel.userInterface?.show(unit: scoutUnit)
+            gameModel.userInterface?.show(unit: scoutUnit, at: tile.point)
 
         case .healing:
             unit?.doHeal(in: gameModel)
@@ -4542,7 +4542,7 @@ public class Player: AbstractPlayer {
             builderUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
 
             // make the unit visible
-            gameModel.userInterface?.show(unit: builderUnit)
+            gameModel.userInterface?.show(unit: builderUnit, at: tile.point)
 
         case .freeTrader:
             var bestCityDistance = -1
@@ -4573,7 +4573,7 @@ public class Player: AbstractPlayer {
             traderUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
 
             // make the unit visible
-            gameModel.userInterface?.show(unit: traderUnit)
+            gameModel.userInterface?.show(unit: traderUnit, at: tile.point)
 
         case .freeSettler:
             let settlerUnit = Unit(at: tile.point, type: .settler, owner: self)
@@ -4581,7 +4581,7 @@ public class Player: AbstractPlayer {
             settlerUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
 
             // make the unit visible
-            gameModel.userInterface?.show(unit: settlerUnit)
+            gameModel.userInterface?.show(unit: settlerUnit, at: tile.point)
         }
 
         // If it's the active player then show the popup

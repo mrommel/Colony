@@ -226,7 +226,10 @@ extension GameViewModel {
 
             if let idleTextures = unitType.idleAtlas?.textures {
                 for (index, texture) in idleTextures.enumerated() {
-                    ImageCache.shared.add(image: texture, for: "\(unitType.name().lowercased())-idle-\(index)")
+                    ImageCache.shared.add(
+                        image: texture,
+                        for: "\(unitType.name().lowercased())-idle-\(index)"
+                    )
 
                     unitTextures += 1
                 }

@@ -84,6 +84,8 @@ class UnitObject {
     var typeIconSprite: SKSpriteNode
     var strengthIndicatorNode: UnitStrengthIndicator
 
+    var shouldRemove: Bool = false
+
     init(unit: AbstractUnit?, in gameModel: GameModel?) {
 
         self.identifier = UUID.init().uuidString
@@ -100,7 +102,8 @@ class UnitObject {
 
         self.currentAnimation = .idle(location: unit.location)
 
-        let unitTexture = SKTexture(imageNamed: unit.type.spriteName)
+        let unitImage = ImageCache.shared.image(for: unit.type.spriteName)
+        let unitTexture = SKTexture(image: unitImage)
         self.sprite = SKSpriteNode(texture: unitTexture, color: .black, size: BaseLayer.kTextureSize)
         self.sprite.position = HexPoint.toScreen(hex: unit.location)
         self.sprite.zPosition = Globals.ZLevels.unit
@@ -239,7 +242,7 @@ class UnitObject {
 
             if !self.animationQueue.isEmpty {
 
-                // print("animationQueue: \(animationQueue)")
+                print("animationQueue of \(unit.name()): \(self.animationQueue)")
                 if let firstAnimation = self.animationQueue.dequeue() {
 
                     self.currentAnimation = firstAnimation
@@ -247,23 +250,28 @@ class UnitObject {
                     switch firstAnimation {
 
                     case .move(from: let from, to: let to):
-                        // print("## Animation: \(unit.name()) walk begin ##")
+                        print("## handle move Animation: \(unit.name()) begin ##")
                         self.walk(from: from, to: to) {
                             // print("## Animation: \(unit.name()) walk ended ##")
                             self.currentAnimation = .idle(location: to)
                         }
-                    case .show:
-                        // print("## Animation: \(unit.name()) show ##")
-                        // self.show
-                        self.currentAnimation = .idle(location: unit.location)
-                    case .hide:
-                        // print("## Animation: \(unit.name()) hide ##")
-                        // self.show
-                        self.currentAnimation = .idle(location: unit.location)
+                    case .show(location: let location):
+                        print("## handle show Animation: \(unit.name()) at \(unit.location) / \(location) ##")
+                        self.shouldRemove = false
+                        self.sprite.alpha = 1.0
+                        self.currentAnimation = .idle(location: location)
+                    case .hide(location: let location):
+                        print("## handle hide Animation: \(unit.name()) at \(unit.location) / \(location) ##")
+                        self.shouldRemove = true
+                        self.currentAnimation = .idle(location: location)
+                    case .enterCity(location: let location):
+                        print("## handle enterCity Animation: \(unit.name()) at \(unit.location) / \(location) ##")
+                        self.sprite.alpha = 0.5
+                        self.currentAnimation = .idle(location: location)
                     case .fortify:
-                        // print("## Animation: \(unit.name()) fortify ##")
+                        print("## handle fortify Animation: \(unit.name()) ##")
                         self.showFortified()
-                        self.currentAnimation = .idle(location: unit.location)
+                        self.currentAnimation = .idle(location: location)
                     case .unfortify:
                         // print("## Animation: \(unit.name()) unfortify ##")
                         // noop
@@ -279,6 +287,21 @@ class UnitObject {
                 self.showIdle(at: location)
             }
         }
+    }
+
+    func show(at point: HexPoint) {
+
+        self.animationQueue.enqueue(.show(location: point))
+    }
+
+    func hide(at point: HexPoint) {
+
+        self.animationQueue.enqueue(.hide(location: point))
+    }
+
+    func enterCity(at point: HexPoint) {
+
+        self.animationQueue.enqueue(.enterCity(location: point))
     }
 
     func move(on path: HexPath) {
@@ -380,5 +403,10 @@ class UnitObject {
                 self.showWalk(on: pathWithoutFirst, completion: block)
             })
         }
+    }
+
+    func shouldBeRemoved() -> Bool {
+
+        return self.shouldRemove
     }
 }

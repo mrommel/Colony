@@ -137,8 +137,6 @@ class GameScene: BaseScene {
                                 //print("-----------> after human processing")
                                 self.viewModel!.readyUpdatingHuman = true
                             }
-                        } else {
-                            print("+++ gameModel.update() skipped +++")
                         }
                     }
 
@@ -156,8 +154,6 @@ class GameScene: BaseScene {
                             //print("-----------> after AI processing")
                             self.viewModel!.readyUpdatingAI = true
                         }
-                    } else {
-                        print("+++ gameModel.update() skipped +++")
                     }
                 }
             }

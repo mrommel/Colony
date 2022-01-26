@@ -159,8 +159,9 @@ public enum UnitAnimationType {
 
     case idle(location: HexPoint)
     case move(from: HexPoint, to: HexPoint)
-    case show
-    case hide
+    case show(location: HexPoint)
+    case hide(location: HexPoint)
+    case enterCity(location: HexPoint)
     case fortify
     case unfortify
 }
@@ -193,8 +194,10 @@ public protocol UserInterfaceDelegate: AnyObject {
     func select(unit: AbstractUnit?)
     func unselect()
 
-    func show(unit: AbstractUnit?) // unit gets visible
-    func hide(unit: AbstractUnit?) // unit gets hidden
+    func show(unit: AbstractUnit?, at location: HexPoint) // unit gets visible
+    func hide(unit: AbstractUnit?, at location: HexPoint) // unit gets hidden and remove from list
+    func enterCity(unit: AbstractUnit?, at location: HexPoint) // unit gets visible
+    func leaveCity(unit: AbstractUnit?, at location: HexPoint) // unit gets hidden
     func refresh(unit: AbstractUnit?)
     func move(unit: AbstractUnit?, on points: [HexPoint])
     func animate(unit: AbstractUnit?, animation: UnitAnimationType)
