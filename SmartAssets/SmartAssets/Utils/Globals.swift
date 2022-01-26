@@ -29,14 +29,14 @@ public struct Globals {
         public static let border: CGFloat = 4.2
         public static let focus: CGFloat = 4.3
 
-        // public static let improvementUpper: CGFloat = 5.25 // # not implemented yet
-        public static let district: CGFloat = 5.0
-        public static let wonder: CGFloat = 5.1
-        public static let resourceMarker: CGFloat = 5.2
+        public static let mountain: CGFloat = 5.0
+        public static let cityName: CGFloat = 5.1
+        public static let city: CGFloat = 5.2
 
-        public static let mountain: CGFloat = 6.0
-        public static let cityName: CGFloat = 6.1
-        public static let city: CGFloat = 6.2
+        // public static let improvementUpper: CGFloat = 5.25 // # not implemented yet
+        public static let district: CGFloat = 6.0
+        public static let wonder: CGFloat = 6.1
+        public static let resourceMarker: CGFloat = 6.2
         public static let yields: CGFloat = 6.3
         public static let hexCoords: CGFloat = 6.95 // debug
 
