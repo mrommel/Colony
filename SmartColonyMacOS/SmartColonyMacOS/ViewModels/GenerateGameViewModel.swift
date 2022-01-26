@@ -7,6 +7,7 @@
 
 import Cocoa
 import SmartAILibrary
+import SmartAssets
 
 // swiftlint:disable force_try
 
@@ -62,7 +63,7 @@ class GenerateGameViewModel: ObservableObject {
                 generator.progressHandler = { progress, text in
                     DispatchQueue.main.async {
                         self.progressValue = CGFloat(progress)
-                        self.progressText = text
+                        self.progressText = text.localized()
                     }
                 }
 
@@ -89,7 +90,7 @@ class GenerateGameViewModel: ObservableObject {
                 generator.progressHandler = { progress, text in
                     DispatchQueue.main.async {
                         self.progressValue = CGFloat(progress)
-                        self.progressText = text
+                        self.progressText = text.localized()
                     }
                 }
 

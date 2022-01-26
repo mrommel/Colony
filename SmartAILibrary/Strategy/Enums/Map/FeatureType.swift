@@ -759,6 +759,7 @@ public enum FeatureType: Int, Codable {
         return true
     }
 
+    // must be built on desert tile
     private func isUluruPossible(on tile: AbstractTile) -> Bool {
 
         if tile.terrain() != .desert {

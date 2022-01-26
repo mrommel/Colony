@@ -1644,9 +1644,7 @@ public class Unit: AbstractUnit {
 
         guard let path = self.path(towards: target, options: .none, in: gameModel) else {
             print("Unable to generate path with BuildRouteFinder")
-            if self.peekMission()?.type == .moveTo {
-                self.popMission()
-            }
+            self.doCancelOrder()
             return 0
         }
 

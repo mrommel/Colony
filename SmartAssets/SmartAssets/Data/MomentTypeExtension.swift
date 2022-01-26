@@ -211,6 +211,16 @@ extension MomentType {
         case .mountKilimanjaro: return "moment-discoveryOfANaturalWonder-mountKilimanjaro"
         case .pantanal: return "moment-discoveryOfANaturalWonder-pantanal"
         case .yosemite: return "moment-discoveryOfANaturalWonder-yosemite"
+        case .uluru: return "moment-discoveryOfANaturalWonder-uluru"
+
+        case .fuji: return "moment-discoveryOfANaturalWonder"
+        case .barringCrater: return "moment-discoveryOfANaturalWonder"
+        case .mesa: return "moment-discoveryOfANaturalWonder"
+        case .gibraltar: return "moment-discoveryOfANaturalWonder"
+        case .geyser: return "moment-discoveryOfANaturalWonder"
+        case .potosi: return "moment-discoveryOfANaturalWonder"
+        case .fountainOfYouth: return "moment-discoveryOfANaturalWonder"
+        case .lakeVictoria: return "moment-discoveryOfANaturalWonder"
 
         default: return "moment-discoveryOfANaturalWonder"
         }

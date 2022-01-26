@@ -60,7 +60,7 @@ public class MapGenerator: BaseMapHandler {
 		let moistureMap = HeightMap(width: self.width, height: self.height)
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.2, "initialized")
+			completionHandler(0.2, "TXT_KEY_MAP_GENERATOR_INIT")
 		}
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -71,7 +71,7 @@ public class MapGenerator: BaseMapHandler {
         // self.flipSomeCoastTiles()
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.3, "elevation map created")
+			completionHandler(0.3, "TXT_KEY_MAP_GENERATOR_ELEVATION")
 		}
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -80,7 +80,7 @@ public class MapGenerator: BaseMapHandler {
         self.setClimateZones()
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.35, "climate zones generated")
+			completionHandler(0.35, "TXT_KEY_MAP_GENERATOR_CLIMATE")
 		}
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -90,7 +90,7 @@ public class MapGenerator: BaseMapHandler {
 		self.refineClimate()
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.4, "coastal distance calculated")
+			completionHandler(0.4, "TXT_KEY_MAP_GENERATOR_COASTAL")
 		}
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -100,7 +100,7 @@ public class MapGenerator: BaseMapHandler {
         self.blendTerrains(on: grid)
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.5, "terrain refined")
+			completionHandler(0.5, "TXT_KEY_MAP_GENERATOR_TERRAIN")
 		}
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -108,7 +108,7 @@ public class MapGenerator: BaseMapHandler {
         self.placeResources(on: grid)
 
         if let completionHandler = self.progressHandler {
-            completionHandler(0.6, "resouces added")
+            completionHandler(0.6, "TXT_KEY_MAP_GENERATOR_RESOURCES")
         }
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -119,7 +119,7 @@ public class MapGenerator: BaseMapHandler {
 		self.put(rivers: rivers, onto: grid)
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.7, "springs and rivers identified")
+			completionHandler(0.7, "TXT_KEY_MAP_GENERATOR_RIVERS")
 		}
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -128,7 +128,7 @@ public class MapGenerator: BaseMapHandler {
         self.refineFeatures(on: grid)
 
         if let completionHandler = self.progressHandler {
-            completionHandler(0.8, "features added")
+            completionHandler(0.8, "TXT_KEY_MAP_GENERATOR_FEATURES")
         }
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -137,7 +137,7 @@ public class MapGenerator: BaseMapHandler {
         self.refineNaturalWonders(on: grid)
 
         if let completionHandler = self.progressHandler {
-            completionHandler(0.8, "natural wonders added")
+            completionHandler(0.8, "TXT_KEY_MAP_GENERATOR_NATURAL_WONDERS")
         }
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -146,7 +146,7 @@ public class MapGenerator: BaseMapHandler {
         self.identifyContinents(on: grid)
 
         if let completionHandler = self.progressHandler {
-            completionHandler(0.8, "continents identified")
+            completionHandler(0.8, "TXT_KEY_MAP_GENERATOR_CONTINENTS")
         }
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -154,7 +154,7 @@ public class MapGenerator: BaseMapHandler {
         self.identifyOceans(on: grid)
 
         if let completionHandler = self.progressHandler {
-            completionHandler(0.9, "oceans identified")
+            completionHandler(0.9, "TXT_KEY_MAP_GENERATOR_OCEANS")
         }
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -162,7 +162,7 @@ public class MapGenerator: BaseMapHandler {
         self.identifyStartPositions(on: grid)
 
         if let completionHandler = self.progressHandler {
-            completionHandler(0.9, "start positions identified")
+            completionHandler(0.9, "TXT_KEY_MAP_GENERATOR_POSITIONS")
         }
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -170,7 +170,7 @@ public class MapGenerator: BaseMapHandler {
         self.addGoodies(on: grid)
 
         if let completionHandler = self.progressHandler {
-            completionHandler(0.99, "added goodies")
+            completionHandler(0.99, "TXT_KEY_MAP_GENERATOR_GOODIES")
         }
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -416,6 +416,32 @@ public class MapGenerator: BaseMapHandler {
 				}
 			}
 		}
+
+        for x in 0..<width {
+            for y in 0..<height {
+                let gridPoint = HexPoint(x: x, y: y)
+
+                if grid.terrain(at: gridPoint) == .ocean {
+                    var shouldBeShore: Bool = false
+
+                    for neighbor in gridPoint.neighbors() {
+
+                        guard let neighborTile = grid.tile(at: neighbor) else {
+                            continue
+                        }
+
+                        if neighborTile.isLand() {
+                            shouldBeShore = true
+                            break
+                        }
+                    }
+
+                    if shouldBeShore {
+                        grid.set(terrain: .shore, at: gridPoint)
+                    }
+                }
+            }
+        }
 
         // get highest percent tiles from height map
         let combinedPercentage = self.options.mountainsPercentage * self.options.landPercentage
@@ -745,8 +771,23 @@ public class MapGenerator: BaseMapHandler {
             }
         }
 
+        var wonderLocations: [HexPoint] = []
+
         for item in possibleWonderSpots.keys {
             print("Possible spots for \(item) = \(possibleWonderSpots[item]?.count ?? 0)")
+
+            guard !possibleWonderSpots[item]!.isEmpty else {
+                continue
+            }
+
+            let selectedWonderSpot: HexPoint = possibleWonderSpots[item]!.randomItem()
+
+            if wonderLocations.count(where: { $0.distance(to: selectedWonderSpot) < 2 }) == 0 {
+
+                grid.set(feature: item, at: selectedWonderSpot)
+                print("set natural wonder \(item) at \(selectedWonderSpot)")
+                wonderLocations.append(selectedWonderSpot)
+            }
         }
     }
 

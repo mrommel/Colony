@@ -46,7 +46,8 @@ public class UnitMission {
         }
 
         guard let unit = self.unit else {
-            fatalError("unit not set")
+            //fatalError("unit not set")
+            return
         }
 
         guard let player = unit.player else {

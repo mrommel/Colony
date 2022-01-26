@@ -37,6 +37,21 @@
 "TXT_KEY_CHOOSE_MAP_TYPE" = "Choose Map Type";
 "TXT_KEY_CHOOSE_MAP_SIZE" = "Choose Map Size";
 
+// generate map
+"TXT_KEY_MAP_GENERATOR_INIT" = "initialized";
+"TXT_KEY_MAP_GENERATOR_ELEVATION" = "elevation map created";
+"TXT_KEY_MAP_GENERATOR_CLIMATE" = "climate zones generated";
+"TXT_KEY_MAP_GENERATOR_COASTAL" = "coastal distance calculated";
+"TXT_KEY_MAP_GENERATOR_TERRAIN" = "terrain refined";
+"TXT_KEY_MAP_GENERATOR_RESOURCES" = "resouces added";
+"TXT_KEY_MAP_GENERATOR_RIVERS" = "springs and rivers identified";
+"TXT_KEY_MAP_GENERATOR_FEATURES" = "features added";
+"TXT_KEY_MAP_GENERATOR_NATURAL_WONDERS" = "natural wonders added";
+"TXT_KEY_MAP_GENERATOR_CONTINENTS" = "continents identified";
+"TXT_KEY_MAP_GENERATOR_OCEANS" = "oceans identified";
+"TXT_KEY_MAP_GENERATOR_POSITIONS" = "start positions identified";
+"TXT_KEY_MAP_GENERATOR_GOODIES" = "added goodies";
+
 // civic/tech texts
 "TXT_KEY_INSPIRATION" = "Inspiration";
 "TXT_KEY_INSPIRATION_TRIGGERED" = "Your progress towards %@ has advanced considerably.";
