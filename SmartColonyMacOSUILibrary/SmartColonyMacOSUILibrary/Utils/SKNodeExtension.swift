@@ -42,19 +42,22 @@ extension SKNode {
         self.renderNodeHierarchyFor(node: self)
     }
 
-    func renderNodeHierarchyFor(node: SKNode, index: Int) {
+    func renderNodeHierarchyFor(node: SKNode, index value: Int) {
 
         var index = 0
         var beginning = ""
-        while index != index {
+        while index != value {
             beginning += "  "
             index += 1
-            if index == index {
+            if index == value {
                 beginning += " "
             }
         }
 
-        print("\(beginning)Node of type \(type(of: node))\(node.name != nil ? " ('\(node.name!)')" : "") has zPosition = \(node.zPosition)\(!node.children.isEmpty ? " and has children :" : ".")")
+        let nodeName = node.name != nil ? " ('\(node.name!)')" : ""
+        let nodeChildren = !node.children.isEmpty ? " and has \(node.children.count) children :" : "."
+        print("\(beginning)Node of type \(type(of: node))\(nodeName) has " +
+              "zPosition = \(node.zPosition)\(nodeChildren)")
 
         for (index, child) in node.children.enumerated() {
             renderNodeHierarchyFor(node: child, index: index + 1)

@@ -9,34 +9,6 @@ import SpriteKit
 import SmartAILibrary
 import SmartAssets
 
-struct Queue<T> {
-     var list = [T]()
-
-    mutating func enqueue(_ element: T) {
-          list.append(element)
-    }
-
-    mutating func dequeue() -> T? {
-         if !list.isEmpty {
-           return list.removeFirst()
-         } else {
-           return nil
-         }
-    }
-
-    func peek() -> T? {
-         if !list.isEmpty {
-              return list[0]
-         } else {
-           return nil
-         }
-    }
-
-    var isEmpty: Bool {
-         return list.isEmpty
-    }
-}
-
 class UnitObject {
 
     static let idleActionKey: String = "idleActionKey"

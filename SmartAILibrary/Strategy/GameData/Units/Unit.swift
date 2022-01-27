@@ -4786,7 +4786,9 @@ extension Unit {
 
     public func popMission() {
 
-        self.missions.pop()
+        if !self.missions.isEmpty {
+            self.missions.pop()
+        }
 
         if self.missions.isEmpty {
             if self.activityTypeValue == .mission {

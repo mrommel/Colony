@@ -105,19 +105,17 @@ struct ChangePolicyDialogView: View {
     }
 }
 
-/*
-// execution takes too long
- 
 #if DEBUG
-struct PolicyDialogView_Previews: PreviewProvider {
-    
+struct ChangePolicyDialogView_Previews: PreviewProvider {
+
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
+
         let environment = GameEnvironment(game: DemoGameModel())
-        
-        PolicyDialogView(viewModel: PolicyDialogViewModel())
+
+        ChangePolicyDialogView(viewModel: ChangePolicyDialogViewModel())
             .environment(\.gameEnvironment, environment)
     }
 }
-#endif*/
+#endif

@@ -491,6 +491,7 @@ public enum CivicType: String, Codable {
                 governorTitle: false
             )
         case .militaryTraining:
+            // https://civilization.fandom.com/wiki/Military_Training_(Civ6)
             return CivicTypeData(
                 name: "TXT_KEY_CIVIC_MILITARY_TRAINING_TITLE",
                 inspirationSummary: "TXT_KEY_CIVIC_MILITARY_TRAINING_EUREKA",
@@ -507,72 +508,102 @@ public enum CivicType: String, Codable {
             )
 
             // medieval
+
         case .navalTradition:
+            // https://civilization.fandom.com/wiki/Naval_Tradition_(Civ6)
             return CivicTypeData(
-                name: "Naval Tradition",
-                inspirationSummary: "Kill a unit with a Quadrireme.",
-                inspirationDescription: "Your victory at sea inspires your people to strive to become a naval power.",
-                quoteTexts: [],
+                name: "TXT_KEY_CIVIC_NAVAL_TRADITION_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_NAVAL_TRADITION_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_NAVAL_TRADITION_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_NAVAL_TRADITION_QUOTE1",
+                    "TXT_KEY_CIVIC_NAVAL_TRADITION_QUOTE2"
+                ],
                 era: .medieval,
                 cost: 200,
                 required: [.defensiveTactics],
                 flavors: [],
                 governorTitle: false
             )
+
         case .medievalFaires:
+            // https://civilization.fandom.com/wiki/Medieval_Faires_(Civ6)
             return CivicTypeData(
-                name: "Medieval Faires",
-                inspirationSummary: "Maintain 4 Trade Routes.",
-                inspirationDescription: "The increase of commerce through your lands will soon attract a trade fair.",
-                quoteTexts: [],
+                name: "TXT_KEY_CIVIC_MEDIEVAL_FAIRES_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_MEDIEVAL_FAIRES_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_MEDIEVAL_FAIRES_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_MEDIEVAL_FAIRES_QUOTE1",
+                    "TXT_KEY_CIVIC_MEDIEVAL_FAIRES_QUOTE2"
+                ],
                 era: .medieval,
                 cost: 385,
                 required: [.feudalism],
                 flavors: [],
                 governorTitle: true
             )
+
         case .guilds:
+            // https://civilization.fandom.com/wiki/Guilds_(Civ6)
             return CivicTypeData(
-                name: "Guilds",
-                inspirationSummary: "Build 2 Markets.",
-                inspirationDescription: "The success of your commercial districts has spurred the growth of trade guilds.",
-                quoteTexts: [],
+                name: "TXT_KEY_CIVIC_GUILDS_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_GUILDS_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_GUILDS_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_GUILDS_QUOTE1",
+                    "TXT_KEY_CIVIC_GUILDS_QUOTE2"
+                ],
                 era: .medieval,
                 cost: 385,
                 required: [.feudalism, .civilService],
                 flavors: [],
                 governorTitle: true
             )
+
         case .feudalism:
+            // https://civilization.fandom.com/wiki/Feudalism_(Civ6)
             return CivicTypeData(
-                name: "Feudalism",
-                inspirationSummary: "Build 6 Farms.",
-                inspirationDescription: "A system of lords and vassals is forming to manage all the farmlands of your empire.",
-                quoteTexts: [],
+                name: "TXT_KEY_CIVIC_FEUDALISM_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_FEUDALISM_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_FEUDALISM_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_FEUDALISM_QUOTE1",
+                    "TXT_KEY_CIVIC_FEUDALISM_QUOTE2"
+                ],
                 era: .medieval,
                 cost: 275,
                 required: [.defensiveTactics],
                 flavors: [],
                 governorTitle: false
             )
+
         case .civilService:
+            // https://civilization.fandom.com/wiki/Civil_Service_(Civ6)
             return CivicTypeData(
-                name: "Civil Service",
-                inspirationSummary: "Grow a city to 10 population.",
-                inspirationDescription: "Your large urban center will soon require a corps of bureaucrats.",
-                quoteTexts: [],
+                name: "TXT_KEY_CIVIC_CIVIL_SERVICE_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_CIVIL_SERVICE_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_CIVIL_SERVICE_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_CIVIL_SERVICE_QUOTE1",
+                    "TXT_KEY_CIVIC_CIVIL_SERVICE_QUOTE2"
+                ],
                 era: .medieval,
                 cost: 275,
                 required: [.defensiveTactics, .recordedHistory],
                 flavors: [],
                 governorTitle: false
             )
+
         case .mercenaries:
+            // https://civilization.fandom.com/wiki/Mercenaries_(Civ6)
             return CivicTypeData(
-                name: "Mercenaries",
-                inspirationSummary: "Have 8 land combat units in your military.",
-                inspirationDescription: "With such a large standing army, you may want to consider adding mercenaries if your army needs to expand further.",
-                quoteTexts: [],
+                name: "TXT_KEY_CIVIC_MERCENARIES_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_MERCENARIES_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_MERCENARIES_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_MERCENARIES_QUOTE1",
+                    "TXT_KEY_CIVIC_MERCENARIES_QUOTE2"
+                ],
                 era: .medieval,
                 cost: 290,
                 required: [.feudalism, .militaryTraining],
@@ -580,11 +611,15 @@ public enum CivicType: String, Codable {
                 governorTitle: false
             )
         case .divineRight:
+            // https://civilization.fandom.com/wiki/Divine_Right_(Civ6)
             return CivicTypeData(
-                name: "Divine Right",
-                inspirationSummary: "Build 2 Temples.",
-                inspirationDescription: "Your devout people believe strongly that your rule is a blessing from the divine.",
-                quoteTexts: [],
+                name: "TXT_KEY_CIVIC_DIVINE_RIGHT_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_DIVINE_RIGHT_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_DIVINE_RIGHT_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_DIVINE_RIGHT_QUOTE1",
+                    "TXT_KEY_CIVIC_DIVINE_RIGHT_QUOTE2"
+                ],
                 era: .medieval,
                 cost: 290,
                 required: [.civilService, .theology],
@@ -593,18 +628,24 @@ public enum CivicType: String, Codable {
             )
 
             // renaissance
+
         case .humanism:
+            // https://civilization.fandom.com/wiki/Humanism_(Civ6)
             return CivicTypeData(
-                name: "Humanism",
-                inspirationSummary: "Earn a Great Artist.",
-                inspirationDescription: "The inspiration provided by your newly-acquired Great Artist is awakening our people to the power of the individual.",
-                quoteTexts: [],
+                name: "TXT_KEY_CIVIC_HUMANISM_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_HUMANISM_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_HUMANISM_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_HUMANISM_QUOTE1",
+                    "TXT_KEY_CIVIC_HUMANISM_QUOTE2"
+                ],
                 era: .renaissance,
                 cost: 540,
                 required: [.guilds, .medievalFaires],
                 flavors: [],
                 governorTitle: false
             )
+
         case .mercantilism:
             return CivicTypeData(
                 name: "Mercantilism",

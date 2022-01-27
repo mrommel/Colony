@@ -1330,6 +1330,11 @@ public class Tile: AbstractTile {
             return false
         }
 
+        // no resources on natural wonders
+        if self.feature().isNaturalWonder() {
+            return false
+        }
+
         // no resources on mountains
         if self.feature() == .mountains {
             return false

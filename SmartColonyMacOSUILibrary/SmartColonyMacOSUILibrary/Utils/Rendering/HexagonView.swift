@@ -51,7 +51,7 @@ struct HexagonView: View {
                     .resizable()
                     .frame(width: height, height: height, alignment: .center)
 
-                if self.viewModel.costText != "" {
+                if !self.viewModel.costText.isEmpty {
                     Text(self.viewModel.costText)
                         .font(.system(size: 16))
                         .foregroundColor(.white)

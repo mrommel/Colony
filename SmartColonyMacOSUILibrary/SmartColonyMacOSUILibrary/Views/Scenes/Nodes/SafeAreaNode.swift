@@ -7,6 +7,7 @@
 
 import SpriteKit
 
+// swiftlint:disable implicit_getter
 class SafeAreaNode: SKEffectNode {
 
     override var frame: CGRect {

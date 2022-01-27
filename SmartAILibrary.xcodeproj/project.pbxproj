@@ -265,6 +265,7 @@
 		C9C0DCDF24D5FD58004D9F06 /* CityYields.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0DCDE24D5FD58004D9F06 /* CityYields.swift */; };
 		C9C0DCE124D7486E004D9F06 /* GreatPersonsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0DCE024D7486E004D9F06 /* GreatPersonsTests.swift */; };
 		C9C0DCE324D74C37004D9F06 /* GreatPersonPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0DCE224D74C37004D9F06 /* GreatPersonPoints.swift */; };
+		C9C1279B27A2E275000871D6 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1279A27A2E275000871D6 /* Queue.swift */; };
 		C9C1B1C52722DB2F00046D23 /* AdmiralUnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1B1C42722DB2F00046D23 /* AdmiralUnitType.swift */; };
 		C9C1B1C72722DB7300046D23 /* ArtistUnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1B1C62722DB7300046D23 /* ArtistUnitType.swift */; };
 		C9C1B1C92722DBB700046D23 /* EngineerUnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1B1C82722DBB700046D23 /* EngineerUnitType.swift */; };
@@ -654,6 +655,7 @@
 		C9C0DCDE24D5FD58004D9F06 /* CityYields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityYields.swift; sourceTree = "<group>"; };
 		C9C0DCE024D7486E004D9F06 /* GreatPersonsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPersonsTests.swift; sourceTree = "<group>"; };
 		C9C0DCE224D74C37004D9F06 /* GreatPersonPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPersonPoints.swift; sourceTree = "<group>"; };
+		C9C1279A27A2E275000871D6 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		C9C1B1C42722DB2F00046D23 /* AdmiralUnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdmiralUnitType.swift; sourceTree = "<group>"; };
 		C9C1B1C62722DB7300046D23 /* ArtistUnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistUnitType.swift; sourceTree = "<group>"; };
 		C9C1B1C82722DBB700046D23 /* EngineerUnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngineerUnitType.swift; sourceTree = "<group>"; };
@@ -980,6 +982,7 @@
 			children = (
 				C92317B723D62D27001FC723 /* Resources */,
 				C92317B223D62AD2001FC723 /* Stack.swift */,
+				C9C1279A27A2E275000871D6 /* Queue.swift */,
 				C92317B523D62CFA001FC723 /* InfluenceMap.swift */,
 				C92317C423D756F8001FC723 /* Finite State Machine */,
 				C92317C523D75703001FC723 /* Hierarchical State Machine */,
@@ -1934,6 +1937,7 @@
 				C92D221323E20F6700BB9238 /* PolicyCardType.swift in Sources */,
 				C957AA442436411E00203024 /* HeightMap.swift in Sources */,
 				C9D645F627229E4E00646BB8 /* TraderUnitType.swift in Sources */,
+				C9C1279B27A2E275000871D6 /* Queue.swift in Sources */,
 				C904DFB323F5D05700491A16 /* BuildingProductionAI.swift in Sources */,
 				C9D646002722A8ED00646BB8 /* SpearmanUnitType.swift in Sources */,
 				C907086623ED578100281161 /* TileDiscovered.swift in Sources */,
