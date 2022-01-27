@@ -13,6 +13,18 @@ public enum ResourceUsageType {
     case bonus
     case strategic
     case luxury
+    case artifact
+
+    func aminities() -> Int {
+
+        switch self {
+
+        case .bonus: return 0
+        case .strategic: return 0
+        case .luxury: return 4
+        case .artifact: return 0
+        }
+    }
 }
 
 // swiftlint:disable type_body_length
@@ -64,9 +76,9 @@ public enum ResourceType: Int, Codable {
     case uranium // https://civilization.fandom.com/wiki/Uranium_(Civ6)
     case niter
 
-    // Special
-    // Antiquity Site
-    // Shipwreck
+    // artifacts
+    case antiquitySite // https://civilization.fandom.com/wiki/Antiquity_Site_(Civ6)
+    case shipwreck // https://civilization.fandom.com/wiki/Shipwreck_(Civ6)
 
     public static var all: [ResourceType] {
         return [
@@ -74,10 +86,14 @@ public enum ResourceType: Int, Codable {
             .wheat, .rice, .deer, .sheep, .copper, .stone, .bananas, .cattle, .fish, .crab,
 
             // luxury
-            .marble, .gems, .furs, .citrus, tea, .whales, .pearls, .ivory, .wine, .cotton, .dyes, .incense, .silk, .silver, .gold, .spices, .salt, .cocoa, .sugar,
+            .marble, .gems, .furs, .citrus, tea, .whales, .pearls, .ivory, .wine, .cotton, .dyes, .incense, .silk, .silver,
+                .gold, .spices, .salt, .cocoa, .sugar,
 
             // strategic
-            .horses, .iron, .coal, .oil, .aluminium, .uranium, .niter
+            .horses, .iron, .coal, .oil, .aluminium, .uranium, .niter,
+
+            // artifacts
+            .antiquitySite, .shipwreck
         ]
     }
 
@@ -147,41 +163,12 @@ public enum ResourceType: Int, Codable {
         case .aluminium: return Yields(food: 0, production: 0, gold: 0, science: 1)
         case .uranium: return Yields(food: 0, production: 2, gold: 0, science: 0)
         case .niter: return Yields(food: 1, production: 1, gold: 0, science: 0)
+
+            // artifacts
+        case .antiquitySite: return Yields(food: 0, production: 0, gold: 0)
+        case .shipwreck: return Yields(food: 0, production: 0, gold: 0)
         }
     }
-
-    /*func accessImprovement() -> ImprovementType {
-
-        switch self {
-
-        case .none:
-            return .none
-
-        case .wheat, .rice:
-            return .farm
-
-        case .cattle, .sheep, .horses:
-            return .pasture
-
-        case .stone, .marble:
-            return .quarry
-
-        case .bananas, .citrus, .tea, .sugar, .spices, .wine, .cotton, .dyes, .incense, .silk, .cocoa:
-            return .plantation
-
-        case .deer, .furs, .ivory:
-            return .camp
-
-        case .fish, .whales, .pearls, .crab:
-            return .fishingBoats
-
-        case .gems, .iron, .copper, .coal, .aluminium, .uranium, .niter, .gold, .silver, .salt:
-            return .mine
-
-        case .oil:
-            return .oilWell // offshoreOilRig !!!
-        }
-    }*/
 
     func flavor(for flavorType: FlavorType) -> Int {
 
@@ -337,55 +324,16 @@ public enum ResourceType: Int, Codable {
             return [
                 Flavor(type: .production, value: 7), Flavor(type: .growth, value: 5)
             ]
+
+            // artifacts
+        case .antiquitySite: return []
+        case .shipwreck: return []
         }
     }
 
     func amenities() -> Int {
 
-        switch self {
-
-        case .none: return 0
-        case .wheat: return 0
-        case .rice: return 0
-        case .deer: return 0
-        case .sheep: return 0
-        case .copper: return 0
-        case .stone: return 0
-        case .bananas: return 0
-        case .cattle: return 0
-        case .fish: return 0
-
-            // luxury
-        case .gems: return 4
-        case .marble: return 4
-        case .furs: return 4
-        case .citrus: return 4
-        case .tea: return 4
-        case .sugar: return 4
-        case .whales: return 4
-        case .pearls: return 4
-        case .ivory: return 4
-        case .wine: return 4
-        case .cotton: return 4
-        case .dyes: return 4
-        case .incense: return 4
-        case .silk: return 4
-        case .silver: return 4
-        case .gold: return 4
-        case .spices: return 4
-        case .crab: return 4
-        case .salt: return 4
-        case .cocoa: return 4
-
-            // strategic
-        case .iron: return 0
-        case .horses: return 0
-        case .coal: return 0
-        case .oil: return 0
-        case .aluminium: return 0
-        case .uranium: return 0
-        case .niter: return 0
-        }
+        return self.data().usage.aminities()
     }
 
     func techCityTrade() -> TechType? {
@@ -440,6 +388,10 @@ public enum ResourceType: Int, Codable {
         case .aluminium: return [2, 6]
         case .uranium: return [2, 6]
         case .niter: return [2, 6]
+
+            // artifacts
+        case .antiquitySite: return []
+        case .shipwreck: return []
         }
     }
 
@@ -453,6 +405,7 @@ public enum ResourceType: Int, Codable {
         let name: String
         let usage: ResourceUsageType
         let revealTech: TechType?
+        let revealCivic: CivicType?
 
         // placement
         let placementOrder: Int
@@ -465,460 +418,675 @@ public enum ResourceType: Int, Codable {
         let placedOnTerrains: [TerrainType]
     }
 
+    // swiftlint:disable function_body_length
     private func data() -> FeatureData {
 
         switch self {
 
         case .none:
-            return FeatureData(name: "None",
-                               usage: .bonus,
-                               revealTech: nil,
-                               placementOrder: -1,
-                               placementBaseAmount: 0,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: false,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [])
+            return FeatureData(
+                name: "None",
+                usage: .bonus,
+                revealTech: nil,
+                revealCivic: nil,
+                placementOrder: -1,
+                placementBaseAmount: 0,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: false,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: []
+            )
 
             // bonus
         case .wheat:
-            return FeatureData(name: "Wheat",
-                               usage: .bonus,
-                               revealTech: .pottery,
-                               placementOrder: 4,
-                               placementBaseAmount: 18,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [.floodplains],
-                               placedOnFeatureTerrains: [.desert],
-                               placedOnTerrains: [.plains])
+            // https://civilization.fandom.com/wiki/Wheat_(Civ6)
+            return FeatureData(
+                name: "Wheat",
+                usage: .bonus,
+                revealTech: .pottery,
+                revealCivic: nil,
+                placementOrder: 4,
+                placementBaseAmount: 18,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [.floodplains],
+                placedOnFeatureTerrains: [.desert],
+                placedOnTerrains: [.plains]
+            )
+
         case .rice:
-            return FeatureData(name: "Rice",
-                               usage: .bonus,
-                               revealTech: .pottery,
-                               placementOrder: 4,
-                               placementBaseAmount: 14,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [.marsh],
-                               placedOnFeatureTerrains: [.grass],
-                               placedOnTerrains: [.grass])
+            // https://civilization.fandom.com/wiki/Rice_(Civ6)
+            return FeatureData(
+                name: "Rice",
+                usage: .bonus,
+                revealTech: .pottery,
+                revealCivic: nil,
+                placementOrder: 4,
+                placementBaseAmount: 14,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [.marsh],
+                placedOnFeatureTerrains: [.grass],
+                placedOnTerrains: [.grass]
+            )
+
         case .deer:
-            return FeatureData(name: "Deer",
-                               usage: .bonus,
-                               revealTech: .animalHusbandry,
-                               placementOrder: 4,
-                               placementBaseAmount: 16,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [.forest],
-                               placedOnFeatureTerrains: [.grass, .plains, .tundra, .snow],
-                               placedOnTerrains: [.tundra])
+            // https://civilization.fandom.com/wiki/Deer_(Civ6)
+            return FeatureData(
+                name: "Deer",
+                usage: .bonus,
+                revealTech: .animalHusbandry,
+                revealCivic: nil,
+                placementOrder: 4,
+                placementBaseAmount: 16,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [.forest],
+                placedOnFeatureTerrains: [.grass, .plains, .tundra, .snow],
+                placedOnTerrains: [.tundra]
+            )
+
         case .sheep:
-            return FeatureData(name: "Sheep",
-                               usage: .bonus,
-                               revealTech: .animalHusbandry,
-                               placementOrder: 4,
-                               placementBaseAmount: 20,
-                               placedOnHills: true,
-                               placedOnRiverSide: true,
-                               placedOnFlatlands: false,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.grass, .plains, .desert])
+            // https://civilization.fandom.com/wiki/Sheep_(Civ6)
+            return FeatureData(
+                name: "Sheep",
+                usage: .bonus,
+                revealTech: .animalHusbandry,
+                revealCivic: nil,
+                placementOrder: 4,
+                placementBaseAmount: 20,
+                placedOnHills: true,
+                placedOnRiverSide: true,
+                placedOnFlatlands: false,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.grass, .plains, .desert]
+            )
+
         case .copper:
-            return FeatureData(name: "Copper",
-                               usage: .bonus,
-                               revealTech: .mining,
-                               placementOrder: 4,
-                               placementBaseAmount: 6,
-                               placedOnHills: true,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: false,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.grass, .plains, .desert, .tundra])
+            // https://civilization.fandom.com/wiki/Copper_(Civ6)
+            return FeatureData(
+                name: "Copper",
+                usage: .bonus,
+                revealTech: .mining,
+                revealCivic: nil,
+                placementOrder: 4,
+                placementBaseAmount: 6,
+                placedOnHills: true,
+                placedOnRiverSide: false,
+                placedOnFlatlands: false,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.grass, .plains, .desert, .tundra]
+            )
+
         case .stone:
-            return FeatureData(name: "Stone",
-                               usage: .bonus,
-                               revealTech: .mining,
-                               placementOrder: 4,
-                               placementBaseAmount: 12,
-                               placedOnHills: true,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.grass])
+            // https://civilization.fandom.com/wiki/Stone_(Civ6)
+            return FeatureData(
+                name: "Stone",
+                usage: .bonus,
+                revealTech: .mining,
+                revealCivic: nil,
+                placementOrder: 4,
+                placementBaseAmount: 12,
+                placedOnHills: true,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.grass]
+            )
+
         case .bananas:
-            return FeatureData(name: "Bananas",
-                               usage: .bonus,
-                               revealTech: .irrigation,
-                               placementOrder: 4,
-                               placementBaseAmount: 2,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [.rainforest],
-                               placedOnFeatureTerrains: [.grass, .plains],
-                               placedOnTerrains: []) // only on rainforest feature
+            // https://civilization.fandom.com/wiki/Bananas_(Civ6)
+            return FeatureData(
+                name: "Bananas",
+                usage: .bonus,
+                revealTech: .irrigation,
+                revealCivic: nil,
+                placementOrder: 4,
+                placementBaseAmount: 2,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [.rainforest],
+                placedOnFeatureTerrains: [.grass, .plains],
+                placedOnTerrains: []
+            )
+
         case .cattle:
-            return FeatureData(name: "Cattle",
-                               usage: .bonus,
-                               revealTech: .animalHusbandry,
-                               placementOrder: 4,
-                               placementBaseAmount: 22,
-                               placedOnHills: false,
-                               placedOnRiverSide: true,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.grass])
+            // https://civilization.fandom.com/wiki/Cattle_(Civ6)
+            return FeatureData(
+                name: "Cattle",
+                usage: .bonus,
+                revealTech: .animalHusbandry,
+                revealCivic: nil,
+                placementOrder: 4,
+                placementBaseAmount: 22,
+                placedOnHills: false,
+                placedOnRiverSide: true,
+                placedOnFlatlands: true,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.grass]
+            )
+
         case .fish:
-            return FeatureData(name: "Fish",
-                               usage: .bonus,
-                               revealTech: .sailing,
-                               placementOrder: 4,
-                               placementBaseAmount: 36,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: false,
-                               placedOnFeatures: [.reef, .lake],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.shore])
+            // https://civilization.fandom.com/wiki/Fish_(Civ6)
+            return FeatureData(
+                name: "Fish",
+                usage: .bonus,
+                revealTech: .sailing,
+                revealCivic: nil,
+                placementOrder: 4,
+                placementBaseAmount: 36,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: false,
+                placedOnFeatures: [.reef, .lake],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.shore]
+            )
+
         case .crab:
-            return FeatureData(name: "Crab",
-                               usage: .bonus,
-                               revealTech: .sailing,
-                               placementOrder: 4,
-                               placementBaseAmount: 8,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: false,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.shore])
+            // https://civilization.fandom.com/wiki/Crabs_(Civ6)
+            return FeatureData(
+                name: "Crab",
+                usage: .bonus,
+                revealTech: .sailing,
+                revealCivic: nil,
+                placementOrder: 4,
+                placementBaseAmount: 8,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: false,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.shore]
+            )
 
             // luxury
         case .gems:
-            return FeatureData(name: "Gems",
-                               usage: .luxury,
-                               revealTech: .mining,
-                               placementOrder: 3,
-                               placementBaseAmount: 6,
-                               placedOnHills: true,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: false,
-                               placedOnFeatures: [.rainforest],
-                               placedOnFeatureTerrains: [.grass, .plains],
-                               placedOnTerrains: [.grass, .plains, .desert, .tundra])
+            // https://civilization.fandom.com/wiki/Diamonds_(Civ6)
+            return FeatureData(
+                name: "Gems",
+                usage: .luxury,
+                revealTech: .mining,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 6,
+                placedOnHills: true,
+                placedOnRiverSide: false,
+                placedOnFlatlands: false,
+                placedOnFeatures: [.rainforest],
+                placedOnFeatureTerrains: [.grass, .plains],
+                placedOnTerrains: [.grass, .plains, .desert, .tundra]
+            )
+
         case .marble:
-            return FeatureData(name: "Marble",
-                               usage: .luxury,
-                               revealTech: .mining,
-                               placementOrder: 3,
-                               placementBaseAmount: 6,
-                               placedOnHills: true,
-                               placedOnRiverSide: true,
-                               placedOnFlatlands: false,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.grass, .plains])
+            // https://civilization.fandom.com/wiki/Marble_(Civ6)
+            return FeatureData(
+                name: "Marble",
+                usage: .luxury,
+                revealTech: .mining,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 6,
+                placedOnHills: true,
+                placedOnRiverSide: true,
+                placedOnFlatlands: false,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.grass, .plains]
+            )
+
         case .furs:
-            return FeatureData(name: "Furs",
-                               usage: .luxury,
-                               revealTech: .animalHusbandry,
-                               placementOrder: 3,
-                               placementBaseAmount: 12,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [.forest],
-                               placedOnFeatureTerrains: [.grass, .plains, .tundra, .snow],
-                               placedOnTerrains: [.tundra])
+            // https://civilization.fandom.com/wiki/Furs_(Civ6)
+            return FeatureData(
+                name: "Furs",
+                usage: .luxury,
+                revealTech: .animalHusbandry,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 12,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [.forest],
+                placedOnFeatureTerrains: [.grass, .plains, .tundra, .snow],
+                placedOnTerrains: [.tundra]
+            )
+
         case .citrus:
-            return FeatureData(name: "Citrus",
-                               usage: .luxury,
-                               revealTech: .irrigation,
-                               placementOrder: 3,
-                               placementBaseAmount: 2,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.grass, .plains])
+            // https://civilization.fandom.com/wiki/Citrus_(Civ6)
+            return FeatureData(
+                name: "Citrus",
+                usage: .luxury,
+                revealTech: .irrigation,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 2,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.grass, .plains]
+            )
+
         case .tea:
-            return FeatureData(name: "Tea",
-                               usage: .luxury,
-                               revealTech: .irrigation,
-                               placementOrder: 3,
-                               placementBaseAmount: 2,
-                               placedOnHills: true,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: false,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.grass])
+            // https://civilization.fandom.com/wiki/Tea_(Civ6)
+            return FeatureData(
+                name: "Tea",
+                usage: .luxury,
+                revealTech: .irrigation,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 2,
+                placedOnHills: true,
+                placedOnRiverSide: false,
+                placedOnFlatlands: false,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.grass]
+            )
+
         case .sugar:
-            return FeatureData(name: "Sugar",
-                               usage: .luxury,
-                               revealTech: .irrigation,
-                               placementOrder: 3,
-                               placementBaseAmount: 1,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [.floodplains, .marsh],
-                               placedOnFeatureTerrains: [.grass, .plains, .desert],
-                               placedOnTerrains: []) // only on rainforest feature
+            // https://civilization.fandom.com/wiki/Sugar_(Civ6)
+            return FeatureData(
+                name: "Sugar",
+                usage: .luxury,
+                revealTech: .irrigation,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 1,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [.floodplains, .marsh],  // only on rainforest feature
+                placedOnFeatureTerrains: [.grass, .plains, .desert],
+                placedOnTerrains: []
+            )
+
         case .whales:
-            return FeatureData(name: "Whales",
-                               usage: .luxury,
-                               revealTech: .sailing,
-                               placementOrder: 3,
-                               placementBaseAmount: 6,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: false,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.shore])
+            // https://civilization.fandom.com/wiki/Whales_(Civ6)
+            return FeatureData(
+                name: "Whales",
+                usage: .luxury,
+                revealTech: .sailing,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 6,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: false,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.shore]
+            )
+
         case .pearls:
-            return FeatureData(name: "Pearls",
-                               usage: .luxury,
-                               revealTech: .sailing,
-                               placementOrder: 3,
-                               placementBaseAmount: 6,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: false,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.shore])
+            // https://civilization.fandom.com/wiki/Pearls_(Civ6)
+            return FeatureData(
+                name: "Pearls",
+                usage: .luxury,
+                revealTech: .sailing,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 6,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: false,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.shore]
+            )
+
         case .wine:
-            return FeatureData(name: "Wine",
-                               usage: .luxury,
-                               revealTech: .irrigation,
-                               placementOrder: 3,
-                               placementBaseAmount: 12,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.grass, .plains])
+            // https://civilization.fandom.com/wiki/Wine_(Civ6)
+            return FeatureData(
+                name: "Wine",
+                usage: .luxury,
+                revealTech: .irrigation,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 12,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.grass, .plains]
+            )
+
         case .cotton:
-            return FeatureData(name: "Cotton",
-                               usage: .luxury,
-                               revealTech: .irrigation,
-                               placementOrder: 3,
-                               placementBaseAmount: 1,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.grass, .plains])
+            // https://civilization.fandom.com/wiki/Cotton_(Civ6)
+            return FeatureData(
+                name: "Cotton",
+                usage: .luxury,
+                revealTech: .irrigation,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 1,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.grass, .plains]
+            )
+
         case .dyes:
-            return FeatureData(name: "Dyes",
-                               usage: .luxury,
-                               revealTech: .irrigation,
-                               placementOrder: 3,
-                               placementBaseAmount: 2,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [.rainforest, .forest],
-                               placedOnFeatureTerrains: [.grass, .plains],
-                               placedOnTerrains: [.grass, .plains]) // only on rainforest
+            // https://civilization.fandom.com/wiki/Dyes_(Civ6)
+            return FeatureData(
+                name: "Dyes",
+                usage: .luxury,
+                revealTech: .irrigation,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 2,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [.rainforest, .forest], // only on rainforest
+                placedOnFeatureTerrains: [.grass, .plains],
+                placedOnTerrains: [.grass, .plains]
+            )
+
         case .incense:
-            return FeatureData(name: "Incense",
-                               usage: .luxury,
-                               revealTech: .irrigation,
-                               placementOrder: 3,
-                               placementBaseAmount: 4,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.plains, .desert])
+            // https://civilization.fandom.com/wiki/Incense_(Civ6)
+            return FeatureData(
+                name: "Incense",
+                usage: .luxury,
+                revealTech: .irrigation,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 4,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.plains, .desert]
+            )
+
         case .silk:
-            return FeatureData(name: "Silk",
-                               usage: .luxury,
-                               revealTech: .irrigation,
-                               placementOrder: 3,
-                               placementBaseAmount: 1,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [.forest],
-                               placedOnFeatureTerrains: [.grass, .plains],
-                               placedOnTerrains: [.grass, .plains]) // only on forest
+            // https://civilization.fandom.com/wiki/Silk_(Civ6)
+            return FeatureData(
+                name: "Silk",
+                usage: .luxury,
+                revealTech: .irrigation,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 1,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [.forest], // only on forest
+                placedOnFeatureTerrains: [.grass, .plains],
+                placedOnTerrains: [.grass, .plains]
+            )
+
         case .silver:
-            return FeatureData(name: "Silver",
-                               usage: .luxury,
-                               revealTech: .mining,
-                               placementOrder: 3,
-                               placementBaseAmount: 10,
-                               placedOnHills: true,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.desert, .tundra])
+            // https://civilization.fandom.com/wiki/Silver_(Civ6)
+            return FeatureData(
+                name: "Silver",
+                usage: .luxury,
+                revealTech: .mining,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 10,
+                placedOnHills: true,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.desert, .tundra]
+            )
+
         case .gold:
-            return FeatureData(name: "Gold",
-                               usage: .luxury,
-                               revealTech: .mining,
-                               placementOrder: 3,
-                               placementBaseAmount: 6,
-                               placedOnHills: true,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: false,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.grass, .plains, .desert])
+            // https://civilization.fandom.com/wiki/Gold_Ore_(Civ6)
+            return FeatureData(
+                name: "Gold",
+                usage: .luxury,
+                revealTech: .mining,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 6,
+                placedOnHills: true,
+                placedOnRiverSide: false,
+                placedOnFlatlands: false,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.grass, .plains, .desert]
+            )
+
         case .spices:
-            return FeatureData(name: "Spices",
-                               usage: .luxury,
-                               revealTech: .irrigation,
-                               placementOrder: 3,
-                               placementBaseAmount: 4,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [.rainforest],
-                               placedOnFeatureTerrains: [.grass, .plains],
-                               placedOnTerrains: [.grass, .plains]) // only on rainforest
+            // https://civilization.fandom.com/wiki/Spices_(Civ6)
+            return FeatureData(
+                name: "Spices",
+                usage: .luxury,
+                revealTech: .irrigation,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 4,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [.rainforest], // only on rainforest
+                placedOnFeatureTerrains: [.grass, .plains],
+                placedOnTerrains: [.grass, .plains]
+            )
+
         case .ivory:
-            return FeatureData(name: "Ivory",
-                               usage: .luxury,
-                               revealTech: .animalHusbandry,
-                               placementOrder: 3,
-                               placementBaseAmount: 4,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.plains, .desert])
+            // https://civilization.fandom.com/wiki/Ivory_(Civ6)
+            return FeatureData(
+                name: "Ivory",
+                usage: .luxury,
+                revealTech: .animalHusbandry,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 4,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.plains, .desert]
+            )
+
         case .salt:
-            return FeatureData(name: "Salt",
-                               usage: .luxury,
-                               revealTech: .mining,
-                               placementOrder: 3,
-                               placementBaseAmount: 2,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.plains, .desert, .tundra])
+            // https://civilization.fandom.com/wiki/Salt_(Civ6)
+            return FeatureData(
+                name: "Salt",
+                usage: .luxury,
+                revealTech: .mining,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 2,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.plains, .desert, .tundra]
+            )
+
         case .cocoa:
-            return FeatureData(name: "Cocoa",
-                               usage: .luxury,
-                               revealTech: .irrigation,
-                               placementOrder: 3,
-                               placementBaseAmount: 2,
-                               placedOnHills: true,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [.rainforest],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.grass, .plains]) // only on rainforest
+            // https://civilization.fandom.com/wiki/Cocoa_(Civ6)
+            return FeatureData(
+                name: "Cocoa",
+                usage: .luxury,
+                revealTech: .irrigation,
+                revealCivic: nil,
+                placementOrder: 3,
+                placementBaseAmount: 2,
+                placedOnHills: true,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [.rainforest], // only on rainforest
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.grass, .plains]
+            )
 
             // strategic
         case .iron:
-            return FeatureData(name: "Iron",
-                               usage: .strategic,
-                               revealTech: .bronzeWorking,
-                               placementOrder: 0,
-                               placementBaseAmount: 12,
-                               placedOnHills: false,
-                               placedOnRiverSide: true,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.grass, .plains, .desert, .tundra, .snow])
+            // https://civilization.fandom.com/wiki/Iron_(Civ6)
+            return FeatureData(
+                name: "Iron",
+                usage: .strategic,
+                revealTech: .bronzeWorking,
+                revealCivic: nil,
+                placementOrder: 0,
+                placementBaseAmount: 12,
+                placedOnHills: false,
+                placedOnRiverSide: true,
+                placedOnFlatlands: true,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.grass, .plains, .desert, .tundra, .snow]
+            )
+
         case .horses:
-            return FeatureData(name: "Horses",
-                               usage: .strategic,
-                               revealTech: .animalHusbandry,
-                               placementOrder: 1,
-                               placementBaseAmount: 14,
-                               placedOnHills: false,
-                               placedOnRiverSide: true,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.grass, .plains, .tundra])
+            // https://civilization.fandom.com/wiki/Horses_(Civ6)
+            return FeatureData(
+                name: "Horses",
+                usage: .strategic,
+                revealTech: .animalHusbandry,
+                revealCivic: nil,
+                placementOrder: 1,
+                placementBaseAmount: 14,
+                placedOnHills: false,
+                placedOnRiverSide: true,
+                placedOnFlatlands: true,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.grass, .plains, .tundra]
+            )
+
         case .coal:
-            return FeatureData(name: "Coal",
-                               usage: .strategic,
-                               revealTech: .industrialization,
-                               placementOrder: 2,
-                               placementBaseAmount: 10,
-                               placedOnHills: true,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: false,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.grass, .plains])
+            // https://civilization.fandom.com/wiki/Coal_(Civ6)
+            return FeatureData(
+                name: "Coal",
+                usage: .strategic,
+                revealTech: .industrialization,
+                revealCivic: nil,
+                placementOrder: 2,
+                placementBaseAmount: 10,
+                placedOnHills: true,
+                placedOnRiverSide: false,
+                placedOnFlatlands: false,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.grass, .plains]
+            )
+
         case .aluminium:
-            return FeatureData(name: "Aluminium",
-                               usage: .strategic,
-                               revealTech: .radio,
-                               placementOrder: 2,
-                               placementBaseAmount: 8,
-                               placedOnHills: true,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: false,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [.plains],
-                               placedOnTerrains: [.plains, .desert])
+            // https://civilization.fandom.com/wiki/Aluminum_(Civ6)
+            return FeatureData(
+                name: "Aluminium",
+                usage: .strategic,
+                revealTech: .radio,
+                revealCivic: nil,
+                placementOrder: 2,
+                placementBaseAmount: 8,
+                placedOnHills: true,
+                placedOnRiverSide: false,
+                placedOnFlatlands: false,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [.plains],
+                placedOnTerrains: [.plains, .desert]
+            )
+
         case .uranium:
-            return FeatureData(name: "Uranium",
-                               usage: .strategic,
-                               revealTech: .combinedArms,
-                               placementOrder: 2,
-                               placementBaseAmount: 4,
-                               placedOnHills: false,
-                               placedOnRiverSide: true,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [.rainforest, .marsh, .forest],
-                               placedOnFeatureTerrains: [.grass, .plains, .desert, .tundra, .snow],
-                               placedOnTerrains: [.grass, .plains, .desert, .tundra, .snow])
+            // https://civilization.fandom.com/wiki/Uranium_(Civ6)
+            return FeatureData(
+                name: "Uranium",
+                usage: .strategic,
+                revealTech: .combinedArms,
+                revealCivic: nil,
+                placementOrder: 2,
+                placementBaseAmount: 4,
+                placedOnHills: false,
+                placedOnRiverSide: true,
+                placedOnFlatlands: true,
+                placedOnFeatures: [.rainforest, .marsh, .forest],
+                placedOnFeatureTerrains: [.grass, .plains, .desert, .tundra, .snow],
+                placedOnTerrains: [.grass, .plains, .desert, .tundra, .snow]
+            )
+
         case .niter:
-            return FeatureData(name: "Niter",
-                               usage: .strategic,
-                               revealTech: .militaryEngineering,
-                               placementOrder: 2,
-                               placementBaseAmount: 8,
-                               placedOnHills: false,
-                               placedOnRiverSide: false,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [],
-                               placedOnFeatureTerrains: [],
-                               placedOnTerrains: [.grass, .plains, .desert, .tundra])
+            // https://civilization.fandom.com/wiki/Niter_(Civ6)
+            return FeatureData(
+                name: "Niter",
+                usage: .strategic,
+                revealTech: .militaryEngineering,
+                revealCivic: nil,
+                placementOrder: 2,
+                placementBaseAmount: 8,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: true,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.grass, .plains, .desert, .tundra]
+            )
+
         case .oil:
-            return FeatureData(name: "Oil",
-                               usage: .strategic,
-                               revealTech: .refining,
-                               placementOrder: 2,
-                               placementBaseAmount: 8,
-                               placedOnHills: false,
-                               placedOnRiverSide: true,
-                               placedOnFlatlands: true,
-                               placedOnFeatures: [.rainforest, .marsh],
-                               placedOnFeatureTerrains: [.grass, .plains],
-                               placedOnTerrains: [.desert, .tundra, .snow, .shore])
+            // https://civilization.fandom.com/wiki/Oil_(Civ6)
+            return FeatureData(
+                name: "Oil",
+                usage: .strategic,
+                revealTech: .refining,
+                revealCivic: nil,
+                placementOrder: 2,
+                placementBaseAmount: 8,
+                placedOnHills: false,
+                placedOnRiverSide: true,
+                placedOnFlatlands: true,
+                placedOnFeatures: [.rainforest, .marsh],
+                placedOnFeatureTerrains: [.grass, .plains],
+                placedOnTerrains: [.desert, .tundra, .snow, .shore]
+            )
+
+            // artifacts
+        case .antiquitySite:
+            // https://civilization.fandom.com/wiki/Antiquity_Site_(Civ6)
+            return FeatureData(
+                name: "Antiquity Site",
+                usage: .artifact,
+                revealTech: nil,
+                revealCivic: .naturalHistory,
+                placementOrder: 2,
+                placementBaseAmount: 8,
+                placedOnHills: true,
+                placedOnRiverSide: true,
+                placedOnFlatlands: true,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.grass, .plains, .desert, .tundra, .snow]
+            )
+
+        case .shipwreck:
+            return FeatureData(
+                name: "Shipwreck",
+                usage: .artifact,
+                revealTech: nil,
+                revealCivic: .culturalHeritage,
+                placementOrder: 2,
+                placementBaseAmount: 8,
+                placedOnHills: false,
+                placedOnRiverSide: false,
+                placedOnFlatlands: false,
+                placedOnFeatures: [],
+                placedOnFeatureTerrains: [],
+                placedOnTerrains: [.shore, .ocean]
+            )
         }
     }
 

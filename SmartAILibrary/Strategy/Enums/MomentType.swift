@@ -679,7 +679,7 @@ public enum MomentType {
 
         case .firstShipwreckExcavated:
             return MomentTypeData(
-                name: "You have completed your civilization's first Neighborhood district.",
+                name: "First Shipwreck Excavated",
                 summary: "Your archaeologists have excavated their first shipwreck.",
                 category: .major,
                 eraScore: 2

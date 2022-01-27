@@ -64,6 +64,9 @@ extension ResourceType {
         case .aluminium: return "resource-marker-aluminium"
         case .uranium: return "resource-marker-uranium"
         case .niter: return "resource-marker-niter"
+
+        case .antiquitySite: return "resource-marker-default"
+        case .shipwreck: return "resource-marker-default"
         }
     }
 
@@ -114,6 +117,10 @@ extension ResourceType {
         case .aluminium: return "resource_aluminium"
         case .uranium: return "resource_uranium"
         case .niter: return "resource_niter"
+
+            // artifacts
+        case .antiquitySite: return "resource_default"
+        case .shipwreck: return "resource_default"
         }
     }
 }
