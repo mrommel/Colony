@@ -85,7 +85,6 @@ class CityObject {
 
     func updateCityBanner() {
 
-        print("999 show city banner 999")
         self.hideCityBanner()
         self.showCityBanner()
     }
@@ -376,6 +375,8 @@ class CityObject {
             self.productionProgressLabel = nil
             self.productionNode?.removeFromParent()
             self.productionNode = nil
+
+            self.sprite.removeAllChildren()
         }
     }
 }

@@ -150,7 +150,8 @@ extension GameViewModel {
             "yield-production-1", "yield-production-2", "yield-production-3",
             "yield-production-4", "yield-production-5",
             // gold
-            "yield-gold-1", "yield-gold-2", "yield-gold-3", "yield-gold-4", "yield-gold-5"
+            "yield-gold-1", "yield-gold-2", "yield-gold-3", "yield-gold-4", "yield-gold-5",
+            "yield-gold-6", "yield-gold-7", "yield-gold-8", "yield-gold-9", "yield-gold-10"
         ]
         print("- load \(allYieldsTextureNames.count) yield textures")
         for textureName in allYieldsTextureNames {
