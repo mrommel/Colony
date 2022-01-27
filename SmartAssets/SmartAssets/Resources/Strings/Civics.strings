@@ -166,6 +166,41 @@
 "TXT_KEY_CIVIC_HUMANISM_QUOTE1" = "“The four characteristics of humanism are curiosity, a free mind, belief in good taste, and belief in the human race.”\n– E.M. Forster";
 "TXT_KEY_CIVIC_HUMANISM_QUOTE2" = "”You must not lose faith in humanity. Humanity is like an ocean; if a few drops of the ocean are dirty, the ocean does not become dirty”\n– Mahatma Gandhi";
 
+// civic - mercantilism
+"TXT_KEY_CIVIC_MERCANTILISM_TITLE" = "Mercantilism";
+"TXT_KEY_CIVIC_MERCANTILISM_EUREKA" = "Earn a Great Merchant.";
+"TXT_KEY_CIVIC_MERCANTILISM_EUREKA_TEXT" = "Your new Great Merchant is sharing ideas on how we can get the edge on our economic competitors.";
+"TXT_KEY_CIVIC_MERCANTILISM_QUOTE1" = "“In a market economy, however, the individual has some possibility of escaping from the power of the state.”\n– Peter Berger";
+"TXT_KEY_CIVIC_MERCANTILISM_QUOTE2" = "”Having seen a non-market economy, I suddenly understood much better what I liked about a market economy.”\n– Esther Dyson";
+
+// civic - enlightenment:
+"TXT_KEY_CIVIC_ENLIGHTENMENT_TITLE" = "Enlightenment";
+"TXT_KEY_CIVIC_ENLIGHTENMENT_EUREKA" = "Earn 3 Great People.";
+"TXT_KEY_CIVIC_ENLIGHTENMENT_EUREKA_TEXT" = "The ideas from your great people have inspired intellectual discussion throughout the land.";
+"TXT_KEY_CIVIC_ENLIGHTENMENT_QUOTE1" = "“New opinions are always suspected, and usually opposed, without any other reason but because they are not already common.”\n– John Locke";
+"TXT_KEY_CIVIC_ENLIGHTENMENT_QUOTE2" = "”Whatever is contrary to nature is contrary to reason, and whatsoever is contrary to reason is absurd.”\n– Baruch Spinoza";
+
+// civic - diplomaticService
+"TXT_KEY_CIVIC_DIPLOMATIC_SERVICE_TITLE" = "Diplomatic Service";
+"TXT_KEY_CIVIC_DIPLOMATIC_SERVICE_EUREKA" = "Have an alliance with another civilization.";
+"TXT_KEY_CIVIC_DIPLOMATIC_SERVICE_EUREKA_TEXT" = "The legwork to build an alliance has trained up your first corps of diplomats.";
+"TXT_KEY_CIVIC_DIPLOMATIC_SERVICE_QUOTE1" = "“In diplomacy there are two kinds of problems: small ones and large ones. The small ones will go away by themselves, and the large ones you will not be able to do anything about.”\n– Patrick McGuinness";
+"TXT_KEY_CIVIC_DIPLOMATIC_SERVICE_QUOTE2" = "”A diplomat is a man who always remembers a woman’s birthday but never remembers her age.”\n– Robert Frost";
+
+// civic - reformedChurch
+"TXT_KEY_CIVIC_REFORMED_CHURCH_TITLE" = "Reformed Church";
+"TXT_KEY_CIVIC_REFORMED_CHURCH_EUREKA" = "Have 6 cities following your Religion.";
+"TXT_KEY_CIVIC_REFORMED_CHURCH_EUREKA_TEXT" = "The growth of your Religion comes with the danger of schism. Reforming corrupt church practices better happen soon!";
+"TXT_KEY_CIVIC_REFORMED_CHURCH_QUOTE1" = "“I don't like to commit myself about Heaven and Hell, you see, I have friends in both places.”\n– Mark Twain";
+"TXT_KEY_CIVIC_REFORMED_CHURCH_QUOTE2" = "”The three great elements of modern civilization: gun powder, printing, and the Protestant religion.”\n– Thomas Carlyle";
+
+// civic - exploration
+"TXT_KEY_CIVIC_EXPLORATION_TITLE" = "Exploration";
+"TXT_KEY_CIVIC_EXPLORATION_EUREKA" = "Build 2 Caravels.";
+"TXT_KEY_CIVIC_EXPLORATION_EUREKA_TEXT" = "The lessons you have learned from Caravel exploration have led to a new way of governing your people.";
+"TXT_KEY_CIVIC_EXPLORATION_QUOTE1" = "“The day we stop exploring is the day we commit ourselves to live in a stagnant world, devoid of curiosity, empty of dreams.”\n– Neil deGrasse Tyson";
+"TXT_KEY_CIVIC_EXPLORATION_QUOTE2" = "”We shall not cease from exploration, and the end of all our exploring will be to arrive where we started and know the place for the first time.”\n– T.S. Eliot";
+
 /*
  "TXT_KEY_CIVIC__TITLE" = "";
  "TXT_KEY_CIVIC__EUREKA" = "";

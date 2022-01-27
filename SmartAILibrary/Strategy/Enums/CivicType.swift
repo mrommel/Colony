@@ -87,7 +87,7 @@ public enum CivicType: String, Codable {
     case spaceRace // # Build a Spaceport district.
 
     // information
-    // case environmentalism // #
+    case environmentalism // #
     case globalization // #
     case socialMedia // #
 
@@ -115,7 +115,7 @@ public enum CivicType: String, Codable {
             .culturalHeritage, .coldWar, .professionalSports, .rapidDeployment, .spaceRace,
 
             // information
-            .globalization, .socialMedia
+            .environmentalism, .globalization, .socialMedia
         ]
     }
 
@@ -647,58 +647,82 @@ public enum CivicType: String, Codable {
             )
 
         case .mercantilism:
+            // https://civilization.fandom.com/wiki/Mercantilism_(Civ6)
             return CivicTypeData(
-                name: "Mercantilism",
-                inspirationSummary: "Earn a Great Merchant.",
-                inspirationDescription: "Your new Great Merchant is sharing ideas on how we can get the edge on our economic competitors.",
-                quoteTexts: [],
+                name: "TXT_KEY_CIVIC_MERCANTILISM_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_MERCANTILISM_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_MERCANTILISM_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_MERCANTILISM_QUOTE1",
+                    "TXT_KEY_CIVIC_MERCANTILISM_QUOTE2"
+                ],
                 era: .renaissance,
                 cost: 655,
                 required: [.humanism],
                 flavors: [], governorTitle: false
             )
+
         case .enlightenment:
+            // https://civilization.fandom.com/wiki/The_Enlightenment_(Civ6)
             return CivicTypeData(
-                name: "Enlightenment",
-                inspirationSummary: "Earn 3 Great People.",
-                inspirationDescription: "The ideas from your great people have inspired intellectual discussion throughout the land.",
-                quoteTexts: [],
+                name: "TXT_KEY_CIVIC_ENLIGHTENMENT_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_ENLIGHTENMENT_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_ENLIGHTENMENT_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_ENLIGHTENMENT_QUOTE1",
+                    "TXT_KEY_CIVIC_ENLIGHTENMENT_QUOTE2"
+                ],
                 era: .renaissance,
                 cost: 655,
                 required: [.diplomaticService],
                 flavors: [],
                 governorTitle: false
             )
+
         case .diplomaticService:
+            // https://civilization.fandom.com/wiki/Diplomatic_Service_(Civ6)
             return CivicTypeData(
-                name: "Diplomatic Service",
-                inspirationSummary: "Have an alliance with another civilization.",
-                inspirationDescription: "The legwork to build an alliance has trained up your first corps of diplomats.",
-                quoteTexts: [],
+                name: "TXT_KEY_CIVIC_DIPLOMATIC_SERVICE_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_DIPLOMATIC_SERVICE_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_DIPLOMATIC_SERVICE_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_DIPLOMATIC_SERVICE_QUOTE1",
+                    "TXT_KEY_CIVIC_DIPLOMATIC_SERVICE_QUOTE2"
+                ],
                 era: .renaissance,
                 cost: 540,
                 required: [.guilds],
                 flavors: [],
                 governorTitle: false
             )
+
         case .reformedChurch:
+            // https://civilization.fandom.com/wiki/Reformed_Church_(Civ6)
             return CivicTypeData(
-                name: "Reformed Church",
-                inspirationSummary: "Have 6 cities following your Religion.",
-                inspirationDescription: "The growth of your Religion comes with the danger of schism. Reforming corrupt church practices better happen soon!",
-                quoteTexts: [],
+                name: "TXT_KEY_CIVIC_REFORMED_CHURCH_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_REFORMED_CHURCH_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_REFORMED_CHURCH_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_REFORMED_CHURCH_QUOTE1",
+                    "TXT_KEY_CIVIC_REFORMED_CHURCH_QUOTE2"
+                ],
                 era: .renaissance,
                 cost: 400,
                 required: [.divineRight],
                 flavors: [],
                 governorTitle: false
             )
+
         case .exploration:
+            // https://civilization.fandom.com/wiki/Exploration_(Civ6)
             return CivicTypeData(
-                name: "Exploration",
-                inspirationSummary: "Build 2 Caravels.",
-                inspirationDescription: "The lessons you have learned from Caravel exploration have led to a new way of governing your people.",
-                quoteTexts: [],
+                name: "TXT_KEY_CIVIC_EXPLORATION_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_EXPLORATION_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_EXPLORATION_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_EXPLORATION_QUOTE1",
+                    "TXT_KEY_CIVIC_EXPLORATION_QUOTE2"
+                ],
                 era: .renaissance,
                 cost: 400,
                 required: [.mercenaries, .medievalFaires],
@@ -707,7 +731,9 @@ public enum CivicType: String, Codable {
             )
 
             // industrial
+            
         case .civilEngineering:
+            // https://civilization.fandom.com/wiki/Civil_Engineering_(Civ6)
             return CivicTypeData(
                 name: "Civil Engineering",
                 inspirationSummary: "Build 7 different specialty districts.",
@@ -719,7 +745,9 @@ public enum CivicType: String, Codable {
                 flavors: [],
                 governorTitle: true
             )
+
         case .colonialism:
+            // https://civilization.fandom.com/wiki/Colonialism_(Civ6)
             return CivicTypeData(
                 name: "Colonialism",
                 inspirationSummary: "Research the Astronomy technology.",
@@ -731,7 +759,9 @@ public enum CivicType: String, Codable {
                 flavors: [],
                 governorTitle: false
             )
+
         case .nationalism:
+            // https://civilization.fandom.com/wiki/Nationalism_(Civ6)
             return CivicTypeData(
                 name: "Nationalism",
                 inspirationSummary: "Declare war using a casus belli.",
@@ -743,7 +773,9 @@ public enum CivicType: String, Codable {
                 flavors: [],
                 governorTitle: true
             )
+
         case .operaAndBallet:
+            // https://civilization.fandom.com/wiki/Opera_and_Ballet_(Civ6)
             return CivicTypeData(
                 name: "Opera and Ballet",
                 inspirationSummary: "Build an Art Museum.",
@@ -755,7 +787,9 @@ public enum CivicType: String, Codable {
                 flavors: [],
                 governorTitle: false
             )
+
         case .naturalHistory:
+            // https://civilization.fandom.com/wiki/Natural_History_(Civ6)
             return CivicTypeData(
                 name: "Natural History",
                 inspirationSummary: "Build an Archaeological Museum.",
@@ -767,7 +801,9 @@ public enum CivicType: String, Codable {
                 flavors: [],
                 governorTitle: false
             )
+
         case .urbanization:
+            // https://civilization.fandom.com/wiki/Urbanization_(Civ6)
             return CivicTypeData(
                 name: "Urbanization",
                 inspirationSummary: "Grow a city to 15 population.",
@@ -780,6 +816,7 @@ public enum CivicType: String, Codable {
                 governorTitle: false
             )
         case .scorchedEarth:
+            // https://civilization.fandom.com/wiki/Scorched_Earth_(Civ6)
             return CivicTypeData(
                 name: "Scorched Earth",
                 inspirationSummary: "Build 2 Field Cannons.",
@@ -793,7 +830,9 @@ public enum CivicType: String, Codable {
             )
 
             // modern
+
         case .conservation:
+            // https://civilization.fandom.com/wiki/Conservation_(Civ6)
             return CivicTypeData(
                 name: "Conservation",
                 inspirationSummary: "Have a Neighborhood district with Breathtaking Appeal.",
@@ -805,7 +844,9 @@ public enum CivicType: String, Codable {
                 flavors: [],
                 governorTitle: false
             )
+
         case .massMedia:
+            // https://civilization.fandom.com/wiki/Mass_Media_(Civ6)
             return CivicTypeData(
                 name: "MassMedia",
                 inspirationSummary: "Research Radio.",
@@ -817,7 +858,9 @@ public enum CivicType: String, Codable {
                 flavors: [],
                 governorTitle: true
             )
+
         case .mobilization:
+            // https://civilization.fandom.com/wiki/Mobilization_(Civ6)
             return CivicTypeData(
                 name: "Mobilization",
                 inspirationSummary: "Have 3 Corps in your military.",
@@ -829,7 +872,9 @@ public enum CivicType: String, Codable {
                 flavors: [],
                 governorTitle: true
             )
+
         case .capitalism:
+            // https://civilization.fandom.com/wiki/Capitalism_(Civ6)
             return CivicTypeData(
                 name: "Capitalism",
                 inspirationSummary: "Build 3 Stock Exchanges.",
@@ -841,11 +886,13 @@ public enum CivicType: String, Codable {
                 flavors: [],
                 governorTitle: false
             )
+
         case .ideology:
+            // https://civilization.fandom.com/wiki/Ideology_(Civ6)
             return CivicTypeData(
                 name: "Ideology",
-                inspirationSummary: "",
-                inspirationDescription: "",
+                inspirationSummary: "", // no inspiration !
+                inspirationDescription: "", // no inspiration !
                 quoteTexts: [],
                 era: .modern,
                 cost: 660,
@@ -853,7 +900,9 @@ public enum CivicType: String, Codable {
                 flavors: [],
                 governorTitle: false
             )
+
         case .nuclearProgram:
+            // https://civilization.fandom.com/wiki/Nuclear_Program_(Civ6)
             return CivicTypeData(
                 name: "Nuclear Program",
                 inspirationSummary: "Build a Research Lab.",
@@ -865,7 +914,9 @@ public enum CivicType: String, Codable {
                 flavors: [],
                 governorTitle: false
             )
+
         case .suffrage:
+            // https://civilization.fandom.com/wiki/Suffrage_(Civ6)
             return CivicTypeData(
                 name: "Suffrage",
                 inspirationSummary: "Build 4 Sewers.",
@@ -877,7 +928,9 @@ public enum CivicType: String, Codable {
                 flavors: [],
                 governorTitle: false
             )
+
         case .totalitarianism:
+            // https://civilization.fandom.com/wiki/Totalitarianism_(Civ6)
             return CivicTypeData(
                 name: "Totalitarianism",
                 inspirationSummary: "Build 3 Military Academies.",
@@ -889,7 +942,9 @@ public enum CivicType: String, Codable {
                 flavors: [],
                 governorTitle: false
             )
+
         case .classStruggle:
+            // https://civilization.fandom.com/wiki/Class_Struggle_(Civ6)
             return CivicTypeData(
                 name: "Class Struggle",
                 inspirationSummary: "Build 3 Factories.",
@@ -903,7 +958,9 @@ public enum CivicType: String, Codable {
             )
 
             // atomic
+
         case .culturalHeritage:
+            // https://civilization.fandom.com/wiki/Cultural_Heritage_(Civ6)
             return CivicTypeData(
                 name: "Cultural Heritage",
                 inspirationSummary: "Have a Themed Building.",
@@ -915,7 +972,9 @@ public enum CivicType: String, Codable {
                 flavors: [],
                 governorTitle: false
             )
+
         case .coldWar:
+            // https://civilization.fandom.com/wiki/Cold_War_(Civ6)
             return CivicTypeData(
                 name: "Cold War",
                 inspirationSummary: "Research the Nuclear Fission technology.",
@@ -927,7 +986,9 @@ public enum CivicType: String, Codable {
                 flavors: [],
                 governorTitle: false
             )
+
         case .professionalSports:
+            // https://civilization.fandom.com/wiki/Professional_Sports_(Civ6)
             return CivicTypeData(
                 name: "Professional Sports",
                 inspirationSummary: "Build 4 Entertainment Complex districts.",
@@ -939,7 +1000,9 @@ public enum CivicType: String, Codable {
                 flavors: [],
                 governorTitle: false
             )
+
         case .rapidDeployment:
+            // https://civilization.fandom.com/wiki/Rapid_Deployment_(Civ6)
             return CivicTypeData(
                 name: "Rapid Deployment",
                 inspirationSummary: "",
@@ -951,7 +1014,9 @@ public enum CivicType: String, Codable {
                 flavors: [],
                 governorTitle: false
             )
+
         case .spaceRace:
+            // https://civilization.fandom.com/wiki/Space_Race_(Civ6)
             return CivicTypeData(
                 name: "Space Race",
                 inspirationSummary: "Build a Spaceport district.",
@@ -965,19 +1030,40 @@ public enum CivicType: String, Codable {
             )
 
         // information
+
+        case .environmentalism:
+            // https://civilization.fandom.com/wiki/Environmentalism_(Civ6)
+            return CivicTypeData(
+                name: "Environmentalism",
+                inspirationSummary: "Build 2 Solar Farms.",
+                inspirationDescription: "Build 2 Solar Farms.",
+                quoteTexts: [],
+                era: .information,
+                cost: 2880,
+                required: [.culturalHeritage, .rapidDeployment],
+                flavors: [],
+                governorTitle: false
+            )
+
         case .globalization:
+            // https://civilization.fandom.com/wiki/Globalization_(Civ6)
             return CivicTypeData(
                 name: "Globalization",
                 inspirationSummary: "Build 3 Airports.",
                 inspirationDescription: "With so many airports in place, the world is truly becoming a smaller place.",
-                quoteTexts: ["”It has been said that arguing against globalization is like arguing against the laws of gravity.” [NEWLINE]– Kofi Annan", "”One day there will be no borders, no boundaries, no flags and no countries and the only passport will be the heart.” [NEWLINE]– Carlos Santana"],
+                quoteTexts: [
+                    "”It has been said that arguing against globalization is like arguing against the laws of gravity.” [NEWLINE]– Kofi Annan",
+                    "”One day there will be no borders, no boundaries, no flags and no countries and the only passport will be the heart.” [NEWLINE]– Carlos Santana"
+                ],
                 era: .information,
                 cost: 2880,
                 required: [.rapidDeployment, .spaceRace],
                 flavors: [],
                 governorTitle: true
             )
+
         case .socialMedia:
+            // https://civilization.fandom.com/wiki/Social_Media_(Civ6)
             return CivicTypeData(
                 name: "Social Media",
                 inspirationSummary: "",
