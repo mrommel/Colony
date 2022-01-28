@@ -1227,6 +1227,14 @@ public class Tile: AbstractTile {
                 }
             }
 
+            if let revealCivic = self.resourceValue.revealCivic() {
+                if let player = player {
+                    if !player.has(civic: revealCivic) {
+                        valid = false
+                    }
+                }
+            }
+
             if valid {
                 return self.resourceValue
             }

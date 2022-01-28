@@ -400,6 +400,13 @@ public enum ResourceType: Int, Codable {
         return self.data().revealTech
     }
 
+    func revealCivic() -> CivicType? {
+
+        return self.data().revealCivic
+    }
+
+    // MARK: private methids / types
+
     private struct FeatureData {
 
         let name: String

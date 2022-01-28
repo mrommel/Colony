@@ -201,6 +201,182 @@
 "TXT_KEY_CIVIC_EXPLORATION_QUOTE1" = "“The day we stop exploring is the day we commit ourselves to live in a stagnant world, devoid of curiosity, empty of dreams.”\n– Neil deGrasse Tyson";
 "TXT_KEY_CIVIC_EXPLORATION_QUOTE2" = "”We shall not cease from exploration, and the end of all our exploring will be to arrive where we started and know the place for the first time.”\n– T.S. Eliot";
 
+// industrial
+
+// civic - civilEngineering
+"TXT_KEY_CIVIC_CIVIL_ENGINEERING_TITLE" = "Civil Engineering";
+"TXT_KEY_CIVIC_CIVIL_ENGINEERING_EUREKA" = "Build 7 different specialty districts.";
+"TXT_KEY_CIVIC_CIVIL_ENGINEERING_EUREKA_TEXT" = "Having constructed so many types of districts, your engineers have become skilled in city construction.";
+"TXT_KEY_CIVIC_CIVIL_ENGINEERING_QUOTE1" = "“Improvement makes straight roads; but the crooked roads without improvement are roads of Genius.”\n– William Blake";
+"TXT_KEY_CIVIC_CIVIL_ENGINEERING_QUOTE2" = "”A common mistake that people make when trying to design something completely foolproof is to underestimate the ingenuity of complete fools.”\n– Douglas Adams";
+
+// civic - colonialism
+"TXT_KEY_CIVIC_COLONIALISM_TITLE" = "Colonialism";
+"TXT_KEY_CIVIC_COLONIALISM_EUREKA" = "Research the Astronomy technology.";
+"TXT_KEY_CIVIC_COLONIALISM_EUREKA_TEXT" = "Your new knowledge of the heavens is helping your navy navigate and establish a global empire.";
+"TXT_KEY_CIVIC_COLONIALISM_QUOTE1" = "“Remember that politics, colonialism, imperialism and war also originated in the human brain.”\n– Vilayanur Ramachandran";
+"TXT_KEY_CIVIC_COLONIALISM_QUOTE2" = "”Colonialism. The enforced spread of the rule of reason. But who is going to spread it among the colonizers?”\n– Anthony Burgess";
+
+// civic - nationalism
+"TXT_KEY_CIVIC_NATIONALISM_TITLE" = "Nationalism";
+"TXT_KEY_CIVIC_NATIONALISM_EUREKA" = "Declare war using a casus belli.";
+"TXT_KEY_CIVIC_NATIONALISM_EUREKA_TEXT" = "Your people believe in the just nature of this war. It has become an issue of national pride for us!";
+"TXT_KEY_CIVIC_NATIONALISM_QUOTE1" = "“It is nationalism which engenders nations, and not the other way round.”\n– Ernest Gellner";
+"TXT_KEY_CIVIC_NATIONALISM_QUOTE2" = "”Human nature, as manifested in tribalism and nationalism, provides the momentum of the machinery of human evolution.”\n– Arthur Keith";
+
+// civic - operaAndBallet
+"TXT_KEY_CIVIC_OPERA_AND_BALLET_TITLE" = "Opera and Ballet";
+"TXT_KEY_CIVIC_OPERA_AND_BALLET_EUREKA" = "Build an Art Museum.";
+"TXT_KEY_CIVIC_OPERA_AND_BALLET_EUREKA_TEXT" = "The unveiling of a new museum is drawing people to the arts. Perhaps dance and opera are next?";
+"TXT_KEY_CIVIC_OPERA_AND_BALLET_QUOTE1" = "“Opera is when a guy gets stabbed in the back and, instead of bleeding, he sings.”\n– Robert Benchley";
+"TXT_KEY_CIVIC_OPERA_AND_BALLET_QUOTE2" = "”It [ballet] projects a fragile kind of strength and a certain inflexible precision.”\n– Ayn Rand";
+
+// civic - naturalHistory
+"TXT_KEY_CIVIC_NATURAL_HISTORY_TITLE" = "Natural History";
+"TXT_KEY_CIVIC_NATURAL_HISTORY_EUREKA" = "Build an Archaeological Museum.";
+"TXT_KEY_CIVIC_NATURAL_HISTORY_EUREKA_TEXT" = "With a museum now ready to hold your findings, it is time to see what you can discover out in the natural world.";
+"TXT_KEY_CIVIC_NATURAL_HISTORY_QUOTE1" = "“Had I been present at the Creation, I would have given some useful hints for the better ordering of the universe.”\n– Nelson Algren";
+"TXT_KEY_CIVIC_NATURAL_HISTORY_QUOTE2" = "”In all works on Natural History, we constantly find details of the marvelous adaptation of animals to their food, their habits, and the localities in which they are found.”\n– Alfred Wallace";
+
+// civic - urbanization
+"TXT_KEY_CIVIC_URBANIZATION_TITLE" = "Urbanization";
+"TXT_KEY_CIVIC_URBANIZATION_EUREKA" = "Grow a city to 15 population.";
+"TXT_KEY_CIVIC_URBANIZATION_EUREKA_TEXT" = "Your large city is getting overcrowded. It's time to start planning for some suburbs.";
+"TXT_KEY_CIVIC_URBANIZATION_QUOTE1" = "“It’s the Industrial Revolution and the growth of urban concentrations that led to a sense of anonymity.”\n– Vint Cerf";
+"TXT_KEY_CIVIC_URBANIZATION_QUOTE2" = "”What I like about cities is that everything is king size, the beauty and the ugliness.”\n– Joseph Brodsky";
+
+// civic - scorchedEarth
+"TXT_KEY_CIVIC_SCORCHED_EARTH_TITLE" = "Scorched Earth";
+"TXT_KEY_CIVIC_SCORCHED_EARTH_EUREKA" = "Build 2 Field Cannons.";
+"TXT_KEY_CIVIC_SCORCHED_EARTH_EUREKA_TEXT" = "v";
+"TXT_KEY_CIVIC_SCORCHED_EARTH_QUOTE1" = "“War is hell.”\n– William Tecumseh Sherman";
+"TXT_KEY_CIVIC_SCORCHED_EARTH_QUOTE2" = "”I only understand friendship or scorched earth.”\n– Roger Ailes";
+
+// modern
+
+// civic - conservation
+"TXT_KEY_CIVIC_CONSERVATION_TITLE" = "Conservation";
+"TXT_KEY_CIVIC_CONSERVATION_EUREKA" = "Have a Neighborhood district with Breathtaking Appeal.";
+"TXT_KEY_CIVIC_CONSERVATION_EUREKA_TEXT" = "The residents of your breathtaking new neighborhood clamor for a plan to conserve all the world’s natural treasures.";
+"TXT_KEY_CIVIC_CONSERVATION_QUOTE1" = "“Water and air, the two essentials on which life depends, have become global garbage cans.”\n– Jacques Yves Cousteau";
+"TXT_KEY_CIVIC_CONSERVATION_QUOTE2" = "”Destroying rainforest for economic gain is like burning a Renaissance painting to cook a meal.”\n– Edward Wilson";
+
+// civic - massMedia
+"TXT_KEY_CIVIC_MASS_MEDIA_TITLE" = "Mass Media";
+"TXT_KEY_CIVIC_MASS_MEDIA_EUREKA" = "Research Radio.";
+"TXT_KEY_CIVIC_MASS_MEDIA_EUREKA_TEXT" = "The advent of radio beckons the start of a new era of communication.";
+"TXT_KEY_CIVIC_MASS_MEDIA_QUOTE1" = "“The effect of the mass media is not to elicit belief but to maintain the apparatus of addiction.”\n– Christopher Lasch";
+"TXT_KEY_CIVIC_MASS_MEDIA_QUOTE2" = "”If you don't read the newspaper, you're uninformed. If you read the newspaper, you're mis-informed.”\n– Mark Twain";
+
+// civic - mobilization
+"TXT_KEY_CIVIC_MOBILIZATION_TITLE" = "Mobilization";
+"TXT_KEY_CIVIC_MOBILIZATION_EUREKA" = "Have 3 Corps in your military.";
+"TXT_KEY_CIVIC_MOBILIZATION_EUREKA_TEXT" = "Your military is better organized. Now time to take your force to the world stage.";
+"TXT_KEY_CIVIC_MOBILIZATION_QUOTE1" = "“When they are preparing for war, those who rule by force speak most copiously about peace until they have completed the mobilization process.”\n– Stefan Zweig";
+"TXT_KEY_CIVIC_MOBILIZATION_QUOTE2" = "”In order to rally people, governments need enemies … if they do not have a real enemy, they will invent one in order to mobilize us.”\n– Nhat Hanh";
+
+// civic - capitalism
+"TXT_KEY_CIVIC_CAPITALISM_TITLE" = "Capitalism";
+"TXT_KEY_CIVIC_CAPITALISM_EUREKA" = "Build 3 Stock Exchanges.";
+"TXT_KEY_CIVIC_CAPITALISM_EUREKA_TEXT" = "With stock exchanges springing up in several cities, investment capital is plentiful and a market economy is ready to emerge.";
+"TXT_KEY_CIVIC_CAPITALISM_QUOTE1" = "“The inherent vice of capitalism is the unequal sharing of blessings; the inherent virtue of socialism is the equal sharing of miseries.”\n– Winston Churchill";
+"TXT_KEY_CIVIC_CAPITALISM_QUOTE2" = "”Always try to rub up against money, for if you rub up against money long enough, some of it may rub off on you.”\n– Damon Runyon";
+
+// civic - ideology
+"TXT_KEY_CIVIC_IDEOLOGY_TITLE" = "Ideology";
+"TXT_KEY_CIVIC_IDEOLOGY_EUREKA" = ""; // no inspiration !
+"TXT_KEY_CIVIC_IDEOLOGY_EUREKA_TEXT" = ""; // no inspiration !
+"TXT_KEY_CIVIC_IDEOLOGY_QUOTE1" = "“It has been demonstrated that no system, not even the most inhuman, can continue to exist without an ideology.”\n– Joe Slovo";
+"TXT_KEY_CIVIC_IDEOLOGY_QUOTE2" = "”Slowly, ideas lead to ideology, lead to policies that lead to actions.”\n– Nandan Nilekani";
+
+// civic - nuclearProgram
+"TXT_KEY_CIVIC_NUCLEAR_PROGRAM_TITLE" = "Nuclear Program";
+"TXT_KEY_CIVIC_NUCLEAR_PROGRAM_EUREKA" = "Build a Research Lab.";
+"TXT_KEY_CIVIC_NUCLEAR_PROGRAM_EUREKA_TEXT" = "With a dedicated research lab in place, your initiative to recruit scientists into a nuclear research program can commence.";
+"TXT_KEY_CIVIC_NUCLEAR_PROGRAM_QUOTE1" = "“The release of atom power has changed everything except our way of thinking…the solution to this problem lies in the heart of mankind. If only I had known, I should have become a watchmaker.”\n– Albert Einstein";
+"TXT_KEY_CIVIC_NUCLEAR_PROGRAM_QUOTE2" = "”The children of the nuclear age, I think, were weakened in their capacity to love. Hard to love, when you’re bracing yourself for impact.”\n– Martin Amis";
+
+// civic - suffrage
+"TXT_KEY_CIVIC_SUFFRAGE_TITLE" = "Suffrage";
+"TXT_KEY_CIVIC_SUFFRAGE_EUREKA" = "Build 4 Sewers.";
+"TXT_KEY_CIVIC_SUFFRAGE_EUREKA_TEXT" = "The women of your empire have clamored for proper sanitation. Having won that battle, they now need the right to vote.";
+"TXT_KEY_CIVIC_SUFFRAGE_QUOTE1" = "“Why is a woman to be treated differently? Woman suffrage will succeed, despite this miserable guerrilla opposition.”\n– Victoria Woodhull";
+"TXT_KEY_CIVIC_SUFFRAGE_QUOTE2" = "”Men, their rights, and nothing more; women, their rights, and nothing less.”\n– Susan B. Anthony";
+
+// civic - totalitarianism
+"TXT_KEY_CIVIC_TOTALITARIANISM_TITLE" = "Totalitarianism";
+"TXT_KEY_CIVIC_TOTALITARIANISM_EUREKA" = "Build 3 Military Academies.";
+"TXT_KEY_CIVIC_TOTALITARIANISM_EUREKA_TEXT" = "The discipline instilled by your military academies is now second nature to your citizens.";
+"TXT_KEY_CIVIC_TOTALITARIANISM_QUOTE1" = "“Only the mob and the elite can be attracted by the momentum of totalitarianism itself. The masses have to be won by propaganda.”\n– Hannah Arendt";
+"TXT_KEY_CIVIC_TOTALITARIANISM_QUOTE2" = "”The ultimate end of any ideology is totalitarianism.”\n– Tom Robbins";
+
+// civic - classStruggle
+"TXT_KEY_CIVIC_CLASS_STRUGGLE_TITLE" = "Class Struggle";
+"TXT_KEY_CIVIC_CLASS_STRUGGLE_EUREKA" = "Build 3 Factories.";
+"TXT_KEY_CIVIC_CLASS_STRUGGLE_EUREKA_TEXT" = "Your factory workers clamor for better working conditions. It is time for the workers of the world to unite!";
+"TXT_KEY_CIVIC_CLASS_STRUGGLE_QUOTE1" = "“There’s class warfare, all right, but it’s my class, the rich class, that’s making war … and we’re winning.”\n– Warren Buffett";
+"TXT_KEY_CIVIC_CLASS_STRUGGLE_QUOTE2" = "”The class struggle necessarily leads to the dictatorship of the proletariat.”\n– Karl Marx";
+
+// atomic
+
+// civic - culturalHeritage
+"TXT_KEY_CIVIC_CULTURAL_HERITAGE_TITLE" = "Cultural Heritage";
+"TXT_KEY_CIVIC_CULTURAL_HERITAGE_EUREKA" = "Have a Themed Building.";
+"TXT_KEY_CIVIC_CULTURAL_HERITAGE_EUREKA_TEXT" = "With a perfectly curated museum, your people's strong cultural heritage is on exhibit for all to see.";
+"TXT_KEY_CIVIC_CULTURAL_HERITAGE_QUOTE1" = "“A people without the knowledge of their past history, origin and culture is like a tree without roots.”\n– Marcus Garvey";
+"TXT_KEY_CIVIC_CULTURAL_HERITAGE_QUOTE2" = "”You don’t stumble upon your heritage. It’s there, just waiting to be explored and shared.”\n– Robbie Robertson";
+
+// civic - coldWar
+"TXT_KEY_CIVIC_COLD_WAR_TITLE" = "Cold War";
+"TXT_KEY_CIVIC_COLD_WAR_EUREKA" = "Research the Nuclear Fission technology.";
+"TXT_KEY_CIVIC_COLD_WAR_EUREKA_TEXT" = "The advent of nuclear weaponry will surely change the nature of armed conflict across the globe.";
+"TXT_KEY_CIVIC_COLD_WAR_QUOTE1" = "“From Stettin in the Baltic to Trieste in the Adriatic, an iron curtain has descended across the continent.”\n– Winston Churchill";
+"TXT_KEY_CIVIC_COLD_WAR_QUOTE2" = "”The Cold War is not thawing; it is burning with a deadly heat.”\n– Richard Nixon";
+
+// civic - professionalSports
+"TXT_KEY_CIVIC_PROFESSIONAL_SPORTS_TITLE" = "Professional Sports";
+"TXT_KEY_CIVIC_PROFESSIONAL_SPORTS_EUREKA" = "Build 4 Entertainment Complex districts.";
+"TXT_KEY_CIVIC_PROFESSIONAL_SPORTS_EUREKA_TEXT" = "Your 4 cites with Entertainment Complexes want to compete in a new professional sports league.";
+"TXT_KEY_CIVIC_PROFESSIONAL_SPORTS_QUOTE1" = "“If winning isn’t everything, why do they keep score?”\n– Vince Lombardi";
+"TXT_KEY_CIVIC_PROFESSIONAL_SPORTS_QUOTE2" = "”Sports do not build character. They reveal it.”\n– Heywood Broun";
+
+// civic - rapidDeployment
+"TXT_KEY_CIVIC_RAPID_DEPLOYMENT_TITLE" = "Rapid Deployment";
+"TXT_KEY_CIVIC_RAPID_DEPLOYMENT_EUREKA" = "Build an Aerodrome or Airstrip on a foreign continent.";
+"TXT_KEY_CIVIC_RAPID_DEPLOYMENT_EUREKA_TEXT" = "With air bases now spanning the globe, our military is ready to be deployed anywhere in the world at a moment's notice.";
+"TXT_KEY_CIVIC_RAPID_DEPLOYMENT_QUOTE1" = "“A good plan violently executed right now is far better than a perfect plan executed next week.”\n– George S. Patton";
+"TXT_KEY_CIVIC_RAPID_DEPLOYMENT_QUOTE2" = "”Never mind the maneuvers, just go straight at them.”\n– Horatio Nelson";
+
+// civic - spaceRace
+"TXT_KEY_CIVIC_SPACE_RACE_TITLE" = "Space Race";
+"TXT_KEY_CIVIC_SPACE_RACE_EUREKA" = "Build a Spaceport district.";
+"TXT_KEY_CIVIC_SPACE_RACE_EUREKA_TEXT" = "The unveiling of your new Spaceport has energized your people to push into space.";
+"TXT_KEY_CIVIC_SPACE_RACE_QUOTE1" = "“We choose to go to the moon in this decade and do the other things, not because they are easy, but because they are hard.”\n– John F. Kennedy";
+"TXT_KEY_CIVIC_SPACE_RACE_QUOTE2" = "”NASA spent millions of dollars inventing the ball-point pen so they could write in space. The Russians took a pencil.”\n– Will Chabot";
+
+// information
+
+// civic - environmentalism
+"TXT_KEY_CIVIC_ENVIRONMENTALISM_TITLE" = "Environmentalism";
+"TXT_KEY_CIVIC_ENVIRONMENTALISM_EUREKA" = "Build 2 Solar Farms.";
+"TXT_KEY_CIVIC_ENVIRONMENTALISM_EUREKA_TEXT" = "Build 2 Solar Farms.";
+"TXT_KEY_CIVIC_ENVIRONMENTALISM_QUOTE1" = "“I shall return again to the light of the sun, to prepare a home for thy descendants.”\n– Argonautica, Apollonius Rhodius";
+// "TXT_KEY_CIVIC_ENVIRONMENTALISM_QUOTE2" = "””\n– ";
+
+// civic - globalization
+"TXT_KEY_CIVIC_GLOBALIZATION_TITLE" = "Globalization";
+"TXT_KEY_CIVIC_GLOBALIZATION_EUREKA" = "Build 3 Airports.";
+"TXT_KEY_CIVIC_GLOBALIZATION_EUREKA_TEXT" = "With so many airports in place, the world is truly becoming a smaller place.";
+"TXT_KEY_CIVIC_GLOBALIZATION_QUOTE1" = "“It has been said that arguing against globalization is like arguing against the laws of gravity.”\n– Kofi Annan";
+"TXT_KEY_CIVIC_GLOBALIZATION_QUOTE2" = "”One day there will be no borders, no boundaries, no flags and no countries and the only passport will be the heart.”\n– Carlos Santana";
+
+// civic - socialMedia:
+"TXT_KEY_CIVIC_SOCIAL_MEDIA_TITLE" = "Social Media";
+"TXT_KEY_CIVIC_SOCIAL_MEDIA_EUREKA" = "Research the Telecommunications technology.";
+"TXT_KEY_CIVIC_SOCIAL_MEDIA_EUREKA_TEXT" = "Your advances in communications technology are allowing people to congregate online.";
+"TXT_KEY_CIVIC_SOCIAL_MEDIA_QUOTE1" = "“Which of all my important nothings shall I tell you first?”\n– Jane Austen";
+"TXT_KEY_CIVIC_SOCIAL_MEDIA_QUOTE2" = "”Distracted from distraction by distraction!”\n– T.S. Eliot";
+
 /*
  "TXT_KEY_CIVIC__TITLE" = "";
  "TXT_KEY_CIVIC__EUREKA" = "";
