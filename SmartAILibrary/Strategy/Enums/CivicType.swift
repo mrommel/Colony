@@ -731,7 +731,7 @@ public enum CivicType: String, Codable {
             )
 
             // industrial
-            
+
         case .civilEngineering:
             // https://civilization.fandom.com/wiki/Civil_Engineering_(Civ6)
             return CivicTypeData(

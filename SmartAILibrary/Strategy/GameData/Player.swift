@@ -131,6 +131,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func setLastSliceMoved(to value: Int)
 
     func isAlive() -> Bool
+    func isEverAlive() -> Bool
     func isActive() -> Bool
     func isTurnActive() -> Bool
     func isHuman() -> Bool
@@ -1182,6 +1183,11 @@ public class Player: AbstractPlayer {
     public func isAlive() -> Bool {
 
         return self.isAliveVal
+    }
+
+    public func isEverAlive() -> Bool {
+
+        return true
     }
 
     public func isActive() -> Bool {

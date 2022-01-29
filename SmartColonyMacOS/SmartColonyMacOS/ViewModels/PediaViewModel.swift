@@ -31,8 +31,8 @@ enum PediaCategory {
     case governments
     case policies
 
-    // religions
-    // pantheons
+    case religions
+    case pantheons
 
     // dedications
     // moments
@@ -42,7 +42,8 @@ enum PediaCategory {
         .leaders, .civilizations,
         .units, .buildings, .districts, .wonders, .improvements,
         .techs, .civics,
-        .governments, .policies
+        .governments, .policies,
+        .religions, .pantheons
     ]
 
     func title() -> String {
@@ -81,6 +82,11 @@ enum PediaCategory {
             return "Governments"
         case .policies:
             return "Policies"
+
+        case .religions:
+            return "Religions"
+        case .pantheons:
+            return "Pantheons"
         }
     }
 }
@@ -329,6 +335,22 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         self.imageName = policyCard.slot().iconTexture()
     }
 
+    init(religion: ReligionType) {
+
+        self.title = religion.name().localized()
+        self.summary = ""
+        self.detail = ""
+        self.imageName = religion.iconTexture()
+    }
+
+    init(pantheon: PantheonType) {
+
+        self.title = pantheon.name().localized()
+        self.summary = ""
+        self.detail = pantheon.bonus().localized()
+        self.imageName = pantheon.iconTexture()
+    }
+
     func image() -> NSImage {
 
         return ImageCache.shared.image(for: self.imageName)
@@ -531,6 +553,24 @@ class PediaViewModel: ObservableObject {
             )
         }
 
+        let religionsTextureNames = ReligionType.all.map { $0.iconTexture() }
+        print("- load \(religionsTextureNames.count) religions")
+        for textureName in religionsTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let pantheonsTextureNames = PantheonType.all.map { $0.iconTexture() }
+        print("- load \(pantheonsTextureNames.count) pantheons")
+        for textureName in pantheonsTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
         self.updateDetailModels()
     }
 
@@ -582,6 +622,7 @@ class PediaViewModel: ObservableObject {
                 for improvementType in ImprovementType.all {
                     tmpPediaDetailViewModels.append(PediaDetailViewModel(improvement: improvementType))
                 }
+
             case .techs:
                 for techType in TechType.all {
                     tmpPediaDetailViewModels.append(PediaDetailViewModel(tech: techType))
@@ -590,6 +631,7 @@ class PediaViewModel: ObservableObject {
                 for civicType in CivicType.all {
                     tmpPediaDetailViewModels.append(PediaDetailViewModel(civic: civicType))
                 }
+
             case .governments:
                 for governmentType in GovernmentType.all {
                     tmpPediaDetailViewModels.append(PediaDetailViewModel(government: governmentType))
@@ -597,6 +639,15 @@ class PediaViewModel: ObservableObject {
             case .policies:
                 for policyCardType in PolicyCardType.all {
                     tmpPediaDetailViewModels.append(PediaDetailViewModel(policyCard: policyCardType))
+                }
+
+            case .religions:
+                for religionType in ReligionType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(religion: religionType))
+                }
+            case .pantheons:
+                for pantheonType in PantheonType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(pantheon: pantheonType))
                 }
             }
 

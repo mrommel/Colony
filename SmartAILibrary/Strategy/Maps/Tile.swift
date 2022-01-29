@@ -41,6 +41,66 @@ class BuildProgressList: WeightedList<BuildType> {
     }
 }
 
+public enum ArtifactType: Int, Codable {
+
+    case none = 0
+
+    // land
+    case barbarianCamp
+    case sarcophagus
+    case ancientRuin
+    case razedCity
+    case battleMelee
+    case battleRanged
+    // case writing
+
+    // sea
+    case battleSeaMelee
+    case battleSeaRanged
+}
+
+public class ArchaeologicalRecord: Codable {
+
+    enum CodingKeys: CodingKey {
+
+        case artifactType
+        case leader1
+        case leader2
+        case era
+    }
+
+    var artifactType: ArtifactType
+    var leader1: LeaderType
+    var leader2: LeaderType
+    var era: EraType
+
+    init() {
+
+        self.artifactType = .none
+        self.leader1 = .none
+        self.leader2 = .none
+        self.era = .none
+    }
+
+    init(artifactType: ArtifactType, leader1: LeaderType, leader2: LeaderType, era: EraType) {
+
+        self.artifactType = artifactType
+        self.leader1 = leader1
+        self.leader2 = leader2
+        self.era = era
+    }
+
+    required public init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.artifactType = try container.decode(ArtifactType.self, forKey: .artifactType)
+        self.leader1 = try container.decode(LeaderType.self, forKey: .leader1)
+        self.leader2 = try container.decode(LeaderType.self, forKey: .leader2)
+        self.era = try container.decode(EraType.self, forKey: .era)
+    }
+}
+
 public protocol AbstractTile: Codable, NSCopying {
 
     var point: HexPoint { get }
@@ -187,6 +247,10 @@ public protocol AbstractTile: Codable, NSCopying {
     func isValidDomainFor(unit: AbstractUnit?) -> Bool
     func isValidDomainForAction(of unit: AbstractUnit?) -> Bool
 
+    // archeology
+    func archaeologicalRecord() -> ArchaeologicalRecord
+    func addArchaeologicalRecord(with artifact: ArtifactType, era: EraType, leader1: LeaderType, leader2: LeaderType)
+
     // scratch pad
     func builderAIScratchPad() -> BuilderAIScratchPad
     func set(builderAIScratchPad: BuilderAIScratchPad)
@@ -223,6 +287,8 @@ public class Tile: AbstractTile {
         case district
         case buildingWonder
         case wonder
+
+        case archaeologicalRecord
     }
 
     public var point: HexPoint
@@ -264,6 +330,8 @@ public class Tile: AbstractTile {
     private var buildingWonderValue: WonderType
     private var wonderValue: WonderType
 
+    private var archaeologicalRecordValue: ArchaeologicalRecord
+
     public init(point: HexPoint, terrain: TerrainType, hills: Bool = false, feature: FeatureType = .none) {
 
         self.point = point
@@ -296,6 +364,8 @@ public class Tile: AbstractTile {
 
         self.buildingWonderValue = WonderType.none
         self.wonderValue = WonderType.none
+
+        self.archaeologicalRecordValue = ArchaeologicalRecord()
     }
 
     required public init(from decoder: Decoder) throws {
@@ -349,6 +419,8 @@ public class Tile: AbstractTile {
 
         self.buildingWonderValue = try container.decode(WonderType.self, forKey: .buildingWonder)
         self.wonderValue = try container.decode(WonderType.self, forKey: .wonder)
+
+        self.archaeologicalRecordValue = try container.decode(ArchaeologicalRecord.self, forKey: .archaeologicalRecord)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -398,6 +470,8 @@ public class Tile: AbstractTile {
 
         try container.encode(self.buildingWonderValue, forKey: .buildingWonder)
         try container.encode(self.wonderValue, forKey: .wonder)
+
+        try container.encode(self.archaeologicalRecordValue, forKey: .archaeologicalRecord)
     }
 
     public func copy(with zone: NSZone? = nil) -> Any {
@@ -422,6 +496,14 @@ public class Tile: AbstractTile {
         copy.riverFlowSouthEast = self.riverFlowSouthEast
 
         copy.buildProgressList = self.buildProgressList
+
+        copy.buildingDistrictValue = self.buildingDistrictValue
+        copy.districtValue = self.districtValue
+
+        copy.buildingWonderValue = self.buildingWonderValue
+        copy.wonderValue = self.wonderValue
+
+        copy.archaeologicalRecordValue = self.archaeologicalRecordValue
 
         return copy
     }
@@ -2236,6 +2318,19 @@ public class Tile: AbstractTile {
     public func wonder() -> WonderType {
 
         return self.wonderValue
+    }
+
+    public func archaeologicalRecord() -> ArchaeologicalRecord {
+
+        return self.archaeologicalRecordValue
+    }
+
+    public func addArchaeologicalRecord(with artifact: ArtifactType, era: EraType, leader1: LeaderType, leader2: LeaderType) {
+
+        self.archaeologicalRecordValue.artifactType = artifact
+        self.archaeologicalRecordValue.era = era
+        self.archaeologicalRecordValue.leader1 = leader1
+        self.archaeologicalRecordValue.leader2 = leader2
     }
 }
 

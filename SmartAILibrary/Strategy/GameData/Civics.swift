@@ -192,6 +192,12 @@ class Civics: AbstractCivics {
         }
 
         self.civics.append(civic)
+
+        // 
+        if civic == .naturalHistory || civic == .culturalHeritage {
+
+            gameModel?.checkArchaeologySites()
+        }
     }
 
     func needToChooseCivic() -> Bool {

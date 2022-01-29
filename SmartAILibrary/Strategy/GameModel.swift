@@ -81,6 +81,7 @@ open class GameModel: Codable {
     public var replayData: GameReplay
 
     private var barbarianAI: BarbarianAI?
+    private var spawnedArchaeologySites: Bool
 
     public init(victoryTypes: [VictoryType], handicap: HandicapType, turnsElapsed: Int, players: [AbstractPlayer], on map: MapModel) {
 
@@ -120,6 +121,7 @@ open class GameModel: Codable {
 
         self.rankingData = RankingData(players: players)
         self.replayData = GameReplay()
+        self.spawnedArchaeologySites = false
 
         self.map.analyze()
 
@@ -156,6 +158,8 @@ open class GameModel: Codable {
 
         // setup
         self.tacticalAnalysisMapVal = TacticalAnalysisMap(with: self.map.size)
+
+        self.spawnedArchaeologySites = false
 
         self.map.analyze()
 
@@ -1147,9 +1151,9 @@ open class GameModel: Codable {
     // MARK: city methods
 
     // check if a city (of player or not) is in neighborhood
-    public func nearestCity(at pt: HexPoint, of player: AbstractPlayer?) -> AbstractCity? {
+    public func nearestCity(at pt: HexPoint, of player: AbstractPlayer?, onSameContinent: Bool = false) -> AbstractCity? {
 
-        return self.map.nearestCity(at: pt, of: player)
+        return self.map.nearestCity(at: pt, of: player, onSameContinent: onSameContinent)
     }
 
     public func add(city: AbstractCity?) {
@@ -1381,6 +1385,11 @@ open class GameModel: Codable {
     public func tile(x: Int, y: Int) -> AbstractTile? {
 
         return self.map.tile(x: x, y: y)
+    }
+
+    public func tile(at index: Int) -> AbstractTile? {
+
+        return self.map.tile(at: index)
     }
 
     func terrain(at point: HexPoint) -> TerrainType? {
@@ -2255,6 +2264,412 @@ extension GameModel {
         self.barbarianAI?.doBarbCampCleared(at: point)
     }
 
+    func countMajorCivizationsEverAlive() -> Int {
+
+        return self.players.count(where: { $0.isEverAlive() })
+    }
+
+    func checkArchaeologySites() {
+
+        if !self.spawnedArchaeologySites {
+
+            self.spawnArchaeologySites()
+            self.spawnedArchaeologySites = true
+        }
+    }
+
+    func spawnArchaeologySites() {
+
+        // we should now have a map of the dig sites
+        // turn this map into set of RESOURCE_ARTIFACTS
+        let randomLandArtifacts: [ArtifactType] = [
+            .ancientRuin,
+            .ancientRuin,
+            .razedCity,
+            .barbarianCamp,
+            .barbarianCamp,
+            .battleMelee,
+            .battleRanged
+        ]
+
+        let randomSeaArtifacts: [ArtifactType] = [
+            .battleSeaMelee,
+            .battleSeaRanged
+        ]
+
+        // find how many dig sites we need to create
+        let numMajorCivs = self.countMajorCivizationsEverAlive()
+        let minDigSites = 5 /* MIN_DIG_SITES_PER_MAJOR_CIV */ * numMajorCivs
+        let maxDigSites = 8 /* MAX_DIG_SITES_PER_MAJOR_CIV */ * numMajorCivs
+        let idealNumDigSites = Int.random(minimum: minDigSites, maximum: maxDigSites)
+
+        // 80% land / 20% sea
+        let idealNumLandDigSites = idealNumDigSites * 4 / 5
+        let idealNumSeaDigSites = idealNumDigSites * 1 / 5
+
+        // find the highest era any player has gotten to
+        var highestEra: EraType = .none
+        for loopPlayer in self.players {
+
+            // Player not ever alive
+            if !loopPlayer.isEverAlive() {
+                continue
+            }
+
+            if loopPlayer.currentEra() > highestEra {
+                highestEra = loopPlayer.currentEra()
+            }
+        }
+
+        let eraWeights = WeightedList<EraType>()
+        var maxEraWeight = 0
+
+        for loopEra in EraType.all {
+
+            if loopEra > highestEra {
+                continue
+            }
+
+            let weight: Int = highestEra.rawValue - loopEra.rawValue
+            eraWeights.add(weight: weight, for: loopEra)
+            maxEraWeight += weight
+        }
+
+        // find out how many dig sites we have now
+        var howManyChosenLandDigSites = 0
+        var howManyChosenSeaDigSites = 0
+
+        // fill the historical buffer with the archaeological data
+        let gridSize = self.map.numberOfTiles()
+        assert(gridSize > 0, "gridSize is zero")
+        var historicalDigSites: [ArchaeologicalRecord] = [ArchaeologicalRecord](repeating: ArchaeologicalRecord(), count: gridSize)
+        var scratchDigSites: [ArchaeologicalRecord] = [ArchaeologicalRecord](repeating: ArchaeologicalRecord(), count: gridSize)
+
+        for index in 0..<gridSize {
+
+            guard let plot = self.tile(at: index) else {
+                continue
+            }
+
+            let resource = plot.resource(for: nil)
+
+            if plot.isLand() {
+
+                if plot.isImpassable(for: .walk) {
+
+                    historicalDigSites[index].artifactType = .none
+                    historicalDigSites[index].era = .none
+                    historicalDigSites[index].leader1 = .none
+                    historicalDigSites[index].leader2 = .none
+
+                    // Cannot be an antiquity site if we cannot generate an artifact.
+                    if resource == .antiquitySite {
+                        plot.set(resource: .none)
+                    }
+                } else {
+                    // If this plot is already marked as an antiquity site, ensure it's populated.
+                    if resource == .antiquitySite {
+
+                        if plot.archaeologicalRecord().artifactType == .none {
+
+                            // pick an era before this one
+                            let era = eraWeights.chooseFromTopChoices() ?? EraType.ancient
+
+                            // pick a type of artifact
+                            let artifact = randomLandArtifacts.randomItem()
+                            self.populateDigSite(on: plot, era: era, artifact: artifact)
+
+                            //Record in scratch space for weights.
+                            scratchDigSites[index] = plot.archaeologicalRecord()
+                        }
+
+                        howManyChosenLandDigSites += 1
+                    }
+
+                    historicalDigSites[index] = plot.archaeologicalRecord()
+                }
+            } else {
+                if plot.isImpassable(for: .swim) {
+
+                    historicalDigSites[index].artifactType = .none
+                    historicalDigSites[index].era = .none
+                    historicalDigSites[index].leader1 = .none
+                    historicalDigSites[index].leader2 = .none
+
+                    // Cannot be an antiquity site if we cannot generate an artifact.
+                    if resource == .shipwreck {
+                        plot.set(resource: .none)
+                    }
+                } else {
+                    // If this plot is already marked as an antiquity site, ensure it's populated.
+                    if resource == .shipwreck {
+
+                        if plot.archaeologicalRecord().artifactType == .none {
+
+                            // pick an era before this one
+                            let era = eraWeights.chooseFromTopChoices() ?? EraType.ancient
+
+                            // pick a type of artifact
+                            let artifact = randomSeaArtifacts.randomItem()
+                            self.populateDigSite(on: plot, era: era, artifact: artifact)
+
+                            //Record in scratch space for weights.
+                            scratchDigSites[index] = plot.archaeologicalRecord()
+                        }
+
+                        howManyChosenLandDigSites += 1
+                    }
+
+                    historicalDigSites[index] = plot.archaeologicalRecord()
+                }
+            }
+        }
+
+        // calculate initial weights
+        var digSiteWeights: [Int] = [Int](repeating: 0, count: gridSize)
+        self.calculateDigSiteWeights(
+            gridSize: gridSize,
+            historicalDigSites: historicalDigSites,
+            scratchDigSites: scratchDigSites,
+            digSiteWeights: &digSiteWeights
+        )
+
+        // build a weight vector
+        let aDigSiteWeights: WeightedList<Int> = WeightedList<Int>()
+        var iteration = 0
+
+        // while we are not in the proper range of number of dig sites
+        while (howManyChosenLandDigSites < idealNumLandDigSites || howManyChosenSeaDigSites < idealNumSeaDigSites) &&
+                iteration < 2 * (idealNumLandDigSites + idealNumSeaDigSites) {
+
+            // populate a weight vector
+            aDigSiteWeights.items.removeAll()
+
+            for index in 0..<gridSize where digSiteWeights[index] > 0 {
+                aDigSiteWeights.add(weight: digSiteWeights[index], for: index)
+            }
+
+            // add the best dig site
+            let bestSite: Int = aDigSiteWeights.chooseLargest() ?? 0
+            guard let plot = self.map.tile(at: bestSite) else {
+                continue
+            }
+
+            if plot.isLand() && howManyChosenLandDigSites < idealNumLandDigSites {
+                plot.set(resource: .antiquitySite)
+                howManyChosenLandDigSites += 1
+            } else if plot.isWater() && howManyChosenSeaDigSites < idealNumSeaDigSites {
+                plot.set(resource: .shipwreck)
+                howManyChosenSeaDigSites += 1
+            }
+
+            // if this is not a historical dig site
+            if scratchDigSites[bestSite].artifactType == .none {
+                // fake the historical data
+                // pick an era before this one
+                let era = eraWeights.chooseFromTopChoices() ?? EraType.ancient
+
+                // pick a type of artifact
+                let artifact = randomLandArtifacts.randomItem()
+                self.populateDigSite(on: plot, era: era, artifact: artifact)
+            }
+
+            scratchDigSites[bestSite] = plot.archaeologicalRecord()
+
+            // recalculate weights near the chosen dig site (the rest of the world should still be fine)
+            let plotPoint: HexPoint = self.map.point(for: bestSite)
+            for loopPoint in plotPoint.areaWith(radius: 3) {
+
+                guard self.valid(point: loopPoint) else {
+                    continue
+                }
+
+                let index = self.map.index(for: loopPoint)
+                digSiteWeights[index] = self.calculateDigSiteWeight(
+                    at: index,
+                    historicalDigSites: historicalDigSites,
+                    scratchDigSites: scratchDigSites
+                )
+            }
+
+            iteration += 1
+        }
+    }
+
+    private func calculateDigSiteWeights(gridSize: Int, historicalDigSites: [ArchaeologicalRecord], scratchDigSites: [ArchaeologicalRecord], digSiteWeights: inout [Int]) {
+
+        for index in 0..<gridSize {
+            digSiteWeights[index] = self.calculateDigSiteWeight(
+                at: index,
+                historicalDigSites: historicalDigSites,
+                scratchDigSites: scratchDigSites
+            )
+        }
+    }
+
+    private func calculateDigSiteWeight(at index: Int, historicalDigSites: [ArchaeologicalRecord], scratchDigSites: [ArchaeologicalRecord]) -> Int {
+
+        var baseWeight = 0
+
+        // if we have not already chosen this spot for a dig site
+        if scratchDigSites[index].artifactType == .none {
+
+            baseWeight = historicalDigSites[index].artifactType.rawValue + 1
+            baseWeight *= (10 - historicalDigSites[index].era.rawValue)
+
+            guard let plot = self.tile(at: index) else {
+                return 0
+            }
+
+            // zero this value if this plot has a resource, ice, mountain, or natural wonder
+            if plot.resource(for: nil) != .none || (plot.isImpassable(for: .walk) && plot.isImpassable(for: .swim)) || plot.feature().isNaturalWonder() {
+                baseWeight = 0
+            }
+
+            // if this tile cannot be improved, zero it out
+            if baseWeight > 0 && plot.feature() != .none {
+
+                if plot.feature().isNoImprovement() {
+                    baseWeight = 0
+                }
+            }
+
+            // if this tile has a great person improvement, zero it out
+            /* if baseWeight > 0 && plot.improvement() != .none {
+
+                if plot.improvement().isCreatedByGreatPerson() {
+                    baseWeight = 0
+                }
+            } */
+
+            if baseWeight > 0 {
+
+                // add a small random factor
+                baseWeight += 10 + Int.random(maximum: 10)
+
+                // increase the value if unowned
+                baseWeight *= plot.hasOwner() ? 9 : 8
+                baseWeight /= 8
+
+                // lower the value if owned by a major
+                baseWeight *= /*(pPlot->getOwner() > NO_PLAYER && pPlot->getOwner() < MAX_MAJOR_CIVS) ? 11 : 12;*/ 11
+                baseWeight /= 12
+
+                // lower the value if tile has been improved
+                baseWeight *= plot.improvement() != .none ? 7 : 8
+                baseWeight /= 8
+
+                // lower the value if tile has a city
+                baseWeight *= plot.isCity() ? 1 : 5
+                baseWeight /= 5
+
+                // increase the value if in thematic terrain (desert, jungle, or small island)
+                baseWeight *= plot.terrain() == .desert ? 3 : 2
+                baseWeight *= plot.feature() == .rainforest ? 3 : 2
+                let area = self.area(of: plot.point)
+                baseWeight *= area?.size ?? 0 <= 4 ? 3 : 2
+
+                // lower the value by number of neighbors
+                var divisor = 1
+
+                // lower the value if there is at least one nearby site (say, 3 tiles distance)
+                for loopPoint in plot.point.areaWith(radius: 3) {
+
+                    guard self.valid(point: loopPoint) else {
+                        continue
+                    }
+
+                    if scratchDigSites[self.map.index(for: loopPoint)].artifactType != .none {
+                        divisor += 1
+                    }
+                }
+
+                for loopPoint in plot.point.areaWith(radius: 2) {
+
+                    guard self.valid(point: loopPoint) else {
+                        continue
+                    }
+
+                    if scratchDigSites[self.map.index(for: loopPoint)].artifactType != .none {
+                        divisor += 1
+                    }
+                }
+
+                for loopPoint in plot.point.areaWith(radius: 1) {
+
+                    guard self.valid(point: loopPoint) else {
+                        continue
+                    }
+
+                    if scratchDigSites[self.map.index(for: loopPoint)].artifactType != .none {
+                        divisor += 1
+                    }
+                }
+
+                baseWeight /= divisor
+            }
+        }
+
+        return baseWeight
+    }
+
+    private func populateDigSite(on tile: AbstractTile, era: EraType, artifact: ArtifactType) {
+
+        var digSite: ArchaeologicalRecord = ArchaeologicalRecord()
+
+        digSite.artifactType = artifact
+        digSite.era = era
+
+        // find nearest city (preferably on same area)
+        var nearestCity: AbstractCity? = self.nearestCity(at: tile.point, of: nil, onSameContinent: true)
+
+        if nearestCity == nil {
+            nearestCity = self.nearestCity(at: tile.point, of: nil, onSameContinent: false)
+        }
+
+        // expand search if we need to
+        if let city = nearestCity {
+
+            digSite.leader1 = city.originalLeader()
+        } else {
+            //  we can't find a nearby city (likely a late era start)
+
+            digSite.leader1 = self.players.map { $0.leader }.randomItem()
+            // look for nearby units
+            /*CvUnit* pUnit = theMap.findUnit(iPlotX, iPlotY);
+            if (pUnit)
+            {
+                digSite.m_ePlayer1 = pUnit->GetOriginalOwner();
+            }
+            else
+            {
+                // look for the start location if it exists
+                PlayerTypes thisPlayer;
+                if (theMap.findNearestStartPlot(iPlotX, iPlotY, thisPlayer))
+                {
+                    digSite.m_ePlayer1 = thisPlayer;
+                }
+                else // just make something up
+                {
+                    PlayerTypes ePlayer2 = GetRandomMajorPlayer(&kPlot);
+                    digSite.m_ePlayer1 = ePlayer2 == NO_PLAYER ? BARBARIAN_PLAYER : ePlayer2;
+                }
+            }*/
+        }
+
+        if artifact == .battleMelee || artifact == .battleRanged || artifact == .razedCity {
+
+            digSite.leader2 = self.players.map { $0.leader }.randomItem()
+        }
+
+        tile.addArchaeologicalRecord(
+            with: digSite.artifactType,
+            era: digSite.era,
+            leader1: digSite.leader1,
+            leader2: digSite.leader2
+        )
+    }
+
     // MARK: Statistics
 
     func numberOfLandPlots() -> Int {
@@ -2265,6 +2680,13 @@ extension GameModel {
     func numberOfWaterPlots() -> Int {
 
         return self.map.numberOfWaterPlots()
+    }
+
+    func numberOfPlots(where condiction: (AbstractTile?) -> Bool) -> Int {
+
+        return self.map.points()
+            .map { self.tile(at: $0) }
+            .count(where: condiction)
     }
 
     func loggingEnabled() -> Bool {
