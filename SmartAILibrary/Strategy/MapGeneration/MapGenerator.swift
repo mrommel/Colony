@@ -1044,14 +1044,6 @@ public class MapGenerator: BaseMapHandler {
 		if lowestValue < Double.greatestFiniteMagnitude {
 
 			let targetPlot = self.plots[lowestGridPointWithCorner.point.x, lowestGridPointWithCorner.point.y]
-            let neighborPoints = lowestGridPointWithCorner.neighbors()
-            let neighbor1Plot = self.plots.valid(gridPoint: neighborPoints[0]) ? self.plots[neighborPoints[0]] : .sea
-            let neighbor2Plot = self.plots.valid(gridPoint: neighborPoints[1]) ? self.plots[neighborPoints[1]] : .sea
-
-            //if neighbor1Plot != .sea && neighbor2Plot != .sea {
-
-
-            //}
 
             if targetPlot != .sea {
 

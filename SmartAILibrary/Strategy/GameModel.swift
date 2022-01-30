@@ -2417,7 +2417,7 @@ extension GameModel {
                             let artifact = randomSeaArtifacts.randomItem()
                             self.populateDigSite(on: plot, era: era, artifact: artifact)
 
-                            //Record in scratch space for weights.
+                            // Record in scratch space for weights.
                             scratchDigSites[index] = plot.archaeologicalRecord()
                         }
 
@@ -2529,7 +2529,7 @@ extension GameModel {
             if plot.resource(for: nil) != .none ||
                 (plot.isImpassable(for: .walk) && plot.isImpassable(for: .swim)) ||
                 plot.feature().isNaturalWonder() {
-                
+
                 baseWeight = 0
             }
 
