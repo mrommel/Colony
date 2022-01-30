@@ -77,3 +77,4 @@ extension CGRect {
         return CGRect(center: CGPoint(x: centerX ?? self.centerX, y: centerY ?? self.centerY), size: size)
     }
 }
+// swiftlint:enable implicit_getter
