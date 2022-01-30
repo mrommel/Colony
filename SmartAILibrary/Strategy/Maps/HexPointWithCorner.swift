@@ -9,12 +9,15 @@
 import Foundation
 
 /// class that holds a `HexPoint` as well as a `HexPointCorner`
+/// https://www.redblobgames.com/grids/hexagons/
+/// https://ascii.co.uk/art/hexagon
 public class HexPointWithCorner {
 
     let point: HexPoint
     let corner: HexPointCorner
 
     init(with point: HexPoint, andCorner corner: HexPointCorner) {
+
         self.point = point
         self.corner = corner
     }
@@ -30,6 +33,7 @@ public class HexPointWithCorner {
         let northWestNeighbor = self.point.neighbor(in: .northwest)
 
         switch self.corner {
+
         case .northeast:
             corners.append(HexPointWithCorner(with: northNeighor, andCorner: .east))
             corners.append(HexPointWithCorner(with: self.point, andCorner: .east)) // 1
@@ -57,6 +61,31 @@ public class HexPointWithCorner {
         }
 
         return corners
+    }
+
+    //   ____/      \____
+    //  /    \      /    \
+    // /      \____/      \
+    // \      /    \      /
+    //  \____/      \____/
+    //  /    \      /    \
+    public func neighbors() -> [HexPoint] {
+
+        switch self.corner {
+
+        case .northeast:
+            return [self.point.neighbor(in: .north), self.point.neighbor(in: .northeast)]
+        case .east:
+            return [self.point.neighbor(in: .northeast), self.point.neighbor(in: .southeast)]
+        case .southeast:
+            return [self.point.neighbor(in: .southeast), self.point.neighbor(in: .south)]
+        case .southwest:
+            return [self.point.neighbor(in: .south), self.point.neighbor(in: .southwest)]
+        case .west:
+            return [self.point.neighbor(in: .southwest), self.point.neighbor(in: .northwest)]
+        case .northwest:
+            return [self.point.neighbor(in: .northwest), self.point.neighbor(in: .north)]
+        }
     }
 }
 

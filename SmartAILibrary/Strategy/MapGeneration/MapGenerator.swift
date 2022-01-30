@@ -984,11 +984,30 @@ public class MapGenerator: BaseMapHandler {
 		let startCorner = randomGridPointCorner()
 		let startGridPointWithCorner = HexPointWithCorner(with: gridPoint, andCorner: startCorner)
 
-		let hexPointCorners = self.followRiver(at: startGridPointWithCorner, on: heightMap, depth: 30)
+        var hexPointCorners = self.followRiver(at: startGridPointWithCorner, on: heightMap, depth: 30)
 
-        //if let lastHexPointCorners = hexPointCorners.last {
-            // FIXME
-        //}
+        // rivers sometimes have too much length an flow beisde the coast
+        // so we clean up here
+        var check: Bool = true
+
+        while check {
+            if hexPointCorners.count > 2 {
+                let secondLastHexPointCorners = hexPointCorners[hexPointCorners.count - 2]
+
+                let neighborPoints = secondLastHexPointCorners.neighbors()
+                let neighbor1Plot = self.plots.valid(gridPoint: neighborPoints[0]) ? self.plots[neighborPoints[0]] : .sea
+                let neighbor2Plot = self.plots.valid(gridPoint: neighborPoints[1]) ? self.plots[neighborPoints[1]] : .sea
+
+                if neighbor1Plot == .sea || neighbor2Plot == .sea {
+                    /* if let last = hexPointCorners.last {
+                        print("remove last part of river \(name) (\(hexPointCorners.count)) at \(last.point) / \(last.corner)")
+                    } */
+                    hexPointCorners.removeLast()
+                } else {
+                    check = false
+                }
+            }
+        }
 
 		let river = River(with: name, and: hexPointCorners)
 
@@ -1008,15 +1027,16 @@ public class MapGenerator: BaseMapHandler {
 		for corner in gridPointWithCorner.adjacentCorners() {
 
 			// skip points outside the map
-			if corner.point.x >= 0 && corner.point.x < self.width && corner.point.y >= 0 && corner.point.y < self.height {
+            guard corner.point.x >= 0 && corner.point.x < self.width && corner.point.y >= 0 && corner.point.y < self.height else {
+                continue
+            }
 
-				let heightOfCorner = self.heightOf(corner: corner.corner, at: corner.point, on: heightMap)
+            let heightOfCorner = self.heightOf(corner: corner.corner, at: corner.point, on: heightMap)
 
-				if heightOfCorner < lowestValue {
-					lowestValue = heightOfCorner
-					lowestGridPointWithCorner = corner
-				}
-			}
+            if heightOfCorner < lowestValue {
+                lowestValue = heightOfCorner
+                lowestGridPointWithCorner = corner
+            }
 		}
 
 		var result: [HexPointWithCorner] = []
@@ -1024,12 +1044,18 @@ public class MapGenerator: BaseMapHandler {
 		if lowestValue < Double.greatestFiniteMagnitude {
 
 			let targetPlot = self.plots[lowestGridPointWithCorner.point.x, lowestGridPointWithCorner.point.y]
+            let neighborPoints = lowestGridPointWithCorner.neighbors()
+            let neighbor1Plot = self.plots.valid(gridPoint: neighborPoints[0]) ? self.plots[neighborPoints[0]] : .sea
+            let neighbor2Plot = self.plots.valid(gridPoint: neighborPoints[1]) ? self.plots[neighborPoints[1]] : .sea
 
-			if targetPlot != .sea {
+            //if neighbor1Plot != .sea && neighbor2Plot != .sea {
 
-				// TODO: river sometimes get stuck and end in lakes
 
-				result.append(lowestGridPointWithCorner)
+            //}
+
+            if targetPlot != .sea {
+
+                result.append(lowestGridPointWithCorner)
 				let newRiverTile = self.followRiver(at: lowestGridPointWithCorner, on: heightMap, depth: depth - 1)
 				result.append(contentsOf: newRiverTile)
 			}
