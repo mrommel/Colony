@@ -390,11 +390,7 @@ public class Tile: AbstractTile {
         self.workedBy = nil
         self.workedByCityName = try container.decodeIfPresent(String.self, forKey: .workedByCityName)
 
-        if container.contains(.discovered) {
-            self.discovered = try container.decode(TileDiscovered.self, forKey: .discovered)
-        } else {
-            self.discovered = TileDiscovered()
-        }
+        self.discovered = try container.decodeIfPresent(TileDiscovered.self, forKey: .discovered) ?? TileDiscovered()
 
         self.area = nil
         self.ocean = nil
@@ -420,7 +416,8 @@ public class Tile: AbstractTile {
         self.buildingWonderValue = try container.decode(WonderType.self, forKey: .buildingWonder)
         self.wonderValue = try container.decode(WonderType.self, forKey: .wonder)
 
-        self.archaeologicalRecordValue = try container.decode(ArchaeologicalRecord.self, forKey: .archaeologicalRecord)
+        self.archaeologicalRecordValue =
+            try container.decodeIfPresent(ArchaeologicalRecord.self, forKey: .archaeologicalRecord) ?? ArchaeologicalRecord()
     }
 
     public func encode(to encoder: Encoder) throws {
