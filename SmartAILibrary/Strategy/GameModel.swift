@@ -52,6 +52,8 @@ open class GameModel: Codable {
         case replayData
 
         case barbarianAI
+
+        case spawnedArchaeologySites
     }
 
     let victoryTypes: [VictoryType]
@@ -156,10 +158,10 @@ open class GameModel: Codable {
 
         self.barbarianAI = try container.decode(BarbarianAI.self, forKey: .barbarianAI)
 
+        self.spawnedArchaeologySites = try container.decodeIfPresent(Bool.self, forKey: .spawnedArchaeologySites) ?? false
+
         // setup
         self.tacticalAnalysisMapVal = TacticalAnalysisMap(with: self.map.size)
-
-        self.spawnedArchaeologySites = false
 
         self.map.analyze()
 
@@ -239,6 +241,8 @@ open class GameModel: Codable {
         try container.encode(self.replayData, forKey: .replayData)
 
         try container.encode(self.barbarianAI, forKey: .barbarianAI)
+
+        try container.encode(self.spawnedArchaeologySites, forKey: .spawnedArchaeologySites)
     }
 
     public func update() {

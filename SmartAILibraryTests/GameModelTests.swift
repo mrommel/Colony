@@ -207,7 +207,7 @@ class GameModelTests: XCTestCase {
         XCTAssertEqual(canBuildAfter, false)
     }
 
-    func testArchaeologySitesCreated() throws {
+    func testArchaeologySitesCreatedNoEvents() throws {
 
         // GIVEN
 
@@ -235,20 +235,75 @@ class GameModelTests: XCTestCase {
             on: mapModel
         )
 
-        // WHEN
         let numberOfShipWrecksBefore = gameModel.numberOfPlots(where: { $0?.resource(for: nil) == .shipwreck })
         let numberOfAntiquitySitesBefore = gameModel.numberOfPlots(where: { $0?.resource(for: nil) == .antiquitySite })
 
+        // WHEN
         try playerTrajan.civics?.discover(civic: .naturalHistory, in: gameModel)
         try playerTrajan.civics?.discover(civic: .culturalHeritage, in: gameModel)
 
+        // THEN
         let numberOfShipWrecksAfter = gameModel.numberOfPlots(where: { $0?.resource(for: nil) == .shipwreck })
         let numberOfAntiquitySitesAfter = gameModel.numberOfPlots(where: { $0?.resource(for: nil) == .antiquitySite })
 
-        // THEN
         XCTAssertEqual(numberOfShipWrecksBefore, 0)
         XCTAssertEqual(numberOfAntiquitySitesBefore, 0)
         XCTAssertNotEqual(numberOfShipWrecksAfter, 0)
         XCTAssertNotEqual(numberOfAntiquitySitesAfter, 0)
+    }
+
+    func testArchaeologySitesCreatedFromEvents() throws {
+
+        // GIVEN
+
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+
+        // player 2
+        let playerTrajan = Player(leader: .trajan)
+        playerTrajan.initialize()
+
+        // map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        MapUtils.add(area: HexArea(center: HexPoint(x: 10, y: 10), radius: 6), with: .shore, to: mapModel)
+
+        // game
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerTrajan, playerAlexander],
+            on: mapModel
+        )
+
+        // add some events
+        gameModel.tile(at: HexPoint(x: 0, y: 0))?
+            .addArchaeologicalRecord(with: .battleMelee, era: .ancient, leader1: .alexander, leader2: .trajan)
+        gameModel.tile(at: HexPoint(x: 10, y: 10))?
+            .addArchaeologicalRecord(with: .battleSeaMelee, era: .ancient, leader1: .alexander, leader2: .trajan)
+
+        let numberOfShipWrecksBefore = gameModel.numberOfPlots(where: { $0?.resource(for: nil) == .shipwreck })
+        let numberOfAntiquitySitesBefore = gameModel.numberOfPlots(where: { $0?.resource(for: nil) == .antiquitySite })
+
+        // WHEN
+        try playerTrajan.civics?.discover(civic: .naturalHistory, in: gameModel)
+        try playerTrajan.civics?.discover(civic: .culturalHeritage, in: gameModel)
+
+        // THEN
+        let numberOfShipWrecksAfter = gameModel.numberOfPlots(where: { $0?.resource(for: nil) == .shipwreck })
+        let numberOfAntiquitySitesAfter = gameModel.numberOfPlots(where: { $0?.resource(for: nil) == .antiquitySite })
+        let antiquitySiteThere = gameModel.tile(at: HexPoint(x: 0, y: 0))!.has(resource: .antiquitySite, for: playerTrajan)
+        let shipWreckThere = gameModel.tile(at: HexPoint(x: 10, y: 10))!.has(resource: .shipwreck, for: playerTrajan)
+
+        XCTAssertEqual(numberOfShipWrecksBefore, 0)
+        XCTAssertEqual(numberOfAntiquitySitesBefore, 0)
+        XCTAssertNotEqual(numberOfShipWrecksAfter, 0)
+        XCTAssertNotEqual(numberOfAntiquitySitesAfter, 0)
+        XCTAssert(antiquitySiteThere)
+        XCTAssert(shipWreckThere)
     }
 }
