@@ -18,6 +18,23 @@ public enum MapSize {
     case huge
     case custom(width: Int, height: Int)
 
+    // public methods
+
+    public func name() -> String {
+
+        return self.data().name
+    }
+
+    public func width() -> Int {
+
+        return self.data().width
+    }
+
+    public func height() -> Int {
+
+        return self.data().height
+    }
+
     func numberOfTiles() -> Int {
 
         switch self {
@@ -30,110 +47,133 @@ public enum MapSize {
         }
     }
 
-    public func width() -> Int {
-
-        switch self {
-
-        case .duel:
-            return 32
-        case .tiny:
-            return 42
-        case .small:
-            return 52
-        case .standard:
-            return 62
-        case .large:
-            return 72
-        case .huge:
-            return 82
-        case .custom(let width, _):
-            return width
-        }
-    }
-
-    public func height() -> Int {
-
-        switch self {
-
-        case .duel:
-            return 22
-        case .tiny:
-            return 32
-        case .small:
-            return 42
-        case .standard:
-            return 52
-        case .large:
-            return 62
-        case .huge:
-            return 72
-        case .custom( _, let height):
-            return height
-        }
-    }
-
     func fogTilesPerBarbarianCamp() -> Int {
 
-        switch self {
-
-        case .duel:
-            return 13
-        case .tiny:
-            return 18
-        case .small:
-            return 23
-        case .standard:
-            return 27
-        case .large:
-            return 30
-        case .huge:
-            return 35
-        case .custom(let width, let height):
-            return (width * height * 27) / (80 * 52)
-        }
+        return self.data().fogTilesPerBarbarianCamp
     }
 
     func maxActiveReligions() -> Int {
 
-        switch self {
-
-        case .duel: return 2
-        case .tiny: return 4
-        case .small: return 5
-        case .standard: return 7
-        case .large: return 9
-        case .huge: return 11
-        case .custom(width: _, height: _):
-            return 22 // no limit
-        }
+        return self.data().maxActiveReligions
     }
 
     func targetNumCities() -> Int {
 
-        switch self {
-
-        case .duel: return 8
-        case .tiny: return 10
-        case .small: return 15
-        case .standard: return 20
-        case .large: return 30
-        case .huge: return 45
-        case .custom(width: _, height: _):
-            return 22 // no limit
-        }
+        return self.data().targetNumCities
     }
 
     func numberOfPlayers() -> Int {
 
+        return self.data().numberOfPlayers
+    }
+
+    func numberOfNaturalWonders() -> Int {
+
+        return self.data().numberOfNaturalWonders
+    }
+
+    // private inner class
+
+    private struct MapSizeData {
+
+        let name: String
+        let width: Int
+        let height: Int
+
+        let fogTilesPerBarbarianCamp: Int
+        let maxActiveReligions: Int
+        let targetNumCities: Int
+        let numberOfPlayers: Int
+        let numberOfNaturalWonders: Int
+    }
+
+    private func data() -> MapSizeData {
+
         switch self {
 
-        case .duel: return 2
-        case .tiny: return 3
-        case .small: return 4
-        case .standard: return 6
-        case .large: return 8
-        case .huge: return 10
-        default: return 2
+        case .duel:
+            return MapSizeData(
+                name: "TXT_KEY_MAP_SIZE_DUEL_NAME",
+                width: 32,
+                height: 22,
+                fogTilesPerBarbarianCamp: 13,
+                maxActiveReligions: 2,
+                targetNumCities: 8,
+                numberOfPlayers: 2,
+                numberOfNaturalWonders: 2
+            )
+
+        case .tiny:
+            return MapSizeData(
+                name: "TXT_KEY_MAP_SIZE_TINY_NAME",
+                width: 42,
+                height: 32,
+                fogTilesPerBarbarianCamp: 18,
+                maxActiveReligions: 4,
+                targetNumCities: 10,
+                numberOfPlayers: 3,
+                numberOfNaturalWonders: 3
+            )
+
+        case .small:
+            return MapSizeData(
+                name: "TXT_KEY_MAP_SIZE_SMALL_NAME",
+                width: 52,
+                height: 42,
+                fogTilesPerBarbarianCamp: 23,
+                maxActiveReligions: 5,
+                targetNumCities: 15,
+                numberOfPlayers: 4,
+                numberOfNaturalWonders: 4
+            )
+
+        case .standard:
+            return MapSizeData(
+                name: "TXT_KEY_MAP_SIZE_STANDARD_NAME",
+                width: 62,
+                height: 52,
+                fogTilesPerBarbarianCamp: 27,
+                maxActiveReligions: 7,
+                targetNumCities: 20,
+                numberOfPlayers: 6,
+                numberOfNaturalWonders: 5
+            )
+
+        case .large:
+            return MapSizeData(
+                name: "TXT_KEY_MAP_SIZE_LARGE_NAME",
+                width: 72,
+                height: 62,
+                fogTilesPerBarbarianCamp: 30,
+                maxActiveReligions: 9,
+                targetNumCities: 30,
+                numberOfPlayers: 8,
+                numberOfNaturalWonders: 6
+            )
+
+        case .huge:
+            return MapSizeData(
+                name: "TXT_KEY_MAP_SIZE_HUGE_NAME",
+                width: 82,
+                height: 72,
+                fogTilesPerBarbarianCamp: 35,
+                maxActiveReligions: 11,
+                targetNumCities: 45,
+                numberOfPlayers: 10,
+                numberOfNaturalWonders: 7
+            )
+
+        case .custom(width: let width, height: let height):
+            return MapSizeData(
+                name: "TXT_KEY_MAP_SIZE_CUSTOM_NAME",
+                width: width,
+                height: height,
+                fogTilesPerBarbarianCamp: (width * height * 27) / (80 * 52),
+                maxActiveReligions: (width * height * 7) / (80 * 52),
+                targetNumCities: (width * height * 20) / (80 * 52),
+                numberOfPlayers: (width * height * 6) / (80 * 52),
+                numberOfNaturalWonders: (width * height * 5) / (80 * 52)
+            )
         }
     }
 }

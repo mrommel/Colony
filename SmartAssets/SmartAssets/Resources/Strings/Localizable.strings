@@ -91,14 +91,13 @@
 "TXT_KEY_HEADER_ERA_PROGRESS" = "Era Progress";
 
 // Map sizes
-"TXT_KEY_MAP_TYPE_DUEL" = "Duel";
-"TXT_KEY_MAP_TYPE_TINY" = "Tiny";
-"TXT_KEY_MAP_TYPE_SMALL" = "Small";
-"TXT_KEY_MAP_TYPE_STANDARD" = "Standard";
-"TXT_KEY_MAP_TYPE_LARGE" = "Large";
-"TXT_KEY_MAP_TYPE_HUGE" = "Huge";
-
-"TXT_KEY_MAP_SIZE_CUSTOM" = "Custom(%@, %@)";
+"TXT_KEY_MAP_SIZE_DUEL_NAME" = "Duel";
+"TXT_KEY_MAP_SIZE_TINY_NAME" = "Tiny";
+"TXT_KEY_MAP_SIZE_SMALL_NAME" = "Small";
+"TXT_KEY_MAP_SIZE_STANDARD_NAME" = "Standard";
+"TXT_KEY_MAP_SIZE_LARGE_NAME" = "Large";
+"TXT_KEY_MAP_SIZE_HUGE_NAME" = "Huge";
+"TXT_KEY_MAP_SIZE_CUSTOM_NAME" = "Custom";
 
 // Map types
 "TXT_KEY_MAP_TYPE_EMPTY" = "Empty";

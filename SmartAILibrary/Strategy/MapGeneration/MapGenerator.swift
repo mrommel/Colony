@@ -771,23 +771,34 @@ public class MapGenerator: BaseMapHandler {
             }
         }
 
-        var wonderLocations: [HexPoint] = []
+        var naturalWondersAdded: Int = 0
 
-        for item in possibleWonderSpots.keys {
+        for item in possibleWonderSpots.keys.shuffled() {
+
+            guard naturalWondersAdded < self.options.size.numberOfNaturalWonders() else {
+                continue
+            }
+
             print("Possible spots for \(item) = \(possibleWonderSpots[item]?.count ?? 0)")
 
             guard !possibleWonderSpots[item]!.isEmpty else {
+                print("skip natural wonder \(item)")
                 continue
             }
 
             let selectedWonderSpot: HexPoint = possibleWonderSpots[item]!.randomItem()
 
-            if wonderLocations.count(where: { $0.distance(to: selectedWonderSpot) < 2 }) == 0 {
+            // remove all possible wonder spots (for all other possibleSpots) that are too near
+            for innerItem in possibleWonderSpots.keys {
 
-                grid.set(feature: item, at: selectedWonderSpot)
-                print("set natural wonder \(item) at \(selectedWonderSpot)")
-                wonderLocations.append(selectedWonderSpot)
+                var locationsClean: [HexPoint] = possibleWonderSpots[innerItem]!
+                locationsClean.removeAll(where: { $0.distance(to: selectedWonderSpot) <= 3 })
+                possibleWonderSpots[innerItem] = locationsClean
             }
+
+            grid.set(feature: item, at: selectedWonderSpot)
+            naturalWondersAdded += 1
+            print("set natural wonder \(item) at \(selectedWonderSpot)")
         }
     }
 
