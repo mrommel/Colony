@@ -18,6 +18,10 @@ public enum MapSize {
     case huge
     case custom(width: Int, height: Int)
 
+    public static var all: [MapSize] {
+        return [.duel, .tiny, .small, .standard, .large, .huge]
+    }
+
     // public methods
 
     public func name() -> String {
@@ -164,17 +168,30 @@ public enum MapSize {
             )
 
         case .custom(width: let width, height: let height):
+            let bestMatch = MapSize.bestMatch(for: width, and: height)
             return MapSizeData(
                 name: "TXT_KEY_MAP_SIZE_CUSTOM_NAME",
                 width: width,
                 height: height,
-                fogTilesPerBarbarianCamp: (width * height * 27) / (80 * 52),
-                maxActiveReligions: (width * height * 7) / (80 * 52),
-                targetNumCities: (width * height * 20) / (80 * 52),
-                numberOfPlayers: (width * height * 6) / (80 * 52),
-                numberOfNaturalWonders: (width * height * 5) / (80 * 52)
+                fogTilesPerBarbarianCamp: bestMatch.fogTilesPerBarbarianCamp(),
+                maxActiveReligions: bestMatch.maxActiveReligions(),
+                targetNumCities: bestMatch.targetNumCities(),
+                numberOfPlayers: bestMatch.numberOfPlayers(),
+                numberOfNaturalWonders: bestMatch.numberOfNaturalWonders()
             )
         }
+    }
+
+    private static func bestMatch(for width: Int, and height: Int) -> MapSize {
+
+        for size in MapSize.all {
+
+            if size.numberOfTiles() >= width * height {
+                return size
+            }
+        }
+
+        return .standard
     }
 }
 

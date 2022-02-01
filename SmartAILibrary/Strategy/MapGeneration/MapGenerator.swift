@@ -1017,6 +1017,8 @@ public class MapGenerator: BaseMapHandler {
                 } else {
                     check = false
                 }
+            } else {
+                check = false
             }
         }
 

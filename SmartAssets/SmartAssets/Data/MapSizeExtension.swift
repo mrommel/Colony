@@ -10,10 +10,6 @@ import SmartAILibrary
 
 extension MapSize {
 
-    public static var all: [MapSize] {
-        return [.duel, .tiny, .small, .standard, .large, .huge]
-    }
-
     public static func from(name: String) -> MapSize? {
 
         for mapSize in MapSize.all {
