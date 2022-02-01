@@ -173,6 +173,11 @@ extension City {
             if self.has(wonder: .oracle) {
                 greatPeoplePoints.greatScientist += 2
             }
+
+            if self.player?.religion?.pantheon() == .divineSpark && self.has(building: .library) {
+                // +1 [GreatPerson] Great Person Points from Holy Sites (Prophet), Campuses with a Library (Scientist), and Theater Squares with an Amphitheater (Writer).
+                greatPeoplePoints.greatScientist += 1
+            }
         }
 
         // harbor - +1 Great Admiral point per turn
@@ -195,6 +200,11 @@ extension City {
             if self.has(wonder: .oracle) {
                 greatPeoplePoints.greatProphet += 2
             }
+
+            if self.player?.religion?.pantheon() == .divineSpark {
+                // +1 [GreatPerson] Great Person Points from Holy Sites (Prophet), Campuses with a Library (Scientist), and Theater Squares with an Amphitheater (Writer).
+                greatPeoplePoints.greatProphet += 1
+            }
         }
 
         // theatherSquare
@@ -214,6 +224,11 @@ extension City {
                 greatPeoplePoints.greatWriter += 2
                 greatPeoplePoints.greatArtist += 2
                 greatPeoplePoints.greatMusician += 2
+            }
+
+            if self.player?.religion?.pantheon() == .divineSpark && self.has(building: .amphitheater) {
+                // +1 [GreatPerson] Great Person Points from Holy Sites (Prophet), Campuses with a Library (Scientist), and Theater Squares with an Amphitheater (Writer).
+                greatPeoplePoints.greatWriter += 1
             }
         }
 
@@ -337,6 +352,29 @@ extension City {
 
                     // etemenanki - +1 Science and +1 Production on all Floodplains tiles in this city.
                     if adjacentTile.has(feature: .floodplains) && self.has(wonder: .etemenanki) {
+                        productionValue += 1.0
+                    }
+
+                    // godOfTheSea - 1 [Production] Production from Fishing Boats.
+                    if adjacentTile.improvement() == .fishingBoats && self.player?.religion?.pantheon() == .godOfTheSea {
+                        productionValue += 1.0
+                    }
+
+                    // ladyOfTheReedsAndMarshes - +2 [Production] Production from Marsh, Oasis, and Desert Floodplains.
+                    if (adjacentTile.has(feature: .marsh) || adjacentTile.has(feature: .oasis) || adjacentTile.has(feature: .floodplains)) &&
+                        self.player?.religion?.pantheon() == .ladyOfTheReedsAndMarshes {
+                        productionValue += 1.0
+                    }
+
+                    // godOfCraftsmen - +1 [Production] Production and +1 [Faith] Faith from improved Strategic resources.
+                    if self.player?.religion?.pantheon() == .godOfCraftsmen {
+                        if adjacentTile.resource(for: player).usage() == .strategic && adjacentTile.hasAnyImprovement() {
+                            productionValue += 1.0
+                        }
+                    }
+
+                    // goddessOfTheHunt - +1 [Food] Food and +1 [Production] Production from Camps.
+                    if adjacentTile.improvement() == .camp && self.player?.religion?.pantheon() == .goddessOfTheHunt {
                         productionValue += 1.0
                     }
                 }
@@ -490,16 +528,43 @@ extension City {
                 if let adjacentTile = gameModel.tile(at: point) {
                     faithFromTiles += adjacentTile.yields(for: self.player, ignoreFeature: false).faith
 
-                    // mausoleumAtHalicarnassus
+                    // mausoleumAtHalicarnassus - +1 Science, +1 Faith, and +1 Culture to all Coast tiles in this city.
                     if adjacentTile.terrain() == .shore && wonders.has(wonder: .mausoleumAtHalicarnassus) {
-                        // +1 Science, +1 Faith, and +1 Culture to all Coast tiles in this city.
                         faithFromTiles += 1.0
                     }
 
-                    // motherRussia
+                    // motherRussia - Tundra tiles provide +1 Faith and +1 Production, in addition to their usual yields.
                     if adjacentTile.terrain() == .tundra && player?.leader.civilization().ability() == .motherRussia {
-                        // Tundra tiles provide +1 Faith and +1 Production, in addition to their usual yields.
                         faithFromTiles += 1.0
+                    }
+
+                    // stoneCircles - +2 [Faith] Faith from Quarries.
+                    if self.player?.religion?.pantheon() == .stoneCircles {
+                        if adjacentTile.improvement() == .quarry {
+                            faithFromTiles += 2.0
+                        }
+                    }
+
+                    // earthGoddess - +1 [Faith] Faith from tiles with Breathtaking Appeal.
+                    if self.player?.religion?.pantheon() == .earthGoddess {
+                        if adjacentTile.appealLevel(in: gameModel) == .breathtaking {
+                            faithFromTiles += 1.0
+                        }
+                    }
+
+                    // godOfCraftsmen - +1 [Production] Production and +1 [Faith] Faith from improved Strategic resources.
+                    if self.player?.religion?.pantheon() == .godOfCraftsmen {
+                        if adjacentTile.resource(for: player).usage() == .strategic && adjacentTile.hasAnyImprovement() {
+                            faithFromTiles += 1.0
+                        }
+                    }
+
+                    // religiousIdols - +2 [Faith] Faith from Mines over Luxury and Bonus resources.
+                    if self.player?.religion?.pantheon() == .religiousIdols {
+                        let resourceUsage = adjacentTile.resource(for: player).usage()
+                        if (resourceUsage == .luxury || resourceUsage == .bonus) && adjacentTile.improvement() == .mine {
+                            faithFromTiles += 2.0
+                        }
                     }
                 }
             }
@@ -576,7 +641,7 @@ extension City {
                         continue
                     }
 
-                    if neighborTile.feature().isWonder() {
+                    if neighborTile.feature().isNaturalWonder() {
                         // Major bonus (+2 Faith) for each adjacent Natural Wonder
                         faithFromDistricts += 2.0
                     }
@@ -589,6 +654,27 @@ extension City {
                     if neighborTile.feature() == .forest || neighborTile.feature() == .rainforest {
                         // Minor bonus (+½ Faith) for each adjacent District District tile and each adjacent unimproved Woods tile
                         faithFromDistricts += 0.5
+                    }
+
+                    if self.player?.religion?.pantheon() == .danceOfTheAurora {
+                        if neighborTile.terrain() == .tundra {
+                            // Holy Site districts get +1 [Faith] Faith from adjacent Tundra tiles.
+                            faithFromDistricts += 1.0
+                        }
+                    }
+
+                    if self.player?.religion?.pantheon() == .desertFolklore {
+                        if neighborTile.terrain() == .desert {
+                            // Holy Site districts get +1 [Faith] Faith from adjacent Desert tiles.
+                            faithFromDistricts += 1.0
+                        }
+                    }
+
+                    if self.player?.religion?.pantheon() == .desertFolklore {
+                        if neighborTile.has(feature: .rainforest) {
+                            // Holy Site districts get +1 [Faith] Faith from adjacent Rainforest tiles.
+                            faithFromDistricts += 1.0
+                        }
                     }
                 }
             }
@@ -707,6 +793,16 @@ extension City {
                     if adjacentTile.has(feature: .rainforest) && self.has(wonder: .chichenItza) {
                         cultureFromTiles += 2.0
                     }
+
+                    // godOfTheOpenSky - +1 Culture from Pastures.
+                    if adjacentTile.improvement() == .pasture && self.player?.religion?.pantheon() == .godOfTheOpenSky {
+                        cultureFromTiles += 1.0
+                    }
+
+                    // goddessOfFestivals - +1 [Culture] Culture from Plantations.
+                    if adjacentTile.improvement() == .plantation && self.player?.religion?.pantheon() == .goddessOfFestivals {
+                        cultureFromTiles += 1.0
+                    }
                 }
             }
         }
@@ -742,6 +838,10 @@ extension City {
 
     private func cultureFromDistricts(in gameModel: GameModel?) -> Double {
 
+        guard let player = self.player else {
+            fatalError("Cant get player")
+        }
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
@@ -760,7 +860,7 @@ extension City {
                     }
 
                     // Major bonus (+2 Culture) for each adjacent Wonder
-                    if neighborTile.feature().isWonder() {
+                    if neighborTile.feature().isNaturalWonder() {
                         cultureFromDistricts += 2
                     }
 
@@ -774,6 +874,18 @@ extension City {
                     // Minor bonus (+½ Culture) for each adjacent district tile
                     if neighborTile.district() != .none {
                         cultureFromDistricts += 0.5
+                    }
+                }
+            }
+        }
+
+        // penBrushAndVoice + golden - +1 [Culture] Culture per Specialty District for each city.
+        if player.currentAge() == .golden && player.has(dedication: .penBrushAndVoice) {
+
+            for districtType in DistrictType.all {
+                if districts.has(district: districtType) {
+                    if districtType.isSpecialty() {
+                        cultureFromDistricts += 1.0
                     }
                 }
             }
@@ -1220,6 +1332,10 @@ extension City {
 
     private func scienceFromDistricts(in gameModel: GameModel?) -> Double {
 
+        guard let player = self.player else {
+            fatalError("Cant get player")
+        }
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
@@ -1257,6 +1373,17 @@ extension City {
                         scienceFromDistricts += 0.5
                     }
                 }
+            }
+        }
+
+        // freeInquiry + golden - Commercial Hubs and Harbors provide [Science] Science equal to their [Gold] Gold bonus.
+        if player.currentAge() == .golden && player.has(dedication: .freeInquiry) {
+            if districts.has(district: .commercialHub) {
+                scienceFromDistricts += 2.0 // not exactly what the bonus says
+            }
+
+            if districts.has(district: .harbor) {
+                scienceFromDistricts += 2.0 // not exactly what the bonus says
             }
         }
 
@@ -1414,6 +1541,11 @@ extension City {
 
                     // +1 Food and +1 Production for each Lake tile in your empire.
                     if adjacentTile.has(feature: .lake) && hasHueyTeocalli {
+                        foodValue += 1.0
+                    }
+
+                    // goddessOfTheHunt - +1 [Food] Food and +1 [Production] Production from Camps.
+                    if adjacentTile.improvement() == .camp && self.player?.religion?.pantheon() == .goddessOfTheHunt {
                         foodValue += 1.0
                     }
                 }
@@ -1600,6 +1732,27 @@ extension City {
                 if let neighborhoodTile = gameModel.tile(at: neighborhoodLocation) {
                     let appeal = neighborhoodTile.appealLevel(in: gameModel)
                     housingFromDistricts += Double(appeal.housing())
+                }
+            }
+        }
+
+        if self.has(district: .holySite) {
+
+            // riverGoddess - +2 [Amenities] Amenities and +2 [Housing] Housing to cities if they have a Holy Site district adjacent to a River.
+            if let holySiteLocation = self.location(of: .holySite) {
+
+                var isHolySiteAdjacentToRiver = false
+
+                for neighbor in holySiteLocation.neighbors() {
+
+                    if gameModel.river(at: neighbor) {
+                        isHolySiteAdjacentToRiver = true
+                        break
+                    }
+                }
+
+                if isHolySiteAdjacentToRiver {
+                    housingFromDistricts += 2.0
                 }
             }
         }

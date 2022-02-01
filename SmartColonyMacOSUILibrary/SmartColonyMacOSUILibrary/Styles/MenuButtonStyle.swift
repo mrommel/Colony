@@ -8,6 +8,16 @@
 import SwiftUI
 import SmartAssets
 
+extension ShapeStyle where Self == Color {
+    static var random: Color {
+        Color(
+            red: .random(in: 0...1),
+            green: .random(in: 0...1),
+            blue: .random(in: 0...1)
+        )
+    }
+}
+
 public struct MenuButtonStyle: ButtonStyle {
 
     public init() {
@@ -22,8 +32,18 @@ public struct MenuButtonStyle: ButtonStyle {
             .background(
                 ZStack {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .shadow(color: .white, radius: configuration.isPressed ? 2: 5, x: configuration.isPressed ? -2: -5, y: configuration.isPressed ? -2: -5)
-                        .shadow(color: .black, radius: configuration.isPressed ? 2: 5, x: configuration.isPressed ? 2: 5, y: configuration.isPressed ? 2: 5)
+                        .shadow(
+                            color: .white,
+                            radius: configuration.isPressed ? 2: 5,
+                            x: configuration.isPressed ? -2: -5,
+                            y: configuration.isPressed ? -2: -5
+                        )
+                        .shadow(
+                            color: .black,
+                            radius: configuration.isPressed ? 2: 5,
+                            x: configuration.isPressed ? 2: 5,
+                            y: configuration.isPressed ? 2: 5
+                        )
                         .blendMode(.overlay)
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                         .fill(Color(Globals.Colors.buttonBackground))
@@ -49,8 +69,18 @@ public struct SelectedMenuButtonStyle: ButtonStyle {
             .background(
                 ZStack {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .shadow(color: .white, radius: configuration.isPressed ? 2: 5, x: configuration.isPressed ? -2: -5, y: configuration.isPressed ? -2: -5)
-                        .shadow(color: .black, radius: configuration.isPressed ? 2: 5, x: configuration.isPressed ? 2: 5, y: configuration.isPressed ? 2: 5)
+                        .shadow(
+                            color: .white,
+                            radius: configuration.isPressed ? 2: 5,
+                            x: configuration.isPressed ? -2: -5,
+                            y: configuration.isPressed ? -2: -5
+                        )
+                        .shadow(
+                            color: .black,
+                            radius: configuration.isPressed ? 2: 5,
+                            x: configuration.isPressed ? 2: 5,
+                            y: configuration.isPressed ? 2: 5
+                        )
                         .blendMode(.overlay)
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                         .fill(Color(Globals.Colors.buttonSelectedBackground))

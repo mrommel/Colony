@@ -60,7 +60,7 @@ public class MapGenerator: BaseMapHandler {
 		let moistureMap = HeightMap(width: self.width, height: self.height)
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.2, "initialized")
+			completionHandler(0.2, "TXT_KEY_MAP_GENERATOR_INIT")
 		}
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -71,7 +71,7 @@ public class MapGenerator: BaseMapHandler {
         // self.flipSomeCoastTiles()
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.3, "elevation map created")
+			completionHandler(0.3, "TXT_KEY_MAP_GENERATOR_ELEVATION")
 		}
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -80,7 +80,7 @@ public class MapGenerator: BaseMapHandler {
         self.setClimateZones()
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.35, "climate zones generated")
+			completionHandler(0.35, "TXT_KEY_MAP_GENERATOR_CLIMATE")
 		}
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -90,7 +90,7 @@ public class MapGenerator: BaseMapHandler {
 		self.refineClimate()
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.4, "coastal distance calculated")
+			completionHandler(0.4, "TXT_KEY_MAP_GENERATOR_COASTAL")
 		}
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -100,7 +100,7 @@ public class MapGenerator: BaseMapHandler {
         self.blendTerrains(on: grid)
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.5, "terrain refined")
+			completionHandler(0.5, "TXT_KEY_MAP_GENERATOR_TERRAIN")
 		}
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -108,7 +108,7 @@ public class MapGenerator: BaseMapHandler {
         self.placeResources(on: grid)
 
         if let completionHandler = self.progressHandler {
-            completionHandler(0.6, "resouces added")
+            completionHandler(0.6, "TXT_KEY_MAP_GENERATOR_RESOURCES")
         }
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -119,7 +119,7 @@ public class MapGenerator: BaseMapHandler {
 		self.put(rivers: rivers, onto: grid)
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.7, "springs and rivers identified")
+			completionHandler(0.7, "TXT_KEY_MAP_GENERATOR_RIVERS")
 		}
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -128,7 +128,7 @@ public class MapGenerator: BaseMapHandler {
         self.refineFeatures(on: grid)
 
         if let completionHandler = self.progressHandler {
-            completionHandler(0.8, "features added")
+            completionHandler(0.8, "TXT_KEY_MAP_GENERATOR_FEATURES")
         }
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -137,7 +137,7 @@ public class MapGenerator: BaseMapHandler {
         self.refineNaturalWonders(on: grid)
 
         if let completionHandler = self.progressHandler {
-            completionHandler(0.8, "natural wonders added")
+            completionHandler(0.8, "TXT_KEY_MAP_GENERATOR_NATURAL_WONDERS")
         }
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -146,7 +146,7 @@ public class MapGenerator: BaseMapHandler {
         self.identifyContinents(on: grid)
 
         if let completionHandler = self.progressHandler {
-            completionHandler(0.8, "continents identified")
+            completionHandler(0.8, "TXT_KEY_MAP_GENERATOR_CONTINENTS")
         }
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -154,7 +154,7 @@ public class MapGenerator: BaseMapHandler {
         self.identifyOceans(on: grid)
 
         if let completionHandler = self.progressHandler {
-            completionHandler(0.9, "oceans identified")
+            completionHandler(0.9, "TXT_KEY_MAP_GENERATOR_OCEANS")
         }
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -162,7 +162,7 @@ public class MapGenerator: BaseMapHandler {
         self.identifyStartPositions(on: grid)
 
         if let completionHandler = self.progressHandler {
-            completionHandler(0.9, "start positions identified")
+            completionHandler(0.9, "TXT_KEY_MAP_GENERATOR_POSITIONS")
         }
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -170,7 +170,7 @@ public class MapGenerator: BaseMapHandler {
         self.addGoodies(on: grid)
 
         if let completionHandler = self.progressHandler {
-            completionHandler(0.99, "added goodies")
+            completionHandler(0.99, "TXT_KEY_MAP_GENERATOR_GOODIES")
         }
 
         usleep(10000) // will sleep for 10 milliseconds
@@ -417,6 +417,32 @@ public class MapGenerator: BaseMapHandler {
 			}
 		}
 
+        for x in 0..<width {
+            for y in 0..<height {
+                let gridPoint = HexPoint(x: x, y: y)
+
+                if grid.terrain(at: gridPoint) == .ocean {
+                    var shouldBeShore: Bool = false
+
+                    for neighbor in gridPoint.neighbors() {
+
+                        guard let neighborTile = grid.tile(at: neighbor) else {
+                            continue
+                        }
+
+                        if neighborTile.isLand() {
+                            shouldBeShore = true
+                            break
+                        }
+                    }
+
+                    if shouldBeShore {
+                        grid.set(terrain: .shore, at: gridPoint)
+                    }
+                }
+            }
+        }
+
         // get highest percent tiles from height map
         let combinedPercentage = self.options.mountainsPercentage * self.options.landPercentage
         let mountainThresold = heightMap.findThresholdAbove(percentage: combinedPercentage)
@@ -558,7 +584,7 @@ public class MapGenerator: BaseMapHandler {
             in: grid,
             for: .walk,
             for: nil,
-            options: MoveTypeIgnoreUnitsOptions(unitMapType: .civilian, canEmbark: false)
+            options: MoveTypeIgnoreUnitsOptions(unitMapType: .civilian, canEmbark: false, canEnterOcean: false)
         )
 
         var longestRoute = 0
@@ -745,8 +771,34 @@ public class MapGenerator: BaseMapHandler {
             }
         }
 
-        for item in possibleWonderSpots.keys {
+        var naturalWondersAdded: Int = 0
+
+        for item in possibleWonderSpots.keys.shuffled() {
+
+            guard naturalWondersAdded < self.options.size.numberOfNaturalWonders() else {
+                continue
+            }
+
             print("Possible spots for \(item) = \(possibleWonderSpots[item]?.count ?? 0)")
+
+            guard !possibleWonderSpots[item]!.isEmpty else {
+                print("skip natural wonder \(item)")
+                continue
+            }
+
+            let selectedWonderSpot: HexPoint = possibleWonderSpots[item]!.randomItem()
+
+            // remove all possible wonder spots (for all other possibleSpots) that are too near
+            for innerItem in possibleWonderSpots.keys {
+
+                var locationsClean: [HexPoint] = possibleWonderSpots[innerItem]!
+                locationsClean.removeAll(where: { $0.distance(to: selectedWonderSpot) <= 3 })
+                possibleWonderSpots[innerItem] = locationsClean
+            }
+
+            grid.set(feature: item, at: selectedWonderSpot)
+            naturalWondersAdded += 1
+            print("set natural wonder \(item) at \(selectedWonderSpot)")
         }
     }
 
@@ -943,11 +995,32 @@ public class MapGenerator: BaseMapHandler {
 		let startCorner = randomGridPointCorner()
 		let startGridPointWithCorner = HexPointWithCorner(with: gridPoint, andCorner: startCorner)
 
-		let hexPointCorners = self.followRiver(at: startGridPointWithCorner, on: heightMap, depth: 30)
+        var hexPointCorners = self.followRiver(at: startGridPointWithCorner, on: heightMap, depth: 30)
 
-        //if let lastHexPointCorners = hexPointCorners.last {
-            // FIXME
-        //}
+        // rivers sometimes have too much length an flow beisde the coast
+        // so we clean up here
+        var check: Bool = true
+
+        while check {
+            if hexPointCorners.count > 2 {
+                let secondLastHexPointCorners = hexPointCorners[hexPointCorners.count - 2]
+
+                let neighborPoints = secondLastHexPointCorners.neighbors()
+                let neighbor1Plot = self.plots.valid(gridPoint: neighborPoints[0]) ? self.plots[neighborPoints[0]] : .sea
+                let neighbor2Plot = self.plots.valid(gridPoint: neighborPoints[1]) ? self.plots[neighborPoints[1]] : .sea
+
+                if neighbor1Plot == .sea || neighbor2Plot == .sea {
+                    /* if let last = hexPointCorners.last {
+                        print("remove last part of river \(name) (\(hexPointCorners.count)) at \(last.point) / \(last.corner)")
+                    } */
+                    hexPointCorners.removeLast()
+                } else {
+                    check = false
+                }
+            } else {
+                check = false
+            }
+        }
 
 		let river = River(with: name, and: hexPointCorners)
 
@@ -967,15 +1040,16 @@ public class MapGenerator: BaseMapHandler {
 		for corner in gridPointWithCorner.adjacentCorners() {
 
 			// skip points outside the map
-			if corner.point.x >= 0 && corner.point.x < self.width && corner.point.y >= 0 && corner.point.y < self.height {
+            guard corner.point.x >= 0 && corner.point.x < self.width && corner.point.y >= 0 && corner.point.y < self.height else {
+                continue
+            }
 
-				let heightOfCorner = self.heightOf(corner: corner.corner, at: corner.point, on: heightMap)
+            let heightOfCorner = self.heightOf(corner: corner.corner, at: corner.point, on: heightMap)
 
-				if heightOfCorner < lowestValue {
-					lowestValue = heightOfCorner
-					lowestGridPointWithCorner = corner
-				}
-			}
+            if heightOfCorner < lowestValue {
+                lowestValue = heightOfCorner
+                lowestGridPointWithCorner = corner
+            }
 		}
 
 		var result: [HexPointWithCorner] = []
@@ -984,11 +1058,9 @@ public class MapGenerator: BaseMapHandler {
 
 			let targetPlot = self.plots[lowestGridPointWithCorner.point.x, lowestGridPointWithCorner.point.y]
 
-			if targetPlot != .sea {
+            if targetPlot != .sea {
 
-				// TODO: river sometimes get stuck and end in lakes
-
-				result.append(lowestGridPointWithCorner)
+                result.append(lowestGridPointWithCorner)
 				let newRiverTile = self.followRiver(at: lowestGridPointWithCorner, on: heightMap, depth: depth - 1)
 				result.append(contentsOf: newRiverTile)
 			}

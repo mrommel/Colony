@@ -68,7 +68,7 @@ class TileTests: XCTestCase {
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
-        try! playerAlexander.techs!.discover(tech: .mining)
+        try! playerAlexander.techs!.discover(tech: .mining, in: nil)
         self.objectToTest = Tile(point: HexPoint(x: 0, y: 0), terrain: .desert, hills: true)
         try! self.objectToTest?.set(owner: playerAlexander)
 

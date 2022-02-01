@@ -11,6 +11,47 @@ import SmartAssets
 
 class DistrictLayer: BaseLayer {
 
+    // MARK: intern classes
+
+    private class DistrictLayerTile: BaseLayerTile {
+
+        let visible: Bool
+        let discovered: Bool
+        let districtTexture: String
+        let buildingDistrictTexture: String
+
+        init(point: HexPoint, visible: Bool, discovered: Bool, districtTexture: String, buildingDistrictTexture: String) {
+
+            self.visible = visible
+            self.discovered = discovered
+            self.districtTexture = districtTexture
+            self.buildingDistrictTexture = buildingDistrictTexture
+
+            super.init(point: point)
+        }
+
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+
+        override func hash(into hasher: inout Hasher) {
+
+            hasher.combine(self.point)
+            hasher.combine(self.visible)
+            hasher.combine(self.discovered)
+            hasher.combine(self.districtTexture)
+            hasher.combine(self.buildingDistrictTexture)
+        }
+    }
+
+    private class DistrictLayerHasher: BaseLayerHasher<DistrictLayerTile> {
+
+    }
+
+    // MARK: variables
+
+    private var hasher: DistrictLayerHasher?
+
     static let kName: String = "DistrictLayer"
 
     // MARK: constructor
@@ -36,6 +77,7 @@ class DistrictLayer: BaseLayer {
 
         self.textureUtils = TextureUtils(with: gameModel)
         self.textures = Textures(game: gameModel)
+        self.hasher = DistrictLayerHasher(with: gameModel)
 
         self.rebuild()
     }
@@ -101,15 +143,47 @@ class DistrictLayer: BaseLayer {
         if let tile = tile {
             let pt = tile.point
 
-            self.clear(tile: tile)
+            let currentHashValue = self.hash(for: tile)
+            if !self.hasher!.has(hash: currentHashValue, at: pt) {
 
-            let screenPoint = HexPoint.toScreen(hex: pt)
+                self.clear(tile: tile)
 
-            if tile.isVisible(to: self.player) || self.showCompleteMap {
-                self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
-            } else if tile.isDiscovered(by: self.player) {
-                self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+                let screenPoint = HexPoint.toScreen(hex: pt)
+
+                if tile.isVisible(to: self.player) || self.showCompleteMap {
+                    self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
+                } else if tile.isDiscovered(by: self.player) {
+                    self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+                }
+
+                self.hasher?.update(hash: currentHashValue, at: tile.point)
             }
         }
+    }
+
+    private func hash(for tile: AbstractTile?) -> DistrictLayerTile {
+
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+
+        var districtTexture: String = ""
+        var buildingDistrictTexture: String = ""
+        let district = tile.district()
+        let buildingDistrict = tile.buildingDistrict()
+
+        if district != .none {
+            districtTexture = district.textureName()
+        } else if buildingDistrict != .none {
+            buildingDistrictTexture = buildingDistrict.buildingTextureName()
+        }
+
+        return DistrictLayerTile(
+            point: tile.point,
+            visible: tile.isVisible(to: self.player) || self.showCompleteMap,
+            discovered: tile.isDiscovered(by: self.player),
+            districtTexture: districtTexture,
+            buildingDistrictTexture: buildingDistrictTexture
+        )
     }
 }

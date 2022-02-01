@@ -35,7 +35,7 @@ class CivicDialogDelegate: DialogConfigurationDelegate {
             return Int(progressPercentage)
         } else if civics.has(civic: civicType) {
             return 100
-        } else if civics.eurekaTriggered(for: civicType) {
+        } else if civics.inspirationTriggered(for: civicType) {
             return 50
         } else {
             return 0

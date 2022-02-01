@@ -137,7 +137,6 @@ public class CitySiteEvaluator: BaseSiteEvaluator {
             sum += self.tileFertilityEvaluator.value(of: areaPoint, for: player)
         }
 
-        // FIXME
         /*if map.isAdjacentToRiver(at: point) {
             sum *= 2
         }

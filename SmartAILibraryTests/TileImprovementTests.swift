@@ -60,14 +60,14 @@ class TileImprovementTests: XCTestCase {
 
         // Human
         humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-        try! humanPlayer.techs?.discover(tech: .pottery)
-        try! humanPlayer.techs?.discover(tech: .bronzeWorking)
-        try! humanPlayer.techs?.discover(tech: .irrigation)
-        try! humanPlayer.techs?.discover(tech: .animalHusbandry)
-        try! humanPlayer.techs?.discover(tech: .sailing)
+        try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
+        try! humanPlayer.techs?.discover(tech: .bronzeWorking, in: gameModel)
+        try! humanPlayer.techs?.discover(tech: .irrigation, in: gameModel)
+        try! humanPlayer.techs?.discover(tech: .animalHusbandry, in: gameModel)
+        try! humanPlayer.techs?.discover(tech: .sailing, in: gameModel)
         try! humanPlayer.techs?.setCurrent(tech: .archery, in: gameModel)
-        try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-        try! humanPlayer.civics?.discover(civic: .foreignTrade)
+        try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+        try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
         try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
         if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
@@ -97,7 +97,7 @@ class TileImprovementTests: XCTestCase {
         let builderUnit = Unit(at: HexPoint(x: 3, y: 4), type: .builder, owner: humanPlayer)
         _ = builderUnit.doMove(on: HexPoint(x: 4, y: 3), in: gameModel)
         gameModel.add(unit: builderUnit)
-        gameModel.userInterface?.show(unit: builderUnit)
+        gameModel.userInterface?.show(unit: builderUnit, at: HexPoint(x: 3, y: 4))
         let canBuildFishingBoats = builderUnit.canDo(command: .buildFishingBoats, in: gameModel)
 
         // THEN
@@ -136,15 +136,15 @@ class TileImprovementTests: XCTestCase {
 
         // Human
         humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-        try! humanPlayer.techs?.discover(tech: .pottery)
-        try! humanPlayer.techs?.discover(tech: .bronzeWorking)
-        try! humanPlayer.techs?.discover(tech: .irrigation)
-        try! humanPlayer.techs?.discover(tech: .animalHusbandry)
-        try! humanPlayer.techs?.discover(tech: .sailing)
-        try! humanPlayer.techs?.discover(tech: .mining)
+        try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
+        try! humanPlayer.techs?.discover(tech: .bronzeWorking, in: gameModel)
+        try! humanPlayer.techs?.discover(tech: .irrigation, in: gameModel)
+        try! humanPlayer.techs?.discover(tech: .animalHusbandry, in: gameModel)
+        try! humanPlayer.techs?.discover(tech: .sailing, in: gameModel)
+        try! humanPlayer.techs?.discover(tech: .mining, in: gameModel)
         try! humanPlayer.techs?.setCurrent(tech: .archery, in: gameModel)
-        try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-        try! humanPlayer.civics?.discover(civic: .foreignTrade)
+        try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+        try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
         try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
         // WHEN

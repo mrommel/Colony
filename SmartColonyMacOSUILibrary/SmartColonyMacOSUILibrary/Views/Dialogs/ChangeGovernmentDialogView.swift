@@ -60,19 +60,17 @@ struct ChangeGovernmentDialogView: View {
     }
 }
 
-/*
-// execution takes too long
 #if DEBUG
 struct GovernmentDialogView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
+
         let environment = GameEnvironment(game: DemoGameModel())
-        
+
         GovernmentDialogView(viewModel: GovernmentDialogViewModel())
             .environment(\.gameEnvironment, environment)
     }
 }
 #endif
-*/

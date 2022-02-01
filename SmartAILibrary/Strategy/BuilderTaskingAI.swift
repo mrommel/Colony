@@ -906,7 +906,13 @@ public class BuilderTaskingAI {
         } else {
 
             let astar = AStarPathfinder()
-            astar.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: unit.movementType(), for: unit.player, unitMapType: .combat, canEmbark: unit.player!.canEmbark())
+            astar.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                for: unit.movementType(),
+                for: unit.player,
+                unitMapType: .combat,
+                canEmbark: unit.player!.canEmbark(),
+                canEnterOcean: unit.player!.canEnterOcean()
+            )
 
             //let path = astar.shortestPath(fromTileCoord: unit.location, toTileCoord: tile.point)
             let result = astar.turnsToReachTarget(for: unit, to: tile.point)

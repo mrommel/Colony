@@ -100,11 +100,19 @@ struct CivicDiscoveredPopupView: View {
 #if DEBUG
 struct CivicDiscoveredPopupView_Previews: PreviewProvider {
 
+    static func viewModel() -> CivicDiscoveredPopupViewModel {
+
+        let viewModel = CivicDiscoveredPopupViewModel()
+        viewModel.update(for: .codeOfLaws)
+
+        return viewModel
+    }
+
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = CivicDiscoveredPopupViewModel(civicType: .codeOfLaws)
 
+        let viewModel = CivicDiscoveredPopupView_Previews.viewModel()
         CivicDiscoveredPopupView(viewModel: viewModel)
     }
 }

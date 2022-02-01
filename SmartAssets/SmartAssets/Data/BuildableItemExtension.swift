@@ -54,7 +54,7 @@ extension BuildableItem {
             return "-"
         case .wonder:
             if let wonderType = self.wonderType {
-                return wonderType.name()
+                return wonderType.name().localized()
             }
             return "-"
         case .district:
@@ -83,7 +83,7 @@ extension BuildableItem {
             return []
         case .wonder:
             if let wonderType = self.wonderType {
-                return wonderType.effects()
+                return wonderType.effects().map { $0.localized() }
             }
             return []
         case .district:

@@ -244,14 +244,22 @@ open class MapModel: Codable {
 
     // MARK: city methods
 
-    public func nearestCity(at pt: HexPoint, of player: AbstractPlayer?) -> AbstractCity? {
+    public func nearestCity(at pt: HexPoint, of player: AbstractPlayer?, onSameContinent: Bool = false) -> AbstractCity? {
 
         var bestCity: AbstractCity?
         var bestDistance: Int = Int.max
 
+        guard let tile = self.tile(at: pt) else {
+            return nil
+        }
+
         for cityRef in self.cities {
 
             guard let city = cityRef else {
+                continue
+            }
+
+            guard let cityTile = self.tile(at: city.location) else {
                 continue
             }
 
@@ -260,6 +268,12 @@ open class MapModel: Codable {
 
                 // if owner does not match, skip this city
                 if !playerToCheck.isEqual(to: city.player) {
+                    continue
+                }
+            }
+
+            if onSameContinent {
+                if !cityTile.sameContinent(as: tile) {
                     continue
                 }
             }
@@ -485,6 +499,11 @@ open class MapModel: Codable {
         return nil
     }
 
+    public func tile(at index: Int) -> AbstractTile? {
+
+        return self.tile(at: self.point(for: index))
+    }
+
     func set(tile: AbstractTile, at hex: HexPoint) {
 
         if self.valid(point: tile.point) {
@@ -492,11 +511,25 @@ open class MapModel: Codable {
         }
     }
 
+    func index(for point: HexPoint) -> Int {
+
+        return point.y * self.size.width() + point.x
+    }
+
+    func point(for index: Int) -> HexPoint {
+
+        let y = index / self.size.width()
+        let x = index - self.size.width() * y
+        return HexPoint(x: x, y: y)
+    }
+
     func discover(by player: AbstractPlayer?, at point: HexPoint, in gameModel: GameModel?) {
 
         if let tile = self.tile(at: point) {
             tile.discover(by: player, in: gameModel)
         }
+
+        player?.checkWorldCircumnavigated(in: gameModel)
     }
 
     func owner(at point: HexPoint) -> AbstractPlayer? {
@@ -774,6 +807,16 @@ open class MapModel: Codable {
         return nil
     }
 
+    func continent(by continentType: ContinentType) -> Continent? {
+
+        for continent in self.continents where continent.type() == continentType {
+
+            return continent
+        }
+
+        return nil
+    }
+
     // MARK: statistics
 
     func updateStatistics() {
@@ -794,6 +837,11 @@ open class MapModel: Codable {
                 }
             }
         }
+    }
+
+    func numberOfTiles() -> Int {
+
+        return self.size.numberOfTiles()
     }
 
     func numberOfLandPlots() -> Int {

@@ -25,7 +25,7 @@ struct PantheonView: View {
                 Text(self.viewModel.name())
                     .font(.headline)
 
-                Text(self.viewModel.summary())
+                Label(self.viewModel.summary())
                     .font(.footnote)
                     .padding(.top, 1)
             }

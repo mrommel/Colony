@@ -111,7 +111,7 @@ extension GovernorsDialogViewModel: GovernorViewModelDelegate {
             fatalError("cant get governors")
         }
 
-        governors.appoint(governor: governor!.type)
+        governors.appoint(governor: governor!.type, in: gameModel)
 
         self.updateGovernors()
     }
@@ -149,7 +149,7 @@ extension GovernorsDialogViewModel: GovernorViewModelDelegate {
 
             let selectedPromotion: GovernorTitleType = promotions[selectedIndex]
 
-            humanPlayer.governors?.promote(governor: governor, with: selectedPromotion)
+            humanPlayer.governors?.promote(governor: governor, with: selectedPromotion, in: gameModel)
 
             self.updateGovernors()
         })
@@ -174,6 +174,7 @@ extension GovernorsDialogViewModel: GovernorViewModelDelegate {
         // build cities
         let items: [SelectableItem] = cityRefs.map { cityRef in
             SelectableItem(
+                iconTexture: (cityRef as? City)?.iconTexture() ?? nil,
                 title: cityRef?.name ?? "-"
             )
         }

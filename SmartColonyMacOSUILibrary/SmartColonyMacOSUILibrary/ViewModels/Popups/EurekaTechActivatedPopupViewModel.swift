@@ -20,17 +20,31 @@ class EurekaTechActivatedPopupViewModel: ObservableObject {
     @Published
     var descriptionText: String
 
-    private let techType: TechType
+    @Published
+    var boostedText: String
+
+    @Published
+    var buttonText: String
+
+    private var techType: TechType = .none
 
     weak var delegate: GameViewModelDelegate?
 
-    init(techType: TechType) {
+    init() {
+
+        self.title = "TXT_KEY_EUREKA".localized()
+        self.summaryText = "-"
+        self.descriptionText = "-"
+        self.boostedText = "TXT_KEY_BOOSTED".localized()
+        self.buttonText = "TXT_KEY_CONTINUE".localized()
+    }
+
+    func update(for techType: TechType) {
 
         self.techType = techType
 
-        self.title = "Eureka"
-        self.summaryText = techType.eurekaDescription()
-        self.descriptionText = "Your knowledge of \(techType) has advanced considerably."
+        self.summaryText = techType.eurekaDescription().localized()
+        self.descriptionText = "TXT_KEY_EUREKA_TRIGGERED".localizedWithFormat(with: [techType.name().localized()])
     }
 
     func icon() -> NSImage {

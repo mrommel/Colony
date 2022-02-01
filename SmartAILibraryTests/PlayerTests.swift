@@ -84,7 +84,7 @@ class PlayerTests: XCTestCase {
                 playerAlexander.finishTurn()
                 playerAlexander.setAutoMoves(to: true)
             }
-        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         // THEN
         XCTAssertEqual(numProphetsBefore, 0)

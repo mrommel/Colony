@@ -13,15 +13,14 @@ public enum PopupType {
     case none
 
     case declareWarQuestion(player: AbstractPlayer?)
-    case barbarianCampCleared(location: HexPoint, gold: Int)
 
     case goodyHutReward(goodyType: GoodyType, location: HexPoint)
 
     case techDiscovered(tech: TechType)
     case civicDiscovered(civic: CivicType)
     case eraEntered(era: EraType)
-    case eurekaTechActivated(tech: TechType)
-    case eurekaCivicActivated(civic: CivicType)
+    case eurekaTriggered(tech: TechType)
+    case inspirationTriggered(civic: CivicType)
 
     case unitTrained(unit: UnitType)
     case wonderBuilt(wonder: WonderType)
@@ -43,9 +42,6 @@ extension PopupType: Equatable {
         case (let .declareWarQuestion(lhs_player), let .declareWarQuestion(rhs_player)):
             return lhs_player?.leader == rhs_player?.leader
 
-        case (let .barbarianCampCleared(lhs_location, lhs_gold), let .barbarianCampCleared(rhs_location, rhs_gold)):
-            return lhs_location == rhs_location && lhs_gold == rhs_gold
-
         case (let .goodyHutReward(lhs_goodyType, lhs_location), let .goodyHutReward(rhs_goodyType, rhs_location)):
             return lhs_goodyType == rhs_goodyType && lhs_location == rhs_location
 
@@ -58,10 +54,10 @@ extension PopupType: Equatable {
         case (let .eraEntered(lhs_era), let .eraEntered(rhs_era)):
             return lhs_era == rhs_era
 
-        case (let .eurekaTechActivated(lhs_tech), let .eurekaTechActivated(rhs_tech)):
+        case (let .eurekaTriggered(lhs_tech), let .eurekaTriggered(rhs_tech)):
             return lhs_tech == rhs_tech
 
-        case (let .eurekaCivicActivated(lhs_civic), let .eurekaCivicActivated(rhs_civic)):
+        case (let .inspirationTriggered(lhs_civic), let .inspirationTriggered(rhs_civic)):
             return lhs_civic == rhs_civic
 
         case (let .unitTrained(lhs_unit), let .unitTrained(rhs_unit)):
@@ -136,10 +132,36 @@ public enum ScreenType {
     case ranking
 
     case victory
+    case eraProgress
+    case selectDedication
+    case moments
+}
+
+public enum TooltipType {
+
+    case barbarianCampCleared(gold: Int)
+    case clearedFeature(feature: FeatureType, production: Int, cityName: String)
+    case capturedCity(cityName: String)
+    case cultureFromKill(culture: Int)
+    case goldFromKill(gold: Int)
+    // combat
+    case unitDiedAttacking(attackerName: String, defenderName: String, defenderDamage: Int)
+    case enemyUnitDiedAttacking(attackerName: String, attackerPlayer: AbstractPlayer?, defenderName: String, defenderDamage: Int)
+    case unitDestroyedEnemyUnit(attackerName: String, attackerDamage: Int, defenderName: String)
+    case unitDiedDefending(attackerName: String, attackerPlayer: AbstractPlayer?, attackerDamage: Int, defenderName: String)
+    case unitAttackingWithdraw(attackerName: String, attackerDamage: Int, defenderName: String, defenderDamage: Int)
+    case enemyAttackingWithdraw(attackerName: String, attackerDamage: Int, defenderName: String, defenderDamage: Int)
+    case conqueredEnemyCity(attackerName: String, attackerDamage: Int, cityName: String)
+    case cityCapturedByEnemy(attackerName: String, attackerPlayer: AbstractPlayer?, attackerDamage: Int, cityName: String)
 }
 
 public enum UnitAnimationType {
 
+    case idle(location: HexPoint)
+    case move(from: HexPoint, to: HexPoint)
+    case show(location: HexPoint)
+    case hide(location: HexPoint)
+    case enterCity(location: HexPoint)
     case fortify
     case unfortify
 }
@@ -172,8 +194,10 @@ public protocol UserInterfaceDelegate: AnyObject {
     func select(unit: AbstractUnit?)
     func unselect()
 
-    func show(unit: AbstractUnit?) // unit gets visible
-    func hide(unit: AbstractUnit?) // unit gets hidden
+    func show(unit: AbstractUnit?, at location: HexPoint) // unit gets visible
+    func hide(unit: AbstractUnit?, at location: HexPoint) // unit gets hidden and remove from list
+    func enterCity(unit: AbstractUnit?, at location: HexPoint) // unit gets visible
+    func leaveCity(unit: AbstractUnit?, at location: HexPoint) // unit gets hidden
     func refresh(unit: AbstractUnit?)
     func move(unit: AbstractUnit?, on points: [HexPoint])
     func animate(unit: AbstractUnit?, animation: UnitAnimationType)
@@ -218,7 +242,7 @@ public protocol UserInterfaceDelegate: AnyObject {
 
     func refresh(tile: AbstractTile?)
 
-    func showTooltip(at point: HexPoint, text: String, delay: Double)
+    func showTooltip(at point: HexPoint, type: TooltipType, delay: Double)
 
     func focus(on location: HexPoint)
 }

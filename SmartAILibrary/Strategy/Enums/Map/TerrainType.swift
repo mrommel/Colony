@@ -9,6 +9,7 @@
 import Foundation
 
 // https://civilization.fandom.com/wiki/Terrain_(Civ6)
+// https://github.com/Swiftwork/civ6-explorer/blob/dbe3ca6d5468828ef0b26ef28f69555de0bcb959/src/assets/game/BaseGame/Terrains.xml
 public enum TerrainType: Int, Codable {
 
     case grass
@@ -49,6 +50,11 @@ public enum TerrainType: Int, Codable {
         return self.data().domain
     }
 
+    func antiquityPriority() -> Int {
+
+        return self.data().antiquityPriority
+    }
+
     // MARK: internal classes
 
     private struct TerrainData {
@@ -57,6 +63,7 @@ public enum TerrainType: Int, Codable {
         let yields: Yields
         let isWater: Bool
         let domain: UnitDomainType
+        let antiquityPriority: Int
     }
 
     // MARK: private methods
@@ -66,41 +73,67 @@ public enum TerrainType: Int, Codable {
         switch self {
 
         case .ocean:
-            return TerrainData(name: "Ocean",
-                               yields: Yields(food: 1, production: 0, gold: 0, science: 0),
-                               isWater: true,
-                               domain: .sea)
+            return TerrainData(
+                name: "Ocean",
+                yields: Yields(food: 1, production: 0, gold: 0, science: 0),
+                isWater: true,
+                domain: .sea,
+                antiquityPriority: 0
+            )
+
         case .shore:
-            return TerrainData(name: "Shore",
-                               yields: Yields(food: 1, production: 0, gold: 1, science: 0),
-                               isWater: true,
-                               domain: .sea)
+            return TerrainData(
+                name: "Shore",
+                yields: Yields(food: 1, production: 0, gold: 1, science: 0),
+                isWater: true,
+                domain: .sea,
+                antiquityPriority: 2
+            )
 
         case .plains:
-            return TerrainData(name: "Plains",
-                               yields: Yields(food: 1, production: 1, gold: 0, science: 0),
-                               isWater: false,
-                               domain: .land)
+            return TerrainData(
+                name: "Plains",
+                yields: Yields(food: 1, production: 1, gold: 0, science: 0),
+                isWater: false,
+                domain: .land,
+                antiquityPriority: 2
+            )
+
         case .grass:
-            return TerrainData(name: "Grassland",
-                               yields: Yields(food: 2, production: 0, gold: 0, science: 0),
-                               isWater: false,
-                               domain: .land)
+            return TerrainData(
+                name: "Grassland",
+                yields: Yields(food: 2, production: 0, gold: 0, science: 0),
+                isWater: false,
+                domain: .land,
+                antiquityPriority: 2
+            )
+
         case .desert:
-            return TerrainData(name: "Desert",
+            return TerrainData(
+                name: "Desert",
                                yields: Yields(food: 0, production: 0, gold: 0, science: 0),
                                isWater: false,
-                               domain: .land)
+                               domain: .land,
+                antiquityPriority: 5
+            )
+
         case .tundra:
-            return TerrainData(name: "Tundra",
-                               yields: Yields(food: 1, production: 0, gold: 0, science: 0),
-                               isWater: false,
-                               domain: .land)
+            return TerrainData(
+                name: "Tundra",
+                yields: Yields(food: 1, production: 0, gold: 0, science: 0),
+                isWater: false,
+                domain: .land,
+                antiquityPriority: 3
+            )
+
         case .snow:
-            return TerrainData(name: "Snow",
-                               yields: Yields(food: 0, production: 0, gold: 0, science: 0),
-                               isWater: false,
-                               domain: .land)
+            return TerrainData(
+                name: "Snow",
+                yields: Yields(food: 0, production: 0, gold: 0, science: 0),
+                isWater: false,
+                domain: .land,
+                antiquityPriority: 1
+            )
         }
     }
 

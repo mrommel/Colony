@@ -32,7 +32,7 @@ class HeaderViewModel: ObservableObject {
     var greatPeopleHeaderViewModel: HeaderButtonViewModel
 
     @Published
-    var logHeaderViewModel: HeaderButtonViewModel
+    var momentsHeaderViewModel: HeaderButtonViewModel
 
     @Published
     var governorsHeaderViewModel: HeaderButtonViewModel
@@ -42,6 +42,9 @@ class HeaderViewModel: ObservableObject {
 
     @Published
     var tradeRoutesHeaderViewModel: HeaderButtonViewModel
+
+    @Published
+    var eraProgressHeaderViewModel: HeaderButtonViewModel
 
     @Published
     var techProgressViewModel: TechProgressViewModel
@@ -67,10 +70,11 @@ class HeaderViewModel: ObservableObject {
         self.governmentHeaderViewModel = HeaderButtonViewModel(type: .government)
         self.religionHeaderViewModel = HeaderButtonViewModel(type: .religion)
         self.greatPeopleHeaderViewModel = HeaderButtonViewModel(type: .greatPeople)
-        self.logHeaderViewModel = HeaderButtonViewModel(type: .log)
+        self.momentsHeaderViewModel = HeaderButtonViewModel(type: .moments)
         self.governorsHeaderViewModel = HeaderButtonViewModel(type: .governors)
         self.rankingHeaderViewModel = HeaderButtonViewModel(type: .ranking)
         self.tradeRoutesHeaderViewModel = HeaderButtonViewModel(type: .tradeRoutes)
+        self.eraProgressHeaderViewModel = HeaderButtonViewModel(type: .eraProgress)
 
         self.techProgressViewModel = TechProgressViewModel()
         self.civicProgressViewModel = CivicProgressViewModel()
@@ -83,10 +87,11 @@ class HeaderViewModel: ObservableObject {
         self.governmentHeaderViewModel.delegate = self
         self.religionHeaderViewModel.delegate = self
         self.greatPeopleHeaderViewModel.delegate = self
-        self.logHeaderViewModel.delegate = self
+        self.momentsHeaderViewModel.delegate = self
         self.governorsHeaderViewModel.delegate = self
         self.rankingHeaderViewModel.delegate = self
         self.tradeRoutesHeaderViewModel.delegate = self
+        self.eraProgressHeaderViewModel.delegate = self
     }
 
     func update() {
@@ -103,7 +108,6 @@ class HeaderViewModel: ObservableObject {
             fatalError("cant get diplomacyAI")
         }
 
-        self.logHeaderViewModel.active = false
         self.governorsHeaderViewModel.alert = (humanPlayer.governors?.numTitlesAvailable() ?? 0) > 0
         self.greatPeopleHeaderViewModel.alert = humanPlayer.canRecruitGreatPerson(in: gameModel)
 
@@ -134,12 +138,12 @@ class HeaderViewModel: ObservableObject {
         if let civics = humanPlayer.civics {
             if let currentCivic = civics.currentCivic() {
 
-                if self.displayedCivicType != currentCivic || self.displayedTechProgress < civics.currentCultureProgress() {
+                if self.displayedCivicType != currentCivic || self.displayedCivicProgress < civics.currentCultureProgress() {
 
                     let progressPercentage: Int = Int(civics.currentCultureProgress() / Double(currentCivic.cost()) * 100.0)
                     let culturePerTurn = humanPlayer.culture(in: gameModel)
                     let turns: Int = culturePerTurn > 0.0 ? Int((Double(currentCivic.cost()) - civics.currentCultureProgress()) / culturePerTurn) : 0
-                    let boosted: Bool = civics.eurekaTriggered(for: currentCivic)
+                    let boosted: Bool = civics.inspirationTriggered(for: currentCivic)
                     self.civicProgressViewModel.update(
                         civicType: currentCivic,
                         progress: progressPercentage,
@@ -198,14 +202,16 @@ extension HeaderViewModel: HeaderButtonViewModelDelegate {
             self.delegate?.showReligionDialog()
         case .greatPeople:
             self.delegate?.showGreatPeopleDialog()
-        case .log:
-            print("log")
+        case .moments:
+            self.delegate?.showMomentsDialog()
         case .governors:
             self.delegate?.showGovernorsDialog()
         case .ranking:
             self.delegate?.showRankingDialog()
         case .tradeRoutes:
             self.delegate?.showTradeRouteDialog()
+        case .eraProgress:
+            self.delegate?.showEraProgressDialog()
         }
     }
 }

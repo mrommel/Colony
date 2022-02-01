@@ -14,7 +14,7 @@ extension BuildType {
         let toolTipText = NSMutableAttributedString()
 
         let title = NSAttributedString(
-            string: self.name(),
+            string: self.name().localized(),
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
         toolTipText.append(title)

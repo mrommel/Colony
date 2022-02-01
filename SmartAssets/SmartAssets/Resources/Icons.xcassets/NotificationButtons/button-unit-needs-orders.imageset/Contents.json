@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "button-unit-needs-orders@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "button-unit-needs-orders@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "button-unit-needs-orders@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "button-unit-needs-orders@3x-1.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {

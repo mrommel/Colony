@@ -35,12 +35,12 @@ class GovernmentCardViewModel: ObservableObject, Hashable {
 
     func bonus1Summary() -> String {
 
-        return self.governmentType.bonus1Summary().replaceIcons()
+        return self.governmentType.bonus1Summary()
     }
 
     func bonus2Summary() -> String {
 
-        return self.governmentType.bonus2Summary().replaceIcons()
+        return self.governmentType.bonus2Summary()
     }
 
     func cardImages() -> [NSImage] {

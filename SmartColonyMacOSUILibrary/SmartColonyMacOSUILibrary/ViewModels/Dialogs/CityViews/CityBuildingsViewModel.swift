@@ -14,6 +14,9 @@ class CityBuildingsViewModel: ObservableObject {
     var gameEnvironment: GameEnvironment
 
     @Published
+    var districtsConstructed: String
+
+    @Published
     var districtSectionViewModels: [DistrictSectionViewModel] = []
 
     @Published
@@ -25,6 +28,8 @@ class CityBuildingsViewModel: ObservableObject {
     private var city: AbstractCity?
 
     init(city: AbstractCity? = nil) {
+
+        self.districtsConstructed = "0 Districts constructed"
 
         if city != nil {
             self.update(for: city)
@@ -66,6 +71,9 @@ class CityBuildingsViewModel: ObservableObject {
             let constructedDistrictTypes = DistrictType.all.filter { districtType in
                 return districts.has(district: districtType)
             }
+
+            self.districtsConstructed = "\(constructedDistrictTypes.count) Districts constructed"
+
             self.districtSectionViewModels = constructedDistrictTypes.map { districtType in
 
                 let districtModel = DistrictViewModel(districtType: districtType, active: true)

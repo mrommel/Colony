@@ -1817,7 +1817,8 @@ public class HomelandAI {
             for: .walk,
                for: player,
                unitMapType: .combat,
-               canEmbark: player.canEmbark()
+               canEmbark: player.canEmbark(),
+               canEnterOcean: player.canEnterOcean()
         )
 
         for homelandUnit in self.currentMoveUnits {

@@ -11,6 +11,43 @@ import SmartAssets
 
 class ResourceMarkerLayer: BaseLayer {
 
+    // MARK: intern classes
+
+    private class ResourceMarkerLayerTile: BaseLayerTile {
+
+        let visible: Bool
+        let discovered: Bool
+        let resourceMarkerName: String
+
+        init(point: HexPoint, visible: Bool, discovered: Bool, resourceMarkerName: String) {
+
+            self.visible = visible
+            self.discovered = discovered
+            self.resourceMarkerName = resourceMarkerName
+
+            super.init(point: point)
+        }
+
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+
+        override func hash(into hasher: inout Hasher) {
+
+            hasher.combine(self.point)
+            hasher.combine(self.visible)
+            hasher.combine(self.discovered)
+            hasher.combine(self.resourceMarkerName)
+        }
+    }
+
+    private class ResourceMarkerLayerHasher: BaseLayerHasher<ResourceMarkerLayerTile> {
+
+    }
+
+    // MARK: variables
+
+    private var hasher: ResourceMarkerLayerHasher?
     static let kName: String = "ResourceMarkerLayer"
 
     // MARK: constructor
@@ -35,6 +72,7 @@ class ResourceMarkerLayer: BaseLayer {
         }
 
         self.textureUtils = TextureUtils(with: gameModel)
+        self.hasher = ResourceMarkerLayerHasher(with: gameModel)
 
         self.rebuild()
     }
@@ -81,15 +119,41 @@ class ResourceMarkerLayer: BaseLayer {
         if let tile = tile {
             let pt = tile.point
 
-            self.clear(tile: tile)
+            let currentHashValue = self.hash(for: tile)
+            if !self.hasher!.has(hash: currentHashValue, at: pt) {
 
-            let screenPoint = HexPoint.toScreen(hex: pt)
+                self.clear(tile: tile)
 
-            if tile.isVisible(to: self.player) || self.showCompleteMap {
-                self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
-            } else if tile.isDiscovered(by: self.player) {
-                self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+                let screenPoint = HexPoint.toScreen(hex: pt)
+
+                if tile.isVisible(to: self.player) || self.showCompleteMap {
+                    self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
+                } else if tile.isDiscovered(by: self.player) {
+                    self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+                }
+
+                self.hasher?.update(hash: currentHashValue, at: tile.point)
             }
         }
+    }
+
+    private func hash(for tile: AbstractTile?) -> ResourceMarkerLayerTile {
+
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+
+        var resourceMarkerTexture: String = ""
+        let resource = tile.resource(for: self.player)
+        if resource != .none {
+            resourceMarkerTexture = resource.textureMarkerName()
+        }
+
+        return ResourceMarkerLayerTile(
+            point: tile.point,
+            visible: tile.isVisible(to: self.player) || self.showCompleteMap,
+            discovered: tile.isDiscovered(by: self.player),
+            resourceMarkerName: resourceMarkerTexture
+        )
     }
 }

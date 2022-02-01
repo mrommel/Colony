@@ -168,6 +168,7 @@ public struct MapOverviewView: View {
     }
 }
 
+#if DEBUG
 struct MapOverviewView_Previews: PreviewProvider {
 
     static var previews: some View {
@@ -182,3 +183,4 @@ struct MapOverviewView_Previews: PreviewProvider {
             .environment(\.gameEnvironment, environment)
     }
 }
+#endif

@@ -399,24 +399,56 @@ public class Combat {
         if attacker.healthPoints() <= 0 {
 
             if activePlayer.isEqual(to: attacker.player) {
-                gameModel.userInterface?.showTooltip(at: attackerTile.point, text: "TXT_KEY_MISC_YOU_UNIT_DIED_ATTACKING", delay: 3)
+                gameModel.userInterface?.showTooltip(
+                    at: attackerTile.point,
+                    type: .unitDiedAttacking(
+                        attackerName: attacker.name(),
+                        defenderName: defender.name(),
+                        defenderDamage: defenderDamage
+                    ),
+                    delay: 3
+                )
             }
 
             if activePlayer.isEqual(to: defender.player) {
-                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_KILLED_ENEMY_UNIT", delay: 3)
+                gameModel.userInterface?.showTooltip(
+                    at: defenderTile.point,
+                    type: .enemyUnitDiedAttacking(
+                        attackerName: attacker.name(),
+                        attackerPlayer: attacker.player,
+                        defenderName: defender.name(),
+                        defenderDamage: defenderDamage
+                    ),
+                    delay: 3
+                )
             }
 
             attacker.doKill(delayed: false, by: nil, in: gameModel)
-            // pkDefender->testPromotionReady();
 
         } else if defender.healthPoints() <= 0 { // Defender died
 
             if activePlayer.isEqual(to: attacker.player) {
-                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_UNIT_DESTROYED_ENEMY", delay: 3)
+                gameModel.userInterface?.showTooltip(
+                    at: defenderTile.point,
+                    type: .unitDestroyedEnemyUnit(
+                        attackerName: attacker.name(),
+                        attackerDamage: attackerDamage,
+                        defenderName: defender.name()
+                    ),
+                    delay: 3
+                )
             }
 
             if activePlayer.isEqual(to: defender.player) {
-                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_UNIT_WAS_DESTROYED", delay: 3)
+                gameModel.userInterface?.showTooltip(
+                    at: defenderTile.point,
+                    type: .unitDiedDefending(
+                        attackerName: attacker.name(),
+                        attackerPlayer: attacker.player,
+                        attackerDamage: attackerDamage,
+                        defenderName: defender.name()),
+                    delay: 3
+                )
             }
 
             if let notifications = defender.player?.notifications() {
@@ -431,26 +463,39 @@ public class Combat {
                 attacker.doMoveOnPath(towards: defenderTile.point, previousETA: 0, buildingRoute: false, in: gameModel)
             }
 
-            // pkAttacker->testPromotionReady();
-
         } else {
 
             if activePlayer.isEqual(to: attacker.player) {
-                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_UNIT_WITHDRAW", delay: 3)
+                gameModel.userInterface?.showTooltip(
+                    at: defenderTile.point,
+                    type: .unitAttackingWithdraw(
+                        attackerName: attacker.name(),
+                        attackerDamage: attackerDamage,
+                        defenderName: defender.name(),
+                        defenderDamage: defenderDamage
+                    ),
+                    delay: 3
+                )
             }
 
             if activePlayer.isEqual(to: defender.player) {
-                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_ENEMY_UNIT_WITHDRAW", delay: 3)
+                gameModel.userInterface?.showTooltip(
+                    at: defenderTile.point,
+                    type: .enemyAttackingWithdraw(
+                        attackerName: attacker.name(),
+                        attackerDamage: attackerDamage,
+                        defenderName: defender.name(),
+                        defenderDamage: defenderDamage
+                    ),
+                    delay: 3
+                )
             }
-
-            // pkDefender->testPromotionReady();
-            // pkAttacker->testPromotionReady();
         }
 
         // If a Unit loses his moves after attacking, do so
         if !attacker.canMoveAfterAttacking() {
             attacker.finishMoves()
-            //GC.GetEngineUserInterface()->changeCycleSelectionCounter(1);
+            // GC.GetEngineUserInterface()->changeCycleSelectionCounter(1);
         }
 
         return CombatResult(defenderDamage: defenderDamage, attackerDamage: attackerDamage, value: value)
@@ -536,25 +581,58 @@ public class Combat {
         if attacker.healthPoints() <= 0 {
 
             if activePlayer.isEqual(to: attacker.player) {
-                gameModel.userInterface?.showTooltip(at: attackerTile.point, text: "TXT_KEY_MISC_YOU_UNIT_DIED_ATTACKING", delay: 3)
+                gameModel.userInterface?.showTooltip(
+                    at: attackerTile.point,
+                    type: .unitDiedAttacking(
+                        attackerName: attacker.name(),
+                        defenderName: defender.name,
+                        defenderDamage: defenderDamage
+                    ),
+                    delay: 3
+                )
             }
 
             if activePlayer.isEqual(to: defender.player) {
-                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_KILLED_ENEMY_UNIT", delay: 3)
+                gameModel.userInterface?.showTooltip(
+                    at: defenderTile.point,
+                    type: .enemyUnitDiedAttacking(
+                        attackerName: attacker.name(),
+                        attackerPlayer: attacker.player,
+                        defenderName: defender.name,
+                        defenderDamage: defenderDamage
+                    ),
+                    delay: 3
+                )
             }
 
             attacker.doKill(delayed: false, by: nil, in: gameModel)
-            // pkDefender->testPromotionReady();
 
         } else if defender.healthPoints() <= 0 { // city has been conquered
 
             // handle conquest of city
             if activePlayer.isEqual(to: attacker.player) {
-                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_CONQUERED_ENEMY_CITY", delay: 3)
+                gameModel.userInterface?.showTooltip(
+                    at: defenderTile.point,
+                    type: .conqueredEnemyCity(
+                        attackerName: attacker.name(),
+                        attackerDamage: attackerDamage,
+                        cityName: defender.name
+                    ),
+                    delay: 3
+                )
             }
 
             if activePlayer.isEqual(to: defender.player) {
-                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_CITY_WAS_CONQUERED", delay: 3)
+                gameModel.userInterface?.showTooltip(
+                    at: defenderTile.point,
+                    type: .cityCapturedByEnemy(
+                        attackerName: attacker.name(),
+                        attackerPlayer: attacker.player,
+                        attackerDamage: attackerDamage,
+                        cityName: defender.name
+                    ),
+                    delay: 3
+                )
             }
 
             if let notifications = defender.player?.notifications() {
@@ -572,15 +650,30 @@ public class Combat {
         } else {
 
             if activePlayer.isEqual(to: attacker.player) {
-                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_UNIT_WITHDRAW", delay: 3)
+                gameModel.userInterface?.showTooltip(
+                    at: defenderTile.point,
+                    type: .unitAttackingWithdraw(
+                        attackerName: attacker.name(),
+                        attackerDamage: attackerDamage,
+                        defenderName: defender.name,
+                        defenderDamage: defenderDamage
+                    ),
+                    delay: 3
+                )
             }
 
             if activePlayer.isEqual(to: defender.player) {
-                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_ENEMY_UNIT_WITHDRAW", delay: 3)
+                gameModel.userInterface?.showTooltip(
+                    at: defenderTile.point,
+                    type: .enemyAttackingWithdraw(
+                        attackerName: attacker.name(),
+                        attackerDamage: attackerDamage,
+                        defenderName: defender.name,
+                        defenderDamage: defenderDamage
+                    ),
+                    delay: 3
+                )
             }
-
-            // pkDefender->testPromotionReady();
-            // pkAttacker->testPromotionReady();
         }
 
         // If a Unit loses his moves after attacking, do so
@@ -648,11 +741,28 @@ public class Combat {
         if defender.healthPoints() <= 0 { // Defender died
 
             if activePlayer.isEqual(to: attacker.player) {
-                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_UNIT_DESTROYED_ENEMY", delay: 3)
+                gameModel.userInterface?.showTooltip(
+                    at: defenderTile.point,
+                    type: .unitDestroyedEnemyUnit(
+                        attackerName: attacker.name,
+                        attackerDamage: 0,
+                        defenderName: defender.name()
+                    ),
+                    delay: 3
+                )
             }
 
             if activePlayer.isEqual(to: defender.player) {
-                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_UNIT_WAS_DESTROYED", delay: 3)
+                gameModel.userInterface?.showTooltip(
+                    at: defenderTile.point,
+                    type: .unitDiedDefending(
+                        attackerName: attacker.name,
+                        attackerPlayer: attacker.player,
+                        attackerDamage: 0,
+                        defenderName: defender.name()
+                    ),
+                    delay: 3
+                )
             }
 
             if let notifications = defender.player?.notifications() {
@@ -715,11 +825,28 @@ public class Combat {
         if defender.healthPoints() <= 0 { // Defender died
 
             if activePlayer.isEqual(to: attacker.player) {
-                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_UNIT_DESTROYED_ENEMY", delay: 3)
+                gameModel.userInterface?.showTooltip(
+                    at: defenderTile.point,
+                    type: .unitDestroyedEnemyUnit(
+                        attackerName: attacker.name(),
+                        attackerDamage: 0,
+                        defenderName: defender.name()
+                    ),
+                    delay: 3
+                )
             }
 
             if activePlayer.isEqual(to: defender.player) {
-                gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_UNIT_WAS_DESTROYED", delay: 3)
+                gameModel.userInterface?.showTooltip(
+                    at: defenderTile.point,
+                    type: .unitDiedDefending(
+                        attackerName: attacker.name(),
+                        attackerPlayer: attacker.player,
+                        attackerDamage: 0,
+                        defenderName: defender.name()
+                    ),
+                    delay: 3
+                )
             }
 
             if let notifications = defender.player?.notifications() {

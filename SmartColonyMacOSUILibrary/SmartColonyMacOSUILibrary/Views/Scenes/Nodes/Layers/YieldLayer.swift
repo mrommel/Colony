@@ -11,6 +11,50 @@ import SmartAssets
 
 class YieldLayer: BaseLayer {
 
+    // MARK: intern classes
+
+    private class YieldLayerTile: BaseLayerTile {
+
+        let visible: Bool
+        let discovered: Bool
+        let foodTexture: String
+        let productionTexture: String
+        let goldTexture: String
+
+        init(point: HexPoint, visible: Bool, discovered: Bool, foodTexture: String, productionTexture: String, goldTexture: String) {
+
+            self.visible = visible
+            self.discovered = discovered
+            self.foodTexture = foodTexture
+            self.productionTexture = productionTexture
+            self.goldTexture = goldTexture
+
+            super.init(point: point)
+        }
+
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+
+        override func hash(into hasher: inout Hasher) {
+
+            hasher.combine(self.point)
+            hasher.combine(self.visible)
+            hasher.combine(self.discovered)
+            hasher.combine(self.foodTexture)
+            hasher.combine(self.productionTexture)
+            hasher.combine(self.goldTexture)
+        }
+    }
+
+    private class YieldLayerHasher: BaseLayerHasher<YieldLayerTile> {
+
+    }
+
+    // MARK: variables
+
+    private var hasher: YieldLayerHasher?
+
     static let kName: String = "YieldLayer"
 
     // MARK: constructor
@@ -36,6 +80,7 @@ class YieldLayer: BaseLayer {
 
         self.textureUtils = TextureUtils(with: gameModel)
         self.textures = Textures(game: gameModel)
+        self.hasher = YieldLayerHasher(with: gameModel)
 
         self.rebuild()
     }
@@ -111,15 +156,54 @@ class YieldLayer: BaseLayer {
         if let tile = tile {
             let pt = tile.point
 
-            self.clear(tile: tile)
+            let currentHashValue = self.hash(for: tile)
+            if !self.hasher!.has(hash: currentHashValue, at: pt) {
 
-            let screenPoint = HexPoint.toScreen(hex: pt)
+                self.clear(tile: tile)
 
-            if tile.isVisible(to: self.player) || self.showCompleteMap {
-                self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
-            } else if tile.isDiscovered(by: self.player) {
-                self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+                let screenPoint = HexPoint.toScreen(hex: pt)
+
+                if tile.isVisible(to: self.player) || self.showCompleteMap {
+                    self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
+                } else if tile.isDiscovered(by: self.player) {
+                    self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+                }
+
+                self.hasher?.update(hash: currentHashValue, at: tile.point)
             }
         }
+    }
+
+    private func hash(for tile: AbstractTile?) -> YieldLayerTile {
+
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+
+        let yields = tile.yields(for: self.player, ignoreFeature: false)
+
+        var foodTexture: String = ""
+        if let textureName = self.textures?.foodTexture(for: yields) {
+            foodTexture = textureName
+        }
+
+        var productionTexture: String = ""
+        if let textureName = self.textures?.productionTexture(for: yields) {
+            productionTexture = textureName
+        }
+
+        var goldTexture: String = ""
+        if let textureName = self.textures?.goldTexture(for: yields) {
+            goldTexture = textureName
+        }
+
+        return YieldLayerTile(
+            point: tile.point,
+            visible: tile.isVisible(to: self.player) || self.showCompleteMap,
+            discovered: tile.isDiscovered(by: self.player),
+            foodTexture: foodTexture,
+            productionTexture: productionTexture,
+            goldTexture: goldTexture
+        )
     }
 }

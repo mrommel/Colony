@@ -18,7 +18,7 @@ internal class PikemanUnitType: UnitTypeData {
             baseType: .pikeman,
             domain: .land,
             effects: [
-                "+10 Combat Strength vs. light, heavy, and ranged cavalry units."
+                "+10 [Strength] Combat Strength vs. light, heavy, and ranged cavalry units."
             ],
             abilities: [.canCapture],
             era: .medieval,

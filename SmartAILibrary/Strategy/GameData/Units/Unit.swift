@@ -103,7 +103,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func isPromotionReady() -> Bool
     func gainedPromotions() -> [UnitPromotionType]
     func possiblePromotions() -> [UnitPromotionType]
-    func doPromote(with promotionType: UnitPromotionType)
+    func doPromote(with promotionType: UnitPromotionType, in gameModel: GameModel?)
 
     func power() -> Int
     func isCombatUnit() -> Bool
@@ -174,6 +174,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func doFortify(in gameModel: GameModel?)
     func doMobilize(in gameModel: GameModel?)
     func set(fortifiedThisTurn: Bool, in gameModel: GameModel?)
+    func isFortified() -> Bool
 
     @discardableResult
     func doEstablishTradeRoute(to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool
@@ -744,10 +745,10 @@ public class Unit: AbstractUnit {
         let newUnit = Unit(at: location, type: unitType, owner: player)
         newUnit.rename(to: name)
         for promotion in promotions {
-            newUnit.doPromote(with: promotion)
+            newUnit.doPromote(with: promotion, in: gameModel)
         }
         gameModel?.add(unit: newUnit)
-        gameModel?.userInterface?.show(unit: newUnit)
+        gameModel?.userInterface?.show(unit: newUnit, at: location)
     }
 
     /// Current power of unit (raw unit type power adjusted for health)
@@ -1291,6 +1292,8 @@ public class Unit: AbstractUnit {
                 attack = true
 
                 Combat.doMeleeAttack(between: self, and: defenderUnit, in: gameModel)
+
+                unitPlayer.addMoment(of: .battleFought, in: gameModel)
             }
 
             // Barb camp here that was attacked?
@@ -1570,7 +1573,8 @@ public class Unit: AbstractUnit {
             for: self.player,
             ignoreOwner: self.type.canMoveInRivalTerritory(),
             unitMapType: self.unitMapType(),
-            canEmbark: self.canEmbark(in: gameModel) || self.isEmbarked()
+            canEmbark: self.canEmbark(in: gameModel) || self.isEmbarked(),
+            canEnterOcean: self.player!.canEnterOcean()
         )
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
@@ -1586,12 +1590,15 @@ public class Unit: AbstractUnit {
 
     public func pathIgnoreUnits(towards target: HexPoint, in gameModel: GameModel?) -> HexPath? {
 
+        let canEmbark = self.canEverEmbark()
+
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(
             for: self.movementType(),
             for: self.player,
             unitMapType: .combat,
-            canEmbark: true
+            canEmbark: canEmbark,
+            canEnterOcean: self.player!.canEnterOcean()
         )
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
@@ -1637,6 +1644,7 @@ public class Unit: AbstractUnit {
 
         guard let path = self.path(towards: target, options: .none, in: gameModel) else {
             print("Unable to generate path with BuildRouteFinder")
+            self.doCancelOrder()
             return 0
         }
 
@@ -1715,6 +1723,7 @@ public class Unit: AbstractUnit {
 
         var usedPathCost = 0.0
 
+        print("unit \(self.location) => doMoveOnPath(\(path)")
         for (index, point) in path.enumerated() {
 
             // skip first point
@@ -1763,7 +1772,8 @@ public class Unit: AbstractUnit {
             for: self.movementType(),
             for: self.player,
             unitMapType: self.unitMapType(),
-            canEmbark: self.canEmbark(in: gameModel) || self.isEmbarked()
+            canEmbark: self.canEmbark(in: gameModel) || self.isEmbarked(),
+            canEnterOcean: self.player!.canEnterOcean()
         )
 
         if !self.canMove() {
@@ -1941,15 +1951,13 @@ public class Unit: AbstractUnit {
                             } else { // Ran into a noncombat unit
 
                                 var doCapture = false
-                                var strMessage = ""
-                                var strSummary = ""
 
                                 // Some units can't capture civilians. Embarked units are also not captured, they're simply killed. And some aren't a type that gets captured.
                                 if self.type.has(ability: .canCapture) && !loopUnit.isEmbarked() && loopUnit.type.captureType() != nil {
 
                                     doCapture = true
 
-                                    if isBarbarian() {
+                                    /*if isBarbarian() {
                                         strMessage = "TXT_KEY_UNIT_CAPTURED_BARBS_DETAILED"
                                         // strMessage << pLoopUnit->getUnitInfo().GetTextKey();
                                         strSummary = "TXT_KEY_UNIT_CAPTURED_BARBS"
@@ -1957,7 +1965,9 @@ public class Unit: AbstractUnit {
                                         strMessage = "TXT_KEY_UNIT_CAPTURED_DETAILED"
                                         // strMessage << pLoopUnit->getUnitInfo().GetTextKey() << GET_PLAYER(getOwner()).getNameKey();
                                         strSummary = "TXT_KEY_UNIT_CAPTURED"
-                                    }
+                                    }*/
+
+                                    // gameModel.userInterface?.showTooltip()
 
                                 } else { // Unit was killed instead
 
@@ -1965,10 +1975,14 @@ public class Unit: AbstractUnit {
                                         self.changeExperience(by: 1, in: gameModel)
                                     }
 
-                                    gameModel.userInterface?.showTooltip(at: self.location, text: "TXT_KEY_MISC_YOU_UNIT_DESTROYED_ENEMY", delay: 3)
-
-                                    strMessage = "TXT_KEY_UNIT_LOST"
-                                    strSummary = strMessage
+                                    gameModel.userInterface?.showTooltip(
+                                        at: self.location,
+                                        type: .unitDestroyedEnemyUnit(
+                                            attackerName: self.name(),
+                                            attackerDamage: 0,
+                                            defenderName: loopUnit.name()),
+                                        delay: 3
+                                    )
 
                                     player.reportCultureFromKills(
                                         at: newLocation,
@@ -2011,7 +2025,7 @@ public class Unit: AbstractUnit {
             // if pNewPlot is NULL than we are "dead" (e.g. a settler) and need to blend out
             if newPlot.isVisible(to: gameModel.humanPlayer()) {
 
-                gameModel.userInterface?.show(unit: self)
+                gameModel.userInterface?.leaveCity(unit: self, at: newPlot.point)
             }
         }
 
@@ -2040,7 +2054,7 @@ public class Unit: AbstractUnit {
 
         // if entering a city, hide the unit
         if newPlot.isCity() {
-            gameModel.userInterface?.hide(unit: self)
+            gameModel.userInterface?.enterCity(unit: self, at: oldPlot.point)
         }
 
         self.doMobilize(in: gameModel) // unfortify
@@ -2125,7 +2139,13 @@ public class Unit: AbstractUnit {
 
                 // Natural wonder that provides free promotions?
                 let feature = adjacentPlot.feature()
-                if feature.isWonder() {
+                if feature.isNaturalWonder() {
+
+                    // check if wonder is discovered by player already
+                    if !player.hasDiscovered(naturalWonder: feature) {
+                        player.doDiscover(naturalWonder: feature)
+                        player.addMoment(of: .discoveryOfANaturalWonder(naturalWonder: feature), in: gameModel)
+                    }
 
                     /*PromotionTypes ePromotion = (PromotionTypes)GC.getFeatureInfo(eFeature)->getAdjacentUnitFreePromotion();
                     if (ePromotion != NO_PROMOTION)
@@ -2181,7 +2201,7 @@ public class Unit: AbstractUnit {
             }
 
             if newPlot.has(improvement: .barbarianCamp) {
-                player.doClearBarbarianCamp(at: newPlot, in: gameModel)
+                self.player?.doClearBarbarianCamp(at: newPlot, in: gameModel)
             }
         }
 
@@ -2351,6 +2371,7 @@ public class Unit: AbstractUnit {
         }
 
         self.set(location: city.location, in: gameModel)
+        gameModel?.userInterface?.show(unit: self, at: city.location)
     }
 
     //    ---------------------------------------------------------------------------
@@ -2660,6 +2681,10 @@ public class Unit: AbstractUnit {
             fatalError("cant get game model")
         }
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         var moveVal = self.baseMoves(in: gameModel)
 
         if (self.type.era() == .classical || self.type.era() == .medieval) && self.domain() == .land {
@@ -2673,6 +2698,20 @@ public class Unit: AbstractUnit {
                 moveVal += 1
             }
         }
+
+        // monumentality + golden - +2 Movement for Builders.
+        if player.currentAge() == .golden && player.has(dedication: .monumentality) {
+            if self.type == .builder {
+                moveVal += 2
+            }
+        }
+
+        // exodusOfTheEvangelists + golden - +2 Movement Movement for Missionaries, Apostles and Inquisitors
+        /*if player.currentAge() == .golden && player.has(dedication: .exodusOfTheEvangelists) {
+            if self.type == .missionary || self.type == .apostle || self.type == .inquisitor {
+                moveVal += 2
+            }
+        }*/
 
         return moveVal
     }
@@ -2842,6 +2881,7 @@ public class Unit: AbstractUnit {
     public func doFortify(in gameModel: GameModel?) {
 
         self.push(mission: .init(type: .fortify), in: gameModel)
+        self.finishMoves()
     }
 
     public func doMobilize(in gameModel: GameModel?) {
@@ -2990,10 +3030,18 @@ public class Unit: AbstractUnit {
         return promotions.possiblePromotions()
     }
 
-    public func doPromote(with promotionType: UnitPromotionType) {
+    public func doPromote(with promotionType: UnitPromotionType, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
 
         guard let promotions = self.promotions else {
             fatalError("cant get promotions")
+        }
+
+        if promotionType.tier() == 4 {
+            self.player?.addMoment(of: .unitPromotedWithDistinction, in: gameModel)
         }
 
         do {
@@ -3328,6 +3376,12 @@ public class Unit: AbstractUnit {
 
             if newPlot.has(improvement: .barbarianCamp) {
                 self.player?.doClearBarbarianCamp(at: newPlot, in: gameModel)
+
+                // initiationRites - +50 [Faith] Faith for each Barbarian Outpost cleared. The unit that cleared the Barbarian Outpost heals +100 HP.
+                if player.religion?.pantheon() == .initiationRites {
+                    self.set(healthPoints: self.maxHealthPoints())
+                }
+
             } else if newPlot.has(improvement: .goodyHut) {
                 self.player?.doGoodyHut(at: newPlot, by: self, in: gameModel)
             }
@@ -3469,7 +3523,7 @@ public class Unit: AbstractUnit {
 
         gameModel.conceal(at: self.location, sight: self.sight(), for: self.player)
 
-        gameModel.userInterface?.hide(unit: self)
+        gameModel.userInterface?.hide(unit: self, at: self.location)
         gameModel.remove(unit: self)
     }
 
@@ -3515,6 +3569,13 @@ public class Unit: AbstractUnit {
         if let improvement = build.improvement() {
             if tile.has(improvement: improvement) {
                 return false
+            }
+
+            // no improvements in cities
+            if improvement != .none {
+                if tile.isCity() {
+                    return false
+                }
             }
         }
 
@@ -3608,7 +3669,8 @@ public class Unit: AbstractUnit {
     public func changeBuildCharges(change: Int) {
 
         guard self.buildChargesValue + change >= 0 else {
-            fatalError("buildCharges cant be negative")
+            print("buildCharges cant be negative")
+            return
         }
 
         self.buildChargesValue += change
@@ -4052,7 +4114,13 @@ public class Unit: AbstractUnit {
     public func canReach(at point: HexPoint, in turns: Int, in gameModel: GameModel?) -> Bool {
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player, unitMapType: self.unitMapType(), canEmbark: self.canEmbark(in: gameModel))
+        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(
+            for: self.movementType(),
+            for: self.player,
+            unitMapType: self.unitMapType(),
+            canEmbark: self.canEmbark(in: gameModel),
+            canEnterOcean: self.player!.canEnterOcean()
+        )
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
 
@@ -4066,7 +4134,13 @@ public class Unit: AbstractUnit {
     public func turnsToReach(at point: HexPoint, in gameModel: GameModel?) -> Int {
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player, unitMapType: self.unitMapType(), canEmbark: self.canEmbark(in: gameModel))
+        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(
+            for: self.movementType(),
+            for: self.player,
+            unitMapType: self.unitMapType(),
+            canEmbark: self.canEmbark(in: gameModel),
+            canEnterOcean: self.player!.canEnterOcean()
+        )
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
 
@@ -4094,17 +4168,27 @@ public class Unit: AbstractUnit {
         return false
     }
 
+    // https://civilization.fandom.com/wiki/Movement_(Civ6)?so=search#Embarking
     public func canEverEmbark() -> Bool {
 
         guard let player = self.player else {
             fatalError("cant get player")
         }
 
-        if self.domain() == .land && (self.type.has(ability: .canEmbark) || player.canEmbark()) {
-            return true
-        } else {
+        // only land units can embark
+        guard self.domain() == .land else {
             return false
         }
+
+        if self.type == .builder && player.has(tech: .sailing) {
+            return true
+        }
+
+        if player.canEmbark() {
+            return true
+        }
+
+        return false
     }
 
     public func canEmbark(into point: HexPoint? = nil, in gameModel: GameModel?) -> Bool {
@@ -4303,6 +4387,11 @@ public class Unit: AbstractUnit {
                 gameModel?.userInterface?.animate(unit: self, animation: .unfortify)
             }
         }
+    }
+
+    public func isFortified() -> Bool {
+
+        return self.fortifyTurnsValue > 0
     }
 
     func isFortifiedThisTurn() -> Bool {
@@ -4697,10 +4786,14 @@ extension Unit {
 
     public func popMission() {
 
-        self.missions.pop()
+        if !self.missions.isEmpty {
+            self.missions.pop()
+        }
 
         if self.missions.isEmpty {
-            self.activityTypeValue = .none
+            if self.activityTypeValue == .mission {
+                self.activityTypeValue = .none
+            }
         }
     }
 
@@ -4744,10 +4837,12 @@ extension Unit {
                     fatalError("boing")
                     //hUnit->SetIgnoreDangerWakeup(true);
                 } else {
-                    if self.activityType() == .mission {
-                        missionNode.continueMission(steps: 0, in: gameModel)
-                    } else {
-                        missionNode.start(in: gameModel)
+                    if !self.isDelayedDeath() {
+                        if self.activityType() == .mission {
+                            missionNode.continueMission(steps: 0, in: gameModel)
+                        } else {
+                            missionNode.start(in: gameModel)
+                        }
                     }
                 }
             }
@@ -4967,7 +5062,7 @@ extension Unit {
                 let convertedUnit = Unit(at: newLocation, type: newType, owner: self.player)
 
                 gameModel.add(unit: convertedUnit)
-                gameModel.userInterface?.show(unit: convertedUnit)
+                gameModel.userInterface?.show(unit: convertedUnit, at: newLocation)
             }
         case .hannibalBarca:
             // Grants 1 promotion level to a military land unit.
@@ -5018,7 +5113,7 @@ extension Unit {
             let quadriremeUnit = Unit(at: self.location, type: .quadrireme, owner: self.player)
 
             gameModel.add(unit: quadriremeUnit)
-            gameModel.userInterface?.show(unit: quadriremeUnit)
+            gameModel.userInterface?.show(unit: quadriremeUnit, at: self.location)
 
         default:
             fatalError("activation of \(self.greatPerson) is not handled")

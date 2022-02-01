@@ -49,11 +49,17 @@ class CivicDialogViewModel: ObservableObject {
 
         self.civicListViewModels = possibleCivics.map { civicType in
 
+            var turns = -1
+            if civics.lastCultureInput() > 0.0 {
+                let cost: Double = Double(civicType.cost())
+                turns = Int(cost / civics.lastCultureInput() + 0.5)
+            }
+
             let civicViewModel = CivicViewModel(
                 civicType: civicType,
                 state: .possible,
-                boosted: civics.eurekaTriggered(for: civicType),
-                turns: -1
+                boosted: civics.inspirationTriggered(for: civicType),
+                turns: turns
             )
             civicViewModel.delegate = self
             return civicViewModel
@@ -74,12 +80,16 @@ class CivicDialogViewModel: ObservableObject {
                         state = .researched
                     } else if possibleCivics.contains(civicType) {
                         state = .possible
+                        if civics.lastCultureInput() > 0.0 {
+                            let cost: Double = Double(civicType.cost())
+                            turns = Int(cost / civics.lastCultureInput() + 0.5)
+                        }
                     }
 
                     let civicViewModel = CivicViewModel(
                         civicType: civicType,
                         state: state,
-                        boosted: civics.eurekaTriggered(for: civicType),
+                        boosted: civics.inspirationTriggered(for: civicType),
                         turns: turns
                     )
                     civicViewModel.delegate = self

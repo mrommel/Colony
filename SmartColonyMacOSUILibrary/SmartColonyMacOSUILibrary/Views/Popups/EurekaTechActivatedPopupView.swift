@@ -27,14 +27,15 @@ struct EurekaTechActivatedPopupView: View {
                 Text(self.viewModel.title)
                     .font(.title2)
                     .bold()
-                    .padding(.top, 20)
-                    .padding(.bottom, 10)
+                    .padding(.top, 16)
+                    .padding(.bottom, 6)
 
                 VStack(alignment: .center, spacing: 10) {
 
-                    Text(self.viewModel.summaryText)
+                    Label(self.viewModel.summaryText)
                         .lineLimit(nil)
                         .fixedSize(horizontal: false, vertical: true)
+                        .multilineTextAlignment(.center)
                         .padding(.bottom, 10)
                         .padding(.leading, 20)
                         .padding(.trailing, 20)
@@ -44,29 +45,44 @@ struct EurekaTechActivatedPopupView: View {
 
                             Image(nsImage: self.viewModel.icon())
 
-                            Text(self.viewModel.descriptionText)
-                                .font(.caption)
-                                .lineLimit(nil)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .padding(.bottom, 10)
-                                .padding(.leading, 20)
-                                .padding(.trailing, 20)
+                            VStack {
+                                Text(self.viewModel.descriptionText)
+                                    .font(.caption)
+                                    .lineLimit(nil)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .multilineTextAlignment(.center)
+                                    .padding(.bottom, 4)
+                                    .padding(.leading, 20)
+                                    .padding(.trailing, 20)
+
+                                HStack(spacing: 4) {
+
+                                    Image(nsImage: Globals.Icons.eureka)
+                                        .resizable()
+                                        .frame(width: 12, height: 12)
+
+                                    Text(self.viewModel.boostedText)
+                                        .font(.caption)
+                                }
+                                .padding(.bottom, 4)
+                            }
                         }
                     }
 
                     Button(action: {
                         self.viewModel.closePopup()
                     }, label: {
-                        Text("Close")
+                        Text(self.viewModel.buttonText)
                     })
-                    .padding(.bottom, 8)
+                        .padding(.bottom, 8)
+                        .padding(.top, 20)
                 }
-                .frame(width: 362, height: 174, alignment: .center)
-                .background(Color(Globals.Colors.dialogBackground))
+                .frame(width: 374, height: 188, alignment: .center)
+                // .background(Color(Globals.Colors.dialogBackground))
             }
-            .padding(.bottom, 43)
-            .padding(.leading, 19)
-            .padding(.trailing, 19)
+            .padding(.bottom, 29.5)
+            .padding(.leading, 13)
+            .padding(.trailing, 13)
 
         }
         .frame(width: 400, height: 260, alignment: .top)
@@ -77,11 +93,19 @@ struct EurekaTechActivatedPopupView: View {
 #if DEBUG
 struct EurekaTechActivatedPopupView_Previews: PreviewProvider {
 
+    static func viewModel() -> EurekaTechActivatedPopupViewModel {
+
+        let viewModel = EurekaTechActivatedPopupViewModel()
+        viewModel.update(for: .archery)
+
+        return viewModel
+    }
+
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = EurekaTechActivatedPopupViewModel(techType: .archery)
 
+        let viewModel = EurekaTechActivatedPopupView_Previews.viewModel()
         EurekaTechActivatedPopupView(viewModel: viewModel)
     }
 }

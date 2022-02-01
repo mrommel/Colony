@@ -34,7 +34,7 @@ struct TradeRouteView: View {
 
                 Spacer()
 
-                Text("6")
+                Text(self.viewModel.remainingTurns)
 
                 Image(nsImage: Globals.Icons.turns)
                     .resizable()

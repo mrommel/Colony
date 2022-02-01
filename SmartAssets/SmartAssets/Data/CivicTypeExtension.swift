@@ -20,7 +20,7 @@ extension CivicType {
         toolTipText.append(title)
 
         let eureka = NSAttributedString(
-            string: "\n\n" + self.eurekaSummary(),
+            string: "\n\n" + self.inspirationSummary().localized(),
             attributes: Globals.Attributs.tooltipContentAttributs
         )
         toolTipText.append(eureka)
@@ -28,6 +28,7 @@ extension CivicType {
         return toolTipText
     }
 
+    // swiftlint:disable cyclomatic_complexity
     public func iconTexture() -> String {
 
         switch self {
@@ -89,12 +90,14 @@ extension CivicType {
             // information
         case .globalization: return "civic-default"
         case .socialMedia: return "civic-default"
+        case .environmentalism: return "civic-default"
         }
     }
 }
 
 extension CivicType {
 
+    // swiftlint:disable cyclomatic_complexity
     public func indexPath() -> IndexPath {
 
         switch self {
@@ -167,6 +170,7 @@ extension CivicType {
             // information
         case .globalization:        return IndexPath(item: -1, section: -1)
         case .socialMedia:          return IndexPath(item: -1, section: -1)
+        case .environmentalism:     return IndexPath(item: -1, section: -1)
         }
     }
 }

@@ -81,7 +81,7 @@ public enum FeatureType: Int, Codable {
         return self.data().yields
     }
 
-    func isWonder() -> Bool {
+    func isNaturalWonder() -> Bool {
 
         return self.data().isWonder
     }
@@ -116,7 +116,7 @@ public enum FeatureType: Int, Codable {
         case .yosemite: return self.isYosemitePossible(on: tile)
         case .uluru: return self.isUluruPossible(on: tile)
         case .fuji: return self.isFujiPossible(on: tile)
-        case .barringCrater: return self.isReefPossible(on: tile)
+        case .barringCrater: return self.isBarringCraterPossible(on: tile)
         case .mesa: return self.isMesaPossible(on: tile)
         case .gibraltar: return self.isGibraltarPossible(on: tile)
         case .geyser: return self.isGeyserPossible(on: tile)
@@ -759,6 +759,7 @@ public enum FeatureType: Int, Codable {
         return true
     }
 
+    // must be built on desert tile
     private func isUluruPossible(on tile: AbstractTile) -> Bool {
 
         if tile.terrain() != .desert {
@@ -777,9 +778,19 @@ public enum FeatureType: Int, Codable {
         return true
     }
 
+    private func isBarringCraterPossible(on tile: AbstractTile) -> Bool {
+
+        // Found In: Desert, Tundra, Mountains
+        if tile.feature() != .mountains && tile.terrain() != .desert && tile.terrain() != .tundra {
+            return false
+        }
+
+        return true
+    }
+
     func isNoImprovement() -> Bool {
 
-        if self.isWonder() {
+        if self.isNaturalWonder() {
             return true
         }
 

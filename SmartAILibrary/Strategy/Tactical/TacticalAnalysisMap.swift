@@ -1305,7 +1305,8 @@ class TacticalAnalysisMap {
                                         for: enemyUnit.movementType(),
                                         for: enemyUnit.player,
                                         unitMapType: .combat,
-                                        canEmbark: enemyUnit.player!.canEmbark()
+                                        canEmbark: enemyUnit.player!.canEmbark(),
+                                        canEnterOcean: enemyUnit.player!.canEnterOcean()
                                     )
 
                                     let unitArea = gameModel.area(of: enemyUnit.location)

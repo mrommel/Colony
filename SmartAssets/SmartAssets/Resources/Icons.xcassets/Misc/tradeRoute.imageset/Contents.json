@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "tradeRoute@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "tradeRoute@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "tradeRoute@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "tradeRoute.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {

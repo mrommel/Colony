@@ -9,37 +9,124 @@ import Foundation
 
 extension String {
 
-    // https://unicode-table.com/de/emoji/#link-symbols
-    public func replaceIcons() -> String {
+    /// Fetches a localized String with Arguments
+    ///
+    /// - Parameter arguments: parameters to be added in a string
+    /// - Parameter comment: comment to this string
+    /// - Returns: localized string
+    /// https://stackoverflow.com/questions/26277626/how-to-use-nslocalizedstring-function-with-variables-in-swift
+    public func localizedWithFormat(with arguments: [CVarArg]) -> String {
 
-        var temp = self
+        let template = self.localized()
+        return String(format: template, arguments: arguments)
+    }
 
-        temp = temp.replacingOccurrences(of: "Civ6StrengthIcon", with: "🗡️")
-        temp = temp.replacingOccurrences(of: "Civ6RangedStrength", with: "🏹")
-        //
-        temp = temp.replacingOccurrences(of: "Civ6Science", with: "🧪")
-        temp = temp.replacingOccurrences(of: "Civ6Culture", with: "🏺")
-        temp = temp.replacingOccurrences(of: "Civ6Production", with: "⚙️")
-        temp = temp.replacingOccurrences(of: "Civ6Gold", with: "💰")
-        temp = temp.replacingOccurrences(of: "Housing6", with: "🏠")
-        temp = temp.replacingOccurrences(of: "Citizen6", with: "👨")
-        temp = temp.replacingOccurrences(of: "ReligiousStrength6", with: "⛩️")
-        temp = temp.replacingOccurrences(of: "Civ6Faith", with: "⛪")
-        temp = temp.replacingOccurrences(of: "Scientist6", with: "👨‍🔬")
-        temp = temp.replacingOccurrences(of: "Prophet6", with: "🧙‍♂️")
-        temp = temp.replacingOccurrences(of: "Amenities6", with: "🎡")
+    /// Fetches a localized String
+    ///
+    /// - Returns: return value(String) for key
+    /// https://stackoverflow.com/questions/25081757/whats-nslocalizedstring-equivalent-in-swift
+    public func localized(withComment comment: String? = nil) -> String {
 
-        temp = temp.replacingOccurrences(of: "Capital6", with: "✪")
-        temp = temp.replacingOccurrences(of: "TradeRoute6", with: "💰")
-        temp = temp.replacingOccurrences(of: "Governor6", with: "🤵")
-        temp = temp.replacingOccurrences(of: "Tourism6", with: "🧳")
+        if self.starts(with: "TXT_KEY_CITY_NAME_") {
+            return NSLocalizedString(
+                self,
+                tableName: "CityNames",
+                bundle: Bundle.init(for: Textures.self),
+                value: "",
+                comment: comment ?? ""
+            )
+        }
 
-        temp = temp.replacingOccurrences(of: "DiplomaticVisibility6", with: "🗝")
-        // 🕊 🛡 👣
+        if self.starts(with: "TXT_KEY_CIVIC_") {
+            return NSLocalizedString(
+                self,
+                tableName: "Civics",
+                bundle: Bundle.init(for: Textures.self),
+                value: "",
+                comment: comment ?? ""
+            )
+        }
 
-        // 🤝🙂😐-🙁😡⚔
-        // 🎨🎓💎
+        if self.starts(with: "TXT_KEY_TECH_") {
+            return NSLocalizedString(
+                self,
+                tableName: "Techs",
+                bundle: Bundle.init(for: Textures.self),
+                value: "",
+                comment: comment ?? ""
+            )
+        }
 
-        return temp
+        if self.starts(with: "TXT_KEY_CIVILIZATION_") {
+            return NSLocalizedString(
+                self,
+                tableName: "Civilizations",
+                bundle: Bundle.init(for: Textures.self),
+                value: "",
+                comment: comment ?? ""
+            )
+        }
+
+        if self.starts(with: "TXT_KEY_DEDICATION_") {
+            return NSLocalizedString(
+                self,
+                tableName: "Dedications",
+                bundle: Bundle.init(for: Textures.self),
+                value: "",
+                comment: comment ?? ""
+            )
+        }
+
+        if self.starts(with: "TXT_KEY_MOMENT_") {
+            return NSLocalizedString(
+                self,
+                tableName: "Moments",
+                bundle: Bundle.init(for: Textures.self),
+                value: "",
+                comment: comment ?? ""
+            )
+        }
+
+        if self.starts(with: "TXT_KEY_RELIGION_") {
+            return NSLocalizedString(
+                self,
+                tableName: "Religions",
+                bundle: Bundle.init(for: Textures.self),
+                value: "",
+                comment: comment ?? ""
+            )
+        }
+
+        if self.starts(with: "TXT_KEY_GOVERNMENT_") {
+            return NSLocalizedString(
+                self,
+                tableName: "Governments",
+                bundle: Bundle.init(for: Textures.self),
+                value: "",
+                comment: comment ?? ""
+            )
+        }
+
+        if self.starts(with: "TXT_KEY_WONDER_") {
+            return NSLocalizedString(
+                self,
+                tableName: "Wonders",
+                bundle: Bundle.init(for: Textures.self),
+                value: "",
+                comment: comment ?? ""
+            )
+        }
+
+        if self.starts(with: "TXT_KEY_") {
+            return NSLocalizedString(
+                self,
+                tableName: nil, // Localizable default
+                bundle: Bundle.init(for: Textures.self),
+                value: "",
+                comment: comment ?? ""
+            )
+        }
+
+        return self
     }
 }

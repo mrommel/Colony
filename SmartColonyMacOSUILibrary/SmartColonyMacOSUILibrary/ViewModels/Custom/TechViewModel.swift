@@ -66,7 +66,7 @@ class TechViewModel: ObservableObject, Identifiable {
 
     func title() -> String {
 
-        return self.techType.name()
+        return self.techType.name().localized()
     }
 
     func icon() -> NSImage {
@@ -76,7 +76,8 @@ class TechViewModel: ObservableObject, Identifiable {
 
     func background() -> NSImage {
 
-        return ImageCache.shared.image(for: self.state.backgroundTexture()).resize(withSize: NSSize(width: 42, height: 42))!
+        return ImageCache.shared.image(for: self.state.backgroundTexture())
+            .resize(withSize: NSSize(width: 42, height: 42))!
     }
 
     private func achievements() -> [AchievementViewModel] {
@@ -139,7 +140,7 @@ class TechViewModel: ObservableObject, Identifiable {
             return ""
         }
 
-        return "Turns \(self.turns)"
+        return "TXT_KEY_TURNS".localized() + " " + "\(self.turns)"
     }
 
     func boostText() -> String {
@@ -149,9 +150,11 @@ class TechViewModel: ObservableObject, Identifiable {
         }
 
         if self.boosted {
-            return "Boosted: " + self.techType.eurekaSummary()
+            return "TXT_KEY_BOOSTED".localized() + ": " +
+                self.techType.eurekaSummary().localized()
         } else {
-            return "To boost: " + self.techType.eurekaSummary()
+            return "TXT_KEY_TO_BOOST".localized() + ": " +
+                self.techType.eurekaSummary().localized()
         }
     }
 

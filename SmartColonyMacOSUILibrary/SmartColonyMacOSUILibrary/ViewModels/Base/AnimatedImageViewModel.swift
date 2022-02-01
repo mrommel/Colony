@@ -24,6 +24,8 @@ class AnimatedImageViewModel: ObservableObject {
     @Published
     var image: Image
 
+    private var timer: Timer?
+
     init(image stillImage: NSImage) {
 
         self.images = []
@@ -80,6 +82,8 @@ class AnimatedImageViewModel: ObservableObject {
 
     func show(image stillImage: NSImage) {
 
+        self.timer?.invalidate()
+
         self.images = []
         self.interval = 1.0
         self.loop = false
@@ -94,7 +98,7 @@ class AnimatedImageViewModel: ObservableObject {
     func startAnimation() {
 
         if !self.images.isEmpty {
-            Timer.scheduledTimer(withTimeInterval: self.interval, repeats: true, block: animate(_:))
+            self.timer = Timer.scheduledTimer(withTimeInterval: self.interval, repeats: true, block: animate(_:))
         }
     }
 
@@ -115,14 +119,14 @@ class AnimatedImageViewModel: ObservableObject {
                     self.iteration += 1
                 }
 
-                if !idle {
-                    idle = true
+                if !self.idle {
+                    self.idle = true
                 }
             }
         }
 
-        if !self.loop && idle && self.iteration == self.iterations {
-            timer.invalidate()
+        if !self.loop && self.idle && self.iteration == self.iterations {
+            self.timer?.invalidate()
         }
     }
 }

@@ -242,10 +242,10 @@ class MapNode: SKNode {
         self.boardLayer.rebuild()
         self.riverLayer.showCompleteMap = true
         self.riverLayer.rebuild()
-        /*self.unitLayer.showCompleteMap = true
-        self.unitLayer.rebuild()
+        /* self.unitLayer.showCompleteMap = true
+        self.unitLayer.rebuild() */
         self.cityLayer.showCompleteMap = true
-        self.cityLayer.rebuild()*/
+        // self.cityLayer.rebuild()
         self.improvementLayer.showCompleteMap = true
         self.improvementLayer.rebuild()
         self.yieldLayer.showCompleteMap = true
@@ -254,7 +254,7 @@ class MapNode: SKNode {
         self.waterLayer.rebuild()
         self.borderLayer.showCompleteMap = true
         self.borderLayer.rebuild()
-        //self.addChild(self.tooltipLayer)
+        // self.addChild(self.tooltipLayer)
         self.hexCoordLayer.showCompleteMap = true
         self.hexCoordLayer.rebuild()
         self.districtLayer.showCompleteMap = true
@@ -284,10 +284,10 @@ class MapNode: SKNode {
         self.boardLayer.rebuild()
         self.riverLayer.showCompleteMap = false
         self.riverLayer.rebuild()
-        /*self.unitLayer.showCompleteMap = false
-        self.unitLayer.rebuild()
+        /* self.unitLayer.showCompleteMap = false
+        self.unitLayer.rebuild() */
         self.cityLayer.showCompleteMap = false
-        self.cityLayer.rebuild()*/
+        // self.cityLayer.rebuild()
         self.improvementLayer.showCompleteMap = false
         self.improvementLayer.rebuild()
         self.yieldLayer.showCompleteMap = false
@@ -296,7 +296,7 @@ class MapNode: SKNode {
         self.waterLayer.rebuild()
         self.borderLayer.showCompleteMap = false
         self.borderLayer.rebuild()
-        //self.addChild(self.tooltipLayer)
+        // self.addChild(self.tooltipLayer)
         self.hexCoordLayer.showCompleteMap = false
         self.hexCoordLayer.rebuild()
         self.districtLayer.showCompleteMap = false

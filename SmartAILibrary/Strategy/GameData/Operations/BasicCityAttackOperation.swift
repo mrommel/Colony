@@ -54,7 +54,13 @@ class BasicCityAttackOperation: EnemyTerritoryOperation {
 
             // Reset our destination to be a few plots shy of the final target
             let pathFinder = AStarPathfinder()
-            pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self.player, unitMapType: .combat, canEmbark: self.player!.canEmbark())
+            pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                for: .walk,
+                for: self.player,
+                unitMapType: .combat,
+                canEmbark: self.player!.canEmbark(),
+                canEnterOcean: self.player!.canEnterOcean()
+            )
 
             if let path = pathFinder.shortestPath(fromTileCoord: self.musterPosition!, toTileCoord: self.targetPosition!),
                 let reducedPath = path.path(without: self.deployRange()),

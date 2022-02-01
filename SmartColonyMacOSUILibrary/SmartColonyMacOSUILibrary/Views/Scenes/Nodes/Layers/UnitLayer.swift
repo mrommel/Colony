@@ -69,14 +69,14 @@ class UnitLayer: SKNode {
 
             for unitRef in gameModel.units(of: player) {
 
-                self.show(unit: unitRef)
+                self.show(unit: unitRef, at: unitRef?.location ?? HexPoint.invalid)
             }
         }
 
         print("inited with: \(self.unitObjects.count) visible units")
     }
 
-    func show(unit: AbstractUnit?) {
+    func show(unit: AbstractUnit?, at location: HexPoint) {
 
         guard let gameModel = self.gameModel else {
             fatalError("gameModel not set")
@@ -97,7 +97,8 @@ class UnitLayer: SKNode {
         // already shown, no need to add
         if let unitObject = self.unitObject(of: unit) {
 
-            unitObject.update(strength: unit.healthPoints())
+            unitObject.show(at: location)
+            unitObject.update()
 
         } else {
 
@@ -107,29 +108,48 @@ class UnitLayer: SKNode {
             unitObject.addTo(node: self)
 
             // make idle
-            unitObject.showIdle()
-            unitObject.update(strength: unit.healthPoints())
+            // unitObject.showIdle()
+            unitObject.show(at: location)
+            unitObject.update()
 
             // keep reference
             self.unitObjects.append(unitObject)
         }
     }
 
-    func hide(unit: AbstractUnit?) {
+    func hide(unit: AbstractUnit?, at location: HexPoint) {
+
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
 
         if let unitObject = self.unitObject(of: unit) {
-
-            unitObject.sprite.removeFromParent()
-
-            self.unitObjects.removeAll(where: { $0.identifier == unitObject.identifier })
+            unitObject.hide(at: location)
         }
+    }
+
+    func enterCity(unit: AbstractUnit?, at location: HexPoint) {
+
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
+
+        if let unitObject = self.unitObject(of: unit) {
+            unitObject.enterCity(at: location)
+        }
+    }
+
+    func leaveCity(unit: AbstractUnit?, at location: HexPoint) {
+
+        self.show(unit: unit, at: location)
     }
 
     func fortify(unit: AbstractUnit?) {
 
         if let unitObject = self.unitObject(of: unit) {
 
-            unitObject.showFortified()
+            unitObject.fortify()
+            // unitObject.showFortified()
         }
     }
 
@@ -344,8 +364,8 @@ class UnitLayer: SKNode {
 
         if let selectedUnit = unit {
 
-            if unitObject(of: selectedUnit) == nil {
-                self.show(unit: selectedUnit)
+            if self.unitObject(of: selectedUnit) == nil {
+                self.show(unit: selectedUnit, at: selectedUnit.location)
                 print("show")
             }
 
@@ -360,14 +380,16 @@ class UnitLayer: SKNode {
                         for: selectedUnit.player,
                         ignoreOwner: false,
                         unitMapType: selectedUnit.unitMapType(),
-                        canEmbark: selectedUnit.canEverEmbark()
+                        canEmbark: selectedUnit.canEverEmbark(),
+                        canEnterOcean: selectedUnit.player!.canEnterOcean()
                     )
 
                     if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: hex) {
 
-                        unitObject.showWalk(on: path, completion: {
+                        unitObject.move(on: path)
+                        /*unitObject.showWalk(on: path, completion: {
                             unitObject.showIdle()
-                        })
+                        })*/
 
                         return
                     }
@@ -382,19 +404,15 @@ class UnitLayer: SKNode {
 
             if let unitObject = self.unitObject(of: selectedUnit) {
 
-                unitObject.showWalk(on: path, completion: {
-                    unitObject.showIdle()
-                })
+                unitObject.move(on: path)
             } else {
 
                 // most likely foreign unit
-                self.show(unit: selectedUnit)
+                self.show(unit: selectedUnit, at: selectedUnit.location)
 
                 if let unitObject = self.unitObject(of: selectedUnit) {
 
-                    unitObject.showWalk(on: path, completion: {
-                        unitObject.showIdle()
-                    })
+                    unitObject.move(on: path)
                 }
             }
         }
@@ -403,7 +421,30 @@ class UnitLayer: SKNode {
     func update(unit: AbstractUnit?) {
 
         if let unitObject = unitObject(of: unit) {
-            unitObject.update(strength: unit!.healthPoints())
+            unitObject.update()
+        }
+    }
+
+    func checkDelayedDeath() {
+
+        for unitObject in self.unitObjects where unitObject.unit?.isDelayedDeath() ?? false {
+            self.hide(unit: unitObject.unit, at: unitObject.unit?.location ?? HexPoint.invalid)
+        }
+
+        for unitObject in self.unitObjects {
+
+            if case .hide(location: _) = unitObject.animationQueue.peek() {
+                unitObject.sprite.removeFromParent()
+                self.unitObjects.removeAll(where: { $0.identifier == unitObject.identifier })
+            }
+        }
+
+        for unitObject in self.unitObjects {
+
+            if unitObject.shouldBeRemoved() || unitObject.unit?.isDelayedDeath() ?? false {
+                unitObject.sprite.removeFromParent()
+                self.unitObjects.removeAll(where: { $0.identifier == unitObject.identifier })
+            }
         }
     }
 }

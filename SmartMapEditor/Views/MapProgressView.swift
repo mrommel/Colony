@@ -9,7 +9,7 @@ import SwiftUI
 import SmartAILibrary
 import SDWebImageSwiftUI
 
-protocol MapProgressViewDelegate: NSObject {
+protocol MapProgressViewDelegate: AnyObject {
 
     func generated(map: MapModel?)
 }

@@ -20,6 +20,12 @@ enum UICombatMode {
 
 protocol GameViewModelDelegate: AnyObject {
 
+    var selectedCity: AbstractCity? { get set }
+    var selectedUnit: AbstractUnit? { get set }
+
+    func changeUITurnState(to state: GameSceneTurnState)
+    func updateStates()
+
     func focus(on point: HexPoint)
     func showUnitBanner()
     func hideUnitBanner()
@@ -43,7 +49,7 @@ protocol GameViewModelDelegate: AnyObject {
     func doRangedCombat(of attacker: AbstractCity?, against defender: AbstractUnit?)
     func doRangedCombat(of attacker: AbstractUnit?, against defender: AbstractCity?)
 
-    func showCityBanner(for city: AbstractCity?)
+    func showCityBanner()
     func hideCityBanner()
     func showRangedTargets(of city: AbstractCity?)
 
@@ -63,6 +69,8 @@ protocol GameViewModelDelegate: AnyObject {
     func showTradeRouteDialog()
     func showReligionDialog()
     func showRankingDialog()
+    func showEraProgressDialog()
+    func showMomentsDialog()
 
     func showCityDialog(for city: AbstractCity?)
     func showCityChooseProductionDialog(for city: AbstractCity?)
@@ -70,6 +78,7 @@ protocol GameViewModelDelegate: AnyObject {
     func showDiplomaticDialog(with otherPlayer: AbstractPlayer?, data: DiplomaticData?, deal: DiplomaticDeal?)
 
     func showSelectPantheonDialog()
+    func showSelectDedicationDialog()
 
     func showUnitListDialog()
     func showCityListDialog()
@@ -110,8 +119,6 @@ protocol GameViewModelDelegate: AnyObject {
     func closeDialog()
     func closePopup()
 
-    func update()
-
     func closeGame()
 }
 
@@ -121,7 +128,6 @@ public protocol CloseGameViewModelDelegate: AnyObject {
     func closeGame()
 }
 
-// swiftlint:disable type_body_length
 public class GameViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
@@ -146,7 +152,16 @@ public class GameViewModel: ObservableObject {
     var combatBannerViewModel: CombatBannerViewModel
 
     @Published
+    var topBarViewModel: TopBarViewModel
+
+    @Published
     var headerViewModel: HeaderViewModel
+
+    @Published
+    var bannerViewModel: BannerViewModel
+
+    @Published
+    var bottomLeftBarViewModel: BottomLeftBarViewModel
 
     @Published
     var bottomRightBarViewModel: BottomRightBarViewModel
@@ -216,7 +231,45 @@ public class GameViewModel: ObservableObject {
     @Published
     var victoryDialogViewModel: VictoryDialogViewModel
 
+    @Published
+    var eraProgressDialogViewModel: EraProgressDialogViewModel
+
+    @Published
+    var selectDedicationDialogViewModel: SelectDedicationDialogViewModel
+
+    @Published
+    var momentsDialogViewModel: MomentsDialogViewModel
+
+    // popups
+
+    @Published
+    var goodyHutRewardPopupViewModel: GoodyHutRewardPopupViewModel
+
+    @Published
+    var techDiscoveredPopupViewModel: TechDiscoveredPopupViewModel
+
+    @Published
+    var civicDiscoveredPopupViewModel: CivicDiscoveredPopupViewModel
+
+    @Published
+    var eraEnteredPopupViewModel: EraEnteredPopupViewModel
+
+    @Published
+    var eurekaTechActivatedPopupViewModel: EurekaTechActivatedPopupViewModel
+
+    @Published
+    var inspirationTriggeredPopupViewModel: InspirationTriggeredPopupViewModel
+
+    @Published
+    var wonderBuiltPopupViewModel: WonderBuiltPopupViewModel
+
+    @Published
+    var canFoundPantheonPopupViewModel: CanFoundPantheonPopupViewModel
+
     // UI
+
+    @Published
+    var uiTurnState: GameSceneTurnState = .aiTurns
 
     @Published
     var currentScreenType: ScreenType = .none
@@ -227,6 +280,41 @@ public class GameViewModel: ObservableObject {
     var popups: [PopupType] = []
 
     var uiCombatMode: UICombatMode = .none
+
+    @Published
+    var selectedUnit: AbstractUnit? = nil {
+
+        didSet {
+            if self.uiTurnState != .humanTurns {
+                return
+            }
+
+            if let unit = self.selectedUnit {
+                self.showUnitBanner()
+                self.bottomLeftBarViewModel.selectedUnitCivilization = unit.player?.leader.civilization() ?? .unmet
+                self.bottomLeftBarViewModel.selectedUnitType = unit.type
+                self.bottomLeftBarViewModel.selectedUnitLocation = unit.location
+            } else {
+                self.hideUnitBanner()
+                self.bottomLeftBarViewModel.selectedUnitCivilization = nil
+                self.bottomLeftBarViewModel.selectedUnitType = nil
+                self.bottomLeftBarViewModel.selectedUnitLocation = nil
+            }
+        }
+    }
+
+    @Published
+    var selectedCity: AbstractCity? = nil {
+
+        didSet {
+            if let selectedCity = self.selectedCity {
+                print("select city: \(selectedCity.name)")
+                self.showCityBanner()
+            } else {
+                self.hideCityBanner()
+            }
+        }
+    }
 
     // MARK: map display options
 
@@ -267,28 +355,7 @@ public class GameViewModel: ObservableObject {
         }
     }
 
-    private let textureNames: [String] = [
-        "water", "focus-attack1", "focus-attack2", "focus-attack3",
-        "focus1", "focus2", "focus3", "focus4", "focus5", "focus6",
-        "unit-type-background", "cursor", "top-bar", "grid9-dialog",
-        "techInfo-active", "techInfo-disabled", "techInfo-researched", "techInfo-researching",
-        "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching",
-        "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active",
-        "grid9-button-clicked", "banner", "science-progress", "culture-progress", "header-bar-button",
-        "grid9-progress", "leader-bagde",
-        "header-bar-left", "header-bar-right", "city-banner", "grid9-button-district-active",
-        "grid9-button-district", "grid9-button-highlighted", "questionmark", "tile-purchase-active",
-        "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced",
-        "tile-districtAvailable", "tile-wonderAvailable", "tile-notAvailable",
-        "city-canvas", "pantheon-background", "turns", "unit-banner", "combat-view",
-        "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty",
-        "map-overview-canvas", "map-lens", "map-lens-active", "map-marker", "map-options"
-    ]
-
     public weak var delegate: CloseGameViewModelDelegate?
-
-    private var unitType: UnitType = .none
-    private var unitLocation: HexPoint = .invalid
 
     // MARK: constructor
 
@@ -297,10 +364,13 @@ public class GameViewModel: ObservableObject {
         // init models
         self.gameSceneViewModel = GameSceneViewModel()
         self.notificationsViewModel = NotificationsViewModel()
-        self.headerViewModel = HeaderViewModel()
         self.cityBannerViewModel = CityBannerViewModel()
         self.unitBannerViewModel = UnitBannerViewModel(selectedUnit: nil)
         self.combatBannerViewModel = CombatBannerViewModel()
+        self.topBarViewModel = TopBarViewModel()
+        self.headerViewModel = HeaderViewModel()
+        self.bannerViewModel = BannerViewModel()
+        self.bottomLeftBarViewModel = BottomLeftBarViewModel()
         self.bottomRightBarViewModel = BottomRightBarViewModel()
 
         // dialogs
@@ -325,14 +395,30 @@ public class GameViewModel: ObservableObject {
         self.religionDialogViewModel = ReligionDialogViewModel()
         self.rankingDialogViewModel = RankingDialogViewModel()
         self.victoryDialogViewModel = VictoryDialogViewModel()
+        self.eraProgressDialogViewModel = EraProgressDialogViewModel()
+        self.selectDedicationDialogViewModel = SelectDedicationDialogViewModel()
+        self.momentsDialogViewModel = MomentsDialogViewModel()
+
+        // popups
+        self.goodyHutRewardPopupViewModel = GoodyHutRewardPopupViewModel()
+        self.techDiscoveredPopupViewModel = TechDiscoveredPopupViewModel()
+        self.civicDiscoveredPopupViewModel = CivicDiscoveredPopupViewModel()
+        self.eraEnteredPopupViewModel = EraEnteredPopupViewModel()
+        self.eurekaTechActivatedPopupViewModel = EurekaTechActivatedPopupViewModel()
+        self.inspirationTriggeredPopupViewModel = InspirationTriggeredPopupViewModel()
+        self.wonderBuiltPopupViewModel = WonderBuiltPopupViewModel()
+        self.canFoundPantheonPopupViewModel = CanFoundPantheonPopupViewModel()
 
         // connect models
         self.gameSceneViewModel.delegate = self
         self.notificationsViewModel.delegate = self
-        self.headerViewModel.delegate = self
         self.cityBannerViewModel.delegate = self
         self.unitBannerViewModel.delegate = self
         self.combatBannerViewModel.delegate = self
+
+        self.topBarViewModel.delegate = self
+        self.headerViewModel.delegate = self
+        self.bottomLeftBarViewModel.delegate = self
         self.bottomRightBarViewModel.delegate = self
 
         self.governmentDialogViewModel.delegate = self
@@ -356,6 +442,18 @@ public class GameViewModel: ObservableObject {
         self.religionDialogViewModel.delegate = self
         self.rankingDialogViewModel.delegate = self
         self.victoryDialogViewModel.delegate = self
+        self.eraProgressDialogViewModel.delegate = self
+        self.selectDedicationDialogViewModel.delegate = self
+        self.momentsDialogViewModel.delegate = self
+
+        self.goodyHutRewardPopupViewModel.delegate = self
+        self.techDiscoveredPopupViewModel.delegate = self
+        self.civicDiscoveredPopupViewModel.delegate = self
+        self.eraEnteredPopupViewModel.delegate = self
+        self.eurekaTechActivatedPopupViewModel.delegate = self
+        self.inspirationTriggeredPopupViewModel.delegate = self
+        self.wonderBuiltPopupViewModel.delegate = self
+        self.canFoundPantheonPopupViewModel.delegate = self
 
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -367,324 +465,8 @@ public class GameViewModel: ObservableObject {
         if preloadAssets {
             self.loadAssets()
         }
-    }
 
-    // swiftlint:disable cyclomatic_complexity
-    public func loadAssets() {
-
-        // load assets into image cache
-        print("-- pre-load images --")
-        let bundle = Bundle.init(for: Textures.self)
-        let textures: Textures = Textures(game: nil)
-
-        print("- load \(textures.allTerrainTextureNames.count) terrain textures")
-        for textureName in textures.allTerrainTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.allCoastTextureNames.count) coast textures")
-        for textureName in textures.allCoastTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.allRiverTextureNames.count) river textures")
-        for textureName in textures.allRiverTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.allFeatureTextureNames.count) feature textures")
-        for textureName in textures.allFeatureTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.allIceFeatureTextureNames.count) ice textures")
-        for textureName in textures.allIceFeatureTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.allSnowFeatureTextureNames.count) snow textures")
-        for textureName in textures.allSnowFeatureTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.allResourceTextureNames.count) resource and marker textures")
-        for textureName in textures.allResourceTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-        for textureName in textures.allResourceMarkerTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.allBorderTextureNames.count) border textures")
-        for textureName in textures.allBorderTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.allYieldsTextureNames.count) yield textures")
-        for textureName in textures.allYieldsTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.allBoardTextureNames.count) board textures")
-        for textureName in textures.allBoardTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.allImprovementTextureNames.count) improvement textures")
-        for textureName in textures.allImprovementTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.allRoadTextureNames.count) road textures")
-        for textureName in textures.allRoadTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.allPathTextureNames.count) + \(textures.allPathOutTextureNames.count) path textures")
-        for textureName in textures.allPathTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-        for textureName in textures.allPathOutTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.overviewTextureNames.count) overview textures")
-        for textureName in textures.overviewTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        var unitTextures: Int = 0
-        for unitType in UnitType.all {
-
-            if let idleTextures = unitType.idleAtlas?.textures {
-                for (index, texture) in idleTextures.enumerated() {
-                    ImageCache.shared.add(image: texture, for: "\(unitType.name().lowercased())-idle-\(index)")
-
-                    unitTextures += 1
-                }
-            } else {
-                print("cant get idle textures of \(unitType.name())")
-            }
-
-            ImageCache.shared.add(image: bundle.image(forResource: unitType.portraitTexture()), for: unitType.portraitTexture())
-            ImageCache.shared.add(image: bundle.image(forResource: unitType.typeTexture()), for: unitType.typeTexture())
-            ImageCache.shared.add(image: bundle.image(forResource: unitType.typeTemplateTexture()), for: unitType.typeTemplateTexture())
-        }
-        print("- load \(unitTextures) unit textures")
-
-        // populate cache with ui textures
-        print("- load \(self.textureNames.count) misc textures")
-        for textureName in self.textureNames {
-            if !ImageCache.shared.exists(key: textureName) {
-                // load from SmartAsset package
-                ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-            }
-        }
-
-        print("- load \(textures.buttonTextureNames.count) button textures")
-        for textureName in textures.buttonTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.globeTextureNames.count) globe textures")
-        for textureName in textures.globeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.cultureProgressTextureNames.count) culture progress textures")
-        for textureName in textures.cultureProgressTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.scienceProgressTextureNames.count) science progress textures")
-        for textureName in textures.scienceProgressTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.attackerHealthTextureNames.count) attacker health textures")
-        for textureName in textures.attackerHealthTextureNames {
-            ImageCache.shared.add(
-                image: bundle.image(forResource: textureName),
-                for: textureName
-            )
-        }
-        print("- load \(textures.defenderHealthTextureNames.count) defender health textures")
-        for textureName in textures.defenderHealthTextureNames {
-            ImageCache.shared.add(
-                image: bundle.image(forResource: textureName),
-                for: textureName
-            )
-        }
-
-        print("- load \(textures.headerTextureNames.count) header textures")
-        for textureName in textures.headerTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.cityProgressTextureNames.count) city progress textures")
-        for textureName in textures.cityProgressTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.cityTextureNames.count) city textures")
-        for textureName in textures.cityTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.commandTextureNames.count) command type textures")
-        for textureName in textures.commandTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.commandButtonTextureNames.count) command button textures")
-        for textureName in textures.commandButtonTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.cityCommandButtonTextureNames.count) city command textures")
-        for textureName in textures.cityCommandButtonTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.policyCardTextureNames.count) policy card textures")
-        for textureName in textures.policyCardTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.governmentStateBackgroundTextureNames.count) government state background textures")
-        for textureName in textures.governmentStateBackgroundTextureNames {
-            ImageCache.shared.add(
-                image: bundle.image(forResource: textureName),
-                for: textureName
-            )
-        }
-
-        print("- load \(textures.governmentTextureNames.count) government textures")
-        for textureName in textures.governmentTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.governmentAmbientTextureNames.count) ambient textures")
-        for textureName in textures.governmentAmbientTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.yieldTextureNames.count) / \(textures.yieldBackgroundTextureNames.count) yield textures")
-        for textureName in textures.yieldTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-        for textureName in textures.yieldBackgroundTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.techTextureNames.count) tech type textures")
-        for textureName in textures.techTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.civicTextureNames.count) civic type textures")
-        for textureName in textures.civicTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.buildTypeTextureNames.count) build type textures")
-        for textureName in textures.buildTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.buildingTypeTextureNames.count) building type textures")
-        for textureName in textures.buildingTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.wonderTypeTextureNames.count) wonder type textures")
-        for textureName in textures.wonderTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.wonderTextureNames.count) wonder textures")
-        for textureName in textures.wonderTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.wonderBuildingTextureNames.count) wonder building textures")
-        for textureName in textures.wonderBuildingTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.districtTypeTextureNames.count) district type textures")
-        for textureName in textures.districtTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.districtTextureNames.count) district textures")
-        for textureName in textures.districtTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.districtBuildingTextureNames.count) district building textures")
-        for textureName in textures.districtBuildingTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.leaderTypeTextureNames.count) leader type textures")
-        for textureName in textures.leaderTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.civilizationTypeTextureNames.count) civilization type textures")
-        for textureName in textures.civilizationTypeTextureNames {
-            ImageCache.shared.add(
-                image: bundle.image(forResource: textureName),
-                for: textureName
-            )
-        }
-
-        print("- load \(textures.pantheonTypeTextureNames.count) pantheon type textures")
-        for textureName in textures.pantheonTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.religionTypeTextureNames.count) religion type textures")
-        for textureName in textures.religionTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.beliefTypeTextureNames.count) belief type textures")
-        for textureName in textures.beliefTypeTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.promotionTextureNames.count) promotion type textures")
-        for textureName in textures.promotionTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
-        }
-
-        print("- load \(textures.promotionStateBackgroundTextureNames.count) promotion state textures")
-        for textureName in textures.promotionStateBackgroundTextureNames {
-            ImageCache.shared.add(
-                image: bundle.image(forResource: textureName),
-                for: textureName
-            )
-        }
-
-        print("- load \(textures.governorPortraitTextureNames.count) governor portrait textures")
-        for textureName in textures.governorPortraitTextureNames {
-            ImageCache.shared.add(
-                image: bundle.image(forResource: textureName),
-                for: textureName
-            )
-        }
-
-        print("- load \(textures.victoryTypesTextureNames.count) victory textures")
-        for textureName in textures.victoryTypesTextureNames {
-            ImageCache.shared.add(
-                image: bundle.image(forResource: textureName),
-                for: textureName
-            )
-        }
-
-        print("-- all textures loaded --")
+        self.bannerViewModel.showBanner()
     }
 
     public func centerCapital() {
@@ -712,11 +494,6 @@ public class GameViewModel: ObservableObject {
         }
 
         print("cant center on capital: no capital nor units")
-    }
-
-    func update() {
-
-        self.headerViewModel.update()
     }
 
     public func centerOnCursor() {
@@ -750,68 +527,36 @@ public class GameViewModel: ObservableObject {
 
         if let firstPopup = self.popups.first {
 
-            print("show popup: \(firstPopup)")
+            // print("show popup: \(firstPopup)")
 
             switch firstPopup {
 
-            case .none:
-                // NOOP
-                break
-            case .declareWarQuestion(_):
-                // NOOP
-                break
-            case .barbarianCampCleared:
-                // NOOP
-                break
-
             case .techDiscovered(let techType):
-                self.currentPopupType = .techDiscovered(tech: techType)
+                self.techDiscoveredPopupViewModel.update(for: techType)
 
             case .civicDiscovered(let civicType):
-                self.currentPopupType = .civicDiscovered(civic: civicType)
+                self.civicDiscoveredPopupViewModel.update(for: civicType)
 
             case .eraEntered(let eraType):
-                self.currentPopupType = .eraEntered(era: eraType)
+                self.eraEnteredPopupViewModel.update(for: eraType)
 
-            case .eurekaTechActivated(let techType):
-                self.currentPopupType = .eurekaTechActivated(tech: techType)
+            case .eurekaTriggered(let techType):
+                self.eurekaTechActivatedPopupViewModel.update(for: techType)
 
-            case .eurekaCivicActivated(let civicType):
-                self.currentPopupType = .eurekaCivicActivated(civic: civicType)
+            case .inspirationTriggered(let civicType):
+                self.inspirationTriggeredPopupViewModel.update(for: civicType)
 
             case .goodyHutReward(let goodyType, let location):
-                self.currentPopupType = .goodyHutReward(goodyType: goodyType, location: location)
-
-            case .unitTrained(unit: _):
-                // NOOP
-                break
-
-            case .buildingBuilt:
-                // NOOP
-                break
+                self.goodyHutRewardPopupViewModel.update(for: goodyType, at: location)
 
             case .wonderBuilt(let wonderType):
-                self.currentPopupType = .wonderBuilt(wonder: wonderType)
+                self.wonderBuiltPopupViewModel.update(for: wonderType)
 
-            case .religionByCityAdopted(_, _):
-                fatalError("religionByCityAdopted")
-
-            case .religionNewMajority(_):
-                // TXT_KEY_NOTIFICATION_RELIGION_NEW_PLAYER_MAJORITY
-                fatalError("TXT_KEY_NOTIFICATION_RELIGION_NEW_PLAYER_MAJORITY")
-            case .religionCanBuyMissionary:
-                // TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_MISSIONARY
-                fatalError("TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_MISSIONARY")
-            case .canFoundPantheon:
-                self.currentPopupType = .canFoundPantheon
-
-            case .religionNeedNewAutomaticFaithSelection:
-                // TXT_KEY_NOTIFICATION_NEED_NEW_AUTOMATIC_FAITH_SELECTION
-                fatalError("TXT_KEY_NOTIFICATION_NEED_NEW_AUTOMATIC_FAITH_SELECTION")
-            case .religionEnoughFaithForMissionary:
-                // ENOUGH_FAITH_FOR_MISSIONARY
-                fatalError("ENOUGH_FAITH_FOR_MISSIONARY")
+            default:
+                fatalError("not handled: \(firstPopup)")
             }
+
+            self.currentPopupType = firstPopup
 
             self.popups.removeFirst()
             return
@@ -834,6 +579,56 @@ extension GameViewModel: GameViewModelDelegate {
     func focus(on point: HexPoint) {
 
         self.gameSceneViewModel.focus(on: point)
+    }
+
+    func changeUITurnState(to state: GameSceneTurnState) {
+
+        guard state != self.uiTurnState else {
+            return
+        }
+
+        switch state {
+
+        case .aiTurns:
+            // show AI is working banner
+            self.bannerViewModel.showBanner()
+
+            // show AI turn
+            self.bottomLeftBarViewModel.showSpinningGlobe()
+
+        case .humanTurns:
+
+            // dirty hacks
+            self.gameSceneViewModel.refreshCities = true
+
+            // hide AI is working banner
+            self.bannerViewModel.hideBanner()
+
+        case .humanBlocked:
+            // NOOP
+
+            // self.view?.preferredFramesPerSecond = 60
+
+            break
+        }
+
+        self.uiTurnState = state
+    }
+
+    func updateStates() {
+
+        if self.uiTurnState == .humanTurns {
+
+            // update main button
+            self.bottomLeftBarViewModel.updateTurnButton()
+
+            // update nodes
+            self.topBarViewModel.update()
+            self.headerViewModel.update()
+
+            // update
+            // self.updateLeaders()
+        }
     }
 
     func showUnitBanner() {
@@ -859,18 +654,13 @@ extension GameViewModel: GameViewModelDelegate {
 
     func select(unit: AbstractUnit?) {
 
-        self.gameSceneViewModel.selectedUnit = unit
+        self.selectedUnit = unit
     }
 
     func selectedUnitChanged(to unit: AbstractUnit?, commands: [Command], in gameModel: GameModel?) {
 
-        guard self.unitType != unit?.type || self.unitLocation != unit?.location else {
-            return
-        }
-
+        self.selectedUnit = unit
         self.unitBannerViewModel.selectedUnitChanged(to: unit, commands: commands, in: gameModel)
-        self.unitType = unit?.type ?? .none
-        self.unitLocation = unit?.location ?? .invalid
     }
 
     func showMeleeTargets(of unit: AbstractUnit?) {
@@ -1071,9 +861,9 @@ extension GameViewModel: GameViewModelDelegate {
         self.combatBannerViewModel.showBanner = false
     }
 
-    func showCityBanner(for city: AbstractCity?) {
+    func showCityBanner() {
 
-        self.cityBannerViewModel.update(for: city)
+        self.cityBannerViewModel.update(for: self.selectedCity)
         self.cityBannerViewModel.showBanner = true
         self.unitBannerViewModel.showBanner = false
         self.combatBannerViewModel.showBanner = false
@@ -1232,6 +1022,8 @@ extension GameViewModel: GameViewModelDelegate {
     func closeDialog() {
 
         // update some models
+        self.topBarViewModel.update()
+        self.headerViewModel.update()
         self.governmentDialogViewModel.update()
 
         self.currentScreenType = .none
@@ -1243,10 +1035,138 @@ extension GameViewModel: GameViewModelDelegate {
     }
 }
 
+extension GameViewModel: TopBarViewModelDelegate {
+
+}
+
 extension GameViewModel: BottomRightBarViewModelDelegate {
 
     func selected(mapLens: MapLensType) {
 
         self.gameEnvironment.displayOptions.value.mapLens = mapLens
+    }
+}
+
+extension GameViewModel: BottomLeftBarViewModelDelegate {
+
+    func handleMainButtonClicked() {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        let turnButtonNotificationType = humanPlayer.blockingNotification()?.type ?? .turn
+        print("do turn: \(turnButtonNotificationType)")
+
+        switch turnButtonNotificationType {
+
+        case .turn:
+            self.handleTurnButtonClicked()
+        case .techNeeded:
+            self.showTechListDialog()
+        case .civicNeeded:
+            self.showCivicListDialog()
+        case .productionNeeded(cityName: _, location: let location):
+            self.handleProductionNeeded(at: location)
+        case .policiesNeeded:
+            self.showChangePoliciesDialog()
+        case .unitPromotion(location: let location):
+            self.handleUnitPromotion(at: location)
+        case .unitNeedsOrders(location: let location):
+            self.handleFocusOnUnit(at: location)
+        default:
+            print("--- unhandled notification type: \(turnButtonNotificationType)")
+        }
+    }
+
+    func handleTurnButtonClicked() {
+
+        print("---- turn pressed ------")
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        if self.uiTurnState == .humanTurns {
+
+            if humanPlayer.isTurnActive() {
+                humanPlayer.finishTurn()
+                humanPlayer.setAutoMoves(to: true)
+            }
+        }
+    }
+
+    func handleFocusOnUnit(at location: HexPoint) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        if let unit = self.selectedUnit {
+            print("click on unit icon - \(unit.type) at \(location)")
+
+            if unit.location != location {
+                gameModel.userInterface?.unselect()
+
+                if let unit = humanPlayer.firstReadyUnit(in: gameModel) {
+
+                    self.selectedUnit = unit
+                    gameModel.userInterface?.select(unit: unit)
+                }
+            }
+
+            if !unit.readyToSelect() {
+                gameModel.userInterface?.unselect()
+                return
+            }
+
+            self.focus(on: unit.location)
+        } else {
+
+            if let unit = humanPlayer.firstReadyUnit(in: gameModel) {
+
+                gameModel.userInterface?.select(unit: unit)
+                self.focus(on: unit.location)
+                return
+            }
+        }
+    }
+
+    func handleProductionNeeded(at location: HexPoint) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let city = gameModel.city(at: location) else {
+            fatalError("cant get city at \(location)")
+        }
+
+        self.showCityDialog(for: city)
+    }
+
+    func handleUnitPromotion(at point: HexPoint) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let unit = gameModel.unit(at: point, of: .combat) else {
+            fatalError("cant get unit at \(point)")
+        }
+
+        self.showSelectPromotionDialog(for: unit)
     }
 }

@@ -583,6 +583,10 @@ public class DiplomaticDeal: Codable {
             //resourceQuantity = min(max(5, self.from.ci))
             // NOOP
             break
+
+        case .artifact:
+            // NOOP
+            break
         }
 
         // Approach is important

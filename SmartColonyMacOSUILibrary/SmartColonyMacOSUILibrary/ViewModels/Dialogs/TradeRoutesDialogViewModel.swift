@@ -178,7 +178,12 @@ class TradeRoutesDialogViewModel: ObservableObject {
 
             let pathFinder = AStarPathfinder()
             pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(
-                for: .walk, for: sourceCity.player, ignoreOwner: true, unitMapType: .civilian, canEmbark: false
+                for: .walk,
+                for: sourceCity.player,
+                ignoreOwner: true,
+                unitMapType: .civilian,
+                canEmbark: false,
+                canEnterOcean: false
             )
 
             let tmpTraderUnit = Unit(at: sourceCity.location, type: .trader, owner: humanPlayer)

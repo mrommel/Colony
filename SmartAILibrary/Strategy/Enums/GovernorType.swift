@@ -73,7 +73,6 @@ public enum GovernorType: Int, Codable {
         let flavors: [Flavor]
     }
 
-    // swiftlint:disable function_body_length
     private func data() -> GovernorTypeData {
 
         switch self {

@@ -11,6 +11,7 @@ import Foundation
 import XCTest
 @testable import SmartAILibrary
 
+// swiftlint:disable force_try
 class UnitTests: XCTestCase {
 
     // Embarked Units cant move in water #67
@@ -26,11 +27,7 @@ class UnitTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        do {
-            try humanPlayer.techs?.discover(tech: .sailing)
-        } catch {}
-
-        let mapModel = MapUtils.mapFilled(with: .ocean, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .shore, sized: .small)
 
         // start island
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
@@ -40,11 +37,15 @@ class UnitTests: XCTestCase {
         mapModel.set(terrain: .plains, at: HexPoint(x: 6, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 7, y: 2))
 
-        let gameModel = GameModel(victoryTypes: [.domination],
-                                  handicap: .king,
-                                  turnsElapsed: 0,
-                                  players: [barbarianPlayer, aiPlayer, humanPlayer],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
+
+        try! humanPlayer.techs?.discover(tech: .shipBuilding, in: gameModel)
 
         // add UI
         let userInterface = TestUI()
@@ -68,7 +69,7 @@ class UnitTests: XCTestCase {
                     humanPlayer.finishTurn()
                     humanPlayer.setAutoMoves(to: true)
                 }
-            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
+            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.turnFinished())
 
             hasVisited = humanPlayerWarrior.location == HexPoint(x: 6, y: 2)
             turnCounter += 1
@@ -119,7 +120,7 @@ class UnitTests: XCTestCase {
                     humanPlayer.finishTurn()
                     humanPlayer.setAutoMoves(to: true)
                 }
-            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
+            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.turnFinished())
 
             hasStayed = humanPlayerScout.location == HexPoint(x: 2, y: 2)
             turnCounter += 1
@@ -332,9 +333,6 @@ class UnitTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        do {
-            try humanPlayer.techs?.discover(tech: .ironWorking)
-        } catch {}
         humanPlayer.treasury?.changeGold(by: 1000.0)
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
@@ -344,6 +342,8 @@ class UnitTests: XCTestCase {
                                   turnsElapsed: 0,
                                   players: [barbarianPlayer, aiPlayer, humanPlayer],
                                   on: mapModel)
+
+        try! humanPlayer.techs?.discover(tech: .ironWorking, in: gameModel)
 
         // add UI
         let userInterface = TestUI()

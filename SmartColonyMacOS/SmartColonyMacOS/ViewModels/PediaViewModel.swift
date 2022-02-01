@@ -16,8 +16,8 @@ enum PediaCategory {
     case features
     case resources
 
-    // leaders
-    // civilizations
+    case leaders
+    case civilizations
 
     case units
     case buildings
@@ -28,16 +28,22 @@ enum PediaCategory {
     case techs
     case civics
 
-    // governments
-    // policies
+    case governments
+    case policies
 
-    // religions
-    // pantheons
+    case religions
+    case pantheons
+
+    // dedications
+    // moments
 
     static var all: [PediaCategory] = [
         .terrains, .features, .resources,
+        .leaders, .civilizations,
         .units, .buildings, .districts, .wonders, .improvements,
-        .techs, .civics
+        .techs, .civics,
+        .governments, .policies,
+        .religions, .pantheons
     ]
 
     func title() -> String {
@@ -50,6 +56,11 @@ enum PediaCategory {
             return "Features"
         case .resources:
             return "Resources"
+
+        case .leaders:
+            return "Leaders"
+        case .civilizations:
+            return "Civilizations"
 
         case .units:
             return "Units"
@@ -66,6 +77,16 @@ enum PediaCategory {
             return "Techs"
         case .civics:
             return "Civics"
+
+        case .governments:
+            return "Governments"
+        case .policies:
+            return "Policies"
+
+        case .religions:
+            return "Religions"
+        case .pantheons:
+            return "Pantheons"
         }
     }
 }
@@ -144,6 +165,22 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         self.imageName = resource.textureName()
     }
 
+    init(leader: LeaderType) {
+
+        self.title = leader.name().localized()
+        self.summary = "Leader of the " + leader.civilization().name().localized() + " civilization"
+        self.detail = "Leader"
+        self.imageName = leader.iconTexture()
+    }
+
+    init(civilization: CivilizationType) {
+
+        self.title = civilization.name().localized()
+        self.summary = "Civilization"
+        self.detail = "Civilization with the ability " + civilization.ability().name()
+        self.imageName = civilization.iconTexture()
+    }
+
     init(unit: UnitType) {
 
         self.title = unit.name()
@@ -160,10 +197,10 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         var requiredText = ""
         if let requiredTech = building.requiredTech() {
-            requiredText = requiredTech.name()
+            requiredText = requiredTech.name().localized()
         }
         if let requiredCivic = building.requiredCivic() {
-            requiredText = requiredCivic.name()
+            requiredText = requiredCivic.name().localized()
         }
         self.summary = "Building that can be built with \(building.productionCost()) [Production] production. " +
             "It requires \(requiredText) to be researched."
@@ -179,10 +216,10 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         var requiredText = ""
         if let requiredTech = district.requiredTech() {
-            requiredText = requiredTech.name()
+            requiredText = requiredTech.name().localized()
         }
         if let requiredCivic = district.requiredCivic() {
-            requiredText = requiredCivic.name()
+            requiredText = requiredCivic.name().localized()
         }
         self.summary = "District that can be built with \(district.productionCost()) [Production] production. " +
             "It requires \(requiredText) to be researched."
@@ -195,20 +232,20 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
     init(wonder: WonderType) {
 
-        self.title = wonder.name()
+        self.title = wonder.name().localized()
 
         var requiredText = ""
         if let requiredTech = wonder.requiredTech() {
-            requiredText = requiredTech.name()
+            requiredText = requiredTech.name().localized()
         }
         if let requiredCivic = wonder.requiredCivic() {
-            requiredText = requiredCivic.name()
+            requiredText = requiredCivic.name().localized()
         }
         self.summary = "Wonder that can be built with \(wonder.productionCost()) [Production] production. " +
             "It requires \(requiredText) to be researched."
 
         var detailText = "Effects: \n"
-        wonder.effects().forEach { detailText += ("* " + $0 + "\n") }
+        wonder.effects().forEach { detailText += ("* " + $0.localized() + "\n") }
         self.detail = detailText
         self.imageName = wonder.iconTexture()
     }
@@ -219,7 +256,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         var requiredText = ""
         if let requiredTech = improvement.requiredTech() {
-            requiredText = requiredTech.name()
+            requiredText = requiredTech.name().localized()
         }
         self.summary = "Improvement that can be built when \(requiredText) is researched."
 
@@ -232,9 +269,9 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
     init(tech: TechType) {
 
-        self.title = tech.name()
+        self.title = tech.name().localized()
 
-        let requires: [String] = tech.required().map { $0.name() }
+        let requires: [String] = tech.required().map { $0.name().localized() }
         let requiredText = ListFormatter.localizedString(byJoining: requires)
         self.summary = "\(tech.era().title()) tech that needs \(tech.cost()) science. " +
             "It requires \(requiredText) to be researched."
@@ -245,19 +282,19 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         enables += tech.achievements().buildingTypes.map { $0.name() }
         enables += tech.achievements().districtTypes.map { $0.name() }
         enables += tech.achievements().unitTypes.map { $0.name() }
-        enables += tech.achievements().wonderTypes.map { $0.name() }
+        enables += tech.achievements().wonderTypes.map { $0.name().localized() }
         detailText += ListFormatter.localizedString(byJoining: enables)
         detailText += "\n"
-        detailText += "Is boosted by: " + tech.eurekaSummary()
+        detailText += "Is boosted by: " + tech.eurekaSummary().localized()
         self.detail = detailText
         self.imageName = tech.iconTexture()
     }
 
     init(civic: CivicType) {
 
-        self.title = civic.name()
+        self.title = civic.name().localized()
 
-        let requires: [String] = civic.required().map { $0.name() }
+        let requires: [String] = civic.required().map { $0.name().localized() }
         let requiredText = ListFormatter.localizedString(byJoining: requires)
         self.summary = "\(civic.era().title()) civic that needs \(civic.cost()) culture. " +
             "It requires \(requiredText) to be researched."
@@ -267,16 +304,51 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         enables += civic.achievements().buildTypes.map { $0.name() }
         enables += civic.achievements().buildingTypes.map { $0.name() }
         enables += civic.achievements().districtTypes.map { $0.name() }
-        enables += civic.achievements().governments.map { $0.name() }
+        enables += civic.achievements().governments.map { $0.name().localized() }
         enables += civic.achievements().policyCards.map { $0.name() }
         enables += civic.achievements().unitTypes.map { $0.name() }
-        enables += civic.achievements().wonderTypes.map { $0.name() }
+        enables += civic.achievements().wonderTypes.map { $0.name().localized() }
         detailText += ListFormatter.localizedString(byJoining: enables)
         detailText += "\n"
-        detailText += "Is boosted by: " + civic.eurekaSummary()
+        detailText += "Is boosted by: " + civic.inspirationSummary().localized()
         self.detail = detailText
 
         self.imageName = civic.iconTexture()
+    }
+
+    init(government: GovernmentType) {
+
+        self.title = government.name().localized()
+        self.summary = "Government from the \(government.era()) era that requires \(government.required().name().localized()) to be researched."
+        let slots: [String] = PolicyCardSlotType.all
+            .map { "\(government.policyCardSlots().numberOfSlots(in: $0)) \($0.name()) slots" }
+        let slotsText = ListFormatter.localizedString(byJoining: slots)
+        self.detail = "\(government.bonus1Summary().localized())\n\(government.bonus2Summary().localized())\nIt has \(slotsText)."
+        self.imageName = government.iconTexture()
+    }
+
+    init(policyCard: PolicyCardType) {
+
+        self.title = policyCard.name().localized()
+        self.summary = "\(policyCard.slot().name()) Policy Card that requires \(policyCard.required().name().localized()) to be researched"
+        self.detail = policyCard.bonus().localized()
+        self.imageName = policyCard.slot().iconTexture()
+    }
+
+    init(religion: ReligionType) {
+
+        self.title = religion.name().localized()
+        self.summary = ""
+        self.detail = ""
+        self.imageName = religion.iconTexture()
+    }
+
+    init(pantheon: PantheonType) {
+
+        self.title = pantheon.name().localized()
+        self.summary = ""
+        self.detail = pantheon.bonus().localized()
+        self.imageName = pantheon.iconTexture()
     }
 
     func image() -> NSImage {
@@ -331,26 +403,67 @@ class PediaViewModel: ObservableObject {
         }
 
         let bundle = Bundle.init(for: Textures.self)
-        let textures: Textures = Textures(game: nil)
 
-        print("- load \(textures.allTerrainTextureNames.count) terrains")
-        for textureName in textures.allTerrainTextureNames {
+        let allTerrainTextureNames = [
+            "terrain_desert", "terrain_plains_hills3", "terrain_grass_hills3", "terrain_desert_hills",
+            "terrain_tundra", "terrain_desert_hills2", "terrain_tundra2", "terrain_shore",
+            "terrain_desert_hills3", "terrain_ocean", "terrain_tundra3", "terrain_snow",
+            "terrain_plains", "terrain_snow_hills", "terrain_grass", "terrain_snow_hills2",
+            "terrain_tundra_hills", "terrain_plains_hills", "terrain_plains_hills2",
+            "terrain_grass_hills", "terrain_snow_hills3", "terrain_grass_hills2"
+        ]
+        print("- load \(allTerrainTextureNames.count) terrains")
+        for textureName in allTerrainTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
             )
         }
 
-        print("- load \(textures.allFeatureTextureNames.count) features")
-        for textureName in textures.allFeatureTextureNames {
+        let allFeatureTextureNames = [
+            "feature-atoll", "feature-lake", "feature-mountains-ne-sw", "feature-ice5",
+            "feature-rainforest1", "feature-delicateArch", "feature-mountains-nw", "feature-ice6",
+            "feature-rainforest2", "feature-floodplains", "feature-mountains-se", "feature-marsh1",
+            "feature-mountains-se-nw", "feature-reef", "feature-forest1", "feature-marsh2",
+            "feature-mountains-sw", "feature-uluru", "feature-forest2", "feature-mountEverest",
+            "feature-none", "feature-galapagos", "feature-mountKilimanjaro", "feature-yosemite",
+            "feature-greatBarrierReef", "feature-mountains1", "feature-oasis", "feature-ice1",
+            "feature-mountains2", "feature-ice2", "feature-mountains3",
+            "feature-pantanal", "feature-ice3", "feature-pine1", "feature-mountains-ne",
+            "feature-ice4", "feature-pine1", "feature-pine2", "feature-volcano", "feature-fallout",
+            "feature-fuji", "feature-barringCrater", "feature-mesa", "feature-gibraltar",
+            "feature-geyser", "feature-potosi", "feature-fountainOfYouth", "feature-lakeVictoria",
+            "feature-cliffsOfDover"
+        ]
+        print("- load \(allFeatureTextureNames.count) features")
+        for textureName in allFeatureTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
             )
         }
 
-        print("- load \(textures.allResourceTextureNames.count) resources")
-        for textureName in textures.allResourceTextureNames {
+        let allResourceTextureNames = ResourceType.all.map { $0.textureName() }
+        print("- load \(allResourceTextureNames.count) resources")
+        for textureName in allResourceTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let leaderTextures = LeaderType.all.map { $0.iconTexture() }
+        print("- load \(leaderTextures.count) leaders")
+        for textureName in leaderTextures {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let civilizationTextures = CivilizationType.all.map { $0.iconTexture() }
+        print("- load \(civilizationTextures.count) civilizations")
+        for textureName in civilizationTextures {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
@@ -366,48 +479,92 @@ class PediaViewModel: ObservableObject {
             )
         }
 
-        print("- load \(textures.buildingTypeTextureNames.count) buildings")
-        for textureName in textures.buildingTypeTextureNames {
+        let buildingTypeTextureNames = BuildingType.all.map { $0.iconTexture() }
+        print("- load \(buildingTypeTextureNames.count) buildings")
+        for textureName in buildingTypeTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
             )
         }
 
-        print("- load \(textures.districtTypeTextureNames.count) districts")
-        for textureName in textures.districtTypeTextureNames {
+        let districtTypeTextureNames = DistrictType.all.map { $0.iconTexture() }
+        print("- load \(districtTypeTextureNames.count) districts")
+        for textureName in districtTypeTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
             )
         }
 
-        print("- load \(textures.wonderTypeTextureNames.count) wonders")
-        for textureName in textures.wonderTypeTextureNames {
+        let wonderTypeTextureNames = WonderType.all.map { $0.iconTexture() }
+        print("- load \(wonderTypeTextureNames.count) wonders")
+        for textureName in wonderTypeTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
             )
         }
 
-        print("- load \(textures.allImprovementTextureNames.count) improvements")
-        for textureName in textures.allImprovementTextureNames {
+        let allImprovementTextureNames = (
+            ImprovementType.all + [.barbarianCamp, .goodyHut]
+        ).flatMap { $0.textureNames() }
+        print("- load \(allImprovementTextureNames.count) improvements")
+        for textureName in allImprovementTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
             )
         }
 
-        print("- load \(textures.techTextureNames.count) techs")
-        for textureName in textures.techTextureNames {
+        let techTextureNames = TechType.all.map { $0.iconTexture() }
+        print("- load \(techTextureNames.count) techs")
+        for textureName in techTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
             )
         }
 
-        print("- load \(textures.civicTextureNames.count) civics")
-        for textureName in textures.civicTextureNames {
+        let civicTextureNames = CivicType.all.map { $0.iconTexture() }
+        print("- load \(civicTextureNames.count) civics")
+        for textureName in civicTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let governmentTextureNames = GovernmentType.all.map { $0.iconTexture() }
+        print("- load \(governmentTextureNames.count) governments")
+        for textureName in governmentTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let policiesTextureNames = PolicyCardType.all.map { $0.iconTexture() }
+        print("- load \(policiesTextureNames.count) policy cards")
+        for textureName in policiesTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let religionsTextureNames = ReligionType.all.map { $0.iconTexture() }
+        print("- load \(religionsTextureNames.count) religions")
+        for textureName in religionsTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let pantheonsTextureNames = PantheonType.all.map { $0.iconTexture() }
+        print("- load \(pantheonsTextureNames.count) pantheons")
+        for textureName in pantheonsTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
@@ -419,49 +576,83 @@ class PediaViewModel: ObservableObject {
 
     private func updateDetailModels() {
 
-        self.pediaDetailViewModels = []
+        DispatchQueue.global(qos: .userInitiated).async {
 
-        switch self.selectedPediaCategory {
+            var tmpPediaDetailViewModels: [PediaDetailViewModel] = []
 
-        case .terrains:
-            for terrainType in TerrainType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(terrain: terrainType))
+            switch self.selectedPediaCategory {
+
+            case .terrains:
+                for terrainType in TerrainType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(terrain: terrainType))
+                }
+            case .features:
+                for featureType in FeatureType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(feature: featureType))
+                }
+            case .resources:
+                for resourceType in ResourceType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(resource: resourceType))
+                }
+            case .leaders:
+                for leaderType in LeaderType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(leader: leaderType))
+                }
+            case .civilizations:
+                for civilizationType in CivilizationType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(civilization: civilizationType))
+                }
+            case .units:
+                for unitType in UnitType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(unit: unitType))
+                }
+            case .buildings:
+                for buildingType in BuildingType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(building: buildingType))
+                }
+            case .districts:
+                for districtType in DistrictType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(district: districtType))
+                }
+            case .wonders:
+                for wonderType in WonderType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(wonder: wonderType))
+                }
+            case .improvements:
+                for improvementType in ImprovementType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(improvement: improvementType))
+                }
+
+            case .techs:
+                for techType in TechType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(tech: techType))
+                }
+            case .civics:
+                for civicType in CivicType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(civic: civicType))
+                }
+
+            case .governments:
+                for governmentType in GovernmentType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(government: governmentType))
+                }
+            case .policies:
+                for policyCardType in PolicyCardType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(policyCard: policyCardType))
+                }
+
+            case .religions:
+                for religionType in ReligionType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(religion: religionType))
+                }
+            case .pantheons:
+                for pantheonType in PantheonType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(pantheon: pantheonType))
+                }
             }
-        case .features:
-            for featureType in FeatureType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(feature: featureType))
-            }
-        case .resources:
-            for resourceType in ResourceType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(resource: resourceType))
-            }
-        case .units:
-            for unitType in UnitType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(unit: unitType))
-            }
-        case .buildings:
-            for buildingType in BuildingType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(building: buildingType))
-            }
-        case .districts:
-            for districtType in DistrictType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(district: districtType))
-            }
-        case .wonders:
-            for wonderType in WonderType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(wonder: wonderType))
-            }
-        case .improvements:
-            for improvementType in ImprovementType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(improvement: improvementType))
-            }
-        case .techs:
-            for techType in TechType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(tech: techType))
-            }
-        case .civics:
-            for civicType in CivicType.all {
-                self.pediaDetailViewModels.append(PediaDetailViewModel(civic: civicType))
+
+            DispatchQueue.main.async {
+                self.pediaDetailViewModels = tmpPediaDetailViewModels
             }
         }
     }

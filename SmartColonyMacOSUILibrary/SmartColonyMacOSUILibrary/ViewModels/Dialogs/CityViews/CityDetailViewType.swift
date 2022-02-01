@@ -10,6 +10,8 @@ import Foundation
 enum CityDetailViewType {
 
     case production
+    case goldPurchase
+    case faithPurchase
     case buildings
     case growth
     case citizen
@@ -17,7 +19,7 @@ enum CityDetailViewType {
     case loyalty
 
     static var all: [CityDetailViewType] = [
-        .production, .buildings, .growth, .citizen, .religion, .loyalty
+        .production, .goldPurchase, .faithPurchase, .buildings, .growth, .citizen, .religion, .loyalty
     ]
 
     func name() -> String {
@@ -25,7 +27,11 @@ enum CityDetailViewType {
         switch self {
 
         case .production:
-            return "Production"
+            return "[Production] Production"
+        case .goldPurchase:
+            return "[Gold] Purchase"
+        case .faithPurchase:
+            return "[Faith] Purchase"
         case .buildings:
             return "Buildings"
         case .growth:

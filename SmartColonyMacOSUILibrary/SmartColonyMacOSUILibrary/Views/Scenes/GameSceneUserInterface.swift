@@ -8,6 +8,7 @@
 import SmartAILibrary
 import SpriteKit
 
+// idea: UserInterfaceDelegate should conform GameViewModel
 extension GameScene: UserInterfaceDelegate {
 
     func showPopup(popupType: PopupType) {
@@ -56,40 +57,61 @@ extension GameScene: UserInterfaceDelegate {
 
     func select(city: AbstractCity?) { // todo: add to interface
 
-        self.viewModel?.selectedCity = city
+        self.viewModel?.delegate?.selectedCity = city
     }
 
     func select(unit: AbstractUnit?) {
 
-        self.mapNode?.unitLayer.showFocus(for: unit)
-        self.viewModel?.selectedUnit = unit
-        self.updateCommands(for: unit)
+        DispatchQueue.main.async {
+            self.mapNode?.unitLayer.showFocus(for: unit)
+            self.viewModel?.delegate?.selectedUnit = unit
+            self.updateCommands(for: unit)
+        }
     }
 
     func unselect() {
 
-        self.mapNode?.unitLayer.hideFocus()
-        self.mapNode?.unitLayer.clearPathSpriteBuffer()
-        self.mapNode?.unitLayer.clearAttackFocus()
-        self.viewModel?.selectedCity = nil
-        self.viewModel?.selectedUnit = nil
-        self.viewModel?.combatUnitTarget = nil
-        self.viewModel?.delegate?.selectedUnitChanged(to: nil, commands: [], in: nil)
-    }
-
-    func show(unit: AbstractUnit?) {
-
-        // unit gets visible again
         DispatchQueue.main.async {
-            self.mapNode?.unitLayer.show(unit: unit)
+            self.mapNode?.unitLayer.hideFocus()
+            self.mapNode?.unitLayer.clearPathSpriteBuffer()
+            self.mapNode?.unitLayer.clearAttackFocus()
+            self.viewModel?.delegate?.selectedCity = nil
+            self.viewModel?.delegate?.selectedUnit = nil
+            self.viewModel?.combatUnitTarget = nil
+            self.viewModel?.delegate?.selectedUnitChanged(to: nil, commands: [], in: nil)
         }
     }
 
-    func hide(unit: AbstractUnit?) {
+    func show(unit: AbstractUnit?, at location: HexPoint) {
+
+        // unit gets visible again
+        DispatchQueue.main.async {
+            self.mapNode?.unitLayer.show(unit: unit, at: location)
+        }
+    }
+
+    func hide(unit: AbstractUnit?, at location: HexPoint) {
 
         // unit gets hidden
         DispatchQueue.main.async {
-            self.mapNode?.unitLayer.hide(unit: unit)
+            self.mapNode?.unitLayer.hide(unit: unit, at: location)
+            self.unselect()
+        }
+    }
+
+    func enterCity(unit: AbstractUnit?, at location: HexPoint) {
+
+        // unit gets visible again
+        DispatchQueue.main.async {
+            self.mapNode?.unitLayer.enterCity(unit: unit, at: location)
+        }
+    }
+
+    func leaveCity(unit: AbstractUnit?, at location: HexPoint) {
+
+        // unit gets hidden
+        DispatchQueue.main.async {
+            self.mapNode?.unitLayer.leaveCity(unit: unit, at: location)
             self.unselect()
         }
     }
@@ -97,7 +119,9 @@ extension GameScene: UserInterfaceDelegate {
     func refresh(unit: AbstractUnit?) {
 
         if unit?.activityType() == .hold || unit?.activityType() == .sleep {
-            self.animate(unit: unit, animation: .fortify)
+            DispatchQueue.main.async {
+                self.animate(unit: unit, animation: .fortify)
+            }
         }
     }
 
@@ -109,26 +133,34 @@ extension GameScene: UserInterfaceDelegate {
         }
 
         let costs: [Double] = [Double].init(repeating: 0.0, count: points.count)
-        self.mapNode?.unitLayer.move(unit: unit, on: HexPath(points: points, costs: costs))
+        DispatchQueue.main.async {
+            self.mapNode?.unitLayer.move(unit: unit, on: HexPath(points: points, costs: costs))
+        }
     }
 
     func animate(unit: AbstractUnit?, animation: UnitAnimationType) {
 
-        if animation == .fortify {
-            self.mapNode?.unitLayer.fortify(unit: unit)
+        /*if animation == .fortify {
+            DispatchQueue.main.async {
+                self.mapNode?.unitLayer.fortify(unit: unit)
+            }
         } else {
             print("cant show unknown animation: \(animation)")
-        }
+        }*/
     }
 
     func clearAttackFocus() {
 
-        self.mapNode?.unitLayer.clearAttackFocus()
+        DispatchQueue.main.async {
+            self.mapNode?.unitLayer.clearAttackFocus()
+        }
     }
 
     func showAttackFocus(at point: HexPoint) {
 
-        self.mapNode?.unitLayer.showAttackFocus(at: point)
+        DispatchQueue.main.async {
+            self.mapNode?.unitLayer.showAttackFocus(at: point)
+        }
     }
 
     func select(tech: TechType) {
@@ -179,18 +211,24 @@ extension GameScene: UserInterfaceDelegate {
 
     func show(city: AbstractCity?) {
 
-        self.mapNode?.cityLayer.show(city: city)
+        DispatchQueue.main.async {
+            self.mapNode?.cityLayer.show(city: city)
+        }
     }
 
     func update(city: AbstractCity?) {
 
-        self.mapNode?.cityLayer.update(city: city)
+        DispatchQueue.main.async {
+            self.mapNode?.cityLayer.update(city: city)
+        }
     }
 
     func remove(city: AbstractCity?) {
 
-        self.mapNode?.cityLayer.remove(city: city)
-        self.mapNode?.boardLayer.rebuild()
+        DispatchQueue.main.async {
+            self.mapNode?.cityLayer.remove(city: city)
+            self.mapNode?.boardLayer.rebuild()
+        }
     }
 
     func refresh(tile: AbstractTile?) {
@@ -214,14 +252,94 @@ extension GameScene: UserInterfaceDelegate {
                     continue
                 }
 
-                self.mapNode?.unitLayer.show(unit: unit)
+                self.mapNode?.unitLayer.show(unit: unit, at: unit.location)
             }
         }
     }
 
-    func showTooltip(at point: HexPoint, text: String, delay: Double) {
+    func showTooltip(at point: HexPoint, type: TooltipType, delay: Double) {
 
-        self.mapNode?.tooltipLayer.show(text: text, at: point, for: delay)
+        var text: String?
+
+        switch type {
+
+        case .barbarianCampCleared(gold: let gold):
+            text = String(format: "TXT_KEY_MISC_DESTROYED_BARBARIAN_CAMP".localized(), gold)
+
+        case .clearedFeature(feature: let feature, production: let production, cityName: let cityName):
+            text = String(format: "TXT_KEY_MISC_CLEARING_FEATURE_RESOURCE".localized(), feature.name().localized(), production, cityName)
+
+        case .capturedCity(cityName: let cityName):
+            text = String(format: "TXT_KEY_MISC_CAPTURED_CITY".localized(), cityName)
+
+        case .cultureFromKill(culture: let culture):
+            text = String(format: "TXT_KEY_MISC_CULTURE_FROM_KILL".localized(), culture)
+
+        case .goldFromKill(gold: let gold):
+            text = String(format: "TXT_KEY_MISC_GOLD_FROM_KILL".localized(), gold)
+
+        case .unitDiedAttacking(attackerName: let attackerName, defenderName: let defenderName, defenderDamage: let defenderDamage):
+            text = String(format: "TXT_KEY_MISC_YOU_UNIT_DIED_ATTACKING".localized(), attackerName, defenderName, defenderDamage)
+
+        case .enemyUnitDiedAttacking(
+            attackerName: let attackerName,
+            attackerPlayer: let attackerPlayer,
+            defenderName: let defenderName,
+            defenderDamage: let defenderDamage):
+
+            let attackerPlayerName: String = attackerPlayer?.leader.name() ?? "Unknown"
+            text = String(format: "TXT_KEY_MISC_YOU_KILLED_ENEMY_UNIT".localized(), attackerName, attackerPlayerName, defenderName, defenderDamage)
+
+        case .unitDestroyedEnemyUnit(
+            attackerName: let attackerName,
+            attackerDamage: let attackerDamage,
+            defenderName: let defenderName):
+
+            text = String(format: "TXT_KEY_MISC_YOU_UNIT_DESTROYED_ENEMY".localized(), attackerName, attackerDamage, defenderName)
+
+        case .unitDiedDefending(
+            attackerName: let attackerName,
+            attackerPlayer: let attackerPlayer,
+            attackerDamage: let attackerDamage,
+            defenderName: let defenderName):
+
+            let attackerPlayerName: String = attackerPlayer?.leader.name() ?? "Unknown"
+            text = String(format: "TXT_KEY_MISC_YOU_UNIT_WAS_DESTROYED".localized(), attackerName, attackerPlayerName, attackerDamage, defenderName)
+
+        case .unitAttackingWithdraw(
+            attackerName: let attackerName,
+            attackerDamage: let attackerDamage,
+            defenderName: let defenderName,
+            defenderDamage: let defenderDamage):
+
+            text = String(format: "TXT_KEY_MISC_YOU_UNIT_WITHDRAW".localized(), attackerName, attackerDamage, defenderName, defenderDamage)
+
+        case .enemyAttackingWithdraw(
+            attackerName: let attackerName,
+            attackerDamage: let attackerDamage,
+            defenderName: let defenderName,
+            defenderDamage: let defenderDamage):
+
+            text = String(format: "TXT_KEY_MISC_ENEMY_UNIT_WITHDRAW".localized(), attackerName, attackerDamage, defenderName, defenderDamage)
+
+        case .conqueredEnemyCity(attackerName: let attackerName, attackerDamage: let attackerDamage, cityName: let cityName):
+            text = String(format: "TXT_KEY_MISC_YOU_CONQUERED_ENEMY_CITY".localized(), attackerName, attackerDamage, cityName)
+
+        case .cityCapturedByEnemy(
+            attackerName: let attackerName,
+            attackerPlayer: let attackerPlayer,
+            attackerDamage: let attackerDamage,
+            cityName: let cityName):
+
+            let attackerPlayerName: String = attackerPlayer?.leader.name() ?? "Unknown"
+            text = String(format: "TXT_KEY_MISC_YOU_CITY_WAS_CONQUERED".localized(), attackerName, attackerPlayerName, attackerDamage, cityName)
+        }
+
+        DispatchQueue.main.async {
+            if let text = text {
+                self.mapNode?.tooltipLayer.show(text: text, at: point, for: delay)
+            }
+        }
     }
 
     func focus(on location: HexPoint) {

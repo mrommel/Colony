@@ -110,11 +110,19 @@ struct TechDiscoveredPopupView: View {
 #if DEBUG
 struct TechDiscoveredPopupView_Previews: PreviewProvider {
 
+    static func viewModel() -> TechDiscoveredPopupViewModel {
+
+        let viewModel = TechDiscoveredPopupViewModel()
+        viewModel.update(for: .sailing)
+
+        return viewModel
+    }
+
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = TechDiscoveredPopupViewModel(techType: .sailing)
 
+        let viewModel = TechDiscoveredPopupView_Previews.viewModel()
         TechDiscoveredPopupView(viewModel: viewModel)
     }
 }

@@ -1,0 +1,159 @@
+/* 
+  Localizable.strings
+  SmartAssets
+
+  Created by Michael Rommel on 11.12.21.
+
+ Sources:
+ - https://github.com/Swiftwork/civ6-explorer/blob/dbe3ca6d5468828ef0b26ef28f69555de0bcb959/src/assets/game/BaseGame/Locale/en_US/Civics_Text.xml
+ - https://raw.githubusercontent.com/Swiftwork/civ6-explorer/master/src/assets/game/BaseGame/Locale/Vanilla_de_DE.xml
+  
+*/
+
+// UI
+"TXT_KEY_GAME" = "SmartColony";
+
+"TXT_KEY_BOOSTED" = "Boosted";
+"TXT_KEY_TO_BOOST" = "To boost";
+"TXT_KEY_TURNS" = "Turns";
+"TXT_KEY_FOUND" = "Found";
+"TXT_KEY_RENAME" = "Rename";
+"TXT_KEY_CANCEL" = "Cancel";
+"TXT_KEY_START" = "Start";
+"TXT_KEY_QUIT" = "Quit";
+"TXT_KEY_QUIT_CONFIRM" = "Do you really want to quit?";
+"TXT_KEY_PEDIA" = "Pedia";
+"TXT_KEY_DEBUG" = "Debug";
+"TXT_KEY_TUTORIALS" = "Tutorials";
+"TXT_KEY_RESUME_GAME" = "Resume Game";
+"TXT_KEY_NEW_GAME" = "New Game";
+"TXT_KEY_LOAD_GAME" = "Load Game";
+"TXT_KEY_OPTIONS" = "Options";
+"TXT_KEY_CONTINUE" = "Continue";
+
+// create game
+"TXT_KEY_CHOOSE_LEADER" = "Choose Leader";
+"TXT_KEY_CHOOSE_DIFFICULTY" = "Choose Difficulty";
+"TXT_KEY_CHOOSE_MAP_TYPE" = "Choose Map Type";
+"TXT_KEY_CHOOSE_MAP_SIZE" = "Choose Map Size";
+
+// generate map
+"TXT_KEY_MAP_GENERATOR_INIT" = "initialized";
+"TXT_KEY_MAP_GENERATOR_ELEVATION" = "elevation map created";
+"TXT_KEY_MAP_GENERATOR_CLIMATE" = "climate zones generated";
+"TXT_KEY_MAP_GENERATOR_COASTAL" = "coastal distance calculated";
+"TXT_KEY_MAP_GENERATOR_TERRAIN" = "terrain refined";
+"TXT_KEY_MAP_GENERATOR_RESOURCES" = "resouces added";
+"TXT_KEY_MAP_GENERATOR_RIVERS" = "springs and rivers identified";
+"TXT_KEY_MAP_GENERATOR_FEATURES" = "features added";
+"TXT_KEY_MAP_GENERATOR_NATURAL_WONDERS" = "natural wonders added";
+"TXT_KEY_MAP_GENERATOR_CONTINENTS" = "continents identified";
+"TXT_KEY_MAP_GENERATOR_OCEANS" = "oceans identified";
+"TXT_KEY_MAP_GENERATOR_POSITIONS" = "start positions identified";
+"TXT_KEY_MAP_GENERATOR_GOODIES" = "added goodies";
+
+// civic/tech texts
+"TXT_KEY_INSPIRATION" = "Inspiration";
+"TXT_KEY_INSPIRATION_TRIGGERED" = "Your progress towards %@ has advanced considerably.";
+
+"TXT_KEY_EUREKA" = "Eureka";
+"TXT_KEY_EUREKA_TRIGGERED" = "Your knowledge of %@ has advanced considerably.";
+
+"TXT_KEY_RESEARCH_COMPLETED" = "Research completed";
+
+// age texts
+"TXT_KEY_DEDICATION" = "Dedication";
+"TXT_KEY_MAKE_DEDICATION" = "Make your dedication for the %@ era";
+
+"TXT_KEY_EARNED_DARK_AGE" = "Because you earned a [DarkAge] Dark Age, you may make one Dedication.";
+"TXT_KEY_EARNED_NORMAL_AGE" = "Because you earned a [NormalAge] Normal Age, you may make one Dedication.";
+"TXT_KEY_EARNED_GOLDEN_AGE" = "Because you earned a [GoldenAge] Golden Age, you may make one Dedication.";
+"TXT_KEY_EARNED_HEROIC_AGE" = "Because you earned a Heroic Age, you may make three Dedications.";
+
+"TXT_KEY_AGE_DARK_SUMMARY" = "You are in a [DarkAge] Dark Age during this era.";
+"TXT_KEY_AGE_NORMAL_SUMMARY" = "You are in a [NormalAge] Normal Age during this era.";
+"TXT_KEY_AGE_GOLDEN_SUMMARY" = "You are in a [GoldenAge] Golden Age during this era.";
+
+"TXT_KEY_AGE_DARK_LOYALTY" = " - Each of your [Citizen] Citizen exerts 0.5 Loyalty pressure in their city. This pressure also affects other cities within 9 tiles, but is 10% less effective per tile. It will be harder to maintain Loyalty in your cities and challange the Loyalty of nearby foreign cities.";
+"TXT_KEY_AGE_NORMAL_LOYALTY" = " - Each of your [Citizen] Citizen exerts 1 Loyalty pressure in their city. This pressure also affects other cities within 9 tiles, but is 10% less effective per tile.";
+"TXT_KEY_AGE_GOLDEN_LOYALTY" = " - Each of your [Citizen] Citizen exerts 1.5 Loyalty pressure in their city. This pressure also affects other cities within 9 tiles, but is 10% less effective per tile. It will be easier to maintain Loyalty in your cities and challange the Loyalty of nearby foreign cities.";
+
+// Header
+"TXT_KEY_HEADER_SCIENCE" = "Science";
+"TXT_KEY_HEADER_CULTURE" = "Culture";
+"TXT_KEY_HEADER_GOVERNMENT" = "Government";
+"TXT_KEY_HEADER_RELIGION" = "Religion";
+"TXT_KEY_HEADER_GREAT_PEOPLE" = "Great People";
+"TXT_KEY_HEADER_MOMENTS" = "Moments";
+"TXT_KEY_HEADER_GOVERNORS" = "Governors";
+"TXT_KEY_HEADER_RANKING" = "Ranking";
+"TXT_KEY_HEADER_TRADE_ROUTES" = "Trade Routes";
+"TXT_KEY_HEADER_ERA_PROGRESS" = "Era Progress";
+
+// Map sizes
+"TXT_KEY_MAP_SIZE_DUEL_NAME" = "Duel";
+"TXT_KEY_MAP_SIZE_TINY_NAME" = "Tiny";
+"TXT_KEY_MAP_SIZE_SMALL_NAME" = "Small";
+"TXT_KEY_MAP_SIZE_STANDARD_NAME" = "Standard";
+"TXT_KEY_MAP_SIZE_LARGE_NAME" = "Large";
+"TXT_KEY_MAP_SIZE_HUGE_NAME" = "Huge";
+"TXT_KEY_MAP_SIZE_CUSTOM_NAME" = "Custom";
+
+// Map types
+"TXT_KEY_MAP_TYPE_EMPTY" = "Empty";
+"TXT_KEY_MAP_TYPE_EARTH" = "Earth";
+"TXT_KEY_MAP_TYPE_PANGAEA" = "Pangaea";
+"TXT_KEY_MAP_TYPE_CONTINENTS" = "Continents";
+"TXT_KEY_MAP_TYPE_ARCHIPELAGO" = "Archipelago";
+"TXT_KEY_MAP_TYPE_INLANDSEA" = "Inlandsea";
+"TXT_KEY_MAP_TYPE_CUSTOM" = "Custom";
+
+// handicap
+"TXT_KEY_HANDICAP_SETTLER" = "Settler";
+"TXT_KEY_HANDICAP_CHIEFTAIN" = "Chieftain";
+"TXT_KEY_HANDICAP_WARLORD" = "Warlord";
+"TXT_KEY_HANDICAP_PRINCE" = "Prince";
+"TXT_KEY_HANDICAP_KING" = "King";
+"TXT_KEY_HANDICAP_EMPEROR" = "Emperor";
+"TXT_KEY_HANDICAP_IMMORTAL" = "Immortal";
+"TXT_KEY_HANDICAP_DEITY" = "Deity";
+
+// tooltip texts
+"TXT_KEY_MISC_DESTROYED_BARBARIAN_CAMP" = "You have captured a Barbarian Encampment and recovered %d Gold!"; // gold
+"TXT_KEY_MISC_CLEARING_FEATURE_RESOURCE" = "Clearing %@ has created %d [Production] for %@."; // feature, gold, cityname
+"TXT_KEY_MISC_CAPTURED_CITY" = "You have captured %@!!!"; // cityname
+"TXT_KEY_MISC_GOLD_FROM_KILL" = "Gained %d [Gold] from kill."; // gold
+"TXT_KEY_MISC_CULTURE_FROM_KILL" = "Gained %d [Culture] from kill."; // culture
+"TXT_KEY_MISC_YOU_UNIT_DIED_ATTACKING" = "Your %@ died attacking an enemy %@ (%d damage)!"; // attacker name, defender name, defender damage
+"TXT_KEY_MISC_YOU_KILLED_ENEMY_UNIT" = "While defending, your %3$@ (%1$d damage) killed %2$@ %1$@!"; // attacker name, attacker player, defender name, defender damage
+"TXT_KEY_MISC_YOU_UNIT_DESTROYED_ENEMY" = "Your %@ (%d damage) destroyed an enemy %@!"; // attacker name, attacker damage, defender name
+"TXT_KEY_MISC_YOU_UNIT_WAS_DESTROYED" = "While defending, your %4$@ was destroyed by %2$@ %1$@ (%3$d damage)!"; // attacker name, attacker player, attacker damage, defender name
+"TXT_KEY_MISC_YOU_UNIT_WITHDRAW" = "Your %@ (%d damage) attacked an enemy %@ (%d damage)!"; // attacker name, attacker damage, defender name, defender damage
+"TXT_KEY_MISC_ENEMY_UNIT_WITHDRAW" = "An enemy %@ (%d damage) attacked your %@ (%d damage)!"; // attacker name, attacker damage, defender name, defender damage
+"TXT_KEY_MISC_YOU_CONQUERED_ENEMY_CITY" = "Your %@ (%d damage) captured the enemy City of %@!"; // attacker name, attacker damage, defender city name TXT_KEY_MISC_YOU_UNIT_CAPTURED_ENEMY_CITY
+"TXT_KEY_MISC_YOU_CITY_WAS_CONQUERED" = "While defending, your City of %4$@ was captured by %2$@ %1$@ (%3$d damage)!"; // attacker name, attacker player, attacker damage, defender name TXT_KEY_MISC_YOU_CITY_WAS_CAPTURED
+
+// Advisor texts
+"TXT_KEY_ECONOMICAISTRATEGY_NEED_RECON" = "We should continue exploring the world to discover abandoned villages, natural wonders, and other civilizations!";
+
+// governor texts
+"TXT_KEY_GOVERNOR_TITLE" = "Governor title";
+
+// policy cards
+"TXT_KEY_POLICY_CARD_SURVEY_TITLE" = "Survey";
+"TXT_KEY_POLICY_CARD_SURVEY_BONUS" = "Doubles experience for recon units.";
+
+"TXT_KEY_POLICY_CARD_GOD_KING_TITLE" = "God King";
+"TXT_KEY_POLICY_CARD_GOD_KING_BONUS" = "+1 [Faith] Faith and +1 Gold [Gold] in the [Capital] Capital.";
+
+"TXT_KEY_POLICY_CARD_DISCIPLINE_TITLE" = "Discipline";
+"TXT_KEY_POLICY_CARD_DISCIPLINE_BONUS" = "+5 [Strength] Combat Strength when fighting Barbarians.";
+
+"TXT_KEY_POLICY_CARD_URBAN_PLANNING_TITLE" = "Urban Planning";
+"TXT_KEY_POLICY_CARD_URBAN_PLANNING_BONUS" = "+1 [Production] Production in all cities.";
+
+"TXT_KEY_POLICY_CARD_ILKUM_TITLE" = "Ilkum";
+"TXT_KEY_POLICY_CARD_ILKUM_BONUS" = "+30% [Production] Production toward Builders.";
+
+"TXT_KEY_POLICY_CARD_AGOGE_TITLE" = "Agoge";
+"TXT_KEY_POLICY_CARD_AGOGE_BONUS" = "+50% [Production] Production toward Ancient and Classical era melee, ranged units and anti-cavalry units.";

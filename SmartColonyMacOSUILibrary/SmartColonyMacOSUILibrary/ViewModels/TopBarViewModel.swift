@@ -326,7 +326,7 @@ extension TopBarViewModel {
 
         let attachment: NSTextAttachment = NSTextAttachment()
         attachment.image = Globals.Icons.gold
-        attachment.setImage(height: 12)
+        attachment.setImage(height: 12, offset: 0)
 
         let tooltipText = NSMutableAttributedString()
 
@@ -496,7 +496,7 @@ extension TopBarViewModel {
 
         let attachment: NSTextAttachment = NSTextAttachment()
         attachment.image = ImageCache.shared.image(for: resource.textureMarkerName())
-        attachment.setImage(height: 12)
+        attachment.setImage(height: 12, offset: 0)
 
         let tooltipText = NSMutableAttributedString()
 

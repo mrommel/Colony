@@ -58,10 +58,10 @@ class TradeRouteTests: XCTestCase {
 
         // Human
         humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-        try! humanPlayer.techs?.discover(tech: .pottery)
+        try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
         try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
-        try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-        try! humanPlayer.civics?.discover(civic: .foreignTrade)
+        try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+        try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
         try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
         humanPlayer.government?.set(governmentType: .chiefdom)
         try! humanPlayer.government?.set(policyCardSet: PolicyCardSet(cards: [.godKing, .discipline]))
@@ -73,7 +73,7 @@ class TradeRouteTests: XCTestCase {
         let traderUnit = Unit(at: HexPoint(x: 2, y: 4), type: .trader, owner: humanPlayer)
         traderUnit.origin = HexPoint(x: 3, y: 5)
         gameModel.add(unit: traderUnit)
-        gameModel.userInterface?.show(unit: traderUnit)
+        gameModel.userInterface?.show(unit: traderUnit, at: HexPoint(x: 2, y: 4))
 
         MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
@@ -97,7 +97,7 @@ class TradeRouteTests: XCTestCase {
                     humanPlayer.finishTurn()
                     humanPlayer.setAutoMoves(to: true)
                 }
-            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
+            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.turnFinished())
 
             turnCounter += 1
         } while turnCounter < 20 && !self.hasVisited
@@ -134,10 +134,10 @@ class TradeRouteTests: XCTestCase {
         )
 
         // Human - setup
-        try! humanPlayer.techs?.discover(tech: .pottery)
+        try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
         try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
-        try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-        try! humanPlayer.civics?.discover(civic: .foreignTrade)
+        try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+        try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
         try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
         humanPlayer.government?.set(governmentType: .chiefdom)
         try! humanPlayer.government?.set(policyCardSet: PolicyCardSet(cards: [.godKing, .discipline]))
@@ -157,7 +157,7 @@ class TradeRouteTests: XCTestCase {
         let traderUnit = Unit(at: HexPoint(x: 4, y: 5), type: .trader, owner: humanPlayer)
         traderUnit.origin = HexPoint(x: 3, y: 5)
         gameModel.add(unit: traderUnit)
-        gameModel.userInterface?.show(unit: traderUnit)
+        gameModel.userInterface?.show(unit: traderUnit, at: HexPoint(x: 4, y: 5))
 
         MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
@@ -187,7 +187,7 @@ class TradeRouteTests: XCTestCase {
                     humanPlayer.finishTurn()
                     humanPlayer.setAutoMoves(to: true)
                 }
-            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
+            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.turnFinished())
 
             if !traderUnit.isTrading() {
                 self.hasExpired = true

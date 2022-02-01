@@ -49,7 +49,9 @@ class ChangePolicyDialogViewModel: ObservableObject {
         self.selectedPolicyCards = government.policyCardSet().cards()
         self.possiblePolicyCards = government.possiblePolicyCards()
 
-        self.policyCardViewModels = PolicyCardType.all.map { policyCardType in
+        // self.policyCardViewModels = PolicyCardType.all.map { policyCardType in
+        self.policyCardViewModels = government.possiblePolicyCards()
+            .map { policyCardType in
 
             var state: PolicyCardState = PolicyCardState.disabled
 
@@ -72,7 +74,7 @@ class ChangePolicyDialogViewModel: ObservableObject {
             fatalError("cant get government")
         }
 
-        return government.currentGovernment()?.name() ?? "-"
+        return government.currentGovernment()?.name().localized() ?? "-"
     }
 
     func hint() -> String {

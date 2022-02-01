@@ -286,7 +286,7 @@ class BarbarianAI: Codable {
                                                         if let bestUnitType = self.randomBarbarianUnitType(in: area, for: .defense, in: gameModel) {
                                                             let barbarianUnit = Unit(at: loopPlot.point, type: bestUnitType, owner: barbarianPlayer)
                                                             gameModel.add(unit: barbarianUnit)
-                                                            gameModel.userInterface?.show(unit: barbarianUnit)
+                                                            gameModel.userInterface?.show(unit: barbarianUnit, at: loopPlot.point)
                                                         }
 
                                                         numCampsToAdd -= 1
@@ -323,7 +323,7 @@ class BarbarianAI: Codable {
     }
 
     /// Determines when to Spawn a new Barb Unit from a Camp
-    func shouldSpawnBarbFromCamp(at point: HexPoint) -> Bool {
+    func shouldSpawnBarbarianUnitFromCamp(at point: HexPoint) -> Bool {
 
         if self.barbCampSpawnCounter[point] == 0 {
             return true
@@ -338,7 +338,7 @@ class BarbarianAI: Codable {
             fatalError("cant get gameModel")
         }
 
-        if !canBarbariansSpawn(in: gameModel) {
+        if !self.canBarbariansSpawn(in: gameModel) {
             return
         }
 
@@ -352,7 +352,7 @@ class BarbarianAI: Codable {
                     // Found a Camp to spawn near
                     if loopPlot.has(improvement: .barbarianCamp) {
 
-                        if self.shouldSpawnBarbFromCamp(at: loopPlot.point) {
+                        if self.shouldSpawnBarbarianUnitFromCamp(at: loopPlot.point) {
 
                             self.doSpawnBarbarianUnit(at: loopPlot.point, ignoreMaxBarbarians: false, finishMoves: false, in: gameModel)
                             self.doCampActivationNotice(at: loopPlot.point, in: gameModel)
@@ -387,7 +387,7 @@ class BarbarianAI: Codable {
 
                 let unit = Unit(at: point, type: unitType, owner: barbarianPlayer)
                 gameModel.add(unit: unit)
-                gameModel.userInterface?.show(unit: unit)
+                gameModel.userInterface?.show(unit: unit, at: point)
 
                 if finishMoves {
                     unit.finishMoves()
@@ -456,7 +456,7 @@ class BarbarianAI: Codable {
 
                     let unit = Unit(at: spawnLocation, type: unitType, owner: barbarianPlayer)
                     gameModel.add(unit: unit)
-                    gameModel.userInterface?.show(unit: unit)
+                    gameModel.userInterface?.show(unit: unit, at: spawnLocation)
 
                     if finishMoves {
                         unit.finishMoves()

@@ -19,7 +19,10 @@ class GameScene: BaseScene {
     private var viewHex: SKSpriteNode?
     var previousLocation: CGPoint = .zero
     var lastExecuted: TimeInterval = -1
-    let queue: DispatchQueue = DispatchQueue(label: "update_queue")
+    var lastUpdated: TimeInterval = -1
+    let gameUpdateBackgroundQueue: DispatchQueue = DispatchQueue(label: "gameUpdateBackgroundQueue", qos: .background, attributes: .concurrent)
+    var gameUpdateMutex: Bool = true // means: can enter gameUpdate
+    let pathfinderQueue: DispatchQueue = DispatchQueue(label: "pathfinderQueue", qos: .background, attributes: .concurrent)
 
     // view model
     var viewModel: GameSceneViewModel?
@@ -95,7 +98,7 @@ class GameScene: BaseScene {
         }
 
         // only check once per 0.5 sec
-        if self.lastExecuted + 1.0 < currentTime {
+        if self.lastExecuted + 0.5 < currentTime {
 
             self.lastExecuted = currentTime
 
@@ -104,40 +107,53 @@ class GameScene: BaseScene {
             }
 
             // check state
-            if humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed() {
+            if humanPlayer.hasProcessedAutoMoves() && humanPlayer.turnFinished() {
 
-                self.viewModel?.changeUITurnState(to: .aiTurns)
+                self.viewModel?.delegate?.changeUITurnState(to: .aiTurns)
             }
 
             if self.viewModel!.readyUpdatingAI {
 
                 if humanPlayer.isActive() {
-                    self.viewModel?.changeUITurnState(to: .humanTurns)
+                    self.viewModel?.delegate?.changeUITurnState(to: .humanTurns)
+                    _ = self.viewModel?.delegate?.checkPopups()
 
                     if self.viewModel!.readyUpdatingHuman {
 
-                        // update all units strengthss
+                        // update all units strengths
                         for unit in gameModel.units(of: humanPlayer) {
                             self.mapNode?.unitLayer.update(unit: unit)
                         }
 
                         self.viewModel!.readyUpdatingHuman = false
-                        self.queue.async {
-                            //print("-----------> before human processing")
-                            gameModel.update()
-                            //print("-----------> after human processing")
-                            self.viewModel!.readyUpdatingHuman = true
+
+                        // this will make a gameModel.update() executed only once at a time
+                        if self.gameUpdateMutex {
+                            self.gameUpdateMutex = false
+                            self.gameUpdateBackgroundQueue.async {
+                                //print("-----------> before human processing")
+                                gameModel.update()
+                                self.gameUpdateMutex = true
+                                //print("-----------> after human processing")
+                                self.viewModel!.readyUpdatingHuman = true
+                            }
                         }
                     }
 
                 } else {
 
                     self.viewModel!.readyUpdatingAI = false
-                    self.queue.async {
-                        //print("-----------> before AI processing")
-                        gameModel.update()
-                        //print("-----------> after AI processing")
-                        self.viewModel!.readyUpdatingAI = true
+
+                    // this will make a gameModel.update() executed only once at a time
+                    if self.gameUpdateMutex {
+                        self.gameUpdateMutex = false
+                        self.gameUpdateBackgroundQueue.async {
+                            //print("-----------> before AI processing")
+                            gameModel.update()
+                            self.gameUpdateMutex = true
+                            //print("-----------> after AI processing")
+                            self.viewModel!.readyUpdatingAI = true
+                        }
                     }
                 }
             }
@@ -151,6 +167,8 @@ class GameScene: BaseScene {
                     }
                 }
 
+                self.mapNode?.unitLayer.checkDelayedDeath()
+
                 self.viewModel?.refreshCities = false
             }
 
@@ -163,6 +181,15 @@ class GameScene: BaseScene {
                 self.mapNode?.set(mapLens: mapLens)
                 self.viewModel?.hideMapLens()
             }
+        }
+
+        // only update view models once per 5 sex
+        if self.lastUpdated + 2.0 < currentTime {
+
+            self.lastUpdated = currentTime
+
+            self.viewModel?.delegate?.updateStates()
+            self.viewModel?.refreshCities = true
         }
     }
 
@@ -334,7 +361,7 @@ extension GameScene {
 
     override func mouseDragged(with event: NSEvent) {
 
-        if let selectedUnit = self.viewModel?.selectedUnit {
+        if let selectedUnit = self.viewModel?.delegate?.selectedUnit {
 
             let location = event.location(in: self)
             let touchLocation = self.convert(location, to: self.viewHex!)
@@ -347,22 +374,41 @@ extension GameScene {
 
             if position != selectedUnit.location {
 
-                let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = self.viewModel?.game?.unitAwarePathfinderDataSource(
-                    for: selectedUnit.movementType(),
-                    for: selectedUnit.player,
-                    unitMapType: selectedUnit.unitMapType(),
-                    canEmbark: selectedUnit.canEverEmbark()
-                )
+                self.pathfinderQueue.async {
+                    let pathFinder = AStarPathfinder()
+                    pathFinder.dataSource = self.viewModel?.game?.unitAwarePathfinderDataSource(
+                        for: selectedUnit.movementType(),
+                        for: selectedUnit.player,
+                        unitMapType: selectedUnit.unitMapType(),
+                        canEmbark: selectedUnit.canEverEmbark(),
+                        canEnterOcean: selectedUnit.player!.canEnterOcean()
+                    )
 
-                // update
-                self.updateCommands(for: selectedUnit)
+                    if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: position) {
 
-                if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: position) {
-                    path.prepend(point: selectedUnit.location, cost: 0.0)
-                    self.mapNode?.unitLayer.show(path: path, for: selectedUnit)
-                } else {
-                    self.mapNode?.unitLayer.clearPathSpriteBuffer()
+                        if path.contains(point: selectedUnit.location) {
+
+                            path.cropPoints(until: selectedUnit.location)
+                        } else {
+                            if !path.startsWith(point: selectedUnit.location) {
+                                path.prepend(point: selectedUnit.location, cost: 0.0)
+                            }
+                        }
+
+                        DispatchQueue.main.async {
+                            // update
+                            self.updateCommands(for: selectedUnit)
+
+                            self.mapNode?.unitLayer.show(path: path, for: selectedUnit)
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            // update
+                            self.updateCommands(for: selectedUnit)
+
+                            self.mapNode?.unitLayer.clearPathSpriteBuffer()
+                        }
+                    }
                 }
             }
 
@@ -404,7 +450,7 @@ extension GameScene {
 
         let position = HexPoint(screen: location)
 
-        if let selectedUnit = self.viewModel?.selectedUnit {
+        if let selectedUnit = self.viewModel?.delegate?.selectedUnit {
 
             guard let unitSelectionMode = self.viewModel?.unitSelectionMode else {
                 fatalError("cant get selection mode")
@@ -424,6 +470,8 @@ extension GameScene {
 
                     self.mapNode?.unitLayer.hideFocus()
                     self.updateCommands(for: selectedUnit)
+
+                    self.viewModel?.game?.userInterface?.unselect()
                 }
 
             case .meleeUnitTargets:
@@ -560,7 +608,7 @@ extension GameScene {
             }
         }
 
-        if let selectedCity = self.viewModel?.selectedCity {
+        if let selectedCity = self.viewModel?.delegate?.selectedCity {
 
             guard let unitSelectionMode = self.viewModel?.unitSelectionMode else {
                 fatalError("cant get selection mode")

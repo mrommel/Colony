@@ -59,6 +59,15 @@ public class HexPath: Decodable {
         return self.pointsValue.isEmpty
     }
 
+    public func startsWith(point: HexPoint) -> Bool {
+
+        guard let firstPoint = self.pointsValue.first else {
+            return false
+        }
+
+        return firstPoint == point
+    }
+
     public var first: (HexPoint, Double)? {
 
         if let firstPoint = self.pointsValue.first, let firstCost = self.costs.first {
@@ -97,6 +106,33 @@ public class HexPath: Decodable {
         } while result.cost <= Double(moves) && index < self.count
 
         return result
+    }
+
+    public func contains(point: HexPoint) -> Bool {
+
+        return self.pointsValue.contains(point)
+    }
+
+    public func cropPoints(until point: HexPoint) {
+
+        guard self.pointsValue.contains(point) else {
+            return
+        }
+
+        var cropIndex: Int = 0
+
+        for (index, pt) in self.pointsValue.enumerated() where pt == point {
+            cropIndex = index
+        }
+
+        var index = 0
+        repeat {
+            let newPoints = Array(self.pointsValue.suffix(from: 1))
+            let newCosts = Array(self.costs.suffix(from: 1))
+            self.pointsValue = newPoints
+            self.costs = newCosts
+            index += 1
+        } while index < cropIndex
     }
 
     // MARK: methods

@@ -10,17 +10,17 @@ import Foundation
 
 public enum EraType: Int, Codable {
 
-    case none
+    case none = -1
 
-    case ancient
-    case classical
-    case medieval
-    case renaissance
-    case industrial
-    case modern
-    case atomic
-    case information
-    case future
+    case ancient = 0
+    case classical = 1
+    case medieval = 2
+    case renaissance = 3
+    case industrial = 4
+    case modern = 5
+    case atomic = 6
+    case information = 7
+    case future = 8
 
     public static var all: [EraType] {
 
@@ -79,6 +79,12 @@ public enum EraType: Int, Codable {
         case .information: return .future
         case .future: return .none
         }
+    }
+
+    public func dedications() -> [DedicationType] {
+
+        return DedicationType.all
+            .filter { $0.eras().contains(self) }
     }
 }
 

@@ -28,7 +28,9 @@ public class BaseMapHandler {
             fatalError("cant get grid")
         }
 
-        let resources = ResourceType.all.sorted(by: { $0.placementOrder() < $1.placementOrder() })
+        let resources = ResourceType.all
+            .filter { $0.usage() != .artifact }
+            .sorted(by: { $0.placementOrder() < $1.placementOrder() })
 
         // Add resources
         for resource in resources {

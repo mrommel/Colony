@@ -7,6 +7,7 @@
 
 import Cocoa
 import SmartAILibrary
+import SmartAssets
 
 // swiftlint:disable force_try
 
@@ -62,7 +63,7 @@ class GenerateGameViewModel: ObservableObject {
                 generator.progressHandler = { progress, text in
                     DispatchQueue.main.async {
                         self.progressValue = CGFloat(progress)
-                        self.progressText = text
+                        self.progressText = text.localized()
                     }
                 }
 
@@ -89,7 +90,7 @@ class GenerateGameViewModel: ObservableObject {
                 generator.progressHandler = { progress, text in
                     DispatchQueue.main.async {
                         self.progressValue = CGFloat(progress)
-                        self.progressText = text
+                        self.progressText = text.localized()
                     }
                 }
 
@@ -140,19 +141,19 @@ class GenerateGameViewModel: ObservableObject {
             // free techs
             if startLocation.isHuman {
                 for tech in handicap.freeHumanTechs() {
-                    try! player.techs?.discover(tech: tech)
+                    try! player.techs?.discover(tech: tech, in: nil)
                 }
 
                 for civic in handicap.freeHumanCivics() {
-                    try! player.civics?.discover(civic: civic)
+                    try! player.civics?.discover(civic: civic, in: nil)
                 }
             } else {
                 for tech in handicap.freeAITechs() {
-                    try! player.techs?.discover(tech: tech)
+                    try! player.techs?.discover(tech: tech, in: nil)
                 }
 
                 for civic in handicap.freeAICivics() {
-                    try! player.civics?.discover(civic: civic)
+                    try! player.civics?.discover(civic: civic, in: nil)
                 }
             }
 

@@ -29,7 +29,8 @@ extension CGImage {
         let resultImage = filter.outputImage
 
         let cicontext = CIContext(options: nil)
-        let imageRef: CGImage? =  cicontext.createCGImage(resultImage!, from: CGRect(origin: CGPoint.zero, size: NSSize(width: self.width, height: self.height)))
+        let rect = CGRect(origin: CGPoint.zero, size: NSSize(width: self.width, height: self.height))
+        let imageRef: CGImage? = cicontext.createCGImage(resultImage!, from: rect)
 
         return imageRef
     }

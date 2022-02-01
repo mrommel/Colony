@@ -97,6 +97,8 @@ public protocol AbstractCity: AnyObject, Codable {
 
     func faithPurchaseCost(of unitType: UnitType) -> Double
     func faithPurchaseCost(of buildingType: BuildingType) -> Double
+    func goldPurchaseCost(of unitType: UnitType) -> Double
+    func goldPurchaseCost(of buildingType: BuildingType) -> Double
 
     @discardableResult
     func purchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
@@ -149,7 +151,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func housingFromDistricts(in gameModel: GameModel?) -> Double
 
     func amenitiesPerTurn(in gameModel: GameModel?) -> Double
-    func amenitiesFromDistrict() -> Double
+    func amenitiesFromDistrict(in gameModel: GameModel?) -> Double
     func amenitiesFromWonders(in gameModel: GameModel?) -> Double
     func amenitiesFromBuildings() -> Double
     func amenitiesFromLuxuries() -> Double
@@ -257,13 +259,18 @@ public protocol AbstractCity: AnyObject, Codable {
     func scratch() -> Int
 }
 
-class LeaderWeightList: WeightedList<LeaderType> {
+public class LeaderWeightList: WeightedList<LeaderType> {
 
     override func fill() {
 
         for leaderType in LeaderType.all {
             self.add(weight: 0.0, for: leaderType)
         }
+    }
+
+    public func removeAll() {
+
+        self.items.removeAll()
     }
 }
 
@@ -638,16 +645,13 @@ public class City: AbstractCity {
         }
 
         // Update Proximity between this Player and all others
-        for otherPlayer in gameModel.players {
+        for otherPlayer in gameModel.players where otherPlayer.leader != self.player?.leader {
 
-            if otherPlayer.leader != self.player?.leader {
-
-                if otherPlayer.isAlive() && diplomacyAI.hasMet(with: otherPlayer) {
-                    // Fixme
-                    // Players do NOT have to know one another in order to calculate proximity.  Having this info available (even when they haven't met) can be useful
-                    player.doUpdateProximity(towards: otherPlayer, in: gameModel)
-                    otherPlayer.doUpdateProximity(towards: player, in: gameModel)
-                }
+            if otherPlayer.isAlive() && diplomacyAI.hasMet(with: otherPlayer) {
+                // Fixme
+                // Players do NOT have to know one another in order to calculate proximity.  Having this info available (even when they haven't met) can be useful
+                player.doUpdateProximity(towards: otherPlayer, in: gameModel)
+                otherPlayer.doUpdateProximity(towards: player, in: gameModel)
             }
         }
 
@@ -841,9 +845,15 @@ public class City: AbstractCity {
             // self.doTestResourceDemanded();
 
             // Culture accumulation
-            let currentCulture = self.culturePerTurn(in: gameModel)
+            var currentCulture = self.culturePerTurn(in: gameModel)
+
+            if self.player?.religion?.pantheon() == .religiousSettlements {
+                // Border expansion rate is 15% faster.
+                currentCulture *= 1.15
+            }
+
             if currentCulture > 0 {
-                self.updateCultureStored(to: self.cultureStored() + currentCulture) // FIXME: another func
+                self.updateCultureStored(to: self.cultureStored() + currentCulture)
             }
 
             // Enough Culture to acquire a new Plot?
@@ -1544,7 +1554,11 @@ public class City: AbstractCity {
     }
 
     // amenities from districts
-    public func amenitiesFromDistrict() -> Double {
+    public func amenitiesFromDistrict(in gameModel: GameModel?) -> Double {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
 
         guard let government = self.player?.government else {
             fatalError("cant get government")
@@ -1561,6 +1575,27 @@ public class City: AbstractCity {
 
             if districts.hasAny() {
                 amenitiesFromDistrict += 1.0
+            }
+        }
+
+        if self.has(district: .holySite) {
+
+            // riverGoddess - +2 [Amenities] Amenities and +2 [Housing] Housing to cities if they have a Holy Site district adjacent to a River.
+            if let holySiteLocation = self.location(of: .holySite) {
+
+                var isHolySiteAdjacentToRiver = false
+
+                for neighbor in holySiteLocation.neighbors() {
+
+                    if gameModel.river(at: neighbor) {
+                        isHolySiteAdjacentToRiver = true
+                        break
+                    }
+                }
+
+                if isHolySiteAdjacentToRiver {
+                    amenitiesFromDistrict += 2.0
+                }
             }
         }
 
@@ -1617,7 +1652,7 @@ public class City: AbstractCity {
 
         amenitiesPerTurn += self.amenitiesFromTiles(in: gameModel)
         amenitiesPerTurn += self.amenitiesFromLuxuries()
-        amenitiesPerTurn += self.amenitiesFromDistrict()
+        amenitiesPerTurn += self.amenitiesFromDistrict(in: gameModel)
         amenitiesPerTurn += self.amenitiesFromBuildings()
         amenitiesPerTurn += self.amenitiesFromWonders(in: gameModel)
 
@@ -1702,7 +1737,13 @@ public class City: AbstractCity {
         // hanging gardens
         if player.has(wonder: .hangingGardens, in: gameModel) {
             // Increases growth by 15% in all cities.
-            wonderModifier = 1.15
+            wonderModifier += 0.15
+        }
+
+        // fertilityRites
+        if player.religion?.pantheon() == .fertilityRites {
+            // City growth rate is 10% higher.
+            wonderModifier = 0.10
         }
 
         // update housing value
@@ -1757,6 +1798,59 @@ public class City: AbstractCity {
                                 location: self.location
                             )
                         )
+                    }
+                }
+
+                // moments
+                if self.populationValue > 10 {
+                    if !player.hasMoment(of: .firstBustlingCity(cityName: self.name)) &&
+                        !player.hasMoment(of: .worldsFirstBustlingCity(cityName: self.name)) {
+
+                        // check if someone else already had a bustling city
+                        if gameModel.anyHasMoment(of: .worldsFirstBustlingCity(cityName: self.name)) {
+                            player.addMoment(of: .firstBustlingCity(cityName: self.name), in: gameModel)
+                        } else {
+                            player.addMoment(of: .worldsFirstBustlingCity(cityName: self.name), in: gameModel)
+                        }
+                    }
+                }
+
+                if self.populationValue > 15 {
+                    if !player.hasMoment(of: .firstLargeCity(cityName: self.name)) &&
+                        !player.hasMoment(of: .worldsFirstLargeCity(cityName: self.name)) {
+
+                        // check if someone else already had a bustling city
+                        if gameModel.anyHasMoment(of: .worldsFirstLargeCity(cityName: self.name)) {
+                            player.addMoment(of: .firstLargeCity(cityName: self.name), in: gameModel)
+                        } else {
+                            player.addMoment(of: .worldsFirstLargeCity(cityName: self.name), in: gameModel)
+                        }
+                    }
+                }
+
+                if self.populationValue > 20 {
+                    if !player.hasMoment(of: .firstEnormousCity(cityName: self.name)) &&
+                        !player.hasMoment(of: .worldsFirstEnormousCity(cityName: self.name)) {
+
+                        // check if someone else already had a bustling city
+                        if gameModel.anyHasMoment(of: .worldsFirstEnormousCity(cityName: self.name)) {
+                            player.addMoment(of: .firstEnormousCity(cityName: self.name), in: gameModel)
+                        } else {
+                            player.addMoment(of: .worldsFirstEnormousCity(cityName: self.name), in: gameModel)
+                        }
+                    }
+                }
+
+                if self.populationValue > 25 {
+                    if !player.hasMoment(of: .firstGiganticCity(cityName: self.name)) &&
+                        !player.hasMoment(of: .worldsFirstGiganticCity(cityName: self.name)) {
+
+                        // check if someone else already had a bustling city
+                        if gameModel.anyHasMoment(of: .worldsFirstGiganticCity(cityName: self.name)) {
+                            player.addMoment(of: .firstGiganticCity(cityName: self.name), in: gameModel)
+                        } else {
+                            player.addMoment(of: .worldsFirstGiganticCity(cityName: self.name), in: gameModel)
+                        }
                     }
                 }
             }
@@ -2246,6 +2340,34 @@ public class City: AbstractCity {
                 }
             }
 
+            // cityPatronGoddess - +25% [Production] Production toward districts in cities without a specialty district.
+            if player.religion?.pantheon() == .cityPatronGoddess {
+                if !districts.hasAnySpecialtyDistrict() {
+                    if self.buildQueue.isCurrentlyBuildingDistrict() {
+                        modifierPercentage += 0.25
+                    }
+                }
+            }
+
+            // godOfTheForge - +25% [Production] Production toward Ancient and Classical military units.
+            if player.religion?.pantheon() == .godOfTheForge {
+                if let unitType = self.productionUnitType() {
+                    if (unitType.unitClass() == .melee || unitType.unitClass() == .ranged) &&
+                        (unitType.era() == .ancient || unitType.era() == .classical) {
+                        modifierPercentage += 0.25
+                    }
+                }
+            }
+
+            // monumentToTheGods - +15% [Production] Production to Ancient and Classical era Wonders.
+            if player.religion?.pantheon() == .monumentToTheGods {
+                if let wonderType = self.productionWonderType() {
+                    if wonderType.era() == .ancient || wonderType.era() == .classical {
+                        modifierPercentage += 0.15
+                    }
+                }
+            }
+
             // Zoning Commissioner - +20% Production towards constructing Districts in the city.
             if self.hasGovernorTitle(of: .zoningCommissioner) {
                 if self.buildQueue.isCurrentlyBuildingDistrict() {
@@ -2446,16 +2568,35 @@ public class City: AbstractCity {
 
         gameModel?.add(unit: unit)
 
-        gameModel?.userInterface?.show(unit: unit)
+        gameModel?.userInterface?.show(unit: unit, at: self.location)
 
         self.updateEurekas(in: gameModel)
     }
 
     private func build(building buildingType: BuildingType, in gameModel: GameModel?) {
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         do {
             try self.buildings?.build(building: buildingType)
             self.updateEurekas(in: gameModel)
+
+            // penBrushAndVoice + normal - construct a building with a Great Work slot.
+            if player.currentAge() == .normal && player.has(dedication: .penBrushAndVoice) {
+                if !buildingType.slotsForGreatWork().isEmpty {
+                    player.addMoment(of: .dedicationTriggered(dedicationType: .penBrushAndVoice), in: gameModel)
+                }
+            }
+
+            // freeInquiry + normal - constructing a building which provides [Science] Science
+            if player.currentAge() == .normal && player.has(dedication: .freeInquiry) {
+                if buildingType.yields().science > 0 {
+                    player.addMoment(of: .dedicationTriggered(dedicationType: .freeInquiry), in: gameModel)
+                }
+            }
+
             self.greatWorks?.addPlaces(for: buildingType)
         } catch {
             fatalError("cant build building: already build")
@@ -2464,7 +2605,15 @@ public class City: AbstractCity {
 
     private func build(district districtType: DistrictType, at point: HexPoint, in gameModel: GameModel?) {
 
-        guard let tile = gameModel?.tile(at: point) else {
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let tile = gameModel.tile(at: point) else {
             fatalError("cant get tile")
         }
 
@@ -2472,9 +2621,27 @@ public class City: AbstractCity {
             try self.districts?.build(district: districtType, at: point)
             self.updateEurekas(in: gameModel)
 
-            tile.build(district: districtType)
+            // moments
+            if player.currentAge() == .normal && player.has(dedication: .monumentality) {
+                if districtType.isSpecialty() {
+                    player.addMoment(of: .dedicationTriggered(dedicationType: .monumentality), in: gameModel)
+                }
+            }
 
-            gameModel?.userInterface?.refresh(tile: tile)
+            if districtType == .neighborhood {
+                if !player.hasMoment(of: .firstNeighborhoodCompleted) && !player.hasMoment(of: .worldsFirstNeighborhood) {
+
+                    // check if someone else already had a built a neighborhood district
+                    if gameModel.anyHasMoment(of: .worldsFirstNeighborhood) {
+                        player.addMoment(of: .firstNeighborhoodCompleted, in: gameModel)
+                    } else {
+                        player.addMoment(of: .worldsFirstNeighborhood, in: gameModel)
+                    }
+                }
+            }
+
+            tile.build(district: districtType)
+            gameModel.userInterface?.refresh(tile: tile)
         } catch {
             fatalError("cant build district: already build")
         }
@@ -2498,9 +2665,20 @@ public class City: AbstractCity {
             fatalError("cant get player techs")
         }
 
+        guard let civics = player.civics else {
+            fatalError("cant get player civics")
+        }
+
         do {
             try self.wonders?.build(wonder: wonderType)
             self.greatWorks?.addPlaces(for: wonderType)
+
+            // moments
+            self.player?.addMoment(of: .wonderCompleted(wonder: wonderType), in: gameModel)
+
+            if wonderType.era() < player.currentEra() {
+                self.player?.addMoment(of: .oldWorldWonderCompleted, in: gameModel)
+            }
 
             gameModel.build(wonder: wonderType)
 
@@ -2510,7 +2688,7 @@ public class City: AbstractCity {
                 // Grants a free Builder.
                 let extraBuilder = Unit(at: self.location, type: .builder, owner: self.player)
                 gameModel.add(unit: extraBuilder)
-                gameModel.userInterface?.show(unit: extraBuilder)
+                gameModel.userInterface?.show(unit: extraBuilder, at: self.location)
             }
 
             // stonehenge
@@ -2519,7 +2697,7 @@ public class City: AbstractCity {
                 // Grants a free Great Prophet.
                 let extraProphet = Unit(at: self.location, type: .prophet, owner: self.player)
                 gameModel.add(unit: extraProphet)
-                gameModel.userInterface?.show(unit: extraProphet)
+                gameModel.userInterface?.show(unit: extraProphet, at: self.location)
             }
 
             // great library
@@ -2556,7 +2734,7 @@ public class City: AbstractCity {
                 // Grants a Trader unit.
                 let extraTrader = Unit(at: self.location, type: .trader, owner: self.player)
                 gameModel.add(unit: extraTrader)
-                gameModel.userInterface?.show(unit: extraTrader)
+                gameModel.userInterface?.show(unit: extraTrader, at: self.location)
             }
 
             // statueOfZeus
@@ -2567,18 +2745,18 @@ public class City: AbstractCity {
                     let extraSpearmen = Unit(at: self.location, type: .spearman, owner: self.player)
                     gameModel.add(unit: extraSpearmen)
                     extraSpearmen.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
-                    gameModel.userInterface?.show(unit: extraSpearmen)
+                    gameModel.userInterface?.show(unit: extraSpearmen, at: self.location)
 
                     let extraArcher = Unit(at: self.location, type: .archer, owner: self.player)
                     gameModel.add(unit: extraArcher)
                     extraArcher.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
-                    gameModel.userInterface?.show(unit: extraArcher)
+                    gameModel.userInterface?.show(unit: extraArcher, at: self.location)
                 }
 
                 let extraBatteringRam = Unit(at: self.location, type: .batteringRam, owner: self.player)
                 gameModel.add(unit: extraBatteringRam)
                 extraBatteringRam.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
-                gameModel.userInterface?.show(unit: extraBatteringRam)
+                gameModel.userInterface?.show(unit: extraBatteringRam, at: self.location)
             }
 
             // mahabodhiTemple
@@ -2592,6 +2770,11 @@ public class City: AbstractCity {
                 // let extraApostle = Unit(at: self.location, type: .apostle, owner: self.player)
                 // gameModel?.add(unit: extraApostle)
                 // gameModel?.userInterface?.show(unit: extraApostle)
+            }
+
+            // Drama and Poetry - Build a Wonder.
+            if !civics.inspirationTriggered(for: .dramaAndPoetry) {
+                civics.triggerInspiration(for: .dramaAndPoetry, in: gameModel)
             }
 
             tile.build(wonder: wonderType)
@@ -2619,6 +2802,10 @@ public class City: AbstractCity {
 
         guard let buildings = self.buildings else {
             fatalError("cant get buildings")
+        }
+
+        if !building.canBuild(in: self, in: gameModel) {
+            return false
         }
 
         if buildings.has(building: building) {
@@ -3135,6 +3322,14 @@ public class City: AbstractCity {
 
     public func canPurchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
 
+        guard let playerReligion = self.player?.religion else {
+            fatalError("cant get player religion")
+        }
+
+        guard let playerTreasury = self.player?.treasury else {
+            fatalError("cant get player treasury")
+        }
+
         guard yieldType == .faith || yieldType == .gold else {
             fatalError("invalid yield type: \(yieldType)")
         }
@@ -3144,14 +3339,28 @@ public class City: AbstractCity {
         }
 
         if yieldType == .gold {
-            return unitType.purchaseCost() > 0 // -1 is invalid
+            if unitType.purchaseCost() == -1 { // -1 is invalid
+                return false
+            }
+
+            if self.goldPurchaseCost(of: unitType) > playerTreasury.value() {
+                return false
+            }
+
+        } else if yieldType == .faith {
+            if unitType.faithCost() == -1 { // -1 is invalid
+                return false
+            }
+
+            if self.faithPurchaseCost(of: unitType) > playerReligion.faith() {
+                return false
+            }
+
+        } else {
+            return false
         }
 
-        if yieldType == .faith {
-            return unitType.faithCost() > 0 // -1 is invalid
-        }
-
-        return false
+        return true
     }
 
     public func canPurchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
@@ -3177,7 +3386,7 @@ public class City: AbstractCity {
                 return false
             }
 
-            if Double(buildingType.purchaseCost()) > playerTreasury.value() {
+            if self.goldPurchaseCost(of: buildingType) > playerTreasury.value() {
                 return false
             }
 
@@ -3186,7 +3395,7 @@ public class City: AbstractCity {
                 return false
             }
 
-            if Double(buildingType.faithCost()) > playerReligion.faith() {
+            if self.faithPurchaseCost(of: buildingType) > playerReligion.faith() {
                 return false
             }
 
@@ -3197,16 +3406,53 @@ public class City: AbstractCity {
         return true
     }
 
-    public func faithPurchaseCost(of unit: UnitType) -> Double {
+    public func goldPurchaseCost(of unitType: UnitType) -> Double {
 
-        let cost = unit.faithCost()
-        return cost == -1 ? Double.greatestFiniteMagnitude : Double(cost)
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        let cost = unitType.purchaseCost()
+        var modifier: Double = 1.0
+
+        // monumentality + golden - Settlers and Builders' Purchases are 30% cheaper.
+        if player.has(dedication: .monumentality) && player.currentAge() == .golden {
+            if unitType == .settler || unitType == .builder {
+                modifier -= 0.3
+            }
+        }
+
+        return Double(cost) * modifier
+    }
+
+    public func faithPurchaseCost(of unitType: UnitType) -> Double {
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        let cost = unitType.faithCost()
+
+        // monumentality + golden - Civilian units may be purchased with Faith.
+        if player.has(dedication: .monumentality) && player.currentAge() == .golden {
+            if unitType.unitClass() == .civilian {
+                return Double(unitType.productionCost())
+            }
+        }
+
+        return Double(cost)
+    }
+
+    public func goldPurchaseCost(of building: BuildingType) -> Double {
+
+        let cost = building.purchaseCost()
+        return Double(cost)
     }
 
     public func faithPurchaseCost(of building: BuildingType) -> Double {
 
         let cost = building.faithCost()
-        return cost == -1 ? Double.greatestFiniteMagnitude : Double(cost)
+        return Double(cost)
     }
 
     public func purchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
@@ -3217,11 +3463,14 @@ public class City: AbstractCity {
 
         let unit = Unit(at: self.location, type: unitType, owner: self.player)
         gameModel?.add(unit: unit)
+        gameModel?.userInterface?.show(unit: unit, at: self.location)
 
         if yieldType == .gold {
-            self.player?.treasury?.changeGold(by: -Double(unitType.purchaseCost()))
+            let purchaseCost = self.goldPurchaseCost(of: unitType)
+            self.player?.treasury?.changeGold(by: -purchaseCost)
         } else if yieldType == .faith {
-            self.player?.religion?.change(faith: -Double(unitType.faithCost()))
+            let faithCost = self.faithPurchaseCost(of: unitType)
+            self.player?.religion?.change(faith: -faithCost)
         } else {
             fatalError("cant buy unit with \(yieldType)")
         }
@@ -3292,14 +3541,32 @@ public class City: AbstractCity {
             fatalError("cant get civics")
         }
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
 
-        // Build an Encampment.
-        if !civics.eurekaTriggered(for: .militaryTraining) {
+        // militaryTraining - Build any district.
+        if !civics.inspirationTriggered(for: .stateWorkforce) {
+            if districts.hasAny() { // city center is taken into account
+                civics.triggerInspiration(for: .stateWorkforce, in: gameModel)
+            }
+        }
+
+        // militaryTraining - Build an Encampment.
+        if !civics.inspirationTriggered(for: .militaryTraining) {
             if districts.has(district: .encampment) {
-                civics.triggerEureka(for: .militaryTraining, in: gameModel)
+                civics.triggerInspiration(for: .militaryTraining, in: gameModel)
+            }
+        }
+
+        // recordedHistory - Build 2 Campus Districts.
+        if !civics.inspirationTriggered(for: .recordedHistory) {
+            if player.numberOfDistricts(of: .campus, in: gameModel) >= 2 {
+                civics.triggerInspiration(for: .recordedHistory, in: gameModel)
             }
         }
     }
@@ -3317,8 +3584,7 @@ public class City: AbstractCity {
         unit.changeBuildCharges(change: greatPerson.charges())
 
         gameModel?.add(unit: unit)
-
-        gameModel?.userInterface?.show(unit: unit)
+        gameModel?.userInterface?.show(unit: unit, at: self.location)
     }
 
     public func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int {
@@ -4417,7 +4683,7 @@ public class City: AbstractCity {
                     }
 
                     // while we're at it, grab Natural Wonders quickly also
-                    if loopPlot.feature().isWonder() {
+                    if loopPlot.feature().isNaturalWonder() {
                         influenceCost += iPLOT_INFLUENCE_NW_COST
                     }
 
@@ -4444,7 +4710,7 @@ public class City: AbstractCity {
                                     }
                                 }
 
-                                if adjacentPlot.feature().isWonder() {
+                                if adjacentPlot.feature().isNaturalWonder() {
                                     if plotDistance <= 3 {
                                         // grab for this city
                                         unownedNaturalWonderAdjacentCount = true
@@ -4750,6 +5016,13 @@ public class City: AbstractCity {
         self.player?.addPlot(at: point)
 
         self.doUpdateCheapestPlotInfluence(in: gameModel)
+
+        // clear barbarian camps / goodyhuts
+        if tile.has(improvement: .barbarianCamp) {
+            self.player?.doClearBarbarianCamp(at: tile, in: gameModel)
+        } else if tile.has(improvement: .goodyHut) {
+            self.player?.doGoodyHut(at: tile, by: nil, in: gameModel)
+        }
 
         // repaint newly acquired tile ...
         gameModel.userInterface?.refresh(tile: tile)

@@ -21,12 +21,16 @@ public struct AskYesNoAlertView<Content> : View where Content: View {
     let yesText: String
     var content: Content
 
-    public init(isPresented: Binding<Bool>, autoConfirm: Bool,
-                action: @escaping () -> Void,
-                title: String,
-                message: String?,
-                yesText: String,
-                @ViewBuilder content: () -> Content) {
+    public init(
+        isPresented: Binding<Bool>,
+        autoConfirm: Bool,
+        action: @escaping () -> Void,
+        title: String,
+        message: String?,
+        yesText: String,
+        @ViewBuilder
+        content: () -> Content
+    ) {
 
         _isPresented = isPresented
         self.autoConfirm = autoConfirm

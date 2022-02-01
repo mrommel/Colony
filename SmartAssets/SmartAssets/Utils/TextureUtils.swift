@@ -9,56 +9,56 @@
 import SpriteKit
 import SmartAILibrary
 
+private class TextureItem: Codable, Equatable {
+
+    enum CodingKeys: CodingKey {
+        case point
+    }
+
+    let point: HexPoint
+    var terrainSprite: SKSpriteNode?
+    var featureSprite: SKSpriteNode?
+    var resourceSprite: SKSpriteNode?
+    var resourceMarkerSprite: SKSpriteNode?
+    var snowSprite: SKSpriteNode?
+    var boardSprite: SKSpriteNode?
+    var iceSprite: SKSpriteNode?
+    var mainBorderSprite: SKSpriteNode?
+    var accentBorderSprite: SKSpriteNode?
+    var foodSprite: SKSpriteNode?
+    var productionSprite: SKSpriteNode?
+    var goldSprite: SKSpriteNode?
+    var waterSprite: SKSpriteNode?
+    var riverSprite: SKSpriteNode?
+    var improvementSprite: SKSpriteNode?
+    var routeSprite: SKSpriteNode?
+    var hexLabel: SKLabelNode?
+    var districtSprite: SKSpriteNode?
+    var districtBuildingSprite: SKSpriteNode?
+    var wonderSprite: SKSpriteNode?
+    var wonderBuildingSprite: SKSpriteNode?
+    var lensSprite: SKSpriteNode?
+
+    init(point: HexPoint) {
+
+        self.point = point
+    }
+
+    required init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.point = try container.decode(HexPoint.self, forKey: .point)
+    }
+
+    static func == (lhs: TextureItem, rhs: TextureItem) -> Bool {
+        return lhs.point == rhs.point
+    }
+}
+
 public class TextureUtils {
 
     weak var gameModel: GameModel?
-    var tileTextures: Array2D<TextureItem>?
-
-    class TextureItem: Codable, Equatable {
-
-        enum CodingKeys: CodingKey {
-            case point
-        }
-
-        let point: HexPoint
-        var terrainSprite: SKSpriteNode?
-        var featureSprite: SKSpriteNode?
-        var resourceSprite: SKSpriteNode?
-        var resourceMarkerSprite: SKSpriteNode?
-        var snowSprite: SKSpriteNode?
-        var boardSprite: SKSpriteNode?
-        var iceSprite: SKSpriteNode?
-        var mainBorderSprite: SKSpriteNode?
-        var accentBorderSprite: SKSpriteNode?
-        var foodSprite: SKSpriteNode?
-        var productionSprite: SKSpriteNode?
-        var goldSprite: SKSpriteNode?
-        var waterSprite: SKSpriteNode?
-        var riverSprite: SKSpriteNode?
-        var improvementSprite: SKSpriteNode?
-        var routeSprite: SKSpriteNode?
-        var hexLabel: SKLabelNode?
-        var districtSprite: SKSpriteNode?
-        var districtBuildingSprite: SKSpriteNode?
-        var wonderSprite: SKSpriteNode?
-        var wonderBuildingSprite: SKSpriteNode?
-        var lensSprite: SKSpriteNode?
-
-        init(point: HexPoint) {
-
-            self.point = point
-        }
-
-        required init(from decoder: Decoder) throws {
-
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.point = try container.decode(HexPoint.self, forKey: .point)
-        }
-
-        static func == (lhs: TextureUtils.TextureItem, rhs: TextureUtils.TextureItem) -> Bool {
-            return lhs.point == rhs.point
-        }
-    }
+    private var tileTextures: Array2D<TextureItem>?
 
     public init(with gameModel: GameModel?) {
 

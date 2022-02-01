@@ -19,29 +19,28 @@ public struct Globals {
 
         public static let snow: CGFloat = 2.0
 
-        public static let focus: CGFloat = 3.0
+        public static let river: CGFloat = 3.0
+        public static let feature: CGFloat = 3.2
+        public static let path: CGFloat = 3.3
+        public static let resource: CGFloat = 3.9
 
-        public static let river: CGFloat = 4.0
-        public static let road: CGFloat = 4.1
-        public static let feature: CGFloat = 4.2
-        public static let path: CGFloat = 4.3
-        public static let resource: CGFloat = 4.9
+        public static let improvement: CGFloat = 4.0
+        public static let route: CGFloat = 4.1
+        public static let border: CGFloat = 4.2
+        public static let focus: CGFloat = 4.3
 
-        public static let border: CGFloat = 4.95
-        public static let improvement: CGFloat = 5.0 // 4.25 - https://github.com/mrommel/Colony/issues/44
-        public static let district: CGFloat = 5.03
-        public static let wonder: CGFloat = 5.04
-        public static let resourceMarker: CGFloat = 5.1
-        public static let route: CGFloat = 5.2
+        public static let mountain: CGFloat = 5.0
+        public static let cityName: CGFloat = 5.1
+        public static let city: CGFloat = 5.2
 
-        public static let mountain: CGFloat = 5.4
-        public static let cityName: CGFloat = 5.5
-        public static let city: CGFloat = 5.8
-        public static let yields: CGFloat = 5.9
+        // public static let improvementUpper: CGFloat = 5.25 // # not implemented yet
+        public static let district: CGFloat = 6.0
+        public static let wonder: CGFloat = 6.1
+        public static let resourceMarker: CGFloat = 6.2
+        public static let yields: CGFloat = 6.3
+        public static let hexCoords: CGFloat = 6.95 // debug
 
-        public static let hexCoords: CGFloat = 5.95 // debug
-
-        public static let unit: CGFloat = 6.0
+        public static let unit: CGFloat = 7.0
 
         public static let unitType: CGFloat = 8.0
 
@@ -111,6 +110,10 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "science")
         }
 
+        public static var faith: NSImage {
+            return Icons.loadCachedTexture(with: "faith")
+        }
+
         public static var culture: NSImage {
             return Icons.loadCachedTexture(with: "culture")
         }
@@ -123,8 +126,16 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "tradeRoute")
         }
 
+        public static var tradingPost: NSImage {
+            return Icons.loadCachedTexture(with: "tradingPost")
+        }
+
         public static var loyalty: NSImage {
             return Icons.loadCachedTexture(with: "loyalty")
+        }
+
+        public static var amenities: NSImage {
+            return Icons.loadCachedTexture(with: "amenities")
         }
 
         public static var capital: NSImage {
@@ -135,8 +146,84 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "strength")
         }
 
+        public static var citizen: NSImage {
+            return Icons.loadCachedTexture(with: "citizen")
+        }
+
+        public static var governor: NSImage {
+            return Icons.loadCachedTexture(with: "governor")
+        }
+
+        public static var greatPerson: NSImage {
+            return Icons.loadCachedTexture(with: "greatPerson")
+        }
+
+        public static var greatAdmiral: NSImage {
+            return Icons.loadCachedTexture(with: "greatAdmiral")
+        }
+
+        public static var greatArtist: NSImage {
+            return Icons.loadCachedTexture(with: "greatArtist")
+        }
+
+        public static var greatEngineer: NSImage {
+            return Icons.loadCachedTexture(with: "greatEngineer")
+        }
+
+        public static var greatGeneral: NSImage {
+            return Icons.loadCachedTexture(with: "greatGeneral")
+        }
+
+        public static var greatMerchant: NSImage {
+            return Icons.loadCachedTexture(with: "greatMerchant")
+        }
+
+        public static var greatMusician: NSImage {
+            return Icons.loadCachedTexture(with: "greatMusician")
+        }
+
+        public static var greatProphet: NSImage {
+            return Icons.loadCachedTexture(with: "greatProphet")
+        }
+
+        public static var greatScientist: NSImage {
+            return Icons.loadCachedTexture(with: "greatScientist")
+        }
+
+        public static var greatWriter: NSImage {
+            return Icons.loadCachedTexture(with: "greatWriter")
+        }
+
+        public static var relic: NSImage {
+            return Icons.loadCachedTexture(with: "relic")
+        }
+
         public static var questionmark: NSImage {
             return Icons.loadCachedTexture(with: "questionmark")
+        }
+
+        public static var checkmark: NSImage {
+            return Icons.loadCachedTexture(with: "checkmark")
+        }
+
+        public static var darkAge: NSImage {
+            return Icons.loadCachedTexture(with: "dark-age")
+        }
+
+        public static var normalAge: NSImage {
+            return Icons.loadCachedTexture(with: "normal-age")
+        }
+
+        public static var goldenAge: NSImage {
+            return Icons.loadCachedTexture(with: "golden-age")
+        }
+
+        public static var inspiration: NSImage {
+            return Icons.loadCachedTexture(with: "inspiration")
+        }
+
+        public static var eureka: NSImage {
+            return Icons.loadCachedTexture(with: "eureka")
         }
     }
 }
@@ -147,6 +234,7 @@ public extension Globals {
 
         public static let tooltipTitleFont = NSFont.systemFont(ofSize: 14)
         public static let tooltipContentFont = NSFont.systemFont(ofSize: 10)
+        public static let tooltipMapFont = NSFont.systemFont(ofSize: 14)
     }
 
     struct Attributs {
@@ -159,6 +247,11 @@ public extension Globals {
         public static let tooltipContentAttributs: [NSAttributedString.Key: Any] = [
             NSAttributedString.Key.font: Globals.Fonts.tooltipContentFont,
             NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipContentColor
+        ]
+
+        public static let tooltipMapAttributs: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.font: Globals.Fonts.tooltipMapFont,
+            NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipMapColor
         ]
     }
 }
@@ -177,6 +270,7 @@ public extension Globals {
         public static let toolTipBorderColor: TypeColor = TypeColor.white
         public static let tooltipTitleColor: TypeColor = TypeColor.matterhornGray
         public static let tooltipContentColor: TypeColor = TypeColor.matterhornGray
+        public static let tooltipMapColor: TypeColor = TypeColor.white
 
         public static let notificationDetailTitleColor: TypeColor = TypeColor(hex: "#2e2422")!
         public static let notificationDetailBodyColor: TypeColor = TypeColor(hex: "#3e3731")!

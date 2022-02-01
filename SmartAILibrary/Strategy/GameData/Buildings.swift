@@ -162,7 +162,7 @@ class Buildings: AbstractBuildings {
             }
         }
 
-        // +1 Housing6 Housing per level of Walls.
+        // +1 Housing per level of Walls.
         if government.currentGovernment() == .monarchy {
 
             if self.has(building: .ancientWalls) {

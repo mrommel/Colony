@@ -1086,7 +1086,13 @@ public class MilitaryAI: Codable {
                 }
 
                 let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: player, unitMapType: .combat, canEmbark: player.canEmbark())
+                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                    for: .swim,
+                    for: player,
+                    unitMapType: .combat,
+                    canEmbark: player.canEmbark(),
+                    canEnterOcean: self.player!.canEnterOcean()
+                )
                 if !pathFinder.doesPathExist(fromTileCoord: seaPlotNearMuster.point, toTileCoord: seaPlotNearTarget.point) {
                     continue
                 }
@@ -1143,7 +1149,13 @@ public class MilitaryAI: Codable {
         var pathLength = 0
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: player, unitMapType: .combat, canEmbark: player.canEmbark())
+        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+            for: .swim,
+            for: player,
+            unitMapType: .combat,
+            canEmbark: player.canEmbark(),
+            canEnterOcean: player.canEnterOcean()
+        )
 
         // Can embark
         if player.canEmbark() {
@@ -1179,7 +1191,13 @@ public class MilitaryAI: Codable {
             }*/
         } else {
 
-            pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: player, unitMapType: .combat, canEmbark: player.canEmbark())
+            pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                for: .walk,
+                for: player,
+                unitMapType: .combat,
+                canEmbark: player.canEmbark(),
+                canEnterOcean: player.canEnterOcean()
+            )
 
             // Can't embark yet
             if !pathFinder.doesPathExist(fromTileCoord: target.musterCity!.location, toTileCoord: target.targetCity!.location) {
@@ -1856,7 +1874,13 @@ public class MilitaryAI: Codable {
         var coastalPlot: AbstractTile?
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: self.player, unitMapType: .combat, canEmbark: self.player!.canEmbark())
+        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+            for: .swim,
+            for: self.player,
+            unitMapType: .combat,
+            canEmbark: self.player!.canEmbark(),
+            canEnterOcean: self.player!.canEnterOcean()
+        )
 
         // Find a coastal water tile adjacent to enemy city
         for adjacentPoint in target.neighbors() {
@@ -1962,7 +1986,7 @@ class MilitaryAIHelpers {
         let slotsToFill = formation.slots()
         var slotsNotFilled: [UnitFormationSlot] = []
 
-        let mustBeDeepWaterNaval = player.canEmbarkAllWaterPassage() && formation.isRequiresNavalUnitConsistency()
+        let mustBeDeepWaterNaval = player.canEnterOcean() && formation.isRequiresNavalUnitConsistency()
 
         for loopUnitRef in gameModel.units(of: player) {
 

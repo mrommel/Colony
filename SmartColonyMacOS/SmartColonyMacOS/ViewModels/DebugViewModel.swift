@@ -12,6 +12,7 @@ protocol DebugViewModelDelegate: AnyObject {
 
     func preparing()
     func prepared(game: GameModel?)
+    func preparedSkriteKit()
     func closed()
 }
 
@@ -37,8 +38,10 @@ class TestUI: UserInterfaceDelegate {
     func select(unit: AbstractUnit?) {}
     func unselect() {}
 
-    func show(unit: AbstractUnit?) {}
-    func hide(unit: AbstractUnit?) {}
+    func show(unit: AbstractUnit?, at location: HexPoint) {}
+    func hide(unit: AbstractUnit?, at location: HexPoint) {}
+    func enterCity(unit: AbstractUnit?, at location: HexPoint) {}
+    func leaveCity(unit: AbstractUnit?, at location: HexPoint) {}
     func move(unit: AbstractUnit?, on points: [HexPoint]) {}
     func refresh(unit: AbstractUnit?) {}
     func animate(unit: AbstractUnit?, animation: UnitAnimationType) {}
@@ -61,7 +64,7 @@ class TestUI: UserInterfaceDelegate {
 
     func refresh(tile: AbstractTile?) {}
 
-    func showTooltip(at point: HexPoint, text: String, delay: Double) {}
+    func showTooltip(at point: HexPoint, type: TooltipType, delay: Double) {}
 
     func focus(on location: HexPoint) {}
 }
@@ -111,10 +114,10 @@ class DebugViewModel: ObservableObject {
 
             // Human
             humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-            try! humanPlayer.techs?.discover(tech: .pottery)
+            try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
-            try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-            try! humanPlayer.civics?.discover(civic: .foreignTrade)
+            try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
             try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
@@ -125,11 +128,11 @@ class DebugViewModel: ObservableObject {
             let humanWarriorUnit = Unit(at: HexPoint(x: 2, y: 6), type: .warrior, owner: humanPlayer)
             humanWarriorUnit.origin = HexPoint(x: 3, y: 5)
             gameModel.add(unit: humanWarriorUnit)
-            gameModel.userInterface?.show(unit: humanWarriorUnit)
+            gameModel.userInterface?.show(unit: humanWarriorUnit, at: HexPoint(x: 2, y: 6))
 
             let barbarianWarriorUnit = Unit(at: HexPoint(x: 3, y: 6), type: .barbarianWarrior, owner: barbarianPlayer)
             gameModel.add(unit: barbarianWarriorUnit)
-            gameModel.userInterface?.show(unit: barbarianWarriorUnit)
+            gameModel.userInterface?.show(unit: barbarianWarriorUnit, at: HexPoint(x: 3, y: 6))
 
             MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
@@ -172,10 +175,10 @@ class DebugViewModel: ObservableObject {
 
             // Human
             humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-            try! humanPlayer.techs?.discover(tech: .pottery)
+            try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
-            try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-            try! humanPlayer.civics?.discover(civic: .foreignTrade)
+            try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
             try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
@@ -185,7 +188,7 @@ class DebugViewModel: ObservableObject {
             let humanTraderUnit = Unit(at: HexPoint(x: 2, y: 6), type: .trader, owner: humanPlayer)
             humanTraderUnit.origin = HexPoint(x: 3, y: 5)
             gameModel.add(unit: humanTraderUnit)
-            gameModel.userInterface?.show(unit: humanTraderUnit)
+            gameModel.userInterface?.show(unit: humanTraderUnit, at: HexPoint(x: 2, y: 6))
 
             MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
@@ -209,7 +212,7 @@ class DebugViewModel: ObservableObject {
                         humanPlayer.finishTurn()
                         humanPlayer.setAutoMoves(to: true)
                     }
-                } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.finishTurnButtonPressed())
+                } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.turnFinished())
 
                 turnCounter += 1
             } while turnCounter < 20
@@ -262,11 +265,11 @@ class DebugViewModel: ObservableObject {
 
             // Human
             humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-            try! humanPlayer.techs?.discover(tech: .pottery)
-            try! humanPlayer.techs?.discover(tech: .sailing)
+            try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
+            try! humanPlayer.techs?.discover(tech: .sailing, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
-            try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-            try! humanPlayer.civics?.discover(civic: .foreignTrade)
+            try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
             try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
@@ -283,7 +286,7 @@ class DebugViewModel: ObservableObject {
                 let unit = Unit(at: HexPoint(x: x, y: 4), type: unitType, owner: humanPlayer)
                 unit.origin = HexPoint(x: 3, y: 5)
                 gameModel.add(unit: unit)
-                gameModel.userInterface?.show(unit: unit)
+                gameModel.userInterface?.show(unit: unit, at: HexPoint(x: x, y: 4))
 
                 x += 1
             }
@@ -334,10 +337,10 @@ class DebugViewModel: ObservableObject {
 
             // Human
             humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-            try! humanPlayer.techs?.discover(tech: .pottery)
+            try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
-            try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-            try! humanPlayer.civics?.discover(civic: .foreignTrade)
+            try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
             try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
@@ -349,7 +352,7 @@ class DebugViewModel: ObservableObject {
 
             let prophetUnit = Unit(at: HexPoint(x: 3, y: 4), type: .prophet, owner: humanPlayer)
             gameModel.add(unit: prophetUnit)
-            gameModel.userInterface?.show(unit: prophetUnit)
+            gameModel.userInterface?.show(unit: prophetUnit, at: HexPoint(x: 3, y: 4))
 
             MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
@@ -410,14 +413,14 @@ class DebugViewModel: ObservableObject {
 
             // Human
             humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-            try! humanPlayer.techs?.discover(tech: .pottery)
-            try! humanPlayer.techs?.discover(tech: .bronzeWorking)
-            try! humanPlayer.techs?.discover(tech: .irrigation)
-            try! humanPlayer.techs?.discover(tech: .animalHusbandry)
-            try! humanPlayer.techs?.discover(tech: .sailing)
+            try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
+            try! humanPlayer.techs?.discover(tech: .bronzeWorking, in: gameModel)
+            try! humanPlayer.techs?.discover(tech: .irrigation, in: gameModel)
+            try! humanPlayer.techs?.discover(tech: .animalHusbandry, in: gameModel)
+            try! humanPlayer.techs?.discover(tech: .sailing, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .archery, in: gameModel)
-            try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-            try! humanPlayer.civics?.discover(civic: .foreignTrade)
+            try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
             try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
@@ -445,7 +448,7 @@ class DebugViewModel: ObservableObject {
 
             let builderUnit = Unit(at: HexPoint(x: 3, y: 4), type: .builder, owner: humanPlayer)
             gameModel.add(unit: builderUnit)
-            gameModel.userInterface?.show(unit: builderUnit)
+            gameModel.userInterface?.show(unit: builderUnit, at: HexPoint(x: 3, y: 4))
 
             MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
@@ -487,13 +490,13 @@ class DebugViewModel: ObservableObject {
 
             // Human
             humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-            try! humanPlayer.techs?.discover(tech: .pottery)
+            try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
 
-            try! humanPlayer.civics?.discover(civic: .codeOfLaws)
-            try! humanPlayer.civics?.discover(civic: .foreignTrade)
-            try! humanPlayer.civics?.discover(civic: .craftsmanship)
-            try! humanPlayer.civics?.discover(civic: .militaryTradition)
+            try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .craftsmanship, in: gameModel)
+            try! humanPlayer.civics?.discover(civic: .militaryTradition, in: gameModel)
             //try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
@@ -506,15 +509,15 @@ class DebugViewModel: ObservableObject {
             // add combat units
             let warriorUnit = Unit(at: HexPoint(x: 20, y: 7), type: .warrior, owner: humanPlayer)
             gameModel.add(unit: warriorUnit)
-            gameModel.userInterface?.show(unit: warriorUnit)
+            gameModel.userInterface?.show(unit: warriorUnit, at: HexPoint(x: 20, y: 7))
 
             let warriorUnit2 = Unit(at: HexPoint(x: 21, y: 7), type: .warrior, owner: humanPlayer)
             gameModel.add(unit: warriorUnit2)
-            gameModel.userInterface?.show(unit: warriorUnit2)
+            gameModel.userInterface?.show(unit: warriorUnit2, at: HexPoint(x: 21, y: 7))
 
             let archerUnit = Unit(at: HexPoint(x: 20, y: 6), type: .archer, owner: humanPlayer)
             gameModel.add(unit: archerUnit)
-            gameModel.userInterface?.show(unit: archerUnit)
+            gameModel.userInterface?.show(unit: archerUnit, at: HexPoint(x: 20, y: 6))
 
             MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
@@ -522,6 +525,11 @@ class DebugViewModel: ObservableObject {
                 self.delegate?.prepared(game: gameModel)
             }
         }
+    }
+
+    func createSpriteKitView() {
+
+        self.delegate?.preparedSkriteKit()
     }
 
     func close() {

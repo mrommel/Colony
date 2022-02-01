@@ -1,0 +1,108 @@
+/* 
+  Religions.strings
+  SmartAssets
+
+  Created by Michael Rommel on 12.01.22.
+  
+*/
+
+// cityPatronGoddess
+"TXT_KEY_RELIGION_PANTHEON_CITY_PATRON_GODDESS_TITLE" = "City Patron Goddess";
+"TXT_KEY_RELIGION_PANTHEON_CITY_PATRON_GODDESS_BONUS" = "+25% [Production] Production toward districts in cities without a specialty district.";
+
+// danceOfTheAurora
+"TXT_KEY_RELIGION_PANTHEON_DANCE_OF_THE_AURORA_TITLE" = "Dance of the Aurora";
+"TXT_KEY_RELIGION_PANTHEON_DANCE_OF_THE_AURORA_BONUS" = "Holy Site districts get +1 [Faith] Faith from adjacent Tundra tiles.";
+
+// desertFolklore
+"TXT_KEY_RELIGION_PANTHEON_DESERT_FOLKLORE_TITLE" = "Desert Folklore";
+"TXT_KEY_RELIGION_PANTHEON_DESERT_FOLKLORE_BONUS" = "Holy Site districts get +1 [Faith] Faith from adjacent Desert tiles.";
+
+// divineSpark
+"TXT_KEY_RELIGION_PANTHEON_DIVINE_SPARK_TITLE" = "Divine Spark";
+"TXT_KEY_RELIGION_PANTHEON_DIVINE_SPARK_BONUS" = "+1 [GreatPerson] Great Person Points from Holy Sites (Prophet), Campuses with a Library (Scientist), and Theater Squares with an Amphitheater (Writer).";
+
+// earthGoddess
+"TXT_KEY_RELIGION_PANTHEON_EARTH_GODDESS_TITLE" = "Earth Goddess";
+"TXT_KEY_RELIGION_PANTHEON_EARTH_GODDESS_BONUS" = "+1 [Faith] Faith from tiles with Breathtaking Appeal.";
+
+// fertilityRites
+"TXT_KEY_RELIGION_PANTHEON_FERTILITY_RITES_TITLE" = "Fertility Rites";
+"TXT_KEY_RELIGION_PANTHEON_FERTILITY_RITES_BONUS" = "When chosen receive a Builder in your [Capital] capital. City growth rate is 10% higher.";
+
+// fireGoddess
+"TXT_KEY_RELIGION_PANTHEON_FIRE_GODDESS_TITLE" = "Fire Goddess";
+"TXT_KEY_RELIGION_PANTHEON_FIRE_GODDESS_BONUS" = "+2 [Faith] Faith from Geothermal Fissures and Volcanic Soil.";
+
+// godOfCraftsmen
+"TXT_KEY_RELIGION_PANTHEON_GOD_OF_CRAFTSMEN_TITLE" = "God of Craftsmen";
+"TXT_KEY_RELIGION_PANTHEON_GOD_OF_CRAFTSMEN_BONUS" = "+1 [Production] Production and +1 [Faith] Faith from improved Strategic resources.";
+
+// godOfHealing
+"TXT_KEY_RELIGION_PANTHEON_GOD_OF_HEALING_TITLE" = "God of Healing";
+"TXT_KEY_RELIGION_PANTHEON_GOD_OF_HEALING_BONUS" = "Increases units' healing by 30 in Holy Site districts, or any adjacent tiles.";
+
+// godOfTheForge
+"TXT_KEY_RELIGION_PANTHEON_GOD_OF_THE_FORGE_TITLE" = "God of the Forge";
+"TXT_KEY_RELIGION_PANTHEON_GOD_OF_THE_FORGE_BONUS" = "+25% [Production] Production toward Ancient and Classical military units.";
+
+// godOfTheOpenSky
+"TXT_KEY_RELIGION_PANTHEON_GOD_OF_THE_OPEN_SKY_TITLE" = "God of the Open Sky";
+"TXT_KEY_RELIGION_PANTHEON_GOD_OF_THE_OPEN_SKY_BONUS" = "+1 [Culture] Culture from Pastures.";
+
+// godOfTheSea
+"TXT_KEY_RELIGION_PANTHEON_GOD_OF_THE_SEA_TITLE" = "God of the Sea";
+"TXT_KEY_RELIGION_PANTHEON_GOD_OF_THE_SEA_BONUS" = "+1 [Production] Production from Fishing Boats.";
+
+// godOfWar
+"TXT_KEY_RELIGION_PANTHEON_GOD_OF_WAR_TITLE" = "God of War";
+"TXT_KEY_RELIGION_PANTHEON_GOD_OF_WAR_BONUS" = "Bonus [Faith] Faith equal to 50% of the strength of each combat unit killed within 8 tiles of a Holy Site district.";
+
+// goddessOfFestivals
+"TXT_KEY_RELIGION_PANTHEON_GODDESS_OF_FESTIVALS_TITLE" = "Goddess of Festivals";
+"TXT_KEY_RELIGION_PANTHEON_GODDESS_OF_FESTIVALS_BONUS" = "+1 [Culture] Culture from Plantations.";
+
+// goddessOfTheHarvest
+"TXT_KEY_RELIGION_PANTHEON_GODDESS_OF_THE_HARVEST_TITLE" = "Goddess of the Harvest";
+"TXT_KEY_RELIGION_PANTHEON_GODDESS_OF_THE_HARVEST_BONUS" = "Harvesting a resource or removing a feature receives [Faith] Faith equal to the other yield's quantity.";
+
+// goddessOfTheHunt
+"TXT_KEY_RELIGION_PANTHEON_GODDESS_OF_THE_HUNT_TITLE" = "Goddess of the Hunt";
+"TXT_KEY_RELIGION_PANTHEON_GODDESS_OF_THE_HUNT_BONUS" = "+1 [Food] Food and +1 [Production] Production from Camps.";
+
+
+// initiationRites
+"TXT_KEY_RELIGION_PANTHEON_INITIATION_RITES_TITLE" = "Initiation Rites";
+"TXT_KEY_RELIGION_PANTHEON_INITIATION_RITES_BONUS" = "+50 [Faith] Faith for each Barbarian Outpost cleared. The unit that cleared the Barbarian Outpost heals +100 HP.";
+
+// ladyOfTheReedsAndMarshes
+"TXT_KEY_RELIGION_PANTHEON_LADY_OF_THE_REEDS_AND_MARSHES_TITLE" = "Lady of the Reeds and Marshes";
+"TXT_KEY_RELIGION_PANTHEON_LADY_OF_THE_REEDS_AND_MARSHES_BONUS" = "+2 [Production] Production from Marsh, Oasis, and Desert Floodplains.";
+
+// monumentToTheGods
+"TXT_KEY_RELIGION_PANTHEON_MONUMENT_TO_THE_GODS_TITLE" = "Monument to the Gods";
+"TXT_KEY_RELIGION_PANTHEON_MONUMENT_TO_THE_GODS_BONUS" = "+15% [Production] Production to Ancient and Classical era Wonders.";
+
+// oralTradition
+"TXT_KEY_RELIGION_PANTHEON_ORAL_TRADITION_TITLE" = "Oral Tradition";
+"TXT_KEY_RELIGION_PANTHEON_ORAL_TRADITION_BONUS" = "+1 [Culture] Culture from Bananas, Citrus, Cotton, Dyes, Silk, Spices, and Sugar Plantations.";
+
+// religiousIdols
+"TXT_KEY_RELIGION_PANTHEON_RELIGIOUS_IDOLS_TITLE" = "Religious Idols";
+"TXT_KEY_RELIGION_PANTHEON_RELIGIOUS_IDOLS_BONUS" = "+2 [Faith] Faith from Mines over Luxury and Bonus resources.";
+
+// riverGoddess
+"TXT_KEY_RELIGION_PANTHEON_RIVER_GODDESS_TITLE" = "River Goddess";
+"TXT_KEY_RELIGION_PANTHEON_RIVER_GODDESS_BONUS" = "+2 [Amenities] Amenities and +2 [Housing] Housing to cities if they have a Holy Site district adjacent to a River.";
+
+// religiousSettlements
+"TXT_KEY_RELIGION_PANTHEON_RELIGIOUS_SETTLEMENTS_TITLE" = "Religious Settlements";
+"TXT_KEY_RELIGION_PANTHEON_RELIGIOUS_SETTLEMENTS_BONUS" = "When chosen receive a Settler in your [Capital] capital. Border expansion rate is 15% faster.";
+
+// sacredPath
+"TXT_KEY_RELIGION_PANTHEON_SACRED_PATH_TITLE" = "Sacred Path";
+"TXT_KEY_RELIGION_PANTHEON_SACRED_PATH_BONUS" = "Holy Site districts get +1 [Faith] Faith from adjacent Rainforest tiles.";
+
+// stoneCircles
+"TXT_KEY_RELIGION_PANTHEON_STONE_CIRCLES_TITLE" = "Stone Circles";
+"TXT_KEY_RELIGION_PANTHEON_STONE_CIRCLES_BONUS" = "+2 [Faith] Faith from Quarries.";

@@ -76,7 +76,7 @@ class UsecaseTests: XCTestCase {
                 playerAlexander.finishTurn()
                 playerAlexander.setAutoMoves(to: true)
             }
-        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         // THEN
         XCTAssertEqual(numCitiesBefore, 0)
@@ -149,7 +149,7 @@ class UsecaseTests: XCTestCase {
                 playerAlexander.finishTurn()
                 playerAlexander.setAutoMoves(to: true)
             }
-        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         print("--- between turns ---")
 
@@ -163,7 +163,7 @@ class UsecaseTests: XCTestCase {
                 playerAlexander.finishTurn()
                 playerAlexander.setAutoMoves(to: true)
             }
-        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         let locationAfterTurn2 = playerTrajanWarrior.location
 
@@ -235,7 +235,7 @@ class UsecaseTests: XCTestCase {
                 playerAlexander.finishTurn()
                 playerAlexander.setAutoMoves(to: true)
             }
-        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         // THEN
 
@@ -301,7 +301,7 @@ class UsecaseTests: XCTestCase {
                 playerAlexander.finishTurn()
                 playerAlexander.setAutoMoves(to: true)
             }
-        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         // THEN
         XCTAssertEqual(mapModel.improvement(at: HexPoint(x: 16, y: 15)), .farm)
@@ -382,7 +382,7 @@ class UsecaseTests: XCTestCase {
                 playerAlexander.finishTurn()
                 playerAlexander.setAutoMoves(to: true)
             }
-        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.finishTurnButtonPressed())
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         // THEN
         assertContains(playerAugustusBuilder.location, in: possibleBuilderLocation)

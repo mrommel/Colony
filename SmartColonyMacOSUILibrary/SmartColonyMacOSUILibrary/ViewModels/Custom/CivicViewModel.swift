@@ -66,7 +66,7 @@ class CivicViewModel: ObservableObject, Identifiable {
 
     func title() -> String {
 
-        return self.civicType.name()
+        return self.civicType.name().localized()
     }
 
     func icon() -> NSImage {
@@ -76,7 +76,8 @@ class CivicViewModel: ObservableObject, Identifiable {
 
     func background() -> NSImage {
 
-        return ImageCache.shared.image(for: self.state.backgroundTexture()).resize(withSize: NSSize(width: 42, height: 42))!
+        return ImageCache.shared.image(for: self.state.backgroundTexture())
+            .resize(withSize: NSSize(width: 42, height: 42))!
     }
 
     private func achievements() -> [AchievementViewModel] {
@@ -143,7 +144,7 @@ class CivicViewModel: ObservableObject, Identifiable {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: "header-button-governors-active",
-                    toolTipText: NSAttributedString(string: "Governor title")
+                    toolTipText: NSAttributedString(string: "TXT_KEY_GOVERNOR_TITLE".localized())
                 )
             )
         }
@@ -157,19 +158,21 @@ class CivicViewModel: ObservableObject, Identifiable {
             return ""
         }
 
-        return "Turns \(self.turns)"
+        return "TXT_KEY_TURNS".localized() + " " + "\(self.turns)"
     }
 
     func boostText() -> String {
 
-        if self.civicType.eurekaSummary() == "" {
+        if self.civicType.inspirationSummary() == "" {
             return ""
         }
 
         if self.boosted {
-            return "Boosted: " + self.civicType.eurekaSummary()
+            return "TXT_KEY_BOOSTED".localized() + ": " +
+                self.civicType.inspirationSummary().localized()
         } else {
-            return "To boost: " + self.civicType.eurekaSummary()
+            return "TXT_KEY_TO_BOOST".localized() + ": " +
+                self.civicType.inspirationSummary().localized()
         }
     }
 

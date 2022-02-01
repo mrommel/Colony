@@ -20,15 +20,6 @@
         }
       },
       {
-        "package": "R.swift.Library",
-        "repositoryURL": "https://github.com/mac-cain13/R.swift.Library",
-        "state": {
-          "branch": null,
-          "revision": "8998cfe77f4fce79ee6dfab0c88a7d551659d8fb",
-          "version": "5.4.0"
-        }
-      },
-      {
         "package": "SDWebImage",
         "repositoryURL": "https://github.com/SDWebImage/SDWebImage.git",
         "state": {
@@ -71,15 +62,6 @@
           "branch": null,
           "revision": "63eea482d9fab8a7c929298ce39a436ff13efb9c",
           "version": null
-        }
-      },
-      {
-        "package": "XMLCoder",
-        "repositoryURL": "https://github.com/MaxDesiatov/XMLCoder",
-        "state": {
-          "branch": null,
-          "revision": "887de88b37b2d691d67db950770e09776229cf6d",
-          "version": "0.13.0"
         }
       },
       {

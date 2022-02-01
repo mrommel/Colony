@@ -187,7 +187,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Redoubt",
                 effects: [
-                    "Increase city garrison Combat Strength by 5.",
+                    "Increase city garrison [Strength] Combat Strength by 5.",
                     "Established in 3 turns."
                 ],
                 tier: 0,
@@ -198,7 +198,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Garrison Commander",
                 effects: [
-                    "Units defending within the city's territory get +5 Combat Strength.",
+                    "Units defending within the city's territory get +5 [Strength] Combat Strength.",
                     "Your other cities within 9 tiles gain +4 Loyalty per turn towards your civilization."
                 ],
                 tier: 1,
@@ -231,7 +231,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Air Defense Initiative",
                 effects: [
-                    "+25 Combat Strength to anti-air support units within the city's territory when defending against aircraft and ICBMs."
+                    "+25 [Strength] Combat Strength to anti-air support units within the city's territory when defending against aircraft and ICBMs."
                 ],
                 tier: 3,
                 requiredOr: [.embrasure],
@@ -241,7 +241,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Arms Race Proponent",
                 effects: [
-                    "30% Production increase to all nuclear armament projects in the city."
+                    "30% [Production] Production increase to all nuclear armament projects in the city."
                 ],
                 tier: 3,
                 requiredOr: [.embrasure],
@@ -326,8 +326,8 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Surplus Logistics",
                 effects: [
-                    "+20% Food Growth in the city.",
-                    "Your Trade Routes ending here provide +2 Food to their starting city."
+                    "+20% [Food] Food Growth in the city.",
+                    "Your [TradeRoute] Trade Routes ending here provide +2 [Food] Food to their starting city."
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -337,7 +337,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Provision",
                 effects: [
-                    "Settlers trained in the city do not consume a Citizen Population."
+                    "Settlers trained in the city do not consume a [Citizen] Citizen Population."
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -347,7 +347,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Industrialist",
                 effects: [
-                    "Increase the Power provided by each resource of the Coal Power Plant, Oil Power Plant and Nuclear Power Plant by 1 and the Production by 2."
+                    "Increase the Power provided by each resource of the Coal Power Plant, Oil Power Plant and Nuclear Power Plant by 1 and the [Production] Production by 2."
                 ],
                 tier: 2,
                 requiredOr: [.surplusLogistics],
@@ -367,7 +367,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Vertical Integration",
                 effects: [
-                    "This city receives Production from any number of Industrial Zones within 6 tiles, not just the first."
+                    "This city receives [Production] Production from any number of Industrial Zones within 6 tiles, not just the first."
                 ],
                 tier: 3,
                 requiredOr: [.industrialist, .blackMarketeer],
@@ -380,7 +380,7 @@ public enum GovernorTitleType: Int, Codable {
                 name: "Bishop",
                 effects: [
                     "Religious pressure to adjacent cities is 100% stronger from this city.",
-                    "+2 Faith per specialty district in this city."
+                    "+2 [Faith] Faith per specialty district in this city."
                 ],
                 tier: 0,
                 requiredOr: [],
@@ -411,7 +411,7 @@ public enum GovernorTitleType: Int, Codable {
                 name: "Citadel of God",
                 effects: [
                     "City ignores pressure and combat effects from Religions not founded by the Governor's player.",
-                    "Gain Faith equal to 25% of the construction cost when finishing buildings."
+                    "Gain [Faith] Faith equal to 25% of the construction cost when finishing buildings."
                 ],
                 tier: 2,
                 requiredOr: [.grandInquisitor, .layingOnOfHands],
@@ -431,7 +431,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Divine Architect",
                 effects: [
-                    "Allows city to purchase Districts with Faith."
+                    "Allows city to purchase Districts with [Faith] Faith."
                 ],
                 tier: 3,
                 requiredOr: [.citadelOfGod],
@@ -453,7 +453,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Zoning Commissioner",
                 effects: [
-                    "+20% Production towards constructing Districts in the city."
+                    "+20% [Production] Production towards constructing Districts in the city."
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -464,8 +464,8 @@ public enum GovernorTitleType: Int, Codable {
                 name: "Aquaculture",
                 effects: [
                     "The Fishery unique improvement can be built in the city on coastal plots.",
-                    "Yields 1 Food, +1 Food for each adjacent sea resource.",
-                    "Fisheries provide +1 Production if Liang is in the city."
+                    "Yields 1 [Food] Food, +1 [Food] Food for each adjacent sea resource.",
+                    "Fisheries provide +1 [Production] Production if Liang is in the city."
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -485,7 +485,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Water Works",
                 effects: [
-                    "+2 Housing for every Neighborhood and Aqueduct district in this city.",
+                    "+2 [Housing] Housing for every Neighborhood and Aqueduct district in this city.",
                     "+1 Amenity for every Canal and Dam district in this city."],
                 tier: 2,
                 requiredOr: [.aquaculture],
@@ -496,9 +496,9 @@ public enum GovernorTitleType: Int, Codable {
                 name: "Parks and Recreation",
                 effects: [
                     "The City Park unique improvement can be built in the city.",
-                    "Yields 2 Appeal and 1 Culture.",
+                    "Yields 2 Appeal and 1 [Culture] Culture.",
                     "+1 Amenity if adjacent to water.",
-                    "City Parks provide 3 Culture Culture if Liang is in the city."
+                    "City Parks provide 3 [Culture] Culture if Liang is in the city."
                 ],
                 tier: 3,
                 requiredOr: [.reinforcedMaterials, .waterWorks],
@@ -510,7 +510,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Librarian",
                 effects: [
-                    "15% increase in Science and Culture generated by the city."
+                    "15% increase in [Science] Science and [Culture] Culture generated by the city."
                 ],
                 tier: 0,
                 requiredOr: [],
@@ -520,7 +520,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Connoisseur",
                 effects: [
-                    "+1 Culture per turn for each Citizen in the city."
+                    "+1 [Culture] Culture per turn for each Citizen in the city."
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -530,7 +530,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Researcher",
                 effects: [
-                    "+1 Science per turn for each Citizen in the city."
+                    "+1 [Science] Science per turn for each Citizen in the city."
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -540,7 +540,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Grants",
                 effects: [
-                    "+100% Great People points generated per turn in the city."
+                    "+100% [GreatPeople] Great People points generated per turn in the city."
                 ],
                 tier: 2,
                 requiredOr: [.connoisseur, .researcher],
@@ -550,7 +550,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Space Initiative",
                 effects: [
-                    "30% Production increase to all space-program projects in the city."
+                    "30% [Production] Production increase to all space-program projects in the city."
                 ],
                 tier: 3,
                 requiredOr: [.grants],
@@ -560,7 +560,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Curator",
                 effects: [
-                    "+100% Tourism from Great Works of Art, Music, and Writing in the city."
+                    "+100% [Tourism] Tourism from Great Works of Art, Music, and Writing in the city."
                 ],
                 tier: 3,
                 requiredOr: [.grants],

@@ -20,16 +20,24 @@ class WonderBuiltPopupViewModel: ObservableObject {
     @Published
     var bonusTexts: [String]
 
-    private let iconTexture: String
+    private var iconTexture: String
 
     weak var delegate: GameViewModelDelegate?
 
-    init(wonderType: WonderType) {
+    init() {
+
+        self.iconTexture = WonderType.alhambra.iconTexture()
+        self.title = "Wonder built"
+        self.nameText = "-"
+        self.bonusTexts = []
+    }
+
+    func update(for wonderType: WonderType) {
 
         self.iconTexture = wonderType.iconTexture()
-        self.title = "Wonder built"
+
         self.nameText = "Your civilization has finished construction on \(wonderType)"
-        self.bonusTexts = wonderType.effects()
+        self.bonusTexts = wonderType.effects().map { $0.localized() }
     }
 
     func icon() -> NSImage {

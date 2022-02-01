@@ -181,15 +181,51 @@ class PlayerReligion: AbstractPlayerReligion {
 
     func foundPantheon(with pantheonType: PantheonType, in gameModel: GameModel?) {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         guard let civics = self.player?.civics else {
             fatalError("cant get civics")
         }
 
-        self.pantheonVal = pantheonType
+        // moments
+        let numPantheonsFounded: Int = gameModel.religions()
+            .count(where: { $0?.pantheon() != PantheonType.none })
+        if numPantheonsFounded == 0 {
 
-        if !civics.eurekaTriggered(for: .mysticism) {
-            civics.triggerEureka(for: .mysticism, in: gameModel)
+            player.addMoment(of: .worldsFirstPantheon, in: gameModel)
+        } else {
+            player.addMoment(of: .pantheonFounded, in: gameModel)
         }
+
+        if !civics.inspirationTriggered(for: .mysticism) {
+            civics.triggerInspiration(for: .mysticism, in: gameModel)
+        }
+
+        if pantheonType == .fertilityRites {
+            // When chosen receive a Builder in your [Capital] capital.
+            if let capital = self.player?.capitalCity(in: gameModel) {
+                let builder = Unit(at: capital.location, name: nil, type: .builder, owner: self.player)
+                gameModel.add(unit: builder)
+                gameModel.userInterface?.show(unit: builder, at: capital.location)
+            }
+        }
+
+        if pantheonType == .religiousSettlements {
+            // When chosen receive a Settler in your [Capital] capital.
+            if let capital = self.player?.capitalCity(in: gameModel) {
+                let settler = Unit(at: capital.location, name: nil, type: .settler, owner: self.player)
+                gameModel.add(unit: settler)
+                gameModel.userInterface?.show(unit: settler, at: capital.location)
+            }
+        }
+
+        self.pantheonVal = pantheonType
     }
 
     func hasCreatedPantheon() -> Bool {
@@ -263,7 +299,7 @@ class PlayerReligion: AbstractPlayerReligion {
                 if player.canPurchaseInAnyCity(unit: unitType, with: .faith, in: gameModel) {
                     let cost = capital.faithPurchaseCost(of: unitType)
 
-                    if cost != 0 && faith > cost {
+                    if cost > 0 && faith > cost {
                         return true
                     }
                 }
@@ -275,7 +311,7 @@ class PlayerReligion: AbstractPlayerReligion {
 
                     let cost = capital.faithPurchaseCost(of: buildingType)
 
-                    if cost != 0 && faith > cost {
+                    if cost > 0 && faith > cost {
                         return true
                     }
                 }
@@ -340,11 +376,19 @@ class PlayerReligion: AbstractPlayerReligion {
 
     func found(religion religionType: ReligionType, at cityRef: AbstractCity?, in gameModel: GameModel?) {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
         guard let city = cityRef else {
             fatalError("cant get religion found city")
         }
 
-        gameModel?.religions()
+        let numReligionsFounded: Int = gameModel.religions()
+            .count(where: { $0?.currentReligion() != ReligionType.none })
+        if numReligionsFounded == 0 {
+            self.player?.addMoment(of: .worldsFirstReligion, in: gameModel)
+        }
 
         self.religionFounded = religionType
         self.holyCityLocationVal = city.location

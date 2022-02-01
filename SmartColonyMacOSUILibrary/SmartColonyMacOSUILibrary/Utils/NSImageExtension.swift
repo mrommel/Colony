@@ -40,7 +40,7 @@ extension NSImage {
 extension NSImage {
 
     /// A PNG representation of the image.
-    var PNGRepresentation: Data? {
+    var pngRepresentation: Data? {
         if let tiff = self.tiffRepresentation, let tiffData = NSBitmapImageRep(data: tiff) {
             return tiffData.representation(using: .png, properties: [:])
         }
@@ -101,7 +101,8 @@ extension NSImage {
     /// - Parameter url: The file URL to save the png file to.
     /// - Throws: An unwrappingPNGRepresentationFailed when the image has no png representation.
     func savePngTo(url: URL) throws {
-        if let png = self.PNGRepresentation {
+
+        if let png = self.pngRepresentation {
             try png.write(to: url, options: .atomicWrite)
         } else {
             throw NSImageExtensionError.unwrappingPNGRepresentationFailed
@@ -117,6 +118,7 @@ enum NSImageExtensionError: Error {
 }
 
 func drawImageInCGContext(size: CGSize, drawFunc: (_ context: CGContext) -> Void) -> NSImage {
+
     let colorSpace = CGColorSpaceCreateDeviceRGB()
     let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
     let context = CGContext(
@@ -132,4 +134,34 @@ func drawImageInCGContext(size: CGSize, drawFunc: (_ context: CGContext) -> Void
 
     let image = context!.makeImage()!
     return NSImage(cgImage: image, size: size)
+}
+
+// Draw in NSGraphicsContext, a layer on top of CoreGraphics
+func drawImageInNSGraphicsContext(size: CGSize, drawFunc: () -> Void) -> NSImage {
+
+    let rep = NSBitmapImageRep(
+        bitmapDataPlanes: nil,
+        pixelsWide: Int(size.width),
+        pixelsHigh: Int(size.height),
+        bitsPerSample: 8,
+        samplesPerPixel: 4,
+        hasAlpha: true,
+        isPlanar: false,
+        colorSpaceName: NSColorSpaceName.calibratedRGB,
+        bytesPerRow: 0,
+        bitsPerPixel: 0)
+
+    let context = NSGraphicsContext(bitmapImageRep: rep!)
+
+    NSGraphicsContext.saveGraphicsState()
+    NSGraphicsContext.current = context
+
+    drawFunc()
+
+    NSGraphicsContext.restoreGraphicsState()
+
+    let image = NSImage(size: size)
+    image.addRepresentation(rep!)
+
+    return image
 }

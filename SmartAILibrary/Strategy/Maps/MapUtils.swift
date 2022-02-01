@@ -24,6 +24,35 @@ public class MapUtils {
         return mapModel
     }
 
+    public static func simple() -> MapModel {
+
+        let size = MapSize.duel
+        let mapModel = MapModel(size: size)
+
+        for x in 0..<size.width() {
+            for y in 0..<size.height() {
+
+                mapModel.set(terrain: .shore, at: HexPoint(x: x, y: y))
+            }
+        }
+
+        for point in HexPoint(x: 5, y: 2).areaWith(radius: 3) {
+            if mapModel.valid(point: point) {
+                mapModel.set(terrain: .grass, at: point)
+            }
+        }
+
+        for point in HexPoint(x: 5, y: 12).areaWith(radius: 3) {
+            if mapModel.valid(point: point) {
+                mapModel.set(terrain: .grass, at: point)
+            }
+        }
+
+        mapModel.analyze()
+
+        return mapModel
+    }
+
     public static func add(area: HexArea, with terrain: TerrainType, to mapModel: MapModel?) {
 
         for point in area {
@@ -39,9 +68,7 @@ public class MapUtils {
 
         for x in 0..<mapSize.width() {
             for y in 0..<mapSize.height() {
-
-                let tile = mapModel.tile(at: HexPoint(x: x, y: y))
-                tile?.discover(by: player, in: gameModel)
+                mapModel.discover(by: player, at: HexPoint(x: x, y: y), in: gameModel)
             }
         }
     }
@@ -49,9 +76,7 @@ public class MapUtils {
     static func discover(area: HexArea, mapModel: inout MapModel, by player: AbstractPlayer?, in gameModel: GameModel?) {
 
         for pt in area {
-
-            let tile = mapModel.tile(at: pt)
-            tile?.discover(by: player, in: gameModel)
+            mapModel.discover(by: player, at: pt, in: gameModel)
         }
     }
 }

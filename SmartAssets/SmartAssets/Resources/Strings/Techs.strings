@@ -1,0 +1,526 @@
+/* 
+  Techs.strings
+  SmartAssets
+
+  Created by Michael Rommel on 05.01.22.
+  
+*/
+
+// tech texts
+
+// ///////////////////////////////////////
+// ancient
+
+// mining
+"TXT_KEY_TECH_MINING_NAME" = "Mining";
+"TXT_KEY_TECH_MINING_EUREKA" = "";
+"TXT_KEY_TECH_MINING_EUREKA_TEXT" = "";
+"TXT_KEY_TECH_MINING_QUOTE1" = "”Who deserves more credit than the wife of a coal miner?”\n– Merle Travis";
+"TXT_KEY_TECH_MINING_QUOTE2" = "When you find yourself in a hole, quit digging.”\n- Will Rogers";
+
+// pottery
+"TXT_KEY_TECH_POTTERY_NAME" = "Pottery";
+"TXT_KEY_TECH_POTTERY_EUREKA" = "";
+"TXT_KEY_TECH_POTTERY_EUREKA_TEXT" = "";
+"TXT_KEY_TECH_POTTERY_QUOTE1" = "“No man ever wetted clay and then left it, as if there would be bricks by chance and fortune.”\n- Plutarch";
+"TXT_KEY_TECH_POTTERY_QUOTE2" = "“I thought clay must feel happy in the good potter’s hand.”\n– Janet Fitch";
+
+// animalHusbandry
+"TXT_KEY_TECH_ANIMAL_HUSBANDRY_NAME" = "Animal Husbandry";
+"TXT_KEY_TECH_ANIMAL_HUSBANDRY_EUREKA" = "";
+"TXT_KEY_TECH_ANIMAL_HUSBANDRY_EUREKA_TEXT" = "";
+"TXT_KEY_TECH_ANIMAL_HUSBANDRY_QUOTE1" = "“If there are no dogs in Heaven, then when I die I want to go where they went.“\n- Will Rogers";
+"TXT_KEY_TECH_ANIMAL_HUSBANDRY_QUOTE2" = "“I am fond of pigs. Dogs look up to us. Cats look down on us. Pigs treat us as equals.”\n- Winston S. Churchill";
+
+// sailing
+"TXT_KEY_TECH_SAILING_NAME" = "Sailing";
+"TXT_KEY_TECH_SAILING_EUREKA" = "Found a city on the Coast";
+"TXT_KEY_TECH_SAILING_EUREKA_TEXT" = "Founding a city on the Coast has given your civilization insight into navigating the waves.";
+"TXT_KEY_TECH_SAILING_QUOTE1" = "“Vessels large may venture more, but little boats should keep near shore.“\n-Benjamin Franklin";
+"TXT_KEY_TECH_SAILING_QUOTE2" = "“It is not that life ashore is distasteful to me. But life at sea is better.”\n– Sir Francis Drake";
+
+// astrology
+"TXT_KEY_TECH_ASTROLOGY_NAME" = "Astrology";
+"TXT_KEY_TECH_ASTROLOGY_EUREKA" = "Find a Natural Wonder";
+"TXT_KEY_TECH_ASTROLOGY_EUREKA_TEXT" = "Discovering a natural wonder has inspired your people with the majesty of the universe.";
+"TXT_KEY_TECH_ASTROLOGY_QUOTE1" = "“I don’t believe in astrology; I’m a Sagittarius and we’re skeptical.”\n– Arthur C. Clarke";
+"TXT_KEY_TECH_ASTROLOGY_QUOTE2" = "“A physician without a knowledge of astrology has no right to call himself a physician.”\n- Hippocrates";
+
+// irrigation
+"TXT_KEY_TECH_IRRIGATION_NAME" = "Irrigation";
+"TXT_KEY_TECH_IRRIGATION_EUREKA" = "Farm a resource";
+"TXT_KEY_TECH_IRRIGATION_EUREKA_TEXT" = "Farming a resource has given you an appreciation of the importance of irrigating your crops.";
+"TXT_KEY_TECH_IRRIGATION_QUOTE1" = "“Thousands have lived without love, not one without water.”\n-W. H. Auden";
+"TXT_KEY_TECH_IRRIGATION_QUOTE2" = "“The man who has grit enough to bring about the afforestation or the irrigation of a country is not less worthy of honor than its conqueror.”\n– Sir John Thomson";
+
+// writing
+"TXT_KEY_TECH_WRITING_NAME" = "Writing";
+"TXT_KEY_TECH_WRITING_EUREKA" = "Meet another civilization";
+"TXT_KEY_TECH_WRITING_EUREKA_TEXT" = "After meeting another civilization you see the need for new ways to communicate.";
+"TXT_KEY_TECH_WRITING_QUOTE1" = "“Writing means sharing. It’s part of the human condition to want to share things – thoughts, ideas, opinions.”\n– Paulo Coelho";
+"TXT_KEY_TECH_WRITING_QUOTE2" = "“Writing is easy. All you have to do is cross out the wrong words.“\n-Mark Twain";
+
+// masonry
+"TXT_KEY_TECH_MASONRY_NAME" = "Masonry";
+"TXT_KEY_TECH_MASONRY_EUREKA" = "Build a Quarry";
+"TXT_KEY_TECH_MASONRY_EUREKA_TEXT" = "Quarrying a resource has given you the raw materials you need to employ masons.";
+"TXT_KEY_TECH_MASONRY_QUOTE1" = "“Each of us is carving a stone, erecting a column, or cutting a piece of stained glass in the construction of something much bigger than ourselves.”\n– Adrienne Clarkson";
+"TXT_KEY_TECH_MASONRY_QUOTE2" = "“When wasteful war shall statues overturn, and broils root out the work of masonry.”\n– William Shakespeare";
+
+// archery
+"TXT_KEY_TECH_ARCHERY_NAME" = "Archery";
+"TXT_KEY_TECH_ARCHERY_EUREKA" = "Kill a unit with a Slinger";
+"TXT_KEY_TECH_ARCHERY_EUREKA_TEXT" = "After finally killing an enemy with a Slinger, you long for a stronger ranged weapon.";
+"TXT_KEY_TECH_ARCHERY_QUOTE1" = "“I shot an arrow into the air. It fell to earth, I knew not where.”\n– Henry Wadsworth Longfellow";
+"TXT_KEY_TECH_ARCHERY_QUOTE2" = "“May the forces of evil become confused while your arrow is on its way to the target.”\n– George Carlin";
+
+// bronzeWorking
+"TXT_KEY_TECH_BRONZE_WORKING_NAME" = "Bronze Working";
+"TXT_KEY_TECH_BRONZE_WORKING_EUREKA" = "Kill 3 Barbarians";
+"TXT_KEY_TECH_BRONZE_WORKING_EUREKA_TEXT" = "Your fights with Barbarians highlight the need for stronger weaponry.";
+"TXT_KEY_TECH_BRONZE_WORKING_QUOTE1" = "“Bronze is the mirror of the form, wine of the mind.”\n– Aeschylus";
+"TXT_KEY_TECH_BRONZE_WORKING_QUOTE2" = "“I’m also interested in creating a lasting legacy … because bronze will last for thousands of years.”\n- Richard MacDonald";
+
+// wheel
+"TXT_KEY_TECH_WHEEL_NAME" = "Wheel";
+"TXT_KEY_TECH_WHEEL_EUREKA" = "Mine a resource";
+"TXT_KEY_TECH_WHEEL_EUREKA_TEXT" = "Your mining operations have given you the ability to create an axle. Will the wheel follow?";
+"TXT_KEY_TECH_WHEEL_QUOTE1" = "“Sometimes the wheel turns slowly, but it turns.”\n– Lorne Michaels";
+"TXT_KEY_TECH_WHEEL_QUOTE2" = "“Don’t reinvent the wheel, just realign it.”\n– Anthony D’Angelo";
+
+// ///////////////////////////////////////
+// classical
+
+// celestialNavigation
+"TXT_KEY_TECH_CELECSTIAL_NAVIGATION_NAME" = "Celestial Navigation";
+"TXT_KEY_TECH_CELECSTIAL_NAVIGATION_EUREKA" = "Improve 2 Sea Resources";
+"TXT_KEY_TECH_CELECSTIAL_NAVIGATION_EUREKA_TEXT" = "Your fishermen are learning how to guide their travels based on studying the night sky.";
+"TXT_KEY_TECH_CELECSTIAL_NAVIGATION_QUOTE1" = "“And all I ask is a tall ship and a star to steer her by.”\n– John Masefield";
+"TXT_KEY_TECH_CELECSTIAL_NAVIGATION_QUOTE2" = "“Set your course by the stars, not by the lights of every passing ship.”\n– Omar Bradley";
+
+// horsebackRiding
+"TXT_KEY_TECH_HORSEBACK_RIDING_NAME" = "Horseback Riding";
+"TXT_KEY_TECH_HORSEBACK_RIDING_EUREKA" = "Build a Pasture";
+"TXT_KEY_TECH_HORSEBACK_RIDING_EUREKA_TEXT" = "With animals now domesticated into Pastures, it is time to learn to ride.";
+"TXT_KEY_TECH_HORSEBACK_RIDING_QUOTE1" = "“No hour of life is wasted that is spent in the saddle.”\n– Winston Churchill";
+"TXT_KEY_TECH_HORSEBACK_RIDING_QUOTE2" = "“A man on a horse is spiritually as well as physically bigger than a man on foot.”\n– John Steinbeck";
+
+// currency
+"TXT_KEY_TECH_CURRENCY_NAME" = "Currency";
+"TXT_KEY_TECH_CURRENCY_EUREKA" = "Make a Trade Route";
+"TXT_KEY_TECH_CURRENCY_EUREKA_TEXT" = "Your [TradeRoute] Trade Route directly exchanges goods, but a medium of exchange would make trade more flexible.";
+"TXT_KEY_TECH_CURRENCY_QUOTE1" = "“Wealth consists not in having great possessions, but in having few wants.”\n– Epictetus";
+"TXT_KEY_TECH_CURRENCY_QUOTE2" = "“Money, if it does not bring you happiness, will at least help you be miserable in comfort.”\n– Helen Gurley Brown";
+
+// construction
+"TXT_KEY_TECH_CONSTRUCTION_NAME" = "Construction";
+"TXT_KEY_TECH_CONSTRUCTION_EUREKA" = "Build a Water Mill";
+"TXT_KEY_TECH_CONSTRUCTION_EUREKA_TEXT" = "Work on the Water Mill has taught your workers much about construction practices.";
+"TXT_KEY_TECH_CONSTRUCTION_QUOTE1" = "“Create with the heart; build with the mind.”\n– Criss Jami";
+"TXT_KEY_TECH_CONSTRUCTION_QUOTE2" = "“The four building blocks of the universe are fire, water, gravel and vinyl.”\n– Dave Barry";
+
+// ironWorking
+"TXT_KEY_TECH_IRON_WORKING_NAME" = "Iron Working";
+"TXT_KEY_TECH_IRON_WORKING_EUREKA" = "Build an Iron Mine";
+"TXT_KEY_TECH_IRON_WORKING_EUREKA_TEXT" = "Access to a steady source of Iron has enabled you to build better weapons and stronger armor.";
+"TXT_KEY_TECH_IRON_WORKING_QUOTE1" = "“The Lord made us all out of iron. Then he turns up the heat to forge some of us into steel.”\n– Marie Osmond";
+"TXT_KEY_TECH_IRON_WORKING_QUOTE2" = "“Everything has its limit – iron ore cannot be educated into gold.”\n– Mark Twain";
+
+// shipBuilding
+"TXT_KEY_TECH_SHIP_BUILDING_NAME" = "Ship Building";
+"TXT_KEY_TECH_SHIP_BUILDING_EUREKA" = "Own 2 Galleys";
+"TXT_KEY_TECH_SHIP_BUILDING_EUREKA_TEXT" = "Constructing a squadron of Galleys has taught you much about building larger ships.";
+"TXT_KEY_TECH_SHIP_BUILDING_QUOTE1" = "“I cannot imagine any condition which would cause a ship to founder … Modern shipbuilding has gone beyond that.”\n– Capt. E.J. Smith, RMS Titanic";
+"TXT_KEY_TECH_SHIP_BUILDING_QUOTE2" = "“There is nothing but a plank between a sailor and eternity.”\n– Thomas Gibbons";
+
+// mathematics
+"TXT_KEY_TECH_MATHEMATICS_NAME" = "Mathematics";
+"TXT_KEY_TECH_MATHEMATICS_EUREKA" = "Build 3 Specialty Districts";
+"TXT_KEY_TECH_MATHEMATICS_EUREKA_TEXT" = "Your district planners have worked out the basics of geometry. Maybe a full mathematical system will follow soon?";
+"TXT_KEY_TECH_MATHEMATICS_QUOTE1" = "“Without mathematics, there's nothing you can do. Everything around you is mathematics. Everything around you is numbers.”\n– Shakuntala Devi";
+"TXT_KEY_TECH_MATHEMATICS_QUOTE2" = "“If I were again beginning my studies, I would follow the advice of Plato and start with mathematics.”\n– Galileo Galilei";
+
+// engineering
+"TXT_KEY_TECH_ENGINEERING_NAME" = "Engineering";
+"TXT_KEY_TECH_ENGINEERING_EUREKA" = "Build Ancient Walls";
+"TXT_KEY_TECH_ENGINEERING_EUREKA_TEXT" = "Completing walls around your city demonstrated the principles of engineering needed for Aqueducts and Catapults.";
+"TXT_KEY_TECH_ENGINEERING_QUOTE1" = "“One man's 'magic' is another man's engineering.”\n– Robert Heinlein";
+"TXT_KEY_TECH_ENGINEERING_QUOTE2" = "“Normal people … believe that if it ain’t broke, don’t fix it. Engineers believe that if it ain’t broke, it doesn’t have enough features yet.”\n– Scott Adams";
+
+// ///////////////////////////////////////
+// medieval
+
+// militaryTactics
+"TXT_KEY_TECH_MILITARY_TACTICS_NAME" = "Military Tactics";
+"TXT_KEY_TECH_MILITARY_TACTICS_EUREKA" = "Kill a unit with a Spearman";
+"TXT_KEY_TECH_MILITARY_TACTICS_EUREKA_TEXT" = "Your spearmen are proving effective, but now your opponents are stronger and faster. Perhaps a longer weapon is needed?";
+"TXT_KEY_TECH_MILITARY_TACTICS_QUOTE1" = "“Tactics mean doing what you can with what you have.”\n– Saul Alinsky";
+"TXT_KEY_TECH_MILITARY_TACTICS_QUOTE2" = "“Strategy requires thought; tactics require observation.”\n– Max Euwe";
+
+// buttress
+"TXT_KEY_TECH_BUTTRESS_NAME" = "Buttress";
+"TXT_KEY_TECH_BUTTRESS_EUREKA" = "Build a Classical Era or later Wonder";
+"TXT_KEY_TECH_BUTTRESS_EUREKA_TEXT" = "Now that you have finished a wonder of the classical world, what will your architects build next?";
+"TXT_KEY_TECH_BUTTRESS_QUOTE1" = "“An architect should live as little in cities as a painter. Send him to our hills, and let him study there what nature understands by a buttress, and what by a dome.”\n– John Ruskin";
+"TXT_KEY_TECH_BUTTRESS_QUOTE2" = "“Him that overcometh will I make a pillar in the temple of my God, and he shall go no more out.”\n– Revelation 3:12";
+
+// apprenticeship
+"TXT_KEY_TECH_APPRENTICESHIP_NAME" = "Apprenticeship";
+"TXT_KEY_TECH_APPRENTICESHIP_EUREKA" = "Build 3 Mines";
+"TXT_KEY_TECH_APPRENTICESHIP_EUREKA_TEXT" = "With raw materials now coming in from a wide variety of mines, the need to better teach new craftsmen to use them is essential.";
+"TXT_KEY_TECH_APPRENTICESHIP_QUOTE1" = "“We are all apprentices in a craft where no one ever becomes a master.”\n– Ernest Hemingway";
+"TXT_KEY_TECH_APPRENTICESHIP_QUOTE2" = "“There is no easy way to train an apprentice. My two tools are example and nagging.”\n– Lemony Snicket";
+
+// stirrups
+"TXT_KEY_TECH_STIRRUPS_NAME" = "Stirrups";
+"TXT_KEY_TECH_STIRRUPS_EUREKA" = "Have the Feudalism civic";
+"TXT_KEY_TECH_STIRRUPS_EUREKA_TEXT" = "The feudal lords in your realm want a champion to defend their lands. Perhaps mounting an armored warrior will do the trick?";
+"TXT_KEY_TECH_STIRRUPS_QUOTE1" = "“Few inventions have been so simple as the stirrup, but few have had so catalytic an influence on history.”\n– Lynn White Jr.";
+"TXT_KEY_TECH_STIRRUPS_QUOTE2" = "“Betwixt the stirrup and the ground, Mercy I asked, mercy I found.”\n– William Camden";
+
+// machinery
+"TXT_KEY_TECH_MACHINERY_NAME" = "Machinery";
+"TXT_KEY_TECH_MACHINERY_EUREKA" = "Own 3 Archers";
+"TXT_KEY_TECH_MACHINERY_EUREKA_TEXT" = "You look to machinery to improve the performance of your sizable contingent of ranged troops.";
+"TXT_KEY_TECH_MACHINERY_QUOTE1" = "“I'd imagine the whole world as one big machine. Machines never come with any spare parts, you know. They always come with the exact amount they need.”\n– Hugo Cabret";
+"TXT_KEY_TECH_MACHINERY_QUOTE2" = "“Remember that people break down, too, not just machinery.”\n– Gregory Benford";
+
+// education
+"TXT_KEY_TECH_EDUCATION_NAME" = "Education";
+"TXT_KEY_TECH_EDUCATION_EUREKA" = "Earn a Great Scientist";
+"TXT_KEY_TECH_EDUCATION_EUREKA_TEXT" = "The teachings from your [GreatScientist] Great Scientist have inspired a renewed interest in learning in your realm.";
+"TXT_KEY_TECH_EDUCATION_QUOTE1" = "“The purpose of education is to replace an empty mind with an open one.”\n– Malcolm Forbes";
+"TXT_KEY_TECH_EDUCATION_QUOTE2" = "“It is the mark of an educated mind to be able to entertain a thought without accepting it.”\n– Aristotle";
+
+// militaryEngineering
+"TXT_KEY_TECH_MILITARY_ENGINEERING_NAME" = "Military Engineering";
+"TXT_KEY_TECH_MILITARY_ENGINEERING_EUREKA" = "Build an Aqueduct";
+"TXT_KEY_TECH_MILITARY_ENGINEERING_EUREKA_TEXT" = "Your military leaders carefully followed the progress on your aqueduct. They see new ways to use these engineering skills.";
+"TXT_KEY_TECH_MILITARY_ENGINEERING_QUOTE1" = "“Blast - Build - Battle”\n– Motto of the U.S. 16th Engineer Brigade";
+"TXT_KEY_TECH_MILITARY_ENGINEERING_QUOTE2" = "“The more science intervenes in warfare, the more will be the need for engineers in the field armies; in the late war there were never enough sappers at any time.”\n– Bernard Montgomery";
+
+// castles
+"TXT_KEY_TECH_CASTLES_NAME" = "Castles";
+"TXT_KEY_TECH_CASTLES_EUREKA" = "Have a government with 6 policy slots";
+"TXT_KEY_TECH_CASTLES_EUREKA_TEXT" = "Our new government’s defense minister suggests that we might want to build impressive defenses to protect our bustling capital.";
+"TXT_KEY_TECH_CASTLES_QUOTE1" = "“Rocks in my path? I keep them all. With them I shall build my castle.”\n– Nemo Nox";
+"TXT_KEY_TECH_CASTLES_QUOTE2" = "“If you see a castle under fog, you must walk there to meet the extraordinary dreams.”\n– Mehmet Murat Ildan";
+
+// /////////////////////////////////
+// renaissance
+
+// cartography
+"TXT_KEY_TECH_CARTOGRAPHY_NAME" = "Cartography";
+"TXT_KEY_TECH_CARTOGRAPHY_EUREKA" = "Build 2 Harbors";
+"TXT_KEY_TECH_CARTOGRAPHY_EUREKA_TEXT" = "With so many ships leaving the harbors of your empire you long to document your explorations.";
+"TXT_KEY_TECH_CARTOGRAPHY_QUOTE1" = "“If your actions inspire others to dream more, learn more, do more and become more, you are a cartographer.”\n– John Quincy Adams";
+"TXT_KEY_TECH_CARTOGRAPHY_QUOTE2" = "“Not all who wander are lost.”\n– J.R.R. Tolkien";
+
+// massProduction
+"TXT_KEY_TECH_MASS_PRODUCTION_NAME" = "Mass Production";
+"TXT_KEY_TECH_MASS_PRODUCTION_EUREKA" = "Build a Lumber Mill";
+"TXT_KEY_TECH_MASS_PRODUCTION_EUREKA_TEXT" = "Now that you have a ready supply of standardized boards, your shipping industry will soon take off.";
+"TXT_KEY_TECH_MASS_PRODUCTION_QUOTE1" = "“People can have the Model T in any color - so long as it's black.”\n– Henry Ford";
+"TXT_KEY_TECH_MASS_PRODUCTION_QUOTE2" = "“What can be labeled, packaged, mass produced is neither truth nor art.”\n– Marty Rubin";
+
+// banking
+"TXT_KEY_TECH_BANKING_NAME" = "Banking";
+"TXT_KEY_TECH_BANKING_EUREKA" = "Have the Guilds civic";
+"TXT_KEY_TECH_BANKING_EUREKA_TEXT" = "Your emerging guilds have plans that require a large influx of gold. Perhaps we can find a way to let them take out a loan?";
+"TXT_KEY_TECH_BANKING_QUOTE1" = "“If you owe the bank $100 that's your problem. If you owe the bank $100 million, that's the bank's problem.”\n– J. Paul Getty";
+"TXT_KEY_TECH_BANKING_QUOTE2" = "“I saw a bank that said '24-Hour Banking,' but I didn't have that much time.”\n– Steven Wright";
+
+// gunpowder
+"TXT_KEY_TECH_GUNPOWDER_NAME" = "Gunpowder";
+"TXT_KEY_TECH_GUNPOWDER_EUREKA" = "Build an Armory";
+"TXT_KEY_TECH_GUNPOWDER_EUREKA_TEXT" = "Your men at the armory are fashioning a new weapon that will devastate opponents.";
+"TXT_KEY_TECH_GUNPOWDER_QUOTE1" = "“The real use of gunpowder is to make all men tall.”\n– Thomas Carlyle";
+"TXT_KEY_TECH_GUNPOWDER_QUOTE2" = "“Man is a military animal, glories in gunpowder, and loves parades.”\n– Philip Bailey";
+
+// printing
+"TXT_KEY_TECH_PRINTING_NAME" = "Printing";
+"TXT_KEY_TECH_PRINTING_EUREKA" = "Build 2 Universities";
+"TXT_KEY_TECH_PRINTING_EUREKA_TEXT" = "Out of necessity your scholars are devising methods for quickly copying books.";
+"TXT_KEY_TECH_PRINTING_QUOTE1" = "“The pen might not be mightier than the sword, but maybe the printing press is heavier than the siege weapon. Just a few words can change everything.”\n– Terry Pratchett";
+"TXT_KEY_TECH_PRINTING_QUOTE2" = "“What gunpowder did for war the printing press has done for the mind.”\n– Wendell Phillips";
+
+// squareRigging
+"TXT_KEY_TECH_SQUARE_RIGGING_NAME" = "Square Rigging";
+"TXT_KEY_TECH_SQUARE_RIGGING_EUREKA" = "Kill a unit with a Musketman";
+"TXT_KEY_TECH_SQUARE_RIGGING_EUREKA_TEXT" = "The success of your Musketmen on land has spurred a new idea: what if we upgrade to gunpowder weaponry at sea?";
+"TXT_KEY_TECH_SQUARE_RIGGING_QUOTE1" = "“There is little man has made that approaches anything in nature, but a sailing ship does.”\n– Allan Villiers";
+"TXT_KEY_TECH_SQUARE_RIGGING_QUOTE2" = "“It's not the towering sails, but the unseen wind that moves a ship.”\n– English Proverb";
+
+// astronomy
+"TXT_KEY_TECH_ASTRONOMY_NAME" = "Astronomy";
+"TXT_KEY_TECH_ASTRONOMY_EUREKA" = "Build a University next to a Mountain";
+"TXT_KEY_TECH_ASTRONOMY_EUREKA_TEXT" = "Your scientists are hiking into the mountains for a sharper view of the heavens. Maybe a permanent facility would help?";
+"TXT_KEY_TECH_ASTRONOMY_QUOTE1" = "“Astronomy compels the soul to look upwards and leads us from this world to another.”\n– Plato";
+"TXT_KEY_TECH_ASTRONOMY_QUOTE2" = "“Astronomy's much more fun when you're not an astronomer.”\n– Brian May";
+
+// metalCasting
+"TXT_KEY_TECH_METAL_CASTING_NAME" = "Metal Casting";
+"TXT_KEY_TECH_METAL_CASTING_EUREKA" = "Own 2 Crossbowmen";
+"TXT_KEY_TECH_METAL_CASTING_EUREKA_TEXT" = "With so many Crossbowmen in the field, we’ve had a lot of practice studying ranged weapons.";
+"TXT_KEY_TECH_METAL_CASTING_QUOTE1" = "“At first Hephaestus makes a great and massive shield ... And he forged on the shield two noble cities.”\n– Homer";
+"TXT_KEY_TECH_METAL_CASTING_QUOTE2" = "“Don't judge someone until you've stood at his forge and worked with his hammer.”\n– Rick Riordan";
+
+// siegeTactics
+"TXT_KEY_TECH_SIEGE_TACTICS_NAME" = "Siege Tactics";
+"TXT_KEY_TECH_SIEGE_TACTICS_EUREKA" = "Own 2 Bombards";
+"TXT_KEY_TECH_SIEGE_TACTICS_EUREKA_TEXT" = "After creating bombards you realize that castles are not impregnable – you need a stauncher defense!";
+"TXT_KEY_TECH_SIEGE_TACTICS_QUOTE1" = "“The lowest is to attack a city. Siege of a city is only done as a last resort.”\n– Sun Tzu";
+"TXT_KEY_TECH_SIEGE_TACTICS_QUOTE2" = "“All the best romances bloom in the midst of a good siege.”\n– Miles Cameron";
+
+// /////////////////////////////////
+// industrial
+
+// industrialization
+"TXT_KEY_TECH_INDUSTRIALIZATION_NAME" = "Industrialization";
+"TXT_KEY_TECH_INDUSTRIALIZATION_EUREKA" = "Build 3 Workshops";
+"TXT_KEY_TECH_INDUSTRIALIZATION_EUREKA_TEXT" = "The busy workshops of your empire hint at greatness to come. Is an Industrial Revolution about to commence?";
+"TXT_KEY_TECH_INDUSTRIALIZATION_QUOTE1" = "“I think the human race made a big mistake at the beginning of the Industrial Revolution, we leaped for the mechanical things. People need the use of their hands to feel creative.”\n– Andre Norton";
+"TXT_KEY_TECH_INDUSTRIALIZATION_QUOTE2" = "“The key words of violent economics are urbanization, industrialization, centralization, efficiency, quantity, speed.”\n– E.F. Schumacher";
+
+// scientificTheory
+"TXT_KEY_TECH_SCIENTIFIC_THEORY_NAME" = "Scientific Theory";
+"TXT_KEY_TECH_SCIENTIFIC_THEORY_EUREKA" = "Have The Enlightenment civic";
+"TXT_KEY_TECH_SCIENTIFIC_THEORY_EUREKA_TEXT" = "The dawning of an age of enlightenment in our realm has sparked a serious discourse on our scientific methods.";
+"TXT_KEY_TECH_SCIENTIFIC_THEORY_QUOTE1" = "“Claims that cannot be tested, assertions immune to disproof are veridically worthless, whatever value they may have in inspiring us or exciting our sense of wonder.”\n– Carl Sagan";
+"TXT_KEY_TECH_SCIENTIFIC_THEORY_QUOTE2" = "“If facts don't fit the theory, change the facts.”\n– Albert Einstein";
+
+// ballistics
+"TXT_KEY_TECH_BALLISTICS_NAME" = "Ballistics";
+"TXT_KEY_TECH_BALLISTICS_EUREKA" = "Have 2 Forts in your territory";
+"TXT_KEY_TECH_BALLISTICS_EUREKA_TEXT" = "Your cities have been protected by multiple fortifications, what if they could be defended by cannons?";
+"TXT_KEY_TECH_BALLISTICS_QUOTE1" = "“It’s one thing to surmise what happened, but we don’t speculate on that until ballistics confirms what happened …”\n– John Hansen";
+"TXT_KEY_TECH_BALLISTICS_QUOTE2" = "“Let’s get on our knees and pray. I don’t know to whom. Is there a patron saint of ballistics yet?”\n– Adam Savage";
+
+// militaryScience
+"TXT_KEY_TECH_MILITARY_SCIENCE_NAME" = "Military Science";
+"TXT_KEY_TECH_MILITARY_SCIENCE_EUREKA" = "Kill a unit with a Knight";
+"TXT_KEY_TECH_MILITARY_SCIENCE_EUREKA_TEXT" = "Your valiant Knight has vanquished his foe. Let us learn from this victory and become students of military affairs.";
+"TXT_KEY_TECH_MILITARY_SCIENCE_QUOTE1" = "“However beautiful the strategy, you should occasionally look at the results.”\n– Winston Churchill";
+"TXT_KEY_TECH_MILITARY_SCIENCE_QUOTE2" = "“No one starts a war - or rather, no one in his senses ought to do so - without first being clear in his mind what he intends to achieve by that war and how he intends to conduct it.”\n– Karl von Clausewitz";
+
+// steamPower
+"TXT_KEY_TECH_STEAM_POWER_NAME" = "Steam Power";
+"TXT_KEY_TECH_STEAM_POWER_EUREKA" = "Build 2 Shipyards";
+"TXT_KEY_TECH_STEAM_POWER_EUREKA_TEXT" = "Let us apply our industrial acumen to your newly-constructed shipyards. Steam-powered naval vessels could rule the seas.";
+"TXT_KEY_TECH_STEAM_POWER_QUOTE1" = "“It is arguable whether the human race have been gainers by the march of science beyond the steam engine.”\n– Winston Churchill";
+"TXT_KEY_TECH_STEAM_POWER_QUOTE2" = "“Science owes more to the steam engine than the steam engine owes to science.”\n– Lawrence Henderson";
+
+// sanitation
+"TXT_KEY_TECH_SANITATION_NAME" = "Sanitation";
+"TXT_KEY_TECH_SANITATION_EUREKA" = "Build 2 Neighborhoods";
+"TXT_KEY_TECH_SANITATION_EUREKA_TEXT" = "With the introduction of neighborhoods, our cities are growing larger than ever before. Developing a sanitation plan is crucial.";
+"TXT_KEY_TECH_SANITATION_QUOTE1" = "“No innovation in the past 200 years has done more to save lives and improve health than the sanitation revolution triggered by the invention of the toilet.”\n– Sylvia Burwell";
+"TXT_KEY_TECH_SANITATION_QUOTE2" = "“Apart from the sanitation, the medicine, education, wine, public order, roads, the fresh water system, and public health ... what have the Romans ever done for us?”\n– Graham Chapman";
+
+// economics
+"TXT_KEY_TECH_ECONOMICS_NAME" = "Economics";
+"TXT_KEY_TECH_ECONOMICS_EUREKA" = "Build 2 Banks";
+"TXT_KEY_TECH_ECONOMICS_EUREKA_TEXT" = "The power of your banks in on the rise. It is time to formally study the forces that are shaping your national economy.";
+"TXT_KEY_TECH_ECONOMICS_QUOTE1" = "“Economics is a subject that does not greatly respect one's wishes.”\n– Nikita Khrushchev";
+"TXT_KEY_TECH_ECONOMICS_QUOTE2" = "“You and I come by road or rail, but economists travel on infrastructure.”\n– Margaret Thatcher";
+
+// rifling
+"TXT_KEY_TECH_RIFLING_NAME" = "Rifling";
+"TXT_KEY_TECH_RIFLING_EUREKA" = "Build a Niter Mine";
+"TXT_KEY_TECH_RIFLING_EUREKA_TEXT" = "With a source of niter, your firearms industry is switching into top gear. The next step will be to improve our accuracy.";
+"TXT_KEY_TECH_RIFLING_QUOTE1" = "“Bolt actions speak louder than words.”\n– Craig Roberts";
+"TXT_KEY_TECH_RIFLING_QUOTE2" = "“Never criticize a rifleman until you have walked a mile in his shoes. That way, he'll be barefoot and you'll be out of range.”\n– The 2nd Target Company";
+
+// /////////////////////////////////
+// modern
+
+// flight
+"TXT_KEY_TECH_FLIGHT_NAME" = "Flight";
+"TXT_KEY_TECH_FLIGHT_EUREKA" = "Build an Industrial era or later wonder";
+"TXT_KEY_TECH_FLIGHT_EUREKA_TEXT" = "Having completed a modern wonder, our engineers are sure they can tackle anything. What, are they thinking of flying next?";
+"TXT_KEY_TECH_FLIGHT_QUOTE1" = "“For once you have tasted flight you will walk the earth with your eyes turned skywards, for there you have been and there you will long to return.”\n– Leonardo da Vinci";
+"TXT_KEY_TECH_FLIGHT_QUOTE2" = "“If you can walk away from a landing, it's a good landing. If you use the airplane the next day, it's an outstanding landing.”\n– Chuck Yeager";
+
+// replaceableParts
+"TXT_KEY_TECH_REPLACEABLE_PARTS_NAME" = "Replaceable Parts";
+"TXT_KEY_TECH_REPLACEABLE_PARTS_EUREKA" = "Own 3 Musketmen";
+"TXT_KEY_TECH_REPLACEABLE_PARTS_EUREKA_TEXT" = "Your armament makers are tired of having to hand craft so many muskets. Perhaps some standardization would help?";
+"TXT_KEY_TECH_REPLACEABLE_PARTS_QUOTE1" = "“For a machine to run smoothly and predictably, its parts must be standard and hence replaceable.”\n– Charles Eisenstein";
+"TXT_KEY_TECH_REPLACEABLE_PARTS_QUOTE2" = "“Many of us take better care of our automobiles than we do of our own bodies … yet the auto has replaceable parts.”\n– B.J. Palmer";
+
+// steel
+"TXT_KEY_TECH_STEEL_NAME" = "Steel";
+"TXT_KEY_TECH_STEEL_EUREKA" = "Build a Coal Mine";
+"TXT_KEY_TECH_STEEL_EUREKA_TEXT" = "Your coal-powered blast furnaces should soon allow us to produce the finest-grade steel.";
+"TXT_KEY_TECH_STEEL_QUOTE1" = "“The best steel doesn't always shine the brightest.”\n– Joe Abercrombie";
+"TXT_KEY_TECH_STEEL_QUOTE2" = "“There are three things extremely hard: steel, a diamond, and to know one's self.”\n– Benjamin Franklin";
+
+// refining
+"TXT_KEY_TECH_REFINING_NAME" = "Refining";
+"TXT_KEY_TECH_REFINING_EUREKA" = "Build 1 Coal Power Plant";
+"TXT_KEY_TECH_REFINING_EUREKA_TEXT" = "Your nation is now powered. However your scientists are already hard at work on developing alternative energy sources";
+"TXT_KEY_TECH_REFINING_QUOTE1" = "“Engineering is the art of directing the great sources of power in nature for the use and convenience of man.”\n– Thomas Tredgold";
+"TXT_KEY_TECH_REFINING_QUOTE2" = "“”\n– ";
+
+// electricity
+"TXT_KEY_TECH_ELECTRICITY_NAME" = "Electricity";
+"TXT_KEY_TECH_ELECTRICITY_EUREKA" = "Own 3 Privateers";
+"TXT_KEY_TECH_ELECTRICITY_EUREKA_TEXT" = "Your crafty privateers are intrigued by the discovery of electric current. Could they use this to create stealthy propulsion?";
+"TXT_KEY_TECH_ELECTRICITY_QUOTE1" = "“If it weren't for electricity, we'd all be watching television by candlelight.”\n– George Gobel";
+"TXT_KEY_TECH_ELECTRICITY_QUOTE2" = "“Benjamin Franklin may have discovered electricity, but it was the man who invented the meter who made the money.”\n– Earl Wilson";
+
+// radio
+"TXT_KEY_TECH_RADIO_NAME" = "Radio";
+"TXT_KEY_TECH_RADIO_EUREKA" = "Build a National Park";
+"TXT_KEY_TECH_RADIO_EUREKA_TEXT" = "Your new national park needs visitors. Perhaps a new form of communications will help advertise it?";
+"TXT_KEY_TECH_RADIO_QUOTE1" = "“A world without radio is a deaf world.”\n– Ernest Yeboah";
+"TXT_KEY_TECH_RADIO_QUOTE2" = "“Radio is the theater of the mind; television is the theater of the mindless.”\n– Steve Allen";
+
+// chemistry
+"TXT_KEY_TECH_CHEMISTRY_NAME" = "Chemistry";
+"TXT_KEY_TECH_CHEMISTRY_EUREKA" = "Complete a Research Agreement.";
+"TXT_KEY_TECH_CHEMISTRY_EUREKA_TEXT" = "Joining forces with other nations has started a chain reaction of scientific advances. Will the next push be in chemistry?";
+"TXT_KEY_TECH_CHEMISTRY_QUOTE1" = "“Chemistry is the dirty part of physics.”\n– Peter Reiss";
+"TXT_KEY_TECH_CHEMISTRY_QUOTE2" = "“Chemists do not usually stutter. It would be very awkward if they did, seeing that they have at times to get out such words as methylethylamylophenylium.”\n– Sir William Crookes";
+
+// combustion
+"TXT_KEY_TECH_COMBUSTION_NAME" = "Combustion";
+"TXT_KEY_TECH_COMBUSTION_EUREKA" = "Extract an Artifact.";
+"TXT_KEY_TECH_COMBUSTION_EUREKA_TEXT" = "Your archaeologist has noticed petroleum seeping out of the rocks. Perhaps your geologists would like to take a look?";
+"TXT_KEY_TECH_COMBUSTION_QUOTE1" = "“The cars haven't advanced that much since we were kids. When you boil it down, it's still a gas combustion engine.”\n– Dana Brunetti";
+"TXT_KEY_TECH_COMBUSTION_QUOTE2" = "“I have always considered that the substitution of the internal combustion engine for the horse marked a very gloomy milestone in the progress of mankind.”\n– Winston Churchill";
+
+// /////////////////////////////////
+// atomic
+
+// advancedFlight
+"TXT_KEY_TECH_ADVANCED_FLIGHT_NAME" = "Advanced Flight";
+"TXT_KEY_TECH_ADVANCED_FLIGHT_EUREKA" = "Build 3 Biplanes";
+"TXT_KEY_TECH_ADVANCED_FLIGHT_EUREKA_TEXT" = "Your extensive experience with biplanes has led to several aeronautic breakthroughs.";
+"TXT_KEY_TECH_ADVANCED_FLIGHT_QUOTE1" = "“Sure, jets are fast and economical, but, oh my, what fun we've lost and what leisure we've sacrificed in the race for efficiency.”\n– Ginger Rogers";
+"TXT_KEY_TECH_ADVANCED_FLIGHT_QUOTE2" = "“If God had really intended men to fly, He'd make it easier to get to the airport.”\n– George Winters";
+
+// rocketry
+"TXT_KEY_TECH_ROCKETRY_NAME" = "Rocketry";
+"TXT_KEY_TECH_ROCKETRY_EUREKA" = "Boost through Great Scientist or Spy";
+"TXT_KEY_TECH_ROCKETRY_EUREKA_TEXT" = "Critical late game tech - boost description not needed";
+"TXT_KEY_TECH_ROCKETRY_QUOTE1" = "“Rocket science has been mythologized all out of proportion to its true difficulty.”\n– John Carmack";
+"TXT_KEY_TECH_ROCKETRY_QUOTE2" = "“When you launch a rocket, you're not really flying that rocket. You're just sort of hanging on.”\n– Michael P. Anderson";
+
+// advancedBallistics
+"TXT_KEY_TECH_ADVANCED_BALLISTICS_NAME" = "Advanced Ballistics";
+"TXT_KEY_TECH_ADVANCED_BALLISTICS_EUREKA" = "Build 2 Power Plants";
+"TXT_KEY_TECH_ADVANCED_BALLISTICS_EUREKA_TEXT" = "Development of new power plants has spurred on industrial advances that could help your armament production.";
+"TXT_KEY_TECH_ADVANCED_BALLISTICS_QUOTE1" = "“Untutored courage is useless in the face of educated bullets.”\n– George Patton";
+"TXT_KEY_TECH_ADVANCED_BALLISTICS_QUOTE2" = "“Aim for the moon. If you miss, you may hit a star.”\n– W. Clement Stone";
+
+// combinedArms
+"TXT_KEY_TECH_COMBINED_ARMS_NAME" = "Combined Arms";
+"TXT_KEY_TECH_COMBINED_ARMS_EUREKA" = "Build an Airstrip";
+"TXT_KEY_TECH_COMBINED_ARMS_EUREKA_TEXT" = "Now that you know how to build portable airstrips on land, why not try one at sea?";
+"TXT_KEY_TECH_COMBINED_ARMS_QUOTE1" = "“Better to fight for something than live for nothing.”\n– George S. Patton";
+"TXT_KEY_TECH_COMBINED_ARMS_QUOTE2" = "“The chief incalculable in war is the human will.”\n– B.H. Liddell Hart";
+
+// plastics
+"TXT_KEY_TECH_PLASTICS_NAME" = "Plastics";
+"TXT_KEY_TECH_PLASTICS_EUREKA" = "Build an Oil Well";
+"TXT_KEY_TECH_PLASTICS_EUREKA_TEXT" = "Having a source of petrochemicals should lead to many advances. Its plasticity is of particular interest.";
+"TXT_KEY_TECH_PLASTICS_QUOTE1" = "“In the hierarchy of the major poetic substances, plastic figures as a disgraced material, lost between the effusiveness of rubber and the flat hardness of metal.”\n– Roland Barthes";
+"TXT_KEY_TECH_PLASTICS_QUOTE2" = "“Nothing on this earth lasts forever. Except maybe plastic.”\n– Patricia Dunn";
+
+// computers
+"TXT_KEY_TECH_COMPUTERS_NAME" = "Computers";
+"TXT_KEY_TECH_COMPUTERS_EUREKA" = "Have a government with 8 policy slots";
+"TXT_KEY_TECH_COMPUTERS_EUREKA_TEXT" = "A modern government comes with a lot of bureaucracy. Developing ways to efficiently track data will be a huge help.";
+"TXT_KEY_TECH_COMPUTERS_QUOTE1" = "“To err is human, but to really foul things up you need a computer.”\n– Paul R. Ehrlich";
+"TXT_KEY_TECH_COMPUTERS_QUOTE2" = "“The good thing about computers is that they do what you tell them to do. The bad news is that they do what you tell them to do.”\n– Ted Nelson";
+
+// nuclearFission
+"TXT_KEY_TECH_NUCLEAR_FISSION_NAME" = "Nuclear Fission";
+"TXT_KEY_TECH_NUCLEAR_FISSION_EUREKA" = "Boost through Great Scientist or Spy";
+"TXT_KEY_TECH_NUCLEAR_FISSION_EUREKA_TEXT" = "Critical late game tech - boost description not needed";
+"TXT_KEY_TECH_NUCLEAR_FISSION_QUOTE1" = "“If you go on with this nuclear arms race, all you are going to do is make the rubble bounce.”\n– Winston Churchill";
+"TXT_KEY_TECH_NUCLEAR_FISSION_QUOTE2" = "“Leave the atom alone.”\n– E.Y. Harburg";
+
+// syntheticMaterials
+"TXT_KEY_TECH_SYNTHETIC_MATERIALS_NAME" = "Synthetic Materials";
+"TXT_KEY_TECH_SYNTHETIC_MATERIALS_EUREKA" = "Build 2 Aerodromes";
+"TXT_KEY_TECH_SYNTHETIC_MATERIALS_EUREKA_TEXT" = "With facilities for aircrafts in multiple cities, your aeronautic industry is taking off.";
+"TXT_KEY_TECH_SYNTHETIC_MATERIALS_QUOTE1" = "“There's so much plastic in this culture that vinyl leopard skin is becoming an endangered synthetic.”\n– Lily Tomlin";
+"TXT_KEY_TECH_SYNTHETIC_MATERIALS_QUOTE2" = "“There may be no forgiveness for polyester. On this one matter, Satan and the Lord are in agreement.”\n– Joe Hill";
+
+// /////////////////////////////////
+// information
+
+// telecommunications
+"TXT_KEY_TECH_TELECOMMUNICATIONS_NAME" = "Telecommunications";
+"TXT_KEY_TECH_TELECOMMUNICATIONS_EUREKA" = "Build 2 Broadcast Centers";
+"TXT_KEY_TECH_TELECOMMUNICATIONS_EUREKA_TEXT" = "With your pioneers in radio and television leading the way, you’ve grown adept at transmitting data quickly.";
+"TXT_KEY_TECH_TELECOMMUNICATIONS_QUOTE1" = "“Mr. Watson… Come here… I want to see you.”\n– Alexander Graham Bell";
+"TXT_KEY_TECH_TELECOMMUNICATIONS_QUOTE2" = "“The single biggest problem in communication is the illusion that it has taken place.”\n– George Bernard Shaw";
+
+// satellites
+"TXT_KEY_TECH_SATELLITES_NAME" = "Satellites";
+"TXT_KEY_TECH_SATELLITES_EUREKA" = "Boost through Great Scientist or Spy";
+"TXT_KEY_TECH_SATELLITES_EUREKA_TEXT" = "Critical late game tech - boost description not needed";
+"TXT_KEY_TECH_SATELLITES_QUOTE1" = "“A satellite has no conscience.”\n– Edward R. Murrow";
+"TXT_KEY_TECH_SATELLITES_QUOTE2" = "“Right now there are thirty-one satellites zipping around the world with nothing better to do than help you find your way to the grocery store.”\n– Ed Burnette";
+
+// guidanceSystems
+"TXT_KEY_TECH_GUIDANCE_SYSTEMS_NAME" = "Guidance Systems";
+"TXT_KEY_TECH_GUIDANCE_SYSTEMS_EUREKA" = "Kill a Fighter";
+"TXT_KEY_TECH_GUIDANCE_SYSTEMS_EUREKA_TEXT" = "Your military has defeated an enemy plane. Now it is time to have the best defense against enemy aircraft.";
+"TXT_KEY_TECH_GUIDANCE_SYSTEMS_QUOTE1" = "“If you do not change direction, you may end up where you were heading.”\n– Lao Tzu";
+"TXT_KEY_TECH_GUIDANCE_SYSTEMS_QUOTE2" = "“I love watching my mom argue with the GPS on the way home.”\n– Isabelle Fuhrman";
+
+// lasers
+"TXT_KEY_TECH_LASERS_NAME" = "Lasers";
+"TXT_KEY_TECH_LASERS_EUREKA" = "Boost through Great Scientist or Spy.";
+"TXT_KEY_TECH_LASERS_EUREKA_TEXT" = "Critical late game tech - boost description not needed";
+"TXT_KEY_TECH_LASERS_QUOTE1" = "“When God said, ‘Let there be light,’ he surely must have meant perfectly coherent light.”\n– Charles Townes";
+"TXT_KEY_TECH_LASERS_QUOTE2" = "“I'm a big laser believer - I really think they are the wave of the future.”\n– Courteney Cox";
+
+// composites
+"TXT_KEY_TECH_COMPOSITES_NAME" = "Composites";
+"TXT_KEY_TECH_COMPOSITES_EUREKA" = "Own 3 Tanks";
+"TXT_KEY_TECH_COMPOSITES_EUREKA_TEXT" = "Tanks have been the backbone of your army so your scientists are striving for a more advanced model.";
+"TXT_KEY_TECH_COMPOSITES_QUOTE1" = "“All material things seem to have been composed of the hard and solid particles... variously associated with the first Creation by the counsel of an Intelligent Agent.”\n– Isaac Newton";
+"TXT_KEY_TECH_COMPOSITES_QUOTE2" = "“It is obvious that while science is struggling to bring Heaven to Earth some men are using its materials in the construction of Hell.”\n– Herbert Hoover";
+
+// stealthTechnology
+"TXT_KEY_TECH_STEALTH_TECHNOLOGY_NAME" = "Stealth Technology";
+"TXT_KEY_TECH_STEALTH_TECHNOLOGY_EUREKA" = "Boost through Great Scientist or Spy";
+"TXT_KEY_TECH_STEALTH_TECHNOLOGY_EUREKA_TEXT" = "Critical late game tech - boost description not needed";
+"TXT_KEY_TECH_STEALTH_TECHNOLOGY_QUOTE1" = "“I would say invisibility would be sort of a fun power to have just to see what it was like to move through the world and not be looked at.”\n– Kevin Bacon";
+"TXT_KEY_TECH_STEALTH_TECHNOLOGY_QUOTE2" = "“In art and dream may you proceed with abandon. In life may you proceed with balance and stealth.”\n– Patti Smith";
+
+// robotics
+"TXT_KEY_TECH_ROBOTICS_NAME" = "Robotics";
+"TXT_KEY_TECH_ROBOTICS_EUREKA" = "Have the Globalization civic.";
+"TXT_KEY_TECH_ROBOTICS_EUREKA_TEXT" = "Having a diverse set of metals to experiment on will help your scientists push into new fields.";
+"TXT_KEY_TECH_ROBOTICS_QUOTE1" = "“Robotics has been around forever, and it's been the next big thing forever, and it is so exciting and compelling that it's easy to get carried away.”\n– Colin Angle";
+"TXT_KEY_TECH_ROBOTICS_QUOTE2" = "“I'll be back.”\n– Unknown";
+
+// nuclearFusion
+"TXT_KEY_TECH_NUCLEAR_FUSION_NAME" = "Nuclear Fusion";
+"TXT_KEY_TECH_NUCLEAR_FUSION_EUREKA" = "Boost through Great Scientist or Spy";
+"TXT_KEY_TECH_NUCLEAR_FUSION_EUREKA_TEXT" = "Critical late game tech - boost description not needed";
+"TXT_KEY_TECH_NUCLEAR_FUSION_QUOTE1" = "“I am a big proponent of harnessing the power of fusion - from 93 million miles away. Fusion is done by our sun really, really well and for free. Here on Earth in reactors, not so much.”\n– Joe Romm";
+"TXT_KEY_TECH_NUCLEAR_FUSION_QUOTE2" = "“When we look up at night and view the stars, everything we see is shining because of distant nuclear fusion.”\n– Carl Sagan";
+
+// nanotechnology
+"TXT_KEY_TECH_NANOTECHNOLOGY_NAME" = "Nanotechnology";
+"TXT_KEY_TECH_NANOTECHNOLOGY_EUREKA" = "Build an Aluminum Mine";
+"TXT_KEY_TECH_NANOTECHNOLOGY_EUREKA_TEXT" = "Having a diverse set of metals to experiment on will help your scientists push into new fields.";
+"TXT_KEY_TECH_NANOTECHNOLOGY_QUOTE1" = "“If technology is the engine of change, then nanotechnology is the fuel for humanity's future.”\n– Natasha Vita-More";
+"TXT_KEY_TECH_NANOTECHNOLOGY_QUOTE2" = "“Many, many rules had begun to bend at the hand of nanotechnology … This produced a lot of good, and a lot of bad.”\n– Matt Spire";
+
+// /////////////////////////////////
+// future
+
+// futureTech
+"TXT_KEY_TECH_FUTURE_TECH_NAME" = "Future Tech";
+"TXT_KEY_TECH_FUTURE_TECH_EUREKA" = "";
+"TXT_KEY_TECH_FUTURE_TECH_EUREKA_TEXT" = "";
+"TXT_KEY_TECH_FUTURE_TECH_QUOTE1" = "“There is nothing like a dream to create the future.”\n– Victor Hugo";
+"TXT_KEY_TECH_FUTURE_TECH_QUOTE2" = "“Even though the future seems far away, it is actually beginning right now.”\n– Mattie Stepanek";

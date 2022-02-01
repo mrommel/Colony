@@ -289,9 +289,9 @@ extension GameViewModel {
     func showRenameDialog(
         title: String,
         summary: String,
-        value: String,
-        confirm: String = "Rename",
-        cancel: String = "Cancel",
+        value: String, // not localized
+        confirm: String = "TXT_KEY_RENAME".localized(),
+        cancel: String = "TXT_KEY_CANCEL".localized(),
         completion: @escaping (String) -> Void
     ) {
 
@@ -421,6 +421,45 @@ extension GameViewModel {
         if self.currentScreenType == .none {
             self.selectPantheonDialogViewModel.update()
             self.currentScreenType = .selectPantheon
+        }
+    }
+
+    func showEraProgressDialog() {
+
+        if self.currentScreenType == .eraProgress {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.eraProgressDialogViewModel.update()
+            self.currentScreenType = .eraProgress
+        }
+    }
+
+    func showSelectDedicationDialog() {
+
+        if self.currentScreenType == .selectDedication {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.selectDedicationDialogViewModel.update()
+            self.currentScreenType = .selectDedication
+        }
+    }
+
+    func showMomentsDialog() {
+
+        if self.currentScreenType == .moments {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.momentsDialogViewModel.update()
+            self.currentScreenType = .moments
         }
     }
 }

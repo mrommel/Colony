@@ -77,7 +77,7 @@ class MenuScene: BaseScene {
                 //self.menuDelegate?.startTutorials()
             })
         self.tutorialButton?.zPosition = 2
-        self.tutorialButton?.disable() // FIXME
+        self.tutorialButton?.disable()
         self.rootNode.addChild(self.tutorialButton!)
 
         // quests
@@ -120,7 +120,7 @@ class MenuScene: BaseScene {
                 self.menuDelegate?.startOptions()
             })
         self.optionsButton?.zPosition = 2
-        self.optionsButton?.disable() // FIXME
+        self.optionsButton?.disable()
         self.rootNode.addChild(self.optionsButton!)
 
         // shop
@@ -129,7 +129,7 @@ class MenuScene: BaseScene {
                 self.menuDelegate?.startStore()
             })
         self.storeButton?.zPosition = 2
-        self.storeButton?.disable() // FIXME
+        self.storeButton?.disable()
         self.rootNode.addChild(self.storeButton!)
 
         // pedia

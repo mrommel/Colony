@@ -7,41 +7,44 @@
 
 import Foundation
 
-public enum HeaderButtonType {
+public enum HeaderButtonType: CaseIterable {
 
     case science
     case culture
     case government
     case religion
     case greatPeople
-    case log
+    case moments
     case governors
 
     case ranking
     case tradeRoutes
+    case eraProgress
 
     public func name() -> String {
 
         switch self {
 
         case .science:
-            return "Science"
+            return "TXT_KEY_HEADER_SCIENCE"
         case .culture:
-            return "Culture"
+            return "TXT_KEY_HEADER_CULTURE"
         case .government:
-            return "Government"
+            return "TXT_KEY_HEADER_GOVERNMENT"
         case .religion:
-            return "Religion"
+            return "TXT_KEY_HEADER_RELIGION"
         case .greatPeople:
-            return "Great People"
-        case .log:
-            return "Log"
+            return "TXT_KEY_HEADER_GREAT_PEOPLE"
+        case .moments:
+            return "TXT_KEY_HEADER_MOMENTS"
         case .governors:
-            return "Governors"
+            return "TXT_KEY_HEADER_GOVERNORS"
         case .ranking:
-            return "Ranking"
+            return "TXT_KEY_HEADER_RANKING"
         case .tradeRoutes:
-            return "Trade Routes"
+            return "TXT_KEY_HEADER_TRADE_ROUTES"
+        case .eraProgress:
+            return "TXT_KEY_HEADER_ERA_PROGRESS"
         }
     }
 
@@ -59,14 +62,16 @@ public enum HeaderButtonType {
             return state ? "header-button-religion-active" : "header-button-religion-disabled"
         case .greatPeople:
             return state ? "header-button-greatPeople-active" : "header-button-greatPeople-disabled"
-        case .log:
-            return state ? "header-button-log-active" : "header-button-log-disabled"
+        case .moments:
+            return state ? "header-button-moments-active" : "header-button-moments-disabled"
         case .governors:
             return state ? "header-button-governors-active" : "header-button-governors-disabled"
         case .ranking:
             return state ?  "header-button-ranking-active" : "header-button-ranking-disabled"
         case .tradeRoutes:
             return state ? "header-button-tradeRoutes-active" : "header-button-tradeRoutes-disabled"
+        case .eraProgress:
+            return state ? "header-button-eraProgress-active" : "header-button-eraProgress-disabled"
         }
     }
 }

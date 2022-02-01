@@ -48,7 +48,7 @@
 		C947871B2472C80B00FAAC99 /* GameSceneDialogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947871A2472C80B00FAAC99 /* GameSceneDialogs.swift */; };
 		C947871D2472ECF700FAAC99 /* GameSceneUserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947871C2472ECF700FAAC99 /* GameSceneUserInterface.swift */; };
 		C94787202473F14400FAAC99 /* EurekaActivatedPopup.xml in Resources */ = {isa = PBXBuildFile; fileRef = C947871F2473F14300FAAC99 /* EurekaActivatedPopup.xml */; };
-		C94787232473F1A400FAAC99 /* EurekaActivatedPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94787222473F1A400FAAC99 /* EurekaActivatedPopup.swift */; };
+		C94787232473F1A400FAAC99 /* EurekaActivatedPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94787222473F1A400FAAC99 /* EurekaActivatedPopupViewModel.swift */; };
 		C948684C24649CED00495988 /* WonderBuildingItemDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948684B24649CEC00495988 /* WonderBuildingItemDisplayNode.swift */; };
 		C948684E24657AB400495988 /* CityManageCitizenDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948684D24657AB400495988 /* CityManageCitizenDialog.swift */; };
 		C948685024657B4C00495988 /* CityManageCitizenDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C948684F24657B4C00495988 /* CityManageCitizenDialog.xml */; };
@@ -320,7 +320,7 @@
 		C947871A2472C80B00FAAC99 /* GameSceneDialogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneDialogs.swift; sourceTree = "<group>"; };
 		C947871C2472ECF700FAAC99 /* GameSceneUserInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneUserInterface.swift; sourceTree = "<group>"; };
 		C947871F2473F14300FAAC99 /* EurekaActivatedPopup.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = EurekaActivatedPopup.xml; sourceTree = "<group>"; };
-		C94787222473F1A400FAAC99 /* EurekaActivatedPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EurekaActivatedPopup.swift; sourceTree = "<group>"; };
+		C94787222473F1A400FAAC99 /* EurekaActivatedPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EurekaActivatedPopupViewModel.swift; sourceTree = "<group>"; };
 		C948684B24649CEC00495988 /* WonderBuildingItemDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderBuildingItemDisplayNode.swift; sourceTree = "<group>"; };
 		C948684D24657AB400495988 /* CityManageCitizenDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityManageCitizenDialog.swift; sourceTree = "<group>"; };
 		C948684F24657B4C00495988 /* CityManageCitizenDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CityManageCitizenDialog.xml; sourceTree = "<group>"; };
@@ -611,7 +611,7 @@
 		C94787212473F19100FAAC99 /* Popups */ = {
 			isa = PBXGroup;
 			children = (
-				C94787222473F1A400FAAC99 /* EurekaActivatedPopup.swift */,
+				C94787222473F1A400FAAC99 /* EurekaActivatedPopupViewModel.swift */,
 				C9956840247C3A190005E9EA /* TechDiscoveredPopup.swift */,
 				C9956846247D388C0005E9EA /* CivicDiscoveredPopup.swift */,
 				C9956848247DAB5A0005E9EA /* EnteredEraPopup.swift */,
@@ -1351,7 +1351,7 @@
 				C9B1D24B2434C3D600033791 /* MenuSceneExtension.swift in Sources */,
 				C9B1D2192434784800033791 /* SplashViewController.swift in Sources */,
 				C9EC4E2A2445ADAE001A0597 /* DialogResultType.swift in Sources */,
-				C94787232473F1A400FAAC99 /* EurekaActivatedPopup.swift in Sources */,
+				C94787232473F1A400FAAC99 /* EurekaActivatedPopupViewModel.swift in Sources */,
 				C9CEE34F24A2504E00869B85 /* TooltipNode.swift in Sources */,
 				C95D9D65244A32A0007C522E /* TechDisplayNode.swift in Sources */,
 				C94DE1D824516BAC00B13F4D /* CGFloatExtension.swift in Sources */,

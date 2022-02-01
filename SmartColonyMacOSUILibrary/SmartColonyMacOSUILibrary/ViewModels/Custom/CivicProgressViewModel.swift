@@ -61,7 +61,7 @@ class CivicProgressViewModel: ObservableObject {
 
     func title() -> String {
 
-        return self.civicType.name()
+        return self.civicType.name().localized()
     }
 
     func iconImage() -> NSImage {
@@ -141,7 +141,7 @@ class CivicProgressViewModel: ObservableObject {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: "header-button-governors-active",
-                    toolTipText: NSAttributedString(string: "Governor title")
+                    toolTipText: NSAttributedString(string: "TXT_KEY_GOVERNOR_TITLE".localized())
                 )
             )
         }
@@ -151,14 +151,16 @@ class CivicProgressViewModel: ObservableObject {
 
     func boostText() -> String {
 
-        if self.civicType.eurekaSummary() == "" {
+        if self.civicType.inspirationSummary() == "" {
             return ""
         }
 
         if self.boosted {
-            return "Boosted: " + self.civicType.eurekaSummary()
+            return "TXT_KEY_BOOSTED".localized() + ": " +
+                self.civicType.inspirationSummary().localized()
         } else {
-            return "To boost: " + self.civicType.eurekaSummary()
+            return "TXT_KEY_TO_BOOST".localized() + ": " +
+                self.civicType.inspirationSummary().localized()
         }
     }
 }

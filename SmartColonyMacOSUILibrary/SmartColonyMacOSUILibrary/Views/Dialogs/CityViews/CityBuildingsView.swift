@@ -28,7 +28,7 @@ struct CityBuildingsView: View {
                         .padding(.top, 10)) {
 
                 VStack(alignment: .center) {
-                    Text("3 Districts constructed")
+                    Text(self.viewModel.districtsConstructed)
                 }
                 .frame(width: 300, height: 18, alignment: .topLeading)
                 .padding(.all, 4)

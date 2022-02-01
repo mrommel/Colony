@@ -31,7 +31,14 @@ struct AnimatedImageView: View {
                 loopIndex: Int = 0,
                 iterations: Int = Int.max) {
 
-        self.viewModel = AnimatedImageViewModel(images, stillImage: stillImage, interval: interval, loop: loop, loopIndex: loopIndex, iterations: iterations)
+        self.viewModel = AnimatedImageViewModel(
+            images,
+            stillImage: stillImage,
+            interval: interval,
+            loop: loop,
+            loopIndex: loopIndex,
+            iterations: iterations
+        )
     }
 
     public init(viewModel: AnimatedImageViewModel) {

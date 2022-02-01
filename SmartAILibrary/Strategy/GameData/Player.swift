@@ -9,6 +9,18 @@
 import Foundation
 import SwiftUI
 
+public class AgeThresholds {
+
+    public let lower: Int
+    public let upper: Int
+
+    init(lower: Int, upper: Int) {
+
+        self.lower = lower
+        self.upper = upper
+    }
+}
+
 class ResourceInventory: WeightedList<ResourceType> {
 
     override func fill() {
@@ -78,7 +90,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     func hasActiveDiplomacyRequests() -> Bool
     func canFinishTurn() -> Bool
-    func finishTurnButtonPressed() -> Bool // TODO: rename to finishedTurn
+    func turnFinished() -> Bool
     func doTurnPostDiplomacy(in gameModel: GameModel?)
     func finishTurn()
     func resetFinishTurnButtonPressed()
@@ -107,7 +119,9 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     func calculateGoldPerTurn(in gamemModel: GameModel?) -> Double
     func currentAge() -> AgeType
-    func currentDedication() -> DedicationType
+    func currentDedications() -> [DedicationType]
+    func has(dedication: DedicationType) -> Bool
+    func select(dedications: [DedicationType])
 
     func prepareTurn(in gamemModel: GameModel?)
     func startTurn(in gameModel: GameModel?)
@@ -117,6 +131,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func setLastSliceMoved(to value: Int)
 
     func isAlive() -> Bool
+    func isEverAlive() -> Bool
     func isActive() -> Bool
     func isTurnActive() -> Bool
     func isHuman() -> Bool
@@ -147,13 +162,16 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     // era
     func currentEra() -> EraType
-    func set(era: EraType)
+    func set(era: EraType, in gameModel: GameModel?)
+    func eraScore() -> Int
+    func ageThresholds(in gameModel: GameModel?) -> AgeThresholds
+    func estimateNextAge(in gameModel: GameModel?) -> AgeType
 
     // tech
     func has(tech: TechType) -> Bool
     func numberOfDiscoveredTechs() -> Int
     func canEmbark() -> Bool
-    func canEmbarkAllWaterPassage() -> Bool
+    func canEnterOcean() -> Bool
 
     // civic
     func has(civic: CivicType) -> Bool
@@ -173,6 +191,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     // city methods
     func found(at location: HexPoint, named name: String?, in gameModel: GameModel?)
     func newCityName(in gameModel: GameModel?) -> String
+    func registerBuild(cityName: String)
     func cityStrengthModifier() -> Int
     func acquire(city oldCity: AbstractCity?, conquest: Bool, gift: Bool, in gameModel: GameModel?)
     func numOfCitiesFounded() -> Int
@@ -222,13 +241,15 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool
     func hasBusyUnitOrCity() -> Bool
 
-    // buildings
+    // buildings / districts
     func canPurchaseInAnyCity(building: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
+    func numberOfDistricts(of districtType: DistrictType, in gameModel: GameModel?) -> Int
 
     // religion
     func faithPurchaseType() -> FaithPurchaseType
     func set(faithPurchaseType: FaithPurchaseType)
     func majorityOfCitiesFollows(religion: ReligionType, in gameModel: GameModel?) -> Bool
+    func doFound(religion: ReligionType, at city: AbstractCity?, in gameModel: GameModel?)
 
     func hasCapital(in gameModel: GameModel?) -> Bool
     func hasDiscoveredCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool
@@ -287,6 +308,23 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func currentTourism(in gameModel: GameModel?) -> Double
     func tourismModifier(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Int // in percent
 
+    // moments
+    func addMoment(of type: MomentType, in gameModel: GameModel?)
+    func hasMoment(of type: MomentType) -> Bool
+    func moments() -> [Moment]
+
+    // moment helper
+    func hasDiscovered(naturalWonder: FeatureType) -> Bool
+    func doDiscover(naturalWonder: FeatureType)
+    func hasSettled(on continent: ContinentType) -> Bool
+    func markSettled(on continent: ContinentType)
+    func checkWorldCircumnavigated(in gameModel: GameModel?)
+    func hasWorldCircumnavigated() -> Bool
+    func set(worldCircumnavigated: Bool)
+    func hasEverEstablishedTradingPost(with leader: LeaderType) -> Bool
+    func markEstablishedTradingPost(with leader: LeaderType)
+    func numEverEstablishedTradingPosts(in gameModel: GameModel?) -> Int
+
     // intern
     func isEqual(to other: AbstractPlayer?) -> Bool
 }
@@ -307,6 +345,7 @@ public class Player: AbstractPlayer {
         case totalImprovementsBuilt
         case citiesFound
         case citiesLost
+        case builtCityNames
 
         case techs
         case civics
@@ -315,8 +354,13 @@ public class Player: AbstractPlayer {
         case greatPeople
         case government
         case tourism
+        case moments
 
         case currentEra
+        case currentAge
+        case numberOfDarkAges
+        case numberOfGoldenAges
+        case currentDedications
 
         case grandStrategyAI
         case diplomacyAI
@@ -351,6 +395,10 @@ public class Player: AbstractPlayer {
 
         case faithPurchaseType
         case boostExoplanetExpedition
+        case discoveredNaturalWonders
+        case settledContinents
+        case hasWorldCircumnavigated
+        case establishedTradingPosts
     }
 
     public var leader: LeaderType
@@ -383,9 +431,14 @@ public class Player: AbstractPlayer {
     public var tradeRoutes: AbstractTradeRoutes?
     public var governors: AbstractPlayerGovernors?
     public var tourism: AbstractPlayerTourism?
+    public var momentsVal: AbstractPlayerMoments?
 
     public var government: AbstractGovernment?
     internal var currentEraVal: EraType = .ancient
+    internal var currentAgeVal: AgeType = .normal
+    internal var currentDedicationsVal: [DedicationType] = []
+    internal var numberOfDarkAgesVal: Int = 0
+    internal var numberOfGoldenAgesVal: Int = 0
 
     internal var operations: Operations?
     public var armies: Armies?
@@ -400,6 +453,7 @@ public class Player: AbstractPlayer {
     internal var totalImprovementsBuilt: Int
     internal var citiesFoundValue: Int
     internal var citiesLostValue: Int
+    internal var builtCityNames: [String]
 
     private var turnActive: Bool = false
     private var finishTurnButtonPressedValue: Bool = false
@@ -409,6 +463,7 @@ public class Player: AbstractPlayer {
     private var lastSliceMovedValue: Int = 0
 
     internal var cultureEarned: Int = 0
+    internal var faithEarned: Int = 0
     internal var boostExoplanetExpeditionValue: Int = 0
 
     private var notificationsValue: Notifications?
@@ -420,6 +475,10 @@ public class Player: AbstractPlayer {
 
     private var canChangeGovernmentValue: Bool = false
     private var faithPurchaseTypeVal: FaithPurchaseType = .noAutomaticFaithPurchase
+    private var discoveredNaturalWonders: [FeatureType] = []
+    private var settledContinents: [ContinentType] = []
+    private var hasWorldCircumnavigatedVal: Bool = false
+    private var establishedTradingPosts: [LeaderType] = []
 
     // MARK: constructor
 
@@ -440,12 +499,17 @@ public class Player: AbstractPlayer {
         self.totalImprovementsBuilt = 0
         self.citiesFoundValue = 0
         self.citiesLostValue = 0
+        self.builtCityNames = []
 
         self.originalCapitalLocationValue = HexPoint.invalid
         self.lostCapitalValue = false
         self.conquerorValue = nil
 
         self.faithPurchaseTypeVal = .noAutomaticFaithPurchase
+        self.discoveredNaturalWonders = []
+        self.settledContinents = []
+        self.hasWorldCircumnavigatedVal = false
+        self.establishedTradingPosts = []
     }
 
     public required init(from decoder: Decoder) throws {
@@ -466,6 +530,7 @@ public class Player: AbstractPlayer {
         self.totalImprovementsBuilt = try container.decode(Int.self, forKey: .totalImprovementsBuilt)
         self.citiesFoundValue = try container.decode(Int.self, forKey: .citiesFound)
         self.citiesLostValue = try container.decode(Int.self, forKey: .citiesLost)
+        self.builtCityNames = try container.decode([String].self, forKey: .builtCityNames)
 
         self.grandStrategyAI = try container.decode(GrandStrategyAI.self, forKey: .grandStrategyAI)
         self.diplomacyAI = try container.decode(DiplomaticAI.self, forKey: .diplomacyAI)
@@ -486,15 +551,20 @@ public class Player: AbstractPlayer {
         self.tradeRoutes = try container.decode(TradeRoutes.self, forKey: .tradeRoutes)
         self.governors = try container.decode(PlayerGovernors.self, forKey: .governors)
         self.tourism = try container.decode(PlayerTourism.self, forKey: .tourism)
+        self.momentsVal = try container.decode(PlayerMoments.self, forKey: .moments)
 
         self.techs = try container.decode(Techs.self, forKey: .techs)
         self.civics = try container.decode(Civics.self, forKey: .civics)
         self.religion = try container.decode(PlayerReligion.self, forKey: .religion)
         self.treasury = try container.decode(Treasury.self, forKey: .treasury)
         self.greatPeople = try container.decode(GreatPeople.self, forKey: .greatPeople)
-
         self.government = try container.decode(Government.self, forKey: .government)
+
         self.currentEraVal = try container.decode(EraType.self, forKey: .currentEra)
+        self.currentAgeVal = try container.decode(AgeType.self, forKey: .currentAge)
+        self.currentDedicationsVal = try container.decode([DedicationType].self, forKey: .currentDedications)
+        self.numberOfDarkAgesVal = try container.decode(Int.self, forKey: .numberOfDarkAges)
+        self.numberOfGoldenAgesVal = try container.decode(Int.self, forKey: .numberOfGoldenAges)
 
         self.operations = try container.decode(Operations.self, forKey: .operations)
         self.notificationsValue = try container.decode(Notifications.self, forKey: .notifications)
@@ -510,6 +580,10 @@ public class Player: AbstractPlayer {
         self.canChangeGovernmentValue = try container.decode(Bool.self, forKey: .canChangeGovernment)
         self.faithPurchaseTypeVal = try container.decode(FaithPurchaseType.self, forKey: .faithPurchaseType)
         self.boostExoplanetExpeditionValue = try container.decode(Int.self, forKey: .boostExoplanetExpedition)
+        self.discoveredNaturalWonders = try container.decode([FeatureType].self, forKey: .discoveredNaturalWonders)
+        self.settledContinents = try container.decode([ContinentType].self, forKey: .settledContinents)
+        self.hasWorldCircumnavigatedVal = try container.decode(Bool.self, forKey: .hasWorldCircumnavigated)
+        self.establishedTradingPosts = try container.decode([LeaderType].self, forKey: .establishedTradingPosts)
 
         // setup
         self.techs?.player = self
@@ -521,6 +595,7 @@ public class Player: AbstractPlayer {
         self.tradeRoutes?.player = self
         self.governors?.player = self
         self.tourism?.player = self
+        self.momentsVal?.player = self
 
         self.grandStrategyAI?.player = self
         self.diplomacyAI?.player = self
@@ -556,6 +631,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.totalImprovementsBuilt, forKey: .totalImprovementsBuilt)
         try container.encode(self.citiesFoundValue, forKey: .citiesFound)
         try container.encode(self.citiesLostValue, forKey: .citiesLost)
+        try container.encode(self.builtCityNames, forKey: .builtCityNames)
 
         try container.encode(self.grandStrategyAI, forKey: .grandStrategyAI)
         try container.encode(self.diplomacyAI, forKey: .diplomacyAI)
@@ -581,9 +657,14 @@ public class Player: AbstractPlayer {
         try container.encode(self.treasury as! Treasury, forKey: .treasury)
         try container.encode(self.greatPeople as! GreatPeople, forKey: .greatPeople)
         try container.encode(self.tourism as! PlayerTourism, forKey: .tourism)
-
+        try container.encode(self.momentsVal as! PlayerMoments, forKey: .moments)
         try container.encode(self.government as! Government, forKey: .government)
+
         try container.encode(self.currentEraVal, forKey: .currentEra)
+        try container.encode(self.currentAgeVal, forKey: .currentAge)
+        try container.encode(self.currentDedicationsVal, forKey: .currentDedications)
+        try container.encode(self.numberOfDarkAgesVal, forKey: .numberOfDarkAges)
+        try container.encode(self.numberOfGoldenAgesVal, forKey: .numberOfGoldenAges)
 
         try container.encode(self.operations, forKey: .operations)
         try container.encode(self.notificationsValue, forKey: .notifications)
@@ -598,6 +679,10 @@ public class Player: AbstractPlayer {
         try container.encode(self.canChangeGovernmentValue, forKey: .canChangeGovernment)
         try container.encode(self.faithPurchaseTypeVal, forKey: .faithPurchaseType)
         try container.encode(self.boostExoplanetExpeditionValue, forKey: .boostExoplanetExpedition)
+        try container.encode(self.discoveredNaturalWonders, forKey: .discoveredNaturalWonders)
+        try container.encode(self.settledContinents, forKey: .settledContinents)
+        try container.encode(self.hasWorldCircumnavigatedVal, forKey: .hasWorldCircumnavigated)
+        try container.encode(self.establishedTradingPosts, forKey: .establishedTradingPosts)
     }
     // swiftlint:enable force_cast
 
@@ -624,6 +709,7 @@ public class Player: AbstractPlayer {
         self.tradeRoutes = TradeRoutes(player: self)
         self.governors = PlayerGovernors(player: self)
         self.tourism = PlayerTourism(player: self)
+        self.momentsVal = PlayerMoments(player: self)
 
         self.techs = Techs(player: self)
         self.civics = Civics(player: self)
@@ -677,7 +763,7 @@ public class Player: AbstractPlayer {
         return true
     }
 
-    public func finishTurnButtonPressed() -> Bool {
+    public func turnFinished() -> Bool {
 
         return self.finishTurnButtonPressedValue
     }
@@ -749,7 +835,10 @@ public class Player: AbstractPlayer {
         self.diplomacyAI?.doFirstContact(with: otherPlayer, in: gameModel)
         otherPlayer.diplomacyAI?.doFirstContact(with: self, in: gameModel)
 
-        // update eureka
+        // moment
+        self.addMoment(of: .metNewCivilization(civilization: otherPlayer.leader.civilization()), in: gameModel)
+
+        // update eurekas
         if !techs.eurekaTriggered(for: .writing) {
             techs.triggerEureka(for: .writing, in: gameModel)
         }
@@ -1096,6 +1185,11 @@ public class Player: AbstractPlayer {
         return self.isAliveVal
     }
 
+    public func isEverAlive() -> Bool {
+
+        return true
+    }
+
     public func isActive() -> Bool {
 
         return self.turnActive
@@ -1106,14 +1200,73 @@ public class Player: AbstractPlayer {
         return self.isHumanVal
     }
 
-    public func currentAge() -> AgeType {
+    public func eraScore() -> Int {
 
-        return .normal
+        return self.momentsVal?.eraScore() ?? 0
     }
 
-    public func currentDedication() -> DedicationType {
+    // https://civilization.fandom.com/wiki/Age_(Civ6)
+    public func ageThresholds(in gameModel: GameModel?) -> AgeThresholds {
 
-        return .none
+        let numberOfGoldenAges = self.numberOfGoldenAgesVal
+        let numberOfDarkAges = self.numberOfDarkAgesVal
+        let cities = gameModel?.cities(of: self).count ?? 0
+        let lowerThreshold = 11 + numberOfGoldenAges * 5 - numberOfDarkAges * 5 + cities
+        let upperThreshold = lowerThreshold + 12
+
+        return AgeThresholds(
+            lower: lowerThreshold,
+            upper: upperThreshold
+        )
+    }
+
+    public func estimateNextAge(in gameModel: GameModel?) -> AgeType {
+
+        let eraScore = self.momentsVal?.eraScore() ?? 0
+        let thresholds = self.ageThresholds(in: gameModel)
+
+        if eraScore < thresholds.lower {
+            return .dark
+        } else if eraScore >= thresholds.upper {
+            return .golden
+        } else {
+            return .normal
+        }
+    }
+
+    func selectCurrentAge(in gameModel: GameModel?) {
+
+        let nextAge = self.estimateNextAge(in: gameModel)
+
+        if nextAge == .dark {
+            self.numberOfDarkAgesVal += 1
+
+            self.addMoment(of: .darkAgeBegins, in: gameModel)
+        } else if nextAge == .golden {
+            self.numberOfGoldenAgesVal += 1
+        }
+
+        self.currentAgeVal = nextAge
+    }
+
+    public func currentAge() -> AgeType {
+
+        return self.currentAgeVal
+    }
+
+    public func currentDedications() -> [DedicationType] {
+
+        return self.currentDedicationsVal
+    }
+
+    public func has(dedication: DedicationType) -> Bool {
+
+        return self.currentDedicationsVal.contains(dedication)
+    }
+
+    public func select(dedications: [DedicationType]) {
+
+        self.currentDedicationsVal = dedications
     }
 
     public func calculateGoldPerTurn(in gameModel: GameModel?) -> Double {
@@ -1318,9 +1471,9 @@ public class Player: AbstractPlayer {
             fatalError("cant get civics")
         }
 
-        if !civics.eurekaTriggered(for: .earlyEmpire) {
+        if !civics.inspirationTriggered(for: .earlyEmpire) {
             if self.population(in: gameModel) >= 6 {
-                civics.triggerEureka(for: .earlyEmpire, in: gameModel)
+                civics.triggerInspiration(for: .earlyEmpire, in: gameModel)
             }
         }
     }
@@ -1400,6 +1553,12 @@ public class Player: AbstractPlayer {
         // add effects from policy cards
         greatPeople.add(points: self.greatPeoplePointsFromPolicyCards(in: gameModel))
 
+        // add effects from dedication
+        // exodusOfTheEvangelists + golden - +4 Great Prophet Great Prophet points per turn.
+        if self.currentAgeVal == .golden && self.has(dedication: .exodusOfTheEvangelists) {
+            greatPeople.add(points: GreatPersonPoints(greatProphet: 4))
+        }
+
         // check if points are enough to gain a great person
         for greatPersonType in GreatPersonType.all {
 
@@ -1446,7 +1605,7 @@ public class Player: AbstractPlayer {
             greatPeoplePointsFromPolicyCards.greatWriter += 2
         }
 
-        // navigation - +2 Great Admiral Great Admiral points per turn.
+        // navigation - +2 Great Admiral points per turn.
         if government.has(card: .navigation) {
             greatPeoplePointsFromPolicyCards.greatAdmiral += 2
         }
@@ -1469,6 +1628,13 @@ public class Player: AbstractPlayer {
         if let capital = gameModel.capital(of: self) {
             // add units
             capital.doSpawn(greatPerson: greatPerson, in: gameModel)
+
+            // moments
+            self.addMoment(of: .greatPersonRecruited, in: gameModel)
+
+            if greatPerson.era() < self.currentEraVal {
+                self.addMoment(of: .oldGreatPersonRecruited, in: gameModel)
+            }
 
             // notify the user
             self.notifications()?.add(notification: .greatPersonJoined)
@@ -1696,6 +1862,7 @@ public class Player: AbstractPlayer {
                 } else {
                     // const BeliefTypes eBelief = kPlayer.GetReligionAI()->ChoosePantheonBelief();
                     let pantheonType = religionAI.choosePantheonType(in: gameModel)
+                    self.religion?.foundPantheon(with: pantheonType, in: gameModel)
                     gameModel?.foundPantheon(for: self, with: pantheonType)
                 }
             }
@@ -2290,11 +2457,30 @@ public class Player: AbstractPlayer {
         return self.currentEraVal
     }
 
-    public func set(era: EraType) {
+    public func set(era: EraType, in gameModel: GameModel?) {
 
-        // FIXME: should not be older era
+        guard era > self.currentEraVal else {
+            fatalError("era should be greater")
+        }
 
         self.currentEraVal = era
+        self.selectCurrentAge(in: gameModel)
+
+        self.momentsVal?.resetEraScore()
+
+        if !self.isHumanVal {
+            var dedications: [DedicationType] = era.dedications()
+
+            let selectable = self.currentAgeVal.numDedicationsSelectable()
+            var selected: [DedicationType] = []
+            for _ in 0..<selectable {
+                let selectedDedication = dedications.randomItem()
+                selected.append(selectedDedication)
+                dedications.removeAll(where: { $0 == selectedDedication })
+            }
+
+            self.select(dedications: selected)
+        }
     }
 
     public func has(tech techType: TechType) -> Bool {
@@ -2317,12 +2503,12 @@ public class Player: AbstractPlayer {
 
     public func canEmbark() -> Bool {
 
-        return self.has(tech: .sailing)
+        return self.has(tech: .shipBuilding)
     }
 
-    public func canEmbarkAllWaterPassage() -> Bool {
+    public func canEnterOcean() -> Bool {
 
-        return self.has(tech: .celestialNavigation)
+        return self.has(tech: .cartography)
     }
 
     public func has(civic civicType: CivicType) -> Bool {
@@ -2449,6 +2635,10 @@ public class Player: AbstractPlayer {
             fatalError("cant get gameModel")
         }
 
+        guard let tile = gameModel.tile(at: location) else {
+            fatalError("cant get tile")
+        }
+
         guard let techs = self.techs else {
             fatalError("cant get techs")
         }
@@ -2458,6 +2648,62 @@ public class Player: AbstractPlayer {
         }
 
         let cityName = name ?? self.newCityName(in: gameModel)
+
+        // moments
+        // check if tile is on a continent that the player has not settler yet
+        if let tileContinent: ContinentType = gameModel.continent(at: location)?.type() {
+            if !self.hasSettled(on: tileContinent) {
+                self.markSettled(on: tileContinent)
+
+                // only from second city (capital == first city is also founded on a 'new' continent)
+                if !gameModel.cities(of: self).isEmpty {
+                    let momentType: MomentType = .cityOnNewContinent(cityName: cityName, continentName: tileContinent.name())
+                    self.addMoment(of: momentType, in: gameModel)
+                }
+            }
+        }
+
+        if tile.terrain() == .tundra {
+            self.addMoment(of: .tundraCity(cityName: cityName), in: gameModel)
+        }
+
+        if tile.terrain() == .desert {
+            self.addMoment(of: .desertCity(cityName: cityName), in: gameModel)
+        }
+
+        if tile.terrain() == .snow {
+            self.addMoment(of: .snowCity(cityName: cityName), in: gameModel)
+        }
+
+        if gameModel.isLargest(player: self) && !self.hasMoment(of: .worldsLargestCivilization) {
+            self.addMoment(of: .worldsLargestCivilization, in: gameModel)
+        }
+
+        var nearVolcano: Bool = false
+        var nearNaturalWonder: Bool = false
+        for neighbor in location.areaWith(radius: 2) {
+
+            guard let neighborTile = gameModel.tile(at: neighbor) else {
+                continue
+            }
+
+            if neighborTile.has(feature: .volcano) {
+                nearVolcano = true
+            }
+
+            if neighborTile.feature().isNaturalWonder() {
+                nearNaturalWonder = true
+            }
+        }
+
+        if nearVolcano && !self.hasMoment(of: .cityNearVolcano(cityName: "")) {
+            self.addMoment(of: .cityNearVolcano(cityName: cityName), in: gameModel)
+        }
+
+        if nearNaturalWonder && !self.hasMoment(of: .cityOfAwe(cityName: "")) {
+            self.addMoment(of: .cityOfAwe(cityName: cityName), in: gameModel)
+        }
+
         let isCapital = gameModel.cities(of: self).isEmpty
 
         let city = City(name: cityName, at: location, capital: isCapital, owner: self)
@@ -2515,7 +2761,13 @@ public class Player: AbstractPlayer {
                 }
 
                 let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self, unitMapType: .combat, canEmbark: self.canEmbark())
+                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                    for: .walk,
+                    for: self,
+                    unitMapType: .combat,
+                    canEmbark: false,
+                    canEnterOcean: self.canEnterOcean()
+                )
 
                 if let path = pathFinder.shortestPath(fromTileCoord: location, toTileCoord: capital.location) {
                     // If within TradeRoute6 Trade Route range of the Capital6 Capital, a road to it.
@@ -2543,6 +2795,10 @@ public class Player: AbstractPlayer {
 
         var possibleNames = self.leader.civilization().cityNames()
 
+        for builtCityName in self.builtCityNames {
+            possibleNames.removeAll(where: { $0 == builtCityName })
+        }
+
         for cityRef in gameModel.cities(of: self) {
 
             guard let city = cityRef else {
@@ -2556,7 +2812,12 @@ public class Player: AbstractPlayer {
             return firstName
         }
 
-        return "TXT_KEY_CITY"
+        return "TXT_KEY_CITY_NAME_GENERIC"
+    }
+
+    public func registerBuild(cityName: String) {
+
+        self.builtCityNames.append(cityName)
     }
 
     public func cityStrengthModifier() -> Int {
@@ -2989,7 +3250,13 @@ public class Player: AbstractPlayer {
         }
 
         let pathfinder = AStarPathfinder()
-        pathfinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self, unitMapType: .combat, canEmbark: self.canEmbark())
+        pathfinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+            for: .walk,
+            for: self,
+            unitMapType: .combat,
+            canEmbark: self.canEmbark(),
+            canEnterOcean: self.canEnterOcean()
+        )
 
         if let _ = pathfinder.shortestPath(fromTileCoord: playerCapital.location, toTileCoord: targetCity.location) {
             return true
@@ -3252,19 +3519,15 @@ public class Player: AbstractPlayer {
                 continue
             }
 
-            guard let loopWonders = loopCity.wonders else {
-                continue
-            }
-
-            guard let loopDistricts = loopCity.districts else {
-                continue
-            }
-
-            if loopDistricts.has(district: .harbor) || loopDistricts.has(district: .commercialHub) {
+            if loopCity.has(district: .harbor) || loopCity.has(district: .commercialHub) {
                 numberOfTradingCapacity += 1
             }
 
-            if loopWonders.has(wonder: .colossus) {
+            if loopCity.has(building: .market) || loopCity.has(building: .lighthouse) {
+                numberOfTradingCapacity += 1
+            }
+
+            if loopCity.has(wonder: .colossus) {
                 // +1 Trade Route capacity
                 numberOfTradingCapacity += 1
             }
@@ -3306,8 +3569,46 @@ public class Player: AbstractPlayer {
 
     public func doEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
         guard let tradeRoutes = self.tradeRoutes else {
             fatalError("cant get tradeRoutes")
+        }
+
+        guard let targetCity = targetCity else {
+            fatalError("cant get targetCity")
+        }
+
+        guard let targetLeader = targetCity.player?.leader else {
+            fatalError("cant get target leader")
+        }
+
+        guard let tech = self.techs else {
+            fatalError("cant get tech")
+        }
+
+        if targetLeader != self.leader {
+
+            if !self.hasEverEstablishedTradingPost(with: targetLeader) {
+                self.markEstablishedTradingPost(with: targetLeader)
+
+                self.addMoment(of: .tradingPostEstablishedInNewCivilization(civilization: targetLeader.civilization()), in: gameModel)
+
+                let possibleTradingPosts = (gameModel.players.filter { $0.isAlive() }.count - 1)
+                if self.numEverEstablishedTradingPosts(in: gameModel) == possibleTradingPosts {
+                    if gameModel.anyHasMoment(of: .firstTradingPostsInAllCivilizations) {
+                        self.addMoment(of: .tradingPostsInAllCivilizations, in: gameModel)
+                    } else {
+                        self.addMoment(of: .firstTradingPostsInAllCivilizations, in: gameModel)
+                    }
+                }
+            }
+        }
+
+        if !tech.eurekaTriggered(for: .currency) {
+            tech.triggerEureka(for: .currency, in: gameModel)
         }
 
         // no check ?
@@ -3323,7 +3624,13 @@ public class Player: AbstractPlayer {
 
         var minDistance: Int = Int.max
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self, unitMapType: .civilian, canEmbark: true)
+        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+            for: .walk,
+            for: self,
+            unitMapType: .civilian,
+            canEmbark: true,
+            canEnterOcean: self.canEnterOcean()
+        )
 
         for cityRef in gameModel.cities(of: self) {
 
@@ -3436,28 +3743,12 @@ public class Player: AbstractPlayer {
 
         if conquest {
             if self.isEqual(to: gameModel.activePlayer()) {
-                let message = "You have captured \(oldCity.name)" // TXT_KEY_MISC_CAPTURED_CITY
-                gameModel.userInterface?.showTooltip(at: oldCity.location, text: message, delay: 3)
+                gameModel.userInterface?.showTooltip(
+                    at: oldCity.location,
+                    type: .capturedCity(cityName: oldCity.name),
+                    delay: 3
+                )
             }
-
-            // inform player
-            /*for (iI = 0; iI < MAX_PLAYERS; iI++)
-            {
-                if ((PlayerTypes)iI == GC.getGame().getActivePlayer())
-                {
-                    if (GET_PLAYER((PlayerTypes)iI).isAlive())
-                    {
-                        if (iI != GetID())
-                        {
-                            if (pOldCity->isRevealed(GET_PLAYER((PlayerTypes)iI).getTeam(), false))
-                            {
-                                strBuffer = GetLocalizedText("TXT_KEY_MISC_CITY_CAPTURED_BY", strName.GetCString(), getCivilizationShortDescriptionKey());
-                                GC.GetEngineUserInterface()->AddCityMessage(0, pOldCity->GetIDInfo(), ((PlayerTypes)iI), false, GC.getEVENT_MESSAGE_TIME(), strBuffer);
-                            }
-                        }
-                    }
-                }
-            }*/
 
             let message = "\(oldCity.name) was captured by the \(self.leader.civilization().name())!!!"
             gameModel.addReplayEvent(type: .major, message: message, at: oldCity.location)
@@ -3840,7 +4131,11 @@ public class Player: AbstractPlayer {
                 self.cultureEarned += culture
 
                 if self.isHuman() {
-                    gameModel.userInterface?.showTooltip(at: point, text: "Gained \(culture) culture from kill.", delay: 3.0)
+                    gameModel.userInterface?.showTooltip(
+                        at: point,
+                        type: .cultureFromKill(culture: culture),
+                        delay: 3.0
+                    )
                 }
             }
         }
@@ -3867,7 +4162,11 @@ public class Player: AbstractPlayer {
                 self.treasury?.changeGold(by: Double(gold))
 
                 if self.isHuman() {
-                    gameModel.userInterface?.showTooltip(at: point, text: "Gained \(gold) gold from kill.", delay: 3.0)
+                    gameModel.userInterface?.showTooltip(
+                        at: point,
+                        type: .goldFromKill(gold: gold),
+                        delay: 3.0
+                    )
                 }
             }
         }
@@ -3883,47 +4182,51 @@ public class Player: AbstractPlayer {
             fatalError("cant get tile")
         }
 
-        if !self.isBarbarian() {
+        if self.isBarbarian() {
+            return
+        }
 
-            tile.removeImprovement()
+        tile.removeImprovement()
 
-            // Make a list of valid Goodies to pick randomly from
-            var validGoodies: [GoodyType] = []
-            var validGoodyCategories: [GoodyCategory] = []
+        // moment
+        self.addMoment(of: .tribalVillageContacted, in: gameModel)
 
-            for goody in GoodyType.all {
+        // Make a list of valid Goodies to pick randomly from
+        var validGoodies: [GoodyType] = []
+        var validGoodyCategories: [GoodyCategory] = []
 
-                if self.canReceiveGoody(at: tile, goody: goody, unit: unit, in: gameModel) {
-                    validGoodies.append(goody)
-                    validGoodyCategories.append(goody.category())
-                }
+        for goody in GoodyType.all {
+
+            if self.canReceiveGoody(at: tile, goody: goody, unit: unit, in: gameModel) {
+                validGoodies.append(goody)
+                validGoodyCategories.append(goody.category())
+            }
+        }
+
+        // Any valid Goodies categories?
+        guard let goodyCategory = validGoodyCategories.randomElement() else {
+            fatalError("no goody categories found")
+        }
+
+        validGoodies = validGoodies.filter({ $0.category() == goodyCategory }) // goodyCategory
+
+        if validGoodies.count > 1 {
+            let goodies = WeightedList<GoodyType>()
+
+            for validGoody in validGoodies {
+                goodies.add(weight: validGoody.probability(), for: validGoody)
             }
 
-            // Any valid Goodies categories?
-            guard let goodyCategory = validGoodyCategories.randomElement() else {
-                fatalError("no goody categories found")
+            let randValue = Int.random(number: Int(goodies.totalWeights()))
+
+            guard let selectedValue = goodies.item(by: Double(randValue)) else {
+                fatalError("no goody found")
             }
 
-            validGoodies = validGoodies.filter({ $0.category() == goodyCategory }) // goodyCategory
+            self.receiveGoody(at: tile, goody: selectedValue, unit: unit, in: gameModel)
 
-            if validGoodies.count > 1 {
-                let goodies = WeightedList<GoodyType>()
-
-                for validGoody in validGoodies {
-                    goodies.add(weight: validGoody.probability(), for: validGoody)
-                }
-
-                let randValue = Int.random(number: Int(goodies.totalWeights()))
-
-                guard let selectedValue = goodies.item(by: Double(randValue)) else {
-                    fatalError("no goody found")
-                }
-
-                self.receiveGoody(at: tile, goody: selectedValue, unit: unit, in: gameModel)
-
-            } else {
-                self.receiveGoody(at: tile, goody: validGoodies[0], unit: unit, in: gameModel)
-            }
+        } else {
+            self.receiveGoody(at: tile, goody: validGoodies[0], unit: unit, in: gameModel)
         }
     }
 
@@ -3931,6 +4234,10 @@ public class Player: AbstractPlayer {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
+        }
+
+        guard let civics = self.civics else {
+            fatalError("cant get civics")
         }
 
         guard let tile = tile else {
@@ -3943,21 +4250,27 @@ public class Player: AbstractPlayer {
 
             let numGold = gameModel.handicap.barbarianCampGold()
 
-            // Normal way to handle it
-            if self.isEqual(to: gameModel.humanPlayer()) {
-                gameModel.userInterface?.showTooltip(at: tile.point, text: "TXT_KEY_MISC_DESTROYED_BARBARIAN_CAMP", delay: 3.0)
-            }
-
             tile.set(improvement: .none)
 
             gameModel.doBarbCampCleared(at: tile.point)
+
+            self.addMoment(of: .barbarianCampDestroyed, in: gameModel)
+
+            if !civics.inspirationTriggered(for: .militaryTradition) {
+                civics.triggerInspiration(for: .militaryTradition, in: gameModel)
+            }
+
+            // initiationRites - +50 [Faith] Faith for each Barbarian Outpost cleared. The unit that cleared the Barbarian Outpost heals +100 HP.
+            if self.religion?.pantheon() == .initiationRites {
+                self.faithEarned += 50
+            }
 
             self.treasury?.changeGold(by: Double(numGold))
 
             // If it's the active player then show the popup
             if self.isEqual(to: gameModel.humanPlayer()) {
 
-                gameModel.userInterface?.showPopup(popupType: .barbarianCampCleared(location: tile.point, gold: numGold))
+                gameModel.userInterface?.showTooltip(at: tile.point, type: .barbarianCampCleared(gold: numGold), delay: 3)
             }
         }
     }
@@ -3983,14 +4296,11 @@ public class Player: AbstractPlayer {
     }
 
     /// Is a Particular Goody ID a valid Goody for a certain plot?
+    /// unit can be nil
     func canReceiveGoody(at tile: AbstractTile?, goody: GoodyType, unit: AbstractUnit?, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
-        }
-
-        guard let unit = unit else {
-            fatalError("cant get unit")
         }
 
         guard let goodyHuts = self.goodyHuts else {
@@ -4018,11 +4328,13 @@ public class Player: AbstractPlayer {
             return true
 
         case .civicMinorBoost:
-            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)})
+            let possibleCivicsWithoutEureka = civics.possibleCivics()
+                .filter { !civics.inspirationTriggered(for: $0)}
             return possibleCivicsWithoutEureka.count >= 1
 
         case .civicMajorBoost:
-            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)})
+            let possibleCivicsWithoutEureka = civics.possibleCivics()
+                .filter { !civics.inspirationTriggered(for: $0)}
             return possibleCivicsWithoutEureka.count >= 2
 
         case .relic:
@@ -4042,7 +4354,11 @@ public class Player: AbstractPlayer {
             return true
 
         case .healing:
-            return unit.healthPoints() < unit.maxHealthPoints()
+            if let unit = unit {
+                return unit.healthPoints() < unit.maxHealthPoints()
+            }
+
+            return false
 
         case .freeResource:
             return false
@@ -4051,7 +4367,7 @@ public class Player: AbstractPlayer {
             return false
 
         case .unitUpgrade:
-            if let upgradeType = unit.upgradeType() {
+            if let upgradeType = unit?.upgradeType(), let unit = unit {
                 return unit.canUpgrade(to: upgradeType, in: gameModel)
             }
 
@@ -4101,24 +4417,24 @@ public class Player: AbstractPlayer {
             self.treasury?.changeGold(by: 120.0)
 
         case .civicMinorBoost:
-            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)})
+            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.inspirationTriggered(for: $0)})
             guard let civicToBoost = possibleCivicsWithoutEureka.randomElement() else {
                 fatalError("cant get civic to boost")
             }
-            civics.triggerEureka(for: civicToBoost, in: gameModel)
+            civics.triggerInspiration(for: civicToBoost, in: gameModel)
 
         case .civicMajorBoost:
-            var possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)})
+            var possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.inspirationTriggered(for: $0)})
             guard let civicToBoost1 = possibleCivicsWithoutEureka.randomElement() else {
                 fatalError("cant get civic to boost")
             }
-            civics.triggerEureka(for: civicToBoost1, in: gameModel)
+            civics.triggerInspiration(for: civicToBoost1, in: gameModel)
 
-            possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)})
+            possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.inspirationTriggered(for: $0)})
             guard let civicToBoost2 = possibleCivicsWithoutEureka.randomElement() else {
                 fatalError("cant get civic to boost")
             }
-            civics.triggerEureka(for: civicToBoost2, in: gameModel)
+            civics.triggerInspiration(for: civicToBoost2, in: gameModel)
 
         case .relic:
             // keep the great work in players card
@@ -4158,7 +4474,7 @@ public class Player: AbstractPlayer {
                 fatalError("cant get tech to discover")
             }
             do {
-                try techs.discover(tech: possibleTech)
+                try techs.discover(tech: possibleTech, in: gameModel)
             } catch {}
 
             if self.isHuman() {
@@ -4180,7 +4496,7 @@ public class Player: AbstractPlayer {
             scoutUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
 
             // make the unit visible
-            gameModel.userInterface?.show(unit: scoutUnit)
+            gameModel.userInterface?.show(unit: scoutUnit, at: tile.point)
 
         case .healing:
             unit?.doHeal(in: gameModel)
@@ -4232,7 +4548,7 @@ public class Player: AbstractPlayer {
             builderUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
 
             // make the unit visible
-            gameModel.userInterface?.show(unit: builderUnit)
+            gameModel.userInterface?.show(unit: builderUnit, at: tile.point)
 
         case .freeTrader:
             var bestCityDistance = -1
@@ -4263,7 +4579,7 @@ public class Player: AbstractPlayer {
             traderUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
 
             // make the unit visible
-            gameModel.userInterface?.show(unit: traderUnit)
+            gameModel.userInterface?.show(unit: traderUnit, at: tile.point)
 
         case .freeSettler:
             let settlerUnit = Unit(at: tile.point, type: .settler, owner: self)
@@ -4271,7 +4587,7 @@ public class Player: AbstractPlayer {
             settlerUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
 
             // make the unit visible
-            gameModel.userInterface?.show(unit: settlerUnit)
+            gameModel.userInterface?.show(unit: settlerUnit, at: tile.point)
         }
 
         // If it's the active player then show the popup
@@ -4468,6 +4784,28 @@ public class Player: AbstractPlayer {
         return false
     }
 
+    public func numberOfDistricts(of districtType: DistrictType, in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var numberOfDistricts = 0
+
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(district: districtType) {
+                numberOfDistricts += 1
+            }
+        }
+
+        return numberOfDistricts
+    }
+
     // MARK: religion methods
 
     public func faithPurchaseType() -> FaithPurchaseType {
@@ -4502,6 +4840,28 @@ public class Player: AbstractPlayer {
         }
 
         return numCitiesFollowingReligion >= numCitiesAll / 2.0
+    }
+
+    public func doFound(religion: ReligionType, at city: AbstractCity?, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let civics = self.civics else {
+            fatalError("cant get player civics")
+        }
+
+        guard let playerReligion = self.religion else {
+            fatalError("cant get player religion")
+        }
+
+        playerReligion.found(religion: religion, at: city, in: gameModel)
+        self.addMoment(of: .religionFounded(religion: religion), in: gameModel)
+
+        if !civics.inspirationTriggered(for: .theology) {
+            civics.triggerInspiration(for: .theology, in: gameModel)
+        }
     }
 
     // MARK: discovery
@@ -4843,6 +5203,130 @@ public class Player: AbstractPlayer {
         }
 
         return modifier
+    }
+
+    // MARK: moments
+
+    public func addMoment(of type: MomentType, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard type.minEra() <= self.currentEraVal && self.currentEraVal <= type.maxEra() else {
+            return
+        }
+
+        self.momentsVal?.addMoment(of: type, in: gameModel.currentTurn)
+    }
+
+    public func hasMoment(of type: MomentType) -> Bool {
+
+        return self.momentsVal?.moments().contains(
+            where: {
+                return $0.type == type
+            }
+        ) ?? false
+    }
+
+    public func moments() -> [Moment] {
+
+        return self.momentsVal?.moments() ?? []
+    }
+
+    public func hasDiscovered(naturalWonder: FeatureType) -> Bool {
+
+        return self.discoveredNaturalWonders.contains(naturalWonder)
+    }
+
+    public func doDiscover(naturalWonder: FeatureType) {
+
+        self.discoveredNaturalWonders.append(naturalWonder)
+    }
+
+    public func hasSettled(on continent: ContinentType) -> Bool {
+
+        return self.settledContinents.contains(continent)
+    }
+
+    public func markSettled(on continent: ContinentType) {
+
+        self.settledContinents.append(continent)
+    }
+
+    public func checkWorldCircumnavigated(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        if self.hasWorldCircumnavigatedVal {
+            return
+        }
+
+        let mapSize = gameModel.mapSize()
+
+        for x in 0..<mapSize.width() {
+
+            var foundVisible = false
+
+            for y in 0..<mapSize.height() {
+
+                guard let tile = gameModel.tile(x: x, y: y) else {
+                    continue
+                }
+
+                if tile.isDiscovered(by: self) {
+                    foundVisible = true
+                    break
+                }
+            }
+
+            if !foundVisible {
+                return
+            }
+        }
+
+        self.set(worldCircumnavigated: true)
+
+        if gameModel.anyHasMoment(of: .worldsFirstCircumnavigation) {
+            self.addMoment(of: .worldCircumnavigated, in: gameModel)
+        } else {
+            self.addMoment(of: .worldsFirstCircumnavigation, in: gameModel)
+        }
+    }
+
+    public func hasWorldCircumnavigated() -> Bool {
+
+        return self.hasWorldCircumnavigatedVal
+    }
+
+    public func set(worldCircumnavigated: Bool) {
+
+        self.hasWorldCircumnavigatedVal = worldCircumnavigated
+    }
+
+    public func hasEverEstablishedTradingPost(with leader: LeaderType) -> Bool {
+
+        return self.establishedTradingPosts.contains(leader)
+    }
+
+    public func markEstablishedTradingPost(with leader: LeaderType) {
+
+        if !self.hasEverEstablishedTradingPost(with: leader) {
+            self.establishedTradingPosts.append(leader)
+        }
+    }
+
+    public func numEverEstablishedTradingPosts(in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        return self.establishedTradingPosts
+            .filter { gameModel.player(for: $0)?.isAlive() ?? false  }
+            .count
     }
 }
 

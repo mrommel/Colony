@@ -14,7 +14,7 @@ public protocol AbstractTechs: AnyObject, Codable {
 
     // techs
     func has(tech: TechType) -> Bool
-    func discover(tech: TechType) throws
+    func discover(tech: TechType, in gameModel: GameModel?) throws
 
     func currentScienceProgress() -> Double
     func currentScienceTurnsRemaining() -> Int
@@ -228,13 +228,51 @@ class Techs: AbstractTechs {
         return self.techs.contains(tech)
     }
 
-    func discover(tech: TechType) throws {
+    func discover(tech: TechType, in gameModel: GameModel?) throws {
 
         if self.techs.contains(tech) {
             throw TechError.alreadyDiscovered
         }
 
+        // check if this tech is the first of a new era
+        let techsInEra = self.techs.count(where: { $0.era() == tech.era() })
+        if techsInEra == 0 && tech.era() != .ancient {
+
+            guard let gameModel = gameModel else {
+                fatalError("cant get game")
+            }
+
+            if gameModel.anyHasMoment(of: .worldsFirstTechnologyOfNewEra(eraType: tech.era())) {
+                self.player?.addMoment(of: .firstTechnologyOfNewEra(eraType: tech.era()), in: gameModel)
+            } else {
+                self.player?.addMoment(of: .worldsFirstTechnologyOfNewEra(eraType: tech.era()), in: gameModel)
+            }
+        }
+
+        self.updateEurekas(in: gameModel)
+
         self.techs.append(tech)
+    }
+
+    private func updateEurekas(in gameModel: GameModel?) {
+
+        guard let civics = self.player?.civics else {
+            fatalError("cant get civics")
+        }
+
+        // Games and Recreation - Research the Construction technology.
+        if self.has(tech: .construction) {
+            if !civics.inspirationTriggered(for: .gamesAndRecreation) {
+                civics.triggerInspiration(for: .gamesAndRecreation, in: gameModel)
+            }
+        }
+
+        // Mass Media - Research Radio.
+        if self.has(tech: .radio) {
+            if !civics.inspirationTriggered(for: .massMedia) {
+                civics.triggerInspiration(for: .massMedia, in: gameModel)
+            }
+        }
     }
 
     func needToChooseTech() -> Bool {
@@ -281,11 +319,23 @@ class Techs: AbstractTechs {
         self.eurekas.eurakaTrigger.trigger(for: techType)
 
         // update progress
-        self.progress.add(weight: Double(techType.cost()) * 0.5, for: techType)
+        var eurekaBoost = 0.5
+
+        // freeInquiry + golden - [Eureka] Eureka provide an additional 10% of Technology costs.
+        if player.currentAge() == .golden && player.has(dedication: .freeInquiry) {
+            eurekaBoost += 0.1
+        }
+
+        self.progress.add(weight: Double(techType.cost()) * eurekaBoost, for: techType)
+
+        // freeInquiry + normal - Gain +1 Era Score when you trigger a [Eureka] Eureka
+        if player.currentAge() == .normal && player.has(dedication: .freeInquiry) {
+            player.addMoment(of: .dedicationTriggered(dedicationType: .freeInquiry), in: gameModel)
+        }
 
         // trigger event to user
         if player.isHuman() {
-            gameModel?.userInterface?.showPopup(popupType: .eurekaTechActivated(tech: techType))
+            gameModel?.userInterface?.showPopup(popupType: .eurekaTriggered(tech: techType))
         }
     }
 
@@ -377,7 +427,7 @@ class Techs: AbstractTechs {
         if self.currentScienceProgress() >= Double(currentTech.cost()) {
 
             do {
-                try self.discover(tech: currentTech)
+                try self.discover(tech: currentTech, in: gameModel)
 
                 // trigger event to user
                 if player.isHuman() {
@@ -388,12 +438,11 @@ class Techs: AbstractTechs {
                 if currentTech.era() > player.currentEra() {
 
                     gameModel?.enter(era: currentTech.era(), for: player)
+                    player.set(era: currentTech.era(), in: gameModel)
 
                     if player.isHuman() {
                         gameModel?.userInterface?.showPopup(popupType: .eraEntered(era: currentTech.era()))
                     }
-
-                    player.set(era: currentTech.era())
                 }
 
                 self.currentTechValue = nil

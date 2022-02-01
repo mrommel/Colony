@@ -19,20 +19,20 @@ public enum PantheonType: Int, Codable {
     case divineSpark
     case earthGoddess
     case fertilityRites
-    case fireGoddess
+    case fireGoddess // #
     case godOfCraftsmen
-    case godOfHealing
+    case godOfHealing // #
     case godOfTheForge
     case godOfTheOpenSky
     case godOfTheSea
-    case godOfWar
+    case godOfWar // #
     case goddessOfFestivals
-    case goddessOfTheHarvest
+    case goddessOfTheHarvest // #
     case goddessOfTheHunt
     case initiationRites
     case ladyOfTheReedsAndMarshes
     case monumentToTheGods
-    case oralTradition
+    case oralTradition // #
     case religiousIdols
     case riverGoddess
     case religiousSettlements
@@ -72,83 +72,160 @@ public enum PantheonType: Int, Codable {
         switch self {
 
         case .none:
-            return PantheonData(name: "None", bonus: "")
+            return PantheonData(
+                name: "None",
+                bonus: ""
+            )
 
         case .cityPatronGoddess:
-            return PantheonData(name: "City Patron Goddess",
-                                bonus: "+25% Production toward districts in cities without a specialty district.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_CITY_PATRON_GODDESS_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_CITY_PATRON_GODDESS_BONUS"
+            )
+
         case .danceOfTheAurora:
-            return PantheonData(name: "Dance of the Aurora",
-                                bonus: "Holy Site districts get +1 Faith from adjacent Tundra tiles.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_DANCE_OF_THE_AURORA_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_DANCE_OF_THE_AURORA_BONUS"
+            )
+
         case .desertFolklore:
-            return PantheonData(name: "Desert Folklore",
-                                bonus: "Holy Site districts get +1 Faith from adjacent Desert tiles.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_DESERT_FOLKLORE_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_DESERT_FOLKLORE_BONUS"
+            )
+
         case .divineSpark:
-            return PantheonData(name: "Divine Spark",
-                                bonus: "+1 Great Person Points from Holy Sites (Prophet), Campuses with a Library (Scientist), and Theater Squares with an Amphitheater (Writer).")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_DIVINE_SPARK_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_DIVINE_SPARK_BONUS"
+            )
+
         case .earthGoddess:
-            return PantheonData(name: "Earth Goddess",
-                                bonus: "+1 Faith from tiles with Breathtaking Appeal.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_EARTH_GODDESS_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_EARTH_GODDESS_BONUS"
+            )
+
         case .fertilityRites:
-            return PantheonData(name: "Fertility Rites",
-                                bonus: "When chosen receive a Builder in your capital. City growth rate is 10% higher.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_FERTILITY_RITES_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_FERTILITY_RITES_BONUS"
+            )
+
         case .fireGoddess:
-            return PantheonData(name: "Fire Goddess",
-                                bonus: "+2 Faith from Geothermal Fissures and Volcanic Soil.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_FIRE_GODDESS_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_FIRE_GODDESS_BONUS"
+            )
+
         case .godOfCraftsmen:
-            return PantheonData(name: "God of Craftsmen",
-                                bonus: "+1 Production and +1 Faith from improved Strategic resources.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_GOD_OF_CRAFTSMEN_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_GOD_OF_CRAFTSMEN_BONUS"
+            )
+
         case .godOfHealing:
-            return PantheonData(name: "God of Healing",
-                                bonus: "Increases units' healing by 30 in Holy Site districts, or any adjacent tiles.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_GOD_OF_HEALING_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_GOD_OF_HEALING_BONUS"
+            )
+
         case .godOfTheForge:
-            return PantheonData(name: "God of the Forge",
-                                bonus: "+25% Production toward Ancient and Classical military units.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_GOD_OF_THE_FORGE_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_GOD_OF_THE_FORGE_BONUS"
+            )
+
         case .godOfTheOpenSky:
-            return PantheonData(name: "God of the Open Sky",
-                                bonus: "+1 Culture from Pastures.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_GOD_OF_THE_OPEN_SKY_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_GOD_OF_THE_OPEN_SKY_BONUS"
+            )
+
         case .godOfTheSea:
-            return PantheonData(name: "God of the Sea",
-                                bonus: "+1 Production from Fishing Boats.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_GOD_OF_THE_SEA_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_GOD_OF_THE_SEA_BONUS"
+            )
+
         case .godOfWar:
-            return PantheonData(name: "God of War",
-                                bonus: "Bonus Faith equal to 50% of the strength of each combat unit killed within 8 tiles of a Holy Site district.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_GOD_OF_WAR_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_GOD_OF_WAR_BONUS"
+            )
+
         case .goddessOfFestivals:
-            return PantheonData(name: "Goddess of Festivals",
-                                bonus: "+1 Culture from Plantations.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_GODDESS_OF_FESTIVALS_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_GODDESS_OF_FESTIVALS_BONUS"
+            )
+
         case .goddessOfTheHarvest:
-            return PantheonData(name: "Goddess of the Harvest",
-                                bonus: "Harvesting a resource or removing a feature receives Faith equal to the other yield's quantity.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_GODDESS_OF_THE_HARVEST_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_GODDESS_OF_THE_HARVEST_BONUS"
+            )
+
         case .goddessOfTheHunt:
-            return PantheonData(name: "Goddess of the Hunt",
-                                bonus: "+1 Food and +1 Production from Camps.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_GODDESS_OF_THE_HUNT_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_GODDESS_OF_THE_HUNT_BONUS"
+            )
+
         case .initiationRites:
-            return PantheonData(name: "Initiation Rites",
-                                bonus: "+50 Faith for each Barbarian Outpost cleared. The unit that cleared the Barbarian Outpost heals +100 HP.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_INITIATION_RITES_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_INITIATION_RITES_BONUS"
+            )
+
         case .ladyOfTheReedsAndMarshes:
-            return PantheonData(name: "Lady of the Reeds and Marshes",
-                                bonus: "+2 Production from Marsh, Oasis, and Desert Floodplains.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_LADY_OF_THE_REEDS_AND_MARSHES_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_LADY_OF_THE_REEDS_AND_MARSHES_BONUS"
+            )
+
         case .monumentToTheGods:
-            return PantheonData(name: "Monument to the Gods",
-                                bonus: "+15% Production to Ancient and Classical era Wonders.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_MONUMENT_TO_THE_GODS_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_MONUMENT_TO_THE_GODS_BONUS"
+            )
+
         case .oralTradition:
-            return PantheonData(name: "Oral Tradition",
-                                bonus: "+1 Culture from Bananas, Citrus, Cotton, Dyes, Silk, Spices, and Sugar Plantations.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_ORAL_TRADITION_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_ORAL_TRADITION_BONUS"
+            )
+
         case .religiousIdols:
-            return PantheonData(name: "Religious Idols",
-                                bonus: "+2 Faith from Mines over Luxury and Bonus resources.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_RELIGIOUS_IDOLS_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_RELIGIOUS_IDOLS_BONUS"
+            )
+
         case .riverGoddess:
-            return PantheonData(name: "River Goddess",
-                                bonus: "+2 Amenities and +2 Housing to cities if they have a Holy Site district adjacent to a River.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_RIVER_GODDESS_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_RIVER_GODDESS_BONUS"
+            )
+
         case .religiousSettlements:
-            return PantheonData(name: "Religious Settlements",
-                                bonus: "When chosen receive a Settler in your capital. Border expansion rate is 15% faster.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_RELIGIOUS_SETTLEMENTS_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_RELIGIOUS_SETTLEMENTS_BONUS"
+            )
+
         case .sacredPath:
-            return PantheonData(name: "Sacred Path",
-                                bonus: "Holy Site districts get +1 Faith from adjacent Rainforest tiles.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_SACRED_PATH_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_SACRED_PATH_BONUS"
+            )
+
         case .stoneCircles:
-            return PantheonData(name: "Stone Circles",
-                                bonus: "+2 Faith from Quarries.")
+            return PantheonData(
+                name: "TXT_KEY_RELIGION_PANTHEON_STONE_CIRCLES_TITLE",
+                bonus: "TXT_KEY_RELIGION_PANTHEON_STONE_CIRCLES_BONUS"
+            )
         }
     }
 }

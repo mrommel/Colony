@@ -7,6 +7,7 @@
 
 import SpriteKit
 
+// swiftlint:disable implicit_getter
 class SafeAreaNode: SKEffectNode {
 
     override var frame: CGRect {
@@ -35,3 +36,4 @@ class SafeAreaNode: SKEffectNode {
         self.safeAreaFrame = CGRect(x: x - offsetX, y: y - offsetY, width: width, height: height)
     }
 }
+// swiftlint:enable implicit_getter

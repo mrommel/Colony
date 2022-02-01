@@ -11,6 +11,99 @@ import SmartAssets
 
 class CityLayer: SKNode {
 
+    // MARK: intern classes
+
+    private class CityLayerTile: BaseLayerTile {
+
+        let visible: Bool
+        let discovered: Bool
+
+        let health: Int
+        let maxHealth: Int
+        let strength: Int
+        let population: Int
+        let growthInTurns: Int
+        let maxGrowthInTurns: Int
+        let isCapital: Bool
+        let name: String
+        let governor: GovernorType?
+
+        let production: Double
+        let productionCost: Int
+        let unitType: UnitType?
+        let buildingType: BuildingType?
+        let wonderType: WonderType?
+        let districtType: DistrictType?
+        let projectType: ProjectType?
+
+        init(point: HexPoint, visible: Bool, discovered: Bool, health: Int, maxHealth: Int, strength: Int,
+             population: Int, growthInTurns: Int, maxGrowthInTurns: Int, isCapital: Bool, name: String, governor: GovernorType?,
+             production: Double, productionCost: Int, unitType: UnitType?, buildingType: BuildingType?, wonderType: WonderType?,
+             districtType: DistrictType?, projectType: ProjectType?) {
+
+            self.visible = visible
+            self.discovered = discovered
+
+            self.health = health
+            self.maxHealth = maxHealth
+            self.strength = strength
+            self.population = population
+            self.growthInTurns = growthInTurns
+            self.maxGrowthInTurns = maxGrowthInTurns
+            self.isCapital = isCapital
+            self.name = name
+            self.governor = governor
+
+            self.production = production
+            self.productionCost = productionCost
+            self.unitType = unitType
+            self.buildingType = buildingType
+            self.wonderType = wonderType
+            self.districtType = districtType
+            self.projectType = projectType
+
+            super.init(point: point)
+        }
+
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+
+        override func hash(into hasher: inout Hasher) {
+
+            hasher.combine(self.point)
+
+            hasher.combine(self.visible)
+            hasher.combine(self.discovered)
+
+            hasher.combine(self.health)
+            hasher.combine(self.maxHealth)
+            hasher.combine(self.strength)
+            hasher.combine(self.population)
+            hasher.combine(self.growthInTurns)
+            hasher.combine(self.maxGrowthInTurns)
+            hasher.combine(self.isCapital)
+            hasher.combine(self.name)
+            hasher.combine(self.governor)
+
+            hasher.combine(self.production)
+            hasher.combine(self.productionCost)
+            hasher.combine(self.unitType)
+            hasher.combine(self.buildingType)
+            hasher.combine(self.wonderType)
+            hasher.combine(self.districtType)
+            hasher.combine(self.projectType)
+        }
+    }
+
+    private class CityLayerHasher: BaseLayerHasher<CityLayerTile> {
+
+    }
+
+    // MARK: variables
+
+    private var hasher: CityLayerHasher?
+
     static let kTextureWidth: Int = 48
     static let kTextureSize: CGSize = CGSize(width: kTextureWidth, height: kTextureWidth)
 
@@ -19,6 +112,8 @@ class CityLayer: SKNode {
     var textureUtils: TextureUtils?
 
     var cityObjects: [CityObject]
+
+    var showCompleteMap: Bool = false
 
     init(player: AbstractPlayer?) {
 
@@ -42,6 +137,7 @@ class CityLayer: SKNode {
         }
 
         self.textureUtils = TextureUtils(with: gameModel)
+        self.hasher = CityLayerHasher(with: gameModel)
 
         for player in gameModel.players {
 
@@ -102,31 +198,24 @@ class CityLayer: SKNode {
             fatalError("cant get tile")
         }
 
-        var isDiscovered = false
-        var isVisible = false
-        var shown = false
+        let isDiscovered = tile.isDiscovered(by: player)
+        let isVisible = tile.isVisible(to: player)
 
-        if tile.isDiscovered(by: player) {
-            isDiscovered = true
-        }
-
-        if tile.isVisible(to: player) {
-            isVisible = true
-        }
-
-        for cityLoopObject in self.cityObjects where city.location == cityLoopObject.city?.location {
-
+        if let cityObject = self.cityObjects.first(where: { city.location == $0.city?.location }) {
             if isVisible {
-                cityLoopObject.showCityBanner()
 
-                // FIXME update city size / buildings
+                let currentHashValue = self.hash(for: city, on: tile)
+                if !self.hasher!.has(hash: currentHashValue, at: city.location) {
+                    cityObject.updateCityBanner()
+
+                    // FIXME update city size / buildings
+                    self.hasher?.update(hash: currentHashValue, at: city.location)
+                }
             }
-
-            shown = true
-        }
-
-        if isDiscovered && !shown {
-            self.show(city: city)
+        } else {
+            if isDiscovered {
+                self.show(city: city)
+            }
         }
     }
 
@@ -141,5 +230,75 @@ class CityLayer: SKNode {
         }
 
         self.cityObjects.removeAll(where: { city.location == $0.city?.location })
+    }
+
+    private func hash(for city: AbstractCity?, on tile: AbstractTile?) -> CityLayerTile {
+
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+
+        guard let city = city else {
+            fatalError("cant get city")
+        }
+
+        let health: Int = city.healthPoints()
+        let maxHealth: Int = city.maxHealthPoints()
+        let strength: Int = city.combatStrength(against: nil, in: self.gameModel)
+        let population: Int = city.population()
+        let growthInTurns: Int = city.growthInTurns()
+        let maxGrowthInTurns: Int = city.maxGrowthInTurns()
+        let isCapital: Bool = city.isCapital()
+        let name: String = city.name.localized()
+        let governor: GovernorType? = city.governorType()
+
+        var production: Double = 0
+        var productionCost: Int = 0
+        var unitType: UnitType?
+        var buildingType: BuildingType?
+        var wonderType: WonderType?
+        var districtType: DistrictType?
+        var projectType: ProjectType?
+
+        if let currentBuildableItem = city.currentBuildableItem() {
+            switch currentBuildableItem.type {
+
+            case .unit:
+                unitType = currentBuildableItem.unitType
+                production = currentBuildableItem.production
+                productionCost = currentBuildableItem.unitType?.productionCost() ?? 0
+
+            case .building:
+                buildingType = currentBuildableItem.buildingType
+                production = currentBuildableItem.production
+                productionCost = currentBuildableItem.buildingType?.productionCost() ?? 0
+
+            case .wonder:
+                wonderType = currentBuildableItem.wonderType
+                production = currentBuildableItem.production
+                productionCost = currentBuildableItem.wonderType?.productionCost() ?? 0
+
+            case .district:
+                districtType = currentBuildableItem.districtType
+                production = currentBuildableItem.production
+                productionCost = currentBuildableItem.districtType?.productionCost() ?? 0
+
+            case .project:
+                projectType = currentBuildableItem.projectType
+                production = currentBuildableItem.production
+                productionCost = currentBuildableItem.projectType?.productionCost() ?? 0
+            }
+        }
+
+        return CityLayerTile(
+            point: tile.point,
+            visible: tile.isVisible(to: self.player) || self.showCompleteMap,
+            discovered: tile.isDiscovered(by: self.player),
+            health: health, maxHealth: maxHealth, strength: strength, population: population,
+            growthInTurns: growthInTurns, maxGrowthInTurns: maxGrowthInTurns, isCapital: isCapital,
+            name: name, governor: governor, production: production, productionCost: productionCost,
+            unitType: unitType, buildingType: buildingType, wonderType: wonderType, districtType: districtType,
+            projectType: projectType
+        )
     }
 }

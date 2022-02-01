@@ -20,8 +20,8 @@ public protocol AbstractPlayerGovernors: AnyObject, Codable {
 
     func governor(with type: GovernorType) -> Governor?
 
-    func appoint(governor governorType: GovernorType)
-    func promote(governor: Governor?, with title: GovernorTitleType)
+    func appoint(governor governorType: GovernorType, in gameModel: GameModel?)
+    func promote(governor: Governor?, with title: GovernorTitleType, in gameModel: GameModel?)
     func assign(governor: Governor?, to selectedCity: AbstractCity?, in gameModel: GameModel?)
 }
 
@@ -200,7 +200,15 @@ class PlayerGovernors: AbstractPlayerGovernors {
         }
     }
 
-    public func appoint(governor governorType: GovernorType) {
+    public func appoint(governor governorType: GovernorType, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
 
         guard self.numTitlesAvailableValue > 0 else {
             fatalError("try to appoint a governor without available titles")
@@ -211,15 +219,31 @@ class PlayerGovernors: AbstractPlayerGovernors {
 
         self.numTitlesSpentValue += 1
         self.numTitlesAvailableValue -= 1
+
+        if self.governors.count == GovernorType.all.count && !player.hasMoment(of: .allGovernorsAppointed) {
+            self.player?.addMoment(of: .allGovernorsAppointed, in: gameModel)
+        }
     }
 
-    public func promote(governor: Governor?, with title: GovernorTitleType) {
+    public func promote(governor: Governor?, with title: GovernorTitleType, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
 
         guard self.numTitlesAvailableValue > 0 else {
             fatalError("try to promote a governor without available titles")
         }
 
         governor?.promote(with: title)
+
+        if governor?.titles.count == 6 && !player.hasMoment(of: .governorFullyPromoted) {
+            player.addMoment(of: .governorFullyPromoted, in: gameModel)
+        }
 
         self.numTitlesSpentValue += 1
         self.numTitlesAvailableValue -= 1
@@ -343,6 +367,10 @@ class PlayerGovernors: AbstractPlayerGovernors {
 
     private func appointGovernor(in gameModel: GameModel?) {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
         if let governorType = self.chooseBestNewGovernor() {
 
             // find best city for this governor
@@ -351,6 +379,10 @@ class PlayerGovernors: AbstractPlayerGovernors {
                 let governor = Governor(type: governorType)
 
                 self.governors.append(governor)
+
+                if self.governors.count == GovernorType.all.count {
+                    self.player?.addMoment(of: .allGovernorsAppointed, in: gameModel)
+                }
 
                 // directly assign
                 bestCity.assign(governor: governorType)

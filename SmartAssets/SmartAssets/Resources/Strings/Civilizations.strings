@@ -1,0 +1,17 @@
+/* 
+  Civilizations.strings
+  SmartAssets
+
+  Created by Michael Rommel on 14.12.21.
+  
+*/
+
+"TXT_KEY_CIVILIZATION_GREEK" = "Greek Empire";
+"TXT_KEY_CIVILIZATION_ROMAN" = "Roman Empire";
+"TXT_KEY_CIVILIZATION_ENGLISH" = "English Empire";
+"TXT_KEY_CIVILIZATION_AZTECS" = "Aztec Empire";
+"TXT_KEY_CIVILIZATION_PERSIANS" = "Persian Empire";
+"TXT_KEY_CIVILIZATION_FRENCH" = "French Empire";
+"TXT_KEY_CIVILIZATION_EGYPTIAN" = "Egyptian Empire";
+"TXT_KEY_CIVILIZATION_RUSSIAN" = "Russian Empire";
+"TXT_KEY_CIVILIZATION_GERMAN" = "German Empire";

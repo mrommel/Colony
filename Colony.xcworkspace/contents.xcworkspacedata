@@ -11,9 +11,6 @@
       location = "group:SmartAssets/SmartAssets.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:SmartColony.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:SmartMapEditor.xcodeproj">
    </FileRef>
    <FileRef

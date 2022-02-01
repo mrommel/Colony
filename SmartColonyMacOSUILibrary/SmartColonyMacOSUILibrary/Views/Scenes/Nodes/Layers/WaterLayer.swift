@@ -11,6 +11,44 @@ import SmartAssets
 
 class WaterLayer: BaseLayer {
 
+    // MARK: intern classes
+
+    private class WaterLayerTile: BaseLayerTile {
+
+        let visible: Bool
+        let discovered: Bool
+        let waterTexture: String
+
+        init(point: HexPoint, visible: Bool, discovered: Bool, waterTexture: String) {
+
+            self.visible = visible
+            self.discovered = discovered
+            self.waterTexture = waterTexture
+
+            super.init(point: point)
+        }
+
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+
+        override func hash(into hasher: inout Hasher) {
+
+            hasher.combine(self.point)
+            hasher.combine(self.visible)
+            hasher.combine(self.discovered)
+            hasher.combine(self.waterTexture)
+        }
+    }
+
+    private class WaterLayerHasher: BaseLayerHasher<WaterLayerTile> {
+
+    }
+
+    // MARK: variables
+
+    private var hasher: WaterLayerHasher?
+
     static let kName: String = "WaterLayer"
 
     // MARK: constructor
@@ -35,6 +73,7 @@ class WaterLayer: BaseLayer {
         }
 
         self.textureUtils = TextureUtils(with: gameModel)
+        self.hasher = WaterLayerHasher(with: gameModel)
 
         self.rebuild()
     }
@@ -73,13 +112,38 @@ class WaterLayer: BaseLayer {
         if let tile = tile {
             let pt = tile.point
 
-            self.clear(tile: tile)
+            let currentHashValue = self.hash(for: tile)
+            if !self.hasher!.has(hash: currentHashValue, at: pt) {
 
-            let screenPoint = HexPoint.toScreen(hex: pt)
+                self.clear(tile: tile)
 
-            if tile.isVisible(to: self.player) && gameModel.isFreshWater(at: pt) || self.showCompleteMap {
-                self.placeWaterHex(for: pt, at: screenPoint)
+                let screenPoint = HexPoint.toScreen(hex: pt)
+
+                if tile.isVisible(to: self.player) && gameModel.isFreshWater(at: pt) || self.showCompleteMap {
+                    self.placeWaterHex(for: pt, at: screenPoint)
+                }
+
+                self.hasher?.update(hash: currentHashValue, at: tile.point)
             }
         }
+    }
+
+    private func hash(for tile: AbstractTile?) -> WaterLayerTile {
+
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+
+        var waterTexture: String = ""
+        if self.gameModel?.isFreshWater(at: tile.point) ?? false {
+            waterTexture = "water"
+        }
+
+        return WaterLayerTile(
+            point: tile.point,
+            visible: tile.isVisible(to: self.player) || self.showCompleteMap,
+            discovered: tile.isDiscovered(by: self.player),
+            waterTexture: waterTexture
+        )
     }
 }

@@ -51,7 +51,7 @@ struct HexagonView: View {
                     .resizable()
                     .frame(width: height, height: height, alignment: .center)
 
-                if self.viewModel.costText != "" {
+                if !self.viewModel.costText.isEmpty {
                     Text(self.viewModel.costText)
                         .font(.system(size: 16))
                         .foregroundColor(.white)
@@ -84,7 +84,7 @@ struct HexagonView_Previews: PreviewProvider {
             hills: nil,
             forest: nil,
             city: nil,
-            tileAction: TileActionType.districtAvailable.textureName,
+            tileActionTextureName: TileActionType.districtAvailable.textureName,
             cost: nil,
             showCitizenIcons: true
         )

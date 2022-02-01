@@ -49,11 +49,17 @@ class TechDialogViewModel: ObservableObject {
 
         self.techListViewModels = possibleTechs.map { techType in
 
+            var turns = -1
+            if techs.lastScienceEarned() > 0.0 {
+                let cost: Double = Double(techType.cost())
+                turns = Int(cost / techs.lastScienceEarned() + 0.5)
+            }
+
             let techViewModel = TechViewModel(
                 techType: techType,
                 state: .possible,
                 boosted: techs.eurekaTriggered(for: techType),
-                turns: -1
+                turns: turns
             )
             techViewModel.delegate = self
             return techViewModel
@@ -75,6 +81,10 @@ class TechDialogViewModel: ObservableObject {
                         state = .researched
                     } else if possibleTechs.contains(techType) {
                         state = .possible
+                        if techs.lastScienceEarned() > 0.0 {
+                            let cost: Double = Double(techType.cost())
+                            turns = Int(cost / techs.lastScienceEarned() + 0.5)
+                        }
                     }
 
                     let techViewModel = TechViewModel(

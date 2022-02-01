@@ -11,6 +11,44 @@ import SmartAssets
 
 class HexCoordLayer: BaseLayer {
 
+    // MARK: intern classes
+
+    private class HexCoordLayerTile: BaseLayerTile {
+
+        let visible: Bool
+        let discovered: Bool
+        let coordText: String
+
+        init(point: HexPoint, visible: Bool, discovered: Bool, coordText: String) {
+
+            self.visible = visible
+            self.discovered = discovered
+            self.coordText = coordText
+
+            super.init(point: point)
+        }
+
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+
+        override func hash(into hasher: inout Hasher) {
+
+            hasher.combine(self.point)
+            hasher.combine(self.visible)
+            hasher.combine(self.discovered)
+            hasher.combine(self.coordText)
+        }
+    }
+
+    private class HexCoordLayerHasher: BaseLayerHasher<HexCoordLayerTile> {
+
+    }
+
+    // MARK: variables
+
+    private var hasher: HexCoordLayerHasher?
+
     static let kName: String = "HexCoordLayer"
 
     // MARK: constructor
@@ -35,6 +73,7 @@ class HexCoordLayer: BaseLayer {
         }
 
         self.textureUtils = TextureUtils(with: gameModel)
+        self.hasher = HexCoordLayerHasher(with: gameModel)
 
         self.rebuild()
     }
@@ -63,28 +102,37 @@ class HexCoordLayer: BaseLayer {
 
     override func update(tile: AbstractTile?) {
 
-        guard let gameModel = self.gameModel else {
-            fatalError("gameModel not set")
-        }
+        if let tile = tile {
 
-        let mapSize = gameModel.mapSize()
+            let currentHashValue = self.hash(for: tile)
+            if !self.hasher!.has(hash: currentHashValue, at: tile.point) {
 
-        for x in 0..<mapSize.width() {
-            for y in 0..<mapSize.height() {
+                self.clear(tile: tile)
 
-                let pt = HexPoint(x: x, y: y)
+                let screenPoint = HexPoint.toScreen(hex: tile.point)
 
-                if let tile = gameModel.tile(at: pt) {
-
-                    self.clear(tile: tile)
-
-                    let screenPoint = HexPoint.toScreen(hex: pt)
-
-                    if tile.isVisible(to: self.player) || self.showCompleteMap {
-                        self.placeCoordHex(for: pt, at: screenPoint)
-                    }
+                if tile.isVisible(to: self.player) || self.showCompleteMap {
+                    self.placeCoordHex(for: tile.point, at: screenPoint)
                 }
+
+                self.hasher?.update(hash: currentHashValue, at: tile.point)
             }
         }
+    }
+
+    private func hash(for tile: AbstractTile?) -> HexCoordLayerTile {
+
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+
+        let coordText: String = "\(tile.point.x), \(tile.point.y)"
+
+        return HexCoordLayerTile(
+            point: tile.point,
+            visible: tile.isVisible(to: self.player) || self.showCompleteMap,
+            discovered: tile.isDiscovered(by: self.player),
+            coordText: coordText
+        )
     }
 }

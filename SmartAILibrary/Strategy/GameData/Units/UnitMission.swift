@@ -46,7 +46,8 @@ public class UnitMission {
         }
 
         guard let unit = self.unit else {
-            fatalError("unit not set")
+            // fatalError("unit not set")
+            return
         }
 
         guard let player = unit.player else {
@@ -89,12 +90,21 @@ public class UnitMission {
 
             if unit.canMove() {
 
-                if self.type == .fortify {
+                if self.type == .fortify || self.type == .heal || self.type == .alert || self.type == .skip {
                     unit.set(fortifiedThisTurn: true, in: gameModel)
-                } else if self.type == .heal || self.type == .alert {
-                    unit.set(fortifiedThisTurn: true, in: gameModel)
-                } else if self.type == .embark || self.type == .disembark {
 
+                    // start the animation right now to give feedback to the player
+                    if !unit.isFortified() && !unit.hasMoved(in: gameModel) && unit.canFortify(at: unit.location, in: gameModel) {
+                        gameModel.userInterface?.refresh(unit: unit)
+                    }
+                } else if unit.isFortified() {
+                    // unfortify for any other mission
+                    gameModel.userInterface?.refresh(unit: unit)
+                }
+
+                // ---------- now the real missions with action -----------------------
+
+                if self.type == .embark || self.type == .disembark {
                     action = true
                 }
                 // FIXME nuke, paradrop, airlift

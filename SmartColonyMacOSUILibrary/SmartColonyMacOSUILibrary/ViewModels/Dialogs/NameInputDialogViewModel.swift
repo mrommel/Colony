@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAILibrary
+import SmartAssets
 
 class NameInputDialogViewModel: ObservableObject {
 
@@ -25,10 +26,10 @@ class NameInputDialogViewModel: ObservableObject {
     var value: String = "value"
 
     @Published
-    var confirm: String = "Rename"
+    var confirm: String = "TXT_KEY_RENAME".localized()
 
     @Published
-    var cancel: String = "Cancel"
+    var cancel: String = "TXT_KEY_CANCEL".localized()
 
     weak var delegate: GameViewModelDelegate?
     private var completion: NameCompletionBlock?
@@ -39,8 +40,8 @@ class NameInputDialogViewModel: ObservableObject {
             title: "title",
             summary: "summary",
             value: "value",
-            confirm: "Rename",
-            cancel: "Cancel",
+            confirm: "TXT_KEY_RENAME".localized(),
+            cancel: "TXT_KEY_CANCEL".localized(),
             completion: nil
         )
     }
@@ -50,12 +51,12 @@ class NameInputDialogViewModel: ObservableObject {
         summary: String,
         value: String,
         confirm: String,
-        cancel: String,
+        cancel: String = "TXT_KEY_CANCEL".localized(),
         completion: NameCompletionBlock?) {
 
         self.title = title
         self.summary = summary
-        self.value = value
+        self.value = value.localized()
         self.confirm = confirm
         self.cancel = cancel
         self.completion = completion

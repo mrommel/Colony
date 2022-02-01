@@ -19,6 +19,7 @@ enum PresentedViewType {
     case replay
     case debug
     case pedia
+    case spriteKit // debug
 }
 
 class MainViewModel: ObservableObject {
@@ -139,14 +140,26 @@ extension MainViewModel: MenuViewModelDelegate {
 
     func showDebug() {
 
-        self.debugViewModel.prepare()
-        self.presentedView = .debug
+        DispatchQueue.global(qos: .userInitiated).async {
+
+            self.debugViewModel.prepare()
+
+            DispatchQueue.main.async {
+                self.presentedView = .debug
+            }
+        }
     }
 
     func showPedia() {
 
-        self.pediaViewModel.prepare()
-        self.presentedView = .pedia
+        DispatchQueue.global(qos: .userInitiated).async {
+
+            self.pediaViewModel.prepare()
+
+            DispatchQueue.main.async {
+                self.presentedView = .pedia
+            }
+        }
     }
 }
 
@@ -217,6 +230,11 @@ extension MainViewModel: DebugViewModelDelegate {
 
         self.presentedView = .game
         self.mapMenuDisabled = false
+    }
+
+    func preparedSkriteKit() {
+
+        self.presentedView = .spriteKit
     }
 
     func closed() {

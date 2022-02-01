@@ -59,6 +59,7 @@ class CityObject {
     private var growthProgressNode: SKSpriteNode?
     private var governorNode: SKSpriteNode?
     private var productionProgressNode: SKSpriteNode?
+    private var productionProgressLabel: SKLabelNode?
     private var productionNode: SKSpriteNode?
 
     init(city: AbstractCity?, in gameModel: GameModel?) {
@@ -82,6 +83,12 @@ class CityObject {
         parent.addChild(self.sprite)
     }
 
+    func updateCityBanner() {
+
+        self.hideCityBanner()
+        self.showCityBanner()
+    }
+
     func showCityBanner() {
 
         guard let city = self.city as? City else {
@@ -91,8 +98,6 @@ class CityObject {
         guard let player = city.player else {
             fatalError("cant get player")
         }
-
-        self.hideCityBanner()
 
         self.sprite.texture = SKTexture(image: ImageCache.shared.image(for: city.iconTexture()))
 
@@ -149,7 +154,8 @@ class CityObject {
         }
 
         // city banner
-        let nameLabelWidth: CGFloat = CGFloat(city.name.count) * 4.2
+        let cityName = city.name.localized()
+        let nameLabelWidth: CGFloat = CGFloat(cityName.count) * 4.2
         let leftExtra: CGFloat = 10.0 // city.isCapital() ? 10.0 : 0
         let rightExtra: CGFloat = 10.0 // city.governor() != nil ? 10.0 : 0
         let bannerBackgroundWidth = leftExtra + nameLabelWidth + rightExtra + 18.0
@@ -189,7 +195,7 @@ class CityObject {
 
         var growthProgress: Int = 0
         if city.maxGrowthInTurns() > 0 {
-            growthProgress = Int(Double(city.growthInTurns() * 100) / Double(city.maxGrowthInTurns())) / 5 * 5
+            growthProgress = 100 - Int(Double(city.growthInTurns() * 100) / Double(city.maxGrowthInTurns())) / 5 * 5
         }
         let growthProgressTextureName = "linear-progress-\(growthProgress)"
         let growthProgressImage = ImageCache.shared.image(for: growthProgressTextureName)
@@ -217,7 +223,7 @@ class CityObject {
             }
         }
 
-        self.nameLabel = SKLabelNode(text: "\(city.name)")
+        self.nameLabel = SKLabelNode(text: cityName)
         self.nameLabel?.fontSize = 8
         self.nameLabel?.position = CGPoint(x: nameOffset, y: 36)
         self.nameLabel?.zPosition = Globals.ZLevels.cityName
@@ -249,6 +255,8 @@ class CityObject {
         if city.isHuman() {
             var texture: SKTexture = SKTexture(image: Globals.Icons.questionmark)
             var productionProgress: Int = 0
+            var productionTurns: Int = -1
+            let productionPerTurn = city.productionPerTurn(in: gameModel)
 
             if let item = city.currentBuildableItem() {
                 switch item.type {
@@ -258,24 +266,36 @@ class CityObject {
                         let unitTypeImage = ImageCache.shared.image(for: unitType.typeTexture())
                         texture = SKTexture(image: unitTypeImage)
                         productionProgress = Int((item.production * 100.0) / Double(unitType.productionCost())) / 5 * 5
+
+                        let productionLeft: Int = unitType.productionCost() - Int(item.production)
+                        productionTurns = productionPerTurn > 0.0 ? Int(ceil(Double(productionLeft) / productionPerTurn)) : 100
                     }
                 case .building:
                     if let buildingType = item.buildingType {
                         let buildingTypeImage = ImageCache.shared.image(for: buildingType.iconTexture())
                         texture = SKTexture(image: buildingTypeImage)
                         productionProgress = Int((item.production * 100.0) / Double(buildingType.productionCost())) / 5 * 5
+
+                        let productionLeft: Int = buildingType.productionCost() - Int(item.production)
+                        productionTurns = productionPerTurn > 0.0 ? Int(ceil(Double(productionLeft) / productionPerTurn)) : 100
                     }
                 case .wonder:
                     if let wonderType = item.wonderType {
                         let wonderTypeImage = ImageCache.shared.image(for: wonderType.iconTexture())
                         texture = SKTexture(image: wonderTypeImage)
                         productionProgress = Int((item.production * 100.0) / Double(wonderType.productionCost())) / 5 * 5
+
+                        let productionLeft: Int = wonderType.productionCost() - Int(item.production)
+                        productionTurns = productionPerTurn > 0.0 ? Int(ceil(Double(productionLeft) / productionPerTurn)) : 100
                     }
                 case .district:
                     if let districtType = item.districtType {
                         let districtTypeImage = ImageCache.shared.image(for: districtType.iconTexture())
                         texture = SKTexture(image: districtTypeImage)
                         productionProgress = Int((item.production * 100.0) / Double(districtType.productionCost())) / 5 * 5
+
+                        let productionLeft: Int = districtType.productionCost() - Int(item.production)
+                        productionTurns = productionPerTurn > 0.0 ? Int(ceil(Double(productionLeft) / productionPerTurn)) : 100
                     }
                 case .project:
                     /*if let projectType = item.projectType {
@@ -296,6 +316,21 @@ class CityObject {
 
             if let productionProgressNode = self.productionProgressNode {
                 self.sprite.addChild(productionProgressNode)
+            }
+
+            if productionTurns > -1 {
+                self.productionProgressLabel = SKLabelNode(text: "\(productionTurns)")
+                self.productionProgressLabel?.position = CGPoint(x: productionProgressOffset - 0, y: 35)
+                self.productionProgressLabel?.zPosition = Globals.ZLevels.cityName
+                self.productionProgressLabel?.fontSize = 8
+                self.productionProgressLabel?.fontColor = .white
+                self.productionProgressLabel?.preferredMaxLayoutWidth = 60
+                self.productionProgressLabel?.horizontalAlignmentMode = .right
+                self.productionProgressLabel?.setScale(0.5)
+
+                if let productionProgressLabel = self.productionProgressLabel {
+                    self.sprite.addChild(productionProgressLabel)
+                }
             }
 
             self.productionNode = SKSpriteNode(texture: texture, color: .black, size: CGSize(width: 8, height: 8))
@@ -336,8 +371,12 @@ class CityObject {
             self.governorNode = nil
             self.productionProgressNode?.removeFromParent()
             self.productionProgressNode = nil
+            self.productionProgressLabel?.removeFromParent()
+            self.productionProgressLabel = nil
             self.productionNode?.removeFromParent()
             self.productionNode = nil
+
+            self.sprite.removeAllChildren()
         }
     }
 }

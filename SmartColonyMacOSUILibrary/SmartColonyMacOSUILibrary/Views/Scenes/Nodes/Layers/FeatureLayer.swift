@@ -11,6 +11,49 @@ import SmartAssets
 
 class FeatureLayer: BaseLayer {
 
+    // MARK: intern classes
+
+    private class FeatureLayerTile: BaseLayerTile {
+
+        let visible: Bool
+        let discovered: Bool
+        let featureTexture: String
+        let iceTexture: String
+
+        init(point: HexPoint, visible: Bool, discovered: Bool, featureTexture: String, iceTexture: String) {
+
+            self.visible = visible
+            self.discovered = discovered
+            self.featureTexture = featureTexture
+            self.iceTexture = iceTexture
+
+            super.init(point: point)
+        }
+
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+
+        override func hash(into hasher: inout Hasher) {
+
+            hasher.combine(self.point)
+            hasher.combine(self.visible)
+            hasher.combine(self.discovered)
+            hasher.combine(self.featureTexture)
+            hasher.combine(self.iceTexture)
+        }
+    }
+
+    private class FeatureLayerHasher: BaseLayerHasher<FeatureLayerTile> {
+
+    }
+
+    // MARK: variables
+
+    private var hasher: FeatureLayerHasher?
+
+    // MARK: constructor
+
     override init(player: AbstractPlayer?) {
 
         super.init(player: player)
@@ -31,6 +74,7 @@ class FeatureLayer: BaseLayer {
 
         self.textureUtils = TextureUtils(with: gameModel)
         self.textures = Textures(game: gameModel)
+        self.hasher = FeatureLayerHasher(with: gameModel)
 
         self.rebuild()
     }
@@ -42,22 +86,19 @@ class FeatureLayer: BaseLayer {
         // place forests etc
         if feature != .none {
 
-            if tile.feature() != .none {
+            if let textureName = self.textures?.featureTexture(for: tile, neighborTiles: neighborTiles) {
 
-                if let textureName = self.textures?.featureTexture(for: tile, neighborTiles: neighborTiles) {
+                let image = ImageCache.shared.image(for: textureName)
 
-                    let image = ImageCache.shared.image(for: textureName)
+                let featureSprite = SKSpriteNode(texture: SKTexture(image: image), size: FeatureLayer.kTextureSize)
+                featureSprite.position = position
+                featureSprite.zPosition = Globals.ZLevels.feature // feature.zLevel
+                featureSprite.anchorPoint = CGPoint(x: 0, y: 0)
+                featureSprite.color = .black
+                featureSprite.colorBlendFactor = 1.0 - alpha
+                self.addChild(featureSprite)
 
-                    let featureSprite = SKSpriteNode(texture: SKTexture(image: image), size: FeatureLayer.kTextureSize)
-                    featureSprite.position = position
-                    featureSprite.zPosition = Globals.ZLevels.feature // feature.zLevel
-                    featureSprite.anchorPoint = CGPoint(x: 0, y: 0)
-                    featureSprite.color = .black
-                    featureSprite.colorBlendFactor = 1.0 - alpha
-                    self.addChild(featureSprite)
-
-                    self.textureUtils?.set(featureSprite: featureSprite, at: tile.point)
-                }
+                self.textureUtils?.set(featureSprite: featureSprite, at: tile.point)
             }
         }
 
@@ -105,10 +146,6 @@ class FeatureLayer: BaseLayer {
         if let tile = tile {
             let pt = tile.point
 
-            self.clear(tile: tile)
-
-            let screenPoint = HexPoint.toScreen(hex: pt)
-
             let neighborTileN = gameModel.tile(at: pt.neighbor(in: .north))
             let neighborTileNE = gameModel.tile(at: pt.neighbor(in: .northeast))
             let neighborTileSE = gameModel.tile(at: pt.neighbor(in: .southeast))
@@ -125,11 +162,50 @@ class FeatureLayer: BaseLayer {
                 .northwest: neighborTileNW
             ]
 
-            if tile.isVisible(to: self.player) || self.showCompleteMap {
-                self.placeTileHex(for: tile, neighborTiles: neighborTiles, at: screenPoint, alpha: 1.0)
-            } else if tile.isDiscovered(by: self.player) {
-                self.placeTileHex(for: tile, neighborTiles: neighborTiles, at: screenPoint, alpha: 0.5)
+            let currentHashValue = self.hash(for: tile, neighborTiles: neighborTiles)
+            if !self.hasher!.has(hash: currentHashValue, at: pt) {
+
+                self.clear(tile: tile)
+
+                let screenPoint = HexPoint.toScreen(hex: pt)
+
+                if tile.isVisible(to: self.player) || self.showCompleteMap {
+                    self.placeTileHex(for: tile, neighborTiles: neighborTiles, at: screenPoint, alpha: 1.0)
+                } else if tile.isDiscovered(by: self.player) {
+                    self.placeTileHex(for: tile, neighborTiles: neighborTiles, at: screenPoint, alpha: 0.5)
+                }
+
+                self.hasher?.update(hash: currentHashValue, at: tile.point)
             }
         }
+    }
+
+    private func hash(for tile: AbstractTile?, neighborTiles: [HexDirection: AbstractTile?]) -> FeatureLayerTile {
+
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+
+        var featureTexture: String = ""
+        if tile.feature() != .none {
+            if let featureTextureTmp = self.textures?.featureTexture(for: tile, neighborTiles: neighborTiles) {
+                featureTexture = featureTextureTmp
+            }
+        }
+
+        var iceTexture: String = ""
+        if tile.feature() != .ice {
+            if let iceTextureTmp = self.textures?.iceTexture(at: tile.point) {
+                iceTexture = iceTextureTmp
+            }
+        }
+
+        return FeatureLayerTile(
+            point: tile.point,
+            visible: tile.isVisible(to: self.player) || self.showCompleteMap,
+            discovered: tile.isDiscovered(by: self.player),
+            featureTexture: featureTexture,
+            iceTexture: iceTexture
+        )
     }
 }
