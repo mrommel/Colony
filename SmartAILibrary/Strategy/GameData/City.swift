@@ -90,7 +90,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func startBuilding(building: BuildingType)
     func startBuilding(wonder: WonderType, at point: HexPoint, in gameModel: GameModel?)
     func startBuilding(district: DistrictType, at point: HexPoint, in gameModel: GameModel?)
-    func startBuilding(project: ProjectType)
+    func startBuilding(project: ProjectType, at point: HexPoint, in gameModel: GameModel?)
 
     func canPurchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
     func canPurchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
@@ -3315,9 +3315,17 @@ public class City: AbstractCity {
         self.buildQueue.add(item: BuildableItem(districtType: districtType, at: location))
     }
 
-    public func startBuilding(project: ProjectType) {
+    public func startBuilding(project projectType: ProjectType, at point: HexPoint, in gameModel: GameModel?) {
 
-        self.buildQueue.add(item: BuildableItem(projectType: project))
+        /*
+         guard let tile = gameModel?.tile(at: location) else {
+             fatalError("cant get tile")
+         }
+
+         tile.startBuilding(project: districtType)
+         gameModel?.userInterface?.refresh(tile: tile)
+         */
+        self.buildQueue.add(item: BuildableItem(projectType: projectType, at: location))
     }
 
     public func canPurchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {

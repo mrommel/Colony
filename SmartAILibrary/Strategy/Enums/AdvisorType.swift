@@ -10,6 +10,8 @@ import Foundation
 
 enum AdvisorType {
 
+    case none
+    
     case economic
     case military
     case foreign

@@ -435,7 +435,7 @@ class UnitBannerViewModel: ObservableObject {
         case .cancelOrder:
             if let selectedUnit = self.selectedUnit {
                 self.backgroundQueue.async {
-                    selectedUnit.doCancelOrder()
+                    selectedUnit.doCancelOrder(in: gameModel)
                 }
             }
         case .upgrade:
@@ -454,7 +454,7 @@ class UnitBannerViewModel: ObservableObject {
         case .automateExploration:
             if let selectedUnit = self.selectedUnit {
                 self.backgroundQueue.async {
-                    selectedUnit.automate(with: .explore)
+                    selectedUnit.automate(with: .explore, in: gameModel)
 
                     DispatchQueue.main.async {
                         gameModel.userInterface?.unselect()
@@ -465,7 +465,7 @@ class UnitBannerViewModel: ObservableObject {
         case .automateBuild:
             if let selectedUnit = self.selectedUnit {
                 self.backgroundQueue.async {
-                    selectedUnit.automate(with: .build)
+                    selectedUnit.automate(with: .build, in: gameModel)
 
                     DispatchQueue.main.async {
                         gameModel.userInterface?.unselect()

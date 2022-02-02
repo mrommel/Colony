@@ -1986,7 +1986,7 @@ public class HomelandAI {
                     }
                 } else {
                     if unitPlayer.isHuman() {
-                        unit.automate(with: .none)
+                        unit.automate(with: .none, in: gameModel)
                         self.unitProcessed(unit: unit)
                     } else {
                         // If this is a land explorer and there is no ignore unit path to a friendly city, then disband him
@@ -2312,7 +2312,7 @@ public class HomelandAI {
                 } else {
 
                     print("\(unit.name()) tried to move to safety, but cannot hold in current location, \(bestPlot.point)")
-                    unit.automate(with: .none)
+                    unit.automate(with: .none, in: gameModel)
                 }
             } else {
 

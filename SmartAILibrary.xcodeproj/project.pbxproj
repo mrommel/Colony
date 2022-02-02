@@ -235,6 +235,7 @@
 		C9A1B5802523122400AC2292 /* TacticalMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B57F2523122400AC2292 /* TacticalMove.swift */; };
 		C9A1B5842523123300AC2292 /* TacticalPosture.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B5832523123300AC2292 /* TacticalPosture.swift */; };
 		C9A1B588252313E400AC2292 /* BlockingUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B587252313E400AC2292 /* BlockingUnit.swift */; };
+		C9A2B47427AB1D6F0037D8C6 /* FoundCityOperationtests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A2B47327AB1D6F0037D8C6 /* FoundCityOperationtests.swift */; };
 		C9A348B225F4C599008B797D /* FoodHarvestingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A348B125F4C599008B797D /* FoodHarvestingType.swift */; };
 		C9A50FE3242244C5006AA47B /* UsecaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A50FE2242244C5006AA47B /* UsecaseTests.swift */; };
 		C9AAC26E24D9666100FF1E35 /* GreatPersons.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAC26D24D9666100FF1E35 /* GreatPersons.swift */; };
@@ -625,6 +626,7 @@
 		C9A1B57F2523122400AC2292 /* TacticalMove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalMove.swift; sourceTree = "<group>"; };
 		C9A1B5832523123300AC2292 /* TacticalPosture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalPosture.swift; sourceTree = "<group>"; };
 		C9A1B587252313E400AC2292 /* BlockingUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingUnit.swift; sourceTree = "<group>"; };
+		C9A2B47327AB1D6F0037D8C6 /* FoundCityOperationtests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundCityOperationtests.swift; sourceTree = "<group>"; };
 		C9A348B125F4C599008B797D /* FoodHarvestingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodHarvestingType.swift; sourceTree = "<group>"; };
 		C9A50FE2242244C5006AA47B /* UsecaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsecaseTests.swift; sourceTree = "<group>"; };
 		C9AAC26D24D9666100FF1E35 /* GreatPersons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPersons.swift; sourceTree = "<group>"; };
@@ -1266,6 +1268,7 @@
 			children = (
 				C99496922519E4300049C2D6 /* BasicCityAttackOperationTests.swift */,
 				C966A3FE251E68C9000C24B8 /* DestroyBarbarianCampOperationTests.swift */,
+				C9A2B47327AB1D6F0037D8C6 /* FoundCityOperationtests.swift */,
 			);
 			path = OperationTests;
 			sourceTree = "<group>";
@@ -2010,6 +2013,7 @@
 				C99047F626CA45A600B1A7A6 /* UnitTests.swift in Sources */,
 				C9AAC27024D97FFE00FF1E35 /* GameModelTests.swift in Sources */,
 				C9D8DF6C23ED9B9A0091C917 /* FlavorsTests.swift in Sources */,
+				C9A2B47427AB1D6F0037D8C6 /* FoundCityOperationtests.swift in Sources */,
 				C98DBFB223E0580E00B6CE25 /* TileTests.swift in Sources */,
 				C907086823ED579900281161 /* TileDiscoveredTests.swift in Sources */,
 			);

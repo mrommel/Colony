@@ -125,14 +125,14 @@ public protocol AbstractUnit: AnyObject, Codable {
     func set(setUpForRangedAttack: Bool)
     func canDefend() -> Bool
     func canSentry(in gameModel: GameModel?) -> Bool
-    func doCancelOrder()
+    func doCancelOrder(in gameModel: GameModel?)
 
     func canDo(command: CommandType, in gameModel: GameModel?) -> Bool
 
     func can(automate: UnitAutomationType) -> Bool
     func isAutomated() -> Bool
     func automateType() -> UnitAutomationType
-    func automate(with type: UnitAutomationType)
+    func automate(with type: UnitAutomationType, in gameModel: GameModel?)
 
     func canFound(at location: HexPoint, in gameModel: GameModel?) -> Bool
     func isFound() -> Bool
@@ -1644,7 +1644,7 @@ public class Unit: AbstractUnit {
 
         guard let path = self.path(towards: target, options: .none, in: gameModel) else {
             print("Unable to generate path with BuildRouteFinder")
-            self.doCancelOrder()
+            self.doCancelOrder(in: gameModel)
             return 0
         }
 
@@ -2611,14 +2611,15 @@ public class Unit: AbstractUnit {
         return true
     }
 
-    public func doCancelOrder() {
+    public func doCancelOrder(in gameModel: GameModel?) {
 
         if self.peekMission() != nil {
             self.clearMissions()
+            self.set(activityType: .awake, in: gameModel)
         }
 
         if self.automateType() != .none {
-            self.automate(with: .none)
+            self.automate(with: .none, in: gameModel)
         }
 
         if self.type == .trader {
@@ -3281,7 +3282,7 @@ public class Unit: AbstractUnit {
         return self.automationType
     }
 
-    public func automate(with type: UnitAutomationType) {
+    public func automate(with type: UnitAutomationType, in gameModel: GameModel?) {
 
         if self.automationType != type {
 
@@ -3289,7 +3290,7 @@ public class Unit: AbstractUnit {
             self.automationType = type
 
             self.clearMissions()
-            //self.set(activityType: .awake, in: <#T##GameModel?#>)
+            self.set(activityType: .awake, in: gameModel)
 
             if oldAutomationType == .explore {
                 // these need to be rebuilt

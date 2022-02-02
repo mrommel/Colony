@@ -107,7 +107,7 @@ class UnitTests: XCTestCase {
         gameModel.add(unit: humanPlayerScout)
 
         // WHEN
-        humanPlayerScout.automate(with: .explore)
+        humanPlayerScout.automate(with: .explore, in: gameModel)
 
         var turnCounter = 0
         var hasStayed = true

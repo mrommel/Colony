@@ -457,7 +457,7 @@ extension GameViewModel {
             )
         }
 
-        let techTextureNames = TechType.all.map { $0.iconTexture() }
+        let techTextureNames = ([TechType.none] + TechType.all).map { $0.iconTexture() }
         print("- load \(techTextureNames.count) tech type textures")
         for textureName in techTextureNames {
             ImageCache.shared.add(
@@ -466,7 +466,7 @@ extension GameViewModel {
             )
         }
 
-        let civicTextureNames = CivicType.all.map { $0.iconTexture() }
+        let civicTextureNames = ([CivicType.none] + CivicType.all).map { $0.iconTexture() }
         print("- load \(civicTextureNames.count) civic type textures")
         for textureName in civicTextureNames {
             ImageCache.shared.add(

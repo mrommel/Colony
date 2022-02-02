@@ -326,8 +326,8 @@ public class Combat {
         // Unit that attacks loses his Fort bonus
         attacker.doMobilize(in: gameModel)
 
-        attacker.automate(with: .none)
-        defender.automate(with: .none)
+        attacker.automate(with: .none, in: gameModel)
+        defender.automate(with: .none, in: gameModel)
 
         attacker.setMadeAttack(to: true)
 
@@ -530,7 +530,7 @@ public class Combat {
         // Unit that attacks loses his Fort bonus
         attacker.doMobilize(in: gameModel)
 
-        attacker.automate(with: .none)
+        attacker.automate(with: .none, in: gameModel)
 
         attacker.setMadeAttack(to: true)
 
@@ -713,7 +713,7 @@ public class Combat {
             fatalError("cant get defenderTile")
         }
 
-        defender.automate(with: .none)
+        defender.automate(with: .none, in: gameModel)
 
         attacker.setMadeAttack(to: true)
 
@@ -797,7 +797,7 @@ public class Combat {
             fatalError("cant get defenderTile")
         }
 
-        defender.automate(with: .none)
+        defender.automate(with: .none, in: gameModel)
 
         attacker.setMadeAttack(to: true)
 

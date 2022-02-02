@@ -18,44 +18,506 @@ enum EconomicReconState: Int, Codable {
 
 enum EconomicStrategyType: Int, Codable {
 
-    case needRecon
-    case enoughRecon
-    case needReconSea
-    case enoughReconSea
-    case earlyExpansion
-    case enoughExpansion
-
-    case losingMoney
-    case tooManyUnits
-
-    case expandToOtherContinents
-    case foundCity
+    case needRecon // ECONOMICAISTRATEGY_NEED_RECON
+    case enoughRecon // ECONOMICAISTRATEGY_ENOUGH_RECON
+    case reallyNeedReconSea // ECONOMICAISTRATEGY_REALLY_NEED_RECON_SEA
+    case needReconSea // ECONOMICAISTRATEGY_NEED_RECON_SEA
+    case enoughReconSea // ECONOMICAISTRATEGY_ENOUGH_RECON_SEA
+    case earlyExpansion // ECONOMICAISTRATEGY_EARLY_EXPANSION
+    case enoughExpansion // ECONOMICAISTRATEGY_ENOUGH_EXPANSION
+    // ECONOMICAISTRATEGY_NEED_HAPPINESS
+    // ECONOMICAISTRATEGY_NEED_HAPPINESS_CRITICAL
+    // ECONOMICAISTRATEGY_CITIES_NEED_NAVAL_GROWTH
+    // ECONOMICAISTRATEGY_CITIES_NEED_NAVAL_TILE_IMPROVEMENT
+    case foundCity // ECONOMICAISTRATEGY_FOUND_CITY
+    // ECONOMICAISTRATEGY_TRADE_WITH_CITY_STATE
+    case needImprovementFood // ECONOMICAISTRATEGY_NEED_IMPROVEMENT_FOOD
+    case needImprovementProduction // ECONOMICAISTRATEGY_NEED_IMPROVEMENT_PRODUCTION
+    // ECONOMICAISTRATEGY_ONE_OR_FEWER_COASTAL_CITIES
+    case losingMoney // ECONOMICAISTRATEGY_LOSING_MONEY
+    // ECONOMICAISTRATEGY_HALT_GROWTH_BUILDINGS
+    case tooManyUnits // ECONOMICAISTRATEGY_TOO_MANY_UNITS
+    // ECONOMICAISTRATEGY_ISLAND_START
+    case expandToOtherContinents // ECONOMICAISTRATEGY_EXPAND_TO_OTHER_CONTINENTS
+    // ECONOMICAISTRATEGY_REALLY_EXPAND_TO_OTHER_CONTINENTS
+    // ECONOMICAISTRATEGY_MOSTLY_ON_THE_COAST
+    // ECONOMICAISTRATEGY_EXPAND_LIKE_CRAZY
+    // ECONOMICAISTRATEGY_GROW_LIKE_CRAZY
+    // ECONOMICAISTRATEGY_GS_CULTURE
+    // ECONOMICAISTRATEGY_GS_CONQUEST
+    // ECONOMICAISTRATEGY_GS_DIPLOMACY
+    // ECONOMICAISTRATEGY_GS_SPACESHIP
+    // ECONOMICAISTRATEGY_GS_SPACESHIP_HOMESTRETCH
+    // ECONOMICAISTRATEGY_NAVAL_MAP
+    // ECONOMICAISTRATEGY_OFFSHORE_EXPANSION_MAP
+    // ECONOMICAISTRATEGY_DEVELOPING_RELIGION
+    // ECONOMICAISTRATEGY_TECH_LEADER
+    // ECONOMICAISTRATEGY_NEED_ARCHAEOLOGISTS
+    // ECONOMICAISTRATEGY_ENOUGH_ARCHAEOLOGISTS
+    // ECONOMICAISTRATEGY_NEED_MUSEUMS
+    // ECONOMICAISTRATEGY_NEED_GUILDS
+    // ECONOMICAISTRATEGY_CONCERT_TOUR
+    // ECONOMICAISTRATEGY_STARTED_PIETY
 
     static var all: [EconomicStrategyType] {
         return [
-                .needRecon, .enoughRecon,
-                .needReconSea, .enoughReconSea,
-                .earlyExpansion, .enoughExpansion,
-
-                .losingMoney, .tooManyUnits,
-                .expandToOtherContinents, .foundCity
+            .needRecon,
+            .enoughRecon,
+            .reallyNeedReconSea,
+            .needReconSea,
+            .enoughReconSea,
+            .earlyExpansion,
+            .enoughExpansion,
+            // ECONOMICAISTRATEGY_NEED_HAPPINESS
+            // ECONOMICAISTRATEGY_NEED_HAPPINESS_CRITICAL
+            // ECONOMICAISTRATEGY_CITIES_NEED_NAVAL_GROWTH
+            // ECONOMICAISTRATEGY_CITIES_NEED_NAVAL_TILE_IMPROVEMENT
+            .foundCity,
+            // ECONOMICAISTRATEGY_TRADE_WITH_CITY_STATE
+            .needImprovementFood,
+            .needImprovementProduction,
+            // ECONOMICAISTRATEGY_ONE_OR_FEWER_COASTAL_CITIES
+            .losingMoney,
+            // ECONOMICAISTRATEGY_HALT_GROWTH_BUILDINGS
+            .tooManyUnits,
+            // ECONOMICAISTRATEGY_ISLAND_START
+            .expandToOtherContinents
+            // ECONOMICAISTRATEGY_REALLY_EXPAND_TO_OTHER_CONTINENTS
+            // ECONOMICAISTRATEGY_MOSTLY_ON_THE_COAST
+            // ECONOMICAISTRATEGY_EXPAND_LIKE_CRAZY
+            // ECONOMICAISTRATEGY_GROW_LIKE_CRAZY
+            // ECONOMICAISTRATEGY_GS_CULTURE
+            // ECONOMICAISTRATEGY_GS_CONQUEST
+            // ECONOMICAISTRATEGY_GS_DIPLOMACY
+            // ECONOMICAISTRATEGY_GS_SPACESHIP
+            // ECONOMICAISTRATEGY_GS_SPACESHIP_HOMESTRETCH
+            // ECONOMICAISTRATEGY_NAVAL_MAP
+            // ECONOMICAISTRATEGY_OFFSHORE_EXPANSION_MAP
+            // ECONOMICAISTRATEGY_DEVELOPING_RELIGION
+            // ECONOMICAISTRATEGY_TECH_LEADER
+            // ECONOMICAISTRATEGY_NEED_ARCHAEOLOGISTS
+            // ECONOMICAISTRATEGY_ENOUGH_ARCHAEOLOGISTS
+            // ECONOMICAISTRATEGY_NEED_MUSEUMS
+            // ECONOMICAISTRATEGY_NEED_GUILDS
+            // ECONOMICAISTRATEGY_CONCERT_TOUR
+            // ECONOMICAISTRATEGY_STARTED_PIETY
         ]
+    }
+
+    private class EconimicStrategyTypeData {
+
+        let dontUpdateCityFlavors: Bool
+        let noMinorCivs: Bool
+        let checkTriggerTurnCount: Int
+        let minimumNumTurnsExecuted: Int
+        let weightThreshold: Int
+        let firstTurnExecuted: Int
+        let techPrereq: TechType?
+        let techObsolete: TechType?
+        let advisor: AdvisorType
+        let advisorCounsel: String?
+        let advisorCounselImportance: Int
+        let flavors: [Flavor]
+
+        init(dontUpdateCityFlavors: Bool = false,
+             noMinorCivs: Bool = false,
+             checkTriggerTurnCount: Int = 0,
+             minimumNumTurnsExecuted: Int = 0,
+             weightThreshold: Int = 0,
+             firstTurnExecuted: Int = 0,
+             techPrereq: TechType? = nil,
+             techObsolete: TechType? = nil,
+             advisor: AdvisorType = .none,
+             advisorCounsel: String? = nil,
+             advisorCounselImportance: Int = 1,
+             flavors: [Flavor]) {
+
+            self.dontUpdateCityFlavors = dontUpdateCityFlavors
+            self.noMinorCivs = noMinorCivs
+            self.checkTriggerTurnCount = checkTriggerTurnCount
+            self.minimumNumTurnsExecuted = minimumNumTurnsExecuted
+            self.weightThreshold = weightThreshold
+            self.firstTurnExecuted = firstTurnExecuted
+            self.techPrereq = techPrereq
+            self.techObsolete = techObsolete
+            self.advisor = advisor
+            self.advisorCounsel = advisorCounsel
+            self.advisorCounselImportance = advisorCounselImportance
+            self.flavors = flavors
+        }
+    }
+
+    // https://github.com/wangxinyu199306/Civ5Configuration/blob/e598b37a4941c5974205c024e736270786349824/Gameplay/XML/AI/CIV5AIEconomicStrategies.xml
+    private func data() -> EconimicStrategyTypeData {
+
+        switch self {
+
+        case .needRecon:
+            return EconimicStrategyTypeData(
+                noMinorCivs: true,
+                checkTriggerTurnCount: 1,
+                minimumNumTurnsExecuted: 1,
+                firstTurnExecuted: 5,
+                advisor: .foreign,
+                advisorCounsel: "TXT_KEY_ECONOMICAISTRATEGY_NEED_RECON",
+                advisorCounselImportance: 2,
+                flavors: [
+                    Flavor(type: .recon, value: 100)
+                ]
+            )
+
+        case .enoughRecon:
+            return EconimicStrategyTypeData(
+                noMinorCivs: true,
+                checkTriggerTurnCount: 1,
+                minimumNumTurnsExecuted: 1,
+                firstTurnExecuted: 5,
+                advisor: .economic,
+                advisorCounsel: "TXT_KEY_ECONOMICAISTRATEGY_ENOUGH_RECON",
+                advisorCounselImportance: 2,
+                flavors: [
+                    Flavor(type: .recon, value: -25)
+                ]
+            )
+
+        case .reallyNeedReconSea:
+            return EconimicStrategyTypeData(
+                noMinorCivs: true,
+                checkTriggerTurnCount: 1,
+                minimumNumTurnsExecuted: 1,
+                firstTurnExecuted: 50,
+                flavors: [
+                    Flavor(type: .navalRecon, value: 500),
+                    Flavor(type: .naval, value: 100)
+                ]
+            )
+
+        case .needReconSea:
+            return EconimicStrategyTypeData(
+                noMinorCivs: true,
+                checkTriggerTurnCount: 1,
+                minimumNumTurnsExecuted: 1,
+                firstTurnExecuted: 5,
+                advisor: .foreign,
+                advisorCounsel: "TXT_KEY_ECONOMICAISTRATEGY_NEED_RECON_SEA",
+                advisorCounselImportance: 2,
+                flavors: [
+                    Flavor(type: .navalRecon, value: 20)
+                ]
+            )
+
+        case .enoughReconSea:
+            return EconimicStrategyTypeData(
+                noMinorCivs: true,
+                checkTriggerTurnCount: 1,
+                minimumNumTurnsExecuted: 1,
+                firstTurnExecuted: 5,
+                advisor: .economic,
+                advisorCounsel: "TXT_KEY_ECONOMICAISTRATEGY_ENOUGH_RECON",
+                advisorCounselImportance: 2,
+                flavors: [
+                    Flavor(type: .navalRecon, value: -200)
+                ]
+            )
+
+        case .earlyExpansion:
+            return EconimicStrategyTypeData(
+                noMinorCivs: true,
+                checkTriggerTurnCount: 5,
+                minimumNumTurnsExecuted: 10,
+                weightThreshold: 3,
+                advisor: .economic,
+                advisorCounsel: "TXT_KEY_ECONOMICAISTRATEGY_EARLY_EXPANSION",
+                advisorCounselImportance: 2,
+                flavors: [
+                    Flavor(type: .navalGrowth, value: -5),
+                    Flavor(type: .expansion, value: 75),
+                    Flavor(type: .production, value: -4),
+                    Flavor(type: .gold, value: -4),
+                    Flavor(type: .science, value: -4),
+                    Flavor(type: .culture, value: -4)
+                ]
+            )
+
+        case .enoughExpansion:
+            return EconimicStrategyTypeData(
+                noMinorCivs: true,
+                checkTriggerTurnCount: 5,
+                minimumNumTurnsExecuted: 1,
+                weightThreshold: 1,
+                advisor: .economic,
+                advisorCounsel: "TXT_KEY_ECONOMICAISTRATEGY_ENOUGH_EXPANSION",
+                advisorCounselImportance: 2,
+                flavors: [
+                    Flavor(type: .expansion, value: -30)
+                ]
+            )
+
+            /*
+             <Row>
+                         <Type>ECONOMICAISTRATEGY_NEED_HAPPINESS</Type>
+                         <WeightThreshold>2</WeightThreshold>
+                         <MinimumNumTurnsExecuted>1</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
+                         <Advisor>ECONOMIC</Advisor>
+                         <AdvisorCounsel>TXT_KEY_ECONOMICAISTRATEGY_NEED_HAPPINESS</AdvisorCounsel>
+                         <AdvisorCounselImportance>2</AdvisorCounselImportance>
+                     </Row>
+                     <Row>
+                         <Type>ECONOMICAISTRATEGY_NEED_HAPPINESS_CRITICAL</Type>
+                         <WeightThreshold>-3</WeightThreshold>
+                         <MinimumNumTurnsExecuted>1</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
+                         <Advisor>ECONOMIC</Advisor>
+                         <AdvisorCounsel>TXT_KEY_ECONOMICAISTRATEGY_NEED_HAPPINESS_CRITICAL</AdvisorCounsel>
+                         <AdvisorCounselImportance>3</AdvisorCounselImportance>
+                     </Row>
+                     <Row>
+                         <Type>ECONOMICAISTRATEGY_CITIES_NEED_NAVAL_GROWTH</Type>
+                         <WeightThreshold>25</WeightThreshold>
+                         <DontUpdateCityFlavors>true</DontUpdateCityFlavors>
+                         <MinimumNumTurnsExecuted>15</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>5</CheckTriggerTurnCount>
+                         <Advisor>ECONOMIC</Advisor>
+                         <AdvisorCounsel>TXT_KEY_ECONOMICAISTRATEGY_CITIES_NEED_NAVAL_GROWTH</AdvisorCounsel>
+                         <AdvisorCounselImportance>2</AdvisorCounselImportance>
+                     </Row>
+                     <Row>
+                         <Type>ECONOMICAISTRATEGY_CITIES_NEED_NAVAL_TILE_IMPROVEMENT</Type>
+                         <WeightThreshold>25</WeightThreshold>
+                         <DontUpdateCityFlavors>true</DontUpdateCityFlavors>
+                         <MinimumNumTurnsExecuted>5</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
+                         <Advisor>ECONOMIC</Advisor>
+                         <AdvisorCounsel>TXT_KEY_ECONOMICAISTRATEGY_CITIES_NEED_NAVAL_TILE_IMPROVEMENT</AdvisorCounsel>
+                         <AdvisorCounselImportance>2</AdvisorCounselImportance>
+                     </Row>
+             */
+        case .foundCity:
+            return EconimicStrategyTypeData(
+                noMinorCivs: true,
+                checkTriggerTurnCount: 1,
+                minimumNumTurnsExecuted: 1,
+                weightThreshold: 10,
+                advisor: .economic,
+                advisorCounsel: "TXT_KEY_ECONOMICAISTRATEGY_FOUND_CITY",
+                advisorCounselImportance: 2,
+                flavors: [
+                ]
+            )
+            /*
+                     <Row>
+                         <Type>ECONOMICAISTRATEGY_TRADE_WITH_CITY_STATE</Type>
+                         <WeightThreshold>10</WeightThreshold>
+                         <MinimumNumTurnsExecuted>1</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
+                     </Row>
+             */
+        case .needImprovementFood:
+            return EconimicStrategyTypeData(
+                dontUpdateCityFlavors: true,
+                noMinorCivs: true,
+                checkTriggerTurnCount: 1,
+                minimumNumTurnsExecuted: 1,
+                weightThreshold: 10,
+                firstTurnExecuted: 20,
+                advisor: .economic,
+                advisorCounsel: "TXT_KEY_ECONOMICAISTRATEGY_NEED_IMPROVEMENT_FOOD",
+                advisorCounselImportance: 2,
+                flavors: [
+                    Flavor(type: .tileImprovement, value: 10),
+                    Flavor(type: .growth, value: 20)
+                ]
+            )
+
+        case .needImprovementProduction:
+            return EconimicStrategyTypeData(
+                dontUpdateCityFlavors: true,
+                noMinorCivs: true,
+                checkTriggerTurnCount: 1,
+                minimumNumTurnsExecuted: 1,
+                weightThreshold: 10,
+                firstTurnExecuted: 20,
+                advisor: .economic,
+                advisorCounsel: "TXT_KEY_ECONOMICAISTRATEGY_NEED_IMPROVEMENT_PRODUCTION",
+                advisorCounselImportance: 2,
+                flavors: [
+                    Flavor(type: .tileImprovement, value: 10),
+                    Flavor(type: .production, value: 10)
+                ]
+            )
+            /*
+                     <Row>
+                         <Type>ECONOMICAISTRATEGY_ONE_OR_FEWER_COASTAL_CITIES</Type>
+                         <WeightThreshold>10</WeightThreshold>
+                         <MinimumNumTurnsExecuted>10</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
+                     </Row>
+             */
+        case .losingMoney:
+            return EconimicStrategyTypeData(
+                checkTriggerTurnCount: 5,
+                minimumNumTurnsExecuted: 5,
+                weightThreshold: 2,
+                firstTurnExecuted: 20,
+                advisor: .economic,
+                advisorCounsel: "TXT_KEY_ECONOMICAISTRATEGY_LOSING_MONEY",
+                advisorCounselImportance: 2,
+                flavors: [
+                    Flavor(type: .gold, value: 25),
+                    Flavor(type: .offense, value: -10),
+                    Flavor(type: .defense, value: -10),
+                ]
+            )
+            /*
+                     <Row>
+                         <Type>ECONOMICAISTRATEGY_HALT_GROWTH_BUILDINGS</Type>
+                         <NoMinorCivs>true</NoMinorCivs>
+                         <MinimumNumTurnsExecuted>1</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
+                         <FirstTurnExecuted>20</FirstTurnExecuted>
+                         <Advisor>ECONOMIC</Advisor>
+                         <AdvisorCounsel>TXT_KEY_ECONOMICAISTRATEGY_HALT_GROWTH_BUILDINGS</AdvisorCounsel>
+                         <AdvisorCounselImportance>2</AdvisorCounselImportance>
+                     </Row>
+             */
+        case .tooManyUnits:
+            return EconimicStrategyTypeData(
+                checkTriggerTurnCount: 1,
+                minimumNumTurnsExecuted: 1,
+                firstTurnExecuted: 20,
+                advisor: .economic,
+                advisorCounsel: "TXT_KEY_ECONOMICAISTRATEGY_TOO_MANY_UNITS",
+                advisorCounselImportance: 2,
+                flavors: [
+                    Flavor(type: .offense, value: -30),
+                    Flavor(type: .naval, value: -30),
+                    Flavor(type: .ranged, value: -30),
+                    Flavor(type: .mobile, value: -30),
+                    Flavor(type: .recon, value: -50),
+                    Flavor(type: .gold, value: 15),
+                    Flavor(type: .growth, value: 20),
+                    Flavor(type: .science, value: 15),
+                    Flavor(type: .culture, value: 10),
+                    Flavor(type: .happiness, value: 10),
+                    Flavor(type: .wonder, value: 5)
+                ]
+            )
+            /*
+                     <Row>
+                         <Type>ECONOMICAISTRATEGY_ISLAND_START</Type>
+                         <WeightThreshold>200</WeightThreshold>
+                         <MinimumNumTurnsExecuted>50</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
+                         <Advisor>SCIENCE</Advisor>
+                         <AdvisorCounsel>TXT_KEY_ECONOMICAISTRATEGY_ISLAND_START</AdvisorCounsel>
+                         <AdvisorCounselImportance>50</AdvisorCounselImportance>
+                     </Row>
+             */
+        case .expandToOtherContinents:
+            return EconimicStrategyTypeData(
+                noMinorCivs: true,
+                minimumNumTurnsExecuted: 25,
+                weightThreshold: 50,
+                techPrereq: .celestialNavigation, // ???
+                advisorCounselImportance: 1,
+                flavors: [
+
+                ]
+            )
+            /*
+                     <Row>
+                         <Type>ECONOMICAISTRATEGY_EXPAND_TO_OTHER_CONTINENTS</Type>
+                         <WeightThreshold>50</WeightThreshold>
+                         <NoMinorCivs>true</NoMinorCivs>
+                         <MinimumNumTurnsExecuted>25</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>10</CheckTriggerTurnCount>
+                         <TechPrereq>TECH_OPTICS</TechPrereq>
+                     </Row>
+                     <!-- Ours goes to 11 -->
+                     <Row>
+                         <Type>ECONOMICAISTRATEGY_EXPAND_LIKE_CRAZY</Type>
+                         <WeightThreshold>10</WeightThreshold>
+                         <NoMinorCivs>true</NoMinorCivs>
+                         <MinimumNumTurnsExecuted>25</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>10</CheckTriggerTurnCount>
+                         <FirstTurnExecuted>25</FirstTurnExecuted>
+                     </Row>
+                     <Row>
+                         <Type>ECONOMICAISTRATEGY_GROW_LIKE_CRAZY</Type>
+                         <WeightThreshold>10</WeightThreshold>
+                         <NoMinorCivs>true</NoMinorCivs>
+                         <MinimumNumTurnsExecuted>25</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>10</CheckTriggerTurnCount>
+                         <FirstTurnExecuted>25</FirstTurnExecuted>
+                     </Row>
+                     <!-- The following Player Strategies are associated with the Grand Strategy the player has adopted -->
+                     <Row>
+                         <Type>ECONOMICAISTRATEGY_GS_CULTURE</Type>
+                         <NoMinorCivs>true</NoMinorCivs>
+                         <MinimumNumTurnsExecuted>25</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
+                         <FirstTurnExecuted>75</FirstTurnExecuted>
+                     </Row>
+                     <Row>
+                         <Type>ECONOMICAISTRATEGY_GS_CONQUEST</Type>
+                         <NoMinorCivs>true</NoMinorCivs>
+                         <MinimumNumTurnsExecuted>25</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
+                         <FirstTurnExecuted>75</FirstTurnExecuted>
+                     </Row>
+                     <Row>
+                         <Type>ECONOMICAISTRATEGY_GS_DIPLOMACY</Type>
+                         <NoMinorCivs>true</NoMinorCivs>
+                         <MinimumNumTurnsExecuted>25</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
+                         <FirstTurnExecuted>75</FirstTurnExecuted>
+                     </Row>
+                     <Row>
+                         <Type>ECONOMICAISTRATEGY_GS_SPACESHIP</Type>
+                         <NoMinorCivs>true</NoMinorCivs>
+                         <MinimumNumTurnsExecuted>25</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
+                         <FirstTurnExecuted>75</FirstTurnExecuted>
+                     </Row>
+                     <!-- The following Player Strategies are associated with the home stretch of player strategies -->
+                     <Row>
+                         <Type>ECONOMICAISTRATEGY_GS_SPACESHIP_HOMESTRETCH</Type>
+                         <NoMinorCivs>true</NoMinorCivs>
+                         <MinimumNumTurnsExecuted>1</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
+                         <FirstTurnExecuted>100</FirstTurnExecuted>
+                     </Row>
+                     <!-- We could theoretically start finding other continents if only we had a ship -->
+                     <Row>
+                         <Type>ECONOMICAISTRATEGY_REALLY_NEED_RECON_SEA</Type>
+                         <NoMinorCivs>true</NoMinorCivs>
+                         <MinimumNumTurnsExecuted>1</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
+                         <FirstTurnExecuted>50</FirstTurnExecuted>
+                     </Row>
+                     <!-- Our civ is mostly on the coast -->
+                     <Row>
+                         <Type>ECONOMICAISTRATEGY_MOSTLY_ON_THE_COAST</Type>
+                         <MinimumNumTurnsExecuted>1</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
+                         <FirstTurnExecuted>50</FirstTurnExecuted>
+                     </Row>
+                     <!-- This Map is marked as a Naval Map -->
+                     <Row>
+                         <Type>ECONOMICAISTRATEGY_NAVAL_MAP</Type>
+                         <NoMinorCivs>true</NoMinorCivs>
+                         <MinimumNumTurnsExecuted>10</MinimumNumTurnsExecuted>
+                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
+                         <FirstTurnExecuted>1</FirstTurnExecuted>
+                     </Row>
+             */
+        }
     }
 
     func weightThreshold() -> Int {
 
-        switch self {
-        case .needRecon: return 0
-        case .enoughRecon: return 0
-        case .needReconSea: return 0
-        case .enoughReconSea: return 0
-        case .earlyExpansion: return 3
-        case .enoughExpansion: return 2
-        case .losingMoney: return 2
-        case .tooManyUnits: return 0
-        case .expandToOtherContinents: return 50
-        case .foundCity: return 10
-        }
+        return self.data().weightThreshold
     }
 
     func flavorThresholdModifiers() -> [Flavor] {
@@ -74,154 +536,32 @@ enum EconomicStrategyType: Int, Codable {
 
     func flavorModifiers() -> [Flavor] {
 
-        switch self {
-
-        case .needRecon: return [
-                Flavor(type: .recon, value: 100)
-            ]
-        case .enoughRecon: return [
-                Flavor(type: .recon, value: -25)
-            ]
-        case .needReconSea: return [
-                Flavor(type: .navalRecon, value: 30)
-            ]
-        case .enoughReconSea: return [
-                Flavor(type: .navalRecon, value: -20)
-            ]
-        case .earlyExpansion: return [
-                Flavor(type: .mobile, value: -2),
-                Flavor(type: .navalGrowth, value: -5),
-                Flavor(type: .expansion, value: 30),
-                Flavor(type: .production, value: -4),
-                Flavor(type: .gold, value: -4),
-                Flavor(type: .science, value: -4),
-                Flavor(type: .culture, value: -4)
-            ]
-        case .enoughExpansion: return [
-                Flavor(type: .expansion, value: -30)
-            ]
-        case .losingMoney: return [
-                Flavor(type: .gold, value: 20),
-                Flavor(type: .offense, value: -10),
-                Flavor(type: .defense, value: -10)
-            ]
-        case .tooManyUnits: return [
-                Flavor(type: .offense, value: -30),
-                Flavor(type: .defense, value: -30),
-                Flavor(type: .gold, value: 15),
-                Flavor(type: .growth, value: 5),
-                Flavor(type: .science, value: 15),
-                Flavor(type: .culture, value: 10),
-                Flavor(type: .happiness, value: 10),
-                Flavor(type: .wonder, value: 5)
-            ]
-        case .expandToOtherContinents: return [
-                Flavor(type: .naval, value: 50),
-                Flavor(type: .navalTileImprovement, value: 10),
-                Flavor(type: .navalGrowth, value: 5),
-                //Flavor(type: .waterConnection, value: 5), #
-                Flavor(type: .expansion, value: 10),
-                Flavor(type: .recon, value: -20)
-            ]
-        case .foundCity: return [
-                // NOOP
-            ]
-        }
+        return self.data().flavors
     }
 
     func required() -> TechType? {
 
-        switch self {
-
-        case .needRecon: return nil
-        case .enoughRecon: return nil
-        case .needReconSea: return nil
-        case .enoughReconSea: return nil
-        case .earlyExpansion: return nil
-        case .enoughExpansion: return nil
-
-        case .losingMoney: return nil
-        case .tooManyUnits: return nil
-
-        case .expandToOtherContinents: return nil
-        case .foundCity: return nil
-        }
+        return self.data().techPrereq
     }
 
     func obsolete() -> TechType? {
 
-        switch self {
-
-        case .needRecon: return nil
-        case .enoughRecon: return nil
-        case .needReconSea: return nil
-        case .enoughReconSea: return nil
-        case .earlyExpansion: return nil
-        case .enoughExpansion: return nil
-
-        case .losingMoney: return nil
-        case .tooManyUnits: return nil
-
-        case .expandToOtherContinents: return nil
-        case .foundCity: return nil
-        }
+        return self.data().techObsolete
     }
 
     func notBeforeTurnElapsed() -> Int {
 
-        switch self {
-
-        case .needRecon: return 5
-        case .enoughRecon: return 5
-        case .needReconSea: return 5
-        case .enoughReconSea: return 5
-        case .earlyExpansion: return 0
-        case .enoughExpansion: return 0
-
-        case .losingMoney: return 20
-        case .tooManyUnits: return 20
-
-        case .expandToOtherContinents: return 50
-        case .foundCity: return 0
-        }
+        return self.data().firstTurnExecuted
     }
 
     func checkEachTurns() -> Int {
 
-        switch self {
-
-        case .needRecon: return 1
-        case .enoughRecon: return 1
-        case .needReconSea: return 1
-        case .enoughReconSea: return 1
-        case .earlyExpansion: return 5
-        case .enoughExpansion: return 1
-
-        case .losingMoney: return 5
-        case .tooManyUnits: return 1
-
-        case .expandToOtherContinents: return 10
-        case .foundCity: return 1
-        }
+        return self.data().checkTriggerTurnCount
     }
 
     func minimumAdoptionTurns() -> Int {
 
-        switch self {
-
-        case .needRecon: return 1
-        case .enoughRecon: return 1
-        case .needReconSea: return 1
-        case .enoughReconSea: return 1
-        case .earlyExpansion: return 10
-        case .enoughExpansion: return 1
-
-        case .losingMoney: return 5
-        case .tooManyUnits: return 1
-
-        case .expandToOtherContinents: return 25
-        case .foundCity: return 1
-        }
+        return self.data().minimumNumTurnsExecuted
     }
 
     private func weightThresholdModifier(for player: AbstractPlayer) -> Int {
@@ -242,16 +582,44 @@ enum EconomicStrategyType: Int, Codable {
 
         case .needRecon: return self.shouldBeActiveNeedRecon(for: player, in: gameModel)
         case .enoughRecon: return self.shouldBeActiveEnoughRecon(for: player, in: gameModel)
+        case .reallyNeedReconSea: return self.shouldBeActiveReallyNeedReconSea(for: player, in: gameModel)
         case .needReconSea: return self.shouldBeActiveNeedReconSea(for: player, in: gameModel)
         case .enoughReconSea: return self.shouldBeActiveEnoughReconSea(for: player, in: gameModel)
         case .earlyExpansion: return self.shouldBeActiveEarlyExpansion(for: player, in: gameModel)
-        case .enoughExpansion: return false // FIXME
-
-        case .losingMoney: return false // FIXME
-        case .tooManyUnits: return false // FIXME
-
-        case .expandToOtherContinents: return false // FIXME
+        case .enoughExpansion: return self.shouldBeActiveEnoughExpansion(for: player, in: gameModel)
+            // ECONOMICAISTRATEGY_NEED_HAPPINESS
+            // ECONOMICAISTRATEGY_NEED_HAPPINESS_CRITICAL
+            // ECONOMICAISTRATEGY_CITIES_NEED_NAVAL_GROWTH
+            // ECONOMICAISTRATEGY_CITIES_NEED_NAVAL_TILE_IMPROVEMENT
         case .foundCity: return self.shouldBeActiveFoundCity(for: player, in: gameModel)
+            // ECONOMICAISTRATEGY_TRADE_WITH_CITY_STATE
+        case .needImprovementFood: return self.shouldBeActiveNeedImprovementFood(for: player, in: gameModel)
+        case .needImprovementProduction:return self.shouldBeActiveNeedImprovementProduction(for: player, in: gameModel)
+            // ECONOMICAISTRATEGY_ONE_OR_FEWER_COASTAL_CITIES
+        case .losingMoney: return self.shouldBeActiveLosingMoney(for: player, in: gameModel)
+            // ECONOMICAISTRATEGY_HALT_GROWTH_BUILDINGS
+        case .tooManyUnits: return self.shouldBeActiveTooManyUnits(for: player, in: gameModel)
+            // ECONOMICAISTRATEGY_ISLAND_START
+        case .expandToOtherContinents: return self.shouldBeActiveExpandToOtherContinents(for: player, in: gameModel)
+            // ECONOMICAISTRATEGY_REALLY_EXPAND_TO_OTHER_CONTINENTS
+            // ECONOMICAISTRATEGY_MOSTLY_ON_THE_COAST
+            // ECONOMICAISTRATEGY_EXPAND_LIKE_CRAZY
+            // ECONOMICAISTRATEGY_GROW_LIKE_CRAZY
+            // ECONOMICAISTRATEGY_GS_CULTURE
+            // ECONOMICAISTRATEGY_GS_CONQUEST
+            // ECONOMICAISTRATEGY_GS_DIPLOMACY
+            // ECONOMICAISTRATEGY_GS_SPACESHIP
+            // ECONOMICAISTRATEGY_GS_SPACESHIP_HOMESTRETCH
+            // ECONOMICAISTRATEGY_NAVAL_MAP
+            // ECONOMICAISTRATEGY_OFFSHORE_EXPANSION_MAP
+            // ECONOMICAISTRATEGY_DEVELOPING_RELIGION
+            // ECONOMICAISTRATEGY_TECH_LEADER
+            // ECONOMICAISTRATEGY_NEED_ARCHAEOLOGISTS
+            // ECONOMICAISTRATEGY_ENOUGH_ARCHAEOLOGISTS
+            // ECONOMICAISTRATEGY_NEED_MUSEUMS
+            // ECONOMICAISTRATEGY_NEED_GUILDS
+            // ECONOMICAISTRATEGY_CONCERT_TOUR
+            // ECONOMICAISTRATEGY_STARTED_PIETY
         }
     }
 
@@ -272,6 +640,94 @@ enum EconomicStrategyType: Int, Codable {
     private func shouldBeActiveEnoughRecon(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
 
         return player?.economicAI?.reconState() == .enough
+    }
+
+    /// "Really Need Recon Sea" Player Strategy: If we could theoretically start exploring other continents but we don't have any appropriate ship...
+    private func shouldBeActiveReallyNeedReconSea(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("Cant get gameModel")
+        }
+
+        guard let player = player else {
+            fatalError("Cant get player")
+        }
+
+        guard let economicAI = player.economicAI else {
+            fatalError("Cant get economicAI")
+        }
+
+        if economicAI.navalReconState() == .needed {
+
+            if player.canEnterOcean() { // get a caravel out there NOW!
+
+                // check current units - if we chave already an ocean recon unit - we dont need to hurry
+                for unitRef in gameModel.units(of: player) {
+
+                    guard let unit = unitRef else {
+                        continue
+                    }
+
+                    if unit.task() == .escortSea && !unit.isImpassable(terrain: .ocean) {
+                        return false
+                    }
+                }
+
+                // check cities, if a ocean recon units is already training
+                for cityRef in gameModel.cities(of: player) {
+
+                    guard let city = cityRef else {
+                        continue
+                    }
+
+                    if city.buildQueue.isCurrentlyTrainingUnit() {
+                        for unitType in city.buildQueue.unitTypesTraining() {
+                            if unitType.domain() == .sea && unitType.defaultTask() == .exploreSea {
+                                if !unitType.abilities().contains(.oceanImpassable) {
+                                    return false
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return true
+
+            } else if player.canEmbark() { // get a trireme out there NOW!
+
+                // check current units - if we chave already an ocean recon unit - we dont need to hurry
+                for unitRef in gameModel.units(of: player) {
+
+                    guard let unit = unitRef else {
+                        continue
+                    }
+
+                    if unit.task() == .escortSea {
+                        return false
+                    }
+                }
+
+                // check cities, if a ocean recon units is already training
+                for cityRef in gameModel.cities(of: player) {
+
+                    guard let city = cityRef else {
+                        continue
+                    }
+
+                    if city.buildQueue.isCurrentlyTrainingUnit() {
+                        for unitType in city.buildQueue.unitTypesTraining() {
+                            if unitType.domain() == .sea && unitType.defaultTask() == .exploreSea {
+                                return false
+                            }
+                        }
+                    }
+                }
+
+                return true
+            }
+        }
+
+        return false
     }
 
     private func shouldBeActiveNeedReconSea(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
@@ -363,6 +819,11 @@ enum EconomicStrategyType: Int, Codable {
         return false
     }
 
+    func shouldBeActiveEnoughExpansion(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+
+        fatalError("implement")
+    }
+
     /// "Found City" Player Strategy: If there is a settler who isn't in an operation?  If so, find him a city site
     /// Very dependent on the fact that the player probably won't have more than 2 settlers available at a time; needs an
     ///   upgrade if that assumption is no longer true
@@ -380,8 +841,8 @@ enum EconomicStrategyType: Int, Codable {
             fatalError("cant get economicAI")
         }
 
-        // Never run this strategy for a human player
-        if player.isHuman() {
+        // Never run this strategy for a human player or barbarian
+        if player.isHuman() || player.isBarbarian() {
             return false
         }
 
@@ -457,6 +918,31 @@ enum EconomicStrategyType: Int, Codable {
         return false
     }
 
+    func shouldBeActiveNeedImprovementFood(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+
+        fatalError("implement")
+    }
+
+    func shouldBeActiveNeedImprovementProduction(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+
+        fatalError("implement")
+    }
+
+    func shouldBeActiveLosingMoney(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+
+        fatalError("implement")
+    }
+
+    func shouldBeActiveTooManyUnits(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+
+        fatalError("implement")
+    }
+
+    func shouldBeActiveExpandToOtherContinents(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+
+        fatalError("implement")
+    }
+
     /// Do we have an island clear of hostile units to settle on?
     func isSafeForQuickColony(in area: HexArea?, in gameModel: GameModel?, for player: AbstractPlayer?) -> Bool {
 
@@ -481,20 +967,19 @@ enum EconomicStrategyType: Int, Codable {
 
     func advisorMessage() -> AdvisorMessage? {
 
-        switch self {
+        if self.data().advisor != .none {
 
-        case .needRecon: return AdvisorMessage(advisor: .foreign, message: "TXT_KEY_ECONOMICAISTRATEGY_NEED_RECON", importance: 2)
-        case .enoughRecon: return AdvisorMessage(advisor: .economic, message: "TXT_KEY_ECONOMICAISTRATEGY_ENOUGH_RECON", importance: 2)
-        case .needReconSea: return AdvisorMessage(advisor: .foreign, message: "TXT_KEY_ECONOMICAISTRATEGY_NEED_RECON_SEA", importance: 2)
-        case .enoughReconSea: return AdvisorMessage(advisor: .economic, message: "TXT_KEY_ECONOMICAISTRATEGY_ENOUGH_RECON", importance: 2)
-        case .earlyExpansion: return AdvisorMessage(advisor: .economic, message: "TXT_KEY_ECONOMICAISTRATEGY_EARLY_EXPANSION", importance: 2)
-        case .enoughExpansion: return AdvisorMessage(advisor: .economic, message: "TXT_KEY_ECONOMICAISTRATEGY_ENOUGH_EXPANSION", importance: 2)
+            guard let advisorCounsel = self.data().advisorCounsel else {
+                fatalError("advisor counsel must be set if advisor type is not none")
+            }
 
-        case .losingMoney: return AdvisorMessage(advisor: .economic, message: "TXT_KEY_ECONOMICAISTRATEGY_LOSING_MONEY", importance: 2)
-        case .tooManyUnits: return AdvisorMessage(advisor: .economic, message: "TXT_KEY_ECONOMICAISTRATEGY_TOO_MANY_UNITS", importance: 2)
-
-        case .expandToOtherContinents: return nil
-        case .foundCity: return AdvisorMessage(advisor: .economic, message: "TXT_KEY_ECONOMICAISTRATEGY_FOUND_CITY", importance: 2)
+            return AdvisorMessage(
+                advisor: self.data().advisor,
+                message: advisorCounsel,
+                importance: self.data().advisorCounselImportance
+            )
         }
+
+        return nil
     }
 }

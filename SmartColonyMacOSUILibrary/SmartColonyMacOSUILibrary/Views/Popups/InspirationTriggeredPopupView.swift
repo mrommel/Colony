@@ -44,6 +44,8 @@ struct InspirationTriggeredPopupView: View {
                         HStack(alignment: .center) {
 
                             Image(nsImage: self.viewModel.icon())
+                                .resizable()
+                                .frame(width: 64, height: 64)
 
                             VStack {
                                 Text(self.viewModel.descriptionText)
