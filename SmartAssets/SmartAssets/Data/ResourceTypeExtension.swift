@@ -65,8 +65,8 @@ extension ResourceType {
         case .uranium: return "resource-marker-uranium"
         case .niter: return "resource-marker-niter"
 
-        case .antiquitySite: return "resource-marker-default"
-        case .shipwreck: return "resource-marker-default"
+        case .antiquitySite: return "resource-marker-antiquitySite"
+        case .shipwreck: return "resource-marker-shipwreck"
         }
     }
 
@@ -74,53 +74,53 @@ extension ResourceType {
 
         switch self {
 
-        case .none: return "resource_default"
+        case .none: return "resource-default"
 
             // bonus
-        case .wheat: return "resource_wheat"
-        case .rice: return "resource_rice"
-        case .deer: return "resource_deer"
-        case .sheep: return "resource_sheep"
-        case .copper: return "resource_copper"
-        case .stone: return "resource_stone"
-        case .bananas: return "resource_banana"
-        case .cattle: return "resource_cattle"
-        case .fish: return "resource_fish"
-        case .crab: return "resource_crab"
+        case .wheat: return "resource-wheat"
+        case .rice: return "resource-rice"
+        case .deer: return "resource-deer"
+        case .sheep: return "resource-sheep"
+        case .copper: return "resource-copper"
+        case .stone: return "resource-stone"
+        case .bananas: return "resource-banana"
+        case .cattle: return "resource-cattle"
+        case .fish: return "resource-fish"
+        case .crab: return "resource-crab"
 
             // luxus
-        case .marble: return "resource_marble"
-        case .gems: return "resource_gems"
-        case .furs: return "resource_furs"
-        case .citrus: return "resource_citrus"
-        case .tea: return "resource_tea"
-        case .sugar: return "resource_sugar"
-        case .whales: return "resource_whales"
-        case .pearls: return "resource_pearls"
-        case .ivory: return "resource_ivory"
-        case .wine: return "resource_wine"
-        case .cotton: return "resource_cotton"
-        case .dyes: return "resource_dyes"
-        case .incense: return "resource_incense"
-        case .silk: return "resource_silk"
-        case .silver: return "resource_silver"
-        case .gold: return "resource_gold"
-        case .spices: return "resource_spices"
-        case .salt: return "resource_salt"
-        case .cocoa: return "resource_cocoa"
+        case .marble: return "resource-marble"
+        case .gems: return "resource-gems"
+        case .furs: return "resource-furs"
+        case .citrus: return "resource-citrus"
+        case .tea: return "resource-tea"
+        case .sugar: return "resource-sugar"
+        case .whales: return "resource-whales"
+        case .pearls: return "resource-pearls"
+        case .ivory: return "resource-ivory"
+        case .wine: return "resource-wine"
+        case .cotton: return "resource-cotton"
+        case .dyes: return "resource-dyes"
+        case .incense: return "resource-incense"
+        case .silk: return "resource-silk"
+        case .silver: return "resource-silver"
+        case .gold: return "resource-gold"
+        case .spices: return "resource-spices"
+        case .salt: return "resource-salt"
+        case .cocoa: return "resource-cocoa"
 
             // strategic
-        case .horses: return "resource_horses"
-        case .iron: return "resource_iron"
-        case .coal: return "resource_coal"
-        case .oil: return "resource_oil"
-        case .aluminium: return "resource_aluminium"
-        case .uranium: return "resource_uranium"
-        case .niter: return "resource_niter"
+        case .horses: return "resource-horses"
+        case .iron: return "resource-iron"
+        case .coal: return "resource-coal"
+        case .oil: return "resource-oil"
+        case .aluminium: return "resource-aluminium"
+        case .uranium: return "resource-uranium"
+        case .niter: return "resource-niter"
 
             // artifacts
-        case .antiquitySite: return "resource_default"
-        case .shipwreck: return "resource_default"
+        case .antiquitySite: return "resource-antiquitySite"
+        case .shipwreck: return "resource-shipwreck"
         }
     }
 }
