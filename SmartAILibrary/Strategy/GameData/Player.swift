@@ -239,6 +239,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func numUnitsNeededToBeBuilt() -> Int
     func countReadyUnits(in gameModel: GameModel?) -> Int
     func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool
+    func countUnitsWith(defaultTask: UnitTaskType, in gameModel: GameModel?) -> Int
     func hasBusyUnitOrCity() -> Bool
 
     // buildings / districts
@@ -273,10 +274,12 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func notifications() -> Notifications?
 
     func originalCapitalLocation() -> HexPoint
+    func isCramped() -> Bool
 
     // government
     func canChangeGovernment() -> Bool
     func set(canChangeGovernment: Bool)
+    func isEmpireUnhappy() -> Bool
 
     // trade routes
     func tradingCapacity(in gameModel: GameModel?) -> Int
@@ -329,7 +332,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func isEqual(to other: AbstractPlayer?) -> Bool
 }
 
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length file_length
 public class Player: AbstractPlayer {
 
     enum CodingKeys: CodingKey {
@@ -399,6 +402,8 @@ public class Player: AbstractPlayer {
         case settledContinents
         case hasWorldCircumnavigated
         case establishedTradingPosts
+
+        case cramped
     }
 
     public var leader: LeaderType
@@ -480,6 +485,8 @@ public class Player: AbstractPlayer {
     private var hasWorldCircumnavigatedVal: Bool = false
     private var establishedTradingPosts: [LeaderType] = []
 
+    private var crampedValue: Bool = false
+
     // MARK: constructor
 
     public init(leader: LeaderType, isHuman: Bool = false) {
@@ -510,6 +517,8 @@ public class Player: AbstractPlayer {
         self.settledContinents = []
         self.hasWorldCircumnavigatedVal = false
         self.establishedTradingPosts = []
+
+        self.crampedValue = false
     }
 
     public required init(from decoder: Decoder) throws {
@@ -584,6 +593,8 @@ public class Player: AbstractPlayer {
         self.settledContinents = try container.decode([ContinentType].self, forKey: .settledContinents)
         self.hasWorldCircumnavigatedVal = try container.decode(Bool.self, forKey: .hasWorldCircumnavigated)
         self.establishedTradingPosts = try container.decode([LeaderType].self, forKey: .establishedTradingPosts)
+
+        self.crampedValue = try container.decode(Bool.self, forKey: .cramped)
 
         // setup
         self.techs?.player = self
@@ -683,6 +694,8 @@ public class Player: AbstractPlayer {
         try container.encode(self.settledContinents, forKey: .settledContinents)
         try container.encode(self.hasWorldCircumnavigatedVal, forKey: .hasWorldCircumnavigated)
         try container.encode(self.establishedTradingPosts, forKey: .establishedTradingPosts)
+
+        try container.encode(self.crampedValue, forKey: .cramped)
     }
     // swiftlint:enable force_cast
 
@@ -1395,7 +1408,10 @@ public class Player: AbstractPlayer {
 
             if !self.isBarbarian() {
 
-                self.grandStrategyAI?.turn(with: gameModel)
+                //self.doUnitDiversity()
+                self.doUpdateCramped(in: gameModel)
+
+                self.grandStrategyAI?.turn(in: gameModel)
 
                 // Do diplomacy for toward everyone
                 self.diplomacyAI?.turn(in: gameModel)
@@ -1459,6 +1475,56 @@ public class Player: AbstractPlayer {
         self.doGreatPeople(in: gameModel)
 
         self.doTurnPost()
+    }
+
+    /// Is the player is cramped in his current area?
+    public func isCramped() -> Bool {
+
+        return self.crampedValue
+    }
+
+
+    /// Determines if the player is cramped in his current area.  Not a perfect algorithm, as it will double-count Plots shared by different Cities, but it should be good enough
+    func doUpdateCramped(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gamemodel")
+        }
+
+        self.crampedValue = false
+
+        var totalPlotsNearby = 0
+        var usablePlotsNearby = 0
+
+        let range = 5 // CRAMPED_RANGE_FROM_CITY
+
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            for neighborPoint in city.location.areaWith(radius: range) {
+
+                guard let tile = gameModel.tile(at: neighborPoint) else {
+                    continue
+                }
+
+                if !tile.hasOwner() || tile.ownerLeader() != self.leader {
+
+                    totalPlotsNearby += 1
+
+                    // A "good" unowned Plot
+                    if !tile.hasOwner() /*&& tile.isValidMovePlot(GetID())*/ && !tile.isWater() {
+                        usablePlotsNearby += 1
+                    }
+                }
+            }
+        }
+
+        if totalPlotsNearby > 0 && (100 * usablePlotsNearby) / totalPlotsNearby <= 20 /* CRAMPED_USABLE_PLOT_PERCENT */ {
+            self.crampedValue = true
+        }
     }
 
     func doEurekas(in gameModel: GameModel?) {
@@ -3397,6 +3463,27 @@ public class Player: AbstractPlayer {
         return false
     }
 
+    public func countUnitsWith(defaultTask: UnitTaskType, in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var value = 0
+        for loopUnitRef in gameModel.units(of: self) {
+
+            guard let loopUnit = loopUnitRef else {
+                continue
+            }
+
+            if loopUnit.type.defaultTask() == defaultTask {
+                value += 1
+            }
+        }
+
+        return value
+    }
+
     public func hasBusyUnitOrCity() -> Bool {
 
         // FIXME
@@ -5032,6 +5119,11 @@ public class Player: AbstractPlayer {
     public func set(canChangeGovernment: Bool) {
 
         self.canChangeGovernmentValue = canChangeGovernment
+    }
+
+    public func isEmpireUnhappy() -> Bool {
+
+        return false
     }
 
     public func scienceVictoryProgress(in gameModel: GameModel?) -> Int {

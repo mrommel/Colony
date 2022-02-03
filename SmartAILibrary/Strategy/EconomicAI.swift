@@ -508,7 +508,7 @@ public class EconomicAI: Codable {
 
             if self.economicStrategyAdoption.adopted(economicStrategy: economicStrategyType) {
 
-                for economicStrategyTypeFlavor in economicStrategyType.flavorModifiers() {
+                for economicStrategyTypeFlavor in economicStrategyType.flavors() {
 
                     self.flavors += economicStrategyTypeFlavor
                 }
