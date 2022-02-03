@@ -8,6 +8,7 @@
 
 import Foundation
 
+// swiftlint:disable type_body_length
 public class EconomicAI: Codable {
 
     enum CodingKeys: String, CodingKey {

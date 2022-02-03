@@ -47,9 +47,7 @@ class EnoughExpansionEconomicStrategyType: EconomicStrategyTypeData {
             fatalError("Cant get militaryAI")
         }
 
-        let cannotExpand = player.isBarbarian() // || CannotMinorCiv(pPlayer, eStrategy) || pPlayer->GetPlayerTraits()->IsNoAnnexing();
-
-        if /*((GC.getGame().isOption(GAMEOPTION_ONE_CITY_CHALLENGE) && pPlayer->isHuman()) ||*/ cannotExpand {
+        if player.isBarbarian() { // || CannotMinorCiv(pPlayer, eStrategy) || pPlayer->GetPlayerTraits()->IsNoAnnexing();
             return true
         }
 

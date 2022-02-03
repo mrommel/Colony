@@ -18,6 +18,7 @@ public protocol AbstractTreasury: AnyObject, Codable {
 
     func changeGold(by amount: Double)
 
+    func averageIncome(in lastTurns: Int) -> Double
     func calculateGrossGold(in gameModel: GameModel?) -> Double
 
     // in
@@ -37,11 +38,13 @@ class Treasury: AbstractTreasury {
 
         case gold
         case tradeRouteGoldChange
+        case history
     }
 
     // user properties / values
     var player: AbstractPlayer?
     var gold: Double
+    var history: [Double]
 
     var tradeRouteGoldChangeValue: Int
 
@@ -51,6 +54,7 @@ class Treasury: AbstractTreasury {
 
         self.player = player
         self.gold = 10.0 //
+        self.history = []
 
         self.tradeRouteGoldChangeValue = 0
     }
@@ -60,6 +64,7 @@ class Treasury: AbstractTreasury {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.gold = try container.decode(Double.self, forKey: .gold)
+        self.history = try container.decode([Double].self, forKey: .history)
         self.tradeRouteGoldChangeValue = try container.decode(Int.self, forKey: .tradeRouteGoldChange)
     }
 
@@ -68,6 +73,7 @@ class Treasury: AbstractTreasury {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.gold, forKey: .gold)
+        try container.encode(self.history, forKey: .history)
         try container.encode(self.tradeRouteGoldChangeValue, forKey: .tradeRouteGoldChange)
     }
 
@@ -135,6 +141,8 @@ class Treasury: AbstractTreasury {
 
         let goldChange = player.calculateGoldPerTurn(in: gameModel)
 
+        self.history.append(goldChange)
+
         // predict treasury
         let goldAfterThisTurn = self.gold + goldChange
 
@@ -157,6 +165,18 @@ class Treasury: AbstractTreasury {
     func changeGold(by amount: Double) {
 
         self.gold += amount
+    }
+
+    func averageIncome(in lastTurns: Int) -> Double {
+
+        let interval = min(self.history.count, lastTurns)
+        var sum: Double = 0.0
+
+        for index in 0..<interval {
+            sum += self.history[index]
+        }
+
+        return sum / Double(interval)
     }
 
     // Gross income for turn

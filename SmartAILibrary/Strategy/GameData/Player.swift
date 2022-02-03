@@ -223,7 +223,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func canBuild(build: BuildType, at point: HexPoint, testGold: Bool, in gameModel: GameModel?) -> Bool
 
     func updatePlots(in gameModel: GameModel?)
-
+    func plots() -> HexArea
     func addPlot(at point: HexPoint)
     func buyPlotCost() -> Int
     func changeNumPlotsBought(change: Int)
@@ -3361,6 +3361,11 @@ public class Player: AbstractPlayer {
     public func addPlot(at point: HexPoint) {
 
         self.area.add(point: point)
+    }
+
+    public func plots() -> HexArea {
+
+        return self.area
     }
 
     /// Gold cost of buying a new Plot

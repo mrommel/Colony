@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Are we paying more in unit maintenance than we are taking in from our cities?
 class TooManyUnitsEconomicStrategyType: EconomicStrategyTypeData {
 
     init() {
@@ -38,6 +39,13 @@ class TooManyUnitsEconomicStrategyType: EconomicStrategyTypeData {
 
     override func shouldBeActive(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
 
-        fatalError("implement")
+        guard let treasury = player?.treasury else {
+            fatalError()
+        }
+
+        let goldForUnitMaintenance = treasury.goldForUnitMaintenance(in: gameModel)
+        let goldFromCities = treasury.goldFromCities(in: gameModel)
+        
+        return goldForUnitMaintenance > goldFromCities
     }
 }

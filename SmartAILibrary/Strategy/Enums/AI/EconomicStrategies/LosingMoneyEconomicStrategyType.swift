@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// "Losing Money" Player Strategy: Stop building military if in a financial downturn
 class LosingMoneyEconomicStrategyType: EconomicStrategyTypeData {
 
     init() {
@@ -31,6 +32,26 @@ class LosingMoneyEconomicStrategyType: EconomicStrategyTypeData {
 
     override func shouldBeActive(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
 
-        fatalError("implement")
+        guard let gameModel = gameModel else {
+            fatalError()
+        }
+
+        guard let player = player else {
+            fatalError()
+        }
+
+        guard let treasury = player.treasury else {
+            fatalError()
+        }
+
+        let interval = self.minimumNumTurnsExecuted
+
+        // Need a certain number of turns of history before we can turn this on
+        if gameModel.currentTurn <= self.minimumNumTurnsExecuted {
+            return false
+        }
+
+        // Is average income below desired threshold over past X turns?
+        return treasury.averageIncome(in: interval) < Double(self.weightThreshold)
     }
 }

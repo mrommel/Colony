@@ -11,6 +11,8 @@ import Foundation
 // swiftlint:disable type_body_length
 enum CityStrategyType: Int, Codable {
 
+    case none
+
     case tinyCity
     case smallCity
     case mediumCity
@@ -23,6 +25,8 @@ enum CityStrategyType: Int, Codable {
     case needNavalGrowth
     case needNavalTileImprovement
     case enoughNavalTileImprovement
+    case needImprovementFood
+    case needImprovementProduction
     case haveTrainingFacility
     case capitalNeedSettler
     case capitalUnderThreat
@@ -42,6 +46,7 @@ enum CityStrategyType: Int, Codable {
                 .needTileImprovers, .wantTileImprovers, .enoughTileImprovers,
                 .needNavalGrowth,
                 .needNavalTileImprovement, .enoughNavalTileImprovement,
+                .needImprovementFood, .needImprovementProduction,
                 .haveTrainingFacility, .capitalNeedSettler, .capitalUnderThreat,
                 .underBlockade,
 
@@ -53,6 +58,9 @@ enum CityStrategyType: Int, Codable {
     func flavorModifiers() -> [Flavor] {
 
         switch self {
+
+        case .none:
+            return []
 
         case .tinyCity:
             return [
@@ -130,6 +138,8 @@ enum CityStrategyType: Int, Codable {
             return [
                 Flavor(type: .navalTileImprovement, value: -100)
             ]
+        case .needImprovementFood: return []
+        case .needImprovementProduction: return []
         case .haveTrainingFacility:
             return [
                 Flavor(type: .offense, value: 6),
@@ -188,12 +198,15 @@ enum CityStrategyType: Int, Codable {
         return [
             Flavor(type: .science, value: 10)
         ]
+
         }
     }
 
     func flavorThresholdModifiers() -> [Flavor] {
 
         switch self {
+
+        case .none: return []
 
         case .tinyCity: return []
         case .smallCity: return []
@@ -209,6 +222,8 @@ enum CityStrategyType: Int, Codable {
         case .needNavalGrowth: return []
         case .needNavalTileImprovement: return []
         case .enoughNavalTileImprovement: return []
+        case .needImprovementFood: return []
+        case .needImprovementProduction: return []
         case .haveTrainingFacility: return []
         case .capitalNeedSettler: return [
             Flavor(type: .expansion, value: -10),
@@ -239,6 +254,8 @@ enum CityStrategyType: Int, Codable {
 
         switch self {
 
+        case .none: return 0
+
         case .tinyCity: return 0
         case .smallCity: return 0
         case .mediumCity: return 0
@@ -251,6 +268,8 @@ enum CityStrategyType: Int, Codable {
         case .needNavalGrowth: return 40
         case .needNavalTileImprovement: return 0
         case .enoughNavalTileImprovement: return 0
+        case .needImprovementFood: return 0
+        case .needImprovementProduction: return 0
         case .haveTrainingFacility: return 0
         case .capitalNeedSettler: return 130
         case .capitalUnderThreat: return 0
@@ -269,6 +288,8 @@ enum CityStrategyType: Int, Codable {
 
         switch self {
 
+        case .none: return nil
+
         case .tinyCity: return nil
         case .smallCity: return nil
         case .mediumCity: return nil
@@ -281,6 +302,8 @@ enum CityStrategyType: Int, Codable {
         case .needNavalGrowth: return nil
         case .needNavalTileImprovement: return nil
         case .enoughNavalTileImprovement: return nil
+        case .needImprovementFood: return nil
+        case .needImprovementProduction: return nil
         case .haveTrainingFacility: return nil
         case .capitalNeedSettler: return nil
         case .capitalUnderThreat: return nil
@@ -299,6 +322,8 @@ enum CityStrategyType: Int, Codable {
 
         switch self {
 
+        case .none: return nil
+
         case .tinyCity: return nil
         case .smallCity: return nil
         case .mediumCity: return nil
@@ -311,6 +336,8 @@ enum CityStrategyType: Int, Codable {
         case .needNavalGrowth: return nil
         case .needNavalTileImprovement: return nil
         case .enoughNavalTileImprovement: return nil
+        case .needImprovementFood: return nil
+        case .needImprovementProduction: return nil
         case .haveTrainingFacility: return nil
         case .capitalNeedSettler: return nil
         case .capitalUnderThreat: return nil
@@ -329,6 +356,8 @@ enum CityStrategyType: Int, Codable {
 
         switch self {
 
+        case .none: return false
+
         case .tinyCity: return false
         case .smallCity: return false
         case .mediumCity: return false
@@ -341,6 +370,8 @@ enum CityStrategyType: Int, Codable {
         case .needNavalGrowth: return false
         case .needNavalTileImprovement: return false
         case .enoughNavalTileImprovement: return false
+        case .needImprovementFood: return false
+        case .needImprovementProduction: return false
         case .haveTrainingFacility: return true
         case .capitalNeedSettler: return false
         case .capitalUnderThreat: return false
@@ -359,6 +390,8 @@ enum CityStrategyType: Int, Codable {
 
         switch self {
 
+        case .none: return 1000
+
         case .tinyCity: return 5
         case .smallCity: return 5
         case .mediumCity: return 5
@@ -371,6 +404,8 @@ enum CityStrategyType: Int, Codable {
         case .needNavalGrowth: return 5
         case .needNavalTileImprovement: return 1
         case .enoughNavalTileImprovement: return 1
+        case .needImprovementFood: return 2
+        case .needImprovementProduction: return 2
         case .haveTrainingFacility: return -1
         case .capitalNeedSettler: return 2
         case .capitalUnderThreat: return 2
@@ -389,6 +424,8 @@ enum CityStrategyType: Int, Codable {
 
         switch self {
 
+        case .none: return 0
+
         case .tinyCity: return 5
         case .smallCity: return 5
         case .mediumCity: return 5
@@ -401,6 +438,8 @@ enum CityStrategyType: Int, Codable {
         case .needNavalGrowth: return 10
         case .needNavalTileImprovement: return 2
         case .enoughNavalTileImprovement: return 2
+        case .needImprovementFood: return 2
+        case .needImprovementProduction: return 2
         case .haveTrainingFacility: return -1
         case .capitalNeedSettler: return 4
         case .capitalUnderThreat: return 2
@@ -419,6 +458,8 @@ enum CityStrategyType: Int, Codable {
 
         switch self {
 
+        case .none: return false
+
         case .tinyCity: return self.shouldBeActiveTinyCity(for: city)
         case .smallCity: return self.shouldBeActiveSmallCity(for: city)
         case .mediumCity: return self.shouldBeActiveMediumCity(for: city)
@@ -431,6 +472,8 @@ enum CityStrategyType: Int, Codable {
         case .needNavalGrowth: return self.shouldBeActiveNeedNavalGrowth(for: city)
         case .needNavalTileImprovement: return self.shouldBeActiveNeedNavalTileImprovement(for: city)
         case .enoughNavalTileImprovement: return self.shouldBeActiveEnoughNavalTileImprovement(for: city)
+        case .needImprovementFood: return false // FIXME
+        case .needImprovementProduction: return false // FIXME
         case .haveTrainingFacility: return self.shouldBeActiveHaveTrainingFacility(for: city)
         case .capitalNeedSettler: return self.shouldBeActiveCapitalNeedSettler(for: city, in: gameModel)
         case .capitalUnderThreat: return self.shouldBeActiveCapitalUnderThreat(for: city, in: gameModel)

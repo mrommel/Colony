@@ -80,7 +80,7 @@ enum EconomicStrategyType: Int, Codable {
             // ECONOMICAISTRATEGY_HALT_GROWTH_BUILDINGS
             .tooManyUnits,
             // ECONOMICAISTRATEGY_ISLAND_START
-            .expandToOtherContinents,
+            .expandToOtherContinents
             // ECONOMICAISTRATEGY_MOSTLY_ON_THE_COAST
             // ECONOMICAISTRATEGY_EXPAND_LIKE_CRAZY
             // ECONOMICAISTRATEGY_GROW_LIKE_CRAZY
