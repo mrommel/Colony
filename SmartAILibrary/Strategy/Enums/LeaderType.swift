@@ -25,7 +25,17 @@ public enum LeaderType: Int, Codable {
     case peterTheGreat
 
     public static var all: [LeaderType] {
-        return [.alexander, .trajan, .victoria, .cyrus, .montezuma, .napoleon, .cleopatra, .barbarossa, .peterTheGreat]
+        return [
+            .alexander,
+            .trajan,
+            .victoria,
+            .cyrus,
+            .montezuma,
+            .napoleon,
+            .cleopatra,
+            .barbarossa,
+            .peterTheGreat
+        ]
     }
 
     public func name() -> String {
@@ -59,7 +69,7 @@ public enum LeaderType: Int, Codable {
                 Flavor(type: .expansion, value: 8),
                 Flavor(type: .gold, value: 3),
                 Flavor(type: .growth, value: 4),
-                Flavor(type: .happiness, value: 5),
+                Flavor(type: .amenities, value: 5),
                 Flavor(type: .infrastructure, value: 4),
                 Flavor(type: .militaryTraining, value: 5),
                 Flavor(type: .mobile, value: 8),
@@ -83,7 +93,7 @@ public enum LeaderType: Int, Codable {
                 Flavor(type: .expansion, value: 8),
                 Flavor(type: .gold, value: 6),
                 Flavor(type: .growth, value: 5),
-                Flavor(type: .happiness, value: 8),
+                Flavor(type: .amenities, value: 8),
                 Flavor(type: .infrastructure, value: 8),
                 Flavor(type: .militaryTraining, value: 7),
                 Flavor(type: .mobile, value: 4),
@@ -107,7 +117,7 @@ public enum LeaderType: Int, Codable {
                 Flavor(type: .expansion, value: 6),
                 Flavor(type: .gold, value: 8),
                 Flavor(type: .growth, value: 4),
-                Flavor(type: .happiness, value: 5),
+                Flavor(type: .amenities, value: 5),
                 Flavor(type: .infrastructure, value: 5),
                 Flavor(type: .militaryTraining, value: 5),
                 Flavor(type: .mobile, value: 3),
@@ -138,7 +148,7 @@ public enum LeaderType: Int, Codable {
             return flavor.value
         }
 
-        return 0
+        return -1
     }
 
     func traits() -> [Trait] {

@@ -14,7 +14,7 @@ public protocol AbstractTreasury: AnyObject, Codable {
 
     func value() -> Double
 
-    func turn(in gameModel: GameModel?)
+    func doTurn(in gameModel: GameModel?)
 
     func changeGold(by amount: Double)
 
@@ -133,7 +133,7 @@ class Treasury: AbstractTreasury {
     }
 
     /// Update treasury for a turn
-    func turn(in gameModel: GameModel?) {
+    func doTurn(in gameModel: GameModel?) {
 
         guard let player = self.player else {
             fatalError("cant get player")

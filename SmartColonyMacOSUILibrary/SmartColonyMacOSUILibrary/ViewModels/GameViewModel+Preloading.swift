@@ -239,6 +239,10 @@ extension GameViewModel {
             }
 
             ImageCache.shared.add(
+                image: bundle.image(forResource: unitType.spriteName),
+                for: unitType.spriteName
+            )
+            ImageCache.shared.add(
                 image: bundle.image(forResource: unitType.portraitTexture()),
                 for: unitType.portraitTexture()
             )

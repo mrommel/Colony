@@ -34,6 +34,20 @@ class CityStrategyAITests: XCTestCase {
         playerAlexander.initialize()
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
@@ -47,7 +61,7 @@ class CityStrategyAITests: XCTestCase {
         city.set(population: 1, reassignCitizen: false, in: gameModel)
 
         // WHEN
-        city.turn(in: gameModel)
+        city.doTurn(in: gameModel)
         let strategyActive = city.cityStrategy!.adopted(cityStrategy: .tinyCity)
 
         // THEN
@@ -65,6 +79,20 @@ class CityStrategyAITests: XCTestCase {
         playerAlexander.initialize()
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
@@ -79,7 +107,7 @@ class CityStrategyAITests: XCTestCase {
         city.set(population: 3, reassignCitizen: false, in: gameModel)
 
         // WHEN
-        city.turn(in: gameModel)
+        city.doTurn(in: gameModel)
         let strategyActive = city.cityStrategy!.adopted(cityStrategy: .smallCity)
 
         // THEN
@@ -97,6 +125,20 @@ class CityStrategyAITests: XCTestCase {
         playerAlexander.initialize()
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
@@ -111,7 +153,7 @@ class CityStrategyAITests: XCTestCase {
         city.set(population: 7, reassignCitizen: false, in: gameModel)
 
         // WHEN
-        city.turn(in: gameModel)
+        city.doTurn(in: gameModel)
         let strategyActive = city.cityStrategy!.adopted(cityStrategy: .mediumCity)
 
         // THEN
@@ -129,6 +171,20 @@ class CityStrategyAITests: XCTestCase {
         playerAlexander.initialize()
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
@@ -143,7 +199,7 @@ class CityStrategyAITests: XCTestCase {
         city.set(population: 12, reassignCitizen: false, in: gameModel)
 
         // WHEN
-        city.turn(in: gameModel)
+        city.doTurn(in: gameModel)
         let strategyActive = city.cityStrategy!.adopted(cityStrategy: .largeCity)
 
         // THEN
@@ -160,6 +216,20 @@ class CityStrategyAITests: XCTestCase {
         playerAlexander.initialize()
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
@@ -174,7 +244,7 @@ class CityStrategyAITests: XCTestCase {
         city.set(population: 12, reassignCitizen: false, in: gameModel)
 
         // WHEN
-        city.turn(in: gameModel)
+        city.doTurn(in: gameModel)
         let strategyActive = city.cityStrategy!.adopted(cityStrategy: .landLocked)
 
         // THEN
@@ -193,6 +263,19 @@ class CityStrategyAITests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
@@ -206,7 +289,7 @@ class CityStrategyAITests: XCTestCase {
         city.set(population: 12, reassignCitizen: false, in: gameModel)
 
         // WHEN
-        city.turn(in: gameModel)
+        city.doTurn(in: gameModel)
         let strategyActive = city.cityStrategy!.adopted(cityStrategy: .landLocked)
 
         // THEN
@@ -225,6 +308,19 @@ class CityStrategyAITests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
@@ -238,7 +334,7 @@ class CityStrategyAITests: XCTestCase {
         city.set(population: 12, reassignCitizen: false, in: gameModel)
 
         // WHEN
-        city.turn(in: gameModel)
+        city.doTurn(in: gameModel)
         let strategyActive = city.cityStrategy!.adopted(cityStrategy: .needTileImprovers)
 
         // THEN
@@ -257,6 +353,19 @@ class CityStrategyAITests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
@@ -270,11 +379,10 @@ class CityStrategyAITests: XCTestCase {
         city.set(population: 12, reassignCitizen: false, in: gameModel)
 
         // WHEN
-        city.turn(in: gameModel)
+        city.doTurn(in: gameModel)
         let strategyActive = city.cityStrategy!.adopted(cityStrategy: .needTileImprovers)
 
         // THEN
         XCTAssertTrue(strategyActive)
     }
-
 }

@@ -33,6 +33,19 @@ class GameModelTests: XCTestCase {
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         // game
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -74,6 +87,19 @@ class GameModelTests: XCTestCase {
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         // game
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -109,6 +135,19 @@ class GameModelTests: XCTestCase {
 
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         // game
         let gameModel = GameModel(
@@ -166,6 +205,19 @@ class GameModelTests: XCTestCase {
 
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         // game
         let gameModel = GameModel(
@@ -226,6 +278,19 @@ class GameModelTests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
         MapUtils.add(area: HexArea(center: HexPoint(x: 10, y: 10), radius: 8), with: .shore, to: mapModel)
 
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         // game
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -270,6 +335,19 @@ class GameModelTests: XCTestCase {
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
         MapUtils.add(area: HexArea(center: HexPoint(x: 10, y: 10), radius: 6), with: .shore, to: mapModel)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         // game
         let gameModel = GameModel(

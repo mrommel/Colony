@@ -59,7 +59,7 @@ class GrandStrategyAITests: XCTestCase {
         self.objectToTest = GrandStrategyAI(player: playerAlexander)
 
         // WHEN
-        self.objectToTest?.turn(with: gameModel)
+        self.objectToTest?.doTurn(in: gameModel)
 
         // THEN
         XCTAssertEqual(self.objectToTest!.activeStrategy, .culture)
@@ -102,7 +102,7 @@ class GrandStrategyAITests: XCTestCase {
 
         // WHEN
         //for i in 0..<100 {
-        self.objectToTest?.turn(with: gameModel)
+        self.objectToTest?.doTurn(in: gameModel)
         //}
 
         // THEN

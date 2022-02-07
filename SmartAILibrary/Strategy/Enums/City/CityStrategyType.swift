@@ -68,7 +68,7 @@ enum CityStrategyType: Int, Codable {
                 Flavor(type: .offense, value: -2),
                 Flavor(type: .naval, value: -4),
                 Flavor(type: .navalRecon, value: -4),
-                Flavor(type: .happiness, value: -10),
+                Flavor(type: .amenities, value: -10),
                 Flavor(type: .expansion, value: -100),
                 Flavor(type: .tileImprovement, value: -3),
                 Flavor(type: .wonder, value: -6),
@@ -80,7 +80,7 @@ enum CityStrategyType: Int, Codable {
                 Flavor(type: .offense, value: -2),
                 Flavor(type: .naval, value: -4),
                 Flavor(type: .navalRecon, value: -4),
-                Flavor(type: .happiness, value: -15),
+                Flavor(type: .amenities, value: -15),
                 Flavor(type: .expansion, value: -100),
                 Flavor(type: .tileImprovement, value: -3),
                 Flavor(type: .wonder, value: -6),
@@ -90,7 +90,7 @@ enum CityStrategyType: Int, Codable {
         case .mediumCity:
             return [
                 Flavor(type: .science, value: 10),
-                Flavor(type: .happiness, value: 10),
+                Flavor(type: .amenities, value: 10),
                 Flavor(type: .gold, value: 10),
                 Flavor(type: .growth, value: 25),
                 Flavor(type: .production, value: 10),
@@ -102,7 +102,7 @@ enum CityStrategyType: Int, Codable {
                 Flavor(type: .gold, value: 25),
                 Flavor(type: .wonder, value: 25),
                 Flavor(type: .growth, value: 15),
-                Flavor(type: .happiness, value: 15)
+                Flavor(type: .amenities, value: 15)
             ]
         case .landLocked:
             return [
@@ -148,7 +148,7 @@ enum CityStrategyType: Int, Codable {
                 Flavor(type: .tileImprovement, value: -3),
                 Flavor(type: .expansion, value: -3),
                 Flavor(type: .growth, value: 10),
-                Flavor(type: .happiness, value: 10),
+                Flavor(type: .amenities, value: 10),
                 Flavor(type: .recon, value: -6)
             ]
         case .capitalNeedSettler:
@@ -162,7 +162,7 @@ enum CityStrategyType: Int, Codable {
                 Flavor(type: .cityDefense, value: 15),
                 Flavor(type: .militaryTraining, value: -25),
                 Flavor(type: .culture, value: -25),
-                Flavor(type: .happiness, value: -25),
+                Flavor(type: .amenities, value: -25),
                 Flavor(type: .growth, value: -25),
                 Flavor(type: .expansion, value: -25)
             ]

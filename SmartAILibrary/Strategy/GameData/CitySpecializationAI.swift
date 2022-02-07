@@ -103,7 +103,7 @@ public class CitySpecializationAI {
         self.bestValue.fill()
     }
 
-    func turn(in gameModel: GameModel?) {
+    func doTurn(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")

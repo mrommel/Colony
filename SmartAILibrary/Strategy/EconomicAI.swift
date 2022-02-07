@@ -8,7 +8,7 @@
 
 import Foundation
 
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length nesting
 public class EconomicAI: Codable {
 
     enum CodingKeys: String, CodingKey {
@@ -22,11 +22,15 @@ public class EconomicAI: Codable {
         case explorersDisbanded
     }
 
-    var player: Player?
+    var player: Player? {
+        didSet {
+            self.economicStrategyAdoptions.player = self.player
+        }
+    }
 
     // MARK: internal variables
 
-    private let economicStrategyAdoption: EconomicStrategyAdoption
+    private let economicStrategyAdoptions: EconomicStrategyAdoptions
     private var flavors: Flavors
 
     private var reconStateVal: EconomicReconState
@@ -92,17 +96,19 @@ public class EconomicAI: Codable {
         }
     }
 
-    class EconomicStrategyAdoption: Codable {
+    class EconomicStrategyAdoptions: Codable {
 
         enum CodingKeys: String, CodingKey {
 
             case adoptions
         }
 
+        var player: AbstractPlayer?
         var adoptions: [EconomicStrategyAdoptionItem]
 
-        init() {
+        init(player: AbstractPlayer?) {
 
+            self.player = player
             self.adoptions = []
 
             for economicStrategyType in EconomicStrategyType.all {
@@ -147,6 +153,7 @@ public class EconomicAI: Codable {
 
         func adopt(economicStrategy: EconomicStrategyType, turnOfAdoption: Int) {
 
+            print("§§§ \(self.player!.leader) adopts \(economicStrategy) at turn \(turnOfAdoption)")
             if let item = self.adoptions.first(where: { $0.economicStrategy == economicStrategy }) {
 
                 item.adopted = true
@@ -156,6 +163,7 @@ public class EconomicAI: Codable {
 
         func abandon(economicStrategy: EconomicStrategyType) {
 
+            print("§§§ \(self.player!.leader) abandons \(economicStrategy)")
             if let item = self.adoptions.first(where: { $0.economicStrategy == economicStrategy }) {
 
                 item.adopted = false
@@ -169,7 +177,7 @@ public class EconomicAI: Codable {
     init(player: Player?) {
 
         self.player = player
-        self.economicStrategyAdoption = EconomicStrategyAdoption()
+        self.economicStrategyAdoptions = EconomicStrategyAdoptions(player: player)
         self.flavors = Flavors()
 
         self.reconStateVal = .none
@@ -189,7 +197,7 @@ public class EconomicAI: Codable {
 
         self.player = nil
 
-        self.economicStrategyAdoption = try container.decode(EconomicStrategyAdoption.self, forKey: .economicStrategyAdoption)
+        self.economicStrategyAdoptions = try container.decode(EconomicStrategyAdoptions.self, forKey: .economicStrategyAdoption)
         self.flavors = try container.decode(Flavors.self, forKey: .flavors)
 
         self.reconStateVal = try container.decode(EconomicReconState.self, forKey: .reconState)
@@ -207,7 +215,7 @@ public class EconomicAI: Codable {
 
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(self.economicStrategyAdoption, forKey: .economicStrategyAdoption)
+        try container.encode(self.economicStrategyAdoptions, forKey: .economicStrategyAdoption)
         try container.encode(self.flavors, forKey: .flavors)
 
         try container.encode(self.reconStateVal, forKey: .reconState)
@@ -218,7 +226,7 @@ public class EconomicAI: Codable {
 
     // MARK: methods
 
-    func turn(in gameModel: GameModel?) {
+    func doTurn(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("no game model given")
@@ -245,7 +253,7 @@ public class EconomicAI: Codable {
 
             // Do we already have this EconomicStrategy adopted?
             var shouldCityStrategyStart = true
-            if self.economicStrategyAdoption.adopted(economicStrategy: economicStrategyType) {
+            if self.economicStrategyAdoptions.adopted(economicStrategy: economicStrategyType) {
 
                 shouldCityStrategyStart = false
 
@@ -259,12 +267,15 @@ public class EconomicAI: Codable {
             }
 
             var shouldCityStrategyEnd = false
-            if self.economicStrategyAdoption.adopted(economicStrategy: economicStrategyType) {
+            if self.economicStrategyAdoptions.adopted(economicStrategy: economicStrategyType) {
+
+                let turnOfAdoption = self.economicStrategyAdoptions.turnOfAdoption(of: economicStrategyType)
 
                 if economicStrategyType.checkEachTurns() > 0 {
 
                     // Is it a turn where we want to check to see if this Strategy is maintained?
-                    if gameModel.currentTurn - self.economicStrategyAdoption.turnOfAdoption(of: economicStrategyType) % economicStrategyType.checkEachTurns() == 0 {
+                    if (gameModel.currentTurn - turnOfAdoption) % economicStrategyType.checkEachTurns() == 0 {
+
                         shouldCityStrategyEnd = true
                     }
                 }
@@ -272,7 +283,7 @@ public class EconomicAI: Codable {
                 if shouldCityStrategyEnd && economicStrategyType.minimumAdoptionTurns() > 0 {
 
                     // Has the minimum # of turns passed for this Strategy?
-                    if gameModel.currentTurn < self.economicStrategyAdoption.turnOfAdoption(of: economicStrategyType) + economicStrategyType.minimumAdoptionTurns() {
+                    if gameModel.currentTurn < (turnOfAdoption + economicStrategyType.minimumAdoptionTurns()) {
                         shouldCityStrategyEnd = false
                     }
                 }
@@ -291,43 +302,43 @@ public class EconomicAI: Codable {
                 }
 
                 // This variable keeps track of whether or not we should be doing something (i.e. Strategy is active now but should be turned off, OR Strategy is inactive and should be enabled)
-                var bAdoptOrEndStrategy = false
+                var adoptOrEndStrategy = false
 
                 // Strategy should be on, and if it's not, turn it on
                 if strategyShouldBeActive {
                     if shouldCityStrategyStart {
 
-                        bAdoptOrEndStrategy = true
+                        adoptOrEndStrategy = true
                     } else if shouldCityStrategyEnd {
 
-                        bAdoptOrEndStrategy = false
+                        adoptOrEndStrategy = false
+                    }
+                } else { // Strategy should be off, and if it's not, turn it off
+                    if shouldCityStrategyStart {
+
+                        adoptOrEndStrategy = false
+                    } else if shouldCityStrategyEnd {
+
+                        adoptOrEndStrategy = true
                     }
                 }
-                // Strategy should be off, and if it's not, turn it off
-                    else {
-                        if shouldCityStrategyStart {
 
-                            bAdoptOrEndStrategy = false
-                        } else if shouldCityStrategyEnd {
-
-                            bAdoptOrEndStrategy = true
-                        }
-                }
-
-                if bAdoptOrEndStrategy {
+                if adoptOrEndStrategy {
 
                     if shouldCityStrategyStart {
 
-                        self.economicStrategyAdoption.adopt(economicStrategy: economicStrategyType, turnOfAdoption: gameModel.currentTurn)
+                        self.economicStrategyAdoptions.adopt(economicStrategy: economicStrategyType, turnOfAdoption: gameModel.currentTurn)
+                        self.updateFlavors()
                     } else if shouldCityStrategyEnd {
 
-                        self.economicStrategyAdoption.abandon(economicStrategy: economicStrategyType)
+                        self.economicStrategyAdoptions.abandon(economicStrategy: economicStrategyType)
+                        self.updateFlavors()
                     }
                 }
             }
         }
 
-        self.updateFlavors()
+
 
         //print("economic strategy flavors")
         //print(self.flavors)
@@ -488,7 +499,7 @@ public class EconomicAI: Codable {
 
     func adopted(economicStrategy: EconomicStrategyType) -> Bool {
 
-        return self.economicStrategyAdoption.adopted(economicStrategy: economicStrategy)
+        return self.economicStrategyAdoptions.adopted(economicStrategy: economicStrategy)
     }
 
     func reconState() -> EconomicReconState {
@@ -507,7 +518,7 @@ public class EconomicAI: Codable {
 
         for economicStrategyType in EconomicStrategyType.all {
 
-            if self.economicStrategyAdoption.adopted(economicStrategy: economicStrategyType) {
+            if self.economicStrategyAdoptions.adopted(economicStrategy: economicStrategyType) {
 
                 for economicStrategyTypeFlavor in economicStrategyType.flavors() {
 
@@ -735,7 +746,6 @@ public class EconomicAI: Codable {
         }
 
         // Create copy list of huts
-        // FIXME: check that this is really a copy
         var goodyHutUnitAssignmentsCopy = self.goodyHutUnitAssignments
 
         for explorerRef in self.explorers {
@@ -863,9 +873,9 @@ public class EconomicAI: Codable {
                 case .sea:
 
                     //FeatureTypes eFeature = pEvalPlot->getFeatureType();
-                    if evalTile.terrain().isWater() /*|| (eFeature != NO_FEATURE && GC.getFeatureInfo(eFeature)->isImpassable()))*/ {
+                    if evalTile.terrain().isWater() {
                         resultValue += badScore
-                    } else if evalTile.has(feature: .mountains) || evalTile.hasHills() /* || (eFeature != NO_FEATURE && GC.getFeatureInfo(eFeature)->getSeeThroughChange() > 0))*/ {
+                    } else if evalTile.has(feature: .mountains) || evalTile.hasHills() {
                         resultValue += goodScore
                     } else {
                         resultValue += reallyGoodScore
@@ -900,7 +910,7 @@ public class EconomicAI: Codable {
 
         for economicStrategyType in EconomicStrategyType.all {
 
-            if self.economicStrategyAdoption.adopted(economicStrategy: economicStrategyType) {
+            if self.economicStrategyAdoptions.adopted(economicStrategy: economicStrategyType) {
 
                 if let message = economicStrategyType.advisorMessage() {
                     messages.append(message)

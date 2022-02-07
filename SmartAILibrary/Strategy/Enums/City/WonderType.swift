@@ -430,7 +430,7 @@ public enum WonderType: Int, Codable {
                 yields: Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 2.0),
                 slots: [],
                 flavours: [
-                    Flavor(type: .happiness, value: 20),
+                    Flavor(type: .amenities, value: 20),
                     Flavor(type: .culture, value: 10)
                 ]
             )

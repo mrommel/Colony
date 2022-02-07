@@ -57,4 +57,25 @@ class EconomicStrategyTypeData {
 
         fatalError("implement")
     }
+
+    // Figure out what the WeightThreshold Mod should be by looking at the Flavors for this player & the Strategy
+    func weightThresholdModifier(for player: AbstractPlayer?) -> Int {
+
+        guard let player = player else {
+            fatalError("cant get player")
+        }
+
+       var weightThresholdModifier = 0
+
+        // Look at all Flavors for the Player & this Strategy
+        for flavorType in FlavorType.all {
+
+            let personalityFlavor = player.valueOfPersonalityIndividualFlavor(of: flavorType)
+            let strategyFlavorMod = Flavors(items: self.flavorThresholdModifiers).value(of: flavorType)
+
+            weightThresholdModifier += (personalityFlavor * strategyFlavorMod)
+        }
+
+        return weightThresholdModifier
+    }
 }

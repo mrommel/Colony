@@ -96,7 +96,7 @@ extension MilitaryTarget: Hashable {
     }
 }
 
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length nesting
 public class MilitaryAI: Codable {
 
     enum CodingKeys: String, CodingKey {
@@ -420,7 +420,7 @@ public class MilitaryAI: Codable {
         //print(self.flavors)
     }
 
-    func turn(in gameModel: GameModel?) {
+    func doTurn(in gameModel: GameModel?) {
 
         guard let player = self.player else {
             fatalError("no player given")

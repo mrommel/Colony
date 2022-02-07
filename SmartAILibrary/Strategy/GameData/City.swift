@@ -66,7 +66,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func set(gameTurnFounded: Int)
     func gameTurnFounded() -> Int
 
-    func turn(in gameModel: GameModel?)
+    func doTurn(in gameModel: GameModel?)
 
     func preKill(in gameModel: GameModel?)
 
@@ -156,6 +156,8 @@ public protocol AbstractCity: AnyObject, Codable {
     func amenitiesFromBuildings() -> Double
     func amenitiesFromLuxuries() -> Double
     func amenitiesNeeded() -> Double
+    func amenitiesForWarWeariness() -> Int
+    func set(amenitiesForWarWeariness: Int)
 
     func maintenanceCostsPerTurn() -> Double
 
@@ -332,6 +334,7 @@ public class City: AbstractCity {
         case cultureLevel
 
         case loyalty
+        case amenitiesForWarWeariness
 
         case governor
     }
@@ -359,6 +362,7 @@ public class City: AbstractCity {
 
     private var healthPointsValue: Int // 0..200
     private var threatVal: Int
+    private var amenitiesForWarWearinessValue: Int
 
     private var isFeatureSurroundedValue: Bool
     private var productionLastTurnValue: Double = 1.0
@@ -422,6 +426,7 @@ public class City: AbstractCity {
         self.threatVal = 0
 
         self.healthPointsValue = 200
+        self.amenitiesForWarWearinessValue = 0
 
         self.baseYieldRateFromSpecialists = YieldList()
         self.baseYieldRateFromSpecialists.fill()
@@ -499,6 +504,7 @@ public class City: AbstractCity {
         //self.garrisonedUnitValue = try container.decode(CityCitizens.self, forKey: .cityCitizens): AbstractUnit? = nil
 
         self.luxuries = try container.decode([ResourceType].self, forKey: .luxuries)
+        self.amenitiesForWarWearinessValue = try container.decodeIfPresent(Int.self, forKey: .amenitiesForWarWeariness) ?? 0
 
         // yields
         self.baseYieldRateFromSpecialists = try container.decode(YieldList.self, forKey: .baseYieldRateFromSpecialists)
@@ -571,6 +577,7 @@ public class City: AbstractCity {
         //private var garrisonedUnitValue: AbstractUnit? = nil
 
         try container.encode(self.luxuries, forKey: .luxuries)
+        try container.encode(self.amenitiesForWarWearinessValue, forKey: .amenitiesForWarWeariness)
 
         try container.encode(self.baseYieldRateFromSpecialists, forKey: .baseYieldRateFromSpecialists)
         try container.encode(self.extraSpecialistYield, forKey: .extraSpecialistYield)
@@ -768,7 +775,7 @@ public class City: AbstractCity {
 
     // MARK: public methods
 
-    public func turn(in gameModel: GameModel?) {
+    public func doTurn(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1659,9 +1666,19 @@ public class City: AbstractCity {
         return amenitiesPerTurn
     }
 
+    public func amenitiesForWarWeariness() -> Int {
+
+        return self.amenitiesForWarWearinessValue
+    }
+
+    public func set(amenitiesForWarWeariness: Int) {
+
+        self.amenitiesForWarWearinessValue = amenitiesForWarWeariness
+    }
+
     public func amenitiesNeeded() -> Double {
 
-        return max(0, self.populationValue - 2.0)
+        return max(0, self.populationValue - 2.0) + Double(self.amenitiesForWarWearinessValue)
     }
 
     public func amenitiesState(in gameModel: GameModel?) -> AmenitiesState {

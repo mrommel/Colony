@@ -230,69 +230,69 @@ public enum ResourceType: Int, Codable {
             // luxury
         case .gems:
             return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
         case .marble:
             return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
         case .furs:
             return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
         case .citrus:
             return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
         case .tea:
             return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
         case .sugar:
             return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
         case .whales:
             return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
         case .pearls:
             return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
         case .ivory:
             return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
         case .wine: return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
         case .cotton: return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
         case .dyes: return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
         case .incense: return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
         case .silk: return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
         case .silver: return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
         case .gold: return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
         case .spices: return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
         case .salt: return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
         case .cocoa: return [
-                Flavor(type: .happiness, value: 10)
+                Flavor(type: .amenities, value: 10)
             ]
 
             // strategic
@@ -1146,5 +1146,10 @@ public enum ResourceType: Int, Codable {
         }
 
         return 25
+    }
+
+    func happiness() -> Int {
+
+        return self.usage() == .luxury ? 4 : 0
     }
 }

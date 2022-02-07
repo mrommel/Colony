@@ -167,6 +167,19 @@ class TechTests: XCTestCase {
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
 
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         // game
         let gameModel = GameModel(
             victoryTypes: [.domination],
@@ -232,6 +245,19 @@ class TechTests: XCTestCase {
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
         mapModel.set(terrain: .ocean, at: HexPoint(x: 0, y: 0))
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         // game
         let gameModel = GameModel(

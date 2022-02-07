@@ -316,7 +316,7 @@ public enum DistrictType: Int, Codable {
                 domesticTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0),
                 foreignTradeYields: Yields(food: 1.0, production: 0.0, gold: 0.0),
                 flavours: [
-                    Flavor(type: .happiness, value: 7)
+                    Flavor(type: .amenities, value: 7)
                 ]
             )
 

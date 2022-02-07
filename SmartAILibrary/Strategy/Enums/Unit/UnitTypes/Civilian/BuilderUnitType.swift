@@ -47,7 +47,7 @@ internal class BuilderUnitType: UnitTypeData {
             upgradesFrom: [],
             flavours: [
                 Flavor(type: .tileImprovement, value: 10),
-                Flavor(type: .happiness, value: 7),
+                Flavor(type: .amenities, value: 7),
                 Flavor(type: .expansion, value: 4),
                 Flavor(type: .growth, value: 4),
                 Flavor(type: .gold, value: 4),

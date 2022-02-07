@@ -16,7 +16,7 @@ import Foundation
 //!  - Handles moves for all military units not recruited by the tactical or operational AI
 //!  - Also handles moves for workers and explorers (and settlers on the first turn)
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length nesting
 public class HomelandAI {
 
     var player: Player?
@@ -305,7 +305,7 @@ public class HomelandAI {
     }
 
     /// Update the AI for units
-    func turn(in gameModel: GameModel?) {
+    func doTurn(in gameModel: GameModel?) {
 
         guard let player = self.player else {
             fatalError("no player given")

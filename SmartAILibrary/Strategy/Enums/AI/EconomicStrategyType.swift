@@ -25,19 +25,19 @@ enum EconomicStrategyType: Int, Codable {
     case enoughReconSea // ECONOMICAISTRATEGY_ENOUGH_RECON_SEA
     case earlyExpansion // ECONOMICAISTRATEGY_EARLY_EXPANSION
     case enoughExpansion // ECONOMICAISTRATEGY_ENOUGH_EXPANSION
-    // ECONOMICAISTRATEGY_NEED_HAPPINESS
-    // ECONOMICAISTRATEGY_NEED_HAPPINESS_CRITICAL
+    case needHappiness // ECONOMICAISTRATEGY_NEED_HAPPINESS
+    case needHappinessCritical // ECONOMICAISTRATEGY_NEED_HAPPINESS_CRITICAL
     // ECONOMICAISTRATEGY_CITIES_NEED_NAVAL_GROWTH
     // ECONOMICAISTRATEGY_CITIES_NEED_NAVAL_TILE_IMPROVEMENT
     case foundCity // ECONOMICAISTRATEGY_FOUND_CITY
     // ECONOMICAISTRATEGY_TRADE_WITH_CITY_STATE
     case needImprovementFood // ECONOMICAISTRATEGY_NEED_IMPROVEMENT_FOOD
     case needImprovementProduction // ECONOMICAISTRATEGY_NEED_IMPROVEMENT_PRODUCTION
-    // ECONOMICAISTRATEGY_ONE_OR_FEWER_COASTAL_CITIES
+    case oneOrFewerCoastalCities // ECONOMICAISTRATEGY_ONE_OR_FEWER_COASTAL_CITIES
     case losingMoney // ECONOMICAISTRATEGY_LOSING_MONEY
-    // ECONOMICAISTRATEGY_HALT_GROWTH_BUILDINGS
+    case haltGrowthBuildings // ECONOMICAISTRATEGY_HALT_GROWTH_BUILDINGS
     case tooManyUnits // ECONOMICAISTRATEGY_TOO_MANY_UNITS
-    // ECONOMICAISTRATEGY_ISLAND_START
+    case islandStart // ECONOMICAISTRATEGY_ISLAND_START
     case expandToOtherContinents // ECONOMICAISTRATEGY_EXPAND_TO_OTHER_CONTINENTS
     // ECONOMICAISTRATEGY_MOSTLY_ON_THE_COAST
     // ECONOMICAISTRATEGY_EXPAND_LIKE_CRAZY
@@ -67,19 +67,19 @@ enum EconomicStrategyType: Int, Codable {
             .enoughReconSea,
             .earlyExpansion,
             .enoughExpansion,
-            // ECONOMICAISTRATEGY_NEED_HAPPINESS
-            // ECONOMICAISTRATEGY_NEED_HAPPINESS_CRITICAL
+            .needHappiness,
+            .needHappinessCritical,
             // ECONOMICAISTRATEGY_CITIES_NEED_NAVAL_GROWTH
             // ECONOMICAISTRATEGY_CITIES_NEED_NAVAL_TILE_IMPROVEMENT
             .foundCity,
             // ECONOMICAISTRATEGY_TRADE_WITH_CITY_STATE
             .needImprovementFood,
             .needImprovementProduction,
-            // ECONOMICAISTRATEGY_ONE_OR_FEWER_COASTAL_CITIES
+            .oneOrFewerCoastalCities,
             .losingMoney,
-            // ECONOMICAISTRATEGY_HALT_GROWTH_BUILDINGS
+            .haltGrowthBuildings,
             .tooManyUnits,
-            // ECONOMICAISTRATEGY_ISLAND_START
+            .islandStart,
             .expandToOtherContinents
             // ECONOMICAISTRATEGY_MOSTLY_ON_THE_COAST
             // ECONOMICAISTRATEGY_EXPAND_LIKE_CRAZY
@@ -193,26 +193,9 @@ enum EconomicStrategyType: Int, Codable {
         case .enoughReconSea: return EnoughReconSeaEconomicStrategyType()
         case .earlyExpansion: return EarlyExpansionEconomicStrategyType()
         case .enoughExpansion: return EnoughExpansionEconomicStrategyType()
-
+        case .needHappiness: return NeedAmenitiesEconomicStrategyType()
+        case .needHappinessCritical: return NeedAmenitiesCriticalEconomicStrategyType()
             /*
-             <Row>
-                         <Type>ECONOMICAISTRATEGY_NEED_HAPPINESS</Type>
-                         <WeightThreshold>2</WeightThreshold>
-                         <MinimumNumTurnsExecuted>1</MinimumNumTurnsExecuted>
-                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
-                         <Advisor>ECONOMIC</Advisor>
-                         <AdvisorCounsel>TXT_KEY_ECONOMICAISTRATEGY_NEED_HAPPINESS</AdvisorCounsel>
-                         <AdvisorCounselImportance>2</AdvisorCounselImportance>
-                     </Row>
-                     <Row>
-                         <Type>ECONOMICAISTRATEGY_NEED_HAPPINESS_CRITICAL</Type>
-                         <WeightThreshold>-3</WeightThreshold>
-                         <MinimumNumTurnsExecuted>1</MinimumNumTurnsExecuted>
-                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
-                         <Advisor>ECONOMIC</Advisor>
-                         <AdvisorCounsel>TXT_KEY_ECONOMICAISTRATEGY_NEED_HAPPINESS_CRITICAL</AdvisorCounsel>
-                         <AdvisorCounselImportance>3</AdvisorCounselImportance>
-                     </Row>
                      <Row>
                          <Type>ECONOMICAISTRATEGY_CITIES_NEED_NAVAL_GROWTH</Type>
                          <WeightThreshold>25</WeightThreshold>
@@ -245,40 +228,11 @@ enum EconomicStrategyType: Int, Codable {
              */
         case .needImprovementFood: return NeedImprovementFoodEconomicStrategyType()
         case .needImprovementProduction: return NeedImprovementProductionEconomicStrategyType()
-            
-            /*
-                     <Row>
-                         <Type>ECONOMICAISTRATEGY_ONE_OR_FEWER_COASTAL_CITIES</Type>
-                         <WeightThreshold>10</WeightThreshold>
-                         <MinimumNumTurnsExecuted>10</MinimumNumTurnsExecuted>
-                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
-                     </Row>
-             */
+        case .oneOrFewerCoastalCities: return OneOrFewerCoastalCitiesEconomicStrategyType()
         case .losingMoney: return LosingMoneyEconomicStrategyType()
-            /*
-                     <Row>
-                         <Type>ECONOMICAISTRATEGY_HALT_GROWTH_BUILDINGS</Type>
-                         <NoMinorCivs>true</NoMinorCivs>
-                         <MinimumNumTurnsExecuted>1</MinimumNumTurnsExecuted>
-                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
-                         <FirstTurnExecuted>20</FirstTurnExecuted>
-                         <Advisor>ECONOMIC</Advisor>
-                         <AdvisorCounsel>TXT_KEY_ECONOMICAISTRATEGY_HALT_GROWTH_BUILDINGS</AdvisorCounsel>
-                         <AdvisorCounselImportance>2</AdvisorCounselImportance>
-                     </Row>
-             */
+        case .haltGrowthBuildings: return HaltGrowthBuildingsEconomicStrategyType()
         case .tooManyUnits: return TooManyUnitsEconomicStrategyType()
-            /*
-                     <Row>
-                         <Type>ECONOMICAISTRATEGY_ISLAND_START</Type>
-                         <WeightThreshold>200</WeightThreshold>
-                         <MinimumNumTurnsExecuted>50</MinimumNumTurnsExecuted>
-                         <CheckTriggerTurnCount>1</CheckTriggerTurnCount>
-                         <Advisor>SCIENCE</Advisor>
-                         <AdvisorCounsel>TXT_KEY_ECONOMICAISTRATEGY_ISLAND_START</AdvisorCounsel>
-                         <AdvisorCounselImportance>50</AdvisorCounselImportance>
-                     </Row>
-             */
+        case .islandStart: return IslandStartEconomicStrategyType()
         case .expandToOtherContinents: return ExpandToOtherContinentsEconomicStrategyType()
             /*
                      <!-- Ours goes to 11 -->

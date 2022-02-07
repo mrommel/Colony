@@ -8,7 +8,7 @@
 
 import Foundation
 
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length nesting
 class DiplomaticPlayerDict: Codable {
 
     enum CodingKeys: CodingKey {
@@ -45,6 +45,7 @@ class DiplomaticPlayerDict: Codable {
             case warProjection
             case lastWarProjection
             case warValueLost
+            case warWeariness
 
             case hasEmbassy
 
@@ -106,6 +107,7 @@ class DiplomaticPlayerDict: Codable {
         var warProjection: WarProjectionType
         var lastWarProjection: WarProjectionType
         var warValueLost: Int
+        var warWeariness: Int
 
         var hasEmbassyValue: Bool
         //var allowsOpenBordersValue: Bool
@@ -171,6 +173,7 @@ class DiplomaticPlayerDict: Codable {
             self.warProjection = .unknown
             self.lastWarProjection = .unknown
             self.warValueLost = 0
+            self.warWeariness = 0
 
             self.hasEmbassyValue = false
 
@@ -234,6 +237,7 @@ class DiplomaticPlayerDict: Codable {
             self.warProjection = try container.decode(WarProjectionType.self, forKey: .warProjection)
             self.lastWarProjection = try container.decode(WarProjectionType.self, forKey: .lastWarProjection)
             self.warValueLost = try container.decode(Int.self, forKey: .warValueLost)
+            self.warWeariness = try container.decode(Int.self, forKey: .warWeariness)
 
             self.hasEmbassyValue = try container.decode(Bool.self, forKey: .hasEmbassy)
 
@@ -299,6 +303,7 @@ class DiplomaticPlayerDict: Codable {
             try container.encode(self.warProjection, forKey: .warProjection)
             try container.encode(self.lastWarProjection, forKey: .lastWarProjection)
             try container.encode(self.warValueLost, forKey: .warValueLost)
+            try container.encode(self.warWeariness, forKey: .warWeariness)
 
             try container.encode(self.hasEmbassyValue, forKey: .hasEmbassy)
 
@@ -507,11 +512,8 @@ class DiplomaticPlayerDict: Codable {
 
     func isAtWar() -> Bool {
 
-        for item in self.items {
-
-            if item.approach == .war {
-                return true
-            }
+        for item in self.items where item.approach == .war {
+            return true
         }
 
         return false
@@ -1229,6 +1231,35 @@ class DiplomaticPlayerDict: Codable {
 
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.warValueLost = value
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+
+    // MARK: - --
+
+    func warWeariness(with otherPlayer: AbstractPlayer?) -> Int {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.warWeariness
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+
+    func updateWarWeariness(with otherPlayer: AbstractPlayer?, to value: Int) {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.warWeariness = value
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+
+    func changeWarWeariness(with otherPlayer: AbstractPlayer?, by value: Int) {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.warWeariness += value
         } else {
             fatalError("not gonna happen")
         }

@@ -116,7 +116,7 @@ public class Army: Codable {
     }
 
     /// Process another turn for the army
-    func turn(in gameMode: GameModel?) {
+    func doTurn(in gameMode: GameModel?) {
 
         self.doDelayedDeath()
     }

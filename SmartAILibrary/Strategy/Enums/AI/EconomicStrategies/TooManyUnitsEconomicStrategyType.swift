@@ -30,7 +30,7 @@ class TooManyUnitsEconomicStrategyType: EconomicStrategyTypeData {
                 Flavor(type: .growth, value: 20),
                 Flavor(type: .science, value: 15),
                 Flavor(type: .culture, value: 10),
-                Flavor(type: .happiness, value: 10),
+                Flavor(type: .amenities, value: 10),
                 Flavor(type: .wonder, value: 5)
             ],
             flavorThresholdModifiers: []

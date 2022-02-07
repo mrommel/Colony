@@ -242,6 +242,41 @@ open class MapModel: Codable {
         return pointList
     }
 
+    // MARK: player methods
+
+    func findStartPlot(of player: AbstractPlayer?) -> HexPoint {
+
+        guard let player = player else {
+            fatalError("cant get player")
+        }
+
+        guard let startLocation = self.startLocations.first(where: { $0.leader == player.leader }) else {
+            fatalError("cant get start location of \(player.leader)")
+        }
+
+        return startLocation.point
+    }
+
+    func findNearestStartPlot(at point: HexPoint) -> (HexPoint?, LeaderType?) {
+
+        var bestLeader: LeaderType = .none
+        var bestStartPlot: HexPoint?
+        var bestDistance: Int = Int.max
+
+        for startLocation in self.startLocations {
+
+            let distance = startLocation.point.distance(to: point)
+
+            if distance < bestDistance {
+                bestLeader = startLocation.leader
+                bestStartPlot = startLocation.point
+                bestDistance = distance
+            }
+        }
+
+        return (bestStartPlot, bestLeader)
+    }
+
     // MARK: city methods
 
     public func nearestCity(at pt: HexPoint, of player: AbstractPlayer?, onSameContinent: Bool = false) -> AbstractCity? {

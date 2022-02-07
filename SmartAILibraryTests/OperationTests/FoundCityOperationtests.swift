@@ -29,6 +29,19 @@ class FoundCityOperationtests: XCTestCase {
         // map
         var mapModel = MapModelHelper.smallMap()
 
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         // game
         let gameModel = GameModel(victoryTypes: [.domination],
                                   handicap: .chieftain,

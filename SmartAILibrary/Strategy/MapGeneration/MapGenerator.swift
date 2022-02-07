@@ -1146,7 +1146,13 @@ public class MapGenerator: BaseMapHandler {
         let startPositioner = StartPositioner(on: grid, for: numberOfPlayers)
         startPositioner.generateRegions()
 
-        let aiLeaders: [LeaderType] = LeaderType.all.filter({ $0 != self.options.leader }).choose(numberOfPlayers - 1)
+        var aiLeaders: [LeaderType] = self.options.aiLeaders
+
+        if aiLeaders.isEmpty {
+            aiLeaders = LeaderType.all
+                .filter({ $0 != self.options.leader })
+                .choose(numberOfPlayers - 1)
+        }
 
         startPositioner.chooseLocations(for: aiLeaders, human: self.options.leader)
 

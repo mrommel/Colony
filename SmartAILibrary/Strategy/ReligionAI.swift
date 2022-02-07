@@ -306,7 +306,7 @@ public class ReligionAI {
         let flavorOffense = player.valueOfPersonalityFlavor(of: .offense)
         let flavorDefense = player.valueOfPersonalityFlavor(of: .defense)
         let flavorCityDefense = player.valueOfPersonalityFlavor(of: .cityDefense)
-        let flavorHappiness = player.valueOfPersonalityFlavor(of: .happiness)
+        let flavorHappiness = player.valueOfPersonalityFlavor(of: .amenities)
         let flavorGP = player.valueOfPersonalityFlavor(of: .greatPeople)
 
         let happinessNeedFactor = flavorOffense * 2 + flavorHappiness - flavorDefense

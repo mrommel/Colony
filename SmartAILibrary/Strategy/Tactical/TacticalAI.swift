@@ -134,7 +134,7 @@ public class TacticalAI: Codable {
     }
 
     /// Update the AI for units
-    func turn(in gameModel: GameModel?) {
+    func doTurn(in gameModel: GameModel?) {
 
         self.findTacticalTargets(in: gameModel)
 

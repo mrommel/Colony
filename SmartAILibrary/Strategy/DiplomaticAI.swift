@@ -189,7 +189,7 @@ public class DiplomaticAI: Codable {
         try container.encode(self.hasBrokenPeaceTreatyValue, forKey: .hasBrokenPeaceTreaty)
     }
 
-    func turn(in gameModel: GameModel?) {
+    func doTurn(in gameModel: GameModel?) {
 
         guard let player = self.player else {
             fatalError("cant get player")
@@ -5207,5 +5207,17 @@ public class DiplomaticAI: Codable {
     func updateMusteringForAttack(against otherPlayer: AbstractPlayer?, to value: Bool) {
 
         self.playerDict.updateMusteringForAttack(against: otherPlayer, to: value)
+    }
+
+    // MARK: -- ---
+
+    func warWeariness(with otherPlayer: AbstractPlayer?) -> Int {
+
+        return self.playerDict.warWeariness(with: otherPlayer)
+    }
+
+    func changeWarWeariness(with otherPlayer: AbstractPlayer?, by value: Int) {
+
+        self.playerDict.changeWarWeariness(with: otherPlayer, by: value)
     }
 }

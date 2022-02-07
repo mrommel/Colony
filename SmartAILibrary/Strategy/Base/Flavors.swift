@@ -27,6 +27,11 @@ class Flavors: Codable {
         }
     }
 
+    init(items: [Flavor]) {
+
+        self.items = items
+    }
+
     required init(from decoder: Decoder) throws {
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -39,6 +44,13 @@ class Flavors: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.items, forKey: .items)
+    }
+
+    var isEmpty: Bool {
+
+        return self.items
+            .map { $0.value }
+            .reduce(0, +) == 0
     }
 
     func reset() {
@@ -64,6 +76,28 @@ class Flavors: Codable {
         if let item = self.items.first(where: { $0.type == flavorType }) {
             item.value += value
         }
+    }
+
+    func set(value: Int, for flavorType: FlavorType) {
+
+        if let item = self.items.first(where: { $0.type == flavorType }) {
+            item.value = value
+        }
+    }
+
+    /// Add a random plus/minus to an integer (but keep it in range)
+    static func adjustedValue(of originalValue: Int, plusMinus: Int, min: Int, max: Int) -> Int {
+
+        let adjust = Int.random(number: plusMinus * 2 + 1)
+        var rtnValue = originalValue + adjust - plusMinus
+
+        if rtnValue < min {
+            rtnValue = min
+        } else if rtnValue > max {
+            rtnValue = max
+        }
+
+        return rtnValue
     }
 }
 

@@ -18,7 +18,7 @@ public enum FlavorType: Int, Codable {
     case gold
     case greatPeople
     case growth
-    case happiness
+    case amenities // happiness
     case infrastructure
     case militaryTraining
     case mobile
@@ -39,9 +39,9 @@ public enum FlavorType: Int, Codable {
 
     static var all: [FlavorType] {
         return [
-            .offense, .defense, .cityDefense, .growth, .militaryTraining, .happiness, .recon, .culture, .mobile,
-            .production, .naval, .navalTileImprovement, .tileImprovement, .ranged, .navalRecon, .gold, .navalGrowth,
-            .infrastructure, .science, .diplomacy, .tourism, .religion, .energy, .greatPeople
+            .offense, .defense, .cityDefense, .growth, .greatPeople, .militaryTraining, .amenities, .recon, .culture,
+            .mobile, .production, .naval, .navalTileImprovement, .tileImprovement, .ranged, .navalRecon, .gold,
+            .navalGrowth, .infrastructure, .science, .diplomacy, .tourism, .religion, .energy
         ]
     }
 }

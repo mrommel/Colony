@@ -38,10 +38,10 @@ public class Armies: Codable {
         try container.encode(self.armies, forKey: .armies)
     }
 
-    func turn(in gameModel: GameModel?) {
+    func doTurn(in gameModel: GameModel?) {
 
         for army in self.armies {
-            army.turn(in: gameModel)
+            army.doTurn(in: gameModel)
         }
     }
 

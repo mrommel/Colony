@@ -1264,6 +1264,22 @@ open class GameModel: Codable {
         return self.map.area(of: location)
     }
 
+    func population(of player: AbstractPlayer) -> Int {
+
+        var population = 0
+        
+        for cityRef in self.map.cities(of: player) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            population += city.population()
+        }
+
+        return population
+    }
+
     // MARK: unit methods
 
     public func add(unit: AbstractUnit?) {
@@ -2134,6 +2150,11 @@ open class GameModel: Codable {
         let numNextBestPlayersCities = numAllOtherCities.max() ?? 0
 
         return numPlayerCities >= (numNextBestPlayersCities + 3)
+    }
+
+    func findStartPlot(of player: AbstractPlayer?) -> HexPoint {
+
+        return self.map.findStartPlot(of: player)
     }
 
     public func anyHasMoment(of moment: MomentType) -> Bool {

@@ -15,4 +15,5 @@ enum AdvisorType {
     case economic
     case military
     case foreign
+    case science
 }

@@ -47,7 +47,7 @@ class UnitCommandViewModel: ObservableObject {
         toolTipText.append(title)
 
         let effects = NSAttributedString(
-            string: "\n\nDescription",
+            string: "\n\nDescription2",
             attributes: Globals.Attributs.tooltipContentAttributs
         )
         toolTipText.append(effects)

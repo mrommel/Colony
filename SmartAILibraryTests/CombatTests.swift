@@ -181,7 +181,7 @@ class CombatTests: XCTestCase {
         city.updateProduction(for: 200, in: gameModel)
 
         for _ in 0..<30 {
-            city.turn(in: gameModel)
+            city.doTurn(in: gameModel)
         }
 
         // WHEN

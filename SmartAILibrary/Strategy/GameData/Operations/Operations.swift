@@ -36,7 +36,7 @@ class Operations: Codable {
         try container.encode(self.operations, forKey: .operations)
     }
 
-    func turn(in gameModel: GameModel?) {
+    func doTurn(in gameModel: GameModel?) {
 
         for operation in self.operations {
 

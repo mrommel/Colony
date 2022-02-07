@@ -30,12 +30,29 @@ class UnitTests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .shore, sized: .small)
 
         // start island
-        mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
+        mapModel.set(terrain: .plains, at: HexPoint(x: 0, y: 2))
+        mapModel.set(terrain: .grass, at: HexPoint(x: 1, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 2, y: 2))
 
         // target island
         mapModel.set(terrain: .plains, at: HexPoint(x: 6, y: 2))
-        mapModel.set(terrain: .plains, at: HexPoint(x: 7, y: 2))
+        mapModel.set(terrain: .grass, at: HexPoint(x: 7, y: 2))
+        mapModel.set(terrain: .plains, at: HexPoint(x: 8, y: 2))
+
+        HexArea(center: HexPoint(x: 12, y: 12), radius: 8).points.forEach({ mapModel.set(terrain: .grass, at: $0) })
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.victoria],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination],
@@ -92,6 +109,21 @@ class UnitTests: XCTestCase {
         humanPlayer.initialize()
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+
+        HexArea(center: HexPoint(x: 12, y: 12), radius: 8).points.forEach({ mapModel.set(terrain: .grass, at: $0) })
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.victoria],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(victoryTypes: [.domination],
                                   handicap: .king,
@@ -297,6 +329,19 @@ class UnitTests: XCTestCase {
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
 
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.victoria],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         let gameModel = GameModel(victoryTypes: [.domination],
                                   handicap: .king,
                                   turnsElapsed: 0,
@@ -336,6 +381,19 @@ class UnitTests: XCTestCase {
         humanPlayer.treasury?.changeGold(by: 1000.0)
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.victoria],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(victoryTypes: [.domination],
                                   handicap: .king,

@@ -55,9 +55,9 @@ class EnoughExpansionEconomicStrategyType: EconomicStrategyTypeData {
             return false
         }
 
-        if player.isEmpireUnhappy() {
+        /*if player.isEmpireUnhappy() {
             return true
-        }
+        }*/
 
         if player.countUnitsWith(defaultTask: .settle, in: gameModel) > 1 {
             return true

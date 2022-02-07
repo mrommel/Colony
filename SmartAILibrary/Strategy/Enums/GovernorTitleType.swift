@@ -149,7 +149,7 @@ public enum GovernorTitleType: Int, Codable {
                 ],
                 tier: 1,
                 requiredOr: [],
-                flavors: [Flavor(type: .gold, value: 6), Flavor(type: .happiness, value: 4)]
+                flavors: [Flavor(type: .gold, value: 6), Flavor(type: .amenities, value: 4)]
             )
         case .taxCollector:
             return GovernorTitleTypeData(
@@ -277,7 +277,7 @@ public enum GovernorTitleType: Int, Codable {
                 ],
                 tier: 1,
                 requiredOr: [],
-                flavors: [Flavor(type: .happiness, value: 6)]
+                flavors: [Flavor(type: .amenities, value: 6)]
             )
         case .localInformants:
             return GovernorTitleTypeData(
@@ -502,7 +502,10 @@ public enum GovernorTitleType: Int, Codable {
                 ],
                 tier: 3,
                 requiredOr: [.reinforcedMaterials, .waterWorks],
-                flavors: [Flavor(type: .culture, value: 6), Flavor(type: .happiness, value: 4)]
+                flavors: [
+                    Flavor(type: .culture, value: 6),
+                    Flavor(type: .amenities, value: 4)
+                ]
             )
 
             // Pingala
