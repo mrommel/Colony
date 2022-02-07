@@ -5209,7 +5209,7 @@ public class DiplomaticAI: Codable {
         self.playerDict.updateMusteringForAttack(against: otherPlayer, to: value)
     }
 
-    // MARK: -- ---
+    // MARK: war weariness methods
 
     func warWeariness(with otherPlayer: AbstractPlayer?) -> Int {
 

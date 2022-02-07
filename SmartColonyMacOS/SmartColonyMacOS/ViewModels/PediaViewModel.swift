@@ -273,7 +273,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         let requires: [String] = tech.required().map { $0.name().localized() }
         let requiredText = ListFormatter.localizedString(byJoining: requires)
-        self.summary = "\(tech.era().title()) tech that needs \(tech.cost()) science. " +
+        self.summary = "\(tech.era().title().localized()) tech that needs \(tech.cost()) science. " +
             "It requires \(requiredText) to be researched."
 
         var detailText = "Enables: "
@@ -296,7 +296,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         let requires: [String] = civic.required().map { $0.name().localized() }
         let requiredText = ListFormatter.localizedString(byJoining: requires)
-        self.summary = "\(civic.era().title()) civic that needs \(civic.cost()) culture. " +
+        self.summary = "\(civic.era().title().localized()) civic that needs \(civic.cost()) culture. " +
             "It requires \(requiredText) to be researched."
 
         var detailText = "Enables: "
@@ -305,7 +305,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         enables += civic.achievements().buildingTypes.map { $0.name() }
         enables += civic.achievements().districtTypes.map { $0.name() }
         enables += civic.achievements().governments.map { $0.name().localized() }
-        enables += civic.achievements().policyCards.map { $0.name() }
+        enables += civic.achievements().policyCards.map { $0.name().localized() }
         enables += civic.achievements().unitTypes.map { $0.name() }
         enables += civic.achievements().wonderTypes.map { $0.name().localized() }
         detailText += ListFormatter.localizedString(byJoining: enables)

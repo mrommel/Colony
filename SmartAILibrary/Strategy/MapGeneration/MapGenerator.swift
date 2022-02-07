@@ -1102,7 +1102,7 @@ public class MapGenerator: BaseMapHandler {
 
     // MARK: 5th continents
 
-    func identifyContinents(on grid: MapModel?) {
+    public func identifyContinents(on grid: MapModel?) {
 
         guard let grid = grid else {
             return
@@ -1123,7 +1123,7 @@ public class MapGenerator: BaseMapHandler {
         print("found: \(continents.count) continents")
     }
 
-    func identifyOceans(on grid: MapModel?) {
+    public func identifyOceans(on grid: MapModel?) {
 
         guard let grid = grid else {
             return
@@ -1135,7 +1135,7 @@ public class MapGenerator: BaseMapHandler {
         grid.oceans = oceans
     }
 
-    func identifyStartPositions(on grid: MapModel?) {
+    public func identifyStartPositions(on grid: MapModel?) {
 
         guard let grid = grid else {
             return

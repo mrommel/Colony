@@ -118,6 +118,17 @@
 "TXT_KEY_HANDICAP_IMMORTAL" = "Immortal";
 "TXT_KEY_HANDICAP_DEITY" = "Deity";
 
+// era
+"TXT_KEY_ERA_ANCIENT" = "Ancient";
+"TXT_KEY_ERA_CLASSICAL" = "Classical";
+"TXT_KEY_ERA_MEDIEVAL" = "Medieval";
+"TXT_KEY_ERA_RENAISSANCE" = "Renaissance";
+"TXT_KEY_ERA_INDUSTRIAL" = "Industrial";
+"TXT_KEY_ERA_MODERN" = "Modern";
+"TXT_KEY_ERA_ATOMIC" = "Atomic";
+"TXT_KEY_ERA_INFORMATION" = "Information";
+"TXT_KEY_ERA_FUTURE" = "Future";
+
 // tooltip texts
 "TXT_KEY_MISC_DESTROYED_BARBARIAN_CAMP" = "You have captured a Barbarian Encampment and recovered %d Gold!"; // gold
 "TXT_KEY_MISC_CLEARING_FEATURE_RESOURCE" = "Clearing %@ has created %d [Production] for %@."; // feature, gold, cityname

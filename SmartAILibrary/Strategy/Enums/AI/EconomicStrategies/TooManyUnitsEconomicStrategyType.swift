@@ -45,7 +45,7 @@ class TooManyUnitsEconomicStrategyType: EconomicStrategyTypeData {
 
         let goldForUnitMaintenance = treasury.goldForUnitMaintenance(in: gameModel)
         let goldFromCities = treasury.goldFromCities(in: gameModel)
-        
+
         return goldForUnitMaintenance > goldFromCities
     }
 }

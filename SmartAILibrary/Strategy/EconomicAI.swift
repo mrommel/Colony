@@ -338,8 +338,6 @@ public class EconomicAI: Codable {
             }
         }
 
-
-
         //print("economic strategy flavors")
         //print(self.flavors)
         if !player.isHuman() {

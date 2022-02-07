@@ -165,7 +165,7 @@ class NeedImprovementEconomicStrategyType: EconomicStrategyTypeData {
 class NeedImprovementFoodEconomicStrategyType: NeedImprovementEconomicStrategyType {
 
     init() {
-        
+
         super.init(yieldType: .food)
     }
 }

@@ -97,7 +97,7 @@ class EconomicAIReconStateTests: XCTestCase {
         mapGenerator.identifyContinents(on: mapModel)
         mapGenerator.identifyOceans(on: mapModel)
         mapGenerator.identifyStartPositions(on: mapModel)
-        
+
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,

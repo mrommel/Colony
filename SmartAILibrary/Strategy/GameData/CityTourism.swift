@@ -69,7 +69,7 @@ public class CityTourism: Codable {
             if cityWonders.has(wonder: wonderType) {
                 tourismFromWonders += 2.0
 
-                let eraDelta = player.currentEra().value() - wonderType.era().value()
+                let eraDelta = player.currentEra().rawValue - wonderType.era().rawValue
                 tourismFromWonders += Double(eraDelta) * 1.0
             }
         }

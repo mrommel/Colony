@@ -251,7 +251,7 @@ open class GameModel: Codable {
             fatalError("no UI")
         }
 
-        if Thread.isMainThread {
+        if Thread.isMainThread && !Thread.current.isRunningXCTest {
             print("Warning: GameModel.update() is executed on main thread")
         }
 
@@ -1267,7 +1267,7 @@ open class GameModel: Codable {
     func population(of player: AbstractPlayer) -> Int {
 
         var population = 0
-        
+
         for cityRef in self.map.cities(of: player) {
 
             guard let city = cityRef else {

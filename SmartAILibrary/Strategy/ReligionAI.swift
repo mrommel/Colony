@@ -347,7 +347,7 @@ public class ReligionAI {
         // Wonder production multiplier
         if pantheonType.obsoleteEra() != .none {
             if pantheonType.obsoleteEra() > gameModel.worldEra() {
-                rtnValue += (pantheonType.wonderProductionModifier() * pantheonType.obsoleteEra().value()) / 5
+                rtnValue += (pantheonType.wonderProductionModifier() * pantheonType.obsoleteEra().rawValue) / 5
             }
         } else {
             rtnValue += pantheonType.wonderProductionModifier() / 3
@@ -590,7 +590,7 @@ public class ReligionAI {
         totalRtnValue += tempValue
          */
 
-        var eraBonus = (7 - player.currentEra().value())
+        var eraBonus = (7 - player.currentEra().rawValue)
         eraBonus /= 2
         if eraBonus <= 0 {
             eraBonus = 1

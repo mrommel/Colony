@@ -1259,7 +1259,7 @@ class DiplomaticPlayerDict: Codable {
     func changeWarWeariness(with otherPlayer: AbstractPlayer?, by value: Int) {
 
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
-            item.warWeariness += value
+            item.warWeariness = max(item.warWeariness + value, 0)
         } else {
             fatalError("not gonna happen")
         }

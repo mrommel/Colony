@@ -144,6 +144,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func atWarCount() -> Int
     func canDeclareWar(to otherPlayer: AbstractPlayer?) -> Bool
     func warWeariness(with otherPlayer: AbstractPlayer?) -> Int
+    func updateWarWeariness(against otherPlayer: AbstractPlayer?, at point: HexPoint, killed: Bool, in gameModel: GameModel?)
 
     func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func proximity(to otherPlayer: AbstractPlayer?) -> PlayerProximityType
@@ -407,6 +408,7 @@ public class Player: AbstractPlayer {
         case establishedTradingPosts
 
         case cramped
+        case combatThisTurn
     }
 
     public var leader: LeaderType
@@ -490,6 +492,7 @@ public class Player: AbstractPlayer {
     private var establishedTradingPosts: [LeaderType] = []
 
     private var crampedValue: Bool = false
+    private var combatThisTurnValue: Bool = false
 
     // MARK: constructor
 
@@ -524,6 +527,7 @@ public class Player: AbstractPlayer {
         self.establishedTradingPosts = []
 
         self.crampedValue = false
+        self.combatThisTurnValue = false
     }
 
     public required init(from decoder: Decoder) throws {
@@ -602,6 +606,7 @@ public class Player: AbstractPlayer {
         self.establishedTradingPosts = try container.decode([LeaderType].self, forKey: .establishedTradingPosts)
 
         self.crampedValue = try container.decode(Bool.self, forKey: .cramped)
+        self.combatThisTurnValue = try container.decodeIfPresent(Bool.self, forKey: .combatThisTurn) ?? false
 
         // setup
         self.techs?.player = self
@@ -709,6 +714,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.establishedTradingPosts, forKey: .establishedTradingPosts)
 
         try container.encode(self.crampedValue, forKey: .cramped)
+        try container.encode(self.combatThisTurnValue, forKey: .combatThisTurn)
     }
     // swiftlint:enable force_cast
 
@@ -1022,6 +1028,34 @@ public class Player: AbstractPlayer {
     public func changeWarWeariness(with otherPlayer: AbstractPlayer?, by value: Int) {
 
         self.diplomacyAI?.changeWarWeariness(with: otherPlayer, by: value)
+    }
+
+    // https://civilization.fandom.com/wiki/War_weariness_(Civ6)
+    public func updateWarWeariness(against otherPlayer: AbstractPlayer?, at point: HexPoint, killed: Bool, in gameModel: GameModel?) {
+
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get other player")
+        }
+
+        guard let tile = gameModel?.tile(at: point) else {
+            fatalError("cant get tile")
+        }
+
+        // the fight against barbarians does not trigger war weariness
+        if self.isBarbarian() || otherPlayer.isBarbarian() {
+            return
+        }
+
+        // war type / Casus Belli not implemented
+        let baseValue = self.currentEraVal.warWearinessValue(formal: false)
+        let ownTerritoty = self.isEqual(to: tile.owner())
+
+        let warWearinessVal = baseValue * (ownTerritoty ? 1 : 2) + baseValue * (killed ? 0 : 3)
+
+        print("### add war weariness for \(self.leader) against \(otherPlayer.leader): \(warWearinessVal)")
+        self.changeWarWeariness(with: otherPlayer, by: warWearinessVal)
+
+        self.combatThisTurnValue = true
     }
 
     public func notifications() -> Notifications? {
@@ -1521,6 +1555,8 @@ public class Player: AbstractPlayer {
         // Golden Age
         self.doProcessAge(in: gameModel)
 
+        self.doUpdateWarWeariness(in: gameModel)
+
         // balance amenities
         self.doCityAmenities(in: gameModel)
 
@@ -1556,7 +1592,6 @@ public class Player: AbstractPlayer {
 
         return self.crampedValue
     }
-
 
     /// Determines if the player is cramped in his current area.  Not a perfect algorithm, as it will double-count Plots shared by different Cities, but it should be good enough
     func doUpdateCramped(in gameModel: GameModel?) {
@@ -1848,6 +1883,47 @@ public class Player: AbstractPlayer {
                 resourceStockpile.set(weight: maxStockpileValue, for: resource)
             }
         }
+    }
+
+    func doUpdateWarWeariness(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gamemodel")
+        }
+
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+
+        // When at peace with every civilization, you lose 200 WWP per turn.
+        if !diplomacyAI.isAtWar() {
+
+            for player in gameModel.players {
+
+                guard self.hasMet(with: player) else {
+                    continue
+                }
+
+                // hm, with every player?
+                self.changeWarWeariness(with: player, by: -200)
+            }
+        } else {
+
+            // When at war, you lose 50 WWP at the end of every turn without a battle.
+            if !self.combatThisTurnValue {
+
+                for player in gameModel.players {
+
+                    guard self.hasMet(with: player) else {
+                        continue
+                    }
+
+                    self.changeWarWeariness(with: player, by: -50)
+                }
+            }
+        }
+
+        self.combatThisTurnValue = false
     }
 
     func doCityAmenities(in gameModel: GameModel?) {

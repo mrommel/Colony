@@ -101,6 +101,19 @@ class DebugViewModel: ObservableObject {
 
             var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
 
+            let mapOptions = MapOptions(
+                withSize: .duel,
+                type: .continents,
+                leader: .alexander,
+                aiLeaders: [.victoria],
+                handicap: .chieftain
+            )
+
+            let mapGenerator = MapGenerator(with: mapOptions)
+            mapGenerator.identifyContinents(on: mapModel)
+            mapGenerator.identifyOceans(on: mapModel)
+            mapGenerator.identifyStartPositions(on: mapModel)
+
             let gameModel = GameModel(
                 victoryTypes: [.domination],
                 handicap: .king,
@@ -160,6 +173,19 @@ class DebugViewModel: ObservableObject {
             humanPlayer.initialize()
 
             var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+
+            let mapOptions = MapOptions(
+                withSize: .duel,
+                type: .continents,
+                leader: .alexander,
+                aiLeaders: [.victoria],
+                handicap: .chieftain
+            )
+
+            let mapGenerator = MapGenerator(with: mapOptions)
+            mapGenerator.identifyContinents(on: mapModel)
+            mapGenerator.identifyOceans(on: mapModel)
+            mapGenerator.identifyStartPositions(on: mapModel)
 
             let gameModel = GameModel(
                 victoryTypes: [.domination],
@@ -247,6 +273,19 @@ class DebugViewModel: ObservableObject {
             mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
             mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
 
+            let mapOptions = MapOptions(
+                withSize: .duel,
+                type: .continents,
+                leader: .alexander,
+                aiLeaders: [.victoria],
+                handicap: .chieftain
+            )
+
+            let mapGenerator = MapGenerator(with: mapOptions)
+            mapGenerator.identifyContinents(on: mapModel)
+            mapGenerator.identifyOceans(on: mapModel)
+            mapGenerator.identifyStartPositions(on: mapModel)
+
             for index in 0..<40 {
                 mapModel.set(terrain: .shore, at: HexPoint(x: index, y: 3))
             }
@@ -323,6 +362,19 @@ class DebugViewModel: ObservableObject {
             mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
             mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
 
+            let mapOptions = MapOptions(
+                withSize: .duel,
+                type: .continents,
+                leader: .alexander,
+                aiLeaders: [.victoria],
+                handicap: .chieftain
+            )
+
+            let mapGenerator = MapGenerator(with: mapOptions)
+            mapGenerator.identifyContinents(on: mapModel)
+            mapGenerator.identifyOceans(on: mapModel)
+            mapGenerator.identifyStartPositions(on: mapModel)
+
             let gameModel = GameModel(
                 victoryTypes: [.domination],
                 handicap: .king,
@@ -398,6 +450,19 @@ class DebugViewModel: ObservableObject {
 
             mapModel.set(terrain: .shore, at: HexPoint(x: 4, y: 3))
             mapModel.set(resource: .fish, at: HexPoint(x: 4, y: 3))
+
+            let mapOptions = MapOptions(
+                withSize: .duel,
+                type: .continents,
+                leader: .alexander,
+                aiLeaders: [.victoria],
+                handicap: .chieftain
+            )
+
+            let mapGenerator = MapGenerator(with: mapOptions)
+            mapGenerator.identifyContinents(on: mapModel)
+            mapGenerator.identifyOceans(on: mapModel)
+            mapGenerator.identifyStartPositions(on: mapModel)
 
             let gameModel = GameModel(
                 victoryTypes: [.domination],
@@ -477,6 +542,19 @@ class DebugViewModel: ObservableObject {
 
             var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
 
+            let mapOptions = MapOptions(
+                withSize: .duel,
+                type: .continents,
+                leader: .alexander,
+                aiLeaders: [.victoria],
+                handicap: .chieftain
+            )
+
+            let mapGenerator = MapGenerator(with: mapOptions)
+            mapGenerator.identifyContinents(on: mapModel)
+            mapGenerator.identifyOceans(on: mapModel)
+            mapGenerator.identifyStartPositions(on: mapModel)
+
             let gameModel = GameModel(
                 victoryTypes: [.domination],
                 handicap: .settler,
@@ -497,7 +575,6 @@ class DebugViewModel: ObservableObject {
             try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
             try! humanPlayer.civics?.discover(civic: .craftsmanship, in: gameModel)
             try! humanPlayer.civics?.discover(civic: .militaryTradition, in: gameModel)
-            //try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
                 humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
