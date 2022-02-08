@@ -90,6 +90,18 @@ public enum CivicType: String, Codable {
     case environmentalism // #
     case globalization // #
     case socialMedia // #
+    // Near Future Governance
+    // Venture Politics
+    // Distributed Sovereignty
+    // Optimization Imperative
+
+    // future
+    case informationWarfare // #
+    case globalWarmingMitigation // #
+    case culturalHegemony // #
+    case exodusImperative // #
+    case smartPowerDoctrine // #
+    case futureCivic // #
 
     public static var all: [CivicType] {
         return [
@@ -115,7 +127,10 @@ public enum CivicType: String, Codable {
             .culturalHeritage, .coldWar, .professionalSports, .rapidDeployment, .spaceRace,
 
             // information
-            .environmentalism, .globalization, .socialMedia
+            .environmentalism, .globalization, .socialMedia,
+
+            // future
+            .informationWarfare, .globalWarmingMitigation, .culturalHegemony, .smartPowerDoctrine, .exodusImperative, .futureCivic
         ]
     }
 
@@ -1145,7 +1160,105 @@ public enum CivicType: String, Codable {
                 governorTitle: true
             )
 
-        // governor titles: Near Future Governance
+            // future
+
+        case .informationWarfare:
+            // https://civilization.fandom.com/wiki/Information_Warfare_(Civ6)
+            return CivicTypeData(
+                name: "TXT_KEY_CIVIC_INFORMATION_WARFARE_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_INFORMATION_WARFARE_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_INFORMATION_WARFARE_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_INFORMATION_WARFARE_QUOTE1",
+                    "TXT_KEY_CIVIC_INFORMATION_WARFARE_QUOTE2"
+                ],
+                era: .future,
+                cost: 3200,
+                required: [.socialMedia],
+                flavors: [],
+                governorTitle: false
+            )
+
+        case .globalWarmingMitigation:
+            // https://civilization.fandom.com/wiki/Global_Warming_Mitigation_(Civ6)
+            return CivicTypeData(
+                name: "TXT_KEY_CIVIC_GLOBAL_WARMING_MITIGATION_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_GLOBAL_WARMING_MITIGATION_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_GLOBAL_WARMING_MITIGATION_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_GLOBAL_WARMING_MITIGATION_QUOTE1",
+                    "TXT_KEY_CIVIC_GLOBAL_WARMING_MITIGATION_QUOTE2"
+                ],
+                era: .future,
+                cost: 3200,
+                required: [.informationWarfare],
+                flavors: [],
+                governorTitle: false
+            )
+
+        case .culturalHegemony:
+            // https://civilization.fandom.com/wiki/Cultural_Hegemony_(Civ6)
+            return CivicTypeData(
+                name: "TXT_KEY_CIVIC_CULTURAL_HEGEMONY_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_CULTURAL_HEGEMONY_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_CULTURAL_HEGEMONY_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_CULTURAL_HEGEMONY_QUOTE1"
+                ],
+                era: .future,
+                cost: 3200,
+                required: [.globalWarmingMitigation],
+                flavors: [],
+                governorTitle: false
+            )
+
+        case .smartPowerDoctrine:
+            // https://civilization.fandom.com/wiki/Smart_Power_Doctrine_(Civ6)
+            return CivicTypeData(
+                name: "TXT_KEY_CIVIC_SMART_POWER_DOCTRINE_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_SMART_POWER_DOCTRINE_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_SMART_POWER_DOCTRINE_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_SMART_POWER_DOCTRINE_QUOTE1"
+                ],
+                era: .future,
+                cost: 3200,
+                required: [.culturalHegemony],
+                flavors: [],
+                governorTitle: false
+            )
+
+        case .exodusImperative:
+            // https://civilization.fandom.com/wiki/Exodus_Imperative_(Civ6)
+            return CivicTypeData(
+                name: "TXT_KEY_CIVIC_EXODUS_IMPERATIVE_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_EXODUS_IMPERATIVE_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_EXODUS_IMPERATIVE_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_EXODUS_IMPERATIVE_QUOTE1"
+                ],
+                era: .future,
+                cost: 3200,
+                required: [.smartPowerDoctrine],
+                flavors: [],
+                governorTitle: false
+            )
+
+        case .futureCivic:
+            // https://civilization.fandom.com/wiki/Future_Civic_(Civ6)
+            return CivicTypeData(
+                name: "TXT_KEY_CIVIC_FUTURE_CIVIC_TITLE",
+                inspirationSummary: "TXT_KEY_CIVIC_FUTURE_CIVIC_EUREKA",
+                inspirationDescription: "TXT_KEY_CIVIC_FUTURE_CIVIC_EUREKA_TEXT",
+                quoteTexts: [
+                    "TXT_KEY_CIVIC_FUTURE_CIVIC_QUOTE1"
+                ],
+                era: .future,
+                cost: 3200,
+                required: [.exodusImperative],
+                flavors: [],
+                governorTitle: true
+            )
 
         }
     }

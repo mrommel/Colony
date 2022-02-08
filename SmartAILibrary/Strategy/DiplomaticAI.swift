@@ -2793,6 +2793,15 @@ public class DiplomaticAI: Codable {
         return true
     }
 
+    func doEstablishPeaceTreaty(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("no game model given")
+        }
+
+        self.playerDict.establishPeaceTreaty(with: otherPlayer, in: gameModel.currentTurn)
+    }
+
     func doDefensivePact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
@@ -2823,7 +2832,7 @@ public class DiplomaticAI: Codable {
 
     // MARK: war
 
-    public func doDeclareWar(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+    internal func doDeclareWar(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("no game model given")

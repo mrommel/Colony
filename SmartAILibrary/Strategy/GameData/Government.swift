@@ -426,7 +426,7 @@ public class Government: AbstractGovernment {
         // remove 'replaced' (better) cards
         for card in cards {
 
-            if !cards.contains(where: { $0.replacePolicyCard() == card }) {
+            if !cards.contains(where: { $0.replacePolicyCards().contains(card) }) {
 
                 filteredCards.append(card)
             }

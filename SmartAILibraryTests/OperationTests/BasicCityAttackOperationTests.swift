@@ -114,7 +114,7 @@ class BasicCityAttackOperationTests: XCTestCase {
 
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
-        playerAlexander.diplomacyAI?.doDeclareWar(to: playerTrajan, in: gameModel)
+        playerAlexander.doDeclareWar(to: playerTrajan, in: gameModel)
 
         // WHEN
         gameModel.update() // this runs all players
@@ -234,7 +234,7 @@ class BasicCityAttackOperationTests: XCTestCase {
 
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
-        playerAlexander.diplomacyAI?.doDeclareWar(to: playerTrajan, in: gameModel)
+        playerAlexander.doDeclareWar(to: playerTrajan, in: gameModel)
 
         // WHEN
         gameModel.update() // this runs all players

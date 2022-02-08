@@ -61,7 +61,7 @@ extension ResourceType {
         case .iron: return "resource-marker-iron"
         case .coal: return "resource-marker-coal"
         case .oil: return "resource-marker-oil"
-        case .aluminium: return "resource-marker-aluminium"
+        case .aluminum: return "resource-marker-aluminum"
         case .uranium: return "resource-marker-uranium"
         case .niter: return "resource-marker-niter"
 
@@ -114,7 +114,7 @@ extension ResourceType {
         case .iron: return "resource-iron"
         case .coal: return "resource-coal"
         case .oil: return "resource-oil"
-        case .aluminium: return "resource-aluminium"
+        case .aluminum: return "resource-aluminum"
         case .uranium: return "resource-uranium"
         case .niter: return "resource-niter"
 

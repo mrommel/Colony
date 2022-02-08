@@ -1653,6 +1653,65 @@ public class City: AbstractCity {
         return amenitiesFromTiles
     }
 
+    public func amenitiesFromCivics(in gameModel: GameModel?) -> Double {
+
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
+        var amenitiesFromCivics: Double = 0.0
+
+        // Retainers - +1 Amenity in cities with a garrisoned unit.
+        if government.has(card: .retainers) {
+            if self.garrisonedUnitValue != nil {
+                amenitiesFromCivics += 1
+            }
+        }
+
+        // Civil Prestige - +1 Amenity and +2 Housing in cities with established Governors with 2+ promotions.
+        if government.has(card: .retainers) {
+            if let governor = self.governorValue {
+                if governor.titles().count >= 2 {
+                    amenitiesFromCivics += 1
+                }
+            }
+        }
+
+        // Liberalism - +1 Amenity in cities with 2+ specialty districts.
+        if government.has(card: .liberalism) {
+            if districts.numberOfBuiltDistricts() >= 2 {
+                amenitiesFromCivics += 1
+            }
+        }
+
+        // Police State - -2 Spy operation level in your lands. -1 Amenity in all cities.
+        if government.has(card: .policyState) {
+            amenitiesFromCivics -= 1
+        }
+
+        // New Deal - +2 Amenities and +4 Housing in all cities with 3+ specialty districts.
+        if government.has(card: .newDeal) {
+            if districts.numberOfBuiltDistricts() >= 3 {
+                amenitiesFromCivics += 2
+            }
+        }
+
+        /*
+         - Sports Media    +100% Theater Square adjacency bonuses, and Stadiums generate +1 Amenities Amenity.
+         - Music Censorship    Other civs' Rock Bands cannot enter your territory. -1 Amenities Amenity in all cities.
+         - Robber Barons    +50% Gold Gold in cities with a Stock Exchange. +25% Production Production in cities with a Factory.
+            BUT: -2 Amenities Amenities in all cities.
+         - Automated Workforce    +20% Production Production towards city projects.
+            BUT: -1 Amenities Amenity and -5 Loyalty in all cities.
+         */
+
+        return 0.0
+    }
+
     public func amenitiesPerTurn(in gameModel: GameModel?) -> Double {
 
         var amenitiesPerTurn: Double = 0.0
@@ -1662,6 +1721,7 @@ public class City: AbstractCity {
         amenitiesPerTurn += self.amenitiesFromDistrict(in: gameModel)
         amenitiesPerTurn += self.amenitiesFromBuildings()
         amenitiesPerTurn += self.amenitiesFromWonders(in: gameModel)
+        amenitiesPerTurn += self.amenitiesFromCivics(in: gameModel)
 
         return amenitiesPerTurn
     }

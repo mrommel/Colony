@@ -220,7 +220,7 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
 
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
-        playerAlexander.diplomacyAI?.doDeclareWar(to: playerTrajan, in: gameModel) // at war no barbarian hunt
+        playerAlexander.doDeclareWar(to: playerTrajan, in: gameModel) // at war no barbarian hunt
 
         // WHEN
         gameModel.update()

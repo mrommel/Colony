@@ -72,7 +72,7 @@ public enum ResourceType: Int, Codable {
     case iron // https://civilization.fandom.com/wiki/Iron_(Civ6)
     case coal // https://civilization.fandom.com/wiki/Coal_(Civ6)
     case oil // https://civilization.fandom.com/wiki/Oil_(Civ6)
-    case aluminium // https://civilization.fandom.com/wiki/Aluminum_(Civ6)
+    case aluminum // https://civilization.fandom.com/wiki/Aluminum_(Civ6)
     case uranium // https://civilization.fandom.com/wiki/Uranium_(Civ6)
     case niter
 
@@ -90,7 +90,7 @@ public enum ResourceType: Int, Codable {
                 .gold, .spices, .salt, .cocoa, .sugar,
 
             // strategic
-            .horses, .iron, .coal, .oil, .aluminium, .uranium, .niter,
+            .horses, .iron, .coal, .oil, .aluminum, .uranium, .niter,
 
             // artifacts
             .antiquitySite, .shipwreck
@@ -100,7 +100,7 @@ public enum ResourceType: Int, Codable {
     public static var strategic: [ResourceType] {
         return [
             // strategic
-            .horses, .iron, .coal, .oil, .aluminium, .uranium, .niter
+            .horses, .iron, .coal, .oil, .aluminum, .uranium, .niter
         ]
     }
 
@@ -160,7 +160,7 @@ public enum ResourceType: Int, Codable {
         case .horses: return Yields(food: 1, production: 1, gold: 0, science: 0)
         case .coal: return Yields(food: 0, production: 2, gold: 0, science: 0)
         case .oil: return Yields(food: 0, production: 3, gold: 0, science: 0)
-        case .aluminium: return Yields(food: 0, production: 0, gold: 0, science: 1)
+        case .aluminum: return Yields(food: 0, production: 0, gold: 0, science: 1)
         case .uranium: return Yields(food: 0, production: 2, gold: 0, science: 0)
         case .niter: return Yields(food: 1, production: 1, gold: 0, science: 0)
 
@@ -312,7 +312,7 @@ public enum ResourceType: Int, Codable {
             return [
                 Flavor(type: .production, value: 10)
             ]
-        case .aluminium:
+        case .aluminum:
             return [
                 Flavor(type: .science, value: 5), Flavor(type: .production, value: 7)
             ]
@@ -385,7 +385,7 @@ public enum ResourceType: Int, Codable {
         case .iron: return [2, 6]
         case .coal: return [2, 6]
         case .oil: return [2, 6]
-        case .aluminium: return [2, 6]
+        case .aluminum: return [2, 6]
         case .uranium: return [2, 6]
         case .niter: return [2, 6]
 
@@ -993,10 +993,10 @@ public enum ResourceType: Int, Codable {
                 placedOnTerrains: [.grass, .plains]
             )
 
-        case .aluminium:
+        case .aluminum:
             // https://civilization.fandom.com/wiki/Aluminum_(Civ6)
             return FeatureData(
-                name: "Aluminium",
+                name: "Aluminum",
                 usage: .strategic,
                 revealTech: .radio,
                 revealCivic: nil,

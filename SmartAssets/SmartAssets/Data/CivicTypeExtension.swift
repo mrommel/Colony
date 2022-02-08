@@ -101,6 +101,14 @@ extension CivicType {
         case .globalization: return "civic-globalization"
         case .socialMedia: return "civic-socialMedia"
         case .environmentalism: return "civic-environmentalism"
+
+            // future
+        case .informationWarfare: return "civic-default"
+        case .globalWarmingMitigation: return "civic-default"
+        case .culturalHegemony: return "civic-default"
+        case .exodusImperative: return "civic-default"
+        case .smartPowerDoctrine: return "civic-default"
+        case .futureCivic: return "civic-default"
         }
     }
 }
@@ -181,6 +189,14 @@ extension CivicType {
         case .globalization:        return IndexPath(item: -1, section: -1)
         case .socialMedia:          return IndexPath(item: -1, section: -1)
         case .environmentalism:     return IndexPath(item: -1, section: -1)
+
+            // future
+        case .informationWarfare:   return IndexPath(item: -1, section: -1)
+        case .globalWarmingMitigation: return IndexPath(item: -1, section: -1)
+        case .culturalHegemony:     return IndexPath(item: -1, section: -1)
+        case .exodusImperative:     return IndexPath(item: -1, section: -1)
+        case .smartPowerDoctrine:   return IndexPath(item: -1, section: -1)
+        case .futureCivic:          return IndexPath(item: -1, section: -1)
         }
     }
 }

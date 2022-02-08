@@ -109,8 +109,8 @@ public struct TopBarView: View {
                     ResourceValueView(viewModel: self.viewModel.oilValueViewModel)
                 }
 
-                if self.viewModel.aluminiumValueViewModel.value > 0 {
-                    ResourceValueView(viewModel: self.viewModel.aluminiumValueViewModel)
+                if self.viewModel.aluminumValueViewModel.value > 0 {
+                    ResourceValueView(viewModel: self.viewModel.aluminumValueViewModel)
                 }
 
                 if self.viewModel.uraniumValueViewModel.value > 0 {

@@ -26,7 +26,7 @@ extension ResourceType {
         case "RESOURCE_SHEEP": return .sheep
         case "RESOURCE_COAL": return .coal
         case "RESOURCE_SUGAR": return .sugar
-        case "RESOURCE_ALUMINUM": return .aluminium
+        case "RESOURCE_ALUMINUM": return .aluminum
         case "RESOURCE_COTTON": return .cotton
         case "RESOURCE_SILVER": return .silver
         case "RESOURCE_CRAB": return .crab

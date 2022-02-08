@@ -581,7 +581,7 @@ class DebugViewModel: ObservableObject {
             }
 
             humanPlayer.doFirstContact(with: aiPlayer, in: gameModel)
-            aiPlayer.diplomacyAI?.doDeclareWar(to: humanPlayer, in: gameModel)
+            aiPlayer.doDeclareWar(to: humanPlayer, in: gameModel)
 
             // add combat units
             let warriorUnit = Unit(at: HexPoint(x: 20, y: 7), type: .warrior, owner: humanPlayer)

@@ -31,6 +31,7 @@ public enum LabelImageType {
     case culture
     case faith
     case tourism
+    case power
 
     case tradeRoute
     case tradingPost
@@ -38,6 +39,8 @@ public enum LabelImageType {
     case amenities
     case capital
     case strength
+    case religiousStrength
+    case movement
     case citizen
     case governor
 
@@ -53,12 +56,19 @@ public enum LabelImageType {
     case greatWriter
 
     case relic
+    case artifact
 
     case darkAge
     case normalAge
     case goldenAge
+
     case inspiration
     case eureka
+
+    case niter
+    case coal
+    case aluminum
+    case oil
 
     static func fromString(value: String) -> LabelImageType {
 
@@ -73,6 +83,7 @@ public enum LabelImageType {
         case "[Culture]": return .culture
         case "[Faith]": return .faith
         case "[Tourism]": return .tourism
+        case "[Power]": return .power
 
         case "[TradeRoute]": return .tradeRoute
         case "[TradingPost]": return .tradingPost
@@ -80,6 +91,8 @@ public enum LabelImageType {
         case "[Amenities]": return .amenities
         case "[Capital]": return .capital
         case "[Strength]": return .strength
+        case "[ReligiousStrength]": return .religiousStrength
+        case "[Movement]": return .movement
         case "[Citizen]": return .citizen
         case "[Governor]": return .governor
         case "[Population]": return .citizen
@@ -96,12 +109,19 @@ public enum LabelImageType {
         case "[GreatWriter]": return .greatWriter
 
         case "[Relic]": return .relic
+        case "[Artifact]": return .artifact
 
         case "[DarkAge]": return .darkAge
         case "[NormalAge]": return .normalAge
         case "[GoldenAge]": return .goldenAge
+
         case "[Inspiration]": return .inspiration
         case "[Eureka]": return .eureka
+
+        case "[Niter]": return .niter
+        case "[Coal]": return .coal
+        case "[Aluminum]": return .aluminum
+        case "[Oil]": return .oil
 
         default:
             fatalError("Value: '\(value)' not handled.")
@@ -121,6 +141,7 @@ public enum LabelImageType {
         case .culture: return Globals.Icons.culture
         case .faith: return Globals.Icons.faith
         case .tourism: return Globals.Icons.tourism
+        case .power: return Globals.Icons.power
 
         case .tradeRoute: return Globals.Icons.tradeRoute
         case .tradingPost: return Globals.Icons.tradingPost
@@ -128,6 +149,8 @@ public enum LabelImageType {
         case .amenities: return Globals.Icons.amenities
         case .capital: return Globals.Icons.capital
         case .strength: return Globals.Icons.strength
+        case .religiousStrength: return Globals.Icons.religiousStrength
+        case .movement: return Globals.Icons.movement
         case .citizen: return Globals.Icons.citizen
         case .governor: return Globals.Icons.governor
 
@@ -143,12 +166,18 @@ public enum LabelImageType {
         case .greatWriter: return Globals.Icons.greatWriter
 
         case .relic: return Globals.Icons.relic
+        case .artifact: return Globals.Icons.artifact
 
         case .darkAge: return Globals.Icons.darkAge
         case .normalAge: return Globals.Icons.normalAge
         case .goldenAge: return Globals.Icons.goldenAge
         case .inspiration: return Globals.Icons.inspiration
         case .eureka: return Globals.Icons.eureka
+
+        case .niter: return Globals.Icons.niter
+        case .coal: return Globals.Icons.coal
+        case .aluminum: return Globals.Icons.aluminum
+        case .oil: return Globals.Icons.oil
         }
     }
 }

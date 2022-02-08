@@ -504,7 +504,7 @@ class DiplomacyAITests: XCTestCase {
 
         // WHEN
         let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
-        playerAlexander.diplomacyAI?.doDeclareWar(to: playerTrajan, in: gameModel)
+        playerAlexander.doDeclareWar(to: playerTrajan, in: gameModel)
         gameModel.update() //.doTurn()
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
 
@@ -617,7 +617,7 @@ class DiplomacyAITests: XCTestCase {
         playerVictoria.doDefensivePact(with: playerAugustus, in: gameModel)
 
         // WHEN
-        playerAlexander.diplomacyAI?.doDeclareWar(to: playerAugustus, in: gameModel)
+        playerAlexander.doDeclareWar(to: playerAugustus, in: gameModel)
         //gameModel.turn()
         let approachAlexanderAugustus = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
         let approachAlexanderElizabeth = playerAlexander.diplomacyAI!.approach(towards: playerVictoria)
@@ -675,7 +675,7 @@ class DiplomacyAITests: XCTestCase {
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // WHEN
-        playerAlexander.diplomacyAI?.doDeclareWar(to: playerTrajan, in: gameModel)
+        playerAlexander.doDeclareWar(to: playerTrajan, in: gameModel)
 
         // THEN
         let isAtWar = playerAlexander.isAtWar(with: playerTrajan)

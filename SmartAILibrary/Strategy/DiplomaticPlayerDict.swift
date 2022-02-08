@@ -762,10 +762,10 @@ class DiplomaticPlayerDict: Codable {
         return false
     }
 
-    func establishPeaceTreaty(with otherPlayer: AbstractPlayer?) {
+    func establishPeaceTreaty(with otherPlayer: AbstractPlayer?, in turn: Int) {
 
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
-            item.peaceTreaty.activate()
+            item.peaceTreaty.activate(in: turn)
             item.declatationOfWar.abandon()
             item.warState = .none
         } else {

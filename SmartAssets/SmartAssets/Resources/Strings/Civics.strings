@@ -370,12 +370,51 @@
 "TXT_KEY_CIVIC_GLOBALIZATION_QUOTE1" = "“It has been said that arguing against globalization is like arguing against the laws of gravity.”\n– Kofi Annan";
 "TXT_KEY_CIVIC_GLOBALIZATION_QUOTE2" = "”One day there will be no borders, no boundaries, no flags and no countries and the only passport will be the heart.”\n– Carlos Santana";
 
-// civic - socialMedia:
+// civic - socialMedia
 "TXT_KEY_CIVIC_SOCIAL_MEDIA_TITLE" = "Social Media";
 "TXT_KEY_CIVIC_SOCIAL_MEDIA_EUREKA" = "Research the Telecommunications technology.";
 "TXT_KEY_CIVIC_SOCIAL_MEDIA_EUREKA_TEXT" = "Your advances in communications technology are allowing people to congregate online.";
 "TXT_KEY_CIVIC_SOCIAL_MEDIA_QUOTE1" = "“Which of all my important nothings shall I tell you first?”\n– Jane Austen";
 "TXT_KEY_CIVIC_SOCIAL_MEDIA_QUOTE2" = "”Distracted from distraction by distraction!”\n– T.S. Eliot";
+
+// civic - exodusImperative
+"TXT_KEY_CIVIC_EXODUS_IMPERATIVE_TITLE" = "Exodus Imperative";
+"TXT_KEY_CIVIC_EXODUS_IMPERATIVE_EUREKA" = "";
+"TXT_KEY_CIVIC_EXODUS_IMPERATIVE_EUREKA_TEXT" = "";
+"TXT_KEY_CIVIC_EXODUS_IMPERATIVE_QUOTE1" = "”This, O Best Beloved, is another story of the High and Far Off Times.”\n– Rudyard Kipling";
+
+// civic - globalWarmingMitigation
+ "TXT_KEY_CIVIC_GLOBAL_WARMING_MITIGATION_TITLE" = "Global Warming Mitigation";
+ "TXT_KEY_CIVIC_GLOBAL_WARMING_MITIGATION_EUREKA" = "";
+ "TXT_KEY_CIVIC_GLOBAL_WARMING_MITIGATION_EUREKA_TEXT" = "";
+ "TXT_KEY_CIVIC_GLOBAL_WARMING_MITIGATION_QUOTE1" = "“Fetter this malefactor to the jagged rocks
+ In adamantine bonds infrangible.”\n– Aeschylus";
+
+// civic - culturalHegemony
+"TXT_KEY_CIVIC_CULTURAL_HEGEMONY_TITLE" = "Cultural Hegemony";
+"TXT_KEY_CIVIC_CULTURAL_HEGEMONY_EUREKA" = "";
+"TXT_KEY_CIVIC_CULTURAL_HEGEMONY_EUREKA_TEXT" = "";
+"TXT_KEY_CIVIC_CULTURAL_HEGEMONY_QUOTE1" = "”Ah, my Belovéd, fill the cup that clears To-day of past Regrets and future Fears—To-morrow?—Why, To-morrow I may be Myself with Yesterday’s Sev’n Thousand Years.”\n– Edward FitzGerald";
+
+// civic - informationWarfare
+"TXT_KEY_CIVIC_INFORMATION_WARFARE_TITLE" = "Information Warfare";
+"TXT_KEY_CIVIC_INFORMATION_WARFARE_EUREKA" = "";
+"TXT_KEY_CIVIC_INFORMATION_WARFARE_EUREKA_TEXT" = "";
+"TXT_KEY_CIVIC_INFORMATION_WARFARE_QUOTE1" = "”It has been said aforetime that he who knows both sides has nothing to fear in a hundred fights...”\n– Sun Tzu";
+"TXT_KEY_CIVIC_INFORMATION_WARFARE_QUOTE2" = "”If the enemy know not where he will be attacked, he must prepare in every quarter, and so be everywhere weak.”\n– Sun Tzu";
+
+// civic - smartPowerDoctrine
+"TXT_KEY_CIVIC_SMART_POWER_DOCTRINE_TITLE" = "Smart Power Doctrine";
+"TXT_KEY_CIVIC_SMART_POWER_DOCTRINE_EUREKA" = "";
+"TXT_KEY_CIVIC_SMART_POWER_DOCTRINE_EUREKA_TEXT" = "";
+"TXT_KEY_CIVIC_SMART_POWER_DOCTRINE_QUOTE1" = "”The time will come and is inevitably coming when all institutions based on force will disappear through their uselessness, stupidity, and even inconvenience becoming obvious to all.”\n– Leo Tolstoy";
+
+// civic - future civic
+"TXT_KEY_CIVIC_FUTURE_CIVIC_TITLE" = "Future Civic";
+"TXT_KEY_CIVIC_FUTURE_CIVIC_EUREKA" = "";
+"TXT_KEY_CIVIC_FUTURE_CIVIC_EUREKA_TEXT" = "";
+"TXT_KEY_CIVIC_FUTURE_CIVIC_QUOTE1" = "“”\n– ";
+"TXT_KEY_CIVIC_FUTURE_CIVIC_QUOTE2" = "””\n– ";
 
 /*
  "TXT_KEY_CIVIC__TITLE" = "";

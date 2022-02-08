@@ -54,7 +54,7 @@ public class TopBarViewModel: ObservableObject {
     var oilValueViewModel: ResourceValueViewModel
 
     @Published
-    var aluminiumValueViewModel: ResourceValueViewModel
+    var aluminumValueViewModel: ResourceValueViewModel
 
     @Published
     var uraniumValueViewModel: ResourceValueViewModel
@@ -79,7 +79,7 @@ public class TopBarViewModel: ObservableObject {
         self.niterValueViewModel = ResourceValueViewModel(resourceType: .niter, initial: 1)
         self.coalValueViewModel = ResourceValueViewModel(resourceType: .coal, initial: 1)
         self.oilValueViewModel = ResourceValueViewModel(resourceType: .oil, initial: 1)
-        self.aluminiumValueViewModel = ResourceValueViewModel(resourceType: .aluminium, initial: 1)
+        self.aluminumValueViewModel = ResourceValueViewModel(resourceType: .aluminum, initial: 1)
         self.uraniumValueViewModel = ResourceValueViewModel(resourceType: .uranium, initial: 1)
 
         self.turnYearText = "-"
@@ -139,8 +139,8 @@ public class TopBarViewModel: ObservableObject {
         self.oilValueViewModel.value = humanPlayer.numStockpile(of: .oil)
         self.oilValueViewModel.tooltip = self.resourceTooltip(of: .oil, for: humanPlayer)
 
-        self.aluminiumValueViewModel.value = humanPlayer.numStockpile(of: .aluminium)
-        self.aluminiumValueViewModel.tooltip = self.resourceTooltip(of: .aluminium, for: humanPlayer)
+        self.aluminumValueViewModel.value = humanPlayer.numStockpile(of: .aluminum)
+        self.aluminumValueViewModel.tooltip = self.resourceTooltip(of: .aluminum, for: humanPlayer)
 
         self.uraniumValueViewModel.value = humanPlayer.numStockpile(of: .uranium)
         self.uraniumValueViewModel.tooltip = self.resourceTooltip(of: .uranium, for: humanPlayer)

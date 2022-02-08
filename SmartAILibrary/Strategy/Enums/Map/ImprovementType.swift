@@ -655,7 +655,7 @@ public enum ImprovementType: Int, Codable, Hashable {
         hasSupportedResource ||= tile.has(resource: .iron, for: owner)
         hasSupportedResource ||= tile.has(resource: .niter, for: owner)
         hasSupportedResource ||= tile.has(resource: .coal, for: owner)
-        hasSupportedResource ||= tile.has(resource: .aluminium, for: owner)
+        hasSupportedResource ||= tile.has(resource: .aluminum, for: owner)
         hasSupportedResource ||= tile.has(resource: .uranium, for: owner)
         // hasSupportedResource ||= tile.has(resource: .diamonds, for: owner)
         // hasSupportedResource ||= tile.has(resource: .jade, for: owner)

@@ -1016,6 +1016,31 @@ public class Player: AbstractPlayer {
         return diplomacyAI.canDeclareWar(to: otherPlayer)
     }
 
+    public func doDeclareWar(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+
+        diplomacyAI.doDeclareWar(to: otherPlayer, in: gameModel)
+    }
+
+    public func doEstablishPeaceTreaty(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get other player")
+        }
+
+        print("### add war weariness for \(self.leader) against \(otherPlayer.leader): -2000")
+        self.changeWarWeariness(with: otherPlayer, by: -2000)
+
+        diplomacyAI.doEstablishPeaceTreaty(with: otherPlayer, in: gameModel)
+    }
+
     public func warWeariness(with otherPlayer: AbstractPlayer?) -> Int {
 
         guard let diplomacyAI = self.diplomacyAI else {
