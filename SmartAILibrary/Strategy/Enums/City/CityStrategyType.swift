@@ -468,12 +468,12 @@ enum CityStrategyType: Int, Codable {
 
         case .needTileImprovers: return self.shouldBeActiveNeedTileImprovers(for: city, in: gameModel)
         case .wantTileImprovers: return self.shouldBeActiveWantTileImprovers(for: city, in: gameModel)
-        case .enoughTileImprovers: return self.shouldBeActiveEnoughTileImprovers(for: city)
-        case .needNavalGrowth: return self.shouldBeActiveNeedNavalGrowth(for: city)
-        case .needNavalTileImprovement: return self.shouldBeActiveNeedNavalTileImprovement(for: city)
+        case .enoughTileImprovers: return self.shouldBeActiveEnoughTileImprovers(for: city, in: gameModel)
+        case .needNavalGrowth: return self.shouldBeActiveNeedNavalGrowth(for: city, in: gameModel)
+        case .needNavalTileImprovement: return self.shouldBeActiveNeedNavalTileImprovement(for: city, in: gameModel)
         case .enoughNavalTileImprovement: return self.shouldBeActiveEnoughNavalTileImprovement(for: city)
-        case .needImprovementFood: return false // FIXME
-        case .needImprovementProduction: return false // FIXME
+        case .needImprovementFood: return self.shouldBeActiveNeedImprovementFood(for: city, in: gameModel)
+        case .needImprovementProduction: return self.shouldBeActiveNeedImprovementProduction(for: city, in: gameModel)
         case .haveTrainingFacility: return self.shouldBeActiveHaveTrainingFacility(for: city)
         case .capitalNeedSettler: return self.shouldBeActiveCapitalNeedSettler(for: city, in: gameModel)
         case .capitalUnderThreat: return self.shouldBeActiveCapitalUnderThreat(for: city, in: gameModel)
@@ -698,22 +698,215 @@ enum CityStrategyType: Int, Codable {
         return false
     }
 
-    private func shouldBeActiveEnoughTileImprovers(for city: AbstractCity?) -> Bool {
+    /// "Enough Tile Improvers" City Strategy: This is not a Player Strategy because we only want to prevent the training of new Builders, not nullify new Techs or Policies, which could still be very useful
+    private func shouldBeActiveEnoughTileImprovers(for city: AbstractCity?, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game model")
+        }
+
+        guard let city = city else {
+            fatalError("cant get city")
+        }
+
+        guard let player = city.player else {
+            fatalError("cant get city player")
+        }
+
+        guard let economicAI = player.economicAI else {
+            fatalError("cant get economicAI")
+        }
+
+        guard let cityStrategyAI = city.cityStrategy else {
+            fatalError("cant get city Strategy AI")
+        }
+
+        let lastTurnWorkerDisbanded = economicAI.lastTurnBuilderDisbanded()
+        if lastTurnWorkerDisbanded >= 0 && (gameModel.currentTurn - lastTurnWorkerDisbanded) <= 10 {
+            return true
+        }
+
+        if cityStrategyAI.adopted(cityStrategy: .needTileImprovers) {
+            return false
+        }
+
+        let numBuilders = player.countUnitsWith(defaultTask: .work, in: gameModel)
+
+        // If it's a minor with at least 1 worker per city, always return true
+        /*if(GET_PLAYER(pCity->getOwner()).isMinorCiv())
+        {
+            if(iNumBuilders >= kPlayer.getNumCities())
+                return true;
+        }*/
+
+        let cityStrategy: CityStrategyType = .enoughTileImprovers
+
+        let weightThresholdModifier = cityStrategy.weightThresholdModifier(for: player) // 10 Extra Weight per TILE_IMPROVEMENT Flavor
+        let perCityThreshold = cityStrategy.weightThreshold() + weightThresholdModifier    // 100
+
+        let moddedNumCities = player.numCities(in: gameModel) + player.countCitiesFeatureSurrounded(in: gameModel)
+        let weightThreshold = (perCityThreshold * moddedNumCities)
+
+        // Average Player wants no more than 1.50 Builders per City [150 Weight is Average; range is 100 to 200]
+        if numBuilders * 100 >= weightThreshold {
+            return true
+        }
 
         return false
     }
 
-    private func shouldBeActiveNeedNavalGrowth(for city: AbstractCity?) -> Bool {
+    /// "Need Naval Growth" City Strategy: Looks at the Tiles this City can work, and if there are a lot of Ocean tiles prioritizes NAVAL_GROWTH: should give us a Harbor eventually
+    private func shouldBeActiveNeedNavalGrowth(for city: AbstractCity?, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game model")
+        }
+
+        guard let city = city else {
+            fatalError("cant get city")
+        }
+
+        guard let player = city.player else {
+            fatalError("cant get city player")
+        }
+
+        guard let cityCitizens = city.cityCitizens else {
+            fatalError("cant get city citizens")
+        }
+
+        var numOceanPlots = 0
+        var numTotalWorkablePlots = 0
+
+        // Look at all Tiles this City could potentially work
+        for workingTileLocation in cityCitizens.workingTileLocations() {
+
+            guard let loopPlot = gameModel.tile(at: workingTileLocation) else {
+                continue
+            }
+
+            if loopPlot.isCity() {
+                continue
+            }
+
+            guard player.isEqual(to: loopPlot.owner()) else {
+                continue
+            }
+
+            numTotalWorkablePlots += 1
+
+            if loopPlot.isWater() && loopPlot.feature() != .lake {
+                numOceanPlots += 1
+            }
+        }
+
+        if numTotalWorkablePlots > 0 {
+
+            let cityStrategy: CityStrategyType = .needNavalGrowth
+
+            let weightThresholdModifier = cityStrategy.weightThresholdModifier(for: player) // -1 Weight per NAVAL_GROWTH Flavor
+            let weightThreshold = cityStrategy.weightThreshold() + weightThresholdModifier    // 40
+
+            // If at least 35% (Average Player) of a City's workable Tiles are low-food Water then we really should be building a Harbor
+            // [35 Weight is Average; range is 30 to 40]
+            if (numOceanPlots * 100) / numTotalWorkablePlots >= weightThreshold {
+                return true
+            }
+        }
 
         return false
     }
 
-    private func shouldBeActiveNeedNavalTileImprovement(for city: AbstractCity?) -> Bool {
+    /// "Need Naval Tile Improvement" City Strategy: If there's an unimproved Resource in the water that we could be using, HIGHLY prioritize NAVAL_TILE_IMPROVEMENT in this City: should give us a Workboat in short order
+    private func shouldBeActiveNeedNavalTileImprovement(for city: AbstractCity?, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game model")
+        }
+
+        guard let city = city else {
+            fatalError("cant get city")
+        }
+
+        guard let player = city.player else {
+            fatalError("cant get city player")
+        }
+
+        guard let cityCitizens = city.cityCitizens else {
+            fatalError("cant get city citizens")
+        }
+
+        var numUnimprovedWaterResources = 0
+
+        // Look at all Tiles this City could potentially work to see if there are any Water Resources that could be improved
+        for workingTileLocation in cityCitizens.workingTileLocations() {
+
+            guard let loopPlot = gameModel.tile(at: workingTileLocation) else {
+                continue
+            }
+
+            guard player.isEqual(to: loopPlot.owner()) else {
+                continue
+            }
+
+            if loopPlot.isWater() {
+                // Only look at Tiles THIS City can use; Prevents issue where two Cities can look at the same tile the same turn and both want Workboats for it; By the time this Strategy is called for a City another City isn't guaranteed to have popped it's previous order and registered that it's now training a Workboat! :(
+                if cityCitizens.isCanWork(at: workingTileLocation, in: gameModel) {
+                    // Does this Tile already have a Resource, and if so, is it already improved?
+                    if loopPlot.resource(for: player) != .none && loopPlot.improvement() == .none {
+                        numUnimprovedWaterResources += 1
+                    }
+                }
+            }
+
+        }
+
+        let numWaterTileImprovers = player.countUnitsWith(defaultTask: .workerSea, in: gameModel)
+
+        // Are there more Water Resources we can build an Improvement on than we have Naval Tile Improvers?
+        if numUnimprovedWaterResources > numWaterTileImprovers {
+            return true
+        }
 
         return false
     }
 
+    /// "Enough Naval Tile Improvement" City Strategy: If we're not running "Need Naval Tile Improvement" then there's no need to worry about it at all
     private func shouldBeActiveEnoughNavalTileImprovement(for city: AbstractCity?) -> Bool {
+
+        guard let cityStrategyAI = city?.cityStrategy else {
+            fatalError("cant get city Strategy AI")
+        }
+
+        if !cityStrategyAI.adopted(cityStrategy: .needNavalTileImprovement) {
+            return true
+        }
+
+        return false
+    }
+
+    /// "Need Improvement" City Strategy: if we need to get an improvement that increases a yield amount
+    private func shouldBeActiveNeedImprovementFood(for city: AbstractCity?, in gameModel: GameModel?) -> Bool {
+
+        guard let cityStrategyAI = city?.cityStrategy else {
+            fatalError("cant get city Strategy AI")
+        }
+
+        if cityStrategyAI.deficientYield(in: gameModel) == .food {
+            return true
+        }
+
+        return false
+    }
+
+    private func shouldBeActiveNeedImprovementProduction(for city: AbstractCity?, in gameModel: GameModel?) -> Bool {
+
+        guard let cityStrategyAI = city?.cityStrategy else {
+            fatalError("cant get city Strategy AI")
+        }
+
+        if cityStrategyAI.deficientYield(in: gameModel) == .food {
+            return true
+        }
 
         return false
     }

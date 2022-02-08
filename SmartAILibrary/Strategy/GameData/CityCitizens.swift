@@ -1633,7 +1633,7 @@ public class CityCitizens: Codable {
     }
 
     /// Can our City work a particular CvPlot?
-    private func isCanWork(at location: HexPoint, in gameModel: GameModel?) -> Bool {
+    internal func isCanWork(at location: HexPoint, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
             fatalError("Cant get gameModel")

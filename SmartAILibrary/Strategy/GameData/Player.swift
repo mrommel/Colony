@@ -300,6 +300,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     // distance / cities
     func cityDistancePathLength(of point: HexPoint, in gameModel: GameModel?) -> Int
     func numCities(in gameModel: GameModel?) -> Int
+    func countCitiesFeatureSurrounded(in gameModel: GameModel?) -> Int
 
     // victory checks
     func scienceVictoryProgress(in gameModel: GameModel?) -> Int
@@ -3992,6 +3993,43 @@ public class Player: AbstractPlayer {
         }
 
         return gameModel.cities(of: self).count
+    }
+
+    public func countCitiesFeatureSurrounded(in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        var features = 0
+
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            guard let cityCitizens = city.cityCitizens else {
+                continue
+            }
+
+            for loopPoint in cityCitizens.workingTileLocations() {
+
+                guard let loopPlot = gameModel.tile(at: loopPoint) else {
+                    continue
+                }
+
+                guard self.isEqual(to: loopPlot.owner()) else {
+                    continue
+                }
+
+                if loopPlot.hasAnyFeature() {
+                    features += 1
+                }
+            }
+        }
+
+        return features
     }
 
     public func isEqual(to other: AbstractPlayer?) -> Bool {
