@@ -94,9 +94,12 @@ class GovernmentTypeTests: XCTestCase {
         let barbarianPlayer = Player(leader: .barbar, isHuman: false)
         barbarianPlayer.initialize()
 
-        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        let playerAlexander = Player(leader: .alexander, isHuman: false)
         playerAlexander.initialize()
         self.objectToTest = playerAlexander.government
+
+        let playerVictoria = Player(leader: .victoria, isHuman: true)
+        playerVictoria.initialize()
 
         // map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
@@ -106,7 +109,7 @@ class GovernmentTypeTests: XCTestCase {
             victoryTypes: [.domination],
             handicap: .chieftain,
             turnsElapsed: 0,
-            players: [barbarianPlayer, playerAlexander],
+            players: [barbarianPlayer, playerAlexander, playerVictoria],
             on: mapModel
         )
 
@@ -127,5 +130,6 @@ class GovernmentTypeTests: XCTestCase {
         let hasUrbanPlanning = self.objectToTest?.has(card: .urbanPlanning)
         XCTAssertEqual(hasSurvey, true)
         XCTAssertEqual(hasUrbanPlanning, true)
+        print(self.objectToTest?.policyCardSet().cards())
     }
 }

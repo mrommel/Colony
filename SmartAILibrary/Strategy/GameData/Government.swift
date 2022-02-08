@@ -310,7 +310,27 @@ public class Government: AbstractGovernment {
         let allPolicyCards = PolicyCardType.all
 
         // find possible cards
-        let policyCards = allPolicyCards.filter({ civics.has(civic: $0.required()) })
+        var policyCards = allPolicyCards.filter({ civics.has(civic: $0.required()) })
+
+        // remove obsolete cards
+        policyCards = policyCards.filter {
+            if let obsoleteCivic = $0.obsoleteCivic() {
+                return !civics.has(civic: obsoleteCivic)
+            }
+
+            return true
+        }
+
+        // remove 'replaces'
+        policyCards = policyCards.filter {
+            for card in $0.replacePolicyCards() {
+                if policyCards.contains(card) {
+                    return false
+                }
+            }
+
+            return true
+        }
 
         // rate cards
         var policyCardRating = WeightedList<PolicyCardType>()
@@ -337,8 +357,6 @@ public class Government: AbstractGovernment {
                 //.
                 self.add(card: bestCard)
 
-                //slotType.
-                //possibleCardsForSlot.remove bestCard
                 policyCardRating = policyCardRating.filter(
                     where: { (key, _) in
                         key != bestCard

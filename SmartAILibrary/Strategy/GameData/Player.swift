@@ -722,6 +722,8 @@ public class Player: AbstractPlayer {
 
     public func initialize() {
 
+        self.setupFlavors()
+
         self.grandStrategyAI = GrandStrategyAI(player: self)
         self.diplomacyAI = DiplomaticAI(player: self)
         self.diplomacyRequests = DiplomacyRequests(player: self)
@@ -763,11 +765,13 @@ public class Player: AbstractPlayer {
         for resource in ResourceType.strategic {
             self.resourceMaxStockpile?.add(weight: 50, for: resource)
         }
-
-        self.setupFlavors()
     }
 
     func setupFlavors() {
+
+        if !self.personalityFlavor.isEmpty {
+            return
+        }
 
         let defaultFlavorValue = 5 // DEFAULT_FLAVOR_VALUE
 
@@ -785,7 +789,7 @@ public class Player: AbstractPlayer {
                     leaderFlavor = defaultFlavorValue
                 }
 
-                self.personalityFlavor.set(value: defaultFlavorValue, for: flavorType)
+                self.personalityFlavor.set(value: leaderFlavor, for: flavorType)
             }
 
             if !Thread.current.isRunningXCTest {
@@ -805,6 +809,10 @@ public class Player: AbstractPlayer {
                 }
             }
         }
+
+        // print("---------------------------------------------------")
+        // print("\(self.leader) start with the following flavors:")
+        // print("\(self.personalityFlavor)")
     }
 
     public func hasActiveDiplomacyRequests() -> Bool {
