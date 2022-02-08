@@ -10,6 +10,7 @@ import Foundation
 
 // ECONOMICAISTRATEGY_ONE_OR_FEWER_COASTAL_CITIES
 /// "One or Fewer Coastal Cities" Player Strategy: If we don't have 2 coastal cities, this runs nullifying the WATER_CONNECTION Flavor
+// swiftlint:disable type_name
 class OneOrFewerCoastalCitiesEconomicStrategyType: EconomicStrategyTypeData {
 
     init() {

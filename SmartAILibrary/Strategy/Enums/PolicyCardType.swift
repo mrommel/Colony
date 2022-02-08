@@ -913,7 +913,7 @@ public enum PolicyCardType: Int, Codable {
                 replace: [],
                 flavours: []
             )
-            
+
         case .warsOfReligion:
             // https://civilization.fandom.com/wiki/Wars_of_Religion_(Civ6)
             return PolicyCardTypeData(

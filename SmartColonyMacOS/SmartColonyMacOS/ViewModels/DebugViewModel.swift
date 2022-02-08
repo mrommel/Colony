@@ -69,7 +69,7 @@ class TestUI: UserInterfaceDelegate {
     func focus(on location: HexPoint) {}
 }
 
-// swiftlint:disable force_try
+// swiftlint:disable force_try type_body_length
 class DebugViewModel: ObservableObject {
 
     weak var delegate: DebugViewModelDelegate?

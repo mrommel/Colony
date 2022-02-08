@@ -16,7 +16,7 @@ import Foundation
 //!  - Handles moves for all military units not recruited by the tactical or operational AI
 //!  - Also handles moves for workers and explorers (and settlers on the first turn)
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// swiftlint:disable type_body_length nesting
+// swiftlint:disable type_body_length
 public class HomelandAI {
 
     var player: Player?

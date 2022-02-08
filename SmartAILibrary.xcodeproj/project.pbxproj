@@ -294,8 +294,8 @@
 		C9C1F45627AD7459000837BE /* IslandStartEconomicStrategyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1F45527AD7459000837BE /* IslandStartEconomicStrategyType.swift */; };
 		C9C1F45827ADB218000837BE /* EconomicAITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1F45727ADB218000837BE /* EconomicAITests.swift */; };
 		C9C1F45A27B052D5000837BE /* HaltGrowthBuildingsEconomicStrategyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1F45927B052D5000837BE /* HaltGrowthBuildingsEconomicStrategyType.swift */; };
-		C9C1F45C27B06616000837BE /* NeedHappinessEconomicStrategyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1F45B27B06616000837BE /* NeedHappinessEconomicStrategyType.swift */; };
-		C9C1F45E27B06632000837BE /* NeedHappinessCriticalEconomicStrategyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1F45D27B06632000837BE /* NeedHappinessCriticalEconomicStrategyType.swift */; };
+		C9C1F45C27B06616000837BE /* NeedAmenitiesEconomicStrategyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1F45B27B06616000837BE /* NeedAmenitiesEconomicStrategyType.swift */; };
+		C9C1F45E27B06632000837BE /* NeedAmenitiesCriticalEconomicStrategyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1F45D27B06632000837BE /* NeedAmenitiesCriticalEconomicStrategyType.swift */; };
 		C9C2FE3323F6DEE300185235 /* WeightedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE3223F6DEE300185235 /* WeightedList.swift */; };
 		C9C2FE3523F6DF4300185235 /* BuildableItemWeights.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE3423F6DF4300185235 /* BuildableItemWeights.swift */; };
 		C9C2FE3723F6DFC700185235 /* BuildQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE3623F6DFC700185235 /* BuildQueue.swift */; };
@@ -704,8 +704,8 @@
 		C9C1F45527AD7459000837BE /* IslandStartEconomicStrategyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandStartEconomicStrategyType.swift; sourceTree = "<group>"; };
 		C9C1F45727ADB218000837BE /* EconomicAITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EconomicAITests.swift; sourceTree = "<group>"; };
 		C9C1F45927B052D5000837BE /* HaltGrowthBuildingsEconomicStrategyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaltGrowthBuildingsEconomicStrategyType.swift; sourceTree = "<group>"; };
-		C9C1F45B27B06616000837BE /* NeedHappinessEconomicStrategyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeedHappinessEconomicStrategyType.swift; sourceTree = "<group>"; };
-		C9C1F45D27B06632000837BE /* NeedHappinessCriticalEconomicStrategyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeedHappinessCriticalEconomicStrategyType.swift; sourceTree = "<group>"; };
+		C9C1F45B27B06616000837BE /* NeedAmenitiesEconomicStrategyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeedAmenitiesEconomicStrategyType.swift; sourceTree = "<group>"; };
+		C9C1F45D27B06632000837BE /* NeedAmenitiesCriticalEconomicStrategyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeedAmenitiesCriticalEconomicStrategyType.swift; sourceTree = "<group>"; };
 		C9C2FE3223F6DEE300185235 /* WeightedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightedList.swift; sourceTree = "<group>"; };
 		C9C2FE3423F6DF4300185235 /* BuildableItemWeights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildableItemWeights.swift; sourceTree = "<group>"; };
 		C9C2FE3623F6DFC700185235 /* BuildQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildQueue.swift; sourceTree = "<group>"; };
@@ -1365,8 +1365,8 @@
 				C9A2B48127ABB9CA0037D8C6 /* EnoughReconSeaEconomicStrategyType.swift */,
 				C9A2B48327ABBA310037D8C6 /* EarlyExpansionEconomicStrategyType.swift */,
 				C9A2B48527ABBABC0037D8C6 /* EnoughExpansionEconomicStrategyType.swift */,
-				C9C1F45B27B06616000837BE /* NeedHappinessEconomicStrategyType.swift */,
-				C9C1F45D27B06632000837BE /* NeedHappinessCriticalEconomicStrategyType.swift */,
+				C9C1F45B27B06616000837BE /* NeedAmenitiesEconomicStrategyType.swift */,
+				C9C1F45D27B06632000837BE /* NeedAmenitiesCriticalEconomicStrategyType.swift */,
 				C9A2B48727ABBB1F0037D8C6 /* FoundCityEconomicStrategyType.swift */,
 				C9A2B48927ABBEF10037D8C6 /* NeedImprovementFoodEconomicStrategyType.swift */,
 				C9A2B48B27ABBF4D0037D8C6 /* NeedImprovementProductionEconomicStrategyType.swift */,
@@ -1877,7 +1877,7 @@
 				C98DBFA323DF219100B6CE25 /* City.swift in Sources */,
 				C997902B25133377003E52C9 /* CityCloseDefenseOperation.swift in Sources */,
 				C9E74CB3248E1AE4003EF256 /* DiplomaticPlayerArray.swift in Sources */,
-				C9C1F45C27B06616000837BE /* NeedHappinessEconomicStrategyType.swift in Sources */,
+				C9C1F45C27B06616000837BE /* NeedAmenitiesEconomicStrategyType.swift in Sources */,
 				C9DFCF8223F30BDC0032243D /* StrengthType.swift in Sources */,
 				C955FBCE246065D600605618 /* AmenitiesState.swift in Sources */,
 				C964BA2723EB6C4700CA379C /* MilitaryAI.swift in Sources */,
@@ -1898,7 +1898,7 @@
 				C93B21B42727CD5B00B6D287 /* SiegeTowerUnitType.swift in Sources */,
 				C9DFCF7023F29CFC0032243D /* Ocean.swift in Sources */,
 				C9588AC12417FEB100304E9A /* CityConnections.swift in Sources */,
-				C9C1F45E27B06632000837BE /* NeedHappinessCriticalEconomicStrategyType.swift in Sources */,
+				C9C1F45E27B06632000837BE /* NeedAmenitiesCriticalEconomicStrategyType.swift in Sources */,
 				C9A2B48027ABB9500037D8C6 /* NeedReconSeaEconomicStrategyType.swift in Sources */,
 				C9E96CD226EB69EF001A9666 /* DedicationType.swift in Sources */,
 				C9E74CBA248FA8B8003EF256 /* DiplomaticRequestState.swift in Sources */,

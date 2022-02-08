@@ -24,7 +24,7 @@ class ExpandToOtherContinentsEconomicStrategyType: EconomicStrategyTypeData {
                 Flavor(type: .navalRecon, value: 5),
                 Flavor(type: .navalTileImprovement, value: 10),
                 Flavor(type: .navalGrowth, value: 5),
-                //Flavor(type: .waterConnection, value: 5)
+                // Flavor(type: .waterConnection, value: 5)
                 Flavor(type: .expansion, value: 50),
                 Flavor(type: .recon, value: -10)
             ],

@@ -10,6 +10,7 @@ import Foundation
 
 // ECONOMICAISTRATEGY_NEED_HAPPINESS
 /// "Need Amenities" Player Strategy: Time for Happiness?
+// swiftlint:disable type_name
 class NeedAmenitiesEconomicStrategyType: EconomicStrategyTypeData {
 
     init() {

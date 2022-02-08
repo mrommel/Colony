@@ -11,6 +11,7 @@ import Foundation
 import XCTest
 @testable import SmartAILibrary
 
+// swiftlint:disable type_body_length
 class DiplomacyAITests: XCTestCase {
 
     func testMilitaryStrengthPlayerNotMet() {

@@ -565,7 +565,6 @@ public class CityStrategyAI: Codable {
                 if let projectType = selection.projectType, let projectLocation = selection.location {
                     city.startBuilding(project: projectType, at: projectLocation, in: gameModel)
                 }
-                break
             }
         }
     }
