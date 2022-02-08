@@ -41,8 +41,10 @@ public enum LabelImageType {
     case strength
     case religiousStrength
     case movement
-    case citizen
     case governor
+    case citizen
+    case promotion
+    case diplomaticFavor
 
     case greatPerson
     case greatAdmiral
@@ -96,6 +98,8 @@ public enum LabelImageType {
         case "[Citizen]": return .citizen
         case "[Governor]": return .governor
         case "[Population]": return .citizen
+        case "[Promotion]": return .promotion
+        case "[DiplomaticFavor]": return .diplomaticFavor
 
         case "[GreatPerson]": return .greatPerson
         case "[GreatAdmiral]": return .greatAdmiral
@@ -153,6 +157,8 @@ public enum LabelImageType {
         case .movement: return Globals.Icons.movement
         case .citizen: return Globals.Icons.citizen
         case .governor: return Globals.Icons.governor
+        case .promotion: return Globals.Icons.promotion
+        case .diplomaticFavor: return Globals.Icons.diplomaticFavor
 
         case .greatPerson: return Globals.Icons.greatPerson
         case .greatAdmiral: return Globals.Icons.greatAdmiral

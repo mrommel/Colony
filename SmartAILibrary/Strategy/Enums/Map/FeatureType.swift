@@ -418,7 +418,7 @@ public enum FeatureType: Int, Codable {
             )
         case .mountEverest:
             return FeatureData(
-                name: "Mount Kilimanjaro",
+                name: "Mount Everest",
                 yields: Yields(food: 2, production: 0, gold: 0, science: 0, faith: 1),
                 isWonder: true
             )

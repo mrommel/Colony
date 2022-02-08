@@ -587,7 +587,7 @@ class PediaViewModel: ObservableObject {
                     tmpPediaDetailViewModels.append(PediaDetailViewModel(terrain: terrainType))
                 }
             case .features:
-                for featureType in FeatureType.all {
+                for featureType in FeatureType.all + FeatureType.naturalWonders {
                     tmpPediaDetailViewModels.append(PediaDetailViewModel(feature: featureType))
                 }
             case .resources:

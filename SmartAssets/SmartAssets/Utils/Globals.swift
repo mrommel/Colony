@@ -166,6 +166,14 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "governor")
         }
 
+        public static var promotion: NSImage {
+            return Icons.loadCachedTexture(with: "promotion")
+        }
+
+        public static var diplomaticFavor: NSImage {
+            return Icons.loadCachedTexture(with: "diplomaticFavor")
+        }
+
         public static var greatPerson: NSImage {
             return Icons.loadCachedTexture(with: "greatPerson")
         }
