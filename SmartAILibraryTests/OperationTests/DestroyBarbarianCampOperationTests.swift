@@ -112,10 +112,14 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // WHEN
-        gameModel.update()
+        repeat {
+            gameModel.update() // this runs one player at a time
 
-        playerAlexander.finishTurn()
-        playerAlexander.setAutoMoves(to: true)
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         // THEN
         // DEBUG: po playerTrajan.operations!.operations
@@ -223,10 +227,14 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
         playerAlexander.doDeclareWar(to: playerTrajan, in: gameModel) // at war no barbarian hunt
 
         // WHEN
-        gameModel.update()
+        repeat {
+            gameModel.update() // this runs one player at a time
 
-        playerAlexander.finishTurn()
-        playerAlexander.setAutoMoves(to: true)
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         // THEN
         // DEBUG: po playerTrajan.operations!.operations
@@ -337,10 +345,14 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // WHEN
-        gameModel.update()
+        repeat {
+            gameModel.update() // this runs one player at a time
 
-        playerAlexander.finishTurn()
-        playerAlexander.setAutoMoves(to: true)
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         // THEN
         // DEBUG: po playerTrajan.operations!.operations
@@ -463,10 +475,14 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // WHEN
-        gameModel.update()
+        repeat {
+            gameModel.update() // this runs one player at a time
 
-        playerAlexander.finishTurn()
-        playerAlexander.setAutoMoves(to: true)
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         // THEN
         // DEBUG: po playerTrajan.operations!.operations

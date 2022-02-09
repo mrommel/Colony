@@ -200,6 +200,7 @@
 		C99496932519E4300049C2D6 /* BasicCityAttackOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99496922519E4300049C2D6 /* BasicCityAttackOperationTests.swift */; };
 		C9956853247E90B00005E9EA /* Eurekas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9956852247E90AF0005E9EA /* Eurekas.swift */; };
 		C995A6A5271416BC00DCC04A /* GameReplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995A6A4271416BC00DCC04A /* GameReplay.swift */; };
+		C997785727B3C4CA00BFC102 /* GameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C997785627B3C4C900BFC102 /* GameUtils.swift */; };
 		C997902B25133377003E52C9 /* CityCloseDefenseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C997902A25133377003E52C9 /* CityCloseDefenseOperation.swift */; };
 		C997905B2513F822003E52C9 /* EnemyTerritoryOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C997905A2513F822003E52C9 /* EnemyTerritoryOperation.swift */; };
 		C99790612514B697003E52C9 /* PillageEnemyOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99790602514B697003E52C9 /* PillageEnemyOperation.swift */; };
@@ -610,6 +611,7 @@
 		C99496922519E4300049C2D6 /* BasicCityAttackOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicCityAttackOperationTests.swift; sourceTree = "<group>"; };
 		C9956852247E90AF0005E9EA /* Eurekas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eurekas.swift; sourceTree = "<group>"; };
 		C995A6A4271416BC00DCC04A /* GameReplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameReplay.swift; sourceTree = "<group>"; };
+		C997785627B3C4C900BFC102 /* GameUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameUtils.swift; sourceTree = "<group>"; };
 		C997902A25133377003E52C9 /* CityCloseDefenseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCloseDefenseOperation.swift; sourceTree = "<group>"; };
 		C997905A2513F822003E52C9 /* EnemyTerritoryOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyTerritoryOperation.swift; sourceTree = "<group>"; };
 		C99790602514B697003E52C9 /* PillageEnemyOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillageEnemyOperation.swift; sourceTree = "<group>"; };
@@ -920,6 +922,8 @@
 				C97A38E623F57DD9008A8AE9 /* DiplomaticApproachWeights.swift */,
 				C9BB750B246D5813004BE448 /* DiplomacyRequests.swift */,
 				C90FC39F23D8968D00720B32 /* GameModel.swift */,
+				C997785627B3C4C900BFC102 /* GameUtils.swift */,
+				C956BF5924F015C5009702B4 /* TradeRoute.swift */,
 				C9DFCF6923F294C00032243D /* CivicDiscoveredMessage.swift */,
 				C964BA1E23EAF01A00CA379C /* CityStrategyAI.swift */,
 				C904DFB223F5D05600491A16 /* BuildingProductionAI.swift */,
@@ -935,7 +939,6 @@
 				C90FA34D24BEF41500733331 /* BarbarianAI.swift */,
 				C9AAC26D24D9666100FF1E35 /* GreatPersons.swift */,
 				C960E1DD24E688240049DC83 /* TradeRoutes.swift */,
-				C956BF5924F015C5009702B4 /* TradeRoute.swift */,
 				C995A6A4271416BC00DCC04A /* GameReplay.swift */,
 			);
 			path = Strategy;
@@ -1911,6 +1914,7 @@
 				C9C1F45A27B052D5000837BE /* HaltGrowthBuildingsEconomicStrategyType.swift in Sources */,
 				C90FC39323D88EA400720B32 /* GrandStrategyAIType.swift in Sources */,
 				C9DFCF8023F2C69F0032243D /* TileFertilityEvaluator.swift in Sources */,
+				C997785727B3C4CA00BFC102 /* GameUtils.swift in Sources */,
 				C964BA1923EAD18200CA379C /* UnitType.swift in Sources */,
 				C9A348B225F4C599008B797D /* FoodHarvestingType.swift in Sources */,
 				C91D3C8026F283B700CD1F45 /* PlayerGovernors.swift in Sources */,

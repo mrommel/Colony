@@ -155,6 +155,7 @@ public protocol AbstractTile: Codable, NSCopying {
     func owner() -> AbstractPlayer?
     func ownerLeader() -> LeaderType
     func set(owner: AbstractPlayer?) throws
+    func change(owner: AbstractPlayer?) throws
     func removeOwner() throws
 
     // methods related to working city
@@ -1139,6 +1140,16 @@ public class Tile: AbstractTile {
 
         if self.hasOwner() {
             throw TileError.alreadyOwned
+        }
+
+        self.ownerValue = owner
+        self.ownerLeaderValue = owner!.leader
+    }
+
+    public func change(owner: AbstractPlayer?) throws {
+
+        if owner == nil {
+            throw TileError.emptyOwner
         }
 
         self.ownerValue = owner

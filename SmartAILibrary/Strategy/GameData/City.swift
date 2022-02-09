@@ -1309,24 +1309,52 @@ public class City: AbstractCity {
 
     func doRevolt(in gameModel: GameModel?) {
 
-        guard let player = self.player else {
+        guard let oldPlayer = self.player else {
             fatalError("cant get player")
         }
 
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("cant get city citizens")
+        }
+
         // inform user
-        if player.isHuman() {
+        if oldPlayer.isHuman() {
             // our own city revolted
             gameModel?.userInterface?.showPopup(popupType: .cityRevolted(city: self))
-        } else if player.hasMet(with: gameModel?.humanPlayer()) {
+        } else if oldPlayer.hasMet(with: gameModel?.humanPlayer()) {
             // foreign city revolted
             gameModel?.userInterface?.showPopup(popupType: .foreignCityRevolted(city: self))
         }
 
+        let newPlayer = gameModel?.freeCityPlayer()
+
+        self.leader = .freeCities
+        self.player = newPlayer
+
+        // update owned tiles
+        for loopPoint in cityCitizens.workingTileLocations() {
+
+            guard let loopTile = gameModel?.tile(at: loopPoint) else {
+                continue
+            }
+
+            // hm, maybe this is too much?
+            guard loopTile.ownerLeader() == oldPlayer.leader else {
+                continue
+            }
+
+            do {
+                try loopTile.change(owner: newPlayer)
+            } catch {
+                fatalError("could not change owner: \(error)")
+            }
+        }
+
+        oldPlayer.updatePlots(in: gameModel)
+        newPlayer?.updatePlots(in: gameModel)
+
         // update UI
         gameModel?.userInterface?.update(city: self)
-
-        self.leader = .free
-        self.player = nil
     }
 
     public func loyalty() -> Int {

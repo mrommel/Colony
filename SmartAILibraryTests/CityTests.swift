@@ -486,6 +486,6 @@ class CityTests: XCTestCase {
         // THEN
         XCTAssertEqual(loyaltyBefore, 100)
         XCTAssertEqual(loyaltyAfter, -25)
-        XCTAssertNil(playerAfter)
+        XCTAssertEqual(playerAfter?.leader, .freeCities)
     }
 }

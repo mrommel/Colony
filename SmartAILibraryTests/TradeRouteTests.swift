@@ -23,7 +23,7 @@ class TradeRouteTests: XCTestCase {
     var hasExpired: Bool = false
 
     // https://github.com/mrommel/Colony/issues/66
-    func testTradeRouteWorkingWithin10Turns() {
+    func testTradeRouteWorkingWithin20Turns() {
 
         // GIVEN
         let barbarianPlayer = Player(leader: .barbar, isHuman: false)
@@ -116,7 +116,7 @@ class TradeRouteTests: XCTestCase {
         } while turnCounter < 20 && !self.hasVisited
 
         // THEN
-        XCTAssertEqual(self.hasVisited, true, "not visited trade city within first 10 turns")
+        XCTAssertEqual(self.hasVisited, true, "not visited trade city within first 20 turns")
     }
 
     func testTradeRouteWorkingBothCitiesHomeland() { // check foreign too?

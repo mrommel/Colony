@@ -137,12 +137,15 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func isTurnActive() -> Bool
     func isHuman() -> Bool
     func isBarbarian() -> Bool
+    func isFreeCity() -> Bool
 
     // diplomatics
     func hasMet(with otherPlayer: AbstractPlayer?) -> Bool
     func isAtWar(with otherPlayer: AbstractPlayer?) -> Bool
     func atWarCount() -> Int
     func canDeclareWar(to otherPlayer: AbstractPlayer?) -> Bool
+    func doDeclareWar(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
+    func doEstablishPeaceTreaty(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func warWeariness(with otherPlayer: AbstractPlayer?) -> Int
     func updateWarWeariness(against otherPlayer: AbstractPlayer?, at point: HexPoint, killed: Bool, in gameModel: GameModel?)
 
@@ -906,6 +909,11 @@ public class Player: AbstractPlayer {
         return self.leader == .barbar
     }
 
+    public func isFreeCity() -> Bool {
+
+        return self.leader == .freeCities
+    }
+
     public func doFirstContact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let otherPlayer = otherPlayer else {
@@ -1548,7 +1556,7 @@ public class Player: AbstractPlayer {
         var hasActiveDiploRequest = false
         if self.isAlive() {
 
-            if !self.isBarbarian() {
+            if !self.isBarbarian() && !self.isFreeCity() {
 
                 //self.doUnitDiversity()
                 self.doUpdateCramped(in: gameModel)
@@ -1579,7 +1587,7 @@ public class Player: AbstractPlayer {
         }
 
         if self.isAlive() {
-            if !self.isBarbarian() {
+            if !self.isBarbarian() && !self.isFreeCity() {
                 self.economicAI?.doTurn(in: gameModel)
                 self.militaryAI?.doTurn(in: gameModel)
                 self.citySpecializationAI?.doTurn(in: gameModel)
@@ -2345,7 +2353,7 @@ public class Player: AbstractPlayer {
             self.tacticalAI?.doTurn(in: gameModel)
 
             // Skip homeland AI processing if a barbarian
-            if !self.isBarbarian() {
+            if !self.isBarbarian() && !self.isFreeCity() {
                 // Now its the homeland AI's turn.
                 self.homelandAI?.recruitUnits(in: gameModel)
                 self.homelandAI?.doTurn(in: gameModel)
@@ -4619,7 +4627,7 @@ public class Player: AbstractPlayer {
             fatalError("cant get tile")
         }
 
-        if !self.isBarbarian() {
+        if !self.isBarbarian() && !self.isFreeCity() {
             // See if we need to remove a temporary dominance zone
             self.tacticalAI?.deleteTemporaryZone(at: tile.point)
 

@@ -162,7 +162,15 @@ class DiplomacyAITests: XCTestCase {
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // WHEN
-        gameModel.update() //.doTurn()
+        repeat {
+            gameModel.update() // this runs one player at a time
+
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
+
         let proximity = playerAlexander.diplomacyAI!.proximity(to: playerTrajan)
 
         // THEN
@@ -221,7 +229,15 @@ class DiplomacyAITests: XCTestCase {
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // WHEN
-        gameModel.update() //.doTurn()
+        repeat {
+            gameModel.update() // this runs one player at a time
+
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
+
         let proximity = playerAlexander.diplomacyAI!.proximity(to: playerTrajan)
 
         // THEN
@@ -280,7 +296,15 @@ class DiplomacyAITests: XCTestCase {
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // WHEN
-        gameModel.update() //.doTurn()
+        repeat {
+            gameModel.update() // this runs one player at a time
+
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
+
         let proximity = playerAlexander.diplomacyAI!.proximity(to: playerTrajan)
 
         // THEN
@@ -335,7 +359,16 @@ class DiplomacyAITests: XCTestCase {
 
         // WHEN
         let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
-        gameModel.update() //.doTurn()
+
+        repeat {
+            gameModel.update() // this runs one player at a time
+
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
+
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
 
         // THEN
@@ -392,7 +425,16 @@ class DiplomacyAITests: XCTestCase {
         // WHEN
         let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
         playerAlexander.diplomacyAI?.doDeclarationOfFriendship(with: playerTrajan, in: gameModel)
-        gameModel.update() //.doTurn()
+
+        repeat {
+            gameModel.update() // this runs one player at a time
+
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
+
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
 
         // THEN
@@ -448,7 +490,16 @@ class DiplomacyAITests: XCTestCase {
         // WHEN
         let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
         playerAlexander.diplomacyAI?.doDenounce(player: playerTrajan, in: gameModel)
-        gameModel.update() //.doTurn()
+
+        repeat {
+            gameModel.update() // this runs one player at a time
+
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
+
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
 
         // THEN
@@ -506,7 +557,16 @@ class DiplomacyAITests: XCTestCase {
         // WHEN
         let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
         playerAlexander.doDeclareWar(to: playerTrajan, in: gameModel)
-        gameModel.update() //.doTurn()
+
+        repeat {
+            gameModel.update() // this runs one player at a time
+
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
+        
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
 
         // THEN

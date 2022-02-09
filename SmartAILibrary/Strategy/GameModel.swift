@@ -104,11 +104,14 @@ open class GameModel: Codable {
             fatalError("the last player must be human")
         }
 
+        let freeCityPlayer = Player(leader: .freeCities)
+        freeCityPlayer.initialize()
+
         self.victoryTypes = victoryTypes
         self.handicap = handicap
         self.currentTurn = turnsElapsed
         self.numProphetsSpawnedValue = 0
-        self.players = players
+        self.players = [freeCityPlayer] + players
         self.religionsVal = GameReligions()
         self.map = map
         self.discoveredContinents = []
@@ -769,7 +772,7 @@ open class GameModel: Codable {
 
         for player in self.players {
 
-            if player.isBarbarian() {
+            if player.isBarbarian() || player.isFreeCity() {
                 continue
             }
 
@@ -798,7 +801,7 @@ open class GameModel: Codable {
 
         for player in self.players {
 
-            if player.isBarbarian() {
+            if player.isBarbarian() || player.isFreeCity() {
                 continue
             }
 
@@ -825,7 +828,7 @@ open class GameModel: Codable {
         // Calculate who owns the most original capitals by iterating through all civs
         // and finding out who owns their original capital now.
         var numOriginalCapitals: [LeaderType: Int] = [:]
-        let playerNum: Int = self.players.filter { !$0.isBarbarian() }.count
+        let playerNum: Int = self.players.filter { !$0.isBarbarian() && !$0.isFreeCity() }.count
 
         for player in self.players {
 
@@ -875,7 +878,7 @@ open class GameModel: Codable {
 
         for player in self.players {
 
-            if player.isBarbarian() {
+            if player.isBarbarian() || player.isFreeCity() {
                 continue
             }
 
@@ -902,7 +905,7 @@ open class GameModel: Codable {
 
             for player in self.players {
 
-                if player.isBarbarian() {
+                if player.isBarbarian() || player.isFreeCity() {
                     continue
                 }
 
@@ -934,7 +937,7 @@ open class GameModel: Codable {
         // loop thru all players
         for player in self.players {
 
-            if player.isBarbarian() {
+            if player.isBarbarian() || player.isFreeCity() {
                 continue
             }
 
@@ -1084,6 +1087,10 @@ open class GameModel: Codable {
     func updateScore() {
 
         for player in self.players {
+
+            if player.isBarbarian() || player.isFreeCity() {
+                continue
+            }
 
             let culturePerTurn = player.culture(in: self)
             self.rankingData.add(culturePerTurn: culturePerTurn, for: player.leader)
@@ -1503,6 +1510,11 @@ open class GameModel: Codable {
         return self.players.first(where: { $0.leader == .barbar })
     }
 
+    public func freeCityPlayer() -> AbstractPlayer? {
+
+        return self.players.first(where: { $0.leader == .freeCities })
+    }
+
     public func player(for leader: LeaderType) -> AbstractPlayer? {
 
         return self.players.first(where: { $0.leader == leader })
@@ -1535,7 +1547,7 @@ open class GameModel: Codable {
 
         for player in self.players {
 
-            if player.isBarbarian() {
+            if player.isBarbarian() || player.isFreeCity() {
                 continue
             }
 

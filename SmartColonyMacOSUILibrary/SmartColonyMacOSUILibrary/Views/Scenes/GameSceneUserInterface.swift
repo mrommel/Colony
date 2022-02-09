@@ -216,10 +216,27 @@ extension GameScene: UserInterfaceDelegate {
         }
     }
 
-    func update(city: AbstractCity?) {
+    func update(city cityRef: AbstractCity?) {
 
         DispatchQueue.main.async {
-            self.mapNode?.cityLayer.update(city: city)
+            self.mapNode?.cityLayer.update(city: cityRef)
+
+            guard let cityCitizens = cityRef?.cityCitizens else {
+                fatalError("cant get city citizens")
+            }
+
+            guard let gameModel = self.viewModel?.game else {
+                fatalError("cant get game")
+            }
+
+            for point in cityCitizens.workingTileLocations() {
+
+                guard let tile = gameModel.tile(at: point) else {
+                    continue
+                }
+
+                self.refresh(tile: tile)
+            }
         }
     }
 

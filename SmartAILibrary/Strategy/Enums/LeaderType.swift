@@ -13,7 +13,7 @@ public enum LeaderType: Int, Codable {
 
     case none
     case barbar
-    case free
+    case freeCities
 
     case alexander
     case trajan
@@ -60,7 +60,7 @@ public enum LeaderType: Int, Codable {
 
         case .none: return []
         case .barbar: return []
-        case .free: return []
+        case .freeCities: return []
 
         case .alexander:
             return [
@@ -159,7 +159,7 @@ public enum LeaderType: Int, Codable {
 
         case .none: return []
         case .barbar: return []
-        case .free: return []
+        case .freeCities: return []
 
         case .alexander:
             return [Trait(type: .boldness, value: 8)]
@@ -197,7 +197,7 @@ public enum LeaderType: Int, Codable {
 
         case .none: return []
         case .barbar: return []
-        case .free: return []
+        case .freeCities: return []
 
         case .alexander: return [
                 ApproachBias(approach: .afraid, bias: 3),
@@ -290,7 +290,7 @@ public enum LeaderType: Int, Codable {
                 religion: nil
             )
 
-        case .free:
+        case .freeCities:
             return LeaderTypeData(
                 name: "Free",
                 intro: "--",

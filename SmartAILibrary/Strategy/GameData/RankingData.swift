@@ -351,6 +351,10 @@ public class RankingData: Codable {
 
         for player in players {
 
+            if player.isBarbarian() || player.isFreeCity() {
+                continue
+            }
+
             self.data.append(RankingLeaderData(leader: player.leader))
         }
     }

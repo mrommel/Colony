@@ -27,47 +27,61 @@ struct DebugView: View {
             GroupBox {
 
                 VStack(alignment: .center, spacing: 10) {
-                    Button(action: {
-                        self.viewModel.createAttackBarbariansWorld()
-                    }, label: {
-                        Text("Attack Barbarians")
-                    }).buttonStyle(GameButtonStyle())
+                    Group {
+                        Button(action: {
+                            self.viewModel.createAttackBarbariansWorld()
+                        }, label: {
+                            Text("Attack Barbarians")
+                        }).buttonStyle(GameButtonStyle())
 
-                    Button(action: {
-                        self.viewModel.createFastTradeRouteWorld()
-                    }, label: {
-                        Text("Fast Trade Route")
-                    }).buttonStyle(GameButtonStyle())
+                        Button(action: {
+                            self.viewModel.createFastTradeRouteWorld()
+                        }, label: {
+                            Text("Fast Trade Route")
+                        }).buttonStyle(GameButtonStyle())
 
-                    Button(action: {
-                        self.viewModel.createAllUnitsWorld()
-                    }, label: {
-                        Text("All Units")
-                    }).buttonStyle(GameButtonStyle())
+                        Button(action: {
+                            self.viewModel.createAllUnitsWorld()
+                        }, label: {
+                            Text("All Units")
+                        }).buttonStyle(GameButtonStyle())
 
-                    Button(action: {
-                        self.viewModel.createFastReligionFoundingWorld()
-                    }, label: {
-                        Text("Fast religion founding")
-                    }).buttonStyle(GameButtonStyle())
+                        Button(action: {
+                            self.viewModel.createFastReligionFoundingWorld()
+                        }, label: {
+                            Text("Fast religion founding")
+                        }).buttonStyle(GameButtonStyle())
 
-                    Button(action: {
-                        self.viewModel.createTileImprovementsWorld()
-                    }, label: {
-                        Text("Tile Improvements")
-                    }).buttonStyle(GameButtonStyle())
+                        Button(action: {
+                            self.viewModel.createTileImprovementsWorld()
+                        }, label: {
+                            Text("Tile Improvements")
+                        }).buttonStyle(GameButtonStyle())
 
-                    Button(action: {
-                        self.viewModel.createCityCombatWorld()
-                    }, label: {
-                        Text("City Combat")
-                    }).buttonStyle(GameButtonStyle())
+                        Button(action: {
+                            self.viewModel.createCityCombatWorld()
+                        }, label: {
+                            Text("City Combat")
+                        }).buttonStyle(GameButtonStyle())
 
-                    Button(action: {
-                        self.viewModel.createSpriteKitView()
-                    }, label: {
-                        Text("SpriteKit")
-                    }).buttonStyle(GameButtonStyle())
+                        Button(action: {
+                            self.viewModel.createSpriteKitView()
+                        }, label: {
+                            Text("SpriteKit")
+                        }).buttonStyle(GameButtonStyle())
+
+                        Button(action: {
+                            self.viewModel.createCityRevoltWorld()
+                        }, label: {
+                            Text("Revolt")
+                        }).buttonStyle(GameButtonStyle())
+
+                        Button(action: {
+                            self.viewModel.generateUnitAssets()
+                        }, label: {
+                            Text("Unit Assets")
+                        }).buttonStyle(GameButtonStyle())
+                    }
 
                     Spacer()
                         .frame(height: 30, alignment: .center)

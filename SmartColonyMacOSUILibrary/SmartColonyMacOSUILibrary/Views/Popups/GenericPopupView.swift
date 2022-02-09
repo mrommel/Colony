@@ -32,9 +32,10 @@ struct GenericPopupView: View {
                 VStack(alignment: .center, spacing: 6) {
 
                     Text(self.viewModel.summary)
-                        .font(.headline)
+                        .font(.body)
                         .lineLimit(nil)
                         .fixedSize(horizontal: false, vertical: true)
+                        .padding(.top, 30)
                         .padding(.bottom, 10)
                         .padding(.leading, 20)
                         .padding(.trailing, 20)
@@ -49,14 +50,14 @@ struct GenericPopupView: View {
                     .buttonStyle(DialogButtonStyle())
                     .padding(.bottom, 8)
                 }
-                .frame(width: 362, height: 284, alignment: .center)
+                .frame(width: 362, height: 184, alignment: .center)
                 .background(Color(Globals.Colors.dialogBackground))
             }
             .padding(.bottom, 43)
             .padding(.leading, 19)
             .padding(.trailing, 19)
         }
-        .frame(width: 400, height: 370, alignment: .top)
+        .frame(width: 400, height: 270, alignment: .top)
         .dialogBackground()
     }
 }

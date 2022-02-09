@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAILibrary
+import SmartAssets
 
 protocol DebugViewModelDelegate: AnyObject {
 
@@ -69,8 +70,12 @@ class TestUI: UserInterfaceDelegate {
     func focus(on location: HexPoint) {}
 }
 
-// swiftlint:disable force_try type_body_length
+// swiftlint:disable force_try
 class DebugViewModel: ObservableObject {
+
+    private var downloadsFolder: URL = {
+        return FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first!
+    }()
 
     weak var delegate: DebugViewModelDelegate?
 
@@ -90,37 +95,10 @@ class DebugViewModel: ObservableObject {
 
         DispatchQueue.global(qos: .background).async {
 
-            let barbarianPlayer = Player(leader: .barbar, isHuman: false)
-            barbarianPlayer.initialize()
-
-            let aiPlayer = Player(leader: .victoria, isHuman: false)
-            aiPlayer.initialize()
-
-            let humanPlayer = Player(leader: .alexander, isHuman: true)
-            humanPlayer.initialize()
-
-            var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
-
-            let mapOptions = MapOptions(
-                withSize: .duel,
-                type: .continents,
-                leader: .alexander,
-                aiLeaders: [.victoria],
-                handicap: .chieftain
-            )
-
-            let mapGenerator = MapGenerator(with: mapOptions)
-            mapGenerator.identifyContinents(on: mapModel)
-            mapGenerator.identifyOceans(on: mapModel)
-            mapGenerator.identifyStartPositions(on: mapModel)
-
-            let gameModel = GameModel(
-                victoryTypes: [.domination],
-                handicap: .king,
-                turnsElapsed: 0,
-                players: [barbarianPlayer, aiPlayer, humanPlayer],
-                on: mapModel
-            )
+            let gameModel = GameUtils.setupDuelGrass(human: .alexander, ai: .victoria, discover: true)
+            let humanPlayer = gameModel.humanPlayer()!
+            let aiPlayer = gameModel.player(for: .victoria)!
+            let barbarianPlayer = gameModel.barbarianPlayer()!
 
             // AI
             aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
@@ -147,8 +125,6 @@ class DebugViewModel: ObservableObject {
             gameModel.add(unit: barbarianWarriorUnit)
             gameModel.userInterface?.show(unit: barbarianWarriorUnit, at: HexPoint(x: 3, y: 6))
 
-            MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
-
             DispatchQueue.main.async {
                 self.delegate?.prepared(game: gameModel)
             }
@@ -163,37 +139,9 @@ class DebugViewModel: ObservableObject {
 
         DispatchQueue.global(qos: .background).async {
 
-            let barbarianPlayer = Player(leader: .barbar, isHuman: false)
-            barbarianPlayer.initialize()
-
-            let aiPlayer = Player(leader: .victoria, isHuman: false)
-            aiPlayer.initialize()
-
-            let humanPlayer = Player(leader: .alexander, isHuman: true)
-            humanPlayer.initialize()
-
-            var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
-
-            let mapOptions = MapOptions(
-                withSize: .duel,
-                type: .continents,
-                leader: .alexander,
-                aiLeaders: [.victoria],
-                handicap: .chieftain
-            )
-
-            let mapGenerator = MapGenerator(with: mapOptions)
-            mapGenerator.identifyContinents(on: mapModel)
-            mapGenerator.identifyOceans(on: mapModel)
-            mapGenerator.identifyStartPositions(on: mapModel)
-
-            let gameModel = GameModel(
-                victoryTypes: [.domination],
-                handicap: .king,
-                turnsElapsed: 0,
-                players: [barbarianPlayer, aiPlayer, humanPlayer],
-                on: mapModel
-            )
+            let gameModel = GameUtils.setupDuelGrass(human: .alexander, ai: .victoria, discover: true)
+            let humanPlayer = gameModel.humanPlayer()!
+            let aiPlayer = gameModel.player(for: .victoria)!
 
             // AI
             aiPlayer.found(at: HexPoint(x: 10, y: 5), named: "AI Capital", in: gameModel)
@@ -215,8 +163,6 @@ class DebugViewModel: ObservableObject {
             humanTraderUnit.origin = HexPoint(x: 3, y: 5)
             gameModel.add(unit: humanTraderUnit)
             gameModel.userInterface?.show(unit: humanTraderUnit, at: HexPoint(x: 2, y: 6))
-
-            MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
             guard humanTraderUnit.doEstablishTradeRoute(to: aiCity, in: gameModel) else {
                 fatalError("cant create trade route")
@@ -257,46 +203,19 @@ class DebugViewModel: ObservableObject {
 
         DispatchQueue.global(qos: .background).async {
 
-            let barbarianPlayer = Player(leader: .barbar, isHuman: false)
-            barbarianPlayer.initialize()
+            let gameModel = GameUtils.setupDuelGrass(human: .alexander, ai: .victoria, discover: true)
+            let humanPlayer = gameModel.humanPlayer()!
+            let aiPlayer = gameModel.player(for: .victoria)!
 
-            let aiPlayer = Player(leader: .victoria, isHuman: false)
-            aiPlayer.initialize()
-
-            let humanPlayer = Player(leader: .alexander, isHuman: true)
-            humanPlayer.initialize()
-
-            var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
-            mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
-            mapModel.set(hills: true, at: HexPoint(x: 1, y: 2))
-            mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
-            mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
-            mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
-
-            let mapOptions = MapOptions(
-                withSize: .duel,
-                type: .continents,
-                leader: .alexander,
-                aiLeaders: [.victoria],
-                handicap: .chieftain
-            )
-
-            let mapGenerator = MapGenerator(with: mapOptions)
-            mapGenerator.identifyContinents(on: mapModel)
-            mapGenerator.identifyOceans(on: mapModel)
-            mapGenerator.identifyStartPositions(on: mapModel)
+            gameModel.tile(at: HexPoint(x: 1, y: 2))?.set(terrain: .plains)
+            gameModel.tile(at: HexPoint(x: 1, y: 2))?.set(hills: true)
+            gameModel.tile(at: HexPoint(x: 1, y: 2))?.set(resource: .wheat)
+            gameModel.tile(at: HexPoint(x: 3, y: 2))?.set(terrain: .plains)
+            gameModel.tile(at: HexPoint(x: 3, y: 2))?.set(resource: .iron)
 
             for index in 0..<40 {
-                mapModel.set(terrain: .shore, at: HexPoint(x: index, y: 3))
+                gameModel.tile(at: HexPoint(x: index, y: 3))?.set(terrain: .shore)
             }
-
-            let gameModel = GameModel(
-                victoryTypes: [.domination],
-                handicap: .king,
-                turnsElapsed: 0,
-                players: [barbarianPlayer, aiPlayer, humanPlayer],
-                on: mapModel
-            )
 
             // AI
             aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
@@ -319,7 +238,7 @@ class DebugViewModel: ObservableObject {
             for unitType in UnitType.all {
 
                 if unitType.domain() == .sea {
-                    mapModel.set(terrain: .shore, at: HexPoint(x: x, y: 4))
+                    gameModel.tile(at: HexPoint(x: x, y: 4))?.set(terrain: .shore)
                 }
 
                 let unit = Unit(at: HexPoint(x: x, y: 4), type: unitType, owner: humanPlayer)
@@ -329,8 +248,6 @@ class DebugViewModel: ObservableObject {
 
                 x += 1
             }
-
-            MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
 
             DispatchQueue.main.async {
                 self.delegate?.prepared(game: gameModel)
@@ -346,42 +263,15 @@ class DebugViewModel: ObservableObject {
 
         DispatchQueue.global(qos: .background).async {
 
-            let barbarianPlayer = Player(leader: .barbar, isHuman: false)
-            barbarianPlayer.initialize()
+            let gameModel = GameUtils.setupDuelGrass(human: .alexander, ai: .victoria, discover: true)
+            let humanPlayer = gameModel.humanPlayer()!
+            let aiPlayer = gameModel.player(for: .victoria)!
 
-            let aiPlayer = Player(leader: .victoria, isHuman: false)
-            aiPlayer.initialize()
-
-            let humanPlayer = Player(leader: .alexander, isHuman: true)
-            humanPlayer.initialize()
-
-            var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
-            mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
-            mapModel.set(hills: true, at: HexPoint(x: 1, y: 2))
-            mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
-            mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
-            mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
-
-            let mapOptions = MapOptions(
-                withSize: .duel,
-                type: .continents,
-                leader: .alexander,
-                aiLeaders: [.victoria],
-                handicap: .chieftain
-            )
-
-            let mapGenerator = MapGenerator(with: mapOptions)
-            mapGenerator.identifyContinents(on: mapModel)
-            mapGenerator.identifyOceans(on: mapModel)
-            mapGenerator.identifyStartPositions(on: mapModel)
-
-            let gameModel = GameModel(
-                victoryTypes: [.domination],
-                handicap: .king,
-                turnsElapsed: 0,
-                players: [barbarianPlayer, aiPlayer, humanPlayer],
-                on: mapModel
-            )
+            gameModel.tile(at: HexPoint(x: 1, y: 2))?.set(terrain: .plains)
+            gameModel.tile(at: HexPoint(x: 1, y: 2))?.set(hills: true)
+            gameModel.tile(at: HexPoint(x: 1, y: 2))?.set(resource: .wheat)
+            gameModel.tile(at: HexPoint(x: 3, y: 2))?.set(terrain: .plains)
+            gameModel.tile(at: HexPoint(x: 3, y: 2))?.set(resource: .iron)
 
             // AI
             aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
@@ -406,8 +296,6 @@ class DebugViewModel: ObservableObject {
             gameModel.add(unit: prophetUnit)
             gameModel.userInterface?.show(unit: prophetUnit, at: HexPoint(x: 3, y: 4))
 
-            MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
-
             DispatchQueue.main.async {
                 self.delegate?.prepared(game: gameModel)
             }
@@ -422,55 +310,27 @@ class DebugViewModel: ObservableObject {
 
         DispatchQueue.global(qos: .background).async {
 
-            let barbarianPlayer = Player(leader: .barbar, isHuman: false)
-            barbarianPlayer.initialize()
+            let gameModel = GameUtils.setupDuelGrass(human: .alexander, ai: .victoria, discover: true)
+            let humanPlayer = gameModel.humanPlayer()!
+            let aiPlayer = gameModel.player(for: .victoria)!
 
-            let aiPlayer = Player(leader: .victoria, isHuman: false)
-            aiPlayer.initialize()
+            gameModel.tile(at: HexPoint(x: 2, y: 4))?.set(terrain: .plains)
+            gameModel.tile(at: HexPoint(x: 2, y: 4))?.set(hills: true)
 
-            let humanPlayer = Player(leader: .alexander, isHuman: true)
-            humanPlayer.initialize()
+            gameModel.tile(at: HexPoint(x: 3, y: 4))?.set(resource: .wheat)
+            gameModel.tile(at: HexPoint(x: 3, y: 4))?.set(terrain: .plains)
 
-            var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+            gameModel.tile(at: HexPoint(x: 3, y: 3))?.set(resource: .iron)
+            gameModel.tile(at: HexPoint(x: 3, y: 3))?.set(hills: true)
 
-            mapModel.set(terrain: .plains, at: HexPoint(x: 2, y: 4))
-            mapModel.set(hills: true, at: HexPoint(x: 2, y: 4))
+            gameModel.tile(at: HexPoint(x: 4, y: 4))?.set(feature: .forest)
+            gameModel.tile(at: HexPoint(x: 4, y: 4))?.set(resource: .furs)
 
-            mapModel.set(resource: .wheat, at: HexPoint(x: 3, y: 4))
-            mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 4))
+            gameModel.tile(at: HexPoint(x: 4, y: 5))?.set(hills: true)
+            gameModel.tile(at: HexPoint(x: 4, y: 5))?.set(resource: .wine)
 
-            mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 3))
-            mapModel.set(hills: true, at: HexPoint(x: 3, y: 3))
-
-            mapModel.set(feature: .forest, at: HexPoint(x: 4, y: 4))
-            mapModel.set(resource: .furs, at: HexPoint(x: 4, y: 4))
-
-            mapModel.set(hills: true, at: HexPoint(x: 4, y: 5))
-            mapModel.set(resource: .wine, at: HexPoint(x: 4, y: 5))
-
-            mapModel.set(terrain: .shore, at: HexPoint(x: 4, y: 3))
-            mapModel.set(resource: .fish, at: HexPoint(x: 4, y: 3))
-
-            let mapOptions = MapOptions(
-                withSize: .duel,
-                type: .continents,
-                leader: .alexander,
-                aiLeaders: [.victoria],
-                handicap: .chieftain
-            )
-
-            let mapGenerator = MapGenerator(with: mapOptions)
-            mapGenerator.identifyContinents(on: mapModel)
-            mapGenerator.identifyOceans(on: mapModel)
-            mapGenerator.identifyStartPositions(on: mapModel)
-
-            let gameModel = GameModel(
-                victoryTypes: [.domination],
-                handicap: .king,
-                turnsElapsed: 0,
-                players: [barbarianPlayer, aiPlayer, humanPlayer],
-                on: mapModel
-            )
+            gameModel.tile(at: HexPoint(x: 4, y: 3))?.set(terrain: .shore)
+            gameModel.tile(at: HexPoint(x: 4, y: 3))?.set(resource: .fish)
 
             // AI
             aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
@@ -515,8 +375,6 @@ class DebugViewModel: ObservableObject {
             gameModel.add(unit: builderUnit)
             gameModel.userInterface?.show(unit: builderUnit, at: HexPoint(x: 3, y: 4))
 
-            MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
-
             DispatchQueue.main.async {
                 self.delegate?.prepared(game: gameModel)
             }
@@ -531,37 +389,9 @@ class DebugViewModel: ObservableObject {
 
         DispatchQueue.global(qos: .background).async {
 
-            let barbarianPlayer = Player(leader: .barbar, isHuman: false)
-            barbarianPlayer.initialize()
-
-            let aiPlayer = Player(leader: .victoria, isHuman: false)
-            aiPlayer.initialize()
-
-            let humanPlayer = Player(leader: .alexander, isHuman: true)
-            humanPlayer.initialize()
-
-            var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
-
-            let mapOptions = MapOptions(
-                withSize: .duel,
-                type: .continents,
-                leader: .alexander,
-                aiLeaders: [.victoria],
-                handicap: .chieftain
-            )
-
-            let mapGenerator = MapGenerator(with: mapOptions)
-            mapGenerator.identifyContinents(on: mapModel)
-            mapGenerator.identifyOceans(on: mapModel)
-            mapGenerator.identifyStartPositions(on: mapModel)
-
-            let gameModel = GameModel(
-                victoryTypes: [.domination],
-                handicap: .settler,
-                turnsElapsed: 0,
-                players: [barbarianPlayer, aiPlayer, humanPlayer],
-                on: mapModel
-            )
+            let gameModel = GameUtils.setupDuelGrass(human: .alexander, ai: .victoria, discover: true)
+            let humanPlayer = gameModel.humanPlayer()!
+            let aiPlayer = gameModel.player(for: .victoria)!
 
             // AI
             aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
@@ -596,7 +426,37 @@ class DebugViewModel: ObservableObject {
             gameModel.add(unit: archerUnit)
             gameModel.userInterface?.show(unit: archerUnit, at: HexPoint(x: 20, y: 6))
 
-            MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
+            DispatchQueue.main.async {
+                self.delegate?.prepared(game: gameModel)
+            }
+        }
+    }
+
+    func createCityRevoltWorld() {
+
+        print("city revolt")
+
+        self.delegate?.preparing()
+
+        DispatchQueue.global(qos: .background).async {
+
+            let gameModel = GameUtils.setupDuelGrass(human: .alexander, ai: .victoria, discover: true)
+            let humanPlayer = gameModel.humanPlayer()!
+            let aiPlayer = gameModel.player(for: .victoria)!
+
+            let ownCity = City(name: "Potsdam", at: HexPoint(x: 5, y: 5), owner: humanPlayer)
+            ownCity.initialize(in: gameModel)
+            gameModel.add(city: ownCity)
+
+            let enemyCity1 = City(name: "Enemy1", at: HexPoint(x: 8, y: 5), owner: aiPlayer)
+            enemyCity1.initialize(in: gameModel)
+            enemyCity1.set(population: 10, in: gameModel)
+            gameModel.add(city: enemyCity1)
+
+            let enemyCity2 = City(name: "Enemy2", at: HexPoint(x: 2, y: 5), owner: aiPlayer)
+            enemyCity2.initialize(in: gameModel)
+            enemyCity2.set(population: 10, in: gameModel)
+            gameModel.add(city: enemyCity2)
 
             DispatchQueue.main.async {
                 self.delegate?.prepared(game: gameModel)
@@ -607,6 +467,36 @@ class DebugViewModel: ObservableObject {
     func createSpriteKitView() {
 
         self.delegate?.preparedSkriteKit()
+    }
+
+    func generateUnitAssets() {
+
+        print("generate unit assets")
+
+        self.delegate?.preparing()
+
+        DispatchQueue.global(qos: .background).async {
+
+            for unitType in UnitType.all {
+                if let firstTexture = unitType.idleAtlas?.textures.first {
+
+                    let fileURL = self.downloadsFolder.appendingPathComponent("\(unitType.spriteName)@3x.png")
+                    do {
+                        try firstTexture.savePngTo(url: fileURL)
+                        print("saved idle image for \(unitType) - \(unitType.spriteName)")
+                    } catch {
+                        print("failed to save idle image for \(unitType) - \(unitType.spriteName) => \(error)")
+                    }
+                } else {
+                    print("no idle image for \(unitType)")
+                }
+            }
+
+            DispatchQueue.main.async {
+                // self.delegate?.prepared(game: gameModel)
+                self.delegate?.closed()
+            }
+        }
     }
 
     func close() {

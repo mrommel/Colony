@@ -45,11 +45,14 @@ class BasicCityAttackOperationTests: XCTestCase {
         mapGenerator.identifyStartPositions(on: mapModel)
 
         // game
-        let gameModel = GameModel(victoryTypes: [.domination],
-                                  handicap: .chieftain,
-                                  turnsElapsed: 0,
-                                  players: [playerBarbarian, playerTrajan, playerAlexander],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerBarbarian, playerTrajan, playerAlexander],
+            on: mapModel
+        )
+
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
@@ -117,10 +120,14 @@ class BasicCityAttackOperationTests: XCTestCase {
         playerAlexander.doDeclareWar(to: playerTrajan, in: gameModel)
 
         // WHEN
-        gameModel.update() // this runs all players
+        repeat {
+            gameModel.update() // this runs one player at a time
 
-        playerAlexander.finishTurn()
-        playerAlexander.setAutoMoves(to: true)
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         // THEN
         // DEBUG: po playerTrajan.operations!.operations
@@ -237,10 +244,14 @@ class BasicCityAttackOperationTests: XCTestCase {
         playerAlexander.doDeclareWar(to: playerTrajan, in: gameModel)
 
         // WHEN
-        gameModel.update() // this runs all players
+        repeat {
+            gameModel.update() // this runs one player at a time
 
-        playerAlexander.finishTurn()
-        playerAlexander.setAutoMoves(to: true)
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         // THEN
         // DEBUG: po playerTrajan.operations!.operations
