@@ -3593,10 +3593,10 @@ public class Player: AbstractPlayer {
         }
 
         // init
-        self.area = HexArea(points: [])
+        let tmpArea = HexArea(points: [])
 
         let mapSize = gameModel.mapSize()
-        self.area.points.reserveCapacity(mapSize.numberOfTiles())
+        tmpArea.points.reserveCapacity(mapSize.numberOfTiles())
 
         for x in 0..<mapSize.width() {
             for y in 0..<mapSize.height() {
@@ -3605,11 +3605,13 @@ public class Player: AbstractPlayer {
                 if let tile = gameModel.tile(at: pt) {
 
                     if self.isEqual(to: tile.owner()) {
-                        self.area.add(point: pt)
+                        tmpArea.add(point: pt)
                     }
                 }
             }
         }
+
+        self.area = tmpArea
     }
 
     public func addPlot(at point: HexPoint) {

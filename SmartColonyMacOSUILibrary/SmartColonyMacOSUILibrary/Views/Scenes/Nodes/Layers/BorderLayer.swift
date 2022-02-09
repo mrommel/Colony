@@ -19,11 +19,13 @@ class BorderLayer: BaseLayer {
         let discovered: Bool
         let mainTexture: String
         let accentTexture: String
+        let owner: LeaderType
 
-        init(point: HexPoint, visible: Bool, discovered: Bool, mainTexture: String, accentTexture: String) {
+        init(point: HexPoint, visible: Bool, discovered: Bool, owner: LeaderType, mainTexture: String, accentTexture: String) {
 
             self.visible = visible
             self.discovered = discovered
+            self.owner = owner
             self.mainTexture = mainTexture
             self.accentTexture = accentTexture
 
@@ -39,6 +41,7 @@ class BorderLayer: BaseLayer {
             hasher.combine(self.point)
             hasher.combine(self.visible)
             hasher.combine(self.discovered)
+            hasher.combine(self.owner)
             hasher.combine(self.mainTexture)
             hasher.combine(self.accentTexture)
         }
@@ -176,10 +179,13 @@ class BorderLayer: BaseLayer {
 
         var mainTexture: String = ""
         var accentTexture: String = ""
+        var owner: LeaderType = .none
 
         for player in gameModel.players {
 
             if player.area.contains(tile.point) {
+
+                owner = player.leader
 
                 if let textureMainName = self.textures?.borderMainTexture(at: tile.point, in: player.area) {
                     mainTexture = textureMainName
@@ -196,6 +202,7 @@ class BorderLayer: BaseLayer {
             point: tile.point,
             visible: tile.isVisible(to: self.player) || self.showCompleteMap,
             discovered: tile.isDiscovered(by: self.player),
+            owner: owner,
             mainTexture: mainTexture,
             accentTexture: accentTexture
         )
