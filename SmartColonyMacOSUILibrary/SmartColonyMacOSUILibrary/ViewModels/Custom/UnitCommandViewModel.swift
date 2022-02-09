@@ -38,7 +38,7 @@ class UnitCommandViewModel: ObservableObject {
 
         self.commandType = commandType
 
-        let toolTipText = NSMutableAttributedString(string: "")
+        /*let toolTipText = NSMutableAttributedString(string: "")
 
         let title = NSAttributedString(
             string: commandType.title(),
@@ -52,7 +52,7 @@ class UnitCommandViewModel: ObservableObject {
         )
         toolTipText.append(effects)
 
-        self.toolTip = toolTipText
+        self.toolTip = toolTipText*/
 
         self.objectWillChange.send()
     }

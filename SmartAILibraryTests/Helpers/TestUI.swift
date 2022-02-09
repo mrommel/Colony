@@ -12,6 +12,8 @@ import Foundation
 
 class TestUI: UserInterfaceDelegate {
 
+    func update(gameState: GameStateType) {}
+
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData? = nil) {}
 
     func showLeaderMessage(

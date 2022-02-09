@@ -1328,8 +1328,14 @@ public class City: AbstractCity {
 
         let newPlayer = gameModel?.freeCityPlayer()
 
+        // hide city to old player
+        gameModel?.conceal(city: self)
+
         self.leader = .freeCities
         self.player = newPlayer
+
+        // reveal city to new 'owner'
+        gameModel?.sight(city: self)
 
         // update owned tiles
         for loopPoint in cityCitizens.workingTileLocations() {
@@ -1355,6 +1361,12 @@ public class City: AbstractCity {
 
         // update UI
         gameModel?.userInterface?.update(city: self)
+
+        if self.capitalValue {
+
+            oldPlayer.findNewCapital(in: gameModel)
+            oldPlayer.set(hasLostCapital: true, to: newPlayer, in: gameModel)
+        }
     }
 
     public func loyalty() -> Int {

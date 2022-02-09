@@ -19,7 +19,7 @@ class EraHistogram: WeightedList<EraType> {
     }
 }
 
-enum GameStateType: Int, Codable {
+public enum GameStateType: Int, Codable {
 
     case on
     case over
@@ -271,7 +271,8 @@ open class GameModel: Codable {
         // if the game is single player, it's ok to block all processing until
         // the user selects an extended match or quits.
         if self.gameState() == .over {
-            //self.testExtendedGame()
+            // self.testExtendedGame()
+            return
         }
 
         //self.sendPlayerOptions()
@@ -431,7 +432,7 @@ open class GameModel: Codable {
 
     func updateMoves() {
 
-        var playersToProcess: [AbstractPlayer?] = []
+        var playersToProcess: [AbstractPlayer] = []
         var processPlayerAutoMoves = false
 
         for player in self.players {
@@ -459,7 +460,7 @@ open class GameModel: Codable {
             }
         }
 
-        if let player = playersToProcess.first! {
+        if let player = playersToProcess.first {
 
             let readyUnitsBeforeMoves = player.countReadyUnits(in: self)
 
@@ -620,14 +621,18 @@ open class GameModel: Codable {
         return false
     }
 
-    func gameState() -> GameStateType {
+    public func gameState() -> GameStateType {
 
         return self.gameStateValue
     }
 
     func set(gameState: GameStateType) {
 
-        self.gameStateValue = gameState
+        if self.gameStateValue != gameState {
+
+            self.gameStateValue = gameState
+            self.userInterface?.update(gameState: gameState)
+        }
     }
 
     public func winnerLeader() -> LeaderType? {
@@ -687,21 +692,21 @@ open class GameModel: Codable {
         self.barbarianAI?.doTurn(in: self)
         self.religionsVal?.doTurn(in: self)
 
-        //doUpdateCacheOnTurn();
+        // doUpdateCacheOnTurn();
 
-        //DoUpdateCachedWorldReligionTechProgress();
+        // DoUpdateCachedWorldReligionTechProgress();
 
         self.updateScore()
 
-        //m_kGameDeals.DoTurn();
+        // m_kGameDeals.DoTurn();
 
         for player in self.players {
             player.prepareTurn(in: self)
         }
 
-        //map.doTurn()
+        // map.doTurn()
 
-        //GC.GetEngineUserInterface()->doTurn();
+        // GC.GetEngineUserInterface()->doTurn();
 
         self.barbarianAI?.doCamps(in: self)
 
@@ -726,7 +731,7 @@ open class GameModel: Codable {
             }
         }
 
-        //self.doUnitedNationsCountdown();
+        // self.doUnitedNationsCountdown();
 
         // Victory stuff
         self.doTestVictory()
@@ -1207,6 +1212,16 @@ open class GameModel: Codable {
                 techs.triggerEureka(for: .sailing, in: self)
             }
         }
+    }
+
+    public func sight(city: AbstractCity?) {
+
+        self.map.sight(city: city, in: self)
+    }
+
+    public func conceal(city: AbstractCity?) {
+
+        self.map.conceal(city: city, in: self)
     }
 
     public func cities(of player: AbstractPlayer) -> [AbstractCity?] {

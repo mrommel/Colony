@@ -20,6 +20,8 @@ enum UICombatMode {
 
 protocol GameViewModelDelegate: AnyObject {
 
+    func update(gameState: GameStateType)
+
     var selectedCity: AbstractCity? { get set }
     var selectedUnit: AbstractUnit? { get set }
 
@@ -581,6 +583,16 @@ public class GameViewModel: ObservableObject {
                 let summary = "TXT_KEY_POPUP_FOREIGN_CITY_BECAME_FREE_CITY_SUMMARY".localizedWithFormat(with: [civName, city.name])
                 self.genericPopupViewModel.update(with: title, and: summary)
 
+            case .lostOwnCapital:
+                let title = "TXT_KEY_POPUP_YOU_LOST_CAPITAL_TITLE".localized()
+                let summary = "TXT_KEY_POPUP_YOU_LOST_CAPITAL_SUMMARY".localized()
+                self.genericPopupViewModel.update(with: title, and: summary)
+
+            case .lostCapital(leader: let leader):
+                let title = "TXT_KEY_POPUP_OTHER_LOST_CAPITAL_TITLE".localized()
+                let summary = "TXT_KEY_POPUP_OTHER_LOST_CAPITAL_SUMMARY".localizedWithFormat(with: [leader.name()])
+                self.genericPopupViewModel.update(with: title, and: summary)
+
             default:
                 fatalError("not handled: \(firstPopup)")
             }
@@ -594,6 +606,14 @@ public class GameViewModel: ObservableObject {
 }
 
 extension GameViewModel: GameViewModelDelegate {
+
+    func update(gameState: GameStateType) {
+
+        if gameState == .over {
+            // switch to human turn - to show victory screen
+            self.changeUITurnState(to: .humanTurns)
+        }
+    }
 
     func refreshTile(at point: HexPoint) {
 
@@ -1086,6 +1106,10 @@ extension GameViewModel: BottomLeftBarViewModelDelegate {
 
         guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get human")
+        }
+
+        guard gameModel.gameState() == .on else {
+            return
         }
 
         let turnButtonNotificationType = humanPlayer.blockingNotification()?.type ?? .turn

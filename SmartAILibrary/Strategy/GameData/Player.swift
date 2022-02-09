@@ -1312,7 +1312,19 @@ public class Player: AbstractPlayer {
             // Someone just lost their capital, test to see if someone wins
             if value {
 
-                // todo: notify users about another player lost his capital
+                // slewis - Moved Conquest victory elsewhere so that victory is more accurately awarded
+                // GC.getGame().DoTestConquestVictory();
+
+                // notify users about another player lost his capital
+                if self.isHuman() {
+                    gameModel.userInterface?.showPopup(popupType: .lostOwnCapital)
+                } else {
+                    if self.hasMet(with: gameModel.humanPlayer()) {
+                        gameModel.userInterface?.showPopup(popupType: .lostCapital(leader: self.leader))
+                    } else {
+                        gameModel.userInterface?.showPopup(popupType: .lostCapital(leader: .unmet))
+                    }
+                }
 
                 // todo: add replay message
                 // GC.getGame().addReplayMessage(REPLAY_MESSAGE_MAJOR_EVEN
@@ -1348,9 +1360,62 @@ public class Player: AbstractPlayer {
         return self.isAliveVal
     }
 
+    public func set(alive: Bool, in gameModel: GameModel?) {
+
+        if self.isAliveVal != alive {
+
+            self.isAliveVal = alive
+
+            if !alive {
+                // cleanup
+                // killUnits();
+                // killCities();
+                // GC.getGame().GetGameDeals()->DoCancelAllDealsWithPlayer(GetID());
+
+                if self.isHuman() {
+                    gameModel?.set(gameState: .over)
+                }
+
+                self.endTurn(in: gameModel)
+            }
+        }
+    }
+
     public func isEverAlive() -> Bool {
 
         return true
+    }
+
+    func verifyAlive(in gameModel: GameModel?) {
+
+        var kill: Bool = false
+
+        if self.isAlive() {
+
+            kill = false
+
+            if !kill {
+
+                if !self.isBarbarian() {
+
+                    if self.numCities(in: gameModel) == 0 {
+
+                        if self.numUnits(in: gameModel) == 0 {
+
+                            kill = true
+                        }
+                    }
+                }
+            }
+
+            if kill {
+                set(alive: false, in: gameModel)
+            }
+        } else {
+            if self.numUnits(in: gameModel) > 0 || self.numCities(in: gameModel) > 0 {
+                self.set(alive: true, in: gameModel)
+            }
+        }
     }
 
     public func isActive() -> Bool {
@@ -1451,7 +1516,7 @@ public class Player: AbstractPlayer {
         return self.turnActive
     }
 
-    public func prepareTurn(in gamemModel: GameModel?) {
+    public func prepareTurn(in gameModel: GameModel?) {
 
         // Barbarians get all Techs that 3/4 of alive players get
         if isBarbarian() {
@@ -1464,9 +1529,8 @@ public class Player: AbstractPlayer {
 
         DoTestWarmongerReminder();
 
-        DoTestSmallAwards();
-
-        testCircumnavigated();*/
+        DoTestSmallAwards(); */
+        self.checkWorldCircumnavigated(in: gameModel)
     }
 
     public func startTurn(in gameModel: GameModel?) {
@@ -1491,6 +1555,7 @@ public class Player: AbstractPlayer {
         /////////////////////////////////////////////
 
         // self.doUnitAttrition()
+        self.verifyAlive(in: gameModel)
 
         self.setAllUnitsUnprocessed(in: gameModel)
 
@@ -4005,6 +4070,15 @@ public class Player: AbstractPlayer {
         return gameModel.cities(of: self).count
     }
 
+    public func numUnits(in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        return gameModel.units(of: self).count
+    }
+
     public func countCitiesFeatureSurrounded(in gameModel: GameModel?) -> Int {
 
         guard let gameModel = gameModel else {
@@ -5389,6 +5463,8 @@ public class Player: AbstractPlayer {
         }
         newCapital.setIsCapital(to: true)
 
+        // update UI
+        gameModel.userInterface?.update(city: newCapital)
         gameModel.userInterface?.refresh(tile: gameModel.tile(at: newCapital.location))
     }
 

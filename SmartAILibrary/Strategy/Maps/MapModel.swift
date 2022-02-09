@@ -338,11 +338,29 @@ open class MapModel: Codable {
                 }
             }
 
+            self.sight(city: city, in: gameModel)
+        }
+    }
+
+    public func sight(city: AbstractCity?, in gameModel: GameModel?) {
+
+        if let city = city {
             for pt in city.location.areaWith(radius: 3) {
 
                 let tile = self.tile(at: pt)
                 tile?.discover(by: city.player, in: gameModel)
                 tile?.sight(by: city.player)
+            }
+        }
+    }
+
+    public func conceal(city: AbstractCity?, in gameModel: GameModel?) {
+
+        if let city = city {
+            for pt in city.location.areaWith(radius: 3) {
+
+                let tile = self.tile(at: pt)
+                tile?.conceal(to: city.player)
             }
         }
     }
@@ -563,8 +581,6 @@ open class MapModel: Codable {
         if let tile = self.tile(at: point) {
             tile.discover(by: player, in: gameModel)
         }
-
-        player?.checkWorldCircumnavigated(in: gameModel)
     }
 
     func owner(at point: HexPoint) -> AbstractPlayer? {

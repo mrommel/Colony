@@ -19,6 +19,8 @@ protocol DebugViewModelDelegate: AnyObject {
 
 class TestUI: UserInterfaceDelegate {
 
+    func update(gameState: GameStateType) {}
+
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData? = nil) {}
 
     func showLeaderMessage(from fromPlayer: AbstractPlayer?, to toPlayer: AbstractPlayer?, deal: DiplomaticDeal?, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType) {}
@@ -444,11 +446,11 @@ class DebugViewModel: ObservableObject {
             let humanPlayer = gameModel.humanPlayer()!
             let aiPlayer = gameModel.player(for: .victoria)!
 
-            let ownCity = City(name: "Potsdam", at: HexPoint(x: 5, y: 5), owner: humanPlayer)
+            let ownCity = City(name: "Potsdam", at: HexPoint(x: 5, y: 5), capital: true, owner: humanPlayer)
             ownCity.initialize(in: gameModel)
             gameModel.add(city: ownCity)
 
-            let enemyCity1 = City(name: "Enemy1", at: HexPoint(x: 8, y: 5), owner: aiPlayer)
+            let enemyCity1 = City(name: "Enemy1", at: HexPoint(x: 8, y: 5), capital: true, owner: aiPlayer)
             enemyCity1.initialize(in: gameModel)
             enemyCity1.set(population: 10, in: gameModel)
             gameModel.add(city: enemyCity1)

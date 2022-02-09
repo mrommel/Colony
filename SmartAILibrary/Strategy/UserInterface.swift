@@ -35,6 +35,8 @@ public enum PopupType {
 
     case cityRevolted(city: AbstractCity?)
     case foreignCityRevolted(city: AbstractCity?)
+    case lostOwnCapital
+    case lostCapital(leader: LeaderType)
 }
 
 extension PopupType: Equatable {
@@ -93,6 +95,12 @@ extension PopupType: Equatable {
 
         case (.foreignCityRevolted(city: let lhsCity), .foreignCityRevolted(city: let rhsCity)):
             return lhsCity!.location == rhsCity!.location
+
+        case (.lostOwnCapital, .lostOwnCapital):
+            return true
+
+        case (.lostCapital(leader: let lhsLeader), .lostCapital(leader: let rhsLeader)):
+            return lhsLeader == rhsLeader
 
         case (.none, .none):
             return true
@@ -190,6 +198,8 @@ public struct SelectableItem {
 }
 
 public protocol UserInterfaceDelegate: AnyObject {
+
+    func update(gameState: GameStateType)
 
     func showPopup(popupType: PopupType)
 

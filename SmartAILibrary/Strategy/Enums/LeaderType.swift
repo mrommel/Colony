@@ -12,6 +12,8 @@ import Foundation
 public enum LeaderType: Int, Codable {
 
     case none
+    case unmet
+
     case barbar
     case freeCities
 
@@ -59,6 +61,7 @@ public enum LeaderType: Int, Codable {
         switch self {
 
         case .none: return []
+        case .unmet: return []
         case .barbar: return []
         case .freeCities: return []
 
@@ -158,6 +161,7 @@ public enum LeaderType: Int, Codable {
         switch self {
 
         case .none: return []
+        case .unmet: return []
         case .barbar: return []
         case .freeCities: return []
 
@@ -196,6 +200,7 @@ public enum LeaderType: Int, Codable {
         switch self {
 
         case .none: return []
+        case .unmet: return []
         case .barbar: return []
         case .freeCities: return []
 
@@ -277,6 +282,15 @@ public enum LeaderType: Int, Codable {
                 name: "None",
                 intro: "--",
                 civilization: .barbarian,
+                ability: .none,
+                religion: nil
+            )
+
+        case .unmet:
+            return LeaderTypeData(
+                name: "Unmet",
+                intro: "--",
+                civilization: .unmet,
                 ability: .none,
                 religion: nil
             )

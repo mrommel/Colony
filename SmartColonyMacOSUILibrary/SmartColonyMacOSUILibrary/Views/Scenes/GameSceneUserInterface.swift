@@ -11,6 +11,11 @@ import SpriteKit
 // idea: UserInterfaceDelegate should conform GameViewModel
 extension GameScene: UserInterfaceDelegate {
 
+    func update(gameState: GameStateType) {
+
+        self.viewModel?.delegate?.update(gameState: gameState)
+    }
+
     func showPopup(popupType: PopupType) {
 
         self.viewModel?.delegate?.showPopup(popupType: popupType)
