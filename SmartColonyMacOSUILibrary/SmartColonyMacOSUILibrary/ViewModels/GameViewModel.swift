@@ -266,6 +266,9 @@ public class GameViewModel: ObservableObject {
     @Published
     var canFoundPantheonPopupViewModel: CanFoundPantheonPopupViewModel
 
+    @Published
+    var genericPopupViewModel: GenericPopupViewModel
+
     // UI
 
     @Published
@@ -408,6 +411,7 @@ public class GameViewModel: ObservableObject {
         self.inspirationTriggeredPopupViewModel = InspirationTriggeredPopupViewModel()
         self.wonderBuiltPopupViewModel = WonderBuiltPopupViewModel()
         self.canFoundPantheonPopupViewModel = CanFoundPantheonPopupViewModel()
+        self.genericPopupViewModel = GenericPopupViewModel()
 
         // connect models
         self.gameSceneViewModel.delegate = self
@@ -454,6 +458,7 @@ public class GameViewModel: ObservableObject {
         self.inspirationTriggeredPopupViewModel.delegate = self
         self.wonderBuiltPopupViewModel.delegate = self
         self.canFoundPantheonPopupViewModel.delegate = self
+        self.genericPopupViewModel.delegate = self
 
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -551,6 +556,30 @@ public class GameViewModel: ObservableObject {
 
             case .wonderBuilt(let wonderType):
                 self.wonderBuiltPopupViewModel.update(for: wonderType)
+
+            case .cityRevolted(city: let cityRef):
+
+                guard let city = cityRef else {
+                    fatalError("no city provided")
+                }
+
+                let title = "TXT_KEY_POPUP_CITY_BECAME_FREE_CITY_TITLE".localized()
+                let summary = "TXT_KEY_POPUP_CITY_BECAME_FREE_CITY_SUMMARY".localizedWithFormat(with: [city.name])
+                self.genericPopupViewModel.update(with: title, and: summary)
+
+            case .foreignCityRevolted(city: let cityRef):
+
+                guard let city = cityRef else {
+                    fatalError("no city provided")
+                }
+
+                guard let civName = city.player?.leader.civilization().name() else {
+                    fatalError("cant get civ name")
+                }
+
+                let title = "TXT_KEY_POPUP_FOREIGN_CITY_BECAME_FREE_CITY_TITLE".localized()
+                let summary = "TXT_KEY_POPUP_FOREIGN_CITY_BECAME_FREE_CITY_SUMMARY".localizedWithFormat(with: [civName, city.name])
+                self.genericPopupViewModel.update(with: title, and: summary)
 
             default:
                 fatalError("not handled: \(firstPopup)")

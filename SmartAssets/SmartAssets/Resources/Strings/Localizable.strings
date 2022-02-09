@@ -147,6 +147,12 @@
 // Advisor texts
 "TXT_KEY_ECONOMICAISTRATEGY_NEED_RECON" = "We should continue exploring the world to discover abandoned villages, natural wonders, and other civilizations!";
 
+// popups
+"TXT_KEY_POPUP_CITY_BECAME_FREE_CITY_TITLE" = "City Loyalty Lost";
+"TXT_KEY_POPUP_CITY_BECAME_FREE_CITY_SUMMARY" = "Because Loyalty dropped to 0, %@ has rebelled and become a Free City. To gain control of it again, you must once again exert your Loyalty there or use military force.";
+"TXT_KEY_POPUP_FOREIGN_CITY_BECAME_FREE_CITY_TITLE" = "Foreign City Gains Independence";
+"TXT_KEY_POPUP_FOREIGN_CITY_BECAME_FREE_CITY_SUMMARY" = "%@ no longer has enough Loyalty to keep the city of %@ in their empire. Nearby civilizations exerting Loyalty or using military force may soon gain control of this Free City.";
+
 // governor texts
 "TXT_KEY_GOVERNOR_TITLE" = "Governor title";
 

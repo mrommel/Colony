@@ -103,12 +103,12 @@ extension CivicType {
         case .environmentalism: return "civic-environmentalism"
 
             // future
-        case .informationWarfare: return "civic-default"
-        case .globalWarmingMitigation: return "civic-default"
-        case .culturalHegemony: return "civic-default"
-        case .exodusImperative: return "civic-default"
-        case .smartPowerDoctrine: return "civic-default"
-        case .futureCivic: return "civic-default"
+        case .informationWarfare: return "civic-informationWarfare"
+        case .globalWarmingMitigation: return "civic-globalWarmingMitigation"
+        case .culturalHegemony: return "civic-culturalHegemony"
+        case .exodusImperative: return "civic-exodusImperative"
+        case .smartPowerDoctrine: return "civic-smartPowerDoctrine"
+        case .futureCivic: return "civic-futureCivic"
         }
     }
 }

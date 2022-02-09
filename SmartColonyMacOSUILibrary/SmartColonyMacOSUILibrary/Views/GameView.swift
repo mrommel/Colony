@@ -210,6 +210,12 @@ extension GameView {
 
         case .religionEnoughFaithForMissionary:
             return AnyView(Text("religionEnoughFaithForMissionary"))
+
+        case .cityRevolted(city: let city):
+            return AnyView(GenericPopupView(viewModel: self.viewModel.genericPopupViewModel))
+
+        case .foreignCityRevolted(city: let city):
+            return AnyView(GenericPopupView(viewModel: self.viewModel.genericPopupViewModel))
         }
     }
 }

@@ -147,6 +147,8 @@
 		C9911EB12736DDDB00273C8A /* VictoryDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9911EB02736DDDB00273C8A /* VictoryDialogView.swift */; };
 		C9911EB32736DE3D00273C8A /* VictoryDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9911EB22736DE3D00273C8A /* VictoryDialogViewModel.swift */; };
 		C99547C32738625D006AB8F2 /* ScoreChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99547C22738625D006AB8F2 /* ScoreChartView.swift */; };
+		C997785327B3172D00BFC102 /* GenericPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C997785227B3172C00BFC102 /* GenericPopupView.swift */; };
+		C997785527B317F400BFC102 /* GenericPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C997785427B317F400BFC102 /* GenericPopupViewModel.swift */; };
 		C9988F27273280180047F111 /* RankingDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9988F26273280180047F111 /* RankingDialogViewModel.swift */; };
 		C9988F29273280DB0047F111 /* RankingDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9988F28273280DB0047F111 /* RankingDialogView.swift */; };
 		C99A886126079F4C003B8B73 /* SmartColonyMacOSUILibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -455,6 +457,8 @@
 		C9911EB02736DDDB00273C8A /* VictoryDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VictoryDialogView.swift; sourceTree = "<group>"; };
 		C9911EB22736DE3D00273C8A /* VictoryDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VictoryDialogViewModel.swift; sourceTree = "<group>"; };
 		C99547C22738625D006AB8F2 /* ScoreChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreChartView.swift; sourceTree = "<group>"; };
+		C997785227B3172C00BFC102 /* GenericPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericPopupView.swift; sourceTree = "<group>"; };
+		C997785427B317F400BFC102 /* GenericPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericPopupViewModel.swift; sourceTree = "<group>"; };
 		C9988F26273280180047F111 /* RankingDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingDialogViewModel.swift; sourceTree = "<group>"; };
 		C9988F28273280DB0047F111 /* RankingDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingDialogView.swift; sourceTree = "<group>"; };
 		C99A885C26079F4C003B8B73 /* SmartMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1014,6 +1018,7 @@
 				C9F2B54C2669126E0016D4F3 /* CivicDiscoveredPopupView.swift */,
 				C962A83926A08C570045AF0E /* CanFoundPantheonPopupView.swift */,
 				C91A07A726D9135C008E9F86 /* WonderBuiltPopupView.swift */,
+				C997785227B3172C00BFC102 /* GenericPopupView.swift */,
 			);
 			path = Popups;
 			sourceTree = "<group>";
@@ -1029,6 +1034,7 @@
 				C9F2B54E266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift */,
 				C962A83B26A08C620045AF0E /* CanFoundPantheonPopupViewModel.swift */,
 				C91A07A526D911EE008E9F86 /* WonderBuiltPopupViewModel.swift */,
+				C997785427B317F400BFC102 /* GenericPopupViewModel.swift */,
 			);
 			path = Popups;
 			sourceTree = "<group>";
@@ -1427,6 +1433,7 @@
 				C9D191BD265C37ED008C9622 /* CityGrowthViewModel.swift in Sources */,
 				C92F9491265E262A000968AB /* CityCitizenViewModel.swift in Sources */,
 				C9D191B3265AE499008C9622 /* PantheonViewModel.swift in Sources */,
+				C997785327B3172D00BFC102 /* GenericPopupView.swift in Sources */,
 				C93FD2E12733C306003348FB /* CultureRankingDialogViewModel.swift in Sources */,
 				C9A3760526340F9B0057923E /* GameSceneView.swift in Sources */,
 				C9FBBE4026837AA7005D7CE6 /* CityBannerView.swift in Sources */,
@@ -1531,6 +1538,7 @@
 				C968F299263981DD00612D0E /* ProgressBar.swift in Sources */,
 				C9FD308526223EA200153752 /* DemoGameModel.swift in Sources */,
 				C9077A8826D64EFE004BE679 /* TradeRouteView.swift in Sources */,
+				C997785527B317F400BFC102 /* GenericPopupViewModel.swift in Sources */,
 				C9077A8626D64432004BE679 /* TradeRouteViewModel.swift in Sources */,
 				C9072E812732B14600560429 /* CivilizationView.swift in Sources */,
 				C9CAC89F264ABCC600D0668D /* GovernmentCardViewModel.swift in Sources */,

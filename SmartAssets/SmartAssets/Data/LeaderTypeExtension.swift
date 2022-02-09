@@ -18,6 +18,8 @@ extension LeaderType {
 
         case .barbar:
             return "leader-barbar"
+        case .free:
+            return "leader-free"
 
         case .alexander:
             return "leader-alexander"

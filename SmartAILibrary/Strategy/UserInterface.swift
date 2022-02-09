@@ -32,6 +32,9 @@ public enum PopupType {
     case canFoundPantheon
     case religionNeedNewAutomaticFaithSelection // TXT_KEY_NOTIFICATION_NEED_NEW_AUTOMATIC_FAITH_SELECTION
     case religionEnoughFaithForMissionary // ENOUGH_FAITH_FOR_MISSIONARY
+
+    case cityRevolted(city: AbstractCity?)
+    case foreignCityRevolted(city: AbstractCity?)
 }
 
 extension PopupType: Equatable {
@@ -84,6 +87,12 @@ extension PopupType: Equatable {
             return true
         case (.religionEnoughFaithForMissionary, .religionEnoughFaithForMissionary):
             return true
+
+        case (.cityRevolted(city: let lhsCity), .cityRevolted(city: let rhsCity)):
+            return lhsCity!.location == rhsCity!.location
+
+        case (.foreignCityRevolted(city: let lhsCity), .foreignCityRevolted(city: let rhsCity)):
+            return lhsCity!.location == rhsCity!.location
 
         case (.none, .none):
             return true

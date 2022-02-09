@@ -426,4 +426,66 @@ class CityTests: XCTestCase {
         XCTAssertEqual(canBuildMiddle, false)
         XCTAssertEqual(canBuildAfter, false)
     }
+
+    func testCityVeryLowLoyalty() {
+
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: false)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
+
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAlexander, playerTrajan],
+            on: mapModel
+        )
+
+        self.objectToTest = City(name: "Potsdam", at: HexPoint(x: 5, y: 5), owner: playerAlexander)
+        self.objectToTest?.initialize(in: gameModel)
+        gameModel.add(city: self.objectToTest)
+
+        let enemyCity1 = City(name: "Enemy1", at: HexPoint(x: 8, y: 5), owner: playerTrajan)
+        enemyCity1.initialize(in: gameModel)
+        enemyCity1.set(population: 10, in: gameModel)
+        gameModel.add(city: enemyCity1)
+
+        let enemyCity2 = City(name: "Enemy2", at: HexPoint(x: 2, y: 5), owner: playerTrajan)
+        enemyCity2.initialize(in: gameModel)
+        enemyCity2.set(population: 10, in: gameModel)
+        gameModel.add(city: enemyCity2)
+
+        let loyaltyBefore = self.objectToTest?.loyalty()
+
+        // WHEN
+        self.objectToTest?.doTurn(in: gameModel)
+        let loyaltyAfter = self.objectToTest?.loyalty()
+        let playerAfter = self.objectToTest?.player
+
+        // THEN
+        XCTAssertEqual(loyaltyBefore, 100)
+        XCTAssertEqual(loyaltyAfter, -25)
+        XCTAssertNil(playerAfter)
+    }
 }

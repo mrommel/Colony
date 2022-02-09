@@ -1298,6 +1298,35 @@ public class City: AbstractCity {
         loyalty += self.loyaltyFromOthersEffects(in: gameModel)
 
         self.loyaltyValue = loyalty
+
+        // https://civilization.fandom.com/wiki/Loyalty_(Civ6)#Free_Cities
+        if self.loyaltyValue < 0 {
+
+            // become a free city
+            self.doRevolt(in: gameModel)
+        }
+    }
+
+    func doRevolt(in gameModel: GameModel?) {
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        // inform user
+        if player.isHuman() {
+            // our own city revolted
+            gameModel?.userInterface?.showPopup(popupType: .cityRevolted(city: self))
+        } else if player.hasMet(with: gameModel?.humanPlayer()) {
+            // foreign city revolted
+            gameModel?.userInterface?.showPopup(popupType: .foreignCityRevolted(city: self))
+        }
+
+        // update UI
+        gameModel?.userInterface?.update(city: self)
+
+        self.leader = .free
+        self.player = nil
     }
 
     public func loyalty() -> Int {
@@ -1709,7 +1738,7 @@ public class City: AbstractCity {
             BUT: -1 Amenities Amenity and -5 Loyalty in all cities.
          */
 
-        return 0.0
+        return amenitiesFromCivics
     }
 
     public func amenitiesPerTurn(in gameModel: GameModel?) -> Double {

@@ -23,6 +23,8 @@ extension CivilizationType {
 
         case .barbarian:
             return CivilizationTypeColors(main: TypeColor.geraldine, accent: TypeColor.nero)
+        case .free:
+            return CivilizationTypeColors(main: TypeColor.geraldine, accent: TypeColor.nero)
 
         case .greek:
             return CivilizationTypeColors(main: TypeColor.cornflowerBlue, accent: TypeColor.snow)
@@ -66,6 +68,7 @@ extension CivilizationType {
         switch self {
 
         case .barbarian: return "civilization-barbarian"
+        case .free:  return "civilization-free"
 
         case .greek: return "civilization-greek"
         case .roman: return "civilization-roman"
