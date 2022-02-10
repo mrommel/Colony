@@ -32,6 +32,15 @@ public struct TopBarView: View {
 
                 Text(self.viewModel.turnYearText)
                     .padding(.trailing, 3)
+
+                // ?
+
+                Image(nsImage: ImageCache.shared.image(for: "menu"))
+                    .resizable()
+                    .frame(width: 20, height: 20, alignment: .center)
+                    .onTapGesture {
+                        self.viewModel.menuClicked()
+                    }
             }
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 24, maxHeight: 24, alignment: .topLeading)
             .background(

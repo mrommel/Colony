@@ -48,4 +48,16 @@ public extension View {
                 .allowsHitTesting(false) // !!! must be exactly here
         )
     }
+
+    func toolTip(_ toolTipText: NSAttributedString?) -> some View {
+
+        if let toolTipText = toolTipText {
+            return AnyView(self.overlay(
+                ToolTip(toolTipText: toolTipText)
+                    .allowsHitTesting(false) // !!! must be exactly here
+            ))
+        } else {
+            return AnyView(EmptyView())
+        }
+    }
 }

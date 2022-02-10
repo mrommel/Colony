@@ -274,6 +274,12 @@ public class GameViewModel: ObservableObject {
     // UI
 
     @Published
+    var gameMenuVisible: Bool = false
+
+    @Published
+    var gameMenuViewModel: GameMenuViewModel
+
+    @Published
     var uiTurnState: GameSceneTurnState = .aiTurns
 
     @Published
@@ -377,6 +383,7 @@ public class GameViewModel: ObservableObject {
         self.bannerViewModel = BannerViewModel()
         self.bottomLeftBarViewModel = BottomLeftBarViewModel()
         self.bottomRightBarViewModel = BottomRightBarViewModel()
+        self.gameMenuViewModel = GameMenuViewModel()
 
         // dialogs
         self.governmentDialogViewModel = GovernmentDialogViewModel()
@@ -426,6 +433,7 @@ public class GameViewModel: ObservableObject {
         self.headerViewModel.delegate = self
         self.bottomLeftBarViewModel.delegate = self
         self.bottomRightBarViewModel.delegate = self
+        self.gameMenuViewModel.delegate = self
 
         self.governmentDialogViewModel.delegate = self
         self.changeGovernmentDialogViewModel.delegate = self
@@ -602,6 +610,19 @@ public class GameViewModel: ObservableObject {
             self.popups.removeFirst()
             return
         }
+    }
+
+    func showGameMenu() {
+
+        self.gameMenuVisible = true
+    }
+}
+
+extension GameViewModel: GameMenuViewModelDelegate {
+
+    func backToGameClicked() {
+
+        self.gameMenuVisible = false
     }
 }
 
@@ -1086,6 +1107,11 @@ extension GameViewModel: GameViewModelDelegate {
 
 extension GameViewModel: TopBarViewModelDelegate {
 
+    func menuButtonClicked() {
+
+        //self.delegate?.closeGame()
+        self.showGameMenu()
+    }
 }
 
 extension GameViewModel: BottomRightBarViewModelDelegate {

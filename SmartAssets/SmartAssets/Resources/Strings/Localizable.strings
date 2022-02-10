@@ -160,6 +160,70 @@
 "TXT_KEY_POPUP_OTHER_LOST_CAPITAL_TITLE" = "[Capital] Capital City lost!";
 "TXT_KEY_POPUP_OTHER_LOST_CAPITAL_SUMMARY" = "%@ lost their original [Capital] Capital.";
 
+// victory ranking
+"TXT_KEY_LEADER_1_NAME" = "Augustus Caesar";
+"TXT_KEY_LEADER_1_QUOTE" = "I found Rome a city of bricks and left it a city of marble.";
+
+"TXT_KEY_LEADER_2_NAME" = "Hammurabi";
+"TXT_KEY_LEADER_2_QUOTE" = "The first duty of government is to protect the powerless from the powerful.";
+
+"TXT_KEY_LEADER_3_NAME" = "Abraham Lincoln";
+"TXT_KEY_LEADER_3_QUOTE" = "Leave nothing for tomorrow which can be done today.";
+
+"TXT_KEY_LEADER_4_NAME" = "Winston Churchill";
+"TXT_KEY_LEADER_4_QUOTE" = "Where there is great power there is great responsibility; where there is less power there is less responsibility; and where there is no power there can, I think, be no responsibility.";
+
+"TXT_KEY_LEADER_5_NAME" = "Nelson Mandela";
+"TXT_KEY_LEADER_5_QUOTE" = "Real leaders must be ready to sacrifice all for the freedom of their people.";
+
+"TXT_KEY_LEADER_6_NAME" = "Catherine the Great";
+"TXT_KEY_LEADER_6_QUOTE" = "Power without a nation's confidence is nothing.";
+
+"TXT_KEY_LEADER_7_NAME" = "Ashoka";
+"TXT_KEY_LEADER_7_QUOTE" = "It is forbidden to decry other sects; the true believer gives honor to whatever in them is worthy of honor.";
+
+"TXT_KEY_LEADER_8_NAME" = "Marcus Aurelius";
+"TXT_KEY_LEADER_8_QUOTE" = "The object of life is not to be on the side of the majority, but to escape finding oneself in the ranks of the insane.";
+
+"TXT_KEY_LEADER_9_NAME" = "Lech Wałęsa";
+"TXT_KEY_LEADER_9_QUOTE" = "As a nation, we have the right to decide our own affairs, to mold our own future.";
+
+"TXT_KEY_LEADER_10_NAME" = "Hatshepsut";
+"TXT_KEY_LEADER_10_QUOTE" = "Hear ye, all persons! Ye people as many as ye are! I have done things according to the design of my heart.";
+
+"TXT_KEY_LEADER_11_NAME" = "Charles de Gaulle";
+"TXT_KEY_LEADER_11_QUOTE" = "Let us be firm, pure and faithful; at the end of our sorrow, there is the greatest glory of the world, that of the men who did not give in.";
+
+"TXT_KEY_LEADER_12_NAME" = "Eleanor of Aquitaine";
+"TXT_KEY_LEADER_12_QUOTE" = "Pitiful and pitied by no one, why have I come to the ignominy of this detestable old age, who was ruler of two kingdoms, mother of two kings? My guts are torn from me, my family is carried off and removed from me.";
+
+"TXT_KEY_LEADER_13_NAME" = "Ivan the Terrible";
+"TXT_KEY_LEADER_13_QUOTE" = "To shave the beard is a sin that the blood of all martyrs cannot cleanse. It is to deface the image of God.";
+
+"TXT_KEY_LEADER_14_NAME" = "Herbert Hoover";
+"TXT_KEY_LEADER_14_QUOTE" = "What the country needs is a good big laugh … if someone could get off a good joke every ten days, I think our troubles would be over.";
+
+"TXT_KEY_LEADER_15_NAME" = "Louis XVI";
+"TXT_KEY_LEADER_15_QUOTE" = "Every time that I fill a high office, I create a hundred discontented men and an ingrate.";
+
+"TXT_KEY_LEADER_16_NAME" = "Neville Chamberlain";
+"TXT_KEY_LEADER_16_QUOTE" = "Peace in our time.";
+
+"TXT_KEY_LEADER_17_NAME" = "Nero";
+"TXT_KEY_LEADER_17_QUOTE" = "A man who is always ready to believe what is told him will never do well.";
+
+"TXT_KEY_LEADER_18_NAME" = "Warren G. Harding";
+"TXT_KEY_LEADER_18_QUOTE" = "Our most dangerous tendency is to expect too much of government, and at the same time do for it too little.<";
+
+"TXT_KEY_LEADER_19_NAME" = "Ethelred the Unready";
+"TXT_KEY_LEADER_19_QUOTE" = "In the name of the Holy Trinity, three things do I promise to this Christian people, my subjects: first, that I will hold God's Church and all the Christian people of my realm in true peace; secondly, that I will forbid all rapine and injustice to men of all conditions; thirdly, that I promise and enjoin justice and mercy in all judgments.";
+
+"TXT_KEY_LEADER_20_NAME" = "Mary Tudor I";
+"TXT_KEY_LEADER_20_QUOTE" = "In thee, O Lord, is my trust; let me never be confounded: if God be for us, who can be against us?";
+
+"TXT_KEY_LEADER_21_NAME" = "Dan Quayle";
+"TXT_KEY_LEADER_21_QUOTE" = "We are ready for any unforeseen event that may or may not occur.";
+
 // governor texts
 "TXT_KEY_GOVERNOR_TITLE" = "Governor title";
 

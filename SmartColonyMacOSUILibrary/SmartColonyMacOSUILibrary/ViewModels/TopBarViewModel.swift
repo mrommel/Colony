@@ -11,6 +11,7 @@ import SmartAssets
 
 protocol TopBarViewModelDelegate: AnyObject {
 
+    func menuButtonClicked()
 }
 
 public class TopBarViewModel: ObservableObject {
@@ -146,6 +147,11 @@ public class TopBarViewModel: ObservableObject {
         self.uraniumValueViewModel.tooltip = self.resourceTooltip(of: .uranium, for: humanPlayer)
 
         self.turnYearText = gameModel.turnYear()
+    }
+
+    func menuClicked() {
+
+        self.delegate?.menuButtonClicked()
     }
 }
 

@@ -274,7 +274,7 @@ extension GameViewModel {
             "city-canvas", "pantheon-background", "turns", "unit-banner", "combat-view",
             "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty",
             "map-overview-canvas", "map-lens", "map-lens-active", "map-marker", "map-options",
-            "unit-canvas"
+            "unit-canvas", "menu", "menu-background"
         ]
         print("- load \(textureNames.count) misc textures")
         for textureName in textureNames {

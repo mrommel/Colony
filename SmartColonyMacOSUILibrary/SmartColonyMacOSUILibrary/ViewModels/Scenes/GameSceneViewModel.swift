@@ -108,7 +108,3 @@ public class GameSceneViewModel: ObservableObject {
         self.delegate?.updateRect(at: point, size: size)
     }
 }
-
-extension GameSceneViewModel: TopBarViewModelDelegate {
-
-}

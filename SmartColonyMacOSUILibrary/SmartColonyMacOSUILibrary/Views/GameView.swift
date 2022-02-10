@@ -67,17 +67,27 @@ public struct GameView: View {
                 #endif
             }
 
-            BottomRightBarView(viewModel: self.viewModel.bottomRightBarViewModel)
+            Group {
 
-            TopBarView(viewModel: self.viewModel.topBarViewModel)
+                BottomRightBarView(viewModel: self.viewModel.bottomRightBarViewModel)
 
-            HeaderView(viewModel: self.viewModel.headerViewModel)
+                TopBarView(viewModel: self.viewModel.topBarViewModel)
 
-            self.dialog
+                HeaderView(viewModel: self.viewModel.headerViewModel)
+            }
 
-            self.popup
+            Group {
+                self.dialog
+
+                self.popup
+            }
 
             BannerView(viewModel: self.viewModel.bannerViewModel)
+
+            if self.viewModel.gameMenuVisible {
+
+                GameMenuView(viewModel: self.viewModel.gameMenuViewModel)
+            }
         }
     }
 }

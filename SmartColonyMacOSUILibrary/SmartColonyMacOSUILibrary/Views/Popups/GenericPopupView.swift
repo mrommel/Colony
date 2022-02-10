@@ -23,15 +23,15 @@ struct GenericPopupView: View {
         Group {
             VStack(spacing: 0) {
 
-                Text(self.viewModel.title)
+                Label(self.viewModel.title)
                     .font(.title2)
-                    .bold()
+                    //.bold()
                     .padding(.top, 12)
                     .padding(.bottom, 10)
 
                 VStack(alignment: .center, spacing: 6) {
 
-                    Text(self.viewModel.summary)
+                    Label(self.viewModel.summary)
                         .font(.body)
                         .lineLimit(nil)
                         .fixedSize(horizontal: false, vertical: true)
@@ -68,7 +68,7 @@ struct GenericPopupView_Previews: PreviewProvider {
     static func viewModel() -> GenericPopupViewModel {
 
         let viewModel = GenericPopupViewModel()
-        viewModel.update(with: "Hello", and: "Summary")
+        viewModel.update(with: "Hello [Production]", and: "Summary [Capital]")
 
         return viewModel
     }

@@ -79,6 +79,7 @@
 		C94816C126A82DB000765029 /* TradeCityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94816C026A82DB000765029 /* TradeCityView.swift */; };
 		C94CE28726DCDA4F00B58A9C /* CombatBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94CE28626DCDA4F00B58A9C /* CombatBannerView.swift */; };
 		C94CE28926DCDA6400B58A9C /* CombatBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94CE28826DCDA6400B58A9C /* CombatBannerViewModel.swift */; };
+		C94E2E1227B50035006866BB /* GameMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94E2E1127B50035006866BB /* GameMenuView.swift */; };
 		C94F94DE27295C1E006BF135 /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94F94DD27295C1E006BF135 /* Tooltip.swift */; };
 		C950F98B26427C560057A7D1 /* GameSceneUserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F98A26427C560057A7D1 /* GameSceneUserInterface.swift */; };
 		C950F98E26427E110057A7D1 /* GameSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F98D26427E110057A7D1 /* GameSceneViewModel.swift */; };
@@ -387,6 +388,7 @@
 		C94816C026A82DB000765029 /* TradeCityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeCityView.swift; sourceTree = "<group>"; };
 		C94CE28626DCDA4F00B58A9C /* CombatBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatBannerView.swift; sourceTree = "<group>"; };
 		C94CE28826DCDA6400B58A9C /* CombatBannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatBannerViewModel.swift; sourceTree = "<group>"; };
+		C94E2E1127B50035006866BB /* GameMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMenuView.swift; sourceTree = "<group>"; };
 		C94F94DD27295C1E006BF135 /* Tooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tooltip.swift; sourceTree = "<group>"; };
 		C950F98A26427C560057A7D1 /* GameSceneUserInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneUserInterface.swift; sourceTree = "<group>"; };
 		C950F98D26427E110057A7D1 /* GameSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneViewModel.swift; sourceTree = "<group>"; };
@@ -821,6 +823,7 @@
 				C9FBBE3F26837AA7005D7CE6 /* CityBannerView.swift */,
 				C943E8FF26C100E00038B7E8 /* UnitBannerView.swift */,
 				C94CE28626DCDA4F00B58A9C /* CombatBannerView.swift */,
+				C94E2E1127B50035006866BB /* GameMenuView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1539,6 +1542,7 @@
 				C9FD308526223EA200153752 /* DemoGameModel.swift in Sources */,
 				C9077A8826D64EFE004BE679 /* TradeRouteView.swift in Sources */,
 				C997785527B317F400BFC102 /* GenericPopupViewModel.swift in Sources */,
+				C94E2E1227B50035006866BB /* GameMenuView.swift in Sources */,
 				C9077A8626D64432004BE679 /* TradeRouteViewModel.swift in Sources */,
 				C9072E812732B14600560429 /* CivilizationView.swift in Sources */,
 				C9CAC89F264ABCC600D0668D /* GovernmentCardViewModel.swift in Sources */,

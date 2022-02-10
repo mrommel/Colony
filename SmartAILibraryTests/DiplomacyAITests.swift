@@ -566,7 +566,7 @@ class DiplomacyAITests: XCTestCase {
                 playerAlexander.setAutoMoves(to: true)
             }
         } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
-        
+
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
 
         // THEN
