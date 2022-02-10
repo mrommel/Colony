@@ -44,6 +44,7 @@ class MainViewModel: ObservableObject {
 
     // private
     private var progressTimer: Timer?
+    private var restartURL: UserDefaultStorage<URL>
 
     init(presentedView: PresentedViewType = .menu,
          menuViewModel: MenuViewModel = MenuViewModel(),
@@ -62,6 +63,8 @@ class MainViewModel: ObservableObject {
         self.replayViewModel = ReplayGameViewModel()
         self.debugViewModel = DebugViewModel()
         self.pediaViewModel = pediaViewModel
+
+        self.restartURL = UserDefaultStorage<URL>(key: "restartURL", default: URL(fileURLWithPath: "backup.sc"))
 
         // connect delegates
         self.menuViewModel.delegate = self
@@ -181,11 +184,17 @@ extension MainViewModel: CreateGameMenuViewModelDelegate {
 
 extension MainViewModel: GenerateGameViewModelDelegate {
 
-    func created(game: GameModel?) {
+    func created(game gameModel: GameModel?) {
 
         self.gameViewModel.loadAssets()
 
-        self.gameEnvironment.assign(game: game)
+        // backup the newly created game for restart
+        let writer = GameWriter()
+        if !writer.write(game: gameModel, to: self.restartURL.wrappedValue) {
+            fatalError("could not store game for restart backup")
+        }
+
+        self.gameEnvironment.assign(game: gameModel)
 
         self.presentedView = .game
         self.mapMenuDisabled = false
@@ -208,6 +217,18 @@ extension MainViewModel: CloseGameViewModelDelegate {
 
         fatalError("not implemented: showReplay")
     }*/
+
+    func closeAndRestartGame() {
+
+        let loader = GameLoader()
+        if let gameModel = loader.load(from: self.restartURL.wrappedValue) {
+
+            self.gameEnvironment.assign(game: gameModel)
+
+            self.presentedView = .game
+            self.mapMenuDisabled = false
+        }
+    }
 }
 
 extension MainViewModel: DebugViewModelDelegate {
@@ -220,11 +241,11 @@ extension MainViewModel: DebugViewModelDelegate {
         self.progressTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
     }
 
-    func prepared(game: GameModel?) {
+    func prepared(game gameModel: GameModel?) {
 
         self.gameViewModel.loadAssets()
 
-        self.gameEnvironment.assign(game: game)
+        self.gameEnvironment.assign(game: gameModel)
 
         self.progressTimer?.invalidate()
 

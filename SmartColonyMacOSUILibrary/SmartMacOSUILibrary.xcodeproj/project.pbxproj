@@ -236,6 +236,7 @@
 		C9BDCF8D2624771C002488F6 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDCF8C2624771C002488F6 /* GameViewModel.swift */; };
 		C9C1B1D72726B4A400046D23 /* ResourceValueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1B1D62726B4A300046D23 /* ResourceValueViewModel.swift */; };
 		C9C1B1D92726B5C600046D23 /* ResourceValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1B1D82726B5C500046D23 /* ResourceValueView.swift */; };
+		C9C315D227B558F100387733 /* GameMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C315D127B558F000387733 /* GameMenuViewModel.swift */; };
 		C9C8A745278571DB00BC68CF /* DedicationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C8A744278571DB00BC68CF /* DedicationView.swift */; };
 		C9C8A7472785728800BC68CF /* DedicationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C8A7462785728800BC68CF /* DedicationViewModel.swift */; };
 		C9CAC899264ABBC400D0668D /* ChangeGovernmentDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC898264ABBC400D0668D /* ChangeGovernmentDialogView.swift */; };
@@ -547,6 +548,7 @@
 		C9BDCF8C2624771C002488F6 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		C9C1B1D62726B4A300046D23 /* ResourceValueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceValueViewModel.swift; sourceTree = "<group>"; };
 		C9C1B1D82726B5C500046D23 /* ResourceValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceValueView.swift; sourceTree = "<group>"; };
+		C9C315D127B558F000387733 /* GameMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMenuViewModel.swift; sourceTree = "<group>"; };
 		C9C8A744278571DB00BC68CF /* DedicationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DedicationView.swift; sourceTree = "<group>"; };
 		C9C8A7462785728800BC68CF /* DedicationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DedicationViewModel.swift; sourceTree = "<group>"; };
 		C9CAC898264ABBC400D0668D /* ChangeGovernmentDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeGovernmentDialogView.swift; sourceTree = "<group>"; };
@@ -849,6 +851,7 @@
 				C939DDD42684D396001CBC6C /* CityBannerViewModel.swift */,
 				C943E90126C1011C0038B7E8 /* UnitBannerViewModel.swift */,
 				C94CE28826DCDA6400B58A9C /* CombatBannerViewModel.swift */,
+				C9C315D127B558F000387733 /* GameMenuViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1386,6 +1389,7 @@
 				C9A37615263457210057923E /* SafeAreaNode.swift in Sources */,
 				C9D191AF265A86C7008C9622 /* CityReligionViewModel.swift in Sources */,
 				C98031D126EE5AD9008F460B /* CityView.swift in Sources */,
+				C9C315D227B558F100387733 /* GameMenuViewModel.swift in Sources */,
 				C925676D265635C000B895BD /* QueueViewModel.swift in Sources */,
 				C970A5FE27955C6500381603 /* CityFaithPurchaseView.swift in Sources */,
 				C9A48D3E2653B9D200260EE0 /* GovernmentDialogView.swift in Sources */,

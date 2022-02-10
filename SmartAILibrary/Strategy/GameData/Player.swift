@@ -598,7 +598,7 @@ public class Player: AbstractPlayer {
 
         self.originalCapitalLocationValue = try container.decode(HexPoint.self, forKey: .originalCapitalLocation)
         self.lostCapitalValue = try container.decode(Bool.self, forKey: .lostCapital)
-        self.conquerorValue = try container.decode(LeaderType.self, forKey: .conqueror)
+        self.conquerorValue = try container.decodeIfPresent(LeaderType.self, forKey: .conqueror)
 
         self.canChangeGovernmentValue = try container.decode(Bool.self, forKey: .canChangeGovernment)
         self.happinessValue = try container.decodeIfPresent(Int.self, forKey: .happiness) ?? 0
@@ -706,7 +706,7 @@ public class Player: AbstractPlayer {
 
         try container.encode(self.originalCapitalLocationValue, forKey: .originalCapitalLocation)
         try container.encode(self.lostCapitalValue, forKey: .lostCapital)
-        try container.encode(self.conquerorValue, forKey: .conqueror)
+        try container.encodeIfPresent(self.conquerorValue, forKey: .conqueror)
 
         try container.encode(self.canChangeGovernmentValue, forKey: .canChangeGovernment)
         try container.encode(self.happinessValue, forKey: .happiness)
@@ -1388,30 +1388,17 @@ public class Player: AbstractPlayer {
 
     func verifyAlive(in gameModel: GameModel?) {
 
-        var kill: Bool = false
-
         if self.isAlive() {
 
-            kill = false
+            if !self.isBarbarian() && !self.isFreeCity() {
 
-            if !kill {
+                if self.numCities(in: gameModel) == 0 && self.numUnits(in: gameModel) == 0 {
 
-                if !self.isBarbarian() {
-
-                    if self.numCities(in: gameModel) == 0 {
-
-                        if self.numUnits(in: gameModel) == 0 {
-
-                            kill = true
-                        }
-                    }
+                    self.set(alive: false, in: gameModel)
                 }
             }
-
-            if kill {
-                set(alive: false, in: gameModel)
-            }
         } else {
+            // if dead but has received units / cities - revive
             if self.numUnits(in: gameModel) > 0 || self.numCities(in: gameModel) > 0 {
                 self.set(alive: true, in: gameModel)
             }

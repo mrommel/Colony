@@ -274,7 +274,7 @@ extension GameViewModel {
             "city-canvas", "pantheon-background", "turns", "unit-banner", "combat-view",
             "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty",
             "map-overview-canvas", "map-lens", "map-lens-active", "map-marker", "map-options",
-            "unit-canvas", "menu", "menu-background"
+            "unit-canvas", "menu", "menu-background", "speed-standard"
         ]
         print("- load \(textureNames.count) misc textures")
         for textureName in textureNames {
@@ -633,9 +633,9 @@ extension GameViewModel {
             )
         }
 
-        let dedicationTypesTextureNames = DedicationType.all.map { $0.iconTexture() }
-        print("- load \(dedicationTypesTextureNames.count) dedication textures")
-        for textureName in dedicationTypesTextureNames {
+        let dedicationTypeTextureNames = DedicationType.all.map { $0.iconTexture() }
+        print("- load \(dedicationTypeTextureNames.count) dedication textures")
+        for textureName in dedicationTypeTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
@@ -651,6 +651,15 @@ extension GameViewModel {
         ).uniqued()
         print("- load \(momentTypeTextureNames.count) moment textures")
         for textureName in momentTypeTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let handicapTypeTextureNames = HandicapType.all.map { $0.iconTexture() }
+        print("- load \(handicapTypeTextureNames.count) handicap textures")
+        for textureName in handicapTypeTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName

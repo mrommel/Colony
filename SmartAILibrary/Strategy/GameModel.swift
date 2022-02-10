@@ -57,7 +57,7 @@ open class GameModel: Codable {
     }
 
     let victoryTypes: [VictoryType]
-    let handicap: HandicapType
+    public let handicap: HandicapType
     var currentTurn: Int
     var turnSliceValue: Int = 0
     var numProphetsSpawnedValue: Int = 0
@@ -292,27 +292,27 @@ open class GameModel: Codable {
             //self.updateWar()
 
             self.updateMoves()
+        }
 
-            // And again, the player can change after the automoves and that can pause the game
-            if !isPaused() {
+        // And again, the player can change after the automoves and that can pause the game
+        if !isPaused() {
 
-                self.updateTimers()
+            self.updateTimers()
 
-                self.updatePlayers(in: self) // slewis added!
+            self.updatePlayers(in: self) // slewis added!
 
-                //self.testAlive()
+            //self.testAlive()
 
-                if let humanPlayer = self.humanPlayer() {
-                    if !humanPlayer.isAlive() {
-                        self.set(gameState: .over)
-                    }
+            if let humanPlayer = self.humanPlayer() {
+                if !humanPlayer.isAlive() {
+                    self.set(gameState: .over)
                 }
-
-                // next player ???
-                self.checkPlayerTurnDeactivate()
-
-                self.changeTurnSlice(by: 1)
             }
+
+            // next player ???
+            self.checkPlayerTurnDeactivate()
+
+            self.changeTurnSlice(by: 1)
         }
     }
 

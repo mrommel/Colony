@@ -17,13 +17,15 @@ public enum DialogButtonState {
 public struct DialogButtonStyle: ButtonStyle {
 
     let state: DialogButtonState
+    let width: CGFloat
 
     @Environment(\.isEnabled)
     private var isEnabled: Bool
 
-    public init(state: DialogButtonState = .normal) {
+    public init(state: DialogButtonState = .normal, width: CGFloat = 84.0) {
 
         self.state = state
+        self.width = width
     }
 
     private func backgroundImage(pressed: Bool) -> NSImage {
@@ -43,7 +45,7 @@ public struct DialogButtonStyle: ButtonStyle {
 
         configuration.label
             .font(.body)
-            .frame(width: 84, height: 14, alignment: .center)
+            .frame(width: self.width, height: 14, alignment: .center)
             .multilineTextAlignment(.center)
             .padding(6)
             .background(

@@ -14,6 +14,19 @@ import XCTest
 // swiftlint:disable force_try
 class GameModelTests: XCTestCase {
 
+    private var downloadsFolder: URL = {
+        let fileManager = FileManager.default
+        let folder = fileManager.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
+
+        var isDirectory: ObjCBool = false
+        if !(fileManager.fileExists(atPath: folder.path, isDirectory: &isDirectory) && isDirectory.boolValue) {
+            do {
+                try fileManager.createDirectory(at: folder, withIntermediateDirectories: false, attributes: nil)
+            } catch { }
+        }
+        return folder
+    }()
+
     func testWorldEraMedieval() {
         // GIVEN
 
@@ -383,5 +396,60 @@ class GameModelTests: XCTestCase {
         XCTAssertNotEqual(numberOfAntiquitySitesAfter, 0)
         XCTAssert(antiquitySiteThere)
         XCTAssert(shipWreckThere)
+    }
+
+    func testSerialization() throws {
+
+        // GIVEN
+
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+
+        // player 2
+        let playerTrajan = Player(leader: .trajan)
+        playerTrajan.initialize()
+
+        // map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        MapUtils.add(area: HexArea(center: HexPoint(x: 10, y: 10), radius: 6), with: .shore, to: mapModel)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
+        // game
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerTrajan, playerAlexander],
+            on: mapModel
+        )
+
+        let url = downloadsFolder.appendingPathComponent("tmp.sc")
+
+        let writer = GameWriter()
+        let reader = GameLoader()
+
+        // WHEN
+        let written = writer.write(game: gameModel, to: url)
+        let tmpGameModel = reader.load(from: url)
+
+        // THEN
+        XCTAssertTrue(written)
+        XCTAssertEqual(tmpGameModel?.mapSize(), .duel)
     }
 }

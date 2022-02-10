@@ -7,41 +7,7 @@
 
 import SwiftUI
 import SmartAssets
-
-protocol GameMenuViewModelDelegate: AnyObject {
-
-    func backToGameClicked()
-}
-
-class GameMenuViewModel: ObservableObject {
-
-    @Environment(\.gameEnvironment)
-    var gameEnvironment: GameEnvironment
-
-    weak var delegate: GameMenuViewModelDelegate?
-
-    init() {
-
-    }
-
-    func clickBackToGame() {
-
-        self.delegate?.backToGameClicked()
-    }
-
-    func civilizationImage() -> NSImage {
-
-        guard let gameModel = self.gameEnvironment.game.value else {
-            return NSImage()
-        }
-
-        guard let humanPlayer = gameModel.humanPlayer() else {
-            return NSImage()
-        }
-
-        return ImageCache.shared.image(for: humanPlayer.leader.civilization().iconTexture())
-    }
-}
+import SmartAILibrary
 
 struct GameMenuView: View {
 
@@ -55,80 +21,112 @@ struct GameMenuView: View {
 
     var body: some View {
 
-        VStack(alignment: .center, spacing: 20) {
+        ZStack {
+            VStack(alignment: .center, spacing: 12) {
 
-            Text("Menu")
-                .font(.title)
-                .padding(.top, 8)
+                Text("Menu")
+                    .font(.title)
+                    .padding(.top, 8)
+                    .padding(.bottom, 20)
 
-            Group {
+                Group {
 
-                Button(
-                    action: { self.viewModel.clickBackToGame() },
-                    label: { "Back to Game".localized() }
-                )
-                .buttonStyle(GameButtonStyle())
-                .padding(.top, 20)
+                    Button(
+                        action: { self.viewModel.clickBackToGame() },
+                        label: { Text("Back to Game".localized()) }
+                    )
+                        .buttonStyle(DialogButtonStyle(width: 180))
+                        .padding(.bottom, 20)
 
-                Button("Restart".localized()) {
-                    print("Restart")
-                }.buttonStyle(GameButtonStyle())
+                    Button(
+                        action: { self.viewModel.clickRestartGame() },
+                        label: { Text("Restart".localized()) }
+                    )
+                        .buttonStyle(DialogButtonStyle(width: 180))
 
-                Button("Quick Save Game".localized()) {
-                    print("Quick Save Game")
-                }.buttonStyle(GameButtonStyle())
+                    Button(
+                        action: { print("Quick Save Game") },
+                        label: { Text("Quick Save Game".localized()) }
+                    )
+                        .buttonStyle(DialogButtonStyle(width: 180))
 
-                Button("Save game".localized()) {
-                    print("Save game")
-                }.buttonStyle(GameButtonStyle())
+                    Button(
+                        action: { print("Save Game") },
+                        label: { Text("Save Game".localized()) }
+                    )
+                        .buttonStyle(DialogButtonStyle(width: 180))
 
-                Button("Load Game".localized()) {
-                    print("Load Game")
-                }.buttonStyle(GameButtonStyle())
+                    Button(
+                        action: { print("Load Game") },
+                        label: { Text("Load Game".localized()) }
+                    )
+                        .buttonStyle(DialogButtonStyle(width: 180))
 
-                Button("Option".localized()) {
-                    print("Option")
-                }.buttonStyle(GameButtonStyle())
+                    Button(
+                        action: { print("Option") },
+                        label: { Text("Option".localized()) }
+                    )
+                        .buttonStyle(DialogButtonStyle(width: 180))
 
-                Button("Retire".localized()) {
-                    print("retire")
-                }.buttonStyle(GameButtonStyle())
+                    Button(
+                        action: { print("Retire") },
+                        label: { Text("Retire".localized()) }
+                    )
+                        .buttonStyle(DialogButtonStyle(width: 180))
 
-                Button("Exit to Main Menu".localized()) {
-                    print("Exit to Main Menu")
-                }.buttonStyle(GameButtonStyle())
+                    Button(
+                        action: { print("Exit to Main Menu") },
+                        label: { Text("Exit to Main Menu".localized()) }
+                    )
+                        .buttonStyle(DialogButtonStyle(width: 180))
+                }
+
+                Spacer()
+
+                self.gameInfoIconView
+                    .padding(.bottom, 12)
+
+                Text("1.0.0")
+                    .padding(.bottom, 6)
             }
+            .frame(width: 250, height: 520)
+            .background(
+                Image(nsImage: ImageCache.shared.image(for: "menu-background"))
+                    .resizable()
+            )
 
-            Spacer()
-
-            self.gameInfoIconView
+            if self.viewModel.showConfirmationDialog {
+                ConfirmationDialogView(viewModel: self.viewModel.confirmationDialogViewModel)
+            }
         }
-        .frame(width: 250, height: 520)
-        .background(
-            Image(nsImage: ImageCache.shared.image(for: "menu-background"))
-                .resizable()
-        )
     }
 
     private var gameInfoIconView: some View {
 
-        HStack {
+        HStack(alignment: .center, spacing: 17.5) {
 
             Image(nsImage: self.viewModel.civilizationImage())
                 .resizable()
                 .frame(width: 32, height: 32)
+                .clipShape(Circle())
+                .toolTip(self.viewModel.civilizationToolTip())
 
-            Image(nsImage: self.viewModel.civilizationImage())
+            Image(nsImage: self.viewModel.leaderImage())
                 .resizable()
                 .frame(width: 32, height: 32)
+                .clipShape(Circle())
+                .toolTip(self.viewModel.leaderToolTip())
 
-            Image(nsImage: self.viewModel.civilizationImage())
+            Image(nsImage: self.viewModel.handicapImage())
                 .resizable()
                 .frame(width: 32, height: 32)
+                .clipShape(Circle())
+                .toolTip(self.viewModel.handicapToolTip())
 
-            Image(nsImage: self.viewModel.civilizationImage())
+            Image(nsImage: self.viewModel.speedImage())
                 .resizable()
                 .frame(width: 32, height: 32)
+                .clipShape(Circle())
         }
     }
 }

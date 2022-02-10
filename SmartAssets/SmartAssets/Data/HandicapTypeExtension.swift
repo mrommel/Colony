@@ -9,7 +9,7 @@ import SmartAILibrary
 
 extension HandicapType {
 
-    public func textureName() -> String {
+    public func iconTexture() -> String {
 
         switch self {
 

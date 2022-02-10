@@ -144,7 +144,7 @@ class CreateGameMenuViewModel: ObservableObject {
         targetSize: NSSize = NSSize(width: 16, height: 16)) -> NSImage {
 
         return self.bundle
-                .image(forResource: handicapType.textureName())?
+                .image(forResource: handicapType.iconTexture())?
                 .resize(withSize: targetSize) ?? NSImage()
     }
 

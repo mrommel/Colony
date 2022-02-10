@@ -309,6 +309,8 @@
 		C9C2FE4523FB289300185235 /* DangerPlotsAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE4423FB289300185235 /* DangerPlotsAI.swift */; };
 		C9C2FE4723FC170700185235 /* UnitPromotionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE4623FC170700185235 /* UnitPromotionType.swift */; };
 		C9C2FE4923FC20D600185235 /* Promotions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE4823FC20D600185235 /* Promotions.swift */; };
+		C9C315D527B55A7A00387733 /* GameWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C315D427B55A7A00387733 /* GameWriter.swift */; };
+		C9C315D727B55AAB00387733 /* GameLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C315D627B55AAB00387733 /* GameLoader.swift */; };
 		C9C52FCC23D8EFCC00B34140 /* PlayerScoringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C52FCB23D8EFCC00B34140 /* PlayerScoringTests.swift */; };
 		C9D1919B26596315008C9622 /* PantheonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D1919A26596315008C9622 /* PantheonType.swift */; };
 		C9D1919D265968F3008C9622 /* ReligionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D1919C265968F3008C9622 /* ReligionType.swift */; };
@@ -720,6 +722,8 @@
 		C9C2FE4423FB289300185235 /* DangerPlotsAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DangerPlotsAI.swift; sourceTree = "<group>"; };
 		C9C2FE4623FC170700185235 /* UnitPromotionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitPromotionType.swift; sourceTree = "<group>"; };
 		C9C2FE4823FC20D600185235 /* Promotions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promotions.swift; sourceTree = "<group>"; };
+		C9C315D427B55A7A00387733 /* GameWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameWriter.swift; sourceTree = "<group>"; };
+		C9C315D627B55AAB00387733 /* GameLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLoader.swift; sourceTree = "<group>"; };
 		C9C52FCB23D8EFCC00B34140 /* PlayerScoringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerScoringTests.swift; sourceTree = "<group>"; };
 		C9D1919A26596315008C9622 /* PantheonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantheonType.swift; sourceTree = "<group>"; };
 		C9D1919C265968F3008C9622 /* ReligionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionType.swift; sourceTree = "<group>"; };
@@ -908,6 +912,7 @@
 				C98CBDFB24338B90005EE397 /* MapGeneration */,
 				C957AA302436353500203024 /* MapLoading */,
 				C9AAF4BE2581FC6200D7F357 /* MapWriting */,
+				C9C315D327B55A6400387733 /* GameWriting */,
 				C90FC39123D88E6B00720B32 /* Enums */,
 				C930FFB624F54726002B4D07 /* PathfinderDataSources */,
 				C98DBFA423DF21D000B6CE25 /* GameData */,
@@ -1443,6 +1448,15 @@
 			path = GreatPersons;
 			sourceTree = "<group>";
 		};
+		C9C315D327B55A6400387733 /* GameWriting */ = {
+			isa = PBXGroup;
+			children = (
+				C9C315D427B55A7A00387733 /* GameWriter.swift */,
+				C9C315D627B55AAB00387733 /* GameLoader.swift */,
+			);
+			path = GameWriting;
+			sourceTree = "<group>";
+		};
 		C9D19199265962FF008C9622 /* Religion */ = {
 			isa = PBXGroup;
 			children = (
@@ -1877,6 +1891,7 @@
 				C9C0DCD724D44799004D9F06 /* GreatPeople.swift in Sources */,
 				C9A1B5602523117B00AC2292 /* TacticalUnit.swift in Sources */,
 				C9A1B56C252311C000AC2292 /* TacticalMoveType.swift in Sources */,
+				C9C315D727B55AAB00387733 /* GameLoader.swift in Sources */,
 				C98DBFA323DF219100B6CE25 /* City.swift in Sources */,
 				C997902B25133377003E52C9 /* CityCloseDefenseOperation.swift in Sources */,
 				C9E74CB3248E1AE4003EF256 /* DiplomaticPlayerArray.swift in Sources */,
@@ -2043,6 +2058,7 @@
 				C9A1B55725230A6900AC2292 /* OperationHelpers.swift in Sources */,
 				C935FBA6270336FA000CCA49 /* MapUtils.swift in Sources */,
 				C956BF6424F10BAF009702B4 /* CombatModifier.swift in Sources */,
+				C9C315D527B55A7A00387733 /* GameWriter.swift in Sources */,
 				C95503C324585F6E00D4B3D8 /* MapOptionResources.swift in Sources */,
 				C9956853247E90B00005E9EA /* Eurekas.swift in Sources */,
 				C978E0F525226EDB008B8001 /* ArmyState.swift in Sources */,

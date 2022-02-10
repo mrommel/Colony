@@ -18,6 +18,35 @@ enum UICombatMode {
     case rangedCity
 }
 
+@propertyWrapper
+public struct UserDefaultStorage<T: Codable> {
+
+    private let key: String
+    private let defaultValue: T
+
+    private let userDefaults: UserDefaults
+
+    public init(key: String, default: T, store: UserDefaults = .standard) {
+        self.key = key
+        self.defaultValue = `default`
+        self.userDefaults = store
+    }
+
+    public var wrappedValue: T {
+        get {
+            guard let data = userDefaults.data(forKey: key) else {
+                return defaultValue
+            }
+            let value = try? JSONDecoder().decode(T.self, from: data)
+            return value ?? defaultValue
+        }
+        set {
+            let data = try? JSONEncoder().encode(newValue)
+            userDefaults.set(data, forKey: key)
+        }
+    }
+}
+
 protocol GameViewModelDelegate: AnyObject {
 
     func update(gameState: GameStateType)
@@ -128,8 +157,11 @@ public protocol CloseGameViewModelDelegate: AnyObject {
 
     // func showReplay(for game: GameModel?)
     func closeGame()
+
+    func closeAndRestartGame()
 }
 
+// swiftlint:disable type_body_length
 public class GameViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
@@ -287,6 +319,11 @@ public class GameViewModel: ObservableObject {
 
     @Published
     var currentPopupType: PopupType = .none
+
+    // main data
+
+    @UserDefaultStorage(key: "myCustomKey", default: 0)
+    var myValue: Int
 
     var popups: [PopupType] = []
 
@@ -623,6 +660,13 @@ extension GameViewModel: GameMenuViewModelDelegate {
     func backToGameClicked() {
 
         self.gameMenuVisible = false
+    }
+
+    func restartGameClicked() {
+
+        self.gameMenuVisible = false
+
+        self.delegate?.closeAndRestartGame()
     }
 }
 
