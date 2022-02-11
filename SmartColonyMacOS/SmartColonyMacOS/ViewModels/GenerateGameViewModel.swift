@@ -10,7 +10,6 @@ import SmartAILibrary
 import SmartAssets
 
 // swiftlint:disable force_try
-
 protocol GenerateGameViewModelDelegate: AnyObject {
 
     func created(game: GameModel?)
@@ -32,22 +31,22 @@ class GenerateGameViewModel: ObservableObject {
         self.progressText = initialText
     }
 
-    func start(with leader: LeaderType, on handicap: HandicapType, with mapType: MapType, and mapSize: MapSize) {
+    func start(with leader: LeaderType, on handicap: HandicapType, with mapType: MapType, and mapSize: MapSize, with seed: Int) {
 
         switch mapType {
 
         case .continents:
-            self.generatingContinents(with: mapSize, with: leader, on: handicap)
+            self.generatingContinents(with: mapSize, with: leader, on: handicap, with: seed)
 
         case .archipelago:
-            self.generatingArchipelago(with: mapSize, with: leader, on: handicap)
+            self.generatingArchipelago(with: mapSize, with: leader, on: handicap, with: seed)
 
         default:
-            self.generatingEmpty(with: mapSize, with: leader, on: handicap)
+            self.generatingEmpty(with: mapSize, with: leader, on: handicap, with: seed)
         }
     }
 
-    func generatingContinents(with mapSize: MapSize, with leader: LeaderType, on handicap: HandicapType) {
+    func generatingContinents(with mapSize: MapSize, with leader: LeaderType, on handicap: HandicapType, with seed: Int) {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
 
@@ -57,7 +56,7 @@ class GenerateGameViewModel: ObservableObject {
             DispatchQueue.global(qos: .background).async {
 
                 // generate map
-                let mapOptions = MapOptions(withSize: mapSize, type: .continents, leader: leader, handicap: handicap)
+                let mapOptions = MapOptions(withSize: mapSize, type: .continents, leader: leader, handicap: handicap, seed: seed)
 
                 let generator = MapGenerator(with: mapOptions)
                 generator.progressHandler = { progress, text in
@@ -74,7 +73,7 @@ class GenerateGameViewModel: ObservableObject {
         })
     }
 
-    func generatingArchipelago(with mapSize: MapSize, with leader: LeaderType, on handicap: HandicapType) {
+    func generatingArchipelago(with mapSize: MapSize, with leader: LeaderType, on handicap: HandicapType, with seed: Int) {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
 
@@ -84,7 +83,7 @@ class GenerateGameViewModel: ObservableObject {
             DispatchQueue.global(qos: .background).async {
 
                 // generate map
-                let mapOptions = MapOptions(withSize: mapSize, type: .archipelago, leader: leader, handicap: handicap)
+                let mapOptions = MapOptions(withSize: mapSize, type: .archipelago, leader: leader, handicap: handicap, seed: seed)
 
                 let generator = MapGenerator(with: mapOptions)
                 generator.progressHandler = { progress, text in
@@ -101,7 +100,7 @@ class GenerateGameViewModel: ObservableObject {
         })
     }
 
-    func generatingEmpty(with mapSize: MapSize, with leader: LeaderType, on handicap: HandicapType) {
+    func generatingEmpty(with mapSize: MapSize, with leader: LeaderType, on handicap: HandicapType, with seed: Int) {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
 
@@ -113,7 +112,7 @@ class GenerateGameViewModel: ObservableObject {
                 self.progressValue = 1.0
                 self.progressText = "End"
 
-                let map = MapModel(width: mapSize.width(), height: mapSize.height())
+                let map = MapModel(width: mapSize.width(), height: mapSize.height(), seed: seed)
 
                 self.generateGame(map: map, with: leader, on: handicap)
             }

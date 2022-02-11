@@ -51,8 +51,8 @@ public class HeightMap: Array2D<Double> {
 		for x in 0..<self.width {
             for y in 0..<self.height {
 
-                let nx = Double(x)/Double(self.width) - 0.5
-                let ny = Double(y)/Double(self.height) - 0.5
+                let nx = Double(x) / Double(self.width) - 0.5
+                let ny = Double(y) / Double(self.height) - 0.5
 
                 let angle_x = self.tau * nx
 

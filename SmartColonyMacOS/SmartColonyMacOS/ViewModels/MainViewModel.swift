@@ -44,13 +44,12 @@ class MainViewModel: ObservableObject {
 
     // private
     private var progressTimer: Timer?
-    private var restartURL: UserDefaultStorage<URL>
 
     init(presentedView: PresentedViewType = .menu,
          menuViewModel: MenuViewModel = MenuViewModel(),
          createGameMenuViewModel: CreateGameMenuViewModel = CreateGameMenuViewModel(),
          generateGameViewModel: GenerateGameViewModel = GenerateGameViewModel(),
-         gameViewModel: GameViewModel = GameViewModel(/*mapViewModel: MapViewModel()*/),
+         gameViewModel: GameViewModel = GameViewModel(),
          pediaViewModel: PediaViewModel = PediaViewModel()) {
 
         self.presentedView = presentedView
@@ -63,8 +62,6 @@ class MainViewModel: ObservableObject {
         self.replayViewModel = ReplayGameViewModel()
         self.debugViewModel = DebugViewModel()
         self.pediaViewModel = pediaViewModel
-
-        self.restartURL = UserDefaultStorage<URL>(key: "restartURL", default: URL(fileURLWithPath: "backup.sc"))
 
         // connect delegates
         self.menuViewModel.delegate = self
@@ -168,9 +165,9 @@ extension MainViewModel: MenuViewModelDelegate {
 
 extension MainViewModel: CreateGameMenuViewModelDelegate {
 
-    func started(with leaderType: LeaderType, on handicapType: HandicapType, with mapType: MapType, and mapSize: MapSize) {
+    func started(with leaderType: LeaderType, on handicapType: HandicapType, with mapType: MapType, and mapSize: MapSize, with seed: Int) {
 
-        self.generateGameViewModel.start(with: leaderType, on: handicapType, with: mapType, and: mapSize)
+        self.generateGameViewModel.start(with: leaderType, on: handicapType, with: mapType, and: mapSize, with: seed)
         self.presentedView = .loadingGame
         self.mapMenuDisabled = true
     }
@@ -187,12 +184,6 @@ extension MainViewModel: GenerateGameViewModelDelegate {
     func created(game gameModel: GameModel?) {
 
         self.gameViewModel.loadAssets()
-
-        // backup the newly created game for restart
-        let writer = GameWriter()
-        if !writer.write(game: gameModel, to: self.restartURL.wrappedValue) {
-            fatalError("could not store game for restart backup")
-        }
 
         self.gameEnvironment.assign(game: gameModel)
 
@@ -220,14 +211,18 @@ extension MainViewModel: CloseGameViewModelDelegate {
 
     func closeAndRestartGame() {
 
-        let loader = GameLoader()
-        if let gameModel = loader.load(from: self.restartURL.wrappedValue) {
-
-            self.gameEnvironment.assign(game: gameModel)
-
-            self.presentedView = .game
-            self.mapMenuDisabled = false
+        // keep seed
+        guard let oldGameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get old game data")
         }
+
+        let leader = oldGameModel.humanPlayer()?.leader ?? .alexander
+        // let victoryTypes = oldGameModel.victoryTypes
+        let handicap = oldGameModel.handicap
+        let mapSize = oldGameModel.mapSize()
+        let seed = oldGameModel.seed()
+
+        self.started(with: leader, on: handicap, with: MapType.continents, and: mapSize, with: seed)
     }
 }
 

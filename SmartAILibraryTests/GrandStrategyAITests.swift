@@ -38,7 +38,7 @@ class GrandStrategyAITests: XCTestCase {
         let playerElizabeth = Player(leader: .victoria, isHuman: true)
         playerElizabeth.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -80,7 +80,7 @@ class GrandStrategyAITests: XCTestCase {
         let playerElizabeth = Player(leader: .victoria, isHuman: true)
         playerElizabeth.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],

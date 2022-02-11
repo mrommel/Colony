@@ -34,7 +34,7 @@ class EconomicAIReconStateTests: XCTestCase {
 
         self.objectToTest = EconomicAI(player: playerAlexander)
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -83,7 +83,7 @@ class EconomicAIReconStateTests: XCTestCase {
 
         self.objectToTest = EconomicAI(player: playerAlexander)
 
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,

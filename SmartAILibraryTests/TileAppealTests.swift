@@ -22,7 +22,7 @@ class TileAppealTests: XCTestCase {
     func testAverageAppeal() {
 
         // GIVEN
-        let map = MapUtils.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
+        let map = MapUtils.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12), seed: 42)
 
         let barbarianPlayer = Player(leader: .barbar, isHuman: false)
         barbarianPlayer.initialize()
@@ -53,7 +53,7 @@ class TileAppealTests: XCTestCase {
     func testBreathtakingAppeal() {
 
         // GIVEN
-        let map = MapUtils.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
+        let map = MapUtils.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12), seed: 42)
 
         let barbarianPlayer = Player(leader: .barbar, isHuman: false)
         barbarianPlayer.initialize()

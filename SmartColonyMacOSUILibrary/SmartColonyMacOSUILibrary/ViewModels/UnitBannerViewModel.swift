@@ -132,7 +132,8 @@ class UnitBannerViewModel: ObservableObject {
     public func unitMoves() -> String {
 
         guard let gameModel = self.gameEnvironment.game.value else {
-            fatalError("cant get game")
+            print("cant get game")
+            return ""
         }
 
         if let selectedUnit = self.selectedUnit {

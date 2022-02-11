@@ -35,7 +35,7 @@ class TradeRouteTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
         mapModel.set(hills: true, at: HexPoint(x: 1, y: 2))
         mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
@@ -131,7 +131,7 @@ class TradeRouteTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
         mapModel.set(hills: true, at: HexPoint(x: 1, y: 2))
         mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))

@@ -37,7 +37,7 @@ class PlayerScoringTests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapModel(size: .standard)
+        let mapModel = MapModel(size: .standard, seed: 42)
 
         let gameModel = GameModel(
             victoryTypes: [.cultural, .domination],
@@ -66,7 +66,7 @@ class PlayerScoringTests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapModel(size: .standard)
+        let mapModel = MapModel(size: .standard, seed: 42)
 
         let gameModel = GameModel(
             victoryTypes: [.cultural, .domination],
@@ -103,7 +103,7 @@ class PlayerScoringTests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapModel(size: .tiny)
+        let mapModel = MapModel(size: .tiny, seed: 42)
 
         let gameModel = GameModel(
             victoryTypes: [.cultural, .domination],
@@ -137,7 +137,7 @@ class PlayerScoringTests: XCTestCase {
         self.objectToTest = Player(leader: .alexander, isHuman: true)
         self.objectToTest?.initialize()
 
-        let mapModel = MapModel(size: .tiny)
+        let mapModel = MapModel(size: .tiny, seed: 42)
 
         let gameModel = GameModel(
             victoryTypes: [.cultural, .domination],
@@ -165,7 +165,7 @@ class PlayerScoringTests: XCTestCase {
         self.objectToTest = Player(leader: .alexander, isHuman: true)
         self.objectToTest?.initialize()
 
-        let mapModel = MapModel(size: .tiny)
+        let mapModel = MapModel(size: .tiny, seed: 42)
 
         let gameModel = GameModel(
             victoryTypes: [.cultural, .domination],
@@ -197,7 +197,7 @@ class PlayerScoringTests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapModel(size: .tiny)
+        let mapModel = MapModel(size: .tiny, seed: 42)
 
         let gameModel = GameModel(
             victoryTypes: [.cultural, .domination],
@@ -232,7 +232,7 @@ class PlayerScoringTests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapModel(size: .tiny)
+        let mapModel = MapModel(size: .tiny, seed: 42)
 
         let gameModel = GameModel(
             victoryTypes: [.cultural, .domination],
@@ -268,7 +268,7 @@ class PlayerScoringTests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapModel(size: .standard)
+        let mapModel = MapModel(size: .standard, seed: 42)
 
         let gameModel = GameModel(
             victoryTypes: [.cultural, .domination],

@@ -26,11 +26,10 @@
 
 import Foundation
 
-let kPermutationSize = 256
-
 // swiftlint:disable variable_name
 public class PerlinGenerator {
 
+    static let kPermutationSize = 256
 	static let gradient: [[Int8]] = [
 		[1, 1, 1, 0], [1, 1, 0, 1], [1, 0, 1, 1], [0, 1, 1, 1],
 		[1, 1, -1, 0], [1, 1, 0, -1], [1, 0, 1, -1], [0, 1, 1, -1],
@@ -49,34 +48,37 @@ public class PerlinGenerator {
 	var zoom: Double
 
 	public init() {
-		permut = []
-		for _ in 0 ..< kPermutationSize {
-			permut.append(Int(arc4random() & 0xff))
+
+        self.permut = []
+        self.permut.reserveCapacity(PerlinGenerator.kPermutationSize)
+        for _ in 0 ..< PerlinGenerator.kPermutationSize {
+            self.permut.append(Int(drand48() * 255))
 		}
-		octaves = 1
-		persistence = 1.0
-		zoom = 1.0
+
+        self.octaves = 1
+        self.persistence = 1.0
+        self.zoom = 1.0
 	}
 
 	public func gradientAt(i: Int, j: Int, k: Int, l: Int) -> Int {
-		return (permut[(l + permut[(k + permut[(j + permut[i & 0xff])
-				& 0xff])
-				& 0xff])
-				& 0xff]
-				& 0x1f)
+
+        return (permut[(l + permut[(k + permut[(j + permut[i & 0xff]) & 0xff]) & 0xff]) & 0xff] & 0x1f)
 	}
 
 	public func productOf(a: Double, b: Int8) -> Double {
+
 		if b > 0 {
 			return a
 		}
 		if b < 0 {
 			return -a
 		}
+
 		return 0
 	}
 
 	public func dotProductI(x0: Double, x1: Int8, y0: Double, y1: Int8, z0: Double, z1: Int8, t0: Double, t1: Int8) -> Double {
+
 		return self.productOf(a: x0, b: x1) +
 			self.productOf(a: y0, b: y1) +
 			self.productOf(a: z0, b: z1) +
@@ -84,16 +86,19 @@ public class PerlinGenerator {
 	}
 
 	public func spline(state: Double) -> Double {
+
 		let square = state * state
 		let cubic = square * state
 		return cubic * (6 * square - 15 * state + 10)
 	}
 
 	public func interpolate(a: Double, b: Double, x: Double) -> Double {
+
 		return a + x * (b - a)
 	}
 
 	public func smoothNoise(x: Double, y: Double, z: Double, t: Double) -> Double {
+
 		let x0 = Int(x > 0 ? x : x - 1)
 		let y0 = Int(y > 0 ? y : y - 1)
 		let z0 = Int(z > 0 ? z : z - 1)

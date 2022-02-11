@@ -26,7 +26,7 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -73,7 +73,7 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -129,7 +129,7 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -189,7 +189,7 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -256,7 +256,7 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -323,7 +323,7 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -388,7 +388,7 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -454,7 +454,7 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -520,7 +520,7 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -586,7 +586,7 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -639,7 +639,7 @@ class DiplomacyAITests: XCTestCase {
         let playerVictoria = Player(leader: .victoria, isHuman: true)
         playerVictoria.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -705,7 +705,7 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,

@@ -12,7 +12,7 @@ import SmartMacOSUILibrary
 
 protocol CreateGameMenuViewModelDelegate: AnyObject {
 
-    func started(with leaderType: LeaderType, on handicapType: HandicapType, with mapType: MapType, and mapSize: MapSize)
+    func started(with leaderType: LeaderType, on handicapType: HandicapType, with mapType: MapType, and mapSize: MapSize, with seed: Int)
     func canceled()
 }
 
@@ -119,8 +119,9 @@ class CreateGameMenuViewModel: ObservableObject {
         let mapSize = MapSize.all[self.selectedMapSizeIndex]
 
         print("--- start game with: \(leaderType.name()) on \(handicap) with a map: \(mapType) (\(mapSize))")
+        let seed = Int(NSDate().timeIntervalSince1970)
 
-        self.delegate?.started(with: leaderType, on: handicap, with: mapType, and: mapSize)
+        self.delegate?.started(with: leaderType, on: handicap, with: mapType, and: mapSize, with: seed)
     }
 
     func cancel() {

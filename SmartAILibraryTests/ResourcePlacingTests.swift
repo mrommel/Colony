@@ -17,7 +17,7 @@ class ResourcePlacingTests: XCTestCase {
 
     override func setUp() {
 
-        self.grid = MapModel(width: 3, height: 3)
+        self.grid = MapModel(width: 3, height: 3, seed: 42)
     }
 
     func testPlacingFish() {

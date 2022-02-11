@@ -10,9 +10,9 @@ import Foundation
 
 public class MapUtils {
 
-    public static func mapFilled(with terrain: TerrainType, sized size: MapSize) -> MapModel {
+    public static func mapFilled(with terrain: TerrainType, sized size: MapSize, seed: Int) -> MapModel {
 
-        let mapModel = MapModel(size: size)
+        let mapModel = MapModel(size: size, seed: seed)
 
         for x in 0..<size.width() {
             for y in 0..<size.height() {
@@ -24,10 +24,10 @@ public class MapUtils {
         return mapModel
     }
 
-    public static func simple() -> MapModel {
+    public static func simple(seed: Int) -> MapModel {
 
         let size = MapSize.duel
-        let mapModel = MapModel(size: size)
+        let mapModel = MapModel(size: size, seed: seed)
 
         for x in 0..<size.width() {
             for y in 0..<size.height() {

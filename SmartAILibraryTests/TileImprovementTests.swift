@@ -26,7 +26,7 @@ class TileImprovementTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
 
         mapModel.set(terrain: .plains, at: HexPoint(x: 2, y: 4))
         mapModel.set(hills: true, at: HexPoint(x: 2, y: 4))
@@ -130,7 +130,7 @@ class TileImprovementTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
 
         mapModel.set(terrain: .plains, at: HexPoint(x: 2, y: 4))
         mapModel.set(hills: false, at: HexPoint(x: 2, y: 4))

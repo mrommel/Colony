@@ -39,7 +39,7 @@ class DiplomaticDealAITests: XCTestCase {
         let deal = DiplomaticDeal(from: .alexander, to: .trajan)
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .give, amount: 2))
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -85,7 +85,7 @@ class DiplomaticDealAITests: XCTestCase {
         let deal = DiplomaticDeal(from: .alexander, to: .trajan)
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .receive, amount: 2))
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -132,7 +132,7 @@ class DiplomaticDealAITests: XCTestCase {
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .give, amount: 4))
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .receive, amount: 4))
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -180,7 +180,7 @@ class DiplomaticDealAITests: XCTestCase {
         // gold per turn is valued only 80% because of the risk
         deal.tradeItems.append(DiplomaticGoldPerTurnDealItem(direction: .receive, amount: 1, duration: 5))
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,

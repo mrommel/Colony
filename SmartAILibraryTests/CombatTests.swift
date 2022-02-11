@@ -30,7 +30,7 @@ class CombatTests: XCTestCase {
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         // game
         let gameModel = GameModel(
@@ -70,7 +70,7 @@ class CombatTests: XCTestCase {
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         // game
         let gameModel = GameModel(
@@ -115,7 +115,7 @@ class CombatTests: XCTestCase {
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         // game
         let gameModel = GameModel(
@@ -157,7 +157,7 @@ class CombatTests: XCTestCase {
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         // game
         let gameModel = GameModel(
@@ -208,7 +208,7 @@ class CombatTests: XCTestCase {
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         // game
         let gameModel = GameModel(
@@ -249,7 +249,7 @@ class CombatTests: XCTestCase {
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         // game
         let gameModel = GameModel(
@@ -291,7 +291,7 @@ class CombatTests: XCTestCase {
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         // game
         let gameModel = GameModel(
@@ -331,7 +331,7 @@ class CombatTests: XCTestCase {
         playerAugustus.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         // game
         let gameModel = GameModel(

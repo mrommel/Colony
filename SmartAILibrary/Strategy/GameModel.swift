@@ -56,7 +56,7 @@ open class GameModel: Codable {
         case spawnedArchaeologySites
     }
 
-    let victoryTypes: [VictoryType]
+    public let victoryTypes: [VictoryType]
     public let handicap: HandicapType
     var currentTurn: Int
     var turnSliceValue: Int = 0
@@ -248,10 +248,16 @@ open class GameModel: Codable {
         try container.encode(self.spawnedArchaeologySites, forKey: .spawnedArchaeologySites)
     }
 
+    public func seed() -> Int {
+
+        return self.map.seed()
+    }
+
     public func update() {
 
         guard let userInterface = self.userInterface else {
-            fatalError("no UI")
+            print("no UI")
+            return
         }
 
         if Thread.isMainThread && !Thread.current.isRunningXCTest {

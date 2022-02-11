@@ -126,7 +126,7 @@ class TechTests: XCTestCase {
         try! self.objectToTest?.discover(tech: .pottery, in: nil)
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         // game
         let gameModel = GameModel(
@@ -165,7 +165,7 @@ class TechTests: XCTestCase {
         playerTrajan.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -210,7 +210,7 @@ class TechTests: XCTestCase {
         self.objectToTest = playerAlexander.techs
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
         mapModel.set(feature: .greatBarrierReef, at: HexPoint(x: 0, y: 0))
 
         // game
@@ -243,7 +243,7 @@ class TechTests: XCTestCase {
         self.objectToTest = playerAlexander.techs
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
         mapModel.set(terrain: .ocean, at: HexPoint(x: 0, y: 0))
 
         let mapOptions = MapOptions(

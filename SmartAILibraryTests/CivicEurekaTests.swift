@@ -38,7 +38,7 @@ class CivicEurekaTests: XCTestCase {
         playerTrajan.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         // game
         let gameModel = GameModel(
@@ -84,7 +84,7 @@ class CivicEurekaTests: XCTestCase {
         self.objectToTest = playerTrajan.civics
 
         // map
-        let mapModel = MapUtils.simple()
+        let mapModel = MapUtils.simple(seed: 42)
 
         // game
         let gameModel = GameModel(

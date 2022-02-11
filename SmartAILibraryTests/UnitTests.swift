@@ -27,7 +27,7 @@ class UnitTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .shore, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .shore, sized: .small, seed: 42)
 
         // start island
         mapModel.set(terrain: .plains, at: HexPoint(x: 0, y: 2))
@@ -108,7 +108,7 @@ class UnitTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
 
         HexArea(center: HexPoint(x: 12, y: 12), radius: 8).points.forEach({ mapModel.set(terrain: .grass, at: $0) })
 
@@ -327,7 +327,7 @@ class UnitTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -380,7 +380,7 @@ class UnitTests: XCTestCase {
 
         humanPlayer.treasury?.changeGold(by: 1000.0)
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,

@@ -28,7 +28,7 @@ extension GameScene: UserInterfaceDelegate {
 
     func showLeaderMessage(from fromPlayer: AbstractPlayer?, to toPlayer: AbstractPlayer?, deal: DiplomaticDeal?, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType) {
 
-        guard let gameModel = self.viewModel?.game else {
+        guard let gameModel = self.viewModel?.gameModel else {
             fatalError("cant get game")
         }
 
@@ -230,7 +230,7 @@ extension GameScene: UserInterfaceDelegate {
                 fatalError("cant get city citizens")
             }
 
-            guard let gameModel = self.viewModel?.game else {
+            guard let gameModel = self.viewModel?.gameModel else {
                 fatalError("cant get game")
             }
 
@@ -255,7 +255,7 @@ extension GameScene: UserInterfaceDelegate {
 
     func refresh(tile: AbstractTile?) {
 
-        guard let gameModel = self.viewModel?.game else {
+        guard let gameModel = self.viewModel?.gameModel else {
             return
         }
 

@@ -37,7 +37,7 @@ class CityTests: XCTestCase {
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -84,7 +84,7 @@ class CityTests: XCTestCase {
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
 
         let centerTile = mapModel.tile(at: HexPoint(x: 1, y: 1))
         centerTile?.set(terrain: .grass)
@@ -135,7 +135,7 @@ class CityTests: XCTestCase {
         playerAlexander.initialize()
         playerAlexander.government?.set(governmentType: .autocracy)
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -207,7 +207,7 @@ class CityTests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -266,7 +266,7 @@ class CityTests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -322,7 +322,7 @@ class CityTests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -375,7 +375,7 @@ class CityTests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -439,7 +439,7 @@ class CityTests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,

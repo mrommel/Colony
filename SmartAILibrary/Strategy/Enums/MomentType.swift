@@ -1468,6 +1468,12 @@ extension MomentType: Codable {
 
             // ...
 
+        case 12:
+            let naturalWonder = try container.decode(FeatureType.self, forKey: .feature)
+            self = .discoveryOfANaturalWonder(naturalWonder: naturalWonder)
+
+            // ...
+
         case 232:
             self = .tribalVillageContacted
 
@@ -1485,6 +1491,12 @@ extension MomentType: Codable {
         case .religionFounded(religion: let religion):
             try container.encode(0, forKey: .rawValue)
             try container.encode(religion, forKey: .religion)
+
+            // ...
+
+        case .discoveryOfANaturalWonder(naturalWonder: let naturalWonder):
+            try container.encode(12, forKey: .rawValue)
+            try container.encode(naturalWonder, forKey: .feature)
 
             // ...
 

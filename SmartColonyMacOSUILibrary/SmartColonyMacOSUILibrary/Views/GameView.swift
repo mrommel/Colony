@@ -28,11 +28,12 @@ public struct GameView: View {
 
             GameSceneView(viewModel: self.viewModel.gameSceneViewModel,
                     magnification: self.$viewModel.magnification)
-                .onReceive(self.gameEnvironment.game) { game in
+                .onReceive(self.gameEnvironment.game) { gameModel in
 
-                    if let game = game {
+                    if let gameModel = gameModel {
                         print("about to set game to GameSceneViewModel")
-                        self.viewModel.gameSceneViewModel.game = game
+                        self.viewModel.gameSceneViewModel.gameModel = gameModel
+                        self.viewModel.gameSceneViewModel.rebuild()
                     }
                 }
                 .onReceive(self.gameEnvironment.displayOptions) { option in

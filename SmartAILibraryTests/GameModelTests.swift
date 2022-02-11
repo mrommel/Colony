@@ -44,7 +44,7 @@ class GameModelTests: XCTestCase {
         playerElizabeth.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -98,7 +98,7 @@ class GameModelTests: XCTestCase {
         playerElizabeth.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -147,7 +147,7 @@ class GameModelTests: XCTestCase {
         playerTrajan.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -217,7 +217,7 @@ class GameModelTests: XCTestCase {
         playerTrajan.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -288,7 +288,7 @@ class GameModelTests: XCTestCase {
         playerTrajan.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
         MapUtils.add(area: HexArea(center: HexPoint(x: 10, y: 10), radius: 8), with: .shore, to: mapModel)
 
         let mapOptions = MapOptions(
@@ -346,7 +346,7 @@ class GameModelTests: XCTestCase {
         playerTrajan.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
         MapUtils.add(area: HexArea(center: HexPoint(x: 10, y: 10), radius: 6), with: .shore, to: mapModel)
 
         let mapOptions = MapOptions(
@@ -414,7 +414,7 @@ class GameModelTests: XCTestCase {
         playerTrajan.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
         MapUtils.add(area: HexArea(center: HexPoint(x: 10, y: 10), radius: 6), with: .shore, to: mapModel)
 
         let mapOptions = MapOptions(

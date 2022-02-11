@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import GameplayKit
 
 public typealias ProgressHandler = (Double, String) -> Void
 
@@ -17,7 +18,6 @@ enum PlotType: Int, Codable {
 }
 
 // swiftlint:disable type_body_length
-
 public class MapGenerator: BaseMapHandler {
 
     let options: MapOptions
@@ -43,6 +43,8 @@ public class MapGenerator: BaseMapHandler {
         self.width = options.size.width()
         self.height = options.size.height()
 
+        srand48(options.seed)
+
 		// prepare terrain, distanceToCoast and zones
         self.plots = Array2D<PlotType>(width: self.width, height: self.height)
         self.distanceToCoast = Array2D<Int>(width: self.width, height: self.height)
@@ -53,7 +55,7 @@ public class MapGenerator: BaseMapHandler {
 	public func generate() -> MapModel? {
 
 		// prepare result value
-        let grid = MapModel(size: MapSize.custom(width: self.width, height: self.height))
+        let grid = MapModel(size: MapSize.custom(width: self.width, height: self.height), seed: self.options.seed)
 
 		// 0st step: height and moisture map
         let heightMap = self.generateHeightMap()
@@ -957,7 +959,7 @@ public class MapGenerator: BaseMapHandler {
 
 		for spring in selectedSprings {
 
-			let riverName = unusedRiverNames.chooseOne
+			let riverName = unusedRiverNames.randomItem()
 			rivers.append(self.startRiver(with: riverName, at: spring, on: heightMap))
             let riverIndex = unusedRiverNames.firstIndex(where: { $0 == riverName })
 			unusedRiverNames.remove(at: riverIndex!)

@@ -22,7 +22,7 @@ class EconomicAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -60,7 +60,7 @@ class EconomicAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        var mapModel = MapUtils.mapFilled(with: .shore, sized: .duel)
+        var mapModel = MapUtils.mapFilled(with: .shore, sized: .duel, seed: 42)
 
         HexPoint(x: 8, y: 8).areaWith(radius: 4).points
             .forEach { mapModel.set(terrain: .grass, at: $0) }
@@ -121,7 +121,7 @@ class EconomicAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .shore, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .shore, sized: .duel, seed: 42)
 
         HexPoint(x: 8, y: 8).areaWith(radius: 4).points
             .forEach { mapModel.set(terrain: .grass, at: $0) }

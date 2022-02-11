@@ -36,7 +36,7 @@ class AdvisorTests: XCTestCase {
         playerAlexander.government?.set(governmentType: .autocracy)
 
         // setup the map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -110,7 +110,7 @@ class AdvisorTests: XCTestCase {
         playerAugustus.initialize()
         playerAugustus.government?.set(governmentType: .autocracy)
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel) //MapModel(size: .standard)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -135,6 +135,9 @@ class AdvisorTests: XCTestCase {
 
         try! playerAlexander.techs?.discover(tech: .mining, in: gameModel)
         try! playerAugustus.techs?.discover(tech: .mining, in: gameModel)
+
+        let unitWarrior = Unit(at: HexPoint(x: 5, y: 8), type: .warrior, owner: playerAugustus)
+        gameModel.add(unit: unitWarrior)
 
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize(in: gameModel)
@@ -190,7 +193,7 @@ class AdvisorTests: XCTestCase {
         playerAugustus.initialize()
         playerAugustus.government?.set(governmentType: .autocracy)
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,

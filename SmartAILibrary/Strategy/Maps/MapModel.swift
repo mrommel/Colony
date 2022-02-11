@@ -20,6 +20,7 @@ open class MapModel: Codable {
 
     enum CodingKeys: CodingKey {
 
+        case seed
         case name
         case summary
 
@@ -33,8 +34,11 @@ open class MapModel: Codable {
         case oceans
         case areas
         case rivers
+
+        case startLocations
     }
 
+    private let seedValue: Int
     public var name: String
     public var summary: String
 
@@ -56,8 +60,9 @@ open class MapModel: Codable {
     private var numberOfLandPlotsValue: Int = 0
     private var numberOfWaterPlotsValue: Int = 0
 
-    public init(size: MapSize) {
+    public init(size: MapSize, seed: Int) {
 
+        self.seedValue = seed
         self.name = "no name"
         self.summary = "no summary"
 
@@ -77,15 +82,16 @@ open class MapModel: Codable {
         }
     }
 
-    public convenience init(width: Int, height: Int) {
+    public convenience init(width: Int, height: Int, seed: Int) {
 
-        self.init(size: MapSize.custom(width: width, height: height))
+        self.init(size: MapSize.custom(width: width, height: height), seed: seed)
     }
 
     public required init(from decoder: Decoder) throws {
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
+        self.seedValue = try container.decodeIfPresent(Int.self, forKey: .seed) ?? 42
         self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? "no name"
         self.summary = try container.decodeIfPresent(String.self, forKey: .summary) ?? "no summary"
 
@@ -99,6 +105,8 @@ open class MapModel: Codable {
         self.oceans = try container.decode([Ocean].self, forKey: .oceans)
         self.areas = try container.decode([HexArea].self, forKey: .areas)
         self.rivers = try container.decode([River].self, forKey: .rivers)
+
+        self.startLocations = try container.decode([StartLocation].self, forKey: .startLocations)
 
         if self.oceans.isEmpty || self.continents.isEmpty {
 
@@ -158,6 +166,7 @@ open class MapModel: Codable {
 
         var container = encoder.container(keyedBy: CodingKeys.self)
 
+        try container.encode(self.seedValue, forKey: .seed)
         try container.encode(self.name, forKey: .name)
         try container.encode(self.summary, forKey: .summary)
 
@@ -173,6 +182,13 @@ open class MapModel: Codable {
         try container.encode(self.oceans, forKey: .oceans)
         try container.encode(self.areas, forKey: .areas)
         try container.encode(self.rivers, forKey: .rivers)
+
+        try container.encode(self.startLocations, forKey: .startLocations)
+    }
+
+    func seed() -> Int {
+
+        return self.seedValue
     }
 
     public func analyze() {

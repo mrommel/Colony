@@ -65,7 +65,7 @@ class GovernmentTypeTests: XCTestCase {
         self.objectToTest = playerAlexander.government
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         // game
         let gameModel = GameModel(
@@ -102,7 +102,7 @@ class GovernmentTypeTests: XCTestCase {
         playerVictoria.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         // game
         let gameModel = GameModel(

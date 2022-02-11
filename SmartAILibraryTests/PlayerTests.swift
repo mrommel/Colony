@@ -28,7 +28,7 @@ class PlayerTests: XCTestCase {
         playerTrajan.initialize()
 
         // map
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
         let mapOptions = MapOptions(
@@ -120,7 +120,7 @@ class PlayerTests: XCTestCase {
         playerTrajan.initialize()
 
         // map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         // game
         let gameModel = GameModel(

@@ -24,14 +24,15 @@ public class GameUtils {
         let humanPlayer = Player(leader: humanLeader, isHuman: true)
         humanPlayer.initialize()
 
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
             type: .continents,
             leader: humanLeader,
             aiLeaders: [aiLeader],
-            handicap: .chieftain
+            handicap: .chieftain,
+            seed: 42
         )
 
         let mapGenerator = MapGenerator(with: mapOptions)

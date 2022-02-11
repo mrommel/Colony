@@ -33,7 +33,7 @@ class CityStrategyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -78,7 +78,7 @@ class CityStrategyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -124,7 +124,7 @@ class CityStrategyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -170,7 +170,7 @@ class CityStrategyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -215,7 +215,7 @@ class CityStrategyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -260,7 +260,7 @@ class CityStrategyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard, seed: 42)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
         let mapOptions = MapOptions(
@@ -305,7 +305,7 @@ class CityStrategyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard, seed: 42)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
         let mapOptions = MapOptions(
@@ -350,7 +350,7 @@ class CityStrategyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard, seed: 42)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
         let mapOptions = MapOptions(

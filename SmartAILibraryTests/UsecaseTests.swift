@@ -28,7 +28,7 @@ class UsecaseTests: XCTestCase {
         playerAlexander.initialize()
 
         // map
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
         let mapOptions = MapOptions(
@@ -118,7 +118,7 @@ class UsecaseTests: XCTestCase {
         playerAlexander.initialize()
 
         // map
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
 
         let mapOptions = MapOptions(
@@ -215,7 +215,7 @@ class UsecaseTests: XCTestCase {
         playerAlexander.initialize()
 
         // map
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
         mapModel.tile(at: HexPoint(x: 18, y: 15))?.set(terrain: .ocean)
 
@@ -296,7 +296,7 @@ class UsecaseTests: XCTestCase {
         playerAlexander.initialize()
 
         // map
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
         mapModel.tile(at: HexPoint(x: 18, y: 15))?.set(terrain: .ocean)
 
@@ -380,7 +380,7 @@ class UsecaseTests: XCTestCase {
         playerAlexander.initialize()
 
         // map
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
         mapModel.tile(at: HexPoint(x: 18, y: 15))?.set(terrain: .ocean)
         mapModel.set(improvement: .farm, at: HexPoint(x: 16, y: 15))

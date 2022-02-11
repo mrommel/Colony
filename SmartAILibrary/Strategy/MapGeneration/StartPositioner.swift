@@ -6,7 +6,14 @@
 //  Copyright © 2020 Michael Rommel. All rights reserved.
 //
 
-public class StartLocation {
+public class StartLocation: Codable {
+
+    enum CodingKeys: CodingKey {
+
+        case point
+        case leader
+        case isHuman
+    }
 
     public var point: HexPoint
     public let leader: LeaderType
@@ -17,6 +24,24 @@ public class StartLocation {
         self.point = point
         self.leader = leader
         self.isHuman = isHuman
+    }
+
+    public required init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.point = try container.decode(HexPoint.self, forKey: .point)
+        self.leader = try container.decode(LeaderType.self, forKey: .leader)
+        self.isHuman = try container.decode(Bool.self, forKey: .isHuman)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.point, forKey: .point)
+        try container.encode(self.leader, forKey: .leader)
+        try container.encode(self.isHuman, forKey: .isHuman)
     }
 }
 

@@ -171,7 +171,7 @@ public class GameViewModel: ObservableObject {
     var magnification: CGFloat = 0.5
 
     @Published
-    var gameSceneViewModel: GameSceneViewModel
+    public var gameSceneViewModel: GameSceneViewModel
 
     @Published
     var notificationsViewModel: NotificationsViewModel
@@ -321,9 +321,6 @@ public class GameViewModel: ObservableObject {
     var currentPopupType: PopupType = .none
 
     // main data
-
-    @UserDefaultStorage(key: "myCustomKey", default: 0)
-    var myValue: Int
 
     var popups: [PopupType] = []
 
