@@ -68,6 +68,9 @@ class UnitTests: XCTestCase {
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
 
+        let aiPlayerWarrior = Unit(at: HexPoint(x: 2, y: 6), type: .warrior, owner: aiPlayer)
+        gameModel.add(unit: aiPlayerWarrior)
+
         let humanPlayerWarrior = Unit(at: HexPoint(x: 2, y: 2), type: .warrior, owner: humanPlayer)
         gameModel.add(unit: humanPlayerWarrior)
 
@@ -134,6 +137,9 @@ class UnitTests: XCTestCase {
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
+
+        let aiPlayerWarrior = Unit(at: HexPoint(x: 2, y: 6), type: .warrior, owner: aiPlayer)
+        gameModel.add(unit: aiPlayerWarrior)
 
         let humanPlayerScout = Unit(at: HexPoint(x: 2, y: 2), type: .scout, owner: humanPlayer)
         gameModel.add(unit: humanPlayerScout)

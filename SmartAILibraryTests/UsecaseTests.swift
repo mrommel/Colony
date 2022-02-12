@@ -246,12 +246,14 @@ class UsecaseTests: XCTestCase {
         gameModel.userInterface = userInterface
 
         // initial units
+        let playerAlexanderWarrior = Unit(at: HexPoint(x: 3, y: 3), type: .warrior, owner: playerAlexander)
+        gameModel.add(unit: playerAlexanderWarrior)
 
-        let playerAugustusWarrior = Unit(at: HexPoint(x: 15, y: 15), type: .warrior, owner: playerTrajan)
-        gameModel.add(unit: playerAugustusWarrior)
+        let playerTrajanWarrior = Unit(at: HexPoint(x: 15, y: 15), type: .warrior, owner: playerTrajan)
+        gameModel.add(unit: playerTrajanWarrior)
 
-        let playerAugustusScout = Unit(at: HexPoint(x: 16, y: 15), type: .scout, owner: playerTrajan)
-        gameModel.add(unit: playerAugustusScout)
+        let playerTrajanScout = Unit(at: HexPoint(x: 16, y: 15), type: .scout, owner: playerTrajan)
+        gameModel.add(unit: playerTrajanScout)
 
         // initial city
 
@@ -259,7 +261,7 @@ class UsecaseTests: XCTestCase {
         cityAugustria.initialize(in: gameModel)
         gameModel.add(city: cityAugustria)
 
-        playerAugustusWarrior.doGarrison(in: gameModel)
+        playerTrajanWarrior.doGarrison(in: gameModel)
 
         // this is cheating
         MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
@@ -278,7 +280,7 @@ class UsecaseTests: XCTestCase {
 
         // THEN
 
-        XCTAssertEqual(playerAugustusScout.location, HexPoint(x: 16, y: 12))
+        XCTAssertEqual(playerTrajanScout.location, HexPoint(x: 16, y: 12))
      }
 
     func testBuilderBuildsInPlace() {
@@ -327,8 +329,11 @@ class UsecaseTests: XCTestCase {
         gameModel.userInterface = userInterface
 
         // initial units
-        let playerAugustusWarrior = Unit(at: HexPoint(x: 15, y: 15), type: .warrior, owner: playerTrajan)
-        gameModel.add(unit: playerAugustusWarrior)
+        let playerAlexanderWarrior = Unit(at: HexPoint(x: 3, y: 3), type: .warrior, owner: playerAlexander)
+        gameModel.add(unit: playerAlexanderWarrior)
+
+        let playerTrajanWarrior = Unit(at: HexPoint(x: 15, y: 15), type: .warrior, owner: playerTrajan)
+        gameModel.add(unit: playerTrajanWarrior)
 
         let playerAugustusBuilder = Unit(at: HexPoint(x: 16, y: 15), type: .builder, owner: playerTrajan)
         gameModel.add(unit: playerAugustusBuilder)
@@ -338,7 +343,7 @@ class UsecaseTests: XCTestCase {
         cityAugustria.initialize(in: gameModel)
         gameModel.add(city: cityAugustria)
 
-        playerAugustusWarrior.doGarrison(in: gameModel)
+        playerTrajanWarrior.doGarrison(in: gameModel)
 
         // this is cheating
         MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
@@ -412,6 +417,9 @@ class UsecaseTests: XCTestCase {
         gameModel.userInterface = userInterface
 
         // initial units
+        let playerAlexanderWarrior = Unit(at: HexPoint(x: 3, y: 3), type: .warrior, owner: playerAlexander)
+        gameModel.add(unit: playerAlexanderWarrior)
+
         let playerAugustusWarrior = Unit(at: HexPoint(x: 15, y: 15), type: .warrior, owner: playerTrajan)
         gameModel.add(unit: playerAugustusWarrior)
 

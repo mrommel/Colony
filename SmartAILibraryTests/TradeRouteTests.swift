@@ -168,6 +168,10 @@ class TradeRouteTests: XCTestCase {
         humanPlayer.government?.set(governmentType: .chiefdom)
         try! humanPlayer.government?.set(policyCardSet: PolicyCardSet(cards: [.godKing, .discipline]))
 
+        // AI units
+        let warriorUnit = Unit(at: HexPoint(x: 25, y: 5), type: .warrior, owner: aiPlayer)
+        gameModel.add(unit: warriorUnit)
+
         // Human - city 1
         humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
 
