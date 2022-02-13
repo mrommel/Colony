@@ -25,7 +25,6 @@ struct GenericPopupView: View {
 
                 Label(self.viewModel.title)
                     .font(.title2)
-                    //.bold()
                     .padding(.top, 12)
                     .padding(.bottom, 10)
 

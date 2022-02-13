@@ -1150,7 +1150,6 @@ extension GameViewModel: TopBarViewModelDelegate {
 
     func menuButtonClicked() {
 
-        //self.delegate?.closeGame()
         self.showGameMenu()
     }
 }
