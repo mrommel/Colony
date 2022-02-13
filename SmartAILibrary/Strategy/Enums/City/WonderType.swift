@@ -399,7 +399,7 @@ public enum WonderType: Int, Codable {
                 name: "Apadana",
                 effects: [
                     "+2 Great Work slots",
-                    "+2 Envoys when you build a wonder, including Apadana, in this city." // #
+                    "+2 [Envoy] Envoys when you build a wonder, including Apadana, in this city." // #
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -713,7 +713,7 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Kilwa Kisiwani",
                 effects: [
-                    "+3 Envoys when built.", // #
+                    "+3 [Envoy] Envoys when built.", // #
                     "When you are the Suzerain of a City-State this city receives a +15% boost to the yield " +
                     "provided by that City-State. If you are the Suzerain to 2 or more City-States of that " +
                     "type an additional +15% boost is given to all your cities." // #

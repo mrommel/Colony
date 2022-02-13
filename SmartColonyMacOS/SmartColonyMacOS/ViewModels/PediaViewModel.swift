@@ -330,9 +330,17 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
     init(policyCard: PolicyCardType) {
 
         self.title = policyCard.name().localized()
-        self.summary = "\(policyCard.slot().name()) Policy Card that requires \(policyCard.required().name().localized()) to be researched"
+
+        let ageText = policyCard.requiresDarkAge() ? "Dark Age only" : "normal"
+        var summary = "\(policyCard.slot().name().localized()) is a \(ageText) Policy Card for the \(policyCard.slot()) slot that"
+        if let requiredCivic = policyCard.requiredCivic() {
+            summary += " requires \(requiredCivic.name().localized()) to be researched"
+        } else if let startEra = policyCard.startEra(), let endEra = policyCard.endEra() {
+            summary += " is active from \(startEra.title().localized()) to \(endEra.title().localized())"
+        }
+        self.summary = summary
         self.detail = policyCard.bonus().localized()
-        self.imageName = policyCard.slot().iconTexture()
+        self.imageName = policyCard.iconTexture()
     }
 
     init(religion: ReligionType) {

@@ -14,12 +14,14 @@ public enum PolicyCardSlotType {
     case economic
     case diplomatic
     case wildcard
+    case darkAge
 
     public static var all: [PolicyCardSlotType] = [
         .military,
         .economic,
         .diplomatic,
-        .wildcard
+        .wildcard,
+        .darkAge
     ]
 
     public func name() -> String {
@@ -27,13 +29,15 @@ public enum PolicyCardSlotType {
         switch self {
 
         case .military:
-            return "Military"
+            return "TXT_KEY_POLICY_CARD_TYPE_MILITARY_TITLE"
         case .economic:
-            return "Economic"
+            return "TXT_KEY_POLICY_CARD_TYPE_ECONOMIC_TITLE"
         case .diplomatic:
-            return "Diplomatic"
+            return "TXT_KEY_POLICY_CARD_TYPE_DIPLOMATIC_TITLE"
         case .wildcard:
-            return "Wildcard"
+            return "TXT_KEY_POLICY_CARD_TYPE_WILDCARD_TITLE"
+        case .darkAge:
+            return "TXT_KEY_POLICY_CARD_TYPE_DARK_AGE_TITLE"
         }
     }
 }
@@ -186,6 +190,25 @@ public enum PolicyCardType: Int, Codable {
     case diplomaticCapital
     case globalCoalition
 
+    // dark age
+    case automatedWorkforce
+    case collectivism
+    case cyberWarfare
+    case decentralization
+    case despoticPaternalism
+    case disinformationCampaign
+    case eliteForces
+    case flowerPower
+    case inquisition
+    case isolationism
+    case lettersOfMarque
+    case monasticism
+    case robberBarons
+    case rogueState
+    case samoderzhaviye
+    case softTargets
+    case twilightValor
+
     public static var all: [PolicyCardType] {
         return [
             // ancient
@@ -227,7 +250,12 @@ public enum PolicyCardType: Int, Codable {
 
             // future
             .spaceTourism, .hallyu, .nonStateActors, .integratedAttackLogistics, .rabblerousing, .diplomaticCapital,
-            .globalCoalition
+            .globalCoalition,
+
+            // dark
+            .automatedWorkforce, .collectivism, .cyberWarfare, .decentralization, .despoticPaternalism, .disinformationCampaign,
+            .eliteForces, .flowerPower, .inquisition, .isolationism, .lettersOfMarque, .monasticism, .robberBarons, .rogueState,
+            .samoderzhaviye, .softTargets, .twilightValor
         ]
     }
 
@@ -246,9 +274,14 @@ public enum PolicyCardType: Int, Codable {
         return self.data().slot
     }
 
-    public func required() -> CivicType {
+    public func requiredCivic() -> CivicType? {
 
         return self.data().required
+    }
+
+    public func requiresDarkAge() -> Bool {
+
+        return self.data().darkAge
     }
 
     // swiftlint:disable function_body_length cyclomatic_complexity line_length
@@ -261,11 +294,14 @@ public enum PolicyCardType: Int, Codable {
                 name: "-",
                 bonus: "-",
                 slot: .wildcard,
-                required: .none,
+                required: nil,
                 obsolete: nil,
                 replace: [],
                 flavours: []
             )
+
+            // /////////////////////////////////
+            // ancient
 
         case .survey:
             // https://civilization.fandom.com/wiki/Survey_(Civ6)
@@ -350,8 +386,8 @@ public enum PolicyCardType: Int, Codable {
         case .caravansaries:
             // https://civilization.fandom.com/wiki/Caravansaries_(Civ6)
             return PolicyCardTypeData(
-                name: "Caravansaries",
-                bonus: "+2 [Gold] Gold from all [TradeRoute] Trade Routes.",
+                name: "TXT_KEY_POLICY_CARD_CARAVANSARIES_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_CARAVANSARIES_BONUS",
                 slot: .economic,
                 required: .foreignTrade,
                 obsolete: .mercantilism,
@@ -361,8 +397,8 @@ public enum PolicyCardType: Int, Codable {
         case .maritimeIndustries:
             // https://civilization.fandom.com/wiki/Maritime_Industries_(Civ6)
             return PolicyCardTypeData(
-                name: "Maritime Industries",
-                bonus: "+100% [Production] Production toward Ancient and Classical era naval units.",
+                name: "TXT_KEY_POLICY_CARD_MARITIME_INDUSTRIES_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_MARITIME_INDUSTRIES_BONUS",
                 slot: .military,
                 required: .foreignTrade,
                 obsolete: .colonialism,
@@ -375,8 +411,8 @@ public enum PolicyCardType: Int, Codable {
         case .maneuver:
             // https://civilization.fandom.com/wiki/Maneuver_(Civ6)
             return PolicyCardTypeData(
-                name: "Maneuver",
-                bonus: "+50% [Production] Production toward Ancient and Classical era heavy and light cavalry units.",
+                name: "TXT_KEY_POLICY_CARD_MANEUVER_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_MANEUVER_BONUS",
                 slot: .military,
                 required: .militaryTradition,
                 obsolete: .divineRight,
@@ -389,8 +425,8 @@ public enum PolicyCardType: Int, Codable {
         case .strategos:
             // https://civilization.fandom.com/wiki/Strategos_(Civ6)
             return PolicyCardTypeData(
-                name: "Strategos",
-                bonus: "+2 [GreatGeneral] Great General points per turn.",
+                name: "TXT_KEY_POLICY_CARD_STRATEGOS_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_STRATEGOS_BONUS",
                 slot: .wildcard,
                 required: .militaryTradition,
                 obsolete: .scorchedEarth,
@@ -400,8 +436,8 @@ public enum PolicyCardType: Int, Codable {
         case .conscription:
             // https://civilization.fandom.com/wiki/Conscription_(Civ6)
             return PolicyCardTypeData(
-                name: "Conscription",
-                bonus: "Unit maintenance reduced by 1 [Gold] Gold per turn, per unit.",
+                name: "TXT_KEY_POLICY_CARD_CONSCRIPTION_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_CONSCRIPTION_BONUS",
                 slot: .military,
                 required: .stateWorkforce,
                 obsolete: .mobilization,
@@ -414,8 +450,8 @@ public enum PolicyCardType: Int, Codable {
         case .corvee:
             // https://civilization.fandom.com/wiki/Corv%C3%A9e_(Civ6)
             return PolicyCardTypeData(
-                name: "Corvee",
-                bonus: "+15% [Production] Production toward Ancient and Classical wonders.",
+                name: "TXT_KEY_POLICY_CARD_CORVEE_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_CORVEE_BONUS",
                 slot: .economic,
                 required: .stateWorkforce,
                 obsolete: .divineRight,
@@ -425,8 +461,8 @@ public enum PolicyCardType: Int, Codable {
         case .landSurveyors:
             // https://civilization.fandom.com/wiki/Land_Surveyors_(Civ6)
             return PolicyCardTypeData(
-                name: "Land Surveyors",
-                bonus: "Reduces the cost of purchasing a tile by 20%.",
+                name: "TXT_KEY_POLICY_CARD_LAND_SURVEYORS_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_LAND_SURVEYORS_BONUS",
                 slot: .economic,
                 required: .earlyEmpire,
                 obsolete: .scorchedEarth,
@@ -439,8 +475,8 @@ public enum PolicyCardType: Int, Codable {
         case .colonization:
             // https://civilization.fandom.com/wiki/Colonization_(Civ6)
             return PolicyCardTypeData(
-                name: "Colonization",
-                bonus: "+50% [Production] Production toward Settlers.",
+                name: "TXT_KEY_POLICY_CARD_COLONIZATION_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_COLONIZATION_BONUS",
                 slot: .economic,
                 required: .earlyEmpire,
                 obsolete: .scorchedEarth,
@@ -450,8 +486,8 @@ public enum PolicyCardType: Int, Codable {
         case .inspiration:
             // https://civilization.fandom.com/wiki/Inspiration_(Civ6)
             return PolicyCardTypeData(
-                name: "Inspiration",
-                bonus: "+2 [GreatScientist] Great Scientist points per turn.",
+                name: "TXT_KEY_POLICY_CARD_INSPIRATION_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_INSPIRATION_BONUS",
                 slot: .wildcard,
                 required: .mysticism,
                 obsolete: .nuclearProgram,
@@ -464,8 +500,8 @@ public enum PolicyCardType: Int, Codable {
         case .revelation:
             // https://civilization.fandom.com/wiki/Revelation_(Civ6)
             return PolicyCardTypeData(
-                name: "Revelation",
-                bonus: "+2 [GreatProphet] Great Prophet points per turn.",
+                name: "TXT_KEY_POLICY_CARD_REVELATION_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_REVELATION_BONUS",
                 slot: .wildcard,
                 required: .mysticism,
                 obsolete: .humanism,
@@ -478,8 +514,8 @@ public enum PolicyCardType: Int, Codable {
         case .limitanei:
             // https://civilization.fandom.com/wiki/Limitanei_(Civ6)
             return PolicyCardTypeData(
-                name: "Limitanei",
-                bonus: "+2 Loyalty per turn for cities with a garrisoned unit.",
+                name: "TXT_KEY_POLICY_CARD_LIMITANEI_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_LIMITANEI_BONUS",
                 slot: .military,
                 required: .earlyEmpire,
                 obsolete: nil,
@@ -487,12 +523,14 @@ public enum PolicyCardType: Int, Codable {
                 flavours: [Flavor(type: .growth, value: 5)]
             )
 
+            // /////////////////////////////////
             // classical
+
         case .insulae:
             // https://civilization.fandom.com/wiki/Insulae_(Civ6)
             return PolicyCardTypeData(
-                name: "Insulae",
-                bonus: "+1 [Housing] Housing in all cities with at least 2 specialty districts.",
+                name: "TXT_KEY_POLICY_CARD_INSULAE_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_INSULAE_BONUS",
                 slot: .economic,
                 required: .gamesAndRecreation,
                 obsolete: .medievalFaires,
@@ -503,8 +541,8 @@ public enum PolicyCardType: Int, Codable {
         case .charismaticLeader:
             // https://civilization.fandom.com/wiki/Charismatic_Leader_(Civ6)
             return PolicyCardTypeData(
-                name: "Charismatic Leader",
-                bonus: "+2 Influence Points per turn toward earning city-state Envoys.", // #
+                name: "TXT_KEY_POLICY_CARD_CHARISMATIC_LEADER_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_CHARISMATIC_LEADER_BONUS", // #
                 slot: .diplomatic,
                 required: .politicalPhilosophy,
                 obsolete: .totalitarianism,
@@ -515,8 +553,8 @@ public enum PolicyCardType: Int, Codable {
         case .diplomaticLeague:
             // https://civilization.fandom.com/wiki/Diplomatic_League_(Civ6)
             return PolicyCardTypeData(
-                name: "Diplomatic League",
-                bonus: "The first Envoy you send to each city-state counts as two Envoys.", // #
+                name: "TXT_KEY_POLICY_CARD_DIPLOMATIC_LEAGUE_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_DIPLOMATIC_LEAGUE_BONUS", // #
                 slot: .diplomatic,
                 required: .politicalPhilosophy,
                 obsolete: nil,
@@ -527,8 +565,8 @@ public enum PolicyCardType: Int, Codable {
         case .literaryTradition:
             // https://civilization.fandom.com/wiki/Literary_Tradition_(Civ6)
             return PolicyCardTypeData(
-                name: "Literary Tradition",
-                bonus: "+2 [GreatWriter] Great Writer points per turn.",
+                name: "TXT_KEY_POLICY_CARD_LITERARY_TRADITION_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_LITERARY_TRADITION_BONUS",
                 slot: .wildcard,
                 required: .dramaAndPoetry,
                 obsolete: nil,
@@ -539,8 +577,8 @@ public enum PolicyCardType: Int, Codable {
         case .raid:
             // https://civilization.fandom.com/wiki/Raid_(Civ6)
             return PolicyCardTypeData(
-                name: "Raid",
-                bonus: "Yields gained from pillaging and coastal raids are +50%.", // #
+                name: "TXT_KEY_POLICY_CARD_RAID_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_RAID_BONUS", // #
                 slot: .military,
                 required: .militaryTraining,
                 obsolete: .scorchedEarth,
@@ -551,8 +589,8 @@ public enum PolicyCardType: Int, Codable {
         case .veterancy:
             // https://civilization.fandom.com/wiki/Veterancy_(Civ6)
             return PolicyCardTypeData(
-                name: "Veterancy",
-                bonus: "+30% [Production] Production toward Encampment and Harbor districts and buildings for those districts.", // #
+                name: "TXT_KEY_POLICY_CARD_VETERANCY_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_VETERANCY_BONUS", // #
                 slot: .military,
                 required: .militaryTraining,
                 obsolete: nil,
@@ -563,8 +601,8 @@ public enum PolicyCardType: Int, Codable {
         case .equestrianOrders:
             // https://civilization.fandom.com/wiki/Equestrian_Orders_(Civ6)
             return PolicyCardTypeData(
-                name: "Equestrian Orders",
-                bonus: "All improved Horses and Iron resources yield 1 additional resource per turn.", // #
+                name: "TXT_KEY_POLICY_CARD_EQUESTRIAN_ORDERS_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_EQUESTRIAN_ORDERS_BONUS", // #
                 slot: .military,
                 required: .militaryTraining,
                 obsolete: nil,
@@ -575,8 +613,8 @@ public enum PolicyCardType: Int, Codable {
         case .bastions:
             // https://civilization.fandom.com/wiki/Bastions_(Civ6)
             return PolicyCardTypeData(
-                name: "Bastions",
-                bonus: "+6 City Defense Strength. +5 City Ranged Strength.",
+                name: "TXT_KEY_POLICY_CARD_BASTIONS_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_BASTIONS_BONUS",
                 slot: .military,
                 required: .defensiveTactics,
                 obsolete: .civilEngineering,
@@ -587,8 +625,8 @@ public enum PolicyCardType: Int, Codable {
         case .limes:
             // https://civilization.fandom.com/wiki/Limes_(Civ6)
             return PolicyCardTypeData(
-                name: "Limes",
-                bonus: "+100% [Production] Production toward defensive buildings.", // #
+                name: "TXT_KEY_POLICY_CARD_LIMES_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_LIMES_BONUS", // #
                 slot: .military,
                 required: .defensiveTactics,
                 obsolete: .totalitarianism,
@@ -599,8 +637,8 @@ public enum PolicyCardType: Int, Codable {
         case .naturalPhilosophy:
             // https://civilization.fandom.com/wiki/Natural_Philosophy_(Civ6)
             return PolicyCardTypeData(
-                name: "Natural Philosophy",
-                bonus: "+100% Campus district adjacency bonuses.", // #
+                name: "TXT_KEY_POLICY_CARD_NATURAL_PHILOSOPHY_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_NATURAL_PHILOSOPHY_BONUS", // #
                 slot: .economic,
                 required: .recordedHistory,
                 obsolete: .classStruggle,
@@ -611,8 +649,8 @@ public enum PolicyCardType: Int, Codable {
         case .scripture:
             // https://civilization.fandom.com/wiki/Scripture_(Civ6)
             return PolicyCardTypeData(
-                name: "Scripture",
-                bonus: "+100% Holy Site district adjacency bonuses.", // #
+                name: "TXT_KEY_POLICY_CARD_SCRIPTURE_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_SCRIPTURE_BONUS", // #
                 slot: .economic,
                 required: .theology,
                 obsolete: nil,
@@ -623,8 +661,8 @@ public enum PolicyCardType: Int, Codable {
         case .praetorium:
             // https://civilization.fandom.com/wiki/Praetorium_(Civ6)
             return PolicyCardTypeData(
-                name: "Praetorium",
-                bonus: "[Governor] Governors provide +2 Loyalty per turn to their city.",
+                name: "TXT_KEY_POLICY_CARD_PRAETORIUM_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_PRAETORIUM_BONUS",
                 slot: .diplomatic,
                 required: .recordedHistory,
                 obsolete: .socialMedia,
@@ -632,12 +670,14 @@ public enum PolicyCardType: Int, Codable {
                 flavours: [Flavor(type: .growth, value: 4)]
             )
 
+            // /////////////////////////////////
             // medieval
+
         case .navalInfrastructure:
             // https://civilization.fandom.com/wiki/Naval_Infrastructure_(Civ6)
             return PolicyCardTypeData(
-                name: "Naval Infrastructure",
-                bonus: "+100% Harbor district adjacency bonus.", // #
+                name: "TXT_KEY_POLICY_CARD_NAVAL_INFRASTRUCTURE_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_NAVAL_INFRASTRUCTURE_BONUS", // #
                 slot: .economic,
                 required: .navalTradition,
                 obsolete: .suffrage,
@@ -648,8 +688,8 @@ public enum PolicyCardType: Int, Codable {
         case .navigation:
             // https://civilization.fandom.com/wiki/Navigation_(Civ6)
             return PolicyCardTypeData(
-                name: "Navigation",
-                bonus: "+2 [GreatAdmiral] Great Admiral points per turn.",
+                name: "TXT_KEY_POLICY_CARD_NAVIGATION_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_NAVIGATION_BONUS",
                 slot: .wildcard,
                 required: .navalTradition,
                 obsolete: nil,
@@ -660,10 +700,8 @@ public enum PolicyCardType: Int, Codable {
         case .feudalContract:
             // https://civilization.fandom.com/wiki/Feudal_Contract_(Civ6)
             return PolicyCardTypeData(
-                name: "Feudal Contract",
-                bonus:
-                    "+50% [Production] Production toward Ancient, Classical, Medieval and Renaissance era melee, " + // #
-                    "ranged and anti-cavalry units.",
+                name: "TXT_KEY_POLICY_CARD_FEUDAL_CONTRACT_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_FEUDAL_CONTRACT_BONUS", // #
                 slot: .military,
                 required: .feudalism,
                 obsolete: .nationalism,
@@ -674,8 +712,8 @@ public enum PolicyCardType: Int, Codable {
         case .serfdom:
             // https://civilization.fandom.com/wiki/Serfdom_(Civ6)
             return PolicyCardTypeData(
-                name: "Serfdom",
-                bonus: "Newly trained Builders gain 2 extra build actions.",
+                name: "TXT_KEY_POLICY_CARD_SERFDOM_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_SERFDOM_BONUS",
                 slot: .economic,
                 required: .feudalism,
                 obsolete: .civilEngineering,
@@ -686,8 +724,8 @@ public enum PolicyCardType: Int, Codable {
         case .meritocracy:
             // https://civilization.fandom.com/wiki/Meritocracy_(Civ6)
             return PolicyCardTypeData(
-                name: "Meritocracy",
-                bonus: "Each city receives +1 [Culture] Culture for each specialty District it constructs.", // #
+                name: "TXT_KEY_POLICY_CARD_MERITOCRACY_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_MERITOCRACY_BONUS", // #
                 slot: .economic,
                 required: .civilService,
                 obsolete: nil,
@@ -698,8 +736,8 @@ public enum PolicyCardType: Int, Codable {
         case .retainers:
             // https://civilization.fandom.com/wiki/Retainers_(Civ6)
             return PolicyCardTypeData(
-                name: "Retainers",
-                bonus: "+1 [Amenities] Amenity for cities with a garrisoned unit.",
+                name: "TXT_KEY_POLICY_CARD_RETAINERS_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_RETAINERS_BONUS",
                 slot: .military,
                 required: .civilService,
                 obsolete: .massMedia,
@@ -710,8 +748,8 @@ public enum PolicyCardType: Int, Codable {
         case .sack:
             // https://civilization.fandom.com/wiki/Sack_(Civ6)
             return PolicyCardTypeData(
-                name: "Sack",
-                bonus: "Yields gained from pillaging are doubled for pillaging Districts.", // #
+                name: "TXT_KEY_POLICY_CARD_SACK_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_SACK_BONUS", // #
                 slot: .military,
                 required: .mercenaries,
                 obsolete: .scorchedEarth,
@@ -722,8 +760,8 @@ public enum PolicyCardType: Int, Codable {
         case .professionalArmy:
             // https://civilization.fandom.com/wiki/Professional_Army_(Civ6)
             return PolicyCardTypeData(
-                name: "Professional Army",
-                bonus: "50% [Gold] Gold discount on all unit upgrades.",
+                name: "TXT_KEY_POLICY_CARD_PROFESSIONAL_ARMY_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_PROFESSIONAL_ARMY_BONUS",
                 slot: .military,
                 required: .mercenaries,
                 obsolete: .urbanization,
@@ -734,8 +772,8 @@ public enum PolicyCardType: Int, Codable {
         case .retinues:
             // https://civilization.fandom.com/wiki/Retinues_(Civ6)
             return PolicyCardTypeData(
-                name: "Retinues",
-                bonus: "50% resource discount on all unit upgrades.", // #
+                name: "TXT_KEY_POLICY_CARD_RETINUES_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_RETINUES_BONUS", // #
                 slot: .military,
                 required: .mercenaries,
                 obsolete: .urbanization,
@@ -746,8 +784,8 @@ public enum PolicyCardType: Int, Codable {
         case .tradeConfederation:
             // https://civilization.fandom.com/wiki/Trade_Confederation_(Civ6)
             return PolicyCardTypeData(
-                name: "Trade Confederation",
-                bonus: "+1 [Culture] Culture and +1 [Science] Science from international [TradeRoute] Trade Routes.",
+                name: "TXT_KEY_POLICY_CARD_TRADE_CONFEDERATION_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_TRADE_CONFEDERATION_BONUS",
                 slot: .economic,
                 required: .mercenaries,
                 obsolete: .capitalism,
@@ -758,8 +796,8 @@ public enum PolicyCardType: Int, Codable {
         case .merchantConfederation:
             // https://civilization.fandom.com/wiki/Merchant_Confederation_(Civ6)
             return PolicyCardTypeData(
-                name: "Merchant Confederation",
-                bonus: "+1 [Gold] Gold from each of your Envoys at city-states.", // #
+                name: "TXT_KEY_POLICY_CARD_MERCHANT_CONFEDERATION_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_MERCHANT_CONFEDERATION_BONUS", // #
                 slot: .diplomatic,
                 required: .medievalFaires,
                 obsolete: nil,
@@ -770,8 +808,8 @@ public enum PolicyCardType: Int, Codable {
         case .aesthetics:
             // https://civilization.fandom.com/wiki/Aesthetics_(Civ6)
             return PolicyCardTypeData(
-                name: "Aesthetics",
-                bonus: "+100% Theater Square district adjacency bonuses.", // #
+                name: "TXT_KEY_POLICY_CARD_AESTHETICS_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_AESTHETICS_BONUS", // #
                 slot: .economic,
                 required: .medievalFaires,
                 obsolete: .professionalSports,
@@ -782,8 +820,8 @@ public enum PolicyCardType: Int, Codable {
         case .medinaQuarter:
             // https://civilization.fandom.com/wiki/Medina_Quarter_(Civ6)
             return PolicyCardTypeData(
-                name: "Medina Quarter",
-                bonus: "+2 [Housing] Housing in all cities with at least 3 specialty Districts.", // #
+                name: "TXT_KEY_POLICY_CARD_MEDINA_QUARTER_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_MEDINA_QUARTER_BONUS", // #
                 slot: .economic,
                 required: .medievalFaires,
                 obsolete: .suffrage,
@@ -794,8 +832,8 @@ public enum PolicyCardType: Int, Codable {
         case .craftsmen:
             // https://civilization.fandom.com/wiki/Craftsmen_(Civ6)
             return PolicyCardTypeData(
-                name: "Craftsmen",
-                bonus: "+100% Industrial Zone adjacency bonuses.", // #
+                name: "TXT_KEY_POLICY_CARD_CRAFTSMEN_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_CRAFTSMEN_BONUS", // #
                 slot: .military,
                 required: .guilds,
                 obsolete: .classStruggle,
@@ -806,8 +844,8 @@ public enum PolicyCardType: Int, Codable {
         case .townCharters:
             // https://civilization.fandom.com/wiki/Town_Charters_(Civ6)
             return PolicyCardTypeData(
-                name: "Town Charters",
-                bonus: "+100% Commercial Hub adjacency bonuses.", // #
+                name: "TXT_KEY_POLICY_CARD_TOWN_CHARTERS_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_TOWN_CHARTERS_BONUS", // #
                 slot: .economic,
                 required: .guilds,
                 obsolete: .suffrage,
@@ -818,8 +856,8 @@ public enum PolicyCardType: Int, Codable {
         case .travelingMerchants:
             // https://civilization.fandom.com/wiki/Traveling_Merchants_(Civ6)
             return PolicyCardTypeData(
-                name: "Traveling Merchants",
-                bonus: "+2 [GreatMerchant] Great Merchant points per turn.",
+                name: "TXT_KEY_POLICY_CARD_TRAVELING_MERCHANTS_TITLE",
+                bonus: "TXT_KEY_POLICY_CARD_TRAVELING_MERCHANTS_BONUS",
                 slot: .wildcard,
                 required: .guilds,
                 obsolete: .capitalism,
@@ -855,7 +893,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Civil_Prestige_(Civ6)
             return PolicyCardTypeData(
                 name: "Civil Prestige",
-                bonus: "Established [Governor] Governors with at least 2 Promotions provide +1 [Amenities] Amenity and +2 [Housing] Housing.",
+                bonus: "Established [Governor] Governors with at least 2 [Promotion] Promotions provide +1 [Amenities] Amenity and +2 [Housing] Housing.",
                 slot: .economic,
                 required: .civilService,
                 obsolete: nil,
@@ -1053,7 +1091,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Native_Conquest_(Civ6)
             return PolicyCardTypeData(
                 name: "Native Conquest",
-                bonus: "Combat victories over units from earlier eras provide [Gold] Gold equal to 50% of the Strength Combat Strength of the defeated unit.",
+                bonus: "Combat victories over units from earlier eras provide [Gold] Gold equal to 50% of the [Strength] Combat Strength of the defeated unit.",
                 slot: .military,
                 required: .colonialism,
                 obsolete: nil,
@@ -1272,7 +1310,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Laissez-Faire_(Civ6)
             return PolicyCardTypeData(
                 name: "Laissez-Faire",
-                bonus: "+2 Great Merchant Great Merchant points for every Bank and +4 Great Merchant Great Merchant points for every Stock Exchange. +2 Great Admiral Great Admiral points for every Shipyard and +4 Great Admiral Great Admiral points for every Seaport.",
+                bonus: "+2 [GreatMerchant] Great Merchant points for every Bank and +4 [GreatMerchant] Great Merchant points for every Stock Exchange. +2 [GreatAdmiral] Great Admiral points for every Shipyard and +4 [GreatAdmiral] Great Admiral points for every Seaport.",
                 slot: .wildcard,
                 required: .capitalism,
                 obsolete: nil,
@@ -1428,7 +1466,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Gunboat_Diplomacy_(Civ6)
             return PolicyCardTypeData(
                 name: "Gunboat Diplomacy",
-                bonus: "Open Borders with all City-States, and +4 influence points per turn towards earning Envoy Envoys.",
+                bonus: "Open Borders with all City-States, and +4 influence points per turn towards earning [Envoy] Envoys.",
                 slot: .diplomatic,
                 required: .totalitarianism,
                 obsolete: nil,
@@ -1515,7 +1553,7 @@ public enum PolicyCardType: Int, Codable {
             // https://civilization.fandom.com/wiki/Containment_(Civ6)
             return PolicyCardTypeData(
                 name: "Containment",
-                bonus: "Each Envoy Envoy you send to a City-State counts as two, if its Suzerain has different government than you.",
+                bonus: "Each [Envoy] Envoy you send to a City-State counts as two, if its Suzerain has different government than you.",
                 slot: .diplomatic,
                 required: .coldWar,
                 obsolete: nil,
@@ -1792,23 +1830,317 @@ public enum PolicyCardType: Int, Codable {
                 replace: [],
                 flavours: []
             )
+
+        // dark age
+
+        case .automatedWorkforce:
+            // https://civilization.fandom.com/wiki/Automated_Workforce_(Civ6)
+            return PolicyCardTypeData(
+                name: "Automated Workforce",
+                bonus: "Your cities get +20% [Production] Production towards city projects. BUT: -1 [Amenity] Amenity and -5 Loyalty per turn in your cities.",
+                slot: .wildcard,
+                required: nil,
+                obsolete: nil,
+                startEra: .information,
+                endEra: .future,
+                replace: [],
+                flavours: [],
+                darkAge: true
+            )
+
+        case .collectivism:
+            // https://civilization.fandom.com/wiki/Collectivism_(Civ6)
+            return PolicyCardTypeData(
+                name: "Collectivism",
+                bonus: "Farms +1 [Food] Food. All cities +2 [Housing] Housing. +100% Industrial Zone adjacency bonuses. BUT: [GreatPerson] Great People Points earned 50% slower.",
+                slot: .wildcard,
+                required: nil,
+                obsolete: nil,
+                startEra: .modern,
+                endEra: .information,
+                replace: [],
+                flavours: [],
+                darkAge: true
+            )
+
+        case .cyberWarfare:
+            // https://civilization.fandom.com/wiki/Cyber_Warfare_(Civ6)
+            return PolicyCardTypeData(
+                name: "Cyber Warfare",
+                bonus: "+10 [Strength] Combat Strength against units from Information and Future Eras. BUT: [Grievances] Grievances against you do not decay.",
+                slot: .wildcard,
+                required: nil,
+                obsolete: nil,
+                startEra: .information,
+                endEra: .future,
+                replace: [],
+                flavours: [],
+                darkAge: true
+            )
+
+        case .decentralization:
+            // https://civilization.fandom.com/wiki/Decentralization_(Civ6)
+            return PolicyCardTypeData(
+                name: "Decentralization",
+                bonus: "Cities with 6 or less [Citizen] population receive +4 Loyalty per turn. BUT: Cities with more than 6 Citizen population receive -15% [Gold] Gold.",
+                slot: .wildcard,
+                required: nil,
+                obsolete: nil,
+                startEra: .classical,
+                endEra: .renaissance,
+                replace: [],
+                flavours: [],
+                darkAge: true
+            )
+
+        case .despoticPaternalism:
+            // https://civilization.fandom.com/wiki/Despotic_Paternalism_(Civ6)
+            return PolicyCardTypeData(
+                name: "Despotic Paternalism",
+                bonus: "+4 Loyalty per turn in cities with [Governor] Governors. BUT: -15% [Science] Science and -15% [Culture] Culture in all cities without an established [Governor] Governor.",
+                slot: .wildcard,
+                required: nil,
+                obsolete: nil,
+                startEra: .industrial,
+                endEra: .information,
+                replace: [],
+                flavours: [],
+                darkAge: true
+            )
+
+        case .disinformationCampaign:
+            // https://civilization.fandom.com/wiki/Disinformation_Campaign_(Civ6)
+            return PolicyCardTypeData(
+                name: "Disinformation Campaign",
+                bonus: "+3 [DiplomaticFavor] Diplomatic Favor per turn for each Broadcast Center. BUT: -10% [Science] Science and [Culture] Culture in all cities.",
+                slot: .wildcard,
+                required: nil,
+                obsolete: nil,
+                startEra: .information,
+                endEra: .future,
+                replace: [],
+                flavours: [],
+                darkAge: true
+            )
+
+        case .eliteForces:
+            // https://civilization.fandom.com/wiki/Elite_Forces_(Civ6)
+            return PolicyCardTypeData(
+                name: "Elite Forces",
+                bonus: "+100% combat experience for all units. BUT: +2 [Gold] Gold to maintain each military unit.",
+                slot: .wildcard,
+                required: nil,
+                obsolete: nil,
+                startEra: .industrial,
+                endEra: .information,
+                replace: [],
+                flavours: [],
+                darkAge: true
+            )
+
+        case .flowerPower:
+            // https://civilization.fandom.com/wiki/Flower_Power_(Civ6)
+            return PolicyCardTypeData(
+                name: "Flower Power",
+                bonus: "All civilizations not currently at war receive +100% of the [Tourism] Tourism from your Concerts. BUT: The cost of producing and purchasing land units other than Rock Bands is increased by +100%.",
+                slot: .wildcard,
+                required: nil,
+                obsolete: nil,
+                startEra: .atomic,
+                endEra: .future,
+                replace: [],
+                flavours: [],
+                darkAge: true
+            )
+
+        case .inquisition:
+            // https://civilization.fandom.com/wiki/Inquisition_(Civ6)
+            return PolicyCardTypeData(
+                name: "Inquisition",
+                bonus: "Start Inquisition with 1 Apostle charge. All religious units are +15 [ReligiousStrength] Religious Combat Strength in friendly territory. BUT: -25% [Science] Science in all cities.",
+                slot: .wildcard,
+                required: nil,
+                obsolete: nil,
+                startEra: .classical,
+                endEra: .renaissance,
+                replace: [],
+                flavours: [],
+                darkAge: true
+            )
+
+        case .isolationism:
+            // https://civilization.fandom.com/wiki/Isolationism_(Civ6)
+            return PolicyCardTypeData(
+                name: "Isolationism",
+                bonus: "Domestic routes provide +2 [Food] Food, +2 [Production] Production. BUT: Can't train or buy Settlers nor settle new cities.",
+                slot: .wildcard,
+                required: nil,
+                obsolete: nil,
+                startEra: .classical,
+                endEra: .industrial,
+                replace: [],
+                flavours: [],
+                darkAge: true
+            )
+
+        case .lettersOfMarque:
+            // https://civilization.fandom.com/wiki/Letters_of_Marque_(Civ6)
+            return PolicyCardTypeData(
+                name: "Letters of Marque",
+                bonus: "Naval Raiders: +100% [Production] Production, +2 [Movement] Movement. Yields doubled from plundering [TradeRoute] Trade Routes. BUT: [TradeRoute] Trade Route yields -50%.",
+                slot: .wildcard,
+                required: nil,
+                obsolete: nil,
+                startEra: .renaissance,
+                endEra: .modern,
+                replace: [],
+                flavours: [],
+                darkAge: true
+            )
+
+        case .monasticism:
+            // https://civilization.fandom.com/wiki/Monasticism_(Civ6)
+            return PolicyCardTypeData(
+                name: "Monasticism",
+                bonus: "+75% [Science] Science in cities with a Holy Site. BUT: -25% [Culture] Culture in all cities.",
+                slot: .wildcard,
+                required: nil,
+                obsolete: nil,
+                startEra: .classical,
+                endEra: .medieval,
+                replace: [],
+                flavours: [],
+                darkAge: true
+            )
+
+        case .robberBarons:
+            // https://civilization.fandom.com/wiki/Robber_Barons_(Civ6)
+            return PolicyCardTypeData(
+                name: "Robber Barons",
+                bonus: "+50% [Gold] Gold in cities with a Stock Exchange. +25% [Production] Production in cities with a Factory. BUT: -2 [Amenities] Amenities in all cities.",
+                slot: .wildcard,
+                required: nil,
+                obsolete: nil,
+                startEra: .industrial,
+                endEra: .information,
+                replace: [],
+                flavours: [],
+                darkAge: true
+            )
+
+        case .rogueState:
+            // https://civilization.fandom.com/wiki/Rogue_State_(Civ6)
+            return PolicyCardTypeData(
+                name: "Rogue State",
+                bonus: "+50% [Production] Production to nuclear program projects and WMDs. BUT: Earn no influence toward new [Envoy] Envoys.",
+                slot: .wildcard,
+                required: nil,
+                obsolete: nil,
+                startEra: .atomic,
+                endEra: .information,
+                replace: [],
+                flavours: [],
+                darkAge: true
+            )
+
+        case .samoderzhaviye:
+            // https://civilization.fandom.com/wiki/Samoderzhaviye_(Civ6)
+            return PolicyCardTypeData(
+                name: "Samoderzhaviye",
+                bonus: "+50% [Production] Production in your [Capital] Capital. BUT: All [Governor] Governors are neutralized and cannot be reestablished.",
+                slot: .wildcard,
+                required: nil,
+                obsolete: nil,
+                startEra: .renaissance,
+                endEra: .modern,
+                replace: [],
+                flavours: [],
+                darkAge: true
+            )
+
+        case .softTargets:
+            // https://civilization.fandom.com/wiki/Soft_Targets_(Civ6)
+            return PolicyCardTypeData(
+                name: "Soft Targets",
+                bonus: "+10 [Strength] Combat Strength vs. city attacks and district defenses. BUT: -3 [Strength] Combat Strength against units.",
+                slot: .wildcard,
+                required: nil,
+                obsolete: nil,
+                startEra: .industrial,
+                endEra: .information,
+                replace: [],
+                flavours: [],
+                darkAge: true
+            )
+
+        case .twilightValor:
+            // https://civilization.fandom.com/wiki/Twilight_Valor_(Civ6)
+            return PolicyCardTypeData(
+                name: "Twilight Valor",
+                bonus: "All units +5 [Strength] Combat Strength for all melee attack units. BUT: Cannot heal outside your territory.",
+                slot: .wildcard,
+                required: nil,
+                obsolete: nil,
+                startEra: .classical,
+                endEra: .renaissance,
+                replace: [],
+                flavours: [],
+                darkAge: true
+            )
         }
     }
 
-    private struct PolicyCardTypeData {
+    private class PolicyCardTypeData {
 
         let name: String
         let bonus: String
         let slot: PolicyCardSlotType
-        let required: CivicType
+        let required: CivicType?
         let obsolete: CivicType?
+        let startEra: EraType?
+        let endEra: EraType?
         let replace: [PolicyCardType]
         let flavours: [Flavor]
+        let darkAge: Bool
+
+        init(
+            name: String,
+            bonus: String,
+            slot: PolicyCardSlotType,
+            required: CivicType?,
+            obsolete: CivicType?,
+            startEra: EraType? = nil,
+            endEra: EraType? = nil,
+            replace: [PolicyCardType],
+            flavours: [Flavor],
+            darkAge: Bool = false) {
+
+            self.name = name
+            self.bonus = bonus
+            self.slot = slot
+            self.required = required
+            self.obsolete = obsolete
+            self.startEra = startEra
+            self.endEra = endEra
+            self.replace = replace
+            self.flavours = flavours
+            self.darkAge = darkAge
+        }
     }
 
     public func obsoleteCivic() -> CivicType? {
 
         return self.data().obsolete
+    }
+
+    public func startEra() -> EraType? {
+
+        return self.data().startEra
+    }
+
+    public func endEra() -> EraType? {
+
+        return self.data().endEra
     }
 
     public func replacePolicyCards() -> [PolicyCardType] {

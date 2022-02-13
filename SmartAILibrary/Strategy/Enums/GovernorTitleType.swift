@@ -253,7 +253,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Messenger",
                 effects: [
-                    "Can be assigned to a City-state, where she acts as 2 Envoys."
+                    "Can be assigned to a City-state, where she acts as 2 [Envoy] Envoys."
                 ],
                 tier: 0,
                 requiredOr: [],
@@ -304,7 +304,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Puppeteer",
                 effects: [
-                    "While established in a city-state, doubles the number of Envoys you have there."
+                    "While established in a city-state, doubles the number of [Envoy] Envoys you have there."
                 ],
                 tier: 3,
                 requiredOr: [.localInformants, .foreignInvestor],

@@ -253,7 +253,11 @@ public enum CivicType: String, Codable {
 
         // policyCards
         let policyCards = PolicyCardType.all.filter({
-            return self == $0.required()
+            if let requiredCivic = $0.requiredCivic() {
+                return self == requiredCivic
+            }
+
+            return true
         })
 
         let governments = GovernmentType.all.filter({

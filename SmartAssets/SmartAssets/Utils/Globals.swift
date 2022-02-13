@@ -174,6 +174,14 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "diplomaticFavor")
         }
 
+        public static var envoy: NSImage {
+            return Icons.loadCachedTexture(with: "envoy")
+        }
+
+        public static var grievances: NSImage {
+            return Icons.loadCachedTexture(with: "grievances")
+        }
+
         public static var greatPerson: NSImage {
             return Icons.loadCachedTexture(with: "greatPerson")
         }

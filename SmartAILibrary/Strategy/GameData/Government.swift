@@ -310,12 +310,41 @@ public class Government: AbstractGovernment {
         let allPolicyCards = PolicyCardType.all
 
         // find possible cards
-        var policyCards = allPolicyCards.filter({ civics.has(civic: $0.required()) })
+        var policyCards = allPolicyCards.filter {
+            if let requiredCivic = $0.requiredCivic() {
+                return civics.has(civic: requiredCivic)
+            }
+
+            return true
+        }
 
         // remove obsolete cards
         policyCards = policyCards.filter {
             if let obsoleteCivic = $0.obsoleteCivic() {
                 return !civics.has(civic: obsoleteCivic)
+            }
+
+            return true
+        }
+
+        // remove dark age cards
+        policyCards = policyCards.filter {
+            if $0.requiresDarkAge() {
+                if player.currentAge() != .dark {
+                    return false
+                }
+
+                if let startEra = $0.startEra() {
+                    if player.currentEra() < startEra {
+                        return false
+                    }
+                }
+
+                if let endEra = $0.endEra() {
+                    if player.currentEra() > endEra {
+                        return false
+                    }
+                }
             }
 
             return true
@@ -417,7 +446,11 @@ public class Government: AbstractGovernment {
 
     public func possiblePolicyCards() -> [PolicyCardType] {
 
-        guard let civics = self.player?.civics else {
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let civics = player.civics else {
             fatalError("cant get civics")
         }
 
@@ -425,12 +458,35 @@ public class Government: AbstractGovernment {
 
         for cardType in PolicyCardType.all {
 
-            let requiredCondition = civics.has(civic: cardType.required())
-            var obsoleteCondition = false
+            var requiredCondition = true
+            if let requiredCivic = cardType.requiredCivic() {
+                if !civics.has(civic: requiredCivic) {
+                    requiredCondition = false
+                }
+            }
 
+            var obsoleteCondition = false
             if let obsoleteCivic = cardType.obsoleteCivic() {
                 if civics.has(civic: obsoleteCivic) {
                     obsoleteCondition = true
+                }
+            }
+
+            if cardType.requiresDarkAge() {
+                if player.currentAge() != .dark {
+                    continue
+                }
+
+                if let startEra = cardType.startEra() {
+                    if player.currentEra() < startEra {
+                        continue
+                    }
+                }
+
+                if let endEra = cardType.endEra() {
+                    if player.currentEra() > endEra {
+                        continue
+                    }
                 }
             }
 
