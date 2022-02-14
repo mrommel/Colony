@@ -11,8 +11,7 @@ import Foundation
 import XCTest
 @testable import SmartAILibrary
 
-// swiftlint:disable force_try
-
+// swiftlint:disable force_try type_body_length
 class CityTests: XCTestCase {
 
     var objectToTest: AbstractCity?

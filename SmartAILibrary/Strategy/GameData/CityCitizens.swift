@@ -63,7 +63,7 @@ class GreatPersonProgressList: WeightedList<SpecialistType> {
 //!  Key Attributes:
 //!  - One instance for each city
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length nesting
 public class CityCitizens: Codable {
 
     enum CodingKeys: String, CodingKey {

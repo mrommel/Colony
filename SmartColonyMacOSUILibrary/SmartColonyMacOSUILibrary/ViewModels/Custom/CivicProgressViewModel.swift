@@ -81,6 +81,10 @@ class CivicProgressViewModel: ObservableObject {
 
         var achievementViewModels: [AchievementViewModel] = []
 
+        if self.civicType == .none {
+            return []
+        }
+
         let achievements = self.civicType.achievements()
 
         for buildingType in achievements.buildingTypes {

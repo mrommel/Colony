@@ -316,6 +316,7 @@
 		C9D1919D265968F3008C9622 /* ReligionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D1919C265968F3008C9622 /* ReligionType.swift */; };
 		C9D1919F265969CF008C9622 /* BeliefType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D1919E265969CF008C9622 /* BeliefType.swift */; };
 		C9D191B1265A8975008C9622 /* CityReligion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D191B0265A8975008C9622 /* CityReligion.swift */; };
+		C9D5664927BA96E700113C41 /* CityDistrictTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D5664827BA96E600113C41 /* CityDistrictTests.swift */; };
 		C9D5F67C276255C300B34AA3 /* ContinentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D5F67B276255C300B34AA3 /* ContinentType.swift */; };
 		C9D5F67E2763EA0800B34AA3 /* CivicEurekaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D5F67D2763EA0700B34AA3 /* CivicEurekaTests.swift */; };
 		C9D645EB272295D900646BB8 /* BarbarianWarriorUnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D645EA272295D900646BB8 /* BarbarianWarriorUnitType.swift */; };
@@ -729,6 +730,7 @@
 		C9D1919C265968F3008C9622 /* ReligionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionType.swift; sourceTree = "<group>"; };
 		C9D1919E265969CF008C9622 /* BeliefType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeliefType.swift; sourceTree = "<group>"; };
 		C9D191B0265A8975008C9622 /* CityReligion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityReligion.swift; sourceTree = "<group>"; };
+		C9D5664827BA96E600113C41 /* CityDistrictTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityDistrictTests.swift; sourceTree = "<group>"; };
 		C9D5F67B276255C300B34AA3 /* ContinentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentType.swift; sourceTree = "<group>"; };
 		C9D5F67D2763EA0700B34AA3 /* CivicEurekaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicEurekaTests.swift; sourceTree = "<group>"; };
 		C9D645EA272295D900646BB8 /* BarbarianWarriorUnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarbarianWarriorUnitType.swift; sourceTree = "<group>"; };
@@ -1058,6 +1060,7 @@
 				C90D2E2E24C317980029AA11 /* AssetExtractionTests.swift */,
 				C93479482529AF2A00A4B113 /* AStarPathFinderTests.swift */,
 				C9FEEB9B245B5C2E00C51552 /* CityCitizensTests.swift */,
+				C9D5664827BA96E600113C41 /* CityDistrictTests.swift */,
 				C965A53723FD186E00BCEB54 /* CityStrategyAITests.swift */,
 				C98DBFA923DF34ED00B6CE25 /* CityTests.swift */,
 				C9F76AAE243314B80018672A /* CivicTests.swift */,
@@ -2112,6 +2115,7 @@
 				C964BA2F23EC159600CA379C /* AdvisorTests.swift in Sources */,
 				C9E0576E26E3F33800C3FFB9 /* GameModelSightTests.swift in Sources */,
 				C99C4FC1242682DD00070038 /* TestUI.swift in Sources */,
+				C9D5664927BA96E700113C41 /* CityDistrictTests.swift in Sources */,
 				C907085D23ED45F700281161 /* MapModelHelper.swift in Sources */,
 				C90D2E2F24C317990029AA11 /* AssetExtractionTests.swift in Sources */,
 				C98DBFAA23DF34ED00B6CE25 /* CityTests.swift in Sources */,

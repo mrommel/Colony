@@ -406,7 +406,7 @@ extension GameViewModel {
 
         let policyCardTextureNames = [
             "policyCard-slot", "policyCard-military", "policyCard-economic", "policyCard-diplomatic",
-            "policyCard-wildcard"
+            "policyCard-wildcard", "policyCard-darkAge"
         ]
         print("- load \(policyCardTextureNames.count) policy card textures")
         for textureName in policyCardTextureNames {

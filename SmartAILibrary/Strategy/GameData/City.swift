@@ -82,7 +82,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func canBuild(wonder: WonderType, at point: HexPoint, in gameModel: GameModel?) -> Bool
     func bestLocation(for wonderType: WonderType, in gameModel: GameModel?) -> HexPoint?
     func canBuild(district districtType: DistrictType, in gameModel: GameModel?) -> Bool
-    func canBuild(district: DistrictType, at point: HexPoint, in gameModel: GameModel?) -> Bool
+    func canBuild(district districtType: DistrictType, at point: HexPoint, in gameModel: GameModel?) -> Bool
     func bestLocation(for districtType: DistrictType, in gameModel: GameModel?) -> HexPoint?
     func canBuild(project: ProjectType) -> Bool
 
@@ -3166,6 +3166,10 @@ public class City: AbstractCity {
             fatalError("cant get city citizens")
         }
 
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
@@ -3183,6 +3187,18 @@ public class City: AbstractCity {
 
         if let requiredCivic = districtType.requiredCivic() {
             if !player.has(civic: requiredCivic) {
+                return false
+            }
+        }
+
+        if districtType.isSpecialty() {
+            // specialty districts are limited by population
+            if districts.numberOfSpecialtyDistricts() >= self.numberOfBuildableSpecialtyDistricts() {
+                return false
+            }
+
+            // they can only be built once per city
+            if districts.has(district: districtType) {
                 return false
             }
         }
@@ -3225,6 +3241,10 @@ public class City: AbstractCity {
             fatalError("cant get player")
         }
 
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
         guard let tile = gameModel.tile(at: location) else {
             fatalError("cant get tile")
         }
@@ -3250,11 +3270,29 @@ public class City: AbstractCity {
             }
         }
 
+        if districtType.isSpecialty() {
+            // specialty districts are limited by population
+            if districts.numberOfSpecialtyDistricts() >= self.numberOfBuildableSpecialtyDistricts() {
+                return false
+            }
+
+            // they can only be built once per city
+            if districts.has(district: districtType) {
+                return false
+            }
+        }
+
         if !districtType.canBuild(on: location, in: gameModel) {
             return false
         }
 
         return true
+    }
+
+    // For example a city of 6 pop can only build 2 districts but 7 can build 3.
+    func numberOfBuildableSpecialtyDistricts() -> Int {
+
+        return (Int(self.populationValue) + 2) / 3
     }
 
     public func bestLocation(for districtType: DistrictType, in gameModel: GameModel?) -> HexPoint? {
@@ -3641,6 +3679,11 @@ public class City: AbstractCity {
 
         guard let districts = self.districts else {
             fatalError("cant get disticts")
+        }
+
+        if !self.canBuild(district: districtType, at: location, in: gameModel) {
+            print("cant build district: \(districtType) at: \(location)")
+            return false
         }
 
         do {
@@ -5164,7 +5207,7 @@ public class City: AbstractCity {
             try tile.set(owner: self.player)
             try tile.setWorkingCity(to: self)
         } catch {
-            fatalError("cant set owner")
+            fatalError("cant set owner: \(error)")
         }
 
         self.player?.addPlot(at: point)

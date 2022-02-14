@@ -290,8 +290,7 @@ public enum CivicType: String, Codable {
         let governorTitle: Bool
     }
 
-    // swiftlint:disable line_length
-    // swiftlint:disable function_body_length
+    // swiftlint:disable cyclomatic_complexity function_body_length
     // https://github.com/caiobelfort/civ6_personal_mod/blob/9fdf8736016d855990556c71cc76a62f124f5822/Gameplay/Data/Civics.xml
     // https://civilization.fandom.com/wiki/Module:Data/Civ6/RF/Boosts
     private func data() -> CivicTypeData {
