@@ -417,3 +417,401 @@
 // card - travelingMerchants
 "TXT_KEY_POLICY_CARD_TRAVELING_MERCHANTS_TITLE" = "Traveling Merchants";
 "TXT_KEY_POLICY_CARD_TRAVELING_MERCHANTS_BONUS" = "+2 [GreatMerchant] Great Merchant points per turn.";
+
+// card - chivalry
+"TXT_KEY_POLICY_CARD_CHIVALRY_TITLE" = "Chivalry";
+"TXT_KEY_POLICY_CARD_CHIVALRY_BONUS" = "+50% [Production] Production toward Industrial era and earlier heavy and light cavalry units.";
+
+// card - gothicArchitecture
+"TXT_KEY_POLICY_CARD_GOTHIC_ARCHITECTURE_TITLE" = "Gothic Architecture";
+"TXT_KEY_POLICY_CARD_GOTHIC_ARCHITECTURE_BONUS" = "+15% [Production] Production toward Ancient, Classical, Medieval and Renaissance wonders.";
+
+// card - civilPrestige:
+"TXT_KEY_POLICY_CARD_CIVIL_PRESTIGE_TITLE" = "Civil Prestige";
+"TXT_KEY_POLICY_CARD_CIVIL_PRESTIGE_BONUS" = "Established [Governor] Governors with at least 2 [Promotion] Promotions provide +1 [Amenities] Amenity and +2 [Housing] Housing.";
+
+// renaissance
+
+// card - colonialOffices
+"TXT_KEY_POLICY_CARD_COLONIAL_OFFICE_TITLE" = "Colonial Offices";
+"TXT_KEY_POLICY_CARD_COLONIAL_OFFICE_BONUS" = "+15% faster growth and 3 Loyalty per turn for cities not on your original [Capital] Capital's continent.";
+
+// card - invention
+"TXT_KEY_POLICY_CARD_INVENTION_TITLE" = "Invention";
+"TXT_KEY_POLICY_CARD_INVENTION_BONUS" = "+4 [GreatEngineer] Great Engineer points per turn. +2 additional [GreatEngineer] Great Engineer points for every Workshop.";
+
+// card - frescoes
+"TXT_KEY_POLICY_CARD_FRESCOES_TITLE" = "Frescoes";
+"TXT_KEY_POLICY_CARD_FRESCOES_BONUS" = "+2 [GreatArtist] Great Artist points per turn. +2 additional [GreatArtist] Great Artist points for every Art Museum.";
+
+// card - machiavellianism
+"TXT_KEY_POLICY_CARD_MACHIAVELLIANISM_TITLE" = "Machiavellianism";
+"TXT_KEY_POLICY_CARD_MACHIAVELLIANISM_BONUS" = "+50% [Production] Production towards Spies. Spy operations take 25% less time.";
+
+// card - warsOfReligion
+"TXT_KEY_POLICY_CARD_WARS_OF_RELIGION_TITLE" = "Wars of Religion";
+"TXT_KEY_POLICY_CARD_WARS_OF_RELIGION_BONUS" = "+4 [Strength] Combat Strength when fighting civilizations that follow other religions.";
+
+// card - simultaneum
+"TXT_KEY_POLICY_CARD_SIMULTANEUM_TITLE" = "Simultaneum";
+"TXT_KEY_POLICY_CARD_SIMULTANEUM_BONUS" = "Extra [Faith] Faith from buildings in Holy Sites: +50% if city [Citizen] population is 15 or higher, +50% if district has at least +4 adjacency bonus.";
+
+// card - religiousOrders
+"TXT_KEY_POLICY_CARD_RELIGIOUS_ORDERS_TITLE" = "Religious Orders";
+"TXT_KEY_POLICY_CARD_RELIGIOUS_ORDERS_BONUS" = "All religious units gain +5 [ReligiousStrength] Religious Strength in theological combat.";
+
+// card - logistics
+"TXT_KEY_POLICY_CARD_LOGISTICS_TITLE" = "Logistics";
+"TXT_KEY_POLICY_CARD_LOGISTICS_BONUS" = "+1 [Movement] Movement if starting turn in friendly territory.";
+
+// card - triangularTrade
+"TXT_KEY_POLICY_CARD_TRIANGULAR_TRADE_TITLE" = "Triangular Trade";
+"TXT_KEY_POLICY_CARD_TRIANGULAR_TRADE_BONUS" = "+4 [Gold] Gold and +1 [Faith] Faith from all [TradeRoute] Trade Routes.";
+
+// card - drillManuals
+"TXT_KEY_POLICY_CARD_DRILL_MANUALS_TITLE" = "Drill Manuals";
+"TXT_KEY_POLICY_CARD_DRILL_MANUALS_BONUS" = "All improved [Niter] Niter and [Coal] Coal resources yield 1 additional resource per turn.";
+
+// card - rationalism
+"TXT_KEY_POLICY_CARD_RATIONALISM_TITLE" = "Rationalism";
+"TXT_KEY_POLICY_CARD_RATIONALISM_BONUS" = "Extra [Science] Science from buildings in Campuses: +50% if city [Citizen] population is 15 or higher, +50% if district has at least +4 adjacency bonus.";
+
+// card - freeMarket
+"TXT_KEY_POLICY_CARD_FREE_MARKET_TITLE" = "Free Market";
+"TXT_KEY_POLICY_CARD_FREE_MARKET_BONUS" = "Extra [Gold] Gold from buildings in Commercial Hubs: +50% if city [Citizen] population is 15 or higher, +50% if district has at least +4 adjacency bonus.";
+
+// card - liberalism
+"TXT_KEY_POLICY_CARD_LIBERALISM_TITLE" = "Liberalism";
+"TXT_KEY_POLICY_CARD_LIBERALISM_BONUS" = "+1 [Amenities] Amenity to all cities with at least 2 specialty districts.";
+
+// card - wisselbanken
+"TXT_KEY_POLICY_CARD_WISSELBANKEN_TITLE" = "Wisselbanken";
+"TXT_KEY_POLICY_CARD_WISSELBANKEN_BONUS" = "Your [TradeRoute] Trade Routes to an Ally's city or a city-state you are the Suzerain of provide +2 [Food] Food and +2 [Production] Production for both cities. Alliance Points with each ally grow 25% faster.";
+
+// card - pressGangs
+"TXT_KEY_POLICY_CARD_PRESS_GANGS_TITLE" = "Press Gangs";
+"TXT_KEY_POLICY_CARD_PRESS_GANGS_BONUS" = "+100% [Production] Production towards Industrial era and earlier naval units.";
+
+// industrial
+
+// card - nativeConquest
+"TXT_KEY_POLICY_CARD_NATIVE_CONQUEST_TITLE" = "Native Conquest";
+"TXT_KEY_POLICY_CARD_NATIVE_CONQUEST_BONUS" = "Combat victories over units from earlier eras provide [Gold] Gold equal to 50% of the [Strength] Combat Strength of the defeated unit.";
+
+// card - grandeArmee
+"TXT_KEY_POLICY_CARD_GRANDE_ARMEE_TITLE" = "Grande Armée";
+"TXT_KEY_POLICY_CARD_GRANDE_ARMEE_BONUS" = "+50% [Production] Production towards Industrial era and earlier melee, ranged and anti-cavalry units.";
+
+// card - nationalIdentity
+"TXT_KEY_POLICY_CARD_NATIONAL_IDENTITY_TITLE" = "National Identity";
+"TXT_KEY_POLICY_CARD_NATIONAL_IDENTITY_BONUS" = "Units have 50% less [Strength] Combat Strength reduction from being injured.";
+
+// card - colonialTaxes
+"TXT_KEY_POLICY_CARD_COLONIAL_TAXES_TITLE" = "Colonial Taxes";
+"TXT_KEY_POLICY_CARD_COLONIAL_TAXES_BONUS" = "+25% [Gold] Gold and +10% [Production] Production in cities not on your original [Capital] Capital's continent.";
+
+// card - raj
+"TXT_KEY_POLICY_CARD_RAJ_TITLE" = "Raj";
+"TXT_KEY_POLICY_CARD_RAJ_BONUS" = "+2 [Science] Science, [Culture] Culture, [Faith] Faith and [Gold] Gold from each city-state you are Suzerain of. +2 [Gold] Gold for [TradeRoute] Trade Routes to city-states.";
+
+// card - publicWorks
+"TXT_KEY_POLICY_CARD_PUBLIC_WORKS_TITLE" = "Public Works";
+"TXT_KEY_POLICY_CARD_PUBLIC_WORKS_BONUS" = "+30% [Production] Production towards Builders. Newly trained Builders gain 2 additional Build actions.";
+
+// card - skyscrapers
+"TXT_KEY_POLICY_CARD_SKYSCRAPERS_TITLE" = "Skyscrapers";
+"TXT_KEY_POLICY_CARD_SKYSCRAPERS_BONUS" = "+15% [Production] Production towards all Wonders.";
+
+// card - grandOpera
+"TXT_KEY_POLICY_CARD_GRAND_OPERA_TITLE" = "Grand Opera";
+"TXT_KEY_POLICY_CARD_GRAND_OPERA_BONUS" = "Extra [Culture] Culture from buildings in Theater Squares: +50% if city [Citizen] population is 15 or higher, +50% if district has at least +4 adjacency bonus.";
+
+// card - symphonies
+"TXT_KEY_POLICY_CARD_SYMPHONIES_TITLE" = "Symphonies";
+"TXT_KEY_POLICY_CARD_SYMPHONIES_BONUS" = "+4 [GreatMusician] Great Musician points per turn. +4 additional [GreatMusician] Great Musician points for every Broadcast Center.";
+
+// card - publicTransport
+"TXT_KEY_POLICY_CARD_PUBLIC_TRANSPORT_TITLE" = "Public Transport";
+"TXT_KEY_POLICY_CARD_PUBLIC_TRANSPORT_BONUS" = "Neighborhoods with Charming Appeal receive +3 [Food] Food and +1 [Production] Production. Neighborhoods with Breathtaking Appeal receive an additional 1 [Food] Food and 1 [Production] Production. All Neighborhoods receive +1 [Gold] Gold.";
+
+// card - militaryResearch
+"TXT_KEY_POLICY_CARD_MILITARY_RESEARCH_TITLE" = "Military Research";
+"TXT_KEY_POLICY_CARD_MILITARY_RESEARCH_BONUS" = "Military Academies, Seaports, and Renaissance Walls generate +2 [Science] Science.";
+
+// card - forceModernization
+"TXT_KEY_POLICY_CARD_FORCE_MODERNIZATION_TITLE" = "Force Modernization";
+"TXT_KEY_POLICY_CARD_FORCE_MODERNIZATION_BONUS" = "50% [Gold] Gold and resource discount on all unit upgrades.";
+
+// card - totalWar
+"TXT_KEY_POLICY_CARD_TOTAL_WAR_TITLE" = "Total War";
+"TXT_KEY_POLICY_CARD_TOTAL_WAR_BONUS" = "Yields gained from pillaging and coastal raids are +100%. +50% rewards for plundering [TradeRoute] Trade Routes.";
+
+// card - expropriation
+"TXT_KEY_POLICY_CARD_EXPROPRIATION_TITLE" = "Expropriation";
+"TXT_KEY_POLICY_CARD_EXPROPRIATION_BONUS" = "Settler cost reduced by 50%. Plot purchase cost reduced by 20%.";
+
+// card - militaryOrganization
+"TXT_KEY_POLICY_CARD_MILITARY_ORGANIZATION_TITLE" = "Military Organization";
+"TXT_KEY_POLICY_CARD_MILITARY_ORGANIZATION_BONUS" = "+2 [GreatGeneral] Great General points for every Armory and +4 [GreatGeneral] Great General points for every Military Academy. [GreatGeneral] Great Generals receive +2 [Movement] Movement.";
+
+// modern
+
+// card - resourceManagement:
+"TXT_KEY_POLICY_CARD_RESOURCE_MANAGEMENT_TITLE" = "Resource Management";
+"TXT_KEY_POLICY_CARD_RESOURCE_MANAGEMENT_BONUS" = "All improved [Aluminum] Aluminum and [Oil] Oil resources yield 1 additional resource per turn.";
+
+// card - propaganda
+"TXT_KEY_POLICY_CARD_PROPAGANDA_TITLE" = "Propaganda";
+"TXT_KEY_POLICY_CARD_PROPAGANDA_BONUS" = "Accumulate 25% less war weariness than usual.";
+
+// card - leveeEnMasse
+"TXT_KEY_POLICY_CARD_LEVEE_EN_MASSE_TITLE" = "Levée en Masse";
+"TXT_KEY_POLICY_CARD_LEVEE_EN_MASSE_BONUS" = "Unit maintenance cost reduced by 2 [Gold] Gold per unit.";
+
+// card - laissezFaire
+"TXT_KEY_POLICY_CARD_LAISSEZ_FAIRE_TITLE" = "Laissez-Faire";
+"TXT_KEY_POLICY_CARD_LAISSEZ_FAIRE_BONUS" = "+2 [GreatMerchant] Great Merchant points for every Bank and +4 [GreatMerchant] Great Merchant points for every Stock Exchange. +2 [GreatAdmiral] Great Admiral points for every Shipyard and +4 [GreatAdmiral] Great Admiral points for every Seaport.";
+
+// card - marketEconomy
+"TXT_KEY_POLICY_CARD_MARKET_ECONOMY_TITLE" = "Market Economy";
+"TXT_KEY_POLICY_CARD_MARKET_ECONOMY_BONUS" = "Your international [TradeRoute] Trade Routes provide +1 [Gold] Gold, +2 [Culture] Culture, and +2 [Science] Science per Strategic Resource improved at the destination.";
+
+// card - policyState
+"TXT_KEY_POLICY_CARD_POLICY_STATE_TITLE" = "Police State";
+"TXT_KEY_POLICY_CARD_POLICY_STATE_BONUS" = "Enemy Spies level reduced by 2 in your lands. However all cities suffer -2 Loyalty per turn.";
+
+// card - nobelPrize
+"TXT_KEY_POLICY_CARD_NOBEL_PRIZE_TITLE" = "Nobel Prize";
+"TXT_KEY_POLICY_CARD_NOBEL_PRIZE_BONUS" = "+4 [GreatScientist] Great Scientist points per turn.";
+
+// card - scienceFoundations
+"TXT_KEY_POLICY_CARD_SCIENCE_FOUNDATIONS_TITLE" = "Science Foundations";
+"TXT_KEY_POLICY_CARD_SCIENCE_FOUNDATIONS_BONUS" = "+2 [GreatScientist] Great Scientist points for every University and +4 [GreatScientist] Great Scientist points for every Research Lab. +2 [GreatEngineer] Great Engineer points for every Factory and +4 [GreatEngineer] Great Engineer points for every Power Plant.";
+
+// card - nuclearEspionage
+"TXT_KEY_POLICY_CARD_NUCLEAR_ESPIONAGE_TITLE" = "Nuclear Espionage";
+"TXT_KEY_POLICY_CARD_NUCLEAR_ESPIONAGE_BONUS" = "Spies who steal a tech boost without being detected gain an extra boost.";
+
+// card - economicUnion
+"TXT_KEY_POLICY_CARD_ECONOMIC_UNION_TITLE" = "Economic Union";
+"TXT_KEY_POLICY_CARD_ECONOMIC_UNION_BONUS" = "+100% Commercial Hub and Harbor district adjacency bonuses.";
+
+// card - theirFinestHour
+"TXT_KEY_POLICY_CARD_THEIR_FINEST_HOUR_TITLE" = "Their Finest Hour";
+"TXT_KEY_POLICY_CARD_THEIR_FINEST_HOUR_BONUS" = "All units +5 [Strength] Combat Strength when fighting in or adjacent to their home territory.";
+
+// card - arsenalOfDemocracy
+"TXT_KEY_POLICY_CARD_ARSENAL_OF_DEMOCRACY_TITLE" = "Arsenal of Democracy";
+"TXT_KEY_POLICY_CARD_ARSENAL_OF_DEMOCRACY_BONUS" = "Your [TradeRoute] Trade Routes to an Ally's city provide +4 [Food] Food and +4 [Production] Production for both cities. Alliance Points with each ally grow 25% faster.";
+
+// card - newDeal
+"TXT_KEY_POLICY_CARD_NEW_DEAL_TITLE" = "New Deal";
+"TXT_KEY_POLICY_CARD_NEW_DEAL_BONUS" = "+4 [Housing] Housing and +2 [Amenities] Amenities to all cities with at least 3 specialty districts.";
+
+// card - lightningWarfare
+"TXT_KEY_POLICY_CARD_LIGHTNING_WARFARE_TITLE" = "Lightning Warfare";
+"TXT_KEY_POLICY_CARD_LIGHTNING_WARFARE_BONUS" = "+50% [Production] Production for all heavy and light cavalry units.";
+
+// card - thirdAlternative
+"TXT_KEY_POLICY_CARD_THIRD_ALTERNATIVE_TITLE" = "Third Alternative";
+"TXT_KEY_POLICY_CARD_THIRD_ALTERNATIVE_BONUS" = "+2 [Culture] Culture and +4 [Gold] Gold from each Research Lab, Military Academy, Coal Power Plant, Oil Power Plant, and Nuclear Power Plant.";
+
+// card - martialLaw
+"TXT_KEY_POLICY_CARD_MARTIAL_LAW_TITLE" = "Martial Law";
+"TXT_KEY_POLICY_CARD_MARTIAL_LAW_BONUS" = "Accumulate 25% less war weariness than usual. Cities with a garrisoned unit get +4 Loyalty per turn.";
+
+// card - gunboatDiplomacy
+"TXT_KEY_POLICY_CARD_GUNBOAT_DIPLOMACY_TITLE" = "Gunboat Diplomacy";
+"TXT_KEY_POLICY_CARD_GUNBOAT_DIPLOMACY_BONUS" = "Open Borders with all City-States, and +4 influence points per turn towards earning [Envoy] Envoys.";
+
+// card - fiveYearPlan
+"TXT_KEY_POLICY_CARD_FIVE_YEAR_PLAN_TITLE" = "Five-Year Plan";
+"TXT_KEY_POLICY_CARD_FIVE_YEAR_PLAN_BONUS" = "+100% Campus and Industrial Zone district adjacency bonuses.";
+
+// card - collectivization
+"TXT_KEY_POLICY_CARD_COLLECTIVIZATION_TITLE" = "Collectivization";
+"TXT_KEY_POLICY_CARD_COLLECTIVIZATION_BONUS" = "+2 [Production] Production and +4 [Food] Food from domestic [TradeRoute] Trade Routes.";
+
+// card - patrioticWar
+"TXT_KEY_POLICY_CARD_PATRIOTIC_WAR_TITLE" = "Patriotic War";
+"TXT_KEY_POLICY_CARD_PATRIOTIC_WAR_BONUS" = "+100% [Production] Production towards Modern, Atomic and Information era support units.";
+
+// card - defenseOfTheMotherland
+"TXT_KEY_POLICY_CARD_DEFENSE_OF_THE_MOTHERLAND_TITLE" = "Defense of the Motherland";
+"TXT_KEY_POLICY_CARD_DEFENSE_OF_THE_MOTHERLAND_BONUS" = "No war weariness from combat in your territory. +100% [Production] Production for Modern, Atomic, and Information era support units.";
+
+// atomic
+
+// card - cryptography
+"TXT_KEY_POLICY_CARD_CRYPTOGRAPHY_TITLE" = "Cryptography";
+"TXT_KEY_POLICY_CARD_CRYPTOGRAPHY_BONUS" = "Enemy Spy level reduced by 2 in your lands. Your Spy level is increased by 1 for offensive operations.";
+
+// card - internationalWaters
+"TXT_KEY_POLICY_CARD_INTERNATIONAL_WATERS_TITLE" = "International Waters";
+"TXT_KEY_POLICY_CARD_INTERNATIONAL_WATERS_BONUS" = "+100% [Production] Production towards all naval units, excluding Carriers.";
+
+// card - containment
+"TXT_KEY_POLICY_CARD_CONTAINMENT_TITLE" = "Containment";
+"TXT_KEY_POLICY_CARD_CONTAINMENT_BONUS" = "Each [Envoy] Envoy you send to a City-State counts as two, if its Suzerain has different government than you.";
+
+// card - heritageTourism
+"TXT_KEY_POLICY_CARD_HERITAGE_TOURISM_TITLE" = "Heritage Tourism";
+"TXT_KEY_POLICY_CARD_HERITAGE_TOURISM_BONUS" = "+100% [Tourism] Tourism from Great Works and [Artifact] Artifacts.";
+
+// card - sportsMedia
+"TXT_KEY_POLICY_CARD_SPORTS_MEDIA_TITLE" = "Sports Media";
+"TXT_KEY_POLICY_CARD_SPORTS_MEDIA_BONUS" = "+100% Theater Square district adjacency bonuses, and Stadiums generate +1 [Amenities] Amenity.";
+
+// card - militaryFirst
+"TXT_KEY_POLICY_CARD_MILITARY_FIRST_TITLE" = "Military First";
+"TXT_KEY_POLICY_CARD_MILITARY_FIRST_BONUS" = "+50% [Production] Production toward all melee, anti-cavalry and ranged units.";
+
+// card - satelliteBroadcasts
+"TXT_KEY_POLICY_CARD_SATELLITE_BROADCASTS_TITLE" = "Satellite Broadcasts";
+"TXT_KEY_POLICY_CARD_SATELLITE_BROADCASTS_BONUS" = "+200% [Tourism] Tourism from Great Work of Music Great Works of Music.";
+
+// card - musicCensorship
+"TXT_KEY_POLICY_CARD_MUSIC_CENSORSHIP_TITLE" = "Music Censorship";
+"TXT_KEY_POLICY_CARD_MUSIC_CENSORSHIP_BONUS" = "Rock Bands from other players may not enter your territory. -1 [Amenities] Amenity in all of your cities with 10 or more [Citizen] Population.";
+
+// card - integratedSpaceCell
+"TXT_KEY_POLICY_CARD_INTEGRATED_SPACE_CELL_TITLE" = "Integrated Space Cell";
+"TXT_KEY_POLICY_CARD_INTEGRATED_SPACE_CELL_BONUS" = "+15% [Production] Production towards Space Race projects if a city has either a Military Academy or a Seaport.";
+
+// card - secondStrikeCapability
+"TXT_KEY_POLICY_CARD_SECOND_STRIKE_CAPABILITY_TITLE" = "Second Strike Capability";
+"TXT_KEY_POLICY_CARD_SECOND_STRIKE_CAPABILITY_BONUS" = "Nuclear Device maintenance reduced by 50% [Gold] Gold per turn.";
+
+// information
+
+// card - strategicAirForce
+"TXT_KEY_POLICY_CARD_STRATEGIC_AIR_FORCE_TITLE" = "Strategic Air Force";
+"TXT_KEY_POLICY_CARD_STRATEGIC_AIR_FORCE_BONUS" = "+50% [Production] Production toward all air units and toward Carriers.";
+
+// card - ecommerce
+"TXT_KEY_POLICY_CARD_ECOMMERCE_TITLE" = "Ecommerce";
+"TXT_KEY_POLICY_CARD_ECOMMERCE_BONUS" = "+2 [Production] Production and +5 [Gold] Gold from all [TradeRoute] Trade Routes.";
+
+// card - internationalSpaceAgency
+"TXT_KEY_POLICY_CARD_INTERNATIONAL_SPACE_AGENCY_TITLE" = "International Space Agency";
+"TXT_KEY_POLICY_CARD_INTERNATIONAL_SPACE_AGENCY_BONUS" = "5% [Science] Science per City-State you are the Suzerain of.";
+
+// card - onlineCommunities
+"TXT_KEY_POLICY_CARD_ONLINE_COMMUNITIES_TITLE" = "Online Communities";
+"TXT_KEY_POLICY_CARD_ONLINE_COMMUNITIES_BONUS" = "+50% [Tourism] Tourism output to civilizations to which you have a [TradeRoute] Trade Route.";
+
+// card - collectiveActivism
+"TXT_KEY_POLICY_CARD_COLLECTIVE_ACTIVISM_TITLE" = "Collective Activism";
+"TXT_KEY_POLICY_CARD_COLLECTIVE_ACTIVISM_BONUS" = "5% [Culture] Culture per City-State you are the Suzerain of.";
+
+// card - afterActionReports
+"TXT_KEY_POLICY_CARD_AFTER_ACTION_REPORTS_TITLE" = "After Action Reports";
+"TXT_KEY_POLICY_CARD_AFTER_ACTION_REPORTS_BONUS" = "All units gain +50% combat experience.";
+
+// card - communicationsOffice
+"TXT_KEY_POLICY_CARD_COMMUNICATIONS_OFFICE_TITLE" = "Communications Office";
+"TXT_KEY_POLICY_CARD_COMMUNICATIONS_OFFICE_BONUS" = "Governors provide +1 Loyalty per turn to their city, per Promotion the Governor has.";
+
+// card - aerospaceContractors
+"TXT_KEY_POLICY_CARD_AEROSPACE_CONTRACTORS_TITLE" = "Aerospace Contractors";
+"TXT_KEY_POLICY_CARD_AEROSPACE_CONTRACTORS_BONUS" = "Cities with a Spaceport gain +3 [Aluminum] Aluminum per turn and +3 [Power] Power.";
+
+// future
+
+// card - spaceTourism
+"TXT_KEY_POLICY_CARD_SPACE_TOURISM_TITLE" = "Space Tourism";
+"TXT_KEY_POLICY_CARD_SPACE_TOURISM_BONUS" = "[Tourism] Tourism from other players is reduced by 20% versus your civilization.";
+
+// card - hallyu
+"TXT_KEY_POLICY_CARD_HALLYU_TITLE" = "Hallyu";
+"TXT_KEY_POLICY_CARD_HALLYU_BONUS" = "Your Rock Band units can choose from any possible [Promotion] Promotion.";
+
+// card - nonStateActors
+"TXT_KEY_POLICY_CARD_NONE_STATE_ACTORS_TITLE" = "Non-State Actors";
+"TXT_KEY_POLICY_CARD_NONE_STATE_ACTORS_BONUS" = "Your Spy units can choose from any possible [Promotion] Promotion.";
+
+// card - integratedAttackLogistics
+"TXT_KEY_POLICY_CARD_INTEGRATED_ATTACK_LOGISTICS_TITLE" = "Integrated Attack Logistics";
+"TXT_KEY_POLICY_CARD_INTEGRATED_ATTACK_LOGISTICS_BONUS" = "+1 [Movement] Movement if starting turn in enemy territory. +50% [Production] Production for Giant Death Robots.";
+
+// card - rabblerousing
+"TXT_KEY_POLICY_CARD_RABBLEROUSING_TITLE" = "Rabblerousing";
+"TXT_KEY_POLICY_CARD_RABBLEROUSING_BONUS" = "When you reduce a player's Diplomatic Victory points in the World Congress, get 50% of your spent [DiplomaticFavor] Diplomatic Favor back. +1 [DiplomaticFavor] Diplomatic Favor per turn.";
+
+// card - diplomaticCapital
+"TXT_KEY_POLICY_CARD_DIPLOMATIC_CAPITAL_TITLE" = "Diplomatic Capital";
+"TXT_KEY_POLICY_CARD_DIPLOMATIC_CAPITAL_BONUS" = "+4 [DiplomaticFavor] Diplomatic Favor per turn.";
+
+// card - globalCoalition
+"TXT_KEY_POLICY_CARD_GLOBAL_COALITION_TITLE" = "Global Coalition";
+"TXT_KEY_POLICY_CARD_GLOBAL_COALITION_BONUS" = "+7 [Strength] Combat Strength for units in friendly territory.";
+
+// dark age
+
+// card - automatedWorkforce
+"TXT_KEY_POLICY_CARD_AUTOMATED_WORKFORCE_TITLE" = "Automated Workforce";
+"TXT_KEY_POLICY_CARD_AUTOMATED_WORKFORCE_BONUS" = "Your cities get +20% [Production] Production towards city projects. BUT: -1 [Amenity] Amenity and -5 Loyalty per turn in your cities.";
+
+// card - collectivism
+"TXT_KEY_POLICY_CARD_COLLECTIVISM_TITLE" = "Collectivism";
+"TXT_KEY_POLICY_CARD_COLLECTIVISM_BONUS" = "Farms +1 [Food] Food. All cities +2 [Housing] Housing. +100% Industrial Zone adjacency bonuses. BUT: [GreatPerson] Great People Points earned 50% slower.";
+
+// card - cyberWarfare
+"TXT_KEY_POLICY_CARD_CYBER_WARFARE_TITLE" = "Cyber Warfare";
+"TXT_KEY_POLICY_CARD_CYBER_WARFARE_BONUS" = "+10 [Strength] Combat Strength against units from Information and Future Eras. BUT: [Grievances] Grievances against you do not decay.";
+
+// card - decentralization
+"TXT_KEY_POLICY_CARD_DECENTRALIZATION_TITLE" = "Decentralization";
+"TXT_KEY_POLICY_CARD_DECENTRALIZATION_BONUS" = "Cities with 6 or less [Citizen] population receive +4 Loyalty per turn. BUT: Cities with more than 6 Citizen population receive -15% [Gold] Gold.";
+
+// card - despoticPaternalism
+"TXT_KEY_POLICY_CARD_DESPOTIC_PATERNALISM_TITLE" = "Despotic Paternalism";
+"TXT_KEY_POLICY_CARD_DESPOTIC_PATERNALISM_BONUS" = "+4 Loyalty per turn in cities with [Governor] Governors. BUT: -15% [Science] Science and -15% [Culture] Culture in all cities without an established [Governor] Governor.";
+
+// card - disinformationCampaign
+"TXT_KEY_POLICY_CARD_DISINFORMATION_CAMPAIGN_TITLE" = "Disinformation Campaign";
+"TXT_KEY_POLICY_CARD_DISINFORMATION_CAMPAIGN_BONUS" = "+3 [DiplomaticFavor] Diplomatic Favor per turn for each Broadcast Center. BUT: -10% [Science] Science and [Culture] Culture in all cities.";
+
+// card - eliteForces
+"TXT_KEY_POLICY_CARD_ELITE_FORCES_TITLE" = "Elite Forces";
+"TXT_KEY_POLICY_CARD_ELITE_FORCES_BONUS" = "+100% combat experience for all units. BUT: +2 [Gold] Gold to maintain each military unit.";
+
+// card - flowerPower
+"TXT_KEY_POLICY_CARD_FLOWER_POWER_TITLE" = "Flower Power";
+"TXT_KEY_POLICY_CARD_FLOWER_POWER_BONUS" = "All civilizations not currently at war receive +100% of the [Tourism] Tourism from your Concerts. BUT: The cost of producing and purchasing land units other than Rock Bands is increased by +100%.";
+
+// card - inquisition
+"TXT_KEY_POLICY_CARD_INQUISITION_TITLE" = "Inquisition";
+"TXT_KEY_POLICY_CARD_INQUISITION_BONUS" = "Start Inquisition with 1 Apostle charge. All religious units are +15 [ReligiousStrength] Religious Combat Strength in friendly territory. BUT: -25% [Science] Science in all cities.";
+
+// card - isolationism
+"TXT_KEY_POLICY_CARD_ISOLATIONISM_TITLE" = "Isolationism";
+"TXT_KEY_POLICY_CARD_ISOLATIONISM_BONUS" = "Domestic routes provide +2 [Food] Food, +2 [Production] Production. BUT: Can't train or buy Settlers nor settle new cities.";
+
+// card - lettersOfMarque
+"TXT_KEY_POLICY_CARD_LETTERS_OF_MARQUE_TITLE" = "Letters of Marque";
+"TXT_KEY_POLICY_CARD_LETTERS_OF_MARQUE_BONUS" = "Naval Raiders: +100% [Production] Production, +2 [Movement] Movement. Yields doubled from plundering [TradeRoute] Trade Routes. BUT: [TradeRoute] Trade Route yields -50%.";
+
+// card - monasticism
+"TXT_KEY_POLICY_CARD_MONASTICISM_TITLE" = "Monasticism";
+"TXT_KEY_POLICY_CARD_MONASTICISM_BONUS" = "+75% [Science] Science in cities with a Holy Site. BUT: -25% [Culture] Culture in all cities.";
+
+// card - robberBarons
+"TXT_KEY_POLICY_CARD_ROBBER_BARONS_TITLE" = "Robber Barons";
+"TXT_KEY_POLICY_CARD_ROBBER_BARONS_BONUS" = "+50% [Gold] Gold in cities with a Stock Exchange. +25% [Production] Production in cities with a Factory. BUT: -2 [Amenities] Amenities in all cities.";
+
+// card - rogueState
+"TXT_KEY_POLICY_CARD_ROGUE_STATE_TITLE" = "Rogue State";
+"TXT_KEY_POLICY_CARD_ROGUE_STATE_BONUS" = "+50% [Production] Production to nuclear program projects and WMDs. BUT: Earn no influence toward new [Envoy] Envoys.";
+
+// card - samoderzhaviye
+"TXT_KEY_POLICY_CARD_SAMODERZHAVIYE_TITLE" = "Samoderzhaviye";
+"TXT_KEY_POLICY_CARD_SAMODERZHAVIYE_BONUS" = "+50% [Production] Production in your [Capital] Capital. BUT: All [Governor] Governors are neutralized and cannot be reestablished.";
+
+// card - softTargets
+"TXT_KEY_POLICY_CARD_SOFT_TARGETS_TITLE" = "Soft Targets";
+"TXT_KEY_POLICY_CARD_SOFT_TARGETS_BONUS" = "+10 [Strength] Combat Strength vs. city attacks and district defenses. BUT: -3 [Strength] Combat Strength against units.";
+
+// card - twilightValor
+"TXT_KEY_POLICY_CARD_TWILIGHT_VALOR_TITLE" = "Twilight Valor";
+"TXT_KEY_POLICY_CARD_TWILIGHT_VALOR_BONUS" = "All units +5 [Strength] Combat Strength for all melee attack units. BUT: Cannot heal outside your territory.";
