@@ -137,7 +137,7 @@ public enum WonderType: Int, Codable {
             return flavor.value
         }
 
-        return 0
+        return DistrictType.defaultFlavorValue
     }
 
     private func flavours() -> [Flavor] {
@@ -1477,7 +1477,7 @@ public enum WonderType: Int, Codable {
                 return false
             }
 
-            return self.adjacentTo(district: .industrial, on: point, in: gameModel)
+            return self.adjacentTo(district: .industrialZone, on: point, in: gameModel)
         }
     }
 }

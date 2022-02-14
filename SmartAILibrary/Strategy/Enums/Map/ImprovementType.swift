@@ -845,7 +845,7 @@ public enum ImprovementType: Int, Codable, Hashable {
             return modifier.value
         }
 
-        return 0
+        return DistrictType.defaultFlavorValue
     }
 
     func flavors() -> [Flavor] {

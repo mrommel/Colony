@@ -176,7 +176,7 @@ public enum ResourceType: Int, Codable {
             return modifier.value
         }
 
-        return 0
+        return DistrictType.defaultFlavorValue
     }
 
     func flavors() -> [Flavor] {

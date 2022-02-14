@@ -130,6 +130,6 @@ class GovernmentTypeTests: XCTestCase {
         let hasUrbanPlanning = self.objectToTest?.has(card: .urbanPlanning)
         XCTAssertEqual(hasSurvey, true)
         XCTAssertEqual(hasUrbanPlanning, true)
-        print(self.objectToTest?.policyCardSet().cards())
+        // print(self.objectToTest?.policyCardSet().cards())
     }
 }

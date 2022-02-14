@@ -290,7 +290,7 @@ public enum UnitPromotionType: Int, Codable {
             return modifier.value
         }
 
-        return 0
+        return DistrictType.defaultFlavorValue
     }
 
     private func flavors() -> [Flavor] {

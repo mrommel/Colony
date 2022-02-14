@@ -192,4 +192,44 @@ class CityDistrictTests: XCTestCase {
         XCTAssertEqual(hasBuiltFirstHarbor, true)
         XCTAssertEqual(canBuildAnotherHarbor, false)
     }
+
+    func testCantBuiltCommercialHubTwice() throws {
+
+        // GIVEN
+        try self.playerAlexander?.techs?.discover(tech: .currency, in: self.gameModel)
+        let canBuildFirstCommercialHub = self.objectToTest!.canBuild(district: .commercialHub, at: HexPoint(x: 2, y: 1), in: self.gameModel)
+        let hasBuiltFirstCommercialHub = self.objectToTest!.purchase(district: .commercialHub, at: HexPoint(x: 2, y: 1), in: self.gameModel)
+
+        // WHEN
+        let canBuildAnotherCommercialHub = self.objectToTest!.canBuild(district: .commercialHub, at: HexPoint(x: 3, y: 1), in: self.gameModel)
+
+        // THEN
+        XCTAssertEqual(canBuildFirstCommercialHub, true)
+        XCTAssertEqual(hasBuiltFirstCommercialHub, true)
+        XCTAssertEqual(canBuildAnotherCommercialHub, false)
+    }
+
+    func testCantBuiltIndustrialZoneTwice() throws {
+
+        // GIVEN
+        try self.playerAlexander?.techs?.discover(tech: .apprenticeship, in: self.gameModel)
+        let canBuildFirstIndustrialZone = self.objectToTest!.canBuild(district: .industrialZone, at: HexPoint(x: 2, y: 1), in: self.gameModel)
+        let hasBuiltFirstIndustrialZone = self.objectToTest!.purchase(district: .industrialZone, at: HexPoint(x: 2, y: 1), in: self.gameModel)
+
+        // WHEN
+        let canBuildAnotherIndustrialZone = self.objectToTest!.canBuild(district: .industrialZone, at: HexPoint(x: 3, y: 1), in: self.gameModel)
+
+        // THEN
+        XCTAssertEqual(canBuildFirstIndustrialZone, true)
+        XCTAssertEqual(hasBuiltFirstIndustrialZone, true)
+        XCTAssertEqual(canBuildAnotherIndustrialZone, false)
+    }
+
+    // entertainment
+
+    // aqueduct
+    // neighborhood
+
+    // spaceport
+    // governmentPlaza
 }

@@ -97,7 +97,7 @@ public enum GovernorTitleType: Int, Codable {
             return modifier.value
         }
 
-        return 0
+        return DistrictType.defaultFlavorValue
     }
 
     // MARK: private methods

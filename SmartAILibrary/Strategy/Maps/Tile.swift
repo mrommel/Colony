@@ -2163,7 +2163,7 @@ public class Tile: AbstractTile {
                 neighborBadImprovementsCount += 1
             }
 
-            if neighborTile.has(district: .industrial) ||
+            if neighborTile.has(district: .industrialZone) ||
                 neighborTile.has(district: .encampment) ||
                 // neighborTile.has(district: .aerodrome) ||
                 neighborTile.has(district: .spaceport) {

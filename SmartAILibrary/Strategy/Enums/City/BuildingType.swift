@@ -142,7 +142,7 @@ public enum BuildingType: Int, Codable {
             return flavor.value
         }
 
-        return 0
+        return DistrictType.defaultFlavorValue
     }
 
     func flavours() -> [Flavor] {
@@ -767,7 +767,7 @@ public enum BuildingType: Int, Codable {
                 ],
                 category: .production,
                 era: .medieval,
-                district: .industrial,
+                district: .industrialZone,
                 requiredTech: .apprenticeship,
                 requiredCivic: nil,
                 requiredBuilding: nil,

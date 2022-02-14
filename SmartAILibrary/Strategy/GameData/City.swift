@@ -3282,6 +3282,12 @@ public class City: AbstractCity {
             }
         }
 
+        if districtType.oncePerCivilization() {
+            if districts.has(district: districtType) {
+                return false
+            }
+        }
+
         if !districtType.canBuild(on: location, in: gameModel) {
             return false
         }

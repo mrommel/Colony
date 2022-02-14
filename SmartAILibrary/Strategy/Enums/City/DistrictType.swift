@@ -20,7 +20,7 @@ public enum DistrictType: Int, Codable {
     case encampment
     case harbor
     case commercialHub
-    case industrial
+    case industrialZone
     // preserve
     case entertainment
     // waterPark
@@ -30,6 +30,10 @@ public enum DistrictType: Int, Codable {
     // dam
     // areodrome
     case spaceport
+    case governmentPlaza
+    // case diplomaticQuarter
+
+    public static let defaultFlavorValue = 5
 
     public static var all: [DistrictType] {
         return [
@@ -40,7 +44,7 @@ public enum DistrictType: Int, Codable {
             .encampment,
             .harbor,
             .commercialHub,
-            .industrial,
+            .industrialZone,
             // preserve
             .entertainment,
             // waterPark
@@ -49,7 +53,9 @@ public enum DistrictType: Int, Codable {
             // canal
             // dam
             // areodrome
-            .spaceport
+            .spaceport,
+            .governmentPlaza
+            // .diplomaticQuarter,
         ]
     }
 
@@ -100,9 +106,14 @@ public enum DistrictType: Int, Codable {
         return self.data().foreignTradeYields
     }
 
+    public func oncePerCivilization() -> Bool {
+
+        return self.data().oncePerCivilization
+    }
+
     // MARK: private methods / classes
 
-    private struct DistrictTypeData {
+    private class DistrictTypeData {
 
         let name: String
         let specialty: Bool
@@ -116,6 +127,35 @@ public enum DistrictType: Int, Codable {
         let foreignTradeYields: Yields
 
         let flavours: [Flavor]
+        let oncePerCivilization: Bool
+
+        init(
+            name: String,
+            specialty: Bool,
+            effects: [String],
+            productionCost: Int,
+            maintenanceCost: Int,
+            requiredTech: TechType?,
+            requiredCivic: CivicType?,
+            domesticTradeYields: Yields,
+            foreignTradeYields: Yields,
+            flavours: [Flavor],
+            oncePerCivilization: Bool = false) {
+
+                self.name = name
+                self.specialty = specialty
+                self.effects = effects
+                self.productionCost = productionCost
+                self.maintenanceCost = maintenanceCost
+                self.requiredTech = requiredTech
+                self.requiredCivic = requiredCivic
+
+                self.domesticTradeYields = domesticTradeYields
+                self.foreignTradeYields = foreignTradeYields
+
+                self.flavours = flavours
+                self.oncePerCivilization = oncePerCivilization
+        }
     }
 
     // swiftlint:disable line_length
@@ -303,7 +343,7 @@ public enum DistrictType: Int, Codable {
                 name: "Entertainment",
                 specialty: false,
                 effects: [
-                    "+1 Amenity from entertainment to parent city", // #
+                    "+1 [Amenity] Amenity from entertainment to parent city", // #
                     "Amenities from the Zoo and Stadium buildings extend to cities whose City Centers are up to 6 tiles away from the district. (Stacks with Water Park.)", // #
                     "Domestic Destination: +1 [Food] Food.", // #
                     "International Destination: +1 [Food] Food.", // #
@@ -343,11 +383,11 @@ public enum DistrictType: Int, Codable {
                     Flavor(type: .gold, value: 7)
                 ]
             )
-        case .industrial:
+        case .industrialZone:
             // https://civilization.fandom.com/wiki/Industrial_Zone_(Civ6)
             return DistrictTypeData(
                 name: "Industrial Zone",
-                specialty: false,
+                specialty: true,
                 effects: [
                     "Standard bonus (+1 [Production] Production) for each adjacent Mine or a Quarry",
                     "Minor bonus (+½ [Production] Production) for each adjacent district tile",
@@ -397,10 +437,10 @@ public enum DistrictType: Int, Codable {
         case .neighborhood:
             // https://civilization.fandom.com/wiki/Neighborhood_(Civ6)
             return DistrictTypeData(
-                name: "",
+                name: "Neighborhood",
                 specialty: false,
                 effects: [
-                    "A district in your city that provides Housing based on the Appeal of the tile."
+                    "A district in your city that provides [Housing] Housing based on the Appeal of the tile."
                 ],
                 productionCost: 54,
                 maintenanceCost: 0,
@@ -422,9 +462,9 @@ public enum DistrictType: Int, Codable {
             // https://civilization.fandom.com/wiki/Spaceport_(Civ6)
             return DistrictTypeData(
                 name: "Spaceport",
-                specialty: true,
+                specialty: false,
                 effects: [
-                    "Allows development of the Space Race projects, which are the way to Science Victory."
+                    "Allows development of the Space Race projects, which are the way to [Science] Science Victory."
                 ],
                 productionCost: 1800,
                 maintenanceCost: 0,
@@ -435,6 +475,28 @@ public enum DistrictType: Int, Codable {
                 flavours: [
                     Flavor(type: .science, value: 7)
                 ]
+            )
+
+        case .governmentPlaza:
+            // https://civilization.fandom.com/wiki/Government_Plaza_(Civ6)
+            return DistrictTypeData(
+                name: "Government Plaza",
+                specialty: true,
+                effects: [
+                    "+8 Loyalty to this city.",
+                    "+1 adjacency bonus to all adjacent districts.",
+                    "Awards +1 [Governor] Governor Title."
+                ],
+                productionCost: 30,
+                maintenanceCost: 1,
+                requiredTech: nil,
+                requiredCivic: .stateWorkforce,
+                domesticTradeYields: Yields(food: 1, production: 1, gold: 0),
+                foreignTradeYields: Yields(food: 0, production: 0, gold: 2),
+                flavours: [
+                    Flavor(type: .diplomacy, value: 8)
+                ],
+                oncePerCivilization: true
             )
         }
     }
@@ -462,7 +524,7 @@ public enum DistrictType: Int, Codable {
         case .commercialHub: return tile.isLand()
         case .harbor: return gameModel.isCoastal(at: point) // must be built on the coast
         case .entertainment: return tile.isLand()
-        case .industrial: return tile.isLand()
+        case .industrialZone: return tile.isLand()
             // waterPark
         case .aqueduct: return self.canBuildAqueduct(on: tile.point, in: gameModel)
         case .neighborhood: return tile.isLand()
@@ -470,6 +532,7 @@ public enum DistrictType: Int, Codable {
             // dam
             // areodrome
         case .spaceport: return tile.isLand() && !tile.hasHills()
+        case .governmentPlaza: return tile.isLand()
         }
     }
 
@@ -513,7 +576,7 @@ public enum DistrictType: Int, Codable {
             return flavor.value
         }
 
-        return 0
+        return DistrictType.defaultFlavorValue
     }
 
     private func flavours() -> [Flavor] {
