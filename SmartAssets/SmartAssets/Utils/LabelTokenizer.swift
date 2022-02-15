@@ -69,10 +69,13 @@ public enum LabelImageType {
     case inspiration
     case eureka
 
+    case horses
     case niter
     case coal
     case aluminum
     case oil
+    case uranium
+    case iron
 
     static func fromString(value: String) -> LabelImageType {
 
@@ -127,10 +130,13 @@ public enum LabelImageType {
         case "[Inspiration]": return .inspiration
         case "[Eureka]": return .eureka
 
+        case "[Horses]": return .horses
         case "[Niter]": return .niter
         case "[Coal]": return .coal
         case "[Aluminum]": return .aluminum
         case "[Oil]": return .oil
+        case "[Iron]": return .iron
+        case "[Uranium]": return .uranium
 
         default:
             fatalError("Value: '\(value)' not handled.")
@@ -187,10 +193,13 @@ public enum LabelImageType {
         case .inspiration: return Globals.Icons.inspiration
         case .eureka: return Globals.Icons.eureka
 
+        case .horses: return Globals.Icons.horses
         case .niter: return Globals.Icons.niter
         case .coal: return Globals.Icons.coal
         case .aluminum: return Globals.Icons.aluminum
         case .oil: return Globals.Icons.oil
+        case .uranium: return Globals.Icons.uranium
+        case .iron: return Globals.Icons.iron
         }
     }
 }

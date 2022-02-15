@@ -258,6 +258,10 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "eureka")
         }
 
+        public static var horses: NSImage {
+            return Icons.loadCachedTexture(with: "horses")
+        }
+
         public static var niter: NSImage {
             return Icons.loadCachedTexture(with: "niter")
         }
@@ -272,6 +276,14 @@ public extension Globals {
 
         public static var oil: NSImage {
             return Icons.loadCachedTexture(with: "oil")
+        }
+
+        public static var uranium: NSImage {
+            return Icons.loadCachedTexture(with: "uranium")
+        }
+
+        public static var iron: NSImage {
+            return Icons.loadCachedTexture(with: "iron")
         }
     }
 }
