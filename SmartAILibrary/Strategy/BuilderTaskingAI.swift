@@ -154,13 +154,6 @@ public class BuilderTaskingAI {
             self.update(in: gameModel)
         }
 
-        // check for no brainer bail-outs
-        // if the builder is already building something
-        if unit.buildType() != .none {
-
-            return BuilderDirective(type: .buildImprovement, build: unit.buildType(), resource: .none, target: unit.location, moveTurnsAway: 0)
-        }
-
         var tiles: [AbstractTile?] = []
 
         if onlyEvaluateWorkersPlot {
