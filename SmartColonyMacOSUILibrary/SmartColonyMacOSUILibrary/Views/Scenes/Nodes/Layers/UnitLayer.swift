@@ -76,6 +76,28 @@ class UnitLayer: SKNode {
         print("inited with: \(self.unitObjects.count) visible units")
     }
 
+    func areAnimationsFinished() -> Bool {
+
+        var animationsFinished: Bool = true
+
+        for unitObject in self.unitObjects {
+
+            if let topAnimation = unitObject.animationQueue.peek() {
+
+                switch topAnimation {
+
+                case .idle(_):
+                    // NOOP
+                    break
+                default:
+                    animationsFinished = false
+                }
+            }
+        }
+
+        return animationsFinished
+    }
+
     func show(unit: AbstractUnit?, at location: HexPoint) {
 
         guard let gameModel = self.gameModel else {

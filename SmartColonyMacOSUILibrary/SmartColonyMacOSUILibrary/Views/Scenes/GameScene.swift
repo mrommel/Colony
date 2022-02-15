@@ -107,6 +107,13 @@ class GameScene: BaseScene {
             self.viewModel?.shouldRebuild = false
         }
 
+        // update animation checker
+        if let state = self.mapNode?.unitLayer.areAnimationsFinished() {
+            self.viewModel?.animationsAreRunning = !state
+        } else {
+            self.viewModel?.animationsAreRunning = false
+        }
+
         // only check once per 0.5 sec
         if self.lastExecuted + 0.5 < currentTime {
 

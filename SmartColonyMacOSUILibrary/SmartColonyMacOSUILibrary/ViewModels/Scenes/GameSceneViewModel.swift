@@ -66,6 +66,7 @@ public class GameSceneViewModel: ObservableObject {
     private var centerOn: HexPoint?
     private var lens: MapLensType?
     internal var shouldRebuild: Bool = false
+    internal var animationsAreRunning: Bool = false
 
     weak var delegate: GameViewModelDelegate?
 

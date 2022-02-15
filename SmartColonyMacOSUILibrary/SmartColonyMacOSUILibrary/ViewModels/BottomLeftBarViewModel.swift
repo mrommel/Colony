@@ -12,6 +12,7 @@ import SmartAILibrary
 protocol BottomLeftBarViewModelDelegate: AnyObject {
 
     func handleMainButtonClicked()
+    func areAnimationsFinished() -> Bool
 }
 
 enum GameSceneTurnState {
@@ -146,8 +147,21 @@ public class BottomLeftBarViewModel: ObservableObject {
                 self.showButtonImage(from: blockingNotification.type)
             }
         } else {
-            self.showTurnButton()
+            if let delegate = self.delegate {
+                if delegate.areAnimationsFinished() {
+                    // print("--- not finished")
+                    self.showWaitingButton()
+                } else {
+                    // print("--- finished")
+                    self.showTurnButton()
+                }
+            }
         }
+    }
+
+    func showWaitingButton() {
+
+        self.showButtonImage(from: .waiting)
     }
 
     func showTurnButton() {

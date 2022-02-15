@@ -41,6 +41,8 @@ public enum NotificationType {
     case goodyHutDiscovered(location: HexPoint) // 20
     case barbarianCampDiscovered(location: HexPoint) // 21
 
+    case waiting
+
     public static var all: [NotificationType] = [
         .turn,
         .generic,
@@ -63,7 +65,8 @@ public enum NotificationType {
         .canRecruitGreatPerson(greatPerson: .abuAlQasimAlZahrawi),
         .cityConquered(location: HexPoint.invalid),
         .goodyHutDiscovered(location: HexPoint.invalid),
-        .barbarianCampDiscovered(location: HexPoint.invalid)
+        .barbarianCampDiscovered(location: HexPoint.invalid),
+        .waiting
     ]
 
     public func title() -> String {
@@ -114,6 +117,8 @@ public enum NotificationType {
             return "Goodyhut discovered"
         case .barbarianCampDiscovered(location: _):
             return "Barbarian Camp discovered"
+        case .waiting:
+            return "Waiting"
         }
     }
 
@@ -193,6 +198,9 @@ public enum NotificationType {
             }
 
             return "Barbarian Camp discovered"
+
+        case .waiting:
+            return "Waiting"
         }
     }
 
@@ -244,6 +252,8 @@ public enum NotificationType {
             return 20
         case .barbarianCampDiscovered(location: _):
             return 21
+        case .waiting:
+            return 22
         }
     }
 
@@ -332,6 +342,8 @@ extension NotificationType: Codable {
         case 21:
             let location = try container.decode(HexPoint.self, forKey: .locationValue)
             self = .barbarianCampDiscovered(location: location)
+        case 22:
+            self = .waiting
         default:
             fatalError("value \(rawValue) not handled")
         }
@@ -421,6 +433,9 @@ extension NotificationType: Codable {
         case .barbarianCampDiscovered(location: let location):
             try container.encode(21, forKey: .rawValue)
             try container.encode(location, forKey: .locationValue)
+
+        case .waiting:
+            try container.encode(22, forKey: .rawValue)
         }
     }
 }
@@ -480,6 +495,9 @@ extension NotificationType: Equatable {
 
         case (let .barbarianCampDiscovered(location: lhsLocation), let .barbarianCampDiscovered(rhsLocation)):
             return lhsLocation == rhsLocation
+
+        case (.waiting, .waiting):
+            return true
 
         default:
             if lhs.value() == rhs.value() {
@@ -546,6 +564,8 @@ extension NotificationType: Hashable {
         case .barbarianCampDiscovered(location: let location):
             hasher.combine(21)
             hasher.combine(location)
+        case .waiting:
+            hasher.combine(22)
         }
     }
 }

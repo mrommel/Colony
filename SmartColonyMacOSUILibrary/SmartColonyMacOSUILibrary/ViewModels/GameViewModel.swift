@@ -1164,6 +1164,11 @@ extension GameViewModel: BottomRightBarViewModelDelegate {
 
 extension GameViewModel: BottomLeftBarViewModelDelegate {
 
+    func areAnimationsFinished() -> Bool {
+
+        return self.gameSceneViewModel.animationsAreRunning
+    }
+
     func handleMainButtonClicked() {
 
         guard let gameModel = self.gameEnvironment.game.value else {
