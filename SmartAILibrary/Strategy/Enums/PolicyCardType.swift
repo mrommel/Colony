@@ -284,7 +284,7 @@ public enum PolicyCardType: Int, Codable {
         return self.data().darkAge
     }
 
-    // swiftlint:disable function_body_length cyclomatic_complexity line_length
+    // swiftlint:disable function_body_length cyclomatic_complexity
     private func data() -> PolicyCardTypeData {
 
         switch self {

@@ -41,9 +41,9 @@ extension DistrictType {
         case .encampment: return "districtType-encampment"
         case .harbor: return "districtType-harbor"
         case .commercialHub: return "districtType-commercialHub"
-        case .industrial: return "districtType-industrial"
+        case .industrialZone: return "districtType-industrial"
         // preserve
-        case .entertainment: return "districtType-entertainment"
+        case .entertainmentComplex: return "districtType-entertainment"
         // waterPark
         case .aqueduct: return "districtType-aqueduct"
         case .neighborhood: return "districtType-neighborhood"
@@ -51,6 +51,7 @@ extension DistrictType {
         // dam
         // areodrome
         case .spaceport: return "districtType-spaceport"
+        case .governmentPlaza: return "districtType-governmentPlaza"
         }
     }
 
@@ -67,9 +68,9 @@ extension DistrictType {
         case .encampment: return "district-encampment"
         case .harbor: return "district-harbor"
         case .commercialHub: return "district-commercialHub"
-        case .industrial: return "district-industrial"
+        case .industrialZone: return "district-industrial"
         // preserve
-        case .entertainment: return "district-entertainment"
+        case .entertainmentComplex: return "district-entertainment"
         // waterPark
         case .aqueduct: return "district-aqueduct"
         case .neighborhood: return "district-neighborhood"
@@ -77,6 +78,7 @@ extension DistrictType {
         // dam
         // areodrome
         case .spaceport: return "district-spaceport"
+        case .governmentPlaza: return "district-governmentPlaza"
         }
     }
 
@@ -93,9 +95,9 @@ extension DistrictType {
         case .encampment: return "district-building-encampment"
         case .harbor: return "district-building-harbor"
         case .commercialHub: return "district-building-commercialHub"
-        case .industrial: return "district-building-industrial"
+        case .industrialZone: return "district-building-industrial"
         // preserve
-        case .entertainment: return "district-building-entertainment"
+        case .entertainmentComplex: return "district-building-entertainment"
         // waterPark
         case .aqueduct: return "district-building-aqueduct"
         case .neighborhood: return "district-building-neighborhood"
@@ -103,6 +105,7 @@ extension DistrictType {
         // dam
         // areodrome
         case .spaceport: return "district-building-spaceport"
+        case .governmentPlaza: return "district-building-governmentPlaza"
         }
     }
 }

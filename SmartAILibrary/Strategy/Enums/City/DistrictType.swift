@@ -22,7 +22,7 @@ public enum DistrictType: Int, Codable {
     case commercialHub
     case industrialZone
     // preserve
-    case entertainment
+    case entertainmentComplex
     // waterPark
     case aqueduct
     case neighborhood
@@ -46,7 +46,7 @@ public enum DistrictType: Int, Codable {
             .commercialHub,
             .industrialZone,
             // preserve
-            .entertainment,
+            .entertainmentComplex,
             // waterPark
             .aqueduct,
             .neighborhood,
@@ -337,11 +337,11 @@ public enum DistrictType: Int, Codable {
                 ]
             )
 
-        case .entertainment:
+        case .entertainmentComplex:
             // https://civilization.fandom.com/wiki/Entertainment_Complex_(Civ6)
             return DistrictTypeData(
-                name: "Entertainment",
-                specialty: false,
+                name: "Entertainment Complex",
+                specialty: true,
                 effects: [
                     "+1 [Amenity] Amenity from entertainment to parent city", // #
                     "Amenities from the Zoo and Stadium buildings extend to cities whose City Centers are up to 6 tiles away from the district. (Stacks with Water Park.)", // #
@@ -523,7 +523,7 @@ public enum DistrictType: Int, Codable {
         case .encampment: return tile.isLand()
         case .commercialHub: return tile.isLand()
         case .harbor: return gameModel.isCoastal(at: point) // must be built on the coast
-        case .entertainment: return tile.isLand()
+        case .entertainmentComplex: return tile.isLand()
         case .industrialZone: return tile.isLand()
             // waterPark
         case .aqueduct: return self.canBuildAqueduct(on: tile.point, in: gameModel)

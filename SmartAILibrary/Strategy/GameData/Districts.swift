@@ -35,7 +35,7 @@ public protocol AbstractDistricts: Codable {
     func hasAny() -> Bool
     func hasAnySpecialtyDistrict() -> Bool
     func numberOfSpecialtyDistricts() -> Int
-    
+
     func build(district: DistrictType, at location: HexPoint) throws
     func location(of district: DistrictType) -> HexPoint?
 

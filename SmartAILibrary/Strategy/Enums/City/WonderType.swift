@@ -1228,7 +1228,7 @@ public enum WonderType: Int, Codable {
                 return false
             }
 
-            return self.adjacentTo(district: .entertainment, on: point, in: gameModel)
+            return self.adjacentTo(district: .entertainmentComplex, on: point, in: gameModel)
 
         case .colossus:
             // Must be built on Coast and adjacent to a Harbor district.

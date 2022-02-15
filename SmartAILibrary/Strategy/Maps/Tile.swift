@@ -2186,7 +2186,7 @@ public class Tile: AbstractTile {
 
             if neighborTile.has(district: .holySite) ||
                 neighborTile.has(district: .theatherSquare) ||
-                neighborTile.has(district: .entertainment)
+                neighborTile.has(district: .entertainmentComplex)
                 // # water park
                 // # dam
                 // # canal

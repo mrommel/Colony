@@ -29,6 +29,8 @@ class CityDistrictTests: XCTestCase {
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
 
         mapModel.set(terrain: .shore, at: HexPoint(x: 2, y: 2)) // coast for harbor
+        mapModel.set(feature: .mountains, at: HexPoint(x: 2, y: 0)) // mountains for aquaduct
+        mapModel.set(feature: .mountains, at: HexPoint(x: 1, y: 3))
 
         let mapOptions = MapOptions(
             withSize: .duel,
@@ -54,6 +56,7 @@ class CityDistrictTests: XCTestCase {
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: self.playerAlexander)
         self.objectToTest?.initialize(in: self.gameModel)
         self.objectToTest?.set(population: 12, reassignCitizen: true, in: self.gameModel)
+        self.gameModel?.add(city: self.objectToTest)
 
         // buy some plots
         self.playerAlexander?.treasury?.changeGold(by: 1000)
@@ -112,6 +115,8 @@ class CityDistrictTests: XCTestCase {
         XCTAssertEqual(hasBuiltCampus, true)
         XCTAssertEqual(canBuildTheaterSquare, false)
     }
+
+    // check districts that can only be built once per city
 
     func testCantBuiltCampusTwice() throws {
 
@@ -225,11 +230,92 @@ class CityDistrictTests: XCTestCase {
         XCTAssertEqual(canBuildAnotherIndustrialZone, false)
     }
 
-    // entertainment
+    func testCantBuiltEntertainmentComplexTwice() throws {
 
-    // aqueduct
-    // neighborhood
+        // GIVEN
+        try self.playerAlexander?.civics?.discover(civic: .gamesAndRecreation, in: self.gameModel)
+        let canBuildFirstEntertainment = self.objectToTest!.canBuild(district: .entertainmentComplex, at: HexPoint(x: 2, y: 1), in: self.gameModel)
+        let hasBuiltFirstEntertainment = self.objectToTest!.purchase(district: .entertainmentComplex, at: HexPoint(x: 2, y: 1), in: self.gameModel)
 
-    // spaceport
-    // governmentPlaza
+        // WHEN
+        let canBuildAnotherEntertainment = self.objectToTest!.canBuild(district: .entertainmentComplex, at: HexPoint(x: 3, y: 1), in: self.gameModel)
+
+        // THEN
+        XCTAssertEqual(canBuildFirstEntertainment, true)
+        XCTAssertEqual(hasBuiltFirstEntertainment, true)
+        XCTAssertEqual(canBuildAnotherEntertainment, false)
+    }
+
+    // check districts that can be built multiple times per city
+
+    func testCanBuiltAqueductTwice() throws {
+
+        // GIVEN
+        try self.playerAlexander?.techs?.discover(tech: .engineering, in: self.gameModel)
+        let canBuildFirstAqueduct = self.objectToTest!.canBuild(district: .aqueduct, at: HexPoint(x: 1, y: 0), in: self.gameModel)
+        let hasBuiltFirstAqueduct = self.objectToTest!.purchase(district: .aqueduct, at: HexPoint(x: 1, y: 0), in: self.gameModel)
+
+        // WHEN
+        let canBuildAnotherAqueduct = self.objectToTest!.canBuild(district: .aqueduct, at: HexPoint(x: 0, y: 2), in: self.gameModel)
+
+        // THEN
+        XCTAssertEqual(canBuildFirstAqueduct, true)
+        XCTAssertEqual(hasBuiltFirstAqueduct, true)
+        XCTAssertEqual(canBuildAnotherAqueduct, true)
+    }
+
+    func testCanBuiltNeighborhoodTwice() throws {
+
+        // GIVEN
+        try self.playerAlexander?.civics?.discover(civic: .urbanization, in: self.gameModel)
+        let canBuildFirstNeighborhood = self.objectToTest!.canBuild(district: .neighborhood, at: HexPoint(x: 1, y: 0), in: self.gameModel)
+        let hasBuiltFirstNeighborhood = self.objectToTest!.purchase(district: .neighborhood, at: HexPoint(x: 1, y: 0), in: self.gameModel)
+
+        // WHEN
+        let canBuildAnotherNeighborhood = self.objectToTest!.canBuild(district: .neighborhood, at: HexPoint(x: 0, y: 2), in: self.gameModel)
+
+        // THEN
+        XCTAssertEqual(canBuildFirstNeighborhood, true)
+        XCTAssertEqual(hasBuiltFirstNeighborhood, true)
+        XCTAssertEqual(canBuildAnotherNeighborhood, true)
+    }
+
+    func testCanBuiltSpaceportTwice() throws {
+
+        // GIVEN
+        try self.playerAlexander?.techs?.discover(tech: .rocketry, in: self.gameModel)
+        let canBuildFirstSpaceport = self.objectToTest!.canBuild(district: .spaceport, at: HexPoint(x: 1, y: 0), in: self.gameModel)
+        let hasBuiltFirstSpaceport = self.objectToTest!.purchase(district: .spaceport, at: HexPoint(x: 1, y: 0), in: self.gameModel)
+
+        // WHEN
+        let canBuildAnotherSpaceport = self.objectToTest!.canBuild(district: .spaceport, at: HexPoint(x: 0, y: 2), in: self.gameModel)
+
+        // THEN
+        XCTAssertEqual(canBuildFirstSpaceport, true)
+        XCTAssertEqual(hasBuiltFirstSpaceport, true)
+        XCTAssertEqual(canBuildAnotherSpaceport, true)
+    }
+
+    // check districts that can only be built once per civ
+
+    func testCantBuiltGovernmentPlazaTwiceInEmpire() throws {
+
+        // GIVEN
+        let secondCity = City(name: "Second City", at: HexPoint(x: 12, y: 11), owner: self.playerAlexander)
+        secondCity.initialize(in: self.gameModel)
+        secondCity.set(population: 7, reassignCitizen: true, in: self.gameModel)
+        self.gameModel?.add(city: secondCity)
+
+        try self.playerAlexander?.civics?.discover(civic: .stateWorkforce, in: self.gameModel)
+        let canBuildFirstGovernmentPlaza = self.objectToTest!.canBuild(district: .governmentPlaza, at: HexPoint(x: 2, y: 1), in: self.gameModel)
+        let hasBuiltFirstGovernmentPlaza = self.objectToTest!.purchase(district: .governmentPlaza, at: HexPoint(x: 2, y: 1), in: self.gameModel)
+
+        // WHEN
+        let canBuildAnotherGovernmentPlaza = secondCity.canBuild(district: .governmentPlaza, at: HexPoint(x: 11, y: 11), in: self.gameModel)
+
+        // THEN
+        XCTAssertEqual(canBuildFirstGovernmentPlaza, true)
+        XCTAssertEqual(hasBuiltFirstGovernmentPlaza, true)
+        XCTAssertEqual(canBuildAnotherGovernmentPlaza, false)
+    }
 }

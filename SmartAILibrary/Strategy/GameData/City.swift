@@ -3283,8 +3283,15 @@ public class City: AbstractCity {
         }
 
         if districtType.oncePerCivilization() {
-            if districts.has(district: districtType) {
-                return false
+            for cityRef in gameModel.cities(of: player) {
+
+                guard let cityDistricts = cityRef?.districts else {
+                    continue
+                }
+
+                if cityDistricts.has(district: districtType) {
+                    return false
+                }
             }
         }
 

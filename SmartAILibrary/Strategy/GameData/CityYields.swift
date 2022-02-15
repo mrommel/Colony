@@ -865,7 +865,7 @@ extension City {
                     }
 
                     // Major bonus (+2 Culture) for each adjacent Water Park or Entertainment Complex district tile
-                    if neighborTile.district() == .entertainment {
+                    if neighborTile.district() == .entertainmentComplex {
                         cultureFromDistricts += 2
                     }
 
