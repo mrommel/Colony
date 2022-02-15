@@ -452,15 +452,19 @@ class BarbarianAI: Codable {
                     unitTask = .attackSea
                 }
 
-                if let unitType = self.randomBarbarianUnitType(in: spawnPlot.area!, for: unitTask, in: gameModel) {
+                if let spawnArea = spawnPlot.area {
+                    if let unitType = self.randomBarbarianUnitType(in: spawnArea, for: unitTask, in: gameModel) {
 
-                    let unit = Unit(at: spawnLocation, type: unitType, owner: barbarianPlayer)
-                    gameModel.add(unit: unit)
-                    gameModel.userInterface?.show(unit: unit, at: spawnLocation)
+                        let unit = Unit(at: spawnLocation, type: unitType, owner: barbarianPlayer)
+                        gameModel.add(unit: unit)
+                        gameModel.userInterface?.show(unit: unit, at: spawnLocation)
 
-                    if finishMoves {
-                        unit.finishMoves()
+                        if finishMoves {
+                            unit.finishMoves()
+                        }
                     }
+                } else {
+                    print("no area at: \(spawnPlot.point)")
                 }
             }
         }
