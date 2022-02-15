@@ -257,6 +257,10 @@ public enum CivicType: String, Codable {
                 return self == requiredCivic
             }
 
+            if $0.requiresDarkAge() {
+                return false
+            }
+
             return true
         })
 
