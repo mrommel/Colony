@@ -157,6 +157,10 @@ public class River: Codable {
                 let southWestNeighbor = source.point.neighbor(in: .southwest)
                 return RiverEdge(with: southWestNeighbor, and: .southWest)
             }
+            if source.corner == .east && target.corner == .northeast {
+                let southNeighbor = source.point.neighbor(in: .south)
+                return RiverEdge(with: southNeighbor, and: .northEast)
+            }
         case .southwest:
             if source.corner == .west && target.corner == .northwest {
                 return RiverEdge(with: target.point, and: .west)

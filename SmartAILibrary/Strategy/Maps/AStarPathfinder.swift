@@ -104,6 +104,7 @@ public class AStarPathfinder {
 
                 // Compute the cost from the current step to that step
                 let moveCost = dataSource.costToMove(fromTileCoord: currentStep.position, toAdjacentTileCoord: step.position)
+                // print("=== cost from \(currentStep.position) to \(step.position) is \(moveCost)")
 
                 // Check if the step is already in the open list
                 if let existingIndex = openSteps.firstIndex(of: step) {
@@ -135,7 +136,6 @@ public class AStarPathfinder {
                     insertStep(step: step, inOpenSteps: &openSteps)
                 }
             }
-
         }
 
         // no path found

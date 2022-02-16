@@ -109,7 +109,7 @@ class GameScene: BaseScene {
 
         // update animation checker
         if let state = self.mapNode?.unitLayer.areAnimationsFinished() {
-            self.viewModel?.animationsAreRunning = !state
+            self.viewModel?.animationsAreRunning = state
         } else {
             self.viewModel?.animationsAreRunning = false
         }

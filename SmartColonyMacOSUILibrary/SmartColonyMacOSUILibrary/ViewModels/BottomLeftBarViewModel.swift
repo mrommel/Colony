@@ -148,7 +148,7 @@ public class BottomLeftBarViewModel: ObservableObject {
             }
         } else {
             if let delegate = self.delegate {
-                if delegate.areAnimationsFinished() {
+                if !delegate.areAnimationsFinished() {
                     // print("--- not finished")
                     self.showWaitingButton()
                 } else {
