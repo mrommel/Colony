@@ -581,13 +581,13 @@ public class MapGenerator: BaseMapHandler {
             return
         }
 
-        let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = MoveTypeIgnoreUnitsPathfinderDataSource(
+        let pathFinderDataSource = MoveTypeIgnoreUnitsPathfinderDataSource(
             in: grid,
             for: .walk,
             for: nil,
             options: MoveTypeIgnoreUnitsOptions(unitMapType: .civilian, canEmbark: false, canEnterOcean: false)
         )
+        let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
         var longestRoute = 0
 

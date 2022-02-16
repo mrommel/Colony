@@ -1085,14 +1085,15 @@ public class MilitaryAI: Codable {
                     fatalError("cant get sea plot near muster")
                 }
 
-                let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
                     for: .swim,
                     for: player,
                     unitMapType: .combat,
                     canEmbark: player.canEmbark(),
                     canEnterOcean: self.player!.canEnterOcean()
                 )
+                let pathFinder = AStarPathfinder(with: pathFinderDataSource)
+
                 if !pathFinder.doesPathExist(fromTileCoord: seaPlotNearMuster.point, toTileCoord: seaPlotNearTarget.point) {
                     continue
                 }
@@ -1148,14 +1149,14 @@ public class MilitaryAI: Codable {
         let plotDistance = target.musterCity!.location.distance(to: target.targetCity!.location)
         var pathLength = 0
 
-        let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+        let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
             for: .swim,
             for: player,
             unitMapType: .combat,
             canEmbark: player.canEmbark(),
             canEnterOcean: player.canEnterOcean()
         )
+        let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
         // Can embark
         if player.canEmbark() {
@@ -1873,14 +1874,14 @@ public class MilitaryAI: Codable {
         var bestDistance = Int.max
         var coastalPlot: AbstractTile?
 
-        let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+        let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
             for: .swim,
             for: self.player,
             unitMapType: .combat,
             canEmbark: self.player!.canEmbark(),
             canEnterOcean: self.player!.canEnterOcean()
         )
+        let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
         // Find a coastal water tile adjacent to enemy city
         for adjacentPoint in target.neighbors() {

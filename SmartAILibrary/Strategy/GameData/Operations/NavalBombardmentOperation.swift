@@ -100,14 +100,14 @@ class NavalBombardmentOperation: NavalOperation {
             } else if possibleBetterTarget! != self.targetPosition! {
                 // If target changed, reset to this new one
                 // Reset our destination to be a few plots shy of the final target
-                let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
                     for: .swim,
                     for: self.player,
                     unitMapType: .combat,
                     canEmbark: true,
                     canEnterOcean: self.player?.canEnterOcean() ?? false
                 )
+                let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
                 // Reset our destination to be a few plots shy of the final target
                 if let path = pathFinder.shortestPath(fromTileCoord: self.army!.position, toTileCoord: possibleBetterTarget!),
@@ -165,14 +165,14 @@ class NavalBombardmentOperation: NavalOperation {
             initialUnit = self.findInitialUnit(in: gameModel)
         }
 
-        let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+        let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
             for: .swim,
             for: self.player,
             unitMapType: .combat,
             canEmbark: self.player!.canEmbark(),
             canEnterOcean: self.player?.canEnterOcean() ?? false
         )
+        let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
         if let initialUnit = initialUnit {
 

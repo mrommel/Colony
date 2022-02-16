@@ -158,21 +158,34 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
 
                     if let fromTile = gameModel.tile(at: coord) {
 
-                        let normalMovementCosts = toTile.movementCost(for: self.movementType, from: fromTile)
-                        var embarkedMovementCosts = UnitMovementType.max
+                        var allowMovement = false
 
-                        if self.options.canEmbark && self.movementType == .walk {
+                        // special treatment
+                        if self.movementType == .walk {
+                            if ((fromTile.isLand() && toTile.isWater()) || (fromTile.isWater() && toTile.isLand())) && self.options.canEmbark {
 
-                            if fromTile.isLand() && toTile.isWater() {
-                                embarkedMovementCosts = 2.0
-                            } else if fromTile.isWater() && toTile.isLand() {
-                                embarkedMovementCosts = 2.0
-                            } else {
-                                embarkedMovementCosts = toTile.movementCost(for: .swim, from: fromTile)
+                                allowMovement = true
+                            } else if fromTile.isWater() && toTile.isWater() && self.options.canEmbark {
+
+                                let embarkedMovementCosts = toTile.movementCost(for: .swim, from: fromTile)
+                                if embarkedMovementCosts < UnitMovementType.max {
+                                    allowMovement = true
+                                }
+                            } else if fromTile.isLand() && toTile.isLand() {
+
+                                let normalMovementCosts = toTile.movementCost(for: self.movementType, from: fromTile)
+                                if normalMovementCosts < UnitMovementType.max {
+                                    allowMovement = true
+                                }
+                            }
+                        } else {
+                            let normalMovementCosts = toTile.movementCost(for: self.movementType, from: fromTile)
+                            if normalMovementCosts < UnitMovementType.max {
+                                allowMovement = true
                             }
                         }
 
-                        if min(normalMovementCosts, embarkedMovementCosts) < UnitMovementType.max {
+                        if allowMovement {
                             walkableCoords.append(neighbor)
                         }
                     }
@@ -200,21 +213,19 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                 }
             }
 
-            let normalMovementCosts = toTile.movementCost(for: self.movementType, from: fromTile)
-            var embarkedMovementCosts = UnitMovementType.max
-
             if self.options.canEmbark && self.movementType == .walk {
 
                 if fromTile.isLand() && toTile.isWater() {
-                    embarkedMovementCosts = 2.0
+                    return 2.0
                 } else if fromTile.isWater() && toTile.isLand() {
-                    embarkedMovementCosts = 2.0
-                } else {
-                    embarkedMovementCosts = toTile.movementCost(for: .swim, from: fromTile)
+                    return 2.0
+                } else if fromTile.isWater() && toTile.isWater() {
+                    return toTile.movementCost(for: .swim, from: fromTile)
                 }
             }
 
-            return min(normalMovementCosts, embarkedMovementCosts)
+            let normalMovementCosts = min(2, toTile.movementCost(for: self.movementType, from: fromTile))
+            return normalMovementCosts
         }
 
         return UnitMovementType.max

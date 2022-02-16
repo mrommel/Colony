@@ -1567,8 +1567,11 @@ public class Unit: AbstractUnit {
 
     public func path(towards target: HexPoint, options: MoveOptions, in gameModel: GameModel?) -> HexPath? {
 
-        let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
             for: self.movementType(),
             for: self.player,
             ignoreOwner: self.type.canMoveInRivalTerritory(),
@@ -1576,6 +1579,7 @@ public class Unit: AbstractUnit {
             canEmbark: self.canEmbark(in: gameModel) || self.isEmbarked(),
             canEnterOcean: self.player!.canEnterOcean()
         )
+        let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
 
@@ -1590,16 +1594,20 @@ public class Unit: AbstractUnit {
 
     public func pathIgnoreUnits(towards target: HexPoint, in gameModel: GameModel?) -> HexPath? {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
         let canEmbark = self.canEverEmbark()
 
-        let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(
+        let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
             for: self.movementType(),
             for: self.player,
             unitMapType: .combat,
             canEmbark: canEmbark,
             canEnterOcean: self.player!.canEnterOcean()
         )
+        let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
 
@@ -4114,14 +4122,18 @@ public class Unit: AbstractUnit {
 
     public func canReach(at point: HexPoint, in turns: Int, in gameModel: GameModel?) -> Bool {
 
-        let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
             for: self.movementType(),
             for: self.player,
             unitMapType: self.unitMapType(),
             canEmbark: self.canEmbark(in: gameModel),
             canEnterOcean: self.player!.canEnterOcean()
         )
+        let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
 
@@ -4134,14 +4146,18 @@ public class Unit: AbstractUnit {
 
     public func turnsToReach(at point: HexPoint, in gameModel: GameModel?) -> Int {
 
-        let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
             for: self.movementType(),
             for: self.player,
             unitMapType: self.unitMapType(),
             canEmbark: self.canEmbark(in: gameModel),
             canEnterOcean: self.player!.canEnterOcean()
         )
+        let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
 

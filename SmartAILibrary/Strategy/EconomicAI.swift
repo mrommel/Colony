@@ -705,14 +705,14 @@ public class EconomicAI: Codable {
                 if estimateTurns < closestEstimateTurns {
 
                     // Now check path
-                    let pathFinder = AStarPathfinder()
-                    pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                    let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
                         for: explorer.movementType(),
                         for: player,
                         unitMapType: .combat,
                         canEmbark: true,
                         canEnterOcean: false
                     )
+                    let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
                     if pathFinder.shortestPath(fromTileCoord: explorer.location, toTileCoord: goodyHutUnitAssignment.location) != nil {
 
@@ -771,14 +771,14 @@ public class EconomicAI: Codable {
                 if estimateTurns < closestEstimateTurns {
 
                     // Now check path
-                    let pathFinder = AStarPathfinder()
-                    pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                    let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
                         for: explorer.movementType(),
                         for: player,
                         unitMapType: .combat,
                         canEmbark: true,
                         canEnterOcean: false
                     )
+                    let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
                     if pathFinder.shortestPath(fromTileCoord: explorer.location, toTileCoord: goodyHutUnitAssignment.location) != nil {
 

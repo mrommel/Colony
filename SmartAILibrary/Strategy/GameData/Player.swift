@@ -3132,14 +3132,14 @@ public class Player: AbstractPlayer {
                     fatalError("cant get capital")
                 }
 
-                let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
                     for: .walk,
                     for: self,
                     unitMapType: .combat,
                     canEmbark: false,
                     canEnterOcean: self.canEnterOcean()
                 )
+                let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
                 if let path = pathFinder.shortestPath(fromTileCoord: location, toTileCoord: capital.location) {
                     // If within TradeRoute6 Trade Route range of the Capital6 Capital, a road to it.
@@ -3621,14 +3621,14 @@ public class Player: AbstractPlayer {
             return false
         }
 
-        let pathfinder = AStarPathfinder()
-        pathfinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+        let pathfinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
             for: .walk,
             for: self,
             unitMapType: .combat,
             canEmbark: self.canEmbark(),
             canEnterOcean: self.canEnterOcean()
         )
+        let pathfinder = AStarPathfinder(with: pathfinderDataSource)
 
         if let _ = pathfinder.shortestPath(fromTileCoord: playerCapital.location, toTileCoord: targetCity.location) {
             return true
@@ -4023,14 +4023,14 @@ public class Player: AbstractPlayer {
         }
 
         var minDistance: Int = Int.max
-        let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+        /*let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
             for: .walk,
             for: self,
             unitMapType: .civilian,
             canEmbark: true,
             canEnterOcean: self.canEnterOcean()
         )
+        let pathFinder = AStarPathfinder(with: pathFinderDataSource)*/
 
         for cityRef in gameModel.cities(of: self) {
 

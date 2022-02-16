@@ -63,14 +63,14 @@ class PillageEnemyOperation: EnemyTerritoryOperation {
                     self.army?.goal = betterTarget
 
                     // Reset our destination to be a few plots shy of the final target
-                    let pathFinder = AStarPathfinder()
-                    pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                    let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
                         for: .walk,
                         for: self.player,
                         unitMapType: .combat,
                         canEmbark: self.player!.canEmbark(),
                         canEnterOcean: self.player!.canEnterOcean()
                     )
+                    let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
                     if let path = pathFinder.shortestPath(fromTileCoord: self.army!.position, toTileCoord: betterTarget),
                         let reducedPath = path.path(without: 4 /* AI_OPERATIONAL_PILLAGE_ENEMY_DEPLOY_RANGE */),

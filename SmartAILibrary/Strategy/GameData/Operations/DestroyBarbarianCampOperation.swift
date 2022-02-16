@@ -69,14 +69,14 @@ class DestroyBarbarianCampOperation: EnemyTerritoryOperation {
                 if self.army?.area == gameModel.area(of: possibleBetterTarget!) {
 
                     // Reset our destination to be a few plots shy of the final target
-                    let pathFinder = AStarPathfinder()
-                    pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                    let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
                         for: .walk,
                            for: self.player,
                            unitMapType: .combat,
                            canEmbark: player!.canEmbark(),
                            canEnterOcean: false
                     )
+                    let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
                     if let path = pathFinder.shortestPath(fromTileCoord: self.army!.position, toTileCoord: possibleBetterTarget!),
                         let reducedPath = path.path(without: 2 /* AI_OPERATIONAL_BARBARIAN_CAMP_DEPLOY_RANGE */),
@@ -204,15 +204,14 @@ class DestroyBarbarianCampOperation: EnemyTerritoryOperation {
             // look for good captured civilians of ours (settlers and workers, not missionaries)
             // these will be even more important than just a camp
             // btw - the AI will cheat here - as a human I would use a combination of memory and intuition to find these, since our current AI has neither of these...
-
-            let pathFinder = AStarPathfinder()
-            pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+            let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
                 for: .walk,
                 for: self.player,
                 unitMapType: .combat,
                 canEmbark: self.player!.canEmbark(),
                 canEnterOcean: false
             )
+            let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
             for loopUnitRef in gameModel.units(of: barbarianPlayer) {
 

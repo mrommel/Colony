@@ -1810,8 +1810,8 @@ open class GameModel: Codable {
 
     func calculateInfluenceDistance(from cityLocation: HexPoint, to targetDestination: HexPoint, limit: Int, abc: Bool) -> Int {
 
-        let influencePathfinder = AStarPathfinder()
-        influencePathfinder.dataSource = InfluencePathfinderDataSource(in: self.map, cityLoction: cityLocation)
+        let influencePathfinderDataSource = InfluencePathfinderDataSource(in: self.map, cityLoction: cityLocation)
+        let influencePathfinder = AStarPathfinder(with: influencePathfinderDataSource)
 
         if let path = influencePathfinder.shortestPath(fromTileCoord: cityLocation, toTileCoord: targetDestination) {
             return Int(path.cost)

@@ -1812,14 +1812,14 @@ public class HomelandAI {
         economicAI.updatePlots(in: gameModel)
         var foundNearbyExplorePlot = false
 
-        let pathfinder = AStarPathfinder()
-        pathfinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+        let pathfinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
             for: .walk,
                for: player,
                unitMapType: .combat,
                canEmbark: player.canEmbark(),
                canEnterOcean: player.canEnterOcean()
         )
+        let pathfinder = AStarPathfinder(with: pathfinderDataSource)
 
         for homelandUnit in self.currentMoveUnits {
 
