@@ -130,7 +130,6 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
             fatalError("cant get target city location")
         }
 
-
         let tradeRouteFinderDataSource = TradeRoutePathfinderDataSource(
             for: self.player,
             from: originCityLocation,
