@@ -150,8 +150,7 @@ extension SelectTradeCityDialogViewModel: TradeCityViewModelDelegate {
             fatalError("cant get city locations")
         }
 
-        let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(
+        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
             for: .walk,
             for: city?.player,
             ignoreOwner: true,
@@ -159,6 +158,7 @@ extension SelectTradeCityDialogViewModel: TradeCityViewModelDelegate {
             canEmbark: false,
             canEnterOcean: false
         )
+        let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
         if let path = pathFinder.shortestPath(fromTileCoord: startLocation, toTileCoord: selectedLocation) {
 

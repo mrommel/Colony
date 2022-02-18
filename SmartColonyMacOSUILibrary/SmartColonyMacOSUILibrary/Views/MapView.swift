@@ -66,7 +66,7 @@ struct GameSceneView: NSViewRepresentable {
             context.coordinator.gameScene?.setupMap()
         }
 
-        //print("## current: \(context.coordinator.gameScene?.currentZoom) => \(self.magnification)")
+        // print("## current: \(context.coordinator.gameScene?.currentZoom) => \(self.magnification)")
         if context.coordinator.gameScene?.currentZoom != self.magnification {
             context.coordinator.gameScene?.zoom(to: self.magnification)
         }

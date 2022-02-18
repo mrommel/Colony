@@ -86,7 +86,7 @@ class UnitLayer: SKNode {
 
                 switch topAnimation {
 
-                case .idle(_):
+                case .idle:
                     // NOOP
                     break
                 default:
@@ -395,9 +395,7 @@ class UnitLayer: SKNode {
 
                 if gameModel.valid(point: hex) {
 
-                    let pathFinder = AStarPathfinder()
-
-                    pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(
+                    let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
                         for: selectedUnit.movementType(),
                         for: selectedUnit.player,
                         ignoreOwner: false,
@@ -405,6 +403,7 @@ class UnitLayer: SKNode {
                         canEmbark: selectedUnit.canEverEmbark(),
                         canEnterOcean: selectedUnit.player!.canEnterOcean()
                     )
+                    let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
                     if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: hex) {
 

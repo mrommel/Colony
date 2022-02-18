@@ -327,7 +327,7 @@ public class GameViewModel: ObservableObject {
     var uiCombatMode: UICombatMode = .none
 
     @Published
-    var selectedUnit: AbstractUnit? = nil {
+    var selectedUnit: AbstractUnit? {
 
         didSet {
             if self.uiTurnState != .humanTurns {
@@ -349,7 +349,7 @@ public class GameViewModel: ObservableObject {
     }
 
     @Published
-    var selectedCity: AbstractCity? = nil {
+    var selectedCity: AbstractCity? {
 
         didSet {
             if let selectedCity = self.selectedCity {
@@ -750,7 +750,7 @@ extension GameViewModel: GameViewModelDelegate {
 
         self.unitBannerViewModel.showBanner = true
         self.cityBannerViewModel.showBanner = false
-        //self.combatBannerViewModel.showBanner = false
+        // self.combatBannerViewModel.showBanner = false
     }
 
     func hideUnitBanner() {
@@ -760,7 +760,7 @@ extension GameViewModel: GameViewModelDelegate {
         }
 
         self.unitBannerViewModel.showBanner = false
-        //self.combatBannerViewModel.showBanner = false
+        // self.combatBannerViewModel.showBanner = false
     }
 
     func select(unit: AbstractUnit?) {
@@ -1105,7 +1105,7 @@ extension GameViewModel: GameViewModelDelegate {
 
         if self.currentScreenType == .none {
 
-            //print("-- checkPopups \(self.popups.count) / \(self.currentPopupType) --")
+            // print("-- checkPopups \(self.popups.count) / \(self.currentPopupType) --")
             if !self.popups.isEmpty && self.currentPopupType == .none {
                 self.displayPopups()
                 return true

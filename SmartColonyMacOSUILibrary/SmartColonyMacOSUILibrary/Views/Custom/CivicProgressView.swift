@@ -35,7 +35,7 @@ struct CivicProgressView: View {
                 .padding(.top, 8)
                 .padding(.leading, 5.5)
                 .onTapGesture {
-                    //self.viewModel.click()
+                    // self.viewModel.click()
                     print("click on civic progress")
                 }
 

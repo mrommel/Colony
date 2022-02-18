@@ -50,19 +50,19 @@ struct CombatBannerView: View {
                         Text("Defender")
                             .font(.caption)
                             .frame(width: 110, height: 12, alignment: .center)
-                            //.background(Color.red)
+                            // .background(Color.red)
                             .offset(x: -110.0, y: -96.0)
 
                         Text(self.viewModel.defenderViewModel.name)
                             .font(.caption)
                             .frame(width: 110, height: 12, alignment: .center)
-                            //.background(Color.red)
+                            // .background(Color.red)
                             .offset(x: -110.0, y: -82.0)
 
                         Image(nsImage: self.viewModel.defenderViewModel.typeIcon())
                             .resizable()
                             .frame(width: 42, height: 42)
-                            //.background(Color.red)
+                            // .background(Color.red)
                             .clipShape(Circle())
                             .offset(x: -32.0, y: -28.0)
 
@@ -76,7 +76,7 @@ struct CombatBannerView: View {
                         Text("\(self.viewModel.defenderViewModel.strength)")
                             .font(.caption)
                             .frame(width: 20, height: 12, alignment: .center)
-                            //.background(Color.red)
+                            // .background(Color.red)
                             .offset(x: -42.5, y: -80.0)
 
                         ScrollView {
@@ -98,7 +98,7 @@ struct CombatBannerView: View {
                             }
                         }
                         .frame(width: 120, height: 60, alignment: .leading)
-                        //.background(Color.red)
+                        // .background(Color.red)
                         .offset(x: -130.0, y: -20.0)
 
                         ScrollView {
@@ -114,7 +114,7 @@ struct CombatBannerView: View {
                             }
                         }
                         .frame(width: 120, height: 12, alignment: .leading)
-                        //.background(Color.red)
+                        // .background(Color.red)
                         .offset(x: -130.0, y: -6.0)
                     }
 
@@ -123,19 +123,19 @@ struct CombatBannerView: View {
                         Text("Attacker")
                             .font(.caption)
                             .frame(width: 110, height: 12, alignment: .center)
-                            //.background(Color.red)
+                            // .background(Color.red)
                             .offset(x: 110.0, y: -96.0)
 
                         Text(self.viewModel.attackerViewModel.name)
                             .font(.caption)
                             .frame(width: 110, height: 12, alignment: .center)
-                            //.background(Color.red)
+                            // .background(Color.red)
                             .offset(x: 110.0, y: -82.0)
 
                         Image(nsImage: self.viewModel.attackerViewModel.typeIcon())
                             .resizable()
                             .frame(width: 42, height: 42)
-                            //.background(Color.red)
+                            // .background(Color.red)
                             .clipShape(Circle())
                             .offset(x: 32.0, y: -28.0)
 
@@ -149,7 +149,7 @@ struct CombatBannerView: View {
                         Text("\(self.viewModel.attackerViewModel.strength)")
                             .font(.caption)
                             .frame(width: 20, height: 12, alignment: .center)
-                            //.background(Color.red)
+                            // .background(Color.red)
                             .offset(x: 42.5, y: -80.0)
 
                         ScrollView {
@@ -171,7 +171,7 @@ struct CombatBannerView: View {
                             }
                         }
                         .frame(width: 120, height: 60, alignment: .leading)
-                        //.background(Color.red)
+                        // .background(Color.red)
                         .offset(x: 130.0, y: -20.0)
 
                         ScrollView {
@@ -187,14 +187,14 @@ struct CombatBannerView: View {
                             }
                         }
                         .frame(width: 120, height: 12, alignment: .leading)
-                        //.background(Color.red)
+                        // .background(Color.red)
                         .offset(x: 130.0, y: -6.0)
                     }
 
                     Text(self.viewModel.combatPredictionText)
                         .font(.caption)
                         .frame(width: 80, height: 24, alignment: .top)
-                        //.background(Color.red)
+                        // .background(Color.red)
                         .offset(x: 0.0, y: -88.0)
                 }
                 .frame(width: 391, height: 112, alignment: .bottomTrailing)

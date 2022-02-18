@@ -38,7 +38,7 @@ struct BeliefView: View {
         .background(
             Image(nsImage: ImageCache.shared.image(for: "grid9-button-clicked"))
                 .resizable(capInsets: EdgeInsets(all: 15))
-                //.hueRotation(Angle(degrees: 135))
+                // .hueRotation(Angle(degrees: 135))
         )
     }
 }

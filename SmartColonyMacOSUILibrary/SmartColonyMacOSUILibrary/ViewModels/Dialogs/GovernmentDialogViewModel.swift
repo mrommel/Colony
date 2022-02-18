@@ -54,7 +54,7 @@ extension GovernmentDialogViewModel: GovernmentCardViewModelDelegate {
         }
 
         guard let currentGovernmentType = government.currentGovernment() else {
-            //fatalError("cant get current government type")
+            // fatalError("cant get current government type")
             return
         }
 

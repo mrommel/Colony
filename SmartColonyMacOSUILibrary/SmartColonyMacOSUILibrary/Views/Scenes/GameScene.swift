@@ -148,10 +148,10 @@ class GameScene: BaseScene {
                         if self.gameUpdateMutex {
                             self.gameUpdateMutex = false
                             self.gameUpdateBackgroundQueue.async {
-                                //print("-----------> before human processing")
+                                // print("-----------> before human processing")
                                 gameModel.update()
                                 self.gameUpdateMutex = true
-                                //print("-----------> after human processing")
+                                // print("-----------> after human processing")
                                 self.viewModel!.readyUpdatingHuman = true
                             }
                         }
@@ -165,10 +165,10 @@ class GameScene: BaseScene {
                     if self.gameUpdateMutex {
                         self.gameUpdateMutex = false
                         self.gameUpdateBackgroundQueue.async {
-                            //print("-----------> before AI processing")
+                            // print("-----------> before AI processing")
                             gameModel.update()
                             self.gameUpdateMutex = true
-                            //print("-----------> after AI processing")
+                            // print("-----------> after AI processing")
                             self.viewModel!.readyUpdatingAI = true
                         }
                     }
@@ -267,7 +267,7 @@ class GameScene: BaseScene {
         let visibleRect = self.getVisibleScreen(sceneBounds: sceneRect, viewBounds: self.view!.bounds.size)
         print("visibleRect: \(visibleRect)")*/
 
-        //self.viewModel.gameEnvironment.change(visibleRect: CGRect)
+        // self.viewModel.gameEnvironment.change(visibleRect: CGRect)
     }
 }
 
@@ -378,6 +378,10 @@ extension GameScene {
 
     override func mouseDragged(with event: NSEvent) {
 
+        guard let gameModel = self.viewModel?.gameModel else {
+            fatalError("cant get game")
+        }
+
         if let selectedUnit = self.viewModel?.delegate?.selectedUnit {
 
             let location = event.location(in: self)
@@ -392,14 +396,15 @@ extension GameScene {
             if position != selectedUnit.location {
 
                 self.pathfinderQueue.async {
-                    let pathFinder = AStarPathfinder()
-                    pathFinder.dataSource = self.viewModel?.gameModel?.unitAwarePathfinderDataSource(
+
+                    let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
                         for: selectedUnit.movementType(),
                         for: selectedUnit.player,
                         unitMapType: selectedUnit.unitMapType(),
                         canEmbark: selectedUnit.canEverEmbark(),
                         canEnterOcean: selectedUnit.player!.canEnterOcean()
                     )
+                    let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
                     if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: position) {
 
@@ -647,7 +652,7 @@ extension GameScene {
 
                             self.viewModel?.delegate?.doRangedCombat(of: selectedCity, against: unitToAttack)
 
-                            //self.mapNode?.unitLayer.update(unit: selectedUnit)
+                            // self.mapNode?.unitLayer.update(unit: selectedUnit)
                             self.mapNode?.unitLayer.update(unit: unitToAttack)
 
                             combatExecuted = true
