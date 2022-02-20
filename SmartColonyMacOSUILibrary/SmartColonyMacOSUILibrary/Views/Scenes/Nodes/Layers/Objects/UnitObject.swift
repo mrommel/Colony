@@ -214,7 +214,7 @@ class UnitObject {
 
             if !self.animationQueue.isEmpty {
 
-                print("animationQueue of \(unit.name()): \(self.animationQueue)")
+                // print("animationQueue of \(unit.name()): \(self.animationQueue)")
                 if let firstAnimation = self.animationQueue.dequeue() {
 
                     self.currentAnimation = firstAnimation
@@ -222,26 +222,26 @@ class UnitObject {
                     switch firstAnimation {
 
                     case .move(from: let from, to: let to):
-                        print("## handle move Animation: \(unit.name()) begin ##")
+                        // print("## handle move Animation: \(unit.name()) begin ##")
                         self.walk(from: from, to: to) {
                             // print("## Animation: \(unit.name()) walk ended ##")
                             self.currentAnimation = .idle(location: to)
                         }
                     case .show(location: let location):
-                        print("## handle show Animation: \(unit.name()) at \(unit.location) / \(location) ##")
+                        // print("## handle show Animation: \(unit.name()) at \(unit.location) / \(location) ##")
                         self.shouldRemove = false
                         self.sprite.alpha = 1.0
                         self.currentAnimation = .idle(location: location)
                     case .hide(location: let location):
-                        print("## handle hide Animation: \(unit.name()) at \(unit.location) / \(location) ##")
+                        // print("## handle hide Animation: \(unit.name()) at \(unit.location) / \(location) ##")
                         self.shouldRemove = true
                         self.currentAnimation = .idle(location: location)
                     case .enterCity(location: let location):
-                        print("## handle enterCity Animation: \(unit.name()) at \(unit.location) / \(location) ##")
+                        // print("## handle enterCity Animation: \(unit.name()) at \(unit.location) / \(location) ##")
                         self.sprite.alpha = 0.0
                         self.currentAnimation = .idle(location: location)
                     case .fortify:
-                        print("## handle fortify Animation: \(unit.name()) ##")
+                        // print("## handle fortify Animation: \(unit.name()) ##")
                         self.showFortified()
                         self.currentAnimation = .idle(location: location)
                     case .unfortify:
@@ -251,7 +251,8 @@ class UnitObject {
 
                     case .idle(location: let location):
                         // noop
-                        print("does not happen: idle at \(location)")
+                        // print("does not happen: idle at \(location)")
+                        break
                     }
                 }
             } else {
@@ -300,6 +301,10 @@ class UnitObject {
 
         guard let unit = self.unit else {
             fatalError("unit not given")
+        }
+
+        if self.sprite.action(forKey: UnitObject.idleActionKey) != nil {
+            return
         }
 
         self.sprite.removeAction(forKey: UnitObject.fortifiedActionKey)

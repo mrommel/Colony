@@ -224,7 +224,7 @@ class DebugViewModel: ObservableObject {
             aiPlayer.found(at: HexPoint(x: 12, y: 10), named: "AI City", in: gameModel)
 
             // Human
-            humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
+            humanPlayer.found(at: HexPoint(x: 3, y: 7), named: "Human Capital", in: gameModel)
             try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
             try! humanPlayer.techs?.discover(tech: .sailing, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
@@ -232,7 +232,7 @@ class DebugViewModel: ObservableObject {
             try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
             try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
-            if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
+            if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 7)) {
                 humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
             }
 

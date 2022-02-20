@@ -442,6 +442,11 @@ class UnitLayer: SKNode {
     func update(unit: AbstractUnit?) {
 
         if let unitObject = unitObject(of: unit) {
+
+            if unit?.isDelayedDeath() ?? false {
+                unitObject.hide(at: unit?.location ?? .invalid)
+            }
+
             unitObject.update()
         }
     }

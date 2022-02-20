@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "caravan-idle5@3x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
