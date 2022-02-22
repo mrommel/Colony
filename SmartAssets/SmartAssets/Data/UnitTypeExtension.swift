@@ -232,7 +232,7 @@ extension UnitType {
         case .warrior: return "warrior-idle-0"
         case .slinger: return "slinger-idle-0"
         case .archer: return "archer-idle-0"
-        case .spearman: return "archer-idle-0" // #
+        case .spearman: return "spearman-idle-0"
         case .heavyChariot: return "chariot-idle-0"
         case .galley: return "galley-idle-0"
         case .batteringRam: return "batteringRam-idle-0"
