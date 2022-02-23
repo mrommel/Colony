@@ -91,6 +91,10 @@
 		C9CAC8A2264BC4B200D0668D /* GovernmentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */; };
 		C9CAC8A6264BD17000D0668D /* GovernmentTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC8A5264BD17000D0668D /* GovernmentTypeExtension.swift */; };
 		C9CB34012761EB12008835D0 /* ContinentTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CB34002761EB12008835D0 /* ContinentTypeExtension.swift */; };
+		C9CB992127C6C17D00946E77 /* merchant-walk.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9CB992027C6C17D00946E77 /* merchant-walk.slp */; };
+		C9CB992327C6C1F700946E77 /* SlpTextureAtlasLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CB992227C6C1F700946E77 /* SlpTextureAtlasLoader.swift */; };
+		C9CB992527C6C34D00946E77 /* PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CB992427C6C34D00946E77 /* PixelBuffer.swift */; };
+		C9CB992727C6C3BC00946E77 /* SlpFileExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CB992627C6C3BC00946E77 /* SlpFileExtension.swift */; };
 		C9CD3193278CB711002D53C4 /* Moments.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9CD3192278CB711002D53C4 /* Moments.strings */; };
 		C9CD3195278D6499002D53C4 /* MomentTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CD3194278D6499002D53C4 /* MomentTypeExtension.swift */; };
 		C9CD3197278D7571002D53C4 /* VictoryTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CD3196278D7571002D53C4 /* VictoryTypeExtension.swift */; };
@@ -219,6 +223,10 @@
 		C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentState.swift; sourceTree = "<group>"; };
 		C9CAC8A5264BD17000D0668D /* GovernmentTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentTypeExtension.swift; sourceTree = "<group>"; };
 		C9CB34002761EB12008835D0 /* ContinentTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentTypeExtension.swift; sourceTree = "<group>"; };
+		C9CB992027C6C17D00946E77 /* merchant-walk.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "merchant-walk.slp"; sourceTree = "<group>"; };
+		C9CB992227C6C1F700946E77 /* SlpTextureAtlasLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlpTextureAtlasLoader.swift; sourceTree = "<group>"; };
+		C9CB992427C6C34D00946E77 /* PixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelBuffer.swift; sourceTree = "<group>"; };
+		C9CB992627C6C3BC00946E77 /* SlpFileExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlpFileExtension.swift; sourceTree = "<group>"; };
 		C9CD3192278CB711002D53C4 /* Moments.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Moments.strings; sourceTree = "<group>"; };
 		C9CD3194278D6499002D53C4 /* MomentTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentTypeExtension.swift; sourceTree = "<group>"; };
 		C9CD3196278D7571002D53C4 /* VictoryTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VictoryTypeExtension.swift; sourceTree = "<group>"; };
@@ -369,6 +377,7 @@
 		C9A0982A261CAD170098C5E1 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C9CB992427C6C34D00946E77 /* PixelBuffer.swift */,
 				C931ADD12577D0E30002BA2F /* Textures.swift */,
 				C9A3760C263447390057923E /* TextureUtils.swift */,
 				C931ADE22577D1510002BA2F /* ArrayExtension.swift */,
@@ -380,6 +389,8 @@
 				C950F99E2649290A0057A7D1 /* StringExtension.swift */,
 				C91B484D26E615BE002157C4 /* ImageCache.swift */,
 				C903D06C274A5BF7003C50B9 /* LabelTokenizer.swift */,
+				C9CB992627C6C3BC00946E77 /* SlpFileExtension.swift */,
+				C9CB992227C6C1F700946E77 /* SlpTextureAtlasLoader.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -454,6 +465,7 @@
 		C9F9638E27C57A4000073CC7 /* Slps */ = {
 			isa = PBXGroup;
 			children = (
+				C9CB992027C6C17D00946E77 /* merchant-walk.slp */,
 				C9F9638F27C57A9B00073CC7 /* merchant-idle.slp */,
 			);
 			path = Slps;
@@ -592,6 +604,7 @@
 				C9A09847261CB6930098C5E1 /* horseman.png in Resources */,
 				C932BA842774AC4E00F4640D /* Dedications.strings in Resources */,
 				C9A0984F261CB6930098C5E1 /* long_swordman.png in Resources */,
+				C9CB992127C6C17D00946E77 /* merchant-walk.slp in Resources */,
 				C9A09853261CB6930098C5E1 /* horseman.xml in Resources */,
 				C970A5F42794841F00381603 /* Governments.strings in Resources */,
 				C91C92AA276533EB009A1167 /* Localizable.strings in Resources */,
@@ -661,9 +674,11 @@
 				C952B9AE261E396F008822DD /* TextureAtlasExtension.swift in Sources */,
 				C925594A25F9569700C2BF28 /* ColorExtension.swift in Sources */,
 				C950F990264573F30057A7D1 /* CommandTypeExtension.swift in Sources */,
+				C9CB992527C6C34D00946E77 /* PixelBuffer.swift in Sources */,
 				C9A09829261C80080098C5E1 /* UnitTypeExtension.swift in Sources */,
 				C9AB2C72257E6B350045DFBC /* MapSizeExtension.swift in Sources */,
 				C98E68B32577D28E00BD93CA /* TerrainTypeExtension.swift in Sources */,
+				C9CB992727C6C3BC00946E77 /* SlpFileExtension.swift in Sources */,
 				C9E87BA7264C573200514B9A /* YieldTypeExtension.swift in Sources */,
 				C925594C25F95F9800C2BF28 /* CivilizationTypeExtension.swift in Sources */,
 				C98E68B12577D28E00BD93CA /* FeatureTypeExtension.swift in Sources */,
@@ -674,6 +689,7 @@
 				C9022FA026093D5300C6773A /* LeaderTypeExtension.swift in Sources */,
 				C903D06D274A5BF7003C50B9 /* LabelTokenizer.swift in Sources */,
 				C9E87BBD264DB49100514B9A /* BuildingTypeExtension.swift in Sources */,
+				C9CB992327C6C1F700946E77 /* SlpTextureAtlasLoader.swift in Sources */,
 				C9CB34012761EB12008835D0 /* ContinentTypeExtension.swift in Sources */,
 				C9E87BBF264DB4D600514B9A /* WonderTypeExtension.swift in Sources */,
 				C9C8A7492785788200BC68CF /* DedicationTypeExtension.swift in Sources */,

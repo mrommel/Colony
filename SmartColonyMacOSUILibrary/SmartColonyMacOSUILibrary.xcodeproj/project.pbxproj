@@ -201,7 +201,6 @@
 		C9A48D4D2653FAA600260EE0 /* CityDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D4C2653FAA600260EE0 /* CityDialogView.swift */; };
 		C9A48D4F2654084200260EE0 /* CityProductionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D4E2654084200260EE0 /* CityProductionViewModel.swift */; };
 		C9A48D51265408A700260EE0 /* CityProductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D50265408A700260EE0 /* CityProductionView.swift */; };
-		C9A61D81261EE55600341241 /* PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D80261EE55600341241 /* PixelBuffer.swift */; };
 		C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */; };
 		C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D84261EF7F100341241 /* MapOverviewView.swift */; };
 		C9A61D8C261EF87000341241 /* BottomRightBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D8B261EF87000341241 /* BottomRightBarView.swift */; };
@@ -296,7 +295,6 @@
 		C9F2B557266A7FE20016D4F3 /* ConfirmationDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B556266A7FE20016D4F3 /* ConfirmationDialogViewModel.swift */; };
 		C9F4939D26CAAE9600B0C259 /* UnitListDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F4939C26CAAE9600B0C259 /* UnitListDialogViewModel.swift */; };
 		C9F4939F26CAB04400B0C259 /* UnitListDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F4939E26CAB04400B0C259 /* UnitListDialogView.swift */; };
-		C9F9639827C6305000073CC7 /* SlpFileExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F9639727C6305000073CC7 /* SlpFileExtension.swift */; };
 		C9F963B027C65DC000073CC7 /* SmartMacOSUILibraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F963AF27C65DC000073CC7 /* SmartMacOSUILibraryTests.swift */; };
 		C9F963B127C65DC000073CC7 /* SmartColonyMacOSUILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99A885C26079F4C003B8B73 /* SmartColonyMacOSUILibrary.framework */; };
 		C9F963BA27C65E1600073CC7 /* SlpExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F963B927C65E1600073CC7 /* SlpExtractionTests.swift */; };
@@ -527,7 +525,6 @@
 		C9A48D4C2653FAA600260EE0 /* CityDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityDialogView.swift; sourceTree = "<group>"; };
 		C9A48D4E2654084200260EE0 /* CityProductionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityProductionViewModel.swift; sourceTree = "<group>"; };
 		C9A48D50265408A700260EE0 /* CityProductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityProductionView.swift; sourceTree = "<group>"; };
-		C9A61D80261EE55600341241 /* PixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelBuffer.swift; sourceTree = "<group>"; };
 		C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewViewModel.swift; sourceTree = "<group>"; };
 		C9A61D84261EF7F100341241 /* MapOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewView.swift; sourceTree = "<group>"; };
 		C9A61D8A261EF86F00341241 /* BottomLeftBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomLeftBarView.swift; sourceTree = "<group>"; };
@@ -619,7 +616,6 @@
 		C9F2B556266A7FE20016D4F3 /* ConfirmationDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationDialogViewModel.swift; sourceTree = "<group>"; };
 		C9F4939C26CAAE9600B0C259 /* UnitListDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitListDialogViewModel.swift; sourceTree = "<group>"; };
 		C9F4939E26CAB04400B0C259 /* UnitListDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitListDialogView.swift; sourceTree = "<group>"; };
-		C9F9639727C6305000073CC7 /* SlpFileExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlpFileExtension.swift; sourceTree = "<group>"; };
 		C9F963AD27C65DC000073CC7 /* SmartColonyMacOSUILibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartColonyMacOSUILibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9F963AF27C65DC000073CC7 /* SmartMacOSUILibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartMacOSUILibraryTests.swift; sourceTree = "<group>"; };
 		C9F963B727C65E0B00073CC7 /* merchant-idle.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "merchant-idle.slp"; sourceTree = "<group>"; };
@@ -806,9 +802,9 @@
 		C99A885226079F4C003B8B73 = {
 			isa = PBXGroup;
 			children = (
-				C99EB0F3274BCFD600D2FAE6 /* Packages */,
 				C99A885E26079F4C003B8B73 /* SmartColonyMacOSUILibrary */,
 				C9F963AE27C65DC000073CC7 /* SmartColonyMacOSUILibraryTests */,
+				C99EB0F3274BCFD600D2FAE6 /* Packages */,
 				C99A885D26079F4C003B8B73 /* Products */,
 				C99A887C2607A06C003B8B73 /* Frameworks */,
 			);
@@ -907,13 +903,11 @@
 				C93AA6AA260F24640053DF74 /* CGRectExtension.swift */,
 				C9B43FB0263E905B00241012 /* CGSizeExtension.swift */,
 				C99A88972607A2CC003B8B73 /* CGImageExtension.swift */,
-				C9A61D80261EE55600341241 /* PixelBuffer.swift */,
 				C9FD308426223EA200153752 /* DemoGameModel.swift */,
 				C9711125262569D600B58AAE /* NSMenuItemExtension.swift */,
 				C968F2AD2639EE3C00612D0E /* SKLabelNodeExtension.swift */,
 				C925676E26563C7700B895BD /* CityBuildQueueManager.swift */,
 				C9B71F0B278E28EE0091BADD /* ViewExtension.swift */,
-				C9F9639727C6305000073CC7 /* SlpFileExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1210,13 +1204,12 @@
 				C99A885926079F4C003B8B73 /* Frameworks */,
 				C99A885A26079F4C003B8B73 /* Resources */,
 				C99A88802607A06C003B8B73 /* Embed Frameworks */,
-				C977C0BF26D8CC0800E91446 /* ShellScript */,
 				C977C0BD26D8C7B900E91446 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C99EB0C6274BBCCC00D2FAE6 /* PBXTargetDependency */,
+				C9641C8C27C6CDEB00FE446B /* PBXTargetDependency */,
 			);
 			name = SmartColonyMacOSUILibrary;
 			packageProductDependencies = (
@@ -1322,23 +1315,6 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n  swiftlint --config ../.swiftlint.yml\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
-		C977C0BF26D8CC0800E91446 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n  swiftlint autocorrect --config ../.swiftlint.yml \nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1364,7 +1340,6 @@
 				C9077A8A26D65639004BE679 /* DialogButtonStyle.swift in Sources */,
 				C9754D60275F3B21000A1B70 /* MapLensLegendViewModel.swift in Sources */,
 				C9077A8226D626AC004BE679 /* TradeRoutesDialogView.swift in Sources */,
-				C9A61D81261EE55600341241 /* PixelBuffer.swift in Sources */,
 				C91A07A826D9135C008E9F86 /* WonderBuiltPopupView.swift in Sources */,
 				C9A61D8C261EF87000341241 /* BottomRightBarView.swift in Sources */,
 				C92F9488265E2298000968AB /* HexagonGridView.swift in Sources */,
@@ -1389,7 +1364,6 @@
 				C9D191AD265A8659008C9622 /* CityReligionView.swift in Sources */,
 				C9A376072634462A0057923E /* FeatureLayer.swift in Sources */,
 				C9E0597F2655103D00C08463 /* UnitView.swift in Sources */,
-				C9F9639827C6305000073CC7 /* SlpFileExtension.swift in Sources */,
 				C9CE216B2649675B00B47ED4 /* MenuButtonStyle.swift in Sources */,
 				C980E77526E21EAE0089053A /* CombatUnitViewModel.swift in Sources */,
 				C93FD2D927331E20003348FB /* ScienceRankingViewModel.swift in Sources */,
@@ -1647,9 +1621,9 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C99EB0C6274BBCCC00D2FAE6 /* PBXTargetDependency */ = {
+		C9641C8C27C6CDEB00FE446B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = C99EB0C5274BBCCC00D2FAE6 /* CustomToolTip */;
+			productRef = C9641C8B27C6CDEB00FE446B /* CustomToolTip */;
 		};
 		C9F963B327C65DC000073CC7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1910,16 +1884,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mrommel/CustomToolTip";
 			requirement = {
-				kind = exactVersion;
-				version = 1.0.8;
-			};
-		};
-		C9CB7B7D274BB1440080B96B /* XCRemoteSwiftPackageReference "CustomToolTip" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/chipjarred/CustomToolTip";
-			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.8;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1930,9 +1896,8 @@
 			package = C95C7A74273827E300B2CE1A /* XCRemoteSwiftPackageReference "Charts" */;
 			productName = Charts;
 		};
-		C99EB0C5274BBCCC00D2FAE6 /* CustomToolTip */ = {
+		C9641C8B27C6CDEB00FE446B /* CustomToolTip */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C9CB7B7D274BB1440080B96B /* XCRemoteSwiftPackageReference "CustomToolTip" */;
 			productName = CustomToolTip;
 		};
 		C99EB0F8274BD27C00D2FAE6 /* CustomToolTip */ = {

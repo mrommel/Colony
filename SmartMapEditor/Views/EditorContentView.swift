@@ -8,7 +8,7 @@
 import SwiftUI
 import Cocoa
 import SmartAILibrary
-import SmartMacOSUILibrary
+import SmartColonyMacOSUILibrary
 
 struct EditorContentView: View {
 

@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import SmartMacOSUILibrary
 import Combine
+import SmartColonyMacOSUILibrary
 import SmartAILibrary
 
 @main

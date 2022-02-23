@@ -5,10 +5,10 @@
 //  Created by Michael Rommel on 06.08.21.
 //
 
-import SmartAssets
 import Cocoa
+import SmartAssets
 import SmartAILibrary
-import SmartMacOSUILibrary
+import SmartColonyMacOSUILibrary
 
 enum PediaCategory {
 

@@ -8,7 +8,7 @@
 import SmartAssets
 import Cocoa
 import SmartAILibrary
-import SmartMacOSUILibrary
+import SmartColonyMacOSUILibrary
 
 protocol CreateGameMenuViewModelDelegate: AnyObject {
 

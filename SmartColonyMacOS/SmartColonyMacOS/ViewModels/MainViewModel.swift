@@ -8,7 +8,7 @@
 import SwiftUI
 import SmartAILibrary
 import SmartAssets
-import SmartMacOSUILibrary
+import SmartColonyMacOSUILibrary
 
 enum PresentedViewType {
 

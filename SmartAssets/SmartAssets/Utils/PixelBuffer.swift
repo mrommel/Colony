@@ -7,7 +7,7 @@
 
 import Cocoa
 
-extension NSColor {
+extension TypeColor {
 
     final func toRGBAComponents() -> (r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat) {
         var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
@@ -29,7 +29,7 @@ struct PixelData {
     var green: UInt8
     var blue: UInt8
 
-    init(color: NSColor) {
+    init(color: TypeColor) {
 
         var redVal: CGFloat = 0, greenVal: CGFloat = 0, blueVal: CGFloat = 0, alphaVal: CGFloat = 0
 
@@ -52,7 +52,7 @@ public struct PixelBuffer {
     var width: Int
     var height: Int
 
-    public init?(image: NSImage) {
+    public init?(image: TypeImage) {
 
         guard let cgImage = image.cgImage else { return nil }
         self.width = Int(image.size.width)
@@ -87,7 +87,7 @@ public struct PixelBuffer {
         self.pixels = Array(repeating: PixelData(color: color), count: self.width * self.height)
     }
 
-    public mutating func set(color: NSColor, at index: Int) {
+    public mutating func set(color: TypeColor, at index: Int) {
 
         guard 0 <= index && index < self.width * self.height else {
             return
@@ -96,7 +96,7 @@ public struct PixelBuffer {
         self.pixels[index] = PixelData(color: color)
     }
 
-    public mutating func set(color: NSColor, x: Int, y: Int) {
+    public mutating func set(color: TypeColor, x: Int, y: Int) {
         let index = y * self.width + x
 
         self.set(color: color, at: index)
@@ -141,6 +141,6 @@ public struct PixelBuffer {
             fatalError("Can't create image")
         }
 
-        return NSImage(cgImage: cgim, size: NSSize(width: width, height: height))
+        return TypeImage(cgImage: cgim, size: NSSize(width: width, height: height))
     }
 }

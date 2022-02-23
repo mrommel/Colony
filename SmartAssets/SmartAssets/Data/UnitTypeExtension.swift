@@ -385,7 +385,7 @@ extension UnitType {
             return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)
 
         case .merchant:
-            return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)
+            return SlpTextureAtlasLoader.atlas(for: "merchant-idle", range: 0..<10)
 
         case .musician:
             return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)
@@ -502,7 +502,10 @@ extension UnitType {
         case .admiral: return nil
         case .engineer: return nil
         case .general: return nil
-        case .merchant: return nil
+
+        case .merchant:
+            return SlpTextureAtlasLoader.atlas(for: "merchant-walk", range: 0..<10)
+
         case .musician: return nil
         case .prophet:
             let textureAtlas = TextureAtlasLoader.load(named: "prophet", in: bundle)
@@ -613,7 +616,10 @@ extension UnitType {
         case .admiral: return nil
         case .engineer: return nil
         case .general: return nil
-        case .merchant: return nil
+
+        case .merchant:
+            return SlpTextureAtlasLoader.atlas(for: "merchant-walk", range: 40..<50)
+
         case .musician: return nil
         case .prophet:
             let textureAtlas = TextureAtlasLoader.load(named: "prophet", in: bundle)
@@ -724,7 +730,10 @@ extension UnitType {
         case .admiral: return nil
         case .engineer: return nil
         case .general: return nil
-        case .merchant: return nil
+
+        case .merchant:
+            return SlpTextureAtlasLoader.atlas(for: "merchant-walk", range: 20..<30, mirror: true)
+
         case .musician: return nil
         case .prophet:
             let textureAtlas = TextureAtlasLoader.load(named: "prophet", in: bundle)
@@ -835,7 +844,10 @@ extension UnitType {
         case .admiral: return nil
         case .engineer: return nil
         case .general: return nil
-        case .merchant: return nil
+
+        case .merchant:
+            return SlpTextureAtlasLoader.atlas(for: "merchant-walk", range: 20..<30)
+
         case .musician: return nil
         case .prophet:
             let textureAtlas = TextureAtlasLoader.load(named: "prophet", in: bundle)

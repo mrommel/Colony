@@ -324,7 +324,7 @@ public class SlpFile {
         self.numFrames = try reader.read()
         self.comment = try reader.readUTF8(24)
 
-        print("version=\(self.version), numFrames=\(self.numFrames), comment=\(self.comment)")
+        // print("version=\(self.version), numFrames=\(self.numFrames), comment=\(self.comment)")
 
         var tmpFrames: [SlpFrame] = []
         tmpFrames.reserveCapacity(Int(numFrames))
@@ -337,7 +337,7 @@ public class SlpFile {
             tmpFrames.append(frame)
         }
 
-        print("got \(self.numFrames) headers")
+        // print("got \(self.numFrames) headers")
 
         for index in 0..<self.numFrames {
 
@@ -414,9 +414,9 @@ public class SlpFrameData {
 
     init(reader: BinaryDataReader, header: SlpFrameHeader) throws {
 
-        print("-- parse frame")
-        print("-- width: \(header.width)")
-        print("-- height: \(header.height)")
+        // print("-- parse frame")
+        // print("-- width: \(header.width)")
+        // print("-- height: \(header.height)")
         let player = 0
 
         // Initialize our indices array as a table full of transparent colours.
@@ -463,11 +463,9 @@ public class SlpFrameData {
 
                     // An array of palette indices. This is about as bitmap as it gets in SLPs.
                     let numpixels0 = cmd >> 2
-                    for _ in 0..<numpixels0 {
-                        if reader.canRead {
-                            let byteVal: UInt8 = try reader.read()
-                            commands.enqueue(SlpRenderCommandType.color(index: byteVal))
-                        }
+                    for _ in 0..<numpixels0 where reader.canRead {
+                        let byteVal: UInt8 = try reader.read()
+                        commands.enqueue(SlpRenderCommandType.color(index: byteVal))
                     }
 
                 } else if lowBits == 0x01 { // SLP_SKIP
@@ -485,11 +483,9 @@ public class SlpFrameData {
                     // An array of palette indexes. Supports a greater number of pixels than the above color list.
                     let offset: UInt8 = try reader.read()
                     let numpixels2 = (highNibble << 4) + offset
-                    for _ in 0..<numpixels2 {
-                        if reader.canRead {
-                            let byteVal: UInt8 = try reader.read()
-                            commands.enqueue(SlpRenderCommandType.color(index: byteVal))
-                        }
+                    for _ in 0..<numpixels2 where reader.canRead {
+                        let byteVal: UInt8 = try reader.read()
+                        commands.enqueue(SlpRenderCommandType.color(index: byteVal))
                     }
 
                 } else if lowNibble == 0x03 { // SLP_SKIP_EX
@@ -507,14 +503,9 @@ public class SlpFrameData {
                         numpixels6 = try reader.read()
                     }
 
-                    for _ in 0..<numpixels6 {
-                        // have to do some fancy stuff with player indices
-                        // reader.ReadByte is actually just a relative palette index which should be grabbed
-                        // later on using a palette index function.
-                        if reader.canRead {
-                            let byteVal: UInt8 = try reader.read()
-                            commands.enqueue(SlpRenderCommandType.playerColor(index: byteVal))
-                        }
+                    for _ in 0..<numpixels6 where reader.canRead {
+                        let byteVal: UInt8 = try reader.read()
+                        commands.enqueue(SlpRenderCommandType.playerColor(index: byteVal))
                     }
 
                 } else if lowNibble == 0x07 { // SLP_FILL

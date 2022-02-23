@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SmartMacOSUILibrary
+import SmartColonyMacOSUILibrary
 
 struct DebugView: View {
 

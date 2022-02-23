@@ -7,7 +7,7 @@
 
 import Foundation
 import SmartAILibrary
-import SmartMacOSUILibrary
+import SmartColonyMacOSUILibrary
 
 class EditorContentViewModel: MapScrollContentViewModel {
 
