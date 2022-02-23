@@ -16,9 +16,10 @@ extension SlpFrame {
         let palette = Palette.aoe2_palette
 
         for (index, colorIndex) in self.data.indicesArray.enumerated() {
-
-            let color: TypeColor = palette[Int(colorIndex)]
-            buffer.set(color: color, at: index)
+            if colorIndex != 255 { // 255 is transparent
+                let color: TypeColor = palette[Int(colorIndex)]
+                buffer.set(color: color, at: index)
+            }
         }
 
         return buffer

@@ -8,6 +8,7 @@
 import Foundation
 import BinarySwift
 import AppKit
+import SmartAILibrary
 
 // swiftlint:disable colon
 public class Palette {
@@ -340,10 +341,6 @@ public class SlpFile {
 
         for index in 0..<self.numFrames {
 
-            if index == 49 {
-                print("abc")
-                //continue
-            }
             let frameHeader = tmpFrames[Int(index)].header
             let frameData = try SlpFrameData(reader: reader, header: frameHeader)
             tmpFrames[Int(index)].data = frameData
@@ -388,6 +385,18 @@ public class SlpFrameHeader {
     }
 }
 
+enum SlpRenderCommandType {
+
+    case nextline // RENDER_NEXTLINE
+    case color(index: UInt8) // RENDER_COLOR
+    case skip(amount: UInt8) // RENDER_SKIP
+    case playerColor(index: UInt8) // RENDER_PLAYER_COLOR
+    case fill(amount: UInt8, index: UInt8) // RENDER_FILL
+    case playerFill(amount: UInt8, index: UInt8) // RENDER_PLAYER_FILL
+    case shadow(amount: UInt8) // RENDER_SHADOW
+    case outline(amount: UInt8) // RENDER_OUTLINE
+}
+
 public class SlpFrameData {
 
     private var leftEdges: [UInt16]
@@ -408,6 +417,7 @@ public class SlpFrameData {
         print("-- parse frame")
         print("-- width: \(header.width)")
         print("-- height: \(header.height)")
+        let player = 0
 
         // Initialize our indices array as a table full of transparent colours.
         self.indicesArray = [UInt8](repeating: UInt8(255), count: Int(header.width * header.height)) // transparent index
@@ -422,7 +432,7 @@ public class SlpFrameData {
             self.leftEdges[index] = try reader.read()
             self.rightEdges[index] = try reader.read()
 
-            print("- row: \(index) => left: \(self.leftEdges[index]) - right: \(self.rightEdges[index])")
+            // print("- row: \(index) => left: \(self.leftEdges[index]) - right: \(self.rightEdges[index])")
         }
 
         // Command offsets
@@ -432,73 +442,67 @@ public class SlpFrameData {
             commandOffsets[index] = try reader.read()
         }
 
+        let commands: Queue<SlpRenderCommandType> = Queue<SlpRenderCommandType>()
+
         for y in 0..<Int(header.height) {
 
             try reader.seek(Int(commandOffsets[y]))
-            var x: UInt16 = self.leftEdges[y]
 
-            var opcode: UInt8 = 0
-            let exitCode: UInt8 = 0x0F
-            opcode = try reader.read()
-            while opcode != exitCode && reader.canRead { // whilst the row is still not ended
-                
-                // let twobit = opcode & 0x3
-                let command = opcode & 0xF // fourbit
+            while reader.canRead { // whilst the row is still not ended
 
-                if command == 0x0F {
+                let cmd: UInt8 = try reader.read()
+                let lowNibble = cmd & 0x0f
+                let highNibble = cmd & 0xf0
+                let lowBits = cmd & 0x03 // 0b00…0011
+
+                if lowNibble == 0x0f { // SLP_END_OF_ROW
+
+                    commands.enqueue(SlpRenderCommandType.nextline)
                     break
-                }
+                } else if lowBits == 0x00 { // SLP_COLOR_LIST
 
-                switch command {
-
-                case 0, 4, 8, 0xC: // SLP_COLOR_LIST
-                    // Color list:
                     // An array of palette indices. This is about as bitmap as it gets in SLPs.
-                    let numpixels0 = opcode >> 2
+                    let numpixels0 = cmd >> 2
                     for _ in 0..<numpixels0 {
-                        if x < header.width && reader.canRead {
-                            self.indicesArray[y * Int(header.width) + Int(x)] = try reader.read()
-                            print("command: SLP_COLOR_LIST at: \(y * Int(header.width) + Int(x)) = \(self.indicesArray[y * Int(header.width) + Int(x)])")
+                        if reader.canRead {
+                            let byteVal: UInt8 = try reader.read()
+                            commands.enqueue(SlpRenderCommandType.color(index: byteVal))
                         }
-                        x += 1
                     }
 
-                case 1, 5, 9, 0xD: // SLP_SKIP
-                    // Skip
+                } else if lowBits == 0x01 { // SLP_SKIP
+
                     // The specified number of pixels are transparent.
-                    var numpixels1: UInt8 = opcode >> 2
+                    var numpixels1: UInt8 = cmd >> 2
                     if numpixels1 == 0 {
                         numpixels1 = try reader.read()
                     }
 
-                    x += UInt16(numpixels1)
-                    print("command: SLP_SKIP \(numpixels1)")
+                    commands.enqueue(SlpRenderCommandType.skip(amount: numpixels1))
 
-                case 2: // SLP_COLOR_LIST_EX
-                    // Big color list:
+                } else if lowNibble == 0x02 { // SLP_COLOR_LIST_EX
+
                     // An array of palette indexes. Supports a greater number of pixels than the above color list.
                     let offset: UInt8 = try reader.read()
-                    let numpixels2 = ((opcode & 0xF0) << 4) + offset
+                    let numpixels2 = (highNibble << 4) + offset
                     for _ in 0..<numpixels2 {
-                        if x < header.width && reader.canRead {
-                            self.indicesArray[y * Int(header.width) + Int(x)] = try reader.read()
-                            print("command: SLP_COLOR_LIST_EX at: \(y * Int(header.width) + Int(x)) = \(self.indicesArray[y * Int(header.width) + Int(x)])")
+                        if reader.canRead {
+                            let byteVal: UInt8 = try reader.read()
+                            commands.enqueue(SlpRenderCommandType.color(index: byteVal))
                         }
-                        x += 1
                     }
 
-                case 3: // SLP_SKIP_EX
-                    // Big Skip:
+                } else if lowNibble == 0x03 { // SLP_SKIP_EX
+
                     // The specified number of pixels are transparent. Supports a greater number of pixels than the above skip.
                     let offset: UInt8 = try reader.read()
-                    let numpixels3 = ((opcode & 0xF0) << 4) + offset
-                    print("command: SLP_SKIP_EX at: \(x) => for: \(numpixels3)")
-                    x += UInt16(numpixels3)
+                    let numpixels3 = (highNibble << 4) + offset
+                    commands.enqueue(SlpRenderCommandType.skip(amount: numpixels3))
 
-                case 6: // SLP_COLOR_LIST_PLAYER
-                    // Player color list:
+                } else if lowNibble == 0x06 { // SLP_COLOR_LIST_PLAYER
+
                     // An array of player color indexes. The actual palette index is given by adding ([player number] * 16) + 16 to these values.
-                    var numpixels6 = (opcode & 0xF0) >> 4
+                    var numpixels6 = (cmd & 0xF0) >> 4
                     if numpixels6 == 0 {
                         numpixels6 = try reader.read()
                     }
@@ -508,33 +512,27 @@ public class SlpFrameData {
                         // reader.ReadByte is actually just a relative palette index which should be grabbed
                         // later on using a palette index function.
                         if reader.canRead {
-                            self.indicesArray[y * Int(header.width) + Int(x)] = try reader.read()
-                            print("command: SLP_COLOR_LIST_PLAYER at: \(y * Int(header.width) + Int(x)) = \(self.indicesArray[y * Int(header.width) + Int(x)])")
+                            let byteVal: UInt8 = try reader.read()
+                            commands.enqueue(SlpRenderCommandType.playerColor(index: byteVal))
                         }
-                        x += 1
                     }
 
-                case 7: // SLP_FILL
-                    // Fill:
+                } else if lowNibble == 0x07 { // SLP_FILL
+
                     // Fills the specified number of pixels with the following palette index.
-                    var numpixels7: UInt8 = (opcode & 0xF0) >> 4
+                    var numpixels7: UInt8 = (cmd & 0xF0) >> 4
                     if numpixels7 == 0 {
                         numpixels7 = try reader.read()
                     }
 
                     let colorindex: UInt8 = try reader.read()
 
-                    print("command: SLP_FILL at: \(y * Int(header.width) + Int(x)) + \(numpixels7) = \(colorindex)")
+                    commands.enqueue(SlpRenderCommandType.fill(amount: numpixels7, index: colorindex))
 
-                    for _ in 0..<numpixels7 {
-                        self.indicesArray[y * Int(header.width) + Int(x)] = colorindex
-                        x += 1
-                    }
+                } else if lowNibble == 0x0a { // SLP_FILL_PLAYER
 
-                case 0xA: // SLP_FILL_PLAYER
-                    // Player color fill:
-                    // Same as above, but using the player color formula (see Player color list).
-                    var numpixelsa: UInt8 = (opcode & 0xF0) >> 4
+                    // // Same as above, but using the player color formula (see Player color list).
+                    var numpixelsa: UInt8 = (cmd & 0xF0) >> 4
                     if numpixelsa == 0 {
                         numpixelsa = try reader.read()
                     }
@@ -546,55 +544,86 @@ public class SlpFrameData {
                     // color.
                     let playercolorindex: UInt8 = try reader.read()
 
-                    print("command: SLP_FILL at: \(y * Int(header.width) + Int(x)) + \(numpixelsa) = \(playercolorindex)")
+                    commands.enqueue(SlpRenderCommandType.playerFill(amount: numpixelsa, index: playercolorindex))
 
-                    for _ in 0..<numpixelsa {
-                        self.indicesArray[y * Int(header.width) + Int(x)] = playercolorindex
-                        x += 1
-                    }
+                } else if lowNibble == 0x0b { // SLP_SHADOW
 
-                case 0xB: // SLP_SHADOW
-                    var numpixelsb: UInt8 = (opcode & 0xF0) >> 4
+                    var numpixelsb: UInt8 = (cmd & 0xF0) >> 4
                     if numpixelsb == 0 {
                         numpixelsb = try reader.read()
                     }
 
-                    print("command: SLP_SHADOW at: \(x) => for: \(numpixelsb)")
-                    x += UInt16(numpixelsb)
+                    commands.enqueue(SlpRenderCommandType.shadow(amount: numpixelsb))
 
-                case 0x0E: // SLP_EXTENDED
-                    let extendedcmd = opcode >> 4
+                } else if lowNibble == 0x0e { // SLP_EXTENDED
 
-                    switch extendedcmd {
-
-                    case 0x4E: // SLP_EX_OUTLINE1
-                        print("command: SLP_EX_OUTLINE1 at: \(x)")
-                        x += 1
-
-                    case 0x6E: // SLP_EX_OUTLINE2
-                        print("command: SLP_EX_OUTLINE2 at: \(x)")
-                        x += 1
-
-                    case 0x5E: // SLP_EX_FILL_OUTLINE1
+                    if highNibble == 0x40 { // SLP_EX_OUTLINE1
+                        commands.enqueue(SlpRenderCommandType.outline(amount: 1))
+                    } else if highNibble == 0x60 { // SLP_EX_OUTLINE2
+                        commands.enqueue(SlpRenderCommandType.outline(amount: 2))
+                    } else if highNibble == 0x50 { // SLP_EX_FILL_OUTLINE1
                         let outlinespanamount: UInt8 = try reader.read()
-                        print("command: SLP_EX_FILL_OUTLINE1 at: \(x) => \(outlinespanamount)")
-                        x += 1
-
-                    case 0x7E: // SLP_EX_FILL_OUTLINE2
+                        for _ in 0..<outlinespanamount {
+                            commands.enqueue(SlpRenderCommandType.outline(amount: 1))
+                        }
+                    } else if highNibble == 0x70 { // SLP_EX_FILL_OUTLINE2
                         let outlinespanamount: UInt8 = try reader.read()
-                        print("command: SLP_EX_FILL_OUTLINE2 at: \(x) => \(outlinespanamount * 2)")
-                        x += 1
-                    default:
-                        // NOOP
-                        break
+                        for _ in 0..<outlinespanamount {
+                            commands.enqueue(SlpRenderCommandType.outline(amount: 2))
+                        }
                     }
+                }
+            }
+        }
 
-                default:
-                    fatalError("Unknown cmd: \(command)")
+        // Render a frame to a buffer.
+        var y = 0
+        var x: UInt16 = 0
+
+        while let command = commands.dequeue() {
+            // print(command)
+
+            switch command {
+
+            case .nextline:
+                y += 1
+                if y < self.leftEdges.count {
+                    x = self.leftEdges[y] // move to start point of next line
                 }
 
-                if reader.canRead {
-                    opcode = try reader.read()
+            case .color(let index):
+                self.indicesArray[y * Int(header.width) + Int(x)] = index
+                x += 1
+
+            case .skip(let amount):
+                x += UInt16(amount)
+
+            case .playerColor(let index):
+                self.indicesArray[y * Int(header.width) + Int(x)] = index + UInt8(16 * player)
+                x += 1
+
+            case .fill(let amount, let index):
+                for _ in 0..<amount {
+                    self.indicesArray[y * Int(header.width) + Int(x)] = index
+                    x += 1
+                }
+
+            case .playerFill(let amount, let index):
+                for _ in 0..<amount {
+                    self.indicesArray[y * Int(header.width) + Int(x)] = index + UInt8(16 * player)
+                    x += 1
+                }
+
+            case .shadow(let amount):
+                for _ in 0..<amount {
+                    // self.indicesArray[y * Int(header.width) + Int(x)] = red
+                    x += 1
+                }
+
+            case .outline(let amount):
+                for _ in 0..<amount {
+                    // self.indicesArray[y * Int(header.width) + Int(x)] = black
+                    x += 1
                 }
             }
         }

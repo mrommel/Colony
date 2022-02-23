@@ -168,6 +168,7 @@
 		C9A12B6F26FAFE370094B980 /* HeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A12B6E26FAFE370094B980 /* HeaderViewModel.swift */; };
 		C9A12B7126FB0C420094B980 /* CityLoyaltyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A12B7026FB0C420094B980 /* CityLoyaltyViewModel.swift */; };
 		C9A12B7326FB0CD90094B980 /* CityLoyaltyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A12B7226FB0CD90094B980 /* CityLoyaltyView.swift */; };
+		C9A327BA27C667560084FC04 /* merchant-idle.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9F963B727C65E0B00073CC7 /* merchant-idle.slp */; };
 		C9A3760526340F9B0057923E /* GameSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3760426340F9B0057923E /* GameSceneView.swift */; };
 		C9A376072634462A0057923E /* FeatureLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A376062634462A0057923E /* FeatureLayer.swift */; };
 		C9A37609263446360057923E /* TerrainLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A37608263446360057923E /* TerrainLayer.swift */; };
@@ -1297,6 +1298,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9A327BA27C667560084FC04 /* merchant-idle.slp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

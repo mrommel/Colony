@@ -6,11 +6,12 @@
 //
 
 import XCTest
-//@testable import SmartColonyMacOSUILibrary
+import SmartAssets
+@testable import SmartColonyMacOSUILibrary
 
 class SlpExtractionTests: XCTestCase {
-    
-    /*private var downloadsFolder: URL = {
+
+    private var downloadsFolder: URL = {
         let fileManager = FileManager.default
         let folder = fileManager.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
 
@@ -31,14 +32,15 @@ class SlpExtractionTests: XCTestCase {
 
         guard let slpFile = SlpFileReader().load(from: url) else {
             XCTFail("Could not load file")
+            return
         }
 
         XCTAssertEqual(slpFile.frames.count, 50)
 
         for index in 0..<slpFile.frames.count {
 
-            let filename = downloadsFolder.appendingPathComponent("out\(index).png")
-            slpFile.frames[index].image()
+            let filenameUrl = downloadsFolder.appendingPathComponent("out\(index).png")
+            try slpFile.frames[index].image()?.savePngTo(url: filenameUrl)
         }
-    }*/
+    }
 }

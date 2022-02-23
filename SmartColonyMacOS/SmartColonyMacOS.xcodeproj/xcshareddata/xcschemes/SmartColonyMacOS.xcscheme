@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C9F6EB2C2607908C0052140C"
+               BlueprintIdentifier = "C9B0D6642716B86600F3AA1C"
                BuildableName = "SmartColonyMacOSTests.xctest"
                BlueprintName = "SmartColonyMacOSTests"
                ReferencedContainer = "container:SmartColonyMacOS.xcodeproj">
@@ -53,7 +53,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C9B0D6642716B86600F3AA1C"
-               BuildableName = "SmartColonyTests.xctest"
+               BuildableName = "SmartColonyMacOSTests.xctest"
                BlueprintName = "SmartColonyMacOSTests"
                ReferencedContainer = "container:SmartColonyMacOS.xcodeproj">
             </BuildableReference>

@@ -19,6 +19,7 @@ class SlpLoadingTests: XCTestCase {
 
         guard let slpFile = SlpFileReader().load(from: url) else {
             XCTFail("Could not load file")
+            return
         }
 
         XCTAssertEqual(slpFile.frames.count, 50)
