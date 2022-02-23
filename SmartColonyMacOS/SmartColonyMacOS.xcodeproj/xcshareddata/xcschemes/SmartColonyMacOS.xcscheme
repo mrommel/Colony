@@ -54,7 +54,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C9B0D6642716B86600F3AA1C"
                BuildableName = "SmartColonyTests.xctest"
-               BlueprintName = "SmartColonyTests"
+               BlueprintName = "SmartColonyMacOSTests"
                ReferencedContainer = "container:SmartColonyMacOS.xcodeproj">
             </BuildableReference>
          </TestableReference>

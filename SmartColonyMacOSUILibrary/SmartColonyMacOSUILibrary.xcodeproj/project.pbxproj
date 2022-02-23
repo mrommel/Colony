@@ -295,11 +295,25 @@
 		C9F2B557266A7FE20016D4F3 /* ConfirmationDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B556266A7FE20016D4F3 /* ConfirmationDialogViewModel.swift */; };
 		C9F4939D26CAAE9600B0C259 /* UnitListDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F4939C26CAAE9600B0C259 /* UnitListDialogViewModel.swift */; };
 		C9F4939F26CAB04400B0C259 /* UnitListDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F4939E26CAB04400B0C259 /* UnitListDialogView.swift */; };
+		C9F9639827C6305000073CC7 /* SlpFileExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F9639727C6305000073CC7 /* SlpFileExtension.swift */; };
+		C9F963B027C65DC000073CC7 /* SmartMacOSUILibraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F963AF27C65DC000073CC7 /* SmartMacOSUILibraryTests.swift */; };
+		C9F963B127C65DC000073CC7 /* SmartColonyMacOSUILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99A885C26079F4C003B8B73 /* SmartColonyMacOSUILibrary.framework */; };
+		C9F963BA27C65E1600073CC7 /* SlpExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F963B927C65E1600073CC7 /* SlpExtractionTests.swift */; };
 		C9FBBE3C268356C4005D7CE6 /* DiplomaticDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FBBE3B268356C4005D7CE6 /* DiplomaticDialogViewModel.swift */; };
 		C9FBBE3E26837991005D7CE6 /* TopBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FBBE3D26837991005D7CE6 /* TopBarViewModel.swift */; };
 		C9FBBE4026837AA7005D7CE6 /* CityBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FBBE3F26837AA7005D7CE6 /* CityBannerView.swift */; };
 		C9FD308526223EA200153752 /* DemoGameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FD308426223EA200153752 /* DemoGameModel.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C9F963B227C65DC000073CC7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C99A885326079F4C003B8B73 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C99A885B26079F4C003B8B73;
+			remoteInfo = SmartMacOSUILibrary;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		C99A88802607A06C003B8B73 /* Embed Frameworks */ = {
@@ -464,7 +478,7 @@
 		C997785427B317F400BFC102 /* GenericPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericPopupViewModel.swift; sourceTree = "<group>"; };
 		C9988F26273280180047F111 /* RankingDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingDialogViewModel.swift; sourceTree = "<group>"; };
 		C9988F28273280DB0047F111 /* RankingDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingDialogView.swift; sourceTree = "<group>"; };
-		C99A885C26079F4C003B8B73 /* SmartMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C99A885C26079F4C003B8B73 /* SmartColonyMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartColonyMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartColonyMacOSUILibrary.h; sourceTree = "<group>"; };
 		C99A886026079F4C003B8B73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C99A887D2607A06C003B8B73 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -604,6 +618,11 @@
 		C9F2B556266A7FE20016D4F3 /* ConfirmationDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationDialogViewModel.swift; sourceTree = "<group>"; };
 		C9F4939C26CAAE9600B0C259 /* UnitListDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitListDialogViewModel.swift; sourceTree = "<group>"; };
 		C9F4939E26CAB04400B0C259 /* UnitListDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitListDialogView.swift; sourceTree = "<group>"; };
+		C9F9639727C6305000073CC7 /* SlpFileExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlpFileExtension.swift; sourceTree = "<group>"; };
+		C9F963AD27C65DC000073CC7 /* SmartColonyMacOSUILibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartColonyMacOSUILibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9F963AF27C65DC000073CC7 /* SmartMacOSUILibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartMacOSUILibraryTests.swift; sourceTree = "<group>"; };
+		C9F963B727C65E0B00073CC7 /* merchant-idle.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "merchant-idle.slp"; sourceTree = "<group>"; };
+		C9F963B927C65E1600073CC7 /* SlpExtractionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlpExtractionTests.swift; sourceTree = "<group>"; };
 		C9FBBE3B268356C4005D7CE6 /* DiplomaticDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticDialogViewModel.swift; sourceTree = "<group>"; };
 		C9FBBE3D26837991005D7CE6 /* TopBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarViewModel.swift; sourceTree = "<group>"; };
 		C9FBBE3F26837AA7005D7CE6 /* CityBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityBannerView.swift; sourceTree = "<group>"; };
@@ -619,6 +638,14 @@
 				C95C7A76273827E300B2CE1A /* Charts in Frameworks */,
 				C99A88842607A190003B8B73 /* SmartAssets.framework in Frameworks */,
 				C99EB0F9274BD27C00D2FAE6 /* CustomToolTip in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9F963AA27C65DC000073CC7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9F963B127C65DC000073CC7 /* SmartColonyMacOSUILibrary.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -780,6 +807,7 @@
 			children = (
 				C99EB0F3274BCFD600D2FAE6 /* Packages */,
 				C99A885E26079F4C003B8B73 /* SmartColonyMacOSUILibrary */,
+				C9F963AE27C65DC000073CC7 /* SmartColonyMacOSUILibraryTests */,
 				C99A885D26079F4C003B8B73 /* Products */,
 				C99A887C2607A06C003B8B73 /* Frameworks */,
 			);
@@ -788,7 +816,8 @@
 		C99A885D26079F4C003B8B73 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C99A885C26079F4C003B8B73 /* SmartMacOSUILibrary.framework */,
+				C99A885C26079F4C003B8B73 /* SmartColonyMacOSUILibrary.framework */,
+				C9F963AD27C65DC000073CC7 /* SmartColonyMacOSUILibraryTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -883,6 +912,7 @@
 				C968F2AD2639EE3C00612D0E /* SKLabelNodeExtension.swift */,
 				C925676E26563C7700B895BD /* CityBuildQueueManager.swift */,
 				C9B71F0B278E28EE0091BADD /* ViewExtension.swift */,
+				C9F9639727C6305000073CC7 /* SlpFileExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1138,6 +1168,24 @@
 			path = Custom;
 			sourceTree = "<group>";
 		};
+		C9F963AE27C65DC000073CC7 /* SmartColonyMacOSUILibraryTests */ = {
+			isa = PBXGroup;
+			children = (
+				C9F963B827C65E0B00073CC7 /* Resources */,
+				C9F963AF27C65DC000073CC7 /* SmartMacOSUILibraryTests.swift */,
+				C9F963B927C65E1600073CC7 /* SlpExtractionTests.swift */,
+			);
+			path = SmartColonyMacOSUILibraryTests;
+			sourceTree = "<group>";
+		};
+		C9F963B827C65E0B00073CC7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C9F963B727C65E0B00073CC7 /* merchant-idle.slp */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1152,9 +1200,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		C99A885B26079F4C003B8B73 /* SmartMacOSUILibrary */ = {
+		C99A885B26079F4C003B8B73 /* SmartColonyMacOSUILibrary */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C99A886426079F4C003B8B73 /* Build configuration list for PBXNativeTarget "SmartMacOSUILibrary" */;
+			buildConfigurationList = C99A886426079F4C003B8B73 /* Build configuration list for PBXNativeTarget "SmartColonyMacOSUILibrary" */;
 			buildPhases = (
 				C99A885726079F4C003B8B73 /* Headers */,
 				C99A885826079F4C003B8B73 /* Sources */,
@@ -1169,14 +1217,32 @@
 			dependencies = (
 				C99EB0C6274BBCCC00D2FAE6 /* PBXTargetDependency */,
 			);
-			name = SmartMacOSUILibrary;
+			name = SmartColonyMacOSUILibrary;
 			packageProductDependencies = (
 				C95C7A75273827E300B2CE1A /* Charts */,
 				C99EB0F8274BD27C00D2FAE6 /* CustomToolTip */,
 			);
 			productName = SmartColonyMacOSUILibrary;
-			productReference = C99A885C26079F4C003B8B73 /* SmartMacOSUILibrary.framework */;
+			productReference = C99A885C26079F4C003B8B73 /* SmartColonyMacOSUILibrary.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		C9F963AC27C65DC000073CC7 /* SmartColonyMacOSUILibraryTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9F963B427C65DC100073CC7 /* Build configuration list for PBXNativeTarget "SmartColonyMacOSUILibraryTests" */;
+			buildPhases = (
+				C9F963A927C65DC000073CC7 /* Sources */,
+				C9F963AA27C65DC000073CC7 /* Frameworks */,
+				C9F963AB27C65DC000073CC7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C9F963B327C65DC000073CC7 /* PBXTargetDependency */,
+			);
+			name = SmartColonyMacOSUILibraryTests;
+			productName = SmartMacOSUILibraryTests;
+			productReference = C9F963AD27C65DC000073CC7 /* SmartColonyMacOSUILibraryTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -1184,15 +1250,19 @@
 		C99A885326079F4C003B8B73 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1320;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
 					C99A885B26079F4C003B8B73 = {
 						CreatedOnToolsVersion = 12.4;
 						LastSwiftMigration = 1240;
 					};
+					C9F963AC27C65DC000073CC7 = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
 				};
 			};
-			buildConfigurationList = C99A885626079F4C003B8B73 /* Build configuration list for PBXProject "SmartMacOSUILibrary" */;
+			buildConfigurationList = C99A885626079F4C003B8B73 /* Build configuration list for PBXProject "SmartColonyMacOSUILibrary" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -1209,13 +1279,21 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C99A885B26079F4C003B8B73 /* SmartMacOSUILibrary */,
+				C99A885B26079F4C003B8B73 /* SmartColonyMacOSUILibrary */,
+				C9F963AC27C65DC000073CC7 /* SmartColonyMacOSUILibraryTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C99A885A26079F4C003B8B73 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9F963AB27C65DC000073CC7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1309,6 +1387,7 @@
 				C9D191AD265A8659008C9622 /* CityReligionView.swift in Sources */,
 				C9A376072634462A0057923E /* FeatureLayer.swift in Sources */,
 				C9E0597F2655103D00C08463 /* UnitView.swift in Sources */,
+				C9F9639827C6305000073CC7 /* SlpFileExtension.swift in Sources */,
 				C9CE216B2649675B00B47ED4 /* MenuButtonStyle.swift in Sources */,
 				C980E77526E21EAE0089053A /* CombatUnitViewModel.swift in Sources */,
 				C93FD2D927331E20003348FB /* ScienceRankingViewModel.swift in Sources */,
@@ -1554,12 +1633,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C9F963A927C65DC000073CC7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9F963BA27C65E1600073CC7 /* SlpExtractionTests.swift in Sources */,
+				C9F963B027C65DC000073CC7 /* SmartMacOSUILibraryTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		C99EB0C6274BBCCC00D2FAE6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			productRef = C99EB0C5274BBCCC00D2FAE6 /* CustomToolTip */;
+		};
+		C9F963B327C65DC000073CC7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C99A885B26079F4C003B8B73 /* SmartColonyMacOSUILibrary */;
+			targetProxy = C9F963B227C65DC000073CC7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1736,10 +1829,44 @@
 			};
 			name = Release;
 		};
+		C9F963B527C65DC100073CC7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartMacOSUILibraryTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C9F963B627C65DC100073CC7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartMacOSUILibraryTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C99A885626079F4C003B8B73 /* Build configuration list for PBXProject "SmartMacOSUILibrary" */ = {
+		C99A885626079F4C003B8B73 /* Build configuration list for PBXProject "SmartColonyMacOSUILibrary" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C99A886226079F4C003B8B73 /* Debug */,
@@ -1748,11 +1875,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C99A886426079F4C003B8B73 /* Build configuration list for PBXNativeTarget "SmartMacOSUILibrary" */ = {
+		C99A886426079F4C003B8B73 /* Build configuration list for PBXNativeTarget "SmartColonyMacOSUILibrary" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C99A886526079F4C003B8B73 /* Debug */,
 				C99A886626079F4C003B8B73 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9F963B427C65DC100073CC7 /* Build configuration list for PBXNativeTarget "SmartColonyMacOSUILibraryTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9F963B527C65DC100073CC7 /* Debug */,
+				C9F963B627C65DC100073CC7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

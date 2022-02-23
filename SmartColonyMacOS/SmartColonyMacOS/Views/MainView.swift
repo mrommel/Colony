@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SmartMacOSUILibrary
+import SmartColonyMacOSUILibrary
 import SmartAILibrary
 
 struct MainView: View {

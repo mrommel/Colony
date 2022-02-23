@@ -122,7 +122,6 @@
 		C956BF6A24F3C7B9009702B4 /* TradeRouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956BF6924F3C7B9009702B4 /* TradeRouteTests.swift */; };
 		C957AA322436357E00203024 /* Civ5Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA312436357E00203024 /* Civ5Feature.swift */; };
 		C957AA34243635B300203024 /* Civ5MapHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA33243635B300203024 /* Civ5MapHeader.swift */; };
-		C957AA37243635D500203024 /* BinarySwift in Frameworks */ = {isa = PBXBuildFile; productRef = C957AA36243635D500203024 /* BinarySwift */; };
 		C957AA392436368200203024 /* Civ5MapPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA382436368200203024 /* Civ5MapPlot.swift */; };
 		C957AA3B2436372D00203024 /* Civ5Terrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA3A2436372D00203024 /* Civ5Terrain.swift */; };
 		C957AA3D2436377C00203024 /* Civ5MapReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA3C2436377C00203024 /* Civ5MapReader.swift */; };
@@ -402,6 +401,8 @@
 		C9F76AAB242E14C00018672A /* PurchaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F76AAA242E14C00018672A /* PurchaseType.swift */; };
 		C9F76AAD242EA54C0018672A /* InfluencePathfinderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F76AAC242EA54C0018672A /* InfluencePathfinderDataSource.swift */; };
 		C9F76AAF243314B80018672A /* CivicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F76AAE243314B80018672A /* CivicTests.swift */; };
+		C9F9639627C60DF900073CC7 /* BinarySwift in Frameworks */ = {isa = PBXBuildFile; productRef = C9F9639527C60DF900073CC7 /* BinarySwift */; };
+		C9F9639C27C641F200073CC7 /* merchant-idle.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9F9639B27C641F100073CC7 /* merchant-idle.slp */; };
 		C9FE140E2412F8B0008CC6B3 /* CombatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FE140D2412F8B0008CC6B3 /* CombatTests.swift */; };
 		C9FE141024140F8B008CC6B3 /* HomelandAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FE140F24140F8B008CC6B3 /* HomelandAI.swift */; };
 		C9FE1412241517D2008CC6B3 /* UnitMission.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FE1411241517D2008CC6B3 /* UnitMission.swift */; };
@@ -817,6 +818,7 @@
 		C9F76AAA242E14C00018672A /* PurchaseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseType.swift; sourceTree = "<group>"; };
 		C9F76AAC242EA54C0018672A /* InfluencePathfinderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfluencePathfinderDataSource.swift; sourceTree = "<group>"; };
 		C9F76AAE243314B80018672A /* CivicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicTests.swift; sourceTree = "<group>"; };
+		C9F9639B27C641F100073CC7 /* merchant-idle.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "merchant-idle.slp"; sourceTree = "<group>"; };
 		C9FE140D2412F8B0008CC6B3 /* CombatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatTests.swift; sourceTree = "<group>"; };
 		C9FE140F24140F8B008CC6B3 /* HomelandAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomelandAI.swift; sourceTree = "<group>"; };
 		C9FE1411241517D2008CC6B3 /* UnitMission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitMission.swift; sourceTree = "<group>"; };
@@ -829,8 +831,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C957AA37243635D500203024 /* BinarySwift in Frameworks */,
 				C90FA35D24C2335800733331 /* XMLParsing in Frameworks */,
+				C9F9639627C60DF900073CC7 /* BinarySwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -900,6 +902,7 @@
 		C90FA34F24C229C800733331 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C9F9639B27C641F100073CC7 /* merchant-idle.slp */,
 				C90FA35124C22A5F00733331 /* arbalest.png */,
 				C90FA35024C22A5F00733331 /* arbalest.xml */,
 			);
@@ -1011,9 +1014,11 @@
 		C923178D23D62A6B001FC723 = {
 			isa = PBXGroup;
 			children = (
+				C9F9639127C589EA00073CC7 /* Packages */,
+				C923179823D62A6B001FC723 /* Products */,
 				C923179923D62A6B001FC723 /* SmartAILibrary */,
 				C92317A423D62A6B001FC723 /* SmartAILibraryTests */,
-				C923179823D62A6B001FC723 /* Products */,
+				C9F9639427C60DF900073CC7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1589,6 +1594,20 @@
 			path = Player;
 			sourceTree = "<group>";
 		};
+		C9F9639127C589EA00073CC7 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		C9F9639427C60DF900073CC7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1619,8 +1638,8 @@
 			);
 			name = SmartAILibrary;
 			packageProductDependencies = (
-				C957AA36243635D500203024 /* BinarySwift */,
 				C90FA35C24C2335800733331 /* XMLParsing */,
+				C9F9639527C60DF900073CC7 /* BinarySwift */,
 			);
 			productName = SmartAILibrary;
 			productReference = C923179723D62A6B001FC723 /* SmartAILibrary.framework */;
@@ -1702,6 +1721,7 @@
 				C9B1D2AA2436131700033791 /* Earth_Large.Civ5Map in Resources */,
 				C9B1D2AD2436131700033791 /* Earth_Tiny.Civ5Map in Resources */,
 				C9B1D2A92436131700033791 /* Earth_Huge.Civ5Map in Resources */,
+				C9F9639C27C641F200073CC7 /* merchant-idle.slp in Resources */,
 				C9B1D2AC2436131700033791 /* Earth_Duel.Civ5Map in Resources */,
 				C9E58848272F2CED0050CE80 /* duel.map in Resources */,
 				C90FA35224C22A6000733331 /* arbalest.xml in Resources */,
@@ -2424,7 +2444,7 @@
 			package = C90FA35B24C2335800733331 /* XCRemoteSwiftPackageReference "XMLParsing" */;
 			productName = XMLParsing;
 		};
-		C957AA36243635D500203024 /* BinarySwift */ = {
+		C9F9639527C60DF900073CC7 /* BinarySwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C957AA35243635D500203024 /* XCRemoteSwiftPackageReference "BinarySwift" */;
 			productName = BinarySwift;

@@ -81,6 +81,12 @@ struct DebugView: View {
                         }, label: {
                             Text("Unit Assets")
                         }).buttonStyle(GameButtonStyle())
+
+                        Button(action: {
+                            self.viewModel.loadSlp()
+                        }, label: {
+                            Text("Load Slp")
+                        }).buttonStyle(GameButtonStyle())
                     }
 
                     Spacer()

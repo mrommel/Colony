@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/mrommel/BinarySwift",
         "state": {
           "branch": null,
-          "revision": "f811044ac5ee0d840ee19a6d27d7fa71a1edde82",
-          "version": "0.9.6"
+          "revision": "9f37510215c6c977ff495a6c0517b02be773b6ed",
+          "version": "0.9.8"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/SDWebImage/SDWebImage.git",
         "state": {
           "branch": null,
-          "revision": "a72df4849408da7e5d3c1b586797b7c601c41d1b",
-          "version": "5.12.1"
+          "revision": "2c53f531f1bedd253f55d85105409c28ed4a922c",
+          "version": "5.12.3"
         }
       },
       {

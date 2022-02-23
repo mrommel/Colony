@@ -466,11 +466,6 @@ class DebugViewModel: ObservableObject {
         }
     }
 
-    func createSpriteKitView() {
-
-        self.delegate?.preparedSkriteKit()
-    }
-
     func generateUnitAssets() {
 
         print("generate unit assets")
@@ -497,6 +492,48 @@ class DebugViewModel: ObservableObject {
             DispatchQueue.main.async {
                 // self.delegate?.prepared(game: gameModel)
                 self.delegate?.closed()
+            }
+        }
+    }
+
+    func createSpriteKitView() {
+
+        self.delegate?.preparedSkriteKit()
+    }
+
+    func loadSlp() {
+
+        print("load slp")
+
+        self.delegate?.preparing()
+
+        DispatchQueue.global(qos: .background).async {
+
+            let gameModel = GameUtils.setupDuelGrass(human: .alexander, ai: .victoria, discover: true)
+            // let humanPlayer = gameModel.humanPlayer()!
+            // let aiPlayer = gameModel.player(for: .victoria)!
+
+            let texturesBundle = Bundle(for: Textures.self)
+            let path = texturesBundle.path(forResource: "merchant-idle", ofType: "slp")
+            let url = URL(fileURLWithPath: path!)
+
+            let slpLoader = SlpFileReader()
+            let slpFile = slpLoader.load(from: url)
+
+            let filename = self.downloadsFolder.appendingPathComponent("merchant-idle.png")
+
+            if let frame = slpFile?.frames.first {
+                if let image = frame.image() {
+                    do {
+                        try image.savePngTo(url: filename)
+                    } catch {
+                        print("cant save image: \(error)")
+                    }
+                }
+            }
+
+            DispatchQueue.main.async {
+                self.delegate?.prepared(game: gameModel)
             }
         }
     }

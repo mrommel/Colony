@@ -259,7 +259,7 @@ public class LabelTokenizer {
         return attributedString
     }
 
-    private func tokenize(text: String) -> [LabelTokenType] {
+    internal func tokenize(text: String) -> [LabelTokenType] {
 
         var regex: NSRegularExpression
 
