@@ -9,7 +9,7 @@ import Foundation
 
 class SlpTextureAtlasLoader {
 
-    public static func atlas(for filename: String, range: Range<Int>, mirror: Bool = false) -> ObjectTextureAtlas? {
+    public static func atlas(for filename: String, range: Range<Int>, mirror: Bool = false, scale: CGFloat = 1.3, offset: CGPoint = .zero) -> ObjectTextureAtlas? {
 
         let bundle = Bundle(for: SlpTextureAtlasLoader.self)
         let path = bundle.path(forResource: filename, ofType: "slp")
@@ -43,15 +43,15 @@ class SlpTextureAtlasLoader {
 
             print("build atlas unitMask: \(unitMask.size)")
 
-            let croppedSize = CGSize(width: selectedImage.size.width * 1.3, height: selectedImage.size.height * 1.3)
+            let croppedSize = CGSize(width: selectedImage.size.width * scale, height: selectedImage.size.height * scale)
             print("build atlas resized to: \(croppedSize)")
 
             if let resizedImage = selectedImage.resize(withSize: croppedSize) {
 
                 // let posX: CGFloat = unitMask.size.width / 2.0 - resizedImage.size.width * CGFloat(sprite.pX)
                 // let posY: CGFloat = unitMask.size.height * 0.25 - resizedImage.size.height * CGFloat(1.0 - sprite.pY)
-                let posX: CGFloat = unitMask.size.width / 2.0 - resizedImage.size.width / 2.0
-                let posY: CGFloat = unitMask.size.height / 2.0 - resizedImage.size.height / 2.0
+                let posX: CGFloat = unitMask.size.width / 2.0 - resizedImage.size.width / 2.0 + offset.x * scale
+                let posY: CGFloat = unitMask.size.height / 2.0 - resizedImage.size.height / 2.0 + offset.y * scale - unitMask.size.height / 6.0
 
                 if var image = unitMask.overlayWith(image: resizedImage, posX: posX, posY: posY) {
 

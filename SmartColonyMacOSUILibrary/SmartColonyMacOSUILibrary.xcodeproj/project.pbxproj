@@ -95,6 +95,7 @@
 		C963AD182786D4C600981EF3 /* MomentsDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C963AD172786D4C600981EF3 /* MomentsDialogViewModel.swift */; };
 		C963AD1A2786DAB600981EF3 /* MomentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C963AD192786DAB600981EF3 /* MomentViewModel.swift */; };
 		C963AD1C2786DB6500981EF3 /* MomentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C963AD1B2786DB6500981EF3 /* MomentView.swift */; };
+		C9641C9027C75E4B00FE446B /* merchant-walk.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9641C8F27C75E4B00FE446B /* merchant-walk.slp */; };
 		C968F28F2639455700612D0E /* BaseLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F28E2639455700612D0E /* BaseLayer.swift */; };
 		C968F2972639817A00612D0E /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F2962639817A00612D0E /* ProgressCircle.swift */; };
 		C968F299263981DD00612D0E /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F298263981DD00612D0E /* ProgressBar.swift */; };
@@ -417,6 +418,7 @@
 		C963AD172786D4C600981EF3 /* MomentsDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsDialogViewModel.swift; sourceTree = "<group>"; };
 		C963AD192786DAB600981EF3 /* MomentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentViewModel.swift; sourceTree = "<group>"; };
 		C963AD1B2786DB6500981EF3 /* MomentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentView.swift; sourceTree = "<group>"; };
+		C9641C8F27C75E4B00FE446B /* merchant-walk.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "merchant-walk.slp"; sourceTree = "<group>"; };
 		C968F28E2639455700612D0E /* BaseLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLayer.swift; sourceTree = "<group>"; };
 		C968F2962639817A00612D0E /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
 		C968F298263981DD00612D0E /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
@@ -1176,6 +1178,7 @@
 		C9F963B827C65E0B00073CC7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C9641C8F27C75E4B00FE446B /* merchant-walk.slp */,
 				C9F963B727C65E0B00073CC7 /* merchant-idle.slp */,
 			);
 			path = Resources;
@@ -1291,6 +1294,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9641C9027C75E4B00FE446B /* merchant-walk.slp in Resources */,
 				C9A327BA27C667560084FC04 /* merchant-idle.slp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

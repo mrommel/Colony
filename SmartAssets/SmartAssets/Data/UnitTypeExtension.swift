@@ -618,7 +618,7 @@ extension UnitType {
         case .general: return nil
 
         case .merchant:
-            return SlpTextureAtlasLoader.atlas(for: "merchant-walk", range: 40..<50)
+            return SlpTextureAtlasLoader.atlas(for: "merchant-walk", range: 40..<50, offset: CGPoint(x: 0, y: 27))
 
         case .musician: return nil
         case .prophet:
@@ -732,7 +732,7 @@ extension UnitType {
         case .general: return nil
 
         case .merchant:
-            return SlpTextureAtlasLoader.atlas(for: "merchant-walk", range: 20..<30, mirror: true)
+            return SlpTextureAtlasLoader.atlas(for: "merchant-walk", range: 20..<30, mirror: true, offset: CGPoint(x: 0, y: 27))
 
         case .musician: return nil
         case .prophet:
@@ -846,7 +846,7 @@ extension UnitType {
         case .general: return nil
 
         case .merchant:
-            return SlpTextureAtlasLoader.atlas(for: "merchant-walk", range: 20..<30)
+            return SlpTextureAtlasLoader.atlas(for: "merchant-walk", range: 20..<30, offset: CGPoint(x: 0, y: 27))
 
         case .musician: return nil
         case .prophet:

@@ -27,7 +27,7 @@ class SlpExtractionTests: XCTestCase {
     func testExtractMerchant() throws {
 
         let testBundle = Bundle(for: type(of: self))
-        let path = testBundle.path(forResource: "merchant-idle", ofType: "slp")
+        let path = testBundle.path(forResource: "merchant-walk", ofType: "slp")
         let url = URL(fileURLWithPath: path!)
 
         guard let slpFile = SlpFileReader().load(from: url) else {
