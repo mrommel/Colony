@@ -19,10 +19,49 @@ extension String {
     }
 }
 
-public enum SlpPlayer: Int {
+public enum SlpPlayer {
 
-    case blue = 1
-    case red = 2
+    case defaultBlue
+    case defaultRed
+    case defaultGreen
+    case defaultYellow
+    case defaultOrange
+    case defaultCyan
+    case defaultMagenta
+    case defaultGray
+
+    case customBlue
+    case customRed
+    case customYellow
+    case customBrown
+    case customOrange
+    case customGreen
+    case customGray
+    case customCyan
+
+    func value() -> Int {
+
+        switch self {
+
+        case .defaultBlue: return 1
+        case .defaultRed: return 2
+        case .defaultGreen: return 3
+        case .defaultYellow: return 4
+        case .defaultOrange: return 5
+        case .defaultCyan: return 6
+        case .defaultMagenta: return 7
+        case .defaultGray: return 8
+
+        case .customBlue: return 1
+        case .customRed: return 2
+        case .customYellow: return 3
+        case .customBrown: return 4
+        case .customOrange: return 5
+        case .customGreen: return 6
+        case .customGray: return 7
+        case .customCyan: return 8
+        }
+    }
 }
 
 public class SlpPaletteReader {
@@ -400,7 +439,7 @@ public class SlpFileReader {
     public init() {
     }
 
-    public func load(from url: URL?, player: SlpPlayer = SlpPlayer.blue) -> SlpFile? {
+    public func load(from url: URL?, player: SlpPlayer = SlpPlayer.defaultBlue) -> SlpFile? {
 
         if let civ5MapUrl = url {
 
@@ -417,7 +456,7 @@ public class SlpFileReader {
     }
 
     // https://github.com/handsomematt/OpenEmpires/blob/master/GenieLib/SLPFile.cs
-    private func load(from data: Data, player: SlpPlayer = SlpPlayer.blue) -> SlpFile? {
+    private func load(from data: Data, player: SlpPlayer = SlpPlayer.defaultBlue) -> SlpFile? {
 
         let binaryData = BinaryData(data: data, bigEndian: false)
         let reader = BinaryDataReader(binaryData)
@@ -440,7 +479,7 @@ public class SlpFile {
 
     public let frames: [SlpFrame]
 
-    init(reader: BinaryDataReader, player: SlpPlayer = SlpPlayer.blue) throws {
+    init(reader: BinaryDataReader, player: SlpPlayer = SlpPlayer.defaultBlue) throws {
 
         self.version = try reader.read()
         self.numFrames = try reader.read()
@@ -539,7 +578,7 @@ public class SlpFrameData {
         self.indicesArray = []
     }
 
-    init(reader: BinaryDataReader, header: SlpFrameHeader, player: SlpPlayer = SlpPlayer.blue) throws {
+    init(reader: BinaryDataReader, header: SlpFrameHeader, player: SlpPlayer = SlpPlayer.defaultBlue) throws {
 
         // print("-- parse frame")
         // print("-- width: \(header.width)")
@@ -716,7 +755,7 @@ public class SlpFrameData {
                 x += UInt16(amount)
 
             case .playerColor(let index):
-                self.indicesArray[y * Int(header.width) + Int(x)] = index + UInt8(16 * player.rawValue)
+                self.indicesArray[y * Int(header.width) + Int(x)] = index + UInt8(16 * player.value())
                 x += 1
 
             case .fill(let amount, let index):
@@ -727,7 +766,7 @@ public class SlpFrameData {
 
             case .playerFill(let amount, let index):
                 for _ in 0..<amount {
-                    self.indicesArray[y * Int(header.width) + Int(x)] = index + UInt8(16 * player.rawValue)
+                    self.indicesArray[y * Int(header.width) + Int(x)] = index + UInt8(16 * player.value())
                     x += 1
                 }
 

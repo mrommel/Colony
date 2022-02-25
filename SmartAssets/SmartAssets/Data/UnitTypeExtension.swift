@@ -300,7 +300,7 @@ extension UnitType {
             guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
                 fatalError("cant load palette named: 'AOE1_50500'")
             }
-            return SlpTextureAtlasLoader.atlas(for: "caravane-idle", part: .third, palette: palette.colors, player: .red)
+            return SlpTextureAtlasLoader.atlas(for: "caravane-idle", part: .southWest, palette: palette.colors, player: .customBlue)
 
             // ancient
         case .scout:
@@ -427,7 +427,11 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "south")
 
         case .trader:
-            return ObjectTextureAtlas(template: "caravan-south-", range: 0..<12)
+            // return ObjectTextureAtlas(template: "caravan-south-", range: 0..<12)
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+            return SlpTextureAtlasLoader.atlas(for: "caravane-walk", part: .south, palette: palette.colors, player: .customBlue)
 
             // ancient
         case .scout:
@@ -541,7 +545,11 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "north")
 
         case .trader:
-            return ObjectTextureAtlas(template: "caravan-north-", range: 0..<12)
+            // return ObjectTextureAtlas(template: "caravan-north-", range: 0..<12)
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+            return SlpTextureAtlasLoader.atlas(for: "caravane-walk", part: .north, palette: palette.colors, player: .customBlue)
 
             // ancient
         case .scout:
@@ -655,7 +663,11 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west", mirror: true)
 
         case .trader:
-            return ObjectTextureAtlas(template: "caravan-east-", range: 0..<12)
+            // return ObjectTextureAtlas(template: "caravan-east-", range: 0..<12)
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+            return SlpTextureAtlasLoader.atlas(for: "caravane-walk", part: .west, mirror: true, palette: palette.colors, player: .customBlue)
 
             // ancient
         case .scout:
@@ -769,7 +781,11 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west")
 
         case .trader:
-            return ObjectTextureAtlas(template: "caravan-west-", range: 0..<12)
+            // return ObjectTextureAtlas(template: "caravan-west-", range: 0..<12)
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+            return SlpTextureAtlasLoader.atlas(for: "caravane-walk", part: .west, palette: palette.colors, player: .customBlue)
 
             // ancient
         case .scout:

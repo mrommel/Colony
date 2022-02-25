@@ -9,11 +9,11 @@ import Foundation
 
 enum SlpTextureAtlasPart {
 
-    case first // north
-    case second // northWest
-    case third // west
-    case forth // southWest
-    case fifth // south
+    case south // first
+    case southWest // second
+    case west // third
+    case northWest // forth
+    case north // fifth
 }
 
 class SlpTextureAtlasLoader {
@@ -21,10 +21,10 @@ class SlpTextureAtlasLoader {
     public static func atlas(for filename: String,
                              part: SlpTextureAtlasPart,
                              mirror: Bool = false,
-                             scale: CGFloat = 1.3,
+                             scale: CGFloat = 1.5,
                              offset: CGPoint = .zero,
                              palette: [TypeColor] = SlpPalette.default.colors,
-                             player: SlpPlayer = SlpPlayer.blue) -> ObjectTextureAtlas? {
+                             player: SlpPlayer = SlpPlayer.defaultBlue) -> ObjectTextureAtlas? {
 
         let bundle = Bundle(for: SlpTextureAtlasLoader.self)
         let path = bundle.path(forResource: filename, ofType: "slp")
@@ -48,19 +48,19 @@ class SlpTextureAtlasLoader {
 
         switch part {
 
-        case .first:
+        case .south:
             rangeStart = 0
             rangeEnd = rangeLength
-        case .second:
+        case .southWest:
             rangeStart = rangeLength
             rangeEnd = 2 * rangeLength
-        case .third:
+        case .west:
             rangeStart = 2 * rangeLength
             rangeEnd = 3 * rangeLength
-        case .forth:
+        case .northWest:
             rangeStart = 3 * rangeLength
             rangeEnd = 4 * rangeLength
-        case .fifth:
+        case .north:
             rangeStart = 4 * rangeLength
             rangeEnd = 5 * rangeLength
         }
@@ -80,10 +80,10 @@ class SlpTextureAtlasLoader {
     public static func atlas(for filename: String,
                              range: Range<Int>,
                              mirror: Bool = false,
-                             scale: CGFloat = 1.3,
+                             scale: CGFloat = 1.5,
                              offset: CGPoint = .zero,
                              palette: [TypeColor] = SlpPalette.default.colors,
-                             player: SlpPlayer = SlpPlayer.blue) -> ObjectTextureAtlas? {
+                             player: SlpPlayer = SlpPlayer.defaultBlue) -> ObjectTextureAtlas? {
 
         let bundle = Bundle(for: SlpTextureAtlasLoader.self)
         let path = bundle.path(forResource: filename, ofType: "slp")
@@ -114,10 +114,10 @@ class SlpTextureAtlasLoader {
     private static func atlas(from slpFile: SlpFile,
                               range: Range<Int>,
                               mirror: Bool = false,
-                              scale: CGFloat = 1.3,
+                              scale: CGFloat = 1.5,
                               offset: CGPoint = .zero,
                               palette: [TypeColor] = SlpPalette.default.colors,
-                              player: SlpPlayer = SlpPlayer.blue) -> ObjectTextureAtlas? {
+                              player: SlpPlayer = SlpPlayer.defaultBlue) -> ObjectTextureAtlas? {
 
         let bundle = Bundle(for: SlpTextureAtlasLoader.self)
 
