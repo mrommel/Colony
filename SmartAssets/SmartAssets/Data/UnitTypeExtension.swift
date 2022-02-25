@@ -296,7 +296,11 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "idle")
 
         case .trader:
-            return ObjectTextureAtlas(template: "caravan-idle-", range: 0..<12)
+            // return ObjectTextureAtlas(template: "caravan-idle-", range: 0..<12)
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+            return SlpTextureAtlasLoader.atlas(for: "caravane-idle", part: .third, palette: palette.colors, player: .red)
 
             // ancient
         case .scout:

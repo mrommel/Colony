@@ -9,10 +9,9 @@ import Foundation
 
 extension SlpFrame {
 
-    internal func pixels() -> PixelBuffer {
+    internal func pixels(with palette: [TypeColor] = SlpPalette.default.colors) -> PixelBuffer {
 
         var buffer = PixelBuffer(width: Int(self.header.width), height: Int(self.header.height), color: TypeColor.clear)
-        let palette = Palette.aoe2_palette
 
         for (index, colorIndex) in self.data.indicesArray.enumerated() where colorIndex != 255 { // 255 is transparent
 
@@ -23,8 +22,8 @@ extension SlpFrame {
         return buffer
     }
 
-    public func image() -> TypeImage? {
+    public func image(with palette: [TypeColor] = SlpPalette.default.colors) -> TypeImage? {
 
-        return self.pixels().toNSImage()
+        return self.pixels(with: palette).toNSImage()
     }
 }

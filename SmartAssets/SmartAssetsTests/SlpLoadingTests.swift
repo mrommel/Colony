@@ -11,7 +11,7 @@ import XCTest
 
 class SlpLoadingTests: XCTestCase {
 
-    func testLoadMerchant() throws {
+    func testLoadMerchantIdleSlp() throws {
 
         let testBundle = Bundle(for: type(of: self))
         let path = testBundle.path(forResource: "merchant-idle", ofType: "slp")
@@ -23,5 +23,19 @@ class SlpLoadingTests: XCTestCase {
         }
 
         XCTAssertEqual(slpFile.frames.count, 50)
+    }
+
+    func testLoadPalette() throws {
+
+        let testBundle = Bundle(for: type(of: self))
+        let path = testBundle.path(forResource: "AOE1_50500", ofType: "pal")
+        let url = URL(fileURLWithPath: path!)
+
+        guard let slpPalette = SlpPaletteReader().load(from: url) else {
+            XCTFail("Could not load file")
+            return
+        }
+
+        XCTAssertEqual(slpPalette.colors.count, 256)
     }
 }
