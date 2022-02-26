@@ -11,6 +11,7 @@ import Foundation
 import XCTest
 @testable import SmartAILibrary
 
+// swiftlint:disable type_body_length
 class DiplomacyAITests: XCTestCase {
 
     func testMilitaryStrengthPlayerNotMet() {
@@ -25,7 +26,21 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
@@ -58,7 +73,20 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -101,7 +129,20 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -121,7 +162,15 @@ class DiplomacyAITests: XCTestCase {
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // WHEN
-        gameModel.update() //.doTurn()
+        repeat {
+            gameModel.update() // this runs one player at a time
+
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
+
         let proximity = playerAlexander.diplomacyAI!.proximity(to: playerTrajan)
 
         // THEN
@@ -140,7 +189,20 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -167,7 +229,15 @@ class DiplomacyAITests: XCTestCase {
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // WHEN
-        gameModel.update() //.doTurn()
+        repeat {
+            gameModel.update() // this runs one player at a time
+
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
+
         let proximity = playerAlexander.diplomacyAI!.proximity(to: playerTrajan)
 
         // THEN
@@ -186,7 +256,20 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -213,7 +296,15 @@ class DiplomacyAITests: XCTestCase {
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // WHEN
-        gameModel.update() //.doTurn()
+        repeat {
+            gameModel.update() // this runs one player at a time
+
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
+
         let proximity = playerAlexander.diplomacyAI!.proximity(to: playerTrajan)
 
         // THEN
@@ -232,7 +323,20 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -255,7 +359,16 @@ class DiplomacyAITests: XCTestCase {
 
         // WHEN
         let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
-        gameModel.update() //.doTurn()
+
+        repeat {
+            gameModel.update() // this runs one player at a time
+
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
+
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
 
         // THEN
@@ -275,7 +388,20 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -299,7 +425,16 @@ class DiplomacyAITests: XCTestCase {
         // WHEN
         let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
         playerAlexander.diplomacyAI?.doDeclarationOfFriendship(with: playerTrajan, in: gameModel)
-        gameModel.update() //.doTurn()
+
+        repeat {
+            gameModel.update() // this runs one player at a time
+
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
+
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
 
         // THEN
@@ -319,7 +454,20 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -342,7 +490,16 @@ class DiplomacyAITests: XCTestCase {
         // WHEN
         let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
         playerAlexander.diplomacyAI?.doDenounce(player: playerTrajan, in: gameModel)
-        gameModel.update() //.doTurn()
+
+        repeat {
+            gameModel.update() // this runs one player at a time
+
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
+
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
 
         // THEN
@@ -363,7 +520,20 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -386,8 +556,17 @@ class DiplomacyAITests: XCTestCase {
 
         // WHEN
         let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
-        playerAlexander.diplomacyAI?.doDeclareWar(to: playerTrajan, in: gameModel)
-        gameModel.update() //.doTurn()
+        playerAlexander.doDeclareWar(to: playerTrajan, in: gameModel)
+
+        repeat {
+            gameModel.update() // this runs one player at a time
+
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
+
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
 
         // THEN
@@ -407,7 +586,21 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
@@ -446,7 +639,20 @@ class DiplomacyAITests: XCTestCase {
         let playerVictoria = Player(leader: .victoria, isHuman: true)
         playerVictoria.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -472,7 +678,7 @@ class DiplomacyAITests: XCTestCase {
         playerVictoria.doDefensivePact(with: playerAugustus, in: gameModel)
 
         // WHEN
-        playerAlexander.diplomacyAI?.doDeclareWar(to: playerAugustus, in: gameModel)
+        playerAlexander.doDeclareWar(to: playerAugustus, in: gameModel)
         //gameModel.turn()
         let approachAlexanderAugustus = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
         let approachAlexanderElizabeth = playerAlexander.diplomacyAI!.approach(towards: playerVictoria)
@@ -499,7 +705,20 @@ class DiplomacyAITests: XCTestCase {
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -517,7 +736,7 @@ class DiplomacyAITests: XCTestCase {
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // WHEN
-        playerAlexander.diplomacyAI?.doDeclareWar(to: playerTrajan, in: gameModel)
+        playerAlexander.doDeclareWar(to: playerTrajan, in: gameModel)
 
         // THEN
         let isAtWar = playerAlexander.isAtWar(with: playerTrajan)

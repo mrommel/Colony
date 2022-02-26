@@ -59,7 +59,7 @@ enum GrandStrategyAIType: Int, Codable {
         case .conquest:
             return [Flavor(type: .militaryTraining, value: 2),
                     Flavor(type: .growth, value: -1),
-                    Flavor(type: .happiness, value: 1)]
+                    Flavor(type: .amenities, value: 1)]
         case .culture:
             return [Flavor(type: .defense, value: 1),
                     Flavor(type: .cityDefense, value: 1),

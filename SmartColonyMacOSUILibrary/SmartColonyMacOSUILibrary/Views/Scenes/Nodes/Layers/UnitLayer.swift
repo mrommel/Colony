@@ -76,6 +76,28 @@ class UnitLayer: SKNode {
         print("inited with: \(self.unitObjects.count) visible units")
     }
 
+    func areAnimationsFinished() -> Bool {
+
+        var animationsFinished: Bool = true
+
+        for unitObject in self.unitObjects {
+
+            if let topAnimation = unitObject.animationQueue.peek() {
+
+                switch topAnimation {
+
+                case .idle:
+                    // NOOP
+                    break
+                default:
+                    animationsFinished = false
+                }
+            }
+        }
+
+        return animationsFinished
+    }
+
     func show(unit: AbstractUnit?, at location: HexPoint) {
 
         guard let gameModel = self.gameModel else {
@@ -373,9 +395,7 @@ class UnitLayer: SKNode {
 
                 if gameModel.valid(point: hex) {
 
-                    let pathFinder = AStarPathfinder()
-
-                    pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(
+                    let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
                         for: selectedUnit.movementType(),
                         for: selectedUnit.player,
                         ignoreOwner: false,
@@ -383,6 +403,7 @@ class UnitLayer: SKNode {
                         canEmbark: selectedUnit.canEverEmbark(),
                         canEnterOcean: selectedUnit.player!.canEnterOcean()
                     )
+                    let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
                     if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: hex) {
 
@@ -421,6 +442,11 @@ class UnitLayer: SKNode {
     func update(unit: AbstractUnit?) {
 
         if let unitObject = unitObject(of: unit) {
+
+            if unit?.isDelayedDeath() ?? false {
+                unitObject.hide(at: unit?.location ?? .invalid)
+            }
+
             unitObject.update()
         }
     }

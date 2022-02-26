@@ -366,28 +366,23 @@ public class CityConnections: Codable {
                 continue
             }
 
-            //CvCity* pFirstCity = NULL;
-            //CvCity* pSecondCity = NULL;
-
-            //CvAStar* pkLandRouteFinder;
-            //pkLandRouteFinder = &GC.getRouteFinder();
-            let landPathfinder = AStarPathfinder()
-            landPathfinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+            let landPathfinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
                 for: .walk,
                 for: player,
                 unitMapType: .combat,
                 canEmbark: player.canEmbark(),
                 canEnterOcean: player.canEnterOcean()
             )
+            let landPathfinder = AStarPathfinder(with: landPathfinderDataSource)
 
-            let waterPathfinder = AStarPathfinder()
-            waterPathfinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+            let waterPathfinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
                 for: .swim,
                 for: player,
                 unitMapType: .combat,
                 canEmbark: player.canEmbark(),
                 canEnterOcean: player.canEnterOcean()
             )
+            let waterPathfinder = AStarPathfinder(with: waterPathfinderDataSource)
 
             for firstCityRef in vpCities {
 

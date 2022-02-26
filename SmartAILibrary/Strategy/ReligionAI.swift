@@ -306,7 +306,7 @@ public class ReligionAI {
         let flavorOffense = player.valueOfPersonalityFlavor(of: .offense)
         let flavorDefense = player.valueOfPersonalityFlavor(of: .defense)
         let flavorCityDefense = player.valueOfPersonalityFlavor(of: .cityDefense)
-        let flavorHappiness = player.valueOfPersonalityFlavor(of: .happiness)
+        let flavorHappiness = player.valueOfPersonalityFlavor(of: .amenities)
         let flavorGP = player.valueOfPersonalityFlavor(of: .greatPeople)
 
         let happinessNeedFactor = flavorOffense * 2 + flavorHappiness - flavorDefense
@@ -347,7 +347,7 @@ public class ReligionAI {
         // Wonder production multiplier
         if pantheonType.obsoleteEra() != .none {
             if pantheonType.obsoleteEra() > gameModel.worldEra() {
-                rtnValue += (pantheonType.wonderProductionModifier() * pantheonType.obsoleteEra().value()) / 5
+                rtnValue += (pantheonType.wonderProductionModifier() * pantheonType.obsoleteEra().rawValue) / 5
             }
         } else {
             rtnValue += pantheonType.wonderProductionModifier() / 3
@@ -590,7 +590,7 @@ public class ReligionAI {
         totalRtnValue += tempValue
          */
 
-        var eraBonus = (7 - player.currentEra().value())
+        var eraBonus = (7 - player.currentEra().rawValue)
         eraBonus /= 2
         if eraBonus <= 0 {
             eraBonus = 1

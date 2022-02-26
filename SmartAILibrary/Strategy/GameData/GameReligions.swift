@@ -43,7 +43,7 @@ class GameReligions: AbstractGameReligions, Codable {
         /*self.city = nil
         self.pressure = try container.decode(ReligiousWeightList.self, forKey: .pressure)
         self.majorityReligion = try container.decode(ReligionType.self, forKey: .majorityReligion)*/
-        fatalError("not implemented")
+        // fatalError("not implemented")
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -51,7 +51,7 @@ class GameReligions: AbstractGameReligions, Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         //try container.encode(self.pressure, forKey: .pressure)
-        fatalError("not implemented")
+        // fatalError("not implemented")
     }
 
     /// Handle turn-by-turn religious updates
@@ -124,7 +124,7 @@ class GameReligions: AbstractGameReligions, Codable {
         // Loop through all the players
         for player in gameModel.players {
 
-            guard player.isAlive() && !player.isBarbarian() else {
+            guard player.isAlive() && !player.isBarbarian() && !player.isFreeCity() else {
                 continue
             }
 
@@ -160,84 +160,85 @@ class GameReligions: AbstractGameReligions, Codable {
         // Loop through all the players
         for player in gameModel.players {
 
-            if player.isAlive() {
+            guard player.isAlive() && !player.isBarbarian() && !player.isFreeCity() else {
+                continue
+            }
 
-                /* int iSpyPressure = kPlayer.GetReligions()->GetSpyPressure((PlayerTypes)iI);
-                 if (iSpyPressure > 0)
+            /* int iSpyPressure = kPlayer.GetReligions()->GetSpyPressure((PlayerTypes)iI);
+             if (iSpyPressure > 0)
+             {
+                 if (kPlayer.GetEspionage()->GetSpyIndexInCity(pCity) != -1)
                  {
-                     if (kPlayer.GetEspionage()->GetSpyIndexInCity(pCity) != -1)
+                     ReligionTypes eReligionFounded = kPlayer.GetReligions()->GetCurrentReligion(false);
+                     if(eReligionFounded == NO_RELIGION)
                      {
-                         ReligionTypes eReligionFounded = kPlayer.GetReligions()->GetCurrentReligion(false);
-                         if(eReligionFounded == NO_RELIGION)
-                         {
-                             eReligionFounded = kPlayer.GetReligions()->GetReligionInMostCities();
-                         }
-                         if(eReligionFounded != NO_RELIGION && eReligionFounded > RELIGION_PANTHEON)
-                         {
-                             pCity->GetCityReligions()->AddSpyPressure(eReligionFounded, iSpyPressure);
-                         }
+                         eReligionFounded = kPlayer.GetReligions()->GetReligionInMostCities();
                      }
-                 }  */
+                     if(eReligionFounded != NO_RELIGION && eReligionFounded > RELIGION_PANTHEON)
+                     {
+                         pCity->GetCityReligions()->AddSpyPressure(eReligionFounded, iSpyPressure);
+                     }
+                 }
+             }  */
 
-                // Loop through each of their cities
-                for loopCityRef in gameModel.cities(of: player) {
+            // Loop through each of their cities
+            for loopCityRef in gameModel.cities(of: player) {
 
-                    guard let loopCity = loopCityRef else {
+                guard let loopCity = loopCityRef else {
+                    continue
+                }
+
+                // Ignore the same city
+                guard city.location != loopCity.location else {
+                    continue
+                }
+
+                guard let loopCityReligion = loopCity.cityReligion else {
+                    continue
+                }
+
+                for religionType in ReligionType.all {
+
+                    guard self.isValidTarget(for: religionType, fromCity: loopCity, toCity: city) else {
                         continue
                     }
 
-                    // Ignore the same city
-                    guard city.location != loopCity.location else {
-                        continue
-                    }
+                    if loopCityReligion.numFollowers(following: religionType) > 0 {
 
-                    guard let loopCityReligion = loopCity.cityReligion else {
-                        continue
-                    }
+                        var connectedWithTrade = false
+                        var relativeDistancePercent = 0
 
-                    for religionType in ReligionType.all {
+                        if !self.isConnected(
+                            by: religionType,
+                            from: loopCity,
+                            to: city,
+                            withTrade: &connectedWithTrade,
+                            percent: &relativeDistancePercent,
+                            in: gameModel) {
 
-                        guard self.isValidTarget(for: religionType, fromCity: loopCity, toCity: city) else {
                             continue
                         }
 
-                        if loopCityReligion.numFollowers(following: religionType) > 0 {
+                        let (pressure, numTradeRoutes) = self.adjacentCityReligiousPressure(
+                            for: religionType,
+                            from: loopCity,
+                            to: city,
+                            actualValue: true,
+                            pretendTradeConnection: false,
+                            connectedWithTrade: connectedWithTrade,
+                            relativeDistancePercent: relativeDistancePercent
+                        )
 
-                            var connectedWithTrade = false
-                            var relativeDistancePercent = 0
-
-                            if !self.isConnected(
-                                by: religionType,
-                                from: loopCity,
-                                to: city,
-                                withTrade: &connectedWithTrade,
-                                percent: &relativeDistancePercent,
-                                in: gameModel) {
-
-                                continue
-                            }
-
-                            let (pressure, numTradeRoutes) = self.adjacentCityReligiousPressure(
+                        if pressure > 0 {
+                            city.cityReligion?.addReligiousPressure(
+                                reason: .followerChangeAdjacentPressure,
+                                pressure: pressure,
                                 for: religionType,
-                                from: loopCity,
-                                to: city,
-                                actualValue: true,
-                                pretendTradeConnection: false,
-                                connectedWithTrade: connectedWithTrade,
-                                relativeDistancePercent: relativeDistancePercent
+                                in: gameModel
                             )
 
-                            if pressure > 0 {
-                                city.cityReligion?.addReligiousPressure(
-                                    reason: .followerChangeAdjacentPressure,
-                                    pressure: pressure,
-                                    for: religionType,
-                                    in: gameModel
-                                )
-
-                                if numTradeRoutes > 0 {
-                                    city.cityReligion?.incrementNumTradeRouteConnections(by: numTradeRoutes, for: religionType)
-                                }
+                            if numTradeRoutes > 0 {
+                                city.cityReligion?.incrementNumTradeRouteConnections(by: numTradeRoutes, for: religionType)
                             }
                         }
                     }

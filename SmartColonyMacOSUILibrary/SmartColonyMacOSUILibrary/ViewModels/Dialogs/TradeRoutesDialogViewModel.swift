@@ -176,8 +176,7 @@ class TradeRoutesDialogViewModel: ObservableObject {
                 fatalError("cant get selected source city")
             }
 
-            let pathFinder = AStarPathfinder()
-            pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(
+            let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
                 for: .walk,
                 for: sourceCity.player,
                 ignoreOwner: true,
@@ -185,6 +184,7 @@ class TradeRoutesDialogViewModel: ObservableObject {
                 canEmbark: false,
                 canEnterOcean: false
             )
+            let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
             let tmpTraderUnit = Unit(at: sourceCity.location, type: .trader, owner: humanPlayer)
             for targetCityRef in tmpTraderUnit.possibleTradeRouteTargets(in: gameModel) {

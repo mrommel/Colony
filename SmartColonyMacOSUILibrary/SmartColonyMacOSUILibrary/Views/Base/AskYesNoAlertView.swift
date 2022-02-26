@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-public struct AskYesNoAlertView<Content> : View where Content: View {
+public struct AskYesNoAlertView<Content>: View where Content: View {
 
     @Binding
     var isPresented: Bool

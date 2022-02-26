@@ -44,7 +44,7 @@ public class DemoGameModel: GameModel {
 
     static func mapFilled(with terrain: TerrainType, sized size: MapSize) -> MapModel {
 
-        let mapModel = MapModel(size: size)
+        let mapModel = MapModel(size: size, seed: 42)
 
         let mapSize = mapModel.size
         for x in 0..<mapSize.width() {

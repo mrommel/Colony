@@ -39,7 +39,20 @@ class DiplomaticDealAITests: XCTestCase {
         let deal = DiplomaticDeal(from: .alexander, to: .trajan)
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .give, amount: 2))
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -72,7 +85,20 @@ class DiplomaticDealAITests: XCTestCase {
         let deal = DiplomaticDeal(from: .alexander, to: .trajan)
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .receive, amount: 2))
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -106,7 +132,20 @@ class DiplomaticDealAITests: XCTestCase {
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .give, amount: 4))
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .receive, amount: 4))
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -141,7 +180,20 @@ class DiplomaticDealAITests: XCTestCase {
         // gold per turn is valued only 80% because of the risk
         deal.tradeItems.append(DiplomaticGoldPerTurnDealItem(direction: .receive, amount: 1, duration: 5))
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],

@@ -8,7 +8,7 @@
 import SwiftUI
 import SmartAILibrary
 import SmartAssets
-import SmartMacOSUILibrary
+import SmartColonyMacOSUILibrary
 
 enum PresentedViewType {
 
@@ -49,7 +49,7 @@ class MainViewModel: ObservableObject {
          menuViewModel: MenuViewModel = MenuViewModel(),
          createGameMenuViewModel: CreateGameMenuViewModel = CreateGameMenuViewModel(),
          generateGameViewModel: GenerateGameViewModel = GenerateGameViewModel(),
-         gameViewModel: GameViewModel = GameViewModel(/*mapViewModel: MapViewModel()*/),
+         gameViewModel: GameViewModel = GameViewModel(),
          pediaViewModel: PediaViewModel = PediaViewModel()) {
 
         self.presentedView = presentedView
@@ -165,9 +165,9 @@ extension MainViewModel: MenuViewModelDelegate {
 
 extension MainViewModel: CreateGameMenuViewModelDelegate {
 
-    func started(with leaderType: LeaderType, on handicapType: HandicapType, with mapType: MapType, and mapSize: MapSize) {
+    func started(with leaderType: LeaderType, on handicapType: HandicapType, with mapType: MapType, and mapSize: MapSize, with seed: Int) {
 
-        self.generateGameViewModel.start(with: leaderType, on: handicapType, with: mapType, and: mapSize)
+        self.generateGameViewModel.start(with: leaderType, on: handicapType, with: mapType, and: mapSize, with: seed)
         self.presentedView = .loadingGame
         self.mapMenuDisabled = true
     }
@@ -181,11 +181,11 @@ extension MainViewModel: CreateGameMenuViewModelDelegate {
 
 extension MainViewModel: GenerateGameViewModelDelegate {
 
-    func created(game: GameModel?) {
+    func created(game gameModel: GameModel?) {
 
         self.gameViewModel.loadAssets()
 
-        self.gameEnvironment.assign(game: game)
+        self.gameEnvironment.assign(game: gameModel)
 
         self.presentedView = .game
         self.mapMenuDisabled = false
@@ -208,6 +208,22 @@ extension MainViewModel: CloseGameViewModelDelegate {
 
         fatalError("not implemented: showReplay")
     }*/
+
+    func closeAndRestartGame() {
+
+        // keep seed
+        guard let oldGameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get old game data")
+        }
+
+        let leader = oldGameModel.humanPlayer()?.leader ?? .alexander
+        // let victoryTypes = oldGameModel.victoryTypes
+        let handicap = oldGameModel.handicap
+        let mapSize = oldGameModel.mapSize()
+        let seed = oldGameModel.seed()
+
+        self.started(with: leader, on: handicap, with: MapType.continents, and: mapSize, with: seed)
+    }
 }
 
 extension MainViewModel: DebugViewModelDelegate {
@@ -220,11 +236,11 @@ extension MainViewModel: DebugViewModelDelegate {
         self.progressTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
     }
 
-    func prepared(game: GameModel?) {
+    func prepared(game gameModel: GameModel?) {
 
         self.gameViewModel.loadAssets()
 
-        self.gameEnvironment.assign(game: game)
+        self.gameEnvironment.assign(game: gameModel)
 
         self.progressTimer?.invalidate()
 

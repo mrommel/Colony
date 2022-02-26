@@ -16,7 +16,7 @@ class RegionFinderTests: XCTestCase {
     func testRegionSplit() {
 
         // GIVEN
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .standard, seed: 42)
 
         let continentFinder = ContinentFinder(size: mapModel.size)
         mapModel.continents = continentFinder.execute(on: mapModel)

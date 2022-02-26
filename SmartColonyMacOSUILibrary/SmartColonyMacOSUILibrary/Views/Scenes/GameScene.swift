@@ -73,28 +73,45 @@ class GameScene: BaseScene {
 
     func setupMap() {
 
-        guard let viewModel = self.viewModel else {
+        guard let gameModel = self.viewModel?.gameModel else {
             print("no view model yet")
             return
         }
 
-        guard self.mapNode == nil else {
+        let forceRebuild = self.viewModel?.shouldRebuild ?? false
+        guard self.mapNode == nil || forceRebuild else {
             // already inited
             return
         }
 
-        self.mapNode = MapNode(with: viewModel.game)
+        self.mapNode?.removeFromParent()
+
+        self.mapNode = MapNode(with: gameModel)
         self.viewHex?.addChild(self.mapNode!)
 
-        viewModel.game?.userInterface = self
+        gameModel.userInterface = self
 
-        viewModel.game?.resendGoodyHutAndBarbarianCampNotifications()
+        gameModel.resendGoodyHutAndBarbarianCampNotifications()
     }
 
     override func update(_ currentTime: TimeInterval) {
 
-        guard let gameModel = self.viewModel?.game else {
+        guard let gameModel = self.viewModel?.gameModel else {
             return
+        }
+
+        // mitigation
+        if self.viewModel?.shouldRebuild ?? false {
+
+            self.setupMap()
+            self.viewModel?.shouldRebuild = false
+        }
+
+        // update animation checker
+        if let state = self.mapNode?.unitLayer.areAnimationsFinished() {
+            self.viewModel?.animationsAreRunning = state
+        } else {
+            self.viewModel?.animationsAreRunning = false
         }
 
         // only check once per 0.5 sec
@@ -131,10 +148,10 @@ class GameScene: BaseScene {
                         if self.gameUpdateMutex {
                             self.gameUpdateMutex = false
                             self.gameUpdateBackgroundQueue.async {
-                                //print("-----------> before human processing")
+                                // print("-----------> before human processing")
                                 gameModel.update()
                                 self.gameUpdateMutex = true
-                                //print("-----------> after human processing")
+                                // print("-----------> after human processing")
                                 self.viewModel!.readyUpdatingHuman = true
                             }
                         }
@@ -148,10 +165,10 @@ class GameScene: BaseScene {
                     if self.gameUpdateMutex {
                         self.gameUpdateMutex = false
                         self.gameUpdateBackgroundQueue.async {
-                            //print("-----------> before AI processing")
+                            // print("-----------> before AI processing")
                             gameModel.update()
                             self.gameUpdateMutex = true
-                            //print("-----------> after AI processing")
+                            // print("-----------> after AI processing")
                             self.viewModel!.readyUpdatingAI = true
                         }
                     }
@@ -250,7 +267,7 @@ class GameScene: BaseScene {
         let visibleRect = self.getVisibleScreen(sceneBounds: sceneRect, viewBounds: self.view!.bounds.size)
         print("visibleRect: \(visibleRect)")*/
 
-        //self.viewModel.gameEnvironment.change(visibleRect: CGRect)
+        // self.viewModel.gameEnvironment.change(visibleRect: CGRect)
     }
 }
 
@@ -275,12 +292,12 @@ extension GameScene {
 
     override func mouseDown(with event: NSEvent) {
 
-        guard let game = self.viewModel?.game else {
+        guard let gameModel = self.viewModel?.gameModel else {
             print("cant get game")
             return
         }
 
-        guard let humanPlayer = game.humanPlayer() else {
+        guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get humanPlayer")
         }
 
@@ -297,7 +314,7 @@ extension GameScene {
 
         if event.clickCount >= 2 {
             // double tap opens city
-            if let city = game.city(at: position) {
+            if let city = gameModel.city(at: position) {
 
                 if humanPlayer.isEqual(to: city.player) {
                     self.showScreen(screenType: .city, city: city, other: nil, data: nil)
@@ -311,7 +328,7 @@ extension GameScene {
                 return
             }
 
-            if let city = game.city(at: position) {
+            if let city = gameModel.city(at: position) {
                 if humanPlayer.isEqual(to: city.player) {
                     self.select(city: city)
                     selectedCity = true
@@ -319,7 +336,7 @@ extension GameScene {
             }
 
             // problem: cities can have more units
-            for unitRef in game.units(of: humanPlayer, at: position) {
+            for unitRef in gameModel.units(of: humanPlayer, at: position) {
 
                 guard let unit = unitRef else {
                     continue
@@ -361,6 +378,10 @@ extension GameScene {
 
     override func mouseDragged(with event: NSEvent) {
 
+        guard let gameModel = self.viewModel?.gameModel else {
+            fatalError("cant get game")
+        }
+
         if let selectedUnit = self.viewModel?.delegate?.selectedUnit {
 
             let location = event.location(in: self)
@@ -375,14 +396,15 @@ extension GameScene {
             if position != selectedUnit.location {
 
                 self.pathfinderQueue.async {
-                    let pathFinder = AStarPathfinder()
-                    pathFinder.dataSource = self.viewModel?.game?.unitAwarePathfinderDataSource(
+
+                    let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
                         for: selectedUnit.movementType(),
                         for: selectedUnit.player,
                         unitMapType: selectedUnit.unitMapType(),
                         canEmbark: selectedUnit.canEverEmbark(),
                         canEnterOcean: selectedUnit.player!.canEnterOcean()
                     )
+                    let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
                     if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: position) {
 
@@ -466,18 +488,18 @@ extension GameScene {
                     selectedUnit.clearMissions()
 
                     let unitMission = UnitMission(type: .moveTo, buildType: nil, at: position, options: .none)
-                    selectedUnit.push(mission: unitMission, in: self.viewModel?.game)
+                    selectedUnit.push(mission: unitMission, in: self.viewModel?.gameModel)
 
                     self.mapNode?.unitLayer.hideFocus()
                     self.updateCommands(for: selectedUnit)
 
-                    self.viewModel?.game?.userInterface?.unselect()
+                    self.viewModel?.gameModel?.userInterface?.unselect()
                 }
 
             case .meleeUnitTargets:
                 self.mapNode?.unitLayer.clearPathSpriteBuffer()
 
-                if let cityToAttack = self.viewModel?.game?.city(at: position) {
+                if let cityToAttack = self.viewModel?.gameModel?.city(at: position) {
 
                     var combatExecuted: Bool = false
                     if let combatTarget = self.viewModel?.combatCityTarget {
@@ -505,7 +527,7 @@ extension GameScene {
                         self.viewModel?.combatCityTarget = cityToAttack
                     }
 
-                } else if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
+                } else if let unitToAttack = self.viewModel?.gameModel?.unit(at: position, of: .combat) {
 
                     var combatExecuted: Bool = false
                     if let combatTarget = self.viewModel?.combatUnitTarget {
@@ -540,7 +562,7 @@ extension GameScene {
             case .rangedUnitTargets:
                 self.mapNode?.unitLayer.clearPathSpriteBuffer()
 
-                if let cityToAttack = self.viewModel?.game?.city(at: position) {
+                if let cityToAttack = self.viewModel?.gameModel?.city(at: position) {
 
                     var combatExecuted: Bool = false
                     if let combatTarget = self.viewModel?.combatCityTarget {
@@ -568,7 +590,7 @@ extension GameScene {
                         self.viewModel?.combatCityTarget = cityToAttack
                     }
 
-                } else if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
+                } else if let unitToAttack = self.viewModel?.gameModel?.unit(at: position, of: .combat) {
 
                     var combatExecuted: Bool = false
                     if let combatTarget = self.viewModel?.combatUnitTarget {
@@ -621,7 +643,7 @@ extension GameScene {
                 break
 
             case .rangedCityTargets:
-                if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
+                if let unitToAttack = self.viewModel?.gameModel?.unit(at: position, of: .combat) {
 
                     var combatExecuted: Bool = false
                     if let combatTarget = self.viewModel?.combatUnitTarget {
@@ -630,7 +652,7 @@ extension GameScene {
 
                             self.viewModel?.delegate?.doRangedCombat(of: selectedCity, against: unitToAttack)
 
-                            //self.mapNode?.unitLayer.update(unit: selectedUnit)
+                            // self.mapNode?.unitLayer.update(unit: selectedUnit)
                             self.mapNode?.unitLayer.update(unit: unitToAttack)
 
                             combatExecuted = true
@@ -672,12 +694,12 @@ extension GameScene {
             switch sceneCombatMode {
 
             case .pick:
-                let commands = unit.commands(in: self.viewModel?.game)
-                self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: commands, in: self.viewModel?.game)
+                let commands = unit.commands(in: self.viewModel?.gameModel)
+                self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: commands, in: self.viewModel?.gameModel)
 
             case .meleeUnitTargets, .rangedUnitTargets:
                 let commands = [Command(type: .cancelAttack, location: HexPoint.invalid)]
-                self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: commands, in: self.viewModel?.game)
+                self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: commands, in: self.viewModel?.gameModel)
 
             case .rangedCityTargets:
                 print("NOOP")

@@ -95,7 +95,7 @@ extension NSURL {
 let arguments: [String] = Array(CommandLine.arguments.dropFirst())
 guard !arguments.isEmpty else {
 
-    print("You must provide a path to a directory as first argiment")
+    print("You must provide a path to a directory as first argument")
     exit(EXIT_FAILURE)
 }
 

@@ -114,7 +114,7 @@ struct GreatPersonView: View {
                     .buttonStyle(DialogButtonStyle(state: .highlighted))
 
                     Button("Pass", action: {
-                            //self.viewModel.clickedAppoint()
+                            // self.viewModel.clickedAppoint()
                            }
                     )
                     .buttonStyle(DialogButtonStyle(state: .normal))

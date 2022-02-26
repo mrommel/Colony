@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SmartMacOSUILibrary
+import SmartColonyMacOSUILibrary
 
 // https://troz.net/post/2021/swiftui_mac_menus/
 class GameCommandsModel: ObservableObject {

@@ -23,7 +23,7 @@ class TradeRouteTests: XCTestCase {
     var hasExpired: Bool = false
 
     // https://github.com/mrommel/Colony/issues/66
-    func testTradeRouteWorkingWithin10Turns() {
+    func testTradeRouteWorkingWithin20Turns() {
 
         // GIVEN
         let barbarianPlayer = Player(leader: .barbar, isHuman: false)
@@ -35,12 +35,25 @@ class TradeRouteTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
         mapModel.set(hills: true, at: HexPoint(x: 1, y: 2))
         mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
         mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.victoria],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination],
@@ -103,7 +116,7 @@ class TradeRouteTests: XCTestCase {
         } while turnCounter < 20 && !self.hasVisited
 
         // THEN
-        XCTAssertEqual(self.hasVisited, true, "not visited trade city within first 10 turns")
+        XCTAssertEqual(self.hasVisited, true, "not visited trade city within first 20 turns")
     }
 
     func testTradeRouteWorkingBothCitiesHomeland() { // check foreign too?
@@ -118,12 +131,25 @@ class TradeRouteTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
         mapModel.set(hills: true, at: HexPoint(x: 1, y: 2))
         mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
         mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.victoria],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination],
@@ -141,6 +167,10 @@ class TradeRouteTests: XCTestCase {
         try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
         humanPlayer.government?.set(governmentType: .chiefdom)
         try! humanPlayer.government?.set(policyCardSet: PolicyCardSet(cards: [.godKing, .discipline]))
+
+        // AI units
+        let warriorUnit = Unit(at: HexPoint(x: 25, y: 5), type: .warrior, owner: aiPlayer)
+        gameModel.add(unit: warriorUnit)
 
         // Human - city 1
         humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)

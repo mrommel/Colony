@@ -111,6 +111,10 @@ class TradeRoutePathfinderDataSource: PathfinderDataSource {
 
     private func canEstablishDirectTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
         guard let originCityLocation = originCity?.location else {
             fatalError("cant get origin city location")
         }
@@ -120,14 +124,14 @@ class TradeRoutePathfinderDataSource: PathfinderDataSource {
         }
 
         // traders cant embark for their land trade routes
-        let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(
+        let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
             for: .walk,
             for: originCity?.player,
             unitMapType: .combat,
             canEmbark: false,
             canEnterOcean: false
         )
+        let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
         guard let path = pathFinder.shortestPath(fromTileCoord: originCityLocation, toTileCoord: targetCityLocation) else {
             print("no path")

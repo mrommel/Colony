@@ -15,9 +15,13 @@ extension LeaderType {
 
         case .none:
             return "leader-random"
+        case .unmet:
+            return "leader-unmet"
 
         case .barbar:
             return "leader-barbar"
+        case .freeCities:
+            return "leader-freeCities"
 
         case .alexander:
             return "leader-alexander"

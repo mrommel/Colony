@@ -32,6 +32,15 @@ public struct TopBarView: View {
 
                 Text(self.viewModel.turnYearText)
                     .padding(.trailing, 3)
+
+                // ?
+
+                Image(nsImage: ImageCache.shared.image(for: "menu"))
+                    .resizable()
+                    .frame(width: 20, height: 20, alignment: .center)
+                    .onTapGesture {
+                        self.viewModel.menuClicked()
+                    }
             }
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 24, maxHeight: 24, alignment: .topLeading)
             .background(
@@ -109,8 +118,8 @@ public struct TopBarView: View {
                     ResourceValueView(viewModel: self.viewModel.oilValueViewModel)
                 }
 
-                if self.viewModel.aluminiumValueViewModel.value > 0 {
-                    ResourceValueView(viewModel: self.viewModel.aluminiumValueViewModel)
+                if self.viewModel.aluminumValueViewModel.value > 0 {
+                    ResourceValueView(viewModel: self.viewModel.aluminumValueViewModel)
                 }
 
                 if self.viewModel.uraniumValueViewModel.value > 0 {

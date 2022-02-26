@@ -11,6 +11,11 @@ import SpriteKit
 // idea: UserInterfaceDelegate should conform GameViewModel
 extension GameScene: UserInterfaceDelegate {
 
+    func update(gameState: GameStateType) {
+
+        self.viewModel?.delegate?.update(gameState: gameState)
+    }
+
     func showPopup(popupType: PopupType) {
 
         self.viewModel?.delegate?.showPopup(popupType: popupType)
@@ -23,7 +28,7 @@ extension GameScene: UserInterfaceDelegate {
 
     func showLeaderMessage(from fromPlayer: AbstractPlayer?, to toPlayer: AbstractPlayer?, deal: DiplomaticDeal?, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType) {
 
-        guard let gameModel = self.viewModel?.game else {
+        guard let gameModel = self.viewModel?.gameModel else {
             fatalError("cant get game")
         }
 
@@ -216,10 +221,27 @@ extension GameScene: UserInterfaceDelegate {
         }
     }
 
-    func update(city: AbstractCity?) {
+    func update(city cityRef: AbstractCity?) {
 
         DispatchQueue.main.async {
-            self.mapNode?.cityLayer.update(city: city)
+            self.mapNode?.cityLayer.update(city: cityRef)
+
+            guard let cityCitizens = cityRef?.cityCitizens else {
+                fatalError("cant get city citizens")
+            }
+
+            guard let gameModel = self.viewModel?.gameModel else {
+                fatalError("cant get game")
+            }
+
+            for point in cityCitizens.workingTileLocations() {
+
+                guard let tile = gameModel.tile(at: point) else {
+                    continue
+                }
+
+                self.refresh(tile: tile)
+            }
         }
     }
 
@@ -233,7 +255,7 @@ extension GameScene: UserInterfaceDelegate {
 
     func refresh(tile: AbstractTile?) {
 
-        guard let gameModel = self.viewModel?.game else {
+        guard let gameModel = self.viewModel?.gameModel else {
             return
         }
 

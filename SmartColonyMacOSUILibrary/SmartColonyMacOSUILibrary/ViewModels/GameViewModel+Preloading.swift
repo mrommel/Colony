@@ -239,6 +239,10 @@ extension GameViewModel {
             }
 
             ImageCache.shared.add(
+                image: bundle.image(forResource: unitType.spriteName),
+                for: unitType.spriteName
+            )
+            ImageCache.shared.add(
                 image: bundle.image(forResource: unitType.portraitTexture()),
                 for: unitType.portraitTexture()
             )
@@ -270,7 +274,7 @@ extension GameViewModel {
             "city-canvas", "pantheon-background", "turns", "unit-banner", "combat-view",
             "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty",
             "map-overview-canvas", "map-lens", "map-lens-active", "map-marker", "map-options",
-            "unit-canvas"
+            "unit-canvas", "menu", "menu-background", "speed-standard"
         ]
         print("- load \(textureNames.count) misc textures")
         for textureName in textureNames {
@@ -402,7 +406,7 @@ extension GameViewModel {
 
         let policyCardTextureNames = [
             "policyCard-slot", "policyCard-military", "policyCard-economic", "policyCard-diplomatic",
-            "policyCard-wildcard"
+            "policyCard-wildcard", "policyCard-darkAge"
         ]
         print("- load \(policyCardTextureNames.count) policy card textures")
         for textureName in policyCardTextureNames {
@@ -457,7 +461,7 @@ extension GameViewModel {
             )
         }
 
-        let techTextureNames = TechType.all.map { $0.iconTexture() }
+        let techTextureNames = ([TechType.none] + TechType.all).map { $0.iconTexture() }
         print("- load \(techTextureNames.count) tech type textures")
         for textureName in techTextureNames {
             ImageCache.shared.add(
@@ -466,7 +470,7 @@ extension GameViewModel {
             )
         }
 
-        let civicTextureNames = CivicType.all.map { $0.iconTexture() }
+        let civicTextureNames = ([CivicType.none] + CivicType.all).map { $0.iconTexture() }
         print("- load \(civicTextureNames.count) civic type textures")
         for textureName in civicTextureNames {
             ImageCache.shared.add(
@@ -629,9 +633,9 @@ extension GameViewModel {
             )
         }
 
-        let dedicationTypesTextureNames = DedicationType.all.map { $0.iconTexture() }
-        print("- load \(dedicationTypesTextureNames.count) dedication textures")
-        for textureName in dedicationTypesTextureNames {
+        let dedicationTypeTextureNames = DedicationType.all.map { $0.iconTexture() }
+        print("- load \(dedicationTypeTextureNames.count) dedication textures")
+        for textureName in dedicationTypeTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
@@ -647,6 +651,15 @@ extension GameViewModel {
         ).uniqued()
         print("- load \(momentTypeTextureNames.count) moment textures")
         for textureName in momentTypeTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let handicapTypeTextureNames = HandicapType.all.map { $0.iconTexture() }
+        print("- load \(handicapTypeTextureNames.count) handicap textures")
+        for textureName in handicapTypeTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName

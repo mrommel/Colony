@@ -42,7 +42,7 @@ class MapGeneratorTests: XCTestCase {
         self.map = try! JSONDecoder().decode(MapModel.self, from: jsonData)
     }
 
-    /*func testGenerateTestMap() {
+    /* func testGenerateTestMap() {
 
         let mapOptions = MapOptions(withSize: .duel, type: .continents, leader: .alexander, handicap: .settler)
         let mapGenerator = MapGenerator(with: mapOptions)
@@ -54,12 +54,16 @@ class MapGeneratorTests: XCTestCase {
             }
         }
 
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         let filename = downloadsFolder.appendingPathComponent("duel.map")
 
         let writer = MapWriter()
         let success = writer.write(map: mapModel, to: filename)
         XCTAssertEqual(success, true)
-    }*/
+    } */
 
     func testBasic() {
 

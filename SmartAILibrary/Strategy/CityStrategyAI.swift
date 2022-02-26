@@ -562,8 +562,9 @@ public class CityStrategyAI: Codable {
                     city.startBuilding(district: districtType, at: districtLocation, in: gameModel)
                 }
             case .project:
-                // FIXME
-                break
+                if let projectType = selection.projectType, let projectLocation = selection.location {
+                    city.startBuilding(project: projectType, at: projectLocation, in: gameModel)
+                }
             }
         }
     }

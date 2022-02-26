@@ -387,7 +387,7 @@ public enum TechType: String, Codable {
                 cost: 50,
                 required: [],
                 flavors: [
-                    Flavor(type: .happiness, value: 10),
+                    Flavor(type: .amenities, value: 10),
                     Flavor(type: .tileImprovement, value: 2),
                     Flavor(type: .wonder, value: 4)
                 ]
@@ -446,7 +446,7 @@ public enum TechType: String, Codable {
                 required: [.mining],
                 flavors: [
                     Flavor(type: .cityDefense, value: 4),
-                    Flavor(type: .happiness, value: 2),
+                    Flavor(type: .amenities, value: 2),
                     Flavor(type: .tileImprovement, value: 2),
                     Flavor(type: .wonder, value: 2)
                 ]
@@ -550,7 +550,7 @@ public enum TechType: String, Codable {
                 required: [.animalHusbandry],
                 flavors: [
                     Flavor(type: .mobile, value: 7),
-                    Flavor(type: .happiness, value: 3)
+                    Flavor(type: .amenities, value: 3)
                 ]
             )
 
@@ -587,7 +587,7 @@ public enum TechType: String, Codable {
                 cost: 200,
                 required: [.masonry, .horsebackRiding],
                 flavors: [
-                    Flavor(type: .happiness, value: 17),
+                    Flavor(type: .amenities, value: 17),
                     Flavor(type: .infrastructure, value: 2),
                     Flavor(type: .wonder, value: 2)
                 ]

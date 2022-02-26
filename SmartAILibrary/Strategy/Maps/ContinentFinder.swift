@@ -69,7 +69,7 @@ public class ContinentFinder {
                 continue
             }
 
-            let pickContinent = availableContinentTypes.chooseOne
+            let pickContinent = availableContinentTypes.randomItem()
             continent.typeVal = pickContinent
             availableContinentTypes.removeAll(where: { $0 == pickContinent })
         }

@@ -154,13 +154,6 @@ public class BuilderTaskingAI {
             self.update(in: gameModel)
         }
 
-        // check for no brainer bail-outs
-        // if the builder is already building something
-        if unit.buildType() != .none {
-
-            return BuilderDirective(type: .buildImprovement, build: unit.buildType(), resource: .none, target: unit.location, moveTurnsAway: 0)
-        }
-
         var tiles: [AbstractTile?] = []
 
         if onlyEvaluateWorkersPlot {
@@ -905,17 +898,17 @@ public class BuilderTaskingAI {
             return plotDistance
         } else {
 
-            let astar = AStarPathfinder()
-            astar.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+            let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
                 for: unit.movementType(),
                 for: unit.player,
                 unitMapType: .combat,
                 canEmbark: unit.player!.canEmbark(),
                 canEnterOcean: unit.player!.canEnterOcean()
             )
+            let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
             //let path = astar.shortestPath(fromTileCoord: unit.location, toTileCoord: tile.point)
-            let result = astar.turnsToReachTarget(for: unit, to: tile.point)
+            let result = pathFinder.turnsToReachTarget(for: unit, to: tile.point)
             if result == Int.max {
                 return -1
             }

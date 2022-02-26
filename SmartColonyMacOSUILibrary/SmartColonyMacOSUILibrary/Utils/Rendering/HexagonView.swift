@@ -90,9 +90,9 @@ struct HexagonView_Previews: PreviewProvider {
         )
         HexagonView(viewModel: viewModel)
 
-        //HexagonView(viewModel: HexagonViewModel(tile: .grass))
+        // HexagonView(viewModel: HexagonViewModel(tile: .grass))
 
-        //HexagonView(viewModel: HexagonViewModel(tile: .ocean))
+        // HexagonView(viewModel: HexagonViewModel(tile: .ocean))
     }
 }
 #endif

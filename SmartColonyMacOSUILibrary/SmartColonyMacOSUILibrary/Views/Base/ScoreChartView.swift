@@ -76,7 +76,7 @@ struct ScoreChartView: NSViewRepresentable {
         chart.xAxis.forceLabelsEnabled = false
         chart.xAxis.granularityEnabled = true
         chart.xAxis.granularity = 1
-        //chart.xAxis.valueFormatter = CustomChartFormatter(days: days)
+        // chart.xAxis.valueFormatter = CustomChartFormatter(days: days)
         chart.drawGridBackgroundEnabled = true
         chart.gridBackgroundColor = .black.withAlphaComponent(0.5)
 

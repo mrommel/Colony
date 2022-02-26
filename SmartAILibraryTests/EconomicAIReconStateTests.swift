@@ -34,7 +34,20 @@ class EconomicAIReconStateTests: XCTestCase {
 
         self.objectToTest = EconomicAI(player: playerAlexander)
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -70,7 +83,21 @@ class EconomicAIReconStateTests: XCTestCase {
 
         self.objectToTest = EconomicAI(player: playerAlexander)
 
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,

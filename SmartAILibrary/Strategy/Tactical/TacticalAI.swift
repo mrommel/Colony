@@ -134,7 +134,7 @@ public class TacticalAI: Codable {
     }
 
     /// Update the AI for units
-    func turn(in gameModel: GameModel?) {
+    func doTurn(in gameModel: GameModel?) {
 
         self.findTacticalTargets(in: gameModel)
 
@@ -951,14 +951,14 @@ public class TacticalAI: Codable {
                                 break
                             } else {
                                 // Using step finder could get tripped up by ocean hexes (since they are in the area but not valid movement targets for coastal vessels.  Watch this!
-                                let pathFinder = AStarPathfinder()
-                                pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(
+                                let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
                                     for: .swim,
                                     for: self.player,
                                     unitMapType: .combat,
                                     canEmbark: self.player!.canEmbark(),
                                     canEnterOcean: self.player!.canEnterOcean()
                                 )
+                                let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
                                 let path = pathFinder.shortestPath(fromTileCoord: unitAtSea.location, toTileCoord: adjacentPoint)
                                 let distance: Int = path == nil ? 0 : Int(path!.cost)
@@ -1038,14 +1038,14 @@ public class TacticalAI: Codable {
                             }
 
                             // At sea?
-                            let pathFinder = AStarPathfinder()
-                            pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(
+                            let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
                                 for: .swim,
                                 for: self.player,
                                 unitMapType: .combat,
                                 canEmbark: self.player!.canEmbark(),
                                 canEnterOcean: self.player!.canEnterOcean()
                             )
+                            let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
                             let path = pathFinder.shortestPath(fromTileCoord: unit.location, toTileCoord: bestPlot)
                             let distance: Int = path == nil ? 0 : Int(path!.cost)
@@ -5924,8 +5924,6 @@ public class TacticalAI: Codable {
         self.currentMoveUnits.removeAll()
         self.currentMoveHighPriorityUnits.removeAll()
 
-        let astar = AStarPathfinder()
-
         // Loop through all units available to tactical AI this turn
         for currentTurnUnit in self.currentTurnUnits {
 
@@ -5991,14 +5989,15 @@ public class TacticalAI: Codable {
                         if turnsAway == -1 || leastTurns <= turnsAway {
 
                             // If unit was suitable, and close enough, add it to the proper list
-                            astar.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                            let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
                                 for: loopUnit.movementType(),
                                 for: loopUnit.player,
                                 unitMapType: .combat,
                                 canEmbark: loopUnit.player!.canEmbark(),
                                 canEnterOcean: self.player!.canEnterOcean()
                             )
-                            let moves = astar.turnsToReachTarget(for: loopUnit, to: target.point)
+                            let pathFinder = AStarPathfinder(with: pathFinderDataSource)
+                            let moves = pathFinder.turnsToReachTarget(for: loopUnit, to: target.point)
 
                             if moves != Int.max && (turnsAway == -1 || (turnsAway == 0 && loopUnit.location == target.point) || moves <= turnsAway) {
 

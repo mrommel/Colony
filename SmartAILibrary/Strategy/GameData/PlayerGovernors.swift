@@ -170,7 +170,8 @@ class PlayerGovernors: AbstractPlayerGovernors {
             }
 
             guard bestLocation != HexPoint.invalid else {
-                fatalError("Could not find a city location for \(governor.type)")
+                print("Could not find a city location for \(governor.type)")
+                continue
             }
 
             cityLocations.removeAll(where: { $0 == bestLocation })

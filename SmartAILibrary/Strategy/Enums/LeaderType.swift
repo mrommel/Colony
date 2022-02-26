@@ -12,7 +12,10 @@ import Foundation
 public enum LeaderType: Int, Codable {
 
     case none
+    case unmet
+
     case barbar
+    case freeCities
 
     case alexander
     case trajan
@@ -25,7 +28,17 @@ public enum LeaderType: Int, Codable {
     case peterTheGreat
 
     public static var all: [LeaderType] {
-        return [.alexander, .trajan, .victoria, .cyrus, .montezuma, .napoleon, .cleopatra, .barbarossa, .peterTheGreat]
+        return [
+            .alexander,
+            .trajan,
+            .victoria,
+            .cyrus,
+            .montezuma,
+            .napoleon,
+            .cleopatra,
+            .barbarossa,
+            .peterTheGreat
+        ]
     }
 
     public func name() -> String {
@@ -48,7 +61,9 @@ public enum LeaderType: Int, Codable {
         switch self {
 
         case .none: return []
+        case .unmet: return []
         case .barbar: return []
+        case .freeCities: return []
 
         case .alexander:
             return [
@@ -59,7 +74,7 @@ public enum LeaderType: Int, Codable {
                 Flavor(type: .expansion, value: 8),
                 Flavor(type: .gold, value: 3),
                 Flavor(type: .growth, value: 4),
-                Flavor(type: .happiness, value: 5),
+                Flavor(type: .amenities, value: 5),
                 Flavor(type: .infrastructure, value: 4),
                 Flavor(type: .militaryTraining, value: 5),
                 Flavor(type: .mobile, value: 8),
@@ -83,7 +98,7 @@ public enum LeaderType: Int, Codable {
                 Flavor(type: .expansion, value: 8),
                 Flavor(type: .gold, value: 6),
                 Flavor(type: .growth, value: 5),
-                Flavor(type: .happiness, value: 8),
+                Flavor(type: .amenities, value: 8),
                 Flavor(type: .infrastructure, value: 8),
                 Flavor(type: .militaryTraining, value: 7),
                 Flavor(type: .mobile, value: 4),
@@ -107,7 +122,7 @@ public enum LeaderType: Int, Codable {
                 Flavor(type: .expansion, value: 6),
                 Flavor(type: .gold, value: 8),
                 Flavor(type: .growth, value: 4),
-                Flavor(type: .happiness, value: 5),
+                Flavor(type: .amenities, value: 5),
                 Flavor(type: .infrastructure, value: 5),
                 Flavor(type: .militaryTraining, value: 5),
                 Flavor(type: .mobile, value: 3),
@@ -138,7 +153,7 @@ public enum LeaderType: Int, Codable {
             return flavor.value
         }
 
-        return 0
+        return -1
     }
 
     func traits() -> [Trait] {
@@ -146,7 +161,9 @@ public enum LeaderType: Int, Codable {
         switch self {
 
         case .none: return []
+        case .unmet: return []
         case .barbar: return []
+        case .freeCities: return []
 
         case .alexander:
             return [Trait(type: .boldness, value: 8)]
@@ -183,7 +200,9 @@ public enum LeaderType: Int, Codable {
         switch self {
 
         case .none: return []
+        case .unmet: return []
         case .barbar: return []
+        case .freeCities: return []
 
         case .alexander: return [
                 ApproachBias(approach: .afraid, bias: 3),
@@ -267,11 +286,29 @@ public enum LeaderType: Int, Codable {
                 religion: nil
             )
 
+        case .unmet:
+            return LeaderTypeData(
+                name: "Unmet",
+                intro: "--",
+                civilization: .unmet,
+                ability: .none,
+                religion: nil
+            )
+
         case .barbar:
             return LeaderTypeData(
                 name: "Barbar",
                 intro: "--",
                 civilization: .barbarian,
+                ability: .none,
+                religion: nil
+            )
+
+        case .freeCities:
+            return LeaderTypeData(
+                name: "Free",
+                intro: "--",
+                civilization: .free,
                 ability: .none,
                 religion: nil
             )

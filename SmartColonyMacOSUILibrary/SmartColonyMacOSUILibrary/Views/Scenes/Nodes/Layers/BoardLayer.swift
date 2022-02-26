@@ -84,7 +84,7 @@ class BoardLayer: BaseLayer {
         boardSprite.position = position
         boardSprite.zPosition = Globals.ZLevels.caldera
         boardSprite.anchorPoint = CGPoint(x: 0, y: 0.09)
-        //boardSprite.alpha = alpha
+        // boardSprite.alpha = alpha
         boardSprite.color = .black
         boardSprite.colorBlendFactor = 1.0 - alpha
         self.addChild(boardSprite)

@@ -8,6 +8,7 @@
 
 import Foundation
 
+// swiftlint:disable nesting
 class DiplomaticPlayerArray<ValueType: Codable>: Codable {
 
     enum CodingKeys: CodingKey {

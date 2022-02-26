@@ -97,7 +97,7 @@ public enum GovernorTitleType: Int, Codable {
             return modifier.value
         }
 
-        return 0
+        return DistrictType.defaultFlavorValue
     }
 
     // MARK: private methods
@@ -149,7 +149,7 @@ public enum GovernorTitleType: Int, Codable {
                 ],
                 tier: 1,
                 requiredOr: [],
-                flavors: [Flavor(type: .gold, value: 6), Flavor(type: .happiness, value: 4)]
+                flavors: [Flavor(type: .gold, value: 6), Flavor(type: .amenities, value: 4)]
             )
         case .taxCollector:
             return GovernorTitleTypeData(
@@ -253,7 +253,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Messenger",
                 effects: [
-                    "Can be assigned to a City-state, where she acts as 2 Envoys."
+                    "Can be assigned to a City-state, where she acts as 2 [Envoy] Envoys."
                 ],
                 tier: 0,
                 requiredOr: [],
@@ -277,7 +277,7 @@ public enum GovernorTitleType: Int, Codable {
                 ],
                 tier: 1,
                 requiredOr: [],
-                flavors: [Flavor(type: .happiness, value: 6)]
+                flavors: [Flavor(type: .amenities, value: 6)]
             )
         case .localInformants:
             return GovernorTitleTypeData(
@@ -304,7 +304,7 @@ public enum GovernorTitleType: Int, Codable {
             return GovernorTitleTypeData(
                 name: "Puppeteer",
                 effects: [
-                    "While established in a city-state, doubles the number of Envoys you have there."
+                    "While established in a city-state, doubles the number of [Envoy] Envoys you have there."
                 ],
                 tier: 3,
                 requiredOr: [.localInformants, .foreignInvestor],
@@ -502,7 +502,10 @@ public enum GovernorTitleType: Int, Codable {
                 ],
                 tier: 3,
                 requiredOr: [.reinforcedMaterials, .waterWorks],
-                flavors: [Flavor(type: .culture, value: 6), Flavor(type: .happiness, value: 4)]
+                flavors: [
+                    Flavor(type: .culture, value: 6),
+                    Flavor(type: .amenities, value: 4)
+                ]
             )
 
             // Pingala

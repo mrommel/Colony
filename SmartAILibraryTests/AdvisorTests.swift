@@ -35,14 +35,31 @@ class AdvisorTests: XCTestCase {
         playerAlexander.initialize()
         playerAlexander.government?.set(governmentType: .autocracy)
 
+        let playerTrajan = Player(leader: .trajan)
+        playerTrajan.initialize()
+        playerTrajan.government?.set(governmentType: .autocracy)
+
         // setup the map
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
             turnsElapsed: 0,
-            players: [barbarianPlayer, playerAlexander],
+            players: [barbarianPlayer, playerTrajan, playerAlexander],
             on: mapModel
         )
 
@@ -56,11 +73,13 @@ class AdvisorTests: XCTestCase {
         try! mapModel.set(owner: playerAlexander, at: HexPoint(x: 1, y: 2))
         mapModel.set(improvement: .farm, at: HexPoint(x: 1, y: 2))
 
+        gameModel.add(unit: Unit(at: HexPoint(x: 5, y: 8), type: .warrior, owner: playerTrajan))
+
         // add the city to the map
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize(in: gameModel)
 
-        mapModel.add(city: self.objectToTest, in: gameModel)
+        gameModel.add(city: self.objectToTest)
 
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
@@ -93,22 +112,37 @@ class AdvisorTests: XCTestCase {
         playerAlexander.initialize()
         playerAlexander.government?.set(governmentType: .autocracy)
 
-        let playerAugustus = Player(leader: .trajan)
-        playerAugustus.initialize()
-        playerAugustus.government?.set(governmentType: .autocracy)
+        let playerTrajan = Player(leader: .trajan)
+        playerTrajan.initialize()
+        playerTrajan.government?.set(governmentType: .autocracy)
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel) //MapModel(size: .standard)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
             turnsElapsed: 0,
-            players: [barbarianPlayer, playerAugustus, playerAlexander],
+            players: [barbarianPlayer, playerTrajan, playerAlexander],
             on: mapModel
         )
 
         try! playerAlexander.techs?.discover(tech: .mining, in: gameModel)
-        try! playerAugustus.techs?.discover(tech: .mining, in: gameModel)
+        try! playerTrajan.techs?.discover(tech: .mining, in: gameModel)
+
+        gameModel.add(unit: Unit(at: HexPoint(x: 5, y: 8), type: .warrior, owner: playerTrajan))
 
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize(in: gameModel)
@@ -160,21 +194,35 @@ class AdvisorTests: XCTestCase {
         playerAlexander.initialize()
         playerAlexander.government?.set(governmentType: .autocracy)
 
-        let playerAugustus = Player(leader: .trajan)
-        playerAugustus.initialize()
-        playerAugustus.government?.set(governmentType: .autocracy)
+        let playerTrajan = Player(leader: .trajan)
+        playerTrajan.initialize()
+        playerTrajan.government?.set(governmentType: .autocracy)
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
             handicap: .chieftain,
             turnsElapsed: 0,
-            players: [barbarianPlayer, playerAugustus, playerAlexander],
+            players: [barbarianPlayer, playerTrajan, playerAlexander],
             on: mapModel
         )
 
         try! playerAlexander.techs?.discover(tech: .mining, in: gameModel)
-        try! playerAugustus.techs?.discover(tech: .mining, in: gameModel)
+        try! playerTrajan.techs?.discover(tech: .mining, in: gameModel)
 
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
@@ -197,10 +245,11 @@ class AdvisorTests: XCTestCase {
         anotherTile?.set(improvement: .mine)
 
         // units
-        mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAlexander), in: gameModel)
-        mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 1), type: .warrior, owner: playerAlexander), in: gameModel)
-        mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 2), type: .warrior, owner: playerAlexander), in: gameModel)
-        mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 3), type: .warrior, owner: playerAlexander), in: gameModel)
+        gameModel.add(unit: Unit(at: HexPoint(x: 5, y: 8), type: .warrior, owner: playerTrajan))
+        gameModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAlexander))
+        gameModel.add(unit: Unit(at: HexPoint(x: 0, y: 1), type: .warrior, owner: playerAlexander))
+        gameModel.add(unit: Unit(at: HexPoint(x: 0, y: 2), type: .warrior, owner: playerAlexander))
+        gameModel.add(unit: Unit(at: HexPoint(x: 0, y: 3), type: .warrior, owner: playerAlexander))
 
         // WHEN
         for _ in 0..<30 {

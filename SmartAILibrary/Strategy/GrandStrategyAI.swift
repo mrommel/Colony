@@ -223,7 +223,7 @@ public class GrandStrategyAI: Codable {
         try container.encode(self.otherPlayerGuesses, forKey: .otherPlayerGuesses)
     }
 
-    func turn(with gameModel: GameModel?) {
+    func doTurn(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError()

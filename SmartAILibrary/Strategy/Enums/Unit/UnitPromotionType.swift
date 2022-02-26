@@ -290,7 +290,7 @@ public enum UnitPromotionType: Int, Codable {
             return modifier.value
         }
 
-        return 0
+        return DistrictType.defaultFlavorValue
     }
 
     private func flavors() -> [Flavor] {
@@ -300,8 +300,8 @@ public enum UnitPromotionType: Int, Codable {
         case .embarkation: return [Flavor(type: .navalGrowth, value: 2)]
 
             // general
-        case .healthBoostRecon: return [Flavor(type: .happiness, value: 2)]
-        case .healthBoostMelee: return [Flavor(type: .happiness, value: 2)]
+        case .healthBoostRecon: return [Flavor(type: .amenities, value: 2)]
+        case .healthBoostMelee: return [Flavor(type: .amenities, value: 2)]
 
             // recon
         case .ranger: return [Flavor(type: .recon, value: 2), Flavor(type: .mobile, value: 2)]

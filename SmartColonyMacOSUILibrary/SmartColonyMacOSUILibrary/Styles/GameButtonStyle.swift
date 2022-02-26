@@ -30,11 +30,11 @@ public struct GameButtonStyle: ButtonStyle {
         switch self.state {
 
         case .normal, .text:
-            //return ImageCache.shared.image(for: pressed ? "grid9-button-active" : "grid9-button-clicked")
+            // return ImageCache.shared.image(for: pressed ? "grid9-button-active" : "grid9-button-clicked")
             return ImageCache.shared.image(for: "grid9-button-clicked")
 
         case .highlighted:
-            //return ImageCache.shared.image(for: pressed ? "grid9-button-active" : "grid9-button-highlighted")
+            // return ImageCache.shared.image(for: pressed ? "grid9-button-active" : "grid9-button-highlighted")
             return ImageCache.shared.image(for: "grid9-button-highlighted")
 
         }

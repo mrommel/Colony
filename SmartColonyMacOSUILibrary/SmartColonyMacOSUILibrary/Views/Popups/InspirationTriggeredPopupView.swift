@@ -28,11 +28,11 @@ struct InspirationTriggeredPopupView: View {
                     .font(.title2)
                     .bold()
                     .padding(.top, 16)
-                    .padding(.bottom, 6)
+                    .padding(.bottom, 16)
 
                 VStack(alignment: .center, spacing: 10) {
 
-                    Label(self.viewModel.summaryText)
+                    Label(self.viewModel.summaryText, width: 320)
                         .lineLimit(nil)
                         .fixedSize(horizontal: false, vertical: true)
                         .multilineTextAlignment(.center)
@@ -44,6 +44,8 @@ struct InspirationTriggeredPopupView: View {
                         HStack(alignment: .center) {
 
                             Image(nsImage: self.viewModel.icon())
+                                .resizable()
+                                .frame(width: 64, height: 64)
 
                             VStack {
                                 Text(self.viewModel.descriptionText)
@@ -95,7 +97,7 @@ struct EurekaCivicActivatedPopupView_Previews: PreviewProvider {
     static func viewModel() -> InspirationTriggeredPopupViewModel {
 
         let viewModel = InspirationTriggeredPopupViewModel()
-        viewModel.update(for: .earlyEmpire)
+        viewModel.update(for: .militaryTradition)
 
         return viewModel
     }

@@ -54,6 +54,12 @@ class CityGrowthViewModel: ObservableObject {
     @Published
     var amenitiesFromReligion: String
 
+    @Published
+    var amenitiesFromWarWeariness: String
+
+    @Published
+    var amenitiesFromCivics: String
+
     private var city: AbstractCity?
 
     init(city: AbstractCity? = nil) {
@@ -76,6 +82,8 @@ class CityGrowthViewModel: ObservableObject {
         self.amenitiesFromLuxuries = "-"
         self.amenitiesFromEntertainment = "-"
         self.amenitiesFromReligion = "-"
+        self.amenitiesFromWarWeariness = "-"
+        self.amenitiesFromCivics = "-"
 
         if city != nil {
             self.update(for: city)
@@ -120,12 +128,13 @@ class CityGrowthViewModel: ObservableObject {
                 city.amenitiesFromBuildings() + city.amenitiesFromWonders(in: gameModel)
             self.amenitiesFromEntertainment = "\(amenitiesFromEntertainmentValue)"
             self.amenitiesFromReligion = "0"
+            self.amenitiesFromWarWeariness = "\(city.amenitiesForWarWeariness())"
+            self.amenitiesFromCivics
 
             // housing
             self.housingFromBuildings = "\(city.housingFromBuildings() + city.housingFromWonders(in: gameModel))"
             self.housingFromDistricts = "\(city.housingFromDistricts(in: gameModel))"
             self.housingFromWater = "\(city.baseHousing(in: gameModel))"
-
         }
     }
 }

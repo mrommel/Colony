@@ -118,7 +118,7 @@ public enum ProjectType: Int, Codable {
                 era: .classical,
                 required: nil,
                 previous: nil,
-                location: .entertainment,
+                location: .entertainmentComplex,
                 cost: 25,
                 unique: false
             )

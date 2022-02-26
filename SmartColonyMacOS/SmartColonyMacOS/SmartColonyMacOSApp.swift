@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import SmartMacOSUILibrary
 import Combine
+import SmartColonyMacOSUILibrary
 import SmartAILibrary
 
 @main
@@ -21,19 +21,20 @@ struct SmartColonyMacOSApp: App {
     var viewModel: MainViewModel
 
     @ObservedObject
-    var commandModel: GameCommandsModel = GameCommandsModel()
+    var commandModel: GameCommandsModel
 
     init() {
 
         let mainViewModel = MainViewModel()
-
         self.viewModel = mainViewModel
+
+        self.commandModel = GameCommandsModel()
         self.commandModel.viewModel = mainViewModel // = GameCommandsModel(viewModel: mainViewModel)
     }
 
     var body: some Scene {
         WindowGroup {
-            MainView(viewModel: viewModel)
+            MainView(viewModel: self.viewModel)
         }
         .commands {
             GameCommands(

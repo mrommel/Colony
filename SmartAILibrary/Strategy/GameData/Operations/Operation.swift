@@ -283,12 +283,14 @@ public class Operation: Codable, Equatable {
 
     func closestUnit(in searchList: [OperationSearchUnit], needToCheckTarget: Bool, in gameModel: GameModel?) -> AbstractUnit? {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
         var bestUnit: AbstractUnit?
         var bestDistance: Double = UnitMovementType.max
 
         let sortetSearchList = searchList.sorted(by: { $0.distance < $1.distance })
-
-        let pathFinder = AStarPathfinder()
 
         for searchUnit in sortetSearchList {
 
@@ -296,13 +298,14 @@ public class Operation: Codable, Equatable {
                 fatalError("cant get iterator")
             }
 
-            pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(
+            let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
                 for: unit.movementType(),
                 for: searchUnit.unit?.player,
                 unitMapType: .combat,
                 canEmbark: self.player!.canEmbark(),
                 canEnterOcean: self.player!.canEnterOcean()
             )
+            let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
             if let searchUnitLocation = searchUnit.unit?.location {
                 var pathDistance = Double.greatestFiniteMagnitude
@@ -770,14 +773,14 @@ public class Operation: Codable, Equatable {
 
                 let armyMoveType: UnitMovementType = self.moveType == .navalEscort || self.moveType == .freeformNaval ? .swim : .walk
 
-                let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
                     for: armyMoveType,
                     for: self.player,
                     unitMapType: .combat,
                     canEmbark: self.player!.canEmbark(),
                     canEnterOcean: self.player!.canEnterOcean()
                 )
+                let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
                 guard let musterPosition = self.musterPosition else {
                     fatalError("muster position not available")

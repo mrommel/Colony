@@ -91,10 +91,19 @@
 		C9CAC8A2264BC4B200D0668D /* GovernmentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */; };
 		C9CAC8A6264BD17000D0668D /* GovernmentTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC8A5264BD17000D0668D /* GovernmentTypeExtension.swift */; };
 		C9CB34012761EB12008835D0 /* ContinentTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CB34002761EB12008835D0 /* ContinentTypeExtension.swift */; };
+		C9CB992127C6C17D00946E77 /* merchant-walk.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9CB992027C6C17D00946E77 /* merchant-walk.slp */; };
+		C9CB992327C6C1F700946E77 /* SlpTextureAtlasLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CB992227C6C1F700946E77 /* SlpTextureAtlasLoader.swift */; };
+		C9CB992527C6C34D00946E77 /* PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CB992427C6C34D00946E77 /* PixelBuffer.swift */; };
+		C9CB992727C6C3BC00946E77 /* SlpFileExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CB992627C6C3BC00946E77 /* SlpFileExtension.swift */; };
 		C9CD3193278CB711002D53C4 /* Moments.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9CD3192278CB711002D53C4 /* Moments.strings */; };
 		C9CD3195278D6499002D53C4 /* MomentTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CD3194278D6499002D53C4 /* MomentTypeExtension.swift */; };
 		C9CD3197278D7571002D53C4 /* VictoryTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CD3196278D7571002D53C4 /* VictoryTypeExtension.swift */; };
 		C9D5D25326F8630A00009817 /* GovernorTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D5D25226F8630A00009817 /* GovernorTypeExtension.swift */; };
+		C9E80CCB27C7BE360048216B /* caravane-walk.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9E80CC927C7BE350048216B /* caravane-walk.slp */; };
+		C9E80CCC27C7BE360048216B /* caravane-idle.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9E80CCA27C7BE360048216B /* caravane-idle.slp */; };
+		C9E80CCE27C7C4B90048216B /* AOE1_50500.pal in Resources */ = {isa = PBXBuildFile; fileRef = C9E80CCD27C7C4B90048216B /* AOE1_50500.pal */; };
+		C9E80CD027C7CCC70048216B /* merchant-idle.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9E80CCF27C7CCC70048216B /* merchant-idle.slp */; };
+		C9E80CD227C7CCE60048216B /* AOE1_50500.pal in Resources */ = {isa = PBXBuildFile; fileRef = C9E80CD127C7CCE60048216B /* AOE1_50500.pal */; };
 		C9E87BA7264C573200514B9A /* YieldTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BA6264C573200514B9A /* YieldTypeExtension.swift */; };
 		C9E87BB9264DA63700514B9A /* TechTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BB8264DA63700514B9A /* TechTypeExtension.swift */; };
 		C9E87BBB264DAA7000514B9A /* CivicTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BBA264DAA7000514B9A /* CivicTypeExtension.swift */; };
@@ -102,6 +111,9 @@
 		C9E87BBF264DB4D600514B9A /* WonderTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BBE264DB4D600514B9A /* WonderTypeExtension.swift */; };
 		C9E87BC1264DB54900514B9A /* DistrictTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BC0264DB54900514B9A /* DistrictTypeExtension.swift */; };
 		C9E87BC3264DB58100514B9A /* BuildTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BC2264DB58100514B9A /* BuildTypeExtension.swift */; };
+		C9F9638D27C56DED00073CC7 /* SlpFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F9638C27C56DED00073CC7 /* SlpFile.swift */; };
+		C9F9639F27C6423800073CC7 /* SlpLoadingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F9639D27C6422300073CC7 /* SlpLoadingTests.swift */; };
+		C9F963A227C6429000073CC7 /* merchant-idle.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9F963A127C6429000073CC7 /* merchant-idle.slp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -215,10 +227,19 @@
 		C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentState.swift; sourceTree = "<group>"; };
 		C9CAC8A5264BD17000D0668D /* GovernmentTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentTypeExtension.swift; sourceTree = "<group>"; };
 		C9CB34002761EB12008835D0 /* ContinentTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentTypeExtension.swift; sourceTree = "<group>"; };
+		C9CB992027C6C17D00946E77 /* merchant-walk.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "merchant-walk.slp"; sourceTree = "<group>"; };
+		C9CB992227C6C1F700946E77 /* SlpTextureAtlasLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlpTextureAtlasLoader.swift; sourceTree = "<group>"; };
+		C9CB992427C6C34D00946E77 /* PixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelBuffer.swift; sourceTree = "<group>"; };
+		C9CB992627C6C3BC00946E77 /* SlpFileExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlpFileExtension.swift; sourceTree = "<group>"; };
 		C9CD3192278CB711002D53C4 /* Moments.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Moments.strings; sourceTree = "<group>"; };
 		C9CD3194278D6499002D53C4 /* MomentTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentTypeExtension.swift; sourceTree = "<group>"; };
 		C9CD3196278D7571002D53C4 /* VictoryTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VictoryTypeExtension.swift; sourceTree = "<group>"; };
 		C9D5D25226F8630A00009817 /* GovernorTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorTypeExtension.swift; sourceTree = "<group>"; };
+		C9E80CC927C7BE350048216B /* caravane-walk.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "caravane-walk.slp"; sourceTree = "<group>"; };
+		C9E80CCA27C7BE360048216B /* caravane-idle.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "caravane-idle.slp"; sourceTree = "<group>"; };
+		C9E80CCD27C7C4B90048216B /* AOE1_50500.pal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AOE1_50500.pal; sourceTree = "<group>"; };
+		C9E80CCF27C7CCC70048216B /* merchant-idle.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "merchant-idle.slp"; sourceTree = "<group>"; };
+		C9E80CD127C7CCE60048216B /* AOE1_50500.pal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AOE1_50500.pal; sourceTree = "<group>"; };
 		C9E87BA6264C573200514B9A /* YieldTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldTypeExtension.swift; sourceTree = "<group>"; };
 		C9E87BB8264DA63700514B9A /* TechTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechTypeExtension.swift; sourceTree = "<group>"; };
 		C9E87BBA264DAA7000514B9A /* CivicTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicTypeExtension.swift; sourceTree = "<group>"; };
@@ -226,6 +247,9 @@
 		C9E87BBE264DB4D600514B9A /* WonderTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderTypeExtension.swift; sourceTree = "<group>"; };
 		C9E87BC0264DB54900514B9A /* DistrictTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictTypeExtension.swift; sourceTree = "<group>"; };
 		C9E87BC2264DB58100514B9A /* BuildTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildTypeExtension.swift; sourceTree = "<group>"; };
+		C9F9638C27C56DED00073CC7 /* SlpFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlpFile.swift; sourceTree = "<group>"; };
+		C9F9639D27C6422300073CC7 /* SlpLoadingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlpLoadingTests.swift; sourceTree = "<group>"; };
+		C9F963A127C6429000073CC7 /* merchant-idle.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "merchant-idle.slp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -251,7 +275,9 @@
 		C903D063274A5BE4003C50B9 /* SmartAssetsTests */ = {
 			isa = PBXGroup;
 			children = (
+				C9F963A027C6425D00073CC7 /* Resources */,
 				C903D064274A5BE4003C50B9 /* LabelTokenizerTests.swift */,
+				C9F9639D27C6422300073CC7 /* SlpLoadingTests.swift */,
 			);
 			path = SmartAssetsTests;
 			sourceTree = "<group>";
@@ -345,6 +371,7 @@
 		C98E68B52577D8B400BD93CA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C9F9638E27C57A4000073CC7 /* Slps */,
 				C9A0982D261CB67B0098C5E1 /* Units */,
 				C98E68B62577D8C900BD93CA /* Tiles.xcassets */,
 				C9022F952608ED1500C6773A /* Icons.xcassets */,
@@ -357,6 +384,7 @@
 		C9A0982A261CAD170098C5E1 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C9CB992427C6C34D00946E77 /* PixelBuffer.swift */,
 				C931ADD12577D0E30002BA2F /* Textures.swift */,
 				C9A3760C263447390057923E /* TextureUtils.swift */,
 				C931ADE22577D1510002BA2F /* ArrayExtension.swift */,
@@ -368,6 +396,9 @@
 				C950F99E2649290A0057A7D1 /* StringExtension.swift */,
 				C91B484D26E615BE002157C4 /* ImageCache.swift */,
 				C903D06C274A5BF7003C50B9 /* LabelTokenizer.swift */,
+				C9F9638C27C56DED00073CC7 /* SlpFile.swift */,
+				C9CB992627C6C3BC00946E77 /* SlpFileExtension.swift */,
+				C9CB992227C6C1F700946E77 /* SlpTextureAtlasLoader.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -429,6 +460,27 @@
 				C9941EFD26E9EC6E00D029D7 /* CityCommandType.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		C9F9638E27C57A4000073CC7 /* Slps */ = {
+			isa = PBXGroup;
+			children = (
+				C9E80CD127C7CCE60048216B /* AOE1_50500.pal */,
+				C9E80CCA27C7BE360048216B /* caravane-idle.slp */,
+				C9E80CC927C7BE350048216B /* caravane-walk.slp */,
+				C9E80CCF27C7CCC70048216B /* merchant-idle.slp */,
+				C9CB992027C6C17D00946E77 /* merchant-walk.slp */,
+			);
+			path = Slps;
+			sourceTree = "<group>";
+		};
+		C9F963A027C6425D00073CC7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C9E80CCD27C7C4B90048216B /* AOE1_50500.pal */,
+				C9F963A127C6429000073CC7 /* merchant-idle.slp */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -524,6 +576,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9E80CCE27C7C4B90048216B /* AOE1_50500.pal in Resources */,
+				C9F963A227C6429000073CC7 /* merchant-idle.slp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,9 +594,11 @@
 				C988EAE7261B916800300C39 /* Units.xcassets in Resources */,
 				C9022F962608ED1500C6773A /* Icons.xcassets in Resources */,
 				C9BB56DA276915FD00053AE7 /* Civics.strings in Resources */,
+				C9E80CD027C7CCC70048216B /* merchant-idle.slp in Resources */,
 				C9C234A52768EEB400905C97 /* CityNames.strings in Resources */,
 				C970A5F62794876300381603 /* Wonders.strings in Resources */,
 				C9CD3193278CB711002D53C4 /* Moments.strings in Resources */,
+				C9E80CCB27C7BE360048216B /* caravane-walk.slp in Resources */,
 				C9A09855261CB6930098C5E1 /* scout.png in Resources */,
 				C9A0985B261CB6930098C5E1 /* man_at_arms.xml in Resources */,
 				C9A0985C261CB6930098C5E1 /* scout.xml in Resources */,
@@ -551,9 +607,11 @@
 				C963AD102785E27100981EF3 /* Techs.strings in Resources */,
 				C9A25C1427023BD50071B186 /* prophet.png in Resources */,
 				C9A09848261CB6930098C5E1 /* spearman.png in Resources */,
+				C9E80CD227C7CCE60048216B /* AOE1_50500.pal in Resources */,
 				C9A09847261CB6930098C5E1 /* horseman.png in Resources */,
 				C932BA842774AC4E00F4640D /* Dedications.strings in Resources */,
 				C9A0984F261CB6930098C5E1 /* long_swordman.png in Resources */,
+				C9CB992127C6C17D00946E77 /* merchant-walk.slp in Resources */,
 				C9A09853261CB6930098C5E1 /* horseman.xml in Resources */,
 				C970A5F42794841F00381603 /* Governments.strings in Resources */,
 				C91C92AA276533EB009A1167 /* Localizable.strings in Resources */,
@@ -567,6 +625,7 @@
 				C9A09846261CB6930098C5E1 /* knight.xml in Resources */,
 				C98E68B72577D8C900BD93CA /* Tiles.xcassets in Resources */,
 				C9A09858261CB6930098C5E1 /* warrior.xml in Resources */,
+				C9E80CCC27C7BE360048216B /* caravane-idle.slp in Resources */,
 				C9A0984A261CB6930098C5E1 /* pikeman.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -598,6 +657,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9F9639F27C6423800073CC7 /* SlpLoadingTests.swift in Sources */,
 				C903D065274A5BE4003C50B9 /* LabelTokenizerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -622,9 +682,11 @@
 				C952B9AE261E396F008822DD /* TextureAtlasExtension.swift in Sources */,
 				C925594A25F9569700C2BF28 /* ColorExtension.swift in Sources */,
 				C950F990264573F30057A7D1 /* CommandTypeExtension.swift in Sources */,
+				C9CB992527C6C34D00946E77 /* PixelBuffer.swift in Sources */,
 				C9A09829261C80080098C5E1 /* UnitTypeExtension.swift in Sources */,
 				C9AB2C72257E6B350045DFBC /* MapSizeExtension.swift in Sources */,
 				C98E68B32577D28E00BD93CA /* TerrainTypeExtension.swift in Sources */,
+				C9CB992727C6C3BC00946E77 /* SlpFileExtension.swift in Sources */,
 				C9E87BA7264C573200514B9A /* YieldTypeExtension.swift in Sources */,
 				C925594C25F95F9800C2BF28 /* CivilizationTypeExtension.swift in Sources */,
 				C98E68B12577D28E00BD93CA /* FeatureTypeExtension.swift in Sources */,
@@ -635,6 +697,7 @@
 				C9022FA026093D5300C6773A /* LeaderTypeExtension.swift in Sources */,
 				C903D06D274A5BF7003C50B9 /* LabelTokenizer.swift in Sources */,
 				C9E87BBD264DB49100514B9A /* BuildingTypeExtension.swift in Sources */,
+				C9CB992327C6C1F700946E77 /* SlpTextureAtlasLoader.swift in Sources */,
 				C9CB34012761EB12008835D0 /* ContinentTypeExtension.swift in Sources */,
 				C9E87BBF264DB4D600514B9A /* WonderTypeExtension.swift in Sources */,
 				C9C8A7492785788200BC68CF /* DedicationTypeExtension.swift in Sources */,
@@ -649,6 +712,7 @@
 				C9CD3195278D6499002D53C4 /* MomentTypeExtension.swift in Sources */,
 				C9D5D25326F8630A00009817 /* GovernorTypeExtension.swift in Sources */,
 				C9CAC8A6264BD17000D0668D /* GovernmentTypeExtension.swift in Sources */,
+				C9F9638D27C56DED00073CC7 /* SlpFile.swift in Sources */,
 				C9755FEF270AE92400C9CAB7 /* BeliefTypeExtension.swift in Sources */,
 				C91B484E26E615BE002157C4 /* ImageCache.swift in Sources */,
 				C9A05EEA27019D3A008ACFA3 /* GovernorTitleTypeExtension.swift in Sources */,

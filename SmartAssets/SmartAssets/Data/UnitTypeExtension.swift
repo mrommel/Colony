@@ -56,7 +56,7 @@ extension UnitType {
             // ancient
         case .scout: return "unit-portrait-scout"
         case .warrior: return "unit-portrait-warrior"
-        case .slinger: return "unit-portrait-default" // default
+        case .slinger: return "unit-portrait-slinger"
         case .archer: return "unit-portrait-archer"
         case .spearman: return "unit-portrait-spearman"
         case .heavyChariot: return "unit-portrait-heavyChariot"
@@ -225,15 +225,15 @@ extension UnitType {
             // civilian
         case .settler: return "settler-idle-0"
         case .builder: return "builder-idle-0"
-        case .trader: return "cart-idle-0"
+        case .trader: return "caravan-idle-0"
 
             // ancient
-        case .scout: return "archer-idle-0"
+        case .scout: return "archer-idle-0" // #
         case .warrior: return "warrior-idle-0"
-        case .slinger: return "archer-idle-0"
+        case .slinger: return "slinger-idle-0"
         case .archer: return "archer-idle-0"
-        case .spearman: return "archer-idle-0"
-        case .heavyChariot: return "archer-idle-0"
+        case .spearman: return "spearman-idle-0"
+        case .heavyChariot: return "chariot-idle-0"
         case .galley: return "galley-idle-0"
         case .batteringRam: return "batteringRam-idle-0"
 
@@ -296,7 +296,11 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "idle")
 
         case .trader:
-            return ObjectTextureAtlas(template: "cart-idle-", range: 0..<15)
+            // return ObjectTextureAtlas(template: "caravan-idle-", range: 0..<12)
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+            return SlpTextureAtlasLoader.atlas(for: "caravane-idle", part: .southWest, palette: palette.colors, player: .customBlue)
 
             // ancient
         case .scout:
@@ -308,7 +312,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "idle")
 
         case .slinger:
-            return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)
+            return ObjectTextureAtlas(template: "slinger-idle-", range: 0..<10)
 
         case .archer:
             let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
@@ -319,7 +323,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "idle")
 
         case .heavyChariot:
-            return ObjectTextureAtlas(template: "chariot-idle-", range: 0..<3)
+            return ObjectTextureAtlas(template: "chariot-idle-", range: 0..<15)
 
         case .galley:
             return ObjectTextureAtlas(template: "galley-idle-", range: 0..<3)
@@ -385,7 +389,7 @@ extension UnitType {
             return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)
 
         case .merchant:
-            return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)
+            return SlpTextureAtlasLoader.atlas(for: "merchant-idle", range: 0..<10)
 
         case .musician:
             return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)
@@ -423,7 +427,11 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "south")
 
         case .trader:
-            return ObjectTextureAtlas(template: "cart-down-", range: 0..<15)
+            // return ObjectTextureAtlas(template: "caravan-south-", range: 0..<12)
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+            return SlpTextureAtlasLoader.atlas(for: "caravane-walk", part: .south, palette: palette.colors, player: .customBlue)
 
             // ancient
         case .scout:
@@ -435,7 +443,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "south")
 
         case .slinger:
-            return nil
+            return ObjectTextureAtlas(template: "slinger-south-", range: 0..<10)
 
         case .archer:
             let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
@@ -446,7 +454,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "south")
 
         case .heavyChariot:
-            return ObjectTextureAtlas(template: "chariot-south-", range: 0..<3)
+            return ObjectTextureAtlas(template: "chariot-south-", range: 0..<10)
 
         case .galley:
             return ObjectTextureAtlas(template: "galley-south-", range: 0..<3)
@@ -502,7 +510,10 @@ extension UnitType {
         case .admiral: return nil
         case .engineer: return nil
         case .general: return nil
-        case .merchant: return nil
+
+        case .merchant:
+            return SlpTextureAtlasLoader.atlas(for: "merchant-walk", range: 0..<10)
+
         case .musician: return nil
         case .prophet:
             let textureAtlas = TextureAtlasLoader.load(named: "prophet", in: bundle)
@@ -534,7 +545,11 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "north")
 
         case .trader:
-            return ObjectTextureAtlas(template: "cart-up-", range: 0..<15)
+            // return ObjectTextureAtlas(template: "caravan-north-", range: 0..<12)
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+            return SlpTextureAtlasLoader.atlas(for: "caravane-walk", part: .north, palette: palette.colors, player: .customBlue)
 
             // ancient
         case .scout:
@@ -546,7 +561,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "north")
 
         case .slinger:
-            return nil
+            return ObjectTextureAtlas(template: "slinger-north-", range: 0..<10)
 
         case .archer:
             let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
@@ -557,7 +572,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "north")
 
         case .heavyChariot:
-            return ObjectTextureAtlas(template: "chariot-north-", range: 0..<3)
+            return ObjectTextureAtlas(template: "chariot-north-", range: 0..<10)
 
         case .galley:
             return ObjectTextureAtlas(template: "galley-north-", range: 0..<3)
@@ -613,7 +628,10 @@ extension UnitType {
         case .admiral: return nil
         case .engineer: return nil
         case .general: return nil
-        case .merchant: return nil
+
+        case .merchant:
+            return SlpTextureAtlasLoader.atlas(for: "merchant-walk", range: 40..<50, offset: CGPoint(x: 0, y: 27))
+
         case .musician: return nil
         case .prophet:
             let textureAtlas = TextureAtlasLoader.load(named: "prophet", in: bundle)
@@ -645,7 +663,11 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west", mirror: true)
 
         case .trader:
-            return ObjectTextureAtlas(template: "cart-right-", range: 0..<15)
+            // return ObjectTextureAtlas(template: "caravan-east-", range: 0..<12)
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+            return SlpTextureAtlasLoader.atlas(for: "caravane-walk", part: .west, mirror: true, palette: palette.colors, player: .customBlue)
 
             // ancient
         case .scout:
@@ -657,7 +679,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west", mirror: true)
 
         case .slinger:
-            return nil
+            return ObjectTextureAtlas(template: "slinger-east-", range: 0..<10)
 
         case .archer:
             let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
@@ -668,7 +690,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west", mirror: true)
 
         case .heavyChariot:
-            return ObjectTextureAtlas(template: "chariot-east-", range: 0..<3)
+            return ObjectTextureAtlas(template: "chariot-east-", range: 0..<10)
 
         case .galley:
             return ObjectTextureAtlas(template: "galley-east-", range: 0..<3)
@@ -724,7 +746,10 @@ extension UnitType {
         case .admiral: return nil
         case .engineer: return nil
         case .general: return nil
-        case .merchant: return nil
+
+        case .merchant:
+            return SlpTextureAtlasLoader.atlas(for: "merchant-walk", range: 20..<30, mirror: true, offset: CGPoint(x: 0, y: 27))
+
         case .musician: return nil
         case .prophet:
             let textureAtlas = TextureAtlasLoader.load(named: "prophet", in: bundle)
@@ -756,7 +781,11 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west")
 
         case .trader:
-            return ObjectTextureAtlas(template: "cart-left-", range: 0..<15)
+            // return ObjectTextureAtlas(template: "caravan-west-", range: 0..<12)
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+            return SlpTextureAtlasLoader.atlas(for: "caravane-walk", part: .west, palette: palette.colors, player: .customBlue)
 
             // ancient
         case .scout:
@@ -768,7 +797,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west")
 
         case .slinger:
-            return nil
+            return ObjectTextureAtlas(template: "slinger-west-", range: 0..<10)
 
         case .archer:
             let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
@@ -779,7 +808,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west")
 
         case .heavyChariot:
-            return ObjectTextureAtlas(template: "chariot-west-", range: 0..<3)
+            return ObjectTextureAtlas(template: "chariot-west-", range: 0..<10)
 
         case .galley:
             return ObjectTextureAtlas(template: "galley-west-", range: 0..<3)
@@ -835,7 +864,10 @@ extension UnitType {
         case .admiral: return nil
         case .engineer: return nil
         case .general: return nil
-        case .merchant: return nil
+
+        case .merchant:
+            return SlpTextureAtlasLoader.atlas(for: "merchant-walk", range: 20..<30, offset: CGPoint(x: 0, y: 27))
+
         case .musician: return nil
         case .prophet:
             let textureAtlas = TextureAtlasLoader.load(named: "prophet", in: bundle)

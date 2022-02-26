@@ -7,7 +7,7 @@
 
 import SwiftUI
 import SmartAssets
-import SmartMacOSUILibrary
+import SmartColonyMacOSUILibrary
 
 struct ReplayGameView: View {
 

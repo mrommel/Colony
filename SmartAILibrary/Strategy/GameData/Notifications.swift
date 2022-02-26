@@ -225,6 +225,16 @@ public class NotificationItem: Codable, Equatable {
                 fatalError("cant get city to check")
             }
 
+            guard let currentPlayer = player else {
+                fatalError("cant get player")
+            }
+
+            // when the city does no longer belong to this player (revolt),
+            // it should be exired
+            guard currentPlayer.isEqual(to: city.player) else {
+                return true
+            }
+
             if city.buildQueue.hasBuildable() {
                 // already has something to build
                 return true

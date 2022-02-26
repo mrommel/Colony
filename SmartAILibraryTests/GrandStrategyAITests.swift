@@ -38,7 +38,7 @@ class GrandStrategyAITests: XCTestCase {
         let playerElizabeth = Player(leader: .victoria, isHuman: true)
         playerElizabeth.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -59,7 +59,7 @@ class GrandStrategyAITests: XCTestCase {
         self.objectToTest = GrandStrategyAI(player: playerAlexander)
 
         // WHEN
-        self.objectToTest?.turn(with: gameModel)
+        self.objectToTest?.doTurn(in: gameModel)
 
         // THEN
         XCTAssertEqual(self.objectToTest!.activeStrategy, .culture)
@@ -80,7 +80,7 @@ class GrandStrategyAITests: XCTestCase {
         let playerElizabeth = Player(leader: .victoria, isHuman: true)
         playerElizabeth.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny)
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
 
         let gameModel = GameModel(
             victoryTypes: [.domination, .cultural, .diplomatic],
@@ -102,7 +102,7 @@ class GrandStrategyAITests: XCTestCase {
 
         // WHEN
         //for i in 0..<100 {
-        self.objectToTest?.turn(with: gameModel)
+        self.objectToTest?.doTurn(in: gameModel)
         //}
 
         // THEN

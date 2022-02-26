@@ -27,6 +27,9 @@ class VictoryRankingViewModel: ObservableObject {
     var name: String
 
     @Published
+    var quote: String
+
+    @Published
     var minScore: Int
 
     @Published
@@ -35,13 +38,27 @@ class VictoryRankingViewModel: ObservableObject {
     @Published
     var selected: Bool
 
-    init(index: Int, name: String, minScore: Int, maxScore: Int, selected: Bool = false) {
+    init(index: Int, name: String, quote: String, minScore: Int, maxScore: Int, selected: Bool = false) {
 
         self.index = index
-        self.name = name
+        self.name = name.localized()
+        self.quote = quote
         self.minScore = minScore
         self.maxScore = maxScore
         self.selected = selected
+    }
+
+    func toolTip() -> NSAttributedString {
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: self.quote.localized(),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        return toolTipText
     }
 }
 
@@ -114,27 +131,153 @@ class VictoryDialogViewModel: ObservableObject {
 
         // ranking - https://civilization.fandom.com/wiki/Victory_(Civ6)#Ranking
         self.victoryRankingViewModels = [
-            VictoryRankingViewModel(index: 1, name: "August Caesar", minScore: 2500, maxScore: 10000),
-            VictoryRankingViewModel(index: 2, name: "Hammurabi", minScore: 2250, maxScore: 2499),
-            VictoryRankingViewModel(index: 3, name: "Abraham Lincoln", minScore: 2000, maxScore: 2249),
-            VictoryRankingViewModel(index: 4, name: "Winston Churchill", minScore: 1900, maxScore: 1999),
-            VictoryRankingViewModel(index: 5, name: "Nelson Mandela", minScore: 1800, maxScore: 1899),
-            VictoryRankingViewModel(index: 6, name: "Catheine the Great", minScore: 1700, maxScore: 1799),
-            VictoryRankingViewModel(index: 7, name: "Ashoka", minScore: 1600, maxScore: 1699),
-            VictoryRankingViewModel(index: 8, name: "Marcus Aurelius", minScore: 1500, maxScore: 1599),
-            VictoryRankingViewModel(index: 9, name: "Lech Waleca", minScore: 1400, maxScore: 1499),
-            VictoryRankingViewModel(index: 10, name: "Hatshepsut", minScore: 1300, maxScore: 1399),
-            VictoryRankingViewModel(index: 11, name: "Charles de Gaulle", minScore: 1200, maxScore: 1299),
-            VictoryRankingViewModel(index: 12, name: "Eleanor of Aquitaine", minScore: 1100, maxScore: 1199),
-            VictoryRankingViewModel(index: 13, name: "Ivan the Terrible", minScore: 1000, maxScore: 1099),
-            VictoryRankingViewModel(index: 14, name: "Herbert Hoover", minScore: 900, maxScore: 999),
-            VictoryRankingViewModel(index: 15, name: "Louis XVI", minScore: 800, maxScore: 899),
-            VictoryRankingViewModel(index: 16, name: "Neville Chamberlain", minScore: 700, maxScore: 799),
-            VictoryRankingViewModel(index: 17, name: "Nero", minScore: 600, maxScore: 699),
-            VictoryRankingViewModel(index: 18, name: "Warren G. Harding", minScore: 500, maxScore: 599),
-            VictoryRankingViewModel(index: 19, name: "Ethelred the Unready", minScore: 400, maxScore: 499),
-            VictoryRankingViewModel(index: 20, name: "May Tudor I", minScore: 300, maxScore: 399),
-            VictoryRankingViewModel(index: 21, name: "Dan Quayle", minScore: 0, maxScore: 299)
+            VictoryRankingViewModel(
+                index: 1,
+                name: "TXT_KEY_LEADER_1_NAME",
+                quote: "TXT_KEY_LEADER_1_QUOTE",
+                minScore: 2500,
+                maxScore: 10000
+            ),
+            VictoryRankingViewModel(
+                index: 2,
+                name: "TXT_KEY_LEADER_2_NAME",
+                quote: "TXT_KEY_LEADER_2_QUOTE",
+                minScore: 2250,
+                maxScore: 2499
+            ),
+            VictoryRankingViewModel(
+                index: 3,
+                name: "TXT_KEY_LEADER_3_NAME",
+                quote: "TXT_KEY_LEADER_3_QUOTE",
+                minScore: 2000,
+                maxScore: 2249
+            ),
+            VictoryRankingViewModel(
+                index: 4,
+                name: "TXT_KEY_LEADER_4_NAME",
+                quote: "TXT_KEY_LEADER_4_QUOTE",
+                minScore: 1900,
+                maxScore: 1999
+            ),
+            VictoryRankingViewModel(
+                index: 5,
+                name: "TXT_KEY_LEADER_5_NAME",
+                quote: "TXT_KEY_LEADER_5_QUOTE",
+                minScore: 1800,
+                maxScore: 1899
+            ),
+            VictoryRankingViewModel(
+                index: 6,
+                name: "TXT_KEY_LEADER_6_NAME",
+                quote: "TXT_KEY_LEADER_6_QUOTE",
+                minScore: 1700,
+                maxScore: 1799
+            ),
+            VictoryRankingViewModel(
+                index: 7,
+                name: "TXT_KEY_LEADER_7_NAME",
+                quote: "TXT_KEY_LEADER_7_QUOTE",
+                minScore: 1600,
+                maxScore: 1699
+            ),
+            VictoryRankingViewModel(
+                index: 8,
+                name: "TXT_KEY_LEADER_8_NAME",
+                quote: "TXT_KEY_LEADER_8_QUOTE",
+                minScore: 1500,
+                maxScore: 1599
+            ),
+            VictoryRankingViewModel(
+                index: 9,
+                name: "TXT_KEY_LEADER_9_NAME",
+                quote: "TXT_KEY_LEADER_9_QUOTE",
+                minScore: 1400,
+                maxScore: 1499
+            ),
+            VictoryRankingViewModel(
+                index: 10,
+                name: "TXT_KEY_LEADER_10_NAME",
+                quote: "TXT_KEY_LEADER_10_QUOTE",
+                minScore: 1300,
+                maxScore: 1399
+            ),
+            VictoryRankingViewModel(
+                index: 11,
+                name: "TXT_KEY_LEADER_11_NAME",
+                quote: "TXT_KEY_LEADER_11_QUOTE",
+                minScore: 1200,
+                maxScore: 1299
+            ),
+            VictoryRankingViewModel(
+                index: 12,
+                name: "TXT_KEY_LEADER_12_NAME",
+                quote: "TXT_KEY_LEADER_12_QUOTE",
+                minScore: 1100,
+                maxScore: 1199
+            ),
+            VictoryRankingViewModel(
+                index: 13,
+                name: "TXT_KEY_LEADER_13_NAME",
+                quote: "TXT_KEY_LEADER_13_QUOTE",
+                minScore: 1000,
+                maxScore: 1099
+            ),
+            VictoryRankingViewModel(
+                index: 14,
+                name: "TXT_KEY_LEADER_14_NAME",
+                quote: "TXT_KEY_LEADER_14_QUOTE",
+                minScore: 900,
+                maxScore: 999
+            ),
+            VictoryRankingViewModel(
+                index: 15,
+                name: "TXT_KEY_LEADER_15_NAME",
+                quote: "TXT_KEY_LEADER_15_QUOTE",
+                minScore: 800,
+                maxScore: 899
+            ),
+            VictoryRankingViewModel(
+                index: 16,
+                name: "TXT_KEY_LEADER_16_NAME",
+                quote: "TXT_KEY_LEADER_16_QUOTE",
+                minScore: 700,
+                maxScore: 799
+            ),
+            VictoryRankingViewModel(
+                index: 17,
+                name: "TXT_KEY_LEADER_17_NAME",
+                quote: "TXT_KEY_LEADER_17_QUOTE",
+                minScore: 600,
+                maxScore: 699
+            ),
+            VictoryRankingViewModel(
+                index: 18,
+                name: "TXT_KEY_LEADER_18_NAME",
+                quote: "TXT_KEY_LEADER_18_QUOTE",
+                minScore: 500,
+                maxScore: 599
+            ),
+            VictoryRankingViewModel(
+                index: 19,
+                name: "TXT_KEY_LEADER_19_NAME",
+                quote: "TXT_KEY_LEADER_19_QUOTE",
+                minScore: 400,
+                maxScore: 499
+            ),
+            VictoryRankingViewModel(
+                index: 20,
+                name: "TXT_KEY_LEADER_20_NAME",
+                quote: "TXT_KEY_LEADER_20_QUOTE",
+                minScore: 300,
+                maxScore: 399
+            ),
+            VictoryRankingViewModel(
+                index: 21,
+                name: "TXT_KEY_LEADER_21_NAME",
+                quote: "TXT_KEY_LEADER_21_QUOTE",
+                minScore: 0,
+                maxScore: 299
+            )
         ]
 
         // charts
@@ -252,7 +395,7 @@ class VictoryDialogViewModel: ObservableObject {
 
         self.legendData = ScoreLegendViewModel(
             legendItemViewModels: gameModel.players
-                .filter { !$0.isBarbarian() }
+                .filter { !$0.isBarbarian() && !$0.isFreeCity() }
                 .map {
                     ScoreLegendDataItem(
                         name: $0.leader.name(),
@@ -275,7 +418,7 @@ class VictoryDialogViewModel: ObservableObject {
 
         for player in gameModel.players {
 
-            if player.isBarbarian() {
+            if player.isBarbarian() || player.isFreeCity() {
                 continue
             }
 

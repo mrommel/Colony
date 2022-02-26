@@ -1466,6 +1466,17 @@ extension MomentType: Codable {
             let religion = try container.decode(ReligionType.self, forKey: .religion)
             self = .religionFounded(religion: religion)
 
+            // ...
+
+        case 12:
+            let naturalWonder = try container.decode(FeatureType.self, forKey: .feature)
+            self = .discoveryOfANaturalWonder(naturalWonder: naturalWonder)
+
+            // ...
+
+        case 232:
+            self = .tribalVillageContacted
+
         default:
             fatalError("not handled: \(rawValue)")
         }
@@ -1480,6 +1491,17 @@ extension MomentType: Codable {
         case .religionFounded(religion: let religion):
             try container.encode(0, forKey: .rawValue)
             try container.encode(religion, forKey: .religion)
+
+            // ...
+
+        case .discoveryOfANaturalWonder(naturalWonder: let naturalWonder):
+            try container.encode(12, forKey: .rawValue)
+            try container.encode(naturalWonder, forKey: .feature)
+
+            // ...
+
+        case .tribalVillageContacted:
+            try container.encode(232, forKey: .rawValue)
 
         default:
             fatalError("not handled: \(self.name())")

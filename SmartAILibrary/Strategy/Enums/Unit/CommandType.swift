@@ -71,6 +71,7 @@ public enum CommandType {
             .cancelOrder,
             .upgrade,
             .automateExploration,
+            .automateBuild,
             .establishTradeRoute,
             .foundReligion,
             .activateGreatPerson,

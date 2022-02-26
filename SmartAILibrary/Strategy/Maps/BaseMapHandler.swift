@@ -88,7 +88,7 @@ public class BaseMapHandler {
 
                     var resourceNum = 1
 
-                    if resource == .horses || resource == .iron || resource == .niter || resource == .aluminium {
+                    if resource == .horses || resource == .iron || resource == .niter || resource == .aluminum {
                         resourceNum = 2
                     } else if resource == .oil || resource == .coal || resource == .uranium {
                         resourceNum = 3

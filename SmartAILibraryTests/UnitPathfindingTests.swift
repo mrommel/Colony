@@ -23,7 +23,7 @@ class UnitPathfindingTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .shore, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .shore, sized: .small, seed: 42)
 
         // start island
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
@@ -68,7 +68,7 @@ class UnitPathfindingTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .shore, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .shore, sized: .small, seed: 42)
 
         // start island
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
@@ -115,7 +115,7 @@ class UnitPathfindingTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .ocean, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .ocean, sized: .small, seed: 42)
 
         // start island
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
@@ -162,7 +162,7 @@ class UnitPathfindingTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .shore, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .shore, sized: .small, seed: 42)
 
         // start island
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
@@ -209,7 +209,7 @@ class UnitPathfindingTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .ocean, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .ocean, sized: .small, seed: 42)
 
         // start island
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
@@ -256,7 +256,7 @@ class UnitPathfindingTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        let mapModel = MapUtils.mapFilled(with: .ocean, sized: .small)
+        let mapModel = MapUtils.mapFilled(with: .ocean, sized: .small, seed: 42)
 
         // start island
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))

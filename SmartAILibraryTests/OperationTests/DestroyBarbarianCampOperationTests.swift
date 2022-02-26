@@ -31,6 +31,19 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
         // map
         var mapModel = MapModelHelper.smallMap()
 
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         // game
         let gameModel = GameModel(victoryTypes: [.domination],
                                   handicap: .chieftain,
@@ -99,10 +112,14 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // WHEN
-        gameModel.update()
+        repeat {
+            gameModel.update() // this runs one player at a time
 
-        playerAlexander.finishTurn()
-        playerAlexander.setAutoMoves(to: true)
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         // THEN
         // DEBUG: po playerTrajan.operations!.operations
@@ -127,6 +144,19 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
         // map
         var mapModel = MapModelHelper.smallMap()
 
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
         // game
         let gameModel = GameModel(victoryTypes: [.domination],
                                   handicap: .chieftain,
@@ -194,13 +224,17 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
 
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
-        playerAlexander.diplomacyAI?.doDeclareWar(to: playerTrajan, in: gameModel) // at war no barbarian hunt
+        playerAlexander.doDeclareWar(to: playerTrajan, in: gameModel) // at war no barbarian hunt
 
         // WHEN
-        gameModel.update()
+        repeat {
+            gameModel.update() // this runs one player at a time
 
-        playerAlexander.finishTurn()
-        playerAlexander.setAutoMoves(to: true)
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         // THEN
         // DEBUG: po playerTrajan.operations!.operations
@@ -224,6 +258,19 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
 
         // map
         var mapModel = MapModelHelper.smallMap()
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination],
@@ -298,10 +345,14 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // WHEN
-        gameModel.update()
+        repeat {
+            gameModel.update() // this runs one player at a time
 
-        playerAlexander.finishTurn()
-        playerAlexander.setAutoMoves(to: true)
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         // THEN
         // DEBUG: po playerTrajan.operations!.operations
@@ -328,6 +379,19 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
 
         // map
         var mapModel = MapModelHelper.smallMap()
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination],
@@ -411,10 +475,14 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // WHEN
-        gameModel.update()
+        repeat {
+            gameModel.update() // this runs one player at a time
 
-        playerAlexander.finishTurn()
-        playerAlexander.setAutoMoves(to: true)
+            if playerAlexander.isTurnActive() {
+                playerAlexander.finishTurn()
+                playerAlexander.setAutoMoves(to: true)
+            }
+        } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         // THEN
         // DEBUG: po playerTrajan.operations!.operations

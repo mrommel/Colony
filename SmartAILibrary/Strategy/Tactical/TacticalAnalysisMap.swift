@@ -1273,8 +1273,6 @@ class TacticalAnalysisMap {
             fatalError("cant get diplomacyAI")
         }
 
-        let pathFinder = AStarPathfinder()
-
         // Look at every cell on the map
         for x in 0..<self.plots.width {
             for y in 0..<self.plots.height {
@@ -1301,13 +1299,14 @@ class TacticalAnalysisMap {
 
                                 if let enemyUnit = enemyUnitRef {
 
-                                    pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                                    let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
                                         for: enemyUnit.movementType(),
                                         for: enemyUnit.player,
                                         unitMapType: .combat,
                                         canEmbark: enemyUnit.player!.canEmbark(),
                                         canEnterOcean: enemyUnit.player!.canEnterOcean()
                                     )
+                                    let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
                                     let unitArea = gameModel.area(of: enemyUnit.location)
                                     if tile.area == unitArea {

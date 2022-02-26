@@ -21,21 +21,21 @@ public class GameSceneViewModel: ObservableObject {
     }
 
     @Published
-    var game: GameModel? {
+    var gameModel: GameModel? {
         willSet {
             objectWillChange.send()
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
 
-                guard let game = self.game else {
+                guard let gameModel = self.gameModel else {
                     return
                 }
 
-                guard let humanPlayer = game.humanPlayer() else {
+                guard let humanPlayer = gameModel.humanPlayer() else {
                     return
                 }
 
-                let unitRefs = game.units(of: humanPlayer)
+                let unitRefs = gameModel.units(of: humanPlayer)
 
                 guard let unitRef = unitRefs.first, let unit = unitRef else {
                     return
@@ -65,12 +65,20 @@ public class GameSceneViewModel: ObservableObject {
 
     private var centerOn: HexPoint?
     private var lens: MapLensType?
+    internal var shouldRebuild: Bool = false
+    internal var animationsAreRunning: Bool = false
 
     weak var delegate: GameViewModelDelegate?
 
     public init() {
 
-        self.game = nil
+        self.gameModel = nil
+    }
+
+    public func rebuild() {
+
+        print("rebuildMap")
+        self.shouldRebuild = true
     }
 
     func focus(on point: HexPoint) {
@@ -107,8 +115,4 @@ public class GameSceneViewModel: ObservableObject {
 
         self.delegate?.updateRect(at: point, size: size)
     }
-}
-
-extension GameSceneViewModel: TopBarViewModelDelegate {
-
 }

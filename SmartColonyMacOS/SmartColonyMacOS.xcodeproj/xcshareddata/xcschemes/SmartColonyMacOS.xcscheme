@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C9F6EB2C2607908C0052140C"
+               BlueprintIdentifier = "C9B0D6642716B86600F3AA1C"
                BuildableName = "SmartColonyMacOSTests.xctest"
                BlueprintName = "SmartColonyMacOSTests"
                ReferencedContainer = "container:SmartColonyMacOS.xcodeproj">
@@ -53,8 +53,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C9B0D6642716B86600F3AA1C"
-               BuildableName = "SmartColonyTests.xctest"
-               BlueprintName = "SmartColonyTests"
+               BuildableName = "SmartColonyMacOSTests.xctest"
+               BlueprintName = "SmartColonyMacOSTests"
                ReferencedContainer = "container:SmartColonyMacOS.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -80,6 +80,13 @@
             ReferencedContainer = "container:SmartColonyMacOS.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "OS_ACTIVITY_MODE"
+            value = "disable"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

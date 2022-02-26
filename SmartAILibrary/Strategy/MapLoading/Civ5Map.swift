@@ -147,7 +147,7 @@ public class Civ5Map {
 
     public func toMap() -> MapModel? {
 
-        let map = MapModel(width: Int(header.width), height: Int(header.height))
+        let map = MapModel(width: Int(header.width), height: Int(header.height), seed: 0)
 
         map.name = self.header.mapName
         map.summary = self.header.summary

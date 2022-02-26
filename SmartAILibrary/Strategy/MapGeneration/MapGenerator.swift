@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import GameplayKit
 
 public typealias ProgressHandler = (Double, String) -> Void
 
@@ -17,7 +18,6 @@ enum PlotType: Int, Codable {
 }
 
 // swiftlint:disable type_body_length
-
 public class MapGenerator: BaseMapHandler {
 
     let options: MapOptions
@@ -43,6 +43,8 @@ public class MapGenerator: BaseMapHandler {
         self.width = options.size.width()
         self.height = options.size.height()
 
+        srand48(options.seed)
+
 		// prepare terrain, distanceToCoast and zones
         self.plots = Array2D<PlotType>(width: self.width, height: self.height)
         self.distanceToCoast = Array2D<Int>(width: self.width, height: self.height)
@@ -53,7 +55,7 @@ public class MapGenerator: BaseMapHandler {
 	public func generate() -> MapModel? {
 
 		// prepare result value
-        let grid = MapModel(size: MapSize.custom(width: self.width, height: self.height))
+        let grid = MapModel(size: MapSize.custom(width: self.width, height: self.height), seed: self.options.seed)
 
 		// 0st step: height and moisture map
         let heightMap = self.generateHeightMap()
@@ -579,13 +581,13 @@ public class MapGenerator: BaseMapHandler {
             return
         }
 
-        let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = MoveTypeIgnoreUnitsPathfinderDataSource(
+        let pathFinderDataSource = MoveTypeIgnoreUnitsPathfinderDataSource(
             in: grid,
             for: .walk,
             for: nil,
             options: MoveTypeIgnoreUnitsOptions(unitMapType: .civilian, canEmbark: false, canEnterOcean: false)
         )
+        let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
         var longestRoute = 0
 
@@ -957,7 +959,7 @@ public class MapGenerator: BaseMapHandler {
 
 		for spring in selectedSprings {
 
-			let riverName = unusedRiverNames.chooseOne
+			let riverName = unusedRiverNames.randomItem()
 			rivers.append(self.startRiver(with: riverName, at: spring, on: heightMap))
             let riverIndex = unusedRiverNames.firstIndex(where: { $0 == riverName })
 			unusedRiverNames.remove(at: riverIndex!)
@@ -1102,7 +1104,7 @@ public class MapGenerator: BaseMapHandler {
 
     // MARK: 5th continents
 
-    func identifyContinents(on grid: MapModel?) {
+    public func identifyContinents(on grid: MapModel?) {
 
         guard let grid = grid else {
             return
@@ -1123,7 +1125,7 @@ public class MapGenerator: BaseMapHandler {
         print("found: \(continents.count) continents")
     }
 
-    func identifyOceans(on grid: MapModel?) {
+    public func identifyOceans(on grid: MapModel?) {
 
         guard let grid = grid else {
             return
@@ -1135,7 +1137,7 @@ public class MapGenerator: BaseMapHandler {
         grid.oceans = oceans
     }
 
-    func identifyStartPositions(on grid: MapModel?) {
+    public func identifyStartPositions(on grid: MapModel?) {
 
         guard let grid = grid else {
             return
@@ -1146,7 +1148,13 @@ public class MapGenerator: BaseMapHandler {
         let startPositioner = StartPositioner(on: grid, for: numberOfPlayers)
         startPositioner.generateRegions()
 
-        let aiLeaders: [LeaderType] = LeaderType.all.filter({ $0 != self.options.leader }).choose(numberOfPlayers - 1)
+        var aiLeaders: [LeaderType] = self.options.aiLeaders
+
+        if aiLeaders.isEmpty {
+            aiLeaders = LeaderType.all
+                .filter({ $0 != self.options.leader })
+                .choose(numberOfPlayers - 1)
+        }
 
         startPositioner.chooseLocations(for: aiLeaders, human: self.options.leader)
 

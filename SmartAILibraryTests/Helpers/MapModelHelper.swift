@@ -115,7 +115,7 @@ class MapModelHelper {
         // ..
         // 42 ----------------------------------------------------------------------------------------------------------
 
-        let mapModel = MapModel(size: .small)
+        let mapModel = MapModel(size: .small, seed: 42)
 
         let mapSize = mapModel.size
         for x in 0..<mapSize.width() {

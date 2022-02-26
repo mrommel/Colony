@@ -28,20 +28,24 @@ public struct MapOptionsEnhanced {
 
 public class MapOptions {
 
+    let seed: Int
     let size: MapSize
     let type: MapType
     public var enhanced: MapOptionsEnhanced
     public let leader: LeaderType
+    public var aiLeaders: [LeaderType]
     public let handicap: HandicapType
     public let wrapX: Bool = true
 
-    required public init(withSize size: MapSize, type: MapType, leader: LeaderType, handicap: HandicapType, enhanced: MapOptionsEnhanced = MapOptionsEnhanced()) {
+    required public init(withSize size: MapSize, type: MapType, leader: LeaderType, aiLeaders: [LeaderType] = [], handicap: HandicapType, enhanced: MapOptionsEnhanced = MapOptionsEnhanced(), seed: Int = Int(Date.timeIntervalSinceReferenceDate)) {
 
         self.size = size
         self.type = type
         self.enhanced = enhanced
         self.leader = leader
+        self.aiLeaders = aiLeaders
         self.handicap = handicap
+        self.seed = seed
     }
 
     var rivers: Int {

@@ -18,7 +18,38 @@ enum UICombatMode {
     case rangedCity
 }
 
+@propertyWrapper
+public struct UserDefaultStorage<T: Codable> {
+
+    private let key: String
+    private let defaultValue: T
+
+    private let userDefaults: UserDefaults
+
+    public init(key: String, default: T, store: UserDefaults = .standard) {
+        self.key = key
+        self.defaultValue = `default`
+        self.userDefaults = store
+    }
+
+    public var wrappedValue: T {
+        get {
+            guard let data = userDefaults.data(forKey: key) else {
+                return defaultValue
+            }
+            let value = try? JSONDecoder().decode(T.self, from: data)
+            return value ?? defaultValue
+        }
+        set {
+            let data = try? JSONEncoder().encode(newValue)
+            userDefaults.set(data, forKey: key)
+        }
+    }
+}
+
 protocol GameViewModelDelegate: AnyObject {
+
+    func update(gameState: GameStateType)
 
     var selectedCity: AbstractCity? { get set }
     var selectedUnit: AbstractUnit? { get set }
@@ -126,8 +157,11 @@ public protocol CloseGameViewModelDelegate: AnyObject {
 
     // func showReplay(for game: GameModel?)
     func closeGame()
+
+    func closeAndRestartGame()
 }
 
+// swiftlint:disable type_body_length
 public class GameViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
@@ -137,7 +171,7 @@ public class GameViewModel: ObservableObject {
     var magnification: CGFloat = 0.5
 
     @Published
-    var gameSceneViewModel: GameSceneViewModel
+    public var gameSceneViewModel: GameSceneViewModel
 
     @Published
     var notificationsViewModel: NotificationsViewModel
@@ -266,7 +300,16 @@ public class GameViewModel: ObservableObject {
     @Published
     var canFoundPantheonPopupViewModel: CanFoundPantheonPopupViewModel
 
+    @Published
+    var genericPopupViewModel: GenericPopupViewModel
+
     // UI
+
+    @Published
+    var gameMenuVisible: Bool = false
+
+    @Published
+    var gameMenuViewModel: GameMenuViewModel
 
     @Published
     var uiTurnState: GameSceneTurnState = .aiTurns
@@ -277,12 +320,14 @@ public class GameViewModel: ObservableObject {
     @Published
     var currentPopupType: PopupType = .none
 
+    // main data
+
     var popups: [PopupType] = []
 
     var uiCombatMode: UICombatMode = .none
 
     @Published
-    var selectedUnit: AbstractUnit? = nil {
+    var selectedUnit: AbstractUnit? {
 
         didSet {
             if self.uiTurnState != .humanTurns {
@@ -304,7 +349,7 @@ public class GameViewModel: ObservableObject {
     }
 
     @Published
-    var selectedCity: AbstractCity? = nil {
+    var selectedCity: AbstractCity? {
 
         didSet {
             if let selectedCity = self.selectedCity {
@@ -372,6 +417,7 @@ public class GameViewModel: ObservableObject {
         self.bannerViewModel = BannerViewModel()
         self.bottomLeftBarViewModel = BottomLeftBarViewModel()
         self.bottomRightBarViewModel = BottomRightBarViewModel()
+        self.gameMenuViewModel = GameMenuViewModel()
 
         // dialogs
         self.governmentDialogViewModel = GovernmentDialogViewModel()
@@ -408,6 +454,7 @@ public class GameViewModel: ObservableObject {
         self.inspirationTriggeredPopupViewModel = InspirationTriggeredPopupViewModel()
         self.wonderBuiltPopupViewModel = WonderBuiltPopupViewModel()
         self.canFoundPantheonPopupViewModel = CanFoundPantheonPopupViewModel()
+        self.genericPopupViewModel = GenericPopupViewModel()
 
         // connect models
         self.gameSceneViewModel.delegate = self
@@ -420,6 +467,7 @@ public class GameViewModel: ObservableObject {
         self.headerViewModel.delegate = self
         self.bottomLeftBarViewModel.delegate = self
         self.bottomRightBarViewModel.delegate = self
+        self.gameMenuViewModel.delegate = self
 
         self.governmentDialogViewModel.delegate = self
         self.changeGovernmentDialogViewModel.delegate = self
@@ -454,6 +502,7 @@ public class GameViewModel: ObservableObject {
         self.inspirationTriggeredPopupViewModel.delegate = self
         self.wonderBuiltPopupViewModel.delegate = self
         self.canFoundPantheonPopupViewModel.delegate = self
+        self.genericPopupViewModel.delegate = self
 
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -552,6 +601,40 @@ public class GameViewModel: ObservableObject {
             case .wonderBuilt(let wonderType):
                 self.wonderBuiltPopupViewModel.update(for: wonderType)
 
+            case .cityRevolted(city: let cityRef):
+
+                guard let city = cityRef else {
+                    fatalError("no city provided")
+                }
+
+                let title = "TXT_KEY_POPUP_CITY_BECAME_FREE_CITY_TITLE".localized()
+                let summary = "TXT_KEY_POPUP_CITY_BECAME_FREE_CITY_SUMMARY".localizedWithFormat(with: [city.name])
+                self.genericPopupViewModel.update(with: title, and: summary)
+
+            case .foreignCityRevolted(city: let cityRef):
+
+                guard let city = cityRef else {
+                    fatalError("no city provided")
+                }
+
+                guard let civName = city.player?.leader.civilization().name() else {
+                    fatalError("cant get civ name")
+                }
+
+                let title = "TXT_KEY_POPUP_FOREIGN_CITY_BECAME_FREE_CITY_TITLE".localized()
+                let summary = "TXT_KEY_POPUP_FOREIGN_CITY_BECAME_FREE_CITY_SUMMARY".localizedWithFormat(with: [civName, city.name])
+                self.genericPopupViewModel.update(with: title, and: summary)
+
+            case .lostOwnCapital:
+                let title = "TXT_KEY_POPUP_YOU_LOST_CAPITAL_TITLE".localized()
+                let summary = "TXT_KEY_POPUP_YOU_LOST_CAPITAL_SUMMARY".localized()
+                self.genericPopupViewModel.update(with: title, and: summary)
+
+            case .lostCapital(leader: let leader):
+                let title = "TXT_KEY_POPUP_OTHER_LOST_CAPITAL_TITLE".localized()
+                let summary = "TXT_KEY_POPUP_OTHER_LOST_CAPITAL_SUMMARY".localizedWithFormat(with: [leader.name()])
+                self.genericPopupViewModel.update(with: title, and: summary)
+
             default:
                 fatalError("not handled: \(firstPopup)")
             }
@@ -562,9 +645,37 @@ public class GameViewModel: ObservableObject {
             return
         }
     }
+
+    func showGameMenu() {
+
+        self.gameMenuVisible = true
+    }
+}
+
+extension GameViewModel: GameMenuViewModelDelegate {
+
+    func backToGameClicked() {
+
+        self.gameMenuVisible = false
+    }
+
+    func restartGameClicked() {
+
+        self.gameMenuVisible = false
+
+        self.delegate?.closeAndRestartGame()
+    }
 }
 
 extension GameViewModel: GameViewModelDelegate {
+
+    func update(gameState: GameStateType) {
+
+        if gameState == .over {
+            // switch to human turn - to show victory screen
+            self.changeUITurnState(to: .humanTurns)
+        }
+    }
 
     func refreshTile(at point: HexPoint) {
 
@@ -639,7 +750,7 @@ extension GameViewModel: GameViewModelDelegate {
 
         self.unitBannerViewModel.showBanner = true
         self.cityBannerViewModel.showBanner = false
-        //self.combatBannerViewModel.showBanner = false
+        // self.combatBannerViewModel.showBanner = false
     }
 
     func hideUnitBanner() {
@@ -649,7 +760,7 @@ extension GameViewModel: GameViewModelDelegate {
         }
 
         self.unitBannerViewModel.showBanner = false
-        //self.combatBannerViewModel.showBanner = false
+        // self.combatBannerViewModel.showBanner = false
     }
 
     func select(unit: AbstractUnit?) {
@@ -994,7 +1105,7 @@ extension GameViewModel: GameViewModelDelegate {
 
         if self.currentScreenType == .none {
 
-            //print("-- checkPopups \(self.popups.count) / \(self.currentPopupType) --")
+            // print("-- checkPopups \(self.popups.count) / \(self.currentPopupType) --")
             if !self.popups.isEmpty && self.currentPopupType == .none {
                 self.displayPopups()
                 return true
@@ -1037,6 +1148,10 @@ extension GameViewModel: GameViewModelDelegate {
 
 extension GameViewModel: TopBarViewModelDelegate {
 
+    func menuButtonClicked() {
+
+        self.showGameMenu()
+    }
 }
 
 extension GameViewModel: BottomRightBarViewModelDelegate {
@@ -1049,6 +1164,11 @@ extension GameViewModel: BottomRightBarViewModelDelegate {
 
 extension GameViewModel: BottomLeftBarViewModelDelegate {
 
+    func areAnimationsFinished() -> Bool {
+
+        return self.gameSceneViewModel.animationsAreRunning
+    }
+
     func handleMainButtonClicked() {
 
         guard let gameModel = self.gameEnvironment.game.value else {
@@ -1057,6 +1177,10 @@ extension GameViewModel: BottomLeftBarViewModelDelegate {
 
         guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get human")
+        }
+
+        guard gameModel.gameState() == .on else {
+            return
         }
 
         let turnButtonNotificationType = humanPlayer.blockingNotification()?.type ?? .turn

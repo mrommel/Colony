@@ -58,10 +58,11 @@ extension AStarPathStep: CustomDebugStringConvertible {
 /** A pathfinder based on the A* algorithm to find the shortest path between two locations */
 public class AStarPathfinder {
 
-    public var dataSource: PathfinderDataSource!
+    public var dataSource: PathfinderDataSource
 
-    public init() {
+    public init(with dataSource: PathfinderDataSource) {
 
+        self.dataSource = dataSource
     }
 
     private func insertStep(step: AStarPathStep, inOpenSteps openSteps: inout [AStarPathStep]) {
@@ -104,6 +105,7 @@ public class AStarPathfinder {
 
                 // Compute the cost from the current step to that step
                 let moveCost = dataSource.costToMove(fromTileCoord: currentStep.position, toAdjacentTileCoord: step.position)
+                // print("=== cost from \(currentStep.position) to \(step.position) is \(moveCost)")
 
                 // Check if the step is already in the open list
                 if let existingIndex = openSteps.firstIndex(of: step) {
@@ -135,7 +137,6 @@ public class AStarPathfinder {
                     insertStep(step: step, inOpenSteps: &openSteps)
                 }
             }
-
         }
 
         // no path found

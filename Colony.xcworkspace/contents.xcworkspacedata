@@ -5,7 +5,7 @@
       location = "group:SmartColonyMacOS/SmartColonyMacOS.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Users/michaelrommel/Prog/Colony/SmartColonyMacOSUILibrary/SmartMacOSUILibrary.xcodeproj">
+      location = "group:/Users/michaelrommel/Prog/Colony/SmartColonyMacOSUILibrary/SmartColonyMacOSUILibrary.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:SmartAssets/SmartAssets.xcodeproj">

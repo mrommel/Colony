@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "chariot-idle-10@3x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

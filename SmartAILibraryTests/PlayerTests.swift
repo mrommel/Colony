@@ -28,8 +28,21 @@ class PlayerTests: XCTestCase {
         playerTrajan.initialize()
 
         // map
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         // game
         let gameModel = GameModel(
@@ -90,5 +103,64 @@ class PlayerTests: XCTestCase {
         XCTAssertEqual(numProphetsBefore, 0)
         let numProphetsAfter = gameModel.units(of: playerAlexander).filter { $0?.type == .prophet }.count
         XCTAssertEqual(numProphetsAfter, 1)
+    }
+
+    func testWarWearinessDistribution() {
+
+        // GIVEN
+
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
+
+        // map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
+
+        // game
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAlexander, playerTrajan],
+            on: mapModel
+        )
+
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+
+        // cities
+        let cityRome = City(name: "Rome", at: HexPoint(x: 2, y: 8), capital: true, owner: playerTrajan)
+        cityRome.initialize(in: gameModel)
+        gameModel.add(city: cityRome)
+
+        let cityPompeij = City(name: "Pompeij", at: HexPoint(x: 8, y: 8), capital: false, owner: playerTrajan)
+        cityPompeij.initialize(in: gameModel)
+        gameModel.add(city: cityPompeij)
+
+        let cityBrunsidi = City(name: "Brunsidi", at: HexPoint(x: 8, y: 8), capital: false, owner: playerTrajan)
+        cityBrunsidi.initialize(in: gameModel)
+        gameModel.add(city: cityBrunsidi)
+
+        cityRome.set(population: 8, in: gameModel)
+        cityPompeij.set(population: 3, in: gameModel)
+        cityBrunsidi.set(population: 2, in: gameModel)
+
+        playerTrajan.doFirstContact(with: playerAlexander, in: gameModel)
+        playerTrajan.changeWarWeariness(with: playerAlexander, by: 1700) // => 4 amenities needed
+
+        // WHEN
+        playerTrajan.doCityAmenities(in: gameModel)
+
+        // THEN
+        XCTAssertEqual(cityRome.amenitiesForWarWeariness(), 2)
+        XCTAssertEqual(cityPompeij.amenitiesForWarWeariness(), 1)
+        XCTAssertEqual(cityBrunsidi.amenitiesForWarWeariness(), 1)
     }
 }

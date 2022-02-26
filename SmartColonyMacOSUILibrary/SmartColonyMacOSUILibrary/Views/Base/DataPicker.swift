@@ -63,7 +63,7 @@ struct DataPicker_Previews: PreviewProvider {
 
         Group {
             DataPicker(title: "Title", data: data, selection: .constant(0))
-            //DataPicker(title: "Title", data: data, selection: .constant(0))
+            // DataPicker(title: "Title", data: data, selection: .constant(0))
         }
     }
 }

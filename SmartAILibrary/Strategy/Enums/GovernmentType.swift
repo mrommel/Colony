@@ -156,7 +156,7 @@ public enum GovernmentType: Int, Codable {
                 era: .classical,
                 required: .politicalPhilosophy,
                 policyCardSlots: PolicyCardSlots(military: 0, economic: 2, diplomatic: 1, wildcard: 1),
-                flavors: [Flavor(type: .happiness, value: 4)],
+                flavors: [Flavor(type: .amenities, value: 4)],
                 influcencePointsPerTurn: 3,
                 tourismFactor: -1
             )

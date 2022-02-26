@@ -137,7 +137,7 @@ public enum WonderType: Int, Codable {
             return flavor.value
         }
 
-        return 0
+        return DistrictType.defaultFlavorValue
     }
 
     private func flavours() -> [Flavor] {
@@ -399,7 +399,7 @@ public enum WonderType: Int, Codable {
                 name: "Apadana",
                 effects: [
                     "+2 Great Work slots",
-                    "+2 Envoys when you build a wonder, including Apadana, in this city." // #
+                    "+2 [Envoy] Envoys when you build a wonder, including Apadana, in this city." // #
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -430,7 +430,7 @@ public enum WonderType: Int, Codable {
                 yields: Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 2.0),
                 slots: [],
                 flavours: [
-                    Flavor(type: .happiness, value: 20),
+                    Flavor(type: .amenities, value: 20),
                     Flavor(type: .culture, value: 10)
                 ]
             )
@@ -713,7 +713,7 @@ public enum WonderType: Int, Codable {
             return WonderTypeData(
                 name: "Kilwa Kisiwani",
                 effects: [
-                    "+3 Envoys when built.", // #
+                    "+3 [Envoy] Envoys when built.", // #
                     "When you are the Suzerain of a City-State this city receives a +15% boost to the yield " +
                     "provided by that City-State. If you are the Suzerain to 2 or more City-States of that " +
                     "type an additional +15% boost is given to all your cities." // #
@@ -1228,7 +1228,7 @@ public enum WonderType: Int, Codable {
                 return false
             }
 
-            return self.adjacentTo(district: .entertainment, on: point, in: gameModel)
+            return self.adjacentTo(district: .entertainmentComplex, on: point, in: gameModel)
 
         case .colossus:
             // Must be built on Coast and adjacent to a Harbor district.
@@ -1477,7 +1477,7 @@ public enum WonderType: Int, Codable {
                 return false
             }
 
-            return self.adjacentTo(district: .industrial, on: point, in: gameModel)
+            return self.adjacentTo(district: .industrialZone, on: point, in: gameModel)
         }
     }
 }

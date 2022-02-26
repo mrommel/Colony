@@ -65,7 +65,7 @@ public class DiplomaticDialogViewModel: ObservableObject {
         for reply in replies {
 
             // fix: if one player doesn't have a capital, skip this option
-            //if reply == .
+            // if reply == .
 
             let replyViewModel = ReplyViewModel(reply: reply)
             replyViewModel.delegate = self

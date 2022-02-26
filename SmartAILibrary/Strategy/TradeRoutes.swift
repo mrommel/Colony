@@ -130,12 +130,13 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
             fatalError("cant get target city location")
         }
 
-        let tradeRouteFinder = AStarPathfinder()
-        tradeRouteFinder.dataSource = TradeRoutePathfinderDataSource(
+        let tradeRouteFinderDataSource = TradeRoutePathfinderDataSource(
             for: self.player,
             from: originCityLocation,
             to: targetCityLocation,
-            in: gameModel)
+            in: gameModel
+        )
+        let tradeRouteFinder = AStarPathfinder(with: tradeRouteFinderDataSource)
 
         if let tradeRoutePath = tradeRouteFinder.shortestPath(fromTileCoord: originCityLocation, toTileCoord: targetCityLocation) {
             print("tradeRoutePath: \(tradeRoutePath)")
@@ -170,12 +171,13 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
             fatalError("cant get target city location")
         }
 
-        let tradeRouteFinder = AStarPathfinder()
-        tradeRouteFinder.dataSource = TradeRoutePathfinderDataSource(
+        let tradeRouteFinderDataSource = TradeRoutePathfinderDataSource(
             for: self.player,
             from: originCityLocation,
             to: targetCityLocation,
-            in: gameModel)
+            in: gameModel
+        )
+        let tradeRouteFinder = AStarPathfinder(with: tradeRouteFinderDataSource)
 
         if tradeRouteFinder.shortestPath(fromTileCoord: originCityLocation, toTileCoord: targetCityLocation) != nil {
             return true

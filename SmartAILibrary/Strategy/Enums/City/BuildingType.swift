@@ -142,7 +142,7 @@ public enum BuildingType: Int, Codable {
             return flavor.value
         }
 
-        return 0
+        return DistrictType.defaultFlavorValue
     }
 
     func flavours() -> [Flavor] {
@@ -335,7 +335,7 @@ public enum BuildingType: Int, Codable {
                     Flavor(type: .gold, value: 1),
                     Flavor(type: .greatPeople, value: 1),
                     Flavor(type: .production, value: 1),
-                    Flavor(type: .happiness, value: 1),
+                    Flavor(type: .amenities, value: 1),
                     Flavor(type: .science, value: 1),
                     Flavor(type: .diplomacy, value: 1),
                     Flavor(type: .offense, value: 1),
@@ -406,7 +406,7 @@ public enum BuildingType: Int, Codable {
                     Flavor(type: .religion, value: 9),
                     Flavor(type: .culture, value: 4),
                     Flavor(type: .gold, value: 3),
-                    Flavor(type: .happiness, value: 3),
+                    Flavor(type: .amenities, value: 3),
                     Flavor(type: .expansion, value: 2),
                     Flavor(type: .tourism, value: 2),
                     Flavor(type: .diplomacy, value: 1),
@@ -528,7 +528,7 @@ public enum BuildingType: Int, Codable {
                 ],
                 category: .cultural,
                 era: .classical,
-                district: .entertainment,
+                district: .entertainmentComplex,
                 requiredTech: nil,
                 requiredCivic: .dramaAndPoetry,
                 requiredBuilding: nil,
@@ -627,7 +627,7 @@ public enum BuildingType: Int, Codable {
                 ],
                 category: .entertainment,
                 era: .classical,
-                district: .entertainment,
+                district: .entertainmentComplex,
                 requiredTech: nil,
                 requiredCivic: .gamesAndRecreation,
                 requiredBuilding: nil,
@@ -648,7 +648,7 @@ public enum BuildingType: Int, Codable {
                     Flavor(type: .gold, value: 1),
                     Flavor(type: .greatPeople, value: 1),
                     Flavor(type: .production, value: 1),
-                    Flavor(type: .happiness, value: 1),
+                    Flavor(type: .amenities, value: 1),
                     Flavor(type: .science, value: 1),
                     Flavor(type: .diplomacy, value: 1),
                     Flavor(type: .offense, value: 1),
@@ -767,7 +767,7 @@ public enum BuildingType: Int, Codable {
                 ],
                 category: .production,
                 era: .medieval,
-                district: .industrial,
+                district: .industrialZone,
                 requiredTech: .apprenticeship,
                 requiredCivic: nil,
                 requiredBuilding: nil,

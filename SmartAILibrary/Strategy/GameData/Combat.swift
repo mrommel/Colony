@@ -326,8 +326,8 @@ public class Combat {
         // Unit that attacks loses his Fort bonus
         attacker.doMobilize(in: gameModel)
 
-        attacker.automate(with: .none)
-        defender.automate(with: .none)
+        attacker.automate(with: .none, in: gameModel)
+        defender.automate(with: .none, in: gameModel)
 
         attacker.setMadeAttack(to: true)
 
@@ -393,7 +393,7 @@ public class Combat {
         defender.changeExperience(by: 4 /* EXPERIENCE_DEFENDING_UNIT_MELEE */, in: gameModel)
 
         // add archaeological record (only melee combat)
-        // defenderTile.addArchaeologicalRecord
+        defenderTile.addArchaeologicalRecord(with: .battleMelee, era: gameModel.worldEra(), leader1: attacker.leader, leader2: defender.leader)
 
         // Attacker died
         if attacker.healthPoints() <= 0 {
@@ -424,6 +424,8 @@ public class Combat {
             }
 
             attacker.doKill(delayed: false, by: nil, in: gameModel)
+            defender.player?.updateWarWeariness(against: attacker.player, at: defender.location, killed: false, in: gameModel)
+            attacker.player?.updateWarWeariness(against: defender.player, at: defender.location, killed: true, in: gameModel)
 
         } else if defender.healthPoints() <= 0 { // Defender died
 
@@ -456,6 +458,8 @@ public class Combat {
             }
 
             defender.doKill(delayed: false, by: attacker.player, in: gameModel)
+            defender.player?.updateWarWeariness(against: attacker.player, at: defender.location, killed: true, in: gameModel)
+            attacker.player?.updateWarWeariness(against: defender.player, at: defender.location, killed: false, in: gameModel)
 
             // Move forward
             if attacker.canMove(into: defenderTile.point, options: MoveOptions.none, in: gameModel) {
@@ -490,6 +494,9 @@ public class Combat {
                     delay: 3
                 )
             }
+
+            defender.player?.updateWarWeariness(against: attacker.player, at: defender.location, killed: false, in: gameModel)
+            attacker.player?.updateWarWeariness(against: defender.player, at: defender.location, killed: false, in: gameModel)
         }
 
         // If a Unit loses his moves after attacking, do so
@@ -530,7 +537,7 @@ public class Combat {
         // Unit that attacks loses his Fort bonus
         attacker.doMobilize(in: gameModel)
 
-        attacker.automate(with: .none)
+        attacker.automate(with: .none, in: gameModel)
 
         attacker.setMadeAttack(to: true)
 
@@ -606,6 +613,8 @@ public class Combat {
             }
 
             attacker.doKill(delayed: false, by: nil, in: gameModel)
+            defender.player?.updateWarWeariness(against: attacker.player, at: defender.location, killed: false, in: gameModel)
+            attacker.player?.updateWarWeariness(against: defender.player, at: defender.location, killed: true, in: gameModel)
 
         } else if defender.healthPoints() <= 0 { // city has been conquered
 
@@ -640,6 +649,8 @@ public class Combat {
             }
 
             attacker.player?.acquire(city: defender, conquest: true, gift: false, in: gameModel)
+            defender.player?.updateWarWeariness(against: attacker.player, at: defender.location, killed: false, in: gameModel)
+            attacker.player?.updateWarWeariness(against: defender.player, at: defender.location, killed: false, in: gameModel)
 
             // Move forward
             if attacker.canMove(into: defenderTile.point, options: MoveOptions.none, in: gameModel) {
@@ -674,6 +685,9 @@ public class Combat {
                     delay: 3
                 )
             }
+
+            defender.player?.updateWarWeariness(against: attacker.player, at: defender.location, killed: false, in: gameModel)
+            attacker.player?.updateWarWeariness(against: defender.player, at: defender.location, killed: false, in: gameModel)
         }
 
         // If a Unit loses his moves after attacking, do so
@@ -713,7 +727,7 @@ public class Combat {
             fatalError("cant get defenderTile")
         }
 
-        defender.automate(with: .none)
+        defender.automate(with: .none, in: gameModel)
 
         attacker.setMadeAttack(to: true)
 
@@ -770,6 +784,11 @@ public class Combat {
             }
 
             defender.doKill(delayed: false, by: attacker.player, in: gameModel)
+            defender.player?.updateWarWeariness(against: attacker.player, at: defender.location, killed: true, in: gameModel)
+            attacker.player?.updateWarWeariness(against: defender.player, at: defender.location, killed: false, in: gameModel)
+        } else {
+            defender.player?.updateWarWeariness(against: attacker.player, at: defender.location, killed: false, in: gameModel)
+            attacker.player?.updateWarWeariness(against: defender.player, at: defender.location, killed: false, in: gameModel)
         }
 
         return CombatResult(defenderDamage: defenderDamage, attackerDamage: 0, value: value)
@@ -797,7 +816,7 @@ public class Combat {
             fatalError("cant get defenderTile")
         }
 
-        defender.automate(with: .none)
+        defender.automate(with: .none, in: gameModel)
 
         attacker.setMadeAttack(to: true)
 
@@ -854,6 +873,11 @@ public class Combat {
             }
 
             defender.doKill(delayed: false, by: attacker.player, in: gameModel)
+            defender.player?.updateWarWeariness(against: attacker.player, at: defender.location, killed: true, in: gameModel)
+            attacker.player?.updateWarWeariness(against: defender.player, at: defender.location, killed: false, in: gameModel)
+        } else {
+            defender.player?.updateWarWeariness(against: attacker.player, at: defender.location, killed: false, in: gameModel)
+            attacker.player?.updateWarWeariness(against: defender.player, at: defender.location, killed: false, in: gameModel)
         }
 
         if !attacker.canMoveAfterAttacking() {
@@ -908,6 +932,9 @@ public class Combat {
         if defender.healthPoints() <= 0 {
             defender.set(healthPoints: 10)
         }
+
+        defender.player?.updateWarWeariness(against: attacker.player, at: defender.location, killed: false, in: gameModel)
+        attacker.player?.updateWarWeariness(against: defender.player, at: defender.location, killed: false, in: gameModel)
 
         if !attacker.canMoveAfterAttacking() {
             attacker.finishMoves()

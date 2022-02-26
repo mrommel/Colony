@@ -73,7 +73,9 @@ public struct MapOverviewView: View {
             }
             .onReceive(gameEnvironment.game) { game in
                 print(" - game changed - ")
-                self.viewModel.assign(game: game)
+                if game != nil {
+                    self.viewModel.assign(game: game)
+                }
             }
         }
     }

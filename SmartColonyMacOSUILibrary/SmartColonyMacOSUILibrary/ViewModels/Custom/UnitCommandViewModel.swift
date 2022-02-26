@@ -16,9 +16,6 @@ protocol UnitCommandViewModelDelegate: AnyObject {
 
 class UnitCommandViewModel: ObservableObject {
 
-    @Published
-    var toolTip: NSAttributedString
-
     weak var delegate: UnitCommandViewModelDelegate?
 
     private var commandType: CommandType
@@ -28,8 +25,6 @@ class UnitCommandViewModel: ObservableObject {
     init() {
 
         self.commandType = .none
-
-        self.toolTip = NSAttributedString(string: "-")
     }
 
     // MARK: methods
@@ -37,6 +32,15 @@ class UnitCommandViewModel: ObservableObject {
     func update(command commandType: CommandType) {
 
         self.commandType = commandType
+
+        self.objectWillChange.send()
+    }
+
+    func toolTip() -> NSAttributedString? {
+
+        guard commandType.title() != "" else {
+            return nil
+        }
 
         let toolTipText = NSMutableAttributedString(string: "")
 
@@ -47,14 +51,12 @@ class UnitCommandViewModel: ObservableObject {
         toolTipText.append(title)
 
         let effects = NSAttributedString(
-            string: "\n\nDescription",
+            string: "\n\nDescription \(Int.random(number: 10))",
             attributes: Globals.Attributs.tooltipContentAttributs
         )
         toolTipText.append(effects)
 
-        self.toolTip = toolTipText
-
-        self.objectWillChange.send()
+        return toolTipText
     }
 
     func image() -> NSImage {

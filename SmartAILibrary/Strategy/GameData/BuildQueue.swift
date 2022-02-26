@@ -74,6 +74,20 @@ public class BuildQueue: Codable {
         return false
     }
 
+    public func isTraining(unit unitType: UnitType) -> Bool {
+
+        for item in self.items where item.type == .unit {
+
+            if let type = item.unitType {
+                if type == unitType {
+                    return true
+                }
+            }
+        }
+
+        return false
+    }
+
     public func wonder(of wonderType: WonderType) -> BuildableItem? {
 
         if let item = self.items.first(where: { $0.type == .wonder && $0.wonderType == wonderType }) {
@@ -133,6 +147,13 @@ public class BuildQueue: Codable {
         }
 
         return nil
+    }
+
+    func unitTypesTraining() -> [UnitType] {
+
+        return self.items
+            .filter { $0.type == .unit }
+            .map { $0.unitType! }
     }
 
     public func hasBuildable() -> Bool {

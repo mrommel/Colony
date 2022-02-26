@@ -19,7 +19,7 @@ class EraHistogram: WeightedList<EraType> {
     }
 }
 
-enum GameStateType: Int, Codable {
+public enum GameStateType: Int, Codable {
 
     case on
     case over
@@ -56,8 +56,8 @@ open class GameModel: Codable {
         case spawnedArchaeologySites
     }
 
-    let victoryTypes: [VictoryType]
-    let handicap: HandicapType
+    public let victoryTypes: [VictoryType]
+    public let handicap: HandicapType
     var currentTurn: Int
     var turnSliceValue: Int = 0
     var numProphetsSpawnedValue: Int = 0
@@ -104,11 +104,14 @@ open class GameModel: Codable {
             fatalError("the last player must be human")
         }
 
+        let freeCityPlayer = Player(leader: .freeCities)
+        freeCityPlayer.initialize()
+
         self.victoryTypes = victoryTypes
         self.handicap = handicap
         self.currentTurn = turnsElapsed
         self.numProphetsSpawnedValue = 0
-        self.players = players
+        self.players = [freeCityPlayer] + players
         self.religionsVal = GameReligions()
         self.map = map
         self.discoveredContinents = []
@@ -245,13 +248,19 @@ open class GameModel: Codable {
         try container.encode(self.spawnedArchaeologySites, forKey: .spawnedArchaeologySites)
     }
 
+    public func seed() -> Int {
+
+        return self.map.seed()
+    }
+
     public func update() {
 
         guard let userInterface = self.userInterface else {
-            fatalError("no UI")
+            print("no UI")
+            return
         }
 
-        if Thread.isMainThread {
+        if Thread.isMainThread && !Thread.current.isRunningXCTest {
             print("Warning: GameModel.update() is executed on main thread")
         }
 
@@ -268,7 +277,8 @@ open class GameModel: Codable {
         // if the game is single player, it's ok to block all processing until
         // the user selects an extended match or quits.
         if self.gameState() == .over {
-            //self.testExtendedGame()
+            // self.testExtendedGame()
+            return
         }
 
         //self.sendPlayerOptions()
@@ -288,27 +298,27 @@ open class GameModel: Codable {
             //self.updateWar()
 
             self.updateMoves()
+        }
 
-            // And again, the player can change after the automoves and that can pause the game
-            if !isPaused() {
+        // And again, the player can change after the automoves and that can pause the game
+        if !isPaused() {
 
-                self.updateTimers()
+            self.updateTimers()
 
-                self.updatePlayers(in: self) // slewis added!
+            self.updatePlayers(in: self) // slewis added!
 
-                //self.testAlive()
+            //self.testAlive()
 
-                if let humanPlayer = self.humanPlayer() {
-                    if !humanPlayer.isAlive() {
-                        self.set(gameState: .over)
-                    }
+            if let humanPlayer = self.humanPlayer() {
+                if !humanPlayer.isAlive() {
+                    self.set(gameState: .over)
                 }
-
-                // next player ???
-                self.checkPlayerTurnDeactivate()
-
-                self.changeTurnSlice(by: 1)
             }
+
+            // next player ???
+            self.checkPlayerTurnDeactivate()
+
+            self.changeTurnSlice(by: 1)
         }
     }
 
@@ -428,7 +438,7 @@ open class GameModel: Codable {
 
     func updateMoves() {
 
-        var playersToProcess: [AbstractPlayer?] = []
+        var playersToProcess: [AbstractPlayer] = []
         var processPlayerAutoMoves = false
 
         for player in self.players {
@@ -456,7 +466,7 @@ open class GameModel: Codable {
             }
         }
 
-        if let player = playersToProcess.first! {
+        if let player = playersToProcess.first {
 
             let readyUnitsBeforeMoves = player.countReadyUnits(in: self)
 
@@ -617,14 +627,18 @@ open class GameModel: Codable {
         return false
     }
 
-    func gameState() -> GameStateType {
+    public func gameState() -> GameStateType {
 
         return self.gameStateValue
     }
 
     func set(gameState: GameStateType) {
 
-        self.gameStateValue = gameState
+        if self.gameStateValue != gameState {
+
+            self.gameStateValue = gameState
+            self.userInterface?.update(gameState: gameState)
+        }
     }
 
     public func winnerLeader() -> LeaderType? {
@@ -684,21 +698,21 @@ open class GameModel: Codable {
         self.barbarianAI?.doTurn(in: self)
         self.religionsVal?.doTurn(in: self)
 
-        //doUpdateCacheOnTurn();
+        // doUpdateCacheOnTurn();
 
-        //DoUpdateCachedWorldReligionTechProgress();
+        // DoUpdateCachedWorldReligionTechProgress();
 
         self.updateScore()
 
-        //m_kGameDeals.DoTurn();
+        // m_kGameDeals.DoTurn();
 
         for player in self.players {
             player.prepareTurn(in: self)
         }
 
-        //map.doTurn()
+        // map.doTurn()
 
-        //GC.GetEngineUserInterface()->doTurn();
+        // GC.GetEngineUserInterface()->doTurn();
 
         self.barbarianAI?.doCamps(in: self)
 
@@ -723,7 +737,7 @@ open class GameModel: Codable {
             }
         }
 
-        //self.doUnitedNationsCountdown();
+        // self.doUnitedNationsCountdown();
 
         // Victory stuff
         self.doTestVictory()
@@ -769,7 +783,7 @@ open class GameModel: Codable {
 
         for player in self.players {
 
-            if player.isBarbarian() {
+            if player.isBarbarian() || player.isFreeCity() {
                 continue
             }
 
@@ -798,7 +812,7 @@ open class GameModel: Codable {
 
         for player in self.players {
 
-            if player.isBarbarian() {
+            if player.isBarbarian() || player.isFreeCity() {
                 continue
             }
 
@@ -825,7 +839,7 @@ open class GameModel: Codable {
         // Calculate who owns the most original capitals by iterating through all civs
         // and finding out who owns their original capital now.
         var numOriginalCapitals: [LeaderType: Int] = [:]
-        let playerNum: Int = self.players.filter { !$0.isBarbarian() }.count
+        let playerNum: Int = self.players.filter { !$0.isBarbarian() && !$0.isFreeCity() }.count
 
         for player in self.players {
 
@@ -875,7 +889,7 @@ open class GameModel: Codable {
 
         for player in self.players {
 
-            if player.isBarbarian() {
+            if player.isBarbarian() || player.isFreeCity() {
                 continue
             }
 
@@ -902,7 +916,7 @@ open class GameModel: Codable {
 
             for player in self.players {
 
-                if player.isBarbarian() {
+                if player.isBarbarian() || player.isFreeCity() {
                     continue
                 }
 
@@ -934,7 +948,7 @@ open class GameModel: Codable {
         // loop thru all players
         for player in self.players {
 
-            if player.isBarbarian() {
+            if player.isBarbarian() || player.isFreeCity() {
                 continue
             }
 
@@ -1085,6 +1099,10 @@ open class GameModel: Codable {
 
         for player in self.players {
 
+            if player.isBarbarian() || player.isFreeCity() {
+                continue
+            }
+
             let culturePerTurn = player.culture(in: self)
             self.rankingData.add(culturePerTurn: culturePerTurn, for: player.leader)
 
@@ -1202,6 +1220,16 @@ open class GameModel: Codable {
         }
     }
 
+    public func sight(city: AbstractCity?) {
+
+        self.map.sight(city: city, in: self)
+    }
+
+    public func conceal(city: AbstractCity?) {
+
+        self.map.conceal(city: city, in: self)
+    }
+
     public func cities(of player: AbstractPlayer) -> [AbstractCity?] {
 
         return self.map.cities(of: player)
@@ -1262,6 +1290,22 @@ open class GameModel: Codable {
     func area(of location: HexPoint) -> HexArea? {
 
         return self.map.area(of: location)
+    }
+
+    func population(of player: AbstractPlayer) -> Int {
+
+        var population = 0
+
+        for cityRef in self.map.cities(of: player) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            population += city.population()
+        }
+
+        return population
     }
 
     // MARK: unit methods
@@ -1487,6 +1531,11 @@ open class GameModel: Codable {
         return self.players.first(where: { $0.leader == .barbar })
     }
 
+    public func freeCityPlayer() -> AbstractPlayer? {
+
+        return self.players.first(where: { $0.leader == .freeCities })
+    }
+
     public func player(for leader: LeaderType) -> AbstractPlayer? {
 
         return self.players.first(where: { $0.leader == leader })
@@ -1519,7 +1568,7 @@ open class GameModel: Codable {
 
         for player in self.players {
 
-            if player.isBarbarian() {
+            if player.isBarbarian() || player.isFreeCity() {
                 continue
             }
 
@@ -1761,8 +1810,8 @@ open class GameModel: Codable {
 
     func calculateInfluenceDistance(from cityLocation: HexPoint, to targetDestination: HexPoint, limit: Int, abc: Bool) -> Int {
 
-        let influencePathfinder = AStarPathfinder()
-        influencePathfinder.dataSource = InfluencePathfinderDataSource(in: self.map, cityLoction: cityLocation)
+        let influencePathfinderDataSource = InfluencePathfinderDataSource(in: self.map, cityLoction: cityLocation)
+        let influencePathfinder = AStarPathfinder(with: influencePathfinderDataSource)
 
         if let path = influencePathfinder.shortestPath(fromTileCoord: cityLocation, toTileCoord: targetDestination) {
             return Int(path.cost)
@@ -2134,6 +2183,11 @@ open class GameModel: Codable {
         let numNextBestPlayersCities = numAllOtherCities.max() ?? 0
 
         return numPlayerCities >= (numNextBestPlayersCities + 3)
+    }
+
+    func findStartPlot(of player: AbstractPlayer?) -> HexPoint {
+
+        return self.map.findStartPlot(of: player)
     }
 
     public func anyHasMoment(of moment: MomentType) -> Bool {

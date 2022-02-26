@@ -142,12 +142,39 @@ public enum ReligionType: Codable, Hashable {
 
     private static func from(key: String) -> ReligionType? {
 
-        if key == "atheism" {
+        if key == "none" {
+            return .none
+        } else if key == "atheism" {
             return .atheism
         } else if key == "buddhism" {
             return .buddhism
         } else if key == "catholicism" {
             return .catholicism
+        } else if key == "confucianism" {
+            return .confucianism
+        } else if key == "hinduism" {
+            return .hinduism
+        } else if key == "islam" {
+            return .islam
+        } else if key == "judaism" {
+            return .judaism
+        } else if key == "easternOrthodoxy" {
+            return .easternOrthodoxy
+        } else if key == "protestantism" {
+            return .protestantism
+        } else if key == "shinto" {
+            return .shinto
+        } else if key == "sikhism" {
+            return .sikhism
+        } else if key == "taoism" {
+            return .taoism
+        } else if key == "zoroastrianism" {
+            return .zoroastrianism
+        } else if key.starts(with: "custom(") {
+            var title = key
+            title = title.replacingOccurrences(of: "custom(", with: "")
+            title = String(title.dropLast())
+            return .custom(title: title)
         } else {
             fatalError("religion not handled: \(key)")
             //return .custom(title: key)

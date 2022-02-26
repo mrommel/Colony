@@ -19,7 +19,7 @@ class ReligionTests: XCTestCase {
 
     override func setUp() {
 
-        self.grid = MapModel(width: 3, height: 3)
+        self.grid = MapModel(width: 3, height: 3, seed: 42)
     }
 
     func testAIFoundingPantheon() {
@@ -39,8 +39,21 @@ class ReligionTests: XCTestCase {
         playerTrajan.treasury?.changeGold(by: 200.0) // cheat
 
         // map
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
 
         // game
         let gameModel = GameModel(

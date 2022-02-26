@@ -12,6 +12,7 @@ import Foundation
 public enum CivilizationType: String, Codable {
 
     case barbarian
+    case free
 
     case greek
     case roman
@@ -76,6 +77,7 @@ public enum CivilizationType: String, Codable {
         switch self {
 
         case .barbarian: return 0
+        case .free: return 0
 
         case .greek: return 0 // no special bias
         case .roman: return 0 // no special bias
@@ -114,6 +116,14 @@ public enum CivilizationType: String, Codable {
         case .barbarian:
             return CivilizationTypeData(
                 name: "Barbarians",
+                plural: true,
+                ability: .none,
+                cityNames: []
+            )
+
+        case .free:
+            return CivilizationTypeData(
+                name: "Free Cities",
                 plural: true,
                 ability: .none,
                 cityNames: []

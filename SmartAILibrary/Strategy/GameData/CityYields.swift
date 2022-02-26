@@ -255,7 +255,7 @@ extension City {
         }
 
         // industrial - +1 Great Engineer point per turn
-        if districts.has(district: .industrial) {
+        if districts.has(district: .industrialZone) {
 
             greatPeoplePoints.greatEngineer += 1
 
@@ -424,9 +424,9 @@ extension City {
 
         var productionFromDistricts: Double = 0.0
 
-        if districts.has(district: .industrial) {
+        if districts.has(district: .industrialZone) {
 
-            if let industrialLocation = self.location(of: .industrial) {
+            if let industrialLocation = self.location(of: .industrialZone) {
 
                 for neighbor in industrialLocation.neighbors() {
 
@@ -865,7 +865,7 @@ extension City {
                     }
 
                     // Major bonus (+2 Culture) for each adjacent Water Park or Entertainment Complex district tile
-                    if neighborTile.district() == .entertainment {
+                    if neighborTile.district() == .entertainmentComplex {
                         cultureFromDistricts += 2
                     }
 

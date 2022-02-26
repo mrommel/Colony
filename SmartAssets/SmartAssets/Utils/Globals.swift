@@ -118,6 +118,10 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "culture")
         }
 
+        public static var power: NSImage {
+            return Icons.loadCachedTexture(with: "power")
+        }
+
         public static var turns: NSImage {
             return Icons.loadCachedTexture(with: "turns")
         }
@@ -146,12 +150,40 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "strength")
         }
 
+        public static var rangedStrength: NSImage {
+            return Icons.loadCachedTexture(with: "rangedStrength")
+        }
+
+        public static var religiousStrength: NSImage {
+            return Icons.loadCachedTexture(with: "religiousStrength")
+        }
+
+        public static var movement: NSImage {
+            return Icons.loadCachedTexture(with: "movement")
+        }
+
         public static var citizen: NSImage {
             return Icons.loadCachedTexture(with: "citizen")
         }
 
         public static var governor: NSImage {
             return Icons.loadCachedTexture(with: "governor")
+        }
+
+        public static var promotion: NSImage {
+            return Icons.loadCachedTexture(with: "promotion")
+        }
+
+        public static var diplomaticFavor: NSImage {
+            return Icons.loadCachedTexture(with: "diplomaticFavor")
+        }
+
+        public static var envoy: NSImage {
+            return Icons.loadCachedTexture(with: "envoy")
+        }
+
+        public static var grievances: NSImage {
+            return Icons.loadCachedTexture(with: "grievances")
         }
 
         public static var greatPerson: NSImage {
@@ -198,6 +230,10 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "relic")
         }
 
+        public static var artifact: NSImage {
+            return Icons.loadCachedTexture(with: "artifact")
+        }
+
         public static var questionmark: NSImage {
             return Icons.loadCachedTexture(with: "questionmark")
         }
@@ -224,6 +260,34 @@ public extension Globals {
 
         public static var eureka: NSImage {
             return Icons.loadCachedTexture(with: "eureka")
+        }
+
+        public static var horses: NSImage {
+            return Icons.loadCachedTexture(with: "horses")
+        }
+
+        public static var niter: NSImage {
+            return Icons.loadCachedTexture(with: "niter")
+        }
+
+        public static var coal: NSImage {
+            return Icons.loadCachedTexture(with: "coal")
+        }
+
+        public static var aluminum: NSImage {
+            return Icons.loadCachedTexture(with: "aluminum")
+        }
+
+        public static var oil: NSImage {
+            return Icons.loadCachedTexture(with: "oil")
+        }
+
+        public static var uranium: NSImage {
+            return Icons.loadCachedTexture(with: "uranium")
+        }
+
+        public static var iron: NSImage {
+            return Icons.loadCachedTexture(with: "iron")
         }
     }
 }

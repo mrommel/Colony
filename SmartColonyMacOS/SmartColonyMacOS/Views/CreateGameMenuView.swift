@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 import SmartAssets
-import SmartMacOSUILibrary
+import SmartColonyMacOSUILibrary
 
 struct CreateGameMenuView: View {
 

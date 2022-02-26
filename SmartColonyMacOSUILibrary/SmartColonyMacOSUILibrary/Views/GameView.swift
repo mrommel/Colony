@@ -28,11 +28,12 @@ public struct GameView: View {
 
             GameSceneView(viewModel: self.viewModel.gameSceneViewModel,
                     magnification: self.$viewModel.magnification)
-                .onReceive(self.gameEnvironment.game) { game in
+                .onReceive(self.gameEnvironment.game) { gameModel in
 
-                    if let game = game {
+                    if let gameModel = gameModel {
                         print("about to set game to GameSceneViewModel")
-                        self.viewModel.gameSceneViewModel.game = game
+                        self.viewModel.gameSceneViewModel.gameModel = gameModel
+                        self.viewModel.gameSceneViewModel.rebuild()
                     }
                 }
                 .onReceive(self.gameEnvironment.displayOptions) { option in
@@ -67,17 +68,27 @@ public struct GameView: View {
                 #endif
             }
 
-            BottomRightBarView(viewModel: self.viewModel.bottomRightBarViewModel)
+            Group {
 
-            TopBarView(viewModel: self.viewModel.topBarViewModel)
+                BottomRightBarView(viewModel: self.viewModel.bottomRightBarViewModel)
 
-            HeaderView(viewModel: self.viewModel.headerViewModel)
+                TopBarView(viewModel: self.viewModel.topBarViewModel)
 
-            self.dialog
+                HeaderView(viewModel: self.viewModel.headerViewModel)
+            }
 
-            self.popup
+            Group {
+                self.dialog
+
+                self.popup
+            }
 
             BannerView(viewModel: self.viewModel.bannerViewModel)
+
+            if self.viewModel.gameMenuVisible {
+
+                GameMenuView(viewModel: self.viewModel.gameMenuViewModel)
+            }
         }
     }
 }
@@ -210,6 +221,18 @@ extension GameView {
 
         case .religionEnoughFaithForMissionary:
             return AnyView(Text("religionEnoughFaithForMissionary"))
+
+        case .cityRevolted(city: _):
+            return AnyView(GenericPopupView(viewModel: self.viewModel.genericPopupViewModel))
+
+        case .foreignCityRevolted(city: _):
+            return AnyView(GenericPopupView(viewModel: self.viewModel.genericPopupViewModel))
+
+        case .lostOwnCapital:
+            return AnyView(GenericPopupView(viewModel: self.viewModel.genericPopupViewModel))
+
+        case .lostCapital(leader: _):
+            return AnyView(GenericPopupView(viewModel: self.viewModel.genericPopupViewModel))
         }
     }
 }

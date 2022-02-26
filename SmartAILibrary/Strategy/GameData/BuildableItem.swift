@@ -100,7 +100,7 @@ public class BuildableItem: Codable {
         self.production = 0.0
     }
 
-    public init(projectType: ProjectType) {
+    public init(projectType: ProjectType, at location: HexPoint) {
 
         self.type = .building
         self.unitType = nil
@@ -109,7 +109,7 @@ public class BuildableItem: Codable {
         self.districtType = nil
         self.projectType = projectType
 
-        self.location = nil
+        self.location = location
 
         self.production = 0.0
     }

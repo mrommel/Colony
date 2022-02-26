@@ -12,7 +12,7 @@ extension Double {
 
     // Returns a random floating point number between 0.0 and 1.0, inclusive.
     public static var random: Double {
-        return Double(arc4random()) / 0xFFFFFFFF
+        return drand48()
     }
 
     /**
@@ -23,8 +23,9 @@ extension Double {
      
      - returns: Double
      */
-    public static func random(minimum: Double, maximum: Double) -> Double {
-        return Double.random * (maximum - minimum) + minimum
+    public static func random(minimum from: Double, maximum to: Double) -> Double {
+        let seed = drand48()
+        return seed * (to - from) + from
     }
 }
 
@@ -47,7 +48,7 @@ extension Float {
 
     // Returns a random floating point number between 0.0 and 1.0, inclusive.
     public static var random: Float {
-        return Float(arc4random()) / 0xFFFFFFFF
+        return Float(drand48())
     }
 
     /**
@@ -58,8 +59,9 @@ extension Float {
      
      - returns: Double
      */
-    public static func random(minimum: Float, maximum: Float) -> Float {
-        return Float.random * (maximum - minimum) + minimum
+    public static func random(minimum from: Float, maximum to: Float) -> Float {
+        let seed = drand48()
+        return Float(seed * Double(to - from)) + from
     }
 }
 
@@ -83,21 +85,21 @@ extension Array {
     @discardableResult
     public mutating func shuffle() -> Array {
         indices.dropLast().forEach {
-            guard case let index = Int(arc4random_uniform(UInt32(count - $0))) + $0, index != $0 else { return }
+            guard case let index = Int(drand48() * Double(count - $0)) + $0, index != $0 else { return }
             self.swapAt($0, index)
         }
         return self
     }
 
-    public var chooseOne: Element { return self[Int(arc4random_uniform(UInt32(count)))] }
+    // public var chooseOne: Element { return self[Int.random(maximum: self.count)] }
 
-    public func choose(_ number: Int) -> Array { return Array(shuffled.prefix(number)) }
+    public func choose(_ number: Int) -> Array { return Array(self.shuffled.prefix(number)) }
 }
 
 extension Array {
 
     public func randomItem() -> Element {
-        let index = Int.random(minimum: 0, maximum: self.count - 1)
+        let index = Int.random(maximum: self.count)
         return self[index]
     }
 }
@@ -159,8 +161,9 @@ extension Int {
     
     - returns: Int
     */
-    public static func random(number: Int) -> Int {
-        return Int(arc4random_uniform(UInt32(number)))
+    public static func random(number to: Int) -> Int {
+        let seed = drand48()
+        return Int(seed * Double(to))
     }
 
     /**
@@ -171,8 +174,9 @@ extension Int {
     
     - returns: Int
     */
-    public static func random(minimum: Int = 0, maximum: Int) -> Int {
-        return Int.random(number: maximum - minimum + 1) + minimum
+    public static func random(minimum from: Int = 0, maximum to: Int) -> Int {
+        let seed = drand48()
+        return Int(seed * Double(to - from)) + from
     }
 }
 

@@ -100,7 +100,7 @@ extension NSImage {
     ///
     /// - Parameter url: The file URL to save the png file to.
     /// - Throws: An unwrappingPNGRepresentationFailed when the image has no png representation.
-    func savePngTo(url: URL) throws {
+    public func savePngTo(url: URL) throws {
 
         if let png = self.pngRepresentation {
             try png.write(to: url, options: .atomicWrite)

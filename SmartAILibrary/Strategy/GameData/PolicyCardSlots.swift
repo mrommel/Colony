@@ -35,6 +35,8 @@ public class PolicyCardSlots {
             return self.diplomatic
         case .wildcard:
             return self.wildcard
+        case .darkAge:
+            return 0
         }
     }
 

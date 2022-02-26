@@ -189,7 +189,7 @@ public class DiplomaticAI: Codable {
         try container.encode(self.hasBrokenPeaceTreatyValue, forKey: .hasBrokenPeaceTreaty)
     }
 
-    func turn(in gameModel: GameModel?) {
+    func doTurn(in gameModel: GameModel?) {
 
         guard let player = self.player else {
             fatalError("cant get player")
@@ -2793,6 +2793,15 @@ public class DiplomaticAI: Codable {
         return true
     }
 
+    func doEstablishPeaceTreaty(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("no game model given")
+        }
+
+        self.playerDict.establishPeaceTreaty(with: otherPlayer, in: gameModel.currentTurn)
+    }
+
     func doDefensivePact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
@@ -2823,7 +2832,7 @@ public class DiplomaticAI: Codable {
 
     // MARK: war
 
-    public func doDeclareWar(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+    internal func doDeclareWar(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("no game model given")
@@ -5207,5 +5216,17 @@ public class DiplomaticAI: Codable {
     func updateMusteringForAttack(against otherPlayer: AbstractPlayer?, to value: Bool) {
 
         self.playerDict.updateMusteringForAttack(against: otherPlayer, to: value)
+    }
+
+    // MARK: war weariness methods
+
+    func warWeariness(with otherPlayer: AbstractPlayer?) -> Int {
+
+        return self.playerDict.warWeariness(with: otherPlayer)
+    }
+
+    func changeWarWeariness(with otherPlayer: AbstractPlayer?, by value: Int) {
+
+        self.playerDict.changeWarWeariness(with: otherPlayer, by: value)
     }
 }

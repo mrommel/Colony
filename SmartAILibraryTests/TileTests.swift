@@ -107,7 +107,7 @@ class TileTests: XCTestCase {
         // GIVEN
         self.objectToTest = Tile(point: HexPoint(x: 0, y: 0), terrain: .grass, hills: false)
 
-        let mapModel = MapModel(size: MapSize.duel)
+        let mapModel = MapModel(size: MapSize.duel, seed: 42)
 
         let continent = Continent(identifier: 1, name: "Europa", on: mapModel)
         continent.add(point: HexPoint(x: 0, y: 0))

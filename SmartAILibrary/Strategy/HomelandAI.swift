@@ -305,7 +305,7 @@ public class HomelandAI {
     }
 
     /// Update the AI for units
-    func turn(in gameModel: GameModel?) {
+    func doTurn(in gameModel: GameModel?) {
 
         guard let player = self.player else {
             fatalError("no player given")
@@ -1812,14 +1812,14 @@ public class HomelandAI {
         economicAI.updatePlots(in: gameModel)
         var foundNearbyExplorePlot = false
 
-        let pathfinder = AStarPathfinder()
-        pathfinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+        let pathfinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
             for: .walk,
                for: player,
                unitMapType: .combat,
                canEmbark: player.canEmbark(),
                canEnterOcean: player.canEnterOcean()
         )
+        let pathfinder = AStarPathfinder(with: pathfinderDataSource)
 
         for homelandUnit in self.currentMoveUnits {
 
@@ -1986,7 +1986,7 @@ public class HomelandAI {
                     }
                 } else {
                     if unitPlayer.isHuman() {
-                        unit.automate(with: .none)
+                        unit.automate(with: .none, in: gameModel)
                         self.unitProcessed(unit: unit)
                     } else {
                         // If this is a land explorer and there is no ignore unit path to a friendly city, then disband him
@@ -2312,7 +2312,7 @@ public class HomelandAI {
                 } else {
 
                     print("\(unit.name()) tried to move to safety, but cannot hold in current location, \(bestPlot.point)")
-                    unit.automate(with: .none)
+                    unit.automate(with: .none, in: gameModel)
                 }
             } else {
 

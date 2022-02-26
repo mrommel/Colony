@@ -44,53 +44,71 @@ extension CivicType {
         case .mysticism:return "civic-mysticism"
 
             // classical
-        case .militaryTradition: return "civic-default"
-        case .defensiveTactics: return "civic-default"
-        case .gamesAndRecreation: return "civic-default"
-        case .politicalPhilosophy: return "civic-default"
-        case .recordedHistory: return "civic-default"
-        case .dramaAndPoetry: return "civic-default"
-        case .theology: return "civic-default"
-        case .militaryTraining: return "civic-default"
-        case .navalTradition: return "civic-default"
-        case .feudalism: return "civic-default"
-        case .medievalFaires: return "civic-default"
-        case .civilService: return "civic-default"
-        case .guilds: return "civic-default"
-        case .mercenaries: return "civic-default"
-        case .divineRight: return "civic-default"
-        case .enlightenment: return "civic-default"
-        case .humanism: return "civic-default"
-        case .mercantilism: return "civic-default"
-        case .diplomaticService: return "civic-default"
-        case .exploration: return "civic-default"
-        case .reformedChurch: return "civic-default"
-        case .civilEngineering: return "civic-default"
-        case .colonialism: return "civic-default"
-        case .nationalism: return "civic-default"
-        case .operaAndBallet: return "civic-default"
-        case .naturalHistory: return "civic-default"
-        case .urbanization: return "civic-default"
-        case .scorchedEarth: return "civic-default"
-        case .conservation: return "civic-default"
-        case .massMedia: return "civic-default"
-        case .mobilization: return "civic-default"
-        case .capitalism: return "civic-default"
-        case .ideology: return "civic-default"
-        case .nuclearProgram: return "civic-default"
-        case .suffrage: return "civic-default"
-        case .totalitarianism: return "civic-default"
-        case .classStruggle:return "civic-default"
-        case .culturalHeritage: return "civic-default"
-        case .coldWar: return "civic-default"
-        case .professionalSports: return "civic-default"
-        case .rapidDeployment: return "civic-default"
-        case .spaceRace: return "civic-default"
+        case .militaryTradition: return "civic-militaryTradition"
+        case .defensiveTactics: return "civic-defensiveTactics"
+        case .gamesAndRecreation: return "civic-gamesAndRecreation"
+        case .politicalPhilosophy: return "civic-politicalPhilosophy"
+        case .recordedHistory: return "civic-recordedHistory"
+        case .dramaAndPoetry: return "civic-dramaAndPoetry"
+        case .theology: return "civic-theology"
+        case .militaryTraining: return "civic-militaryTraining"
+
+            // medieval
+        case .navalTradition: return "civic-navalTradition"
+        case .feudalism: return "civic-feudalism"
+        case .medievalFaires: return "civic-medievalFaires"
+        case .civilService: return "civic-civilService"
+        case .guilds: return "civic-guilds"
+        case .mercenaries: return "civic-mercenaries"
+        case .divineRight: return "civic-divineRight"
+
+            // renaissance
+        case .enlightenment: return "civic-enlightenment"
+        case .humanism: return "civic-humanism"
+        case .mercantilism: return "civic-mercantilism"
+        case .diplomaticService: return "civic-diplomaticService"
+        case .exploration: return "civic-exploration"
+        case .reformedChurch: return "civic-reformedChurch"
+
+            // industrial
+        case .civilEngineering: return "civic-civilEngineering"
+        case .colonialism: return "civic-colonialism"
+        case .nationalism: return "civic-nationalism"
+        case .operaAndBallet: return "civic-operaAndBallet"
+        case .naturalHistory: return "civic-naturalHistory"
+        case .urbanization: return "civic-urbanization"
+        case .scorchedEarth: return "civic-scorchedEarth"
+
+            // modern
+        case .conservation: return "civic-conservation"
+        case .massMedia: return "civic-massMedia"
+        case .mobilization: return "civic-mobilization"
+        case .capitalism: return "civic-capitalism"
+        case .ideology: return "civic-ideology"
+        case .nuclearProgram: return "civic-nuclearProgram"
+        case .suffrage: return "civic-suffrage"
+        case .totalitarianism: return "civic-totalitarianism"
+        case .classStruggle: return "civic-classStruggle"
+
+            // atomic
+        case .culturalHeritage: return "civic-culturalHeritage"
+        case .coldWar: return "civic-coldWar"
+        case .professionalSports: return "civic-professionalSports"
+        case .rapidDeployment: return "civic-rapidDeployment"
+        case .spaceRace: return "civic-spaceRace"
 
             // information
-        case .globalization: return "civic-default"
-        case .socialMedia: return "civic-default"
-        case .environmentalism: return "civic-default"
+        case .globalization: return "civic-globalization"
+        case .socialMedia: return "civic-socialMedia"
+        case .environmentalism: return "civic-environmentalism"
+
+            // future
+        case .informationWarfare: return "civic-informationWarfare"
+        case .globalWarmingMitigation: return "civic-globalWarmingMitigation"
+        case .culturalHegemony: return "civic-culturalHegemony"
+        case .exodusImperative: return "civic-exodusImperative"
+        case .smartPowerDoctrine: return "civic-smartPowerDoctrine"
+        case .futureCivic: return "civic-futureCivic"
         }
     }
 }
@@ -171,6 +189,14 @@ extension CivicType {
         case .globalization:        return IndexPath(item: -1, section: -1)
         case .socialMedia:          return IndexPath(item: -1, section: -1)
         case .environmentalism:     return IndexPath(item: -1, section: -1)
+
+            // future
+        case .informationWarfare:   return IndexPath(item: -1, section: -1)
+        case .globalWarmingMitigation: return IndexPath(item: -1, section: -1)
+        case .culturalHegemony:     return IndexPath(item: -1, section: -1)
+        case .exodusImperative:     return IndexPath(item: -1, section: -1)
+        case .smartPowerDoctrine:   return IndexPath(item: -1, section: -1)
+        case .futureCivic:          return IndexPath(item: -1, section: -1)
         }
     }
 }

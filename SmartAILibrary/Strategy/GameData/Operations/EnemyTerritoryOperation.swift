@@ -50,14 +50,14 @@ class EnemyTerritoryOperation: Operation {
                     self.army?.goal = targetPlot
                 } else {
 
-                    let pathFinder = AStarPathfinder()
-                    pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                    let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
                         for: .walk,
                         for: self.player,
                         unitMapType: .combat,
                         canEmbark: self.player!.canEmbark(),
                         canEnterOcean: self.player!.canEnterOcean()
                     )
+                    let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
                     if let path = pathFinder.shortestPath(fromTileCoord: self.musterPosition!, toTileCoord: self.targetPosition!),
                         let reducedPath = path.path(without: self.deployRange()),
@@ -135,14 +135,14 @@ class EnemyTerritoryOperation: Operation {
                 }
 
                 // Generate path
-                let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
                     for: .walk,
                     for: self.player,
                     unitMapType: .combat,
                     canEmbark: player.canEmbark(),
                     canEnterOcean: player.canEnterOcean()
                 )
+                let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
                 if let path = pathFinder.shortestPath(fromTileCoord: startCity.location, toTileCoord: self.army!.goal) {
 

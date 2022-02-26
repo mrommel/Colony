@@ -208,7 +208,7 @@ public class DiplomacyRequests: Codable {
 
             if !player.isEqual(to: otherPlayer) && otherPlayer.isAlive() && !otherPlayer.isHuman() && !otherPlayer.isBarbarian() {
 
-                otherPlayer.diplomacyAI?.turn(in: gameModel) //.doTurn(player)
+                otherPlayer.diplomacyAI?.doTurn(in: gameModel)
             }
         }
     }

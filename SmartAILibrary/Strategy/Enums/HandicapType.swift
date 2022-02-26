@@ -282,6 +282,36 @@ public enum HandicapType: Int, Codable {
         case .deity: return 0
         }
     }
+
+    func happinessDefault() -> Int {
+
+        switch self {
+
+        case .settler: return 15
+        case .chieftain: return 12
+        case .warlord: return 12
+        case .prince: return 9
+        case .king: return 9
+        case .emperor: return 9
+        case .immortal: return 9
+        case .deity: return 9
+        }
+    }
+
+    func extraHappinessPerLuxury() -> Int {
+
+        switch self {
+
+        case .settler: return 1
+        case .chieftain: return 1
+        case .warlord: return 0
+        case .prince: return 0
+        case .king: return 0
+        case .emperor: return 0
+        case .immortal: return 0
+        case .deity: return 0
+        }
+    }
 }
 
 extension HandicapType: Comparable {

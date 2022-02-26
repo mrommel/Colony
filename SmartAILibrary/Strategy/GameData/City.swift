@@ -66,7 +66,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func set(gameTurnFounded: Int)
     func gameTurnFounded() -> Int
 
-    func turn(in gameModel: GameModel?)
+    func doTurn(in gameModel: GameModel?)
 
     func preKill(in gameModel: GameModel?)
 
@@ -82,7 +82,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func canBuild(wonder: WonderType, at point: HexPoint, in gameModel: GameModel?) -> Bool
     func bestLocation(for wonderType: WonderType, in gameModel: GameModel?) -> HexPoint?
     func canBuild(district districtType: DistrictType, in gameModel: GameModel?) -> Bool
-    func canBuild(district: DistrictType, at point: HexPoint, in gameModel: GameModel?) -> Bool
+    func canBuild(district districtType: DistrictType, at point: HexPoint, in gameModel: GameModel?) -> Bool
     func bestLocation(for districtType: DistrictType, in gameModel: GameModel?) -> HexPoint?
     func canBuild(project: ProjectType) -> Bool
 
@@ -90,7 +90,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func startBuilding(building: BuildingType)
     func startBuilding(wonder: WonderType, at point: HexPoint, in gameModel: GameModel?)
     func startBuilding(district: DistrictType, at point: HexPoint, in gameModel: GameModel?)
-    func startBuilding(project: ProjectType)
+    func startBuilding(project: ProjectType, at point: HexPoint, in gameModel: GameModel?)
 
     func canPurchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
     func canPurchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
@@ -156,6 +156,8 @@ public protocol AbstractCity: AnyObject, Codable {
     func amenitiesFromBuildings() -> Double
     func amenitiesFromLuxuries() -> Double
     func amenitiesNeeded() -> Double
+    func amenitiesForWarWeariness() -> Int
+    func set(amenitiesForWarWeariness: Int)
 
     func maintenanceCostsPerTurn() -> Double
 
@@ -332,6 +334,7 @@ public class City: AbstractCity {
         case cultureLevel
 
         case loyalty
+        case amenitiesForWarWeariness
 
         case governor
     }
@@ -359,6 +362,7 @@ public class City: AbstractCity {
 
     private var healthPointsValue: Int // 0..200
     private var threatVal: Int
+    private var amenitiesForWarWearinessValue: Int
 
     private var isFeatureSurroundedValue: Bool
     private var productionLastTurnValue: Double = 1.0
@@ -422,6 +426,7 @@ public class City: AbstractCity {
         self.threatVal = 0
 
         self.healthPointsValue = 200
+        self.amenitiesForWarWearinessValue = 0
 
         self.baseYieldRateFromSpecialists = YieldList()
         self.baseYieldRateFromSpecialists.fill()
@@ -499,6 +504,7 @@ public class City: AbstractCity {
         //self.garrisonedUnitValue = try container.decode(CityCitizens.self, forKey: .cityCitizens): AbstractUnit? = nil
 
         self.luxuries = try container.decode([ResourceType].self, forKey: .luxuries)
+        self.amenitiesForWarWearinessValue = try container.decodeIfPresent(Int.self, forKey: .amenitiesForWarWeariness) ?? 0
 
         // yields
         self.baseYieldRateFromSpecialists = try container.decode(YieldList.self, forKey: .baseYieldRateFromSpecialists)
@@ -571,6 +577,7 @@ public class City: AbstractCity {
         //private var garrisonedUnitValue: AbstractUnit? = nil
 
         try container.encode(self.luxuries, forKey: .luxuries)
+        try container.encode(self.amenitiesForWarWearinessValue, forKey: .amenitiesForWarWeariness)
 
         try container.encode(self.baseYieldRateFromSpecialists, forKey: .baseYieldRateFromSpecialists)
         try container.encode(self.extraSpecialistYield, forKey: .extraSpecialistYield)
@@ -768,7 +775,7 @@ public class City: AbstractCity {
 
     // MARK: public methods
 
-    public func turn(in gameModel: GameModel?) {
+    public func doTurn(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1291,6 +1298,75 @@ public class City: AbstractCity {
         loyalty += self.loyaltyFromOthersEffects(in: gameModel)
 
         self.loyaltyValue = loyalty
+
+        // https://civilization.fandom.com/wiki/Loyalty_(Civ6)#Free_Cities
+        if self.loyaltyValue < 0 {
+
+            // become a free city
+            self.doRevolt(in: gameModel)
+        }
+    }
+
+    func doRevolt(in gameModel: GameModel?) {
+
+        guard let oldPlayer = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("cant get city citizens")
+        }
+
+        // inform user
+        if oldPlayer.isHuman() {
+            // our own city revolted
+            gameModel?.userInterface?.showPopup(popupType: .cityRevolted(city: self))
+        } else if oldPlayer.hasMet(with: gameModel?.humanPlayer()) {
+            // foreign city revolted
+            gameModel?.userInterface?.showPopup(popupType: .foreignCityRevolted(city: self))
+        }
+
+        let newPlayer = gameModel?.freeCityPlayer()
+
+        // hide city to old player
+        gameModel?.conceal(city: self)
+
+        self.leader = .freeCities
+        self.player = newPlayer
+
+        // reveal city to new 'owner'
+        gameModel?.sight(city: self)
+
+        // update owned tiles
+        for loopPoint in cityCitizens.workingTileLocations() {
+
+            guard let loopTile = gameModel?.tile(at: loopPoint) else {
+                continue
+            }
+
+            // hm, maybe this is too much?
+            guard loopTile.ownerLeader() == oldPlayer.leader else {
+                continue
+            }
+
+            do {
+                try loopTile.change(owner: newPlayer)
+            } catch {
+                fatalError("could not change owner: \(error)")
+            }
+        }
+
+        oldPlayer.updatePlots(in: gameModel)
+        newPlayer?.updatePlots(in: gameModel)
+
+        // update UI
+        gameModel?.userInterface?.update(city: self)
+
+        if self.capitalValue {
+
+            oldPlayer.findNewCapital(in: gameModel)
+            oldPlayer.set(hasLostCapital: true, to: newPlayer, in: gameModel)
+        }
     }
 
     public func loyalty() -> Int {
@@ -1646,6 +1722,65 @@ public class City: AbstractCity {
         return amenitiesFromTiles
     }
 
+    public func amenitiesFromCivics(in gameModel: GameModel?) -> Double {
+
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
+        var amenitiesFromCivics: Double = 0.0
+
+        // Retainers - +1 Amenity in cities with a garrisoned unit.
+        if government.has(card: .retainers) {
+            if self.garrisonedUnitValue != nil {
+                amenitiesFromCivics += 1
+            }
+        }
+
+        // Civil Prestige - +1 Amenity and +2 Housing in cities with established Governors with 2+ promotions.
+        if government.has(card: .retainers) {
+            if let governor = self.governorValue {
+                if governor.titles().count >= 2 {
+                    amenitiesFromCivics += 1
+                }
+            }
+        }
+
+        // Liberalism - +1 Amenity in cities with 2+ specialty districts.
+        if government.has(card: .liberalism) {
+            if districts.numberOfBuiltDistricts() >= 2 {
+                amenitiesFromCivics += 1
+            }
+        }
+
+        // Police State - -2 Spy operation level in your lands. -1 Amenity in all cities.
+        if government.has(card: .policyState) {
+            amenitiesFromCivics -= 1
+        }
+
+        // New Deal - +2 Amenities and +4 Housing in all cities with 3+ specialty districts.
+        if government.has(card: .newDeal) {
+            if districts.numberOfBuiltDistricts() >= 3 {
+                amenitiesFromCivics += 2
+            }
+        }
+
+        /*
+         - Sports Media    +100% Theater Square adjacency bonuses, and Stadiums generate +1 Amenities Amenity.
+         - Music Censorship    Other civs' Rock Bands cannot enter your territory. -1 Amenities Amenity in all cities.
+         - Robber Barons    +50% Gold Gold in cities with a Stock Exchange. +25% Production Production in cities with a Factory.
+            BUT: -2 Amenities Amenities in all cities.
+         - Automated Workforce    +20% Production Production towards city projects.
+            BUT: -1 Amenities Amenity and -5 Loyalty in all cities.
+         */
+
+        return amenitiesFromCivics
+    }
+
     public func amenitiesPerTurn(in gameModel: GameModel?) -> Double {
 
         var amenitiesPerTurn: Double = 0.0
@@ -1655,13 +1790,24 @@ public class City: AbstractCity {
         amenitiesPerTurn += self.amenitiesFromDistrict(in: gameModel)
         amenitiesPerTurn += self.amenitiesFromBuildings()
         amenitiesPerTurn += self.amenitiesFromWonders(in: gameModel)
+        amenitiesPerTurn += self.amenitiesFromCivics(in: gameModel)
 
         return amenitiesPerTurn
     }
 
+    public func amenitiesForWarWeariness() -> Int {
+
+        return self.amenitiesForWarWearinessValue
+    }
+
+    public func set(amenitiesForWarWeariness: Int) {
+
+        self.amenitiesForWarWearinessValue = amenitiesForWarWeariness
+    }
+
     public func amenitiesNeeded() -> Double {
 
-        return max(0, self.populationValue - 2.0)
+        return max(0, self.populationValue - 2.0) + Double(self.amenitiesForWarWearinessValue)
     }
 
     public func amenitiesState(in gameModel: GameModel?) -> AmenitiesState {
@@ -3020,6 +3166,10 @@ public class City: AbstractCity {
             fatalError("cant get city citizens")
         }
 
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
@@ -3037,6 +3187,18 @@ public class City: AbstractCity {
 
         if let requiredCivic = districtType.requiredCivic() {
             if !player.has(civic: requiredCivic) {
+                return false
+            }
+        }
+
+        if districtType.isSpecialty() {
+            // specialty districts are limited by population
+            if districts.numberOfSpecialtyDistricts() >= self.numberOfBuildableSpecialtyDistricts() {
+                return false
+            }
+
+            // they can only be built once per city
+            if districts.has(district: districtType) {
                 return false
             }
         }
@@ -3079,6 +3241,10 @@ public class City: AbstractCity {
             fatalError("cant get player")
         }
 
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
         guard let tile = gameModel.tile(at: location) else {
             fatalError("cant get tile")
         }
@@ -3104,11 +3270,42 @@ public class City: AbstractCity {
             }
         }
 
+        if districtType.isSpecialty() {
+            // specialty districts are limited by population
+            if districts.numberOfSpecialtyDistricts() >= self.numberOfBuildableSpecialtyDistricts() {
+                return false
+            }
+
+            // they can only be built once per city
+            if districts.has(district: districtType) {
+                return false
+            }
+        }
+
+        if districtType.oncePerCivilization() {
+            for cityRef in gameModel.cities(of: player) {
+
+                guard let cityDistricts = cityRef?.districts else {
+                    continue
+                }
+
+                if cityDistricts.has(district: districtType) {
+                    return false
+                }
+            }
+        }
+
         if !districtType.canBuild(on: location, in: gameModel) {
             return false
         }
 
         return true
+    }
+
+    // For example a city of 6 pop can only build 2 districts but 7 can build 3.
+    func numberOfBuildableSpecialtyDistricts() -> Int {
+
+        return (Int(self.populationValue) + 2) / 3
     }
 
     public func bestLocation(for districtType: DistrictType, in gameModel: GameModel?) -> HexPoint? {
@@ -3315,9 +3512,17 @@ public class City: AbstractCity {
         self.buildQueue.add(item: BuildableItem(districtType: districtType, at: location))
     }
 
-    public func startBuilding(project: ProjectType) {
+    public func startBuilding(project projectType: ProjectType, at point: HexPoint, in gameModel: GameModel?) {
 
-        self.buildQueue.add(item: BuildableItem(projectType: project))
+        /*
+         guard let tile = gameModel?.tile(at: location) else {
+             fatalError("cant get tile")
+         }
+
+         tile.startBuilding(project: districtType)
+         gameModel?.userInterface?.refresh(tile: tile)
+         */
+        self.buildQueue.add(item: BuildableItem(projectType: projectType, at: location))
     }
 
     public func canPurchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
@@ -3487,6 +3692,11 @@ public class City: AbstractCity {
 
         guard let districts = self.districts else {
             fatalError("cant get disticts")
+        }
+
+        if !self.canBuild(district: districtType, at: location, in: gameModel) {
+            print("cant build district: \(districtType) at: \(location)")
+            return false
         }
 
         do {
@@ -5010,7 +5220,7 @@ public class City: AbstractCity {
             try tile.set(owner: self.player)
             try tile.setWorkingCity(to: self)
         } catch {
-            fatalError("cant set owner")
+            fatalError("cant set owner: \(error)")
         }
 
         self.player?.addPlot(at: point)

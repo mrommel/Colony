@@ -113,6 +113,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func isAllowEmbassyTradingAllowed() -> Bool
 
     func valueOfPersonalityFlavor(of flavor: FlavorType) -> Int
+    func valueOfPersonalityIndividualFlavor(of flavor: FlavorType) -> Int
     func valueOfStrategyAndPersonalityFlavor(of flavor: FlavorType) -> Int
     func valueOfStrategyAndPersonalityApproach(of approach: PlayerApproachType) -> Int
     func personalAndGrandStrategyFlavor(for flavorType: FlavorType) -> Int
@@ -136,12 +137,17 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func isTurnActive() -> Bool
     func isHuman() -> Bool
     func isBarbarian() -> Bool
+    func isFreeCity() -> Bool
 
     // diplomatics
     func hasMet(with otherPlayer: AbstractPlayer?) -> Bool
     func isAtWar(with otherPlayer: AbstractPlayer?) -> Bool
     func atWarCount() -> Int
     func canDeclareWar(to otherPlayer: AbstractPlayer?) -> Bool
+    func doDeclareWar(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
+    func doEstablishPeaceTreaty(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
+    func warWeariness(with otherPlayer: AbstractPlayer?) -> Int
+    func updateWarWeariness(against otherPlayer: AbstractPlayer?, at point: HexPoint, killed: Bool, in gameModel: GameModel?)
 
     func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func proximity(to otherPlayer: AbstractPlayer?) -> PlayerProximityType
@@ -223,7 +229,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func canBuild(build: BuildType, at point: HexPoint, testGold: Bool, in gameModel: GameModel?) -> Bool
 
     func updatePlots(in gameModel: GameModel?)
-
+    func plots() -> HexArea
     func addPlot(at point: HexPoint)
     func buyPlotCost() -> Int
     func changeNumPlotsBought(change: Int)
@@ -239,6 +245,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func numUnitsNeededToBeBuilt() -> Int
     func countReadyUnits(in gameModel: GameModel?) -> Int
     func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool
+    func countUnitsWith(defaultTask: UnitTaskType, in gameModel: GameModel?) -> Int
     func hasBusyUnitOrCity() -> Bool
 
     // buildings / districts
@@ -273,6 +280,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func notifications() -> Notifications?
 
     func originalCapitalLocation() -> HexPoint
+    func isCramped() -> Bool
 
     // government
     func canChangeGovernment() -> Bool
@@ -295,6 +303,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     // distance / cities
     func cityDistancePathLength(of point: HexPoint, in gameModel: GameModel?) -> Int
     func numCities(in gameModel: GameModel?) -> Int
+    func countCitiesFeatureSurrounded(in gameModel: GameModel?) -> Int
 
     // victory checks
     func scienceVictoryProgress(in gameModel: GameModel?) -> Int
@@ -329,7 +338,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func isEqual(to other: AbstractPlayer?) -> Bool
 }
 
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length file_length
 public class Player: AbstractPlayer {
 
     enum CodingKeys: CodingKey {
@@ -337,6 +346,7 @@ public class Player: AbstractPlayer {
         case leader
         case alive
         case human
+        case personalityFlavor
 
         case area
         case armies
@@ -392,6 +402,7 @@ public class Player: AbstractPlayer {
         case conqueror
 
         case canChangeGovernment
+        case happiness
 
         case faithPurchaseType
         case boostExoplanetExpedition
@@ -399,12 +410,15 @@ public class Player: AbstractPlayer {
         case settledContinents
         case hasWorldCircumnavigated
         case establishedTradingPosts
+
+        case cramped
+        case combatThisTurn
     }
 
     public var leader: LeaderType
-    //internal let relations: PlayerRelationDict
     internal var isAliveVal: Bool
     internal let isHumanVal: Bool
+    private var personalityFlavor: Flavors
 
     public var grandStrategyAI: GrandStrategyAI?
     public var diplomacyAI: DiplomaticAI?
@@ -474,11 +488,15 @@ public class Player: AbstractPlayer {
     private var conquerorValue: LeaderType?
 
     private var canChangeGovernmentValue: Bool = false
+    private var happinessValue: Int = 0
     private var faithPurchaseTypeVal: FaithPurchaseType = .noAutomaticFaithPurchase
     private var discoveredNaturalWonders: [FeatureType] = []
     private var settledContinents: [ContinentType] = []
     private var hasWorldCircumnavigatedVal: Bool = false
     private var establishedTradingPosts: [LeaderType] = []
+
+    private var crampedValue: Bool = false
+    private var combatThisTurnValue: Bool = false
 
     // MARK: constructor
 
@@ -487,6 +505,7 @@ public class Player: AbstractPlayer {
         self.leader = leader
         self.isAliveVal = true
         self.isHumanVal = isHuman
+        self.personalityFlavor = Flavors()
 
         self.area = HexArea(points: [])
         self.armies = Armies()
@@ -510,6 +529,9 @@ public class Player: AbstractPlayer {
         self.settledContinents = []
         self.hasWorldCircumnavigatedVal = false
         self.establishedTradingPosts = []
+
+        self.crampedValue = false
+        self.combatThisTurnValue = false
     }
 
     public required init(from decoder: Decoder) throws {
@@ -519,6 +541,7 @@ public class Player: AbstractPlayer {
         self.leader = try container.decode(LeaderType.self, forKey: .leader)
         self.isAliveVal = try container.decode(Bool.self, forKey: .alive)
         self.isHumanVal = try container.decode(Bool.self, forKey: .human)
+        self.personalityFlavor = try container.decodeIfPresent(Flavors.self, forKey: .personalityFlavor) ?? Flavors()
 
         self.area = try container.decode(HexArea.self, forKey: .area)
         self.armies = try container.decode(Armies.self, forKey: .armies)
@@ -575,15 +598,19 @@ public class Player: AbstractPlayer {
 
         self.originalCapitalLocationValue = try container.decode(HexPoint.self, forKey: .originalCapitalLocation)
         self.lostCapitalValue = try container.decode(Bool.self, forKey: .lostCapital)
-        self.conquerorValue = try container.decode(LeaderType.self, forKey: .conqueror)
+        self.conquerorValue = try container.decodeIfPresent(LeaderType.self, forKey: .conqueror)
 
         self.canChangeGovernmentValue = try container.decode(Bool.self, forKey: .canChangeGovernment)
+        self.happinessValue = try container.decodeIfPresent(Int.self, forKey: .happiness) ?? 0
         self.faithPurchaseTypeVal = try container.decode(FaithPurchaseType.self, forKey: .faithPurchaseType)
         self.boostExoplanetExpeditionValue = try container.decode(Int.self, forKey: .boostExoplanetExpedition)
         self.discoveredNaturalWonders = try container.decode([FeatureType].self, forKey: .discoveredNaturalWonders)
         self.settledContinents = try container.decode([ContinentType].self, forKey: .settledContinents)
         self.hasWorldCircumnavigatedVal = try container.decode(Bool.self, forKey: .hasWorldCircumnavigated)
         self.establishedTradingPosts = try container.decode([LeaderType].self, forKey: .establishedTradingPosts)
+
+        self.crampedValue = try container.decode(Bool.self, forKey: .cramped)
+        self.combatThisTurnValue = try container.decodeIfPresent(Bool.self, forKey: .combatThisTurn) ?? false
 
         // setup
         self.techs?.player = self
@@ -613,6 +640,10 @@ public class Player: AbstractPlayer {
         self.cityConnections?.player = self
         self.goodyHuts?.player = self
         self.notificationsValue?.player = self
+
+        if self.personalityFlavor.isEmpty {
+            self.setupFlavors()
+        }
     }
 
     // swiftlint:disable force_cast
@@ -623,6 +654,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.leader, forKey: .leader)
         try container.encode(self.isAliveVal, forKey: .alive)
         try container.encode(self.isHumanVal, forKey: .human)
+        try container.encode(self.personalityFlavor, forKey: .personalityFlavor)
 
         try container.encode(self.area, forKey: .area)
         try container.encode(self.armies, forKey: .armies)
@@ -674,21 +706,27 @@ public class Player: AbstractPlayer {
 
         try container.encode(self.originalCapitalLocationValue, forKey: .originalCapitalLocation)
         try container.encode(self.lostCapitalValue, forKey: .lostCapital)
-        try container.encode(self.conquerorValue, forKey: .conqueror)
+        try container.encodeIfPresent(self.conquerorValue, forKey: .conqueror)
 
         try container.encode(self.canChangeGovernmentValue, forKey: .canChangeGovernment)
+        try container.encode(self.happinessValue, forKey: .happiness)
         try container.encode(self.faithPurchaseTypeVal, forKey: .faithPurchaseType)
         try container.encode(self.boostExoplanetExpeditionValue, forKey: .boostExoplanetExpedition)
         try container.encode(self.discoveredNaturalWonders, forKey: .discoveredNaturalWonders)
         try container.encode(self.settledContinents, forKey: .settledContinents)
         try container.encode(self.hasWorldCircumnavigatedVal, forKey: .hasWorldCircumnavigated)
         try container.encode(self.establishedTradingPosts, forKey: .establishedTradingPosts)
+
+        try container.encode(self.crampedValue, forKey: .cramped)
+        try container.encode(self.combatThisTurnValue, forKey: .combatThisTurn)
     }
     // swiftlint:enable force_cast
 
     // public methods
 
     public func initialize() {
+
+        self.setupFlavors()
 
         self.grandStrategyAI = GrandStrategyAI(player: self)
         self.diplomacyAI = DiplomaticAI(player: self)
@@ -731,6 +769,54 @@ public class Player: AbstractPlayer {
         for resource in ResourceType.strategic {
             self.resourceMaxStockpile?.add(weight: 50, for: resource)
         }
+    }
+
+    func setupFlavors() {
+
+        if !self.personalityFlavor.isEmpty {
+            return
+        }
+
+        let defaultFlavorValue = 5 // DEFAULT_FLAVOR_VALUE
+
+        if self.isHumanVal {
+            // Human player, just set all flavors to average (5)
+            for flavorType in FlavorType.all {
+                self.personalityFlavor.set(value: defaultFlavorValue, for: flavorType)
+            }
+        } else {
+            for flavorType in FlavorType.all {
+                var leaderFlavor = self.leader.flavor(for: flavorType)
+
+                // If no Flavor value is set use the Default
+                if leaderFlavor == -1 {
+                    leaderFlavor = defaultFlavorValue
+                }
+
+                self.personalityFlavor.set(value: leaderFlavor, for: flavorType)
+            }
+
+            if !Thread.current.isRunningXCTest {
+                // Tweak from default values
+                // Make a random adjustment to each flavor value for this leader so they don't play exactly the same
+                for flavorType in FlavorType.all {
+
+                    let currentFlavor = self.personalityFlavor.value(of: flavorType)
+
+                    // Don't modify it if it's zero-ed out in the XML
+                    guard currentFlavor > 0 else {
+                        continue
+                    }
+
+                    let adjusted = Flavors.adjustedValue(of: currentFlavor, plusMinus: 2, min: 0, max: 20)
+                    self.personalityFlavor.set(value: adjusted, for: flavorType)
+                }
+            }
+        }
+
+        // print("---------------------------------------------------")
+        // print("\(self.leader) start with the following flavors:")
+        // print("\(self.personalityFlavor)")
     }
 
     public func hasActiveDiplomacyRequests() -> Bool {
@@ -795,6 +881,11 @@ public class Player: AbstractPlayer {
         return self.leader.flavor(for: flavor)
     }
 
+    public func valueOfPersonalityIndividualFlavor(of flavor: FlavorType) -> Int {
+
+        return self.personalityFlavor.value(of: flavor)
+    }
+
     public func valueOfStrategyAndPersonalityFlavor(of flavor: FlavorType) -> Int {
 
         guard let activeStrategy = self.grandStrategyAI?.activeStrategy else {
@@ -802,10 +893,10 @@ public class Player: AbstractPlayer {
         }
 
         if activeStrategy == .none {
-            return self.leader.flavor(for: flavor)
+            return self.personalityFlavor.value(of: flavor)
         }
 
-        return self.leader.flavor(for: flavor) + activeStrategy.flavor(for: flavor)
+        return self.personalityFlavor.value(of: flavor) + activeStrategy.flavor(for: flavor)
     }
 
     public func valueOfStrategyAndPersonalityApproach(of approach: PlayerApproachType) -> Int {
@@ -816,6 +907,11 @@ public class Player: AbstractPlayer {
     public func isBarbarian() -> Bool {
 
         return self.leader == .barbar
+    }
+
+    public func isFreeCity() -> Bool {
+
+        return self.leader == .freeCities
     }
 
     public func doFirstContact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
@@ -935,6 +1031,73 @@ public class Player: AbstractPlayer {
         }
 
         return diplomacyAI.canDeclareWar(to: otherPlayer)
+    }
+
+    public func doDeclareWar(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+
+        diplomacyAI.doDeclareWar(to: otherPlayer, in: gameModel)
+    }
+
+    public func doEstablishPeaceTreaty(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get other player")
+        }
+
+        print("### add war weariness for \(self.leader) against \(otherPlayer.leader): -2000")
+        self.changeWarWeariness(with: otherPlayer, by: -2000)
+
+        diplomacyAI.doEstablishPeaceTreaty(with: otherPlayer, in: gameModel)
+    }
+
+    public func warWeariness(with otherPlayer: AbstractPlayer?) -> Int {
+
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+
+        return diplomacyAI.warWeariness(with: otherPlayer)
+    }
+
+    public func changeWarWeariness(with otherPlayer: AbstractPlayer?, by value: Int) {
+
+        self.diplomacyAI?.changeWarWeariness(with: otherPlayer, by: value)
+    }
+
+    // https://civilization.fandom.com/wiki/War_weariness_(Civ6)
+    public func updateWarWeariness(against otherPlayer: AbstractPlayer?, at point: HexPoint, killed: Bool, in gameModel: GameModel?) {
+
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get other player")
+        }
+
+        guard let tile = gameModel?.tile(at: point) else {
+            fatalError("cant get tile")
+        }
+
+        // the fight against barbarians does not trigger war weariness
+        if self.isBarbarian() || otherPlayer.isBarbarian() {
+            return
+        }
+
+        // war type / Casus Belli not implemented
+        let baseValue = self.currentEraVal.warWearinessValue(formal: false)
+        let ownTerritoty = self.isEqual(to: tile.owner())
+
+        let warWearinessVal = baseValue * (ownTerritoty ? 1 : 2) + baseValue * (killed ? 0 : 3)
+
+        print("### add war weariness for \(self.leader) against \(otherPlayer.leader): \(warWearinessVal)")
+        self.changeWarWeariness(with: otherPlayer, by: warWearinessVal)
+
+        self.combatThisTurnValue = true
     }
 
     public func notifications() -> Notifications? {
@@ -1149,7 +1312,19 @@ public class Player: AbstractPlayer {
             // Someone just lost their capital, test to see if someone wins
             if value {
 
-                // todo: notify users about another player lost his capital
+                // slewis - Moved Conquest victory elsewhere so that victory is more accurately awarded
+                // GC.getGame().DoTestConquestVictory();
+
+                // notify users about another player lost his capital
+                if self.isHuman() {
+                    gameModel.userInterface?.showPopup(popupType: .lostOwnCapital)
+                } else {
+                    if self.hasMet(with: gameModel.humanPlayer()) {
+                        gameModel.userInterface?.showPopup(popupType: .lostCapital(leader: self.leader))
+                    } else {
+                        gameModel.userInterface?.showPopup(popupType: .lostCapital(leader: .unmet))
+                    }
+                }
 
                 // todo: add replay message
                 // GC.getGame().addReplayMessage(REPLAY_MESSAGE_MAJOR_EVEN
@@ -1185,9 +1360,49 @@ public class Player: AbstractPlayer {
         return self.isAliveVal
     }
 
+    public func set(alive: Bool, in gameModel: GameModel?) {
+
+        if self.isAliveVal != alive {
+
+            self.isAliveVal = alive
+
+            if !alive {
+                // cleanup
+                // killUnits();
+                // killCities();
+                // GC.getGame().GetGameDeals()->DoCancelAllDealsWithPlayer(GetID());
+
+                if self.isHuman() {
+                    gameModel?.set(gameState: .over)
+                }
+
+                self.endTurn(in: gameModel)
+            }
+        }
+    }
+
     public func isEverAlive() -> Bool {
 
         return true
+    }
+
+    func verifyAlive(in gameModel: GameModel?) {
+
+        if self.isAlive() {
+
+            if !self.isBarbarian() && !self.isFreeCity() {
+
+                if self.numCities(in: gameModel) == 0 && self.numUnits(in: gameModel) == 0 {
+
+                    self.set(alive: false, in: gameModel)
+                }
+            }
+        } else {
+            // if dead but has received units / cities - revive
+            if self.numUnits(in: gameModel) > 0 || self.numCities(in: gameModel) > 0 {
+                self.set(alive: true, in: gameModel)
+            }
+        }
     }
 
     public func isActive() -> Bool {
@@ -1288,7 +1503,7 @@ public class Player: AbstractPlayer {
         return self.turnActive
     }
 
-    public func prepareTurn(in gamemModel: GameModel?) {
+    public func prepareTurn(in gameModel: GameModel?) {
 
         // Barbarians get all Techs that 3/4 of alive players get
         if isBarbarian() {
@@ -1301,9 +1516,8 @@ public class Player: AbstractPlayer {
 
         DoTestWarmongerReminder();
 
-        DoTestSmallAwards();
-
-        testCircumnavigated();*/
+        DoTestSmallAwards(); */
+        self.checkWorldCircumnavigated(in: gameModel)
     }
 
     public func startTurn(in gameModel: GameModel?) {
@@ -1328,6 +1542,7 @@ public class Player: AbstractPlayer {
         /////////////////////////////////////////////
 
         // self.doUnitAttrition()
+        self.verifyAlive(in: gameModel)
 
         self.setAllUnitsUnprocessed(in: gameModel)
 
@@ -1393,12 +1608,15 @@ public class Player: AbstractPlayer {
         var hasActiveDiploRequest = false
         if self.isAlive() {
 
-            if !self.isBarbarian() {
+            if !self.isBarbarian() && !self.isFreeCity() {
 
-                self.grandStrategyAI?.turn(with: gameModel)
+                //self.doUnitDiversity()
+                self.doUpdateCramped(in: gameModel)
+
+                self.grandStrategyAI?.doTurn(in: gameModel)
 
                 // Do diplomacy for toward everyone
-                self.diplomacyAI?.turn(in: gameModel)
+                self.diplomacyAI?.doTurn(in: gameModel)
                 self.governors?.doTurn(in: gameModel)
 
                 if !self.isHuman() {
@@ -1421,15 +1639,17 @@ public class Player: AbstractPlayer {
         }
 
         if self.isAlive() {
-            if !self.isBarbarian() {
-                self.economicAI?.turn(in: gameModel)
-                self.militaryAI?.turn(in: gameModel)
-                self.citySpecializationAI?.turn(in: gameModel)
+            if !self.isBarbarian() && !self.isFreeCity() {
+                self.economicAI?.doTurn(in: gameModel)
+                self.militaryAI?.doTurn(in: gameModel)
+                self.citySpecializationAI?.doTurn(in: gameModel)
             }
         }
 
         // Golden Age
         self.doProcessAge(in: gameModel)
+
+        self.doUpdateWarWeariness(in: gameModel)
 
         // balance amenities
         self.doCityAmenities(in: gameModel)
@@ -1437,11 +1657,11 @@ public class Player: AbstractPlayer {
         // Do turn for all Cities
         for cityRef in gameModel.cities(of: self) {
 
-            cityRef?.turn(in: gameModel)
+            cityRef?.doTurn(in: gameModel)
         }
 
         // Gold GetTreasury()->DoGold();
-        self.treasury?.turn(in: gameModel)
+        self.treasury?.doTurn(in: gameModel)
 
         // Culture / Civics
         self.doCivics(in: gameModel)
@@ -1459,6 +1679,55 @@ public class Player: AbstractPlayer {
         self.doGreatPeople(in: gameModel)
 
         self.doTurnPost()
+    }
+
+    /// Is the player is cramped in his current area?
+    public func isCramped() -> Bool {
+
+        return self.crampedValue
+    }
+
+    /// Determines if the player is cramped in his current area.  Not a perfect algorithm, as it will double-count Plots shared by different Cities, but it should be good enough
+    func doUpdateCramped(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gamemodel")
+        }
+
+        self.crampedValue = false
+
+        var totalPlotsNearby = 0
+        var usablePlotsNearby = 0
+
+        let range = 5 // CRAMPED_RANGE_FROM_CITY
+
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            for neighborPoint in city.location.areaWith(radius: range) {
+
+                guard let tile = gameModel.tile(at: neighborPoint) else {
+                    continue
+                }
+
+                if !tile.hasOwner() || tile.ownerLeader() != self.leader {
+
+                    totalPlotsNearby += 1
+
+                    // A "good" unowned Plot
+                    if !tile.hasOwner() /*&& tile.isValidMovePlot(GetID())*/ && !tile.isWater() {
+                        usablePlotsNearby += 1
+                    }
+                }
+            }
+        }
+
+        if totalPlotsNearby > 0 && (100 * usablePlotsNearby) / totalPlotsNearby <= 20 /* CRAMPED_USABLE_PLOT_PERCENT */ {
+            self.crampedValue = true
+        }
     }
 
     func doEurekas(in gameModel: GameModel?) {
@@ -1710,6 +1979,47 @@ public class Player: AbstractPlayer {
         }
     }
 
+    func doUpdateWarWeariness(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gamemodel")
+        }
+
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+
+        // When at peace with every civilization, you lose 200 WWP per turn.
+        if !diplomacyAI.isAtWar() {
+
+            for player in gameModel.players {
+
+                guard self.hasMet(with: player) else {
+                    continue
+                }
+
+                // hm, with every player?
+                self.changeWarWeariness(with: player, by: -200)
+            }
+        } else {
+
+            // When at war, you lose 50 WWP at the end of every turn without a battle.
+            if !self.combatThisTurnValue {
+
+                for player in gameModel.players {
+
+                    guard self.hasMet(with: player) else {
+                        continue
+                    }
+
+                    self.changeWarWeariness(with: player, by: -50)
+                }
+            }
+        }
+
+        self.combatThisTurnValue = false
+    }
+
     func doCityAmenities(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
@@ -1740,6 +2050,68 @@ public class Player: AbstractPlayer {
 
             if let city = self.cityNeedsMostLuxuriesButHasnt(luxury: luxuryToDistribute, in: gameModel) {
                 city.add(luxury: luxuryToDistribute)
+            }
+        }
+
+        // amenities from war weariness
+        var sumWarWeariness = 0
+        for player in gameModel.players {
+
+            if player.isBarbarian() {
+                continue
+            }
+
+            if !self.hasMet(with: player) {
+                continue
+            }
+
+            sumWarWeariness += self.warWeariness(with: player)
+        }
+
+        let amenitiesNeedForWarWeariness: Int = sumWarWeariness / 400
+
+        // distribute to city based on population
+        let sumOfPopulation: Int = self.population(in: gameModel)
+        let amenitiesNeedPerPopulation: Double = Double(amenitiesNeedForWarWeariness) / Double(sumOfPopulation)
+        var distributedAmenities: Int = 0
+
+        // full numbers
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            let amenitiesNeeded: Double = Double(city.population()) * amenitiesNeedPerPopulation
+            let val: Int = Int(amenitiesNeeded)
+            city.set(amenitiesForWarWeariness: val)
+            distributedAmenities += val
+        }
+
+        // fraction numbers
+        while amenitiesNeedForWarWeariness > distributedAmenities {
+
+            // find city that has the greatest gap
+            var bestCityRef: AbstractCity?
+            var bestDelta: Double = 0.0
+            for cityRef in gameModel.cities(of: self) {
+
+                guard let city = cityRef else {
+                    continue
+                }
+
+                let amenitiesNeeded: Double = Double(city.population()) * amenitiesNeedPerPopulation
+                let delta = amenitiesNeeded - Double(city.amenitiesForWarWeariness())
+
+                if delta > bestDelta {
+                    bestDelta = delta
+                    bestCityRef = cityRef
+                }
+            }
+
+            if let bestCity = bestCityRef {
+                bestCity.set(amenitiesForWarWeariness: bestCity.amenitiesForWarWeariness() + 1)
+                distributedAmenities += 1
             }
         }
     }
@@ -2021,7 +2393,7 @@ public class Player: AbstractPlayer {
         if self.isHuman() {
             // The homeland AI goes first.
             self.homelandAI?.findAutomatedUnits(in: gameModel)
-            self.homelandAI?.turn(in: gameModel)
+            self.homelandAI?.doTurn(in: gameModel)
         } else {
 
             // Update tactical AI
@@ -2030,13 +2402,13 @@ public class Player: AbstractPlayer {
             // Now let the tactical AI run.  Putting it after the operations update allows units who have
             // just been handed off to the tactical AI to get a move in the same turn they switch between
             // AI subsystems
-            self.tacticalAI?.turn(in: gameModel)
+            self.tacticalAI?.doTurn(in: gameModel)
 
             // Skip homeland AI processing if a barbarian
-            if !self.isBarbarian() {
+            if !self.isBarbarian() && !self.isFreeCity() {
                 // Now its the homeland AI's turn.
                 self.homelandAI?.recruitUnits(in: gameModel)
-                self.homelandAI?.turn(in: gameModel)
+                self.homelandAI?.doTurn(in: gameModel)
             }
         }
     }
@@ -2050,7 +2422,7 @@ public class Player: AbstractPlayer {
         // doTurnUnitsPre(); // AI_doTurnUnitsPre
 
         // Start: TACTICAL AI UNIT PROCESSING
-        self.tacticalAI?.turn(in: gameModel)
+        self.tacticalAI?.doTurn(in: gameModel)
 
         // Start: OPERATIONAL AI UNIT PROCESSING
         self.operations?.doDelayedDeath(in: gameModel)
@@ -2060,14 +2432,14 @@ public class Player: AbstractPlayer {
             unitRef?.doDelayedDeath(in: gameModel)
         }
 
-        self.operations?.turn(in: gameModel)
+        self.operations?.doTurn(in: gameModel)
 
         self.operations?.doDelayedDeath(in: gameModel)
 
-        self.armies?.turn(in: gameModel)
+        self.armies?.doTurn(in: gameModel)
 
         // Homeland AI
-        // self.homelandAI?.turn(in: gameModel) is empty
+        // self.homelandAI?.doTurn(in: gameModel) is empty
 
         // Start: old unit AI processing
         for pass in 0..<4 {
@@ -2440,10 +2812,10 @@ public class Player: AbstractPlayer {
         }
 
         if grandStrategyAI.activeStrategy == .none {
-            return self.leader.flavor(for: flavorType)
+            return self.personalityFlavor.value(of: flavorType)
         }
 
-        let value = self.leader.flavor(for: flavorType) + grandStrategyAI.activeStrategy.flavorModifier(for: flavorType)
+        let value = self.personalityFlavor.value(of: flavorType) + grandStrategyAI.activeStrategy.flavorModifier(for: flavorType)
 
         if value < 0 {
             return 0
@@ -2717,8 +3089,8 @@ public class Player: AbstractPlayer {
             // So we'll force the AI strategies on the city now, just after it is founded.
             // And if the very first turn, we haven't even run player strategies once yet, so do that too.
             if gameModel.currentTurn == 0 {
-                self.economicAI?.turn(in: gameModel)
-                self.militaryAI?.turn(in: gameModel)
+                self.economicAI?.doTurn(in: gameModel)
+                self.militaryAI?.doTurn(in: gameModel)
             }
 
             city.cityStrategy?.turn(with: gameModel)
@@ -2760,14 +3132,14 @@ public class Player: AbstractPlayer {
                     fatalError("cant get capital")
                 }
 
-                let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
                     for: .walk,
                     for: self,
                     unitMapType: .combat,
                     canEmbark: false,
                     canEnterOcean: self.canEnterOcean()
                 )
+                let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
                 if let path = pathFinder.shortestPath(fromTileCoord: location, toTileCoord: capital.location) {
                     // If within TradeRoute6 Trade Route range of the Capital6 Capital, a road to it.
@@ -3249,14 +3621,14 @@ public class Player: AbstractPlayer {
             return false
         }
 
-        let pathfinder = AStarPathfinder()
-        pathfinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+        let pathfinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
             for: .walk,
             for: self,
             unitMapType: .combat,
             canEmbark: self.canEmbark(),
             canEnterOcean: self.canEnterOcean()
         )
+        let pathfinder = AStarPathfinder(with: pathfinderDataSource)
 
         if let _ = pathfinder.shortestPath(fromTileCoord: playerCapital.location, toTileCoord: targetCity.location) {
             return true
@@ -3273,10 +3645,10 @@ public class Player: AbstractPlayer {
         }
 
         // init
-        self.area = HexArea(points: [])
+        let tmpArea = HexArea(points: [])
 
         let mapSize = gameModel.mapSize()
-        self.area.points.reserveCapacity(mapSize.numberOfTiles())
+        tmpArea.points.reserveCapacity(mapSize.numberOfTiles())
 
         for x in 0..<mapSize.width() {
             for y in 0..<mapSize.height() {
@@ -3285,16 +3657,23 @@ public class Player: AbstractPlayer {
                 if let tile = gameModel.tile(at: pt) {
 
                     if self.isEqual(to: tile.owner()) {
-                        self.area.add(point: pt)
+                        tmpArea.add(point: pt)
                     }
                 }
             }
         }
+
+        self.area = tmpArea
     }
 
     public func addPlot(at point: HexPoint) {
 
         self.area.add(point: point)
+    }
+
+    public func plots() -> HexArea {
+
+        return self.area
     }
 
     /// Gold cost of buying a new Plot
@@ -3395,6 +3774,27 @@ public class Player: AbstractPlayer {
         }
 
         return false
+    }
+
+    public func countUnitsWith(defaultTask: UnitTaskType, in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var value = 0
+        for loopUnitRef in gameModel.units(of: self) {
+
+            guard let loopUnit = loopUnitRef else {
+                continue
+            }
+
+            if loopUnit.type.defaultTask() == defaultTask {
+                value += 1
+            }
+        }
+
+        return value
     }
 
     public func hasBusyUnitOrCity() -> Bool {
@@ -3623,14 +4023,14 @@ public class Player: AbstractPlayer {
         }
 
         var minDistance: Int = Int.max
-        let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+        /*let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
             for: .walk,
             for: self,
             unitMapType: .civilian,
             canEmbark: true,
             canEnterOcean: self.canEnterOcean()
         )
+        let pathFinder = AStarPathfinder(with: pathFinderDataSource)*/
 
         for cityRef in gameModel.cities(of: self) {
 
@@ -3655,6 +4055,52 @@ public class Player: AbstractPlayer {
         }
 
         return gameModel.cities(of: self).count
+    }
+
+    public func numUnits(in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        return gameModel.units(of: self).count
+    }
+
+    public func countCitiesFeatureSurrounded(in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        var features = 0
+
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            guard let cityCitizens = city.cityCitizens else {
+                continue
+            }
+
+            for loopPoint in cityCitizens.workingTileLocations() {
+
+                guard let loopPlot = gameModel.tile(at: loopPoint) else {
+                    continue
+                }
+
+                guard self.isEqual(to: loopPlot.owner()) else {
+                    continue
+                }
+
+                if loopPlot.hasAnyFeature() {
+                    features += 1
+                }
+            }
+        }
+
+        return features
     }
 
     public func isEqual(to other: AbstractPlayer?) -> Bool {
@@ -4244,7 +4690,7 @@ public class Player: AbstractPlayer {
             fatalError("cant get tile")
         }
 
-        if !self.isBarbarian() {
+        if !self.isBarbarian() && !self.isFreeCity() {
             // See if we need to remove a temporary dominance zone
             self.tacticalAI?.deleteTemporaryZone(at: tile.point)
 
@@ -5004,6 +5450,8 @@ public class Player: AbstractPlayer {
         }
         newCapital.setIsCapital(to: true)
 
+        // update UI
+        gameModel.userInterface?.update(city: newCapital)
         gameModel.userInterface?.refresh(tile: gameModel.tile(at: newCapital.location))
     }
 
@@ -5023,6 +5471,8 @@ public class Player: AbstractPlayer {
 
         return populationVal
     }
+
+    // MARK: government
 
     public func canChangeGovernment() -> Bool {
 

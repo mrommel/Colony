@@ -200,14 +200,14 @@ struct CityGrowthView: View {
                     HStack(alignment: .center, spacing: 4) {
                         Text("War Weariness")
                         Spacer()
-                        Text("?")
+                        Text(self.viewModel.amenitiesFromWarWeariness)
                     }
                     .padding(.all, 4)
 
                     HStack(alignment: .center, spacing: 4) {
                         Text("Civics")
                         Spacer()
-                        Text("?")
+                        Text(self.viewModel.amenitiesFromCivics)
                     }
                     .padding(.all, 4)
 

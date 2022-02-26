@@ -32,6 +32,11 @@ public enum PopupType {
     case canFoundPantheon
     case religionNeedNewAutomaticFaithSelection // TXT_KEY_NOTIFICATION_NEED_NEW_AUTOMATIC_FAITH_SELECTION
     case religionEnoughFaithForMissionary // ENOUGH_FAITH_FOR_MISSIONARY
+
+    case cityRevolted(city: AbstractCity?)
+    case foreignCityRevolted(city: AbstractCity?)
+    case lostOwnCapital
+    case lostCapital(leader: LeaderType)
 }
 
 extension PopupType: Equatable {
@@ -84,6 +89,18 @@ extension PopupType: Equatable {
             return true
         case (.religionEnoughFaithForMissionary, .religionEnoughFaithForMissionary):
             return true
+
+        case (.cityRevolted(city: let lhsCity), .cityRevolted(city: let rhsCity)):
+            return lhsCity!.location == rhsCity!.location
+
+        case (.foreignCityRevolted(city: let lhsCity), .foreignCityRevolted(city: let rhsCity)):
+            return lhsCity!.location == rhsCity!.location
+
+        case (.lostOwnCapital, .lostOwnCapital):
+            return true
+
+        case (.lostCapital(leader: let lhsLeader), .lostCapital(leader: let rhsLeader)):
+            return lhsLeader == rhsLeader
 
         case (.none, .none):
             return true
@@ -181,6 +198,8 @@ public struct SelectableItem {
 }
 
 public protocol UserInterfaceDelegate: AnyObject {
+
+    func update(gameState: GameStateType)
 
     func showPopup(popupType: PopupType)
 

@@ -29,56 +29,12 @@ public enum EraType: Int, Codable {
 
     public func title() -> String {
 
-        switch self {
-
-        case .none: return ""
-
-        case .ancient: return "Ancient"
-        case .classical: return "Classical"
-        case .medieval: return "Medieval"
-        case .renaissance: return "Renaissance"
-        case .industrial: return "Industrial"
-        case .modern: return "Modern"
-        case .atomic: return "Atomic"
-        case .information: return "Information"
-        case .future: return "Future"
-        }
-    }
-
-    internal func value() -> Int {
-
-        switch self {
-
-        case .none: return -1
-
-        case .ancient: return 0
-        case .classical: return 1
-        case .medieval: return 2
-        case .renaissance: return 3
-        case .industrial: return 4
-        case .modern: return 5
-        case .atomic: return 6
-        case .information: return 7
-        case .future: return 8
-        }
+        return self.data().name
     }
 
     func next() -> EraType {
 
-        switch self {
-
-        case .none: return .none
-
-        case .ancient: return .classical
-        case .classical: return .medieval
-        case .medieval: return .renaissance
-        case .renaissance: return .renaissance
-        case .industrial: return .modern
-        case .modern: return .atomic
-        case .atomic: return .information
-        case .information: return .future
-        case .future: return .none
-        }
+        return self.data().next
     }
 
     public func dedications() -> [DedicationType] {
@@ -86,15 +42,126 @@ public enum EraType: Int, Codable {
         return DedicationType.all
             .filter { $0.eras().contains(self) }
     }
+
+    func warWearinessValue(formal: Bool) -> Int {
+
+        return formal ? self.data().formalWarWeariness : self.data().surpriseWarWeariness
+    }
+
+    // MARK: private methods
+
+    private class EraTypeData {
+
+        let name: String
+        let next: EraType
+
+        let formalWarWeariness: Int
+        let surpriseWarWeariness: Int
+
+        init(name: String, next: EraType, formalWarWeariness: Int, surpriseWarWeariness: Int) {
+
+            self.name = name
+            self.next = next
+
+            self.formalWarWeariness = formalWarWeariness
+            self.surpriseWarWeariness = surpriseWarWeariness
+        }
+    }
+
+    private func data() -> EraTypeData {
+
+        switch self {
+
+        case .none:
+            return EraTypeData(
+                name: "",
+                next: .none,
+                formalWarWeariness: 0,
+                surpriseWarWeariness: 0
+            )
+
+        case .ancient:
+            return EraTypeData(
+                name: "TXT_KEY_ERA_ANCIENT",
+                next: .classical,
+                formalWarWeariness: 16,
+                surpriseWarWeariness: 16
+            )
+
+        case .classical:
+            return EraTypeData(
+                name: "TXT_KEY_ERA_CLASSICAL",
+                next: .medieval,
+                formalWarWeariness: 22,
+                surpriseWarWeariness: 25
+            )
+
+        case .medieval:
+            return EraTypeData(
+                name: "TXT_KEY_ERA_MEDIEVAL",
+                next: .renaissance,
+                formalWarWeariness: 28,
+                surpriseWarWeariness: 34
+            )
+
+        case .renaissance:
+            return EraTypeData(
+                name: "TXT_KEY_ERA_RENAISSANCE",
+                next: .industrial,
+                formalWarWeariness: 34,
+                surpriseWarWeariness: 43
+            )
+
+        case .industrial:
+            return EraTypeData(
+                name: "TXT_KEY_ERA_INDUSTRIAL",
+                next: .modern,
+                formalWarWeariness: 40,
+                surpriseWarWeariness: 52
+            )
+
+        case .modern:
+            return EraTypeData(
+                name: "TXT_KEY_ERA_MODERN",
+                next: .atomic,
+                formalWarWeariness: 40,
+                surpriseWarWeariness: 52
+            )
+
+        case .atomic:
+            return EraTypeData(
+                name: "TXT_KEY_ERA_ATOMIC",
+                next: .information,
+                formalWarWeariness: 40,
+                surpriseWarWeariness: 52
+            )
+
+        case .information:
+            return EraTypeData(
+                name: "TXT_KEY_ERA_INFORMATION",
+                next: .future,
+                formalWarWeariness: 40,
+                surpriseWarWeariness: 52
+            )
+
+        case .future:
+            return EraTypeData(
+                name: "TXT_KEY_ERA_FUTURE",
+                next: .none,
+                formalWarWeariness: 40,
+                surpriseWarWeariness: 52
+            )
+        }
+    }
 }
 
 extension EraType: Comparable {
 
     public static func == (lhs: EraType, rhs: EraType) -> Bool {
-        return lhs.value() == rhs.value()
+        return lhs.rawValue == rhs.rawValue
     }
 
     public static func < (lhs: EraType, rhs: EraType) -> Bool {
-        return lhs.value() < rhs.value()
+        return lhs.rawValue < rhs.rawValue
     }
 }

@@ -275,7 +275,7 @@ class CityBannerViewModel: ObservableObject {
         if 0 <= index && index < self.commands.count {
 
             let command = self.commands[index]
-            //print("commandClicked(at: \(command.title()))")
+            // print("commandClicked(at: \(command.title()))")
             self.handle(command: command)
         }
     }
