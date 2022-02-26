@@ -402,7 +402,6 @@
 		C9F76AAD242EA54C0018672A /* InfluencePathfinderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F76AAC242EA54C0018672A /* InfluencePathfinderDataSource.swift */; };
 		C9F76AAF243314B80018672A /* CivicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F76AAE243314B80018672A /* CivicTests.swift */; };
 		C9F9639627C60DF900073CC7 /* BinarySwift in Frameworks */ = {isa = PBXBuildFile; productRef = C9F9639527C60DF900073CC7 /* BinarySwift */; };
-		C9F9639C27C641F200073CC7 /* merchant-idle.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9F9639B27C641F100073CC7 /* merchant-idle.slp */; };
 		C9FE140E2412F8B0008CC6B3 /* CombatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FE140D2412F8B0008CC6B3 /* CombatTests.swift */; };
 		C9FE141024140F8B008CC6B3 /* HomelandAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FE140F24140F8B008CC6B3 /* HomelandAI.swift */; };
 		C9FE1412241517D2008CC6B3 /* UnitMission.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FE1411241517D2008CC6B3 /* UnitMission.swift */; };
@@ -818,7 +817,6 @@
 		C9F76AAA242E14C00018672A /* PurchaseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseType.swift; sourceTree = "<group>"; };
 		C9F76AAC242EA54C0018672A /* InfluencePathfinderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfluencePathfinderDataSource.swift; sourceTree = "<group>"; };
 		C9F76AAE243314B80018672A /* CivicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicTests.swift; sourceTree = "<group>"; };
-		C9F9639B27C641F100073CC7 /* merchant-idle.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "merchant-idle.slp"; sourceTree = "<group>"; };
 		C9FE140D2412F8B0008CC6B3 /* CombatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatTests.swift; sourceTree = "<group>"; };
 		C9FE140F24140F8B008CC6B3 /* HomelandAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomelandAI.swift; sourceTree = "<group>"; };
 		C9FE1411241517D2008CC6B3 /* UnitMission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitMission.swift; sourceTree = "<group>"; };
@@ -902,7 +900,6 @@
 		C90FA34F24C229C800733331 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				C9F9639B27C641F100073CC7 /* merchant-idle.slp */,
 				C90FA35124C22A5F00733331 /* arbalest.png */,
 				C90FA35024C22A5F00733331 /* arbalest.xml */,
 			);
@@ -1721,7 +1718,6 @@
 				C9B1D2AA2436131700033791 /* Earth_Large.Civ5Map in Resources */,
 				C9B1D2AD2436131700033791 /* Earth_Tiny.Civ5Map in Resources */,
 				C9B1D2A92436131700033791 /* Earth_Huge.Civ5Map in Resources */,
-				C9F9639C27C641F200073CC7 /* merchant-idle.slp in Resources */,
 				C9B1D2AC2436131700033791 /* Earth_Duel.Civ5Map in Resources */,
 				C9E58848272F2CED0050CE80 /* duel.map in Resources */,
 				C90FA35224C22A6000733331 /* arbalest.xml in Resources */,
