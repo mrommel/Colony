@@ -10,11 +10,11 @@ import Foundation
 
 public class ReligionAI {
 
-    var player: Player?
+    var player: AbstractPlayer?
 
     // MARK: constructors
 
-    init(player: Player?) {
+    init(player: AbstractPlayer?) {
 
         self.player = player
     }

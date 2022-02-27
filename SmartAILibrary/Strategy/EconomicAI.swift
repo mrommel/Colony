@@ -22,7 +22,7 @@ public class EconomicAI: Codable {
         case explorersDisbanded
     }
 
-    var player: Player? {
+    var player: AbstractPlayer? {
         didSet {
             self.economicStrategyAdoptions.player = self.player
         }
