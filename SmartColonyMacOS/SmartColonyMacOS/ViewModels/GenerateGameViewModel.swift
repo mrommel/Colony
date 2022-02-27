@@ -185,6 +185,20 @@ class GenerateGameViewModel: ObservableObject {
             }
         }
 
+        // handle city states
+        for startLocation in map?.cityStateStartLocations ?? [] {
+
+            let cityStatePlayer = Player(leader: startLocation.leader, isHuman: startLocation.isHuman)
+            cityStatePlayer.initialize()
+            players.insert(cityStatePlayer, at: 1)
+
+            let settlerUnit = Unit(at: startLocation.point, type: .settler, owner: cityStatePlayer)
+            units.append(settlerUnit)
+
+            let warriorUnit = Unit(at: startLocation.point, type: .warrior, owner: cityStatePlayer)
+            units.append(warriorUnit)
+        }
+
         let game = GameModel(victoryTypes: [VictoryType.cultural], handicap: handicap, turnsElapsed: 0, players: players, on: map!)
 
         // add units

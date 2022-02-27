@@ -9,13 +9,20 @@
 import Foundation
 
 // https://civdata.com/
-public enum LeaderType: Int, Codable {
+// swiftlint:disable type_body_length
+public enum LeaderType: Codable, Equatable, Hashable {
+
+    enum CodingKeys: String, CodingKey {
+
+        case value
+    }
 
     case none
     case unmet
 
     case barbar
     case freeCities
+    case cityState(type: CityStateType)
 
     case alexander
     case trajan
@@ -41,6 +48,21 @@ public enum LeaderType: Int, Codable {
         ]
     }
 
+    public init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        let value = try container.decode(String.self, forKey: .value)
+        self = LeaderType.from(key: value) ?? .none
+    }
+
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.toKey(), forKey: .value)
+    }
+
     public func name() -> String {
 
         return self.data().name
@@ -64,6 +86,7 @@ public enum LeaderType: Int, Codable {
         case .unmet: return []
         case .barbar: return []
         case .freeCities: return []
+        case .cityState: return []
 
         case .alexander:
             return [
@@ -164,6 +187,7 @@ public enum LeaderType: Int, Codable {
         case .unmet: return []
         case .barbar: return []
         case .freeCities: return []
+        case .cityState: return []
 
         case .alexander:
             return [Trait(type: .boldness, value: 8)]
@@ -203,6 +227,7 @@ public enum LeaderType: Int, Codable {
         case .unmet: return []
         case .barbar: return []
         case .freeCities: return []
+        case .cityState: return []
 
         case .alexander: return [
                 ApproachBias(approach: .afraid, bias: 3),
@@ -313,6 +338,15 @@ public enum LeaderType: Int, Codable {
                 religion: nil
             )
 
+        case .cityState:
+            return LeaderTypeData(
+                name: "City state",
+                intro: "--",
+                civilization: .free,
+                ability: .none,
+                religion: nil
+            )
+
         case .alexander:
             return LeaderTypeData(
                 name: "Alexander",
@@ -393,6 +427,74 @@ public enum LeaderType: Int, Codable {
                 ability: .theGrandEmbassy,
                 religion: .easternOrthodoxy
             )
+        }
+    }
+
+    // MARK: private methods
+
+    private func toKey() -> String {
+
+        switch self {
+
+        case .none:
+            return "none"
+        case .unmet:
+            return "unmet"
+        case .barbar:
+            return "barbar"
+        case .freeCities:
+            return "freeCities"
+        case .cityState(type: let type):
+            return "cityState-\(type)"
+        case .alexander:
+            return "alexander"
+        case .trajan:
+            return "trajan"
+        case .victoria:
+            return "victoria"
+        case .cyrus:
+            return "cyrus"
+        case .montezuma:
+            return "montezuma"
+        case .napoleon:
+            return "napoleon"
+        case .cleopatra:
+            return "cleopatra"
+        case .barbarossa:
+            return "barbarossa"
+        case .peterTheGreat:
+            return "peterTheGreat"
+        }
+    }
+
+    private static func from(key: String) -> LeaderType? {
+
+        switch key {
+
+        case "none":
+            return LeaderType.none
+
+        case "alexander":
+            return .alexander
+        case "trajan":
+            return .trajan
+        case "victoria":
+            return .victoria
+        case "cyrus":
+            return .cyrus
+        case "montezuma":
+            return .montezuma
+        case "napoleon":
+            return .napoleon
+        case "cleopatra":
+            return .cleopatra
+        case "barbarossa":
+            return .barbarossa
+        case "peterTheGreat":
+            return .peterTheGreat
+
+        default:
+            fatalError("LeaderType \(key) not handled")
         }
     }
 }

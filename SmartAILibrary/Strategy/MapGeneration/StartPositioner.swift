@@ -49,24 +49,26 @@ public class WeightedStringList: WeightedList<String> {
 
 }
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvStartPositioner
-//!  \brief        Divides the map into regions of each fertility and places one major civ in each
+//  \brief        Divides the map into regions of each fertility and places one major civ in each
 //
-//!  Key Attributes:
-//!  - One instance for the entire game
-//!  - Works with CvSiteEvaluatorForStart to compute fertility of each plot
-//!  - Also divides minor civs between the regions and places them as well
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  Key Attributes:
+//   - One instance for the entire game
+//   - Works with CvSiteEvaluatorForStart to compute fertility of each plot
+//   - Also divides minor civs between the regions and places them as well
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class StartPositioner {
 
     let map: MapModel?
     let tileFertilityEvaluator: TileFertilityEvaluator
-    let numberOfPlayer: Int
+    let numberOfPlayers: Int
+    let numberOfCityStates: Int
 
     private var fertilityMap: Array2D<Int>
     private var startAreas: [StartArea]
     public var startLocations: [StartLocation]
+    public var cityStateStartLocations: [StartLocation]
 
     private struct StartArea {
 
@@ -75,11 +77,12 @@ class StartPositioner {
         var used: Bool
     }
 
-    init(on map: MapModel?, for numberOfPlayer: Int) {
+    init(on map: MapModel?, for numberOfPlayers: Int, and numberOfCityStates: Int) {
 
         // properties
         self.map = map
-        self.numberOfPlayer = numberOfPlayer
+        self.numberOfPlayers = numberOfPlayers
+        self.numberOfCityStates = numberOfCityStates
 
         guard let map = self.map else {
             fatalError("cant get map")
@@ -92,6 +95,7 @@ class StartPositioner {
 
         // result
         self.startLocations = []
+        self.cityStateStartLocations = []
     }
 
     func generateRegions() {
@@ -100,7 +104,7 @@ class StartPositioner {
             fatalError("cant get map")
         }
 
-        print("starting with: \(self.numberOfPlayer) civs")
+        print("starting with: \(self.numberOfPlayers) civs and \(self.numberOfCityStates) city states")
 
         self.fertilityMap.fill(with: 0)
 
@@ -154,7 +158,7 @@ class StartPositioner {
         }
 
         // Assign continents to receive start plots. Record number of civs assigned to each landmass.
-        for _ in 0..<self.numberOfPlayer {
+        for _ in 0..<(self.numberOfPlayers + self.numberOfCityStates) {
 
             var bestRemainingAreaIdentifier: String = "---"
             var bestRemainingFertility = 0.0
@@ -362,5 +366,73 @@ class StartPositioner {
         } else {
             fatalError("wrong number of sub divisions")
         }
+    }
+
+    func chooseCityStateLocations(for cityStateLeaders: [LeaderType]) {
+
+        // let unusedStartAreas = self.startAreas.filter { !$0.used }
+        // print("unused start areas: \(unusedStartAreas)")
+
+        for leader in cityStateLeaders.shuffled {
+
+            var bestArea: StartArea?
+            var bestValue: Int = 0
+            var bestLocation: HexPoint = HexPoint.zero
+
+            // find best spot for civ in all areas
+            for startArea in self.startAreas {
+
+                if startArea.used {
+                    continue
+                }
+
+                for startPoint in startArea.area {
+
+                    var valueSum: Int = 0
+                    var tooClose: Bool = false
+
+                    // other start locations
+                    for otherStartLocation in self.startLocations {
+                        if startPoint.distance(to: otherStartLocation.point) < 8 {
+                            tooClose = true
+                            break
+                        }
+                    }
+
+                    if tooClose {
+                        continue
+                    }
+
+                    for loopPoint in startPoint.areaWith(radius: 2) {
+                        if let tile = self.map?.tile(at: loopPoint) {
+
+                            valueSum += self.fertilityMap[tile.point] ?? 0
+                        }
+                    }
+
+                    if valueSum > bestValue {
+
+                        bestValue = valueSum
+                        bestLocation = startPoint
+                        bestArea = startArea
+                    }
+                }
+            }
+
+            // remove current start area
+            if let identifier = bestArea?.area.identifier {
+                self.startAreas = self.startAreas.filter({ $0.area.identifier != identifier })
+            }
+
+            // sanity check - should restart
+            guard bestLocation != HexPoint.zero else {
+                fatalError("Can't find valid start location")
+            }
+
+            self.cityStateStartLocations.append(StartLocation(point: bestLocation, leader: leader, isHuman: false))
+        }
+
+        // sort human to the end
+        self.startLocations.sort(by: { !$0.isHuman && $1.isHuman })
     }
 }

@@ -1144,8 +1144,9 @@ public class MapGenerator: BaseMapHandler {
         }
 
         let numberOfPlayers = self.options.size.numberOfPlayers()
+        let numberOfCityStates = self.options.size.numberOfCityStates()
 
-        let startPositioner = StartPositioner(on: grid, for: numberOfPlayers)
+        let startPositioner = StartPositioner(on: grid, for: numberOfPlayers, and: numberOfCityStates)
         startPositioner.generateRegions()
 
         var aiLeaders: [LeaderType] = self.options.aiLeaders
@@ -1153,11 +1154,30 @@ public class MapGenerator: BaseMapHandler {
         if aiLeaders.isEmpty {
             aiLeaders = LeaderType.all
                 .filter({ $0 != self.options.leader })
+                .shuffled
                 .choose(numberOfPlayers - 1)
         }
 
+        var cityStateTypes: [CityStateType] = []
+        for _ in 0..<self.options.size.numberOfCityStates() {
+            let cityStateType: CityStateType = CityStateType.all
+                .filter({ !cityStateTypes.contains($0) })
+                .shuffled
+                .first!
+            cityStateTypes.append(cityStateType)
+        }
+        let cityStateLeaders: [LeaderType] = cityStateTypes.map { LeaderType.cityState(type: $0) }
+
         startPositioner.chooseLocations(for: aiLeaders, human: self.options.leader)
+        startPositioner.chooseCityStateLocations(for: cityStateLeaders)
+
+        let foundLocations = startPositioner.cityStateStartLocations.count
+        let neededLocations = self.options.size.numberOfCityStates()
+        guard foundLocations == neededLocations else {
+            fatalError("could not get correct number start locations (\(foundLocations)) for city state leaders (\(neededLocations))")
+        }
 
         grid.startLocations = startPositioner.startLocations
+        grid.cityStateStartLocations = startPositioner.cityStateStartLocations
     }
 }

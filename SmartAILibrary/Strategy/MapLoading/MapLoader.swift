@@ -27,7 +27,7 @@ public class MapLoader: BaseMapHandler {
                 self.placeResources(on: map)
                 self.addGoodies(on: map)
 
-                let startPositioner = StartPositioner(on: map, for: numberOfPlayers)
+                let startPositioner = StartPositioner(on: map, for: numberOfPlayers, and: 3)
                 startPositioner.generateRegions()
 
                 let aiLeaders: [LeaderType] = LeaderType.all.filter({ $0 != leader }).choose(numberOfPlayers - 1)

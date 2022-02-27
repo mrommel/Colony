@@ -36,6 +36,7 @@ open class MapModel: Codable {
         case rivers
 
         case startLocations
+        case cityStateStartLocations
     }
 
     private let seedValue: Int
@@ -55,6 +56,7 @@ open class MapModel: Codable {
     internal var rivers: [River]
 
     public var startLocations: [StartLocation] = []
+    public var cityStateStartLocations: [StartLocation] = []
 
     // statistcs
     private var numberOfLandPlotsValue: Int = 0
@@ -107,6 +109,7 @@ open class MapModel: Codable {
         self.rivers = try container.decode([River].self, forKey: .rivers)
 
         self.startLocations = try container.decode([StartLocation].self, forKey: .startLocations)
+        self.cityStateStartLocations = try container.decode([StartLocation].self, forKey: .cityStateStartLocations)
 
         if self.oceans.isEmpty || self.continents.isEmpty {
 
@@ -184,6 +187,7 @@ open class MapModel: Codable {
         try container.encode(self.rivers, forKey: .rivers)
 
         try container.encode(self.startLocations, forKey: .startLocations)
+        try container.encode(self.cityStateStartLocations, forKey: .cityStateStartLocations)
     }
 
     func seed() -> Int {
@@ -266,11 +270,19 @@ open class MapModel: Codable {
             fatalError("cant get player")
         }
 
-        guard let startLocation = self.startLocations.first(where: { $0.leader == player.leader }) else {
-            fatalError("cant get start location of \(player.leader)")
-        }
+        if player.isMinorCiv() {
+            guard let startLocation = self.cityStateStartLocations.first(where: { $0.leader == player.leader }) else {
+                fatalError("cant get start location of \(player.leader)")
+            }
 
-        return startLocation.point
+            return startLocation.point
+        } else {
+            guard let startLocation = self.startLocations.first(where: { $0.leader == player.leader }) else {
+                fatalError("cant get start location of \(player.leader)")
+            }
+
+            return startLocation.point
+        }
     }
 
     func findNearestStartPlot(at point: HexPoint) -> (HexPoint?, LeaderType?) {

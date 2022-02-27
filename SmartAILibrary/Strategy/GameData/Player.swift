@@ -135,9 +135,11 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func isEverAlive() -> Bool
     func isActive() -> Bool
     func isTurnActive() -> Bool
+
     func isHuman() -> Bool
     func isBarbarian() -> Bool
     func isFreeCity() -> Bool
+    func isMinorCiv() -> Bool
 
     // diplomatics
     func hasMet(with otherPlayer: AbstractPlayer?) -> Bool
@@ -912,6 +914,15 @@ public class Player: AbstractPlayer {
     public func isFreeCity() -> Bool {
 
         return self.leader == .freeCities
+    }
+
+    public func isMinorCiv() -> Bool {
+
+        if case .cityState(_) = self.leader {
+            return true
+        }
+
+        return false
     }
 
     public func doFirstContact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
@@ -4418,7 +4429,7 @@ public class Player: AbstractPlayer {
         let numCities = gameModel.cities(of: oldPlayer).count
         if numCities == 0 {
 
-            if /*!isMinorCiv() &&*/ !isBarbarian() {
+            if !self.isMinorCiv() && !self.isBarbarian() {
 
                 for loopPlayer in gameModel.players {
 

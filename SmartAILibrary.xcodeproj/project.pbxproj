@@ -370,6 +370,7 @@
 		C9E58848272F2CED0050CE80 /* duel.map in Resources */ = {isa = PBXBuildFile; fileRef = C9E58847272F2C950050CE80 /* duel.map */; };
 		C9E58A5E25E54BB500D1D49B /* TribeArray2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E58A5B25E54BB400D1D49B /* TribeArray2D.swift */; };
 		C9E58A6225E54BBC00D1D49B /* TribeTileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E58A6125E54BBC00D1D49B /* TribeTileInfo.swift */; };
+		C9E6762B27CC1BB1009514CB /* CityStateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E6762A27CC1BB1009514CB /* CityStateType.swift */; };
 		C9E6A04624A488A000AF65A4 /* GreatWorkSlotType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E6A04524A488A000AF65A4 /* GreatWorkSlotType.swift */; };
 		C9E6A04824A4B62B00AF65A4 /* GreatWorks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E6A04724A4B62B00AF65A4 /* GreatWorks.swift */; };
 		C9E74CAD248CE146003EF256 /* PeaceTreatyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CAC248CE146003EF256 /* PeaceTreatyType.swift */; };
@@ -398,7 +399,6 @@
 		C9F020FD276BD87400AF5E49 /* CasusBelliType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F020FC276BD87400AF5E49 /* CasusBelliType.swift */; };
 		C9F020FF276C997800AF5E49 /* MomentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F020FE276C997800AF5E49 /* MomentType.swift */; };
 		C9F02101276CED9800AF5E49 /* PlayerMoments.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F02100276CED9800AF5E49 /* PlayerMoments.swift */; };
-		C9F736ED27CB6CBD003A99DA /* CityStatePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F736EC27CB6CBD003A99DA /* CityStatePlayer.swift */; };
 		C9F76AAB242E14C00018672A /* PurchaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F76AAA242E14C00018672A /* PurchaseType.swift */; };
 		C9F76AAD242EA54C0018672A /* InfluencePathfinderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F76AAC242EA54C0018672A /* InfluencePathfinderDataSource.swift */; };
 		C9F76AAF243314B80018672A /* CivicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F76AAE243314B80018672A /* CivicTests.swift */; };
@@ -787,6 +787,7 @@
 		C9E58847272F2C950050CE80 /* duel.map */ = {isa = PBXFileReference; explicitFileType = compiled; fileEncoding = 4; path = duel.map; sourceTree = "<group>"; };
 		C9E58A5B25E54BB400D1D49B /* TribeArray2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeArray2D.swift; sourceTree = "<group>"; };
 		C9E58A6125E54BBC00D1D49B /* TribeTileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeTileInfo.swift; sourceTree = "<group>"; };
+		C9E6762A27CC1BB1009514CB /* CityStateType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityStateType.swift; sourceTree = "<group>"; };
 		C9E6A04524A488A000AF65A4 /* GreatWorkSlotType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatWorkSlotType.swift; sourceTree = "<group>"; };
 		C9E6A04724A4B62B00AF65A4 /* GreatWorks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatWorks.swift; sourceTree = "<group>"; };
 		C9E74CAC248CE146003EF256 /* PeaceTreatyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeaceTreatyType.swift; sourceTree = "<group>"; };
@@ -815,7 +816,6 @@
 		C9F020FC276BD87400AF5E49 /* CasusBelliType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasusBelliType.swift; sourceTree = "<group>"; };
 		C9F020FE276C997800AF5E49 /* MomentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentType.swift; sourceTree = "<group>"; };
 		C9F02100276CED9800AF5E49 /* PlayerMoments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerMoments.swift; sourceTree = "<group>"; };
-		C9F736EC27CB6CBD003A99DA /* CityStatePlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityStatePlayer.swift; sourceTree = "<group>"; };
 		C9F76AAA242E14C00018672A /* PurchaseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseType.swift; sourceTree = "<group>"; };
 		C9F76AAC242EA54C0018672A /* InfluencePathfinderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfluencePathfinderDataSource.swift; sourceTree = "<group>"; };
 		C9F76AAE243314B80018672A /* CivicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicTests.swift; sourceTree = "<group>"; };
@@ -966,6 +966,7 @@
 				C9D19199265962FF008C9622 /* Religion */,
 				C90FC39623D8909F00720B32 /* LeaderType.swift */,
 				C9AD954424E948F80058DAD4 /* LeaderAbilityType.swift */,
+				C9E6762A27CC1BB1009514CB /* CityStateType.swift */,
 				C9C2FE3E23F93DA600185235 /* CivilizationType.swift */,
 				C925594D25F9FC2B00C2BF28 /* CivilizationAbility.swift */,
 				C90FC38B23D88DED00720B32 /* VictoryType.swift */,
@@ -1283,7 +1284,6 @@
 				C9956852247E90AF0005E9EA /* Eurekas.swift */,
 				C9C2FE3C23F89FF800185235 /* Treasury.swift */,
 				C90FC39B23D8961C00720B32 /* Player.swift */,
-				C9F736EC27CB6CBD003A99DA /* CityStatePlayer.swift */,
 				C956BF6524F16683009702B4 /* PlayerYields.swift */,
 				C9C2FE3A23F89F2E00185235 /* PlayerReligion.swift */,
 				C91D3C7F26F283B700CD1F45 /* PlayerGovernors.swift */,
@@ -2021,7 +2021,6 @@
 				C978E0EE252269C3008B8001 /* ArmyFormationSlot.swift in Sources */,
 				C9A1B5642523118E00AC2292 /* TacticalPostureType.swift in Sources */,
 				C925594425F8A7D800C2BF28 /* TribeInfo.swift in Sources */,
-				C9F736ED27CB6CBD003A99DA /* CityStatePlayer.swift in Sources */,
 				C92D221B23E2D80500BB9238 /* FeatureType.swift in Sources */,
 				C9C1F45427AD72E1000837BE /* OneOrFewerCoastalCitiesEconomicStrategyType.swift in Sources */,
 				C99790812518F325003E52C9 /* PureNavalCityAttackOperation.swift in Sources */,
@@ -2089,6 +2088,7 @@
 				C925594E25F9FC2C00C2BF28 /* CivilizationAbility.swift in Sources */,
 				C92317B323D62AD2001FC723 /* FiniteStateMachine.swift in Sources */,
 				C9D645F827229FD300646BB8 /* ScoutUnitType.swift in Sources */,
+				C9E6762B27CC1BB1009514CB /* CityStateType.swift in Sources */,
 				C965A52E23FC6A3600BCEB54 /* River.swift in Sources */,
 				C9A1B570252311D600AC2292 /* TacticalTargetType.swift in Sources */,
 				C9D645F327229E0600646BB8 /* BuilderUnitType.swift in Sources */,

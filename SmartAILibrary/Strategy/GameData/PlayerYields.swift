@@ -14,6 +14,10 @@ extension Player {
 
     public func faith(in gameModel: GameModel?) -> Double {
 
+        if self.isMinorCiv() || self.isBarbarian() {
+            return 0.0
+        }
+
         var value = 0.0
 
         // faith from our Cities
@@ -29,6 +33,10 @@ extension Player {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
+        }
+
+        if self.isMinorCiv() || self.isBarbarian() {
+            return 0.0
         }
 
         var faithVal = 0.0

@@ -22,6 +22,8 @@ extension LeaderType {
             return "leader-barbar"
         case .freeCities:
             return "leader-freeCities"
+        case .cityState(type: _): // let cityStateType
+            return "leader-random"
 
         case .alexander:
             return "leader-alexander"

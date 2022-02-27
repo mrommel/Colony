@@ -3334,6 +3334,11 @@ public class City: AbstractCity {
             fatalError("cant get player")
         }
 
+        // city states cant build settlers
+        if player.isMinorCiv() && unitType == .settler {
+            return false
+        }
+
         // filter great people
         if unitType.productionCost() < 0 {
             return false
