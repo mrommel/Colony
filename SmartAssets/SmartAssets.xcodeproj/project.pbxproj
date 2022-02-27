@@ -99,6 +99,7 @@
 		C9CD3195278D6499002D53C4 /* MomentTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CD3194278D6499002D53C4 /* MomentTypeExtension.swift */; };
 		C9CD3197278D7571002D53C4 /* VictoryTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CD3196278D7571002D53C4 /* VictoryTypeExtension.swift */; };
 		C9D5D25326F8630A00009817 /* GovernorTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D5D25226F8630A00009817 /* GovernorTypeExtension.swift */; };
+		C9E6762D27CC238C009514CB /* CityStates.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9E6762C27CC238C009514CB /* CityStates.strings */; };
 		C9E80CCB27C7BE360048216B /* caravane-walk.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9E80CC927C7BE350048216B /* caravane-walk.slp */; };
 		C9E80CCC27C7BE360048216B /* caravane-idle.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9E80CCA27C7BE360048216B /* caravane-idle.slp */; };
 		C9E80CCE27C7C4B90048216B /* AOE1_50500.pal in Resources */ = {isa = PBXBuildFile; fileRef = C9E80CCD27C7C4B90048216B /* AOE1_50500.pal */; };
@@ -235,6 +236,7 @@
 		C9CD3194278D6499002D53C4 /* MomentTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentTypeExtension.swift; sourceTree = "<group>"; };
 		C9CD3196278D7571002D53C4 /* VictoryTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VictoryTypeExtension.swift; sourceTree = "<group>"; };
 		C9D5D25226F8630A00009817 /* GovernorTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorTypeExtension.swift; sourceTree = "<group>"; };
+		C9E6762C27CC238C009514CB /* CityStates.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = CityStates.strings; sourceTree = "<group>"; };
 		C9E80CC927C7BE350048216B /* caravane-walk.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "caravane-walk.slp"; sourceTree = "<group>"; };
 		C9E80CCA27C7BE360048216B /* caravane-idle.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "caravane-idle.slp"; sourceTree = "<group>"; };
 		C9E80CCD27C7C4B90048216B /* AOE1_50500.pal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AOE1_50500.pal; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 			children = (
 				C91C92A9276533EB009A1167 /* Localizable.strings */,
 				C9C234A42768EEB400905C97 /* CityNames.strings */,
+				C9E6762C27CC238C009514CB /* CityStates.strings */,
 				C9BB56D9276915FD00053AE7 /* Civics.strings */,
 				C963AD0F2785E27100981EF3 /* Techs.strings */,
 				C9BB56DB27692FE600053AE7 /* Civilizations.strings */,
@@ -585,6 +588,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9E6762D27CC238C009514CB /* CityStates.strings in Resources */,
 				C9A0984E261CB6930098C5E1 /* crossbowman.png in Resources */,
 				C9A09852261CB6930098C5E1 /* builder.xml in Resources */,
 				C9A09859261CB6930098C5E1 /* spearman.xml in Resources */,

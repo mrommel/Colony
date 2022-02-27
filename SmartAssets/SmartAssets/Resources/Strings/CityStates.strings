@@ -1,0 +1,49 @@
+/* 
+  CityStates.strings
+  SmartAssets
+
+  Created by Michael Rommel on 27.02.22.
+  
+*/
+
+// cultural
+"TXT_KEY_CITY_STATE_CATEGORY_CULTURAL_NAME" = "Cultural";
+"TXT_KEY_CITY_STATE_CATEGORY_CULTURAL_FIRST_ENVOY_BONUS" = "+2 [Culture] Culture in the [Capital] Capital.";
+"TXT_KEY_CITY_STATE_CATEGORY_CULTURAL_THIRD_ENVOY_BONUS" = "+2 [Culture] Culture in every Amphitheater building.";
+"TXT_KEY_CITY_STATE_CATEGORY_CULTURAL_SIXTH_ENVOY_BONUS" = "+2 [Culture] Culture in every Art Museum and Archaeological Museum building.";
+
+// industrial
+"TXT_KEY_CITY_STATE_CATEGORY_INDUSTRIAL_NAME" = "Industrial";
+"TXT_KEY_CITY_STATE_CATEGORY_INDUSTRIAL_FIRST_ENVOY_BONUS" = "+2 [Production] Production in the [Capital] Capital when producing wonders, buildings, and districts.";
+"TXT_KEY_CITY_STATE_CATEGORY_INDUSTRIAL_THIRD_ENVOY_BONUS" = "+2 [Production] Production in every city with a Workshop building when producing wonders, buildings, and districts.";
+"TXT_KEY_CITY_STATE_CATEGORY_INDUSTRIAL_SIXTH_ENVOY_BONUS" = "+2 [Production] Production in every city with a Factory building when producing wonders, buildings, and districts.";
+
+// militaristic
+"TXT_KEY_CITY_STATE_CATEGORY_MILITARISTIC_NAME" = "Militaristic";
+"TXT_KEY_CITY_STATE_CATEGORY_MILITARISTIC_FIRST_ENVOY_BONUS" = "+2 [Production] Production in the [Capital] Capital when producing units.";
+"TXT_KEY_CITY_STATE_CATEGORY_MILITARISTIC_THIRD_ENVOY_BONUS" = "+2 [Production] Production in every Barracks or Stable building when producing units.";
+"TXT_KEY_CITY_STATE_CATEGORY_MILITARISTIC_SIXTH_ENVOY_BONUS" = "+2 [Production] Production in every Armory building when producing units.";
+
+// religious
+"TXT_KEY_CITY_STATE_CATEGORY_RELIGIOUS_NAME" = "Religious";
+"TXT_KEY_CITY_STATE_CATEGORY_RELIGIOUS_FIRST_ENVOY_BONUS" = "+2 [Faith] Faith in the [Capital] Capital.";
+"TXT_KEY_CITY_STATE_CATEGORY_RELIGIOUS_THIRD_ENVOY_BONUS" = "+2 [Faith] Faith in every Shrine building.";
+"TXT_KEY_CITY_STATE_CATEGORY_RELIGIOUS_SIXTH_ENVOY_BONUS" = "+2 [Faith] Faith in every Temple building.";
+
+// scientific
+"TXT_KEY_CITY_STATE_CATEGORY_SCIENTIFIC_NAME" = "Scientific";
+"TXT_KEY_CITY_STATE_CATEGORY_SCIENTIFIC_FIRST_ENVOY_BONUS" = "+2 [Science] Science in the [Capital] Capital.";
+"TXT_KEY_CITY_STATE_CATEGORY_SCIENTIFIC_THIRD_ENVOY_BONUS" = "+2 [Science] Science in every Library building.";
+"TXT_KEY_CITY_STATE_CATEGORY_SCIENTIFIC_SIXTH_ENVOY_BONUS" = "+2 [Science] Science in every University building.";
+
+// trade
+"TXT_KEY_CITY_STATE_CATEGORY_TRADE_NAME" = "Trade";
+"TXT_KEY_CITY_STATE_CATEGORY_TRADE_FIRST_ENVOY_BONUS" = "+4 [Gold] Gold in the [Capital] Capital";
+"TXT_KEY_CITY_STATE_CATEGORY_TRADE_THIRD_ENVOY_BONUS" = "+4 [Gold] Gold in every Commercial Hub district";
+"TXT_KEY_CITY_STATE_CATEGORY_TRADE_SIXTH_ENVOY_BONUS" = "Additional +4 [Gold] Gold in every Commercial Hub district";
+
+
+
+// Bologna
+"TXT_KEY_CITY_STATE_BOLOGNA_NAME" = "Bologna";
+"TXT_KEY_CITY_STATE_BOLOGNA_SUZARIN_BONUS" = "Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer, [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building).";

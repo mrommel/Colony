@@ -31,19 +31,19 @@ public enum CityStateCategory {
         let color: TypeColor
         let firstEnvoyBonus: String
         let thirdEnvoyBonus: String
-        let sixthBonus: String
+        let sixthEnvoyBonus: String
 
         init(name: String,
              color: TypeColor,
              firstEnvoyBonus: String,
              thirdEnvoyBonus: String,
-             sixthBonus: String) {
+             sixthEnvoyBonus: String) {
 
             self.name = name
             self.color = color
             self.firstEnvoyBonus = firstEnvoyBonus
             self.thirdEnvoyBonus = thirdEnvoyBonus
-            self.sixthBonus = sixthBonus
+            self.sixthEnvoyBonus = sixthEnvoyBonus
         }
     }
 
@@ -53,56 +53,56 @@ public enum CityStateCategory {
 
         case .cultural:
             return CityStateCategoryData(
-                name: "cultural",
+                name: "TXT_KEY_CITY_STATE_CATEGORY_CULTURAL_NAME",
                 color: .magenta,
-                firstEnvoyBonus: "+2 [Culture] Culture in the [Capital] Capital.",
-                thirdEnvoyBonus: "+2 [Culture] Culture in every Amphitheater building.",
-                sixthBonus: "+2 [Culture] Culture in every Art Museum and Archaeological Museum building."
+                firstEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_CULTURAL_FIRST_ENVOY_BONUS",
+                thirdEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_CULTURAL_THIRD_ENVOY_BONUS",
+                sixthEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_CULTURAL_SIXTH_ENVOY_BONUS"
             )
 
         case .industrial:
             return CityStateCategoryData(
-                name: "Industrial",
+                name: "TXT_KEY_CITY_STATE_CATEGORY_INDUSTRIAL_NAME",
                 color: .orange,
-                firstEnvoyBonus: "+2 [Production] Production in the [Capital] Capital when producing wonders, buildings, and districts.",
-                thirdEnvoyBonus: "+2 [Production] Production in every city with a Workshop building when producing wonders, buildings, and districts.",
-                sixthBonus: "+2 [Production] Production in every city with a Factory building when producing wonders, buildings, and districts."
+                firstEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_INDUSTRIAL_FIRST_ENVOY_BONUS",
+                thirdEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_INDUSTRIAL_THIRD_ENVOY_BONUS",
+                sixthEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_INDUSTRIAL_SIXTH_ENVOY_BONUS"
             )
 
         case .militaristic:
             return CityStateCategoryData(
-                name: "Militaristic",
+                name: "TXT_KEY_CITY_STATE_CATEGORY_MILITARISTIC_NAME",
                 color: .yellow,
-                firstEnvoyBonus: "+2 [Production] Production in the [Capital] Capital when producing units.",
-                thirdEnvoyBonus: "+2 [Production] Production in every Barracks or Stable building when producing units.",
-                sixthBonus: "+2 [Production] Production in every Armory building when producing units."
+                firstEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_MILITARISTIC_FIRST_ENVOY_BONUS",
+                thirdEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_MILITARISTIC_THIRD_ENVOY_BONUS",
+                sixthEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_MILITARISTIC_SIXTH_ENVOY_BONUS"
             )
 
         case .religious:
             return CityStateCategoryData(
-                name: "Religious",
+                name: "TXT_KEY_CITY_STATE_CATEGORY_RELIGIOUS_NAME",
                 color: .white,
-                firstEnvoyBonus: "+2 [Faith] Faith in the [Capital] Capital.",
-                thirdEnvoyBonus: "+2 [Faith] Faith in every Shrine building.",
-                sixthBonus: "+2 [Faith] Faith in every Temple building."
+                firstEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_RELIGIOUS_FIRST_ENVOY_BONUS",
+                thirdEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_RELIGIOUS_THIRD_ENVOY_BONUS",
+                sixthEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_RELIGIOUS_SIXTH_ENVOY_BONUS"
             )
 
         case .scientific:
             return CityStateCategoryData(
-                name: "Ccientific",
+                name: "TXT_KEY_CITY_STATE_CATEGORY_SCIENTIFIC_NAME",
                 color: .blue,
-                firstEnvoyBonus: "+2 [Science] Science in the [Capital] Capital.",
-                thirdEnvoyBonus: "+2 [Science] Science in every Library building.",
-                sixthBonus: "+2 [Science] Science in every University building."
+                firstEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_SCIENTIFIC_FIRST_ENVOY_BONUS",
+                thirdEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_SCIENTIFIC_THIRD_ENVOY_BONUS",
+                sixthEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_SCIENTIFIC_SIXTH_ENVOY_BONUS"
             )
 
         case .trade:
             return CityStateCategoryData(
-                name: "Trade",
+                name: "TXT_KEY_CITY_STATE_CATEGORY_TRADE_NAME",
                 color: .red,
-                firstEnvoyBonus: "+4 [Gold] Gold in the [Capital] Capital",
-                thirdEnvoyBonus: "+4 [Gold] Gold in every Commercial Hub district",
-                sixthBonus: "Additional +4 [Gold] Gold in every Commercial Hub district"
+                firstEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_TRADE_FIRST_ENVOY_BONUS",
+                thirdEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_TRADE_THIRD_ENVOY_BONUS",
+                sixthEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_TRADE_SIXTH_ENVOY_BONUS"
             )
         }
     }
@@ -260,9 +260,9 @@ public enum CityStateType {
         case .bologna:
             // https://civilization.fandom.com/wiki/Bologna_(Civ6)
             return CityStateTypeData(
-                name: "Bologna",
+                name: "TXT_KEY_CITY_STATE_BOLOGNA_NAME",
                 categroy: .scientific,
-                suzarinBonus: "Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer, [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building)."
+                suzarinBonus: "TXT_KEY_CITY_STATE_BOLOGNA_SUZARIN_BONUS"
             )
 
         case .brussels:
