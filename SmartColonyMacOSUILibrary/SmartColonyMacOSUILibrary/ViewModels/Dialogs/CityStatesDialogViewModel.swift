@@ -17,11 +17,15 @@ class CityStatesDialogViewModel: ObservableObject {
     @Published
     var title: String
 
+    @Published
+    var cityStateViewModels: [CityStateViewModel]
+
     weak var delegate: GameViewModelDelegate?
 
     init() {
 
         self.title = "City-States"
+        self.cityStateViewModels = []
     }
 
     func update() {
@@ -33,6 +37,14 @@ class CityStatesDialogViewModel: ObservableObject {
         guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get human player")
         } */
+
+        var tmpCityStateViewModels: [CityStateViewModel] = []
+
+        tmpCityStateViewModels.append(CityStateViewModel(cityState: .amsterdam))
+        tmpCityStateViewModels.append(CityStateViewModel(cityState: .antioch))
+        tmpCityStateViewModels.append(CityStateViewModel(cityState: .brussels))
+
+        self.cityStateViewModels = tmpCityStateViewModels
     }
 
     func cityStateIcon() -> NSImage {

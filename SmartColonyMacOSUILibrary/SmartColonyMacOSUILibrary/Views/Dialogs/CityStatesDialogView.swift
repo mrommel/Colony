@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAssets
+import SmartAILibrary
 
 struct CityStatesDialogView: View {
 
@@ -32,11 +33,14 @@ struct CityStatesDialogView: View {
 
                     ScrollView {
 
-                        Text("city states")
                         // list of known city states
-                        /* LazyVStack(alignment: .center) {
-                            CityStateView()
-                        } */
+                        LazyVStack(alignment: .center) {
+
+                            ForEach(self.viewModel.cityStateViewModels, id: \.self) { cityStateViewModel in
+
+                                CityStateView(viewModel: cityStateViewModel)
+                            }
+                        }
 
                         // list of enabled bonuses
                         /* LazyVStack(alignment: .center) {
@@ -56,10 +60,12 @@ struct CityStatesDialogView: View {
         HStack {
 
             Image(nsImage: self.viewModel.cityStateIcon())
+                .resizable()
+                .frame(width: 36, height: 36)
 
-            VStack {
+            VStack(spacing: 4) {
                 Text("Overview")
-                    .font(.title)
+                    .font(.title3)
 
                 Label("1 [Envoy] at X Influence points")
             }

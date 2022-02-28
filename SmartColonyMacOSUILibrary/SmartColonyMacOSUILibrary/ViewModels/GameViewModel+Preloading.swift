@@ -666,6 +666,15 @@ extension GameViewModel {
             )
         }
 
+        let cityStateTypeTextureNames = CityStateType.all.map { $0.iconTexture() }
+        print("- load \(cityStateTypeTextureNames.count) city state textures")
+        for textureName in cityStateTypeTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
         print("-- all textures loaded --")
 
         self.bottomLeftBarViewModel.preloadAssets()

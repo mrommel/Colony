@@ -89,6 +89,8 @@
 		C950F99B264908F80057A7D1 /* PolicyCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F99A264908F80057A7D1 /* PolicyCardViewModel.swift */; };
 		C95AB2EC27CCFE1700EF5C61 /* CityStatesDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95AB2EB27CCFE1700EF5C61 /* CityStatesDialogView.swift */; };
 		C95AB2EE27CCFF4000EF5C61 /* CityStatesDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95AB2ED27CCFF4000EF5C61 /* CityStatesDialogViewModel.swift */; };
+		C95AB2F627CD40EC00EF5C61 /* CityStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95AB2F527CD40EC00EF5C61 /* CityStateView.swift */; };
+		C95AB2F827CD418800EF5C61 /* CityStateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95AB2F727CD418800EF5C61 /* CityStateViewModel.swift */; };
 		C95C7A76273827E300B2CE1A /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = C95C7A75273827E300B2CE1A /* Charts */; };
 		C95EEA03273158060052C7F8 /* LeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95EEA02273158060052C7F8 /* LeaderViewModel.swift */; };
 		C962A83A26A08C570045AF0E /* CanFoundPantheonPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962A83926A08C570045AF0E /* CanFoundPantheonPopupView.swift */; };
@@ -415,6 +417,8 @@
 		C950F99A264908F80057A7D1 /* PolicyCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyCardViewModel.swift; sourceTree = "<group>"; };
 		C95AB2EB27CCFE1700EF5C61 /* CityStatesDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityStatesDialogView.swift; sourceTree = "<group>"; };
 		C95AB2ED27CCFF4000EF5C61 /* CityStatesDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityStatesDialogViewModel.swift; sourceTree = "<group>"; };
+		C95AB2F527CD40EC00EF5C61 /* CityStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityStateView.swift; sourceTree = "<group>"; };
+		C95AB2F727CD418800EF5C61 /* CityStateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityStateViewModel.swift; sourceTree = "<group>"; };
 		C95EEA02273158060052C7F8 /* LeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderViewModel.swift; sourceTree = "<group>"; };
 		C962A83926A08C570045AF0E /* CanFoundPantheonPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanFoundPantheonPopupView.swift; sourceTree = "<group>"; };
 		C962A83B26A08C620045AF0E /* CanFoundPantheonPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CanFoundPantheonPopupViewModel.swift; path = SmartColonyMacOSUILibrary/Views/Popups/CanFoundPantheonPopupViewModel.swift; sourceTree = SOURCE_ROOT; };
@@ -999,6 +1003,7 @@
 				C9754D61275F3F5C000A1B70 /* MapLensLegendItemView.swift */,
 				C9C8A744278571DB00BC68CF /* DedicationView.swift */,
 				C963AD1B2786DB6500981EF3 /* MomentView.swift */,
+				C95AB2F527CD40EC00EF5C61 /* CityStateView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1167,6 +1172,7 @@
 				C9754D5F275F3B21000A1B70 /* MapLensLegendViewModel.swift */,
 				C9C8A7462785728800BC68CF /* DedicationViewModel.swift */,
 				C963AD192786DAB600981EF3 /* MomentViewModel.swift */,
+				C95AB2F727CD418800EF5C61 /* CityStateViewModel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1446,6 +1452,7 @@
 				C96FEA35274CE4B400A9194C /* UnitCommandViewModel.swift in Sources */,
 				C9A8F0D72651969D00584199 /* GameViewModelDialogs.swift in Sources */,
 				C98031CD26EE5756008F460B /* CityListDialogView.swift in Sources */,
+				C95AB2F627CD40EC00EF5C61 /* CityStateView.swift in Sources */,
 				C95AB2EC27CCFE1700EF5C61 /* CityStatesDialogView.swift in Sources */,
 				C9452E2526680532005EF985 /* InspirationTriggeredPopupViewModel.swift in Sources */,
 				C9E18378270314EC00A3082D /* TechListDialogView.swift in Sources */,
@@ -1612,6 +1619,7 @@
 				C968F299263981DD00612D0E /* ProgressBar.swift in Sources */,
 				C9FD308526223EA200153752 /* DemoGameModel.swift in Sources */,
 				C9077A8826D64EFE004BE679 /* TradeRouteView.swift in Sources */,
+				C95AB2F827CD418800EF5C61 /* CityStateViewModel.swift in Sources */,
 				C997785527B317F400BFC102 /* GenericPopupViewModel.swift in Sources */,
 				C94E2E1227B50035006866BB /* GameMenuView.swift in Sources */,
 				C9077A8626D64432004BE679 /* TradeRouteViewModel.swift in Sources */,

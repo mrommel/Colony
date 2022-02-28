@@ -167,7 +167,12 @@ public enum CityStateType: String {
 
     public func color() -> TypeColor {
 
-        return self.data().categroy.color()
+        return self.data().category.color()
+    }
+
+    public func category() -> CityStateCategory {
+
+        return self.data().category
     }
 
     // MARK private methods
@@ -175,15 +180,15 @@ public enum CityStateType: String {
     private class CityStateTypeData {
 
         let name: String
-        let categroy: CityStateCategory
+        let category: CityStateCategory
         let suzarinBonus: String
 
         init(name: String,
-             categroy: CityStateCategory,
+             category: CityStateCategory,
              suzarinBonus: String) {
 
             self.name = name
-            self.categroy = categroy
+            self.category = category
             self.suzarinBonus = suzarinBonus
         }
     }
@@ -196,7 +201,7 @@ public enum CityStateType: String {
             // https://civilization.fandom.com/wiki/Akkad_(Civ6)
             return CityStateTypeData(
                 name: "Akkad",
-                categroy: .militaristic,
+                category: .militaristic,
                 suzarinBonus: "Melee and anti-cavalry units' attacks do full damage to the city's walls."
             )
 
@@ -204,7 +209,7 @@ public enum CityStateType: String {
             // https://civilization.fandom.com/wiki/Amsterdam_(Civ6)
             return CityStateTypeData(
                 name: "Amsterdam",
-                categroy: .trade,
+                category: .trade,
                 suzarinBonus: "Your [TradeRoute] Trade Routes to foreign cities earn +1 [Gold] Gold for each luxury resource."
             )
 
@@ -212,7 +217,7 @@ public enum CityStateType: String {
             // https://civilization.fandom.com/wiki/Anshan_(Civ6)
             return CityStateTypeData(
                 name: "Anshan",
-                categroy: .scientific,
+                category: .scientific,
                 suzarinBonus: "+2 [Science] Science from each [GreatWork] of Writing Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact."
             )
 
@@ -220,7 +225,7 @@ public enum CityStateType: String {
             // https://civilization.fandom.com/wiki/Antananarivo_(Civ6)
             return CityStateTypeData(
                 name: "Antananarivo",
-                categroy: .cultural,
+                category: .cultural,
                 suzarinBonus: "Your Civilization gains +2% [Culture] Culture for each [GreatPerson] Great Person it has ever earned (up to 30%)."
             )
 
@@ -228,7 +233,7 @@ public enum CityStateType: String {
             // https://civilization.fandom.com/wiki/Antioch_(Civ6)
             return CityStateTypeData(
                 name: "Antioch",
-                categroy: .trade,
+                category: .trade,
                 suzarinBonus: "Your [TradeRoute] Trade Routes to foreign cities earn +1 [Gold] Gold for each Luxury resource at the destination."
             )
 
@@ -236,7 +241,7 @@ public enum CityStateType: String {
             // https://civilization.fandom.com/wiki/Armagh_(Civ6)
             return CityStateTypeData(
                 name: "Armagh",
-                categroy: .religious,
+                category: .religious,
                 suzarinBonus: "Your Builders can build Monastery improvements."
             )
 
@@ -244,7 +249,7 @@ public enum CityStateType: String {
             // https://civilization.fandom.com/wiki/Auckland_(Civ6)
             return CityStateTypeData(
                 name: "Auckland",
-                categroy: .industrial,
+                category: .industrial,
                 suzarinBonus: "Shallow water tiles worked by [Citizen] Citizens provide +1 [Production] Production. Additional +1 when you reach the Industrial Era"
             )
 
@@ -252,7 +257,7 @@ public enum CityStateType: String {
             // https://civilization.fandom.com/wiki/Ayutthaya_(Civ6)
             return CityStateTypeData(
                 name: "Ayutthaya",
-                categroy: .cultural,
+                category: .cultural,
                 suzarinBonus: "Gain [Culture] Culture equal to 10% of the construction cost when finishing buildings."
             )
 
@@ -260,7 +265,7 @@ public enum CityStateType: String {
             // https://civilization.fandom.com/wiki/Babylon_(Civ6)
             return CityStateTypeData(
                 name: "Babylon",
-                categroy: .scientific,
+                category: .scientific,
                 suzarinBonus: "+2 [Science] Science from each [GreatWork] of Writing Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact."
             )
 
@@ -268,7 +273,7 @@ public enum CityStateType: String {
             // https://civilization.fandom.com/wiki/Bandar_Brunei_(Civ6)
             return CityStateTypeData(
                 name: "Bandar Brunei",
-                categroy: .trade,
+                category: .trade,
                 suzarinBonus: "Your [TradingPost] Trading Posts in foreign cities provide +1 [Gold] Gold to your [TradeRoute] Trade Routes passing through or going to the city."
             )
 
@@ -276,7 +281,7 @@ public enum CityStateType: String {
             // https://civilization.fandom.com/wiki/Bologna_(Civ6)
             return CityStateTypeData(
                 name: "TXT_KEY_CITY_STATE_BOLOGNA_NAME",
-                categroy: .scientific,
+                category: .scientific,
                 suzarinBonus: "TXT_KEY_CITY_STATE_BOLOGNA_SUZARIN_BONUS"
             )
 
@@ -284,7 +289,7 @@ public enum CityStateType: String {
             // https://civilization.fandom.com/wiki/Brussels_(Civ6)
             return CityStateTypeData(
                 name: "Brussels",
-                categroy: .industrial,
+                category: .industrial,
                 suzarinBonus: "Your cities get +15% [Production] Production towards wonders."
             )
 
@@ -292,7 +297,7 @@ public enum CityStateType: String {
             // https://civilization.fandom.com/wiki/Buenos_Aires_(Civ6)
             return CityStateTypeData(
                 name: "Buenos Aires",
-                categroy: .industrial,
+                category: .industrial,
                 suzarinBonus: "Your Bonus resources behave like Luxury resources, providing 1 [Amenity] Amenity per type."
             )
 
@@ -300,14 +305,14 @@ public enum CityStateType: String {
             // https://civilization.fandom.com/wiki/Caguana_(Civ6)
             return CityStateTypeData(
                 name: "Caguana",
-                categroy: .cultural,
+                category: .cultural,
                 suzarinBonus: "Builders can construct the Batey improvement, which provides [Culture] Culture and [Tourism] Tourism."
             )
 
             /*
              return CityStateTypeData(
              name: <#T##String#>,
-             categroy: <#T##CityStateCategory#>,
+             category: <#T##CityStateCategory#>,
              suzarinBonus: <#T##String#>
              )
              */
