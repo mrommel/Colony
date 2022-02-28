@@ -102,6 +102,7 @@ protocol GameViewModelDelegate: AnyObject {
     func showRankingDialog()
     func showEraProgressDialog()
     func showMomentsDialog()
+    func showCityStateDialog()
 
     func showCityDialog(for city: AbstractCity?)
     func showCityChooseProductionDialog(for city: AbstractCity?)

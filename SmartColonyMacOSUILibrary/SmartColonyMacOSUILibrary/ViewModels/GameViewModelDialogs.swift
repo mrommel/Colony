@@ -462,4 +462,17 @@ extension GameViewModel {
             self.currentScreenType = .moments
         }
     }
+
+    func showCityStateDialog() {
+
+        if self.currentScreenType == .cityStates {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.cityStatesDialogViewModel.update()
+            self.currentScreenType = .cityStates
+        }
+    }
 }

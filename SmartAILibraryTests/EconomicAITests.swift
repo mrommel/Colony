@@ -64,7 +64,15 @@ class EconomicAITests: XCTestCase {
 
         HexPoint(x: 8, y: 8).areaWith(radius: 4).points
             .forEach { mapModel.set(terrain: .grass, at: $0) }
+        HexPoint(x: 8, y: 16).areaWith(radius: 4).points
+            .forEach { mapModel.set(terrain: .grass, at: $0) }
         HexPoint(x: 18, y: 8).areaWith(radius: 4).points
+            .forEach { mapModel.set(terrain: .grass, at: $0) }
+        HexPoint(x: 18, y: 16).areaWith(radius: 4).points
+            .forEach { mapModel.set(terrain: .grass, at: $0) }
+        HexPoint(x: 28, y: 8).areaWith(radius: 4).points
+            .forEach { mapModel.set(terrain: .grass, at: $0) }
+        HexPoint(x: 28, y: 16).areaWith(radius: 4).points
             .forEach { mapModel.set(terrain: .grass, at: $0) }
 
         let mapOptions = MapOptions(
@@ -106,7 +114,7 @@ class EconomicAITests: XCTestCase {
         playerAlexander.economicAI?.doTurn(in: gameModel)
 
         // THEN
-        XCTAssertEqual(playerAlexander.economicAI!.adopted(economicStrategy: .enoughRecon), true)
+        XCTAssertEqual(playerAlexander.economicAI!.adopted(economicStrategy: .enoughRecon), false)
         XCTAssertEqual(playerAlexander.economicAI!.adopted(economicStrategy: .enoughReconSea), true)
         XCTAssertEqual(playerAlexander.economicAI!.adopted(economicStrategy: .oneOrFewerCoastalCities), true)
         XCTAssertEqual(playerAlexander.economicAI!.adopted(economicStrategy: .islandStart), true)
@@ -125,7 +133,15 @@ class EconomicAITests: XCTestCase {
 
         HexPoint(x: 8, y: 8).areaWith(radius: 4).points
             .forEach { mapModel.set(terrain: .grass, at: $0) }
+        HexPoint(x: 8, y: 16).areaWith(radius: 4).points
+            .forEach { mapModel.set(terrain: .grass, at: $0) }
         HexPoint(x: 18, y: 8).areaWith(radius: 4).points
+            .forEach { mapModel.set(terrain: .grass, at: $0) }
+        HexPoint(x: 18, y: 16).areaWith(radius: 4).points
+            .forEach { mapModel.set(terrain: .grass, at: $0) }
+        HexPoint(x: 28, y: 8).areaWith(radius: 4).points
+            .forEach { mapModel.set(terrain: .grass, at: $0) }
+        HexPoint(x: 28, y: 16).areaWith(radius: 4).points
             .forEach { mapModel.set(terrain: .grass, at: $0) }
 
         let mapOptions = MapOptions(

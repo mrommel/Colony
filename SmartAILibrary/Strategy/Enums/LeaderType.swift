@@ -445,7 +445,7 @@ public enum LeaderType: Codable, Equatable, Hashable {
         case .freeCities:
             return "freeCities"
         case .cityState(type: let type):
-            return "cityState-\(type)"
+            return "cityState-\(type.rawValue)"
         case .alexander:
             return "alexander"
         case .trajan:
@@ -469,10 +469,24 @@ public enum LeaderType: Codable, Equatable, Hashable {
 
     private static func from(key: String) -> LeaderType? {
 
+        if key.starts(with: "cityState-") {
+            let cityStateName = key.replacingOccurrences(of: "cityState-", with: "")
+
+            guard let cityState: CityStateType = CityStateType(rawValue: cityStateName) else {
+                fatalError("cannot get city state type from '\(cityStateName)'")
+            }
+
+            return LeaderType.cityState(type: cityState)
+        }
+
         switch key {
 
         case "none":
             return LeaderType.none
+        case "barbar":
+            return LeaderType.barbar
+        case "freeCities":
+            return .freeCities
 
         case "alexander":
             return .alexander

@@ -151,6 +151,8 @@ extension GameView {
             return AnyView(ReligionDialogView(viewModel: self.viewModel.religionDialogViewModel))
         case .ranking:
             return AnyView(RankingDialogView(viewModel: self.viewModel.rankingDialogViewModel))
+        case .cityStates:
+            return AnyView(CityStatesDialogView(viewModel: self.viewModel.cityStatesDialogViewModel))
         case .victory:
             return AnyView(VictoryDialogView(viewModel: self.viewModel.victoryDialogViewModel))
         case .eraProgress:

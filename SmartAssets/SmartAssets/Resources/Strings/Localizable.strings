@@ -87,6 +87,7 @@
 "TXT_KEY_HEADER_MOMENTS" = "Moments";
 "TXT_KEY_HEADER_GOVERNORS" = "Governors";
 "TXT_KEY_HEADER_RANKING" = "Ranking";
+"TXT_KEY_HEADER_CITY_STATES" = "City States";
 "TXT_KEY_HEADER_TRADE_ROUTES" = "Trade Routes";
 "TXT_KEY_HEADER_ERA_PROGRESS" = "Era Progress";
 

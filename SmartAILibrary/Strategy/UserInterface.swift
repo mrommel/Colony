@@ -152,6 +152,7 @@ public enum ScreenType {
     case eraProgress
     case selectDedication
     case moments
+    case cityStates
 }
 
 public enum TooltipType {

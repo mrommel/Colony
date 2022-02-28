@@ -108,7 +108,7 @@ public enum CityStateCategory {
     }
 }
 
-public enum CityStateType {
+public enum CityStateType: String {
 
     case akkad
     case amsterdam

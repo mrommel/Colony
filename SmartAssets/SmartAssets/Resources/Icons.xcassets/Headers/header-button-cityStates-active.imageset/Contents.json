@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "header-button-cityStates-active@3x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

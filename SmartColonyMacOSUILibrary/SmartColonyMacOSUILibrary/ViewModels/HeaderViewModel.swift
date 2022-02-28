@@ -41,6 +41,9 @@ class HeaderViewModel: ObservableObject {
     var rankingHeaderViewModel: HeaderButtonViewModel
 
     @Published
+    var cityStateHeaderViewModel: HeaderButtonViewModel
+
+    @Published
     var tradeRoutesHeaderViewModel: HeaderButtonViewModel
 
     @Published
@@ -73,6 +76,7 @@ class HeaderViewModel: ObservableObject {
         self.momentsHeaderViewModel = HeaderButtonViewModel(type: .moments)
         self.governorsHeaderViewModel = HeaderButtonViewModel(type: .governors)
         self.rankingHeaderViewModel = HeaderButtonViewModel(type: .ranking)
+        self.cityStateHeaderViewModel = HeaderButtonViewModel(type: .cityStates)
         self.tradeRoutesHeaderViewModel = HeaderButtonViewModel(type: .tradeRoutes)
         self.eraProgressHeaderViewModel = HeaderButtonViewModel(type: .eraProgress)
 
@@ -89,7 +93,9 @@ class HeaderViewModel: ObservableObject {
         self.greatPeopleHeaderViewModel.delegate = self
         self.momentsHeaderViewModel.delegate = self
         self.governorsHeaderViewModel.delegate = self
+
         self.rankingHeaderViewModel.delegate = self
+        self.cityStateHeaderViewModel.delegate = self
         self.tradeRoutesHeaderViewModel.delegate = self
         self.eraProgressHeaderViewModel.delegate = self
     }
@@ -176,6 +182,10 @@ class HeaderViewModel: ObservableObject {
 
         for (index, player) in gameModel.players.enumerated() {
 
+            if player.isMinorCiv() || player.isBarbarian() || player.isFreeCity() {
+                continue
+            }
+
             if humanPlayer.isEqual(to: player) || !diplomacyAI.hasMet(with: player) {
                 self.leaderViewModels[index].show = false
             } else {
@@ -206,8 +216,11 @@ extension HeaderViewModel: HeaderButtonViewModelDelegate {
             self.delegate?.showMomentsDialog()
         case .governors:
             self.delegate?.showGovernorsDialog()
+
         case .ranking:
             self.delegate?.showRankingDialog()
+        case .cityStates:
+            self.delegate?.showCityStateDialog()
         case .tradeRoutes:
             self.delegate?.showTradeRouteDialog()
         case .eraProgress:

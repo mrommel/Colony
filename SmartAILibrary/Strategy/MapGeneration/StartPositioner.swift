@@ -377,7 +377,7 @@ class StartPositioner {
 
             var bestArea: StartArea?
             var bestValue: Int = 0
-            var bestLocation: HexPoint = HexPoint.zero
+            var bestLocation: HexPoint = HexPoint.invalid
 
             // find best spot for civ in all areas
             for startArea in self.startAreas {
@@ -425,11 +425,11 @@ class StartPositioner {
             }
 
             // sanity check - should restart
-            guard bestLocation != HexPoint.zero else {
-                fatalError("Can't find valid start location")
+            if bestLocation == HexPoint.invalid {
+                print("Warning: Can't find valid start location for city state")
+            } else {
+                self.cityStateStartLocations.append(StartLocation(point: bestLocation, leader: leader, isHuman: false))
             }
-
-            self.cityStateStartLocations.append(StartLocation(point: bestLocation, leader: leader, isHuman: false))
         }
 
         // sort human to the end
