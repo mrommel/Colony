@@ -9,12 +9,25 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
+protocol CityStateViewModelDelegate: AnyObject {
+
+    func center(on cityState: CityStateType)
+}
+
 class CityStateViewModel: ObservableObject {
 
     @Published
     var name: String
 
+    @Published
+    var envoys: Int = 0 {
+        didSet {
+            print("number of envoys updated")
+        }
+    }
+
     private let cityState: CityStateType
+    weak var delegate: CityStateViewModelDelegate?
 
     init(cityState: CityStateType) {
 
@@ -23,9 +36,19 @@ class CityStateViewModel: ObservableObject {
         self.name = cityState.name()
     }
 
-    func image() -> NSImage {
+    func cityStateImage() -> NSImage {
 
         return ImageCache.shared.image(for: self.cityState.iconTexture())
+    }
+
+    func jumpToImage() -> NSImage {
+
+        return ImageCache.shared.image(for: "jump-to")
+    }
+
+    func centerClicked() {
+
+        self.delegate?.center(on: self.cityState)
     }
 }
 

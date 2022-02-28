@@ -34,7 +34,7 @@ struct CityStatesDialogView: View {
                     ScrollView {
 
                         // list of known city states
-                        LazyVStack(alignment: .center) {
+                        LazyVStack(alignment: .leading) {
 
                             ForEach(self.viewModel.cityStateViewModels, id: \.self) { cityStateViewModel in
 
@@ -79,6 +79,7 @@ struct CityStatesDialogView_Previews: PreviewProvider {
     static func viewModel() -> CityStatesDialogViewModel {
 
         let viewModel = CityStatesDialogViewModel()
+        viewModel.update()
 
         return viewModel
     }

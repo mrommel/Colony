@@ -5,9 +5,9 @@
 //  Created by Michael Rommel on 28.02.22.
 //
 
-import Foundation
 import SwiftUI
 import SmartAssets
+import SmartAILibrary
 
 class CityStatesDialogViewModel: ObservableObject {
 
@@ -40,9 +40,14 @@ class CityStatesDialogViewModel: ObservableObject {
 
         var tmpCityStateViewModels: [CityStateViewModel] = []
 
-        tmpCityStateViewModels.append(CityStateViewModel(cityState: .amsterdam))
-        tmpCityStateViewModels.append(CityStateViewModel(cityState: .antioch))
-        tmpCityStateViewModels.append(CityStateViewModel(cityState: .brussels))
+        let cityStates: [CityStateType] = [.amsterdam, .antioch, .brussels]
+
+        for cityState in cityStates {
+
+            let cityStateViewModel = CityStateViewModel(cityState: cityState)
+            cityStateViewModel.delegate = self
+            tmpCityStateViewModels.append(cityStateViewModel)
+        }
 
         self.cityStateViewModels = tmpCityStateViewModels
     }
@@ -50,6 +55,16 @@ class CityStatesDialogViewModel: ObservableObject {
     func cityStateIcon() -> NSImage {
 
         return ImageCache.shared.image(for: "city-states")
+    }
+}
+
+extension CityStatesDialogViewModel: CityStateViewModelDelegate {
+
+    func center(on cityState: CityStateType) {
+
+        print("todo: center on \(cityState)")
+
+        self.delegate?.closeDialog()
     }
 }
 

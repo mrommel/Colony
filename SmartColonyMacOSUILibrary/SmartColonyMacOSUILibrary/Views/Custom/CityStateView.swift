@@ -21,15 +21,26 @@ struct CityStateView: View {
 
         HStack {
 
-            Image(nsImage: self.viewModel.image())
+            Image(nsImage: self.viewModel.cityStateImage())
                 .resizable()
                 .frame(width: 24, height: 24)
 
             Text(self.viewModel.name)
-                .frame(width: 70, height: 24)
+                .frame(width: 100, height: 24)
+
+            Stepper("\(self.viewModel.envoys)", value: self.$viewModel.envoys)
+
+            Spacer()
+
+            Image(nsImage: self.viewModel.jumpToImage())
+                .resizable()
+                .frame(width: 24, height: 24)
+                .onTapGesture {
+                    self.viewModel.centerClicked()
+                }
         }
-        .frame(width: 280, height: 32)
-        .border(Color.purple, width: 2, cornerRadius: 20)
+        .frame(width: 320, height: 32)
+        .border(Color.gray, width: 1, cornerRadius: 8)
     }
 }
 
