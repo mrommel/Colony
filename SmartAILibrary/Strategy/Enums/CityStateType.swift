@@ -25,6 +25,16 @@ public enum CityStateCategory {
     case scientific
     case trade
 
+    public func name() -> String {
+
+        return self.data().name
+    }
+
+    public func color() -> TypeColor {
+
+        return self.data().color
+    }
+
     private class CityStateCategoryData {
 
         let name: String
@@ -153,6 +163,11 @@ public enum CityStateType: String {
     public func name() -> String {
 
         return self.data().name
+    }
+
+    public func color() -> TypeColor {
+
+        return self.data().categroy.color()
     }
 
     // MARK private methods

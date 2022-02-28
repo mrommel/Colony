@@ -338,11 +338,11 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 religion: nil
             )
 
-        case .cityState:
+        case .cityState(type: let cityState):
             return LeaderTypeData(
                 name: "City state",
                 intro: "--",
-                civilization: .free,
+                civilization: .cityState(type: cityState),
                 ability: .none,
                 religion: nil
             )

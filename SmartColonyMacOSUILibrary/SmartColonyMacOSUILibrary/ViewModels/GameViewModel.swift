@@ -275,6 +275,9 @@ public class GameViewModel: ObservableObject {
     @Published
     var momentsDialogViewModel: MomentsDialogViewModel
 
+    @Published
+    var cityStatesDialogViewModel: CityStatesDialogViewModel
+
     // popups
 
     @Published
@@ -445,6 +448,7 @@ public class GameViewModel: ObservableObject {
         self.eraProgressDialogViewModel = EraProgressDialogViewModel()
         self.selectDedicationDialogViewModel = SelectDedicationDialogViewModel()
         self.momentsDialogViewModel = MomentsDialogViewModel()
+        self.cityStatesDialogViewModel = CityStatesDialogViewModel()
 
         // popups
         self.goodyHutRewardPopupViewModel = GoodyHutRewardPopupViewModel()
@@ -494,6 +498,7 @@ public class GameViewModel: ObservableObject {
         self.eraProgressDialogViewModel.delegate = self
         self.selectDedicationDialogViewModel.delegate = self
         self.momentsDialogViewModel.delegate = self
+        self.cityStatesDialogViewModel.delegate = self
 
         self.goodyHutRewardPopupViewModel.delegate = self
         self.techDiscoveredPopupViewModel.delegate = self

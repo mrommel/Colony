@@ -87,6 +87,8 @@
 		C950F997264904150057A7D1 /* ChangePolicyDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F996264904150057A7D1 /* ChangePolicyDialogViewModel.swift */; };
 		C950F999264908760057A7D1 /* PolicyCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F998264908760057A7D1 /* PolicyCardView.swift */; };
 		C950F99B264908F80057A7D1 /* PolicyCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F99A264908F80057A7D1 /* PolicyCardViewModel.swift */; };
+		C95AB2EC27CCFE1700EF5C61 /* CityStatesDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95AB2EB27CCFE1700EF5C61 /* CityStatesDialogView.swift */; };
+		C95AB2EE27CCFF4000EF5C61 /* CityStatesDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95AB2ED27CCFF4000EF5C61 /* CityStatesDialogViewModel.swift */; };
 		C95C7A76273827E300B2CE1A /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = C95C7A75273827E300B2CE1A /* Charts */; };
 		C95EEA03273158060052C7F8 /* LeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95EEA02273158060052C7F8 /* LeaderViewModel.swift */; };
 		C962A83A26A08C570045AF0E /* CanFoundPantheonPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962A83926A08C570045AF0E /* CanFoundPantheonPopupView.swift */; };
@@ -411,6 +413,8 @@
 		C950F996264904150057A7D1 /* ChangePolicyDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePolicyDialogViewModel.swift; sourceTree = "<group>"; };
 		C950F998264908760057A7D1 /* PolicyCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyCardView.swift; sourceTree = "<group>"; };
 		C950F99A264908F80057A7D1 /* PolicyCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyCardViewModel.swift; sourceTree = "<group>"; };
+		C95AB2EB27CCFE1700EF5C61 /* CityStatesDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityStatesDialogView.swift; sourceTree = "<group>"; };
+		C95AB2ED27CCFF4000EF5C61 /* CityStatesDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityStatesDialogViewModel.swift; sourceTree = "<group>"; };
 		C95EEA02273158060052C7F8 /* LeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderViewModel.swift; sourceTree = "<group>"; };
 		C962A83926A08C570045AF0E /* CanFoundPantheonPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanFoundPantheonPopupView.swift; sourceTree = "<group>"; };
 		C962A83B26A08C620045AF0E /* CanFoundPantheonPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CanFoundPantheonPopupViewModel.swift; path = SmartColonyMacOSUILibrary/Views/Popups/CanFoundPantheonPopupViewModel.swift; sourceTree = SOURCE_ROOT; };
@@ -762,6 +766,7 @@
 				C913A2D4277A27ED001D2CC2 /* EraProgressDialogView.swift */,
 				C92099DB2784AF3B00E81A8F /* SelectDedicationDialogView.swift */,
 				C963AD152786D3FB00981EF3 /* MomentsDialogView.swift */,
+				C95AB2EB27CCFE1700EF5C61 /* CityStatesDialogView.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -1028,6 +1033,7 @@
 				C913A2D6277A2850001D2CC2 /* EraProgressDialogViewModel.swift */,
 				C92099D92784A65400E81A8F /* SelectDedicationDialogViewModel.swift */,
 				C963AD172786D4C600981EF3 /* MomentsDialogViewModel.swift */,
+				C95AB2ED27CCFF4000EF5C61 /* CityStatesDialogViewModel.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -1440,6 +1446,7 @@
 				C96FEA35274CE4B400A9194C /* UnitCommandViewModel.swift in Sources */,
 				C9A8F0D72651969D00584199 /* GameViewModelDialogs.swift in Sources */,
 				C98031CD26EE5756008F460B /* CityListDialogView.swift in Sources */,
+				C95AB2EC27CCFE1700EF5C61 /* CityStatesDialogView.swift in Sources */,
 				C9452E2526680532005EF985 /* InspirationTriggeredPopupViewModel.swift in Sources */,
 				C9E18378270314EC00A3082D /* TechListDialogView.swift in Sources */,
 				C9B087CD2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift in Sources */,
@@ -1524,6 +1531,7 @@
 				C92F948D265E23A6000968AB /* HexagonGridViewModel.swift in Sources */,
 				C950F98B26427C560057A7D1 /* GameSceneUserInterface.swift in Sources */,
 				C9AC0FFD26DE649B00B65288 /* PromotionViewModel.swift in Sources */,
+				C95AB2EE27CCFF4000EF5C61 /* CityStatesDialogViewModel.swift in Sources */,
 				C968F2A72639E8FB00612D0E /* CityLayer.swift in Sources */,
 				C9E87BA5264C558800514B9A /* YieldValueView.swift in Sources */,
 				C95EEA03273158060052C7F8 /* LeaderViewModel.swift in Sources */,

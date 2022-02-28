@@ -9,10 +9,16 @@
 import Foundation
 
 // swiftlint:disable type_body_length
-public enum CivilizationType: String, Codable {
+public enum CivilizationType: Codable, Equatable, Hashable {
+
+    enum CodingKeys: String, CodingKey {
+
+        case value
+    }
 
     case barbarian
     case free
+    case cityState(type: CityStateType)
 
     case greek
     case roman
@@ -42,6 +48,21 @@ public enum CivilizationType: String, Codable {
     ]
 
     // ///////////////////////////
+
+    public init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        let value = try container.decode(String.self, forKey: .value)
+        self = CivilizationType.from(key: value) ?? .unmet
+    }
+
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.toKey(), forKey: .value)
+    }
 
     public func name() -> String {
 
@@ -78,6 +99,7 @@ public enum CivilizationType: String, Codable {
 
         case .barbarian: return 0
         case .free: return 0
+        case .cityState(type: _): return 0
 
         case .greek: return 0 // no special bias
         case .roman: return 0 // no special bias
@@ -124,6 +146,14 @@ public enum CivilizationType: String, Codable {
         case .free:
             return CivilizationTypeData(
                 name: "Free Cities",
+                plural: true,
+                ability: .none,
+                cityNames: []
+            )
+
+        case .cityState(type: _):
+            return CivilizationTypeData(
+                name: "CityState",
                 plural: true,
                 ability: .none,
                 cityNames: []
@@ -487,6 +517,88 @@ public enum CivilizationType: String, Codable {
                 ability: .none,
                 cityNames: []
             )
+        }
+    }
+
+    // MARK: private methods
+
+    private func toKey() -> String {
+
+        switch self {
+
+        case .barbarian:
+            return "barbarian"
+        case .free:
+            return "free"
+        case .cityState(type: let type):
+            return "cityState-\(type)"
+
+        case .greek:
+            return "greek"
+        case .roman:
+            return "roman"
+        case .english:
+            return "english"
+        case .aztecs:
+            return "aztecs"
+        case .persian:
+            return "persian"
+        case .french:
+            return "french"
+        case .egyptian:
+            return "egyptian"
+        case .german:
+            return "german"
+        case .russian:
+            return "german"
+        case .unmet:
+            return "unmet"
+        }
+    }
+
+    private static func from(key: String) -> CivilizationType? {
+
+        if key.starts(with: "cityState-") {
+            let cityStateName = key.replacingOccurrences(of: "cityState-", with: "")
+
+            guard let cityState: CityStateType = CityStateType(rawValue: cityStateName) else {
+                fatalError("cannot get city state type from '\(cityStateName)'")
+            }
+
+            return CivilizationType.cityState(type: cityState)
+        }
+
+        switch key {
+
+        case "barbarian":
+            return CivilizationType.barbarian
+        case "free":
+            return .free
+
+        case "greek":
+            return .greek
+        case "roman":
+            return .roman
+        case "english":
+            return .english
+        case "aztecs":
+            return .aztecs
+        case "persian":
+            return .persian
+        case "french":
+            return .french
+        case "egyptian":
+            return .egyptian
+        case "german":
+            return .german
+        case "russian":
+            return .german
+
+        case "unmet":
+            return CivilizationType.unmet
+
+        default:
+            fatalError("CivilizationType \(key) not handled")
         }
     }
 }
