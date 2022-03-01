@@ -3335,7 +3335,7 @@ public class City: AbstractCity {
         }
 
         // city states cant build settlers
-        if player.isMinorCiv() && unitType == .settler {
+        if player.isCityState() && unitType == .settler {
             return false
         }
 

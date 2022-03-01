@@ -139,7 +139,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func isHuman() -> Bool
     func isBarbarian() -> Bool
     func isFreeCity() -> Bool
-    func isMinorCiv() -> Bool
+    func isCityState() -> Bool
 
     // diplomatics
     func hasMet(with otherPlayer: AbstractPlayer?) -> Bool
@@ -367,6 +367,7 @@ public class Player: AbstractPlayer {
         case government
         case tourism
         case moments
+        case envoys
 
         case currentEra
         case currentAge
@@ -448,6 +449,7 @@ public class Player: AbstractPlayer {
     public var governors: AbstractPlayerGovernors?
     public var tourism: AbstractPlayerTourism?
     public var momentsVal: AbstractPlayerMoments?
+    private var envoys: AbstractPlayerEnvoys?
 
     public var government: AbstractGovernment?
     internal var currentEraVal: EraType = .ancient
@@ -577,6 +579,7 @@ public class Player: AbstractPlayer {
         self.governors = try container.decode(PlayerGovernors.self, forKey: .governors)
         self.tourism = try container.decode(PlayerTourism.self, forKey: .tourism)
         self.momentsVal = try container.decode(PlayerMoments.self, forKey: .moments)
+        self.envoys = try container.decode(PlayerEnvoys.self, forKey: .envoys)
 
         self.techs = try container.decode(Techs.self, forKey: .techs)
         self.civics = try container.decode(Civics.self, forKey: .civics)
@@ -625,6 +628,7 @@ public class Player: AbstractPlayer {
         self.governors?.player = self
         self.tourism?.player = self
         self.momentsVal?.player = self
+        self.envoys?.player = self
 
         self.grandStrategyAI?.player = self
         self.diplomacyAI?.player = self
@@ -692,6 +696,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.greatPeople as! GreatPeople, forKey: .greatPeople)
         try container.encode(self.tourism as! PlayerTourism, forKey: .tourism)
         try container.encode(self.momentsVal as! PlayerMoments, forKey: .moments)
+        try container.encode(self.envoys as! PlayerEnvoys, forKey: .envoys)
         try container.encode(self.government as! Government, forKey: .government)
 
         try container.encode(self.currentEraVal, forKey: .currentEra)
@@ -750,6 +755,7 @@ public class Player: AbstractPlayer {
         self.governors = PlayerGovernors(player: self)
         self.tourism = PlayerTourism(player: self)
         self.momentsVal = PlayerMoments(player: self)
+        self.envoys = PlayerEnvoys(player: self)
 
         self.techs = Techs(player: self)
         self.civics = Civics(player: self)
@@ -916,9 +922,9 @@ public class Player: AbstractPlayer {
         return self.leader == .freeCities
     }
 
-    public func isMinorCiv() -> Bool {
+    public func isCityState() -> Bool {
 
-        if case .cityState(_) = self.leader {
+        if case .cityState = self.leader {
             return true
         }
 
@@ -4429,7 +4435,7 @@ public class Player: AbstractPlayer {
         let numCities = gameModel.cities(of: oldPlayer).count
         if numCities == 0 {
 
-            if !self.isMinorCiv() && !self.isBarbarian() {
+            if !self.isCityState() && !self.isBarbarian() {
 
                 for loopPlayer in gameModel.players {
 

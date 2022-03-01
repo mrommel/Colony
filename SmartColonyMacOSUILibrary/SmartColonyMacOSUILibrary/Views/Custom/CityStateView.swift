@@ -32,6 +32,36 @@ struct CityStateView: View {
 
             Stepper("\(self.viewModel.envoys)", value: self.$viewModel.envoys)
 
+            VStack(spacing: 0) {
+                Text("1")
+                    .font(.footnote)
+
+                Image(nsImage: self.viewModel.bonusImage1())
+                    .resizable()
+                    .frame(width: 18, height: 18)
+            }
+            .frame(width: 24, height: 24)
+
+            VStack(spacing: 0) {
+                Text("3")
+                    .font(.footnote)
+
+                Image(nsImage: self.viewModel.bonusImage3())
+                    .resizable()
+                    .frame(width: 18, height: 18)
+            }
+            .frame(width: 24, height: 24)
+
+            VStack(spacing: 0) {
+                Text("6")
+                    .font(.footnote)
+
+                Image(nsImage: self.viewModel.bonusImage6())
+                    .resizable()
+                    .frame(width: 18, height: 18)
+            }
+            .frame(width: 24, height: 24)
+
             Image(nsImage: self.viewModel.suzerainImage())
                 .resizable()
                 .frame(width: 24, height: 24)
@@ -61,7 +91,7 @@ struct CityStateView_Previews: PreviewProvider {
 
     private static func viewModel(cityState: CityStateType, quest: CityStateQuestType) -> CityStateViewModel {
 
-        let viewModel = CityStateViewModel(cityState: cityState, quest: quest)
+        let viewModel = CityStateViewModel(cityState: cityState, quest: quest, envoys: 1)
 
         return viewModel
     }

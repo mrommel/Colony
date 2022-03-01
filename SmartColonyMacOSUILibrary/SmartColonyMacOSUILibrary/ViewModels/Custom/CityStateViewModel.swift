@@ -59,10 +59,11 @@ class CityStateViewModel: ObservableObject {
     private let quest: CityStateQuestType
     weak var delegate: CityStateViewModelDelegate?
 
-    init(cityState: CityStateType, quest: CityStateQuestType) {
+    init(cityState: CityStateType, quest: CityStateQuestType, envoys: Int) {
 
         self.cityState = cityState
         self.quest = quest
+        self.envoys = envoys
 
         self.name = cityState.name()
     }
@@ -70,6 +71,27 @@ class CityStateViewModel: ObservableObject {
     func cityStateImage() -> NSImage {
 
         return ImageCache.shared.image(for: self.cityState.iconTexture())
+    }
+
+    func bonusImage1() -> NSImage {
+
+        let active = self.envoys >= 1
+        let texture = ImageCache.shared.image(for: self.cityState.bonusTexture(active: active))
+        return texture.tint(with: self.cityState.category().color())
+    }
+
+    func bonusImage3() -> NSImage {
+
+        let active = self.envoys >= 3
+        let texture = ImageCache.shared.image(for: self.cityState.bonusTexture(active: active))
+        return texture.tint(with: self.cityState.category().color())
+    }
+
+    func bonusImage6() -> NSImage {
+
+        let active = self.envoys >= 6
+        let texture = ImageCache.shared.image(for: self.cityState.bonusTexture(active: active))
+        return texture.tint(with: self.cityState.category().color())
     }
 
     func suzerainImage() -> NSImage {

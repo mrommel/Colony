@@ -23,6 +23,7 @@ public class PlayerEnvoys: AbstractPlayerEnvoys {
     enum CodingKeys: CodingKey {
 
         case envoyArray
+        case unassignedEnvoys
     }
 
     // user properties / values
@@ -46,6 +47,7 @@ public class PlayerEnvoys: AbstractPlayerEnvoys {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.envoyArray = try container.decode(WeightedList<CityStateType>.self, forKey: .envoyArray)
+        self.unassignedEnvoys = try container.decode(Int.self, forKey: .unassignedEnvoys)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -53,6 +55,7 @@ public class PlayerEnvoys: AbstractPlayerEnvoys {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.envoyArray, forKey: .envoyArray)
+        try container.encode(self.unassignedEnvoys, forKey: .unassignedEnvoys)
     }
 
     public func meet(cityState: CityStateType, isFirst: Bool) {

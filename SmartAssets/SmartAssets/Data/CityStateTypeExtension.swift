@@ -22,6 +22,19 @@ extension CityStateType {
         }
     }
 
+    public func bonusTexture(active: Bool = true) -> String {
+
+        switch self.category() {
+
+        case .cultural: return active ? "suzerain-cultural" : "suzerain-cultural-disabled"
+        case .industrial: return active ? "suzerain-industrial" : "suzerain-industrial-disabled"
+        case .militaristic: return active ? "suzerain-militaristic" : "suzerain-militaristic-disabled"
+        case .religious: return active ? "suzerain-religious" : "suzerain-religious-disabled"
+        case .scientific: return active ? "suzerain-scientific" : "suzerain-scientific-disabled"
+        case .trade: return active ? "suzerain-trade" : "suzerain-trade-disabled"
+        }
+    }
+
     public func suzerainTexture(active: Bool = true) -> String {
 
         if active {

@@ -14,7 +14,7 @@ extension Player {
 
     public func faith(in gameModel: GameModel?) -> Double {
 
-        if self.isMinorCiv() || self.isBarbarian() {
+        if self.isCityState() || self.isBarbarian() {
             return 0.0
         }
 
@@ -35,7 +35,7 @@ extension Player {
             fatalError("cant get gameModel")
         }
 
-        if self.isMinorCiv() || self.isBarbarian() {
+        if self.isCityState() || self.isBarbarian() {
             return 0.0
         }
 

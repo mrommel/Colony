@@ -2582,8 +2582,13 @@ public class DiplomaticAI: Codable {
 
             if self.greetPlayers.contains(where: { activePlayer.isEqual(to: $0) }) {
 
-                //let szText = DiplomaticRequestMessage.messageIntro.diploStringForMessage(for: self.player)
-                player.diplomacyRequests?.sendRequest(for: activePlayer.leader, state: .intro, message: .messageIntro, emotion: .neutral, in: gameModel)
+                player.diplomacyRequests?.sendRequest(
+                    for: activePlayer.leader,
+                       state: .intro,
+                       message: .messageIntro,
+                       emotion: .neutral,
+                       in: gameModel
+                )
 
                 self.greetPlayers.removeAll(where: { activePlayer.isEqual(to: $0) })
             }
@@ -2608,6 +2613,10 @@ public class DiplomaticAI: Codable {
             return
         }
 
+        if player.isCityState() || otherPlayer.isCityState() {
+            return
+        }
+
         self.playerDict.initContact(with: otherPlayer, in: gameModel.currentTurn)
         self.updateMilitaryStrength(of: otherPlayer, in: gameModel)
 
@@ -2618,9 +2627,9 @@ public class DiplomaticAI: Codable {
             if otherPlayer.isHuman() {
 
                 // Put in the list of people to greet human, when the human turn comes up.
-                //if !self.hasMet(with: otherPlayer) {
+                // if !self.hasMet(with: otherPlayer) {
                     self.greetPlayers.append(otherPlayer)
-                //}
+                // }
             }
         }
     }

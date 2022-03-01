@@ -182,7 +182,7 @@ class HeaderViewModel: ObservableObject {
 
         for (index, player) in gameModel.players.enumerated() {
 
-            if player.isMinorCiv() || player.isBarbarian() || player.isFreeCity() {
+            if player.isCityState() || player.isBarbarian() || player.isFreeCity() {
                 continue
             }
 

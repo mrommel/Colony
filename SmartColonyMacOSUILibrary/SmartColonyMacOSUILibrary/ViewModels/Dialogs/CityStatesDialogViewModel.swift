@@ -46,7 +46,7 @@ class CityStatesDialogViewModel: ObservableObject {
 
         for player in gameModel.players {
 
-            if player.isMinorCiv() {
+            if player.isCityState() {
                 if diplomacyAI.hasMet(with: player) {
                     if case .cityState(type: let cityStateType) = player.leader {
                         cityStates.append(cityStateType)
@@ -59,7 +59,7 @@ class CityStatesDialogViewModel: ObservableObject {
 
         for cityState in cityStates {
 
-            let cityStateViewModel = CityStateViewModel(cityState: cityState, quest: .none)
+            let cityStateViewModel = CityStateViewModel(cityState: cityState, quest: .none, envoys: 0)
             cityStateViewModel.delegate = self
             tmpCityStateViewModels.append(cityStateViewModel)
         }

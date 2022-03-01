@@ -270,7 +270,7 @@ open class MapModel: Codable {
             fatalError("cant get player")
         }
 
-        if player.isMinorCiv() {
+        if player.isCityState() {
             guard let startLocation = self.cityStateStartLocations.first(where: { $0.leader == player.leader }) else {
                 fatalError("cant get start location of \(player.leader)")
             }
