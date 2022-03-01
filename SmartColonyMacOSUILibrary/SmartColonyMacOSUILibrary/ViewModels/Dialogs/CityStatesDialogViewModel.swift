@@ -30,21 +30,36 @@ class CityStatesDialogViewModel: ObservableObject {
 
     func update() {
 
-        /* guard let gameModel = self.gameEnvironment.game.value else {
+        guard let gameModel = self.gameEnvironment.game.value else {
             fatalError("cant get game")
         }
 
         guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get human player")
-        } */
+        }
+
+        guard let diplomacyAI = humanPlayer.diplomacyAI else {
+            fatalError("cant get human diplomacyAI")
+        }
+
+        var cityStates: [CityStateType] = []
+
+        for player in gameModel.players {
+
+            if player.isMinorCiv() {
+                if diplomacyAI.hasMet(with: player) {
+                    if case .cityState(type: let cityStateType) = player.leader {
+                        cityStates.append(cityStateType)
+                    }
+                }
+            }
+        }
 
         var tmpCityStateViewModels: [CityStateViewModel] = []
 
-        let cityStates: [CityStateType] = [.amsterdam, .antioch, .brussels]
-
         for cityState in cityStates {
 
-            let cityStateViewModel = CityStateViewModel(cityState: cityState)
+            let cityStateViewModel = CityStateViewModel(cityState: cityState, quest: .none)
             cityStateViewModel.delegate = self
             tmpCityStateViewModels.append(cityStateViewModel)
         }
@@ -59,6 +74,18 @@ class CityStatesDialogViewModel: ObservableObject {
 }
 
 extension CityStatesDialogViewModel: CityStateViewModelDelegate {
+
+    func assignEnvoy(to cityState: CityStateType) -> Bool {
+
+        print("todo: assignEnvoy to \(cityState)")
+        return true
+    }
+
+    func unassignEnvoy(from cityState: CityStateType) -> Bool {
+
+        print("todo: unassignEnvoy from \(cityState)")
+        return true
+    }
 
     func center(on cityState: CityStateType) {
 

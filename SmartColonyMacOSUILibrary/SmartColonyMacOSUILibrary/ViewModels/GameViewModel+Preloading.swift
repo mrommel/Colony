@@ -265,7 +265,8 @@ extension GameViewModel {
             "techInfo-active", "techInfo-disabled", "techInfo-researched", "techInfo-researching",
             "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching",
             "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active",
-            "grid9-button-clicked", "grid9-button-disabled", "banner", "science-progress", "culture-progress",
+            "grid9-button-clicked", "grid9-button-disabled", "grid9-row",
+            "banner", "science-progress", "culture-progress",
             "header-bar-button", "grid9-progress", "leader-bagde",
             "header-bar-left", "header-bar-right", "city-banner", "grid9-button-district-active",
             "grid9-button-district", "grid9-button-highlighted", "questionmark", "tile-purchase-active",
@@ -275,7 +276,9 @@ extension GameViewModel {
             "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty",
             "map-overview-canvas", "map-lens", "map-lens-active", "map-marker", "map-options",
             "unit-canvas", "menu", "menu-background", "speed-standard", "city-states",
-            "jump-to"
+            "jump-to",
+            "suzerain-cultural", "suzerain-inactive", "suzerain-industrial", "suzerain-militaristic",
+            "suzerain-religious", "suzerain-scientific", "suzerain-trade"
         ]
         print("- load \(textureNames.count) misc textures")
         for textureName in textureNames {

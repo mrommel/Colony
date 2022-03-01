@@ -21,4 +21,21 @@ extension CityStateType {
         case .trade: return "cityStateCategory-trade"
         }
     }
+
+    public func suzerainTexture(active: Bool = true) -> String {
+
+        if active {
+            return "suzerain-inactive"
+        }
+
+        switch self.category() {
+
+        case .cultural: return "suzerain-cultural"
+        case .industrial: return "suzerain-industrial"
+        case .militaristic: return "suzerain-militaristic"
+        case .religious: return "suzerain-religious"
+        case .scientific: return "suzerain-scientific"
+        case .trade: return "suzerain-trade"
+        }
+    }
 }
