@@ -33,19 +33,23 @@ struct CityStatesDialogView: View {
 
                     ScrollView {
 
-                        // list of known city states
-                        LazyVStack(alignment: .leading) {
+                        if self.viewModel.cityStateViewModels.isEmpty {
+                            Text("No city state met yet")
+                        } else {
+                            // list of known city states
+                            LazyVStack(alignment: .leading) {
 
-                            ForEach(self.viewModel.cityStateViewModels, id: \.self) { cityStateViewModel in
+                                ForEach(self.viewModel.cityStateViewModels, id: \.self) { cityStateViewModel in
 
-                                CityStateView(viewModel: cityStateViewModel)
+                                    CityStateView(viewModel: cityStateViewModel)
+                                }
                             }
+
+                            // list of enabled bonuses
+                            /* LazyVStack(alignment: .center) {
+
+                            } */
                         }
-
-                        // list of enabled bonuses
-                        /* LazyVStack(alignment: .center) {
-
-                        } */
                     }
                 }
                 .frame(width: 350, height: 330)

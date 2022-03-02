@@ -42,14 +42,14 @@ class CityStatesDialogViewModel: ObservableObject {
             fatalError("cant get human diplomacyAI")
         }
 
-        var cityStates: [CityStateType] = []
+        var cityStatesMetByHuman: [CityStateType] = []
 
         for player in gameModel.players {
 
             if player.isCityState() {
                 if diplomacyAI.hasMet(with: player) {
                     if case .cityState(type: let cityStateType) = player.leader {
-                        cityStates.append(cityStateType)
+                        cityStatesMetByHuman.append(cityStateType)
                     }
                 }
             }
@@ -57,9 +57,11 @@ class CityStatesDialogViewModel: ObservableObject {
 
         var tmpCityStateViewModels: [CityStateViewModel] = []
 
-        for cityState in cityStates {
+        for cityState in cityStatesMetByHuman {
 
-            let cityStateViewModel = CityStateViewModel(cityState: cityState, quest: .none, envoys: 0)
+            let numEnvoys = humanPlayer.envoysAssigned(to: cityState)
+
+            let cityStateViewModel = CityStateViewModel(cityState: cityState, quest: .none, envoys: numEnvoys)
             cityStateViewModel.delegate = self
             tmpCityStateViewModels.append(cityStateViewModel)
         }
@@ -77,19 +79,45 @@ extension CityStatesDialogViewModel: CityStateViewModelDelegate {
 
     func assignEnvoy(to cityState: CityStateType) -> Bool {
 
-        print("todo: assignEnvoy to \(cityState)")
-        return true
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human player")
+        }
+
+        return humanPlayer.assignEnvoy(to: cityState, in: gameModel)
     }
 
     func unassignEnvoy(from cityState: CityStateType) -> Bool {
 
-        print("todo: unassignEnvoy from \(cityState)")
-        return true
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human player")
+        }
+
+        return humanPlayer.unassignEnvoy(from: cityState, in: gameModel)
     }
 
     func center(on cityState: CityStateType) {
 
-        print("todo: center on \(cityState)")
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let cityStatePlayer = gameModel.cityStatePlayer(for: cityState) else {
+            fatalError("cant get city state player")
+        }
+
+        if let capital = cityStatePlayer.capitalCity(in: gameModel) {
+            self.delegate?.focus(on: capital.location)
+        } else {
+            print("cannot center on \(cityState) - no capital")
+        }
 
         self.delegate?.closeDialog()
     }

@@ -2737,7 +2737,7 @@ extension GameModel {
     ///
     /// - Parameter cityState: city state to get the player for
     /// - Returns: player for `cityState`
-    func cityStatePlayer(for cityState: CityStateType) -> AbstractPlayer? {
+    public func cityStatePlayer(for cityState: CityStateType) -> AbstractPlayer? {
 
         return self.players.first(where: { player in
             if case .cityState(type: let cityStateType) = player.leader {
@@ -2752,7 +2752,7 @@ extension GameModel {
     ///
     /// - Parameter cityState: city state to get the number of 
     /// - Returns: number of major players that have met the `cityState`
-    func countMajorCivilizationsMet(with cityState: CityStateType) -> Int {
+    public func countMajorCivilizationsMet(with cityState: CityStateType) -> Int {
 
         var numCivs = 0
 

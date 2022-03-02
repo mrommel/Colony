@@ -1789,10 +1789,14 @@ public class Player: AbstractPlayer {
         var hasActiveDiploRequest = false
         if self.isAlive() {
 
-            if !self.isBarbarian() && !self.isFreeCity() {
+            if !self.isBarbarian() && !self.isFreeCity() && !self.isCityState() {
 
-                //self.doUnitDiversity()
+                // self.doUnitDiversity()
                 self.doUpdateCramped(in: gameModel)
+                // DoUpdateUprisings();
+                // DoUpdateCityRevolts();
+                // CalculateNetHappiness();
+                // SetBestWonderCities();
 
                 self.grandStrategyAI?.doTurn(in: gameModel)
 

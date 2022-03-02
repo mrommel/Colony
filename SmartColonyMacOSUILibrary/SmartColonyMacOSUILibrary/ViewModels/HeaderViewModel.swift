@@ -116,6 +116,7 @@ class HeaderViewModel: ObservableObject {
 
         self.governorsHeaderViewModel.alert = (humanPlayer.governors?.numTitlesAvailable() ?? 0) > 0
         self.greatPeopleHeaderViewModel.alert = humanPlayer.canRecruitGreatPerson(in: gameModel)
+        self.cityStateHeaderViewModel.alert = humanPlayer.numberOfAvailableEnvoys() > 0
 
         if let techs = humanPlayer.techs {
             if let currentTech = techs.currentTech() {
@@ -199,6 +200,19 @@ class HeaderViewModel: ObservableObject {
 extension HeaderViewModel: HeaderButtonViewModelDelegate {
 
     func clicked(on type: HeaderButtonType) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        guard humanPlayer.isActive() else {
+            // only open dialog when human is active
+            return
+        }
 
         switch type {
 

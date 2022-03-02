@@ -176,7 +176,11 @@ class Civics: AbstractCivics {
             self.player?.addGovernorTitle()
         }
 
-        // check if this tech is the first of a new era
+        if civic.envoys() > 0 {
+            self.player?.changeEnvoys(by: civic.envoys())
+        }
+
+        // check if this civic is the first of a new era
         let civicsInEra = self.civics.count(where: { $0.era() == civic.era() })
         if civicsInEra == 0 && civic.era() != .ancient {
 
