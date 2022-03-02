@@ -2599,7 +2599,7 @@ public class DiplomaticAI: Codable {
                         activePlayer.changeEnvoys(by: 1)
 
                         // this free envoy is assigned to
-                        activePlayer.assignEnvoy(to: cityState)
+                        activePlayer.assignEnvoy(to: cityState, in: gameModel)
 
                         // inform human player
                         activePlayer.notifications()?.add(notification: .metCityState(cityState: cityState, first: true))
@@ -2620,7 +2620,7 @@ public class DiplomaticAI: Codable {
                         player.changeEnvoys(by: 1)
 
                         // this free envoy is assigned to
-                        player.assignEnvoy(to: cityState)
+                        player.assignEnvoy(to: cityState, in: gameModel)
 
                         // inform human player
                         player.notifications()?.add(notification: .metCityState(cityState: cityState, first: true))

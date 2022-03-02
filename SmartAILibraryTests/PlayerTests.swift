@@ -163,4 +163,254 @@ class PlayerTests: XCTestCase {
         XCTAssertEqual(cityPompeij.amenitiesForWarWeariness(), 1)
         XCTAssertEqual(cityBrunsidi.amenitiesForWarWeariness(), 1)
     }
+
+    func testAssignEnvoyAndBecomeSuzerain() {
+
+        // GIVEN
+
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAmsterdam = Player(leader: .cityState(type: .amsterdam))
+        playerAmsterdam.initialize()
+
+        let playerAkkad = Player(leader: .cityState(type: .akkad))
+        playerAkkad.initialize()
+
+        let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
+
+        // map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
+
+        // game
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAmsterdam, playerAkkad, playerAlexander, playerTrajan],
+            on: mapModel
+        )
+
+        playerTrajan.changeEnvoys(by: 3)
+        playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
+        playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
+        let suzerainBefore = playerAmsterdam.suzerain()
+
+        // WHEN
+        playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
+        let suzerainAfter = playerAmsterdam.suzerain()
+
+        // THEN
+        XCTAssertNil(suzerainBefore)
+        XCTAssertEqual(suzerainAfter, .trajan)
+    }
+
+    func testAssignEnvoyAndDontBecomeSuzerain() {
+
+        // GIVEN
+
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAmsterdam = Player(leader: .cityState(type: .amsterdam))
+        playerAmsterdam.initialize()
+
+        let playerAkkad = Player(leader: .cityState(type: .akkad))
+        playerAkkad.initialize()
+
+        let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
+
+        // map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
+
+        // game
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAmsterdam, playerAkkad, playerAlexander, playerTrajan],
+            on: mapModel
+        )
+
+        playerAlexander.changeEnvoys(by: 3)
+        playerAlexander.assignEnvoy(to: .amsterdam, in: gameModel)
+        playerAlexander.assignEnvoy(to: .amsterdam, in: gameModel)
+        playerAlexander.assignEnvoy(to: .amsterdam, in: gameModel)
+
+        playerTrajan.changeEnvoys(by: 3)
+        playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
+        playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
+        let suzerainBefore = playerAmsterdam.suzerain()
+
+        // WHEN
+        playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
+        let suzerainAfter = playerAmsterdam.suzerain()
+
+        // THEN
+        XCTAssertEqual(suzerainBefore, .alexander)
+        XCTAssertNil(suzerainAfter)
+    }
+
+    func testAssignEnvoyAndReplaceSuzerain() {
+
+        // GIVEN
+
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAmsterdam = Player(leader: .cityState(type: .amsterdam))
+        playerAmsterdam.initialize()
+
+        let playerAkkad = Player(leader: .cityState(type: .akkad))
+        playerAkkad.initialize()
+
+        let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
+
+        // map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
+
+        // game
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAmsterdam, playerAkkad, playerAlexander, playerTrajan],
+            on: mapModel
+        )
+
+        playerAlexander.changeEnvoys(by: 3)
+        playerAlexander.assignEnvoy(to: .amsterdam, in: gameModel)
+        playerAlexander.assignEnvoy(to: .amsterdam, in: gameModel)
+        playerAlexander.assignEnvoy(to: .amsterdam, in: gameModel)
+
+        playerTrajan.changeEnvoys(by: 4)
+        playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
+        playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
+        let suzerainBefore = playerAmsterdam.suzerain()
+
+        // WHEN
+        playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
+        playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
+        let suzerainAfter = playerAmsterdam.suzerain()
+
+        // THEN
+        XCTAssertEqual(suzerainBefore, .alexander)
+        XCTAssertEqual(suzerainAfter, .trajan)
+    }
+
+    func testUnassignEnvoyAndLooseSuzerain() {
+
+        // GIVEN
+
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAmsterdam = Player(leader: .cityState(type: .amsterdam))
+        playerAmsterdam.initialize()
+
+        let playerAkkad = Player(leader: .cityState(type: .akkad))
+        playerAkkad.initialize()
+
+        let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
+
+        // map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
+
+        // game
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAmsterdam, playerAkkad, playerAlexander, playerTrajan],
+            on: mapModel
+        )
+
+        playerTrajan.changeEnvoys(by: 3)
+        playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
+        playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
+        playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
+        let suzerainBefore = playerAmsterdam.suzerain()
+
+        // WHEN
+        playerTrajan.unassignEnvoy(from: .amsterdam, in: gameModel)
+        let suzerainAfter = playerAmsterdam.suzerain()
+
+        // THEN
+        XCTAssertEqual(suzerainBefore, .trajan)
+        XCTAssertNil(suzerainAfter)
+    }
+
+    func testUnassignEnvoyAndGetReplacedSuzerain() {
+
+        // GIVEN
+
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAmsterdam = Player(leader: .cityState(type: .amsterdam))
+        playerAmsterdam.initialize()
+
+        let playerAkkad = Player(leader: .cityState(type: .akkad))
+        playerAkkad.initialize()
+
+        let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
+
+        // map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
+
+        // game
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAmsterdam, playerAkkad, playerAlexander, playerTrajan],
+            on: mapModel
+        )
+
+        playerAlexander.changeEnvoys(by: 3)
+        playerAlexander.assignEnvoy(to: .amsterdam, in: gameModel)
+        playerAlexander.assignEnvoy(to: .amsterdam, in: gameModel)
+        playerAlexander.assignEnvoy(to: .amsterdam, in: gameModel)
+
+        playerTrajan.changeEnvoys(by: 4)
+        playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
+        playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
+        playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
+        playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
+        let suzerainBefore = playerAmsterdam.suzerain()
+
+        // WHEN
+        playerTrajan.unassignEnvoy(from: .amsterdam, in: gameModel)
+        playerTrajan.unassignEnvoy(from: .amsterdam, in: gameModel)
+        let suzerainAfter = playerAmsterdam.suzerain()
+
+        // THEN
+        XCTAssertEqual(suzerainBefore, .trajan)
+        XCTAssertEqual(suzerainAfter, .alexander)
+    }
 }

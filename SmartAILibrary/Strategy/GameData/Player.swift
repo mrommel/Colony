@@ -141,7 +141,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func isFreeCity() -> Bool
     func isCityState() -> Bool
 
-    // diplomatics
+    // diplomatics methods
     func hasMet(with otherPlayer: AbstractPlayer?) -> Bool
     func isAtWar(with otherPlayer: AbstractPlayer?) -> Bool
     func atWarCount() -> Int
@@ -154,19 +154,24 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func proximity(to otherPlayer: AbstractPlayer?) -> PlayerProximityType
 
-    // envoys
+    // envoys / suzerain methods
     func changeEnvoys(by value: Int)
     func numberOfAvailableEnvoys() -> Int
     func envoysAssigned(to cityState: CityStateType) -> Int
-    @discardableResult func assignEnvoy(to cityState: CityStateType) -> Bool
-    @discardableResult func unassignEnvoy(from cityState: CityStateType) -> Bool
+    @discardableResult func assignEnvoy(to cityState: CityStateType, in gameModel: GameModel?) -> Bool
+    @discardableResult func unassignEnvoy(from cityState: CityStateType, in gameModel: GameModel?) -> Bool
     func metCityStates(in gameModel: GameModel?) -> [CityStateType]
 
+    func set(suzerain leader: LeaderType)
+    func resetSuzerain()
+    func suzerain() -> LeaderType?
+
+    // capital conquerer methods
     func hasHasLostCapital() -> Bool
     func capitalConqueror() -> LeaderType?
     func set(hasLostCapital value: Bool, to conqueror: AbstractPlayer?, in gameModel: GameModel?) // checks for domination victory
 
-    // notification
+    // notification methods
     func updateNotifications(in gameModel: GameModel?)
     func set(blockingNotification: NotificationItem?)
     func blockingNotification() -> NotificationItem?
@@ -376,6 +381,7 @@ public class Player: AbstractPlayer {
         case tourism
         case moments
         case envoys
+        case suzerain
 
         case currentEra
         case currentAge
@@ -458,6 +464,7 @@ public class Player: AbstractPlayer {
     public var tourism: AbstractPlayerTourism?
     public var momentsVal: AbstractPlayerMoments?
     private var envoys: AbstractPlayerEnvoys?
+    private var suzerainValue: LeaderType?
 
     public var government: AbstractGovernment?
     internal var currentEraVal: EraType = .ancient
@@ -588,6 +595,7 @@ public class Player: AbstractPlayer {
         self.tourism = try container.decode(PlayerTourism.self, forKey: .tourism)
         self.momentsVal = try container.decode(PlayerMoments.self, forKey: .moments)
         self.envoys = try container.decode(PlayerEnvoys.self, forKey: .envoys)
+        self.suzerainValue = try container.decodeIfPresent(LeaderType.self, forKey: .suzerain)
 
         self.techs = try container.decode(Techs.self, forKey: .techs)
         self.civics = try container.decode(Civics.self, forKey: .civics)
@@ -705,6 +713,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.tourism as! PlayerTourism, forKey: .tourism)
         try container.encode(self.momentsVal as! PlayerMoments, forKey: .moments)
         try container.encode(self.envoys as! PlayerEnvoys, forKey: .envoys)
+        try container.encodeIfPresent(self.suzerainValue, forKey: .suzerain)
         try container.encode(self.government as! Government, forKey: .government)
 
         try container.encode(self.currentEraVal, forKey: .currentEra)
@@ -1335,22 +1344,79 @@ public class Player: AbstractPlayer {
         return playerEnvoys.envoys(in: cityState)
     }
 
-    public func assignEnvoy(to cityState: CityStateType) -> Bool {
+    @discardableResult
+    public func assignEnvoy(to cityState: CityStateType, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
 
         guard let playerEnvoys = self.envoys else {
             fatalError("cant get playerEnvoys")
         }
 
-        return playerEnvoys.assignEnvoy(to: cityState)
+        guard let cityStatePlayer = gameModel.cityStatePlayer(for: cityState) else {
+            fatalError("cant get player for city state")
+        }
+
+        let result = playerEnvoys.assignEnvoy(to: cityState)
+
+        if result {
+
+            let cityStateSuzerain = cityStatePlayer.suzerain() != nil ? gameModel.player(for: cityStatePlayer.suzerain()!) : nil
+
+            // check if player is suzerain
+            if playerEnvoys.envoys(in: cityState) >= 3 && !self.isEqual(to: cityStateSuzerain) {
+                if let playerWithMostEnvoys = gameModel.playerWithMostEnvoys(in: cityState) {
+                    if playerWithMostEnvoys.isEqual(to: self) {
+                        cityStatePlayer.set(suzerain: self.leader)
+                    }
+                } else {
+                    // no player with most envoys
+                    cityStatePlayer.resetSuzerain()
+                }
+            }
+        }
+
+        return result
     }
 
-    public func unassignEnvoy(from cityState: CityStateType) -> Bool {
+    @discardableResult
+    public func unassignEnvoy(from cityState: CityStateType, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
 
         guard let playerEnvoys = self.envoys else {
             fatalError("cant get playerEnvoys")
         }
 
-        return playerEnvoys.unassignEnvoy(from: cityState)
+        guard let cityStatePlayer = gameModel.cityStatePlayer(for: cityState) else {
+            fatalError("cant get player for city state")
+        }
+
+        let result = playerEnvoys.unassignEnvoy(from: cityState)
+
+        if result {
+            let cityStateSuzerain = cityStatePlayer.suzerain() != nil ? gameModel.player(for: cityStatePlayer.suzerain()!) : nil
+
+            if playerEnvoys.envoys(in: cityState) < 3 && self.isEqual(to: cityStateSuzerain) {
+
+                if let playerWithMostEnvoys = gameModel.playerWithMostEnvoys(in: cityState) {
+                    if playerWithMostEnvoys.envoysAssigned(to: cityState) >= 3 {
+                        cityStatePlayer.set(suzerain: playerWithMostEnvoys.leader)
+                    } else {
+                        cityStatePlayer.resetSuzerain()
+                    }
+                } else {
+                    // no player with most envoys
+                    cityStatePlayer.resetSuzerain()
+                }
+            }
+        }
+
+        return result
     }
 
     public func metCityStates(in gameModel: GameModel?) -> [CityStateType] {
@@ -1381,6 +1447,21 @@ public class Player: AbstractPlayer {
         }
 
         return cityStatesArr
+    }
+
+    public func set(suzerain leader: LeaderType) {
+
+        self.suzerainValue = leader
+    }
+
+    public func resetSuzerain() {
+
+        self.suzerainValue = nil
+    }
+
+    public func suzerain() -> LeaderType? {
+
+        return self.suzerainValue
     }
 
     /// Have we lost our capital in war?

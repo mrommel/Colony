@@ -2772,6 +2772,26 @@ extension GameModel {
         return numCivs
     }
 
+    func playerWithMostEnvoys(in cityState: CityStateType) -> AbstractPlayer? {
+
+        var bestPlayer: AbstractPlayer?
+        var bestEnvoys: Int = 0
+
+        for player in self.players {
+
+            let envoys = player.envoysAssigned(to: cityState)
+            if envoys > bestEnvoys {
+                bestPlayer = player
+                bestEnvoys = envoys
+            } else if envoys == bestEnvoys {
+                // when more than one player have the same amount of envoys in a city state - no one is suzerain
+                bestPlayer = nil
+            }
+        }
+
+        return bestPlayer
+    }
+
     // MARK: Statistics
 
     func numberOfLandPlots() -> Int {
