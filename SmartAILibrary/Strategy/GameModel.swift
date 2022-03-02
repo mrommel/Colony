@@ -2733,6 +2733,9 @@ extension GameModel {
 
     // MARK: envoys
 
+    /// get player for `cityState`
+    /// - Parameter cityState: city state to get the player for
+    /// - Returns: player for `cityState`
     func cityStatePlayer(for cityState: CityStateType) -> AbstractPlayer? {
 
         return self.players.first(where: { player in
@@ -2744,6 +2747,9 @@ extension GameModel {
         })
     }
 
+    /// number of major players / civilization the have met a certain `cityState`
+    /// - Parameter cityState: city state to get the number of 
+    /// - Returns: number of major players that have met the `cityState`
     func countMajorCivilizationsMet(with cityState: CityStateType) -> Int {
 
         var numCivs = 0

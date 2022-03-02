@@ -84,7 +84,7 @@ public class PlayerEnvoys: AbstractPlayerEnvoys {
         self.unassignedEnvoysValue += value
     }
 
-    /// assigns an envoy to ´cityState´
+    /// assigns an envoy to `cityState
     /// - Parameter cityState: cityState to assign the envoy to
     public func assignEnvoy(to cityState: CityStateType) -> Bool {
 
@@ -98,7 +98,7 @@ public class PlayerEnvoys: AbstractPlayerEnvoys {
         return true
     }
 
-    /// unasigns an envoy from ´cityState´
+    /// unasigns an envoy from `cityState
     /// - Parameter cityState: cityState to unassign the envoy from
     public func unassignEnvoy(from cityState: CityStateType) -> Bool {
 

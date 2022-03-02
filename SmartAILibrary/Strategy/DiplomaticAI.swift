@@ -2592,7 +2592,7 @@ public class DiplomaticAI: Codable {
                         fatalError("cant get city state")
                     }
 
-                    // is ´activePlayer´ the first major player to meet this city state
+                    // is `activePlayer the first major player to meet this city state
                     if gameModel.countMajorCivilizationsMet(with: cityState) == 1 {
 
                         // first player gets a free envoy
@@ -2613,7 +2613,7 @@ public class DiplomaticAI: Codable {
                         fatalError("cant get city state")
                     }
 
-                    // is ´activePlayer´ the first major player to meet this city state
+                    // is ´player´ the first major player to meet this city state
                     if gameModel.countMajorCivilizationsMet(with: cityState) == 1 {
 
                         // first player gets a free envoy

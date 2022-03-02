@@ -25,6 +25,8 @@ public struct TopBarView: View {
 
                 self.tradeRouteButton
 
+                self.envoysButton
+
                 self.resourceButtons
                     .padding(.top, 1)
 
@@ -83,10 +85,35 @@ public struct TopBarView: View {
                     .foregroundColor(Color.white)
                     .font(.caption)
             }
-            .padding(.leading, 8)
-            .padding(.trailing, 8)
-            .padding(.top, 4)
-            .padding(.bottom, 4)
+                .padding(.leading, 8)
+                .padding(.trailing, 8)
+                .padding(.top, 4)
+                .padding(.bottom, 4)
+                .onTapGesture {
+                    self.viewModel.tradeRoutesClicked()
+                }
+        )
+    }
+
+    private var envoysButton: AnyView {
+        
+        AnyView(
+            HStack(alignment: .center, spacing: 4) {
+                Image(nsImage: Globals.Icons.envoy)
+                    .resizable()
+                    .frame(width: 12, height: 12, alignment: .center)
+                
+                Text(self.viewModel.envoysLabelText)
+                    .foregroundColor(Color.white)
+                    .font(.caption)
+            }
+                .padding(.leading, 8)
+                .padding(.trailing, 8)
+                .padding(.top, 4)
+                .padding(.bottom, 4)
+                .onTapGesture {
+                    self.viewModel.envoysClicked()
+                }
         )
     }
 

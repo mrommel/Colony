@@ -11,6 +11,8 @@ import SmartAssets
 
 protocol TopBarViewModelDelegate: AnyObject {
 
+    func tradeRoutesClicked()
+    func envoysClicked()
     func menuButtonClicked()
 }
 
@@ -36,6 +38,9 @@ public class TopBarViewModel: ObservableObject {
 
     @Published
     var tradeRoutesLabelText: String
+
+    @Published
+    var envoysLabelText: String
 
     // resources
 
@@ -74,6 +79,7 @@ public class TopBarViewModel: ObservableObject {
         self.tourismYieldValueViewModel = YieldValueViewModel(yieldType: .tourism, initial: 0.0, type: .onlyValue)
 
         self.tradeRoutesLabelText = "0/0"
+        self.envoysLabelText = "0"
 
         self.horsesValueViewModel = ResourceValueViewModel(resourceType: .horses, initial: 1)
         self.ironValueViewModel = ResourceValueViewModel(resourceType: .iron, initial: 1)
@@ -125,6 +131,8 @@ public class TopBarViewModel: ObservableObject {
         let tradingCapacity = humanPlayer.tradingCapacity(in: gameModel)
         self.tradeRoutesLabelText = "\(numberOfTradeRoutes)/\(tradingCapacity)"
 
+        self.envoysLabelText = "\(humanPlayer.numberOfAvailableEnvoys())"
+
         self.horsesValueViewModel.value = humanPlayer.numStockpile(of: .horses)
         self.horsesValueViewModel.tooltip = self.resourceTooltip(of: .horses, for: humanPlayer)
 
@@ -147,6 +155,16 @@ public class TopBarViewModel: ObservableObject {
         self.uraniumValueViewModel.tooltip = self.resourceTooltip(of: .uranium, for: humanPlayer)
 
         self.turnYearText = gameModel.turnYear()
+    }
+
+    func tradeRoutesClicked() {
+
+        self.delegate?.tradeRoutesClicked()
+    }
+
+    func envoysClicked() {
+
+        self.delegate?.envoysClicked()
     }
 
     func menuClicked() {

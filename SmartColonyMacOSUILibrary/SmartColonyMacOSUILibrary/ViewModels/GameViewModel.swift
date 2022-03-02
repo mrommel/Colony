@@ -1154,6 +1154,16 @@ extension GameViewModel: GameViewModelDelegate {
 
 extension GameViewModel: TopBarViewModelDelegate {
 
+    func tradeRoutesClicked() {
+
+        self.showTradeRouteDialog()
+    }
+
+    func envoysClicked() {
+
+        self.showCityStateDialog()
+    }
+
     func menuButtonClicked() {
 
         self.showGameMenu()
