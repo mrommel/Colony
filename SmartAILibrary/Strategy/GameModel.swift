@@ -2676,7 +2676,7 @@ extension GameModel {
 
     private func populateDigSite(on tile: AbstractTile, era: EraType, artifact: ArtifactType) {
 
-        var digSite: ArchaeologicalRecord = ArchaeologicalRecord()
+        let digSite: ArchaeologicalRecord = ArchaeologicalRecord()
 
         digSite.artifactType = artifact
         digSite.era = era
@@ -2734,6 +2734,7 @@ extension GameModel {
     // MARK: envoys
 
     /// get player for `cityState`
+    ///
     /// - Parameter cityState: city state to get the player for
     /// - Returns: player for `cityState`
     func cityStatePlayer(for cityState: CityStateType) -> AbstractPlayer? {
@@ -2748,6 +2749,7 @@ extension GameModel {
     }
 
     /// number of major players / civilization the have met a certain `cityState`
+    ///
     /// - Parameter cityState: city state to get the number of 
     /// - Returns: number of major players that have met the `cityState`
     func countMajorCivilizationsMet(with cityState: CityStateType) -> Int {
@@ -2772,6 +2774,10 @@ extension GameModel {
         return numCivs
     }
 
+    /// get the player that has the most envoy for a given `cityState`
+    ///
+    /// - Parameter cityState: city state to get the player with the most envoys for
+    /// - Returns: player with the most envoys or nil if two have the same amount of envoys
     func playerWithMostEnvoys(in cityState: CityStateType) -> AbstractPlayer? {
 
         var bestPlayer: AbstractPlayer?
@@ -2794,21 +2800,31 @@ extension GameModel {
 
     // MARK: Statistics
 
+    /// number of land tiles
+    ///
+    /// - Returns: number of land tiles
     func numberOfLandPlots() -> Int {
 
         return self.map.numberOfLandPlots()
     }
 
+    /// number of water / ocean tiles
+    ///
+    /// - Returns: number of water / ocean tiles
     func numberOfWaterPlots() -> Int {
 
         return self.map.numberOfWaterPlots()
     }
 
-    func numberOfPlots(where condiction: (AbstractTile?) -> Bool) -> Int {
+    /// number of tiles that fullfils the `condition`
+    ///
+    /// - Parameter condition: condition that is checked for every tile
+    /// - Returns: number of tiles that fulls the `condition`
+    func numberOfPlots(where condition: (AbstractTile?) -> Bool) -> Int {
 
         return self.map.points()
             .map { self.tile(at: $0) }
-            .count(where: condiction)
+            .count(where: condition)
     }
 
     func loggingEnabled() -> Bool {
@@ -2819,12 +2835,6 @@ extension GameModel {
     func aiLoggingEnabled() -> Bool {
 
         return true
-    }
-}
-
-extension Array where Element: Comparable {
-    func containsSameElements(as other: [Element]) -> Bool {
-        return self.count == other.count && self.sorted() == other.sorted()
     }
 }
 
