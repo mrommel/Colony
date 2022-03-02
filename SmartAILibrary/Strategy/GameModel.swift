@@ -2322,7 +2322,7 @@ extension GameModel {
         self.barbarianAI?.doBarbCampCleared(at: point)
     }
 
-    func countMajorCivizationsEverAlive() -> Int {
+    func countMajorCivilizationsEverAlive() -> Int {
 
         return self.players.count(where: { $0.isEverAlive() })
     }
@@ -2356,7 +2356,7 @@ extension GameModel {
         ]
 
         // find how many dig sites we need to create
-        let numMajorCivs = self.countMajorCivizationsEverAlive()
+        let numMajorCivs = self.countMajorCivilizationsEverAlive()
         let minDigSites = 5 /* MIN_DIG_SITES_PER_MAJOR_CIV */ * numMajorCivs
         let maxDigSites = 8 /* MAX_DIG_SITES_PER_MAJOR_CIV */ * numMajorCivs
         let idealNumDigSites = Int.random(minimum: minDigSites, maximum: maxDigSites)
@@ -2729,6 +2729,41 @@ extension GameModel {
             leader1: digSite.leader1,
             leader2: digSite.leader2
         )
+    }
+
+    // MARK: envoys
+
+    func cityStatePlayer(for cityState: CityStateType) -> AbstractPlayer? {
+
+        return self.players.first(where: { player in
+            if case .cityState(type: let cityStateType) = player.leader {
+                return cityStateType == cityState
+            }
+
+            return false
+        })
+    }
+
+    func countMajorCivilizationsMet(with cityState: CityStateType) -> Int {
+
+        var numCivs = 0
+
+        guard let cityStatePlayer = self.cityStatePlayer(for: cityState) else {
+            fatalError("cant get player for city state: \(cityState)")
+        }
+
+        for player in self.players {
+
+            guard !player.isBarbarian() && !player.isFreeCity() && !player.isCityState() else {
+                continue
+            }
+
+            if player.hasMet(with: cityStatePlayer) {
+                numCivs += 1
+            }
+        }
+
+        return numCivs
     }
 
     // MARK: Statistics

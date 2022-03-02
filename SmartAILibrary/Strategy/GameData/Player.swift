@@ -154,6 +154,14 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func proximity(to otherPlayer: AbstractPlayer?) -> PlayerProximityType
 
+    // envoys
+    func changeEnvoys(by value: Int)
+    func numberOfAvailableEnvoys() -> Int
+    func envoysAssigned(to cityState: CityStateType) -> Int
+    @discardableResult func assignEnvoy(to cityState: CityStateType) -> Bool
+    @discardableResult func unassignEnvoy(from cityState: CityStateType) -> Bool
+    func metCityStates(in gameModel: GameModel?) -> [CityStateType]
+
     func hasHasLostCapital() -> Bool
     func capitalConqueror() -> LeaderType?
     func set(hasLostCapital value: Bool, to conqueror: AbstractPlayer?, in gameModel: GameModel?) // checks for domination victory
@@ -1298,6 +1306,81 @@ public class Player: AbstractPlayer {
         }
 
         return diplomacyAI.proximity(to: otherPlayer)
+    }
+
+    public func changeEnvoys(by value: Int) {
+
+        guard let playerEnvoys = self.envoys else {
+            fatalError("cant get playerEnvoys")
+        }
+
+        playerEnvoys.changeUnassignedEnvoys(by: value)
+    }
+
+    public func numberOfAvailableEnvoys() -> Int {
+
+        guard let playerEnvoys = self.envoys else {
+            fatalError("cant get playerEnvoys")
+        }
+
+        return playerEnvoys.unassignedEnvoys()
+    }
+
+    public func envoysAssigned(to cityState: CityStateType) -> Int {
+
+        guard let playerEnvoys = self.envoys else {
+            fatalError("cant get playerEnvoys")
+        }
+
+        return playerEnvoys.envoys(in: cityState)
+    }
+
+    public func assignEnvoy(to cityState: CityStateType) -> Bool {
+
+        guard let playerEnvoys = self.envoys else {
+            fatalError("cant get playerEnvoys")
+        }
+
+        return playerEnvoys.assignEnvoy(to: cityState)
+    }
+
+    public func unassignEnvoy(from cityState: CityStateType) -> Bool {
+
+        guard let playerEnvoys = self.envoys else {
+            fatalError("cant get playerEnvoys")
+        }
+
+        return playerEnvoys.unassignEnvoy(from: cityState)
+    }
+
+    public func metCityStates(in gameModel: GameModel?) -> [CityStateType] {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+
+        var cityStatesArr: [CityStateType] = []
+
+        for player in gameModel.players {
+
+            guard !player.isEqual(to: self) else {
+                continue
+            }
+
+            if player.isCityState() {
+                if diplomacyAI.hasMet(with: player) {
+                    if case .cityState(type: let cityStateType) = player.leader {
+                        cityStatesArr.append(cityStateType)
+                    }
+                }
+            }
+        }
+
+        return cityStatesArr
     }
 
     /// Have we lost our capital in war?
@@ -4809,7 +4892,16 @@ public class Player: AbstractPlayer {
         case .scienceMinorGift, .scienceMajorGift, .freeTech:
             return true
 
-        case .diplomacyMinorBoost, .freeEnvoy, .diplomacyMajorBoost:
+        case .freeEnvoy:
+            // city states cant get envoys
+            guard !self.isCityState() else {
+                return false
+            }
+
+            // player needs to know at least one city state to get an envoy
+            return !self.metCityStates(in: gameModel).isEmpty
+
+        case .diplomacyMinorBoost, .diplomacyMajorBoost:
             return false
 
             // military
@@ -4948,7 +5040,7 @@ public class Player: AbstractPlayer {
             print("Diplomatic favor")
 
         case .freeEnvoy:
-            print("1 envoy")
+            self.changeEnvoys(by: 1)
 
         case .diplomacyMajorBoost:
             self.governors?.addTitle()

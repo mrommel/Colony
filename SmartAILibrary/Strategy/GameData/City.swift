@@ -2384,6 +2384,11 @@ public class City: AbstractCity {
 
             var modifierPercentage = 0.0
 
+            // city state production bonus is 50%
+            if player.isCityState() {
+                modifierPercentage += 0.5
+            }
+
             // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
             // +10% Production toward Wonders.
             if government.currentGovernment() == .autocracy {
@@ -3380,6 +3385,15 @@ public class City: AbstractCity {
     }
 
     public func canBuild(project: ProjectType) -> Bool {
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        // city states cant build project
+        if player.isCityState() {
+            return false
+        }
 
         return false
     }

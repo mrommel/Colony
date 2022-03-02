@@ -44,6 +44,8 @@ extension NotificationType {
         case .barbarianCampDiscovered: return "button-barbarianCampDiscovered"
 
         case .waiting: return "button-waiting"
+
+        case .metCityState: return "button-met-city-state"
         }
     }
 }

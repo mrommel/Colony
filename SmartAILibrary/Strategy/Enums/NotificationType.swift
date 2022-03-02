@@ -41,7 +41,11 @@ public enum NotificationType {
     case goodyHutDiscovered(location: HexPoint) // 20
     case barbarianCampDiscovered(location: HexPoint) // 21
 
-    case waiting
+    case waiting // 22
+
+    case metCityState(cityState: CityStateType, first: Bool) // 23
+
+
 
     public static var all: [NotificationType] = [
         .turn,
@@ -66,6 +70,7 @@ public enum NotificationType {
         .cityConquered(location: HexPoint.invalid),
         .goodyHutDiscovered(location: HexPoint.invalid),
         .barbarianCampDiscovered(location: HexPoint.invalid),
+        .metCityState(cityState: CityStateType.amsterdam, first: true),
         .waiting
     ]
 
@@ -117,6 +122,8 @@ public enum NotificationType {
             return "Goodyhut discovered"
         case .barbarianCampDiscovered(location: _):
             return "Barbarian Camp discovered"
+        case .metCityState(cityState: _, first: _):
+            return "Met City State"
         case .waiting:
             return "Waiting"
         }
@@ -199,6 +206,9 @@ public enum NotificationType {
 
             return "Barbarian Camp discovered"
 
+        case .metCityState(cityState: _, first: _):
+            return "Met City State"
+
         case .waiting:
             return "Waiting"
         }
@@ -254,6 +264,8 @@ public enum NotificationType {
             return 21
         case .waiting:
             return 22
+        case .metCityState(cityState: _, first: _):
+            return 23
         }
     }
 
@@ -272,7 +284,9 @@ extension NotificationType: Codable {
         case cityNameValue // String
         case cityPopulationValue // Int
         case leaderValue // LeaderType
-        case greatPersonValue // GreatPerson
+        case greatPersonValue // GreatPersonType
+        case boolValue
+        case cityStateValue // CityStateType
     }
 
     public init(from decoder: Decoder) throws {
@@ -344,6 +358,10 @@ extension NotificationType: Codable {
             self = .barbarianCampDiscovered(location: location)
         case 22:
             self = .waiting
+        case 23:
+            let cityState = try container.decode(CityStateType.self, forKey: .cityStateValue)
+            let first = try container.decode(Bool.self, forKey: .boolValue)
+            self = .metCityState(cityState: cityState, first: first)
         default:
             fatalError("value \(rawValue) not handled")
         }
@@ -436,6 +454,11 @@ extension NotificationType: Codable {
 
         case .waiting:
             try container.encode(22, forKey: .rawValue)
+
+        case .metCityState(cityState: let cityState, first: let first):
+            try container.encode(23, forKey: .rawValue)
+            try container.encode(cityState, forKey: .cityStateValue)
+            try container.encode(first, forKey: .boolValue)
         }
     }
 }
@@ -484,7 +507,8 @@ extension NotificationType: Equatable {
 
         case (.greatPersonJoined, .greatPersonJoined):
             return true
-        case (let .canRecruitGreatPerson(greatPerson: lhsGreatPerson), let .canRecruitGreatPerson(greatPerson: rhsGreatPerson)):
+        case (let .canRecruitGreatPerson(greatPerson: lhsGreatPerson),
+                  let .canRecruitGreatPerson(greatPerson: rhsGreatPerson)):
             return lhsGreatPerson == rhsGreatPerson
 
         case (let .cityConquered(location: lhsLocation), let .cityConquered(rhsLocation)):
@@ -498,6 +522,10 @@ extension NotificationType: Equatable {
 
         case (.waiting, .waiting):
             return true
+
+        case (.metCityState(cityState: let lhsCityState, first: let lhsFirst),
+                .metCityState(cityState: let rhsCityState, first: let rhsFirst)):
+            return lhsCityState == rhsCityState && lhsFirst == rhsFirst
 
         default:
             if lhs.value() == rhs.value() {
@@ -566,6 +594,10 @@ extension NotificationType: Hashable {
             hasher.combine(location)
         case .waiting:
             hasher.combine(22)
+        case .metCityState(cityState: let cityState, first: let first):
+            hasher.combine(23)
+            hasher.combine(cityState)
+            hasher.combine(first)
         }
     }
 }

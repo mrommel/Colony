@@ -2574,21 +2574,68 @@ public class DiplomaticAI: Codable {
 
     func update(in gameModel: GameModel?) {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
         guard let player = self.player else {
             fatalError("cant get current player")
         }
 
-        if let activePlayer = gameModel?.activePlayer() {
+        if let activePlayer = gameModel.activePlayer() {
 
             if self.greetPlayers.contains(where: { activePlayer.isEqual(to: $0) }) {
 
-                player.diplomacyRequests?.sendRequest(
-                    for: activePlayer.leader,
-                       state: .intro,
-                       message: .messageIntro,
-                       emotion: .neutral,
-                       in: gameModel
-                )
+                if activePlayer.isHuman() && player.isCityState() {
+
+                    guard case .cityState(let cityState) = player.leader else {
+                        fatalError("cant get city state")
+                    }
+
+                    // is ´activePlayer´ the first major player to meet this city state
+                    if gameModel.countMajorCivilizationsMet(with: cityState) == 1 {
+
+                        // first player gets a free envoy
+                        activePlayer.changeEnvoys(by: 1)
+
+                        // this free envoy is assigned to
+                        activePlayer.assignEnvoy(to: cityState)
+
+                        // inform human player
+                        activePlayer.notifications()?.add(notification: .metCityState(cityState: cityState, first: true))
+                    } else {
+                        activePlayer.notifications()?.add(notification: .metCityState(cityState: cityState, first: false))
+                    }
+
+                } else if activePlayer.isCityState() && player.isHuman() {
+
+                    guard case .cityState(let cityState) = activePlayer.leader else {
+                        fatalError("cant get city state")
+                    }
+
+                    // is ´activePlayer´ the first major player to meet this city state
+                    if gameModel.countMajorCivilizationsMet(with: cityState) == 1 {
+
+                        // first player gets a free envoy
+                        player.changeEnvoys(by: 1)
+
+                        // this free envoy is assigned to
+                        player.assignEnvoy(to: cityState)
+
+                        // inform human player
+                        player.notifications()?.add(notification: .metCityState(cityState: cityState, first: true))
+                    } else {
+                        player.notifications()?.add(notification: .metCityState(cityState: cityState, first: false))
+                    }
+                } else {
+                    player.diplomacyRequests?.sendRequest(
+                        for: activePlayer.leader,
+                           state: .intro,
+                           message: .messageIntro,
+                           emotion: .neutral,
+                           in: gameModel
+                    )
+                }
 
                 self.greetPlayers.removeAll(where: { activePlayer.isEqual(to: $0) })
             }
@@ -2609,11 +2656,11 @@ public class DiplomaticAI: Codable {
             fatalError("cant get otherPlayer")
         }
 
-        if player.isBarbarian() || otherPlayer.isBarbarian() {
+        if self.hasMet(with: otherPlayer) {
             return
         }
 
-        if player.isCityState() || otherPlayer.isCityState() {
+        if player.isBarbarian() || otherPlayer.isBarbarian() {
             return
         }
 
@@ -2627,9 +2674,7 @@ public class DiplomaticAI: Codable {
             if otherPlayer.isHuman() {
 
                 // Put in the list of people to greet human, when the human turn comes up.
-                // if !self.hasMet(with: otherPlayer) {
-                    self.greetPlayers.append(otherPlayer)
-                // }
+                self.greetPlayers.append(otherPlayer)
             }
         }
     }
