@@ -679,6 +679,15 @@ extension GameViewModel {
             )
         }
 
+        let cityStateEnvoysTextureNames = CityStateType.all.map { $0.envoysTexture() }
+        print("- load \(cityStateEnvoysTextureNames.count) city state envoys textures")
+        for textureName in cityStateEnvoysTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
         print("-- all textures loaded --")
 
         self.bottomLeftBarViewModel.preloadAssets()

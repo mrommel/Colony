@@ -20,12 +20,16 @@ class CityStatesDialogViewModel: ObservableObject {
     @Published
     var cityStateViewModels: [CityStateViewModel]
 
+    @Published
+    var envoyEffectViewModels: [EnvoyEffectViewModel]
+
     weak var delegate: GameViewModelDelegate?
 
     init() {
 
         self.title = "City-States"
         self.cityStateViewModels = []
+        self.envoyEffectViewModels = []
     }
 
     func update() {
@@ -55,18 +59,35 @@ class CityStatesDialogViewModel: ObservableObject {
             }
         }
 
+        // city states
         var tmpCityStateViewModels: [CityStateViewModel] = []
 
         for cityState in cityStatesMetByHuman {
 
             let numEnvoys = humanPlayer.envoysAssigned(to: cityState)
+            let suzerain: String = gameModel.cityStatePlayer(for: cityState)?.suzerain()?.name() ?? "none"
 
-            let cityStateViewModel = CityStateViewModel(cityState: cityState, quest: .none, envoys: numEnvoys)
+            let cityStateViewModel = CityStateViewModel(
+                cityState: cityState,
+                suzerainName: suzerain,
+                quest: .none,
+                envoys: numEnvoys
+            )
             cityStateViewModel.delegate = self
             tmpCityStateViewModels.append(cityStateViewModel)
         }
 
         self.cityStateViewModels = tmpCityStateViewModels
+
+        // effects
+        var tmpEnvoyEffectViewModels: [EnvoyEffectViewModel] = []
+
+        for envoyEffect in humanPlayer.envoyEffects(in: gameModel) {
+
+            tmpEnvoyEffectViewModels.append(EnvoyEffectViewModel(envoyEffect: envoyEffect))
+        }
+
+        self.envoyEffectViewModels = tmpEnvoyEffectViewModels
     }
 
     func cityStateIcon() -> NSImage {

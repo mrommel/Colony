@@ -173,6 +173,13 @@ public class NotificationItem: Codable, Equatable {
         case .barbarianCampDiscovered(location: let location):
             gameModel?.userInterface?.focus(on: location)
 
+        case .metCityState(cityState: let cityType, first: _):
+            if let cityStatePlayer = gameModel?.cityStatePlayer(for: cityType) {
+                if let capital = cityStatePlayer.capitalCity(in: gameModel) {
+                    gameModel?.userInterface?.focus(on: capital.location)
+                }
+            }
+
         default:
             print("activate \(self.type) not handled")
         }

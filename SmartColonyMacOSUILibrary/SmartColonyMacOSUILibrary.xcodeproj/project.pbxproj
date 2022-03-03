@@ -24,6 +24,7 @@
 		C913A2D7277A2850001D2CC2 /* EraProgressDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C913A2D6277A2850001D2CC2 /* EraProgressDialogViewModel.swift */; };
 		C915514D260A59DF003710BE /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915514C260A59DF003710BE /* ActivityIndicator.swift */; };
 		C9155161260B2978003710BE /* GameDisplayOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9155160260B2978003710BE /* GameDisplayOptions.swift */; };
+		C917165027D1165B00CBC7D3 /* EnvoyEffectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C917164F27D1165B00CBC7D3 /* EnvoyEffectViewModel.swift */; };
 		C91A07A626D911EE008E9F86 /* WonderBuiltPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A07A526D911EE008E9F86 /* WonderBuiltPopupViewModel.swift */; };
 		C91A07A826D9135C008E9F86 /* WonderBuiltPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A07A726D9135C008E9F86 /* WonderBuiltPopupView.swift */; };
 		C91E7F972732E078000463F3 /* RankingViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91E7F962732E078000463F3 /* RankingViewType.swift */; };
@@ -352,6 +353,7 @@
 		C913A2D6277A2850001D2CC2 /* EraProgressDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EraProgressDialogViewModel.swift; sourceTree = "<group>"; };
 		C915514C260A59DF003710BE /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		C9155160260B2978003710BE /* GameDisplayOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDisplayOptions.swift; sourceTree = "<group>"; };
+		C917164F27D1165B00CBC7D3 /* EnvoyEffectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvoyEffectViewModel.swift; sourceTree = "<group>"; };
 		C91A07A526D911EE008E9F86 /* WonderBuiltPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderBuiltPopupViewModel.swift; sourceTree = "<group>"; };
 		C91A07A726D9135C008E9F86 /* WonderBuiltPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderBuiltPopupView.swift; sourceTree = "<group>"; };
 		C91E7F962732E078000463F3 /* RankingViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingViewType.swift; sourceTree = "<group>"; };
@@ -1173,6 +1175,7 @@
 				C9C8A7462785728800BC68CF /* DedicationViewModel.swift */,
 				C963AD192786DAB600981EF3 /* MomentViewModel.swift */,
 				C95AB2F727CD418800EF5C61 /* CityStateViewModel.swift */,
+				C917164F27D1165B00CBC7D3 /* EnvoyEffectViewModel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1505,6 +1508,7 @@
 				C915514D260A59DF003710BE /* ActivityIndicator.swift in Sources */,
 				C9B71F10278EB50B0091BADD /* BannerViewModel.swift in Sources */,
 				C9A48D342652FBE600260EE0 /* TechProgressViewModel.swift in Sources */,
+				C917165027D1165B00CBC7D3 /* EnvoyEffectViewModel.swift in Sources */,
 				C9CAC89D264ABCBE00D0668D /* GovernmentCardView.swift in Sources */,
 				C9755FE9270AE41B00C9CAB7 /* ReligionViewModel.swift in Sources */,
 				C94816BF26A82D4E00765029 /* SelectTradeCityDialogView.swift in Sources */,

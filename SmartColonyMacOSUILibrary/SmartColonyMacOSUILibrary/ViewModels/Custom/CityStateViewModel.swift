@@ -22,17 +22,20 @@ class CityStateViewModel: ObservableObject {
     var name: String
 
     @Published
+    var suzerainName: String
+
+    @Published
     var envoys: Int = 0 {
         didSet {
             print("number of envoys updated: \(oldValue) => \(self.envoys)")
 
-            if self.envoys < 0 {
+            if envoys < 0 {
                 print("envoys cannot be negativ - reseting")
-                self.envoys = 0
+                envoys = 0
                 return
             }
 
-            let delta = self.envoys - oldValue
+            let delta = envoys - oldValue
             if let delegate = self.delegate {
                 if delta == 1 {
                     if delegate.assignEnvoy(to: self.cityState) {
@@ -51,7 +54,7 @@ class CityStateViewModel: ObservableObject {
 
             // reset
             print("envoys cannot be set - reseting to \(oldValue)")
-            self.envoys = oldValue
+            envoys = oldValue
         }
     }
 
@@ -59,13 +62,14 @@ class CityStateViewModel: ObservableObject {
     private let quest: CityStateQuestType
     weak var delegate: CityStateViewModelDelegate?
 
-    init(cityState: CityStateType, quest: CityStateQuestType, envoys: Int) {
+    init(cityState: CityStateType, suzerainName: String, quest: CityStateQuestType, envoys: Int) {
 
         self.cityState = cityState
         self.quest = quest
         self.envoys = envoys
 
         self.name = cityState.name()
+        self.suzerainName = suzerainName
     }
 
     func cityStateImage() -> NSImage {
@@ -76,22 +80,22 @@ class CityStateViewModel: ObservableObject {
     func bonusImage1() -> NSImage {
 
         let active = self.envoys >= 1
-        let texture = ImageCache.shared.image(for: self.cityState.bonusTexture(active: active))
-        return texture.tint(with: self.cityState.category().color())
+        let texture = ImageCache.shared.image(for: self.cityState.envoysTexture())
+        return texture.tint(with: active ? self.cityState.category().color() : .gray)
     }
 
     func bonusImage3() -> NSImage {
 
         let active = self.envoys >= 3
-        let texture = ImageCache.shared.image(for: self.cityState.bonusTexture(active: active))
-        return texture.tint(with: self.cityState.category().color())
+        let texture = ImageCache.shared.image(for: self.cityState.envoysTexture())
+        return texture.tint(with: active ? self.cityState.category().color() : .gray)
     }
 
     func bonusImage6() -> NSImage {
 
         let active = self.envoys >= 6
-        let texture = ImageCache.shared.image(for: self.cityState.bonusTexture(active: active))
-        return texture.tint(with: self.cityState.category().color())
+        let texture = ImageCache.shared.image(for: self.cityState.envoysTexture())
+        return texture.tint(with: active ? self.cityState.category().color() : .gray)
     }
 
     func suzerainImage() -> NSImage {

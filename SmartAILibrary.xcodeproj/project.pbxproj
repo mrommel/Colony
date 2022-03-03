@@ -47,6 +47,7 @@
 		C90FC39E23D8966800720B32 /* GrandStrategyAIConfidence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FC39D23D8966800720B32 /* GrandStrategyAIConfidence.swift */; };
 		C90FC3A023D8968D00720B32 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FC39F23D8968D00720B32 /* GameModel.swift */; };
 		C90FC3A223D8D00000720B32 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FC3A123D8D00000720B32 /* Utils.swift */; };
+		C917165227D116B800CBC7D3 /* EnvoyEffectLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C917165127D116B800CBC7D3 /* EnvoyEffectLevel.swift */; };
 		C917CCDA26F221D2006DCC42 /* GovernorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C917CCD926F221D2006DCC42 /* GovernorType.swift */; };
 		C917CCDC26F23A16006DCC42 /* GovernorTitleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C917CCDB26F23A16006DCC42 /* GovernorTitleType.swift */; };
 		C91A154E270E2DC300A2EC91 /* TileImprovementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A154D270E2DC200A2EC91 /* TileImprovementTests.swift */; };
@@ -166,6 +167,7 @@
 		C97213E72510C207009BCE40 /* EscortedOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97213E62510C207009BCE40 /* EscortedOperation.swift */; };
 		C97213EA2510C241009BCE40 /* BasicCityAttackOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97213E92510C241009BCE40 /* BasicCityAttackOperation.swift */; };
 		C9754D5A275F39CB000A1B70 /* MapLensType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9754D59275F39CB000A1B70 /* MapLensType.swift */; };
+		C975FF7927D1467100393D91 /* EnvoyEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975FF7827D1467100393D91 /* EnvoyEffect.swift */; };
 		C978E0EE252269C3008B8001 /* ArmyFormationSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C978E0ED252269C3008B8001 /* ArmyFormationSlot.swift */; };
 		C978E0F525226EDB008B8001 /* ArmyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C978E0F425226EDB008B8001 /* ArmyState.swift */; };
 		C97A38E323F3E3CD008A8AE9 /* TileArray2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97A38E223F3E3CD008A8AE9 /* TileArray2D.swift */; };
@@ -462,6 +464,7 @@
 		C90FC39D23D8966800720B32 /* GrandStrategyAIConfidence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrandStrategyAIConfidence.swift; sourceTree = "<group>"; };
 		C90FC39F23D8968D00720B32 /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 		C90FC3A123D8D00000720B32 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		C917165127D116B800CBC7D3 /* EnvoyEffectLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvoyEffectLevel.swift; sourceTree = "<group>"; };
 		C917CCD926F221D2006DCC42 /* GovernorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorType.swift; sourceTree = "<group>"; };
 		C917CCDB26F23A16006DCC42 /* GovernorTitleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorTitleType.swift; sourceTree = "<group>"; };
 		C91A154D270E2DC200A2EC91 /* TileImprovementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileImprovementTests.swift; sourceTree = "<group>"; };
@@ -584,6 +587,7 @@
 		C97213E62510C207009BCE40 /* EscortedOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EscortedOperation.swift; sourceTree = "<group>"; };
 		C97213E92510C241009BCE40 /* BasicCityAttackOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicCityAttackOperation.swift; sourceTree = "<group>"; };
 		C9754D59275F39CB000A1B70 /* MapLensType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLensType.swift; sourceTree = "<group>"; };
+		C975FF7827D1467100393D91 /* EnvoyEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvoyEffect.swift; sourceTree = "<group>"; };
 		C978E0ED252269C3008B8001 /* ArmyFormationSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArmyFormationSlot.swift; sourceTree = "<group>"; };
 		C978E0F425226EDB008B8001 /* ArmyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArmyState.swift; sourceTree = "<group>"; };
 		C97A38E223F3E3CD008A8AE9 /* TileArray2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileArray2D.swift; sourceTree = "<group>"; };
@@ -996,6 +1000,7 @@
 				C917CCDB26F23A16006DCC42 /* GovernorTitleType.swift */,
 				C9F020FE276C997800AF5E49 /* MomentType.swift */,
 				C95AB2F927CDFCBD00EF5C61 /* CityStateQuestType.swift */,
+				C917165127D116B800CBC7D3 /* EnvoyEffectLevel.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1319,6 +1324,7 @@
 				C956BF6324F10BAF009702B4 /* CombatModifier.swift */,
 				C92F9496265E7B8E000968AB /* GameReligions.swift */,
 				C9A12B6C26FA562B0094B980 /* Governor.swift */,
+				C975FF7827D1467100393D91 /* EnvoyEffect.swift */,
 			);
 			path = GameData;
 			sourceTree = "<group>";
@@ -1865,6 +1871,7 @@
 				C99790692516A4B8003E52C9 /* DestroyBarbarianCampOperation.swift in Sources */,
 				C9C1B1C72722DB7300046D23 /* ArtistUnitType.swift in Sources */,
 				C9D8DF7823F147DF0091C917 /* ApproachBias.swift in Sources */,
+				C975FF7927D1467100393D91 /* EnvoyEffect.swift in Sources */,
 				C9A2B47827ABB6BB0037D8C6 /* EconomicStrategyTypeData.swift in Sources */,
 				C9D645FA2722A49300646BB8 /* WarriorUnitType.swift in Sources */,
 				C9D191B1265A8975008C9622 /* CityReligion.swift in Sources */,
@@ -2073,6 +2080,7 @@
 				C9DFCF7223F29D540032243D /* OceanFinder.swift in Sources */,
 				C90F484F2660DBEF000AC591 /* FaithPurchaseType.swift in Sources */,
 				C90FC39C23D8961C00720B32 /* Player.swift in Sources */,
+				C917165227D116B800CBC7D3 /* EnvoyEffectLevel.swift in Sources */,
 				C9D646062722ADEE00646BB8 /* SwordmanUnitType.swift in Sources */,
 				C9ACD3362735497E00D06016 /* CityTourism.swift in Sources */,
 				C9EF13992423E1EA003B3DAD /* AggressivePostureType.swift in Sources */,

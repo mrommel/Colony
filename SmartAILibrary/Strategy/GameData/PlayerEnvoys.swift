@@ -18,6 +18,8 @@ public protocol AbstractPlayerEnvoys: AnyObject, Codable {
     func changeUnassignedEnvoys(by value: Int)
     func assignEnvoy(to cityState: CityStateType) -> Bool
     func unassignEnvoy(from cityState: CityStateType) -> Bool
+
+    func envoyEffects(in gameModel: GameModel?) -> [EnvoyEffect]
 }
 
 public class PlayerEnvoys: AbstractPlayerEnvoys {
@@ -110,5 +112,51 @@ public class PlayerEnvoys: AbstractPlayerEnvoys {
         self.changeUnassignedEnvoys(by: 1)
         self.envoyArray.add(weight: -1, for: cityState)
         return true
+    }
+
+    public func envoyEffects(in gameModel: GameModel?) -> [EnvoyEffect] {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let diplomacyAI = self.player?.diplomacyAI else {
+            fatalError("cant get human diplomacyAI")
+        }
+
+        var effects: [EnvoyEffect] = []
+
+        for player in gameModel.players {
+
+            if player.isCityState() {
+                if diplomacyAI.hasMet(with: player) {
+                    if case .cityState(type: let cityState) = player.leader {
+
+                        let envoys = self.envoys(in: cityState)
+                        if envoys >= 1 {
+                            effects.append(EnvoyEffect(cityState: cityState, category: cityState.category(), level: .first))
+                        }
+
+                        if envoys >= 3 {
+                            effects.append(EnvoyEffect(cityState: cityState, category: cityState.category(), level: .third))
+                        }
+
+                        if envoys >= 6 {
+                            effects.append(EnvoyEffect(cityState: cityState, category: cityState.category(), level: .sixth))
+                        }
+
+                        if let suzerainLeader = player.suzerain() {
+                            if let suzerainPlayer = gameModel.player(for: suzerainLeader) {
+                                if suzerainPlayer.isEqual(to: self.player) {
+                                    effects.append(EnvoyEffect(cityState: cityState, category: cityState.category(), level: .suzerain))
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return effects
     }
 }

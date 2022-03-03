@@ -165,6 +165,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func set(suzerain leader: LeaderType)
     func resetSuzerain()
     func suzerain() -> LeaderType?
+    func envoyEffects(in gameModel: GameModel?) -> [EnvoyEffect]
 
     // capital conquerer methods
     func hasHasLostCapital() -> Bool
@@ -1462,6 +1463,15 @@ public class Player: AbstractPlayer {
     public func suzerain() -> LeaderType? {
 
         return self.suzerainValue
+    }
+
+    public func envoyEffects(in gameModel: GameModel?) -> [EnvoyEffect] {
+
+        guard let playerEnvoys = self.envoys else {
+            fatalError("cant get playerEnvoys")
+        }
+
+        return playerEnvoys.envoyEffects(in: gameModel)
     }
 
     /// Have we lost our capital in war?

@@ -46,9 +46,13 @@ struct CityStatesDialogView: View {
                             }
 
                             // list of enabled bonuses
-                            /* LazyVStack(alignment: .center) {
+                            LazyVStack(alignment: .leading) {
 
-                            } */
+                                ForEach(self.viewModel.envoyEffectViewModels, id: \.self) { envoyEffectViewModel in
+
+                                    Label(envoyEffectViewModel.name)
+                                }
+                            }
                         }
                     }
                 }

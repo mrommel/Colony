@@ -57,6 +57,10 @@ class DominationRankingDialogViewModel: ObservableObject {
 
         for player in gameModel.players {
 
+            if player.isBarbarian() || player.isFreeCity() || player.isCityState() {
+                continue
+            }
+
             if player.originalCapitalLocation() != HexPoint.invalid {
 
                 if let capitalCity = gameModel.city(at: player.originalCapitalLocation()),

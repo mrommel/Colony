@@ -2477,13 +2477,13 @@ public class DiplomaticAI: Codable {
 
     func numTurnsSinceStatementSent(to otherPlayer: AbstractPlayer?, statement: DiplomaticStatementType) -> Int {
 
-        print("not implemented")
+        print("DiplomaticAI::numTurnsSinceStatementSent not implemented")
         return 100
     }
 
     func sendStatement(to otherPlayer: AbstractPlayer?, statement: DiplomaticStatementType) {
 
-        print("not implemented")
+        print("DiplomaticAI::sendStatement not implemented")
     }
 
     // MARK: open borders

@@ -22,16 +22,16 @@ extension CityStateType {
         }
     }
 
-    public func bonusTexture(active: Bool = true) -> String {
+    public func envoysTexture() -> String {
 
         switch self.category() {
 
-        case .cultural: return active ? "suzerain-cultural" : "suzerain-cultural-disabled"
-        case .industrial: return active ? "suzerain-industrial" : "suzerain-industrial-disabled"
-        case .militaristic: return active ? "suzerain-militaristic" : "suzerain-militaristic-disabled"
-        case .religious: return active ? "suzerain-religious" : "suzerain-religious-disabled"
-        case .scientific: return active ? "suzerain-scientific" : "suzerain-scientific-disabled"
-        case .trade: return active ? "suzerain-trade" : "suzerain-trade-disabled"
+        case .cultural: return "cityStateEnvoy-cultural"
+        case .industrial: return "cityStateEnvoy-industrial"
+        case .militaristic: return "cityStateEnvoy-militaristic"
+        case .religious: return "cityStateEnvoy-religious"
+        case .scientific: return "cityStateEnvoy-scientific"
+        case .trade: return "cityStateEnvoy-trade"
         }
     }
 

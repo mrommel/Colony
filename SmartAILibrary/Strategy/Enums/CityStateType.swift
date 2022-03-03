@@ -35,6 +35,21 @@ public enum CityStateCategory {
         return self.data().color
     }
 
+    public func firstEnvoyBonus() -> String {
+
+        return self.data().firstEnvoyBonus
+    }
+
+    public func thirdEnvoyBonus() -> String {
+
+        return self.data().thirdEnvoyBonus
+    }
+
+    public func sixthEnvoyBonus() -> String {
+
+        return self.data().sixthEnvoyBonus
+    }
+
     private class CityStateCategoryData {
 
         let name: String
@@ -173,6 +188,17 @@ public enum CityStateType: String, Codable {
     public func category() -> CityStateCategory {
 
         return self.data().category
+    }
+
+    public func bonus(for level: EnvoyEffectLevel) -> String {
+
+        switch level {
+
+        case .first: return self.category().firstEnvoyBonus()
+        case .third: return self.category().thirdEnvoyBonus()
+        case .sixth: return self.category().sixthEnvoyBonus()
+        case .suzerain: return self.data().suzarinBonus
+        }
     }
 
     // MARK private methods

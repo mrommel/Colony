@@ -45,6 +45,9 @@ public class TopBarViewModel: ObservableObject {
     // resources
 
     @Published
+    var showResources: Bool
+
+    @Published
     var horsesValueViewModel: ResourceValueViewModel
 
     @Published
@@ -81,6 +84,7 @@ public class TopBarViewModel: ObservableObject {
         self.tradeRoutesLabelText = "0/0"
         self.envoysLabelText = "0"
 
+        self.showResources = false
         self.horsesValueViewModel = ResourceValueViewModel(resourceType: .horses, initial: 1)
         self.ironValueViewModel = ResourceValueViewModel(resourceType: .iron, initial: 1)
         self.niterValueViewModel = ResourceValueViewModel(resourceType: .niter, initial: 1)
@@ -133,25 +137,36 @@ public class TopBarViewModel: ObservableObject {
 
         self.envoysLabelText = "\(humanPlayer.numberOfAvailableEnvoys())"
 
-        self.horsesValueViewModel.value = humanPlayer.numStockpile(of: .horses)
+        // gather resource
+        let numHorses = humanPlayer.numStockpile(of: .horses)
+        let numIron = humanPlayer.numStockpile(of: .iron)
+        let numNiter = humanPlayer.numStockpile(of: .niter)
+        let numCoal = humanPlayer.numStockpile(of: .coal)
+        let numOil = humanPlayer.numStockpile(of: .oil)
+        let numAluminum = humanPlayer.numStockpile(of: .aluminum)
+        let numUranium = humanPlayer.numStockpile(of: .uranium)
+
+        self.showResources = numHorses + numIron + numNiter + numCoal + numOil + numAluminum + numUranium > 0
+
+        self.horsesValueViewModel.value = numHorses
         self.horsesValueViewModel.tooltip = self.resourceTooltip(of: .horses, for: humanPlayer)
 
-        self.ironValueViewModel.value = humanPlayer.numStockpile(of: .iron)
+        self.ironValueViewModel.value = numIron
         self.ironValueViewModel.tooltip = self.resourceTooltip(of: .iron, for: humanPlayer)
 
-        self.niterValueViewModel.value = humanPlayer.numStockpile(of: .niter)
+        self.niterValueViewModel.value = numNiter
         self.niterValueViewModel.tooltip = self.resourceTooltip(of: .niter, for: humanPlayer)
 
-        self.coalValueViewModel.value = humanPlayer.numStockpile(of: .coal)
+        self.coalValueViewModel.value = numCoal
         self.coalValueViewModel.tooltip = self.resourceTooltip(of: .coal, for: humanPlayer)
 
-        self.oilValueViewModel.value = humanPlayer.numStockpile(of: .oil)
+        self.oilValueViewModel.value = numOil
         self.oilValueViewModel.tooltip = self.resourceTooltip(of: .oil, for: humanPlayer)
 
-        self.aluminumValueViewModel.value = humanPlayer.numStockpile(of: .aluminum)
+        self.aluminumValueViewModel.value = numAluminum
         self.aluminumValueViewModel.tooltip = self.resourceTooltip(of: .aluminum, for: humanPlayer)
 
-        self.uraniumValueViewModel.value = humanPlayer.numStockpile(of: .uranium)
+        self.uraniumValueViewModel.value = numUranium
         self.uraniumValueViewModel.tooltip = self.resourceTooltip(of: .uranium, for: humanPlayer)
 
         self.turnYearText = gameModel.turnYear()

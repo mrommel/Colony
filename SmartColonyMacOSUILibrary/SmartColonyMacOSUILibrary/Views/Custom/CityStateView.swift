@@ -20,7 +20,7 @@ struct CityStateView: View {
 
     var body: some View {
 
-        HStack {
+        HStack(spacing: 2) {
 
             Image(nsImage: self.viewModel.cityStateImage())
                 .resizable()
@@ -31,42 +31,50 @@ struct CityStateView: View {
                 .frame(width: 100, height: 24, alignment: .leading)
 
             Stepper("\(self.viewModel.envoys)", value: self.$viewModel.envoys)
+                .frame(width: 48, height: 24)
 
             VStack(spacing: 0) {
                 Text("1")
-                    .font(.footnote)
+                    .font(.system(size: 6))
 
                 Image(nsImage: self.viewModel.bonusImage1())
                     .resizable()
-                    .frame(width: 18, height: 18)
+                    .frame(width: 16, height: 16)
             }
-            .frame(width: 24, height: 24)
+            .frame(width: 16, height: 24)
 
             VStack(spacing: 0) {
                 Text("3")
-                    .font(.footnote)
+                    .font(.system(size: 6))
 
                 Image(nsImage: self.viewModel.bonusImage3())
                     .resizable()
-                    .frame(width: 18, height: 18)
+                    .frame(width: 16, height: 16)
             }
-            .frame(width: 24, height: 24)
+            .frame(width: 16, height: 24)
 
             VStack(spacing: 0) {
                 Text("6")
-                    .font(.footnote)
+                    .font(.system(size: 6))
 
                 Image(nsImage: self.viewModel.bonusImage6())
                     .resizable()
-                    .frame(width: 18, height: 18)
+                    .frame(width: 16, height: 16)
             }
-            .frame(width: 24, height: 24)
+            .frame(width: 16, height: 24)
 
             Image(nsImage: self.viewModel.suzerainImage())
                 .resizable()
-                .frame(width: 24, height: 24)
+                .frame(width: 20, height: 20)
 
-            Spacer()
+            VStack(alignment: .leading, spacing: 0) {
+                Text("Suzerain")
+                    .font(.system(size: 6))
+
+                Text(self.viewModel.suzerainName)
+                    .font(.system(size: 6))
+            }
+            .frame(width: 42, height: 24)
 
             Image(nsImage: self.viewModel.jumpToImage())
                 .resizable()
@@ -76,7 +84,7 @@ struct CityStateView: View {
                     self.viewModel.centerClicked()
                 }
         }
-        .frame(width: 320, height: 32)
+        .frame(width: 340, height: 32)
         .background(
             Image(nsImage: ImageCache.shared.image(for: "grid9-row"))
                 .resizable(capInsets: EdgeInsets(all: 15))
@@ -89,9 +97,18 @@ import SmartAILibrary
 
 struct CityStateView_Previews: PreviewProvider {
 
-    private static func viewModel(cityState: CityStateType, quest: CityStateQuestType) -> CityStateViewModel {
+    private static func viewModel(
+        cityState: CityStateType,
+        suzerainName: String,
+        quest: CityStateQuestType,
+        envoys: Int) -> CityStateViewModel {
 
-        let viewModel = CityStateViewModel(cityState: cityState, quest: quest, envoys: 1)
+        let viewModel = CityStateViewModel(
+            cityState: cityState,
+            suzerainName: suzerainName,
+            quest: quest,
+            envoys: envoys
+        )
 
         return viewModel
     }
@@ -100,10 +117,20 @@ struct CityStateView_Previews: PreviewProvider {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
-        let viewModel0 = CityStateView_Previews.viewModel(cityState: .amsterdam, quest: .trainUnit(type: .builder))
+        let viewModel0 = CityStateView_Previews.viewModel(
+            cityState: .amsterdam,
+            suzerainName: "none",
+            quest: .trainUnit(type: .builder),
+            envoys: 1
+        )
         CityStateView(viewModel: viewModel0)
 
-        let viewModel1 = CityStateView_Previews.viewModel(cityState: .akkad, quest: .none)
+        let viewModel1 = CityStateView_Previews.viewModel(
+            cityState: .akkad,
+            suzerainName: "Alexander",
+            quest: .none,
+            envoys: 4
+        )
         CityStateView(viewModel: viewModel1)
     }
 }

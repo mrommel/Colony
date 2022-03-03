@@ -42,11 +42,11 @@ class OverallRankingDialogViewModel: ObservableObject {
 
             for player in gameModel.players {
 
-                let leaderType: LeaderType = player.leader
-
-                if leaderType == .barbar {
+                if player.isBarbarian() || player.isFreeCity() || player.isCityState() {
                     continue
                 }
+
+                let leaderType: LeaderType = player.leader
 
                 switch rankingViewType {
 

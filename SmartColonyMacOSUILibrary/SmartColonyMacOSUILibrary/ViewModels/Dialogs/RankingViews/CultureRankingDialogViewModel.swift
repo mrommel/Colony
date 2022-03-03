@@ -64,11 +64,11 @@ class CultureRankingDialogViewModel: ObservableObject {
 
         for player in gameModel.players {
 
-            let civilizationType: CivilizationType = player.leader.civilization()
-
-            if civilizationType == .barbarian {
+            if player.isBarbarian() || player.isFreeCity() || player.isCityState() {
                 continue
             }
+
+            let civilizationType: CivilizationType = player.leader.civilization()
 
             tourismDict[player.leader] = TourismSummary(
                 domestic: player.domesticTourists(),
@@ -80,11 +80,11 @@ class CultureRankingDialogViewModel: ObservableObject {
 
         for player in gameModel.players {
 
-            let civilizationType: CivilizationType = player.leader.civilization()
-
-            if civilizationType == .barbarian {
+            if player.isBarbarian() || player.isFreeCity() || player.isCityState() {
                 continue
             }
+
+            let civilizationType: CivilizationType = player.leader.civilization()
 
             let domesticTourists: Int = tourismDict[player.leader]?.domestic ?? 0
             let visitingTourists: Int = tourismDict[player.leader]?.visiting ?? 0

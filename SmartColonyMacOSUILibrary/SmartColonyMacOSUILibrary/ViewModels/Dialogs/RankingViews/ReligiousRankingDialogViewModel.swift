@@ -72,7 +72,11 @@ class ReligiousRankingDialogViewModel: ObservableObject {
 
                 for loopPlayer in gameModel.players {
 
-                    if loopPlayer.isBarbarian() || player.isEqual(to: loopPlayer) {
+                    if loopPlayer.isBarbarian() || loopPlayer.isFreeCity() || loopPlayer.isCityState() {
+                        continue
+                    }
+
+                    if player.isEqual(to: loopPlayer) {
                         continue
                     }
 
@@ -85,11 +89,11 @@ class ReligiousRankingDialogViewModel: ObservableObject {
 
         for player in gameModel.players {
 
-            let civilizationType: CivilizationType = player.leader.civilization()
-
-            if civilizationType == .barbarian {
+            if player.isBarbarian() || player.isFreeCity() || player.isCityState() {
                 continue
             }
+
+            let civilizationType: CivilizationType = player.leader.civilization()
 
             let religion: ReligionType = player.religion?.currentReligion() ?? .none
 

@@ -799,55 +799,55 @@ public class HomelandAI {
 
             switch movePriorityItem.type {
 
-            case .explore:
-                // AI_HOMELAND_MOVE_EXPLORE
+            case .explore: // AI_HOMELAND_MOVE_EXPLORE
                 self.plotExplorerMoves(in: gameModel)
-            case .exploreSea:
-                // AI_HOMELAND_MOVE_EXPLORE_SEA:
+
+            case .exploreSea: // AI_HOMELAND_MOVE_EXPLORE_SEA
                 self.plotExplorerSeaMoves(in: gameModel)
-            case .settle:
-                // AI_HOMELAND_MOVE_SETTLE:
+
+            case .settle: // AI_HOMELAND_MOVE_SETTLE:
                 self.plotFirstTurnSettlerMoves(in: gameModel)
-            case .garrison:
-                // AI_HOMELAND_MOVE_GARRISON:
+
+            case .garrison: // AI_HOMELAND_MOVE_GARRISON
                 self.plotGarrisonMoves(in: gameModel)
-            case .heal:
-                // AI_HOMELAND_MOVE_HEAL:
+
+            case .heal: // AI_HOMELAND_MOVE_HEAL
                 self.plotHealMoves(in: gameModel)
-            case .toSafety:
-                // AI_HOMELAND_MOVE_TO_SAFETY:
+
+            case .toSafety: // AI_HOMELAND_MOVE_TO_SAFETY
                 self.plotMovesToSafety(in: gameModel)
-            case .mobileReserve:
-                // AI_HOMELAND_MOVE_MOBILE_RESERVE:
+
+            case .mobileReserve: // AI_HOMELAND_MOVE_MOBILE_RESERVE
                 self.plotMobileReserveMoves(in: gameModel)
-            case .sentry:
-                // AI_HOMELAND_MOVE_SENTRY:
+
+            case .sentry: // AI_HOMELAND_MOVE_SENTRY
                 self.plotSentryMoves(in: gameModel)
-            case .worker:
-                // AI_HOMELAND_MOVE_WORKER:
+
+            case .worker: // AI_HOMELAND_MOVE_WORKER
                 self.plotWorkerMoves(in: gameModel)
-            case .workerSea:
-                // AI_HOMELAND_MOVE_WORKER_SEA:
+
+            case .workerSea: // AI_HOMELAND_MOVE_WORKER_SEA
                 // FIXME self.plotWorkerSeaMoves()
                 break
-            case .patrol:
-                // AI_HOMELAND_MOVE_PATROL:
+
+            case .patrol: // AI_HOMELAND_MOVE_PATROL
                 self.plotPatrolMoves(in: gameModel)
-            case .upgrade:
-                // AI_HOMELAND_MOVE_UPGRADE:
+
+            case .upgrade: // AI_HOMELAND_MOVE_UPGRADE
                 // self.plotUpgradeMoves(in: gameModel)
                 break
-            case .ancientRuins:
-                // AI_HOMELAND_MOVE_ANCIENT_RUINS:
+
+            case .ancientRuins: // AI_HOMELAND_MOVE_ANCIENT_RUINS
                 self.plotAncientRuinMoves(in: gameModel)
-            case .aircraftToTheFront:
-                // AI_HOMELAND_MOVE_AIRCRAFT_TO_THE_FRONT:
+
+            case .aircraftToTheFront: // AI_HOMELAND_MOVE_AIRCRAFT_TO_THE_FRONT
                 // FIXME self.plotAircraftMoves()
                 break
-            case .tradeUnit:
-                // AI_HOMELAND_MOVE_TRADE_UNIT:
+
+            case .tradeUnit: // AI_HOMELAND_MOVE_TRADE_UNIT
                 //self.plotTradeUnitMoves(in: gameModel)
             break
+                
             // TODO
             /*case .writer:
                 // AI_HOMELAND_MOVE_WRITER:
