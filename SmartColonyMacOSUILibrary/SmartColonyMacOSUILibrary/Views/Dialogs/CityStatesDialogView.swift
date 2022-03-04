@@ -24,7 +24,7 @@ struct CityStatesDialogView: View {
         BaseDialogView(
             title: self.viewModel.title,
             mode: .portrait,
-            buttonText: "Cancel",
+            buttonText: "TXT_KEY_CANCEL",
             viewModel: self.viewModel) {
 
                 VStack {
@@ -34,7 +34,7 @@ struct CityStatesDialogView: View {
                     ScrollView {
 
                         if self.viewModel.cityStateViewModels.isEmpty {
-                            Text("No city state met yet")
+                            Text("TXT_KEY_CITY_STATE_NONE_MET_YET".localized())
                         } else {
                             // list of known city states
                             LazyVStack(alignment: .leading) {
@@ -72,10 +72,10 @@ struct CityStatesDialogView: View {
                 .frame(width: 36, height: 36)
 
             VStack(spacing: 4) {
-                Text("Overview")
+                Text("TXT_KEY_CITY_STATE_OVERVIEW".localized())
                     .font(.title3)
 
-                Label("1 [Envoy] at X Influence points")
+                Label("TXT_KEY_CITY_STATE_INFLUENCE_POINTS".localized())
             }
         }
         .frame(width: 300)

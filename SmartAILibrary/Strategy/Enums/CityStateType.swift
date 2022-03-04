@@ -226,81 +226,81 @@ public enum CityStateType: String, Codable {
         case .akkad:
             // https://civilization.fandom.com/wiki/Akkad_(Civ6)
             return CityStateTypeData(
-                name: "Akkad",
+                name: "TXT_KEY_CITY_STATE_AKKAD_NAME",
                 category: .militaristic,
-                suzarinBonus: "Melee and anti-cavalry units' attacks do full damage to the city's walls."
+                suzarinBonus: "TXT_KEY_CITY_STATE_AKKAD_SUZARIN_BONUS"
             )
 
         case .amsterdam:
             // https://civilization.fandom.com/wiki/Amsterdam_(Civ6)
             return CityStateTypeData(
-                name: "Amsterdam",
+                name: "TXT_KEY_CITY_STATE_AMSTERDAM_NAME",
                 category: .trade,
-                suzarinBonus: "Your [TradeRoute] Trade Routes to foreign cities earn +1 [Gold] Gold for each luxury resource."
+                suzarinBonus: "TXT_KEY_CITY_STATE_AMSTERDAM_SUZARIN_BONUS"
             )
 
         case .anshan:
             // https://civilization.fandom.com/wiki/Anshan_(Civ6)
             return CityStateTypeData(
-                name: "Anshan",
+                name: "TXT_KEY_CITY_STATE_ANSHAN_NAME",
                 category: .scientific,
-                suzarinBonus: "+2 [Science] Science from each [GreatWork] of Writing Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact."
+                suzarinBonus: "TXT_KEY_CITY_STATE_ANSHAN_SUZARIN_BONUS"
             )
 
         case .antananarivo:
             // https://civilization.fandom.com/wiki/Antananarivo_(Civ6)
             return CityStateTypeData(
-                name: "Antananarivo",
+                name: "TXT_KEY_CITY_STATE_ANTANANARIVO_NAME",
                 category: .cultural,
-                suzarinBonus: "Your Civilization gains +2% [Culture] Culture for each [GreatPerson] Great Person it has ever earned (up to 30%)."
+                suzarinBonus: "TXT_KEY_CITY_STATE_ANTANANARIVO_SUZARIN_BONUS"
             )
 
         case .antioch:
             // https://civilization.fandom.com/wiki/Antioch_(Civ6)
             return CityStateTypeData(
-                name: "Antioch",
+                name: "TXT_KEY_CITY_STATE_ANITOCH_NAME",
                 category: .trade,
-                suzarinBonus: "Your [TradeRoute] Trade Routes to foreign cities earn +1 [Gold] Gold for each Luxury resource at the destination."
+                suzarinBonus: "TXT_KEY_CITY_STATE_ANITOCH_SUZARIN_BONUS"
             )
 
         case .armagh:
             // https://civilization.fandom.com/wiki/Armagh_(Civ6)
             return CityStateTypeData(
-                name: "Armagh",
+                name: "TXT_KEY_CITY_STATE_ARMAGH_NAME",
                 category: .religious,
-                suzarinBonus: "Your Builders can build Monastery improvements."
+                suzarinBonus: "TXT_KEY_CITY_STATE_ARMAGH_SUZARIN_BONUS"
             )
 
         case .auckland:
             // https://civilization.fandom.com/wiki/Auckland_(Civ6)
             return CityStateTypeData(
-                name: "Auckland",
+                name: "TXT_KEY_CITY_STATE_AUCKLAND_NAME",
                 category: .industrial,
-                suzarinBonus: "Shallow water tiles worked by [Citizen] Citizens provide +1 [Production] Production. Additional +1 when you reach the Industrial Era"
+                suzarinBonus: "TXT_KEY_CITY_STATE_AUCKLAND_SUZARIN_BONUS"
             )
 
         case .ayutthaya:
             // https://civilization.fandom.com/wiki/Ayutthaya_(Civ6)
             return CityStateTypeData(
-                name: "Ayutthaya",
+                name: "TXT_KEY_CITY_STATE_AYUTTHAYA_NAME",
                 category: .cultural,
-                suzarinBonus: "Gain [Culture] Culture equal to 10% of the construction cost when finishing buildings."
+                suzarinBonus: "TXT_KEY_CITY_STATE_AYUTTHAYA_SUZARIN_BONUS"
             )
 
         case .babylon:
             // https://civilization.fandom.com/wiki/Babylon_(Civ6)
             return CityStateTypeData(
-                name: "Babylon",
+                name: "TXT_KEY_CITY_STATE_BABYLON_NAME",
                 category: .scientific,
-                suzarinBonus: "+2 [Science] Science from each [GreatWork] of Writing Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact."
+                suzarinBonus: "TXT_KEY_CITY_STATE_BABYLON_SUZARIN_BONUS"
             )
 
         case .bandarBrunei:
             // https://civilization.fandom.com/wiki/Bandar_Brunei_(Civ6)
             return CityStateTypeData(
-                name: "Bandar Brunei",
+                name: "TXT_KEY_CITY_STATE_BANDAR_BRUNEI_NAME",
                 category: .trade,
-                suzarinBonus: "Your [TradingPost] Trading Posts in foreign cities provide +1 [Gold] Gold to your [TradeRoute] Trade Routes passing through or going to the city."
+                suzarinBonus: "TXT_KEY_CITY_STATE_BANDAR_BRUNEI_SUZARIN_BONUS"
             )
 
         case .bologna:
@@ -314,25 +314,25 @@ public enum CityStateType: String, Codable {
         case .brussels:
             // https://civilization.fandom.com/wiki/Brussels_(Civ6)
             return CityStateTypeData(
-                name: "Brussels",
+                name: "TXT_KEY_CITY_STATE_BRUSSELS_NAME",
                 category: .industrial,
-                suzarinBonus: "Your cities get +15% [Production] Production towards wonders."
+                suzarinBonus: "TXT_KEY_CITY_STATE_BRUSSELS_SUZARIN_BONUS"
             )
 
         case .buenosAires:
             // https://civilization.fandom.com/wiki/Buenos_Aires_(Civ6)
             return CityStateTypeData(
-                name: "Buenos Aires",
+                name: "TXT_KEY_CITY_STATE_BUENOS_AIRES_NAME",
                 category: .industrial,
-                suzarinBonus: "Your Bonus resources behave like Luxury resources, providing 1 [Amenity] Amenity per type."
+                suzarinBonus: "TXT_KEY_CITY_STATE_BUENOS_AIRES_SUZARIN_BONUS"
             )
 
         case .caguana:
             // https://civilization.fandom.com/wiki/Caguana_(Civ6)
             return CityStateTypeData(
-                name: "Caguana",
+                name: "TXT_KEY_CITY_STATE_CAGUANA_NAME",
                 category: .cultural,
-                suzarinBonus: "Builders can construct the Batey improvement, which provides [Culture] Culture and [Tourism] Tourism."
+                suzarinBonus: "TXT_KEY_CITY_STATE_CAGUANA_SUZARIN_BONUS"
             )
 
             /*

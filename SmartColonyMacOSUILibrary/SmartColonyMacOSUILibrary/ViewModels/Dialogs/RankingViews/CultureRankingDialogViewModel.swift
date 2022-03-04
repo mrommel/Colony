@@ -33,15 +33,8 @@ class CultureRankingDialogViewModel: ObservableObject {
 
     init() {
 
-        self.title = "Culture Victory"
-        self.summary =
-            "To achieve a CULTURE victory, you must attract VISITING TOURISTS by generating high amount " +
-            "of culture and tourism. Victory is achieved when you attract more VISITING TOURISTS to your " +
-            "civilization than any other civilization has DOMESTIC TOURISTS at home.\n" +
-            "- Your DOMESTIC TOURISTS represent the tourists from your civilization thta are currently happy " +
-            "vacationing within your borders.\n" +
-            "- Your VISITING TOURISTS represent the number of citizens you've attracted from the DOMESTIC " +
-            "TOURIST pools of other civilizations."
+        self.title = "TXT_KEY_RANKING_CULTURE_VICTORY_TITLE".localized()
+        self.summary = "TXT_KEY_RANKING_CULTURE_VICTORY_BODY".localized()
         self.cultureRankingViewModels = []
     }
 

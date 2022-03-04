@@ -27,10 +27,8 @@ class ReligiousRankingDialogViewModel: ObservableObject {
 
     init() {
 
-        self.title = "Religious Victory"
-        self.summary =
-            "To achieve a RELIGIOUS victory, your Religion must become the PREDOMINANT Religion for every civilization in the game.\n\n" +
-            "A Religion is PREDOMINANT if it is followed by more than 50% of the cities in a civilization."
+        self.title = "TXT_KEY_RANKING_RELIGIOUS_VICTORY_TITLE".localized()
+        self.summary = "TXT_KEY_RANKING_RELIGIOUS_VICTORY_BODY".localized()
         self.religiousRankingViewModels = []
     }
 

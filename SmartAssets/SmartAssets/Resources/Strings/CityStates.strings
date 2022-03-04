@@ -6,6 +6,8 @@
   
 */
 
+"TXT_KEY_CITY_STATE_TITLE" = "City-States";
+
 // cultural
 "TXT_KEY_CITY_STATE_CATEGORY_CULTURAL_NAME" = "Cultural";
 "TXT_KEY_CITY_STATE_CATEGORY_CULTURAL_FIRST_ENVOY_BONUS" = "+2 [Culture] Culture in the [Capital] Capital.";
@@ -42,8 +44,60 @@
 "TXT_KEY_CITY_STATE_CATEGORY_TRADE_THIRD_ENVOY_BONUS" = "+4 [Gold] Gold in every Commercial Hub district";
 "TXT_KEY_CITY_STATE_CATEGORY_TRADE_SIXTH_ENVOY_BONUS" = "Additional +4 [Gold] Gold in every Commercial Hub district";
 
+// city states
 
+// akkad
+"TXT_KEY_CITY_STATE_AKKAD_NAME" = "Akkad";
+"TXT_KEY_CITY_STATE_AKKAD_SUZARIN_BONUS" = "Melee and anti-cavalry units' attacks do full damage to the city's walls.";
 
-// Bologna
+// amsterdam
+"TXT_KEY_CITY_STATE_AMSTERDAM_NAME" = "Amsterdam";
+"TXT_KEY_CITY_STATE_AMSTERDAM_SUZARIN_BONUS" = "Your [TradeRoute] Trade Routes to foreign cities earn +1 [Gold] Gold for each luxury resource.";
+
+// anshan
+"TXT_KEY_CITY_STATE_ANSHAN_NAME" = "Anshan";
+"TXT_KEY_CITY_STATE_ANSHAN_SUZARIN_BONUS" = "+2 [Science] Science from each [GreatWork] of Writing Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact.";
+
+// antananarivo
+"TXT_KEY_CITY_STATE_ANTANANARIVO_NAME" = "Antananarivo";
+"TXT_KEY_CITY_STATE_ANTANANARIVO_SUZARIN_BONUS" = "Your Civilization gains +2% [Culture] Culture for each [GreatPerson] Great Person it has ever earned (up to 30%).";
+
+// antioch
+"TXT_KEY_CITY_STATE_ANITOCH_NAME" = "Antioch";
+"TXT_KEY_CITY_STATE_ANITOCH_SUZARIN_BONUS" = "Your [TradeRoute] Trade Routes to foreign cities earn +1 [Gold] Gold for each Luxury resource at the destination.";
+
+// armagh
+"TXT_KEY_CITY_STATE_ARMAGH_NAME" = "Armagh";
+"TXT_KEY_CITY_STATE_ARMAGH_SUZARIN_BONUS" = "Your Builders can build Monastery improvements.";
+
+// auckland
+"TXT_KEY_CITY_STATE_AUCKLAND_NAME" = "Auckland";
+"TXT_KEY_CITY_STATE_AUCKLAND_SUZARIN_BONUS" = "Shallow water tiles worked by [Citizen] Citizens provide +1 [Production] Production. Additional +1 when you reach the Industrial Era";
+
+// ayutthaya
+"TXT_KEY_CITY_STATE_AYUTTHAYA_NAME" = "Ayutthaya";
+"TXT_KEY_CITY_STATE_AYUTTHAYA_SUZARIN_BONUS" = "Gain [Culture] Culture equal to 10% of the construction cost when finishing buildings.";
+
+// babylon
+"TXT_KEY_CITY_STATE_BABYLON_NAME" = "Babylon";
+"TXT_KEY_CITY_STATE_BABYLON_SUZARIN_BONUS" = "+2 [Science] Science from each [GreatWork] of Writing Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact.";
+
+// bandarBrunei
+"TXT_KEY_CITY_STATE_BANDAR_BRUNEI_NAME" = "Bandar Brunei";
+"TXT_KEY_CITY_STATE_BANDAR_BRUNEI_SUZARIN_BONUS" = "Your [TradingPost] Trading Posts in foreign cities provide +1 [Gold] Gold to your [TradeRoute] Trade Routes passing through or going to the city.";
+
+// bologna
 "TXT_KEY_CITY_STATE_BOLOGNA_NAME" = "Bologna";
 "TXT_KEY_CITY_STATE_BOLOGNA_SUZARIN_BONUS" = "Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer, [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building).";
+
+// brussels
+"TXT_KEY_CITY_STATE_BRUSSELS_NAME" = "Brussels";
+"TXT_KEY_CITY_STATE_BRUSSELS_SUZARIN_BONUS" = "Your cities get +15% [Production] Production towards wonders.";
+
+// buenosAires
+"TXT_KEY_CITY_STATE_BUENOS_AIRES_NAME" = "Buenos Aires";
+"TXT_KEY_CITY_STATE_BUENOS_AIRES_SUZARIN_BONUS" = "Your Bonus resources behave like Luxury resources, providing 1 [Amenity] Amenity per type.";
+
+// caguana
+"TXT_KEY_CITY_STATE_CAGUANA_NAME" = "Caguana";
+"TXT_KEY_CITY_STATE_CAGUANA_SUZARIN_BONUS" = "Builders can construct the Batey improvement, which provides [Culture] Culture and [Tourism] Tourism.";

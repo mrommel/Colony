@@ -27,7 +27,7 @@ class CityStatesDialogViewModel: ObservableObject {
 
     init() {
 
-        self.title = "City-States"
+        self.title = "TXT_KEY_CITY_STATE_TITLE".localized()
         self.cityStateViewModels = []
         self.envoyEffectViewModels = []
     }
