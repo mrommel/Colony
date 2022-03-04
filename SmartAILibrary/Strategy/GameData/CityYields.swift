@@ -495,6 +495,7 @@ extension City {
         faithPerTurn += YieldValues(value: self.faithFromDistricts(in: gameModel))
         faithPerTurn += self.faithFromWonders(in: gameModel)
         faithPerTurn += YieldValues(value: self.faithFromTradeRoutes(in: gameModel))
+        faithPerTurn += YieldValues(value: self.faithFromEnvoys(in: gameModel))
 
         // cap yields based on loyalty
         faithPerTurn += YieldValues(value: 0.0, percentage: self.loyaltyState().yieldPercentage())
@@ -739,6 +740,35 @@ extension City {
         return faithFromTradeRoutes
     }
 
+    private func faithFromEnvoys(in gameModel: GameModel?) -> Double {
+
+        guard let effects = self.player?.envoyEffects(in: gameModel) else {
+            fatalError("cant get envoyEffects")
+        }
+
+        var faithFromEnvoys: Double = 0.0
+
+        for effect in effects {
+
+            // religious: +2 Faith Faith in the Capital Capital.
+            if effect.category == .religious && effect.level == .first && self.capitalValue {
+                faithFromEnvoys += 2.0
+            }
+
+            // religious: +2 Faith Faith in every Shrine building.
+            if effect.category == .religious && effect.level == .third && self.has(building: .shrine) {
+                faithFromEnvoys += 2.0
+            }
+
+            // religious: +2 Faith Faith in every Temple building.
+            if effect.category == .religious && effect.level == .sixth && self.has(building: .temple) {
+                faithFromEnvoys += 2.0
+            }
+        }
+
+        return faithFromEnvoys
+    }
+
     // MARK: culture functions
 
     public func culturePerTurn(in gameModel: GameModel?) -> Double {
@@ -754,6 +784,7 @@ extension City {
         culturePerTurn += YieldValues(value: self.cultureFromTradeRoutes(in: gameModel))
         culturePerTurn += self.cultureFromGovernors()
         culturePerTurn += YieldValues(value: self.baseYieldRateFromSpecialists.weight(of: .culture))
+        culturePerTurn += YieldValues(value: self.cultureFromEnvoys(in: gameModel))
 
         // cap yields based on loyalty
         culturePerTurn += YieldValues(value: 0.0, percentage: self.loyaltyState().yieldPercentage())
@@ -1001,6 +1032,42 @@ extension City {
         return cultureFromGovernors
     }
 
+    private func cultureFromEnvoys(in gameModel: GameModel?) -> Double {
+
+        guard let effects = self.player?.envoyEffects(in: gameModel) else {
+            fatalError("cant get envoyEffects")
+        }
+
+        var cultureFromEnvoys: Double = 0.0
+
+        for effect in effects {
+
+            // +2 Culture Culture in the Capital Capital.
+            if effect.category == .cultural && effect.level == .first && self.capitalValue {
+                cultureFromEnvoys += 2.0
+            }
+
+            // +2 Culture Culture in every Amphitheater building.
+            if effect.category == .cultural && effect.level == .third && self.has(building: .amphitheater) {
+                cultureFromEnvoys += 2.0
+            }
+
+            // +2 Culture Culture in every Art Museum and Archaeological Museum building.
+            if effect.category == .cultural && effect.level == .sixth {
+                fatalError("not handled")
+                /*if self.has(building: .museum) {
+                 cultureFromEnvoys += 2.0
+                 }
+                 if self.has(building: .arch) {
+                 cultureFromEnvoys += 2.0
+                 }
+                 */
+            }
+        }
+
+        return cultureFromEnvoys
+    }
+
     // MARK: gold functions
 
     public func goldPerTurn(in gameModel: GameModel?) -> Double {
@@ -1013,6 +1080,7 @@ extension City {
         goldPerTurn += YieldValues(value: self.goldFromBuildings())
         goldPerTurn += YieldValues(value: self.goldFromWonders())
         goldPerTurn += YieldValues(value: self.goldFromTradeRoutes(in: gameModel))
+        goldPerTurn += YieldValues(value: self.goldFromEnvoys(in: gameModel))
 
         // cap yields based on loyalty
         goldPerTurn += YieldValues(value: 0.0, percentage: self.loyaltyState().yieldPercentage())
@@ -1234,6 +1302,48 @@ extension City {
         return goldFromTradeRoutes
     }
 
+    private func goldFromEnvoys(in gameModel: GameModel?) -> Double {
+
+        guard let effects = self.player?.envoyEffects(in: gameModel) else {
+            fatalError("cant get envoyEffects")
+        }
+
+        var goldFromEnvoys: Double = 0.0
+
+        for effect in effects {
+
+            // +4 Gold Gold in the Capital Capital.
+            if effect.category == .trade && effect.level == .first && self.capitalValue {
+                goldFromEnvoys += 4.0
+            }
+
+            // +2 Gold Gold in every Market and Lighthouse building.
+            if effect.category == .trade && effect.level == .third {
+                if self.has(building: .market) {
+                    goldFromEnvoys += 2.0
+                }
+
+                if self.has(building: .lighthouse) {
+                    goldFromEnvoys += 2.0
+                }
+            }
+
+            // +2 Gold Gold in every Bank and Shipyard building.
+            if effect.category == .trade && effect.level == .sixth {
+                fatalError("not handled")
+                /*if self.has(building: .bank) {
+                    goldFromEnvoys += 2.0
+                }*/
+
+                if self.has(building: .shipyard) {
+                    goldFromEnvoys += 2.0
+                }
+            }
+        }
+
+        return goldFromEnvoys
+    }
+
     // MARK: science functions
 
     public func sciencePerTurn(in gameModel: GameModel?) -> Double {
@@ -1249,6 +1359,7 @@ extension City {
         sciencePerTurn += YieldValues(value: self.scienceFromTradeRoutes(in: gameModel))
         sciencePerTurn += self.scienceFromGovernors()
         sciencePerTurn += YieldValues(value: self.baseYieldRateFromSpecialists.weight(of: .science))
+        sciencePerTurn += YieldValues(value: self.scienceFromEnvoys(in: gameModel))
 
         // cap yields based on loyalty
         sciencePerTurn += YieldValues(value: 0.0, percentage: self.loyaltyState().yieldPercentage())
@@ -1470,6 +1581,36 @@ extension City {
         }
 
         return scienceFromGovernors
+    }
+
+    private func scienceFromEnvoys(in gameModel: GameModel?) -> Double {
+
+        guard let effects = self.player?.envoyEffects(in: gameModel) else {
+            fatalError("cant get envoyEffects")
+        }
+
+        var scienceFromEnvoys: Double = 0.0
+
+        for effect in effects {
+
+            // +2 Science Science in the Capital Capital.
+            if effect.category == .scientific && effect.level == .first && self.capitalValue {
+                scienceFromEnvoys += 2.0
+            }
+
+            // +2 Science Science in every Library building.
+            if effect.category == .scientific && effect.level == .third && self.has(building: .library) {
+                scienceFromEnvoys += 2.0
+            }
+
+            // +2 Science Science in every University building.
+            if effect.category == .scientific && effect.level == .sixth /* && (self.has(building: .university) */ {
+                fatalError("not handled")
+                scienceFromEnvoys += 2.0
+            }
+        }
+
+        return scienceFromEnvoys
     }
 
     // MARK: food functions

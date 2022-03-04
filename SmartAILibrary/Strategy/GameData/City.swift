@@ -2377,6 +2377,69 @@ public class City: AbstractCity {
 
             var production: Double = self.productionPerTurn(in: gameModel)
 
+            guard let effects = self.player?.envoyEffects(in: gameModel) else {
+                fatalError("cant get envoyEffects")
+            }
+
+            for effect in effects {
+
+                // Industrial: +2 Production Production in the Capital Capital when producing wonders, buildings, and districts.
+                if effect.category == .industrial && effect.level == .first && self.capitalValue {
+                    if self.buildQueue.isCurrentlyBuildingBuilding() ||
+                        self.buildQueue.isCurrentlyBuildingDistrict() ||
+                        self.buildQueue.isCurrentlyBuildingWonder() {
+
+                        production += 2.0
+                    }
+                }
+
+                // Industrial: +2 Production Production in every city with a Workshop building when producing wonders, buildings, and districts.
+                if effect.category == .industrial && effect.level == .third && self.has(building: .workshop) {
+                    if self.buildQueue.isCurrentlyBuildingBuilding() ||
+                        self.buildQueue.isCurrentlyBuildingDistrict() ||
+                        self.buildQueue.isCurrentlyBuildingWonder() {
+
+                        production += 2.0
+                    }
+                }
+
+                // Industrial: +2 Production Production in every city with a Factory building when producing wonders, buildings, and districts.
+                if effect.category == .industrial && effect.level == .sixth /*&& self.has(building: .factory)*/ {
+                    fatalError("not handled")
+                    /* if self.buildQueue.isCurrentlyBuildingBuilding() ||
+                        self.buildQueue.isCurrentlyBuildingDistrict() ||
+                        self.buildQueue.isCurrentlyBuildingWonder() {
+
+                        production += 2.0
+                    }*/
+                }
+
+                // Militaristic: +2 Production Production in the Capital Capital when producing units.
+                if effect.category == .militaristic && effect.level == .first && self.capitalValue {
+                    if self.buildQueue.isCurrentlyTrainingUnit() {
+
+                        production += 2.0
+                    }
+                }
+
+                // Militaristic: +2 Production Production in every city with a Barracks or Stable building when producing units.
+                if effect.category == .militaristic && effect.level == .third && (self.has(building: .barracks) || self.has(building: .stable)) {
+                    if self.buildQueue.isCurrentlyTrainingUnit() {
+
+                        production += 2.0
+                    }
+                }
+
+                // Militaristic: +2 Production Production in every city with an Armory building when producing units.
+                if effect.category == .militaristic && effect.level == .sixth /*&& self.has(building: .armory)*/ {
+                    fatalError("not handled")
+                    /* if self.buildQueue.isCurrentlyTrainingUnit() {
+
+                        production += 2.0
+                    }*/
+                }
+            }
+
             // +1 Production in all cities.
             if government.has(card: .urbanPlanning) {
                 production += 1.0
