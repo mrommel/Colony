@@ -176,6 +176,10 @@ struct Label_Previews: PreviewProvider {
 
         Label(NSAttributedString(string: "Native Attributed"))
             .frame(width: 120)
+
+        Label(NSAttributedString(string: "Native Attributed"))
+            .frame(width: 250)
+            .background(Color.blue)
     }
 }
 #endif

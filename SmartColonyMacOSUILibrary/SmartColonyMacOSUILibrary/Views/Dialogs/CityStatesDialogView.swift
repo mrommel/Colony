@@ -50,7 +50,7 @@ struct CityStatesDialogView: View {
 
                                 ForEach(self.viewModel.envoyEffectViewModels, id: \.self) { envoyEffectViewModel in
 
-                                    Label(envoyEffectViewModel.name)
+                                    EnvoyEffectView(viewModel: envoyEffectViewModel)
                                 }
                             }
                         }

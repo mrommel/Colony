@@ -114,7 +114,7 @@ public extension NSColor {
 
         self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
         saturation += (newSaturation - 1.0)
-        saturation = max(min(saturation, 1.0), 0.0)
+        saturation = saturation.clamped(to: 0.0...1.0)
 
         return NSColor(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
     }

@@ -8,6 +8,8 @@
 
 "TXT_KEY_CITY_STATE_TITLE" = "City-States";
 
+// city state categories
+
 // cultural
 "TXT_KEY_CITY_STATE_CATEGORY_CULTURAL_NAME" = "Cultural";
 "TXT_KEY_CITY_STATE_CATEGORY_CULTURAL_FIRST_ENVOY_BONUS" = "+2 [Culture] Culture in the [Capital] Capital.";
@@ -60,7 +62,7 @@
 
 // antananarivo
 "TXT_KEY_CITY_STATE_ANTANANARIVO_NAME" = "Antananarivo";
-"TXT_KEY_CITY_STATE_ANTANANARIVO_SUZARIN_BONUS" = "Your Civilization gains +2% [Culture] Culture for each [GreatPerson] Great Person it has ever earned (up to 30%)."; 
+"TXT_KEY_CITY_STATE_ANTANANARIVO_SUZARIN_BONUS" = "Your Civilization gains +2% [Culture] Culture for each [GreatPerson] Great Person it has ever earned (up to 30%).";
 
 // antioch
 "TXT_KEY_CITY_STATE_ANITOCH_NAME" = "Antioch";

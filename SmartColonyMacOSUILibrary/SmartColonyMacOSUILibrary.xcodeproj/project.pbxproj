@@ -10,6 +10,7 @@
 		C900391E273422F500E1AA7F /* DominationRankingDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C900391D273422F400E1AA7F /* DominationRankingDialogView.swift */; };
 		C90039202734237000E1AA7F /* DominationRankingDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C900391F2734237000E1AA7F /* DominationRankingDialogViewModel.swift */; };
 		C90039222734248200E1AA7F /* DominationRankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90039212734248200E1AA7F /* DominationRankingViewModel.swift */; };
+		C90323E727D3FFEC00AFBCFE /* EnvoyEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90323E627D3FFEC00AFBCFE /* EnvoyEffectView.swift */; };
 		C903D05D274A43EF003C50B9 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903D05C274A43EF003C50B9 /* Label.swift */; };
 		C9072E7F2732AFA000560429 /* OverallRankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9072E7E2732AFA000560429 /* OverallRankingView.swift */; };
 		C9072E812732B14600560429 /* CivilizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9072E802732B14600560429 /* CivilizationView.swift */; };
@@ -339,6 +340,7 @@
 		C900391D273422F400E1AA7F /* DominationRankingDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DominationRankingDialogView.swift; sourceTree = "<group>"; };
 		C900391F2734237000E1AA7F /* DominationRankingDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DominationRankingDialogViewModel.swift; sourceTree = "<group>"; };
 		C90039212734248200E1AA7F /* DominationRankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DominationRankingViewModel.swift; sourceTree = "<group>"; };
+		C90323E627D3FFEC00AFBCFE /* EnvoyEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvoyEffectView.swift; sourceTree = "<group>"; };
 		C903D05C274A43EF003C50B9 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		C9072E7E2732AFA000560429 /* OverallRankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallRankingView.swift; sourceTree = "<group>"; };
 		C9072E802732B14600560429 /* CivilizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivilizationView.swift; sourceTree = "<group>"; };
@@ -1006,6 +1008,7 @@
 				C9C8A744278571DB00BC68CF /* DedicationView.swift */,
 				C963AD1B2786DB6500981EF3 /* MomentView.swift */,
 				C95AB2F527CD40EC00EF5C61 /* CityStateView.swift */,
+				C90323E627D3FFEC00AFBCFE /* EnvoyEffectView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1514,6 +1517,7 @@
 				C94816BF26A82D4E00765029 /* SelectTradeCityDialogView.swift in Sources */,
 				C9CAC899264ABBC400D0668D /* ChangeGovernmentDialogView.swift in Sources */,
 				C968F29F2639BAD500612D0E /* BorderLayer.swift in Sources */,
+				C90323E727D3FFEC00AFBCFE /* EnvoyEffectView.swift in Sources */,
 				C9D191BD265C37ED008C9622 /* CityGrowthViewModel.swift in Sources */,
 				C92F9491265E262A000968AB /* CityCitizenViewModel.swift in Sources */,
 				C9D191B3265AE499008C9622 /* PantheonViewModel.swift in Sources */,

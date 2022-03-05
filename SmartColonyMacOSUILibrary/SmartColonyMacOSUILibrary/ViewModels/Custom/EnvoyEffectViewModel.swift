@@ -8,8 +8,15 @@
 import Foundation
 import SwiftUI
 import SmartAILibrary
+import SmartAssets
 
 class EnvoyEffectViewModel: ObservableObject {
+
+    @Published
+    var title: String
+
+    @Published
+    var titleColor: NSColor
 
     @Published
     var name: String
@@ -19,7 +26,34 @@ class EnvoyEffectViewModel: ObservableObject {
     init(envoyEffect: EnvoyEffect) {
 
         self.envoyEffect = envoyEffect
-        self.name = envoyEffect.cityState.bonus(for: envoyEffect.level)
+
+        switch self.envoyEffect.level {
+
+        case .first:
+            self.title = "\(self.envoyEffect.cityState.category().name().localized()) Bonus 1:"
+        case .third:
+            self.title = "\(self.envoyEffect.cityState.category().name().localized()) Bonus 3:"
+        case .sixth:
+            self.title = "\(self.envoyEffect.cityState.category().name().localized()) Bonus 6:"
+        case .suzerain:
+            self.title = "Suzerain Bonuses of \(self.envoyEffect.cityState.name().localized()):"
+        }
+
+        self.titleColor = envoyEffect.cityState.color()
+        self.name = envoyEffect.cityState.bonus(for: envoyEffect.level).localized()
+    }
+
+    func image() -> NSImage {
+
+        switch self.envoyEffect.level {
+
+        case .first, .third, .sixth:
+            return ImageCache.shared.image(for: self.envoyEffect.cityState.envoysTexture())
+                .tint(with: self.envoyEffect.cityState.color())
+        case .suzerain:
+            return ImageCache.shared.image(for: self.envoyEffect.cityState.suzerainTexture())
+                .tint(with: self.envoyEffect.cityState.color())
+        }
     }
 }
 
