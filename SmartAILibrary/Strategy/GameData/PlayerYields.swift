@@ -100,21 +100,24 @@ extension Player {
 
     // MARK: culture functpublic ions
 
-    public func culture(in gameModel: GameModel?) -> Double {
+    public func culture(in gameModel: GameModel?, consume: Bool) -> Double {
 
-        var value = 0.0
+        var value = YieldValues(value: 0.0)
 
         // culture from our Cities
         value += self.cultureFromCities(in: gameModel)
-        value += Double(self.cultureEarned)
+        value += self.cultureFromCityStates(in: gameModel)
+        value += YieldValues(value: Double(self.cultureEarned))
         // ....
 
-        self.cultureEarned = 0
+        if consume {
+            self.cultureEarned = 0
+        }
 
-        return value
+        return value.calc()
     }
 
-    public func cultureFromCities(in gameModel: GameModel?) -> Double {
+    public func cultureFromCities(in gameModel: GameModel?) -> YieldValues {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -131,6 +134,27 @@ extension Player {
             cultureVal += city.culturePerTurn(in: gameModel)
         }
 
-        return cultureVal
+        return YieldValues(value: cultureVal)
+    }
+
+    public func cultureFromCityStates(in gameModel: GameModel?) -> YieldValues {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        let envoyEffects = self.envoyEffects(in: gameModel)
+
+        var cultureVal = 0.0
+        var cultureModifier = 0.0
+
+        // antananarivo suzerain bonus
+        // Your Civilization gains +2% [Culture] Culture for each [GreatPerson] Great Person it has ever earned (up to 30%).
+        if envoyEffects.contains(where: { $0.cityState == .antananarivo && $0.level == .suzerain }) {
+            let numOfSpawnedGreatPersons = self.greatPeople?.numOfSpawnedGreatPersons() ?? 0
+            cultureModifier += min(0.02 * Double(numOfSpawnedGreatPersons), 0.3)
+        }
+
+        return YieldValues(value: cultureVal, percentage: cultureModifier)
     }
 }

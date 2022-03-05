@@ -85,13 +85,13 @@ public class TopBarViewModel: ObservableObject {
         self.envoysLabelText = "0"
 
         self.showResources = false
-        self.horsesValueViewModel = ResourceValueViewModel(resourceType: .horses, initial: 1)
-        self.ironValueViewModel = ResourceValueViewModel(resourceType: .iron, initial: 1)
-        self.niterValueViewModel = ResourceValueViewModel(resourceType: .niter, initial: 1)
-        self.coalValueViewModel = ResourceValueViewModel(resourceType: .coal, initial: 1)
-        self.oilValueViewModel = ResourceValueViewModel(resourceType: .oil, initial: 1)
-        self.aluminumValueViewModel = ResourceValueViewModel(resourceType: .aluminum, initial: 1)
-        self.uraniumValueViewModel = ResourceValueViewModel(resourceType: .uranium, initial: 1)
+        self.horsesValueViewModel = ResourceValueViewModel(resourceType: .horses, initial: 0)
+        self.ironValueViewModel = ResourceValueViewModel(resourceType: .iron, initial: 0)
+        self.niterValueViewModel = ResourceValueViewModel(resourceType: .niter, initial: 0)
+        self.coalValueViewModel = ResourceValueViewModel(resourceType: .coal, initial: 0)
+        self.oilValueViewModel = ResourceValueViewModel(resourceType: .oil, initial: 0)
+        self.aluminumValueViewModel = ResourceValueViewModel(resourceType: .aluminum, initial: 0)
+        self.uraniumValueViewModel = ResourceValueViewModel(resourceType: .uranium, initial: 0)
 
         self.turnYearText = "-"
 
@@ -117,7 +117,7 @@ public class TopBarViewModel: ObservableObject {
         self.scienceYieldValueViewModel.delta = humanPlayer.science(in: gameModel)
         self.scienceYieldValueViewModel.tooltip = self.scienceTooltip(for: humanPlayer, in: gameModel)
 
-        self.cultureYieldValueViewModel.delta = humanPlayer.culture(in: gameModel)
+        self.cultureYieldValueViewModel.delta = humanPlayer.culture(in: gameModel, consume: false)
         self.cultureYieldValueViewModel.tooltip = self.cultureTooltip(for: humanPlayer, in: gameModel)
 
         self.faithYieldValueViewModel.value = humanPlayer.religion?.faith() ?? 0.0
@@ -291,6 +291,13 @@ extension TopBarViewModel {
                 )
                 tooltipText.append(cityYield)
             }
+
+            let cultureFromCityStates = player.cultureFromCityStates(in: gameModel)
+            let cityStateYield = NSAttributedString(
+                string: "\n+\(cultureFromCityStates) from City States",
+                attributes: Globals.Attributs.tooltipContentAttributs
+            )
+            tooltipText.append(cityStateYield)
         }
 
         return tooltipText

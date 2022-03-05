@@ -48,7 +48,7 @@
 
 // akkad
 "TXT_KEY_CITY_STATE_AKKAD_NAME" = "Akkad";
-"TXT_KEY_CITY_STATE_AKKAD_SUZARIN_BONUS" = "Melee and anti-cavalry units' attacks do full damage to the city's walls.";
+"TXT_KEY_CITY_STATE_AKKAD_SUZARIN_BONUS" = "Melee and anti-cavalry units' attacks do full damage to the city's walls."; // #
 
 // amsterdam
 "TXT_KEY_CITY_STATE_AMSTERDAM_NAME" = "Amsterdam";
@@ -56,11 +56,11 @@
 
 // anshan
 "TXT_KEY_CITY_STATE_ANSHAN_NAME" = "Anshan";
-"TXT_KEY_CITY_STATE_ANSHAN_SUZARIN_BONUS" = "+2 [Science] Science from each [GreatWork] of Writing Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact.";
+"TXT_KEY_CITY_STATE_ANSHAN_SUZARIN_BONUS" = "+2 [Science] Science from each [GreatWork] of Writing Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact."; // #
 
 // antananarivo
 "TXT_KEY_CITY_STATE_ANTANANARIVO_NAME" = "Antananarivo";
-"TXT_KEY_CITY_STATE_ANTANANARIVO_SUZARIN_BONUS" = "Your Civilization gains +2% [Culture] Culture for each [GreatPerson] Great Person it has ever earned (up to 30%).";
+"TXT_KEY_CITY_STATE_ANTANANARIVO_SUZARIN_BONUS" = "Your Civilization gains +2% [Culture] Culture for each [GreatPerson] Great Person it has ever earned (up to 30%)."; 
 
 // antioch
 "TXT_KEY_CITY_STATE_ANITOCH_NAME" = "Antioch";
@@ -68,7 +68,7 @@
 
 // armagh
 "TXT_KEY_CITY_STATE_ARMAGH_NAME" = "Armagh";
-"TXT_KEY_CITY_STATE_ARMAGH_SUZARIN_BONUS" = "Your Builders can build Monastery improvements.";
+"TXT_KEY_CITY_STATE_ARMAGH_SUZARIN_BONUS" = "Your Builders can build Monastery improvements."; // #
 
 // auckland
 "TXT_KEY_CITY_STATE_AUCKLAND_NAME" = "Auckland";
@@ -76,11 +76,11 @@
 
 // ayutthaya
 "TXT_KEY_CITY_STATE_AYUTTHAYA_NAME" = "Ayutthaya";
-"TXT_KEY_CITY_STATE_AYUTTHAYA_SUZARIN_BONUS" = "Gain [Culture] Culture equal to 10% of the construction cost when finishing buildings.";
+"TXT_KEY_CITY_STATE_AYUTTHAYA_SUZARIN_BONUS" = "Gain [Culture] Culture equal to 10% of the construction cost when finishing buildings."; // #
 
 // babylon
 "TXT_KEY_CITY_STATE_BABYLON_NAME" = "Babylon";
-"TXT_KEY_CITY_STATE_BABYLON_SUZARIN_BONUS" = "+2 [Science] Science from each [GreatWork] of Writing Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact.";
+"TXT_KEY_CITY_STATE_BABYLON_SUZARIN_BONUS" = "+2 [Science] Science from each [GreatWork] of Writing Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact."; // #
 
 // bandarBrunei
 "TXT_KEY_CITY_STATE_BANDAR_BRUNEI_NAME" = "Bandar Brunei";
@@ -88,7 +88,7 @@
 
 // bologna
 "TXT_KEY_CITY_STATE_BOLOGNA_NAME" = "Bologna";
-"TXT_KEY_CITY_STATE_BOLOGNA_SUZARIN_BONUS" = "Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer, [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building).";
+"TXT_KEY_CITY_STATE_BOLOGNA_SUZARIN_BONUS" = "Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer, [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building)."; // #
 
 // brussels
 "TXT_KEY_CITY_STATE_BRUSSELS_NAME" = "Brussels";
@@ -96,8 +96,8 @@
 
 // buenosAires
 "TXT_KEY_CITY_STATE_BUENOS_AIRES_NAME" = "Buenos Aires";
-"TXT_KEY_CITY_STATE_BUENOS_AIRES_SUZARIN_BONUS" = "Your Bonus resources behave like Luxury resources, providing 1 [Amenity] Amenity per type.";
+"TXT_KEY_CITY_STATE_BUENOS_AIRES_SUZARIN_BONUS" = "Your Bonus resources behave like Luxury resources, providing 1 [Amenity] Amenity per type."; // #
 
 // caguana
 "TXT_KEY_CITY_STATE_CAGUANA_NAME" = "Caguana";
-"TXT_KEY_CITY_STATE_CAGUANA_SUZARIN_BONUS" = "Builders can construct the Batey improvement, which provides [Culture] Culture and [Tourism] Tourism.";
+"TXT_KEY_CITY_STATE_CAGUANA_SUZARIN_BONUS" = "Builders can construct the Batey improvement, which provides [Culture] Culture and [Tourism] Tourism."; // #

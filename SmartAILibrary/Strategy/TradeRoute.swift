@@ -98,14 +98,23 @@ public class TradeRoute: Codable {
         return !self.isDomestic(in: gameModel)
     }
 
-    // https://civilization.fandom.com/wiki/Trade_Route_(Civ6)#Trade_Yields_Based_on_Districts
+    /// get the yields per turn of a specific trade route
+    ///
+    /// - Parameter gameModel: game
+    /// - Returns: `Yields` of this trade rotue
+    /// https://civilization.fandom.com/wiki/Trade_Route_(Civ6)#Trade_Yields_Based_on_Districts
     public func yields(in gameModel: GameModel?) -> Yields {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
 
-        guard let startPlayer = self.startCity(in: gameModel)?.player else {
+        guard let startCity = self.startCity(in: gameModel) else {
+            fatalError("cant get start city")
+        }
+
+        // this is the player that initiated the trade route
+        guard let startPlayer = startCity.player else {
             fatalError("cant get start player")
         }
 
@@ -120,6 +129,8 @@ public class TradeRoute: Codable {
         guard let endDistricts = endCity.districts else {
             fatalError("cant get end city districts")
         }
+
+        let envoyEffects = startPlayer.envoyEffects(in: gameModel)
 
         var yields: Yields = Yields(food: 0.0, production: 0.0, gold: 0.0)
 
@@ -140,6 +151,16 @@ public class TradeRoute: Codable {
 
                 // Foreign Trade Routes to this city provide +2 Gold to both cities.
                 yields.gold += 2.0
+            }
+
+            // amsterdam or antioch or bandarBrunei suzerain:
+            // Your [TradeRoute] Trade Routes to foreign cities earn +1 [Gold] Gold for each luxury resource.
+            if envoyEffects.contains(where: { $0.cityState == .amsterdam && $0.level == .suzerain }) ||
+                envoyEffects.contains(where: { $0.cityState == .antioch && $0.level == .suzerain }) ||
+                envoyEffects.contains(where: { $0.cityState == .bandarBrunei && $0.level == .suzerain }) {
+
+                let amountOfLuxuryResources = startCity.numLocalLuxuryResources(in: gameModel)
+                yields.gold += 1.0 * Double(amountOfLuxuryResources)
             }
         }
 

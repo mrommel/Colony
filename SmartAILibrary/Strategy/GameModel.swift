@@ -1103,7 +1103,7 @@ open class GameModel: Codable {
                 continue
             }
 
-            let culturePerTurn = player.culture(in: self)
+            let culturePerTurn = player.culture(in: self, consume: false)
             self.rankingData.add(culturePerTurn: culturePerTurn, for: player.leader)
 
             let goldBalance = player.treasury?.value() ?? 0

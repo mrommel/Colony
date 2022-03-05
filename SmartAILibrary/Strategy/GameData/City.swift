@@ -223,6 +223,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func countNumImprovedPlots(in gameModel: GameModel?) -> Int
 
     func numLocalResources(of resourceType: ResourceType, in gameModel: GameModel?) -> Int
+    func numLocalLuxuryResources(in gameModel: GameModel?) -> Int
 
     func isProductionAutomated() -> Bool
     func setProductionAutomated(to newValue: Bool, clear: Bool, in gameModel: GameModel?)
@@ -276,7 +277,7 @@ public class LeaderWeightList: WeightedList<LeaderType> {
     }
 }
 
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length file_length
 public class City: AbstractCity {
 
     static let workRadius = 3
@@ -2376,6 +2377,7 @@ public class City: AbstractCity {
         if self.isProduction() {
 
             var production: Double = self.productionPerTurn(in: gameModel)
+            var modifierPercentage = 0.0
 
             guard let effects = self.player?.envoyEffects(in: gameModel) else {
                 fatalError("cant get envoyEffects")
@@ -2438,14 +2440,20 @@ public class City: AbstractCity {
                         production += 2.0
                     }*/
                 }
+
+                // brussels suzerain bonus
+                // Your cities get +15% [Production] Production towards wonders.
+                if effect.cityState == .brussels && effect.level == .suzerain {
+                    if self.productionWonderType() != nil {
+                        modifierPercentage += 0.15
+                    }
+                }
             }
 
             // +1 Production in all cities.
             if government.has(card: .urbanPlanning) {
                 production += 1.0
             }
-
-            var modifierPercentage = 0.0
 
             // city state production bonus is 50%
             if player.isCityState() {
@@ -2548,7 +2556,8 @@ public class City: AbstractCity {
             // +50% Production toward Ancient and Classical era melee, ranged units and anti-cavalry units.
             if government.has(card: .agoge) {
                 if let unitType = self.productionUnitType() {
-                    if (unitType.unitClass() == .melee || unitType.unitClass() == .ranged || unitType.unitClass() == .antiCavalry) && (unitType.era() == .ancient || unitType.era() == .classical) {
+                    if (unitType.unitClass() == .melee || unitType.unitClass() == .ranged || unitType.unitClass() == .antiCavalry) &&
+                        (unitType.era() == .ancient || unitType.era() == .classical) {
                         modifierPercentage += 0.50
                     }
                 }
@@ -5386,6 +5395,29 @@ public class City: AbstractCity {
 
             if let tile = gameModel.tile(at: point) {
                 if tile.resource(for: player) == resourceType && player.isEqual(to: tile.owner()) {
+                    result += tile.resourceQuantity()
+                }
+            }
+        }
+
+        return result
+    }
+
+    public func numLocalLuxuryResources(in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel,
+              let cityCitizens = self.cityCitizens,
+              let player = self.player else {
+
+            fatalError("cant get basics")
+        }
+
+        var result = 0
+
+        for point in cityCitizens.workingTileLocations() {
+
+            if let tile = gameModel.tile(at: point) {
+                if tile.resource(for: player).usage() == .luxury && player.isEqual(to: tile.owner()) {
                     result += tile.resourceQuantity()
                 }
             }

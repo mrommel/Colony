@@ -225,8 +225,9 @@ public protocol AbstractPlayer: AnyObject, Codable {
     // yields
     func science(in gameModel: GameModel?) -> Double
     func scienceFromCities(in gameModel: GameModel?) -> Double
-    func culture(in gameModel: GameModel?) -> Double
-    func cultureFromCities(in gameModel: GameModel?) -> Double
+    func culture(in gameModel: GameModel?, consume: Bool) -> Double
+    func cultureFromCities(in gameModel: GameModel?) -> YieldValues
+    func cultureFromCityStates(in gameModel: GameModel?) -> YieldValues
     func faith(in gameModel: GameModel?) -> Double
     func faithFromCities(in gameModel: GameModel?) -> Double
 
@@ -2351,7 +2352,7 @@ public class Player: AbstractPlayer {
             fatalError("cant get techs")
         }
 
-        let cultureVal = self.culture(in: gameModel)
+        let cultureVal = self.culture(in: gameModel, consume: true)
         civics.add(culture: cultureVal)
 
         do {
@@ -3305,7 +3306,7 @@ public class Player: AbstractPlayer {
             }
 
             // If this is the first city (or ..) notify the player
-            if civics.needToChooseCivic() && self.culture(in: gameModel) > 0.0 {
+            if civics.needToChooseCivic() && self.culture(in: gameModel, consume: false) > 0.0 {
 
                 // if self.isActive() {
                 self.notifications()?.add(notification: .civicNeeded)

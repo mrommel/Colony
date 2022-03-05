@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct YieldValues {
+public struct YieldValues {
 
     let value: Double
     let percentage: Double
@@ -310,7 +310,7 @@ extension City {
 
         if let centerTile = gameModel.tile(at: self.location) {
 
-            productionValue += centerTile.yields(for: self.player, ignoreFeature: false).production
+            productionValue += centerTile.yields(for: player, ignoreFeature: false).production
 
             // The yield of the tile occupied by the city center will be increased to 2 Food and 1 Production, if either was previously lower (before any bonus yields are applied).
             if productionValue < 1.0 {
@@ -318,64 +318,79 @@ extension City {
             }
         }
 
+        let envoyEffects = player.envoyEffects(in: gameModel)
+
         for point in cityCitizens.workingTileLocations() {
             if cityCitizens.isWorked(at: point) {
-                if let adjacentTile = gameModel.tile(at: point) {
-                    productionValue += adjacentTile.yields(for: self.player, ignoreFeature: false).production
+                if let workedTile = gameModel.tile(at: point) {
+                    productionValue += workedTile.yields(for: player, ignoreFeature: false).production
 
                     // city has petra: +2 Food, +2 Gold, and +1 Production
                     // on all Desert tiles for this city (non-Floodplains).
-                    if adjacentTile.terrain() == .desert && !adjacentTile.has(feature: .floodplains) && wonders.has(wonder: .petra) {
+                    if workedTile.terrain() == .desert && !workedTile.has(feature: .floodplains) && wonders.has(wonder: .petra) {
                         productionValue += 1.0
                     }
 
                     // motherRussia
-                    if adjacentTile.terrain() == .tundra && player.leader.civilization().ability() == .motherRussia {
+                    if workedTile.terrain() == .tundra && player.leader.civilization().ability() == .motherRussia {
                         // Tundra tiles provide +1 Faith and +1 Production, in addition to their usual yields.
                         productionValue += 1.0
                     }
 
                     // player has hueyTeocalli: +1 Food and +1 Production for each Lake tile in your empire.
-                    if adjacentTile.has(feature: .lake) && hasHueyTeocalli {
+                    if workedTile.has(feature: .lake) && hasHueyTeocalli {
                         productionValue += 1.0
                     }
 
                     // city has chichenItza: +2 Culture and +1 Production to all Rainforest tiles for this city.
-                    if adjacentTile.has(feature: .rainforest) && self.has(wonder: .chichenItza) {
+                    if workedTile.has(feature: .rainforest) && self.has(wonder: .chichenItza) {
                         productionValue += 1.0
                     }
 
                     // etemenanki - +2 Science and +1 Production to all Marsh tiles in your empire.
-                    if adjacentTile.has(feature: .marsh) && player.has(wonder: .etemenanki, in: gameModel) {
+                    if workedTile.has(feature: .marsh) && player.has(wonder: .etemenanki, in: gameModel) {
                         productionValue += 1.0
                     }
 
                     // etemenanki - +1 Science and +1 Production on all Floodplains tiles in this city.
-                    if adjacentTile.has(feature: .floodplains) && self.has(wonder: .etemenanki) {
+                    if workedTile.has(feature: .floodplains) && self.has(wonder: .etemenanki) {
                         productionValue += 1.0
                     }
 
                     // godOfTheSea - 1 [Production] Production from Fishing Boats.
-                    if adjacentTile.improvement() == .fishingBoats && self.player?.religion?.pantheon() == .godOfTheSea {
+                    if workedTile.improvement() == .fishingBoats && player.religion?.pantheon() == .godOfTheSea {
                         productionValue += 1.0
                     }
 
                     // ladyOfTheReedsAndMarshes - +2 [Production] Production from Marsh, Oasis, and Desert Floodplains.
-                    if (adjacentTile.has(feature: .marsh) || adjacentTile.has(feature: .oasis) || adjacentTile.has(feature: .floodplains)) &&
+                    if (workedTile.has(feature: .marsh) || workedTile.has(feature: .oasis) || workedTile.has(feature: .floodplains)) &&
                         self.player?.religion?.pantheon() == .ladyOfTheReedsAndMarshes {
                         productionValue += 1.0
                     }
 
                     // godOfCraftsmen - +1 [Production] Production and +1 [Faith] Faith from improved Strategic resources.
                     if self.player?.religion?.pantheon() == .godOfCraftsmen {
-                        if adjacentTile.resource(for: player).usage() == .strategic && adjacentTile.hasAnyImprovement() {
+                        if workedTile.resource(for: player).usage() == .strategic && workedTile.hasAnyImprovement() {
                             productionValue += 1.0
                         }
                     }
 
                     // goddessOfTheHunt - +1 [Food] Food and +1 [Production] Production from Camps.
-                    if adjacentTile.improvement() == .camp && self.player?.religion?.pantheon() == .goddessOfTheHunt {
+                    if workedTile.improvement() == .camp && player.religion?.pantheon() == .goddessOfTheHunt {
                         productionValue += 1.0
+                    }
+
+                    // auckland suzerain
+                    // Shallow water tiles worked by [Citizen] Citizens provide +1 [Production] Production. Additional +1 when you reach the Industrial Era
+                    if workedTile.terrain() == .shore {
+                        if envoyEffects.contains(where: { $0.cityState == .auckland && $0.level == .suzerain }) {
+
+                            productionValue += 1.0
+
+                            if player.currentEra() == .industrial {
+                                productionValue += 1.0
+                            }
+                        }
                     }
                 }
             }
