@@ -102,7 +102,7 @@ extension Player {
 
     public func culture(in gameModel: GameModel?, consume: Bool) -> Double {
 
-        var value = YieldValues(value: 0.0)
+        var value = YieldValues(value: 0.0, percentage: 1.0)
 
         // culture from our Cities
         value += self.cultureFromCities(in: gameModel)
@@ -145,7 +145,7 @@ extension Player {
 
         let envoyEffects = self.envoyEffects(in: gameModel)
 
-        var cultureVal = 0.0
+        let cultureVal = 0.0
         var cultureModifier = 0.0
 
         // antananarivo suzerain bonus

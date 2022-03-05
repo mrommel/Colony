@@ -19,7 +19,7 @@ public struct YieldValues {
         self.percentage = percentage
     }
 
-    func calc() -> Double {
+    public func calc() -> Double {
 
         return self.value * self.percentage
     }
