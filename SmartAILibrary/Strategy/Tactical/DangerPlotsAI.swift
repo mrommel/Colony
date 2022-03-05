@@ -118,7 +118,7 @@ public class DangerPlotsAI: Codable {
     func assignDangerValue(for unit: AbstractUnit, at point: HexPoint) {
 
         // let combatValueCalc = 100
-        //let baseUnitCombatValue = unit.
+        // let baseUnitCombatValue = unit.
 
         fatalError("not implemented yet")
     }

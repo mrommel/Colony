@@ -131,7 +131,7 @@ class GenerateGameViewModel: ObservableObject {
 
         for startLocation in map?.startLocations ?? [] {
 
-            //print("startLocation: \(startLocation.leader) (\(startLocation.isHuman ? "human" : "AI")) => \(startLocation.point)")
+            // print("startLocation: \(startLocation.leader) (\(startLocation.isHuman ? "human" : "AI")) => \(startLocation.point)")
 
             // player
             let player = Player(leader: startLocation.leader, isHuman: startLocation.isHuman)

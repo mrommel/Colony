@@ -22,15 +22,15 @@ enum ArtStyle: Int, Codable {
 
 struct Civ5MapPlot: Codable {
 
-    var terrain: TerrainType //byte 0 -- Terrain type ID (index into list of Terrain types read from header)
+    var terrain: TerrainType // byte 0 -- Terrain type ID (index into list of Terrain types read from header)
     var hills: Bool = false
-    let ressourceType: ResourceType? //byte 1 -- Resource type ID; 0xFF if none
-    var feature1stType: FeatureType? //byte 2 -- 1st Feature type ID; 0xFF if none
-    let river: UInt8 //byte 3 -- River indicator (non-zero if tile borders a river; actual value probably indicates direction)
-    let elevation: UInt8 //byte 4 -- Elevation (0 = Flat, 1 = Hill, 2 = Mountain)
-    let artStyle: ArtStyle //byte 5 -- Unknown (possibly related to continent art style)
-    let feature2ndType: FeatureType? //byte 6 -- 2nd Feature type ID; 0xFF if none
-    let resourceQuantity: UInt8 //byte 7 -- resource amount
+    let ressourceType: ResourceType? // byte 1 -- Resource type ID; 0xFF if none
+    var feature1stType: FeatureType? // byte 2 -- 1st Feature type ID; 0xFF if none
+    let river: UInt8 // byte 3 -- River indicator (non-zero if tile borders a river; actual value probably indicates direction)
+    let elevation: UInt8 // byte 4 -- Elevation (0 = Flat, 1 = Hill, 2 = Mountain)
+    let artStyle: ArtStyle // byte 5 -- Unknown (possibly related to continent art style)
+    let feature2ndType: FeatureType? // byte 6 -- 2nd Feature type ID; 0xFF if none
+    let resourceQuantity: UInt8 // byte 7 -- resource amount
 
     init(reader: BinaryDataReader, header: Civ5MapHeader) throws {
 

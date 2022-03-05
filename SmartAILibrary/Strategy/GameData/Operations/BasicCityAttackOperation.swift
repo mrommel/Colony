@@ -79,7 +79,7 @@ class BasicCityAttackOperation: EnemyTerritoryOperation {
                     self.state = .recruitingUnits
                 }
 
-                //LogOperationStart();
+                // LogOperationStart();
             } else {
                 self.state = .aborted(reason: .lostPath)
             }

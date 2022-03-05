@@ -359,7 +359,7 @@ class PediaScene: BaseScene {
         try! player.techs?.discover(tech: .masonry)
         try! player.techs?.discover(tech: .mining)
         try! city.buildings?.build(building: .monument)
-        //city.startBuilding(building: .granary)
+        // city.startBuilding(building: .granary)
 
         let cityDialog = CityDialog(for: city, in: gameModel)
         cityDialog.zPosition = 250

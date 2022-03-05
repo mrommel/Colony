@@ -8,14 +8,14 @@
 
 import Foundation
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvTacticalPosture
-//!  \brief        The posture an AI has adopted for fighting in a specific dominance zone
+// !  \brief        The posture an AI has adopted for fighting in a specific dominance zone
 //
-//!  Key Attributes:
-//!  - Used to keep consistency in approach from turn-to-turn
-//!  - Reevaluated by tactical AI each turn before units are moved for this zone
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  Key Attributes:
+// !  - Used to keep consistency in approach from turn-to-turn
+// !  - Reevaluated by tactical AI each turn before units are moved for this zone
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 enum TacticalPostureType {
 
     case none

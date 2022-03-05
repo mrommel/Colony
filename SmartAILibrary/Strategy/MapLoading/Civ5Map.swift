@@ -98,7 +98,7 @@ public class Civ5Map {
 
         let riverValue: Int = Int(plot.river)
         if riverValue != 0 {
-            //print("river value: \(riverValue)")
+            // print("river value: \(riverValue)")
             var flows: [FlowDirection] = []
 
             // civ5 map is pointy, colony map is flat - problem

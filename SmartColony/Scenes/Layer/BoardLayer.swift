@@ -43,7 +43,7 @@ class BoardLayer: SKNode {
         for x in 0..<mapSize.width() {
             for y in 0..<mapSize.height() {
                 if let tile = gameModel.tile(x: x, y: y) {
-                    //self.place(tile: tile)
+                    // self.place(tile: tile)
                     let screenPoint = HexPoint.toScreen(hex: tile.point)
 
                     if let calderaName = self.textureUtils?.calderaTexure(at: tile.point) {
@@ -65,7 +65,7 @@ class BoardLayer: SKNode {
         boardSprite.position = position
         boardSprite.zPosition = Globals.ZLevels.caldera
         boardSprite.anchorPoint = CGPoint(x: 0, y: 0.09)
-        //boardSprite.alpha = alpha
+        // boardSprite.alpha = alpha
         boardSprite.color = .black
         boardSprite.colorBlendFactor = 1.0 - alpha
         self.addChild(boardSprite)

@@ -56,7 +56,7 @@ struct PediaView: View {
 
             Divider()
 
-            //Text("Pedia text")
+            // Text("Pedia text")
             HStack(spacing: 0) {
 
                 Spacer(minLength: 1)
@@ -137,7 +137,7 @@ struct PediaView: View {
         }
         .frame(width: 600)
         .frame(maxHeight: .infinity)
-        //.background(Color.blue)
+        // .background(Color.blue)
     }
 }
 

@@ -10,7 +10,7 @@ import Foundation
 
 final class BitArray: NSObject, NSCoding, Codable {
 
-    //Array of bits manipulation
+    // Array of bits manipulation
     typealias WordType = UInt64
 
     enum CodingKeys: String, CodingKey {
@@ -54,7 +54,7 @@ final class BitArray: NSObject, NSCoding, Codable {
         }
     }
 
-    //NSCoding
+    // NSCoding
 
     func encode(with aCoder: NSCoder) {
         aCoder.encode(self.array, forKey: "internalBitArray")
@@ -66,7 +66,7 @@ final class BitArray: NSObject, NSCoding, Codable {
         self.array = array
     }
 
-    //Private API
+    // Private API
 
     private func valueOfBit(in array: [WordType], at index: Int) -> Bool {
         checkIndexBound(index: index, lowerBound: 0, upperBound: array.count * intSize - 1)
@@ -83,10 +83,10 @@ final class BitArray: NSObject, NSCoding, Codable {
         array[arrayIndex] = newBit
     }
 
-    //Constants
+    // Constants
     private let intSize = MemoryLayout<WordType>.size * 8
 
-    //bit masks
+    // bit masks
 
     func invertedIndex(index: Int) -> Int {
         return intSize - 1 - index
@@ -102,18 +102,18 @@ final class BitArray: NSObject, NSCoding, Codable {
         return ~(1 << WordType(invertedIndex(index: index)))
     }
 
-    //return (arrayIndex for word containing the bit, bitIndex inside the word)
+    // return (arrayIndex for word containing the bit, bitIndex inside the word)
     private func bitIndex(at index: Int) -> (Int, Int) {
         return(index / intSize, index % intSize)
     }
 
     private func buildArray(count: Int) -> [WordType] {
-        //words contain intSize bits each
+        // words contain intSize bits each
         let numWords = count / intSize + 1
         return Array.init(repeating: WordType(0), count: numWords)
     }
 
-    //Bit manipulation
+    // Bit manipulation
     private func valueOf(bit: WordType, atIndex index: Int) -> Bool {
         checkIndexBound(index: index, lowerBound: 0, upperBound: intSize - 1)
         return (bit & mask(index: index) != 0)
@@ -127,7 +127,7 @@ final class BitArray: NSObject, NSCoding, Codable {
         return bit & negative(index: index)
     }
 
-    //Util
+    // Util
     private func checkIndexBound(index: Int, lowerBound: Int, upperBound: Int) {
         if index < lowerBound || index > upperBound {
             NSException.init(name: NSExceptionName(rawValue: "BitArray Exception"), reason: "index out of bounds", userInfo: nil).raise()

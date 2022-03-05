@@ -48,11 +48,11 @@ class MapEditorMenu: NSMenu {
             NSMenuItem.separator(),
             NSMenuItem(title: "Import Civ5 Map", target: self, action: #selector(MapEditorMenu.importCiv5Map(_:)), keyEquivalent: "i"),
             NSMenuItem.separator(),
-            //NSMenuItem(title: "Save", action: #selector(NSDocument.save(_:)), keyEquivalent: "s"),
+            // NSMenuItem(title: "Save", action: #selector(NSDocument.save(_:)), keyEquivalent: "s"),
             NSMenuItem(title: "Save As...", target: self, action: #selector(MapEditorMenu.saveMap(_:)), keyEquivalent: "S"),
-            //NSMenuItem(title: "Revert to Saved...", action: #selector(NSDocument.revertToSaved(_:)), keyEquivalent: ""),
-            //NSMenuItem.separator(),
-            //NSMenuItem(title: "Export", action: nil, keyEquivalent: ""),
+            // NSMenuItem(title: "Revert to Saved...", action: #selector(NSDocument.revertToSaved(_:)), keyEquivalent: ""),
+            // NSMenuItem.separator(),
+            // NSMenuItem(title: "Export", action: nil, keyEquivalent: ""),
             NSMenuItem.separator(),
             NSMenuItem(title: "Close", action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w")
         ]

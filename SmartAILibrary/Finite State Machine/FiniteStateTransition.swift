@@ -9,7 +9,7 @@
 import Foundation
 
 public typealias FiniteStateTrigger = () -> Bool
-//typealias FiniteStateAction = () -> Void
+// typealias FiniteStateAction = () -> Void
 
 public class FiniteStateTransition<E: RawRepresentable> where E.RawValue: Equatable {
 

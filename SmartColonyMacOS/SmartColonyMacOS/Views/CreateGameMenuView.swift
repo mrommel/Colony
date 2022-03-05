@@ -65,7 +65,7 @@ struct CreateGameMenuView: View {
 
 struct CreateGameMenuView_Previews: PreviewProvider {
 
-    //static var gameViewModel: GameViewModel = GameViewModel(game: DemoGameModel())
+    // static var gameViewModel: GameViewModel = GameViewModel(game: DemoGameModel())
     static var viewModel = CreateGameMenuViewModel()
 
     static var previews: some View {

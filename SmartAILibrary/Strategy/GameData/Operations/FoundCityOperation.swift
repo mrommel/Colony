@@ -8,10 +8,10 @@
 
 import Foundation
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvAIOperationFoundCity
-//!  \brief        Find a place to utilize a new settler
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  \brief        Find a place to utilize a new settler
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class FoundCityOperation: EscortedOperation {
 
     init() {
@@ -112,7 +112,7 @@ class FoundCityOperation: EscortedOperation {
                     }
                 }
 
-                //LogOperationStart();
+                // LogOperationStart();
 
             } else {
                 // Lost our target, abort
@@ -138,7 +138,7 @@ class FoundCityOperation: EscortedOperation {
         case .none:
             // NOOP
             break
-        case .aborted(_):
+        case .aborted:
 
             // In all other cases use base class version
             return super.armyInPosition(in: gameModel)

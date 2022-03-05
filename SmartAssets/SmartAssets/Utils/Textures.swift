@@ -406,7 +406,7 @@ public class Textures {
             fatalError("cant get gameModel")
         }
 
-        let calderaIsSouth = hex.y == game.mapSize().height() - 1 //self.isCalderaSouth(at: hex)
+        let calderaIsSouth = hex.y == game.mapSize().height() - 1 // self.isCalderaSouth(at: hex)
         let calderaIsEast = hex.x == game.mapSize().width() - 1 // self.isCalderaEast(at: hex)
 
         if calderaIsSouth || calderaIsEast {

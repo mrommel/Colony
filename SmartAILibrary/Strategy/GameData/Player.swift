@@ -585,8 +585,8 @@ public class Player: AbstractPlayer {
         self.dangerPlotsAI = try container.decode(DangerPlotsAI.self, forKey: .dangerPlotsAI)
         self.homelandAI = HomelandAI(player: self) // try container.decode(HomelandAI.self, forKey: .homelandAI)
         self.builderTaskingAI = BuilderTaskingAI(player: self) // try container.decode(BuilderTaskingAI.self, forKey: .builderTaskingAI)
-        self.citySpecializationAI = CitySpecializationAI(player: self)//try container.decode(CitySpecializationAI.self, forKey: .citySpecializationAI)
-        self.wonderProductionAI = WonderProductionAI(player: self)//try container.decode(WonderProductionAI.self, forKey: .wonderProductionAI)
+        self.citySpecializationAI = CitySpecializationAI(player: self)// try container.decode(CitySpecializationAI.self, forKey: .citySpecializationAI)
+        self.wonderProductionAI = WonderProductionAI(player: self)// try container.decode(WonderProductionAI.self, forKey: .wonderProductionAI)
         self.religionAI = ReligionAI(player: self)
 
         self.cityConnections = try container.decode(CityConnections.self, forKey: .cityConnections)
@@ -696,10 +696,10 @@ public class Player: AbstractPlayer {
         try container.encode(self.militaryAI, forKey: .militaryAI)
         try container.encode(self.tacticalAI, forKey: .tacticalAI)
         try container.encode(self.dangerPlotsAI, forKey: .dangerPlotsAI)
-        //try container.encode(self.homelandAI, forKey: .homelandAI)
-        //try container.encode(self.builderTaskingAI, forKey: .builderTaskingAI)
-        //try container.encode(self.citySpecializationAI, forKey: .citySpecializationAI)
-        //try container.encode(self.wonderProductionAI, forKey: .wonderProductionAI)
+        // try container.encode(self.homelandAI, forKey: .homelandAI)
+        // try container.encode(self.builderTaskingAI, forKey: .builderTaskingAI)
+        // try container.encode(self.citySpecializationAI, forKey: .citySpecializationAI)
+        // try container.encode(self.wonderProductionAI, forKey: .wonderProductionAI)
 
         try container.encode(self.cityConnections, forKey: .cityConnections)
         try container.encode(self.goodyHuts, forKey: .goodyHuts)
@@ -1037,7 +1037,7 @@ public class Player: AbstractPlayer {
         }
 
         return diplomacyAI.isAtWar(with: otherPlayer)
-        //return self.diplomacyAI?.approach(towards: otherPlayer) == .war
+        // return self.diplomacyAI?.approach(towards: otherPlayer) == .war
     }
 
     /// is player at war with any player/leader?
@@ -1146,7 +1146,7 @@ public class Player: AbstractPlayer {
             notifications.update(in: gameModel)
         }
 
-        //if self.diplomacyRequests.up
+        // if self.diplomacyRequests.up
         /*if (GetDiplomacyRequests())
         {
             GetDiplomacyRequests()->Update();
@@ -1542,7 +1542,7 @@ public class Player: AbstractPlayer {
 
     func isForcePeace(with otherPlayer: AbstractPlayer?) -> Bool {
 
-        //return self.diplomacyAI?.
+        // return self.diplomacyAI?.
         return false
     }
 
@@ -2678,7 +2678,7 @@ public class Player: AbstractPlayer {
             GC.GetEngineUserInterface()->setDirty(SelectionButtons_DIRTY_BIT, true);
         }*/
 
-        //GC.GetEngineUserInterface()->setDirty(UnitInfo_DIRTY_BIT, true);
+        // GC.GetEngineUserInterface()->setDirty(UnitInfo_DIRTY_BIT, true);
 
         self.doTurnUnitsPost(in: gameModel) // AI_doTurnUnitsPost();
     }
@@ -2699,7 +2699,7 @@ public class Player: AbstractPlayer {
                 continue
             }
 
-            //loopUnit.promot
+            // loopUnit.promot
         }
     }
 
@@ -2726,7 +2726,7 @@ public class Player: AbstractPlayer {
                 }
             }
 
-            //int iCitadelDamage;
+            // int iCitadelDamage;
             /*if (pLoopUnit->IsNearEnemyCitadel(iCitadelDamage))
             {
                 pLoopUnit->changeDamage(iCitadelDamage, NO_PLAYER, /*fAdditionalTextDelay*/ 0.5f);
@@ -2734,15 +2734,15 @@ public class Player: AbstractPlayer {
 
             // Finally (now that healing is done), restore movement points
             loopUnit.resetMoves(in: gameModel)
-            //pLoopUnit->SetIgnoreDangerWakeup(false);
+            // pLoopUnit->SetIgnoreDangerWakeup(false);
             loopUnit.setMadeAttack(to: false)
-            //pLoopUnit->setMadeInterception(false);
+            // pLoopUnit->setMadeInterception(false);
 
             if !self.isHuman() {
 
                 if let mission = loopUnit.peekMission() {
                     if mission.type == .rangedAttack {
-                        //CvAssertMsg(0, "An AI unit has a combat mission queued at the end of its turn.");
+                        // CvAssertMsg(0, "An AI unit has a combat mission queued at the end of its turn.");
                         loopUnit.clearMissions()    // Clear the whole thing, the AI will re-evaluate next turn.
                     }
                 }
@@ -3299,17 +3299,17 @@ public class Player: AbstractPlayer {
             // If this is the first city (or we still aren't getting tech for some other reason) notify the player
             if techs.needToChooseTech() && self.science(in: gameModel) > 0.0 {
 
-                //if self.isActive() {
+                // if self.isActive() {
                 self.notifications()?.add(notification: .techNeeded)
-                //}
+                // }
             }
 
             // If this is the first city (or ..) notify the player
             if civics.needToChooseCivic() && self.culture(in: gameModel) > 0.0 {
 
-                //if self.isActive() {
+                // if self.isActive() {
                 self.notifications()?.add(notification: .civicNeeded)
-                //}
+                // }
             }
 
         } else {
@@ -4759,7 +4759,7 @@ public class Player: AbstractPlayer {
         if culture > 0 {
 
             let cultureValue = 100 // GetPlayerTraits()->GetCultureFromKills();
-            //iCultureValue += GetPlayerPolicies()->GetNumericModifier(POLICYMOD_CULTURE_FROM_KILLS);
+            // iCultureValue += GetPlayerPolicies()->GetNumericModifier(POLICYMOD_CULTURE_FROM_KILLS);
 
             // Do we get it for barbarians?
             if wasBarbarian {
@@ -5283,7 +5283,7 @@ public class Player: AbstractPlayer {
             }
         }
 
-        //Policy Requirement
+        // Policy Requirement
         if let civic = unitType.requiredCivic() {
             if !civics.has(civic: civic) {
                 return false

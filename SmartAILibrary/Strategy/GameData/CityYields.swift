@@ -119,7 +119,7 @@ extension City {
 
         // lighthouse
         if buildings.has(building: .lighthouse) {
-            //+1 Great Admiral point per turn
+            // +1 Great Admiral point per turn
             greatPeoplePoints.greatAdmiral += 1
         }
 

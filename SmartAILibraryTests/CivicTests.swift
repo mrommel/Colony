@@ -53,7 +53,7 @@ class CivicTests: XCTestCase {
         let nextCivic = self.objectToTest?.chooseNextCivic()
 
         // THEN
-        //print("nextCivic: \(nextCivic)")
+        // print("nextCivic: \(nextCivic)")
         XCTAssertTrue([.craftsmanship, .mysticism, .earlyEmpire].contains(nextCivic))
     }
 }

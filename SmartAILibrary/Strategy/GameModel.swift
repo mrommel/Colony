@@ -281,7 +281,7 @@ open class GameModel: Codable {
             return
         }
 
-        //self.sendPlayerOptions()
+        // self.sendPlayerOptions()
 
         if self.turnSlice() == 0 && !isPaused() {
             // gDLL->AutoSave(true);
@@ -295,7 +295,7 @@ open class GameModel: Codable {
         // Check for paused again, the doTurn call might have called something that paused the game and we don't want an update to sneak through
         if !self.isPaused() {
 
-            //self.updateWar()
+            // self.updateWar()
 
             self.updateMoves()
         }
@@ -307,7 +307,7 @@ open class GameModel: Codable {
 
             self.updatePlayers(in: self) // slewis added!
 
-            //self.testAlive()
+            // self.testAlive()
 
             if let humanPlayer = self.humanPlayer() {
                 if !humanPlayer.isAlive() {
@@ -416,9 +416,9 @@ open class GameModel: Codable {
                                         }
 
                                         if nextPlayer.isAlive() {
-                                            //the player is alive and also running sequential turns.  they're up!
+                                            // the player is alive and also running sequential turns.  they're up!
                                             nextPlayer.startTurn(in: self)
-                                            //self.resetTurnTimer(false)
+                                            // self.resetTurnTimer(false)
 
                                             break
                                         }
@@ -427,7 +427,7 @@ open class GameModel: Codable {
                             } else {
                                 // KWG: This doesn't actually do anything other than print to the debug log
                                 print("Because the diplo screen is blocking, I am bumping this up for player \(player.leader)")
-                                //changeNumGameTurnActive(1, std::string("Because the diplo screen is blocking I am bumping this up for player ") + getName());
+                                // changeNumGameTurnActive(1, std::string("Because the diplo screen is blocking I am bumping this up for player ") + getName());
                             }
                         }
                     }
@@ -459,7 +459,7 @@ open class GameModel: Codable {
 
             for player in self.players {
 
-                //player.checkInitialTurnAIProcessed()
+                // player.checkInitialTurnAIProcessed()
                 if player.isActive() && player.isHuman() {
                     playersToProcess.append(player)
                 }
@@ -552,15 +552,15 @@ open class GameModel: Codable {
                         } while repeatAutomoves && repeatPassCount > 0
 
                         // check if the (for now human) player is overstacked and move the units
-                        //if (player.isHuman())
+                        // if (player.isHuman())
 
                         // slewis - I changed this to only be the AI because human players should have the tools to deal with this now
                         if !player.isHuman() {
 
                             for loopUnit in self.units(of: player) {
 
-                                //var moveMe  = false
-                                //var numTurnsFortified = loopUnit.fortifyTurns()
+                                // var moveMe  = false
+                                // var numTurnsFortified = loopUnit.fortifyTurns()
 
                                 /*IDInfo* pUnitNodeInner;
                                 pUnitNodeInner = pLoopUnit->plot()->headUnitNode();
@@ -607,8 +607,8 @@ open class GameModel: Codable {
                             player.setEndTurn(to: true, in: self)
 
                             if player.isEndTurn() {
-                                //If the player's turn ended, indicate it in the log.  We only do so when the end turn state has changed to prevent useless log spamming in multiplayer.
-                                //NET_MESSAGE_DEBUG_OSTR_ALWAYS("UpdateMoves() : player.setEndTurn(true) called for player " << player.GetID() << " " << player.getName())
+                                // If the player's turn ended, indicate it in the log.  We only do so when the end turn state has changed to prevent useless log spamming in multiplayer.
+                                // NET_MESSAGE_DEBUG_OSTR_ALWAYS("UpdateMoves() : player.setEndTurn(true) called for player " << player.GetID() << " " << player.getName())
                             }
                         } else {
                             // if !player.hasBusyUnitUpdatesRemaining() {

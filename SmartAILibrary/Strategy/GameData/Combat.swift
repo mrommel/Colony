@@ -693,7 +693,7 @@ public class Combat {
         // If a Unit loses his moves after attacking, do so
         if !attacker.canMoveAfterAttacking() {
             attacker.finishMoves()
-            //GC.GetEngineUserInterface()->changeCycleSelectionCounter(1);
+            // GC.GetEngineUserInterface()->changeCycleSelectionCounter(1);
         }
 
         return CombatResult(defenderDamage: defenderDamage, attackerDamage: attackerDamage, value: value)

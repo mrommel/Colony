@@ -101,9 +101,9 @@ class GrandStrategyAITests: XCTestCase {
         self.objectToTest = GrandStrategyAI(player: playerTrajan)
 
         // WHEN
-        //for i in 0..<100 {
+        // for i in 0..<100 {
         self.objectToTest?.doTurn(in: gameModel)
-        //}
+        // }
 
         // THEN
         let possibleStrategy: [GrandStrategyAIType] = [.culture, .council]

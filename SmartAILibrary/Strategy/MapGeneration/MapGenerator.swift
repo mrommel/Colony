@@ -68,7 +68,7 @@ public class MapGenerator: BaseMapHandler {
         usleep(10000) // will sleep for 10 milliseconds
 
 		// 1st step: land / water
-        //self.wrapHeightmap
+        // self.wrapHeightmap
         self.fillFromElevation(withWaterPercentage: self.options.waterPercentage, on: heightMap)
         // self.flipSomeCoastTiles()
 
@@ -500,7 +500,7 @@ public class MapGenerator: BaseMapHandler {
 
         // mglobal.hillsBlendPercent        = 0.45 -- Chance for flat land to become hills per near mountain. Requires at least 2 near mountains.
         let terrainBlendRange = 3       // range to smooth terrain (desert surrounded by plains turns to plains, etc)
-        let terrainBlendRandom = 0.6  //random modifier for terrain smoothing
+        let terrainBlendRandom = 0.6  // random modifier for terrain smoothing
 
         let points = grid.points().shuffled
 

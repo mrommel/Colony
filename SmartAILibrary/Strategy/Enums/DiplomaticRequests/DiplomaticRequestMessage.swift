@@ -320,7 +320,7 @@ public enum DiplomaticRequestMessage: Int, Codable {
                 fatalError("leader must be provided")
             }
 
-            //TXT_KEY_COOP_WAR_REQUEST%
+            // TXT_KEY_COOP_WAR_REQUEST%
             return "Please join us to start war on \(leader2) now. Will you?"
 
         case .coopWarTime: // RESPONSE_COOP_WAR_TIME
@@ -329,7 +329,7 @@ public enum DiplomaticRequestMessage: Int, Codable {
                 fatalError("leader must be provided")
             }
 
-            //TXT_KEY_COOP_WAR_TIME%
+            // TXT_KEY_COOP_WAR_TIME%
             return "Please join us to start war on \(leader2) in 10 turns. Will you?"
 
         case .peaceOffer: // RESPONSE_PEACE_OFFER

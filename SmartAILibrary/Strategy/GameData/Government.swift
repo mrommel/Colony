@@ -383,7 +383,7 @@ public class Government: AbstractGovernment {
             )
 
             if let bestCard = possibleCardsForSlot.chooseLargest() {
-                //.
+                // .
                 self.add(card: bestCard)
 
                 policyCardRating = policyCardRating.filter(

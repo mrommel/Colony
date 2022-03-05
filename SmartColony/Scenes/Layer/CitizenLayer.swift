@@ -77,7 +77,7 @@ class CitizenLayer: SKNode {
 
                         let cost: Double = city.buyPlotCost(at: tile.point, in: gameModel)
                         let active = cost <= treasury.value()
-                            //print("cost: \(cost) at \(tile.point)")
+                            // print("cost: \(cost) at \(tile.point)")
                         self.placePurchaseButton(for: location, at: screenPoint, cost: Int(cost), active: active)
                     }
                 }

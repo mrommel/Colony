@@ -193,7 +193,7 @@ public class UnitMission {
                     }
                 } else {*/
                 targetPlot = peekMission.target
-                //}
+                // }
 
                 if let targetPlot = targetPlot, unit.location == targetPlot {
                     time += steps
@@ -384,7 +384,7 @@ public class UnitMission {
                     // Get target plot
                     if let targetPoint = self.target {
 
-                        //pOriginationPlot = unit.plot();
+                        // pOriginationPlot = unit.plot();
 
                         if let unit2 = gameModel.unit(at: targetPoint, of: .combat) {
 
@@ -435,7 +435,7 @@ public class UnitMission {
                     }
                 } else if self.type == .garrison {
 
-                    //let targetLocation: HexPoint? = self.target ?? self.unit?.location
+                    // let targetLocation: HexPoint? = self.target ?? self.unit?.location
                     if let targetPoint = self.target, let targetCity = gameModel.city(at: targetPoint) {
 
                         // check to see if the city exists, is on our team, and does not have a garrisoned unit
@@ -563,11 +563,11 @@ public class UnitMission {
                 }*/
             }
 
-            //if (HeadMissionQueueNode(kMissionQueue) != NULL)
+            // if (HeadMissionQueueNode(kMissionQueue) != NULL)
 
             // if there is an action, if it's done or there are not moves left, and a player is watching, watch the movement
             if action && (done || !unit.canMove()) /*&& unit.plot()->isVisibleToWatchingHuman())*/ {
-                //self.updateMissionTimer(hUnit, steps)
+                // self.updateMissionTimer(hUnit, steps)
 
                 /*if (unit.ShowMoves() && GC.getGame().getActivePlayer() != NO_PLAYER && unit.getOwner() != GC.getGame().getActivePlayer() && unit.plot()->isActiveVisible(false))
                     {
@@ -617,16 +617,16 @@ public class UnitMission {
 
                 // trader has reached a target but has moves left
                 if unit.isTrading() && unit.movesLeft() > 0 {
-                    //unit.continueTrading(in: gameModel)
+                    // unit.continueTrading(in: gameModel)
                     unit.finishMoves()
                 }
             } else {
                 // if we can still act, process the mission again
                 if unit.canMove() /*&& !unit.IsDoingPartialMove()*/ {
-                    //steps *= 1
+                    // steps *= 1
                     continueMissionRestart = true // keep looping
                 } else if !unit.isBusy() /*&& unit.getOwner() == GC.getGame().getActivePlayer() && unit.IsSelected())*/ {
-                    //GC.GetEngineUserInterface()->changeCycleSelectionCounter(1);
+                    // GC.GetEngineUserInterface()->changeCycleSelectionCounter(1);
                 }
             }
         }

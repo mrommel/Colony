@@ -8,14 +8,14 @@
 
 import Foundation
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvHomelandAI
-//!  \brief        A player's AI to control units that are in reserve protecting their lands
+// !  \brief        A player's AI to control units that are in reserve protecting their lands
 //
-//!  Key Attributes:
-//!  - Handles moves for all military units not recruited by the tactical or operational AI
-//!  - Also handles moves for workers and explorers (and settlers on the first turn)
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  Key Attributes:
+// !  - Handles moves for all military units not recruited by the tactical or operational AI
+// !  - Also handles moves for workers and explorers (and settlers on the first turn)
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // swiftlint:disable type_body_length
 public class HomelandAI {
 
@@ -73,13 +73,13 @@ public class HomelandAI {
         // case none // AI_HOMELAND_MOVE_ADMIRAL_GARRISON,
         // case none // AI_HOMELAND_MOVE_SPACESHIP_PART,
         case aircraftToTheFront // AI_HOMELAND_MOVE_AIRCRAFT_TO_THE_FRONT,
-        //case none // AI_HOMELAND_MOVE_PROPHET_RELIGION,
-        //case missionary // AI_HOMELAND_MOVE_MISSIONARY,
+        // case none // AI_HOMELAND_MOVE_PROPHET_RELIGION,
+        // case missionary // AI_HOMELAND_MOVE_MISSIONARY,
         // case inquisitor // AI_HOMELAND_MOVE_INQUISITOR,
         case tradeUnit // AI_HOMELAND_MOVE_TRADE_UNIT,
-        //case archaeologist // AI_HOMELAND_MOVE_ARCHAEOLOGIST,
-        //case addSpaceshipPart // AI_HOMELAND_MOVE_ADD_SPACESHIP_PART,
-        //case airlift // AI_HOMELAND_MOVE_AIRLIFT
+        // case archaeologist // AI_HOMELAND_MOVE_ARCHAEOLOGIST,
+        // case addSpaceshipPart // AI_HOMELAND_MOVE_ADD_SPACESHIP_PART,
+        // case airlift // AI_HOMELAND_MOVE_AIRLIFT
 
         static var all: [HomelandMoveType] {
 
@@ -199,14 +199,14 @@ public class HomelandAI {
         case ancientRuin // AI_HOMELAND_TARGET_ANCIENT_RUIN
     }
 
-    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //  CLASS:      CvHomelandTarget
-    //!  \brief        A target of opportunity for the Homeland AI this turn
+    // !  \brief        A target of opportunity for the Homeland AI this turn
     //
-    //!  Key Attributes:
-    //!  - Arises during processing of CvHomelandAI::FindHomelandTargets()
-    //!  - Targets are reexamined each turn (so shouldn't need to be serialized)
-    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // !  Key Attributes:
+    // !  - Arises during processing of CvHomelandAI::FindHomelandTargets()
+    // !  - Targets are reexamined each turn (so shouldn't need to be serialized)
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     class HomelandTarget: Comparable {
 
         var targetType: HomelandTargetType
@@ -357,7 +357,7 @@ public class HomelandAI {
         self.targetedAncientRuins.removeAll()
 
         // Look at every tile on map
-        //CvMap& theMap = GC.getMap();
+        // CvMap& theMap = GC.getMap();
         let mapSize = gameModel.mapSize()
         for x in 0..<mapSize.width() {
             for y in 0..<mapSize.height() {
@@ -504,14 +504,14 @@ public class HomelandAI {
         }
 
         let flavorDefense = Int(Double(player.valueOfPersonalityFlavor(of: .defense)) * HomelandAI.flavorDampening)
-        //let flavorOffense = Int(Double(player.valueOfPersonalityFlavor(of: .offense)) * self.flavorDampening)
+        // let flavorOffense = Int(Double(player.valueOfPersonalityFlavor(of: .offense)) * self.flavorDampening)
         let flavorExpand = player.valueOfPersonalityFlavor(of: .expansion)
         let flavorImprove = 0
         let flavorNavalImprove = 0
         let flavorExplore = Int(Double(player.valueOfPersonalityFlavor(of: .recon)) * HomelandAI.flavorDampening)
         let flavorGold = player.valueOfPersonalityFlavor(of: .gold)
-        //let flavorScience = player.valueOfPersonalityFlavor(of: .science)
-        //let flavorWonder = player.valueOfPersonalityFlavor(of: .wonder)
+        // let flavorScience = player.valueOfPersonalityFlavor(of: .science)
+        // let flavorWonder = player.valueOfPersonalityFlavor(of: .wonder)
         let flavorMilitaryTraining = player.valueOfPersonalityFlavor(of: .militaryTraining)
 
         self.movePriorityList.removeAll()
@@ -758,14 +758,14 @@ public class HomelandAI {
                     if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
 
                         print("Adjacent Patrol Plot !isVisibleEnemyUnit(), , \(adjacentPoint)")
-                        //LogPatrolMessage(strLogString, pUnit);
+                        // LogPatrolMessage(strLogString, pUnit);
                     }
                 }
             } else {
                 if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
 
                     print("Adjacent Patrol Plot not valid, \(adjacentPoint)")
-                    //LogPatrolMessage(strLogString, pUnit);
+                    // LogPatrolMessage(strLogString, pUnit);
                 }
             }
         }
@@ -778,7 +778,7 @@ public class HomelandAI {
                 // LogPatrolMessage(strLogString, pUnit);
             }
 
-            //CvAssert(!pUnit->atPlot(*pBestPlot));
+            // CvAssert(!pUnit->atPlot(*pBestPlot));
             return bestPlot
         } else {
             if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
@@ -845,9 +845,9 @@ public class HomelandAI {
                 break
 
             case .tradeUnit: // AI_HOMELAND_MOVE_TRADE_UNIT
-                //self.plotTradeUnitMoves(in: gameModel)
+                // self.plotTradeUnitMoves(in: gameModel)
             break
-                
+
             // TODO
             /*case .writer:
                 // AI_HOMELAND_MOVE_WRITER:
@@ -1161,8 +1161,8 @@ public class HomelandAI {
 
         for currentMoveUnit in self.currentMoveUnits {
 
-            //WeightedPlotVector aBestPlotList;
-            //aBestPlotList.reserve(100);
+            // WeightedPlotVector aBestPlotList;
+            // aBestPlotList.reserve(100);
             let bestPlotList = WeightedPoints()
 
             if let unit = currentMoveUnit?.unit {
@@ -1190,7 +1190,7 @@ public class HomelandAI {
                     let isInCover = false // FIXME - another combat unit shields civilian
                     let isInTerritory = plot.ownerLeader() == self.player?.leader
 
-                    //#define PREFERENCE_LEVEL(x, y) (x * MAX_DANGER_VALUE) + ((MAX_DANGER_VALUE - 1) - y)
+                    // #define PREFERENCE_LEVEL(x, y) (x * MAX_DANGER_VALUE) + ((MAX_DANGER_VALUE - 1) - y)
 
                     assert(danger < HomelandAI.maxDangerLevel)
 
@@ -1223,7 +1223,7 @@ public class HomelandAI {
                 // #define EXECUTEMOVESTOSAFESTPLOT_FAILURE_LIMIT
                 var failureLimit = 10
 
-                //uint uiListSize;
+                // uint uiListSize;
                 while !bestPlotArray.isEmpty {
 
                     bestPoint = bestPlotArray.removeFirst().0

@@ -540,7 +540,7 @@ public class CityReligion: AbstractCityReligion, Codable {
         // update player majority
         if self.majorityCityReligion != oldMajority {
 
-            //m_pMajorityReligionCached = NULL; //reset this
+            // m_pMajorityReligionCached = NULL; //reset this
             self.city?.player?.religion?.computeMajority(notifications: notifications, in: gameModel)
         }
 

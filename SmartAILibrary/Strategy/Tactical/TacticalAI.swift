@@ -8,14 +8,14 @@
 
 import Foundation
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvTacticalAI
-//!  \brief        A player's AI to control units as they fight out battles
+// !  \brief        A player's AI to control units as they fight out battles
 //
-//!  Key Attributes:
-//!  - Handed units to control by the operational AI
-//!  - Handles moves for these units until dead or objective completed
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  Key Attributes:
+// !  - Handed units to control by the operational AI
+// !  - Handles moves for these units until dead or objective completed
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // swiftlint:disable type_body_length
 // swiftlint:disable file_length
 // swiftlint:disable line_length
@@ -507,9 +507,9 @@ public class TacticalAI: Codable {
 
                 // Look at where we'd move this turn taking units into consideration
                 // int iFlags = 0;
-                //if army.numOfSlotsFilled() > 1 {
+                // if army.numOfSlotsFilled() > 1 {
                     // iFlags = MOVE_UNITS_IGNORE_DANGER;
-                //}
+                // }
 
                 // Handle case of no path found at all for civilian
                 if let path = civilian.path(towards: operation.targetPosition!, options: .none, in: gameModel) {
@@ -569,10 +569,10 @@ public class TacticalAI: Codable {
                                         if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
 
                                             print("Moving escorting \(escort.type) to target, \(escort.location)")
-                                            //LogTacticalMessage(strLogString);
+                                            // LogTacticalMessage(strLogString);
 
                                             print("Moving \(civilian.type) to target, \(civilian.location)")
-                                            //LogTacticalMessage(strLogString);
+                                            // LogTacticalMessage(strLogString);
                                         }
                                     } else {
                                         // Didn't find an alternative, retarget operation
@@ -773,7 +773,7 @@ public class TacticalAI: Codable {
         }
 
         if !self.paratroopersToMove.isEmpty {
-            //MoveParatroopers(pThisArmy);
+            // MoveParatroopers(pThisArmy);
         }
 
         if !self.generalsToMove.isEmpty {
@@ -868,7 +868,7 @@ public class TacticalAI: Codable {
                     if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
 
                         print("City founded, At \(civilian!.location)")
-                        //pOperation->LogOperationSpecialMessage(strMsg);
+                        // pOperation->LogOperationSpecialMessage(strMsg);
                     }
                     operation.state = .aborted(reason: .success)
                 }
@@ -1175,7 +1175,7 @@ public class TacticalAI: Codable {
                     continue
                 }
 
-                //pLoopPlot = GC.getMap().plot(m_TempTargets[iI].GetTargetX(), m_TempTargets[iI].GetTargetY());
+                // pLoopPlot = GC.getMap().plot(m_TempTargets[iI].GetTargetX(), m_TempTargets[iI].GetTargetY());
                 if self.findClosestNavalOperationUnit(target: tempTarget.target, escortedUnits: moreEscorted, in: gameModel) {
 
                     for currentMoveUnit in self.currentMoveUnits {
@@ -1269,8 +1269,8 @@ public class TacticalAI: Codable {
     /// Fills m_CurrentMoveUnits with all units in naval operation that can get to target (returns TRUE if 1 or more found)
     func findClosestNavalOperationUnit(target: HexPoint, escortedUnits: Bool, in gameModel: GameModel?) -> Bool {
 
-        //FStaticVector<CvOperationUnit, SAFE_ESTIMATE_NUM_MULTIUNITFORMATION_ENTRIES, true, c_eCiv5GameplayDLL, 0>::iterator it;
-        //UnitHandle pLoopUnit;
+        // FStaticVector<CvOperationUnit, SAFE_ESTIMATE_NUM_MULTIUNITFORMATION_ENTRIES, true, c_eCiv5GameplayDLL, 0>::iterator it;
+        // UnitHandle pLoopUnit;
 
         var rtnValue = false
         self.currentMoveUnits.removeAll()
@@ -2096,7 +2096,7 @@ public class TacticalAI: Codable {
                 if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
 
                     print("Operation aborting. Army ID: \(army.identifier). Not enough spaces to deploy near target")
-                    //LogTacticalMessage(strLogString);
+                    // LogTacticalMessage(strLogString);
                 }
 
                 army.operation?.state = .aborted(reason: .noRoomDeploy)
@@ -2185,7 +2185,7 @@ public class TacticalAI: Codable {
         var forcedToUseWater: Bool
         var numSafePlotsFound = 0
         var numDeployPlotsFound = 0
-        //CvTacticalTarget target;*/
+        // CvTacticalTarget target;*/
 
         // We'll store the hexes we've found here
         self.tempTargets.removeAll()
@@ -2204,7 +2204,7 @@ public class TacticalAI: Codable {
                     let plotDistance = plotPoint.distance(to: target)
                     if plotDistance <= range {
 
-                        //int iPlotIndex = GC.getMap().plotNum(pPlot->getX(), pPlot->getY());
+                        // int iPlotIndex = GC.getMap().plotNum(pPlot->getX(), pPlot->getY());
                         guard let cell = tacticalAnalysisMap.plots[plotPoint], let operation = army.operation else {
                             continue
                         }
@@ -2324,7 +2324,7 @@ public class TacticalAI: Codable {
 
                         print("Deploying \(unit.name()) (to get out of way), To \(chosenBlock.point), At \(unit.location), " +
                                 "Distance Before Move: \(chosenBlock.distanceToTarget)")
-                        //LogTacticalMessage(strMsg);
+                        // LogTacticalMessage(strMsg);
                     }
 
                     // Use number of choices field to indicate already moved
@@ -2692,7 +2692,7 @@ public class TacticalAI: Codable {
             // TACTICAL_AIR_INTERCEPT
             self.plotAirInterceptMoves(in: gameModel)
         case .airRebase:
-            //fatalError("not implemented yet")
+            // fatalError("not implemented yet")
             // NOOP
             break
         case .closeOnTarget:
@@ -3214,8 +3214,8 @@ public class TacticalAI: Codable {
 
     /// Execute moving units to a better location
     private func executeRepositionMoves(in gameModel: GameModel?) {
-        //CvPlot* pBestPlot = NULL;
-        //CvString strTemp;
+        // CvPlot* pBestPlot = NULL;
+        // CvString strTemp;
 
         for currentMoveUnitRef in self.currentMoveUnits {
 
@@ -3675,7 +3675,7 @@ public class TacticalAI: Codable {
                 if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
 
                     print("Guard Improvement, \(target.target), Turns Away: \(numTurnsAway)")
-                    //LogTacticalMessage(strLogString);
+                    // LogTacticalMessage(strLogString);
                 }
             }
         }
@@ -3685,10 +3685,10 @@ public class TacticalAI: Codable {
     /// Set fighters to air sweep
     func plotAirSweepMoves(in gameModel: GameModel?) {
 
-        //list<int>::iterator it;
+        // list<int>::iterator it;
         self.currentMoveUnits.removeAll()
-        //CvTacticalUnit unit;
-        //CvTacticalDominanceZone *pZone;
+        // CvTacticalUnit unit;
+        // CvTacticalDominanceZone *pZone;
 
         // Loop through all recruited units
         for currentTurnUnit in self.currentTurnUnits {
@@ -3978,7 +3978,7 @@ public class TacticalAI: Codable {
         }
 
         self.currentMoveUnits.removeAll()
-        //CvTacticalUnit unit;
+        // CvTacticalUnit unit;
 
         if let zone = self.currentDominanceZone {
 
@@ -4163,7 +4163,7 @@ public class TacticalAI: Codable {
             fatalError("cant get gameModel")
         }
 
-        //CvPlot* pTarget;
+        // CvPlot* pTarget;
         var attackUnderway = false
 
         self.tempTargets.removeAll()
@@ -4392,7 +4392,7 @@ public class TacticalAI: Codable {
         var meleeUnits = 0
         let tacticalRadius = gameModel.tacticalAnalysisMap().tacticalRange
 
-        //pTargetPlot = GC.getMap().plot(kTarget.GetTargetX(), kTarget.GetTargetY());
+        // pTargetPlot = GC.getMap().plot(kTarget.GetTargetX(), kTarget.GetTargetY());
         self.operationUnits.removeAll()
         self.generalsToMove.removeAll()
 
@@ -4863,7 +4863,7 @@ public class TacticalAI: Codable {
                 let plotDistance = point.distance(to: target.target)
                 if plotDistance > 0 && plotDistance <= range {
 
-                    //iPlotIndex = GC.getMap().plotNum(pAttackPlot->getX(), pAttackPlot->getY());
+                    // iPlotIndex = GC.getMap().plotNum(pAttackPlot->getX(), pAttackPlot->getY());
                     guard let cell = gameModel.tacticalAnalysisMap().plots[point] else {
                         continue
                     }
@@ -5115,7 +5115,7 @@ public class TacticalAI: Codable {
 
             // Don't need to cover a water hex
             if !loopPlot.isWater() {
-                //iPlotIndex = GC.getMap().plotNum(pLoopPlot->getX(), pLoopPlot->getY());
+                // iPlotIndex = GC.getMap().plotNum(pLoopPlot->getX(), pLoopPlot->getY());
 
                 guard let cell = gameModel.tacticalAnalysisMap().plots[neighbor] else {
                     continue
@@ -5917,10 +5917,10 @@ public class TacticalAI: Codable {
             fatalError("cant get target")
         }
 
-        //UnitHandle pLoopUnit;
+        // UnitHandle pLoopUnit;
         var rtnValue = false
 
-        //list<int>::iterator it;
+        // list<int>::iterator it;
         self.currentMoveUnits.removeAll()
         self.currentMoveHighPriorityUnits.removeAll()
 
@@ -6258,7 +6258,7 @@ public class TacticalAI: Codable {
                         if civilianMove == target {
 
                             // See which defender is stronger
-                            //UnitHandle pCampDefender = pCivilianMove->getBestDefender(m_pPlayer->GetID());
+                            // UnitHandle pCampDefender = pCivilianMove->getBestDefender(m_pPlayer->GetID());
                             if let escort = escortRef {
                                 self.executeMoveToPlot(of: escort, to: civilianMove, in: gameModel)
                                 self.executeMoveToPlot(of: civilian, to: civilianMove, in: gameModel)
@@ -7017,7 +7017,7 @@ public class TacticalAI: Codable {
             // Fortify if possible
             if unit.canFortify(at: point, in: gameModel) {
                  unit.push(mission: UnitMission(type: .fortify), in: gameModel)
-                //unit.fort ->SetFortifiedThisTurn(true);
+                // unit.fort ->SetFortifiedThisTurn(true);
             } else {
                 unit.push(mission: UnitMission(type: .skip), in: gameModel)
                 if !saveMoves {
@@ -7059,7 +7059,7 @@ public class TacticalAI: Codable {
             fatalError("cant get gameModel")
         }
 
-        //let pillageHeal = 25 /* PILLAGE_HEAL_AMOUNT */
+        // let pillageHeal = 25 /* PILLAGE_HEAL_AMOUNT */
 
         for targetRef in self.zoneTargets(for: targetType) {
 
@@ -7409,7 +7409,7 @@ public class TacticalAI: Codable {
                     if loopUnit.location.distance(to: targetLocation) <= loopUnit.range() {
 
                         // Do we have LOS to the target?
-                        //if loopUnit.canEverRangeStrikeAt(pTarget->getX(), pTarget->getY())) {
+                        // if loopUnit.canEverRangeStrikeAt(pTarget->getX(), pTarget->getY())) {
                         // Will we do any damage
                         if self.isExpectedToDamageWithRangedAttack(by: loopUnit, towards: targetLocation, in: gameModel) {
 
@@ -7794,10 +7794,10 @@ public class TacticalAI: Codable {
                 // Air attack is ranged, but it goes through the 'move to' mission.
                 unit.push(mission: UnitMission(type: .rangedAttack, at: target.target), in: gameModel)
             }
-            //else if (pUnit->canNuke(NULL)) // NUKE tactical attack (ouch)
-            //{
+            // else if (pUnit->canNuke(NULL)) // NUKE tactical attack (ouch)
+            // {
             //    pUnit->PushMission(CvTypes::getMISSION_NUKE(), pTarget->GetTargetX(), pTarget->GetTargetY());
-            //}
+            // }
             else {
                 unit.push(mission: UnitMission(type: .moveTo, at: target.target), in: gameModel)
             }
@@ -7838,8 +7838,8 @@ public class TacticalAI: Codable {
 
         if !self.queuedAttacks.isEmpty {
 
-            //std::list<CvQueuedAttack>::iterator nextToErase, nextInList;
-            //nextToErase = m_QueuedAttacks.begin();
+            // std::list<CvQueuedAttack>::iterator nextToErase, nextInList;
+            // nextToErase = m_QueuedAttacks.begin();
 
             // Find first attack with this unit/city
             var index = 0
@@ -8025,7 +8025,7 @@ public class TacticalAI: Codable {
         }
 
         var isOurCapital = false
-        //int iCityID = -1;
+        // int iCityID = -1;
 
         if let city = dominanceZone.closestCity {
             isOurCapital = self.player?.leader == city.player?.leader && city.isCapital()
@@ -8385,7 +8385,7 @@ public class TacticalAI: Codable {
 
                                             if self.isVeryHighPriorityCivilian(target: newTarget) {
 
-                                                newTarget.targetType = .veryHighPriorityCivilian //(AI_TACTICAL_TARGET_VERY_HIGH_PRIORITY_CIVILIAN);
+                                                newTarget.targetType = .veryHighPriorityCivilian // (AI_TACTICAL_TARGET_VERY_HIGH_PRIORITY_CIVILIAN);
                                             } else if self.isHighPriorityCivilian(target: newTarget, in: gameModel.currentTurn, numCities: gameModel.cities(of: player).count) {
 
                                                 newTarget.targetType = .highPriorityCivilian
@@ -8481,7 +8481,7 @@ public class TacticalAI: Codable {
     /// Don't allow tiles within 2 to both be blockade points
     private func eliminateNearbyBlockadePoints() {
 
-        //fatalError("not implemented yet")
+        // fatalError("not implemented yet")
 
         /*// First, sort the sentry points by priority
         self.naval
@@ -8752,7 +8752,7 @@ public class TacticalAI: Codable {
             }
 
             if returnValue == false && player?.leader == .barbar {
-                //always high priority for barbs
+                // always high priority for barbs
                 returnValue = true
             }
         }
@@ -8765,12 +8765,12 @@ public class TacticalAI: Codable {
 
         if let unit = target.unit {
 
-            //embarked civilians
+            // embarked civilians
             if unit.isEmbarked() && !unit.isCombatUnit() {
                 return true
             } else if unit.task() == .settle && turn >= 50 {
                 return true
-            } else if unit.task() == .work && turn < 50 { //early game?
+            } else if unit.task() == .work && turn < 50 { // early game?
                 return true
             }
         }

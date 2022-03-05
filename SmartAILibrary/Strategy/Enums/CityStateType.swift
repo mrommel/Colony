@@ -201,7 +201,7 @@ public enum CityStateType: String, Codable {
         }
     }
 
-    // MARK private methods
+    // MARK: private methods
 
     private class CityStateTypeData {
 

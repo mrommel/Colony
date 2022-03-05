@@ -913,10 +913,10 @@ public class Tile: AbstractTile {
 
             // Reset who cleared a Barb camp here last (if we're putting a new one down)
             if improvementType == .barbarianCamp {
-                //SetPlayerThatClearedBarbCampHere(NO_PLAYER);
+                // SetPlayerThatClearedBarbCampHere(NO_PLAYER);
             }
 
-            //setUpgradeProgress(0);
+            // setUpgradeProgress(0);
 
             // make sure this plot is not disabled
             self.setImprovement(pillaged: false)
@@ -937,9 +937,9 @@ public class Tile: AbstractTile {
                 // Culture from Improvement
                 if let player = self.owner() {
                     let culture = improvementType.yields(for: player, on: resource(for: player)).culture
-                    //ComputeCultureFromImprovement(newImprovementEntry, eNewValue);
+                    // ComputeCultureFromImprovement(newImprovementEntry, eNewValue);
                     if culture != 0 {
-                    //self.changeCulture(culture)
+                    // self.changeCulture(culture)
                     }
                 }
 

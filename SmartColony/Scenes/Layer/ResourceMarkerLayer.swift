@@ -62,7 +62,7 @@ class ResourceMarkerLayer: SKNode {
     func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
 
         let resource = tile.resource(for: self.player)
-        //let resource = tile.resource(for: nil)
+        // let resource = tile.resource(for: nil)
 
         // place forests etc
         if resource != .none {

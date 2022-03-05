@@ -23,7 +23,7 @@ class GameViewController: UIViewController {
     // scenes
     var gameLoadingScene: GameLoadingScene?
     var gameScene: GameScene?
-    //var gameClosingScene: GameClosingScene?
+    // var gameClosingScene: GameClosingScene?
 
     // The current zoom scale of the camera
     private var zoomScale: Double = Globals.Constants.initialScale
@@ -64,11 +64,11 @@ class GameViewController: UIViewController {
         self.view.addGestureRecognizer(self.pinchGestureRecognizer!)
 
         self.longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(GameViewController.handleLongPress(sender:)))
-        //self.view.addGestureRecognizer(self.longPressRecognizer!)
+        // self.view.addGestureRecognizer(self.longPressRecognizer!)
 
         self.doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(GameViewController.handleDoubleTap(sender:)))
         self.doubleTapGestureRecognizer?.numberOfTapsRequired = 2
-        //self.view.addGestureRecognizer(self.doubleTapGestureRecognizer!)
+        // self.view.addGestureRecognizer(self.doubleTapGestureRecognizer!)
     }
 
     @objc func updateScale(sender: UIPinchGestureRecognizer) {

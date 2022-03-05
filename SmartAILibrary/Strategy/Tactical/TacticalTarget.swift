@@ -8,14 +8,14 @@
 
 import Foundation
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvTacticalTarget
-//!  \brief        A target of opportunity for the tactical AI this turn
+// !  \brief        A target of opportunity for the tactical AI this turn
 //
-//!  Key Attributes:
-//!  - Arises during processing of CvTacticalAI::FindTacticalTargets()
-//!  - Targets are reexamined each turn (so shouldn't need to be serialized)
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  Key Attributes:
+// !  - Arises during processing of CvTacticalAI::FindTacticalTargets()
+// !  - Targets are reexamined each turn (so shouldn't need to be serialized)
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class TacticalTarget: Codable {
 
     enum CodingKeys: String, CodingKey {
@@ -63,7 +63,7 @@ class TacticalTarget: Codable {
         try container.encode(self.targetType, forKey: .targetType)
         try container.encode(self.target, forKey: .target)
         try container.encode(self.targetLeader, forKey: .targetLeader)
-        //try container.encodeIfPresent(self.dominanceZone, forKey: .dominanceZone)
+        // try container.encodeIfPresent(self.dominanceZone, forKey: .dominanceZone)
     }
 
     /// This target make sense for this domain of unit/zone?

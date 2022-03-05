@@ -296,7 +296,7 @@ public class DiplomaticDealAI: Codable {
 
                 // Maybe reorder these based on the AI's priorities (e.g. if it really doesn't want to give up Strategic Resources try adding those from us last)
 
-                //DoAddCitiesToThem(pDeal, eOtherPlayer, bDontChangeTheirExistingItems, iTotalValueToMe, iValueImOffering, iValueTheyreOffering, iAmountOverWeWillRequest, iDealDuration, bUseEvenValue);
+                // DoAddCitiesToThem(pDeal, eOtherPlayer, bDontChangeTheirExistingItems, iTotalValueToMe, iValueImOffering, iValueTheyreOffering, iAmountOverWeWillRequest, iDealDuration, bUseEvenValue);
 
                 // TODO: add more methods
                 /*DoAddVoteCommitmentToThem(pDeal, eOtherPlayer, bDontChangeTheirExistingItems, iTotalValueToMe, iValueImOffering, iValueTheyreOffering, iAmountOverWeWillRequest, bUseEvenValue);
@@ -784,7 +784,7 @@ public class DiplomaticDealAI: Codable {
     /// Add third party peace for allied city-states
     func doAddPlayersAlliesToTreaty(with otherPlayer: AbstractPlayer?, deal: DiplomaticDeal) {
 
-        //let peaceDuration = 30
+        // let peaceDuration = 30
 
         /*for(int iMinorLoop = MAX_MAJOR_CIVS; iMinorLoop < MAX_CIV_PLAYERS; iMinorLoop++)
         {
@@ -873,7 +873,7 @@ public class DiplomaticDealAI: Codable {
                     }
 
                     // Don't bother if we wouldn't get Happiness from it due to World Congress
-                    //if(GC.getGame().GetGameLeagues()->IsLuxuryHappinessBanned(eMyPlayer, eResource))
+                    // if(GC.getGame().GetGameLeagues()->IsLuxuryHappinessBanned(eMyPlayer, eResource))
                     //    continue;
 
                     // Quantity is always 1 if it's a Luxury, 5 if Strategic
@@ -963,7 +963,7 @@ public class DiplomaticDealAI: Codable {
                         resourceQuantity = 1
 
                         // Don't bother if they wouldn't get Happiness from it due to World Congress
-                        //if(GC.getGame().GetGameLeagues()->IsLuxuryHappinessBanned(eThem, eResource))
+                        // if(GC.getGame().GetGameLeagues()->IsLuxuryHappinessBanned(eThem, eResource))
                         //    continue;
                     } else {
                         resourceQuantity = min(5, resourceQuantity)    // 5 or what we have, whichever is less

@@ -8,10 +8,10 @@
 
 import Foundation
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvAIOperationQuickColonize
-//!  \brief        Send a settler alone to a nearby island
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  \brief        Send a settler alone to a nearby island
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class QuickColonizeOperation: FoundCityOperation {
 
     override init() {
@@ -55,7 +55,7 @@ class QuickColonizeOperation: FoundCityOperation {
                 self.escorted = false
 
                 self.state = .movingToTarget
-                //LogOperationStart();
+                // LogOperationStart();
 
             } else {
                 // Lost our target, abort

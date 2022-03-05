@@ -74,7 +74,7 @@ class MenuScene: BaseScene {
         // tutorial
         self.tutorialButton = MenuButtonNode(imageNamed: "tutorials", title: "Tutorials",
             buttonAction: {
-                //self.menuDelegate?.startTutorials()
+                // self.menuDelegate?.startTutorials()
             })
         self.tutorialButton?.zPosition = 2
         self.tutorialButton?.disable()

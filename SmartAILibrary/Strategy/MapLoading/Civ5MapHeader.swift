@@ -32,21 +32,21 @@ struct Civ5MapHeader {
     let numOfPlayers: UInt8
     let wrap: Int32
 
-    let lengthOfTerrainTypeList: Int32 //int -- Length of Terrain type list
-    let lengthOf1StFeatureTypeList: Int32 //int -- Length of 1st Feature type list
-    let lengthOf2NdFeatureTypeList: Int32 //int -- Length of 2nd Feature type list
-    let lengthOfResourceTypeList: Int32 //int -- Length of Resource type list
-    let unknown: Int32 //int -- Unknown
-    let lengthOfMapName: Int32 //int -- Length of Map Name string
-    let lengthOfDescription: Int32 //int -- Length of Description string
+    let lengthOfTerrainTypeList: Int32 // int -- Length of Terrain type list
+    let lengthOf1StFeatureTypeList: Int32 // int -- Length of 1st Feature type list
+    let lengthOf2NdFeatureTypeList: Int32 // int -- Length of 2nd Feature type list
+    let lengthOfResourceTypeList: Int32 // int -- Length of Resource type list
+    let unknown: Int32 // int -- Unknown
+    let lengthOfMapName: Int32 // int -- Length of Map Name string
+    let lengthOfDescription: Int32 // int -- Length of Description string
 
     let terrainTypes: [String]
     let featureTypes: [String]
     let feature2ndTypes: [String]
     let resourceTypes: [String]
 
-    let mapName: String //string -- Map Name string
-    let summary: String //string -- Description string
+    let mapName: String // string -- Map Name string
+    let summary: String // string -- Description string
 
     init(reader: BinaryDataReader) throws {
 
@@ -80,13 +80,13 @@ struct Civ5MapHeader {
         let resourceTypesStr = try reader.readUTF8(Int(self.lengthOfResourceTypeList))
         self.resourceTypes = resourceTypesStr.split(separator: "\0").map({ String($0) })
 
-        self.mapName = try reader.readNullTerminatedUTF8() //string -- Map Name string
-        self.summary = try reader.readNullTerminatedUTF8() //string -- Description string
+        self.mapName = try reader.readNullTerminatedUTF8() // string -- Map Name string
+        self.summary = try reader.readNullTerminatedUTF8() // string -- Description string
 
         // buffer
         if self.type > Civ5MapType.typeA {
-            let lengthOfStr: Int32 = try reader.read() //int -- Length of String3 (only present in version xB or later)
-            let temp = try reader.readUTF8(Int(lengthOfStr)) //string -- String3 (only present in version xB or later)
+            let lengthOfStr: Int32 = try reader.read() // int -- Length of String3 (only present in version xB or later)
+            let temp = try reader.readUTF8(Int(lengthOfStr)) // string -- String3 (only present in version xB or later)
             print("read value: \(temp)")
         }
     }

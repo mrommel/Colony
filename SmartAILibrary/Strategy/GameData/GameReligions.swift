@@ -50,7 +50,7 @@ class GameReligions: AbstractGameReligions, Codable {
 
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        //try container.encode(self.pressure, forKey: .pressure)
+        // try container.encode(self.pressure, forKey: .pressure)
         // fatalError("not implemented")
     }
 

@@ -8,13 +8,13 @@
 
 import Foundation
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvBlockingUnit
-//!  \brief        Potential move of a unit to a hex to form a block keeping enemy away
+// !  \brief        Potential move of a unit to a hex to form a block keeping enemy away
 //
-//!  Key Attributes:
-//!  - Used by CanCoverFromEnemy() to track moves we may want to make to block enemy
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  Key Attributes:
+// !  - Used by CanCoverFromEnemy() to track moves we may want to make to block enemy
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class BlockingUnit {
 
     let unit: AbstractUnit?

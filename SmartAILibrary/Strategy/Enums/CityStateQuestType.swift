@@ -11,7 +11,7 @@ import Foundation
 public enum CityStateQuestType {
 
     case none
-    
+
     case trainUnit(type: UnitType) // Train a certain unit. (Will be lost if the unit becomes obsolete.)
     case constructDistrict(type: DistrictType) // Construct a certain district.
     case triggerEureka(tech: TechType) // Trigger a Eureka Eureka for a certain tech. (Can be completed by a Spy that succeeds at a Steal Tech Boost mission. Will be lost if you research the tech.)

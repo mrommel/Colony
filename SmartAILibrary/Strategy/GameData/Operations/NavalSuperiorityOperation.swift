@@ -23,10 +23,10 @@ class WeightedPoints: WeightedList<HexPoint> {
     }*/
 }
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvAIOperationNavalSuperiority
-//!  \brief        Send out a squadron of naval units to rule the seas
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  \brief        Send out a squadron of naval units to rule the seas
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class NavalSuperiorityOperation: NavalOperation {
 
     init() {
@@ -77,7 +77,7 @@ class NavalSuperiorityOperation: NavalOperation {
                         self.state = .recruitingUnits
                     }
 
-                    //LogOperationStart();
+                    // LogOperationStart();
                 } else {
                     // No muster point, abort
                     self.state = .aborted(reason: .noMuster)

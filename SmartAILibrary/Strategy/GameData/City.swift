@@ -38,7 +38,7 @@ public protocol AbstractCity: AnyObject, Codable {
     var cityReligion: AbstractCityReligion? { get }
     var greatWorks: GreatWorks? { get }
 
-    //static func found(name: String, at location: HexPoint, capital: Bool, owner: AbstractPlayer?) -> AbstractCity
+    // static func found(name: String, at location: HexPoint, capital: Bool, owner: AbstractPlayer?) -> AbstractCity
     func initialize(in gameModel: GameModel?)
 
     func set(name: String)
@@ -501,7 +501,7 @@ public class City: AbstractCity {
         self.routeToCapitalConnectedLastTurn = try container.decode(Bool.self, forKey: .routeToCapitalConnectedLastTurn)
         self.lastTurnGarrisonAssignedValue = try container.decode(Int.self, forKey: .lastTurnGarrisonAssigned)
 
-        //self.garrisonedUnitValue = try container.decode(CityCitizens.self, forKey: .cityCitizens): AbstractUnit? = nil
+        // self.garrisonedUnitValue = try container.decode(CityCitizens.self, forKey: .cityCitizens): AbstractUnit? = nil
 
         self.luxuries = try container.decode([ResourceType].self, forKey: .luxuries)
         self.amenitiesForWarWearinessValue = try container.decodeIfPresent(Int.self, forKey: .amenitiesForWarWeariness) ?? 0
@@ -573,8 +573,8 @@ public class City: AbstractCity {
         try container.encode(self.routeToCapitalConnectedLastTurn, forKey: .routeToCapitalConnectedLastTurn)
         try container.encode(self.lastTurnGarrisonAssignedValue, forKey: .lastTurnGarrisonAssigned)
 
-        //try container.encode(self.featureProductionValue, forKey: .featureProduction)
-        //private var garrisonedUnitValue: AbstractUnit? = nil
+        // try container.encode(self.featureProductionValue, forKey: .featureProduction)
+        // private var garrisonedUnitValue: AbstractUnit? = nil
 
         try container.encode(self.luxuries, forKey: .luxuries)
         try container.encode(self.amenitiesForWarWearinessValue, forKey: .amenitiesForWarWeariness)
@@ -686,7 +686,7 @@ public class City: AbstractCity {
                     try tile.set(owner: self.player)
                     try tile.setWorkingCity(to: self)
                 } catch {
-                    //fatalError("cant set owner")
+                    // fatalError("cant set owner")
                 }
             }
         }
@@ -708,7 +708,7 @@ public class City: AbstractCity {
 
                             additional += 1
                         } catch {
-                            //fatalError("cant set owner")
+                            // fatalError("cant set owner")
                         }
                     }
                 }
@@ -790,7 +790,7 @@ public class City: AbstractCity {
         }
 
         if self.damage() > 0 {
-            //CvAssertMsg(m_iDamage <= GC.getMAX_CITY_HIT_POINTS(), "Somehow a city has more damage than hit points. Please show this to a gameplay programmer immediately.");
+            // CvAssertMsg(m_iDamage <= GC.getMAX_CITY_HIT_POINTS(), "Somehow a city has more damage than hit points. Please show this to a gameplay programmer immediately.");
 
             var hitsHealed = 20 /* CITY_HIT_POINTS_HEALED_PER_TURN */
             if self.isCapital() {
@@ -803,11 +803,11 @@ public class City: AbstractCity {
             self.set(damage: 0)
         }
 
-        //setDrafted(false);
-        //setAirliftTargeted(false);
-        //setCurrAirlift(0);
+        // setDrafted(false);
+        // setAirliftTargeted(false);
+        // setCurrAirlift(0);
         self.setMadeAttack(to: false)
-        //GetCityBuildings()->SetSoldBuildingThisTurn(false);
+        // GetCityBuildings()->SetSoldBuildingThisTurn(false);
 
         self.updateFeatureSurrounded(in: gameModel)
 
@@ -815,9 +815,9 @@ public class City: AbstractCity {
 
         self.cityCitizens?.doTurn(with: gameModel)
 
-        //AI_doTurn();
+        // AI_doTurn();
         if !player.isHuman() {
-            //AI_stealPlots();
+            // AI_stealPlots();
         }
 
         let razed = false // self.doRazingTurn();
@@ -883,7 +883,7 @@ public class City: AbstractCity {
 
             // self.doNearbyEnemy()
 
-            //Check for Achievements
+            // Check for Achievements
             /*if(isHuman() && !GC.getGame().isGameMultiPlayer() && GET_PLAYER(GC.getGame().getActivePlayer()).isLocalPlayer()) {
                 if(getJONSCulturePerTurn()>=100) {
                     gDLL->UnlockAchievement( ACHIEVEMENT_CITY_100CULTURE );
@@ -1711,11 +1711,11 @@ public class City: AbstractCity {
         // (This includes the Lake tile where the wonder is placed.)
         for point in cityCitizens.workingTileLocations() {
             if cityCitizens.isWorked(at: point) {
-                //if let adjacentTile = gameModel.tile(at: point) {
+                // if let adjacentTile = gameModel.tile(at: point) {
                 if point == hueyTeocalliLocation || point.isNeighbor(of: hueyTeocalliLocation) {
                     amenitiesFromTiles += 1
                 }
-                //}
+                // }
             }
         }
 
@@ -3924,7 +3924,7 @@ public class City: AbstractCity {
 
         // https://forums.civfanatics.com/threads/formula-thread.600534/
         // https://forums.civfanatics.com/threads/mathematical-model-comparison.634332/
-        //Population growth (food)
+        // Population growth (food)
         // 15+8*n+n^1.5 (n is current population-1)
         // 15+8*(N-1)+(N-1)^1.5
         // 1=>2 =>> 15+0+0^1.5=15
@@ -4564,7 +4564,7 @@ public class City: AbstractCity {
             fatalError("cant get cityCitizens")
         }
 
-        //let yieldMultiplier = player.specialistExtraYield(for: specialistType, and: yieldType) + player.getSpecialistExtraYield(yieldType) /* + player.leader.traits().GetPlayerTraits()->GetSpecialistYieldChange(eSpecialist, eIndex);*/
+        // let yieldMultiplier = player.specialistExtraYield(for: specialistType, and: yieldType) + player.getSpecialistExtraYield(yieldType) /* + player.leader.traits().GetPlayerTraits()->GetSpecialistYieldChange(eSpecialist, eIndex);*/
         let yieldMultiplier = specialistType.yields().value(of: yieldType)
         let extraYield = Int(Double(cityCitizens.specialistCount(of: specialistType)) * yieldMultiplier)
 
@@ -4676,7 +4676,7 @@ public class City: AbstractCity {
 
         self.doAcquirePlot(at: point, in: gameModel)
 
-        //Achievement test for purchasing 1000 tiles
+        // Achievement test for purchasing 1000 tiles
         return true
     }
 
@@ -4696,7 +4696,7 @@ public class City: AbstractCity {
         }
 
         if point.x == -1 && point.y == -1 {
-            //return Double(player.buyPlotCost())
+            // return Double(player.buyPlotCost())
             fatalError("Why is this?")
         }
 
@@ -5063,7 +5063,7 @@ public class City: AbstractCity {
         var bestScore = -1
         var bestPoint: HexPoint = HexPoint.zero
 
-        //int iDX, iDY;
+        // int iDX, iDY;
 
         for tilePoint in self.location.areaWith(radius: City.workRadius) {
 
@@ -5233,8 +5233,8 @@ public class City: AbstractCity {
         rtnValue += yieldValue
 
         // For each player not on our team, check how close their nearest city is to this plot
-        //CvPlayer& owningPlayer = GET_PLAYER(m_eOwner);
-        //CvDiplomacyAI* owningPlayerDiploAI = owningPlayer.GetDiplomacyAI();
+        // CvPlayer& owningPlayer = GET_PLAYER(m_eOwner);
+        // CvDiplomacyAI* owningPlayerDiploAI = owningPlayer.GetDiplomacyAI();
 
         for loopPlayer in gameModel.players {
 

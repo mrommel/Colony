@@ -77,7 +77,7 @@ class NavalEscortedOperation: Operation {
                 self.state = .recruitingUnits
             }
 
-            //LogOperationStart();
+            // LogOperationStart();
 
         } else {
             // Lost our target, abort

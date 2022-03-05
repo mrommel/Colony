@@ -62,7 +62,7 @@ class TechTests: XCTestCase {
         let nextTech = self.objectToTest?.chooseNextTech()
 
         // THEN
-        //print("nextTech: \(nextTech)")
+        // print("nextTech: \(nextTech)")
         XCTAssertTrue([.mining, .writing, .sailing].contains(nextTech))
     }
 
@@ -93,7 +93,7 @@ class TechTests: XCTestCase {
         let nextTech = self.objectToTest?.chooseNextTech()
 
         // THEN
-        //print("nextTech: \(nextTech)")
+        // print("nextTech: \(nextTech)")
         XCTAssertTrue([.mining, .sailing, .writing].contains(nextTech))
     }
 
@@ -110,7 +110,7 @@ class TechTests: XCTestCase {
         let nextTech = self.objectToTest?.chooseNextTech()
 
         // THEN
-        //print("nextTech: \(nextTech)")
+        // print("nextTech: \(nextTech)")
         XCTAssertTrue([.mining, .writing, .sailing].contains(nextTech))
     }
 

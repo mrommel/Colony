@@ -158,7 +158,7 @@ class Civics: AbstractCivics {
 
         // FIXME
         return Double(civic.flavorValue(for: flavor) * player.leader.flavor(for: flavor))
-        //return 0.0
+        // return 0.0
     }
 
     func has(civic: CivicType) -> Bool {

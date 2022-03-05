@@ -55,9 +55,9 @@ class GameLoadButtonNode: MessageBoxButtonNode {
 
                 if scrollView.backgroundNode!.contains(location) {
 
-                    //if self.backgroundNode!.contains(location) {
+                    // if self.backgroundNode!.contains(location) {
                         self.touchHandler(self.gameName)
-                    //}
+                    // }
                 }
             }
         }

@@ -45,8 +45,6 @@ public enum NotificationType {
 
     case metCityState(cityState: CityStateType, first: Bool) // 23
 
-
-
     public static var all: [NotificationType] = [
         .turn,
         .generic,

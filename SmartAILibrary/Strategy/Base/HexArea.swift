@@ -200,7 +200,7 @@ extension HexArea: Hashable {
 
     public static func == (lhs: HexArea, rhs: HexArea) -> Bool {
 
-        //return lhs.points.elementsEqual(rhs.points)
+        // return lhs.points.elementsEqual(rhs.points)
         return lhs.identifier == rhs.identifier
     }
 

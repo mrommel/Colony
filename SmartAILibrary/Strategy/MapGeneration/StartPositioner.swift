@@ -132,7 +132,7 @@ class StartPositioner {
                             let plotFertility = self.tileFertilityEvaluator.placementFertility(of: plot, checkForCoastalLand: true)
                             iGlobalFertilityOfLands += plotFertility
 
-                            //landAreaPlots.add(weight: 1, for: continentIdentifier)
+                            // landAreaPlots.add(weight: 1, for: continentIdentifier)
                             self.fertilityMap[x, y] = plotFertility
                             landAreaFert.add(weight: plotFertility, for: continentIdentifier)
                         } else {
@@ -148,7 +148,7 @@ class StartPositioner {
         // Fertility data in land_area_fert is stored with areaID index keys.
         // Need to generate a version of this table with indices of 1 to n, where n is number of land areas.
         // Sort the fertility values stored in the interim table. Sort order in Lua is lowest to highest.
-        //landAreaFert.sortReverse()
+        // landAreaFert.sortReverse()
 
         // init number of civs on each continent
         let numberOfCivsPerArea: WeightedStringList = WeightedStringList()
@@ -183,7 +183,7 @@ class StartPositioner {
 
             let numberOfCivsOnCurrentArea = Int(numberOfCivsPerAreaItem.1)
 
-            //print("numberOfCivsOnCurrentArea: \(numberOfCivsOnCurrentArea) on continent '\(numberOfCivsPerAreaItem.itemType)'")
+            // print("numberOfCivsOnCurrentArea: \(numberOfCivsOnCurrentArea) on continent '\(numberOfCivsPerAreaItem.itemType)'")
             if let continent = map.continent(by: numberOfCivsPerAreaItem.0) {
 
                 let area = HexArea(points: continent.points)

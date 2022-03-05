@@ -8,10 +8,10 @@
 
 import Foundation
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvAIOperationCityCloseDefense
-//!  \brief        Defend a specific city
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  \brief        Defend a specific city
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class CityCloseDefenseOperation: Operation {
 
     init() {
@@ -54,7 +54,7 @@ class CityCloseDefenseOperation: Operation {
                 self.state = .recruitingUnits
             }
 
-            //LogOperationStart();
+            // LogOperationStart();
         }
     }
 

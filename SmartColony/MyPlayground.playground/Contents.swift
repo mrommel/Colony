@@ -182,4 +182,4 @@ struct ScrollViewSnap_Previews: PreviewProvider {
 
 // Present the view in Playground
 // Delete this line if not using a playground
-//PlaygroundPage.current.liveView = NSHostingController(rootView: ContentView())
+// PlaygroundPage.current.liveView = NSHostingController(rootView: ContentView())

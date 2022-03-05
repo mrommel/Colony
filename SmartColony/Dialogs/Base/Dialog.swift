@@ -146,7 +146,7 @@ class Dialog: NineGridTextureSprite {
                 let yieldInfo = YieldDisplayNode(for: item.yieldType, value: 0.0, size: item.size)
                 yieldInfo.name = item.identifier
                 yieldInfo.position = item.position()
-                //yieldInfo.anchorPoint = item.anchorPoint()
+                // yieldInfo.anchorPoint = item.anchorPoint()
                 yieldInfo.zPosition = Globals.ZLevels.dialogs + 1.0
                 self.addChild(yieldInfo)
 
@@ -226,7 +226,7 @@ class Dialog: NineGridTextureSprite {
                     view.addSubview(textField)
                 }
 
-                //self.textField?.becomeFirstResponder()
+                // self.textField?.becomeFirstResponder()
             }
         }
     }
@@ -401,7 +401,7 @@ extension Dialog: UITextFieldDelegate {
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        //scene?.view?.endEditing(true)
+        // scene?.view?.endEditing(true)
         textField.resignFirstResponder()
         return true
     }

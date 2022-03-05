@@ -19,10 +19,10 @@ enum CityAttackApproachType {
     case restricted // ATTACK_APPROACH_RESTRICTED
 }
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  STRUCT:     CvMilitaryTarget
-//!  \brief        A possible operation target (and muster city) for evaluation
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  \brief        A possible operation target (and muster city) for evaluation
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // swiftlint:disable line_length
 class MilitaryTarget: Codable {
 
@@ -129,8 +129,8 @@ public class MilitaryAI: Codable {
         var numLandUnits: Int = 0
         var numRangedLandUnits: Int = 0
         var numMobileLandUnits: Int = 0
-        //var numAirUnits: Int = 0
-        //var numAntiAirUnits: Int = 0
+        // var numAirUnits: Int = 0
+        // var numAntiAirUnits: Int = 0
         var numMeleeLandUnits: Int = 0
         var numNavalUnits: Int = 0
         var numLandUnitsInArmies: Int = 0
@@ -416,8 +416,8 @@ public class MilitaryAI: Codable {
 
         self.updateFlavors()
 
-        //print("military strategy flavors")
-        //print(self.flavors)
+        // print("military strategy flavors")
+        // print(self.flavors)
     }
 
     func doTurn(in gameModel: GameModel?) {
@@ -435,9 +435,9 @@ public class MilitaryAI: Codable {
         if !player.isHuman() {
 
             self.updateOperations(in: gameModel)
-            //self.makeEmergencyPurchases()
-            //self.requestImprovements()
-            //self.disbandObsoleteUnits()
+            // self.makeEmergencyPurchases()
+            // self.requestImprovements()
+            // self.disbandObsoleteUnits()
         }
     }
 
@@ -1001,8 +1001,8 @@ public class MilitaryAI: Codable {
         }
 
         // Build a list of all the possible start city/target city pairs
-        //static CvWeightedVector<CvMilitaryTarget, SAFE_ESTIMATE_NUM_CITIES* 10, true> prelimWeightedTargetList;
-        //prelimWeightedTargetList.clear();
+        // static CvWeightedVector<CvMilitaryTarget, SAFE_ESTIMATE_NUM_CITIES* 10, true> prelimWeightedTargetList;
+        // prelimWeightedTargetList.clear();
         let prelimWeightedTargetList: WeightedList<MilitaryTarget> = WeightedList<MilitaryTarget>()
 
         for friendlyCityRef in gameModel.cities(of: player) {
@@ -1028,7 +1028,7 @@ public class MilitaryAI: Codable {
                 if enemyPlot.isDiscovered(by: player) {
 
                     let target = MilitaryTarget()
-                    //int iWeight;
+                    // int iWeight;
                     target.musterCity = friendlyCityRef
                     target.targetCity = enemyCityRef
                     target.musterNearbyUnitPower = friendlyCity.scratch()
@@ -1116,13 +1116,13 @@ public class MilitaryAI: Codable {
         // LogAttackTargets(eAIOperationType, eEnemy, weightedTargetList);
 
         if weightedTargetList.totalWeights() > 0 {
-            //RandomNumberDelegate fcn;
-            //fcn = MakeDelegate(&GC.getGame(), &CvGame::getJonRandNum);
-            //let numChoices = max(1, (weightedTargetList.count * 25 / 100))
+            // RandomNumberDelegate fcn;
+            // fcn = MakeDelegate(&GC.getGame(), &CvGame::getJonRandNum);
+            // let numChoices = max(1, (weightedTargetList.count * 25 / 100))
             chosenTarget = weightedTargetList.chooseFromTopChoices()!
             // if we need the winning score
             winningScore = self.scoreTarget(target: chosenTarget, operationType: operationType, in: gameModel)
-            //LogChosenTarget(eAIOperationType, eEnemy, chosenTarget);
+            // LogChosenTarget(eAIOperationType, eEnemy, chosenTarget);
         } else {
             chosenTarget.targetCity = nil   // Call off the attack
             winningScore = -1
@@ -1546,8 +1546,8 @@ public class MilitaryAI: Codable {
         self.baseData.mandatoryReserveSize = Int(Double(iNumUnitsWanted) * multiplier)
 
         // add in a few for the difficulty level (all above Chieftain are boosted)
-        //int iDifficulty = max(0,GC.getGame().getHandicapInfo().GetID() - 1);
-        //m_iMandatoryReserveSize += (iDifficulty * 3 / 2);
+        // int iDifficulty = max(0,GC.getGame().getHandicapInfo().GetID() - 1);
+        // m_iMandatoryReserveSize += (iDifficulty * 3 / 2);
 
         self.baseData.mandatoryReserveSize = max(1, self.baseData.mandatoryReserveSize)
 
@@ -1563,7 +1563,7 @@ public class MilitaryAI: Codable {
         iNumUnitsWanted += Double(player.leader.trait(for: .boldness))
 
         // add in more if we are playing on a high difficulty
-        //iNumUnitsWanted += iDifficulty * 3
+        // iNumUnitsWanted += iDifficulty * 3
 
         iNumUnitsWanted *= multiplier
 
@@ -2011,7 +2011,7 @@ class MilitaryAIHelpers {
 
                                     for slotEntry in slotsToFill {
 
-                                        //CvUnitEntry& kUnitInfo = pLoopUnit->getUnitInfo();
+                                        // CvUnitEntry& kUnitInfo = pLoopUnit->getUnitInfo();
                                         if loopUnit.has(task: slotEntry.primaryUnitTask) || loopUnit.has(task: slotEntry.secondaryUnitTask) {
 
                                             willBeFilled += 1

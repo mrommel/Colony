@@ -265,7 +265,7 @@ public class ReligionAI {
                 rtnValue *= 8
                 rtnValue /= 10
             } else {
-                //generally means we get the bonus instantly...
+                // generally means we get the bonus instantly...
                 rtnValue *= 13
                 rtnValue /= 10
             }
@@ -666,7 +666,7 @@ public class ReligionAI {
             }
 
             // World wonder change
-            //iRtnValue += pEntry->GetYieldChangeWorldWonder(iI) * player.diplomacyAI?.wonderCompetitiveness()
+            // iRtnValue += pEntry->GetYieldChangeWorldWonder(iI) * player.diplomacyAI?.wonderCompetitiveness()
 
             // Yield per follower
             /*if (pEntry->GetMaxYieldModifierPerFollower(iI) > 0)
