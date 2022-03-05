@@ -1173,8 +1173,8 @@ public class MapGenerator: BaseMapHandler {
 
         let foundLocations = startPositioner.cityStateStartLocations.count
         let neededLocations = self.options.size.numberOfCityStates()
-        guard foundLocations == neededLocations else {
-            fatalError("could not get correct number start locations (\(foundLocations)) for city state leaders (\(neededLocations))")
+        if foundLocations != neededLocations {
+            print("WARNING: could not get correct number start locations (\(foundLocations)) for city state leaders (\(neededLocations))")
         }
 
         grid.startLocations = startPositioner.startLocations

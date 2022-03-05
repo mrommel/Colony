@@ -68,7 +68,7 @@ class MapGeneratorTests: XCTestCase {
     func testBasic() {
 
         // GIVEN
-        let options = MapOptions(withSize: .custom(width: 20, height: 20), type: .continents, leader: .alexander, handicap: .settler)
+        let options = MapOptions(withSize: .duel, type: .continents, leader: .alexander, handicap: .settler)
 
         let mapGenerator = MapGenerator(with: options)
         mapGenerator.progressHandler = { (progress, text) in
@@ -79,8 +79,8 @@ class MapGeneratorTests: XCTestCase {
         let map = mapGenerator.generate()
 
         // THEN
-        XCTAssertEqual(map!.size.width(), 20)
-        XCTAssertEqual(map!.size.height(), 20)
+        XCTAssertEqual(map!.size.width(), 32)
+        XCTAssertEqual(map!.size.height(), 22)
     }
 
     func testCountFishAlreadyAdded() {
