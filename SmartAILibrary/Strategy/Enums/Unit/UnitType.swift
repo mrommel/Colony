@@ -335,6 +335,20 @@ public enum UnitType: Int, Codable {
         return self.data().upgradesFrom
     }
 
+    public func upgradesTo() -> [UnitType] {
+
+        var types: [UnitType] = []
+
+        for unitType in UnitType.all {
+
+            if unitType.upgradesFrom().contains(where: { $0 == self }) {
+                types.append(unitType)
+            }
+        }
+
+        return types
+    }
+
     // is unit type special to any civ? nil if not
     public func civilization() -> CivilizationType? {
 

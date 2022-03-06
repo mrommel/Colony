@@ -56,6 +56,123 @@ class PlayerCityStateQuestTests: XCTestCase {
         XCTAssertEqual(questsAfter.count, 1)
     }
 
+    func testTrainUnitQuestFulfilled() throws {
+
+        // GIVEN
+
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAmsterdam = Player(leader: .cityState(type: .amsterdam))
+        playerAmsterdam.initialize()
+
+        let playerAkkad = Player(leader: .cityState(type: .akkad))
+        playerAkkad.initialize()
+
+        let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
+
+        // map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
+
+        // game
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAmsterdam, playerAkkad, playerAlexander, playerTrajan],
+            on: mapModel
+        )
+
+        // initial cities
+
+        let playerTrajanCity = City(name: "Trajan City", at: HexPoint(x: 15, y: 15), capital: true, owner: playerTrajan)
+        playerTrajanCity.initialize(in: gameModel)
+        gameModel.add(city: playerTrajanCity)
+
+        try playerTrajan.techs?.discover(tech: .horsebackRiding, in: gameModel)
+        playerTrajan.treasury?.changeGold(by: 1000)
+
+        playerTrajan.doFirstContact(with: playerAmsterdam, in: gameModel)
+        playerAmsterdam.set(
+            quest: CityStateQuest(cityState: .amsterdam, leader: .trajan, type: .trainUnit(type: .horseman)),
+            for: playerTrajan.leader
+        )
+
+        let questBefore = playerAmsterdam.quest(for: .trajan)
+
+        // WHEN
+        let unitBought = playerTrajanCity.purchase(unit: .horseman, with: .gold, in: gameModel)
+        let questAfter = playerAmsterdam.quest(for: .trajan)
+
+        // THEN
+        XCTAssertEqual(questBefore, .trainUnit(type: .horseman))
+        XCTAssertTrue(unitBought)
+        XCTAssertNotEqual(questAfter, .trainUnit(type: .horseman))
+    }
+
+    func testTrainUnitQuestObsolete() throws {
+
+        // GIVEN
+
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAmsterdam = Player(leader: .cityState(type: .amsterdam))
+        playerAmsterdam.initialize()
+
+        let playerAkkad = Player(leader: .cityState(type: .akkad))
+        playerAkkad.initialize()
+
+        let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
+
+        // map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
+
+        // game
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAmsterdam, playerAkkad, playerAlexander, playerTrajan],
+            on: mapModel
+        )
+
+        // initial cities
+
+        let playerTrajanCity = City(name: "Trajan City", at: HexPoint(x: 15, y: 15), capital: true, owner: playerTrajan)
+        playerTrajanCity.initialize(in: gameModel)
+        gameModel.add(city: playerTrajanCity)
+
+        try playerTrajan.techs?.discover(tech: .wheel, in: gameModel)
+        playerTrajan.treasury?.changeGold(by: 1000)
+
+        playerTrajan.doFirstContact(with: playerAmsterdam, in: gameModel)
+        playerAmsterdam.set(
+            quest: CityStateQuest(cityState: .amsterdam, leader: .trajan, type: .trainUnit(type: .heavyChariot)),
+            for: playerTrajan.leader
+        )
+
+        let questBefore = playerAmsterdam.quest(for: .trajan)
+
+        // WHEN
+        try playerTrajan.techs?.discover(tech: .stirrups, in: gameModel)
+        let questAfter = playerAmsterdam.quest(for: .trajan)
+
+        // THEN
+        XCTAssertEqual(questBefore, .trainUnit(type: .heavyChariot))
+        XCTAssertNotEqual(questAfter, .trainUnit(type: .heavyChariot))
+    }
+
     func testSendTradeRouteQuestFulfilled() {
 
         // GIVEN
@@ -109,7 +226,7 @@ class PlayerCityStateQuestTests: XCTestCase {
         let questBefore = playerAmsterdam.quest(for: .trajan)
 
         // WHEN
-        playerTrajan.doEstablishTradeRoute(from: playerTrajanCity, to: playerAmsterdamCity, with: playerTrajanTrader, in: gameModel)
+        _ = playerTrajan.doEstablishTradeRoute(from: playerTrajanCity, to: playerAmsterdamCity, with: playerTrajanTrader, in: gameModel)
         let questAfter = playerAmsterdam.quest(for: .trajan)
 
         // THEN

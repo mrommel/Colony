@@ -168,6 +168,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     func quest(for leader: LeaderType) -> CityStateQuestType? // quest of city state to leader
     func fulfillQuest(by leader: LeaderType, in gameModel: GameModel?)
+    func obsoleteQuest(by leader: LeaderType, in gameModel: GameModel?)
     func doQuests(in gameModel: GameModel?)
     func set(quest: CityStateQuest, for leader: LeaderType) // for testing
 
@@ -1521,6 +1522,18 @@ public class Player: AbstractPlayer {
         }
     }
 
+    public func obsoleteQuest(by leader: LeaderType, in gameModel: GameModel?) {
+
+        self.questValue.removeAll(where: { $0.leader == leader })
+
+        if let player = gameModel?.player(for: leader) {
+            if player.isHuman() {
+                // inform player
+                // player.notifications()?.add(notification: .abc)
+            }
+        }
+    }
+
     public func doQuests(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
@@ -1558,6 +1571,10 @@ public class Player: AbstractPlayer {
                 case .trainUnit(type: _):
                     // Train a certain unit. (Will be lost if the unit becomes obsolete.)
                     for unitType in UnitType.all.shuffled {
+
+                        if unitType.isGreatPerson() {
+                            continue
+                        }
 
                         if let requiredTech = unitType.requiredTech() {
                             if !questPlayer.has(tech: requiredTech) {

@@ -2771,7 +2771,11 @@ public class City: AbstractCity {
 
     private func train(unitType: UnitType, in gameModel: GameModel?) {
 
-        guard let government = self.player?.government else {
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let government = player.government else {
             fatalError("cant get player government")
         }
 
@@ -2790,10 +2794,18 @@ public class City: AbstractCity {
         }
 
         gameModel?.add(unit: unit)
-
         gameModel?.userInterface?.show(unit: unit, at: self.location)
 
         self.updateEurekas(in: gameModel)
+
+        // check quests
+        for quest in player.ownQuests(in: gameModel) {
+
+            if quest.type == .trainUnit(type: unitType) && quest.leader == player.leader {
+                let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState)
+                cityStatePlayer?.fulfillQuest(by: player.leader, in: gameModel)
+            }
+        }
     }
 
     private func build(building buildingType: BuildingType, in gameModel: GameModel?) {
@@ -3753,8 +3765,21 @@ public class City: AbstractCity {
 
     public func purchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         guard self.canPurchase(unit: unitType, with: yieldType, in: gameModel) else {
             return false
+        }
+
+        // check quests
+        for quest in player.ownQuests(in: gameModel) {
+
+            if quest.type == .trainUnit(type: unitType) && quest.leader == player.leader {
+                let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState)
+                cityStatePlayer?.fulfillQuest(by: player.leader, in: gameModel)
+            }
         }
 
         let unit = Unit(at: self.location, type: unitType, owner: self.player)
