@@ -134,21 +134,21 @@ public class PlayerEnvoys: AbstractPlayerEnvoys {
 
                         let envoys = self.envoys(in: cityState)
                         if envoys >= 1 {
-                            effects.append(EnvoyEffect(cityState: cityState, category: cityState.category(), level: .first))
+                            effects.append(EnvoyEffect(cityState: cityState, level: .first))
                         }
 
                         if envoys >= 3 {
-                            effects.append(EnvoyEffect(cityState: cityState, category: cityState.category(), level: .third))
+                            effects.append(EnvoyEffect(cityState: cityState, level: .third))
                         }
 
                         if envoys >= 6 {
-                            effects.append(EnvoyEffect(cityState: cityState, category: cityState.category(), level: .sixth))
+                            effects.append(EnvoyEffect(cityState: cityState, level: .sixth))
                         }
 
                         if let suzerainLeader = player.suzerain() {
                             if let suzerainPlayer = gameModel.player(for: suzerainLeader) {
                                 if suzerainPlayer.isEqual(to: self.player) {
-                                    effects.append(EnvoyEffect(cityState: cityState, category: cityState.category(), level: .suzerain))
+                                    effects.append(EnvoyEffect(cityState: cityState, level: .suzerain))
                                 }
                             }
                         }

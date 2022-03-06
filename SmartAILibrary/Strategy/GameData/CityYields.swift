@@ -766,17 +766,17 @@ extension City {
         for effect in effects {
 
             // religious: +2 Faith Faith in the Capital Capital.
-            if effect.category == .religious && effect.level == .first && self.capitalValue {
+            if effect.isEqual(category: .religious, at: .first) && self.capitalValue {
                 faithFromEnvoys += 2.0
             }
 
             // religious: +2 Faith Faith in every Shrine building.
-            if effect.category == .religious && effect.level == .third && self.has(building: .shrine) {
+            if effect.isEqual(category: .religious, at: .third) && self.has(building: .shrine) {
                 faithFromEnvoys += 2.0
             }
 
             // religious: +2 Faith Faith in every Temple building.
-            if effect.category == .religious && effect.level == .sixth && self.has(building: .temple) {
+            if effect.isEqual(category: .religious, at: .sixth) && self.has(building: .temple) {
                 faithFromEnvoys += 2.0
             }
         }
@@ -1058,17 +1058,17 @@ extension City {
         for effect in effects {
 
             // +2 Culture Culture in the Capital Capital.
-            if effect.category == .cultural && effect.level == .first && self.capitalValue {
+            if effect.isEqual(category: .cultural, at: .first) && self.capitalValue {
                 cultureFromEnvoys += 2.0
             }
 
             // +2 Culture Culture in every Amphitheater building.
-            if effect.category == .cultural && effect.level == .third && self.has(building: .amphitheater) {
+            if effect.isEqual(category: .cultural, at: .third) && self.has(building: .amphitheater) {
                 cultureFromEnvoys += 2.0
             }
 
             // +2 Culture Culture in every Art Museum and Archaeological Museum building.
-            if effect.category == .cultural && effect.level == .sixth {
+            if effect.isEqual(category: .cultural, at: .sixth) {
                 fatalError("not handled")
                 /*if self.has(building: .museum) {
                  cultureFromEnvoys += 2.0
@@ -1328,12 +1328,12 @@ extension City {
         for effect in effects {
 
             // +4 Gold Gold in the Capital Capital.
-            if effect.category == .trade && effect.level == .first && self.capitalValue {
+            if effect.isEqual(category: .trade, at: .first) && self.capitalValue {
                 goldFromEnvoys += 4.0
             }
 
             // +2 Gold Gold in every Market and Lighthouse building.
-            if effect.category == .trade && effect.level == .third {
+            if effect.isEqual(category: .trade, at: .third) {
                 if self.has(building: .market) {
                     goldFromEnvoys += 2.0
                 }
@@ -1344,7 +1344,7 @@ extension City {
             }
 
             // +2 Gold Gold in every Bank and Shipyard building.
-            if effect.category == .trade && effect.level == .sixth {
+            if effect.cityState.category() == .trade && effect.level == .sixth {
                 fatalError("not handled")
                 /*if self.has(building: .bank) {
                     goldFromEnvoys += 2.0
@@ -1609,17 +1609,17 @@ extension City {
         for effect in effects {
 
             // +2 Science Science in the Capital Capital.
-            if effect.category == .scientific && effect.level == .first && self.capitalValue {
+            if effect.isEqual(category: .scientific, at: .first) && self.capitalValue {
                 scienceFromEnvoys += 2.0
             }
 
             // +2 Science Science in every Library building.
-            if effect.category == .scientific && effect.level == .third && self.has(building: .library) {
+            if effect.isEqual(category: .scientific, at: .third) && self.has(building: .library) {
                 scienceFromEnvoys += 2.0
             }
 
             // +2 Science Science in every University building.
-            if effect.category == .scientific && effect.level == .sixth /* && (self.has(building: .university) */ {
+            if effect.isEqual(category: .scientific, at: .sixth) /* && (self.has(building: .university) */ {
                 fatalError("not handled")
                 scienceFromEnvoys += 2.0
             }

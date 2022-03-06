@@ -11,13 +11,16 @@ import Foundation
 public class EnvoyEffect {
 
     public let cityState: CityStateType
-    public let category: CityStateCategory
     public let level: EnvoyEffectLevel
 
-    public init(cityState: CityStateType, category: CityStateCategory, level: EnvoyEffectLevel) {
+    public init(cityState: CityStateType, level: EnvoyEffectLevel) {
 
         self.cityState = cityState
-        self.category = category
         self.level = level
+    }
+
+    public func isEqual(category: CityStateCategory, at level: EnvoyEffectLevel) -> Bool {
+
+        return self.cityState.category() == category && self.level == level
     }
 }

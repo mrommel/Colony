@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C900A5A9279DED9400D533B3 /* UnitPathfindingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C900A5A8279DED9300D533B3 /* UnitPathfindingTests.swift */; };
+		C90323E927D418A900AFBCFE /* PlayerEnvoyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90323E827D418A800AFBCFE /* PlayerEnvoyTests.swift */; };
 		C904DFB323F5D05700491A16 /* BuildingProductionAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904DFB223F5D05600491A16 /* BuildingProductionAI.swift */; };
 		C906144C23E3337300D316B5 /* BuildingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C906144B23E3337300D316B5 /* BuildingType.swift */; };
 		C906144E23E3362200D316B5 /* Buildings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C906144D23E3362200D316B5 /* Buildings.swift */; };
@@ -426,6 +427,7 @@
 
 /* Begin PBXFileReference section */
 		C900A5A8279DED9300D533B3 /* UnitPathfindingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitPathfindingTests.swift; sourceTree = "<group>"; };
+		C90323E827D418A800AFBCFE /* PlayerEnvoyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEnvoyTests.swift; sourceTree = "<group>"; };
 		C904DFB223F5D05600491A16 /* BuildingProductionAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildingProductionAI.swift; sourceTree = "<group>"; };
 		C906144B23E3337300D316B5 /* BuildingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildingType.swift; sourceTree = "<group>"; };
 		C906144D23E3362200D316B5 /* Buildings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buildings.swift; sourceTree = "<group>"; };
@@ -1099,6 +1101,7 @@
 				C9B1D2A02436126300033791 /* MapLoadingTests.swift */,
 				C9DFCF7923F2AFB10032243D /* MapModelTests.swift */,
 				C935FBA727043EE3000CCA49 /* PlayerTests.swift */,
+				C90323E827D418A800AFBCFE /* PlayerEnvoyTests.swift */,
 				C9EF39C4278818F30066A507 /* PlayerMomentsTests.swift */,
 				C9C52FCB23D8EFCC00B34140 /* PlayerScoringTests.swift */,
 				C92D220823E1DC3300BB9238 /* PlayerTechTests.swift */,
@@ -2163,6 +2166,7 @@
 				C9F76AAF243314B80018672A /* CivicTests.swift in Sources */,
 				C91A154E270E2DC300A2EC91 /* TileImprovementTests.swift in Sources */,
 				C99047F626CA45A600B1A7A6 /* UnitTests.swift in Sources */,
+				C90323E927D418A900AFBCFE /* PlayerEnvoyTests.swift in Sources */,
 				C9AAC27024D97FFE00FF1E35 /* GameModelTests.swift in Sources */,
 				C9D8DF6C23ED9B9A0091C917 /* FlavorsTests.swift in Sources */,
 				C9A2B47427AB1D6F0037D8C6 /* FoundCityOperationtests.swift in Sources */,

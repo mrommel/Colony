@@ -2386,7 +2386,7 @@ public class City: AbstractCity {
             for effect in effects {
 
                 // Industrial: +2 Production Production in the Capital Capital when producing wonders, buildings, and districts.
-                if effect.category == .industrial && effect.level == .first && self.capitalValue {
+                if effect.isEqual(category: .industrial, at: .first) && self.capitalValue {
                     if self.buildQueue.isCurrentlyBuildingBuilding() ||
                         self.buildQueue.isCurrentlyBuildingDistrict() ||
                         self.buildQueue.isCurrentlyBuildingWonder() {
@@ -2396,7 +2396,7 @@ public class City: AbstractCity {
                 }
 
                 // Industrial: +2 Production Production in every city with a Workshop building when producing wonders, buildings, and districts.
-                if effect.category == .industrial && effect.level == .third && self.has(building: .workshop) {
+                if effect.isEqual(category: .industrial, at: .third) && self.has(building: .workshop) {
                     if self.buildQueue.isCurrentlyBuildingBuilding() ||
                         self.buildQueue.isCurrentlyBuildingDistrict() ||
                         self.buildQueue.isCurrentlyBuildingWonder() {
@@ -2406,7 +2406,7 @@ public class City: AbstractCity {
                 }
 
                 // Industrial: +2 Production Production in every city with a Factory building when producing wonders, buildings, and districts.
-                if effect.category == .industrial && effect.level == .sixth /*&& self.has(building: .factory)*/ {
+                if effect.isEqual(category: .industrial, at: .sixth) /*&& self.has(building: .factory)*/ {
                     fatalError("not handled")
                     /* if self.buildQueue.isCurrentlyBuildingBuilding() ||
                         self.buildQueue.isCurrentlyBuildingDistrict() ||
@@ -2417,7 +2417,7 @@ public class City: AbstractCity {
                 }
 
                 // Militaristic: +2 Production Production in the Capital Capital when producing units.
-                if effect.category == .militaristic && effect.level == .first && self.capitalValue {
+                if effect.isEqual(category: .militaristic, at: .first) && self.capitalValue {
                     if self.buildQueue.isCurrentlyTrainingUnit() {
 
                         production += 2.0
@@ -2425,7 +2425,7 @@ public class City: AbstractCity {
                 }
 
                 // Militaristic: +2 Production Production in every city with a Barracks or Stable building when producing units.
-                if effect.category == .militaristic && effect.level == .third && (self.has(building: .barracks) || self.has(building: .stable)) {
+                if effect.isEqual(category: .militaristic, at: .third) && (self.has(building: .barracks) || self.has(building: .stable)) {
                     if self.buildQueue.isCurrentlyTrainingUnit() {
 
                         production += 2.0
@@ -2433,7 +2433,7 @@ public class City: AbstractCity {
                 }
 
                 // Militaristic: +2 Production Production in every city with an Armory building when producing units.
-                if effect.category == .militaristic && effect.level == .sixth /*&& self.has(building: .armory)*/ {
+                if effect.isEqual(category: .militaristic, at: .sixth) /*&& self.has(building: .armory)*/ {
                     fatalError("not handled")
                     /* if self.buildQueue.isCurrentlyTrainingUnit() {
 

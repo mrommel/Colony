@@ -130,6 +130,45 @@ extension Array {
     }
 }
 
+extension Array {
+
+    /// The second element of the collection.
+    ///
+    /// If the collection is too small, the value of this property is `nil`.
+    ///
+    ///     let numbers = [10, 20, 30, 40, 50]
+    ///     if let secondNumber = numbers.second {
+    ///         print(secondNumber)
+    ///     }
+    ///     // Prints "20"
+    public var second: Element? {
+
+        if self.count < 2 {
+            return nil
+        }
+
+        return self[1]
+    }
+
+    /// The third element of the collection.
+    ///
+    /// If the collection is too small, the value of this property is `nil`.
+    ///
+    ///     let numbers = [10, 20, 30, 40, 50]
+    ///     if let thirdNumber = numbers.third {
+    ///         print(thirdNumber)
+    ///     }
+    ///     // Prints "30"
+    public var third: Element? {
+
+        if self.count < 3 {
+            return nil
+        }
+
+        return self[2]
+    }
+}
+
 extension IteratorProtocol {
 
     @discardableResult
