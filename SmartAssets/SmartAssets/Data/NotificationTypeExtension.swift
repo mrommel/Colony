@@ -46,6 +46,10 @@ extension NotificationType {
         case .waiting: return "button-waiting"
 
         case .metCityState: return "button-met-city-state"
+
+        case .questCityStateFulfilled: return "button-questCompleted"
+        case .questCityStateObsolete: return "button-default"
+        case .questCityStateGiven: return "button-default"
         }
     }
 }

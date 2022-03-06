@@ -281,8 +281,15 @@ class Techs: AbstractTechs {
                     }
                 }
             }
-        }
 
+            if case .triggerEureka(tech: let questTechType) = quest.type {
+                if questTechType == tech {
+                    if let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState) {
+                        cityStatePlayer.obsoleteQuest(by: player.leader, in: gameModel)
+                    }
+                }
+            }
+        }
 
         self.techs.append(tech)
     }
@@ -364,6 +371,18 @@ class Techs: AbstractTechs {
         // freeInquiry + normal - Gain +1 Era Score when you trigger a [Eureka] Eureka
         if player.currentAge() == .normal && player.has(dedication: .freeInquiry) {
             player.addMoment(of: .dedicationTriggered(dedicationType: .freeInquiry), in: gameModel)
+        }
+
+        // check quests
+        for quest in player.ownQuests(in: gameModel) {
+
+            if case .triggerEureka(tech: let questTechType) = quest.type {
+
+                if techType == questTechType {
+                    let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState)
+                    cityStatePlayer?.fulfillQuest(by: player.leader, in: gameModel)
+                }
+            }
         }
 
         // trigger event to user

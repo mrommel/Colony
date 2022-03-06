@@ -56,7 +56,10 @@ struct EnvoyEffectView_Previews: PreviewProvider {
         level: EnvoyEffectLevel) -> EnvoyEffectViewModel {
 
         let viewModel = EnvoyEffectViewModel(
-            envoyEffect: EnvoyEffect(cityState: cityState, category: cityState.category(), level: level)
+            envoyEffect: EnvoyEffect(
+                cityState: cityState,
+                level: level
+            )
         )
 
         return viewModel

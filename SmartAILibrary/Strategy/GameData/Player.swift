@@ -166,7 +166,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func resetSuzerain()
     func suzerain() -> LeaderType?
 
-    func quest(for leader: LeaderType) -> CityStateQuestType? // quest of city state to leader
+    func quest(for leader: LeaderType) -> CityStateQuest? // quest of city state to leader
     func fulfillQuest(by leader: LeaderType, in gameModel: GameModel?)
     func obsoleteQuest(by leader: LeaderType, in gameModel: GameModel?)
     func doQuests(in gameModel: GameModel?)
@@ -1495,20 +1495,24 @@ public class Player: AbstractPlayer {
         return playerEnvoys.envoyEffects(in: gameModel)
     }
 
-    public func quest(for leader: LeaderType) -> CityStateQuestType? {
+    public func quest(for leader: LeaderType) -> CityStateQuest? {
 
         guard self.isCityState() else {
             return nil
         }
 
         if let quest = self.questValue.first(where: { $0.leader == leader }) {
-            return quest.type
+            return quest
         }
 
         return nil
     }
 
     public func fulfillQuest(by leader: LeaderType, in gameModel: GameModel?) {
+
+        guard let quest = self.questValue.first(where: { $0.leader == leader }) else {
+            fatalError("cant get quest")
+        }
 
         self.questValue.removeAll(where: { $0.leader == leader })
 
@@ -1517,19 +1521,34 @@ public class Player: AbstractPlayer {
 
             if player.isHuman() {
                 // inform player
-                // player.notifications()?.add(notification: .abc)
+                player.notifications()?.add(
+                    notification: .questCityStateFulfilled(
+                        cityState: quest.cityState,
+                        quest: quest.type
+                    )
+                )
             }
         }
     }
 
     public func obsoleteQuest(by leader: LeaderType, in gameModel: GameModel?) {
 
+        guard let quest = self.questValue.first(where: { $0.leader == leader }) else {
+            fatalError("cant get quest")
+        }
+
         self.questValue.removeAll(where: { $0.leader == leader })
 
         if let player = gameModel?.player(for: leader) {
+
             if player.isHuman() {
                 // inform player
-                // player.notifications()?.add(notification: .abc)
+                player.notifications()?.add(
+                    notification: .questCityStateObsolete(
+                        cityState: quest.cityState,
+                        quest: quest.type
+                    )
+                )
             }
         }
     }
@@ -1675,18 +1694,29 @@ public class Player: AbstractPlayer {
                 }
             }
 
+            guard !possibleQuests.isEmpty else {
+                print("no quests possible")
+                return
+            }
+
             guard case .cityState(type: let cityStateType) = self.leader else {
                 fatalError("this is not a city state")
             }
+
             let quest = CityStateQuest(cityState: cityStateType, leader: questPlayer.leader, type: possibleQuests.randomItem())
             self.questValue.append(quest)
+
+            if self.isHuman() {
+                //
+                self.notifications()?.add(notification: .questCityStateGiven(cityState: cityStateType, quest: quest.type))
+            }
         }
     }
 
     public func ownQuests(in gameModel: GameModel?) -> [CityStateQuest] {
 
         guard let gameModel = gameModel else {
-            fatalError("cant get game")
+            return []
         }
 
         var ownQuests: [CityStateQuest] = []
@@ -1702,7 +1732,7 @@ public class Player: AbstractPlayer {
             }
 
             if let playerQuest = player.quest(for: self.leader) {
-                let quest = CityStateQuest(cityState: cityStateType, leader: self.leader, type: playerQuest)
+                let quest = CityStateQuest(cityState: cityStateType, leader: self.leader, type: playerQuest.type)
                 ownQuests.append(quest)
             }
         }
@@ -2350,6 +2380,19 @@ public class Player: AbstractPlayer {
 
             if greatPerson.era() < self.currentEraVal {
                 self.addMoment(of: .oldGreatPersonRecruited, in: gameModel)
+            }
+
+            // check quests
+            for quest in self.ownQuests(in: gameModel) {
+
+                if case .recruitGreatPerson(greatPerson: let greatPersonType) = quest.type {
+
+                    if greatPerson.type() == greatPersonType {
+                        if let cityStatePlayer = gameModel.cityStatePlayer(for: quest.cityState) {
+                            cityStatePlayer.fulfillQuest(by: self.leader, in: gameModel)
+                        }
+                    }
+                }
             }
 
             // notify the user
@@ -5154,6 +5197,18 @@ public class Player: AbstractPlayer {
             let numGold = gameModel.handicap.barbarianCampGold()
 
             tile.set(improvement: .none)
+
+            // check quests
+            for quest in self.ownQuests(in: gameModel) {
+
+                if case .destroyBarbarianOutput(location: let location) = quest.type {
+
+                    if location == tile.point && self.leader == quest.leader {
+                        let cityStatePlayer = gameModel.cityStatePlayer(for: quest.cityState)
+                        cityStatePlayer?.fulfillQuest(by: self.leader, in: gameModel)
+                    }
+                }
+            }
 
             gameModel.doBarbCampCleared(at: tile.point)
 

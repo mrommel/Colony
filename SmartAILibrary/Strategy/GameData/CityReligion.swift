@@ -414,8 +414,16 @@ public class CityReligion: AbstractCityReligion, Codable {
     /// Calculate the number of followers for each religion
     private func recomputeFollowers(reason: ReligiousFollowChangeReasonType, oldMajorityReligion: ReligionType/*, PlayerTypes eResponsibleParty*/, in gameModel: GameModel?) {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
         guard let city = self.city else {
             fatalError("cant get city")
+        }
+
+        guard let player = city.player else {
+            fatalError("cant get player")
         }
 
         let oldFollowers = self.numFollowers(following: oldMajorityReligion)
@@ -494,16 +502,37 @@ public class CityReligion: AbstractCityReligion, Codable {
 
         self.computeReligiousMajority(notifications: true, in: gameModel)
 
-        let majority = self.religiousMajority()
-        let followers = self.numFollowers(following: majority)
+        let majorityReligion = self.religiousMajority()
+        let followers = self.numFollowers(following: majorityReligion)
 
-        if majority != oldMajorityReligion || followers != oldFollowers {
+        if majorityReligion != oldMajorityReligion || followers != oldFollowers {
 
             // CityConvertsReligion(eMajority, eOldMajorityReligion, eResponsibleParty);
-            // trigger event to user
-            if city.player?.isHuman() ?? false {
 
-                gameModel?.userInterface?.showPopup(popupType: .religionByCityAdopted(religion: self.majorityCityReligion, location: city.location))
+            // check quests
+            for loopPlayer in gameModel.players {
+
+                if loopPlayer.isBarbarian() || loopPlayer.isFreeCity() || loopPlayer.isCityState() {
+                    continue
+                }
+
+                if let quest = player.quest(for: loopPlayer.leader) {
+
+                    if case .convertToReligion(religion: let questReligionType) = quest.type {
+
+                        if majorityReligion == questReligionType {
+                            if let cityStatePlayer = gameModel.cityStatePlayer(for: quest.cityState) {
+                                cityStatePlayer.fulfillQuest(by: loopPlayer.leader, in: gameModel)
+                            }
+                        }
+                    }
+                }
+            }
+
+            // trigger event to user
+            if player.isHuman() {
+
+                gameModel.userInterface?.showPopup(popupType: .religionByCityAdopted(religion: self.majorityCityReligion, location: city.location))
             }
 
             // GC.GetEngineUserInterface()->setDirty(CityInfo_DIRTY_BIT, true);

@@ -1132,6 +1132,14 @@ public class City: AbstractCity {
                 continue
             }
 
+            guard let foreignPlayer = foreignCity.player else {
+                continue
+            }
+
+            guard !foreignPlayer.isBarbarian() && !foreignPlayer.isFreeCity() && !foreignPlayer.isCityState() else {
+                continue
+            }
+
             let distance = foreignCity.location.distance(to: self.location)
             let foreignCityLoyalityFactor = foreignCity.player?.currentAge().loyalityFactor() ?? 1.0
             var foreignCityPressure: Double = Double(foreignCity.population()) * Double(10 - distance) * foreignCityLoyalityFactor
@@ -3806,6 +3814,10 @@ public class City: AbstractCity {
             fatalError("--- WARNING: THIS IS FOR TESTING ONLY ---")
         }
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         guard let districts = self.districts else {
             fatalError("cant get disticts")
         }
@@ -3813,6 +3825,18 @@ public class City: AbstractCity {
         if !self.canBuild(district: districtType, at: location, in: gameModel) {
             print("cant build district: \(districtType) at: \(location)")
             return false
+        }
+
+        // check quests
+        for quest in player.ownQuests(in: gameModel) {
+
+            if case .constructDistrict(type: let district) = quest.type {
+
+                if district == districtType && player.leader == quest.leader {
+                    let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState)
+                    cityStatePlayer?.fulfillQuest(by: player.leader, in: gameModel)
+                }
+            }
         }
 
         do {

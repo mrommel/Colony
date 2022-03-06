@@ -44,6 +44,9 @@ public enum NotificationType {
     case waiting // 22
 
     case metCityState(cityState: CityStateType, first: Bool) // 23
+    case questCityStateFulfilled(cityState: CityStateType, quest: CityStateQuestType) // 24
+    case questCityStateObsolete(cityState: CityStateType, quest: CityStateQuestType) // 25
+    case questCityStateGiven(cityState: CityStateType, quest: CityStateQuestType) // 26
 
     public static var all: [NotificationType] = [
         .turn,
@@ -69,7 +72,10 @@ public enum NotificationType {
         .goodyHutDiscovered(location: HexPoint.invalid),
         .barbarianCampDiscovered(location: HexPoint.invalid),
         .metCityState(cityState: CityStateType.amsterdam, first: true),
-        .waiting
+        .waiting,
+        .questCityStateFulfilled(cityState: CityStateType.amsterdam, quest: CityStateQuestType.none),
+        .questCityStateObsolete(cityState: CityStateType.amsterdam, quest: CityStateQuestType.none),
+        .questCityStateGiven(cityState: CityStateType.amsterdam, quest: CityStateQuestType.none)
     ]
 
     public func title() -> String {
@@ -124,6 +130,12 @@ public enum NotificationType {
             return "Met City State"
         case .waiting:
             return "Waiting"
+        case .questCityStateFulfilled(cityState: _, quest: _):
+            return "quest fulfilled"
+        case .questCityStateObsolete(cityState: _, quest: _):
+            return "quest obsolete"
+        case .questCityStateGiven(cityState: _, quest: _):
+            return "quest given"
         }
     }
 
@@ -209,6 +221,12 @@ public enum NotificationType {
 
         case .waiting:
             return "Waiting"
+        case .questCityStateFulfilled(cityState: _, quest: _):
+            return "quest fulfilled"
+        case .questCityStateObsolete(cityState: _, quest: _):
+            return "quest obsolete"
+        case .questCityStateGiven(cityState: _, quest: _):
+            return "quest given"
         }
     }
 
@@ -264,6 +282,12 @@ public enum NotificationType {
             return 22
         case .metCityState(cityState: _, first: _):
             return 23
+        case .questCityStateFulfilled(cityState: _, quest: _):
+            return 24
+        case .questCityStateObsolete(cityState: _, quest: _):
+            return 25
+        case .questCityStateGiven(cityState: _, quest: _):
+            return 26
         }
     }
 
@@ -285,6 +309,7 @@ extension NotificationType: Codable {
         case greatPersonValue // GreatPersonType
         case boolValue
         case cityStateValue // CityStateType
+        case questValue // QuestType
     }
 
     public init(from decoder: Decoder) throws {
@@ -360,6 +385,18 @@ extension NotificationType: Codable {
             let cityState = try container.decode(CityStateType.self, forKey: .cityStateValue)
             let first = try container.decode(Bool.self, forKey: .boolValue)
             self = .metCityState(cityState: cityState, first: first)
+        case 24:
+            let cityState = try container.decode(CityStateType.self, forKey: .cityStateValue)
+            let quest = try container.decode(CityStateQuestType.self, forKey: .questValue)
+            self = .questCityStateFulfilled(cityState: cityState, quest: quest)
+        case 25:
+            let cityState = try container.decode(CityStateType.self, forKey: .cityStateValue)
+            let quest = try container.decode(CityStateQuestType.self, forKey: .questValue)
+            self = .questCityStateObsolete(cityState: cityState, quest: quest)
+        case 26:
+            let cityState = try container.decode(CityStateType.self, forKey: .cityStateValue)
+            let quest = try container.decode(CityStateQuestType.self, forKey: .questValue)
+            self = .questCityStateGiven(cityState: cityState, quest: quest)
         default:
             fatalError("value \(rawValue) not handled")
         }
@@ -457,6 +494,21 @@ extension NotificationType: Codable {
             try container.encode(23, forKey: .rawValue)
             try container.encode(cityState, forKey: .cityStateValue)
             try container.encode(first, forKey: .boolValue)
+
+        case .questCityStateFulfilled(cityState: let cityState, quest: let quest):
+            try container.encode(24, forKey: .rawValue)
+            try container.encode(cityState, forKey: .cityStateValue)
+            try container.encode(quest, forKey: .questValue)
+
+        case .questCityStateObsolete(cityState: let cityState, quest: let quest):
+            try container.encode(25, forKey: .rawValue)
+            try container.encode(cityState, forKey: .cityStateValue)
+            try container.encode(quest, forKey: .questValue)
+
+        case .questCityStateGiven(cityState: let cityState, quest: let quest):
+            try container.encode(26, forKey: .rawValue)
+            try container.encode(cityState, forKey: .cityStateValue)
+            try container.encode(quest, forKey: .questValue)
         }
     }
 }
@@ -522,8 +574,20 @@ extension NotificationType: Equatable {
             return true
 
         case (.metCityState(cityState: let lhsCityState, first: let lhsFirst),
-                .metCityState(cityState: let rhsCityState, first: let rhsFirst)):
+              .metCityState(cityState: let rhsCityState, first: let rhsFirst)):
             return lhsCityState == rhsCityState && lhsFirst == rhsFirst
+
+        case (.questCityStateFulfilled(cityState: let lhsCityState, quest: let lhsQuest),
+              .questCityStateFulfilled(cityState: let rhsCityState, quest: let rhsQuest)):
+            return lhsCityState == rhsCityState && lhsQuest == rhsQuest
+
+        case (.questCityStateObsolete(cityState: let lhsCityState, quest: let lhsQuest),
+              .questCityStateObsolete(cityState: let rhsCityState, quest: let rhsQuest)):
+            return lhsCityState == rhsCityState && lhsQuest == rhsQuest
+
+        case (.questCityStateGiven(cityState: let lhsCityState, quest: let lhsQuest),
+              .questCityStateGiven(cityState: let rhsCityState, quest: let rhsQuest)):
+            return lhsCityState == rhsCityState && lhsQuest == rhsQuest
 
         default:
             if lhs.value() == rhs.value() {
@@ -596,6 +660,18 @@ extension NotificationType: Hashable {
             hasher.combine(23)
             hasher.combine(cityState)
             hasher.combine(first)
+        case .questCityStateFulfilled(cityState: let cityState, quest: let quest):
+            hasher.combine(24)
+            hasher.combine(cityState)
+            hasher.combine(quest)
+        case .questCityStateObsolete(cityState: let cityState, quest: let quest):
+            hasher.combine(25)
+            hasher.combine(cityState)
+            hasher.combine(quest)
+        case .questCityStateGiven(cityState: let cityState, quest: let quest):
+            hasher.combine(26)
+            hasher.combine(cityState)
+            hasher.combine(quest)
         }
     }
 }

@@ -2320,6 +2320,31 @@ extension GameModel {
     func doBarbCampCleared(at point: HexPoint) {
 
         self.barbarianAI?.doBarbCampCleared(at: point)
+
+        // check quests - is there still a camp
+        for cityStatePlayer in self.players {
+
+            guard cityStatePlayer.isCityState() else {
+                continue
+            }
+
+            for loopPlayer in self.players {
+
+                guard !loopPlayer.isBarbarian() && !loopPlayer.isFreeCity() && !loopPlayer.isCityState() else {
+                    continue
+                }
+
+                if let quest = cityStatePlayer.quest(for: loopPlayer.leader) {
+                    if case .destroyBarbarianOutput(location: let location) = quest.type {
+
+                        if location == point && loopPlayer.leader == quest.leader {
+                            let cityStatePlayer = self.cityStatePlayer(for: quest.cityState)
+                            cityStatePlayer?.obsoleteQuest(by: loopPlayer.leader, in: self)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     func countMajorCivilizationsEverAlive() -> Int {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum CityStateQuestType: Codable, Equatable {
+public enum CityStateQuestType: Codable, Equatable, Hashable {
 
     case none
 
@@ -24,7 +24,7 @@ public enum CityStateQuestType: Codable, Equatable {
     // (Will be lost if anyone else destroys it first.)
 
     public static var all: [CityStateQuestType] = [
-        
+
         .trainUnit(type: UnitType.none),
         .constructDistrict(type: DistrictType.none),
         .triggerEureka(tech: TechType.none),
