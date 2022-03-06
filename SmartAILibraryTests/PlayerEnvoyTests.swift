@@ -322,5 +322,12 @@ class PlayerEnvoyTests: XCTestCase {
         }
         XCTAssertEqual(secondEffect.cityState, .amsterdam)
         XCTAssertEqual(secondEffect.level, .third)
+
+        guard let thirdEffect = effectsAfter.third else {
+            XCTFail("cant get third effect")
+            return
+        }
+        XCTAssertEqual(thirdEffect.cityState, .amsterdam)
+        XCTAssertEqual(thirdEffect.level, .suzerain)
     }
 }

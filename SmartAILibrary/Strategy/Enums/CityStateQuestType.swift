@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum CityStateQuestType {
+public enum CityStateQuestType: Codable, Equatable {
 
     case none
 
@@ -22,4 +22,30 @@ public enum CityStateQuestType {
     case sendTradeRoute // Send a Trade Route Trade Route to the city-state.
     case destroyBarbarianOutput(location: HexPoint) // Destroy a Barbarian Outpost within 5 tiles of the city-state.
     // (Will be lost if anyone else destroys it first.)
+
+    public static var all: [CityStateQuestType] = [
+        
+        .trainUnit(type: UnitType.none),
+        .constructDistrict(type: DistrictType.none),
+        .triggerEureka(tech: TechType.none),
+        .triggerInspiration(civic: CivicType.none),
+        .recruitGreatPerson(greatPerson: GreatPersonType.greatAdmiral),
+        .convertToReligion(religion: ReligionType.none),
+        .sendTradeRoute,
+        .destroyBarbarianOutput(location: HexPoint.invalid)
+    ]
+}
+
+public class CityStateQuest: Codable {
+
+    let cityState: CityStateType
+    let leader: LeaderType
+    let type: CityStateQuestType
+
+    init(cityState: CityStateType, leader: LeaderType, type: CityStateQuestType) {
+
+        self.cityState = cityState
+        self.leader = leader
+        self.type = type
+    }
 }
