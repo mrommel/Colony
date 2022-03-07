@@ -54,6 +54,7 @@ open class GameModel: Codable {
         case barbarianAI
 
         case spawnedArchaeologySites
+        case worldEra
     }
 
     public let victoryTypes: [VictoryType]
@@ -84,6 +85,7 @@ open class GameModel: Codable {
 
     private var barbarianAI: BarbarianAI?
     private var spawnedArchaeologySites: Bool
+    private var worldEraValue: EraType = .ancient
 
     public init(victoryTypes: [VictoryType], handicap: HandicapType, turnsElapsed: Int, players: [AbstractPlayer], on map: MapModel) {
 
@@ -162,6 +164,7 @@ open class GameModel: Codable {
         self.barbarianAI = try container.decode(BarbarianAI.self, forKey: .barbarianAI)
 
         self.spawnedArchaeologySites = try container.decodeIfPresent(Bool.self, forKey: .spawnedArchaeologySites) ?? false
+        self.worldEraValue = try container.decode(EraType.self, forKey: .worldEra)
 
         // setup
         self.tacticalAnalysisMapVal = TacticalAnalysisMap(with: self.map.size)
@@ -246,6 +249,7 @@ open class GameModel: Codable {
         try container.encode(self.barbarianAI, forKey: .barbarianAI)
 
         try container.encode(self.spawnedArchaeologySites, forKey: .spawnedArchaeologySites)
+        try container.encode(self.worldEraValue, forKey: .worldEra)
     }
 
     public func seed() -> Int {
@@ -739,6 +743,8 @@ open class GameModel: Codable {
 
         // self.doUnitedNationsCountdown();
 
+        self.doWorldEra()
+
         // Victory stuff
         self.doTestVictory()
 
@@ -751,6 +757,63 @@ open class GameModel: Codable {
                     // This popup is the sync rand, so beware
                     self.userInterface?.showScreen(screenType: .interimRanking, city: nil, other: nil, data: nil)
                 }
+            }
+        }
+    }
+
+    func updateWorldEra() {
+
+        let eraHistogram: EraHistogram = EraHistogram()
+        eraHistogram.fill()
+        var playerCount: Double = 0.0
+
+        for player in self.players {
+
+            if player.isBarbarian() || player.isFreeCity() {
+                continue
+            }
+
+            playerCount += 1.0
+
+            for era in EraType.all {
+
+                if era <= player.currentEra() {
+                    eraHistogram.add(weight: 1, for: era)
+                }
+            }
+        }
+
+        var bestEra: EraType = .ancient
+
+        for era in EraType.all {
+
+            if eraHistogram.weight(of: era) >= (playerCount * 0.5) {
+                bestEra = era
+            }
+        }
+
+        self.worldEraValue = bestEra
+    }
+
+    func doWorldEra() {
+
+        let previousWorldEra = self.worldEraValue
+
+        self.updateWorldEra()
+
+        if previousWorldEra != self.worldEraValue {
+
+            // world era has changed
+            // ???
+
+            // invalidate all city state quests
+            for player in self.players {
+
+                guard player.isCityState() else {
+                    continue
+                }
+
+                player.resetQuests(in: self)
             }
         }
     }
@@ -1562,36 +1625,7 @@ open class GameModel: Codable {
     // World Era= An era that More than 50% (current existing) Civs have entered
     func worldEra() -> EraType {
 
-        let eraHistogram: EraHistogram = EraHistogram()
-        eraHistogram.fill()
-        var playerCount: Double = 0.0
-
-        for player in self.players {
-
-            if player.isBarbarian() || player.isFreeCity() {
-                continue
-            }
-
-            playerCount += 1.0
-
-            for era in EraType.all {
-
-                if era <= player.currentEra() {
-                    eraHistogram.add(weight: 1, for: era)
-                }
-            }
-        }
-
-        var bestEra: EraType = .ancient
-
-        for era in EraType.all {
-
-            if eraHistogram.weight(of: era) >= (playerCount * 0.5) {
-                bestEra = era
-            }
-        }
-
-        return bestEra
+        return worldEraValue
     }
 
     func areas() -> [HexArea] {

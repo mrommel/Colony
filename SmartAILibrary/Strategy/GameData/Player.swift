@@ -171,6 +171,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func obsoleteQuest(by leader: LeaderType, in gameModel: GameModel?)
     func doQuests(in gameModel: GameModel?)
     func set(quest: CityStateQuest, for leader: LeaderType) // for testing
+    func resetQuests(in gameModel: GameModel?)
 
     func envoyEffects(in gameModel: GameModel?) -> [EnvoyEffect]
     func ownQuests(in gameModel: GameModel?) -> [CityStateQuest]
@@ -1754,6 +1755,26 @@ public class Player: AbstractPlayer {
         self.questValue.removeAll(where: { $0.leader == leader })
 
         self.questValue.append(quest)
+    }
+
+    public func resetQuests(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        for quest in self.questValue {
+
+            guard let player = gameModel.player(for: quest.leader) else {
+                continue
+            }
+
+            if player.isHuman() {
+                player.notifications()?.add(notification: .questCityStateObsolete(cityState: quest.cityState, quest: quest.type))
+            }
+        }
+
+        self.questValue.removeAll()
     }
 
     /// Have we lost our capital in war?
