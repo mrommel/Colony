@@ -19,7 +19,10 @@ class EnvoyEffectViewModel: ObservableObject {
     var titleColor: NSColor
 
     @Published
-    var name: String
+    var summary: String
+
+    @Published
+    var summaryColor: NSColor
 
     private let envoyEffect: EnvoyEffect
 
@@ -38,9 +41,10 @@ class EnvoyEffectViewModel: ObservableObject {
         case .suzerain:
             self.title = "Suzerain Bonuses of \(self.envoyEffect.cityState.name().localized()):"
         }
-
         self.titleColor = self.envoyEffect.enabled ? self.envoyEffect.cityState.color() : .gray
-        self.name = self.envoyEffect.cityState.bonus(for: self.envoyEffect.level).localized()
+
+        self.summary = self.envoyEffect.cityState.bonus(for: self.envoyEffect.level).localized()
+        self.summaryColor = self.envoyEffect.enabled ? .white : .gray
     }
 
     func image() -> NSImage {

@@ -101,6 +101,21 @@ public enum GovernmentType: Int, Codable {
         return self.data().tourismFactor
     }
 
+    public func influcencePointsPerTurn() -> Int {
+
+        return self.data().influcencePointsPerTurn
+    }
+
+    public func envoyPerInflucencePoints() -> Int {
+
+        return self.data().envoyPerInflucencePoints
+    }
+
+    public func envoysFromInflucencePoints() -> Int {
+
+        return self.data().envoysFromInflucencePoints
+    }
+
     // MARK: private methods
 
     struct GovernmentData {
@@ -113,6 +128,8 @@ public enum GovernmentType: Int, Codable {
         let policyCardSlots: PolicyCardSlots
         let flavors: [Flavor]
         let influcencePointsPerTurn: Int
+        let envoyPerInflucencePoints: Int
+        let envoysFromInflucencePoints: Int
         let tourismFactor: Int
     }
 
@@ -131,6 +148,8 @@ public enum GovernmentType: Int, Codable {
                 policyCardSlots: PolicyCardSlots(military: 1, economic: 1, diplomatic: 0, wildcard: 0),
                 flavors: [],
                 influcencePointsPerTurn: 1,
+                envoyPerInflucencePoints: 100,
+                envoysFromInflucencePoints: 1,
                 tourismFactor: 0
             )
 
@@ -145,6 +164,8 @@ public enum GovernmentType: Int, Codable {
                 policyCardSlots: PolicyCardSlots(military: 2, economic: 1, diplomatic: 0, wildcard: 0),
                 flavors: [Flavor(type: .growth, value: 2), Flavor(type: .production, value: 3)],
                 influcencePointsPerTurn: 3,
+                envoyPerInflucencePoints: 100,
+                envoysFromInflucencePoints: 1,
                 tourismFactor: -2
             )
 
@@ -158,6 +179,8 @@ public enum GovernmentType: Int, Codable {
                 policyCardSlots: PolicyCardSlots(military: 0, economic: 2, diplomatic: 1, wildcard: 1),
                 flavors: [Flavor(type: .amenities, value: 4)],
                 influcencePointsPerTurn: 3,
+                envoyPerInflucencePoints: 100,
+                envoysFromInflucencePoints: 1,
                 tourismFactor: -1
             )
         case .oligarchy:
@@ -170,6 +193,8 @@ public enum GovernmentType: Int, Codable {
                 policyCardSlots: PolicyCardSlots(military: 1, economic: 1, diplomatic: 1, wildcard: 1),
                 flavors: [Flavor(type: .offense, value: 4)],
                 influcencePointsPerTurn: 3,
+                envoyPerInflucencePoints: 100,
+                envoysFromInflucencePoints: 1,
                 tourismFactor: -2
             )
 
@@ -184,6 +209,8 @@ public enum GovernmentType: Int, Codable {
                 policyCardSlots: PolicyCardSlots(military: 1, economic: 2, diplomatic: 1, wildcard: 2),
                 flavors: [Flavor(type: .gold, value: 4)],
                 influcencePointsPerTurn: 5,
+                envoyPerInflucencePoints: 150,
+                envoysFromInflucencePoints: 2,
                 tourismFactor: -2
             )
         case .monarchy:
@@ -196,6 +223,8 @@ public enum GovernmentType: Int, Codable {
                 policyCardSlots: PolicyCardSlots(military: 3, economic: 1, diplomatic: 1, wildcard: 1),
                 flavors: [Flavor(type: .growth, value: 3)],
                 influcencePointsPerTurn: 5,
+                envoyPerInflucencePoints: 150,
+                envoysFromInflucencePoints: 2,
                 tourismFactor: -3
             )
 
@@ -210,6 +239,8 @@ public enum GovernmentType: Int, Codable {
                 policyCardSlots: PolicyCardSlots(military: 2, economic: 2, diplomatic: 1, wildcard: 1),
                 flavors: [Flavor(type: .religion, value: 4)],
                 influcencePointsPerTurn: 5,
+                envoyPerInflucencePoints: 150,
+                envoysFromInflucencePoints: 2,
                 tourismFactor: -4
             )
 
@@ -224,6 +255,8 @@ public enum GovernmentType: Int, Codable {
                 policyCardSlots: PolicyCardSlots(military: 4, economic: 1, diplomatic: 1, wildcard: 2),
                 flavors: [Flavor(type: .offense, value: 5)],
                 influcencePointsPerTurn: 7,
+                envoyPerInflucencePoints: 200,
+                envoysFromInflucencePoints: 3,
                 tourismFactor: -5
             )
         case .communism:
@@ -236,6 +269,8 @@ public enum GovernmentType: Int, Codable {
                 policyCardSlots: PolicyCardSlots(military: 3, economic: 3, diplomatic: 1, wildcard: 1),
                 flavors: [Flavor(type: .defense, value: 4), Flavor(type: .cityDefense, value: 2)],
                 influcencePointsPerTurn: 7,
+                envoyPerInflucencePoints: 200,
+                envoysFromInflucencePoints: 3,
                 tourismFactor: -6
             )
         case .democracy:
@@ -248,6 +283,8 @@ public enum GovernmentType: Int, Codable {
                 policyCardSlots: PolicyCardSlots(military: 1, economic: 3, diplomatic: 2, wildcard: 2),
                 flavors: [Flavor(type: .gold, value: 2), Flavor(type: .greatPeople, value: 4)],
                 influcencePointsPerTurn: 7,
+                envoyPerInflucencePoints: 200,
+                envoysFromInflucencePoints: 3,
                 tourismFactor: -3
             )
         }

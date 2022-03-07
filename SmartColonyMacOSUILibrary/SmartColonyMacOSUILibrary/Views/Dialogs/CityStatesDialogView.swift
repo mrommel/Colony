@@ -75,7 +75,7 @@ struct CityStatesDialogView: View {
                 Text("TXT_KEY_CITY_STATE_OVERVIEW".localized())
                     .font(.title3)
 
-                Label("TXT_KEY_CITY_STATE_INFLUENCE_POINTS".localized())
+                Label(self.viewModel.influencePointsText)
             }
         }
         .frame(width: 300)

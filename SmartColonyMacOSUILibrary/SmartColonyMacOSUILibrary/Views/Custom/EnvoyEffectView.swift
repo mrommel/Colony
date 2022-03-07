@@ -32,8 +32,9 @@ struct EnvoyEffectView: View {
                     .foregroundColor(Color(self.viewModel.titleColor))
                     .frame(width: 270, height: 24, alignment: .leading)
 
-                Label(self.viewModel.name)
+                Label(self.viewModel.summary)
                     .frame(width: 270, alignment: .leading)
+                    .foregroundColor(Color(self.viewModel.summaryColor))
                     .frame(width: 270, height: nil, alignment: .leading)
             }
         }

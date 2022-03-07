@@ -393,6 +393,7 @@ public class Player: AbstractPlayer {
         case envoys
         case suzerain
         case quest
+        case influencePoints
 
         case currentEra
         case currentAge
@@ -477,6 +478,7 @@ public class Player: AbstractPlayer {
     private var envoys: AbstractPlayerEnvoys?
     private var suzerainValue: LeaderType?
     private var questValue: [CityStateQuest] = []
+    private var influencePointsValue: Int = 0
 
     public var government: AbstractGovernment?
     internal var currentEraVal: EraType = .ancient
@@ -609,6 +611,7 @@ public class Player: AbstractPlayer {
         self.envoys = try container.decode(PlayerEnvoys.self, forKey: .envoys)
         self.suzerainValue = try container.decodeIfPresent(LeaderType.self, forKey: .suzerain)
         self.questValue = try container.decode([CityStateQuest].self, forKey: .quest)
+        self.influencePointsValue = try container.decode(Int.self, forKey: .influencePoints)
 
         self.techs = try container.decode(Techs.self, forKey: .techs)
         self.civics = try container.decode(Civics.self, forKey: .civics)
@@ -728,6 +731,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.envoys as! PlayerEnvoys, forKey: .envoys)
         try container.encodeIfPresent(self.suzerainValue, forKey: .suzerain)
         try container.encodeIfPresent(self.questValue, forKey: .quest)
+        try container.encode(self.influencePointsValue, forKey: .influencePoints)
         try container.encode(self.government as! Government, forKey: .government)
 
         try container.encode(self.currentEraVal, forKey: .currentEra)
@@ -2250,6 +2254,17 @@ public class Player: AbstractPlayer {
 
         guard let notifications = self.notifications() else {
             fatalError("cant get notifications")
+        }
+
+        // update influence points
+        if let currentGovernmentType = government.currentGovernment() {
+            self.influencePointsValue += currentGovernmentType.influcencePointsPerTurn()
+
+            if self.influencePointsValue > currentGovernmentType.envoyPerInflucencePoints() {
+
+                self.changeEnvoys(by: currentGovernmentType.envoysFromInflucencePoints())
+                self.influencePointsValue = 0
+            }
         }
 
         if self.canChangeGovernment() {

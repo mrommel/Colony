@@ -131,6 +131,17 @@ public struct Label: NSViewRepresentable {
             self.attributedString,
             width: width, alignment: textAlignment)
     }
+
+    public func foregroundColor(_ color: Color) -> Label {
+
+        let mutableAttributedString = NSMutableAttributedString(attributedString: self.attributedString)
+        let completeRange = NSRange(location: 0, length: mutableAttributedString.length)
+        let color: NSColor = NSColor(color)
+
+        mutableAttributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: completeRange)
+
+        return Label(mutableAttributedString)
+    }
 }
 
 #if DEBUG

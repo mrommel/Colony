@@ -18,6 +18,9 @@ class CityStatesDialogViewModel: ObservableObject {
     var title: String
 
     @Published
+    var influencePointsText: String
+
+    @Published
     var cityStateViewModels: [CityStateViewModel]
 
     @Published
@@ -28,6 +31,7 @@ class CityStatesDialogViewModel: ObservableObject {
     init() {
 
         self.title = "TXT_KEY_CITY_STATES_TITLE".localized()
+        self.influencePointsText = ""
         self.cityStateViewModels = []
         self.envoyEffectViewModels = []
     }
@@ -58,6 +62,16 @@ class CityStatesDialogViewModel: ObservableObject {
                 }
             }
         }
+
+        var envoysFromInfluencePoints = 1
+        var envoyPerInfluencePoints = 100
+
+        if let currentGovernment = humanPlayer.government?.currentGovernment() {
+            envoysFromInfluencePoints = currentGovernment.envoysFromInflucencePoints()
+            envoyPerInfluencePoints = currentGovernment.envoyPerInflucencePoints()
+        }
+
+        self.influencePointsText = "TXT_KEY_CITY_STATE_INFLUENCE_POINTS".localizedWithFormat(with: [envoysFromInfluencePoints, envoyPerInfluencePoints])
 
         // city states
         var tmpCityStateViewModels: [CityStateViewModel] = []

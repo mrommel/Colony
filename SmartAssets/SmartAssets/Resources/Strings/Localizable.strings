@@ -248,7 +248,7 @@
 // city state dialog
 "TXT_KEY_CITY_STATE_NONE_MET_YET" = "No city state met yet";
 "TXT_KEY_CITY_STATE_OVERVIEW" = "Overview";
-"TXT_KEY_CITY_STATE_INFLUENCE_POINTS" = "1 [Envoy] at X Influence points";
+"TXT_KEY_CITY_STATE_INFLUENCE_POINTS" = "%d [Envoy] at %d Influence points";
 
 // policy card types
 "TXT_KEY_POLICY_CARD_TYPE_MILITARY_TITLE" = "Military";
