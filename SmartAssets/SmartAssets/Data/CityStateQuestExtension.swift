@@ -7,11 +7,11 @@
 
 import SmartAILibrary
 
-extension CityStateQuest {
+extension CityStateQuestType {
 
     public func summary() -> String {
 
-        switch self.type {
+        switch self {
 
         case .none:
             return "-"
@@ -32,5 +32,13 @@ extension CityStateQuest {
         case .destroyBarbarianOutput(location: _):
             return "TXT_KEY_CITY_STATE_QUEST_DESTROY_OUTPOST".localized()
         }
+    }
+}
+
+extension CityStateQuest {
+
+    public func summary() -> String {
+
+        return self.type.summary()
     }
 }

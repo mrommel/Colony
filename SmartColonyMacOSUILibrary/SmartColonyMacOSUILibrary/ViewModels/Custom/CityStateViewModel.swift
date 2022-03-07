@@ -59,22 +59,40 @@ class CityStateViewModel: ObservableObject {
     }
 
     private let cityState: CityStateType
-    private let quest: CityStateQuestType
+    private let questType: CityStateQuestType
     weak var delegate: CityStateViewModelDelegate?
 
-    init(cityState: CityStateType, suzerainName: String, quest: CityStateQuestType, envoys: Int) {
+    init(cityState: CityStateType, suzerainName: String, quest questType: CityStateQuestType, envoys: Int) {
 
         self.cityState = cityState
-        self.quest = quest
+        self.questType = questType
         self.envoys = envoys
 
-        self.name = cityState.name()
+        self.name = cityState.name().localized()
         self.suzerainName = suzerainName
     }
 
     func cityStateImage() -> NSImage {
 
         return ImageCache.shared.image(for: self.cityState.iconTexture())
+    }
+
+    func questHintImage() -> NSImage {
+
+        if self.questType == .none {
+            return NSImage()
+        }
+
+        return ImageCache.shared.image(for: "hint")
+    }
+
+    func questHintToolTip() -> String {
+
+        if self.questType == .none {
+            return ""
+        }
+
+        return self.questType.summary()
     }
 
     func bonusImage1() -> NSImage {

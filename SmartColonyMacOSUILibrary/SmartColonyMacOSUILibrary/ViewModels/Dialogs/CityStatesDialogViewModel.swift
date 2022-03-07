@@ -71,20 +71,23 @@ class CityStatesDialogViewModel: ObservableObject {
             envoyPerInfluencePoints = currentGovernment.envoyPerInflucencePoints()
         }
 
-        self.influencePointsText = "TXT_KEY_CITY_STATE_INFLUENCE_POINTS".localizedWithFormat(with: [envoysFromInfluencePoints, envoyPerInfluencePoints])
+        self.influencePointsText = "TXT_KEY_CITY_STATE_INFLUENCE_POINTS"
+            .localizedWithFormat(with: [envoysFromInfluencePoints, envoyPerInfluencePoints])
 
         // city states
         var tmpCityStateViewModels: [CityStateViewModel] = []
 
         for cityState in cityStatesMetByHuman {
 
+            let cityStatePlayer: AbstractPlayer? = gameModel.cityStatePlayer(for: cityState)
             let numEnvoys = humanPlayer.envoysAssigned(to: cityState)
-            let suzerain: String = gameModel.cityStatePlayer(for: cityState)?.suzerain()?.name() ?? "none"
+            let suzerain: String = cityStatePlayer?.suzerain()?.name() ?? "none"
+            let quest: CityStateQuestType = cityStatePlayer?.quest(for: humanPlayer.leader)?.type ?? CityStateQuestType.none
 
             let cityStateViewModel = CityStateViewModel(
                 cityState: cityState,
                 suzerainName: suzerain,
-                quest: .none,
+                quest: quest,
                 envoys: numEnvoys
             )
             cityStateViewModel.delegate = self

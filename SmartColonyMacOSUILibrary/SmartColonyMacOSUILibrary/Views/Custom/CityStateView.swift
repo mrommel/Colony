@@ -22,10 +22,19 @@ struct CityStateView: View {
 
         HStack(spacing: 2) {
 
-            Image(nsImage: self.viewModel.cityStateImage())
-                .resizable()
-                .frame(width: 24, height: 24)
-                .padding(.leading, 8)
+            ZStack(alignment: .topLeading) {
+                Image(nsImage: self.viewModel.cityStateImage())
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .padding(.leading, 8)
+
+                Image(nsImage: self.viewModel.questHintImage())
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                    .padding(.top, -4)
+            }
+                .frame(width: 32, height: 24)
+                .toolTip(self.viewModel.questHintToolTip())
 
             Text(self.viewModel.name)
                 .frame(width: 100, height: 24, alignment: .leading)
@@ -72,7 +81,7 @@ struct CityStateView: View {
                 .toolTip(self.viewModel.suzerainText())
 
             VStack(alignment: .leading, spacing: 0) {
-                Text("Suzerain")
+                Text("TXT_KEY_CITY_STATE_SUZERAIN".localized())
                     .font(.system(size: 6))
 
                 Text(self.viewModel.suzerainName)
