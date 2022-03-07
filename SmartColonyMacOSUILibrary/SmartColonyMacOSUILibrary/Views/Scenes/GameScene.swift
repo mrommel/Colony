@@ -320,6 +320,11 @@ extension GameScene {
                     self.showScreen(screenType: .city, city: city, other: nil, data: nil)
                     return
                 }
+
+                if city.player?.isCityState() ?? false {
+                    self.showScreen(screenType: .cityState, city: city, other: nil, data: nil)
+                    return
+                }
             }
         } else {
 

@@ -3657,6 +3657,15 @@ public class Player: AbstractPlayer {
 
         var possibleNames = self.leader.civilization().cityNames()
 
+        if self.isCityState() && possibleNames.isEmpty {
+
+            guard case .cityState(type: let cityStateType) = self.leader else {
+                fatalError("cant get city state")
+            }
+
+            possibleNames.append(cityStateType.name())
+        }
+
         for builtCityName in self.builtCityNames {
             possibleNames.removeAll(where: { $0 == builtCityName })
         }

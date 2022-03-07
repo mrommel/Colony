@@ -136,6 +136,8 @@
 		C9755FF1270AF02800C9CAB7 /* BeliefView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9755FF0270AF02800C9CAB7 /* BeliefView.swift */; };
 		C9755FF3270AFD8700C9CAB7 /* ReligionDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9755FF2270AFD8700C9CAB7 /* ReligionDialogView.swift */; };
 		C975CCBC27590006007DA850 /* MapLensLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975CCBB27590006007DA850 /* MapLensLayer.swift */; };
+		C97ACCFF27D6003800AD0721 /* CityStateDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97ACCFE27D6003800AD0721 /* CityStateDialogViewModel.swift */; };
+		C97ACD0127D6010A00AD0721 /* CityStateDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97ACD0027D6010A00AD0721 /* CityStateDialogView.swift */; };
 		C98031CB26EE5740008F460B /* CityListDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98031CA26EE5740008F460B /* CityListDialogViewModel.swift */; };
 		C98031CD26EE5756008F460B /* CityListDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98031CC26EE5756008F460B /* CityListDialogView.swift */; };
 		C98031CF26EE57F6008F460B /* CityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98031CE26EE57F6008F460B /* CityViewModel.swift */; };
@@ -465,6 +467,8 @@
 		C9755FF0270AF02800C9CAB7 /* BeliefView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeliefView.swift; sourceTree = "<group>"; };
 		C9755FF2270AFD8700C9CAB7 /* ReligionDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionDialogView.swift; sourceTree = "<group>"; };
 		C975CCBB27590006007DA850 /* MapLensLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLensLayer.swift; sourceTree = "<group>"; };
+		C97ACCFE27D6003800AD0721 /* CityStateDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityStateDialogViewModel.swift; sourceTree = "<group>"; };
+		C97ACD0027D6010A00AD0721 /* CityStateDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityStateDialogView.swift; sourceTree = "<group>"; };
 		C98031CA26EE5740008F460B /* CityListDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityListDialogViewModel.swift; sourceTree = "<group>"; };
 		C98031CC26EE5756008F460B /* CityListDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityListDialogView.swift; sourceTree = "<group>"; };
 		C98031CE26EE57F6008F460B /* CityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityViewModel.swift; sourceTree = "<group>"; };
@@ -775,6 +779,7 @@
 				C92099DB2784AF3B00E81A8F /* SelectDedicationDialogView.swift */,
 				C963AD152786D3FB00981EF3 /* MomentsDialogView.swift */,
 				C95AB2EB27CCFE1700EF5C61 /* CityStatesDialogView.swift */,
+				C97ACD0027D6010A00AD0721 /* CityStateDialogView.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -1044,6 +1049,7 @@
 				C92099D92784A65400E81A8F /* SelectDedicationDialogViewModel.swift */,
 				C963AD172786D4C600981EF3 /* MomentsDialogViewModel.swift */,
 				C95AB2ED27CCFF4000EF5C61 /* CityStatesDialogViewModel.swift */,
+				C97ACCFE27D6003800AD0721 /* CityStateDialogViewModel.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -1428,6 +1434,7 @@
 				C9A8F0D92651A39D00584199 /* NotificationsView.swift in Sources */,
 				C9D03F102753827C0008528E /* NotificationDetailView.swift in Sources */,
 				C9911EA727367B0E00273C8A /* ReligiousRankingDialogViewModel.swift in Sources */,
+				C97ACCFF27D6003800AD0721 /* CityStateDialogViewModel.swift in Sources */,
 				C9A3763126369FD90057923E /* YieldLayer.swift in Sources */,
 				C9B43FB1263E905B00241012 /* CGSizeExtension.swift in Sources */,
 				C913A2D5277A27ED001D2CC2 /* EraProgressDialogView.swift in Sources */,
@@ -1628,6 +1635,7 @@
 				C9FD308526223EA200153752 /* DemoGameModel.swift in Sources */,
 				C9077A8826D64EFE004BE679 /* TradeRouteView.swift in Sources */,
 				C95AB2F827CD418800EF5C61 /* CityStateViewModel.swift in Sources */,
+				C97ACD0127D6010A00AD0721 /* CityStateDialogView.swift in Sources */,
 				C997785527B317F400BFC102 /* GenericPopupViewModel.swift in Sources */,
 				C94E2E1227B50035006866BB /* GameMenuView.swift in Sources */,
 				C9077A8626D64432004BE679 /* TradeRouteViewModel.swift in Sources */,

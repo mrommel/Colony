@@ -113,7 +113,7 @@ struct BaseDialogView<Content>: View where Content: View {
                 Button(action: {
                     self.viewModel.closeDialog()
                 }, label: {
-                    Text(self.buttonText)
+                    Text(self.buttonText.localized())
                 })
                 .buttonStyle(DialogButtonStyle())
             }

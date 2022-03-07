@@ -231,6 +231,9 @@ public class GameViewModel: ObservableObject {
     var cityDialogViewModel: CityDialogViewModel
 
     @Published
+    var cityStateDialogViewModel: CityStateDialogViewModel
+
+    @Published
     var unitListDialogViewModel: UnitListDialogViewModel
 
     @Published
@@ -449,6 +452,7 @@ public class GameViewModel: ObservableObject {
         self.selectDedicationDialogViewModel = SelectDedicationDialogViewModel()
         self.momentsDialogViewModel = MomentsDialogViewModel()
         self.cityStatesDialogViewModel = CityStatesDialogViewModel()
+        self.cityStateDialogViewModel = CityStateDialogViewModel()
 
         // popups
         self.goodyHutRewardPopupViewModel = GoodyHutRewardPopupViewModel()
@@ -499,6 +503,7 @@ public class GameViewModel: ObservableObject {
         self.selectDedicationDialogViewModel.delegate = self
         self.momentsDialogViewModel.delegate = self
         self.cityStatesDialogViewModel.delegate = self
+        self.cityStateDialogViewModel.delegate = self
 
         self.goodyHutRewardPopupViewModel.delegate = self
         self.techDiscoveredPopupViewModel.delegate = self
@@ -1050,6 +1055,9 @@ extension GameViewModel: GameViewModelDelegate {
 
         case .city:
             self.showCityDialog(for: city)
+
+        case .cityState:
+            self.showCityStateDialog(for: city)
 
         case .techTree:
             self.showTechTreeDialog()

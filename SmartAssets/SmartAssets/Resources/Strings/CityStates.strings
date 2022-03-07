@@ -6,7 +6,8 @@
   
 */
 
-"TXT_KEY_CITY_STATE_TITLE" = "City-States";
+"TXT_KEY_CITY_STATES_TITLE" = "City-States";
+"TXT_KEY_CITY_STATE_TITLE" = "City-State";
 
 // city state categories
 

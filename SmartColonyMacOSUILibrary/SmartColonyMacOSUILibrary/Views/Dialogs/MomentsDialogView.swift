@@ -23,7 +23,7 @@ struct MomentsDialogView: View {
         BaseDialogView(
             title: self.viewModel.title,
             mode: .landscape,
-            buttonText: "Cancel",
+            buttonText: "TXT_KEY_CANCEL",
             viewModel: self.viewModel) {
 
                 VStack(alignment: .center) {

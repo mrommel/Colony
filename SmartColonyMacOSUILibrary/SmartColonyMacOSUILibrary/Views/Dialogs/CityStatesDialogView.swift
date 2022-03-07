@@ -82,6 +82,7 @@ struct CityStatesDialogView: View {
     }
 }
 
+#if DEBUG
 struct CityStatesDialogView_Previews: PreviewProvider {
 
     static func viewModel() -> CityStatesDialogViewModel {
@@ -100,3 +101,4 @@ struct CityStatesDialogView_Previews: PreviewProvider {
         CityStatesDialogView(viewModel: viewModel)
     }
 }
+#endif

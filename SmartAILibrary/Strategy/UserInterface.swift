@@ -116,6 +116,7 @@ public enum ScreenType {
     case none // map
 
     case city
+    case cityState
 
     case techTree
     case techList

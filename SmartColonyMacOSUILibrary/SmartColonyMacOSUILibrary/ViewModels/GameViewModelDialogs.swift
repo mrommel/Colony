@@ -220,6 +220,19 @@ extension GameViewModel {
         }
     }
 
+    func showCityStateDialog(for city: AbstractCity?) {
+
+        if self.currentScreenType == .cityState {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.cityStateDialogViewModel.update(for: city)
+            self.currentScreenType = .cityState
+        }
+    }
+
     func showConfirmationDialog(
         title: String,
         question: String,

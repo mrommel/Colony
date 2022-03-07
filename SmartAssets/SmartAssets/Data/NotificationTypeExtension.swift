@@ -9,6 +9,7 @@ import SmartAILibrary
 
 extension NotificationType {
 
+    // https://civ6.fandom.com/wiki/Category:Notification_icons
     public func iconTexture() -> String {
 
         switch self {

@@ -48,7 +48,7 @@ struct EraProgressDialogView: View {
         BaseDialogView(
             title: self.viewModel.title,
             mode: .portrait,
-            buttonText: "Cancel",
+            buttonText: "TXT_KEY_CANCEL",
             viewModel: self.viewModel) {
 
                 ScrollView(.vertical, showsIndicators: true, content: {
