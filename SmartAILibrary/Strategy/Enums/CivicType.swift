@@ -196,7 +196,7 @@ public enum CivicType: String, Codable {
         return self.data().flavors
     }
 
-    public func governorTitle() -> Bool {
+    public func hasGovernorTitle() -> Bool {
 
         return self.data().governorTitle
     }

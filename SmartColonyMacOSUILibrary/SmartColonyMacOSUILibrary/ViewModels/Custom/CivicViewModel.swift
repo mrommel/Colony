@@ -140,11 +140,28 @@ class CivicViewModel: ObservableObject, Identifiable {
             )
         }
 
-        if self.civicType.governorTitle() {
+        if self.civicType.hasGovernorTitle() {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: "header-button-governors-active",
                     toolTipText: NSAttributedString(string: "TXT_KEY_GOVERNOR_TITLE".localized())
+                )
+            )
+        }
+
+        if self.civicType.envoys() > 0 {
+
+            var toolTipText = ""
+            if self.civicType.envoys() == 1 {
+                toolTipText = "1 " + "TXT_KEY_ENVOY".localized()
+            } else {
+                toolTipText = "\(self.civicType.envoys()) " + "TXT_KEY_ENVOYS".localized()
+            }
+
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: "envoy",
+                    toolTipText: NSAttributedString(string: toolTipText)
                 )
             )
         }

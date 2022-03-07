@@ -2582,47 +2582,60 @@ public class DiplomaticAI: Codable {
 
             if self.greetPlayers.contains(where: { activePlayer.isEqual(to: $0) }) {
 
-                if activePlayer.isHuman() && player.isCityState() {
+                if player.isCityState() || activePlayer.isCityState() {
+                    if activePlayer.isHuman() && player.isCityState() {
 
-                    guard case .cityState(let cityState) = player.leader else {
-                        fatalError("cant get city state")
+                        guard case .cityState(let cityState) = player.leader else {
+                            fatalError("cant get city state")
+                        }
+
+                        // is `activePlayer the first major player to meet this city state
+                        if gameModel.countMajorCivilizationsMet(with: cityState) == 1 {
+
+                            // first player gets a free envoy
+                            activePlayer.changeEnvoys(by: 1)
+
+                            // this free envoy is assigned to
+                            activePlayer.assignEnvoy(to: cityState, in: gameModel)
+
+                            // inform human player
+                            activePlayer.notifications()?.add(notification: .metCityState(cityState: cityState, first: true))
+                        } else {
+                            activePlayer.notifications()?.add(notification: .metCityState(cityState: cityState, first: false))
+                        }
+
+                        // reveal city state to player
+                        if let cityStateCapital = gameModel.capital(of: player) {
+                            gameModel.discover(at: cityStateCapital.location, sight: 3, for: activePlayer)
+                        }
+
+                    } else if activePlayer.isCityState() && player.isHuman() {
+
+                        guard case .cityState(let cityState) = activePlayer.leader else {
+                            fatalError("cant get city state")
+                        }
+
+                        // is ´player´ the first major player to meet this city state
+                        if gameModel.countMajorCivilizationsMet(with: cityState) == 1 {
+
+                            // first player gets a free envoy
+                            player.changeEnvoys(by: 1)
+
+                            // this free envoy is assigned to
+                            player.assignEnvoy(to: cityState, in: gameModel)
+
+                            // inform human player
+                            player.notifications()?.add(notification: .metCityState(cityState: cityState, first: true))
+                        } else {
+                            player.notifications()?.add(notification: .metCityState(cityState: cityState, first: false))
+                        }
+
+                        // reveal city state to player
+                        if let cityStateCapital = gameModel.capital(of: activePlayer) {
+                            gameModel.discover(at: cityStateCapital.location, sight: 3, for: player)
+                        }
                     }
 
-                    // is `activePlayer the first major player to meet this city state
-                    if gameModel.countMajorCivilizationsMet(with: cityState) == 1 {
-
-                        // first player gets a free envoy
-                        activePlayer.changeEnvoys(by: 1)
-
-                        // this free envoy is assigned to
-                        activePlayer.assignEnvoy(to: cityState, in: gameModel)
-
-                        // inform human player
-                        activePlayer.notifications()?.add(notification: .metCityState(cityState: cityState, first: true))
-                    } else {
-                        activePlayer.notifications()?.add(notification: .metCityState(cityState: cityState, first: false))
-                    }
-
-                } else if activePlayer.isCityState() && player.isHuman() {
-
-                    guard case .cityState(let cityState) = activePlayer.leader else {
-                        fatalError("cant get city state")
-                    }
-
-                    // is ´player´ the first major player to meet this city state
-                    if gameModel.countMajorCivilizationsMet(with: cityState) == 1 {
-
-                        // first player gets a free envoy
-                        player.changeEnvoys(by: 1)
-
-                        // this free envoy is assigned to
-                        player.assignEnvoy(to: cityState, in: gameModel)
-
-                        // inform human player
-                        player.notifications()?.add(notification: .metCityState(cityState: cityState, first: true))
-                    } else {
-                        player.notifications()?.add(notification: .metCityState(cityState: cityState, first: false))
-                    }
                 } else {
                     player.diplomacyRequests?.sendRequest(
                         for: activePlayer.leader,

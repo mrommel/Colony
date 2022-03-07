@@ -77,6 +77,14 @@ class CivicDiscoveredPopupViewModel: ObservableObject {
             iconTextureNames.append(policyCard.iconTexture())
         }
 
+        if self.civicType.hasGovernorTitle() {
+            iconTextureNames.append("header-button-governors-active")
+        }
+
+        if self.civicType.envoys() > 0 {
+            iconTextureNames.append("envoy")
+        }
+
         return iconTextureNames.map { ImageCache.shared.image(for: $0) }
     }
 
