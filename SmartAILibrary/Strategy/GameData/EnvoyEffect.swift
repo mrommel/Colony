@@ -12,11 +12,13 @@ public class EnvoyEffect {
 
     public let cityState: CityStateType
     public let level: EnvoyEffectLevel
+    public let enabled: Bool
 
-    public init(cityState: CityStateType, level: EnvoyEffectLevel) {
+    public init(cityState: CityStateType, level: EnvoyEffectLevel, enabled: Bool = true) {
 
         self.cityState = cityState
         self.level = level
+        self.enabled = enabled
     }
 
     public func isEqual(category: CityStateCategory, at level: EnvoyEffectLevel) -> Bool {

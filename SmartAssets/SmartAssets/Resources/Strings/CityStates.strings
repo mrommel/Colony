@@ -59,7 +59,7 @@
 
 // anshan
 "TXT_KEY_CITY_STATE_ANSHAN_NAME" = "Anshan";
-"TXT_KEY_CITY_STATE_ANSHAN_SUZARIN_BONUS" = "+2 [Science] Science from each [GreatWork] of Writing Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact."; // #
+"TXT_KEY_CITY_STATE_ANSHAN_SUZARIN_BONUS" = "+2 [Science] Science from each [GreatWorkOfWriting] Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact."; // #
 
 // antananarivo
 "TXT_KEY_CITY_STATE_ANTANANARIVO_NAME" = "Antananarivo";
@@ -83,7 +83,7 @@
 
 // babylon
 "TXT_KEY_CITY_STATE_BABYLON_NAME" = "Babylon";
-"TXT_KEY_CITY_STATE_BABYLON_SUZARIN_BONUS" = "+2 [Science] Science from each [GreatWork] of Writing Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact."; // #
+"TXT_KEY_CITY_STATE_BABYLON_SUZARIN_BONUS" = "+2 [Science] Science from each [GreatWorkOfWriting] Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact."; // #
 
 // bandarBrunei
 "TXT_KEY_CITY_STATE_BANDAR_BRUNEI_NAME" = "Bandar Brunei";

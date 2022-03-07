@@ -30,14 +30,14 @@ struct EnvoyEffectView: View {
             VStack(spacing: 2) {
                 Text(self.viewModel.title)
                     .foregroundColor(Color(self.viewModel.titleColor))
-                    .frame(width: 280, height: 24, alignment: .leading)
+                    .frame(width: 270, height: 24, alignment: .leading)
 
                 Label(self.viewModel.name)
-                    .frame(width: 280, alignment: .leading)
-                    .frame(width: 280, height: nil, alignment: .leading)
+                    .frame(width: 270, alignment: .leading)
+                    .frame(width: 270, height: nil, alignment: .leading)
             }
         }
-        .frame(width: 340)
+        .frame(width: 330)
         .padding(.all, 4)
         .background(
             Image(nsImage: ImageCache.shared.image(for: "grid9-row"))

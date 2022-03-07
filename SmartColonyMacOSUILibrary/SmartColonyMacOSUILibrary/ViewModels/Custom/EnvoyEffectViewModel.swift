@@ -39,20 +39,22 @@ class EnvoyEffectViewModel: ObservableObject {
             self.title = "Suzerain Bonuses of \(self.envoyEffect.cityState.name().localized()):"
         }
 
-        self.titleColor = envoyEffect.cityState.color()
-        self.name = envoyEffect.cityState.bonus(for: envoyEffect.level).localized()
+        self.titleColor = self.envoyEffect.enabled ? self.envoyEffect.cityState.color() : .gray
+        self.name = self.envoyEffect.cityState.bonus(for: self.envoyEffect.level).localized()
     }
 
     func image() -> NSImage {
+
+        let imageColor = self.envoyEffect.enabled ? self.envoyEffect.cityState.color() : .gray
 
         switch self.envoyEffect.level {
 
         case .first, .third, .sixth:
             return ImageCache.shared.image(for: self.envoyEffect.cityState.envoysTexture())
-                .tint(with: self.envoyEffect.cityState.color())
+                .tint(with: imageColor)
         case .suzerain:
             return ImageCache.shared.image(for: self.envoyEffect.cityState.suzerainTexture())
-                .tint(with: self.envoyEffect.cityState.color())
+                .tint(with: imageColor)
         }
     }
 }

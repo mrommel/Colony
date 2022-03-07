@@ -30,9 +30,15 @@ struct CityStateDialogView: View {
 
                     self.headerView
 
-                    self.buttonsView
+                    ScrollView {
 
-                    self.reportsView
+                        self.buttonsView
+
+                        self.reportsView
+
+                        self.bonusesView
+                    }
+                    .frame(width: 340)
                 }
                 .frame(width: 350, height: 330, alignment: .top)
                 .background(
@@ -50,13 +56,15 @@ struct CityStateDialogView: View {
             HStack {
                 Image(nsImage: self.viewModel.cityStateImage())
                     .resizable()
-                    .frame(width: 42, height: 42)
+                    .frame(width: 32, height: 32)
 
                 Text(self.viewModel.cityStateName)
                     .font(.title)
             }
+
+            Divider()
         }
-        .frame(width: 300)
+        .frame(width: 340)
     }
 
     var buttonsView: some View {
@@ -67,62 +75,88 @@ struct CityStateDialogView: View {
                 print("declare war")
             }.buttonStyle(DialogButtonStyle(state: .normal))
         }
-        .frame(width: 300)
+        .frame(width: 340)
     }
 
     var reportsView: some View {
 
         VStack(alignment: .center, spacing: 4) {
 
+            Divider()
+
             Text("Report")
                 .font(.headline)
+
+            Divider()
 
             HStack {
 
                 Text("Type:")
-                    .frame(width: 145, alignment: .trailing)
+                    .frame(width: 155, alignment: .trailing)
 
                 Text(self.viewModel.typeName)
-                    .frame(width: 145, alignment: .leading)
+                    .frame(width: 155, alignment: .leading)
             }
 
             HStack {
 
                 Text("Suzerain:")
-                    .frame(width: 145, alignment: .trailing)
+                    .frame(width: 155, alignment: .trailing)
 
                 Text(self.viewModel.suzerainName)
-                    .frame(width: 145, alignment: .leading)
+                    .frame(width: 155, alignment: .leading)
             }
 
             HStack {
 
                 Text("Envoys sent:")
-                    .frame(width: 145, alignment: .trailing)
+                    .frame(width: 155, alignment: .trailing)
 
                 Text(self.viewModel.envoysSentName)
-                    .frame(width: 145, alignment: .leading)
+                    .frame(width: 155, alignment: .leading)
             }
 
             HStack {
 
                 Text("Influenced by:")
-                    .frame(width: 145, alignment: .trailing)
+                    .frame(width: 155, alignment: .trailing)
 
                 Text(self.viewModel.influencedByName)
-                    .frame(width: 145, alignment: .leading)
+                    .frame(width: 155, alignment: .leading)
             }
 
             HStack {
 
                 Text("Quests:")
-                    .frame(width: 145, alignment: .trailing)
+                    .frame(width: 155, alignment: .trailing)
 
                 Text(self.viewModel.questsName)
-                    .frame(width: 145, alignment: .leading)
+                    .frame(width: 155, alignment: .leading)
             }
         }
-        .frame(width: 300)
+        .frame(width: 340)
+    }
+
+    var bonusesView: some View {
+
+        VStack(alignment: .center, spacing: 4) {
+
+            Divider()
+
+            Text("Bonuses")
+                .font(.headline)
+
+            // list of all (enabled / disabled) bonuses
+            LazyVStack(alignment: .leading) {
+
+                ForEach(self.viewModel.envoyEffectViewModels, id: \.self) { envoyEffectViewModel in
+
+                    EnvoyEffectView(viewModel: envoyEffectViewModel)
+                }
+            }
+            .frame(width: 340)
+        }
+        .frame(width: 340)
     }
 }
 

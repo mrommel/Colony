@@ -35,8 +35,8 @@ class CityStateDialogViewModel: ObservableObject {
     @Published
     var questsName: String
 
-    // @Published
-    // var envoyEffectViewModels: [EnvoyEffectViewModel]
+    @Published
+    var envoyEffectViewModels: [EnvoyEffectViewModel]
 
     private var cityState: CityStateType = .akkad
 
@@ -51,6 +51,7 @@ class CityStateDialogViewModel: ObservableObject {
         self.envoysSentName = "0"
         self.influencedByName = "0"
         self.questsName = "0"
+        self.envoyEffectViewModels = []
     }
 
     func update(for cityRef: AbstractCity?) {
@@ -98,6 +99,29 @@ class CityStateDialogViewModel: ObservableObject {
         self.envoysSentName = "\(humanPlayer.envoysAssigned(to: cityStateType))"
         self.influencedByName = "\(gameModel.countMajorCivilizationsMet(with: cityState))"
         self.questsName = "\(numberOfQuests)"
+
+        // effects
+        var tmpEnvoyEffectViewModels: [EnvoyEffectViewModel] = []
+
+        let effects = humanPlayer.envoyEffects(in: gameModel)
+
+        let firstEnabled = effects.contains(where: { $0.cityState == cityStateType && $0.level == .first })
+        let envoyEffectFirst = EnvoyEffect(cityState: cityStateType, level: .first, enabled: firstEnabled)
+        tmpEnvoyEffectViewModels.append(EnvoyEffectViewModel(envoyEffect: envoyEffectFirst))
+
+        let thirdEnabled = effects.contains(where: { $0.cityState == cityStateType && $0.level == .third })
+        let envoyEffectThird = EnvoyEffect(cityState: cityStateType, level: .third, enabled: thirdEnabled)
+        tmpEnvoyEffectViewModels.append(EnvoyEffectViewModel(envoyEffect: envoyEffectThird))
+
+        let sixthEnabled = effects.contains(where: { $0.cityState == cityStateType && $0.level == .sixth })
+        let envoyEffectSixth = EnvoyEffect(cityState: cityStateType, level: .sixth, enabled: sixthEnabled)
+        tmpEnvoyEffectViewModels.append(EnvoyEffectViewModel(envoyEffect: envoyEffectSixth))
+
+        let suzerainEnabled = effects.contains(where: { $0.cityState == cityStateType && $0.level == .suzerain })
+        let envoyEffectSuzerain = EnvoyEffect(cityState: cityStateType, level: .suzerain, enabled: suzerainEnabled)
+        tmpEnvoyEffectViewModels.append(EnvoyEffectViewModel(envoyEffect: envoyEffectSuzerain))
+
+        self.envoyEffectViewModels = tmpEnvoyEffectViewModels
     }
 
     func cityStateImage() -> NSImage {
