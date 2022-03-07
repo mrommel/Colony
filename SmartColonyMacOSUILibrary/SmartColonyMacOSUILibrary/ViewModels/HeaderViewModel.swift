@@ -116,7 +116,7 @@ class HeaderViewModel: ObservableObject {
 
         self.governorsHeaderViewModel.alert = (humanPlayer.governors?.numTitlesAvailable() ?? 0) > 0
         self.greatPeopleHeaderViewModel.alert = humanPlayer.canRecruitGreatPerson(in: gameModel)
-        self.cityStateHeaderViewModel.alert = humanPlayer.numberOfAvailableEnvoys() > 0
+        self.cityStateHeaderViewModel.alert = humanPlayer.numberOfAvailableEnvoys() > 0 && !humanPlayer.metCityStates(in: gameModel).isEmpty
 
         if let techs = humanPlayer.techs {
             if let currentTech = techs.currentTech() {

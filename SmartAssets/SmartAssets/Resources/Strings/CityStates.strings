@@ -11,9 +11,23 @@
 "TXT_KEY_CITY_STATE_OVERVIEW" = "Overview";
 "TXT_KEY_CITY_STATE_INFLUENCE_POINTS" = "%d [Envoy] at %d Influence points";
 "TXT_KEY_CITY_STATE_SUZERAIN" = "Suzerain";
+"TXT_KEY_CITY_STATE_ENVOYS_SENT" = "Envoys Sent";
+"TXT_KEY_CITY_STATE_INFLUENCE_BY" = "Influenced by";
+"TXT_KEY_CITY_STATE_AVAILABLE_QUEST" = "Available Quest";
+"TXT_KEY_CITY_STATE_REWARD" = "Reward: 1 [Envoy] Envoy";
+"TXT_KEY_CITY_STATE_BONUSES" = "Bonuses";
 
 "TXT_KEY_CITY_STATE_TITLES" = "City-States";
 "TXT_KEY_CITY_STATE_TITLE" = "City-State";
+
+"TXT_KEY_CITY_STATE_OF" = "of";
+"TXT_KEY_CITY_STATE_DECLARE_WAR" = "Declare War";
+"TXT_KEY_CITY_STATE_REPORT" = "Report";
+"TXT_KEY_CITY_STATE_TYPE_TITLE" = "Type:";
+"TXT_KEY_CITY_STATE_SUZERAIN_TITLE" = "Suzerain:";
+"TXT_KEY_CITY_STATE_ENVOYS_SENT_TITLE" = "Envoys sent:";
+"TXT_KEY_CITY_STATE_INFLUENCE_BY_TITLE" = "Influenced by:";
+"TXT_KEY_CITY_STATE_QUESTS_TITLE" = "Quests:";
 
 // city state categories
 

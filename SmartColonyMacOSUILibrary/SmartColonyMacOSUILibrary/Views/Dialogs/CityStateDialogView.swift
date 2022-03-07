@@ -52,7 +52,7 @@ struct CityStateDialogView: View {
     var headerView: some View {
 
         VStack(alignment: .center, spacing: 4) {
-            Text("of")
+            Text("TXT_KEY_CITY_STATE_OF".localized())
                 .font(.body)
 
             HStack {
@@ -73,7 +73,7 @@ struct CityStateDialogView: View {
 
         VStack(alignment: .center, spacing: 4) {
 
-            Button("Declare War".localized()) {
+            Button("TXT_KEY_CITY_STATE_DECLARE_WAR".localized()) {
                 print("declare war")
             }.buttonStyle(DialogButtonStyle(state: .normal))
         }
@@ -86,14 +86,14 @@ struct CityStateDialogView: View {
 
             Divider()
 
-            Text("Report")
+            Text("TXT_KEY_CITY_STATE_REPORT".localized())
                 .font(.headline)
 
             Divider()
 
             HStack {
 
-                Text("Type:")
+                Text("TXT_KEY_CITY_STATE_TYPE_TITLE".localized())
                     .frame(width: 155, alignment: .trailing)
 
                 Text(self.viewModel.typeName)
@@ -102,7 +102,7 @@ struct CityStateDialogView: View {
 
             HStack {
 
-                Text("Suzerain:")
+                Text("TXT_KEY_CITY_STATE_SUZERAIN_TITLE".localized())
                     .frame(width: 155, alignment: .trailing)
 
                 Text(self.viewModel.suzerainName)
@@ -111,7 +111,7 @@ struct CityStateDialogView: View {
 
             HStack {
 
-                Text("Envoys sent:")
+                Text("TXT_KEY_CITY_STATE_ENVOYS_SENT_TITLE".localized())
                     .frame(width: 155, alignment: .trailing)
                     .onTapGesture {
                         self.viewModel.showEnvoysSent()
@@ -123,7 +123,7 @@ struct CityStateDialogView: View {
 
             HStack {
 
-                Text("Influenced by:")
+                Text("TXT_KEY_CITY_STATE_INFLUENCE_BY_TITLE".localized())
                     .frame(width: 155, alignment: .trailing)
                     .onTapGesture {
                         self.viewModel.showInfluencedBy()
@@ -135,7 +135,7 @@ struct CityStateDialogView: View {
 
             HStack {
 
-                Text("Quests:")
+                Text("TXT_KEY_CITY_STATE_QUESTS_TITLE".localized())
                     .frame(width: 155, alignment: .trailing)
                     .onTapGesture {
                         self.viewModel.showQuests()
@@ -167,12 +167,10 @@ struct CityStateDialogView: View {
 
             Divider()
 
-            Text("Envoys Sent")
+            Text("TXT_KEY_CITY_STATE_ENVOYS_SENT".localized())
                 .font(.headline)
 
             Label(self.viewModel.envoysSentDetailText)
-
-            Label("Reward: 1 [Envoy] Envoy")
         }
     }
 
@@ -182,10 +180,8 @@ struct CityStateDialogView: View {
 
             Divider()
 
-            Text("Influenced by")
+            Text("TXT_KEY_CITY_STATE_INFLUENCE_BY".localized())
                 .font(.headline)
-
-            Label("Reward: 1 [Envoy] Envoy")
         }
     }
 
@@ -195,12 +191,12 @@ struct CityStateDialogView: View {
 
             Divider()
 
-            Text("Available Quest")
+            Text("TXT_KEY_CITY_STATE_AVAILABLE_QUEST".localized())
                 .font(.headline)
 
             Label(self.viewModel.questDetailText)
 
-            Label("Reward: 1 [Envoy] Envoy")
+            Label("TXT_KEY_CITY_STATE_REWARD".localized())
         }
     }
 
@@ -210,7 +206,7 @@ struct CityStateDialogView: View {
 
             Divider()
 
-            Text("Bonuses")
+            Text("TXT_KEY_CITY_STATE_BONUSES".localized())
                 .font(.headline)
 
             // list of all (enabled / disabled) bonuses
