@@ -331,6 +331,18 @@ public class NotificationItem: Codable, Equatable {
 
             return true
 
+        case .questCityStateFulfilled(cityState: _, quest: _):
+            return true
+
+        case .questCityStateGiven(cityState: _, quest: _):
+            return true
+
+        case .questCityStateObsolete(cityState: _, quest: _):
+            return true
+
+        case .metCityState(cityState: _, first: _):
+            return true
+
         default:
             return false
         }
