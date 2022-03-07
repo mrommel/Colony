@@ -14,6 +14,13 @@ class CityStateDialogViewModel: ObservableObject {
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
 
+    enum CityStateDialogDetailType {
+
+        case envoysSent
+        case influencedBy
+        case quest
+    }
+
     @Published
     var title: String
 
@@ -36,10 +43,21 @@ class CityStateDialogViewModel: ObservableObject {
     var questsName: String
 
     @Published
+    var envoysSentDetailText: String
+
+    @Published
+    var influencedByDetailText: String
+
+    @Published
+    var questDetailText: String
+
+    @Published
     var envoyEffectViewModels: [EnvoyEffectViewModel]
 
-    private var cityState: CityStateType = .akkad
+    @Published
+    var detail: CityStateDialogDetailType = .envoysSent
 
+    private var cityState: CityStateType = .akkad
     weak var delegate: GameViewModelDelegate?
 
     init() {
@@ -51,6 +69,11 @@ class CityStateDialogViewModel: ObservableObject {
         self.envoysSentName = "0"
         self.influencedByName = "0"
         self.questsName = "0"
+
+        self.questDetailText = "-"
+        self.influencedByDetailText = "-"
+        self.envoysSentDetailText = "-"
+
         self.envoyEffectViewModels = []
     }
 
@@ -100,6 +123,11 @@ class CityStateDialogViewModel: ObservableObject {
         self.influencedByName = "\(gameModel.countMajorCivilizationsMet(with: cityState))"
         self.questsName = "\(numberOfQuests)"
 
+        // details
+        self.envoysSentDetailText = "Envoys sent: \(humanPlayer.envoysAssigned(to: cityStateType))"
+        self.influencedByDetailText = "-" // #
+        self.questDetailText = cityStatePlayer.quest(for: humanPlayer.leader)?.summary() ?? "-"
+
         // effects
         var tmpEnvoyEffectViewModels: [EnvoyEffectViewModel] = []
 
@@ -122,11 +150,28 @@ class CityStateDialogViewModel: ObservableObject {
         tmpEnvoyEffectViewModels.append(EnvoyEffectViewModel(envoyEffect: envoyEffectSuzerain))
 
         self.envoyEffectViewModels = tmpEnvoyEffectViewModels
+
+        self.detail = .envoysSent
     }
 
     func cityStateImage() -> NSImage {
 
         return ImageCache.shared.image(for: self.cityState.iconTexture())
+    }
+
+    func showEnvoysSent() {
+
+        self.detail = .envoysSent
+    }
+
+    func showInfluencedBy() {
+
+        self.detail = .influencedBy
+    }
+
+    func showQuests() {
+
+        self.detail = .quest
     }
 }
 

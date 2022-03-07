@@ -42,6 +42,7 @@
 		C9754D58275E3BA7000A1B70 /* CitySiteEvaluationTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9754D57275E3BA7000A1B70 /* CitySiteEvaluationTypeExtension.swift */; };
 		C9754D5C275F3A0F000A1B70 /* MapLensTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9754D5B275F3A0F000A1B70 /* MapLensTypeExtension.swift */; };
 		C9755FEF270AE92400C9CAB7 /* BeliefTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9755FEE270AE92400C9CAB7 /* BeliefTypeExtension.swift */; };
+		C97ACD0327D673A000AD0721 /* CityStateQuestExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97ACD0227D673A000AD0721 /* CityStateQuestExtension.swift */; };
 		C980E77326E0C60F0089053A /* CombatResultTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C980E77226E0C60F0089053A /* CombatResultTypeExtension.swift */; };
 		C988EAE7261B916800300C39 /* Units.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C988EAE6261B916800300C39 /* Units.xcassets */; };
 		C98E68B12577D28E00BD93CA /* FeatureTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E68AE2577D28E00BD93CA /* FeatureTypeExtension.swift */; };
@@ -179,6 +180,7 @@
 		C9754D57275E3BA7000A1B70 /* CitySiteEvaluationTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySiteEvaluationTypeExtension.swift; sourceTree = "<group>"; };
 		C9754D5B275F3A0F000A1B70 /* MapLensTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLensTypeExtension.swift; sourceTree = "<group>"; };
 		C9755FEE270AE92400C9CAB7 /* BeliefTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeliefTypeExtension.swift; sourceTree = "<group>"; };
+		C97ACD0227D673A000AD0721 /* CityStateQuestExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityStateQuestExtension.swift; sourceTree = "<group>"; };
 		C980E77226E0C60F0089053A /* CombatResultTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatResultTypeExtension.swift; sourceTree = "<group>"; };
 		C988EAE6261B916800300C39 /* Units.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Units.xcassets; sourceTree = "<group>"; };
 		C98E68AE2577D28E00BD93CA /* FeatureTypeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureTypeExtension.swift; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 				C9CD3194278D6499002D53C4 /* MomentTypeExtension.swift */,
 				C9CD3196278D7571002D53C4 /* VictoryTypeExtension.swift */,
 				C95AB2F327CD3D3B00EF5C61 /* CityStateTypeExtension.swift */,
+				C97ACD0227D673A000AD0721 /* CityStateQuestExtension.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -706,6 +709,7 @@
 				C9E87BBD264DB49100514B9A /* BuildingTypeExtension.swift in Sources */,
 				C9CB992327C6C1F700946E77 /* SlpTextureAtlasLoader.swift in Sources */,
 				C9CB34012761EB12008835D0 /* ContinentTypeExtension.swift in Sources */,
+				C97ACD0327D673A000AD0721 /* CityStateQuestExtension.swift in Sources */,
 				C9E87BBF264DB4D600514B9A /* WonderTypeExtension.swift in Sources */,
 				C95AB2F427CD3D3B00EF5C61 /* CityStateTypeExtension.swift in Sources */,
 				C9C8A7492785788200BC68CF /* DedicationTypeExtension.swift in Sources */,

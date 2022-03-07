@@ -38,11 +38,11 @@ public enum CityStateQuestType: Codable, Equatable, Hashable {
 
 public class CityStateQuest: Codable {
 
-    let cityState: CityStateType
-    let leader: LeaderType
-    let type: CityStateQuestType
+    public let cityState: CityStateType
+    public let leader: LeaderType
+    public let type: CityStateQuestType
 
-    init(cityState: CityStateType, leader: LeaderType, type: CityStateQuestType) {
+    public init(cityState: CityStateType, leader: LeaderType, type: CityStateQuestType) {
 
         self.cityState = cityState
         self.leader = leader

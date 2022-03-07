@@ -36,6 +36,8 @@ struct CityStateDialogView: View {
 
                         self.reportsView
 
+                        self.detailView
+
                         self.bonusesView
                     }
                     .frame(width: 340)
@@ -111,6 +113,9 @@ struct CityStateDialogView: View {
 
                 Text("Envoys sent:")
                     .frame(width: 155, alignment: .trailing)
+                    .onTapGesture {
+                        self.viewModel.showEnvoysSent()
+                    }
 
                 Text(self.viewModel.envoysSentName)
                     .frame(width: 155, alignment: .leading)
@@ -120,6 +125,9 @@ struct CityStateDialogView: View {
 
                 Text("Influenced by:")
                     .frame(width: 155, alignment: .trailing)
+                    .onTapGesture {
+                        self.viewModel.showInfluencedBy()
+                    }
 
                 Text(self.viewModel.influencedByName)
                     .frame(width: 155, alignment: .leading)
@@ -129,12 +137,71 @@ struct CityStateDialogView: View {
 
                 Text("Quests:")
                     .frame(width: 155, alignment: .trailing)
+                    .onTapGesture {
+                        self.viewModel.showQuests()
+                    }
 
                 Text(self.viewModel.questsName)
                     .frame(width: 155, alignment: .leading)
             }
         }
         .frame(width: 340)
+    }
+
+    var detailView: some View {
+
+        switch self.viewModel.detail {
+
+        case .envoysSent:
+            return AnyView(self.envoysSentView)
+        case .influencedBy:
+            return AnyView(self.influencedByView)
+        case .quest:
+            return AnyView(self.questView)
+        }
+    }
+
+    var envoysSentView: some View {
+
+        VStack(alignment: .center, spacing: 4) {
+
+            Divider()
+
+            Text("Envoys Sent")
+                .font(.headline)
+
+            Label(self.viewModel.envoysSentDetailText)
+
+            Label("Reward: 1 [Envoy] Envoy")
+        }
+    }
+
+    var influencedByView: some View {
+
+        VStack(alignment: .center, spacing: 4) {
+
+            Divider()
+
+            Text("Influenced by")
+                .font(.headline)
+
+            Label("Reward: 1 [Envoy] Envoy")
+        }
+    }
+
+    var questView: some View {
+
+        VStack(alignment: .center, spacing: 4) {
+
+            Divider()
+
+            Text("Available Quest")
+                .font(.headline)
+
+            Label(self.viewModel.questDetailText)
+
+            Label("Reward: 1 [Envoy] Envoy")
+        }
     }
 
     var bonusesView: some View {

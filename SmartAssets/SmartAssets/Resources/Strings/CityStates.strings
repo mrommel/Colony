@@ -47,6 +47,16 @@
 "TXT_KEY_CITY_STATE_CATEGORY_TRADE_THIRD_ENVOY_BONUS" = "+4 [Gold] Gold in every Commercial Hub district";
 "TXT_KEY_CITY_STATE_CATEGORY_TRADE_SIXTH_ENVOY_BONUS" = "Additional +4 [Gold] Gold in every Commercial Hub district";
 
+// quests
+"TXT_KEY_CITY_STATE_QUEST_TRAIN_UNIT" = "Train a %@.";
+"TXT_KEY_CITY_STATE_QUEST_CONSTRUCT_DISTRICT" = "Construct a %@.";
+"TXT_KEY_CITY_STATE_QUEST_TRIGGER_EUREKA" = "Trigger a [Eureka] Eureka for %@ tech.";
+"TXT_KEY_CITY_STATE_QUEST_TRIGGER_INSPIRATION" = "Trigger the [Inspiration] Inspiration moment for the %@ civic.";
+"TXT_KEY_CITY_STATE_QUEST_RECRUIT_GREAT_PERSON" = "Recruit a %@.";
+"TXT_KEY_CITY_STATE_QUEST_CONVERT_RELIGION" = "Convert the city-state to your [Religion] religion.";
+"TXT_KEY_CITY_STATE_QUEST_SEND_TRADE_ROUTE" = "Send a [TradeRoute] Trade Route to the city-state.";
+"TXT_KEY_CITY_STATE_QUEST_DESTROY_OUTPOST" = "Destroy one Barbarian Outpost within 5 tiles of the city.";
+
 // city states
 
 // akkad

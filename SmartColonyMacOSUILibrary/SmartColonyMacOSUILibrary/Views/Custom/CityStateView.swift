@@ -42,6 +42,7 @@ struct CityStateView: View {
                     .frame(width: 16, height: 16)
             }
             .frame(width: 16, height: 24)
+            .toolTip(self.viewModel.bonusText1())
 
             VStack(spacing: 0) {
                 Text("3")
@@ -52,6 +53,7 @@ struct CityStateView: View {
                     .frame(width: 16, height: 16)
             }
             .frame(width: 16, height: 24)
+            .toolTip(self.viewModel.bonusText3())
 
             VStack(spacing: 0) {
                 Text("6")
@@ -62,10 +64,12 @@ struct CityStateView: View {
                     .frame(width: 16, height: 16)
             }
             .frame(width: 16, height: 24)
+            .toolTip(self.viewModel.bonusText6())
 
             Image(nsImage: self.viewModel.suzerainImage())
                 .resizable()
                 .frame(width: 20, height: 20)
+                .toolTip(self.viewModel.suzerainText())
 
             VStack(alignment: .leading, spacing: 0) {
                 Text("Suzerain")

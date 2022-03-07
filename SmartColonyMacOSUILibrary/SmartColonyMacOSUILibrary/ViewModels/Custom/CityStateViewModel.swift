@@ -84,11 +84,21 @@ class CityStateViewModel: ObservableObject {
         return texture.tint(with: active ? self.cityState.category().color() : .gray)
     }
 
+    func bonusText1() -> String {
+
+        return self.cityState.bonus(for: .first)
+    }
+
     func bonusImage3() -> NSImage {
 
         let active = self.envoys >= 3
         let texture = ImageCache.shared.image(for: self.cityState.envoysTexture())
         return texture.tint(with: active ? self.cityState.category().color() : .gray)
+    }
+
+    func bonusText3() -> String {
+
+        return self.cityState.bonus(for: .third)
     }
 
     func bonusImage6() -> NSImage {
@@ -98,9 +108,19 @@ class CityStateViewModel: ObservableObject {
         return texture.tint(with: active ? self.cityState.category().color() : .gray)
     }
 
+    func bonusText6() -> String {
+
+        return self.cityState.bonus(for: .sixth)
+    }
+
     func suzerainImage() -> NSImage {
 
         return ImageCache.shared.image(for: self.cityState.suzerainTexture(active: true))
+    }
+
+    func suzerainText() -> String {
+
+        return self.cityState.bonus(for: .suzerain)
     }
 
     func jumpToImage() -> NSImage {
