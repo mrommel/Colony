@@ -76,6 +76,10 @@ class UnitLayer: SKNode {
         print("inited with: \(self.unitObjects.count) visible units")
     }
 
+    /// are all unit animations finished - means all units in idle state
+    /// used to disabled the turn button
+    ///
+    /// - Returns: `true`if all animations are finished
     func areAnimationsFinished() -> Bool {
 
         var animationsFinished: Bool = true
