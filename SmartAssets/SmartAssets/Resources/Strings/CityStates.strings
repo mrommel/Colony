@@ -81,68 +81,142 @@
 
 // akkad
 "TXT_KEY_CITY_STATE_AKKAD_NAME" = "Akkad";
-"TXT_KEY_CITY_STATE_AKKAD_SUZARIN_BONUS" = "Melee and anti-cavalry units' attacks do full damage to the city's walls."; // #
+"TXT_KEY_CITY_STATE_AKKAD_SUZARIN" = "Melee and anti-cavalry units' attacks do full damage to the city's walls."; // #
 
 // amsterdam
 "TXT_KEY_CITY_STATE_AMSTERDAM_NAME" = "Amsterdam";
-"TXT_KEY_CITY_STATE_AMSTERDAM_SUZARIN_BONUS" = "Your [TradeRoute] Trade Routes to foreign cities earn +1 [Gold] Gold for each luxury resource.";
+"TXT_KEY_CITY_STATE_AMSTERDAM_SUZARIN" = "Your [TradeRoute] Trade Routes to foreign cities earn +1 [Gold] Gold for each luxury resource.";
 
 // anshan
 "TXT_KEY_CITY_STATE_ANSHAN_NAME" = "Anshan";
-"TXT_KEY_CITY_STATE_ANSHAN_SUZARIN_BONUS" = "+2 [Science] Science from each [GreatWorkOfWriting] Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact."; // #
+"TXT_KEY_CITY_STATE_ANSHAN_SUZARIN" = "+2 [Science] Science from each [GreatWorkOfWriting] Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact."; // #
 
 // antananarivo
 "TXT_KEY_CITY_STATE_ANTANANARIVO_NAME" = "Antananarivo";
-"TXT_KEY_CITY_STATE_ANTANANARIVO_SUZARIN_BONUS" = "Your Civilization gains +2% [Culture] Culture for each [GreatPerson] Great Person it has ever earned (up to 30%).";
+"TXT_KEY_CITY_STATE_ANTANANARIVO_SUZARIN" = "Your Civilization gains +2% [Culture] Culture for each [GreatPerson] Great Person it has ever earned (up to 30%).";
 
 // antioch
 "TXT_KEY_CITY_STATE_ANITOCH_NAME" = "Antioch";
-"TXT_KEY_CITY_STATE_ANITOCH_SUZARIN_BONUS" = "Your [TradeRoute] Trade Routes to foreign cities earn +1 [Gold] Gold for each Luxury resource at the destination.";
+"TXT_KEY_CITY_STATE_ANITOCH_SUZARIN" = "Your [TradeRoute] Trade Routes to foreign cities earn +1 [Gold] Gold for each Luxury resource at the destination.";
 
 // armagh
 "TXT_KEY_CITY_STATE_ARMAGH_NAME" = "Armagh";
-"TXT_KEY_CITY_STATE_ARMAGH_SUZARIN_BONUS" = "Your Builders can build Monastery improvements."; // #
+"TXT_KEY_CITY_STATE_ARMAGH_SUZARIN" = "Your Builders can build Monastery improvements."; // #
 
 // auckland
 "TXT_KEY_CITY_STATE_AUCKLAND_NAME" = "Auckland";
-"TXT_KEY_CITY_STATE_AUCKLAND_SUZARIN_BONUS" = "Shallow water tiles worked by [Citizen] Citizens provide +1 [Production] Production. Additional +1 when you reach the Industrial Era";
+"TXT_KEY_CITY_STATE_AUCKLAND_SUZARIN" = "Shallow water tiles worked by [Citizen] Citizens provide +1 [Production] Production. Additional +1 when you reach the Industrial Era";
 
 // ayutthaya
 "TXT_KEY_CITY_STATE_AYUTTHAYA_NAME" = "Ayutthaya";
-"TXT_KEY_CITY_STATE_AYUTTHAYA_SUZARIN_BONUS" = "Gain [Culture] Culture equal to 10% of the construction cost when finishing buildings."; // #
+"TXT_KEY_CITY_STATE_AYUTTHAYA_SUZARIN" = "Gain [Culture] Culture equal to 10% of the construction cost when finishing buildings."; // #
 
 // babylon
 "TXT_KEY_CITY_STATE_BABYLON_NAME" = "Babylon";
-"TXT_KEY_CITY_STATE_BABYLON_SUZARIN_BONUS" = "+2 [Science] Science from each [GreatWorkOfWriting] Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact."; // #
+"TXT_KEY_CITY_STATE_BABYLON_SUZARIN" = "+2 [Science] Science from each [GreatWorkOfWriting] Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact."; // #
 
 // bandarBrunei
 "TXT_KEY_CITY_STATE_BANDAR_BRUNEI_NAME" = "Bandar Brunei";
-"TXT_KEY_CITY_STATE_BANDAR_BRUNEI_SUZARIN_BONUS" = "Your [TradingPost] Trading Posts in foreign cities provide +1 [Gold] Gold to your [TradeRoute] Trade Routes passing through or going to the city.";
+"TXT_KEY_CITY_STATE_BANDAR_BRUNEI_SUZARIN" = "Your [TradingPost] Trading Posts in foreign cities provide +1 [Gold] Gold to your [TradeRoute] Trade Routes passing through or going to the city.";
 
 // bologna
 "TXT_KEY_CITY_STATE_BOLOGNA_NAME" = "Bologna";
-"TXT_KEY_CITY_STATE_BOLOGNA_SUZARIN_BONUS" = "Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer, [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building)."; // #
+"TXT_KEY_CITY_STATE_BOLOGNA_SUZARIN" = "Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer, [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building)."; // #
 
 // brussels
 "TXT_KEY_CITY_STATE_BRUSSELS_NAME" = "Brussels";
-"TXT_KEY_CITY_STATE_BRUSSELS_SUZARIN_BONUS" = "Your cities get +15% [Production] Production towards wonders.";
+"TXT_KEY_CITY_STATE_BRUSSELS_SUZARIN" = "Your cities get +15% [Production] Production towards wonders.";
 
 // buenosAires
 "TXT_KEY_CITY_STATE_BUENOS_AIRES_NAME" = "Buenos Aires";
-"TXT_KEY_CITY_STATE_BUENOS_AIRES_SUZARIN_BONUS" = "Your Bonus resources behave like Luxury resources, providing 1 [Amenity] Amenity per type."; // #
+"TXT_KEY_CITY_STATE_BUENOS_AIRES_SUZARIN" = "Your Bonus resources behave like Luxury resources, providing 1 [Amenity] Amenity per type."; // #
 
 // caguana
 "TXT_KEY_CITY_STATE_CAGUANA_NAME" = "Caguana";
-"TXT_KEY_CITY_STATE_CAGUANA_SUZARIN_BONUS" = "Builders can construct the Batey improvement, which provides [Culture] Culture and [Tourism] Tourism."; // #
+"TXT_KEY_CITY_STATE_CAGUANA_SUZARIN" = "Builders can construct the Batey improvement, which provides [Culture] Culture and [Tourism] Tourism."; // #
 
 // cahokia
 "TXT_KEY_CITY_STATE_CAHOKIA_NAME" = "Cahokia";
-"TXT_KEY_CITY_STATE_CAHOKIA_SUZARIN_BONUS" = "Your Builders can build Cahokia Mounds improvements."; // #
+"TXT_KEY_CITY_STATE_CAHOKIA_SUZARIN" = "Your Builders can build Cahokia Mounds improvements."; // #
 
 // cardiff
 "TXT_KEY_CITY_STATE_CARDIFF_NAME" = "Cardiff";
-"TXT_KEY_CITY_STATE_CARDIFF_SUZARIN_BONUS" = "Cities receive +2 [Power] Power for every Harbor building."; // #
+"TXT_KEY_CITY_STATE_CARDIFF_SUZARIN" = "Cities receive +2 [Power] Power for every Harbor building."; // #
 
 // carthage
 "TXT_KEY_CITY_STATE_CARTHAGE_NAME" = "Carthage";
-"TXT_KEY_CITY_STATE_CARTHAGE_SUZARIN_BONUS" = "Land combat units are 20% cheaper to purchase with [Gold] Gold for each Encampment district building in that city.";
+"TXT_KEY_CITY_STATE_CARTHAGE_SUZARIN" = "Land combat units are 20% cheaper to purchase with [Gold] Gold for each Encampment district building in that city.";
+
+// chinguetti
+"TXT_KEY_CITY_STATE_CHINGUETTI_NAME" = "Chinguetti";
+"TXT_KEY_CITY_STATE_CHINGUETTI_SUZARIN" = "International and domestic [TradeRoute] Trade Routes receive +1 [Faith] Faith for every follower in this city, of your founded or majority religion."; // #
+
+// fez
+"TXT_KEY_CITY_STATE_FEZ_NAME" = "Fez";
+"TXT_KEY_CITY_STATE_FEZ_SUZARIN" = "When you use a unit to convert a city for the first time, gain 20 Science Science per Citizen Population of that city."; // #
+
+// geneva
+"TXT_KEY_CITY_STATE_GENEVA_NAME" = "Geneva";
+"TXT_KEY_CITY_STATE_GENEVA_SUZARIN" = "Your cities earn +15% [Science] Science whenever you are not at war with any civilization."; // #
+
+// granada
+"TXT_KEY_CITY_STATE_GRANADA_NAME" = "Granada";
+"TXT_KEY_CITY_STATE_GRANADA_SUZARIN" = "Your Builders can build Alcázar improvements"; // #
+
+// hattusa
+"TXT_KEY_CITY_STATE_HATTUSA_NAME" = "Hattusa";
+"TXT_KEY_CITY_STATE_HATTUSA_SUZARIN" = "Provides you with 1 copy of each strategic resource you have revealed but do not own."; // #
+
+// hongKong
+"TXT_KEY_CITY_STATE_HONG_KONG_NAME" = "Hong Kong";
+"TXT_KEY_CITY_STATE_HONG_KONG_SUZARIN" = "Your Cities get +20% bonus [Production] Production towards city projects."; // #
+
+// hunza
+"TXT_KEY_CITY_STATE_HUNZA_NAME" = "Hunza";
+"TXT_KEY_CITY_STATE_HUNZA_SUZARIN" = "Receive +1 [Gold] Gold for every 5 tiles a trade route travels."; // #
+
+// jakarta
+"TXT_KEY_CITY_STATE_JARKARTA_NAME" = "Jakarta";
+"TXT_KEY_CITY_STATE_JARKARTA_SUZARIN" = "Your [TradingPost] Trading Posts at international destinations grant +1 additional [Gold] Gold to all [TradeRoute] Trade Routes that pass through them."; // #
+
+// jerusalem
+"TXT_KEY_CITY_STATE_JERUSALEM_NAME" = "Jerusalem";
+"TXT_KEY_CITY_STATE_JERUSALEM_SUZARIN" = "Your cities with Holy Sites exert pressure as if they were Holy Cities (4x religious pressure on all cities within 10 tiles)."; // #
+
+// johannesburg
+"TXT_KEY_CITY_STATE_JOHANNESBURG_NAME" = "Johannesburg";
+"TXT_KEY_CITY_STATE_JOHANNESBURG_SUZARIN" = "Cities receive +1 [Production] Production for every improved resource type. After researching Industrialization it becomes +2 [Production] Production."; // #
+
+// kabul
+"TXT_KEY_CITY_STATE_KABUL_NAME" = "Kabul";
+"TXT_KEY_CITY_STATE_KABUL_SUZARIN" = "Your units receive double experience from battles they initiate."; // #
+
+// kandy
+"TXT_KEY_CITY_STATE_KANDY_NAME" = "Kandy";
+"TXT_KEY_CITY_STATE_KANDY_SUZARIN" = "Receive a [Relic] Relic every time you discover a new natural wonder. Earn +50% bonus [Faith] Faith from all [Relic] Relics."; // #
+
+// kumasi
+"TXT_KEY_CITY_STATE_KUMASI_NAME" = "Kumasi";
+"TXT_KEY_CITY_STATE_KUMASI_SUZARIN" = "Your [TradeRoute] Trade Routes to any city-state provide +2 [Culture] Culture and +1 [Gold] Gold for every specialty district in the origin city."; // #
+
+// laVenta
+"TXT_KEY_CITY_STATE_LA_VENTA_NAME" = "La Venta";
+"TXT_KEY_CITY_STATE_LA_VENTA_SUZARIN" = "Your Builders can build Colossal Heads improvements."; // #
+
+    // -------------------------
+
+// samarkand
+"TXT_KEY_CITY_STATE_SAMARKAND_NAME" = "Samarkand";
+"TXT_KEY_CITY_STATE_SAMARKAND_SUZARIN" = "Your Builders can build Trading Dome improvements."; // #
+
+// seoul
+"TXT_KEY_CITY_STATE_SEOUL_NAME" = "Seoul";
+"TXT_KEY_CITY_STATE_SEOUL_SUZARIN" = "When you enter a new era, earn 1 random [Eureka] Eureka from that era."; // #
+
+// singapore
+"TXT_KEY_CITY_STATE_SINGAPORE_NAME" = "Singapore";
+"TXT_KEY_CITY_STATE_SINGAPORE_SUZARIN" = "Your cities receive +2 [Production] Production for each foreign civilization they have a [TradeRoute] Trade Route to."; // #
+
+// stockholm
+"TXT_KEY_CITY_STATE_STOCKHOLM_NAME" = "Stockholm";
+"TXT_KEY_CITY_STATE_STOCKHOLM_SUZARIN" = "Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer, [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building)."; // #

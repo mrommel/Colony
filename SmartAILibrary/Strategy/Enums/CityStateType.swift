@@ -152,18 +152,40 @@ public enum CityStateType: String, Codable {
     case cahokia
     case cardiff
     case carthage
-    // Chinguetti
-    // Fez
-    // Geneva
-    // Granada
-    // Hattusa
-    // Hong Kong
-    // Hunza
-    // Jakarta
-    // Jerusalem
-    // Johannesburg
-    // Kabul
-    // ..
+    case chinguetti
+    case fez
+    case geneva
+    case granada
+    case hattusa
+    case hongKong
+    case hunza
+    case jakarta
+    case jerusalem
+    case johannesburg
+    case kabul
+    case kandy
+    case kumasi
+    case laVenta
+    // Lahore
+    // Lisbon
+    // Mexico City
+    // Mitla
+    // Mogadishu
+    // Mohenjo-Daro
+    // Muscat
+    // Nalanda
+    // Nan Madol
+    // Nazca
+    // Ngazargamu
+    // Palenque
+    // Preslav
+    // Rapa Nui
+    case samarkand
+    case seoul
+    case singapore
+    case stockholm
+    // Taruga
+    // Toronto
     // Valletta
     // Vatican City
     // Venice
@@ -174,7 +196,11 @@ public enum CityStateType: String, Codable {
 
     public static var all: [CityStateType] = [
         .akkad, .amsterdam, .anshan, .antananarivo, .antioch, .armagh, .auckland, .ayutthaya, .babylon,
-        .bandarBrunei, .bologna, .brussels, .buenosAires, .caguana, .cahokia, .cardiff, .carthage
+        .bandarBrunei, .bologna, .brussels, .buenosAires, .caguana, .cahokia, .cardiff, .carthage,
+        .chinguetti, .fez, .geneva, .granada, .hattusa, .hongKong, .hunza, .jakarta, .jerusalem,
+        .johannesburg, .kabul, .kandy, .kumasi, .laVenta,
+        // ...
+        .samarkand, .seoul, .singapore, .stockholm
     ]
 
     public func name() -> String {
@@ -230,7 +256,7 @@ public enum CityStateType: String, Codable {
             return CityStateTypeData(
                 name: "TXT_KEY_CITY_STATE_AKKAD_NAME",
                 category: .militaristic,
-                suzarinBonus: "TXT_KEY_CITY_STATE_AKKAD_SUZARIN_BONUS"
+                suzarinBonus: "TXT_KEY_CITY_STATE_AKKAD_SUZARIN"
             )
 
         case .amsterdam:
@@ -238,7 +264,7 @@ public enum CityStateType: String, Codable {
             return CityStateTypeData(
                 name: "TXT_KEY_CITY_STATE_AMSTERDAM_NAME",
                 category: .trade,
-                suzarinBonus: "TXT_KEY_CITY_STATE_AMSTERDAM_SUZARIN_BONUS"
+                suzarinBonus: "TXT_KEY_CITY_STATE_AMSTERDAM_SUZARIN"
             )
 
         case .anshan:
@@ -246,7 +272,7 @@ public enum CityStateType: String, Codable {
             return CityStateTypeData(
                 name: "TXT_KEY_CITY_STATE_ANSHAN_NAME",
                 category: .scientific,
-                suzarinBonus: "TXT_KEY_CITY_STATE_ANSHAN_SUZARIN_BONUS"
+                suzarinBonus: "TXT_KEY_CITY_STATE_ANSHAN_SUZARIN"
             )
 
         case .antananarivo:
@@ -254,7 +280,7 @@ public enum CityStateType: String, Codable {
             return CityStateTypeData(
                 name: "TXT_KEY_CITY_STATE_ANTANANARIVO_NAME",
                 category: .cultural,
-                suzarinBonus: "TXT_KEY_CITY_STATE_ANTANANARIVO_SUZARIN_BONUS"
+                suzarinBonus: "TXT_KEY_CITY_STATE_ANTANANARIVO_SUZARIN"
             )
 
         case .antioch:
@@ -262,7 +288,7 @@ public enum CityStateType: String, Codable {
             return CityStateTypeData(
                 name: "TXT_KEY_CITY_STATE_ANITOCH_NAME",
                 category: .trade,
-                suzarinBonus: "TXT_KEY_CITY_STATE_ANITOCH_SUZARIN_BONUS"
+                suzarinBonus: "TXT_KEY_CITY_STATE_ANITOCH_SUZARIN"
             )
 
         case .armagh:
@@ -270,7 +296,7 @@ public enum CityStateType: String, Codable {
             return CityStateTypeData(
                 name: "TXT_KEY_CITY_STATE_ARMAGH_NAME",
                 category: .religious,
-                suzarinBonus: "TXT_KEY_CITY_STATE_ARMAGH_SUZARIN_BONUS"
+                suzarinBonus: "TXT_KEY_CITY_STATE_ARMAGH_SUZARIN"
             )
 
         case .auckland:
@@ -278,7 +304,7 @@ public enum CityStateType: String, Codable {
             return CityStateTypeData(
                 name: "TXT_KEY_CITY_STATE_AUCKLAND_NAME",
                 category: .industrial,
-                suzarinBonus: "TXT_KEY_CITY_STATE_AUCKLAND_SUZARIN_BONUS"
+                suzarinBonus: "TXT_KEY_CITY_STATE_AUCKLAND_SUZARIN"
             )
 
         case .ayutthaya:
@@ -286,7 +312,7 @@ public enum CityStateType: String, Codable {
             return CityStateTypeData(
                 name: "TXT_KEY_CITY_STATE_AYUTTHAYA_NAME",
                 category: .cultural,
-                suzarinBonus: "TXT_KEY_CITY_STATE_AYUTTHAYA_SUZARIN_BONUS"
+                suzarinBonus: "TXT_KEY_CITY_STATE_AYUTTHAYA_SUZARIN"
             )
 
         case .babylon:
@@ -294,7 +320,7 @@ public enum CityStateType: String, Codable {
             return CityStateTypeData(
                 name: "TXT_KEY_CITY_STATE_BABYLON_NAME",
                 category: .scientific,
-                suzarinBonus: "TXT_KEY_CITY_STATE_BABYLON_SUZARIN_BONUS"
+                suzarinBonus: "TXT_KEY_CITY_STATE_BABYLON_SUZARIN"
             )
 
         case .bandarBrunei:
@@ -302,7 +328,7 @@ public enum CityStateType: String, Codable {
             return CityStateTypeData(
                 name: "TXT_KEY_CITY_STATE_BANDAR_BRUNEI_NAME",
                 category: .trade,
-                suzarinBonus: "TXT_KEY_CITY_STATE_BANDAR_BRUNEI_SUZARIN_BONUS"
+                suzarinBonus: "TXT_KEY_CITY_STATE_BANDAR_BRUNEI_SUZARIN"
             )
 
         case .bologna:
@@ -310,7 +336,7 @@ public enum CityStateType: String, Codable {
             return CityStateTypeData(
                 name: "TXT_KEY_CITY_STATE_BOLOGNA_NAME",
                 category: .scientific,
-                suzarinBonus: "TXT_KEY_CITY_STATE_BOLOGNA_SUZARIN_BONUS"
+                suzarinBonus: "TXT_KEY_CITY_STATE_BOLOGNA_SUZARIN"
             )
 
         case .brussels:
@@ -318,7 +344,7 @@ public enum CityStateType: String, Codable {
             return CityStateTypeData(
                 name: "TXT_KEY_CITY_STATE_BRUSSELS_NAME",
                 category: .industrial,
-                suzarinBonus: "TXT_KEY_CITY_STATE_BRUSSELS_SUZARIN_BONUS"
+                suzarinBonus: "TXT_KEY_CITY_STATE_BRUSSELS_SUZARIN"
             )
 
         case .buenosAires:
@@ -326,7 +352,7 @@ public enum CityStateType: String, Codable {
             return CityStateTypeData(
                 name: "TXT_KEY_CITY_STATE_BUENOS_AIRES_NAME",
                 category: .industrial,
-                suzarinBonus: "TXT_KEY_CITY_STATE_BUENOS_AIRES_SUZARIN_BONUS"
+                suzarinBonus: "TXT_KEY_CITY_STATE_BUENOS_AIRES_SUZARIN"
             )
 
         case .caguana:
@@ -334,7 +360,7 @@ public enum CityStateType: String, Codable {
             return CityStateTypeData(
                 name: "TXT_KEY_CITY_STATE_CAGUANA_NAME",
                 category: .cultural,
-                suzarinBonus: "TXT_KEY_CITY_STATE_CAGUANA_SUZARIN_BONUS"
+                suzarinBonus: "TXT_KEY_CITY_STATE_CAGUANA_SUZARIN"
             )
 
         case .cahokia:
@@ -342,7 +368,7 @@ public enum CityStateType: String, Codable {
             return CityStateTypeData(
                 name: "TXT_KEY_CITY_STATE_CAHOKIA_NAME",
                 category: .trade,
-                suzarinBonus: "TXT_KEY_CITY_STATE_CAHOKIA_SUZARIN_BONUS"
+                suzarinBonus: "TXT_KEY_CITY_STATE_CAHOKIA_SUZARIN"
             )
 
         case .cardiff:
@@ -350,16 +376,164 @@ public enum CityStateType: String, Codable {
             return CityStateTypeData(
                 name: "TXT_KEY_CITY_STATE_CARDIFF_NAME",
                 category: .industrial,
-                suzarinBonus: "TXT_KEY_CITY_STATE_CARDIFF_SUZARIN_BONUS"
+                suzarinBonus: "TXT_KEY_CITY_STATE_CARDIFF_SUZARIN"
             )
 
         case .carthage:
             // https://civilization.fandom.com/wiki/Carthage_(Civ6)
             return CityStateTypeData(
-            name: "TXT_KEY_CITY_STATE_CARTHAGE_NAME",
-            category: .militaristic,
-            suzarinBonus: "TXT_KEY_CITY_STATE_CARTHAGE_SUZARIN_BONUS"
+                name: "TXT_KEY_CITY_STATE_CARTHAGE_NAME",
+                category: .militaristic,
+                suzarinBonus: "TXT_KEY_CITY_STATE_CARTHAGE_SUZARIN"
             )
+
+        case .chinguetti:
+            // https://civilization.fandom.com/wiki/Chinguetti_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_CHINGUETTI_NAME",
+                category: .religious,
+                suzarinBonus: "TXT_KEY_CITY_STATE_CHINGUETTI_SUZARIN"
+            )
+
+        case .fez:
+            // https://civilization.fandom.com/wiki/Fez_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_FEZ_NAME",
+                category: .scientific,
+                suzarinBonus: "TXT_KEY_CITY_STATE_FEZ_SUZARIN"
+            )
+
+        case .geneva:
+            // https://civilization.fandom.com/wiki/Geneva_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_GENEVA_NAME",
+                category: .scientific,
+                suzarinBonus: "TXT_KEY_CITY_STATE_GENEVA_SUZARIN"
+            )
+
+        case .granada:
+            // https://civilization.fandom.com/wiki/Granada_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_GRANADA_NAME",
+                category: .militaristic,
+                suzarinBonus: "TXT_KEY_CITY_STATE_GRANADA_SUZARIN"
+            )
+
+        case .hattusa:
+            // https://civilization.fandom.com/wiki/Hattusa_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_HATTUSA_NAME",
+                category: .scientific,
+                suzarinBonus: "TXT_KEY_CITY_STATE_HATTUSA_SUZARIN"
+            )
+
+        case .hongKong:
+            // https://civilization.fandom.com/wiki/Hong_Kong_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_HONG_KONG_NAME",
+                category: .industrial,
+                suzarinBonus: "TXT_KEY_CITY_STATE_HONG_KONG_SUZARIN"
+            )
+
+        case .hunza:
+            // https://civilization.fandom.com/wiki/Hunza_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_HUNZA_NAME",
+                category: .trade,
+                suzarinBonus: "TXT_KEY_CITY_STATE_HUNZA_SUZARIN"
+            )
+
+        case .jakarta:
+            // https://civilization.fandom.com/wiki/Jakarta_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_JARKARTA_NAME",
+                category: .trade,
+                suzarinBonus: "TXT_KEY_CITY_STATE_JARKARTA_SUZARIN"
+        )
+
+        case .jerusalem:
+            // https://civilization.fandom.com/wiki/Jerusalem_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_JERUSALEM_NAME",
+                category: .religious,
+                suzarinBonus: "TXT_KEY_CITY_STATE_JERUSALEM_SUZARIN"
+            )
+
+        case .johannesburg:
+            // https://civilization.fandom.com/wiki/Johannesburg_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_JOHANNESBURG_NAME",
+                category: .industrial,
+                suzarinBonus: "TXT_KEY_CITY_STATE_JOHANNESBURG_SUZARIN"
+            )
+
+        case .kabul:
+            // https://civilization.fandom.com/wiki/Kabul_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_KABUL_NAME",
+                category: .militaristic,
+                suzarinBonus: "TXT_KEY_CITY_STATE_KABUL_SUZARIN"
+            )
+
+        case .kandy:
+            // https://civilization.fandom.com/wiki/Kandy_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_KANDY_NAME",
+                category: .religious,
+                suzarinBonus: "TXT_KEY_CITY_STATE_KANDY_SUZARIN"
+            )
+
+        case .kumasi:
+            // https://civilization.fandom.com/wiki/Kumasi_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_KUMASI_NAME",
+                category: .cultural,
+                suzarinBonus: "TXT_KEY_CITY_STATE_KUMASI_SUZARIN"
+            )
+
+        case .laVenta:
+            // https://civilization.fandom.com/wiki/La_Venta_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_LA_VENTA_NAME",
+                category: .religious,
+                suzarinBonus: "TXT_KEY_CITY_STATE_LA_VENTA_SUZARIN"
+            )
+
+            // -------------------------
+
+        case .samarkand:
+            // https://civilization.fandom.com/wiki/Samarkand_(Civ6)
+            return CityStateTypeData(
+            name: "TXT_KEY_CITY_STATE_SAMARKAND_NAME",
+            category: .trade,
+            suzarinBonus: "TXT_KEY_CITY_STATE_SAMARKAND_SUZARIN"
+            )
+
+        case .seoul:
+            // https://civilization.fandom.com/wiki/Seoul_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_SEOUL_NAME",
+                category: .scientific,
+                suzarinBonus: "TXT_KEY_CITY_STATE_SEOUL_SUZARIN"
+            )
+
+        case .singapore:
+            // https://civilization.fandom.com/wiki/Singapore_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_SINGAPORE_NAME",
+                category: .industrial,
+                suzarinBonus: "TXT_KEY_CITY_STATE_SINGAPORE_SUZARIN"
+            )
+
+        case .stockholm:
+            // https://civilization.fandom.com/wiki/Stockholm_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_STOCKHOLM_NAME",
+                category: .scientific,
+                suzarinBonus: "TXT_KEY_CITY_STATE_STOCKHOLM_SUZARIN"
+            )
+
+            // -------------------------
 
             /*
              return CityStateTypeData(

@@ -393,7 +393,8 @@ public class Player: AbstractPlayer {
         case moments
         case envoys
         case suzerain
-        case quest
+        case quests
+        case oldQuests
         case influencePoints
 
         case currentEra
@@ -478,7 +479,8 @@ public class Player: AbstractPlayer {
     public var momentsVal: AbstractPlayerMoments?
     private var envoys: AbstractPlayerEnvoys?
     private var suzerainValue: LeaderType?
-    private var questValue: [CityStateQuest] = []
+    private var oldQuestsValue: [CityStateQuest] = []
+    private var questsValue: [CityStateQuest] = []
     private var influencePointsValue: Int = 0
 
     public var government: AbstractGovernment?
@@ -611,7 +613,8 @@ public class Player: AbstractPlayer {
         self.momentsVal = try container.decode(PlayerMoments.self, forKey: .moments)
         self.envoys = try container.decode(PlayerEnvoys.self, forKey: .envoys)
         self.suzerainValue = try container.decodeIfPresent(LeaderType.self, forKey: .suzerain)
-        self.questValue = try container.decode([CityStateQuest].self, forKey: .quest)
+        self.questsValue = try container.decode([CityStateQuest].self, forKey: .quests)
+        self.oldQuestsValue = try container.decode([CityStateQuest].self, forKey: .oldQuests)
         self.influencePointsValue = try container.decode(Int.self, forKey: .influencePoints)
 
         self.techs = try container.decode(Techs.self, forKey: .techs)
@@ -731,7 +734,8 @@ public class Player: AbstractPlayer {
         try container.encode(self.momentsVal as! PlayerMoments, forKey: .moments)
         try container.encode(self.envoys as! PlayerEnvoys, forKey: .envoys)
         try container.encodeIfPresent(self.suzerainValue, forKey: .suzerain)
-        try container.encodeIfPresent(self.questValue, forKey: .quest)
+        try container.encode(self.questsValue, forKey: .quests)
+        try container.encode(self.oldQuestsValue, forKey: .oldQuests)
         try container.encode(self.influencePointsValue, forKey: .influencePoints)
         try container.encode(self.government as! Government, forKey: .government)
 
@@ -1506,7 +1510,7 @@ public class Player: AbstractPlayer {
             return nil
         }
 
-        if let quest = self.questValue.first(where: { $0.leader == leader }) {
+        if let quest = self.questsValue.first(where: { $0.leader == leader }) {
             return quest
         }
 
@@ -1515,11 +1519,11 @@ public class Player: AbstractPlayer {
 
     public func fulfillQuest(by leader: LeaderType, in gameModel: GameModel?) {
 
-        guard let quest = self.questValue.first(where: { $0.leader == leader }) else {
+        guard let quest = self.questsValue.first(where: { $0.leader == leader }) else {
             fatalError("cant get quest")
         }
 
-        self.questValue.removeAll(where: { $0.leader == leader })
+        self.questsValue.removeAll(where: { $0.leader == leader })
 
         if let player = gameModel?.player(for: leader) {
             player.changeEnvoys(by: 1)
@@ -1538,11 +1542,11 @@ public class Player: AbstractPlayer {
 
     public func obsoleteQuest(by leader: LeaderType, in gameModel: GameModel?) {
 
-        guard let quest = self.questValue.first(where: { $0.leader == leader }) else {
+        guard let quest = self.questsValue.first(where: { $0.leader == leader }) else {
             fatalError("cant get quest")
         }
 
-        self.questValue.removeAll(where: { $0.leader == leader })
+        self.questsValue.removeAll(where: { $0.leader == leader })
 
         if let player = gameModel?.player(for: leader) {
 
@@ -1593,91 +1597,168 @@ public class Player: AbstractPlayer {
                     break
 
                 case .trainUnit(type: _):
-                    // Train a certain unit. (Will be lost if the unit becomes obsolete.)
-                    for unitType in UnitType.all.shuffled {
 
-                        if unitType.isGreatPerson() {
-                            continue
-                        }
-
-                        if let requiredTech = unitType.requiredTech() {
-                            if !questPlayer.has(tech: requiredTech) {
-                                continue
+                    var possibleUnitTypes = UnitType.all
+                        .filter({ unitType in
+                            if unitType.isGreatPerson() {
+                                return false
                             }
-                        }
 
-                        if let requiredCivic = unitType.requiredCivic() {
-                            if !questPlayer.has(civic: requiredCivic) {
-                                continue
+                            if let requiredTech = unitType.requiredTech() {
+                                if !questPlayer.has(tech: requiredTech) {
+                                    return false
+                                }
                             }
-                        }
 
-                        possibleQuests.append(.trainUnit(type: unitType))
-                        break
+                            if let requiredCivic = unitType.requiredCivic() {
+                                if !questPlayer.has(civic: requiredCivic) {
+                                    return false
+                                }
+                            }
+
+                            return true
+                        })
+
+                    // check last quest
+                    if let lastQuest = self.oldQuestsValue.last {
+                        if case .trainUnit(type: let unitType) = lastQuest.type {
+
+                            // filter out the last type
+                            possibleUnitTypes = possibleUnitTypes.filter { $0 != unitType }
+                        }
+                    }
+
+                    if !possibleUnitTypes.isEmpty {
+                        // Train a certain unit. (Will be lost if the unit becomes obsolete.)
+                        let selectedUnitType = possibleUnitTypes.randomItem()
+                        possibleQuests.append(.trainUnit(type: selectedUnitType))
                     }
 
                 case .constructDistrict(type: _):
-                    // Construct a certain district.
-                    for districtType in DistrictType.all.shuffled {
 
-                        if let requiredTech = districtType.requiredTech() {
-                            if !questPlayer.has(tech: requiredTech) {
-                                continue
+                    var possibleDistricts = DistrictType.all
+                        .filter({ districtType in
+                            if let requiredTech = districtType.requiredTech() {
+                                if !questPlayer.has(tech: requiredTech) {
+                                    return false
+                                }
                             }
-                        }
 
-                        if let requiredCivic = districtType.requiredCivic() {
-                            if !questPlayer.has(civic: requiredCivic) {
-                                continue
+                            if let requiredCivic = districtType.requiredCivic() {
+                                if !questPlayer.has(civic: requiredCivic) {
+                                    return false
+                                }
                             }
-                        }
 
-                        possibleQuests.append(.constructDistrict(type: districtType))
-                        break
+                            return true
+                        })
+
+                    // check last quest
+                    if let lastQuest = self.oldQuestsValue.last {
+                        if case .constructDistrict(type: let districtType) = lastQuest.type {
+
+                            // filter out the last type
+                            possibleDistricts = possibleDistricts.filter { $0 != districtType }
+                        }
+                    }
+
+                    if !possibleDistricts.isEmpty {
+                        // Construct a certain district.
+                        let selectedDistrict = possibleDistricts.randomItem()
+                        possibleQuests.append(.constructDistrict(type: selectedDistrict))
                     }
 
                 case .triggerEureka(tech: _):
-                    // Trigger a Eureka Eureka for a certain tech.
-                    // (Can be completed by a Spy that succeeds at a Steal Tech Boost mission. Will be lost if you research the tech.)
+
                     guard let techs = questPlayer.techs else {
                         continue
                     }
 
-                    for possibleTech in techs.possibleTechs().shuffled {
-                        if techs.eurekaTriggered(for: possibleTech) {
-                            possibleQuests.append(.triggerEureka(tech: possibleTech))
-                            break
+                    // get all civics that did not trigger an inspiration yet
+                    var possibleTechs = techs.possibleTechs()
+                        .filter { !techs.eurekaTriggered(for: $0) }
+
+                    // check last quest
+                    if let lastQuest = self.oldQuestsValue.last {
+                        if case .triggerEureka(tech: let techType) = lastQuest.type {
+
+                            // filter out the last type
+                            possibleTechs = possibleTechs.filter { $0 != techType }
                         }
                     }
 
+                    // Trigger a Eureka Eureka for a certain tech.
+                    // (Can be completed by a Spy that succeeds at a Steal Tech Boost mission. Will be lost if you research the tech.)
+                    if !possibleTechs.isEmpty {
+                        let selectedTech = possibleTechs.randomItem()
+                        possibleQuests.append(.triggerEureka(tech: selectedTech))
+                    }
+
                 case .triggerInspiration(civic: _):
-                    // Trigger an Inspiration Inspiration for a certain civic. (Will be lost if you unlock the civic.)
+
                     guard let civics = questPlayer.civics else {
                         continue
                     }
 
-                    for possibleCivic in civics.possibleCivics().shuffled {
-                        if civics.inspirationTriggered(for: possibleCivic) {
-                            possibleQuests.append(.triggerInspiration(civic: possibleCivic))
-                            break
+                    // get all civics that did not trigger an inspiration yet
+                    var possibleCivics = civics.possibleCivics()
+                        .filter { !civics.inspirationTriggered(for: $0) }
+
+                    // check last quest
+                    if let lastQuest = self.oldQuestsValue.last {
+                        if case .triggerInspiration(civic: let civicType) = lastQuest.type {
+
+                            // filter out the last type
+                            possibleCivics = possibleCivics.filter { $0 != civicType }
                         }
                     }
 
+                    // Trigger an Inspiration Inspiration for a certain civic. (Will be lost if you unlock the civic.)
+                    if !possibleCivics.isEmpty {
+                        let selectedCivic = possibleCivics.randomItem()
+                        possibleQuests.append(.triggerInspiration(civic: selectedCivic))
+                    }
+
                 case .recruitGreatPerson(greatPerson: _):
+
+                    var greatPersonTypes = GreatPersonType.all
+
+                    // check last quest
+                    if let lastQuest = self.oldQuestsValue.last {
+                        if case .recruitGreatPerson(greatPerson: let greatPersonType) = lastQuest.type {
+
+                            // filter out the last type
+                            greatPersonTypes = greatPersonTypes.filter { $0 != greatPersonType }
+                        }
+                    }
+
+                    let selectedGreatPersonType = greatPersonTypes.randomItem()
+
                     // Recruit a certain type of Great Person Great Person.
-                    possibleQuests.append(.recruitGreatPerson(greatPerson: GreatPersonType.all.randomItem()))
+                    possibleQuests.append(.recruitGreatPerson(greatPerson: selectedGreatPersonType))
 
                 case .convertToReligion(religion: _):
                     // Convert the city-state to your religion. (Given only if you have founded a religion.)
-                    if let religion = questPlayer.religion?.currentReligion() {
-                        if religion != .none {
-                            possibleQuests.append(.convertToReligion(religion: religion))
+                    if let questPlayerReligion = questPlayer.religion?.currentReligion() {
+                        if let cityStateReligion = self.religion?.currentReligion() {
+                            if questPlayerReligion != .none && cityStateReligion != questPlayerReligion {
+                                possibleQuests.append(.convertToReligion(religion: questPlayerReligion))
+                            }
                         }
                     }
 
                 case .sendTradeRoute:
-                    // Send a Trade Route Trade Route to the city-state.
-                    possibleQuests.append(.sendTradeRoute)
+                    var lastQuestWasSendTradeRoute = false
+                    if let lastQuest = self.oldQuestsValue.last {
+                        if lastQuest.type == .sendTradeRoute {
+                            lastQuestWasSendTradeRoute = true
+                        }
+                    }
+
+                    if !lastQuestWasSendTradeRoute {
+                        // Send a Trade Route Trade Route to the city-state.
+                        possibleQuests.append(.sendTradeRoute)
+                    }
 
                 case .destroyBarbarianOutput(location: _):
                     // Destroy a Barbarian Outpost within 5 tiles of the city-state.
@@ -1709,7 +1790,8 @@ public class Player: AbstractPlayer {
             }
 
             let quest = CityStateQuest(cityState: cityStateType, leader: questPlayer.leader, type: possibleQuests.randomItem())
-            self.questValue.append(quest)
+            self.oldQuestsValue.append(quest)
+            self.questsValue.append(quest)
 
             if self.isHuman() {
                 //
@@ -1752,9 +1834,9 @@ public class Player: AbstractPlayer {
             fatalError("--- WARNING: THIS IS FOR TESTING ONLY ---")
         }
 
-        self.questValue.removeAll(where: { $0.leader == leader })
+        self.questsValue.removeAll(where: { $0.leader == leader })
 
-        self.questValue.append(quest)
+        self.questsValue.append(quest)
     }
 
     public func resetQuests(in gameModel: GameModel?) {
@@ -1763,7 +1845,7 @@ public class Player: AbstractPlayer {
             fatalError("cant get game")
         }
 
-        for quest in self.questValue {
+        for quest in self.questsValue {
 
             guard let player = gameModel.player(for: quest.leader) else {
                 continue
@@ -1774,7 +1856,7 @@ public class Player: AbstractPlayer {
             }
         }
 
-        self.questValue.removeAll()
+        self.questsValue.removeAll()
     }
 
     /// Have we lost our capital in war?
