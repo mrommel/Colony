@@ -2871,6 +2871,18 @@ public class City: AbstractCity {
                 }
             }
 
+            // check quests
+            for quest in player.ownQuests(in: gameModel) {
+
+                if case .constructDistrict(type: let district) = quest.type {
+
+                    if district == districtType && player.leader == quest.leader {
+                        let cityStatePlayer = gameModel.cityStatePlayer(for: quest.cityState)
+                        cityStatePlayer?.fulfillQuest(by: player.leader, in: gameModel)
+                    }
+                }
+            }
+
             if districtType == .neighborhood {
                 if !player.hasMoment(of: .firstNeighborhoodCompleted) && !player.hasMoment(of: .worldsFirstNeighborhood) {
 
