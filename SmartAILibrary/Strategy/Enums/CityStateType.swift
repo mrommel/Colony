@@ -149,9 +149,11 @@ public enum CityStateType: String, Codable {
     case brussels
     case buenosAires
     case caguana
-    // ..
-    // Carthage
-    // ..
+    case cahokia
+    case cardiff
+    case carthage
+    // Chinguetti
+    // Fez
     // Geneva
     // Granada
     // Hattusa
@@ -172,7 +174,7 @@ public enum CityStateType: String, Codable {
 
     public static var all: [CityStateType] = [
         .akkad, .amsterdam, .anshan, .antananarivo, .antioch, .armagh, .auckland, .ayutthaya, .babylon,
-        .bandarBrunei, .bologna, .brussels, .buenosAires, .caguana
+        .bandarBrunei, .bologna, .brussels, .buenosAires, .caguana, .cahokia, .cardiff, .carthage
     ]
 
     public func name() -> String {
@@ -333,6 +335,30 @@ public enum CityStateType: String, Codable {
                 name: "TXT_KEY_CITY_STATE_CAGUANA_NAME",
                 category: .cultural,
                 suzarinBonus: "TXT_KEY_CITY_STATE_CAGUANA_SUZARIN_BONUS"
+            )
+
+        case .cahokia:
+            // https://civilization.fandom.com/wiki/Cahokia_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_CAHOKIA_NAME",
+                category: .trade,
+                suzarinBonus: "TXT_KEY_CITY_STATE_CAHOKIA_SUZARIN_BONUS"
+            )
+
+        case .cardiff:
+            // https://civilization.fandom.com/wiki/Cardiff_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_CARDIFF_NAME",
+                category: .industrial,
+                suzarinBonus: "TXT_KEY_CITY_STATE_CARDIFF_SUZARIN_BONUS"
+            )
+
+        case .carthage:
+            // https://civilization.fandom.com/wiki/Carthage_(Civ6)
+            return CityStateTypeData(
+            name: "TXT_KEY_CITY_STATE_CARTHAGE_NAME",
+            category: .militaristic,
+            suzarinBonus: "TXT_KEY_CITY_STATE_CARTHAGE_SUZARIN_BONUS"
             )
 
             /*

@@ -95,9 +95,9 @@ public protocol AbstractCity: AnyObject, Codable {
     func canPurchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
     func canPurchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
 
-    func faithPurchaseCost(of unitType: UnitType) -> Double
+    func faithPurchaseCost(of unitType: UnitType, in gameModel: GameModel?) -> Double
     func faithPurchaseCost(of buildingType: BuildingType) -> Double
-    func goldPurchaseCost(of unitType: UnitType) -> Double
+    func goldPurchaseCost(of unitType: UnitType, in gameModel: GameModel?) -> Double
     func goldPurchaseCost(of buildingType: BuildingType) -> Double
 
     @discardableResult
@@ -3671,7 +3671,7 @@ public class City: AbstractCity {
                 return false
             }
 
-            if self.goldPurchaseCost(of: unitType) > playerTreasury.value() {
+            if self.goldPurchaseCost(of: unitType, in: gameModel) > playerTreasury.value() {
                 return false
             }
 
@@ -3680,7 +3680,7 @@ public class City: AbstractCity {
                 return false
             }
 
-            if self.faithPurchaseCost(of: unitType) > playerReligion.faith() {
+            if self.faithPurchaseCost(of: unitType, in: gameModel) > playerReligion.faith() {
                 return false
             }
 
@@ -3734,7 +3734,7 @@ public class City: AbstractCity {
         return true
     }
 
-    public func goldPurchaseCost(of unitType: UnitType) -> Double {
+    public func goldPurchaseCost(of unitType: UnitType, in gameModel: GameModel?) -> Double {
 
         guard let player = self.player else {
             fatalError("cant get player")
@@ -3750,16 +3750,35 @@ public class City: AbstractCity {
             }
         }
 
+        let envoyEffects = player.envoyEffects(in: gameModel)
+
+        // carthage - suzerain bonus:
+        // Land combat units are 20% cheaper to purchase with Gold for each Encampment district building in that city.
+        if envoyEffects.contains(where: { $0.cityState == .carthage && $0.level == .suzerain }) {
+
+            for buildingType in BuildingType.all {
+
+                // each building in the encampment district reduces by 20%
+                if self.has(building: buildingType) && buildingType.district() == .encampment {
+                    modifier -= 0.2
+                }
+            }
+        }
+
+        // clamp
+        modifier = modifier.clamped(to: 0.0...1.0)
+
         return Double(cost) * modifier
     }
 
-    public func faithPurchaseCost(of unitType: UnitType) -> Double {
+    public func faithPurchaseCost(of unitType: UnitType, in gameModel: GameModel?) -> Double {
 
         guard let player = self.player else {
             fatalError("cant get player")
         }
 
         let cost = unitType.faithCost()
+        var modifier: Double = 1.0
 
         // monumentality + golden - Civilian units may be purchased with Faith.
         if player.has(dedication: .monumentality) && player.currentAge() == .golden {
@@ -3768,7 +3787,25 @@ public class City: AbstractCity {
             }
         }
 
-        return Double(cost)
+        let envoyEffects = player.envoyEffects(in: gameModel)
+
+        // carthage - suzerain bonus:
+        // Land combat units are 20% cheaper to purchase with Gold for each Encampment district building in that city.
+        if envoyEffects.contains(where: { $0.cityState == .carthage && $0.level == .suzerain }) {
+
+            for buildingType in BuildingType.all {
+
+                // each building in the encampment district reduces by 20%
+                if self.has(building: buildingType) && buildingType.district() == .encampment {
+                    modifier -= 0.2
+                }
+            }
+        }
+
+        // clamp
+        modifier = modifier.clamped(to: 0.0...1.0)
+
+        return Double(cost) * modifier
     }
 
     public func goldPurchaseCost(of building: BuildingType) -> Double {
@@ -3807,10 +3844,10 @@ public class City: AbstractCity {
         gameModel?.userInterface?.show(unit: unit, at: self.location)
 
         if yieldType == .gold {
-            let purchaseCost = self.goldPurchaseCost(of: unitType)
+            let purchaseCost = self.goldPurchaseCost(of: unitType, in: gameModel)
             self.player?.treasury?.changeGold(by: -purchaseCost)
         } else if yieldType == .faith {
-            let faithCost = self.faithPurchaseCost(of: unitType)
+            let faithCost = self.faithPurchaseCost(of: unitType, in: gameModel)
             self.player?.religion?.change(faith: -faithCost)
         } else {
             fatalError("cant buy unit with \(yieldType)")

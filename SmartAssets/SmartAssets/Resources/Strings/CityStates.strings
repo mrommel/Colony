@@ -134,3 +134,15 @@
 // caguana
 "TXT_KEY_CITY_STATE_CAGUANA_NAME" = "Caguana";
 "TXT_KEY_CITY_STATE_CAGUANA_SUZARIN_BONUS" = "Builders can construct the Batey improvement, which provides [Culture] Culture and [Tourism] Tourism."; // #
+
+// cahokia
+"TXT_KEY_CITY_STATE_CAHOKIA_NAME" = "Cahokia";
+"TXT_KEY_CITY_STATE_CAHOKIA_SUZARIN_BONUS" = "Your Builders can build Cahokia Mounds improvements."; // #
+
+// cardiff
+"TXT_KEY_CITY_STATE_CARDIFF_NAME" = "Cardiff";
+"TXT_KEY_CITY_STATE_CARDIFF_SUZARIN_BONUS" = "Cities receive +2 [Power] Power for every Harbor building."; // #
+
+// carthage
+"TXT_KEY_CITY_STATE_CARTHAGE_NAME" = "Carthage";
+"TXT_KEY_CITY_STATE_CARTHAGE_SUZARIN_BONUS" = "Land combat units are 20% cheaper to purchase with [Gold] Gold for each Encampment district building in that city.";

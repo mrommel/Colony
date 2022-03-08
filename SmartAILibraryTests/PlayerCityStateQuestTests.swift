@@ -57,6 +57,64 @@ class PlayerCityStateQuestTests: XCTestCase {
         XCTAssertEqual(questsAfter.count, 1)
     }
 
+    func testQuestUpdatedWithWorldEraChange() throws {
+
+        // GIVEN
+
+        // players
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAmsterdam = Player(leader: .cityState(type: .amsterdam))
+        playerAmsterdam.initialize()
+
+        let playerAkkad = Player(leader: .cityState(type: .akkad))
+        playerAkkad.initialize()
+
+        let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
+
+        // map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
+
+        // game
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAmsterdam, playerAkkad, playerAlexander, playerTrajan],
+            on: mapModel
+        )
+
+        playerTrajan.doFirstContact(with: playerAmsterdam, in: gameModel)
+        playerAmsterdam.set(
+            quest: CityStateQuest(cityState: .amsterdam, leader: .trajan, type: .trainUnit(type: .horseman)),
+            for: playerTrajan.leader
+        )
+
+        let questBefore = playerAmsterdam.quest(for: .trajan)
+        let worldEraBefore = gameModel.worldEra()
+
+        // WHEN
+        try playerAlexander.techs?.discover(tech: .horsebackRiding, in: gameModel)
+        playerAlexander.set(era: TechType.horsebackRiding.era(), in: gameModel)
+        try playerTrajan.techs?.discover(tech: .horsebackRiding, in: gameModel)
+        playerTrajan.set(era: TechType.horsebackRiding.era(), in: gameModel)
+        gameModel.doWorldEra()
+
+        let questAfter = playerAmsterdam.quest(for: .trajan)
+        let worldEraAfter = gameModel.worldEra()
+
+        // THEN
+        XCTAssertEqual(questBefore?.type, .trainUnit(type: .horseman))
+        XCTAssertNotEqual(questAfter?.type, .trainUnit(type: .horseman))
+        XCTAssertEqual(worldEraBefore, .ancient)
+        XCTAssertEqual(worldEraAfter, .classical)
+    }
+
     func testTrainUnitQuestFulfilled() throws {
 
         // GIVEN

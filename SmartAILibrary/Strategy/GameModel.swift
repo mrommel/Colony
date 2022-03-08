@@ -769,7 +769,7 @@ open class GameModel: Codable {
 
         for player in self.players {
 
-            if player.isBarbarian() || player.isFreeCity() {
+            if player.isBarbarian() || player.isFreeCity() || player.isCityState() {
                 continue
             }
 
@@ -1625,7 +1625,7 @@ open class GameModel: Codable {
     // World Era= An era that More than 50% (current existing) Civs have entered
     func worldEra() -> EraType {
 
-        return worldEraValue
+        return self.worldEraValue
     }
 
     func areas() -> [HexArea] {

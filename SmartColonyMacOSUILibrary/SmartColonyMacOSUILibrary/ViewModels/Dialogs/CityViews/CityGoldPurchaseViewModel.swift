@@ -69,7 +69,7 @@ class CityGoldPurchaseViewModel: ObservableObject {
             }
             self.unitViewModels = possibleUnitTypes.map { unitType in
 
-                let goldCost = city.goldPurchaseCost(of: unitType)
+                let goldCost = city.goldPurchaseCost(of: unitType, in: gameModel)
                 let enabled = goldCost < (humanPlayer.treasury?.value() ?? 0.0)
                 let unitViewModel = UnitViewModel(unitType: unitType, gold: Int(goldCost), enabled: enabled)
                 unitViewModel.delegate = self
