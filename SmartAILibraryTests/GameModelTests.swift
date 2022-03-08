@@ -73,6 +73,7 @@ class GameModelTests: XCTestCase {
         playerElizabeth.set(era: .medieval, in: gameModel)
 
         // WHEN
+        gameModel.doWorldEra()
         let worldEra = gameModel.worldEra()
 
         // THEN
@@ -127,6 +128,7 @@ class GameModelTests: XCTestCase {
         playerElizabeth.set(era: .renaissance, in: gameModel)
 
         // WHEN
+        gameModel.doWorldEra()
         let worldEra = gameModel.worldEra()
 
         // THEN
@@ -335,7 +337,7 @@ class GameModelTests: XCTestCase {
         // GIVEN
 
         // players
-        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        let barbarianPlayer = Player(leader: .barbar)
         barbarianPlayer.initialize()
 
         let playerAlexander = Player(leader: .alexander, isHuman: true)

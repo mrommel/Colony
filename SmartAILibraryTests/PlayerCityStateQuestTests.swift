@@ -62,7 +62,7 @@ class PlayerCityStateQuestTests: XCTestCase {
         // GIVEN
 
         // players
-        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        let barbarianPlayer = Player(leader: .barbar)
         barbarianPlayer.initialize()
 
         let playerAmsterdam = Player(leader: .cityState(type: .amsterdam))
