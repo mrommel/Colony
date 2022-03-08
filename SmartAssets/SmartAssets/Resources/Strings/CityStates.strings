@@ -220,3 +220,39 @@
 // stockholm
 "TXT_KEY_CITY_STATE_STOCKHOLM_NAME" = "Stockholm";
 "TXT_KEY_CITY_STATE_STOCKHOLM_SUZARIN" = "Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer, [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building)."; // #
+
+// taruga
+"TXT_KEY_CITY_STATE_TARUGA_NAME" = "Taruga";
+"TXT_KEY_CITY_STATE_TARUGA_SUZARIN" = "Your cities receive +5% [Science] Science for each different Strategic Resource they have."; // #
+
+// toronto
+"TXT_KEY_CITY_STATE_TORONTA_NAME" = "Toronto";
+"TXT_KEY_CITY_STATE_TORONTA_SUZARIN" = "Regional effects from your Industrial Zone, Water Park, and Entertainment Complex districts reach 3 tiles farther."; // #
+
+// valletta
+"TXT_KEY_CITY_STATE_VALLETTA_NAME" = "Valletta";
+"TXT_KEY_CITY_STATE_VALLETTA_SUZARIN" = "City Center buildings and Encampment district buildings can be bought with [Faith] Faith. Cost of purchasing Ancient, Medieval, and Renaissance Walls is reduced, but they can only be bought with [Faith] Faith."; // #
+
+// vaticanCity
+"TXT_KEY_CITY_STATE_VATICAN_CITY_NAME" = "Vatican City";
+"TXT_KEY_CITY_STATE_VATICAN_CITY_SUZARIN" = "When you activate a [GreatPerson] Great Person, they spread 400 Religious pressure of your founded (or majority) religion to cities within 10 tiles."; // #
+
+// venice
+"TXT_KEY_CITY_STATE_VENICE_NAME" = "Venice";
+"TXT_KEY_CITY_STATE_VENICE_SUZARIN" = "Your [TradeRoute] Trade Routes to foreign cities earn +1 [Gold] Gold for each Luxury resource at the destination."; // #
+
+// vilnius
+"TXT_KEY_CITY_STATE_VILNIUS_NAME" = "Vilnius";
+"TXT_KEY_CITY_STATE_VILNIUS_SUZARIN" = "For the highest active Alliance Level all your Theater Square districts receive +50% adjacency bonus."; // #
+
+// wolin
+"TXT_KEY_CITY_STATE_WOLIN_NAME" = "Wolin";
+"TXT_KEY_CITY_STATE_WOLIN_SUZARIN" = "Receive [GreatGeneral] Great General points when a land unit defeats a major or minor civilization's unit and receive [GreatAdmiral] Great Admiral points when a naval unit defeats a major or minor civilization's unit equal to 25% of the opposing unit's strength (Standard Speed)."; // #
+
+// yerevan
+"TXT_KEY_CITY_STATE_YEREVAN_NAME" = "Yerevan";
+"TXT_KEY_CITY_STATE_YEREVAN_SUZARIN" = "Your Apostle units can choose from any possible promotion instead of receiving a random promotion."; // #
+
+// zanzibar
+"TXT_KEY_CITY_STATE_ZANZIBAR_NAME" = "Zanzibar";
+"TXT_KEY_CITY_STATE_ZANZIBAR_SUZARIN" = "Receive the [Cinnamon] Cinnamon and [Cloves] Cloves Luxury resources. These cannot be earned any other way in the game, and provide 6 [Amenities] Amenities each."; // #

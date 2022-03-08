@@ -184,15 +184,15 @@ public enum CityStateType: String, Codable {
     case seoul
     case singapore
     case stockholm
-    // Taruga
-    // Toronto
-    // Valletta
-    // Vatican City
-    // Venice
-    // Vilnius
-    // Wolin
-    // Yerevan
-    // Zanzibar
+    case taruga
+    case toronto
+    case valletta
+    case vaticanCity
+    case venice
+    case vilnius
+    case wolin
+    case yerevan
+    case zanzibar
 
     public static var all: [CityStateType] = [
         .akkad, .amsterdam, .anshan, .antananarivo, .antioch, .armagh, .auckland, .ayutthaya, .babylon,
@@ -200,7 +200,8 @@ public enum CityStateType: String, Codable {
         .chinguetti, .fez, .geneva, .granada, .hattusa, .hongKong, .hunza, .jakarta, .jerusalem,
         .johannesburg, .kabul, .kandy, .kumasi, .laVenta,
         // ...
-        .samarkand, .seoul, .singapore, .stockholm
+        .samarkand, .seoul, .singapore, .stockholm, .taruga, .toronto, .valletta, .vaticanCity, .venice,
+        .vilnius, .wolin, .yerevan, .zanzibar
     ]
 
     public func name() -> String {
@@ -501,6 +502,16 @@ public enum CityStateType: String, Codable {
 
             // -------------------------
 
+            /*
+             return CityStateTypeData(
+             name: <#T##String#>,
+             category: <#T##CityStateCategory#>,
+             suzarinBonus: <#T##String#>
+             )
+             */
+
+            // -------------------------
+
         case .samarkand:
             // https://civilization.fandom.com/wiki/Samarkand_(Civ6)
             return CityStateTypeData(
@@ -533,15 +544,77 @@ public enum CityStateType: String, Codable {
                 suzarinBonus: "TXT_KEY_CITY_STATE_STOCKHOLM_SUZARIN"
             )
 
-            // -------------------------
+        case .taruga:
+            // https://civilization.fandom.com/wiki/Taruga_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_TARUGA_NAME",
+                category: .scientific,
+                suzarinBonus: "TXT_KEY_CITY_STATE_TARUGA_SUZARIN"
+            )
 
-            /*
-             return CityStateTypeData(
-             name: <#T##String#>,
-             category: <#T##CityStateCategory#>,
-             suzarinBonus: <#T##String#>
-             )
-             */
+        case .toronto:
+            // https://civilization.fandom.com/wiki/Toronto_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_TORONTA_NAME",
+                category: .industrial,
+                suzarinBonus: "TXT_KEY_CITY_STATE_TORONTA_SUZARIN"
+            )
+
+        case .valletta:
+            // https://civilization.fandom.com/wiki/Valletta_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_VALLETTA_NAME",
+                category: .militaristic,
+                suzarinBonus: "TXT_KEY_CITY_STATE_VALLETTA_SUZARIN"
+            )
+
+        case .vaticanCity:
+            // https://civilization.fandom.com/wiki/Vatican_City_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_VATICAN_CITY_NAME",
+                category: .religious,
+                suzarinBonus: "TXT_KEY_CITY_STATE_VATICAN_CITY_SUZARIN"
+            )
+
+        case .venice:
+            // https://civilization.fandom.com/wiki/Venice_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_VENICE_NAME",
+                category: .trade,
+                suzarinBonus: "TXT_KEY_CITY_STATE_VENICE_SUZARIN"
+            )
+
+        case .vilnius:
+            // https://civilization.fandom.com/wiki/Vilnius_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_VILNIUS_NAME",
+                category: .cultural,
+                suzarinBonus: "TXT_KEY_CITY_STATE_VILNIUS_SUZARIN"
+            )
+
+        case .wolin:
+            // https://civilization.fandom.com/wiki/Wolin_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_WOLIN_NAME",
+                category: .militaristic,
+                suzarinBonus: "TXT_KEY_CITY_STATE_WOLIN_SUZARIN"
+            )
+
+        case .yerevan:
+            // https://civilization.fandom.com/wiki/Yerevan_(Civ6)
+            return CityStateTypeData(
+                name: "TXT_KEY_CITY_STATE_YEREVAN_NAME",
+                category: .religious,
+                suzarinBonus: "TXT_KEY_CITY_STATE_YEREVAN_SUZARIN"
+            )
+
+        case .zanzibar:
+            // https://civilization.fandom.com/wiki/Zanzibar_(Civ6)
+            return CityStateTypeData(
+            name: "TXT_KEY_CITY_STATE_ZANZIBAR_NAME",
+            category: .trade,
+            suzarinBonus: "TXT_KEY_CITY_STATE_ZANZIBAR_SUZARIN"
+            )
         }
     }
 }
