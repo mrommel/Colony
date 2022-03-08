@@ -82,16 +82,13 @@ class UnitLayer: SKNode {
 
         for unitObject in self.unitObjects {
 
-            if let topAnimation = unitObject.animationQueue.peek() {
+            switch unitObject.currentAnimation {
 
-                switch topAnimation {
-
-                case .idle:
-                    // NOOP
-                    break
-                default:
-                    animationsFinished = false
-                }
+            case .idle:
+                // NOOP
+                break
+            default:
+                animationsFinished = false
             }
         }
 
