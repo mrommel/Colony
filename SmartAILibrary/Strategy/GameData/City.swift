@@ -167,6 +167,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func luxuriesNeeded(in gameModel: GameModel?) -> Double
     func add(luxury: ResourceType)
     func has(luxury: ResourceType) -> Bool
+    func numberOfDifferentStrategicResources(in gameModel: GameModel?) -> Int
 
     func healthPoints() -> Int
     func set(healthPoints: Int)
@@ -3537,6 +3538,20 @@ public class City: AbstractCity {
         return buildings.has(building: building)
     }
 
+    func hasBuildings(in district: DistrictType) -> Bool {
+
+        for buildingType in BuildingType.all {
+
+            if self.has(building: buildingType) {
+                if buildingType.district() == district {
+                    return true
+                }
+            }
+        }
+
+        return false
+    }
+
     public func has(wonder: WonderType) -> Bool {
 
         guard let wonders = self.wonders else {
@@ -3750,11 +3765,9 @@ public class City: AbstractCity {
             }
         }
 
-        let envoyEffects = player.envoyEffects(in: gameModel)
-
         // carthage - suzerain bonus:
         // Land combat units are 20% cheaper to purchase with Gold for each Encampment district building in that city.
-        if envoyEffects.contains(where: { $0.cityState == .carthage && $0.level == .suzerain }) {
+        if player.isSuzerain(of: .carthage, in: gameModel) {
 
             for buildingType in BuildingType.all {
 
@@ -3787,11 +3800,9 @@ public class City: AbstractCity {
             }
         }
 
-        let envoyEffects = player.envoyEffects(in: gameModel)
-
         // carthage - suzerain bonus:
         // Land combat units are 20% cheaper to purchase with Gold for each Encampment district building in that city.
-        if envoyEffects.contains(where: { $0.cityState == .carthage && $0.level == .suzerain }) {
+        if player.isSuzerain(of: .carthage, in: gameModel) {
 
             for buildingType in BuildingType.all {
 

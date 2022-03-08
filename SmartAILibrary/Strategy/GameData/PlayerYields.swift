@@ -143,14 +143,12 @@ extension Player {
             fatalError("cant get gameModel")
         }
 
-        let envoyEffects = self.envoyEffects(in: gameModel)
-
         let cultureVal = 0.0
         var cultureModifier = 0.0
 
         // antananarivo suzerain bonus
         // Your Civilization gains +2% [Culture] Culture for each [GreatPerson] Great Person it has ever earned (up to 30%).
-        if envoyEffects.contains(where: { $0.cityState == .antananarivo && $0.level == .suzerain }) {
+        if self.isSuzerain(of: .antananarivo, in: gameModel) {
             let numOfSpawnedGreatPersons = self.greatPeople?.numOfSpawnedGreatPersons() ?? 0
             cultureModifier += min(0.02 * Double(numOfSpawnedGreatPersons), 0.3)
         }

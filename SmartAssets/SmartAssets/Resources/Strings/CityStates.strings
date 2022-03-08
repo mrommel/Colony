@@ -117,7 +117,7 @@
 
 // bandarBrunei
 "TXT_KEY_CITY_STATE_BANDAR_BRUNEI_NAME" = "Bandar Brunei";
-"TXT_KEY_CITY_STATE_BANDAR_BRUNEI_SUZARIN" = "Your [TradingPost] Trading Posts in foreign cities provide +1 [Gold] Gold to your [TradeRoute] Trade Routes passing through or going to the city.";
+"TXT_KEY_CITY_STATE_BANDAR_BRUNEI_SUZARIN" = "Your [TradingPost] Trading Posts in foreign cities provide +1 [Gold] Gold to your [TradeRoute] Trade Routes passing through or going to the city."; // #
 
 // bologna
 "TXT_KEY_CITY_STATE_BOLOGNA_NAME" = "Bologna";
@@ -157,7 +157,7 @@
 
 // geneva
 "TXT_KEY_CITY_STATE_GENEVA_NAME" = "Geneva";
-"TXT_KEY_CITY_STATE_GENEVA_SUZARIN" = "Your cities earn +15% [Science] Science whenever you are not at war with any civilization."; // #
+"TXT_KEY_CITY_STATE_GENEVA_SUZARIN" = "Your cities earn +15% [Science] Science whenever you are not at war with any civilization.";
 
 // granada
 "TXT_KEY_CITY_STATE_GRANADA_NAME" = "Granada";
@@ -185,11 +185,11 @@
 
 // johannesburg
 "TXT_KEY_CITY_STATE_JOHANNESBURG_NAME" = "Johannesburg";
-"TXT_KEY_CITY_STATE_JOHANNESBURG_SUZARIN" = "Cities receive +1 [Production] Production for every improved resource type. After researching Industrialization it becomes +2 [Production] Production."; // #
+"TXT_KEY_CITY_STATE_JOHANNESBURG_SUZARIN" = "Cities receive +1 [Production] Production for every improved resource type. After researching Industrialization it becomes +2 [Production] Production.";
 
 // kabul
 "TXT_KEY_CITY_STATE_KABUL_NAME" = "Kabul";
-"TXT_KEY_CITY_STATE_KABUL_SUZARIN" = "Your units receive double experience from battles they initiate."; // #
+"TXT_KEY_CITY_STATE_KABUL_SUZARIN" = "Your units receive double experience from battles they initiate.";
 
 // kandy
 "TXT_KEY_CITY_STATE_KANDY_NAME" = "Kandy";
@@ -211,19 +211,19 @@
 
 // seoul
 "TXT_KEY_CITY_STATE_SEOUL_NAME" = "Seoul";
-"TXT_KEY_CITY_STATE_SEOUL_SUZARIN" = "When you enter a new era, earn 1 random [Eureka] Eureka from that era."; // #
+"TXT_KEY_CITY_STATE_SEOUL_SUZARIN" = "When you enter a new era, earn 1 random [Eureka] Eureka from that era.";
 
 // singapore
 "TXT_KEY_CITY_STATE_SINGAPORE_NAME" = "Singapore";
-"TXT_KEY_CITY_STATE_SINGAPORE_SUZARIN" = "Your cities receive +2 [Production] Production for each foreign civilization they have a [TradeRoute] Trade Route to."; // #
+"TXT_KEY_CITY_STATE_SINGAPORE_SUZARIN" = "Your cities receive +2 [Production] Production for each foreign civilization they have a [TradeRoute] Trade Route to.";
 
 // stockholm
 "TXT_KEY_CITY_STATE_STOCKHOLM_NAME" = "Stockholm";
-"TXT_KEY_CITY_STATE_STOCKHOLM_SUZARIN" = "Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer, [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building)."; // #
+"TXT_KEY_CITY_STATE_STOCKHOLM_SUZARIN" = "Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer, [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building).";
 
 // taruga
 "TXT_KEY_CITY_STATE_TARUGA_NAME" = "Taruga";
-"TXT_KEY_CITY_STATE_TARUGA_SUZARIN" = "Your cities receive +5% [Science] Science for each different Strategic Resource they have."; // #
+"TXT_KEY_CITY_STATE_TARUGA_SUZARIN" = "Your cities receive +5% [Science] Science for each different Strategic Resource they have.";
 
 // toronto
 "TXT_KEY_CITY_STATE_TORONTA_NAME" = "Toronto";
@@ -247,7 +247,7 @@
 
 // wolin
 "TXT_KEY_CITY_STATE_WOLIN_NAME" = "Wolin";
-"TXT_KEY_CITY_STATE_WOLIN_SUZARIN" = "Receive [GreatGeneral] Great General points when a land unit defeats a major or minor civilization's unit and receive [GreatAdmiral] Great Admiral points when a naval unit defeats a major or minor civilization's unit equal to 25% of the opposing unit's strength (Standard Speed)."; // #
+"TXT_KEY_CITY_STATE_WOLIN_SUZARIN" = "Receive [GreatGeneral] Great General points when a land unit defeats a major or minor civilization's unit and receive [GreatAdmiral] Great Admiral points when a naval unit defeats a major or minor civilization's unit equal to 25% of the opposing unit's strength (Standard Speed).";
 
 // yerevan
 "TXT_KEY_CITY_STATE_YEREVAN_NAME" = "Yerevan";

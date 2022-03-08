@@ -130,8 +130,6 @@ public class TradeRoute: Codable {
             fatalError("cant get end city districts")
         }
 
-        let envoyEffects = startPlayer.envoyEffects(in: gameModel)
-
         var yields: Yields = Yields(food: 0.0, production: 0.0, gold: 0.0)
 
         if self.isDomestic(in: gameModel) {
@@ -153,11 +151,10 @@ public class TradeRoute: Codable {
                 yields.gold += 2.0
             }
 
-            // amsterdam or antioch or bandarBrunei suzerain:
+            // amsterdam or antioch suzerain bonus
             // Your [TradeRoute] Trade Routes to foreign cities earn +1 [Gold] Gold for each luxury resource.
-            if envoyEffects.contains(where: { $0.cityState == .amsterdam && $0.level == .suzerain }) ||
-                envoyEffects.contains(where: { $0.cityState == .antioch && $0.level == .suzerain }) ||
-                envoyEffects.contains(where: { $0.cityState == .bandarBrunei && $0.level == .suzerain }) {
+            if startPlayer.isSuzerain(of: .amsterdam, in: gameModel) ||
+                startPlayer.isSuzerain(of: .antioch, in: gameModel) {
 
                 let amountOfLuxuryResources = startCity.numLocalLuxuryResources(in: gameModel)
                 yields.gold += 1.0 * Double(amountOfLuxuryResources)

@@ -308,11 +308,11 @@ public class Combat {
         }
 
         guard let attacker = attacker else {
-            fatalError("cant get attacker")
+            fatalError("cant get attacker unit")
         }
 
         guard let defender = defender else {
-            fatalError("cant get city")
+            fatalError("cant get defender unit")
         }
 
         guard let attackerTile = gameModel.tile(at: attacker.location) else {
@@ -321,6 +321,14 @@ public class Combat {
 
         guard let defenderTile = gameModel.tile(at: defender.location) else {
             fatalError("cant get defenderTile")
+        }
+
+        guard let attackerPlayer = attacker.player else {
+            fatalError("cant get attacker player")
+        }
+
+        guard let defenderPlayer = defender.player else {
+            fatalError("cant get defender player")
         }
 
         // Unit that attacks loses his Fort bonus
@@ -363,9 +371,9 @@ public class Combat {
             }
         } else {
             // kill the unit (civilian?)
-            defender.doKill(delayed: false, by: attacker.player, in: gameModel)
+            defender.doKill(delayed: false, by: attackerPlayer, in: gameModel)
 
-            if let notification = defender.player?.notifications() {
+            if let notification = defenderPlayer.notifications() {
                 notification.add(notification: .unitDied(location: defender.location))
             }
 
@@ -389,7 +397,13 @@ public class Combat {
         defender.add(damage: defenderDamage)
 
         // experience
-        attacker.changeExperience(by: 6 /* EXPERIENCE_ATTACKING_UNIT_MELEE */, in: gameModel)
+        if attackerPlayer.isSuzerain(of: .kabul, in: gameModel) {
+            // kabul suzerain bonus
+            // Your units receive double experience from battles they initiate.
+            attacker.changeExperience(by: 5 * 2 /* EXPERIENCE_ATTACKING_UNIT_MELEE */, in: gameModel)
+        } else {
+            attacker.changeExperience(by: 5 /* EXPERIENCE_ATTACKING_UNIT_MELEE */, in: gameModel)
+        }
         defender.changeExperience(by: 4 /* EXPERIENCE_DEFENDING_UNIT_MELEE */, in: gameModel)
 
         // add archaeological record (only melee combat)
@@ -455,6 +469,20 @@ public class Combat {
 
             if let notifications = defender.player?.notifications() {
                 notifications.add(notification: .unitDied(location: defenderTile.point))
+            }
+
+            // Wolin - suzerain bonus:
+            // Receive [GreatGeneral] Great General points when a land unit defeats a major or minor civilization's unit and
+            // receive [GreatAdmiral] Great Admiral points when a naval unit defeats a major or minor civilization's unit equal
+            // to 25% of the opposing unit's strength (Standard Speed).
+            if !defenderPlayer.isBarbarian() {
+                if attackerPlayer.isSuzerain(of: .wolin, in: gameModel) {
+                    if attacker.domain() == .land {
+                        attackerPlayer.greatPeople?.add(points: GreatPersonPoints(greatGeneral: defenderDamage / 4))
+                    } else if attacker.domain() == .sea {
+                        attackerPlayer.greatPeople?.add(points: GreatPersonPoints(greatAdmiral: defenderDamage / 4))
+                    }
+                }
             }
 
             defender.doKill(delayed: false, by: attacker.player, in: gameModel)
@@ -526,6 +554,10 @@ public class Combat {
             fatalError("cant get city")
         }
 
+        guard let attackerPlayer = attacker.player else {
+            fatalError("cant get attacker player")
+        }
+
         guard let attackerTile = gameModel.tile(at: attacker.location) else {
             fatalError("cant get attackerTile")
         }
@@ -582,7 +614,13 @@ public class Combat {
         defender.add(damage: defenderDamage)
 
         // experience
-        attacker.changeExperience(by: 6 /* EXPERIENCE_ATTACKING_UNIT_MELEE */, in: gameModel)
+        if attackerPlayer.isSuzerain(of: .kabul, in: gameModel) {
+            // kabul suzerain bonus
+            // Your units receive double experience from battles they initiate.
+            attacker.changeExperience(by: 6 * 2 /* EXPERIENCE_ATTACKING_CITY_MELEE */, in: gameModel)
+        } else {
+            attacker.changeExperience(by: 6 /* EXPERIENCE_ATTACKING_CITY_MELEE */, in: gameModel)
+        }
 
         // Attacker died
         if attacker.healthPoints() <= 0 {
@@ -636,7 +674,7 @@ public class Combat {
                     at: defenderTile.point,
                     type: .cityCapturedByEnemy(
                         attackerName: attacker.name(),
-                        attackerPlayer: attacker.player,
+                        attackerPlayer: attackerPlayer,
                         attackerDamage: attackerDamage,
                         cityName: defender.name
                     ),
@@ -719,6 +757,10 @@ public class Combat {
             fatalError("cant get city")
         }
 
+        guard let attackerPlayer = attacker.player else {
+            fatalError("cant get attacker player")
+        }
+
         /*guard let attackerTile = gameModel.tile(at: attacker.location) else {
             fatalError("cant get attackerTile")
         }*/
@@ -771,7 +813,7 @@ public class Combat {
                     at: defenderTile.point,
                     type: .unitDiedDefending(
                         attackerName: attacker.name,
-                        attackerPlayer: attacker.player,
+                        attackerPlayer: attackerPlayer,
                         attackerDamage: 0,
                         defenderName: defender.name()
                     ),
@@ -810,6 +852,14 @@ public class Combat {
 
         guard let defender = defender else {
             fatalError("cant get defender unit")
+        }
+
+        guard let attackerPlayer = attacker.player else {
+            fatalError("cant get attacker player")
+        }
+
+        guard let defenderPlayer = defender.player else {
+            fatalError("cant get defender player")
         }
 
         guard let defenderTile = gameModel.tile(at: defender.location) else {
@@ -872,12 +922,34 @@ public class Combat {
                 notifications.add(notification: .unitDied(location: defenderTile.point))
             }
 
+            // Wolin - suzerain bonus:
+            // Receive [GreatGeneral] Great General points when a land unit defeats a major or minor civilization's unit and
+            // receive [GreatAdmiral] Great Admiral points when a naval unit defeats a major or minor civilization's unit equal
+            // to 25% of the opposing unit's strength (Standard Speed).
+            if !defenderPlayer.isBarbarian() {
+                if attackerPlayer.isSuzerain(of: .wolin, in: gameModel) {
+                    if attacker.domain() == .land {
+                        attackerPlayer.greatPeople?.add(points: GreatPersonPoints(greatGeneral: defenderDamage / 4))
+                    } else if attacker.domain() == .sea {
+                        attackerPlayer.greatPeople?.add(points: GreatPersonPoints(greatAdmiral: defenderDamage / 4))
+                    }
+                }
+            }
+
             defender.doKill(delayed: false, by: attacker.player, in: gameModel)
             defender.player?.updateWarWeariness(against: attacker.player, at: defender.location, killed: true, in: gameModel)
             attacker.player?.updateWarWeariness(against: defender.player, at: defender.location, killed: false, in: gameModel)
         } else {
             defender.player?.updateWarWeariness(against: attacker.player, at: defender.location, killed: false, in: gameModel)
             attacker.player?.updateWarWeariness(against: defender.player, at: defender.location, killed: false, in: gameModel)
+        }
+
+        if attackerPlayer.isSuzerain(of: .kabul, in: gameModel) {
+            // kabul suzerain bonus
+            // Your units receive double experience from battles they initiate.
+            attacker.changeExperience(by: 2 * 2 /* EXPERIENCE_ATTACKING_UNIT_RANGED */, in: gameModel)
+        } else {
+            attacker.changeExperience(by: 2 /* EXPERIENCE_ATTACKING_UNIT_RANGED */, in: gameModel)
         }
 
         if !attacker.canMoveAfterAttacking() {
@@ -899,6 +971,10 @@ public class Combat {
 
         guard let defender = defender else {
             fatalError("cant get city")
+        }
+
+        guard let attackerPlayer = attacker.player else {
+            fatalError("cant get attacker player")
         }
 
         guard let defenderTile = gameModel.tile(at: defender.location) else {
@@ -928,13 +1004,22 @@ public class Combat {
         // apply damage
         defender.add(damage: defenderDamage)
 
+        // experience
+        if attackerPlayer.isSuzerain(of: .kabul, in: gameModel) {
+            // kabul suzerain bonus
+            // Your units receive double experience from battles they initiate.
+            attacker.changeExperience(by: 2 * 2 /* EXPERIENCE_ATTACKING_CITY_RANGED */, in: gameModel)
+        } else {
+            attacker.changeExperience(by: 2 /* EXPERIENCE_ATTACKING_CITY_RANGED */, in: gameModel)
+        }
+
         // special handling: city cannot be destroyed by bombarding
         if defender.healthPoints() <= 0 {
             defender.set(healthPoints: 10)
         }
 
-        defender.player?.updateWarWeariness(against: attacker.player, at: defender.location, killed: false, in: gameModel)
-        attacker.player?.updateWarWeariness(against: defender.player, at: defender.location, killed: false, in: gameModel)
+        defender.player?.updateWarWeariness(against: attackerPlayer, at: defender.location, killed: false, in: gameModel)
+        attackerPlayer.updateWarWeariness(against: defender.player, at: defender.location, killed: false, in: gameModel)
 
         if !attacker.canMoveAfterAttacking() {
             attacker.finishMoves()

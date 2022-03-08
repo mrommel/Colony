@@ -174,6 +174,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func resetQuests(in gameModel: GameModel?)
 
     func envoyEffects(in gameModel: GameModel?) -> [EnvoyEffect]
+    func isSuzerain(of cityState: CityStateType, in gameModel: GameModel?) -> Bool
     func ownQuests(in gameModel: GameModel?) -> [CityStateQuest]
 
     // capital conquerer methods
@@ -1502,6 +1503,15 @@ public class Player: AbstractPlayer {
         }
 
         return playerEnvoys.envoyEffects(in: gameModel)
+    }
+
+    public func isSuzerain(of cityState: CityStateType, in gameModel: GameModel?) -> Bool {
+
+        guard let playerEnvoys = self.envoys else {
+            fatalError("cant get playerEnvoys")
+        }
+
+        return playerEnvoys.isSuzerain(of: cityState, in: gameModel)
     }
 
     public func quest(for leader: LeaderType) -> CityStateQuest? {
@@ -3439,6 +3449,10 @@ public class Player: AbstractPlayer {
 
     public func set(era: EraType, in gameModel: GameModel?) {
 
+        guard let techs = self.techs else {
+            fatalError("cant get techs")
+        }
+
         guard era > self.currentEraVal else {
             fatalError("era should be greater")
         }
@@ -3447,6 +3461,20 @@ public class Player: AbstractPlayer {
         self.selectCurrentAge(in: gameModel)
 
         self.momentsVal?.resetEraScore()
+
+        // Seoul suzerain bonus
+        // When you enter a new era, earn 1 random [Eureka] Eureka from that era.
+        if self.isSuzerain(of: .seoul, in: gameModel) {
+
+            let possibleTechs = TechType.all
+                .filter { $0.era() == self.currentEraVal }
+                .filter { !techs.eurekaTriggered(for: $0) }
+
+            if !possibleTechs.isEmpty {
+                let selectedTech = possibleTechs.randomItem()
+                techs.triggerEureka(for: selectedTech, in: gameModel)
+            }
+        }
 
         if !self.isHumanVal {
             var dedications: [DedicationType] = era.dedications()

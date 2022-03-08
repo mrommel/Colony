@@ -43,7 +43,7 @@ extension City {
 
         greatPeoplePerTurn.add(other: self.greatPeoplePointsFromWonders())
         greatPeoplePerTurn.add(other: self.greatPeoplePointsFromBuildings())
-        greatPeoplePerTurn.add(other: self.greatPeoplePointsFromDistricts())
+        greatPeoplePerTurn.add(other: self.greatPeoplePointsFromDistricts(in: gameModel))
 
         return greatPeoplePerTurn
     }
@@ -156,10 +156,14 @@ extension City {
         return greatPeoplePoints
     }
 
-    private func greatPeoplePointsFromDistricts() -> GreatPersonPoints {
+    private func greatPeoplePointsFromDistricts(in gameModel: GameModel?) -> GreatPersonPoints {
 
         guard let districts = self.districts else {
             fatalError("cant get districts")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
         }
 
         let greatPeoplePoints: GreatPersonPoints = GreatPersonPoints()
@@ -174,9 +178,18 @@ extension City {
                 greatPeoplePoints.greatScientist += 2
             }
 
-            if self.player?.religion?.pantheon() == .divineSpark && self.has(building: .library) {
+            if player.religion?.pantheon() == .divineSpark && self.has(building: .library) {
                 // +1 [GreatPerson] Great Person Points from Holy Sites (Prophet), Campuses with a Library (Scientist), and Theater Squares with an Amphitheater (Writer).
                 greatPeoplePoints.greatScientist += 1
+            }
+
+            // stockhol suzerain bonus
+            // Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer,
+            // [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building).
+            if player.isSuzerain(of: .stockholm, in: gameModel) {
+                if self.hasBuildings(in: .campus) {
+                    greatPeoplePoints.greatScientist += 1
+                }
             }
         }
 
@@ -188,6 +201,15 @@ extension City {
             // Districts in this city provide +2 Great Person points of their type.
             if self.has(wonder: .oracle) {
                 greatPeoplePoints.greatAdmiral += 2
+            }
+
+            // stockhol suzerain bonus
+            // Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer,
+            // [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building).
+            if player.isSuzerain(of: .stockholm, in: gameModel) {
+                if self.hasBuildings(in: .harbor) {
+                    greatPeoplePoints.greatAdmiral += 1
+                }
             }
         }
 
@@ -201,9 +223,18 @@ extension City {
                 greatPeoplePoints.greatProphet += 2
             }
 
-            if self.player?.religion?.pantheon() == .divineSpark {
+            if player.religion?.pantheon() == .divineSpark {
                 // +1 [GreatPerson] Great Person Points from Holy Sites (Prophet), Campuses with a Library (Scientist), and Theater Squares with an Amphitheater (Writer).
                 greatPeoplePoints.greatProphet += 1
+            }
+
+            // stockhol suzerain bonus
+            // Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer,
+            // [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building).
+            if player.isSuzerain(of: .stockholm, in: gameModel) {
+                if self.hasBuildings(in: .holySite) {
+                    greatPeoplePoints.greatProphet += 1
+                }
             }
         }
 
@@ -230,6 +261,17 @@ extension City {
                 // +1 [GreatPerson] Great Person Points from Holy Sites (Prophet), Campuses with a Library (Scientist), and Theater Squares with an Amphitheater (Writer).
                 greatPeoplePoints.greatWriter += 1
             }
+
+            // stockhol suzerain bonus
+            // Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer,
+            // [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building).
+            if player.isSuzerain(of: .stockholm, in: gameModel) {
+                if self.hasBuildings(in: .theatherSquare) {
+                    greatPeoplePoints.greatWriter += 1
+                    greatPeoplePoints.greatArtist += 1
+                    greatPeoplePoints.greatMusician += 1
+                }
+            }
         }
 
         // encampment - +1 Great General point per turn
@@ -240,6 +282,15 @@ extension City {
             // Districts in this city provide +2 Great Person points of their type.
             if self.has(wonder: .oracle) {
                 greatPeoplePoints.greatGeneral += 2
+            }
+
+            // stockhol suzerain bonus
+            // Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer,
+            // [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building).
+            if player.isSuzerain(of: .stockholm, in: gameModel) {
+                if self.hasBuildings(in: .encampment) {
+                    greatPeoplePoints.greatGeneral += 1
+                }
             }
         }
 
@@ -252,6 +303,15 @@ extension City {
             if self.has(wonder: .oracle) {
                 greatPeoplePoints.greatMerchant += 2
             }
+
+            // stockhol suzerain bonus
+            // Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer,
+            // [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building).
+            if player.isSuzerain(of: .stockholm, in: gameModel) {
+                if self.hasBuildings(in: .commercialHub) {
+                    greatPeoplePoints.greatMerchant += 1
+                }
+            }
         }
 
         // industrial - +1 Great Engineer point per turn
@@ -262,6 +322,15 @@ extension City {
             // Districts in this city provide +2 Great Person points of their type.
             if self.has(wonder: .oracle) {
                 greatPeoplePoints.greatEngineer += 2
+            }
+
+            // stockhol suzerain bonus
+            // Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer,
+            // [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building).
+            if player.isSuzerain(of: .stockholm, in: gameModel) {
+                if self.hasBuildings(in: .industrialZone) {
+                    greatPeoplePoints.greatEngineer += 1
+                }
             }
         }
 
@@ -317,8 +386,6 @@ extension City {
                 productionValue = 1.0
             }
         }
-
-        let envoyEffects = player.envoyEffects(in: gameModel)
 
         for point in cityCitizens.workingTileLocations() {
             if cityCitizens.isWorked(at: point) {
@@ -380,14 +447,27 @@ extension City {
                         productionValue += 1.0
                     }
 
-                    // auckland suzerain
+                    // auckland suzerain bonus
                     // Shallow water tiles worked by [Citizen] Citizens provide +1 [Production] Production. Additional +1 when you reach the Industrial Era
-                    if workedTile.terrain() == .shore {
-                        if envoyEffects.contains(where: { $0.cityState == .auckland && $0.level == .suzerain }) {
+                    if player.isSuzerain(of: .auckland, in: gameModel) {
+                        if workedTile.terrain() == .shore {
 
                             productionValue += 1.0
 
                             if player.currentEra() == .industrial {
+                                productionValue += 1.0
+                            }
+                        }
+                    }
+
+                    // johannesburg suzerain bonus
+                    // Cities receive +1 [Production] Production for every improved resource type. After researching Industrialization it becomes +2 [Production] Production.
+                    if player.isSuzerain(of: .johannesburg, in: gameModel) {
+                        if workedTile.hasAnyImprovement() && workedTile.resource(for: self.player) != .none {
+
+                            productionValue += 1.0
+
+                            if player.has(tech: .industrialization) {
                                 productionValue += 1.0
                             }
                         }
@@ -485,14 +565,50 @@ extension City {
 
     private func productionFromTradeRoutes(in gameModel: GameModel?) -> Double {
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         guard let tradeRoutes = self.player?.tradeRoutes?.tradeRoutesStarting(at: self) else {
             fatalError("cant get tradeRoutes")
         }
 
         var productionFromTradeRoutes: Double = 0.0
+        let civilizations: WeightedList<CivilizationType> = WeightedList<CivilizationType>()
 
         for tradeRoute in tradeRoutes {
             productionFromTradeRoutes += tradeRoute.yields(in: gameModel).production
+
+            if tradeRoute.isInternational(in: gameModel) {
+                guard let endCity = tradeRoute.endCity(in: gameModel) else {
+                    continue
+                }
+
+                guard let endCityPlayer = endCity.player else {
+                    continue
+                }
+
+                guard !endCityPlayer.isBarbarian() && !endCityPlayer.isFreeCity() && !endCityPlayer.isCityState() else {
+                    continue
+                }
+
+                civilizations.add(weight: 1.0, for: endCityPlayer.leader.civilization())
+            }
+        }
+
+        var numberOfForeignCivilizations: Int = 0
+
+        for civilization in CivilizationType.all {
+
+            if civilizations.weight(of: civilization) > 0.0 {
+                numberOfForeignCivilizations += 1
+            }
+        }
+
+        // Singapore suzerain bonus
+        // Your cities receive +2 [Production] Production for each foreign civilization they have a [TradeRoute] Trade Route to.
+        if player.isSuzerain(of: .singapore, in: gameModel) {
+            productionFromTradeRoutes += 2.0 * Double(numberOfForeignCivilizations)
         }
 
         return productionFromTradeRoutes
@@ -1374,7 +1490,7 @@ extension City {
         sciencePerTurn += YieldValues(value: self.scienceFromTradeRoutes(in: gameModel))
         sciencePerTurn += self.scienceFromGovernors()
         sciencePerTurn += YieldValues(value: self.baseYieldRateFromSpecialists.weight(of: .science))
-        sciencePerTurn += YieldValues(value: self.scienceFromEnvoys(in: gameModel))
+        sciencePerTurn += self.scienceFromEnvoys(in: gameModel)
 
         // cap yields based on loyalty
         sciencePerTurn += YieldValues(value: 0.0, percentage: self.loyaltyState().yieldPercentage())
@@ -1598,30 +1714,49 @@ extension City {
         return scienceFromGovernors
     }
 
-    private func scienceFromEnvoys(in gameModel: GameModel?) -> Double {
+    private func scienceFromEnvoys(in gameModel: GameModel?) -> YieldValues {
+
+        guard let player = self.player else {
+            fatalError("Cant get player")
+        }
 
         guard let effects = self.player?.envoyEffects(in: gameModel) else {
             fatalError("cant get envoyEffects")
         }
 
-        var scienceFromEnvoys: Double = 0.0
+        var scienceFromEnvoys: YieldValues = YieldValues(value: 0.0, percentage: 0.0)
 
         for effect in effects {
 
             // +2 Science Science in the Capital Capital.
             if effect.isEqual(category: .scientific, at: .first) && self.capitalValue {
-                scienceFromEnvoys += 2.0
+                scienceFromEnvoys += YieldValues(value: 2.0)
             }
 
             // +2 Science Science in every Library building.
             if effect.isEqual(category: .scientific, at: .third) && self.has(building: .library) {
-                scienceFromEnvoys += 2.0
+                scienceFromEnvoys += YieldValues(value: 2.0)
             }
 
             // +2 Science Science in every University building.
             if effect.isEqual(category: .scientific, at: .sixth) /* && (self.has(building: .university) */ {
                 fatalError("not handled")
-                scienceFromEnvoys += 2.0
+                scienceFromEnvoys += YieldValues(value: 2.0)
+            }
+
+            // taruga suzerain effect
+            // Your cities receive +5% [Science] Science for each different Strategic Resource they have.
+            if effect.cityState == .taruga && effect.level == .suzerain {
+                let differentResources = Double(self.numberOfDifferentStrategicResources(in: gameModel))
+                scienceFromEnvoys += YieldValues(value: 5.0 * differentResources)
+            }
+
+            // geneva suzerain effect
+            // Your cities earn +15% [Science] Science whenever you are not at war with any civilization.
+            if effect.cityState == .geneva && effect.level == .suzerain {
+                if player.atWarCount() == 0 {
+                    scienceFromEnvoys += YieldValues(value: 0.0, percentage: 0.15)
+                }
             }
         }
 
@@ -2045,5 +2180,43 @@ extension City {
         }
 
         return housingValue
+    }
+
+    // MARK: helper
+
+    public func numberOfDifferentStrategicResources(in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("no game model provided")
+        }
+
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("no cityCitizens provided")
+        }
+
+        let resources: WeightedList<ResourceType> = WeightedList<ResourceType>()
+
+        for point in cityCitizens.workingTileLocations() {
+            if cityCitizens.isWorked(at: point) {
+                if let workedTile = gameModel.tile(at: point) {
+
+                    let resourceType = workedTile.resource(for: self.player)
+                    if resourceType.usage() == .strategic {
+                        resources.add(weight: 1, for: resourceType)
+                    }
+                }
+            }
+        }
+
+        var result: Int = 0
+
+        for resourceType in ResourceType.strategic {
+
+            if resources.weight(of: resourceType) > 0.0 {
+                result += 1
+            }
+        }
+
+        return result
     }
 }

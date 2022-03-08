@@ -20,6 +20,7 @@ public protocol AbstractPlayerEnvoys: AnyObject, Codable {
     func unassignEnvoy(from cityState: CityStateType) -> Bool
 
     func envoyEffects(in gameModel: GameModel?) -> [EnvoyEffect]
+    func isSuzerain(of cityState: CityStateType, in gameModel: GameModel?) -> Bool
 }
 
 public class PlayerEnvoys: AbstractPlayerEnvoys {
@@ -158,5 +159,40 @@ public class PlayerEnvoys: AbstractPlayerEnvoys {
         }
 
         return effects
+    }
+
+    public func isSuzerain(of cityState: CityStateType, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let diplomacyAI = self.player?.diplomacyAI else {
+            fatalError("cant get human diplomacyAI")
+        }
+
+        guard let cityStatePlayer = gameModel.cityStatePlayer(for: cityState) else {
+            fatalError("cant get city state player")
+        }
+
+        guard diplomacyAI.hasMet(with: cityStatePlayer) else {
+            return false
+        }
+
+        let envoys = self.envoys(in: cityState)
+
+        if envoys < 3 {
+            return false
+        }
+
+        if let suzerainLeader = cityStatePlayer.suzerain() {
+            if let suzerainPlayer = gameModel.player(for: suzerainLeader) {
+                if suzerainPlayer.isEqual(to: self.player) {
+                    return true
+                }
+            }
+        }
+
+        return false
     }
 }
