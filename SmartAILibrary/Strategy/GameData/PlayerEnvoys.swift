@@ -172,7 +172,7 @@ public class PlayerEnvoys: AbstractPlayerEnvoys {
         }
 
         guard let cityStatePlayer = gameModel.cityStatePlayer(for: cityState) else {
-            fatalError("cant get city state player")
+            return false
         }
 
         guard diplomacyAI.hasMet(with: cityStatePlayer) else {
