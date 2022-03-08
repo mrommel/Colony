@@ -44,6 +44,14 @@ class HexagonViewModel: ObservableObject {
     private let cityTextureName: String?
 
     @Published
+    var improvementImage: NSImage
+    private let improvementTextureName: String?
+
+    @Published
+    var resourceImage: NSImage
+    private let resourceTextureName: String?
+
+    @Published
     var actionImage: NSImage
     private var tileActionTextureName: String?
 
@@ -54,21 +62,26 @@ class HexagonViewModel: ObservableObject {
 
     init(at point: HexPoint,
          tileColor: NSColor,
-         mountains: String?,
-         hills: String?,
-         forest: String?,
-         city: String?,
+         mountains mountainsTextureName: String?,
+         hills hillsTextureName: String?,
+         forest forestTextureName: String?,
+         resource resourceTextureName: String?,
+         city cityTextureName: String?,
+         improvement improvementTextureName: String?,
          tileActionTextureName: String?,
          cost: Int?,
          showCitizenIcons: Bool) {
 
         self.point = point
         self.tileColor = tileColor
-        self.mountainsTextureName = mountains
-        self.hillsTextureName = hills
-        self.forestTextureName = forest
-        self.cityTextureName = city
+        self.mountainsTextureName = mountainsTextureName
+        self.hillsTextureName = hillsTextureName
+        self.forestTextureName = forestTextureName
+        self.cityTextureName = cityTextureName
+        self.improvementTextureName = improvementTextureName
+        self.resourceTextureName = resourceTextureName
         self.tileActionTextureName = tileActionTextureName
+
         if let costValue = cost {
             self.costText = "\(costValue)"
         } else {
@@ -78,28 +91,40 @@ class HexagonViewModel: ObservableObject {
         self.showCitizenIcons = showCitizenIcons
 
         // images
-        if let texture = mountains {
+        if let texture = mountainsTextureName {
             self.mountainsImage = ImageCache.shared.image(for: texture)
         } else {
             self.mountainsImage = NSImage()
         }
 
-        if let texture = hills {
+        if let texture = hillsTextureName {
             self.hillsImage = ImageCache.shared.image(for: texture)
         } else {
             self.hillsImage = NSImage()
         }
 
-        if let texture = forest {
+        if let texture = forestTextureName {
             self.forestImage = ImageCache.shared.image(for: texture)
         } else {
             self.forestImage = NSImage()
         }
 
-        if let texture = city {
+        if let texture = cityTextureName {
             self.cityImage = ImageCache.shared.image(for: texture)
         } else {
             self.cityImage = NSImage()
+        }
+
+        if let textureName = improvementTextureName {
+            self.improvementImage = ImageCache.shared.image(for: textureName)
+        } else {
+            self.improvementImage = NSImage()
+        }
+
+        if let textureName = resourceTextureName {
+            self.resourceImage = ImageCache.shared.image(for: textureName)
+        } else {
+            self.resourceImage = NSImage()
         }
 
         if let texture = tileActionTextureName {
