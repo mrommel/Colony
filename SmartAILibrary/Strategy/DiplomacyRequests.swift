@@ -76,7 +76,7 @@ class DiplomacyRequest: Codable {
     let message: String
     let emotion: LeaderEmotionType
 
-    //let index: Int
+    // let index: Int
     let turn: Int
 
     init(for otherLeader: LeaderType, state: DiplomaticRequestState, message: String, emotion: LeaderEmotionType, turn: Int) {
@@ -170,7 +170,7 @@ public class DiplomacyRequests: Codable {
 
         // Deals must currently happen on the active player's turn...
         if player.isEqual(to: gameModel.activePlayer()) {
-            //self.sendRequest(for: otherLeader, state: state, message: message, emotion: emotion, with: deal, in: gameModel)
+            // self.sendRequest(for: otherLeader, state: state, message: message, emotion: emotion, with: deal, in: gameModel)
             gameModel.userInterface?.showLeaderMessage(from: player, to: otherPlayer, deal: deal, state: state, message: message, emotion: emotion)
         }
     }

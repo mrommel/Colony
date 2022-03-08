@@ -20,7 +20,7 @@ class UnitObject {
     weak var gameModel: GameModel?
 
     let identifier: String
-    //var spriteName: String
+    // var spriteName: String
 
     var atlasIdle: GameObjectAtlas?
     var atlasFortified: GameObjectAtlas?
@@ -156,7 +156,7 @@ class UnitObject {
             }
             self.strengthIndicatorNode.set(strength: strength)
         }
-        //self.strengthIndicatorNode.set(strength: strength)
+        // self.strengthIndicatorNode.set(strength: strength)
     }
 
     func showIdle() {

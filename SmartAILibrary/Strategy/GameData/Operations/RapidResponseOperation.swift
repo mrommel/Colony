@@ -8,10 +8,10 @@
 
 import Foundation
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvAIOperationRapidResponse
-//!  \brief        Mobile force that can defend where threatened
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  \brief        Mobile force that can defend where threatened
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class RapidResponseOperation: Operation {
 
     init() {

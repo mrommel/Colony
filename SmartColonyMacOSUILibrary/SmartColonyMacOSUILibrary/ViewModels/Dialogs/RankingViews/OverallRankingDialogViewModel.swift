@@ -42,11 +42,11 @@ class OverallRankingDialogViewModel: ObservableObject {
 
             for player in gameModel.players {
 
-                let leaderType: LeaderType = player.leader
-
-                if leaderType == .barbar {
+                if player.isBarbarian() || player.isFreeCity() || player.isCityState() {
                     continue
                 }
+
+                let leaderType: LeaderType = player.leader
 
                 switch rankingViewType {
 
@@ -72,13 +72,13 @@ class OverallRankingDialogViewModel: ObservableObject {
             var summary = ""
 
             if leadingLeaderType == humanPlayer.leader {
-                summary = "You are leading"
+                summary = "TXT_KEY_RANKING_HUMAN_LEADING".localized()
             } else {
                 let leaderingPlayer = gameModel.player(for: leadingLeaderType)
                 if humanPlayer.hasMet(with: leaderingPlayer) {
-                    summary = "\(leadingLeaderType.name()) is leading"
+                    summary = "TXT_KEY_RANKING_OTHER_LEADING".localizedWithFormat(with: [leadingLeaderType.name()])
                 } else {
-                    summary = "An unmet player is leading"
+                    summary = "TXT_KEY_RANKING_UNMET_LEADING".localized()
                 }
             }
 

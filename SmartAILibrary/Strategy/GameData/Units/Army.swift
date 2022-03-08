@@ -8,16 +8,16 @@
 
 import Foundation
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvArmyAI
-//!  \brief        One army in an operational maneuver
+// !  \brief        One army in an operational maneuver
 //
-//!  Key Attributes:
-//!  - Manages the turn-by-turn movement of an army
-//!  - Created and owned by one AI operation
-//!  - Uses step path finder to find muster points before it has units
-//!  - Uses main path finder to plot route once it has units
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  Key Attributes:
+// !  - Manages the turn-by-turn movement of an army
+// !  - Created and owned by one AI operation
+// !  - Uses step path finder to find muster points before it has units
+// !  - Uses main path finder to plot route once it has units
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 public class Army: Codable {
 
     enum CodingKeys: CodingKey {

@@ -119,6 +119,8 @@ extension GameView {
 
         case .city:
             return AnyView(CityDialogView(viewModel: self.viewModel.cityDialogViewModel))
+        case .cityState:
+            return AnyView(CityStateDialogView(viewModel: self.viewModel.cityStateDialogViewModel))
 
         case .governors:
             return AnyView(GovernorsDialogView(viewModel: self.viewModel.governorsDialogViewModel))
@@ -151,6 +153,8 @@ extension GameView {
             return AnyView(ReligionDialogView(viewModel: self.viewModel.religionDialogViewModel))
         case .ranking:
             return AnyView(RankingDialogView(viewModel: self.viewModel.rankingDialogViewModel))
+        case .cityStates:
+            return AnyView(CityStatesDialogView(viewModel: self.viewModel.cityStatesDialogViewModel))
         case .victory:
             return AnyView(VictoryDialogView(viewModel: self.viewModel.victoryDialogViewModel))
         case .eraProgress:

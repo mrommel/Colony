@@ -1256,7 +1256,7 @@ public class Unit: AbstractUnit {
             if self.domain() == .air && self.baseCombatStrength() == 0 {
 
                 if self.canRangeStrike(at: destination, needWar: false, noncombatAllowed: true, in: gameModel) {
-                    //CvUnitCombat::AttackAir(*this, *pDestPlot, (iFlags &  MISSION_MODIFIER_NO_DEFENSIVE_SUPPORT)?CvUnitCombat::ATTACK_OPTION_NO_DEFENSIVE_SUPPORT:CvUnitCombat::ATTACK_OPTION_NONE);
+                    // CvUnitCombat::AttackAir(*this, *pDestPlot, (iFlags &  MISSION_MODIFIER_NO_DEFENSIVE_SUPPORT)?CvUnitCombat::ATTACK_OPTION_NO_DEFENSIVE_SUPPORT:CvUnitCombat::ATTACK_OPTION_NONE);
                     fatalError("niy")
                     attack = true
                 }
@@ -1270,7 +1270,7 @@ public class Unit: AbstractUnit {
                                 return false
                             }
 
-                            //CvUnitCombat::AttackCity(*this, *pDestPlot, (iFlags &  MISSION_MODIFIER_NO_DEFENSIVE_SUPPORT)?CvUnitCombat::ATTACK_OPTION_NO_DEFENSIVE_SUPPORT:CvUnitCombat::ATTACK_OPTION_NONE);
+                            // CvUnitCombat::AttackCity(*this, *pDestPlot, (iFlags &  MISSION_MODIFIER_NO_DEFENSIVE_SUPPORT)?CvUnitCombat::ATTACK_OPTION_NO_DEFENSIVE_SUPPORT:CvUnitCombat::ATTACK_OPTION_NONE);
 
                             attack = true
 
@@ -1379,7 +1379,7 @@ public class Unit: AbstractUnit {
             self.setUpForRangedAttackValue = value
 
             if value == true {
-                //self.changeMoves(by: -1)
+                // self.changeMoves(by: -1)
                 self.movesValue -= 1
 
                 if self.movesValue < 0 {
@@ -1695,7 +1695,7 @@ public class Unit: AbstractUnit {
             }
 
             if previousETA >= 0 && Int(firstCost) > previousETA + 2 {
-                //LOG_UNIT_MOVES_MESSAGE_OSTR(std::string("Rejecting move iPrevETA=") << iPrevETA << std::string(", m_iData2=") << kNode.m_iData2);
+                // LOG_UNIT_MOVES_MESSAGE_OSTR(std::string("Rejecting move iPrevETA=") << iPrevETA << std::string(", m_iData2=") << kNode.m_iData2);
                 rejectMove = true
             }
 
@@ -1715,14 +1715,14 @@ public class Unit: AbstractUnit {
 
                 if let mission = self.peekMission() {
                     if mission.startedInTurn != gameModel.currentTurn {
-                        //LOG_UNIT_MOVES_MESSAGE_OSTR(std::string("Rejecting move pkMissionData->iPushTurn=") << pkMissionData->iPushTurn << std::string(", GC.getGame().getGameTurn()=") << GC.getGame().getGameTurn());
+                        // LOG_UNIT_MOVES_MESSAGE_OSTR(std::string("Rejecting move pkMissionData->iPushTurn=") << pkMissionData->iPushTurn << std::string(", GC.getGame().getGameTurn()=") << GC.getGame().getGameTurn());
                         rejectMove = true
                     }
                 }
             }
 
             if rejectMove {
-                //m_kLastPath.clear();
+                // m_kLastPath.clear();
                 // slewis - perform its queued moves?
                 self.publishQueuedVisualizationMoves(in: gameModel)
                 return 0
@@ -1910,7 +1910,7 @@ public class Unit: AbstractUnit {
 
         // Delay any popups that might be caused by our movement (goody huts, natural wonders, etc.) so the unit movement event gets sent before the popup event.
         if ownerIsActivePlayer {
-            //DLLUI->SetDontShowPopups(true);
+            // DLLUI->SetDontShowPopups(true);
         }
 
         let oldActivityType = self.activityType()
@@ -2042,8 +2042,8 @@ public class Unit: AbstractUnit {
         }
 
         gameModel.conceal(at: oldPlot.point, sight: self.sight(), for: player)
-        //oldPlot->area()->changeUnitsPerPlayer(getOwner(), -1);
-        //self.set(lastMoveTurn: gameModel.turnSlice())
+        // oldPlot->area()->changeUnitsPerPlayer(getOwner(), -1);
+        // self.set(lastMoveTurn: gameModel.turnSlice())
         let oldCity = gameModel.city(at: oldPlot.point)
 
         self.location = newLocation
@@ -2069,7 +2069,7 @@ public class Unit: AbstractUnit {
 
         // needs to be here so that the square is considered visible when we move into it...
         gameModel.sight(at: newLocation, sight: self.sight(), for: player)
-        //newPlot->area()->changeUnitsPerPlayer(getOwner(), 1);
+        // newPlot->area()->changeUnitsPerPlayer(getOwner(), 1);
         var newCityRef = gameModel.city(at: newPlot.point)
 
         // Moving into a City (friend or foe)
@@ -2447,7 +2447,7 @@ public class Unit: AbstractUnit {
         // check promotions here?
 
         // FIXME
-        //self.promotions?.has(promotion: <#T##UnitPromotionType#>)
+        // self.promotions?.has(promotion: <#T##UnitPromotionType#>)
         return extraNavalMoves
     }
 
@@ -3756,7 +3756,7 @@ public class Unit: AbstractUnit {
 
                 if self.isGreatPerson() {
                     fatalError("niy")
-                    //player.doGreatPersonExpended(of: self.type)
+                    // player.doGreatPersonExpended(of: self.type)
                 }
 
                 self.doKill(delayed: true, by: nil, in: gameModel)
@@ -3815,7 +3815,7 @@ public class Unit: AbstractUnit {
             if plot.improvement() != .none && plot.improvement() != .ruins {
 
                 let resource = plot.resource(for: self.player)
-                //ResourceTypes eResource = (ResourceTypes)pPlot->getNonObsoleteResourceType(GET_PLAYER(getOwner()).getTeam());
+                // ResourceTypes eResource = (ResourceTypes)pPlot->getNonObsoleteResourceType(GET_PLAYER(getOwner()).getTeam());
                 /*if resource == .none || resource.techCityTrade() {
                         if (GC.getImprovementInfo(eImprovement)->GetImprovementPillage() != NO_IMPROVEMENT)
                         {
@@ -4369,7 +4369,7 @@ public class Unit: AbstractUnit {
         if self.activityType() == .sleep {
 
             if self.canFortify(at: self.location, in: gameModel) {
-                //self.push(mission: UnitMission(type: .fortify), in: gameModel)
+                // self.push(mission: UnitMission(type: .fortify), in: gameModel)
                 self.set(fortifiedThisTurn: true, in: gameModel)
             }
         }
@@ -4396,8 +4396,8 @@ public class Unit: AbstractUnit {
                 self.set(fortifyTurns: turnsToFortify, in: gameModel)
 
                 if turnsToFortify > 0 {
-                    //auto_ptr<ICvUnit1> pDllUnit(new CvDllUnit(this));
-                    //gDLL->GameplayUnitFortify(pDllUnit.get(), true);
+                    // auto_ptr<ICvUnit1> pDllUnit(new CvDllUnit(this));
+                    // gDLL->GameplayUnitFortify(pDllUnit.get(), true);
                     gameModel?.userInterface?.animate(unit: self, animation: .fortify)
                 }
             } else {
@@ -4434,7 +4434,7 @@ public class Unit: AbstractUnit {
             }
 
             self.fortifyTurnsValue = newValue
-            //setInfoBarDirty(true);
+            // setInfoBarDirty(true);
 
             // Fortification turned off, send an event noting this
             if newValue == 0 {
@@ -4850,9 +4850,9 @@ extension Unit {
                 }
 
                 if !escortedBuilder /*&& !hUnit->IsIgnoringDangerWakeup()*/ && !self.isCombatUnit() && dangerPlotAI.danger(at: self.location) > 0.0 {
-                    //self.mission.clearMissionQueue()
+                    // self.mission.clearMissionQueue()
                     fatalError("boing")
-                    //hUnit->SetIgnoreDangerWakeup(true);
+                    // hUnit->SetIgnoreDangerWakeup(true);
                 } else {
                     if !self.isDelayedDeath() {
                         if self.activityType() == .mission {
@@ -4865,7 +4865,7 @@ extension Unit {
             }
         }
 
-        //self.ignoreDestruction(true);
+        // self.ignoreDestruction(true);
         self.doDelayedDeath(in: gameModel)
     }
 

@@ -39,9 +39,9 @@ class DiplomaticDialogViewModel {
     private let humanPlayer: AbstractPlayer?
     private let otherPlayer: AbstractPlayer?
 
-    //let state: DiplomaticRequestState
+    // let state: DiplomaticRequestState
     private var message: DiplomaticRequestMessage
-    //let emotion: LeaderEmotionType
+    // let emotion: LeaderEmotionType
 
     var deal: DiplomaticDeal?
 
@@ -49,7 +49,7 @@ class DiplomaticDialogViewModel {
 
     weak var presenter: DiplomaticDialogPresenterDelegate?
 
-    //let stateMachine: DiplomaticStateMachine
+    // let stateMachine: DiplomaticStateMachine
 
     init(for humanPlayer: AbstractPlayer?, and otherPlayer: AbstractPlayer?, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType, in gameModel: GameModel?) {
 
@@ -64,9 +64,9 @@ class DiplomaticDialogViewModel {
         self.humanPlayer = humanPlayer
         self.otherPlayer = otherPlayer
 
-        //self.state = state
+        // self.state = state
         self.message = message
-        //self.emotion = emotion
+        // self.emotion = emotion
 
         self.gameModel = gameModel
     }

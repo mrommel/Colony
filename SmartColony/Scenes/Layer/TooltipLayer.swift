@@ -16,7 +16,7 @@ class TooltipLayer: SKNode {
     var textureUtils: TextureUtils?
 
     // nodes
-    //var tooltipNodes: [TooltipNode] = []
+    // var tooltipNodes: [TooltipNode] = []
 
     init(player: AbstractPlayer?) {
 

@@ -116,6 +116,7 @@ public enum ScreenType {
     case none // map
 
     case city
+    case cityState
 
     case techTree
     case techList
@@ -152,6 +153,7 @@ public enum ScreenType {
     case eraProgress
     case selectDedication
     case moments
+    case cityStates
 }
 
 public enum TooltipType {

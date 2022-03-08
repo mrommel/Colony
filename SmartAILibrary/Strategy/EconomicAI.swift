@@ -22,7 +22,7 @@ public class EconomicAI: Codable {
         case explorersDisbanded
     }
 
-    var player: Player? {
+    var player: AbstractPlayer? {
         didSet {
             self.economicStrategyAdoptions.player = self.player
         }
@@ -338,12 +338,12 @@ public class EconomicAI: Codable {
             }
         }
 
-        //print("economic strategy flavors")
-        //print(self.flavors)
+        // print("economic strategy flavors")
+        // print(self.flavors)
         if !player.isHuman() {
-            //self.doHurry()
+            // self.doHurry()
             self.doPlotPurchases(in: gameModel)
-            //self.disbandExtraWorkers()
+            // self.disbandExtraWorkers()
         }
     }
 
@@ -678,7 +678,7 @@ public class EconomicAI: Codable {
             fatalError("no player given")
         }
 
-        //CvTwoLayerPathFinder& kPathFinder = GC.getPathFinder();
+        // CvTwoLayerPathFinder& kPathFinder = GC.getPathFinder();
 
         for var goodyHutUnitAssignment in self.goodyHutUnitAssignments {
 
@@ -834,7 +834,7 @@ public class EconomicAI: Codable {
 
                 if evalPoint.distance(to: plot) > 1 {
 
-                    //CvPlot* pAdjacentPlot;
+                    // CvPlot* pAdjacentPlot;
                     var viewBlocked = true
                     for adjacent in evalPoint.neighbors() {
 
@@ -870,7 +870,7 @@ public class EconomicAI: Codable {
                 switch domain {
                 case .sea:
 
-                    //FeatureTypes eFeature = pEvalPlot->getFeatureType();
+                    // FeatureTypes eFeature = pEvalPlot->getFeatureType();
                     if evalTile.terrain().isWater() {
                         resultValue += badScore
                     } else if evalTile.has(feature: .mountains) || evalTile.hasHills() {
@@ -967,7 +967,7 @@ public class EconomicAI: Codable {
                     continue
                 }
 
-                //if loopCity.canBuyAnyPlot() {
+                // if loopCity.canBuyAnyPlot() {
                 let (score, tempPoint) = loopCity.buyPlotScore(in: gameModel)
 
                 if score > bestScore {
@@ -975,7 +975,7 @@ public class EconomicAI: Codable {
                     bestScore = score
                     bestPoint = tempPoint
                 }
-                //}
+                // }
             }
 
             if let bestCity = bestCity {

@@ -377,7 +377,7 @@ class BottomLeftBar: SizedNode {
 extension BottomLeftBar: TouchableDelegate {
 
     func clicked(on identifier: String) {
-        //print("clicked on: \(identifier)")
+        // print("clicked on: \(identifier)")
 
         if let commandType = CommandType(identifier: identifier) {
             guard let command = self.commands.first(where: { $0.type == commandType }) else {

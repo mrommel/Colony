@@ -11,7 +11,7 @@ extension NSColor {
 
     func toColor(_ color: NSColor, percentage: CGFloat) -> NSColor {
 
-        let percentage = max(min(percentage, 100), 0) / 100
+        let percentage = percentage.clamped(to: 0...100) / 100
 
         switch percentage {
 

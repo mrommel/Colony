@@ -8,10 +8,10 @@
 
 import Foundation
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvOperationUnit
-//!  \brief        One unit moving with operational army currently being processed
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  \brief        One unit moving with operational army currently being processed
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class OperationUnit {
 
     let unit: AbstractUnit?

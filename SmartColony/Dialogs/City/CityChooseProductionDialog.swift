@@ -215,8 +215,8 @@ class CityChooseProductionDialog: Dialog {
 
     private func toogleDistrictAndBuildingProductions() {
 
-        //print("toggle districts & buildings")
-        self.buildingsAndDistrictsSectionButton?.expanded = !self.buildingsAndDistrictsSectionButton!.expanded //.toogle()
+        // print("toggle districts & buildings")
+        self.buildingsAndDistrictsSectionButton?.expanded = !self.buildingsAndDistrictsSectionButton!.expanded // .toogle()
 
         // calculate contentsize
         self.calculateProductionContentSize()
@@ -224,7 +224,7 @@ class CityChooseProductionDialog: Dialog {
 
     private func toggleUnitProductions() {
 
-        //print("toggle units")
+        // print("toggle units")
         self.unitsSectionButton?.expanded = !self.unitsSectionButton!.expanded // .toogle()
 
         // calculate contentsize
@@ -233,7 +233,7 @@ class CityChooseProductionDialog: Dialog {
 
     private func toggleWonderProductions() {
 
-        //print("toggle units")
+        // print("toggle units")
         self.wondersSectionButton?.expanded = !self.wondersSectionButton!.expanded // .toogle()
 
         // calculate contentsize

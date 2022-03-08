@@ -158,7 +158,7 @@ class Districts: AbstractDistricts {
         for district in DistrictType.all {
 
             if self.has(district: district) {
-                //self.housingVal += district.yields().housing
+                // self.housingVal += district.yields().housing
             }
         }
     }

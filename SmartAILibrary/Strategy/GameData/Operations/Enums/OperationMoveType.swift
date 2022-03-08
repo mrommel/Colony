@@ -17,5 +17,5 @@ enum OperationMoveType: Int, Codable {
     case navalEscort
     case freeformNaval
     case rebase
-    //case static
+    // case static
 }

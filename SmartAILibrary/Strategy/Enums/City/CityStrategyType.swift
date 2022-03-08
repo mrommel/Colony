@@ -592,7 +592,7 @@ enum CityStrategyType: Int, Codable {
         if moddedNumBuilders <= moddedNumCities || moddedNumBuilders == 0 {
 
             // If we don't have any Workers by turn 30 we really need to get moving
-            if gameModel.currentTurn > 30 { //AI_CITYSTRATEGY_NEED_TILE_IMPROVERS_DESPERATE_TURN
+            if gameModel.currentTurn > 30 { // AI_CITYSTRATEGY_NEED_TILE_IMPROVERS_DESPERATE_TURN
                 return true
             }
         }

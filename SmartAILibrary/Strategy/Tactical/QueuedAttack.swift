@@ -8,16 +8,16 @@
 
 import Foundation
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvQueuedAttack
-//!  \brief        A planned attack waiting to execute
+// !  \brief        A planned attack waiting to execute
 //
-//!  Key Attributes:
-//!  - Arises during processing of CvTacticalAI::ExecuteAttacks() or ProcessUnit()
-//!  - Created by calling QueueFirstAttack() or QueueSubsequentAttack()
-//!  - Combat animation system calls back into tactical AI when animation completes with call CombatResolved()
-//!  - This callback signals it is time to execute the next attack
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  Key Attributes:
+// !  - Arises during processing of CvTacticalAI::ExecuteAttacks() or ProcessUnit()
+// !  - Created by calling QueueFirstAttack() or QueueSubsequentAttack()
+// !  - Combat animation system calls back into tactical AI when animation completes with call CombatResolved()
+// !  - This callback signals it is time to execute the next attack
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class QueuedAttack {
 
     var attackerUnit: AbstractUnit?

@@ -207,6 +207,28 @@ public class BottomLeftBarViewModel: ObservableObject {
 
     func buttonClicked() {
 
-        self.delegate?.handleMainButtonClicked()
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        var canClickButton: Bool = false
+
+        if humanPlayer.blockingNotification() != nil {
+            canClickButton = true
+        }
+
+        if let delegate = self.delegate {
+            if delegate.areAnimationsFinished() {
+                canClickButton = true
+            }
+        }
+
+        if canClickButton {
+            self.delegate?.handleMainButtonClicked()
+        }
     }
 }

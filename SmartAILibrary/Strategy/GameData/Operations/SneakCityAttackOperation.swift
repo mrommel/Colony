@@ -8,10 +8,10 @@
 
 import Foundation
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvAIOperationSneakCityAttack
-//!  \brief        Same as Basic City attack except allowed when not at war
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  \brief        Same as Basic City attack except allowed when not at war
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class SneakCityAttackOperation: BasicCityAttackOperation {
 
     override init() {

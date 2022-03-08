@@ -158,7 +158,7 @@ class Civics: AbstractCivics {
 
         // FIXME
         return Double(civic.flavorValue(for: flavor) * player.leader.flavor(for: flavor))
-        //return 0.0
+        // return 0.0
     }
 
     func has(civic: CivicType) -> Bool {
@@ -168,15 +168,23 @@ class Civics: AbstractCivics {
 
     func discover(civic: CivicType, in gameModel: GameModel?) throws {
 
+        guard let player = self.player else {
+            fatalError("Can't discover tech - no player present")
+        }
+
         if self.civics.contains(civic) {
             throw CivicError.alreadyDiscovered
         }
 
-        if civic.governorTitle() {
+        if civic.hasGovernorTitle() {
             self.player?.addGovernorTitle()
         }
 
-        // check if this tech is the first of a new era
+        if civic.envoys() > 0 {
+            self.player?.changeEnvoys(by: civic.envoys())
+        }
+
+        // check if this civic is the first of a new era
         let civicsInEra = self.civics.count(where: { $0.era() == civic.era() })
         if civicsInEra == 0 && civic.era() != .ancient {
 
@@ -188,6 +196,18 @@ class Civics: AbstractCivics {
                 self.player?.addMoment(of: .firstCivicOfNewEra(eraType: civic.era()), in: gameModel)
             } else {
                 self.player?.addMoment(of: .worldsFirstCivicOfNewEra(eraType: civic.era()), in: gameModel)
+            }
+        }
+
+        // check quests
+        for quest in player.ownQuests(in: gameModel) {
+
+            if case .triggerInspiration(civic: let questCivicType) = quest.type {
+                if questCivicType == civic {
+                    if let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState) {
+                        cityStatePlayer.obsoleteQuest(by: player.leader, in: gameModel)
+                    }
+                }
             }
         }
 
@@ -434,6 +454,18 @@ class Civics: AbstractCivics {
         // penBrushAndVoice + normal - Gain +1 Era Score when you trigger an [Inspiration] Inspiration
         if player.currentAge() == .normal && player.has(dedication: .penBrushAndVoice) {
             player.addMoment(of: .dedicationTriggered(dedicationType: .penBrushAndVoice), in: gameModel)
+        }
+
+        // check quests
+        for quest in player.ownQuests(in: gameModel) {
+
+            if case .triggerInspiration(civic: let questCivicType) = quest.type {
+
+                if civicType == questCivicType {
+                    let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState)
+                    cityStatePlayer?.fulfillQuest(by: player.leader, in: gameModel)
+                }
+            }
         }
 
         // trigger event to user

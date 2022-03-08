@@ -56,8 +56,8 @@ class CityPopulationGrowthViewModel {
  */
 class CityPopulationGrowthDialog: Dialog {
 
-    //weak var city: AbstractCity?
-    //weak var gameModel: GameModel?
+    // weak var city: AbstractCity?
+    // weak var gameModel: GameModel?
 
     let viewModel: CityPopulationGrowthViewModel
 

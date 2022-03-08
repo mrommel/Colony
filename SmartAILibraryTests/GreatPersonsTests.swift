@@ -170,8 +170,9 @@ class GreatPersonsTests: XCTestCase {
         playerElizabeth.set(era: .medieval, in: gameModel)
 
         // WHEN
-        //playerAlexander.greatPeople?.add(points: GreatPersonPoints(greatGeneral: 61))
-        //playerAlexander.doGreatPeople(in: gameModel)
+        // playerAlexander.greatPeople?.add(points: GreatPersonPoints(greatGeneral: 61))
+        // playerAlexander.doGreatPeople(in: gameModel)
+        gameModel.doWorldEra()
         guard let person = gameModel.greatPerson(of: GreatPersonType.greatGeneral, points: 100, for: playerAlexander) else {
             fatalError("abc")
         }

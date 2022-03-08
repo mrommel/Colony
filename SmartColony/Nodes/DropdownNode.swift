@@ -59,7 +59,7 @@ class DropdownPanelNode: NineGridTextureSprite {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
-        //print("dropdown - began")
+        // print("dropdown - began")
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -157,14 +157,14 @@ class DropdownNode: NineGridTextureSprite {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
-        //print("dropdown - began")
+        // print("dropdown - began")
         self.panelNode.isHidden = false
         self.delegate?.dropdownClicked()
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 
-        //print("dropdown - moved")
+        // print("dropdown - moved")
         if let touch: UITouch = touches.first {
 
             let location: CGPoint = touch.location(in: self)
@@ -176,7 +176,7 @@ class DropdownNode: NineGridTextureSprite {
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 
-        //print("dropdown - ended")
+        // print("dropdown - ended")
         self.panelNode.isHidden = true
 
         if let touch: UITouch = touches.first {

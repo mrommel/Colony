@@ -46,7 +46,7 @@ extension UIImage {
         UIGraphicsBeginImageContextWithOptions(
             CGSize(width: self.size.width + insets.left + insets.right, height:
                     self.size.height + insets.top + insets.bottom), false, self.scale)
-        //let context = UIGraphicsGetCurrentContext()
+        // let context = UIGraphicsGetCurrentContext()
         let origin = CGPoint(x: insets.left, y: insets.top)
         self.draw(at: origin)
         let imageWithInsets = UIGraphicsGetImageFromCurrentImageContext()
@@ -77,14 +77,14 @@ extension UIImage {
                                           version: 0, decode: nil, renderingIntent: CGColorRenderingIntent.defaultIntent)
         var sourceBuffer = vImage_Buffer()
         defer {
-            sourceBuffer.data.deallocate() //.dealloc(Int(sourceBuffer.height) * Int(sourceBuffer.height) * 4)
+            sourceBuffer.data.deallocate() // .dealloc(Int(sourceBuffer.height) * Int(sourceBuffer.height) * 4)
         }
 
         var error = vImageBuffer_InitWithCGImage(&sourceBuffer, &format, nil, cgImage, numericCast(kvImageNoFlags))
         guard error == kvImageNoError else { return nil }
 
         // create a destination buffer
-        //let scale = self.scale
+        // let scale = self.scale
         let destWidth = Int(size.width)
         let destHeight = Int(size.height)
         let bytesPerPixel = self.cgImage!.bitsPerPixel / 8

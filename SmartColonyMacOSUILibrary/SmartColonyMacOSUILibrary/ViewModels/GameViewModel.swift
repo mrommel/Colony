@@ -102,6 +102,7 @@ protocol GameViewModelDelegate: AnyObject {
     func showRankingDialog()
     func showEraProgressDialog()
     func showMomentsDialog()
+    func showCityStateDialog()
 
     func showCityDialog(for city: AbstractCity?)
     func showCityChooseProductionDialog(for city: AbstractCity?)
@@ -230,6 +231,9 @@ public class GameViewModel: ObservableObject {
     var cityDialogViewModel: CityDialogViewModel
 
     @Published
+    var cityStateDialogViewModel: CityStateDialogViewModel
+
+    @Published
     var unitListDialogViewModel: UnitListDialogViewModel
 
     @Published
@@ -273,6 +277,9 @@ public class GameViewModel: ObservableObject {
 
     @Published
     var momentsDialogViewModel: MomentsDialogViewModel
+
+    @Published
+    var cityStatesDialogViewModel: CityStatesDialogViewModel
 
     // popups
 
@@ -444,6 +451,8 @@ public class GameViewModel: ObservableObject {
         self.eraProgressDialogViewModel = EraProgressDialogViewModel()
         self.selectDedicationDialogViewModel = SelectDedicationDialogViewModel()
         self.momentsDialogViewModel = MomentsDialogViewModel()
+        self.cityStatesDialogViewModel = CityStatesDialogViewModel()
+        self.cityStateDialogViewModel = CityStateDialogViewModel()
 
         // popups
         self.goodyHutRewardPopupViewModel = GoodyHutRewardPopupViewModel()
@@ -493,6 +502,8 @@ public class GameViewModel: ObservableObject {
         self.eraProgressDialogViewModel.delegate = self
         self.selectDedicationDialogViewModel.delegate = self
         self.momentsDialogViewModel.delegate = self
+        self.cityStatesDialogViewModel.delegate = self
+        self.cityStateDialogViewModel.delegate = self
 
         self.goodyHutRewardPopupViewModel.delegate = self
         self.techDiscoveredPopupViewModel.delegate = self
@@ -1045,6 +1056,9 @@ extension GameViewModel: GameViewModelDelegate {
         case .city:
             self.showCityDialog(for: city)
 
+        case .cityState:
+            self.showCityStateDialog(for: city)
+
         case .techTree:
             self.showTechTreeDialog()
 
@@ -1147,6 +1161,16 @@ extension GameViewModel: GameViewModelDelegate {
 }
 
 extension GameViewModel: TopBarViewModelDelegate {
+
+    func tradeRoutesClicked() {
+
+        self.showTradeRouteDialog()
+    }
+
+    func envoysClicked() {
+
+        self.showCityStateDialog()
+    }
 
     func menuButtonClicked() {
 

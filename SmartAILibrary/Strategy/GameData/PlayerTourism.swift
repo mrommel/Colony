@@ -83,7 +83,7 @@ class PlayerTourism: AbstractPlayerTourism {
             fatalError("cant get player")
         }
 
-        let turnCulture = player.culture(in: gameModel)
+        let turnCulture = player.culture(in: gameModel, consume: false)
         self.lifetimeCultureValue += turnCulture
 
         for loopPlayer in gameModel.players {

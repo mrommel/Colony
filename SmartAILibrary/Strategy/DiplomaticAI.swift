@@ -202,7 +202,7 @@ public class DiplomaticAI: Codable {
         self.updateMilitaryStrengths(in: gameModel)
         self.updateEconomicStrengths(in: gameModel)
 
-        //DoUpdateWarmongerThreats();
+        // DoUpdateWarmongerThreats();
         self.updateMilitaryThreats(in: gameModel)
         self.updateTargetValue(in: gameModel) // DoUpdatePlayerTargetValues
         self.updateWarStates(in: gameModel)
@@ -213,45 +213,45 @@ public class DiplomaticAI: Codable {
 
         // Issues of Dispute
         self.doUpdateLandDisputeLevels(in: gameModel)
-        //DoUpdateVictoryDisputeLevels();
-        //DoUpdateWonderDisputeLevels();
-        //DoUpdateMinorCivDisputeLevels();
+        // DoUpdateVictoryDisputeLevels();
+        // DoUpdateWonderDisputeLevels();
+        // DoUpdateMinorCivDisputeLevels();
 
         // Has any player gone back on any promises he made?
-        //DoTestPromises();
+        // DoTestPromises();
 
         // What we think other Players are up to
-        //self.doUpdateOtherPlayerWarDamageLevel(in: gameModel)
-        //DoUpdateEstimateOtherPlayerLandDisputeLevels();
-        //DoUpdateEstimateOtherPlayerVictoryDisputeLevels();
-        //DoUpdateEstimateOtherPlayerMilitaryThreats();
-        //DoEstimateOtherPlayerOpinions();
-        //LogOtherPlayerGuessStatus();
+        // self.doUpdateOtherPlayerWarDamageLevel(in: gameModel)
+        // DoUpdateEstimateOtherPlayerLandDisputeLevels();
+        // DoUpdateEstimateOtherPlayerVictoryDisputeLevels();
+        // DoUpdateEstimateOtherPlayerMilitaryThreats();
+        // DoEstimateOtherPlayerOpinions();
+        // LogOtherPlayerGuessStatus();
 
         // Look at the situation
-        //DoUpdateMilitaryAggressivePostures();
+        // DoUpdateMilitaryAggressivePostures();
         self.doUpdateExpansionAggressivePostures(in: gameModel)
         self.doUpdatePlotBuyingAggressivePosture(in: gameModel)
 
         // Player Opinion & Approach
-        //DoUpdateApproachTowardsUsGuesses();
+        // DoUpdateApproachTowardsUsGuesses();
 
         self.updateOpinions(in: gameModel)
         self.updateApproaches(in: gameModel)
-        //DoUpdateMinorCivApproaches();
+        // DoUpdateMinorCivApproaches();
 
         self.updateProximities(in: gameModel)
 
         // These functions actually DO things, and we don't want the shadow AI behind a human player doing things for him
         if !player.isHuman() {
 
-            //MakeWar();
-            //DoMakePeaceWithMinors();
+            // MakeWar();
+            // DoMakePeaceWithMinors();
 
-            //DoUpdateDemands();
+            // DoUpdateDemands();
 
-            //DoUpdatePlanningExchanges();
-            //DoContactMinorCivs();
+            // DoUpdatePlanningExchanges();
+            // DoContactMinorCivs();
             self.doContactMajorCivs(in: gameModel)
         }
 
@@ -773,7 +773,7 @@ public class DiplomaticAI: Codable {
             } */
 
             //    OFFERS - all members but ePlayer passed by address
-            //self.doLuxuryTrade(ePlayer, statement, pDeal);
+            // self.doLuxuryTrade(ePlayer, statement, pDeal);
             self.doEmbassyExchange(with: otherPlayer, statement: &statement, deal: &deal, in: gameModel)
             self.doEmbassyOffer(with: otherPlayer, statement: &statement, deal: &deal, in: gameModel)
             self.doOpenBordersExchange(with: otherPlayer, statement: &statement, deal: &deal, in: gameModel)
@@ -782,7 +782,7 @@ public class DiplomaticAI: Codable {
             self.doRenewExpiredDeal(ePlayer, eStatement, pDeal);
             self.doShareIntrigueStatement(ePlayer, eStatement);*/
 
-            //self.doRequest(ePlayer, statement, deal)
+            // self.doRequest(ePlayer, statement, deal)
 
             // Second set of things we don't say to teammates
             /*if(GetPlayer()->getTeam() != GET_PLAYER(ePlayer).getTeam())
@@ -810,15 +810,15 @@ public class DiplomaticAI: Codable {
         } else {
             // AT WAR
             //    OFFERS - all members but ePlayer passed by address
-            //self.doPeaceOffer(with: otherPlayer, statement: &statement, deal: &deal, in: gameModel)
+            // self.doPeaceOffer(with: otherPlayer, statement: &statement, deal: &deal, in: gameModel)
         }
 
         // Now see if it's a valid time to send this message (we may have already sent it)
         if statement != .none {
 
-            //LogStatementToPlayer(ePlayer, eStatement);
+            // LogStatementToPlayer(ePlayer, eStatement);
             self.doSendStatement(to: otherPlayer, statement: statement, leader: leader, deal: deal, in: gameModel)
-            //self.doAddNewStatementToLog(for: otherPlayer, statement: statement)
+            // self.doAddNewStatementToLog(for: otherPlayer, statement: statement)
         }
     }
 
@@ -1098,7 +1098,7 @@ public class DiplomaticAI: Codable {
                 if shouldShowLeaderScene {
 
                     // Send message to human
-                    //let szText = DiplomaticRequestMessage.coopWarRequest.diploStringForMessage(for: self.player, and: againstPlayer)
+                    // let szText = DiplomaticRequestMessage.coopWarRequest.diploStringForMessage(for: self.player, and: againstPlayer)
                     self.player?.diplomacyRequests?.sendRequest(for: otherLeader, state: .discussCoopWar, message: .coopWarRequest, emotion: .positive, in: gameModel)
 
                 } else if !human {
@@ -1139,11 +1139,11 @@ public class DiplomaticAI: Codable {
 
                 // Send message to human
                 if shouldShowLeaderScene {
-                    //let szText = DiplomaticRequestMessage.coopWarTime.diploStringForMessage(for: self.player, and: againstPlayer)
+                    // let szText = DiplomaticRequestMessage.coopWarTime.diploStringForMessage(for: self.player, and: againstPlayer)
 
                     self.player?.diplomacyRequests?.sendRequest(for: otherLeader, state: .discussCoopWarTime, message: .coopWarTime, emotion: .positive, in: gameModel)
 
-                    //self.player?.diplomacyRequests?.sendRequest(for:GetPlayer()->GetID(), ePlayer, DIPLO_UI_STATE_DISCUSS_COOP_WAR_TIME, szText, LEADERHEAD_ANIM_POSITIVE, eAgainstPlayer);
+                    // self.player?.diplomacyRequests?.sendRequest(for:GetPlayer()->GetID(), ePlayer, DIPLO_UI_STATE_DISCUSS_COOP_WAR_TIME, szText, LEADERHEAD_ANIM_POSITIVE, eAgainstPlayer);
                 }
             }
 
@@ -1216,22 +1216,20 @@ public class DiplomaticAI: Codable {
          else*/ if statement == .embassyExchange /* DIPLO_STATEMENT_EMBASSY_EXCHANGE*/ {
             // Offer Embassy Exchange
             if shouldShowLeaderScene {
-                //let szText = DiplomaticRequestMessage.embassyExchange.diploStringForMessage(for: self.player)
                 self.player?.diplomacyRequests?.sendDealRequest(for: otherLeader, deal: deal, state: .tradeAIMakesOffer, message: .embassyExchange, emotion: .request, in: gameModel)
             } else if !human {
 
                 fatalError("not handled")
-                //CvDeal kDeal = *pDeal;
+                // CvDeal kDeal = *pDeal;
 
                 // Don't need to call DoOffer because we check to see if the deal works for both sides BEFORE sending
-                //GC.getGame().GetGameDeals()->AddProposedDeal(kDeal);
-                //GC.getGame().GetGameDeals()->FinalizeDeal(GetPlayer()->GetID(), ePlayer, true);
+                // GC.getGame().GetGameDeals()->AddProposedDeal(kDeal);
+                // GC.getGame().GetGameDeals()->FinalizeDeal(GetPlayer()->GetID(), ePlayer, true);
             }
         } else if statement == .embassyOffer {
 
             // Offer Embassy
             if shouldShowLeaderScene {
-                //let szText = DiplomaticRequestMessage.embassyOffer.diploStringForMessage(for: self.player)
                 self.player?.diplomacyRequests?.sendDealRequest(for: otherLeader, deal: deal, state: .tradeAIMakesOffer, message: .embassyOffer, emotion: .request, in: gameModel)
             } else if !human {
                 fatalError("not handled")
@@ -1246,7 +1244,6 @@ public class DiplomaticAI: Codable {
             // Offer Open Borders Exchange
             if shouldShowLeaderScene {
                 // Active human
-                //let szText = DiplomaticRequestMessage.openBordersExchange.diploStringForMessage(for: self.player)
                 self.player?.diplomacyRequests?.sendDealRequest(for: otherLeader, deal: deal, state: .tradeAIMakesOffer, message: .openBordersExchange, emotion: .request, in: gameModel)
             } else if !human {
                 fatalError("not handled")
@@ -1262,7 +1259,6 @@ public class DiplomaticAI: Codable {
             // Offer Open Borders
             if shouldShowLeaderScene {
                 // Active human
-                //let szText = DiplomaticRequestMessage.openBordersOffer.diploStringForMessage(for: self.player)
                 self.player?.diplomacyRequests?.sendDealRequest(for: otherLeader, deal: deal, state: .tradeAIMakesOffer, message: .openBordersOffer, emotion: .request, in: gameModel)
 
             } else if !human {
@@ -1896,7 +1892,7 @@ public class DiplomaticAI: Codable {
             if shouldShowLeaderScene {
 
                 // Active human
-                //let szText = DiplomaticRequestMessage.peaceOffer.diploStringForMessage(for: nil)
+                // let szText = DiplomaticRequestMessage.peaceOffer.diploStringForMessage(for: nil)
                 self.player?.diplomacyRequests?.sendDealRequest(for: otherLeader, deal: deal, state: .tradeAIMakesOffer, message: .peaceOffer, emotion: .positive, in: gameModel)
             } else if !human {
 
@@ -1908,7 +1904,7 @@ public class DiplomaticAI: Codable {
                 GC.getGame().GetGameDeals()->AddProposedDeal(kDeal);
                 GC.getGame().GetGameDeals()->FinalizeDeal(GetPlayer()->GetID(), ePlayer, true);*/
 
-                //LogPeaceMade(ePlayer);
+                // LogPeaceMade(ePlayer);
             }
         }
     }
@@ -1995,7 +1991,7 @@ public class DiplomaticAI: Codable {
                         var sendStatement = true
 
                         //// 1 in 2 chance we don't actually send the message (don't want full predictability)
-                        //if (50 < GC.getGame().getJonRandNum(100, "Diplomacy AI: rand roll to see if we ask to work with a player"))
+                        // if (50 < GC.getGame().getJonRandNum(100, "Diplomacy AI: rand roll to see if we ask to work with a player"))
                         //    bSendStatement = false;
 
                         if sendStatement {
@@ -2003,7 +1999,7 @@ public class DiplomaticAI: Codable {
                             data = targetPlayer.leader
                         } else {
                             // Add this statement to the log so we don't evaluate it again until time has passed
-                            //self.doAddNewStatementToLog(for: otherPlayer, statement: tempStatement)
+                            // self.doAddNewStatementToLog(for: otherPlayer, statement: tempStatement)
                         }
                     }
                 }
@@ -2481,13 +2477,13 @@ public class DiplomaticAI: Codable {
 
     func numTurnsSinceStatementSent(to otherPlayer: AbstractPlayer?, statement: DiplomaticStatementType) -> Int {
 
-        print("not implemented")
+        print("DiplomaticAI::numTurnsSinceStatementSent not implemented")
         return 100
     }
 
     func sendStatement(to otherPlayer: AbstractPlayer?, statement: DiplomaticStatementType) {
 
-        print("not implemented")
+        print("DiplomaticAI::sendStatement not implemented")
     }
 
     // MARK: open borders
@@ -2574,16 +2570,81 @@ public class DiplomaticAI: Codable {
 
     func update(in gameModel: GameModel?) {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
         guard let player = self.player else {
             fatalError("cant get current player")
         }
 
-        if let activePlayer = gameModel?.activePlayer() {
+        if let activePlayer = gameModel.activePlayer() {
 
             if self.greetPlayers.contains(where: { activePlayer.isEqual(to: $0) }) {
 
-                //let szText = DiplomaticRequestMessage.messageIntro.diploStringForMessage(for: self.player)
-                player.diplomacyRequests?.sendRequest(for: activePlayer.leader, state: .intro, message: .messageIntro, emotion: .neutral, in: gameModel)
+                if player.isCityState() || activePlayer.isCityState() {
+                    if activePlayer.isHuman() && player.isCityState() {
+
+                        guard case .cityState(let cityState) = player.leader else {
+                            fatalError("cant get city state")
+                        }
+
+                        // is `activePlayer the first major player to meet this city state
+                        if gameModel.countMajorCivilizationsMet(with: cityState) == 1 {
+
+                            // first player gets a free envoy
+                            activePlayer.changeEnvoys(by: 1)
+
+                            // this free envoy is assigned to
+                            activePlayer.assignEnvoy(to: cityState, in: gameModel)
+
+                            // inform human player
+                            activePlayer.notifications()?.add(notification: .metCityState(cityState: cityState, first: true))
+                        } else {
+                            activePlayer.notifications()?.add(notification: .metCityState(cityState: cityState, first: false))
+                        }
+
+                        // reveal city state to player
+                        if let cityStateCapital = gameModel.capital(of: player) {
+                            gameModel.discover(at: cityStateCapital.location, sight: 3, for: activePlayer)
+                        }
+
+                    } else if activePlayer.isCityState() && player.isHuman() {
+
+                        guard case .cityState(let cityState) = activePlayer.leader else {
+                            fatalError("cant get city state")
+                        }
+
+                        // is ´player´ the first major player to meet this city state
+                        if gameModel.countMajorCivilizationsMet(with: cityState) == 1 {
+
+                            // first player gets a free envoy
+                            player.changeEnvoys(by: 1)
+
+                            // this free envoy is assigned to
+                            player.assignEnvoy(to: cityState, in: gameModel)
+
+                            // inform human player
+                            player.notifications()?.add(notification: .metCityState(cityState: cityState, first: true))
+                        } else {
+                            player.notifications()?.add(notification: .metCityState(cityState: cityState, first: false))
+                        }
+
+                        // reveal city state to player
+                        if let cityStateCapital = gameModel.capital(of: activePlayer) {
+                            gameModel.discover(at: cityStateCapital.location, sight: 3, for: player)
+                        }
+                    }
+
+                } else {
+                    player.diplomacyRequests?.sendRequest(
+                        for: activePlayer.leader,
+                           state: .intro,
+                           message: .messageIntro,
+                           emotion: .neutral,
+                           in: gameModel
+                    )
+                }
 
                 self.greetPlayers.removeAll(where: { activePlayer.isEqual(to: $0) })
             }
@@ -2604,6 +2665,10 @@ public class DiplomaticAI: Codable {
             fatalError("cant get otherPlayer")
         }
 
+        if self.hasMet(with: otherPlayer) {
+            return
+        }
+
         if player.isBarbarian() || otherPlayer.isBarbarian() {
             return
         }
@@ -2618,9 +2683,7 @@ public class DiplomaticAI: Codable {
             if otherPlayer.isHuman() {
 
                 // Put in the list of people to greet human, when the human turn comes up.
-                //if !self.hasMet(with: otherPlayer) {
-                    self.greetPlayers.append(otherPlayer)
-                //}
+                self.greetPlayers.append(otherPlayer)
             }
         }
     }
@@ -3139,7 +3202,7 @@ public class DiplomaticAI: Codable {
         }
 
         // Conquest bias: must be a stalemate or better to apply (or not at war yet)
-        if (warState == .none || warState > .defensive) {
+        if warState == .none || warState > .defensive {
             if self.isGoingForWorldConquest() {
                 weights.add(weight: 3, for: .war) // APPROACH_WAR_CONQUEST_GRAND_STRATEGY
             }
@@ -3678,7 +3741,7 @@ public class DiplomaticAI: Codable {
                     //////////////////////////////////////////////////////////
 
                     // If the war is calm, but they're an easy target consider us on Offense
-                    if (warState == .calm) {
+                    if warState == .calm {
                         if self.playerDict.targetValue(of: otherPlayer) >= .favorable {
                             warState = .offensive
                         }
@@ -3815,13 +3878,13 @@ public class DiplomaticAI: Codable {
         var warGoalValue = 0
         var warGoal: WarGoalType = .none
 
-        //PlayerTypes eLoopOtherPlayer;
-        //int iOtherPlayerLoop;
-        //bool bHigherUpsWantWar;
+        // PlayerTypes eLoopOtherPlayer;
+        // int iOtherPlayerLoop;
+        // bool bHigherUpsWantWar;
 
-        //bool bIsMinor;
+        // bool bIsMinor;
 
-        //WarProjectionTypes eProjection;
+        // WarProjectionTypes eProjection;
 
         // Loop through all (known) Players
         for loopPlayer in gameModel.players {
@@ -3900,7 +3963,7 @@ public class DiplomaticAI: Codable {
     /// Are we locked into a war with otherPlayer?
     private func isLockedIntoCoopWar(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
 
-        let coopWarState = self.globalCoopWarAcceptedState(against: otherPlayer, in: gameModel) //self.coopWarAcceptedState(of: self.player, towards: otherPlayer)
+        let coopWarState = self.globalCoopWarAcceptedState(against: otherPlayer, in: gameModel) // self.coopWarAcceptedState(of: self.player, towards: otherPlayer)
 
         if coopWarState == .accepted || coopWarState == .soon {
             if self.coopWarCounter(of: self.player, towards: otherPlayer) <= 20 /* COOP_WAR_LOCKED_TURNS */ {
@@ -4915,7 +4978,7 @@ public class DiplomaticAI: Codable {
             }
 
             // Don't look at Cities they've captured
-            //if (pLoopCity->getOriginalOwner() != pLoopCity->getOwner())  continue;
+            // if (pLoopCity->getOriginalOwner() != pLoopCity->getOwner())  continue;
 
             aggressivePosture = .none
 
@@ -5023,7 +5086,7 @@ public class DiplomaticAI: Codable {
                     posture = .none
                 }
 
-                //self.updatePlotBuyingAggressivePosture(eLoopPlayer, ePosture);
+                // self.updatePlotBuyingAggressivePosture(eLoopPlayer, ePosture);
                 self.playerDict.updatePlotBuyingAggressivePosture(for: loopPlayer, posture: posture)
             }
         }

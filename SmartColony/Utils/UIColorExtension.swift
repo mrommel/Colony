@@ -175,7 +175,7 @@ struct Color16 {
         self.init(red: UInt8(red), green: UInt8(green), blue: UInt8(blue))
     }
 
-    //var
+    // var
 
     var red: UInt8 {
         let red5 = (value >> 11) & 31 // 5 bits

@@ -8,7 +8,7 @@
 import Cocoa
 import SwiftUI
 
-//@main
+// @main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var window: NSWindow?

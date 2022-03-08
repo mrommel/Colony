@@ -203,7 +203,7 @@ class BottomCombatBar: SizedNode {
             self.attackerBaseStrengthNode?.text = "\(attacker.baseCombatStrength(ignoreEmbarked: true))"
 
             for modifier in attacker.attackStrengthModifier(against: self.defender, or: nil, on: nil, in: gameModel) {
-                //print("- \(modifier.modifierTitle)")
+                // print("- \(modifier.modifierTitle)")
 
                 let modifierNode = SKLabelNode(text: "\(modifier.modifierValue) \(modifier.modifierTitle)")
                 modifierNode.horizontalAlignmentMode = .right

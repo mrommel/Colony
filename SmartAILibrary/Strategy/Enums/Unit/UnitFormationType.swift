@@ -129,7 +129,7 @@ enum UnitFormationType: Int, Codable {
                 UnitFormationSlot(primaryUnitTask: .cityBombard /*assauld*/, secondaryUnitTask: .reserveSea, position: .bombard, required: true),
                 UnitFormationSlot(primaryUnitTask: .cityBombard /*assauld*/, secondaryUnitTask: .reserveSea, position: .bombard, required: true),
                 UnitFormationSlot(primaryUnitTask: .cityBombard /*assauld*/, secondaryUnitTask: .reserveSea, position: .bombard, required: false),
-                //UnitFormationSlot(primaryUnitTask: .carrierSea, secondaryUnitTask: .reserveSea, position: .bombard, required: false),
+                // UnitFormationSlot(primaryUnitTask: .carrierSea, secondaryUnitTask: .reserveSea, position: .bombard, required: false),
                 UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: true)
                 // FIXME admiral
             ]

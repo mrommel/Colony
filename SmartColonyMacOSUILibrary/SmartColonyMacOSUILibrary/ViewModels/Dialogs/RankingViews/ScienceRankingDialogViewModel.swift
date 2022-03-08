@@ -27,14 +27,8 @@ class ScienceRankingDialogViewModel: ObservableObject {
 
     init() {
 
-        self.title = "Science Victory"
-        self.summary =
-            "To achieve a science victory, you must accomplish 5 major milestones:\n" +
-            "- Launch a satellite.\n" +
-            "- Land a human on the Moon.\n" +
-            "- Establish a Martian Colony.\n" +
-            "- Launch an Exoplanet Expedition.\n" +
-            "- Help the Exoplanet Expedition to travel 50 light years."
+        self.title = "TXT_KEY_RANKING_SCIENCE_VICTORY_TITLE".localized()
+        self.summary = "TXT_KEY_RANKING_SCIENCE_VICTORY_BODY".localized()
         self.scienceRankingViewModels = []
     }
 
@@ -53,11 +47,11 @@ class ScienceRankingDialogViewModel: ObservableObject {
 
         for player in gameModel.players {
 
-            let civilizationType: CivilizationType = player.leader.civilization()
-
-            if civilizationType == .barbarian {
+            if player.isBarbarian() || player.isFreeCity() || player.isCityState() {
                 continue
             }
+
+            let civilizationType: CivilizationType = player.leader.civilization()
 
             let scoreRankingViewModel = ScienceRankingViewModel(
                 civilization: civilizationType,

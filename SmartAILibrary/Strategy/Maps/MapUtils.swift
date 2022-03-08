@@ -73,7 +73,7 @@ public class MapUtils {
         }
     }
 
-    static func discover(area: HexArea, mapModel: inout MapModel, by player: AbstractPlayer?, in gameModel: GameModel?) {
+    public static func discover(area: HexArea, mapModel: inout MapModel, by player: AbstractPlayer?, in gameModel: GameModel?) {
 
         for pt in area {
             mapModel.discover(by: player, at: pt, in: gameModel)

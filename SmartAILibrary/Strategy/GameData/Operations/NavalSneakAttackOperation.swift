@@ -8,10 +8,10 @@
 
 import Foundation
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvAIOperationNavalSneakAttack
-//!  \brief        Same as basic naval attack except allowed when not at war
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  \brief        Same as basic naval attack except allowed when not at war
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class NavalSneakAttackOperation: NavalAttackOperation {
 
     override init() {

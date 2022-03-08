@@ -213,7 +213,7 @@ class HexCube {
 
     convenience init(hex: HexPoint) {
         self.init(q: hex.x - (hex.y + (hex.y&1)) / 2, s: hex.y) // even-q
-        //self.init(q: hex.x - (hex.y - (hex.y&1)) / 2, s: hex.y) // odd-q
+        // self.init(q: hex.x - (hex.y - (hex.y&1)) / 2, s: hex.y) // odd-q
     }
 
     convenience init(screen: CGPoint) {
@@ -318,7 +318,7 @@ extension HexPoint {
     convenience init(cube: HexCube) {
         self.init(x: cube.q + (cube.s + (cube.s&1)) / 2, y: cube.s) // even-q
 
-        //self.init(x: cube.q + (cube.s - (cube.s&1)) / 2, y: cube.s) // odd-q
+        // self.init(x: cube.q + (cube.s - (cube.s&1)) / 2, y: cube.s) // odd-q
     }
 
     public convenience init(screen: CGPoint) {

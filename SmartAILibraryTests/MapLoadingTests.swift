@@ -159,7 +159,7 @@ class MapLoadingTests: XCTestCase {
 
         let encoder = JSONEncoder()
         let data = try encoder.encode(map)
-        //let string = String(data: data, encoding: .utf8)!
+        // let string = String(data: data, encoding: .utf8)!
 
         let decoder = JSONDecoder()
         let decodedMap = try decoder.decode(MapModel.self, from: data)

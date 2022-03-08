@@ -62,6 +62,7 @@ public enum LabelImageType {
 
     case relic
     case artifact
+    case greatWorkOfWriting
 
     case darkAge
     case normalAge
@@ -124,6 +125,7 @@ public enum LabelImageType {
 
         case "[Relic]": return .relic
         case "[Artifact]": return .artifact
+        case "[GreatWorkOfWriting]": return .greatWorkOfWriting
 
         case "[DarkAge]": return .darkAge
         case "[NormalAge]": return .normalAge
@@ -189,6 +191,7 @@ public enum LabelImageType {
 
         case .relic: return Globals.Icons.relic
         case .artifact: return Globals.Icons.artifact
+        case .greatWorkOfWriting: return Globals.Icons.greatWorkOfWriting
 
         case .darkAge: return Globals.Icons.darkAge
         case .normalAge: return Globals.Icons.normalAge

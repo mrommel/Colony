@@ -17,7 +17,7 @@ extension WonderType {
         case .none: return "wonder_default"
 
             // ancient
-            //case .greatBath: return "wonder_greatBath"
+            // case .greatBath: return "wonder_greatBath"
         case .pyramids: return "wonder_pyramids"
         case .hangingGardens: return "wonder_hangingGardens"
         case .oracle: return "wonder_oracle"

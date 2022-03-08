@@ -86,7 +86,7 @@ class SelectTradeCityDialog: Dialog {
                                                 sized: CGSize(width: 200, height: 42),
                                                 buttonAction: {
 
-                //print("clicked of \(city?.name ?? "---")")
+                // print("clicked of \(city?.name ?? "---")")
                 if let cityResultHandler = self.cityResultHandler {
                     cityResultHandler(city)
                 }
@@ -112,7 +112,7 @@ class SelectTradeCityDialog: Dialog {
             let dy: CGFloat = offsetY - CGFloat(index) * 50.0
             cityNode.position = CGPoint(x: dx, y: dy)
 
-            //cityNode.updateLayout()
+            // cityNode.updateLayout()
         }
     }
 }

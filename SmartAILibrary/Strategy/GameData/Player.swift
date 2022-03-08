@@ -49,7 +49,7 @@ class ImprovementCountList: WeightedList<ImprovementType> {
 
 extension Comparable {
 
-    func clamped(to limits: ClosedRange<Self>) -> Self {
+    public func clamped(to limits: ClosedRange<Self>) -> Self {
 
         return min(max(self, limits.lowerBound), limits.upperBound)
     }
@@ -135,11 +135,13 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func isEverAlive() -> Bool
     func isActive() -> Bool
     func isTurnActive() -> Bool
+
     func isHuman() -> Bool
     func isBarbarian() -> Bool
     func isFreeCity() -> Bool
+    func isCityState() -> Bool
 
-    // diplomatics
+    // diplomatics methods
     func hasMet(with otherPlayer: AbstractPlayer?) -> Bool
     func isAtWar(with otherPlayer: AbstractPlayer?) -> Bool
     func atWarCount() -> Int
@@ -152,11 +154,35 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func proximity(to otherPlayer: AbstractPlayer?) -> PlayerProximityType
 
+    // envoys / suzerain methods
+    func changeEnvoys(by value: Int)
+    func numberOfAvailableEnvoys() -> Int
+    func envoysAssigned(to cityState: CityStateType) -> Int
+    @discardableResult func assignEnvoy(to cityState: CityStateType, in gameModel: GameModel?) -> Bool
+    @discardableResult func unassignEnvoy(from cityState: CityStateType, in gameModel: GameModel?) -> Bool
+    func metCityStates(in gameModel: GameModel?) -> [CityStateType]
+
+    func set(suzerain leader: LeaderType)
+    func resetSuzerain()
+    func suzerain() -> LeaderType?
+
+    func quest(for leader: LeaderType) -> CityStateQuest? // quest of city state to leader
+    func fulfillQuest(by leader: LeaderType, in gameModel: GameModel?)
+    func obsoleteQuest(by leader: LeaderType, in gameModel: GameModel?)
+    func doQuests(in gameModel: GameModel?)
+    func set(quest: CityStateQuest, for leader: LeaderType) // for testing
+    func resetQuests(in gameModel: GameModel?)
+
+    func envoyEffects(in gameModel: GameModel?) -> [EnvoyEffect]
+    func isSuzerain(of cityState: CityStateType, in gameModel: GameModel?) -> Bool
+    func ownQuests(in gameModel: GameModel?) -> [CityStateQuest]
+
+    // capital conquerer methods
     func hasHasLostCapital() -> Bool
     func capitalConqueror() -> LeaderType?
     func set(hasLostCapital value: Bool, to conqueror: AbstractPlayer?, in gameModel: GameModel?) // checks for domination victory
 
-    // notification
+    // notification methods
     func updateNotifications(in gameModel: GameModel?)
     func set(blockingNotification: NotificationItem?)
     func blockingNotification() -> NotificationItem?
@@ -209,8 +235,9 @@ public protocol AbstractPlayer: AnyObject, Codable {
     // yields
     func science(in gameModel: GameModel?) -> Double
     func scienceFromCities(in gameModel: GameModel?) -> Double
-    func culture(in gameModel: GameModel?) -> Double
-    func cultureFromCities(in gameModel: GameModel?) -> Double
+    func culture(in gameModel: GameModel?, consume: Bool) -> Double
+    func cultureFromCities(in gameModel: GameModel?) -> YieldValues
+    func cultureFromCityStates(in gameModel: GameModel?) -> YieldValues
     func faith(in gameModel: GameModel?) -> Double
     func faithFromCities(in gameModel: GameModel?) -> Double
 
@@ -365,6 +392,11 @@ public class Player: AbstractPlayer {
         case government
         case tourism
         case moments
+        case envoys
+        case suzerain
+        case quests
+        case oldQuests
+        case influencePoints
 
         case currentEra
         case currentAge
@@ -446,6 +478,11 @@ public class Player: AbstractPlayer {
     public var governors: AbstractPlayerGovernors?
     public var tourism: AbstractPlayerTourism?
     public var momentsVal: AbstractPlayerMoments?
+    private var envoys: AbstractPlayerEnvoys?
+    private var suzerainValue: LeaderType?
+    private var oldQuestsValue: [CityStateQuest] = []
+    private var questsValue: [CityStateQuest] = []
+    private var influencePointsValue: Int = 0
 
     public var government: AbstractGovernment?
     internal var currentEraVal: EraType = .ancient
@@ -565,8 +602,8 @@ public class Player: AbstractPlayer {
         self.dangerPlotsAI = try container.decode(DangerPlotsAI.self, forKey: .dangerPlotsAI)
         self.homelandAI = HomelandAI(player: self) // try container.decode(HomelandAI.self, forKey: .homelandAI)
         self.builderTaskingAI = BuilderTaskingAI(player: self) // try container.decode(BuilderTaskingAI.self, forKey: .builderTaskingAI)
-        self.citySpecializationAI = CitySpecializationAI(player: self)//try container.decode(CitySpecializationAI.self, forKey: .citySpecializationAI)
-        self.wonderProductionAI = WonderProductionAI(player: self)//try container.decode(WonderProductionAI.self, forKey: .wonderProductionAI)
+        self.citySpecializationAI = CitySpecializationAI(player: self)// try container.decode(CitySpecializationAI.self, forKey: .citySpecializationAI)
+        self.wonderProductionAI = WonderProductionAI(player: self)// try container.decode(WonderProductionAI.self, forKey: .wonderProductionAI)
         self.religionAI = ReligionAI(player: self)
 
         self.cityConnections = try container.decode(CityConnections.self, forKey: .cityConnections)
@@ -575,6 +612,11 @@ public class Player: AbstractPlayer {
         self.governors = try container.decode(PlayerGovernors.self, forKey: .governors)
         self.tourism = try container.decode(PlayerTourism.self, forKey: .tourism)
         self.momentsVal = try container.decode(PlayerMoments.self, forKey: .moments)
+        self.envoys = try container.decode(PlayerEnvoys.self, forKey: .envoys)
+        self.suzerainValue = try container.decodeIfPresent(LeaderType.self, forKey: .suzerain)
+        self.questsValue = try container.decode([CityStateQuest].self, forKey: .quests)
+        self.oldQuestsValue = try container.decode([CityStateQuest].self, forKey: .oldQuests)
+        self.influencePointsValue = try container.decode(Int.self, forKey: .influencePoints)
 
         self.techs = try container.decode(Techs.self, forKey: .techs)
         self.civics = try container.decode(Civics.self, forKey: .civics)
@@ -623,6 +665,7 @@ public class Player: AbstractPlayer {
         self.governors?.player = self
         self.tourism?.player = self
         self.momentsVal?.player = self
+        self.envoys?.player = self
 
         self.grandStrategyAI?.player = self
         self.diplomacyAI?.player = self
@@ -673,10 +716,10 @@ public class Player: AbstractPlayer {
         try container.encode(self.militaryAI, forKey: .militaryAI)
         try container.encode(self.tacticalAI, forKey: .tacticalAI)
         try container.encode(self.dangerPlotsAI, forKey: .dangerPlotsAI)
-        //try container.encode(self.homelandAI, forKey: .homelandAI)
-        //try container.encode(self.builderTaskingAI, forKey: .builderTaskingAI)
-        //try container.encode(self.citySpecializationAI, forKey: .citySpecializationAI)
-        //try container.encode(self.wonderProductionAI, forKey: .wonderProductionAI)
+        // try container.encode(self.homelandAI, forKey: .homelandAI)
+        // try container.encode(self.builderTaskingAI, forKey: .builderTaskingAI)
+        // try container.encode(self.citySpecializationAI, forKey: .citySpecializationAI)
+        // try container.encode(self.wonderProductionAI, forKey: .wonderProductionAI)
 
         try container.encode(self.cityConnections, forKey: .cityConnections)
         try container.encode(self.goodyHuts, forKey: .goodyHuts)
@@ -690,6 +733,11 @@ public class Player: AbstractPlayer {
         try container.encode(self.greatPeople as! GreatPeople, forKey: .greatPeople)
         try container.encode(self.tourism as! PlayerTourism, forKey: .tourism)
         try container.encode(self.momentsVal as! PlayerMoments, forKey: .moments)
+        try container.encode(self.envoys as! PlayerEnvoys, forKey: .envoys)
+        try container.encodeIfPresent(self.suzerainValue, forKey: .suzerain)
+        try container.encode(self.questsValue, forKey: .quests)
+        try container.encode(self.oldQuestsValue, forKey: .oldQuests)
+        try container.encode(self.influencePointsValue, forKey: .influencePoints)
         try container.encode(self.government as! Government, forKey: .government)
 
         try container.encode(self.currentEraVal, forKey: .currentEra)
@@ -748,6 +796,7 @@ public class Player: AbstractPlayer {
         self.governors = PlayerGovernors(player: self)
         self.tourism = PlayerTourism(player: self)
         self.momentsVal = PlayerMoments(player: self)
+        self.envoys = PlayerEnvoys(player: self)
 
         self.techs = Techs(player: self)
         self.civics = Civics(player: self)
@@ -914,6 +963,15 @@ public class Player: AbstractPlayer {
         return self.leader == .freeCities
     }
 
+    public func isCityState() -> Bool {
+
+        if case .cityState = self.leader {
+            return true
+        }
+
+        return false
+    }
+
     public func doFirstContact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let otherPlayer = otherPlayer else {
@@ -937,6 +995,14 @@ public class Player: AbstractPlayer {
         // update eurekas
         if !techs.eurekaTriggered(for: .writing) {
             techs.triggerEureka(for: .writing, in: gameModel)
+        }
+
+        if self.isCityState() {
+            self.doQuests(in: gameModel)
+        }
+
+        if otherPlayer.isCityState() {
+            otherPlayer.doQuests(in: gameModel)
         }
     }
 
@@ -1002,7 +1068,7 @@ public class Player: AbstractPlayer {
         }
 
         return diplomacyAI.isAtWar(with: otherPlayer)
-        //return self.diplomacyAI?.approach(towards: otherPlayer) == .war
+        // return self.diplomacyAI?.approach(towards: otherPlayer) == .war
     }
 
     /// is player at war with any player/leader?
@@ -1111,7 +1177,7 @@ public class Player: AbstractPlayer {
             notifications.update(in: gameModel)
         }
 
-        //if self.diplomacyRequests.up
+        // if self.diplomacyRequests.up
         /*if (GetDiplomacyRequests())
         {
             GetDiplomacyRequests()->Update();
@@ -1283,6 +1349,526 @@ public class Player: AbstractPlayer {
         return diplomacyAI.proximity(to: otherPlayer)
     }
 
+    public func changeEnvoys(by value: Int) {
+
+        guard let playerEnvoys = self.envoys else {
+            fatalError("cant get playerEnvoys")
+        }
+
+        playerEnvoys.changeUnassignedEnvoys(by: value)
+    }
+
+    public func numberOfAvailableEnvoys() -> Int {
+
+        guard let playerEnvoys = self.envoys else {
+            fatalError("cant get playerEnvoys")
+        }
+
+        return playerEnvoys.unassignedEnvoys()
+    }
+
+    public func envoysAssigned(to cityState: CityStateType) -> Int {
+
+        guard let playerEnvoys = self.envoys else {
+            fatalError("cant get playerEnvoys")
+        }
+
+        return playerEnvoys.envoys(in: cityState)
+    }
+
+    @discardableResult
+    public func assignEnvoy(to cityState: CityStateType, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let playerEnvoys = self.envoys else {
+            fatalError("cant get playerEnvoys")
+        }
+
+        guard let cityStatePlayer = gameModel.cityStatePlayer(for: cityState) else {
+            fatalError("cant get player for city state")
+        }
+
+        let result = playerEnvoys.assignEnvoy(to: cityState)
+
+        if result {
+
+            let cityStateSuzerain = cityStatePlayer.suzerain() != nil ? gameModel.player(for: cityStatePlayer.suzerain()!) : nil
+
+            // check if player is suzerain
+            if playerEnvoys.envoys(in: cityState) >= 3 && !self.isEqual(to: cityStateSuzerain) {
+                if let playerWithMostEnvoys = gameModel.playerWithMostEnvoys(in: cityState) {
+                    if playerWithMostEnvoys.isEqual(to: self) {
+                        cityStatePlayer.set(suzerain: self.leader)
+                    }
+                } else {
+                    // no player with most envoys
+                    cityStatePlayer.resetSuzerain()
+                }
+            }
+        }
+
+        return result
+    }
+
+    @discardableResult
+    public func unassignEnvoy(from cityState: CityStateType, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let playerEnvoys = self.envoys else {
+            fatalError("cant get playerEnvoys")
+        }
+
+        guard let cityStatePlayer = gameModel.cityStatePlayer(for: cityState) else {
+            fatalError("cant get player for city state")
+        }
+
+        let result = playerEnvoys.unassignEnvoy(from: cityState)
+
+        if result {
+            let cityStateSuzerain = cityStatePlayer.suzerain() != nil ? gameModel.player(for: cityStatePlayer.suzerain()!) : nil
+
+            if playerEnvoys.envoys(in: cityState) < 3 && self.isEqual(to: cityStateSuzerain) {
+
+                if let playerWithMostEnvoys = gameModel.playerWithMostEnvoys(in: cityState) {
+                    if playerWithMostEnvoys.envoysAssigned(to: cityState) >= 3 {
+                        cityStatePlayer.set(suzerain: playerWithMostEnvoys.leader)
+                    } else {
+                        cityStatePlayer.resetSuzerain()
+                    }
+                } else {
+                    // no player with most envoys
+                    cityStatePlayer.resetSuzerain()
+                }
+            }
+        }
+
+        return result
+    }
+
+    public func metCityStates(in gameModel: GameModel?) -> [CityStateType] {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+
+        var cityStatesArr: [CityStateType] = []
+
+        for player in gameModel.players {
+
+            guard !player.isEqual(to: self) else {
+                continue
+            }
+
+            if player.isCityState() {
+                if diplomacyAI.hasMet(with: player) {
+                    if case .cityState(type: let cityStateType) = player.leader {
+                        cityStatesArr.append(cityStateType)
+                    }
+                }
+            }
+        }
+
+        return cityStatesArr
+    }
+
+    public func set(suzerain leader: LeaderType) {
+
+        self.suzerainValue = leader
+    }
+
+    public func resetSuzerain() {
+
+        self.suzerainValue = nil
+    }
+
+    public func suzerain() -> LeaderType? {
+
+        return self.suzerainValue
+    }
+
+    public func envoyEffects(in gameModel: GameModel?) -> [EnvoyEffect] {
+
+        guard let playerEnvoys = self.envoys else {
+            fatalError("cant get playerEnvoys")
+        }
+
+        return playerEnvoys.envoyEffects(in: gameModel)
+    }
+
+    public func isSuzerain(of cityState: CityStateType, in gameModel: GameModel?) -> Bool {
+
+        guard let playerEnvoys = self.envoys else {
+            fatalError("cant get playerEnvoys")
+        }
+
+        return playerEnvoys.isSuzerain(of: cityState, in: gameModel)
+    }
+
+    public func quest(for leader: LeaderType) -> CityStateQuest? {
+
+        guard self.isCityState() else {
+            return nil
+        }
+
+        if let quest = self.questsValue.first(where: { $0.leader == leader }) {
+            return quest
+        }
+
+        return nil
+    }
+
+    public func fulfillQuest(by leader: LeaderType, in gameModel: GameModel?) {
+
+        guard let quest = self.questsValue.first(where: { $0.leader == leader }) else {
+            fatalError("cant get quest")
+        }
+
+        self.questsValue.removeAll(where: { $0.leader == leader })
+
+        if let player = gameModel?.player(for: leader) {
+            player.changeEnvoys(by: 1)
+
+            if player.isHuman() {
+                // inform player
+                player.notifications()?.add(
+                    notification: .questCityStateFulfilled(
+                        cityState: quest.cityState,
+                        quest: quest.type
+                    )
+                )
+            }
+        }
+    }
+
+    public func obsoleteQuest(by leader: LeaderType, in gameModel: GameModel?) {
+
+        guard let quest = self.questsValue.first(where: { $0.leader == leader }) else {
+            fatalError("cant get quest")
+        }
+
+        self.questsValue.removeAll(where: { $0.leader == leader })
+
+        if let player = gameModel?.player(for: leader) {
+
+            if player.isHuman() {
+                // inform player
+                player.notifications()?.add(
+                    notification: .questCityStateObsolete(
+                        cityState: quest.cityState,
+                        quest: quest.type
+                    )
+                )
+            }
+        }
+    }
+
+    public func doQuests(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard self.isCityState() else {
+            return
+        }
+
+        for questPlayer in gameModel.players {
+
+            guard !questPlayer.isCityState() && !questPlayer.isBarbarian() && !questPlayer.isFreeCity() else {
+                continue
+            }
+
+            guard self.hasMet(with: questPlayer) else {
+                continue
+            }
+
+            guard self.quest(for: questPlayer.leader) == nil else {
+                continue
+            }
+
+            var possibleQuests: [CityStateQuestType] = []
+
+            for questType in CityStateQuestType.all {
+
+                switch questType {
+
+                case .none:
+                    // NOOP
+                    break
+
+                case .trainUnit(type: _):
+
+                    var possibleUnitTypes = UnitType.all
+                        .filter({ unitType in
+                            if unitType.isGreatPerson() {
+                                return false
+                            }
+
+                            if let requiredTech = unitType.requiredTech() {
+                                if !questPlayer.has(tech: requiredTech) {
+                                    return false
+                                }
+                            }
+
+                            if let requiredCivic = unitType.requiredCivic() {
+                                if !questPlayer.has(civic: requiredCivic) {
+                                    return false
+                                }
+                            }
+
+                            return true
+                        })
+
+                    // check last quest
+                    if let lastQuest = self.oldQuestsValue.last {
+                        if case .trainUnit(type: let unitType) = lastQuest.type {
+
+                            // filter out the last type
+                            possibleUnitTypes = possibleUnitTypes.filter { $0 != unitType }
+                        }
+                    }
+
+                    if !possibleUnitTypes.isEmpty {
+                        // Train a certain unit. (Will be lost if the unit becomes obsolete.)
+                        let selectedUnitType = possibleUnitTypes.randomItem()
+                        possibleQuests.append(.trainUnit(type: selectedUnitType))
+                    }
+
+                case .constructDistrict(type: _):
+
+                    var possibleDistricts = DistrictType.all
+                        .filter({ districtType in
+                            if let requiredTech = districtType.requiredTech() {
+                                if !questPlayer.has(tech: requiredTech) {
+                                    return false
+                                }
+                            }
+
+                            if let requiredCivic = districtType.requiredCivic() {
+                                if !questPlayer.has(civic: requiredCivic) {
+                                    return false
+                                }
+                            }
+
+                            return true
+                        })
+
+                    // check last quest
+                    if let lastQuest = self.oldQuestsValue.last {
+                        if case .constructDistrict(type: let districtType) = lastQuest.type {
+
+                            // filter out the last type
+                            possibleDistricts = possibleDistricts.filter { $0 != districtType }
+                        }
+                    }
+
+                    if !possibleDistricts.isEmpty {
+                        // Construct a certain district.
+                        let selectedDistrict = possibleDistricts.randomItem()
+                        possibleQuests.append(.constructDistrict(type: selectedDistrict))
+                    }
+
+                case .triggerEureka(tech: _):
+
+                    guard let techs = questPlayer.techs else {
+                        continue
+                    }
+
+                    // get all civics that did not trigger an inspiration yet
+                    var possibleTechs = techs.possibleTechs()
+                        .filter { !techs.eurekaTriggered(for: $0) }
+
+                    // check last quest
+                    if let lastQuest = self.oldQuestsValue.last {
+                        if case .triggerEureka(tech: let techType) = lastQuest.type {
+
+                            // filter out the last type
+                            possibleTechs = possibleTechs.filter { $0 != techType }
+                        }
+                    }
+
+                    // Trigger a Eureka Eureka for a certain tech.
+                    // (Can be completed by a Spy that succeeds at a Steal Tech Boost mission. Will be lost if you research the tech.)
+                    if !possibleTechs.isEmpty {
+                        let selectedTech = possibleTechs.randomItem()
+                        possibleQuests.append(.triggerEureka(tech: selectedTech))
+                    }
+
+                case .triggerInspiration(civic: _):
+
+                    guard let civics = questPlayer.civics else {
+                        continue
+                    }
+
+                    // get all civics that did not trigger an inspiration yet
+                    var possibleCivics = civics.possibleCivics()
+                        .filter { !civics.inspirationTriggered(for: $0) }
+
+                    // check last quest
+                    if let lastQuest = self.oldQuestsValue.last {
+                        if case .triggerInspiration(civic: let civicType) = lastQuest.type {
+
+                            // filter out the last type
+                            possibleCivics = possibleCivics.filter { $0 != civicType }
+                        }
+                    }
+
+                    // Trigger an Inspiration Inspiration for a certain civic. (Will be lost if you unlock the civic.)
+                    if !possibleCivics.isEmpty {
+                        let selectedCivic = possibleCivics.randomItem()
+                        possibleQuests.append(.triggerInspiration(civic: selectedCivic))
+                    }
+
+                case .recruitGreatPerson(greatPerson: _):
+
+                    var greatPersonTypes = GreatPersonType.all
+
+                    // check last quest
+                    if let lastQuest = self.oldQuestsValue.last {
+                        if case .recruitGreatPerson(greatPerson: let greatPersonType) = lastQuest.type {
+
+                            // filter out the last type
+                            greatPersonTypes = greatPersonTypes.filter { $0 != greatPersonType }
+                        }
+                    }
+
+                    let selectedGreatPersonType = greatPersonTypes.randomItem()
+
+                    // Recruit a certain type of Great Person Great Person.
+                    possibleQuests.append(.recruitGreatPerson(greatPerson: selectedGreatPersonType))
+
+                case .convertToReligion(religion: _):
+                    // Convert the city-state to your religion. (Given only if you have founded a religion.)
+                    if let questPlayerReligion = questPlayer.religion?.currentReligion() {
+                        if let cityStateReligion = self.religion?.currentReligion() {
+                            if questPlayerReligion != .none && cityStateReligion != questPlayerReligion {
+                                possibleQuests.append(.convertToReligion(religion: questPlayerReligion))
+                            }
+                        }
+                    }
+
+                case .sendTradeRoute:
+                    var lastQuestWasSendTradeRoute = false
+                    if let lastQuest = self.oldQuestsValue.last {
+                        if lastQuest.type == .sendTradeRoute {
+                            lastQuestWasSendTradeRoute = true
+                        }
+                    }
+
+                    if !lastQuestWasSendTradeRoute {
+                        // Send a Trade Route Trade Route to the city-state.
+                        possibleQuests.append(.sendTradeRoute)
+                    }
+
+                case .destroyBarbarianOutput(location: _):
+                    // Destroy a Barbarian Outpost within 5 tiles of the city-state.
+                    // (Will be lost if anyone else destroys it first.)
+                    if let capital = self.capitalCity(in: gameModel) {
+                        for point in capital.location.areaWith(radius: 5) {
+
+                            guard let tile = gameModel.tile(at: point) else {
+                                continue
+                            }
+
+                            if tile.has(improvement: .barbarianCamp) {
+                                // note: this is not necessarily the nearest barbarian camp
+                                possibleQuests.append(.destroyBarbarianOutput(location: point))
+                                break
+                            }
+                        }
+                    }
+                }
+            }
+
+            guard !possibleQuests.isEmpty else {
+                print("no quests possible")
+                return
+            }
+
+            guard case .cityState(type: let cityStateType) = self.leader else {
+                fatalError("this is not a city state")
+            }
+
+            let quest = CityStateQuest(cityState: cityStateType, leader: questPlayer.leader, type: possibleQuests.randomItem())
+            self.oldQuestsValue.append(quest)
+            self.questsValue.append(quest)
+
+            if self.isHuman() {
+                //
+                self.notifications()?.add(notification: .questCityStateGiven(cityState: cityStateType, quest: quest.type))
+            }
+        }
+    }
+
+    public func ownQuests(in gameModel: GameModel?) -> [CityStateQuest] {
+
+        guard let gameModel = gameModel else {
+            return []
+        }
+
+        var ownQuests: [CityStateQuest] = []
+
+        for player in gameModel.players {
+
+            guard player.isCityState() else {
+                continue
+            }
+
+            guard case .cityState(type: let cityStateType) = player.leader else {
+                fatalError("this is not a city state")
+            }
+
+            if let playerQuest = player.quest(for: self.leader) {
+                let quest = CityStateQuest(cityState: cityStateType, leader: self.leader, type: playerQuest.type)
+                ownQuests.append(quest)
+            }
+        }
+
+        return ownQuests
+    }
+
+    /// --- WARNING: THIS IS FOR TESTING ONLY ---
+    public func set(quest: CityStateQuest, for leader: LeaderType) {
+
+        if !Thread.current.isRunningXCTest {
+            fatalError("--- WARNING: THIS IS FOR TESTING ONLY ---")
+        }
+
+        self.questsValue.removeAll(where: { $0.leader == leader })
+
+        self.questsValue.append(quest)
+    }
+
+    public func resetQuests(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        for quest in self.questsValue {
+
+            guard let player = gameModel.player(for: quest.leader) else {
+                continue
+            }
+
+            if player.isHuman() {
+                player.notifications()?.add(notification: .questCityStateObsolete(cityState: quest.cityState, quest: quest.type))
+            }
+        }
+
+        self.questsValue.removeAll()
+    }
+
     /// Have we lost our capital in war?
     public func hasHasLostCapital() -> Bool {
 
@@ -1351,7 +1937,7 @@ public class Player: AbstractPlayer {
 
     func isForcePeace(with otherPlayer: AbstractPlayer?) -> Bool {
 
-        //return self.diplomacyAI?.
+        // return self.diplomacyAI?.
         return false
     }
 
@@ -1608,10 +2194,14 @@ public class Player: AbstractPlayer {
         var hasActiveDiploRequest = false
         if self.isAlive() {
 
-            if !self.isBarbarian() && !self.isFreeCity() {
+            if !self.isBarbarian() && !self.isFreeCity() && !self.isCityState() {
 
-                //self.doUnitDiversity()
+                // self.doUnitDiversity()
                 self.doUpdateCramped(in: gameModel)
+                // DoUpdateUprisings();
+                // DoUpdateCityRevolts();
+                // CalculateNetHappiness();
+                // SetBestWonderCities();
 
                 self.grandStrategyAI?.doTurn(in: gameModel)
 
@@ -1622,6 +2212,10 @@ public class Player: AbstractPlayer {
                 if !self.isHuman() {
                     hasActiveDiploRequest = self.hasActiveDiploRequestWithHuman()
                 }
+            }
+
+            if self.isCityState() {
+                self.doQuests(in: gameModel)
             }
         }
 
@@ -1775,6 +2369,17 @@ public class Player: AbstractPlayer {
             fatalError("cant get notifications")
         }
 
+        // update influence points
+        if let currentGovernmentType = government.currentGovernment() {
+            self.influencePointsValue += currentGovernmentType.influcencePointsPerTurn()
+
+            if self.influencePointsValue > currentGovernmentType.envoyPerInflucencePoints() {
+
+                self.changeEnvoys(by: currentGovernmentType.envoysFromInflucencePoints())
+                self.influencePointsValue = 0
+            }
+        }
+
         if self.canChangeGovernment() {
             if self.isHuman() {
                 notifications.add(notification: .canChangeGovernment)
@@ -1903,6 +2508,19 @@ public class Player: AbstractPlayer {
 
             if greatPerson.era() < self.currentEraVal {
                 self.addMoment(of: .oldGreatPersonRecruited, in: gameModel)
+            }
+
+            // check quests
+            for quest in self.ownQuests(in: gameModel) {
+
+                if case .recruitGreatPerson(greatPerson: let greatPersonType) = quest.type {
+
+                    if greatPerson.type() == greatPersonType {
+                        if let cityStatePlayer = gameModel.cityStatePlayer(for: quest.cityState) {
+                            cityStatePlayer.fulfillQuest(by: self.leader, in: gameModel)
+                        }
+                    }
+                }
             }
 
             // notify the user
@@ -2156,7 +2774,7 @@ public class Player: AbstractPlayer {
             fatalError("cant get techs")
         }
 
-        let cultureVal = self.culture(in: gameModel)
+        let cultureVal = self.culture(in: gameModel, consume: true)
         civics.add(culture: cultureVal)
 
         do {
@@ -2483,7 +3101,7 @@ public class Player: AbstractPlayer {
             GC.GetEngineUserInterface()->setDirty(SelectionButtons_DIRTY_BIT, true);
         }*/
 
-        //GC.GetEngineUserInterface()->setDirty(UnitInfo_DIRTY_BIT, true);
+        // GC.GetEngineUserInterface()->setDirty(UnitInfo_DIRTY_BIT, true);
 
         self.doTurnUnitsPost(in: gameModel) // AI_doTurnUnitsPost();
     }
@@ -2504,7 +3122,7 @@ public class Player: AbstractPlayer {
                 continue
             }
 
-            //loopUnit.promot
+            // loopUnit.promot
         }
     }
 
@@ -2531,7 +3149,7 @@ public class Player: AbstractPlayer {
                 }
             }
 
-            //int iCitadelDamage;
+            // int iCitadelDamage;
             /*if (pLoopUnit->IsNearEnemyCitadel(iCitadelDamage))
             {
                 pLoopUnit->changeDamage(iCitadelDamage, NO_PLAYER, /*fAdditionalTextDelay*/ 0.5f);
@@ -2539,15 +3157,15 @@ public class Player: AbstractPlayer {
 
             // Finally (now that healing is done), restore movement points
             loopUnit.resetMoves(in: gameModel)
-            //pLoopUnit->SetIgnoreDangerWakeup(false);
+            // pLoopUnit->SetIgnoreDangerWakeup(false);
             loopUnit.setMadeAttack(to: false)
-            //pLoopUnit->setMadeInterception(false);
+            // pLoopUnit->setMadeInterception(false);
 
             if !self.isHuman() {
 
                 if let mission = loopUnit.peekMission() {
                     if mission.type == .rangedAttack {
-                        //CvAssertMsg(0, "An AI unit has a combat mission queued at the end of its turn.");
+                        // CvAssertMsg(0, "An AI unit has a combat mission queued at the end of its turn.");
                         loopUnit.clearMissions()    // Clear the whole thing, the AI will re-evaluate next turn.
                     }
                 }
@@ -2831,6 +3449,10 @@ public class Player: AbstractPlayer {
 
     public func set(era: EraType, in gameModel: GameModel?) {
 
+        guard let techs = self.techs else {
+            fatalError("cant get techs")
+        }
+
         guard era > self.currentEraVal else {
             fatalError("era should be greater")
         }
@@ -2839,6 +3461,20 @@ public class Player: AbstractPlayer {
         self.selectCurrentAge(in: gameModel)
 
         self.momentsVal?.resetEraScore()
+
+        // Seoul suzerain bonus
+        // When you enter a new era, earn 1 random [Eureka] Eureka from that era.
+        if self.isSuzerain(of: .seoul, in: gameModel) {
+
+            let possibleTechs = TechType.all
+                .filter { $0.era() == self.currentEraVal }
+                .filter { !techs.eurekaTriggered(for: $0) }
+
+            if !possibleTechs.isEmpty {
+                let selectedTech = possibleTechs.randomItem()
+                techs.triggerEureka(for: selectedTech, in: gameModel)
+            }
+        }
 
         if !self.isHumanVal {
             var dedications: [DedicationType] = era.dedications()
@@ -3104,17 +3740,17 @@ public class Player: AbstractPlayer {
             // If this is the first city (or we still aren't getting tech for some other reason) notify the player
             if techs.needToChooseTech() && self.science(in: gameModel) > 0.0 {
 
-                //if self.isActive() {
+                // if self.isActive() {
                 self.notifications()?.add(notification: .techNeeded)
-                //}
+                // }
             }
 
             // If this is the first city (or ..) notify the player
-            if civics.needToChooseCivic() && self.culture(in: gameModel) > 0.0 {
+            if civics.needToChooseCivic() && self.culture(in: gameModel, consume: false) > 0.0 {
 
-                //if self.isActive() {
+                // if self.isActive() {
                 self.notifications()?.add(notification: .civicNeeded)
-                //}
+                // }
             }
 
         } else {
@@ -3166,6 +3802,15 @@ public class Player: AbstractPlayer {
         }
 
         var possibleNames = self.leader.civilization().cityNames()
+
+        if self.isCityState() && possibleNames.isEmpty {
+
+            guard case .cityState(type: let cityStateType) = self.leader else {
+                fatalError("cant get city state")
+            }
+
+            possibleNames.append(cityStateType.name())
+        }
 
         for builtCityName in self.builtCityNames {
             possibleNames.removeAll(where: { $0 == builtCityName })
@@ -4011,6 +4656,16 @@ public class Player: AbstractPlayer {
             tech.triggerEureka(for: .currency, in: gameModel)
         }
 
+        // check quests
+        for quest in self.ownQuests(in: gameModel) {
+
+            if case .cityState(type: let cityStateType) = targetLeader {
+                if quest.type == .sendTradeRoute && cityStateType == quest.cityState && quest.leader == self.leader {
+                    targetCity.player?.fulfillQuest(by: self.leader, in: gameModel)
+                }
+            }
+        }
+
         // no check ?
 
         return tradeRoutes.establishTradeRoute(from: originCity, to: targetCity, with: trader, in: gameModel)
@@ -4418,7 +5073,7 @@ public class Player: AbstractPlayer {
         let numCities = gameModel.cities(of: oldPlayer).count
         if numCities == 0 {
 
-            if /*!isMinorCiv() &&*/ !isBarbarian() {
+            if !self.isCityState() && !self.isBarbarian() {
 
                 for loopPlayer in gameModel.players {
 
@@ -4564,7 +5219,7 @@ public class Player: AbstractPlayer {
         if culture > 0 {
 
             let cultureValue = 100 // GetPlayerTraits()->GetCultureFromKills();
-            //iCultureValue += GetPlayerPolicies()->GetNumericModifier(POLICYMOD_CULTURE_FROM_KILLS);
+            // iCultureValue += GetPlayerPolicies()->GetNumericModifier(POLICYMOD_CULTURE_FROM_KILLS);
 
             // Do we get it for barbarians?
             if wasBarbarian {
@@ -4698,6 +5353,18 @@ public class Player: AbstractPlayer {
 
             tile.set(improvement: .none)
 
+            // check quests
+            for quest in self.ownQuests(in: gameModel) {
+
+                if case .destroyBarbarianOutput(location: let location) = quest.type {
+
+                    if location == tile.point && self.leader == quest.leader {
+                        let cityStatePlayer = gameModel.cityStatePlayer(for: quest.cityState)
+                        cityStatePlayer?.fulfillQuest(by: self.leader, in: gameModel)
+                    }
+                }
+            }
+
             gameModel.doBarbCampCleared(at: tile.point)
 
             self.addMoment(of: .barbarianCampDestroyed, in: gameModel)
@@ -4792,7 +5459,16 @@ public class Player: AbstractPlayer {
         case .scienceMinorGift, .scienceMajorGift, .freeTech:
             return true
 
-        case .diplomacyMinorBoost, .freeEnvoy, .diplomacyMajorBoost:
+        case .freeEnvoy:
+            // city states cant get envoys
+            guard !self.isCityState() else {
+                return false
+            }
+
+            // player needs to know at least one city state to get an envoy
+            return !self.metCityStates(in: gameModel).isEmpty
+
+        case .diplomacyMinorBoost, .diplomacyMajorBoost:
             return false
 
             // military
@@ -4931,7 +5607,7 @@ public class Player: AbstractPlayer {
             print("Diplomatic favor")
 
         case .freeEnvoy:
-            print("1 envoy")
+            self.changeEnvoys(by: 1)
 
         case .diplomacyMajorBoost:
             self.governors?.addTitle()
@@ -5079,7 +5755,7 @@ public class Player: AbstractPlayer {
             }
         }
 
-        //Policy Requirement
+        // Policy Requirement
         if let civic = unitType.requiredCivic() {
             if !civics.has(civic: civic) {
                 return false

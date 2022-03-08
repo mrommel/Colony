@@ -58,11 +58,11 @@ class ScoreRankingDialogViewModel: ObservableObject {
 
         for player in gameModel.players {
 
-            let civilizationType: CivilizationType = player.leader.civilization()
-
-            if civilizationType == .barbarian {
+            if player.isBarbarian() || player.isFreeCity() || player.isCityState() {
                 continue
             }
+
+            let civilizationType: CivilizationType = player.leader.civilization()
 
             let scoreRankingViewModel = ScoreRankingViewModel(
                 civilization: civilizationType,

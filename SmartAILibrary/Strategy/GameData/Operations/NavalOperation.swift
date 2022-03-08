@@ -8,10 +8,10 @@
 
 import Foundation
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvAINavalOperation
-//!  \brief        Send out a squadron of naval units to bomb enemy forces on the coast
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  \brief        Send out a squadron of naval units to bomb enemy forces on the coast
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class NavalOperation: EnemyTerritoryOperation {
 
     /// Kick off this operation

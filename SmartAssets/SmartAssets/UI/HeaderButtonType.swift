@@ -18,6 +18,7 @@ public enum HeaderButtonType: CaseIterable {
     case governors
 
     case ranking
+    case cityStates
     case tradeRoutes
     case eraProgress
 
@@ -39,8 +40,11 @@ public enum HeaderButtonType: CaseIterable {
             return "TXT_KEY_HEADER_MOMENTS"
         case .governors:
             return "TXT_KEY_HEADER_GOVERNORS"
+
         case .ranking:
             return "TXT_KEY_HEADER_RANKING"
+        case .cityStates:
+            return "TXT_KEY_HEADER_CITY_STATES"
         case .tradeRoutes:
             return "TXT_KEY_HEADER_TRADE_ROUTES"
         case .eraProgress:
@@ -66,8 +70,11 @@ public enum HeaderButtonType: CaseIterable {
             return state ? "header-button-moments-active" : "header-button-moments-disabled"
         case .governors:
             return state ? "header-button-governors-active" : "header-button-governors-disabled"
+
         case .ranking:
             return state ?  "header-button-ranking-active" : "header-button-ranking-disabled"
+        case .cityStates:
+            return state ?  "header-button-cityStates-active" : "header-button-cityStates-disabled"
         case .tradeRoutes:
             return state ? "header-button-tradeRoutes-active" : "header-button-tradeRoutes-disabled"
         case .eraProgress:

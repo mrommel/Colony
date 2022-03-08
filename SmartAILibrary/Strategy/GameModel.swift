@@ -54,6 +54,7 @@ open class GameModel: Codable {
         case barbarianAI
 
         case spawnedArchaeologySites
+        case worldEra
     }
 
     public let victoryTypes: [VictoryType]
@@ -84,6 +85,7 @@ open class GameModel: Codable {
 
     private var barbarianAI: BarbarianAI?
     private var spawnedArchaeologySites: Bool
+    private var worldEraValue: EraType = .ancient
 
     public init(victoryTypes: [VictoryType], handicap: HandicapType, turnsElapsed: Int, players: [AbstractPlayer], on map: MapModel) {
 
@@ -162,6 +164,7 @@ open class GameModel: Codable {
         self.barbarianAI = try container.decode(BarbarianAI.self, forKey: .barbarianAI)
 
         self.spawnedArchaeologySites = try container.decodeIfPresent(Bool.self, forKey: .spawnedArchaeologySites) ?? false
+        self.worldEraValue = try container.decode(EraType.self, forKey: .worldEra)
 
         // setup
         self.tacticalAnalysisMapVal = TacticalAnalysisMap(with: self.map.size)
@@ -246,6 +249,7 @@ open class GameModel: Codable {
         try container.encode(self.barbarianAI, forKey: .barbarianAI)
 
         try container.encode(self.spawnedArchaeologySites, forKey: .spawnedArchaeologySites)
+        try container.encode(self.worldEraValue, forKey: .worldEra)
     }
 
     public func seed() -> Int {
@@ -281,7 +285,7 @@ open class GameModel: Codable {
             return
         }
 
-        //self.sendPlayerOptions()
+        // self.sendPlayerOptions()
 
         if self.turnSlice() == 0 && !isPaused() {
             // gDLL->AutoSave(true);
@@ -295,7 +299,7 @@ open class GameModel: Codable {
         // Check for paused again, the doTurn call might have called something that paused the game and we don't want an update to sneak through
         if !self.isPaused() {
 
-            //self.updateWar()
+            // self.updateWar()
 
             self.updateMoves()
         }
@@ -307,7 +311,7 @@ open class GameModel: Codable {
 
             self.updatePlayers(in: self) // slewis added!
 
-            //self.testAlive()
+            // self.testAlive()
 
             if let humanPlayer = self.humanPlayer() {
                 if !humanPlayer.isAlive() {
@@ -416,9 +420,9 @@ open class GameModel: Codable {
                                         }
 
                                         if nextPlayer.isAlive() {
-                                            //the player is alive and also running sequential turns.  they're up!
+                                            // the player is alive and also running sequential turns.  they're up!
                                             nextPlayer.startTurn(in: self)
-                                            //self.resetTurnTimer(false)
+                                            // self.resetTurnTimer(false)
 
                                             break
                                         }
@@ -427,7 +431,7 @@ open class GameModel: Codable {
                             } else {
                                 // KWG: This doesn't actually do anything other than print to the debug log
                                 print("Because the diplo screen is blocking, I am bumping this up for player \(player.leader)")
-                                //changeNumGameTurnActive(1, std::string("Because the diplo screen is blocking I am bumping this up for player ") + getName());
+                                // changeNumGameTurnActive(1, std::string("Because the diplo screen is blocking I am bumping this up for player ") + getName());
                             }
                         }
                     }
@@ -459,7 +463,7 @@ open class GameModel: Codable {
 
             for player in self.players {
 
-                //player.checkInitialTurnAIProcessed()
+                // player.checkInitialTurnAIProcessed()
                 if player.isActive() && player.isHuman() {
                     playersToProcess.append(player)
                 }
@@ -552,15 +556,15 @@ open class GameModel: Codable {
                         } while repeatAutomoves && repeatPassCount > 0
 
                         // check if the (for now human) player is overstacked and move the units
-                        //if (player.isHuman())
+                        // if (player.isHuman())
 
                         // slewis - I changed this to only be the AI because human players should have the tools to deal with this now
                         if !player.isHuman() {
 
                             for loopUnit in self.units(of: player) {
 
-                                //var moveMe  = false
-                                //var numTurnsFortified = loopUnit.fortifyTurns()
+                                // var moveMe  = false
+                                // var numTurnsFortified = loopUnit.fortifyTurns()
 
                                 /*IDInfo* pUnitNodeInner;
                                 pUnitNodeInner = pLoopUnit->plot()->headUnitNode();
@@ -607,8 +611,8 @@ open class GameModel: Codable {
                             player.setEndTurn(to: true, in: self)
 
                             if player.isEndTurn() {
-                                //If the player's turn ended, indicate it in the log.  We only do so when the end turn state has changed to prevent useless log spamming in multiplayer.
-                                //NET_MESSAGE_DEBUG_OSTR_ALWAYS("UpdateMoves() : player.setEndTurn(true) called for player " << player.GetID() << " " << player.getName())
+                                // If the player's turn ended, indicate it in the log.  We only do so when the end turn state has changed to prevent useless log spamming in multiplayer.
+                                // NET_MESSAGE_DEBUG_OSTR_ALWAYS("UpdateMoves() : player.setEndTurn(true) called for player " << player.GetID() << " " << player.getName())
                             }
                         } else {
                             // if !player.hasBusyUnitUpdatesRemaining() {
@@ -739,6 +743,8 @@ open class GameModel: Codable {
 
         // self.doUnitedNationsCountdown();
 
+        self.doWorldEra()
+
         // Victory stuff
         self.doTestVictory()
 
@@ -751,6 +757,63 @@ open class GameModel: Codable {
                     // This popup is the sync rand, so beware
                     self.userInterface?.showScreen(screenType: .interimRanking, city: nil, other: nil, data: nil)
                 }
+            }
+        }
+    }
+
+    func updateWorldEra() {
+
+        let eraHistogram: EraHistogram = EraHistogram()
+        eraHistogram.fill()
+        var playerCount: Double = 0.0
+
+        for player in self.players {
+
+            if player.isBarbarian() || player.isFreeCity() || player.isCityState() {
+                continue
+            }
+
+            playerCount += 1.0
+
+            for era in EraType.all {
+
+                if era <= player.currentEra() {
+                    eraHistogram.add(weight: 1, for: era)
+                }
+            }
+        }
+
+        var bestEra: EraType = .ancient
+
+        for era in EraType.all {
+
+            if eraHistogram.weight(of: era) >= (playerCount * 0.5) {
+                bestEra = era
+            }
+        }
+
+        self.worldEraValue = bestEra
+    }
+
+    func doWorldEra() {
+
+        let previousWorldEra = self.worldEraValue
+
+        self.updateWorldEra()
+
+        if previousWorldEra != self.worldEraValue {
+
+            // world era has changed
+            // ???
+
+            // invalidate all city state quests
+            for player in self.players {
+
+                guard player.isCityState() else {
+                    continue
+                }
+
+                player.resetQuests(in: self)
             }
         }
     }
@@ -1103,7 +1166,7 @@ open class GameModel: Codable {
                 continue
             }
 
-            let culturePerTurn = player.culture(in: self)
+            let culturePerTurn = player.culture(in: self, consume: false)
             self.rankingData.add(culturePerTurn: culturePerTurn, for: player.leader)
 
             let goldBalance = player.treasury?.value() ?? 0
@@ -1562,36 +1625,7 @@ open class GameModel: Codable {
     // World Era= An era that More than 50% (current existing) Civs have entered
     func worldEra() -> EraType {
 
-        let eraHistogram: EraHistogram = EraHistogram()
-        eraHistogram.fill()
-        var playerCount: Double = 0.0
-
-        for player in self.players {
-
-            if player.isBarbarian() || player.isFreeCity() {
-                continue
-            }
-
-            playerCount += 1.0
-
-            for era in EraType.all {
-
-                if era <= player.currentEra() {
-                    eraHistogram.add(weight: 1, for: era)
-                }
-            }
-        }
-
-        var bestEra: EraType = .ancient
-
-        for era in EraType.all {
-
-            if eraHistogram.weight(of: era) >= (playerCount * 0.5) {
-                bestEra = era
-            }
-        }
-
-        return bestEra
+        return self.worldEraValue
     }
 
     func areas() -> [HexArea] {
@@ -2320,9 +2354,34 @@ extension GameModel {
     func doBarbCampCleared(at point: HexPoint) {
 
         self.barbarianAI?.doBarbCampCleared(at: point)
+
+        // check quests - is there still a camp
+        for cityStatePlayer in self.players {
+
+            guard cityStatePlayer.isCityState() else {
+                continue
+            }
+
+            for loopPlayer in self.players {
+
+                guard !loopPlayer.isBarbarian() && !loopPlayer.isFreeCity() && !loopPlayer.isCityState() else {
+                    continue
+                }
+
+                if let quest = cityStatePlayer.quest(for: loopPlayer.leader) {
+                    if case .destroyBarbarianOutput(location: let location) = quest.type {
+
+                        if location == point && loopPlayer.leader == quest.leader {
+                            let cityStatePlayer = self.cityStatePlayer(for: quest.cityState)
+                            cityStatePlayer?.obsoleteQuest(by: loopPlayer.leader, in: self)
+                        }
+                    }
+                }
+            }
+        }
     }
 
-    func countMajorCivizationsEverAlive() -> Int {
+    func countMajorCivilizationsEverAlive() -> Int {
 
         return self.players.count(where: { $0.isEverAlive() })
     }
@@ -2356,7 +2415,7 @@ extension GameModel {
         ]
 
         // find how many dig sites we need to create
-        let numMajorCivs = self.countMajorCivizationsEverAlive()
+        let numMajorCivs = self.countMajorCivilizationsEverAlive()
         let minDigSites = 5 /* MIN_DIG_SITES_PER_MAJOR_CIV */ * numMajorCivs
         let maxDigSites = 8 /* MAX_DIG_SITES_PER_MAJOR_CIV */ * numMajorCivs
         let idealNumDigSites = Int.random(minimum: minDigSites, maximum: maxDigSites)
@@ -2676,7 +2735,7 @@ extension GameModel {
 
     private func populateDigSite(on tile: AbstractTile, era: EraType, artifact: ArtifactType) {
 
-        var digSite: ArchaeologicalRecord = ArchaeologicalRecord()
+        let digSite: ArchaeologicalRecord = ArchaeologicalRecord()
 
         digSite.artifactType = artifact
         digSite.era = era
@@ -2731,23 +2790,100 @@ extension GameModel {
         )
     }
 
+    // MARK: envoys
+
+    /// get player for `cityState`
+    ///
+    /// - Parameter cityState: city state to get the player for
+    /// - Returns: player for `cityState`
+    public func cityStatePlayer(for cityState: CityStateType) -> AbstractPlayer? {
+
+        return self.players.first(where: { player in
+            if case .cityState(type: let cityStateType) = player.leader {
+                return cityStateType == cityState
+            }
+
+            return false
+        })
+    }
+
+    /// number of major players / civilization the have met a certain `cityState`
+    ///
+    /// - Parameter cityState: city state to get the number of 
+    /// - Returns: number of major players that have met the `cityState`
+    public func countMajorCivilizationsMet(with cityState: CityStateType) -> Int {
+
+        var numCivs = 0
+
+        guard let cityStatePlayer = self.cityStatePlayer(for: cityState) else {
+            fatalError("cant get player for city state: \(cityState)")
+        }
+
+        for player in self.players {
+
+            guard !player.isBarbarian() && !player.isFreeCity() && !player.isCityState() else {
+                continue
+            }
+
+            if player.hasMet(with: cityStatePlayer) {
+                numCivs += 1
+            }
+        }
+
+        return numCivs
+    }
+
+    /// get the player that has the most envoy for a given `cityState`
+    ///
+    /// - Parameter cityState: city state to get the player with the most envoys for
+    /// - Returns: player with the most envoys or nil if two have the same amount of envoys
+    func playerWithMostEnvoys(in cityState: CityStateType) -> AbstractPlayer? {
+
+        var bestPlayer: AbstractPlayer?
+        var bestEnvoys: Int = 0
+
+        for player in self.players {
+
+            let envoys = player.envoysAssigned(to: cityState)
+            if envoys > bestEnvoys {
+                bestPlayer = player
+                bestEnvoys = envoys
+            } else if envoys == bestEnvoys {
+                // when more than one player have the same amount of envoys in a city state - no one is suzerain
+                bestPlayer = nil
+            }
+        }
+
+        return bestPlayer
+    }
+
     // MARK: Statistics
 
+    /// number of land tiles
+    ///
+    /// - Returns: number of land tiles
     func numberOfLandPlots() -> Int {
 
         return self.map.numberOfLandPlots()
     }
 
+    /// number of water / ocean tiles
+    ///
+    /// - Returns: number of water / ocean tiles
     func numberOfWaterPlots() -> Int {
 
         return self.map.numberOfWaterPlots()
     }
 
-    func numberOfPlots(where condiction: (AbstractTile?) -> Bool) -> Int {
+    /// number of tiles that fullfils the `condition`
+    ///
+    /// - Parameter condition: condition that is checked for every tile
+    /// - Returns: number of tiles that fulls the `condition`
+    func numberOfPlots(where condition: (AbstractTile?) -> Bool) -> Int {
 
         return self.map.points()
             .map { self.tile(at: $0) }
-            .count(where: condiction)
+            .count(where: condition)
     }
 
     func loggingEnabled() -> Bool {
@@ -2758,12 +2894,6 @@ extension GameModel {
     func aiLoggingEnabled() -> Bool {
 
         return true
-    }
-}
-
-extension Array where Element: Comparable {
-    func containsSameElements(as other: [Element]) -> Bool {
-        return self.count == other.count && self.sorted() == other.sorted()
     }
 }
 

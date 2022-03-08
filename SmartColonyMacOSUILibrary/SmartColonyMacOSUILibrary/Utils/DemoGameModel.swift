@@ -13,6 +13,9 @@ public class DemoGameModel: GameModel {
         let barbarianPlayer = Player(leader: .barbar, isHuman: false)
         barbarianPlayer.initialize()
 
+        let amsterdamPlayer = Player(leader: .cityState(type: .amsterdam), isHuman: false)
+        amsterdamPlayer.initialize()
+
         let aiPlayer = Player(leader: .victoria, isHuman: false)
         aiPlayer.initialize()
 
@@ -26,7 +29,13 @@ public class DemoGameModel: GameModel {
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
         mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
 
-        super.init(victoryTypes: [.cultural], handicap: .chieftain, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
+        super.init(
+            victoryTypes: [.cultural],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, amsterdamPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
 
         let mapSize = mapModel.size
         for x in 0..<mapSize.width() {

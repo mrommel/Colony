@@ -15,7 +15,7 @@ class BaseDisplayNode: SKNode {
     var progressNode: CircularProgressBarNode?
     var iconNode: SKSpriteNode?
     var labelNode: SKLabelNode?
-    //var costNode: SpriteButtonNode?
+    // var costNode: SpriteButtonNode?
     private var iconNodes: [SKSpriteNode?] = []
 
     var touchHandler: (() -> Void)?

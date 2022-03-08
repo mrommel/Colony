@@ -265,7 +265,8 @@ extension GameViewModel {
             "techInfo-active", "techInfo-disabled", "techInfo-researched", "techInfo-researching",
             "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching",
             "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active",
-            "grid9-button-clicked", "grid9-button-disabled", "banner", "science-progress", "culture-progress",
+            "grid9-button-clicked", "grid9-button-disabled", "grid9-row",
+            "banner", "science-progress", "culture-progress",
             "header-bar-button", "grid9-progress", "leader-bagde",
             "header-bar-left", "header-bar-right", "city-banner", "grid9-button-district-active",
             "grid9-button-district", "grid9-button-highlighted", "questionmark", "tile-purchase-active",
@@ -274,7 +275,10 @@ extension GameViewModel {
             "city-canvas", "pantheon-background", "turns", "unit-banner", "combat-view",
             "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty",
             "map-overview-canvas", "map-lens", "map-lens-active", "map-marker", "map-options",
-            "unit-canvas", "menu", "menu-background", "speed-standard"
+            "unit-canvas", "menu", "menu-background", "speed-standard", "city-states",
+            "jump-to", "hint",
+            "suzerain-cultural", "suzerain-inactive", "suzerain-industrial", "suzerain-militaristic",
+            "suzerain-religious", "suzerain-scientific", "suzerain-trade"
         ]
         print("- load \(textureNames.count) misc textures")
         for textureName in textureNames {
@@ -660,6 +664,24 @@ extension GameViewModel {
         let handicapTypeTextureNames = HandicapType.all.map { $0.iconTexture() }
         print("- load \(handicapTypeTextureNames.count) handicap textures")
         for textureName in handicapTypeTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let cityStateTypeTextureNames = CityStateType.all.map { $0.iconTexture() }
+        print("- load \(cityStateTypeTextureNames.count) city state textures")
+        for textureName in cityStateTypeTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let cityStateEnvoysTextureNames = CityStateType.all.map { $0.envoysTexture() }
+        print("- load \(cityStateEnvoysTextureNames.count) city state envoys textures")
+        for textureName in cityStateEnvoysTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName

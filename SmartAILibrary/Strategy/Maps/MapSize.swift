@@ -76,6 +76,11 @@ public enum MapSize {
         return self.data().numberOfNaturalWonders
     }
 
+    func numberOfCityStates() -> Int {
+
+        return self.data().numberOfCityStates
+    }
+
     // private inner class
 
     private struct MapSizeData {
@@ -89,6 +94,7 @@ public enum MapSize {
         let targetNumCities: Int
         let numberOfPlayers: Int
         let numberOfNaturalWonders: Int
+        let numberOfCityStates: Int
     }
 
     private func data() -> MapSizeData {
@@ -104,7 +110,8 @@ public enum MapSize {
                 maxActiveReligions: 2,
                 targetNumCities: 8,
                 numberOfPlayers: 2,
-                numberOfNaturalWonders: 2
+                numberOfNaturalWonders: 2,
+                numberOfCityStates: 3
             )
 
         case .tiny:
@@ -116,7 +123,8 @@ public enum MapSize {
                 maxActiveReligions: 4,
                 targetNumCities: 10,
                 numberOfPlayers: 3,
-                numberOfNaturalWonders: 3
+                numberOfNaturalWonders: 3,
+                numberOfCityStates: 6
             )
 
         case .small:
@@ -128,7 +136,8 @@ public enum MapSize {
                 maxActiveReligions: 5,
                 targetNumCities: 15,
                 numberOfPlayers: 4,
-                numberOfNaturalWonders: 4
+                numberOfNaturalWonders: 4,
+                numberOfCityStates: 9
             )
 
         case .standard:
@@ -140,7 +149,8 @@ public enum MapSize {
                 maxActiveReligions: 7,
                 targetNumCities: 20,
                 numberOfPlayers: 6,
-                numberOfNaturalWonders: 5
+                numberOfNaturalWonders: 5,
+                numberOfCityStates: 12
             )
 
         case .large:
@@ -152,7 +162,8 @@ public enum MapSize {
                 maxActiveReligions: 9,
                 targetNumCities: 30,
                 numberOfPlayers: 8,
-                numberOfNaturalWonders: 6
+                numberOfNaturalWonders: 6,
+                numberOfCityStates: 15
             )
 
         case .huge:
@@ -164,7 +175,8 @@ public enum MapSize {
                 maxActiveReligions: 11,
                 targetNumCities: 45,
                 numberOfPlayers: 10,
-                numberOfNaturalWonders: 7
+                numberOfNaturalWonders: 7,
+                numberOfCityStates: 18
             )
 
         case .custom(width: let width, height: let height):
@@ -177,7 +189,8 @@ public enum MapSize {
                 maxActiveReligions: bestMatch.maxActiveReligions(),
                 targetNumCities: bestMatch.targetNumCities(),
                 numberOfPlayers: bestMatch.numberOfPlayers(),
-                numberOfNaturalWonders: bestMatch.numberOfNaturalWonders()
+                numberOfNaturalWonders: bestMatch.numberOfNaturalWonders(),
+                numberOfCityStates: bestMatch.numberOfCityStates()
             )
         }
     }

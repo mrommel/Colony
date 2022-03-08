@@ -234,6 +234,10 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "artifact")
         }
 
+        public static var greatWorkOfWriting: NSImage {
+            return Icons.loadCachedTexture(with: "greatWorkWriting")
+        }
+
         public static var questionmark: NSImage {
             return Icons.loadCachedTexture(with: "questionmark")
         }

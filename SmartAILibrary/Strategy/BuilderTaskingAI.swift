@@ -313,7 +313,7 @@ public class BuilderTaskingAI {
                 continue
             }
 
-            //UpdateProjectedPlotYields(pPlot, eBuild);
+            // UpdateProjectedPlotYields(pPlot, eBuild);
             let score = self.scorePlot(for: tile, on: tmpBuildType)
 
             // if we're going backward, bail out!
@@ -340,7 +340,7 @@ public class BuilderTaskingAI {
             weight += (unit.location == tile.point) ? 10 : 0 // bonus for current plot
             weight += 100 / buildTimeWeight
             weight *= score
-            //weight = CorrectWeight(iWeight);
+            // weight = CorrectWeight(iWeight);
 
             let directive = BuilderDirective(type: directiveType, build: tmpBuildType, resource: .none, target: tile.point, moveTurnsAway: dist)
             directiveList.add(weight: Double(weight), for: directive)
@@ -426,8 +426,8 @@ public class BuilderTaskingAI {
         var weight = 200 /* BUILDER_TASKING_BASELINE_REPAIR */
         let turnsAway = self.findTurnsAway(unit: unit, on: pPlot, in: gameModel)
         weight = weight / (turnsAway + 1)
-        //iWeight = GetBuildCostWeight(iWeight, pPlot, eChopBuild);
-        let buildTimeWeight = 100 / chopBuild.buildTime(on: pPlot) //GetBuildTimeWeight(pUnit, pPlot, eChopBuild, false, iMoveTurnsAway);
+        // iWeight = GetBuildCostWeight(iWeight, pPlot, eChopBuild);
+        let buildTimeWeight = 100 / chopBuild.buildTime(on: pPlot) // GetBuildTimeWeight(pUnit, pPlot, eChopBuild, false, iMoveTurnsAway);
         weight += buildTimeWeight
         weight *= production // times the amount that the plot produces from the chopping
 
@@ -480,7 +480,7 @@ public class BuilderTaskingAI {
         }
 
         weight += Int(yieldDifferenceWeight)
-        //weight = CorrectWeight(iWeight);
+        // weight = CorrectWeight(iWeight);
 
         if weight > 0 {
 
@@ -528,14 +528,14 @@ public class BuilderTaskingAI {
         }
 
         // loop through the build types to find one that we can use
-        //var originalBuild: BuildType = .none
+        // var originalBuild: BuildType = .none
         var doBuild: BuildType = .none
 
         let directiveList = BuilderDirectiveWeightedList()
 
         for buildType in BuildType.all {
 
-            //originalBuild = buildType
+            // originalBuild = buildType
             doBuild = buildType
 
             guard let improvement = buildType.improvement() else {
@@ -555,7 +555,7 @@ public class BuilderTaskingAI {
                 // if the plot has an unpillaged great person's creation on it, DO NOT DESTROY
                 if existingPlotImprovement != ImprovementType.none {
 
-                    //CvImprovementEntry* pkExistingPlotImprovementInfo = GC.getImprovementInfo(eExistingPlotImprovement);
+                    // CvImprovementEntry* pkExistingPlotImprovementInfo = GC.getImprovementInfo(eExistingPlotImprovement);
                     /*if(pkExistingPlotImprovementInfo && pkExistingPlotImprovementInfo->IsCreatedByGreatPerson())
                     {
                         continue
@@ -601,14 +601,14 @@ public class BuilderTaskingAI {
             weight += self.resourceWeight(for: resource, improvement: improvement, quantity: pPlot.resourceQuantity())
             // weight = CorrectWeight(iWeight);
 
-            //UpdateProjectedPlotYields(pPlot, eBuild);
+            // UpdateProjectedPlotYields(pPlot, eBuild);
             let score = self.scorePlot(for: pPlot, on: buildType)
             if score > 0 {
                 weight *= score
-                //weight = CorrectWeight(iWeight);
+                // weight = CorrectWeight(iWeight);
             }
 
-            //CvCity* pLogCity = NULL;
+            // CvCity* pLogCity = NULL;
             let production = pPlot.productionFromFeatureRemoval(by: buildType)
             if self.doesBuildHelpRush(unit: unit, pPlot: pPlot, build: buildType) {
                 weight += production // a nominal benefit for choosing this production
@@ -788,7 +788,7 @@ public class BuilderTaskingAI {
 
         weight = weight / (turnsAway + 1)
         weight *= weight
-        weight += 100 / buildtime //GetBuildTimeWeight(pUnit, pPlot, eRouteBuild, false, iMoveTurnsAway);
+        weight += 100 / buildtime // GetBuildTimeWeight(pUnit, pPlot, eRouteBuild, false, iMoveTurnsAway);
         weight *= pPlot.builderAIScratchPad().value
         // FIXME weight = CorrectWeight(iWeight);
 
@@ -907,7 +907,7 @@ public class BuilderTaskingAI {
             )
             let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
-            //let path = astar.shortestPath(fromTileCoord: unit.location, toTileCoord: tile.point)
+            // let path = astar.shortestPath(fromTileCoord: unit.location, toTileCoord: tile.point)
             let result = pathFinder.turnsToReachTarget(for: unit, to: tile.point)
             if result == Int.max {
                 return -1

@@ -264,7 +264,7 @@ public class DiplomaticDeal: Codable {
 
                     tradeItem.amount = amount
                     tradeItem.duration = duration
-                    //it->m_iFinalTurn = iDuration + GC.getGame().getGameTurn();
+                    // it->m_iFinalTurn = iDuration + GC.getGame().getGameTurn();
                     return true
                 }
             }
@@ -453,10 +453,10 @@ public class DiplomaticDeal: Codable {
         let goldCost = 0
 
         switch itemType {
-        //case .research:
+        // case .research:
         //    goldCost = GC.getGame().GetResearchAgreementCost(ePlayer1, ePlayer2);
 
-        //case .tradeAgreement:
+        // case .tradeAgreement:
         //    goldCost = 250
         default:
             // noop
@@ -580,7 +580,7 @@ public class DiplomaticDeal: Codable {
 
         case .strategic:
             // limit effect of strategic resources to number of cities
-            //resourceQuantity = min(max(5, self.from.ci))
+            // resourceQuantity = min(max(5, self.from.ci))
             // NOOP
             break
 
@@ -1168,16 +1168,16 @@ public class DiplomaticDeal: Codable {
 
         self.tradeItems.removeAll()
 
-        //m_iFinalTurn = -1;
-        //self.duration = -1
-        //m_iStartTurn = -1;
-        //m_bConsideringForRenewal = false;
-        //m_bCheckedForRenewal = false;
-        //m_bDealCancelled = false;
+        // m_iFinalTurn = -1;
+        // self.duration = -1
+        // m_iStartTurn = -1;
+        // m_bConsideringForRenewal = false;
+        // m_bCheckedForRenewal = false;
+        // m_bDealCancelled = false;
 
-        //SetPeaceTreatyType(NO_PEACE_TREATY_TYPE);
+        // SetPeaceTreatyType(NO_PEACE_TREATY_TYPE);
         self.surrendering = .none
-        //SetDemandingPlayer(NO_PLAYER);
-        //SetRequestingPlayer(NO_PLAYER);
+        // SetDemandingPlayer(NO_PLAYER);
+        // SetRequestingPlayer(NO_PLAYER);
     }
 }

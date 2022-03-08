@@ -512,7 +512,7 @@ public class GrandStrategyAI: Codable {
         priority += (10 - player.currentEraVal.rawValue) * flavorCulture * 200 / 100
 
         // Loop through Players to see how we are doing on Tourism and Culture
-        let ourCulture = player.culture(in: gameModel)
+        let ourCulture = player.culture(in: gameModel, consume: false)
         let ourTourism = 0 // player->GetCulture()->GetTourism();
         var numCivsBehindCulture = 0
         var numCivsAheadCulture = 0
@@ -524,7 +524,7 @@ public class GrandStrategyAI: Codable {
 
             if otherPlayer.isAlive() /*&& !kPlayer.isMinorCiv()*/ && !otherPlayer.isBarbarian() && otherPlayer.leader != player.leader {
 
-                if ourCulture > otherPlayer.culture(in: gameModel) {
+                if ourCulture > otherPlayer.culture(in: gameModel, consume: false) {
                     numCivsAheadCulture += 1
                 } else {
                     numCivsBehindCulture += 1

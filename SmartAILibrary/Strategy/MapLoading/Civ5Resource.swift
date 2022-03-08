@@ -53,7 +53,7 @@ extension ResourceType {
         default:
             print("case \(value) must be handled")
             return nil
-            //fatalError("case \(value) must be handled")
+            // fatalError("case \(value) must be handled")
         }
     }
 }

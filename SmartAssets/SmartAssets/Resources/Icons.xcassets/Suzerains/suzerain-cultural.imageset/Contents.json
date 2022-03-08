@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "suzerain-cultural@3x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

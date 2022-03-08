@@ -137,7 +137,7 @@ class FiniteStateMachineTests: XCTestCase {
         let hasMovementLeft = true
         let stateIdle = FiniteState(identifier: TestState.stateA)
         let stateMoving = FiniteState(identifier: TestState.stateB)
-        //let stateMoving = FiniteState(identifier: "Moving")
+        // let stateMoving = FiniteState(identifier: "Moving")
 
         stateIdle.add(transition: FiniteStateTransition(state: stateMoving, trigger: { return hasMovingOrder && hasMovementLeft }))
 

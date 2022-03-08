@@ -68,7 +68,7 @@ public class MapGenerator: BaseMapHandler {
         usleep(10000) // will sleep for 10 milliseconds
 
 		// 1st step: land / water
-        //self.wrapHeightmap
+        // self.wrapHeightmap
         self.fillFromElevation(withWaterPercentage: self.options.waterPercentage, on: heightMap)
         // self.flipSomeCoastTiles()
 
@@ -500,7 +500,7 @@ public class MapGenerator: BaseMapHandler {
 
         // mglobal.hillsBlendPercent        = 0.45 -- Chance for flat land to become hills per near mountain. Requires at least 2 near mountains.
         let terrainBlendRange = 3       // range to smooth terrain (desert surrounded by plains turns to plains, etc)
-        let terrainBlendRandom = 0.6  //random modifier for terrain smoothing
+        let terrainBlendRandom = 0.6  // random modifier for terrain smoothing
 
         let points = grid.points().shuffled
 
@@ -1144,8 +1144,9 @@ public class MapGenerator: BaseMapHandler {
         }
 
         let numberOfPlayers = self.options.size.numberOfPlayers()
+        let numberOfCityStates = self.options.size.numberOfCityStates()
 
-        let startPositioner = StartPositioner(on: grid, for: numberOfPlayers)
+        let startPositioner = StartPositioner(on: grid, for: numberOfPlayers, and: numberOfCityStates)
         startPositioner.generateRegions()
 
         var aiLeaders: [LeaderType] = self.options.aiLeaders
@@ -1153,11 +1154,30 @@ public class MapGenerator: BaseMapHandler {
         if aiLeaders.isEmpty {
             aiLeaders = LeaderType.all
                 .filter({ $0 != self.options.leader })
+                .shuffled
                 .choose(numberOfPlayers - 1)
         }
 
+        var cityStateTypes: [CityStateType] = []
+        for _ in 0..<self.options.size.numberOfCityStates() {
+            let cityStateType: CityStateType = CityStateType.all
+                .filter({ !cityStateTypes.contains($0) })
+                .shuffled
+                .first!
+            cityStateTypes.append(cityStateType)
+        }
+        let cityStateLeaders: [LeaderType] = cityStateTypes.map { LeaderType.cityState(type: $0) }
+
         startPositioner.chooseLocations(for: aiLeaders, human: self.options.leader)
+        startPositioner.chooseCityStateLocations(for: cityStateLeaders)
+
+        let foundLocations = startPositioner.cityStateStartLocations.count
+        let neededLocations = self.options.size.numberOfCityStates()
+        if foundLocations != neededLocations {
+            print("WARNING: could not get correct number start locations (\(foundLocations)) for city state leaders (\(neededLocations))")
+        }
 
         grid.startLocations = startPositioner.startLocations
+        grid.cityStateStartLocations = startPositioner.cityStateStartLocations
     }
 }

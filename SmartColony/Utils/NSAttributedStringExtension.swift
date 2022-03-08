@@ -79,20 +79,20 @@ extension NSRegularExpression {
     func split(_ string: String) -> [String] {
         let range = NSRange(location: 0, length: string.count)
 
-        //get locations of matches
+        // get locations of matches
         var matchingRanges: [NSRange] = []
         let matches: [NSTextCheckingResult] = self.matches(in: string, options: [], range: range)
         for match: NSTextCheckingResult in matches {
             matchingRanges.append(match.range)
         }
 
-        //invert ranges - get ranges of non-matched pieces
+        // invert ranges - get ranges of non-matched pieces
         var pieceRanges: [NSRange] = []
 
-        //add first range
+        // add first range
         pieceRanges.append(NSRange(location: 0, length: (matchingRanges.isEmpty ? string.count : matchingRanges[0].location)))
 
-        //add between splits ranges and last range
+        // add between splits ranges and last range
         for index in 0..<matchingRanges.count {
             let isLast = index + 1 == matchingRanges.count
 

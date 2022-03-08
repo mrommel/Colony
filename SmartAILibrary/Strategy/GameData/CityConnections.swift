@@ -57,7 +57,7 @@ class RouteInfo: Codable {
         case passEval
     }
 
-    let from: HexPoint //AbstractCity?
+    let from: HexPoint // AbstractCity?
     let to: HexPoint // AbstractCity?
     var routeState: RouteState
     var passEval: Int // used to create the data, but should not be referenced as a value
@@ -201,7 +201,7 @@ public class CityConnections: Codable {
         self.updatePlotRouteStates()
         self.updateCityPlots(in: gameModel)
         self.updateRouteInfo(in: gameModel)
-        //self.broadcastPlotRouteStateChanges()
+        // self.broadcastPlotRouteStateChanges()
     }
 
     /// if there are no cities in the route list

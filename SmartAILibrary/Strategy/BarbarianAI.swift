@@ -108,7 +108,7 @@ class BarbarianAI: Codable {
 
         self.barbCampSpawnCounter[point] = -16
 
-        //pPlot->AddArchaeologicalRecord(CvTypes::getARTIFACT_BARBARIAN_CAMP(), ePlayer, NO_PLAYER);
+        // pPlot->AddArchaeologicalRecord(CvTypes::getARTIFACT_BARBARIAN_CAMP(), ePlayer, NO_PLAYER);
     }
 
     /// CvBarbarians::DoCamps()
@@ -155,7 +155,7 @@ class BarbarianAI: Codable {
         let campTargetNum = (fogTilesPerBarbarianCamp != 0) ? numValidCampPlots / fogTilesPerBarbarianCamp : 0
         var numCampsToAdd = campTargetNum - numCampsInExistence
 
-        //int iMaxCampsThisArea;
+        // int iMaxCampsThisArea;
 
         // added the barbarian chance for the FoR scenario
         if numCampsToAdd > 0 {
@@ -411,7 +411,7 @@ class BarbarianAI: Codable {
 
         if numNearbyUnits <= 2 /* MAX_BARBARIANS_FROM_CAMP_NEARBY */ || ignoreMaxBarbarians {
 
-            //CvPlot* pLoopPlot;
+            // CvPlot* pLoopPlot;
 
             // Barbs only get boats after some period of time has passed
             let canSpawnBoats = gameModel.currentTurn > 30 /* BARBARIAN_NAVAL_UNIT_START_TURN_SPAWN */
@@ -501,7 +501,7 @@ class BarbarianAI: Codable {
         var numTurnsToSpawn = 8 + Int.random(number: 5)
 
         // Raging
-        //if (kGame.isOption(GAMEOPTION_RAGING_BARBARIANS))
+        // if (kGame.isOption(GAMEOPTION_RAGING_BARBARIANS))
         //    iNumTurnsToSpawn /= 2;
 
         // Num Units Spawned

@@ -81,7 +81,7 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
         let playerTrajanWarrior2Location: HexPoint = HexPoint(x: 21, y: 24)
         let playerTrajanWarrior3Location: HexPoint = HexPoint(x: 20, y: 24)
         let playerTrajanArcherLocation: HexPoint = HexPoint(x: 20, y: 23)
-        //let playerBarbarianWarriorLocation: HexPoint = HexPoint(x: 20, y: 23)
+        // let playerBarbarianWarriorLocation: HexPoint = HexPoint(x: 20, y: 23)
 
         XCTAssertEqual(gameModel.tile(at: playerTrajanWarrior1Location)!.isLand(), true)
         XCTAssertEqual(gameModel.tile(at: playerTrajanWarrior2Location)!.isLand(), true)
@@ -101,8 +101,8 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
         let playerTrajanArcher = Unit(at: playerTrajanArcherLocation, type: .archer, owner: playerTrajan)
         gameModel.add(unit: playerTrajanArcher)
 
-        //let playerBarbarianWarrior = Unit(at: HexPoint(x: 10, y: 7), type: .barbarianWarrior, owner: playerBarbarian)
-        //gameModel.add(unit: playerBarbarianWarrior)
+        // let playerBarbarianWarrior = Unit(at: HexPoint(x: 10, y: 7), type: .barbarianWarrior, owner: playerBarbarian)
+        // gameModel.add(unit: playerBarbarianWarrior)
 
         // this is cheating
         MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
@@ -194,7 +194,7 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
         let playerTrajanWarrior2Location: HexPoint = HexPoint(x: 21, y: 24)
         let playerTrajanWarrior3Location: HexPoint = HexPoint(x: 20, y: 24)
         let playerTrajanArcherLocation: HexPoint = HexPoint(x: 20, y: 23)
-        //let playerBarbarianWarriorLocation: HexPoint = HexPoint(x: 20, y: 23)
+        // let playerBarbarianWarriorLocation: HexPoint = HexPoint(x: 20, y: 23)
 
         XCTAssertEqual(gameModel.tile(at: playerTrajanWarrior1Location)!.isLand(), true)
         XCTAssertEqual(gameModel.tile(at: playerTrajanWarrior2Location)!.isLand(), true)
@@ -214,8 +214,8 @@ class DestroyBarbarianCampOperationTests: XCTestCase {
         let playerTrajanArcher = Unit(at: playerTrajanArcherLocation, type: .archer, owner: playerTrajan)
         gameModel.add(unit: playerTrajanArcher)
 
-        //let playerBarbarianWarrior = Unit(at: HexPoint(x: 10, y: 7), type: .barbarianWarrior, owner: playerBarbarian)
-        //gameModel.add(unit: playerBarbarianWarrior)
+        // let playerBarbarianWarrior = Unit(at: HexPoint(x: 10, y: 7), type: .barbarianWarrior, owner: playerBarbarian)
+        // gameModel.add(unit: playerBarbarianWarrior)
 
         // this is cheating
         MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)

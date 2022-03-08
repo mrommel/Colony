@@ -100,7 +100,7 @@ class UsecaseTests: XCTestCase {
         XCTAssertEqual(numOfUnitsAfter, 1)
 
         XCTAssertEqual(playerAugustusWarrior.activityType(), .none) // warriro has skipped
-        //XCTAssertEqual(playerAugustusWarrior.peekMission()!.buildType, BuildType.repair)
+        // XCTAssertEqual(playerAugustusWarrior.peekMission()!.buildType, BuildType.repair)
     }
 
     func testWarriorMoveToGarrison() {

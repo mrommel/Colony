@@ -11,6 +11,8 @@ import SmartAssets
 
 protocol TopBarViewModelDelegate: AnyObject {
 
+    func tradeRoutesClicked()
+    func envoysClicked()
     func menuButtonClicked()
 }
 
@@ -37,7 +39,13 @@ public class TopBarViewModel: ObservableObject {
     @Published
     var tradeRoutesLabelText: String
 
+    @Published
+    var envoysLabelText: String
+
     // resources
+
+    @Published
+    var showResources: Bool
 
     @Published
     var horsesValueViewModel: ResourceValueViewModel
@@ -74,14 +82,16 @@ public class TopBarViewModel: ObservableObject {
         self.tourismYieldValueViewModel = YieldValueViewModel(yieldType: .tourism, initial: 0.0, type: .onlyValue)
 
         self.tradeRoutesLabelText = "0/0"
+        self.envoysLabelText = "0"
 
-        self.horsesValueViewModel = ResourceValueViewModel(resourceType: .horses, initial: 1)
-        self.ironValueViewModel = ResourceValueViewModel(resourceType: .iron, initial: 1)
-        self.niterValueViewModel = ResourceValueViewModel(resourceType: .niter, initial: 1)
-        self.coalValueViewModel = ResourceValueViewModel(resourceType: .coal, initial: 1)
-        self.oilValueViewModel = ResourceValueViewModel(resourceType: .oil, initial: 1)
-        self.aluminumValueViewModel = ResourceValueViewModel(resourceType: .aluminum, initial: 1)
-        self.uraniumValueViewModel = ResourceValueViewModel(resourceType: .uranium, initial: 1)
+        self.showResources = false
+        self.horsesValueViewModel = ResourceValueViewModel(resourceType: .horses, initial: 0)
+        self.ironValueViewModel = ResourceValueViewModel(resourceType: .iron, initial: 0)
+        self.niterValueViewModel = ResourceValueViewModel(resourceType: .niter, initial: 0)
+        self.coalValueViewModel = ResourceValueViewModel(resourceType: .coal, initial: 0)
+        self.oilValueViewModel = ResourceValueViewModel(resourceType: .oil, initial: 0)
+        self.aluminumValueViewModel = ResourceValueViewModel(resourceType: .aluminum, initial: 0)
+        self.uraniumValueViewModel = ResourceValueViewModel(resourceType: .uranium, initial: 0)
 
         self.turnYearText = "-"
 
@@ -107,7 +117,7 @@ public class TopBarViewModel: ObservableObject {
         self.scienceYieldValueViewModel.delta = humanPlayer.science(in: gameModel)
         self.scienceYieldValueViewModel.tooltip = self.scienceTooltip(for: humanPlayer, in: gameModel)
 
-        self.cultureYieldValueViewModel.delta = humanPlayer.culture(in: gameModel)
+        self.cultureYieldValueViewModel.delta = humanPlayer.culture(in: gameModel, consume: false)
         self.cultureYieldValueViewModel.tooltip = self.cultureTooltip(for: humanPlayer, in: gameModel)
 
         self.faithYieldValueViewModel.value = humanPlayer.religion?.faith() ?? 0.0
@@ -125,28 +135,51 @@ public class TopBarViewModel: ObservableObject {
         let tradingCapacity = humanPlayer.tradingCapacity(in: gameModel)
         self.tradeRoutesLabelText = "\(numberOfTradeRoutes)/\(tradingCapacity)"
 
-        self.horsesValueViewModel.value = humanPlayer.numStockpile(of: .horses)
+        self.envoysLabelText = "\(humanPlayer.numberOfAvailableEnvoys())"
+
+        // gather resource
+        let numHorses = humanPlayer.numStockpile(of: .horses)
+        let numIron = humanPlayer.numStockpile(of: .iron)
+        let numNiter = humanPlayer.numStockpile(of: .niter)
+        let numCoal = humanPlayer.numStockpile(of: .coal)
+        let numOil = humanPlayer.numStockpile(of: .oil)
+        let numAluminum = humanPlayer.numStockpile(of: .aluminum)
+        let numUranium = humanPlayer.numStockpile(of: .uranium)
+
+        self.showResources = numHorses + numIron + numNiter + numCoal + numOil + numAluminum + numUranium > 0
+
+        self.horsesValueViewModel.value = numHorses
         self.horsesValueViewModel.tooltip = self.resourceTooltip(of: .horses, for: humanPlayer)
 
-        self.ironValueViewModel.value = humanPlayer.numStockpile(of: .iron)
+        self.ironValueViewModel.value = numIron
         self.ironValueViewModel.tooltip = self.resourceTooltip(of: .iron, for: humanPlayer)
 
-        self.niterValueViewModel.value = humanPlayer.numStockpile(of: .niter)
+        self.niterValueViewModel.value = numNiter
         self.niterValueViewModel.tooltip = self.resourceTooltip(of: .niter, for: humanPlayer)
 
-        self.coalValueViewModel.value = humanPlayer.numStockpile(of: .coal)
+        self.coalValueViewModel.value = numCoal
         self.coalValueViewModel.tooltip = self.resourceTooltip(of: .coal, for: humanPlayer)
 
-        self.oilValueViewModel.value = humanPlayer.numStockpile(of: .oil)
+        self.oilValueViewModel.value = numOil
         self.oilValueViewModel.tooltip = self.resourceTooltip(of: .oil, for: humanPlayer)
 
-        self.aluminumValueViewModel.value = humanPlayer.numStockpile(of: .aluminum)
+        self.aluminumValueViewModel.value = numAluminum
         self.aluminumValueViewModel.tooltip = self.resourceTooltip(of: .aluminum, for: humanPlayer)
 
-        self.uraniumValueViewModel.value = humanPlayer.numStockpile(of: .uranium)
+        self.uraniumValueViewModel.value = numUranium
         self.uraniumValueViewModel.tooltip = self.resourceTooltip(of: .uranium, for: humanPlayer)
 
         self.turnYearText = gameModel.turnYear()
+    }
+
+    func tradeRoutesClicked() {
+
+        self.delegate?.tradeRoutesClicked()
+    }
+
+    func envoysClicked() {
+
+        self.delegate?.envoysClicked()
     }
 
     func menuClicked() {
@@ -238,7 +271,7 @@ extension TopBarViewModel {
 
         if !cities.isEmpty {
 
-            let cultureFromCities = player.cultureFromCities(in: gameModel)
+            let cultureFromCities = player.cultureFromCities(in: gameModel).calc()
             let citiesYield = NSAttributedString(
                 string: "\n+\(cultureFromCities) from Cities",
                 attributes: Globals.Attributs.tooltipContentAttributs
@@ -258,6 +291,13 @@ extension TopBarViewModel {
                 )
                 tooltipText.append(cityYield)
             }
+
+            let cultureFromCityStates = player.cultureFromCityStates(in: gameModel).calc()
+            let cityStateYield = NSAttributedString(
+                string: "\n+\(cultureFromCityStates) from City States",
+                attributes: Globals.Attributs.tooltipContentAttributs
+            )
+            tooltipText.append(cityStateYield)
         }
 
         return tooltipText

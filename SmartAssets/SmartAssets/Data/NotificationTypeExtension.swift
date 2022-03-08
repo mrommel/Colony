@@ -9,6 +9,7 @@ import SmartAILibrary
 
 extension NotificationType {
 
+    // https://civ6.fandom.com/wiki/Category:Notification_icons
     public func iconTexture() -> String {
 
         switch self {
@@ -44,6 +45,12 @@ extension NotificationType {
         case .barbarianCampDiscovered: return "button-barbarianCampDiscovered"
 
         case .waiting: return "button-waiting"
+
+        case .metCityState: return "button-met-city-state"
+
+        case .questCityStateFulfilled: return "button-questCompleted"
+        case .questCityStateObsolete: return "button-default"
+        case .questCityStateGiven: return "button-default"
         }
     }
 }

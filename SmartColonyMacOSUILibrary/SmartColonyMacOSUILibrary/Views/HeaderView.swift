@@ -76,8 +76,11 @@ struct HeaderView: View {
                 .resizable()
                 .frame(width: 35, height: 47, alignment: .center)
 
-            // ranking
+            // ranking / victory
             HeaderButtonView(viewModel: self.viewModel.rankingHeaderViewModel)
+
+            // city states
+            HeaderButtonView(viewModel: self.viewModel.cityStateHeaderViewModel)
 
             // trade routes
             HeaderButtonView(viewModel: self.viewModel.tradeRoutesHeaderViewModel)

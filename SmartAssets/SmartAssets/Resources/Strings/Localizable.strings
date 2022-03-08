@@ -87,6 +87,7 @@
 "TXT_KEY_HEADER_MOMENTS" = "Moments";
 "TXT_KEY_HEADER_GOVERNORS" = "Governors";
 "TXT_KEY_HEADER_RANKING" = "Ranking";
+"TXT_KEY_HEADER_CITY_STATES" = "City States";
 "TXT_KEY_HEADER_TRADE_ROUTES" = "Trade Routes";
 "TXT_KEY_HEADER_ERA_PROGRESS" = "Era Progress";
 
@@ -160,6 +161,23 @@
 "TXT_KEY_POPUP_OTHER_LOST_CAPITAL_TITLE" = "[Capital] Capital City lost!";
 "TXT_KEY_POPUP_OTHER_LOST_CAPITAL_SUMMARY" = "%@ lost their original [Capital] Capital.";
 
+// ranking texts
+"TXT_KEY_RANKING_DOMINATION_VICTORY_TITLE" = "Domination Victory";
+"TXT_KEY_RANKING_DOMINATION_VICTORY_BODY" = "To achieve a DOMINATION victory, you must conquer the original Capital of every civilization.\n\nA strong military is highly recommended.";
+
+"TXT_KEY_RANKING_SCIENCE_VICTORY_TITLE" = "Science Victory";
+"TXT_KEY_RANKING_SCIENCE_VICTORY_BODY" = "To achieve a science victory, you must accomplish 5 major milestones:\n- Launch a satellite.\n- Land a human on the Moon.\n- Establish a Martian Colony.\n- Launch an Exoplanet Expedition.\n- Help the Exoplanet Expedition to travel 50 light years.";
+
+"TXT_KEY_RANKING_CULTURE_VICTORY_TITLE" = "Culture Victory";
+"TXT_KEY_RANKING_CULTURE_VICTORY_BODY" = "To achieve a CULTURE victory, you must attract VISITING TOURISTS by generating high amount of culture and tourism. Victory is achieved when you attract more VISITING TOURISTS to your civilization than any other civilization has DOMESTIC TOURISTS at home.\n- Your DOMESTIC TOURISTS represent the tourists from your civilization thta are currently happy vacationing within your borders.\n- Your VISITING TOURISTS represent the number of citizens you've attracted from the DOMESTIC TOURIST pools of other civilizations.";
+
+"TXT_KEY_RANKING_RELIGIOUS_VICTORY_TITLE" = "Religious Victory";
+"TXT_KEY_RANKING_RELIGIOUS_VICTORY_BODY" = "To achieve a RELIGIOUS victory, your Religion must become the PREDOMINANT Religion for every civilization in the game.\n\nA Religion is PREDOMINANT if it is followed by more than 50% of the cities in a civilization.";
+
+"TXT_KEY_RANKING_HUMAN_LEADING" = "You are leading";
+"TXT_KEY_RANKING_OTHER_LEADING" = "%@ is leading";
+"TXT_KEY_RANKING_UNMET_LEADING" = "An unmet player is leading";
+
 // victory ranking
 "TXT_KEY_LEADER_1_NAME" = "Augustus Caesar";
 "TXT_KEY_LEADER_1_QUOTE" = "I found Rome a city of bricks and left it a city of marble.";
@@ -224,8 +242,10 @@
 "TXT_KEY_LEADER_21_NAME" = "Dan Quayle";
 "TXT_KEY_LEADER_21_QUOTE" = "We are ready for any unforeseen event that may or may not occur.";
 
-// governor texts
+// governor / envoy texts
 "TXT_KEY_GOVERNOR_TITLE" = "Governor title";
+"TXT_KEY_ENVOY" = "ENVOY";
+"TXT_KEY_ENVOYS" = "ENVOYS";
 
 // policy card types
 "TXT_KEY_POLICY_CARD_TYPE_MILITARY_TITLE" = "Military";

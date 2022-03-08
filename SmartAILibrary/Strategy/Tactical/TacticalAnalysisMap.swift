@@ -26,14 +26,14 @@ enum TacticalDominanceType {
     case even
 }
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      TacticalAnalysisMap
-//!  \brief        Shared spatial map used by all AI players to analyze moves when at war
+// !  \brief        Shared spatial map used by all AI players to analyze moves when at war
 //
-//!  Key Attributes:
-//!  - Created by CvGame class
-//!  - Shared by all players; data is refreshed at start of each AI turn if player at war
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  Key Attributes:
+// !  - Created by CvGame class
+// !  - Shared by all players; data is refreshed at start of each AI turn if player at war
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // swiftlint:disable type_body_length
 class TacticalAnalysisMap {
 
@@ -531,8 +531,8 @@ class TacticalAnalysisMap {
             fatalError("cant get target")
         }
 
-        //CvPlot* pLoopPlot;
-        //int iPlotIndex;
+        // CvPlot* pLoopPlot;
+        // int iPlotIndex;
 
         // No flank attacks on units at sea (where all combat is bombards)
         if target.isWater() {

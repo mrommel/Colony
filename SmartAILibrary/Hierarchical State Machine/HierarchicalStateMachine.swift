@@ -78,10 +78,10 @@ class HierarchicalStateMachine: HierarchicalState {
 
                 // ... store current state (to be able to restore on exit)
                 hierarchyState.previousState = self.current
-                //print("\(hierarchyState.identifier) store state: \(self.current!.identifier)")
+                // print("\(hierarchyState.identifier) store state: \(self.current!.identifier)")
             }
 
-            //print("\(self.current!.identifier) -> \(transition.state.identifier)")
+            // print("\(self.current!.identifier) -> \(transition.state.identifier)")
 
             self.current?.ended()
             self.current = transition.state

@@ -23,15 +23,15 @@ struct OperationSearchUnit {
     let distance: Int
 }
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvAIOperation
-//!  \brief        Operational maneuvers performed by the AI
+// !  \brief        Operational maneuvers performed by the AI
 //
-//!  Key Attributes:
-//!  - Based class: behavior is inherited from this class for each individual maneuver
-//!  - AI operations are launched by some player strategies
-//!  - Each operations manages one or more armies (multiple armies in an operation not yet tested)
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  Key Attributes:
+// !  - Based class: behavior is inherited from this class for each individual maneuver
+// !  - AI operations are launched by some player strategies
+// !  - Each operations manages one or more armies (multiple armies in an operation not yet tested)
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // swiftlint:disable:next type_body_length
 public class Operation: Codable, Equatable {
 
@@ -116,10 +116,10 @@ public class Operation: Codable, Equatable {
         try container.encode(self.area, forKey: .area)
         try container.encode(self.moveType, forKey: .moveType)
 
-        //self.army = nil // try container.decodeIfPresent(Army.self, forKey: .army)
+        // self.army = nil // try container.decodeIfPresent(Army.self, forKey: .army)
 
-        //self.listOfUnitsCitiesHaveCommittedToBuild = [] // try container.decode([OperationSlot].self, forKey: .army)
-        //self.listOfUnitsWeStillNeedToBuild = [] // try container.decode([OperationSlot].self, forKey: .army)
+        // self.listOfUnitsCitiesHaveCommittedToBuild = [] // try container.decode([OperationSlot].self, forKey: .army)
+        // self.listOfUnitsWeStillNeedToBuild = [] // try container.decode([OperationSlot].self, forKey: .army)
         try container.encode(self.shouldReplaceLossesWithReinforcements, forKey: .shouldReplaceLossesWithReinforcements)
 
         try container.encodeIfPresent(self.startPosition, forKey: .startPosition)
@@ -449,7 +449,7 @@ public class Operation: Codable, Equatable {
                         // NOOP
                         break
 
-                    case .aborted(_):
+                    case .aborted:
                         // NOOP
                         break
 
@@ -495,7 +495,7 @@ public class Operation: Codable, Equatable {
                         // NOOP
                         break
 
-                    case .aborted(_):
+                    case .aborted:
                         // NOOP
                         break
 
@@ -550,7 +550,7 @@ public class Operation: Codable, Equatable {
                         // NOOP
                         break
 
-                    case .aborted(_):
+                    case .aborted:
                         // NOOP
                         break
 
@@ -599,7 +599,7 @@ public class Operation: Codable, Equatable {
                         // NOOP
                         break
 
-                    case .aborted(_):
+                    case .aborted:
                         // NOOP
                         break
 
@@ -866,7 +866,7 @@ public class Operation: Codable, Equatable {
         if let bestArea = bestArea {
 
             // Know which continent to use, now use our largest city there as the start city
-            //CvCity* pCity;
+            // CvCity* pCity;
             bestTotal = 0
 
             for cityRef in gameModel.cities(of: player) {
@@ -922,7 +922,7 @@ public class Operation: Codable, Equatable {
         }
 
         var rtnValue: HexPoint?
-        //CvPlayer &kPlayer = GET_PLAYER(m_eOwner);
+        // CvPlayer &kPlayer = GET_PLAYER(m_eOwner);
 
         switch state {
 
@@ -936,13 +936,13 @@ public class Operation: Codable, Equatable {
 
         case .movingToTarget:
 
-            //CvPlot* pCenterOfMass = 0;
-            //CvPlot* pLastTurnArmyPlot = 0;
-            //CvAStarNode* pNode1 = 0;
-            //CvAStarNode* pNode2 = 0;
-            //var lastNodeIndex = 0
-            //FStaticVector<CvAStarNode*, SAFE_ESTIMATE_MAX_PATH_LEN, true, c_eCiv5GameplayDLL, 0> m_NodesOnPath;
-            //m_NodesOnPath.clear();
+            // CvPlot* pCenterOfMass = 0;
+            // CvPlot* pLastTurnArmyPlot = 0;
+            // CvAStarNode* pNode1 = 0;
+            // CvAStarNode* pNode2 = 0;
+            // var lastNodeIndex = 0
+            // FStaticVector<CvAStarNode*, SAFE_ESTIMATE_MAX_PATH_LEN, true, c_eCiv5GameplayDLL, 0> m_NodesOnPath;
+            // m_NodesOnPath.clear();
 
             var goalPoint: HexPoint? = self.army?.goal
 

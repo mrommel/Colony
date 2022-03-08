@@ -21,7 +21,7 @@ class UnitStrengthIndicator: SKNode {
         let sizeDouble = CGSize(width: 6, height: 40)
 
         super.init()
-        //self.colorBlendFactor = 0.5
+        // self.colorBlendFactor = 0.5
 
         let backgroundTexture = SKTexture(imageNamed: "unit_strength_background")
         let backgroundImageNode = SKSpriteNode(texture: backgroundTexture, color: .black, size: size)

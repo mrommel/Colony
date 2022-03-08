@@ -54,7 +54,7 @@ class DiplomacyAITests: XCTestCase {
         gameModel.userInterface = userInterface
 
         // WHEN
-        gameModel.update() //.doTurn()
+        gameModel.update() // .doTurn()
         let militaryStrength = playerAlexander.diplomacyAI!.militaryStrength(of: playerTrajan)
 
         // THEN
@@ -110,7 +110,7 @@ class DiplomacyAITests: XCTestCase {
         playerTrajan.diplomacyAI?.doFirstContact(with: playerAlexander, in: gameModel)
 
         // WHEN
-        gameModel.update() //.doTurn()
+        gameModel.update() // .doTurn()
         let militaryStrength = playerAlexander.diplomacyAI!.militaryStrength(of: playerTrajan)
 
         // THEN
@@ -679,7 +679,7 @@ class DiplomacyAITests: XCTestCase {
 
         // WHEN
         playerAlexander.doDeclareWar(to: playerAugustus, in: gameModel)
-        //gameModel.turn()
+        // gameModel.turn()
         let approachAlexanderAugustus = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
         let approachAlexanderElizabeth = playerAlexander.diplomacyAI!.approach(towards: playerVictoria)
 

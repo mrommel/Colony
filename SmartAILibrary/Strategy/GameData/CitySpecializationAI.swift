@@ -196,7 +196,7 @@ public class CitySpecializationAI {
         var productionYieldWeight = 0.0
         var goldYieldWeight = 0.0
         var scienceYieldWeight = 0.0
-        //var generalEconomicWeight = 0.0
+        // var generalEconomicWeight = 0.0
 
         // Clear old weights
         self.yieldWeights = YieldList()
@@ -255,7 +255,7 @@ public class CitySpecializationAI {
             scienceYieldWeight += flavorSpaceship * 10.0 /* AI_CITY_SPECIALIZATION_SCIENCE_WEIGHT_FLAVOR_SPACESHIP */
 
             //   General Economics
-            //let generalEconomicWeight = 200.0 /* AI_CITY_SPECIALIZATION_GENERAL_ECONOMIC_WEIGHT */
+            // let generalEconomicWeight = 200.0 /* AI_CITY_SPECIALIZATION_GENERAL_ECONOMIC_WEIGHT */
 
             //   Add in any contribution from the current grand strategy
             for grandStrategyType in GrandStrategyAIType.all
@@ -386,7 +386,7 @@ public class CitySpecializationAI {
             self.findBestSites(in: gameModel)
 
             // Compute the yield which we can improve the most with a new city
-            //int iCurrentDelta;
+            // int iCurrentDelta;
             let bestDelta: YieldList = YieldList()
             bestDelta.fill()
 
@@ -411,7 +411,7 @@ public class CitySpecializationAI {
                     yieldImprovements.set(weight: -bestDelta.weight(of: yieldType), for: yieldType)
                 }
             }
-            //yieldImprovements.sort()
+            // yieldImprovements.sort()
 
             // Take them out in order and see if we need this specialization
             var foundIt = false
@@ -551,7 +551,7 @@ public class CitySpecializationAI {
             }
         }
 
-        //LogBestSites();
+        // LogBestSites();
 
         return
     }
@@ -880,7 +880,7 @@ public class CitySpecializationAI {
 
         // LONG-TERM MILITARY BUILD-UP
         militaryTrainingWeight += flavorOffense * 10.0 /* AI_CITY_SPECIALIZATION_PRODUCTION_TRAINING_PER_OFFENSE */
-        //militaryTrainingWeight += m_pPlayer->GetDiplomacyAI()->GetPersonalityMajorCivApproachBias(MAJOR_CIV_APPROACH_WAR) * 10 /* AI_CITY_SPECIALIZATION_PRODUCTION_TRAINING_PER_PERSONALITY */
+        // militaryTrainingWeight += m_pPlayer->GetDiplomacyAI()->GetPersonalityMajorCivApproachBias(MAJOR_CIV_APPROACH_WAR) * 10 /* AI_CITY_SPECIALIZATION_PRODUCTION_TRAINING_PER_PERSONALITY */
 
         // EMERGENCY UNITS
         emergencyUnitWeight += Double(unitsRequested) * 10.0

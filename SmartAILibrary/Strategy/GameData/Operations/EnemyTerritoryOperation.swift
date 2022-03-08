@@ -82,7 +82,7 @@ class EnemyTerritoryOperation: Operation {
                     self.state = .recruitingUnits
                 }
 
-                //LogOperationStart();
+                // LogOperationStart();
             } else {
                 // No muster point, abort
                 self.state = .aborted(reason: .noMuster)

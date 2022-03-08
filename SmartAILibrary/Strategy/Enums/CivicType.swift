@@ -196,9 +196,14 @@ public enum CivicType: String, Codable {
         return self.data().flavors
     }
 
-    public func governorTitle() -> Bool {
+    public func hasGovernorTitle() -> Bool {
 
         return self.data().governorTitle
+    }
+
+    public func envoys() -> Int {
+
+        return self.data().envoys
     }
 
     public func achievements() -> CivicAchievements {
@@ -292,6 +297,7 @@ public enum CivicType: String, Codable {
         let required: [CivicType]
         let flavors: [Flavor]
         let governorTitle: Bool
+        let envoys: Int
     }
 
     // swiftlint:disable cyclomatic_complexity function_body_length
@@ -311,7 +317,8 @@ public enum CivicType: String, Codable {
                 cost: -1,
                 required: [],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
             // ancient
@@ -328,8 +335,10 @@ public enum CivicType: String, Codable {
                 cost: 20,
                 required: [],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
+
         case .stateWorkforce:
             return CivicTypeData(
                 name: "TXT_KEY_CIVIC_STATE_WORKFORCE_TITLE",
@@ -343,8 +352,10 @@ public enum CivicType: String, Codable {
                 cost: 70,
                 required: [.craftsmanship],
                 flavors: [],
-                governorTitle: true
+                governorTitle: true,
+                envoys: 0
             )
+
         case .craftsmanship:
             return CivicTypeData(
                 name: "TXT_KEY_CIVIC_CRAFTMANSHIP_TITLE",
@@ -358,8 +369,10 @@ public enum CivicType: String, Codable {
                 cost: 40,
                 required: [.codeOfLaws],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
+
         case .earlyEmpire:
             return CivicTypeData(
                 name: "TXT_KEY_CIVIC_EARLY_EMPIRE_TITLE",
@@ -373,8 +386,10 @@ public enum CivicType: String, Codable {
                 cost: 70,
                 required: [.foreignTrade],
                 flavors: [],
-                governorTitle: true
+                governorTitle: true,
+                envoys: 0
             )
+
         case .foreignTrade:
             return CivicTypeData(
                 name: "TXT_KEY_CIVIC_FOREIGN_TRADE_TITLE",
@@ -388,9 +403,12 @@ public enum CivicType: String, Codable {
                 cost: 40,
                 required: [.codeOfLaws],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
+
         case .mysticism:
+            // https://civilization.fandom.com/wiki/Mysticism_(Civ6)
             return CivicTypeData(
                 name: "TXT_KEY_CIVIC_MYSTICISM_TITLE",
                 inspirationSummary: "TXT_KEY_CIVIC_MYSTICISM_EUREKA",
@@ -403,9 +421,12 @@ public enum CivicType: String, Codable {
                 cost: 50,
                 required: [.foreignTrade],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 1
             )
+
         case .militaryTradition:
+            // https://civilization.fandom.com/wiki/Military_Training_(Civ6)
             return CivicTypeData(
                 name: "TXT_KEY_CIVIC_MILITARY_TRADITION_TITLE",
                 inspirationSummary: "TXT_KEY_CIVIC_MILITARY_TRADITION_EUREKA",
@@ -418,7 +439,8 @@ public enum CivicType: String, Codable {
                 cost: 50,
                 required: [.craftsmanship],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 1
             )
 
             // classical
@@ -435,8 +457,10 @@ public enum CivicType: String, Codable {
                 cost: 175,
                 required: [.gamesAndRecreation, .politicalPhilosophy],
                 flavors: [],
-                governorTitle: true
+                governorTitle: true,
+                envoys: 0
             )
+
         case .gamesAndRecreation:
             return CivicTypeData(
                 name: "TXT_KEY_CIVIC_GAMES_AND_RECREATION_TITLE",
@@ -450,8 +474,10 @@ public enum CivicType: String, Codable {
                 cost: 110,
                 required: [.stateWorkforce],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
+
         case .politicalPhilosophy:
             return CivicTypeData(
                 name: "TXT_KEY_CIVIC_POLITICAL_PHILOSOPHY_TITLE",
@@ -465,8 +491,10 @@ public enum CivicType: String, Codable {
                 cost: 110,
                 required: [.stateWorkforce, .earlyEmpire],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
+
         case .recordedHistory:
             return CivicTypeData(
                 name: "TXT_KEY_CIVIC_RECORDED_HISTORY_TITLE",
@@ -480,8 +508,10 @@ public enum CivicType: String, Codable {
                 cost: 175,
                 required: [.politicalPhilosophy, .dramaAndPoetry],
                 flavors: [],
-                governorTitle: true
+                governorTitle: true,
+                envoys: 0
             )
+
         case .dramaAndPoetry:
             return CivicTypeData(
                 name: "TXT_KEY_CIVIC_DRAMA_AND_POETRY_TITLE",
@@ -495,9 +525,12 @@ public enum CivicType: String, Codable {
                 cost: 110,
                 required: [.earlyEmpire],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
+
         case .theology:
+            // https://civilization.fandom.com/wiki/Theology_(Civ6)
             return CivicTypeData(
                 name: "TXT_KEY_CIVIC_THEOLOGY_TITLE",
                 inspirationSummary: "TXT_KEY_CIVIC_THEOLOGY_EUREKA",
@@ -510,8 +543,10 @@ public enum CivicType: String, Codable {
                 cost: 120,
                 required: [.dramaAndPoetry, .mysticism],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 1
             )
+
         case .militaryTraining:
             // https://civilization.fandom.com/wiki/Military_Training_(Civ6)
             return CivicTypeData(
@@ -526,7 +561,8 @@ public enum CivicType: String, Codable {
                 cost: 120,
                 required: [.militaryTradition, .gamesAndRecreation],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
             // medieval
@@ -545,7 +581,8 @@ public enum CivicType: String, Codable {
                 cost: 200,
                 required: [.defensiveTactics],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 1
             )
 
         case .medievalFaires:
@@ -562,7 +599,8 @@ public enum CivicType: String, Codable {
                 cost: 385,
                 required: [.feudalism],
                 flavors: [],
-                governorTitle: true
+                governorTitle: true,
+                envoys: 0
             )
 
         case .guilds:
@@ -579,7 +617,8 @@ public enum CivicType: String, Codable {
                 cost: 385,
                 required: [.feudalism, .civilService],
                 flavors: [],
-                governorTitle: true
+                governorTitle: true,
+                envoys: 0
             )
 
         case .feudalism:
@@ -596,7 +635,8 @@ public enum CivicType: String, Codable {
                 cost: 275,
                 required: [.defensiveTactics],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         case .civilService:
@@ -613,7 +653,8 @@ public enum CivicType: String, Codable {
                 cost: 275,
                 required: [.defensiveTactics, .recordedHistory],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         case .mercenaries:
@@ -630,8 +671,10 @@ public enum CivicType: String, Codable {
                 cost: 290,
                 required: [.feudalism, .militaryTraining],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 2
             )
+
         case .divineRight:
             // https://civilization.fandom.com/wiki/Divine_Right_(Civ6)
             return CivicTypeData(
@@ -646,7 +689,8 @@ public enum CivicType: String, Codable {
                 cost: 290,
                 required: [.civilService, .theology],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
             // renaissance
@@ -665,7 +709,8 @@ public enum CivicType: String, Codable {
                 cost: 540,
                 required: [.guilds, .medievalFaires],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         case .mercantilism:
@@ -681,7 +726,9 @@ public enum CivicType: String, Codable {
                 era: .renaissance,
                 cost: 655,
                 required: [.humanism],
-                flavors: [], governorTitle: false
+                flavors: [],
+                governorTitle: false,
+                envoys: 0
             )
 
         case .enlightenment:
@@ -698,7 +745,8 @@ public enum CivicType: String, Codable {
                 cost: 655,
                 required: [.diplomaticService],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         case .diplomaticService:
@@ -715,7 +763,8 @@ public enum CivicType: String, Codable {
                 cost: 540,
                 required: [.guilds],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         case .reformedChurch:
@@ -732,7 +781,8 @@ public enum CivicType: String, Codable {
                 cost: 400,
                 required: [.divineRight],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         case .exploration:
@@ -749,7 +799,8 @@ public enum CivicType: String, Codable {
                 cost: 400,
                 required: [.mercenaries, .medievalFaires],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
             // industrial
@@ -768,7 +819,8 @@ public enum CivicType: String, Codable {
                 cost: 920,
                 required: [.mercantilism],
                 flavors: [],
-                governorTitle: true
+                governorTitle: true,
+                envoys: 0
             )
 
         case .colonialism:
@@ -785,7 +837,8 @@ public enum CivicType: String, Codable {
                 cost: 725,
                 required: [.mercantilism],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 2
             )
 
         case .nationalism:
@@ -802,7 +855,8 @@ public enum CivicType: String, Codable {
                 cost: 920,
                 required: [.enlightenment],
                 flavors: [],
-                governorTitle: true
+                governorTitle: true,
+                envoys: 0
             )
 
         case .operaAndBallet:
@@ -819,7 +873,8 @@ public enum CivicType: String, Codable {
                 cost: 725,
                 required: [.enlightenment],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 2
             )
 
         case .naturalHistory:
@@ -836,7 +891,8 @@ public enum CivicType: String, Codable {
                 cost: 870,
                 required: [.colonialism],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 2
             )
 
         case .urbanization:
@@ -853,7 +909,8 @@ public enum CivicType: String, Codable {
                 cost: 1060,
                 required: [.civilEngineering, .nationalism],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         case .scorchedEarth:
@@ -870,7 +927,8 @@ public enum CivicType: String, Codable {
                 cost: 1060,
                 required: [.nationalism],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 2
             )
 
             // modern
@@ -889,7 +947,8 @@ public enum CivicType: String, Codable {
                 cost: 1255,
                 required: [.naturalHistory, .urbanization],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 2
             )
 
         case .massMedia:
@@ -906,7 +965,8 @@ public enum CivicType: String, Codable {
                 cost: 1410,
                 required: [.urbanization],
                 flavors: [],
-                governorTitle: true
+                governorTitle: true,
+                envoys: 0
             )
 
         case .mobilization:
@@ -923,7 +983,8 @@ public enum CivicType: String, Codable {
                 cost: 1410,
                 required: [.urbanization],
                 flavors: [],
-                governorTitle: true
+                governorTitle: true,
+                envoys: 0
             )
 
         case .capitalism:
@@ -940,7 +1001,8 @@ public enum CivicType: String, Codable {
                 cost: 1560,
                 required: [.massMedia],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 3
             )
 
         case .ideology:
@@ -957,7 +1019,8 @@ public enum CivicType: String, Codable {
                 cost: 660,
                 required: [.massMedia, .mobilization],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         case .nuclearProgram:
@@ -974,7 +1037,8 @@ public enum CivicType: String, Codable {
                 cost: 1715,
                 required: [.ideology],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 3
             )
 
         case .suffrage:
@@ -991,7 +1055,8 @@ public enum CivicType: String, Codable {
                 cost: 1715,
                 required: [.ideology],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         case .totalitarianism:
@@ -1008,7 +1073,8 @@ public enum CivicType: String, Codable {
                 cost: 1715,
                 required: [.ideology],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         case .classStruggle:
@@ -1025,7 +1091,8 @@ public enum CivicType: String, Codable {
                 cost: 1715,
                 required: [.ideology],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
             // atomic
@@ -1044,7 +1111,8 @@ public enum CivicType: String, Codable {
                 cost: 1955,
                 required: [.conservation],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 3
             )
 
         case .coldWar:
@@ -1061,7 +1129,8 @@ public enum CivicType: String, Codable {
                 cost: 2185,
                 required: [.ideology],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         case .professionalSports:
@@ -1078,7 +1147,8 @@ public enum CivicType: String, Codable {
                 cost: 2185,
                 required: [.ideology],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         case .rapidDeployment:
@@ -1095,7 +1165,8 @@ public enum CivicType: String, Codable {
                 cost: 2415,
                 required: [.coldWar],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         case .spaceRace:
@@ -1112,7 +1183,8 @@ public enum CivicType: String, Codable {
                 cost: 2415,
                 required: [.coldWar],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         // information
@@ -1130,7 +1202,8 @@ public enum CivicType: String, Codable {
                 cost: 2880,
                 required: [.culturalHeritage, .rapidDeployment],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         case .globalization:
@@ -1147,7 +1220,8 @@ public enum CivicType: String, Codable {
                 cost: 2880,
                 required: [.rapidDeployment, .spaceRace],
                 flavors: [],
-                governorTitle: true
+                governorTitle: true,
+                envoys: 0
             )
 
         case .socialMedia:
@@ -1164,7 +1238,8 @@ public enum CivicType: String, Codable {
                 cost: 2880,
                 required: [.professionalSports, .spaceRace],
                 flavors: [Flavor(type: .growth, value: 6)],
-                governorTitle: true
+                governorTitle: true,
+                envoys: 0
             )
 
             // future
@@ -1183,7 +1258,8 @@ public enum CivicType: String, Codable {
                 cost: 3200,
                 required: [.socialMedia],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         case .globalWarmingMitigation:
@@ -1200,7 +1276,8 @@ public enum CivicType: String, Codable {
                 cost: 3200,
                 required: [.informationWarfare],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 3
             )
 
         case .culturalHegemony:
@@ -1216,7 +1293,8 @@ public enum CivicType: String, Codable {
                 cost: 3200,
                 required: [.globalWarmingMitigation],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         case .smartPowerDoctrine:
@@ -1232,7 +1310,8 @@ public enum CivicType: String, Codable {
                 cost: 3200,
                 required: [.culturalHegemony],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         case .exodusImperative:
@@ -1248,7 +1327,8 @@ public enum CivicType: String, Codable {
                 cost: 3200,
                 required: [.smartPowerDoctrine],
                 flavors: [],
-                governorTitle: false
+                governorTitle: false,
+                envoys: 0
             )
 
         case .futureCivic:
@@ -1264,9 +1344,9 @@ public enum CivicType: String, Codable {
                 cost: 3200,
                 required: [.exodusImperative],
                 flavors: [],
-                governorTitle: true
+                governorTitle: true,
+                envoys: 0
             )
-
         }
     }
 }

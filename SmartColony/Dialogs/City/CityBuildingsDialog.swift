@@ -78,7 +78,7 @@ class CityBuildingsDialog: Dialog {
         // buildings/districts section
         self.buildingsAndDistrictsSectionButton = SectionHeaderButton(titled: "Districts & Buildings",
                                                                buttonAction: {
-                                                                //self.toogleDistrictAndBuildingProductions()
+                                                                // self.toogleDistrictAndBuildingProductions()
         })
         self.buildingsAndDistrictsSectionButton?.zPosition = 200
         scrollNode?.addScrolling(child: self.buildingsAndDistrictsSectionButton!)
@@ -86,7 +86,7 @@ class CityBuildingsDialog: Dialog {
         // wonder section
         self.wondersSectionButton = SectionHeaderButton(titled: "Wonders",
                                                                buttonAction: {
-                                                                //self.toggleWonderProductions()
+                                                                // self.toggleWonderProductions()
         })
         self.wondersSectionButton?.zPosition = 200
         scrollNode?.addScrolling(child: self.wondersSectionButton!)

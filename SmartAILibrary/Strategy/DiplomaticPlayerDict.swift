@@ -110,7 +110,7 @@ class DiplomaticPlayerDict: Codable {
         var warWeariness: Int
 
         var hasEmbassyValue: Bool
-        //var allowsOpenBordersValue: Bool
+        // var allowsOpenBordersValue: Bool
 
         // disputes
         var landDisputeLevel: LandDisputeLevelType
@@ -562,7 +562,7 @@ class DiplomaticPlayerDict: Codable {
         }
 
         fatalError("not gonna happen")
-        //return .stalemate
+        // return .stalemate
     }
 
     // MARK: war face methods
@@ -582,7 +582,7 @@ class DiplomaticPlayerDict: Codable {
             return item.warFace
         }
 
-        //return .neutral
+        // return .neutral
         fatalError("not gonna happen")
     }
 
@@ -829,7 +829,7 @@ class DiplomaticPlayerDict: Codable {
             return item.hasDenounced
         }
 
-        //return false
+        // return false
         fatalError("not gonna happen")
     }
 
@@ -850,7 +850,7 @@ class DiplomaticPlayerDict: Codable {
             return item.militaryThreat
         }
 
-        //return .none
+        // return .none
         fatalError("not gonna happen")
     }
 
@@ -920,7 +920,7 @@ class DiplomaticPlayerDict: Codable {
             return item.proximity
         }
 
-        //return .none
+        // return .none
         fatalError("not gonna happen")
     }
 

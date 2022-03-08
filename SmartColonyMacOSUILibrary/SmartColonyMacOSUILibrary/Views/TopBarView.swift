@@ -19,11 +19,13 @@ public struct TopBarView: View {
 
         VStack(alignment: .trailing) {
 
-            HStack(alignment: .top, spacing: 10) {
+            HStack(alignment: .top, spacing: 4) {
 
                 self.yieldButtons
 
                 self.tradeRouteButton
+
+                self.envoysButton
 
                 self.resourceButtons
                     .padding(.top, 1)
@@ -83,59 +85,88 @@ public struct TopBarView: View {
                     .foregroundColor(Color.white)
                     .font(.caption)
             }
-            .padding(.leading, 8)
-            .padding(.trailing, 8)
-            .padding(.top, 4)
-            .padding(.bottom, 4)
+                .padding(.leading, 8)
+                .padding(.trailing, 8)
+                .padding(.top, 4)
+                .padding(.bottom, 4)
+                .onTapGesture {
+                    self.viewModel.tradeRoutesClicked()
+                }
+        )
+    }
+
+    private var envoysButton: AnyView {
+
+        AnyView(
+            HStack(alignment: .center, spacing: 4) {
+                Image(nsImage: Globals.Icons.envoy)
+                    .resizable()
+                    .frame(width: 12, height: 12, alignment: .center)
+
+                Text(self.viewModel.envoysLabelText)
+                    .foregroundColor(Color.white)
+                    .font(.caption)
+            }
+                .padding(.leading, 8)
+                .padding(.trailing, 8)
+                .padding(.top, 4)
+                .padding(.bottom, 4)
+                .onTapGesture {
+                    self.viewModel.envoysClicked()
+                }
         )
     }
 
     private var resourceButtons: AnyView {
 
-        AnyView(
-            HStack(alignment: .center, spacing: 0) {
+        if self.viewModel.showResources {
+            return AnyView(
+                HStack(alignment: .center, spacing: 0) {
 
-                Spacer()
-                    .frame(width: 4, height: 12)
+                    Spacer()
+                        .frame(width: 4, height: 12)
 
-                if self.viewModel.horsesValueViewModel.value > 0 {
-                    ResourceValueView(viewModel: self.viewModel.horsesValueViewModel)
+                    if self.viewModel.horsesValueViewModel.value > 0 {
+                        ResourceValueView(viewModel: self.viewModel.horsesValueViewModel)
+                    }
+
+                    if self.viewModel.ironValueViewModel.value > 0 {
+                        ResourceValueView(viewModel: self.viewModel.ironValueViewModel)
+                    }
+
+                    if self.viewModel.niterValueViewModel.value > 0 {
+                        ResourceValueView(viewModel: self.viewModel.niterValueViewModel)
+                    }
+
+                    if self.viewModel.coalValueViewModel.value > 0 {
+                        ResourceValueView(viewModel: self.viewModel.coalValueViewModel)
+                    }
+
+                    if self.viewModel.oilValueViewModel.value > 0 {
+                        ResourceValueView(viewModel: self.viewModel.oilValueViewModel)
+                    }
+
+                    if self.viewModel.aluminumValueViewModel.value > 0 {
+                        ResourceValueView(viewModel: self.viewModel.aluminumValueViewModel)
+                    }
+
+                    if self.viewModel.uraniumValueViewModel.value > 0 {
+                        ResourceValueView(viewModel: self.viewModel.uraniumValueViewModel)
+                    }
+
+                    Spacer()
+                        .frame(width: 4, height: 12)
                 }
-
-                if self.viewModel.ironValueViewModel.value > 0 {
-                    ResourceValueView(viewModel: self.viewModel.ironValueViewModel)
-                }
-
-                if self.viewModel.niterValueViewModel.value > 0 {
-                    ResourceValueView(viewModel: self.viewModel.niterValueViewModel)
-                }
-
-                if self.viewModel.coalValueViewModel.value > 0 {
-                    ResourceValueView(viewModel: self.viewModel.coalValueViewModel)
-                }
-
-                if self.viewModel.oilValueViewModel.value > 0 {
-                    ResourceValueView(viewModel: self.viewModel.oilValueViewModel)
-                }
-
-                if self.viewModel.aluminumValueViewModel.value > 0 {
-                    ResourceValueView(viewModel: self.viewModel.aluminumValueViewModel)
-                }
-
-                if self.viewModel.uraniumValueViewModel.value > 0 {
-                    ResourceValueView(viewModel: self.viewModel.uraniumValueViewModel)
-                }
-
-                Spacer()
-                    .frame(width: 4, height: 12)
-            }
-                .background(
-                    RoundedRectangle(cornerRadius: self.cornerRadius)
-                        .strokeBorder(Color.black)
-                        .background(Color.gray.opacity(0.2))
-                )
-                .cornerRadius(self.cornerRadius)
-        )
+                    .background(
+                        RoundedRectangle(cornerRadius: self.cornerRadius)
+                            .strokeBorder(Color.black)
+                            .background(Color.gray.opacity(0.2))
+                    )
+                    .cornerRadius(self.cornerRadius)
+            )
+        } else {
+            return AnyView(EmptyView())
+        }
     }
 }
 

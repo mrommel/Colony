@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "button-barbarianCampDiscovered@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
       "filename" : "button-barbarianCampDiscovered@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "button-barbarianCampDiscovered@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

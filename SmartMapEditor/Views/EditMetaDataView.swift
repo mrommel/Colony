@@ -50,7 +50,7 @@ struct EditMetaDataView: View {
             }.padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
 
         }.padding()
-        //.frame(width: 300, height: 350, alignment: .center)
+        // .frame(width: 300, height: 350, alignment: .center)
     }
 
     func bind() {

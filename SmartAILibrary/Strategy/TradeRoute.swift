@@ -98,14 +98,23 @@ public class TradeRoute: Codable {
         return !self.isDomestic(in: gameModel)
     }
 
-    // https://civilization.fandom.com/wiki/Trade_Route_(Civ6)#Trade_Yields_Based_on_Districts
+    /// get the yields per turn of a specific trade route
+    ///
+    /// - Parameter gameModel: game
+    /// - Returns: `Yields` of this trade rotue
+    /// https://civilization.fandom.com/wiki/Trade_Route_(Civ6)#Trade_Yields_Based_on_Districts
     public func yields(in gameModel: GameModel?) -> Yields {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
 
-        guard let startPlayer = self.startCity(in: gameModel)?.player else {
+        guard let startCity = self.startCity(in: gameModel) else {
+            fatalError("cant get start city")
+        }
+
+        // this is the player that initiated the trade route
+        guard let startPlayer = startCity.player else {
             fatalError("cant get start player")
         }
 
@@ -140,6 +149,15 @@ public class TradeRoute: Codable {
 
                 // Foreign Trade Routes to this city provide +2 Gold to both cities.
                 yields.gold += 2.0
+            }
+
+            // amsterdam or antioch suzerain bonus
+            // Your [TradeRoute] Trade Routes to foreign cities earn +1 [Gold] Gold for each luxury resource.
+            if startPlayer.isSuzerain(of: .amsterdam, in: gameModel) ||
+                startPlayer.isSuzerain(of: .antioch, in: gameModel) {
+
+                let amountOfLuxuryResources = startCity.numLocalLuxuryResources(in: gameModel)
+                yields.gold += 1.0 * Double(amountOfLuxuryResources)
             }
         }
 

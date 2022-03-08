@@ -120,9 +120,19 @@ public class BuildQueue: Codable {
         return nil
     }
 
+    func isCurrentlyBuildingBuilding() -> Bool {
+
+        return self.items.first(where: { $0.type == .building }) != nil
+    }
+
     func isCurrentlyBuildingDistrict() -> Bool {
 
         return self.items.first(where: { $0.type == .district }) != nil
+    }
+
+    func isCurrentlyBuildingWonder() -> Bool {
+
+        return self.items.first(where: { $0.type == .wonder }) != nil
     }
 
     func isCurrentlyTrainingUnit() -> Bool {

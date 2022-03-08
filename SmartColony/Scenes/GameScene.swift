@@ -250,7 +250,7 @@ class GameScene: BaseScene {
 
         self.goldYield = YieldDisplayNode(for: .gold, value: 0.0, size: CGSize(width: 60, height: 32))
         self.goldYield?.zPosition = 400
-        self.goldYield?.action = { yieldType in
+        self.goldYield?.action = { _ in
             self.showScreen(screenType: .treasury)
         }
         self.safeAreaNode.addChild(self.goldYield!)
@@ -376,9 +376,9 @@ class GameScene: BaseScene {
 
                         self.readyUpdatingHuman = false
                         self.queue.async {
-                            //print("-----------> before human processing")
+                            // print("-----------> before human processing")
                             gameModel.update()
-                            //print("-----------> after human processing")
+                            // print("-----------> after human processing")
                             self.readyUpdatingHuman = true
                         }
                     }
@@ -387,9 +387,9 @@ class GameScene: BaseScene {
 
                     self.readyUpdatingAI = false
                     self.queue.async {
-                        //print("-----------> before AI processing")
+                        // print("-----------> before AI processing")
                         gameModel.update()
-                        //print("-----------> after AI processing")
+                        // print("-----------> after AI processing")
                         self.readyUpdatingAI = true
                     }
                 }
@@ -702,7 +702,7 @@ class GameScene: BaseScene {
         }
 
         guard let bottomLeftBar = self.bottomLeftBar, !bottomLeftBar.frame.contains(cameraLocation) else {
-            //print("touch ended in left bar")
+            // print("touch ended in left bar")
             self.bottomLeftBar?.touchesEnded(touches, with: event)
             return
         }
@@ -725,7 +725,7 @@ class GameScene: BaseScene {
         if let cultureProgressNode = self.cultureProgressNode {
 
             if !self.cultureProgressNodeHidden && cultureProgressNode.contains(cameraLocation) {
-                //print("culture progress touched")
+                // print("culture progress touched")
                 self.showScreen(screenType: .civics)
                 return
             }
@@ -760,12 +760,12 @@ class GameScene: BaseScene {
 
             } else {
 
-                //self.bottomCombatBar?.hideCombatPrediction()
+                // self.bottomCombatBar?.hideCombatPrediction()
                 self.mapNode?.unitLayer.clearPathSpriteBuffer()
                 self.mapNode?.unitLayer.hideFocus()
 
                 if selectedUnit.location != position {
-                    //selectedUnit.doMove(on: position, in: self.viewModel?.game)
+                    // selectedUnit.doMove(on: position, in: self.viewModel?.game)
                     selectedUnit.queueMoveForVisualization(at: selectedUnit.location, in: self.viewModel?.game)
                     selectedUnit.doMoveOnPath(towards: position, previousETA: 0, buildingRoute: false, in: self.viewModel?.game)
                     self.updateCommands(for: selectedUnit)
@@ -798,7 +798,7 @@ class GameScene: BaseScene {
         let screenPosition = HexPoint.toScreen(hex: hex)
         let cameraPositionInScene = self.convert(screenPosition, from: self.viewHex)
         self.cameraNode.position = cameraPositionInScene
-        //print("center camera on: \(cameraPositionInScene)")
+        // print("center camera on: \(cameraPositionInScene)")
     }
 
     func prepareForCityScreen() {
@@ -918,7 +918,7 @@ extension GameScene: BottomLeftBarDelegate {
         case .hold:
             if let selectedUnit = self.selectedUnit {
                 selectedUnit.set(activityType: .hold, in: gameModel)
-                //selectedUnit.finishMoves()
+                // selectedUnit.finishMoves()
             }
 
         case .garrison:
@@ -1183,7 +1183,7 @@ extension GameScene: LeadersDelegate {
             fatalError("cant get otherPlayer")
         }
 
-        //let szText = DiplomaticRequestMessage.messageIntro.diploStringForMessage(for: humanPlayer)
+        // let szText = DiplomaticRequestMessage.messageIntro.diploStringForMessage(for: humanPlayer)
         let data = DiplomaticData(state: .blankDiscussion, message: .messageIntro, emotion: .neutral)
 
         print("diplo screen with: \(leader)")
@@ -1195,7 +1195,7 @@ extension GameScene: BottomCombatBarDelegate {
 
     func doCombat(of attacker: AbstractUnit?, against defender: AbstractUnit?) {
 
-        //print("attack: \(unitToAttack.type)")
+        // print("attack: \(unitToAttack.type)")
         if !attacker!.doAttack(into: defender!.location, steps: 1, in: self.viewModel?.game) {
             print("attack failed")
         }

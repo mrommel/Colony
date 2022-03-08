@@ -154,8 +154,8 @@ public class WonderProductionAI: Codable {
         // Sort items and grab the first one
         if !buildables.items.isEmpty {
 
-            //buildables.sort()
-            //LogPossibleWonders();
+            // buildables.sort()
+            // LogPossibleWonders();
 
             if buildables.totalWeights() > 0.0 {
                 if let selectedWonder = buildables.chooseFromTopChoices() {

@@ -10,7 +10,7 @@ import Foundation
 
 public enum CityFocusType: Int, Codable {
 
-    case none //NO_CITY_AI_FOCUS_TYPE = -1,
+    case none // NO_CITY_AI_FOCUS_TYPE = -1,
 
     case food // CITY_AI_FOCUS_TYPE_FOOD,
     case production // CITY_AI_FOCUS_TYPE_PRODUCTION,
@@ -56,13 +56,13 @@ class GreatPersonProgressList: WeightedList<SpecialistType> {
     }
 }
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvCityCitizens
-//!  \brief        Keeps track of Citizens and Specialists in a City
+// !  \brief        Keeps track of Citizens and Specialists in a City
 //
-//!  Key Attributes:
-//!  - One instance for each city
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  Key Attributes:
+// !  - One instance for each city
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // swiftlint:disable type_body_length nesting
 public class CityCitizens: Codable {
 
@@ -734,9 +734,9 @@ public class CityCitizens: Codable {
 
                     // More forced plots than we have citizens working?
                     // If so, then pick someone to lose their forced status
-                    //if self.numForcedWorkingPlots() > self.numCitizensWorkingPlots() {
+                    // if self.numForcedWorkingPlots() > self.numCitizensWorkingPlots() {
                     self.doValidateForcedWorkingPlots(in: gameModel)
-                    //}
+                    // }
                 } else {
                     self.changeNumForcedWorkingPlots(change: -1)
                 }
@@ -878,8 +878,8 @@ public class CityCitizens: Codable {
         var bestBuilding: BuildingType = .none
         var bestSpecialistValue = -1
 
-        //SpecialistTypes eSpecialist;
-        //int iValue;
+        // SpecialistTypes eSpecialist;
+        // int iValue;
 
         // Loop through all Buildings
         for buildingType in BuildingType.all {
@@ -1553,7 +1553,7 @@ public class CityCitizens: Codable {
         var cultureYieldValue = 8 /* AI_CITIZEN_VALUE_CULTURE */ * yields.culture
 
         // How much surplus food are we making?
-        //let excessFoodTimes100 = city.foo city.foodConsumption()
+        // let excessFoodTimes100 = city.foo city.foodConsumption()
 
         let avoidGrowth = self.isAvoidGrowth()
 
@@ -1597,7 +1597,7 @@ public class CityCitizens: Codable {
             }
         }
 
-        if ((focusType == .none || focusType == .productionGrowth || focusType == .goldGrowth) && !avoidGrowth && city.population() < 5) {
+        if (focusType == .none || focusType == .productionGrowth || focusType == .goldGrowth) && !avoidGrowth && city.population() < 5 {
             foodYieldValue *= 3
         }
 

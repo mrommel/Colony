@@ -32,7 +32,7 @@ public enum CommandType {
 
     case disband
     case cancelOrder
-    //case wakeUp
+    // case wakeUp
     case upgrade
 
     // special
@@ -97,7 +97,7 @@ public enum CommandType {
         case .buildQuarry: return "Quarry"
         case .buildPlantation: return "Plantation"
         case .buildFishingBoats: return "Fishing Boats"
-        //case .buildRoute: return "Build Route"
+        // case .buildRoute: return "Build Route"
         case .removeFeature: return "Remove Feature"
         case .plantForest: return "Plant Forest"
 

@@ -230,6 +230,10 @@ class Techs: AbstractTechs {
 
     func discover(tech: TechType, in gameModel: GameModel?) throws {
 
+        guard let player = self.player else {
+            fatalError("Can't discover tech - no player present")
+        }
+
         if self.techs.contains(tech) {
             throw TechError.alreadyDiscovered
         }
@@ -250,6 +254,42 @@ class Techs: AbstractTechs {
         }
 
         self.updateEurekas(in: gameModel)
+
+        // check quests
+        for quest in player.ownQuests(in: gameModel) {
+
+            if case .trainUnit(type: let unitType) = quest.type {
+                var obsolete = false
+
+                for upgradeUnitType in unitType.upgradesTo() {
+                    if let requiredTech = upgradeUnitType.requiredTech() {
+                        if requiredTech == tech {
+                            obsolete = true
+                        }
+                    }
+                }
+
+                if let obsoleteTech = unitType.obsoleteTech() {
+                    if obsoleteTech == tech {
+                        obsolete = true
+                    }
+                }
+
+                if obsolete {
+                    if let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState) {
+                        cityStatePlayer.obsoleteQuest(by: player.leader, in: gameModel)
+                    }
+                }
+            }
+
+            if case .triggerEureka(tech: let questTechType) = quest.type {
+                if questTechType == tech {
+                    if let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState) {
+                        cityStatePlayer.obsoleteQuest(by: player.leader, in: gameModel)
+                    }
+                }
+            }
+        }
 
         self.techs.append(tech)
     }
@@ -331,6 +371,18 @@ class Techs: AbstractTechs {
         // freeInquiry + normal - Gain +1 Era Score when you trigger a [Eureka] Eureka
         if player.currentAge() == .normal && player.has(dedication: .freeInquiry) {
             player.addMoment(of: .dedicationTriggered(dedicationType: .freeInquiry), in: gameModel)
+        }
+
+        // check quests
+        for quest in player.ownQuests(in: gameModel) {
+
+            if case .triggerEureka(tech: let questTechType) = quest.type {
+
+                if techType == questTechType {
+                    let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState)
+                    cityStatePlayer?.fulfillQuest(by: player.leader, in: gameModel)
+                }
+            }
         }
 
         // trigger event to user

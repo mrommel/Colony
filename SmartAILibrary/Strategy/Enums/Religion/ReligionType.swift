@@ -177,7 +177,7 @@ public enum ReligionType: Codable, Hashable {
             return .custom(title: title)
         } else {
             fatalError("religion not handled: \(key)")
-            //return .custom(title: key)
+            // return .custom(title: key)
         }
     }
 }

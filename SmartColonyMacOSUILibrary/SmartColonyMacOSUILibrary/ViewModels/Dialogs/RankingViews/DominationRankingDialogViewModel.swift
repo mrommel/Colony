@@ -27,10 +27,8 @@ class DominationRankingDialogViewModel: ObservableObject {
 
     init() {
 
-        self.title = "Domination Victory"
-        self.summary =
-            "To achieve a DOMINATION victory, you must conquer the original Capital of every civilization.\n\n" +
-            "A strong military is highly recommended."
+        self.title = "TXT_KEY_RANKING_DOMINATION_VICTORY_TITLE".localized()
+        self.summary = "TXT_KEY_RANKING_DOMINATION_VICTORY_BODY".localized()
         self.dominationRankingViewModels = []
     }
 
@@ -56,6 +54,10 @@ class DominationRankingDialogViewModel: ObservableObject {
         var numOriginalCapitals: [LeaderType: [CivilizationType]] = [:]
 
         for player in gameModel.players {
+
+            if player.isBarbarian() || player.isFreeCity() || player.isCityState() {
+                continue
+            }
 
             if player.originalCapitalLocation() != HexPoint.invalid {
 

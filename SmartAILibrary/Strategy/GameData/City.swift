@@ -38,7 +38,7 @@ public protocol AbstractCity: AnyObject, Codable {
     var cityReligion: AbstractCityReligion? { get }
     var greatWorks: GreatWorks? { get }
 
-    //static func found(name: String, at location: HexPoint, capital: Bool, owner: AbstractPlayer?) -> AbstractCity
+    // static func found(name: String, at location: HexPoint, capital: Bool, owner: AbstractPlayer?) -> AbstractCity
     func initialize(in gameModel: GameModel?)
 
     func set(name: String)
@@ -95,9 +95,9 @@ public protocol AbstractCity: AnyObject, Codable {
     func canPurchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
     func canPurchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
 
-    func faithPurchaseCost(of unitType: UnitType) -> Double
+    func faithPurchaseCost(of unitType: UnitType, in gameModel: GameModel?) -> Double
     func faithPurchaseCost(of buildingType: BuildingType) -> Double
-    func goldPurchaseCost(of unitType: UnitType) -> Double
+    func goldPurchaseCost(of unitType: UnitType, in gameModel: GameModel?) -> Double
     func goldPurchaseCost(of buildingType: BuildingType) -> Double
 
     @discardableResult
@@ -167,6 +167,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func luxuriesNeeded(in gameModel: GameModel?) -> Double
     func add(luxury: ResourceType)
     func has(luxury: ResourceType) -> Bool
+    func numberOfDifferentStrategicResources(in gameModel: GameModel?) -> Int
 
     func healthPoints() -> Int
     func set(healthPoints: Int)
@@ -223,6 +224,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func countNumImprovedPlots(in gameModel: GameModel?) -> Int
 
     func numLocalResources(of resourceType: ResourceType, in gameModel: GameModel?) -> Int
+    func numLocalLuxuryResources(in gameModel: GameModel?) -> Int
 
     func isProductionAutomated() -> Bool
     func setProductionAutomated(to newValue: Bool, clear: Bool, in gameModel: GameModel?)
@@ -276,7 +278,7 @@ public class LeaderWeightList: WeightedList<LeaderType> {
     }
 }
 
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length file_length
 public class City: AbstractCity {
 
     static let workRadius = 3
@@ -501,7 +503,7 @@ public class City: AbstractCity {
         self.routeToCapitalConnectedLastTurn = try container.decode(Bool.self, forKey: .routeToCapitalConnectedLastTurn)
         self.lastTurnGarrisonAssignedValue = try container.decode(Int.self, forKey: .lastTurnGarrisonAssigned)
 
-        //self.garrisonedUnitValue = try container.decode(CityCitizens.self, forKey: .cityCitizens): AbstractUnit? = nil
+        // self.garrisonedUnitValue = try container.decode(CityCitizens.self, forKey: .cityCitizens): AbstractUnit? = nil
 
         self.luxuries = try container.decode([ResourceType].self, forKey: .luxuries)
         self.amenitiesForWarWearinessValue = try container.decodeIfPresent(Int.self, forKey: .amenitiesForWarWeariness) ?? 0
@@ -573,8 +575,8 @@ public class City: AbstractCity {
         try container.encode(self.routeToCapitalConnectedLastTurn, forKey: .routeToCapitalConnectedLastTurn)
         try container.encode(self.lastTurnGarrisonAssignedValue, forKey: .lastTurnGarrisonAssigned)
 
-        //try container.encode(self.featureProductionValue, forKey: .featureProduction)
-        //private var garrisonedUnitValue: AbstractUnit? = nil
+        // try container.encode(self.featureProductionValue, forKey: .featureProduction)
+        // private var garrisonedUnitValue: AbstractUnit? = nil
 
         try container.encode(self.luxuries, forKey: .luxuries)
         try container.encode(self.amenitiesForWarWearinessValue, forKey: .amenitiesForWarWeariness)
@@ -686,7 +688,7 @@ public class City: AbstractCity {
                     try tile.set(owner: self.player)
                     try tile.setWorkingCity(to: self)
                 } catch {
-                    //fatalError("cant set owner")
+                    // fatalError("cant set owner")
                 }
             }
         }
@@ -708,7 +710,7 @@ public class City: AbstractCity {
 
                             additional += 1
                         } catch {
-                            //fatalError("cant set owner")
+                            // fatalError("cant set owner")
                         }
                     }
                 }
@@ -790,7 +792,7 @@ public class City: AbstractCity {
         }
 
         if self.damage() > 0 {
-            //CvAssertMsg(m_iDamage <= GC.getMAX_CITY_HIT_POINTS(), "Somehow a city has more damage than hit points. Please show this to a gameplay programmer immediately.");
+            // CvAssertMsg(m_iDamage <= GC.getMAX_CITY_HIT_POINTS(), "Somehow a city has more damage than hit points. Please show this to a gameplay programmer immediately.");
 
             var hitsHealed = 20 /* CITY_HIT_POINTS_HEALED_PER_TURN */
             if self.isCapital() {
@@ -803,11 +805,11 @@ public class City: AbstractCity {
             self.set(damage: 0)
         }
 
-        //setDrafted(false);
-        //setAirliftTargeted(false);
-        //setCurrAirlift(0);
+        // setDrafted(false);
+        // setAirliftTargeted(false);
+        // setCurrAirlift(0);
         self.setMadeAttack(to: false)
-        //GetCityBuildings()->SetSoldBuildingThisTurn(false);
+        // GetCityBuildings()->SetSoldBuildingThisTurn(false);
 
         self.updateFeatureSurrounded(in: gameModel)
 
@@ -815,9 +817,9 @@ public class City: AbstractCity {
 
         self.cityCitizens?.doTurn(with: gameModel)
 
-        //AI_doTurn();
+        // AI_doTurn();
         if !player.isHuman() {
-            //AI_stealPlots();
+            // AI_stealPlots();
         }
 
         let razed = false // self.doRazingTurn();
@@ -883,7 +885,7 @@ public class City: AbstractCity {
 
             // self.doNearbyEnemy()
 
-            //Check for Achievements
+            // Check for Achievements
             /*if(isHuman() && !GC.getGame().isGameMultiPlayer() && GET_PLAYER(GC.getGame().getActivePlayer()).isLocalPlayer()) {
                 if(getJONSCulturePerTurn()>=100) {
                     gDLL->UnlockAchievement( ACHIEVEMENT_CITY_100CULTURE );
@@ -1128,6 +1130,14 @@ public class City: AbstractCity {
 
             // only foreign city
             guard foreignCity.leader != player.leader else {
+                continue
+            }
+
+            guard let foreignPlayer = foreignCity.player else {
+                continue
+            }
+
+            guard !foreignPlayer.isBarbarian() && !foreignPlayer.isFreeCity() && !foreignPlayer.isCityState() else {
                 continue
             }
 
@@ -1711,11 +1721,11 @@ public class City: AbstractCity {
         // (This includes the Lake tile where the wonder is placed.)
         for point in cityCitizens.workingTileLocations() {
             if cityCitizens.isWorked(at: point) {
-                //if let adjacentTile = gameModel.tile(at: point) {
+                // if let adjacentTile = gameModel.tile(at: point) {
                 if point == hueyTeocalliLocation || point.isNeighbor(of: hueyTeocalliLocation) {
                     amenitiesFromTiles += 1
                 }
-                //}
+                // }
             }
         }
 
@@ -2376,13 +2386,88 @@ public class City: AbstractCity {
         if self.isProduction() {
 
             var production: Double = self.productionPerTurn(in: gameModel)
+            var modifierPercentage = 0.0
+
+            guard let effects = self.player?.envoyEffects(in: gameModel) else {
+                fatalError("cant get envoyEffects")
+            }
+
+            for effect in effects {
+
+                // Industrial: +2 Production Production in the Capital Capital when producing wonders, buildings, and districts.
+                if effect.isEqual(category: .industrial, at: .first) && self.capitalValue {
+                    if self.buildQueue.isCurrentlyBuildingBuilding() ||
+                        self.buildQueue.isCurrentlyBuildingDistrict() ||
+                        self.buildQueue.isCurrentlyBuildingWonder() {
+
+                        production += 2.0
+                    }
+                }
+
+                // Industrial: +2 Production Production in every city with a Workshop building when producing wonders, buildings, and districts.
+                if effect.isEqual(category: .industrial, at: .third) && self.has(building: .workshop) {
+                    if self.buildQueue.isCurrentlyBuildingBuilding() ||
+                        self.buildQueue.isCurrentlyBuildingDistrict() ||
+                        self.buildQueue.isCurrentlyBuildingWonder() {
+
+                        production += 2.0
+                    }
+                }
+
+                // Industrial: +2 Production Production in every city with a Factory building when producing wonders, buildings, and districts.
+                if effect.isEqual(category: .industrial, at: .sixth) /*&& self.has(building: .factory)*/ {
+                    fatalError("not handled")
+                    /* if self.buildQueue.isCurrentlyBuildingBuilding() ||
+                        self.buildQueue.isCurrentlyBuildingDistrict() ||
+                        self.buildQueue.isCurrentlyBuildingWonder() {
+
+                        production += 2.0
+                    }*/
+                }
+
+                // Militaristic: +2 Production Production in the Capital Capital when producing units.
+                if effect.isEqual(category: .militaristic, at: .first) && self.capitalValue {
+                    if self.buildQueue.isCurrentlyTrainingUnit() {
+
+                        production += 2.0
+                    }
+                }
+
+                // Militaristic: +2 Production Production in every city with a Barracks or Stable building when producing units.
+                if effect.isEqual(category: .militaristic, at: .third) && (self.has(building: .barracks) || self.has(building: .stable)) {
+                    if self.buildQueue.isCurrentlyTrainingUnit() {
+
+                        production += 2.0
+                    }
+                }
+
+                // Militaristic: +2 Production Production in every city with an Armory building when producing units.
+                if effect.isEqual(category: .militaristic, at: .sixth) /*&& self.has(building: .armory)*/ {
+                    fatalError("not handled")
+                    /* if self.buildQueue.isCurrentlyTrainingUnit() {
+
+                        production += 2.0
+                    }*/
+                }
+
+                // brussels suzerain bonus
+                // Your cities get +15% [Production] Production towards wonders.
+                if effect.cityState == .brussels && effect.level == .suzerain {
+                    if self.productionWonderType() != nil {
+                        modifierPercentage += 0.15
+                    }
+                }
+            }
 
             // +1 Production in all cities.
             if government.has(card: .urbanPlanning) {
                 production += 1.0
             }
 
-            var modifierPercentage = 0.0
+            // city state production bonus is 50%
+            if player.isCityState() {
+                modifierPercentage += 0.5
+            }
 
             // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
             // +10% Production toward Wonders.
@@ -2480,7 +2565,8 @@ public class City: AbstractCity {
             // +50% Production toward Ancient and Classical era melee, ranged units and anti-cavalry units.
             if government.has(card: .agoge) {
                 if let unitType = self.productionUnitType() {
-                    if (unitType.unitClass() == .melee || unitType.unitClass() == .ranged || unitType.unitClass() == .antiCavalry) && (unitType.era() == .ancient || unitType.era() == .classical) {
+                    if (unitType.unitClass() == .melee || unitType.unitClass() == .ranged || unitType.unitClass() == .antiCavalry) &&
+                        (unitType.era() == .ancient || unitType.era() == .classical) {
                         modifierPercentage += 0.50
                     }
                 }
@@ -2694,7 +2780,11 @@ public class City: AbstractCity {
 
     private func train(unitType: UnitType, in gameModel: GameModel?) {
 
-        guard let government = self.player?.government else {
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let government = player.government else {
             fatalError("cant get player government")
         }
 
@@ -2713,10 +2803,18 @@ public class City: AbstractCity {
         }
 
         gameModel?.add(unit: unit)
-
         gameModel?.userInterface?.show(unit: unit, at: self.location)
 
         self.updateEurekas(in: gameModel)
+
+        // check quests
+        for quest in player.ownQuests(in: gameModel) {
+
+            if quest.type == .trainUnit(type: unitType) && quest.leader == player.leader {
+                let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState)
+                cityStatePlayer?.fulfillQuest(by: player.leader, in: gameModel)
+            }
+        }
     }
 
     private func build(building buildingType: BuildingType, in gameModel: GameModel?) {
@@ -2771,6 +2869,18 @@ public class City: AbstractCity {
             if player.currentAge() == .normal && player.has(dedication: .monumentality) {
                 if districtType.isSpecialty() {
                     player.addMoment(of: .dedicationTriggered(dedicationType: .monumentality), in: gameModel)
+                }
+            }
+
+            // check quests
+            for quest in player.ownQuests(in: gameModel) {
+
+                if case .constructDistrict(type: let district) = quest.type {
+
+                    if district == districtType && player.leader == quest.leader {
+                        let cityStatePlayer = gameModel.cityStatePlayer(for: quest.cityState)
+                        cityStatePlayer?.fulfillQuest(by: player.leader, in: gameModel)
+                    }
                 }
             }
 
@@ -3334,6 +3444,11 @@ public class City: AbstractCity {
             fatalError("cant get player")
         }
 
+        // city states cant build settlers
+        if player.isCityState() && unitType == .settler {
+            return false
+        }
+
         // filter great people
         if unitType.productionCost() < 0 {
             return false
@@ -3376,6 +3491,15 @@ public class City: AbstractCity {
 
     public func canBuild(project: ProjectType) -> Bool {
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        // city states cant build project
+        if player.isCityState() {
+            return false
+        }
+
         return false
     }
 
@@ -3412,6 +3536,20 @@ public class City: AbstractCity {
         }
 
         return buildings.has(building: building)
+    }
+
+    func hasBuildings(in district: DistrictType) -> Bool {
+
+        for buildingType in BuildingType.all {
+
+            if self.has(building: buildingType) {
+                if buildingType.district() == district {
+                    return true
+                }
+            }
+        }
+
+        return false
     }
 
     public func has(wonder: WonderType) -> Bool {
@@ -3548,7 +3686,7 @@ public class City: AbstractCity {
                 return false
             }
 
-            if self.goldPurchaseCost(of: unitType) > playerTreasury.value() {
+            if self.goldPurchaseCost(of: unitType, in: gameModel) > playerTreasury.value() {
                 return false
             }
 
@@ -3557,7 +3695,7 @@ public class City: AbstractCity {
                 return false
             }
 
-            if self.faithPurchaseCost(of: unitType) > playerReligion.faith() {
+            if self.faithPurchaseCost(of: unitType, in: gameModel) > playerReligion.faith() {
                 return false
             }
 
@@ -3611,7 +3749,7 @@ public class City: AbstractCity {
         return true
     }
 
-    public func goldPurchaseCost(of unitType: UnitType) -> Double {
+    public func goldPurchaseCost(of unitType: UnitType, in gameModel: GameModel?) -> Double {
 
         guard let player = self.player else {
             fatalError("cant get player")
@@ -3627,16 +3765,33 @@ public class City: AbstractCity {
             }
         }
 
+        // carthage - suzerain bonus:
+        // Land combat units are 20% cheaper to purchase with Gold for each Encampment district building in that city.
+        if player.isSuzerain(of: .carthage, in: gameModel) {
+
+            for buildingType in BuildingType.all {
+
+                // each building in the encampment district reduces by 20%
+                if self.has(building: buildingType) && buildingType.district() == .encampment {
+                    modifier -= 0.2
+                }
+            }
+        }
+
+        // clamp
+        modifier = modifier.clamped(to: 0.0...1.0)
+
         return Double(cost) * modifier
     }
 
-    public func faithPurchaseCost(of unitType: UnitType) -> Double {
+    public func faithPurchaseCost(of unitType: UnitType, in gameModel: GameModel?) -> Double {
 
         guard let player = self.player else {
             fatalError("cant get player")
         }
 
         let cost = unitType.faithCost()
+        var modifier: Double = 1.0
 
         // monumentality + golden - Civilian units may be purchased with Faith.
         if player.has(dedication: .monumentality) && player.currentAge() == .golden {
@@ -3645,7 +3800,23 @@ public class City: AbstractCity {
             }
         }
 
-        return Double(cost)
+        // carthage - suzerain bonus:
+        // Land combat units are 20% cheaper to purchase with Gold for each Encampment district building in that city.
+        if player.isSuzerain(of: .carthage, in: gameModel) {
+
+            for buildingType in BuildingType.all {
+
+                // each building in the encampment district reduces by 20%
+                if self.has(building: buildingType) && buildingType.district() == .encampment {
+                    modifier -= 0.2
+                }
+            }
+        }
+
+        // clamp
+        modifier = modifier.clamped(to: 0.0...1.0)
+
+        return Double(cost) * modifier
     }
 
     public func goldPurchaseCost(of building: BuildingType) -> Double {
@@ -3662,8 +3833,21 @@ public class City: AbstractCity {
 
     public func purchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         guard self.canPurchase(unit: unitType, with: yieldType, in: gameModel) else {
             return false
+        }
+
+        // check quests
+        for quest in player.ownQuests(in: gameModel) {
+
+            if quest.type == .trainUnit(type: unitType) && quest.leader == player.leader {
+                let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState)
+                cityStatePlayer?.fulfillQuest(by: player.leader, in: gameModel)
+            }
         }
 
         let unit = Unit(at: self.location, type: unitType, owner: self.player)
@@ -3671,10 +3855,10 @@ public class City: AbstractCity {
         gameModel?.userInterface?.show(unit: unit, at: self.location)
 
         if yieldType == .gold {
-            let purchaseCost = self.goldPurchaseCost(of: unitType)
+            let purchaseCost = self.goldPurchaseCost(of: unitType, in: gameModel)
             self.player?.treasury?.changeGold(by: -purchaseCost)
         } else if yieldType == .faith {
-            let faithCost = self.faithPurchaseCost(of: unitType)
+            let faithCost = self.faithPurchaseCost(of: unitType, in: gameModel)
             self.player?.religion?.change(faith: -faithCost)
         } else {
             fatalError("cant buy unit with \(yieldType)")
@@ -3690,6 +3874,10 @@ public class City: AbstractCity {
             fatalError("--- WARNING: THIS IS FOR TESTING ONLY ---")
         }
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         guard let districts = self.districts else {
             fatalError("cant get disticts")
         }
@@ -3697,6 +3885,18 @@ public class City: AbstractCity {
         if !self.canBuild(district: districtType, at: location, in: gameModel) {
             print("cant build district: \(districtType) at: \(location)")
             return false
+        }
+
+        // check quests
+        for quest in player.ownQuests(in: gameModel) {
+
+            if case .constructDistrict(type: let district) = quest.type {
+
+                if district == districtType && player.leader == quest.leader {
+                    let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState)
+                    cityStatePlayer?.fulfillQuest(by: player.leader, in: gameModel)
+                }
+            }
         }
 
         do {
@@ -3842,7 +4042,7 @@ public class City: AbstractCity {
 
         // https://forums.civfanatics.com/threads/formula-thread.600534/
         // https://forums.civfanatics.com/threads/mathematical-model-comparison.634332/
-        //Population growth (food)
+        // Population growth (food)
         // 15+8*n+n^1.5 (n is current population-1)
         // 15+8*(N-1)+(N-1)^1.5
         // 1=>2 =>> 15+0+0^1.5=15
@@ -4482,7 +4682,7 @@ public class City: AbstractCity {
             fatalError("cant get cityCitizens")
         }
 
-        //let yieldMultiplier = player.specialistExtraYield(for: specialistType, and: yieldType) + player.getSpecialistExtraYield(yieldType) /* + player.leader.traits().GetPlayerTraits()->GetSpecialistYieldChange(eSpecialist, eIndex);*/
+        // let yieldMultiplier = player.specialistExtraYield(for: specialistType, and: yieldType) + player.getSpecialistExtraYield(yieldType) /* + player.leader.traits().GetPlayerTraits()->GetSpecialistYieldChange(eSpecialist, eIndex);*/
         let yieldMultiplier = specialistType.yields().value(of: yieldType)
         let extraYield = Int(Double(cityCitizens.specialistCount(of: specialistType)) * yieldMultiplier)
 
@@ -4594,7 +4794,7 @@ public class City: AbstractCity {
 
         self.doAcquirePlot(at: point, in: gameModel)
 
-        //Achievement test for purchasing 1000 tiles
+        // Achievement test for purchasing 1000 tiles
         return true
     }
 
@@ -4614,7 +4814,7 @@ public class City: AbstractCity {
         }
 
         if point.x == -1 && point.y == -1 {
-            //return Double(player.buyPlotCost())
+            // return Double(player.buyPlotCost())
             fatalError("Why is this?")
         }
 
@@ -4981,7 +5181,7 @@ public class City: AbstractCity {
         var bestScore = -1
         var bestPoint: HexPoint = HexPoint.zero
 
-        //int iDX, iDY;
+        // int iDX, iDY;
 
         for tilePoint in self.location.areaWith(radius: City.workRadius) {
 
@@ -5151,8 +5351,8 @@ public class City: AbstractCity {
         rtnValue += yieldValue
 
         // For each player not on our team, check how close their nearest city is to this plot
-        //CvPlayer& owningPlayer = GET_PLAYER(m_eOwner);
-        //CvDiplomacyAI* owningPlayerDiploAI = owningPlayer.GetDiplomacyAI();
+        // CvPlayer& owningPlayer = GET_PLAYER(m_eOwner);
+        // CvDiplomacyAI* owningPlayerDiploAI = owningPlayer.GetDiplomacyAI();
 
         for loopPlayer in gameModel.players {
 
@@ -5304,6 +5504,29 @@ public class City: AbstractCity {
 
             if let tile = gameModel.tile(at: point) {
                 if tile.resource(for: player) == resourceType && player.isEqual(to: tile.owner()) {
+                    result += tile.resourceQuantity()
+                }
+            }
+        }
+
+        return result
+    }
+
+    public func numLocalLuxuryResources(in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel,
+              let cityCitizens = self.cityCitizens,
+              let player = self.player else {
+
+            fatalError("cant get basics")
+        }
+
+        var result = 0
+
+        for point in cityCitizens.workingTileLocations() {
+
+            if let tile = gameModel.tile(at: point) {
+                if tile.resource(for: player).usage() == .luxury && player.isEqual(to: tile.owner()) {
                     result += tile.resourceQuantity()
                 }
             }

@@ -9,7 +9,7 @@
 import Foundation
 
 typealias HierarchicalStateTrigger = () -> Bool
-//typealias HierarchicalStateAction = () -> Void
+// typealias HierarchicalStateAction = () -> Void
 
 class HierarchicalStateTransition {
 

@@ -107,8 +107,8 @@ extension Array {
 extension Array {
 
     public func unique<T: Hashable>(map: ((Element) -> (T))) -> [Element] {
-        var set = Set<T>() //the unique list kept in a Set for fast retrieval
-        var arrayOrdered = [Element]() //keeping the unique list of elements but ordered
+        var set = Set<T>() // the unique list kept in a Set for fast retrieval
+        var arrayOrdered = [Element]() // keeping the unique list of elements but ordered
         for value in self {
             if !set.contains(map(value)) {
                 set.insert(map(value))
@@ -127,6 +127,45 @@ extension Array {
         self = []
         self.append(newItem)
         self.append(contentsOf: copy)
+    }
+}
+
+extension Array {
+
+    /// The second element of the collection.
+    ///
+    /// If the collection is too small, the value of this property is `nil`.
+    ///
+    ///     let numbers = [10, 20, 30, 40, 50]
+    ///     if let secondNumber = numbers.second {
+    ///         print(secondNumber)
+    ///     }
+    ///     // Prints "20"
+    public var second: Element? {
+
+        if self.count < 2 {
+            return nil
+        }
+
+        return self[1]
+    }
+
+    /// The third element of the collection.
+    ///
+    /// If the collection is too small, the value of this property is `nil`.
+    ///
+    ///     let numbers = [10, 20, 30, 40, 50]
+    ///     if let thirdNumber = numbers.third {
+    ///         print(thirdNumber)
+    ///     }
+    ///     // Prints "30"
+    public var third: Element? {
+
+        if self.count < 3 {
+            return nil
+        }
+
+        return self[2]
     }
 }
 
@@ -177,6 +216,14 @@ extension Int {
     public static func random(minimum from: Int = 0, maximum to: Int) -> Int {
         let seed = drand48()
         return Int(seed * Double(to - from)) + from
+    }
+}
+
+extension Array where Element: Comparable {
+
+    func containsSameElements(as other: [Element]) -> Bool {
+
+        return self.count == other.count && self.sorted() == other.sorted()
     }
 }
 

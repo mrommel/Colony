@@ -41,8 +41,8 @@ public enum BeliefType: Int, Codable {
 
     // worship beliefs
     case allowCathedral
-    //case allowDareMehr
-    //case allowGurdwara
+    // case allowDareMehr
+    // case allowGurdwara
     case allowMeetingHouse
     case allowMosque
     // ...

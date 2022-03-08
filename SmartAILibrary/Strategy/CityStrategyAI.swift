@@ -37,16 +37,16 @@ struct YieldValue: Comparable {
     }
 }
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvCityStrategyAI
-//!  \brief        Manages operations for a single city in the game world
+// !  \brief        Manages operations for a single city in the game world
 //
-//!  Key Attributes:
-//!  - One instance for each city
-//!  - Receives instructions from other AI components (usually as flavor changes) to
-//!    specialize, switch production, etc.
-//!  - Oversees both the city governor AI and the AI managing what the city is building
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// !  Key Attributes:
+// !  - One instance for each city
+// !  - Receives instructions from other AI components (usually as flavor changes) to
+// !    specialize, switch production, etc.
+// !  - Oversees both the city governor AI and the AI managing what the city is building
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 public class CityStrategyAI: Codable {
 
     enum CodingKeys: String, CodingKey {

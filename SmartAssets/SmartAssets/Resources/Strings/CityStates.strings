@@ -1,0 +1,258 @@
+/* 
+  CityStates.strings
+  SmartAssets
+
+  Created by Michael Rommel on 27.02.22.
+  
+*/
+
+// city state dialog
+"TXT_KEY_CITY_STATE_NONE_MET_YET" = "No city state met yet";
+"TXT_KEY_CITY_STATE_OVERVIEW" = "Overview";
+"TXT_KEY_CITY_STATE_INFLUENCE_POINTS" = "%d [Envoy] at %d Influence points";
+"TXT_KEY_CITY_STATE_SUZERAIN" = "Suzerain";
+"TXT_KEY_CITY_STATE_ENVOYS_SENT" = "Envoys Sent";
+"TXT_KEY_CITY_STATE_INFLUENCE_BY" = "Influenced by";
+"TXT_KEY_CITY_STATE_AVAILABLE_QUEST" = "Available Quest";
+"TXT_KEY_CITY_STATE_REWARD" = "Reward: 1 [Envoy] Envoy";
+"TXT_KEY_CITY_STATE_BONUSES" = "Bonuses";
+
+"TXT_KEY_CITY_STATE_TITLES" = "City-States";
+"TXT_KEY_CITY_STATE_TITLE" = "City-State";
+
+"TXT_KEY_CITY_STATE_OF" = "of";
+"TXT_KEY_CITY_STATE_DECLARE_WAR" = "Declare War";
+"TXT_KEY_CITY_STATE_REPORT" = "Report";
+"TXT_KEY_CITY_STATE_TYPE_TITLE" = "Type:";
+"TXT_KEY_CITY_STATE_SUZERAIN_TITLE" = "Suzerain:";
+"TXT_KEY_CITY_STATE_ENVOYS_SENT_TITLE" = "Envoys sent:";
+"TXT_KEY_CITY_STATE_INFLUENCE_BY_TITLE" = "Influenced by:";
+"TXT_KEY_CITY_STATE_QUESTS_TITLE" = "Quests:";
+
+// city state categories
+
+// cultural
+"TXT_KEY_CITY_STATE_CATEGORY_CULTURAL_NAME" = "Cultural";
+"TXT_KEY_CITY_STATE_CATEGORY_CULTURAL_FIRST_ENVOY_BONUS" = "+2 [Culture] Culture in the [Capital] Capital.";
+"TXT_KEY_CITY_STATE_CATEGORY_CULTURAL_THIRD_ENVOY_BONUS" = "+2 [Culture] Culture in every Amphitheater building.";
+"TXT_KEY_CITY_STATE_CATEGORY_CULTURAL_SIXTH_ENVOY_BONUS" = "+2 [Culture] Culture in every Art Museum and Archaeological Museum building.";
+
+// industrial
+"TXT_KEY_CITY_STATE_CATEGORY_INDUSTRIAL_NAME" = "Industrial";
+"TXT_KEY_CITY_STATE_CATEGORY_INDUSTRIAL_FIRST_ENVOY_BONUS" = "+2 [Production] Production in the [Capital] Capital when producing wonders, buildings, and districts.";
+"TXT_KEY_CITY_STATE_CATEGORY_INDUSTRIAL_THIRD_ENVOY_BONUS" = "+2 [Production] Production in every city with a Workshop building when producing wonders, buildings, and districts.";
+"TXT_KEY_CITY_STATE_CATEGORY_INDUSTRIAL_SIXTH_ENVOY_BONUS" = "+2 [Production] Production in every city with a Factory building when producing wonders, buildings, and districts.";
+
+// militaristic
+"TXT_KEY_CITY_STATE_CATEGORY_MILITARISTIC_NAME" = "Militaristic";
+"TXT_KEY_CITY_STATE_CATEGORY_MILITARISTIC_FIRST_ENVOY_BONUS" = "+2 [Production] Production in the [Capital] Capital when producing units.";
+"TXT_KEY_CITY_STATE_CATEGORY_MILITARISTIC_THIRD_ENVOY_BONUS" = "+2 [Production] Production in every Barracks or Stable building when producing units.";
+"TXT_KEY_CITY_STATE_CATEGORY_MILITARISTIC_SIXTH_ENVOY_BONUS" = "+2 [Production] Production in every Armory building when producing units.";
+
+// religious
+"TXT_KEY_CITY_STATE_CATEGORY_RELIGIOUS_NAME" = "Religious";
+"TXT_KEY_CITY_STATE_CATEGORY_RELIGIOUS_FIRST_ENVOY_BONUS" = "+2 [Faith] Faith in the [Capital] Capital.";
+"TXT_KEY_CITY_STATE_CATEGORY_RELIGIOUS_THIRD_ENVOY_BONUS" = "+2 [Faith] Faith in every Shrine building.";
+"TXT_KEY_CITY_STATE_CATEGORY_RELIGIOUS_SIXTH_ENVOY_BONUS" = "+2 [Faith] Faith in every Temple building.";
+
+// scientific
+"TXT_KEY_CITY_STATE_CATEGORY_SCIENTIFIC_NAME" = "Scientific";
+"TXT_KEY_CITY_STATE_CATEGORY_SCIENTIFIC_FIRST_ENVOY_BONUS" = "+2 [Science] Science in the [Capital] Capital.";
+"TXT_KEY_CITY_STATE_CATEGORY_SCIENTIFIC_THIRD_ENVOY_BONUS" = "+2 [Science] Science in every Library building.";
+"TXT_KEY_CITY_STATE_CATEGORY_SCIENTIFIC_SIXTH_ENVOY_BONUS" = "+2 [Science] Science in every University building.";
+
+// trade
+"TXT_KEY_CITY_STATE_CATEGORY_TRADE_NAME" = "Trade";
+"TXT_KEY_CITY_STATE_CATEGORY_TRADE_FIRST_ENVOY_BONUS" = "+4 [Gold] Gold in the [Capital] Capital";
+"TXT_KEY_CITY_STATE_CATEGORY_TRADE_THIRD_ENVOY_BONUS" = "+4 [Gold] Gold in every Commercial Hub district";
+"TXT_KEY_CITY_STATE_CATEGORY_TRADE_SIXTH_ENVOY_BONUS" = "Additional +4 [Gold] Gold in every Commercial Hub district";
+
+// quests
+"TXT_KEY_CITY_STATE_QUEST_TRAIN_UNIT" = "Train a %@.";
+"TXT_KEY_CITY_STATE_QUEST_CONSTRUCT_DISTRICT" = "Construct a %@.";
+"TXT_KEY_CITY_STATE_QUEST_TRIGGER_EUREKA" = "Trigger a [Eureka] Eureka for %@ tech.";
+"TXT_KEY_CITY_STATE_QUEST_TRIGGER_INSPIRATION" = "Trigger the [Inspiration] Inspiration moment for the %@ civic.";
+"TXT_KEY_CITY_STATE_QUEST_RECRUIT_GREAT_PERSON" = "Recruit a %@.";
+"TXT_KEY_CITY_STATE_QUEST_CONVERT_RELIGION" = "Convert the city-state to your [Religion] religion.";
+"TXT_KEY_CITY_STATE_QUEST_SEND_TRADE_ROUTE" = "Send a [TradeRoute] Trade Route to the city-state.";
+"TXT_KEY_CITY_STATE_QUEST_DESTROY_OUTPOST" = "Destroy one Barbarian Outpost within 5 tiles of the city.";
+
+// city states
+
+// akkad
+"TXT_KEY_CITY_STATE_AKKAD_NAME" = "Akkad";
+"TXT_KEY_CITY_STATE_AKKAD_SUZARIN" = "Melee and anti-cavalry units' attacks do full damage to the city's walls."; // #
+
+// amsterdam
+"TXT_KEY_CITY_STATE_AMSTERDAM_NAME" = "Amsterdam";
+"TXT_KEY_CITY_STATE_AMSTERDAM_SUZARIN" = "Your [TradeRoute] Trade Routes to foreign cities earn +1 [Gold] Gold for each luxury resource.";
+
+// anshan
+"TXT_KEY_CITY_STATE_ANSHAN_NAME" = "Anshan";
+"TXT_KEY_CITY_STATE_ANSHAN_SUZARIN" = "+2 [Science] Science from each [GreatWorkOfWriting] Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact."; // #
+
+// antananarivo
+"TXT_KEY_CITY_STATE_ANTANANARIVO_NAME" = "Antananarivo";
+"TXT_KEY_CITY_STATE_ANTANANARIVO_SUZARIN" = "Your Civilization gains +2% [Culture] Culture for each [GreatPerson] Great Person it has ever earned (up to 30%).";
+
+// antioch
+"TXT_KEY_CITY_STATE_ANITOCH_NAME" = "Antioch";
+"TXT_KEY_CITY_STATE_ANITOCH_SUZARIN" = "Your [TradeRoute] Trade Routes to foreign cities earn +1 [Gold] Gold for each Luxury resource at the destination.";
+
+// armagh
+"TXT_KEY_CITY_STATE_ARMAGH_NAME" = "Armagh";
+"TXT_KEY_CITY_STATE_ARMAGH_SUZARIN" = "Your Builders can build Monastery improvements."; // #
+
+// auckland
+"TXT_KEY_CITY_STATE_AUCKLAND_NAME" = "Auckland";
+"TXT_KEY_CITY_STATE_AUCKLAND_SUZARIN" = "Shallow water tiles worked by [Citizen] Citizens provide +1 [Production] Production. Additional +1 when you reach the Industrial Era";
+
+// ayutthaya
+"TXT_KEY_CITY_STATE_AYUTTHAYA_NAME" = "Ayutthaya";
+"TXT_KEY_CITY_STATE_AYUTTHAYA_SUZARIN" = "Gain [Culture] Culture equal to 10% of the construction cost when finishing buildings."; // #
+
+// babylon
+"TXT_KEY_CITY_STATE_BABYLON_NAME" = "Babylon";
+"TXT_KEY_CITY_STATE_BABYLON_SUZARIN" = "+2 [Science] Science from each [GreatWorkOfWriting] Great Work of Writing. +1 [Science] Science from each [Relic] Relic and [Artifact] Artifact."; // #
+
+// bandarBrunei
+"TXT_KEY_CITY_STATE_BANDAR_BRUNEI_NAME" = "Bandar Brunei";
+"TXT_KEY_CITY_STATE_BANDAR_BRUNEI_SUZARIN" = "Your [TradingPost] Trading Posts in foreign cities provide +1 [Gold] Gold to your [TradeRoute] Trade Routes passing through or going to the city."; // #
+
+// bologna
+"TXT_KEY_CITY_STATE_BOLOGNA_NAME" = "Bologna";
+"TXT_KEY_CITY_STATE_BOLOGNA_SUZARIN" = "Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer, [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building)."; // #
+
+// brussels
+"TXT_KEY_CITY_STATE_BRUSSELS_NAME" = "Brussels";
+"TXT_KEY_CITY_STATE_BRUSSELS_SUZARIN" = "Your cities get +15% [Production] Production towards wonders.";
+
+// buenosAires
+"TXT_KEY_CITY_STATE_BUENOS_AIRES_NAME" = "Buenos Aires";
+"TXT_KEY_CITY_STATE_BUENOS_AIRES_SUZARIN" = "Your Bonus resources behave like Luxury resources, providing 1 [Amenity] Amenity per type."; // #
+
+// caguana
+"TXT_KEY_CITY_STATE_CAGUANA_NAME" = "Caguana";
+"TXT_KEY_CITY_STATE_CAGUANA_SUZARIN" = "Builders can construct the Batey improvement, which provides [Culture] Culture and [Tourism] Tourism."; // #
+
+// cahokia
+"TXT_KEY_CITY_STATE_CAHOKIA_NAME" = "Cahokia";
+"TXT_KEY_CITY_STATE_CAHOKIA_SUZARIN" = "Your Builders can build Cahokia Mounds improvements."; // #
+
+// cardiff
+"TXT_KEY_CITY_STATE_CARDIFF_NAME" = "Cardiff";
+"TXT_KEY_CITY_STATE_CARDIFF_SUZARIN" = "Cities receive +2 [Power] Power for every Harbor building."; // #
+
+// carthage
+"TXT_KEY_CITY_STATE_CARTHAGE_NAME" = "Carthage";
+"TXT_KEY_CITY_STATE_CARTHAGE_SUZARIN" = "Land combat units are 20% cheaper to purchase with [Gold] Gold for each Encampment district building in that city.";
+
+// chinguetti
+"TXT_KEY_CITY_STATE_CHINGUETTI_NAME" = "Chinguetti";
+"TXT_KEY_CITY_STATE_CHINGUETTI_SUZARIN" = "International and domestic [TradeRoute] Trade Routes receive +1 [Faith] Faith for every follower in this city, of your founded or majority religion."; // #
+
+// fez
+"TXT_KEY_CITY_STATE_FEZ_NAME" = "Fez";
+"TXT_KEY_CITY_STATE_FEZ_SUZARIN" = "When you use a unit to convert a city for the first time, gain 20 Science Science per Citizen Population of that city."; // #
+
+// geneva
+"TXT_KEY_CITY_STATE_GENEVA_NAME" = "Geneva";
+"TXT_KEY_CITY_STATE_GENEVA_SUZARIN" = "Your cities earn +15% [Science] Science whenever you are not at war with any civilization.";
+
+// granada
+"TXT_KEY_CITY_STATE_GRANADA_NAME" = "Granada";
+"TXT_KEY_CITY_STATE_GRANADA_SUZARIN" = "Your Builders can build Alcázar improvements"; // #
+
+// hattusa
+"TXT_KEY_CITY_STATE_HATTUSA_NAME" = "Hattusa";
+"TXT_KEY_CITY_STATE_HATTUSA_SUZARIN" = "Provides you with 1 copy of each strategic resource you have revealed but do not own."; // #
+
+// hongKong
+"TXT_KEY_CITY_STATE_HONG_KONG_NAME" = "Hong Kong";
+"TXT_KEY_CITY_STATE_HONG_KONG_SUZARIN" = "Your Cities get +20% bonus [Production] Production towards city projects."; // #
+
+// hunza
+"TXT_KEY_CITY_STATE_HUNZA_NAME" = "Hunza";
+"TXT_KEY_CITY_STATE_HUNZA_SUZARIN" = "Receive +1 [Gold] Gold for every 5 tiles a trade route travels."; // #
+
+// jakarta
+"TXT_KEY_CITY_STATE_JARKARTA_NAME" = "Jakarta";
+"TXT_KEY_CITY_STATE_JARKARTA_SUZARIN" = "Your [TradingPost] Trading Posts at international destinations grant +1 additional [Gold] Gold to all [TradeRoute] Trade Routes that pass through them."; // #
+
+// jerusalem
+"TXT_KEY_CITY_STATE_JERUSALEM_NAME" = "Jerusalem";
+"TXT_KEY_CITY_STATE_JERUSALEM_SUZARIN" = "Your cities with Holy Sites exert pressure as if they were Holy Cities (4x religious pressure on all cities within 10 tiles)."; // #
+
+// johannesburg
+"TXT_KEY_CITY_STATE_JOHANNESBURG_NAME" = "Johannesburg";
+"TXT_KEY_CITY_STATE_JOHANNESBURG_SUZARIN" = "Cities receive +1 [Production] Production for every improved resource type. After researching Industrialization it becomes +2 [Production] Production.";
+
+// kabul
+"TXT_KEY_CITY_STATE_KABUL_NAME" = "Kabul";
+"TXT_KEY_CITY_STATE_KABUL_SUZARIN" = "Your units receive double experience from battles they initiate.";
+
+// kandy
+"TXT_KEY_CITY_STATE_KANDY_NAME" = "Kandy";
+"TXT_KEY_CITY_STATE_KANDY_SUZARIN" = "Receive a [Relic] Relic every time you discover a new natural wonder. Earn +50% bonus [Faith] Faith from all [Relic] Relics."; // #
+
+// kumasi
+"TXT_KEY_CITY_STATE_KUMASI_NAME" = "Kumasi";
+"TXT_KEY_CITY_STATE_KUMASI_SUZARIN" = "Your [TradeRoute] Trade Routes to any city-state provide +2 [Culture] Culture and +1 [Gold] Gold for every specialty district in the origin city."; // #
+
+// laVenta
+"TXT_KEY_CITY_STATE_LA_VENTA_NAME" = "La Venta";
+"TXT_KEY_CITY_STATE_LA_VENTA_SUZARIN" = "Your Builders can build Colossal Heads improvements."; // #
+
+    // -------------------------
+
+// samarkand
+"TXT_KEY_CITY_STATE_SAMARKAND_NAME" = "Samarkand";
+"TXT_KEY_CITY_STATE_SAMARKAND_SUZARIN" = "Your Builders can build Trading Dome improvements."; // #
+
+// seoul
+"TXT_KEY_CITY_STATE_SEOUL_NAME" = "Seoul";
+"TXT_KEY_CITY_STATE_SEOUL_SUZARIN" = "When you enter a new era, earn 1 random [Eureka] Eureka from that era.";
+
+// singapore
+"TXT_KEY_CITY_STATE_SINGAPORE_NAME" = "Singapore";
+"TXT_KEY_CITY_STATE_SINGAPORE_SUZARIN" = "Your cities receive +2 [Production] Production for each foreign civilization they have a [TradeRoute] Trade Route to.";
+
+// stockholm
+"TXT_KEY_CITY_STATE_STOCKHOLM_NAME" = "Stockholm";
+"TXT_KEY_CITY_STATE_STOCKHOLM_SUZARIN" = "Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer, [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building).";
+
+// taruga
+"TXT_KEY_CITY_STATE_TARUGA_NAME" = "Taruga";
+"TXT_KEY_CITY_STATE_TARUGA_SUZARIN" = "Your cities receive +5% [Science] Science for each different Strategic Resource they have.";
+
+// toronto
+"TXT_KEY_CITY_STATE_TORONTA_NAME" = "Toronto";
+"TXT_KEY_CITY_STATE_TORONTA_SUZARIN" = "Regional effects from your Industrial Zone, Water Park, and Entertainment Complex districts reach 3 tiles farther."; // #
+
+// valletta
+"TXT_KEY_CITY_STATE_VALLETTA_NAME" = "Valletta";
+"TXT_KEY_CITY_STATE_VALLETTA_SUZARIN" = "City Center buildings and Encampment district buildings can be bought with [Faith] Faith. Cost of purchasing Ancient, Medieval, and Renaissance Walls is reduced, but they can only be bought with [Faith] Faith."; // #
+
+// vaticanCity
+"TXT_KEY_CITY_STATE_VATICAN_CITY_NAME" = "Vatican City";
+"TXT_KEY_CITY_STATE_VATICAN_CITY_SUZARIN" = "When you activate a [GreatPerson] Great Person, they spread 400 Religious pressure of your founded (or majority) religion to cities within 10 tiles."; // #
+
+// venice
+"TXT_KEY_CITY_STATE_VENICE_NAME" = "Venice";
+"TXT_KEY_CITY_STATE_VENICE_SUZARIN" = "Your [TradeRoute] Trade Routes to foreign cities earn +1 [Gold] Gold for each Luxury resource at the destination."; // #
+
+// vilnius
+"TXT_KEY_CITY_STATE_VILNIUS_NAME" = "Vilnius";
+"TXT_KEY_CITY_STATE_VILNIUS_SUZARIN" = "For the highest active Alliance Level all your Theater Square districts receive +50% adjacency bonus."; // #
+
+// wolin
+"TXT_KEY_CITY_STATE_WOLIN_NAME" = "Wolin";
+"TXT_KEY_CITY_STATE_WOLIN_SUZARIN" = "Receive [GreatGeneral] Great General points when a land unit defeats a major or minor civilization's unit and receive [GreatAdmiral] Great Admiral points when a naval unit defeats a major or minor civilization's unit equal to 25% of the opposing unit's strength (Standard Speed).";
+
+// yerevan
+"TXT_KEY_CITY_STATE_YEREVAN_NAME" = "Yerevan";
+"TXT_KEY_CITY_STATE_YEREVAN_SUZARIN" = "Your Apostle units can choose from any possible promotion instead of receiving a random promotion."; // #
+
+// zanzibar
+"TXT_KEY_CITY_STATE_ZANZIBAR_NAME" = "Zanzibar";
+"TXT_KEY_CITY_STATE_ZANZIBAR_SUZARIN" = "Receive the [Cinnamon] Cinnamon and [Cloves] Cloves Luxury resources. These cannot be earned any other way in the game, and provide 6 [Amenities] Amenities each."; // #

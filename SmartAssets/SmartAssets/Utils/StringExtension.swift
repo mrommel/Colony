@@ -117,6 +117,16 @@ extension String {
             )
         }
 
+        if self.starts(with: "TXT_KEY_CITY_STATE_") {
+            return NSLocalizedString(
+                self,
+                tableName: "CityStates",
+                bundle: Bundle.init(for: Textures.self),
+                value: "",
+                comment: comment ?? ""
+            )
+        }
+
         if self.starts(with: "TXT_KEY_") {
             return NSLocalizedString(
                 self,
