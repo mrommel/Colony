@@ -33,19 +33,27 @@ struct HexagonView: View {
 
                 Image(nsImage: self.viewModel.mountainsImage)
                     .resizable()
-                    .frame(width: height, height: height, alignment: .center)
+                    .frame(width: height, height: height)
 
                 Image(nsImage: self.viewModel.hillsImage)
                     .resizable()
-                    .frame(width: height, height: height, alignment: .center)
+                    .frame(width: height, height: height)
 
                 Image(nsImage: self.viewModel.forestImage)
                     .resizable()
-                    .frame(width: height, height: height, alignment: .center)
+                    .frame(width: height, height: height)
 
                 Image(nsImage: self.viewModel.cityImage)
                     .resizable()
-                    .frame(width: height, height: height, alignment: .center)
+                    .frame(width: height, height: height)
+
+                Image(nsImage: self.viewModel.improvementImage)
+                    .resizable()
+                    .frame(width: height, height: height)
+
+                Image(nsImage: self.viewModel.resourceImage)
+                    .resizable()
+                    .frame(width: height, height: height)
 
                 Image(nsImage: self.viewModel.actionImage)
                     .resizable()
@@ -83,7 +91,9 @@ struct HexagonView_Previews: PreviewProvider {
             mountains: nil,
             hills: nil,
             forest: nil,
+            resource: nil,
             city: nil,
+            improvement: nil,
             tileActionTextureName: TileActionType.districtAvailable.textureName,
             cost: nil,
             showCitizenIcons: true

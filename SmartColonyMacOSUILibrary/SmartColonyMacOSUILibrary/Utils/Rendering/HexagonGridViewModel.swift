@@ -163,10 +163,12 @@ class HexagonGridViewModel: ObservableObject {
                 }
 
                 let color: NSColor = self.tileColor(of: tile, for: humanPlayer)
-                let mountains: String? = self.mountainsTextureName(of: tile, for: humanPlayer)
-                let hills: String? = self.hillsTextureName(of: tile, for: humanPlayer)
-                let forest: String? = self.forestTextureName(of: tile, for: humanPlayer)
+                let mountainsTexture: String? = self.mountainsTextureName(of: tile, for: humanPlayer)
+                let hillsTexture: String? = self.hillsTextureName(of: tile, for: humanPlayer)
+                let forestTexture: String? = self.forestTextureName(of: tile, for: humanPlayer)
+                let resourceTexture: String? = self.resourceTextureName(of: tile, for: humanPlayer)
                 let cityTexture: String? = self.cityTextureName(of: tile, for: humanPlayer)
+                let improvementTexture: String? = self.improvementTextureName(of: tile, for: humanPlayer)
                 var tileActionTextureName: String?
                 var cost: Int?
 
@@ -194,10 +196,12 @@ class HexagonGridViewModel: ObservableObject {
                 let hexagonViewModel = HexagonViewModel(
                     at: tile.point,
                     tileColor: color,
-                    mountains: mountains,
-                    hills: hills,
-                    forest: forest,
+                    mountains: mountainsTexture,
+                    hills: hillsTexture,
+                    forest: forestTexture,
+                    resource: resourceTexture,
                     city: cityTexture,
+                    improvement: improvementTexture,
                     tileActionTextureName: tileActionTextureName,
                     cost: cost,
                     showCitizenIcons: self.showCitizenIcons
@@ -330,6 +334,22 @@ class HexagonGridViewModel: ObservableObject {
         }
     }
 
+    private func resourceTextureName(of tile: AbstractTile, for player: AbstractPlayer) -> String? {
+
+        let resource = tile.resource(for: player)
+        guard resource != .none else {
+            return nil
+        }
+
+        if tile.isVisible(to: player) {
+            return resource.textureMarkerName()
+        } else if tile.isDiscovered(by: player) {
+            return nil // resource is hidden, when not visible anymore
+        } else {
+            return nil
+        }
+    }
+
     private func cityTextureName(of tile: AbstractTile, for player: AbstractPlayer) -> String? {
 
         guard tile.isCity() else {
@@ -340,6 +360,21 @@ class HexagonGridViewModel: ObservableObject {
             return "overview-city"
         } else if tile.isDiscovered(by: player) {
             return "overview-city-passive"
+        } else {
+            return nil
+        }
+    }
+
+    private func improvementTextureName(of tile: AbstractTile, for player: AbstractPlayer) -> String? {
+
+        guard tile.hasAnyImprovement() else {
+            return nil
+        }
+
+        if tile.isVisible(to: player) {
+            return tile.improvement().textureNames().item(from: tile.point)
+        } else if tile.isDiscovered(by: player) {
+            return nil // improvement is hidden, when not visible anymore
         } else {
             return nil
         }
