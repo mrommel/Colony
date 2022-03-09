@@ -344,7 +344,7 @@ class HexagonGridViewModel: ObservableObject {
         if tile.isVisible(to: player) {
             return resource.textureMarkerName()
         } else if tile.isDiscovered(by: player) {
-            return nil // todo
+            return nil // resource is hidden, when not visible anymore
         } else {
             return nil
         }
@@ -374,7 +374,7 @@ class HexagonGridViewModel: ObservableObject {
         if tile.isVisible(to: player) {
             return tile.improvement().textureNames().item(from: tile.point)
         } else if tile.isDiscovered(by: player) {
-            return nil // todo
+            return nil // improvement is hidden, when not visible anymore
         } else {
             return nil
         }
