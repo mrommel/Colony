@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "feature-rainforest1@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "feature-rainforest1@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "feature-rainforest1@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

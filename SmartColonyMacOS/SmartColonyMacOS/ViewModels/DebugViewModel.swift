@@ -567,6 +567,16 @@ class DebugViewModel: ObservableObject {
             gameModel.tile(at: HexPoint(x: 3, y: 10))?.set(feature: .mountains)
             gameModel.tile(at: HexPoint(x: 3, y: 11))?.set(feature: .mountains)
 
+            gameModel.tile(at: HexPoint(x: 9, y: 1))?.set(feature: .rainforest)
+            gameModel.tile(at: HexPoint(x: 8, y: 2))?.set(feature: .rainforest)
+            gameModel.tile(at: HexPoint(x: 8, y: 3))?.set(feature: .rainforest)
+            gameModel.tile(at: HexPoint(x: 10, y: 1))?.set(feature: .rainforest)
+            gameModel.tile(at: HexPoint(x: 9, y: 2))?.set(feature: .rainforest)
+            gameModel.tile(at: HexPoint(x: 9, y: 3))?.set(feature: .rainforest)
+            gameModel.tile(at: HexPoint(x: 11, y: 1))?.set(feature: .rainforest)
+            gameModel.tile(at: HexPoint(x: 10, y: 2))?.set(feature: .rainforest)
+            gameModel.tile(at: HexPoint(x: 10, y: 3))?.set(feature: .rainforest)
+
             let humanPlayer = gameModel.humanPlayer()!
             let aiPlayer = gameModel.player(for: .victoria)!
 
