@@ -71,7 +71,8 @@ class FeatureLayer: BaseLayer {
         case none
         case mountain3SE(tile: FeaturePatternTileType)
         case mountain3NE(tile: FeaturePatternTileType)
-        case mountain4(tile: FeaturePatternTileType)
+        case mountain4A(tile: FeaturePatternTileType)
+        case mountain4B(tile: FeaturePatternTileType)
 
         // MARK: constructors
 
@@ -93,7 +94,11 @@ class FeatureLayer: BaseLayer {
 
             case 3:
                 let tile = try container.decode(FeaturePatternTileType.self, forKey: .tile)
-                self = .mountain4(tile: tile)
+                self = .mountain4A(tile: tile)
+
+            case 4:
+                let tile = try container.decode(FeaturePatternTileType.self, forKey: .tile)
+                self = .mountain4B(tile: tile)
 
             default:
                 self = .none
@@ -117,8 +122,12 @@ class FeatureLayer: BaseLayer {
                 try container.encode(2, forKey: .value)
                 try container.encode(tile, forKey: .tile)
 
-            case .mountain4(tile: let tile):
+            case .mountain4A(tile: let tile):
                 try container.encode(3, forKey: .value)
+                try container.encode(tile, forKey: .tile)
+
+            case .mountain4B(tile: let tile):
+                try container.encode(4, forKey: .value)
                 try container.encode(tile, forKey: .tile)
             }
         }
@@ -222,11 +231,20 @@ class FeatureLayer: BaseLayer {
                     neighborFeatureSW == .mountains && patternSW == .none &&
                     neighborFeatureS == .mountains && patternS == .none {
 
-                    // print("found pattern: mountain4")
-                    self.patternArray?[pt] = .mountain4(tile: .first)
-                    self.patternArray?[neighborSE] = .mountain4(tile: .second)
-                    self.patternArray?[neighborSW] = .mountain4(tile: .third)
-                    self.patternArray?[neighborS] = .mountain4(tile: .forth)
+                    let selectedType: Int = [0, 1].item(from: pt)
+
+                    // print("found pattern: mountain4A/B")
+                    if selectedType == 0 {
+                        self.patternArray?[pt] = .mountain4A(tile: .first)
+                        self.patternArray?[neighborSE] = .mountain4A(tile: .second)
+                        self.patternArray?[neighborSW] = .mountain4A(tile: .third)
+                        self.patternArray?[neighborS] = .mountain4A(tile: .forth)
+                    } else {
+                        self.patternArray?[pt] = .mountain4B(tile: .first)
+                        self.patternArray?[neighborSE] = .mountain4B(tile: .second)
+                        self.patternArray?[neighborSW] = .mountain4B(tile: .third)
+                        self.patternArray?[neighborS] = .mountain4B(tile: .forth)
+                    }
                 }
             }
         }
@@ -278,7 +296,7 @@ class FeatureLayer: BaseLayer {
                     textureName = nil
                 }
 
-            case .mountain4(tile: let tile):
+            case .mountain4A(tile: let tile):
 
                 switch tile {
 
@@ -290,6 +308,20 @@ class FeatureLayer: BaseLayer {
                     textureName = "feature-mountains-range3-3"
                 case .forth:
                     textureName = "feature-mountains-range3-4"
+                }
+
+            case .mountain4B(tile: let tile):
+
+                switch tile {
+
+                case .first:
+                    textureName = "feature-mountains-range4-1"
+                case .second:
+                    textureName = "feature-mountains-range4-2"
+                case .third:
+                    textureName = "feature-mountains-range4-3"
+                case .forth:
+                    textureName = "feature-mountains-range4-4"
                 }
             }
 

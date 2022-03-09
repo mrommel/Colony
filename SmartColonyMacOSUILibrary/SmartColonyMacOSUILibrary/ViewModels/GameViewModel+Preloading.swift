@@ -85,7 +85,8 @@ extension GameViewModel {
             "feature-mountains-range1-1", "feature-mountains-range1-2", "feature-mountains-range1-3",
             "feature-mountains-range2-1", "feature-mountains-range2-2", "feature-mountains-range2-3",
             "feature-mountains-range3-1", "feature-mountains-range3-2", "feature-mountains-range3-3",
-            "feature-mountains-range3-4",
+            "feature-mountains-range3-4", "feature-mountains-range4-1", "feature-mountains-range4-2",
+            "feature-mountains-range4-3", "feature-mountains-range4-4",
             "feature-mountains-n-ne", "feature-mountains-n-nw", "feature-mountains-n",
             "feature-mountains-ne", "feature-mountains-nw", "feature-mountains-n-ne-nw"
         ]
