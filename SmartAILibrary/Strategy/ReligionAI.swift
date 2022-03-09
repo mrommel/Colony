@@ -428,7 +428,8 @@ public class ReligionAI {
         var numLuxuries = 0
         for resourceLoop in ResourceType.all {
 
-            if resourceLoop.usage() == .luxury && (city.numLocalResources(of: resourceLoop, in: gameModel) > 0 || player.numAvailable(resource: resourceLoop) > 0) {
+            if resourceLoop.usage() == .luxury &&
+                (city.numLocalResources(of: resourceLoop, in: gameModel) > 0 || player.numAvailable(resource: resourceLoop) > 0) {
 
                 numLuxuries += 1
             }
@@ -463,7 +464,7 @@ public class ReligionAI {
 
             if pantheonType.yieldPerLuxuryResource(of: yieldType) > 0 {
 
-                var modifierValue = player.leader.isExpansionist() ? 5 : 2
+                let modifierValue = player.leader.isExpansionist() ? 5 : 2
 
                 /*if m_pPlayer->GetPlayerTraits()->GetLuxuryHappinessRetention() || m_pPlayer->GetPlayerTraits()->GetUniqueLuxuryQuantity() != 0 || m_pPlayer->GetPlayerTraits()->IsImportsCountTowardsMonopolies() {
                     modifierValue += 2

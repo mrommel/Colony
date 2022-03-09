@@ -61,8 +61,6 @@ class CultureRankingDialogViewModel: ObservableObject {
                 continue
             }
 
-            let civilizationType: CivilizationType = player.leader.civilization()
-
             tourismDict[player.leader] = TourismSummary(
                 domestic: player.domesticTourists(),
                 visiting: player.visitingTourists(in: gameModel)

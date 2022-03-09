@@ -77,7 +77,7 @@ extension Array2D where T: Comparable {
 
 extension Array2D {
 
-    func fill(with value: T) {
+    public func fill(with value: T) {
         for x in 0..<self.width {
             for y in 0..<self.height {
                 self[x, y] = value
@@ -85,7 +85,7 @@ extension Array2D {
         }
     }
 
-    func fill(with function: (Int, Int) -> T) {
+    public func fill(with function: (Int, Int) -> T) {
         for x in 0..<self.width {
             for y in 0..<self.height {
                 self[x, y] = function(x, y)
@@ -93,11 +93,11 @@ extension Array2D {
         }
     }
 
-    func filter(where condition: @escaping (T?) -> Bool) -> [T?] {
+    public func filter(where condition: @escaping (T?) -> Bool) -> [T?] {
         return self.array.filter(condition)
     }
 
-    func count(where condition: @escaping (T?) -> Bool) -> Int {
+    public func count(where condition: @escaping (T?) -> Bool) -> Int {
         return self.array.count(where: condition)
     }
 }
@@ -106,7 +106,7 @@ extension Array2D {
 
 extension Array2D {
 
-    subscript(gridPoint: HexPoint) -> T? {
+    public subscript(gridPoint: HexPoint) -> T? {
 
         get {
             return array[(gridPoint.y * self.width) + gridPoint.x]

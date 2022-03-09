@@ -79,6 +79,7 @@ public enum LabelImageType {
     case uranium
     case iron
 
+    // swiftlint:disable cyclomatic_complexity
     static func fromString(value: String) -> LabelImageType {
 
         switch value {

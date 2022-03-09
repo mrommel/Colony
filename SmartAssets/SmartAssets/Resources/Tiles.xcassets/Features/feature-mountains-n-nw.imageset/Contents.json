@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "feature-mountains-n-nw@3x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

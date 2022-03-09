@@ -29,7 +29,9 @@ extension FeatureType {
         case .forest:
             return ["feature-forest1", "feature-forest2"]
         case .rainforest:
-            return ["feature-rainforest1", "feature-rainforest2"]
+            return ["feature-rainforest1", "feature-rainforest2", "feature-rainforest3", "feature-rainforest4",
+                    "feature-rainforest5", "feature-rainforest6", "feature-rainforest7", "feature-rainforest8",
+                    "feature-rainforest9"]
         case .floodplains:
             return ["feature-floodplains"]
         case .marsh:

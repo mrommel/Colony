@@ -81,11 +81,19 @@ struct DebugView: View {
                         }, label: {
                             Text("Unit Assets")
                         }).buttonStyle(GameButtonStyle())
+                    }
 
+                    Group {
                         Button(action: {
                             self.viewModel.loadSlp()
                         }, label: {
                             Text("Load Slp")
+                        }).buttonStyle(GameButtonStyle())
+
+                        Button(action: {
+                            self.viewModel.mapTextures()
+                        }, label: {
+                            Text("Map textures")
                         }).buttonStyle(GameButtonStyle())
                     }
 

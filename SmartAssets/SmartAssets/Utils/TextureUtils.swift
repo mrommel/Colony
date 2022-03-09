@@ -18,6 +18,7 @@ private class TextureItem: Codable, Equatable {
     let point: HexPoint
     var terrainSprite: SKSpriteNode?
     var featureSprite: SKSpriteNode?
+    var mountainsCalderaSprite: SKSpriteNode?
     var resourceSprite: SKSpriteNode?
     var resourceMarkerSprite: SKSpriteNode?
     var snowSprite: SKSpriteNode?
@@ -117,6 +118,16 @@ public class TextureUtils {
     public func featureSprite(at point: HexPoint) -> SKSpriteNode? {
 
         return self.tileTextures?[point.x, point.y]?.featureSprite
+    }
+
+    public func set(mountainsCalderaSprite: SKSpriteNode?, at point: HexPoint) {
+
+        self.tileTextures?[point.x, point.y]?.mountainsCalderaSprite = mountainsCalderaSprite
+    }
+
+    public func mountainsCalderaSprite(at point: HexPoint) -> SKSpriteNode? {
+
+        return self.tileTextures?[point.x, point.y]?.mountainsCalderaSprite
     }
 
     public func set(resourceSprite: SKSpriteNode?, at point: HexPoint) {
