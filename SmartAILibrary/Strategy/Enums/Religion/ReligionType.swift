@@ -143,7 +143,7 @@ public enum ReligionType: Codable, Hashable {
     private static func from(key: String) -> ReligionType? {
 
         if key == "none" {
-            return .none
+            return ReligionType.none
         } else if key == "atheism" {
             return .atheism
         } else if key == "buddhism" {

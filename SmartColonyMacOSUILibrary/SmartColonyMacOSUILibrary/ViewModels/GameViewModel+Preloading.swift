@@ -69,19 +69,25 @@ extension GameViewModel {
         }
 
         let allFeatureTextureNames = [
-            "feature-atoll", "feature-lake", "feature-mountains-ne-sw", "feature-ice5",
-            "feature-rainforest1", "feature-delicateArch", "feature-mountains-nw", "feature-ice6",
-            "feature-rainforest2", "feature-floodplains", "feature-mountains-se", "feature-marsh1",
-            "feature-mountains-se-nw", "feature-reef", "feature-forest1", "feature-marsh2",
-            "feature-mountains-sw", "feature-uluru", "feature-forest2", "feature-mountEverest",
+            "feature-atoll", "feature-lake", "feature-ice5", "feature-ice6",
+            "feature-rainforest1", "feature-delicateArch",
+            "feature-rainforest2", "feature-floodplains", "feature-marsh1",
+            "feature-reef", "feature-forest1", "feature-forest2", "feature-marsh2",
+            "feature-uluru", "feature-mountEverest",
             "feature-none", "feature-galapagos", "feature-mountKilimanjaro", "feature-yosemite",
-            "feature-greatBarrierReef", "feature-mountains1", "feature-oasis", "feature-ice1",
-            "feature-mountains2", "feature-ice2", "feature-mountains3",
-            "feature-pantanal", "feature-ice3", "feature-pine1", "feature-mountains-ne",
+            "feature-greatBarrierReef", "feature-oasis", "feature-pine1",
+            "feature-ice1", "feature-ice2", "feature-ice3", "feature-pantanal",
+            "feature-mountains1", "feature-mountains2", "feature-mountains3",
             "feature-ice4", "feature-pine1", "feature-pine2", "feature-volcano", "feature-fallout",
             "feature-fuji", "feature-barringCrater", "feature-mesa", "feature-gibraltar",
             "feature-geyser", "feature-potosi", "feature-fountainOfYouth", "feature-lakeVictoria",
-            "feature-cliffsOfDover"
+            "feature-cliffsOfDover",
+            "feature-mountains-range1-1", "feature-mountains-range1-2", "feature-mountains-range1-3",
+            "feature-mountains-range2-1", "feature-mountains-range2-2", "feature-mountains-range2-3",
+            "feature-mountains-range3-1", "feature-mountains-range3-2", "feature-mountains-range3-3",
+            "feature-mountains-range3-4",
+            "feature-mountains-n-ne", "feature-mountains-n-nw", "feature-mountains-n",
+            "feature-mountains-ne", "feature-mountains-nw", "feature-mountains-n-ne-nw"
         ]
         print("- load \(allFeatureTextureNames.count) feature textures")
         for textureName in allFeatureTextureNames {

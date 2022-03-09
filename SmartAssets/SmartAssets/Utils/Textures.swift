@@ -103,15 +103,15 @@ public class Textures {
         return texture
     }
 
-    public func mountainTexture(at point: HexPoint) -> String? {
+    public func mountainsTexture(at point: HexPoint) -> String? {
 
         guard let game = self.game else {
             fatalError("cant get game")
         }
 
-        var texture = "mountains" // "mountains-n-ne-se-s-sw-nw"
+        var texture = "feature-mountains" // "mountains-n-ne-se-s-sw-nw"
 
-        for direction in HexDirection.all {
+        for direction in [HexDirection.north, HexDirection.northeast, HexDirection.northwest] {
             let neighbor = point.neighbor(in: direction)
 
             if let neighborTile = game.tile(at: neighbor) {
@@ -122,16 +122,17 @@ public class Textures {
             }
         }
 
-        if texture == "mountains" {
+        if texture == "feature-mountains" {
             return nil
         }
 
         // limit to only some existing textures
-        if texture != "mountains-n-ne" &&
-            texture != "mountains-n" &&
-            texture != "mountains-ne" &&
-            texture != "mountains-n-nw" &&
-            texture != "mountains-nw" {
+        if texture != "feature-mountains-n-ne" &&
+            texture != "feature-mountains-n" &&
+            texture != "feature-mountains-ne" &&
+            texture != "feature-mountains-n-nw" &&
+            texture != "feature-mountains-nw" &&
+            texture != "feature-mountains-n-ne-nw" {
 
             return nil
         }
@@ -171,7 +172,7 @@ public class Textures {
         return texture
     }
 
-    public func featureTexture(for tile: AbstractTile, neighborTiles: [HexDirection: AbstractTile?]) -> String? {
+    public func featureTexture(for tile: AbstractTile) -> String? {
 
         let feature: FeatureType = tile.feature()
 
@@ -182,30 +183,6 @@ public class Textures {
         let textureName: String
         if tile.terrain() == .tundra && feature == .forest {
             textureName = ["feature-pine1", "feature-pine2"].item(from: tile.point)
-        } else if feature == .mountains {
-
-            let mountainsN = (neighborTiles[.north]??.feature() ?? .none) == .mountains
-            let mountainsNE = (neighborTiles[.northeast]??.feature() ?? .none) == .mountains
-            let mountainsSE = (neighborTiles[.southeast]??.feature() ?? .none) == .mountains
-            let mountainsS = (neighborTiles[.south]??.feature() ?? .none) == .mountains
-            let mountainsSW = (neighborTiles[.southwest]??.feature() ?? .none) == .mountains
-            let mountainsNW = (neighborTiles[.northwest]??.feature() ?? .none) == .mountains
-
-            if !mountainsN && mountainsNE && !mountainsSE && !mountainsS && !mountainsSW && !mountainsNW {
-                textureName = "feature-mountains-ne"
-            } else if !mountainsN && !mountainsNE && !mountainsSE && !mountainsS && mountainsSW && !mountainsNW {
-                textureName = "feature-mountains-sw"
-            } else if !mountainsN && mountainsNE && !mountainsSE && !mountainsS && mountainsSW && !mountainsNW {
-                textureName = "feature-mountains-ne-sw"
-            } else if !mountainsN && !mountainsNE && mountainsSE && !mountainsS && !mountainsSW && !mountainsNW {
-                textureName = "feature-mountains-se"
-            } else if !mountainsN && !mountainsNE && !mountainsSE && !mountainsS && !mountainsSW && mountainsNW {
-                textureName = "feature-mountains-nw"
-            } else if !mountainsN && !mountainsNE && mountainsSE && !mountainsS && !mountainsSW && mountainsNW {
-                textureName = "feature-mountains-se-nw"
-            } else {
-                textureName = feature.textureNames().item(from: tile.point)
-            }
         } else {
             textureName = feature.textureNames().item(from: tile.point)
         }

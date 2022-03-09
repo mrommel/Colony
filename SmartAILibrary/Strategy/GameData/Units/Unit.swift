@@ -1542,10 +1542,6 @@ public class Unit: AbstractUnit {
     //                      Passing in DOMAIN_LAND will return the units baseMoves as if it were on land, even if it is currently embarked.
     public func baseMoves(into domain: UnitDomainType = .none, in gameModel: GameModel?) -> Int {
 
-        guard let player = self.player else {
-            fatalError("cant get player")
-        }
-
         // let ability = player.leader.ability()
 
         if (domain == .sea && self.canEmbark(in: gameModel)) || (domain == .none && self.isEmbarked()) {

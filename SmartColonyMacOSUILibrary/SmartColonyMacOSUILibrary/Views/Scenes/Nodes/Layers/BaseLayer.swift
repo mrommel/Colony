@@ -105,6 +105,7 @@ class BaseLayer: SKNode {
     }
 
     func rebuild() {
+
         guard let gameModel = self.gameModel else {
             return
         }

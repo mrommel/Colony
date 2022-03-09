@@ -538,6 +538,58 @@ class DebugViewModel: ObservableObject {
         }
     }
 
+    func mapTextures() {
+
+        print("map textures")
+
+        self.delegate?.preparing()
+
+        DispatchQueue.global(qos: .background).async {
+
+            let gameModel = GameUtils.setupDuelGrass(human: .alexander, ai: .victoria, discover: true)
+
+            gameModel.tile(at: HexPoint(x: 4, y: 3))?.set(feature: .mountains)
+            gameModel.tile(at: HexPoint(x: 3, y: 4))?.set(feature: .mountains)
+            gameModel.tile(at: HexPoint(x: 3, y: 5))?.set(feature: .mountains)
+            gameModel.tile(at: HexPoint(x: 4, y: 5))?.set(feature: .mountains)
+            gameModel.tile(at: HexPoint(x: 5, y: 5))?.set(feature: .mountains)
+
+            gameModel.tile(at: HexPoint(x: 4, y: 7))?.set(feature: .mountains)
+            gameModel.tile(at: HexPoint(x: 5, y: 7))?.set(feature: .mountains)
+            gameModel.tile(at: HexPoint(x: 6, y: 7))?.set(feature: .mountains)
+
+            gameModel.tile(at: HexPoint(x: 6, y: 1))?.set(feature: .mountains)
+            gameModel.tile(at: HexPoint(x: 5, y: 2))?.set(feature: .mountains)
+            gameModel.tile(at: HexPoint(x: 5, y: 3))?.set(feature: .mountains)
+
+            gameModel.tile(at: HexPoint(x: 2, y: 10))?.set(feature: .mountains)
+            gameModel.tile(at: HexPoint(x: 2, y: 11))?.set(feature: .mountains)
+            gameModel.tile(at: HexPoint(x: 3, y: 10))?.set(feature: .mountains)
+            gameModel.tile(at: HexPoint(x: 3, y: 11))?.set(feature: .mountains)
+
+            let humanPlayer = gameModel.humanPlayer()!
+            let aiPlayer = gameModel.player(for: .victoria)!
+
+            // AI
+            aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
+
+            // Human
+            humanPlayer.found(at: HexPoint(x: 10, y: 8), named: "Human Capital", in: gameModel)
+
+            humanPlayer.doFirstContact(with: aiPlayer, in: gameModel)
+            aiPlayer.doDeclareWar(to: humanPlayer, in: gameModel)
+
+            // add combat units
+            let warriorUnit = Unit(at: HexPoint(x: 20, y: 7), type: .warrior, owner: humanPlayer)
+            gameModel.add(unit: warriorUnit)
+            gameModel.userInterface?.show(unit: warriorUnit, at: HexPoint(x: 20, y: 7))
+
+            DispatchQueue.main.async {
+                self.delegate?.prepared(game: gameModel)
+            }
+        }
+    }
+
     func close() {
 
         self.delegate?.closed()
