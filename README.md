@@ -16,6 +16,10 @@ Tile size:
 ## Civ5/6 Links
 - https://civilization.fandom.com/wiki/Civilization_VI
 - https://github.com/Gedemon/Civ6-YnAMP/tree/master/Maps
+- https://github.com/Gedemon/Civ5-DLL
+- https://github.com/chaorace/Civ6-UIFiles
+- https://github.com/Infixo/Civ6-Mods
+- https://github.com/Swiftwork/civ6-explorer
 
 ## Map Links
 - https://www.redblobgames.com/grids/hexagons/
@@ -26,7 +30,6 @@ Tile size:
 - extract aoe2 assets from slp: http://genie-explorer.aoe2.se
 - tileset: https://assetstore.unity.com/packages/2d/environments/painted-2d-location-hexes-medieval-fantasy-59271
 - https://github.com/DeamonRealm/AgeOfChampions
-- https://github.com/Gedemon/Civ5-DLL
 - https://github.com/wesnoth/wesnoth
 - https://marketplace.roll20.net/browse/set/6327/terrain-hexagons-forest
 

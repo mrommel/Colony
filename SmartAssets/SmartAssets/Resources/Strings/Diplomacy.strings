@@ -1,0 +1,31 @@
+/* 
+  Diplomacy.strings
+  SmartAssets
+
+  Created by Michael Rommel on 10.03.22.
+  
+*/
+
+// https://github.com/Swiftwork/civ6-explorer/blob/dbe3ca6d5468828ef0b26ef28f69555de0bcb959/src/assets/game/BaseGame/Locale/en_US/DiplomacyStatements_FirstMeet_Text.xml
+
+// messageIntro
+// first meeting texts
+"TXT_KEY_DIPLOMACY_FIRST_MEET_GREETINGS_TRAJAN_ANY" = "Hail, stranger. I am the Imperator Caesar Augustus of far-reaching Rome. Who are you and what lands can you claim as your own?";
+"TXT_KEY_DIPLOMACY_FIRST_MEET_GREETINGS_VICTORIA_ANY" = "Greetings. We are by the Grace of God, Elizabeth, Queen of the United Kingdom of Great Britain and Ireland. And soon, dare I say, the empire.";
+"TXT_KEY_DIPLOMACY_FIRST_MEET_GREETINGS_ANY_ANY" = "Greetings traveler. You should know that you stand in the presence of greatness!";
+
+// invitationToCapital
+// AI invitation to exchange Capital Information texts
+"TXT_KEY_DIPLOMACY_FIRST_MEET_NO_MANS_INFO_EXCHANGE_TRAJAN_ANY" = "Tell me of your capital. Was it founded by lost Trojans? Or children raised by wolves?";
+"TXT_KEY_DIPLOMACY_FIRST_MEET_NO_MANS_INFO_EXCHANGE_VICTORIA_ANY" = "In the interest of our political relationship, we would like to know more about your capital… in exchange for information on ours, of course.";
+"TXT_KEY_DIPLOMACY_FIRST_MEET_NO_MANS_INFO_EXCHANGE_ANY_ANY" = "Neither of us hails from nearby, but perhaps we should mark our homelands on each other's maps?";
+
+
+// coopWarRequest: // RESPONSE_COOP_WAR_REQUEST
+// AI would like to declare war on someone with a player
+// TXT_KEY_COOP_WAR_REQUEST%
+// "Please join us to start war on \(leader2) now. Will you?"
+
+// coopWarTime: // RESPONSE_COOP_WAR_TIME
+// TXT_KEY_COOP_WAR_TIME%
+// "Please join us to start war on \(leader2) in 10 turns. Will you?"

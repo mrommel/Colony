@@ -127,6 +127,16 @@ extension String {
             )
         }
 
+        if self.starts(with: "TXT_KEY_DIPLOMACY_") {
+            return NSLocalizedString(
+                self,
+                tableName: "Diplomacy",
+                bundle: Bundle.init(for: Textures.self),
+                value: "",
+                comment: comment ?? ""
+            )
+        }
+
         if self.starts(with: "TXT_KEY_") {
             return NSLocalizedString(
                 self,

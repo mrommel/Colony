@@ -117,6 +117,8 @@ extension DiplomaticDialogViewModel: ReplyViewModelDelegate {
             fatalError("cant get otherPlayer")
         }
 
+        let incomingMessageType = self.messageType
+
         switch self.messageType {
 
         case .exit:
@@ -169,6 +171,10 @@ extension DiplomaticDialogViewModel: ReplyViewModelDelegate {
             fatalError("not yet handled: \(self.messageType) + \(reply)")
         case .coopWarTime:
             fatalError("not yet handled: \(self.messageType) + \(reply)")
+        }
+
+        if incomingMessageType == self.messageType {
+            print("WARNING: diplomatic dialog is in a loop")
         }
 
         // if message is exit => leave
