@@ -16,7 +16,7 @@ public protocol AbstractGreatPeople: AnyObject, Codable {
     func resetPoint(for greatPersonType: GreatPersonType)
     func value(for greatPersonType: GreatPersonType) -> Int
 
-    func retire(greatPerson: GreatPerson)
+    func retire(greatPerson: GreatPerson, in gameModel: GameModel?)
     func hasRetired(greatPerson: GreatPerson) -> Bool
 
     func numOfSpawnedGreatPersons() -> Int
@@ -86,9 +86,11 @@ class GreatPeople: AbstractGreatPeople {
         return self.points.value(for: greatPersonType)
     }
 
-    func retire(greatPerson: GreatPerson) {
+    func retire(greatPerson: GreatPerson, in gameModel: GameModel?) {
 
         self.retiredGreatPersons.append(greatPerson)
+
+        self.player?.doUpdateTradeRouteCapacity(in: gameModel)
     }
 
     func hasRetired(greatPerson: GreatPerson) -> Bool {

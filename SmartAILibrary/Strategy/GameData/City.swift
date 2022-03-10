@@ -3467,7 +3467,7 @@ public class City: AbstractCity {
         }
 
         if unitType == .trader {
-            if player.numberOfTradeRoutes() >= player.tradingCapacity(in: gameModel) {
+            if player.numberOfTradeRoutes() >= player.tradingCapacity() {
                 return false
             }
         }
@@ -4105,6 +4105,8 @@ public class City: AbstractCity {
                     // NOOP - FIXME
                     break
                 }
+
+                self.player?.doUpdateTradeRouteCapacity(in: gameModel)
 
                 if player.isHuman() {
                     player.notifications()?.add(notification: .productionNeeded(cityName: self.name, location: self.location))

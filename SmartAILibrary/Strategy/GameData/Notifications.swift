@@ -179,6 +179,8 @@ public class NotificationItem: Codable, Equatable {
                     gameModel?.userInterface?.focus(on: capital.location)
                 }
             }
+        case .momentAdded(type: _):
+            gameModel?.userInterface?.showScreen(screenType: .moments, city: nil, other: nil, data: nil)
 
         default:
             print("activate \(self.type) not handled")
@@ -341,6 +343,12 @@ public class NotificationItem: Codable, Equatable {
             return true
 
         case .metCityState(cityState: _, first: _):
+            return true
+
+        case .tradeRouteCapacityIncreased:
+            return true
+
+        case .momentAdded(type: _):
             return true
 
         default:

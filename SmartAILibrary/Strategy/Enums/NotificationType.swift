@@ -48,6 +48,9 @@ public enum NotificationType {
     case questCityStateObsolete(cityState: CityStateType, quest: CityStateQuestType) // 25
     case questCityStateGiven(cityState: CityStateType, quest: CityStateQuestType) // 26
 
+    case momentAdded(type: MomentType) // 27
+    case tradeRouteCapacityIncreased // 28
+
     public static var all: [NotificationType] = [
         .turn,
         .generic,
@@ -75,7 +78,9 @@ public enum NotificationType {
         .waiting,
         .questCityStateFulfilled(cityState: CityStateType.amsterdam, quest: CityStateQuestType.none),
         .questCityStateObsolete(cityState: CityStateType.amsterdam, quest: CityStateQuestType.none),
-        .questCityStateGiven(cityState: CityStateType.amsterdam, quest: CityStateQuestType.none)
+        .questCityStateGiven(cityState: CityStateType.amsterdam, quest: CityStateQuestType.none),
+        .momentAdded(type: MomentType.shipSunk),
+        .tradeRouteCapacityIncreased
     ]
 
     public func title() -> String {
@@ -136,6 +141,10 @@ public enum NotificationType {
             return "quest obsolete"
         case .questCityStateGiven(cityState: _, quest: _):
             return "quest given"
+        case .momentAdded(type: _):
+            return "moment added"
+        case .tradeRouteCapacityIncreased:
+            return "Capacity for Trade Routes has increased"
         }
     }
 
@@ -227,6 +236,10 @@ public enum NotificationType {
             return "quest obsolete"
         case .questCityStateGiven(cityState: _, quest: _):
             return "quest given"
+        case .momentAdded(type: _):
+            return "moment added"
+        case .tradeRouteCapacityIncreased:
+            return "Capacity for Trade Routes has increased"
         }
     }
 
@@ -288,6 +301,10 @@ public enum NotificationType {
             return 25
         case .questCityStateGiven(cityState: _, quest: _):
             return 26
+        case .momentAdded(type: _):
+            return 27
+        case .tradeRouteCapacityIncreased:
+            return 28
         }
     }
 
@@ -310,6 +327,7 @@ extension NotificationType: Codable {
         case boolValue
         case cityStateValue // CityStateType
         case questValue // QuestType
+        case momentValue // MomentType
     }
 
     public init(from decoder: Decoder) throws {
@@ -397,6 +415,11 @@ extension NotificationType: Codable {
             let cityState = try container.decode(CityStateType.self, forKey: .cityStateValue)
             let quest = try container.decode(CityStateQuestType.self, forKey: .questValue)
             self = .questCityStateGiven(cityState: cityState, quest: quest)
+        case 27:
+            let moment = try container.decode(MomentType.self, forKey: .momentValue)
+            self = .momentAdded(type: moment)
+        case 28:
+            self = .tradeRouteCapacityIncreased
         default:
             fatalError("value \(rawValue) not handled")
         }
@@ -509,6 +532,13 @@ extension NotificationType: Codable {
             try container.encode(26, forKey: .rawValue)
             try container.encode(cityState, forKey: .cityStateValue)
             try container.encode(quest, forKey: .questValue)
+
+        case .momentAdded(type: let moment):
+            try container.encode(27, forKey: .rawValue)
+            try container.encode(moment, forKey: .momentValue)
+
+        case .tradeRouteCapacityIncreased:
+            try container.encode(28, forKey: .rawValue)
         }
     }
 }
@@ -589,6 +619,12 @@ extension NotificationType: Equatable {
               .questCityStateGiven(cityState: let rhsCityState, quest: let rhsQuest)):
             return lhsCityState == rhsCityState && lhsQuest == rhsQuest
 
+        case (.momentAdded(type: let lhsMoment), .momentAdded(type: let rhsMoment)):
+            return lhsMoment == rhsMoment
+
+        case (.tradeRouteCapacityIncreased, .tradeRouteCapacityIncreased):
+            return true
+
         default:
             if lhs.value() == rhs.value() {
                 fatalError("comparison not handled - please add a case")
@@ -607,71 +643,104 @@ extension NotificationType: Hashable {
 
         case .turn:
             hasher.combine(0)
+
         case .generic:
             hasher.combine(1)
+
         case .techNeeded:
             hasher.combine(2)
+
         case .civicNeeded:
             hasher.combine(3)
+
         case .productionNeeded:
             hasher.combine(4)
+
         case .canChangeGovernment:
             hasher.combine(5)
+
         case .policiesNeeded:
             hasher.combine(6)
+
         case .canFoundPantheon:
             hasher.combine(7)
+
         case .governorTitleAvailable:
             hasher.combine(8)
+
         case .cityGrowth:
             hasher.combine(9)
+
         case .starving:
             hasher.combine(10)
+
         case .diplomaticDeclaration:
             hasher.combine(11)
+
         case .war:
             hasher.combine(12)
+
         case .enemyInTerritory:
             hasher.combine(13)
+
         case .unitPromotion:
             hasher.combine(14)
+
         case .unitNeedsOrders:
             hasher.combine(15)
+
         case .unitDied(location: let location):
             hasher.combine(16)
             hasher.combine(location)
+
         case .greatPersonJoined:
             hasher.combine(17)
+
         case .canRecruitGreatPerson(greatPerson: let greatPerson):
             hasher.combine(18)
             hasher.combine(greatPerson)
+
         case .cityConquered(location: let location):
             hasher.combine(19)
             hasher.combine(location)
+
         case .goodyHutDiscovered(location: let location):
             hasher.combine(20)
             hasher.combine(location)
+
         case .barbarianCampDiscovered(location: let location):
             hasher.combine(21)
             hasher.combine(location)
+
         case .waiting:
             hasher.combine(22)
+
         case .metCityState(cityState: let cityState, first: let first):
             hasher.combine(23)
             hasher.combine(cityState)
             hasher.combine(first)
+
         case .questCityStateFulfilled(cityState: let cityState, quest: let quest):
             hasher.combine(24)
             hasher.combine(cityState)
             hasher.combine(quest)
+
         case .questCityStateObsolete(cityState: let cityState, quest: let quest):
             hasher.combine(25)
             hasher.combine(cityState)
             hasher.combine(quest)
+
         case .questCityStateGiven(cityState: let cityState, quest: let quest):
             hasher.combine(26)
             hasher.combine(cityState)
             hasher.combine(quest)
+
+        case .momentAdded(type: let type):
+            hasher.combine(27)
+            hasher.combine(type)
+
+        case .tradeRouteCapacityIncreased:
+            hasher.combine(28)
         }
     }
 }

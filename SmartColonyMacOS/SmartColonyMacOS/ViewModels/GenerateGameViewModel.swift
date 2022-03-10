@@ -157,7 +157,7 @@ class GenerateGameViewModel: ObservableObject {
             }
 
             // set first government
-            player.government?.set(governmentType: .chiefdom)
+            player.government?.set(governmentType: .chiefdom, in: nil)
 
             players.append(player)
 

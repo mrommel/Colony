@@ -213,6 +213,8 @@ class Civics: AbstractCivics {
 
         self.civics.append(civic)
 
+        self.player?.doUpdateTradeRouteCapacity(in: gameModel)
+
         // 
         if civic == .naturalHistory || civic == .culturalHeritage {
 

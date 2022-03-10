@@ -132,7 +132,7 @@ public class TopBarViewModel: ObservableObject {
         self.tourismYieldValueViewModel.tooltip = self.tourismTooltip(for: humanPlayer, in: gameModel)
 
         let numberOfTradeRoutes = humanPlayer.numberOfTradeRoutes()
-        let tradingCapacity = humanPlayer.tradingCapacity(in: gameModel)
+        let tradingCapacity = humanPlayer.tradingCapacity()
         self.tradeRoutesLabelText = "\(numberOfTradeRoutes)/\(tradingCapacity)"
 
         self.envoysLabelText = "\(humanPlayer.numberOfAvailableEnvoys())"

@@ -51,6 +51,9 @@ extension NotificationType {
         case .questCityStateFulfilled: return "button-questCompleted"
         case .questCityStateObsolete: return "button-default"
         case .questCityStateGiven: return "button-default"
+
+        case .momentAdded: return "button-momentAdded"
+        case .tradeRouteCapacityIncreased: return "button-tradeRouteCapacityIncreased"
         }
     }
 }

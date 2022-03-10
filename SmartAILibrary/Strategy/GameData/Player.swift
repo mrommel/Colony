@@ -314,9 +314,10 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func set(canChangeGovernment: Bool)
 
     // trade routes
-    func tradingCapacity(in gameModel: GameModel?) -> Int
+    func tradingCapacity() -> Int
     func numberOfTradeRoutes() -> Int
-    func canEstablishTradeRoute(in gameModel: GameModel?) -> Bool
+    func canEstablishTradeRoute() -> Bool
+    func doUpdateTradeRouteCapacity(in gameModel: GameModel?)
 
     @discardableResult
     func doEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool
@@ -324,7 +325,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     // great persons
     func canRecruitGreatPerson(in gameModel: GameModel?) -> Bool
     func recruit(greatPerson: GreatPerson, in gameModel: GameModel?)
-    func retire(greatPerson: GreatPerson)
+    func retire(greatPerson: GreatPerson, in gameModel: GameModel?)
     func hasRetired(greatPerson: GreatPerson) -> Bool
 
     // distance / cities
@@ -442,6 +443,7 @@ public class Player: AbstractPlayer {
         case settledContinents
         case hasWorldCircumnavigated
         case establishedTradingPosts
+        case tradingCapacity
 
         case cramped
         case combatThisTurn
@@ -531,6 +533,7 @@ public class Player: AbstractPlayer {
     private var settledContinents: [ContinentType] = []
     private var hasWorldCircumnavigatedVal: Bool = false
     private var establishedTradingPosts: [LeaderType] = []
+    private var tradingCapacityValue: Int = 0
 
     private var crampedValue: Bool = false
     private var combatThisTurnValue: Bool = false
@@ -650,6 +653,7 @@ public class Player: AbstractPlayer {
         self.settledContinents = try container.decode([ContinentType].self, forKey: .settledContinents)
         self.hasWorldCircumnavigatedVal = try container.decode(Bool.self, forKey: .hasWorldCircumnavigated)
         self.establishedTradingPosts = try container.decode([LeaderType].self, forKey: .establishedTradingPosts)
+        self.tradingCapacityValue = try container.decode(Int.self, forKey: .tradingCapacity)
 
         self.crampedValue = try container.decode(Bool.self, forKey: .cramped)
         self.combatThisTurnValue = try container.decodeIfPresent(Bool.self, forKey: .combatThisTurn) ?? false
@@ -764,6 +768,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.settledContinents, forKey: .settledContinents)
         try container.encode(self.hasWorldCircumnavigatedVal, forKey: .hasWorldCircumnavigated)
         try container.encode(self.establishedTradingPosts, forKey: .establishedTradingPosts)
+        try container.encode(self.tradingCapacityValue, forKey: .tradingCapacity)
 
         try container.encode(self.crampedValue, forKey: .cramped)
         try container.encode(self.combatThisTurnValue, forKey: .combatThisTurn)
@@ -2202,6 +2207,7 @@ public class Player: AbstractPlayer {
                 // DoUpdateCityRevolts();
                 // CalculateNetHappiness();
                 // SetBestWonderCities();
+                self.doUpdateTradeRouteCapacity(in: gameModel)
 
                 self.grandStrategyAI?.doTurn(in: gameModel)
 
@@ -2551,13 +2557,13 @@ public class Player: AbstractPlayer {
         return false
     }
 
-    public func retire(greatPerson: GreatPerson) {
+    public func retire(greatPerson: GreatPerson, in gameModel: GameModel?) {
 
         guard let greatPeople = self.greatPeople else {
             fatalError("cant get greatPeople")
         }
 
-        greatPeople.retire(greatPerson: greatPerson)
+        greatPeople.retire(greatPerson: greatPerson, in: gameModel)
     }
 
     public func hasRetired(greatPerson: GreatPerson) -> Bool {
@@ -4531,11 +4537,16 @@ public class Player: AbstractPlayer {
 
     // MARK: trade route functions
 
+    public func tradingCapacity() -> Int {
+
+        return self.tradingCapacityValue
+    }
+
     // https://civilization.fandom.com/wiki/Trade_Route_(Civ6)#Trading_Capacity
-    public func tradingCapacity(in gameModel: GameModel?) -> Int {
+    public func doUpdateTradeRouteCapacity(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
-            fatalError("cant get gameModel")
+            return // early exit 
         }
 
         guard let civics = self.civics else {
@@ -4588,7 +4599,16 @@ public class Player: AbstractPlayer {
             numberOfTradingCapacity += 1
         }
 
-        return numberOfTradingCapacity
+        if self.tradingCapacityValue != numberOfTradingCapacity {
+
+            if self.tradingCapacityValue < numberOfTradingCapacity {
+                if self.isHuman() {
+                    self.notifications()?.add(notification: .tradeRouteCapacityIncreased)
+                }
+            }
+
+            self.tradingCapacityValue = numberOfTradingCapacity
+        }
     }
 
     public func numberOfTradeRoutes() -> Int {
@@ -4600,9 +4620,9 @@ public class Player: AbstractPlayer {
         return tradeRoutes.numberOfTradeRoutes()
     }
 
-    public func canEstablishTradeRoute(in gameModel: GameModel?) -> Bool {
+    public func canEstablishTradeRoute() -> Bool {
 
-        let tradingCapacity = self.tradingCapacity(in: gameModel)
+        let tradingCapacity = self.tradingCapacityValue
         let numberOfTradeRoutes = self.numberOfTradeRoutes()
 
         if numberOfTradeRoutes >= tradingCapacity {
@@ -6344,6 +6364,13 @@ public class Player: AbstractPlayer {
         }
 
         self.momentsVal?.addMoment(of: type, in: gameModel.currentTurn)
+
+        // also show a notification, when the moment brings era score
+        if type.eraScore() > 0 {
+            if self.isHuman() {
+                self.notifications()?.add(notification: .momentAdded(type: type))
+            }
+        }
     }
 
     public func hasMoment(of type: MomentType) -> Bool {

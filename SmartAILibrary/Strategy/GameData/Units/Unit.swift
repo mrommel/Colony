@@ -3418,7 +3418,7 @@ public class Unit: AbstractUnit {
             return false
         }
 
-        if !player.canEstablishTradeRoute(in: gameModel) {
+        if !player.canEstablishTradeRoute() {
             return false
         }
 
@@ -5024,7 +5024,7 @@ extension Unit {
         if !self.hasBuildCharges() {
 
             // some bonuses stay when great person is retired
-            self.player?.retire(greatPerson: self.greatPerson)
+            self.player?.retire(greatPerson: self.greatPerson, in: gameModel)
 
             // finally kill this great person
             self.doKill(delayed: true, by: nil, in: gameModel)
