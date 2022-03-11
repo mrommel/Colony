@@ -16,7 +16,7 @@ public enum IntelReportType: Int, Identifiable {
     case accessLevel = 2
     case government = 3
     case agendas = 4
-    case ourRelationship = 5
+    case ownRelationship = 5
     case otherRelationships = 6
 
     public var id: Self { self }
@@ -26,7 +26,7 @@ public enum IntelReportType: Int, Identifiable {
         .overview,
         .gossip,
         .accessLevel,
-        .ourRelationship
+        .ownRelationship
     ]
 
     public static var icons: [IntelReportType] = [
@@ -35,7 +35,7 @@ public enum IntelReportType: Int, Identifiable {
         .accessLevel,
         .government,
         .agendas,
-        .ourRelationship,
+        .ownRelationship,
         .otherRelationships
     ]
 }
@@ -51,7 +51,7 @@ extension IntelReportType {
         case .accessLevel: return "TXT_KEY_DIPLOMACY_INTEL_REPORT_ACCESS_LEVEL"
         case .government: return "TXT_KEY_DIPLOMACY_INTEL_REPORT_GOVERNMENT"
         case .agendas: return "TXT_KEY_DIPLOMACY_INTEL_REPORT_AGENDAS"
-        case .ourRelationship: return "TXT_KEY_DIPLOMACY_INTEL_REPORT_RELATIONSHIP"
+        case .ownRelationship: return "TXT_KEY_DIPLOMACY_INTEL_REPORT_RELATIONSHIP"
         case .otherRelationships: return "TXT_KEY_DIPLOMACY_INTEL_REPORT_OTHER_RELATIONSHIPS"
         }
     }
@@ -65,7 +65,7 @@ extension IntelReportType {
         case .accessLevel: return "intelReportType-button-accessLevel"
         case .government: return ""
         case .agendas: return ""
-        case .ourRelationship: return "intelReportType-button-ownRelationship"
+        case .ownRelationship: return "intelReportType-button-ownRelationship"
         case .otherRelationships: return ""
         }
     }
@@ -79,7 +79,7 @@ extension IntelReportType {
         case .accessLevel: return "intelReportType-accessLevel"
         case .government: return "intelReportType-government"
         case .agendas: return "intelReportType-agendas"
-        case .ourRelationship: return "intelReportType-ownRelationship"
+        case .ownRelationship: return "intelReportType-ownRelationship"
         case .otherRelationships: return "intelReportType-otherRelationships"
         }
     }
@@ -212,6 +212,27 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
         self.intelReportType = report
         self.discussionIntelReportTitle = "TXT_KEY_DIPLOMACY_INTEL_REPORT_TITLE".localized() + self.intelReportType.title().localized()
+    }
+
+    func overview(for report: IntelReportType) -> String {
+
+        switch report {
+
+        case .overview:
+            return "-"
+        case .gossip:
+            return "- No New Items"
+        case .accessLevel:
+            return "  None"
+        case .government:
+            return "- Chiefdom"
+        case .agendas:
+            return "-"
+        case .ownRelationship:
+            return "-"
+        case .otherRelationships:
+            return "-"
+        }
     }
 
     func closeDialog() {

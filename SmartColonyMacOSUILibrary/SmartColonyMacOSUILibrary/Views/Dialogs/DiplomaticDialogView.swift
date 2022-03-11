@@ -143,7 +143,7 @@ public struct DiplomaticDialogView: View {
             return AnyView(self.intelReportGossipView)
         case .accessLevel:
             return AnyView(self.intelReportAccessLevelView)
-        case .ourRelationship:
+        case .ownRelationship:
             return AnyView(self.intelReportOurRelationshipView)
 
         default:
@@ -155,49 +155,23 @@ public struct DiplomaticDialogView: View {
 
         VStack(spacing: 10) {
 
-            // gossip
-            HStack {
-                Image(nsImage: ImageCache.shared.image(for: IntelReportType.gossip.iconTexture()))
-                    .resizable()
-                    .frame(width: 20, height: 20)
+            LazyVStack(spacing: 4) {
+                ForEach(IntelReportType.icons) { intelReportType in
+                    HStack {
+                        Image(nsImage: ImageCache.shared.image(for: intelReportType.iconTexture()))
+                            .resizable()
+                            .frame(width: 20, height: 20)
 
-                Text(IntelReportType.gossip.title().localized())
-                    .font(.body)
-                    .frame(width: 150, alignment: .leading)
+                        Text(intelReportType.title().localized())
+                            .font(.body)
+                            .frame(width: 150, alignment: .leading)
 
-                Text("- No New Items")
-                    .font(.body)
-                    .frame(width: 150, alignment: .leading)
-            }
-
-            // access level
-            HStack {
-                Image(nsImage: ImageCache.shared.image(for: IntelReportType.accessLevel.iconTexture()))
-                    .resizable()
-                    .frame(width: 20, height: 20)
-
-                Text(IntelReportType.accessLevel.title().localized())
-                    .font(.body)
-                    .frame(width: 150, alignment: .leading)
-
-                Text("  None")
-                    .font(.body)
-                    .frame(width: 150, alignment: .leading)
-            }
-
-            // government
-            HStack {
-                Image(nsImage: ImageCache.shared.image(for: IntelReportType.government.iconTexture()))
-                    .resizable()
-                    .frame(width: 20, height: 20)
-
-                Text("Government")
-                    .font(.body)
-                    .frame(width: 150, alignment: .leading)
-
-                Text("- Chiefdom")
-                    .font(.body)
-                    .frame(width: 150, alignment: .leading)
+                        Label(self.viewModel.overview(for: intelReportType))
+                            .font(.body)
+                            .frame(width: 150, alignment: .leading)
+                            .frame(width: 150, height: nil, alignment: .leading)
+                    }
+                }
             }
         }
     }
