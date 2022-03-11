@@ -236,8 +236,8 @@ public enum NotificationType {
             return "quest obsolete"
         case .questCityStateGiven(cityState: _, quest: _):
             return "quest given"
-        case .momentAdded(type: _):
-            return "moment added"
+        case .momentAdded(type: let messageType):
+            return messageType.summary()
         case .tradeRouteCapacityIncreased:
             return "Capacity for Trade Routes has increased"
         }

@@ -9,6 +9,52 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
+public enum IntelReportType: Int, Identifiable {
+
+    case overview = 0
+    case gossip = 1
+    case accessLevel = 2
+    case ourRelationship = 3
+    // case agendas
+    // case agreements
+    // case otherRelationships
+
+    public var id: Self { self }
+
+    public static var all: [IntelReportType] = [
+
+        .overview,
+        .gossip,
+        .accessLevel,
+        .ourRelationship
+    ]
+}
+
+extension IntelReportType {
+
+    public func title() -> String {
+
+        switch self {
+
+        case .overview: return "Overview"
+        case .gossip: return "Gossip"
+        case .accessLevel: return "Access Level"
+        case .ourRelationship: return "Relationship"
+        }
+    }
+
+    public func iconTexture() -> String {
+
+        switch self {
+
+        case .overview: return "intelReportType-overview"
+        case .gossip: return "intelReportType-gossip"
+        case .accessLevel: return "intelReportType-accessLevel"
+        case .ourRelationship: return "intelReportType-ownRelationship"
+        }
+    }
+}
+
 public class DiplomaticDialogViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
@@ -23,29 +69,57 @@ public class DiplomaticDialogViewModel: ObservableObject {
         }
     }
 
+    // messages
+    @Published
+    var state: DiplomaticRequestState = .intro
+
     @Published
     var message: String = ""
 
     @Published
     var replyViewModels: [ReplyViewModel] = []
+    // messages
+
+    // reports
+    @Published
+    var intelReportType: IntelReportType = .overview
+
+    @Published
+    var discussionIntelReportTitle: String
+    // reports
 
     weak var delegate: GameViewModelDelegate?
 
     public init() {
 
+        self.discussionIntelReportTitle = "TXT_KEY_DIPLOMACY_INTEL_REPORT_OVERVIEW" // "Intel Report: Overview"
     }
 
 #if DEBUG
-    public init(for humanPlayer: AbstractPlayer?, and otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+    public convenience init(for humanPlayer: AbstractPlayer?, and otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
-        self.update(for: humanPlayer, and: otherPlayer, state: .intro, message: .messageIntro, emotion: .neutral, in: gameModel)
+        self.init()
+
+        self.update(for: humanPlayer,
+                       and: otherPlayer,
+                       state: .intro,
+                       message: .messageIntro,
+                       emotion: .neutral,
+                       in: gameModel)
     }
 #endif
 
-    func update(for humanPlayer: AbstractPlayer?, and otherPlayer: AbstractPlayer?, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType, in gameModel: GameModel?) {
+    func update(for humanPlayer: AbstractPlayer?,
+                and otherPlayer: AbstractPlayer?,
+                state: DiplomaticRequestState,
+                message: DiplomaticRequestMessage,
+                emotion: LeaderEmotionType,
+                in gameModel: GameModel?) {
 
         self.humanPlayer = humanPlayer
         self.otherPlayer = otherPlayer
+
+        self.state = state
         self.messageType = message
     }
 
@@ -58,7 +132,11 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
     private func updateMessageAndReplies() {
 
-        self.message = self.messageType.diploStringForMessage(for: self.humanPlayer, and: self.otherPlayer)
+        guard self.humanPlayer?.isHuman() ?? false else {
+            fatalError("human player not human")
+        }
+
+        self.message = self.messageType.diploStringForMessage(for: self.otherPlayer, and: self.humanPlayer)
 
         self.replyViewModels = []
         let replies = self.messageType.diploOptions()
@@ -98,6 +176,11 @@ public class DiplomaticDialogViewModel: ObservableObject {
         }
 
         return player.leader.civilization().name().localized()
+    }
+
+    func select(report: IntelReportType) {
+
+        self.intelReportType = report
     }
 }
 

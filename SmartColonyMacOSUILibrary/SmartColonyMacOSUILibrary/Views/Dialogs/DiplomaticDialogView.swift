@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAILibrary
+import SmartAssets
 
 public struct DiplomaticDialogView: View {
 
@@ -52,23 +53,7 @@ public struct DiplomaticDialogView: View {
                 .frame(width: 300, height: 80)
                 .border(Color.white)
 
-                Text(self.viewModel.message)
-                    .font(.title2)
-                    .lineLimit(nil)
-
-                Spacer()
-
-                // replies
-                VStack(spacing: 20) {
-                    ForEach(self.viewModel.replyViewModels) { replyViewModel in
-
-                        ReplyView(viewModel: replyViewModel)
-                            .id("reply-\(replyViewModel.id)")
-                    }
-                }
-
-                // different view
-                // deals proposed
+                self.detailView
             }
             .padding(.bottom, 45)
             .padding(.leading, 45)
@@ -76,6 +61,69 @@ public struct DiplomaticDialogView: View {
         }
         .frame(width: 700, height: 550, alignment: .top)
         .dialogBackground()
+    }
+
+    private var detailView: some View {
+
+        switch self.viewModel.state {
+
+        case .intro:
+            return AnyView(self.introView)
+
+        default:
+            return AnyView(self.blankDiscussionView)
+        }
+    }
+
+    private var introView: some View {
+
+        VStack(spacing: 10) {
+            Text(self.viewModel.message)
+                .font(.system(size: 12))
+                .lineLimit(nil)
+
+            Spacer()
+
+            // replies
+            LazyVStack(spacing: 4) {
+                ForEach(self.viewModel.replyViewModels) { replyViewModel in
+
+                    ReplyView(viewModel: replyViewModel)
+                        .id("reply-\(replyViewModel.id)")
+                }
+            }
+        }
+    }
+
+    private var blankDiscussionView: some View {
+
+        VStack(spacing: 10) {
+            Text(self.viewModel.discussionIntelReportTitle)
+
+            LazyHStack(spacing: 4) {
+                ForEach(IntelReportType.all) { intelReportType in
+
+                    Image(nsImage: ImageCache.shared.image(for: intelReportType.iconTexture()))
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .onTapGesture {
+                            self.viewModel.select(report: intelReportType)
+                        }
+                }
+            }
+
+            self.intelReportView
+            // different view
+            // deals proposed
+        }
+    }
+
+    private var intelReportView: some View {
+
+        VStack(spacing: 10) {
+
+            Text(self.viewModel.intelReportType.title())
+        }
     }
 }
 

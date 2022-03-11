@@ -11,7 +11,7 @@
 // messageIntro
 // first meeting texts
 "TXT_KEY_DIPLOMACY_FIRST_MEET_GREETINGS_TRAJAN_ANY" = "Hail, stranger. I am the Imperator Caesar Augustus of far-reaching Rome. Who are you and what lands can you claim as your own?";
-"TXT_KEY_DIPLOMACY_FIRST_MEET_GREETINGS_VICTORIA_ANY" = "Greetings. We are by the Grace of God, Elizabeth, Queen of the United Kingdom of Great Britain and Ireland. And soon, dare I say, the empire.";
+"TXT_KEY_DIPLOMACY_FIRST_MEET_GREETINGS_VICTORIA_ANY" = "Greetings. We are by the Grace of God, Victoria, Queen of the United Kingdom of Great Britain and Ireland. And soon, dare I say, the empire.";
 "TXT_KEY_DIPLOMACY_FIRST_MEET_GREETINGS_ANY_ANY" = "Greetings traveler. You should know that you stand in the presence of greatness!";
 
 // invitationToCapital

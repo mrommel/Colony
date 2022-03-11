@@ -14,6 +14,7 @@ public enum GameButtonState {
     case highlighted
 
     case text
+    case reply
 }
 
 public struct GameButtonStyle: ButtonStyle {
@@ -29,7 +30,7 @@ public struct GameButtonStyle: ButtonStyle {
 
         switch self.state {
 
-        case .normal, .text:
+        case .normal, .text, .reply:
             // return ImageCache.shared.image(for: pressed ? "grid9-button-active" : "grid9-button-clicked")
             return ImageCache.shared.image(for: "grid9-button-clicked")
 
@@ -40,11 +41,56 @@ public struct GameButtonStyle: ButtonStyle {
         }
     }
 
+    func font() -> Font? {
+
+        switch self.state {
+
+        case .normal:
+            return .headline
+        case .highlighted:
+            return .headline
+        case .text:
+            return .headline
+        case .reply:
+            return .system(size: 10)
+        }
+    }
+
+    private func width() -> CGFloat? {
+
+        switch self.state {
+
+        case .normal:
+            return 200
+        case .highlighted:
+            return 200
+        case .text:
+            return 300
+        case .reply:
+            return 300
+        }
+    }
+
+    private func height() -> CGFloat? {
+
+        switch self.state {
+
+        case .normal:
+            return 24
+        case .highlighted:
+            return 24
+        case .text:
+            return 60
+        case .reply:
+            return nil
+        }
+    }
+
     public func makeBody(configuration: Self.Configuration) -> some View {
 
         configuration.label
-            .font(.headline)
-            .frame(width: self.state == .text ? 300 : 200, height: self.state == .text ? 60 : 24, alignment: .center)
+            .font(self.font())
+            .frame(width: self.width(), height: self.height(), alignment: .center)
             .multilineTextAlignment(.center)
             .padding(10)
             .background(
