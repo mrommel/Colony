@@ -8,6 +8,14 @@
 
 // https://github.com/Swiftwork/civ6-explorer/blob/dbe3ca6d5468828ef0b26ef28f69555de0bcb959/src/assets/game/BaseGame/Locale/en_US/DiplomacyStatements_FirstMeet_Text.xml
 
+// dialog
+"TXT_KEY_DIPLOMACY_DIALOG_TITLE" = "Diplomatic";
+"TXT_KEY_DIPLOMACY_INTEL_REPORT_TITLE" = "Intel Report: ";
+"TXT_KEY_DIPLOMACY_INTEL_REPORT_OVERVIEW" = "Overview";
+"TXT_KEY_DIPLOMACY_INTEL_REPORT_GOSSIP" = "Gossip";
+"TXT_KEY_DIPLOMACY_INTEL_REPORT_ACCESS_LEVEL" = "Access Level";
+"TXT_KEY_DIPLOMACY_INTEL_REPORT_RELATIONSHIP" = "Relationship";
+
 // messageIntro
 // first meeting texts
 "TXT_KEY_DIPLOMACY_FIRST_MEET_GREETINGS_TRAJAN_ANY" = "Hail, stranger. I am the Imperator Caesar Augustus of far-reaching Rome. Who are you and what lands can you claim as your own?";

@@ -23,35 +23,12 @@ public struct DiplomaticDialogView: View {
 
         Group {
             VStack(spacing: 10) {
-                Text("Diplomatic")
+                Text("TXT_KEY_DIPLOMACY_DIALOG_TITLE".localized())
                     .font(.title2)
                     .bold()
                     .padding()
 
-                HStack(alignment: .top, spacing: 10) {
-
-                    Image(nsImage: self.viewModel.leaderImage())
-                        .resizable()
-                        .frame(width: 64, height: 64)
-                        .padding(.top, 8)
-                        .padding(.leading, 8)
-
-                    VStack(alignment: .leading, spacing: 10) {
-
-                        Text(self.viewModel.leaderName())
-                            .font(.title2)
-
-                        Text(self.viewModel.civilizationName())
-
-                        Spacer()
-                    }
-                    .padding(.top, 8)
-                    .padding(.leading, 4)
-
-                    Spacer()
-                }
-                .frame(width: 300, height: 80)
-                .border(Color.white)
+                self.headerView
 
                 self.detailView
             }
@@ -61,6 +38,34 @@ public struct DiplomaticDialogView: View {
         }
         .frame(width: 700, height: 550, alignment: .top)
         .dialogBackground()
+    }
+
+    private var headerView: some View {
+
+        HStack(alignment: .top, spacing: 10) {
+
+            Image(nsImage: self.viewModel.leaderImage())
+                .resizable()
+                .frame(width: 64, height: 64)
+                .padding(.top, 8)
+                .padding(.leading, 8)
+
+            VStack(alignment: .leading, spacing: 10) {
+
+                Text(self.viewModel.leaderName())
+                    .font(.title2)
+
+                Text(self.viewModel.civilizationName())
+
+                Spacer()
+            }
+            .padding(.top, 8)
+            .padding(.leading, 4)
+
+            Spacer()
+        }
+        .frame(width: 300, height: 80)
+        .border(Color.white)
     }
 
     private var detailView: some View {
@@ -101,28 +106,123 @@ public struct DiplomaticDialogView: View {
             Text(self.viewModel.discussionIntelReportTitle)
 
             LazyHStack(spacing: 4) {
-                ForEach(IntelReportType.all) { intelReportType in
+                ForEach(IntelReportType.tabs) { intelReportType in
 
-                    Image(nsImage: ImageCache.shared.image(for: intelReportType.iconTexture()))
+                    Image(nsImage: ImageCache.shared.image(for: intelReportType.buttonTexture()))
                         .resizable()
-                        .frame(width: 20, height: 20)
+                        .hueRotation(Angle(degrees: intelReportType == self.viewModel.intelReportType ? 135 : 0))
+                        .frame(width: 32, height: 32)
                         .onTapGesture {
                             self.viewModel.select(report: intelReportType)
                         }
                 }
             }
+            .frame(height: 32)
 
             self.intelReportView
-            // different view
-            // deals proposed
+                .border(Color.white)
+
+            Spacer()
+
+            Button(action: {
+                self.viewModel.closeDialog()
+            }, label: {
+                Text("TXT_KEY_CLOSE".localized())
+            })
+            .buttonStyle(DialogButtonStyle())
         }
     }
 
     private var intelReportView: some View {
 
+        switch self.viewModel.intelReportType {
+
+        case .overview:
+            return AnyView(self.intelReportOverviewView)
+        case .gossip:
+            return AnyView(self.intelReportGossipView)
+        case .accessLevel:
+            return AnyView(self.intelReportAccessLevelView)
+        case .ourRelationship:
+            return AnyView(self.intelReportOurRelationshipView)
+
+        default:
+            fatalError("wrong intel report type")
+        }
+    }
+
+    private var intelReportOverviewView: some View {
+
         VStack(spacing: 10) {
 
-            Text(self.viewModel.intelReportType.title())
+            // gossip
+            HStack {
+                Image(nsImage: ImageCache.shared.image(for: IntelReportType.gossip.iconTexture()))
+                    .resizable()
+                    .frame(width: 20, height: 20)
+
+                Text(IntelReportType.gossip.title().localized())
+                    .font(.body)
+                    .frame(width: 150, alignment: .leading)
+
+                Text("- No New Items")
+                    .font(.body)
+                    .frame(width: 150, alignment: .leading)
+            }
+
+            // access level
+            HStack {
+                Image(nsImage: ImageCache.shared.image(for: IntelReportType.accessLevel.iconTexture()))
+                    .resizable()
+                    .frame(width: 20, height: 20)
+
+                Text(IntelReportType.accessLevel.title().localized())
+                    .font(.body)
+                    .frame(width: 150, alignment: .leading)
+
+                Text("  None")
+                    .font(.body)
+                    .frame(width: 150, alignment: .leading)
+            }
+
+            // government
+            HStack {
+                Image(nsImage: ImageCache.shared.image(for: IntelReportType.government.iconTexture()))
+                    .resizable()
+                    .frame(width: 20, height: 20)
+
+                Text("Government")
+                    .font(.body)
+                    .frame(width: 150, alignment: .leading)
+
+                Text("- Chiefdom")
+                    .font(.body)
+                    .frame(width: 150, alignment: .leading)
+            }
+        }
+    }
+
+    private var intelReportGossipView: some View {
+
+        VStack(spacing: 10) {
+
+            Text("Gossip")
+        }
+    }
+
+    private var intelReportAccessLevelView: some View {
+
+        VStack(spacing: 10) {
+
+            Text("AccessLevel")
+        }
+    }
+
+    private var intelReportOurRelationshipView: some View {
+
+        VStack(spacing: 10) {
+
+            Text("Relationship")
         }
     }
 }

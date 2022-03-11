@@ -14,19 +14,29 @@ public enum IntelReportType: Int, Identifiable {
     case overview = 0
     case gossip = 1
     case accessLevel = 2
-    case ourRelationship = 3
-    // case agendas
-    // case agreements
-    // case otherRelationships
+    case government = 3
+    case agendas = 4
+    case ourRelationship = 5
+    case otherRelationships = 6
 
     public var id: Self { self }
 
-    public static var all: [IntelReportType] = [
+    public static var tabs: [IntelReportType] = [
 
         .overview,
         .gossip,
         .accessLevel,
         .ourRelationship
+    ]
+
+    public static var icons: [IntelReportType] = [
+
+        .gossip,
+        .accessLevel,
+        .government,
+        .agendas,
+        .ourRelationship,
+        .otherRelationships
     ]
 }
 
@@ -36,10 +46,27 @@ extension IntelReportType {
 
         switch self {
 
-        case .overview: return "Overview"
-        case .gossip: return "Gossip"
-        case .accessLevel: return "Access Level"
-        case .ourRelationship: return "Relationship"
+        case .overview: return "TXT_KEY_DIPLOMACY_INTEL_REPORT_OVERVIEW"
+        case .gossip: return "TXT_KEY_DIPLOMACY_INTEL_REPORT_GOSSIP"
+        case .accessLevel: return "TXT_KEY_DIPLOMACY_INTEL_REPORT_ACCESS_LEVEL"
+        case .government: return "TXT_KEY_DIPLOMACY_INTEL_REPORT_GOVERNMENT"
+        case .agendas: return "TXT_KEY_DIPLOMACY_INTEL_REPORT_AGENDAS"
+        case .ourRelationship: return "TXT_KEY_DIPLOMACY_INTEL_REPORT_RELATIONSHIP"
+        case .otherRelationships: return "TXT_KEY_DIPLOMACY_INTEL_REPORT_OTHER_RELATIONSHIPS"
+        }
+    }
+
+    public func buttonTexture() -> String {
+
+        switch self {
+
+        case .overview: return "intelReportType-button-overview"
+        case .gossip: return "intelReportType-button-gossip"
+        case .accessLevel: return "intelReportType-button-accessLevel"
+        case .government: return ""
+        case .agendas: return ""
+        case .ourRelationship: return "intelReportType-button-ownRelationship"
+        case .otherRelationships: return ""
         }
     }
 
@@ -47,10 +74,13 @@ extension IntelReportType {
 
         switch self {
 
-        case .overview: return "intelReportType-overview"
+        case .overview: return ""
         case .gossip: return "intelReportType-gossip"
         case .accessLevel: return "intelReportType-accessLevel"
+        case .government: return "intelReportType-government"
+        case .agendas: return "intelReportType-agendas"
         case .ourRelationship: return "intelReportType-ownRelationship"
+        case .otherRelationships: return "intelReportType-otherRelationships"
         }
     }
 }
@@ -92,7 +122,7 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
     public init() {
 
-        self.discussionIntelReportTitle = "TXT_KEY_DIPLOMACY_INTEL_REPORT_OVERVIEW" // "Intel Report: Overview"
+        self.discussionIntelReportTitle = "TXT_KEY_DIPLOMACY_INTEL_REPORT_TITLE".localized() + IntelReportType.overview.title().localized()
     }
 
 #if DEBUG
@@ -181,6 +211,12 @@ public class DiplomaticDialogViewModel: ObservableObject {
     func select(report: IntelReportType) {
 
         self.intelReportType = report
+        self.discussionIntelReportTitle = "TXT_KEY_DIPLOMACY_INTEL_REPORT_TITLE".localized() + self.intelReportType.title().localized()
+    }
+
+    func closeDialog() {
+
+        self.delegate?.closeDialog()
     }
 }
 

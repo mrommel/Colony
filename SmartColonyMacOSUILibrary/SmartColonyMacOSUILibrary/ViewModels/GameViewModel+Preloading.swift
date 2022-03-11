@@ -696,9 +696,18 @@ extension GameViewModel {
             )
         }
 
-        let intelReportTypeTextureNames = IntelReportType.all.map { $0.iconTexture() }
-        print("- load \(intelReportTypeTextureNames.count) intel report type textures")
-        for textureName in intelReportTypeTextureNames {
+        let intelReportTypeTabTextureNames = IntelReportType.tabs.map { $0.buttonTexture() }
+        print("- load \(intelReportTypeTabTextureNames.count) intel report type tab button textures")
+        for textureName in intelReportTypeTabTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let intelReportTypeIconTextureNames = IntelReportType.icons.map { $0.iconTexture() }
+        print("- load \(intelReportTypeIconTextureNames.count) intel report type textures")
+        for textureName in intelReportTypeIconTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName
