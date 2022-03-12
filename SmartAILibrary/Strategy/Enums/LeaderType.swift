@@ -78,6 +78,11 @@ public enum LeaderType: Codable, Equatable, Hashable {
         return self.data().civilization
     }
 
+    public func agenda() -> LeaderAgendaType {
+
+        return self.data().agenda
+    }
+
     func flavors() -> [Flavor] {
 
         switch self {
@@ -293,6 +298,7 @@ public enum LeaderType: Codable, Equatable, Hashable {
         let intro: String
         let civilization: CivilizationType
         let ability: LeaderAbilityType
+        let agenda: LeaderAgendaType
         let religion: ReligionType?
     }
 
@@ -308,6 +314,7 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "--",
                 civilization: .barbarian,
                 ability: .none,
+                agenda: .none,
                 religion: nil
             )
 
@@ -317,6 +324,7 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "--",
                 civilization: .unmet,
                 ability: .none,
+                agenda: .none,
                 religion: nil
             )
 
@@ -326,6 +334,7 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "--",
                 civilization: .barbarian,
                 ability: .none,
+                agenda: .none,
                 religion: nil
             )
 
@@ -335,6 +344,7 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "--",
                 civilization: .free,
                 ability: .none,
+                agenda: .none,
                 religion: nil
             )
 
@@ -344,6 +354,7 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "--",
                 civilization: .cityState(type: cityState),
                 ability: .none,
+                agenda: .none,
                 religion: nil
             )
 
@@ -353,6 +364,7 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "May the blessings of the gods be upon you, oh great King Alexander! You are the ruler of the mighty Greek nation. Your people lived for so many years in isolated city-states - legendary cities such as Athens, Sparta, Thebes - where they gave the world many great things, such as democracy, philosophy, tragedy, art and architecture, the very foundation of Western Civilization.",
                 civilization: .greek,
                 ability: .toTheWorldsEnd,
+                agenda: .shortLifeOfGlory,
                 religion: nil
             )
 
@@ -362,6 +374,7 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "Cast your net wide, oh Trajan, emperor of mighty Rome. Your legions stand at the ready to march out and establish the largest empire the world has ever seen. If you can truly get all roads to lead to Rome, yours will be an empire of great riches and luxuries. Surely then our citizens will proclaim you as their best ruler, the Optimus Princeps.",
                 civilization: .roman,
                 ability: .trajansColumn,
+                agenda: .optimusPrinceps,
                 religion: nil
             )
 
@@ -371,6 +384,7 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "Your Majesty the Queen Victoria of England, extend your reach beyond your borders and across the face of the globe. Worry not over the possibility of defeat for your loyal redcoats and overwhelming navy will surely carry the day. With your calm and steady touch you can bring all lands under England's sway, establishing a true Pax Britannica.",
                 civilization: .english,
                 ability: .paxBritannica,
+                agenda: .sunNeverSets,
                 religion: .protestantism
             )
 
@@ -380,6 +394,7 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "Claim the crown, Cyrus, King of Persia, for you are the anointed one. With immortal soldiers, and an unwavering faith, you will conquer and rule the peoples of the world. You may see many alliances forming around you, but do not be fooled - such is an antiquated and weak way of navigating the world. Make no promise unless it aids you in achieving your goals.",
                 civilization: .persian,
                 ability: .fallOfBabylon,
+                agenda: .opportunist,
                 religion: .zoroastrianism
             )
 
@@ -389,6 +404,7 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "Tlatoani Montezuma, keep your eagle warriors happy and fed, and they will forever fight for your cause. As your Aztec empire unfurls across the land, you will never want for people to raise your walls, for you will be blessed with new, loyal workers as you conquer those around you. Go forth; Huitzilopochtli calls.",
                 civilization: .aztecs,
                 ability: .giftsForTheTlatoani,
+                agenda: .tlatoani,
                 religion: nil
             )
 
@@ -398,6 +414,7 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "Long life and triumph to you, First Consul and Emperor of France, Napoleon I, ruler of the French people. France lies at the heart of Europe. Long has Paris been the world center of culture, arts and letters. Although surrounded by competitors - and often enemies - France has endured as a great nation.",
                 civilization: .french,
                 ability: .flyingSquadron,
+                agenda: .none, // #
                 religion: .catholicism
             )
 
@@ -407,6 +424,7 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "There will be those who underestimate you, but you are cunning and full of tricks, Queen Cleopatra. Your charm will establish indestructible alliances with the strongest leaders of the world. Keep your friends close by your side and you will find yourself untouchable, with the glory of Egypt primed to win over the world.",
                 civilization: .egyptian,
                 ability: .mediterraneansBride,
+                agenda: .queenOfTheNile,
                 religion: nil
             )
 
@@ -416,6 +434,7 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "Heroic Frederick, king of the Germans, your task is to forge the independent states that surround you into an empire. You are blessed to be a great military leader – use those skills to bring these cities under your sway so they may develop into commercial and industrial powerhouses. Surely then the bards will sing of mighty Frederick with the red beard, the great Holy Roman Emperor.",
                 civilization: .german,
                 ability: .holyRomanEmperor,
+                agenda: .ironCrown,
                 religion: .catholicism
             )
 
@@ -425,6 +444,7 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "Embrace the chill winds of the Motherland, Tsar Peter. Your fascination with science and culture is a gift, and you will learn much from your Grand Embassies to foreign lands. Under your rule, Russia will surely flourish and spread, absorbing all that lies around it, perhaps creating the greatest land empire seen on this earth.",
                 civilization: .russian,
                 ability: .theGrandEmbassy,
+                agenda: .westernizer,
                 religion: .easternOrthodoxy
             )
         }

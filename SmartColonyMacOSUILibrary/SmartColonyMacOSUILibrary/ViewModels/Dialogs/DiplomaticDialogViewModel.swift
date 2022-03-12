@@ -216,6 +216,28 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
     func overview(for report: IntelReportType) -> String {
 
+        /*guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = self.humanPlayer else {
+            fatalError("cant get humanPlayer")
+        }*/
+
+        guard let otherPlayer = self.otherPlayer else {
+            fatalError("cant get otherPlayer")
+        }
+
+        guard let currentGovernment = otherPlayer.government?.currentGovernment() else {
+            fatalError("cant get current government")
+        }
+
+        let publicAgendaName: String = otherPlayer.leader.agenda().name().localized()
+        var hiddenAgendaName: String = otherPlayer.hiddenAgenda()?.name().localized() ?? ""
+        if !hiddenAgendaName.isEmpty {
+            hiddenAgendaName = "\n- \(hiddenAgendaName)"
+        }
+
         switch report {
 
         case .overview:
@@ -225,9 +247,9 @@ public class DiplomaticDialogViewModel: ObservableObject {
         case .accessLevel:
             return "  None"
         case .government:
-            return "- Chiefdom"
+            return "- \(currentGovernment.name().localized())"
         case .agendas:
-            return "-"
+            return "- \(publicAgendaName)\(hiddenAgendaName)"
         case .ownRelationship:
             return "-"
         case .otherRelationships:

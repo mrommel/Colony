@@ -117,6 +117,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func valueOfStrategyAndPersonalityFlavor(of flavor: FlavorType) -> Int
     func valueOfStrategyAndPersonalityApproach(of approach: PlayerApproachType) -> Int
     func personalAndGrandStrategyFlavor(for flavorType: FlavorType) -> Int
+    func hiddenAgenda() -> LeaderAgendaType?
 
     func calculateGoldPerTurn(in gamemModel: GameModel?) -> Double
     func currentAge() -> AgeType
@@ -3447,6 +3448,13 @@ public class Player: AbstractPlayer {
 
         return value
     }
+
+    public func hiddenAgenda() -> LeaderAgendaType? {
+
+        return nil
+    }
+
+    // MARK: era
 
     public func currentEra() -> EraType {
 

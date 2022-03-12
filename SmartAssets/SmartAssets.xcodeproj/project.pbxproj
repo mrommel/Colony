@@ -90,6 +90,7 @@
 		C9B71F12278F09210091BADD /* Religions.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9B71F11278F09210091BADD /* Religions.strings */; };
 		C9BB56DA276915FD00053AE7 /* Civics.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9BB56D9276915FD00053AE7 /* Civics.strings */; };
 		C9BB56DC27692FE600053AE7 /* Civilizations.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9BB56DB27692FE600053AE7 /* Civilizations.strings */; };
+		C9C1699927DCF61000E61088 /* Leaders.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9C1699827DCF61000E61088 /* Leaders.strings */; };
 		C9C234A52768EEB400905C97 /* CityNames.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9C234A42768EEB400905C97 /* CityNames.strings */; };
 		C9C8A7492785788200BC68CF /* DedicationTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C8A7482785788200BC68CF /* DedicationTypeExtension.swift */; };
 		C9CAC8A2264BC4B200D0668D /* GovernmentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */; };
@@ -231,6 +232,7 @@
 		C9B71F11278F09210091BADD /* Religions.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Religions.strings; sourceTree = "<group>"; };
 		C9BB56D9276915FD00053AE7 /* Civics.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Civics.strings; sourceTree = "<group>"; };
 		C9BB56DB27692FE600053AE7 /* Civilizations.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Civilizations.strings; sourceTree = "<group>"; };
+		C9C1699827DCF61000E61088 /* Leaders.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Leaders.strings; sourceTree = "<group>"; };
 		C9C234A42768EEB400905C97 /* CityNames.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = CityNames.strings; sourceTree = "<group>"; };
 		C9C8A7482785788200BC68CF /* DedicationTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DedicationTypeExtension.swift; sourceTree = "<group>"; };
 		C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentState.swift; sourceTree = "<group>"; };
@@ -462,6 +464,7 @@
 				C970A5F32794841F00381603 /* Governments.strings */,
 				C970A5F52794876300381603 /* Wonders.strings */,
 				C92D6B8D27D9D88A002EA5C5 /* Diplomacy.strings */,
+				C9C1699827DCF61000E61088 /* Leaders.strings */,
 			);
 			path = Strings;
 			sourceTree = "<group>";
@@ -601,6 +604,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9E6762D27CC238C009514CB /* CityStates.strings in Resources */,
+				C9C1699927DCF61000E61088 /* Leaders.strings in Resources */,
 				C9A0984E261CB6930098C5E1 /* crossbowman.png in Resources */,
 				C9A09852261CB6930098C5E1 /* builder.xml in Resources */,
 				C9A09859261CB6930098C5E1 /* spearman.xml in Resources */,

@@ -1,0 +1,45 @@
+/* 
+  Leaders.strings
+  SmartAssets
+
+  Created by Michael Rommel on 12.03.22.
+  
+*/
+
+// ironCrown
+"TXT_KEY_LEADER_AGENDA_IRON_CROWN_NAME" = "Iron Crown";
+"TXT_KEY_LEADER_AGENDA_IRON_CROWN_EFFECTS" = "Tries to conquer as many city-states as possible, and likes those who do not associate with them. Dislikes Suzerains of city-states, or civilizations who have conquered city-states.";
+
+// opportunist
+"TXT_KEY_LEADER_AGENDA_OPPORTUNIST_NAME" = "Opportunist";
+"TXT_KEY_LEADER_AGENDA_OPPORTUNIST_EFFECTS" = "Will often declare Surprise Wars, and likes civilizations that do the same. Dislikes civilizations that do not declare Surprise Wars.";
+
+// optimusPrinceps
+"TXT_KEY_LEADER_AGENDA_OPTIMUS_PRINCEPS_NAME" = "Optimus Princeps";
+"TXT_KEY_LEADER_AGENDA_OPTIMUS_PRINCEPS_EFFECTS" = "Tries to include as much territory as possible in his empire, and likes those who do the same. Dislikes civilizations with little territory.";
+
+// queenOfTheNile
+"TXT_KEY_LEADER_AGENDA_QUEEN_OF_THE_NILE_NAME" = "Queen of the Nile";
+"TXT_KEY_LEADER_AGENDA_QUEEN_OF_THE_NILE_EFFECTS" = "Likes civilizations with powerful militaries, and will try to ally with them to avoid conflict. Dislikes civilizations with weak militaries.";
+
+// shortLifeOfGlory
+"TXT_KEY_LEADER_AGENDA_SHORT_LIFE_OF_GLORY_NAME" = "Short Life of Glory";
+"TXT_KEY_LEADER_AGENDA_SHORT_LIFE_OF_GLORY_EFFECTS" = "Likes civilizations at war with powers other than Macedon. Dislikes civilizations at peace. [Grievances] Grievances against this leader decay at twice the usual rate.";
+
+// sunNeverSets
+"TXT_KEY_LEADER_AGENDA_SUN_NEVER_SETS_NAME" = "Sun Never Sets";
+"TXT_KEY_LEADER_AGENDA_SUN_NEVER_SETS_EFFECTS" = "Likes civilizations who have a city on her home continent, and will try to expand to all continents. Dislikes civilizations on continents where she has no cities.";
+
+// tlatoani
+"TXT_KEY_LEADER_AGENDA_TLATOANI_NAME" = "Tlatoani";
+"TXT_KEY_LEADER_AGENDA_TLATOANI_EFFECTS" = "Likes civilizations who have the same Luxury resources as he does, and will try to collect every Luxury resource available. Dislikes civilizations who have a new Luxury resource he has not yet collected.";
+
+// westernizer
+"TXT_KEY_LEADER_AGENDA_WESTERNIZER_NAME" = "Westernizer";
+"TXT_KEY_LEADER_AGENDA_WESTERNIZER_EFFECTS" = "Likes civilizations that are ahead of him in [Science] Science and [Culture] Culture. Dislikes civilizations that are lagging in [Science] Science and [Culture] Culture.";
+
+// hidden
+
+// cityStateAlly:
+"TXT_KEY_LEADER_AGENDA_CITY_STATE_ALLY_NAME" = "City-State Ally";
+"TXT_KEY_LEADER_AGENDA_CITY_STATE_ALLY_EFFECTS" = "Likes civilizations that aren't competing for the same city-state allegiance. Dislikes civilizations that are directly competing for city-state allegiance.";
