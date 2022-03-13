@@ -78,8 +78,116 @@
 "TXT_KEY_LEADER_AGENDA_WESTERNIZER_NAME" = "Westernizer";
 "TXT_KEY_LEADER_AGENDA_WESTERNIZER_EFFECTS" = "Likes civilizations that are ahead of him in [Science] Science and [Culture] Culture. Dislikes civilizations that are lagging in [Science] Science and [Culture] Culture.";
 
-// hidden
+// early game hidden
 
 // cityStateAlly:
 "TXT_KEY_LEADER_AGENDA_CITY_STATE_PROTECTOR_NAME" = "City-State Protector";
 "TXT_KEY_LEADER_AGENDA_CITY_STATE_PROTECTOR_EFFECTS" = "Emphasizes protectorate wars. Admires civilizations that start protectorate wars. Dislikes civilizations that attack city-states.";
+
+// civilized
+"TXT_KEY_LEADER_AGENDA_CIVILIZED_NAME" = "Civilized";
+"TXT_KEY_LEADER_AGENDA_CIVILIZED_EFFECTS" = "Hates barbarians. Likes civilizations that clear out barbarian outposts. Does not like civilizations that ignore barbarian outposts.";
+
+// darwinist
+"TXT_KEY_LEADER_AGENDA_DARWINIST_NAME" = "Darwinist";
+"TXT_KEY_LEADER_AGENDA_DARWINIST_EFFECTS" = "Believes in survival of the fittest. Likes civilizations that are at war.";
+
+// devout
+"TXT_KEY_LEADER_AGENDA_DEVOUT_NAME" = "Devout";
+"TXT_KEY_LEADER_AGENDA_DEVOUT_EFFECTS" = "Tries to build up [Faith] Faith, and likes civilizations that also focus on [Faith] Faith.";
+
+// explorer
+"TXT_KEY_LEADER_AGENDA_EXPLORER_NAME" = "Explorer";
+"TXT_KEY_LEADER_AGENDA_EXPLORER_EFFECTS" = "Tries to explore the map, and likes civilizations that have explored less of the map than itself and dislikes civilizations that have explored more of the map than itself.";
+
+// intolerant
+"TXT_KEY_LEADER_AGENDA_INTOLERANT_NAME" = "Intolerant";
+"TXT_KEY_LEADER_AGENDA_INTOLERANT_EFFECTS" = "Likes civilizations who follow the same Religion, and wants their cities to all follow the same Religion. Hates anyone trying to spread their Religion into their empire.";
+
+// pillager
+"TXT_KEY_LEADER_AGENDA_PILLAGER_NAME" = "Pillager";
+"TXT_KEY_LEADER_AGENDA_PILLAGER_EFFECTS" = "Tries to pillage as many tiles as possible. Respects other civilizations who pillage.";
+
+// turtler
+"TXT_KEY_LEADER_AGENDA_TURTLER_NAME" = "Turtler";
+"TXT_KEY_LEADER_AGENDA_TURTLER_EFFECTS" = "Wants to stay safe from conquest. Dislike those who have conquered other players' original capitals.";
+
+// hidden - both
+
+// exploitative
+"TXT_KEY_LEADER_AGENDA_EXPLOITATIVE_NAME" = "Exploitative";
+"TXT_KEY_LEADER_AGENDA_EXPLOITATIVE_EFFECTS" = "Clears all features and improves all possible tiles. Likes civilizations with a high percentage of improved tiles. Dislikes civilizations with low percentage of improved tiles or that found National Parks.";
+
+// greatPersonAdvocate
+"TXT_KEY_LEADER_AGENDA_GREAT_PERSON_ADVOCATE_NAME" = "Great Person Advocate";
+"TXT_KEY_LEADER_AGENDA_GREAT_PERSON_ADVOCATE_EFFECTS" = "Likes civilizations who are not competing for [GreatPerson] Great People, and will recruit [GreatPerson] Great People whenever possible. Dislikes losing a Great Person to another civilization.";
+
+// heavyIndustry
+"TXT_KEY_LEADER_AGENDA_HEAVY_INDUSTRY_NAME" = "Heavy Industry";
+"TXT_KEY_LEADER_AGENDA_HEAVY_INDUSTRY_EFFECTS" = "Tries to build up industry, and likes civilizations that also focus on [Production] Production.";
+
+// moneyGrubber
+"TXT_KEY_LEADER_AGENDA_MONEY_GRUBBER_NAME" = "Money Grubber";
+"TXT_KEY_LEADER_AGENDA_MONEY_GRUBBER_EFFECTS" = "Tries to have the highest possible [Gold] Gold per turn income. Respects other high income civilizations.";
+
+// naturalist
+"TXT_KEY_LEADER_AGENDA_NATURALIST_NAME" = "Naturalist";
+"TXT_KEY_LEADER_AGENDA_NATURALIST_EFFECTS" = "Tries to find all natural wonders. Likes civilizations that keep Woods and Rainforest unchopped, and those that establish National Parks.";
+
+// paranoid
+"TXT_KEY_LEADER_AGENDA_PARANOID_NAME" = "Paranoid";
+"TXT_KEY_LEADER_AGENDA_PARANOID_EFFECTS" = "Likes civilizations who pose no threat. Dislikes civilizations with strong militaries or ones with nearby cities.";
+
+// populous
+"TXT_KEY_LEADER_AGENDA_POPULOUS_NAME" = "Populous";
+"TXT_KEY_LEADER_AGENDA_POPULOUS_EFFECTS" = "Tries to have the highest overall population. Respects other high population civilizations.";
+
+// standingArmy
+"TXT_KEY_LEADER_AGENDA_STANDING_ARMY_NAME" = "Standing Army";
+"TXT_KEY_LEADER_AGENDA_STANDING_ARMY_EFFECTS" = "Always tries to keep a large standing army. Respects other civilizations with large armies.";
+
+// sycophant
+"TXT_KEY_LEADER_AGENDA_SYCOPHANT_NAME" = "Sycophant";
+"TXT_KEY_LEADER_AGENDA_SYCOPHANT_EFFECTS" = "Impressed by any civilization that earns a Golden Age.";
+
+// sympathizer
+"TXT_KEY_LEADER_AGENDA_SYMPATHIZER_NAME" = "Sympathizer";
+"TXT_KEY_LEADER_AGENDA_SYMPATHIZER_EFFECTS" = "Feels bad for those going through Dark Ages.";
+
+// wonderObsessed
+"TXT_KEY_LEADER_AGENDA_WONDER_OBSESSED_NAME" = "Wonder Obsessed";
+"TXT_KEY_LEADER_AGENDA_WONDER_OBSESSED_EFFECTS" = "Likes civilizations not competing for wonders, and builds wonders whenever possible. Dislikes losing a wonder to another civilization.";
+
+    // hidden - late
+
+// airpower
+"TXT_KEY_LEADER_AGENDA_AIRPOWER_NAME" = "Airpower";
+"TXT_KEY_LEADER_AGENDA_AIRPOWER_EFFECTS" = "Tries to build up air power. Admires civilizations with greater air power. Dislikes civilizations with weaker air power.";
+
+// cityStateAlly
+"TXT_KEY_LEADER_AGENDA_CITY_STATE_ALLY_NAME" = "City-State Ally";
+"TXT_KEY_LEADER_AGENDA_CITY_STATE_ALLY_EFFECTS" = "Likes civilizations that aren't competing for the same city-state allegiance. Dislikes civilizations that are directly competing for city-state allegiance.";
+
+// cultured
+"TXT_KEY_LEADER_AGENDA_CULTURED_NAME" = "Cultured";
+"TXT_KEY_LEADER_AGENDA_CULTURED_EFFECTS" = "Tries to build up [Culture] Culture, and likes civilizations that also focus on [Culture] Culture.";
+
+// demagogue
+"TXT_KEY_LEADER_AGENDA_DEMAGOGUE_NAME" = "Demagogue";
+"TXT_KEY_LEADER_AGENDA_DEMAGOGUE_EFFECTS" = "Wants to be the civilization earning the most [DiplomaticFavor] Diplomatic Favor, dislikes those who compete in [DiplomaticFavor] Diplomatic Favor.";
+
+// destinationCiv
+"TXT_KEY_LEADER_AGENDA_DESTINATION_CIV_NAME" = "Destination Civ";
+"TXT_KEY_LEADER_AGENDA_DESTINATION_CIV_EFFECTS" = "Wants to be the civilization with the most [Tourism] Tourism, dislikes those who compete in [Tourism] Tourism.";
+
+// environmentalist
+"TXT_KEY_LEADER_AGENDA_ENVIRONMENTALIST_NAME" = "Environmentalist";
+"TXT_KEY_LEADER_AGENDA_ENVIRONMENTALIST_EFFECTS" = "Builds National Parks, doesn't clear features, plants forests. Likes civilizations that plant forests or found National Parks. Dislikes civilizations that clear features.";
+
+// ideologue
+"TXT_KEY_LEADER_AGENDA_IDEALOGUE_NAME" = "Ideologue";
+"TXT_KEY_LEADER_AGENDA_IDEALOGUE_EFFECTS" = "Favors civilizations with the same type of government, dislikes civilizations that have different governments, and really dislikes civilizations with different governments of the same era as its own.";
+
+// technophile
+"TXT_KEY_LEADER_AGENDA_TECHNOPHILE_NAME" = "Technophile";
+"TXT_KEY_LEADER_AGENDA_TECHNOPHILE_EFFECTS" = "Favors [Science] Science development. Dislikes civs who are behind technologically.";

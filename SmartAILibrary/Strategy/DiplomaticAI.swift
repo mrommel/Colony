@@ -149,7 +149,8 @@ public class DiplomaticAI: Codable {
         case stateOfAllWars
 
         case hasBrokenPeaceTreaty
-        case hiddenAgenda
+        case earlyGameHiddenAgenda
+        case lateGameHiddenAgenda
     }
 
     var player: AbstractPlayer?
@@ -160,7 +161,8 @@ public class DiplomaticAI: Codable {
     private var greetPlayers: [AbstractPlayer?] = []
 
     private var hasBrokenPeaceTreatyValue: Bool
-    private var currentHiddenAgendaVal: LeaderAgendaType?
+    private var earlyGameHiddenAgendaVal: LeaderAgendaType?
+    private var lateGameHiddenAgendaVal: LeaderAgendaType?
 
     // MARK: constructors
 
@@ -171,7 +173,8 @@ public class DiplomaticAI: Codable {
         self.playerDict = DiplomaticPlayerDict()
         self.stateOfAllWars = .neutral
         self.hasBrokenPeaceTreatyValue = false
-        self.currentHiddenAgendaVal = nil
+        self.earlyGameHiddenAgendaVal = nil
+        self.lateGameHiddenAgendaVal = nil
     }
 
     public required init(from decoder: Decoder) throws {
@@ -181,7 +184,8 @@ public class DiplomaticAI: Codable {
         self.playerDict = try container.decode(DiplomaticPlayerDict.self, forKey: .playerDict)
         self.stateOfAllWars = try container.decode(PlayerStateAllWars.self, forKey: .stateOfAllWars)
         self.hasBrokenPeaceTreatyValue = try container.decode(Bool.self, forKey: .hasBrokenPeaceTreaty)
-        self.currentHiddenAgendaVal = try container.decodeIfPresent(LeaderAgendaType.self, forKey: .hiddenAgenda)
+        self.earlyGameHiddenAgendaVal = try container.decodeIfPresent(LeaderAgendaType.self, forKey: .earlyGameHiddenAgenda)
+        self.lateGameHiddenAgendaVal = try container.decodeIfPresent(LeaderAgendaType.self, forKey: .lateGameHiddenAgenda)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -191,7 +195,8 @@ public class DiplomaticAI: Codable {
         try container.encode(self.playerDict, forKey: .playerDict)
         try container.encode(self.stateOfAllWars, forKey: .stateOfAllWars)
         try container.encode(self.hasBrokenPeaceTreatyValue, forKey: .hasBrokenPeaceTreaty)
-        try container.encodeIfPresent(self.currentHiddenAgendaVal, forKey: .hiddenAgenda)
+        try container.encodeIfPresent(self.earlyGameHiddenAgendaVal, forKey: .earlyGameHiddenAgenda)
+        try container.encodeIfPresent(self.lateGameHiddenAgendaVal, forKey: .lateGameHiddenAgenda)
     }
 
     func doTurn(in gameModel: GameModel?) {
@@ -3586,44 +3591,46 @@ public class DiplomaticAI: Codable {
             return
         }
 
-        // check if we need a new hidden agenda
-        if player.currentEra() >= EraType.renaissance {
-            if let hiddenAgenda = self.currentHiddenAgendaVal {
-                if hiddenAgenda.category() == .earlyGame {
-                    // reset hidden aganda
-                    self.currentHiddenAgendaVal = nil
-                }
-            }
-        }
-
         // initial filling
-        if self.currentHiddenAgendaVal == nil {
-
-            let usedAgendas: [LeaderAgendaType] = gameModel.players
-                .map { $0.hiddenAgenda() ?? .none }
-                .filter { $0 != .none }
-
-            let isEarlyGame = player.currentEra() < EraType.renaissance
+        if self.earlyGameHiddenAgendaVal == nil || self.lateGameHiddenAgendaVal == nil {
 
             // select hidden agenda randomly
-            let possibleAgendas: [LeaderAgendaType] = LeaderAgendaType.hidden
-                .filter { (($0.category() == .earlyGame) && isEarlyGame) ||
-                    (($0.category() == .lateGame) && !isEarlyGame) } // filter era
+            let possibleEarlyAgendas: [LeaderAgendaType] = LeaderAgendaType.hidden
+                .filter { (($0.category() == .earlyGame) || ($0.category() == .both)) } // filter early era
                 .filter { !player.leader.rejectedAgendas().contains($0) } // filter leader who dont want this agenda
-                .filter { !usedAgendas.contains($0) } // filter 'used' hidden agendas
 
-            print("got \(possibleAgendas.count) to choose a hidden agenda from")
-            guard !possibleAgendas.isEmpty else {
-                fatalError("cant select a hidden agenda for \(player.leader) for isEarlyGame=\(isEarlyGame)")
+            var possibleLateAgendas: [LeaderAgendaType] = LeaderAgendaType.hidden
+                .filter { (($0.category() == .lateGame) || ($0.category() == .both)) } // filter early era
+                .filter { !player.leader.rejectedAgendas().contains($0) } // filter leader who dont want this agenda
+
+            print("got \(possibleEarlyAgendas.count) early and \(possibleLateAgendas.count) late agendas to choose hidden agendas from")
+            guard !possibleEarlyAgendas.isEmpty && !possibleLateAgendas.isEmpty else {
+                fatalError("cant select a hidden agenda for \(player.leader)")
             }
+
+            let pickEarlyAgenda = possibleEarlyAgendas.randomItem()
+
+            // filter excluded late agendas
+            possibleLateAgendas = possibleLateAgendas
+                .filter { !pickEarlyAgenda.exclude().contains($0) }
+                .filter { !$0.exclude().contains(pickEarlyAgenda) }
+
+            let pickLateAgenda = possibleLateAgendas.randomItem()
             
-            self.currentHiddenAgendaVal = possibleAgendas.randomItem()
+            self.earlyGameHiddenAgendaVal = pickEarlyAgenda
+            self.lateGameHiddenAgendaVal = pickLateAgenda
         }
     }
 
     func currentHiddenAgenda() -> LeaderAgendaType? {
 
-        return self.currentHiddenAgendaVal
+        guard let player = self.player else {
+            fatalError("cant get current player")
+        }
+
+        let isEarlyGame = player.currentEra() < EraType.renaissance
+
+        return isEarlyGame ? self.earlyGameHiddenAgendaVal : self.lateGameHiddenAgendaVal
     }
 
     private func updateOpinions(in gameModel: GameModel?) {
