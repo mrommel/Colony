@@ -167,13 +167,13 @@ public struct DiplomaticDialogView: View {
                             .frame(width: 150, alignment: .leading)
 
                         Label(self.viewModel.overview(for: intelReportType))
-                            .font(.body)
                             .frame(width: 150, alignment: .leading)
                             .frame(width: 150, height: nil, alignment: .leading)
                     }
                 }
             }
         }
+        .frame(width: 360)
     }
 
     private var intelReportGossipView: some View {
@@ -182,6 +182,7 @@ public struct DiplomaticDialogView: View {
 
             Text("Gossip")
         }
+        .frame(width: 360)
     }
 
     private var intelReportAccessLevelView: some View {
@@ -190,6 +191,7 @@ public struct DiplomaticDialogView: View {
 
             Text("AccessLevel")
         }
+        .frame(width: 360)
     }
 
     private var intelReportOurRelationshipView: some View {
@@ -198,6 +200,7 @@ public struct DiplomaticDialogView: View {
 
             Text("Relationship")
         }
+        .frame(width: 360)
     }
 }
 

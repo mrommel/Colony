@@ -527,7 +527,7 @@ public class Player: AbstractPlayer {
     private var lostCapitalValue: Bool = false
     private var conquerorValue: LeaderType?
 
-    private var canChangeGovernmentValue: Bool = false
+    private var canChangeGovernmentValue: Bool = true
     private var happinessValue: Int = 0
     private var faithPurchaseTypeVal: FaithPurchaseType = .noAutomaticFaithPurchase
     private var discoveredNaturalWonders: [FeatureType] = []
@@ -3451,7 +3451,11 @@ public class Player: AbstractPlayer {
 
     public func hiddenAgenda() -> LeaderAgendaType? {
 
-        return nil
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+
+        return diplomacyAI.currentHiddenAgenda()
     }
 
     // MARK: era

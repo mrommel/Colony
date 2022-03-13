@@ -149,6 +149,7 @@ public class DiplomaticAI: Codable {
         case stateOfAllWars
 
         case hasBrokenPeaceTreaty
+        case hiddenAgenda
     }
 
     var player: AbstractPlayer?
@@ -159,6 +160,7 @@ public class DiplomaticAI: Codable {
     private var greetPlayers: [AbstractPlayer?] = []
 
     private var hasBrokenPeaceTreatyValue: Bool
+    private var currentHiddenAgendaVal: LeaderAgendaType?
 
     // MARK: constructors
 
@@ -169,6 +171,7 @@ public class DiplomaticAI: Codable {
         self.playerDict = DiplomaticPlayerDict()
         self.stateOfAllWars = .neutral
         self.hasBrokenPeaceTreatyValue = false
+        self.currentHiddenAgendaVal = nil
     }
 
     public required init(from decoder: Decoder) throws {
@@ -178,6 +181,7 @@ public class DiplomaticAI: Codable {
         self.playerDict = try container.decode(DiplomaticPlayerDict.self, forKey: .playerDict)
         self.stateOfAllWars = try container.decode(PlayerStateAllWars.self, forKey: .stateOfAllWars)
         self.hasBrokenPeaceTreatyValue = try container.decode(Bool.self, forKey: .hasBrokenPeaceTreaty)
+        self.currentHiddenAgendaVal = try container.decodeIfPresent(LeaderAgendaType.self, forKey: .hiddenAgenda)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -187,6 +191,7 @@ public class DiplomaticAI: Codable {
         try container.encode(self.playerDict, forKey: .playerDict)
         try container.encode(self.stateOfAllWars, forKey: .stateOfAllWars)
         try container.encode(self.hasBrokenPeaceTreatyValue, forKey: .hasBrokenPeaceTreaty)
+        try container.encodeIfPresent(self.currentHiddenAgendaVal, forKey: .hiddenAgenda)
     }
 
     func doTurn(in gameModel: GameModel?) {
@@ -236,6 +241,7 @@ public class DiplomaticAI: Codable {
         // Player Opinion & Approach
         // DoUpdateApproachTowardsUsGuesses();
 
+        self.doHiddenAgenda(in: gameModel)
         self.updateOpinions(in: gameModel)
         self.updateApproaches(in: gameModel)
         // DoUpdateMinorCivApproaches();
@@ -3462,7 +3468,7 @@ public class DiplomaticAI: Codable {
         return activeStrategy == .council
     }
 
-    func approach(towards player: AbstractPlayer?) -> PlayerApproachType {
+    public func approach(towards player: AbstractPlayer?) -> PlayerApproachType {
 
         return self.playerDict.approach(towards: player)
     }
@@ -3564,6 +3570,62 @@ public class DiplomaticAI: Codable {
         }
     }
 
+    // https://civilization.fandom.com/wiki/Agenda_(Civ6)?so=search
+    private func doHiddenAgenda(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get current player")
+        }
+
+        // only ai player have a hidden agenda
+        guard !player.isHuman() && !player.isBarbarian() && !player.isCityState() && !player.isFreeCity() else {
+            return
+        }
+
+        // check if we need a new hidden agenda
+        if player.currentEra() >= EraType.renaissance {
+            if let hiddenAgenda = self.currentHiddenAgendaVal {
+                if hiddenAgenda.category() == .earlyGame {
+                    // reset hidden aganda
+                    self.currentHiddenAgendaVal = nil
+                }
+            }
+        }
+
+        // initial filling
+        if self.currentHiddenAgendaVal == nil {
+
+            let usedAgendas: [LeaderAgendaType] = gameModel.players
+                .map { $0.hiddenAgenda() ?? .none }
+                .filter { $0 != .none }
+
+            let isEarlyGame = player.currentEra() < EraType.renaissance
+
+            // select hidden agenda randomly
+            let possibleAgendas: [LeaderAgendaType] = LeaderAgendaType.hidden
+                .filter { (($0.category() == .earlyGame) && isEarlyGame) ||
+                    (($0.category() == .lateGame) && !isEarlyGame) } // filter era
+                .filter { !player.leader.rejectedAgendas().contains($0) } // filter leader who dont want this agenda
+                .filter { !usedAgendas.contains($0) } // filter 'used' hidden agendas
+
+            print("got \(possibleAgendas.count) to choose a hidden agenda from")
+            guard !possibleAgendas.isEmpty else {
+                fatalError("cant select a hidden agenda for \(player.leader) for isEarlyGame=\(isEarlyGame)")
+            }
+            
+            self.currentHiddenAgendaVal = possibleAgendas.randomItem()
+        }
+    }
+
+    func currentHiddenAgenda() -> LeaderAgendaType? {
+
+        return self.currentHiddenAgendaVal
+    }
+
     private func updateOpinions(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
@@ -3572,7 +3634,7 @@ public class DiplomaticAI: Codable {
 
         for player in gameModel.players {
 
-            updateOpinion(of: player, in: gameModel)
+            self.updateOpinion(of: player, in: gameModel)
         }
     }
 

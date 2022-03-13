@@ -286,6 +286,10 @@ public class Government: AbstractGovernment {
                         self.fillPolicyCards()
                     }
                 }
+            } else {
+                self.set(governmentType: .chiefdom, in: gameModel)
+
+                self.fillPolicyCards()
             }
 
             self.lastCheckedGovernment = gameModel.currentTurn

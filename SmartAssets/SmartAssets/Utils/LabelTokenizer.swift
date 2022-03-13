@@ -263,6 +263,26 @@ public class LabelTokenizer {
         return attributedString
     }
 
+    public func bulletPointList(from strings: [String]) -> NSAttributedString {
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.headIndent = 15
+        paragraphStyle.minimumLineHeight = 12
+        paragraphStyle.maximumLineHeight = 12
+        paragraphStyle.tabStops = [NSTextTab(textAlignment: .left, location: 15)]
+
+        let stringAttributes = [
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12),
+            NSAttributedString.Key.foregroundColor: NSColor.white,
+            NSAttributedString.Key.paragraphStyle: paragraphStyle
+        ]
+
+        let string = strings.map({ "•\t\($0)" }).joined(separator: "\n")
+
+        return NSAttributedString(string: string,
+                                  attributes: stringAttributes)
+    }
+
     internal func tokenize(text: String) -> [LabelTokenType] {
 
         var regex: NSRegularExpression

@@ -91,6 +91,7 @@
 		C9BB56DA276915FD00053AE7 /* Civics.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9BB56D9276915FD00053AE7 /* Civics.strings */; };
 		C9BB56DC27692FE600053AE7 /* Civilizations.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9BB56DB27692FE600053AE7 /* Civilizations.strings */; };
 		C9C1699927DCF61000E61088 /* Leaders.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9C1699827DCF61000E61088 /* Leaders.strings */; };
+		C9C1699B27DCFC8200E61088 /* PlayerApproachTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1699A27DCFC8200E61088 /* PlayerApproachTypeExtension.swift */; };
 		C9C234A52768EEB400905C97 /* CityNames.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9C234A42768EEB400905C97 /* CityNames.strings */; };
 		C9C8A7492785788200BC68CF /* DedicationTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C8A7482785788200BC68CF /* DedicationTypeExtension.swift */; };
 		C9CAC8A2264BC4B200D0668D /* GovernmentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */; };
@@ -233,6 +234,7 @@
 		C9BB56D9276915FD00053AE7 /* Civics.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Civics.strings; sourceTree = "<group>"; };
 		C9BB56DB27692FE600053AE7 /* Civilizations.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Civilizations.strings; sourceTree = "<group>"; };
 		C9C1699827DCF61000E61088 /* Leaders.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Leaders.strings; sourceTree = "<group>"; };
+		C9C1699A27DCFC8200E61088 /* PlayerApproachTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerApproachTypeExtension.swift; sourceTree = "<group>"; };
 		C9C234A42768EEB400905C97 /* CityNames.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = CityNames.strings; sourceTree = "<group>"; };
 		C9C8A7482785788200BC68CF /* DedicationTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DedicationTypeExtension.swift; sourceTree = "<group>"; };
 		C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentState.swift; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 				C95AB2F327CD3D3B00EF5C61 /* CityStateTypeExtension.swift */,
 				C97ACD0227D673A000AD0721 /* CityStateQuestExtension.swift */,
 				C92D6B8F27D9D8A3002EA5C5 /* DiplomaticRequestMessageExtension.swift */,
+				C9C1699A27DCFC8200E61088 /* PlayerApproachTypeExtension.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -717,6 +720,7 @@
 				C9E87BBB264DAA7000514B9A /* CivicTypeExtension.swift in Sources */,
 				C9022FA026093D5300C6773A /* LeaderTypeExtension.swift in Sources */,
 				C903D06D274A5BF7003C50B9 /* LabelTokenizer.swift in Sources */,
+				C9C1699B27DCFC8200E61088 /* PlayerApproachTypeExtension.swift in Sources */,
 				C9E87BBD264DB49100514B9A /* BuildingTypeExtension.swift in Sources */,
 				C92D6B9027D9D8A3002EA5C5 /* DiplomaticRequestMessageExtension.swift in Sources */,
 				C9CB992327C6C1F700946E77 /* SlpTextureAtlasLoader.swift in Sources */,

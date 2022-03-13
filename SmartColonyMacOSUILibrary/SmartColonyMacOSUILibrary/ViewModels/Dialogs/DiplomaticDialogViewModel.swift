@@ -214,7 +214,7 @@ public class DiplomaticDialogViewModel: ObservableObject {
         self.discussionIntelReportTitle = "TXT_KEY_DIPLOMACY_INTEL_REPORT_TITLE".localized() + self.intelReportType.title().localized()
     }
 
-    func overview(for report: IntelReportType) -> String {
+    func overview(for report: IntelReportType) -> NSAttributedString {
 
         /*guard let gameModel = self.gameEnvironment.game.value else {
             fatalError("cant get game")
@@ -232,28 +232,40 @@ public class DiplomaticDialogViewModel: ObservableObject {
             fatalError("cant get current government")
         }
 
-        let publicAgendaName: String = otherPlayer.leader.agenda().name().localized()
-        var hiddenAgendaName: String = otherPlayer.hiddenAgenda()?.name().localized() ?? ""
-        if !hiddenAgendaName.isEmpty {
-            hiddenAgendaName = "\n- \(hiddenAgendaName)"
+        guard let otherPlayerDiplomacyAI = otherPlayer.diplomacyAI else {
+            fatalError("cant get otherPlayer diplomacyAI")
         }
+
+        var agendas: [String] = []
+
+        let publicAgendaName: String = otherPlayer.leader.agenda().name().localized()
+        agendas.append(publicAgendaName)
+
+        let hiddenAgendaName: String = otherPlayer.hiddenAgenda()?.name().localized() ?? ""
+        if !hiddenAgendaName.isEmpty {
+            agendas.append(hiddenAgendaName)
+        }
+
+        let tokenizer = LabelTokenizer()
+
+        let approach: PlayerApproachType = otherPlayerDiplomacyAI.approach(towards: humanPlayer)
 
         switch report {
 
         case .overview:
-            return "-"
+            return NSAttributedString(string: "-")
         case .gossip:
-            return "- No New Items"
+            return tokenizer.bulletPointList(from: ["No New Items"])
         case .accessLevel:
-            return "  None"
+            return tokenizer.bulletPointList(from: ["None"])
         case .government:
-            return "- \(currentGovernment.name().localized())"
+            return tokenizer.bulletPointList(from: [currentGovernment.name().localized()])
         case .agendas:
-            return "- \(publicAgendaName)\(hiddenAgendaName)"
+            return tokenizer.bulletPointList(from: agendas)
         case .ownRelationship:
-            return "-"
+            return tokenizer.bulletPointList(from: [approach.name()]) // how the otherplayer sees us
         case .otherRelationships:
-            return "-"
+            return NSAttributedString(string: "-")
         }
     }
 
