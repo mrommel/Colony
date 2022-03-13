@@ -240,30 +240,24 @@ public enum LeaderType: Codable, Equatable, Hashable {
         case .cityState: return []
 
         case .alexander: return [
-                ApproachBias(approach: .afraid, bias: 3),
-                ApproachBias(approach: .deceptive, bias: 4),
+                ApproachBias(approach: .unfriendly, bias: 4),
                 ApproachBias(approach: .friendly, bias: 5),
-                ApproachBias(approach: .guarded, bias: 5),
-                ApproachBias(approach: .hostile, bias: 7),
-                ApproachBias(approach: .neutrally, bias: 4),
+                ApproachBias(approach: .denounced, bias: 7),
+                ApproachBias(approach: .neutral, bias: 4),
                 ApproachBias(approach: .war, bias: 6)
             ]
         case .trajan: return [
-                ApproachBias(approach: .afraid, bias: 5),
-                ApproachBias(approach: .deceptive, bias: 6),
+                ApproachBias(approach: .unfriendly, bias: 6),
                 ApproachBias(approach: .friendly, bias: 4),
-                ApproachBias(approach: .guarded, bias: 6),
-                ApproachBias(approach: .hostile, bias: 5),
-                ApproachBias(approach: .neutrally, bias: 5),
+                ApproachBias(approach: .denounced, bias: 5),
+                ApproachBias(approach: .neutral, bias: 5),
                 ApproachBias(approach: .war, bias: 5)
             ]
         case .victoria: return [
-                ApproachBias(approach: .afraid, bias: 5),
-                ApproachBias(approach: .deceptive, bias: 6),
+                ApproachBias(approach: .unfriendly, bias: 6),
                 ApproachBias(approach: .friendly, bias: 4),
-                ApproachBias(approach: .guarded, bias: 7),
-                ApproachBias(approach: .hostile, bias: 7),
-                ApproachBias(approach: .neutrally, bias: 5),
+                ApproachBias(approach: .denounced, bias: 7),
+                ApproachBias(approach: .neutral, bias: 5),
                 ApproachBias(approach: .war, bias: 4)
             ]
         case .cyrus:

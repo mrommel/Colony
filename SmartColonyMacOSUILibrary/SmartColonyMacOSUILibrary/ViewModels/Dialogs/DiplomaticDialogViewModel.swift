@@ -11,18 +11,20 @@ import SmartAssets
 
 public enum IntelReportType: Int, Identifiable {
 
-    case overview = 0
-    case gossip = 1
-    case accessLevel = 2
-    case government = 3
-    case agendas = 4
-    case ownRelationship = 5
-    case otherRelationships = 6
+    case action = 0
+    case overview = 1
+    case gossip = 2
+    case accessLevel = 3
+    case government = 4
+    case agendas = 5
+    case ownRelationship = 6
+    case otherRelationships = 7
 
     public var id: Self { self }
 
     public static var tabs: [IntelReportType] = [
 
+        .action,
         .overview,
         .gossip,
         .accessLevel,
@@ -46,6 +48,7 @@ extension IntelReportType {
 
         switch self {
 
+        case .action: return "TXT_KEY_DIPLOMACY_INTEL_REPORT_ACTION"
         case .overview: return "TXT_KEY_DIPLOMACY_INTEL_REPORT_OVERVIEW"
         case .gossip: return "TXT_KEY_DIPLOMACY_INTEL_REPORT_GOSSIP"
         case .accessLevel: return "TXT_KEY_DIPLOMACY_INTEL_REPORT_ACCESS_LEVEL"
@@ -60,6 +63,7 @@ extension IntelReportType {
 
         switch self {
 
+        case .action: return "intelReportType-button-action"
         case .overview: return "intelReportType-button-overview"
         case .gossip: return "intelReportType-button-gossip"
         case .accessLevel: return "intelReportType-button-accessLevel"
@@ -74,6 +78,7 @@ extension IntelReportType {
 
         switch self {
 
+        case .action: return ""
         case .overview: return ""
         case .gossip: return "intelReportType-gossip"
         case .accessLevel: return "intelReportType-accessLevel"
@@ -110,12 +115,29 @@ public class DiplomaticDialogViewModel: ObservableObject {
     var replyViewModels: [ReplyViewModel] = []
     // messages
 
+    // actions
+    @Published
+    var canSendDelegation: Bool = false
+
+    @Published
+    var canDenounce: Bool = false
+
+    @Published
+    var canDeclareWar: Bool = false
+    // actions
+
     // reports
     @Published
     var intelReportType: IntelReportType = .overview
 
     @Published
     var discussionIntelReportTitle: String
+
+    @Published
+    var relationShipRating: Double = 0.0
+
+    @Published
+    var relationShipLabel: String = ""
     // reports
 
     weak var delegate: GameViewModelDelegate?
@@ -146,11 +168,35 @@ public class DiplomaticDialogViewModel: ObservableObject {
                 emotion: LeaderEmotionType,
                 in gameModel: GameModel?) {
 
+        /* guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        } */
+
         self.humanPlayer = humanPlayer
         self.otherPlayer = otherPlayer
 
         self.state = state
         self.messageType = message
+
+        // fill data
+        guard let humanPlayer = self.humanPlayer else {
+            fatalError("cant get humanPlayer")
+        }
+
+        guard let otherPlayer = self.otherPlayer else {
+            fatalError("cant get otherPlayer")
+        }
+
+        guard let otherPlayerDiplomacyAI = otherPlayer.diplomacyAI else {
+            fatalError("cant get otherPlayer diplomacyAI")
+        }
+
+        // relations tab
+        let approach = otherPlayerDiplomacyAI.approach(towards: humanPlayer)
+        self.relationShipRating = approach.rating()
+        self.relationShipLabel = approach.name().localized()
+
+        self.updateActions()
     }
 
     func add(deal: DiplomaticDeal) {
@@ -196,7 +242,7 @@ public class DiplomaticDialogViewModel: ObservableObject {
             return "None"
         }
 
-        return player.leader.name()
+        return player.leader.name().localized()
     }
 
     func civilizationName() -> String {
@@ -212,6 +258,35 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
         self.intelReportType = report
         self.discussionIntelReportTitle = "TXT_KEY_DIPLOMACY_INTEL_REPORT_TITLE".localized() + self.intelReportType.title().localized()
+    }
+
+    func updateActions() {
+
+        guard let playerDiplomacyAI = self.humanPlayer?.diplomacyAI else {
+            fatalError("cant get player diplomacy")
+        }
+
+        var tmpCanSendDelegation: Bool = true
+        var tmpCanDenounce: Bool = true
+        var tmpCanDeclareWar: Bool = true
+
+        if playerDiplomacyAI.isAtWar(with: self.otherPlayer) {
+            tmpCanSendDelegation = false
+            tmpCanDenounce = false
+            tmpCanDeclareWar = false
+        }
+
+        if playerDiplomacyAI.hasDelegation(with: self.otherPlayer) {
+            tmpCanSendDelegation = false
+        }
+
+        if playerDiplomacyAI.hasDenounced(player: otherPlayer) {
+            tmpCanDenounce = false
+        }
+
+        self.canSendDelegation = tmpCanSendDelegation
+        self.canDenounce = tmpCanDenounce
+        self.canDeclareWar = tmpCanDeclareWar
     }
 
     func overview(for report: IntelReportType) -> NSAttributedString {
@@ -252,6 +327,8 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
         switch report {
 
+        case .action:
+            return NSAttributedString(string: "-")
         case .overview:
             return NSAttributedString(string: "-")
         case .gossip:
@@ -267,6 +344,32 @@ public class DiplomaticDialogViewModel: ObservableObject {
         case .otherRelationships:
             return NSAttributedString(string: "-")
         }
+    }
+
+    func sendDelegationClicked() {
+
+        self.humanPlayer?.diplomacyAI?.doSendDelegation(to: self.otherPlayer)
+        self.updateActions()
+    }
+
+    func denounceClicked() {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        self.humanPlayer?.diplomacyAI?.doDenounce(player: self.otherPlayer, in: gameModel)
+        self.updateActions()
+    }
+
+    func declareSurpriseWarClicked() {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        self.humanPlayer?.doDeclareWar(to: self.otherPlayer, in: gameModel)
+        self.updateActions()
     }
 
     func closeDialog() {

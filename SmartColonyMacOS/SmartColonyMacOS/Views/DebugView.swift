@@ -77,15 +77,16 @@ struct DebugView: View {
                         }, label: {
                             Text("Revolt")
                         }).buttonStyle(GameButtonStyle())
+                    }
+
+                    VStack(alignment: .center, spacing: 10) {
 
                         Button(action: {
                             self.viewModel.generateUnitAssets()
                         }, label: {
                             Text("Unit Assets")
                         }).buttonStyle(GameButtonStyle())
-                    }
-
-                    VStack(alignment: .center, spacing: 10) {
+                        
                         Button(action: {
                             self.viewModel.loadSlp()
                         }, label: {

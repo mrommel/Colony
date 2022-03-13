@@ -337,11 +337,9 @@ public class DiplomaticDeal: Codable {
 
             switch approach {
 
-            case .hostile:
+            case .denounced:
                 modifier = 150
-            case .guarded:
-                modifier = 110
-            case .afraid, .friendly, .neutrally:
+            case .friendly, .neutral:
                 modifier = 100
             default:
                 // NOOP
@@ -511,11 +509,11 @@ public class DiplomaticDeal: Codable {
 
             switch approach {
 
-            case .hostile:
+            case .denounced:
                 modifier = 150
-            case .guarded:
+            case .unfriendly:
                 modifier = 110
-            case .afraid, .friendly, .neutrally:
+            case .friendly, .neutral:
                 modifier = 100
             default:
                 // NOOP
@@ -594,11 +592,11 @@ public class DiplomaticDeal: Codable {
 
             switch approach {
 
-            case .hostile:
+            case .denounced:
                 modifier = 150
-            case .guarded:
+            case .unfriendly:
                 modifier = 110
-            case .afraid, .friendly, .neutrally:
+            case .friendly, .neutral:
                 modifier = 100
                 /*default:
                 iModifier = 100*/

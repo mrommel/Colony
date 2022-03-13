@@ -2036,7 +2036,7 @@ public class DiplomaticAI: Codable {
         if approach == .war {
             // If player is planning War, always say no
             return nil
-        } else if approach == .hostile {
+        } else if approach == .denounced {
             // If player is Hostile, always say no
             return nil
         }
@@ -2118,14 +2118,14 @@ public class DiplomaticAI: Codable {
 
         // If player is inquiring, he has to be planning a war already
         if !askedByPlayer {
-            if approachTowardsTarget != .war && approachTowardsTarget != .deceptive {
+            if approachTowardsTarget != .war && approachTowardsTarget != .unfriendly {
                 return 0
             }
         }
 
         if approachTowardsPlayer == .war { // If player is planning War, always say no
             return 0
-        } else if approachTowardsPlayer == .hostile { // If player is Hostile, always say no
+        } else if approachTowardsPlayer == .denounced { // If player is Hostile, always say no
             return 0
         }
 
@@ -2149,7 +2149,7 @@ public class DiplomaticAI: Codable {
         // ePlayer asked us, so if we like him we're more likely to accept
         if askedByPlayer {
 
-            if approachTowardsPlayer == .friendly || approachTowardsPlayer == .deceptive {
+            if approachTowardsPlayer == .friendly || approachTowardsPlayer == .unfriendly {
                 weight += 2
             } else if opinionTowardsPlayer >= .favorable {
                 weight += 2
@@ -2161,13 +2161,13 @@ public class DiplomaticAI: Codable {
             weight += 5
         }
 
-        if approachTowardsTarget == .hostile {
+        if approachTowardsTarget == .denounced {
             weight += 2
         }
 
         if self.isGoingForWorldConquest() {
             weight += 3
-            if approachTowardsTarget == .deceptive {
+            if approachTowardsTarget == .unfriendly {
                 weight += 2
             }
         } else if self.isGoingForDiploVictory() {
@@ -2360,7 +2360,7 @@ public class DiplomaticAI: Codable {
 
         // May want to make this logic more sophisticated eventually.  This will do for now
         let approach = self.approachWithoutTrueFeelings(towards: otherPlayer)
-        if approach == .hostile || approach == .war {
+        if approach == .denounced || approach == .war {
             return false
         }
 
@@ -2447,10 +2447,10 @@ public class DiplomaticAI: Codable {
 
         switch approach {
 
-        case .war, .hostile, .guarded:
+        case .war, .denounced, .unfriendly:
             return false
 
-        case .deceptive, .afraid, .friendly, .neutrally:
+        case .friendly, .neutral, .allied, .declaredFriend:
             return true
 
         case .none:
@@ -2533,7 +2533,7 @@ public class DiplomaticAI: Codable {
         }
 
         let approach = self.approachWithoutTrueFeelings(towards: otherPlayer)
-        if approach == .hostile || approach == .guarded || approach == .afraid {
+        if approach == .denounced || approach == .unfriendly {
             return false
         }
 
@@ -2545,14 +2545,12 @@ public class DiplomaticAI: Codable {
         }
     }
 
-    // Are we willing to swap Open Borders with ePlayer?
+    /// Are we willing to swap Open Borders with `otherPlayer`?
     func isOpenBordersExchangeAcceptable(with otherPlayer: AbstractPlayer?) -> Bool {
 
         let approach = self.approach(towards: otherPlayer)
 
-        if approach == .friendly {
-            return true
-        } else if approach == .afraid {
+        if approach == .friendly || approach == .neutral || approach == .unfriendly {
             return true
         }
 
@@ -2742,7 +2740,7 @@ public class DiplomaticAI: Codable {
     }
 
     // cancel
-    func doDenounce(player otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+    public func doDenounce(player otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let player = self.player else {
             fatalError("cant get current player")
@@ -2780,9 +2778,22 @@ public class DiplomaticAI: Codable {
         }
     }
 
-    func hasDenounced(player otherPlayer: AbstractPlayer?) -> Bool {
+    public func hasDenounced(player otherPlayer: AbstractPlayer?) -> Bool {
 
         return self.playerDict.hasDenounced(player: otherPlayer)
+    }
+
+    // MARK: delegation
+
+    public func hasDelegation(with otherPlayer: AbstractPlayer?) -> Bool {
+
+        print("not implemented")
+        return false
+    }
+
+    public func doSendDelegation(to otherPlayer: AbstractPlayer?) {
+
+        print("not implemented")
     }
 
     // MARK: pacts - defensive pacts
@@ -2819,10 +2830,10 @@ public class DiplomaticAI: Codable {
         // Cancel Trade Deals
         self.doCancelDeals(with: otherPlayer)
 
-        self.playerDict.updateApproach(towards: otherPlayer, to: .war)
+        self.playerDict.updateApproachValue(towards: otherPlayer, to: 0)
         self.playerDict.updateWarState(towards: otherPlayer, to: .defensive)
 
-        otherPlayer?.diplomacyAI?.playerDict.updateApproach(towards: self.player, to: .war)
+        otherPlayer?.diplomacyAI?.playerDict.updateApproachValue(towards: self.player, to: 0)
         otherPlayer?.diplomacyAI?.playerDict.updateWarState(towards: self.player, to: .defensive)
     }
 
@@ -2957,7 +2968,7 @@ public class DiplomaticAI: Codable {
         // Auto War for Defensive Pacts of other player
         self.activateDefensivePacts(against: otherPlayer, in: gameModel)
 
-        self.playerDict.updateApproach(towards: otherPlayer, to: .war)
+        self.playerDict.updateApproachValue(towards: otherPlayer, to: 0)
         self.playerDict.updateWarState(towards: otherPlayer, to: .defensive)
     }
 
@@ -3179,7 +3190,7 @@ public class DiplomaticAI: Codable {
         // NEUTRAL DEFAULT WEIGHT
         ////////////////////////////////////
 
-        weights.set(weight: 3, for: .neutrally) // APPROACH_NEUTRAL_DEFAULT
+        weights.set(weight: 3, for: .neutral) // APPROACH_NEUTRAL_DEFAULT
 
         ////////////////////////////////////
         // CURRENT APPROACH BIASES
@@ -3187,20 +3198,20 @@ public class DiplomaticAI: Codable {
 
         var oldApproach = self.approach(towards: otherPlayer)
         if oldApproach == .none {
-            oldApproach = .neutrally
+            oldApproach = .neutral
         }
 
         // Bias for our current Approach.  This should prevent it from jumping around from turn-to-turn as much
         weights.add(weight: 3, for: oldApproach) // APPROACH_BIAS_FOR_CURRENT
 
         // If our previous Approach was deceptive, this gives us a bonus for war
-        if oldApproach == .deceptive {
+        if oldApproach == .unfriendly {
             weights.add(weight: 2, for: .war) // APPROACH_WAR_CURRENTLY_DECEPTIVE
         }
 
         // If our previous Approach was Hostile, boost the strength (so we're unlikely to switch out of it)
-        if oldApproach == .hostile {
-            weights.add(weight: 5, for: .hostile) // APPROACH_HOSTILE_CURRENTLY_HOSTILE
+        if oldApproach == .denounced {
+            weights.add(weight: 5, for: .denounced) // APPROACH_HOSTILE_CURRENTLY_HOSTILE
         }
 
         // Wanted war last turn bias: war must be calm or better to apply
@@ -3242,30 +3253,27 @@ public class DiplomaticAI: Codable {
         case .ally:
             weights.add(weight: 10, for: .friendly) // APPROACH_OPINION_ALLY_FRIENDLY
         case .friend:
-            weights.add(weight: -5, for: .hostile) // APPROACH_OPINION_FRIEND_HOSTILE
+            weights.add(weight: -5, for: .denounced) // APPROACH_OPINION_FRIEND_HOSTILE
             weights.add(weight: 10, for: .friendly) // APPROACH_OPINION_FRIEND_FRIENDLY
         case .favorable:
-            weights.add(weight: -5, for: .hostile) // APPROACH_OPINION_FAVORABLE_HOSTILE
-            weights.add(weight: 0, for: .deceptive) // APPROACH_OPINION_FAVORABLE_DECEPTIVE
+            weights.add(weight: -5, for: .denounced) // APPROACH_OPINION_FAVORABLE_HOSTILE
+            weights.add(weight: 0, for: .unfriendly) // APPROACH_OPINION_FAVORABLE_DECEPTIVE
             weights.add(weight: 4, for: .friendly) // APPROACH_OPINION_FAVORABLE_FRIENDLY
         case .neutral:
-            weights.add(weight: 0, for: .deceptive) // APPROACH_OPINION_NEUTRAL_DECEPTIVE
+            weights.add(weight: 0, for: .unfriendly) // APPROACH_OPINION_NEUTRAL_DECEPTIVE
             weights.add(weight: 2, for: .friendly) // APPROACH_OPINION_NEUTRAL_FRIENDLY
         case .competitor:
             weights.add(weight: 4, for: .war) // APPROACH_OPINION_COMPETITOR_WAR
-            weights.add(weight: 4, for: .hostile) // APPROACH_OPINION_COMPETITOR_HOSTILE
-            weights.add(weight: 2, for: .deceptive) // APPROACH_OPINION_COMPETITOR_DECEPTIVE
-            weights.add(weight: 2, for: .guarded) // APPROACH_OPINION_COMPETITOR_GUARDED
+            weights.add(weight: 4, for: .denounced) // APPROACH_OPINION_COMPETITOR_HOSTILE
+            weights.add(weight: 2, for: .unfriendly) // APPROACH_OPINION_COMPETITOR_DECEPTIVE
         case .enemy:
             weights.add(weight: 8, for: .war) // APPROACH_OPINION_ENEMY_WAR
-            weights.add(weight: 4, for: .hostile) // APPROACH_OPINION_ENEMY_HOSTILE
-            weights.add(weight: 1, for: .deceptive) // APPROACH_OPINION_ENEMY_DECEPTIVE
-            weights.add(weight: 4, for: .guarded) // APPROACH_OPINION_ENEMY_GUARDED
+            weights.add(weight: 4, for: .denounced) // APPROACH_OPINION_ENEMY_HOSTILE
+            weights.add(weight: 1, for: .unfriendly) // APPROACH_OPINION_ENEMY_DECEPTIVE
         case .unforgivable:
             weights.add(weight: 10, for: .war) // APPROACH_OPINION_UNFORGIVABLE_WAR
-            weights.add(weight: 4, for: .hostile) // APPROACH_OPINION_UNFORGIVABLE_HOSTILE
-            weights.add(weight: 0, for: .deceptive) // APPROACH_OPINION_UNFORGIVABLE_DECEPTIVE
-            weights.add(weight: 4, for: .guarded) // APPROACH_OPINION_UNFORGIVABLE_GUARDED
+            weights.add(weight: 4, for: .denounced) // APPROACH_OPINION_UNFORGIVABLE_HOSTILE
+            weights.add(weight: 0, for: .unfriendly) // APPROACH_OPINION_UNFORGIVABLE_DECEPTIVE
         }
 
         ////////////////////////////////////
@@ -3274,10 +3282,9 @@ public class DiplomaticAI: Codable {
 
         if self.isDeclarationOfFriendshipActive(by: otherPlayer) {
 
-            weights.add(weight: 3, for: .deceptive) // APPROACH_DECEPTIVE_WORKING_WITH_PLAYER
+            weights.add(weight: 3, for: .unfriendly) // APPROACH_DECEPTIVE_WORKING_WITH_PLAYER
             weights.add(weight: 15, for: .friendly) // APPROACH_FRIENDLY_WORKING_WITH_PLAYER
-            weights.add(weight: -100, for: .hostile) // APPROACH_HOSTILE_WORKING_WITH_PLAYER
-            weights.add(weight: -100, for: .guarded) // APPROACH_GUARDED_WORKING_WITH_PLAYER
+            weights.add(weight: -100, for: .denounced) // APPROACH_HOSTILE_WORKING_WITH_PLAYER
         }
 
         ////////////////////////////////////
@@ -3287,19 +3294,17 @@ public class DiplomaticAI: Codable {
         if self.hasDenounced(player: otherPlayer) {
 
             weights.add(weight: 7, for: .war) // APPROACH_WAR_DENOUNCED
-            weights.add(weight: 10, for: .hostile) // APPROACH_HOSTILE_DENOUNCED
-            weights.add(weight: 5, for: .guarded) // APPROACH_GUARDED_DENOUNCED
+            weights.add(weight: 10, for: .denounced) // APPROACH_HOSTILE_DENOUNCED
             weights.add(weight: -100, for: .friendly) // APPROACH_FRIENDLY_DENOUNCED
-            weights.add(weight: -100, for: .deceptive) // APPROACH_DECEPTIVE_DENOUNCED
+            weights.add(weight: -100, for: .unfriendly) // APPROACH_DECEPTIVE_DENOUNCED
         }
 
         if otherPlayerDiplomacyAI.hasDenounced(player: self.player) {
 
             weights.add(weight: 7, for: .war) // APPROACH_WAR_DENOUNCED
-            weights.add(weight: 10, for: .hostile) // APPROACH_HOSTILE_DENOUNCED
-            weights.add(weight: 5, for: .guarded) // APPROACH_GUARDED_DENOUNCED
+            weights.add(weight: 10, for: .denounced) // APPROACH_HOSTILE_DENOUNCED
             weights.add(weight: -100, for: .friendly) // APPROACH_FRIENDLY_DENOUNCED
-            weights.add(weight: -100, for: .deceptive) // APPROACH_DECEPTIVE_DENOUNCED
+            weights.add(weight: -100, for: .unfriendly) // APPROACH_DECEPTIVE_DENOUNCED
         }
 
         ////////////////////////////////////
@@ -3321,27 +3326,19 @@ public class DiplomaticAI: Codable {
         switch self.militaryThreat(of: otherPlayer) {
 
         case .critical:
-            weights.add(weight: 0, for: .deceptive) // APPROACH_DECEPTIVE_MILITARY_THREAT_CRITICAL
-            weights.add(weight: 4, for: .guarded) // APPROACH_GUARDED_MILITARY_THREAT_CRITICAL
-            weights.add(weight: 4, for: .afraid) // APPROACH_AFRAID_MILITARY_THREAT_CRITICAL
+            weights.add(weight: 0, for: .unfriendly) // APPROACH_DECEPTIVE_MILITARY_THREAT_CRITICAL
             weights.add(weight: 0, for: .friendly) // APPROACH_FRIENDLY_MILITARY_THREAT_CRITICAL
         case .severe:
-            weights.add(weight: 0, for: .deceptive) // APPROACH_DECEPTIVE_MILITARY_THREAT_SEVERE
-            weights.add(weight: 3, for: .guarded) // APPROACH_GUARDED_MILITARY_THREAT_SEVERE
-            weights.add(weight: 2, for: .afraid) // APPROACH_AFRAID_MILITARY_THREAT_SEVER
+            weights.add(weight: 0, for: .unfriendly) // APPROACH_DECEPTIVE_MILITARY_THREAT_SEVERE
             weights.add(weight: 0, for: .friendly) // APPROACH_FRIENDLY_MILITARY_THREAT_SEVERE
         case .major:
-            weights.add(weight: 0, for: .deceptive) // APPROACH_DECEPTIVE_MILITARY_THREAT_MAJOR
-            weights.add(weight: 2, for: .guarded) // APPROACH_GUARDED_MILITARY_THREAT_MAJOR
-            weights.add(weight: 1, for: .afraid) // APPROACH_AFRAID_MILITARY_THREAT_MAJOR
+            weights.add(weight: 0, for: .unfriendly) // APPROACH_DECEPTIVE_MILITARY_THREAT_MAJOR
             weights.add(weight: 0, for: .friendly) // APPROACH_FRIENDLY_MILITARY_THREAT_MAJOR
         case .minor:
-            weights.add(weight: 0, for: .deceptive) // APPROACH_DECEPTIVE_MILITARY_THREAT_MINOR
-            weights.add(weight: 0, for: .guarded) // APPROACH_GUARDED_MILITARY_THREAT_MINOR
-            weights.add(weight: 1, for: .afraid) // APPROACH_AFRAID_MILITARY_THREAT_MINOR
+            weights.add(weight: 0, for: .unfriendly) // APPROACH_DECEPTIVE_MILITARY_THREAT_MINOR
             weights.add(weight: 0, for: .friendly) // APPROACH_FRIENDLY_MILITARY_THREAT_MINOR
         case .none:
-            weights.add(weight: 2, for: .hostile) // APPROACH_HOSTILE_MILITARY_THREAT_NONE
+            weights.add(weight: 2, for: .denounced) // APPROACH_HOSTILE_MILITARY_THREAT_NONE
         }
 
         ////////////////////////////////////
@@ -3435,11 +3432,9 @@ public class DiplomaticAI: Codable {
                 // Use index of 1 since we already know element 0 is war; that will give us the most reasonable approach
                 let secondBestApproach = weights.chooseSecondLargest()
 
-                if secondBestApproach == .hostile {
+                if secondBestApproach == .denounced {
                     self.playerDict.updateWarFace(towards: otherPlayer, to: .hostile)
-                } else if secondBestApproach == .deceptive || secondBestApproach == .afraid || secondBestApproach == .friendly {
-
-                    // FIXME
+                } else if secondBestApproach == .friendly {
                     // Denounced them?  If so, let's not be too friendly
                     self.playerDict.updateWarFace(towards: otherPlayer, to: .friendly)
                 } else {
@@ -3448,11 +3443,19 @@ public class DiplomaticAI: Codable {
             }
 
         } else {
-
             self.playerDict.updateWarFace(towards: otherPlayer, to: .neutral)
         }
 
-        self.playerDict.updateApproach(towards: otherPlayer, to: bestApproach)
+        // update approach
+        var delta: Int = 0
+        for approachItem in self.playerDict.approachItems(towards: otherPlayer) {
+
+        }
+
+        let currentApproachValue: Int = self.playerDict.approachValue(towards: otherPlayer)
+        let updateApproachValue: Int = currentApproachValue + delta
+
+        self.playerDict.updateApproachValue(towards: otherPlayer, to: updateApproachValue)
     }
 
     func isGoingForWorldConquest() -> Bool {
@@ -3489,7 +3492,7 @@ public class DiplomaticAI: Codable {
         var approachWithoutTrueFeelings = trueApproach
 
         // Deceptive => Friendly
-        if trueApproach == .deceptive {
+        if trueApproach == .unfriendly {
             approachWithoutTrueFeelings = .friendly
         } else if trueApproach == .war {
 
@@ -3502,13 +3505,13 @@ public class DiplomaticAI: Codable {
                 break
 
             case .hostile:
-                return .hostile
+                return .denounced
 
             case .friendly:
                 return .friendly
 
             case .neutral:
-                return .neutrally
+                return .neutral
             }
         }
 

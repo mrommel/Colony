@@ -417,13 +417,13 @@ enum MilitaryStrategyType: Int, Codable {
                 let approach = player.diplomacyAI?.approach(towards: otherPlayer)
 
                 // Add in weight for each civ we're on really bad terms with
-                if approach == .war || approach == .hostile || approach == .afraid {
+                if approach == .war || approach == .denounced {
                     iCurrentWeight += 50
                 }
 
                 // And some if on fairly bad terms
                 // Add in weight for each civ we're on really bad terms with
-                if approach == .guarded || approach == .deceptive {
+                if approach == .unfriendly {
                     iCurrentWeight += 25
                 }
             }

@@ -137,6 +137,8 @@ public struct DiplomaticDialogView: View {
 
         switch self.viewModel.intelReportType {
 
+        case .action:
+            return AnyView(self.actionView)
         case .overview:
             return AnyView(self.intelReportOverviewView)
         case .gossip:
@@ -149,6 +151,64 @@ public struct DiplomaticDialogView: View {
         default:
             fatalError("wrong intel report type")
         }
+    }
+
+    private var actionView: some View {
+
+        VStack(spacing: 10) {
+
+            Button(action: {
+                // NOOP
+            }, label: {
+                Text("Declare Friendship")
+            })
+                .buttonStyle(GameButtonStyle())
+
+            if self.viewModel.canSendDelegation {
+                Button(action: {
+                    self.viewModel.sendDelegationClicked()
+                }, label: {
+                    VStack(spacing: 2) {
+                        Text("Send Delegation")
+
+                        Label("Costs 25 [Gold] Gold")
+                            .font(.footnote)
+                    }
+                })
+                    .buttonStyle(GameButtonStyle())
+            }
+
+            if self.viewModel.canDenounce {
+                Button(action: {
+                    self.viewModel.denounceClicked()
+                }, label: {
+                    Text("Denounce")
+                })
+                    .buttonStyle(GameButtonStyle())
+            }
+
+            if self.viewModel.canDeclareWar {
+                Button(action: {
+                    self.viewModel.declareSurpriseWarClicked()
+                }, label: {
+                    VStack(spacing: 2) {
+                        Text("Declare Surprise War")
+
+                        Label("Warmonger penalty: heavy")
+                            .font(.footnote)
+                    }
+                })
+                    .buttonStyle(GameButtonStyle())
+            }
+
+            Button(action: {
+                // NOOP
+            }, label: {
+                Text("Make Deal")
+            })
+                .buttonStyle(GameButtonStyle())
+        }
+        .frame(width: 360)
     }
 
     private var intelReportOverviewView: some View {
@@ -198,7 +258,26 @@ public struct DiplomaticDialogView: View {
 
         VStack(spacing: 10) {
 
+            Slider(value: self.$viewModel.relationShipRating, in: 0.0...1.0)
+                .frame(width: 300, alignment: .center)
+
             Text("Relationship")
+                .font(.headline)
+                .frame(width: 300, alignment: .trailing)
+
+            Text(self.viewModel.relationShipLabel)
+                .frame(width: 300, alignment: .trailing)
+
+            Text("Reasons for current relationship")
+                .font(.headline)
+
+            // https://forums.civfanatics.com/resources/diplomatic-total.25707/
+            Text("-5 First impression of you")
+            Text("+3 We sent them a delegation")
+            Text("-2 Moving forces near their cities")
+            Text("-10 Favorable trades to them")
+
+            Text("To raise your relationship you could:")
         }
         .frame(width: 360)
     }
