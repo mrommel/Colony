@@ -2764,6 +2764,7 @@ public class DiplomaticAI: Codable {
         }
 
         self.playerDict.denounce(player: otherPlayer)
+        self.playerDict.addApproach(type: .denounce, towards: gameModel)
 
         // inform human player only, if he is not involved
         if !player.isHuman() && !otherPlayer.isHuman() {
