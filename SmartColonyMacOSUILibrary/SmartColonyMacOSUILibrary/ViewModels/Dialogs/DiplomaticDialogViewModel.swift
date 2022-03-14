@@ -326,6 +326,10 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
     func updateActions() {
 
+        guard let humanPlayerTreasury = self.humanPlayer?.treasury else {
+            fatalError("cant get player treasury")
+        }
+
         guard let playerDiplomacyAI = self.humanPlayer?.diplomacyAI else {
             fatalError("cant get player diplomacy")
         }
@@ -341,6 +345,10 @@ public class DiplomaticDialogViewModel: ObservableObject {
         }
 
         if playerDiplomacyAI.hasDelegation(with: self.otherPlayer) {
+            tmpCanSendDelegation = false
+        }
+
+        if humanPlayerTreasury.value() < 25 {
             tmpCanSendDelegation = false
         }
 
