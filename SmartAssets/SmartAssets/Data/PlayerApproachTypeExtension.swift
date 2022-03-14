@@ -16,12 +16,28 @@ extension PlayerApproachType {
         case .none: return ""
 
         case .war: return "war"
-        case .hostile: return "hostile"
-        case .guarded: return "guarded"
-        case .deceptive: return "deceptive"
-        case .afraid: return "afraid"
+        case .denounced: return "denounced"
+        case .unfriendly: return "unfriendly"
+        case .neutral: return "neutral"
         case .friendly: return "friendly"
-        case .neutrally: return "neutrally"
+        case .declaredFriend: return "declaredFriend"
+        case .allied: return "allied"
+        }
+    }
+
+    public func iconTexture() -> String {
+
+        switch self {
+
+        case .none: return ""
+            
+        case .war: return "playerApproachType-war"
+        case .denounced: return "playerApproachType-denounced"
+        case .unfriendly: return "playerApproachType-unfriendly"
+        case .neutral: return "playerApproachType-neutral"
+        case .friendly: return "playerApproachType-friendly"
+        case .declaredFriend: return "playerApproachType-declaredFriend"
+        case .allied: return "playerApproachType-allied"
         }
     }
 }

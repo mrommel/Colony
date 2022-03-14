@@ -2685,6 +2685,14 @@ public class DiplomaticAI: Codable {
         self.playerDict.initContact(with: otherPlayer, in: gameModel.currentTurn)
         self.updateMilitaryStrength(of: otherPlayer, in: gameModel)
 
+        let impression = gameModel.handicap.firstImpressionBaseValue() + Int.random(minimum: -3, maximum: 3)
+        self.playerDict.addApproach(
+            type: .firstImpression,
+            initialValue: impression,
+            reductionValue: impression > 0 ? 1 : -1,
+            towards: otherPlayer
+        )
+
         // Humans don't say hi to ai player automatically
         if !player.isHuman() {
 
@@ -2712,6 +2720,7 @@ public class DiplomaticAI: Codable {
         }
 
         self.playerDict.establishDeclarationOfFriendship(with: otherPlayer)
+        self.playerDict.addApproach(type: .declaredFriend, towards: otherPlayer)
 
         // inform human player only, if he is not involved
         if !player.isHuman() && !otherPlayer.isHuman() {
@@ -2793,6 +2802,7 @@ public class DiplomaticAI: Codable {
 
     public func doSendDelegation(to otherPlayer: AbstractPlayer?) {
 
+        self.playerDict.addApproach(type: .delegation, towards: otherPlayer)
         print("not implemented")
     }
 
@@ -3173,12 +3183,12 @@ public class DiplomaticAI: Codable {
 
             if otherPlayer.leader != self.player?.leader && player.hasMet(with: otherPlayer) {
 
-                self.updateApproach(towards: otherPlayer)
+                self.updateApproach(towards: otherPlayer, in: gameModel)
             }
         }
     }
 
-    private func updateApproach(towards otherPlayer: AbstractPlayer?) {
+    private func updateApproach(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let otherPlayerDiplomacyAI = otherPlayer?.diplomacyAI else {
             fatalError("cant get diplomacy of other player")
@@ -3446,16 +3456,28 @@ public class DiplomaticAI: Codable {
             self.playerDict.updateWarFace(towards: otherPlayer, to: .neutral)
         }
 
-        // update approach
+        // update approach value
         var delta: Int = 0
         for approachItem in self.playerDict.approachItems(towards: otherPlayer) {
 
+            delta += approachItem.value
         }
+
+        self.playerDict.updateApproachItems(towards: otherPlayer)
 
         let currentApproachValue: Int = self.playerDict.approachValue(towards: otherPlayer)
         let updateApproachValue: Int = currentApproachValue + delta
 
         self.playerDict.updateApproachValue(towards: otherPlayer, to: updateApproachValue)
+
+        // add one-time effects (will be removed next update cycle)
+        guard let playerTradeRoutes = self.player?.tradeRoutes else {
+            fatalError("cant get player trade routes")
+        }
+
+        if playerTradeRoutes.hasTradeRoute(with: otherPlayer, in: gameModel) {
+            self.playerDict.addApproach(type: .establishedTradeRoute, towards: otherPlayer)
+        }
     }
 
     func isGoingForWorldConquest() -> Bool {
@@ -3476,9 +3498,19 @@ public class DiplomaticAI: Codable {
         return activeStrategy == .council
     }
 
+    public func approachItems(towards otherPlayer: AbstractPlayer?) -> [DiplomaticAIPlayerApproachItem] {
+
+        return self.playerDict.approachItems(towards: otherPlayer)
+    }
+
     public func approach(towards player: AbstractPlayer?) -> PlayerApproachType {
 
         return self.playerDict.approach(towards: player)
+    }
+
+    public func approachValue(towards player: AbstractPlayer?) -> Int {
+
+        return self.playerDict.approachValue(towards: player)
     }
 
     func approach(towards leader: LeaderType) -> PlayerApproachType {

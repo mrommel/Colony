@@ -258,24 +258,43 @@ public struct DiplomaticDialogView: View {
 
         VStack(spacing: 10) {
 
-            Slider(value: self.$viewModel.relationShipRating, in: 0.0...1.0)
+            Slider(value: self.$viewModel.relationShipRating, in: 0.0...100.0)
+                .disabled(true)
                 .frame(width: 300, alignment: .center)
 
             Text("Relationship")
                 .font(.headline)
                 .frame(width: 300, alignment: .trailing)
 
-            Text(self.viewModel.relationShipLabel)
+            HStack {
+                Image(nsImage: self.viewModel.relationShipImage())
+                    .resizable()
+                    .frame(width: 24, height: 24)
+
+                Text(self.viewModel.relationShipLabel)
+            }
                 .frame(width: 300, alignment: .trailing)
 
             Text("Reasons for current relationship")
                 .font(.headline)
 
+            LazyVStack(spacing: 4) {
+                ForEach(self.viewModel.approachItemViewModels) { approachItemViewModel in
+                    HStack {
+                        Text(approachItemViewModel.valueText)
+                            .foregroundColor(approachItemViewModel.value > 0 ? .green : .red)
+
+                        Text(approachItemViewModel.text)
+                    }
+                }
+            }
+
+            /*
             // https://forums.civfanatics.com/resources/diplomatic-total.25707/
             Text("-5 First impression of you")
             Text("+3 We sent them a delegation")
             Text("-2 Moving forces near their cities")
-            Text("-10 Favorable trades to them")
+            Text("-10 Favorable trades to them")*/
 
             Text("To raise your relationship you could:")
         }

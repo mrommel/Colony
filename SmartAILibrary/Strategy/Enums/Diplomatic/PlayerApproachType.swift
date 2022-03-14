@@ -29,7 +29,7 @@ public enum PlayerApproachType: Int, Codable {
     case declaredFriend
     case allied
 
-    static var all: [PlayerApproachType] {
+    public static var all: [PlayerApproachType] {
         return [
             .war, .denounced, .unfriendly, .neutral, .friendly, .declaredFriend, .allied
         ]

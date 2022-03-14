@@ -90,6 +90,41 @@ extension IntelReportType {
     }
 }
 
+public class ApproachItemViewModel: ObservableObject, Identifiable {
+
+    public let id: UUID = UUID()
+
+    @Published
+    var value: Int
+
+    @Published
+    var valueText: String
+
+    @Published
+    var text: String
+
+    public init(value: Int, text: String) {
+
+        self.value = value
+        self.valueText = value > 0 ? "+\(value)" : "\(value)"
+        self.text = text
+    }
+}
+
+extension ApproachItemViewModel: Hashable {
+
+    public static func == (lhs: ApproachItemViewModel, rhs: ApproachItemViewModel) -> Bool {
+
+        return lhs.value == rhs.value && lhs.text == rhs.text
+    }
+
+    public func hash(into hasher: inout Hasher) {
+
+        hasher.combine(self.value)
+        hasher.combine(self.text)
+    }
+}
+
 public class DiplomaticDialogViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
@@ -138,6 +173,9 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
     @Published
     var relationShipLabel: String = ""
+
+    @Published
+    var approachItemViewModels: [ApproachItemViewModel] = []
     // reports
 
     weak var delegate: GameViewModelDelegate?
@@ -192,9 +230,16 @@ public class DiplomaticDialogViewModel: ObservableObject {
         }
 
         // relations tab
+        let approachValue = otherPlayerDiplomacyAI.approachValue(towards: humanPlayer)
         let approach = otherPlayerDiplomacyAI.approach(towards: humanPlayer)
-        self.relationShipRating = approach.rating()
+        self.relationShipRating = Double(approachValue)
         self.relationShipLabel = approach.name().localized()
+
+        var tmpApproachItemViewModels: [ApproachItemViewModel] = []
+        for approachItem in otherPlayerDiplomacyAI.approachItems(towards: humanPlayer) {
+            tmpApproachItemViewModels.append(ApproachItemViewModel(value: approachItem.value, text: approachItem.type.summary()))
+        }
+        self.approachItemViewModels = tmpApproachItemViewModels
 
         self.updateActions()
     }
@@ -252,6 +297,25 @@ public class DiplomaticDialogViewModel: ObservableObject {
         }
 
         return player.leader.civilization().name().localized()
+    }
+
+    func relationShipImage() -> NSImage {
+
+        guard let humanPlayer = self.humanPlayer else {
+            fatalError("cant get humanPlayer")
+        }
+
+        guard let otherPlayer = self.otherPlayer else {
+            fatalError("cant get otherPlayer")
+        }
+
+        guard let otherPlayerDiplomacyAI = otherPlayer.diplomacyAI else {
+            fatalError("cant get otherPlayer diplomacyAI")
+        }
+
+        let approach = otherPlayerDiplomacyAI.approach(towards: humanPlayer)
+
+        return ImageCache.shared.image(for: approach.iconTexture())
     }
 
     func select(report: IntelReportType) {

@@ -287,6 +287,7 @@
 		C9C0DCE324D74C37004D9F06 /* GreatPersonPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0DCE224D74C37004D9F06 /* GreatPersonPoints.swift */; };
 		C9C1279B27A2E275000871D6 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1279A27A2E275000871D6 /* Queue.swift */; };
 		C9C1699727DC9C9D00E61088 /* LeaderAgendaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1699627DC9C9C00E61088 /* LeaderAgendaType.swift */; };
+		C9C1699D27DF2DA600E61088 /* ApproachModifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1699C27DF2DA600E61088 /* ApproachModifierType.swift */; };
 		C9C1B1C52722DB2F00046D23 /* AdmiralUnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1B1C42722DB2F00046D23 /* AdmiralUnitType.swift */; };
 		C9C1B1C72722DB7300046D23 /* ArtistUnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1B1C62722DB7300046D23 /* ArtistUnitType.swift */; };
 		C9C1B1C92722DBB700046D23 /* EngineerUnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C1B1C82722DBB700046D23 /* EngineerUnitType.swift */; };
@@ -710,6 +711,7 @@
 		C9C0DCE224D74C37004D9F06 /* GreatPersonPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPersonPoints.swift; sourceTree = "<group>"; };
 		C9C1279A27A2E275000871D6 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		C9C1699627DC9C9C00E61088 /* LeaderAgendaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderAgendaType.swift; sourceTree = "<group>"; };
+		C9C1699C27DF2DA600E61088 /* ApproachModifierType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApproachModifierType.swift; sourceTree = "<group>"; };
 		C9C1B1C42722DB2F00046D23 /* AdmiralUnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdmiralUnitType.swift; sourceTree = "<group>"; };
 		C9C1B1C62722DB7300046D23 /* ArtistUnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistUnitType.swift; sourceTree = "<group>"; };
 		C9C1B1C82722DBB700046D23 /* EngineerUnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngineerUnitType.swift; sourceTree = "<group>"; };
@@ -1567,6 +1569,7 @@
 				C9E74CAE248D41E5003EF256 /* WarProjectionType.swift */,
 				C9E74CB0248D48E1003EF256 /* WarDamageLevelType.swift */,
 				C9F020FC276BD87400AF5E49 /* CasusBelliType.swift */,
+				C9C1699C27DF2DA600E61088 /* ApproachModifierType.swift */,
 			);
 			path = Diplomatic;
 			sourceTree = "<group>";
@@ -1983,6 +1986,7 @@
 				C9EF13972423C02C003B3DAD /* LandDisputeLevelType.swift in Sources */,
 				C9D645EB272295D900646BB8 /* BarbarianWarriorUnitType.swift in Sources */,
 				C9DFCF6A23F294C00032243D /* CivicDiscoveredMessage.swift in Sources */,
+				C9C1699D27DF2DA600E61088 /* ApproachModifierType.swift in Sources */,
 				C920E99C23DB1DBA008DEAB4 /* DiplomaticDealAI.swift in Sources */,
 				C9D8DF7223EE0E790091C917 /* DefenseStateType.swift in Sources */,
 				C9A1B5802523122400AC2292 /* TacticalMove.swift in Sources */,

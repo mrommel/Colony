@@ -8,6 +8,92 @@
 
 import Foundation
 
+public class DiplomaticAIPlayerApproachItem: Codable {
+
+    enum CodingKeys: CodingKey {
+
+        case type
+        case remainingTurn
+        case value
+        case reductionValue
+        case expired
+    }
+
+    public let type: ApproachModifierType
+    var remainingTurn: Int
+    public var value: Int
+    let reductionValue: Int
+    var expiredValue: Bool
+
+    public init(type: ApproachModifierType, initialValue: Int? = nil, reductionValue: Int? = nil) {
+
+        self.type = type
+
+        if let initialValue = initialValue {
+            self.value = initialValue
+        } else {
+            self.value = type.initialValue()
+        }
+
+        self.remainingTurn = type.reductionTurns()
+
+        if let reductionValue = reductionValue {
+            self.reductionValue = reductionValue
+        } else {
+            self.reductionValue = type.reductionValue()
+        }
+
+        self.expiredValue = false
+    }
+
+    public required init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.type = try container.decode(ApproachModifierType.self, forKey: .type)
+        self.value = try container.decode(Int.self, forKey: .value)
+        self.remainingTurn = try container.decode(Int.self, forKey: .remainingTurn)
+        self.reductionValue = try container.decode(Int.self, forKey: .reductionValue)
+        self.expiredValue = try container.decode(Bool.self, forKey: .expired)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.type, forKey: .type)
+        try container.encode(self.value, forKey: .value)
+        try container.encode(self.remainingTurn, forKey: .remainingTurn)
+        try container.encode(self.reductionValue, forKey: .reductionValue)
+        try container.encode(self.expiredValue, forKey: .expired)
+    }
+
+    func update() {
+
+        guard self.expiredValue == false else {
+            return
+        }
+
+        // remaining turns is reduced by
+        self.remainingTurn -= 1
+
+        // when negative we also start to reduce the value
+        if self.remainingTurn < 0 {
+            self.value -= self.reductionValue
+
+            // when the value (aka the effect) is zero - this has expired
+            if self.value == 0 {
+                self.expiredValue = true
+            }
+        }
+    }
+
+    public func expired() -> Bool {
+
+        return self.expiredValue
+    }
+}
+
 // swiftlint:disable type_body_length nesting
 class DiplomaticPlayerDict: Codable {
 
@@ -35,6 +121,7 @@ class DiplomaticPlayerDict: Codable {
             case militaryStrengthComparedToUs
             case militaryThreat
             case economicStrengthComparedToUs
+            case approachItems
 
             case approach
             case warState
@@ -97,6 +184,7 @@ class DiplomaticPlayerDict: Codable {
         var militaryStrengthComparedToUs: StrengthType
         var militaryThreat: MilitaryThreatType
         var economicStrengthComparedToUs: StrengthType
+        var approachItems: [DiplomaticAIPlayerApproachItem]
 
         var approach: Int // 0 ... 100
         var warState: PlayerWarStateType
@@ -163,6 +251,7 @@ class DiplomaticPlayerDict: Codable {
             self.militaryStrengthComparedToUs = .average
             self.militaryThreat = .none
             self.economicStrengthComparedToUs = .average
+            self.approachItems = []
 
             self.approach = 50 // default
             self.warFace = .none
@@ -227,6 +316,7 @@ class DiplomaticPlayerDict: Codable {
             self.militaryStrengthComparedToUs = try container.decode(StrengthType.self, forKey: .militaryStrengthComparedToUs)
             self.militaryThreat = try container.decode(MilitaryThreatType.self, forKey: .militaryThreat)
             self.economicStrengthComparedToUs = try container.decode(StrengthType.self, forKey: .economicStrengthComparedToUs)
+            self.approachItems = try container.decode([DiplomaticAIPlayerApproachItem].self, forKey: .approachItems)
 
             self.approach = try container.decode(Int.self, forKey: .approach)
             self.warState = try container.decode(PlayerWarStateType.self, forKey: .warState)
@@ -293,6 +383,7 @@ class DiplomaticPlayerDict: Codable {
             try container.encode(self.militaryStrengthComparedToUs, forKey: .militaryStrengthComparedToUs)
             try container.encode(self.militaryThreat, forKey: .militaryThreat)
             try container.encode(self.economicStrengthComparedToUs, forKey: .economicStrengthComparedToUs)
+            try container.encode(self.approachItems, forKey: .approachItems)
 
             try container.encode(self.approach, forKey: .approach)
             try container.encode(self.warState, forKey: .warState)
@@ -392,109 +483,6 @@ class DiplomaticPlayerDict: Codable {
             try container.encode(self.toLeader, forKey: .toLeader)
 
             try container.encode(self.warValueLost, forKey: .warValueLost)
-        }
-    }
-
-    enum ApproachModifierType {
-
-        case delegation // STANDARD_DIPLOMATIC_DELEGATION
-        case declaredFriend // STANDARD_DIPLOMATIC_DECLARED_FRIEND
-
-        // MARK: public methods
-
-        public func summary() -> String {
-
-            return self.data().summary
-        }
-
-        public func initialValue() -> Int {
-
-            return self.data().initialValue
-        }
-
-        public func reductionTurns() -> Int {
-
-            return self.data().reductionTurns
-        }
-
-        public func reductionValue() -> Int {
-
-            return self.data().reductionValue
-        }
-
-        // MARK: private methods
-
-        private class ApproachModifierTypeData {
-
-            let summary: String
-            let initialValue: Int
-            let reductionTurns: Int // how many turns is it active
-            let reductionValue: Int // decay value to be substracted
-
-            init(summary: String, initialValue: Int, reductionTurns: Int, reductionValue: Int) {
-
-                self.summary = summary
-                self.initialValue = initialValue
-                self.reductionTurns = reductionTurns
-                self.reductionValue = reductionValue
-            }
-        }
-
-        // https://github.com/Swiftwork/civ6-explorer/blob/dbe3ca6d5468828ef0b26ef28f69555de0bcb959/src/assets/game/BaseGame/Leaders.xml
-        private func data() -> ApproachModifierTypeData {
-
-            switch self {
-
-            case .delegation:
-                return ApproachModifierTypeData(
-                    summary: "LOC_DIPLO_MODIFIER_DELEGATION",
-                    initialValue: 3,
-                    reductionTurns: -1,
-                    reductionValue: 0
-                )
-
-            case .declaredFriend:
-                return ApproachModifierTypeData(
-                    summary: "LOC_DIPLO_MODIFIER_DECLARED_FRIEND",
-                    initialValue: -9,
-                    reductionTurns: 10,
-                    reductionValue: -1
-                )
-            }
-        }
-    }
-
-    class DiplomaticAIPlayerApproachItem {
-
-        let type: ApproachModifierType
-        var remainingTurn: Int
-        var value: Int
-        var expiredValue: Bool
-
-        init (type: ApproachModifierType) {
-
-            self.type = type
-            self.value = type.initialValue()
-            self.remainingTurn = type.reductionTurns()
-            self.expiredValue = false
-        }
-
-        func update() {
-
-            guard self.remainingTurn != -1 else {
-                return
-            }
-
-            self.value -= self.type.reductionValue()
-
-            if self.value < 0 {
-                self.expiredValue = true
-            }
-        }
-
-        func expired() -> Bool {
-
-            return self.expiredValue
         }
     }
 
@@ -629,9 +617,15 @@ class DiplomaticPlayerDict: Codable {
 
     // MARK: approach methods
 
-    func addApproach(type: ApproachModifierType, towards otherPlayer: AbstractPlayer?) {
+    func addApproach(type: ApproachModifierType,
+                     initialValue: Int? = nil,
+                     reductionValue: Int? = nil,
+                     towards otherPlayer: AbstractPlayer?) {
 
-        let approachItem = DiplomaticAIPlayerApproachItem(type: type)
+        let approachItem = DiplomaticAIPlayerApproachItem(type: type,
+                                                          initialValue: initialValue,
+                                                          reductionValue: reductionValue)
+
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.approachItems.append(approachItem)
         } else {
@@ -648,6 +642,22 @@ class DiplomaticPlayerDict: Codable {
         fatalError("not gonna happen")
     }
 
+    func updateApproachItems(towards otherPlayer: AbstractPlayer?) {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+
+            var tmpApproachItems = item.approachItems
+
+            for approachItem in tmpApproachItems {
+                approachItem.update()
+            }
+
+            tmpApproachItems.removeAll(where: { $0.expired() })
+
+            item.approachItems = tmpApproachItems
+        }
+    }
+
     func updateApproachValue(towards otherPlayer: AbstractPlayer?, to value: Int) {
 
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
@@ -657,7 +667,7 @@ class DiplomaticPlayerDict: Codable {
         }
     }
 
-    func approachValue(towards otherPlayer: AbstractPlayer?) -> Int {
+    public func approachValue(towards otherPlayer: AbstractPlayer?) -> Int {
 
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.approach

@@ -714,6 +714,15 @@ extension GameViewModel {
             )
         }
 
+        let playerApproachTypeTextureNames = PlayerApproachType.all.map { $0.iconTexture() }
+        print("- load \(playerApproachTypeTextureNames.count) player approach textures")
+        for textureName in playerApproachTypeTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
         print("-- all textures loaded --")
 
         self.bottomLeftBarViewModel.preloadAssets()
