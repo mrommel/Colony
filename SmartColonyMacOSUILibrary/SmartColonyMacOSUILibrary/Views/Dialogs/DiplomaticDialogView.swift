@@ -157,12 +157,14 @@ public struct DiplomaticDialogView: View {
 
         VStack(spacing: 10) {
 
-            Button(action: {
-                // NOOP
-            }, label: {
-                Text("Declare Friendship")
-            })
-                .buttonStyle(GameButtonStyle())
+            if self.viewModel.canDeclareFriendship {
+                Button(action: {
+                    self.viewModel.declareFriendshipClicked()
+                }, label: {
+                    Text("Declare Friendship")
+                })
+                    .buttonStyle(GameButtonStyle())
+            }
 
             if self.viewModel.canSendDelegation {
                 Button(action: {
@@ -201,12 +203,14 @@ public struct DiplomaticDialogView: View {
                     .buttonStyle(GameButtonStyle())
             }
 
-            Button(action: {
-                // NOOP
-            }, label: {
-                Text("Make Deal")
-            })
-                .buttonStyle(GameButtonStyle())
+            if self.viewModel.canMakeDeal {
+                Button(action: {
+                    self.viewModel.makeDealClicked()
+                }, label: {
+                    Text("Make Deal")
+                })
+                    .buttonStyle(GameButtonStyle())
+            }
         }
         .frame(width: 360)
     }

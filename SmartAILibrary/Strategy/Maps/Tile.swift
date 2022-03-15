@@ -157,6 +157,7 @@ public protocol AbstractTile: Codable, NSCopying {
     func set(owner: AbstractPlayer?) throws
     func change(owner: AbstractPlayer?) throws
     func removeOwner() throws
+    func isCloseToBorder(of playerRef: AbstractPlayer?, in gameModel: GameModel?) -> Bool
 
     // methods related to working city
     func isCity() -> Bool
@@ -1169,6 +1170,36 @@ public class Tile: AbstractTile {
     public func ownerLeader() -> LeaderType {
 
         return self.ownerLeaderValue
+    }
+
+    /// Is this Plot within a certain range of any of a player's Cities?
+    public func isCloseToBorder(of playerRef: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game model")
+        }
+
+        guard let player = playerRef else {
+            return false
+        }
+
+        var minDistance: Int = Int.max
+
+        // do not use estimated turns here, performance is not good
+        for cityRef in gameModel.cities(of: player) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            let distance = city.location.distance(to: self.point)
+            if distance < minDistance {
+                minDistance = distance
+            }
+        }
+
+        let range = 5 /* AI_DIPLO_PLOT_RANGE_FROM_CITY_HOME_FRONT */
+        return minDistance < range
     }
 
     // MARK: work related methods

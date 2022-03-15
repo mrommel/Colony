@@ -239,7 +239,7 @@ public class DiplomaticAI: Codable {
         // LogOtherPlayerGuessStatus();
 
         // Look at the situation
-        // DoUpdateMilitaryAggressivePostures();
+        self.doUpdateMilitaryAggressivePostures(in: gameModel)
         self.doUpdateExpansionAggressivePostures(in: gameModel)
         self.doUpdatePlotBuyingAggressivePosture(in: gameModel)
 
@@ -2705,7 +2705,21 @@ public class DiplomaticAI: Codable {
         }
     }
 
-    func doDeclarationOfFriendship(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+    public func canDeclareFriendship(with otherPlayer: AbstractPlayer?) -> Bool {
+
+        guard let playerDiplomacyAI = self.player?.diplomacyAI else {
+            fatalError("cant get current player diplomacy")
+        }
+
+        if playerDiplomacyAI.isAtWar(with: otherPlayer) {
+            return false
+        }
+
+        let approach = self.approach(towards: otherPlayer)
+        return approach == .friendly
+    }
+
+    public func doDeclarationOfFriendship(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let player = self.player else {
             fatalError("cant get current player")
@@ -2719,8 +2733,17 @@ public class DiplomaticAI: Codable {
             fatalError("no game model given")
         }
 
+        guard self.canDeclareFriendship(with: otherPlayer) else {
+            fatalError("cant declare friendship")
+        }
+
         self.playerDict.establishDeclarationOfFriendship(with: otherPlayer)
+        otherPlayer.diplomacyAI?.playerDict.establishDeclarationOfFriendship(with: self.player)
+
         self.playerDict.addApproach(type: .declaredFriend, towards: otherPlayer)
+        self.playerDict.updateApproachValue(towards: otherPlayer, to: PlayerApproachType.declaredFriend.level())
+        otherPlayer.diplomacyAI?.playerDict.addApproach(type: .declaredFriend, towards: self.player)
+        otherPlayer.diplomacyAI?.playerDict.updateApproachValue(towards: self.player, to: PlayerApproachType.declaredFriend.level())
 
         // inform human player only, if he is not involved
         if !player.isHuman() && !otherPlayer.isHuman() {
@@ -2764,7 +2787,7 @@ public class DiplomaticAI: Codable {
         }
 
         self.playerDict.denounce(player: otherPlayer)
-        self.playerDict.addApproach(type: .denounce, towards: gameModel)
+        otherPlayer.diplomacyAI?.playerDict.addApproach(type: .denounced, towards: player)
 
         // inform human player only, if he is not involved
         if !player.isHuman() && !otherPlayer.isHuman() {
@@ -2793,18 +2816,147 @@ public class DiplomaticAI: Codable {
         return self.playerDict.hasDenounced(player: otherPlayer)
     }
 
+    public func canDenounce(player otherPlayer: AbstractPlayer?) -> Bool {
+
+        if self.playerDict.hasDenounced(player: otherPlayer) {
+            return false
+        }
+
+        // Allied leaders cannot Denounce each other
+        let approach = self.approach(towards: otherPlayer)
+        if approach == .declaredFriend || approach == .allied {
+            return false
+        }
+
+        return true
+    }
+
     // MARK: delegation
 
-    public func hasDelegation(with otherPlayer: AbstractPlayer?) -> Bool {
+    public func canSendDelegation(to otherPlayer: AbstractPlayer?) -> Bool {
 
-        print("not implemented")
+        guard let playerTreasury = self.player?.treasury else {
+            fatalError("cant get player treasury")
+        }
+
+        guard let playerCivics = self.player?.civics else {
+            fatalError("cant get player civics")
+        }
+
+        if playerTreasury.value() < 25 {
+            return false
+        }
+
+        if self.hasSendDelegation(to: otherPlayer) {
+            return false
+        }
+
+        if playerCivics.has(civic: .diplomaticService) {
+            return false
+        }
+
+        let approach = self.approach(towards: otherPlayer)
+        if approach == .neutral || approach == .friendly || approach == .declaredFriend || approach == .allied {
+            return true
+        }
+
         return false
+    }
+
+    public func hasSendDelegation(to otherPlayer: AbstractPlayer?) -> Bool {
+
+        guard let playerDiplomacy = self.player?.diplomacyAI else {
+            fatalError("cant get player diplomacyAI")
+        }
+
+        return playerDiplomacy.playerDict.hasDelegation(with: otherPlayer)
     }
 
     public func doSendDelegation(to otherPlayer: AbstractPlayer?) {
 
-        self.playerDict.addApproach(type: .delegation, towards: otherPlayer)
-        print("not implemented")
+        guard let playerDiplomacy = self.player?.diplomacyAI else {
+            fatalError("cant get player diplomacyAI")
+        }
+
+        if self.canSendDelegation(to: otherPlayer) {
+
+            playerDiplomacy.playerDict.sendDelegation(to: otherPlayer, send: true)
+            playerDiplomacy.playerDict.addApproach(type: .delegation, towards: self.player)
+        }
+    }
+
+    public func doRevokeDelegation(from otherPlayer: AbstractPlayer?) {
+
+        guard let playerDiplomacy = self.player?.diplomacyAI else {
+            fatalError("cant get player diplomacyAI")
+        }
+
+        playerDiplomacy.playerDict.sendDelegation(to: otherPlayer, send: false)
+        playerDiplomacy.playerDict.removeApproach(type: .delegation, towards: self.player)
+    }
+
+    // MARK: embassies
+
+    func hasSendEmbassy(to otherPlayer: AbstractPlayer?) -> Bool {
+
+        guard let playerDiplomacy = self.player?.diplomacyAI else {
+            fatalError("cant get player diplomacyAI")
+        }
+
+        return playerDiplomacy.playerDict.hasEmbassy(with: otherPlayer)
+    }
+
+    public func canSendEmbassy(to otherPlayer: AbstractPlayer?) -> Bool {
+
+        guard let playerTreasury = self.player?.treasury else {
+            fatalError("cant get player treasury")
+        }
+
+        guard let playerCivics = self.player?.civics else {
+            fatalError("cant get player civics")
+        }
+
+        if playerTreasury.value() < 50 {
+            return false
+        }
+
+        if self.hasSendEmbassy(to: otherPlayer) {
+            return false
+        }
+
+        if !playerCivics.has(civic: .diplomaticService) {
+            return false
+        }
+
+        let approach = self.approach(towards: otherPlayer)
+        if approach == .neutral || approach == .friendly || approach == .declaredFriend || approach == .allied {
+            return true
+        }
+
+        return false
+    }
+
+    public func doSendEmbassy(to otherPlayer: AbstractPlayer?) {
+
+        guard let playerDiplomacy = self.player?.diplomacyAI else {
+            fatalError("cant get player diplomacyAI")
+        }
+
+        if self.canSendEmbassy(to: otherPlayer) {
+
+            playerDiplomacy.playerDict.sendEmbassy(to: otherPlayer, send: true)
+            playerDiplomacy.playerDict.addApproach(type: .embassy, towards: self.player)
+        }
+    }
+
+    public func doRevokeEmbassy(from otherPlayer: AbstractPlayer?) {
+
+        guard let playerDiplomacy = self.player?.diplomacyAI else {
+            fatalError("cant get player diplomacyAI")
+        }
+
+        playerDiplomacy.playerDict.sendEmbassy(to: otherPlayer, send: false)
+        playerDiplomacy.playerDict.removeApproach(type: .embassy, towards: self.player)
     }
 
     // MARK: pacts - defensive pacts
@@ -2841,7 +2993,7 @@ public class DiplomaticAI: Codable {
         // Cancel Trade Deals
         self.doCancelDeals(with: otherPlayer)
 
-        self.playerDict.updateApproachValue(towards: otherPlayer, to: 0)
+        self.playerDict.updateApproachValue(towards: otherPlayer, to: PlayerApproachType.war.level())
         self.playerDict.updateWarState(towards: otherPlayer, to: .defensive)
 
         otherPlayer?.diplomacyAI?.playerDict.updateApproachValue(towards: self.player, to: 0)
@@ -2849,7 +3001,7 @@ public class DiplomaticAI: Codable {
     }
 
     //    --------------------------------------------------------------------------------
-    func canDeclareWar(to otherPlayer: AbstractPlayer?) -> Bool {
+    public func canDeclareWar(to otherPlayer: AbstractPlayer?) -> Bool {
 
         guard let player = self.player else {
             fatalError("catn get player")
@@ -3467,7 +3619,7 @@ public class DiplomaticAI: Codable {
         self.playerDict.updateApproachItems(towards: otherPlayer)
 
         let currentApproachValue: Int = self.playerDict.approachValue(towards: otherPlayer)
-        let updateApproachValue: Int = currentApproachValue + delta
+        let updateApproachValue: Int = (currentApproachValue + delta).clamped(to: 0...100)
 
         self.playerDict.updateApproachValue(towards: otherPlayer, to: updateApproachValue)
 
@@ -3478,6 +3630,15 @@ public class DiplomaticAI: Codable {
 
         if playerTradeRoutes.hasTradeRoute(with: otherPlayer, in: gameModel) {
             self.playerDict.addApproach(type: .establishedTradeRoute, towards: otherPlayer)
+            otherPlayer?.diplomacyAI?.playerDict.addApproach(type: .establishedTradeRoute, towards: player)
+        }
+
+        // check threat
+        let militaryAggressivePosture = self.militaryAggressivePosture(of: otherPlayer)
+        if militaryAggressivePosture == .high || militaryAggressivePosture == .incredible {
+            if !self.playerDict.hasApproach(type: .nearBorder, towards: otherPlayer) {
+                self.playerDict.addApproach(type: .nearBorder, towards: otherPlayer)
+            }
         }
     }
 
@@ -5012,6 +5173,193 @@ public class DiplomaticAI: Codable {
                 self.playerDict.updateLandDisputeLevel(with: loopPlayer, to: disputeLevel)
             }
         }
+    }
+
+    /// Updates how aggressively all players' military Units are positioned in relation to us
+    func doUpdateMilitaryAggressivePostures(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let playerMilitaryAI = self.player?.militaryAI else {
+            fatalError("cant get player militaryAI")
+        }
+
+        let typicalLandPower = playerMilitaryAI.powerOfStrongestBuildableUnit(in: .land)
+        let typicalNavalPower = playerMilitaryAI.powerOfStrongestBuildableUnit(in: .sea)
+        let typicalAirPower = playerMilitaryAI.powerOfStrongestBuildableUnit(in: .air)
+
+        // Loop through all (known) Players
+        for loopPlayer in gameModel.players {
+
+            if !loopPlayer.isFreeCity() && !loopPlayer.isBarbarian() && !loopPlayer.isCityState() {
+
+                // Keep a record of last turn
+                let currentPosture = self.militaryAggressivePosture(of: loopPlayer)
+                self.playerDict.updateLastTurnMilitaryAggressivePosture(to: currentPosture, with: loopPlayer)
+
+                // We're allowing them Open Borders? We shouldn't care.
+                if self.isOpenBorderAgreementActive(by: loopPlayer) {
+                    self.playerDict.updateMilitaryAggressivePosture(to: .none, with: loopPlayer)
+                    return
+                }
+
+                // We're working together, so don't worry about it
+                if self.isDeclarationOfFriendshipActive(by: loopPlayer) || self.isDefensivePactActive(with: loopPlayer) {
+                    self.playerDict.updateMilitaryAggressivePosture(to: .none, with: loopPlayer)
+                    return
+                }
+
+                // They resurrected us, so don't worry about it
+                /* if ((WasResurrectedBy(ePlayer) || IsMasterLiberatedMeFromVassalage(loopPlayer)) && !self.isAtWar(loopPlayer)) {
+                    self.playerDict.updateMilitaryAggressivePosture(to: .none, with: loopPlayer)
+                    return
+                } */
+
+                var unitValueOnMyHomeFront = 0
+                var unitScore = 0
+                let isAtWarWithSomeone = loopPlayer.atWarCount() > 0
+
+                // For humans (Move Troops request) or if at war with them, ignore other wars the player may be waging
+                let ignoreOtherWars = player.isHuman() || self.isAtWar(with: loopPlayer)
+
+                // Loop through the other guy's units
+                //for (CvUnit* pLoopUnit = loopPlayer.firstUnit(&iUnitLoop); pLoopUnit != NULL; pLoopUnit = loopPlayer.nextUnit(&iUnitLoop))
+                for loopUnitRef in gameModel.units(of: loopPlayer) {
+
+                    guard let loopUnit = loopUnitRef else {
+                        continue
+                    }
+
+                    // Don't be scared of noncombat Units!
+                    if loopUnit.type.unitClass() == .civilian || loopUnit.type.defaultTask() == .explore || loopUnit.type.defaultTask() == .exploreSea {
+                        continue
+                    }
+
+                    guard let unitPlot = gameModel.tile(at: loopUnit.location) else {
+                        continue
+                    }
+
+                    // Can we actually see this Unit? No cheating!
+                    if unitPlot.isVisible(to: self.player) /* || unitPlot.isin->isInvisible(eOurTeam, false))*/ {
+                        continue
+                    }
+
+                    // Must be close to us
+                    if !unitPlot.isCloseToBorder(of: self.player, in: gameModel) {
+                        continue
+                    }
+
+                    // At war with someone? Because if this Unit is in the vicinity of another player he's already at war with, don't count this Unit as aggressive
+                    if isAtWarWithSomeone && !ignoreOtherWars {
+
+                        // Loop through all players...
+                        for otherLoopPlayer in gameModel.players {
+
+                            // At war with this player?
+                            if !otherLoopPlayer.isEqual(to: player) && loopPlayer.isAtWar(with: otherLoopPlayer) {
+
+                                // Is the unit close to the other player?
+                                if unitPlot.isCloseToBorder(of: otherLoopPlayer, in: gameModel) {
+                                    continue
+                                }
+                            }
+                        }
+                    }
+
+                    var valueToAdd = 100
+
+                    // Adjust based on unit power compared to us
+                    // Units stronger than ours are worth more, units weaker than ours are worth less
+                    var unitValuePercent = loopUnit.power() * 100
+
+                    if unitValuePercent > 0 {
+                        // Compare to strongest unit we can build in that domain, for an apples to apples comparison
+                        // Best unit that can be currently built in a domain is given a value of 100
+                        let domain = loopUnit.domain()
+
+                        if domain == .air {
+                            if typicalAirPower > 0 {
+                                unitValuePercent /= typicalAirPower
+                            } else {
+                                unitValuePercent = 100 /* DEFAULT_WAR_VALUE_FOR_UNIT */
+                            }
+                        } else if domain == .sea {
+                            if typicalNavalPower > 0 {
+                                unitValuePercent /= typicalNavalPower
+                            } else {
+                                unitValuePercent = 100 /* DEFAULT_WAR_VALUE_FOR_UNIT */
+                            }
+                        } else {
+                            if typicalLandPower > 0 {
+                                unitValuePercent /= typicalLandPower
+                            } else {
+                                unitValuePercent = 100 /* DEFAULT_WAR_VALUE_FOR_UNIT */
+                            }
+                        }
+
+                        valueToAdd *= unitValuePercent
+                        valueToAdd /= 100
+                    } else {
+                        continue
+                    }
+
+                    // If the Unit is in the other team's territory, halve its "aggression value", since he may just be defending himself
+                    if loopPlayer.isEqual(to: unitPlot.owner()) {
+                        valueToAdd /= 2
+                        unitScore += 1
+                    } else {
+                        unitScore += 2
+                    }
+
+                    unitValueOnMyHomeFront += valueToAdd
+                }
+
+                var aggressivePosture: AggressivePostureType = .none
+
+                // So how threatening is he being?
+                if unitValueOnMyHomeFront >= 800 /* MILITARY_AGGRESSIVE_POSTURE_THRESHOLD_INCREDIBLE */ {
+                    aggressivePosture = .incredible
+                } else if unitValueOnMyHomeFront >= 500 /* MILITARY_AGGRESSIVE_POSTURE_THRESHOLD_HIGH */ {
+                    aggressivePosture = .high
+                } else if unitValueOnMyHomeFront >= 300 /* MILITARY_AGGRESSIVE_POSTURE_THRESHOLD_MEDIUM */ {
+                    aggressivePosture = .medium
+                } else if unitValueOnMyHomeFront >= 100 /* MILITARY_AGGRESSIVE_POSTURE_THRESHOLD_LOW */ {
+                    aggressivePosture = .low
+                }
+
+                // Common sense override in case they have a large number of low-power units nearby
+                if aggressivePosture < .incredible && unitScore >= 18 { // 9 units
+                    aggressivePosture = .incredible
+                } else if aggressivePosture < .high && unitScore >= 14 { // 7 units
+                    aggressivePosture = .high
+                } else if aggressivePosture < .medium && unitScore >= 10 { // 5 units
+                    aggressivePosture = .medium
+                }
+
+                self.playerDict.updateMilitaryAggressivePosture(to: aggressivePosture, with: loopPlayer)
+
+                if aggressivePosture > currentPosture && aggressivePosture >= .medium {
+                    // v.push_back(ePlayer);
+                }
+            } else {
+                self.playerDict.updateMilitaryAggressivePosture(to: .none, with: loopPlayer)
+                self.playerDict.updateLastTurnMilitaryAggressivePosture(to: .none, with: loopPlayer)
+            }
+        }
+
+        // If someone's aggressive posture rose, reevaluate our approach towards them immediately
+        // DoReevaluatePlayers(v);
+    }
+
+    func militaryAggressivePosture(of otherPlayer: AbstractPlayer?) -> AggressivePostureType {
+
+        return self.playerDict.militaryAggressivePosture(towards: otherPlayer)
     }
 
     /// Updates how aggressively this player's Units are positioned in relation to us

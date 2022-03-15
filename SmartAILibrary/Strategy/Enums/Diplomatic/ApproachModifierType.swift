@@ -12,10 +12,12 @@ public enum ApproachModifierType: Int, Codable {
 
     // normal
     case delegation // STANDARD_DIPLOMATIC_DELEGATION
+    case embassy // STANDARD_DIPLOMACY_RESIDENT_EMBASSY
     case declaredFriend // STANDARD_DIPLOMATIC_DECLARED_FRIEND
-    case denounce // STANDARD_DIPLOMATIC_DENOUNCED
-    case firstImpression
-    case establishedTradeRoute
+    case denounced // STANDARD_DIPLOMATIC_DENOUNCED
+    case firstImpression // STANDARD_DIPLOMACY_RANDOM ??
+    case establishedTradeRoute // STANDARD_DIPLOMACY_TRADE_RELATIONS
+    case nearBorder // STANDARD_DIPLOMATIC_NEAR_BORDER_WARNING
 
     // hidden agendas
     // https://github.com/Swiftwork/civ6-explorer/blob/dbe3ca6d5468828ef0b26ef28f69555de0bcb959/src/assets/game/BaseGame/Leaders.xml
@@ -75,6 +77,15 @@ public enum ApproachModifierType: Int, Codable {
                 hiddenAgenda: nil
             )
 
+        case .embassy:
+            return ApproachModifierTypeData(
+                summary: "LOC_DIPLO_MODIFIER_RESIDENT_EMBASSY",
+                initialValue: 5,
+                reductionTurns: -1,
+                reductionValue: 0,
+                hiddenAgenda: nil
+            )
+
         case .declaredFriend:
             return ApproachModifierTypeData(
                 summary: "LOC_DIPLO_MODIFIER_DECLARED_FRIEND",
@@ -84,7 +95,7 @@ public enum ApproachModifierType: Int, Codable {
                 hiddenAgenda: nil
             )
 
-        case .denounce:
+        case .denounced:
             return ApproachModifierTypeData(
                 summary: "LOC_DIPLO_MODIFIER_DENOUNCED",
                 initialValue: -9,
@@ -107,6 +118,15 @@ public enum ApproachModifierType: Int, Codable {
                 summary: "Trade Route between our nations",
                 initialValue: 2,
                 reductionTurns: 1,
+                reductionValue: -1,
+                hiddenAgenda: nil
+            )
+
+        case .nearBorder:
+            return ApproachModifierTypeData(
+                summary: "LOC_DIPLO_MODIFIER_NEAR_BORDER_WARNING",
+                initialValue: -2,
+                reductionTurns: 20,
                 reductionValue: -1,
                 hiddenAgenda: nil
             )

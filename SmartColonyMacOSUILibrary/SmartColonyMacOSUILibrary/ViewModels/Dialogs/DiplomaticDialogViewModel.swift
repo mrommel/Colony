@@ -159,6 +159,12 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
     @Published
     var canDeclareWar: Bool = false
+
+    @Published
+    var canDeclareFriendship: Bool = false
+
+    @Published
+    var canMakeDeal: Bool = false
     // actions
 
     // reports
@@ -326,39 +332,14 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
     func updateActions() {
 
-        guard let humanPlayerTreasury = self.humanPlayer?.treasury else {
-            fatalError("cant get player treasury")
-        }
-
         guard let playerDiplomacyAI = self.humanPlayer?.diplomacyAI else {
             fatalError("cant get player diplomacy")
         }
 
-        var tmpCanSendDelegation: Bool = true
-        var tmpCanDenounce: Bool = true
-        var tmpCanDeclareWar: Bool = true
-
-        if playerDiplomacyAI.isAtWar(with: self.otherPlayer) {
-            tmpCanSendDelegation = false
-            tmpCanDenounce = false
-            tmpCanDeclareWar = false
-        }
-
-        if playerDiplomacyAI.hasDelegation(with: self.otherPlayer) {
-            tmpCanSendDelegation = false
-        }
-
-        if humanPlayerTreasury.value() < 25 {
-            tmpCanSendDelegation = false
-        }
-
-        if playerDiplomacyAI.hasDenounced(player: otherPlayer) {
-            tmpCanDenounce = false
-        }
-
-        self.canSendDelegation = tmpCanSendDelegation
-        self.canDenounce = tmpCanDenounce
-        self.canDeclareWar = tmpCanDeclareWar
+        self.canSendDelegation = playerDiplomacyAI.canSendDelegation(to: otherPlayer)
+        self.canDenounce = playerDiplomacyAI.canDenounce(player: otherPlayer)
+        self.canDeclareWar = playerDiplomacyAI.canDeclareWar(to: otherPlayer)
+        self.canDeclareFriendship = playerDiplomacyAI.canDeclareFriendship(with: otherPlayer)
     }
 
     func overview(for report: IntelReportType) -> NSAttributedString {
@@ -418,9 +399,46 @@ public class DiplomaticDialogViewModel: ObservableObject {
         }
     }
 
+    func declareFriendshipClicked() {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let playerDiplomacyAI = self.humanPlayer?.diplomacyAI else {
+            fatalError("cant get player diplomacy")
+        }
+
+        if playerDiplomacyAI.canDeclareFriendship(with: self.otherPlayer) {
+            playerDiplomacyAI.doDeclarationOfFriendship(with: self.otherPlayer, in: gameModel)
+        }
+
+        self.updateActions()
+    }
+
     func sendDelegationClicked() {
 
-        self.humanPlayer?.diplomacyAI?.doSendDelegation(to: self.otherPlayer)
+        guard let playerDiplomacyAI = self.humanPlayer?.diplomacyAI else {
+            fatalError("cant get player diplomacy")
+        }
+
+        if playerDiplomacyAI.canSendDelegation(to: otherPlayer) {
+            self.humanPlayer?.diplomacyAI?.doSendDelegation(to: self.otherPlayer)
+        }
+
+        self.updateActions()
+    }
+
+    func sendEmbassyClicked() {
+
+        guard let playerDiplomacyAI = self.humanPlayer?.diplomacyAI else {
+            fatalError("cant get player diplomacy")
+        }
+
+        if playerDiplomacyAI.canSendEmbassy(to: otherPlayer) {
+            self.humanPlayer?.diplomacyAI?.doSendEmbassy(to: self.otherPlayer)
+        }
+
         self.updateActions()
     }
 
@@ -430,7 +448,14 @@ public class DiplomaticDialogViewModel: ObservableObject {
             fatalError("cant get game")
         }
 
-        self.humanPlayer?.diplomacyAI?.doDenounce(player: self.otherPlayer, in: gameModel)
+        guard let playerDiplomacyAI = self.humanPlayer?.diplomacyAI else {
+            fatalError("cant get player diplomacy")
+        }
+
+        if playerDiplomacyAI.canDenounce(player: otherPlayer) {
+            self.humanPlayer?.diplomacyAI?.doDenounce(player: self.otherPlayer, in: gameModel)
+        }
+
         self.updateActions()
     }
 
@@ -440,8 +465,20 @@ public class DiplomaticDialogViewModel: ObservableObject {
             fatalError("cant get game")
         }
 
-        self.humanPlayer?.doDeclareWar(to: self.otherPlayer, in: gameModel)
+        guard let playerDiplomacyAI = self.humanPlayer?.diplomacyAI else {
+            fatalError("cant get player diplomacy")
+        }
+
+        if playerDiplomacyAI.canDeclareWar(to: otherPlayer) {
+            self.humanPlayer?.doDeclareWar(to: self.otherPlayer, in: gameModel)
+        }
+
         self.updateActions()
+    }
+
+    func makeDealClicked() {
+
+        // change something on the UI !
     }
 
     func closeDialog() {
