@@ -76,7 +76,7 @@ class TradeRouteTests: XCTestCase {
         try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
         try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
         try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
-        humanPlayer.government?.set(governmentType: .chiefdom)
+        humanPlayer.government?.set(governmentType: .chiefdom, in: gameModel)
         try! humanPlayer.government?.set(policyCardSet: PolicyCardSet(cards: [.godKing, .discipline]))
 
         if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
@@ -165,7 +165,7 @@ class TradeRouteTests: XCTestCase {
         try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
         try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
         try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
-        humanPlayer.government?.set(governmentType: .chiefdom)
+        humanPlayer.government?.set(governmentType: .chiefdom, in: gameModel)
         try! humanPlayer.government?.set(policyCardSet: PolicyCardSet(cards: [.godKing, .discipline]))
 
         // AI units

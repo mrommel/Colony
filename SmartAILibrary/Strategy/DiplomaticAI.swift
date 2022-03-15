@@ -155,7 +155,7 @@ public class DiplomaticAI: Codable {
 
     var player: AbstractPlayer?
 
-    private var playerDict: DiplomaticPlayerDict
+    internal var playerDict: DiplomaticPlayerDict
     internal var stateOfAllWars: PlayerStateAllWars
 
     private var greetPlayers: [AbstractPlayer?] = []
@@ -2786,8 +2786,13 @@ public class DiplomaticAI: Codable {
             fatalError("no game model given")
         }
 
-        self.playerDict.denounce(player: otherPlayer)
+        guard self.canDenounce(player: otherPlayer) else {
+            fatalError("cant denounce player")
+        }
+
+        otherPlayer.diplomacyAI?.playerDict.denounce(player: player)
         otherPlayer.diplomacyAI?.playerDict.addApproach(type: .denounced, towards: player)
+        otherPlayer.diplomacyAI?.playerDict.updateApproachValue(towards: player, to: PlayerApproachType.denounced.level())
 
         // inform human player only, if he is not involved
         if !player.isHuman() && !otherPlayer.isHuman() {
@@ -2996,7 +3001,7 @@ public class DiplomaticAI: Codable {
         self.playerDict.updateApproachValue(towards: otherPlayer, to: PlayerApproachType.war.level())
         self.playerDict.updateWarState(towards: otherPlayer, to: .defensive)
 
-        otherPlayer?.diplomacyAI?.playerDict.updateApproachValue(towards: self.player, to: 0)
+        otherPlayer?.diplomacyAI?.playerDict.updateApproachValue(towards: self.player, to: PlayerApproachType.war.level())
         otherPlayer?.diplomacyAI?.playerDict.updateWarState(towards: self.player, to: .defensive)
     }
 
@@ -3131,7 +3136,7 @@ public class DiplomaticAI: Codable {
         // Auto War for Defensive Pacts of other player
         self.activateDefensivePacts(against: otherPlayer, in: gameModel)
 
-        self.playerDict.updateApproachValue(towards: otherPlayer, to: 0)
+        self.playerDict.updateApproachValue(towards: otherPlayer, to: PlayerApproachType.war.level())
         self.playerDict.updateWarState(towards: otherPlayer, to: .defensive)
     }
 
@@ -5196,6 +5201,10 @@ public class DiplomaticAI: Codable {
 
         // Loop through all (known) Players
         for loopPlayer in gameModel.players {
+
+            if !loopPlayer.isAlive() || player.isEqual(to: loopPlayer) || !player.hasMet(with: loopPlayer) {
+                continue
+            }
 
             if !loopPlayer.isFreeCity() && !loopPlayer.isBarbarian() && !loopPlayer.isCityState() {
 

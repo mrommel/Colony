@@ -693,7 +693,7 @@ class DiplomaticPlayerDict: Codable {
         }
     }
 
-    func updateApproachValue(towards otherPlayer: AbstractPlayer?, to value: Int) {
+    internal func updateApproachValue(towards otherPlayer: AbstractPlayer?, to value: Int) {
 
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.approach = value

@@ -132,7 +132,6 @@ class CityTests: XCTestCase {
 
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
-        playerAlexander.government?.set(governmentType: .autocracy)
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .tiny, seed: 42)
 
@@ -156,6 +155,8 @@ class CityTests: XCTestCase {
             players: [barbarianPlayer, playerAlexander],
             on: mapModel
         )
+
+        playerAlexander.government?.set(governmentType: .autocracy, in: gameModel)
 
         try! playerAlexander.techs?.discover(tech: .mining, in: gameModel)
 
@@ -201,7 +202,6 @@ class CityTests: XCTestCase {
 
         let playerAlexander = Player(leader: .alexander, isHuman: false)
         playerAlexander.initialize()
-        playerAlexander.government?.set(governmentType: .autocracy)
 
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
@@ -228,6 +228,8 @@ class CityTests: XCTestCase {
             players: [barbarianPlayer, playerAlexander, playerTrajan],
             on: mapModel
         )
+
+        playerAlexander.government?.set(governmentType: .autocracy, in: gameModel)
 
         try! playerAlexander.techs?.discover(tech: .mining, in: gameModel)
         try! playerAlexander.techs?.discover(tech: .pottery, in: gameModel)
@@ -260,7 +262,6 @@ class CityTests: XCTestCase {
 
         let playerAlexander = Player(leader: .alexander, isHuman: false)
         playerAlexander.initialize()
-        playerAlexander.government?.set(governmentType: .autocracy)
 
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
@@ -287,6 +288,8 @@ class CityTests: XCTestCase {
             players: [barbarianPlayer, playerAlexander, playerTrajan],
             on: mapModel
         )
+
+        playerAlexander.government?.set(governmentType: .autocracy, in: gameModel)
 
         try! playerAlexander.techs?.discover(tech: .mining, in: gameModel)
         try! playerAlexander.techs?.discover(tech: .pottery, in: gameModel)
@@ -316,7 +319,6 @@ class CityTests: XCTestCase {
 
         let playerAlexander = Player(leader: .alexander, isHuman: false)
         playerAlexander.initialize()
-        playerAlexander.government?.set(governmentType: .autocracy)
 
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
@@ -343,6 +345,8 @@ class CityTests: XCTestCase {
             players: [barbarianPlayer, playerAlexander, playerTrajan],
             on: mapModel
         )
+
+        playerAlexander.government?.set(governmentType: .autocracy, in: gameModel)
 
         // WHEN
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
@@ -369,7 +373,6 @@ class CityTests: XCTestCase {
 
         let playerAlexander = Player(leader: .alexander, isHuman: false)
         playerAlexander.initialize()
-        playerAlexander.government?.set(governmentType: .autocracy)
 
         let playerTrajan = Player(leader: .trajan, isHuman: true)
         playerTrajan.initialize()
@@ -396,6 +399,8 @@ class CityTests: XCTestCase {
             players: [barbarianPlayer, playerAlexander, playerTrajan],
             on: mapModel
         )
+
+        playerAlexander.government?.set(governmentType: .autocracy, in: gameModel)
 
         try! playerAlexander.techs?.discover(tech: .masonry, in: gameModel)
 

@@ -70,3 +70,23 @@ public enum PlayerApproachType: Int, Codable {
         }
     }
 }
+
+extension PlayerApproachType: CustomDebugStringConvertible {
+
+    public var debugDescription: String {
+        get {
+            switch self {
+
+            case .none: return "none"
+
+            case .war: return "war"
+            case .denounced: return "denounced"
+            case .unfriendly: return "unfriendly"
+            case .neutral: return "neutral"
+            case .friendly: return "friendly"
+            case .declaredFriend: return "declaredFriend"
+            case .allied: return "allied"
+            }
+        }
+    }
+}
