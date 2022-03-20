@@ -2486,6 +2486,35 @@ public class DiplomaticAI: Codable {
         }
     }
 
+    func increaseAccessLevel(towards otherPlayer: AbstractPlayer?) {
+
+        let currentAccessLevel = self.accessLevel(towards: otherPlayer)
+        let increasedAccessLevel = currentAccessLevel.increased()
+        self.playerDict.updateAccessLevel(to: increasedAccessLevel, towards: otherPlayer)
+    }
+
+    func decreaseAccessLevel(towards otherPlayer: AbstractPlayer?) {
+
+        let currentAccessLevel = self.accessLevel(towards: otherPlayer)
+        let decreasedAccessLevel = currentAccessLevel.decreased()
+        self.playerDict.updateAccessLevel(to: decreasedAccessLevel, towards: otherPlayer)
+    }
+
+    public func accessLevel(towards otherPlayer: AbstractPlayer?) -> AccessLevel {
+
+        return self.playerDict.accessLevel(towards: otherPlayer)
+    }
+
+    func addGossip(item: GossipItem, for otherPlayer: AbstractPlayer?) {
+
+        self.playerDict.addGossip(item: item, for: otherPlayer)
+    }
+
+    public func gossipItems(for otherPlayer: AbstractPlayer?) -> [GossipItem] {
+
+        return self.playerDict.gossipItems(for: otherPlayer)
+    }
+
     func numTurnsSinceStatementSent(to otherPlayer: AbstractPlayer?, statement: DiplomaticStatementType) -> Int {
 
         print("DiplomaticAI::numTurnsSinceStatementSent not implemented")
@@ -2887,6 +2916,9 @@ public class DiplomaticAI: Codable {
 
             playerDiplomacy.playerDict.sendDelegation(to: otherPlayer, send: true)
             playerDiplomacy.playerDict.addApproach(type: .delegation, towards: self.player)
+
+            // update access level
+            playerDiplomacy.increaseAccessLevel(towards: otherPlayer)
         }
     }
 
@@ -2898,6 +2930,9 @@ public class DiplomaticAI: Codable {
 
         playerDiplomacy.playerDict.sendDelegation(to: otherPlayer, send: false)
         playerDiplomacy.playerDict.removeApproach(type: .delegation, towards: self.player)
+
+        // update access level
+        playerDiplomacy.decreaseAccessLevel(towards: otherPlayer)
     }
 
     // MARK: embassies
@@ -2951,6 +2986,9 @@ public class DiplomaticAI: Codable {
 
             playerDiplomacy.playerDict.sendEmbassy(to: otherPlayer, send: true)
             playerDiplomacy.playerDict.addApproach(type: .embassy, towards: self.player)
+
+            // update access level
+            playerDiplomacy.increaseAccessLevel(towards: otherPlayer)
         }
     }
 
@@ -2962,6 +3000,9 @@ public class DiplomaticAI: Codable {
 
         playerDiplomacy.playerDict.sendEmbassy(to: otherPlayer, send: false)
         playerDiplomacy.playerDict.removeApproach(type: .embassy, towards: self.player)
+
+        // update access level
+        playerDiplomacy.decreaseAccessLevel(towards: otherPlayer)
     }
 
     // MARK: pacts - defensive pacts

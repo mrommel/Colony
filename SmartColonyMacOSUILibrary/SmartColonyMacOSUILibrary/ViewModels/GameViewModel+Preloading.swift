@@ -723,6 +723,15 @@ extension GameViewModel {
             )
         }
 
+        let accessLevelTextureNames = AccessLevel.all.map { $0.iconTexture() }
+        print("- load \(accessLevelTextureNames.count) access level textures")
+        for textureName in accessLevelTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
         print("-- all textures loaded --")
 
         self.bottomLeftBarViewModel.preloadAssets()

@@ -116,6 +116,9 @@ class DiplomaticPlayerDict: Codable {
         enum CodingKeys: CodingKey {
 
             case leader
+            case accessLevel
+            case gossipItems
+
             case opinion
             case turnOfFirstContact
             case militaryStrengthComparedToUs
@@ -182,6 +185,9 @@ class DiplomaticPlayerDict: Codable {
         }
 
         let leader: LeaderType
+        var accessLevel: AccessLevel
+        var gossipItems: [GossipItem]
+
         var opinion: PlayerOpinionType
         var turnOfFirstContact: Int
         var militaryStrengthComparedToUs: StrengthType
@@ -252,6 +258,8 @@ class DiplomaticPlayerDict: Codable {
         init(by leader: LeaderType, turnOfFirstContact: Int = -1) {
 
             self.leader = leader
+            self.accessLevel = .none
+            self.gossipItems = []
             self.opinion = .none
             self.turnOfFirstContact = turnOfFirstContact
             self.militaryStrengthComparedToUs = .average
@@ -320,6 +328,9 @@ class DiplomaticPlayerDict: Codable {
             let container = try decoder.container(keyedBy: CodingKeys.self)
 
             self.leader = try container.decode(LeaderType.self, forKey: .leader)
+            self.accessLevel = try container.decode(AccessLevel.self, forKey: .accessLevel)
+            self.gossipItems = try container.decode([GossipItem].self, forKey: .gossipItems)
+
             self.opinion = try container.decode(PlayerOpinionType.self, forKey: .opinion)
             self.turnOfFirstContact = try container.decode(Int.self, forKey: .turnOfFirstContact)
             self.militaryStrengthComparedToUs = try container.decode(StrengthType.self, forKey: .militaryStrengthComparedToUs)
@@ -390,6 +401,9 @@ class DiplomaticPlayerDict: Codable {
             var container = encoder.container(keyedBy: CodingKeys.self)
 
             try container.encode(self.leader, forKey: .leader)
+            try container.encode(self.accessLevel, forKey: .accessLevel)
+            try container.encode(self.gossipItems, forKey: .gossipItems)
+
             try container.encode(self.opinion, forKey: .opinion)
             try container.encode(self.turnOfFirstContact, forKey: .turnOfFirstContact)
             try container.encode(self.militaryStrengthComparedToUs, forKey: .militaryStrengthComparedToUs)
@@ -536,6 +550,47 @@ class DiplomaticPlayerDict: Codable {
         } else {
             self.items.append(DiplomaticAIPlayerItem(by: otherLeader, turnOfFirstContact: turn))
         }
+    }
+
+    // MARK: access level methods
+
+    func updateAccessLevel(to accessLevel: AccessLevel, towards otherPlayer: AbstractPlayer?) {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+
+            item.accessLevel = accessLevel
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+
+    func accessLevel(towards otherPlayer: AbstractPlayer?) -> AccessLevel {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.accessLevel
+        }
+
+        return AccessLevel.none
+    }
+
+    // MARK: gossip methods
+
+    func addGossip(item gossipItem: GossipItem, for otherPlayer: AbstractPlayer?) {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.gossipItems.append(gossipItem)
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+
+    func gossipItems(for otherPlayer: AbstractPlayer?) -> [GossipItem] {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.gossipItems
+        }
+
+        return []
     }
 
     // MARK: option methods

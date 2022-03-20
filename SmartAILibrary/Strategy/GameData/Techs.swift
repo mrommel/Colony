@@ -230,6 +230,10 @@ class Techs: AbstractTechs {
 
     func discover(tech: TechType, in gameModel: GameModel?) throws {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
         guard let player = self.player else {
             fatalError("Can't discover tech - no player present")
         }
@@ -241,10 +245,6 @@ class Techs: AbstractTechs {
         // check if this tech is the first of a new era
         let techsInEra = self.techs.count(where: { $0.era() == tech.era() })
         if techsInEra == 0 && tech.era() != .ancient {
-
-            guard let gameModel = gameModel else {
-                fatalError("cant get game")
-            }
 
             if gameModel.anyHasMoment(of: .worldsFirstTechnologyOfNewEra(eraType: tech.era())) {
                 self.player?.addMoment(of: .firstTechnologyOfNewEra(eraType: tech.era()), in: gameModel)
@@ -276,7 +276,7 @@ class Techs: AbstractTechs {
                 }
 
                 if obsolete {
-                    if let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState) {
+                    if let cityStatePlayer = gameModel.cityStatePlayer(for: quest.cityState) {
                         cityStatePlayer.obsoleteQuest(by: player.leader, in: gameModel)
                     }
                 }
@@ -284,9 +284,28 @@ class Techs: AbstractTechs {
 
             if case .triggerEureka(tech: let questTechType) = quest.type {
                 if questTechType == tech {
-                    if let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState) {
+                    if let cityStatePlayer = gameModel.cityStatePlayer(for: quest.cityState) {
                         cityStatePlayer.obsoleteQuest(by: player.leader, in: gameModel)
                     }
+                }
+            }
+        }
+
+        // check for printing
+        // Researching the Printing technology. This will increase your visibility with all civilizations by one level.
+        if tech == .printing {
+            for loopPlayer in gameModel.players {
+
+                guard !loopPlayer.isBarbarian() && !loopPlayer.isFreeCity() && !loopPlayer.isCityState() else {
+                    continue
+                }
+
+                guard !loopPlayer.isEqual(to: player) else {
+                    continue
+                }
+
+                if player.hasMet(with: loopPlayer) {
+                    player.diplomacyAI?.increaseAccessLevel(towards: loopPlayer)
                 }
             }
         }

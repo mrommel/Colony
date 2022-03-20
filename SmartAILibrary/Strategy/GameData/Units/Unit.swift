@@ -243,7 +243,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func start(tradeRoute: TradeRoute, in gameModel: GameModel?)
     func continueTrading(in gameModel: GameModel?)
     func isTrading() -> Bool
-    func endTrading()
+    func endTrading(in gameModel: GameModel?)
     func tradeRouteData() -> UnitTradeRouteData?
 }
 
@@ -2627,7 +2627,7 @@ public class Unit: AbstractUnit {
         }
 
         if self.type == .trader {
-            self.endTrading()
+            self.endTrading(in: gameModel)
         }
     }
 
@@ -5383,9 +5383,9 @@ extension Unit {
         return self.tradeRouteDataValue != nil
     }
 
-    public func endTrading() {
+    public func endTrading(in gameModel: GameModel?) {
 
-        self.player?.tradeRoutes?.finish(tradeRoute: self.tradeRouteDataValue?.tradeRoute)
+        self.player?.doFinish(tradeRoute: self.tradeRouteDataValue?.tradeRoute, in: gameModel)
 
         self.tradeRouteDataValue = nil
     }

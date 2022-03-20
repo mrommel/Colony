@@ -121,6 +121,8 @@
 		C9F9638D27C56DED00073CC7 /* SlpFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F9638C27C56DED00073CC7 /* SlpFile.swift */; };
 		C9F9639F27C6423800073CC7 /* SlpLoadingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F9639D27C6422300073CC7 /* SlpLoadingTests.swift */; };
 		C9F963A227C6429000073CC7 /* merchant-idle.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9F963A127C6429000073CC7 /* merchant-idle.slp */; };
+		C9FD453727E7893500C3272F /* AccessLevelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FD453627E7893500C3272F /* AccessLevelExtension.swift */; };
+		C9FD453927E78DCC00C3272F /* IntelReportTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FD453827E78DCC00C3272F /* IntelReportTypeExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -264,6 +266,8 @@
 		C9F9638C27C56DED00073CC7 /* SlpFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlpFile.swift; sourceTree = "<group>"; };
 		C9F9639D27C6422300073CC7 /* SlpLoadingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlpLoadingTests.swift; sourceTree = "<group>"; };
 		C9F963A127C6429000073CC7 /* merchant-idle.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "merchant-idle.slp"; sourceTree = "<group>"; };
+		C9FD453627E7893500C3272F /* AccessLevelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessLevelExtension.swift; sourceTree = "<group>"; };
+		C9FD453827E78DCC00C3272F /* IntelReportTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntelReportTypeExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -382,6 +386,8 @@
 				C97ACD0227D673A000AD0721 /* CityStateQuestExtension.swift */,
 				C92D6B8F27D9D8A3002EA5C5 /* DiplomaticRequestMessageExtension.swift */,
 				C9C1699A27DCFC8200E61088 /* PlayerApproachTypeExtension.swift */,
+				C9FD453627E7893500C3272F /* AccessLevelExtension.swift */,
+				C9FD453827E78DCC00C3272F /* IntelReportTypeExtension.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -722,6 +728,7 @@
 				C903D06D274A5BF7003C50B9 /* LabelTokenizer.swift in Sources */,
 				C9C1699B27DCFC8200E61088 /* PlayerApproachTypeExtension.swift in Sources */,
 				C9E87BBD264DB49100514B9A /* BuildingTypeExtension.swift in Sources */,
+				C9FD453927E78DCC00C3272F /* IntelReportTypeExtension.swift in Sources */,
 				C92D6B9027D9D8A3002EA5C5 /* DiplomaticRequestMessageExtension.swift in Sources */,
 				C9CB992327C6C1F700946E77 /* SlpTextureAtlasLoader.swift in Sources */,
 				C9CB34012761EB12008835D0 /* ContinentTypeExtension.swift in Sources */,
@@ -738,6 +745,7 @@
 				C9754D58275E3BA7000A1B70 /* CitySiteEvaluationTypeExtension.swift in Sources */,
 				C9E87BC1264DB54900514B9A /* DistrictTypeExtension.swift in Sources */,
 				C9CD3195278D6499002D53C4 /* MomentTypeExtension.swift in Sources */,
+				C9FD453727E7893500C3272F /* AccessLevelExtension.swift in Sources */,
 				C9D5D25326F8630A00009817 /* GovernorTypeExtension.swift in Sources */,
 				C9CAC8A6264BD17000D0668D /* GovernmentTypeExtension.swift in Sources */,
 				C9F9638D27C56DED00073CC7 /* SlpFile.swift in Sources */,

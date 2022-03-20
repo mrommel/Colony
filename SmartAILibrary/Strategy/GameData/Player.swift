@@ -322,6 +322,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     @discardableResult
     func doEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool
+    func doFinish(tradeRoute: TradeRoute?, in gameModel: GameModel?)
 
     // great persons
     func canRecruitGreatPerson(in gameModel: GameModel?) -> Bool
@@ -4682,6 +4683,12 @@ public class Player: AbstractPlayer {
                     }
                 }
             }
+
+            // update access level
+            // if this is the first trade route with this player, incrase the access level
+            if !tradeRoutes.hasTradeRoute(with: targetCity.player, in: gameModel) {
+                self.diplomacyAI?.increaseAccessLevel(towards: targetCity.player)
+            }
         }
 
         if !tech.eurekaTriggered(for: .currency) {
@@ -4701,6 +4708,29 @@ public class Player: AbstractPlayer {
         // no check ?
 
         return tradeRoutes.establishTradeRoute(from: originCity, to: targetCity, with: trader, in: gameModel)
+    }
+
+    public func doFinish(tradeRoute tradeRouteRef: TradeRoute?, in gameModel: GameModel?) {
+
+        guard let tradeRoutes = self.tradeRoutes else {
+            fatalError("cant get tradeRoutes")
+        }
+
+        guard let tradeRoute = tradeRouteRef else {
+            fatalError("cant get targetCity")
+        }
+
+        guard let targetCity = gameModel?.city(at: tradeRoute.end) else {
+            fatalError("cant get targetCity")
+        }
+
+        self.tradeRoutes?.finish(tradeRoute: tradeRouteRef)
+
+        // update access level
+        // if this was the last trade route with this player, decrase the access level
+        if !tradeRoutes.hasTradeRoute(with: targetCity.player, in: gameModel) {
+            self.diplomacyAI?.decreaseAccessLevel(towards: targetCity.player)
+        }
     }
 
     public func cityDistancePathLength(of point: HexPoint, in gameModel: GameModel?) -> Int {

@@ -254,6 +254,18 @@ public struct DiplomaticDialogView: View {
         VStack(spacing: 10) {
 
             Text("AccessLevel")
+                .font(.headline)
+                .frame(width: 300, alignment: .trailing)
+
+            HStack {
+                Image(nsImage: self.viewModel.accessLevelImage())
+                    .resizable()
+                    .frame(width: 24, height: 24)
+
+                Text(self.viewModel.accessLevelLabel)
+            }
+                .frame(width: 300, alignment: .trailing)
+
         }
         .frame(width: 360)
     }
@@ -286,12 +298,7 @@ public struct DiplomaticDialogView: View {
 
             LazyVStack(spacing: 4) {
                 ForEach(self.viewModel.approachItemViewModels) { approachItemViewModel in
-                    HStack {
-                        Text(approachItemViewModel.valueText)
-                            .foregroundColor(approachItemViewModel.value > 0 ? .green : .red)
-
-                        Text(approachItemViewModel.text)
-                    }
+                    ApproachItemView(viewModel: approachItemViewModel)
                 }
             }
 

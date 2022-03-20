@@ -311,6 +311,8 @@
 		C9FBBE3E26837991005D7CE6 /* TopBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FBBE3D26837991005D7CE6 /* TopBarViewModel.swift */; };
 		C9FBBE4026837AA7005D7CE6 /* CityBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FBBE3F26837AA7005D7CE6 /* CityBannerView.swift */; };
 		C9FD308526223EA200153752 /* DemoGameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FD308426223EA200153752 /* DemoGameModel.swift */; };
+		C9FD453D27E7A7F900C3272F /* ApproachItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FD453C27E7A7F900C3272F /* ApproachItemViewModel.swift */; };
+		C9FD453F27E7A8F100C3272F /* ApproachItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FD453E27E7A8F100C3272F /* ApproachItemView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -642,6 +644,8 @@
 		C9FBBE3D26837991005D7CE6 /* TopBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarViewModel.swift; sourceTree = "<group>"; };
 		C9FBBE3F26837AA7005D7CE6 /* CityBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityBannerView.swift; sourceTree = "<group>"; };
 		C9FD308426223EA200153752 /* DemoGameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoGameModel.swift; sourceTree = "<group>"; };
+		C9FD453C27E7A7F900C3272F /* ApproachItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApproachItemViewModel.swift; sourceTree = "<group>"; };
+		C9FD453E27E7A8F100C3272F /* ApproachItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApproachItemView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1014,6 +1018,7 @@
 				C963AD1B2786DB6500981EF3 /* MomentView.swift */,
 				C95AB2F527CD40EC00EF5C61 /* CityStateView.swift */,
 				C90323E627D3FFEC00AFBCFE /* EnvoyEffectView.swift */,
+				C9FD453E27E7A8F100C3272F /* ApproachItemView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1185,6 +1190,7 @@
 				C963AD192786DAB600981EF3 /* MomentViewModel.swift */,
 				C95AB2F727CD418800EF5C61 /* CityStateViewModel.swift */,
 				C917164F27D1165B00CBC7D3 /* EnvoyEffectViewModel.swift */,
+				C9FD453C27E7A7F900C3272F /* ApproachItemViewModel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1435,6 +1441,7 @@
 				C9D03F102753827C0008528E /* NotificationDetailView.swift in Sources */,
 				C9911EA727367B0E00273C8A /* ReligiousRankingDialogViewModel.swift in Sources */,
 				C97ACCFF27D6003800AD0721 /* CityStateDialogViewModel.swift in Sources */,
+				C9FD453F27E7A8F100C3272F /* ApproachItemView.swift in Sources */,
 				C9A3763126369FD90057923E /* YieldLayer.swift in Sources */,
 				C9B43FB1263E905B00241012 /* CGSizeExtension.swift in Sources */,
 				C913A2D5277A27ED001D2CC2 /* EraProgressDialogView.swift in Sources */,
@@ -1486,6 +1493,7 @@
 				C9FBBE3E26837991005D7CE6 /* TopBarViewModel.swift in Sources */,
 				C94507A9262232E400CFD27D /* DataPicker.swift in Sources */,
 				C974E44126BD14AF004DD34F /* DiplomaticDialogView.swift in Sources */,
+				C9FD453D27E7A7F900C3272F /* ApproachItemViewModel.swift in Sources */,
 				C9A37619263457D70057923E /* GameScene.swift in Sources */,
 				C9755FEB270AE6F900C9CAB7 /* BeliefViewModel.swift in Sources */,
 				C984642A26F4943D00C40EA7 /* GovernorsDialogView.swift in Sources */,
