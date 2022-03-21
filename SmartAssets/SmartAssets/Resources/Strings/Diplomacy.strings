@@ -51,3 +51,17 @@
 "TXT_KEY_DIPLOMACY_MODIFIER_FIRST_IMPRESSION" = "First impressions of you"; // firstImpression
 "TXT_KEY_DIPLOMACY_MODIFIER_ESTABLISHED_TRADE_ROUTE" = "Trade Route between our nations"; // establishedTradeRoute
 "TXT_KEY_DIPLOMACY_MODIFIER_NEAR_BORDER_WARNING" = "Moving forces near their cities"; // nearBorder
+
+// gossip source texts
+"TXT_KEY_DIPLOMACY_GOSSIP_SOURCE_DELEGATE" = "Your delegate learned that ";
+"TXT_KEY_DIPLOMACY_GOSSIP_SOURCE_TRADER" = "Your trader overheard that ";
+"TXT_KEY_DIPLOMACY_GOSSIP_SOURCE_NEWS" = "A recent news article revealed that ";
+"TXT_KEY_DIPLOMACY_GOSSIP_SOURCE_LADY" = "Your lady-in-waiting heard at the court ball that ";
+"TXT_KEY_DIPLOMACY_GOSSIP_SOURCE_ALLIED" = "An allied friend reports that ";
+"TXT_KEY_DIPLOMACY_GOSSIP_SOURCE_SPY" = "Your Spy uncovered news that ";
+
+// gossip texts
+"TXT_KEY_DIPLOMACY_GOSSIP_CITY_CONQUEST" = "%@ has conquered %@."; // .cityConquests
+"TXT_KEY_DIPLOMACY_GOSSIP_PANTHEON_CREATED" = "%@ is worshipping a Pantheon of the gods focused on the %@ Belief."; // .pantheonCreated
+"TXT_KEY_DIPLOMACY_GOSSIP_RELIGION_FOUNDED" = "%@ has founded a new Religion: %@."; // religionsFounded
+"TXT_KEY_DIPLOMACY_GOSSIP_DECLARATION_OF_WAR" = "%@ has just declared war on %@!"; // .declarationsOfWar

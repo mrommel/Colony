@@ -150,11 +150,12 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
         // gossip
         let gossipItems: [GossipItem] = humanPlayerDiplomacyAI.gossipItems(for: otherPlayer)
-        let lastItems: [GossipItem] = gossipItems.filter { return $0.isLastTenTurns(in: gameModel) }
-        self.lastGossipItems = lastItems.map { $0.source().text() + $0.type().text(for: humanPlayer.leader.civilization()) }
-        /*self.olderGossipItems = gossipItems
-            .filter { return !$0.isLastTenTurns(in: gameModel) }
-            .map { $0.source().text() + $0.type().text(for: "abc") }*/
+        self.lastGossipItems = gossipItems
+            .filter { $0.isLastTenTurns(in: gameModel) }
+            .map { $0.source().text().localized() + $0.type().localizedText(for: humanPlayer.leader.civilization()) }
+        self.olderGossipItems = gossipItems
+            .filter { !$0.isLastTenTurns(in: gameModel) }
+            .map { $0.source().text().localized() + $0.type().localizedText(for: humanPlayer.leader.civilization()) }
 
         self.updateActions()
     }
