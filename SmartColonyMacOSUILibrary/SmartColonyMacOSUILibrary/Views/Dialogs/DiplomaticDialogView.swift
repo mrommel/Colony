@@ -249,18 +249,36 @@ public struct DiplomaticDialogView: View {
                 .frame(width: 300, alignment: .trailing)
 
             Text("Last ten turns")
+                .padding(.bottom, 4)
 
             LazyVStack(spacing: 4) {
                 ForEach(self.viewModel.lastGossipItems, id: \.self) { lastGossipText in
+
                     Text(lastGossipText)
+                        .frame(width: 330)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 4)
+                        .background(
+                            Image(nsImage: ImageCache.shared.image(for: "gossip-background"))
+                                .resizable(capInsets: EdgeInsets(all: 32))
+                        )
                 }
             }
 
             Text("Older")
+                .padding(.bottom, 4)
 
             LazyVStack(spacing: 4) {
                 ForEach(self.viewModel.olderGossipItems, id: \.self) { lastGossipText in
+
                     Text(lastGossipText)
+                        .frame(width: 330)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 4)
+                        .background(
+                            Image(nsImage: ImageCache.shared.image(for: "gossip-background"))
+                                .resizable(capInsets: EdgeInsets(all: 32))
+                        )
                 }
             }
         }
