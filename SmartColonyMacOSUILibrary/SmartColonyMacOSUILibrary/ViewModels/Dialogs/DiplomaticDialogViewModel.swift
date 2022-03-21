@@ -69,6 +69,12 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
     @Published
     var approachItemViewModels: [ApproachItemViewModel] = []
+
+    @Published
+    var lastGossipItems: [String] = []
+
+    @Published
+    var olderGossipItems: [String] = []
     // reports
 
     weak var delegate: GameViewModelDelegate?
@@ -141,6 +147,14 @@ public class DiplomaticDialogViewModel: ObservableObject {
             tmpApproachItemViewModels.append(ApproachItemViewModel(value: approachItem.value, text: approachItem.type.summary()))
         }
         self.approachItemViewModels = tmpApproachItemViewModels
+
+        // gossip
+        let gossipItems: [GossipItem] = humanPlayerDiplomacyAI.gossipItems(for: otherPlayer)
+        let lastItems: [GossipItem] = gossipItems.filter { return $0.isLastTenTurns(in: gameModel) }
+        self.lastGossipItems = lastItems.map { $0.source().text() + $0.type().text(for: humanPlayer.leader.civilization()) }
+        /*self.olderGossipItems = gossipItems
+            .filter { return !$0.isLastTenTurns(in: gameModel) }
+            .map { $0.source().text() + $0.type().text(for: "abc") }*/
 
         self.updateActions()
     }

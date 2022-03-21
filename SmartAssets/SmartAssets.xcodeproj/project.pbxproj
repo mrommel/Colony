@@ -123,6 +123,7 @@
 		C9F963A227C6429000073CC7 /* merchant-idle.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9F963A127C6429000073CC7 /* merchant-idle.slp */; };
 		C9FD453727E7893500C3272F /* AccessLevelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FD453627E7893500C3272F /* AccessLevelExtension.swift */; };
 		C9FD453927E78DCC00C3272F /* IntelReportTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FD453827E78DCC00C3272F /* IntelReportTypeExtension.swift */; };
+		C9FD454127E8591500C3272F /* GossipExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FD454027E8591500C3272F /* GossipExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -268,6 +269,7 @@
 		C9F963A127C6429000073CC7 /* merchant-idle.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "merchant-idle.slp"; sourceTree = "<group>"; };
 		C9FD453627E7893500C3272F /* AccessLevelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessLevelExtension.swift; sourceTree = "<group>"; };
 		C9FD453827E78DCC00C3272F /* IntelReportTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntelReportTypeExtension.swift; sourceTree = "<group>"; };
+		C9FD454027E8591500C3272F /* GossipExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GossipExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -388,6 +390,7 @@
 				C9C1699A27DCFC8200E61088 /* PlayerApproachTypeExtension.swift */,
 				C9FD453627E7893500C3272F /* AccessLevelExtension.swift */,
 				C9FD453827E78DCC00C3272F /* IntelReportTypeExtension.swift */,
+				C9FD454027E8591500C3272F /* GossipExtension.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -730,6 +733,7 @@
 				C9E87BBD264DB49100514B9A /* BuildingTypeExtension.swift in Sources */,
 				C9FD453927E78DCC00C3272F /* IntelReportTypeExtension.swift in Sources */,
 				C92D6B9027D9D8A3002EA5C5 /* DiplomaticRequestMessageExtension.swift in Sources */,
+				C9FD454127E8591500C3272F /* GossipExtension.swift in Sources */,
 				C9CB992327C6C1F700946E77 /* SlpTextureAtlasLoader.swift in Sources */,
 				C9CB34012761EB12008835D0 /* ContinentTypeExtension.swift in Sources */,
 				C97ACD0327D673A000AD0721 /* CityStateQuestExtension.swift in Sources */,

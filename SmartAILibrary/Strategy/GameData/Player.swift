@@ -4915,6 +4915,9 @@ public class Player: AbstractPlayer {
 
             let message = "\(oldCity.name) was captured by the \(self.leader.civilization().name())!!!"
             gameModel.addReplayEvent(type: .major, message: message, at: oldCity.location)
+
+            // inform other players, that a city was conquered
+            gameModel.sendGossip(type: .cityConquests(cityName: oldCity.name), of: self)
         }
 
         var captureGold = 0
@@ -6046,6 +6049,9 @@ public class Player: AbstractPlayer {
         if !civics.inspirationTriggered(for: .theology) {
             civics.triggerInspiration(for: .theology, in: gameModel)
         }
+
+        // inform other players, that a pantheon was founded
+        gameModel.sendGossip(type: .religionsFounded(religionName: religion.name()), of: self)
     }
 
     // MARK: discovery

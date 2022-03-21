@@ -2857,6 +2857,46 @@ extension GameModel {
         return bestPlayer
     }
 
+    // MARK: gossip
+
+    func sendGossip(type: GossipItemType, of player: AbstractPlayer?) {
+
+        guard let humanPlayer = self.humanPlayer() else {
+            fatalError("cant get human player")
+        }
+
+        guard let humanPlayerDiplomacyAI = humanPlayer.diplomacyAI else {
+            fatalError("cant get human player diplomacyAI")
+        }
+
+        // when the gossip event is triggered by human, dont send
+        guard !humanPlayer.isEqual(to: player) else {
+            return
+        }
+
+        // only send gossip to human player, if he has met player
+        guard humanPlayer.hasMet(with: player) else {
+            return
+        }
+
+        let accessLevel: AccessLevel = humanPlayerDiplomacyAI.accessLevel(towards: player)
+
+        // check that this information is accessible to the human player
+        guard type.accessLevel() <= accessLevel else {
+            return
+        }
+
+        let gossipSource: GossipSourceType = .spy // todo: humanPlayer.gossipSource(of: player)
+
+        let gossipItem = GossipItem(
+            type: type,
+            turn: self.currentTurn,
+            source: gossipSource
+        )
+
+        humanPlayerDiplomacyAI.addGossip(item: gossipItem, for: player)
+    }
+
     // MARK: Statistics
 
     /// number of land tiles

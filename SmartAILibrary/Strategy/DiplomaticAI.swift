@@ -3025,11 +3025,11 @@ public class DiplomaticAI: Codable {
                 fatalError("cant get player")
             }
 
-            friendPlayer.diplomacyAI?.doDeclareWarFromDefensivePact(to: otherPlayer)
+            friendPlayer.diplomacyAI?.doDeclareWarFromDefensivePact(to: otherPlayer, in: gameModel)
         }
     }
 
-    func doDeclareWarFromDefensivePact(to otherPlayer: AbstractPlayer?) {
+    func doDeclareWarFromDefensivePact(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         // Only do it if we are not already at war.
         if self.isAtWar(with: otherPlayer) {
@@ -3044,6 +3044,9 @@ public class DiplomaticAI: Codable {
 
         otherPlayer?.diplomacyAI?.playerDict.updateApproachValue(towards: self.player, to: PlayerApproachType.war.level())
         otherPlayer?.diplomacyAI?.playerDict.updateWarState(towards: self.player, to: .defensive)
+
+        // inform other players, that a war was declared
+        gameModel?.sendGossip(type: .declarationsOfWar(leader: otherPlayer!.leader), of: self.player)
     }
 
     //    --------------------------------------------------------------------------------
@@ -3170,6 +3173,9 @@ public class DiplomaticAI: Codable {
 
             self.player?.notifications()?.add(notification: .war(leader: player.leader))
         }
+
+        // inform other players, that a war was declared
+        gameModel.sendGossip(type: .declarationsOfWar(leader: otherPlayer.leader), of: otherPlayer)
     }
 
     func doHaveBeenDeclaredWar(by otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {

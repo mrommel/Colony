@@ -45,7 +45,7 @@ public enum AccessLevel: Int, Codable {
         }
     }
 
-    public func gossipItems() -> [GossipItemType] {
+    /*public func gossipItems() -> [GossipItemType] {
 
         switch self {
 
@@ -79,7 +79,7 @@ public enum AccessLevel: Int, Codable {
                 .victoryStrategyChanged, .warPreparations
             ]
         }
-    }
+    }*/
 }
 
 extension AccessLevel: Comparable {

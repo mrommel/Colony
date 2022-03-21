@@ -19,7 +19,7 @@ public enum ApproachModifierType: Int, Codable {
     case establishedTradeRoute // STANDARD_DIPLOMACY_TRADE_RELATIONS
     case nearBorder // STANDARD_DIPLOMATIC_NEAR_BORDER_WARNING
 
-    // hidden agendas
+    // hidden agenda helpers
     // https://github.com/Swiftwork/civ6-explorer/blob/dbe3ca6d5468828ef0b26ef28f69555de0bcb959/src/assets/game/BaseGame/Leaders.xml
 
     // MARK: public methods
@@ -70,7 +70,7 @@ public enum ApproachModifierType: Int, Codable {
 
         case .delegation:
             return ApproachModifierTypeData(
-                summary: "LOC_DIPLO_MODIFIER_DELEGATION",
+                summary: "TXT_KEY_DIPLOMACY_MODIFIER_DELEGATION",
                 initialValue: 3,
                 reductionTurns: -1,
                 reductionValue: 0,
@@ -79,7 +79,7 @@ public enum ApproachModifierType: Int, Codable {
 
         case .embassy:
             return ApproachModifierTypeData(
-                summary: "LOC_DIPLO_MODIFIER_RESIDENT_EMBASSY",
+                summary: "TXT_KEY_DIPLOMACY_MODIFIER_RESIDENT_EMBASSY",
                 initialValue: 5,
                 reductionTurns: -1,
                 reductionValue: 0,
@@ -88,7 +88,7 @@ public enum ApproachModifierType: Int, Codable {
 
         case .declaredFriend:
             return ApproachModifierTypeData(
-                summary: "LOC_DIPLO_MODIFIER_DECLARED_FRIEND",
+                summary: "TXT_KEY_DIPLOMACY_MODIFIER_DECLARED_FRIEND",
                 initialValue: -9,
                 reductionTurns: 10,
                 reductionValue: -1,
@@ -97,7 +97,7 @@ public enum ApproachModifierType: Int, Codable {
 
         case .denounced:
             return ApproachModifierTypeData(
-                summary: "LOC_DIPLO_MODIFIER_DENOUNCED",
+                summary: "TXT_KEY_DIPLOMACY_MODIFIER_DENOUNCED",
                 initialValue: -9,
                 reductionTurns: 10,
                 reductionValue: -1,
@@ -106,7 +106,7 @@ public enum ApproachModifierType: Int, Codable {
 
         case .firstImpression:
             return ApproachModifierTypeData(
-                summary: "First impressions of you",
+                summary: "TXT_KEY_DIPLOMACY_MODIFIER_FIRST_IMPRESSION",
                 initialValue: 0, // overriden
                 reductionTurns: 10,
                 reductionValue: -1, // overriden
@@ -115,7 +115,7 @@ public enum ApproachModifierType: Int, Codable {
 
         case .establishedTradeRoute:
             return ApproachModifierTypeData(
-                summary: "Trade Route between our nations",
+                summary: "TXT_KEY_DIPLOMACY_MODIFIER_ESTABLISHED_TRADE_ROUTE",
                 initialValue: 2,
                 reductionTurns: 1,
                 reductionValue: -1,
@@ -124,7 +124,7 @@ public enum ApproachModifierType: Int, Codable {
 
         case .nearBorder:
             return ApproachModifierTypeData(
-                summary: "LOC_DIPLO_MODIFIER_NEAR_BORDER_WARNING",
+                summary: "TXT_KEY_DIPLOMACY_MODIFIER_NEAR_BORDER_WARNING",
                 initialValue: -2,
                 reductionTurns: 20,
                 reductionValue: -1,

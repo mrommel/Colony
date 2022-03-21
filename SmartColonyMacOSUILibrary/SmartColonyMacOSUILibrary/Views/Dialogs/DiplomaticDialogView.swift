@@ -245,6 +245,24 @@ public struct DiplomaticDialogView: View {
         VStack(spacing: 10) {
 
             Text("Gossip")
+                .font(.headline)
+                .frame(width: 300, alignment: .trailing)
+
+            Text("Last ten turns")
+
+            LazyVStack(spacing: 4) {
+                ForEach(self.viewModel.lastGossipItems, id: \.self) { lastGossipText in
+                    Text(lastGossipText)
+                }
+            }
+
+            Text("Older")
+
+            LazyVStack(spacing: 4) {
+                ForEach(self.viewModel.olderGossipItems, id: \.self) { lastGossipText in
+                    Text(lastGossipText)
+                }
+            }
         }
         .frame(width: 360)
     }
@@ -266,6 +284,7 @@ public struct DiplomaticDialogView: View {
             }
                 .frame(width: 300, alignment: .trailing)
 
+            Text("To raise your access level you could:")
         }
         .frame(width: 360)
     }
@@ -304,8 +323,6 @@ public struct DiplomaticDialogView: View {
 
             /*
             // https://forums.civfanatics.com/resources/diplomatic-total.25707/
-            Text("-5 First impression of you")
-            Text("+3 We sent them a delegation")
             Text("-2 Moving forces near their cities")
             Text("-10 Favorable trades to them")*/
 

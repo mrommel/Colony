@@ -43,3 +43,11 @@
 // coopWarTime: // RESPONSE_COOP_WAR_TIME
 // TXT_KEY_COOP_WAR_TIME%
 // "Please join us to start war on \(leader2) in 10 turns. Will you?"
+
+"TXT_KEY_DIPLOMACY_MODIFIER_DELEGATION" = "We sent them a delegation"; // delegation
+"TXT_KEY_DIPLOMACY_MODIFIER_RESIDENT_EMBASSY" = "We established a resident embassy there"; // embassy
+"TXT_KEY_DIPLOMACY_MODIFIER_DECLARED_FRIEND" = "Declared Friend"; // declaredFriend
+"TXT_KEY_DIPLOMACY_MODIFIER_DENOUNCED" = "We denounced them"; // denounced
+"TXT_KEY_DIPLOMACY_MODIFIER_FIRST_IMPRESSION" = "First impressions of you"; // firstImpression
+"TXT_KEY_DIPLOMACY_MODIFIER_ESTABLISHED_TRADE_ROUTE" = "Trade Route between our nations"; // establishedTradeRoute
+"TXT_KEY_DIPLOMACY_MODIFIER_NEAR_BORDER_WARNING" = "Moving forces near their cities"; // nearBorder
