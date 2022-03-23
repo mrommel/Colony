@@ -22,6 +22,26 @@
 "TXT_KEY_DIPLOMACY_INTEL_REPORT_RELATIONSHIP" = "Relationship";
 "TXT_KEY_DIPLOMACY_INTEL_REPORT_OTHER_RELATIONSHIPS" = "Relationship";
 
+"TXT_KEY_DIPLOMACY_GOSSIP_TITLE" = "Gossip";
+"TXT_KEY_DIPLOMACY_GOSSIP_LAST_TURNS" = "Last ten turns";
+"TXT_KEY_DIPLOMACY_GOSSIP_OLDER" = "Older";
+
+"TXT_KEY_DIPLOMACY_ACCESS_LEVEL_TITLE" = "AccessLevel";
+"TXT_KEY_DIPLOMACY_ACCESS_LEVEL_SHARED" = "Information Shared";
+"TXT_KEY_DIPLOMACY_ACCESS_LEVEL_RAISE" = "To raise your access level you could:";
+
+"TXT_KEY_DIPLOMACY_RELATIONSHIP_TITLE" = "Relationship";
+"TXT_KEY_DIPLOMACY_RELATIONSHIP_REASONS" = "Reasons for current relationship";
+"TXT_KEY_DIPLOMACY_RELATIONSHIP_RAISE" = "To raise your relationship you could:";
+
+"TXT_KEY_DIPLOMACY_ACTION_DECLARE_FRIENDSHIP_TITLE" = "Declare Friendship";
+"TXT_KEY_DIPLOMACY_ACTION_DELEGATION_TITLE" = "Send Delegation";
+"TXT_KEY_DIPLOMACY_ACTION_DELEGATION_SUMMARY" = "Costs 25 [Gold] Gold";
+"TXT_KEY_DIPLOMACY_ACTION_DENOUNCE_TITLE" = "Denounce";
+"TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_TITLE" = "Declare Surprise War";
+"TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_SUMMARY" = "Warmonger penalty: heavy";
+"TXT_KEY_DIPLOMACY_ACTION_MAKE_DEAL_TITLE" = "Make Deal";
+
 // messageIntro
 // first meeting texts
 "TXT_KEY_DIPLOMACY_FIRST_MEET_GREETINGS_TRAJAN_ANY" = "Hail, stranger. I am the Imperator Caesar Augustus of far-reaching Rome. Who are you and what lands can you claim as your own?";

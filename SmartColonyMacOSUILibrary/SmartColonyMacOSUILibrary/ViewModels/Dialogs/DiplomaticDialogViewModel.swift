@@ -59,7 +59,7 @@ public class DiplomaticDialogViewModel: ObservableObject {
     var discussionIntelReportTitle: String
 
     @Published
-    var relationShipRating: Double = 0.0
+    var relationShipRating: Int = 0
 
     @Published
     var relationShipLabel: String = ""
@@ -279,7 +279,7 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
         let approachValue = otherPlayerDiplomacyAI.approachValue(towards: humanPlayer)
         let approach = otherPlayerDiplomacyAI.approach(towards: humanPlayer)
-        self.relationShipRating = Double(approachValue)
+        self.relationShipRating = approachValue
         self.relationShipLabel = approach.name().localized()
 
         var tmpApproachItemViewModels: [ApproachItemViewModel] = []

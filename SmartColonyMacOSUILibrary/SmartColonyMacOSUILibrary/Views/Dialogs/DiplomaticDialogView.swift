@@ -165,7 +165,7 @@ public struct DiplomaticDialogView: View {
                 Button(action: {
                     self.viewModel.declareFriendshipClicked()
                 }, label: {
-                    Text("Declare Friendship")
+                    Text("TXT_KEY_DIPLOMACY_ACTION_DECLARE_FRIENDSHIP_TITLE".localized())
                 })
                     .buttonStyle(GameButtonStyle())
             }
@@ -175,9 +175,9 @@ public struct DiplomaticDialogView: View {
                     self.viewModel.sendDelegationClicked()
                 }, label: {
                     VStack(spacing: 2) {
-                        Text("Send Delegation")
+                        Text("TXT_KEY_DIPLOMACY_ACTION_DELEGATION_TITLE".localized())
 
-                        Label("Costs 25 [Gold] Gold")
+                        Label("TXT_KEY_DIPLOMACY_ACTION_DELEGATION_SUMMARY".localized())
                             .font(.footnote)
                     }
                 })
@@ -188,7 +188,7 @@ public struct DiplomaticDialogView: View {
                 Button(action: {
                     self.viewModel.denounceClicked()
                 }, label: {
-                    Text("Denounce")
+                    Text("TXT_KEY_DIPLOMACY_ACTION_DENOUNCE_TITLE".localized())
                 })
                     .buttonStyle(GameButtonStyle())
             }
@@ -198,9 +198,9 @@ public struct DiplomaticDialogView: View {
                     self.viewModel.declareSurpriseWarClicked()
                 }, label: {
                     VStack(spacing: 2) {
-                        Text("Declare Surprise War")
+                        Text("TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_TITLE".localized())
 
-                        Label("Warmonger penalty: heavy")
+                        Label("TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_SUMMARY".localized())
                             .font(.footnote)
                     }
                 })
@@ -211,7 +211,7 @@ public struct DiplomaticDialogView: View {
                 Button(action: {
                     self.viewModel.makeDealClicked()
                 }, label: {
-                    Text("Make Deal")
+                    Text("TXT_KEY_DIPLOMACY_ACTION_MAKE_DEAL_TITLE".localized())
                 })
                     .buttonStyle(GameButtonStyle())
             }
@@ -248,11 +248,11 @@ public struct DiplomaticDialogView: View {
 
         VStack(spacing: 10) {
 
-            Text("Gossip")
+            Text("TXT_KEY_DIPLOMACY_GOSSIP_TITLE".localized())
                 .font(.headline)
                 .frame(width: 300, alignment: .trailing)
 
-            DividerWithLabel("Last ten turns")
+            DividerWithLabel("TXT_KEY_DIPLOMACY_GOSSIP_LAST_TURNS".localized())
                 .padding(.bottom, 4)
 
             LazyVStack(spacing: 4) {
@@ -269,7 +269,7 @@ public struct DiplomaticDialogView: View {
                 }
             }
 
-            DividerWithLabel("Older")
+            DividerWithLabel("TXT_KEY_DIPLOMACY_GOSSIP_OLDER".localized())
                 .padding(.bottom, 4)
 
             LazyVStack(spacing: 4) {
@@ -293,7 +293,7 @@ public struct DiplomaticDialogView: View {
 
         VStack(spacing: 10) {
 
-            Text("AccessLevel")
+            Text("TXT_KEY_DIPLOMACY_ACCESS_LEVEL_TITLE".localized())
                 .font(.headline)
                 .frame(width: 300, alignment: .trailing)
 
@@ -306,7 +306,7 @@ public struct DiplomaticDialogView: View {
             }
                 .frame(width: 300, alignment: .trailing)
 
-            DividerWithLabel("Information Shared")
+            DividerWithLabel("TXT_KEY_DIPLOMACY_ACCESS_LEVEL_SHARED".localized())
 
             LazyVStack(spacing: 4) {
                 ForEach(self.viewModel.sharedInformationTexts, id: \.self) { sharedInformationText in
@@ -314,7 +314,7 @@ public struct DiplomaticDialogView: View {
                 }
             }
 
-            DividerWithLabel("To raise your access level you could:")
+            DividerWithLabel("TXT_KEY_DIPLOMACY_ACCESS_LEVEL_RAISE".localized())
 
             LazyVStack(spacing: 4) {
                 ForEach(self.viewModel.raiseAccessLevelTexts, id: \.self) { raiseAccessLevelText in
@@ -329,13 +329,14 @@ public struct DiplomaticDialogView: View {
 
         VStack(spacing: 10) {
 
-            Slider(value: self.$viewModel.relationShipRating, in: 0...100)
+            SegmentedProgressView(value: self.viewModel.relationShipRating, maximum: 100)
+            //Slider(value: self.$viewModel.relationShipRating, in: 0...100)
                 // .disabled(true)
                 .accentColor(Color.green)
                 .foregroundColor(Color.green)
                 .frame(width: 300, alignment: .center)
 
-            Text("Relationship")
+            Text("TXT_KEY_DIPLOMACY_RELATIONSHIP_TITLE".localized())
                 .font(.headline)
                 .frame(width: 300, alignment: .trailing)
 
@@ -348,7 +349,7 @@ public struct DiplomaticDialogView: View {
             }
                 .frame(width: 300, alignment: .trailing)
 
-            Text("Reasons for current relationship")
+            Text("TXT_KEY_DIPLOMACY_RELATIONSHIP_REASONS".localized())
                 .font(.headline)
 
             LazyVStack(spacing: 4) {
@@ -362,7 +363,7 @@ public struct DiplomaticDialogView: View {
             Text("-2 Moving forces near their cities")
             Text("-10 Favorable trades to them")*/
 
-            Text("To raise your relationship you could:")
+            Text("TXT_KEY_DIPLOMACY_RELATIONSHIP_RAISE".localized())
         }
         .frame(width: 360)
     }
