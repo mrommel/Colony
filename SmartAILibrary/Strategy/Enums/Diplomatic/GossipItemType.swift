@@ -96,75 +96,168 @@ public enum GossipItemType: Codable {
 
             // none
         case .cityConquests:
-            return GossipItemTypeData(name: "City conquests", accessLevel: .none)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITY_CONQUEST",
+                accessLevel: .none
+            )
         case .pantheonCreated:
-            return GossipItemTypeData(name: "Pantheon created", accessLevel: .none)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_PATHEON_CREATED",
+                accessLevel: .none
+            )
         case .religionsFounded:
-            return GossipItemTypeData(name: "Religions founded", accessLevel: .none)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_RELIGIONS_FOUNDED",
+                accessLevel: .none
+            )
         case .declarationsOfWar:
-            return GossipItemTypeData(name: "Declarations of war", accessLevel: .none)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_DECLARATIONS_OF_WAR",
+                accessLevel: .none
+            )
         case .weaponsOfMassDestructionStrikes:
-            return GossipItemTypeData(name: "Weapons of mass destruction strikes", accessLevel: .none)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_WEAPONS_OF_MASS_DESTRUCTION_STRIKES",
+                accessLevel: .none
+            )
         case .spaceRaceProjectsCompleted:
-            return GossipItemTypeData(name: "Space race projects completed", accessLevel: .none)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_SPACE_RACE_PROJECTS_COMPLETED",
+                accessLevel: .none
+            )
 
             // limited
         case .alliances:
-            return GossipItemTypeData(name: "Alliances", accessLevel: .limited)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_ALLIANCES",
+                accessLevel: .limited
+            )
         case .friendships:
-            return GossipItemTypeData(name: "Friendships", accessLevel: .limited)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_FRIENDSHIPS",
+                accessLevel: .limited
+            )
         case .governmentChanges:
-            return GossipItemTypeData(name: "Government changes", accessLevel: .limited)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_GOVERNMENT_CHANGES",
+                accessLevel: .limited
+            )
         case .denunciations:
-            return GossipItemTypeData(name: "Denunciations", accessLevel: .limited)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_DENOUNCIATIONS",
+                accessLevel: .limited
+            )
         case .citiesFounded:
-            return GossipItemTypeData(name: "Cities founded", accessLevel: .limited)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITIES_FOUNDED",
+                accessLevel: .limited
+            )
         case .citiesLiberated:
-            return GossipItemTypeData(name: "Cities liberated", accessLevel: .limited)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITIES_LIBERTATED",
+                accessLevel: .limited
+            )
         case .citiesRazed:
-            return GossipItemTypeData(name: "Cities razed", accessLevel: .limited)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITIES_RAZED",
+                accessLevel: .limited
+            )
         case .citiesBesieged:
-            return GossipItemTypeData(name: "Cities besieged", accessLevel: .limited)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITIES_BESIEGED",
+                accessLevel: .limited
+            )
         case .tradeDealsEnacted:
-            return GossipItemTypeData(name: "Trade deals enacted", accessLevel: .limited)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_TRADE_DEALS_ENACTED",
+                accessLevel: .limited
+            )
         case .tradeDealsReneged:
-            return GossipItemTypeData(name: "Trade deals reneged", accessLevel: .limited)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_TRADE_DEALS_RENEGED",
+                accessLevel: .limited
+            )
 
             // open
         case .buildingsConstructed:
-            return GossipItemTypeData(name: "Buildings constructed", accessLevel: .open)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_BUILDINGS_CONSTRUCTED",
+                accessLevel: .open
+            )
         case .districtsConstructed:
-            return GossipItemTypeData(name: "Districts constructed", accessLevel: .open)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_DISTRICTS_CONSTRUCTED",
+                accessLevel: .open
+            )
         case .greatPeopleRecruited:
-            return GossipItemTypeData(name: "Great people recruited", accessLevel: .open)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_GREAT_PEOPE_RECRUITED",
+                accessLevel: .open
+            )
         case .wondersStarted:
-            return GossipItemTypeData(name: "Wonders started", accessLevel: .open)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_WONDERS_STARTED",
+                accessLevel: .open
+            )
         case .artifactsExtracted:
-            return GossipItemTypeData(name: "Artifacts extracted", accessLevel: .open)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_ARTIFACTS_EXTRACTED",
+                accessLevel: .open
+            )
         case .inquisitionLaunched:
-            return GossipItemTypeData(name: "Inquisition launched", accessLevel: .open)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_INQUISITION_LAUNCHED",
+                accessLevel: .open
+            )
 
             // secret
         case .cityStatesInfluenced:
-            return GossipItemTypeData(name: "City-states influenced", accessLevel: .secret)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITY_STATE_INFLUENCED",
+                accessLevel: .secret
+            )
         case .civicsCompleted:
-            return GossipItemTypeData(name: "Civics completed", accessLevel: .secret)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_CIVICS_COMPLETED",
+                accessLevel: .secret
+            )
         case .technologiesResearched:
-            return GossipItemTypeData(name: "Technologies researched", accessLevel: .secret)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_TECHNOLOGIES_RESEARCHED",
+                accessLevel: .secret
+            )
         case .settlersTrained:
-            return GossipItemTypeData(name: "Settlers trained", accessLevel: .secret)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_SETTLERS_TRAINED",
+                accessLevel: .secret
+            )
 
             // top secret
         case .weaponOfMassDestructionBuilt:
-            return GossipItemTypeData(name: "Weapon of mass destruction built", accessLevel: .topSecret)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_WEAPON_OF_MASS_DESTRUCTION_BUILT",
+                accessLevel: .topSecret
+            )
         case .attacksLaunched:
-            return GossipItemTypeData(name: "Attacks launched", accessLevel: .topSecret)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_ATTACKS_LAUNCHED",
+                accessLevel: .topSecret
+            )
         case .projectsStarted:
-            return GossipItemTypeData(name: "Projects started", accessLevel: .topSecret)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_PROJECTS_STARTED",
+                accessLevel: .topSecret
+            )
         case .victoryStrategyChanged:
-            return GossipItemTypeData(name: "Victory strategy changed", accessLevel: .topSecret)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_VICTORY_STRATEGY_CHANGED",
+                accessLevel: .topSecret
+            )
         case .warPreparations:
-            return GossipItemTypeData(name: "War preparations", accessLevel: .topSecret)
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_WAR_PREPARATIONS",
+                accessLevel: .topSecret
+            )
         }
     }
 }

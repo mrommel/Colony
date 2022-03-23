@@ -61,7 +61,56 @@
 "TXT_KEY_DIPLOMACY_GOSSIP_SOURCE_SPY" = "Your Spy uncovered news that ";
 
 // gossip texts
-"TXT_KEY_DIPLOMACY_GOSSIP_CITY_CONQUEST" = "%@ has conquered %@."; // .cityConquests
-"TXT_KEY_DIPLOMACY_GOSSIP_PANTHEON_CREATED" = "%@ is worshipping a Pantheon of the gods focused on the %@ Belief."; // .pantheonCreated
-"TXT_KEY_DIPLOMACY_GOSSIP_RELIGION_FOUNDED" = "%@ has founded a new Religion: %@."; // religionsFounded
-"TXT_KEY_DIPLOMACY_GOSSIP_DECLARATION_OF_WAR" = "%@ has just declared war on %@!"; // .declarationsOfWar
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_CITY_CONQUEST" = "%@ has conquered %@."; // .cityConquests
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_PANTHEON_CREATED" = "%@ is worshipping a Pantheon of the gods focused on the %@ Belief."; // .pantheonCreated
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_RELIGION_FOUNDED" = "%@ has founded a new Religion: %@."; // religionsFounded
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_DECLARATION_OF_WAR" = "%@ has just declared war on %@!"; // .declarationsOfWar
+
+// gossip names
+// none
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITY_CONQUEST" = "City conquests";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_PATHEON_CREATED" = "Pantheon created";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_RELIGIONS_FOUNDED" = "Religions founded";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_DECLARATIONS_OF_WAR" = "Declarations of war";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_WEAPONS_OF_MASS_DESTRUCTION_STRIKES" = "Weapons of mass destruction strikes";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_SPACE_RACE_PROJECTS_COMPLETED" = "Space race projects completed";
+
+// limited
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_ALLIANCES" = "Alliances";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_FRIENDSHIPS" = "Friendships";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_GOVERNMENT_CHANGES" = "Government changes";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_DENOUNCIATIONS" = "Denunciations";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITIES_FOUNDED" = "Cities founded";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITIES_LIBERTATED" = "Cities liberated";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITIES_RAZED" = "Cities razed";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITIES_BESIEGED" = "Cities besieged";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_TRADE_DEALS_ENACTED" = "Trade deals enacted";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_TRADE_DEALS_RENEGED" = "Trade deals reneged";
+
+// open
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_BUILDINGS_CONSTRUCTED" = "Buildings constructed";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_DISTRICTS_CONSTRUCTED" = "Districts constructed";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_GREAT_PEOPE_RECRUITED" = "Great people recruited";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_WONDERS_STARTED" = "Wonders started";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_ARTIFACTS_EXTRACTED" = "Artifacts extracted";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_INQUISITION_LAUNCHED" = "Inquisition launched";
+
+// secret
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITY_STATE_INFLUENCED" = "City-states influenced";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_CIVICS_COMPLETED" = "Civics completed";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_TECHNOLOGIES_RESEARCHED" = "Technologies researched";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_SETTLERS_TRAINED" = "Settlers trained";
+
+// top secret
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_WEAPON_OF_MASS_DESTRUCTION_BUILT" = "Weapon of mass destruction built";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_ATTACKS_LAUNCHED" = "Attacks launched";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_PROJECTS_STARTED" = "Projects started";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_VICTORY_STRATEGY_CHANGED" = "Victory strategy changed";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_WAR_PREPARATIONS" = "War preparations";
+
+// raise access level
+"TXT_KEY_DIPLOMACY_RAISE_ACCESS_LEVEL_ACTION_DELEGATE" = "Send a delegation or establish an embassy.";
+"TXT_KEY_DIPLOMACY_RAISE_ACCESS_LEVEL_ACTION_TRADER" = "Establish a Trade Route.";
+"TXT_KEY_DIPLOMACY_RAISE_ACCESS_LEVEL_ACTION_TECH" = "Research the Printing technology.";
+"TXT_KEY_DIPLOMACY_RAISE_ACCESS_LEVEL_ACTION_ALLY" = "Become allies (requires Civil Service).";
+"TXT_KEY_DIPLOMACY_RAISE_ACCESS_LEVEL_ACTION_SPY" = "Send a Spy on a Listening Post mission.";

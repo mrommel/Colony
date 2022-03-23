@@ -68,6 +68,12 @@ public class DiplomaticDialogViewModel: ObservableObject {
     var accessLevelLabel: String = ""
 
     @Published
+    var sharedInformationTexts: [String] = []
+
+    @Published
+    var raiseAccessLevelTexts: [String] = []
+
+    @Published
     var approachItemViewModels: [ApproachItemViewModel] = []
 
     @Published
@@ -84,30 +90,11 @@ public class DiplomaticDialogViewModel: ObservableObject {
         self.discussionIntelReportTitle = "TXT_KEY_DIPLOMACY_INTEL_REPORT_TITLE".localized() + IntelReportType.overview.title().localized()
     }
 
-#if DEBUG
-    public convenience init(for humanPlayer: AbstractPlayer?, and otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
-
-        self.init()
-
-        self.update(for: humanPlayer,
-                       and: otherPlayer,
-                       state: .intro,
-                       message: .messageIntro,
-                       emotion: .neutral,
-                       in: gameModel)
-    }
-#endif
-
     func update(for humanPlayer: AbstractPlayer?,
                 and otherPlayer: AbstractPlayer?,
                 state: DiplomaticRequestState,
                 message: DiplomaticRequestMessage,
-                emotion: LeaderEmotionType,
-                in gameModel: GameModel?) {
-
-        /* guard let gameModel = self.gameEnvironment.game.value else {
-            fatalError("cant get game")
-        } */
+                emotion: LeaderEmotionType) {
 
         self.humanPlayer = humanPlayer
         self.otherPlayer = otherPlayer
@@ -116,47 +103,9 @@ public class DiplomaticDialogViewModel: ObservableObject {
         self.messageType = message
 
         // fill data
-        guard let humanPlayer = self.humanPlayer else {
-            fatalError("cant get humanPlayer")
-        }
-
-        guard let humanPlayerDiplomacyAI = humanPlayer.diplomacyAI else {
-            fatalError("cant get humanPlayer diplomacyAI")
-        }
-
-        guard let otherPlayer = self.otherPlayer else {
-            fatalError("cant get otherPlayer")
-        }
-
-        guard let otherPlayerDiplomacyAI = otherPlayer.diplomacyAI else {
-            fatalError("cant get otherPlayer diplomacyAI")
-        }
-
-        // access level tab
-        let accessLevel: AccessLevel = humanPlayerDiplomacyAI.accessLevel(towards: otherPlayer)
-        self.accessLevelLabel = accessLevel.name()
-
-        // relations tab
-        let approachValue = otherPlayerDiplomacyAI.approachValue(towards: humanPlayer)
-        let approach = otherPlayerDiplomacyAI.approach(towards: humanPlayer)
-        self.relationShipRating = Double(approachValue)
-        self.relationShipLabel = approach.name().localized()
-
-        var tmpApproachItemViewModels: [ApproachItemViewModel] = []
-        for approachItem in otherPlayerDiplomacyAI.approachItems(towards: humanPlayer) {
-            tmpApproachItemViewModels.append(ApproachItemViewModel(value: approachItem.value, text: approachItem.type.summary()))
-        }
-        self.approachItemViewModels = tmpApproachItemViewModels
-
-        // gossip
-        let gossipItems: [GossipItem] = humanPlayerDiplomacyAI.gossipItems(for: otherPlayer)
-        self.lastGossipItems = gossipItems
-            .filter { $0.isLastTenTurns(in: gameModel) }
-            .map { $0.source().text().localized() + $0.type().localizedText(for: humanPlayer.leader.civilization()) }
-        self.olderGossipItems = gossipItems
-            .filter { !$0.isLastTenTurns(in: gameModel) }
-            .map { $0.source().text().localized() + $0.type().localizedText(for: humanPlayer.leader.civilization()) }
-
+        self.updateAccessLevel()
+        self.updateRelations()
+        self.updateGossip()
         self.updateActions()
     }
 
@@ -248,10 +197,6 @@ public class DiplomaticDialogViewModel: ObservableObject {
             fatalError("cant get otherPlayer")
         }
 
-        guard let otherPlayerDiplomacyAI = otherPlayer.diplomacyAI else {
-            fatalError("cant get otherPlayer diplomacyAI")
-        }
-
         let accessLevel: AccessLevel = humanPlayerDiplomacyAI.accessLevel(towards: otherPlayer)
 
         return ImageCache.shared.image(for: accessLevel.iconTexture())
@@ -261,6 +206,110 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
         self.intelReportType = report
         self.discussionIntelReportTitle = "TXT_KEY_DIPLOMACY_INTEL_REPORT_TITLE".localized() + self.intelReportType.title().localized()
+    }
+
+    func updateAccessLevel() {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = self.humanPlayer else {
+            fatalError("cant get humanPlayer")
+        }
+
+        guard let humanPlayerDiplomacyAI = humanPlayer.diplomacyAI else {
+            fatalError("cant get player diplomacy")
+        }
+
+        guard let humanPlayerTradeRoutes = humanPlayer.tradeRoutes else {
+            fatalError("cant get player trade routes")
+        }
+
+        guard let otherPlayer = self.otherPlayer else {
+            fatalError("cant get otherPlayer")
+        }
+
+        let accessLevel: AccessLevel = humanPlayerDiplomacyAI.accessLevel(towards: otherPlayer)
+        self.accessLevelLabel = accessLevel.name()
+        self.sharedInformationTexts = accessLevel.gossipItems()
+            .map { $0.name().localized() }
+
+        var tmpRaiseAccessLevelTexts: [String] = []
+
+        if !humanPlayerDiplomacyAI.hasSendDelegation(to: otherPlayer) && !humanPlayerDiplomacyAI.hasEmbassy(with: otherPlayer) {
+            // LOC_VIZSOURCE_ACTION_DELEGATE
+            tmpRaiseAccessLevelTexts.append("TXT_KEY_DIPLOMACY_RAISE_ACCESS_LEVEL_ACTION_DELEGATE".localized())
+        }
+
+        if !humanPlayerTradeRoutes.hasTradeRoute(with: otherPlayer, in: gameModel) {
+            // LOC_VIZSOURCE_ACTION_TRADER
+            tmpRaiseAccessLevelTexts.append("TXT_KEY_DIPLOMACY_RAISE_ACCESS_LEVEL_ACTION_TRADER".localized())
+        }
+
+        if !humanPlayer.has(tech: .printing) {
+            // LOC_VIZSOURCE_ACTION_TECH
+            tmpRaiseAccessLevelTexts.append("TXT_KEY_DIPLOMACY_RAISE_ACCESS_LEVEL_ACTION_TECH".localized())
+        }
+
+        if !humanPlayerDiplomacyAI.isAllianceActive(with: otherPlayer) {
+            // LOC_VIZSOURCE_ACTION_ALLY
+            tmpRaiseAccessLevelTexts.append("TXT_KEY_DIPLOMACY_RAISE_ACCESS_LEVEL_ACTION_ALLY".localized())
+        }
+
+        // LOC_VIZSOURCE_ACTION_SPY
+        tmpRaiseAccessLevelTexts.append("TXT_KEY_DIPLOMACY_RAISE_ACCESS_LEVEL_ACTION_SPY".localized())
+
+        self.raiseAccessLevelTexts = tmpRaiseAccessLevelTexts
+    }
+
+    func updateRelations() {
+
+        guard let humanPlayer = self.humanPlayer else {
+            fatalError("cant get humanPlayer")
+        }
+
+        guard let otherPlayer = self.otherPlayer else {
+            fatalError("cant get otherPlayer")
+        }
+
+        guard let otherPlayerDiplomacyAI = otherPlayer.diplomacyAI else {
+            fatalError("cant get otherPlayer diplomacyAI")
+        }
+
+        let approachValue = otherPlayerDiplomacyAI.approachValue(towards: humanPlayer)
+        let approach = otherPlayerDiplomacyAI.approach(towards: humanPlayer)
+        self.relationShipRating = Double(approachValue)
+        self.relationShipLabel = approach.name().localized()
+
+        var tmpApproachItemViewModels: [ApproachItemViewModel] = []
+        for approachItem in otherPlayerDiplomacyAI.approachItems(towards: humanPlayer) {
+            tmpApproachItemViewModels.append(ApproachItemViewModel(value: approachItem.value, text: approachItem.type.summary()))
+        }
+        self.approachItemViewModels = tmpApproachItemViewModels
+    }
+
+    func updateGossip() {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = self.humanPlayer else {
+            fatalError("cant get humanPlayer")
+        }
+
+        guard let humanPlayerDiplomacyAI = self.humanPlayer?.diplomacyAI else {
+            fatalError("cant get player diplomacy")
+        }
+
+        let gossipItems: [GossipItem] = humanPlayerDiplomacyAI.gossipItems(for: otherPlayer)
+        self.lastGossipItems = gossipItems
+            .filter { $0.isLastTenTurns(in: gameModel) }
+            .map { $0.source().text().localized() + $0.type().localizedText(for: humanPlayer.leader.civilization()) }
+        self.olderGossipItems = gossipItems
+            .filter { !$0.isLastTenTurns(in: gameModel) }
+            .map { $0.source().text().localized() + $0.type().localizedText(for: humanPlayer.leader.civilization()) }
     }
 
     func updateActions() {
@@ -277,13 +326,13 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
     func overview(for report: IntelReportType) -> NSAttributedString {
 
-        /*guard let gameModel = self.gameEnvironment.game.value else {
-            fatalError("cant get game")
-        }
-
         guard let humanPlayer = self.humanPlayer else {
             fatalError("cant get humanPlayer")
-        }*/
+        }
+
+        guard let humanPlayerDiplomacyAI = humanPlayer.diplomacyAI else {
+            fatalError("cant get player diplomacy")
+        }
 
         guard let otherPlayer = self.otherPlayer else {
             fatalError("cant get otherPlayer")
@@ -320,7 +369,8 @@ public class DiplomaticDialogViewModel: ObservableObject {
         case .gossip:
             return tokenizer.bulletPointList(from: ["No New Items"])
         case .accessLevel:
-            return tokenizer.bulletPointList(from: ["None"])
+            let accessLevel: AccessLevel = humanPlayerDiplomacyAI.accessLevel(towards: otherPlayer)
+            return tokenizer.bulletPointList(from: [accessLevel.name().localized()])
         case .government:
             return tokenizer.bulletPointList(from: [currentGovernment.name().localized()])
         case .agendas:
@@ -347,6 +397,7 @@ public class DiplomaticDialogViewModel: ObservableObject {
         }
 
         self.updateActions()
+        self.updateGossip()
     }
 
     func sendDelegationClicked() {
@@ -360,6 +411,8 @@ public class DiplomaticDialogViewModel: ObservableObject {
         }
 
         self.updateActions()
+        self.updateAccessLevel()
+        self.updateGossip()
     }
 
     func sendEmbassyClicked() {
@@ -373,6 +426,8 @@ public class DiplomaticDialogViewModel: ObservableObject {
         }
 
         self.updateActions()
+        self.updateAccessLevel()
+        self.updateGossip()
     }
 
     func denounceClicked() {
@@ -390,6 +445,7 @@ public class DiplomaticDialogViewModel: ObservableObject {
         }
 
         self.updateActions()
+        self.updateGossip()
     }
 
     func declareSurpriseWarClicked() {
@@ -407,6 +463,8 @@ public class DiplomaticDialogViewModel: ObservableObject {
         }
 
         self.updateActions()
+        self.updateAccessLevel()
+        self.updateGossip()
     }
 
     func makeDealClicked() {

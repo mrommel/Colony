@@ -3122,7 +3122,7 @@ public class DiplomaticAI: Codable {
 
     // MARK: alliances
 
-    func isAllianceActive(with otherPlayer: AbstractPlayer?) -> Bool {
+    public func isAllianceActive(with otherPlayer: AbstractPlayer?) -> Bool {
 
         return self.playerDict.isAllianceActive(with: otherPlayer)
     }

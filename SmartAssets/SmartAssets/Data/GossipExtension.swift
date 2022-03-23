@@ -36,16 +36,16 @@ extension GossipItemType {
         switch self {
 
         case .cityConquests(cityName: let cityName):
-            return "TXT_KEY_DIPLOMACY_GOSSIP_CITY_CONQUEST"
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_CITY_CONQUEST"
                 .localizedWithFormat(with: [civilizationName, cityName])
         case .pantheonCreated(pantheonName: let pantheonName):
-            return "TXT_KEY_DIPLOMACY_GOSSIP_PANTHEON_CREATED"
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_PANTHEON_CREATED"
                 .localizedWithFormat(with: [civilizationName, pantheonName.localized()])
         case .religionsFounded(religionName: let religionName):
-            return "TXT_KEY_DIPLOMACY_GOSSIP_RELIGION_FOUNDED"
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_RELIGION_FOUNDED"
                 .localizedWithFormat(with: [civilizationName, religionName.localized()])
         case .declarationsOfWar(leader: let leaderName):
-            return "TXT_KEY_DIPLOMACY_GOSSIP_DECLARATION_OF_WAR"
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_DECLARATION_OF_WAR"
                 .localizedWithFormat(with: [civilizationName, leaderName.name().localized()])
         // case weaponsOfMassDestructionStrikes // #
         // case spaceRaceProjectsCompleted // #

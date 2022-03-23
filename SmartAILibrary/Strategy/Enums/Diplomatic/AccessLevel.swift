@@ -45,14 +45,18 @@ public enum AccessLevel: Int, Codable {
         }
     }
 
-    /*public func gossipItems() -> [GossipItemType] {
+    public func gossipItems() -> [GossipItemType] {
 
         switch self {
 
         case .none:
             return [
-                .cityConquests, .pantheonCreated, .religionsFounded, .declarationsOfWar,
-                .weaponsOfMassDestructionStrikes, .spaceRaceProjectsCompleted
+                .cityConquests(cityName: ""),
+                .pantheonCreated(pantheonName: ""),
+                .religionsFounded(religionName: ""),
+                .declarationsOfWar(leader: .none),
+                .weaponsOfMassDestructionStrikes,
+                .spaceRaceProjectsCompleted
             ]
 
         case .limited:
@@ -79,7 +83,7 @@ public enum AccessLevel: Int, Codable {
                 .victoryStrategyChanged, .warPreparations
             ]
         }
-    }*/
+    }
 }
 
 extension AccessLevel: Comparable {

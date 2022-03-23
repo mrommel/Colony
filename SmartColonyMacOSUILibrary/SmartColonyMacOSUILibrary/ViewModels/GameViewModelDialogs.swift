@@ -355,8 +355,7 @@ extension GameViewModel {
                 and: otherPlayer,
                 state: data.state,
                 message: data.message,
-                emotion: data.emotion,
-                in: gameModel
+                emotion: data.emotion
             )
 
             if let deal = deal {

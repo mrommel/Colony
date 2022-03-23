@@ -119,10 +119,14 @@ public struct DiplomaticDialogView: View {
             }
             .frame(height: 32)
 
-            self.intelReportView
-                .border(Color.white)
+            ScrollView(.vertical, showsIndicators: true) {
 
-            Spacer()
+                self.intelReportView
+
+                Spacer()
+            }
+            .frame(width: 380, height: 200)
+            .border(Color.white)
 
             Button(action: {
                 self.viewModel.closeDialog()
@@ -248,7 +252,7 @@ public struct DiplomaticDialogView: View {
                 .font(.headline)
                 .frame(width: 300, alignment: .trailing)
 
-            Text("Last ten turns")
+            DividerWithLabel("Last ten turns")
                 .padding(.bottom, 4)
 
             LazyVStack(spacing: 4) {
@@ -265,7 +269,7 @@ public struct DiplomaticDialogView: View {
                 }
             }
 
-            Text("Older")
+            DividerWithLabel("Older")
                 .padding(.bottom, 4)
 
             LazyVStack(spacing: 4) {
@@ -302,7 +306,21 @@ public struct DiplomaticDialogView: View {
             }
                 .frame(width: 300, alignment: .trailing)
 
-            Text("To raise your access level you could:")
+            DividerWithLabel("Information Shared")
+
+            LazyVStack(spacing: 4) {
+                ForEach(self.viewModel.sharedInformationTexts, id: \.self) { sharedInformationText in
+                    Text(sharedInformationText)
+                }
+            }
+
+            DividerWithLabel("To raise your access level you could:")
+
+            LazyVStack(spacing: 4) {
+                ForEach(self.viewModel.raiseAccessLevelTexts, id: \.self) { raiseAccessLevelText in
+                    Text(raiseAccessLevelText)
+                }
+            }
         }
         .frame(width: 360)
     }
@@ -353,14 +371,24 @@ public struct DiplomaticDialogView: View {
 #if DEBUG
 struct DiplomaticDialogView_Previews: PreviewProvider {
 
-    static var previews: some View {
-        // swiftlint:disable:next redundant_discardable_let
-        let _ = GameViewModel(preloadAssets: true)
+    private static func viewModel() -> DiplomaticDialogViewModel {
+
         let game = DemoGameModel()
         let playerOne = Player(leader: .barbarossa, isHuman: true)
         let playerTwo = Player(leader: .cyrus, isHuman: false)
 
-        let viewModel = DiplomaticDialogViewModel(for: playerOne, and: playerTwo, in: game)
+        let viewModel = DiplomaticDialogViewModel()
+        viewModel.gameEnvironment.game.value = game
+        viewModel.update(for: playerOne, and: playerTwo, state: .intro, message: .messageIntro, emotion: .neutral)
+
+        return viewModel
+    }
+
+    static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
+        let _ = GameViewModel(preloadAssets: true)
+
+        let viewModel = DiplomaticDialogView_Previews.viewModel()
 
         DiplomaticDialogView(viewModel: viewModel)
     }
