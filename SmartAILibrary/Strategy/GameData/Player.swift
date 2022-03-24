@@ -4685,9 +4685,11 @@ public class Player: AbstractPlayer {
             }
 
             // update access level
-            // if this is the first trade route with this player, incrase the access level
-            if !tradeRoutes.hasTradeRoute(with: targetCity.player, in: gameModel) {
-                self.diplomacyAI?.increaseAccessLevel(towards: targetCity.player)
+            if !self.isEqual(to: targetCity.player) {
+                // if this is the first trade route with this player, incrase the access level
+                if !tradeRoutes.hasTradeRoute(with: targetCity.player, in: gameModel) {
+                    self.diplomacyAI?.increaseAccessLevel(towards: targetCity.player)
+                }
             }
         }
 
@@ -4727,9 +4729,11 @@ public class Player: AbstractPlayer {
         self.tradeRoutes?.finish(tradeRoute: tradeRouteRef)
 
         // update access level
-        // if this was the last trade route with this player, decrase the access level
-        if !tradeRoutes.hasTradeRoute(with: targetCity.player, in: gameModel) {
-            self.diplomacyAI?.decreaseAccessLevel(towards: targetCity.player)
+        if !self.isEqual(to: targetCity.player) {
+            // if this was the last trade route with this player, decrase the access level
+            if !tradeRoutes.hasTradeRoute(with: targetCity.player, in: gameModel) {
+                self.diplomacyAI?.decreaseAccessLevel(towards: targetCity.player)
+            }
         }
     }
 

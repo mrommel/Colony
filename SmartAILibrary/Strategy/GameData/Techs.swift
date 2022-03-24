@@ -230,10 +230,6 @@ class Techs: AbstractTechs {
 
     func discover(tech: TechType, in gameModel: GameModel?) throws {
 
-        guard let gameModel = gameModel else {
-            fatalError("cant get game")
-        }
-
         guard let player = self.player else {
             fatalError("Can't discover tech - no player present")
         }
@@ -246,6 +242,10 @@ class Techs: AbstractTechs {
         let techsInEra = self.techs.count(where: { $0.era() == tech.era() })
         if techsInEra == 0 && tech.era() != .ancient {
 
+            guard let gameModel = gameModel else {
+                fatalError("cant get game")
+            }
+
             if gameModel.anyHasMoment(of: .worldsFirstTechnologyOfNewEra(eraType: tech.era())) {
                 self.player?.addMoment(of: .firstTechnologyOfNewEra(eraType: tech.era()), in: gameModel)
             } else {
@@ -257,6 +257,10 @@ class Techs: AbstractTechs {
 
         // check quests
         for quest in player.ownQuests(in: gameModel) {
+
+            guard let gameModel = gameModel else {
+                fatalError("cant get game")
+            }
 
             if case .trainUnit(type: let unitType) = quest.type {
                 var obsolete = false
@@ -294,6 +298,10 @@ class Techs: AbstractTechs {
         // check for printing
         // Researching the Printing technology. This will increase your visibility with all civilizations by one level.
         if tech == .printing {
+            guard let gameModel = gameModel else {
+                fatalError("cant get game")
+            }
+
             for loopPlayer in gameModel.players {
 
                 guard !loopPlayer.isBarbarian() && !loopPlayer.isFreeCity() && !loopPlayer.isCityState() else {

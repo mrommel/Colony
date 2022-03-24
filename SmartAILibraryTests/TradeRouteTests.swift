@@ -95,6 +95,8 @@ class TradeRouteTests: XCTestCase {
 
         traderUnit.unitMoved = self
 
+        humanPlayer.doFirstContact(with: aiPlayer, in: gameModel)
+
         // WHEN
         traderUnit.doEstablishTradeRoute(to: aiCity, in: gameModel)
 

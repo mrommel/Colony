@@ -9,6 +9,23 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
+struct GossipView: View {
+
+    let gossip: String
+
+    public var body: some View {
+
+        Text(self.gossip)
+            .frame(width: 330)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 4)
+            .background(
+                Image(nsImage: ImageCache.shared.image(for: "gossip-background"))
+                    .resizable(capInsets: EdgeInsets(all: 32))
+            )
+    }
+}
+
 public struct DiplomaticDialogView: View {
 
     @ObservedObject
@@ -258,14 +275,7 @@ public struct DiplomaticDialogView: View {
             LazyVStack(spacing: 4) {
                 ForEach(self.viewModel.lastGossipItems, id: \.self) { lastGossipText in
 
-                    Text(lastGossipText)
-                        .frame(width: 330)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 4)
-                        .background(
-                            Image(nsImage: ImageCache.shared.image(for: "gossip-background"))
-                                .resizable(capInsets: EdgeInsets(all: 32))
-                        )
+                    GossipView(gossip: lastGossipText)
                 }
             }
 
@@ -273,16 +283,9 @@ public struct DiplomaticDialogView: View {
                 .padding(.bottom, 4)
 
             LazyVStack(spacing: 4) {
-                ForEach(self.viewModel.olderGossipItems, id: \.self) { lastGossipText in
+                ForEach(self.viewModel.olderGossipItems, id: \.self) { olderGossipText in
 
-                    Text(lastGossipText)
-                        .frame(width: 330)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 4)
-                        .background(
-                            Image(nsImage: ImageCache.shared.image(for: "gossip-background"))
-                                .resizable(capInsets: EdgeInsets(all: 32))
-                        )
+                    GossipView(gossip: olderGossipText)
                 }
             }
         }
@@ -356,12 +359,11 @@ public struct DiplomaticDialogView: View {
                 ForEach(self.viewModel.approachItemViewModels) { approachItemViewModel in
                     ApproachItemView(viewModel: approachItemViewModel)
                 }
-            }
 
-            /*
-            // https://forums.civfanatics.com/resources/diplomatic-total.25707/
-            Text("-2 Moving forces near their cities")
-            Text("-10 Favorable trades to them")*/
+                /*
+                // https://forums.civfanatics.com/resources/diplomatic-total.25707/
+                Text("-10 Favorable trades to them")*/
+            }
 
             Text("TXT_KEY_DIPLOMACY_RELATIONSHIP_RAISE".localized())
         }
