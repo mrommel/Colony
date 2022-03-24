@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "improvement-barbarianCamp@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "improvement-barbarianCamp@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "improvement-barbarianCamp@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "border-accent-ne-s-sw@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "border-accent-ne-s-sw@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "border-accent-ne-s-sw@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {
