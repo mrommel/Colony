@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "wonder-casaDeContratacion@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "wonder-casaDeContratacion@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "wonder-casaDeContratacion@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

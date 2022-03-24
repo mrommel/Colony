@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "wonder-torreDeBelem@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "wonder-torreDeBelem@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "wonder-torreDeBelem@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

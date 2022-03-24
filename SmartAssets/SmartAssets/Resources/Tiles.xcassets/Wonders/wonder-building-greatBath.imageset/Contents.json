@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "wonder-building-greatBath@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "wonder-building-greatBath@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "wonder-building-greatBath@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {
