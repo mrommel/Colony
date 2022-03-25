@@ -72,7 +72,10 @@ class CityObject {
             fatalError("cant get city")
         }
 
-        self.sprite = SKSpriteNode(texture: SKTexture(image: ImageCache.shared.image(for: "city-ancient-small-noWalls")))
+        self.sprite = SKSpriteNode(
+            texture: SKTexture(image: ImageCache.shared.image(for: "city-ancient-small-noWalls")),
+            size: CityLayer.kTextureSize
+        )
         self.sprite.position = HexPoint.toScreen(hex: city.location)
         self.sprite.zPosition = Globals.ZLevels.city
         self.sprite.anchorPoint = CGPoint.lowerLeft
