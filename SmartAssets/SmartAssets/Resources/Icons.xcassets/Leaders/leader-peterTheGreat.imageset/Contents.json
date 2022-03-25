@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "leader-peterTheGreat@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "leader-peterTheGreat@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "leader-peterTheGreat@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "government-ambient-chiefdom@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "government-ambient-chiefdom@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "government-ambient-chiefdom@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

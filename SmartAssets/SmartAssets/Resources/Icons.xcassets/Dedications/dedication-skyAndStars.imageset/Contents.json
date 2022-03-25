@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "dedication-skyAndStars@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "dedication-skyAndStars@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "dedication-skyAndStars@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

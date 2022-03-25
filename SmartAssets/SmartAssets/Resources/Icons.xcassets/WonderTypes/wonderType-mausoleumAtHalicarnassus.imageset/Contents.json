@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "wonderType-mausoleumAtHalicarnassus@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "wonderType-mausoleumAtHalicarnassus@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "wonderType-mausoleumAtHalicarnassus@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

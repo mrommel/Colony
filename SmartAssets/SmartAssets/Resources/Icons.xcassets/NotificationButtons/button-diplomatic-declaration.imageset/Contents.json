@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "button-diplomatic-declaration@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "button-diplomatic-declaration@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "button-diplomatic-declaration@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {
