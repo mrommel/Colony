@@ -408,6 +408,7 @@
 		C9F020FF276C997800AF5E49 /* MomentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F020FE276C997800AF5E49 /* MomentType.swift */; };
 		C9F02101276CED9800AF5E49 /* PlayerMoments.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F02100276CED9800AF5E49 /* PlayerMoments.swift */; };
 		C9F4FE5227EF8000008545DB /* AccessLevelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F4FE5127EF8000008545DB /* AccessLevelTests.swift */; };
+		C9F4FE5427EFAB86008545DB /* GossipTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F4FE5327EFAB85008545DB /* GossipTests.swift */; };
 		C9F76AAB242E14C00018672A /* PurchaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F76AAA242E14C00018672A /* PurchaseType.swift */; };
 		C9F76AAD242EA54C0018672A /* InfluencePathfinderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F76AAC242EA54C0018672A /* InfluencePathfinderDataSource.swift */; };
 		C9F76AAF243314B80018672A /* CivicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F76AAE243314B80018672A /* CivicTests.swift */; };
@@ -838,6 +839,7 @@
 		C9F020FE276C997800AF5E49 /* MomentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentType.swift; sourceTree = "<group>"; };
 		C9F02100276CED9800AF5E49 /* PlayerMoments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerMoments.swift; sourceTree = "<group>"; };
 		C9F4FE5127EF8000008545DB /* AccessLevelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessLevelTests.swift; sourceTree = "<group>"; };
+		C9F4FE5327EFAB85008545DB /* GossipTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GossipTests.swift; sourceTree = "<group>"; };
 		C9F76AAA242E14C00018672A /* PurchaseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseType.swift; sourceTree = "<group>"; };
 		C9F76AAC242EA54C0018672A /* InfluencePathfinderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfluencePathfinderDataSource.swift; sourceTree = "<group>"; };
 		C9F76AAE243314B80018672A /* CivicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicTests.swift; sourceTree = "<group>"; };
@@ -1112,6 +1114,7 @@
 				C9AAC26F24D97FFE00FF1E35 /* GameModelTests.swift */,
 				C9E0576D26E3F33800C3FFB9 /* GameModelSightTests.swift */,
 				C92AB92227347827003647D8 /* GameModelVictoryTests.swift */,
+				C9F4FE5327EFAB85008545DB /* GossipTests.swift */,
 				C92D221423E2118400BB9238 /* GovernmentTypeTests.swift */,
 				C92317CB23D79F2C001FC723 /* GrandStrategyAITests.swift */,
 				C9C0DCE024D7486E004D9F06 /* GreatPersonsTests.swift */,
@@ -2157,6 +2160,7 @@
 				C9EF39C5278818F30066A507 /* PlayerMomentsTests.swift in Sources */,
 				C986A5F22664F56F0055D3D4 /* ReligionTests.swift in Sources */,
 				C94CB3CD274D8E54002F3083 /* TileAppealTests.swift in Sources */,
+				C9F4FE5427EFAB86008545DB /* GossipTests.swift in Sources */,
 				C90323EB27D4EE6900AFBCFE /* PlayerCityStateQuestTests.swift in Sources */,
 				C92317BD23D6EAB5001FC723 /* HierarchicalStateMachineTests.swift in Sources */,
 				C956BF6A24F3C7B9009702B4 /* TradeRouteTests.swift in Sources */,

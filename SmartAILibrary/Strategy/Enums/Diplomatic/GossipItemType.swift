@@ -21,7 +21,7 @@ public enum GossipSourceType: Codable {
 }
 
 // texts: https://github.com/Swiftwork/civ6-explorer/blob/dbe3ca6d5468828ef0b26ef28f69555de0bcb959/src/assets/game/BaseGame/Locale/en_US/Gossip_Text.xml
-public enum GossipItemType: Codable {
+public enum GossipItemType: Codable, Equatable {
 
     // none
     case cityConquests(cityName: String)
