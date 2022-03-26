@@ -2915,7 +2915,7 @@ public class DiplomaticAI: Codable {
         if self.canSendDelegation(to: otherPlayer) {
 
             playerDiplomacy.playerDict.sendDelegation(to: otherPlayer, send: true)
-            playerDiplomacy.playerDict.addApproach(type: .delegation, towards: self.player)
+            playerDiplomacy.playerDict.addApproach(type: .delegation, towards: otherPlayer)
 
             // update access level
             playerDiplomacy.increaseAccessLevel(towards: otherPlayer)

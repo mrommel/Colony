@@ -407,6 +407,7 @@
 		C9F020FD276BD87400AF5E49 /* CasusBelliType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F020FC276BD87400AF5E49 /* CasusBelliType.swift */; };
 		C9F020FF276C997800AF5E49 /* MomentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F020FE276C997800AF5E49 /* MomentType.swift */; };
 		C9F02101276CED9800AF5E49 /* PlayerMoments.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F02100276CED9800AF5E49 /* PlayerMoments.swift */; };
+		C9F4FE5227EF8000008545DB /* AccessLevelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F4FE5127EF8000008545DB /* AccessLevelTests.swift */; };
 		C9F76AAB242E14C00018672A /* PurchaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F76AAA242E14C00018672A /* PurchaseType.swift */; };
 		C9F76AAD242EA54C0018672A /* InfluencePathfinderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F76AAC242EA54C0018672A /* InfluencePathfinderDataSource.swift */; };
 		C9F76AAF243314B80018672A /* CivicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F76AAE243314B80018672A /* CivicTests.swift */; };
@@ -836,6 +837,7 @@
 		C9F020FC276BD87400AF5E49 /* CasusBelliType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasusBelliType.swift; sourceTree = "<group>"; };
 		C9F020FE276C997800AF5E49 /* MomentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentType.swift; sourceTree = "<group>"; };
 		C9F02100276CED9800AF5E49 /* PlayerMoments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerMoments.swift; sourceTree = "<group>"; };
+		C9F4FE5127EF8000008545DB /* AccessLevelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessLevelTests.swift; sourceTree = "<group>"; };
 		C9F76AAA242E14C00018672A /* PurchaseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseType.swift; sourceTree = "<group>"; };
 		C9F76AAC242EA54C0018672A /* InfluencePathfinderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfluencePathfinderDataSource.swift; sourceTree = "<group>"; };
 		C9F76AAE243314B80018672A /* CivicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicTests.swift; sourceTree = "<group>"; };
@@ -1089,6 +1091,7 @@
 				C90FA34F24C229C800733331 /* Resources */,
 				C9D78DFA259097890024ECF0 /* Tests-Prefix.pch */,
 				C92317A723D62A6B001FC723 /* Info.plist */,
+				C9F4FE5127EF8000008545DB /* AccessLevelTests.swift */,
 				C964BA2E23EC159600CA379C /* AdvisorTests.swift */,
 				C90D2E2E24C317980029AA11 /* AssetExtractionTests.swift */,
 				C93479482529AF2A00A4B113 /* AStarPathFinderTests.swift */,
@@ -2173,6 +2176,7 @@
 				C92317A623D62A6B001FC723 /* FiniteStateMachineTests.swift in Sources */,
 				C9B6321E23DCDAB500E15A5F /* DiplomaticDealAITests.swift in Sources */,
 				C9A50FE3242244C5006AA47B /* UsecaseTests.swift in Sources */,
+				C9F4FE5227EF8000008545DB /* AccessLevelTests.swift in Sources */,
 				C935FBA827043EE3000CCA49 /* PlayerTests.swift in Sources */,
 				C92D221723E22D6600BB9238 /* PolicyCardsTests.swift in Sources */,
 				C9FE141424154B93008CC6B3 /* RegionFinderTests.swift in Sources */,

@@ -28,11 +28,11 @@
 
 "TXT_KEY_DIPLOMACY_ACCESS_LEVEL_TITLE" = "AccessLevel";
 "TXT_KEY_DIPLOMACY_ACCESS_LEVEL_SHARED" = "Information Shared";
-"TXT_KEY_DIPLOMACY_ACCESS_LEVEL_RAISE" = "To raise your access level you could:";
+"TXT_KEY_DIPLOMACY_ACCESS_LEVEL_RAISE" = "To [green]raise[/green] your access level you could:";
 
 "TXT_KEY_DIPLOMACY_RELATIONSHIP_TITLE" = "Relationship";
 "TXT_KEY_DIPLOMACY_RELATIONSHIP_REASONS" = "Reasons for current relationship";
-"TXT_KEY_DIPLOMACY_RELATIONSHIP_RAISE" = "To raise your relationship you could:";
+"TXT_KEY_DIPLOMACY_RELATIONSHIP_RAISE" = "To [green]raise[/green] your relationship you could:";
 
 "TXT_KEY_DIPLOMACY_ACTION_DECLARE_FRIENDSHIP_TITLE" = "Declare Friendship";
 "TXT_KEY_DIPLOMACY_ACTION_DELEGATION_TITLE" = "Send Delegation";
