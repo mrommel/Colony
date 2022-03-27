@@ -5736,6 +5736,14 @@ public class DiplomaticAI: Codable {
 
     func changeWarValueLost(with otherPlayer: AbstractPlayer?, by delta: Int) {
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        if player.isEqual(to: otherPlayer) {
+            return
+        }
+
         let value = self.playerDict.warValueLost(with: otherPlayer)
         self.playerDict.updateWarValueLost(with: otherPlayer, to: value + delta)
     }

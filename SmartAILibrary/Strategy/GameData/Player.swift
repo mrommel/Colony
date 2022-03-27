@@ -227,6 +227,9 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func registerBuild(cityName: String)
     func cityStrengthModifier() -> Int
     func acquire(city oldCity: AbstractCity?, conquest: Bool, gift: Bool, in gameModel: GameModel?)
+    func raze(city: AbstractCity?, in gameModel: GameModel?)
+    func disband(city: AbstractCity?, in gameModel: GameModel?)
+    func delete(city: AbstractCity?, in gameModel: GameModel?)
     func numOfCitiesFounded() -> Int
     func numOfCitiesLost() -> Int
 
@@ -3818,6 +3821,9 @@ public class Player: AbstractPlayer {
             }
         }
 
+        // send gossip
+        gameModel.sendGossip(type: .cityFounded(cityName: cityName), of: self)
+
         self.citiesFoundValue += 1
     }
 
@@ -4928,7 +4934,11 @@ public class Player: AbstractPlayer {
             gameModel.addReplayEvent(type: .major, message: message, at: oldCity.location)
 
             // inform other players, that a city was conquered
-            gameModel.sendGossip(type: .cityConquests(cityName: oldCity.name), of: self)
+            if self.leader == oldCity.originalLeader() {
+                gameModel.sendGossip(type: .cityLiberated(cityName: oldCity.name, originalOwner: oldCity.originalLeader()), of: self)
+            } else {
+                gameModel.sendGossip(type: .cityConquests(cityName: oldCity.name), of: self)
+            }
         }
 
         var captureGold = 0
@@ -5271,6 +5281,152 @@ public class Player: AbstractPlayer {
             theMap.updateDeferredFog();
         }
 */
+    }
+
+    func canRaze(city cityRef: AbstractCity?, ignoreCapitals: Bool = false, in gameModel: GameModel?) -> Bool {
+
+        guard let city = cityRef else {
+            fatalError("cant get city to raze")
+        }
+
+        // If we don't own this city right now then we can't raze it!
+        if self.isEqual(to: city.player) {
+            return false
+        }
+
+        // Can't raze a city that originally belonged to us
+        if self.leader == city.originalLeader() {
+            return false
+        }
+
+        guard let originalOwner = gameModel?.player(for: city.originalLeader()) else {
+            fatalError("cant get original owner")
+        }
+
+        let originalCapital = city.location == originalOwner.originalCapitalLocation()
+
+        // No razing of capitals
+        if !ignoreCapitals && originalCapital {
+            return false
+        }
+
+        // No razing of Holy Cities
+        if city.isHolyCityOfAnyReligion(in: gameModel) {
+            return false
+        }
+
+        return true
+    }
+
+    public func raze(city cityRef: AbstractCity?, in gameModel: GameModel?) {
+
+        guard let city = cityRef else {
+            fatalError("cant get city to raze")
+        }
+
+        if !self.canRaze(city: city, in: gameModel) {
+            return
+        }
+
+        /*if(GetID() == GC.getGame().getActivePlayer()) {
+            sprintf_s(szBuffer, lenBuffer, GetLocalizedText("TXT_KEY_MISC_DESTROYED_CITY", pCity->getNameKey()).GetCString());
+            GC.GetEngineUserInterface()->AddCityMessage(0, pCity->GetIDInfo(), GetID(), true, GC.getEVENT_MESSAGE_TIME(), szBuffer);
+        }*/
+
+        // send gossip
+        gameModel?.sendGossip(type: .cityRazed(cityName: city.name, originalOwner: city.originalLeader()), of: self)
+
+        // sprintf_s(szBuffer, lenBuffer, GetLocalizedText("TXT_KEY_MISC_CITY_RAZED_BY", pCity->getNameKey(), getCivilizationShortDescriptionKey()).GetCString());
+        // GC.getGame().addReplayMessage(REPLAY_MESSAGE_MAJOR_EVENT, GetID(), szBuffer, pCity->getX(), pCity->getY());
+
+        // pCity->SetIgnoreCityForHappiness(false);
+
+        // CalculateNetHappiness();
+
+        /* if (pCity->IsNoWarmongerYet())
+        {
+            PlayerTypes eFormerOwner = pCity->getPreviousOwner();
+            if (eFormerOwner != NO_PLAYER)
+            {
+                CvDiplomacyAIHelpers::ApplyWarmongerPenalties(pCity, GetID(), eFormerOwner);
+                pCity->SetNoWarmonger(false);
+            }
+        }*/
+
+        city.changeRazingTurns(to: city.population())
+    }
+
+    public func disband(city cityRef: AbstractCity?, in gameModel: GameModel?) {
+
+        guard let city = cityRef else {
+            fatalError("cant get city to raze")
+        }
+
+        /* if getNumCities() == 1 {
+            setFoundedFirstCity(false);
+        } */
+
+        // GC.getGame().addDestroyedCityName(pCity->getNameKey());
+
+        /* for(int eBuildingType = 0; eBuildingType < GC.getNumBuildingInfos(); eBuildingType++)
+        {
+            CvBuildingEntry* buildingInfo = GC.getBuildingInfo((BuildingTypes) eBuildingType);
+            if(buildingInfo)
+            {
+                // if this building exists
+                int iExists = pCity->GetCityBuildings()->GetNumRealBuilding((BuildingTypes) eBuildingType);
+                int iPreferredPosition = buildingInfo->GetPreferredDisplayPosition();
+                if(iPreferredPosition > 0)
+                {
+                    auto_ptr<ICvCity1> pDllCity(new CvDllCity(pCity));
+
+                    if(iExists > 0)
+                    {
+                        // kill the wonder
+                        GC.GetEngineUserInterface()->AddDeferredWonderCommand(WONDER_REMOVED, pDllCity.get(), (BuildingTypes) eBuildingType, 0);
+                    }
+                    else
+                    {
+                        // else if we are currently in the process of building this wonder
+                        if(pCity->getProductionBuilding() == eBuildingType)
+                        {
+                            // kill the half built wonder
+                            if(isWorldWonderClass(buildingInfo->GetBuildingClassInfo()))
+                            {
+                                GC.GetEngineUserInterface()->AddDeferredWonderCommand(WONDER_REMOVED, pDllCity.get(), (BuildingTypes) eBuildingType, 0);
+                            }
+                        }
+                    }
+                }
+            }
+        }*/
+
+        gameModel?.userInterface?.remove(city: city)
+
+        city.kill(in: gameModel)
+
+        /* if(pPlot)
+        {
+            IDInfoVector currentUnits;
+            if (pPlot->getUnits(&currentUnits) > 0)
+            {
+                for (IDInfoVector::const_iterator itr = currentUnits.begin(); itr != currentUnits.end(); ++itr)
+                {
+                    CvUnit* pUnit = ::GetPlayerUnit(*itr);
+
+                    if(pUnit && !pUnit->canEndTurnAtPlot(pPlot))
+                    {
+                        if (!pUnit->jumpToNearestValidPlot())
+                            pUnit->kill(false);
+                    }
+                }
+            }
+        }*/
+    }
+
+    public func delete(city: AbstractCity?, in gameModel: GameModel?) {
+
+        gameModel?.remove(city: city)
     }
 
     public func numOfCitiesFounded() -> Int {

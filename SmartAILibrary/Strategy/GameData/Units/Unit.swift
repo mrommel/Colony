@@ -2206,6 +2206,9 @@ public class Unit: AbstractUnit {
 
             if newPlot.has(improvement: .barbarianCamp) {
                 self.player?.doClearBarbarianCamp(at: newPlot, in: gameModel)
+
+                // send gossip
+                gameModel.sendGossip(type: .barbarianCampCleared(unit: self.type), of: self.player)
             }
         }
 

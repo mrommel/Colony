@@ -80,12 +80,6 @@
 "TXT_KEY_DIPLOMACY_GOSSIP_SOURCE_ALLIED" = "An allied friend reports that ";
 "TXT_KEY_DIPLOMACY_GOSSIP_SOURCE_SPY" = "Your Spy uncovered news that ";
 
-// gossip texts
-"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_CITY_CONQUEST" = "%@ has conquered %@."; // .cityConquests
-"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_PANTHEON_CREATED" = "%@ is worshipping a Pantheon of the gods focused on the %@ Belief."; // .pantheonCreated
-"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_RELIGION_FOUNDED" = "%@ has founded a new Religion: %@."; // religionsFounded
-"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_DECLARATION_OF_WAR" = "%@ has just declared war on %@!"; // .declarationsOfWar
-
 // gossip names
 // none
 "TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITY_CONQUEST" = "City conquests";
@@ -106,6 +100,7 @@
 "TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITIES_BESIEGED" = "Cities besieged";
 "TXT_KEY_DIPLOMACY_GOSSIP_NAME_TRADE_DEALS_ENACTED" = "Trade deals enacted";
 "TXT_KEY_DIPLOMACY_GOSSIP_NAME_TRADE_DEALS_RENEGED" = "Trade deals reneged";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_BARBARIAN_CAMP_CLEARED" = "Barbarian camp cleared";
 
 // open
 "TXT_KEY_DIPLOMACY_GOSSIP_NAME_BUILDINGS_CONSTRUCTED" = "Buildings constructed";
@@ -127,6 +122,18 @@
 "TXT_KEY_DIPLOMACY_GOSSIP_NAME_PROJECTS_STARTED" = "Projects started";
 "TXT_KEY_DIPLOMACY_GOSSIP_NAME_VICTORY_STRATEGY_CHANGED" = "Victory strategy changed";
 "TXT_KEY_DIPLOMACY_GOSSIP_NAME_WAR_PREPARATIONS" = "War preparations";
+
+// gossip texts
+// none
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_CITY_CONQUEST" = "%@ has conquered %@."; // .cityConquests
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_PANTHEON_CREATED" = "%@ is worshipping a Pantheon of the gods focused on the %@ Belief."; // .pantheonCreated
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_RELIGION_FOUNDED" = "%@ has founded a new Religion: %@."; // religionsFounded
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_DECLARATION_OF_WAR" = "%@ has just declared war on %@!"; // .declarationsOfWar
+
+// limited
+// open
+// secret
+// top secret
 
 // raise access level
 "TXT_KEY_DIPLOMACY_RAISE_ACCESS_LEVEL_ACTION_DELEGATE" = "Send a delegation or establish an embassy.";

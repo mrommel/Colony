@@ -405,6 +405,9 @@ public class Government: AbstractGovernment {
         self.policyCardsVal = PolicyCardSet() // reset card selection
 
         self.player?.doUpdateTradeRouteCapacity(in: gameModel)
+
+        // send gossip to other players
+        gameModel?.sendGossip(type: .governmentChange(government: governmentType), of: self.player)
     }
 
     public func set(policyCardSet: AbstractPolicyCardSet) throws {

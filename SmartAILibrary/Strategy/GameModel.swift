@@ -1452,6 +1452,11 @@ open class GameModel: Codable {
         self.map.remove(unit: unit)
     }
 
+    func remove(city: AbstractCity?) {
+
+        self.map.remove(city: city)
+    }
+
     // MARK: tile methods
 
     public func points() -> [HexPoint] {

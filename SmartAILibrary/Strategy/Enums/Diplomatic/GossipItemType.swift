@@ -32,16 +32,17 @@ public enum GossipItemType: Codable, Equatable {
     case spaceRaceProjectsCompleted // #
 
     // limited
-    case alliances // #
+    case alliance(leader: LeaderType) // #
     case friendship(leader: LeaderType)
-    case governmentChanges // #
+    case governmentChange(government: GovernmentType)
     case denunciation(leader: LeaderType)
-    case citiesFounded // #
-    case citiesLiberated // #
-    case citiesRazed // #
-    case citiesBesieged // #
-    case tradeDealsEnacted // #
-    case tradeDealsReneged // #
+    case cityFounded(cityName: String) // #
+    case cityLiberated(cityName: String, originalOwner: LeaderType) // #
+    case cityRazed(cityName: String, originalOwner: LeaderType) // #
+    case cityBesieged(cityName: String) // #
+    case tradeDealEnacted // #
+    case tradeDealReneged // #
+    case barbarianCampCleared(unit: UnitType) // #
 
     // open
     case buildingsConstructed // #
@@ -127,7 +128,7 @@ public enum GossipItemType: Codable, Equatable {
             )
 
             // limited
-        case .alliances:
+        case .alliance:
             return GossipItemTypeData(
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_ALLIANCES",
                 accessLevel: .limited
@@ -137,7 +138,7 @@ public enum GossipItemType: Codable, Equatable {
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_FRIENDSHIPS",
                 accessLevel: .limited
             )
-        case .governmentChanges:
+        case .governmentChange:
             return GossipItemTypeData(
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_GOVERNMENT_CHANGES",
                 accessLevel: .limited
@@ -147,34 +148,39 @@ public enum GossipItemType: Codable, Equatable {
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_DENOUNCIATIONS",
                 accessLevel: .limited
             )
-        case .citiesFounded:
+        case .cityFounded:
             return GossipItemTypeData(
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITIES_FOUNDED",
                 accessLevel: .limited
             )
-        case .citiesLiberated:
+        case .cityLiberated:
             return GossipItemTypeData(
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITIES_LIBERTATED",
                 accessLevel: .limited
             )
-        case .citiesRazed:
+        case .cityRazed:
             return GossipItemTypeData(
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITIES_RAZED",
                 accessLevel: .limited
             )
-        case .citiesBesieged:
+        case .cityBesieged:
             return GossipItemTypeData(
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITIES_BESIEGED",
                 accessLevel: .limited
             )
-        case .tradeDealsEnacted:
+        case .tradeDealEnacted:
             return GossipItemTypeData(
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_TRADE_DEALS_ENACTED",
                 accessLevel: .limited
             )
-        case .tradeDealsReneged:
+        case .tradeDealReneged:
             return GossipItemTypeData(
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_TRADE_DEALS_RENEGED",
+                accessLevel: .limited
+            )
+        case .barbarianCampCleared:
+            return GossipItemTypeData(
+                name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_BARBARIAN_CAMP_CLEARED",
                 accessLevel: .limited
             )
 

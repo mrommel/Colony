@@ -165,6 +165,7 @@ public protocol AbstractTile: Codable, NSCopying {
     func isWorked() -> Bool
     func workingCity() -> AbstractCity?
     func workingCityName() -> String?
+    func removeWorked() throws
     func setWorkingCity(to city: AbstractCity?) throws
 
     // district
@@ -1229,7 +1230,7 @@ public class Tile: AbstractTile {
         return self.workedByCityName
     }
 
-    func removeWorked() throws {
+    public func removeWorked() throws {
 
         if !self.isWorked() {
             throw TileError.notWorkedYet

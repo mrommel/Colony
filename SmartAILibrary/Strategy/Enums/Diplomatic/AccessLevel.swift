@@ -61,16 +61,17 @@ public enum AccessLevel: Int, Codable {
 
         case .limited:
             return [
-                .alliances,
+                .alliance(leader: .none),
                 .friendship(leader: .none),
-                .governmentChanges,
+                .governmentChange(government: .chiefdom),
                 .denunciation(leader: .none),
-                .citiesFounded,
-                .citiesLiberated,
-                .citiesRazed,
-                .citiesBesieged,
-                .tradeDealsEnacted,
-                .tradeDealsReneged
+                .cityFounded(cityName: ""),
+                .cityLiberated(cityName: "", originalOwner: .none),
+                .cityRazed(cityName: "", originalOwner: .none),
+                .cityBesieged(cityName: ""),
+                .tradeDealEnacted,
+                .tradeDealReneged,
+                .barbarianCampCleared(unit: .none)
             ]
 
         case .open:
