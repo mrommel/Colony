@@ -33,9 +33,9 @@ public enum GossipItemType: Codable, Equatable {
 
     // limited
     case alliances // #
-    case friendships // #
+    case friendship(leader: LeaderType)
     case governmentChanges // #
-    case denunciations // #
+    case denunciation(leader: LeaderType)
     case citiesFounded // #
     case citiesLiberated // #
     case citiesRazed // #
@@ -132,7 +132,7 @@ public enum GossipItemType: Codable, Equatable {
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_ALLIANCES",
                 accessLevel: .limited
             )
-        case .friendships:
+        case .friendship:
             return GossipItemTypeData(
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_FRIENDSHIPS",
                 accessLevel: .limited
@@ -142,7 +142,7 @@ public enum GossipItemType: Codable, Equatable {
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_GOVERNMENT_CHANGES",
                 accessLevel: .limited
             )
-        case .denunciations:
+        case .denunciation:
             return GossipItemTypeData(
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_DENOUNCIATIONS",
                 accessLevel: .limited

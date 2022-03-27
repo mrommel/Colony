@@ -2790,6 +2790,9 @@ public class DiplomaticAI: Codable {
                     let text = "\(playerAName) and \(playerBName) have made a public Trade Alliance, forging a strong bond between the two empires."*/
 
                     self.player?.notifications()?.add(notification: .diplomaticDeclaration)
+
+                    // inform other players, that a city was conquered
+                    gameModel.sendGossip(type: .friendship(leader: otherPlayer.leader), of: self.player)
                 }
             }
         }
@@ -2839,7 +2842,9 @@ public class DiplomaticAI: Codable {
                     let text = "\(playerAName) has denounced \(playerBName)."*/
 
                     self.player?.notifications()?.add(notification: .diplomaticDeclaration)
-                    fatalError("not handled")
+
+                    // inform other players, that a city was conquered
+                    gameModel.sendGossip(type: .denunciation(leader: otherPlayer.leader), of: self.player)
                 }
             }
         }

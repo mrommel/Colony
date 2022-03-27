@@ -1112,7 +1112,14 @@ public class Player: AbstractPlayer {
             fatalError("cant get diplomacyAI")
         }
 
+        guard let otherLeader = otherPlayer?.leader else {
+            fatalError("cant get otherPlayer leader")
+        }
+
         diplomacyAI.doDeclareWar(to: otherPlayer, in: gameModel)
+
+        // inform other players, that a city was conquered
+        gameModel?.sendGossip(type: .declarationsOfWar(leader: otherLeader), of: self)
     }
 
     public func doEstablishPeaceTreaty(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
