@@ -79,7 +79,7 @@ public enum AccessLevel: Int, Codable {
                 .buildingConstructed(building: .none),
                 .districtConstructed(district: .none),
                 .greatPeopleRecruited(greatPeople: .none),
-                .wonderStarted(wonder: .none),
+                .wonderStarted(wonder: .none, cityName: ""),
                 .artifactsExtracted,
                 .inquisitionLaunched
             ]

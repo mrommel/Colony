@@ -35,6 +35,7 @@ extension GossipItemType {
 
         switch self {
 
+            // none
         case .cityConquests(cityName: let cityName):
             return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_CITY_CONQUEST"
                 .localizedWithFormat(with: [civilizationName, cityName])
@@ -47,8 +48,73 @@ extension GossipItemType {
         case .declarationsOfWar(leader: let leaderName):
             return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_DECLARATION_OF_WAR"
                 .localizedWithFormat(with: [civilizationName, leaderName.name().localized()])
-        // case weaponsOfMassDestructionStrikes // #
-        // case spaceRaceProjectsCompleted // #
+        // case .weaponsOfMassDestructionStrikes // #
+        // case .spaceRaceProjectsCompleted // #
+
+            // limited
+        case .alliance(leader: let leader):
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_ALLIANCE"
+                .localizedWithFormat(with: [civilizationName, leader.name().localized()])
+        case .friendship(leader: let leader):
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_FRIENDSHIP"
+                .localizedWithFormat(with: [civilizationName, leader.name().localized()])
+        case .governmentChange(government: let government):
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_GOVERNMENT_CHANGE"
+                .localizedWithFormat(with: [civilizationName, government.name().localized()])
+        case .denunciation(leader: let leader):
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_DENUNCIATION"
+                .localizedWithFormat(with: [civilizationName, leader.name().localized()])
+        case .cityFounded(cityName: let cityName):
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_CITY_FOUNDED"
+                .localizedWithFormat(with: [civilizationName, cityName])
+        case .cityLiberated(cityName: let cityName, originalOwner: let leader):
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_CITY_LIBERATED"
+                .localizedWithFormat(with: [civilizationName, cityName, leader.name().localized()])
+        case .cityRazed(cityName: let cityName, originalOwner: let leader):
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_CITY_RAZED"
+                .localizedWithFormat(with: [civilizationName, cityName, leader.name().localized()])
+        // case .cityBesieged(cityName: let cityName):
+            // return "{1_CityName} is facing a siege."
+        // case .tradeDealEnacted // #
+        // case .tradeDealReneged // #
+        case .barbarianCampCleared(unit: let unitType):
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_CAMP_CLEARED"
+                .localizedWithFormat(with: [civilizationName, unitType.name().localized()])
+
+            // open
+        case .buildingConstructed(building: let building):
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_BUILDING_CONSTRUCTED"
+                .localizedWithFormat(with: [civilizationName, building.name().localized()])
+        case .districtConstructed(district: let district):
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_DISTRICT_CONSTRUCTED"
+                .localizedWithFormat(with: [civilizationName, district.name().localized()])
+        case .greatPeopleRecruited(greatPeople: let greatPerson):
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_GREAT_PEOPLE_RECRUITED"
+                .localizedWithFormat(with: [civilizationName, greatPerson.type().name().localized(), greatPerson.name().localized()])
+        case .wonderStarted(wonder: let wonder, cityName: let cityName):
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_WONDER_STARTED"
+                .localizedWithFormat(with: [civilizationName, cityName, wonder.name().localized()])
+        // case .artifactsExtracted // #
+        // case .inquisitionLaunched // #
+
+            // secret
+        // case cityStatesInfluenced // #
+        case .civicCompleted(civic: let civic):
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_CIVIC_COMPLETED"
+                .localizedWithFormat(with: [civilizationName, civic.name().localized()])
+        case .technologyResearched(tech: let tech):
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_TECH_RESEARCHED"
+                .localizedWithFormat(with: [civilizationName, tech.name().localized()])
+        case .settlerTrained(cityName: let cityName):
+            return "TXT_KEY_DIPLOMACY_GOSSIP_TEXT_SETTLER_TRAINED"
+                .localizedWithFormat(with: [civilizationName, cityName])
+
+            // top secret
+        // case weaponOfMassDestructionBuilt // #
+        // case attacksLaunched // #
+        // case projectsStarted // #
+        // case victoryStrategyChanged // #
+        // case warPreparations // #
 
         default:
             return "---"

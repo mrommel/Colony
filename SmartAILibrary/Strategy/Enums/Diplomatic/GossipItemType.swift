@@ -48,7 +48,7 @@ public enum GossipItemType: Codable, Equatable {
     case buildingConstructed(building: BuildingType)
     case districtConstructed(district: DistrictType)
     case greatPeopleRecruited(greatPeople: GreatPerson)
-    case wonderStarted(wonder: WonderType)
+    case wonderStarted(wonder: WonderType, cityName: String)
     case artifactsExtracted // #
     case inquisitionLaunched // #
 

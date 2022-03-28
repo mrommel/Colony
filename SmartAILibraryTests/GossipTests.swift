@@ -1024,7 +1024,7 @@ class GossipTests: XCTestCase {
         XCTAssertEqual(playerAlexander.diplomacyAI?.accessLevel(towards: playerTrajan), .open)
         XCTAssertEqual(gossipItems.count, 1)
         if let gossipItem = gossipItems.first {
-            XCTAssertEqual(gossipItem.typeValue, .wonderStarted(wonder: .pyramids))
+            XCTAssertEqual(gossipItem.typeValue, .wonderStarted(wonder: .pyramids, cityName: "Rome"))
         } else {
             XCTFail("no gossip")
         }

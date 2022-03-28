@@ -3977,7 +3977,7 @@ public class City: AbstractCity {
         self.buildQueue.add(item: BuildableItem(wonderType: wonderType, at: location))
 
         // send gossip
-        gameModel?.sendGossip(type: .wonderStarted(wonder: wonderType), of: self.player)
+        gameModel?.sendGossip(type: .wonderStarted(wonder: wonderType, cityName: self.name), of: self.player)
     }
 
     public func startBuilding(district districtType: DistrictType, at location: HexPoint, in gameModel: GameModel?) {
