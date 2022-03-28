@@ -243,7 +243,7 @@ class UnitLayer: SKNode {
     func showAttackFocus(at point: HexPoint) {
 
         let focusImage = ImageCache.shared.image(for: "focus-attack1")
-        let attackFocusNode = SKSpriteNode(texture: SKTexture(image: focusImage))
+        let attackFocusNode = SKSpriteNode(texture: SKTexture(image: focusImage), size: UnitLayer.kTextureSize)
         attackFocusNode.position = HexPoint.toScreen(hex: point)
         attackFocusNode.zPosition = Globals.ZLevels.focus
         attackFocusNode.anchorPoint = CGPoint(x: 0.0, y: 0.0)
