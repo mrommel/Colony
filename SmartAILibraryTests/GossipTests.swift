@@ -620,7 +620,7 @@ class GossipTests: XCTestCase {
 
         // WHEN
         playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
-        playerTrajan.raze(city: vicorianCity, in: gameModel)
+        playerTrajan.doRaze(city: vicorianCity, in: gameModel)
         let gossipItems: [GossipItem] = playerAlexander.diplomacyAI!.gossipItems(for: playerTrajan)
 
         // THEN
@@ -695,6 +695,7 @@ class GossipTests: XCTestCase {
     } */
 
     // access level: limited - Trade deal enacted
+
     // access level: limited - Trade deal reneged
 
     // access level: limited - barbarian camp cleared
@@ -750,7 +751,7 @@ class GossipTests: XCTestCase {
 
         // WHEN
         playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
-        let _ = trajanScout.doMove(on: HexPoint(x: 5, y: 5), in: gameModel)
+        _ = trajanScout.doMove(on: HexPoint(x: 5, y: 5), in: gameModel)
         let gossipItems: [GossipItem] = playerAlexander.diplomacyAI!.gossipItems(for: playerTrajan)
 
         // THEN
@@ -764,16 +765,469 @@ class GossipTests: XCTestCase {
     }
 
     // access level: open - Buildings constructed
+    func testBuildingContructedGossip() throws {
+
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan)
+        playerTrajan.initialize()
+
+        let playerVictoria = Player(leader: .victoria)
+        playerVictoria.initialize()
+
+        // setup the map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan, .victoria],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerTrajan, playerVictoria, playerAlexander],
+            on: mapModel
+        )
+
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+
+        playerTrajan.found(at: HexPoint(x: 12, y: 10), named: "Rome", in: gameModel)
+        let trajanCity = gameModel.city(at: HexPoint(x: 12, y: 10))
+        playerTrajan.treasury?.changeGold(by: 500)
+        try playerTrajan.techs?.discover(tech: .pottery, in: gameModel)
+
+        playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
+        playerTrajan.doFirstContact(with: playerVictoria, in: gameModel)
+
+        // WHEN
+        playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
+        playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
+        trajanCity?.purchase(building: .granary, with: .gold, in: gameModel)
+        let gossipItems: [GossipItem] = playerAlexander.diplomacyAI!.gossipItems(for: playerTrajan)
+
+        // THEN
+        XCTAssertEqual(playerAlexander.diplomacyAI?.accessLevel(towards: playerTrajan), .open)
+        XCTAssertEqual(gossipItems.count, 1)
+        if let gossipItem = gossipItems.first {
+            XCTAssertEqual(gossipItem.typeValue, .buildingConstructed(building: .granary))
+        } else {
+            XCTFail("no gossip")
+        }
+    }
+
     // access level: open - Districts constructed
+    func testDistrictConstructedGossip() throws {
+
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan)
+        playerTrajan.initialize()
+
+        let playerVictoria = Player(leader: .victoria)
+        playerVictoria.initialize()
+
+        // setup the map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan, .victoria],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerTrajan, playerVictoria, playerAlexander],
+            on: mapModel
+        )
+
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+
+        playerTrajan.found(at: HexPoint(x: 12, y: 10), named: "Rome", in: gameModel)
+        let trajanCity = gameModel.city(at: HexPoint(x: 12, y: 10))
+        playerTrajan.treasury?.changeGold(by: 500)
+        try playerTrajan.techs?.discover(tech: .writing, in: gameModel)
+
+        playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
+        playerTrajan.doFirstContact(with: playerVictoria, in: gameModel)
+
+        // WHEN
+        playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
+        playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
+        trajanCity?.purchase(district: .campus, at: HexPoint(x: 11, y: 10), in: gameModel)
+        let gossipItems: [GossipItem] = playerAlexander.diplomacyAI!.gossipItems(for: playerTrajan)
+
+        // THEN
+        XCTAssertEqual(playerAlexander.diplomacyAI?.accessLevel(towards: playerTrajan), .open)
+        XCTAssertEqual(gossipItems.count, 1)
+        if let gossipItem = gossipItems.first {
+            XCTAssertEqual(gossipItem.typeValue, .districtConstructed(district: .campus))
+        } else {
+            XCTFail("no gossip")
+        }
+    }
+
     // access level: open - Great people recruited
+    func testGreatPersonRecruitedGossip() {
+
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan)
+        playerTrajan.initialize()
+
+        let playerVictoria = Player(leader: .victoria)
+        playerVictoria.initialize()
+
+        // setup the map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan, .victoria],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerTrajan, playerVictoria, playerAlexander],
+            on: mapModel
+        )
+
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+
+        playerTrajan.found(at: HexPoint(x: 12, y: 10), named: "Rome", in: gameModel)
+
+        playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
+        playerTrajan.doFirstContact(with: playerVictoria, in: gameModel)
+
+        // WHEN
+        playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
+        playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
+        playerTrajan.recruit(greatPerson: .adiShankara, in: gameModel)
+        let gossipItems: [GossipItem] = playerAlexander.diplomacyAI!.gossipItems(for: playerTrajan)
+
+        // THEN
+        XCTAssertEqual(playerAlexander.diplomacyAI?.accessLevel(towards: playerTrajan), .open)
+        XCTAssertEqual(gossipItems.count, 1)
+        if let gossipItem = gossipItems.first {
+            XCTAssertEqual(gossipItem.typeValue, .greatPeopleRecruited(greatPeople: .adiShankara))
+        } else {
+            XCTFail("no gossip")
+        }
+    }
+
     // access level: open - Wonders started
+    func testWonderStartedGossip() throws {
+
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan)
+        playerTrajan.initialize()
+
+        let playerVictoria = Player(leader: .victoria)
+        playerVictoria.initialize()
+
+        // setup the map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan, .victoria],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerTrajan, playerVictoria, playerAlexander],
+            on: mapModel
+        )
+
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+
+        let desertLocation = HexPoint(x: 13, y: 10)
+        gameModel.tile(at: desertLocation)?.set(terrain: .desert)
+        playerTrajan.found(at: HexPoint(x: 12, y: 10), named: "Rome", in: gameModel)
+        let trajanCity = gameModel.city(at: HexPoint(x: 12, y: 10))
+        try playerTrajan.techs?.discover(tech: .masonry, in: gameModel)
+
+        playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
+        playerTrajan.doFirstContact(with: playerVictoria, in: gameModel)
+
+        // WHEN
+        playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
+        playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
+        trajanCity?.startBuilding(wonder: .pyramids, at: desertLocation, in: gameModel)
+        let gossipItems: [GossipItem] = playerAlexander.diplomacyAI!.gossipItems(for: playerTrajan)
+
+        // THEN
+        XCTAssertEqual(playerAlexander.diplomacyAI?.accessLevel(towards: playerTrajan), .open)
+        XCTAssertEqual(gossipItems.count, 1)
+        if let gossipItem = gossipItems.first {
+            XCTAssertEqual(gossipItem.typeValue, .wonderStarted(wonder: .pyramids))
+        } else {
+            XCTFail("no gossip")
+        }
+    }
+
     // access level: open - Artifacts extracted
     // access level: open - Inquisition launched
 
     // access level: secret - City-states influenced
+
     // access level: secret - Civics completed
+    func testCivicCompletedGossip() throws {
+
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan)
+        playerTrajan.initialize()
+
+        let playerVictoria = Player(leader: .victoria)
+        playerVictoria.initialize()
+
+        // setup the map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan, .victoria],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerTrajan, playerVictoria, playerAlexander],
+            on: mapModel
+        )
+
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+
+        playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
+        playerTrajan.doFirstContact(with: playerVictoria, in: gameModel)
+
+        // WHEN
+        playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
+        playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
+        playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
+        try playerTrajan.techs?.discover(tech: .pottery, in: gameModel)
+        let gossipItems: [GossipItem] = playerAlexander.diplomacyAI!.gossipItems(for: playerTrajan)
+
+        // THEN
+        XCTAssertEqual(playerAlexander.diplomacyAI?.accessLevel(towards: playerTrajan), .secret)
+        XCTAssertEqual(gossipItems.count, 1)
+        if let gossipItem = gossipItems.first {
+            XCTAssertEqual(gossipItem.typeValue, .technologyResearched(tech: .pottery))
+        } else {
+            XCTFail("no gossip")
+        }
+    }
+
     // access level: secret - Technologies researched
+    func testTechnologyResearchedGossip() throws {
+
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan)
+        playerTrajan.initialize()
+
+        let playerVictoria = Player(leader: .victoria)
+        playerVictoria.initialize()
+
+        // setup the map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan, .victoria],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerTrajan, playerVictoria, playerAlexander],
+            on: mapModel
+        )
+
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+
+        playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
+        playerTrajan.doFirstContact(with: playerVictoria, in: gameModel)
+
+        // WHEN
+        playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
+        playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
+        playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
+        try playerTrajan.civics?.discover(civic: .stateWorkforce, in: gameModel)
+        let gossipItems: [GossipItem] = playerAlexander.diplomacyAI!.gossipItems(for: playerTrajan)
+
+        // THEN
+        XCTAssertEqual(playerAlexander.diplomacyAI?.accessLevel(towards: playerTrajan), .secret)
+        XCTAssertEqual(gossipItems.count, 1)
+        if let gossipItem = gossipItems.first {
+            XCTAssertEqual(gossipItem.typeValue, .civicCompleted(civic: .stateWorkforce))
+        } else {
+            XCTFail("no gossip")
+        }
+    }
+
     // access level: secret - Settlers trained
+    func testSettlerTrainedGossip() {
+
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan)
+        playerTrajan.initialize()
+
+        let playerVictoria = Player(leader: .victoria)
+        playerVictoria.initialize()
+
+        // setup the map
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan, .victoria],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerTrajan, playerVictoria, playerAlexander],
+            on: mapModel
+        )
+
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+
+        playerTrajan.found(at: HexPoint(x: 12, y: 10), named: "Rome", in: gameModel)
+        let trajanCity = gameModel.city(at: HexPoint(x: 12, y: 10))
+        trajanCity?.set(population: 3, reassignCitizen: true, in: gameModel)
+        playerTrajan.treasury?.changeGold(by: 500)
+
+        playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
+        playerTrajan.doFirstContact(with: playerVictoria, in: gameModel)
+
+        // WHEN
+        playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
+        playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
+        playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
+        trajanCity?.purchase(unit: .settler, with: .gold, in: gameModel)
+        let gossipItems: [GossipItem] = playerAlexander.diplomacyAI!.gossipItems(for: playerTrajan)
+
+        // THEN
+        XCTAssertEqual(playerAlexander.diplomacyAI?.accessLevel(towards: playerTrajan), .secret)
+        XCTAssertEqual(gossipItems.count, 1)
+        if let gossipItem = gossipItems.first {
+            XCTAssertEqual(gossipItem.typeValue, .settlerTrained(cityName: "Rome"))
+        } else {
+            XCTFail("no gossip")
+        }
+    }
 
     // access level: top secret - Weapon of mass destruction built
     // access level: top secret - Attacks launched

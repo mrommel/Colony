@@ -76,13 +76,20 @@ public enum AccessLevel: Int, Codable {
 
         case .open:
             return [
-                .buildingsConstructed, .districtsConstructed, .greatPeopleRecruited,
-                .wondersStarted, .artifactsExtracted, .inquisitionLaunched
+                .buildingConstructed(building: .none),
+                .districtConstructed(district: .none),
+                .greatPeopleRecruited(greatPeople: .none),
+                .wonderStarted(wonder: .none),
+                .artifactsExtracted,
+                .inquisitionLaunched
             ]
 
         case .secret:
             return [
-                .cityStatesInfluenced, .civicsCompleted, .technologiesResearched, .settlersTrained
+                .cityStatesInfluenced,
+                .civicCompleted(civic: .none),
+                .technologyResearched(tech: .none),
+                .settlerTrained(cityName: "")
             ]
 
         case .topSecret:

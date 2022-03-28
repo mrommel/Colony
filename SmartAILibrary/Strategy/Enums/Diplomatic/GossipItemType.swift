@@ -36,27 +36,27 @@ public enum GossipItemType: Codable, Equatable {
     case friendship(leader: LeaderType)
     case governmentChange(government: GovernmentType)
     case denunciation(leader: LeaderType)
-    case cityFounded(cityName: String) // #
-    case cityLiberated(cityName: String, originalOwner: LeaderType) // #
-    case cityRazed(cityName: String, originalOwner: LeaderType) // #
+    case cityFounded(cityName: String)
+    case cityLiberated(cityName: String, originalOwner: LeaderType)
+    case cityRazed(cityName: String, originalOwner: LeaderType)
     case cityBesieged(cityName: String) // #
     case tradeDealEnacted // #
     case tradeDealReneged // #
-    case barbarianCampCleared(unit: UnitType) // #
+    case barbarianCampCleared(unit: UnitType)
 
     // open
-    case buildingsConstructed // #
-    case districtsConstructed // #
-    case greatPeopleRecruited // #
-    case wondersStarted // #
+    case buildingConstructed(building: BuildingType)
+    case districtConstructed(district: DistrictType)
+    case greatPeopleRecruited(greatPeople: GreatPerson)
+    case wonderStarted(wonder: WonderType)
     case artifactsExtracted // #
     case inquisitionLaunched // #
 
     // secret
     case cityStatesInfluenced // #
-    case civicsCompleted // #
-    case technologiesResearched // #
-    case settlersTrained // #
+    case civicCompleted(civic: CivicType)
+    case technologyResearched(tech: TechType)
+    case settlerTrained(cityName: String)
 
     // top secret
     case weaponOfMassDestructionBuilt // #
@@ -185,12 +185,12 @@ public enum GossipItemType: Codable, Equatable {
             )
 
             // open
-        case .buildingsConstructed:
+        case .buildingConstructed:
             return GossipItemTypeData(
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_BUILDINGS_CONSTRUCTED",
                 accessLevel: .open
             )
-        case .districtsConstructed:
+        case .districtConstructed:
             return GossipItemTypeData(
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_DISTRICTS_CONSTRUCTED",
                 accessLevel: .open
@@ -200,7 +200,7 @@ public enum GossipItemType: Codable, Equatable {
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_GREAT_PEOPE_RECRUITED",
                 accessLevel: .open
             )
-        case .wondersStarted:
+        case .wonderStarted:
             return GossipItemTypeData(
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_WONDERS_STARTED",
                 accessLevel: .open
@@ -222,17 +222,17 @@ public enum GossipItemType: Codable, Equatable {
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITY_STATE_INFLUENCED",
                 accessLevel: .secret
             )
-        case .civicsCompleted:
+        case .civicCompleted:
             return GossipItemTypeData(
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_CIVICS_COMPLETED",
                 accessLevel: .secret
             )
-        case .technologiesResearched:
+        case .technologyResearched:
             return GossipItemTypeData(
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_TECHNOLOGIES_RESEARCHED",
                 accessLevel: .secret
             )
-        case .settlersTrained:
+        case .settlerTrained:
             return GossipItemTypeData(
                 name: "TXT_KEY_DIPLOMACY_GOSSIP_NAME_SETTLERS_TRAINED",
                 accessLevel: .secret

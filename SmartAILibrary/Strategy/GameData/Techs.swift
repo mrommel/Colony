@@ -295,6 +295,9 @@ class Techs: AbstractTechs {
             }
         }
 
+        // send gossip
+        gameModel?.sendGossip(type: .technologyResearched(tech: tech), of: self.player)
+
         // check for printing
         // Researching the Printing technology. This will increase your visibility with all civilizations by one level.
         if tech == .printing {

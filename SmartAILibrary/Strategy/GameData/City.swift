@@ -3175,6 +3175,9 @@ public class City: AbstractCity {
             }
 
             self.greatWorks?.addPlaces(for: buildingType)
+
+            // send gossip
+            gameModel?.sendGossip(type: .buildingConstructed(building: buildingType), of: self.player)
         } catch {
             fatalError("cant build building: already build")
         }
@@ -3228,6 +3231,9 @@ public class City: AbstractCity {
                     }
                 }
             }
+
+            // send gossip
+            gameModel.sendGossip(type: .districtConstructed(district: districtType), of: self.player)
 
             tile.build(district: districtType)
             gameModel.userInterface?.refresh(tile: tile)
@@ -3969,6 +3975,9 @@ public class City: AbstractCity {
         gameModel?.userInterface?.refresh(tile: tile)
 
         self.buildQueue.add(item: BuildableItem(wonderType: wonderType, at: location))
+
+        // send gossip
+        gameModel?.sendGossip(type: .wonderStarted(wonder: wonderType), of: self.player)
     }
 
     public func startBuilding(district districtType: DistrictType, at location: HexPoint, in gameModel: GameModel?) {
@@ -4174,19 +4183,6 @@ public class City: AbstractCity {
             return false
         }
 
-        // check quests
-        for quest in player.ownQuests(in: gameModel) {
-
-            if quest.type == .trainUnit(type: unitType) && quest.leader == player.leader {
-                let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState)
-                cityStatePlayer?.fulfillQuest(by: player.leader, in: gameModel)
-            }
-        }
-
-        let unit = Unit(at: self.location, type: unitType, owner: self.player)
-        gameModel?.add(unit: unit)
-        gameModel?.userInterface?.show(unit: unit, at: self.location)
-
         if yieldType == .gold {
             let purchaseCost = self.goldPurchaseCost(of: unitType, in: gameModel)
             self.player?.treasury?.changeGold(by: -purchaseCost)
@@ -4196,6 +4192,24 @@ public class City: AbstractCity {
         } else {
             fatalError("cant buy unit with \(yieldType)")
         }
+
+        // check quests
+        for quest in player.ownQuests(in: gameModel) {
+
+            if quest.type == .trainUnit(type: unitType) && quest.leader == player.leader {
+                let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState)
+                cityStatePlayer?.fulfillQuest(by: player.leader, in: gameModel)
+            }
+        }
+
+        // send gossip
+        if unitType == .settler {
+            gameModel?.sendGossip(type: .settlerTrained(cityName: self.name), of: self.player)
+        }
+
+        let unit = Unit(at: self.location, type: unitType, owner: self.player)
+        gameModel?.add(unit: unit)
+        gameModel?.userInterface?.show(unit: unit, at: self.location)
 
         return true
     }
@@ -4207,37 +4221,14 @@ public class City: AbstractCity {
             fatalError("--- WARNING: THIS IS FOR TESTING ONLY ---")
         }
 
-        guard let player = self.player else {
-            fatalError("cant get player")
-        }
-
-        guard let districts = self.districts else {
-            fatalError("cant get disticts")
-        }
-
         if !self.canBuild(district: districtType, at: location, in: gameModel) {
             print("cant build district: \(districtType) at: \(location)")
             return false
         }
 
-        // check quests
-        for quest in player.ownQuests(in: gameModel) {
+        self.build(district: districtType, at: location, in: gameModel)
 
-            if case .constructDistrict(type: let district) = quest.type {
-
-                if district == districtType && player.leader == quest.leader {
-                    let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState)
-                    cityStatePlayer?.fulfillQuest(by: player.leader, in: gameModel)
-                }
-            }
-        }
-
-        do {
-            try districts.build(district: districtType, at: location)
-            return true
-        } catch {
-            return false
-        }
+        return true
     }
 
     public func purchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
@@ -4246,8 +4237,6 @@ public class City: AbstractCity {
             return false
         }
 
-        self.build(building: buildingType, in: gameModel)
-
         if yieldType == .gold {
             self.player?.treasury?.changeGold(by: -Double(buildingType.purchaseCost()))
         } else if yieldType == .faith {
@@ -4255,6 +4244,8 @@ public class City: AbstractCity {
         } else {
             fatalError("cant buy building with \(yieldType)")
         }
+
+        self.build(building: buildingType, in: gameModel)
 
         return true
     }
