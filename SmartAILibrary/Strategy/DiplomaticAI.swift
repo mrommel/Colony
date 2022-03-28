@@ -3870,7 +3870,7 @@ public class DiplomaticAI: Codable {
                 .filter { !$0.exclude().contains(pickEarlyAgenda) }
 
             let pickLateAgenda = possibleLateAgendas.randomItem()
-            
+
             self.earlyGameHiddenAgendaVal = pickEarlyAgenda
             self.lateGameHiddenAgendaVal = pickLateAgenda
         }
@@ -5290,7 +5290,7 @@ public class DiplomaticAI: Codable {
                 let ignoreOtherWars = player.isHuman() || self.isAtWar(with: loopPlayer)
 
                 // Loop through the other guy's units
-                //for (CvUnit* pLoopUnit = loopPlayer.firstUnit(&iUnitLoop); pLoopUnit != NULL; pLoopUnit = loopPlayer.nextUnit(&iUnitLoop))
+                // for (CvUnit* pLoopUnit = loopPlayer.firstUnit(&iUnitLoop); pLoopUnit != NULL; pLoopUnit = loopPlayer.nextUnit(&iUnitLoop))
                 for loopUnitRef in gameModel.units(of: loopPlayer) {
 
                     guard let loopUnit = loopUnitRef else {

@@ -2101,7 +2101,7 @@ public class Unit: AbstractUnit {
             if loopPlayer.isAlive() {
 
                 // Human can't be met by an AI spotting him.
-                //if !player.isHuman() || loopPlayer.isHuman() {
+                // if !player.isHuman() || loopPlayer.isHuman() {
 
                     if newPlot.isVisible(to: loopPlayer) {
 
@@ -2113,7 +2113,7 @@ public class Unit: AbstractUnit {
                             player.doFirstContact(with: loopPlayer, in: gameModel)
                         }
                     }
-                //}
+                // }
             }
         }
 

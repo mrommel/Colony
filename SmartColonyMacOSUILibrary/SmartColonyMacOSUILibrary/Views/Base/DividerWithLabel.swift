@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DividerWithLabel: View {
-    
+
     let label: String
     let horizontalPadding: CGFloat
     let color: Color

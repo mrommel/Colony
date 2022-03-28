@@ -333,8 +333,6 @@ public struct DiplomaticDialogView: View {
         VStack(spacing: 10) {
 
             SegmentedProgressView(value: self.viewModel.relationShipRating, maximum: 100)
-            //Slider(value: self.$viewModel.relationShipRating, in: 0...100)
-                // .disabled(true)
                 .accentColor(Color.green)
                 .foregroundColor(Color.green)
                 .frame(width: 300, alignment: .center)

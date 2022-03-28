@@ -1106,7 +1106,7 @@ public class City: AbstractCity {
                 do {
                     try loopTile.removeWorked()
                 } catch {
-                    
+
                 }
             }
         }

@@ -11,7 +11,7 @@ struct SegmentedProgressView: View {
 
     var value: Int
     var maximum: Int = 7
-    
+
     var height: CGFloat = 10
     var spacing: CGFloat = 2
     var selectedColor: Color = .accentColor

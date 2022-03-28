@@ -30,7 +30,7 @@ extension PlayerApproachType {
         switch self {
 
         case .none: return ""
-            
+
         case .war: return "playerApproachType-war"
         case .denounced: return "playerApproachType-denounced"
         case .unfriendly: return "playerApproachType-unfriendly"

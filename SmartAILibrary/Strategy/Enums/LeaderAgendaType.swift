@@ -17,6 +17,7 @@ public enum LeaderAgendaCategory {
 }
 
 // https://civilization.fandom.com/wiki/List_of_agendas_in_Civ6?so=search
+// swiftlint:disable type_body_length
 public enum LeaderAgendaType: Int, Codable {
 
     case none
@@ -48,11 +49,13 @@ public enum LeaderAgendaType: Int, Codable {
     case heavyIndustry // Kupe will never have this agenda.
     case moneyGrubber
     case naturalist
-    case paranoid // Alexander, Ambiorix, Cleopatra, Genghis Khan, Harald Hardrada, Hojo Tokimune, Lady Six Sky and Shaka will never have this agenda. Mutually exclusive with Great White Fleet agenda.
+    case paranoid // Alexander, Ambiorix, Cleopatra, Genghis Khan, Harald Hardrada, Hojo Tokimune,
+    // Lady Six Sky and Shaka will never have this agenda. Mutually exclusive with Great White Fleet agenda.
     case populous // 20% chance for Gandhi to have this agenda. Eleanor of Aquitaine will never have this agenda.
     case standingArmy // Cleopatra, Hojo Tokimune, and Ambiorix will never have this agenda.
     case sycophant // 10% chance for Gorgo, Peter, and Philip II to have this agenda. Mutually exclusive with Sympathizer agenda.
-    case sympathizer // 10% chance for Genghis Khan, Jadwiga, Jayavarman VII, and Lautaro to have this agenda. Mutually exclusive with Sycophant agenda.
+    case sympathizer // 10% chance for Genghis Khan, Jadwiga, Jayavarman VII, and Lautaro to have this agenda.
+    // Mutually exclusive with Sycophant agenda.
     case wonderObsessed // Qin Shi Huang will never have this agenda.
 
     // late game hidden agendas
@@ -111,7 +114,7 @@ public enum LeaderAgendaType: Int, Codable {
         .demagogue,
         .destinationCiv,
         .ideologue,
-        .technophile,
+        .technophile
     ]
 
     // MARK: public methods
