@@ -271,7 +271,9 @@ extension TopBarViewModel {
 
         if !cities.isEmpty {
 
-            let cultureFromCities = player.cultureFromCities(in: gameModel).calc()
+            var cultureYields = player.cultureFromCities(in: gameModel)
+            cultureYields.set(percentage: 1.0)
+            let cultureFromCities = cultureYields.calc()
             let citiesYield = NSAttributedString(
                 string: "\n+\(cultureFromCities) from Cities",
                 attributes: Globals.Attributs.tooltipContentAttributs

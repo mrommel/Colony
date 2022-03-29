@@ -290,10 +290,15 @@ public class LabelTokenizer {
             ]
         }
 
-        let string = strings.map({ "•\t\($0)" }).joined(separator: "\n")
+        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "")
 
-        return NSAttributedString(string: string,
-                                  attributes: attributes)
+        for string in strings {
+            attributedString.append(NSAttributedString(string: "• ", attributes: attributes)) // \t
+            attributedString.append(self.convert(text: string, with: attributes))
+            attributedString.append(NSAttributedString(string: "\n", attributes: attributes))
+        }
+
+        return attributedString
     }
 
     private func startColor(_ keyword: String) -> TypeColor? {

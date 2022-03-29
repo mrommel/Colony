@@ -193,7 +193,7 @@ class CityBannerViewModel: ObservableObject {
             fatalError("cant get game")
         }
 
-        guard let city = cityRef else {
+        guard let city = cityRef as? City else {
             fatalError("cant get city")
         }
 
@@ -219,11 +219,17 @@ class CityBannerViewModel: ObservableObject {
         self.turnsUntilGrowthLabel = "\(city.growthInTurns())"
 
         self.foodYieldViewModel.delta = city.foodPerTurn(in: gameModel)
+        self.foodYieldViewModel.tooltip = city.foodPerTurnToolTip(in: gameModel)
         self.productionYieldViewModel.delta = city.productionPerTurn(in: gameModel)
+        self.productionYieldViewModel.tooltip = city.productionPerTurnToolTip(in: gameModel)
         self.goldYieldViewModel.delta = city.goldPerTurn(in: gameModel)
+        self.goldYieldViewModel.tooltip = city.goldPerTurnToolTip(in: gameModel)
         self.scienceYieldViewModel.delta = city.sciencePerTurn(in: gameModel)
+        self.scienceYieldViewModel.tooltip = city.sciencePerTurnToolTip(in: gameModel)
         self.cultureYieldViewModel.delta = city.culturePerTurn(in: gameModel)
+        self.cultureYieldViewModel.tooltip = city.culturePerTurnToolTip(in: gameModel)
         self.faithYieldViewModel.delta = city.faithPerTurn(in: gameModel)
+        self.faithYieldViewModel.tooltip = city.faithPerTurnToolTip(in: gameModel)
 
         var tmpCommands: [CityCommandType] = []
         if !city.rangedCombatTargetLocations(in: gameModel).isEmpty {

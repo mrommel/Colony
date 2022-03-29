@@ -11,11 +11,16 @@ import Foundation
 public struct YieldValues {
 
     let value: Double
-    let percentage: Double
+    var percentage: Double
 
     init(value: Double, percentage: Double = 0.0) {
 
         self.value = value
+        self.percentage = percentage
+    }
+
+    public mutating func set(percentage: Double) {
+
         self.percentage = percentage
     }
 
@@ -356,7 +361,7 @@ extension City {
         return productionPerTurn.calc()
     }
 
-    private func productionFromTiles(in gameModel: GameModel?) -> Double {
+    public func productionFromTiles(in gameModel: GameModel?) -> Double {
 
         guard let gameModel = gameModel else {
             fatalError("no game model provided")
@@ -479,7 +484,7 @@ extension City {
         return productionValue
     }
 
-    func productionFromGovernmentType() -> Double {
+    public func productionFromGovernmentType() -> Double {
 
         guard let player = self.player else {
             fatalError("no player provided")
@@ -511,7 +516,7 @@ extension City {
         return productionFromGovernmentType
     }
 
-    func productionFromDistricts(in gameModel: GameModel?) -> Double {
+    public func productionFromDistricts(in gameModel: GameModel?) -> Double {
 
         guard let districts = self.districts else {
             fatalError("cant get districts")
@@ -545,7 +550,7 @@ extension City {
         return productionFromDistricts
     }
 
-    func productionFromBuildings() -> Double {
+    public func productionFromBuildings() -> Double {
 
         guard let buildings = self.buildings else {
             fatalError("no buildings set")
@@ -563,7 +568,7 @@ extension City {
         return productionFromBuildings
     }
 
-    private func productionFromTradeRoutes(in gameModel: GameModel?) -> Double {
+    public func productionFromTradeRoutes(in gameModel: GameModel?) -> Double {
 
         guard let player = self.player else {
             fatalError("cant get player")
@@ -634,7 +639,7 @@ extension City {
         return faithPerTurn.calc()
     }
 
-    private func faithFromTiles(in gameModel: GameModel?) -> Double {
+    public func faithFromTiles(in gameModel: GameModel?) -> Double {
 
         guard let gameModel = gameModel else {
             fatalError("no game model provided")
@@ -705,7 +710,7 @@ extension City {
         return faithFromTiles
     }
 
-    private func faithFromGovernmentType() -> Double {
+    public func faithFromGovernmentType() -> Double {
 
         guard let player = self.player else {
             fatalError("cant get player")
@@ -737,7 +742,7 @@ extension City {
         return faithFromGovernmentValue
     }
 
-    private func faithFromBuildings() -> Double {
+    public func faithFromBuildings() -> Double {
 
         guard let buildings = self.buildings else {
             fatalError("cant get buildings")
@@ -755,7 +760,7 @@ extension City {
         return faithFromBuildings
     }
 
-    private func faithFromDistricts(in gameModel: GameModel?) -> Double {
+    public func faithFromDistricts(in gameModel: GameModel?) -> Double {
 
         guard let districts = self.districts else {
             fatalError("cant get districts")
@@ -815,7 +820,7 @@ extension City {
         return faithFromDistricts
     }
 
-    private func faithFromWonders(in gameModel: GameModel?) -> YieldValues {
+    public func faithFromWonders(in gameModel: GameModel?) -> YieldValues {
 
         guard let player = self.player else {
             fatalError("cant get player")
@@ -856,7 +861,7 @@ extension City {
         return YieldValues(value: faithFromWonders, percentage: faithPercentageFromWonders)
     }
 
-    private func faithFromTradeRoutes(in gameModel: GameModel?) -> Double {
+    public func faithFromTradeRoutes(in gameModel: GameModel?) -> Double {
 
         guard let tradeRoutes = self.player?.tradeRoutes?.tradeRoutesStarting(at: self) else {
             fatalError("cant get tradeRoutes")
@@ -871,7 +876,7 @@ extension City {
         return faithFromTradeRoutes
     }
 
-    private func faithFromEnvoys(in gameModel: GameModel?) -> Double {
+    public func faithFromEnvoys(in gameModel: GameModel?) -> Double {
 
         guard let effects = self.player?.envoyEffects(in: gameModel) else {
             fatalError("cant get envoyEffects")
@@ -923,7 +928,7 @@ extension City {
         return culturePerTurn.calc()
     }
 
-    private func cultureFromTiles(in gameModel: GameModel?) -> Double {
+    public func cultureFromTiles(in gameModel: GameModel?) -> Double {
 
         guard let gameModel = gameModel else {
             fatalError("no game model provided")
@@ -972,7 +977,7 @@ extension City {
         return cultureFromTiles
     }
 
-    private func cultureFromGovernmentType() -> Double {
+    public func cultureFromGovernmentType() -> Double {
 
         guard let player = self.player else {
             fatalError("Cant get player")
@@ -998,7 +1003,7 @@ extension City {
         return cultureFromGovernmentValue
     }
 
-    private func cultureFromDistricts(in gameModel: GameModel?) -> Double {
+    public func cultureFromDistricts(in gameModel: GameModel?) -> Double {
 
         guard let player = self.player else {
             fatalError("Cant get player")
@@ -1056,7 +1061,7 @@ extension City {
         return cultureFromDistricts
     }
 
-    private func cultureFromBuildings() -> Double {
+    public func cultureFromBuildings() -> Double {
 
         guard let buildings = self.buildings else {
             fatalError("cant get buildings")
@@ -1080,7 +1085,7 @@ extension City {
         return cultureFromBuildings
     }
 
-    private func cultureFromWonders(in gameModel: GameModel?) -> Double {
+    public func cultureFromWonders(in gameModel: GameModel?) -> Double {
 
         guard let gameModel = gameModel else {
             fatalError("no game model provided")
@@ -1125,13 +1130,13 @@ extension City {
         return cultureFromWonders
     }
 
-    private func cultureFromPopulation() -> Double {
+    public func cultureFromPopulation() -> Double {
 
         // science & culture from population
         return self.populationValue * 0.3
     }
 
-    private func cultureFromTradeRoutes(in gameModel: GameModel?) -> Double {
+    public func cultureFromTradeRoutes(in gameModel: GameModel?) -> Double {
 
         guard let tradeRoutes = self.player?.tradeRoutes?.tradeRoutesStarting(at: self) else {
             fatalError("cant get tradeRoutes")
@@ -1219,7 +1224,7 @@ extension City {
         return goldPerTurn.calc()
     }
 
-    private func goldFromTiles(in gameModel: GameModel?) -> Double {
+    public func goldFromTiles(in gameModel: GameModel?) -> Double {
 
         guard let gameModel = gameModel else {
             fatalError("no game model provided")
@@ -1256,7 +1261,7 @@ extension City {
         return goldValue
     }
 
-    private func goldFromGovernmentType() -> Double {
+    public func goldFromGovernmentType() -> Double {
 
         guard let player = self.player else {
             fatalError("no player provided")
@@ -1288,7 +1293,7 @@ extension City {
         return goldFromGovernmentValue
     }
 
-    private func goldFromDistricts(in gameModel: GameModel?) -> Double {
+    public func goldFromDistricts(in gameModel: GameModel?) -> Double {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1367,7 +1372,7 @@ extension City {
         return goldFromDistricts
     }
 
-    private func goldFromBuildings() -> Double {
+    public func goldFromBuildings() -> Double {
 
         guard let buildings = self.buildings else {
             fatalError("Cant get buildings")
@@ -1390,7 +1395,7 @@ extension City {
         return goldFromBuildings
     }
 
-    private func goldFromWonders() -> Double {
+    public func goldFromWonders() -> Double {
 
         guard let wonders = self.wonders else {
             fatalError("Cant get wonders")
@@ -1413,7 +1418,7 @@ extension City {
         return goldFromWonders
     }
 
-    private func goldFromTradeRoutes(in gameModel: GameModel?) -> Double {
+    public func goldFromTradeRoutes(in gameModel: GameModel?) -> Double {
 
         guard let tradeRoutes = self.player?.tradeRoutes?.tradeRoutesStarting(at: self) else {
             fatalError("cant get tradeRoutes")
@@ -1433,7 +1438,7 @@ extension City {
         return goldFromTradeRoutes
     }
 
-    private func goldFromEnvoys(in gameModel: GameModel?) -> Double {
+    public func goldFromEnvoys(in gameModel: GameModel?) -> Double {
 
         guard let effects = self.player?.envoyEffects(in: gameModel) else {
             fatalError("cant get envoyEffects")
@@ -1781,7 +1786,7 @@ extension City {
         return foodPerTurn.calc()
     }
 
-    private func foodFromTiles(in gameModel: GameModel?) -> Double {
+    public func foodFromTiles(in gameModel: GameModel?) -> Double {
 
         guard let gameModel = gameModel else {
             fatalError("no game model provided")
@@ -1846,7 +1851,7 @@ extension City {
         return foodValue
     }
 
-    private func foodFromGovernmentType() -> Double {
+    public func foodFromGovernmentType() -> Double {
 
         guard let player = self.player else {
             fatalError("no player provided")
@@ -1872,7 +1877,7 @@ extension City {
         return foodFromGovernmentValue
     }
 
-    private func foodFromBuildings(in gameModel: GameModel?) -> Double {
+    public func foodFromBuildings(in gameModel: GameModel?) -> Double {
 
         guard let buildings = self.buildings else {
             fatalError("no buildings set")
@@ -1901,7 +1906,7 @@ extension City {
         return foodFromBuildings
     }
 
-    private func foodFromWonders(in gameModel: GameModel?) -> Double {
+    public func foodFromWonders(in gameModel: GameModel?) -> Double {
 
         guard let wonders = self.wonders else {
             fatalError("cant get wonders")
@@ -1917,7 +1922,7 @@ extension City {
         return foodFromWonders
     }
 
-    private func foodFromTradeRoutes(in gameModel: GameModel?) -> Double {
+    public func foodFromTradeRoutes(in gameModel: GameModel?) -> Double {
 
         guard let tradeRoutes = self.player?.tradeRoutes?.tradeRoutesStarting(at: self) else {
             fatalError("cant get tradeRoutes")
