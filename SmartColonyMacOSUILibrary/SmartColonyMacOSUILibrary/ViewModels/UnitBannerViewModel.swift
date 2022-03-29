@@ -389,6 +389,17 @@ class UnitBannerViewModel: ObservableObject {
                 }
             }
 
+        case .heal:
+            if let selectedUnit = self.selectedUnit {
+                self.backgroundQueue.async {
+                    selectedUnit.doHeal(in: gameModel)
+
+                    DispatchQueue.main.async {
+                        gameModel.userInterface?.unselect()
+                    }
+                }
+            }
+
         case .hold:
             if let selectedUnit = self.selectedUnit {
                 self.backgroundQueue.async {

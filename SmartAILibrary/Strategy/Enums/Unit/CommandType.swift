@@ -27,6 +27,7 @@ public enum CommandType {
 
     case pillage
     case fortify
+    case heal
     case hold
     case garrison
 
@@ -65,6 +66,7 @@ public enum CommandType {
 
             .pillage,
             .fortify,
+            .heal,
             .hold,
             .garrison,
             .disband,
@@ -103,6 +105,7 @@ public enum CommandType {
 
         case .pillage: return "Pillage Improvement"
         case .fortify: return "Fortify"
+        case .heal: return "Heal"
         case .hold: return "Hold"
         case .garrison: return "Garrison"
 

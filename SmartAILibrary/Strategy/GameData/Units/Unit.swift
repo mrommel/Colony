@@ -609,12 +609,13 @@ public class Unit: AbstractUnit {
             return false
         }
 
+        // only damaged units can heal
         if self.damage() == 0 {
             return false
         }
 
         // Embarked Units can't heal
-        if isEmbarked() {
+        if self.isEmbarked() {
             return false
         }
 
@@ -3188,6 +3189,9 @@ public class Unit: AbstractUnit {
 
         case .fortify:
             return self.canFortify(at: self.location, in: gameModel)
+
+        case .heal:
+            return self.canFortify(at: self.location, in: gameModel) && self.canHeal(in: gameModel)
 
         case .hold:
             return self.canHold(at: self.location, in: gameModel)
