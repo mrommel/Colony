@@ -96,16 +96,16 @@ class CityStateViewModel: ObservableObject {
         )
         toolTipText.append(title)
 
-        var summary = ""
+        let effectsText = NSMutableAttributedString(string: "")
         if self.questType != .none {
-            summary = self.questType.summary()
+
+            let tokenizer = LabelTokenizer()
+
+            effectsText.append(NSAttributedString(string: "\n\n"))
+            effectsText.append(tokenizer.convert(text: self.questType.summary(), with: Globals.Attributs.tooltipContentAttributs))
         }
 
-        let effects = NSAttributedString(
-            string: summary,
-            attributes: Globals.Attributs.tooltipContentAttributs
-        )
-        toolTipText.append(effects)
+        toolTipText.append(effectsText)
 
         return toolTipText
     }

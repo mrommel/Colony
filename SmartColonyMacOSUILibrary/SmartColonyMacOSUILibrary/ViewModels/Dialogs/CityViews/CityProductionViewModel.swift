@@ -227,7 +227,7 @@ class CityProductionViewModel: ObservableObject {
                 let wonderViewModel = WonderViewModel(wonderType: wonderType, turns: turns, at: index)
                 wonderViewModel.delegate = self.queueManager
                 tmpBuildQueueModels.append(wonderViewModel)
-                
+
             case .project:
                 print("-- project --")
             }
