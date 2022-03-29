@@ -173,6 +173,7 @@ class GenerateGameViewModel: ObservableObject {
                 units.append(builderUnit)
             } else {
                 for unitType in handicap.freeAIStartingUnitTypes() {
+
                     let unit = Unit(at: startLocation.point, type: unitType, owner: player)
                     units.append(unit)
                 }

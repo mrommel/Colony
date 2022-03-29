@@ -23,6 +23,9 @@ class BuildingViewModel: QueueViewModel, ObservableObject {
 
     var active: Bool
 
+    @Published
+    var toolTip: NSAttributedString
+
     weak var delegate: BuildingViewModelDelegate?
 
     init(buildingType: BuildingType, turns: Int, active: Bool = true, showYields: Bool = false, at index: Int = -1) {
@@ -32,6 +35,23 @@ class BuildingViewModel: QueueViewModel, ObservableObject {
         self.showYields = showYields
         self.index = index
         self.active = active
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: buildingType.name().localized() + "\n\n",
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        let tokenizer = LabelTokenizer()
+        let effects = tokenizer.bulletPointList(
+            from: buildingType.effects(),
+            with: Globals.Attributs.tooltipContentAttributs
+        )
+        toolTipText.append(effects)
+
+        self.toolTip = toolTipText
 
         super.init(queueType: .building)
     }

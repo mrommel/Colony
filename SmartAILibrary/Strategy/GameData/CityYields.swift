@@ -1498,7 +1498,7 @@ extension City {
         return sciencePerTurn.calc()
     }
 
-    private func scienceFromTiles(in gameModel: GameModel?) -> Double {
+    public func scienceFromTiles(in gameModel: GameModel?) -> Double {
 
         guard let gameModel = gameModel else {
             fatalError("no game model provided")
@@ -1546,7 +1546,7 @@ extension City {
         return scienceFromTiles
     }
 
-    private func scienceFromGovernmentType() -> Double {
+    public func scienceFromGovernmentType() -> Double {
 
         guard let player = self.player else {
             fatalError("Cant get player")
@@ -1572,7 +1572,7 @@ extension City {
         return scienceFromGovernmentValue
     }
 
-    private func scienceFromDistricts(in gameModel: GameModel?) -> Double {
+    public func scienceFromDistricts(in gameModel: GameModel?) -> Double {
 
         guard let player = self.player else {
             fatalError("Cant get player")
@@ -1632,7 +1632,7 @@ extension City {
         return scienceFromDistricts
     }
 
-    private func scienceFromBuildings() -> Double {
+    public func scienceFromBuildings() -> Double {
 
         guard let buildings = self.buildings else {
             fatalError("cant get buildings")
@@ -1660,7 +1660,7 @@ extension City {
         return scienceFromBuildings
     }
 
-    private func scienceFromWonders() -> Double {
+    public func scienceFromWonders() -> Double {
 
         guard let wonders = self.wonders else {
             fatalError("cant get wonders")
@@ -1676,13 +1676,13 @@ extension City {
         return scienceFromWonders
     }
 
-    private func scienceFromPopulation() -> Double {
+    public func scienceFromPopulation() -> Double {
 
         // science & culture from population
         return self.populationValue * 0.5
     }
 
-    private func scienceFromTradeRoutes(in gameModel: GameModel?) -> Double {
+    public func scienceFromTradeRoutes(in gameModel: GameModel?) -> Double {
 
         guard let tradeRoutes = self.player?.tradeRoutes?.tradeRoutesStarting(at: self) else {
             fatalError("cant get tradeRoutes")

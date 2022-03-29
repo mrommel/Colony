@@ -188,6 +188,7 @@ class CityProductionViewModel: ObservableObject {
                 let unitViewModel = UnitViewModel(unitType: unitType, turns: turns, at: index)
                 unitViewModel.delegate = self.queueManager
                 tmpBuildQueueModels.append(unitViewModel)
+
             case .district:
                 print("-- district --")
                 guard let districtType = currentBuilding.districtType else {
@@ -200,6 +201,7 @@ class CityProductionViewModel: ObservableObject {
                 let districtViewModel = DistrictViewModel(districtType: districtType, turns: turns, active: false, at: index)
                 districtViewModel.delegate = self.queueManager
                 tmpBuildQueueModels.append(districtViewModel)
+
             case .building:
                 print("-- building --")
                 guard let buildingType = currentBuilding.buildingType else {
@@ -212,6 +214,7 @@ class CityProductionViewModel: ObservableObject {
                 let buildingViewModel = BuildingViewModel(buildingType: buildingType, turns: turns, at: index)
                 buildingViewModel.delegate = self.queueManager
                 tmpBuildQueueModels.append(buildingViewModel)
+
             case .wonder:
                 print("-- wonder --")
                 guard let wonderType = currentBuilding.wonderType else {
@@ -224,6 +227,7 @@ class CityProductionViewModel: ObservableObject {
                 let wonderViewModel = WonderViewModel(wonderType: wonderType, turns: turns, at: index)
                 wonderViewModel.delegate = self.queueManager
                 tmpBuildQueueModels.append(wonderViewModel)
+                
             case .project:
                 print("-- project --")
             }

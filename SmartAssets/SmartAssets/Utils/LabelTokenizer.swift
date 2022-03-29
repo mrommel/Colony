@@ -271,7 +271,7 @@ public class LabelTokenizer {
         return attributedString
     }
 
-    public func bulletPointList(from strings: [String]) -> NSAttributedString {
+    public func bulletPointList(from strings: [String], with attributesRef: [NSAttributedString.Key: Any]? = nil) -> NSAttributedString {
 
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.headIndent = 15
@@ -279,16 +279,21 @@ public class LabelTokenizer {
         paragraphStyle.maximumLineHeight = 12
         paragraphStyle.tabStops = [NSTextTab(textAlignment: .left, location: 15)]
 
-        let stringAttributes = [
-            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12),
-            NSAttributedString.Key.foregroundColor: NSColor.white,
-            NSAttributedString.Key.paragraphStyle: paragraphStyle
-        ]
+        var attributes: [NSAttributedString.Key: Any]
+        if let attr = attributesRef {
+            attributes = attr
+        } else {
+            attributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12),
+                NSAttributedString.Key.foregroundColor: NSColor.white,
+                NSAttributedString.Key.paragraphStyle: paragraphStyle
+            ]
+        }
 
         let string = strings.map({ "•\t\($0)" }).joined(separator: "\n")
 
         return NSAttributedString(string: string,
-                                  attributes: stringAttributes)
+                                  attributes: attributes)
     }
 
     private func startColor(_ keyword: String) -> TypeColor? {
