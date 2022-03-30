@@ -53,7 +53,7 @@ class UnitViewModel: QueueViewModel, ObservableObject {
 
         let tokenizer = LabelTokenizer()
         let effects = tokenizer.bulletPointList(
-            from: unitType.effects(),
+            from: unitType.effects().map { $0.localized() },
             with: Globals.Attributs.tooltipContentAttributs
         )
         toolTipText.append(effects)
@@ -72,6 +72,23 @@ class UnitViewModel: QueueViewModel, ObservableObject {
         self.enabled = true
         self.unit = unit
         self.index = index
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: unitType.name().localized() + "\n\n",
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        let tokenizer = LabelTokenizer()
+        let effects = tokenizer.bulletPointList(
+            from: unitType.effects(),
+            with: Globals.Attributs.tooltipContentAttributs
+        )
+        toolTipText.append(effects)
+
+        self.toolTip = toolTipText
 
         super.init(queueType: .unit)
     }

@@ -62,8 +62,10 @@ extension City {
         let scienceFromPopulation: Double = self.scienceFromPopulation()
         let scienceFromTradeRoutes: Double = self.scienceFromTradeRoutes(in: gameModel)
         /*sciencePerTurn += self.scienceFromGovernors()
-        sciencePerTurn += YieldValues(value: self.baseYieldRateFromSpecialists.weight(of: .science))
-        sciencePerTurn += self.scienceFromEnvoys(in: gameModel)*/
+        sciencePerTurn += YieldValues(value: self.baseYieldRateFromSpecialists.weight(of: .science))*/
+        var scienceFromEnvoysYields = self.scienceFromEnvoys(in: gameModel)
+        scienceFromEnvoysYields.set(percentage: 1.0)
+        let scienceFromEnvoys: Double = scienceFromEnvoysYields.calc()
 
         let toolTipText = NSMutableAttributedString()
 
@@ -73,13 +75,15 @@ extension City {
         )
         toolTipText.append(title)
 
-        let scienceFromTilesText = NSAttributedString(
-            string: "\n\(scienceFromTiles) from Worked Tiles",
-            attributes: Globals.Attributs.tooltipContentAttributs
-        )
-        toolTipText.append(scienceFromTilesText)
+        if scienceFromTiles > 0.0 {
+            let scienceFromTilesText = NSAttributedString(
+                string: "\n\(scienceFromTiles) from Worked Tiles",
+                attributes: Globals.Attributs.tooltipContentAttributs
+            )
+            toolTipText.append(scienceFromTilesText)
+        }
 
-        if scienceFromGovernmentType != 0.0 {
+        if scienceFromGovernmentType > 0.0 {
             let scienceFromGovernmentTypeText = NSAttributedString(
                 string: "\n\(scienceFromGovernmentType) from Government",
                 attributes: Globals.Attributs.tooltipContentAttributs
@@ -87,11 +91,13 @@ extension City {
             toolTipText.append(scienceFromGovernmentTypeText)
         }
 
-        let scienceFromBuildingsText = NSAttributedString(
-            string: "\n\(scienceFromBuildings) from Buildings",
-            attributes: Globals.Attributs.tooltipContentAttributs
-        )
-        toolTipText.append(scienceFromBuildingsText)
+        if scienceFromBuildings > 0.0 {
+            let scienceFromBuildingsText = NSAttributedString(
+                string: "\n\(scienceFromBuildings) from Buildings",
+                attributes: Globals.Attributs.tooltipContentAttributs
+            )
+            toolTipText.append(scienceFromBuildingsText)
+        }
 
         let scienceFromPopulationText = NSAttributedString(
             string: "\n\(scienceFromPopulation) from Population",
@@ -99,23 +105,37 @@ extension City {
         )
         toolTipText.append(scienceFromPopulationText)
 
-        let scienceFromDistrictsText = NSAttributedString(
-            string: "\n\(scienceFromDistricts) from Districts",
-            attributes: Globals.Attributs.tooltipContentAttributs
-        )
-        toolTipText.append(scienceFromDistrictsText)
+        if scienceFromDistricts > 0.0 {
+            let scienceFromDistrictsText = NSAttributedString(
+                string: "\n\(scienceFromDistricts) from Districts",
+                attributes: Globals.Attributs.tooltipContentAttributs
+            )
+            toolTipText.append(scienceFromDistrictsText)
+        }
 
-        let scienceFromWondersText = NSAttributedString(
-            string: "\n\(scienceFromWonders) from Wonders",
-            attributes: Globals.Attributs.tooltipContentAttributs
-        )
-        toolTipText.append(scienceFromWondersText)
+        if scienceFromWonders > 0.0 {
+            let scienceFromWondersText = NSAttributedString(
+                string: "\n\(scienceFromWonders) from Wonders",
+                attributes: Globals.Attributs.tooltipContentAttributs
+            )
+            toolTipText.append(scienceFromWondersText)
+        }
 
-        let scienceFromTradeRoutesText = NSAttributedString(
-            string: "\n\(scienceFromTradeRoutes) from Outgoing Trade Routes",
-            attributes: Globals.Attributs.tooltipContentAttributs
-        )
-        toolTipText.append(scienceFromTradeRoutesText)
+        if scienceFromTradeRoutes > 0.0 {
+            let scienceFromTradeRoutesText = NSAttributedString(
+                string: "\n\(scienceFromTradeRoutes) from Outgoing Trade Routes",
+                attributes: Globals.Attributs.tooltipContentAttributs
+            )
+            toolTipText.append(scienceFromTradeRoutesText)
+        }
+
+        if scienceFromEnvoys > 0.0 {
+            let scienceFromEnvoysText = NSAttributedString(
+                string: "\n\(scienceFromEnvoys) from Envoys",
+                attributes: Globals.Attributs.tooltipContentAttributs
+            )
+            toolTipText.append(scienceFromEnvoysText)
+        }
 
         // modifiers?
         // amenities

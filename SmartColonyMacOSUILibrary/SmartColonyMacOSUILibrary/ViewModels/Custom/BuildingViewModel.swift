@@ -46,7 +46,7 @@ class BuildingViewModel: QueueViewModel, ObservableObject {
 
         let tokenizer = LabelTokenizer()
         let effects = tokenizer.bulletPointList(
-            from: buildingType.effects(),
+            from: buildingType.effects().map { $0.localized() },
             with: Globals.Attributs.tooltipContentAttributs
         )
         toolTipText.append(effects)

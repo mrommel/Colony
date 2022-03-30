@@ -46,7 +46,7 @@ class WonderViewModel: QueueViewModel, ObservableObject {
 
         let tokenizer = LabelTokenizer()
         let effects = tokenizer.bulletPointList(
-            from: wonderType.effects(),
+            from: wonderType.effects().map { $0.localized() },
             with: Globals.Attributs.tooltipContentAttributs
         )
         toolTipText.append(effects)

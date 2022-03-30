@@ -4735,7 +4735,8 @@ public class Player: AbstractPlayer {
         }
 
         guard let tradeRoute = tradeRouteRef else {
-            fatalError("cant get targetCity")
+            print("cant get targetCity")
+            return
         }
 
         guard let targetCity = gameModel?.city(at: tradeRoute.end) else {

@@ -49,7 +49,7 @@ class DistrictViewModel: QueueViewModel, ObservableObject {
 
         let tokenizer = LabelTokenizer()
         let effects = tokenizer.bulletPointList(
-            from: districtType.effects(),
+            from: districtType.effects().map { $0.localized() },
             with: Globals.Attributs.tooltipContentAttributs
         )
         toolTipText.append(effects)

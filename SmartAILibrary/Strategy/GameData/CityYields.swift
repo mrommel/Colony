@@ -1719,7 +1719,7 @@ extension City {
         return scienceFromGovernors
     }
 
-    private func scienceFromEnvoys(in gameModel: GameModel?) -> YieldValues {
+    public func scienceFromEnvoys(in gameModel: GameModel?) -> YieldValues {
 
         guard let player = self.player else {
             fatalError("Cant get player")
