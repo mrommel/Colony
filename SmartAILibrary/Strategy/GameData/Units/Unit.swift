@@ -243,7 +243,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func start(tradeRoute: TradeRoute, in gameModel: GameModel?)
     func continueTrading(in gameModel: GameModel?)
     func isTrading() -> Bool
-    func endTrading()
+    func endTrading(in gameModel: GameModel?)
     func tradeRouteData() -> UnitTradeRouteData?
 }
 
@@ -609,12 +609,13 @@ public class Unit: AbstractUnit {
             return false
         }
 
+        // only damaged units can heal
         if self.damage() == 0 {
             return false
         }
 
         // Embarked Units can't heal
-        if isEmbarked() {
+        if self.isEmbarked() {
             return false
         }
 
@@ -2101,7 +2102,7 @@ public class Unit: AbstractUnit {
             if loopPlayer.isAlive() {
 
                 // Human can't be met by an AI spotting him.
-                if !player.isHuman() || loopPlayer.isHuman() {
+                // if !player.isHuman() || loopPlayer.isHuman() {
 
                     if newPlot.isVisible(to: loopPlayer) {
 
@@ -2113,7 +2114,7 @@ public class Unit: AbstractUnit {
                             player.doFirstContact(with: loopPlayer, in: gameModel)
                         }
                     }
-                }
+                // }
             }
         }
 
@@ -2206,6 +2207,9 @@ public class Unit: AbstractUnit {
 
             if newPlot.has(improvement: .barbarianCamp) {
                 self.player?.doClearBarbarianCamp(at: newPlot, in: gameModel)
+
+                // send gossip
+                gameModel.sendGossip(type: .barbarianCampCleared(unit: self.type), of: self.player)
             }
         }
 
@@ -2627,7 +2631,7 @@ public class Unit: AbstractUnit {
         }
 
         if self.type == .trader {
-            self.endTrading()
+            self.endTrading(in: gameModel)
         }
     }
 
@@ -3186,6 +3190,9 @@ public class Unit: AbstractUnit {
         case .fortify:
             return self.canFortify(at: self.location, in: gameModel)
 
+        case .heal:
+            return self.canFortify(at: self.location, in: gameModel) && self.canHeal(in: gameModel)
+
         case .hold:
             return self.canHold(at: self.location, in: gameModel)
 
@@ -3418,7 +3425,7 @@ public class Unit: AbstractUnit {
             return false
         }
 
-        if !player.canEstablishTradeRoute(in: gameModel) {
+        if !player.canEstablishTradeRoute() {
             return false
         }
 
@@ -5024,7 +5031,7 @@ extension Unit {
         if !self.hasBuildCharges() {
 
             // some bonuses stay when great person is retired
-            self.player?.retire(greatPerson: self.greatPerson)
+            self.player?.retire(greatPerson: self.greatPerson, in: gameModel)
 
             // finally kill this great person
             self.doKill(delayed: true, by: nil, in: gameModel)
@@ -5383,9 +5390,9 @@ extension Unit {
         return self.tradeRouteDataValue != nil
     }
 
-    public func endTrading() {
+    public func endTrading(in gameModel: GameModel?) {
 
-        self.player?.tradeRoutes?.finish(tradeRoute: self.tradeRouteDataValue?.tradeRoute)
+        self.player?.doFinish(tradeRoute: self.tradeRouteDataValue?.tradeRoute, in: gameModel)
 
         self.tradeRouteDataValue = nil
     }

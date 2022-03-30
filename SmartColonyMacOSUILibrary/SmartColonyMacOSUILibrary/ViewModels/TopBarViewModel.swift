@@ -132,7 +132,7 @@ public class TopBarViewModel: ObservableObject {
         self.tourismYieldValueViewModel.tooltip = self.tourismTooltip(for: humanPlayer, in: gameModel)
 
         let numberOfTradeRoutes = humanPlayer.numberOfTradeRoutes()
-        let tradingCapacity = humanPlayer.tradingCapacity(in: gameModel)
+        let tradingCapacity = humanPlayer.tradingCapacity()
         self.tradeRoutesLabelText = "\(numberOfTradeRoutes)/\(tradingCapacity)"
 
         self.envoysLabelText = "\(humanPlayer.numberOfAvailableEnvoys())"
@@ -271,7 +271,9 @@ extension TopBarViewModel {
 
         if !cities.isEmpty {
 
-            let cultureFromCities = player.cultureFromCities(in: gameModel).calc()
+            var cultureYields = player.cultureFromCities(in: gameModel)
+            cultureYields.set(percentage: 1.0)
+            let cultureFromCities = cultureYields.calc()
             let citiesYield = NSAttributedString(
                 string: "\n+\(cultureFromCities) from Cities",
                 attributes: Globals.Attributs.tooltipContentAttributs

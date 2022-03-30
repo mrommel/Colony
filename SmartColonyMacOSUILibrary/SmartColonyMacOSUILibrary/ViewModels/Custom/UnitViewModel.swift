@@ -28,6 +28,9 @@ class UnitViewModel: QueueViewModel, ObservableObject {
     let index: Int
     let enabled: Bool
 
+    @Published
+    var toolTip: NSAttributedString
+
     weak var delegate: UnitViewModelDelegate?
 
     init(unitType: UnitType, turns: Int = -1, gold: Int = -1, faith: Int = -1, enabled: Bool = true, at index: Int = -1) {
@@ -39,6 +42,23 @@ class UnitViewModel: QueueViewModel, ObservableObject {
         self.enabled = enabled
         self.unit = nil
         self.index = index
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: unitType.name().localized() + "\n\n",
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        let tokenizer = LabelTokenizer()
+        let effects = tokenizer.bulletPointList(
+            from: unitType.effects().map { $0.localized() },
+            with: Globals.Attributs.tooltipContentAttributs
+        )
+        toolTipText.append(effects)
+
+        self.toolTip = toolTipText
 
         super.init(queueType: .unit)
     }
@@ -52,6 +72,23 @@ class UnitViewModel: QueueViewModel, ObservableObject {
         self.enabled = true
         self.unit = unit
         self.index = index
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: unitType.name().localized() + "\n\n",
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        let tokenizer = LabelTokenizer()
+        let effects = tokenizer.bulletPointList(
+            from: unitType.effects(),
+            with: Globals.Attributs.tooltipContentAttributs
+        )
+        toolTipText.append(effects)
+
+        self.toolTip = toolTipText
 
         super.init(queueType: .unit)
     }

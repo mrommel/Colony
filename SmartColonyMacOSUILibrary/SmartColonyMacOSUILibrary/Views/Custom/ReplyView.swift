@@ -22,7 +22,7 @@ struct ReplyView: View {
 
         Button(self.viewModel.text) {
             self.viewModel.clicked()
-        }.buttonStyle(GameButtonStyle(state: .text))
+        }.buttonStyle(GameButtonStyle(state: .reply))
     }
 }
 

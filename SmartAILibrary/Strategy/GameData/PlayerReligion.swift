@@ -197,7 +197,6 @@ class PlayerReligion: AbstractPlayerReligion {
         let numPantheonsFounded: Int = gameModel.religions()
             .count(where: { $0?.pantheon() != PantheonType.none })
         if numPantheonsFounded == 0 {
-
             player.addMoment(of: .worldsFirstPantheon, in: gameModel)
         } else {
             player.addMoment(of: .pantheonFounded, in: gameModel)
@@ -226,6 +225,9 @@ class PlayerReligion: AbstractPlayerReligion {
         }
 
         self.pantheonVal = pantheonType
+
+        // inform other players, that a pantheon was founded
+        gameModel.sendGossip(type: .pantheonCreated(pantheonName: pantheonType.name()), of: player)
     }
 
     func hasCreatedPantheon() -> Bool {

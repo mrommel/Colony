@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "dedication-heartbeatOfSteam@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "dedication-heartbeatOfSteam@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "dedication-heartbeatOfSteam@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

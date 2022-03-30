@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "wonder-hueyTeocalli@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "wonder-hueyTeocalli@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "wonder-hueyTeocalli@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

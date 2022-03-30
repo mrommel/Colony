@@ -284,7 +284,7 @@ extension GameViewModel {
             "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty",
             "map-overview-canvas", "map-lens", "map-lens-active", "map-marker", "map-options",
             "unit-canvas", "menu", "menu-background", "speed-standard", "city-states",
-            "jump-to", "hint",
+            "jump-to", "hint", "gossip-background",
             "suzerain-cultural", "suzerain-inactive", "suzerain-industrial", "suzerain-militaristic",
             "suzerain-religious", "suzerain-scientific", "suzerain-trade"
         ]
@@ -690,6 +690,42 @@ extension GameViewModel {
         let cityStateEnvoysTextureNames = CityStateType.all.map { $0.envoysTexture() }
         print("- load \(cityStateEnvoysTextureNames.count) city state envoys textures")
         for textureName in cityStateEnvoysTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let intelReportTypeTabTextureNames = IntelReportType.tabs.map { $0.buttonTexture() }
+        print("- load \(intelReportTypeTabTextureNames.count) intel report type tab button textures")
+        for textureName in intelReportTypeTabTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let intelReportTypeIconTextureNames = IntelReportType.icons.map { $0.iconTexture() }
+        print("- load \(intelReportTypeIconTextureNames.count) intel report type textures")
+        for textureName in intelReportTypeIconTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let playerApproachTypeTextureNames = PlayerApproachType.all.map { $0.iconTexture() }
+        print("- load \(playerApproachTypeTextureNames.count) player approach textures")
+        for textureName in playerApproachTypeTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let accessLevelTextureNames = AccessLevel.all.map { $0.iconTexture() }
+        print("- load \(accessLevelTextureNames.count) access level textures")
+        for textureName in accessLevelTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName

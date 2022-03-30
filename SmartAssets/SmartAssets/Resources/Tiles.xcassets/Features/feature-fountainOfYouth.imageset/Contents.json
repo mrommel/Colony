@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "feature-fountainOfYouth@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "feature-fountainOfYouth@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "feature-fountainOfYouth@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

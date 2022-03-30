@@ -1,0 +1,193 @@
+/* 
+  Leaders.strings
+  SmartAssets
+
+  Created by Michael Rommel on 12.03.22.
+  
+*/
+
+// leaders
+
+// alexander
+"TXT_KEY_LEADER_ALEXANDER_NAME" = "Alexander";
+"TXT_KEY_LEADER_ALEXANDER_INTRO" = "May the blessings of the gods be upon you, oh great King Alexander! You are the ruler of the mighty Greek nation. Your people lived for so many years in isolated city-states - legendary cities such as Athens, Sparta, Thebes - where they gave the world many great things, such as democracy, philosophy, tragedy, art and architecture, the very foundation of Western Civilization.";
+
+// trajan
+"TXT_KEY_LEADER_TRAJAN_NAME" = "Trajan";
+"TXT_KEY_LEADER_TRAJAN_INTRO" = "Cast your net wide, oh Trajan, emperor of mighty Rome. Your legions stand at the ready to march out and establish the largest empire the world has ever seen. If you can truly get all roads to lead to Rome, yours will be an empire of great riches and luxuries. Surely then our citizens will proclaim you as their best ruler, the Optimus Princeps.";
+
+// victoria
+"TXT_KEY_LEADER_VICTORIA_NAME" = "Victoria";
+"TXT_KEY_LEADER_VICTORIA_INTRO" = "Your Majesty the Queen Victoria of England, extend your reach beyond your borders and across the face of the globe. Worry not over the possibility of defeat for your loyal redcoats and overwhelming navy will surely carry the day. With your calm and steady touch you can bring all lands under England's sway, establishing a true Pax Britannica.";
+
+// cyrus
+"TXT_KEY_LEADER_CYRUS_NAME" = "Cyrus";
+"TXT_KEY_LEADER_CYRUS_INTRO" = "Claim the crown, Cyrus, King of Persia, for you are the anointed one. With immortal soldiers, and an unwavering faith, you will conquer and rule the peoples of the world. You may see many alliances forming around you, but do not be fooled - such is an antiquated and weak way of navigating the world. Make no promise unless it aids you in achieving your goals.";
+
+// montezuma
+"TXT_KEY_LEADER_MONTEZUMA_NAME" = "Montezuma";
+"TXT_KEY_LEADER_MONTEZUMA_INTRO" = "Tlatoani Montezuma, keep your eagle warriors happy and fed, and they will forever fight for your cause. As your Aztec empire unfurls across the land, you will never want for people to raise your walls, for you will be blessed with new, loyal workers as you conquer those around you. Go forth; Huitzilopochtli calls.";
+
+// napolean
+"TXT_KEY_LEADER_NAPOLEON_NAME" = "Napoleon";
+"TXT_KEY_LEADER_NAPOLEON_INTRO" = "Long life and triumph to you, First Consul and Emperor of France, Napoleon I, ruler of the French people. France lies at the heart of Europe. Long has Paris been the world center of culture, arts and letters. Although surrounded by competitors - and often enemies - France has endured as a great nation.";
+
+// cleopatra
+"TXT_KEY_LEADER_CLEOPATRA_NAME" = "Cleopatra";
+"TXT_KEY_LEADER_CLEOPATRA_INTRO" = "There will be those who underestimate you, but you are cunning and full of tricks, Queen Cleopatra. Your charm will establish indestructible alliances with the strongest leaders of the world. Keep your friends close by your side and you will find yourself untouchable, with the glory of Egypt primed to win over the world.";
+
+// barbarossa
+"TXT_KEY_LEADER_BARBAROSSA_NAME" = "Barbarossa";
+"TXT_KEY_LEADER_BARBAROSSA_INTRO" = "Heroic Frederick, king of the Germans, your task is to forge the independent states that surround you into an empire. You are blessed to be a great military leader – use those skills to bring these cities under your sway so they may develop into commercial and industrial powerhouses. Surely then the bards will sing of mighty Frederick with the red beard, the great Holy Roman Emperor.";
+
+// peter the great
+"TXT_KEY_LEADER_PETER_THE_GREAT_NAME" = "Peter the Great";
+"TXT_KEY_LEADER_PETER_THE_GREAT_INTRO" = "Embrace the chill winds of the Motherland, Tsar Peter. Your fascination with science and culture is a gift, and you will learn much from your Grand Embassies to foreign lands. Under your rule, Russia will surely flourish and spread, absorbing all that lies around it, perhaps creating the greatest land empire seen on this earth.";
+
+// agendas
+
+// ironCrown
+"TXT_KEY_LEADER_AGENDA_IRON_CROWN_NAME" = "Iron Crown";
+"TXT_KEY_LEADER_AGENDA_IRON_CROWN_EFFECTS" = "Tries to conquer as many city-states as possible, and likes those who do not associate with them. Dislikes Suzerains of city-states, or civilizations who have conquered city-states.";
+
+// opportunist
+"TXT_KEY_LEADER_AGENDA_OPPORTUNIST_NAME" = "Opportunist";
+"TXT_KEY_LEADER_AGENDA_OPPORTUNIST_EFFECTS" = "Will often declare Surprise Wars, and likes civilizations that do the same. Dislikes civilizations that do not declare Surprise Wars.";
+
+// optimusPrinceps
+"TXT_KEY_LEADER_AGENDA_OPTIMUS_PRINCEPS_NAME" = "Optimus Princeps";
+"TXT_KEY_LEADER_AGENDA_OPTIMUS_PRINCEPS_EFFECTS" = "Tries to include as much territory as possible in his empire, and likes those who do the same. Dislikes civilizations with little territory.";
+
+// queenOfTheNile
+"TXT_KEY_LEADER_AGENDA_QUEEN_OF_THE_NILE_NAME" = "Queen of the Nile";
+"TXT_KEY_LEADER_AGENDA_QUEEN_OF_THE_NILE_EFFECTS" = "Likes civilizations with powerful militaries, and will try to ally with them to avoid conflict. Dislikes civilizations with weak militaries.";
+
+// shortLifeOfGlory
+"TXT_KEY_LEADER_AGENDA_SHORT_LIFE_OF_GLORY_NAME" = "Short Life of Glory";
+"TXT_KEY_LEADER_AGENDA_SHORT_LIFE_OF_GLORY_EFFECTS" = "Likes civilizations at war with powers other than Macedon. Dislikes civilizations at peace. [Grievances] Grievances against this leader decay at twice the usual rate.";
+
+// sunNeverSets
+"TXT_KEY_LEADER_AGENDA_SUN_NEVER_SETS_NAME" = "Sun Never Sets";
+"TXT_KEY_LEADER_AGENDA_SUN_NEVER_SETS_EFFECTS" = "Likes civilizations who have a city on her home continent, and will try to expand to all continents. Dislikes civilizations on continents where she has no cities.";
+
+// tlatoani
+"TXT_KEY_LEADER_AGENDA_TLATOANI_NAME" = "Tlatoani";
+"TXT_KEY_LEADER_AGENDA_TLATOANI_EFFECTS" = "Likes civilizations who have the same Luxury resources as he does, and will try to collect every Luxury resource available. Dislikes civilizations who have a new Luxury resource he has not yet collected.";
+
+// westernizer
+"TXT_KEY_LEADER_AGENDA_WESTERNIZER_NAME" = "Westernizer";
+"TXT_KEY_LEADER_AGENDA_WESTERNIZER_EFFECTS" = "Likes civilizations that are ahead of him in [Science] Science and [Culture] Culture. Dislikes civilizations that are lagging in [Science] Science and [Culture] Culture.";
+
+// early game hidden
+
+// cityStateAlly:
+"TXT_KEY_LEADER_AGENDA_CITY_STATE_PROTECTOR_NAME" = "City-State Protector";
+"TXT_KEY_LEADER_AGENDA_CITY_STATE_PROTECTOR_EFFECTS" = "Emphasizes protectorate wars. Admires civilizations that start protectorate wars. Dislikes civilizations that attack city-states.";
+
+// civilized
+"TXT_KEY_LEADER_AGENDA_CIVILIZED_NAME" = "Civilized";
+"TXT_KEY_LEADER_AGENDA_CIVILIZED_EFFECTS" = "Hates barbarians. Likes civilizations that clear out barbarian outposts. Does not like civilizations that ignore barbarian outposts.";
+
+// darwinist
+"TXT_KEY_LEADER_AGENDA_DARWINIST_NAME" = "Darwinist";
+"TXT_KEY_LEADER_AGENDA_DARWINIST_EFFECTS" = "Believes in survival of the fittest. Likes civilizations that are at war.";
+
+// devout
+"TXT_KEY_LEADER_AGENDA_DEVOUT_NAME" = "Devout";
+"TXT_KEY_LEADER_AGENDA_DEVOUT_EFFECTS" = "Tries to build up [Faith] Faith, and likes civilizations that also focus on [Faith] Faith.";
+
+// explorer
+"TXT_KEY_LEADER_AGENDA_EXPLORER_NAME" = "Explorer";
+"TXT_KEY_LEADER_AGENDA_EXPLORER_EFFECTS" = "Tries to explore the map, and likes civilizations that have explored less of the map than itself and dislikes civilizations that have explored more of the map than itself.";
+
+// intolerant
+"TXT_KEY_LEADER_AGENDA_INTOLERANT_NAME" = "Intolerant";
+"TXT_KEY_LEADER_AGENDA_INTOLERANT_EFFECTS" = "Likes civilizations who follow the same Religion, and wants their cities to all follow the same Religion. Hates anyone trying to spread their Religion into their empire.";
+
+// pillager
+"TXT_KEY_LEADER_AGENDA_PILLAGER_NAME" = "Pillager";
+"TXT_KEY_LEADER_AGENDA_PILLAGER_EFFECTS" = "Tries to pillage as many tiles as possible. Respects other civilizations who pillage.";
+
+// turtler
+"TXT_KEY_LEADER_AGENDA_TURTLER_NAME" = "Turtler";
+"TXT_KEY_LEADER_AGENDA_TURTLER_EFFECTS" = "Wants to stay safe from conquest. Dislike those who have conquered other players' original capitals.";
+
+// hidden - both
+
+// exploitative
+"TXT_KEY_LEADER_AGENDA_EXPLOITATIVE_NAME" = "Exploitative";
+"TXT_KEY_LEADER_AGENDA_EXPLOITATIVE_EFFECTS" = "Clears all features and improves all possible tiles. Likes civilizations with a high percentage of improved tiles. Dislikes civilizations with low percentage of improved tiles or that found National Parks.";
+
+// greatPersonAdvocate
+"TXT_KEY_LEADER_AGENDA_GREAT_PERSON_ADVOCATE_NAME" = "Great Person Advocate";
+"TXT_KEY_LEADER_AGENDA_GREAT_PERSON_ADVOCATE_EFFECTS" = "Likes civilizations who are not competing for [GreatPerson] Great People, and will recruit [GreatPerson] Great People whenever possible. Dislikes losing a Great Person to another civilization.";
+
+// heavyIndustry
+"TXT_KEY_LEADER_AGENDA_HEAVY_INDUSTRY_NAME" = "Heavy Industry";
+"TXT_KEY_LEADER_AGENDA_HEAVY_INDUSTRY_EFFECTS" = "Tries to build up industry, and likes civilizations that also focus on [Production] Production.";
+
+// moneyGrubber
+"TXT_KEY_LEADER_AGENDA_MONEY_GRUBBER_NAME" = "Money Grubber";
+"TXT_KEY_LEADER_AGENDA_MONEY_GRUBBER_EFFECTS" = "Tries to have the highest possible [Gold] Gold per turn income. Respects other high income civilizations.";
+
+// naturalist
+"TXT_KEY_LEADER_AGENDA_NATURALIST_NAME" = "Naturalist";
+"TXT_KEY_LEADER_AGENDA_NATURALIST_EFFECTS" = "Tries to find all natural wonders. Likes civilizations that keep Woods and Rainforest unchopped, and those that establish National Parks.";
+
+// paranoid
+"TXT_KEY_LEADER_AGENDA_PARANOID_NAME" = "Paranoid";
+"TXT_KEY_LEADER_AGENDA_PARANOID_EFFECTS" = "Likes civilizations who pose no threat. Dislikes civilizations with strong militaries or ones with nearby cities.";
+
+// populous
+"TXT_KEY_LEADER_AGENDA_POPULOUS_NAME" = "Populous";
+"TXT_KEY_LEADER_AGENDA_POPULOUS_EFFECTS" = "Tries to have the highest overall population. Respects other high population civilizations.";
+
+// standingArmy
+"TXT_KEY_LEADER_AGENDA_STANDING_ARMY_NAME" = "Standing Army";
+"TXT_KEY_LEADER_AGENDA_STANDING_ARMY_EFFECTS" = "Always tries to keep a large standing army. Respects other civilizations with large armies.";
+
+// sycophant
+"TXT_KEY_LEADER_AGENDA_SYCOPHANT_NAME" = "Sycophant";
+"TXT_KEY_LEADER_AGENDA_SYCOPHANT_EFFECTS" = "Impressed by any civilization that earns a Golden Age.";
+
+// sympathizer
+"TXT_KEY_LEADER_AGENDA_SYMPATHIZER_NAME" = "Sympathizer";
+"TXT_KEY_LEADER_AGENDA_SYMPATHIZER_EFFECTS" = "Feels bad for those going through Dark Ages.";
+
+// wonderObsessed
+"TXT_KEY_LEADER_AGENDA_WONDER_OBSESSED_NAME" = "Wonder Obsessed";
+"TXT_KEY_LEADER_AGENDA_WONDER_OBSESSED_EFFECTS" = "Likes civilizations not competing for wonders, and builds wonders whenever possible. Dislikes losing a wonder to another civilization.";
+
+    // hidden - late
+
+// airpower
+"TXT_KEY_LEADER_AGENDA_AIRPOWER_NAME" = "Airpower";
+"TXT_KEY_LEADER_AGENDA_AIRPOWER_EFFECTS" = "Tries to build up air power. Admires civilizations with greater air power. Dislikes civilizations with weaker air power.";
+
+// cityStateAlly
+"TXT_KEY_LEADER_AGENDA_CITY_STATE_ALLY_NAME" = "City-State Ally";
+"TXT_KEY_LEADER_AGENDA_CITY_STATE_ALLY_EFFECTS" = "Likes civilizations that aren't competing for the same city-state allegiance. Dislikes civilizations that are directly competing for city-state allegiance.";
+
+// cultured
+"TXT_KEY_LEADER_AGENDA_CULTURED_NAME" = "Cultured";
+"TXT_KEY_LEADER_AGENDA_CULTURED_EFFECTS" = "Tries to build up [Culture] Culture, and likes civilizations that also focus on [Culture] Culture.";
+
+// demagogue
+"TXT_KEY_LEADER_AGENDA_DEMAGOGUE_NAME" = "Demagogue";
+"TXT_KEY_LEADER_AGENDA_DEMAGOGUE_EFFECTS" = "Wants to be the civilization earning the most [DiplomaticFavor] Diplomatic Favor, dislikes those who compete in [DiplomaticFavor] Diplomatic Favor.";
+
+// destinationCiv
+"TXT_KEY_LEADER_AGENDA_DESTINATION_CIV_NAME" = "Destination Civ";
+"TXT_KEY_LEADER_AGENDA_DESTINATION_CIV_EFFECTS" = "Wants to be the civilization with the most [Tourism] Tourism, dislikes those who compete in [Tourism] Tourism.";
+
+// environmentalist
+"TXT_KEY_LEADER_AGENDA_ENVIRONMENTALIST_NAME" = "Environmentalist";
+"TXT_KEY_LEADER_AGENDA_ENVIRONMENTALIST_EFFECTS" = "Builds National Parks, doesn't clear features, plants forests. Likes civilizations that plant forests or found National Parks. Dislikes civilizations that clear features.";
+
+// ideologue
+"TXT_KEY_LEADER_AGENDA_IDEALOGUE_NAME" = "Ideologue";
+"TXT_KEY_LEADER_AGENDA_IDEALOGUE_EFFECTS" = "Favors civilizations with the same type of government, dislikes civilizations that have different governments, and really dislikes civilizations with different governments of the same era as its own.";
+
+// technophile
+"TXT_KEY_LEADER_AGENDA_TECHNOPHILE_NAME" = "Technophile";
+"TXT_KEY_LEADER_AGENDA_TECHNOPHILE_EFFECTS" = "Favors [Science] Science development. Dislikes civs who are behind technologically.";

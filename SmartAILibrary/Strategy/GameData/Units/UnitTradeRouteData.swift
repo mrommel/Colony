@@ -106,7 +106,7 @@ public class UnitTradeRouteData {
                 // if route is expired, stop here
                 self.checkExpiration(for: unit, in: gameModel)
                 if self.state == .expired {
-                    unit?.endTrading()
+                    unit?.endTrading(in: gameModel)
                     return nil // this should stop the route, user can select next route
                 }
 

@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "wonderType-statueOfZeus@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "wonderType-statueOfZeus@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "wonderType-statueOfZeus@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

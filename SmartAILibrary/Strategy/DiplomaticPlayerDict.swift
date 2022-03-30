@@ -8,6 +8,92 @@
 
 import Foundation
 
+public class DiplomaticAIPlayerApproachItem: Codable {
+
+    enum CodingKeys: CodingKey {
+
+        case type
+        case remainingTurn
+        case value
+        case reductionValue
+        case expired
+    }
+
+    public let type: ApproachModifierType
+    var remainingTurn: Int
+    public var value: Int
+    let reductionValue: Int
+    var expiredValue: Bool
+
+    public init(type: ApproachModifierType, initialValue: Int? = nil, reductionValue: Int? = nil) {
+
+        self.type = type
+
+        if let initialValue = initialValue {
+            self.value = initialValue
+        } else {
+            self.value = type.initialValue()
+        }
+
+        self.remainingTurn = type.reductionTurns()
+
+        if let reductionValue = reductionValue {
+            self.reductionValue = reductionValue
+        } else {
+            self.reductionValue = type.reductionValue()
+        }
+
+        self.expiredValue = false
+    }
+
+    public required init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.type = try container.decode(ApproachModifierType.self, forKey: .type)
+        self.value = try container.decode(Int.self, forKey: .value)
+        self.remainingTurn = try container.decode(Int.self, forKey: .remainingTurn)
+        self.reductionValue = try container.decode(Int.self, forKey: .reductionValue)
+        self.expiredValue = try container.decode(Bool.self, forKey: .expired)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.type, forKey: .type)
+        try container.encode(self.value, forKey: .value)
+        try container.encode(self.remainingTurn, forKey: .remainingTurn)
+        try container.encode(self.reductionValue, forKey: .reductionValue)
+        try container.encode(self.expiredValue, forKey: .expired)
+    }
+
+    func update() {
+
+        guard self.expiredValue == false else {
+            return
+        }
+
+        // remaining turns is reduced by
+        self.remainingTurn -= 1
+
+        // when negative we also start to reduce the value
+        if self.remainingTurn < 0 {
+            self.value -= self.reductionValue
+
+            // when the value (aka the effect) is zero - this has expired
+            if self.value == 0 {
+                self.expiredValue = true
+            }
+        }
+    }
+
+    public func expired() -> Bool {
+
+        return self.expiredValue
+    }
+}
+
 // swiftlint:disable type_body_length nesting
 class DiplomaticPlayerDict: Codable {
 
@@ -30,11 +116,15 @@ class DiplomaticPlayerDict: Codable {
         enum CodingKeys: CodingKey {
 
             case leader
+            case accessLevel
+            case gossipItems
+
             case opinion
             case turnOfFirstContact
             case militaryStrengthComparedToUs
             case militaryThreat
             case economicStrengthComparedToUs
+            case approachItems
 
             case approach
             case warState
@@ -47,6 +137,7 @@ class DiplomaticPlayerDict: Codable {
             case warValueLost
             case warWeariness
 
+            case hasDelegation
             case hasEmbassy
 
             // disputes
@@ -54,6 +145,8 @@ class DiplomaticPlayerDict: Codable {
             case lastTurnLandDisputeLevel
 
             // postures
+            case militaryAggressivePosture
+            case lastTurnMilitaryAggressivePosture
             case expansionAggressivePosture
             case plotBuyingAggressivePosture
 
@@ -92,13 +185,17 @@ class DiplomaticPlayerDict: Codable {
         }
 
         let leader: LeaderType
+        var accessLevel: AccessLevel
+        var gossipItems: [GossipItem]
+
         var opinion: PlayerOpinionType
         var turnOfFirstContact: Int
         var militaryStrengthComparedToUs: StrengthType
         var militaryThreat: MilitaryThreatType
         var economicStrengthComparedToUs: StrengthType
+        var approachItems: [DiplomaticAIPlayerApproachItem]
 
-        var approach: PlayerApproachType
+        var approach: Int // 0 ... 100
         var warState: PlayerWarStateType
         var warFace: PlayerWarFaceType
         var warGoal: WarGoalType
@@ -109,6 +206,7 @@ class DiplomaticPlayerDict: Codable {
         var warValueLost: Int
         var warWeariness: Int
 
+        var hasDelegationValue: Bool
         var hasEmbassyValue: Bool
         // var allowsOpenBordersValue: Bool
 
@@ -117,6 +215,8 @@ class DiplomaticPlayerDict: Codable {
         var lastTurnLandDisputeLevel: LandDisputeLevelType
 
         // postures
+        var militaryAggressivePosture: AggressivePostureType
+        var lastTurnMilitaryAggressivePosture: AggressivePostureType
         var expansionAggressivePosture: AggressivePostureType
         var plotBuyingAggressivePosture: AggressivePostureType
 
@@ -158,13 +258,16 @@ class DiplomaticPlayerDict: Codable {
         init(by leader: LeaderType, turnOfFirstContact: Int = -1) {
 
             self.leader = leader
+            self.accessLevel = .none
+            self.gossipItems = []
             self.opinion = .none
             self.turnOfFirstContact = turnOfFirstContact
             self.militaryStrengthComparedToUs = .average
             self.militaryThreat = .none
             self.economicStrengthComparedToUs = .average
+            self.approachItems = []
 
-            self.approach = .none
+            self.approach = 50 // default
             self.warFace = .none
             self.warState = .none
             self.warGoal = .none
@@ -175,11 +278,14 @@ class DiplomaticPlayerDict: Codable {
             self.warValueLost = 0
             self.warWeariness = 0
 
+            self.hasDelegationValue = false
             self.hasEmbassyValue = false
 
             self.landDisputeLevel = .none
             self.lastTurnLandDisputeLevel = .none
 
+            self.militaryAggressivePosture = .none
+            self.lastTurnMilitaryAggressivePosture = .none
             self.expansionAggressivePosture = .none
             self.plotBuyingAggressivePosture = .none
 
@@ -222,13 +328,17 @@ class DiplomaticPlayerDict: Codable {
             let container = try decoder.container(keyedBy: CodingKeys.self)
 
             self.leader = try container.decode(LeaderType.self, forKey: .leader)
+            self.accessLevel = try container.decode(AccessLevel.self, forKey: .accessLevel)
+            self.gossipItems = try container.decode([GossipItem].self, forKey: .gossipItems)
+
             self.opinion = try container.decode(PlayerOpinionType.self, forKey: .opinion)
             self.turnOfFirstContact = try container.decode(Int.self, forKey: .turnOfFirstContact)
             self.militaryStrengthComparedToUs = try container.decode(StrengthType.self, forKey: .militaryStrengthComparedToUs)
             self.militaryThreat = try container.decode(MilitaryThreatType.self, forKey: .militaryThreat)
             self.economicStrengthComparedToUs = try container.decode(StrengthType.self, forKey: .economicStrengthComparedToUs)
+            self.approachItems = try container.decode([DiplomaticAIPlayerApproachItem].self, forKey: .approachItems)
 
-            self.approach = try container.decode(PlayerApproachType.self, forKey: .approach)
+            self.approach = try container.decode(Int.self, forKey: .approach)
             self.warState = try container.decode(PlayerWarStateType.self, forKey: .warState)
             self.warFace = try container.decode(PlayerWarFaceType.self, forKey: .warFace)
             self.warGoal = try container.decode(WarGoalType.self, forKey: .warGoal)
@@ -239,6 +349,7 @@ class DiplomaticPlayerDict: Codable {
             self.warValueLost = try container.decode(Int.self, forKey: .warValueLost)
             self.warWeariness = try container.decode(Int.self, forKey: .warWeariness)
 
+            self.hasDelegationValue = try container.decode(Bool.self, forKey: .hasDelegation)
             self.hasEmbassyValue = try container.decode(Bool.self, forKey: .hasEmbassy)
 
             // disputes
@@ -246,6 +357,8 @@ class DiplomaticPlayerDict: Codable {
             self.lastTurnLandDisputeLevel = try container.decode(LandDisputeLevelType.self, forKey: .lastTurnLandDisputeLevel)
 
             // postures
+            self.militaryAggressivePosture = try container.decode(AggressivePostureType.self, forKey: .militaryAggressivePosture)
+            self.lastTurnMilitaryAggressivePosture = try container.decode(AggressivePostureType.self, forKey: .lastTurnMilitaryAggressivePosture)
             self.expansionAggressivePosture = try container.decode(AggressivePostureType.self, forKey: .expansionAggressivePosture)
             self.plotBuyingAggressivePosture = try container.decode(AggressivePostureType.self, forKey: .plotBuyingAggressivePosture)
 
@@ -288,11 +401,15 @@ class DiplomaticPlayerDict: Codable {
             var container = encoder.container(keyedBy: CodingKeys.self)
 
             try container.encode(self.leader, forKey: .leader)
+            try container.encode(self.accessLevel, forKey: .accessLevel)
+            try container.encode(self.gossipItems, forKey: .gossipItems)
+
             try container.encode(self.opinion, forKey: .opinion)
             try container.encode(self.turnOfFirstContact, forKey: .turnOfFirstContact)
             try container.encode(self.militaryStrengthComparedToUs, forKey: .militaryStrengthComparedToUs)
             try container.encode(self.militaryThreat, forKey: .militaryThreat)
             try container.encode(self.economicStrengthComparedToUs, forKey: .economicStrengthComparedToUs)
+            try container.encode(self.approachItems, forKey: .approachItems)
 
             try container.encode(self.approach, forKey: .approach)
             try container.encode(self.warState, forKey: .warState)
@@ -305,6 +422,7 @@ class DiplomaticPlayerDict: Codable {
             try container.encode(self.warValueLost, forKey: .warValueLost)
             try container.encode(self.warWeariness, forKey: .warWeariness)
 
+            try container.encode(self.hasDelegationValue, forKey: .hasDelegation)
             try container.encode(self.hasEmbassyValue, forKey: .hasEmbassy)
 
             // disputes
@@ -312,6 +430,8 @@ class DiplomaticPlayerDict: Codable {
             try container.encode(self.lastTurnLandDisputeLevel, forKey: .lastTurnLandDisputeLevel)
 
             // postures
+            try container.encode(self.militaryAggressivePosture, forKey: .militaryAggressivePosture)
+            try container.encode(self.lastTurnMilitaryAggressivePosture, forKey: .lastTurnMilitaryAggressivePosture)
             try container.encode(self.expansionAggressivePosture, forKey: .expansionAggressivePosture)
             try container.encode(self.plotBuyingAggressivePosture, forKey: .plotBuyingAggressivePosture)
 
@@ -432,6 +552,47 @@ class DiplomaticPlayerDict: Codable {
         }
     }
 
+    // MARK: access level methods
+
+    func updateAccessLevel(to accessLevel: AccessLevel, towards otherPlayer: AbstractPlayer?) {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+
+            item.accessLevel = accessLevel
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+
+    func accessLevel(towards otherPlayer: AbstractPlayer?) -> AccessLevel {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.accessLevel
+        }
+
+        return AccessLevel.none
+    }
+
+    // MARK: gossip methods
+
+    func addGossip(item gossipItem: GossipItem, for otherPlayer: AbstractPlayer?) {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.gossipItems.append(gossipItem)
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+
+    func gossipItems(for otherPlayer: AbstractPlayer?) -> [GossipItem] {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.gossipItems
+        }
+
+        return []
+    }
+
     // MARK: option methods
 
     func opinion(of otherPlayer: AbstractPlayer?) -> PlayerOpinionType {
@@ -512,7 +673,7 @@ class DiplomaticPlayerDict: Codable {
 
     func isAtWar() -> Bool {
 
-        for item in self.items where item.approach == .war {
+        for item in self.items where item.warState != .none {
             return true
         }
 
@@ -521,27 +682,94 @@ class DiplomaticPlayerDict: Codable {
 
     func atWarCount() -> Int {
 
-        return self.items.count(where: { $0.approach == .war })
+        return self.items.count(where: { $0.warState != .none })
     }
 
     // MARK: approach methods
 
-    func updateApproach(towards otherPlayer: AbstractPlayer?, to approachType: PlayerApproachType) {
+    func addApproach(type: ApproachModifierType,
+                     initialValue: Int? = nil,
+                     reductionValue: Int? = nil,
+                     towards otherPlayer: AbstractPlayer?) {
+
+        let approachItem = DiplomaticAIPlayerApproachItem(type: type,
+                                                          initialValue: initialValue,
+                                                          reductionValue: reductionValue)
 
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
-            item.approach = approachType
+            item.approachItems.append(approachItem)
         } else {
             fatalError("not gonna happen")
         }
     }
 
-    func approach(towards otherPlayer: AbstractPlayer?) -> PlayerApproachType {
+    func hasApproach(type: ApproachModifierType,
+                     towards otherPlayer: AbstractPlayer?) -> Bool {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.approachItems.contains(where: { $0.type == type })
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+
+    func removeApproach(type: ApproachModifierType,
+                        towards otherPlayer: AbstractPlayer?) {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.approachItems.removeAll(where: { $0.type == type })
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+
+    func approachItems(towards otherPlayer: AbstractPlayer?) -> [DiplomaticAIPlayerApproachItem] {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.approachItems
+        }
+
+        fatalError("not gonna happen")
+    }
+
+    func updateApproachItems(towards otherPlayer: AbstractPlayer?) {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+
+            var tmpApproachItems = item.approachItems
+
+            for approachItem in tmpApproachItems {
+                approachItem.update()
+            }
+
+            tmpApproachItems.removeAll(where: { $0.expired() })
+
+            item.approachItems = tmpApproachItems
+        }
+    }
+
+    internal func updateApproachValue(towards otherPlayer: AbstractPlayer?, to value: Int) {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.approach = value
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+
+    public func approachValue(towards otherPlayer: AbstractPlayer?) -> Int {
 
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.approach
         }
 
-        return .none // can happen because of coop questions
+        return 50 // default
+    }
+
+    func approach(towards otherPlayer: AbstractPlayer?) -> PlayerApproachType {
+
+        let value = self.approachValue(towards: otherPlayer)
+        return PlayerApproachType.from(level: value)
     }
 
     // MARK: war state methods
@@ -618,7 +846,7 @@ class DiplomaticPlayerDict: Codable {
             fatalError("not gonna happen")
         }
 
-        self.updateApproach(towards: otherPlayer, to: .war)
+        self.updateApproachValue(towards: otherPlayer, to: 0)
         self.updateWarState(towards: otherPlayer, to: .offensive)
     }
 
@@ -971,6 +1199,42 @@ class DiplomaticPlayerDict: Codable {
 
     // MARK: postures
 
+    func militaryAggressivePosture(towards otherPlayer: AbstractPlayer?) -> AggressivePostureType {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.militaryAggressivePosture
+        }
+
+        fatalError("not gonna happen")
+    }
+
+    func updateMilitaryAggressivePosture(to posture: AggressivePostureType, with otherPlayer: AbstractPlayer?) {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.militaryAggressivePosture = posture
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+
+    func lastTurnMilitaryAggressivePosture(towards otherPlayer: AbstractPlayer?) -> AggressivePostureType {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.militaryAggressivePosture
+        }
+
+        fatalError("not gonna happen")
+    }
+
+    func updateLastTurnMilitaryAggressivePosture(to posture: AggressivePostureType, with otherPlayer: AbstractPlayer?) {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.lastTurnMilitaryAggressivePosture = posture
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+
     func expansionAggressivePosture(towards otherPlayer: AbstractPlayer?) -> AggressivePostureType {
 
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
@@ -1149,10 +1413,37 @@ class DiplomaticPlayerDict: Codable {
         }
     }
 
+    public func hasDelegation(with otherPlayer: AbstractPlayer?) -> Bool {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.hasDelegationValue
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+
+    public func sendDelegation(to otherPlayer: AbstractPlayer?, send: Bool) {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.hasDelegationValue = send
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+
     public func hasEmbassy(with otherPlayer: AbstractPlayer?) -> Bool {
 
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.hasEmbassyValue
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+
+    public func sendEmbassy(to otherPlayer: AbstractPlayer?, send: Bool) {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.hasEmbassyValue = send
         } else {
             fatalError("not gonna happen")
         }

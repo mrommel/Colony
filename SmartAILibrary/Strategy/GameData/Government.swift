@@ -152,7 +152,7 @@ public protocol AbstractGovernment: AnyObject, Codable {
     var player: AbstractPlayer? { get set }
 
     func currentGovernment() -> GovernmentType?
-    func set(governmentType: GovernmentType)
+    func set(governmentType: GovernmentType, in gameModel: GameModel?)
     func set(policyCardSet: AbstractPolicyCardSet) throws
     func policyCardSet() -> AbstractPolicyCardSet
 
@@ -281,11 +281,15 @@ public class Government: AbstractGovernment {
                 if let bestGovernment = governmentRating.chooseLargest() {
                     if bestGovernment != self.currentGovernmentVal {
 
-                        self.set(governmentType: bestGovernment)
+                        self.set(governmentType: bestGovernment, in: gameModel)
 
                         self.fillPolicyCards()
                     }
                 }
+            } else {
+                self.set(governmentType: .chiefdom, in: gameModel)
+
+                self.fillPolicyCards()
             }
 
             self.lastCheckedGovernment = gameModel.currentTurn
@@ -395,10 +399,15 @@ public class Government: AbstractGovernment {
         }
     }
 
-    public func set(governmentType: GovernmentType) {
+    public func set(governmentType: GovernmentType, in gameModel: GameModel?) {
 
         self.currentGovernmentVal = governmentType
         self.policyCardsVal = PolicyCardSet() // reset card selection
+
+        self.player?.doUpdateTradeRouteCapacity(in: gameModel)
+
+        // send gossip to other players
+        gameModel?.sendGossip(type: .governmentChange(government: governmentType), of: self.player)
     }
 
     public func set(policyCardSet: AbstractPolicyCardSet) throws {

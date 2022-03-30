@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "government-ambient-theocracy@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "government-ambient-theocracy@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "government-ambient-theocracy@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

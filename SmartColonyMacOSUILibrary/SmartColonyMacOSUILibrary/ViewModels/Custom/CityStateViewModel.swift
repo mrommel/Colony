@@ -86,13 +86,28 @@ class CityStateViewModel: ObservableObject {
         return ImageCache.shared.image(for: "hint")
     }
 
-    func questHintToolTip() -> String {
+    func questHintToolTip() -> NSAttributedString {
 
-        if self.questType == .none {
-            return ""
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: "TXT_KEY_CITY_STATE_AVAILABLE_QUEST".localized(),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        let effectsText = NSMutableAttributedString(string: "")
+        if self.questType != .none {
+
+            let tokenizer = LabelTokenizer()
+
+            effectsText.append(NSAttributedString(string: "\n\n"))
+            effectsText.append(tokenizer.convert(text: self.questType.summary(), with: Globals.Attributs.tooltipContentAttributs))
         }
 
-        return self.questType.summary()
+        toolTipText.append(effectsText)
+
+        return toolTipText
     }
 
     func bonusImage1() -> NSImage {

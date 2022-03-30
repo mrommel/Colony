@@ -26,6 +26,9 @@ class DistrictViewModel: QueueViewModel, ObservableObject {
 
     var active: Bool
 
+    @Published
+    var toolTip: NSAttributedString
+
     weak var delegate: DistrictViewModelDelegate?
 
     init(districtType: DistrictType, turns: Int = -1, active: Bool, showYields: Bool = false, at index: Int = -1) {
@@ -35,6 +38,23 @@ class DistrictViewModel: QueueViewModel, ObservableObject {
         self.active = active
         self.showYields = showYields
         self.index = index
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: districtType.name().localized() + "\n\n",
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        let tokenizer = LabelTokenizer()
+        let effects = tokenizer.bulletPointList(
+            from: districtType.effects().map { $0.localized() },
+            with: Globals.Attributs.tooltipContentAttributs
+        )
+        toolTipText.append(effects)
+
+        self.toolTip = toolTipText
 
         super.init(queueType: .district)
     }

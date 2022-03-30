@@ -258,6 +258,10 @@ class Techs: AbstractTechs {
         // check quests
         for quest in player.ownQuests(in: gameModel) {
 
+            guard let gameModel = gameModel else {
+                fatalError("cant get game")
+            }
+
             if case .trainUnit(type: let unitType) = quest.type {
                 var obsolete = false
 
@@ -276,7 +280,7 @@ class Techs: AbstractTechs {
                 }
 
                 if obsolete {
-                    if let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState) {
+                    if let cityStatePlayer = gameModel.cityStatePlayer(for: quest.cityState) {
                         cityStatePlayer.obsoleteQuest(by: player.leader, in: gameModel)
                     }
                 }
@@ -284,9 +288,35 @@ class Techs: AbstractTechs {
 
             if case .triggerEureka(tech: let questTechType) = quest.type {
                 if questTechType == tech {
-                    if let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState) {
+                    if let cityStatePlayer = gameModel.cityStatePlayer(for: quest.cityState) {
                         cityStatePlayer.obsoleteQuest(by: player.leader, in: gameModel)
                     }
+                }
+            }
+        }
+
+        // send gossip
+        gameModel?.sendGossip(type: .technologyResearched(tech: tech), of: self.player)
+
+        // check for printing
+        // Researching the Printing technology. This will increase your visibility with all civilizations by one level.
+        if tech == .printing {
+            guard let gameModel = gameModel else {
+                fatalError("cant get game")
+            }
+
+            for loopPlayer in gameModel.players {
+
+                guard !loopPlayer.isBarbarian() && !loopPlayer.isFreeCity() && !loopPlayer.isCityState() else {
+                    continue
+                }
+
+                guard !loopPlayer.isEqual(to: player) else {
+                    continue
+                }
+
+                if player.hasMet(with: loopPlayer) {
+                    player.diplomacyAI?.increaseAccessLevel(towards: loopPlayer)
                 }
             }
         }

@@ -19,6 +19,7 @@
 "TXT_KEY_FOUND" = "Found";
 "TXT_KEY_RENAME" = "Rename";
 "TXT_KEY_CANCEL" = "Cancel";
+"TXT_KEY_CLOSE" = "Close";
 "TXT_KEY_START" = "Start";
 "TXT_KEY_QUIT" = "Quit";
 "TXT_KEY_QUIT_CONFIRM" = "Do you really want to quit?";

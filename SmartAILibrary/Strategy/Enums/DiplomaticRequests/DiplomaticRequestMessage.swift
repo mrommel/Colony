@@ -290,68 +290,6 @@ public enum DiplomaticRequestMessage: Int, Codable {
     DIPLO_MESSAGE_YOUR_CULTURE_INFLUENTIAL,
     DIPLO_MESSAGE_OUR_CULTURE_INFLUENTIAL, */
 
-    // GetDiploStringForMessage
-    public func diploStringForMessage(for player1: AbstractPlayer?, and player2: AbstractPlayer? = nil) -> String {
-
-        guard let leader1 = player1?.leader else {
-            fatalError("leader must be provided")
-        }
-
-        switch self {
-
-        case .messageIntro: // RESPONSE_FIRST_GREETING
-            // Intro
-            if leader1 == .trajan {
-                return "Hail, stranger. I am the Imperator Caesar Augustus of far-reaching Rome. Who are you and what lands can you claim as your own?"
-            }
-
-            if leader1 == .victoria {
-                return "Greetings. We are by the Grace of God, Elizabeth, Queen of the United Kingdom of Great Britain and Ireland. And soon, dare I say, the empire."
-            }
-
-            return "Greetings traveler. You should know that you stand in the presence of greatness!"
-
-        case .invitationToCapital:
-            return "I delight in hearing of distant lands. If you tell me of your capital, I shall share the location of mine."
-
-        case .coopWarRequest: // RESPONSE_COOP_WAR_REQUEST
-            // AI would like to declare war on someone with a player
-            guard let leader2 = player2?.leader else {
-                fatalError("leader must be provided")
-            }
-
-            // TXT_KEY_COOP_WAR_REQUEST%
-            return "Please join us to start war on \(leader2) now. Will you?"
-
-        case .coopWarTime: // RESPONSE_COOP_WAR_TIME
-            // AI calls up and says it's time to declare war on someone with a player
-            guard let leader2 = player2?.leader else {
-                fatalError("leader must be provided")
-            }
-
-            // TXT_KEY_COOP_WAR_TIME%
-            return "Please join us to start war on \(leader2) in 10 turns. Will you?"
-
-        case .peaceOffer: // RESPONSE_PEACE_OFFER
-            return "I want peace"
-
-        case .embassyExchange:
-            return "Welcome to discuss .."
-
-        case .embassyOffer:
-            return "embassyOffer"
-
-        case .openBordersExchange:
-            return "openBordersExchange"
-
-        case .openBordersOffer:
-            return "openBordersOffer"
-
-        case .exit:
-            return "exit"
-        }
-    }
-
     public func diploOptions() -> [DiplomaticReplyMessage] {
 
         switch self {

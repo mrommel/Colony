@@ -8,32 +8,34 @@
 
 import Foundation
 
-struct Stack<Element> {
+public struct Stack<Element> {
 
     fileprivate var array: [Element] = []
 
-    mutating func push(_ element: Element) {
+    public init() {}
+
+    public mutating func push(_ element: Element) {
         self.array.append(element)
     }
 
     @discardableResult
-    mutating func pop() -> Element? {
+    public mutating func pop() -> Element? {
         return self.array.popLast()
     }
 
-    func peek() -> Element? {
+    public func peek() -> Element? {
         return self.array.last
     }
 
-    var isEmpty: Bool {
+    public var isEmpty: Bool {
         return self.array.isEmpty
     }
 
-    var count: Int {
+    public var count: Int {
         return self.array.count
     }
 
-    mutating func clear() {
+    public mutating func clear() {
         self.array.removeAll()
     }
 }

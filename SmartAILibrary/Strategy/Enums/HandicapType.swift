@@ -312,6 +312,28 @@ public enum HandicapType: Int, Codable {
         case .deity: return 0
         }
     }
+
+    // -3 - +3
+    /* Deity -2 to -8
+     Immortal -1 to -7
+     Emperor 0 a -6
+     King1 to -5
+     Prince 2 to -4
+     https://forums.civfanatics.com/threads/first-impression-of-you.613161/ */
+    func firstImpressionBaseValue() -> Int {
+
+        switch self {
+
+        case .settler: return 2
+        case .chieftain: return 1
+        case .warlord: return 0
+        case .prince: return -1
+        case .king: return -2
+        case .emperor: return -3
+        case .immortal: return -4
+        case .deity: return -5
+        }
+    }
 }
 
 extension HandicapType: Comparable {

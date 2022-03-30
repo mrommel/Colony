@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAILibrary
+import SmartAssets
 
 class CityDialogViewModel: ObservableObject {
 
@@ -89,12 +90,12 @@ class CityDialogViewModel: ObservableObject {
         }
     }
 
-    func update(for city: AbstractCity?) {
+    func update(for cityRef: AbstractCity?) {
 
-        self.city = city
+        self.city = cityRef
 
         // populate values
-        if let city = city {
+        if let city = cityRef as? City {
 
             self.cityName = city.name
             self.population = city.population()
@@ -104,11 +105,17 @@ class CityDialogViewModel: ObservableObject {
             }
 
             self.scienceYieldViewModel.delta = city.sciencePerTurn(in: game)
+            self.scienceYieldViewModel.tooltip = city.sciencePerTurnToolTip(in: game)
             self.cultureYieldViewModel.delta = city.culturePerTurn(in: game)
+            self.cultureYieldViewModel.tooltip = city.culturePerTurnToolTip(in: game)
             self.foodYieldViewModel.delta = city.foodPerTurn(in: game)
+            self.foodYieldViewModel.tooltip = city.foodPerTurnToolTip(in: game)
             self.productionYieldViewModel.delta = city.productionPerTurn(in: game)
+            self.productionYieldViewModel.tooltip = city.productionPerTurnToolTip(in: game)
             self.goldYieldViewModel.delta = city.goldPerTurn(in: game)
+            self.goldYieldViewModel.tooltip = city.goldPerTurnToolTip(in: game)
             self.faithYieldViewModel.delta = city.faithPerTurn(in: game)
+            self.faithYieldViewModel.tooltip = city.faithPerTurnToolTip(in: game)
 
             self.productionViewModel.update(for: city, with: game)
             self.goldPurchaseViewModel.update(for: city)

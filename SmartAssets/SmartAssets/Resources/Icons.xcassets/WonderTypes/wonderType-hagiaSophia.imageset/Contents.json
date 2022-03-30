@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "wonderType-hagiaSophia@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "wonderType-hagiaSophia@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "wonderType-hagiaSophia@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

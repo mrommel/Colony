@@ -78,6 +78,8 @@ struct UnitBannerView: View {
             Spacer()
                 .frame(minHeight: 0, maxHeight: 50)
 
+            UnitCommandView(viewModel: self.viewModel.command6ViewModel)
+
             UnitCommandView(viewModel: self.viewModel.command5ViewModel)
 
             UnitCommandView(viewModel: self.viewModel.command4ViewModel)

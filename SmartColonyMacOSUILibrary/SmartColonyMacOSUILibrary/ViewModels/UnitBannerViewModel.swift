@@ -40,6 +40,9 @@ class UnitBannerViewModel: ObservableObject {
     var command5ViewModel: UnitCommandViewModel
 
     @Published
+    var command6ViewModel: UnitCommandViewModel
+
+    @Published
     var promotionViewModels: [PromotionViewModel] = []
 
     private var selectedUnit: AbstractUnit?
@@ -60,6 +63,7 @@ class UnitBannerViewModel: ObservableObject {
         self.command3ViewModel = UnitCommandViewModel()
         self.command4ViewModel = UnitCommandViewModel()
         self.command5ViewModel = UnitCommandViewModel()
+        self.command6ViewModel = UnitCommandViewModel()
 
         if let selectedUnit = selectedUnit {
             self.unitImage = ImageCache.shared.image(for: selectedUnit.type.portraitTexture())
@@ -73,6 +77,7 @@ class UnitBannerViewModel: ObservableObject {
         self.command3ViewModel.delegate = self
         self.command4ViewModel.delegate = self
         self.command5ViewModel.delegate = self
+        self.command6ViewModel.delegate = self
     }
 
 #if DEBUG
@@ -86,6 +91,7 @@ class UnitBannerViewModel: ObservableObject {
         self.command3ViewModel = UnitCommandViewModel()
         self.command4ViewModel = UnitCommandViewModel()
         self.command5ViewModel = UnitCommandViewModel()
+        self.command6ViewModel = UnitCommandViewModel()
 
         if let selectedUnit = selectedUnit {
             self.unitImage = selectedUnit.type.iconTexture()
@@ -106,6 +112,7 @@ class UnitBannerViewModel: ObservableObject {
         self.command3ViewModel.delegate = self
         self.command4ViewModel.delegate = self
         self.command5ViewModel.delegate = self
+        self.command6ViewModel.delegate = self
 
         self.promotionViewModels = [
             PromotionViewModel(promotionType: .alpine, state: .gained),
@@ -389,6 +396,17 @@ class UnitBannerViewModel: ObservableObject {
                 }
             }
 
+        case .heal:
+            if let selectedUnit = self.selectedUnit {
+                self.backgroundQueue.async {
+                    selectedUnit.set(activityType: .heal, in: gameModel)
+
+                    DispatchQueue.main.async {
+                        gameModel.userInterface?.unselect()
+                    }
+                }
+            }
+
         case .hold:
             if let selectedUnit = self.selectedUnit {
                 self.backgroundQueue.async {
@@ -648,6 +666,7 @@ class UnitBannerViewModel: ObservableObject {
                 self.command3ViewModel.update(command: commands.count > 3 ? commands[3].type : .none)
                 self.command4ViewModel.update(command: commands.count > 4 ? commands[4].type : .none)
                 self.command5ViewModel.update(command: commands.count > 5 ? commands[5].type : .none)
+                self.command6ViewModel.update(command: commands.count > 6 ? commands[6].type : .none)
             }
         }
     }
@@ -662,6 +681,7 @@ class UnitBannerViewModel: ObservableObject {
         self.command3ViewModel.update(command: commands.count > 3 ? commands[3].type : .none)
         self.command4ViewModel.update(command: commands.count > 4 ? commands[4].type : .none)
         self.command5ViewModel.update(command: commands.count > 5 ? commands[5].type : .none)
+        self.command6ViewModel.update(command: commands.count > 6 ? commands[6].type : .none)
 
         if let selectedUnit = self.selectedUnit {
             self.unitHealthValue = CGFloat(selectedUnit.healthPoints()) / 100.0

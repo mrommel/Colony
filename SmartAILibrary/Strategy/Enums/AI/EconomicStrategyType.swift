@@ -132,6 +132,11 @@ enum EconomicStrategyType: Int, Codable {
         return EconomicStrategyType.dataProvider[self]!.firstTurnExecuted
     }
 
+    func noMinorCivs() -> Bool {
+
+        return EconomicStrategyType.dataProvider[self]!.noMinorCivs
+    }
+
     func checkEachTurns() -> Int {
 
         return EconomicStrategyType.dataProvider[self]!.checkTriggerTurnCount

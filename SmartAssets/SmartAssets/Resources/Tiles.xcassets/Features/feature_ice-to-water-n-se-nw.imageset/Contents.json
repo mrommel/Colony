@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "feature_ice-to-water-n-se-nw@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "feature_ice-to-water-n-se-nw@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "feature_ice-to-water-n-se-nw@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

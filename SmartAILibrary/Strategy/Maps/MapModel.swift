@@ -520,6 +520,16 @@ open class MapModel: Codable {
         )
     }
 
+    func remove(city: AbstractCity?) {
+
+        self.cities.removeAll(
+            where: {
+                $0?.location == city?.location &&
+                $0?.leader == city?.leader
+            }
+        )
+    }
+
     // MARK: wrapping
 
     public func wrap(point: HexPoint) -> HexPoint {

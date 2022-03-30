@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "dedication-hicSuntDracones@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "dedication-hicSuntDracones@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "dedication-hicSuntDracones@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

@@ -78,6 +78,16 @@ public enum LeaderType: Codable, Equatable, Hashable {
         return self.data().civilization
     }
 
+    public func agenda() -> LeaderAgendaType {
+
+        return self.data().agenda
+    }
+
+    public func rejectedAgendas() -> [LeaderAgendaType] {
+
+        return self.data().rejectedAgendas
+    }
+
     func flavors() -> [Flavor] {
 
         switch self {
@@ -230,30 +240,24 @@ public enum LeaderType: Codable, Equatable, Hashable {
         case .cityState: return []
 
         case .alexander: return [
-                ApproachBias(approach: .afraid, bias: 3),
-                ApproachBias(approach: .deceptive, bias: 4),
+                ApproachBias(approach: .unfriendly, bias: 4),
                 ApproachBias(approach: .friendly, bias: 5),
-                ApproachBias(approach: .guarded, bias: 5),
-                ApproachBias(approach: .hostile, bias: 7),
-                ApproachBias(approach: .neutrally, bias: 4),
+                ApproachBias(approach: .denounced, bias: 7),
+                ApproachBias(approach: .neutral, bias: 4),
                 ApproachBias(approach: .war, bias: 6)
             ]
         case .trajan: return [
-                ApproachBias(approach: .afraid, bias: 5),
-                ApproachBias(approach: .deceptive, bias: 6),
+                ApproachBias(approach: .unfriendly, bias: 6),
                 ApproachBias(approach: .friendly, bias: 4),
-                ApproachBias(approach: .guarded, bias: 6),
-                ApproachBias(approach: .hostile, bias: 5),
-                ApproachBias(approach: .neutrally, bias: 5),
+                ApproachBias(approach: .denounced, bias: 5),
+                ApproachBias(approach: .neutral, bias: 5),
                 ApproachBias(approach: .war, bias: 5)
             ]
         case .victoria: return [
-                ApproachBias(approach: .afraid, bias: 5),
-                ApproachBias(approach: .deceptive, bias: 6),
+                ApproachBias(approach: .unfriendly, bias: 6),
                 ApproachBias(approach: .friendly, bias: 4),
-                ApproachBias(approach: .guarded, bias: 7),
-                ApproachBias(approach: .hostile, bias: 7),
-                ApproachBias(approach: .neutrally, bias: 5),
+                ApproachBias(approach: .denounced, bias: 7),
+                ApproachBias(approach: .neutral, bias: 5),
                 ApproachBias(approach: .war, bias: 4)
             ]
         case .cyrus:
@@ -293,6 +297,8 @@ public enum LeaderType: Codable, Equatable, Hashable {
         let intro: String
         let civilization: CivilizationType
         let ability: LeaderAbilityType
+        let agenda: LeaderAgendaType
+        let rejectedAgendas: [LeaderAgendaType]
         let religion: ReligionType?
     }
 
@@ -308,6 +314,8 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "--",
                 civilization: .barbarian,
                 ability: .none,
+                agenda: .none,
+                rejectedAgendas: [],
                 religion: nil
             )
 
@@ -317,6 +325,8 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "--",
                 civilization: .unmet,
                 ability: .none,
+                agenda: .none,
+                rejectedAgendas: [],
                 religion: nil
             )
 
@@ -326,6 +336,8 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "--",
                 civilization: .barbarian,
                 ability: .none,
+                agenda: .none,
+                rejectedAgendas: [],
                 religion: nil
             )
 
@@ -335,6 +347,8 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "--",
                 civilization: .free,
                 ability: .none,
+                agenda: .none,
+                rejectedAgendas: [],
                 religion: nil
             )
 
@@ -344,87 +358,109 @@ public enum LeaderType: Codable, Equatable, Hashable {
                 intro: "--",
                 civilization: .cityState(type: cityState),
                 ability: .none,
+                agenda: .none,
+                rejectedAgendas: [],
                 religion: nil
             )
 
+            // -----------------------------------------------------------
+
         case .alexander:
             return LeaderTypeData(
-                name: "Alexander",
-                intro: "May the blessings of the gods be upon you, oh great King Alexander! You are the ruler of the mighty Greek nation. Your people lived for so many years in isolated city-states - legendary cities such as Athens, Sparta, Thebes - where they gave the world many great things, such as democracy, philosophy, tragedy, art and architecture, the very foundation of Western Civilization.",
+                name: "TXT_KEY_LEADER_ALEXANDER_NAME",
+                intro: "TXT_KEY_LEADER_ALEXANDER_INTRO",
                 civilization: .greek,
                 ability: .toTheWorldsEnd,
+                agenda: .shortLifeOfGlory,
+                rejectedAgendas: [.cityStateProtector],
                 religion: nil
             )
 
         case .trajan:
             return LeaderTypeData(
-                name: "Trajan",
-                intro: "Cast your net wide, oh Trajan, emperor of mighty Rome. Your legions stand at the ready to march out and establish the largest empire the world has ever seen. If you can truly get all roads to lead to Rome, yours will be an empire of great riches and luxuries. Surely then our citizens will proclaim you as their best ruler, the Optimus Princeps.",
+                name: "TXT_KEY_LEADER_TRAJAN_NAME",
+                intro: "TXT_KEY_LEADER_TRAJAN_INTRO",
                 civilization: .roman,
                 ability: .trajansColumn,
+                agenda: .optimusPrinceps,
+                rejectedAgendas: [],
                 religion: nil
             )
 
         case .victoria:
             return LeaderTypeData(
-                name: "Victoria",
-                intro: "Your Majesty the Queen Victoria of England, extend your reach beyond your borders and across the face of the globe. Worry not over the possibility of defeat for your loyal redcoats and overwhelming navy will surely carry the day. With your calm and steady touch you can bring all lands under England's sway, establishing a true Pax Britannica.",
+                name: "TXT_KEY_LEADER_VICTORIA_NAME",
+                intro: "TXT_KEY_LEADER_VICTORIA_INTRO",
                 civilization: .english,
                 ability: .paxBritannica,
+                agenda: .sunNeverSets,
+                rejectedAgendas: [],
                 religion: .protestantism
             )
 
         case .cyrus:
             return LeaderTypeData(
-                name: "Cyrus",
-                intro: "Claim the crown, Cyrus, King of Persia, for you are the anointed one. With immortal soldiers, and an unwavering faith, you will conquer and rule the peoples of the world. You may see many alliances forming around you, but do not be fooled - such is an antiquated and weak way of navigating the world. Make no promise unless it aids you in achieving your goals.",
+                name: "TXT_KEY_LEADER_CYRUS_NAME",
+                intro: "TXT_KEY_LEADER_CYRUS_INTRO",
                 civilization: .persian,
                 ability: .fallOfBabylon,
+                agenda: .opportunist,
+                rejectedAgendas: [.cityStateProtector],
                 religion: .zoroastrianism
             )
 
         case .montezuma:
             return LeaderTypeData(
-                name: "Montezuma",
-                intro: "Tlatoani Montezuma, keep your eagle warriors happy and fed, and they will forever fight for your cause. As your Aztec empire unfurls across the land, you will never want for people to raise your walls, for you will be blessed with new, loyal workers as you conquer those around you. Go forth; Huitzilopochtli calls.",
+                name: "TXT_KEY_LEADER_MONTEZUMA_NAME",
+                intro: "TXT_KEY_LEADER_MONTEZUMA_INTRO",
                 civilization: .aztecs,
                 ability: .giftsForTheTlatoani,
+                agenda: .tlatoani,
+                rejectedAgendas: [],
                 religion: nil
             )
 
         case .napoleon:
             return LeaderTypeData(
-                name: "Napoleon",
-                intro: "Long life and triumph to you, First Consul and Emperor of France, Napoleon I, ruler of the French people. France lies at the heart of Europe. Long has Paris been the world center of culture, arts and letters. Although surrounded by competitors - and often enemies - France has endured as a great nation.",
+                name: "TXT_KEY_LEADER_NAPOLEON_NAME",
+                intro: "TXT_KEY_LEADER_NAPOLEON_INTRO",
                 civilization: .french,
                 ability: .flyingSquadron,
+                agenda: .none, // #
+                rejectedAgendas: [],
                 religion: .catholicism
             )
 
         case .cleopatra:
             return LeaderTypeData(
-                name: "Cleopatra",
-                intro: "There will be those who underestimate you, but you are cunning and full of tricks, Queen Cleopatra. Your charm will establish indestructible alliances with the strongest leaders of the world. Keep your friends close by your side and you will find yourself untouchable, with the glory of Egypt primed to win over the world.",
+                name: "TXT_KEY_LEADER_CLEOPATRA_NAME",
+                intro: "TXT_KEY_LEADER_CLEOPATRA_INTRO",
                 civilization: .egyptian,
                 ability: .mediterraneansBride,
+                agenda: .queenOfTheNile,
+                rejectedAgendas: [],
                 religion: nil
             )
 
         case .barbarossa:
             return LeaderTypeData(
-                name: "Barbarossa",
-                intro: "Heroic Frederick, king of the Germans, your task is to forge the independent states that surround you into an empire. You are blessed to be a great military leader – use those skills to bring these cities under your sway so they may develop into commercial and industrial powerhouses. Surely then the bards will sing of mighty Frederick with the red beard, the great Holy Roman Emperor.",
+                name: "TXT_KEY_LEADER_BARBAROSSA_NAME",
+                intro: "TXT_KEY_LEADER_BARBAROSSA_INTRO",
                 civilization: .german,
                 ability: .holyRomanEmperor,
+                agenda: .ironCrown,
+                rejectedAgendas: [.cityStateProtector],
                 religion: .catholicism
             )
 
         case .peterTheGreat:
             return LeaderTypeData(
-                name: "Peter the Great",
-                intro: "Embrace the chill winds of the Motherland, Tsar Peter. Your fascination with science and culture is a gift, and you will learn much from your Grand Embassies to foreign lands. Under your rule, Russia will surely flourish and spread, absorbing all that lies around it, perhaps creating the greatest land empire seen on this earth.",
+                name: "TXT_KEY_LEADER_PETER_THE_GREAT_NAME",
+                intro: "TXT_KEY_LEADER_PETER_THE_GREAT_INTRO",
                 civilization: .russian,
                 ability: .theGrandEmbassy,
+                agenda: .westernizer,
+                rejectedAgendas: [],
                 religion: .easternOrthodoxy
             )
         }

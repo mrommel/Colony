@@ -163,7 +163,10 @@ struct Label_Previews: PreviewProvider {
 
     static var previews: some View {
 
-        Label("Normal text")
+        // swiftlint:disable:next redundant_discardable_let
+        let _ = GameViewModel(preloadAssets: true)
+
+        /*Label("Normal text")
             .frame(width: 120)
 
         Label("Footnote text")
@@ -177,12 +180,12 @@ struct Label_Previews: PreviewProvider {
         Label(Label_Previews.loremIpsum)
             .frame(width: 120)
             .fixedSize(horizontal: false, vertical: true)
-            .previewLayout(.sizeThatFits)
+            .previewLayout(.sizeThatFits)*/
 
-        Label("Attributed parsed [Production]")
+        Label("Attributed [red]parsed[/red] [Production]")
             .frame(width: 120)
 
-        Label("Very Long Attributed parsed [Production] without line [Food] breaks")
+        /*Label("Very Long Attributed parsed [Production] without line [Food] breaks")
             .frame(width: 120)
 
         Label(NSAttributedString(string: "Native Attributed"))
@@ -190,7 +193,7 @@ struct Label_Previews: PreviewProvider {
 
         Label(NSAttributedString(string: "Native Attributed"))
             .frame(width: 250)
-            .background(Color.blue)
+            .background(Color.blue)*/
     }
 }
 #endif

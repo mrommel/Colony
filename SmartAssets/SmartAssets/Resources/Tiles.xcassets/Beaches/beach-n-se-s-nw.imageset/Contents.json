@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "beach-n-se-s-nw@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "beach-n-se-s-nw@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "beach-n-se-s-nw@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

@@ -26,8 +26,10 @@ struct DebugView: View {
 
             GroupBox {
 
-                VStack(alignment: .center, spacing: 10) {
-                    Group {
+                HStack(alignment: .top) {
+
+                    VStack(alignment: .center, spacing: 10) {
+
                         Button(action: {
                             self.viewModel.createAttackBarbariansWorld()
                         }, label: {
@@ -75,15 +77,16 @@ struct DebugView: View {
                         }, label: {
                             Text("Revolt")
                         }).buttonStyle(GameButtonStyle())
+                    }
+
+                    VStack(alignment: .center, spacing: 10) {
 
                         Button(action: {
                             self.viewModel.generateUnitAssets()
                         }, label: {
                             Text("Unit Assets")
                         }).buttonStyle(GameButtonStyle())
-                    }
 
-                    Group {
                         Button(action: {
                             self.viewModel.loadSlp()
                         }, label: {
@@ -95,17 +98,23 @@ struct DebugView: View {
                         }, label: {
                             Text("Map textures")
                         }).buttonStyle(GameButtonStyle())
-                    }
 
-                    Spacer()
-                        .frame(height: 30, alignment: .center)
-
-                    Button("Quit") {
-                        self.viewModel.close()
+                        Button(action: {
+                            self.viewModel.createFirstContactWorld()
+                        }, label: {
+                            Text("First Contact")
+                        }).buttonStyle(GameButtonStyle())
                     }
-                    .buttonStyle(GameButtonStyle())
-                    .padding(.top, 45)
                 }
+
+                Spacer()
+                    .frame(height: 30, alignment: .center)
+
+                Button("Quit") {
+                    self.viewModel.close()
+                }
+                .buttonStyle(GameButtonStyle())
+                .padding(.top, 45)
             }
 
             Spacer(minLength: 1)

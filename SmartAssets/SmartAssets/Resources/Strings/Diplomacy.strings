@@ -1,0 +1,166 @@
+/* 
+  Diplomacy.strings
+  SmartAssets
+
+  Created by Michael Rommel on 10.03.22.
+  
+*/
+
+// https://github.com/Swiftwork/civ6-explorer/blob/dbe3ca6d5468828ef0b26ef28f69555de0bcb959/src/assets/game/BaseGame/Locale/en_US/DiplomacyStatements_FirstMeet_Text.xml
+
+// dialog
+"TXT_KEY_DIPLOMACY_DIALOG_TITLE" = "Diplomatic";
+
+"TXT_KEY_DIPLOMACY_INTEL_REPORT_TITLE" = "Intel Report: ";
+
+"TXT_KEY_DIPLOMACY_INTEL_REPORT_ACTION" = "";
+"TXT_KEY_DIPLOMACY_INTEL_REPORT_OVERVIEW" = "Overview";
+"TXT_KEY_DIPLOMACY_INTEL_REPORT_GOSSIP" = "Gossip";
+"TXT_KEY_DIPLOMACY_INTEL_REPORT_ACCESS_LEVEL" = "Access Level";
+"TXT_KEY_DIPLOMACY_INTEL_REPORT_GOVERNMENT" = "Government";
+"TXT_KEY_DIPLOMACY_INTEL_REPORT_AGENDAS" = "Agendas";
+"TXT_KEY_DIPLOMACY_INTEL_REPORT_RELATIONSHIP" = "Relationship";
+"TXT_KEY_DIPLOMACY_INTEL_REPORT_OTHER_RELATIONSHIPS" = "Relationship";
+
+"TXT_KEY_DIPLOMACY_GOSSIP_TITLE" = "Gossip";
+"TXT_KEY_DIPLOMACY_GOSSIP_LAST_TURNS" = "Last ten turns";
+"TXT_KEY_DIPLOMACY_GOSSIP_OLDER" = "Older";
+
+"TXT_KEY_DIPLOMACY_ACCESS_LEVEL_TITLE" = "AccessLevel";
+"TXT_KEY_DIPLOMACY_ACCESS_LEVEL_SHARED" = "Information Shared";
+"TXT_KEY_DIPLOMACY_ACCESS_LEVEL_RAISE" = "To [green]raise[/green] your access level you could:";
+
+"TXT_KEY_DIPLOMACY_RELATIONSHIP_TITLE" = "Relationship";
+"TXT_KEY_DIPLOMACY_RELATIONSHIP_REASONS" = "Reasons for current relationship";
+"TXT_KEY_DIPLOMACY_RELATIONSHIP_RAISE" = "To [green]raise[/green] your relationship you could:";
+
+"TXT_KEY_DIPLOMACY_ACTION_DECLARE_FRIENDSHIP_TITLE" = "Declare Friendship";
+"TXT_KEY_DIPLOMACY_ACTION_DELEGATION_TITLE" = "Send Delegation";
+"TXT_KEY_DIPLOMACY_ACTION_DELEGATION_SUMMARY" = "Costs 25 [Gold] Gold";
+"TXT_KEY_DIPLOMACY_ACTION_DENOUNCE_TITLE" = "Denounce";
+"TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_TITLE" = "Declare Surprise War";
+"TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_SUMMARY" = "Warmonger penalty: [red]heavy[/red]";
+"TXT_KEY_DIPLOMACY_ACTION_MAKE_DEAL_TITLE" = "Make Deal";
+
+// messageIntro
+// first meeting texts
+"TXT_KEY_DIPLOMACY_FIRST_MEET_GREETINGS_TRAJAN_ANY" = "Hail, stranger. I am the Imperator Caesar Augustus of far-reaching Rome. Who are you and what lands can you claim as your own?";
+"TXT_KEY_DIPLOMACY_FIRST_MEET_GREETINGS_VICTORIA_ANY" = "Greetings. We are by the Grace of God, Victoria, Queen of the United Kingdom of Great Britain and Ireland. And soon, dare I say, the empire.";
+"TXT_KEY_DIPLOMACY_FIRST_MEET_GREETINGS_ANY_ANY" = "Greetings traveler. You should know that you stand in the presence of greatness!";
+
+// invitationToCapital
+// AI invitation to exchange Capital Information texts
+"TXT_KEY_DIPLOMACY_FIRST_MEET_NO_MANS_INFO_EXCHANGE_TRAJAN_ANY" = "Tell me of your capital. Was it founded by lost Trojans? Or children raised by wolves?";
+"TXT_KEY_DIPLOMACY_FIRST_MEET_NO_MANS_INFO_EXCHANGE_VICTORIA_ANY" = "In the interest of our political relationship, we would like to know more about your capital… in exchange for information on ours, of course.";
+"TXT_KEY_DIPLOMACY_FIRST_MEET_NO_MANS_INFO_EXCHANGE_ANY_ANY" = "Neither of us hails from nearby, but perhaps we should mark our homelands on each other's maps?";
+
+
+// coopWarRequest: // RESPONSE_COOP_WAR_REQUEST
+// AI would like to declare war on someone with a player
+// TXT_KEY_COOP_WAR_REQUEST%
+// "Please join us to start war on \(leader2) now. Will you?"
+
+// coopWarTime: // RESPONSE_COOP_WAR_TIME
+// TXT_KEY_COOP_WAR_TIME%
+// "Please join us to start war on \(leader2) in 10 turns. Will you?"
+
+"TXT_KEY_DIPLOMACY_MODIFIER_DELEGATION" = "We sent them a delegation"; // delegation
+"TXT_KEY_DIPLOMACY_MODIFIER_RESIDENT_EMBASSY" = "We established a resident embassy there"; // embassy
+"TXT_KEY_DIPLOMACY_MODIFIER_DECLARED_FRIEND" = "Declared Friend"; // declaredFriend
+"TXT_KEY_DIPLOMACY_MODIFIER_DENOUNCED" = "We denounced them"; // denounced
+"TXT_KEY_DIPLOMACY_MODIFIER_FIRST_IMPRESSION" = "First impressions of you"; // firstImpression
+"TXT_KEY_DIPLOMACY_MODIFIER_ESTABLISHED_TRADE_ROUTE" = "Trade Route between our nations"; // establishedTradeRoute
+"TXT_KEY_DIPLOMACY_MODIFIER_NEAR_BORDER_WARNING" = "Moving forces near their cities"; // nearBorder
+
+// gossip source texts
+"TXT_KEY_DIPLOMACY_GOSSIP_SOURCE_DELEGATE" = "Your delegate learned that ";
+"TXT_KEY_DIPLOMACY_GOSSIP_SOURCE_TRADER" = "Your trader overheard that ";
+"TXT_KEY_DIPLOMACY_GOSSIP_SOURCE_NEWS" = "A recent news article revealed that ";
+"TXT_KEY_DIPLOMACY_GOSSIP_SOURCE_LADY" = "Your lady-in-waiting heard at the court ball that ";
+"TXT_KEY_DIPLOMACY_GOSSIP_SOURCE_ALLIED" = "An allied friend reports that ";
+"TXT_KEY_DIPLOMACY_GOSSIP_SOURCE_SPY" = "Your Spy uncovered news that ";
+
+// gossip names
+// none
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITY_CONQUEST" = "City conquests";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_PATHEON_CREATED" = "Pantheon created";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_RELIGIONS_FOUNDED" = "Religions founded";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_DECLARATIONS_OF_WAR" = "Declarations of war";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_WEAPONS_OF_MASS_DESTRUCTION_STRIKES" = "Weapons of mass destruction strikes";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_SPACE_RACE_PROJECTS_COMPLETED" = "Space race projects completed";
+
+// limited
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_ALLIANCES" = "Alliances";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_FRIENDSHIPS" = "Friendships";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_GOVERNMENT_CHANGES" = "Government changes";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_DENOUNCIATIONS" = "Denunciations";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITIES_FOUNDED" = "Cities founded";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITIES_LIBERTATED" = "Cities liberated";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITIES_RAZED" = "Cities razed";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITIES_BESIEGED" = "Cities besieged";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_TRADE_DEALS_ENACTED" = "Trade deals enacted";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_TRADE_DEALS_RENEGED" = "Trade deals reneged";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_BARBARIAN_CAMP_CLEARED" = "Barbarian camp cleared";
+
+// open
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_BUILDINGS_CONSTRUCTED" = "Buildings constructed";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_DISTRICTS_CONSTRUCTED" = "Districts constructed";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_GREAT_PEOPE_RECRUITED" = "Great people recruited";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_WONDERS_STARTED" = "Wonders started";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_ARTIFACTS_EXTRACTED" = "Artifacts extracted";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_INQUISITION_LAUNCHED" = "Inquisition launched";
+
+// secret
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_CITY_STATE_INFLUENCED" = "City-states influenced";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_CIVICS_COMPLETED" = "Civics completed";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_TECHNOLOGIES_RESEARCHED" = "Technologies researched";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_SETTLERS_TRAINED" = "Settlers trained";
+
+// top secret
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_WEAPON_OF_MASS_DESTRUCTION_BUILT" = "Weapon of mass destruction built";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_ATTACKS_LAUNCHED" = "Attacks launched";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_PROJECTS_STARTED" = "Projects started";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_VICTORY_STRATEGY_CHANGED" = "Victory strategy changed";
+"TXT_KEY_DIPLOMACY_GOSSIP_NAME_WAR_PREPARATIONS" = "War preparations";
+
+// gossip texts
+// none
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_CITY_CONQUEST" = "%@ has conquered %@."; // .cityConquests
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_PANTHEON_CREATED" = "%@ is worshipping a Pantheon of the gods focused on the %@ Belief."; // .pantheonCreated
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_RELIGION_FOUNDED" = "%@ has founded a new Religion: %@."; // religionsFounded
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_DECLARATION_OF_WAR" = "%@ has just declared war on %@!"; // .declarationsOfWar
+
+// limited
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_ALLIANCE" = "%@ has just formed an alliance with %@."; // .alliance
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_FRIENDSHIP" = "%@ has declared their friendship with %@."; // .friendship
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_GOVERNMENT_CHANGE" = "%@ has switched governments to %@"; // .governmentChange
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_DENUNCIATION" = "%@ has denounced the evil deeds of %@."; // .denunciation
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_CITY_FOUNDED" = "%@ is expanding, adding the new settlement: %@."; // .cityFounded
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_CITY_LIBERATED" = "%@ has just liberated %@ giving it back to %@."; // .cityLiberated
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_CITY_RAZED" = "%@ has just razed a city originally founded by %@."; // .cityRazed
+// case .cityBesieged(cityName: let cityName):
+    // return "{1_CityName} is facing a siege."
+// case .tradeDealEnacted // #
+// case .tradeDealReneged // #
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_CAMP_CLEARED" = "%@ has used a %@ to clear a barbarian camp."; // .barbarianCampCleared
+
+// open
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_BUILDING_CONSTRUCTED" = "%@ has built %@ in %@."; // .buildingConstructed
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_DISTRICT_CONSTRUCTED" = "%@ has built %@ in %@."; // .districtConstructed
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_GREAT_PEOPLE_RECRUITED" = "%@ has earned the %@ %@."; // .greatPeopleRecruited
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_WONDER_STARTED" = "%@ has cleared land in %@ for the %@."; // .wonderStarted
+// case .artifactsExtracted // #
+// case .inquisitionLaunched // #
+
+// secret
+// case cityStatesInfluenced // #
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_CIVIC_COMPLETED" = "%@ completed development of %@."; // .civicCompleted
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_TECH_RESEARCHED" = "%@ completed research on %@."; // technologyResearched
+"TXT_KEY_DIPLOMACY_GOSSIP_TEXT_SETTLER_TRAINED" = "%@ is looking to found a city with their newly trained settler from %@."; // .settlerTrained
+
+// raise access level
+"TXT_KEY_DIPLOMACY_RAISE_ACCESS_LEVEL_ACTION_DELEGATE" = "Send a delegation or establish an embassy.";
+"TXT_KEY_DIPLOMACY_RAISE_ACCESS_LEVEL_ACTION_TRADER" = "Establish a Trade Route.";
+"TXT_KEY_DIPLOMACY_RAISE_ACCESS_LEVEL_ACTION_TECH" = "Research the Printing technology.";
+"TXT_KEY_DIPLOMACY_RAISE_ACCESS_LEVEL_ACTION_ALLY" = "Become allies (requires Civil Service).";
+"TXT_KEY_DIPLOMACY_RAISE_ACCESS_LEVEL_ACTION_SPY" = "Send a Spy on a Listening Post mission.";

@@ -29,6 +29,7 @@ extension CommandType {
 
         case .hold: return "command-hold"
         case .fortify: return "command-fortify"
+        case .heal: return "command-default"
         case .garrison: return "command-garrison"
         case .pillage: return "command-pillage"
 
@@ -69,6 +70,7 @@ extension CommandType {
 
         case .hold: return "command-button-hold"
         case .fortify: return "command-button-fortify"
+        case .heal: return "command-button-heal"
         case .garrison: return "command-button-garrison"
         case .pillage: return "command-button-pillage"
 

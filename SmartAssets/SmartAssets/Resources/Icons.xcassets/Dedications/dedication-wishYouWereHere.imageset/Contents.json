@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "dedication-wishYouWereHere@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "dedication-wishYouWereHere@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "dedication-wishYouWereHere@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

@@ -19,7 +19,7 @@ public struct MapDisplayOptions {
     public var mapLens: MapLensType = .none
 
     // debug
-    public var showHexCoordinates: Bool = true
+    public var showHexCoordinates: Bool = false
 }
 
 extension EnvironmentValues {

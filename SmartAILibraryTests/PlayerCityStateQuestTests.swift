@@ -173,10 +173,17 @@ class PlayerCityStateQuestTests: XCTestCase {
         XCTAssertTrue(unitBought)
         XCTAssertNotEqual(questAfter?.type, .trainUnit(type: .horseman))
 
-        let notification = playerTrajan.notifications()!.notifications().first
-        guard case .questCityStateFulfilled(cityState: let cityState, quest: let quest) = notification?.type else {
-            XCTFail("cant get first notification")
-            return
+        var cityState: CityStateType = .vaticanCity
+        var quest: CityStateQuestType = .none
+
+        for notification in playerTrajan.notifications()!.notifications() {
+
+            guard case .questCityStateFulfilled(cityState: let tmpCityState, quest: let tmpQuest) = notification.type else {
+                continue
+            }
+
+            cityState = tmpCityState
+            quest = tmpQuest
         }
 
         XCTAssertEqual(cityState, .amsterdam)
@@ -240,10 +247,17 @@ class PlayerCityStateQuestTests: XCTestCase {
         XCTAssertEqual(questBefore?.type, .trainUnit(type: .heavyChariot))
         XCTAssertNotEqual(questAfter?.type, .trainUnit(type: .heavyChariot))
 
-        let notification = playerTrajan.notifications()!.notifications().first
-        guard case .questCityStateObsolete(cityState: let cityState, quest: let quest) = notification?.type else {
-            XCTFail("cant get first notification")
-            return
+        var cityState: CityStateType = .vaticanCity
+        var quest: CityStateQuestType = .none
+
+        for notification in playerTrajan.notifications()!.notifications() {
+
+            guard case .questCityStateObsolete(cityState: let tmpCityState, quest: let tmpQuest) = notification.type else {
+                continue
+            }
+
+            cityState = tmpCityState
+            quest = tmpQuest
         }
 
         XCTAssertEqual(cityState, .amsterdam)
@@ -307,10 +321,17 @@ class PlayerCityStateQuestTests: XCTestCase {
         XCTAssertEqual(questBefore?.type, .constructDistrict(type: .encampment))
         XCTAssertNotEqual(questAfter?.type, .constructDistrict(type: .encampment))
 
-        let notification = playerTrajan.notifications()!.notifications().first
-        guard case .questCityStateFulfilled(cityState: let cityState, quest: let quest) = notification?.type else {
-            XCTFail("cant get first notification")
-            return
+        var cityState: CityStateType = .vaticanCity
+        var quest: CityStateQuestType = .none
+
+        for notification in playerTrajan.notifications()!.notifications() {
+
+            guard case .questCityStateFulfilled(cityState: let tmpCityState, quest: let tmpQuest) = notification.type else {
+                continue
+            }
+
+            cityState = tmpCityState
+            quest = tmpQuest
         }
 
         XCTAssertEqual(cityState, .amsterdam)
@@ -371,10 +392,17 @@ class PlayerCityStateQuestTests: XCTestCase {
         XCTAssertEqual(questBefore?.type, .triggerEureka(tech: .irrigation))
         XCTAssertNotEqual(questAfter?.type, .triggerEureka(tech: .irrigation))
 
-        let notification = playerTrajan.notifications()!.notifications().first
-        guard case .questCityStateFulfilled(cityState: let cityState, quest: let quest) = notification?.type else {
-            XCTFail("cant get first notification")
-            return
+        var cityState: CityStateType = .vaticanCity
+        var quest: CityStateQuestType = .none
+
+        for notification in playerTrajan.notifications()!.notifications() {
+
+            guard case .questCityStateFulfilled(cityState: let tmpCityState, quest: let tmpQuest) = notification.type else {
+                continue
+            }
+
+            cityState = tmpCityState
+            quest = tmpQuest
         }
 
         XCTAssertEqual(cityState, .amsterdam)
@@ -435,10 +463,17 @@ class PlayerCityStateQuestTests: XCTestCase {
         XCTAssertEqual(questBefore?.type, .triggerEureka(tech: .irrigation))
         XCTAssertNotEqual(questAfter?.type, .triggerEureka(tech: .irrigation))
 
-        let notification = playerTrajan.notifications()!.notifications().first
-        guard case .questCityStateObsolete(cityState: let cityState, quest: let quest) = notification?.type else {
-            XCTFail("cant get first notification")
-            return
+        var cityState: CityStateType = .vaticanCity
+        var quest: CityStateQuestType = .none
+
+        for notification in playerTrajan.notifications()!.notifications() {
+
+            guard case .questCityStateObsolete(cityState: let tmpCityState, quest: let tmpQuest) = notification.type else {
+                continue
+            }
+
+            cityState = tmpCityState
+            quest = tmpQuest
         }
 
         XCTAssertEqual(cityState, .amsterdam)
@@ -499,10 +534,17 @@ class PlayerCityStateQuestTests: XCTestCase {
         XCTAssertEqual(questBefore?.type, .triggerInspiration(civic: .stateWorkforce))
         XCTAssertNotEqual(questAfter?.type, .triggerInspiration(civic: .stateWorkforce))
 
-        let notification = playerTrajan.notifications()!.notifications().first
-        guard case .questCityStateFulfilled(cityState: let cityState, quest: let quest) = notification?.type else {
-            XCTFail("cant get first notification")
-            return
+        var cityState: CityStateType = .vaticanCity
+        var quest: CityStateQuestType = .none
+
+        for notification in playerTrajan.notifications()!.notifications() {
+
+            guard case .questCityStateFulfilled(cityState: let tmpCityState, quest: let tmpQuest) = notification.type else {
+                continue
+            }
+
+            cityState = tmpCityState
+            quest = tmpQuest
         }
 
         XCTAssertEqual(cityState, .amsterdam)
@@ -563,10 +605,17 @@ class PlayerCityStateQuestTests: XCTestCase {
         XCTAssertEqual(questBefore?.type, .triggerInspiration(civic: .stateWorkforce))
         XCTAssertNotEqual(questAfter?.type, .triggerInspiration(civic: .stateWorkforce))
 
-        let notification = playerTrajan.notifications()!.notifications().first
-        guard case .questCityStateObsolete(cityState: let cityState, quest: let quest) = notification?.type else {
-            XCTFail("cant get first notification")
-            return
+        var cityState: CityStateType = .vaticanCity
+        var quest: CityStateQuestType = .none
+
+        for notification in playerTrajan.notifications()!.notifications() {
+
+            guard case .questCityStateObsolete(cityState: let tmpCityState, quest: let tmpQuest) = notification.type else {
+                continue
+            }
+
+            cityState = tmpCityState
+            quest = tmpQuest
         }
 
         XCTAssertEqual(cityState, .amsterdam)
@@ -627,10 +676,17 @@ class PlayerCityStateQuestTests: XCTestCase {
         XCTAssertEqual(questBefore?.type, .recruitGreatPerson(greatPerson: .greatGeneral))
         XCTAssertNotEqual(questAfter?.type, .recruitGreatPerson(greatPerson: .greatGeneral))
 
-        let notification = playerTrajan.notifications()!.notifications().first
-        guard case .questCityStateFulfilled(cityState: let cityState, quest: let quest) = notification?.type else {
-            XCTFail("cant get first notification")
-            return
+        var cityState: CityStateType = .vaticanCity
+        var quest: CityStateQuestType = .none
+
+        for notification in playerTrajan.notifications()!.notifications() {
+
+            guard case .questCityStateFulfilled(cityState: let tmpCityState, quest: let tmpQuest) = notification.type else {
+                continue
+            }
+
+            cityState = tmpCityState
+            quest = tmpQuest
         }
 
         XCTAssertEqual(cityState, .amsterdam)
@@ -697,10 +753,17 @@ class PlayerCityStateQuestTests: XCTestCase {
         XCTAssertEqual(questBefore?.type, .convertToReligion(religion: .buddhism))
         XCTAssertNotEqual(questAfter?.type, .convertToReligion(religion: .buddhism))
 
-        let notification = playerTrajan.notifications()!.notifications().first
-        guard case .questCityStateFulfilled(cityState: let cityState, quest: let quest) = notification?.type else {
-            XCTFail("cant get first notification")
-            return
+        var cityState: CityStateType = .vaticanCity
+        var quest: CityStateQuestType = .none
+
+        for notification in playerTrajan.notifications()!.notifications() {
+
+            guard case .questCityStateFulfilled(cityState: let tmpCityState, quest: let tmpQuest) = notification.type else {
+                continue
+            }
+
+            cityState = tmpCityState
+            quest = tmpQuest
         }
 
         XCTAssertEqual(cityState, .amsterdam)
@@ -767,10 +830,17 @@ class PlayerCityStateQuestTests: XCTestCase {
         XCTAssertEqual(questBefore?.type, .sendTradeRoute)
         XCTAssertNotEqual(questAfter?.type, .sendTradeRoute)
 
-        let notification = playerTrajan.notifications()!.notifications().first
-        guard case .questCityStateFulfilled(cityState: let cityState, quest: let quest) = notification?.type else {
-            XCTFail("cant get first notification")
-            return
+        var cityState: CityStateType = .vaticanCity
+        var quest: CityStateQuestType = .none
+
+        for notification in playerTrajan.notifications()!.notifications() {
+
+            guard case .questCityStateFulfilled(cityState: let tmpCityState, quest: let tmpQuest) = notification.type else {
+                continue
+            }
+
+            cityState = tmpCityState
+            quest = tmpQuest
         }
 
         XCTAssertEqual(cityState, .amsterdam)
@@ -840,10 +910,17 @@ class PlayerCityStateQuestTests: XCTestCase {
         XCTAssertEqual(questBefore?.type, .destroyBarbarianOutput(location: HexPoint(x: 7, y: 7)))
         XCTAssertNotEqual(questAfter?.type, .destroyBarbarianOutput(location: HexPoint(x: 7, y: 7)))
 
-        let notification = playerTrajan.notifications()!.notifications().first
-        guard case .questCityStateFulfilled(cityState: let cityState, quest: let quest) = notification?.type else {
-            XCTFail("cant get first notification")
-            return
+        var cityState: CityStateType = .vaticanCity
+        var quest: CityStateQuestType = .none
+
+        for notification in playerTrajan.notifications()!.notifications() {
+
+            guard case .questCityStateFulfilled(cityState: let tmpCityState, quest: let tmpQuest) = notification.type else {
+                continue
+            }
+
+            cityState = tmpCityState
+            quest = tmpQuest
         }
 
         XCTAssertEqual(cityState, .amsterdam)
@@ -913,10 +990,17 @@ class PlayerCityStateQuestTests: XCTestCase {
         XCTAssertEqual(questBefore?.type, .destroyBarbarianOutput(location: HexPoint(x: 7, y: 7)))
         XCTAssertNotEqual(questAfter?.type, .destroyBarbarianOutput(location: HexPoint(x: 7, y: 7)))
 
-        let notification = playerTrajan.notifications()!.notifications().first
-        guard case .questCityStateObsolete(cityState: let cityState, quest: let quest) = notification?.type else {
-            XCTFail("cant get first notification")
-            return
+        var cityState: CityStateType = .vaticanCity
+        var quest: CityStateQuestType = .none
+
+        for notification in playerTrajan.notifications()!.notifications() {
+
+            guard case .questCityStateObsolete(cityState: let tmpCityState, quest: let tmpQuest) = notification.type else {
+                continue
+            }
+
+            cityState = tmpCityState
+            quest = tmpQuest
         }
 
         XCTAssertEqual(cityState, .amsterdam)

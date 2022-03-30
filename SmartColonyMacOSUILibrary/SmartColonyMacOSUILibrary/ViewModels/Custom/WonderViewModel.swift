@@ -24,6 +24,9 @@ class WonderViewModel: QueueViewModel, ObservableObject {
     let index: Int
     let showYields: Bool
 
+    @Published
+    var toolTip: NSAttributedString
+
     weak var delegate: WonderViewModelDelegate?
 
     init(wonderType: WonderType, turns: Int, showYields: Bool = false, at index: Int = -1) {
@@ -32,6 +35,23 @@ class WonderViewModel: QueueViewModel, ObservableObject {
         self.turns = turns
         self.showYields = showYields
         self.index = index
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: wonderType.name().localized() + "\n\n",
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        let tokenizer = LabelTokenizer()
+        let effects = tokenizer.bulletPointList(
+            from: wonderType.effects().map { $0.localized() },
+            with: Globals.Attributs.tooltipContentAttributs
+        )
+        toolTipText.append(effects)
+
+        self.toolTip = toolTipText
 
         super.init(queueType: .wonder)
     }

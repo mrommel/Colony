@@ -72,7 +72,7 @@ class TestUI: UserInterfaceDelegate {
     func focus(on location: HexPoint) {}
 }
 
-// swiftlint:disable force_try
+// swiftlint:disable force_try type_body_length
 class DebugViewModel: ObservableObject {
 
     private var downloadsFolder: URL = {
@@ -593,6 +593,48 @@ class DebugViewModel: ObservableObject {
             let warriorUnit = Unit(at: HexPoint(x: 20, y: 7), type: .warrior, owner: humanPlayer)
             gameModel.add(unit: warriorUnit)
             gameModel.userInterface?.show(unit: warriorUnit, at: HexPoint(x: 20, y: 7))
+
+            DispatchQueue.main.async {
+                self.delegate?.prepared(game: gameModel)
+            }
+        }
+    }
+
+    func createFirstContactWorld() {
+
+        print("first contact")
+
+        self.delegate?.preparing()
+
+        DispatchQueue.global(qos: .background).async {
+
+            let gameModel = GameUtils.setupDuelGrass(human: .trajan, ai: .victoria, discover: false)
+            let humanPlayer = gameModel.humanPlayer()!
+            let aiPlayer = gameModel.player(for: .victoria)!
+
+            // AI
+            aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
+
+            // Human
+            humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
+            try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
+            try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
+            try! humanPlayer.civics?.setCurrent(civic: .codeOfLaws, in: gameModel)
+
+            if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
+                humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+            }
+
+            // add scout units
+            let humanScoutUnit = Unit(at: HexPoint(x: 16, y: 7), type: .scout, owner: humanPlayer)
+            gameModel.add(unit: humanScoutUnit)
+            gameModel.userInterface?.show(unit: humanScoutUnit, at: HexPoint(x: 16, y: 7))
+
+            let aiScoutUnit = Unit(at: HexPoint(x: 23, y: 7), type: .scout, owner: aiPlayer)
+            gameModel.add(unit: aiScoutUnit)
+            gameModel.userInterface?.show(unit: aiScoutUnit, at: HexPoint(x: 23, y: 7))
+
+            aiScoutUnit.push(mission: UnitMission(type: .moveTo, at: HexPoint(x: 20, y: 7)), in: gameModel)
 
             DispatchQueue.main.async {
                 self.delegate?.prepared(game: gameModel)

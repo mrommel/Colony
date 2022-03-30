@@ -106,7 +106,7 @@ public class DiplomaticDealAI: Codable {
 
         // Don't ask for Open Borders, if we're hostile or planning war
         let approach = diplomacyAI.approach(towards: otherPlayer)
-        if approach == .hostile || approach == .war {
+        if approach == .denounced || approach == .war {
             return false
         }
 
@@ -1002,7 +1002,7 @@ public class DiplomaticDealAI: Codable {
 
         // Don't ask for Open Borders if we're hostile or planning war
         let approach = diplomaticAI.approach(towards: otherPlayer)
-        if approach == .hostile || approach == .war || approach == .guarded {
+        if approach == .denounced || approach == .war {
             return false
         }
 

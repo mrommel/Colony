@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "terrain_grass_hills.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "terrain_grass_hills@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "terrain_grass_hills@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

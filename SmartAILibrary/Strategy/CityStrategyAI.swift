@@ -438,7 +438,7 @@ public class CityStrategyAI: Codable {
         let unitsOfPlayer = gameModel.units(of: player)
         let buildables = BuildableItemWeights()
 
-        let settlerOnMap = unitsOfPlayer.count(where: { $0!.task() == .settle })
+        let settlersOnMap = unitsOfPlayer.count(where: { $0!.task() == .settle })
 
         // Check units for operations first
         // FIXME
@@ -470,7 +470,8 @@ public class CityStrategyAI: Codable {
 
                 // reweight
                 let turnsLeft = city.buildingProductionTurnsLeft(for: buildingType)
-                let totalCostFactor = 0.15 /* AI_PRODUCTION_WEIGHT_BASE_MOD */ + 0.004 /* AI_PRODUCTION_WEIGHT_MOD_PER_TURN_LEFT */ * Double(turnsLeft)
+                let totalCostFactor = 0.15 /* AI_PRODUCTION_WEIGHT_BASE_MOD */ +
+                    0.004 /* AI_PRODUCTION_WEIGHT_MOD_PER_TURN_LEFT */ * Double(turnsLeft)
                 let weightDivisor = pow(Double(turnsLeft), totalCostFactor)
                 weight /= weightDivisor
 
@@ -488,13 +489,14 @@ public class CityStrategyAI: Codable {
 
                 // reweight
                 let turnsLeft = city.unitProductionTurnsLeft(for: unitType)
-                let totalCostFactor = 0.15 /* AI_PRODUCTION_WEIGHT_BASE_MOD */ + 0.004 /* AI_PRODUCTION_WEIGHT_MOD_PER_TURN_LEFT */ * Double(turnsLeft)
+                let totalCostFactor = 0.15 /* AI_PRODUCTION_WEIGHT_BASE_MOD */ +
+                    0.004 /* AI_PRODUCTION_WEIGHT_MOD_PER_TURN_LEFT */ * Double(turnsLeft)
                 let weightDivisor = pow(Double(turnsLeft), totalCostFactor)
                 weight = Double(weight) / weightDivisor
 
                 if unitType.defaultTask() == .settle {
 
-                    if settlerOnMap >= 2 {
+                    if settlersOnMap >= 2 {
                         weight = 0.0
                     } else {
                         // FIXME: check settle areas

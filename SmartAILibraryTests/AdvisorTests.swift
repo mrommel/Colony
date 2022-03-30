@@ -33,11 +33,9 @@ class AdvisorTests: XCTestCase {
 
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
-        playerAlexander.government?.set(governmentType: .autocracy)
 
         let playerTrajan = Player(leader: .trajan)
         playerTrajan.initialize()
-        playerTrajan.government?.set(governmentType: .autocracy)
 
         // setup the map
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
@@ -62,6 +60,9 @@ class AdvisorTests: XCTestCase {
             players: [barbarianPlayer, playerTrajan, playerAlexander],
             on: mapModel
         )
+
+        playerAlexander.government?.set(governmentType: .autocracy, in: gameModel)
+        playerTrajan.government?.set(governmentType: .autocracy, in: gameModel)
 
         try! playerAlexander.techs?.discover(tech: .mining, in: gameModel)
 
@@ -110,11 +111,9 @@ class AdvisorTests: XCTestCase {
 
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
-        playerAlexander.government?.set(governmentType: .autocracy)
 
         let playerTrajan = Player(leader: .trajan)
         playerTrajan.initialize()
-        playerTrajan.government?.set(governmentType: .autocracy)
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
@@ -138,6 +137,9 @@ class AdvisorTests: XCTestCase {
             players: [barbarianPlayer, playerTrajan, playerAlexander],
             on: mapModel
         )
+
+        playerTrajan.government?.set(governmentType: .autocracy, in: gameModel)
+        playerAlexander.government?.set(governmentType: .autocracy, in: gameModel)
 
         try! playerAlexander.techs?.discover(tech: .mining, in: gameModel)
         try! playerTrajan.techs?.discover(tech: .mining, in: gameModel)
@@ -192,11 +194,9 @@ class AdvisorTests: XCTestCase {
 
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
-        playerAlexander.government?.set(governmentType: .autocracy)
 
         let playerTrajan = Player(leader: .trajan)
         playerTrajan.initialize()
-        playerTrajan.government?.set(governmentType: .autocracy)
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
 
@@ -220,6 +220,9 @@ class AdvisorTests: XCTestCase {
             players: [barbarianPlayer, playerTrajan, playerAlexander],
             on: mapModel
         )
+
+        playerAlexander.government?.set(governmentType: .autocracy, in: gameModel)
+        playerTrajan.government?.set(governmentType: .autocracy, in: gameModel)
 
         try! playerAlexander.techs?.discover(tech: .mining, in: gameModel)
         try! playerTrajan.techs?.discover(tech: .mining, in: gameModel)

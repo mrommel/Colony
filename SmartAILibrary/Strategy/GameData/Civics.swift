@@ -211,7 +211,12 @@ class Civics: AbstractCivics {
             }
         }
 
+        // send gossip
+        gameModel?.sendGossip(type: .civicCompleted(civic: civic), of: self.player)
+
         self.civics.append(civic)
+
+        self.player?.doUpdateTradeRouteCapacity(in: gameModel)
 
         // 
         if civic == .naturalHistory || civic == .culturalHeritage {

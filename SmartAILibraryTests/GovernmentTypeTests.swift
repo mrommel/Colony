@@ -45,7 +45,7 @@ class GovernmentTypeTests: XCTestCase {
         let player = Player(leader: .alexander, isHuman: true)
         player.initialize()
         self.objectToTest = Government(player: player)
-        self.objectToTest?.set(governmentType: .chiefdom)
+        self.objectToTest?.set(governmentType: .chiefdom, in: nil)
 
         // WHEN
         let chiefdomGovernment = self.objectToTest?.currentGovernment()
@@ -85,7 +85,7 @@ class GovernmentTypeTests: XCTestCase {
 
         // THEN
         let chiefdomGovernment = self.objectToTest?.currentGovernment()
-        XCTAssertEqual(chiefdomGovernment, nil)
+        XCTAssertEqual(chiefdomGovernment, .chiefdom)
     }
 
     func testChooseBestGovernmentCodeOfLaw() {

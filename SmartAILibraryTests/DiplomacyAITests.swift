@@ -372,8 +372,8 @@ class DiplomacyAITests: XCTestCase {
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
 
         // THEN
-        XCTAssertEqual(approachBefore, .none)
-        XCTAssertEqual(approachAfter, .neutrally)
+        XCTAssertEqual(approachBefore, .neutral)
+        XCTAssertEqual(approachAfter, .neutral)
     }
 
     func testApproachAfterDeclarationOfFriendship() {
@@ -421,9 +421,10 @@ class DiplomacyAITests: XCTestCase {
 
         playerAlexander.diplomacyAI?.doFirstContact(with: playerTrajan, in: gameModel)
         playerTrajan.diplomacyAI?.doFirstContact(with: playerAlexander, in: gameModel)
+        let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
+        playerAlexander.diplomacyAI?.playerDict.updateApproachValue(towards: playerTrajan, to: 62)
 
         // WHEN
-        let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
         playerAlexander.diplomacyAI?.doDeclarationOfFriendship(with: playerTrajan, in: gameModel)
 
         repeat {
@@ -438,8 +439,9 @@ class DiplomacyAITests: XCTestCase {
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
 
         // THEN
-        XCTAssertEqual(approachBefore, .none)
-        XCTAssertEqual(approachAfter, .friendly)
+        XCTAssertEqual(approachBefore, .neutral)
+        let resultList: [PlayerApproachType] = [.declaredFriend, .friendly]
+        assertContains(approachAfter, in: resultList)
     }
 
     func testApproachAfterDenouncement() {
@@ -489,7 +491,7 @@ class DiplomacyAITests: XCTestCase {
 
         // WHEN
         let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
-        playerAlexander.diplomacyAI?.doDenounce(player: playerTrajan, in: gameModel)
+        playerTrajan.diplomacyAI?.doDenounce(player: playerAlexander, in: gameModel)
 
         repeat {
             gameModel.update() // this runs one player at a time
@@ -503,8 +505,8 @@ class DiplomacyAITests: XCTestCase {
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
 
         // THEN
-        XCTAssertEqual(approachBefore, .none)
-        let resultList: [PlayerApproachType] = [.hostile, .war]
+        XCTAssertEqual(approachBefore, .neutral)
+        let resultList: [PlayerApproachType] = [.denounced, .war]
         XCTAssertTrue(resultList.contains(approachAfter))
     }
 
@@ -570,7 +572,7 @@ class DiplomacyAITests: XCTestCase {
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerTrajan)
 
         // THEN
-        XCTAssertEqual(approachBefore, .none)
+        XCTAssertEqual(approachBefore, .neutral)
         XCTAssertEqual(approachAfter, .war)
     }
 

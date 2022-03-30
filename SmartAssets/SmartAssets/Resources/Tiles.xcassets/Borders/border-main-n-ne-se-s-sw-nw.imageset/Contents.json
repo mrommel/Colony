@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "border-main-n-ne-se-s-sw-nw@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "border-main-n-ne-se-s-sw-nw@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "border-main-n-ne-se-s-sw-nw@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

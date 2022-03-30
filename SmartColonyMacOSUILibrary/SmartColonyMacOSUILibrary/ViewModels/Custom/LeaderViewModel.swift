@@ -27,6 +27,9 @@ class LeaderViewModel: ObservableObject {
     @Published
     var toolTip: NSAttributedString
 
+    @Published
+    var approachImage: NSImage
+
     let leaderType: LeaderType
 
     weak var delegate: LeaderViewModelDelegate?
@@ -34,6 +37,7 @@ class LeaderViewModel: ObservableObject {
     init(leaderType: LeaderType) {
 
         self.leaderType = leaderType
+        self.approachImage = NSImage()
         self.show = false
         self.toolTip = NSMutableAttributedString()
 
@@ -44,6 +48,10 @@ class LeaderViewModel: ObservableObject {
     func update() {
 
         guard let gameModel = self.gameEnvironment.game.value else {
+            return
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
             return
         }
 
@@ -59,6 +67,15 @@ class LeaderViewModel: ObservableObject {
             fatalError("cant get religion")
         }
 
+        guard let playerDiplomacyAI = player.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+
+        // update approach / mood
+        let approach: PlayerApproachType = playerDiplomacyAI.approach(towards: humanPlayer)
+        self.approachImage = ImageCache.shared.image(for: approach.iconTexture())
+
+        // update tooltip
         let tooltipText = NSMutableAttributedString()
 
         let leaderName = NSAttributedString(

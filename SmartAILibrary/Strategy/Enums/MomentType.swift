@@ -17,7 +17,7 @@ public enum MomentCategory {
 
 // https://www.civilopedia.net/gathering-storm/moments/moment_artifact_extracted
 // swiftlint:disable type_body_length inclusive_language identifier_name
-public enum MomentType {
+public enum MomentType: Hashable {
 
     // major
     case admiralDefeatsEnemy // 1 #

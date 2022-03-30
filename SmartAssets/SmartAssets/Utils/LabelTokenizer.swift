@@ -7,6 +7,7 @@
 
 import Foundation
 import Cocoa
+import SmartAILibrary
 
 extension NSTextAttachment {
 
@@ -214,6 +215,7 @@ public enum LabelImageType {
 public enum LabelTokenType {
 
     case text(content: String)
+    case colored(content: String, color: TypeColor)
     case translation(key: String)
     case image(type: LabelImageType)
 }
@@ -226,6 +228,9 @@ extension LabelTokenType: Equatable {
 
         case (.text(content: let lhsContent), .text(content: let rhsContent)):
             return lhsContent == rhsContent
+
+        case (.colored(content: let lhsContent, color: let lhsColor), .colored(content: let rhsContent, color: let rhsColor)):
+            return lhsContent == rhsContent && lhsColor == rhsColor
 
         case (.translation(key: let lhsKey), .translation(key: let rhsKey)):
             return lhsKey == rhsKey
@@ -243,8 +248,11 @@ public class LabelTokenizer {
 
     let tokenPattern: String = "\\[([^\\[]*?)\\]"
 
+    var currentColorStack: Stack<TypeColor>
+
     public init() {
 
+        self.currentColorStack = Stack<TypeColor>()
     }
 
     public func convert(text rawText: String, with attributes: [NSAttributedString.Key: Any]? = nil, extraSpace: Bool = false) -> NSAttributedString {
@@ -261,6 +269,56 @@ public class LabelTokenizer {
         }
 
         return attributedString
+    }
+
+    public func bulletPointList(from strings: [String], with attributesRef: [NSAttributedString.Key: Any]? = nil) -> NSAttributedString {
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.headIndent = 15
+        paragraphStyle.minimumLineHeight = 12
+        paragraphStyle.maximumLineHeight = 12
+        paragraphStyle.tabStops = [NSTextTab(textAlignment: .left, location: 15)]
+
+        var attributes: [NSAttributedString.Key: Any]
+        if let attr = attributesRef {
+            attributes = attr
+        } else {
+            attributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12),
+                NSAttributedString.Key.foregroundColor: NSColor.white,
+                NSAttributedString.Key.paragraphStyle: paragraphStyle
+            ]
+        }
+
+        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "")
+
+        for string in strings {
+            attributedString.append(NSAttributedString(string: "• ", attributes: attributes)) // \t
+            attributedString.append(self.convert(text: string, with: attributes))
+            attributedString.append(NSAttributedString(string: "\n", attributes: attributes))
+        }
+
+        return attributedString
+    }
+
+    private func startColor(_ keyword: String) -> TypeColor? {
+
+        switch keyword {
+
+        case "[red]": return .red
+        case "[green]": return .green
+
+        default: return nil
+        }
+    }
+
+    private func endColor(_ keyword: String) -> TypeColor? {
+
+        if keyword.starts(with: "[/") {
+            return self.startColor(keyword.replacingOccurrences(of: "/", with: ""))
+        }
+
+        return nil
     }
 
     internal func tokenize(text: String) -> [LabelTokenType] {
@@ -290,15 +348,37 @@ public class LabelTokenizer {
                 let end = String.Index(utf16Offset: match.range.location - 1, in: text)
 
                 let content: String = String(text.utf16[start...end])!.trimmingCharacters(in: .whitespacesAndNewlines)
-                matchResults.append(LabelTokenType.text(content: content))
+
+                if !content.isEmpty {
+                    if let peekColor = self.currentColorStack.peek() {
+                        matchResults.append(LabelTokenType.colored(content: content, color: peekColor))
+                    } else {
+                        matchResults.append(LabelTokenType.text(content: content))
+                    }
+                }
             }
 
             let start = String.Index(utf16Offset: match.range.location, in: text)
             let end = String.Index(utf16Offset: match.range.location + match.range.length, in: text)
 
-            let content: String = String(text.utf16[start..<end])!.trimmingCharacters(in: .whitespacesAndNewlines)
-            let imageType: LabelImageType = LabelImageType.fromString(value: content)
-            matchResults.append(LabelTokenType.image(type: imageType))
+            let keyword: String = String(text.utf16[start..<end])!.trimmingCharacters(in: .whitespacesAndNewlines)
+
+            if let color = self.startColor(keyword) {
+                self.currentColorStack.push(color)
+            } else if let color = self.endColor(keyword) {
+                if let peekColor = self.currentColorStack.peek() {
+                    guard peekColor == color else {
+                        fatalError("wrong color on the stack - cant close color tag for \(color) - expected \(peekColor)")
+                    }
+
+                    self.currentColorStack.pop()
+                } else {
+                    fatalError("no color on the stack - cant close color tag for \(color)")
+                }
+            } else {
+                let imageType: LabelImageType = LabelImageType.fromString(value: keyword)
+                matchResults.append(LabelTokenType.image(type: imageType))
+            }
 
             endLastMatchLocation = end
         }
@@ -310,10 +390,16 @@ public class LabelTokenizer {
 
             let content: String = String(text.utf16[start..<end])!.trimmingCharacters(in: .whitespacesAndNewlines)
 
-            if content.starts(with: "TXT_KEY_") {
-                matchResults.append(LabelTokenType.translation(key: content))
-            } else {
-                matchResults.append(LabelTokenType.text(content: content))
+            if !content.isEmpty {
+                if content.starts(with: "TXT_KEY_") {
+                    matchResults.append(LabelTokenType.translation(key: content))
+                } else {
+                    if let peekColor = self.currentColorStack.peek() {
+                        matchResults.append(LabelTokenType.colored(content: content, color: peekColor))
+                    } else {
+                        matchResults.append(LabelTokenType.text(content: content))
+                    }
+                }
             }
         }
 
@@ -330,6 +416,13 @@ public class LabelTokenizer {
 
             case .text(content: let content):
                 attributedString.append(NSAttributedString(string: content))
+
+            case .colored(content: let content, color: let color):
+                let attributes: [NSAttributedString.Key: Any] = [
+                    .foregroundColor: color
+                ]
+                let coloredString = NSAttributedString(string: content, attributes: attributes)
+                attributedString.append(coloredString)
 
             case .translation(key: let key):
                 let content = key.localized()

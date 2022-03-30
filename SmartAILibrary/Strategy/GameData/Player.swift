@@ -117,6 +117,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func valueOfStrategyAndPersonalityFlavor(of flavor: FlavorType) -> Int
     func valueOfStrategyAndPersonalityApproach(of approach: PlayerApproachType) -> Int
     func personalAndGrandStrategyFlavor(for flavorType: FlavorType) -> Int
+    func hiddenAgenda() -> LeaderAgendaType?
 
     func calculateGoldPerTurn(in gamemModel: GameModel?) -> Double
     func currentAge() -> AgeType
@@ -226,6 +227,9 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func registerBuild(cityName: String)
     func cityStrengthModifier() -> Int
     func acquire(city oldCity: AbstractCity?, conquest: Bool, gift: Bool, in gameModel: GameModel?)
+    func doRaze(city: AbstractCity?, in gameModel: GameModel?)
+    func disband(city: AbstractCity?, in gameModel: GameModel?)
+    func delete(city: AbstractCity?, in gameModel: GameModel?)
     func numOfCitiesFounded() -> Int
     func numOfCitiesLost() -> Int
 
@@ -314,17 +318,19 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func set(canChangeGovernment: Bool)
 
     // trade routes
-    func tradingCapacity(in gameModel: GameModel?) -> Int
+    func tradingCapacity() -> Int
     func numberOfTradeRoutes() -> Int
-    func canEstablishTradeRoute(in gameModel: GameModel?) -> Bool
+    func canEstablishTradeRoute() -> Bool
+    func doUpdateTradeRouteCapacity(in gameModel: GameModel?)
 
     @discardableResult
     func doEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool
+    func doFinish(tradeRoute: TradeRoute?, in gameModel: GameModel?)
 
     // great persons
     func canRecruitGreatPerson(in gameModel: GameModel?) -> Bool
     func recruit(greatPerson: GreatPerson, in gameModel: GameModel?)
-    func retire(greatPerson: GreatPerson)
+    func retire(greatPerson: GreatPerson, in gameModel: GameModel?)
     func hasRetired(greatPerson: GreatPerson) -> Bool
 
     // distance / cities
@@ -442,6 +448,7 @@ public class Player: AbstractPlayer {
         case settledContinents
         case hasWorldCircumnavigated
         case establishedTradingPosts
+        case tradingCapacity
 
         case cramped
         case combatThisTurn
@@ -524,13 +531,14 @@ public class Player: AbstractPlayer {
     private var lostCapitalValue: Bool = false
     private var conquerorValue: LeaderType?
 
-    private var canChangeGovernmentValue: Bool = false
+    private var canChangeGovernmentValue: Bool = true
     private var happinessValue: Int = 0
     private var faithPurchaseTypeVal: FaithPurchaseType = .noAutomaticFaithPurchase
     private var discoveredNaturalWonders: [FeatureType] = []
     private var settledContinents: [ContinentType] = []
     private var hasWorldCircumnavigatedVal: Bool = false
     private var establishedTradingPosts: [LeaderType] = []
+    private var tradingCapacityValue: Int = 0
 
     private var crampedValue: Bool = false
     private var combatThisTurnValue: Bool = false
@@ -650,6 +658,7 @@ public class Player: AbstractPlayer {
         self.settledContinents = try container.decode([ContinentType].self, forKey: .settledContinents)
         self.hasWorldCircumnavigatedVal = try container.decode(Bool.self, forKey: .hasWorldCircumnavigated)
         self.establishedTradingPosts = try container.decode([LeaderType].self, forKey: .establishedTradingPosts)
+        self.tradingCapacityValue = try container.decode(Int.self, forKey: .tradingCapacity)
 
         self.crampedValue = try container.decode(Bool.self, forKey: .cramped)
         self.combatThisTurnValue = try container.decodeIfPresent(Bool.self, forKey: .combatThisTurn) ?? false
@@ -764,6 +773,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.settledContinents, forKey: .settledContinents)
         try container.encode(self.hasWorldCircumnavigatedVal, forKey: .hasWorldCircumnavigated)
         try container.encode(self.establishedTradingPosts, forKey: .establishedTradingPosts)
+        try container.encode(self.tradingCapacityValue, forKey: .tradingCapacity)
 
         try container.encode(self.crampedValue, forKey: .cramped)
         try container.encode(self.combatThisTurnValue, forKey: .combatThisTurn)
@@ -1105,7 +1115,14 @@ public class Player: AbstractPlayer {
             fatalError("cant get diplomacyAI")
         }
 
+        guard let otherLeader = otherPlayer?.leader else {
+            fatalError("cant get otherPlayer leader")
+        }
+
         diplomacyAI.doDeclareWar(to: otherPlayer, in: gameModel)
+
+        // inform other players, that a city was conquered
+        gameModel?.sendGossip(type: .declarationsOfWar(leader: otherLeader), of: self)
     }
 
     public func doEstablishPeaceTreaty(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
@@ -2202,6 +2219,7 @@ public class Player: AbstractPlayer {
                 // DoUpdateCityRevolts();
                 // CalculateNetHappiness();
                 // SetBestWonderCities();
+                self.doUpdateTradeRouteCapacity(in: gameModel)
 
                 self.grandStrategyAI?.doTurn(in: gameModel)
 
@@ -2526,6 +2544,9 @@ public class Player: AbstractPlayer {
             // notify the user
             self.notifications()?.add(notification: .greatPersonJoined)
 
+            // send gossip
+            gameModel.sendGossip(type: .greatPeopleRecruited(greatPeople: greatPerson), of: self)
+
             gameModel.invalidate(greatPerson: greatPerson)
             self.greatPeople?.resetPoint(for: greatPerson.type())
             self.greatPeople?.increaseNumOfSpawned(greatPersonType: greatPerson.type())
@@ -2551,13 +2572,13 @@ public class Player: AbstractPlayer {
         return false
     }
 
-    public func retire(greatPerson: GreatPerson) {
+    public func retire(greatPerson: GreatPerson, in gameModel: GameModel?) {
 
         guard let greatPeople = self.greatPeople else {
             fatalError("cant get greatPeople")
         }
 
-        greatPeople.retire(greatPerson: greatPerson)
+        greatPeople.retire(greatPerson: greatPerson, in: gameModel)
     }
 
     public func hasRetired(greatPerson: GreatPerson) -> Bool {
@@ -3442,6 +3463,17 @@ public class Player: AbstractPlayer {
         return value
     }
 
+    public func hiddenAgenda() -> LeaderAgendaType? {
+
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+
+        return diplomacyAI.currentHiddenAgenda()
+    }
+
+    // MARK: era
+
     public func currentEra() -> EraType {
 
         return self.currentEraVal
@@ -3791,6 +3823,9 @@ public class Player: AbstractPlayer {
                 }
             }
         }
+
+        // send gossip
+        gameModel.sendGossip(type: .cityFounded(cityName: cityName), of: self)
 
         self.citiesFoundValue += 1
     }
@@ -4531,11 +4566,16 @@ public class Player: AbstractPlayer {
 
     // MARK: trade route functions
 
+    public func tradingCapacity() -> Int {
+
+        return self.tradingCapacityValue
+    }
+
     // https://civilization.fandom.com/wiki/Trade_Route_(Civ6)#Trading_Capacity
-    public func tradingCapacity(in gameModel: GameModel?) -> Int {
+    public func doUpdateTradeRouteCapacity(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
-            fatalError("cant get gameModel")
+            return // early exit 
         }
 
         guard let civics = self.civics else {
@@ -4588,7 +4628,16 @@ public class Player: AbstractPlayer {
             numberOfTradingCapacity += 1
         }
 
-        return numberOfTradingCapacity
+        if self.tradingCapacityValue != numberOfTradingCapacity {
+
+            if self.tradingCapacityValue < numberOfTradingCapacity {
+                if self.isHuman() {
+                    self.notifications()?.add(notification: .tradeRouteCapacityIncreased)
+                }
+            }
+
+            self.tradingCapacityValue = numberOfTradingCapacity
+        }
     }
 
     public func numberOfTradeRoutes() -> Int {
@@ -4600,9 +4649,9 @@ public class Player: AbstractPlayer {
         return tradeRoutes.numberOfTradeRoutes()
     }
 
-    public func canEstablishTradeRoute(in gameModel: GameModel?) -> Bool {
+    public func canEstablishTradeRoute() -> Bool {
 
-        let tradingCapacity = self.tradingCapacity(in: gameModel)
+        let tradingCapacity = self.tradingCapacityValue
         let numberOfTradeRoutes = self.numberOfTradeRoutes()
 
         if numberOfTradeRoutes >= tradingCapacity {
@@ -4650,6 +4699,14 @@ public class Player: AbstractPlayer {
                     }
                 }
             }
+
+            // update access level
+            if !self.isEqual(to: targetCity.player) {
+                // if this is the first trade route with this player, incrase the access level
+                if !tradeRoutes.hasTradeRoute(with: targetCity.player, in: gameModel) {
+                    self.diplomacyAI?.increaseAccessLevel(towards: targetCity.player)
+                }
+            }
         }
 
         if !tech.eurekaTriggered(for: .currency) {
@@ -4669,6 +4726,32 @@ public class Player: AbstractPlayer {
         // no check ?
 
         return tradeRoutes.establishTradeRoute(from: originCity, to: targetCity, with: trader, in: gameModel)
+    }
+
+    public func doFinish(tradeRoute tradeRouteRef: TradeRoute?, in gameModel: GameModel?) {
+
+        guard let tradeRoutes = self.tradeRoutes else {
+            fatalError("cant get tradeRoutes")
+        }
+
+        guard let tradeRoute = tradeRouteRef else {
+            print("cant get targetCity")
+            return
+        }
+
+        guard let targetCity = gameModel?.city(at: tradeRoute.end) else {
+            fatalError("cant get targetCity")
+        }
+
+        self.tradeRoutes?.finish(tradeRoute: tradeRouteRef)
+
+        // update access level
+        if !self.isEqual(to: targetCity.player) {
+            // if this was the last trade route with this player, decrase the access level
+            if !tradeRoutes.hasTradeRoute(with: targetCity.player, in: gameModel) {
+                self.diplomacyAI?.decreaseAccessLevel(towards: targetCity.player)
+            }
+        }
     }
 
     public func cityDistancePathLength(of point: HexPoint, in gameModel: GameModel?) -> Int {
@@ -4853,6 +4936,13 @@ public class Player: AbstractPlayer {
 
             let message = "\(oldCity.name) was captured by the \(self.leader.civilization().name())!!!"
             gameModel.addReplayEvent(type: .major, message: message, at: oldCity.location)
+
+            // inform other players, that a city was conquered
+            if self.leader == oldCity.originalLeader() {
+                gameModel.sendGossip(type: .cityLiberated(cityName: oldCity.name, originalOwner: oldCity.originalLeader()), of: self)
+            } else {
+                gameModel.sendGossip(type: .cityConquests(cityName: oldCity.name), of: self)
+            }
         }
 
         var captureGold = 0
@@ -5195,6 +5285,152 @@ public class Player: AbstractPlayer {
             theMap.updateDeferredFog();
         }
 */
+    }
+
+    func canRaze(city cityRef: AbstractCity?, ignoreCapitals: Bool = false, in gameModel: GameModel?) -> Bool {
+
+        guard let city = cityRef else {
+            fatalError("cant get city to raze")
+        }
+
+        // If we don't own this city right now then we can't raze it!
+        if self.isEqual(to: city.player) {
+            return false
+        }
+
+        // Can't raze a city that originally belonged to us
+        if self.leader == city.originalLeader() {
+            return false
+        }
+
+        guard let originalOwner = gameModel?.player(for: city.originalLeader()) else {
+            fatalError("cant get original owner")
+        }
+
+        let originalCapital = city.location == originalOwner.originalCapitalLocation()
+
+        // No razing of capitals
+        if !ignoreCapitals && originalCapital {
+            return false
+        }
+
+        // No razing of Holy Cities
+        if city.isHolyCityOfAnyReligion(in: gameModel) {
+            return false
+        }
+
+        return true
+    }
+
+    public func doRaze(city cityRef: AbstractCity?, in gameModel: GameModel?) {
+
+        guard let city = cityRef else {
+            fatalError("cant get city to raze")
+        }
+
+        if !self.canRaze(city: city, in: gameModel) {
+            return
+        }
+
+        /*if(GetID() == GC.getGame().getActivePlayer()) {
+            sprintf_s(szBuffer, lenBuffer, GetLocalizedText("TXT_KEY_MISC_DESTROYED_CITY", pCity->getNameKey()).GetCString());
+            GC.GetEngineUserInterface()->AddCityMessage(0, pCity->GetIDInfo(), GetID(), true, GC.getEVENT_MESSAGE_TIME(), szBuffer);
+        }*/
+
+        // send gossip
+        gameModel?.sendGossip(type: .cityRazed(cityName: city.name, originalOwner: city.originalLeader()), of: self)
+
+        // sprintf_s(szBuffer, lenBuffer, GetLocalizedText("TXT_KEY_MISC_CITY_RAZED_BY", pCity->getNameKey(), getCivilizationShortDescriptionKey()).GetCString());
+        // GC.getGame().addReplayMessage(REPLAY_MESSAGE_MAJOR_EVENT, GetID(), szBuffer, pCity->getX(), pCity->getY());
+
+        // pCity->SetIgnoreCityForHappiness(false);
+
+        // CalculateNetHappiness();
+
+        /* if (pCity->IsNoWarmongerYet())
+        {
+            PlayerTypes eFormerOwner = pCity->getPreviousOwner();
+            if (eFormerOwner != NO_PLAYER)
+            {
+                CvDiplomacyAIHelpers::ApplyWarmongerPenalties(pCity, GetID(), eFormerOwner);
+                pCity->SetNoWarmonger(false);
+            }
+        }*/
+
+        city.changeRazingTurns(to: city.population())
+    }
+
+    public func disband(city cityRef: AbstractCity?, in gameModel: GameModel?) {
+
+        guard let city = cityRef else {
+            fatalError("cant get city to raze")
+        }
+
+        /* if getNumCities() == 1 {
+            setFoundedFirstCity(false);
+        } */
+
+        // GC.getGame().addDestroyedCityName(pCity->getNameKey());
+
+        /* for(int eBuildingType = 0; eBuildingType < GC.getNumBuildingInfos(); eBuildingType++)
+        {
+            CvBuildingEntry* buildingInfo = GC.getBuildingInfo((BuildingTypes) eBuildingType);
+            if(buildingInfo)
+            {
+                // if this building exists
+                int iExists = pCity->GetCityBuildings()->GetNumRealBuilding((BuildingTypes) eBuildingType);
+                int iPreferredPosition = buildingInfo->GetPreferredDisplayPosition();
+                if(iPreferredPosition > 0)
+                {
+                    auto_ptr<ICvCity1> pDllCity(new CvDllCity(pCity));
+
+                    if(iExists > 0)
+                    {
+                        // kill the wonder
+                        GC.GetEngineUserInterface()->AddDeferredWonderCommand(WONDER_REMOVED, pDllCity.get(), (BuildingTypes) eBuildingType, 0);
+                    }
+                    else
+                    {
+                        // else if we are currently in the process of building this wonder
+                        if(pCity->getProductionBuilding() == eBuildingType)
+                        {
+                            // kill the half built wonder
+                            if(isWorldWonderClass(buildingInfo->GetBuildingClassInfo()))
+                            {
+                                GC.GetEngineUserInterface()->AddDeferredWonderCommand(WONDER_REMOVED, pDllCity.get(), (BuildingTypes) eBuildingType, 0);
+                            }
+                        }
+                    }
+                }
+            }
+        }*/
+
+        gameModel?.userInterface?.remove(city: city)
+
+        city.kill(in: gameModel)
+
+        /* if(pPlot)
+        {
+            IDInfoVector currentUnits;
+            if (pPlot->getUnits(&currentUnits) > 0)
+            {
+                for (IDInfoVector::const_iterator itr = currentUnits.begin(); itr != currentUnits.end(); ++itr)
+                {
+                    CvUnit* pUnit = ::GetPlayerUnit(*itr);
+
+                    if(pUnit && !pUnit->canEndTurnAtPlot(pPlot))
+                    {
+                        if (!pUnit->jumpToNearestValidPlot())
+                            pUnit->kill(false);
+                    }
+                }
+            }
+        }*/
+    }
+
+    public func delete(city: AbstractCity?, in gameModel: GameModel?) {
+
+        gameModel?.remove(city: city)
     }
 
     public func numOfCitiesFounded() -> Int {
@@ -5984,6 +6220,9 @@ public class Player: AbstractPlayer {
         if !civics.inspirationTriggered(for: .theology) {
             civics.triggerInspiration(for: .theology, in: gameModel)
         }
+
+        // inform other players, that a pantheon was founded
+        gameModel.sendGossip(type: .religionsFounded(religionName: religion.name()), of: self)
     }
 
     // MARK: discovery
@@ -6344,6 +6583,13 @@ public class Player: AbstractPlayer {
         }
 
         self.momentsVal?.addMoment(of: type, in: gameModel.currentTurn)
+
+        // also show a notification, when the moment brings era score
+        if type.eraScore() > 0 {
+            if self.isHuman() {
+                self.notifications()?.add(notification: .momentAdded(type: type))
+            }
+        }
     }
 
     public func hasMoment(of type: MomentType) -> Bool {

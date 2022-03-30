@@ -41,7 +41,7 @@ class CreateGameMenuViewModel: ObservableObject {
         for leaderType in [LeaderType.none] + LeaderType.all {
             array.append(
                 PickerData(
-                    name: leaderType.name(),
+                    name: leaderType.name().localized(),
                     image: self.leaderImage(for: leaderType)
                 )
             )

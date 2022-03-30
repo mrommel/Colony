@@ -28,6 +28,12 @@ struct LeaderView: View {
                     .onTapGesture {
                         self.viewModel.clicked()
                     }
+
+                Image(nsImage: self.viewModel.approachImage)
+                    .resizable()
+                    .frame(width: 16, height: 16)
+                    .padding(.top, 24)
+                    .padding(.trailing, 24)
             }
             .frame(width: 52, height: 52)
             .toolTip(self.viewModel.toolTip)

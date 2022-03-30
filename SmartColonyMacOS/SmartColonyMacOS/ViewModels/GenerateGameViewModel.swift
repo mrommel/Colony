@@ -157,7 +157,7 @@ class GenerateGameViewModel: ObservableObject {
             }
 
             // set first government
-            player.government?.set(governmentType: .chiefdom)
+            player.government?.set(governmentType: .chiefdom, in: nil)
 
             players.append(player)
 
@@ -173,6 +173,7 @@ class GenerateGameViewModel: ObservableObject {
                 units.append(builderUnit)
             } else {
                 for unitType in handicap.freeAIStartingUnitTypes() {
+
                     let unit = Unit(at: startLocation.point, type: unitType, owner: player)
                     units.append(unit)
                 }

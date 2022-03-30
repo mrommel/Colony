@@ -149,16 +149,20 @@ public class DiplomaticAI: Codable {
         case stateOfAllWars
 
         case hasBrokenPeaceTreaty
+        case earlyGameHiddenAgenda
+        case lateGameHiddenAgenda
     }
 
     var player: AbstractPlayer?
 
-    private var playerDict: DiplomaticPlayerDict
+    internal var playerDict: DiplomaticPlayerDict
     internal var stateOfAllWars: PlayerStateAllWars
 
     private var greetPlayers: [AbstractPlayer?] = []
 
     private var hasBrokenPeaceTreatyValue: Bool
+    private var earlyGameHiddenAgendaVal: LeaderAgendaType?
+    private var lateGameHiddenAgendaVal: LeaderAgendaType?
 
     // MARK: constructors
 
@@ -169,6 +173,8 @@ public class DiplomaticAI: Codable {
         self.playerDict = DiplomaticPlayerDict()
         self.stateOfAllWars = .neutral
         self.hasBrokenPeaceTreatyValue = false
+        self.earlyGameHiddenAgendaVal = nil
+        self.lateGameHiddenAgendaVal = nil
     }
 
     public required init(from decoder: Decoder) throws {
@@ -178,6 +184,8 @@ public class DiplomaticAI: Codable {
         self.playerDict = try container.decode(DiplomaticPlayerDict.self, forKey: .playerDict)
         self.stateOfAllWars = try container.decode(PlayerStateAllWars.self, forKey: .stateOfAllWars)
         self.hasBrokenPeaceTreatyValue = try container.decode(Bool.self, forKey: .hasBrokenPeaceTreaty)
+        self.earlyGameHiddenAgendaVal = try container.decodeIfPresent(LeaderAgendaType.self, forKey: .earlyGameHiddenAgenda)
+        self.lateGameHiddenAgendaVal = try container.decodeIfPresent(LeaderAgendaType.self, forKey: .lateGameHiddenAgenda)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -187,6 +195,8 @@ public class DiplomaticAI: Codable {
         try container.encode(self.playerDict, forKey: .playerDict)
         try container.encode(self.stateOfAllWars, forKey: .stateOfAllWars)
         try container.encode(self.hasBrokenPeaceTreatyValue, forKey: .hasBrokenPeaceTreaty)
+        try container.encodeIfPresent(self.earlyGameHiddenAgendaVal, forKey: .earlyGameHiddenAgenda)
+        try container.encodeIfPresent(self.lateGameHiddenAgendaVal, forKey: .lateGameHiddenAgenda)
     }
 
     func doTurn(in gameModel: GameModel?) {
@@ -229,13 +239,14 @@ public class DiplomaticAI: Codable {
         // LogOtherPlayerGuessStatus();
 
         // Look at the situation
-        // DoUpdateMilitaryAggressivePostures();
+        self.doUpdateMilitaryAggressivePostures(in: gameModel)
         self.doUpdateExpansionAggressivePostures(in: gameModel)
         self.doUpdatePlotBuyingAggressivePosture(in: gameModel)
 
         // Player Opinion & Approach
         // DoUpdateApproachTowardsUsGuesses();
 
+        self.doHiddenAgenda(in: gameModel)
         self.updateOpinions(in: gameModel)
         self.updateApproaches(in: gameModel)
         // DoUpdateMinorCivApproaches();
@@ -2025,7 +2036,7 @@ public class DiplomaticAI: Codable {
         if approach == .war {
             // If player is planning War, always say no
             return nil
-        } else if approach == .hostile {
+        } else if approach == .denounced {
             // If player is Hostile, always say no
             return nil
         }
@@ -2107,14 +2118,14 @@ public class DiplomaticAI: Codable {
 
         // If player is inquiring, he has to be planning a war already
         if !askedByPlayer {
-            if approachTowardsTarget != .war && approachTowardsTarget != .deceptive {
+            if approachTowardsTarget != .war && approachTowardsTarget != .unfriendly {
                 return 0
             }
         }
 
         if approachTowardsPlayer == .war { // If player is planning War, always say no
             return 0
-        } else if approachTowardsPlayer == .hostile { // If player is Hostile, always say no
+        } else if approachTowardsPlayer == .denounced { // If player is Hostile, always say no
             return 0
         }
 
@@ -2138,7 +2149,7 @@ public class DiplomaticAI: Codable {
         // ePlayer asked us, so if we like him we're more likely to accept
         if askedByPlayer {
 
-            if approachTowardsPlayer == .friendly || approachTowardsPlayer == .deceptive {
+            if approachTowardsPlayer == .friendly || approachTowardsPlayer == .unfriendly {
                 weight += 2
             } else if opinionTowardsPlayer >= .favorable {
                 weight += 2
@@ -2150,13 +2161,13 @@ public class DiplomaticAI: Codable {
             weight += 5
         }
 
-        if approachTowardsTarget == .hostile {
+        if approachTowardsTarget == .denounced {
             weight += 2
         }
 
         if self.isGoingForWorldConquest() {
             weight += 3
-            if approachTowardsTarget == .deceptive {
+            if approachTowardsTarget == .unfriendly {
                 weight += 2
             }
         } else if self.isGoingForDiploVictory() {
@@ -2349,7 +2360,7 @@ public class DiplomaticAI: Codable {
 
         // May want to make this logic more sophisticated eventually.  This will do for now
         let approach = self.approachWithoutTrueFeelings(towards: otherPlayer)
-        if approach == .hostile || approach == .war {
+        if approach == .denounced || approach == .war {
             return false
         }
 
@@ -2436,10 +2447,10 @@ public class DiplomaticAI: Codable {
 
         switch approach {
 
-        case .war, .hostile, .guarded:
+        case .war, .denounced, .unfriendly:
             return false
 
-        case .deceptive, .afraid, .friendly, .neutrally:
+        case .friendly, .neutral, .allied, .declaredFriend:
             return true
 
         case .none:
@@ -2473,6 +2484,35 @@ public class DiplomaticAI: Codable {
                 deal.clearItems()
             }
         }
+    }
+
+    func increaseAccessLevel(towards otherPlayer: AbstractPlayer?) {
+
+        let currentAccessLevel = self.accessLevel(towards: otherPlayer)
+        let increasedAccessLevel = currentAccessLevel.increased()
+        self.playerDict.updateAccessLevel(to: increasedAccessLevel, towards: otherPlayer)
+    }
+
+    func decreaseAccessLevel(towards otherPlayer: AbstractPlayer?) {
+
+        let currentAccessLevel = self.accessLevel(towards: otherPlayer)
+        let decreasedAccessLevel = currentAccessLevel.decreased()
+        self.playerDict.updateAccessLevel(to: decreasedAccessLevel, towards: otherPlayer)
+    }
+
+    public func accessLevel(towards otherPlayer: AbstractPlayer?) -> AccessLevel {
+
+        return self.playerDict.accessLevel(towards: otherPlayer)
+    }
+
+    func addGossip(item: GossipItem, for otherPlayer: AbstractPlayer?) {
+
+        self.playerDict.addGossip(item: item, for: otherPlayer)
+    }
+
+    public func gossipItems(for otherPlayer: AbstractPlayer?) -> [GossipItem] {
+
+        return self.playerDict.gossipItems(for: otherPlayer)
     }
 
     func numTurnsSinceStatementSent(to otherPlayer: AbstractPlayer?, statement: DiplomaticStatementType) -> Int {
@@ -2522,7 +2562,7 @@ public class DiplomaticAI: Codable {
         }
 
         let approach = self.approachWithoutTrueFeelings(towards: otherPlayer)
-        if approach == .hostile || approach == .guarded || approach == .afraid {
+        if approach == .denounced || approach == .unfriendly {
             return false
         }
 
@@ -2534,14 +2574,12 @@ public class DiplomaticAI: Codable {
         }
     }
 
-    // Are we willing to swap Open Borders with ePlayer?
+    /// Are we willing to swap Open Borders with `otherPlayer`?
     func isOpenBordersExchangeAcceptable(with otherPlayer: AbstractPlayer?) -> Bool {
 
         let approach = self.approach(towards: otherPlayer)
 
-        if approach == .friendly {
-            return true
-        } else if approach == .afraid {
+        if approach == .friendly || approach == .neutral || approach == .unfriendly {
             return true
         }
 
@@ -2676,6 +2714,14 @@ public class DiplomaticAI: Codable {
         self.playerDict.initContact(with: otherPlayer, in: gameModel.currentTurn)
         self.updateMilitaryStrength(of: otherPlayer, in: gameModel)
 
+        let impression = gameModel.handicap.firstImpressionBaseValue() + Int.random(minimum: -3, maximum: 3)
+        self.playerDict.addApproach(
+            type: .firstImpression,
+            initialValue: impression,
+            reductionValue: impression > 0 ? 1 : -1,
+            towards: otherPlayer
+        )
+
         // Humans don't say hi to ai player automatically
         if !player.isHuman() {
 
@@ -2688,7 +2734,21 @@ public class DiplomaticAI: Codable {
         }
     }
 
-    func doDeclarationOfFriendship(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+    public func canDeclareFriendship(with otherPlayer: AbstractPlayer?) -> Bool {
+
+        guard let playerDiplomacyAI = self.player?.diplomacyAI else {
+            fatalError("cant get current player diplomacy")
+        }
+
+        if playerDiplomacyAI.isAtWar(with: otherPlayer) {
+            return false
+        }
+
+        let approach = self.approach(towards: otherPlayer)
+        return approach == .friendly
+    }
+
+    public func doDeclarationOfFriendship(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let player = self.player else {
             fatalError("cant get current player")
@@ -2702,7 +2762,17 @@ public class DiplomaticAI: Codable {
             fatalError("no game model given")
         }
 
+        guard self.canDeclareFriendship(with: otherPlayer) else {
+            fatalError("cant declare friendship")
+        }
+
         self.playerDict.establishDeclarationOfFriendship(with: otherPlayer)
+        otherPlayer.diplomacyAI?.playerDict.establishDeclarationOfFriendship(with: self.player)
+
+        self.playerDict.addApproach(type: .declaredFriend, towards: otherPlayer)
+        self.playerDict.updateApproachValue(towards: otherPlayer, to: PlayerApproachType.declaredFriend.level())
+        otherPlayer.diplomacyAI?.playerDict.addApproach(type: .declaredFriend, towards: self.player)
+        otherPlayer.diplomacyAI?.playerDict.updateApproachValue(towards: self.player, to: PlayerApproachType.declaredFriend.level())
 
         // inform human player only, if he is not involved
         if !player.isHuman() && !otherPlayer.isHuman() {
@@ -2720,6 +2790,9 @@ public class DiplomaticAI: Codable {
                     let text = "\(playerAName) and \(playerBName) have made a public Trade Alliance, forging a strong bond between the two empires."*/
 
                     self.player?.notifications()?.add(notification: .diplomaticDeclaration)
+
+                    // inform other players, that a city was conquered
+                    gameModel.sendGossip(type: .friendship(leader: otherPlayer.leader), of: self.player)
                 }
             }
         }
@@ -2731,7 +2804,7 @@ public class DiplomaticAI: Codable {
     }
 
     // cancel
-    func doDenounce(player otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+    public func doDenounce(player otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let player = self.player else {
             fatalError("cant get current player")
@@ -2745,7 +2818,13 @@ public class DiplomaticAI: Codable {
             fatalError("no game model given")
         }
 
-        self.playerDict.denounce(player: otherPlayer)
+        guard self.canDenounce(player: otherPlayer) else {
+            fatalError("cant denounce player")
+        }
+
+        otherPlayer.diplomacyAI?.playerDict.denounce(player: player)
+        otherPlayer.diplomacyAI?.playerDict.addApproach(type: .denounced, towards: player)
+        otherPlayer.diplomacyAI?.playerDict.updateApproachValue(towards: player, to: PlayerApproachType.denounced.level())
 
         // inform human player only, if he is not involved
         if !player.isHuman() && !otherPlayer.isHuman() {
@@ -2763,15 +2842,172 @@ public class DiplomaticAI: Codable {
                     let text = "\(playerAName) has denounced \(playerBName)."*/
 
                     self.player?.notifications()?.add(notification: .diplomaticDeclaration)
-                    fatalError("not handled")
+
+                    // inform other players, that a city was conquered
+                    gameModel.sendGossip(type: .denunciation(leader: otherPlayer.leader), of: self.player)
                 }
             }
         }
     }
 
-    func hasDenounced(player otherPlayer: AbstractPlayer?) -> Bool {
+    public func hasDenounced(player otherPlayer: AbstractPlayer?) -> Bool {
 
         return self.playerDict.hasDenounced(player: otherPlayer)
+    }
+
+    public func canDenounce(player otherPlayer: AbstractPlayer?) -> Bool {
+
+        if self.playerDict.hasDenounced(player: otherPlayer) {
+            return false
+        }
+
+        // Allied leaders cannot Denounce each other
+        let approach = self.approach(towards: otherPlayer)
+        if approach == .declaredFriend || approach == .allied {
+            return false
+        }
+
+        return true
+    }
+
+    // MARK: delegation
+
+    public func canSendDelegation(to otherPlayer: AbstractPlayer?) -> Bool {
+
+        guard let playerTreasury = self.player?.treasury else {
+            fatalError("cant get player treasury")
+        }
+
+        guard let playerCivics = self.player?.civics else {
+            fatalError("cant get player civics")
+        }
+
+        if playerTreasury.value() < 25 {
+            return false
+        }
+
+        if self.hasSendDelegation(to: otherPlayer) {
+            return false
+        }
+
+        if playerCivics.has(civic: .diplomaticService) {
+            return false
+        }
+
+        let approach = self.approach(towards: otherPlayer)
+        if approach == .neutral || approach == .friendly || approach == .declaredFriend || approach == .allied {
+            return true
+        }
+
+        return false
+    }
+
+    public func hasSendDelegation(to otherPlayer: AbstractPlayer?) -> Bool {
+
+        guard let playerDiplomacy = self.player?.diplomacyAI else {
+            fatalError("cant get player diplomacyAI")
+        }
+
+        return playerDiplomacy.playerDict.hasDelegation(with: otherPlayer)
+    }
+
+    public func doSendDelegation(to otherPlayer: AbstractPlayer?) {
+
+        guard let playerDiplomacy = self.player?.diplomacyAI else {
+            fatalError("cant get player diplomacyAI")
+        }
+
+        if self.canSendDelegation(to: otherPlayer) {
+
+            playerDiplomacy.playerDict.sendDelegation(to: otherPlayer, send: true)
+            playerDiplomacy.playerDict.addApproach(type: .delegation, towards: otherPlayer)
+
+            // update access level
+            playerDiplomacy.increaseAccessLevel(towards: otherPlayer)
+        }
+    }
+
+    public func doRevokeDelegation(from otherPlayer: AbstractPlayer?) {
+
+        guard let playerDiplomacy = self.player?.diplomacyAI else {
+            fatalError("cant get player diplomacyAI")
+        }
+
+        playerDiplomacy.playerDict.sendDelegation(to: otherPlayer, send: false)
+        playerDiplomacy.playerDict.removeApproach(type: .delegation, towards: self.player)
+
+        // update access level
+        playerDiplomacy.decreaseAccessLevel(towards: otherPlayer)
+    }
+
+    // MARK: embassies
+
+    func hasSendEmbassy(to otherPlayer: AbstractPlayer?) -> Bool {
+
+        guard let playerDiplomacy = self.player?.diplomacyAI else {
+            fatalError("cant get player diplomacyAI")
+        }
+
+        return playerDiplomacy.playerDict.hasEmbassy(with: otherPlayer)
+    }
+
+    public func canSendEmbassy(to otherPlayer: AbstractPlayer?) -> Bool {
+
+        guard let playerTreasury = self.player?.treasury else {
+            fatalError("cant get player treasury")
+        }
+
+        guard let playerCivics = self.player?.civics else {
+            fatalError("cant get player civics")
+        }
+
+        if playerTreasury.value() < 50 {
+            return false
+        }
+
+        if self.hasSendEmbassy(to: otherPlayer) {
+            return false
+        }
+
+        if !playerCivics.has(civic: .diplomaticService) {
+            return false
+        }
+
+        let approach = self.approach(towards: otherPlayer)
+        if approach == .neutral || approach == .friendly || approach == .declaredFriend || approach == .allied {
+            return true
+        }
+
+        return false
+    }
+
+    public func doSendEmbassy(to otherPlayer: AbstractPlayer?) {
+
+        guard let playerDiplomacy = self.player?.diplomacyAI else {
+            fatalError("cant get player diplomacyAI")
+        }
+
+        if self.canSendEmbassy(to: otherPlayer) {
+
+            playerDiplomacy.playerDict.sendEmbassy(to: otherPlayer, send: true)
+            playerDiplomacy.playerDict.addApproach(type: .embassy, towards: self.player)
+
+            // update access level
+            playerDiplomacy.increaseAccessLevel(towards: otherPlayer)
+        }
+    }
+
+    public func doRevokeEmbassy(from otherPlayer: AbstractPlayer?) {
+
+        guard let playerDiplomacy = self.player?.diplomacyAI else {
+            fatalError("cant get player diplomacyAI")
+        }
+
+        playerDiplomacy.playerDict.sendEmbassy(to: otherPlayer, send: false)
+        playerDiplomacy.playerDict.removeApproach(type: .embassy, towards: self.player)
+
+        // update access level
+        playerDiplomacy.decreaseAccessLevel(towards: otherPlayer)
     }
 
     // MARK: pacts - defensive pacts
@@ -2794,11 +3030,11 @@ public class DiplomaticAI: Codable {
                 fatalError("cant get player")
             }
 
-            friendPlayer.diplomacyAI?.doDeclareWarFromDefensivePact(to: otherPlayer)
+            friendPlayer.diplomacyAI?.doDeclareWarFromDefensivePact(to: otherPlayer, in: gameModel)
         }
     }
 
-    func doDeclareWarFromDefensivePact(to otherPlayer: AbstractPlayer?) {
+    func doDeclareWarFromDefensivePact(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         // Only do it if we are not already at war.
         if self.isAtWar(with: otherPlayer) {
@@ -2808,15 +3044,18 @@ public class DiplomaticAI: Codable {
         // Cancel Trade Deals
         self.doCancelDeals(with: otherPlayer)
 
-        self.playerDict.updateApproach(towards: otherPlayer, to: .war)
+        self.playerDict.updateApproachValue(towards: otherPlayer, to: PlayerApproachType.war.level())
         self.playerDict.updateWarState(towards: otherPlayer, to: .defensive)
 
-        otherPlayer?.diplomacyAI?.playerDict.updateApproach(towards: self.player, to: .war)
+        otherPlayer?.diplomacyAI?.playerDict.updateApproachValue(towards: self.player, to: PlayerApproachType.war.level())
         otherPlayer?.diplomacyAI?.playerDict.updateWarState(towards: self.player, to: .defensive)
+
+        // inform other players, that a war was declared
+        gameModel?.sendGossip(type: .declarationsOfWar(leader: otherPlayer!.leader), of: self.player)
     }
 
     //    --------------------------------------------------------------------------------
-    func canDeclareWar(to otherPlayer: AbstractPlayer?) -> Bool {
+    public func canDeclareWar(to otherPlayer: AbstractPlayer?) -> Bool {
 
         guard let player = self.player else {
             fatalError("catn get player")
@@ -2888,7 +3127,7 @@ public class DiplomaticAI: Codable {
 
     // MARK: alliances
 
-    func isAllianceActive(with otherPlayer: AbstractPlayer?) -> Bool {
+    public func isAllianceActive(with otherPlayer: AbstractPlayer?) -> Bool {
 
         return self.playerDict.isAllianceActive(with: otherPlayer)
     }
@@ -2939,6 +3178,9 @@ public class DiplomaticAI: Codable {
 
             self.player?.notifications()?.add(notification: .war(leader: player.leader))
         }
+
+        // inform other players, that a war was declared
+        gameModel.sendGossip(type: .declarationsOfWar(leader: otherPlayer.leader), of: otherPlayer)
     }
 
     func doHaveBeenDeclaredWar(by otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
@@ -2946,7 +3188,7 @@ public class DiplomaticAI: Codable {
         // Auto War for Defensive Pacts of other player
         self.activateDefensivePacts(against: otherPlayer, in: gameModel)
 
-        self.playerDict.updateApproach(towards: otherPlayer, to: .war)
+        self.playerDict.updateApproachValue(towards: otherPlayer, to: PlayerApproachType.war.level())
         self.playerDict.updateWarState(towards: otherPlayer, to: .defensive)
     }
 
@@ -3151,12 +3393,12 @@ public class DiplomaticAI: Codable {
 
             if otherPlayer.leader != self.player?.leader && player.hasMet(with: otherPlayer) {
 
-                self.updateApproach(towards: otherPlayer)
+                self.updateApproach(towards: otherPlayer, in: gameModel)
             }
         }
     }
 
-    private func updateApproach(towards otherPlayer: AbstractPlayer?) {
+    private func updateApproach(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let otherPlayerDiplomacyAI = otherPlayer?.diplomacyAI else {
             fatalError("cant get diplomacy of other player")
@@ -3168,7 +3410,7 @@ public class DiplomaticAI: Codable {
         // NEUTRAL DEFAULT WEIGHT
         ////////////////////////////////////
 
-        weights.set(weight: 3, for: .neutrally) // APPROACH_NEUTRAL_DEFAULT
+        weights.set(weight: 3, for: .neutral) // APPROACH_NEUTRAL_DEFAULT
 
         ////////////////////////////////////
         // CURRENT APPROACH BIASES
@@ -3176,20 +3418,20 @@ public class DiplomaticAI: Codable {
 
         var oldApproach = self.approach(towards: otherPlayer)
         if oldApproach == .none {
-            oldApproach = .neutrally
+            oldApproach = .neutral
         }
 
         // Bias for our current Approach.  This should prevent it from jumping around from turn-to-turn as much
         weights.add(weight: 3, for: oldApproach) // APPROACH_BIAS_FOR_CURRENT
 
         // If our previous Approach was deceptive, this gives us a bonus for war
-        if oldApproach == .deceptive {
+        if oldApproach == .unfriendly {
             weights.add(weight: 2, for: .war) // APPROACH_WAR_CURRENTLY_DECEPTIVE
         }
 
         // If our previous Approach was Hostile, boost the strength (so we're unlikely to switch out of it)
-        if oldApproach == .hostile {
-            weights.add(weight: 5, for: .hostile) // APPROACH_HOSTILE_CURRENTLY_HOSTILE
+        if oldApproach == .denounced {
+            weights.add(weight: 5, for: .denounced) // APPROACH_HOSTILE_CURRENTLY_HOSTILE
         }
 
         // Wanted war last turn bias: war must be calm or better to apply
@@ -3231,30 +3473,27 @@ public class DiplomaticAI: Codable {
         case .ally:
             weights.add(weight: 10, for: .friendly) // APPROACH_OPINION_ALLY_FRIENDLY
         case .friend:
-            weights.add(weight: -5, for: .hostile) // APPROACH_OPINION_FRIEND_HOSTILE
+            weights.add(weight: -5, for: .denounced) // APPROACH_OPINION_FRIEND_HOSTILE
             weights.add(weight: 10, for: .friendly) // APPROACH_OPINION_FRIEND_FRIENDLY
         case .favorable:
-            weights.add(weight: -5, for: .hostile) // APPROACH_OPINION_FAVORABLE_HOSTILE
-            weights.add(weight: 0, for: .deceptive) // APPROACH_OPINION_FAVORABLE_DECEPTIVE
+            weights.add(weight: -5, for: .denounced) // APPROACH_OPINION_FAVORABLE_HOSTILE
+            weights.add(weight: 0, for: .unfriendly) // APPROACH_OPINION_FAVORABLE_DECEPTIVE
             weights.add(weight: 4, for: .friendly) // APPROACH_OPINION_FAVORABLE_FRIENDLY
         case .neutral:
-            weights.add(weight: 0, for: .deceptive) // APPROACH_OPINION_NEUTRAL_DECEPTIVE
+            weights.add(weight: 0, for: .unfriendly) // APPROACH_OPINION_NEUTRAL_DECEPTIVE
             weights.add(weight: 2, for: .friendly) // APPROACH_OPINION_NEUTRAL_FRIENDLY
         case .competitor:
             weights.add(weight: 4, for: .war) // APPROACH_OPINION_COMPETITOR_WAR
-            weights.add(weight: 4, for: .hostile) // APPROACH_OPINION_COMPETITOR_HOSTILE
-            weights.add(weight: 2, for: .deceptive) // APPROACH_OPINION_COMPETITOR_DECEPTIVE
-            weights.add(weight: 2, for: .guarded) // APPROACH_OPINION_COMPETITOR_GUARDED
+            weights.add(weight: 4, for: .denounced) // APPROACH_OPINION_COMPETITOR_HOSTILE
+            weights.add(weight: 2, for: .unfriendly) // APPROACH_OPINION_COMPETITOR_DECEPTIVE
         case .enemy:
             weights.add(weight: 8, for: .war) // APPROACH_OPINION_ENEMY_WAR
-            weights.add(weight: 4, for: .hostile) // APPROACH_OPINION_ENEMY_HOSTILE
-            weights.add(weight: 1, for: .deceptive) // APPROACH_OPINION_ENEMY_DECEPTIVE
-            weights.add(weight: 4, for: .guarded) // APPROACH_OPINION_ENEMY_GUARDED
+            weights.add(weight: 4, for: .denounced) // APPROACH_OPINION_ENEMY_HOSTILE
+            weights.add(weight: 1, for: .unfriendly) // APPROACH_OPINION_ENEMY_DECEPTIVE
         case .unforgivable:
             weights.add(weight: 10, for: .war) // APPROACH_OPINION_UNFORGIVABLE_WAR
-            weights.add(weight: 4, for: .hostile) // APPROACH_OPINION_UNFORGIVABLE_HOSTILE
-            weights.add(weight: 0, for: .deceptive) // APPROACH_OPINION_UNFORGIVABLE_DECEPTIVE
-            weights.add(weight: 4, for: .guarded) // APPROACH_OPINION_UNFORGIVABLE_GUARDED
+            weights.add(weight: 4, for: .denounced) // APPROACH_OPINION_UNFORGIVABLE_HOSTILE
+            weights.add(weight: 0, for: .unfriendly) // APPROACH_OPINION_UNFORGIVABLE_DECEPTIVE
         }
 
         ////////////////////////////////////
@@ -3263,10 +3502,9 @@ public class DiplomaticAI: Codable {
 
         if self.isDeclarationOfFriendshipActive(by: otherPlayer) {
 
-            weights.add(weight: 3, for: .deceptive) // APPROACH_DECEPTIVE_WORKING_WITH_PLAYER
+            weights.add(weight: 3, for: .unfriendly) // APPROACH_DECEPTIVE_WORKING_WITH_PLAYER
             weights.add(weight: 15, for: .friendly) // APPROACH_FRIENDLY_WORKING_WITH_PLAYER
-            weights.add(weight: -100, for: .hostile) // APPROACH_HOSTILE_WORKING_WITH_PLAYER
-            weights.add(weight: -100, for: .guarded) // APPROACH_GUARDED_WORKING_WITH_PLAYER
+            weights.add(weight: -100, for: .denounced) // APPROACH_HOSTILE_WORKING_WITH_PLAYER
         }
 
         ////////////////////////////////////
@@ -3276,19 +3514,17 @@ public class DiplomaticAI: Codable {
         if self.hasDenounced(player: otherPlayer) {
 
             weights.add(weight: 7, for: .war) // APPROACH_WAR_DENOUNCED
-            weights.add(weight: 10, for: .hostile) // APPROACH_HOSTILE_DENOUNCED
-            weights.add(weight: 5, for: .guarded) // APPROACH_GUARDED_DENOUNCED
+            weights.add(weight: 10, for: .denounced) // APPROACH_HOSTILE_DENOUNCED
             weights.add(weight: -100, for: .friendly) // APPROACH_FRIENDLY_DENOUNCED
-            weights.add(weight: -100, for: .deceptive) // APPROACH_DECEPTIVE_DENOUNCED
+            weights.add(weight: -100, for: .unfriendly) // APPROACH_DECEPTIVE_DENOUNCED
         }
 
         if otherPlayerDiplomacyAI.hasDenounced(player: self.player) {
 
             weights.add(weight: 7, for: .war) // APPROACH_WAR_DENOUNCED
-            weights.add(weight: 10, for: .hostile) // APPROACH_HOSTILE_DENOUNCED
-            weights.add(weight: 5, for: .guarded) // APPROACH_GUARDED_DENOUNCED
+            weights.add(weight: 10, for: .denounced) // APPROACH_HOSTILE_DENOUNCED
             weights.add(weight: -100, for: .friendly) // APPROACH_FRIENDLY_DENOUNCED
-            weights.add(weight: -100, for: .deceptive) // APPROACH_DECEPTIVE_DENOUNCED
+            weights.add(weight: -100, for: .unfriendly) // APPROACH_DECEPTIVE_DENOUNCED
         }
 
         ////////////////////////////////////
@@ -3310,27 +3546,19 @@ public class DiplomaticAI: Codable {
         switch self.militaryThreat(of: otherPlayer) {
 
         case .critical:
-            weights.add(weight: 0, for: .deceptive) // APPROACH_DECEPTIVE_MILITARY_THREAT_CRITICAL
-            weights.add(weight: 4, for: .guarded) // APPROACH_GUARDED_MILITARY_THREAT_CRITICAL
-            weights.add(weight: 4, for: .afraid) // APPROACH_AFRAID_MILITARY_THREAT_CRITICAL
+            weights.add(weight: 0, for: .unfriendly) // APPROACH_DECEPTIVE_MILITARY_THREAT_CRITICAL
             weights.add(weight: 0, for: .friendly) // APPROACH_FRIENDLY_MILITARY_THREAT_CRITICAL
         case .severe:
-            weights.add(weight: 0, for: .deceptive) // APPROACH_DECEPTIVE_MILITARY_THREAT_SEVERE
-            weights.add(weight: 3, for: .guarded) // APPROACH_GUARDED_MILITARY_THREAT_SEVERE
-            weights.add(weight: 2, for: .afraid) // APPROACH_AFRAID_MILITARY_THREAT_SEVER
+            weights.add(weight: 0, for: .unfriendly) // APPROACH_DECEPTIVE_MILITARY_THREAT_SEVERE
             weights.add(weight: 0, for: .friendly) // APPROACH_FRIENDLY_MILITARY_THREAT_SEVERE
         case .major:
-            weights.add(weight: 0, for: .deceptive) // APPROACH_DECEPTIVE_MILITARY_THREAT_MAJOR
-            weights.add(weight: 2, for: .guarded) // APPROACH_GUARDED_MILITARY_THREAT_MAJOR
-            weights.add(weight: 1, for: .afraid) // APPROACH_AFRAID_MILITARY_THREAT_MAJOR
+            weights.add(weight: 0, for: .unfriendly) // APPROACH_DECEPTIVE_MILITARY_THREAT_MAJOR
             weights.add(weight: 0, for: .friendly) // APPROACH_FRIENDLY_MILITARY_THREAT_MAJOR
         case .minor:
-            weights.add(weight: 0, for: .deceptive) // APPROACH_DECEPTIVE_MILITARY_THREAT_MINOR
-            weights.add(weight: 0, for: .guarded) // APPROACH_GUARDED_MILITARY_THREAT_MINOR
-            weights.add(weight: 1, for: .afraid) // APPROACH_AFRAID_MILITARY_THREAT_MINOR
+            weights.add(weight: 0, for: .unfriendly) // APPROACH_DECEPTIVE_MILITARY_THREAT_MINOR
             weights.add(weight: 0, for: .friendly) // APPROACH_FRIENDLY_MILITARY_THREAT_MINOR
         case .none:
-            weights.add(weight: 2, for: .hostile) // APPROACH_HOSTILE_MILITARY_THREAT_NONE
+            weights.add(weight: 2, for: .denounced) // APPROACH_HOSTILE_MILITARY_THREAT_NONE
         }
 
         ////////////////////////////////////
@@ -3424,11 +3652,9 @@ public class DiplomaticAI: Codable {
                 // Use index of 1 since we already know element 0 is war; that will give us the most reasonable approach
                 let secondBestApproach = weights.chooseSecondLargest()
 
-                if secondBestApproach == .hostile {
+                if secondBestApproach == .denounced {
                     self.playerDict.updateWarFace(towards: otherPlayer, to: .hostile)
-                } else if secondBestApproach == .deceptive || secondBestApproach == .afraid || secondBestApproach == .friendly {
-
-                    // FIXME
+                } else if secondBestApproach == .friendly {
                     // Denounced them?  If so, let's not be too friendly
                     self.playerDict.updateWarFace(towards: otherPlayer, to: .friendly)
                 } else {
@@ -3437,11 +3663,40 @@ public class DiplomaticAI: Codable {
             }
 
         } else {
-
             self.playerDict.updateWarFace(towards: otherPlayer, to: .neutral)
         }
 
-        self.playerDict.updateApproach(towards: otherPlayer, to: bestApproach)
+        // update approach value
+        var delta: Int = 0
+        for approachItem in self.playerDict.approachItems(towards: otherPlayer) {
+
+            delta += approachItem.value
+        }
+
+        self.playerDict.updateApproachItems(towards: otherPlayer)
+
+        let currentApproachValue: Int = self.playerDict.approachValue(towards: otherPlayer)
+        let updateApproachValue: Int = (currentApproachValue + delta).clamped(to: 0...100)
+
+        self.playerDict.updateApproachValue(towards: otherPlayer, to: updateApproachValue)
+
+        // add one-time effects (will be removed next update cycle)
+        guard let playerTradeRoutes = self.player?.tradeRoutes else {
+            fatalError("cant get player trade routes")
+        }
+
+        if playerTradeRoutes.hasTradeRoute(with: otherPlayer, in: gameModel) {
+            self.playerDict.addApproach(type: .establishedTradeRoute, towards: otherPlayer)
+            otherPlayer?.diplomacyAI?.playerDict.addApproach(type: .establishedTradeRoute, towards: player)
+        }
+
+        // check threat
+        let militaryAggressivePosture = self.militaryAggressivePosture(of: otherPlayer)
+        if militaryAggressivePosture == .high || militaryAggressivePosture == .incredible {
+            if !self.playerDict.hasApproach(type: .nearBorder, towards: otherPlayer) {
+                self.playerDict.addApproach(type: .nearBorder, towards: otherPlayer)
+            }
+        }
     }
 
     func isGoingForWorldConquest() -> Bool {
@@ -3462,9 +3717,19 @@ public class DiplomaticAI: Codable {
         return activeStrategy == .council
     }
 
-    func approach(towards player: AbstractPlayer?) -> PlayerApproachType {
+    public func approachItems(towards otherPlayer: AbstractPlayer?) -> [DiplomaticAIPlayerApproachItem] {
+
+        return self.playerDict.approachItems(towards: otherPlayer)
+    }
+
+    public func approach(towards player: AbstractPlayer?) -> PlayerApproachType {
 
         return self.playerDict.approach(towards: player)
+    }
+
+    public func approachValue(towards player: AbstractPlayer?) -> Int {
+
+        return self.playerDict.approachValue(towards: player)
     }
 
     func approach(towards leader: LeaderType) -> PlayerApproachType {
@@ -3478,7 +3743,7 @@ public class DiplomaticAI: Codable {
         var approachWithoutTrueFeelings = trueApproach
 
         // Deceptive => Friendly
-        if trueApproach == .deceptive {
+        if trueApproach == .unfriendly {
             approachWithoutTrueFeelings = .friendly
         } else if trueApproach == .war {
 
@@ -3491,13 +3756,13 @@ public class DiplomaticAI: Codable {
                 break
 
             case .hostile:
-                return .hostile
+                return .denounced
 
             case .friendly:
                 return .friendly
 
             case .neutral:
-                return .neutrally
+                return .neutral
             }
         }
 
@@ -3564,6 +3829,64 @@ public class DiplomaticAI: Codable {
         }
     }
 
+    // https://civilization.fandom.com/wiki/Agenda_(Civ6)?so=search
+    private func doHiddenAgenda(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get current player")
+        }
+
+        // only ai player have a hidden agenda
+        guard !player.isHuman() && !player.isBarbarian() && !player.isCityState() && !player.isFreeCity() else {
+            return
+        }
+
+        // initial filling
+        if self.earlyGameHiddenAgendaVal == nil || self.lateGameHiddenAgendaVal == nil {
+
+            // select hidden agenda randomly
+            let possibleEarlyAgendas: [LeaderAgendaType] = LeaderAgendaType.hidden
+                .filter { (($0.category() == .earlyGame) || ($0.category() == .both)) } // filter early era
+                .filter { !player.leader.rejectedAgendas().contains($0) } // filter leader who dont want this agenda
+
+            var possibleLateAgendas: [LeaderAgendaType] = LeaderAgendaType.hidden
+                .filter { (($0.category() == .lateGame) || ($0.category() == .both)) } // filter early era
+                .filter { !player.leader.rejectedAgendas().contains($0) } // filter leader who dont want this agenda
+
+            print("got \(possibleEarlyAgendas.count) early and \(possibleLateAgendas.count) late agendas to choose hidden agendas from")
+            guard !possibleEarlyAgendas.isEmpty && !possibleLateAgendas.isEmpty else {
+                fatalError("cant select a hidden agenda for \(player.leader)")
+            }
+
+            let pickEarlyAgenda = possibleEarlyAgendas.randomItem()
+
+            // filter excluded late agendas
+            possibleLateAgendas = possibleLateAgendas
+                .filter { !pickEarlyAgenda.exclude().contains($0) }
+                .filter { !$0.exclude().contains(pickEarlyAgenda) }
+
+            let pickLateAgenda = possibleLateAgendas.randomItem()
+
+            self.earlyGameHiddenAgendaVal = pickEarlyAgenda
+            self.lateGameHiddenAgendaVal = pickLateAgenda
+        }
+    }
+
+    func currentHiddenAgenda() -> LeaderAgendaType? {
+
+        guard let player = self.player else {
+            fatalError("cant get current player")
+        }
+
+        let isEarlyGame = player.currentEra() < EraType.renaissance
+
+        return isEarlyGame ? self.earlyGameHiddenAgendaVal : self.lateGameHiddenAgendaVal
+    }
+
     private func updateOpinions(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
@@ -3572,7 +3895,7 @@ public class DiplomaticAI: Codable {
 
         for player in gameModel.players {
 
-            updateOpinion(of: player, in: gameModel)
+            self.updateOpinion(of: player, in: gameModel)
         }
     }
 
@@ -4909,6 +5232,197 @@ public class DiplomaticAI: Codable {
         }
     }
 
+    /// Updates how aggressively all players' military Units are positioned in relation to us
+    func doUpdateMilitaryAggressivePostures(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let playerMilitaryAI = self.player?.militaryAI else {
+            fatalError("cant get player militaryAI")
+        }
+
+        let typicalLandPower = playerMilitaryAI.powerOfStrongestBuildableUnit(in: .land)
+        let typicalNavalPower = playerMilitaryAI.powerOfStrongestBuildableUnit(in: .sea)
+        let typicalAirPower = playerMilitaryAI.powerOfStrongestBuildableUnit(in: .air)
+
+        // Loop through all (known) Players
+        for loopPlayer in gameModel.players {
+
+            if !loopPlayer.isAlive() || player.isEqual(to: loopPlayer) || !player.hasMet(with: loopPlayer) {
+                continue
+            }
+
+            if !loopPlayer.isFreeCity() && !loopPlayer.isBarbarian() && !loopPlayer.isCityState() {
+
+                // Keep a record of last turn
+                let currentPosture = self.militaryAggressivePosture(of: loopPlayer)
+                self.playerDict.updateLastTurnMilitaryAggressivePosture(to: currentPosture, with: loopPlayer)
+
+                // We're allowing them Open Borders? We shouldn't care.
+                if self.isOpenBorderAgreementActive(by: loopPlayer) {
+                    self.playerDict.updateMilitaryAggressivePosture(to: .none, with: loopPlayer)
+                    return
+                }
+
+                // We're working together, so don't worry about it
+                if self.isDeclarationOfFriendshipActive(by: loopPlayer) || self.isDefensivePactActive(with: loopPlayer) {
+                    self.playerDict.updateMilitaryAggressivePosture(to: .none, with: loopPlayer)
+                    return
+                }
+
+                // They resurrected us, so don't worry about it
+                /* if ((WasResurrectedBy(ePlayer) || IsMasterLiberatedMeFromVassalage(loopPlayer)) && !self.isAtWar(loopPlayer)) {
+                    self.playerDict.updateMilitaryAggressivePosture(to: .none, with: loopPlayer)
+                    return
+                } */
+
+                var unitValueOnMyHomeFront = 0
+                var unitScore = 0
+                let isAtWarWithSomeone = loopPlayer.atWarCount() > 0
+
+                // For humans (Move Troops request) or if at war with them, ignore other wars the player may be waging
+                let ignoreOtherWars = player.isHuman() || self.isAtWar(with: loopPlayer)
+
+                // Loop through the other guy's units
+                // for (CvUnit* pLoopUnit = loopPlayer.firstUnit(&iUnitLoop); pLoopUnit != NULL; pLoopUnit = loopPlayer.nextUnit(&iUnitLoop))
+                for loopUnitRef in gameModel.units(of: loopPlayer) {
+
+                    guard let loopUnit = loopUnitRef else {
+                        continue
+                    }
+
+                    // Don't be scared of noncombat Units!
+                    if loopUnit.type.unitClass() == .civilian || loopUnit.type.defaultTask() == .explore || loopUnit.type.defaultTask() == .exploreSea {
+                        continue
+                    }
+
+                    guard let unitPlot = gameModel.tile(at: loopUnit.location) else {
+                        continue
+                    }
+
+                    // Can we actually see this Unit? No cheating!
+                    if unitPlot.isVisible(to: self.player) /* || unitPlot.isin->isInvisible(eOurTeam, false))*/ {
+                        continue
+                    }
+
+                    // Must be close to us
+                    if !unitPlot.isCloseToBorder(of: self.player, in: gameModel) {
+                        continue
+                    }
+
+                    // At war with someone? Because if this Unit is in the vicinity of another player he's already at war with, don't count this Unit as aggressive
+                    if isAtWarWithSomeone && !ignoreOtherWars {
+
+                        // Loop through all players...
+                        for otherLoopPlayer in gameModel.players {
+
+                            // At war with this player?
+                            if !otherLoopPlayer.isEqual(to: player) && loopPlayer.isAtWar(with: otherLoopPlayer) {
+
+                                // Is the unit close to the other player?
+                                if unitPlot.isCloseToBorder(of: otherLoopPlayer, in: gameModel) {
+                                    continue
+                                }
+                            }
+                        }
+                    }
+
+                    var valueToAdd = 100
+
+                    // Adjust based on unit power compared to us
+                    // Units stronger than ours are worth more, units weaker than ours are worth less
+                    var unitValuePercent = loopUnit.power() * 100
+
+                    if unitValuePercent > 0 {
+                        // Compare to strongest unit we can build in that domain, for an apples to apples comparison
+                        // Best unit that can be currently built in a domain is given a value of 100
+                        let domain = loopUnit.domain()
+
+                        if domain == .air {
+                            if typicalAirPower > 0 {
+                                unitValuePercent /= typicalAirPower
+                            } else {
+                                unitValuePercent = 100 /* DEFAULT_WAR_VALUE_FOR_UNIT */
+                            }
+                        } else if domain == .sea {
+                            if typicalNavalPower > 0 {
+                                unitValuePercent /= typicalNavalPower
+                            } else {
+                                unitValuePercent = 100 /* DEFAULT_WAR_VALUE_FOR_UNIT */
+                            }
+                        } else {
+                            if typicalLandPower > 0 {
+                                unitValuePercent /= typicalLandPower
+                            } else {
+                                unitValuePercent = 100 /* DEFAULT_WAR_VALUE_FOR_UNIT */
+                            }
+                        }
+
+                        valueToAdd *= unitValuePercent
+                        valueToAdd /= 100
+                    } else {
+                        continue
+                    }
+
+                    // If the Unit is in the other team's territory, halve its "aggression value", since he may just be defending himself
+                    if loopPlayer.isEqual(to: unitPlot.owner()) {
+                        valueToAdd /= 2
+                        unitScore += 1
+                    } else {
+                        unitScore += 2
+                    }
+
+                    unitValueOnMyHomeFront += valueToAdd
+                }
+
+                var aggressivePosture: AggressivePostureType = .none
+
+                // So how threatening is he being?
+                if unitValueOnMyHomeFront >= 800 /* MILITARY_AGGRESSIVE_POSTURE_THRESHOLD_INCREDIBLE */ {
+                    aggressivePosture = .incredible
+                } else if unitValueOnMyHomeFront >= 500 /* MILITARY_AGGRESSIVE_POSTURE_THRESHOLD_HIGH */ {
+                    aggressivePosture = .high
+                } else if unitValueOnMyHomeFront >= 300 /* MILITARY_AGGRESSIVE_POSTURE_THRESHOLD_MEDIUM */ {
+                    aggressivePosture = .medium
+                } else if unitValueOnMyHomeFront >= 100 /* MILITARY_AGGRESSIVE_POSTURE_THRESHOLD_LOW */ {
+                    aggressivePosture = .low
+                }
+
+                // Common sense override in case they have a large number of low-power units nearby
+                if aggressivePosture < .incredible && unitScore >= 18 { // 9 units
+                    aggressivePosture = .incredible
+                } else if aggressivePosture < .high && unitScore >= 14 { // 7 units
+                    aggressivePosture = .high
+                } else if aggressivePosture < .medium && unitScore >= 10 { // 5 units
+                    aggressivePosture = .medium
+                }
+
+                self.playerDict.updateMilitaryAggressivePosture(to: aggressivePosture, with: loopPlayer)
+
+                if aggressivePosture > currentPosture && aggressivePosture >= .medium {
+                    // v.push_back(ePlayer);
+                }
+            } else {
+                self.playerDict.updateMilitaryAggressivePosture(to: .none, with: loopPlayer)
+                self.playerDict.updateLastTurnMilitaryAggressivePosture(to: .none, with: loopPlayer)
+            }
+        }
+
+        // If someone's aggressive posture rose, reevaluate our approach towards them immediately
+        // DoReevaluatePlayers(v);
+    }
+
+    func militaryAggressivePosture(of otherPlayer: AbstractPlayer?) -> AggressivePostureType {
+
+        return self.playerDict.militaryAggressivePosture(towards: otherPlayer)
+    }
+
     /// Updates how aggressively this player's Units are positioned in relation to us
     func doUpdateExpansionAggressivePostures(in gameModel: GameModel?) {
 
@@ -5221,6 +5735,14 @@ public class DiplomaticAI: Codable {
     }
 
     func changeWarValueLost(with otherPlayer: AbstractPlayer?, by delta: Int) {
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        if player.isEqual(to: otherPlayer) {
+            return
+        }
 
         let value = self.playerDict.warValueLost(with: otherPlayer)
         self.playerDict.updateWarValueLost(with: otherPlayer, to: value + delta)
