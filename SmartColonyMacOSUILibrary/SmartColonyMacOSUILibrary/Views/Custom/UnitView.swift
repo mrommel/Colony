@@ -42,6 +42,7 @@ struct UnitView: View {
             Image(nsImage: self.viewModel.background())
                 .resizable(capInsets: EdgeInsets(all: 15))
         )
+        .toolTip(self.viewModel.toolTip)
         .onTapGesture {
             self.viewModel.clicked()
         }
