@@ -243,7 +243,9 @@ public class EconomicAI: Codable {
         for economicStrategyType in EconomicStrategyType.all {
 
             // Minor Civs can't run some Strategies
-            // FIXME
+            if player.isCityState() && economicStrategyType.noMinorCivs() {
+                continue
+            }
 
             // check tech
             let requiredTech = economicStrategyType.required()
