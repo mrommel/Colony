@@ -138,6 +138,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func isTurnActive() -> Bool
 
     func isHuman() -> Bool
+    func isMajorAI() -> Bool
     func isBarbarian() -> Bool
     func isFreeCity() -> Bool
     func isCityState() -> Bool
@@ -2020,6 +2021,11 @@ public class Player: AbstractPlayer {
     public func isHuman() -> Bool {
 
         return self.isHumanVal
+    }
+
+    public func isMajorAI() -> Bool {
+
+        return !self.isHuman() && !self.isFreeCity() && !self.isBarbarian() && !self.isCityState()
     }
 
     public func eraScore() -> Int {
