@@ -1677,6 +1677,10 @@ public class Player: AbstractPlayer {
                                 }
                             }
 
+                            if districtType == .cityCenter {
+                                return false
+                            }
+
                             return true
                         })
 

@@ -1313,6 +1313,11 @@ open class GameModel: Codable {
         return self.map.city(at: location)
     }
 
+    public func city(at x: Int, and y: Int) -> AbstractCity? {
+
+        return self.map.city(at: x, and: y)
+    }
+
     func delete(city: AbstractCity?) {
 
         self.map.delete(city: city)
@@ -1416,6 +1421,11 @@ open class GameModel: Codable {
     public func unit(at point: HexPoint, of mapType: UnitMapType) -> AbstractUnit? {
 
         return self.map.unit(at: point, of: mapType)
+    }
+
+    public func unit(at x: Int, and y: Int, of mapType: UnitMapType) -> AbstractUnit? {
+
+        return self.map.unit(at: x, and: y, of: mapType)
     }
 
     func areUnits(at point: HexPoint) -> Bool {

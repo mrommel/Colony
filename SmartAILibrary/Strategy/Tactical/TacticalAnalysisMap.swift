@@ -34,7 +34,7 @@ enum TacticalDominanceType {
 // !  - Created by CvGame class
 // !  - Shared by all players; data is refreshed at start of each AI turn if player at war
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length nesting
 class TacticalAnalysisMap {
 
     let dominancePercentage = 25 // AI_TACTICAL_MAP_DOMINANCE_PERCENTAGE
@@ -51,9 +51,9 @@ class TacticalAnalysisMap {
     var dominanceZones: [TacticalDominanceZone]
     var ignoreLineOfSight: Bool
 
-    // MARK: internal class
+    // MARK: internal structs
 
-    class TacticalAnalysisCell: Codable, Equatable {
+    struct TacticalAnalysisCell: Codable, Equatable {
 
         var bits: BitArray
 
@@ -91,7 +91,7 @@ class TacticalAnalysisMap {
             self.dominanceZone = nil
         }
 
-        required init(from decoder: Decoder) throws {
+        init(from decoder: Decoder) throws {
 
             let values = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -111,7 +111,7 @@ class TacticalAnalysisMap {
             self.dominanceZone = nil
         }
 
-        func reset() {
+        mutating func reset() {
 
             self.bits.reset()
 
@@ -134,8 +134,8 @@ class TacticalAnalysisMap {
         // Is this plot revealed to this player?
         // TACTICAL_FLAG_VISIBLE
         var revealed: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 0) }
             get { return self.bits.valueOfBit(at: 0) }
+            set { self.bits.setValueOfBit(value: newValue, at: 0) }
         }
 
         func isRevealed() -> Bool {
@@ -144,8 +144,8 @@ class TacticalAnalysisMap {
 
         // Is this plot visible to this player?
         var visible: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 1) }
             get { return self.bits.valueOfBit(at: 1) }
+            set { self.bits.setValueOfBit(value: newValue, at: 1) }
         }
 
         func isVisivle() -> Bool {
@@ -155,29 +155,29 @@ class TacticalAnalysisMap {
         // Is this terrain impassable to this player?
         // TACTICAL_FLAG_IMPASSABLE_TERRAIN
         var impassableTerrain: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 2) }
             get { return self.bits.valueOfBit(at: 2) }
+            set { self.bits.setValueOfBit(value: newValue, at: 2) }
         }
 
         // Is this neutral territory impassable to this player?
         // TACTICAL_FLAG_IMPASSABLE_TERRITORY
         var impassableTerritory: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 3) }
             get { return self.bits.valueOfBit(at: 3) }
+            set { self.bits.setValueOfBit(value: newValue, at: 3) }
         }
 
         // A tile no enemy unit can see?
         // TACTICAL_FLAG_NOT_VISIBLE_TO_ENEMY
         var notVisibleToEnemy: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 4) }
             get { return self.bits.valueOfBit(at: 4) }
+            set { self.bits.setValueOfBit(value: newValue, at: 4) }
         }
 
         // Enemy can strike at a unit here
         // TACTICAL_FLAG_SUBJECT_TO_ENEMY_ATTACK
         var subjectToAttack: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 5) }
             get { return self.bits.valueOfBit(at: 5) }
+            set { self.bits.setValueOfBit(value: newValue, at: 5) }
         }
 
         func isSubjectToAttack() -> Bool {
@@ -188,8 +188,8 @@ class TacticalAnalysisMap {
         // Enemy can move to this tile and still have movement left this turn
         // TACTICAL_FLAG_FRIENDLY_TURN_END_TILE
         var enemyCanMovePast: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 6) }
             get { return self.bits.valueOfBit(at: 6) }
+            set { self.bits.setValueOfBit(value: newValue, at: 6) }
         }
 
         func isEnemyCanMovePast() -> Bool {
@@ -199,8 +199,8 @@ class TacticalAnalysisMap {
 
         // Is one of our friendly units ending its move here?
         var friendlyTurnEndTile: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 7) }
             get { return self.bits.valueOfBit(at: 7) }
+            set { self.bits.setValueOfBit(value: newValue, at: 7) }
         }
 
         func isFriendlyTurnEndTile() -> Bool {
@@ -211,33 +211,33 @@ class TacticalAnalysisMap {
         // Friendly city here?
         // TACTICAL_FLAG_FRIENDLY_CITY
         var friendlyCity: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 8) }
             get { return self.bits.valueOfBit(at: 8) }
+            set { self.bits.setValueOfBit(value: newValue, at: 8) }
         }
 
         // Enemy city here?
         // TACTICAL_FLAG_ENEMY_CITY
         var enemyCity: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 9) }
             get { return self.bits.valueOfBit(at: 9) }
+            set { self.bits.setValueOfBit(value: newValue, at: 9) }
         }
 
         // Neutral city here?
         // TACTICAL_FLAG_NEUTRAL_CITY
         var neutralCity: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 10) }
             get { return self.bits.valueOfBit(at: 10) }
+            set { self.bits.setValueOfBit(value: newValue, at: 10) }
         }
 
         var city: Bool {
-            get { return self.friendlyCity || self.enemyCity || self.neutralCity }
+            return self.friendlyCity || self.enemyCity || self.neutralCity
         }
 
         // Water?
         // TACTICAL_FLAG_WATER
         var water: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 11) }
             get { return self.bits.valueOfBit(at: 11) }
+            set { self.bits.setValueOfBit(value: newValue, at: 11) }
         }
 
         func isWater() -> Bool {
@@ -248,8 +248,8 @@ class TacticalAnalysisMap {
         // Ocean?
         // TACTICAL_FLAG_OCEAN
         var ocean: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 12) }
             get { return self.bits.valueOfBit(at: 12) }
+            set { self.bits.setValueOfBit(value: newValue, at: 12) }
         }
 
         func isOcean() -> Bool {
@@ -260,36 +260,36 @@ class TacticalAnalysisMap {
         // Territory owned by the active player
         // TACTICAL_FLAG_OWN_TERRITORY
         var ownTerritory: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 13) }
             get { return self.bits.valueOfBit(at: 13) }
+            set { self.bits.setValueOfBit(value: newValue, at: 13) }
         }
 
         // Territory owned by allies
         // TACTICAL_FLAG_FRIENDLY_TERRITORY
         var friendlyTerritory: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 14) }
             get { return self.bits.valueOfBit(at: 14) }
+            set { self.bits.setValueOfBit(value: newValue, at: 14) }
         }
 
         // Territory owned by enemies
         // TACTICAL_FLAG_ENEMY_TERRITORY
         var enemyTerritory: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 15) }
             get { return self.bits.valueOfBit(at: 15) }
+            set { self.bits.setValueOfBit(value: newValue, at: 15) }
         }
 
         // Territory that is unclaimed
         // TACTICAL_FLAG_UNCLAIMED_TERRITORY
         var unclaimedTerritory: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 16) }
             get { return self.bits.valueOfBit(at: 16) }
+            set { self.bits.setValueOfBit(value: newValue, at: 16) }
         }
 
         // Is this a plot we can use to bombard the target?
         // TACTICAL_FLAG_WITHIN_RANGE_OF_TARGET
         var withinRangeOfTarget: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 17) }
             get { return self.bits.valueOfBit(at: 17) }
+            set { self.bits.setValueOfBit(value: newValue, at: 17) }
         }
 
         func isWithinRangeOfTarget() -> Bool {
@@ -300,15 +300,15 @@ class TacticalAnalysisMap {
         // Does this plot help provide a flanking bonus on target?
         // TACTICAL_FLAG_CAN_USE_TO_FLANK
         var canUseToFlank: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 18) }
             get { return self.bits.valueOfBit(at: 18) }
+            set { self.bits.setValueOfBit(value: newValue, at: 18) }
         }
 
         // Should be a safe spot to deploy ranged units
         // TACTICAL_FLAG_SAFE_DEPLOYMENT
         var safeDeployment: Bool {
-            set { self.bits.setValueOfBit(value: newValue, at: 19) }
             get { return self.bits.valueOfBit(at: 19) }
+            set { self.bits.setValueOfBit(value: newValue, at: 19) }
         }
 
         static func == (lhs: TacticalAnalysisMap.TacticalAnalysisCell, rhs: TacticalAnalysisMap.TacticalAnalysisCell) -> Bool {
@@ -397,6 +397,14 @@ class TacticalAnalysisMap {
         self.enemyUnits = []
         self.dominanceZones = []
         self.ignoreLineOfSight = false
+
+        // reserve capacity
+        self.dominanceZones.reserveCapacity(mapSize.width() * mapSize.height())
+    }
+
+    func invalidate() {
+
+        self.turnBuild = -1
     }
 
     /// Fill the map with data for this AI player's turn
@@ -410,47 +418,47 @@ class TacticalAnalysisMap {
             fatalError("cant get player")
         }
 
+        // skip for barbarian player
+        if player.isBarbarian() {
+            return
+        }
+
         if self.turnBuild < gameModel.currentTurn || player.leader != self.playerBuild?.leader {
 
             self.isBuild = false
             self.playerBuild = player
             self.turnBuild = gameModel.currentTurn
 
-            // AI civs build this map every turn
-            if true /*player.leader.civilization() != .barbarian*/ {
+            self.dominanceZones.removeAll(keepingCapacity: true)
+            self.addTemporaryZones(in: gameModel)
 
-                self.dominanceZones.removeAll()
-                self.addTemporaryZones(in: gameModel)
+            for x in 0..<self.plots.width {
+                for y in 0..<self.plots.height {
 
-                for x in 0..<self.plots.width {
-                    for y in 0..<self.plots.height {
+                    if let tile = gameModel.tile(x: x, y: y) {
 
-                        let pt = HexPoint(x: x, y: y)
-                        if let tile = gameModel.tile(at: pt) {
+                        if self.populateCell(at: x, and: y, with: tile, in: gameModel) {
 
-                            if self.populateCell(at: pt, with: tile, in: gameModel) {
+                            if let zone = self.dominanceZone(for: &self.plots[x, y], with: tile, in: gameModel) {
 
-                                if let zone = self.dominanceZone(for: self.plots[pt], with: tile, in: gameModel) {
-
-                                    // Set zone for this cell
-                                    self.dominanceZones.append(zone)
-                                    self.plots[pt]?.dominanceZone = zone
-                                }
+                                // Set zone for this cell
+                                self.dominanceZones.append(zone)
+                                self.plots[x, y]?.dominanceZone = zone
                             }
-                        } else {
-                            // Erase this cell
-                            self.plots[pt]?.reset()
                         }
+                    } else {
+                        // Erase this cell
+                        self.plots[x, y]?.reset()
                     }
                 }
-
-                self.calculateMilitaryStrengths(in: gameModel)
-                self.prioritizeZones(in: gameModel)
-                self.buildEnemyUnitList(in: gameModel)
-                self.markCellsNearEnemy(in: gameModel)
-
-                self.isBuild = true
             }
+
+            self.calculateMilitaryStrengths(in: gameModel)
+            self.prioritizeZones(in: gameModel)
+            self.buildEnemyUnitList(in: gameModel)
+            self.markCellsNearEnemy(in: gameModel)
+
+            self.isBuild = true
         }
     }
 
@@ -507,7 +515,7 @@ class TacticalAnalysisMap {
 
                 if distance > 0 && distance <= range {
 
-                    guard let plot = self.plots[loopPoint] else {
+                    guard var plot = self.plots[loopPoint] else {
                         continue
                     }
 
@@ -541,7 +549,7 @@ class TacticalAnalysisMap {
 
         for loopPoint in target.point.neighbors() {
 
-            guard let plot = self.plots[loopPoint] else {
+            guard var plot = self.plots[loopPoint] else {
                 continue
             }
 
@@ -560,12 +568,9 @@ class TacticalAnalysisMap {
 
         let cell = self.plots[point]
 
-        for dominanceZone in self.dominanceZones {
+        for dominanceZone in self.dominanceZones where cell?.dominanceZone == dominanceZone {
 
-            if cell?.dominanceZone == dominanceZone {
-
-                return dominanceZone.dominanceFlag == .enemy || dominanceZone.dominanceFlag == .notVisible
-            }
+            return dominanceZone.dominanceFlag == .enemy || dominanceZone.dominanceFlag == .notVisible
         }
 
         return false
@@ -574,7 +579,7 @@ class TacticalAnalysisMap {
     // PRIVATE FUNCTIONS
 
     /// Add data for this cell into dominance zone information
-    private func dominanceZone(for cell: TacticalAnalysisCell?, with tile: AbstractTile?, in gameModel: GameModel?) -> TacticalDominanceZone? {
+    private func dominanceZone(for cell: inout TacticalAnalysisCell?, with tile: AbstractTile?, in gameModel: GameModel?) -> TacticalDominanceZone? {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -656,7 +661,8 @@ class TacticalAnalysisMap {
         }
 
         // If this isn't owned territory, update zone with military strength info
-        if tempZoneRef?.territoryType == TacticalDominanceTerritoryType.noOwner || tempZoneRef?.territoryType == TacticalDominanceTerritoryType.tempZone {
+        if tempZoneRef?.territoryType == TacticalDominanceTerritoryType.noOwner ||
+            tempZoneRef?.territoryType == TacticalDominanceTerritoryType.tempZone {
 
             if var tempZone = tempZoneRef {
 
@@ -672,7 +678,8 @@ class TacticalAnalysisMap {
                         }
 
                         tempZone.friendlyStrength += strength * self.unitStrengthMultiplier
-                        tempZone.friendlyRangedStrength += friendlyUnit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true, in: gameModel)
+                        tempZone.friendlyRangedStrength += friendlyUnit.rangedCombatStrength(
+                            against: nil, or: nil, on: nil, attacking: true, in: gameModel)
 
                         if friendlyUnit.range() > self.bestFriendlyRangeValue {
                             self.bestFriendlyRangeValue = friendlyUnit.range()
@@ -726,7 +733,12 @@ class TacticalAnalysisMap {
         city: AbstractCity?,
         area: HexArea?) -> TacticalDominanceZone? {
 
-        for dominanceZone in self.dominanceZones {
+        let max = self.dominanceZones.count
+        var index = 0
+        // for dominanceZone in self.dominanceZones {
+        while index < max {
+
+            let dominanceZone = self.dominanceZones[index]
 
             // If this is a temporary zone, matches if unowned and close enough
             if dominanceZone.territoryType == .tempZone &&
@@ -752,6 +764,8 @@ class TacticalAnalysisMap {
 
                 return dominanceZone
             }
+
+            index += 1
         }
 
         return nil
@@ -769,119 +783,120 @@ class TacticalAnalysisMap {
         }
 
         // Loop through the dominance zones
-        for var dominanceZone in self.dominanceZones {
+        for var dominanceZone in self.dominanceZones where dominanceZone.territoryType == .noOwner {
 
-            if dominanceZone.territoryType == .noOwner {
+            if let closestCity = dominanceZone.closestCity {
 
-                if let closestCity = dominanceZone.closestCity {
+                // Start with strength of the city itself
+                let strength = closestCity.rangedCombatStrength(against: nil, on: nil) * self.tacticalRange
 
-                    // Start with strength of the city itself
-                    let strength = closestCity.rangedCombatStrength(against: nil, on: nil) * self.tacticalRange
+                if dominanceZone.territoryType == .friendly {
 
-                    if dominanceZone.territoryType == .friendly {
+                    dominanceZone.friendlyStrength += strength
+                    dominanceZone.friendlyRangedStrength += closestCity.rangedCombatStrength(against: nil, on: nil)
+                } else {
 
-                        dominanceZone.friendlyStrength += strength
-                        dominanceZone.friendlyRangedStrength += closestCity.rangedCombatStrength(against: nil, on: nil)
-                    } else {
+                    dominanceZone.enemyStrength += strength
+                    dominanceZone.enemyRangedStrength += closestCity.rangedCombatStrength(against: nil, on: nil)
+                }
 
-                        dominanceZone.enemyStrength += strength
-                        dominanceZone.enemyRangedStrength += closestCity.rangedCombatStrength(against: nil, on: nil)
-                    }
+                // Loop through all of OUR units first
+                for unitRef in gameModel.units(of: player) {
 
-                    // Loop through all of OUR units first
-                    for unitRef in gameModel.units(of: player) {
+                    if let unit = unitRef {
 
-                        if let unit = unitRef {
+                        if unit.isCombatUnit() {
 
-                            if unit.isCombatUnit() {
+                            if unit.domain() == .air || unit.domain() == .land && !dominanceZone.isWater || unit.domain() == .sea && dominanceZone.isWater {
 
-                                if unit.domain() == .air || unit.domain() == .land && !dominanceZone.isWater || unit.domain() == .sea && dominanceZone.isWater {
+                                let distance = closestCity.location.distance(to: unit.location)
+                                let multiplier = self.tacticalRange + 1 - distance
 
-                                    let distance = closestCity.location.distance(to: unit.location)
-                                    let multiplier = self.tacticalRange + 1 - distance
+                                if multiplier > 0 {
 
-                                    if multiplier > 0 {
-
-                                        var unitStrength = unit.attackStrength(against: nil, or: nil, on: nil, in: gameModel)
-                                        if unitStrength == 0 && unit.isEmbarked() && !dominanceZone.isWater {
-                                            unitStrength = unit.baseCombatStrength(ignoreEmbarked: true)
-                                        }
-
-                                        dominanceZone.friendlyStrength += unitStrength * multiplier * self.unitStrengthMultiplier
-                                        dominanceZone.friendlyRangedStrength += unit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true, in: gameModel)
-
-                                        if unit.range() > self.bestFriendlyRangeValue {
-                                            self.bestFriendlyRangeValue = unit.range()
-                                        }
-
-                                        dominanceZone.friendlyUnitCount += 1
+                                    var unitStrength = unit.attackStrength(against: nil, or: nil, on: nil, in: gameModel)
+                                    if unitStrength == 0 && unit.isEmbarked() && !dominanceZone.isWater {
+                                        unitStrength = unit.baseCombatStrength(ignoreEmbarked: true)
                                     }
+
+                                    dominanceZone.friendlyStrength += unitStrength * multiplier * self.unitStrengthMultiplier
+                                    dominanceZone.friendlyRangedStrength += unit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true, in: gameModel)
+
+                                    if unit.range() > self.bestFriendlyRangeValue {
+                                        self.bestFriendlyRangeValue = unit.range()
+                                    }
+
+                                    dominanceZone.friendlyUnitCount += 1
                                 }
                             }
                         }
                     }
+                }
 
-                    // Repeat for all visible enemy units (or adjacent to visible)
-                    for otherPlayer in gameModel.players {
+                // Repeat for all visible enemy units (or adjacent to visible)
+                for otherPlayer in gameModel.players {
 
-                        if player.isAtWar(with: otherPlayer) {
+                    if player.isAtWar(with: otherPlayer) {
 
-                            for loopUnitRef in gameModel.units(of: otherPlayer) {
+                        for loopUnitRef in gameModel.units(of: otherPlayer) {
 
-                                guard let loopUnit = loopUnitRef else {
-                                    continue
-                                }
+                            guard let loopUnit = loopUnitRef else {
+                                continue
+                            }
 
-                                if loopUnit.isCombatUnit() {
+                            if loopUnit.isCombatUnit() {
 
-                                    if loopUnit.domain() == .air ||
-                                        (loopUnit.domain() == .land && !dominanceZone.isWater) ||
-                                        (loopUnit.domain() == .sea && dominanceZone.isWater) {
+                                if loopUnit.domain() == .air ||
+                                    (loopUnit.domain() == .land && !dominanceZone.isWater) ||
+                                    (loopUnit.domain() == .sea && dominanceZone.isWater) {
 
-                                        if let plot = gameModel.tile(at: loopUnit.location) {
+                                    if let plot = gameModel.tile(at: loopUnit.location) {
 
-                                            var visible = true
-                                            let distance = loopUnit.location.distance(to: closestCity.location)
+                                        var visible = true
+                                        let distance = loopUnit.location.distance(to: closestCity.location)
 
-                                            if distance <= self.tacticalRange {
+                                        if distance <= self.tacticalRange {
 
-                                                let multiplier = (self.tacticalRange + 4 - distance)  // "4" so unit strength isn't totally dominated by proximity to city
-                                                if !plot.isVisible(to: player) && !gameModel.isAdjacentDiscovered(of: loopUnit.location, for: player) {
-                                                    visible = false
+                                            // "4" so unit strength isn't totally dominated by proximity to city
+                                            let multiplier = (self.tacticalRange + 4 - distance)
+                                            if !plot.isVisible(to: player) && !gameModel.isAdjacentDiscovered(
+                                                of: loopUnit.location, for: player) {
+
+                                                visible = false
+                                            }
+
+                                            if multiplier > 0 {
+
+                                                var unitStrength = loopUnit.attackStrength(against: nil, or: nil, on: nil, in: gameModel)
+                                                if unitStrength == 0 && loopUnit.isEmbarked() && !dominanceZone.isWater {
+                                                    unitStrength = loopUnit.baseCombatStrength(ignoreEmbarked: true)
                                                 }
 
-                                                if multiplier > 0 {
+                                                if !visible {
+                                                    unitStrength /= 2
+                                                }
 
-                                                    var unitStrength = loopUnit.attackStrength(against: nil, or: nil, on: nil, in: gameModel)
-                                                    if unitStrength == 0 && loopUnit.isEmbarked() && !dominanceZone.isWater {
-                                                        unitStrength = loopUnit.baseCombatStrength(ignoreEmbarked: true)
+                                                dominanceZone.enemyStrength += unitStrength * multiplier * unitStrengthMultiplier
+
+                                                var rangedStrength = loopUnit.rangedCombatStrength(
+                                                    against: nil, or: nil, on: nil, attacking: true, in: gameModel)
+                                                if !visible {
+                                                    rangedStrength /= 2
+                                                }
+
+                                                dominanceZone.enemyRangedStrength = rangedStrength
+
+                                                if visible {
+                                                    dominanceZone.enemyUnitCount += 1
+                                                    if distance < dominanceZone.rangeClosestEnemyUnit {
+                                                        dominanceZone.rangeClosestEnemyUnit = distance
                                                     }
 
-                                                    if !visible {
-                                                        unitStrength /= 2
+                                                    if loopUnit.isRanged() {
+                                                        dominanceZone.enemyRangedUnitCount += 1
                                                     }
-
-                                                    dominanceZone.enemyStrength += unitStrength * multiplier * unitStrengthMultiplier
-
-                                                    var rangedStrength = loopUnit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true, in: gameModel)
-                                                    if !visible {
-                                                        rangedStrength /= 2
-                                                    }
-
-                                                    dominanceZone.enemyRangedStrength = rangedStrength
-
-                                                    if visible {
-                                                        dominanceZone.enemyUnitCount += 1
-                                                        if distance < dominanceZone.rangeClosestEnemyUnit {
-                                                            dominanceZone.rangeClosestEnemyUnit = distance
-                                                        }
-
-                                                        if loopUnit.isRanged() {
-                                                            dominanceZone.enemyRangedUnitCount += 1
-                                                        }
-                                                        if loopUnit.domain() == .sea {
-                                                            dominanceZone.enemyNavalUnitCount += 1
-                                                        }
+                                                    if loopUnit.domain() == .sea {
+                                                        dominanceZone.enemyNavalUnitCount += 1
                                                     }
                                                 }
                                             }
@@ -893,7 +908,6 @@ class TacticalAnalysisMap {
                     }
                 }
             }
-
         }
     }
 
@@ -1086,7 +1100,7 @@ class TacticalAnalysisMap {
     }
 
     /// Update data for a cell: returns whether or not to add to dominance zones
-    private func populateCell(at location: HexPoint, with tile: AbstractTile?, in gameModel: GameModel?) -> Bool {
+    private func populateCell(at x: Int, and y: Int, with tile: AbstractTile?, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1100,7 +1114,7 @@ class TacticalAnalysisMap {
             fatalError("cant get diplomacyAI")
         }
 
-        if let cell = self.plots[location], let tile = tile {
+        if var cell = self.plots[x, y], let tile = tile {
 
             cell.reset()
 
@@ -1113,10 +1127,13 @@ class TacticalAnalysisMap {
             var impassableTerritory = false
             if tile.hasOwner() {
 
-                if tile.owner()?.leader != player.leader && diplomacyAI.isAtWar(with: tile.owner()) && !diplomacyAI.isOpenBorderAgreementActive(by: tile.owner()) {
+                if tile.owner()?.leader != player.leader &&
+                    diplomacyAI.isAtWar(with: tile.owner()) &&
+                    !diplomacyAI.isOpenBorderAgreementActive(by: tile.owner()) {
+
                     impassableTerritory = true
 
-                } else if let city = gameModel.city(at: location) {
+                } else if let city = gameModel.city(at: x, and: y) {
 
                     if city.player?.leader == player.leader {
                         cell.friendlyCity = true
@@ -1150,7 +1167,7 @@ class TacticalAnalysisMap {
             cell.impassableTerritory = impassableTerritory
             cell.defenseModifier = tile.defenseModifier(for: player)
 
-            if let unit = gameModel.unit(at: location, of: .combat) {
+            if let unit = gameModel.unit(at: x, and: y, of: .combat) {
 
                 if unit.player?.leader == player.leader {
 
@@ -1193,35 +1210,33 @@ class TacticalAnalysisMap {
 
         tacticalAI.dropObsoleteZones(in: gameModel)
 
-        for temporaryZone in tacticalAI.temporaryZones {
+        // Can't be a city zone (which is just used to boost priority but not establish a new zone)
+        for temporaryZone in tacticalAI.temporaryZones where temporaryZone.targetType != .city {
 
-            // Can't be a city zone (which is just used to boost priority but not establish a new zone)
-            if temporaryZone.targetType != .city {
+            if let tile = gameModel?.tile(at: temporaryZone.location) {
 
-                if let tile = gameModel?.tile(at: temporaryZone.location) {
+                let newZone = TacticalDominanceZone(
+                    territoryType: .tempZone,
+                    dominanceFlag: .noUnitsPresent,
+                    owner: nil,
+                    area: tile.area,
+                    isWater: tile.terrain().isWater(),
+                    center: tile,
+                    navalInvasion: temporaryZone.navalMission,
+                    friendlyStrength: 0,
+                    friendlyRangedStrength: 0,
+                    friendlyUnitCount: 0,
+                    friendlyRangedUnitCount: 0,
+                    enemyStrength: 0,
+                    enemyRangedStrength: 0,
+                    enemyUnitCount: 0,
+                    enemyRangedUnitCount: 0,
+                    enemyNavalUnitCount: 0,
+                    rangeClosestEnemyUnit: 0,
+                    dominanceValue: 0
+                )
 
-                    let newZone = TacticalDominanceZone(
-                        territoryType: .tempZone,
-                        dominanceFlag: .noUnitsPresent,
-                        owner: nil,
-                        area: tile.area,
-                        isWater: tile.terrain().isWater(),
-                        center: tile,
-                        navalInvasion: temporaryZone.navalMission,
-                        friendlyStrength: 0,
-                        friendlyRangedStrength: 0,
-                        friendlyUnitCount: 0,
-                        friendlyRangedUnitCount: 0,
-                        enemyStrength: 0,
-                        enemyRangedStrength: 0,
-                        enemyUnitCount: 0,
-                        enemyRangedUnitCount: 0,
-                        enemyNavalUnitCount: 0,
-                        rangeClosestEnemyUnit: 0,
-                        dominanceValue: 0)
-
-                    self.dominanceZones.append(newZone)
-                }
+                self.dominanceZones.append(newZone)
             }
         }
     }
@@ -1280,7 +1295,7 @@ class TacticalAnalysisMap {
                 var marked = false
 
                 let pt = HexPoint(x: x, y: y)
-                if let tile = gameModel.tile(at: pt), let plot = self.plots[x, y] {
+                if let tile = gameModel.tile(at: pt), var plot = self.plots[x, y] {
 
                     if tile.isDiscovered(by: self.playerBuild) && !tile.isImpassable(for: .walk) {
 

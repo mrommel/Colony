@@ -1732,7 +1732,7 @@ public class TacticalAI: Codable {
 
                 if plotDistance <= range {
 
-                    guard let cell = gameModel.tacticalAnalysisMap().plots[plotPoint],
+                    guard var cell = gameModel.tacticalAnalysisMap().plots[plotPoint],
                           let operation = army.operation else {
                         continue
                     }
@@ -2205,7 +2205,7 @@ public class TacticalAI: Codable {
                     if plotDistance <= range {
 
                         // int iPlotIndex = GC.getMap().plotNum(pPlot->getX(), pPlot->getY());
-                        guard let cell = tacticalAnalysisMap.plots[plotPoint], let operation = army.operation else {
+                        guard var cell = tacticalAnalysisMap.plots[plotPoint], let operation = army.operation else {
                             continue
                         }
 
@@ -4548,7 +4548,7 @@ public class TacticalAI: Codable {
             var safeFromAttack = true
 
             let plotDistance = cityPoint.distance(to: targetTile.point)
-            guard let cell = gameModel.tacticalAnalysisMap().plots[cityPoint] else {
+            guard var cell = gameModel.tacticalAnalysisMap().plots[cityPoint] else {
                 continue
             }
 
@@ -5602,7 +5602,7 @@ public class TacticalAI: Codable {
 
             let plotDistance = plotPoint.distance(to: target)
 
-            guard let cell = gameModel.tacticalAnalysisMap().plots[plotPoint] else {
+            guard var cell = gameModel.tacticalAnalysisMap().plots[plotPoint] else {
                 continue
             }
 
@@ -7759,7 +7759,7 @@ public class TacticalAI: Codable {
 
             if map.isBuild {
 
-                let cell = map.plots[unit.location]
+                var cell = map.plots[unit.location]
                 cell?.friendlyTurnEndTile = true
             }
         }

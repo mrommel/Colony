@@ -60,6 +60,7 @@
 		C91BE62B23FED2F300912962 /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91BE62A23FED2F300912962 /* Operations.swift */; };
 		C91BE62D23FED34C00912962 /* UnitOperationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91BE62C23FED34C00912962 /* UnitOperationType.swift */; };
 		C91D3C8026F283B700CD1F45 /* PlayerGovernors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91D3C7F26F283B700CD1F45 /* PlayerGovernors.swift */; };
+		C91E224027F4DC5B003D0F61 /* TacticalAnalysisMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91E223F27F4DC5A003D0F61 /* TacticalAnalysisMapTests.swift */; };
 		C920E99A23DB17EB008DEAB4 /* DiplomaticAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C920E99923DB17EB008DEAB4 /* DiplomaticAI.swift */; };
 		C920E99C23DB1DBA008DEAB4 /* DiplomaticDealAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C920E99B23DB1DBA008DEAB4 /* DiplomaticDealAI.swift */; };
 		C92317A123D62A6B001FC723 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C923179723D62A6B001FC723 /* SmartAILibrary.framework */; };
@@ -487,6 +488,7 @@
 		C91BE62A23FED2F300912962 /* Operations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operations.swift; sourceTree = "<group>"; };
 		C91BE62C23FED34C00912962 /* UnitOperationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitOperationType.swift; sourceTree = "<group>"; };
 		C91D3C7F26F283B700CD1F45 /* PlayerGovernors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerGovernors.swift; sourceTree = "<group>"; };
+		C91E223F27F4DC5A003D0F61 /* TacticalAnalysisMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalAnalysisMapTests.swift; sourceTree = "<group>"; };
 		C920E99923DB17EB008DEAB4 /* DiplomaticAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticAI.swift; sourceTree = "<group>"; };
 		C920E99B23DB1DBA008DEAB4 /* DiplomaticDealAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticDealAI.swift; sourceTree = "<group>"; };
 		C923179723D62A6B001FC723 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1142,6 +1144,7 @@
 				C900A5A8279DED9300D533B3 /* UnitPathfindingTests.swift */,
 				C99047F526CA45A600B1A7A6 /* UnitTests.swift */,
 				C9A50FE2242244C5006AA47B /* UsecaseTests.swift */,
+				C91E223F27F4DC5A003D0F61 /* TacticalAnalysisMapTests.swift */,
 			);
 			path = SmartAILibraryTests;
 			sourceTree = "<group>";
@@ -2180,6 +2183,7 @@
 				C92317A623D62A6B001FC723 /* FiniteStateMachineTests.swift in Sources */,
 				C9B6321E23DCDAB500E15A5F /* DiplomaticDealAITests.swift in Sources */,
 				C9A50FE3242244C5006AA47B /* UsecaseTests.swift in Sources */,
+				C91E224027F4DC5B003D0F61 /* TacticalAnalysisMapTests.swift in Sources */,
 				C9F4FE5227EF8000008545DB /* AccessLevelTests.swift in Sources */,
 				C935FBA827043EE3000CCA49 /* PlayerTests.swift in Sources */,
 				C92D221723E22D6600BB9238 /* PolicyCardsTests.swift in Sources */,
