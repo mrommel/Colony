@@ -202,6 +202,7 @@ public struct SelectableItem {
 public protocol UserInterfaceDelegate: AnyObject {
 
     func update(gameState: GameStateType)
+    func update(activePlayer: AbstractPlayer?)
 
     func showPopup(popupType: PopupType)
 

@@ -20,6 +20,7 @@ protocol DebugViewModelDelegate: AnyObject {
 class TestUI: UserInterfaceDelegate {
 
     func update(gameState: GameStateType) {}
+    func update(activePlayer: AbstractPlayer?) {}
 
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData? = nil) {}
 

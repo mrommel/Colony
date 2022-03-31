@@ -26,6 +26,35 @@ enum TacticalDominanceType {
     case even
 }
 
+struct Matrix<T> {
+
+    let width: Int
+    let height: Int
+    var grid: [T]
+
+    init(width: Int, height: Int, defaultValue: T) {
+
+        self.width = width
+        self.height = height
+        self.grid = Array(repeating: defaultValue, count: width * height) as! [T]
+    }
+
+    func indexIsValid(x: Int, y: Int) -> Bool {
+        return y >= 0 && y < self.height && x >= 0 && x < self.width
+    }
+
+    subscript(x: Int, y: Int) -> T {
+        get {
+            assert(indexIsValid(x: x, y: y), "Index out of range")
+            return grid[(y * width) + x]
+        }
+        set {
+            assert(indexIsValid(x: x, y: y), "Index out of range")
+            grid[(y * width) + x] = newValue
+        }
+    }
+}
+
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      TacticalAnalysisMap
 // !  \brief        Shared spatial map used by all AI players to analyze moves when at war
@@ -46,7 +75,8 @@ class TacticalAnalysisMap {
     var turnBuild: Int
     var playerBuild: AbstractPlayer?
     var isBuild: Bool
-    var plots: Array2D<TacticalAnalysisCell>
+    // var plots: Array2D<TacticalAnalysisCell>
+    var plots: Matrix<TacticalAnalysisCell>
     var enemyUnits: [AbstractUnit?]
     var dominanceZones: [TacticalDominanceZone]
     var ignoreLineOfSight: Bool
@@ -391,7 +421,8 @@ class TacticalAnalysisMap {
 
         self.unitStrengthMultiplier = 10 * self.tacticalRange
 
-        self.plots = Array2D<TacticalAnalysisCell>(width: mapSize.width(), height: mapSize.height())
+        //self.plots = Array2D<TacticalAnalysisCell>(width: mapSize.width(), height: mapSize.height())
+        self.plots = Matrix<TacticalAnalysisCell>(width: mapSize.width(), height: mapSize.height(), defaultValue: TacticalAnalysisCell())
         self.turnBuild = -1
         self.isBuild = false
         self.enemyUnits = []
@@ -443,12 +474,12 @@ class TacticalAnalysisMap {
 
                                 // Set zone for this cell
                                 self.dominanceZones.append(zone)
-                                self.plots[x, y]?.dominanceZone = zone
+                                self.plots[x, y].dominanceZone = zone
                             }
                         }
                     } else {
                         // Erase this cell
-                        self.plots[x, y]?.reset()
+                        self.plots[x, y].reset()
                     }
                 }
             }
@@ -483,10 +514,10 @@ class TacticalAnalysisMap {
         for x in 0..<self.plots.width {
             for y in 0..<self.plots.height {
 
-                self.plots[x, y]?.withinRangeOfTarget = false
-                self.plots[x, y]?.canUseToFlank = false
-                self.plots[x, y]?.safeDeployment = false
-                self.plots[x, y]?.deploymentScore = 0
+                self.plots[x, y].withinRangeOfTarget = false
+                self.plots[x, y].canUseToFlank = false
+                self.plots[x, y].safeDeployment = false
+                self.plots[x, y].deploymentScore = 0
             }
         }
     }
@@ -515,9 +546,7 @@ class TacticalAnalysisMap {
 
                 if distance > 0 && distance <= range {
 
-                    guard var plot = self.plots[loopPoint] else {
-                        continue
-                    }
+                    var plot = self.plots[loopPoint.x, loopPoint.y]
 
                     if plot.revealed && !plot.impassableTerrain && !plot.impassableTerritory {
 
@@ -549,9 +578,7 @@ class TacticalAnalysisMap {
 
         for loopPoint in target.point.neighbors() {
 
-            guard var plot = self.plots[loopPoint] else {
-                continue
-            }
+            var plot = self.plots[loopPoint.x, loopPoint.y]
 
             if plot.isRevealed() && !plot.impassableTerrain && !plot.impassableTerritory {
                 if !plot.friendlyCity && !plot.enemyCity && !plot.neutralCity {
@@ -566,9 +593,9 @@ class TacticalAnalysisMap {
     // Is this plot in dangerous territory?
     func isInEnemyDominatedZone(at point: HexPoint) -> Bool {
 
-        let cell = self.plots[point]
+        let cell = self.plots[point.x, point.y]
 
-        for dominanceZone in self.dominanceZones where cell?.dominanceZone == dominanceZone {
+        for dominanceZone in self.dominanceZones where cell.dominanceZone == dominanceZone {
 
             return dominanceZone.dominanceFlag == .enemy || dominanceZone.dominanceFlag == .notVisible
         }
@@ -579,7 +606,7 @@ class TacticalAnalysisMap {
     // PRIVATE FUNCTIONS
 
     /// Add data for this cell into dominance zone information
-    private func dominanceZone(for cell: inout TacticalAnalysisCell?, with tile: AbstractTile?, in gameModel: GameModel?) -> TacticalDominanceZone? {
+    private func dominanceZone(for cell: inout TacticalAnalysisCell, with tile: AbstractTile?, in gameModel: GameModel?) -> TacticalDominanceZone? {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -666,7 +693,7 @@ class TacticalAnalysisMap {
 
             if var tempZone = tempZoneRef {
 
-                if let friendlyUnit = cell?.friendlyMilitaryUnit {
+                if let friendlyUnit = cell.friendlyMilitaryUnit {
 
                     if friendlyUnit.domain() == .air ||
                         (friendlyUnit.domain() == .land && !tempZone.isWater) ||
@@ -693,7 +720,7 @@ class TacticalAnalysisMap {
                     }
                 }
 
-                if let enemyUnit = cell?.enemyMilitaryUnit {
+                if let enemyUnit = cell.enemyMilitaryUnit {
 
                     if enemyUnit.domain() == .air ||
                         (enemyUnit.domain() == .land && !tempZone.isWater) ||
@@ -721,7 +748,7 @@ class TacticalAnalysisMap {
         }
 
         // Set zone for this cell
-        cell?.dominanceZone = tempZoneRef
+        cell.dominanceZone = tempZoneRef
 
         return tempZoneRef
     }
@@ -1114,7 +1141,9 @@ class TacticalAnalysisMap {
             fatalError("cant get diplomacyAI")
         }
 
-        if var cell = self.plots[x, y], let tile = tile {
+        var cell = self.plots[x, y]
+
+        if let tile = tile {
 
             cell.reset()
 
@@ -1295,7 +1324,9 @@ class TacticalAnalysisMap {
                 var marked = false
 
                 let pt = HexPoint(x: x, y: y)
-                if let tile = gameModel.tile(at: pt), var plot = self.plots[x, y] {
+                var plot = self.plots[x, y]
+                
+                if let tile = gameModel.tile(at: pt) {
 
                     if tile.isDiscovered(by: self.playerBuild) && !tile.isImpassable(for: .walk) {
 

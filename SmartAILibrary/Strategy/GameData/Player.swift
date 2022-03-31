@@ -2144,7 +2144,16 @@ public class Player: AbstractPlayer {
             return
         }
 
-        print("--- start turn for \(self.isHuman() ? "HUMAN": "AI") player \(self.leader) ---")
+        if self.isHuman() {
+            print("--- start turn for HUMAN player \(self.leader) ---")
+        } else if self.isBarbarian() {
+            print("--- start turn for barbarian player ---")
+        } else if case .cityState(type: let cityStateType) = self.leader {
+            print("--- start turn for city state \(cityStateType.name()) ---")
+        } else if self.isMajorAI() {
+            print("--- start turn for AI player \(self.leader) ---")
+        }
+        gameModel.userInterface?.update(activePlayer: self)
 
         self.turnActive = true
         self.setEndTurn(to: false, in: gameModel)

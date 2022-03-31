@@ -30,12 +30,18 @@ struct BannerView: View {
                             .resizable()
                             .frame(width: 208, height: 89, alignment: .center)
 
-                        Text(self.viewModel.bannerText)
-                            .frame(width: 360, height: 40, alignment: .center)
-                            .background(
-                                Image(nsImage: ImageCache.shared.image(for: "grid9-button-active"))
-                                    .resizable(capInsets: EdgeInsets(all: 15))
-                            )
+                        VStack {
+                            Text(self.viewModel.bannerText)
+
+                            SegmentedProgressView(value: self.viewModel.currentPlayer, maximum: self.viewModel.maximumPlayer)
+                                .selectedColor(color: .white)
+                                .padding(.horizontal, 20)
+                        }
+                        .frame(width: 360, height: 60, alignment: .center)
+                        .background(
+                            Image(nsImage: ImageCache.shared.image(for: "grid9-button-active"))
+                                .resizable(capInsets: EdgeInsets(all: 15))
+                        )
                     }
                 }
 

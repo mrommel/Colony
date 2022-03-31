@@ -1578,7 +1578,7 @@ public class Unit: AbstractUnit {
         )
         let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
-        if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
+        if var path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
 
             // add current location
             path.prepend(point: self.location, cost: 0.0)
@@ -1606,7 +1606,7 @@ public class Unit: AbstractUnit {
         )
         let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
-        if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
+        if var path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
 
             // add current location
             path.prepend(point: self.location, cost: 0.0)
@@ -4162,7 +4162,7 @@ public class Unit: AbstractUnit {
         )
         let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
-        if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
+        if var path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
 
             path.prepend(point: self.location, cost: 0.0)
 

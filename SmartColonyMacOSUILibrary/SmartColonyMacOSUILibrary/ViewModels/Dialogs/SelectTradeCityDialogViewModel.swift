@@ -160,7 +160,7 @@ extension SelectTradeCityDialogViewModel: TradeCityViewModelDelegate {
         )
         let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
-        if let path = pathFinder.shortestPath(fromTileCoord: startLocation, toTileCoord: selectedLocation) {
+        if var path = pathFinder.shortestPath(fromTileCoord: startLocation, toTileCoord: selectedLocation) {
 
             path.prepend(point: startLocation, cost: 0.0)
 

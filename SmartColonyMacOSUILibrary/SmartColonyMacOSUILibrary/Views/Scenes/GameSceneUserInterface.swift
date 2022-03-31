@@ -16,6 +16,18 @@ extension GameScene: UserInterfaceDelegate {
         self.viewModel?.delegate?.update(gameState: gameState)
     }
 
+    func update(activePlayer: AbstractPlayer?) {
+
+        guard let gameModel = self.viewModel?.gameModel else {
+            fatalError("cant get game")
+        }
+
+        let maximum: Int = gameModel.players.count
+        let current: Int = gameModel.players.firstIndex(where: { $0.isEqual(to: activePlayer) }) ?? 0
+
+        self.viewModel?.delegate?.updateTurnProgress(current: current, maximum: maximum)
+    }
+
     func showPopup(popupType: PopupType) {
 
         self.viewModel?.delegate?.showPopup(popupType: popupType)

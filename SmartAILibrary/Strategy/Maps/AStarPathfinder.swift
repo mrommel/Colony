@@ -167,7 +167,7 @@ public class AStarPathfinder {
 
     private func convertStepsToShortestPath(lastStep: AStarPathStep) -> HexPath {
 
-        let shortestPath = HexPath()
+        var shortestPath = HexPath()
         var currentStep = lastStep
 
         // if parent is nil, then it is our starting step, so don't include it

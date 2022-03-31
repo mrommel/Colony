@@ -50,6 +50,7 @@ public struct UserDefaultStorage<T: Codable> {
 protocol GameViewModelDelegate: AnyObject {
 
     func update(gameState: GameStateType)
+    func updateTurnProgress(current: Int, maximum: Int)
 
     var selectedCity: AbstractCity? { get set }
     var selectedUnit: AbstractUnit? { get set }
@@ -686,6 +687,11 @@ extension GameViewModel: GameViewModelDelegate {
             // switch to human turn - to show victory screen
             self.changeUITurnState(to: .humanTurns)
         }
+    }
+
+    func updateTurnProgress(current: Int, maximum: Int) {
+
+        self.bannerViewModel.updateBanner(current: current, maximum: maximum)
     }
 
     func refreshTile(at point: HexPoint) {
