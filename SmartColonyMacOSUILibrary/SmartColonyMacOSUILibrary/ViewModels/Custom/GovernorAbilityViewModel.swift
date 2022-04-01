@@ -22,7 +22,7 @@ class GovernorAbilityViewModel: ObservableObject {
 
     init(iconTexture: String, text: String, enabled: Bool) {
 
-        self.text = text
+        self.text = text.localized()
         self.iconTexture = iconTexture
         self.enabled = enabled
     }
