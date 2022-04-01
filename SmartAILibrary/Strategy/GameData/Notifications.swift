@@ -179,8 +179,41 @@ public class NotificationItem: Codable, Equatable {
                     gameModel?.userInterface?.focus(on: capital.location)
                 }
             }
+
+            gameModel?.userInterface?.showScreen(screenType: .cityStates, city: nil, other: nil, data: nil)
+            self.dismiss(in: gameModel)
+
         case .momentAdded(type: _):
             gameModel?.userInterface?.showScreen(screenType: .moments, city: nil, other: nil, data: nil)
+            self.dismiss(in: gameModel)
+
+        case .questCityStateFulfilled(cityState: _, quest: _):
+            print("popup => envoy gained")
+            self.dismiss(in: gameModel)
+
+        case .questCityStateGiven(cityState: _, quest: _):
+            gameModel?.userInterface?.showScreen(screenType: .cityStates, city: nil, other: nil, data: nil)
+            self.dismiss(in: gameModel)
+
+        case .questCityStateObsolete(cityState: _, quest: _):
+            gameModel?.userInterface?.showScreen(screenType: .cityStates, city: nil, other: nil, data: nil)
+            self.dismiss(in: gameModel)
+
+        case .tradeRouteCapacityIncreased:
+            gameModel?.userInterface?.showScreen(screenType: .tradeRoutes, city: nil, other: nil, data: nil)
+            self.dismiss(in: gameModel)
+
+        case .naturalWonderDiscovered(location: let location):
+            if let tile = gameModel?.tile(at: location) {
+                if tile.feature().isNaturalWonder() {
+                    gameModel?.userInterface?.focus(on: location)
+                }
+            }
+            self.dismiss(in: gameModel)
+
+        case .wonderBuilt:
+            print("show popup?")
+            self.dismiss(in: gameModel)
 
         default:
             print("activate \(self.type) not handled")
@@ -252,7 +285,7 @@ public class NotificationItem: Codable, Equatable {
             return false
 
         case .canChangeGovernment:
-            return true
+            return false
 
         case .policiesNeeded:
 
@@ -334,22 +367,22 @@ public class NotificationItem: Codable, Equatable {
             return true
 
         case .questCityStateFulfilled(cityState: _, quest: _):
-            return true
+            return false
 
         case .questCityStateGiven(cityState: _, quest: _):
-            return true
+            return false
 
         case .questCityStateObsolete(cityState: _, quest: _):
-            return true
+            return false
 
         case .metCityState(cityState: _, first: _):
-            return true
+            return false
 
         case .tradeRouteCapacityIncreased:
-            return true
+            return false
 
         case .momentAdded(type: _):
-            return true
+            return false
 
         default:
             return false

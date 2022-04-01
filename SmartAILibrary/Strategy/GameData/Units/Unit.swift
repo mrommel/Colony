@@ -2150,6 +2150,10 @@ public class Unit: AbstractUnit {
                     if !player.hasDiscovered(naturalWonder: feature) {
                         player.doDiscover(naturalWonder: feature)
                         player.addMoment(of: .discoveryOfANaturalWonder(naturalWonder: feature), in: gameModel)
+
+                        if player.isHuman() {
+                            player.notifications()?.add(notification: .naturalWonderDiscovered(location: adjacentPoint))
+                        }
                     }
 
                     /*PromotionTypes ePromotion = (PromotionTypes)GC.getFeatureInfo(eFeature)->getAdjacentUnitFreePromotion();

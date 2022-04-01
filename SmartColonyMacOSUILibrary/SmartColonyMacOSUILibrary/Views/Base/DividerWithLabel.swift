@@ -9,13 +9,13 @@ import SwiftUI
 
 struct DividerWithLabel: View {
 
-    let label: String
+    let labelText: String
     let horizontalPadding: CGFloat
     let color: Color
 
-    init(_ label: String, horizontalPadding: CGFloat = 10, color: Color = .gray) {
+    init(_ labelText: String, horizontalPadding: CGFloat = 10, color: Color = .gray) {
 
-        self.label = label
+        self.labelText = labelText
         self.horizontalPadding = horizontalPadding
         self.color = color
     }
@@ -25,7 +25,7 @@ struct DividerWithLabel: View {
         HStack {
             self.line
 
-            Text(self.label)
+            Label(self.labelText)
                 .foregroundColor(self.color)
 
             self.line

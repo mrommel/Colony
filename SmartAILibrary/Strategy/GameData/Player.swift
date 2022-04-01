@@ -1000,12 +1000,14 @@ public class Player: AbstractPlayer {
         self.diplomacyAI?.doFirstContact(with: otherPlayer, in: gameModel)
         otherPlayer.diplomacyAI?.doFirstContact(with: self, in: gameModel)
 
-        // moment
-        self.addMoment(of: .metNewCivilization(civilization: otherPlayer.leader.civilization()), in: gameModel)
+        if otherPlayer.isMajorAI() || otherPlayer.isHuman() {
+            // moment
+            self.addMoment(of: .metNewCivilization(civilization: otherPlayer.leader.civilization()), in: gameModel)
 
-        // update eurekas
-        if !techs.eurekaTriggered(for: .writing) {
-            techs.triggerEureka(for: .writing, in: gameModel)
+            // update eurekas
+            if !techs.eurekaTriggered(for: .writing) {
+                techs.triggerEureka(for: .writing, in: gameModel)
+            }
         }
 
         if self.isCityState() {

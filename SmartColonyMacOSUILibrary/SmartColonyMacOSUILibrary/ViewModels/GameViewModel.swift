@@ -1116,6 +1116,9 @@ extension GameViewModel: GameViewModelDelegate {
         case .victory:
             self.showVictoryDialog()
 
+        case .cityStates:
+            self.showCityStateDialog()
+
         default:
             print("screen: \(screenType) not handled")
         }

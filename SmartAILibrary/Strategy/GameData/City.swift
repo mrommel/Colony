@@ -3378,6 +3378,9 @@ public class City: AbstractCity {
             if player.isHuman() {
 
                 gameModel.userInterface?.showPopup(popupType: .wonderBuilt(wonder: wonderType))
+            } else {
+                // inform human about foreign wonder built
+                gameModel.humanPlayer()?.notifications()?.add(notification: .wonderBuilt)
             }
 
         } catch {

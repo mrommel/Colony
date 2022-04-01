@@ -81,7 +81,7 @@ public enum FeatureType: Int, Codable {
         return self.data().yields
     }
 
-    func isNaturalWonder() -> Bool {
+    public func isNaturalWonder() -> Bool {
 
         return self.data().isWonder
     }

@@ -1960,9 +1960,13 @@ open class GameModel: Codable {
             if let continent = self.map.continent(by: continentType) {
 
                 // only trigger discovery of new continent, if player has at least one city
-                // this prevents
+                // this prevents first city triggering this
                 if continent.points.count > 8 && !self.cities(of: player).isEmpty {
                     player.addMoment(of: .firstDiscoveryOfANewContinent, in: self)
+
+                    if player.isHuman() {
+                        player.notifications()?.add(notification: .continentDiscovered)
+                    }
                 }
             }
         }

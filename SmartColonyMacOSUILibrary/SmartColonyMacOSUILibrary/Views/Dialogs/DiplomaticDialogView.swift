@@ -332,10 +332,11 @@ public struct DiplomaticDialogView: View {
 
         VStack(spacing: 10) {
 
-            SegmentedProgressView(value: self.viewModel.relationShipRating, maximum: 100)
+            SegmentedProgressView(value: self.viewModel.relationShipRating, maximum: 20)
                 .accentColor(Color.green)
                 .foregroundColor(Color.green)
                 .frame(width: 300, alignment: .center)
+                .padding(.top, 10)
 
             Text("TXT_KEY_DIPLOMACY_RELATIONSHIP_TITLE".localized())
                 .font(.headline)
@@ -350,7 +351,7 @@ public struct DiplomaticDialogView: View {
             }
                 .frame(width: 300, alignment: .trailing)
 
-            Text("TXT_KEY_DIPLOMACY_RELATIONSHIP_REASONS".localized())
+            Label("TXT_KEY_DIPLOMACY_RELATIONSHIP_REASONS".localized())
                 .font(.headline)
 
             LazyVStack(spacing: 4) {
