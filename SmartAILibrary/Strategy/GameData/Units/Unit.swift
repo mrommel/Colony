@@ -1649,7 +1649,11 @@ public class Unit: AbstractUnit {
 
         guard let path = self.path(towards: target, options: .none, in: gameModel) else {
             print("Unable to generate path with BuildRouteFinder")
-            self.doCancelOrder(in: gameModel)
+            if self.type == .trader {
+                self.finishMoves() // skip one turn
+            } else {
+                self.doCancelOrder(in: gameModel)
+            }
             return 0
         }
 

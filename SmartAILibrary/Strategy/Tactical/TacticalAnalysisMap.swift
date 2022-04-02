@@ -421,7 +421,6 @@ class TacticalAnalysisMap {
 
         self.unitStrengthMultiplier = 10 * self.tacticalRange
 
-        //self.plots = Array2D<TacticalAnalysisCell>(width: mapSize.width(), height: mapSize.height())
         self.plots = Matrix<TacticalAnalysisCell>(width: mapSize.width(), height: mapSize.height(), defaultValue: TacticalAnalysisCell())
         self.turnBuild = -1
         self.isBuild = false
@@ -834,7 +833,9 @@ class TacticalAnalysisMap {
 
                         if unit.isCombatUnit() {
 
-                            if unit.domain() == .air || unit.domain() == .land && !dominanceZone.isWater || unit.domain() == .sea && dominanceZone.isWater {
+                            if unit.domain() == .air ||
+                                unit.domain() == .land && !dominanceZone.isWater ||
+                                unit.domain() == .sea && dominanceZone.isWater {
 
                                 let distance = closestCity.location.distance(to: unit.location)
                                 let multiplier = self.tacticalRange + 1 - distance
@@ -847,7 +848,8 @@ class TacticalAnalysisMap {
                                     }
 
                                     dominanceZone.friendlyStrength += unitStrength * multiplier * self.unitStrengthMultiplier
-                                    dominanceZone.friendlyRangedStrength += unit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true, in: gameModel)
+                                    dominanceZone.friendlyRangedStrength += unit.rangedCombatStrength(
+                                        against: nil, or: nil, on: nil, attacking: true, in: gameModel)
 
                                     if unit.range() > self.bestFriendlyRangeValue {
                                         self.bestFriendlyRangeValue = unit.range()
@@ -1325,7 +1327,7 @@ class TacticalAnalysisMap {
 
                 let pt = HexPoint(x: x, y: y)
                 var plot = self.plots[x, y]
-                
+
                 if let tile = gameModel.tile(at: pt) {
 
                     if tile.isDiscovered(by: self.playerBuild) && !tile.isImpassable(for: .walk) {

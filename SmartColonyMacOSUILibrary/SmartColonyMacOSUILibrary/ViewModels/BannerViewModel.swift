@@ -11,7 +11,7 @@ public class BannerViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
-    
+
     @Published
     var bannerVisible: Bool
 
