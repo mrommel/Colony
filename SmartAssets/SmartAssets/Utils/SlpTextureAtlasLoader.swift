@@ -30,6 +30,24 @@ class SlpTextureAtlasLoader {
         let path = bundle.path(forResource: filename, ofType: "slp")
         let url = URL(fileURLWithPath: path!)
 
+        return SlpTextureAtlasLoader.atlas(for: url,
+                                           part: part,
+                                           mirror: mirror,
+                                           scale: scale,
+                                           offset: offset,
+                                           palette: palette,
+                                           player: player
+        )
+    }
+
+    public static func atlas(for url: URL,
+                             part: SlpTextureAtlasPart,
+                             mirror: Bool = false,
+                             scale: CGFloat = 1.5,
+                             offset: CGPoint = .zero,
+                             palette: [TypeColor] = SlpPalette.default.colors,
+                             player: SlpPlayer = SlpPlayer.defaultBlue) -> ObjectTextureAtlas? {
+
         guard let slpFile = SlpFileReader().load(from: url, player: player) else {
             print("cant get slp file")
             return nil
@@ -40,7 +58,7 @@ class SlpTextureAtlasLoader {
             return nil
         }
 
-        print("build atlas \(filename) with size: \(slpFile.frames[0].image()!.size)")
+        print("build atlas \(url.path) with size: \(slpFile.frames[0].image()!.size)")
 
         var rangeStart = 0
         var rangeEnd = 1
@@ -126,37 +144,34 @@ class SlpTextureAtlasLoader {
             return nil
         }
 
-        let firstImageSize = slpFile.frames[0].image()!.size
+        // let firstImageSize = slpFile.frames[0].image()!.size
         // print("build atlas \(filename) with size: \(slpFile.frames[0].image()!.size)")
 
         let selectedImages: [TypeImage] = slpFile.frames[range].map { $0.image(with: palette) ?? TypeImage() }
         var processedImages: [TypeImage] = []
-        var index = 0
 
-        selectedImages.forEach { selectedImage in
+        selectedImages.enumerated().forEach { (index, selectedImage) in
 
-            /*guard selectedImage.size == firstImageSize else {
-             fatalError("images have different sizes")
-             }*/
+            print("-- \(index) ---------------")
 
             guard let unitMask = bundle.image(forResource: "unit-mask") else {
                 fatalError("cant get unit-mask")
             }
 
             print("hotspot: \(slpFile.frames[index].header.hotSpotX), \(slpFile.frames[index].header.hotSpotY)")
+            let hotspotX = slpFile.frames[index].header.hotSpotX
+            let hotspotY = slpFile.frames[index].header.hotSpotY
             print("size: \(slpFile.frames[index].header.size())")
 
             print("build atlas unitMask: \(unitMask.size)")
 
-            let croppedSize = CGSize(width: selectedImage.size.width * scale, height: selectedImage.size.height * scale)
-            print("build atlas resized to: \(croppedSize)")
+            let resizedSize = CGSize(width: selectedImage.size.width * scale, height: selectedImage.size.height * scale)
+            print("build atlas resized to: \(resizedSize)")
 
-            if let resizedImage = selectedImage.resize(withSize: croppedSize) {
+            if let resizedImage = selectedImage.resize(withSize: resizedSize) {
 
-                // let posX: CGFloat = unitMask.size.width / 2.0 - resizedImage.size.width * CGFloat(sprite.pX)
-                // let posY: CGFloat = unitMask.size.height * 0.25 - resizedImage.size.height * CGFloat(1.0 - sprite.pY)
-                let posX: CGFloat = unitMask.size.width / 2.0 - firstImageSize.width * scale / 2.0 + offset.x * scale
-                let posY: CGFloat = unitMask.size.height / 2.0 - firstImageSize.height * scale / 2.0 + offset.y * scale - unitMask.size.height / 6.0
+                let posX: CGFloat = unitMask.size.width / 2.0 + (CGFloat(hotspotX) - selectedImage.size.width) * scale
+                let posY: CGFloat = unitMask.size.height / 2.0 + (CGFloat(hotspotY) - selectedImage.size.height) * scale
 
                 if var image = unitMask.overlayWith(image: resizedImage, posX: posX, posY: posY) {
 
@@ -167,8 +182,6 @@ class SlpTextureAtlasLoader {
                     processedImages.append(image)
                 }
             }
-
-            index += 1
         }
 
         return ObjectTextureAtlas(textures: processedImages)

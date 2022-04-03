@@ -734,7 +734,7 @@ public class SlpFrameData {
 
         // Render a frame to a buffer.
         var y = 0
-        var x: UInt16 = 0
+        var x: UInt16 = self.leftEdges[0]
 
         while let command = commands.dequeue() {
             // print(command)
