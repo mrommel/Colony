@@ -471,6 +471,7 @@ public class SlpFileReader {
     }
 }
 
+// https://github.com/SFTtech/openage/blob/master/doc/media/slp-files.md
 public class SlpFile {
 
     public let version: Int32

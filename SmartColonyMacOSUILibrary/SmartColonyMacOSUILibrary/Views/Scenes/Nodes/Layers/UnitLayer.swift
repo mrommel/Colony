@@ -221,7 +221,7 @@ class UnitLayer: SKNode {
         if let atlas = self.atlasFocus {
 
             let focusFrames = atlas.textures.map { SKTexture(image: $0) }
-            let focusAnimation = SKAction.repeatForever(SKAction.animate(with: focusFrames, timePerFrame: atlas.speed))
+            let focusAnimation = SKAction.repeatForever(SKAction.animate(with: focusFrames, timePerFrame: atlas.timePerFrame))
 
             self.focusNode?.run(focusAnimation, withKey: UnitLayer.focusActionKey, completion: { })
         }
@@ -251,7 +251,7 @@ class UnitLayer: SKNode {
         if let atlas = self.atlasAttackFocus {
 
             let focusFrames = atlas.textures.map { SKTexture(image: $0) }
-            let focusAnimation = SKAction.repeatForever(SKAction.animate(with: focusFrames, timePerFrame: atlas.speed))
+            let focusAnimation = SKAction.repeatForever(SKAction.animate(with: focusFrames, timePerFrame: atlas.timePerFrame))
 
             attackFocusNode.run(focusAnimation, withKey: UnitLayer.focusAttackActionKey, completion: { })
         }

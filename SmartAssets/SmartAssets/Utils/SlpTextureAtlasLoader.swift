@@ -16,6 +16,7 @@ enum SlpTextureAtlasPart {
     case north // fifth
 }
 
+// swiftlint:disable force_try
 class SlpTextureAtlasLoader {
 
     public static func atlas(for filename: String,
@@ -58,7 +59,7 @@ class SlpTextureAtlasLoader {
             return nil
         }
 
-        print("build atlas \(url.path) with size: \(slpFile.frames[0].image()!.size)")
+        // print("build atlas \(url.path) with size: \(slpFile.frames[0].image()!.size)")
 
         var rangeStart = 0
         var rangeEnd = 1
@@ -117,7 +118,7 @@ class SlpTextureAtlasLoader {
             return nil
         }
 
-        print("build atlas \(filename) with size: \(slpFile.frames[0].image()!.size)")
+        // print("build atlas \(filename) with size: \(slpFile.frames[0].image()!.size)")
 
         return SlpTextureAtlasLoader.atlas(
             from: slpFile,
@@ -128,6 +129,19 @@ class SlpTextureAtlasLoader {
             palette: palette,
             player: player)
     }
+
+    /* private static var downloadsFolder: URL = {
+        let fileManager = FileManager.default
+        let folder = fileManager.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
+
+        var isDirectory: ObjCBool = false
+        if !(fileManager.fileExists(atPath: folder.path, isDirectory: &isDirectory) && isDirectory.boolValue) {
+            do {
+                try fileManager.createDirectory(at: folder, withIntermediateDirectories: false, attributes: nil)
+            } catch { }
+        }
+        return folder
+    }() */
 
     private static func atlas(from slpFile: SlpFile,
                               range: Range<Int>,
@@ -144,34 +158,28 @@ class SlpTextureAtlasLoader {
             return nil
         }
 
-        // let firstImageSize = slpFile.frames[0].image()!.size
-        // print("build atlas \(filename) with size: \(slpFile.frames[0].image()!.size)")
-
         let selectedImages: [TypeImage] = slpFile.frames[range].map { $0.image(with: palette) ?? TypeImage() }
         var processedImages: [TypeImage] = []
 
         selectedImages.enumerated().forEach { (index, selectedImage) in
 
-            print("-- \(index) ---------------")
-
             guard let unitMask = bundle.image(forResource: "unit-mask") else {
                 fatalError("cant get unit-mask")
             }
 
-            print("hotspot: \(slpFile.frames[index].header.hotSpotX), \(slpFile.frames[index].header.hotSpotY)")
-            let hotspotX = slpFile.frames[index].header.hotSpotX
-            let hotspotY = slpFile.frames[index].header.hotSpotY
-            print("size: \(slpFile.frames[index].header.size())")
-
-            print("build atlas unitMask: \(unitMask.size)")
-
+            let hotspotX = CGFloat(slpFile.frames[index].header.hotSpotX) * scale
+            let hotspotY = CGFloat(slpFile.frames[index].header.hotSpotY) * scale
             let resizedSize = CGSize(width: selectedImage.size.width * scale, height: selectedImage.size.height * scale)
-            print("build atlas resized to: \(resizedSize)")
 
             if let resizedImage = selectedImage.resize(withSize: resizedSize) {
 
-                let posX: CGFloat = unitMask.size.width / 2.0 + (CGFloat(hotspotX) - selectedImage.size.width) * scale
-                let posY: CGFloat = unitMask.size.height / 2.0 + (CGFloat(hotspotY) - selectedImage.size.height) * scale
+                // debug
+                // let filename = SlpTextureAtlasLoader.downloadsFolder.appendingPathComponent("caravane-idle-scaled-\(index).png")
+                // try! resizedImage.savePngTo(url: filename)
+
+                let posX: CGFloat = unitMask.size.width / 2.0 - hotspotX + offset.x
+                let posY: CGFloat = unitMask.size.height / 2.0 - hotspotY + offset.y + 20
+                // print("hotspotx for \(index): \(hotspotX)")
 
                 if var image = unitMask.overlayWith(image: resizedImage, posX: posX, posY: posY) {
 

@@ -124,7 +124,7 @@ class UnitObject {
 
         if let atlas = atlas {
             let walkFrames = atlas.textures.map { SKTexture(image: $0) }
-            let walk = SKAction.animate(with: [walkFrames, walkFrames, walkFrames].flatMap { $0 }, timePerFrame: atlas.speed)
+            let walk = SKAction.animate(with: [walkFrames, walkFrames, walkFrames].flatMap { $0 }, timePerFrame: atlas.timePerFrame)
 
             let move = SKAction.move(to: HexPoint.toScreen(hex: hex), duration: walk.duration)
 
@@ -328,7 +328,7 @@ class UnitObject {
         let idleAnimation = SKAction.repeatForever(
             SKAction.animate(
                 with: combinedIdleFrames,
-                timePerFrame: idleAtlas.speed
+                timePerFrame: idleAtlas.timePerFrame
             )
         )
 
@@ -352,7 +352,7 @@ class UnitObject {
             let idleAnimation = SKAction.repeatForever(
                 SKAction.animate(
                     with: combinedFortifiedFrames,
-                    timePerFrame: atlas.speed
+                    timePerFrame: atlas.timePerFrame
                 )
             )
 
