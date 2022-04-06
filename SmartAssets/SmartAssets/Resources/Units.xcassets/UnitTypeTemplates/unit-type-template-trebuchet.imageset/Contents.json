@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "unit-type-template-trebuchet@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "unit-type-template-trebuchet@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "unit-type-template-trebuchet@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

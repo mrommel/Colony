@@ -712,6 +712,11 @@ open class MapModel: Codable {
                     return self.river(at: tile.point)
                 }
 
+                // no natural wonders on resources
+                if featureType.isNaturalWonder() && tile.hasAnyResource(for: nil) {
+                    return false
+                }
+
                 return true
             }
         }

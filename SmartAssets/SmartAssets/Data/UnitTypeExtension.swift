@@ -181,7 +181,7 @@ extension UnitType {
         case .swordman: return "unit-type-swordman"
         case .horseman: return "unit-type-horseman"
         case .catapult: return "unit-type-catapult"
-        case .quadrireme: return "unit-type-default"
+        case .quadrireme: return "unit-type-quadrireme"
         case .siegeTower: return "unit-type-siegeTower"
 
             // medieval
@@ -191,6 +191,8 @@ extension UnitType {
         case .pikeman: return "unit-type-pikeman"
         case .knight: return "unit-type-knight"
         case .trebuchet: return "unit-type-trebuchet"
+
+            // renaissance
 
             // industrial
         case .medic: return "unit-type-medic"

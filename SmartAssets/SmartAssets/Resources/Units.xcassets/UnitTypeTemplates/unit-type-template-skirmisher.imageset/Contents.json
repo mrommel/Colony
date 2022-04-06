@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "unit-type-template-skirmisher@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "unit-type-template-skirmisher@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "unit-type-template-skirmisher@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

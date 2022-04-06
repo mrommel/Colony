@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "unit-type-spearman@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "unit-type-spearman@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "unit-type-spearman@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "unit-type-template-spearman@3x.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {

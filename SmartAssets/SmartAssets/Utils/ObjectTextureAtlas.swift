@@ -16,7 +16,7 @@ public class ObjectTextureAtlas {
     public init(textures: [NSImage], timePerFrame: Double = -1.0) {
 
         self.textures = textures
-        self.timePerFrame = timePerFrame == -1.0 ? 2.0 / Double(self.textures.count) : timePerFrame
+        self.timePerFrame = timePerFrame == -1.0 ? 0.1 : timePerFrame
     }
 
     public init(textures: [String], timePerFrame: Double = -1.0) {
@@ -24,7 +24,7 @@ public class ObjectTextureAtlas {
         let bundle = Bundle.init(for: Textures.self)
 
         self.textures = textures.map { bundle.image(forResource: $0)! }
-        self.timePerFrame = timePerFrame == -1.0 ? 2.0 / Double(self.textures.count) : timePerFrame
+        self.timePerFrame = timePerFrame == -1.0 ? 0.1 : timePerFrame
     }
 
     public init(atlasName: String, textures textureNames: [String], timePerFrame: Double = -1.0) {
@@ -33,7 +33,7 @@ public class ObjectTextureAtlas {
         let frames = textureNames.map { textureAtlas.textureNamed($0).cgImage() }
 
         self.textures = frames.map { NSImage(cgImage: $0, size: CGSize(width: $0.width, height: $0.height)) }
-        self.timePerFrame = timePerFrame == -1.0 ? 2.0 / Double(self.textures.count) : timePerFrame
+        self.timePerFrame = timePerFrame == -1.0 ? 0.1 : timePerFrame
     }
 
     public init(template: String, range: Range<Int>, timePerFrame: Double = -1.0) {
@@ -45,7 +45,7 @@ public class ObjectTextureAtlas {
         }
 
         self.textures = textureNames.map { bundle.image(forResource: $0)! }
-        self.timePerFrame = timePerFrame == -1.0 ? 2.0 / Double(self.textures.count) : timePerFrame
+        self.timePerFrame = timePerFrame == -1.0 ? 0.1 : timePerFrame
     }
 
     public func repeatFirst(amount: Int, timePerFrame: Double = -1.0) -> ObjectTextureAtlas {
@@ -54,7 +54,7 @@ public class ObjectTextureAtlas {
 
         var newTimePerFrame: Double = timePerFrame
 
-        if timePerFrame == -1.0 && self.timePerFrame != 2.0 / Double(self.textures.count) {
+        if timePerFrame == -1.0 && self.timePerFrame != 0.1 {
             newTimePerFrame = self.timePerFrame
         }
 
