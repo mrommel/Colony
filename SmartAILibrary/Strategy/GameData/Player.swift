@@ -228,7 +228,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func registerBuild(cityName: String)
     func cityStrengthModifier() -> Int
     func acquire(city oldCity: AbstractCity?, conquest: Bool, gift: Bool, in gameModel: GameModel?)
-    func doRaze(city: AbstractCity?, in gameModel: GameModel?)
+    func doRaze(city: AbstractCity?, in gameModel: GameModel?) -> Bool
     func disband(city: AbstractCity?, in gameModel: GameModel?)
     func delete(city: AbstractCity?, in gameModel: GameModel?)
     func numOfCitiesFounded() -> Int
@@ -5343,14 +5343,15 @@ public class Player: AbstractPlayer {
         return true
     }
 
-    public func doRaze(city cityRef: AbstractCity?, in gameModel: GameModel?) {
+    // raze city immediatelly
+    public func doRaze(city cityRef: AbstractCity?, in gameModel: GameModel?) -> Bool {
 
         guard let city = cityRef else {
             fatalError("cant get city to raze")
         }
 
         if !self.canRaze(city: city, in: gameModel) {
-            return
+            return false
         }
 
         /*if(GetID() == GC.getGame().getActivePlayer()) {
@@ -5378,7 +5379,9 @@ public class Player: AbstractPlayer {
             }
         }*/
 
-        city.changeRazingTurns(to: city.population())
+        city.kill(in: gameModel)
+
+        return true
     }
 
     public func disband(city cityRef: AbstractCity?, in gameModel: GameModel?) {

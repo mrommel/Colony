@@ -57,9 +57,11 @@ extension NotificationType {
         case .naturalWonderDiscovered: return "button-naturalWonderDiscovered"
         case .continentDiscovered: return "button-continentDiscovered"
         case .wonderBuilt: return "button-wonderBuilt"
+        case .cityCanShoot: return "button-default" // FIXME
         }
     }
 
+    // https://github.com/kouyx/Civ5-mod/blob/9327eabbacdecc34f3cbceed00489d405f7a9823/Civ5_mod_file/Assets/Gameplay/XML/NewText/EN_US/CIV5GameTextInfos_Jon.xml
     public func title() -> String {
 
         switch self {
@@ -128,6 +130,8 @@ extension NotificationType {
             return "continent discovered"
         case .wonderBuilt:
             return "wonder built"
+        case .cityCanShoot(cityName: let cityName): // TXT_KEY_NOTIFICATION_CITY_CAN_SHOOT
+            return "The City of \(cityName) can attack a nearby enemy!"
         }
     }
 
@@ -234,6 +238,8 @@ extension NotificationType {
             return "continent discovered"
         case .wonderBuilt:
             return "wonder built"
+        case .cityCanShoot(cityName: let cityName): // TXT_KEY_NOTIFICATION_SUMMARY_CITY_CAN_SHOOT
+            return "\(cityName) can fire upon an enemy!"
         }
     }
 }

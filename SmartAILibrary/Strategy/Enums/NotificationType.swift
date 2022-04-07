@@ -55,6 +55,8 @@ public enum NotificationType {
     case continentDiscovered // 30
     case wonderBuilt // 31
 
+    case cityCanShoot(cityName: String) // 32
+
     public static var all: [NotificationType] = [
         .turn,
         .generic,
@@ -87,7 +89,8 @@ public enum NotificationType {
         .tradeRouteCapacityIncreased,
         .naturalWonderDiscovered(location: HexPoint.invalid),
         .continentDiscovered,
-        .wonderBuilt
+        .wonderBuilt,
+        .cityCanShoot(cityName: "")
     ]
 
     func value() -> Int {
@@ -158,6 +161,8 @@ public enum NotificationType {
             return 30
         case .wonderBuilt:
             return 31
+        case .cityCanShoot(cityName: _):
+            return 32
         }
     }
 
@@ -280,6 +285,9 @@ extension NotificationType: Codable {
             self = .continentDiscovered
         case 31:
             self = .wonderBuilt
+        case 32:
+            let cityName = try container.decode(String.self, forKey: .cityNameValue)
+            self = .cityCanShoot(cityName: cityName)
         default:
             fatalError("value \(rawValue) not handled")
         }
@@ -409,6 +417,10 @@ extension NotificationType: Codable {
 
         case .wonderBuilt:
             try container.encode(31, forKey: .rawValue)
+
+        case .cityCanShoot(cityName: let cityName):
+            try container.encode(32, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityNameValue)
         }
     }
 }
@@ -504,6 +516,9 @@ extension NotificationType: Equatable {
         case (.wonderBuilt, .wonderBuilt):
             return true
 
+        case (.cityCanShoot(cityName: let lhsCityName), .cityCanShoot(cityName: let rhsCityName)):
+            return lhsCityName == rhsCityName
+
         default:
             if lhs.value() == rhs.value() {
                 fatalError("comparison not handled - please add a case")
@@ -532,8 +547,10 @@ extension NotificationType: Hashable {
         case .civicNeeded:
             hasher.combine(3)
 
-        case .productionNeeded:
+        case .productionNeeded(cityName: let cityName, location: let location):
             hasher.combine(4)
+            hasher.combine(cityName)
+            hasher.combine(location)
 
         case .canChangeGovernment:
             hasher.combine(5)
@@ -629,6 +646,10 @@ extension NotificationType: Hashable {
 
         case .wonderBuilt:
             hasher.combine(31)
+
+        case .cityCanShoot(cityName: let cityName):
+            hasher.combine(32)
+            hasher.combine(cityName)
         }
     }
 }
