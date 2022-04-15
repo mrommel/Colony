@@ -37,7 +37,7 @@ public enum NotificationType {
     case greatPersonJoined // 17 parameter: location
     case canRecruitGreatPerson(greatPerson: GreatPerson) // 18 parameter: greatPerson
 
-    case cityConquered(location: HexPoint) // 19
+    case cityLost(location: HexPoint) // 19
     case goodyHutDiscovered(location: HexPoint) // 20
     case barbarianCampDiscovered(location: HexPoint) // 21
 
@@ -52,10 +52,11 @@ public enum NotificationType {
     case tradeRouteCapacityIncreased // 28
 
     case naturalWonderDiscovered(location: HexPoint) // 29
-    case continentDiscovered // 30
+    case continentDiscovered(location: HexPoint, continentName: String) // 30
     case wonderBuilt // 31
 
-    case cityCanShoot(cityName: String) // 32
+    case cityCanShoot(cityName: String, location: HexPoint) // 32
+    case cityAcquired(cityName: String, location: HexPoint) // 33
 
     public static var all: [NotificationType] = [
         .turn,
@@ -77,7 +78,7 @@ public enum NotificationType {
         .unitDied(location: HexPoint.invalid),
         .greatPersonJoined,
         .canRecruitGreatPerson(greatPerson: .abuAlQasimAlZahrawi),
-        .cityConquered(location: HexPoint.invalid),
+        .cityLost(location: HexPoint.invalid),
         .goodyHutDiscovered(location: HexPoint.invalid),
         .barbarianCampDiscovered(location: HexPoint.invalid),
         .metCityState(cityState: CityStateType.amsterdam, first: true),
@@ -88,9 +89,10 @@ public enum NotificationType {
         .momentAdded(type: MomentType.shipSunk),
         .tradeRouteCapacityIncreased,
         .naturalWonderDiscovered(location: HexPoint.invalid),
-        .continentDiscovered,
+        .continentDiscovered(location: HexPoint.invalid, continentName: ""),
         .wonderBuilt,
-        .cityCanShoot(cityName: "")
+        .cityCanShoot(cityName: "", location: HexPoint.invalid),
+        .cityAcquired(cityName: "", location: HexPoint.invalid)
     ]
 
     func value() -> Int {
@@ -135,7 +137,7 @@ public enum NotificationType {
             return 17
         case .canRecruitGreatPerson(greatPerson: _):
             return 18
-        case .cityConquered(location: _):
+        case .cityLost(location: _):
             return 19
         case .goodyHutDiscovered(location: _):
             return 20
@@ -157,12 +159,14 @@ public enum NotificationType {
             return 28
         case .naturalWonderDiscovered(location: _):
             return 29
-        case .continentDiscovered:
+        case .continentDiscovered(location: _, continentName: _):
             return 30
         case .wonderBuilt:
             return 31
-        case .cityCanShoot(cityName: _):
+        case .cityCanShoot(cityName: _, location: _):
             return 32
+        case .cityAcquired(cityName: _, location: _):
+            return 33
         }
     }
 
@@ -186,6 +190,7 @@ extension NotificationType: Codable {
         case cityStateValue // CityStateType
         case questValue // QuestType
         case momentValue // MomentType
+        case continentNameValue // String
     }
 
     public init(from decoder: Decoder) throws {
@@ -248,7 +253,7 @@ extension NotificationType: Codable {
             self = .canRecruitGreatPerson(greatPerson: greatPerson)
         case 19:
             let location = try container.decode(HexPoint.self, forKey: .locationValue)
-            self = .cityConquered(location: location)
+            self = .cityLost(location: location)
         case 20:
             let location = try container.decode(HexPoint.self, forKey: .locationValue)
             self = .goodyHutDiscovered(location: location)
@@ -282,12 +287,20 @@ extension NotificationType: Codable {
             let location = try container.decode(HexPoint.self, forKey: .locationValue)
             self = .naturalWonderDiscovered(location: location)
         case 30:
-            self = .continentDiscovered
+            let location = try container.decode(HexPoint.self, forKey: .locationValue)
+            let continentName = try container.decode(String.self, forKey: .continentNameValue)
+            self = .continentDiscovered(location: location, continentName: continentName)
         case 31:
             self = .wonderBuilt
         case 32:
             let cityName = try container.decode(String.self, forKey: .cityNameValue)
-            self = .cityCanShoot(cityName: cityName)
+            let location = try container.decode(HexPoint.self, forKey: .locationValue)
+            self = .cityCanShoot(cityName: cityName, location: location)
+        case 33:
+            let cityName = try container.decode(String.self, forKey: .cityNameValue)
+            let location = try container.decode(HexPoint.self, forKey: .locationValue)
+            self = .cityAcquired(cityName: cityName, location: location)
+
         default:
             fatalError("value \(rawValue) not handled")
         }
@@ -366,7 +379,7 @@ extension NotificationType: Codable {
             try container.encode(18, forKey: .rawValue)
             try container.encode(greatPerson, forKey: .greatPersonValue)
 
-        case .cityConquered(location: let location):
+        case .cityLost(location: let location):
             try container.encode(19, forKey: .rawValue)
             try container.encode(location, forKey: .locationValue)
 
@@ -409,18 +422,26 @@ extension NotificationType: Codable {
             try container.encode(28, forKey: .rawValue)
 
         case .naturalWonderDiscovered(location: let location):
-            try container.encode(location, forKey: .locationValue)
             try container.encode(29, forKey: .rawValue)
+            try container.encode(location, forKey: .locationValue)
 
-        case .continentDiscovered:
+        case .continentDiscovered(location: let location, continentName: let continentName):
             try container.encode(30, forKey: .rawValue)
+            try container.encode(location, forKey: .locationValue)
+            try container.encode(continentName, forKey: .continentNameValue)
 
         case .wonderBuilt:
             try container.encode(31, forKey: .rawValue)
 
-        case .cityCanShoot(cityName: let cityName):
+        case .cityCanShoot(cityName: let cityName, location: let location):
             try container.encode(32, forKey: .rawValue)
             try container.encode(cityName, forKey: .cityNameValue)
+            try container.encode(location, forKey: .locationValue)
+
+        case .cityAcquired(cityName: let cityName, location: let location):
+            try container.encode(33, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityNameValue)
+            try container.encode(location, forKey: .locationValue)
         }
     }
 }
@@ -473,7 +494,7 @@ extension NotificationType: Equatable {
                   let .canRecruitGreatPerson(greatPerson: rhsGreatPerson)):
             return lhsGreatPerson == rhsGreatPerson
 
-        case (let .cityConquered(location: lhsLocation), let .cityConquered(rhsLocation)):
+        case (let .cityLost(location: lhsLocation), let .cityLost(rhsLocation)):
             return lhsLocation == rhsLocation
 
         case (let .goodyHutDiscovered(location: lhsLocation), let .goodyHutDiscovered(rhsLocation)):
@@ -510,14 +531,22 @@ extension NotificationType: Equatable {
         case (.naturalWonderDiscovered(location: let lhsLocation), .naturalWonderDiscovered(location: let rhsLocation)):
             return lhsLocation == rhsLocation
 
-        case (.continentDiscovered, .continentDiscovered):
-            return true
+        case (.continentDiscovered(location: let lhsLocation, continentName: let lhsContinentName),
+              .continentDiscovered(location: let rhsLocation, continentName: let rhsContinentName)):
+            return lhsLocation == rhsLocation && lhsContinentName == rhsContinentName
 
         case (.wonderBuilt, .wonderBuilt):
             return true
 
-        case (.cityCanShoot(cityName: let lhsCityName), .cityCanShoot(cityName: let rhsCityName)):
-            return lhsCityName == rhsCityName
+        case (.cityCanShoot(cityName: let lhsCityName, location: let lhsLocation),
+            .cityCanShoot(cityName: let rhsCityName, location: let rhsLocation)):
+
+            return lhsCityName == rhsCityName && lhsLocation == rhsLocation
+
+        case (.cityAcquired(cityName: let lhsCityName, location: let lhsLocation),
+            .cityAcquired(cityName: let rhsCityName, location: let rhsLocation)):
+
+            return lhsCityName == rhsCityName && lhsLocation == rhsLocation
 
         default:
             if lhs.value() == rhs.value() {
@@ -596,7 +625,7 @@ extension NotificationType: Hashable {
             hasher.combine(18)
             hasher.combine(greatPerson)
 
-        case .cityConquered(location: let location):
+        case .cityLost(location: let location):
             hasher.combine(19)
             hasher.combine(location)
 
@@ -638,18 +667,27 @@ extension NotificationType: Hashable {
         case .tradeRouteCapacityIncreased:
             hasher.combine(28)
 
-        case .naturalWonderDiscovered:
+        case .naturalWonderDiscovered(location: let location):
             hasher.combine(29)
+            hasher.combine(location)
 
-        case .continentDiscovered:
+        case .continentDiscovered(location: let location, continentName: let continentName):
             hasher.combine(30)
+            hasher.combine(location)
+            hasher.combine(continentName)
 
         case .wonderBuilt:
             hasher.combine(31)
 
-        case .cityCanShoot(cityName: let cityName):
+        case .cityCanShoot(cityName: let cityName, location: let location):
             hasher.combine(32)
             hasher.combine(cityName)
+            hasher.combine(location)
+
+        case .cityAcquired(cityName: let cityName, location: let location):
+            hasher.combine(33)
+            hasher.combine(cityName)
+            hasher.combine(location)
         }
     }
 }

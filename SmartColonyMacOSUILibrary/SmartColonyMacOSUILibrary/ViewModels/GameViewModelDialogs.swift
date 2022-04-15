@@ -487,4 +487,17 @@ extension GameViewModel {
             self.currentScreenType = .cityStates
         }
     }
+
+    func showRazeOrReturnCity(for city: AbstractCity?) {
+
+        if self.currentScreenType == .razeOrReturnCity {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.razeOrReturnCityDialogViewModel.update(for: city)
+            self.currentScreenType = .razeOrReturnCity
+        }
+    }
 }

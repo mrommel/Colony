@@ -52,8 +52,10 @@ public protocol AbstractCity: AnyObject, Codable {
     func setIsCapital(to value: Bool)
     func setEverCapital(to value: Bool)
     func isOriginalCapital(in gameModel: GameModel?) -> Bool
-    func set(originalLeader: LeaderType)
     func originalLeader() -> LeaderType
+    func set(originalLeader: LeaderType)
+    func previousLeader() -> LeaderType
+    func set(previousLeader: LeaderType)
     func doFoundMessage()
 
     func isEverCapital() -> Bool
@@ -293,6 +295,7 @@ public class City: AbstractCity {
         case location
         case leader
         case originalLeader
+        case previousLeader
         case capital
         case everCapital
         case gameTurnFounded
@@ -351,6 +354,7 @@ public class City: AbstractCity {
     public var player: AbstractPlayer?
     private(set) public var leader: LeaderType // for restoring from file
     private var originalLeaderValue: LeaderType
+    private var previousLeaderValue: LeaderType
     var capitalValue: Bool
     private var everCapitalValue: Bool // has this city ever been (or is) capital?
     private var gameTurnFoundedValue: Int
@@ -427,6 +431,7 @@ public class City: AbstractCity {
         self.player = owner
         self.leader = owner!.leader
         self.originalLeaderValue = owner!.leader
+        self.previousLeaderValue = .none
 
         self.isFeatureSurroundedValue = false
         self.threatVal = 0
@@ -455,6 +460,7 @@ public class City: AbstractCity {
         self.location = try container.decode(HexPoint.self, forKey: .location)
         self.leader = try container.decode(LeaderType.self, forKey: .leader)
         self.originalLeaderValue = try container.decode(LeaderType.self, forKey: .originalLeader)
+        self.previousLeaderValue = try container.decode(LeaderType.self, forKey: .previousLeader)
         self.capitalValue = try container.decode(Bool.self, forKey: .capital)
         self.everCapitalValue = try container.decode(Bool.self, forKey: .everCapital)
         self.gameTurnFoundedValue = try container.decode(Int.self, forKey: .gameTurnFounded)
@@ -547,6 +553,7 @@ public class City: AbstractCity {
         try container.encode(self.location, forKey: .location)
         try container.encode(self.player!.leader, forKey: .leader)
         try container.encode(self.originalLeaderValue, forKey: .originalLeader)
+        try container.encode(self.previousLeaderValue, forKey: .previousLeader)
         try container.encode(self.capitalValue, forKey: .capital)
         try container.encode(self.everCapitalValue, forKey: .everCapital)
         try container.encode(self.gameTurnFoundedValue, forKey: .gameTurnFounded)
@@ -947,7 +954,7 @@ public class City: AbstractCity {
 
         if self.isEnemyInRange(in: gameModel) {
 
-            self.player?.notifications()?.add(notification: .cityCanShoot(cityName: self.name))
+            self.player?.notifications()?.add(notification: .cityCanShoot(cityName: self.name, location: self.location))
         }
     }
 
@@ -5730,6 +5737,16 @@ public class City: AbstractCity {
     public func set(originalLeader: LeaderType) {
 
         self.originalLeaderValue = originalLeader
+    }
+
+    public func previousLeader() -> LeaderType {
+
+        return self.previousLeaderValue
+    }
+
+    public func set(previousLeader: LeaderType) {
+
+        self.previousLeaderValue = previousLeader
     }
 
     //    --------------------------------------------------------------------------------

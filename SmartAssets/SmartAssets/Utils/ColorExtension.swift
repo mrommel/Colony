@@ -19,7 +19,7 @@ import SwiftUI
 extension TypeColor {
 
     // https://civilization.fandom.com/wiki/Jersey_System_(Civ6)
-    public static var geraldine: TypeColor = TypeColor(hex: "#e57574")! // Pink
+    public static var geraldine: TypeColor = TypeColor(hex: "#f36d70")! // Pink
     public static var venetianRed: TypeColor = TypeColor(hex: "#ca1415")! // Red
     public static var sangria: TypeColor = TypeColor(hex: "#780001")! // Dark Red
     public static var supernova: TypeColor = TypeColor(hex: "#ffb23c")! // Light Orange

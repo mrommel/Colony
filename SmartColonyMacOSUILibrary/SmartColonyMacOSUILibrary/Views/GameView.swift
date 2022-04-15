@@ -121,6 +121,8 @@ extension GameView {
             return AnyView(CityDialogView(viewModel: self.viewModel.cityDialogViewModel))
         case .cityState:
             return AnyView(CityStateDialogView(viewModel: self.viewModel.cityStateDialogViewModel))
+        case .razeOrReturnCity:
+            return AnyView(RazeOrReturnCityDialogView(viewModel: self.viewModel.razeOrReturnCityDialogViewModel))
 
         case .governors:
             return AnyView(GovernorsDialogView(viewModel: self.viewModel.governorsDialogViewModel))

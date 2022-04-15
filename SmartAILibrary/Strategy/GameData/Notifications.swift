@@ -53,17 +53,12 @@ public class NotificationItem: Codable, Equatable {
 
         case type
 
-        case diplomaticData
-
         case turn
         case dismissed
         case needsBroadcasting
     }
 
     public let type: NotificationType
-
-    // diplomatic states / messages
-    public var diplomaticData: DiplomaticData?
 
     let turn: Int // which turn this event was created on
     var dismissed: Bool
@@ -84,8 +79,6 @@ public class NotificationItem: Codable, Equatable {
 
         self.type = try container.decode(NotificationType.self, forKey: .type)
 
-        self.diplomaticData = try container.decodeIfPresent(DiplomaticData.self, forKey: .diplomaticData)
-
         self.dismissed = try container.decode(Bool.self, forKey: .dismissed)
         self.needsBroadcasting = try container.decode(Bool.self, forKey: .needsBroadcasting)
         self.turn = try container.decode(Int.self, forKey: .turn)
@@ -96,8 +89,6 @@ public class NotificationItem: Codable, Equatable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.type, forKey: .type)
-
-        try container.encodeIfPresent(self.diplomaticData, forKey: .diplomaticData)
 
         try container.encode(self.turn, forKey: .turn)
         try container.encode(self.dismissed, forKey: .dismissed)
@@ -188,7 +179,7 @@ public class NotificationItem: Codable, Equatable {
             self.dismiss(in: gameModel)
 
         case .questCityStateFulfilled(cityState: _, quest: _):
-            print("popup => envoy gained")
+            print("popup => envoy gained") // TODO
             self.dismiss(in: gameModel)
 
         case .questCityStateGiven(cityState: _, quest: _):
@@ -213,6 +204,38 @@ public class NotificationItem: Codable, Equatable {
 
         case .wonderBuilt:
             print("show popup?")
+            self.dismiss(in: gameModel)
+
+        case .cityCanShoot(cityName: _, location: let location):
+            gameModel?.userInterface?.focus(on: location)
+
+        case .cityAcquired(cityName: _, location: let location):
+            guard let city = gameModel?.city(at: location) else {
+                fatalError("cant get city at \(location)")
+            }
+
+            guard let cityPlayer = city.player else {
+                fatalError("cant get city player")
+            }
+
+            var showRazeOrReturnDialog: Bool = false
+            if cityPlayer.canRaze(city: city, ignoreCapitals: false, in: gameModel) {
+                showRazeOrReturnDialog = true
+            }
+
+            if city.originalLeader() != city.previousLeader() {
+                showRazeOrReturnDialog = true
+            }
+
+            if showRazeOrReturnDialog {
+                gameModel?.userInterface?.showScreen(screenType: .razeOrReturnCity, city: city, other: nil, data: nil)
+            } else {
+                gameModel?.userInterface?.showScreen(screenType: .city, city: city, other: nil, data: nil)
+            }
+            self.dismiss(in: gameModel)
+
+        case .continentDiscovered(location: let location, continentName: _):
+            gameModel?.userInterface?.focus(on: location)
             self.dismiss(in: gameModel)
 
         default:
@@ -384,6 +407,16 @@ public class NotificationItem: Codable, Equatable {
         case .momentAdded(type: _):
             return false
 
+        case .cityCanShoot(cityName: _, location: let location):
+            guard let city = gameModel.city(at: location) else {
+                fatalError("cant get city at \(location)")
+            }
+
+            return city.madeAttack()
+
+        case .cityAcquired(cityName: _, location: _):
+            return false
+
         default:
             return false
         }
@@ -485,9 +518,12 @@ public class Notifications: Codable {
             // NOTIFICATION_DIPLO_VOTE
 
             // NOTIFICATION_PRODUCTION
-            if notification.type.value() == NotificationType.productionNeeded(cityName: "", location: HexPoint.invalid).value() {
+            if case NotificationType.productionNeeded(cityName: _, location: _) = notification.type {
                 return notification
             }
+            /* if notification.type.value() == NotificationType.productionNeeded(cityName: "", location: HexPoint.invalid).value() {
+                return notification
+            }*/
 
             // NOTIFICATION_POLICY
             if notification.type == .civicNeeded {
@@ -507,6 +543,10 @@ public class Notifications: Codable {
 
             // policies
             if notification.type == .policiesNeeded {
+                return notification
+            }
+
+            if case .cityAcquired(cityName: _, location: _) = notification.type {
                 return notification
             }
         }

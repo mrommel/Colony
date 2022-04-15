@@ -2259,7 +2259,7 @@ public class Unit: AbstractUnit {
                 }
             }
 
-            // Are we in enemy territory? If so, give notification to owner
+            // is unit in enemy territory? If so, give notification to owner of this plot
             if diplomacyAI.isAtWar(with: plotOwner) {
 
                 if plotOwner.isEqual(to: gameModel.humanPlayer()) {

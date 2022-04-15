@@ -117,6 +117,7 @@ public enum ScreenType {
 
     case city
     case cityState
+    case razeOrReturnCity
 
     case techTree
     case techList

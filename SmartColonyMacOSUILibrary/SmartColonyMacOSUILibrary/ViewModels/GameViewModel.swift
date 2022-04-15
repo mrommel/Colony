@@ -235,6 +235,9 @@ public class GameViewModel: ObservableObject {
     var cityStateDialogViewModel: CityStateDialogViewModel
 
     @Published
+    var razeOrReturnCityDialogViewModel: RazeOrReturnCityDialogViewModel
+
+    @Published
     var unitListDialogViewModel: UnitListDialogViewModel
 
     @Published
@@ -454,6 +457,7 @@ public class GameViewModel: ObservableObject {
         self.momentsDialogViewModel = MomentsDialogViewModel()
         self.cityStatesDialogViewModel = CityStatesDialogViewModel()
         self.cityStateDialogViewModel = CityStateDialogViewModel()
+        self.razeOrReturnCityDialogViewModel = RazeOrReturnCityDialogViewModel()
 
         // popups
         self.goodyHutRewardPopupViewModel = GoodyHutRewardPopupViewModel()
@@ -505,6 +509,7 @@ public class GameViewModel: ObservableObject {
         self.momentsDialogViewModel.delegate = self
         self.cityStatesDialogViewModel.delegate = self
         self.cityStateDialogViewModel.delegate = self
+        self.razeOrReturnCityDialogViewModel.delegate = self
 
         self.goodyHutRewardPopupViewModel.delegate = self
         self.techDiscoveredPopupViewModel.delegate = self
@@ -1118,6 +1123,9 @@ extension GameViewModel: GameViewModelDelegate {
 
         case .cityStates:
             self.showCityStateDialog()
+
+        case .razeOrReturnCity:
+            self.showRazeOrReturnCity(for: city)
 
         default:
             print("screen: \(screenType) not handled")

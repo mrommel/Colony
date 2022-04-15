@@ -1923,7 +1923,7 @@ open class GameModel: Codable {
                 tile.sight(by: player)
                 tile.discover(by: player, in: self)
                 player?.checkWorldCircumnavigated(in: self)
-                self.checkDiscovered(continent: self.continent(at: areaPoint)?.type() ?? ContinentType.none, for: player)
+                self.checkDiscovered(continent: self.continent(at: areaPoint)?.type() ?? ContinentType.none, at: areaPoint, for: player)
                 self.userInterface?.refresh(tile: tile)
             }
         }
@@ -1936,7 +1936,7 @@ open class GameModel: Codable {
             if let tile = self.tile(at: pt) {
                 tile.discover(by: player, in: self)
                 player?.checkWorldCircumnavigated(in: self)
-                self.checkDiscovered(continent: self.continent(at: pt)?.type() ?? ContinentType.none, for: player)
+                self.checkDiscovered(continent: self.continent(at: pt)?.type() ?? ContinentType.none, at: pt, for: player)
                 self.userInterface?.refresh(tile: tile)
             }
         }
@@ -1947,7 +1947,7 @@ open class GameModel: Codable {
     /// - Parameters:
     ///   - continent: continent to check
     ///   - player: player to trigger the moment for
-    public func checkDiscovered(continent continentType: ContinentType, for player: AbstractPlayer?) {
+    public func checkDiscovered(continent continentType: ContinentType, at location: HexPoint, for player: AbstractPlayer?) {
 
         guard let player = player else {
             fatalError("cant get player")
@@ -1965,7 +1965,7 @@ open class GameModel: Codable {
                     player.addMoment(of: .firstDiscoveryOfANewContinent, in: self)
 
                     if player.isHuman() {
-                        player.notifications()?.add(notification: .continentDiscovered)
+                        player.notifications()?.add(notification: .continentDiscovered(location: location, continentName: continentType.name()))
                     }
                 }
             }

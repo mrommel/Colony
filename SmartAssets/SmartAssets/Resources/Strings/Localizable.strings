@@ -53,6 +53,14 @@
 "TXT_KEY_MAP_GENERATOR_POSITIONS" = "start positions identified";
 "TXT_KEY_MAP_GENERATOR_GOODIES" = "added goodies";
 
+// raze or liberate dialog
+"TXT_KEY_CITY_RAZE_OR_LIBERATE_TITLE" = "City captured";
+"TXT_KEY_CITY_NAME_LABEL" = "City Name:";
+"TXT_KEY_CITY_POPULATION_LABEL" = "Population:";
+"TXT_KEY_CITY_KEEP" = "Keep City";
+"TXT_KEY_CITY_RAZE" = "Raze City";
+"TXT_KEY_CITY_LIBERATE" = "Liberate to Founder (%@)";
+
 // civic/tech texts
 "TXT_KEY_INSPIRATION" = "Inspiration";
 "TXT_KEY_INSPIRATION_TRIGGERED" = "Your progress towards %@ has advanced considerably.";

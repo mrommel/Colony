@@ -744,4 +744,69 @@ class DiplomacyAITests: XCTestCase {
         let isAtWar = playerAlexander.isAtWar(with: playerTrajan)
         XCTAssertEqual(isAtWar, true)
     }
+
+    func testCityLiberation() {
+
+        // GIVEN
+        let playerBarbar = Player(leader: .barbar)
+        playerBarbar.initialize()
+
+        let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
+
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [playerBarbar, playerAlexander, playerTrajan],
+            on: mapModel
+        )
+
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+
+        // all players have meet with another
+        playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
+
+        let cityAlexander = City(name: "Alexander City", at: HexPoint(x: 0, y: 10), capital: true, owner: playerAlexander)
+        cityAlexander.initialize(in: gameModel)
+        gameModel.add(city: cityAlexander)
+
+        let cityTrajan = City(name: "Trajan City", at: HexPoint(x: 19, y: 10), capital: true, owner: playerTrajan)
+        cityTrajan.initialize(in: gameModel)
+        gameModel.add(city: cityTrajan)
+
+        // barbar now acquires the city
+        playerBarbar.acquire(city: cityAlexander, conquest: true, gift: false, in: gameModel)
+
+        // and trajan conquers it back
+        playerTrajan.acquire(city: cityAlexander, conquest: true, gift: false, in: gameModel)
+
+        // WHEN
+        let canLiberate = playerTrajan.canLiberate(city: cityAlexander, in: gameModel)
+        let liberated = playerTrajan.doLiberate(city: cityAlexander, in: gameModel)
+
+        // THEN
+        XCTAssertEqual(canLiberate, true)
+        XCTAssertEqual(liberated, true)
+    }
 }

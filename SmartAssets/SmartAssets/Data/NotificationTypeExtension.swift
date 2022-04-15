@@ -18,35 +18,35 @@ extension NotificationType {
 
         case .generic: return "button-default"
 
-        case .techNeeded: return "button-tech-needed"
-        case .civicNeeded: return "button-civic-needed"
-        case .productionNeeded: return "button-production-needed"
-        case .canFoundPantheon: return "button-pantheon-needed"
+        case .techNeeded: return "button-techNeeded"
+        case .civicNeeded: return "button-civicNeeded"
+        case .productionNeeded: return "button-productionNeeded"
+        case .canFoundPantheon: return "button-pantheonNeeded"
 
-        case .cityGrowth: return "button-city-growth"
+        case .cityGrowth: return "button-cityGrowth"
         case .starving: return "button-starving"
-        case .diplomaticDeclaration: return "button-diplomatic-declaration"
+        case .diplomaticDeclaration: return "button-diplomaticDeclaration"
         case .war: return "button-war"
-        case .enemyInTerritory: return "button-enemy-in-territory"
+        case .enemyInTerritory: return "button-enemyInTerritory"
         case .unitPromotion: return "button-promotion"
-        case .unitNeedsOrders: return "button-unit-needs-orders"
+        case .unitNeedsOrders: return "button-unitNeedsOrders"
         case .unitDied: return "button-unit-died"
 
-        case .canChangeGovernment: return "button-change-government"
-        case .policiesNeeded: return "button-policies-needed"
+        case .canChangeGovernment: return "button-changeGovernment"
+        case .policiesNeeded: return "button-policiesNeeded"
 
-        case .greatPersonJoined: return "button-great-person-joined"
+        case .greatPersonJoined: return "button-greatPersonJoined"
         case .canRecruitGreatPerson: return "button-default"
 
         case .governorTitleAvailable: return "button-default"
 
-        case .cityConquered: return "button-default"
+        case .cityLost: return "button-cityLost"
         case .goodyHutDiscovered: return "button-goodyHutDiscovered"
         case .barbarianCampDiscovered: return "button-barbarianCampDiscovered"
 
         case .waiting: return "button-waiting"
 
-        case .metCityState: return "button-met-city-state"
+        case .metCityState: return "button-metCityState"
 
         case .questCityStateFulfilled: return "button-questCompleted"
         case .questCityStateObsolete: return "button-default"
@@ -57,7 +57,8 @@ extension NotificationType {
         case .naturalWonderDiscovered: return "button-naturalWonderDiscovered"
         case .continentDiscovered: return "button-continentDiscovered"
         case .wonderBuilt: return "button-wonderBuilt"
-        case .cityCanShoot: return "button-default" // FIXME
+        case .cityCanShoot: return "button-cityCanShoot"
+        case .cityAcquired: return "button-cityAcquired"
         }
     }
 
@@ -104,7 +105,7 @@ extension NotificationType {
             return "greatPersonJoined"
         case .canRecruitGreatPerson(greatPerson: _):
             return "Great Person can be recruited"
-        case .cityConquered(location: _):
+        case .cityLost(location: _):
             return "City conquered"
         case .goodyHutDiscovered(location: _):
             return "Goodyhut discovered"
@@ -127,11 +128,13 @@ extension NotificationType {
         case .naturalWonderDiscovered(location: _):
             return "natural wonder discovered"
         case .continentDiscovered:
-            return "continent discovered"
+            return "new continent discovered"
         case .wonderBuilt:
             return "wonder built"
-        case .cityCanShoot(cityName: let cityName): // TXT_KEY_NOTIFICATION_CITY_CAN_SHOOT
+        case .cityCanShoot(cityName: let cityName, location: _): // TXT_KEY_NOTIFICATION_CITY_CAN_SHOOT
             return "The City of \(cityName) can attack a nearby enemy!"
+        case .cityAcquired(cityName: _, location: _):
+            return "Keep City?"
         }
     }
 
@@ -184,7 +187,7 @@ extension NotificationType {
         case .canRecruitGreatPerson(greatPerson: let greatPerson):
             return "You can recruit \(greatPerson.name())"
 
-        case .cityConquered(location: let location):
+        case .cityLost(location: let location):
 
             guard let city = gameModel.city(at: location) else {
                 fatalError("cant get city")
@@ -234,12 +237,14 @@ extension NotificationType {
                 }
             }
             return "natural wonder discovered"
-        case .continentDiscovered:
-            return "continent discovered"
+        case .continentDiscovered(location: _, continentName: let continentName):
+            return "We have discovered a new continent. Our explorer is naming it \(continentName)."
         case .wonderBuilt:
             return "wonder built"
-        case .cityCanShoot(cityName: let cityName): // TXT_KEY_NOTIFICATION_SUMMARY_CITY_CAN_SHOOT
+        case .cityCanShoot(cityName: let cityName, location: _): // TXT_KEY_NOTIFICATION_SUMMARY_CITY_CAN_SHOOT
             return "\(cityName) can fire upon an enemy!"
+        case .cityAcquired(cityName: let cityName, location: _):
+            return "You have acquired \(cityName)"
         }
     }
 }
