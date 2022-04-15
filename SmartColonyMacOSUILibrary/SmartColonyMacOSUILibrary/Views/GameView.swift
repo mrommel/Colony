@@ -239,6 +239,9 @@ extension GameView {
 
         case .lostCapital(leader: _):
             return AnyView(GenericPopupView(viewModel: self.viewModel.genericPopupViewModel))
+
+        case .questFulfilled(cityState: _, quest: _):
+            return AnyView(GenericPopupView(viewModel: self.viewModel.genericPopupViewModel))
         }
     }
 }

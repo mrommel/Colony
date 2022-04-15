@@ -170,6 +170,9 @@
 "TXT_KEY_POPUP_OTHER_LOST_CAPITAL_TITLE" = "[Capital] Capital City lost!";
 "TXT_KEY_POPUP_OTHER_LOST_CAPITAL_SUMMARY" = "%@ lost their original [Capital] Capital.";
 
+"TXT_KEY_POPUP_QUEST_FULFILLED_TITLE" = "City State Quest fulfilled";
+"TXT_KEY_POPUP_QUEST_FULFILLED_SUMMARY" = "You have gained an [Envoy] envoy by fulfilling the quest %@ for %@.";
+
 // ranking texts
 "TXT_KEY_RANKING_DOMINATION_VICTORY_TITLE" = "Domination Victory";
 "TXT_KEY_RANKING_DOMINATION_VICTORY_BODY" = "To achieve a DOMINATION victory, you must conquer the original Capital of every civilization.\n\nA strong military is highly recommended.";

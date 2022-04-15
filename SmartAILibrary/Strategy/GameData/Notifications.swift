@@ -178,8 +178,8 @@ public class NotificationItem: Codable, Equatable {
             gameModel?.userInterface?.showScreen(screenType: .moments, city: nil, other: nil, data: nil)
             self.dismiss(in: gameModel)
 
-        case .questCityStateFulfilled(cityState: _, quest: _):
-            print("popup => envoy gained") // TODO
+        case .questCityStateFulfilled(cityState: let cityState, quest: let quest):
+            gameModel?.userInterface?.showPopup(popupType: .questFulfilled(cityState: cityState, quest: quest))
             self.dismiss(in: gameModel)
 
         case .questCityStateGiven(cityState: _, quest: _):

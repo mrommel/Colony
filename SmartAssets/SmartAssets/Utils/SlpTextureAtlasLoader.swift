@@ -16,7 +16,6 @@ enum SlpTextureAtlasPart {
     case north // fifth
 }
 
-// swiftlint:disable force_try
 class SlpTextureAtlasLoader {
 
     public static func atlas(for filename: String,

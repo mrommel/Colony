@@ -652,6 +652,12 @@ public class GameViewModel: ObservableObject {
                 let summary = "TXT_KEY_POPUP_OTHER_LOST_CAPITAL_SUMMARY".localizedWithFormat(with: [leader.name()])
                 self.genericPopupViewModel.update(with: title, and: summary)
 
+            case .questFulfilled(cityState: let cityState, quest: let quest):
+                let title = "TXT_KEY_POPUP_QUEST_FULFILLED_TITLE".localized()
+                let summary = "TXT_KEY_POPUP_QUEST_FULFILLED_SUMMARY"
+                    .localizedWithFormat(with: [quest.summary().localized(), cityState.name().localized()])
+                self.genericPopupViewModel.update(with: title, and: summary)
+
             default:
                 fatalError("not handled: \(firstPopup)")
             }
