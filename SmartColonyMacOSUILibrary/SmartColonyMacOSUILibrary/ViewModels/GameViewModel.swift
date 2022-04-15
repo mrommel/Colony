@@ -50,6 +50,7 @@ public struct UserDefaultStorage<T: Codable> {
 protocol GameViewModelDelegate: AnyObject {
 
     func update(gameState: GameStateType)
+    func updateTurnProgress(current: Int, maximum: Int)
 
     var selectedCity: AbstractCity? { get set }
     var selectedUnit: AbstractUnit? { get set }
@@ -232,6 +233,9 @@ public class GameViewModel: ObservableObject {
 
     @Published
     var cityStateDialogViewModel: CityStateDialogViewModel
+
+    @Published
+    var razeOrReturnCityDialogViewModel: RazeOrReturnCityDialogViewModel
 
     @Published
     var unitListDialogViewModel: UnitListDialogViewModel
@@ -453,6 +457,7 @@ public class GameViewModel: ObservableObject {
         self.momentsDialogViewModel = MomentsDialogViewModel()
         self.cityStatesDialogViewModel = CityStatesDialogViewModel()
         self.cityStateDialogViewModel = CityStateDialogViewModel()
+        self.razeOrReturnCityDialogViewModel = RazeOrReturnCityDialogViewModel()
 
         // popups
         self.goodyHutRewardPopupViewModel = GoodyHutRewardPopupViewModel()
@@ -504,6 +509,7 @@ public class GameViewModel: ObservableObject {
         self.momentsDialogViewModel.delegate = self
         self.cityStatesDialogViewModel.delegate = self
         self.cityStateDialogViewModel.delegate = self
+        self.razeOrReturnCityDialogViewModel.delegate = self
 
         self.goodyHutRewardPopupViewModel.delegate = self
         self.techDiscoveredPopupViewModel.delegate = self
@@ -646,6 +652,12 @@ public class GameViewModel: ObservableObject {
                 let summary = "TXT_KEY_POPUP_OTHER_LOST_CAPITAL_SUMMARY".localizedWithFormat(with: [leader.name()])
                 self.genericPopupViewModel.update(with: title, and: summary)
 
+            case .questFulfilled(cityState: let cityState, quest: let quest):
+                let title = "TXT_KEY_POPUP_QUEST_FULFILLED_TITLE".localized()
+                let summary = "TXT_KEY_POPUP_QUEST_FULFILLED_SUMMARY"
+                    .localizedWithFormat(with: [quest.summary().localized(), cityState.name().localized()])
+                self.genericPopupViewModel.update(with: title, and: summary)
+
             default:
                 fatalError("not handled: \(firstPopup)")
             }
@@ -686,6 +698,11 @@ extension GameViewModel: GameViewModelDelegate {
             // switch to human turn - to show victory screen
             self.changeUITurnState(to: .humanTurns)
         }
+    }
+
+    func updateTurnProgress(current: Int, maximum: Int) {
+
+        self.bannerViewModel.updateBanner(current: current, maximum: maximum)
     }
 
     func refreshTile(at point: HexPoint) {
@@ -1109,6 +1126,12 @@ extension GameViewModel: GameViewModelDelegate {
 
         case .victory:
             self.showVictoryDialog()
+
+        case .cityStates:
+            self.showCityStateDialog()
+
+        case .razeOrReturnCity:
+            self.showRazeOrReturnCity(for: city)
 
         default:
             print("screen: \(screenType) not handled")

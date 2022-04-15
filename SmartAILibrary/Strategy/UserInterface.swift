@@ -37,6 +37,8 @@ public enum PopupType {
     case foreignCityRevolted(city: AbstractCity?)
     case lostOwnCapital
     case lostCapital(leader: LeaderType)
+
+    case questFulfilled(cityState: CityStateType, quest: CityStateQuestType)
 }
 
 extension PopupType: Equatable {
@@ -102,6 +104,10 @@ extension PopupType: Equatable {
         case (.lostCapital(leader: let lhsLeader), .lostCapital(leader: let rhsLeader)):
             return lhsLeader == rhsLeader
 
+        case (.questFulfilled(cityState: let lhsCityState, quest: let lhsQuest),
+            .questFulfilled(cityState: let rhsCityState, quest: let rhsQuest)):
+            return lhsCityState == rhsCityState && lhsQuest == rhsQuest
+
         case (.none, .none):
             return true
 
@@ -117,6 +123,7 @@ public enum ScreenType {
 
     case city
     case cityState
+    case razeOrReturnCity
 
     case techTree
     case techList
@@ -202,6 +209,7 @@ public struct SelectableItem {
 public protocol UserInterfaceDelegate: AnyObject {
 
     func update(gameState: GameStateType)
+    func update(activePlayer: AbstractPlayer?)
 
     func showPopup(popupType: PopupType)
 

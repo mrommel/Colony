@@ -10,7 +10,7 @@ import Foundation
 import CoreGraphics
 
 // // swiftlint:disable identifier_name
-class HexOrientation {
+struct HexOrientation {
 
     let f0, f1, f2, f3: Double
     let b0, b1, b2, b3: Double
@@ -151,7 +151,7 @@ public enum HexDirection: Int {
 }
 
 // based on https://www.redblobgames.com/grids/hexagons/implementation.html
-public class HexPoint: Codable {
+public struct HexPoint: Codable {
 
     public static let invalid = HexPoint(x: -1, y: -1)
     public static let zero = HexPoint(x: 0, y: 0)
@@ -193,7 +193,7 @@ public class HexPoint: Codable {
     }
 }
 
-class HexCube {
+struct HexCube {
 
     let q: Int
     let r: Int
@@ -211,12 +211,12 @@ class HexCube {
         self.r = -q - s
     }
 
-    convenience init(hex: HexPoint) {
+    init(hex: HexPoint) {
         self.init(q: hex.x - (hex.y + (hex.y&1)) / 2, s: hex.y) // even-q
         // self.init(q: hex.x - (hex.y - (hex.y&1)) / 2, s: hex.y) // odd-q
     }
 
-    convenience init(screen: CGPoint) {
+    init(screen: CGPoint) {
 
         let (q, r) = HexLayout.layout.toHex(from: screen)
         self.init(qDouble: q, rDouble: r, sDouble: -q - r)
@@ -315,13 +315,13 @@ func lerp(minimum: Int, maximum: Int, weight: Double) -> Double {
 
 extension HexPoint {
 
-    convenience init(cube: HexCube) {
+    init(cube: HexCube) {
         self.init(x: cube.q + (cube.s + (cube.s&1)) / 2, y: cube.s) // even-q
 
         // self.init(x: cube.q + (cube.s - (cube.s&1)) / 2, y: cube.s) // odd-q
     }
 
-    public convenience init(screen: CGPoint) {
+    public init(screen: CGPoint) {
 
         var screenPoint = screen
 
@@ -548,7 +548,7 @@ extension HexCube {
     /// double value constructor
     /// values are rounded
     ///
-    convenience init(qDouble: Double, rDouble: Double, sDouble: Double) {
+    init(qDouble: Double, rDouble: Double, sDouble: Double) {
 
         var qRounded: Int = lround(qDouble)
         var rRounded: Int = lround(rDouble)

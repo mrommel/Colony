@@ -471,6 +471,7 @@ public class SlpFileReader {
     }
 }
 
+// https://github.com/SFTtech/openage/blob/master/doc/media/slp-files.md
 public class SlpFile {
 
     public let version: Int32
@@ -734,7 +735,7 @@ public class SlpFrameData {
 
         // Render a frame to a buffer.
         var y = 0
-        var x: UInt16 = 0
+        var x: UInt16 = self.leftEdges[0]
 
         while let command = commands.dequeue() {
             // print(command)

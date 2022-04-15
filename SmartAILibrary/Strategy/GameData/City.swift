@@ -52,8 +52,10 @@ public protocol AbstractCity: AnyObject, Codable {
     func setIsCapital(to value: Bool)
     func setEverCapital(to value: Bool)
     func isOriginalCapital(in gameModel: GameModel?) -> Bool
-    func set(originalLeader: LeaderType)
     func originalLeader() -> LeaderType
+    func set(originalLeader: LeaderType)
+    func previousLeader() -> LeaderType
+    func set(previousLeader: LeaderType)
     func doFoundMessage()
 
     func isEverCapital() -> Bool
@@ -71,8 +73,6 @@ public protocol AbstractCity: AnyObject, Codable {
     func kill(in gameModel: GameModel?)
     func preKill(in gameModel: GameModel?)
     func postKill(capital: Bool, tile: AbstractTile?, workPlotDistance: Int, owner: LeaderType, in gameModel: GameModel?)
-    func changeRazingTurns(to turns: Int)
-    func doRazingTurn(in gameModel: GameModel?) -> Bool
 
     func has(district: DistrictType) -> Bool
     func location(of district: DistrictType) -> HexPoint?
@@ -196,6 +196,7 @@ public protocol AbstractCity: AnyObject, Codable {
 
     func canRangeStrike(towards point: HexPoint) -> Bool
     func rangedCombatTargetLocations(in gameModel: GameModel?) -> [HexPoint]
+    func isEnemyInRange(in gameModel: GameModel?) -> Bool
     func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?) -> Int
     func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> Int
     func doRangeAttack(at location: HexPoint, in gameModel: GameModel?) -> Bool
@@ -294,6 +295,7 @@ public class City: AbstractCity {
         case location
         case leader
         case originalLeader
+        case previousLeader
         case capital
         case everCapital
         case gameTurnFounded
@@ -352,10 +354,10 @@ public class City: AbstractCity {
     public var player: AbstractPlayer?
     private(set) public var leader: LeaderType // for restoring from file
     private var originalLeaderValue: LeaderType
+    private var previousLeaderValue: LeaderType
     var capitalValue: Bool
     private var everCapitalValue: Bool // has this city ever been (or is) capital?
     private var gameTurnFoundedValue: Int
-    private var razingTurnsValue: Int
 
     public var districts: AbstractDistricts?
     public var buildings: AbstractBuildings? // buildings that are currently build in this city
@@ -421,7 +423,6 @@ public class City: AbstractCity {
         self.everCapitalValue = capital
         self.populationValue = 0
         self.gameTurnFoundedValue = 0
-        self.razingTurnsValue = 0
 
         self.buildQueue = BuildQueue()
 
@@ -430,6 +431,7 @@ public class City: AbstractCity {
         self.player = owner
         self.leader = owner!.leader
         self.originalLeaderValue = owner!.leader
+        self.previousLeaderValue = .none
 
         self.isFeatureSurroundedValue = false
         self.threatVal = 0
@@ -458,10 +460,10 @@ public class City: AbstractCity {
         self.location = try container.decode(HexPoint.self, forKey: .location)
         self.leader = try container.decode(LeaderType.self, forKey: .leader)
         self.originalLeaderValue = try container.decode(LeaderType.self, forKey: .originalLeader)
+        self.previousLeaderValue = try container.decode(LeaderType.self, forKey: .previousLeader)
         self.capitalValue = try container.decode(Bool.self, forKey: .capital)
         self.everCapitalValue = try container.decode(Bool.self, forKey: .everCapital)
         self.gameTurnFoundedValue = try container.decode(Int.self, forKey: .gameTurnFounded)
-        self.razingTurnsValue = try container.decode(Int.self, forKey: .razingTurns)
 
         self.buildQueue = BuildQueue()
 
@@ -551,10 +553,10 @@ public class City: AbstractCity {
         try container.encode(self.location, forKey: .location)
         try container.encode(self.player!.leader, forKey: .leader)
         try container.encode(self.originalLeaderValue, forKey: .originalLeader)
+        try container.encode(self.previousLeaderValue, forKey: .previousLeader)
         try container.encode(self.capitalValue, forKey: .capital)
         try container.encode(self.everCapitalValue, forKey: .everCapital)
         try container.encode(self.gameTurnFoundedValue, forKey: .gameTurnFounded)
-        try container.encode(self.razingTurnsValue, forKey: .razingTurns)
 
         try container.encode(self.districts as! Districts, forKey: .districts)
         try container.encode(self.buildings as! Buildings, forKey: .buildings)
@@ -831,116 +833,134 @@ public class City: AbstractCity {
             // AI_stealPlots();
         }
 
-        let razed = self.doRazingTurn(in: gameModel)
+        // self.doResistanceTurn();
 
-        if !razed {
+        let allowNoProduction = !self.doCheckProduction(in: gameModel)
 
-            // self.doResistanceTurn();
+        self.doGrowth(in: gameModel)
 
-            let allowNoProduction = !self.doCheckProduction(in: gameModel)
+        // self.doUpdateIndustrialRouteToCapital();
 
-            self.doGrowth(in: gameModel)
+        self.doProduction(allowNoProduction: allowNoProduction, in: gameModel)
 
-            // self.doUpdateIndustrialRouteToCapital();
+        // self.doDecay();
 
-            self.doProduction(allowNoProduction: allowNoProduction, in: gameModel)
+        // self.doMeltdown();
 
-            // self.doDecay();
+        for loopPoint in self.location.areaWith(radius: City.workRadius) {
 
-            // self.doMeltdown();
+            if let loopPlot = gameModel.tile(at: loopPoint) {
 
-            for loopPoint in self.location.areaWith(radius: City.workRadius) {
+                if cityCitizens.isWorked(at: loopPoint) {
+                    loopPlot.doImprovement()
+                }
+            }
+        }
 
-                if let loopPlot = gameModel.tile(at: loopPoint) {
+        // Following function also looks at WLTKD stuff
+        // self.doTestResourceDemanded();
 
-                    if cityCitizens.isWorked(at: loopPoint) {
-                        loopPlot.doImprovement()
+        // Culture accumulation
+        var currentCulture = self.culturePerTurn(in: gameModel)
+
+        if self.player?.religion?.pantheon() == .religiousSettlements {
+            // Border expansion rate is 15% faster.
+            currentCulture *= 1.15
+        }
+
+        if currentCulture > 0 {
+            self.updateCultureStored(to: self.cultureStored() + currentCulture)
+        }
+
+        // Enough Culture to acquire a new Plot?
+        if self.cultureStored() >= self.cultureThreshold() {
+            self.cultureLevelIncrease(in: gameModel)
+        }
+
+        // Resource Demanded Counter
+        // if (GetResourceDemandedCountdown() > 0) {
+        //     ChangeResourceDemandedCountdown(-1)
+
+        //     if (GetResourceDemandedCountdown() == 0) {
+                // Pick a Resource to demand
+        //         self.doPickResourceDemanded();
+        //   }
+        // }
+
+        self.updateStrengthValue(in: gameModel)
+        self.updateLoyaltyValue(in: gameModel)
+
+        self.doNearbyEnemy(in: gameModel)
+
+        // Check for Achievements
+        /*if(isHuman() && !GC.getGame().isGameMultiPlayer() && GET_PLAYER(GC.getGame().getActivePlayer()).isLocalPlayer()) {
+            if(getJONSCulturePerTurn()>=100) {
+                gDLL->UnlockAchievement( ACHIEVEMENT_CITY_100CULTURE );
+            }
+            if(getYieldRate(YIELD_GOLD)>=100) {
+                gDLL->UnlockAchievement( ACHIEVEMENT_CITY_100GOLD );
+            }
+            if(getYieldRate(YIELD_SCIENCE)>=100 ) {
+                gDLL->UnlockAchievement( ACHIEVEMENT_CITY_100SCIENCE );
+            }
+        }*/
+
+        // sending notifications on when routes are connected to the capital
+        if !self.isCapital() {
+
+            /*CvNotifications* pNotifications = GET_PLAYER(m_eOwner).GetNotifications();
+            if (pNotifications)
+            {
+                CvCity* pPlayerCapital = GET_PLAYER(m_eOwner).getCapitalCity();
+                CvAssertMsg(pPlayerCapital, "No capital city?");
+
+                if (m_bRouteToCapitalConnectedLastTurn != m_bRouteToCapitalConnectedThisTurn && pPlayerCapital)
+                {
+                    Localization::String strMessage;
+                    Localization::String strSummary;
+
+                    if (m_bRouteToCapitalConnectedThisTurn) // connected this turn
+                    {
+                        strMessage = Localization::Lookup( "TXT_KEY_NOTIFICATION_TRADE_ROUTE_ESTABLISHED" );
+                        strSummary = Localization::Lookup("TXT_KEY_NOTIFICATION_SUMMARY_TRADE_ROUTE_ESTABLISHED");
                     }
-                }
-            }
+                    else // lost connection this turn
+                    {
+                        strMessage = Localization::Lookup( "TXT_KEY_NOTIFICATION_TRADE_ROUTE_BROKEN" );
+                        strSummary = Localization::Lookup("TXT_KEY_NOTIFICATION_SUMMARY_TRADE_ROUTE_BROKEN");
+                    }
 
-            // Following function also looks at WLTKD stuff
-            // self.doTestResourceDemanded();
-
-            // Culture accumulation
-            var currentCulture = self.culturePerTurn(in: gameModel)
-
-            if self.player?.religion?.pantheon() == .religiousSettlements {
-                // Border expansion rate is 15% faster.
-                currentCulture *= 1.15
-            }
-
-            if currentCulture > 0 {
-                self.updateCultureStored(to: self.cultureStored() + currentCulture)
-            }
-
-            // Enough Culture to acquire a new Plot?
-            if self.cultureStored() >= self.cultureThreshold() {
-                self.cultureLevelIncrease(in: gameModel)
-            }
-
-            // Resource Demanded Counter
-            // if (GetResourceDemandedCountdown() > 0) {
-            //     ChangeResourceDemandedCountdown(-1)
-
-            //     if (GetResourceDemandedCountdown() == 0) {
-                    // Pick a Resource to demand
-            //         self.doPickResourceDemanded();
-            //   }
-            // }
-
-            self.updateStrengthValue(in: gameModel)
-            self.updateLoyaltyValue(in: gameModel)
-
-            // self.doNearbyEnemy()
-
-            // Check for Achievements
-            /*if(isHuman() && !GC.getGame().isGameMultiPlayer() && GET_PLAYER(GC.getGame().getActivePlayer()).isLocalPlayer()) {
-                if(getJONSCulturePerTurn()>=100) {
-                    gDLL->UnlockAchievement( ACHIEVEMENT_CITY_100CULTURE );
-                }
-                if(getYieldRate(YIELD_GOLD)>=100) {
-                    gDLL->UnlockAchievement( ACHIEVEMENT_CITY_100GOLD );
-                }
-                if(getYieldRate(YIELD_SCIENCE)>=100 ) {
-                    gDLL->UnlockAchievement( ACHIEVEMENT_CITY_100SCIENCE );
+                    strMessage << getNameKey();
+                    strMessage << pPlayerCapital->getNameKey();
+                    pNotifications->Add( NOTIFICATION_GENERIC, strMessage.toUTF8(), strSummary.toUTF8(), -1, -1, -1 );
                 }
             }*/
 
-            // sending notifications on when routes are connected to the capital
-            if !self.isCapital() {
-
-                /*CvNotifications* pNotifications = GET_PLAYER(m_eOwner).GetNotifications();
-                if (pNotifications)
-                {
-                    CvCity* pPlayerCapital = GET_PLAYER(m_eOwner).getCapitalCity();
-                    CvAssertMsg(pPlayerCapital, "No capital city?");
-
-                    if (m_bRouteToCapitalConnectedLastTurn != m_bRouteToCapitalConnectedThisTurn && pPlayerCapital)
-                    {
-                        Localization::String strMessage;
-                        Localization::String strSummary;
-
-                        if (m_bRouteToCapitalConnectedThisTurn) // connected this turn
-                        {
-                            strMessage = Localization::Lookup( "TXT_KEY_NOTIFICATION_TRADE_ROUTE_ESTABLISHED" );
-                            strSummary = Localization::Lookup("TXT_KEY_NOTIFICATION_SUMMARY_TRADE_ROUTE_ESTABLISHED");
-                        }
-                        else // lost connection this turn
-                        {
-                            strMessage = Localization::Lookup( "TXT_KEY_NOTIFICATION_TRADE_ROUTE_BROKEN" );
-                            strSummary = Localization::Lookup("TXT_KEY_NOTIFICATION_SUMMARY_TRADE_ROUTE_BROKEN");
-                        }
-
-                        strMessage << getNameKey();
-                        strMessage << pPlayerCapital->getNameKey();
-                        pNotifications->Add( NOTIFICATION_GENERIC, strMessage.toUTF8(), strSummary.toUTF8(), -1, -1, -1 );
-                    }
-                }*/
-
-                self.routeToCapitalConnectedLastTurn = self.routeToCapitalConnectedThisTurn
-            }
+            self.routeToCapitalConnectedLastTurn = self.routeToCapitalConnectedThisTurn
         }
+    }
+
+    //    --------------------------------------------------------------------------------
+    func doNearbyEnemy(in gameModel: GameModel?) {
+
+        // Can't actually range strike
+        if !self.canRangeStrike() {
+            return
+        }
+
+        if self.madeAttack() {
+            return
+        }
+
+        if self.isEnemyInRange(in: gameModel) {
+
+            self.player?.notifications()?.add(notification: .cityCanShoot(cityName: self.name, location: self.location))
+        }
+    }
+
+    public func isEnemyInRange(in gameModel: GameModel?) -> Bool {
+
+        return !self.rangedCombatTargetLocations(in: gameModel).isEmpty
     }
 
     public func kill(in gameModel: GameModel?) {
@@ -1085,18 +1105,25 @@ public class City: AbstractCity {
         // owningPlayer.UpdateUnitProductionMaintenanceMod();
 
         // Update Proximity between this Player and all others
-        for playerLoop in gameModel.players {
+        for playerLoop in gameModel.players where playerLoop.leader != owner {
 
-            if playerLoop.leader != owner {
-
-                if playerLoop.isAlive() {
-                    owningPlayer.doUpdateProximity(towards: playerLoop, in: gameModel)
-                    playerLoop.doUpdateProximity(towards: owningPlayer, in: gameModel)
-                }
+            guard playerLoop.isAlive() else {
+                continue
             }
+
+            guard playerLoop.hasMet(with: owningPlayer) else {
+                continue
+            }
+
+            owningPlayer.doUpdateProximity(towards: playerLoop, in: gameModel)
+            playerLoop.doUpdateProximity(towards: owningPlayer, in: gameModel)
         }
 
-        for pt in tile!.point.areaWith(radius: workPlotDistance) {
+        guard let areaPoints = tile?.point.areaWith(radius: workPlotDistance) else {
+            fatalError("cant get area points")
+        }
+
+        for pt in areaPoints {
 
             guard let loopTile = gameModel.tile(at: pt) else {
                 continue
@@ -1110,7 +1137,6 @@ public class City: AbstractCity {
                 }
             }
         }
-        // GC.getMap().updateOwningCityForPlots(pPlot, iWorkPlotDistance * 2);
 
         if capital {
             owningPlayer.findNewCapital(in: gameModel)
@@ -1119,208 +1145,6 @@ public class City: AbstractCity {
         }
 
         tile?.set(improvement: .ruins)
-
-        /* if (eOwner == GC.getGame().getActivePlayer())
-        {
-            DLLUI->setDirty(SelectionButtons_DIRTY_BIT, true);
-        }*/
-
-        /*DLLUI->setDirty(NationalBorders_DIRTY_BIT, true);
-
-        if (GC.getGame().getActivePlayer() == eOwner)
-        {
-            CvMap& theMap = GC.getMap();
-            theMap.updateDeferredFog();
-        }*/
-    }
-
-    func isRazing() -> Bool {
-
-        return self.razingTurns() > 0
-    }
-
-    func razingTurns() -> Int {
-
-        return self.razingTurnsValue
-    }
-
-    public func changeRazingTurns(to change: Int) {
-
-        if change != 0 {
-            self.razingTurnsValue += change
-
-            // auto_ptr<ICvCity1> pCity = GC.WrapCityPointer(this);
-            // DLLUI->SetSpecificCityInfoDirty(pCity.get(), CITY_UPDATE_TYPE_BANNER);
-        }
-    }
-
-    public func doRazingTurn(in gameModel: GameModel?) -> Bool {
-
-        guard let player = self.player else {
-            fatalError("cant get city player")
-        }
-
-        if self.isRazing() {
-
-            self.changeRazingTurns(to: -1)
-            self.change(population: -1, in: gameModel)
-
-            /*bool bAllowRazingEvents = false;
-
-            // set our lowest 'razing' population so we can't exploit pop growth
-            if (getPopulation() < m_iLowestRazingPop)
-            {
-                m_iLowestRazingPop = getPopulation();
-                bAllowRazingEvents = true;
-            } */
-
-            // don't kill the city on an 'off' turn.
-            if self.razingTurns() > 0 && self.population() <= 0 {
-                self.set(population: 1, in: gameModel)
-            }
-
-            // Counter has reached 0, disband the City
-            if self.razingTurns() <= 0 || self.population() <= 0 {
-
-                gameModel?.tile(at: self.location)?.addArchaeologicalRecord(
-                    with: .razedCity, era: player.currentEra(), leader1: self.leader, leader2: self.originalLeader())
-
-                player.disband(city: self, in: gameModel)
-                // GC.getGame().addReplayMessage(REPLAY_MESSAGE_CITY_DESTROYED, getOwner(), "", pkPlot->getX(), pkPlot->getY());
-                return true
-            }
-
-    /*#if defined(MOD_BALANCE_CORE)
-            PlayerTypes eFormerOwner = getPreviousOwner();
-            if (eFormerOwner == NO_PLAYER || eFormerOwner == getOwner() || eFormerOwner == BARBARIAN_PLAYER)
-            {
-                return false;
-            }
-            if (GET_PLAYER(eFormerOwner).isMinorCiv() || !GET_PLAYER(eFormerOwner).isAlive())
-            {
-                return false;
-            }
-
-            if (bAllowRazingEvents)
-            {
-                // Notify Diplo AI that damage has been done
-                int iRazeValue = /*175*/ GC.getWAR_DAMAGE_LEVEL_CITY_WEIGHT();
-
-                iRazeValue += (getPopulation() * /*150*/ GC.getWAR_DAMAGE_LEVEL_INVOLVED_CITY_POP_MULTIPLIER());
-                iRazeValue += (getNumWorldWonders() * /*200*/ GC.getWAR_DAMAGE_LEVEL_WORLD_WONDER_MULTIPLIER());
-                iRazeValue /= max(1, (GetRazingTurns() / 2)); // Divide by half the number of turns left until the city is destroyed
-
-                // Does the owner have a bonus to war score accumulation?
-                iRazeValue *= (100 + GET_PLAYER(getOwner()).GetWarScoreModifier());
-                iRazeValue /= 100;
-
-                GET_PLAYER(eFormerOwner).GetDiplomacyAI()->ChangeWarValueLost(getOwner(), iRazeValue);
-
-                // Diplomacy penalty for razing cities
-                if (GET_PLAYER(getOwner()).isMajorCiv() && GET_PLAYER(eFormerOwner).isMajorCiv())
-                {
-                    int iEra = GET_PLAYER(eFormerOwner).GetCurrentEra();
-                    if (iEra <= 0)
-                    {
-                        iEra = 1;
-                    }
-
-                    GET_PLAYER(eFormerOwner).GetDiplomacyAI()->ChangeCivilianKillerValue(getOwner(), (500 * iEra));
-                }
-
-                if (MOD_BALANCE_CORE && !GET_PLAYER(getOwner()).IsNoPartisans())
-                {
-                    if (GET_PLAYER(getOwner()).GetSpawnCooldown() < 0)
-                    {
-                        GET_PLAYER(getOwner()).SetSpawnCooldown(0);
-                    }
-                    else
-                    {
-                        GET_PLAYER(getOwner()).ChangeSpawnCooldown(-1);
-                    }
-
-                    if (GET_PLAYER(getOwner()).GetSpawnCooldown() > 0)
-                    {
-                        return false;
-                    }
-
-                    //Based on city size
-                    int iNumRebels = GC.getGame().getSmallFakeRandNum(sqrti(getPopulation()), plot()->GetPlotIndex() + GET_PLAYER(getOwner()).GetPseudoRandomSeed());
-
-                    //But min number scaling with era
-                    if (iNumRebels < GC.getGame().getCurrentEra())
-                        iNumRebels = GC.getGame().getCurrentEra();
-
-                    GET_PLAYER(getOwner()).SetSpawnCooldown(iNumRebels * 2);
-
-                    if (GET_TEAM(GET_PLAYER(eFormerOwner).getTeam()).isAtWar(getTeam()))
-                    {
-                        bool bNotification = GC.getGame().DoSpawnUnitsAroundTargetCity(eFormerOwner, this, iNumRebels, true, false, false, true);
-                        if (bNotification)
-                        {
-                            //the former owner hates the razing and wants it back
-                            if (!GET_PLAYER(eFormerOwner).GetTacticalAI()->IsInFocusArea(plot()))
-                                GET_PLAYER(eFormerOwner).GetTacticalAI()->AddFocusArea(plot(), 2, GC.getAI_TACTICAL_MAP_TEMP_ZONE_TURNS());
-
-                            CvNotifications* pNotifications = GET_PLAYER(getOwner()).GetNotifications();
-                            if (pNotifications)
-                            {
-                                Localization::String strMessage = GetLocalizedText("TXT_KEY_NOTIFICATION_PARTISANS_NEAR_RAZING_CITY", getName());
-
-                                Localization::String strSummary = GetLocalizedText("TXT_KEY_NOTIFICATION_PARTISANS_NEAR_RAZING_CITY_S", getName());
-                                pNotifications->Add(NOTIFICATION_CITY_REVOLT_POSSIBLE, strMessage.toUTF8(), strSummary.toUTF8(), getX(), getY(), -1);
-                            }
-                            CvNotifications* pNotifications2 = GET_PLAYER(eFormerOwner).GetNotifications();
-                            if (pNotifications2)
-                            {
-                                Localization::String strMessage = GetLocalizedText("TXT_KEY_NOTIFICATION_FRIENDLY_PARTISANS_NEAR_RAZING_CITY", getName());
-
-                                Localization::String strSummary = GetLocalizedText("TXT_KEY_NOTIFICATION_FRIENDLY_PARTISANS_NEAR_RAZING_CITY_S", getName());
-                                pNotifications2->Add(NOTIFICATION_GENERIC, strMessage.toUTF8(), strSummary.toUTF8(), getX(), getY(), -1);
-                            }
-                            if (GC.getLogging() && GC.getAILogging())
-                            {
-                                CvString strLogString;
-                                strLogString.Format("Unfriendly Partisans near %s. Number: %d.", getName().c_str(), iNumRebels);
-                                GET_PLAYER(getOwner()).GetHomelandAI()->LogHomelandMessage(strLogString);
-                            }
-                        }
-                    }
-                    else if (!GC.getGame().isOption(GAMEOPTION_NO_BARBARIANS))
-                    {
-                        bool bNotification = GC.getGame().DoSpawnUnitsAroundTargetCity(BARBARIAN_PLAYER, this, iNumRebels, false, false, false, false);
-                        if (bNotification)
-                        {
-                            CvNotifications* pNotifications = GET_PLAYER(getOwner()).GetNotifications();
-                            if (pNotifications)
-                            {
-                                Localization::String strMessage = GetLocalizedText("TXT_KEY_NOTIFICATION_PARTISANS_NEAR_RAZING_CITY", getName());
-
-                                Localization::String strSummary = GetLocalizedText("TXT_KEY_NOTIFICATION_PARTISANS_NEAR_RAZING_CITY_S", getName());
-                                pNotifications->Add(NOTIFICATION_CITY_REVOLT_POSSIBLE, strMessage.toUTF8(), strSummary.toUTF8(), getX(), getY(), -1);
-                            }
-                            CvNotifications* pNotifications2 = GET_PLAYER(eFormerOwner).GetNotifications();
-                            if (pNotifications2)
-                            {
-                                Localization::String strMessage = GetLocalizedText("TXT_KEY_NOTIFICATION_FRIENDLY_PARTISANS_NEAR_RAZING_CITY", getName());
-
-                                Localization::String strSummary = GetLocalizedText("TXT_KEY_NOTIFICATION_FRIENDLY_PARTISANS_NEAR_RAZING_CITY_S", getName());
-                                pNotifications2->Add(NOTIFICATION_GENERIC, strMessage.toUTF8(), strSummary.toUTF8(), getX(), getY(), -1);
-                            }
-                            if (GC.getLogging() && GC.getAILogging())
-                            {
-                                CvString strLogString;
-                                strLogString.Format("Unfriendly Partisans near %s. Number: %d.", getName().c_str(), iNumRebels);
-                                GET_PLAYER(getOwner()).GetHomelandAI()->LogHomelandMessage(strLogString);
-                            }
-                        }
-                    }
-                }
-            }
-    #endif*/
-        }
-
-        return false
     }
 
     public func updateStrengthValue(in gameModel: GameModel?) {
@@ -2682,7 +2506,8 @@ public class City: AbstractCity {
         }
     }
 
-    //    --------------------------------------------------------------------------------
+    // --------------------------------------------------------------------------------
+    // swiftlint:disable cyclomatic_complexity
     func doProduction(allowNoProduction: Bool, in gameModel: GameModel?) {
 
         guard let player = self.player else {
@@ -3378,6 +3203,9 @@ public class City: AbstractCity {
             if player.isHuman() {
 
                 gameModel.userInterface?.showPopup(popupType: .wonderBuilt(wonder: wonderType))
+            } else {
+                // inform human about foreign wonder built
+                gameModel.humanPlayer()?.notifications()?.add(notification: .wonderBuilt)
             }
 
         } catch {
@@ -3818,7 +3646,8 @@ public class City: AbstractCity {
         }
 
         // only coastal cities can build ships
-        if unitType.unitClass() == .navalMelee || unitType.unitClass() == .navalRanged || unitType.unitClass() == .navalRaider || unitType.unitClass() == .navalCarrier {
+        if unitType.unitClass() == .navalMelee || unitType.unitClass() == .navalRanged ||
+            unitType.unitClass() == .navalRaider || unitType.unitClass() == .navalCarrier {
 
             if !self.isCoastal(in: gameModel) {
                 return false
@@ -4524,6 +4353,15 @@ public class City: AbstractCity {
 
     // MARK: attack / damage
 
+    func canRangeStrike() -> Bool {
+
+        if !self.has(building: .ancientWalls) {
+            return false
+        }
+
+        return true
+    }
+
     public func canRangeStrike(towards point: HexPoint) -> Bool {
 
         if self.location.distance(to: point) > self.strikeRange() {
@@ -5053,18 +4891,19 @@ public class City: AbstractCity {
         }
 
         // No City
-        if !tile.isCity() {
-
-            guard let defender = gameModel?.unit(at: location, of: .combat) else {
-                return false
-            }
-
-            Combat.doRangedAttack(between: self, and: defender, in: gameModel)
-
-            return true
+        if tile.isCity() {
+            return false
         }
 
-        return false
+        guard let defender = gameModel?.unit(at: location, of: .combat) else {
+            return false
+        }
+
+        Combat.doRangedAttack(between: self, and: defender, in: gameModel)
+
+        self.setMadeAttack(to: true)
+
+        return true
     }
 
     public func setMadeAttack(to madeAttack: Bool) {
@@ -5381,7 +5220,8 @@ public class City: AbstractCity {
                 }
 
                 // we can use the faster, but slightly inaccurate pathfinder here - after all we are using a rand in the equation
-                var influenceCost = gameModel.calculateInfluenceDistance(from: self.location, to: point, limit: maxRange, abc: false) * iPLOT_INFLUENCE_DISTANCE_MULTIPLIER
+                var influenceCost = gameModel.calculateInfluenceDistance(
+                    from: self.location, to: point, limit: maxRange, abc: false) * iPLOT_INFLUENCE_DISTANCE_MULTIPLIER
 
                 if influenceCost > 0 {
                     // Modifications for tie-breakers in a ring
@@ -5903,6 +5743,16 @@ public class City: AbstractCity {
     public func set(originalLeader: LeaderType) {
 
         self.originalLeaderValue = originalLeader
+    }
+
+    public func previousLeader() -> LeaderType {
+
+        return self.previousLeaderValue
+    }
+
+    public func set(previousLeader: LeaderType) {
+
+        self.previousLeaderValue = previousLeader
     }
 
     //    --------------------------------------------------------------------------------

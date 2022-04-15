@@ -22,7 +22,7 @@ class ChangeGovernmentSectionViewModel {
 
     func title() -> String {
 
-        return self.era.title()
+        return self.era.title().localized()
     }
 }
 

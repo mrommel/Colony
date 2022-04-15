@@ -39,15 +39,6 @@ extension NSImage {
 
 extension NSImage {
 
-    /// A PNG representation of the image.
-    var pngRepresentation: Data? {
-        if let tiff = self.tiffRepresentation, let tiffData = NSBitmapImageRep(data: tiff) {
-            return tiffData.representation(using: .png, properties: [:])
-        }
-
-        return nil
-    }
-
     /// Copy the image and resize it to the supplied size, while maintaining it's
     /// original aspect ratio.
     ///
@@ -94,27 +85,6 @@ extension NSImage {
 
         return image
     }
-
-    // MARK: Saving
-    /// Save the images PNG representation the the supplied file URL:
-    ///
-    /// - Parameter url: The file URL to save the png file to.
-    /// - Throws: An unwrappingPNGRepresentationFailed when the image has no png representation.
-    public func savePngTo(url: URL) throws {
-
-        if let png = self.pngRepresentation {
-            try png.write(to: url, options: .atomicWrite)
-        } else {
-            throw NSImageExtensionError.unwrappingPNGRepresentationFailed
-        }
-    }
-}
-
-/// Exceptions for the image extension class.
-///
-/// - creatingPngRepresentationFailed: Is thrown when the creation of the png representation failed.
-enum NSImageExtensionError: Error {
-    case unwrappingPNGRepresentationFailed
 }
 
 func drawImageInCGContext(size: CGSize, drawFunc: (_ context: CGContext) -> Void) -> NSImage {

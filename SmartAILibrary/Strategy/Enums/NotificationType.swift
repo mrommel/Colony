@@ -37,7 +37,7 @@ public enum NotificationType {
     case greatPersonJoined // 17 parameter: location
     case canRecruitGreatPerson(greatPerson: GreatPerson) // 18 parameter: greatPerson
 
-    case cityConquered(location: HexPoint) // 19
+    case cityLost(location: HexPoint) // 19
     case goodyHutDiscovered(location: HexPoint) // 20
     case barbarianCampDiscovered(location: HexPoint) // 21
 
@@ -50,6 +50,13 @@ public enum NotificationType {
 
     case momentAdded(type: MomentType) // 27
     case tradeRouteCapacityIncreased // 28
+
+    case naturalWonderDiscovered(location: HexPoint) // 29
+    case continentDiscovered(location: HexPoint, continentName: String) // 30
+    case wonderBuilt // 31
+
+    case cityCanShoot(cityName: String, location: HexPoint) // 32
+    case cityAcquired(cityName: String, location: HexPoint) // 33
 
     public static var all: [NotificationType] = [
         .turn,
@@ -71,7 +78,7 @@ public enum NotificationType {
         .unitDied(location: HexPoint.invalid),
         .greatPersonJoined,
         .canRecruitGreatPerson(greatPerson: .abuAlQasimAlZahrawi),
-        .cityConquered(location: HexPoint.invalid),
+        .cityLost(location: HexPoint.invalid),
         .goodyHutDiscovered(location: HexPoint.invalid),
         .barbarianCampDiscovered(location: HexPoint.invalid),
         .metCityState(cityState: CityStateType.amsterdam, first: true),
@@ -80,168 +87,13 @@ public enum NotificationType {
         .questCityStateObsolete(cityState: CityStateType.amsterdam, quest: CityStateQuestType.none),
         .questCityStateGiven(cityState: CityStateType.amsterdam, quest: CityStateQuestType.none),
         .momentAdded(type: MomentType.shipSunk),
-        .tradeRouteCapacityIncreased
+        .tradeRouteCapacityIncreased,
+        .naturalWonderDiscovered(location: HexPoint.invalid),
+        .continentDiscovered(location: HexPoint.invalid, continentName: ""),
+        .wonderBuilt,
+        .cityCanShoot(cityName: "", location: HexPoint.invalid),
+        .cityAcquired(cityName: "", location: HexPoint.invalid)
     ]
-
-    public func title() -> String {
-
-        switch self {
-
-        case .turn:
-            return "-"
-        case .generic:
-            return "-"
-        case .techNeeded:
-            return "Choose Research"
-        case .civicNeeded:
-            return "Choose Civic"
-        case .productionNeeded(cityName: let cityName, location: _):
-            return "\(cityName) needs production"
-        case .canChangeGovernment:
-            return "Change government"
-        case .policiesNeeded:
-            return "Choose policy cards"
-        case .canFoundPantheon:
-            return "Found a pantheon!"
-        case .governorTitleAvailable:
-            return "Governor title!"
-        case .cityGrowth(cityName: let cityName, population: _, location: _):
-            return "\(cityName) has grown"
-        case .starving(cityName: let cityName, location: _):
-            return "\(cityName) is starving"
-        case .diplomaticDeclaration:
-            return "diplomaticDeclaration"
-        case .war(leader: _):
-            return "Declaration of war"
-        case .enemyInTerritory:
-            return "An Enemy is Near!"
-        case .unitPromotion(location: _):
-            return "unitPromotion"
-        case .unitNeedsOrders(location: _):
-            return "unitNeedsOrders"
-        case .unitDied(location: _):
-            return "Unit died"
-        case .greatPersonJoined:
-            return "greatPersonJoined"
-        case .canRecruitGreatPerson(greatPerson: _):
-            return "Great Person can be recruited"
-        case .cityConquered(location: _):
-            return "City conquered"
-        case .goodyHutDiscovered(location: _):
-            return "Goodyhut discovered"
-        case .barbarianCampDiscovered(location: _):
-            return "Barbarian Camp discovered"
-        case .metCityState(cityState: _, first: _):
-            return "Met City State"
-        case .waiting:
-            return "Waiting"
-        case .questCityStateFulfilled(cityState: _, quest: _):
-            return "quest fulfilled"
-        case .questCityStateObsolete(cityState: _, quest: _):
-            return "quest obsolete"
-        case .questCityStateGiven(cityState: _, quest: _):
-            return "quest given"
-        case .momentAdded(type: _):
-            return "moment added"
-        case .tradeRouteCapacityIncreased:
-            return "Capacity for Trade Routes has increased"
-        }
-    }
-
-    public func message(in gameModel: GameModel?) -> String {
-
-        guard let gameModel = gameModel else {
-            fatalError("cant get game")
-        }
-
-        switch self {
-
-        case .turn:
-            return "-"
-        case .generic:
-            return "-"
-        case .techNeeded:
-            return "You may select a new research project."
-        case .civicNeeded:
-            return "You may select a new civic project."
-        case .productionNeeded(cityName: let cityName, location: _):
-            return "\(cityName) needs production"
-        case .canChangeGovernment:
-            return "You can change the government"
-        case .policiesNeeded:
-            return "Please choose policy cards"
-        case .canFoundPantheon:
-            return "You have enough faith to found a pantheon!"
-        case .governorTitleAvailable:
-            return "You have a governor title you can spent."
-        case .cityGrowth(cityName: let cityName, population: let population, location: _):
-            return "The City of \(cityName) now has \(population) Citizens! " +
-                "The new Citizen will automatically work the land near the City for additional " +
-                "Food, Production or Gold."
-        case .starving(cityName: let cityName, location: _):
-            return "The City of \(cityName) is starving"
-        case .diplomaticDeclaration:
-            return "diplomaticDeclaration"
-        case .war(leader: let leader):
-            return "\(leader.name()) has declared war on you!"
-        case .enemyInTerritory:
-            return "An enemy unit has been spotted in our territory!"
-        case .unitPromotion(location: _):
-            return "unitPromotion"
-        case .unitNeedsOrders(location: _):
-            return "unitNeedsOrders"
-        case .unitDied(location: _):
-            return "A unit died"
-        case .greatPersonJoined:
-            return "greatPersonJoined"
-        case .canRecruitGreatPerson(greatPerson: let greatPerson):
-            return "You can recruit \(greatPerson.name())"
-
-        case .cityConquered(location: let location):
-
-            guard let city = gameModel.city(at: location) else {
-                fatalError("cant get city")
-            }
-
-            if let newOwnerName = city.player?.leader.name() {
-                return "\(city.name) has been conquered by \(newOwnerName)"
-            }
-
-            return "\(city.name) has been conquered"
-
-        case .goodyHutDiscovered(location: let location):
-
-            if let city = gameModel.nearestCity(at: location, of: gameModel.humanPlayer()) {
-                return "Goodyhut near \(city.name) discovered"
-            }
-
-            return "Goodyhut discovered"
-
-        case .barbarianCampDiscovered(location: let location):
-
-            if let city = gameModel.nearestCity(at: location, of: gameModel.humanPlayer()) {
-                return "Barbarian Camp near \(city.name) discovered"
-            }
-
-            return "Barbarian Camp discovered"
-
-        case .metCityState(cityState: _, first: _):
-            return "Met City State"
-
-        case .waiting:
-            return "Waiting"
-        case .questCityStateFulfilled(cityState: _, quest: _):
-            return "quest fulfilled"
-        case .questCityStateObsolete(cityState: _, quest: _):
-            return "quest obsolete"
-        case .questCityStateGiven(cityState: _, quest: _):
-            return "quest given"
-        case .momentAdded(type: let messageType):
-            return messageType.summary()
-        case .tradeRouteCapacityIncreased:
-            return "Capacity for Trade Routes has increased"
-        }
-    }
 
     func value() -> Int {
 
@@ -285,7 +137,7 @@ public enum NotificationType {
             return 17
         case .canRecruitGreatPerson(greatPerson: _):
             return 18
-        case .cityConquered(location: _):
+        case .cityLost(location: _):
             return 19
         case .goodyHutDiscovered(location: _):
             return 20
@@ -305,6 +157,16 @@ public enum NotificationType {
             return 27
         case .tradeRouteCapacityIncreased:
             return 28
+        case .naturalWonderDiscovered(location: _):
+            return 29
+        case .continentDiscovered(location: _, continentName: _):
+            return 30
+        case .wonderBuilt:
+            return 31
+        case .cityCanShoot(cityName: _, location: _):
+            return 32
+        case .cityAcquired(cityName: _, location: _):
+            return 33
         }
     }
 
@@ -328,6 +190,7 @@ extension NotificationType: Codable {
         case cityStateValue // CityStateType
         case questValue // QuestType
         case momentValue // MomentType
+        case continentNameValue // String
     }
 
     public init(from decoder: Decoder) throws {
@@ -390,7 +253,7 @@ extension NotificationType: Codable {
             self = .canRecruitGreatPerson(greatPerson: greatPerson)
         case 19:
             let location = try container.decode(HexPoint.self, forKey: .locationValue)
-            self = .cityConquered(location: location)
+            self = .cityLost(location: location)
         case 20:
             let location = try container.decode(HexPoint.self, forKey: .locationValue)
             self = .goodyHutDiscovered(location: location)
@@ -420,6 +283,24 @@ extension NotificationType: Codable {
             self = .momentAdded(type: moment)
         case 28:
             self = .tradeRouteCapacityIncreased
+        case 29:
+            let location = try container.decode(HexPoint.self, forKey: .locationValue)
+            self = .naturalWonderDiscovered(location: location)
+        case 30:
+            let location = try container.decode(HexPoint.self, forKey: .locationValue)
+            let continentName = try container.decode(String.self, forKey: .continentNameValue)
+            self = .continentDiscovered(location: location, continentName: continentName)
+        case 31:
+            self = .wonderBuilt
+        case 32:
+            let cityName = try container.decode(String.self, forKey: .cityNameValue)
+            let location = try container.decode(HexPoint.self, forKey: .locationValue)
+            self = .cityCanShoot(cityName: cityName, location: location)
+        case 33:
+            let cityName = try container.decode(String.self, forKey: .cityNameValue)
+            let location = try container.decode(HexPoint.self, forKey: .locationValue)
+            self = .cityAcquired(cityName: cityName, location: location)
+
         default:
             fatalError("value \(rawValue) not handled")
         }
@@ -498,7 +379,7 @@ extension NotificationType: Codable {
             try container.encode(18, forKey: .rawValue)
             try container.encode(greatPerson, forKey: .greatPersonValue)
 
-        case .cityConquered(location: let location):
+        case .cityLost(location: let location):
             try container.encode(19, forKey: .rawValue)
             try container.encode(location, forKey: .locationValue)
 
@@ -539,6 +420,28 @@ extension NotificationType: Codable {
 
         case .tradeRouteCapacityIncreased:
             try container.encode(28, forKey: .rawValue)
+
+        case .naturalWonderDiscovered(location: let location):
+            try container.encode(29, forKey: .rawValue)
+            try container.encode(location, forKey: .locationValue)
+
+        case .continentDiscovered(location: let location, continentName: let continentName):
+            try container.encode(30, forKey: .rawValue)
+            try container.encode(location, forKey: .locationValue)
+            try container.encode(continentName, forKey: .continentNameValue)
+
+        case .wonderBuilt:
+            try container.encode(31, forKey: .rawValue)
+
+        case .cityCanShoot(cityName: let cityName, location: let location):
+            try container.encode(32, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityNameValue)
+            try container.encode(location, forKey: .locationValue)
+
+        case .cityAcquired(cityName: let cityName, location: let location):
+            try container.encode(33, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityNameValue)
+            try container.encode(location, forKey: .locationValue)
         }
     }
 }
@@ -591,7 +494,7 @@ extension NotificationType: Equatable {
                   let .canRecruitGreatPerson(greatPerson: rhsGreatPerson)):
             return lhsGreatPerson == rhsGreatPerson
 
-        case (let .cityConquered(location: lhsLocation), let .cityConquered(rhsLocation)):
+        case (let .cityLost(location: lhsLocation), let .cityLost(rhsLocation)):
             return lhsLocation == rhsLocation
 
         case (let .goodyHutDiscovered(location: lhsLocation), let .goodyHutDiscovered(rhsLocation)):
@@ -625,6 +528,26 @@ extension NotificationType: Equatable {
         case (.tradeRouteCapacityIncreased, .tradeRouteCapacityIncreased):
             return true
 
+        case (.naturalWonderDiscovered(location: let lhsLocation), .naturalWonderDiscovered(location: let rhsLocation)):
+            return lhsLocation == rhsLocation
+
+        case (.continentDiscovered(location: let lhsLocation, continentName: let lhsContinentName),
+              .continentDiscovered(location: let rhsLocation, continentName: let rhsContinentName)):
+            return lhsLocation == rhsLocation && lhsContinentName == rhsContinentName
+
+        case (.wonderBuilt, .wonderBuilt):
+            return true
+
+        case (.cityCanShoot(cityName: let lhsCityName, location: let lhsLocation),
+            .cityCanShoot(cityName: let rhsCityName, location: let rhsLocation)):
+
+            return lhsCityName == rhsCityName && lhsLocation == rhsLocation
+
+        case (.cityAcquired(cityName: let lhsCityName, location: let lhsLocation),
+            .cityAcquired(cityName: let rhsCityName, location: let rhsLocation)):
+
+            return lhsCityName == rhsCityName && lhsLocation == rhsLocation
+
         default:
             if lhs.value() == rhs.value() {
                 fatalError("comparison not handled - please add a case")
@@ -653,8 +576,10 @@ extension NotificationType: Hashable {
         case .civicNeeded:
             hasher.combine(3)
 
-        case .productionNeeded:
+        case .productionNeeded(cityName: let cityName, location: let location):
             hasher.combine(4)
+            hasher.combine(cityName)
+            hasher.combine(location)
 
         case .canChangeGovernment:
             hasher.combine(5)
@@ -700,7 +625,7 @@ extension NotificationType: Hashable {
             hasher.combine(18)
             hasher.combine(greatPerson)
 
-        case .cityConquered(location: let location):
+        case .cityLost(location: let location):
             hasher.combine(19)
             hasher.combine(location)
 
@@ -741,6 +666,28 @@ extension NotificationType: Hashable {
 
         case .tradeRouteCapacityIncreased:
             hasher.combine(28)
+
+        case .naturalWonderDiscovered(location: let location):
+            hasher.combine(29)
+            hasher.combine(location)
+
+        case .continentDiscovered(location: let location, continentName: let continentName):
+            hasher.combine(30)
+            hasher.combine(location)
+            hasher.combine(continentName)
+
+        case .wonderBuilt:
+            hasher.combine(31)
+
+        case .cityCanShoot(cityName: let cityName, location: let location):
+            hasher.combine(32)
+            hasher.combine(cityName)
+            hasher.combine(location)
+
+        case .cityAcquired(cityName: let cityName, location: let location):
+            hasher.combine(33)
+            hasher.combine(cityName)
+            hasher.combine(location)
         }
     }
 }

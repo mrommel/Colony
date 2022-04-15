@@ -138,8 +138,7 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
         )
         let tradeRouteFinder = AStarPathfinder(with: tradeRouteFinderDataSource)
 
-        if let tradeRoutePath = tradeRouteFinder.shortestPath(fromTileCoord: originCityLocation, toTileCoord: targetCityLocation) {
-            print("tradeRoutePath: \(tradeRoutePath)")
+        if var tradeRoutePath = tradeRouteFinder.shortestPath(fromTileCoord: originCityLocation, toTileCoord: targetCityLocation) {
 
             tradeRoutePath.prepend(point: originCityLocation, cost: 0.0)
 

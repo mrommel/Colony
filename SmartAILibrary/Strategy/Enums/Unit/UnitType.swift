@@ -36,6 +36,9 @@ public enum UnitType: Int, Codable {
     // recon - medieval
     case skirmisher
 
+    // recon - industrial
+    // case ranger
+
     // melee ------------------------------
 
     // melee - ancient
@@ -47,6 +50,12 @@ public enum UnitType: Int, Codable {
     // melee - medieval
     case manAtArms
 
+    // melee - renaissance
+    // case musketman
+
+    // melee - industrial
+    // case lineInfantry
+
     // ranged ------------------------------
 
     // ranged - ancient
@@ -56,6 +65,9 @@ public enum UnitType: Int, Codable {
     // ranged - medieval
     case crossbowman
 
+    // ranged - industrial
+    // case fieldCannon
+
     // anti-cavalry ------------------------------
 
     // anti-cavalry - ancient
@@ -64,13 +76,19 @@ public enum UnitType: Int, Codable {
     // anti-cavalry - medieval
     case pikeman
 
+    // anti-cavalry - renaissance
+    // case pikeAndShot
+
     // light cavalry ------------------------------
 
     // light cavalry - classical
     case horseman
 
     // light cavalry - medieval
-    // Courser
+    // case courser
+
+    // light cavalry - industrial
+    // case cavalry
 
     // heavy cavalry ------------------------------
 
@@ -80,6 +98,9 @@ public enum UnitType: Int, Codable {
     // heavy cavalry - medieval
     case knight
 
+    // heavy cavalry - industrial
+    // case cuirassier
+
     // siege ------------------------------
 
     // siege - classical
@@ -88,15 +109,32 @@ public enum UnitType: Int, Codable {
     // siege - medieval
     case trebuchet
 
+    // siege - renaissace
+    // case bombard
+
     // naval melee ------------------------------
 
     // naval melee - ancient
     case galley
 
+    // naval melee - renaissance
+    // case caravel
+
+    // naval melee - industrial
+    // case ironclad
+
     // naval ranged ------------------------------
 
     // naval ranged - classical
     case quadrireme
+
+    // naval ranged - renaissance
+    // case frigate
+
+    // naval raider ------------------------------
+
+    // naval raider - renaissance
+    // case privateer
 
     // support ------------------------------
 

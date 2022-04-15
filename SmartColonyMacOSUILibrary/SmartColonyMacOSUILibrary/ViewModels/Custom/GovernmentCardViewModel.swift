@@ -30,17 +30,17 @@ class GovernmentCardViewModel: ObservableObject, Hashable {
 
     func title() -> String {
 
-        return self.governmentType.name()
+        return self.governmentType.name().localized()
     }
 
     func bonus1Summary() -> String {
 
-        return self.governmentType.bonus1Summary()
+        return self.governmentType.bonus1Summary().localized()
     }
 
     func bonus2Summary() -> String {
 
-        return self.governmentType.bonus2Summary()
+        return self.governmentType.bonus2Summary().localized()
     }
 
     func cardImages() -> [NSImage] {

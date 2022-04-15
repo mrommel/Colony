@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "unit-type-heavyChariot@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "unit-type-heavyChariot@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "unit-type-heavyChariot@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "unit-type-template-heavyChariot@3x.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {

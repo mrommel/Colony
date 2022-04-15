@@ -279,12 +279,16 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
         let approachValue = otherPlayerDiplomacyAI.approachValue(towards: humanPlayer)
         let approach = otherPlayerDiplomacyAI.approach(towards: humanPlayer)
-        self.relationShipRating = approachValue
+        self.relationShipRating = approachValue / 5
         self.relationShipLabel = approach.name().localized()
 
         var tmpApproachItemViewModels: [ApproachItemViewModel] = []
         for approachItem in otherPlayerDiplomacyAI.approachItems(towards: humanPlayer) {
-            tmpApproachItemViewModels.append(ApproachItemViewModel(value: approachItem.value, text: approachItem.type.summary()))
+            let approachItemViewModel = ApproachItemViewModel(
+                value: approachItem.value,
+                text: approachItem.type.summary().localized()
+            )
+            tmpApproachItemViewModels.append(approachItemViewModel)
         }
         self.approachItemViewModels = tmpApproachItemViewModels
     }

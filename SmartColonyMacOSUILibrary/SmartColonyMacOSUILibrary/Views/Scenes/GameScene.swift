@@ -411,7 +411,7 @@ extension GameScene {
                     )
                     let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
-                    if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: position) {
+                    if var path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: position) {
 
                         if path.contains(point: selectedUnit.location) {
 

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class HexPath: Decodable {
+public struct HexPath: Decodable {
 
     fileprivate var pointsValue: [HexPoint]
     fileprivate var costs: [Double]
@@ -36,7 +36,7 @@ public class HexPath: Decodable {
         self.costs = costs
     }
 
-    required public init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
 
         let values = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -97,7 +97,7 @@ public class HexPath: Decodable {
 
     public func firstSegment(for moves: Int) -> HexPath {
 
-        let result: HexPath = HexPath()
+        var result: HexPath = HexPath()
         var index = 0
 
         repeat {
@@ -113,7 +113,7 @@ public class HexPath: Decodable {
         return self.pointsValue.contains(point)
     }
 
-    public func cropPoints(until point: HexPoint) {
+    public mutating func cropPoints(until point: HexPoint) {
 
         guard self.pointsValue.contains(point) else {
             return
@@ -137,13 +137,13 @@ public class HexPath: Decodable {
 
     // MARK: methods
 
-    public func append(point: HexPoint, cost: Double) {
+    public mutating func append(point: HexPoint, cost: Double) {
 
         self.pointsValue.append(point)
         self.costs.append(cost)
     }
 
-    public func prepend(point: HexPoint, cost: Double) {
+    public mutating func prepend(point: HexPoint, cost: Double) {
 
         self.pointsValue.prepend(point)
         self.costs.prepend(cost)

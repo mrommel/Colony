@@ -359,6 +359,8 @@ public class UnitMission {
 
                         if movesToDo > 0 {
                             action = true
+                        } else {
+                            done = true
                         }
 
                         done = path.points().last == unit.location

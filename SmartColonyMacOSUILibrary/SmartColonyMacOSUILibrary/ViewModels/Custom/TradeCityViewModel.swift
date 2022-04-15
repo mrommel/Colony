@@ -34,7 +34,7 @@ class TradeCityViewModel: ObservableObject, Identifiable {
         self.city = city
 
         if let city = self.city {
-            self.title = "\(city.name) (\(city.population()))"
+            self.title = "\(city.name.localized()) (\(city.population()))"
             self.leaderType = city.player?.leader ?? .barbar
         } else {
             self.title = "Berlin (1)"

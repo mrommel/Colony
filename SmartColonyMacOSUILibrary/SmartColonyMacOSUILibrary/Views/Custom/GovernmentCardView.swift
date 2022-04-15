@@ -44,13 +44,13 @@ struct GovernmentCardView: View {
                 .padding(.leading, 15)
                 .frame(width: 300, height: 70, alignment: .top)
 
-                Text(self.viewModel.bonus1Summary())
+                Label(self.viewModel.bonus1Summary())
                     .font(.footnote)
                     .padding(.top, 5)
                     .padding(.leading, 33)
                     .padding(.trailing, 33)
 
-                Text(self.viewModel.bonus2Summary())
+                Label(self.viewModel.bonus2Summary())
                     .font(.footnote)
                     .padding(.top, 15)
                     .padding(.leading, 33)

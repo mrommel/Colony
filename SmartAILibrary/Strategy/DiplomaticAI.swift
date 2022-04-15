@@ -663,9 +663,21 @@ public class DiplomaticAI: Codable {
 
         if let otherPlayer = otherPlayer {
 
-            if otherPlayer.leader != player.leader /* && !otherPlayer.isHuman() && !player.isHuman() */ {
+            /*if otherPlayer.leader != player.leader /* && !otherPlayer.isHuman() && !player.isHuman() */ {
+                return true
+            }*/
+
+                    /*if (m_eDiploMode == DIPLO_ALL_PLAYERS ||
+                        (m_eDiploMode == DIPLO_SPECIFIC_PLAYER && m_eTargetPlayer == eTargetPlayer) ||
+                        (m_eDiploMode == DIPLO_AI_PLAYERS && !kTarget.isHuman()) ||
+                        (m_eDiploMode == DIPLO_HUMAN_PLAYERS && kTarget.isHuman()))
+                        return true;*/
+            if player.isMajorAI() && otherPlayer.isHuman() ||
+                player.isHuman() && otherPlayer.isMajorAI() {
+
                 return true
             }
+
         }
 
         return false

@@ -662,18 +662,17 @@ public class Operation: Codable, Equatable {
         let range = numUnits <= 2 ? 1 : (numUnits <= 6 ? 2 : 3)
         for pt in position.areaWith(radius: range) {
 
-            if let cell = tacticalMap.plots[pt] {
+            let cell = tacticalMap.plots[pt.x, pt.y]
 
-                if (self.isMixedLandNavalOperation() && cell.canUseForOperationGathering()) ||
-                    cell.canUseForOperationGatheringCheckWater(isWater: self.isAllNavalOperation()) {
+            if (self.isMixedLandNavalOperation() && cell.canUseForOperationGathering()) ||
+                cell.canUseForOperationGatheringCheckWater(isWater: self.isAllNavalOperation()) {
 
-                    if (self.isMixedLandNavalOperation() || self.isAllNavalOperation()) && !army.isAllOceanGoing(in: gameModel) && cell.ocean {
+                if (self.isMixedLandNavalOperation() || self.isAllNavalOperation()) && !army.isAllOceanGoing(in: gameModel) && cell.ocean {
 
-                        continue
-                    }
-
-                    validPlotsNearby += 1
+                    continue
                 }
+
+                validPlotsNearby += 1
             }
         }
 

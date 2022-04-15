@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "unit-type-warrior@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "unit-type-warrior@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "unit-type-warrior@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "unit-type-template-warrior@3x.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {

@@ -19,7 +19,7 @@ extension TextureAtlas {
         }
 
         var textures: [NSImage] = []
-        var speed: Double = -1.0
+        var timePerFrame: Double = -1.0
 
         if let action = self.unit.action.first(where: { $0.enumValue == action }) {
 
@@ -53,9 +53,9 @@ extension TextureAtlas {
                 }
             }
 
-            speed = Double(action.speedValue) / 1000
+            timePerFrame = Double(action.speedValue) / 1000
         }
 
-        return ObjectTextureAtlas(textures: textures, speed: speed)
+        return ObjectTextureAtlas(textures: textures, timePerFrame: timePerFrame)
     }
 }

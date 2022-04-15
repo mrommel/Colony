@@ -234,6 +234,86 @@ class TradeRouteTests: XCTestCase {
         XCTAssertEqual(self.sourceVisited, 3)
         XCTAssertEqual(self.hasExpired, true)
     }
+
+    func testCanEstablishTradeRouteWithCityState() {
+
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let cityStatePlayer = Player(leader: .cityState(type: .akkad), isHuman: false)
+        cityStatePlayer.initialize()
+
+        let aiPlayer = Player(leader: .victoria, isHuman: false)
+        aiPlayer.initialize()
+
+        let humanPlayer = Player(leader: .alexander, isHuman: true)
+        humanPlayer.initialize()
+
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
+        mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
+        mapModel.set(hills: true, at: HexPoint(x: 1, y: 2))
+        mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
+        mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
+        mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.victoria],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, cityStatePlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
+
+        // Human - setup
+        try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
+        try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
+        try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+        try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
+        try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
+        humanPlayer.government?.set(governmentType: .chiefdom, in: gameModel)
+        try! humanPlayer.government?.set(policyCardSet: PolicyCardSet(cards: [.godKing, .discipline]))
+
+        // Human - city 1
+        humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
+
+        if let humanCapital = gameModel.city(at: HexPoint(x: 3, y: 5)) {
+            humanCapital.buildQueue.add(item: BuildableItem(buildingType: .granary))
+        }
+
+        // City State - city 2
+        cityStatePlayer.found(at: HexPoint(x: 8, y: 5), named: "City State City", in: gameModel)
+        let cityStateCity = gameModel.city(at: HexPoint(x: 8, y: 5))
+
+        let traderUnit = Unit(at: HexPoint(x: 4, y: 5), type: .trader, owner: humanPlayer)
+        traderUnit.origin = HexPoint(x: 3, y: 5)
+        gameModel.add(unit: traderUnit)
+        gameModel.userInterface?.show(unit: traderUnit, at: HexPoint(x: 4, y: 5))
+
+        MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
+
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+
+        // WHEN
+        let established = traderUnit.canEstablishTradeRoute(to: cityStateCity, in: gameModel)
+
+        // THEN
+        XCTAssertEqual(established, true)
+    }
 }
 
 extension TradeRouteTests: UnitMovedDelegate {

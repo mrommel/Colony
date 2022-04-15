@@ -158,6 +158,8 @@
 		C9911EAD2736817800273C8A /* ReligiousRankingDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9911EAC2736817800273C8A /* ReligiousRankingDialogView.swift */; };
 		C9911EB12736DDDB00273C8A /* VictoryDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9911EB02736DDDB00273C8A /* VictoryDialogView.swift */; };
 		C9911EB32736DE3D00273C8A /* VictoryDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9911EB22736DE3D00273C8A /* VictoryDialogViewModel.swift */; };
+		C9934DA32800347F00FF6668 /* RazeOrReturnCityDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9934DA22800347F00FF6668 /* RazeOrReturnCityDialogViewModel.swift */; };
+		C9934DA5280034D100FF6668 /* RazeOrReturnCityDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9934DA4280034D000FF6668 /* RazeOrReturnCityDialogView.swift */; };
 		C99547C32738625D006AB8F2 /* ScoreChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99547C22738625D006AB8F2 /* ScoreChartView.swift */; };
 		C997785327B3172D00BFC102 /* GenericPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C997785227B3172C00BFC102 /* GenericPopupView.swift */; };
 		C997785527B317F400BFC102 /* GenericPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C997785427B317F400BFC102 /* GenericPopupViewModel.swift */; };
@@ -496,6 +498,8 @@
 		C9911EAC2736817800273C8A /* ReligiousRankingDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligiousRankingDialogView.swift; sourceTree = "<group>"; };
 		C9911EB02736DDDB00273C8A /* VictoryDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VictoryDialogView.swift; sourceTree = "<group>"; };
 		C9911EB22736DE3D00273C8A /* VictoryDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VictoryDialogViewModel.swift; sourceTree = "<group>"; };
+		C9934DA22800347F00FF6668 /* RazeOrReturnCityDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RazeOrReturnCityDialogViewModel.swift; sourceTree = "<group>"; };
+		C9934DA4280034D000FF6668 /* RazeOrReturnCityDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RazeOrReturnCityDialogView.swift; sourceTree = "<group>"; };
 		C99547C22738625D006AB8F2 /* ScoreChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreChartView.swift; sourceTree = "<group>"; };
 		C997785227B3172C00BFC102 /* GenericPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericPopupView.swift; sourceTree = "<group>"; };
 		C997785427B317F400BFC102 /* GenericPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericPopupViewModel.swift; sourceTree = "<group>"; };
@@ -790,6 +794,7 @@
 				C963AD152786D3FB00981EF3 /* MomentsDialogView.swift */,
 				C95AB2EB27CCFE1700EF5C61 /* CityStatesDialogView.swift */,
 				C97ACD0027D6010A00AD0721 /* CityStateDialogView.swift */,
+				C9934DA4280034D000FF6668 /* RazeOrReturnCityDialogView.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -1061,6 +1066,7 @@
 				C963AD172786D4C600981EF3 /* MomentsDialogViewModel.swift */,
 				C95AB2ED27CCFF4000EF5C61 /* CityStatesDialogViewModel.swift */,
 				C97ACCFE27D6003800AD0721 /* CityStateDialogViewModel.swift */,
+				C9934DA22800347F00FF6668 /* RazeOrReturnCityDialogViewModel.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -1488,6 +1494,7 @@
 				C9A37615263457210057923E /* SafeAreaNode.swift in Sources */,
 				C9D191AF265A86C7008C9622 /* CityReligionViewModel.swift in Sources */,
 				C98031D126EE5AD9008F460B /* CityView.swift in Sources */,
+				C9934DA32800347F00FF6668 /* RazeOrReturnCityDialogViewModel.swift in Sources */,
 				C9C315D227B558F100387733 /* GameMenuViewModel.swift in Sources */,
 				C925676D265635C000B895BD /* QueueViewModel.swift in Sources */,
 				C970A5FE27955C6500381603 /* CityFaithPurchaseView.swift in Sources */,
@@ -1519,6 +1526,7 @@
 				C93FD2D12732F7FB003348FB /* ScoreRankingDialogViewModel.swift in Sources */,
 				C9F2B555266A58760016D4F3 /* ConfirmationDialogView.swift in Sources */,
 				C963AD162786D3FB00981EF3 /* MomentsDialogView.swift in Sources */,
+				C9934DA5280034D100FF6668 /* RazeOrReturnCityDialogView.swift in Sources */,
 				C9A48D362653004100260EE0 /* HeaderView.swift in Sources */,
 				C9D191B9265C24EA008C9622 /* CitizenReligionView.swift in Sources */,
 				C92AB9212734689D003647D8 /* DominationRankingView.swift in Sources */,

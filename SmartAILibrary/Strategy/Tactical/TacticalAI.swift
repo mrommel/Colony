@@ -547,7 +547,7 @@ public class TacticalAI: Codable {
                             }
                         } else {
                             let tacticalMap = gameModel.tacticalAnalysisMap()
-                            let cell = tacticalMap.plots[civilianMove]!
+                            let cell = tacticalMap.plots[civilianMove.x, civilianMove.y]
 
                             let blockingUnit = gameModel.unit(at: civilianMove, of: .combat)
 
@@ -1732,8 +1732,8 @@ public class TacticalAI: Codable {
 
                 if plotDistance <= range {
 
-                    guard let cell = gameModel.tacticalAnalysisMap().plots[plotPoint],
-                          let operation = army.operation else {
+                    var cell = gameModel.tacticalAnalysisMap().plots[plotPoint.x, plotPoint.y]
+                    guard let operation = army.operation else {
                         continue
                     }
 
@@ -1762,10 +1762,9 @@ public class TacticalAI: Codable {
                         // Skip this plot if friendly unit that isn't in this army
                         // CvUnit* pFriendlyUnit;
 
-                        if let friendlyUnit = cell.friendlyMilitaryUnit {
-                            if friendlyUnit.army()?.identifier != army.identifier {
-                                continue
-                            }
+                        let friendlyUnit = cell.friendlyMilitaryUnit
+                        if friendlyUnit?.army()?.identifier != army.identifier {
+                            continue
                         }
 
                         numDeployPlotsFound += 1
@@ -1862,8 +1861,8 @@ public class TacticalAI: Codable {
             } else { // How dangerous is this plot?
                 var dangerous = false
 
-                let cell = gameModel.tacticalAnalysisMap().plots[target]
-                if cell!.isSubjectToAttack() {
+                let cell = gameModel.tacticalAnalysisMap().plots[target.x, target.y]
+                if cell.isSubjectToAttack() {
                     // Enemy naval unit can definitely attack this plot
                     dangerous = true
                 } else {
@@ -2205,7 +2204,8 @@ public class TacticalAI: Codable {
                     if plotDistance <= range {
 
                         // int iPlotIndex = GC.getMap().plotNum(pPlot->getX(), pPlot->getY());
-                        guard let cell = tacticalAnalysisMap.plots[plotPoint], let operation = army.operation else {
+                        var cell = tacticalAnalysisMap.plots[plotPoint.x, plotPoint.y]
+                        guard let operation = army.operation else {
                             continue
                         }
 
@@ -3004,9 +3004,7 @@ public class TacticalAI: Codable {
 
             if unit.canAttackRanged() && !unit.isOutOfAttacks() {
 
-                guard let cell = gameModel.tacticalAnalysisMap().plots[unit.location] else {
-                    continue
-                }
+                let cell = gameModel.tacticalAnalysisMap().plots[unit.location.x, unit.location.y]
 
                 if cell.withinRangeOfTarget && !cell.subjectToAttack && self.isExpectedToDamageWithRangedAttack(by: unit, towards: target.target, in: gameModel) {
 
@@ -3067,9 +3065,7 @@ public class TacticalAI: Codable {
 
                     if distance > 0 && distance <= range {
 
-                        guard let cell = gameModel.tacticalAnalysisMap().plots[loopPoint] else {
-                            continue
-                        }
+                        let cell = gameModel.tacticalAnalysisMap().plots[loopPoint.x, loopPoint.y]
 
                         if cell.isRevealed() && cell.canUseForOperationGathering() {
 
@@ -3990,9 +3986,7 @@ public class TacticalAI: Codable {
                     // Proper domain of unit?
                     if zone.isWater && unit.domain() == .sea || !zone.isWater && unit.domain() == .land {
 
-                        guard let plot = gameModel.tacticalAnalysisMap().plots[unit.location] else {
-                            continue
-                        }
+                        let plot = gameModel.tacticalAnalysisMap().plots[unit.location.x, unit.location.y]
 
                         // Am I in the current dominance zone?
                         if plot.dominanceZone == zone {
@@ -4548,9 +4542,7 @@ public class TacticalAI: Codable {
             var safeFromAttack = true
 
             let plotDistance = cityPoint.distance(to: targetTile.point)
-            guard let cell = gameModel.tacticalAnalysisMap().plots[cityPoint] else {
-                continue
-            }
+            var cell = gameModel.tacticalAnalysisMap().plots[cityPoint.x, cityPoint.y]
 
             if cell.canUseForOperationGatheringCheckWater(isWater: false) {
 
@@ -4639,11 +4631,10 @@ public class TacticalAI: Codable {
         // Count number of possible flank attack spaces around target
         for loopPoint in target.target.neighbors() {
 
-            if let cell = gameModel.tacticalAnalysisMap().plots[loopPoint] {
+            let cell = gameModel.tacticalAnalysisMap().plots[loopPoint.x, loopPoint.y]
 
-                if cell.canUseToFlank {
-                    possibleFlankHexes += 1
-                }
+            if cell.canUseToFlank {
+                possibleFlankHexes += 1
             }
         }
 
@@ -4658,9 +4649,7 @@ public class TacticalAI: Codable {
 
                 if let loopPlot = gameModel.tile(at: loopPoint) {
 
-                    guard let cell = gameModel.tacticalAnalysisMap().plots[loopPoint] else {
-                        continue
-                    }
+                    let cell = gameModel.tacticalAnalysisMap().plots[loopPoint.x, loopPoint.y]
 
                     if cell.canUseToFlank {
 
@@ -4863,10 +4852,7 @@ public class TacticalAI: Codable {
                 let plotDistance = point.distance(to: target.target)
                 if plotDistance > 0 && plotDistance <= range {
 
-                    // iPlotIndex = GC.getMap().plotNum(pAttackPlot->getX(), pAttackPlot->getY());
-                    guard let cell = gameModel.tacticalAnalysisMap().plots[point] else {
-                        continue
-                    }
+                    let cell = gameModel.tacticalAnalysisMap().plots[point.x, point.y]
 
                     if cell.isRevealed() && cell.canUseForOperationGathering() {
 
@@ -4881,7 +4867,7 @@ public class TacticalAI: Codable {
                                     continue
                                 }
 
-                                if gameModel.tacticalAnalysisMap().plots[neighbor]?.enemyMilitaryUnit != nil {
+                                if gameModel.tacticalAnalysisMap().plots[neighbor.x, neighbor.y].enemyMilitaryUnit != nil {
                                     noEnemyAdjacent = false
                                 }
                             }
@@ -5115,11 +5101,7 @@ public class TacticalAI: Codable {
 
             // Don't need to cover a water hex
             if !loopPlot.isWater() {
-                // iPlotIndex = GC.getMap().plotNum(pLoopPlot->getX(), pLoopPlot->getY());
-
-                guard let cell = gameModel.tacticalAnalysisMap().plots[neighbor] else {
-                    continue
-                }
+                let cell = gameModel.tacticalAnalysisMap().plots[neighbor.x, neighbor.y]
 
                 if cell.isEnemyCanMovePast() && !cell.isFriendlyTurnEndTile() {
                     numUnitsRequiredToCover += 1
@@ -5146,9 +5128,7 @@ public class TacticalAI: Codable {
 
                 if !loopPlot.isWater() {
 
-                    guard let cell = gameModel.tacticalAnalysisMap().plots[neighbor] else {
-                        continue
-                    }
+                    let cell = gameModel.tacticalAnalysisMap().plots[neighbor.x, neighbor.y]
 
                     if cell.isEnemyCanMovePast() && !cell.isFriendlyTurnEndTile() {
 
@@ -5602,9 +5582,7 @@ public class TacticalAI: Codable {
 
             let plotDistance = plotPoint.distance(to: target)
 
-            guard let cell = gameModel.tacticalAnalysisMap().plots[plotPoint] else {
-                continue
-            }
+            var cell = gameModel.tacticalAnalysisMap().plots[plotPoint.x, plotPoint.y]
 
             if (landOnly && cell.canUseForOperationGatheringCheckWater(isWater: false)) || (!landOnly && cell.canUseForOperationGathering()) {
 
@@ -7759,8 +7737,8 @@ public class TacticalAI: Codable {
 
             if map.isBuild {
 
-                let cell = map.plots[unit.location]
-                cell?.friendlyTurnEndTile = true
+                var cell = map.plots[unit.location.x, unit.location.y]
+                cell.friendlyTurnEndTile = true
             }
         }
     }
@@ -8281,7 +8259,7 @@ public class TacticalAI: Codable {
                             targetType: .none,
                             target: point,
                             targetLeader: .none,
-                            dominanceZone: gameModel.tacticalAnalysisMap().plots[point]?.dominanceZone)
+                            dominanceZone: gameModel.tacticalAnalysisMap().plots[point.x, point.y].dominanceZone)
 
                         let enemyDominatedPlot = gameModel.tacticalAnalysisMap().isInEnemyDominatedZone(at: point)
 

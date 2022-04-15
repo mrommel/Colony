@@ -1578,7 +1578,7 @@ public class Unit: AbstractUnit {
         )
         let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
-        if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
+        if var path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
 
             // add current location
             path.prepend(point: self.location, cost: 0.0)
@@ -1606,7 +1606,7 @@ public class Unit: AbstractUnit {
         )
         let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
-        if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
+        if var path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
 
             // add current location
             path.prepend(point: self.location, cost: 0.0)
@@ -1649,7 +1649,11 @@ public class Unit: AbstractUnit {
 
         guard let path = self.path(towards: target, options: .none, in: gameModel) else {
             print("Unable to generate path with BuildRouteFinder")
-            self.doCancelOrder(in: gameModel)
+            if self.type == .trader {
+                self.finishMoves() // skip one turn
+            } else {
+                self.doCancelOrder(in: gameModel)
+            }
             return 0
         }
 
@@ -2150,6 +2154,10 @@ public class Unit: AbstractUnit {
                     if !player.hasDiscovered(naturalWonder: feature) {
                         player.doDiscover(naturalWonder: feature)
                         player.addMoment(of: .discoveryOfANaturalWonder(naturalWonder: feature), in: gameModel)
+
+                        if player.isHuman() {
+                            player.notifications()?.add(notification: .naturalWonderDiscovered(location: adjacentPoint))
+                        }
                     }
 
                     /*PromotionTypes ePromotion = (PromotionTypes)GC.getFeatureInfo(eFeature)->getAdjacentUnitFreePromotion();
@@ -2251,7 +2259,7 @@ public class Unit: AbstractUnit {
                 }
             }
 
-            // Are we in enemy territory? If so, give notification to owner
+            // is unit in enemy territory? If so, give notification to owner of this plot
             if diplomacyAI.isAtWar(with: plotOwner) {
 
                 if plotOwner.isEqual(to: gameModel.humanPlayer()) {
@@ -4162,7 +4170,7 @@ public class Unit: AbstractUnit {
         )
         let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
-        if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
+        if var path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
 
             path.prepend(point: self.location, cost: 0.0)
 

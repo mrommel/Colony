@@ -132,12 +132,14 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func lastSliceMoved() -> Int
     func setLastSliceMoved(to value: Int)
 
+    func verifyAlive(in gameModel: GameModel?)
     func isAlive() -> Bool
     func isEverAlive() -> Bool
     func isActive() -> Bool
     func isTurnActive() -> Bool
 
     func isHuman() -> Bool
+    func isMajorAI() -> Bool
     func isBarbarian() -> Bool
     func isFreeCity() -> Bool
     func isCityState() -> Bool
@@ -149,6 +151,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func canDeclareWar(to otherPlayer: AbstractPlayer?) -> Bool
     func doDeclareWar(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func doEstablishPeaceTreaty(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
+    func makePeace(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func warWeariness(with otherPlayer: AbstractPlayer?) -> Int
     func updateWarWeariness(against otherPlayer: AbstractPlayer?, at point: HexPoint, killed: Bool, in gameModel: GameModel?)
 
@@ -182,6 +185,10 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func hasHasLostCapital() -> Bool
     func capitalConqueror() -> LeaderType?
     func set(hasLostCapital value: Bool, to conqueror: AbstractPlayer?, in gameModel: GameModel?) // checks for domination victory
+    func set(beingResurrected: Bool)
+    func beingResurrected() -> Bool
+    func set(liberatedBy: LeaderType)
+    func liberatedBy() -> LeaderType
 
     // notification methods
     func updateNotifications(in gameModel: GameModel?)
@@ -227,7 +234,10 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func registerBuild(cityName: String)
     func cityStrengthModifier() -> Int
     func acquire(city oldCity: AbstractCity?, conquest: Bool, gift: Bool, in gameModel: GameModel?)
-    func doRaze(city: AbstractCity?, in gameModel: GameModel?)
+    func canRaze(city cityRef: AbstractCity?, ignoreCapitals: Bool, in gameModel: GameModel?) -> Bool
+    func doRaze(city: AbstractCity?, in gameModel: GameModel?) -> Bool
+    func canLiberate(city: AbstractCity?, in gameModel: GameModel?) -> Bool
+    func doLiberate(city: AbstractCity?, forced: Bool, in gameModel: GameModel?) -> Bool
     func disband(city: AbstractCity?, in gameModel: GameModel?)
     func delete(city: AbstractCity?, in gameModel: GameModel?)
     func numOfCitiesFounded() -> Int
@@ -438,6 +448,8 @@ public class Player: AbstractPlayer {
         case originalCapitalLocation
         case lostCapital
         case conqueror
+        case beingResurrected
+        case liberatedBy
 
         case canChangeGovernment
         case happiness
@@ -530,6 +542,8 @@ public class Player: AbstractPlayer {
     private var originalCapitalLocationValue: HexPoint = HexPoint.invalid
     private var lostCapitalValue: Bool = false
     private var conquerorValue: LeaderType?
+    private var beingResurrectedValue: Bool = false
+    private var liberatedByValue: LeaderType = .none
 
     private var canChangeGovernmentValue: Bool = true
     private var happinessValue: Int = 0
@@ -649,6 +663,8 @@ public class Player: AbstractPlayer {
         self.originalCapitalLocationValue = try container.decode(HexPoint.self, forKey: .originalCapitalLocation)
         self.lostCapitalValue = try container.decode(Bool.self, forKey: .lostCapital)
         self.conquerorValue = try container.decodeIfPresent(LeaderType.self, forKey: .conqueror)
+        self.beingResurrectedValue = try container.decode(Bool.self, forKey: .beingResurrected)
+        self.liberatedByValue = try container.decode(LeaderType.self, forKey: .liberatedBy)
 
         self.canChangeGovernmentValue = try container.decode(Bool.self, forKey: .canChangeGovernment)
         self.happinessValue = try container.decodeIfPresent(Int.self, forKey: .happiness) ?? 0
@@ -764,6 +780,8 @@ public class Player: AbstractPlayer {
         try container.encode(self.originalCapitalLocationValue, forKey: .originalCapitalLocation)
         try container.encode(self.lostCapitalValue, forKey: .lostCapital)
         try container.encodeIfPresent(self.conquerorValue, forKey: .conqueror)
+        try container.encode(self.beingResurrectedValue, forKey: .beingResurrected)
+        try container.encode(self.liberatedByValue, forKey: .liberatedBy)
 
         try container.encode(self.canChangeGovernmentValue, forKey: .canChangeGovernment)
         try container.encode(self.happinessValue, forKey: .happiness)
@@ -999,12 +1017,14 @@ public class Player: AbstractPlayer {
         self.diplomacyAI?.doFirstContact(with: otherPlayer, in: gameModel)
         otherPlayer.diplomacyAI?.doFirstContact(with: self, in: gameModel)
 
-        // moment
-        self.addMoment(of: .metNewCivilization(civilization: otherPlayer.leader.civilization()), in: gameModel)
+        if otherPlayer.isMajorAI() || otherPlayer.isHuman() {
+            // moment
+            self.addMoment(of: .metNewCivilization(civilization: otherPlayer.leader.civilization()), in: gameModel)
 
-        // update eurekas
-        if !techs.eurekaTriggered(for: .writing) {
-            techs.triggerEureka(for: .writing, in: gameModel)
+            // update eurekas
+            if !techs.eurekaTriggered(for: .writing) {
+                techs.triggerEureka(for: .writing, in: gameModel)
+            }
         }
 
         if self.isCityState() {
@@ -1139,6 +1159,11 @@ public class Player: AbstractPlayer {
         self.changeWarWeariness(with: otherPlayer, by: -2000)
 
         diplomacyAI.doEstablishPeaceTreaty(with: otherPlayer, in: gameModel)
+    }
+
+    public func makePeace(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+
+        self.doEstablishPeaceTreaty(with: otherPlayer, in: gameModel)
     }
 
     public func warWeariness(with otherPlayer: AbstractPlayer?) -> Int {
@@ -1677,6 +1702,10 @@ public class Player: AbstractPlayer {
                                 }
                             }
 
+                            if districtType == .cityCenter {
+                                return false
+                            }
+
                             return true
                         })
 
@@ -1935,6 +1964,26 @@ public class Player: AbstractPlayer {
         }
     }
 
+    public func set(beingResurrected: Bool) {
+
+        self.beingResurrectedValue = beingResurrected
+    }
+
+    public func beingResurrected() -> Bool {
+
+        return self.beingResurrectedValue
+    }
+
+    public func set(liberatedBy: LeaderType) {
+
+        self.liberatedByValue = liberatedBy
+    }
+
+    public func liberatedBy() -> LeaderType {
+
+        return self.liberatedByValue
+    }
+
     public func hasMet(with otherPlayer: AbstractPlayer?) -> Bool {
 
         guard let diplomacyAI = self.diplomacyAI else {
@@ -1989,7 +2038,7 @@ public class Player: AbstractPlayer {
         return true
     }
 
-    func verifyAlive(in gameModel: GameModel?) {
+    public func verifyAlive(in gameModel: GameModel?) {
 
         if self.isAlive() {
 
@@ -2016,6 +2065,11 @@ public class Player: AbstractPlayer {
     public func isHuman() -> Bool {
 
         return self.isHumanVal
+    }
+
+    public func isMajorAI() -> Bool {
+
+        return !self.isHuman() && !self.isFreeCity() && !self.isBarbarian() && !self.isCityState()
     }
 
     public func eraScore() -> Int {
@@ -2134,7 +2188,16 @@ public class Player: AbstractPlayer {
             return
         }
 
-        print("--- start turn for \(self.isHuman() ? "HUMAN": "AI") player \(self.leader) ---")
+        if self.isHuman() {
+            print("--- start turn for HUMAN player \(self.leader) ---")
+        } else if self.isBarbarian() {
+            print("--- start turn for barbarian player ---")
+        } else if case .cityState(type: let cityStateType) = self.leader {
+            print("--- start turn for city state \(cityStateType.name()) ---")
+        } else if self.isMajorAI() {
+            print("--- start turn for AI player \(self.leader) ---")
+        }
+        gameModel.userInterface?.update(activePlayer: self)
 
         self.turnActive = true
         self.setEndTurn(to: false, in: gameModel)
@@ -4937,7 +5000,7 @@ public class Player: AbstractPlayer {
             let message = "\(oldCity.name) was captured by the \(self.leader.civilization().name())!!!"
             gameModel.addReplayEvent(type: .major, message: message, at: oldCity.location)
 
-            // inform other players, that a city was conquered
+            // inform other players, that a city was conquered or liberated
             if self.leader == oldCity.originalLeader() {
                 gameModel.sendGossip(type: .cityLiberated(cityName: oldCity.name, originalOwner: oldCity.originalLeader()), of: self)
             } else {
@@ -4977,11 +5040,11 @@ public class Player: AbstractPlayer {
 
         let oldCityLocation = oldCity.location
         let oldLeader = oldCity.leader
-        // let originalOwner = oldCity.originalLeader()
+        let originalOwner = oldCity.originalLeader()
         let oldTurnFounded = oldCity.gameTurnFounded()
         var oldPopulation = oldCity.population()
         // iHighestPopulation = pOldCity->getHighestPopulation();
-        // let everCapital = oldCity.isEverCapital()
+        let everCapital = oldCity.isEverCapital()
         let oldName = oldCity.name
         let oldCultureLevel = oldCity.cultureLevel()
         let hasMadeAttack = oldCity.madeAttack()
@@ -5075,10 +5138,10 @@ public class Player: AbstractPlayer {
         let newCity = City(name: oldName, at: oldCityLocation, owner: self)
         newCity.initialize(in: gameModel)
 
-        newCity.set(originalLeader: oldLeader)
+        newCity.set(originalLeader: originalOwner)
         newCity.set(gameTurnFounded: oldTurnFounded)
-        //  pNewCity->setPreviousOwner(eOldOwner);
-        //  pNewCity->SetEverCapital(bEverCapital);
+        newCity.set(previousLeader: oldLeader)
+        newCity.setEverCapital(to: everCapital)
 
         // Population change for capturing a city
         if !recapture && conquest {
@@ -5128,34 +5191,7 @@ public class Player: AbstractPlayer {
         if self.originalCapitalLocation() == oldCityLocation {
 
             self.set(hasLostCapital: false, to: nil, in: gameModel)
-
-            /*const BuildingTypes eCapitalBuilding = (BuildingTypes) (getCivilizationInfo().getCivilizationBuildings(GC.getCAPITAL_BUILDINGCLASS()));
-            if (eCapitalBuilding != NO_BUILDING)
-            {
-                if (getCapitalCity() != NULL)
-                {
-                    getCapitalCity()->GetCityBuildings()->SetNumRealBuilding(eCapitalBuilding, 0);
-                }
-                CvAssertMsg(!(pNewCity->GetCityBuildings()->GetNumRealBuilding(eCapitalBuilding)), "(pBestCity->getNumRealBuilding(eCapitalBuilding)) did not return false as expected");
-                pNewCity->GetCityBuildings()->SetNumRealBuilding(eCapitalBuilding, 1);
-            }*/
         }
-
-        // GC.getMap().updateWorkingCity(pCityPlot,NUM_CITY_RINGS*2);
-
-        /* if conquest {
-            for (int iDX = -iMaxRange; iDX <= iMaxRange; iDX++)
-            {
-                for (int iDY = -iMaxRange; iDY <= iMaxRange; iDY++)
-                {
-                    CvPlot* pLoopPlot = plotXYWithRangeCheck(iOldCityX, iOldCityY, iDX, iDY, iMaxRange);
-                    if (pLoopPlot)
-                    {
-                        pLoopPlot->verifyUnitValidPlot();
-                    }
-                }
-            }
-        } */
 
         gameModel.add(city: newCity)
 
@@ -5182,112 +5218,9 @@ public class Player: AbstractPlayer {
 
         // Do the same for the new owner
         self.citySpecializationAI?.setSpecializationsDirty()
-
-        /*bool bDisbanded = false;
-
-            // Is this City being Occupied?
-            if (pNewCity->getOriginalOwner() != GetID())
-            {
-                pNewCity->SetOccupied(true);
-
-                pNewCity->ChangeResistanceTurns(pNewCity->getPopulation());
-            }
-
-            long lResult = 0;
-
-            if (lResult == 0)
-            {
-                PlayerTypes eLiberatedPlayer = NO_PLAYER;
-
-                // Captured someone's city that didn't originally belong to us - Liberate a player?
-                if (pNewCity->getOriginalOwner() != eOldOwner && pNewCity->getOriginalOwner() != GetID())
-                {
-                    eLiberatedPlayer = pNewCity->getOriginalOwner();
-                    if (!CanLiberatePlayer(eLiberatedPlayer))
-                    {
-                        eLiberatedPlayer = NO_PLAYER;
-                    }
-                }
-
-                // AI decides what to do with a City
-                if (!isHuman())
-                {
-                    AI_conquerCity(pNewCity, eOldOwner); // could delete the pointer...
-                }
-
-
-                else if (!GC.getGame().isOption(GAMEOPTION_NO_HAPPINESS))
-                { // Human decides what to do with a City
-                    // Used to display info for annex/puppet/raze popup - turned off in DoPuppet and DoAnnex
-                    pNewCity->SetIgnoreCityForHappiness(true);
-
-                    // If this city wasn't originally ours, give the human the choice to annex or puppet it
-                    if (pNewCity->getOriginalOwner() != GetID())
-                    {
-                        if (GC.getGame().getActivePlayer() == GetID())
-                        {
-                            CvPopupInfo kPopupInfo(BUTTONPOPUP_CITY_CAPTURED, pNewCity->GetID(), iCaptureGold, eLiberatedPlayer);
-                            GC.GetEngineUserInterface()->AddPopup(kPopupInfo);
-                            // We are adding a popup that the player must make a choice in, make sure they are not in the end-turn phase.
-                            CancelActivePlayerEndTurn();
-                        }
-                    }
-                }
-
-                // No choice but to capture it, tell about pillage gold (if any)
-                else if (iCaptureGold > 0)
-                {
-                    strBuffer = GetLocalizedText("TXT_KEY_POPUP_GOLD_CITY_CAPTURE", iCaptureGold, pNewCity->getNameKey());
-                    GC.GetEngineUserInterface()->AddCityMessage(0, pNewCity->GetIDInfo(), GetID(), true, GC.getEVENT_MESSAGE_TIME(), strBuffer);
-                }
-            }
-
-        // Cache whether the player is human or not.  If the player is killed, the CvPreGame::slotStatus is changed to SS_CLOSED
-        // but the slot status is used to determine if the player is human or not, so it looks like it is an AI!
-        // This should be fixed, but might have unforeseen ramifications so...
-        CvPlayer& kOldOwner = GET_PLAYER(eOldOwner);
-        bool bOldOwnerIsHuman = kOldOwner.isHuman();
-        // This may 'kill' the player if it is deemed that he does not have the proper units to stay alive
-        kOldOwner.verifyAlive();
-
-        // You... you killed him!
-        if (!kOldOwner.isAlive())
-        {
-            GET_TEAM(kOldOwner.getTeam()).SetKilledByTeam(getTeam());
-            kOldOwner.SetEverConqueredBy(m_eID, true);
-
-            // Leader pops up and whines
-            if (!CvPreGame::isNetworkMultiplayerGame())        // Not in MP
-            {
-                if (!bOldOwnerIsHuman && !kOldOwner.isMinorCiv() && !kOldOwner.isBarbarian())
-                    kOldOwner.GetDiplomacyAI()->DoKilledByPlayer(GetID());
-            }
-        }
-
-        // grant the new owner any of the plots that were purchased by the prior owner
-        for (uint ui = 0; ui < aiPurchasedPlotX.size(); ui++)
-        {
-            CvPlot* pPlot = GC.getMap().plot(aiPurchasedPlotX[ui], aiPurchasedPlotY[ui]);
-            if (!bDisbanded)
-            {
-                if (pPlot->getOwner() != pNewCity->getOwner())
-                    pPlot->setOwner(pNewCity->getOwner(), /*iAcquireCityID*/ pNewCity->GetID(), /*bCheckUnits*/ true, /*bUpdateResources*/ true);
-            }
-            else
-            {
-                pPlot->setOwner(NO_PLAYER, -1, /*bCheckUnits*/ true, /*bUpdateResources*/ true);
-            }
-        }
-
-        if (GC.getGame().getActiveTeam() == GET_PLAYER(eOldOwner).getTeam())
-        {
-            CvMap& theMap = GC.getMap();
-            theMap.updateDeferredFog();
-        }
-*/
     }
 
-    func canRaze(city cityRef: AbstractCity?, ignoreCapitals: Bool = false, in gameModel: GameModel?) -> Bool {
+    public func canRaze(city cityRef: AbstractCity?, ignoreCapitals: Bool = false, in gameModel: GameModel?) -> Bool {
 
         guard let city = cityRef else {
             fatalError("cant get city to raze")
@@ -5322,14 +5255,15 @@ public class Player: AbstractPlayer {
         return true
     }
 
-    public func doRaze(city cityRef: AbstractCity?, in gameModel: GameModel?) {
+    // raze city immediatelly
+    public func doRaze(city cityRef: AbstractCity?, in gameModel: GameModel?) -> Bool {
 
         guard let city = cityRef else {
             fatalError("cant get city to raze")
         }
 
         if !self.canRaze(city: city, in: gameModel) {
-            return
+            return false
         }
 
         /*if(GetID() == GC.getGame().getActivePlayer()) {
@@ -5357,7 +5291,442 @@ public class Player: AbstractPlayer {
             }
         }*/
 
-        city.changeRazingTurns(to: city.population())
+        city.kill(in: gameModel)
+
+        return true
+    }
+
+    public func canLiberate(city cityRef: AbstractCity?, in gameModel: GameModel?) -> Bool {
+
+        guard let city = cityRef else {
+            fatalError("cant get city")
+        }
+
+        guard city.originalLeader() != city.previousLeader() else {
+            return false
+        }
+
+        guard city.originalLeader() != .none && city.originalLeader() != .barbar else {
+            return false
+        }
+
+        return true
+    }
+
+    /// This player liberates city and gives it back to the original owner
+    public func doLiberate(city cityRef: AbstractCity?, forced: Bool = false, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let city = cityRef else {
+            fatalError("cant get city")
+        }
+
+        guard city.originalLeader() != city.previousLeader() else {
+            return false
+        }
+
+        guard city.originalLeader() != .none && city.originalLeader() != .barbar else {
+            return false
+        }
+
+        // ePlayer / eLiberatedTeam
+        guard let newOwner = gameModel.player(for: city.originalLeader()) else {
+            return false
+        }
+
+        let alive: Bool = newOwner.isAlive()
+
+        // If they aren't alive, start the resurrection process
+        if !alive {
+            newOwner.set(beingResurrected: true)
+
+            // Mark the liberators
+            if !forced {
+                newOwner.set(liberatedBy: self.leader)
+            }
+
+            // Put everyone at peace with this guy
+            for loopPlayer in gameModel.players {
+
+                guard loopPlayer.isMajorAI() else {
+                    continue
+                }
+
+                if newOwner.leader != loopPlayer.leader {
+                    newOwner.makePeace(with: loopPlayer, in: gameModel)
+                    // GET_TEAM(eLiberatedTeam).makePeace((TeamTypes)iOtherTeamLoop, /*bBumpUnits*/false,
+                    // /*bSuppressNotification*/true, GetID());
+                }
+            }
+        }
+
+        // Diplo bonus for returning the city
+        if !forced {
+            if newOwner.isMajorAI() || newOwner.isHuman() {
+
+                // Liberated the capital - big diplo bonus!
+                if city.location == newOwner.originalCapitalLocation() {
+                    // pDiploAI->SetPlayerLiberatedCapital(m_eID, true);
+                }
+
+                // Liberated the Holy City - big bonus IF the Holy City status still remains
+                /* if (GET_PLAYER(ePlayer).IsHasLostHolyCity() && pCity->getX() == GET_PLAYER(ePlayer).GetLostHolyCityX() && pCity->getY() == GET_PLAYER(ePlayer).GetLostHolyCityY())
+                {
+                    ReligionTypes eReligion = GC.getGame().GetGameReligions()->GetOriginalReligionCreatedByPlayer(ePlayer);
+
+                    if (eReligion != NO_RELIGION && pCity->GetCityReligions()->IsHolyCityForReligion(eReligion))
+                    {
+                        pDiploAI->SetPlayerLiberatedHolyCity(m_eID, true);
+                    }
+                }*/
+
+                // newOwner.diplomacyAI.changeNumCitiesLiberated(by: self.leader, 1)
+            }
+        }
+
+        // Give the city back to the liberated player
+        newOwner.acquire(city: city, conquest: false, gift: true, in: gameModel)
+
+        guard let newCity = gameModel.city(at: city.location) else {
+            return false
+        }
+
+        // Now verify that the player is alive
+        newOwner.verifyAlive(in: gameModel)
+
+        // Process other diplomatic consequences if a major was liberated
+        if !forced && (newOwner.isMajorAI() || newOwner.isHuman()) {
+
+            // Player was alive? Just notify that a city was liberated.
+            if alive {
+                if !newOwner.isHuman() && !self.isHuman() {
+                    // "TXT_KEY_NOTIFICATION_CITY_LIBERATED"
+                    gameModel.sendGossip(type: .cityLiberated(cityName: newCity.name, originalOwner: self.leader), of: newOwner)
+                    // gameModel.humanPlayer()?.notifications()?.add(notification: .cityLiberated(cityName: newCity.name, originalOwner: self.leader))
+                }
+            } else { // Player was dead? Huge diplo bonuses!
+                for loopPlayer in gameModel.players {
+
+                    /* PlayerTypes eMyTeamPlayer = (PlayerTypes) iPlayerLoop;
+
+                    if (GET_PLAYER(eMyTeamPlayer).getTeam() == getTeam() && !GET_PLAYER(ePlayer).GetDiplomacyAI()->IsResurrectorAttackedUs(eMyTeamPlayer))
+                    {
+                        pDiploAI->SetResurrectedBy(eMyTeamPlayer, true);
+
+                        pDiploAI->SetLandDisputeLevel(eMyTeamPlayer, DISPUTE_LEVEL_NONE);
+                        pDiploAI->SetWonderDisputeLevel(eMyTeamPlayer, DISPUTE_LEVEL_NONE);
+                        pDiploAI->SetMinorCivDisputeLevel(eMyTeamPlayer, DISPUTE_LEVEL_NONE);
+                        pDiploAI->SetVictoryDisputeLevel(eMyTeamPlayer, DISPUTE_LEVEL_NONE);
+                        pDiploAI->SetVictoryBlockLevel(eMyTeamPlayer, BLOCK_LEVEL_NONE);
+                        pDiploAI->SetTechBlockLevel(eMyTeamPlayer, BLOCK_LEVEL_NONE);
+                        pDiploAI->SetPolicyBlockLevel(eMyTeamPlayer, BLOCK_LEVEL_NONE);
+
+                        pDiploAI->SetWarmongerThreat(eMyTeamPlayer, THREAT_NONE);
+                        pDiploAI->SetOtherPlayerWarmongerAmountTimes100(eMyTeamPlayer, 0);
+
+                        pDiploAI->SetNumDemandsMade(eMyTeamPlayer, 0);
+
+                        if (pDiploAI->GetCoopWarScore(eMyTeamPlayer) < 0)
+                        {
+                            pDiploAI->SetCoopWarScore(eMyTeamPlayer, 0);
+                        }
+
+                        if (GET_PLAYER(eMyTeamPlayer).GetDiplomacyAI()->GetCoopWarScore(ePlayer) < 0)
+                        {
+                            pDiploAI->SetCoopWarScore(ePlayer, 0);
+                        }
+
+                        // Forget war history
+                        pDiploAI->SetNumWarsDeclaredOnUs(eMyTeamPlayer, 0);
+                        pDiploAI->SetNumCitiesCapturedBy(eMyTeamPlayer, 0);
+                        pDiploAI->SetNumTradeRoutesPlundered(eMyTeamPlayer, 0);
+                        GET_PLAYER(eMyTeamPlayer).GetDiplomacyAI()->SetNumWarsDeclaredOnUs(ePlayer, 0);
+                        GET_PLAYER(eMyTeamPlayer).GetDiplomacyAI()->SetNumCitiesCapturedBy(ePlayer, 0);
+                        GET_PLAYER(eMyTeamPlayer).GetDiplomacyAI()->SetNumTradeRoutesPlundered(ePlayer, 0);
+
+                        pDiploAI->SetNumArtifactsEverDugUp(eMyTeamPlayer, 0);
+                        pDiploAI->SetEverConvertedCity(eMyTeamPlayer, false);
+
+                        pDiploAI->SetNumTimesTheyPlottedAgainstUs(eMyTeamPlayer, 0);
+                        pDiploAI->SetNumTimesTheyLoweredOurInfluence(eMyTeamPlayer, 0);
+                        pDiploAI->SetNumTimesPerformedCoupAgainstUs(eMyTeamPlayer, 0);
+                        pDiploAI->SetNumTimesCultureBombed(eMyTeamPlayer, 0);
+                        pDiploAI->SetNegativeReligiousConversionPoints(eMyTeamPlayer, 0);
+                        pDiploAI->SetNegativeArchaeologyPoints(eMyTeamPlayer, 0);
+                        pDiploAI->SetNumTimesRobbedBy(eMyTeamPlayer, 0);
+
+                        // Reset all promises
+                        pDiploAI->SetPlayerMilitaryPromiseState(eMyTeamPlayer, NO_PROMISE_STATE);
+                        pDiploAI->SetPlayerExpansionPromiseState(eMyTeamPlayer, NO_PROMISE_STATE);
+                        pDiploAI->SetPlayerBorderPromiseState(eMyTeamPlayer, NO_PROMISE_STATE);
+                        pDiploAI->SetPlayerBullyCityStatePromiseState(eMyTeamPlayer, NO_PROMISE_STATE);
+                        pDiploAI->SetPlayerAttackCityStatePromiseState(eMyTeamPlayer, NO_PROMISE_STATE);
+                        pDiploAI->SetPlayerSpyPromiseState(eMyTeamPlayer, NO_PROMISE_STATE);
+                        pDiploAI->SetPlayerNoConvertPromiseState(eMyTeamPlayer, NO_PROMISE_STATE);
+                        pDiploAI->SetPlayerNoDiggingPromiseState(eMyTeamPlayer, NO_PROMISE_STATE);
+                        pDiploAI->SetPlayerBrokenCoopWarPromise(eMyTeamPlayer, false);
+
+                        pDiploAI->SetOtherPlayerNumProtectedMinorsKilled(eMyTeamPlayer, 0);
+                        pDiploAI->SetOtherPlayerNumProtectedMinorsAttacked(eMyTeamPlayer, 0);
+                        pDiploAI->SetOtherPlayerNumProtectedMinorsBullied(eMyTeamPlayer, 0);
+                        pDiploAI->SetOtherPlayerSidedWithProtectedMinorTurn(eMyTeamPlayer, -1);
+
+                        pDiploAI->SetDoFBroken(eMyTeamPlayer, false, true);
+                        pDiploAI->SetFriendDenouncedUs(eMyTeamPlayer, false); // clear backstabbing penalties
+                        pDiploAI->SetFriendDeclaredWarOnUs(eMyTeamPlayer, false); // clear backstabbing penalties
+                        pDiploAI->SetDenouncedPlayer(eMyTeamPlayer, false); // forget any denouncing
+                        GET_PLAYER(eMyTeamPlayer).GetDiplomacyAI()->SetDenouncedPlayer(ePlayer, false); // forget any denouncing
+
+                        pDiploAI->SetNumTimesNuked(eMyTeamPlayer, 0);
+
+                        pDiploAI->SetWeDislikedTheirProposalTurn(eMyTeamPlayer, -1);
+                        pDiploAI->SetTheyFoiledOurProposalTurn(eMyTeamPlayer, -1);
+
+                        if (pDiploAI->GetLikedTheirProposalValue(eMyTeamPlayer) > 0)
+                        {
+                            pDiploAI->SetLikedTheirProposalValue(eMyTeamPlayer, 0);
+                        }
+                        if (pDiploAI->GetSupportedOurProposalValue(eMyTeamPlayer) > 0)
+                        {
+                            pDiploAI->SetSupportedOurProposalValue(eMyTeamPlayer, 0);
+                        }
+
+                        pDiploAI->SetVassalageForcefullyRevokedTurn(eMyTeamPlayer, -1);
+                        pDiploAI->SetPlayerBrokenVassalAgreement(eMyTeamPlayer, false);
+
+                        // Clear this player's backstabbing penalties
+                        GET_PLAYER(eMyTeamPlayer).GetDiplomacyAI()->SetDoFBroken(ePlayer, false, true);
+                        GET_PLAYER(eMyTeamPlayer).GetDiplomacyAI()->SetFriendDenouncedUs(ePlayer, false);
+                        GET_PLAYER(eMyTeamPlayer).GetDiplomacyAI()->SetFriendDeclaredWarOnUs(ePlayer, false);
+                        GET_PLAYER(eMyTeamPlayer).GetDiplomacyAI()->SetVassalageForcefullyRevokedTurn(ePlayer, -1);
+                        GET_PLAYER(eMyTeamPlayer).GetDiplomacyAI()->SetPlayerBrokenVassalAgreement(ePlayer, false);
+
+                        // Clear backstabbing mark
+                        pDiploAI->SetBackstabbedBy(eMyTeamPlayer, false);
+                        GET_PLAYER(eMyTeamPlayer).GetDiplomacyAI()->SetBackstabbedBy(ePlayer, false);
+                    } */
+                }
+
+                // Resurrected civ becomes a vassal of the resurrector, if possible
+                /* if (MOD_DIPLOMACY_CIV4_FEATURES && GET_TEAM(eLiberatedTeam).GetLiberatedByTeam() != eConquerorTeam && !IsVassalOfSomeone() && GC.getDIPLOAI_DISABLE_VOLUNTARY_VASSALAGE() == 0)
+                {
+                    if (!GET_TEAM(GET_PLAYER(ePlayer).getTeam()).IsVassal(getTeam()))
+                    {
+                        GET_TEAM(GET_PLAYER(ePlayer).getTeam()).SetNumTurnsIsVassal(-1);
+                        GET_TEAM(GET_PLAYER(ePlayer).getTeam()).SetNumTurnsSinceVassalEnded(getTeam(), -1);
+                        GET_TEAM(GET_PLAYER(ePlayer).getTeam()).DoBecomeVassal(getTeam(), true, GetID());
+                    }
+                } */
+
+                // Add resurrection notification
+                /* Localization::String strMessage;
+                strMessage = Localization::Lookup("TXT_KEY_NOTIFICATION_CIV_RESURRECTED");
+                strMessage << getCivilizationShortDescriptionKey(); // LIBERATING CIV NAME
+                strMessage << pNewCity->getNameKey(); // CITY NAME
+                strMessage << GET_PLAYER(ePlayer).getCivilizationAdjectiveKey(); // LIBERATED CIV NAME
+                strMessage << GET_PLAYER(ePlayer).getCivilizationDescriptionKey();// LIBERATED CIV NAME
+                Localization::String strSummary = Localization::Lookup("TXT_KEY_NOTIFICATION_CIV_RESURRECTED_SHORT");
+                strSummary << GET_PLAYER(ePlayer).getNameKey();
+                strSummary << GET_PLAYER(m_eID).getNameKey();
+
+                for loopPlayer in gameModel.players {
+                    CvPlayerAI& kOtherPlayer = GET_PLAYER((PlayerTypes)iI);
+                    if (iI == m_eID)
+                        continue;
+
+                    if (!kOtherPlayer.isObserver())
+                    {
+                        if (!kOtherPlayer.isAlive())
+                            continue;
+
+                        if (!GET_TEAM(kOtherPlayer.getTeam()).isHasMet(getTeam()) && !GET_TEAM(kOtherPlayer.getTeam()).isHasMet(eLiberatedTeam))
+                            continue;
+                    }
+
+                    if (kOtherPlayer.GetNotifications())
+                        kOtherPlayer.GetNotifications()->Add(NOTIFICATION_RESURRECTED_MAJOR_CIV, strMessage.toUTF8(), strSummary.toUTF8(), pNewCity->getX(), pNewCity->getY(), -1);
+                }*/
+
+                // CvString temp = strMessage.toUTF8();
+                // GC.getGame().addReplayMessage(REPLAY_MESSAGE_MAJOR_EVENT, m_eID, temp);
+                gameModel.addReplayEvent(type: .major, message: "City was liberated", at: newCity.location)
+            }
+        }
+
+        // Kick out all other players' units from the city plot
+        let units = gameModel.units(at: newCity.location)
+        if !units.isEmpty {
+
+            // Get the current list of units because we will possibly be moving them out of the plot's list
+            for loopUnitRef in units {
+
+                guard let loopUnit = loopUnitRef else {
+                    continue
+                }
+
+                if !newOwner.isEqual(to: loopUnit.player) {
+                    loopUnit.finishMoves()
+
+                    if !loopUnit.jumpToNearestValidPlotWithin(range: 3, in: gameModel) {
+                        loopUnit.doKill(delayed: false, by: nil, in: gameModel)
+                    }
+                }
+            }
+        }
+
+        // If a City-State was liberated, adjust Influence levels and give the City-State a basic but state-of-the-art garrison
+        if newOwner.isCityState() {
+            if !forced {
+                // GET_PLAYER(ePlayer).GetMinorCivAI()->DoLiberationByMajor(eOldOwner, eConquerorTeam);
+            } else {
+                // GET_PLAYER(ePlayer).GetMinorCivAI()->SetFriendshipWithMajor(GetID(), GC.getMINOR_FRIENDSHIP_AT_WAR());
+            }
+
+            /* UnitTypes eUnit = GC.getGame().GetCompetitiveSpawnUnitType(ePlayer, false, false, false, true, false);
+            if (eUnit != NO_UNIT) {
+                GET_PLAYER(ePlayer).initUnit(eUnit, pNewCity->getX(), pNewCity->getY());
+            } */
+        }
+
+        if !forced {
+
+            /* if (!pNewCity->isEverLiberated(GetID()))
+            {
+                pNewCity->setEverLiberated(GetID(), true);
+
+                // Reduce liberator's warmongering penalties (if any), unless this is their own team's city
+                if (getTeam() != GET_PLAYER(ePlayer).getTeam())
+                    CvDiplomacyAIHelpers::ApplyLiberationBonuses(pNewCity, GetID(), ePlayer);
+
+                // Reduce liberator's war weariness by 25%
+                GetCulture()->SetWarWeariness(GetCulture()->GetWarWeariness() - (GetCulture()->GetWarWeariness() / 4));
+            } */
+
+            // gain yields for liberation
+            /* int iPop = pNewCity->getPopulation();
+            for (int iI = 0; iI < NUM_YIELD_TYPES; iI++)
+            {
+                YieldTypes eYield = (YieldTypes)iI;
+                int iLiberationYield = getYieldForLiberation(eYield);
+                if (iLiberationYield > 0)
+                    doInstantYield(INSTANT_YIELD_TYPE_INSTANT, false, NO_GREATPERSON, NO_BUILDING, iLiberationYield * iPop, true, NO_PLAYER, NULL, false, getCapitalCity(), false, true, true, eYield);
+            } */
+
+            // liberator gets influence with all City-States?
+            /* int iInfluence = getInfluenceForLiberation();
+            if (iInfluence > 0)
+            {
+                for (int iMinorLoop = MAX_MAJOR_CIVS; iMinorLoop < MAX_CIV_PLAYERS; iMinorLoop++)
+                {
+                    PlayerTypes eMinorLoop = (PlayerTypes)iMinorLoop;
+                    if (eMinorLoop != NO_PLAYER)
+                    {
+                        CvPlayer* pMinorLoop = &GET_PLAYER(eMinorLoop);
+                        if (pMinorLoop->isMinorCiv() && pMinorLoop->isAlive())
+                        {
+                            if (GET_TEAM(pMinorLoop->getTeam()).isHasMet(getTeam()))
+                            {
+                                pMinorLoop->GetMinorCivAI()->ChangeFriendshipWithMajor(GetID(), iInfluence, false);
+                            }
+                        }
+                    }
+                }
+            } */
+
+            // liberator gets XP with all of their units?
+            /* int iNumXP = getExperienceForLiberation();
+            if (iNumXP > 0)
+            {
+                doInstantYield(INSTANT_YIELD_TYPE_INSTANT, false, NO_GREATPERSON, NO_BUILDING, iNumXP, false, NO_PLAYER, NULL, false, getCapitalCity(), false, true, false, YIELD_JFD_SOVEREIGNTY);
+                int iLoop;
+                for (CvUnit* pLoopUnit = firstUnit(&iLoop); NULL != pLoopUnit; pLoopUnit = nextUnit(&iLoop))
+                {
+                    if (pLoopUnit && pLoopUnit->IsCombatUnit())
+                    {
+                        pLoopUnit->changeExperienceTimes100(iNumXP * 100);
+                    }
+                }
+            } */
+
+            // liberated city gets a building?
+            /* for (int iI = 0; iI < GC.getNumBuildingClassInfos(); iI++)
+            {
+                if ((BuildingClassTypes)iI != NO_BUILDINGCLASS && getNumBuildingClassInLiberatedCities((BuildingClassTypes)iI) > 0)
+                {
+                    CvBuildingClassInfo* pkBuildingClassInfo = GC.getBuildingClassInfo((BuildingClassTypes)iI);
+                    if (pkBuildingClassInfo)
+                    {
+                        BuildingTypes eBuilding = ((BuildingTypes)(getCivilizationInfo().getCivilizationBuildings(pkBuildingClassInfo->GetID())));
+                        if (eBuilding != NO_BUILDING)
+                        {
+                            pNewCity->GetCityBuildings()->SetNumRealBuilding(eBuilding, getNumBuildingClassInLiberatedCities((BuildingClassTypes)iI));
+                        }
+                    }
+                }
+            }*/
+
+            // liberated city gets units?
+            /* int iNumUnit = getUnitsInLiberatedCities();
+            if (iNumUnit > 0)
+            {
+                for (int i = 0; i < iNumUnit; i++)
+                {
+                    UnitTypes eUnit = GC.getGame().GetCompetitiveSpawnUnitType(ePlayer, false, false, false, true, true);
+                    if (eUnit != NO_UNIT)
+                        GET_PLAYER(ePlayer).initUnit(eUnit, pNewCity->getX(), pNewCity->getY());
+                }
+            } */
+        }
+
+        // GET_PLAYER(ePlayer).GetDiplomacyAI()->DoUpdateConquestStats();
+
+        // Update Proximity between the liberated player and all others
+        for loopPlayer in gameModel.players {
+
+            guard loopPlayer.isAlive() else {
+                continue
+            }
+
+            guard !loopPlayer.isEqual(to: newOwner) else {
+                continue
+            }
+
+            guard loopPlayer.hasMet(with: newOwner) else {
+                continue
+            }
+
+            /* if (GET_PLAYER(eLoopPlayer).isMajorCiv()) {
+                GET_PLAYER(eLoopPlayer).GetDiplomacyAI()->DoUpdateConquestStats();
+            }*/
+
+            newOwner.doUpdateProximity(towards: loopPlayer, in: gameModel)
+            loopPlayer.doUpdateProximity(towards: newOwner, in: gameModel)
+        }
+
+        // Meet the team, if we haven't already
+        if !self.hasMet(with: newOwner) {
+            self.doFirstContact(with: newOwner, in: gameModel)
+        }
+
+        // Update diplo stuff
+        /* if alive {
+            vector<PlayerTypes> v = GET_TEAM(getTeam()).getPlayers();
+            pDiploAI->DoReevaluatePlayers(v, false, false);
+        } else {
+            vector<PlayerTypes> v = GET_PLAYER(ePlayer).GetDiplomacyAI()->GetAllValidMajorCivs();
+            pDiploAI->DoReevaluatePlayers(v, false, false, true);
+        } */
+
+        // vector<PlayerTypes> v = GET_TEAM(GET_PLAYER(ePlayer).getTeam()).getPlayers();
+        // GetDiplomacyAI()->DoReevaluatePlayers(v, false, false);
+
+        // Mark the resurrection process as complete
+        newOwner.set(beingResurrected: false)
+
+        return true
     }
 
     public func disband(city cityRef: AbstractCity?, in gameModel: GameModel?) {

@@ -1313,6 +1313,11 @@ open class GameModel: Codable {
         return self.map.city(at: location)
     }
 
+    public func city(at x: Int, and y: Int) -> AbstractCity? {
+
+        return self.map.city(at: x, and: y)
+    }
+
     func delete(city: AbstractCity?) {
 
         self.map.delete(city: city)
@@ -1416,6 +1421,11 @@ open class GameModel: Codable {
     public func unit(at point: HexPoint, of mapType: UnitMapType) -> AbstractUnit? {
 
         return self.map.unit(at: point, of: mapType)
+    }
+
+    public func unit(at x: Int, and y: Int, of mapType: UnitMapType) -> AbstractUnit? {
+
+        return self.map.unit(at: x, and: y, of: mapType)
     }
 
     func areUnits(at point: HexPoint) -> Bool {
@@ -1913,7 +1923,7 @@ open class GameModel: Codable {
                 tile.sight(by: player)
                 tile.discover(by: player, in: self)
                 player?.checkWorldCircumnavigated(in: self)
-                self.checkDiscovered(continent: self.continent(at: areaPoint)?.type() ?? ContinentType.none, for: player)
+                self.checkDiscovered(continent: self.continent(at: areaPoint)?.type() ?? ContinentType.none, at: areaPoint, for: player)
                 self.userInterface?.refresh(tile: tile)
             }
         }
@@ -1926,7 +1936,7 @@ open class GameModel: Codable {
             if let tile = self.tile(at: pt) {
                 tile.discover(by: player, in: self)
                 player?.checkWorldCircumnavigated(in: self)
-                self.checkDiscovered(continent: self.continent(at: pt)?.type() ?? ContinentType.none, for: player)
+                self.checkDiscovered(continent: self.continent(at: pt)?.type() ?? ContinentType.none, at: pt, for: player)
                 self.userInterface?.refresh(tile: tile)
             }
         }
@@ -1937,7 +1947,7 @@ open class GameModel: Codable {
     /// - Parameters:
     ///   - continent: continent to check
     ///   - player: player to trigger the moment for
-    public func checkDiscovered(continent continentType: ContinentType, for player: AbstractPlayer?) {
+    public func checkDiscovered(continent continentType: ContinentType, at location: HexPoint, for player: AbstractPlayer?) {
 
         guard let player = player else {
             fatalError("cant get player")
@@ -1950,9 +1960,13 @@ open class GameModel: Codable {
             if let continent = self.map.continent(by: continentType) {
 
                 // only trigger discovery of new continent, if player has at least one city
-                // this prevents
+                // this prevents first city triggering this
                 if continent.points.count > 8 && !self.cities(of: player).isEmpty {
                     player.addMoment(of: .firstDiscoveryOfANewContinent, in: self)
+
+                    if player.isHuman() {
+                        player.notifications()?.add(notification: .continentDiscovered(location: location, continentName: continentType.name()))
+                    }
                 }
             }
         }

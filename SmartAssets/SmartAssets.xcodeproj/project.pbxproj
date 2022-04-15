@@ -46,6 +46,7 @@
 		C9755FEF270AE92400C9CAB7 /* BeliefTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9755FEE270AE92400C9CAB7 /* BeliefTypeExtension.swift */; };
 		C97ACD0327D673A000AD0721 /* CityStateQuestExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97ACD0227D673A000AD0721 /* CityStateQuestExtension.swift */; };
 		C980E77326E0C60F0089053A /* CombatResultTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C980E77226E0C60F0089053A /* CombatResultTypeExtension.swift */; };
+		C98115E327F9868F00BFA5FD /* caravane-idle.slp in Resources */ = {isa = PBXBuildFile; fileRef = C98115E127F9866900BFA5FD /* caravane-idle.slp */; };
 		C988EAE7261B916800300C39 /* Units.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C988EAE6261B916800300C39 /* Units.xcassets */; };
 		C98E68B12577D28E00BD93CA /* FeatureTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E68AE2577D28E00BD93CA /* FeatureTypeExtension.swift */; };
 		C98E68B22577D28E00BD93CA /* ResourceTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E68AF2577D28E00BD93CA /* ResourceTypeExtension.swift */; };
@@ -191,6 +192,7 @@
 		C9755FEE270AE92400C9CAB7 /* BeliefTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeliefTypeExtension.swift; sourceTree = "<group>"; };
 		C97ACD0227D673A000AD0721 /* CityStateQuestExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityStateQuestExtension.swift; sourceTree = "<group>"; };
 		C980E77226E0C60F0089053A /* CombatResultTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatResultTypeExtension.swift; sourceTree = "<group>"; };
+		C98115E127F9866900BFA5FD /* caravane-idle.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "caravane-idle.slp"; sourceTree = "<group>"; };
 		C988EAE6261B916800300C39 /* Units.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Units.xcassets; sourceTree = "<group>"; };
 		C98E68AE2577D28E00BD93CA /* FeatureTypeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureTypeExtension.swift; sourceTree = "<group>"; };
 		C98E68AF2577D28E00BD93CA /* ResourceTypeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTypeExtension.swift; sourceTree = "<group>"; };
@@ -508,6 +510,7 @@
 			isa = PBXGroup;
 			children = (
 				C9E80CCD27C7C4B90048216B /* AOE1_50500.pal */,
+				C98115E127F9866900BFA5FD /* caravane-idle.slp */,
 				C9F963A127C6429000073CC7 /* merchant-idle.slp */,
 			);
 			path = Resources;
@@ -607,6 +610,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9E80CCE27C7C4B90048216B /* AOE1_50500.pal in Resources */,
+				C98115E327F9868F00BFA5FD /* caravane-idle.slp in Resources */,
 				C9F963A227C6429000073CC7 /* merchant-idle.slp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

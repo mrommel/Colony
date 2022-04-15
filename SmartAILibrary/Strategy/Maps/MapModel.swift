@@ -422,6 +422,15 @@ open class MapModel: Codable {
         return nil
     }
 
+    func city(at x: Int, and y: Int) -> AbstractCity? {
+
+        if let city = self.cities.first(where: { $0?.location.x == x && $0?.location.y == y }) {
+            return city
+        }
+
+        return nil
+    }
+
     func delete(city: AbstractCity?) {
 
         guard let location = city?.location else {
@@ -492,6 +501,23 @@ open class MapModel: Codable {
         if let unit = self.units.first(
             where: {
                 $0?.location == point &&
+                    (
+                        (mapType == .civilian && $0?.unitClassType() == .civilian) ||
+                            (mapType == .combat && $0?.unitClassType() != .civilian)
+                    )
+
+            }) {
+            return unit
+        }
+
+        return nil
+    }
+
+    func unit(at x: Int, and y: Int, of mapType: UnitMapType) -> AbstractUnit? {
+
+        if let unit = self.units.first(
+            where: {
+                $0?.location.x == x && $0?.location.y == y &&
                     (
                         (mapType == .civilian && $0?.unitClassType() == .civilian) ||
                             (mapType == .combat && $0?.unitClassType() != .civilian)
@@ -684,6 +710,11 @@ open class MapModel: Codable {
                 // additional check for flood plains
                 if featureType == .floodplains {
                     return self.river(at: tile.point)
+                }
+
+                // no natural wonders on resources
+                if featureType.isNaturalWonder() && tile.hasAnyResource(for: nil) {
+                    return false
                 }
 
                 return true

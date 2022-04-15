@@ -181,7 +181,7 @@ extension UnitType {
         case .swordman: return "unit-type-swordman"
         case .horseman: return "unit-type-horseman"
         case .catapult: return "unit-type-catapult"
-        case .quadrireme: return "unit-type-default"
+        case .quadrireme: return "unit-type-quadrireme"
         case .siegeTower: return "unit-type-siegeTower"
 
             // medieval
@@ -191,6 +191,8 @@ extension UnitType {
         case .pikeman: return "unit-type-pikeman"
         case .knight: return "unit-type-knight"
         case .trebuchet: return "unit-type-trebuchet"
+
+            // renaissance
 
             // industrial
         case .medic: return "unit-type-medic"
@@ -296,11 +298,18 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "idle")
 
         case .trader:
-            // return ObjectTextureAtlas(template: "caravan-idle-", range: 0..<12)
             guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
                 fatalError("cant load palette named: 'AOE1_50500'")
             }
-            return SlpTextureAtlasLoader.atlas(for: "caravane-idle", part: .southWest, palette: palette.colors, player: .customBlue)
+
+            guard let atlas = SlpTextureAtlasLoader.atlas(for: "caravane-idle",
+                                                          part: .southWest,
+                                                          palette: palette.colors,
+                                                          player: .customBlue) else {
+                fatalError("cant get atlas")
+            }
+
+            return atlas.repeatFirst(amount: 50, timePerFrame: 0.1)
 
             // ancient
         case .scout:
@@ -389,7 +398,11 @@ extension UnitType {
             return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)
 
         case .merchant:
-            return SlpTextureAtlasLoader.atlas(for: "merchant-idle", range: 0..<10)
+            guard let atlas = SlpTextureAtlasLoader.atlas(for: "merchant-idle", range: 0..<10) else {
+                fatalError("cant get merchant idle atlas")
+            }
+
+            return atlas.repeatFirst(amount: 50)
 
         case .musician:
             return ObjectTextureAtlas(template: "default-idle-", range: 0..<15)

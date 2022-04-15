@@ -683,7 +683,7 @@ public class Combat {
             }
 
             if let notifications = defender.player?.notifications() {
-                notifications.add(notification: .cityConquered(location: defenderTile.point))
+                notifications.add(notification: .cityLost(location: defenderTile.point))
             }
 
             attacker.player?.acquire(city: defender, conquest: true, gift: false, in: gameModel)
@@ -694,6 +694,13 @@ public class Combat {
             if attacker.canMove(into: defenderTile.point, options: MoveOptions.none, in: gameModel) {
                 attacker.queueMoveForVisualization(from: attacker.location, to: defenderTile.point, in: gameModel)
                 attacker.doMoveOnPath(towards: defenderTile.point, previousETA: 0, buildingRoute: false, in: gameModel)
+            }
+
+            // new owner can now decide what to do with this city
+            if attackerPlayer.isHuman() {
+                attackerPlayer.notifications()?.add(notification: .cityAcquired(cityName: defender.name, location: defenderTile.point))
+            } else {
+                // ai players always keep conquered city for now
             }
 
         } else {
