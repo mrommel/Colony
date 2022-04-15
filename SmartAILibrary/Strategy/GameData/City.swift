@@ -1107,10 +1107,16 @@ public class City: AbstractCity {
         // Update Proximity between this Player and all others
         for playerLoop in gameModel.players where playerLoop.leader != owner {
 
-            if playerLoop.isAlive() {
-                owningPlayer.doUpdateProximity(towards: playerLoop, in: gameModel)
-                playerLoop.doUpdateProximity(towards: owningPlayer, in: gameModel)
+            guard playerLoop.isAlive() else {
+                continue
             }
+
+            guard playerLoop.hasMet(with: owningPlayer) else {
+                continue
+            }
+
+            owningPlayer.doUpdateProximity(towards: playerLoop, in: gameModel)
+            playerLoop.doUpdateProximity(towards: owningPlayer, in: gameModel)
         }
 
         guard let areaPoints = tile?.point.areaWith(radius: workPlotDistance) else {

@@ -5357,7 +5357,7 @@ public class Player: AbstractPlayer {
 
                 if newOwner.leader != loopPlayer.leader {
                     newOwner.makePeace(with: loopPlayer, in: gameModel)
-                    //GET_TEAM(eLiberatedTeam).makePeace((TeamTypes)iOtherTeamLoop, /*bBumpUnits*/false,
+                    // GET_TEAM(eLiberatedTeam).makePeace((TeamTypes)iOtherTeamLoop, /*bBumpUnits*/false,
                     // /*bSuppressNotification*/true, GetID());
                 }
             }
@@ -5605,7 +5605,7 @@ public class Player: AbstractPlayer {
                 GetCulture()->SetWarWeariness(GetCulture()->GetWarWeariness() - (GetCulture()->GetWarWeariness() / 4));
             } */
 
-            //gain yields for liberation
+            // gain yields for liberation
             /* int iPop = pNewCity->getPopulation();
             for (int iI = 0; iI < NUM_YIELD_TYPES; iI++)
             {
