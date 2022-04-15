@@ -20,4 +20,4 @@ jobs:
     - name: Select Xcode
       run: sudo xcode-select -switch /Applications/Xcode.app && /usr/bin/xcodebuild -version
     - name: Run unit tests
-      run: xcodebuild test -scheme SmartAILibrary -workspace Colony.xcworkspace -destination 'platform=macOS' | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild test -scheme SmartAILibrary -workspace Colony.xcworkspace -destination 'platform=macOS' -test-iterations 5 -retry-tests-on-failure | xcpretty && exit ${PIPESTATUS[0]}
