@@ -46,13 +46,15 @@ class TooltipNode: SKNode {
 
         super.init()
 
+        let numberOfLines = text.numberOfLines()
+
         let attributedText = TooltipNode.tokenizer.convert(text: text, with: Globals.Attributs.tooltipMapAttributs, extraSpace: true)
-        let height: CGFloat = 20
+        let height: CGFloat = CGFloat(20 * numberOfLines)
         let width: CGFloat = attributedText.width(for: height)
         let size = CGSize(width: width, height: height)
 
         let boxTexture = SKTexture(image: ImageCache.shared.image(for: "box-gold"))
-        let boundingBox = CGSize(width: width + 10, height: height)
+        let boundingBox = CGSize(width: width + 10, height: height + 5)
 
         self.backgroundNode = NineGridTextureSprite(texture: boxTexture, color: .black, size: boundingBox)
         self.backgroundNode?.position = CGPoint(x: 0, y: 0)

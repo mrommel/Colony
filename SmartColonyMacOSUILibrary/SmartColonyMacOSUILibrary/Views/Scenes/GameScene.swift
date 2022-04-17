@@ -371,9 +371,30 @@ extension GameScene {
 
     override func rightMouseDown(with event: NSEvent) {
 
-        print("right down")
-        self.unselect()
-        self.viewModel?.unitSelectionMode = .pick
+        guard let gameModel = self.viewModel?.gameModel else {
+            print("cant get game")
+            return
+        }
+
+        if self.viewModel?.delegate?.selectedUnit != nil {
+            self.unselect()
+            self.viewModel?.unitSelectionMode = .pick
+        } else {
+            //
+            let location = event.location(in: self)
+            let touchLocation = self.convert(location, to: self.viewHex!) // / 3.0
+
+            if touchLocation.x.isNaN || touchLocation.y.isNaN {
+                return
+            }
+
+            let position = HexPoint(screen: location)
+            guard let tile = gameModel.tile(at: position) else {
+                return
+            }
+
+            self.showTooltip(at: position, type: .tileInfo(tile: tile), delay: 3.0)
+        }
     }
 
     override func mouseMoved(with event: NSEvent) {
