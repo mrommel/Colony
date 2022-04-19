@@ -24,6 +24,9 @@ class GameScene: BaseScene {
     var gameUpdateMutex: Bool = true // means: can enter gameUpdate
     let pathfinderQueue: DispatchQueue = DispatchQueue(label: "pathfinderQueue", qos: .background, attributes: .concurrent)
 
+    var hoverLocation: HexPoint = .invalid
+    var hoverTime: TimeInterval = -1
+
     // view model
     var viewModel: GameSceneViewModel?
 
@@ -208,6 +211,33 @@ class GameScene: BaseScene {
             self.viewModel?.delegate?.updateStates()
             self.viewModel?.refreshCities = true
         }
+
+        // if the cursor is more than 2 seconds on the same tile - show tooltip
+        if (currentTime - self.hoverTime) > 2.0 {
+
+            guard let gameModel = self.viewModel?.gameModel else {
+                print("cant get game")
+                return
+            }
+
+            guard let tile = gameModel.tile(at: self.hoverLocation) else {
+                return
+            }
+
+            guard let humanPlayer = gameModel.humanPlayer() else {
+                fatalError("cant get human")
+            }
+
+            guard tile.isDiscovered(by: humanPlayer) else {
+                return
+            }
+
+            self.showTooltip(at: self.hoverLocation, type: .tileInfo(tile: tile), delay: 3.0)
+
+            // reset values
+            self.hoverTime = -1
+            self.hoverLocation = .invalid
+        }
     }
 
     override func updateLayout() {
@@ -371,43 +401,27 @@ extension GameScene {
 
     override func rightMouseDown(with event: NSEvent) {
 
-        guard let gameModel = self.viewModel?.gameModel else {
-            print("cant get game")
-            return
-        }
-
         if self.viewModel?.delegate?.selectedUnit != nil {
             self.unselect()
             self.viewModel?.unitSelectionMode = .pick
-        } else {
-            //
-            let location = event.location(in: self)
-            let touchLocation = self.convert(location, to: self.viewHex!) // / 3.0
-
-            if touchLocation.x.isNaN || touchLocation.y.isNaN {
-                return
-            }
-
-            let position = HexPoint(screen: location)
-            guard let tile = gameModel.tile(at: position) else {
-                return
-            }
-
-            guard let humanPlayer = gameModel.humanPlayer() else {
-                fatalError("cant get human")
-            }
-
-            guard tile.isDiscovered(by: humanPlayer) else {
-                return
-            }
-
-            self.showTooltip(at: position, type: .tileInfo(tile: tile), delay: 3.0)
         }
     }
 
     override func mouseMoved(with event: NSEvent) {
 
-        // print("moved")
+        let location = event.location(in: self)
+        let touchLocation = self.convert(location, to: self.viewHex!) // / 3.0
+
+        if touchLocation.x.isNaN || touchLocation.y.isNaN {
+            return
+        }
+
+        let position = HexPoint(screen: location)
+
+        if self.hoverLocation != position {
+            self.hoverLocation = position
+            self.hoverTime = event.timestamp
+        }
     }
 
     override func mouseDragged(with event: NSEvent) {
