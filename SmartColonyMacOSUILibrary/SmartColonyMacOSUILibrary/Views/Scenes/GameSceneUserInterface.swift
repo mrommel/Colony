@@ -302,10 +302,15 @@ extension GameScene: UserInterfaceDelegate {
         }
 
         var text: String?
+        var toolTipType: TooltipNodeType = .yellow
 
         switch type {
 
         case .tileInfo(tile: let tile):
+            guard tile.isDiscovered(by: humanPlayer) else {
+                return
+            }
+
             var tmpText = "\(tile.terrain().name().localized())"
 
             if let workingCity = tile.workingCity() {
@@ -326,18 +331,26 @@ extension GameScene: UserInterfaceDelegate {
                 tmpText += "\nRiver"
             }
 
+            if tile.isVisible(to: humanPlayer) && tile.hasAnyImprovement() {
+                let improvement: ImprovementType = tile.improvement()
+                tmpText += "\n\(improvement.name().localized())"
+            }
+
             // Movement Cost
             // Defense Modifier
 
             if humanPlayer.isEqual(to: tile.owner()) {
+
                 let appealLevel: AppealLevel = tile.appealLevel(in: gameModel)
                 let appealValue: Int = tile.appeal(in: gameModel)
                 tmpText += "\n\(appealLevel.name().localized()) (\(appealValue))"
+            }
 
-                if let continent = gameModel.continent(at: tile.point) {
-                    tmpText += "\nContinent: \(continent.type().name().localized())"
-                }
+            if let continent = gameModel.continent(at: tile.point) {
+                tmpText += "\nContinent: \(continent.type().name().localized())"
+            }
 
+            if humanPlayer.isEqual(to: tile.owner()) {
                 tmpText += "\n-----------"
                 let yields = tile.yields(for: humanPlayer, ignoreFeature: false)
                 if yields.food > 0.0 {
@@ -353,6 +366,7 @@ extension GameScene: UserInterfaceDelegate {
                 }
             }
 
+            toolTipType = .blue
             text = tmpText
 
         case .barbarianCampCleared(gold: let gold):
@@ -429,7 +443,7 @@ extension GameScene: UserInterfaceDelegate {
 
         DispatchQueue.main.async {
             if let text = text {
-                self.mapNode?.tooltipLayer.show(text: text, at: point, for: delay)
+                self.mapNode?.tooltipLayer.show(text: text, at: point, type: toolTipType, for: delay)
             }
         }
     }

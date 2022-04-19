@@ -393,6 +393,14 @@ extension GameScene {
                 return
             }
 
+            guard let humanPlayer = gameModel.humanPlayer() else {
+                fatalError("cant get human")
+            }
+
+            guard tile.isDiscovered(by: humanPlayer) else {
+                return
+            }
+
             self.showTooltip(at: position, type: .tileInfo(tile: tile), delay: 3.0)
         }
     }

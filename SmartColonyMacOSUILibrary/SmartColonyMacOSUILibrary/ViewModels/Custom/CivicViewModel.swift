@@ -86,6 +86,15 @@ class CivicViewModel: ObservableObject, Identifiable {
 
         let achievements = self.civicType.achievements()
 
+        for governmentType in achievements.governments {
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: governmentType.iconTexture(),
+                    toolTipText: governmentType.toolTip()
+                )
+            )
+        }
+
         for buildingType in achievements.buildingTypes {
             achievementViewModels.append(
                 AchievementViewModel(

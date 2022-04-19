@@ -18,12 +18,14 @@ extension BuildingType {
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
         toolTipText.append(title)
+        toolTipText.append(NSAttributedString(string: "\n"))
 
         let tokenizer = LabelTokenizer()
-        let effectsText = self.effects().reduce("\n\n", { $0 + $1.localized() + "\n" })
-        let effects = tokenizer.convert(text: effectsText, with: Globals.Attributs.tooltipContentAttributs)
-
-        toolTipText.append(effects)
+        for effect in self.effects() {
+            let effectText = tokenizer.convert(text: effect, with: Globals.Attributs.tooltipContentAttributs)
+            toolTipText.append(NSAttributedString(string: "\n"))
+            toolTipText.append(effectText)
+        }
 
         return toolTipText
     }
