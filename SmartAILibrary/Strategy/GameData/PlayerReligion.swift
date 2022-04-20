@@ -199,7 +199,7 @@ class PlayerReligion: AbstractPlayerReligion {
         if numPantheonsFounded == 0 {
             player.addMoment(of: .worldsFirstPantheon, in: gameModel)
         } else {
-            player.addMoment(of: .pantheonFounded, in: gameModel)
+            player.addMoment(of: .pantheonFounded(pantheon: pantheonType), in: gameModel)
         }
 
         if !civics.inspirationTriggered(for: .mysticism) {

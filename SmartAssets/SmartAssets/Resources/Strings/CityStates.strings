@@ -197,7 +197,7 @@
 
 // kumasi
 "TXT_KEY_CITY_STATE_KUMASI_NAME" = "Kumasi";
-"TXT_KEY_CITY_STATE_KUMASI_SUZARIN" = "Your [TradeRoute] Trade Routes to any city-state provide +2 [Culture] Culture and +1 [Gold] Gold for every specialty district in the origin city."; // #
+"TXT_KEY_CITY_STATE_KUMASI_SUZARIN" = "Your [TradeRoute] Trade Routes to any city-state provide +2 [Culture] Culture and +1 [Gold] Gold for every specialty district in the origin city.";
 
 // laVenta
 "TXT_KEY_CITY_STATE_LA_VENTA_NAME" = "La Venta";

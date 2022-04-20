@@ -215,8 +215,11 @@ class GameScene: BaseScene {
         // if the cursor is more than 2 seconds on the same tile - show tooltip
         if (currentTime - self.hoverTime) > 2.0 {
 
-            guard let gameModel = self.viewModel?.gameModel else {
-                print("cant get game")
+            if self.viewModel?.unitSelectionMode != .pick {
+                return
+            }
+
+            if self.viewModel?.delegate?.selectedUnit != nil {
                 return
             }
 
