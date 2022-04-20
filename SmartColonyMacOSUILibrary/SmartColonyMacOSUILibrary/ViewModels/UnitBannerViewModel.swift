@@ -71,6 +71,7 @@ class UnitBannerViewModel: ObservableObject {
                 .map { PromotionViewModel(promotionType: $0, state: .gained) }
         } else {
             self.unitImage = NSImage()
+            self.promotionViewModels = []
         }
 
         self.command0ViewModel.delegate = self
@@ -692,6 +693,10 @@ class UnitBannerViewModel: ObservableObject {
         if let selectedUnit = self.selectedUnit {
             self.unitHealthValue = CGFloat(selectedUnit.healthPoints()) / 100.0
             self.unitImage = ImageCache.shared.image(for: selectedUnit.type.portraitTexture())
+            self.promotionViewModels = selectedUnit.gainedPromotions()
+                .map { PromotionViewModel(promotionType: $0, state: .gained) }
+        } else {
+            self.promotionViewModels = []
         }
     }
 }

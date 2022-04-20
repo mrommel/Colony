@@ -1272,12 +1272,6 @@ public class Tile: AbstractTile {
 
         if !self.isDiscovered(by: player) {
 
-            if self.featureValue.isNaturalWonder() {
-                if !techs.eurekaTriggered(for: .astrology) {
-                    techs.triggerEureka(for: .astrology, in: gameModel)
-                }
-            }
-
             self.discovered.discover(by: player)
         }
     }

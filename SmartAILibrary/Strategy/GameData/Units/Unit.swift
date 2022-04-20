@@ -1899,6 +1899,10 @@ public class Unit: AbstractUnit {
             fatalError("cant get player")
         }
 
+        guard let techs = player.techs else {
+            fatalError("cant get player techs")
+        }
+
         guard let diplomacyAI = player.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
@@ -2158,6 +2162,10 @@ public class Unit: AbstractUnit {
                         if player.isHuman() {
                             player.notifications()?.add(notification: .naturalWonderDiscovered(location: adjacentPoint))
                         }
+                    }
+
+                    if !techs.eurekaTriggered(for: .astrology) {
+                        techs.triggerEureka(for: .astrology, in: gameModel)
                     }
 
                     /*PromotionTypes ePromotion = (PromotionTypes)GC.getFeatureInfo(eFeature)->getAdjacentUnitFreePromotion();
