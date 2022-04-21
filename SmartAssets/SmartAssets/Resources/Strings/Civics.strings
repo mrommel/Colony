@@ -52,7 +52,7 @@
 
 // civic - military tradition
 "TXT_KEY_CIVIC_MILITARY_TRADITION_TITLE" = "Military Tradition";
-"TXT_KEY_CIVIC_MILITARY_TRADITION_EUREKA" = "Build an Encampment.";
+"TXT_KEY_CIVIC_MILITARY_TRADITION_EUREKA" = "Clear a Barbarian Encampment.";
 "TXT_KEY_CIVIC_MILITARY_TRADITION_EUREKA_TEXT" = "Your soldiers hope your victory over a Barbarian Outpost is the start of a long line of military successes.";
 "TXT_KEY_CIVIC_MILITARY_TRADITION_QUOTE1" = "“Bravery is being the only one who knows you're afraid.“\n– Colonel David Hackworth";
 "TXT_KEY_CIVIC_MILITARY_TRADITION_QUOTE2" = "“I don't underrate the value of military knowledge, but if men make war in slavish obedience to rules, they will fail.“\n– Ulysses S. Grant";

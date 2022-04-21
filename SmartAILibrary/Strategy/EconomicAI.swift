@@ -153,7 +153,7 @@ public class EconomicAI: Codable {
 
         func adopt(economicStrategy: EconomicStrategyType, turnOfAdoption: Int) {
 
-            print("§§§ \(self.player!.leader) adopts \(economicStrategy) at turn \(turnOfAdoption)")
+            // print("§§§ \(self.player!.leader) adopts \(economicStrategy) at turn \(turnOfAdoption)")
             if let item = self.adoptions.first(where: { $0.economicStrategy == economicStrategy }) {
 
                 item.adopted = true
@@ -163,7 +163,7 @@ public class EconomicAI: Codable {
 
         func abandon(economicStrategy: EconomicStrategyType) {
 
-            print("§§§ \(self.player!.leader) abandons \(economicStrategy)")
+            // print("§§§ \(self.player!.leader) abandons \(economicStrategy)")
             if let item = self.adoptions.first(where: { $0.economicStrategy == economicStrategy }) {
 
                 item.adopted = false
