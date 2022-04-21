@@ -34,7 +34,7 @@ extension DistrictType {
 
         switch self {
 
-        case .none: return "district-cityCenter"
+        case .none: return "districtType-cityCenter"
 
         case .cityCenter: return "districtType-cityCenter"
         case .campus: return "districtType-campus"
@@ -57,57 +57,57 @@ extension DistrictType {
         }
     }
 
-    public func textureName() -> String {
+    public func iconTextureName() -> String {
 
         switch self {
 
-        case .none: return "district-cityCenter"
+        case .none: return "district-cityCenter-icon"
 
-        case .cityCenter: return "district-cityCenter"
-        case .campus: return "district-campus"
-        case .theatherSquare: return "district-theatherSquare"
-        case .holySite: return "district-holySite"
-        case .encampment: return "district-encampment"
-        case .harbor: return "district-harbor"
-        case .commercialHub: return "district-commercialHub"
-        case .industrialZone: return "district-industrial"
+        case .cityCenter: return "district-cityCenter-icon"
+        case .campus: return "district-campus-icon"
+        case .theatherSquare: return "district-theatherSquare-icon"
+        case .holySite: return "district-holySite-icon"
+        case .encampment: return "district-encampment-icon"
+        case .harbor: return "district-harbor-icon"
+        case .commercialHub: return "district-commercialHub-icon"
+        case .industrialZone: return "district-industrial-icon"
         // preserve
-        case .entertainmentComplex: return "district-entertainment"
+        case .entertainmentComplex: return "district-entertainment-icon"
         // waterPark
-        case .aqueduct: return "district-aqueduct"
-        case .neighborhood: return "district-neighborhood"
+        case .aqueduct: return "district-aqueduct-icon"
+        case .neighborhood: return "district-neighborhood-icon"
         // canal
         // dam
         // areodrome
-        case .spaceport: return "district-spaceport"
-        case .governmentPlaza: return "district-governmentPlaza"
+        case .spaceport: return "district-spaceport-icon"
+        case .governmentPlaza: return "district-governmentPlaza-icon"
         }
     }
 
-    public func buildingTextureName() -> String {
+    public func emptyDistrictTextureName() -> String {
 
         switch self {
 
-        case .none: return "district-building-cityCenter"
+        case .none: return "district-empty"
 
-        case .cityCenter: return "district-building-cityCenter"
-        case .campus: return "district-building-campus"
-        case .theatherSquare: return "district-building-theatherSquare"
-        case .holySite: return "district-building-holySite"
-        case .encampment: return "district-building-encampment"
-        case .harbor: return "district-building-harbor"
-        case .commercialHub: return "district-building-commercialHub"
-        case .industrialZone: return "district-building-industrial"
+        case .cityCenter: return "district-empty"
+        case .campus: return "district-campus-empty"
+        case .theatherSquare: return "district-empty"
+        case .holySite: return "district-holySite-empty"
+        case .encampment: return "district-empty"
+        case .harbor: return "district-empty"
+        case .commercialHub: return "district-empty"
+        case .industrialZone: return "district-empty"
         // preserve
-        case .entertainmentComplex: return "district-building-entertainment"
+        case .entertainmentComplex: return "district-empty"
         // waterPark
-        case .aqueduct: return "district-building-aqueduct"
-        case .neighborhood: return "district-building-neighborhood"
+        case .aqueduct: return "district-empty"
+        case .neighborhood: return "district-empty"
         // canal
         // dam
         // areodrome
-        case .spaceport: return "district-building-spaceport"
-        case .governmentPlaza: return "district-building-governmentPlaza"
+        case .spaceport: return "district-empty"
+        case .governmentPlaza: return "district-empty"
         }
     }
 }

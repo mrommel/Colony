@@ -17,15 +17,21 @@ class DistrictLayer: BaseLayer {
 
         let visible: Bool
         let discovered: Bool
-        let districtTexture: String
-        let buildingDistrictTexture: String
+        let emptyDistrictTexture: String
+        let firstBuildingDistrictTexture: String // also building texture
+        let secondBuildingDistrictTexture: String
+        let thirdBuildingDistrictTexture: String
 
-        init(point: HexPoint, visible: Bool, discovered: Bool, districtTexture: String, buildingDistrictTexture: String) {
+        init(point: HexPoint, visible: Bool, discovered: Bool, emptyDistrictTexture: String,
+             firstBuildingDistrictTexture: String, secondBuildingDistrictTexture: String,
+             thirdBuildingDistrictTexture: String) {
 
             self.visible = visible
             self.discovered = discovered
-            self.districtTexture = districtTexture
-            self.buildingDistrictTexture = buildingDistrictTexture
+            self.emptyDistrictTexture = emptyDistrictTexture
+            self.firstBuildingDistrictTexture = firstBuildingDistrictTexture
+            self.secondBuildingDistrictTexture = secondBuildingDistrictTexture
+            self.thirdBuildingDistrictTexture = thirdBuildingDistrictTexture
 
             super.init(point: point)
         }
@@ -39,8 +45,10 @@ class DistrictLayer: BaseLayer {
             hasher.combine(self.point)
             hasher.combine(self.visible)
             hasher.combine(self.discovered)
-            hasher.combine(self.districtTexture)
-            hasher.combine(self.buildingDistrictTexture)
+            hasher.combine(self.emptyDistrictTexture)
+            hasher.combine(self.firstBuildingDistrictTexture)
+            hasher.combine(self.secondBuildingDistrictTexture)
+            hasher.combine(self.thirdBuildingDistrictTexture)
         }
     }
 
@@ -53,13 +61,24 @@ class DistrictLayer: BaseLayer {
     private var hasher: DistrictLayerHasher?
 
     static let kName: String = "DistrictLayer"
+    static let buildingTextureName = "district-building"
+
+    public static let buildingTextures: [String] = [
+        "district-building",
+        "district-campus-library",
+        "district-campus-university",
+        "district-campus-researchLab",
+        "district-holySite-shrine",
+        "district-holySite-temple",
+        "district-holySite-cathedral"
+    ]
 
     // MARK: constructor
 
     override init(player: AbstractPlayer?) {
 
         super.init(player: player)
-        self.zPosition = Globals.ZLevels.district
+        self.zPosition = Globals.ZLevels.districtEmpty
         self.name = DistrictLayer.kName
     }
 
@@ -82,6 +101,58 @@ class DistrictLayer: BaseLayer {
         self.rebuild()
     }
 
+    private func firstBuildingDistrictTexture(for district: DistrictType, city: AbstractCity) -> String? {
+
+        switch district {
+
+        case .campus:
+            if city.has(building: .library) {
+                return "district-campus-library"
+            }
+
+            return nil
+        case .holySite:
+            if city.has(building: .shrine) {
+                return "district-holySite-shrine"
+            }
+
+            return nil
+
+        default:
+            return nil
+        }
+    }
+
+    private func secondBuildingDistrictTexture(for district: DistrictType, city: AbstractCity) -> String? {
+
+        switch district {
+
+        case .campus:
+            /*if city.has(building: .university) {
+                return "district-campus-university"
+            }*/
+            return nil
+
+        default:
+            return nil
+        }
+    }
+
+    private func thirdBuildingDistrictTexture(for district: DistrictType, city: AbstractCity) -> String? {
+
+        switch district {
+
+        case .campus:
+            /*if city.has(building: .researchLab) {
+                return "district-campus-researchLab"
+            }*/
+            return nil
+
+        default:
+            return nil
+        }
+    }
+
     func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
 
         let district = tile.district()
@@ -90,34 +161,95 @@ class DistrictLayer: BaseLayer {
         // place district
         if district != .none {
 
-            let districtTextureName: String = district.textureName()
-            let image = ImageCache.shared.image(for: districtTextureName)
+            guard let city: AbstractCity = tile.workingCity() else {
+                fatalError("cant get city for tile with district")
+            }
+
+            let emptyDistrictTextureName: String = district.emptyDistrictTextureName()
+            let image = ImageCache.shared.image(for: emptyDistrictTextureName)
 
             let districtSprite = SKSpriteNode(texture: SKTexture(image: image), size: DistrictLayer.kTextureSize)
             districtSprite.position = position
-            districtSprite.zPosition = Globals.ZLevels.district
+            districtSprite.zPosition = Globals.ZLevels.districtEmpty
             districtSprite.anchorPoint = CGPoint(x: 0, y: 0)
             districtSprite.color = .black
             districtSprite.colorBlendFactor = 1.0 - alpha
             self.addChild(districtSprite)
 
-            self.textureUtils?.set(districtSprite: districtSprite, at: tile.point)
+            self.textureUtils?.set(emptyDistrictSprite: districtSprite, at: tile.point)
+
+            if let firstBuildingDistrictTextureName = self.firstBuildingDistrictTexture(for: district, city: city) {
+
+                let image = ImageCache.shared.image(for: firstBuildingDistrictTextureName)
+
+                let districtSprite = SKSpriteNode(texture: SKTexture(image: image), size: DistrictLayer.kTextureSize)
+                districtSprite.position = position
+                districtSprite.zPosition = Globals.ZLevels.districtFirst
+                districtSprite.anchorPoint = CGPoint(x: 0, y: 0)
+                districtSprite.color = .black
+                districtSprite.colorBlendFactor = 1.0 - alpha
+                self.addChild(districtSprite)
+
+                self.textureUtils?.set(firstBuildingDistrictSprite: districtSprite, at: tile.point)
+            }
+
+            if let secondBuildingDistrictTextureName = self.secondBuildingDistrictTexture(for: district, city: city) {
+
+                let image = ImageCache.shared.image(for: secondBuildingDistrictTextureName)
+
+                let districtSprite = SKSpriteNode(texture: SKTexture(image: image), size: DistrictLayer.kTextureSize)
+                districtSprite.position = position
+                districtSprite.zPosition = Globals.ZLevels.districtSecond
+                districtSprite.anchorPoint = CGPoint(x: 0, y: 0)
+                districtSprite.color = .black
+                districtSprite.colorBlendFactor = 1.0 - alpha
+                self.addChild(districtSprite)
+
+                self.textureUtils?.set(secondBuildingDistrictSprite: districtSprite, at: tile.point)
+            }
+
+            if let thirdBuildingDistrictTextureName = self.thirdBuildingDistrictTexture(for: district, city: city) {
+
+                let image = ImageCache.shared.image(for: thirdBuildingDistrictTextureName)
+
+                let districtSprite = SKSpriteNode(texture: SKTexture(image: image), size: DistrictLayer.kTextureSize)
+                districtSprite.position = position
+                districtSprite.zPosition = Globals.ZLevels.districtThird
+                districtSprite.anchorPoint = CGPoint(x: 0, y: 0)
+                districtSprite.color = .black
+                districtSprite.colorBlendFactor = 1.0 - alpha
+                self.addChild(districtSprite)
+
+                self.textureUtils?.set(thirdBuildingDistrictSprite: districtSprite, at: tile.point)
+            }
 
         } else if buildingDistrict != .none {
 
-            // print("render \(buildingDistrict) pre building animation")
-            let districtTextureName: String = buildingDistrict.buildingTextureName()
+            let districtTextureName: String = buildingDistrict.emptyDistrictTextureName()
             let image = ImageCache.shared.image(for: districtTextureName)
 
             let districtBuildingSprite = SKSpriteNode(texture: SKTexture(image: image), size: DistrictLayer.kTextureSize)
             districtBuildingSprite.position = position
-            districtBuildingSprite.zPosition = Globals.ZLevels.district
+            districtBuildingSprite.zPosition = Globals.ZLevels.districtEmpty
             districtBuildingSprite.anchorPoint = CGPoint(x: 0, y: 0)
             districtBuildingSprite.color = .black
             districtBuildingSprite.colorBlendFactor = 1.0 - alpha
             self.addChild(districtBuildingSprite)
 
-            self.textureUtils?.set(districtBuildingSprite: districtBuildingSprite, at: tile.point)
+            self.textureUtils?.set(emptyDistrictSprite: districtBuildingSprite, at: tile.point)
+
+            // icon that this district is in the building
+            let buildingImage = ImageCache.shared.image(for: DistrictLayer.buildingTextureName)
+
+            let districtBuildingSprite2 = SKSpriteNode(texture: SKTexture(image: buildingImage), size: DistrictLayer.kTextureSize)
+            districtBuildingSprite2.position = position
+            districtBuildingSprite2.zPosition = Globals.ZLevels.districtFirst
+            districtBuildingSprite2.anchorPoint = CGPoint(x: 0, y: 0)
+            districtBuildingSprite2.color = .black
+            districtBuildingSprite2.colorBlendFactor = 1.0 - alpha
+            self.addChild(districtBuildingSprite2)
+
+            self.textureUtils?.set(firstBuildingDistrictSprite: districtBuildingSprite2, at: tile.point)
         }
     }
 
@@ -128,11 +260,19 @@ class DistrictLayer: BaseLayer {
         }
 
         if let tile = tile {
-            if let districtSprite = textureUtils.districtSprite(at: tile.point) {
+            if let districtSprite = textureUtils.emptyDistrictSprite(at: tile.point) {
                 self.removeChildren(in: [districtSprite])
             }
 
-            if let districtSprite = textureUtils.districtBuildingSprite(at: tile.point) {
+            if let districtSprite = textureUtils.firstBuildingDistrictSprite(at: tile.point) {
+                self.removeChildren(in: [districtSprite])
+            }
+
+            if let districtSprite = textureUtils.secondBuildingDistrictSprite(at: tile.point) {
+                self.removeChildren(in: [districtSprite])
+            }
+
+            if let districtSprite = textureUtils.thirdBuildingDistrictSprite(at: tile.point) {
                 self.removeChildren(in: [districtSprite])
             }
         }
@@ -167,23 +307,39 @@ class DistrictLayer: BaseLayer {
             fatalError("cant get tile")
         }
 
-        var districtTexture: String = ""
-        var buildingDistrictTexture: String = ""
+        var emptyDistrictTexture: String = ""
+        var firstBuildingDistrictTexture: String = ""
+        var secondBuildingDistrictTexture: String = ""
+        var thirdBuildingDistrictTexture: String = ""
+
         let district = tile.district()
         let buildingDistrict = tile.buildingDistrict()
 
         if district != .none {
-            districtTexture = district.textureName()
+
+            guard let city: AbstractCity = tile.workingCity() else {
+                fatalError("cant get city for tile with district")
+            }
+
+            emptyDistrictTexture = district.emptyDistrictTextureName()
+            firstBuildingDistrictTexture = self.firstBuildingDistrictTexture(for: district, city: city) ?? ""
+            secondBuildingDistrictTexture = self.secondBuildingDistrictTexture(for: district, city: city) ?? ""
+            thirdBuildingDistrictTexture = self.thirdBuildingDistrictTexture(for: district, city: city) ?? ""
+
         } else if buildingDistrict != .none {
-            buildingDistrictTexture = buildingDistrict.buildingTextureName()
+
+            emptyDistrictTexture = district.emptyDistrictTextureName()
+            firstBuildingDistrictTexture = DistrictLayer.buildingTextureName
         }
 
         return DistrictLayerTile(
             point: tile.point,
             visible: tile.isVisible(to: self.player) || self.showCompleteMap,
             discovered: tile.isDiscovered(by: self.player),
-            districtTexture: districtTexture,
-            buildingDistrictTexture: buildingDistrictTexture
+            emptyDistrictTexture: emptyDistrictTexture,
+            firstBuildingDistrictTexture: firstBuildingDistrictTexture,
+            secondBuildingDistrictTexture: secondBuildingDistrictTexture,
+            thirdBuildingDistrictTexture: thirdBuildingDistrictTexture
         )
     }
 }

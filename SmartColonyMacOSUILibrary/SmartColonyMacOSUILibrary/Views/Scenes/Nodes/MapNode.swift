@@ -111,7 +111,7 @@ class MapNode: SKNode {
 
         self.districtLayer = DistrictLayer(player: humanPlayer)
         self.districtLayer.populate(with: self.game)
-        self.districtLayer.zPosition = Globals.ZLevels.district
+        self.districtLayer.zPosition = Globals.ZLevels.districtEmpty
 
         self.wonderLayer = WonderLayer(player: humanPlayer)
         self.wonderLayer.populate(with: self.game)

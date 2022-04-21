@@ -3003,6 +3003,23 @@ public class City: AbstractCity {
 
             // send gossip
             gameModel?.sendGossip(type: .buildingConstructed(building: buildingType), of: self.player)
+
+            // update all districts tiles
+            guard let cityCitizens = self.cityCitizens else {
+                fatalError("cant get citizen")
+            }
+
+            for loopPoint in cityCitizens.workingPlots {
+
+                guard let loopTile = gameModel?.tile(at: loopPoint.location) else {
+                    continue
+                }
+
+                if loopTile.district() != .none {
+                    gameModel?.userInterface?.refresh(tile: loopTile)
+                }
+            }
+
         } catch {
             fatalError("cant build building: already build")
         }
@@ -3823,14 +3840,6 @@ public class City: AbstractCity {
 
     public func startBuilding(project projectType: ProjectType, at point: HexPoint, in gameModel: GameModel?) {
 
-        /*
-         guard let tile = gameModel?.tile(at: location) else {
-             fatalError("cant get tile")
-         }
-
-         tile.startBuilding(project: districtType)
-         gameModel?.userInterface?.refresh(tile: tile)
-         */
         self.buildQueue.add(item: BuildableItem(projectType: projectType, at: location))
     }
 

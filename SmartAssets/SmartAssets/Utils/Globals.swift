@@ -34,7 +34,11 @@ public struct Globals {
         public static let city: CGFloat = 5.2
 
         // public static let improvementUpper: CGFloat = 5.25 // # not implemented yet
-        public static let district: CGFloat = 6.0
+        public static let districtEmpty: CGFloat = 6.01
+        public static let districtFirst: CGFloat = 6.02
+        public static let districtSecond: CGFloat = 6.03
+        public static let districtThird: CGFloat = 6.04
+        public static let districtIcon: CGFloat = 6.05
         public static let wonder: CGFloat = 6.1
         public static let resourceMarker: CGFloat = 6.2
         public static let yields: CGFloat = 6.3
