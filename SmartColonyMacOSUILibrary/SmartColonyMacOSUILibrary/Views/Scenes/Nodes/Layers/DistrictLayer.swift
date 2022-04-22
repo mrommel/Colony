@@ -229,7 +229,13 @@ class DistrictLayer: BaseLayer {
         // place district
         if district != .none {
 
-            guard let city: AbstractCity = tile.workingCity() else {
+            var cityRef: AbstractCity? = tile.workingCity()
+
+            if cityRef == nil {
+                cityRef = gameModel?.city(at: tile.point)
+            }
+
+            guard let city: AbstractCity = cityRef else {
                 fatalError("cant get city for tile with district")
             }
 
@@ -385,7 +391,13 @@ class DistrictLayer: BaseLayer {
 
         if district != .none {
 
-            guard let city: AbstractCity = tile.workingCity() else {
+            var cityRef: AbstractCity? = tile.workingCity()
+
+            if cityRef == nil {
+                cityRef = gameModel?.city(at: tile.point)
+            }
+
+            guard let city: AbstractCity = cityRef else {
                 fatalError("cant get city for tile with district")
             }
 

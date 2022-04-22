@@ -45,7 +45,7 @@ class CityBannerViewModel: ObservableObject {
     var productionTitle: String
 
     @Published
-    var productionEffects: [String]
+    var productionEffects: [NSAttributedString]
 
     @Published
     var loyalityLabel: String
@@ -82,6 +82,7 @@ class CityBannerViewModel: ObservableObject {
         self.productionTextureName = BuildingType.ancientWalls.iconTexture()
         self.productionTitle = BuildingType.ancientWalls.name()
         self.productionEffects = BuildingType.ancientWalls.effects()
+            .map { NSAttributedString(string: $0, attributes: Globals.Attributs.cityBannerAttributs) }
 
         self.loyalityLabel = "100"
         self.religiousLabel = "0"
@@ -137,6 +138,7 @@ class CityBannerViewModel: ObservableObject {
         self.productionTextureName = BuildingType.ancientWalls.iconTexture()
         self.productionTitle = BuildingType.ancientWalls.name()
         self.productionEffects = BuildingType.ancientWalls.effects()
+            .map { NSAttributedString(string: $0, attributes: Globals.Attributs.cityBannerAttributs) }
 
         self.loyalityLabel = "100"
         self.religiousLabel = "0"
@@ -206,6 +208,7 @@ class CityBannerViewModel: ObservableObject {
             self.productionTextureName = buildableItem.iconTexture()
             self.productionTitle = buildableItem.name()
             self.productionEffects = buildableItem.effects()
+                .map { NSAttributedString(string: $0, attributes: Globals.Attributs.cityBannerAttributs) }
         } else {
             self.productionTextureName = "questionmark"
             self.productionTitle = "Nothing being produced"

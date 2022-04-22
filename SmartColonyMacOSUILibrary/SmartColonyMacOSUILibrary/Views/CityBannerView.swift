@@ -196,7 +196,7 @@ struct CityBannerView: View {
                                 ForEach(self.viewModel.productionEffects, id: \.self) { productionEffect in
 
                                     Label(productionEffect)
-                                        .font(.system(size: 5))
+                                        .frame(width: 70, alignment: .leading)
                                         .padding(.leading, 2)
                                 }
                             }

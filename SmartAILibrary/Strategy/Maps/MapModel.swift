@@ -210,7 +210,7 @@ open class MapModel: Codable {
         // map is divided into regions
         let fertilityEvaluator = CitySiteEvaluator(map: self)
         let finder = RegionFinder(map: self, evaluator: fertilityEvaluator, for: player)
-        self.areas = finder.divideInto(regions: 2) // <- FIXME
+        self.areas = finder.divideInto(regions: 2)
 
         // set area to tile
         for area in self.areas {

@@ -630,9 +630,7 @@ public class City: AbstractCity {
         self.gameTurnFoundedValue = gameModel.currentTurn
 
         self.districts = Districts(city: self)
-        do {
-            try self.districts?.build(district: .cityCenter, at: self.location)
-        } catch {}
+        self.build(district: .cityCenter, at: self.location, in: gameModel)
 
         self.buildings = Buildings(city: self)
         self.wonders = Wonders(city: self)
@@ -3004,7 +3002,7 @@ public class City: AbstractCity {
             // send gossip
             gameModel?.sendGossip(type: .buildingConstructed(building: buildingType), of: self.player)
 
-            // update all districts tiles
+            // update district tile
             guard let cityCitizens = self.cityCitizens else {
                 fatalError("cant get citizen")
             }
@@ -3015,9 +3013,18 @@ public class City: AbstractCity {
                     continue
                 }
 
-                if loopTile.district() != .none {
+                if loopTile.district() == buildingType.district() {
                     gameModel?.userInterface?.refresh(tile: loopTile)
                 }
+            }
+
+            // update city tile
+            if buildingType.district() == .cityCenter {
+                guard let cityTile = gameModel?.tile(at: self.location) else {
+                    fatalError("cant get city tile")
+                }
+
+                gameModel?.userInterface?.refresh(tile: cityTile)
             }
 
         } catch {
@@ -3075,10 +3082,15 @@ public class City: AbstractCity {
             }
 
             // send gossip
-            gameModel.sendGossip(type: .districtConstructed(district: districtType), of: self.player)
+            if districtType.isSpecialty() {
+                gameModel.sendGossip(type: .districtConstructed(district: districtType), of: self.player)
+            }
 
             tile.build(district: districtType)
-            gameModel.userInterface?.refresh(tile: tile)
+            if districtType != .cityCenter {
+                // the city does not exist yet - so no update
+                gameModel.userInterface?.refresh(tile: tile)
+            }
         } catch {
             fatalError("cant build district: already build")
         }
