@@ -2282,6 +2282,14 @@ public class Tile: AbstractTile {
 
     public func build(district: DistrictType) {
 
+        if self.hasAnyFeature() {
+            self.set(feature: .none)
+        }
+
+        if self.hasAnyImprovement() {
+            self.removeImprovement()
+        }
+
         self.buildingDistrictValue = .none
         self.districtValue = district
     }

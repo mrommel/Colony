@@ -318,4 +318,16 @@ class CityDistrictTests: XCTestCase {
         XCTAssertEqual(hasBuiltFirstGovernmentPlaza, true)
         XCTAssertEqual(canBuildAnotherGovernmentPlaza, false)
     }
+
+    func testCannotBuiltCampusOutsideCityBounds() throws {
+
+        // GIVEN
+        try self.playerAlexander?.techs?.discover(tech: .writing, in: self.gameModel)
+
+        // WHEN
+        let canBuildCampus = self.objectToTest!.canBuild(district: .campus, at: HexPoint(x: 3, y: 2), in: self.gameModel)
+
+        // THEN
+        XCTAssertEqual(canBuildCampus, false)
+    }
 }

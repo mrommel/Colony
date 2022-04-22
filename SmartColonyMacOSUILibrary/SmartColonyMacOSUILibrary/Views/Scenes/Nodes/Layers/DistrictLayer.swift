@@ -70,7 +70,11 @@ class DistrictLayer: BaseLayer {
         "district-campus-researchLab",
         "district-holySite-shrine",
         "district-holySite-temple",
-        "district-holySite-cathedral"
+        "district-holySite-cathedral",
+        "district-encampment-barracks",
+        "district-encampment-stable",
+        "district-harbor-lighthouse",
+        "district-harbor-shipyard",
     ]
 
     // MARK: constructor
@@ -111,9 +115,28 @@ class DistrictLayer: BaseLayer {
             }
 
             return nil
+
         case .holySite:
             if city.has(building: .shrine) {
                 return "district-holySite-shrine"
+            }
+
+            return nil
+
+        case .holySite:
+            if city.has(building: .barracks) {
+                return "district-encampment-barracks"
+            }
+
+            if city.has(building: .stable) {
+                return "district-encampment-stable"
+            }
+
+            return nil
+
+        case .holySite:
+            if city.has(building: .lighthouse) {
+                return "district-harbor-lighthouse"
             }
 
             return nil
@@ -133,6 +156,18 @@ class DistrictLayer: BaseLayer {
             }*/
             return nil
 
+        case .holySite:
+            if city.has(building: .temple) {
+                return "district-holySite-temple"
+            }
+
+            return nil
+
+        case .harbor:
+            if city.has(building: .shipyard) {
+                return "district-harbor-shipyard"
+            }
+
         default:
             return nil
         }
@@ -146,6 +181,13 @@ class DistrictLayer: BaseLayer {
             /*if city.has(building: .researchLab) {
                 return "district-campus-researchLab"
             }*/
+            return nil
+
+        case .holySite:
+            /*if city.has(building: .cathedral) {
+                return "district-holySite-cathedral"
+            }*/
+
             return nil
 
         default:

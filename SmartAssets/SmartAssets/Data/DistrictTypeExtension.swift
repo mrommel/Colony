@@ -94,8 +94,8 @@ extension DistrictType {
         case .campus: return "district-campus-empty"
         case .theatherSquare: return "district-empty"
         case .holySite: return "district-holySite-empty"
-        case .encampment: return "district-empty"
-        case .harbor: return "district-empty"
+        case .encampment: return "district-encampment-empty"
+        case .harbor: return "district-empty" // this will stay empty
         case .commercialHub: return "district-empty"
         case .industrialZone: return "district-empty"
         // preserve
