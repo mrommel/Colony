@@ -65,6 +65,9 @@ class DistrictLayer: BaseLayer {
 
     public static let buildingTextures: [String] = [
         "district-building",
+        "district-cityCenter-monument",
+        "district-cityCenter-granary",
+        "district-cityCenter-waterMill",
         "district-campus-library",
         "district-campus-university",
         "district-campus-researchLab",
@@ -74,7 +77,7 @@ class DistrictLayer: BaseLayer {
         "district-encampment-barracks",
         "district-encampment-stable",
         "district-harbor-lighthouse",
-        "district-harbor-shipyard",
+        "district-harbor-shipyard"
     ]
 
     // MARK: constructor
@@ -108,6 +111,13 @@ class DistrictLayer: BaseLayer {
     private func firstBuildingDistrictTexture(for district: DistrictType, city: AbstractCity) -> String? {
 
         switch district {
+
+        case .cityCenter:
+            if city.has(building: .monument) {
+                return "district-cityCenter-monument"
+            }
+
+            return nil
 
         case .campus:
             if city.has(building: .library) {
@@ -150,6 +160,13 @@ class DistrictLayer: BaseLayer {
 
         switch district {
 
+        case .cityCenter:
+            if city.has(building: .granary) {
+                return "district-cityCenter-granary"
+            }
+
+            return nil
+
         case .campus:
             /*if city.has(building: .university) {
                 return "district-campus-university"
@@ -176,6 +193,14 @@ class DistrictLayer: BaseLayer {
     private func thirdBuildingDistrictTexture(for district: DistrictType, city: AbstractCity) -> String? {
 
         switch district {
+
+        case .cityCenter:
+            if city.has(building: .waterMill) {
+                return "district-cityCenter-waterMill"
+            }
+
+            return nil
+
 
         case .campus:
             /*if city.has(building: .researchLab) {
