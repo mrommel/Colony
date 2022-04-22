@@ -144,7 +144,7 @@ class DistrictLayer: BaseLayer {
 
             return nil
 
-        case .holySite:
+        case .harbor:
             if city.has(building: .lighthouse) {
                 return "district-harbor-lighthouse"
             }
@@ -185,6 +185,8 @@ class DistrictLayer: BaseLayer {
                 return "district-harbor-shipyard"
             }
 
+            return nil
+
         default:
             return nil
         }
@@ -200,7 +202,6 @@ class DistrictLayer: BaseLayer {
             }
 
             return nil
-
 
         case .campus:
             /*if city.has(building: .researchLab) {
