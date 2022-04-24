@@ -38,6 +38,14 @@ public class OceanFinder {
             }
         }
 
+        // wrap map
+        if map?.wrapX ?? false {
+            for y in 0..<self.oceanIdentifiers.height {
+
+                self.evaluate(x: 0, y: y, on: map)
+            }
+        }
+
         var oceans = [Ocean]()
 
         for x in 0..<self.oceanIdentifiers.width {

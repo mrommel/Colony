@@ -397,14 +397,14 @@ class DistrictLayer: BaseLayer {
                 cityRef = gameModel?.city(at: tile.point)
             }
 
-            guard let city: AbstractCity = cityRef else {
-                fatalError("cant get city for tile with district")
+            if let city: AbstractCity = cityRef {
+                emptyDistrictTexture = district.emptyDistrictTextureName()
+                firstBuildingDistrictTexture = self.firstBuildingDistrictTexture(for: district, city: city) ?? ""
+                secondBuildingDistrictTexture = self.secondBuildingDistrictTexture(for: district, city: city) ?? ""
+                thirdBuildingDistrictTexture = self.thirdBuildingDistrictTexture(for: district, city: city) ?? ""
+            } else {
+                print("cant get city for tile with district")
             }
-
-            emptyDistrictTexture = district.emptyDistrictTextureName()
-            firstBuildingDistrictTexture = self.firstBuildingDistrictTexture(for: district, city: city) ?? ""
-            secondBuildingDistrictTexture = self.secondBuildingDistrictTexture(for: district, city: city) ?? ""
-            thirdBuildingDistrictTexture = self.thirdBuildingDistrictTexture(for: district, city: city) ?? ""
 
         } else if buildingDistrict != .none {
 
