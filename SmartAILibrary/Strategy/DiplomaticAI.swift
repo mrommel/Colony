@@ -3013,7 +3013,7 @@ public class DiplomaticAI: Codable {
         return false
     }
 
-    public func doSendEmbassy(to otherPlayer: AbstractPlayer?) {
+    public func doSendEmbassy(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get other player")
@@ -3039,7 +3039,7 @@ public class DiplomaticAI: Codable {
         }
     }
 
-    public func doRevokeEmbassy(from otherPlayer: AbstractPlayer?) {
+    public func doRevokeEmbassy(from otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get other player")
