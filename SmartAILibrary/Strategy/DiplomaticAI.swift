@@ -2923,7 +2923,11 @@ public class DiplomaticAI: Codable {
         return playerDiplomacy.playerDict.hasDelegation(with: otherPlayer)
     }
 
-    public func doSendDelegation(to otherPlayer: AbstractPlayer?) {
+    public func doSendDelegation(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get other player")
+        }
 
         guard let playerDiplomacy = self.player?.diplomacyAI else {
             fatalError("cant get player diplomacyAI")
@@ -2934,19 +2938,35 @@ public class DiplomaticAI: Codable {
             playerDiplomacy.playerDict.sendDelegation(to: otherPlayer, send: true)
             playerDiplomacy.playerDict.addApproach(type: .delegation, towards: otherPlayer)
 
+            // sight capital - our guys are there
+            guard let capital = gameModel?.capital(of: otherPlayer) else {
+                fatalError("cant get capital of other player")
+            }
+            gameModel?.sight(at: capital.location, sight: 3, for: self.player)
+
             // update access level
             playerDiplomacy.increaseAccessLevel(towards: otherPlayer)
         }
     }
 
-    public func doRevokeDelegation(from otherPlayer: AbstractPlayer?) {
+    public func doRevokeDelegation(from otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get other player")
+        }
+        
         guard let playerDiplomacy = self.player?.diplomacyAI else {
             fatalError("cant get player diplomacyAI")
         }
 
         playerDiplomacy.playerDict.sendDelegation(to: otherPlayer, send: false)
         playerDiplomacy.playerDict.removeApproach(type: .delegation, towards: self.player)
+
+        // conceal capital - our guys are no logner there
+        guard let capital = gameModel?.capital(of: otherPlayer) else {
+            fatalError("cant get capital of other player")
+        }
+        gameModel?.conceal(at: capital.location, sight: 3, for: self.player)
 
         // update access level
         playerDiplomacy.decreaseAccessLevel(towards: otherPlayer)
@@ -2995,6 +3015,10 @@ public class DiplomaticAI: Codable {
 
     public func doSendEmbassy(to otherPlayer: AbstractPlayer?) {
 
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get other player")
+        }
+
         guard let playerDiplomacy = self.player?.diplomacyAI else {
             fatalError("cant get player diplomacyAI")
         }
@@ -3004,6 +3028,12 @@ public class DiplomaticAI: Codable {
             playerDiplomacy.playerDict.sendEmbassy(to: otherPlayer, send: true)
             playerDiplomacy.playerDict.addApproach(type: .embassy, towards: self.player)
 
+            // sight capital - our guys are there
+            guard let capital = gameModel?.capital(of: otherPlayer) else {
+                fatalError("cant get capital of other player")
+            }
+            gameModel?.sight(at: capital.location, sight: 3, for: self.player)
+
             // update access level
             playerDiplomacy.increaseAccessLevel(towards: otherPlayer)
         }
@@ -3011,12 +3041,22 @@ public class DiplomaticAI: Codable {
 
     public func doRevokeEmbassy(from otherPlayer: AbstractPlayer?) {
 
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get other player")
+        }
+
         guard let playerDiplomacy = self.player?.diplomacyAI else {
             fatalError("cant get player diplomacyAI")
         }
 
         playerDiplomacy.playerDict.sendEmbassy(to: otherPlayer, send: false)
         playerDiplomacy.playerDict.removeApproach(type: .embassy, towards: self.player)
+
+        // conceal capital - our guys are no logner there
+        guard let capital = gameModel?.capital(of: otherPlayer) else {
+            fatalError("cant get capital of other player")
+        }
+        gameModel?.conceal(at: capital.location, sight: 3, for: self.player)
 
         // update access level
         playerDiplomacy.decreaseAccessLevel(towards: otherPlayer)
