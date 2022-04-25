@@ -3298,6 +3298,26 @@ public class City: AbstractCity {
             fatalError("cant get buildings")
         }
 
+        // at least one required building is needed (if there is one)
+        var hasOneRequiredBuilding = false
+        for requiredBuilding in building.requiredBuildings() {
+
+            if buildings.has(building: requiredBuilding) {
+                hasOneRequiredBuilding = true
+            }
+        }
+
+        if !building.requiredBuildings().isEmpty && !hasOneRequiredBuilding {
+            return false
+        }
+
+        // if an obsolete building exists - this cant be built
+        for obsoleteBuilding in building.obsoleteBuildings() {
+            if buildings.has(building: obsoleteBuilding) {
+                return false
+            }
+        }
+
         if !building.canBuild(in: self, in: gameModel) {
             return false
         }
@@ -3323,7 +3343,7 @@ public class City: AbstractCity {
         }
 
         // special handling of the palace
-        // can only be 
+        // can only be built once
         if building == .palace && gameModel.capital(of: player) != nil {
             return false
         }

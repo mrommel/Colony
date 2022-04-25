@@ -30,11 +30,18 @@ public enum BuildingType: Int, Codable {
     case arena // https://civilization.fandom.com/wiki/Arena_(Civ6)
     case market // https://civilization.fandom.com/wiki/Market_(Civ6)
     case temple // https://civilization.fandom.com/wiki/Temple_(Civ6)
+    // Ancestral Hall
+    // Audience Chamber
+    // Warlord's Throne
 
     // medieval
     case medievalWalls // https://civilization.fandom.com/wiki/Medieval_Walls_(Civ6)
     case workshop // https://civilization.fandom.com/wiki/Workshop_(Civ6)
     case armory // https://civilization.fandom.com/wiki/Armory_(Civ6)
+    // foreignMinistry
+    // grandMastersChapel
+    // intelligenceAgency
+    // university
 
     // renaissance
     case renaissanceWalls // https://civilization.fandom.com/wiki/Renaissance_Walls_(Civ6)
@@ -127,9 +134,14 @@ public enum BuildingType: Int, Codable {
         return self.data().requiredCivic
     }
 
-    public func requiredBuilding() -> BuildingType? {
+    public func requiredBuildings() -> [BuildingType] {
 
-        return self.data().requiredBuilding
+        return self.data().requiredBuildingsOr
+    }
+
+    public func obsoleteBuildings() -> [BuildingType] {
+
+        return self.data().obsoleteBuildingsOr
     }
 
     public func district() -> DistrictType {
@@ -200,7 +212,8 @@ public enum BuildingType: Int, Codable {
         let district: DistrictType
         let requiredTech: TechType?
         let requiredCivic: CivicType?
-        let requiredBuilding: BuildingType?
+        let requiredBuildingsOr: [BuildingType] // means one of them is needed
+        let obsoleteBuildingsOr: [BuildingType] // means one built will prevent this building
         let productionCost: Int
         let goldCost: Int
         let faithCost: Int
@@ -227,7 +240,8 @@ public enum BuildingType: Int, Codable {
                 district: .cityCenter,
                 requiredTech: nil,
                 requiredCivic: nil,
-                requiredBuilding: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
                 productionCost: 0,
                 goldCost: -1,
                 faithCost: -1,
@@ -256,7 +270,8 @@ public enum BuildingType: Int, Codable {
                 district: .cityCenter,
                 requiredTech: nil,
                 requiredCivic: nil,
-                requiredBuilding: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
                 productionCost: 0,
                 goldCost: -1,
                 faithCost: -1,
@@ -282,7 +297,8 @@ public enum BuildingType: Int, Codable {
                 district: .cityCenter,
                 requiredTech: .pottery,
                 requiredCivic: nil,
-                requiredBuilding: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
                 productionCost: 65,
                 goldCost: 65,
                 faithCost: -1,
@@ -316,7 +332,8 @@ public enum BuildingType: Int, Codable {
                 district: .cityCenter,
                 requiredTech: nil,
                 requiredCivic: nil,
-                requiredBuilding: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
                 productionCost: 60,
                 goldCost: 60,
                 faithCost: -1,
@@ -362,7 +379,8 @@ public enum BuildingType: Int, Codable {
                 district: .campus,
                 requiredTech: .writing,
                 requiredCivic: nil,
-                requiredBuilding: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
                 productionCost: 90,
                 goldCost: 90,
                 faithCost: -1,
@@ -394,7 +412,8 @@ public enum BuildingType: Int, Codable {
                 district: .holySite,
                 requiredTech: .astrology,
                 requiredCivic: nil,
-                requiredBuilding: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
                 productionCost: 70,
                 goldCost: 70,
                 faithCost: -1,
@@ -430,7 +449,8 @@ public enum BuildingType: Int, Codable {
                 district: .cityCenter,
                 requiredTech: .masonry,
                 requiredCivic: nil,
-                requiredBuilding: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
                 productionCost: 80,
                 goldCost: 80,
                 faithCost: -1,
@@ -465,7 +485,8 @@ public enum BuildingType: Int, Codable {
                 district: .encampment,
                 requiredTech: .bronzeWorking,
                 requiredCivic: nil,
-                requiredBuilding: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [.stable],
                 productionCost: 90,
                 goldCost: 90,
                 faithCost: -1,
@@ -497,7 +518,8 @@ public enum BuildingType: Int, Codable {
                 district: .cityCenter,
                 requiredTech: .wheel,
                 requiredCivic: nil,
-                requiredBuilding: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
                 productionCost: 80,
                 goldCost: 80,
                 faithCost: -1,
@@ -532,7 +554,8 @@ public enum BuildingType: Int, Codable {
                 district: .entertainmentComplex,
                 requiredTech: nil,
                 requiredCivic: .dramaAndPoetry,
-                requiredBuilding: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
                 productionCost: 150,
                 goldCost: 150,
                 faithCost: -1,
@@ -564,7 +587,8 @@ public enum BuildingType: Int, Codable {
                 district: .harbor,
                 requiredTech: .celestialNavigation,
                 requiredCivic: nil,
-                requiredBuilding: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
                 productionCost: 120,
                 goldCost: 120,
                 faithCost: -1,
@@ -589,7 +613,7 @@ public enum BuildingType: Int, Codable {
                 name: "Stable",
                 effects: [
                     "+25% combat experience for all cavalry and siege class units trained in this city.",
-                    "May not be built in an Encampment district that already has a Barracks", // #
+                    "May not be built in an Encampment district that already has a Barracks",
                     "+1 Production Production",
                     "+1 [Housing] Housing",
                     "+1 [Citizen] Citizen slot",
@@ -600,7 +624,8 @@ public enum BuildingType: Int, Codable {
                 district: .encampment,
                 requiredTech: .horsebackRiding,
                 requiredCivic: nil,
-                requiredBuilding: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [.barracks],
                 productionCost: 120,
                 goldCost: 120,
                 faithCost: -1,
@@ -633,7 +658,8 @@ public enum BuildingType: Int, Codable {
                 district: .entertainmentComplex,
                 requiredTech: nil,
                 requiredCivic: .gamesAndRecreation,
-                requiredBuilding: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
                 productionCost: 150,
                 goldCost: 150,
                 faithCost: -1,
@@ -677,7 +703,8 @@ public enum BuildingType: Int, Codable {
                 district: .commercialHub,
                 requiredTech: .currency,
                 requiredCivic: nil,
-                requiredBuilding: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
                 productionCost: 120,
                 goldCost: 120,
                 faithCost: -1,
@@ -713,7 +740,8 @@ public enum BuildingType: Int, Codable {
                 district: .holySite,
                 requiredTech: nil,
                 requiredCivic: .theology,
-                requiredBuilding: .shrine,
+                requiredBuildingsOr: [.shrine],
+                obsoleteBuildingsOr: [],
                 productionCost: 120,
                 goldCost: 120,
                 faithCost: -1,
@@ -730,6 +758,7 @@ public enum BuildingType: Int, Codable {
 
             // --------------------------------------
             // medieval
+
         case .medievalWalls:
             // https://civilization.fandom.com/wiki/Medieval_Walls_(Civ6)
             return BuildingTypeData(
@@ -743,7 +772,8 @@ public enum BuildingType: Int, Codable {
                 district: .cityCenter,
                 requiredTech: .castles,
                 requiredCivic: nil,
-                requiredBuilding: .ancientWalls,
+                requiredBuildingsOr: [.ancientWalls],
+                obsoleteBuildingsOr: [],
                 productionCost: 225,
                 goldCost: -1,
                 faithCost: -1,
@@ -776,7 +806,8 @@ public enum BuildingType: Int, Codable {
                 district: .industrialZone,
                 requiredTech: .apprenticeship,
                 requiredCivic: nil,
-                requiredBuilding: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
                 productionCost: 195,
                 goldCost: 195,
                 faithCost: -1,
@@ -794,18 +825,21 @@ public enum BuildingType: Int, Codable {
             // https://civilization.fandom.com/wiki/Armory_(Civ6)
             return BuildingTypeData(
                 name: "Armory",
-                effects: ["+2 [Production] Production",
-                          "+1 [Citizen] Citizen slot",
-                          "+1 [GreatGeneral] Great General point per turn",
-                          "+25% combat experience for all military land units trained in this city",
-                          "Allows training of Military Engineers in this city",
-                          "Strategic Resource stockpiles increased by 10"],
+                effects: [
+                    "+2 [Production] Production",
+                    "+1 [Citizen] Citizen slot",
+                    "+1 [GreatGeneral] Great General point per turn",
+                    "+25% combat experience for all military land units trained in this city",
+                    "Allows training of Military Engineers in this city", // #
+                    "Strategic Resource stockpiles increased by 10" // #
+                ],
                 category: .military,
                 era: .medieval,
                 district: .encampment,
                 requiredTech: .militaryEngineering,
                 requiredCivic: nil,
-                requiredBuilding: .barracks, // stable?
+                requiredBuildingsOr: [.barracks, .stable],
+                obsoleteBuildingsOr: [],
                 productionCost: 195,
                 goldCost: 195,
                 faithCost: -1,
@@ -826,9 +860,9 @@ public enum BuildingType: Int, Codable {
 
             // --------------------------------------
             // renaissance
+
         case .renaissanceWalls:
             // https://civilization.fandom.com/wiki/Renaissance_Walls_(Civ6)
-            // FIXME +2 Science with the Military Research Policy
             return BuildingTypeData(
                 name: "Renaissance Walls",
                 effects: [
@@ -839,7 +873,8 @@ public enum BuildingType: Int, Codable {
                 district: .cityCenter,
                 requiredTech: .siegeTactics,
                 requiredCivic: nil,
-                requiredBuilding: .medievalWalls,
+                requiredBuildingsOr: [.medievalWalls],
+                obsoleteBuildingsOr: [],
                 productionCost: 305,
                 goldCost: -1,
                 faithCost: -1,
@@ -874,7 +909,8 @@ public enum BuildingType: Int, Codable {
                 district: .harbor,
                 requiredTech: .massProduction,
                 requiredCivic: nil,
-                requiredBuilding: .lighthouse,
+                requiredBuildingsOr: [.lighthouse],
+                obsoleteBuildingsOr: [],
                 productionCost: 290,
                 goldCost: 290,
                 faithCost: -1,
