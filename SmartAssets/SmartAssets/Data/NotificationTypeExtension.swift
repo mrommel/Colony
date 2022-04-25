@@ -30,7 +30,7 @@ extension NotificationType {
         case .enemyInTerritory: return "button-enemyInTerritory"
         case .unitPromotion: return "button-promotion"
         case .unitNeedsOrders: return "button-unitNeedsOrders"
-        case .unitDied: return "button-unit-died"
+        case .unitDied: return "button-unitDied"
 
         case .canChangeGovernment: return "button-changeGovernment"
         case .policiesNeeded: return "button-policiesNeeded"
