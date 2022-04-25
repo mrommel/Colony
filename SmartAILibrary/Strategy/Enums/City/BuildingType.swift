@@ -34,6 +34,7 @@ public enum BuildingType: Int, Codable {
     // medieval
     case medievalWalls // https://civilization.fandom.com/wiki/Medieval_Walls_(Civ6)
     case workshop // https://civilization.fandom.com/wiki/Workshop_(Civ6)
+    case armory // https://civilization.fandom.com/wiki/Armory_(Civ6)
 
     // renaissance
     case renaissanceWalls // https://civilization.fandom.com/wiki/Renaissance_Walls_(Civ6)
@@ -49,7 +50,7 @@ public enum BuildingType: Int, Codable {
             .amphitheater, .lighthouse, .stable, .arena, .market, .temple,
 
             // medieval
-            .medievalWalls,
+            .medievalWalls, .workshop, .armory,
 
             // renaissance
             .renaissanceWalls, .shipyard
@@ -453,7 +454,7 @@ public enum BuildingType: Int, Codable {
             return BuildingTypeData(
                 name: "Barracks",
                 effects: [
-                    "+25% combat experience for all melee, ranged and anti-cavalry land units trained in this city.", // #
+                    "+25% combat experience for all melee, ranged and anti-cavalry land units trained in this city.",
                     "May not be built in an Encampment district that already has a Stable.",
                     "+1 [Production] Production",
                     "+1 [Housing] Housing",
@@ -551,7 +552,7 @@ public enum BuildingType: Int, Codable {
             return BuildingTypeData(
                 name: "Lighthouse",
                 effects: [
-                    "+25% combat experience for all naval units trained in this city.", // #
+                    "+25% combat experience for all naval units trained in this city.",
                     "+1 [Food] Food",
                     "+1 [Gold] Gold",
                     "+1 [Housing] Housing (+2 additional Housing if City Center is adjacent to Coast)",
@@ -581,12 +582,13 @@ public enum BuildingType: Int, Codable {
                     Flavor(type: .defense, value: 1)
                 ]
             )
+
         case .stable:
             // https://civilization.fandom.com/wiki/Stable_(Civ6)
             return BuildingTypeData(
                 name: "Stable",
                 effects: [
-                    "+25% combat experience for all cavalry and siege class units trained in this city.", // #
+                    "+25% combat experience for all cavalry and siege class units trained in this city.",
                     "May not be built in an Encampment district that already has a Barracks", // #
                     "+1 Production Production",
                     "+1 [Housing] Housing",
@@ -616,6 +618,7 @@ public enum BuildingType: Int, Codable {
                     Flavor(type: .production, value: 1)
                 ]
             )
+
         case .arena:
             // https://civilization.fandom.com/wiki/Arena_(Civ6)
             return BuildingTypeData(
@@ -659,6 +662,7 @@ public enum BuildingType: Int, Codable {
                     Flavor(type: .religion, value: 1)
                 ]
             )
+
         case .market:
             // https://civilization.fandom.com/wiki/Market_(Civ6)
             return BuildingTypeData(
@@ -692,6 +696,7 @@ public enum BuildingType: Int, Codable {
                     Flavor(type: .production, value: 1)
                 ]
             )
+
         case .temple:
             // https://civilization.fandom.com/wiki/Temple_(Civ6)
             return BuildingTypeData(
@@ -756,6 +761,7 @@ public enum BuildingType: Int, Codable {
                     Flavor(type: .tileImprovement, value: 2)
                 ]
             )
+
         case .workshop:
             // https://civilization.fandom.com/wiki/Workshop_(Civ6)
             return BuildingTypeData(
@@ -781,6 +787,40 @@ public enum BuildingType: Int, Codable {
                 specialSlots: SpecialistSlots(type: .engineer, amount: 1),
                 flavours: [
                     Flavor(type: .production, value: 7)
+                ]
+            )
+
+        case .armory:
+            // https://civilization.fandom.com/wiki/Armory_(Civ6)
+            return BuildingTypeData(
+                name: "Armory",
+                effects: ["+2 [Production] Production",
+                          "+1 [Citizen] Citizen slot",
+                          "+1 [GreatGeneral] Great General point per turn",
+                          "+25% combat experience for all military land units trained in this city",
+                          "Allows training of Military Engineers in this city",
+                          "Strategic Resource stockpiles increased by 10"],
+                category: .military,
+                era: .medieval,
+                district: .encampment,
+                requiredTech: .militaryEngineering,
+                requiredCivic: nil,
+                requiredBuilding: .barracks, // stable?
+                productionCost: 195,
+                goldCost: 195,
+                faithCost: -1,
+                maintenanceCost: 2,
+                yields: Yields(food: 2, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: SpecialistSlots(type: .commander, amount: 1),
+                flavours: [
+                    Flavor(type: .cityDefense, value: 6),
+                    Flavor(type: .greatPeople, value: 3),
+                    Flavor(type: .offense, value: 8),
+                    Flavor(type: .defense, value: 4),
+                    Flavor(type: .wonder, value: 1),
+                    Flavor(type: .production, value: 1)
                 ]
             )
 
@@ -817,6 +857,7 @@ public enum BuildingType: Int, Codable {
                     Flavor(type: .tileImprovement, value: 2)
                 ]
             )
+
         case .shipyard:
             // https://civilization.fandom.com/wiki/Shipyard_(Civ6)
             return BuildingTypeData(
@@ -885,6 +926,7 @@ public enum BuildingType: Int, Codable {
         case .workshop: return true
         case .renaissanceWalls: return true
         case .shipyard: return true
+        case .armory: return true
         }
     }
 }

@@ -100,6 +100,8 @@ public protocol AbstractUnit: AnyObject, Codable {
     func experience() -> Int
     func changeExperience(by delta: Int, in gameModel: GameModel?)
     func changeExperienceUntilPromotion(in gameModel: GameModel?)
+    func experienceModifier() -> Double
+    func set(experienceModifier: Double)
     func isPromotionReady() -> Bool
     func gainedPromotions() -> [UnitPromotionType]
     func possiblePromotions() -> [UnitPromotionType]
@@ -278,6 +280,7 @@ public class Unit: AbstractUnit {
         case moves
         case setUpForRangedAttack
         case experience
+        case experienceModifier
         case fortify
         case isEmbarked
         case healthPoints
@@ -320,6 +323,7 @@ public class Unit: AbstractUnit {
     var movesValue: Int
     var setUpForRangedAttackValue: Bool
     var experienceValue: Int // 0..400
+    var experienceModifierValue: Double // based on experience bonus of city building
     var fortifyValue: Int
     var isEmbarkedValue: Bool = false
     private var healthPointsValue: Int // 0..100 - https://civilization.fandom.com/wiki/Hit_Points
@@ -361,6 +365,7 @@ public class Unit: AbstractUnit {
 
         self.healthPointsValue = Int(Unit.maxHealth)
         self.experienceValue = 0
+        self.experienceModifierValue = 0
         self.movesValue = type.moves()
         self.fortifyValue = 0
         self.setUpForRangedAttackValue = false
@@ -397,6 +402,7 @@ public class Unit: AbstractUnit {
 
         self.movesValue = try container.decode(Int.self, forKey: .moves)
         self.experienceValue = try container.decode(Int.self, forKey: .experience)
+        self.experienceModifierValue = try container.decode(Double.self, forKey: .experienceModifier)
         self.setUpForRangedAttackValue = try container.decode(Bool.self, forKey: .setUpForRangedAttack)
         self.isEmbarkedValue = try container.decode(Bool.self, forKey: .isEmbarked)
         self.healthPointsValue = try container.decode(Int.self, forKey: .healthPoints)
@@ -441,6 +447,7 @@ public class Unit: AbstractUnit {
 
         try container.encode(self.movesValue, forKey: .moves)
         try container.encode(self.experienceValue, forKey: .experience)
+        try container.encode(self.experienceModifierValue, forKey: .experienceModifier)
         try container.encode(self.setUpForRangedAttackValue, forKey: .setUpForRangedAttack)
         try container.encode(self.fortifyValue, forKey: .fortify)
         try container.encode(self.isEmbarkedValue, forKey: .isEmbarked)
@@ -3024,6 +3031,16 @@ public class Unit: AbstractUnit {
         }
 
         return nil
+    }
+
+    public func experienceModifier() -> Double {
+
+        return self.experienceModifierValue
+    }
+
+    public func set(experienceModifier: Double) {
+
+        self.experienceModifierValue = experienceModifier
     }
 
     public func isPromotionReady() -> Bool {

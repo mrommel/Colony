@@ -2934,7 +2934,7 @@ public class City: AbstractCity {
         return self.gameTurnFoundedValue
     }
 
-    private func train(unitType: UnitType, in gameModel: GameModel?) {
+    private func train(unit unitType: UnitType, in gameModel: GameModel?) {
 
         guard let player = self.player else {
             fatalError("cant get player")
@@ -2942,6 +2942,10 @@ public class City: AbstractCity {
 
         guard let government = player.government else {
             fatalError("cant get player government")
+        }
+
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
         }
 
         let unit = Unit(at: self.location, type: unitType, owner: self.player)
@@ -2957,6 +2961,44 @@ public class City: AbstractCity {
                 unit.changeBuildCharges(change: 2)
             }
         }
+
+        var experienceModifier: Double = 0.0
+
+        // +25% combat experience for all melee, ranged and anti-cavalry land units trained in this city.
+        if buildings.has(building: .barracks) &&
+            (unitType.unitClass() == .melee || unitType.unitClass() == .ranged || unitType.unitClass() == .antiCavalry) {
+
+            experienceModifier += 0.25
+        }
+
+        // +25% combat experience for all cavalry and siege class units trained in this city.
+        if buildings.has(building: .stable) &&
+            (unitType.unitClass() == .lightCavalry || unitType.unitClass() == .heavyCavalry || unitType.unitClass() == .siege) {
+
+            experienceModifier += 0.25
+        }
+
+        // +25% combat experience for all naval units trained in this city.
+        if buildings.has(building: .barracks) &&
+            (unitType.unitClass() == .navalMelee || unitType.unitClass() == .navalRaider ||
+             unitType.unitClass() ==  .navalRaider || unitType.unitClass() ==  .navalCarrier) {
+
+            experienceModifier += 0.25
+        }
+
+        // +25% combat experience for all military land units trained in this city
+        if buildings.has(building: .armory) {
+
+            experienceModifier += 0.25
+        }
+
+        // +25% combat experience for all naval units trained in this city.
+        if buildings.has(building: .shipyard) {
+
+            experienceModifier += 0.25
+        }
+
+        unit.set(experienceModifier: experienceModifier)
 
         gameModel?.add(unit: unit)
         gameModel?.userInterface?.show(unit: unit, at: self.location)
@@ -4249,7 +4291,7 @@ public class City: AbstractCity {
                 case .unit:
                     if let unitType = currentBuilding.unitType {
 
-                        self.train(unitType: unitType, in: gameModel)
+                        self.train(unit: unitType, in: gameModel)
                     }
 
                 case .building:

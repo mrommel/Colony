@@ -76,8 +76,17 @@ class DistrictLayer: BaseLayer {
         "district-holySite-cathedral",
         "district-encampment-barracks",
         "district-encampment-stable",
+        "district-encampment-armory",
+        "district-encampment-militaryAcademy",
         "district-harbor-lighthouse",
-        "district-harbor-shipyard"
+        "district-harbor-shipyard",
+        "district-commercialHub-bank",
+        "district-commercialHub-market",
+        "district-commercialHub-stockExchange",
+        "district-industrialZone-coalPowerPlant",
+        "district-industrialZone-factory",
+        "district-industrialZone-nuclearPowerPlant",
+        "district-industrialZone-workshop"
     ]
 
     // MARK: constructor
@@ -133,12 +142,10 @@ class DistrictLayer: BaseLayer {
 
             return nil
 
-        case .holySite:
+        case .encampment:
             if city.has(building: .barracks) {
                 return "district-encampment-barracks"
-            }
-
-            if city.has(building: .stable) {
+            } else if city.has(building: .stable) {
                 return "district-encampment-stable"
             }
 
@@ -147,6 +154,20 @@ class DistrictLayer: BaseLayer {
         case .harbor:
             if city.has(building: .lighthouse) {
                 return "district-harbor-lighthouse"
+            }
+
+            return nil
+
+        case .commercialHub:
+            if city.has(building: .market) {
+                return "district-commercialHub-market"
+            }
+
+            return nil
+
+        case .industrialZone:
+            if city.has(building: .workshop) {
+                return "district-industrialZone-workshop"
             }
 
             return nil
@@ -180,10 +201,31 @@ class DistrictLayer: BaseLayer {
 
             return nil
 
+        case .encampment:
+            /*if city.has(building: .armory) {
+                return "district-encampment-armory"
+            }*/
+
+            return nil
+
         case .harbor:
             if city.has(building: .shipyard) {
                 return "district-harbor-shipyard"
             }
+
+            return nil
+
+        case .commercialHub:
+            /*if city.has(building: .bank) {
+                return "district-commercialHub-bank"
+            }*/
+
+            return nil
+
+        case .industrialZone:
+            /*if city.has(building: .factory) {
+                return "district-industrialZone-factory"
+            }*/
 
             return nil
 
@@ -213,6 +255,29 @@ class DistrictLayer: BaseLayer {
             /*if city.has(building: .cathedral) {
                 return "district-holySite-cathedral"
             }*/
+
+            return nil
+
+        case .encampment:
+            /*if city.has(building: .militaryAcademy) {
+                return "district-encampment-militaryAcademy"
+            } */
+
+            return nil
+
+        case .commercialHub:
+            /*if city.has(building: .stockExchange) {
+                return "district-commercialHub-stockExchange"
+            }*/
+
+            return nil
+
+        case .industrialZone:
+            /*if city.has(building: .coalPowerPlant) {
+                return "district-industrialZone-coalPowerPlant"
+            } else if city.has(building: .nuclearPowerPlant) {
+             return "district-industrialZone-nuclearPowerPlant"
+         }*/
 
             return nil
 

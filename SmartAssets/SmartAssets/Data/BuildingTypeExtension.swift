@@ -50,17 +50,18 @@ extension BuildingType {
         case .amphitheater: return "building-amphitheater"
         case .lighthouse: return "building-lighthouse"
         case .stable: return "building-stable"
-        case .arena: return "building-default" // <===
+        case .arena: return "building-arena"
         case .market: return "building-market"
         case .temple: return "building-temple"
 
             // medieval
-        case .medievalWalls: return "building-default" // <===
-        case .workshop: return "building-default" // <===
+        case .medievalWalls: return "building-medievalWalls"
+        case .workshop: return "building-workshop"
+        case .armory: return "building-armory"
 
             // renaissance
-        case .renaissanceWalls: return "building-default" // <===
-        case .shipyard: return "building-default" // <===
+        case .renaissanceWalls: return "building-renaissanceWalls"
+        case .shipyard: return "building-shipyard"
 
             //
         }

@@ -397,14 +397,22 @@ public class Combat {
         defender.add(damage: defenderDamage)
 
         // experience
+        let attackerBaseExperience: Double = 5.0 /* EXPERIENCE_ATTACKING_UNIT_MELEE */
+        var attackerExperienceModifier: Double = 1.0
+
+        // kabul suzerain bonus
         if attackerPlayer.isSuzerain(of: .kabul, in: gameModel) {
-            // kabul suzerain bonus
             // Your units receive double experience from battles they initiate.
-            attacker.changeExperience(by: 5 * 2 /* EXPERIENCE_ATTACKING_UNIT_MELEE */, in: gameModel)
-        } else {
-            attacker.changeExperience(by: 5 /* EXPERIENCE_ATTACKING_UNIT_MELEE */, in: gameModel)
+            attackerExperienceModifier += 1.0
         }
-        defender.changeExperience(by: 4 /* EXPERIENCE_DEFENDING_UNIT_MELEE */, in: gameModel)
+        attackerExperienceModifier += attacker.experienceModifier()
+
+        attacker.changeExperience(by: Int(attackerBaseExperience * attackerExperienceModifier), in: gameModel)
+
+        let defenderBaseExperience: Double = 4.0/* EXPERIENCE_DEFENDING_UNIT_MELEE */
+        var defenderExperienceModifier: Double = 1.0
+        defenderExperienceModifier += defender.experienceModifier()
+        defender.changeExperience(by: Int(defenderBaseExperience * defenderExperienceModifier), in: gameModel)
 
         // add archaeological record (only melee combat)
         defenderTile.addArchaeologicalRecord(with: .battleMelee, era: gameModel.worldEra(), leader1: attacker.leader, leader2: defender.leader)
@@ -614,13 +622,17 @@ public class Combat {
         defender.add(damage: defenderDamage)
 
         // experience
+        let attackerBaseExperience: Double = 6.0 /* EXPERIENCE_ATTACKING_CITY_MELEE */
+        var attackerExperienceModifier: Double = 1.0
+
+        // kabul suzerain bonus
         if attackerPlayer.isSuzerain(of: .kabul, in: gameModel) {
-            // kabul suzerain bonus
             // Your units receive double experience from battles they initiate.
-            attacker.changeExperience(by: 6 * 2 /* EXPERIENCE_ATTACKING_CITY_MELEE */, in: gameModel)
-        } else {
-            attacker.changeExperience(by: 6 /* EXPERIENCE_ATTACKING_CITY_MELEE */, in: gameModel)
+            attackerExperienceModifier += 1.0
         }
+        attackerExperienceModifier += attacker.experienceModifier()
+
+        attacker.changeExperience(by: Int(attackerBaseExperience * attackerExperienceModifier), in: gameModel)
 
         // Attacker died
         if attacker.healthPoints() <= 0 {
@@ -951,13 +963,18 @@ public class Combat {
             attacker.player?.updateWarWeariness(against: defender.player, at: defender.location, killed: false, in: gameModel)
         }
 
+        // experience
+        let attackerBaseExperience: Double = 2.0 /* EXPERIENCE_ATTACKING_UNIT_RANGED */
+        var attackerExperienceModifier: Double = 1.0
+
+        // kabul suzerain bonus
         if attackerPlayer.isSuzerain(of: .kabul, in: gameModel) {
-            // kabul suzerain bonus
             // Your units receive double experience from battles they initiate.
-            attacker.changeExperience(by: 2 * 2 /* EXPERIENCE_ATTACKING_UNIT_RANGED */, in: gameModel)
-        } else {
-            attacker.changeExperience(by: 2 /* EXPERIENCE_ATTACKING_UNIT_RANGED */, in: gameModel)
+            attackerExperienceModifier += 1.0
         }
+        attackerExperienceModifier += attacker.experienceModifier()
+
+        attacker.changeExperience(by: Int(attackerBaseExperience * attackerExperienceModifier), in: gameModel)
 
         if !attacker.canMoveAfterAttacking() {
             attacker.finishMoves()
@@ -1012,13 +1029,17 @@ public class Combat {
         defender.add(damage: defenderDamage)
 
         // experience
+        let attackerBaseExperience: Double = 2.0 /* EXPERIENCE_ATTACKING_CITY_RANGED */
+        var attackerExperienceModifier: Double = 1.0
+
+        // kabul suzerain bonus
         if attackerPlayer.isSuzerain(of: .kabul, in: gameModel) {
-            // kabul suzerain bonus
             // Your units receive double experience from battles they initiate.
-            attacker.changeExperience(by: 2 * 2 /* EXPERIENCE_ATTACKING_CITY_RANGED */, in: gameModel)
-        } else {
-            attacker.changeExperience(by: 2 /* EXPERIENCE_ATTACKING_CITY_RANGED */, in: gameModel)
+            attackerExperienceModifier += 1.0
         }
+        attackerExperienceModifier += attacker.experienceModifier()
+
+        attacker.changeExperience(by: Int(attackerBaseExperience * attackerExperienceModifier), in: gameModel)
 
         // special handling: city cannot be destroyed by bombarding
         if defender.healthPoints() <= 0 {
