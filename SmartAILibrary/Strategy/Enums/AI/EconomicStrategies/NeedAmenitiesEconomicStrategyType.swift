@@ -33,13 +33,13 @@ class NeedAmenitiesEconomicStrategyType: EconomicStrategyTypeData {
 
     override func shouldBeActive(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
 
-        guard let player = player else {
+        /* guard let player = player else {
             fatalError("cant get player")
         }
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
-        }
+        } */
 
         /*if gameModel.population(of: player) > 0 && player.unhappiness() > 0 {
 

@@ -1266,10 +1266,6 @@ public class Tile: AbstractTile {
             fatalError("cant get player")
         }
 
-        guard let techs = player.techs else {
-            fatalError("cant get techs")
-        }
-
         if !self.isDiscovered(by: player) {
 
             self.discovered.discover(by: player)

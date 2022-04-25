@@ -145,11 +145,15 @@ class AccessLevelTests: XCTestCase {
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
 
+        let playerTrajanCapital = City(name: "Capital", at: HexPoint(x: 5, y: 5), capital: true, owner: playerTrajan)
+        playerTrajanCapital.initialize(in: gameModel)
+        gameModel.add(city: playerTrajanCapital)
+
         playerAlexander.treasury?.changeGold(by: 50)
         playerAlexander.doFirstContact(with: playerTrajan, in: gameModel)
 
         // WHEN
-        playerAlexander.diplomacyAI?.doSendDelegation(to: playerTrajan)
+        playerAlexander.diplomacyAI?.doSendDelegation(to: playerTrajan, in: gameModel)
         let accessLevel = playerAlexander.diplomacyAI?.accessLevel(towards: playerTrajan)
 
         // THEN
@@ -225,7 +229,7 @@ class AccessLevelTests: XCTestCase {
         MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
 
         // WHEN
-        playerAlexander.diplomacyAI?.doSendDelegation(to: playerTrajan)
+        playerAlexander.diplomacyAI?.doSendDelegation(to: playerTrajan, in: gameModel)
 
         traderUnit.doEstablishTradeRoute(to: aiCity, in: gameModel)
 
@@ -305,7 +309,7 @@ class AccessLevelTests: XCTestCase {
         MapUtils.discover(mapModel: &mapModel, by: playerAlexander, in: gameModel)
 
         // WHEN
-        playerAlexander.diplomacyAI?.doSendDelegation(to: playerTrajan)
+        playerAlexander.diplomacyAI?.doSendDelegation(to: playerTrajan, in: gameModel)
 
         traderUnit.doEstablishTradeRoute(to: aiCity, in: gameModel)
 

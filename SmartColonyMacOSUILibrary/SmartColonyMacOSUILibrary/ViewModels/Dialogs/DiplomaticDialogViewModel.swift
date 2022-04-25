@@ -318,11 +318,15 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
     func updateActions() {
 
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
         guard let playerDiplomacyAI = self.humanPlayer?.diplomacyAI else {
             fatalError("cant get player diplomacy")
         }
 
-        self.canSendDelegation = playerDiplomacyAI.canSendDelegation(to: otherPlayer)
+        self.canSendDelegation = playerDiplomacyAI.canSendDelegation(to: otherPlayer, in: gameModel)
         self.canDenounce = playerDiplomacyAI.canDenounce(player: otherPlayer)
         self.canDeclareWar = playerDiplomacyAI.canDeclareWar(to: otherPlayer)
         self.canDeclareFriendship = playerDiplomacyAI.canDeclareFriendship(with: otherPlayer)
@@ -414,7 +418,7 @@ public class DiplomaticDialogViewModel: ObservableObject {
             fatalError("cant get player diplomacy")
         }
 
-        if playerDiplomacyAI.canSendDelegation(to: otherPlayer) {
+        if playerDiplomacyAI.canSendDelegation(to: otherPlayer, in: gameModel) {
             self.humanPlayer?.diplomacyAI?.doSendDelegation(to: self.otherPlayer, in: gameModel)
         }
 
@@ -433,7 +437,7 @@ public class DiplomaticDialogViewModel: ObservableObject {
             fatalError("cant get player diplomacy")
         }
 
-        if playerDiplomacyAI.canSendEmbassy(to: otherPlayer) {
+        if playerDiplomacyAI.canSendEmbassy(to: otherPlayer, in: gameModel) {
             self.humanPlayer?.diplomacyAI?.doSendEmbassy(to: self.otherPlayer, in: gameModel)
         }
 
