@@ -293,9 +293,81 @@ extension GameScene: UserInterfaceDelegate {
 
     func showTooltip(at point: HexPoint, type: TooltipType, delay: Double) {
 
+        guard let gameModel = self.viewModel?.gameModel else {
+            return
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            return
+        }
+
         var text: String?
+        var toolTipType: TooltipNodeType = .yellow
 
         switch type {
+
+        case .tileInfo(tile: let tile):
+            guard tile.isDiscovered(by: humanPlayer) else {
+                return
+            }
+
+            var tmpText = "\(tile.terrain().name().localized())"
+
+            if let workingCity = tile.workingCity() {
+                let civilization: CivilizationType = workingCity.leader.civilization()
+                tmpText += "\nOwner: \(civilization.name().localized()) (\(workingCity.name.localized()))"
+            }
+
+            if tile.hasAnyFeature() {
+                tmpText += "\n\(tile.feature().name().localized())"
+            }
+
+            if tile.hasAnyResource(for: humanPlayer) {
+                let resource: ResourceType = tile.resource(for: humanPlayer)
+                tmpText += "\n\(resource.name().localized())"
+            }
+
+            if tile.isRiver() {
+                tmpText += "\nRiver"
+            }
+
+            if tile.isVisible(to: humanPlayer) && tile.hasAnyImprovement() {
+                let improvement: ImprovementType = tile.improvement()
+                tmpText += "\n\(improvement.name().localized())"
+            }
+
+            // Movement Cost
+            // Defense Modifier
+
+            if humanPlayer.isEqual(to: tile.owner()) {
+
+                let appealLevel: AppealLevel = tile.appealLevel(in: gameModel)
+                let appealValue: Int = tile.appeal(in: gameModel)
+                tmpText += "\n\(appealLevel.name().localized()) (\(appealValue))"
+            }
+
+            if let continent = gameModel.continent(at: tile.point) {
+                tmpText += "\nContinent: \(continent.type().name().localized())"
+            }
+
+            if humanPlayer.isEqual(to: tile.owner()) {
+                tmpText += "\n-----------"
+                let yields = tile.yields(for: humanPlayer, ignoreFeature: false)
+                if yields.food > 0.0 {
+                    tmpText += "\n\(yields.food) [Food] Food"
+                }
+
+                if yields.production > 0.0 {
+                    tmpText += "\n\(yields.production) [Production] Production"
+                }
+
+                if yields.gold > 0.0 {
+                    tmpText += "\n\(yields.gold) [Gold] Gold"
+                }
+            }
+
+            toolTipType = .blue
+            text = tmpText
 
         case .barbarianCampCleared(gold: let gold):
             text = String(format: "TXT_KEY_MISC_DESTROYED_BARBARIAN_CAMP".localized(), gold)
@@ -371,7 +443,7 @@ extension GameScene: UserInterfaceDelegate {
 
         DispatchQueue.main.async {
             if let text = text {
-                self.mapNode?.tooltipLayer.show(text: text, at: point, for: delay)
+                self.mapNode?.tooltipLayer.show(text: text, at: point, type: toolTipType, for: delay)
             }
         }
     }

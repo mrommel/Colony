@@ -30,7 +30,7 @@ extension NotificationType {
         case .enemyInTerritory: return "button-enemyInTerritory"
         case .unitPromotion: return "button-promotion"
         case .unitNeedsOrders: return "button-unitNeedsOrders"
-        case .unitDied: return "button-unit-died"
+        case .unitDied: return "button-unitDied"
 
         case .canChangeGovernment: return "button-changeGovernment"
         case .policiesNeeded: return "button-policiesNeeded"
@@ -215,13 +215,13 @@ extension NotificationType {
 
             return "Barbarian Camp discovered"
 
-        case .metCityState(cityState: _, first: _):
-            return "Met City State"
+        case .metCityState(cityState: let cityState, first: _):
+            return "Met City State \(cityState.name().localized())"
 
         case .waiting:
             return "Waiting"
-        case .questCityStateFulfilled(cityState: _, quest: _):
-            return "quest fulfilled"
+        case .questCityStateFulfilled(cityState: let cityState, quest: _):
+            return "You have fulfilled a quest for \(cityState.name().localized())"
         case .questCityStateObsolete(cityState: _, quest: _):
             return "quest obsolete"
         case .questCityStateGiven(cityState: _, quest: _):

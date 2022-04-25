@@ -468,6 +468,10 @@ class UnitLayer: SKNode {
 
         for unitObject in self.unitObjects {
 
+            if unitObject.unit?.healthPoints() ?? 0 <= 0 {
+                unitObject.unit?.startDelayedDeath()
+            }
+
             if unitObject.shouldBeRemoved() || unitObject.unit?.isDelayedDeath() ?? false {
                 unitObject.sprite.removeFromParent()
                 self.unitObjects.removeAll(where: { $0.identifier == unitObject.identifier })

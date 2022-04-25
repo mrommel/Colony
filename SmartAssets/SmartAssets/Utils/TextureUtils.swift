@@ -34,8 +34,12 @@ private class TextureItem: Codable, Equatable {
     var improvementSprite: SKSpriteNode?
     var routeSprite: SKSpriteNode?
     var hexLabel: SKLabelNode?
-    var districtSprite: SKSpriteNode?
-    var districtBuildingSprite: SKSpriteNode?
+
+    var emptyDistrictSprite: SKSpriteNode?
+    var firstBuildingDistrictSprite: SKSpriteNode?
+    var secondBuildingDistrictSprite: SKSpriteNode?
+    var thirdBuildingDistrictSprite: SKSpriteNode?
+
     var wonderSprite: SKSpriteNode?
     var wonderBuildingSprite: SKSpriteNode?
     var lensSprite: SKSpriteNode?
@@ -260,24 +264,44 @@ public class TextureUtils {
         return self.tileTextures?[point.x, point.y]?.hexLabel
     }
 
-    public func set(districtSprite: SKSpriteNode?, at point: HexPoint) {
+    public func set(emptyDistrictSprite: SKSpriteNode?, at point: HexPoint) {
 
-        self.tileTextures?[point.x, point.y]?.districtSprite = districtSprite
+        self.tileTextures?[point.x, point.y]?.emptyDistrictSprite = emptyDistrictSprite
     }
 
-    public func districtSprite(at point: HexPoint) -> SKSpriteNode? {
+    public func emptyDistrictSprite(at point: HexPoint) -> SKSpriteNode? {
 
-        return self.tileTextures?[point.x, point.y]?.districtSprite
+        return self.tileTextures?[point.x, point.y]?.emptyDistrictSprite
     }
 
-    public func set(districtBuildingSprite: SKSpriteNode?, at point: HexPoint) {
+    public func set(firstBuildingDistrictSprite: SKSpriteNode?, at point: HexPoint) {
 
-        self.tileTextures?[point.x, point.y]?.districtBuildingSprite = districtBuildingSprite
+        self.tileTextures?[point.x, point.y]?.firstBuildingDistrictSprite = firstBuildingDistrictSprite
     }
 
-    public func districtBuildingSprite(at point: HexPoint) -> SKSpriteNode? {
+    public func firstBuildingDistrictSprite(at point: HexPoint) -> SKSpriteNode? {
 
-        return self.tileTextures?[point.x, point.y]?.districtBuildingSprite
+        return self.tileTextures?[point.x, point.y]?.firstBuildingDistrictSprite
+    }
+
+    public func set(secondBuildingDistrictSprite: SKSpriteNode?, at point: HexPoint) {
+
+        self.tileTextures?[point.x, point.y]?.secondBuildingDistrictSprite = secondBuildingDistrictSprite
+    }
+
+    public func secondBuildingDistrictSprite(at point: HexPoint) -> SKSpriteNode? {
+
+        return self.tileTextures?[point.x, point.y]?.secondBuildingDistrictSprite
+    }
+
+    public func set(thirdBuildingDistrictSprite: SKSpriteNode?, at point: HexPoint) {
+
+        self.tileTextures?[point.x, point.y]?.thirdBuildingDistrictSprite = thirdBuildingDistrictSprite
+    }
+
+    public func thirdBuildingDistrictSprite(at point: HexPoint) -> SKSpriteNode? {
+
+        return self.tileTextures?[point.x, point.y]?.thirdBuildingDistrictSprite
     }
 
     public func set(wonderSprite: SKSpriteNode?, at point: HexPoint) {

@@ -1266,17 +1266,7 @@ public class Tile: AbstractTile {
             fatalError("cant get player")
         }
 
-        guard let techs = player.techs else {
-            fatalError("cant get techs")
-        }
-
         if !self.isDiscovered(by: player) {
-
-            if self.featureValue.isNaturalWonder() {
-                if !techs.eurekaTriggered(for: .astrology) {
-                    techs.triggerEureka(for: .astrology, in: gameModel)
-                }
-            }
 
             self.discovered.discover(by: player)
         }
@@ -2287,6 +2277,14 @@ public class Tile: AbstractTile {
     }
 
     public func build(district: DistrictType) {
+
+        if self.hasAnyFeature() {
+            self.set(feature: .none)
+        }
+
+        if self.hasAnyImprovement() {
+            self.removeImprovement()
+        }
 
         self.buildingDistrictValue = .none
         self.districtValue = district

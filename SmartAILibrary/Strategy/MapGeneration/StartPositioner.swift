@@ -198,8 +198,14 @@ class StartPositioner {
 
     func chooseLocations(for aiLeaders: [LeaderType], human: LeaderType) {
 
+        guard let map = self.map else {
+            fatalError("cant get map")
+        }
+
         var combined: [LeaderType] = aiLeaders
         combined.append(human)
+
+        let wrapX: Int? = map.wrapX ? map.size.width() : nil
 
         for leader in combined.shuffled {
 
@@ -223,7 +229,8 @@ class StartPositioner {
 
                     // other start locations
                     for otherStartLocation in self.startLocations {
-                        if startPoint.distance(to: otherStartLocation.point) < 8 {
+
+                        if startPoint.distance(to: otherStartLocation.point, wrapX: wrapX) < 8 {
                             tooClose = true
                             break
                         }
@@ -281,7 +288,7 @@ class StartPositioner {
                     }
 
                     if let leader2Pos = self.startLocations.first(where: { $0.leader == leader2 }) {
-                        let distance = leaderPos.point.distance(to: leader2Pos.point)
+                        let distance = leaderPos.point.distance(to: leader2Pos.point, wrapX: wrapX)
                         print("   - distance: \(distance) to \(leader2)")
                     }
                 }
@@ -370,6 +377,11 @@ class StartPositioner {
 
     func chooseCityStateLocations(for cityStateLeaders: [LeaderType]) {
 
+        guard let map = self.map else {
+            fatalError("cant get map")
+        }
+
+        let wrapX: Int? = map.wrapX ? map.size.width() : nil
         // let unusedStartAreas = self.startAreas.filter { !$0.used }
         // print("unused start areas: \(unusedStartAreas)")
 
@@ -393,7 +405,7 @@ class StartPositioner {
 
                     // other start locations
                     for otherStartLocation in self.startLocations {
-                        if startPoint.distance(to: otherStartLocation.point) < 8 {
+                        if startPoint.distance(to: otherStartLocation.point, wrapX: wrapX) < 8 {
                             tooClose = true
                             break
                         }

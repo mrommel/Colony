@@ -165,6 +165,8 @@ public enum ScreenType {
 
 public enum TooltipType {
 
+    case tileInfo(tile: AbstractTile)
+
     case barbarianCampCleared(gold: Int)
     case clearedFeature(feature: FeatureType, production: Int, cityName: String)
     case capturedCity(cityName: String)

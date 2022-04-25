@@ -176,11 +176,8 @@ struct UnitBannerView: View {
 #if DEBUG
 struct UnitBannerView_Previews: PreviewProvider {
 
-    static var previews: some View {
-        // swiftlint:disable:next redundant_discardable_let
-        let _ = GameViewModel(preloadAssets: true)
-        let game = DemoGameModel()
-        let environment = GameEnvironment(game: game)
+    static func viewModel(gameModel: GameModel?) -> UnitBannerViewModel {
+
         let pt = HexPoint(x: 1, y: 2)
         let commands = [
             Command(type: .rename, location: pt),
@@ -192,9 +189,20 @@ struct UnitBannerView_Previews: PreviewProvider {
         ]
 
         let player = Player(leader: .alexander, isHuman: false)
-        let unit = Unit(at: pt, type: UnitType.settler, owner: player)
-        let viewModel = UnitBannerViewModel(selectedUnit: unit, commands: commands, in: game)
+        let unit = Unit(at: pt, type: UnitType.warrior, owner: player)
+        unit.doPromote(with: .tortoise, in: gameModel)
+        let viewModel = UnitBannerViewModel(selectedUnit: unit, commands: commands, in: gameModel)
 
+        return viewModel
+    }
+
+    static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
+        let _ = GameViewModel(preloadAssets: true)
+        let gameModel = DemoGameModel()
+        let environment = GameEnvironment(game: gameModel)
+
+        let viewModel = UnitBannerView_Previews.viewModel(gameModel: gameModel)
         UnitBannerView(viewModel: viewModel)
             .environment(\.gameEnvironment, environment)
     }

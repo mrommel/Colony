@@ -38,6 +38,14 @@ public class OceanFinder {
             }
         }
 
+        // wrap map
+        if map?.wrapX ?? false {
+            for y in 0..<self.oceanIdentifiers.height {
+
+                self.evaluate(x: 0, y: y, on: map)
+            }
+        }
+
         var oceans = [Ocean]()
 
         for x in 0..<self.oceanIdentifiers.width {
@@ -64,6 +72,31 @@ public class OceanFinder {
         return oceans
     }
 
+    func neighbor(of point: HexPoint, in direction: HexDirection, on map: MapModel?) -> HexPoint {
+
+        guard let map = map else {
+            return HexPoint.invalid
+        }
+
+        let neighborPoint = point.neighbor(in: direction)
+
+        if !map.valid(point: neighborPoint) && map.wrapX {
+            var newX = -1
+
+            if neighborPoint.x < 0 {
+                newX = neighborPoint.x + map.size.width()
+            } else if neighborPoint.x >= map.size.width() {
+                newX = neighborPoint.x - map.size.width()
+            }
+
+            if map.valid(x: newX, y: neighborPoint.y) {
+                return HexPoint(x: newX, y: neighborPoint.y)
+            }
+        }
+
+        return neighborPoint
+    }
+
     private func evaluate(x: Int, y: Int, on map: MapModel?) {
 
         let currentPoint = HexPoint(x: x, y: y)
@@ -71,8 +104,8 @@ public class OceanFinder {
         if map?.tile(at: currentPoint)?.terrain().isWater() ?? false {
 
             let northPoint = currentPoint.neighbor(in: .north)
-            let nortwestPoint = currentPoint.neighbor(in: .northwest)
-            let southPoint = currentPoint.neighbor(in: .southwest)
+            let nortwestPoint = self.neighbor(of: currentPoint, in: .northwest, on: map)
+            let southPoint = self.neighbor(of: currentPoint, in: .southwest, on: map)
 
             let northContinent = (map?.valid(point: northPoint) ?? false) ?
                 self.oceanIdentifiers[northPoint.x, northPoint.y] : OceanConstants.kNotAnalyzed

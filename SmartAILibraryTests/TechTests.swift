@@ -222,9 +222,12 @@ class TechTests: XCTestCase {
             on: mapModel
         )
 
+        let warrior = Unit(at: HexPoint(x: 1, y: 1), type: .warrior, owner: playerAlexander)
+        gameModel.add(unit: warrior)
+
         // WHEN
         let beforeEureka = self.objectToTest?.eurekaTriggered(for: .astrology)
-        mapModel.discover(by: playerAlexander, at: HexPoint(x: 0, y: 0), in: gameModel)
+        _ = warrior.doMove(on: HexPoint(x: 0, y: 1), in: gameModel)
         let afterEureka = self.objectToTest?.eurekaTriggered(for: .astrology)
 
         // THEN

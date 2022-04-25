@@ -34,7 +34,11 @@ public struct Globals {
         public static let city: CGFloat = 5.2
 
         // public static let improvementUpper: CGFloat = 5.25 // # not implemented yet
-        public static let district: CGFloat = 6.0
+        public static let districtEmpty: CGFloat = 6.01
+        public static let districtFirst: CGFloat = 6.02
+        public static let districtSecond: CGFloat = 6.03
+        public static let districtThird: CGFloat = 6.04
+        public static let districtIcon: CGFloat = 6.05
         public static let wonder: CGFloat = 6.1
         public static let resourceMarker: CGFloat = 6.2
         public static let yields: CGFloat = 6.3
@@ -303,6 +307,7 @@ public extension Globals {
         public static let tooltipTitleFont = NSFont.systemFont(ofSize: 14)
         public static let tooltipContentFont = NSFont.systemFont(ofSize: 10)
         public static let tooltipMapFont = NSFont.systemFont(ofSize: 14)
+        public static let cityBannerFont = NSFont.systemFont(ofSize: 5)
     }
 
     struct Attributs {
@@ -320,6 +325,11 @@ public extension Globals {
         public static let tooltipMapAttributs: [NSAttributedString.Key: Any] = [
             NSAttributedString.Key.font: Globals.Fonts.tooltipMapFont,
             NSAttributedString.Key.foregroundColor: Globals.Colors.tooltipMapColor
+        ]
+
+        public static let cityBannerAttributs: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.font: Globals.Fonts.cityBannerFont,
+            NSAttributedString.Key.foregroundColor: Globals.Colors.cityBannerColor
         ]
     }
 }
@@ -339,6 +349,7 @@ public extension Globals {
         public static let tooltipTitleColor: TypeColor = TypeColor.matterhornGray
         public static let tooltipContentColor: TypeColor = TypeColor.matterhornGray
         public static let tooltipMapColor: TypeColor = TypeColor.white
+        public static let cityBannerColor: TypeColor = TypeColor.white
 
         public static let notificationDetailTitleColor: TypeColor = TypeColor(hex: "#2e2422")!
         public static let notificationDetailBodyColor: TypeColor = TypeColor(hex: "#3e3731")!

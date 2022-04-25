@@ -55,7 +55,7 @@ struct NotificationDetailView: View {
 
     private var contentView: some View {
 
-        Text(self.viewModel.selectedText)
+        Label(self.viewModel.selectedText)
             .font(.footnote)
     }
 }

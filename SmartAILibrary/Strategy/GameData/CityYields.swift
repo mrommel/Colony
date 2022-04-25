@@ -158,6 +158,12 @@ extension City {
             greatPeoplePoints.greatAdmiral += 1
         }
 
+        // armory
+        if buildings.has(building: .armory) {
+            // +1 Great General point per turn
+            greatPeoplePoints.greatGeneral += 1
+        }
+
         return greatPeoplePoints
     }
 

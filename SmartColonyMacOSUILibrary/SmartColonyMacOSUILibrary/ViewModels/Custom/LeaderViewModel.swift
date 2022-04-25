@@ -79,21 +79,21 @@ class LeaderViewModel: ObservableObject {
         let tooltipText = NSMutableAttributedString()
 
         let leaderName = NSAttributedString(
-            string: self.leaderType.name(),
+            string: self.leaderType.name().localized(),
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
         tooltipText.append(leaderName)
 
         // empire
         let empireName = NSAttributedString(
-            string: "\n\(self.leaderType.civilization().name()) Empire",
+            string: "\n\(self.leaderType.civilization().name().localized()) Empire",
             attributes: Globals.Attributs.tooltipContentAttributs
         )
         tooltipText.append(empireName)
 
         // government
         let governmentName = NSAttributedString(
-            string: "\nGovernment: \(government.currentGovernment()?.name() ?? "-")",
+            string: "\nGovernment: \(government.currentGovernment()?.name().localized() ?? "-")",
             attributes: Globals.Attributs.tooltipContentAttributs
         )
         tooltipText.append(governmentName)

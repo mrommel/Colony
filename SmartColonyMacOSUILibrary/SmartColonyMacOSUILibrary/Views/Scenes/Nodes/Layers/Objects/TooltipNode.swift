@@ -35,6 +35,21 @@ extension NSAttributedString {
     }
 }
 
+public enum TooltipNodeType {
+
+    case blue
+    case yellow
+
+    public func backgroundTexture() -> String {
+
+        switch self {
+
+        case .blue: return "box-science"
+        case .yellow: return "box-gold"
+        }
+    }
+}
+
 class TooltipNode: SKNode {
 
     private static let tokenizer = LabelTokenizer()
@@ -42,17 +57,19 @@ class TooltipNode: SKNode {
     var backgroundNode: SKSpriteNode?
     var messageLabelNode: SKSpriteNode?
 
-    init(text: String) {
+    init(text: String, type: TooltipNodeType = .yellow) {
 
         super.init()
 
-        let attributedText = TooltipNode.tokenizer.convert(text: text, with: Globals.Attributs.tooltipMapAttributs, extraSpace: true)
-        let height: CGFloat = 20
+        let numberOfLines = text.numberOfLines()
+
+        let attributedText = TooltipNode.tokenizer.convert(text: text, with: Globals.Attributs.tooltipMapAttributs, extraSpace: false)
+        let height: CGFloat = CGFloat(20 * numberOfLines)
         let width: CGFloat = attributedText.width(for: height)
         let size = CGSize(width: width, height: height)
 
-        let boxTexture = SKTexture(image: ImageCache.shared.image(for: "box-gold"))
-        let boundingBox = CGSize(width: width + 10, height: height)
+        let boxTexture = SKTexture(image: ImageCache.shared.image(for: type.backgroundTexture()))
+        let boundingBox = CGSize(width: width + 10, height: height + 2)
 
         self.backgroundNode = NineGridTextureSprite(texture: boxTexture, color: .black, size: boundingBox)
         self.backgroundNode?.position = CGPoint(x: 0, y: 0)
@@ -71,7 +88,7 @@ class TooltipNode: SKNode {
         let texture: SKTexture = SKTexture(cgImage: image.cgImage!)
 
         self.messageLabelNode = SKSpriteNode(texture: texture, size: CGSize(width: width, height: height))
-        self.messageLabelNode?.position = CGPoint(x: 0, y: 0)
+        self.messageLabelNode?.position = CGPoint(x: 0, y: 2)
         self.messageLabelNode?.zPosition = self.zPosition + 2
         self.addChild(self.messageLabelNode!)
     }

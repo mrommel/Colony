@@ -159,6 +159,19 @@ public class TradeRoute: Codable {
                 let amountOfLuxuryResources = startCity.numLocalLuxuryResources(in: gameModel)
                 yields.gold += 1.0 * Double(amountOfLuxuryResources)
             }
+
+            // kumasi suzerain bonus
+            // Your [TradeRoute] Trade Routes to any city-state provide +2 [Culture] Culture and +1 [Gold] Gold for every specialty district in the origin city.
+            if startPlayer.isSuzerain(of: .kumasi, in: gameModel) && endCity.player?.isCityState() == true {
+
+                guard let startCityDistricts = startCity.districts else {
+                    fatalError("cant get start city districts")
+                }
+
+                let numberOfSpecialtyDistricts: Double = Double(startCityDistricts.numberOfSpecialtyDistricts())
+                yields.culture += 2.0 * numberOfSpecialtyDistricts
+                yields.gold += 1.0 * numberOfSpecialtyDistricts
+            }
         }
 
         if startPlayerGovernment.has(card: .caravansaries) {

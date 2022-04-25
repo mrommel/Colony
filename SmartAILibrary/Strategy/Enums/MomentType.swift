@@ -172,7 +172,7 @@ public enum MomentType: Hashable {
     case oldGreatPersonRecruited // 223
     case oldWorldWonderCompleted // 224
     // case operationIvyCompleted 225
-    case pantheonFounded // 226
+    case pantheonFounded(pantheon: PantheonType) // 226
     case riverFloodMitigated // 227 #
     case satelliteLaunchedIntoOrbit // 228 #
     case snowCity(cityName: String) // 229
@@ -342,7 +342,7 @@ public enum MomentType: Hashable {
         .oldGreatPersonRecruited,
         .oldWorldWonderCompleted,
         // case operationIvyCompleted
-        .pantheonFounded,
+        .pantheonFounded(pantheon: PantheonType.none),
         .riverFloodMitigated,
         .satelliteLaunchedIntoOrbit,
         .snowCity(cityName: ""),
@@ -1324,10 +1324,10 @@ public enum MomentType: Hashable {
                 eraScore: 3
             )
         // case .operationIvyCompleted:
-        case .pantheonFounded:
+        case .pantheonFounded(pantheon: let pantheon):
             return MomentTypeData(
                 name: "Pantheon Founded",
-                summary: "Your people adopt Belief in a Pantheon.",
+                summary: "Your people adopt the Belief \(pantheon.name()) in a Pantheon.",
                 category: .minor,
                 eraScore: 1,
                 maxEra: .classical

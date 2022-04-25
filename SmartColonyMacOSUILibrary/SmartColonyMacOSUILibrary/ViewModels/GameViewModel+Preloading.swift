@@ -545,7 +545,7 @@ extension GameViewModel {
             )
         }
 
-        let districtTextureNames = DistrictType.all.map { $0.textureName() }
+        let districtTextureNames = DistrictType.all.map { $0.iconTextureName() }
         print("- load \(districtTextureNames.count) district textures")
         for textureName in districtTextureNames {
             ImageCache.shared.add(
@@ -554,9 +554,18 @@ extension GameViewModel {
             )
         }
 
-        let districtBuildingTextureNames = DistrictType.all.map { $0.buildingTextureName() }
-        print("- load \(districtBuildingTextureNames.count) district building textures")
-        for textureName in districtBuildingTextureNames {
+        let districtEmptyTextureNames = DistrictType.all.map { $0.emptyDistrictTextureName() }
+        print("- load \(districtEmptyTextureNames.count) district empty textures")
+        for textureName in districtEmptyTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
+        let districtBuildingsTextureNames = DistrictLayer.buildingTextures
+        print("- load \(districtBuildingsTextureNames.count) district empty textures")
+        for textureName in districtBuildingsTextureNames {
             ImageCache.shared.add(
                 image: bundle.image(forResource: textureName),
                 for: textureName

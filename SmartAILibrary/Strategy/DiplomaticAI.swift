@@ -140,7 +140,7 @@ enum DiplomaticStatementType {
     DIPLO_STATEMENT_OUR_CULTURE_INFLUENTIAL,*/
 }
 
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length line_length
 public class DiplomaticAI: Codable {
 
     enum CodingKeys: CodingKey {
@@ -2345,9 +2345,9 @@ public class DiplomaticAI: Codable {
             fatalError("cant get player")
         }
 
-        guard let otherPlayerDiplomacyAI = otherPlayer.diplomacyAI else {
+        /* guard let otherPlayerDiplomacyAI = otherPlayer.diplomacyAI else {
             fatalError("cant get otherPlayerDiplomacyAI")
-        }
+        } */
 
         if statement == .none {
 
@@ -2884,7 +2884,11 @@ public class DiplomaticAI: Codable {
 
     // MARK: delegation
 
-    public func canSendDelegation(to otherPlayer: AbstractPlayer?) -> Bool {
+    public func canSendDelegation(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get other player")
+        }
 
         guard let playerTreasury = self.player?.treasury else {
             fatalError("cant get player treasury")
@@ -2892,6 +2896,11 @@ public class DiplomaticAI: Codable {
 
         guard let playerCivics = self.player?.civics else {
             fatalError("cant get player civics")
+        }
+
+        // you can only send a delegation, if the `otherPlayer` has a capital
+        guard (gameModel?.capital(of: otherPlayer)) != nil else {
+            return false
         }
 
         if playerTreasury.value() < 25 {
@@ -2923,23 +2932,37 @@ public class DiplomaticAI: Codable {
         return playerDiplomacy.playerDict.hasDelegation(with: otherPlayer)
     }
 
-    public func doSendDelegation(to otherPlayer: AbstractPlayer?) {
+    public func doSendDelegation(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get other player")
+        }
 
         guard let playerDiplomacy = self.player?.diplomacyAI else {
             fatalError("cant get player diplomacyAI")
         }
 
-        if self.canSendDelegation(to: otherPlayer) {
+        if self.canSendDelegation(to: otherPlayer, in: gameModel) {
 
             playerDiplomacy.playerDict.sendDelegation(to: otherPlayer, send: true)
             playerDiplomacy.playerDict.addApproach(type: .delegation, towards: otherPlayer)
+
+            // sight capital - our guys are there
+            guard let capital = gameModel?.capital(of: otherPlayer) else {
+                fatalError("cant get capital of other player")
+            }
+            gameModel?.sight(at: capital.location, sight: 3, for: self.player)
 
             // update access level
             playerDiplomacy.increaseAccessLevel(towards: otherPlayer)
         }
     }
 
-    public func doRevokeDelegation(from otherPlayer: AbstractPlayer?) {
+    public func doRevokeDelegation(from otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get other player")
+        }
 
         guard let playerDiplomacy = self.player?.diplomacyAI else {
             fatalError("cant get player diplomacyAI")
@@ -2947,6 +2970,12 @@ public class DiplomaticAI: Codable {
 
         playerDiplomacy.playerDict.sendDelegation(to: otherPlayer, send: false)
         playerDiplomacy.playerDict.removeApproach(type: .delegation, towards: self.player)
+
+        // conceal capital - our guys are no logner there
+        guard let capital = gameModel?.capital(of: otherPlayer) else {
+            fatalError("cant get capital of other player")
+        }
+        gameModel?.conceal(at: capital.location, sight: 3, for: self.player)
 
         // update access level
         playerDiplomacy.decreaseAccessLevel(towards: otherPlayer)
@@ -2963,7 +2992,11 @@ public class DiplomaticAI: Codable {
         return playerDiplomacy.playerDict.hasEmbassy(with: otherPlayer)
     }
 
-    public func canSendEmbassy(to otherPlayer: AbstractPlayer?) -> Bool {
+    public func canSendEmbassy(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get other player")
+        }
 
         guard let playerTreasury = self.player?.treasury else {
             fatalError("cant get player treasury")
@@ -2971,6 +3004,11 @@ public class DiplomaticAI: Codable {
 
         guard let playerCivics = self.player?.civics else {
             fatalError("cant get player civics")
+        }
+
+        // you can only send a delegation, if the `otherPlayer` has a capital
+        guard (gameModel?.capital(of: otherPlayer)) != nil else {
+            return false
         }
 
         if playerTreasury.value() < 50 {
@@ -2993,23 +3031,37 @@ public class DiplomaticAI: Codable {
         return false
     }
 
-    public func doSendEmbassy(to otherPlayer: AbstractPlayer?) {
+    public func doSendEmbassy(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get other player")
+        }
 
         guard let playerDiplomacy = self.player?.diplomacyAI else {
             fatalError("cant get player diplomacyAI")
         }
 
-        if self.canSendEmbassy(to: otherPlayer) {
+        if self.canSendEmbassy(to: otherPlayer, in: gameModel) {
 
             playerDiplomacy.playerDict.sendEmbassy(to: otherPlayer, send: true)
             playerDiplomacy.playerDict.addApproach(type: .embassy, towards: self.player)
+
+            // sight capital - our guys are there
+            guard let capital = gameModel?.capital(of: otherPlayer) else {
+                fatalError("cant get capital of other player")
+            }
+            gameModel?.sight(at: capital.location, sight: 3, for: self.player)
 
             // update access level
             playerDiplomacy.increaseAccessLevel(towards: otherPlayer)
         }
     }
 
-    public func doRevokeEmbassy(from otherPlayer: AbstractPlayer?) {
+    public func doRevokeEmbassy(from otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get other player")
+        }
 
         guard let playerDiplomacy = self.player?.diplomacyAI else {
             fatalError("cant get player diplomacyAI")
@@ -3017,6 +3069,12 @@ public class DiplomaticAI: Codable {
 
         playerDiplomacy.playerDict.sendEmbassy(to: otherPlayer, send: false)
         playerDiplomacy.playerDict.removeApproach(type: .embassy, towards: self.player)
+
+        // conceal capital - our guys are no logner there
+        guard let capital = gameModel?.capital(of: otherPlayer) else {
+            fatalError("cant get capital of other player")
+        }
+        gameModel?.conceal(at: capital.location, sight: 3, for: self.player)
 
         // update access level
         playerDiplomacy.decreaseAccessLevel(towards: otherPlayer)
@@ -3843,10 +3901,6 @@ public class DiplomaticAI: Codable {
 
     // https://civilization.fandom.com/wiki/Agenda_(Civ6)?so=search
     private func doHiddenAgenda(in gameModel: GameModel?) {
-
-        guard let gameModel = gameModel else {
-            fatalError("cant get gameModel")
-        }
 
         guard let player = self.player else {
             fatalError("cant get current player")

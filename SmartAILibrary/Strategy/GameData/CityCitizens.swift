@@ -94,7 +94,7 @@ public class CityCitizens: Codable {
     internal var city: AbstractCity?
 
     // surrounding tiles
-    private var workingPlots: [WorkingPlot]
+    internal var workingPlots: [WorkingPlot]
     private var focusTypeValue: CityFocusType
 
     private var automated: Bool

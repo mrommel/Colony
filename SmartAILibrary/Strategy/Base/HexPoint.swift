@@ -382,10 +382,28 @@ extension HexPoint {
         return HexArea(points: points)
     }
 
-    public func distance(to hex: HexPoint) -> Int {
-        let selfCube = HexCube(hex: self)
-        let hexCube = HexCube(hex: hex)
-        return selfCube.distance(to: hexCube)
+    public func distance(to hex: HexPoint, wrapX: Int? = nil) -> Int {
+
+        if let wrapX = wrapX {
+            let selfCube = HexCube(hex: self)
+            let hexCube = HexCube(hex: hex)
+            let normalDistance = selfCube.distance(to: hexCube)
+
+            var wrappedDistance: Int = Int.max
+            if self.x > hex.x {
+                let alterdSelfCube = HexCube(hex: HexPoint(x: self.x - wrapX, y: self.y))
+                wrappedDistance = alterdSelfCube.distance(to: hexCube)
+            } else {
+                let alterdHexCube = HexCube(hex: HexPoint(x: hex.x - wrapX, y: hex.y))
+                wrappedDistance = selfCube.distance(to: alterdHexCube)
+            }
+
+            return min(normalDistance, wrappedDistance)
+        } else {
+            let selfCube = HexCube(hex: self)
+            let hexCube = HexCube(hex: hex)
+            return selfCube.distance(to: hexCube)
+        }
     }
 
     public func distanceTo(x: Int, y: Int) -> Int {

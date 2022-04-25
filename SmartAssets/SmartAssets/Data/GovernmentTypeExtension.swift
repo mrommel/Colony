@@ -9,6 +9,27 @@ import SmartAILibrary
 
 extension GovernmentType {
 
+    public func toolTip() -> NSAttributedString {
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: self.name().localized(),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+        toolTipText.append(NSAttributedString(string: "\n"))
+
+        let tokenizer = LabelTokenizer()
+        for effect in [self.bonus1Summary(), self.bonus2Summary()] {
+            let effectText = tokenizer.convert(text: effect, with: Globals.Attributs.tooltipContentAttributs)
+            toolTipText.append(NSAttributedString(string: "\n"))
+            toolTipText.append(effectText)
+        }
+
+        return toolTipText
+    }
+
     public func iconTexture() -> String {
 
         switch self {
