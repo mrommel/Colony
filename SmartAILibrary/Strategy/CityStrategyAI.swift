@@ -454,7 +454,7 @@ public class CityStrategyAI: Codable {
                 }
 
                 if city.canBuild(district: districtType, at: bestDistrictLocation, in: gameModel) {
-                    
+
                     let buildableItem = BuildableItem(districtType: districtType, at: bestDistrictLocation)
                     // reweight ?
                     buildables.add(weight: weight, for: buildableItem)
