@@ -225,6 +225,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func numPlotsAcquired(by otherPlayer: AbstractPlayer?) -> Int
     func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Int?
     func buyPlotScore(in gameModel: GameModel?) -> (Int, HexPoint)
+    func doAcquirePlot(at point: HexPoint, in gameModel: GameModel?)
     func changeNumPlotsAcquiredBy(otherPlayer: AbstractPlayer?, change: Int)
     func countNumImprovedPlots(in gameModel: GameModel?) -> Int
 
@@ -5677,7 +5678,7 @@ public class City: AbstractCity {
     }
 
     /// Acquire the plot and set it's owner to us
-    func doAcquirePlot(at point: HexPoint, in gameModel: GameModel?) {
+    public func doAcquirePlot(at point: HexPoint, in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
