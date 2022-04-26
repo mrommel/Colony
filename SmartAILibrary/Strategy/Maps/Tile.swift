@@ -1109,6 +1109,11 @@ public class Tile: AbstractTile {
         }
 
         if let improvement = buildType.improvement() {
+
+            if self.district() != .none {
+                return false
+            }
+
             if !improvement.isPossible(on: self) {
                 return false
             }

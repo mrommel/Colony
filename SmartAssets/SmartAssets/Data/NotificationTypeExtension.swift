@@ -96,7 +96,7 @@ extension NotificationType {
         case .enemyInTerritory:
             return "An Enemy is Near!"
         case .unitPromotion(location: _):
-            return "unitPromotion"
+            return "You can choose a Promotion for a unit."
         case .unitNeedsOrders(location: _):
             return "unitNeedsOrders"
         case .unitDied(location: _):
@@ -177,7 +177,7 @@ extension NotificationType {
         case .enemyInTerritory:
             return "An enemy unit has been spotted in our territory!"
         case .unitPromotion(location: _):
-            return "unitPromotion"
+            return "A unit has gained enough experience in combat. You can choose a Promotion for this unit."
         case .unitNeedsOrders(location: _):
             return "unitNeedsOrders"
         case .unitDied(location: _):
