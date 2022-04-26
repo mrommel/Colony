@@ -3702,6 +3702,14 @@ public class City: AbstractCity {
 
         for loopLocation in cityCitizens.workingTileLocations() {
 
+            guard let loopTile = gameModel.tile(at: loopLocation) else {
+                continue
+            }
+
+            guard loopTile.workingCity()?.location == self.location else {
+                continue
+            }
+
             if districtType.canBuild(on: loopLocation, in: gameModel) {
                 return loopLocation
             }
