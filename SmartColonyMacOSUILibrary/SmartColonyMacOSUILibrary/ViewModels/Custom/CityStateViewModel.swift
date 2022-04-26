@@ -69,7 +69,7 @@ class CityStateViewModel: ObservableObject {
         self.envoys = envoys
 
         self.name = cityState.name().localized()
-        self.suzerainName = suzerainName
+        self.suzerainName = suzerainName.localized()
     }
 
     func cityStateImage() -> NSImage {
