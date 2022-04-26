@@ -3111,6 +3111,20 @@ public class City: AbstractCity {
                 }
             }
 
+            if districtType == .preserve {
+                // Initiate a Culture Bomb on adjacent unowned tiles
+                for neighborPoint in point.neighbors() {
+
+                    guard let neighborTile = gameModel.tile(at: neighborPoint) else {
+                        continue
+                    }
+
+                    if !neighborTile.hasOwner() {
+                        self.doAcquirePlot(at: neighborPoint, in: gameModel)
+                    }
+                }
+            }
+
             if districtType == .neighborhood {
                 if !player.hasMoment(of: .firstNeighborhoodCompleted) && !player.hasMoment(of: .worldsFirstNeighborhood) {
 

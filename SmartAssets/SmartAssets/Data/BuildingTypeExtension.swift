@@ -37,13 +37,14 @@ extension BuildingType {
         case .none: return "building-default"
 
             // ancient
-        case .palace: return "building-palace"
-        case .granary: return "building-granary"
-        case .monument: return "building-monument"
-        case .library: return "building-library"
-        case .shrine: return "building-shrine"
         case .ancientWalls: return "building-ancientWalls"
         case .barracks: return "building-barracks"
+        case .granary: return "building-granary"
+        case .grove: return "building-grove"
+        case .library: return "building-library"
+        case .monument: return "building-monument"
+        case .palace: return "building-palace"
+        case .shrine: return "building-shrine"
         case .waterMill: return "building-waterMill"
 
             // classical

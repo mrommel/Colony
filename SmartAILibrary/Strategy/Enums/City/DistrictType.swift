@@ -21,7 +21,7 @@ public enum DistrictType: Int, Codable {
     case harbor
     case commercialHub
     case industrialZone
-    // preserve
+    case preserve
     case entertainmentComplex
     // waterPark
     case aqueduct
@@ -45,7 +45,7 @@ public enum DistrictType: Int, Codable {
             .harbor,
             .commercialHub,
             .industrialZone,
-            // preserve
+            .preserve,
             .entertainmentComplex,
             // waterPark
             .aqueduct,
@@ -383,6 +383,7 @@ public enum DistrictType: Int, Codable {
                     Flavor(type: .gold, value: 7)
                 ]
             )
+
         case .industrialZone:
             // https://civilization.fandom.com/wiki/Industrial_Zone_(Civ6)
             return DistrictTypeData(
@@ -404,6 +405,27 @@ public enum DistrictType: Int, Codable {
                 foreignTradeYields: Yields(food: 0.0, production: 1.0, gold: 0.0),
                 flavours: [
                     Flavor(type: .production, value: 9)
+                ]
+            )
+
+        case .preserve:
+            // https://civilization.fandom.com/wiki/Preserve_(Civ6)
+            return DistrictTypeData(
+                name: "Preserve",
+                specialty: true,
+                effects: [
+                    "Grants up to 3 Housing Housing based on tile's Appeal",
+                    "+1 Appeal to adjacent tiles",
+                    "Initiate a Culture Bomb on adjacent unowned tiles"
+                ],
+                productionCost: 54,
+                maintenanceCost: 0,
+                requiredTech: nil,
+                requiredCivic: .mysticism,
+                domesticTradeYields: Yields(food: 0, production: 0, gold: 0),
+                foreignTradeYields: Yields(food: 0, production: 0, gold: 0),
+                flavours: [
+                    Flavor(type: .culture, value: 6)
                 ]
             )
 
@@ -522,7 +544,7 @@ public enum DistrictType: Int, Codable {
         case .holySite: return tile.isLand()
         case .encampment: return tile.isLand()
         case .commercialHub: return tile.isLand()
-        case .harbor: return gameModel.isCoastal(at: point) // must be built on the coast
+        case .harbor: return tile.terrain() == .shore // must be built on water
         case .entertainmentComplex: return tile.isLand()
         case .industrialZone: return tile.isLand()
             // waterPark
@@ -531,6 +553,7 @@ public enum DistrictType: Int, Codable {
             // canal
             // dam
             // areodrome
+        case .preserve: return self.canBuildPreserve(on: tile.point, in: gameModel) // Cannot be adjacent to the City Center
         case .spaceport: return tile.isLand() && !tile.hasHills()
         case .governmentPlaza: return tile.isLand()
         }
@@ -568,6 +591,27 @@ public enum DistrictType: Int, Codable {
         }
 
         return nextToCityCenter && nextToWaterSource
+    }
+
+    // Cannot be adjacent to the City Center
+    func canBuildPreserve(on point: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let tile = gameModel.tile(at: point) else {
+            fatalError("cant get tile")
+        }
+
+        for neighbor in point.neighbors() {
+
+            guard gameModel.city(at: neighbor) == nil else {
+                return false
+            }
+        }
+
+        return tile.isLand()
     }
 
     func flavor(for flavorType: FlavorType) -> Int {

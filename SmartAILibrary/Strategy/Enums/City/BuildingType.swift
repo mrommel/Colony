@@ -14,13 +14,14 @@ public enum BuildingType: Int, Codable {
     case none
 
     // ancient
-    case palace
-    case granary
-    case monument
-    case library // https://civilization.fandom.com/wiki/Library_(Civ6)
-    case shrine
     case ancientWalls
     case barracks
+    case granary
+    case grove // https://civilization.fandom.com/wiki/Grove_(Civ6)
+    case library // https://civilization.fandom.com/wiki/Library_(Civ6)
+    case monument // https://civilization.fandom.com/wiki/Monument_(Civ6)
+    case palace
+    case shrine
     case waterMill // https://civilization.fandom.com/wiki/Water_Mill_(Civ6)
 
     // classical
@@ -30,28 +31,64 @@ public enum BuildingType: Int, Codable {
     case arena // https://civilization.fandom.com/wiki/Arena_(Civ6)
     case market // https://civilization.fandom.com/wiki/Market_(Civ6)
     case temple // https://civilization.fandom.com/wiki/Temple_(Civ6)
-    // Ancestral Hall
-    // Audience Chamber
-    // Warlord's Throne
+    // case ancestralHall
+    // case audienceChamber
+    // case warlordsThrone
 
     // medieval
     case medievalWalls // https://civilization.fandom.com/wiki/Medieval_Walls_(Civ6)
     case workshop // https://civilization.fandom.com/wiki/Workshop_(Civ6)
     case armory // https://civilization.fandom.com/wiki/Armory_(Civ6)
-    // foreignMinistry
-    // grandMastersChapel
-    // intelligenceAgency
-    // university
+    // case foreignMinistry
+    // case grandMastersChapel
+    // case intelligenceAgency
+    // case university
 
     // renaissance
     case renaissanceWalls // https://civilization.fandom.com/wiki/Renaissance_Walls_(Civ6)
     case shipyard // https://civilization.fandom.com/wiki/Shipyard_(Civ6)
+    // case bank // https://civilization.fandom.com/wiki/Bank_(Civ6)
+    // case artMuseum // https://civilization.fandom.com/wiki/Art_Museum_(Civ6)
+    // case archaeologicalMuseum // https://civilization.fandom.com/wiki/Archaeological_Museum_(Civ6)
+
+    // industrial
+    // case aquarium // https://civilization.fandom.com/wiki/Aquarium_(Civ6)
+    // case coalPowerPlant // https://civilization.fandom.com/wiki/Coal_Power_Plant_(Civ6)
+    // case factory // https://civilization.fandom.com/wiki/Factory_(Civ6)
+    // case ferrisWheel // https://civilization.fandom.com/wiki/Ferris_Wheel_(Civ6)
+    // case militaryAcademy // https://civilization.fandom.com/wiki/Military_Academy_(Civ6)
+    // case sewer // https://civilization.fandom.com/wiki/Sewer_(Civ6)
+    // case stockExchange // https://civilization.fandom.com/wiki/Stock_Exchange_(Civ6)
+    // case zoo // https://civilization.fandom.com/wiki/Zoo_(Civ6)
+
+    // modern
+    // case broadcastCenter // https://civilization.fandom.com/wiki/Broadcast_Center_(Civ6)
+    // case foodMarket // https://civilization.fandom.com/wiki/Food_Market_(Civ6)
+    // case hangar // https://civilization.fandom.com/wiki/Hangar_(Civ6)
+    // case hydroelectricDam // https://civilization.fandom.com/wiki/Hydroelectric_Dam_(Civ6)
+    // case nationalHistoryMuseum // https://civilization.fandom.com/wiki/National_History_Museum_(Civ6)
+    // case researchLab // https://civilization.fandom.com/wiki/Research_Lab_(Civ6)
+    // case royalSociety https://civilization.fandom.com/wiki/Royal_Society_(Civ6)
+    // case sanctuary // https://civilization.fandom.com/wiki/Sanctuary_(Civ6)
+    // case seaport // https://civilization.fandom.com/wiki/Seaport_(Civ6)
+    // case shoppingMall // https://civilization.fandom.com/wiki/Shopping_Mall_(Civ6)
+    // case warDepartment // https://civilization.fandom.com/wiki/War_Department_(Civ6)
+
+    // atomic
+    // case airport // https://civilization.fandom.com/wiki/Airport_(Civ6)
+    // case aquaticsCenter // https://civilization.fandom.com/wiki/Aquatics_Center_(Civ6)
+    // case floodBarrier // https://civilization.fandom.com/wiki/Flood_Barrier_(Civ6)
+    // case nuclearPowerPlant // https://civilization.fandom.com/wiki/Nuclear_Power_Plant_(Civ6)
+    // case stadium // https://civilization.fandom.com/wiki/Stadium_(Civ6)
+
+    // information
+    // --
 
     public static var all: [BuildingType] {
         return [
             // ancient
-            .palace, // ???
-            .granary, .monument, .library, .shrine, .ancientWalls, .barracks, .waterMill,
+            .ancientWalls, .barracks, .granary, .grove, .library, .monument,
+                .palace, .shrine, .waterMill,
 
             // classical
             .amphitheater, .lighthouse, .stable, .arena, .market, .temple,
@@ -61,6 +98,10 @@ public enum BuildingType: Int, Codable {
 
             // renaissance
             .renaissanceWalls, .shipyard
+
+            // industrial
+
+            // atomic
         ]
     }
 
@@ -253,187 +294,8 @@ public enum BuildingType: Int, Codable {
                 flavours: []
             )
 
-        case .palace:
-            // https://civilization.fandom.com/wiki/Palace_(Civ6)
-            return BuildingTypeData(
-                name: "Palace",
-                effects: [
-                    "+1 [Culture] Culture",
-                    "+5 [Gold] Gold",
-                    "+2 [Production] Production",
-                    "+2 [Science] Science",
-                    "+1 [Housing] Housing",
-                    "+2 Amenity from entertainment"
-                ],
-                category: .government,
-                era: .ancient,
-                district: .cityCenter,
-                requiredTech: nil,
-                requiredCivic: nil,
-                requiredBuildingsOr: [],
-                obsoleteBuildingsOr: [],
-                productionCost: 0,
-                goldCost: -1,
-                faithCost: -1,
-                maintenanceCost: 0,
-                yields: Yields(food: 0, production: 2, gold: 5, science: 2, culture: 1, faith: 0, housing: 1),
-                defense: 25,
-                slots: [.any],
-                specialSlots: nil,
-                flavours: []
-            )
-
             // ancient
-        case .granary:
-            // https://civilization.fandom.com/wiki/Granary_(Civ6)
-            return BuildingTypeData(
-                name: "Granary",
-                effects: [
-                    "+1 [Food] Food",
-                    "+2 [Housing] Housing"
-                ],
-                category: .population,
-                era: .ancient,
-                district: .cityCenter,
-                requiredTech: .pottery,
-                requiredCivic: nil,
-                requiredBuildingsOr: [],
-                obsoleteBuildingsOr: [],
-                productionCost: 65,
-                goldCost: 65,
-                faithCost: -1,
-                maintenanceCost: 0,
-                yields: Yields(food: 1, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 2),
-                defense: 0,
-                slots: [],
-                specialSlots: nil,
-                flavours: [
-                    Flavor(type: .growth, value: 10),
-                    Flavor(type: .greatPeople, value: 3),
-                    Flavor(type: .science, value: 4),
-                    Flavor(type: .tileImprovement, value: 3),
-                    Flavor(type: .gold, value: 2),
-                    Flavor(type: .production, value: 3),
-                    Flavor(type: .offense, value: 1),
-                    Flavor(type: .defense, value: 1)
-                ]
-            )
-        case .monument:
-            // https://civilization.fandom.com/wiki/Monument_(Civ6)
-            return BuildingTypeData(
-                name: "Monument",
-                effects: [
-                    "+2 [Culture] Culture",
-                    "+1 Loyalty",
-                    "+1 [Culture] Culture if city is at maximum Loyalty."
-                ],
-                category: .cultural,
-                era: .ancient,
-                district: .cityCenter,
-                requiredTech: nil,
-                requiredCivic: nil,
-                requiredBuildingsOr: [],
-                obsoleteBuildingsOr: [],
-                productionCost: 60,
-                goldCost: 60,
-                faithCost: -1,
-                maintenanceCost: 0,
-                yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 2, faith: 0, housing: 0),
-                defense: 0,
-                slots: [],
-                specialSlots: nil,
-                flavours: [
-                    // Note: The Monument has so many flavors because culture leads to policies,
-                    // which help with a number of things
-                    Flavor(type: .culture, value: 7),
-                    Flavor(type: .tourism, value: 3),
-                    Flavor(type: .expansion, value: 2),
-                    Flavor(type: .growth, value: 2),
-                    Flavor(type: .wonder, value: 1),
-                    Flavor(type: .gold, value: 1),
-                    Flavor(type: .greatPeople, value: 1),
-                    Flavor(type: .production, value: 1),
-                    Flavor(type: .amenities, value: 1),
-                    Flavor(type: .science, value: 1),
-                    Flavor(type: .diplomacy, value: 1),
-                    Flavor(type: .offense, value: 1),
-                    Flavor(type: .defense, value: 1),
-                    Flavor(type: .cityDefense, value: 1),
-                    Flavor(type: .naval, value: 1),
-                    Flavor(type: .navalTileImprovement, value: 1),
-                    Flavor(type: .religion, value: 1)
-                ]
-            )
-
-        case .library:
-            // https://civilization.fandom.com/wiki/Library_(Civ6)
-            return BuildingTypeData(
-                name: "Library",
-                effects: [
-                    "+2 [Science] Science",
-                    "+1 [Citizen] Citizen slot",
-                    "+1 [GreatScientist] Great Scientist point per turn"
-                ],
-                category: .scientific,
-                era: .ancient,
-                district: .campus,
-                requiredTech: .writing,
-                requiredCivic: nil,
-                requiredBuildingsOr: [],
-                obsoleteBuildingsOr: [],
-                productionCost: 90,
-                goldCost: 90,
-                faithCost: -1,
-                maintenanceCost: 1,
-                yields: Yields(food: 0, production: 0, gold: 0, science: 2, culture: 0, faith: 0, housing: 0),
-                defense: 0,
-                slots: [.written, .written],
-                specialSlots: SpecialistSlots(type: .scientist, amount: 1),
-                flavours: [
-                    Flavor(type: .science, value: 8),
-                    Flavor(type: .greatPeople, value: 5),
-                    Flavor(type: .offense, value: 3),
-                    Flavor(type: .defense, value: 3)
-                    /*, Flavor(type: .spaceShip, value: 2)*/
-                ]
-            )
-        case .shrine:
-            // https://civilization.fandom.com/wiki/Shrine_(Civ6)
-            return BuildingTypeData(
-                name: "Shrine",
-                effects: [
-                    "+2 [Faith] Faith",
-                    "+1 [Citizen] Citizen slot",
-                    "+1 [GreatProphet] Great Prophet point per turn.",
-                    "Allows the purchasing of Missionaries with Faith." // #
-                ],
-                category: .religious,
-                era: .ancient,
-                district: .holySite,
-                requiredTech: .astrology,
-                requiredCivic: nil,
-                requiredBuildingsOr: [],
-                obsoleteBuildingsOr: [],
-                productionCost: 70,
-                goldCost: 70,
-                faithCost: -1,
-                maintenanceCost: 1,
-                yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 2, housing: 0),
-                defense: 0,
-                slots: [],
-                specialSlots: SpecialistSlots(type: .priest, amount: 1),
-                flavours: [
-                    Flavor(type: .religion, value: 9),
-                    Flavor(type: .culture, value: 4),
-                    Flavor(type: .gold, value: 3),
-                    Flavor(type: .amenities, value: 3),
-                    Flavor(type: .expansion, value: 2),
-                    Flavor(type: .tourism, value: 2),
-                    Flavor(type: .diplomacy, value: 1),
-                    Flavor(type: .offense, value: 1),
-                    Flavor(type: .defense, value: 1),
-                    Flavor(type: .growth, value: 1)]
-            ) // Note: The Shrine has a number of flavors because religion improves a variety of game aspects
+            // ---------------------------------------------------
 
         case .ancientWalls:
             // https://civilization.fandom.com/wiki/Ancient_Walls_(Civ6)
@@ -503,6 +365,218 @@ public enum BuildingType: Int, Codable {
                     Flavor(type: .production, value: 1)
                 ]
             )
+
+        case .granary:
+            // https://civilization.fandom.com/wiki/Granary_(Civ6)
+            return BuildingTypeData(
+                name: "Granary",
+                effects: [
+                    "+1 [Food] Food",
+                    "+2 [Housing] Housing"
+                ],
+                category: .population,
+                era: .ancient,
+                district: .cityCenter,
+                requiredTech: .pottery,
+                requiredCivic: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
+                productionCost: 65,
+                goldCost: 65,
+                faithCost: -1,
+                maintenanceCost: 0,
+                yields: Yields(food: 1, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 2),
+                defense: 0,
+                slots: [],
+                specialSlots: nil,
+                flavours: [
+                    Flavor(type: .growth, value: 10),
+                    Flavor(type: .greatPeople, value: 3),
+                    Flavor(type: .science, value: 4),
+                    Flavor(type: .tileImprovement, value: 3),
+                    Flavor(type: .gold, value: 2),
+                    Flavor(type: .production, value: 3),
+                    Flavor(type: .offense, value: 1),
+                    Flavor(type: .defense, value: 1)
+                ]
+            )
+
+        case .grove:
+            // https://civilization.fandom.com/wiki/Grove_(Civ6)
+            return BuildingTypeData(
+                name: "Grove",
+                effects: [
+                    "+1 [Food] Food and [Faith] Faith to adjacent unimproved tiles with Charming Appeal",
+                    "+2 [Food] Food, [Faith] Faith and [Culture] Culture for adjacent unimproved tiles with Breathtaking Appeal"
+                ],
+                category: .conservation,
+                era: .ancient,
+                district: .preserve,
+                requiredTech: nil,
+                requiredCivic: .mysticism,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
+                productionCost: 150,
+                goldCost: 150,
+                faithCost: -1,
+                maintenanceCost: 0,
+                yields: Yields(food: 0, production: 0, gold: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: nil,
+                flavours: [
+                    Flavor(type: .growth, value: 3),
+                    Flavor(type: .religion, value: 5)
+                ]
+            )
+
+        case .library:
+            // https://civilization.fandom.com/wiki/Library_(Civ6)
+            return BuildingTypeData(
+                name: "Library",
+                effects: [
+                    "+2 [Science] Science",
+                    "+1 [Citizen] Citizen slot",
+                    "+1 [GreatScientist] Great Scientist point per turn"
+                ],
+                category: .scientific,
+                era: .ancient,
+                district: .campus,
+                requiredTech: .writing,
+                requiredCivic: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
+                productionCost: 90,
+                goldCost: 90,
+                faithCost: -1,
+                maintenanceCost: 1,
+                yields: Yields(food: 0, production: 0, gold: 0, science: 2, culture: 0, faith: 0, housing: 0),
+                defense: 0,
+                slots: [.written, .written],
+                specialSlots: SpecialistSlots(type: .scientist, amount: 1),
+                flavours: [
+                    Flavor(type: .science, value: 8),
+                    Flavor(type: .greatPeople, value: 5),
+                    Flavor(type: .offense, value: 3),
+                    Flavor(type: .defense, value: 3)
+                    /*, Flavor(type: .spaceShip, value: 2)*/
+                ]
+            )
+
+        case .monument:
+            // https://civilization.fandom.com/wiki/Monument_(Civ6)
+            return BuildingTypeData(
+                name: "Monument",
+                effects: [
+                    "+2 [Culture] Culture",
+                    "+1 Loyalty",
+                    "+1 [Culture] Culture if city is at maximum Loyalty."
+                ],
+                category: .cultural,
+                era: .ancient,
+                district: .cityCenter,
+                requiredTech: nil,
+                requiredCivic: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
+                productionCost: 60,
+                goldCost: 60,
+                faithCost: -1,
+                maintenanceCost: 0,
+                yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 2, faith: 0, housing: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: nil,
+                flavours: [
+                    // Note: The Monument has so many flavors because culture leads to policies,
+                    // which help with a number of things
+                    Flavor(type: .culture, value: 7),
+                    Flavor(type: .tourism, value: 3),
+                    Flavor(type: .expansion, value: 2),
+                    Flavor(type: .growth, value: 2),
+                    Flavor(type: .wonder, value: 1),
+                    Flavor(type: .gold, value: 1),
+                    Flavor(type: .greatPeople, value: 1),
+                    Flavor(type: .production, value: 1),
+                    Flavor(type: .amenities, value: 1),
+                    Flavor(type: .science, value: 1),
+                    Flavor(type: .diplomacy, value: 1),
+                    Flavor(type: .offense, value: 1),
+                    Flavor(type: .defense, value: 1),
+                    Flavor(type: .cityDefense, value: 1),
+                    Flavor(type: .naval, value: 1),
+                    Flavor(type: .navalTileImprovement, value: 1),
+                    Flavor(type: .religion, value: 1)
+                ]
+            )
+
+        case .palace:
+            // https://civilization.fandom.com/wiki/Palace_(Civ6)
+            return BuildingTypeData(
+                name: "Palace",
+                effects: [
+                    "+1 [Culture] Culture",
+                    "+5 [Gold] Gold",
+                    "+2 [Production] Production",
+                    "+2 [Science] Science",
+                    "+1 [Housing] Housing",
+                    "+2 Amenity from entertainment"
+                ],
+                category: .government,
+                era: .ancient,
+                district: .cityCenter,
+                requiredTech: nil,
+                requiredCivic: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
+                productionCost: 0,
+                goldCost: -1,
+                faithCost: -1,
+                maintenanceCost: 0,
+                yields: Yields(food: 0, production: 2, gold: 5, science: 2, culture: 1, faith: 0, housing: 1),
+                defense: 25,
+                slots: [.any],
+                specialSlots: nil,
+                flavours: []
+            )
+
+        case .shrine:
+            // https://civilization.fandom.com/wiki/Shrine_(Civ6)
+            return BuildingTypeData(
+                name: "Shrine",
+                effects: [
+                    "+2 [Faith] Faith",
+                    "+1 [Citizen] Citizen slot",
+                    "+1 [GreatProphet] Great Prophet point per turn.",
+                    "Allows the purchasing of Missionaries with Faith." // #
+                ],
+                category: .religious,
+                era: .ancient,
+                district: .holySite,
+                requiredTech: .astrology,
+                requiredCivic: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
+                productionCost: 70,
+                goldCost: 70,
+                faithCost: -1,
+                maintenanceCost: 1,
+                yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 2, housing: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: SpecialistSlots(type: .priest, amount: 1),
+                flavours: [
+                    Flavor(type: .religion, value: 9),
+                    Flavor(type: .culture, value: 4),
+                    Flavor(type: .gold, value: 3),
+                    Flavor(type: .amenities, value: 3),
+                    Flavor(type: .expansion, value: 2),
+                    Flavor(type: .tourism, value: 2),
+                    Flavor(type: .diplomacy, value: 1),
+                    Flavor(type: .offense, value: 1),
+                    Flavor(type: .defense, value: 1),
+                    Flavor(type: .growth, value: 1)]
+            ) // Note: The Shrine has a number of flavors because religion improves a variety of game aspects
 
         case .waterMill:
             // https://civilization.fandom.com/wiki/Water_Mill_(Civ6)
@@ -941,17 +1015,18 @@ public enum BuildingType: Int, Codable {
 
         case .none: return false
 
-        case .palace: return false
-
-        case .granary: return true
-        case .monument: return true
-        case .library: return true
-        case .shrine: return true
         case .ancientWalls: return true
         case .barracks: return true
+        case .granary: return true
+        case .grove: return true
+        case .library: return true
+        case .monument: return true
+        case .palace: return false
+        case .shrine: return true
         case .waterMill:
             // It can be built in the City Center if the city is next to a River.
             return gameModel.river(at: city.location)
+            //
         case .amphitheater: return true
         case .lighthouse: return true
         case .stable: return true
