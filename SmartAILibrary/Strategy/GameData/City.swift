@@ -542,7 +542,7 @@ public class City: AbstractCity {
         self.projects?.city = self
         self.cityCitizens?.city = self
         self.cityReligion?.city = self
-
+        self.cityTourism?.city = self
         self.cityStrategy?.city = self
     }
 
