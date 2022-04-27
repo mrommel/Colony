@@ -631,11 +631,11 @@ public class City: AbstractCity {
         self.gameTurnFoundedValue = gameModel.currentTurn
 
         self.districts = Districts(city: self)
-        self.build(district: .cityCenter, at: self.location, in: gameModel)
-
         self.buildings = Buildings(city: self)
         self.wonders = Wonders(city: self)
         self.projects = Projects(city: self)
+
+        self.build(district: .cityCenter, at: self.location, in: gameModel)
 
         if self.capitalValue {
             do {
