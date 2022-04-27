@@ -4210,12 +4210,20 @@ public class City: AbstractCity {
             fatalError("cant get civics")
         }
 
+        guard let techs = self.player?.techs else {
+            fatalError("cant get techs")
+        }
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
 
         guard let districts = self.districts else {
             fatalError("cant get districts")
+        }
+
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
         }
 
         // militaryTraining - Build any district.
@@ -4236,6 +4244,13 @@ public class City: AbstractCity {
         if !civics.inspirationTriggered(for: .recordedHistory) {
             if player.numberOfDistricts(of: .campus, in: gameModel) >= 2 {
                 civics.triggerInspiration(for: .recordedHistory, in: gameModel)
+            }
+        }
+
+        // construction - Build water mill.
+        if !techs.eurekaTriggered(for: .construction) {
+            if buildings.has(building: .waterMill) {
+                techs.triggerEureka(for: .construction, in: gameModel)
             }
         }
     }

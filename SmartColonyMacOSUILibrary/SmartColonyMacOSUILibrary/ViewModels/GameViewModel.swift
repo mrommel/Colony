@@ -625,7 +625,7 @@ public class GameViewModel: ObservableObject {
                 }
 
                 let title = "TXT_KEY_POPUP_CITY_BECAME_FREE_CITY_TITLE".localized()
-                let summary = "TXT_KEY_POPUP_CITY_BECAME_FREE_CITY_SUMMARY".localizedWithFormat(with: [city.name])
+                let summary = "TXT_KEY_POPUP_CITY_BECAME_FREE_CITY_SUMMARY".localizedWithFormat(with: [city.name.localized()])
                 self.genericPopupViewModel.update(with: title, and: summary)
 
             case .foreignCityRevolted(city: let cityRef):
@@ -634,12 +634,11 @@ public class GameViewModel: ObservableObject {
                     fatalError("no city provided")
                 }
 
-                guard let civName = city.player?.leader.civilization().name() else {
-                    fatalError("cant get civ name")
-                }
+                let civName = city.previousLeader().civilization().name().localized()
+                let cityName = city.name.localized()
 
                 let title = "TXT_KEY_POPUP_FOREIGN_CITY_BECAME_FREE_CITY_TITLE".localized()
-                let summary = "TXT_KEY_POPUP_FOREIGN_CITY_BECAME_FREE_CITY_SUMMARY".localizedWithFormat(with: [civName, city.name])
+                let summary = "TXT_KEY_POPUP_FOREIGN_CITY_BECAME_FREE_CITY_SUMMARY".localizedWithFormat(with: [civName, cityName])
                 self.genericPopupViewModel.update(with: title, and: summary)
 
             case .lostOwnCapital:
@@ -649,7 +648,7 @@ public class GameViewModel: ObservableObject {
 
             case .lostCapital(leader: let leader):
                 let title = "TXT_KEY_POPUP_OTHER_LOST_CAPITAL_TITLE".localized()
-                let summary = "TXT_KEY_POPUP_OTHER_LOST_CAPITAL_SUMMARY".localizedWithFormat(with: [leader.name()])
+                let summary = "TXT_KEY_POPUP_OTHER_LOST_CAPITAL_SUMMARY".localizedWithFormat(with: [leader.name().localized()])
                 self.genericPopupViewModel.update(with: title, and: summary)
 
             case .questFulfilled(cityState: let cityState, quest: let quest):
