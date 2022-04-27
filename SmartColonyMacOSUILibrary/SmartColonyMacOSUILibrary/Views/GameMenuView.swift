@@ -75,7 +75,7 @@ struct GameMenuView: View {
                         .buttonStyle(DialogButtonStyle(width: 180))
 
                     Button(
-                        action: { print("Exit to Main Menu") },
+                        action: { self.viewModel.clickToMainMenu() },
                         label: { Text("Exit to Main Menu".localized()) }
                     )
                         .buttonStyle(DialogButtonStyle(width: 180))

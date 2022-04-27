@@ -132,6 +132,25 @@ class MainViewModel: ObservableObject {
 
 extension MainViewModel: MenuViewModelDelegate {
 
+    func resumeGame() {
+
+        let directory = NSTemporaryDirectory()
+        let fileName = "current.game"
+
+        // This returns a URL? even though it is an NSURL class method
+        let fullURL = NSURL.fileURL(withPathComponents: [directory, fileName])
+
+        let reader = GameLoader()
+        let gameModel = reader.load(from: fullURL)
+
+        self.gameViewModel.loadAssets()
+
+        self.gameEnvironment.assign(game: gameModel)
+
+        self.presentedView = .game
+        self.mapMenuDisabled = false
+    }
+
     func newGameStarted() {
 
         self.presentedView = .newGameMenu
@@ -160,6 +179,10 @@ extension MainViewModel: MenuViewModelDelegate {
                 self.presentedView = .pedia
             }
         }
+    }
+
+    func showOptions() {
+
     }
 }
 

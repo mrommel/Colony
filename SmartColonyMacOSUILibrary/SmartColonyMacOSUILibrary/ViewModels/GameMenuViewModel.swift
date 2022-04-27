@@ -13,6 +13,7 @@ protocol GameMenuViewModelDelegate: AnyObject {
 
     func backToGameClicked()
     func restartGameClicked()
+    func quitToMainMenuClicked()
 }
 
 class GameMenuViewModel: ObservableObject {
@@ -53,6 +54,26 @@ class GameMenuViewModel: ObservableObject {
 
                 if confirmed {
                     self.delegate?.restartGameClicked()
+                }
+            }
+        )
+    }
+
+    func clickToMainMenu() {
+
+        self.showConfirmationDialog = true
+
+        self.confirmationDialogViewModel.update(
+            title: "Quit Game",
+            question: "Do you really want to quit? Everything will be lost.",
+            confirm: "Quit",
+            cancel: "Cancel",
+            completion: { confirmed in
+
+                self.showConfirmationDialog = false
+
+                if confirmed {
+                    self.delegate?.quitToMainMenuClicked()
                 }
             }
         )

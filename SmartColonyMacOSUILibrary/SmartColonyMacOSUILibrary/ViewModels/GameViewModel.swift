@@ -687,6 +687,13 @@ extension GameViewModel: GameMenuViewModelDelegate {
 
         self.delegate?.closeAndRestartGame()
     }
+
+    func quitToMainMenuClicked() {
+
+        self.gameMenuVisible = false
+
+        self.delegate?.closeGame()
+    }
 }
 
 extension GameViewModel: GameViewModelDelegate {
@@ -733,6 +740,29 @@ extension GameViewModel: GameViewModelDelegate {
 
             // show AI turn
             self.bottomLeftBarViewModel.showSpinningGlobe()
+
+            // write backup to file
+            guard let gameModel = self.gameEnvironment.game.value else {
+                print("cant get game")
+                return
+            }
+
+            if self.uiTurnState == .humanTurns {
+                let directory = NSTemporaryDirectory()
+                let fileName = "current.game"
+
+                // This returns a URL? even though it is an NSURL class method
+                guard let fullURL = NSURL.fileURL(withPathComponents: [directory, fileName]) else {
+                    fatalError("could not store tmp game url")
+                }
+
+                let writer = GameWriter()
+                guard writer.write(game: gameModel, to: fullURL) else {
+                    fatalError("could not store tmp game")
+                }
+
+                print("store turn backup: \(fullURL)")
+            }
 
         case .humanTurns:
 

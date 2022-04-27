@@ -32,7 +32,7 @@ struct MenuView: View {
                     }.buttonStyle(GameButtonStyle())
 
                     Button("TXT_KEY_RESUME_GAME".localized()) {
-                        print("resume game")
+                        self.viewModel.resumeGame()
                     }.buttonStyle(GameButtonStyle())
 
                     Button("TXT_KEY_NEW_GAME".localized()) {
@@ -45,7 +45,7 @@ struct MenuView: View {
                     }.buttonStyle(GameButtonStyle())
 
                     Button("TXT_KEY_OPTIONS".localized()) {
-                        print("options")
+                        self.viewModel.showOptions()
                     }.buttonStyle(GameButtonStyle())
 
                     Button("TXT_KEY_PEDIA".localized()) {

@@ -533,7 +533,7 @@ public class City: AbstractCity {
 
         self.loyaltyValue = try container.decode(Double.self, forKey: .loyalty)
 
-        self.governorValue = try container.decode(GovernorType.self, forKey: .governor)
+        self.governorValue = try container.decodeIfPresent(GovernorType.self, forKey: .governor)
 
         // setup
         self.districts?.city = self
@@ -541,6 +541,7 @@ public class City: AbstractCity {
         self.wonders?.city = self
         self.projects?.city = self
         self.cityCitizens?.city = self
+        self.cityReligion?.city = self
 
         self.cityStrategy?.city = self
     }
@@ -606,7 +607,7 @@ public class City: AbstractCity {
 
         try container.encode(self.loyaltyValue, forKey: .loyalty)
 
-        try container.encode(self.governorValue, forKey: .governor)
+        try container.encodeIfPresent(self.governorValue, forKey: .governor)
     }
 
     public func set(name: String) {

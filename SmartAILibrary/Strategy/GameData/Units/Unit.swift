@@ -1236,7 +1236,15 @@ public class Unit: AbstractUnit {
 
                 if !diplomacyAI.isAtWar(with: defenderUnit.player) && !defenderUnit.isBarbarian() {
 
-                    gameModel.userInterface?.showPopup(popupType: .declareWarQuestion(player: defenderUnit.player))
+                    gameModel.userInterface?.askForConfirmation(
+                        title: "Declare War?",
+                        question: "Da you really want to declare war on \(defenderUnit.player?.leader.name())",
+                        confirm: "Declare War",
+                        cancel: "Cancel",
+                        completion: { confirmed in
+                            diplomacyAI.doDeclareWar(to: defenderUnit.player, in: gameModel)
+                        })
+
                     return false
                 }
             }
