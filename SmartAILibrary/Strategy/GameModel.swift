@@ -1091,6 +1091,11 @@ open class GameModel: Codable {
         return GameModel.yearText(for: self.currentTurn)
     }
 
+    public func isStartTurn() -> Bool {
+
+        return self.currentTurn == 0
+    }
+
     // https://gaming.stackexchange.com/questions/51233/what-is-the-turn-length-in-civilization
     public func totalTurns() -> Int {
 

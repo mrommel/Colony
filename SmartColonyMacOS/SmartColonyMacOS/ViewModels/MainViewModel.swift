@@ -232,6 +232,14 @@ extension MainViewModel: CloseGameViewModelDelegate {
         fatalError("not implemented: showReplay")
     }*/
 
+    func closeGameAndLoad() {
+
+        self.presentedView = .menu
+        self.gameEnvironment.assign(game: nil)
+
+        // load
+    }
+
     func closeAndRestartGame() {
 
         // keep seed

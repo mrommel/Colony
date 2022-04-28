@@ -9,11 +9,21 @@ import SwiftUI
 import SmartAssets
 import SmartAILibrary
 
+enum GameMenuAction {
+
+    case backToGame
+    case restartGame
+    case quickSaveGame
+    case saveGame
+    case loadGame
+    case gameOptions
+    case retireGame
+    case backToMainMenu
+}
+
 protocol GameMenuViewModelDelegate: AnyObject {
 
-    func backToGameClicked()
-    func restartGameClicked()
-    func quitToMainMenuClicked()
+    func handle(action: GameMenuAction)
 }
 
 class GameMenuViewModel: ObservableObject {
@@ -34,49 +44,109 @@ class GameMenuViewModel: ObservableObject {
         self.confirmationDialogViewModel = ConfirmationDialogViewModel()
     }
 
-    func clickBackToGame() {
+    func canClick(on action: GameMenuAction) -> Bool {
 
-        self.delegate?.backToGameClicked()
+        switch action {
+
+        case .backToGame:
+            return true
+
+        case .restartGame:
+            guard let gameModel = self.gameEnvironment.game.value else {
+                return false
+            }
+
+            // cannot restart game in first turn
+            guard !gameModel.isStartTurn() else {
+                return false
+            }
+
+            return true
+
+        case .quickSaveGame:
+            return true
+
+        case .saveGame:
+            return true
+
+        case .loadGame:
+            return true
+
+        case .gameOptions:
+            return false // not implemented yet
+
+        case .retireGame:
+            guard let gameModel = self.gameEnvironment.game.value else {
+                return false
+            }
+
+            guard gameModel.gameState() == .on else {
+                return false
+            }
+
+            guard let humanPlayer = gameModel.humanPlayer() else {
+                return false
+            }
+
+            guard humanPlayer.isAlive() else {
+                return false
+            }
+
+            guard !humanPlayer.isEndTurn() else {
+                return false
+            }
+
+            return false // true - not implemented yet
+
+        case .backToMainMenu:
+            return true
+        }
     }
 
-    func clickRestartGame() {
+    func handle(action: GameMenuAction) {
 
-        self.showConfirmationDialog = true
+        switch action {
 
-        self.confirmationDialogViewModel.update(
-            title: "Restart Game",
-            question: "Do you really want to restart? Everything will be lost.",
-            confirm: "Restart",
-            cancel: "Cancel",
-            completion: { confirmed in
+        case .restartGame:
+            self.showConfirmationDialog = true
 
-                self.showConfirmationDialog = false
+            self.confirmationDialogViewModel.update(
+                title: "Restart Game",
+                question: "Do you really want to restart? Everything will be lost.",
+                confirm: "Restart",
+                cancel: "Cancel",
+                completion: { confirmed in
 
-                if confirmed {
-                    self.delegate?.restartGameClicked()
+                    self.showConfirmationDialog = false
+
+                    if confirmed {
+                        self.delegate?.handle(action: .restartGame)
+                    }
                 }
-            }
-        )
-    }
+            )
 
-    func clickToMainMenu() {
+        case .backToMainMenu:
+            self.showConfirmationDialog = true
 
-        self.showConfirmationDialog = true
+            self.confirmationDialogViewModel.update(
+                title: "Quit Game",
+                question: "Do you really want to quit? Everything will be lost.",
+                confirm: "Quit",
+                cancel: "Cancel",
+                completion: { confirmed in
 
-        self.confirmationDialogViewModel.update(
-            title: "Quit Game",
-            question: "Do you really want to quit? Everything will be lost.",
-            confirm: "Quit",
-            cancel: "Cancel",
-            completion: { confirmed in
+                    self.showConfirmationDialog = false
 
-                self.showConfirmationDialog = false
-
-                if confirmed {
-                    self.delegate?.quitToMainMenuClicked()
+                    if confirmed {
+                        self.delegate?.handle(action: .backToMainMenu)
+                    }
                 }
-            }
-        )
+            )
+
+        default:
+            self.delegate?.handle(action: action)
+        }
+
     }
 
     func civilizationImage() -> NSImage {

@@ -161,6 +161,7 @@ public protocol CloseGameViewModelDelegate: AnyObject {
     func closeGame()
 
     func closeAndRestartGame()
+    func closeGameAndLoad()
 }
 
 // swiftlint:disable type_body_length
@@ -676,23 +677,41 @@ public class GameViewModel: ObservableObject {
 
 extension GameViewModel: GameMenuViewModelDelegate {
 
-    func backToGameClicked() {
+    func handle(action: GameMenuAction) {
 
-        self.gameMenuVisible = false
-    }
+        switch action {
 
-    func restartGameClicked() {
+        case .backToGame:
+            self.gameMenuVisible = false
 
-        self.gameMenuVisible = false
+        case .restartGame:
+            self.gameMenuVisible = false
+            self.delegate?.closeAndRestartGame()
 
-        self.delegate?.closeAndRestartGame()
-    }
+        case .quickSaveGame:
+            // save with auto name
+            self.gameMenuVisible = false
 
-    func quitToMainMenuClicked() {
+        case .saveGame:
+            // select name and save
+            self.gameMenuVisible = false
 
-        self.gameMenuVisible = false
+        case .loadGame:
+            self.gameMenuVisible = false
+            self.delegate?.closeGameAndLoad()
 
-        self.delegate?.closeGame()
+        case .gameOptions:
+            print("game options not implemented yet")
+            self.gameMenuVisible = false
+
+        case .retireGame:
+            print("retire game not implemented yet")
+            self.gameMenuVisible = false
+
+        case .backToMainMenu:
+            self.gameMenuVisible = false
+            self.delegate?.closeGame()
+        }
     }
 }
 
