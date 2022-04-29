@@ -1241,7 +1241,7 @@ public class Unit: AbstractUnit {
                         question: "Da you really want to declare war on \(defenderUnit.player?.leader.name())",
                         confirm: "Declare War",
                         cancel: "Cancel",
-                        completion: { confirmed in
+                        completion: { _ in
                             diplomacyAI.doDeclareWar(to: defenderUnit.player, in: gameModel)
                         })
 

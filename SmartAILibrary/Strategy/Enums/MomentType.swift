@@ -1905,7 +1905,7 @@ extension MomentType: Codable {
             self = .wonderCompleted(wonder: wonder)
 
         // hidden
-            
+
         case 300:
             self = .shipSunk
 
