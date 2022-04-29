@@ -68,6 +68,7 @@ struct LoadGameView: View {
                         Text(self.viewModel.gamePreviewTurn)
                         Text(self.viewModel.gamePreviewDate)
                         GamePreview(viewModel: self.viewModel.gamePreviewViewModel)
+                        Text(self.viewModel.mapSize)
                     }
 
                     Spacer()

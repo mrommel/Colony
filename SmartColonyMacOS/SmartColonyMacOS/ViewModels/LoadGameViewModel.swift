@@ -62,6 +62,9 @@ class LoadGameViewModel: ObservableObject {
     @Published
     var gamePreviewViewModel: GamePreviewViewModel
 
+    @Published
+    var mapSize: String = "-"
+
     weak var delegate: LoadGameViewModelDelegate?
 
     init() {
@@ -212,6 +215,8 @@ class LoadGameViewModel: ObservableObject {
             self.gamePreviewViewModel.civilization = humanPlayer.leader.civilization()
             self.gamePreviewViewModel.leader = humanPlayer.leader
             self.gamePreviewViewModel.handicap = gameModel.handicap
+
+            self.mapSize = gameModel.mapSize().name().localized()
         } catch {
             print("cant load preview: \(error)")
         }
