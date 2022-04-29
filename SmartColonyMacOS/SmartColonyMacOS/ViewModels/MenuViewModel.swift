@@ -13,6 +13,7 @@ protocol MenuViewModelDelegate: AnyObject {
 
     func resumeGame()
     func newGameStarted()
+    func loadGame()
     // ..
     func showDebug()
     func showPedia()
@@ -44,6 +45,11 @@ class MenuViewModel: ObservableObject {
     func startNewGame() {
 
         self.delegate?.newGameStarted()
+    }
+
+    func loadGame() {
+
+        self.delegate?.loadGame()
     }
 
     // ...

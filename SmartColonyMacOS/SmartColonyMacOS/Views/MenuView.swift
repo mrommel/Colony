@@ -41,7 +41,7 @@ struct MenuView: View {
                     .buttonStyle(GameButtonStyle(state: .highlighted))
 
                     Button("TXT_KEY_LOAD_GAME".localized()) {
-                        print("load game")
+                        self.viewModel.loadGame()
                     }.buttonStyle(GameButtonStyle())
 
                     Button("TXT_KEY_OPTIONS".localized()) {

@@ -19,7 +19,7 @@ extension LeaderType {
             return "leader-unmet"
 
         case .barbar:
-            return "leader-barbar"
+            return "leader-random" // leader-barbar does not exist
         case .freeCities:
             return "leader-random"
         case .cityState(type: _): // let cityStateType

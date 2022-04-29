@@ -26,7 +26,7 @@ struct DialogBackground: ViewModifier {
 
 extension View {
 
-    func dialogBackground() -> some View {
+    public func dialogBackground() -> some View {
         self.modifier(DialogBackground())
     }
 }

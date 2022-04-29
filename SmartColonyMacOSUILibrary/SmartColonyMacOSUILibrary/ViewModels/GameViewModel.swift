@@ -673,6 +673,42 @@ public class GameViewModel: ObservableObject {
 
         self.gameMenuVisible = true
     }
+
+    func saveGame(as filename: String) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            print("cant save game: game not set")
+            return
+        }
+
+        do {
+            let applicationSupport = try FileManager.default.url(
+                for: .applicationSupportDirectory,
+                in: .userDomainMask,
+                appropriateFor: nil,
+                create: false
+            )
+
+            let bundleID = "SmartColonyMacOS"
+            var appSupportSubDirectory = applicationSupport.appendingPathComponent(bundleID, isDirectory: true)
+
+            var isDirectory: ObjCBool = true
+            if !FileManager.default.fileExists(atPath: appSupportSubDirectory.path, isDirectory: &isDirectory) {
+                try FileManager.default.createDirectory(at: appSupportSubDirectory, withIntermediateDirectories: true, attributes: nil)
+            }
+
+            appSupportSubDirectory.appendPathComponent(filename)
+
+            let writer = GameWriter()
+            guard writer.write(game: gameModel, to: appSupportSubDirectory) else {
+                print("could not store tmp game")
+                return
+            }
+        } catch {
+            print("cant store file: \(error)")
+            return
+        }
+    }
 }
 
 extension GameViewModel: GameMenuViewModelDelegate {
@@ -689,12 +725,26 @@ extension GameViewModel: GameMenuViewModelDelegate {
             self.delegate?.closeAndRestartGame()
 
         case .quickSaveGame:
-            // save with auto name
+            guard let gameModel = self.gameEnvironment.game.value else {
+                print("cant save game: game not set")
+                self.gameMenuVisible = false
+                return
+            }
+
+            guard let humanPlayer = gameModel.humanPlayer() else {
+                print("cant human player")
+                self.gameMenuVisible = false
+                return
+            }
+
+            let filename = "\(humanPlayer.leader.name().localized()) \(gameModel.turnYear()).clny"
+
+            self.saveGame(as: filename)
             self.gameMenuVisible = false
 
         case .saveGame:
-            // select name and save
-            self.gameMenuVisible = false
+            // will not be called
+            break
 
         case .loadGame:
             self.gameMenuVisible = false
@@ -768,7 +818,7 @@ extension GameViewModel: GameViewModelDelegate {
 
             if self.uiTurnState == .humanTurns {
                 let directory = NSTemporaryDirectory()
-                let fileName = "current.game"
+                let fileName = "current.clny"
 
                 // This returns a URL? even though it is an NSURL class method
                 guard let fullURL = NSURL.fileURL(withPathComponents: [directory, fileName]) else {

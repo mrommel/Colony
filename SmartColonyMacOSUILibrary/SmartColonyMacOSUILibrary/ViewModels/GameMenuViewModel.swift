@@ -24,6 +24,7 @@ enum GameMenuAction {
 protocol GameMenuViewModelDelegate: AnyObject {
 
     func handle(action: GameMenuAction)
+    func saveGame(as filename: String)
 }
 
 class GameMenuViewModel: ObservableObject {
@@ -37,11 +38,18 @@ class GameMenuViewModel: ObservableObject {
     @Published
     var showConfirmationDialog: Bool = false
 
+    @Published
+    var nameInputDialogViewModel: NameInputDialogViewModel
+
+    @Published
+    var showNameInputDialog: Bool = false
+
     weak var delegate: GameMenuViewModelDelegate?
 
     init() {
 
         self.confirmationDialogViewModel = ConfirmationDialogViewModel()
+        self.nameInputDialogViewModel = NameInputDialogViewModel()
     }
 
     func canClick(on action: GameMenuAction) -> Bool {
@@ -125,6 +133,52 @@ class GameMenuViewModel: ObservableObject {
                 }
             )
 
+        case .saveGame:
+            self.showNameInputDialog = true
+
+            guard let gameModel = self.gameEnvironment.game.value else {
+                print("cant save game: game not set")
+                return
+            }
+
+            guard let humanPlayer = gameModel.humanPlayer() else {
+                print("cant human player")
+                return
+            }
+
+            let defaultFilename = "\(humanPlayer.leader.name().localized()) \(gameModel.turnYear()).clny"
+
+            self.nameInputDialogViewModel.update(
+                title: "Save Game",
+                summary: "Please insert name for ",
+                value: defaultFilename,
+                confirm: "Save Game",
+                completion: { filename in
+
+                    self.showNameInputDialog = false
+                    self.delegate?.saveGame(as: filename)
+                    self.delegate?.handle(action: .backToGame)
+                }
+            )
+
+        case .retireGame:
+            self.showConfirmationDialog = true
+
+            self.confirmationDialogViewModel.update(
+                title: "Retire Game",
+                question: "Do you really want to retire?",
+                confirm: "Retire",
+                cancel: "Cancel",
+                completion: { confirmed in
+
+                    self.showConfirmationDialog = false
+
+                    if confirmed {
+                        self.delegate?.handle(action: .retireGame)
+                    }
+                }
+            )
+
         case .backToMainMenu:
             self.showConfirmationDialog = true
 
@@ -146,7 +200,6 @@ class GameMenuViewModel: ObservableObject {
         default:
             self.delegate?.handle(action: action)
         }
-
     }
 
     func civilizationImage() -> NSImage {

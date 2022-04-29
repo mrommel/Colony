@@ -14,7 +14,8 @@ enum PresentedViewType {
 
     case menu
     case newGameMenu
-    case loadingGame
+    case loadGameMenu
+    case loadingGame // progress
     case game
     case replay
     case debug
@@ -36,6 +37,7 @@ class MainViewModel: ObservableObject {
     // sub view models
     var menuViewModel: MenuViewModel
     var createGameMenuViewModel: CreateGameMenuViewModel
+    var loadGameViewModel: LoadGameViewModel
     var generateGameViewModel: GenerateGameViewModel
     var gameViewModel: GameViewModel
     var replayViewModel: ReplayGameViewModel
@@ -48,6 +50,7 @@ class MainViewModel: ObservableObject {
     init(presentedView: PresentedViewType = .menu,
          menuViewModel: MenuViewModel = MenuViewModel(),
          createGameMenuViewModel: CreateGameMenuViewModel = CreateGameMenuViewModel(),
+         loadGameViewModel: LoadGameViewModel = LoadGameViewModel(),
          generateGameViewModel: GenerateGameViewModel = GenerateGameViewModel(),
          gameViewModel: GameViewModel = GameViewModel(),
          pediaViewModel: PediaViewModel = PediaViewModel()) {
@@ -57,6 +60,7 @@ class MainViewModel: ObservableObject {
 
         self.menuViewModel = menuViewModel
         self.createGameMenuViewModel = createGameMenuViewModel
+        self.loadGameViewModel = loadGameViewModel
         self.generateGameViewModel = generateGameViewModel
         self.gameViewModel = gameViewModel
         self.replayViewModel = ReplayGameViewModel()
@@ -66,6 +70,7 @@ class MainViewModel: ObservableObject {
         // connect delegates
         self.menuViewModel.delegate = self
         self.createGameMenuViewModel.delegate = self
+        self.loadGameViewModel.delegate = self
         self.generateGameViewModel.delegate = self
         self.gameViewModel.delegate = self // later: replay
         self.debugViewModel.delegate = self
@@ -135,7 +140,7 @@ extension MainViewModel: MenuViewModelDelegate {
     func resumeGame() {
 
         let directory = NSTemporaryDirectory()
-        let fileName = "current.game"
+        let fileName = "current.clny"
 
         // This returns a URL? even though it is an NSURL class method
         let fullURL = NSURL.fileURL(withPathComponents: [directory, fileName])
@@ -143,17 +148,18 @@ extension MainViewModel: MenuViewModelDelegate {
         let reader = GameLoader()
         let gameModel = reader.load(from: fullURL)
 
-        self.gameViewModel.loadAssets()
-
-        self.gameEnvironment.assign(game: gameModel)
-
-        self.presentedView = .game
-        self.mapMenuDisabled = false
+        self.created(game: gameModel)
     }
 
     func newGameStarted() {
 
         self.presentedView = .newGameMenu
+        self.mapMenuDisabled = true
+    }
+
+    func loadGame() {
+
+        self.presentedView = .loadGameMenu
         self.mapMenuDisabled = true
     }
 
@@ -202,6 +208,40 @@ extension MainViewModel: CreateGameMenuViewModelDelegate {
     }
 }
 
+extension MainViewModel: LoadGameViewModelDelegate {
+
+    // func canceled()
+
+    func load(filename: String) {
+
+        do {
+            let applicationSupport = try FileManager.default.url(
+                for: .applicationSupportDirectory,
+                in: .userDomainMask,
+                appropriateFor: nil,
+                create: false
+            )
+
+            let bundleID = "SmartColonyMacOS"
+            var appSupportSubDirectory = applicationSupport.appendingPathComponent(bundleID, isDirectory: true)
+
+            var isDirectory: ObjCBool = true
+            if !FileManager.default.fileExists(atPath: appSupportSubDirectory.path, isDirectory: &isDirectory) {
+                try FileManager.default.createDirectory(at: appSupportSubDirectory, withIntermediateDirectories: true, attributes: nil)
+            }
+
+            appSupportSubDirectory.appendPathComponent(filename)
+
+            let reader = GameLoader()
+            let gameModel = reader.load(from: appSupportSubDirectory)
+
+            self.created(game: gameModel)
+        } catch {
+            print("cant load game: \(error)")
+        }
+    }
+}
+
 extension MainViewModel: GenerateGameViewModelDelegate {
 
     func created(game gameModel: GameModel?) {
@@ -234,10 +274,8 @@ extension MainViewModel: CloseGameViewModelDelegate {
 
     func closeGameAndLoad() {
 
-        self.presentedView = .menu
+        self.presentedView = .loadGameMenu
         self.gameEnvironment.assign(game: nil)
-
-        // load
     }
 
     func closeAndRestartGame() {
