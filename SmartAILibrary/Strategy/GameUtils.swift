@@ -10,7 +10,7 @@ import Foundation
 
 public class GameUtils {
 
-    public static func setupDuelGrass(
+    public static func setupSmallGrass(
         human humanLeader: LeaderType = .trajan,
         ai aiLeader: LeaderType = .alexander,
         discover: Bool = false) -> GameModel {
@@ -24,7 +24,7 @@ public class GameUtils {
         let humanPlayer = Player(leader: humanLeader, isHuman: true)
         humanPlayer.initialize()
 
-        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
 
         let mapOptions = MapOptions(
             withSize: .duel,

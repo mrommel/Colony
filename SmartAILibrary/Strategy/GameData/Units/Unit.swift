@@ -748,7 +748,7 @@ public class Unit: AbstractUnit {
         let name = self.name()
         let promotions = self.gainedPromotions()
 
-        self.doKill(delayed: true, by: nil, in: gameModel)
+        self.doKill(delayed: false, by: nil, in: gameModel)
 
         let newUnit = Unit(at: location, type: unitType, owner: player)
         newUnit.rename(to: name)
@@ -757,6 +757,8 @@ public class Unit: AbstractUnit {
         }
         gameModel?.add(unit: newUnit)
         gameModel?.userInterface?.show(unit: newUnit, at: location)
+
+        newUnit.finishMoves()
     }
 
     /// Current power of unit (raw unit type power adjusted for health)
