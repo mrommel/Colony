@@ -1464,7 +1464,7 @@ public class Unit: AbstractUnit {
                     }
 
                     // if there is a unit that we are not at war with - we cant attack
-                    if !playerDiplomacy.isAtWar(with: unit.player) {
+                    if !playerDiplomacy.isAtWar(with: unit.player) && !unit.player!.isBarbarian() {
                         return false
                     }
 

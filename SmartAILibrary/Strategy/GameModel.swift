@@ -1885,7 +1885,11 @@ open class GameModel: Codable {
         }
     }
 
-    public func sight(at location: HexPoint, sight: Int, for player: AbstractPlayer?) {
+    public func sight(at location: HexPoint, sight: Int, for playerRef: AbstractPlayer?) {
+
+        guard let player = playerRef else {
+            fatalError("cant get player")
+        }
 
         for areaPoint in location.areaWith(radius: sight) {
 
@@ -1894,31 +1898,30 @@ open class GameModel: Codable {
                 // inform the player about a goody hut
                 if tile.has(improvement: .goodyHut) && !tile.isDiscovered(by: player) {
 
-                    player?.notifications()?.add(notification: .goodyHutDiscovered(location: areaPoint))
+                    player.notifications()?.add(notification: .goodyHutDiscovered(location: areaPoint))
                 }
 
                 // inform the player about a barbarian camp
-                if tile.has(improvement: .barbarianCamp) && !tile.isDiscovered(by: player) {
+                if tile.has(improvement: .barbarianCamp) && !player.isBarbarianCampDiscovered(at: areaPoint) {
 
-                    player?.notifications()?.add(notification: .barbarianCampDiscovered(location: areaPoint))
+                    player.discoverBarbarianCamp(at: areaPoint)
                 }
 
                 // check if tile is on another continent than the (original) capital
-                guard let civics = player?.civics else {
+                guard let civics = player.civics else {
                     fatalError("cant get civics")
                 }
 
                 if let tileContinent: ContinentType = self.continent(at: areaPoint)?.type() {
-                    if let capitalLocation = player?.originalCapitalLocation() {
-                        if capitalLocation != HexPoint.invalid {
-                            if let capitalContinent = self.continent(at: capitalLocation) {
-                                if tileContinent != capitalContinent.type() &&
-                                    capitalContinent.type() != .none &&
-                                    tileContinent != .none {
+                    let capitalLocation = player.originalCapitalLocation()
+                    if capitalLocation != HexPoint.invalid {
+                        if let capitalContinent = self.continent(at: capitalLocation) {
+                            if tileContinent != capitalContinent.type() &&
+                                capitalContinent.type() != .none &&
+                                tileContinent != .none {
 
-                                    if !civics.inspirationTriggered(for: .foreignTrade) {
-                                        civics.triggerInspiration(for: .foreignTrade, in: self)
-                                    }
+                                if !civics.inspirationTriggered(for: .foreignTrade) {
+                                    civics.triggerInspiration(for: .foreignTrade, in: self)
                                 }
                             }
                         }
@@ -1927,7 +1930,7 @@ open class GameModel: Codable {
 
                 tile.sight(by: player)
                 tile.discover(by: player, in: self)
-                player?.checkWorldCircumnavigated(in: self)
+                player.checkWorldCircumnavigated(in: self)
                 self.checkDiscovered(continent: self.continent(at: areaPoint)?.type() ?? ContinentType.none, at: areaPoint, for: player)
                 self.userInterface?.refresh(tile: tile)
             }
@@ -2402,6 +2405,11 @@ extension GameModel {
                     }
                 }
             }
+        }
+
+        // reset discovered barbarian camps
+        for player in self.players {
+            player.forgetDiscoverBarbarianCamp(at: point)
         }
     }
 
