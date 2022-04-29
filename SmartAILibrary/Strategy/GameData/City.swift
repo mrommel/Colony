@@ -194,6 +194,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func baseCombatStrength(in gameModel: GameModel?) -> Int
     func combatStrengthModifiers(against attacker: AbstractUnit?, in gameModel: GameModel?) -> [CombatModifier]
 
+    func canRangeStrike() -> Bool
     func canRangeStrike(towards point: HexPoint) -> Bool
     func rangedCombatTargetLocations(in gameModel: GameModel?) -> [HexPoint]
     func isEnemyInRange(in gameModel: GameModel?) -> Bool
@@ -4207,16 +4208,20 @@ public class City: AbstractCity {
 
     func updateEurekas(in gameModel: GameModel?) {
 
-        guard let civics = self.player?.civics else {
-            fatalError("cant get civics")
-        }
-
-        guard let techs = self.player?.techs else {
-            fatalError("cant get techs")
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
         }
 
         guard let player = self.player else {
             fatalError("cant get player")
+        }
+
+        guard let civics = player.civics else {
+            fatalError("cant get civics")
+        }
+
+        guard let techs = player.techs else {
+            fatalError("cant get techs")
         }
 
         guard let districts = self.districts else {
@@ -4252,6 +4257,20 @@ public class City: AbstractCity {
         if !techs.eurekaTriggered(for: .construction) {
             if buildings.has(building: .waterMill) {
                 techs.triggerEureka(for: .construction, in: gameModel)
+            }
+        }
+
+        // engineering - Build ancient walls
+        if !techs.eurekaTriggered(for: .engineering) {
+            if buildings.has(building: .ancientWalls) {
+                techs.triggerEureka(for: .engineering, in: gameModel)
+            }
+        }
+
+        // shipBuilding - Own 2 Galleys
+        if !techs.eurekaTriggered(for: .shipBuilding) {
+            if gameModel.units(of: player).count(where: { $0?.type == .galley }) >= 2 {
+                techs.triggerEureka(for: .shipBuilding, in: gameModel)
             }
         }
     }
@@ -4475,7 +4494,7 @@ public class City: AbstractCity {
 
     // MARK: attack / damage
 
-    func canRangeStrike() -> Bool {
+    public func canRangeStrike() -> Bool {
 
         if !self.has(building: .ancientWalls) {
             return false
