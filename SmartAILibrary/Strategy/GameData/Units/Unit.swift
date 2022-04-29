@@ -4044,7 +4044,7 @@ public class Unit: AbstractUnit {
                 if !player.isEqual(to: neighborUnit.player) {
 
                     // at war?
-                    if diplomacyAI.isAtWar(with: neighborUnit.player) {
+                    if diplomacyAI.isAtWar(with: neighborUnit.player) || neighborUnit.player!.isBarbarian() {
                         return true
                     }
                 }
