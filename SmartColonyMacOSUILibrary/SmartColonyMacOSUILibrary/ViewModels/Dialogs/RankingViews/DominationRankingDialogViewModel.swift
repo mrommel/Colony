@@ -77,7 +77,7 @@ class DominationRankingDialogViewModel: ObservableObject {
 
             let civilizationType: CivilizationType = player.leader.civilization()
 
-            if civilizationType == .barbarian {
+            if civilizationType == .barbarian || player.isFreeCity() || player.isCityState() {
                 continue
             }
 

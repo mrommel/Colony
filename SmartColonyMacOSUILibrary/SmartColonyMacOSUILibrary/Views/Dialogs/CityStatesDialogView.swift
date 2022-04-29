@@ -42,6 +42,7 @@ struct CityStatesDialogView: View {
                                 ForEach(self.viewModel.cityStateViewModels, id: \.self) { cityStateViewModel in
 
                                     CityStateView(viewModel: cityStateViewModel)
+                                        .padding(.leading, 4)
                                 }
                             }
 
@@ -51,9 +52,13 @@ struct CityStatesDialogView: View {
                                 ForEach(self.viewModel.envoyEffectViewModels, id: \.self) { envoyEffectViewModel in
 
                                     EnvoyEffectView(viewModel: envoyEffectViewModel)
+                                        .padding(.leading, 4)
                                 }
                             }
                         }
+
+                        EmptyView()
+                            .frame(height: 10)
                     }
                 }
                 .frame(width: 350, height: 330)

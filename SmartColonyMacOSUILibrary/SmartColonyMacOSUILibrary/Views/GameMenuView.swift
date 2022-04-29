@@ -32,53 +32,61 @@ struct GameMenuView: View {
                 Group {
 
                     Button(
-                        action: { self.viewModel.clickBackToGame() },
+                        action: { self.viewModel.handle(action: .backToGame) },
                         label: { Text("Back to Game".localized()) }
                     )
                         .buttonStyle(DialogButtonStyle(width: 180))
+                        .disabled(self.viewModel.canClick(on: .backToGame) == false)
                         .padding(.bottom, 20)
 
                     Button(
-                        action: { self.viewModel.clickRestartGame() },
+                        action: { self.viewModel.handle(action: .restartGame) },
                         label: { Text("Restart".localized()) }
                     )
                         .buttonStyle(DialogButtonStyle(width: 180))
+                        .disabled(self.viewModel.canClick(on: .restartGame) == false)
 
                     Button(
-                        action: { print("Quick Save Game") },
+                        action: { self.viewModel.handle(action: .quickSaveGame) },
                         label: { Text("Quick Save Game".localized()) }
                     )
                         .buttonStyle(DialogButtonStyle(width: 180))
+                        .disabled(self.viewModel.canClick(on: .quickSaveGame) == false)
 
                     Button(
-                        action: { print("Save Game") },
+                        action: { self.viewModel.handle(action: .saveGame) },
                         label: { Text("Save Game".localized()) }
                     )
                         .buttonStyle(DialogButtonStyle(width: 180))
+                        .disabled(self.viewModel.canClick(on: .saveGame) == false)
 
                     Button(
-                        action: { print("Load Game") },
+                        action: { self.viewModel.handle(action: .loadGame) },
                         label: { Text("Load Game".localized()) }
                     )
                         .buttonStyle(DialogButtonStyle(width: 180))
+                        .disabled(self.viewModel.canClick(on: .loadGame) == false)
 
                     Button(
-                        action: { print("Option") },
+                        action: { self.viewModel.handle(action: .gameOptions) },
                         label: { Text("Option".localized()) }
                     )
                         .buttonStyle(DialogButtonStyle(width: 180))
+                        .disabled(self.viewModel.canClick(on: .gameOptions) == false)
 
                     Button(
-                        action: { print("Retire") },
+                        action: { self.viewModel.handle(action: .retireGame) },
                         label: { Text("Retire".localized()) }
                     )
                         .buttonStyle(DialogButtonStyle(width: 180))
+                        .disabled(self.viewModel.canClick(on: .retireGame) == false)
 
                     Button(
-                        action: { print("Exit to Main Menu") },
+                        action: { self.viewModel.handle(action: .backToMainMenu) },
                         label: { Text("Exit to Main Menu".localized()) }
                     )
                         .buttonStyle(DialogButtonStyle(width: 180))
+                        .disabled(self.viewModel.canClick(on: .backToMainMenu) == false)
                 }
 
                 Spacer()

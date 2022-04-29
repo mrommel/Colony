@@ -581,7 +581,9 @@ extension GameViewModel {
             )
         }
 
-        let civilizationTypeTextureNames = CivilizationType.all.map { $0.iconTexture() }
+        let civilizationTypeTextureNames =
+            (CivilizationType.all + [CivilizationType.free, CivilizationType.barbarian, CivilizationType.cityState(type: .akkad)])
+            .map { $0.iconTexture() }
         print("- load \(civilizationTypeTextureNames.count) civilization type textures")
         for textureName in civilizationTypeTextureNames {
             ImageCache.shared.add(

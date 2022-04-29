@@ -161,6 +161,7 @@ public protocol CloseGameViewModelDelegate: AnyObject {
     func closeGame()
 
     func closeAndRestartGame()
+    func closeGameAndLoad()
 }
 
 // swiftlint:disable type_body_length
@@ -625,7 +626,7 @@ public class GameViewModel: ObservableObject {
                 }
 
                 let title = "TXT_KEY_POPUP_CITY_BECAME_FREE_CITY_TITLE".localized()
-                let summary = "TXT_KEY_POPUP_CITY_BECAME_FREE_CITY_SUMMARY".localizedWithFormat(with: [city.name])
+                let summary = "TXT_KEY_POPUP_CITY_BECAME_FREE_CITY_SUMMARY".localizedWithFormat(with: [city.name.localized()])
                 self.genericPopupViewModel.update(with: title, and: summary)
 
             case .foreignCityRevolted(city: let cityRef):
@@ -634,12 +635,11 @@ public class GameViewModel: ObservableObject {
                     fatalError("no city provided")
                 }
 
-                guard let civName = city.player?.leader.civilization().name() else {
-                    fatalError("cant get civ name")
-                }
+                let civName = city.previousLeader().civilization().name().localized()
+                let cityName = city.name.localized()
 
                 let title = "TXT_KEY_POPUP_FOREIGN_CITY_BECAME_FREE_CITY_TITLE".localized()
-                let summary = "TXT_KEY_POPUP_FOREIGN_CITY_BECAME_FREE_CITY_SUMMARY".localizedWithFormat(with: [civName, city.name])
+                let summary = "TXT_KEY_POPUP_FOREIGN_CITY_BECAME_FREE_CITY_SUMMARY".localizedWithFormat(with: [civName, cityName])
                 self.genericPopupViewModel.update(with: title, and: summary)
 
             case .lostOwnCapital:
@@ -649,7 +649,7 @@ public class GameViewModel: ObservableObject {
 
             case .lostCapital(leader: let leader):
                 let title = "TXT_KEY_POPUP_OTHER_LOST_CAPITAL_TITLE".localized()
-                let summary = "TXT_KEY_POPUP_OTHER_LOST_CAPITAL_SUMMARY".localizedWithFormat(with: [leader.name()])
+                let summary = "TXT_KEY_POPUP_OTHER_LOST_CAPITAL_SUMMARY".localizedWithFormat(with: [leader.name().localized()])
                 self.genericPopupViewModel.update(with: title, and: summary)
 
             case .questFulfilled(cityState: let cityState, quest: let quest):
@@ -673,20 +673,95 @@ public class GameViewModel: ObservableObject {
 
         self.gameMenuVisible = true
     }
+
+    func saveGame(as filename: String) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            print("cant save game: game not set")
+            return
+        }
+
+        do {
+            let applicationSupport = try FileManager.default.url(
+                for: .applicationSupportDirectory,
+                in: .userDomainMask,
+                appropriateFor: nil,
+                create: false
+            )
+
+            let bundleID = "SmartColonyMacOS"
+            var appSupportSubDirectory = applicationSupport.appendingPathComponent(bundleID, isDirectory: true)
+
+            var isDirectory: ObjCBool = true
+            if !FileManager.default.fileExists(atPath: appSupportSubDirectory.path, isDirectory: &isDirectory) {
+                try FileManager.default.createDirectory(at: appSupportSubDirectory, withIntermediateDirectories: true, attributes: nil)
+            }
+
+            appSupportSubDirectory.appendPathComponent(filename)
+
+            let writer = GameWriter()
+            guard writer.write(game: gameModel, to: appSupportSubDirectory) else {
+                print("could not store tmp game")
+                return
+            }
+        } catch {
+            print("cant store file: \(error)")
+            return
+        }
+    }
 }
 
 extension GameViewModel: GameMenuViewModelDelegate {
 
-    func backToGameClicked() {
+    func handle(action: GameMenuAction) {
 
-        self.gameMenuVisible = false
-    }
+        switch action {
 
-    func restartGameClicked() {
+        case .backToGame:
+            self.gameMenuVisible = false
 
-        self.gameMenuVisible = false
+        case .restartGame:
+            self.gameMenuVisible = false
+            self.delegate?.closeAndRestartGame()
 
-        self.delegate?.closeAndRestartGame()
+        case .quickSaveGame:
+            guard let gameModel = self.gameEnvironment.game.value else {
+                print("cant save game: game not set")
+                self.gameMenuVisible = false
+                return
+            }
+
+            guard let humanPlayer = gameModel.humanPlayer() else {
+                print("cant human player")
+                self.gameMenuVisible = false
+                return
+            }
+
+            let filename = "\(humanPlayer.leader.name().localized()) \(gameModel.turnYear()).clny"
+
+            self.saveGame(as: filename)
+            self.gameMenuVisible = false
+
+        case .saveGame:
+            // will not be called
+            break
+
+        case .loadGame:
+            self.gameMenuVisible = false
+            self.delegate?.closeGameAndLoad()
+
+        case .gameOptions:
+            print("game options not implemented yet")
+            self.gameMenuVisible = false
+
+        case .retireGame:
+            print("retire game not implemented yet")
+            self.gameMenuVisible = false
+
+        case .backToMainMenu:
+            self.gameMenuVisible = false
+            self.delegate?.closeGame()
+        }
     }
 }
 
@@ -734,6 +809,29 @@ extension GameViewModel: GameViewModelDelegate {
 
             // show AI turn
             self.bottomLeftBarViewModel.showSpinningGlobe()
+
+            // write backup to file
+            guard let gameModel = self.gameEnvironment.game.value else {
+                print("cant get game")
+                return
+            }
+
+            if self.uiTurnState == .humanTurns {
+                let directory = NSTemporaryDirectory()
+                let fileName = "current.clny"
+
+                // This returns a URL? even though it is an NSURL class method
+                guard let fullURL = NSURL.fileURL(withPathComponents: [directory, fileName]) else {
+                    fatalError("could not store tmp game url")
+                }
+
+                let writer = GameWriter()
+                guard writer.write(game: gameModel, to: fullURL) else {
+                    fatalError("could not store tmp game")
+                }
+
+                print("store turn backup: \(fullURL)")
+            }
 
         case .humanTurns:
 

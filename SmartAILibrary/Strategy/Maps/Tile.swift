@@ -1109,6 +1109,11 @@ public class Tile: AbstractTile {
         }
 
         if let improvement = buildType.improvement() {
+
+            if self.district() != .none {
+                return false
+            }
+
             if !improvement.isPossible(on: self) {
                 return false
             }
@@ -2208,12 +2213,11 @@ public class Tile: AbstractTile {
 
             if neighborTile.has(district: .holySite) ||
                 neighborTile.has(district: .theatherSquare) ||
-                neighborTile.has(district: .entertainmentComplex)
+                neighborTile.has(district: .entertainmentComplex) ||
                 // # water park
                 // # dam
                 // # canal
-                // # preserve
-                {
+                neighborTile.has(district: .preserve) {
 
                 neighborGoodDistrictsCount += 1
             }

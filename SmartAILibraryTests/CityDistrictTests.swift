@@ -78,10 +78,11 @@ class CityDistrictTests: XCTestCase {
 
         // GIVEN
         self.objectToTest?.set(population: 3, reassignCitizen: true, in: gameModel) // small city - 1 district = harbor
+        self.objectToTest?.doAcquirePlot(at: HexPoint(x: 2, y: 2), in: self.gameModel)
         try self.playerAlexander?.techs?.discover(tech: .celestialNavigation, in: self.gameModel)
         try self.playerAlexander?.techs?.discover(tech: .writing, in: self.gameModel)
-        let canBuildHarbor = self.objectToTest!.canBuild(district: .harbor, at: HexPoint(x: 2, y: 1), in: self.gameModel)
-        let hasBuiltHarbor = self.objectToTest!.purchase(district: .harbor, at: HexPoint(x: 2, y: 1), in: self.gameModel)
+        let canBuildHarbor = self.objectToTest!.canBuild(district: .harbor, at: HexPoint(x: 2, y: 2), in: self.gameModel)
+        let hasBuiltHarbor = self.objectToTest!.purchase(district: .harbor, at: HexPoint(x: 2, y: 2), in: self.gameModel)
 
         // WHEN
         let canBuildCampus = self.objectToTest!.canBuild(district: .campus, at: HexPoint(x: 3, y: 1), in: self.gameModel)
@@ -96,12 +97,13 @@ class CityDistrictTests: XCTestCase {
 
         // GIVEN
         self.objectToTest?.set(population: 6, reassignCitizen: true, in: gameModel) // medium city - districts = harbor, campus
+        self.objectToTest?.doAcquirePlot(at: HexPoint(x: 2, y: 2), in: self.gameModel)
         try self.playerAlexander?.techs?.discover(tech: .celestialNavigation, in: self.gameModel)
         try self.playerAlexander?.techs?.discover(tech: .writing, in: self.gameModel)
         try self.playerAlexander?.civics?.discover(civic: .dramaAndPoetry, in: self.gameModel)
 
-        let canBuildHarbor = self.objectToTest!.canBuild(district: .harbor, at: HexPoint(x: 2, y: 1), in: self.gameModel)
-        let hasBuiltHarbor = self.objectToTest!.purchase(district: .harbor, at: HexPoint(x: 2, y: 1), in: self.gameModel)
+        let canBuildHarbor = self.objectToTest!.canBuild(district: .harbor, at: HexPoint(x: 2, y: 2), in: self.gameModel)
+        let hasBuiltHarbor = self.objectToTest!.purchase(district: .harbor, at: HexPoint(x: 2, y: 2), in: self.gameModel)
         let canBuildCampus = self.objectToTest!.canBuild(district: .campus, at: HexPoint(x: 3, y: 1), in: self.gameModel)
         let hasBuiltCampus = self.objectToTest!.purchase(district: .campus, at: HexPoint(x: 3, y: 1), in: self.gameModel)
 
@@ -186,8 +188,9 @@ class CityDistrictTests: XCTestCase {
 
         // GIVEN
         try self.playerAlexander?.techs?.discover(tech: .celestialNavigation, in: self.gameModel)
-        let canBuildFirstHarbor = self.objectToTest!.canBuild(district: .harbor, at: HexPoint(x: 2, y: 1), in: self.gameModel)
-        let hasBuiltFirstHarbor = self.objectToTest!.purchase(district: .harbor, at: HexPoint(x: 2, y: 1), in: self.gameModel)
+        self.objectToTest?.doAcquirePlot(at: HexPoint(x: 2, y: 2), in: self.gameModel)
+        let canBuildFirstHarbor = self.objectToTest!.canBuild(district: .harbor, at: HexPoint(x: 2, y: 2), in: self.gameModel)
+        let hasBuiltFirstHarbor = self.objectToTest!.purchase(district: .harbor, at: HexPoint(x: 2, y: 2), in: self.gameModel)
 
         // WHEN
         let canBuildAnotherHarbor = self.objectToTest!.canBuild(district: .harbor, at: HexPoint(x: 3, y: 1), in: self.gameModel)

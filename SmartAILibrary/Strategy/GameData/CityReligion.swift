@@ -41,6 +41,8 @@ public class ReligiousWeightList: WeightedList<ReligionType> {
 
 public protocol AbstractCityReligion {
 
+    var city: AbstractCity? { get set }
+
     // func turn(with gameModel: GameModel?)
 
     // func pressurePerTurn(in gameModel: GameModel?) -> ReligiousWeightList
@@ -137,7 +139,7 @@ public class CityReligion: AbstractCityReligion, Codable {
         case religionStatus
     }
 
-    var city: AbstractCity?
+    public var city: AbstractCity?
     let pressure: ReligiousWeightList
     var majorityCityReligion: ReligionType
 

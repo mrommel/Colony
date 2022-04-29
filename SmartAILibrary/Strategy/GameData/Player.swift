@@ -315,6 +315,9 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     func doGoodyHut(at tile: AbstractTile?, by unit: AbstractUnit?, in gameModel: GameModel?)
     func doClearBarbarianCamp(at tile: AbstractTile?, in gameModel: GameModel?)
+    func isBarbarianCampDiscovered(at point: HexPoint) -> Bool
+    func discoverBarbarianCamp(at point: HexPoint)
+    func forgetDiscoverBarbarianCamp(at point: HexPoint)
 
     func score(for gameModel: GameModel?) -> Int
 
@@ -394,6 +397,8 @@ public class Player: AbstractPlayer {
         case area
         case armies
         case numPlotsBought
+        case discoveredBarbarianCampLocations
+
         case improvementCountList
         case totalImprovementsBuilt
         case citiesFound
@@ -515,6 +520,7 @@ public class Player: AbstractPlayer {
 
     public var area: HexArea
     internal var numPlotsBoughtValue: Int
+    internal var discoveredBarbarianCampLocationsValue: [HexPoint] = []
 
     internal var resourceProduction: ResourceInventory?
     internal var resourceStockpile: ResourceInventory?
@@ -604,6 +610,8 @@ public class Player: AbstractPlayer {
 
         self.area = try container.decode(HexArea.self, forKey: .area)
         self.armies = try container.decode(Armies.self, forKey: .armies)
+        self.discoveredBarbarianCampLocationsValue =
+            try container.decodeIfPresent([HexPoint].self, forKey: .discoveredBarbarianCampLocations) ?? []
 
         self.numPlotsBoughtValue = 0
         self.improvementCountList = ImprovementCountList()
@@ -727,6 +735,8 @@ public class Player: AbstractPlayer {
         try container.encode(self.area, forKey: .area)
         try container.encode(self.armies, forKey: .armies)
         try container.encode(self.numPlotsBoughtValue, forKey: .numPlotsBought)
+        try container.encode(self.discoveredBarbarianCampLocationsValue, forKey: .discoveredBarbarianCampLocations)
+
         try container.encode(self.improvementCountList, forKey: .improvementCountList)
         try container.encode(self.totalImprovementsBuilt, forKey: .totalImprovementsBuilt)
         try container.encode(self.citiesFoundValue, forKey: .citiesFound)
@@ -5991,6 +6001,23 @@ public class Player: AbstractPlayer {
                 gameModel.userInterface?.showTooltip(at: tile.point, type: .barbarianCampCleared(gold: numGold), delay: 3)
             }
         }
+    }
+
+    public func isBarbarianCampDiscovered(at point: HexPoint) -> Bool {
+
+        return self.discoveredBarbarianCampLocationsValue.contains(where: { $0 == point })
+    }
+
+    public func discoverBarbarianCamp(at point: HexPoint) {
+
+        self.discoveredBarbarianCampLocationsValue.append(point)
+
+        self.notifications()?.add(notification: .barbarianCampDiscovered(location: point))
+    }
+
+    public func forgetDiscoverBarbarianCamp(at point: HexPoint) {
+
+        self.discoveredBarbarianCampLocationsValue.removeAll(where: { $0 == point })
     }
 
     func slots(for slotType: GreatWorkSlotType, in gameModel: GameModel?) -> Int {

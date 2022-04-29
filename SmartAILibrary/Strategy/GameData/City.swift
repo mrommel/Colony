@@ -194,6 +194,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func baseCombatStrength(in gameModel: GameModel?) -> Int
     func combatStrengthModifiers(against attacker: AbstractUnit?, in gameModel: GameModel?) -> [CombatModifier]
 
+    func canRangeStrike() -> Bool
     func canRangeStrike(towards point: HexPoint) -> Bool
     func rangedCombatTargetLocations(in gameModel: GameModel?) -> [HexPoint]
     func isEnemyInRange(in gameModel: GameModel?) -> Bool
@@ -225,6 +226,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func numPlotsAcquired(by otherPlayer: AbstractPlayer?) -> Int
     func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Int?
     func buyPlotScore(in gameModel: GameModel?) -> (Int, HexPoint)
+    func doAcquirePlot(at point: HexPoint, in gameModel: GameModel?)
     func changeNumPlotsAcquiredBy(otherPlayer: AbstractPlayer?, change: Int)
     func countNumImprovedPlots(in gameModel: GameModel?) -> Int
 
@@ -532,7 +534,7 @@ public class City: AbstractCity {
 
         self.loyaltyValue = try container.decode(Double.self, forKey: .loyalty)
 
-        self.governorValue = try container.decode(GovernorType.self, forKey: .governor)
+        self.governorValue = try container.decodeIfPresent(GovernorType.self, forKey: .governor)
 
         // setup
         self.districts?.city = self
@@ -540,7 +542,8 @@ public class City: AbstractCity {
         self.wonders?.city = self
         self.projects?.city = self
         self.cityCitizens?.city = self
-
+        self.cityReligion?.city = self
+        self.cityTourism?.city = self
         self.cityStrategy?.city = self
     }
 
@@ -605,7 +608,7 @@ public class City: AbstractCity {
 
         try container.encode(self.loyaltyValue, forKey: .loyalty)
 
-        try container.encode(self.governorValue, forKey: .governor)
+        try container.encodeIfPresent(self.governorValue, forKey: .governor)
     }
 
     public func set(name: String) {
@@ -630,11 +633,11 @@ public class City: AbstractCity {
         self.gameTurnFoundedValue = gameModel.currentTurn
 
         self.districts = Districts(city: self)
-        self.build(district: .cityCenter, at: self.location, in: gameModel)
-
         self.buildings = Buildings(city: self)
         self.wonders = Wonders(city: self)
         self.projects = Projects(city: self)
+
+        self.build(district: .cityCenter, at: self.location, in: gameModel)
 
         if self.capitalValue {
             do {
@@ -3111,6 +3114,20 @@ public class City: AbstractCity {
                 }
             }
 
+            if districtType == .preserve {
+                // Initiate a Culture Bomb on adjacent unowned tiles
+                for neighborPoint in point.neighbors() {
+
+                    guard let neighborTile = gameModel.tile(at: neighborPoint) else {
+                        continue
+                    }
+
+                    if !neighborTile.hasOwner() {
+                        self.doAcquirePlot(at: neighborPoint, in: gameModel)
+                    }
+                }
+            }
+
             if districtType == .neighborhood {
                 if !player.hasMoment(of: .firstNeighborhoodCompleted) && !player.hasMoment(of: .worldsFirstNeighborhood) {
 
@@ -3298,6 +3315,26 @@ public class City: AbstractCity {
             fatalError("cant get buildings")
         }
 
+        // at least one required building is needed (if there is one)
+        var hasOneRequiredBuilding = false
+        for requiredBuilding in building.requiredBuildings() {
+
+            if buildings.has(building: requiredBuilding) {
+                hasOneRequiredBuilding = true
+            }
+        }
+
+        if !building.requiredBuildings().isEmpty && !hasOneRequiredBuilding {
+            return false
+        }
+
+        // if an obsolete building exists - this cant be built
+        for obsoleteBuilding in building.obsoleteBuildings() {
+            if buildings.has(building: obsoleteBuilding) {
+                return false
+            }
+        }
+
         if !building.canBuild(in: self, in: gameModel) {
             return false
         }
@@ -3323,7 +3360,7 @@ public class City: AbstractCity {
         }
 
         // special handling of the palace
-        // can only be 
+        // can only be built once
         if building == .palace && gameModel.capital(of: player) != nil {
             return false
         }
@@ -3667,6 +3704,14 @@ public class City: AbstractCity {
         }
 
         for loopLocation in cityCitizens.workingTileLocations() {
+
+            guard let loopTile = gameModel.tile(at: loopLocation) else {
+                continue
+            }
+
+            guard loopTile.workingCity()?.location == self.location else {
+                continue
+            }
 
             if districtType.canBuild(on: loopLocation, in: gameModel) {
                 return loopLocation
@@ -4163,16 +4208,28 @@ public class City: AbstractCity {
 
     func updateEurekas(in gameModel: GameModel?) {
 
-        guard let civics = self.player?.civics else {
-            fatalError("cant get civics")
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
         }
 
         guard let player = self.player else {
             fatalError("cant get player")
         }
 
+        guard let civics = player.civics else {
+            fatalError("cant get civics")
+        }
+
+        guard let techs = player.techs else {
+            fatalError("cant get techs")
+        }
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
+        }
+
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
         }
 
         // militaryTraining - Build any district.
@@ -4193,6 +4250,27 @@ public class City: AbstractCity {
         if !civics.inspirationTriggered(for: .recordedHistory) {
             if player.numberOfDistricts(of: .campus, in: gameModel) >= 2 {
                 civics.triggerInspiration(for: .recordedHistory, in: gameModel)
+            }
+        }
+
+        // construction - Build water mill.
+        if !techs.eurekaTriggered(for: .construction) {
+            if buildings.has(building: .waterMill) {
+                techs.triggerEureka(for: .construction, in: gameModel)
+            }
+        }
+
+        // engineering - Build ancient walls
+        if !techs.eurekaTriggered(for: .engineering) {
+            if buildings.has(building: .ancientWalls) {
+                techs.triggerEureka(for: .engineering, in: gameModel)
+            }
+        }
+
+        // shipBuilding - Own 2 Galleys
+        if !techs.eurekaTriggered(for: .shipBuilding) {
+            if gameModel.units(of: player).count(where: { $0?.type == .galley }) >= 2 {
+                techs.triggerEureka(for: .shipBuilding, in: gameModel)
             }
         }
     }
@@ -4416,7 +4494,7 @@ public class City: AbstractCity {
 
     // MARK: attack / damage
 
-    func canRangeStrike() -> Bool {
+    public func canRangeStrike() -> Bool {
 
         if !self.has(building: .ancientWalls) {
             return false
@@ -5635,7 +5713,7 @@ public class City: AbstractCity {
     }
 
     /// Acquire the plot and set it's owner to us
-    func doAcquirePlot(at point: HexPoint, in gameModel: GameModel?) {
+    public func doAcquirePlot(at point: HexPoint, in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")

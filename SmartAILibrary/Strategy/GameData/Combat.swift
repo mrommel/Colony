@@ -493,6 +493,16 @@ public class Combat {
                 }
             }
 
+            if attacker.type == .slinger {
+                guard let attackerTechs = attackerPlayer.techs else {
+                    fatalError("cant get attacker player techs")
+                }
+
+                if !attackerTechs.eurekaTriggered(for: .archery) {
+                    attackerTechs.triggerEureka(for: .archery, in: gameModel)
+                }
+            }
+
             defender.doKill(delayed: false, by: attacker.player, in: gameModel)
             defender.player?.updateWarWeariness(against: attacker.player, at: defender.location, killed: true, in: gameModel)
             attacker.player?.updateWarWeariness(against: defender.player, at: defender.location, killed: false, in: gameModel)

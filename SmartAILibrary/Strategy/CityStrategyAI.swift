@@ -452,11 +452,13 @@ public class CityStrategyAI: Codable {
                 guard let bestDistrictLocation = city.bestLocation(for: districtType, in: gameModel) else {
                     fatalError("cant get best district location")
                 }
-                let buildableItem = BuildableItem(districtType: districtType, at: bestDistrictLocation)
 
-                // reweight
+                if city.canBuild(district: districtType, at: bestDistrictLocation, in: gameModel) {
 
-                buildables.add(weight: weight, for: buildableItem)
+                    let buildableItem = BuildableItem(districtType: districtType, at: bestDistrictLocation)
+                    // reweight ?
+                    buildables.add(weight: weight, for: buildableItem)
+                }
             }
         }
 

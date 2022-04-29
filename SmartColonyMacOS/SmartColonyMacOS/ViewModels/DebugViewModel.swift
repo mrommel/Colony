@@ -98,7 +98,7 @@ class DebugViewModel: ObservableObject {
 
         DispatchQueue.global(qos: .background).async {
 
-            let gameModel = GameUtils.setupDuelGrass(human: .alexander, ai: .victoria, discover: true)
+            let gameModel = GameUtils.setupSmallGrass(human: .alexander, ai: .victoria, discover: true)
             let humanPlayer = gameModel.humanPlayer()!
             let aiPlayer = gameModel.player(for: .victoria)!
             let barbarianPlayer = gameModel.barbarianPlayer()!
@@ -142,7 +142,7 @@ class DebugViewModel: ObservableObject {
 
         DispatchQueue.global(qos: .background).async {
 
-            let gameModel = GameUtils.setupDuelGrass(human: .alexander, ai: .victoria, discover: true)
+            let gameModel = GameUtils.setupSmallGrass(human: .alexander, ai: .victoria, discover: true)
             let humanPlayer = gameModel.humanPlayer()!
             let aiPlayer = gameModel.player(for: .victoria)!
 
@@ -206,7 +206,7 @@ class DebugViewModel: ObservableObject {
 
         DispatchQueue.global(qos: .background).async {
 
-            let gameModel = GameUtils.setupDuelGrass(human: .alexander, ai: .victoria, discover: true)
+            let gameModel = GameUtils.setupSmallGrass(human: .alexander, ai: .victoria, discover: true)
             let humanPlayer = gameModel.humanPlayer()!
             let aiPlayer = gameModel.player(for: .victoria)!
 
@@ -228,17 +228,26 @@ class DebugViewModel: ObservableObject {
             humanPlayer.found(at: HexPoint(x: 3, y: 7), named: "Human Capital", in: gameModel)
             try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
             try! humanPlayer.techs?.discover(tech: .sailing, in: gameModel)
+            try! humanPlayer.techs?.discover(tech: .archery, in: gameModel)
             try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
             try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
             try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
             try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
-            if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 7)) {
-                humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+            guard let humanCity = gameModel.city(at: HexPoint(x: 3, y: 7)) else {
+                fatalError()
             }
+
+            humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+            humanPlayer.treasury?.changeGold(by: 1000)
 
             var x = 0
             for unitType in UnitType.all {
+
+                // debug
+                guard unitType == .slinger else {
+                    continue
+                }
 
                 if unitType.domain() == .sea {
                     gameModel.tile(at: HexPoint(x: x, y: 4))?.set(terrain: .shore)
@@ -248,6 +257,9 @@ class DebugViewModel: ObservableObject {
                 unit.origin = HexPoint(x: 3, y: 5)
                 gameModel.add(unit: unit)
                 gameModel.userInterface?.show(unit: unit, at: HexPoint(x: x, y: 4))
+
+                //
+                try! gameModel.tile(at: HexPoint(x: x, y: 4))?.set(owner: humanPlayer)
 
                 x += 1
             }
@@ -266,7 +278,7 @@ class DebugViewModel: ObservableObject {
 
         DispatchQueue.global(qos: .background).async {
 
-            let gameModel = GameUtils.setupDuelGrass(human: .alexander, ai: .victoria, discover: true)
+            let gameModel = GameUtils.setupSmallGrass(human: .alexander, ai: .victoria, discover: true)
             let humanPlayer = gameModel.humanPlayer()!
             let aiPlayer = gameModel.player(for: .victoria)!
 
@@ -313,7 +325,7 @@ class DebugViewModel: ObservableObject {
 
         DispatchQueue.global(qos: .background).async {
 
-            let gameModel = GameUtils.setupDuelGrass(human: .alexander, ai: .victoria, discover: true)
+            let gameModel = GameUtils.setupSmallGrass(human: .alexander, ai: .victoria, discover: true)
             let humanPlayer = gameModel.humanPlayer()!
             let aiPlayer = gameModel.player(for: .victoria)!
 
@@ -392,7 +404,7 @@ class DebugViewModel: ObservableObject {
 
         DispatchQueue.global(qos: .background).async {
 
-            let gameModel = GameUtils.setupDuelGrass(human: .alexander, ai: .victoria, discover: true)
+            let gameModel = GameUtils.setupSmallGrass(human: .alexander, ai: .victoria, discover: true)
             let humanPlayer = gameModel.humanPlayer()!
             let aiPlayer = gameModel.player(for: .victoria)!
 
@@ -443,7 +455,7 @@ class DebugViewModel: ObservableObject {
 
         DispatchQueue.global(qos: .background).async {
 
-            let gameModel = GameUtils.setupDuelGrass(human: .alexander, ai: .victoria, discover: true)
+            let gameModel = GameUtils.setupSmallGrass(human: .alexander, ai: .victoria, discover: true)
             let humanPlayer = gameModel.humanPlayer()!
             let aiPlayer = gameModel.player(for: .victoria)!
 
@@ -510,7 +522,7 @@ class DebugViewModel: ObservableObject {
 
         DispatchQueue.global(qos: .background).async {
 
-            let gameModel = GameUtils.setupDuelGrass(human: .alexander, ai: .victoria, discover: true)
+            let gameModel = GameUtils.setupSmallGrass(human: .alexander, ai: .victoria, discover: true)
             // let humanPlayer = gameModel.humanPlayer()!
             // let aiPlayer = gameModel.player(for: .victoria)!
 
@@ -547,7 +559,7 @@ class DebugViewModel: ObservableObject {
 
         DispatchQueue.global(qos: .background).async {
 
-            let gameModel = GameUtils.setupDuelGrass(human: .alexander, ai: .victoria, discover: true)
+            let gameModel = GameUtils.setupSmallGrass(human: .alexander, ai: .victoria, discover: true)
 
             gameModel.tile(at: HexPoint(x: 4, y: 3))?.set(feature: .mountains)
             gameModel.tile(at: HexPoint(x: 3, y: 4))?.set(feature: .mountains)
@@ -609,7 +621,7 @@ class DebugViewModel: ObservableObject {
 
         DispatchQueue.global(qos: .background).async {
 
-            let gameModel = GameUtils.setupDuelGrass(human: .trajan, ai: .victoria, discover: false)
+            let gameModel = GameUtils.setupSmallGrass(human: .trajan, ai: .victoria, discover: false)
             let humanPlayer = gameModel.humanPlayer()!
             let aiPlayer = gameModel.player(for: .victoria)!
 

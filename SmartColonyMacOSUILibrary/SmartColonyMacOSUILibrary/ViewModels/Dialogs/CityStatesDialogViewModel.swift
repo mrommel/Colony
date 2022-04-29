@@ -96,6 +96,19 @@ class CityStatesDialogViewModel: ObservableObject {
 
         self.cityStateViewModels = tmpCityStateViewModels
 
+        self.updateEffects()
+    }
+
+    func updateEffects() {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human player")
+        }
+
         // effects
         var tmpEnvoyEffectViewModels: [EnvoyEffectViewModel] = []
 
@@ -125,7 +138,9 @@ extension CityStatesDialogViewModel: CityStateViewModelDelegate {
             fatalError("cant get human player")
         }
 
-        return humanPlayer.assignEnvoy(to: cityState, in: gameModel)
+        let assigned = humanPlayer.assignEnvoy(to: cityState, in: gameModel)
+        self.updateEffects()
+        return assigned
     }
 
     func unassignEnvoy(from cityState: CityStateType) -> Bool {
@@ -138,7 +153,9 @@ extension CityStatesDialogViewModel: CityStateViewModelDelegate {
             fatalError("cant get human player")
         }
 
-        return humanPlayer.unassignEnvoy(from: cityState, in: gameModel)
+        let unassigned = humanPlayer.unassignEnvoy(from: cityState, in: gameModel)
+        self.updateEffects()
+        return unassigned
     }
 
     func center(on cityState: CityStateType) {

@@ -748,7 +748,7 @@ public class Unit: AbstractUnit {
         let name = self.name()
         let promotions = self.gainedPromotions()
 
-        self.doKill(delayed: true, by: nil, in: gameModel)
+        self.doKill(delayed: false, by: nil, in: gameModel)
 
         let newUnit = Unit(at: location, type: unitType, owner: player)
         newUnit.rename(to: name)
@@ -757,6 +757,8 @@ public class Unit: AbstractUnit {
         }
         gameModel?.add(unit: newUnit)
         gameModel?.userInterface?.show(unit: newUnit, at: location)
+
+        newUnit.finishMoves()
     }
 
     /// Current power of unit (raw unit type power adjusted for health)
@@ -1236,7 +1238,15 @@ public class Unit: AbstractUnit {
 
                 if !diplomacyAI.isAtWar(with: defenderUnit.player) && !defenderUnit.isBarbarian() {
 
-                    gameModel.userInterface?.showPopup(popupType: .declareWarQuestion(player: defenderUnit.player))
+                    gameModel.userInterface?.askForConfirmation(
+                        title: "Declare War?",
+                        question: "Da you really want to declare war on \(defenderUnit.player?.leader.name())",
+                        confirm: "Declare War",
+                        cancel: "Cancel",
+                        completion: { _ in
+                            diplomacyAI.doDeclareWar(to: defenderUnit.player, in: gameModel)
+                        })
+
                     return false
                 }
             }
@@ -1456,7 +1466,7 @@ public class Unit: AbstractUnit {
                     }
 
                     // if there is a unit that we are not at war with - we cant attack
-                    if !playerDiplomacy.isAtWar(with: unit.player) {
+                    if !playerDiplomacy.isAtWar(with: unit.player) && !unit.player!.isBarbarian() {
                         return false
                     }
 
@@ -4036,7 +4046,7 @@ public class Unit: AbstractUnit {
                 if !player.isEqual(to: neighborUnit.player) {
 
                     // at war?
-                    if diplomacyAI.isAtWar(with: neighborUnit.player) {
+                    if diplomacyAI.isAtWar(with: neighborUnit.player) || neighborUnit.player!.isBarbarian() {
                         return true
                     }
                 }

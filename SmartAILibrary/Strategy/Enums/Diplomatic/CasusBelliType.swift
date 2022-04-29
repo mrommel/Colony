@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum CasusBelliType {
+public enum CasusBelliType: Int, Codable {
 
     case ancientWar // war in ancient era
 

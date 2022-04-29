@@ -180,9 +180,6 @@ extension GameView {
         case .none:
             return AnyView(EmptyView())
 
-        case .declareWarQuestion(player: _):
-            return AnyView(Text("declareWarQuestion"))
-
         case .goodyHutReward(goodyType: _, location: _):
             return AnyView(GoodyHutRewardPopupView(viewModel: self.viewModel.goodyHutRewardPopupViewModel))
 

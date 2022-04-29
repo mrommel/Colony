@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAILibrary
+import SmartAssets
 
 protocol GreatPersonViewModelDelegate: AnyObject {
 
@@ -48,7 +49,7 @@ class GreatPersonViewModel: ObservableObject {
 
         self.typeName = greatPerson.type().name()
         self.name = greatPerson.name()
-        self.eraName = greatPerson.era().title()
+        self.eraName = greatPerson.era().title().localized()
 
         self.portraitTexture = ""
 

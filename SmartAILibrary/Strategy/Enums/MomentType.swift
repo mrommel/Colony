@@ -1452,6 +1452,12 @@ extension MomentType: Codable {
         case civilization // CivilizationType
         case wonder // WonderType
         case cityName // String
+        case continentName // String
+        case government // GovernmentType
+        case era // EraType
+        case dedication // DedicationType
+        case casusBelli // CasusBelliType
+        case pantheon // PantheonType
     }
 
     public init(from decoder: Decoder) throws {
@@ -1462,20 +1468,453 @@ extension MomentType: Codable {
 
         switch rawValue {
 
-        case 0:
-            let religion = try container.decode(ReligionType.self, forKey: .religion)
-            self = .religionFounded(religion: religion)
+        case 1:
+            self = .admiralDefeatsEnemy
 
-            // ...
+        case 2:
+            self = .allGovernorsAppointed
+
+        case 3:
+            self = .canalCompleted
+
+        case 4:
+            let cityName = try container.decode(String.self, forKey: .cityName)
+            self = .cityNearFloodableRiver(cityName: cityName)
+
+        case 5:
+            let cityName = try container.decode(String.self, forKey: .cityName)
+            self = .cityNearVolcano(cityName: cityName)
+
+        case 6:
+            let cityName = try container.decode(String.self, forKey: .cityName)
+            self = .cityOfAwe(cityName: cityName)
+
+        case 7:
+            let cityName = try container.decode(String.self, forKey: .cityName)
+            let continentName = try container.decode(String.self, forKey: .continentName)
+            self = .cityOnNewContinent(cityName: cityName, continentName: continentName)
+
+        // case cityStatesFirstSuzerain 8
+        // case cityStateArmyLeviedNearEnemy 9
+        // case climateChangePhase 10
+
+        case 11:
+            self = .darkAgeBegins
 
         case 12:
             let naturalWonder = try container.decode(FeatureType.self, forKey: .feature)
             self = .discoveryOfANaturalWonder(naturalWonder: naturalWonder)
 
-            // ...
+        // case emergencyCompletedSuccessfully 13
+        // case emergencySuccessfullyDefended 14
+
+        case 15:
+            self = .enemyCityAdoptsOurReligion
+
+        // case enemyCityStatePacified 16
+
+        case 17:
+            self = .enemyFormationDefeated
+
+        case 18:
+            self = .enemyVeteranDefeated
+
+        case 19:
+            self = .exoplanetExpeditionLaunched
+
+        case 20:
+            self = .finalForeignCityTaken
+
+        case 21:
+            self = .firstAerodromeFullyDeveloped
+
+        case 22:
+            let cityName = try container.decode(String.self, forKey: .cityName)
+            self = .firstBustlingCity(cityName: cityName)
+
+        case 23:
+            let era = try container.decode(EraType.self, forKey: .era)
+            self = .firstCivicOfNewEra(eraType: era)
+
+        // case firstCorporationCreated 24
+        // case firstCorporationInTheWorld 25
+        case 26:
+            self = .firstDiscoveryOfANaturalWonder
+
+        case 27:
+            self = .firstDiscoveryOfANewContinent
+
+        case 28:
+            self = .firstEncampmentFullyDeveloped
+
+        case 29:
+            let cityName = try container.decode(String.self, forKey: .cityName)
+            self = .firstEnormousCity(cityName: cityName)
+
+        case 30:
+            self = .firstEntertainmentComplexFullyDeveloped
+
+        case 31:
+            let cityName = try container.decode(String.self, forKey: .cityName)
+            self = .firstGiganticCity(cityName: cityName)
+
+        // case firstGreenImprovement 32
+        // case firstGreenImprovementInWorld 33
+        // case firstHeroClaimed 34
+        // case firstHeroDeparted 35
+        // case firstHeroRecalled 36
+        // case firstImprovementAfterNaturalDisaster 37
+        // case firstIndustryCreated 38
+        // case firstIndustryInTheWorld 39
+
+        case 40:
+            let cityName = try container.decode(String.self, forKey: .cityName)
+            self = .firstLargeCity(cityName: cityName)
+
+        // case firstLuxuryResourceMonopoly 41
+        // case firstLuxuryResourceMonopolyInTheWorld 42
+        // case firstMasterSpyEarned 43
+        // case firstMountainTunnel 44
+        // case firstMountainTunnelInTheWorld 45
+
+        case 46:
+            self = .firstNeighborhoodCompleted
+
+        // case firstRailroadConnection 47
+        // case firstRailroadConnectionInWorld 48
+        // case firstResourceConsumedForPower 49
+        // case firstResourceConsumedForPowerInWorld 50
+        // case firstRockBandConcert 51
+        // case firstRockBandConcertInWorld 52
+        // case firstSeasideResort 53
+
+        case 54:
+            self = .firstShipwreckExcavated
+
+        case 55:
+            let era = try container.decode(EraType.self, forKey: .era)
+            self = .firstTechnologyOfNewEra(eraType: era)
+
+        case 56:
+            let government = try container.decode(GovernmentType.self, forKey: .government)
+            self = .firstTier1Government(governmentType: government)
+
+        case 57:
+            let government = try container.decode(GovernmentType.self, forKey: .government)
+            self = .firstTier1GovernmentInWorld(governmentType: government)
+
+        case 58:
+            let government = try container.decode(GovernmentType.self, forKey: .government)
+            self = .firstTier2Government(governmentType: government)
+
+        case 59:
+            let government = try container.decode(GovernmentType.self, forKey: .government)
+            self = .firstTier2GovernmentInWorld(governmentType: government)
+
+        case 60:
+            let government = try container.decode(GovernmentType.self, forKey: .government)
+            self = .firstTier3Government(governmentType: government)
+
+        case 61:
+            let government = try container.decode(GovernmentType.self, forKey: .government)
+            self = .firstTier3GovernmentInWorld(governmentType: government)
+
+        case 62:
+            let government = try container.decode(GovernmentType.self, forKey: .government)
+            self = .firstTier4Government(governmentType: government)
+
+        case 63:
+            let government = try container.decode(GovernmentType.self, forKey: .government)
+            self = .firstTier4GovernmentInWorld(governmentType: government)
+
+        case 64:
+            self = .firstTradingPostsInAllCivilizations
+
+        case 65:
+            self = .firstUnitPromotedWithDistinction
+
+        // case firstWaterParkFullyDeveloped 66
+        // case freeCityJoins 67
+
+        case 68:
+            self = .generalDefeatsEnemy
+
+        case 69:
+            self = .goldenAgeBegins
+
+        case 70:
+            self = .governorFullyPromoted
+
+        // case greatPersonLuredByFaith 71
+        // case greatPersonLuredByGold 72
+
+        case 73:
+            self = .heroicAgeBegins
+
+        // case inquisitionBegins 74
+        // case leviedArmyStandsDown 75
+
+        case 76:
+            self = .metAllCivilizations
+
+        case 77:
+            self = .nationalParkFounded
+
+        case 78:
+            self = .normalAgeBegins
+
+        case 79:
+            self = .onTheWaves
+
+        case 80:
+            self = .religionAdoptsAllBeliefs
+
+        case 81:
+            let religion = try container.decode(ReligionType.self, forKey: .religion)
+            self = .religionFounded(religion: religion)
+
+        case 82:
+            self = .rivalHolyCityConverted
+
+        case 83:
+            self = .splendidCampusCompleted
+
+        case 84:
+            self = .splendidCommercialHubCompleted
+
+        case 85:
+            self = .splendidHarborCompleted
+
+        case 86:
+            self = .splendidHolySiteCompleted
+
+        case 87:
+            self = .splendidIndustrialZoneCompleted
+
+        case 88:
+            self = .splendidTheaterSquareCompleted
+
+        case 89:
+            self = .takingFlight
+
+        case 90:
+            self = .threateningCampDestroyed
+
+        case 91:
+            self = .tradingPostsInAllCivilizations
+
+        // case uniqueBuildingConstructed 92
+        // case uniqueDistrictCompleted 93
+        // case uniqueTileImprovementBuilt 94
+        // case uniqueUnitMarches 95
+        // case worldsFirstArmada 96
+        // case worldsFirstArmy 97
+
+        case 98:
+            let cityName = try container.decode(String.self, forKey: .cityName)
+            self = .worldsFirstBustlingCity(cityName: cityName)
+
+        case 99:
+            self = .worldsFirstCircumnavigation
+
+        case 100:
+            let era = try container.decode(EraType.self, forKey: .era)
+            self = .worldsFirstCivicOfNewEra(eraType: era)
+
+        // case worldsFirstCorps 101
+
+        case 102:
+            let cityName = try container.decode(String.self, forKey: .cityName)
+            self = .worldsFirstEnormousCity(cityName: cityName)
+
+        case 103:
+            self = .worldsFirstExoplanetExpeditionLaunched
+        case 104:
+            self = .worldsFirstFleet
+
+        case 105:
+            self = .worldsFirstFlight
+
+        case 106:
+            let cityName = try container.decode(String.self, forKey: .cityName)
+            self = .worldsFirstGiganticCity(cityName: cityName)
+
+        // case worldsFirstInquisition 107
+
+        case 108:
+            self = .worldsFirstLandingOnTheMoon
+
+        case 109:
+            let cityName = try container.decode(String.self, forKey: .cityName)
+            self = .worldsFirstLargeCity(cityName: cityName)
+
+        case 110:
+            self = .worldsFirstMartianColonyEstablished
+
+        case 111:
+            self = .worldsFirstNationalPark
+
+        case 112:
+            self = .worldsFirstNeighborhood
+
+        case 113:
+            self = .worldsFirstPantheon
+
+        case 114:
+            self = .worldsFirstReligion
+
+        case 115:
+            self = .worldsFirstReligionToAdoptAllBeliefs
+
+        case 116:
+            self = .worldsFirstSatelliteInOrbit
+
+        case 117:
+            self = .worldsFirstSeafaring
+
+        case 118:
+            self = .worldsFirstSeasideResort
+
+        case 119:
+            self = .worldsFirstShipwreckExcavated
+
+        case 120:
+            self = .worldsFirstStrategicResourcePotentialUnleashed
+
+        case 121:
+            let era = try container.decode(EraType.self, forKey: .era)
+            self = .worldsFirstTechnologyOfNewEra(eraType: era)
+
+        case 122:
+            self = .worldsFirstToMeetAllCivilizations
+
+        case 123:
+            self = .worldsLargestCivilization
+
+        case 124:
+            self = .worldCircumnavigated
+
+        // minor
+
+        case 200:
+            self = .aggressiveCityPlacement
+
+        case 201:
+            self = .artifactExtracted
+
+        case 202:
+            self = .barbarianCampDestroyed
+
+        case 203:
+            let casusBelli = try container.decode(CasusBelliType.self, forKey: .casusBelli)
+            let civilization = try container.decode(CivilizationType.self, forKey: .civilization)
+            self = .causeForWar(warType: casusBelli, civilizationType: civilization)
+
+        case 204:
+            let cityName = try container.decode(String.self, forKey: .cityName)
+            let civilization = try container.decode(CivilizationType.self, forKey: .civilization)
+            self = .cityReturnsToOriginalOwner(cityName: cityName, originalCivilization: civilization)
+
+        // case cityStateArmyLevied // 205 #
+        // case coastalFloodMitigated // 206 #
+
+        case 207:
+            let cityName = try container.decode(String.self, forKey: .cityName)
+            self = .desertCity(cityName: cityName)
+
+        case 208:
+            self = .diplomaticVictoryResolutionWon
+
+        // case firstArmada 209
+
+        case 210:
+            self = .firstArmy
+
+        // case firstCorps // 211 #
+
+        case 212:
+            self = .firstFleet
+
+        case 213:
+            self = .foreignCapitalTaken
+
+        case 214:
+            self = .greatPersonRecruited
+
+        // case heroClaimed // 215 #
+        // case heroDeparted // 216 #
+        // case heroRecalled // 217 #
+
+        case 218:
+            self = .landedOnTheMoon
+
+        case 219:
+            self = .manhattanProjectCompleted
+
+        case 220:
+            self = .martianColonyEstablished
+
+        case 221:
+            self = .masterSpyEarned
+
+        case 222:
+            let civilization = try container.decode(CivilizationType.self, forKey: .civilization)
+            self = .metNewCivilization(civilization: civilization)
+
+        case 223:
+            self = .oldGreatPersonRecruited
+
+        case 224:
+            self = .oldWorldWonderCompleted
+
+        // case operationIvyCompleted 225
+
+        case 226:
+            let pantheon = try container.decode(PantheonType.self, forKey: .pantheon)
+            self = .pantheonFounded(pantheon: pantheon)
+
+        case 227:
+            self = .riverFloodMitigated
+
+        case 228:
+            self = .satelliteLaunchedIntoOrbit
+
+        case 229:
+            let cityName = try container.decode(String.self, forKey: .cityName)
+            self = .snowCity(cityName: cityName)
+
+        case 230:
+            self = .strategicResourcePotentialUnleashed
+
+        case 231:
+            let civilization = try container.decode(CivilizationType.self, forKey: .civilization)
+            self = .tradingPostEstablishedInNewCivilization(civilization: civilization)
 
         case 232:
             self = .tribalVillageContacted
+
+        case 233:
+            let cityName = try container.decode(String.self, forKey: .cityName)
+            self = .tundraCity(cityName: cityName)
+
+        case 234:
+            self = .unitPromotedWithDistinction
+
+        case 235:
+            let wonder = try container.decode(WonderType.self, forKey: .wonder)
+            self = .wonderCompleted(wonder: wonder)
+
+        // hidden
+
+        case 300:
+            self = .shipSunk
+
+        case 301:
+            self = .battleFought
+
+        case 302:
+            let dedication = try container.decode(DedicationType.self, forKey: .dedication)
+            self = .dedicationTriggered(dedicationType: dedication)
 
         default:
             fatalError("not handled: \(rawValue)")
@@ -1488,20 +1927,454 @@ extension MomentType: Codable {
 
         switch self {
 
-        case .religionFounded(religion: let religion):
-            try container.encode(0, forKey: .rawValue)
-            try container.encode(religion, forKey: .religion)
+        case .admiralDefeatsEnemy:
+            try container.encode(1, forKey: .rawValue)
 
-            // ...
+        case .allGovernorsAppointed:
+            try container.encode(2, forKey: .rawValue)
+
+        case .canalCompleted:
+            try container.encode(3, forKey: .rawValue)
+
+        case .cityNearFloodableRiver(cityName: let cityName):
+            try container.encode(4, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityName)
+
+        case .cityNearVolcano(cityName: let cityName):
+            try container.encode(5, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityName)
+
+        case .cityOfAwe(cityName: let cityName):
+            try container.encode(6, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityName)
+
+        case .cityOnNewContinent(cityName: let cityName, continentName: let continentName):
+            try container.encode(7, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityName)
+            try container.encode(continentName, forKey: .continentName)
+
+        // case cityStatesFirstSuzerain 8
+        // case cityStateArmyLeviedNearEnemy 9
+        // case climateChangePhase 10
+
+        case .darkAgeBegins:
+            try container.encode(11, forKey: .rawValue)
 
         case .discoveryOfANaturalWonder(naturalWonder: let naturalWonder):
             try container.encode(12, forKey: .rawValue)
             try container.encode(naturalWonder, forKey: .feature)
 
-            // ...
+        // case emergencyCompletedSuccessfully 13
+        // case emergencySuccessfullyDefended 14
+
+        case .enemyCityAdoptsOurReligion:
+            try container.encode(15, forKey: .rawValue)
+
+        // case enemyCityStatePacified 16
+
+        case .enemyFormationDefeated:
+            try container.encode(17, forKey: .rawValue)
+
+        case .enemyVeteranDefeated:
+            try container.encode(18, forKey: .rawValue)
+
+        case .exoplanetExpeditionLaunched:
+            try container.encode(19, forKey: .rawValue)
+
+        case .finalForeignCityTaken:
+            try container.encode(20, forKey: .rawValue)
+
+        case .firstAerodromeFullyDeveloped:
+            try container.encode(21, forKey: .rawValue)
+
+        case .firstBustlingCity(cityName: let cityName):
+            try container.encode(22, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityName)
+
+        case .firstCivicOfNewEra(eraType: let eraType):
+            try container.encode(23, forKey: .rawValue)
+            try container.encode(eraType, forKey: .era)
+
+        // case firstCorporationCreated 24
+        // case firstCorporationInTheWorld 25
+
+        case .firstDiscoveryOfANaturalWonder:
+            try container.encode(26, forKey: .rawValue)
+
+        case .firstDiscoveryOfANewContinent:
+            try container.encode(27, forKey: .rawValue)
+
+        case .firstEncampmentFullyDeveloped:
+            try container.encode(28, forKey: .rawValue)
+
+        case .firstEnormousCity(cityName: let cityName):
+            try container.encode(29, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityName)
+
+        case .firstEntertainmentComplexFullyDeveloped:
+            try container.encode(30, forKey: .rawValue)
+
+        case .firstGiganticCity(cityName: let cityName):
+            try container.encode(31, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityName)
+
+        // case firstGreenImprovement 32
+        // case firstGreenImprovementInWorld 33
+        // case firstHeroClaimed 34
+        // case firstHeroDeparted 35
+        // case firstHeroRecalled 36
+        // case firstImprovementAfterNaturalDisaster 37
+        // case firstIndustryCreated 38
+        // case firstIndustryInTheWorld 39
+
+        case .firstLargeCity(cityName: let cityName):
+            try container.encode(40, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityName)
+
+        // case firstLuxuryResourceMonopoly 41
+        // case firstLuxuryResourceMonopolyInTheWorld 42
+        // case firstMasterSpyEarned 43
+        // case firstMountainTunnel 44
+        // case firstMountainTunnelInTheWorld 45
+
+        case .firstNeighborhoodCompleted:
+            try container.encode(46, forKey: .rawValue)
+
+        // case firstRailroadConnection 47
+        // case firstRailroadConnectionInWorld 48
+        // case firstResourceConsumedForPower 49
+        // case firstResourceConsumedForPowerInWorld 50
+        // case firstRockBandConcert 51
+        // case firstRockBandConcertInWorld 52
+        // case firstSeasideResort 53
+
+        case .firstShipwreckExcavated:
+            try container.encode(54, forKey: .rawValue)
+
+        case .firstTechnologyOfNewEra(eraType: let eraType):
+            try container.encode(55, forKey: .rawValue)
+            try container.encode(eraType, forKey: .era)
+
+        case .firstTier1Government(governmentType: let governmentType):
+            try container.encode(56, forKey: .rawValue)
+            try container.encode(governmentType, forKey: .government)
+
+        case .firstTier1GovernmentInWorld(governmentType: let governmentType):
+            try container.encode(57, forKey: .rawValue)
+            try container.encode(governmentType, forKey: .government)
+
+        case .firstTier2Government(governmentType: let governmentType):
+            try container.encode(58, forKey: .rawValue)
+            try container.encode(governmentType, forKey: .government)
+
+        case .firstTier2GovernmentInWorld(governmentType: let governmentType):
+            try container.encode(59, forKey: .rawValue)
+            try container.encode(governmentType, forKey: .government)
+
+        case .firstTier3Government(governmentType: let governmentType):
+            try container.encode(60, forKey: .rawValue)
+            try container.encode(governmentType, forKey: .government)
+
+        case .firstTier3GovernmentInWorld(governmentType: let governmentType):
+            try container.encode(61, forKey: .rawValue)
+            try container.encode(governmentType, forKey: .government)
+
+        case .firstTier4Government(governmentType: let governmentType):
+            try container.encode(62, forKey: .rawValue)
+            try container.encode(governmentType, forKey: .government)
+
+        case .firstTier4GovernmentInWorld(governmentType: let governmentType):
+            try container.encode(63, forKey: .rawValue)
+            try container.encode(governmentType, forKey: .government)
+
+        case .firstTradingPostsInAllCivilizations:
+            try container.encode(64, forKey: .rawValue)
+
+        case .firstUnitPromotedWithDistinction:
+            try container.encode(65, forKey: .rawValue)
+
+        // case firstWaterParkFullyDeveloped 66
+        // case freeCityJoins 67
+
+        case .generalDefeatsEnemy:
+            try container.encode(68, forKey: .rawValue)
+
+        case .goldenAgeBegins:
+            try container.encode(69, forKey: .rawValue)
+
+        case .governorFullyPromoted:
+            try container.encode(70, forKey: .rawValue)
+
+        // case greatPersonLuredByFaith 71
+        // case greatPersonLuredByGold 72
+
+        case .heroicAgeBegins:
+            try container.encode(73, forKey: .rawValue)
+
+        // case inquisitionBegins 74
+        // case leviedArmyStandsDown 75
+
+        case .metAllCivilizations:
+            try container.encode(76, forKey: .rawValue)
+
+        case .nationalParkFounded:
+            try container.encode(77, forKey: .rawValue)
+
+        case .normalAgeBegins:
+            try container.encode(78, forKey: .rawValue)
+
+        case .onTheWaves:
+            try container.encode(79, forKey: .rawValue)
+
+        case .religionAdoptsAllBeliefs:
+            try container.encode(80, forKey: .rawValue)
+
+        case .religionFounded(religion: let religion):
+            try container.encode(81, forKey: .rawValue)
+            try container.encode(religion, forKey: .religion)
+
+        case .rivalHolyCityConverted:
+            try container.encode(82, forKey: .rawValue)
+
+        case .splendidCampusCompleted:
+            try container.encode(83, forKey: .rawValue)
+
+        case .splendidCommercialHubCompleted:
+            try container.encode(84, forKey: .rawValue)
+
+        case .splendidHarborCompleted:
+            try container.encode(85, forKey: .rawValue)
+
+        case .splendidHolySiteCompleted:
+            try container.encode(86, forKey: .rawValue)
+
+        case .splendidIndustrialZoneCompleted:
+            try container.encode(87, forKey: .rawValue)
+
+        case .splendidTheaterSquareCompleted:
+            try container.encode(88, forKey: .rawValue)
+
+        case .takingFlight:
+            try container.encode(89, forKey: .rawValue)
+
+        case .threateningCampDestroyed:
+            try container.encode(90, forKey: .rawValue)
+
+        case .tradingPostsInAllCivilizations:
+            try container.encode(91, forKey: .rawValue)
+
+        // case uniqueBuildingConstructed 92
+        // case uniqueDistrictCompleted 93
+        // case uniqueTileImprovementBuilt 94
+        // case uniqueUnitMarches 95
+        // case worldsFirstArmada 96
+        // case worldsFirstArmy 97
+
+        case .worldsFirstBustlingCity(cityName: let cityName):
+            try container.encode(98, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityName)
+
+        case .worldsFirstCircumnavigation:
+            try container.encode(99, forKey: .rawValue)
+
+        case .worldsFirstCivicOfNewEra(eraType: let eraType):
+            try container.encode(100, forKey: .rawValue)
+            try container.encode(eraType, forKey: .era)
+
+        // case worldsFirstCorps 101
+
+        case .worldsFirstEnormousCity(cityName: let cityName):
+            try container.encode(102, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityName)
+
+        case .worldsFirstExoplanetExpeditionLaunched:
+            try container.encode(103, forKey: .rawValue)
+
+        case .worldsFirstFleet:
+            try container.encode(104, forKey: .rawValue)
+
+        case .worldsFirstFlight:
+            try container.encode(105, forKey: .rawValue)
+
+        case .worldsFirstGiganticCity(cityName: let cityName):
+            try container.encode(106, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityName)
+
+        // case worldsFirstInquisition 107
+
+        case .worldsFirstLandingOnTheMoon:
+            try container.encode(108, forKey: .rawValue)
+
+        case .worldsFirstLargeCity(cityName: let cityName):
+            try container.encode(109, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityName)
+
+        case .worldsFirstMartianColonyEstablished:
+            try container.encode(110, forKey: .rawValue)
+
+        case .worldsFirstNationalPark:
+            try container.encode(111, forKey: .rawValue)
+
+        case .worldsFirstNeighborhood:
+            try container.encode(112, forKey: .rawValue)
+
+        case .worldsFirstPantheon:
+            try container.encode(113, forKey: .rawValue)
+
+        case .worldsFirstReligion:
+            try container.encode(114, forKey: .rawValue)
+
+        case .worldsFirstReligionToAdoptAllBeliefs:
+            try container.encode(115, forKey: .rawValue)
+
+        case .worldsFirstSatelliteInOrbit:
+            try container.encode(116, forKey: .rawValue)
+
+        case .worldsFirstSeafaring:
+            try container.encode(117, forKey: .rawValue)
+
+        case .worldsFirstSeasideResort:
+            try container.encode(118, forKey: .rawValue)
+
+        case .worldsFirstShipwreckExcavated:
+            try container.encode(119, forKey: .rawValue)
+
+        case .worldsFirstStrategicResourcePotentialUnleashed:
+            try container.encode(120, forKey: .rawValue)
+
+        case .worldsFirstTechnologyOfNewEra(eraType: let eraType):
+            try container.encode(121, forKey: .rawValue)
+            try container.encode(eraType, forKey: .era)
+
+        case .worldsFirstToMeetAllCivilizations:
+            try container.encode(122, forKey: .rawValue)
+
+        case .worldsLargestCivilization:
+            try container.encode(123, forKey: .rawValue)
+
+        case .worldCircumnavigated:
+            try container.encode(124, forKey: .rawValue)
+
+        // minor
+
+        case .aggressiveCityPlacement:
+            try container.encode(200, forKey: .rawValue)
+
+        case .artifactExtracted:
+            try container.encode(201, forKey: .rawValue)
+
+        case .barbarianCampDestroyed:
+            try container.encode(202, forKey: .rawValue)
+
+        case .causeForWar(warType: let casusBelli, civilizationType: let civilization):
+            try container.encode(203, forKey: .rawValue)
+            try container.encode(casusBelli, forKey: .casusBelli)
+            try container.encode(civilization, forKey: .civilization)
+
+        case .cityReturnsToOriginalOwner(cityName: let cityName, originalCivilization: let civilization):
+            try container.encode(204, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityName)
+            try container.encode(civilization, forKey: .civilization)
+
+        // case cityStateArmyLevied // 205 #
+        // case coastalFloodMitigated // 206 #
+
+        case .desertCity(cityName: let cityName):
+            try container.encode(207, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityName)
+
+        case .diplomaticVictoryResolutionWon:
+            try container.encode(208, forKey: .rawValue)
+
+        // case firstArmada 209
+
+        case .firstArmy:
+            try container.encode(210, forKey: .rawValue)
+
+        // case firstCorps // 211 #
+
+        case .firstFleet:
+            try container.encode(212, forKey: .rawValue)
+
+        case .foreignCapitalTaken:
+            try container.encode(213, forKey: .rawValue)
+
+        case .greatPersonRecruited:
+            try container.encode(214, forKey: .rawValue)
+
+        // case heroClaimed // 215 #
+        // case heroDeparted // 216 #
+        // case heroRecalled // 217 #
+
+        case .landedOnTheMoon:
+            try container.encode(218, forKey: .rawValue)
+
+        case .manhattanProjectCompleted:
+            try container.encode(219, forKey: .rawValue)
+
+        case .martianColonyEstablished:
+            try container.encode(220, forKey: .rawValue)
+
+        case .masterSpyEarned:
+            try container.encode(221, forKey: .rawValue)
+
+        case .metNewCivilization(civilization: let civilization):
+            try container.encode(222, forKey: .rawValue)
+            try container.encode(civilization, forKey: .civilization)
+
+        case .oldGreatPersonRecruited:
+            try container.encode(223, forKey: .rawValue)
+
+        case .oldWorldWonderCompleted:
+            try container.encode(224, forKey: .rawValue)
+
+        // case operationIvyCompleted 225
+
+        case .pantheonFounded(pantheon: let pantheon):
+            try container.encode(226, forKey: .rawValue)
+            try container.encode(pantheon, forKey: .pantheon)
+
+        case .riverFloodMitigated:
+            try container.encode(227, forKey: .rawValue)
+
+        case .satelliteLaunchedIntoOrbit:
+            try container.encode(228, forKey: .rawValue)
+
+        case .snowCity(cityName: let cityName):
+            try container.encode(229, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityName)
+
+        case .strategicResourcePotentialUnleashed:
+            try container.encode(230, forKey: .rawValue)
+
+        case .tradingPostEstablishedInNewCivilization(civilization: let civilization):
+            try container.encode(231, forKey: .rawValue)
+            try container.encode(civilization, forKey: .civilization)
 
         case .tribalVillageContacted:
             try container.encode(232, forKey: .rawValue)
+
+        case .tundraCity(cityName: let cityName):
+            try container.encode(233, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityName)
+
+        case .unitPromotedWithDistinction:
+            try container.encode(234, forKey: .rawValue)
+
+        case .wonderCompleted(wonder: let wonder):
+            try container.encode(235, forKey: .rawValue)
+            try container.encode(wonder, forKey: .wonder)
+
+        // hidden
+        case .shipSunk:
+            try container.encode(300, forKey: .rawValue)
+
+        case .battleFought:
+            try container.encode(301, forKey: .rawValue)
+
+        case .dedicationTriggered(dedicationType: let dedication):
+            try container.encode(302, forKey: .rawValue)
+            try container.encode(dedication, forKey: .dedication)
 
         default:
             fatalError("not handled: \(self.name())")

@@ -36,6 +36,8 @@ struct MainView: View {
             return AnyView(self.menuView)
         case .newGameMenu:
             return AnyView(self.createGameMenuView)
+        case .loadGameMenu:
+            return AnyView(self.loadGameMenuView)
         case .loadingGame:
             return AnyView(self.generateGameView)
         case .game:
@@ -62,6 +64,10 @@ extension MainView {
 
     private var createGameMenuView: some View {
         CreateGameMenuView(viewModel: self.viewModel.createGameMenuViewModel)
+    }
+
+    private var loadGameMenuView: some View {
+        LoadGameView(viewModel: self.viewModel.loadGameViewModel)
     }
 
     private var generateGameView: some View {

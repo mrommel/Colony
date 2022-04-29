@@ -116,7 +116,7 @@ public enum TechType: String, Codable {
             .mining, .pottery, .animalHusbandry, .sailing, .astrology, .irrigation, .writing, .masonry, .archery, .bronzeWorking, .wheel,
 
             // classical
-            .celestialNavigation, horsebackRiding, .currency, .construction, .ironWorking, .shipBuilding, .mathematics, .engineering,
+            .celestialNavigation, .horsebackRiding, .currency, .construction, .ironWorking, .shipBuilding, .mathematics, .engineering,
 
             // medieval
             .militaryTactics, .buttress, .apprenticeship, .stirrups, .machinery, .education, .militaryEngineering, .castles,

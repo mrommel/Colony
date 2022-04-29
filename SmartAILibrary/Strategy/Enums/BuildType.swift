@@ -277,6 +277,7 @@ public enum BuildType: Int, Codable {
             mineBuild.featuresKept.append(.forest)
             mineBuild.featuresKept.append(.rainforest)
             mineBuild.featuresKept.append(.marsh)
+            mineBuild.featuresKept.append(.oasis)
 
             return mineBuild
 

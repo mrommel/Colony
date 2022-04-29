@@ -24,4 +24,5 @@ public enum BuildingCategoryType {
     case infrastructure
     case production
     case maritime
+    case conservation
 }

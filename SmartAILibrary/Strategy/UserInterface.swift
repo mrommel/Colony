@@ -12,8 +12,6 @@ public enum PopupType {
 
     case none
 
-    case declareWarQuestion(player: AbstractPlayer?)
-
     case goodyHutReward(goodyType: GoodyType, location: HexPoint)
 
     case techDiscovered(tech: TechType)
@@ -46,8 +44,6 @@ extension PopupType: Equatable {
     public static func == (lhs: PopupType, rhs: PopupType) -> Bool {
 
         switch (lhs, rhs) {
-        case (let .declareWarQuestion(lhs_player), let .declareWarQuestion(rhs_player)):
-            return lhs_player?.leader == rhs_player?.leader
 
         case (let .goodyHutReward(lhs_goodyType, lhs_location), let .goodyHutReward(rhs_goodyType, rhs_location)):
             return lhs_goodyType == rhs_goodyType && lhs_location == rhs_location

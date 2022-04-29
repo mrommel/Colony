@@ -2038,6 +2038,14 @@ extension City {
             }
         }
 
+        if self.has(district: .preserve) {
+            // Grants up to 3 Housing Housing based on tile's Appeal
+            if let tile = gameModel.tile(at: self.location) {
+                let appealLevel = tile.appealLevel(in: gameModel)
+                housingFromDistricts += Double(appealLevel.housing()) / 2.0
+            }
+        }
+
         if self.has(district: .holySite) {
 
             // riverGoddess - +2 [Amenities] Amenities and +2 [Housing] Housing to cities if they have a Holy Site district adjacent to a River.
