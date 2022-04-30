@@ -34,6 +34,10 @@ public struct MapOverviewView: View {
 
         VStack {
 
+            self.addMarkerView
+
+            self.markerView
+
             self.legendView
 
             self.optionPickerView
@@ -163,6 +167,28 @@ public struct MapOverviewView: View {
                             .strokeBorder(Color.white, lineWidth: 1)
                             .background(Color(Globals.Colors.dialogBackground))
                     )
+            )
+        } else {
+            return AnyView(EmptyView())
+        }
+    }
+
+    var markerView: some View {
+
+        if self.viewModel.showMapMarker {
+            return AnyView(
+                MapMarkerView(viewModel: self.viewModel.mapMarkerViewModel)
+            )
+        } else {
+            return AnyView(EmptyView())
+        }
+    }
+
+    var addMarkerView: some View {
+
+        if self.viewModel.showAddMapMarker {
+            return AnyView(
+                MapMarkerPickerView(viewModel: self.viewModel.mapMarkerPickerViewModel)
             )
         } else {
             return AnyView(EmptyView())

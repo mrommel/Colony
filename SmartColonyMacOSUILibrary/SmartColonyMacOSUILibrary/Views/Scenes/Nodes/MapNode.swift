@@ -32,6 +32,7 @@ class MapNode: SKNode {
     var waterLayer: WaterLayer
     var hexCoordLayer: HexCoordLayer
     var mapLensLayer: MapLensLayer
+    var mapMarkerLayer: MapMarkerLayer // default on
 
     // MARK: properties
 
@@ -117,6 +118,10 @@ class MapNode: SKNode {
         self.wonderLayer.populate(with: self.game)
         self.wonderLayer.zPosition = Globals.ZLevels.wonder
 
+        self.mapMarkerLayer = MapMarkerLayer(player: humanPlayer)
+        self.mapMarkerLayer.populate(with: self.game)
+        self.mapMarkerLayer.zPosition = Globals.ZLevels.mapMarkers
+
         super.init()
         self.zPosition = 51
 
@@ -134,6 +139,7 @@ class MapNode: SKNode {
         self.addChild(self.hexCoordLayer) // ???
         self.addChild(self.districtLayer)
         self.addChild(self.wonderLayer)
+        self.addChild(self.mapMarkerLayer)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -195,6 +201,20 @@ class MapNode: SKNode {
 
         if self.childNode(withName: HexCoordLayer.kName) != nil {
             self.hexCoordLayer.removeFromParent()
+        }
+    }
+
+    func showMapMarkers() {
+
+        if self.childNode(withName: MapMarkerLayer.kName) == nil {
+            self.addChild(self.mapMarkerLayer)
+        }
+    }
+
+    func hideMapMarkers() {
+
+        if self.childNode(withName: MapMarkerLayer.kName) != nil {
+            self.mapMarkerLayer.removeFromParent()
         }
     }
 
@@ -263,6 +283,8 @@ class MapNode: SKNode {
         self.wonderLayer.rebuild()
         self.mapLensLayer.showCompleteMap = true
         self.mapLensLayer.rebuild()
+        self.mapMarkerLayer.showCompleteMap = true
+        self.mapMarkerLayer.rebuild()
     }
 
     func showVisibleMap() {
@@ -305,6 +327,8 @@ class MapNode: SKNode {
         self.wonderLayer.rebuild()
         self.mapLensLayer.showCompleteMap = false
         self.mapLensLayer.rebuild()
+        self.mapMarkerLayer.showCompleteMap = false
+        self.mapMarkerLayer.rebuild()
     }
 
     func updateLayout() {
@@ -327,5 +351,6 @@ class MapNode: SKNode {
         self.districtLayer.update(tile: tile)
         self.wonderLayer.update(tile: tile)
         self.mapLensLayer.update(tile: tile)
+        self.mapMarkerLayer.update(tile: tile)
     }
 }

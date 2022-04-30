@@ -39,7 +39,7 @@ public class MapLensLegendViewModel: ObservableObject {
             .map { item in
                 MapLensLegendItemViewModel(
                     legendColor: item.color,
-                    legendTitle: item.title
+                    legendTitle: item.title.localized()
                 )
             }
     }

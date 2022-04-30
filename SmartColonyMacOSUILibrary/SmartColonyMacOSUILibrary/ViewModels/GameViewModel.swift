@@ -153,6 +153,8 @@ protocol GameViewModelDelegate: AnyObject {
     func closePopup()
 
     func closeGame()
+
+    func selectMarker(at location: HexPoint)
 }
 
 public protocol CloseGameViewModelDelegate: AnyObject {
@@ -1279,6 +1281,11 @@ extension GameViewModel: GameViewModelDelegate {
 
         self.delegate?.closeGame()
     }
+
+    func selectMarker(at location: HexPoint) {
+
+        self.bottomRightBarViewModel.mapOverviewViewModel.selectMarker(at: location)
+    }
 }
 
 extension GameViewModel: TopBarViewModelDelegate {
@@ -1304,6 +1311,16 @@ extension GameViewModel: BottomRightBarViewModelDelegate {
     func selected(mapLens: MapLensType) {
 
         self.gameEnvironment.displayOptions.value.mapLens = mapLens
+    }
+
+    func enableMarkerMode() {
+
+        self.gameSceneViewModel.unitSelectionMode = .marker
+    }
+
+    func cancelMarkerMode() {
+
+        self.gameSceneViewModel.unitSelectionMode = .pick
     }
 }
 

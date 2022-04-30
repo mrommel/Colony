@@ -18,6 +18,7 @@ public class GameSceneViewModel: ObservableObject {
         case meleeUnitTargets
         case rangedUnitTargets
         case rangedCityTargets
+        case marker
     }
 
     @Published

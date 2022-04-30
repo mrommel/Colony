@@ -20,6 +20,9 @@ protocol MapOverviewViewModelDelegate: AnyObject {
     func minimapClicked(on point: HexPoint)
 
     func selected(mapLens: MapLensType)
+
+    func enableMarkerMode()
+    func cancelMarkerMode()
 }
 
 public class MapOverviewViewModel: ObservableObject {
@@ -72,13 +75,37 @@ public class MapOverviewViewModel: ObservableObject {
     @Published
     var mapLensLegendViewModel: MapLensLegendViewModel
 
+    @Published
+    var showMapMarker: Bool
+
+    @Published
+    var mapMarkerWaiting: Bool
+
+    @Published
+    var mapMarkerViewModel: MapMarkerViewModel
+
+    @Published
+    var showAddMapMarker: Bool
+
+    @Published
+    var mapMarkerPickerViewModel: MapMarkerPickerViewModel
+
     weak var delegate: MapOverviewViewModelDelegate?
 
     public init() {
 
         self.showMapLens = false
+        self.showMapMarker = false
+        self.showAddMapMarker = false
+        self.mapMarkerWaiting = false
+
         self.selectedMapLens = MapLensType.none
         self.mapLensLegendViewModel = MapLensLegendViewModel()
+        self.mapMarkerViewModel = MapMarkerViewModel()
+        self.mapMarkerPickerViewModel = MapMarkerPickerViewModel()
+
+        self.mapMarkerPickerViewModel.delegate = self
+        self.mapMarkerViewModel.delegate = self
 
         if let game = gameEnvironment.game.value {
 
@@ -135,6 +162,8 @@ public class MapOverviewViewModel: ObservableObject {
     func mapLensClicked() {
 
         self.showMapLens = !self.showMapLens
+        self.showMapMarker = false
+        self.showAddMapMarker = false
 
         // if map lens is toogle on, we send the map lens to the view options again
         if self.showMapLens {
@@ -149,7 +178,34 @@ public class MapOverviewViewModel: ObservableObject {
 
     func mapMarkerClicked() {
 
-        print("mapMarkerClicked")
+        self.showMapMarker = !self.showMapMarker
+        self.showMapLens = false
+        self.showAddMapMarker = false
+
+        if self.showMapMarker {
+            self.mapMarkerWaiting = false
+        }
+    }
+
+    func addMarkerClicked() {
+
+        self.showMapMarker = false
+        self.showMapMarker = false
+        //
+
+        if self.mapMarkerWaiting {
+            self.mapMarkerWaiting = false
+            self.delegate?.cancelMarkerMode()
+        } else {
+            self.mapMarkerWaiting = true
+            self.delegate?.enableMarkerMode()
+        }
+    }
+
+    func selectMarker(at location: HexPoint) {
+
+        self.mapMarkerPickerViewModel.update(location: location)
+        self.showAddMapMarker = true
     }
 
     func mapOptionImage() -> NSImage {
@@ -364,5 +420,43 @@ public class MapOverviewViewModel: ObservableObject {
         let scalex = 156.0 / contentSize.width
         let scaley = 94.0 / contentSize.height
         return CGPoint(x: screen.x * scalex + 85.0, y: 94.0 - (screen.y * scaley) - 70.0)
+    }
+}
+
+extension MapOverviewViewModel: MapMarkerPickerViewModelDelegate {
+
+    func close() {
+
+        self.showAddMapMarker = false
+    }
+
+    func addMarker(type: MapMarkerType, name: String, at location: HexPoint) {
+
+        self.showAddMapMarker = false
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("no map")
+        }
+
+        gameModel.humanPlayer()?.addMarker(type: type, name: name, at: location, in: gameModel)
+        self.mapMarkerViewModel.updateMarkers()
+    }
+
+    func removeMarker(at location: HexPoint) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("no map")
+        }
+
+        gameModel.humanPlayer()?.removeMarker(at: location, in: gameModel)
+        self.mapMarkerViewModel.updateMarkers()
+    }
+}
+
+extension MapOverviewViewModel: MapMarkerViewModelDelegate {
+
+    func center(on location: HexPoint) {
+
+        self.delegate?.minimapClicked(on: location)
     }
 }
