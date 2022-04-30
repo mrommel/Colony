@@ -1,5 +1,5 @@
 //
-//  MapMarkerView.swift
+//  MapMarkersView.swift
 //  SmartColonyMacOSUILibrary
 //
 //  Created by Michael Rommel on 30.04.22.
@@ -8,14 +8,14 @@
 import SwiftUI
 import SmartAssets
 
-struct MapMarkerView: View {
+struct MapMarkersView: View {
 
     @ObservedObject
-    var viewModel: MapMarkerViewModel
+    var viewModel: MapMarkersViewModel
 
     private let cornerRadius: CGFloat = 5
 
-    init(viewModel: MapMarkerViewModel) {
+    init(viewModel: MapMarkersViewModel) {
 
         self.viewModel = viewModel
     }
@@ -27,6 +27,7 @@ struct MapMarkerView: View {
 
             ForEach(self.viewModel.items, id: \.self) { mapMarkerViewModel in
 
+                // TODO: => MapMarkerView
                 HStack(alignment: .center) {
 
                     Image(nsImage: mapMarkerViewModel.image())
@@ -34,7 +35,7 @@ struct MapMarkerView: View {
                         .frame(width: 16, height: 16)
 
                     Text(mapMarkerViewModel.markerTitle)
-                        .frame(width: 120)
+                        .frame(width: 120, alignment: .leading)
 
                     // remove + edit buttons
                 }
@@ -61,8 +62,8 @@ struct MapMarkerView: View {
     }
 }
 
-/*struct MapMarkerView_Previews: PreviewProvider {
+/*struct MapMarkersView_Previews: PreviewProvider {
     static var previews: some View {
-        MapMarkerView()
+        MapMarkersView()
     }
 }*/

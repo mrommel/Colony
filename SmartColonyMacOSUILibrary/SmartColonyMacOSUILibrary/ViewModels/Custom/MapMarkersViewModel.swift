@@ -1,5 +1,5 @@
 //
-//  MapMarkerViewModel.swift
+//  MapMarkersViewModel.swift
 //  SmartColonyMacOSUILibrary
 //
 //  Created by Michael Rommel on 29.04.22.
@@ -9,13 +9,13 @@ import SwiftUI
 import SmartAssets
 import SmartAILibrary
 
-protocol MapMarkerViewModelDelegate: AnyObject {
+protocol MapMarkersViewModelDelegate: AnyObject {
 
     func addMarkerClicked()
     func center(on location: HexPoint)
 }
 
-public class MapMarkerViewModel: ObservableObject {
+public class MapMarkersViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
@@ -23,7 +23,7 @@ public class MapMarkerViewModel: ObservableObject {
     @Published
     var items: [MapMarkerItemViewModel]
 
-    weak var delegate: MapMarkerViewModelDelegate?
+    weak var delegate: MapMarkersViewModelDelegate?
 
     init() {
 

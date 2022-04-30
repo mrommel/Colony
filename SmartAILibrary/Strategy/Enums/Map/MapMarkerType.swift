@@ -16,16 +16,21 @@ public enum MapMarkerType: String, Codable {
     case cityCenter
     case holySite
     case campus
+    case theatherSquare
+    case commercialHub
+    case encampment
 
     // wonders
+    case pyramids
+    case oracle
     case stonehenge
 
     public static var all: [MapMarkerType] = [
 
         // districts
-        .cityCenter, .holySite, .campus,
+        .cityCenter, .holySite, .campus, .theatherSquare, .commercialHub, .encampment,
 
         // wonders
-        .stonehenge
+        .stonehenge, .oracle, .pyramids
     ]
 }

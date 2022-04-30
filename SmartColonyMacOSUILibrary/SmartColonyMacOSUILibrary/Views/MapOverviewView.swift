@@ -34,9 +34,13 @@ public struct MapOverviewView: View {
 
         VStack {
 
-            self.addMarkerView
+            Group {
+                self.mapMarkerPickerView
 
-            self.markerView
+                self.mapMarkerWaitingView
+
+                self.mapMarkersView
+            }
 
             self.legendView
 
@@ -173,20 +177,31 @@ public struct MapOverviewView: View {
         }
     }
 
-    var markerView: some View {
+    var mapMarkersView: some View {
 
         if self.viewModel.showMapMarker {
             return AnyView(
-                MapMarkerView(viewModel: self.viewModel.mapMarkerViewModel)
+                MapMarkersView(viewModel: self.viewModel.mapMarkersViewModel)
             )
         } else {
             return AnyView(EmptyView())
         }
     }
 
-    var addMarkerView: some View {
+    var mapMarkerWaitingView: some View {
 
-        if self.viewModel.showAddMapMarker {
+        if self.viewModel.showMapMarkerWaiting {
+            return AnyView(
+                MapMarkerWaitingView(viewModel: self.viewModel.mapMarkerWaitingViewModel)
+            )
+        } else {
+            return AnyView(EmptyView())
+        }
+    }
+
+    var mapMarkerPickerView: some View {
+
+        if self.viewModel.showMapMarkerPicker {
             return AnyView(
                 MapMarkerPickerView(viewModel: self.viewModel.mapMarkerPickerViewModel)
             )

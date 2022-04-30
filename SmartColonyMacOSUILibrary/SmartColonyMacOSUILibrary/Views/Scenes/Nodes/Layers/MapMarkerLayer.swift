@@ -83,7 +83,7 @@ class MapMarkerLayer: BaseLayer {
 
         if let marker = self.player?.marker(at: tile.point) {
 
-            let markerTextureName = marker.type.iconTexture()
+            let markerTextureName = marker.type.markerTexture()
             let image = ImageCache.shared.image(for: markerTextureName)
 
             // place texture

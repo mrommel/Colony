@@ -743,6 +743,15 @@ extension GameViewModel {
             )
         }
 
+        let mapMarkerTextureNames = MapMarkerType.all.map { $0.markerTexture() }
+        print("- load \(mapMarkerTextureNames.count) map marker textures")
+        for textureName in mapMarkerTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
         print("-- all textures loaded --")
 
         self.bottomLeftBarViewModel.preloadAssets()
