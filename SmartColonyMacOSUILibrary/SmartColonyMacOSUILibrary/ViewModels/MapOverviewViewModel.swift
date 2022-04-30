@@ -428,6 +428,7 @@ extension MapOverviewViewModel: MapMarkerPickerViewModelDelegate {
     func close() {
 
         self.showAddMapMarker = false
+        self.delegate?.cancelMarkerMode()
     }
 
     func addMarker(type: MapMarkerType, name: String, at location: HexPoint) {
@@ -440,6 +441,7 @@ extension MapOverviewViewModel: MapMarkerPickerViewModelDelegate {
 
         gameModel.humanPlayer()?.addMarker(type: type, name: name, at: location, in: gameModel)
         self.mapMarkerViewModel.updateMarkers()
+        self.delegate?.cancelMarkerMode()
     }
 
     func removeMarker(at location: HexPoint) {
