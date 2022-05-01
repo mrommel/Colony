@@ -30,12 +30,17 @@ struct MapMarkerItemView: View {
                 }
 
             Text(self.viewModel.markerTitle)
-                .frame(width: 100, alignment: .leading)
+                .frame(width: 84, alignment: .leading)
                 .onTapGesture {
                     self.viewModel.clickedCenter()
                 }
 
-            // remove button
+            Image(nsImage: self.viewModel.removeImage())
+                .resizable()
+                .frame(width: 16, height: 16)
+                .onTapGesture {
+                    self.viewModel.clickedRemove()
+                }
 
             Image(nsImage: self.viewModel.centerImage())
                 .resizable()

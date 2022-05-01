@@ -284,7 +284,7 @@ extension GameViewModel {
             "unit-strength-background", "unit-strength-frame", "unit-strength-bar", "loyalty",
             "map-overview-canvas", "map-lens", "map-lens-active", "map-marker", "map-options",
             "unit-canvas", "menu", "menu-background", "speed-standard", "city-states",
-            "jump-to", "hint", "gossip-background",
+            "jump-to", "hint", "gossip-background", "remove",
             "suzerain-cultural", "suzerain-inactive", "suzerain-industrial", "suzerain-militaristic",
             "suzerain-religious", "suzerain-scientific", "suzerain-trade"
         ]

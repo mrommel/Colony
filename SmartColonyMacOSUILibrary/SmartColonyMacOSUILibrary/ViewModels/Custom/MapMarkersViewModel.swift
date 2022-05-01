@@ -13,6 +13,7 @@ protocol MapMarkersViewModelDelegate: AnyObject {
 
     func addMarkerClicked()
     func center(on location: HexPoint)
+    func removeMarker(at location: HexPoint)
 }
 
 public class MapMarkersViewModel: ObservableObject {
@@ -73,6 +74,6 @@ extension MapMarkersViewModel: MapMarkerItemViewModelDelegage {
 
     func clickedRemove(at location: HexPoint) {
 
-        print("not implemented")
+        self.delegate?.removeMarker(at: location)
     }
 }

@@ -44,6 +44,11 @@ public class MapMarkerItemViewModel: ObservableObject, Identifiable {
         return ImageCache.shared.image(for: self.markerType.iconTexture())
     }
 
+    func removeImage() -> NSImage {
+
+        return ImageCache.shared.image(for: "remove")
+    }
+
     func centerImage() -> NSImage {
 
         return ImageCache.shared.image(for: "jump-to")

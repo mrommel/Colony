@@ -212,6 +212,7 @@ public class MapOverviewViewModel: ObservableObject {
 
         self.mapMarkerPickerViewModel.update(location: location)
         self.showMapMarkerPicker = true
+        self.showMapMarkerWaiting = false
     }
 
     func mapOptionImage() -> NSImage {
