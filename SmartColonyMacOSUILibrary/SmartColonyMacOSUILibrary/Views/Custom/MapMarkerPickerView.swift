@@ -33,20 +33,37 @@ struct MapMarkerPickerView: View {
 
             TextField("name ...", text: self.$viewModel.name)
 
+            Text("Districts".localized())
+
             LazyVGrid(columns: gridItemLayout, alignment: .leading, spacing: 2) {
 
-                ForEach(self.viewModel.markerViewModels) { markerViewModel in
+                ForEach(self.viewModel.districtMarkerViewModels) { markerViewModel in
 
                     Image(nsImage: markerViewModel.image())
                         .resizable()
                         .frame(width: 24, height: 24)
-                        .border(self.viewModel.selectedType == markerViewModel.type ? Color.red : Color.white, width: 1, cornerRadius: 4)
+                        .border(self.viewModel.selectedType == markerViewModel.type ? Color.white : Color(Globals.Colors.dialogBackground), width: 1, cornerRadius: 4)
                         .onTapGesture {
-                            // techViewModel.selectTech()
-                            // print("select marker: \(markerViewModel.type)")
                             self.viewModel.selectedType = markerViewModel.type
                         }
-                        .id("marker-\(markerViewModel.id)")
+                        .id("district-marker-\(markerViewModel.id)")
+                }
+            }
+
+            Text("Wonders".localized())
+
+            LazyVGrid(columns: gridItemLayout, alignment: .leading, spacing: 2) {
+
+                ForEach(self.viewModel.wonderMarkerViewModels) { markerViewModel in
+
+                    Image(nsImage: markerViewModel.image())
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .border(self.viewModel.selectedType == markerViewModel.type ? Color.white : Color(Globals.Colors.dialogBackground), width: 1, cornerRadius: 4)
+                        .onTapGesture {
+                            self.viewModel.selectedType = markerViewModel.type
+                        }
+                        .id("wonder-marker-\(markerViewModel.id)")
                 }
             }
 

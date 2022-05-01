@@ -37,6 +37,38 @@ extension MapMarkerType {
         case .commercialHub:
             return DistrictType.commercialHub.name()
 
+        case .harbor:
+            return DistrictType.harbor.name()
+
+        case .industrialZone:
+            return DistrictType.industrialZone.name()
+
+        case .preserve:
+            return DistrictType.preserve.name()
+
+        case .entertainmentComplex:
+            return DistrictType.entertainmentComplex.name()
+
+        // case .waterPark:
+
+        case .aqueduct:
+            return DistrictType.aqueduct.name()
+
+        case .neighborhood:
+            return DistrictType.neighborhood.name()
+
+        // canal
+        // dam
+        // areodrome
+
+        case .spaceport:
+            return DistrictType.spaceport.name()
+
+        case .governmentPlaza:
+            return DistrictType.governmentPlaza.name()
+
+        // case diplomaticQuarter
+
         // wonders
 
         case .stonehenge:
@@ -77,6 +109,38 @@ extension MapMarkerType {
         case .commercialHub:
             return DistrictType.commercialHub.iconTexture()
 
+        case .harbor:
+            return DistrictType.harbor.iconTexture()
+
+        case .industrialZone:
+            return DistrictType.industrialZone.iconTexture()
+
+        case .preserve:
+            return DistrictType.preserve.iconTexture()
+
+        case .entertainmentComplex:
+            return DistrictType.entertainmentComplex.iconTexture()
+
+        // case .waterPark:
+
+        case .aqueduct:
+            return DistrictType.aqueduct.iconTexture()
+
+        case .neighborhood:
+            return DistrictType.neighborhood.iconTexture()
+
+        // case .canal:
+        // case .dam:
+        // case .areodrome:
+
+        case .spaceport:
+            return DistrictType.spaceport.iconTexture()
+
+        case .governmentPlaza:
+            return DistrictType.governmentPlaza.iconTexture()
+
+        // case diplomaticQuarter
+
         // wonders
 
         case .stonehenge:
@@ -116,6 +180,38 @@ extension MapMarkerType {
 
         case .commercialHub:
             return "mapMarker-district-commercialHub"
+
+        case .harbor:
+            return "mapMarker-district-harbor"
+
+        case .industrialZone:
+            return "mapMarker-district-industrialZone"
+
+        case .preserve:
+            return "mapMarker-district-preserve"
+
+        case .entertainmentComplex:
+            return "mapMarker-district-entertainmentComplex"
+
+        // case .waterPark:
+
+        case .aqueduct:
+            return "mapMarker-district-aqueduct"
+
+        case .neighborhood:
+            return "mapMarker-district-neighborhood"
+
+        // case .canal:
+        // case .dam:
+        // case .areodrome:
+
+        case .spaceport:
+            return "mapMarker-district-spaceport"
+
+        case .governmentPlaza:
+            return "mapMarker-district-governmentPlaza"
+
+        // case .diplomaticQuarter:
 
         // wonders
 

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "mapMarker-district-governmentPlaza@3x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

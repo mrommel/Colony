@@ -26,7 +26,10 @@ public class MapMarkerPickerViewModel: ObservableObject {
     var selectedLocation: HexPoint = .invalid
 
     @Published
-    var markerViewModels: [MapMarkerTypeViewModel]
+    var districtMarkerViewModels: [MapMarkerTypeViewModel]
+
+    @Published
+    var wonderMarkerViewModels: [MapMarkerTypeViewModel]
 
     weak var delegate: MapMarkerPickerViewModelDelegate?
 
@@ -34,12 +37,21 @@ public class MapMarkerPickerViewModel: ObservableObject {
 
         var tmpMarkerViewModels: [MapMarkerTypeViewModel] = []
 
-        for mapMarkerType in MapMarkerType.all {
+        for mapMarkerType in MapMarkerType.districts {
 
             tmpMarkerViewModels.append(MapMarkerTypeViewModel(type: mapMarkerType))
         }
 
-        self.markerViewModels = tmpMarkerViewModels
+        self.districtMarkerViewModels = tmpMarkerViewModels
+
+        tmpMarkerViewModels = []
+
+        for mapMarkerType in MapMarkerType.wonders {
+
+            tmpMarkerViewModels.append(MapMarkerTypeViewModel(type: mapMarkerType))
+        }
+
+        self.wonderMarkerViewModels = tmpMarkerViewModels
     }
 
     func update(location: HexPoint) {
