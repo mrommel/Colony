@@ -25,24 +25,9 @@ struct MapMarkersView: View {
 
             Text("Marker".localized())
 
-            ForEach(self.viewModel.items, id: \.self) { mapMarkerViewModel in
+            ForEach(self.viewModel.items, id: \.self) { mapMarkerItemViewModel in
 
-                // TODO: => MapMarkerView
-                HStack(alignment: .center) {
-
-                    Image(nsImage: mapMarkerViewModel.image())
-                        .resizable()
-                        .frame(width: 16, height: 16)
-
-                    Text(mapMarkerViewModel.markerTitle)
-                        .frame(width: 120, alignment: .leading)
-
-                    // remove + edit buttons
-                }
-                .frame(width: 140)
-                .onTapGesture {
-                    self.viewModel.clicked(on: mapMarkerViewModel.markerLocation)
-                }
+                MapMarkerItemView(viewModel: mapMarkerItemViewModel)
             }
 
             Button(

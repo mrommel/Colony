@@ -44,7 +44,10 @@ public class MapMarkersViewModel: ObservableObject {
 
         for marker in humanPlayer.markers() {
 
-            tmpItems.append(MapMarkerItemViewModel(marker: marker))
+            let item = MapMarkerItemViewModel(marker: marker)
+            item.delegate = self
+
+            tmpItems.append(item)
         }
 
         self.items = tmpItems
@@ -58,5 +61,18 @@ public class MapMarkersViewModel: ObservableObject {
     func clicked(on location: HexPoint) {
 
         self.delegate?.center(on: location)
+    }
+}
+
+extension MapMarkersViewModel: MapMarkerItemViewModelDelegage {
+
+    func clickedCenter(at location: HexPoint) {
+
+        self.delegate?.center(on: location)
+    }
+
+    func clickedRemove(at location: HexPoint) {
+
+        print("not implemented")
     }
 }

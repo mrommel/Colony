@@ -308,6 +308,7 @@
 		C9EA3CDD281D685A005ECCFF /* MapMarkersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EA3CDC281D685A005ECCFF /* MapMarkersView.swift */; };
 		C9EA3CDF281DB479005ECCFF /* MapMarkerWaitingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EA3CDE281DB479005ECCFF /* MapMarkerWaitingViewModel.swift */; };
 		C9EA3CE1281DC2B7005ECCFF /* MapMarkerWaitingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EA3CE0281DC2B7005ECCFF /* MapMarkerWaitingView.swift */; };
+		C9EA3CE3281E80CA005ECCFF /* MapMarkerItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EA3CE2281E80C9005ECCFF /* MapMarkerItemView.swift */; };
 		C9EC424227135E93004224AB /* ProgressBarNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC424127135E93004224AB /* ProgressBarNode.swift */; };
 		C9F2B54D2669126E0016D4F3 /* CivicDiscoveredPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B54C2669126E0016D4F3 /* CivicDiscoveredPopupView.swift */; };
 		C9F2B54F266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B54E266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift */; };
@@ -653,6 +654,7 @@
 		C9EA3CDC281D685A005ECCFF /* MapMarkersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkersView.swift; sourceTree = "<group>"; };
 		C9EA3CDE281DB479005ECCFF /* MapMarkerWaitingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkerWaitingViewModel.swift; sourceTree = "<group>"; };
 		C9EA3CE0281DC2B7005ECCFF /* MapMarkerWaitingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkerWaitingView.swift; sourceTree = "<group>"; };
+		C9EA3CE2281E80C9005ECCFF /* MapMarkerItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkerItemView.swift; sourceTree = "<group>"; };
 		C9EC424127135E93004224AB /* ProgressBarNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarNode.swift; sourceTree = "<group>"; };
 		C9F2B54C2669126E0016D4F3 /* CivicDiscoveredPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicDiscoveredPopupView.swift; sourceTree = "<group>"; };
 		C9F2B54E266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicDiscoveredPopupViewModel.swift; sourceTree = "<group>"; };
@@ -1047,6 +1049,7 @@
 				C9EA3CDC281D685A005ECCFF /* MapMarkersView.swift */,
 				C9EA3CE0281DC2B7005ECCFF /* MapMarkerWaitingView.swift */,
 				C91652CF281C76370021991A /* MapMarkerPickerView.swift */,
+				C9EA3CE2281E80C9005ECCFF /* MapMarkerItemView.swift */,
 				C9C8A744278571DB00BC68CF /* DedicationView.swift */,
 				C963AD1B2786DB6500981EF3 /* MomentView.swift */,
 				C95AB2F527CD40EC00EF5C61 /* CityStateView.swift */,
@@ -1412,6 +1415,7 @@
 				C94F94DE27295C1E006BF135 /* Tooltip.swift in Sources */,
 				C9077A8A26D65639004BE679 /* DialogButtonStyle.swift in Sources */,
 				C9754D60275F3B21000A1B70 /* MapLensLegendViewModel.swift in Sources */,
+				C9EA3CE3281E80CA005ECCFF /* MapMarkerItemView.swift in Sources */,
 				C9077A8226D626AC004BE679 /* TradeRoutesDialogView.swift in Sources */,
 				C91A07A826D9135C008E9F86 /* WonderBuiltPopupView.swift in Sources */,
 				C9A61D8C261EF87000341241 /* BottomRightBarView.swift in Sources */,

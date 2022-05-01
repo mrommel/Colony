@@ -9,6 +9,12 @@ import SwiftUI
 import SmartAssets
 import SmartAILibrary
 
+protocol MapMarkerItemViewModelDelegage: AnyObject {
+
+    func clickedCenter(at location: HexPoint)
+    func clickedRemove(at location: HexPoint)
+}
+
 public class MapMarkerItemViewModel: ObservableObject, Identifiable {
 
     public let id: UUID = UUID()
@@ -16,6 +22,8 @@ public class MapMarkerItemViewModel: ObservableObject, Identifiable {
     let markerType: MapMarkerType
     let markerTitle: String
     let markerLocation: HexPoint
+
+    weak var delegate: MapMarkerItemViewModelDelegage?
 
     init(markerType: MapMarkerType, markerTitle: String, markerLocation: HexPoint) {
 
@@ -34,6 +42,21 @@ public class MapMarkerItemViewModel: ObservableObject, Identifiable {
     func image() -> NSImage {
 
         return ImageCache.shared.image(for: self.markerType.iconTexture())
+    }
+
+    func centerImage() -> NSImage {
+
+        return ImageCache.shared.image(for: "jump-to")
+    }
+
+    func clickedRemove() {
+
+        self.delegate?.clickedRemove(at: self.markerLocation)
+    }
+
+    func clickedCenter() {
+
+        self.delegate?.clickedCenter(at: self.markerLocation)
     }
 }
 
