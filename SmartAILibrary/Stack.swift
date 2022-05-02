@@ -24,7 +24,12 @@ public struct Stack<Element> {
     }
 
     public func peek() -> Element? {
-        return self.array.last
+
+        if !self.array.isEmpty {
+            return self.array.last
+        } else {
+            return nil
+        }
     }
 
     public var isEmpty: Bool {
