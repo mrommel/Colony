@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "mapMarker-wonder-hangingGardens@3x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

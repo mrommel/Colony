@@ -7,6 +7,7 @@
 
 import Foundation
 import SmartAILibrary
+import SmartAssets
 
 protocol MapMarkerPickerViewModelDelegate: AnyObject {
 
@@ -57,6 +58,15 @@ public class MapMarkerPickerViewModel: ObservableObject {
     func update(location: HexPoint) {
 
         self.selectedLocation = location
+    }
+
+    func selectionColor(of type: MapMarkerType) -> TypeColor {
+
+        if type == self.selectedType {
+            return TypeColor.white
+        } else {
+            return Globals.Colors.dialogBackground
+        }
     }
 
     func cancelClicked() {

@@ -37,16 +37,16 @@ struct MapMarkerPickerView: View {
 
             LazyVGrid(columns: gridItemLayout, alignment: .leading, spacing: 2) {
 
-                ForEach(self.viewModel.districtMarkerViewModels) { markerViewModel in
+                ForEach(self.viewModel.districtMarkerViewModels, id: \.self) { markerViewModel in
 
                     Image(nsImage: markerViewModel.image())
                         .resizable()
                         .frame(width: 24, height: 24)
-                        .border(self.viewModel.selectedType == markerViewModel.type ? Color.white : Color(Globals.Colors.dialogBackground), width: 1, cornerRadius: 4)
+                        .border(Color(self.viewModel.selectionColor(of: markerViewModel.type)), width: 1, cornerRadius: 4)
                         .onTapGesture {
                             self.viewModel.selectedType = markerViewModel.type
                         }
-                        .id("district-marker-\(markerViewModel.id)")
+                        .toolTip(self.viewModel.name.localized())
                 }
             }
 
@@ -54,16 +54,16 @@ struct MapMarkerPickerView: View {
 
             LazyVGrid(columns: gridItemLayout, alignment: .leading, spacing: 2) {
 
-                ForEach(self.viewModel.wonderMarkerViewModels) { markerViewModel in
+                ForEach(self.viewModel.wonderMarkerViewModels, id: \.self) { markerViewModel in
 
                     Image(nsImage: markerViewModel.image())
                         .resizable()
                         .frame(width: 24, height: 24)
-                        .border(self.viewModel.selectedType == markerViewModel.type ? Color.white : Color(Globals.Colors.dialogBackground), width: 1, cornerRadius: 4)
+                        .border(Color(self.viewModel.selectionColor(of: markerViewModel.type)), width: 1, cornerRadius: 4)
                         .onTapGesture {
                             self.viewModel.selectedType = markerViewModel.type
                         }
-                        .id("wonder-marker-\(markerViewModel.id)")
+                        .toolTip(self.viewModel.name.localized())
                 }
             }
 

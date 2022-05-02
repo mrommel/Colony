@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "mapMarker-wonder-apadana@3x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

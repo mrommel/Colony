@@ -65,17 +65,26 @@ class LoadGameViewModel: ObservableObject {
     @Published
     var mapSize: String = "-"
 
+    var preloaded: Bool = false
+
     weak var delegate: LoadGameViewModelDelegate?
 
     init() {
 
         self.gamePreviewViewModel = GamePreviewViewModel()
+    }
 
-        // preload asset
-        self.loadAssets()
+    func update() {
 
-        // load filenames
-        self.loadFilenames()
+        if !self.preloaded {
+            // preload asset
+            self.loadAssets()
+
+            // load filenames
+            self.loadFilenames()
+
+            self.preloaded = true
+        }
     }
 
     private func loadAssets() {
