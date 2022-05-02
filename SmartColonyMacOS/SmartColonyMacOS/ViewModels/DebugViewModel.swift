@@ -244,11 +244,6 @@ class DebugViewModel: ObservableObject {
             var x = 0
             for unitType in UnitType.all {
 
-                // debug
-                guard unitType == .slinger else {
-                    continue
-                }
-
                 if unitType.domain() == .sea {
                     gameModel.tile(at: HexPoint(x: x, y: 4))?.set(terrain: .shore)
                 }

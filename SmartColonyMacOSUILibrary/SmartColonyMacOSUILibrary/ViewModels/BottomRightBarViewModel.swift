@@ -13,6 +13,9 @@ protocol BottomRightBarViewModelDelegate: AnyObject {
     func focus(on point: HexPoint)
 
     func selected(mapLens: MapLensType)
+
+    func enableMarkerMode()
+    func cancelMarkerMode()
 }
 
 public class BottomRightBarViewModel: ObservableObject {
@@ -50,5 +53,15 @@ extension BottomRightBarViewModel: MapOverviewViewModelDelegate {
     func selected(mapLens: MapLensType) {
 
         self.delegate?.selected(mapLens: mapLens)
+    }
+
+    func enableMarkerMode() {
+
+        self.delegate?.enableMarkerMode()
+    }
+
+    func cancelMarkerMode() {
+
+        self.delegate?.cancelMarkerMode()
     }
 }

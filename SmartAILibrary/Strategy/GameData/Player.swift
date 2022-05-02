@@ -380,6 +380,12 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func markEstablishedTradingPost(with leader: LeaderType)
     func numEverEstablishedTradingPosts(in gameModel: GameModel?) -> Int
 
+    // marker
+    func addMarker(type: MapMarkerType, name: String, at location: HexPoint, in gameModel: GameModel?)
+    func removeMarker(at location: HexPoint, in gameModel: GameModel?)
+    func marker(at location: HexPoint) -> MapMarker?
+    func markers() -> [MapMarker]
+
     // intern
     func isEqual(to other: AbstractPlayer?) -> Bool
 }
@@ -469,6 +475,8 @@ public class Player: AbstractPlayer {
 
         case cramped
         case combatThisTurn
+
+        case markers
     }
 
     public var leader: LeaderType
@@ -562,6 +570,8 @@ public class Player: AbstractPlayer {
 
     private var crampedValue: Bool = false
     private var combatThisTurnValue: Bool = false
+
+    private var markersValue: [MapMarker] = []
 
     // MARK: constructor
 
@@ -687,6 +697,8 @@ public class Player: AbstractPlayer {
         self.crampedValue = try container.decode(Bool.self, forKey: .cramped)
         self.combatThisTurnValue = try container.decodeIfPresent(Bool.self, forKey: .combatThisTurn) ?? false
 
+        self.markersValue = try container.decode([MapMarker].self, forKey: .markers)
+
         // setup
         self.techs?.player = self
         self.civics?.player = self
@@ -805,6 +817,8 @@ public class Player: AbstractPlayer {
 
         try container.encode(self.crampedValue, forKey: .cramped)
         try container.encode(self.combatThisTurnValue, forKey: .combatThisTurn)
+
+        try container.encode(self.markersValue, forKey: .markers)
     }
     // swiftlint:enable force_cast
 
@@ -7095,6 +7109,33 @@ public class Player: AbstractPlayer {
         return self.establishedTradingPosts
             .filter { gameModel.player(for: $0)?.isAlive() ?? false  }
             .count
+    }
+
+    public func addMarker(type: MapMarkerType, name: String, at location: HexPoint, in gameModel: GameModel?) {
+
+        let marker = MapMarker(location: location, name: name, type: type)
+        self.markersValue.append(marker)
+
+        let tile = gameModel?.tile(at: location)
+        gameModel?.userInterface?.refresh(tile: tile)
+    }
+
+    public func removeMarker(at location: HexPoint, in gameModel: GameModel?) {
+
+        self.markersValue.removeAll(where: { $0.location == location })
+
+        let tile = gameModel?.tile(at: location)
+        gameModel?.userInterface?.refresh(tile: tile)
+    }
+
+    public func marker(at location: HexPoint) -> MapMarker? {
+
+        return self.markersValue.first(where: { $0.location == location })
+    }
+
+    public func markers() -> [MapMarker] {
+
+        return self.markersValue
     }
 }
 

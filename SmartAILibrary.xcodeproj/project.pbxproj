@@ -396,6 +396,8 @@
 		C9E96CCB26EB54CA001A9666 /* LoyaltyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E96CCA26EB54CA001A9666 /* LoyaltyState.swift */; };
 		C9E96CD026EB69C1001A9666 /* AgeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E96CCF26EB69C1001A9666 /* AgeType.swift */; };
 		C9E96CD226EB69EF001A9666 /* DedicationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E96CD126EB69EF001A9666 /* DedicationType.swift */; };
+		C9EA3CD5281D386D005ECCFF /* MapMarkerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EA3CD4281D386D005ECCFF /* MapMarkerType.swift */; };
+		C9EA3CD9281D38D5005ECCFF /* MapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EA3CD8281D38D5005ECCFF /* MapMarker.swift */; };
 		C9EB9F642454C6C500F13B02 /* RankingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F632454C6C400F13B02 /* RankingData.swift */; };
 		C9EC4E132443AE97001A0597 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E122443AE97001A0597 /* Command.swift */; };
 		C9EC4E152443AECA001A0597 /* CommandType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E142443AECA001A0597 /* CommandType.swift */; };
@@ -829,6 +831,8 @@
 		C9E96CCA26EB54CA001A9666 /* LoyaltyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoyaltyState.swift; sourceTree = "<group>"; };
 		C9E96CCF26EB69C1001A9666 /* AgeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeType.swift; sourceTree = "<group>"; };
 		C9E96CD126EB69EF001A9666 /* DedicationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DedicationType.swift; sourceTree = "<group>"; };
+		C9EA3CD4281D386D005ECCFF /* MapMarkerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkerType.swift; sourceTree = "<group>"; };
+		C9EA3CD8281D38D5005ECCFF /* MapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarker.swift; sourceTree = "<group>"; };
 		C9EB9F632454C6C400F13B02 /* RankingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingData.swift; sourceTree = "<group>"; };
 		C9EC4E122443AE97001A0597 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		C9EC4E142443AECA001A0597 /* CommandType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandType.swift; sourceTree = "<group>"; };
@@ -917,6 +921,7 @@
 				C93D66A724028DB500F5157B /* HexPath.swift */,
 				C9A1259F249CBE8800D5E3A1 /* BaseMapHandler.swift */,
 				C935FBA5270336FA000CCA49 /* MapUtils.swift */,
+				C9EA3CD8281D38D5005ECCFF /* MapMarker.swift */,
 			);
 			path = Maps;
 			sourceTree = "<group>";
@@ -1235,6 +1240,7 @@
 				C9E0066E274D713F00211300 /* AppealLevel.swift */,
 				C9754D59275F39CB000A1B70 /* MapLensType.swift */,
 				C9D5F67B276255C300B34AA3 /* ContinentType.swift */,
+				C9EA3CD4281D386D005ECCFF /* MapMarkerType.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -1953,6 +1959,7 @@
 				C906144E23E3362200D316B5 /* Buildings.swift in Sources */,
 				C956BF6624F16683009702B4 /* PlayerYields.swift in Sources */,
 				C964BA2B23EBF55500CA379C /* AdvisorType.swift in Sources */,
+				C9EA3CD5281D386D005ECCFF /* MapMarkerType.swift in Sources */,
 				C9C2FE4523FB289300185235 /* DangerPlotsAI.swift in Sources */,
 				C9E96CCB26EB54CA001A9666 /* LoyaltyState.swift in Sources */,
 				C956BF5C24F105C9009702B4 /* UnitTradeRouteDirection.swift in Sources */,
@@ -2028,6 +2035,7 @@
 				C92D220D23E20B7C00BB9238 /* ImprovementType.swift in Sources */,
 				C9C0DCDD24D457A4004D9F06 /* GreatWork.swift in Sources */,
 				C92317C823D7577C001FC723 /* RuleBasedMatch.swift in Sources */,
+				C9EA3CD9281D38D5005ECCFF /* MapMarker.swift in Sources */,
 				C960E1DC24E675870049DC83 /* CityTradingPosts.swift in Sources */,
 				C9E0066F274D713F00211300 /* AppealLevel.swift in Sources */,
 				C93D66AC24044EA700F5157B /* TacticalAnalysisMap.swift in Sources */,

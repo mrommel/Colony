@@ -743,6 +743,7 @@ public class Unit: AbstractUnit {
             fatalError("cant upgrade")
         }
 
+        // backup old unit properties
         let location = self.location
         let player = self.player
         let name = self.name()
@@ -750,6 +751,7 @@ public class Unit: AbstractUnit {
 
         self.doKill(delayed: false, by: nil, in: gameModel)
 
+        // create new unit from backup data
         let newUnit = Unit(at: location, type: unitType, owner: player)
         newUnit.rename(to: name)
         for promotion in promotions {

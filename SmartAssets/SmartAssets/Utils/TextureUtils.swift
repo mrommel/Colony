@@ -43,6 +43,7 @@ private class TextureItem: Codable, Equatable {
     var wonderSprite: SKSpriteNode?
     var wonderBuildingSprite: SKSpriteNode?
     var lensSprite: SKSpriteNode?
+    var markerSprite: SKSpriteNode?
 
     init(point: HexPoint) {
 
@@ -332,5 +333,15 @@ public class TextureUtils {
     public func lensSprite(at point: HexPoint) -> SKSpriteNode? {
 
         return self.tileTextures?[point.x, point.y]?.lensSprite
+    }
+
+    public func set(markerSprite: SKSpriteNode?, at point: HexPoint) {
+
+        self.tileTextures?[point.x, point.y]?.markerSprite = markerSprite
+    }
+
+    public func markerSprite(at point: HexPoint) -> SKSpriteNode? {
+
+        return self.tileTextures?[point.x, point.y]?.markerSprite
     }
 }

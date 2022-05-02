@@ -25,6 +25,11 @@
 		C913A2D7277A2850001D2CC2 /* EraProgressDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C913A2D6277A2850001D2CC2 /* EraProgressDialogViewModel.swift */; };
 		C915514D260A59DF003710BE /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915514C260A59DF003710BE /* ActivityIndicator.swift */; };
 		C9155161260B2978003710BE /* GameDisplayOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9155160260B2978003710BE /* GameDisplayOptions.swift */; };
+		C91652C8281C6FA10021991A /* MapMarkersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91652C7281C6FA00021991A /* MapMarkersViewModel.swift */; };
+		C91652CA281C6FF90021991A /* MapMarkerItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91652C9281C6FF90021991A /* MapMarkerItemViewModel.swift */; };
+		C91652CC281C75430021991A /* MapMarkerPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91652CB281C75430021991A /* MapMarkerPickerViewModel.swift */; };
+		C91652CE281C75600021991A /* MapMarkerTypeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91652CD281C75600021991A /* MapMarkerTypeViewModel.swift */; };
+		C91652D0281C76370021991A /* MapMarkerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91652CF281C76370021991A /* MapMarkerPickerView.swift */; };
 		C917165027D1165B00CBC7D3 /* EnvoyEffectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C917164F27D1165B00CBC7D3 /* EnvoyEffectViewModel.swift */; };
 		C91A07A626D911EE008E9F86 /* WonderBuiltPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A07A526D911EE008E9F86 /* WonderBuiltPopupViewModel.swift */; };
 		C91A07A826D9135C008E9F86 /* WonderBuiltPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A07A726D9135C008E9F86 /* WonderBuiltPopupView.swift */; };
@@ -299,6 +304,11 @@
 		C9E87BB3264D1CB500514B9A /* TechViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BB2264D1CB500514B9A /* TechViewModel.swift */; };
 		C9E87BB5264D1D1C00514B9A /* CivicTreeDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BB4264D1D1C00514B9A /* CivicTreeDialogView.swift */; };
 		C9E87BB7264D1DC500514B9A /* CivicDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BB6264D1DC500514B9A /* CivicDialogViewModel.swift */; };
+		C9EA3CDB281D3CE0005ECCFF /* MapMarkerLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EA3CDA281D3CE0005ECCFF /* MapMarkerLayer.swift */; };
+		C9EA3CDD281D685A005ECCFF /* MapMarkersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EA3CDC281D685A005ECCFF /* MapMarkersView.swift */; };
+		C9EA3CDF281DB479005ECCFF /* MapMarkerWaitingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EA3CDE281DB479005ECCFF /* MapMarkerWaitingViewModel.swift */; };
+		C9EA3CE1281DC2B7005ECCFF /* MapMarkerWaitingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EA3CE0281DC2B7005ECCFF /* MapMarkerWaitingView.swift */; };
+		C9EA3CE3281E80CA005ECCFF /* MapMarkerItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EA3CE2281E80C9005ECCFF /* MapMarkerItemView.swift */; };
 		C9EC424227135E93004224AB /* ProgressBarNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC424127135E93004224AB /* ProgressBarNode.swift */; };
 		C9F2B54D2669126E0016D4F3 /* CivicDiscoveredPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B54C2669126E0016D4F3 /* CivicDiscoveredPopupView.swift */; };
 		C9F2B54F266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B54E266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift */; };
@@ -363,6 +373,11 @@
 		C913A2D6277A2850001D2CC2 /* EraProgressDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EraProgressDialogViewModel.swift; sourceTree = "<group>"; };
 		C915514C260A59DF003710BE /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		C9155160260B2978003710BE /* GameDisplayOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDisplayOptions.swift; sourceTree = "<group>"; };
+		C91652C7281C6FA00021991A /* MapMarkersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkersViewModel.swift; sourceTree = "<group>"; };
+		C91652C9281C6FF90021991A /* MapMarkerItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkerItemViewModel.swift; sourceTree = "<group>"; };
+		C91652CB281C75430021991A /* MapMarkerPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkerPickerViewModel.swift; sourceTree = "<group>"; };
+		C91652CD281C75600021991A /* MapMarkerTypeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkerTypeViewModel.swift; sourceTree = "<group>"; };
+		C91652CF281C76370021991A /* MapMarkerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkerPickerView.swift; sourceTree = "<group>"; };
 		C917164F27D1165B00CBC7D3 /* EnvoyEffectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvoyEffectViewModel.swift; sourceTree = "<group>"; };
 		C91A07A526D911EE008E9F86 /* WonderBuiltPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderBuiltPopupViewModel.swift; sourceTree = "<group>"; };
 		C91A07A726D9135C008E9F86 /* WonderBuiltPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderBuiltPopupView.swift; sourceTree = "<group>"; };
@@ -635,6 +650,11 @@
 		C9E87BB2264D1CB500514B9A /* TechViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechViewModel.swift; sourceTree = "<group>"; };
 		C9E87BB4264D1D1C00514B9A /* CivicTreeDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicTreeDialogView.swift; sourceTree = "<group>"; };
 		C9E87BB6264D1DC500514B9A /* CivicDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicDialogViewModel.swift; sourceTree = "<group>"; };
+		C9EA3CDA281D3CE0005ECCFF /* MapMarkerLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkerLayer.swift; sourceTree = "<group>"; };
+		C9EA3CDC281D685A005ECCFF /* MapMarkersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkersView.swift; sourceTree = "<group>"; };
+		C9EA3CDE281DB479005ECCFF /* MapMarkerWaitingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkerWaitingViewModel.swift; sourceTree = "<group>"; };
+		C9EA3CE0281DC2B7005ECCFF /* MapMarkerWaitingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkerWaitingView.swift; sourceTree = "<group>"; };
+		C9EA3CE2281E80C9005ECCFF /* MapMarkerItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkerItemView.swift; sourceTree = "<group>"; };
 		C9EC424127135E93004224AB /* ProgressBarNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarNode.swift; sourceTree = "<group>"; };
 		C9F2B54C2669126E0016D4F3 /* CivicDiscoveredPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicDiscoveredPopupView.swift; sourceTree = "<group>"; };
 		C9F2B54E266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicDiscoveredPopupViewModel.swift; sourceTree = "<group>"; };
@@ -701,6 +721,7 @@
 				C99AB18B27477FAC00BF0B4D /* DistrictLayer.swift */,
 				C99AB18D27477FB900BF0B4D /* WonderLayer.swift */,
 				C975CCBB27590006007DA850 /* MapLensLayer.swift */,
+				C9EA3CDA281D3CE0005ECCFF /* MapMarkerLayer.swift */,
 			);
 			path = Layers;
 			sourceTree = "<group>";
@@ -1025,6 +1046,10 @@
 				C9911EAA27367F3000273C8A /* ReligiousRankingView.swift */,
 				C96FEA36274CE5E400A9194C /* UnitCommandView.swift */,
 				C9754D61275F3F5C000A1B70 /* MapLensLegendItemView.swift */,
+				C9EA3CDC281D685A005ECCFF /* MapMarkersView.swift */,
+				C9EA3CE0281DC2B7005ECCFF /* MapMarkerWaitingView.swift */,
+				C91652CF281C76370021991A /* MapMarkerPickerView.swift */,
+				C9EA3CE2281E80C9005ECCFF /* MapMarkerItemView.swift */,
 				C9C8A744278571DB00BC68CF /* DedicationView.swift */,
 				C963AD1B2786DB6500981EF3 /* MomentView.swift */,
 				C95AB2F527CD40EC00EF5C61 /* CityStateView.swift */,
@@ -1198,6 +1223,11 @@
 				C96FEA34274CE4B400A9194C /* UnitCommandViewModel.swift */,
 				C9754D5D275F3ACA000A1B70 /* MapLensLegendItemViewModel.swift */,
 				C9754D5F275F3B21000A1B70 /* MapLensLegendViewModel.swift */,
+				C91652C9281C6FF90021991A /* MapMarkerItemViewModel.swift */,
+				C9EA3CDE281DB479005ECCFF /* MapMarkerWaitingViewModel.swift */,
+				C91652CB281C75430021991A /* MapMarkerPickerViewModel.swift */,
+				C91652CD281C75600021991A /* MapMarkerTypeViewModel.swift */,
+				C91652C7281C6FA00021991A /* MapMarkersViewModel.swift */,
 				C9C8A7462785728800BC68CF /* DedicationViewModel.swift */,
 				C963AD192786DAB600981EF3 /* MomentViewModel.swift */,
 				C95AB2F727CD418800EF5C61 /* CityStateViewModel.swift */,
@@ -1385,6 +1415,7 @@
 				C94F94DE27295C1E006BF135 /* Tooltip.swift in Sources */,
 				C9077A8A26D65639004BE679 /* DialogButtonStyle.swift in Sources */,
 				C9754D60275F3B21000A1B70 /* MapLensLegendViewModel.swift in Sources */,
+				C9EA3CE3281E80CA005ECCFF /* MapMarkerItemView.swift in Sources */,
 				C9077A8226D626AC004BE679 /* TradeRoutesDialogView.swift in Sources */,
 				C91A07A826D9135C008E9F86 /* WonderBuiltPopupView.swift in Sources */,
 				C9A61D8C261EF87000341241 /* BottomRightBarView.swift in Sources */,
@@ -1453,6 +1484,7 @@
 				C9D03F102753827C0008528E /* NotificationDetailView.swift in Sources */,
 				C9911EA727367B0E00273C8A /* ReligiousRankingDialogViewModel.swift in Sources */,
 				C97ACCFF27D6003800AD0721 /* CityStateDialogViewModel.swift in Sources */,
+				C91652CC281C75430021991A /* MapMarkerPickerViewModel.swift in Sources */,
 				C9FD453F27E7A8F100C3272F /* ApproachItemView.swift in Sources */,
 				C9A3763126369FD90057923E /* YieldLayer.swift in Sources */,
 				C9B43FB1263E905B00241012 /* CGSizeExtension.swift in Sources */,
@@ -1571,6 +1603,7 @@
 				C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */,
 				C9A12B6F26FAFE370094B980 /* HeaderViewModel.swift in Sources */,
 				C9FBBE3C268356C4005D7CE6 /* DiplomaticDialogViewModel.swift in Sources */,
+				C9EA3CDB281D3CE0005ECCFF /* MapMarkerLayer.swift in Sources */,
 				C9D5D25D26F9DA3600009817 /* SelectItemView.swift in Sources */,
 				C9C1B1D92726B5C600046D23 /* ResourceValueView.swift in Sources */,
 				C92F948D265E23A6000968AB /* HexagonGridViewModel.swift in Sources */,
@@ -1589,6 +1622,7 @@
 				C968F29B2639B86D00612D0E /* ImprovementLayer.swift in Sources */,
 				C9A48D4F2654084200260EE0 /* CityProductionViewModel.swift in Sources */,
 				C9911EAD2736817800273C8A /* ReligiousRankingDialogView.swift in Sources */,
+				C91652C8281C6FA10021991A /* MapMarkersViewModel.swift in Sources */,
 				C971FDCF27070C5600F818EE /* GreatPeopleDialogView.swift in Sources */,
 				C92F948A265E2298000968AB /* RegularPolygon.swift in Sources */,
 				C9A48D322652E9DF00260EE0 /* TechProgressView.swift in Sources */,
@@ -1613,10 +1647,12 @@
 				C9EC424227135E93004224AB /* ProgressBarNode.swift in Sources */,
 				C913A2D7277A2850001D2CC2 /* EraProgressDialogViewModel.swift in Sources */,
 				C9A8F0D52651149A00584199 /* CivicViewModel.swift in Sources */,
+				C91652D0281C76370021991A /* MapMarkerPickerView.swift in Sources */,
 				C9A8F0DF2651A6CB00584199 /* NotificationView.swift in Sources */,
 				C91A07A626D911EE008E9F86 /* WonderBuiltPopupViewModel.swift in Sources */,
 				C9A8F0D32651143500584199 /* CivicView.swift in Sources */,
 				C9A3763C2637E7C80057923E /* HexCoordLayer.swift in Sources */,
+				C91652CE281C75600021991A /* MapMarkerTypeViewModel.swift in Sources */,
 				C943E90026C100E00038B7E8 /* UnitBannerView.swift in Sources */,
 				C9BDCF8D2624771C002488F6 /* GameViewModel.swift in Sources */,
 				C9CAC8A4264BC58E00D0668D /* TopBarView.swift in Sources */,
@@ -1628,6 +1664,7 @@
 				C9452E2B2668093A005EF985 /* EraEnteredPopupView.swift in Sources */,
 				C9F2B54D2669126E0016D4F3 /* CivicDiscoveredPopupView.swift in Sources */,
 				C9E87BAF264D1BA000514B9A /* TechTreeDialogView.swift in Sources */,
+				C9EA3CDF281DB479005ECCFF /* MapMarkerWaitingViewModel.swift in Sources */,
 				C9A48D412653BB4000260EE0 /* GovernmentDialogViewModel.swift in Sources */,
 				C9E0597B2654E32600C08463 /* BuildingView.swift in Sources */,
 				C9155161260B2978003710BE /* GameDisplayOptions.swift in Sources */,
@@ -1641,12 +1678,14 @@
 				C91E7F9C2732E149000463F3 /* OverallRankingDialogView.swift in Sources */,
 				C9A3762F263600800057923E /* ResourceMarkerLayer.swift in Sources */,
 				C9E059842655200F00C08463 /* UnitViewModel.swift in Sources */,
+				C9EA3CE1281DC2B7005ECCFF /* MapMarkerWaitingView.swift in Sources */,
 				C963AD1C2786DB6500981EF3 /* MomentView.swift in Sources */,
 				C9E059862655203A00C08463 /* DistrictSectionViewModel.swift in Sources */,
 				C92F9489265E2298000968AB /* RegularPolygonPath.swift in Sources */,
 				C93FD2D52732F9E3003348FB /* ScoreRankingView.swift in Sources */,
 				C984642C26F49B3300C40EA7 /* GovernorViewModel.swift in Sources */,
 				C9CAC89B264ABC6D00D0668D /* ChangeGovernmentDialogViewModel.swift in Sources */,
+				C9EA3CDD281D685A005ECCFF /* MapMarkersView.swift in Sources */,
 				C93FD2D32732F8C5003348FB /* ScoreRankingViewModel.swift in Sources */,
 				C968F2A52639E5C800612D0E /* UnitStrengthIndicator.swift in Sources */,
 				C9F2B557266A7FE20016D4F3 /* ConfirmationDialogViewModel.swift in Sources */,
@@ -1665,6 +1704,7 @@
 				C9077A8626D64432004BE679 /* TradeRouteViewModel.swift in Sources */,
 				C9072E812732B14600560429 /* CivilizationView.swift in Sources */,
 				C9CAC89F264ABCC600D0668D /* GovernmentCardViewModel.swift in Sources */,
+				C91652CA281C6FF90021991A /* MapMarkerItemViewModel.swift in Sources */,
 				C9AC0FFB26DE635C00B65288 /* SelectPromotionDialogViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

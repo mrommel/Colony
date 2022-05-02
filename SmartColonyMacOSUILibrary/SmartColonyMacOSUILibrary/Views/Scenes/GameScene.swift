@@ -521,13 +521,18 @@ extension GameScene {
             return
         }
 
+        guard let unitSelectionMode = self.viewModel?.unitSelectionMode else {
+            fatalError("cant get selection mode")
+        }
+
         let position = HexPoint(screen: location)
 
-        if let selectedUnit = self.viewModel?.delegate?.selectedUnit {
+        if unitSelectionMode == .marker {
+            self.viewModel?.delegate?.selectMarker(at: position)
+            return
+        }
 
-            guard let unitSelectionMode = self.viewModel?.unitSelectionMode else {
-                fatalError("cant get selection mode")
-            }
+        if let selectedUnit = self.viewModel?.delegate?.selectedUnit {
 
             switch unitSelectionMode {
 
@@ -678,14 +683,14 @@ extension GameScene {
             case .rangedCityTargets:
                 fatalError("should not happen")
 
+            case .marker:
+                // NOOP
+                break
+
             }
         }
 
         if let selectedCity = self.viewModel?.delegate?.selectedCity {
-
-            guard let unitSelectionMode = self.viewModel?.unitSelectionMode else {
-                fatalError("cant get selection mode")
-            }
 
             switch unitSelectionMode {
 
@@ -724,6 +729,9 @@ extension GameScene {
                     self.viewModel?.delegate?.hideCombatBanner()
                 }
 
+            case .marker:
+                // NOOP
+                break
             }
         }
 
@@ -753,7 +761,12 @@ extension GameScene {
                 self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: commands, in: self.viewModel?.gameModel)
 
             case .rangedCityTargets:
-                print("NOOP")
+                // NOOP
+                break
+
+            case .marker:
+                // NOOP
+                break
             }
         } else {
             self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: [], in: nil)
