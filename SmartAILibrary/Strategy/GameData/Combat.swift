@@ -343,6 +343,8 @@ public class Combat {
             fatalError("Trying to battle and one of the units is already dead!")
         }
 
+        gameModel.userInterface?.animate(unit: attacker, animation: .attack(from: attacker.location, to: defender.location))
+
         // attacker strikes
         let attackerStrength = attacker.attackStrength(against: defender, or: nil, on: defenderTile, in: gameModel)
         let defenderStrength = defender.defensiveStrength(against: attacker, or: nil, on: defenderTile, ranged: false, in: gameModel)
@@ -380,8 +382,9 @@ public class Combat {
             // Move forward
             if attacker.canMove(into: defenderTile.point, options: MoveOptions.none, in: gameModel) {
                 // attacker.doMove(on: defenderTile.point, in: gameModel)
-                attacker.queueMoveForVisualization(from: attacker.location, to: defenderTile.point, in: gameModel)
-                attacker.doMoveOnPath(towards: defenderTile.point, previousETA: 0, buildingRoute: false, in: gameModel)
+                // attacker.queueMoveForVisualization(from: attacker.location, to: defenderTile.point, in: gameModel)
+                // attacker.doMoveOnPath(towards: defenderTile.point, previousETA: 0, buildingRoute: false, in: gameModel)
+                gameModel.userInterface?.move(unit: attacker, on: [attacker.location, defenderTile.point])
             }
         }
 
@@ -511,6 +514,7 @@ public class Combat {
             if attacker.canMove(into: defenderTile.point, options: MoveOptions.none, in: gameModel) {
                 attacker.queueMoveForVisualization(from: attacker.location, to: defenderTile.point, in: gameModel)
                 attacker.doMoveOnPath(towards: defenderTile.point, previousETA: 0, buildingRoute: false, in: gameModel)
+                // gameModel.userInterface?.move(unit: attacker, on: [attacker.location, defenderTile.point])
             }
 
         } else {
@@ -594,6 +598,8 @@ public class Combat {
         guard !attacker.isDelayedDeath() else {
             fatalError("Trying to battle and the attacker unit is already dead!")
         }
+
+        gameModel.userInterface?.animate(unit: attacker, animation: .attack(from: attacker.location, to: defender.location))
 
         // attacker strikes
         let attackerStrength = attacker.attackStrength(against: nil, or: defender, on: defenderTile, in: gameModel)
@@ -716,6 +722,7 @@ public class Combat {
             if attacker.canMove(into: defenderTile.point, options: MoveOptions.none, in: gameModel) {
                 attacker.queueMoveForVisualization(from: attacker.location, to: defenderTile.point, in: gameModel)
                 attacker.doMoveOnPath(towards: defenderTile.point, previousETA: 0, buildingRoute: false, in: gameModel)
+                // gameModel.userInterface?.move(unit: attacker, on: [attacker.location, defenderTile.point])
             }
 
             // new owner can now decide what to do with this city
@@ -801,6 +808,8 @@ public class Combat {
         defender.automate(with: .none, in: gameModel)
 
         attacker.setMadeAttack(to: true)
+
+        // city animation! gameModel.userInterface?.animate(unit: attacker, animation: .rangeAttack(from: attacker.location, to: defender.location))
 
         // attacker strikes
         let attackerStrength = attacker.rangedCombatStrength(against: defender, on: defenderTile)
@@ -898,6 +907,8 @@ public class Combat {
         defender.automate(with: .none, in: gameModel)
 
         attacker.setMadeAttack(to: true)
+
+        gameModel.userInterface?.animate(unit: attacker, animation: .rangeAttack(from: attacker.location, to: defender.location))
 
         // attacker strikes
         let attackerStrength = attacker.rangedCombatStrength(against: defender, or: nil, on: defenderTile, attacking: true, in: gameModel)
@@ -1016,6 +1027,8 @@ public class Combat {
         }
 
         attacker.setMadeAttack(to: true)
+
+        gameModel.userInterface?.animate(unit: attacker, animation: .rangeAttack(from: attacker.location, to: defender.location))
 
         // attacker strikes
         let attackerStrength = attacker.rangedCombatStrength(against: nil, or: defender, on: defenderTile, attacking: true, in: gameModel)

@@ -157,13 +157,27 @@ extension GameScene: UserInterfaceDelegate {
 
     func animate(unit: AbstractUnit?, animation: UnitAnimationType) {
 
-        /*if animation == .fortify {
+        switch animation {
+
+        case .fortify:
             DispatchQueue.main.async {
                 self.mapNode?.unitLayer.fortify(unit: unit)
             }
-        } else {
+
+        case .attack(let from, let to):
+            DispatchQueue.main.async {
+                self.mapNode?.unitLayer.attack(unit: unit, from: from, towards: to)
+            }
+
+        /*case .rangeAttack(let from, let to):
+            DispatchQueue.main.async {
+                self.mapNode?.unitLayer
+            }*/
+
+        default:
             print("cant show unknown animation: \(animation)")
-        }*/
+        }
+
     }
 
     func clearAttackFocus() {

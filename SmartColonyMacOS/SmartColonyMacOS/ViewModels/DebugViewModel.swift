@@ -424,11 +424,13 @@ class DebugViewModel: ObservableObject {
             aiPlayer.doDeclareWar(to: humanPlayer, in: gameModel)
 
             // add combat units
-            let warriorUnit = Unit(at: HexPoint(x: 20, y: 7), type: .warrior, owner: humanPlayer)
-            gameModel.add(unit: warriorUnit)
-            gameModel.userInterface?.show(unit: warriorUnit, at: HexPoint(x: 20, y: 7))
+            let warriorUnit1 = Unit(at: HexPoint(x: 20, y: 7), type: .warrior, owner: humanPlayer)
+            warriorUnit1.rename(to: "Warrior1")
+            gameModel.add(unit: warriorUnit1)
+            gameModel.userInterface?.show(unit: warriorUnit1, at: HexPoint(x: 20, y: 7))
 
             let warriorUnit2 = Unit(at: HexPoint(x: 21, y: 7), type: .warrior, owner: humanPlayer)
+            warriorUnit2.rename(to: "Warrior2")
             gameModel.add(unit: warriorUnit2)
             gameModel.userInterface?.show(unit: warriorUnit2, at: HexPoint(x: 21, y: 7))
 

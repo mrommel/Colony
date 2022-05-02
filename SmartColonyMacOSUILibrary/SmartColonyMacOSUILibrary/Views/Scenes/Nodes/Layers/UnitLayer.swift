@@ -129,6 +129,7 @@ class UnitLayer: SKNode {
 
             // add to canvas
             unitObject.addTo(node: self)
+            unitObject.delegate = self
 
             // make idle
             // unitObject.showIdle()
@@ -173,6 +174,14 @@ class UnitLayer: SKNode {
 
             unitObject.fortify()
             // unitObject.showFortified()
+        }
+    }
+
+    func attack(unit: AbstractUnit?, from source: HexPoint, towards location: HexPoint) {
+
+        if let unitObject = self.unitObject(of: unit) {
+
+            unitObject.attack(from: source, towards: location)
         }
     }
 
@@ -477,5 +486,14 @@ class UnitLayer: SKNode {
                 self.unitObjects.removeAll(where: { $0.identifier == unitObject.identifier })
             }
         }
+    }
+}
+
+extension UnitLayer: UnitObjectDelegate {
+
+    func clearFocus() {
+
+        self.clearFocus()
+        self.clearAttackFocus()
     }
 }

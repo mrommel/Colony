@@ -890,4 +890,64 @@ extension UnitType {
         case .writer: return nil
         }
     }
+
+    public var attackSouthAtlas: ObjectTextureAtlas? {
+
+        let bundle = Bundle.init(for: Textures.self)
+
+        switch self {
+
+        case .warrior:
+            let textureAtlas = TextureAtlasLoader.load(named: "warrior", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "attack", in: "south")
+
+        default:
+            return nil
+        }
+    }
+
+    public var attackNorthAtlas: ObjectTextureAtlas? {
+
+        let bundle = Bundle.init(for: Textures.self)
+
+        switch self {
+
+        case .warrior:
+            let textureAtlas = TextureAtlasLoader.load(named: "warrior", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "attack", in: "north")
+
+        default:
+            return nil
+        }
+    }
+
+    public var attackEastAtlas: ObjectTextureAtlas? {
+
+        let bundle = Bundle.init(for: Textures.self)
+
+        switch self {
+
+        case .warrior:
+            let textureAtlas = TextureAtlasLoader.load(named: "warrior", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "walk", in: "west", mirror: true)
+
+        default:
+            return nil
+        }
+    }
+
+    public var attackWestAtlas: ObjectTextureAtlas? {
+
+        let bundle = Bundle.init(for: Textures.self)
+
+        switch self {
+
+        case .warrior:
+            let textureAtlas = TextureAtlasLoader.load(named: "warrior", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "walk", in: "west")
+
+        default:
+            return nil
+        }
+    }
 }

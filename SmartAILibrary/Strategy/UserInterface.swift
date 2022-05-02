@@ -188,6 +188,8 @@ public enum UnitAnimationType {
     case enterCity(location: HexPoint)
     case fortify
     case unfortify
+    case attack(from: HexPoint, to: HexPoint)
+    case rangeAttack(from: HexPoint, to: HexPoint)
 }
 
 public struct SelectableItem {

@@ -1242,7 +1242,7 @@ public class Unit: AbstractUnit {
 
                     gameModel.userInterface?.askForConfirmation(
                         title: "Declare War?",
-                        question: "Da you really want to declare war on \(defenderUnit.player?.leader.name())",
+                        question: "Do you really want to declare war on \(defenderUnit.player?.leader.name())",
                         confirm: "Declare War",
                         cancel: "Cancel",
                         completion: { _ in
@@ -2084,11 +2084,6 @@ public class Unit: AbstractUnit {
             }
         }*/
 
-        // if entering a city, hide the unit
-        if newPlot.isCity() {
-            gameModel.userInterface?.enterCity(unit: self, at: oldPlot.point)
-        }
-
         self.doMobilize(in: gameModel) // unfortify
 
         // needs to be here so that the square is considered visible when we move into it...
@@ -2214,6 +2209,11 @@ public class Unit: AbstractUnit {
         } else {
             // teleport
             // SetPosition(pNewPlot);
+        }
+
+        // if entering a city, hide the unit
+        if newPlot.isCity() {
+            gameModel.userInterface?.enterCity(unit: self, at: oldPlot.point)
         }
 
         /*if self.hasCargo() {

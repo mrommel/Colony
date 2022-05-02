@@ -9,10 +9,35 @@ import SpriteKit
 import SmartAILibrary
 import SmartAssets
 
+extension SKNode {
+
+    func run(_ action: SKAction!, withKey: String!, optionalCompletion: (() -> Void)?) {
+
+        if let completion = optionalCompletion {
+            let completionAction = SKAction.run(completion)
+            let compositeAction = SKAction.sequence([action, completionAction])
+            run(compositeAction, withKey: withKey )
+        } else {
+            run( action, withKey: withKey )
+        }
+    }
+
+    func actionForKeyIsRunning(key: String) -> Bool {
+        return self.action(forKey: key) != nil ? true : false
+    }
+}
+
+protocol UnitObjectDelegate: AnyObject {
+
+    func clearFocus()
+}
+
 class UnitObject {
 
     static let idleActionKey: String = "idleActionKey"
+    static let walkActionKey: String = "walkActionKey"
     static let fortifiedActionKey: String = "fortifiedActionKey"
+    static let attackActionKey: String = "attackActionKey"
     static let alphaVisible: CGFloat = 1.0
     static let alphaInvisible: CGFloat = 0.0
 
@@ -39,10 +64,18 @@ class UnitObject {
 
     var atlasIdle: ObjectTextureAtlas?
     var atlasFortified: ObjectTextureAtlas?
-    var atlasSouth: ObjectTextureAtlas?
-    var atlasNorth: ObjectTextureAtlas?
-    var atlasEast: ObjectTextureAtlas?
-    var atlasWest: ObjectTextureAtlas?
+
+    // walk atlases
+    var atlasWalkSouth: ObjectTextureAtlas?
+    var atlasWalkNorth: ObjectTextureAtlas?
+    var atlasWalkEast: ObjectTextureAtlas?
+    var atlasWalkWest: ObjectTextureAtlas?
+
+    // attack atlases
+    var atlasAttackSouth: ObjectTextureAtlas?
+    var atlasAttackNorth: ObjectTextureAtlas?
+    var atlasAttackEast: ObjectTextureAtlas?
+    var atlasAttackWest: ObjectTextureAtlas?
 
     var lastTime: CFTimeInterval = 0
     var animationSpeed = 4.0
@@ -57,6 +90,8 @@ class UnitObject {
     var strengthIndicatorNode: UnitStrengthIndicator
 
     var shouldRemove: Bool = false
+
+    weak var delegate: UnitObjectDelegate?
 
     init(unit: AbstractUnit?, in gameModel: GameModel?) {
 
@@ -106,10 +141,16 @@ class UnitObject {
 
         // setup atlases
         self.atlasIdle = unit.type.idleAtlas
-        self.atlasSouth = unit.type.walkSouthAtlas
-        self.atlasNorth = unit.type.walkNorthAtlas
-        self.atlasWest = unit.type.walkWestAtlas
-        self.atlasEast = unit.type.walkEastAtlas
+
+        self.atlasWalkSouth = unit.type.walkSouthAtlas
+        self.atlasWalkNorth = unit.type.walkNorthAtlas
+        self.atlasWalkWest = unit.type.walkWestAtlas
+        self.atlasWalkEast = unit.type.walkEastAtlas
+
+        self.atlasAttackSouth = unit.type.attackSouthAtlas
+        self.atlasAttackNorth = unit.type.attackNorthAtlas
+        self.atlasAttackWest = unit.type.attackWestAtlas
+        self.atlasAttackEast = unit.type.attackEastAtlas
     }
 
     func addTo(node parent: SKNode) {
@@ -117,7 +158,7 @@ class UnitObject {
         parent.addChild(self.sprite)
     }
 
-    private func animate(to hex: HexPoint, on atlas: ObjectTextureAtlas?, completion block: @escaping () -> Swift.Void) {
+    private func animateWalk(to hex: HexPoint, on atlas: ObjectTextureAtlas?, completion block: @escaping () -> Swift.Void) {
 
         self.sprite.removeAction(forKey: UnitObject.idleActionKey)
         self.sprite.removeAction(forKey: UnitObject.fortifiedActionKey)
@@ -129,7 +170,7 @@ class UnitObject {
             let move = SKAction.move(to: HexPoint.toScreen(hex: hex), duration: walk.duration)
 
             let animate = SKAction.group([walk, move])
-            self.sprite.run(animate, completion: {
+            self.sprite.run(animate, withKey: UnitObject.walkActionKey, completion: {
                 block()
             })
         } else {
@@ -155,28 +196,73 @@ class UnitObject {
 
         case .north:
             if showEmbarked {
-                self.animate(to: to, on: UnitObject.atlasEmbarkedNorth, completion: block)
+                self.animateWalk(to: to, on: UnitObject.atlasEmbarkedNorth, completion: block)
             } else {
-                self.animate(to: to, on: self.atlasNorth, completion: block)
+                self.animateWalk(to: to, on: self.atlasWalkNorth, completion: block)
             }
         case .northeast, .southeast:
             if showEmbarked {
-                self.animate(to: to, on: UnitObject.atlasEmbarkedEast, completion: block)
+                self.animateWalk(to: to, on: UnitObject.atlasEmbarkedEast, completion: block)
             } else {
-                self.animate(to: to, on: self.atlasEast, completion: block)
+                self.animateWalk(to: to, on: self.atlasWalkEast, completion: block)
             }
         case .south:
             if showEmbarked {
-                self.animate(to: to, on: UnitObject.atlasEmbarkedSouth, completion: block)
+                self.animateWalk(to: to, on: UnitObject.atlasEmbarkedSouth, completion: block)
             } else {
-                self.animate(to: to, on: self.atlasSouth, completion: block)
+                self.animateWalk(to: to, on: self.atlasWalkSouth, completion: block)
             }
         case .southwest, .northwest:
             if showEmbarked {
-                self.animate(to: to, on: UnitObject.atlasEmbarkedWest, completion: block)
+                self.animateWalk(to: to, on: UnitObject.atlasEmbarkedWest, completion: block)
             } else {
-                self.animate(to: to, on: self.atlasWest, completion: block)
+                self.animateWalk(to: to, on: self.atlasWalkWest, completion: block)
             }
+        }
+    }
+
+    private func animateAttack(to hex: HexPoint, on atlas: ObjectTextureAtlas?, completion block: @escaping () -> Swift.Void) {
+
+        self.sprite.removeAction(forKey: UnitObject.idleActionKey)
+        self.sprite.removeAction(forKey: UnitObject.fortifiedActionKey)
+
+        if let atlas = atlas {
+            let attackFrames = atlas.textures.map { SKTexture(image: $0) }
+            let attack = SKAction.animate(with: [attackFrames, attackFrames, attackFrames].flatMap { $0 }, timePerFrame: atlas.timePerFrame)
+
+            let moveForward = SKAction.move(to: HexPoint.toScreen(hex: hex), duration: attack.duration / 3.0)
+            let wait = SKAction.wait(forDuration: attack.duration / 3.0)
+            let moveBack = SKAction.move(to: HexPoint.toScreen(hex: hex), duration: attack.duration / 3.0)
+            let move = SKAction.sequence([moveForward, wait, moveBack])
+
+            let animate = SKAction.group([attack, move])
+            self.sprite.run(animate, withKey: UnitObject.attackActionKey, completion: {
+                block()
+            })
+        } else {
+            self.sprite.position = HexPoint.toScreen(hex: hex)
+            block()
+        }
+    }
+
+    private func attack(from: HexPoint, to: HexPoint, completion block: @escaping () -> Swift.Void) {
+
+        if from == to {
+            return
+        }
+
+        let direction = HexPoint.screenDirection(from: from, towards: to)
+
+        switch direction {
+
+        case .north:
+            self.animateAttack(to: to, on: self.atlasAttackNorth, completion: block)
+        case .northeast, .southeast:
+            self.animateAttack(to: to, on: self.atlasAttackEast, completion: block)
+        case .south:
+            self.animateAttack(to: to, on: self.atlasAttackSouth, completion: block)
+        case .southwest, .northwest:
+            self.animateAttack(to: to, on: self.atlasAttackWest, completion: block)
         }
     }
 
@@ -206,9 +292,9 @@ class UnitObject {
             self.strengthIndicatorNode.set(strength: strength)
         }
 
-        /*if let currentAnimation = self.currentAnimation {
-            print("## Animation: \(unit.name()) currently = \(currentAnimation) ##")
-        }*/
+        // if let currentAnimation = self.currentAnimation {
+        //    print("## Animation: \(unit.name()) currently = \(self.currentAnimation) ##")
+        // }
 
         if case .idle(location: let location) = self.currentAnimation {
 
@@ -218,14 +304,16 @@ class UnitObject {
                 if let firstAnimation = self.animationQueue.dequeue() {
 
                     self.currentAnimation = firstAnimation
+                    print("## Animation: \(unit.name()) currently = \(self.currentAnimation) ##")
 
                     switch firstAnimation {
 
                     case .move(from: let from, to: let to):
-                        // print("## handle move Animation: \(unit.name()) begin ##")
+                        print("## Animation: \(unit.name()) walk started ##")
                         self.walk(from: from, to: to) {
-                            // print("## Animation: \(unit.name()) walk ended ##")
                             self.currentAnimation = .idle(location: to)
+                            print("## Animation: \(unit.name()) walk ended ##")
+                            self.delegate?.clearFocus()
                         }
                     case .show(location: let location):
                         // print("## handle show Animation: \(unit.name()) at \(unit.location) / \(location) ##")
@@ -248,8 +336,17 @@ class UnitObject {
                         // print("## Animation: \(unit.name()) unfortify ##")
                         // noop
                         self.currentAnimation = .idle(location: unit.location)
+                    case .attack(from: let from, to: let to):
+                        print("## Animation: \(unit.name()) attack started ##")
+                        self.attack(from: from, to: to) {
+                            self.currentAnimation = .idle(location: to)
+                            print("## Animation: \(unit.name()) attack ended ##")
+                        }
 
-                    case .idle(location: let location):
+                    case .rangeAttack(from: _, to: _):
+                        fatalError("not implemented yet")
+
+                    case .idle(location: _):
                         // noop
                         // print("does not happen: idle at \(location)")
                         break
@@ -289,6 +386,11 @@ class UnitObject {
                 lastPoint = point
             }
         }
+    }
+
+    func attack(from source: HexPoint, towards point: HexPoint) {
+
+        self.animationQueue.enqueue(.attack(from: source, to: point))
     }
 
     func fortify() {
@@ -360,7 +462,7 @@ class UnitObject {
         }
     }
 
-    private func showWalk(on path: HexPath, completion block: @escaping () -> Swift.Void) {
+    /*private func showWalk(on path: HexPath, completion block: @escaping () -> Swift.Void) {
 
         guard path.count >= 2 else {
             block()
@@ -380,7 +482,7 @@ class UnitObject {
                 self.showWalk(on: pathWithoutFirst, completion: block)
             })
         }
-    }
+    }*/
 
     func shouldBeRemoved() -> Bool {
 
