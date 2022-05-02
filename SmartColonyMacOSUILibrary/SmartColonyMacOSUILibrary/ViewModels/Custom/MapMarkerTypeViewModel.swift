@@ -21,6 +21,25 @@ public class MapMarkerTypeViewModel: ObservableObject, Identifiable {
         self.type = type
     }
 
+    func toolTip() -> NSAttributedString {
+
+        let toolTipText = NSMutableAttributedString(string: "")
+
+        let title = NSAttributedString(
+            string: type.name().localized(),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        /*let effects = NSAttributedString(
+            string: "\n\nDescription \(Int.random(number: 10))",
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        toolTipText.append(effects)*/
+
+        return toolTipText
+    }
+
     func image() -> NSImage {
 
         return ImageCache.shared.image(for: self.type.iconTexture())

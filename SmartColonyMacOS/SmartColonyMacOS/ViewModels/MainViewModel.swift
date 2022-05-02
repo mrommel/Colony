@@ -159,7 +159,7 @@ extension MainViewModel: MenuViewModelDelegate {
 
     func loadGame() {
 
-        self.loadGameViewModel.update() 
+        self.loadGameViewModel.update()
 
         self.presentedView = .loadGameMenu
         self.mapMenuDisabled = true

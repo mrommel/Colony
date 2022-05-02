@@ -43,10 +43,10 @@ struct MapMarkerPickerView: View {
                         .resizable()
                         .frame(width: 24, height: 24)
                         .border(Color(self.viewModel.selectionColor(of: markerViewModel.type)), width: 1, cornerRadius: 4)
+                        .toolTip(markerViewModel.toolTip())
                         .onTapGesture {
                             self.viewModel.selectedType = markerViewModel.type
                         }
-                        .toolTip(self.viewModel.name.localized())
                 }
             }
 
@@ -60,10 +60,10 @@ struct MapMarkerPickerView: View {
                         .resizable()
                         .frame(width: 24, height: 24)
                         .border(Color(self.viewModel.selectionColor(of: markerViewModel.type)), width: 1, cornerRadius: 4)
+                        .toolTip(markerViewModel.toolTip())
                         .onTapGesture {
                             self.viewModel.selectedType = markerViewModel.type
                         }
-                        .toolTip(self.viewModel.name.localized())
                 }
             }
 

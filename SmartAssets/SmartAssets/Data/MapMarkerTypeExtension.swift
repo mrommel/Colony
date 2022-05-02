@@ -490,59 +490,59 @@ extension MapMarkerType {
 
             // wonders - medieval
         case .alhambra:
-            return "mapMarker-wonder-alhambra" // #
+            return "mapMarker-wonder-alhambra"
 
         case .angkorWat:
-            return "mapMarker-wonder-angkorWat" // #
+            return "mapMarker-wonder-angkorWat"
 
         case .chichenItza:
-            return "mapMarker-wonder-chichenItza" // #
+            return "mapMarker-wonder-chichenItza"
 
         case .hagiaSophia:
-            return "mapMarker-wonder-hagiaSophia" // #
+            return "mapMarker-wonder-hagiaSophia"
 
         case .hueyTeocalli:
-            return "mapMarker-wonder-hueyTeocalli" // #
+            return "mapMarker-wonder-hueyTeocalli"
 
         case .kilwaKisiwani:
-            return "mapMarker-wonder-kilwaKisiwani" // #
+            return "mapMarker-wonder-kilwaKisiwani"
 
         case .kotokuIn:
-            return "mapMarker-wonder-kotokuIn" // #
+            return "mapMarker-wonder-kotokuIn"
 
         case .meenakshiTemple:
-            return "mapMarker-wonder-meenakshiTemple" // #
+            return "mapMarker-wonder-meenakshiTemple"
 
         case .montStMichel:
-            return "mapMarker-wonder-montStMichel" // #
+            return "mapMarker-wonder-montStMichel"
 
         case .universityOfSankore:
-            return "mapMarker-wonder-universityOfSankore" // #
+            return "mapMarker-wonder-universityOfSankore"
 
             // wonders - renaissance
         case .casaDeContratacion:
-            return "mapMarker-wonder-casaDeContratacion" // #
+            return "mapMarker-wonder-casaDeContratacion"
 
         case .forbiddenCity:
-            return "mapMarker-wonder-forbiddenCity" // #
+            return "mapMarker-wonder-forbiddenCity"
 
         case .greatZimbabwe:
-            return "mapMarker-wonder-greatZimbabwe" // #
+            return "mapMarker-wonder-greatZimbabwe"
 
         case .potalaPalace:
-            return "mapMarker-wonder-potalaPalace" // #
+            return "mapMarker-wonder-potalaPalace"
 
         case .stBasilsCathedral:
-            return "mapMarker-wonder-stBasilsCathedral" // #
+            return "mapMarker-wonder-stBasilsCathedral"
 
         case .tajMahal:
-            return "mapMarker-wonder-tajMahal" // #
+            return "mapMarker-wonder-tajMahal"
 
         case .torreDeBelem:
-            return "mapMarker-wonder-torreDeBelem" // #
+            return "mapMarker-wonder-torreDeBelem"
 
         case .venetianArsenal:
-            return "mapMarker-wonder-venetianArsenal" // #
+            return "mapMarker-wonder-venetianArsenal"
 
         }
     }
