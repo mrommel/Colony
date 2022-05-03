@@ -573,7 +573,7 @@ extension GameScene {
                             self.viewModel?.delegate?.hideCombatBanner()
                             self.viewModel?.unitSelectionMode = .pick
 
-                            self.mapNode?.unitLayer.clearAttackFocus()
+                            self.mapNode?.unitLayer.hideAttackFocus()
                         }
                     }
 
@@ -601,7 +601,7 @@ extension GameScene {
                             self.viewModel?.delegate?.hideCombatBanner()
                             self.viewModel?.unitSelectionMode = .pick
 
-                            self.mapNode?.unitLayer.clearAttackFocus()
+                            self.mapNode?.unitLayer.hideAttackFocus()
                         }
                     }
 
@@ -636,7 +636,7 @@ extension GameScene {
                             self.viewModel?.delegate?.hideCombatBanner()
                             self.viewModel?.unitSelectionMode = .pick
 
-                            self.mapNode?.unitLayer.clearAttackFocus()
+                            self.mapNode?.unitLayer.hideAttackFocus()
                         }
                     }
 
@@ -664,7 +664,7 @@ extension GameScene {
                             self.viewModel?.delegate?.hideCombatBanner()
                             self.viewModel?.unitSelectionMode = .pick
 
-                            self.mapNode?.unitLayer.clearAttackFocus()
+                            self.mapNode?.unitLayer.hideAttackFocus()
                         }
                     }
 

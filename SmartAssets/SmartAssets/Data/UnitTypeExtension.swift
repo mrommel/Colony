@@ -321,7 +321,13 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "idle")
 
         case .slinger:
-            return ObjectTextureAtlas(template: "slinger-idle-", range: 0..<10)
+            guard let atlas = SlpTextureAtlasLoader.atlas(for: "slinger-idle",
+                                                          part: .southWest,
+                                                          player: .customBlue) else {
+                fatalError("cant get atlas")
+            }
+
+            return atlas.repeatFirst(amount: 50, timePerFrame: 0.1)
 
         case .archer:
             let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
@@ -456,7 +462,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "south")
 
         case .slinger:
-            return ObjectTextureAtlas(template: "slinger-south-", range: 0..<10)
+            return SlpTextureAtlasLoader.atlas(for: "slinger-walk", part: .south, player: .customBlue)
 
         case .archer:
             let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
@@ -574,7 +580,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "north")
 
         case .slinger:
-            return ObjectTextureAtlas(template: "slinger-north-", range: 0..<10)
+            return SlpTextureAtlasLoader.atlas(for: "slinger-walk", part: .north, player: .customBlue)
 
         case .archer:
             let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
@@ -692,7 +698,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west", mirror: true)
 
         case .slinger:
-            return ObjectTextureAtlas(template: "slinger-east-", range: 0..<10)
+            return SlpTextureAtlasLoader.atlas(for: "slinger-walk", part: .west, mirror: true, player: .customBlue)
 
         case .archer:
             let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
@@ -810,7 +816,7 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west")
 
         case .slinger:
-            return ObjectTextureAtlas(template: "slinger-west-", range: 0..<10)
+            return SlpTextureAtlasLoader.atlas(for: "slinger-walk", part: .west, player: .customBlue)
 
         case .archer:
             let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
@@ -901,6 +907,13 @@ extension UnitType {
             let textureAtlas = TextureAtlasLoader.load(named: "warrior", in: bundle)
             return textureAtlas?.objectTextureAtlas(for: "attack", in: "south")
 
+        case .slinger:
+            return SlpTextureAtlasLoader.atlas(for: "slinger-attack", part: .south, player: .customBlue)
+
+        case .archer:
+            let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "attack", in: "south")
+
         default:
             return nil
         }
@@ -916,6 +929,13 @@ extension UnitType {
             let textureAtlas = TextureAtlasLoader.load(named: "warrior", in: bundle)
             return textureAtlas?.objectTextureAtlas(for: "attack", in: "north")
 
+        case .slinger:
+            return SlpTextureAtlasLoader.atlas(for: "slinger-attack", part: .north, player: .customBlue)
+
+        case .archer:
+            let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "attack", in: "north")
+
         default:
             return nil
         }
@@ -929,7 +949,14 @@ extension UnitType {
 
         case .warrior:
             let textureAtlas = TextureAtlasLoader.load(named: "warrior", in: bundle)
-            return textureAtlas?.objectTextureAtlas(for: "walk", in: "west", mirror: true)
+            return textureAtlas?.objectTextureAtlas(for: "attack", in: "west", mirror: true)
+
+        case .slinger:
+            return SlpTextureAtlasLoader.atlas(for: "slinger-attack", part: .west, mirror: true, player: .customBlue)
+
+        case .archer:
+            let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "attack", in: "west", mirror: true)
 
         default:
             return nil
@@ -944,7 +971,14 @@ extension UnitType {
 
         case .warrior:
             let textureAtlas = TextureAtlasLoader.load(named: "warrior", in: bundle)
-            return textureAtlas?.objectTextureAtlas(for: "walk", in: "west")
+            return textureAtlas?.objectTextureAtlas(for: "attack", in: "west")
+
+        case .slinger:
+            return SlpTextureAtlasLoader.atlas(for: "slinger-attack", part: .west, player: .customBlue)
+
+        case .archer:
+            let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "attack", in: "west")
 
         default:
             return nil

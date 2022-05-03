@@ -2450,7 +2450,7 @@ public class Unit: AbstractUnit {
 
         self.moveLocations.append(target)
 
-        if self.moveLocations.count == 20 /*|| self.isHuman()*/ {
+        if self.moveLocations.count == 20 || self.isHuman() {
             self.publishQueuedVisualizationMoves(in: gameModel)
         }
     }

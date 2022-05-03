@@ -56,7 +56,7 @@ class LeaderViewModel: ObservableObject {
         }
 
         guard let player = gameModel.player(for: leaderType) else {
-            fatalError("cant get player for \(leaderType)")
+            return
         }
 
         guard let government = player.government else {

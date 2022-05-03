@@ -221,7 +221,7 @@ class UnitObject {
         }
     }
 
-    private func animateAttack(to hex: HexPoint, on atlas: ObjectTextureAtlas?, completion block: @escaping () -> Swift.Void) {
+    private func animateAttack(from: HexPoint, to hex: HexPoint, on atlas: ObjectTextureAtlas?, completion block: @escaping () -> Swift.Void) {
 
         self.sprite.removeAction(forKey: UnitObject.idleActionKey)
         self.sprite.removeAction(forKey: UnitObject.fortifiedActionKey)
@@ -230,17 +230,18 @@ class UnitObject {
             let attackFrames = atlas.textures.map { SKTexture(image: $0) }
             let attack = SKAction.animate(with: [attackFrames, attackFrames, attackFrames].flatMap { $0 }, timePerFrame: atlas.timePerFrame)
 
-            let moveForward = SKAction.move(to: HexPoint.toScreen(hex: hex), duration: attack.duration / 3.0)
+            /*let moveForward = SKAction.move(to: HexPoint.toScreen(hex: hex), duration: attack.duration / 3.0)
             let wait = SKAction.wait(forDuration: attack.duration / 3.0)
-            let moveBack = SKAction.move(to: HexPoint.toScreen(hex: hex), duration: attack.duration / 3.0)
+            let moveBack = SKAction.move(to: HexPoint.toScreen(hex: from), duration: attack.duration / 3.0)
             let move = SKAction.sequence([moveForward, wait, moveBack])
 
-            let animate = SKAction.group([attack, move])
+            let animate = SKAction.group([attack, move])*/
+            let animate = attack
             self.sprite.run(animate, withKey: UnitObject.attackActionKey, completion: {
                 block()
             })
         } else {
-            self.sprite.position = HexPoint.toScreen(hex: hex)
+            // self.sprite.position = HexPoint.toScreen(hex: hex)
             block()
         }
     }
@@ -256,13 +257,13 @@ class UnitObject {
         switch direction {
 
         case .north:
-            self.animateAttack(to: to, on: self.atlasAttackNorth, completion: block)
+            self.animateAttack(from: from, to: to, on: self.atlasAttackNorth, completion: block)
         case .northeast, .southeast:
-            self.animateAttack(to: to, on: self.atlasAttackEast, completion: block)
+            self.animateAttack(from: from, to: to, on: self.atlasAttackEast, completion: block)
         case .south:
-            self.animateAttack(to: to, on: self.atlasAttackSouth, completion: block)
+            self.animateAttack(from: from, to: to, on: self.atlasAttackSouth, completion: block)
         case .southwest, .northwest:
-            self.animateAttack(to: to, on: self.atlasAttackWest, completion: block)
+            self.animateAttack(from: from, to: to, on: self.atlasAttackWest, completion: block)
         }
     }
 
@@ -304,47 +305,57 @@ class UnitObject {
                 if let firstAnimation = self.animationQueue.dequeue() {
 
                     self.currentAnimation = firstAnimation
-                    print("## Animation: \(unit.name()) currently = \(self.currentAnimation) ##")
+                    // print("## Animation: \(unit.name()) currently = \(self.currentAnimation) ##")
 
                     switch firstAnimation {
 
                     case .move(from: let from, to: let to):
-                        print("## Animation: \(unit.name()) walk started ##")
+                        // print("## Animation: \(unit.name()) walk started ##")
                         self.walk(from: from, to: to) {
                             self.currentAnimation = .idle(location: to)
-                            print("## Animation: \(unit.name()) walk ended ##")
+                            // print("## Animation: \(unit.name()) walk ended ##")
                             self.delegate?.clearFocus()
                         }
+
                     case .show(location: let location):
                         // print("## handle show Animation: \(unit.name()) at \(unit.location) / \(location) ##")
                         self.shouldRemove = false
                         self.sprite.alpha = 1.0
                         self.currentAnimation = .idle(location: location)
+
                     case .hide(location: let location):
                         // print("## handle hide Animation: \(unit.name()) at \(unit.location) / \(location) ##")
                         self.shouldRemove = true
                         self.currentAnimation = .idle(location: location)
+
                     case .enterCity(location: let location):
                         // print("## handle enterCity Animation: \(unit.name()) at \(unit.location) / \(location) ##")
                         self.sprite.alpha = 0.0
                         self.currentAnimation = .idle(location: location)
+
                     case .fortify:
                         // print("## handle fortify Animation: \(unit.name()) ##")
                         self.showFortified()
                         self.currentAnimation = .idle(location: location)
+
                     case .unfortify:
                         // print("## Animation: \(unit.name()) unfortify ##")
                         // noop
                         self.currentAnimation = .idle(location: unit.location)
+
                     case .attack(from: let from, to: let to):
-                        print("## Animation: \(unit.name()) attack started ##")
+                        // print("## Animation: \(unit.name()) attack started ##")
                         self.attack(from: from, to: to) {
                             self.currentAnimation = .idle(location: to)
-                            print("## Animation: \(unit.name()) attack ended ##")
+                            // print("## Animation: \(unit.name()) attack ended ##")
                         }
 
-                    case .rangeAttack(from: _, to: _):
-                        fatalError("not implemented yet")
+                    case .rangeAttack(from: let from, to: let to):
+                        // print("## Animation: \(unit.name()) range attack started ##")
+                        self.attack(from: from, to: to) {
+                            self.currentAnimation = .idle(location: to)
+                            // print("## Animation: \(unit.name()) range attack ended ##")
+                        }
 
                     case .idle(location: _):
                         // noop
@@ -391,6 +402,11 @@ class UnitObject {
     func attack(from source: HexPoint, towards point: HexPoint) {
 
         self.animationQueue.enqueue(.attack(from: source, to: point))
+    }
+
+    func rangeAttack(from source: HexPoint, towards point: HexPoint) {
+
+        self.animationQueue.enqueue(.rangeAttack(from: source, to: point))
     }
 
     func fortify() {
@@ -461,28 +477,6 @@ class UnitObject {
             self.sprite.run(idleAnimation, withKey: UnitObject.fortifiedActionKey, completion: { })
         }
     }
-
-    /*private func showWalk(on path: HexPath, completion block: @escaping () -> Swift.Void) {
-
-        guard path.count >= 2 else {
-            block()
-            return
-        }
-
-        print("showWalk: \(path)")
-
-        self.sprite.removeAction(forKey: UnitObject.idleActionKey)
-        self.sprite.removeAction(forKey: UnitObject.fortifiedActionKey)
-
-        if let (fromPoint, _) = path.first, let (toPoint, _) = path.second {
-
-            let pathWithoutFirst = path.pathWithoutFirst()
-
-            self.walk(from: fromPoint, to: toPoint, completion: {
-                self.showWalk(on: pathWithoutFirst, completion: block)
-            })
-        }
-    }*/
 
     func shouldBeRemoved() -> Bool {
 

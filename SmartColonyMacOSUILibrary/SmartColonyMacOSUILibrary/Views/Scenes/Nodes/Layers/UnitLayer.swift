@@ -185,6 +185,14 @@ class UnitLayer: SKNode {
         }
     }
 
+    func rangeAttack(unit: AbstractUnit?, from source: HexPoint, towards location: HexPoint) {
+
+        if let unitObject = self.unitObject(of: unit) {
+
+            unitObject.rangeAttack(from: source, towards: location)
+        }
+    }
+
     private func unitObject(at location: HexPoint) -> UnitObject? {
 
         for object in self.unitObjects where object.unit?.location == location {
@@ -240,7 +248,7 @@ class UnitLayer: SKNode {
         }
     }
 
-    func clearAttackFocus() {
+    func hideAttackFocus() {
 
         for attackFocusNode in self.attackFocusNodes {
             attackFocusNode?.removeFromParent()
@@ -493,7 +501,7 @@ extension UnitLayer: UnitObjectDelegate {
 
     func clearFocus() {
 
-        self.clearFocus()
-        self.clearAttackFocus()
+        self.hideFocus()
+        self.hideAttackFocus()
     }
 }

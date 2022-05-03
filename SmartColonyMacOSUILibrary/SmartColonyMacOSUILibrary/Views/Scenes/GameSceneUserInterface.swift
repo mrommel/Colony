@@ -91,7 +91,7 @@ extension GameScene: UserInterfaceDelegate {
         DispatchQueue.main.async {
             self.mapNode?.unitLayer.hideFocus()
             self.mapNode?.unitLayer.clearPathSpriteBuffer()
-            self.mapNode?.unitLayer.clearAttackFocus()
+            self.mapNode?.unitLayer.hideAttackFocus()
             self.viewModel?.delegate?.selectedCity = nil
             self.viewModel?.delegate?.selectedUnit = nil
             self.viewModel?.combatUnitTarget = nil
@@ -169,10 +169,10 @@ extension GameScene: UserInterfaceDelegate {
                 self.mapNode?.unitLayer.attack(unit: unit, from: from, towards: to)
             }
 
-        /*case .rangeAttack(let from, let to):
+        case .rangeAttack(let from, let to):
             DispatchQueue.main.async {
-                self.mapNode?.unitLayer
-            }*/
+                self.mapNode?.unitLayer.rangeAttack(unit: unit, from: from, towards: to)
+            }
 
         default:
             print("cant show unknown animation: \(animation)")
@@ -183,7 +183,7 @@ extension GameScene: UserInterfaceDelegate {
     func clearAttackFocus() {
 
         DispatchQueue.main.async {
-            self.mapNode?.unitLayer.clearAttackFocus()
+            self.mapNode?.unitLayer.hideAttackFocus()
         }
     }
 
