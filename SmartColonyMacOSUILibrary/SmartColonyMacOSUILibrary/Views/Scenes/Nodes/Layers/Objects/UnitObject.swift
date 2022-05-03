@@ -482,4 +482,9 @@ class UnitObject {
 
         return self.shouldRemove
     }
+
+    func animationQueueEmpty() -> Bool {
+
+        return self.animationQueue.isEmpty
+    }
 }

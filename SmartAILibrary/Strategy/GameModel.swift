@@ -326,13 +326,10 @@ open class GameModel: Codable {
         }
     }
 
-    func activePlayer() -> AbstractPlayer? {
+    public func activePlayer() -> AbstractPlayer? {
 
-        for player in self.players {
-
-            if player.isAlive() && player.isActive() {
-                return player
-            }
+        for player in self.players where player.isAlive() && player.isActive() {
+            return player
         }
 
         return nil
@@ -340,11 +337,8 @@ open class GameModel: Codable {
 
     func updatePlayers(in gameModel: GameModel?) {
 
-        for player in self.players {
-
-            if player.isAlive() && player.isActive() {
-                player.updateNotifications(in: gameModel)
-            }
+        for player in self.players where player.isAlive() && player.isActive() {
+            player.updateNotifications(in: gameModel)
         }
     }
 

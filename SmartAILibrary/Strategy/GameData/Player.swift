@@ -2257,10 +2257,11 @@ public class Player: AbstractPlayer {
 
     public func endTurn(in gameModel: GameModel?) {
 
-        guard isTurnActive() == true else {
+        guard self.isTurnActive() == true else {
             fatalError("try to end an inactive turn")
         }
 
+        print("--- units finished: \(gameModel?.userInterface?.animationsFinished(for: self.leader)) ---")
         print("--- end turn for \(self.isHuman() ? "HUMAN": "AI") player \(self.leader) ---")
 
         self.turnActive = false

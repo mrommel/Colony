@@ -80,18 +80,13 @@ class UnitLayer: SKNode {
     /// used to disabled the turn button
     ///
     /// - Returns: `true`if all animations are finished
-    func areAnimationsFinished() -> Bool {
+    func areAnimationsFinished(for leader: LeaderType) -> Bool {
 
         var animationsFinished: Bool = true
 
-        for unitObject in self.unitObjects {
+        for unitObject in self.unitObjects where unitObject.unit?.leader == leader {
 
-            switch unitObject.currentAnimation {
-
-            case .idle:
-                // NOOP
-                break
-            default:
+            if !unitObject.animationQueueEmpty() {
                 animationsFinished = false
             }
         }

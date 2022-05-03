@@ -466,4 +466,13 @@ extension GameScene: UserInterfaceDelegate {
 
         self.viewModel?.focus(on: location)
     }
+
+    func animationsFinished(for leader: LeaderType) -> Bool {
+
+        guard let mapNode = self.mapNode else {
+            return false
+        }
+
+        return mapNode.unitLayer.areAnimationsFinished(for: leader)
+    }
 }

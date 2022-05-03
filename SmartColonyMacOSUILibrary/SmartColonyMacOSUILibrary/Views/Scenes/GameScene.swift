@@ -111,7 +111,8 @@ class GameScene: BaseScene {
         }
 
         // update animation checker
-        if let state = self.mapNode?.unitLayer.areAnimationsFinished() {
+        let currentLeader: LeaderType = gameModel.activePlayer()?.leader ?? .none
+        if let state = self.mapNode?.unitLayer.areAnimationsFinished(for: currentLeader) {
             self.viewModel?.animationsAreRunning = state
         } else {
             self.viewModel?.animationsAreRunning = false
@@ -138,12 +139,12 @@ class GameScene: BaseScene {
                     self.viewModel?.delegate?.changeUITurnState(to: .humanTurns)
                     _ = self.viewModel?.delegate?.checkPopups()
 
-                    if self.viewModel!.readyUpdatingHuman {
+                    // update all units strengths
+                    for unit in gameModel.units(of: humanPlayer) {
+                        self.mapNode?.unitLayer.update(unit: unit)
+                    }
 
-                        // update all units strengths
-                        for unit in gameModel.units(of: humanPlayer) {
-                            self.mapNode?.unitLayer.update(unit: unit)
-                        }
+                    if self.viewModel!.readyUpdatingHuman {
 
                         self.viewModel!.readyUpdatingHuman = false
 
@@ -172,7 +173,24 @@ class GameScene: BaseScene {
                             gameModel.update()
                             self.gameUpdateMutex = true
                             // print("-----------> after AI processing")
-                            self.viewModel!.readyUpdatingAI = true
+                            // self.viewModel!.readyUpdatingAI = true
+
+                            guard let activePlayer = gameModel.activePlayer() else {
+                                fatalError("cant get active player")
+                            }
+
+                            // update all units strengths
+                            for unit in gameModel.units(of: activePlayer) {
+                                self.mapNode?.unitLayer.update(unit: unit)
+                            }
+
+                            // update animation checker
+                            let currentLeader: LeaderType = activePlayer.leader
+                            if let state = self.mapNode?.unitLayer.areAnimationsFinished(for: currentLeader) {
+                                self.viewModel!.readyUpdatingAI = state
+                            } else {
+                                self.viewModel!.readyUpdatingAI = false
+                            }
                         }
                     }
                 }

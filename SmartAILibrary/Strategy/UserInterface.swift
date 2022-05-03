@@ -274,4 +274,6 @@ public protocol UserInterfaceDelegate: AnyObject {
     func showTooltip(at point: HexPoint, type: TooltipType, delay: Double)
 
     func focus(on location: HexPoint)
+
+    func animationsFinished(for leader: LeaderType) -> Bool
 }

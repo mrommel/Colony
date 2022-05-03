@@ -71,6 +71,10 @@ class TestUI: UserInterfaceDelegate {
     func showTooltip(at point: HexPoint, type: TooltipType, delay: Double) {}
 
     func focus(on location: HexPoint) {}
+
+    func animationsFinished(for leader: LeaderType) -> Bool {
+        return true
+    }
 }
 
 // swiftlint:disable force_try type_body_length
