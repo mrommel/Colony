@@ -1326,7 +1326,7 @@ extension GameViewModel: BottomRightBarViewModelDelegate {
 
 extension GameViewModel: BottomLeftBarViewModelDelegate {
 
-    func areAnimationsFinished() -> Bool {
+    func areAnimationsRunning() -> Bool {
 
         return self.gameSceneViewModel.animationsAreRunning
     }

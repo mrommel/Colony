@@ -560,10 +560,19 @@ public class Notifications: Codable {
         for notification in self.notificationsArray {
 
             // city growth should vanish at the end of turn (if not already)
-            if notification.type.value() == NotificationType.cityGrowth(cityName: "", population: 0, location: HexPoint.invalid).value() &&
-                notification.dismissed == false {
+            if case .cityGrowth(cityName: _, population: _, location: _) = notification.type {
 
-                notification.dismiss(in: gameModel)
+                if !notification.dismissed {
+                    notification.dismiss(in: gameModel)
+                }
+            }
+
+            // city starving too
+            if case .starving(cityName: _, location: _) = notification.type {
+                
+                if !notification.dismissed {
+                    notification.dismiss(in: gameModel)
+                }
             }
         }
 

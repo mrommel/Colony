@@ -516,18 +516,21 @@ public class CityStrategyAI: Codable {
 
                 var weight: Double = Double(wonderProductionAI.weight(for: wonderType))
 
-                guard let wonderLocation = city.bestLocation(for: wonderType, in: gameModel) else {
+                guard let bestWonderLocation = city.bestLocation(for: wonderType, in: gameModel) else {
                     fatalError("cant get valid wonder location")
                 }
-                let buildableItem = BuildableItem(wonderType: wonderType, at: wonderLocation)
 
-                // reweight
-                let turnsLeft = city.wonderProductionTurnsLeft(for: wonderType)
-                let totalCostFactor = 0.15 /* AI_PRODUCTION_WEIGHT_BASE_MOD */ + 0.004 /* AI_PRODUCTION_WEIGHT_MOD_PER_TURN_LEFT */ * Double(turnsLeft)
-                let weightDivisor = pow(Double(turnsLeft), totalCostFactor)
-                weight /= weightDivisor
+                if city.canBuild(wonder: wonderType, at: bestWonderLocation, in: gameModel) {
+                    let buildableItem = BuildableItem(wonderType: wonderType, at: bestWonderLocation)
 
-                buildables.add(weight: weight, for: buildableItem)
+                    // reweight
+                    let turnsLeft = city.wonderProductionTurnsLeft(for: wonderType)
+                    let totalCostFactor = 0.15 /* AI_PRODUCTION_WEIGHT_BASE_MOD */ + 0.004 /* AI_PRODUCTION_WEIGHT_MOD_PER_TURN_LEFT */ * Double(turnsLeft)
+                    let weightDivisor = pow(Double(turnsLeft), totalCostFactor)
+                    weight /= weightDivisor
+
+                    buildables.add(weight: weight, for: buildableItem)
+                }
             }
         }
 

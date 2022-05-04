@@ -76,22 +76,28 @@ class UnitLayer: SKNode {
         print("inited with: \(self.unitObjects.count) visible units")
     }
 
-    /// are all unit animations finished - means all units in idle state
+    /// has any unit animations running - means at last one units not in idle state
     /// used to disabled the turn button
     ///
     /// - Returns: `true`if all animations are finished
-    func areAnimationsFinished(for leader: LeaderType) -> Bool {
+    func animationsAreRunning(for leader: LeaderType) -> Bool {
 
-        var animationsFinished: Bool = true
+        var animationsAreRunning: Bool = false
 
         for unitObject in self.unitObjects where unitObject.unit?.leader == leader {
 
             if !unitObject.animationQueueEmpty() {
-                animationsFinished = false
+                animationsAreRunning = true
+            }
+
+            if case .idle(location: _) = unitObject.currentAnimation {
+                // NOOP
+            } else {
+                animationsAreRunning = true
             }
         }
 
-        return animationsFinished
+        return animationsAreRunning
     }
 
     func show(unit: AbstractUnit?, at location: HexPoint) {

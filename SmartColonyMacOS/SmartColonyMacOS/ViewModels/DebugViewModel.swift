@@ -72,7 +72,7 @@ class TestUI: UserInterfaceDelegate {
 
     func focus(on location: HexPoint) {}
 
-    func animationsFinished(for leader: LeaderType) -> Bool {
+    func animationsAreRunning(for leader: LeaderType) -> Bool {
         return true
     }
 }
