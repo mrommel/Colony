@@ -219,11 +219,12 @@ public class BottomLeftBarViewModel: ObservableObject {
 
         if humanPlayer.blockingNotification() == nil {
             canClickButton = true
-        }
-
-        if let delegate = self.delegate {
-            if !delegate.areAnimationsRunning() {
-                canClickButton = true
+        } else {
+            // only check for running animations, if there is nothing blocking left
+            if let delegate = self.delegate {
+                if !delegate.areAnimationsRunning() {
+                    canClickButton = true
+                }
             }
         }
 

@@ -569,7 +569,7 @@ public class Notifications: Codable {
 
             // city starving too
             if case .starving(cityName: _, location: _) = notification.type {
-                
+
                 if !notification.dismissed {
                     notification.dismiss(in: gameModel)
                 }
