@@ -451,10 +451,10 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "south")
 
         case .trader:
-            // return ObjectTextureAtlas(template: "caravan-south-", range: 0..<12)
             guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
                 fatalError("cant load palette named: 'AOE1_50500'")
             }
+            
             return SlpTextureAtlasLoader.atlas(for: "caravane-walk", part: .south, palette: palette.colors, player: .customBlue)
 
             // ancient

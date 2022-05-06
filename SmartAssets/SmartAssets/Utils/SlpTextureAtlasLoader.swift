@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum SlpTextureAtlasPart {
+public enum SlpTextureAtlasPart {
 
     case south // first
     case southWest // second
@@ -16,7 +16,7 @@ enum SlpTextureAtlasPart {
     case north // fifth
 }
 
-class SlpTextureAtlasLoader {
+public class SlpTextureAtlasLoader {
 
     public static func atlas(for filename: String,
                              part: SlpTextureAtlasPart,

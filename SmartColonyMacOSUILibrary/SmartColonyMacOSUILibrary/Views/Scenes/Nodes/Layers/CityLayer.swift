@@ -232,6 +232,17 @@ class CityLayer: SKNode {
         self.cityObjects.removeAll(where: { city.location == $0.city?.location })
     }
 
+    func rangeAttackUnit(at location: HexPoint, by city: AbstractCity?) {
+
+        guard let city = city else {
+            fatalError("no city provided")
+        }
+
+        if let cityObject = self.cityObjects.first(where: { city.location == $0.city?.location }) {
+            cityObject.attack(towards: location)
+        }
+    }
+
     private func hash(for city: AbstractCity?, on tile: AbstractTile?) -> CityLayerTile {
 
         guard let tile = tile else {

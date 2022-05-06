@@ -49,6 +49,7 @@ class TestUI: UserInterfaceDelegate {
     func move(unit: AbstractUnit?, on points: [HexPoint]) {}
     func refresh(unit: AbstractUnit?) {}
     func animate(unit: AbstractUnit?, animation: UnitAnimationType) {}
+    func animate(city: AbstractCity?, animation: CityAnimationType) {}
 
     func clearAttackFocus() {}
 

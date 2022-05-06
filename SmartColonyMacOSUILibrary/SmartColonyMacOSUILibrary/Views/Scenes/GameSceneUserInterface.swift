@@ -177,7 +177,20 @@ extension GameScene: UserInterfaceDelegate {
         default:
             print("cant show unknown animation: \(animation)")
         }
+    }
 
+    func animate(city: AbstractCity?, animation: CityAnimationType) {
+
+        switch animation {
+
+        case .rangeAttack(_, let to):
+            DispatchQueue.main.async {
+                self.mapNode?.cityLayer.rangeAttackUnit(at: to, by: city)
+            }
+
+        default:
+            print("cant show unknown animation: \(animation)")
+        }
     }
 
     func clearAttackFocus() {

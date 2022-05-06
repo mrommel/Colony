@@ -192,6 +192,11 @@ public enum UnitAnimationType {
     case rangeAttack(from: HexPoint, to: HexPoint)
 }
 
+public enum CityAnimationType {
+
+    case rangeAttack(from: HexPoint, to: HexPoint)
+}
+
 public struct SelectableItem {
 
     public let iconTexture: String?
@@ -230,6 +235,7 @@ public protocol UserInterfaceDelegate: AnyObject {
     func refresh(unit: AbstractUnit?)
     func move(unit: AbstractUnit?, on points: [HexPoint])
     func animate(unit: AbstractUnit?, animation: UnitAnimationType)
+    func animate(city: AbstractCity?, animation: CityAnimationType)
 
     func clearAttackFocus()
     func showAttackFocus(at point: HexPoint)

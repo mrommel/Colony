@@ -809,7 +809,7 @@ public class Combat {
 
         attacker.setMadeAttack(to: true)
 
-        // city animation! gameModel.userInterface?.animate(unit: attacker, animation: .rangeAttack(from: attacker.location, to: defender.location))
+        gameModel.userInterface?.animate(city: attacker, animation: .rangeAttack(from: attacker.location, to: defender.location))
 
         // attacker strikes
         let attackerStrength = attacker.rangedCombatStrength(against: defender, on: defenderTile)
