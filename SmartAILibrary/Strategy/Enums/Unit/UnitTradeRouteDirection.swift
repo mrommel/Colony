@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum UnitTradeRouteDirection {
+enum UnitTradeRouteDirection: String, Codable {
 
     /** this state is used for the trader to walk to his starting city */
     case start

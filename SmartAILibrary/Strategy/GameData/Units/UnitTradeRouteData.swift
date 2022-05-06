@@ -8,7 +8,15 @@
 
 import Foundation
 
-public class UnitTradeRouteData {
+public class UnitTradeRouteData: Codable {
+
+    enum CodingKeys: String, CodingKey {
+
+        case tradeRoute
+        case direction
+        case establishedInTurn
+        case state
+    }
 
     let tradeRoute: TradeRoute
     var direction: UnitTradeRouteDirection
@@ -21,6 +29,26 @@ public class UnitTradeRouteData {
         self.direction = .start
         self.establishedInTurn = turn
         self.state = .active
+    }
+
+    required public init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.tradeRoute = try container.decode(TradeRoute.self, forKey: .tradeRoute)
+        self.direction = try container.decode(UnitTradeRouteDirection.self, forKey: .direction)
+        self.establishedInTurn = try container.decode(Int.self, forKey: .establishedInTurn)
+        self.state = try container.decode(UnitTradeRouteState.self, forKey: .state)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.tradeRoute, forKey: .tradeRoute)
+        try container.encode(self.direction, forKey: .direction)
+        try container.encode(self.establishedInTurn, forKey: .establishedInTurn)
+        try container.encode(self.state, forKey: .state)
     }
 
     // https://civilization.fandom.com/wiki/Trade_Route_(Civ6)#Duration

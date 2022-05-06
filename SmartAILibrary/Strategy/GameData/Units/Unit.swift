@@ -294,6 +294,7 @@ public class Unit: AbstractUnit {
         case buildType
         case buildCharges
         case automation
+        case tradeRouteData
     }
 
     public let type: UnitType
@@ -412,6 +413,7 @@ public class Unit: AbstractUnit {
 
         self.processedInTurnValue = try container.decode(Bool.self, forKey: .processedInTurn)
         self.deployFromOperationTurnValue = try container.decode(Int.self, forKey: .deployFromOperationTurn)
+        self.tradeRouteDataValue = try container.decodeIfPresent(UnitTradeRouteData.self, forKey: .tradeRouteData)
 
         self.missions = Stack<UnitMission>()
         self.missionTimerValue = 0
@@ -462,6 +464,7 @@ public class Unit: AbstractUnit {
         try container.encode(self.buildTypeValue, forKey: .buildType)
         try container.encode(self.buildChargesValue, forKey: .buildCharges)
         try container.encode(self.automationType, forKey: .automation)
+        try container.encodeIfPresent(self.tradeRouteDataValue, forKey: .tradeRouteData)
     }
 
     // MARK: public methods

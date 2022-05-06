@@ -186,11 +186,11 @@ class FeatureLayer: BaseLayer {
             if feature == .mountains {
 
                 // N
-                let neighborNE = pt.neighbor(in: .northeast)
-                let neighborSE = pt.neighbor(in: .southeast)
-                let neighborS = pt.neighbor(in: .south)
-                let neighborSW = pt.neighbor(in: .southwest)
-                let neighborNW = pt.neighbor(in: .northwest)
+                let neighborNE = gameModel.wrap(point: pt.neighbor(in: .northeast))
+                let neighborSE = gameModel.wrap(point: pt.neighbor(in: .southeast))
+                let neighborS = gameModel.wrap(point: pt.neighbor(in: .south))
+                let neighborSW = gameModel.wrap(point: pt.neighbor(in: .southwest))
+                let neighborNW = gameModel.wrap(point: pt.neighbor(in: .northwest))
 
                 // let neighborFeatureN = gameModel.tile(at: pt.neighbor(in: .north))?.feature() ?? .none
 
