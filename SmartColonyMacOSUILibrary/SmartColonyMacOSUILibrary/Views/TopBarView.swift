@@ -30,6 +30,18 @@ public struct TopBarView: View {
                 self.resourceButtons
                     .padding(.top, 1)
 
+                #if DEBUG
+                if #available(macOS 12.0, *) {
+                    Text("Debug")
+                        .frame(width: 60, height: 16)
+                        .padding(.leading, 40)
+                        .padding(.top, 2)
+                        .onTapGesture {
+                            print("show debug menu")
+                        }
+                }
+                #endif
+
                 Spacer()
 
                 Text(self.viewModel.turnYearText)

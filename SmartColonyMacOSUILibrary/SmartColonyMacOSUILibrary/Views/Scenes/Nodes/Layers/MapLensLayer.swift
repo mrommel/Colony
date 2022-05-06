@@ -127,27 +127,25 @@ class MapLensLayer: BaseLayer {
         }
     }
 
-    func clear(tile: AbstractTile?) {
+    override func clear(at point: HexPoint) {
 
         guard let textureUtils = self.textureUtils else {
             fatalError("cant get textureUtils")
         }
 
-        if let tile = tile {
-            if let lensSprite = textureUtils.lensSprite(at: tile.point) {
-                self.removeChildren(in: [lensSprite])
-            }
+        if let lensSprite = textureUtils.lensSprite(at: point) {
+            self.removeChildren(in: [lensSprite])
         }
     }
 
     override func update(tile: AbstractTile?) {
 
         if let tile = tile {
-            let pt = tile.point
 
-            self.clear(tile: tile)
+            let point = tile.point
+            self.clear(at: point)
 
-            let screenPoint = HexPoint.toScreen(hex: pt)
+            let screenPoint = HexPoint.toScreen(hex: point)
 
             if tile.isVisible(to: self.player) || self.showCompleteMap {
                 self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)

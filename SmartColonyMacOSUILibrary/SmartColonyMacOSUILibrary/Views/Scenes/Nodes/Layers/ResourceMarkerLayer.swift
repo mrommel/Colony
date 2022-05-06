@@ -101,30 +101,24 @@ class ResourceMarkerLayer: BaseLayer {
         }
     }
 
-    func clear(tile: AbstractTile?) {
+    override func clear(at point: HexPoint) {
 
-        guard let textureUtils = self.textureUtils else {
-            fatalError("cant get textureUtils")
-        }
-
-        if let tile = tile {
-            if let resourceSprite = textureUtils.resourceMarkerSprite(at: tile.point) {
-                self.removeChildren(in: [resourceSprite])
-            }
+        if let resourceSprite = self.textureUtils?.resourceMarkerSprite(at: point) {
+            self.removeChildren(in: [resourceSprite])
         }
     }
 
     override func update(tile: AbstractTile?) {
 
         if let tile = tile {
-            let pt = tile.point
 
+            let point = tile.point
             let currentHashValue = self.hash(for: tile)
-            if !self.hasher!.has(hash: currentHashValue, at: pt) {
+            if !self.hasher!.has(hash: currentHashValue, at: point) {
 
-                self.clear(tile: tile)
+                self.clear(at: point)
 
-                let screenPoint = HexPoint.toScreen(hex: pt)
+                let screenPoint = HexPoint.toScreen(hex: point)
 
                 if tile.isVisible(to: self.player) || self.showCompleteMap {
                     self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
@@ -132,7 +126,7 @@ class ResourceMarkerLayer: BaseLayer {
                     self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
                 }
 
-                self.hasher?.update(hash: currentHashValue, at: tile.point)
+                self.hasher?.update(hash: currentHashValue, at: point)
             }
         }
     }

@@ -129,40 +129,38 @@ class BorderLayer: BaseLayer {
         }
     }
 
-    func clear(tile: AbstractTile?) {
+    override func clear(at point: HexPoint) {
 
         guard let textureUtils = self.textureUtils else {
             fatalError("cant get textureUtils")
         }
 
-        if let tile = tile {
-            if let borderSprite = textureUtils.mainBorderSprite(at: tile.point) {
-                self.removeChildren(in: [borderSprite])
-            }
+        if let borderSprite = textureUtils.mainBorderSprite(at: point) {
+            self.removeChildren(in: [borderSprite])
+        }
 
-            if let borderSprite = textureUtils.accentBorderSprite(at: tile.point) {
-                self.removeChildren(in: [borderSprite])
-            }
+        if let borderSprite = textureUtils.accentBorderSprite(at: point) {
+            self.removeChildren(in: [borderSprite])
         }
     }
 
     override func update(tile: AbstractTile?) {
 
         if let tile = tile {
-            let pt = tile.point
 
+            let point = tile.point
             let currentHashValue = self.hash(for: tile)
-            if !self.hasher!.has(hash: currentHashValue, at: pt) {
+            if !self.hasher!.has(hash: currentHashValue, at: point) {
 
-                self.clear(tile: tile)
+                self.clear(at: point)
 
-                let screenPoint = HexPoint.toScreen(hex: pt)
+                let screenPoint = HexPoint.toScreen(hex: point)
 
                 if tile.isVisible(to: self.player) || self.showCompleteMap {
                     self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
                 }
 
-                self.hasher?.update(hash: currentHashValue, at: tile.point)
+                self.hasher?.update(hash: currentHashValue, at: point)
             }
         }
     }

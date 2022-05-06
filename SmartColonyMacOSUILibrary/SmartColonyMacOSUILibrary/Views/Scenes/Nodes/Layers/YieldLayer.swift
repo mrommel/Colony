@@ -139,29 +139,27 @@ class YieldLayer: BaseLayer {
         }
     }
 
-    func clear(tile: AbstractTile?) {
+    override func clear(at point: HexPoint) {
 
-        if let tile = tile {
-            if let foodSprite = self.textureUtils?.foodSprite(at: tile.point),
-                let productionSprite = self.textureUtils?.productionSprite(at: tile.point),
-                let goldSprite = self.textureUtils?.goldSprite(at: tile.point) {
+        if let foodSprite = self.textureUtils?.foodSprite(at: point),
+           let productionSprite = self.textureUtils?.productionSprite(at: point),
+           let goldSprite = self.textureUtils?.goldSprite(at: point) {
 
-                self.removeChildren(in: [foodSprite, productionSprite, goldSprite])
-            }
+            self.removeChildren(in: [foodSprite, productionSprite, goldSprite])
         }
     }
 
     override func update(tile: AbstractTile?) {
 
         if let tile = tile {
-            let pt = tile.point
 
+            let point = tile.point
             let currentHashValue = self.hash(for: tile)
-            if !self.hasher!.has(hash: currentHashValue, at: pt) {
+            if !self.hasher!.has(hash: currentHashValue, at: point) {
 
-                self.clear(tile: tile)
+                self.clear(at: point)
 
-                let screenPoint = HexPoint.toScreen(hex: pt)
+                let screenPoint = HexPoint.toScreen(hex: point)
 
                 if tile.isVisible(to: self.player) || self.showCompleteMap {
                     self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
@@ -169,7 +167,7 @@ class YieldLayer: BaseLayer {
                     self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
                 }
 
-                self.hasher?.update(hash: currentHashValue, at: tile.point)
+                self.hasher?.update(hash: currentHashValue, at: point)
             }
         }
     }

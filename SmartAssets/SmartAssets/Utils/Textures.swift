@@ -9,20 +9,20 @@ import SmartAILibrary
 
 public class Textures {
 
-    let game: GameModel?
+    let gameModel: GameModel?
 
-    public init(game: GameModel?) {
+    public init(game gameModel: GameModel?) {
 
-        self.game = game
+        self.gameModel = gameModel
     }
 
     public func terrainTexture(at point: HexPoint) -> String {
 
-        guard let game = self.game else {
+        guard let gameModel = self.gameModel else {
             fatalError("cant get game")
         }
 
-        guard let tile = game.tile(at: point) else {
+        guard let tile = gameModel.tile(at: point) else {
             fatalError("cant get tile")
         }
 
@@ -42,7 +42,7 @@ public class Textures {
 
     public func coastTexture(at point: HexPoint) -> String? {
 
-        guard let game = self.game else {
+        guard let game = self.gameModel else {
             fatalError("cant get game")
         }
 
@@ -73,7 +73,7 @@ public class Textures {
 
     public func snowTexture(at point: HexPoint) -> String? {
 
-        guard let game = self.game else {
+        guard let game = self.gameModel else {
             fatalError("cant get game")
         }
 
@@ -105,7 +105,7 @@ public class Textures {
 
     public func mountainsTexture(at point: HexPoint) -> String? {
 
-        guard let game = self.game else {
+        guard let game = self.gameModel else {
             fatalError("cant get game")
         }
 
@@ -142,7 +142,7 @@ public class Textures {
 
     public func iceTexture(at point: HexPoint) -> String? {
 
-        guard let game = self.game else {
+        guard let game = self.gameModel else {
             fatalError("cant get game")
         }
 
@@ -192,7 +192,7 @@ public class Textures {
 
     public func riverTexture(at point: HexPoint) -> String? {
 
-        guard let game = self.game else {
+        guard let game = self.gameModel else {
             fatalError("cant get game")
         }
 
@@ -379,12 +379,12 @@ public class Textures {
 
     public func calderaTexure(at hex: HexPoint) -> String? {
 
-        guard let game = self.game else {
+        guard let gameModel = self.gameModel else {
             fatalError("cant get gameModel")
         }
 
-        let calderaIsSouth = hex.y == game.mapSize().height() - 1 // self.isCalderaSouth(at: hex)
-        let calderaIsEast = hex.x == game.mapSize().width() - 1 // self.isCalderaEast(at: hex)
+        let calderaIsSouth = hex.y == gameModel.mapSize().height() - 1
+        let calderaIsEast = gameModel.wrappedX() ? false : hex.x == gameModel.mapSize().width() - 1
 
         if calderaIsSouth || calderaIsEast {
             if calderaIsSouth && calderaIsEast {
@@ -411,7 +411,7 @@ public class Textures {
 
     public func roadTexture(at point: HexPoint) -> String? {
 
-        guard let gameModel = self.game else {
+        guard let gameModel = self.gameModel else {
             fatalError("cant get gameModel")
         }
 

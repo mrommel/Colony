@@ -25,6 +25,7 @@ Tile size:
 - https://www.redblobgames.com/grids/hexagons/
 - https://drtardigrade.itch.io/worldhistorysim
 - https://www.gamedeveloper.com/programming/procedurally-generating-wrapping-world-maps-in-unity-c-part-1 / 2 / 3 / 4
+- https://catlikecoding.com/unity/tutorials/hex-map/part-27/
 
 ## Content Links
 - units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=44064&f=0,0,0,0&st=245

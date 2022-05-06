@@ -579,12 +579,14 @@ open class MapModel: Codable {
         if self.valid(point: point) {
             return self.tiles[point]
         } else if self.wrapX {
-            var newX = -1
+            var newX = point.x
 
-            if point.x < 0 {
-                newX = point.x + self.size.width()
-            } else if point.x >= self.size.width() {
-                newX = point.x - self.size.width()
+            while newX < 0 {
+                newX += self.size.width()
+            }
+
+            while newX >= self.size.width() {
+                newX -= self.size.width()
             }
 
             if self.valid(x: newX, y: point.y) {

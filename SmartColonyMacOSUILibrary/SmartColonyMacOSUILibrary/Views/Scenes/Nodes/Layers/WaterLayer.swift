@@ -94,12 +94,10 @@ class WaterLayer: BaseLayer {
         self.textureUtils?.set(waterSprite: waterSprite, at: point)
     }
 
-    func clear(tile: AbstractTile?) {
+    override func clear(at point: HexPoint) {
 
-        if let tile = tile {
-            if let waterSprite = self.textureUtils?.waterSprite(at: tile.point) {
-                self.removeChildren(in: [waterSprite])
-            }
+        if let waterSprite = self.textureUtils?.waterSprite(at: point) {
+            self.removeChildren(in: [waterSprite])
         }
     }
 
@@ -110,20 +108,20 @@ class WaterLayer: BaseLayer {
         }
 
         if let tile = tile {
-            let pt = tile.point
 
+            let point = tile.point
             let currentHashValue = self.hash(for: tile)
-            if !self.hasher!.has(hash: currentHashValue, at: pt) {
+            if !self.hasher!.has(hash: currentHashValue, at: point) {
 
-                self.clear(tile: tile)
+                self.clear(at: point)
 
-                let screenPoint = HexPoint.toScreen(hex: pt)
+                let screenPoint = HexPoint.toScreen(hex: point)
 
-                if tile.isVisible(to: self.player) && gameModel.isFreshWater(at: pt) || self.showCompleteMap {
-                    self.placeWaterHex(for: pt, at: screenPoint)
+                if tile.isVisible(to: self.player) && gameModel.isFreshWater(at: point) || self.showCompleteMap {
+                    self.placeWaterHex(for: point, at: screenPoint)
                 }
 
-                self.hasher?.update(hash: currentHashValue, at: tile.point)
+                self.hasher?.update(hash: currentHashValue, at: point)
             }
         }
     }

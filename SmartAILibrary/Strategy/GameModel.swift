@@ -1502,6 +1502,11 @@ open class GameModel: Codable {
         return self.map.wrap(point: point)
     }
 
+    public func wrappedX() -> Bool {
+
+        return self.map.wrapX
+    }
+
     public func tile(at point: HexPoint) -> AbstractTile? {
 
         return self.map.tile(at: point)

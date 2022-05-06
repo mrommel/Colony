@@ -76,53 +76,55 @@ class BoardLayer: BaseLayer {
         self.rebuild()
     }
 
-    func placeTileHex(for tile: AbstractTile, with calderaName: String, at position: CGPoint, alpha: CGFloat) {
+    func placeTileHex(for tile: AbstractTile, and point: HexPoint, at position: CGPoint, alpha: CGFloat) {
 
-        let image = ImageCache.shared.image(for: calderaName)
+        if let calderaName = self.textures?.calderaTexure(at: tile.point) {
+            let image = ImageCache.shared.image(for: calderaName)
 
-        let boardSprite = SKSpriteNode(texture: SKTexture(image: image), size: BoardLayer.kTextureSize)
-        boardSprite.position = position
-        boardSprite.zPosition = Globals.ZLevels.caldera
-        boardSprite.anchorPoint = CGPoint(x: 0, y: 0.09)
-        // boardSprite.alpha = alpha
-        boardSprite.color = .black
-        boardSprite.colorBlendFactor = 1.0 - alpha
-        self.addChild(boardSprite)
+            let boardSprite = SKSpriteNode(texture: SKTexture(image: image), size: BoardLayer.kTextureSize)
+            boardSprite.position = position
+            boardSprite.zPosition = Globals.ZLevels.caldera
+            boardSprite.anchorPoint = CGPoint(x: 0, y: 0.09)
+            // boardSprite.alpha = alpha
+            boardSprite.color = .black
+            boardSprite.colorBlendFactor = 1.0 - alpha
+            self.addChild(boardSprite)
 
-        self.textureUtils?.set(boardSprite: boardSprite, at: tile.point)
+            self.textureUtils?.set(boardSprite: boardSprite, at: point)
+        }
     }
 
-    func clear(tile: AbstractTile?) {
+    override func clear(at point: HexPoint) {
 
         guard let textureUtils = self.textureUtils else {
             fatalError("cant get textureUtils")
         }
 
-        if let tile = tile {
-            if let boardSprite = textureUtils.boardSprite(at: tile.point) {
-                self.removeChildren(in: [boardSprite])
-            }
+        if let boardSprite = textureUtils.boardSprite(at: point) {
+            self.removeChildren(in: [boardSprite])
         }
     }
 
     override func update(tile: AbstractTile?) {
 
         if let tile = tile {
-            let pt = tile.point
 
             let currentHashValue = self.hash(for: tile)
-            if !self.hasher!.has(hash: currentHashValue, at: pt) {
+            if !self.hasher!.has(hash: currentHashValue, at: tile.point) {
 
-                self.clear(tile: tile)
+                self.clear(at: tile.point)
 
-                let screenPoint = HexPoint.toScreen(hex: pt)
+                let originalPoint = tile.point
+                let originalScreenPoint = HexPoint.toScreen(hex: originalPoint)
+                let alternatePoint = self.alternatePoint(for: originalPoint)
+                let alternateScreenPoint = HexPoint.toScreen(hex: alternatePoint)
 
-                if let calderaName = self.textures?.calderaTexure(at: tile.point) {
-                    if tile.isVisible(to: self.player) || self.showCompleteMap {
-                        self.placeTileHex(for: tile, with: calderaName, at: screenPoint, alpha: 1.0)
-                    } else if tile.isDiscovered(by: self.player) {
-                        self.placeTileHex(for: tile, with: calderaName, at: screenPoint, alpha: 0.5)
-                    }
+                if tile.isVisible(to: self.player) || self.showCompleteMap {
+                    self.placeTileHex(for: tile, and: originalPoint, at: originalScreenPoint, alpha: 1.0)
+                    self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint, alpha: 1.0)
+                } else if tile.isDiscovered(by: self.player) {
+                    self.placeTileHex(for: tile, and: originalPoint, at: originalScreenPoint, alpha: 0.5)
+                    self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint, alpha: 0.5)
                 }
 
                 self.hasher?.update(hash: currentHashValue, at: tile.point)

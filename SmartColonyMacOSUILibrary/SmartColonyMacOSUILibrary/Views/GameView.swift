@@ -52,20 +52,6 @@ public struct GameView: View {
                 UnitBannerView(viewModel: self.viewModel.unitBannerViewModel)
 
                 CombatBannerView(viewModel: self.viewModel.combatBannerViewModel)
-
-                #if DEBUG
-                if #available(macOS 12.0, *) {
-                    VStack {
-                        // var _ = print(Self._printChanges())
-                        Text("Debug")
-                            .frame(width: 60, height: 20)
-                            .background(.random)
-
-                        Spacer()
-                    }
-                    .padding(.top, 24)
-                }
-                #endif
             }
 
             Group {

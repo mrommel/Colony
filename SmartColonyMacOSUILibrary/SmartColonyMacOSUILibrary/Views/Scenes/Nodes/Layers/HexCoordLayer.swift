@@ -91,12 +91,10 @@ class HexCoordLayer: BaseLayer {
         self.textureUtils?.set(hexLabel: hexCoordSprite, at: point)
     }
 
-    func clear(tile: AbstractTile?) {
+    override func clear(at point: HexPoint) {
 
-        if let tile = tile {
-            if let hexLabel = self.textureUtils?.hexLabel(at: tile.point) {
-                self.removeChildren(in: [hexLabel])
-            }
+        if let hexLabel = self.textureUtils?.hexLabel(at: point) {
+            self.removeChildren(in: [hexLabel])
         }
     }
 
@@ -104,10 +102,11 @@ class HexCoordLayer: BaseLayer {
 
         if let tile = tile {
 
+            let point = tile.point
             let currentHashValue = self.hash(for: tile)
-            if !self.hasher!.has(hash: currentHashValue, at: tile.point) {
+            if !self.hasher!.has(hash: currentHashValue, at: point) {
 
-                self.clear(tile: tile)
+                self.clear(at: point)
 
                 let screenPoint = HexPoint.toScreen(hex: tile.point)
 
@@ -115,7 +114,7 @@ class HexCoordLayer: BaseLayer {
                     self.placeCoordHex(for: tile.point, at: screenPoint)
                 }
 
-                self.hasher?.update(hash: currentHashValue, at: tile.point)
+                self.hasher?.update(hash: currentHashValue, at: point)
             }
         }
     }
