@@ -76,7 +76,7 @@ class RiverLayer: BaseLayer {
         self.rebuild()
     }
 
-    func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
+    func placeTileHex(for tile: AbstractTile, and point: HexPoint, at position: CGPoint, alpha: CGFloat) {
 
         if let riverTextureName = self.textures?.riverTexture(at: tile.point) {
 
@@ -90,17 +90,19 @@ class RiverLayer: BaseLayer {
             riverSprite.colorBlendFactor = 1.0 - alpha
             self.addChild(riverSprite)
 
-            self.textureUtils?.set(riverSprite: riverSprite, at: tile.point)
+            self.textureUtils?.set(riverSprite: riverSprite, at: point)
         }
     }
 
     override func clear(at point: HexPoint) {
 
-        guard let textureUtils = self.textureUtils else {
-            fatalError("cant get textureUtils")
+        let alternatePoint = self.alternatePoint(for: point)
+
+        if let riverSprite = self.textureUtils?.riverSprite(at: point) {
+            self.removeChildren(in: [riverSprite])
         }
 
-        if let riverSprite = textureUtils.riverSprite(at: point) {
+        if let riverSprite = self.textureUtils?.riverSprite(at: alternatePoint) {
             self.removeChildren(in: [riverSprite])
         }
     }
@@ -109,21 +111,25 @@ class RiverLayer: BaseLayer {
 
         if let tile = tile {
 
-            let point = tile.point
             let currentHashValue = self.hash(for: tile)
-            if !self.hasher!.has(hash: currentHashValue, at: point) {
+            if !self.hasher!.has(hash: currentHashValue, at: tile.point) {
 
-                self.clear(at: point)
+                self.clear(at: tile.point)
 
-                let screenPoint = HexPoint.toScreen(hex: point)
+                let originalPoint = tile.point
+                let originalScreenPoint = HexPoint.toScreen(hex: originalPoint)
+                let alternatePoint = self.alternatePoint(for: originalPoint)
+                let alternateScreenPoint = HexPoint.toScreen(hex: alternatePoint)
 
                 if tile.isVisible(to: self.player) || self.showCompleteMap {
-                    self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
+                    self.placeTileHex(for: tile, and: originalPoint, at: originalScreenPoint, alpha: 1.0)
+                    self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint, alpha: 1.0)
                 } else if tile.isDiscovered(by: self.player) {
-                    self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+                    self.placeTileHex(for: tile, and: originalPoint, at: originalScreenPoint, alpha: 0.5)
+                    self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint, alpha: 0.5)
                 }
 
-                self.hasher?.update(hash: currentHashValue, at: point)
+                self.hasher?.update(hash: currentHashValue, at: tile.point)
             }
         }
     }

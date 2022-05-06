@@ -78,9 +78,9 @@ class HexCoordLayer: BaseLayer {
         self.rebuild()
     }
 
-    func placeCoordHex(for point: HexPoint, at position: CGPoint) {
+    func placeCoordHex(text: String, for point: HexPoint, at position: CGPoint) {
 
-        let hexCoordSprite = SKLabelNode(text: "\(point.x), \(point.y)")
+        let hexCoordSprite = SKLabelNode(text: text)
         hexCoordSprite.fontSize = 8.0
         hexCoordSprite.position = position + CGPoint(x: 24, y: 14)
         hexCoordSprite.zPosition = Globals.ZLevels.hexCoords
@@ -102,19 +102,23 @@ class HexCoordLayer: BaseLayer {
 
         if let tile = tile {
 
-            let point = tile.point
             let currentHashValue = self.hash(for: tile)
-            if !self.hasher!.has(hash: currentHashValue, at: point) {
+            if !self.hasher!.has(hash: currentHashValue, at: tile.point) {
 
-                self.clear(at: point)
+                self.clear(at: tile.point)
 
-                let screenPoint = HexPoint.toScreen(hex: tile.point)
+                let originalPoint = tile.point
+                let originalScreenPoint = HexPoint.toScreen(hex: originalPoint)
+                let alternatePoint = self.alternatePoint(for: originalPoint)
+                let alternateScreenPoint = HexPoint.toScreen(hex: alternatePoint)
 
                 if tile.isVisible(to: self.player) || self.showCompleteMap {
-                    self.placeCoordHex(for: tile.point, at: screenPoint)
+                    let text = "\(tile.point.x), \(tile.point.y)"
+                    self.placeCoordHex(text: text, for: originalPoint, at: originalScreenPoint)
+                    self.placeCoordHex(text: text, for: alternatePoint, at: alternateScreenPoint)
                 }
 
-                self.hasher?.update(hash: currentHashValue, at: point)
+                self.hasher?.update(hash: currentHashValue, at: tile.point)
             }
         }
     }

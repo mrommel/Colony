@@ -86,7 +86,7 @@ class YieldLayer: BaseLayer {
     }
 
     /// handles all yields
-    func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
+    func placeTileHex(for tile: AbstractTile, and point: HexPoint, at position: CGPoint, alpha: CGFloat) {
 
         let yields = tile.yields(for: self.player, ignoreFeature: false)
 
@@ -103,7 +103,7 @@ class YieldLayer: BaseLayer {
             foodSprite.colorBlendFactor = 1.0 - alpha
             self.addChild(foodSprite)
 
-            self.textureUtils?.set(foodSprite: foodSprite, at: tile.point)
+            self.textureUtils?.set(foodSprite: foodSprite, at: point)
         }
 
         // production texture
@@ -119,7 +119,7 @@ class YieldLayer: BaseLayer {
             productionSprite.colorBlendFactor = 1.0 - alpha
             self.addChild(productionSprite)
 
-            self.textureUtils?.set(productionSprite: productionSprite, at: tile.point)
+            self.textureUtils?.set(productionSprite: productionSprite, at: point)
         }
 
         // gold texture
@@ -135,15 +135,24 @@ class YieldLayer: BaseLayer {
             goldSprite.colorBlendFactor = 1.0 - alpha
             self.addChild(goldSprite)
 
-            self.textureUtils?.set(goldSprite: goldSprite, at: tile.point)
+            self.textureUtils?.set(goldSprite: goldSprite, at: point)
         }
     }
 
     override func clear(at point: HexPoint) {
 
+        let alternatePoint = self.alternatePoint(for: point)
+
         if let foodSprite = self.textureUtils?.foodSprite(at: point),
            let productionSprite = self.textureUtils?.productionSprite(at: point),
            let goldSprite = self.textureUtils?.goldSprite(at: point) {
+
+            self.removeChildren(in: [foodSprite, productionSprite, goldSprite])
+        }
+
+        if let foodSprite = self.textureUtils?.foodSprite(at: alternatePoint),
+           let productionSprite = self.textureUtils?.productionSprite(at: alternatePoint),
+           let goldSprite = self.textureUtils?.goldSprite(at: alternatePoint) {
 
             self.removeChildren(in: [foodSprite, productionSprite, goldSprite])
         }
@@ -153,21 +162,25 @@ class YieldLayer: BaseLayer {
 
         if let tile = tile {
 
-            let point = tile.point
             let currentHashValue = self.hash(for: tile)
-            if !self.hasher!.has(hash: currentHashValue, at: point) {
+            if !self.hasher!.has(hash: currentHashValue, at: tile.point) {
 
-                self.clear(at: point)
+                self.clear(at: tile.point)
 
-                let screenPoint = HexPoint.toScreen(hex: point)
+                let originalPoint = tile.point
+                let originalScreenPoint = HexPoint.toScreen(hex: originalPoint)
+                let alternatePoint = self.alternatePoint(for: originalPoint)
+                let alternateScreenPoint = HexPoint.toScreen(hex: alternatePoint)
 
                 if tile.isVisible(to: self.player) || self.showCompleteMap {
-                    self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
+                    self.placeTileHex(for: tile, and: originalPoint, at: originalScreenPoint, alpha: 1.0)
+                    self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint, alpha: 1.0)
                 } else if tile.isDiscovered(by: self.player) {
-                    self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+                    self.placeTileHex(for: tile, and: originalPoint, at: originalScreenPoint, alpha: 0.5)
+                    self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint, alpha: 0.5)
                 }
 
-                self.hasher?.update(hash: currentHashValue, at: point)
+                self.hasher?.update(hash: currentHashValue, at: tile.point)
             }
         }
     }

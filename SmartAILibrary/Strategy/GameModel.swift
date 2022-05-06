@@ -1715,7 +1715,8 @@ open class GameModel: Codable {
         let options = MoveTypeIgnoreUnitsOptions(
             unitMapType: unitMapType,
             canEmbark: canEmbark,
-            canEnterOcean: canEnterOcean
+            canEnterOcean: canEnterOcean,
+            wrapX: self.map.wrapX
         )
         return MoveTypeIgnoreUnitsPathfinderDataSource(in: self.map, for: movementType, for: player, options: options)
     }

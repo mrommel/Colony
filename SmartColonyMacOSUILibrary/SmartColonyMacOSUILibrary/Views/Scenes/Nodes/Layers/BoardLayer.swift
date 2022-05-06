@@ -96,11 +96,13 @@ class BoardLayer: BaseLayer {
 
     override func clear(at point: HexPoint) {
 
-        guard let textureUtils = self.textureUtils else {
-            fatalError("cant get textureUtils")
+        let alternatePoint = self.alternatePoint(for: point)
+
+        if let boardSprite = self.textureUtils?.boardSprite(at: point) {
+            self.removeChildren(in: [boardSprite])
         }
 
-        if let boardSprite = textureUtils.boardSprite(at: point) {
+        if let boardSprite = self.textureUtils?.boardSprite(at: alternatePoint) {
             self.removeChildren(in: [boardSprite])
         }
     }

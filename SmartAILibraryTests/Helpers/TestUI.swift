@@ -72,4 +72,6 @@ class TestUI: UserInterfaceDelegate {
     func showTooltip(at point: HexPoint, type: TooltipType, delay: Double) {}
 
     func focus(on location: HexPoint) {}
+
+    func animationsAreRunning(for leader: LeaderType) -> Bool { return false }
 }

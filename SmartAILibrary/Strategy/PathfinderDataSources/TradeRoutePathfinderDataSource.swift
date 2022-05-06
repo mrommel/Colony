@@ -48,7 +48,11 @@ class TradeRoutePathfinderDataSource: PathfinderDataSource {
         var walkableCoords = [HexPoint]()
 
         for direction in HexDirection.all {
-            let neighbor = coord.neighbor(in: direction)
+            var neighbor = coord.neighbor(in: direction)
+
+            if gameModel.wrappedX() {
+                neighbor = gameModel.wrap(point: neighbor)
+            }
 
             var isReachable: Bool = false
 

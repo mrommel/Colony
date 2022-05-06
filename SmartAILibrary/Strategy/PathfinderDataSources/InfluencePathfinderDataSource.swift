@@ -27,7 +27,14 @@ class InfluencePathfinderDataSource: PathfinderDataSource {
 
         var neighbors: [HexPoint] = []
 
-        for neighbor in tileCoord.neighbors() {
+        for direction in HexDirection.all {
+
+            var neighbor = tileCoord.neighbor(in: direction)
+
+            if mapModel.wrapX {
+                neighbor = mapModel.wrap(point: neighbor)
+            }
+            
             if mapModel.valid(point: neighbor) {
                 neighbors.append(neighbor)
             }

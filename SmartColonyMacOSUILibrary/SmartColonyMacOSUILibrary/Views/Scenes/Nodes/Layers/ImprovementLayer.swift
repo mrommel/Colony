@@ -79,7 +79,7 @@ class ImprovementLayer: BaseLayer {
         self.rebuild()
     }
 
-    func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
+    func placeTileHex(for tile: AbstractTile, and point: HexPoint, at position: CGPoint, alpha: CGFloat) {
 
         let improvement = tile.improvement()
 
@@ -97,7 +97,7 @@ class ImprovementLayer: BaseLayer {
             improvementSprite.colorBlendFactor = 1.0 - alpha
             self.addChild(improvementSprite)
 
-            self.textureUtils?.set(improvementSprite: improvementSprite, at: tile.point)
+            self.textureUtils?.set(improvementSprite: improvementSprite, at: point)
         } else {
             for buildType in BuildType.allImprovements {
                 if tile.buildProgress(of: buildType) > 0 {
@@ -122,22 +122,28 @@ class ImprovementLayer: BaseLayer {
                 routeSprite.colorBlendFactor = 1.0 - alpha
                 self.addChild(routeSprite)
 
-                self.textureUtils?.set(routeSprite: routeSprite, at: tile.point)
+                self.textureUtils?.set(routeSprite: routeSprite, at: point)
             }
         }
     }
 
     override func clear(at point: HexPoint) {
 
-        guard let textureUtils = self.textureUtils else {
-            fatalError("cant get textureUtils")
-        }
+        let alternatePoint = self.alternatePoint(for: point)
 
-        if let improvementSprite = textureUtils.improvementSprite(at: point) {
+        if let improvementSprite = self.textureUtils?.improvementSprite(at: point) {
             self.removeChildren(in: [improvementSprite])
         }
 
-        if let routeSprite = textureUtils.routeSprite(at: point) {
+        if let routeSprite = self.textureUtils?.routeSprite(at: point) {
+            self.removeChildren(in: [routeSprite])
+        }
+
+        if let improvementSprite = self.textureUtils?.improvementSprite(at: alternatePoint) {
+            self.removeChildren(in: [improvementSprite])
+        }
+
+        if let routeSprite = self.textureUtils?.routeSprite(at: alternatePoint) {
             self.removeChildren(in: [routeSprite])
         }
     }
@@ -146,21 +152,25 @@ class ImprovementLayer: BaseLayer {
 
         if let tile = tile {
 
-            let point = tile.point
             let currentHashValue = self.hash(for: tile)
-            if !self.hasher!.has(hash: currentHashValue, at: point) {
+            if !self.hasher!.has(hash: currentHashValue, at: tile.point) {
 
-                self.clear(at: point)
+                self.clear(at: tile.point)
 
-                let screenPoint = HexPoint.toScreen(hex: point)
+                let originalPoint = tile.point
+                let originalScreenPoint = HexPoint.toScreen(hex: originalPoint)
+                let alternatePoint = self.alternatePoint(for: originalPoint)
+                let alternateScreenPoint = HexPoint.toScreen(hex: alternatePoint)
 
                 if tile.isVisible(to: self.player) || self.showCompleteMap {
-                    self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
+                    self.placeTileHex(for: tile, and: originalPoint, at: originalScreenPoint, alpha: 1.0)
+                    self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint, alpha: 1.0)
                 } else if tile.isDiscovered(by: self.player) {
-                    self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+                    self.placeTileHex(for: tile, and: originalPoint, at: originalScreenPoint, alpha: 0.5)
+                    self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint, alpha: 0.5)
                 }
 
-                self.hasher?.update(hash: currentHashValue, at: point)
+                self.hasher?.update(hash: currentHashValue, at: tile.point)
             }
         }
     }

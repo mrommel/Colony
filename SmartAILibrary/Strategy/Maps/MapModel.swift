@@ -62,14 +62,14 @@ open class MapModel: Codable {
     private var numberOfLandPlotsValue: Int = 0
     private var numberOfWaterPlotsValue: Int = 0
 
-    public init(size: MapSize, seed: Int) {
+    public init(size: MapSize, seed: Int, wrapX: Bool = true) {
 
         self.seedValue = seed
         self.name = "no name"
         self.summary = "no summary"
 
         self.size = size
-        self.wrapX = true
+        self.wrapX = wrapX
         self.cities = []
         self.units = []
         self.tiles = TileArray2D(size: size)
@@ -84,9 +84,9 @@ open class MapModel: Codable {
         }
     }
 
-    public convenience init(width: Int, height: Int, seed: Int) {
+    public convenience init(width: Int, height: Int, seed: Int, wrapX: Bool = true) {
 
-        self.init(size: MapSize.custom(width: width, height: height), seed: seed)
+        self.init(size: MapSize.custom(width: width, height: height), seed: seed, wrapX: wrapX)
     }
 
     public required init(from decoder: Decoder) throws {

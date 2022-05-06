@@ -585,7 +585,7 @@ public class MapGenerator: BaseMapHandler {
             in: grid,
             for: .walk,
             for: nil,
-            options: MoveTypeIgnoreUnitsOptions(unitMapType: .civilian, canEmbark: false, canEnterOcean: false)
+            options: MoveTypeIgnoreUnitsOptions(unitMapType: .civilian, canEmbark: false, canEnterOcean: false, wrapX: true)
         )
         let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 

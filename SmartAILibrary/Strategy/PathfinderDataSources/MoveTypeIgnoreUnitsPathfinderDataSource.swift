@@ -14,13 +14,15 @@ class MoveTypeIgnoreUnitsOptions {
     let unitMapType: UnitMapType
     let canEmbark: Bool
     let canEnterOcean: Bool
+    let wrapX: Bool
 
-    init(ignoreSight: Bool = true, unitMapType: UnitMapType, canEmbark: Bool, canEnterOcean: Bool) {
+    init(ignoreSight: Bool = true, unitMapType: UnitMapType, canEmbark: Bool, canEnterOcean: Bool, wrapX: Bool) {
 
         self.ignoreSight = ignoreSight
         self.unitMapType = unitMapType
         self.canEmbark = canEmbark
         self.canEnterOcean = canEnterOcean
+        self.wrapX = wrapX
     }
 }
 
@@ -48,7 +50,11 @@ class MoveTypeIgnoreUnitsPathfinderDataSource: PathfinderDataSource {
         var walkableCoords = [HexPoint]()
 
         for direction in HexDirection.all {
-            let neighbor = coord.neighbor(in: direction)
+            var neighbor = coord.neighbor(in: direction)
+
+            if mapModel.wrapX {
+                neighbor = mapModel.wrap(point: neighbor)
+            }
 
             if mapModel.valid(point: neighbor) {
 
