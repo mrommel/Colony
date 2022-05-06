@@ -17,7 +17,7 @@ public enum UnitAutomationType: Int, Codable {
 }
 
 // CIV5Missions.xml
-public enum UnitMissionType {
+public enum UnitMissionType: String, Codable {
 
     case found
     case moveTo

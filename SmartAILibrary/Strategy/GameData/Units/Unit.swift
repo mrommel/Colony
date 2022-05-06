@@ -277,6 +277,9 @@ public class Unit: AbstractUnit {
         case tacticalTarget
         case garrisoned
 
+        case missions
+        case missionTimer
+
         case moves
         case setUpForRangedAttack
         case experience
@@ -415,8 +418,8 @@ public class Unit: AbstractUnit {
         self.deployFromOperationTurnValue = try container.decode(Int.self, forKey: .deployFromOperationTurn)
         self.tradeRouteDataValue = try container.decodeIfPresent(UnitTradeRouteData.self, forKey: .tradeRouteData)
 
-        self.missions = Stack<UnitMission>()
-        self.missionTimerValue = 0
+        self.missions = Stack<UnitMission>(array: try container.decode([UnitMission].self, forKey: .missions))
+        self.missionTimerValue = try container.decode(Int.self, forKey: .missionTimer)
 
         self.activityTypeValue = try container.decode(UnitActivityType.self, forKey: .activityType)
         self.buildTypeValue = try container.decode(BuildType.self, forKey: .buildType)
@@ -425,6 +428,7 @@ public class Unit: AbstractUnit {
 
         // post process
         self.promotions?.postProcess(by: self)
+        self.missions.forEach { $0.unit = self }
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -465,6 +469,8 @@ public class Unit: AbstractUnit {
         try container.encode(self.buildChargesValue, forKey: .buildCharges)
         try container.encode(self.automationType, forKey: .automation)
         try container.encodeIfPresent(self.tradeRouteDataValue, forKey: .tradeRouteData)
+        try container.encode(self.missions.toArray(), forKey: .missions)
+        try container.encode(self.missionTimerValue, forKey: .missionTimer)
     }
 
     // MARK: public methods

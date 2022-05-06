@@ -14,6 +14,10 @@ public struct Stack<Element> {
 
     public init() {}
 
+    public init(array: [Element]) {
+        self.array = array
+    }
+
     public mutating func push(_ element: Element) {
         self.array.append(element)
     }
@@ -42,5 +46,15 @@ public struct Stack<Element> {
 
     public mutating func clear() {
         self.array.removeAll()
+    }
+
+    public mutating func forEach(_ fun: @escaping (Element) -> Void) {
+
+        self.array.forEach { fun($0) }
+    }
+
+    public func toArray() -> [Element] {
+
+        return self.array
     }
 }
