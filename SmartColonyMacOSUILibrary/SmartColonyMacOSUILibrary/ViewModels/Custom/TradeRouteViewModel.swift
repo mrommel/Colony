@@ -32,7 +32,7 @@ class TradeRouteViewModel: ObservableObject, Identifiable {
 
     init(title: String, yields: Yields, remainingTurns: Int) {
 
-        self.title = title.localized()
+        self.title = title.localized().localized()
         self.foodYieldViewModel = YieldValueViewModel(
             yieldType: .food,
             initial: yields.food,

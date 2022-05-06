@@ -34,7 +34,7 @@ class InfluencePathfinderDataSource: PathfinderDataSource {
             if mapModel.wrapX {
                 neighbor = mapModel.wrap(point: neighbor)
             }
-            
+
             if mapModel.valid(point: neighbor) {
                 neighbors.append(neighbor)
             }

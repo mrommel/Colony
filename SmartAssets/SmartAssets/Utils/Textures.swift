@@ -276,29 +276,33 @@ public class Textures {
 
     public func borderMainTexture(at point: HexPoint, in area: HexArea) -> String? {
 
+        guard let gameModel = self.gameModel else {
+            fatalError("cant get game")
+        }
+
         var textureName = "border-main"
 
-        if !area.contains(where: { $0 == point.neighbor(in: .north) }) {
+        if !area.contains(where: { $0 == gameModel.wrap(point: point.neighbor(in: .north)) }) {
             textureName += "-n"
         }
 
-        if !area.contains(where: { $0 == point.neighbor(in: .northeast) }) {
+        if !area.contains(where: { $0 == gameModel.wrap(point: point.neighbor(in: .northeast)) }) {
             textureName += "-ne"
         }
 
-        if !area.contains(where: { $0 == point.neighbor(in: .southeast) }) {
+        if !area.contains(where: { $0 == gameModel.wrap(point: point.neighbor(in: .southeast)) }) {
             textureName += "-se"
         }
 
-        if !area.contains(where: { $0 == point.neighbor(in: .south) }) {
+        if !area.contains(where: { $0 == gameModel.wrap(point: point.neighbor(in: .south)) }) {
             textureName += "-s"
         }
 
-        if !area.contains(where: { $0 == point.neighbor(in: .southwest) }) {
+        if !area.contains(where: { $0 == gameModel.wrap(point: point.neighbor(in: .southwest)) }) {
             textureName += "-sw"
         }
 
-        if !area.contains(where: { $0 == point.neighbor(in: .northwest) }) {
+        if !area.contains(where: { $0 == gameModel.wrap(point: point.neighbor(in: .northwest)) }) {
             textureName += "-nw"
         }
 
@@ -311,29 +315,33 @@ public class Textures {
 
     public func borderAccentTexture(at point: HexPoint, in area: HexArea) -> String? {
 
+        guard let gameModel = self.gameModel else {
+            fatalError("cant get game")
+        }
+        
         var textureName = "border-accent"
 
-        if !area.contains(where: { $0 == point.neighbor(in: .north) }) {
+        if !area.contains(where: { $0 == gameModel.wrap(point: point.neighbor(in: .north)) }) {
             textureName += "-n"
         }
 
-        if !area.contains(where: { $0 == point.neighbor(in: .northeast) }) {
+        if !area.contains(where: { $0 == gameModel.wrap(point: point.neighbor(in: .northeast)) }) {
             textureName += "-ne"
         }
 
-        if !area.contains(where: { $0 == point.neighbor(in: .southeast) }) {
+        if !area.contains(where: { $0 == gameModel.wrap(point: point.neighbor(in: .southeast)) }) {
             textureName += "-se"
         }
 
-        if !area.contains(where: { $0 == point.neighbor(in: .south) }) {
+        if !area.contains(where: { $0 == gameModel.wrap(point: point.neighbor(in: .south)) }) {
             textureName += "-s"
         }
 
-        if !area.contains(where: { $0 == point.neighbor(in: .southwest) }) {
+        if !area.contains(where: { $0 == gameModel.wrap(point: point.neighbor(in: .southwest)) }) {
             textureName += "-sw"
         }
 
-        if !area.contains(where: { $0 == point.neighbor(in: .northwest) }) {
+        if !area.contains(where: { $0 == gameModel.wrap(point: point.neighbor(in: .northwest)) }) {
             textureName += "-nw"
         }
 
@@ -402,7 +410,7 @@ public class Textures {
             return "board-se-s"
         }
 
-        if hex.x == 0 && hex.y % 2 == 1 {
+        if !gameModel.wrappedX() && hex.x == 0 && hex.y % 2 == 1 {
             return "board-sw"
         }
 

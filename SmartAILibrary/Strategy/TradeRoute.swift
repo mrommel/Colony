@@ -110,7 +110,8 @@ public class TradeRoute: Codable {
         }
 
         guard let startCity = self.startCity(in: gameModel) else {
-            fatalError("cant get start city")
+#warning("unclear why this happens")
+            return Yields(food: 0, production: 0, gold: 0)
         }
 
         // this is the player that initiated the trade route

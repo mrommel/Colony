@@ -104,7 +104,7 @@ class ResourceMarkerLayer: BaseLayer {
     override func clear(at point: HexPoint) {
 
         let alternatePoint = self.alternatePoint(for: point)
-        
+
         if let resourceSprite = self.textureUtils?.resourceMarkerSprite(at: point) {
             self.removeChildren(in: [resourceSprite])
         }

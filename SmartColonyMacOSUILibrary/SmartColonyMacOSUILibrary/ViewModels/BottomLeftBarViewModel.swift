@@ -217,7 +217,7 @@ public class BottomLeftBarViewModel: ObservableObject {
 
         var canClickButton: Bool = false
 
-        if humanPlayer.blockingNotification() == nil {
+        if humanPlayer.blockingNotification() != nil {
             canClickButton = true
         } else {
             // only check for running animations, if there is nothing blocking left

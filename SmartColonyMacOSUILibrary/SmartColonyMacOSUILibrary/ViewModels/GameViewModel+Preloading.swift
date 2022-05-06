@@ -70,8 +70,8 @@ extension GameViewModel {
 
         let allFeatureTextureNames = [
             "feature-atoll", "feature-lake", "feature-ice5", "feature-ice6",
-            "feature-delicateArch", "feature-floodplains", "feature-marsh1",
-            "feature-reef", "feature-forest1", "feature-forest2", "feature-marsh2",
+            "feature-delicateArch", "feature-floodplains", "feature-marsh1", "feature-reef1",
+            "feature-reef2", "feature-reef3", "feature-forest1", "feature-forest2", "feature-marsh2",
             "feature-uluru", "feature-mountEverest", "feature-rainforest1", "feature-rainforest2",
             "feature-rainforest3", "feature-rainforest4", "feature-rainforest5", "feature-rainforest6",
             "feature-rainforest7", "feature-rainforest8", "feature-rainforest9",

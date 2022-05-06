@@ -3386,6 +3386,11 @@ public class City: AbstractCity {
             fatalError("cant get wonders")
         }
 
+        // only major player can build wonders
+        if !player.isHuman() && !player.isMajorAI() {
+            return false
+        }
+
         if wonders.has(wonder: wonderType) {
             return false
         }
@@ -3466,6 +3471,11 @@ public class City: AbstractCity {
 
         guard let tile = gameModel.tile(at: location) else {
             fatalError("cant get tile")
+        }
+
+        // only major player can build wonders
+        if !player.isHuman() && !player.isMajorAI() {
+            return false
         }
 
         // cant build wonders in cities, districts or other wonders

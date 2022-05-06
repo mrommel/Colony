@@ -2118,7 +2118,7 @@ public class Player: AbstractPlayer {
 
     public func estimateNextAge(in gameModel: GameModel?) -> AgeType {
 
-        let eraScore = self.momentsVal?.eraScore() ?? 0
+        let eraScore: Int = self.eraScore()
         let thresholds = self.ageThresholds(in: gameModel)
 
         if eraScore < thresholds.lower {
