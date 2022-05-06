@@ -318,7 +318,7 @@ public class Textures {
         guard let gameModel = self.gameModel else {
             fatalError("cant get game")
         }
-        
+
         var textureName = "border-accent"
 
         if !area.contains(where: { $0 == gameModel.wrap(point: point.neighbor(in: .north)) }) {
