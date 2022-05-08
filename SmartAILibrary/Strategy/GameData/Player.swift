@@ -5995,7 +5995,7 @@ public class Player: AbstractPlayer {
                 }
             }
 
-            gameModel.doBarbCampCleared(at: tile.point)
+            gameModel.doBarbCampCleared(by: self.leader, at: tile.point)
 
             self.addMoment(of: .barbarianCampDestroyed, in: gameModel)
 

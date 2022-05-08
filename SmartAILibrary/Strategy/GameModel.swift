@@ -2378,9 +2378,9 @@ extension GameModel {
         self.barbarianAI?.doCampAttacked(at: point)
     }
 
-    func doBarbCampCleared(at point: HexPoint) {
+    func doBarbCampCleared(by leader: LeaderType, at point: HexPoint) {
 
-        self.barbarianAI?.doBarbCampCleared(at: point)
+        self.barbarianAI?.doBarbCampCleared(by: leader, at: point, in: self)
 
         // check quests - is there still a camp
         for cityStatePlayer in self.players {
