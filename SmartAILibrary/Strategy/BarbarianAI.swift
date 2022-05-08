@@ -26,6 +26,7 @@ class BarbarianAI: Codable {
 
     var barbCampSpawnCounter: Array2D<Int>
     var barbCampNumUnitsSpawned: Array2D<Int>
+    private var atWarWithAllPlayersChecked: Bool = false
 
     init(with gameModel: GameModel?) {
 
@@ -57,6 +58,33 @@ class BarbarianAI: Codable {
         try container.encode(self.barbCampNumUnitsSpawned, forKey: .barbCampNumUnitsSpawned)
     }
 
+    private func ensureAtWarWithAllPlayers(in gameModel: GameModel?) {
+
+        if self.atWarWithAllPlayersChecked {
+
+            guard let gameModel = gameModel else {
+                fatalError("cant get gameModel")
+            }
+
+            guard let barbarianPlayer = gameModel.barbarianPlayer() else {
+                fatalError("cant get barbarian player")
+            }
+
+            for player in gameModel.players {
+
+                if !player.hasMet(with: barbarianPlayer) {
+                    barbarianPlayer.doFirstContact(with: player, in: gameModel)
+                }
+
+                if !barbarianPlayer.isAtWar(with: player) {
+                    barbarianPlayer.doDeclareWar(to: player, in: gameModel)
+                }
+            }
+
+            self.atWarWithAllPlayersChecked = true
+        }
+    }
+
     /// Called every turn
     /// CvBarbarians::BeginTurn()
     func doTurn(in gameModel: GameModel?) {
@@ -64,6 +92,8 @@ class BarbarianAI: Codable {
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
+
+        self.ensureAtWarWithAllPlayers(in: gameModel)
 
         let mapSize = gameModel.mapSize()
 
