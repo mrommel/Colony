@@ -103,10 +103,13 @@ class DebugViewModel: ObservableObject {
 
         DispatchQueue.global(qos: .background).async {
 
-            let gameModel = GameUtils.setupSmallGrass(human: .alexander, ai: .victoria, discover: true)
+            let gameModel = GameUtils.setupSmallGrass(human: .alexander, ai: .victoria, handicap: .deity, discover: true)
             let humanPlayer = gameModel.humanPlayer()!
             let aiPlayer = gameModel.player(for: .victoria)!
             let barbarianPlayer = gameModel.barbarianPlayer()!
+
+            // barbarian turn allowed
+            gameModel.set(currentTurn: 25)
 
             // AI
             aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
@@ -132,6 +135,10 @@ class DebugViewModel: ObservableObject {
             let barbarianWarriorUnit = Unit(at: HexPoint(x: 3, y: 6), type: .barbarianWarrior, owner: barbarianPlayer)
             gameModel.add(unit: barbarianWarriorUnit)
             gameModel.userInterface?.show(unit: barbarianWarriorUnit, at: HexPoint(x: 3, y: 6))
+
+            let barbarianArcherUnit = Unit(at: HexPoint(x: 3, y: 7), type: .barbarianArcher, owner: barbarianPlayer)
+            gameModel.add(unit: barbarianArcherUnit)
+            gameModel.userInterface?.show(unit: barbarianArcherUnit, at: HexPoint(x: 3, y: 7))
 
             DispatchQueue.main.async {
                 self.delegate?.prepared(game: gameModel)

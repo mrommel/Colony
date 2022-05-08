@@ -3275,8 +3275,20 @@ public class DiplomaticAI: Codable {
 
     public func isAtWar(with otherPlayer: AbstractPlayer?) -> Bool {
 
-        if otherPlayer == nil {
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let otherPlayer = otherPlayer else {
             return false
+        }
+
+        if player.isBarbarian() {
+            return true
+        }
+
+        if otherPlayer.isBarbarian() {
+            return true
         }
 
         return self.playerDict.isAtWar(with: otherPlayer)

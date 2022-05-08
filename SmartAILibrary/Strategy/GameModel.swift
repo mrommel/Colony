@@ -713,7 +713,6 @@ open class GameModel: Codable {
         // GC.GetEngineUserInterface()->doTurn();
 
         self.barbarianAI?.doCamps(in: self)
-
         self.barbarianAI?.doUnits(in: self)
 
         // incrementGameTurn();
@@ -1088,6 +1087,11 @@ open class GameModel: Codable {
     public func isStartTurn() -> Bool {
 
         return self.currentTurn == 0
+    }
+
+    public func set(currentTurn: Int) {
+
+        self.currentTurn = currentTurn
     }
 
     // https://gaming.stackexchange.com/questions/51233/what-is-the-turn-length-in-civilization
