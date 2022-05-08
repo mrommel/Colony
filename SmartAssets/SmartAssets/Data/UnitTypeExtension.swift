@@ -454,7 +454,7 @@ extension UnitType {
             guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
                 fatalError("cant load palette named: 'AOE1_50500'")
             }
-            
+
             return SlpTextureAtlasLoader.atlas(for: "caravane-walk", part: .south, palette: palette.colors, player: .customBlue)
 
             // ancient
