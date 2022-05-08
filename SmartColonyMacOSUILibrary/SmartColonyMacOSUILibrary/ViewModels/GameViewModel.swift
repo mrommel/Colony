@@ -392,9 +392,9 @@ public class GameViewModel: ObservableObject {
     }
 
     @Published
-    public var mapOptionShowWater: Bool = false {
+    public var mapOptionShowGrid: Bool = false {
         didSet {
-            self.gameEnvironment.displayOptions.value.showWater = self.mapOptionShowWater
+            self.gameEnvironment.displayOptions.value.showGrid = self.mapOptionShowGrid
         }
     }
 
@@ -524,8 +524,8 @@ public class GameViewModel: ObservableObject {
         self.canFoundPantheonPopupViewModel.delegate = self
         self.genericPopupViewModel.delegate = self
 
+        self.mapOptionShowGrid = self.gameEnvironment.displayOptions.value.showGrid
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
-        self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
         self.mapOptionShowYields = self.gameEnvironment.displayOptions.value.showYields
 
         self.mapOptionShowHexCoordinates = self.gameEnvironment.displayOptions.value.showHexCoordinates

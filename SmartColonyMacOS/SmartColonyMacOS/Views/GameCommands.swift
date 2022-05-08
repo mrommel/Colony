@@ -17,13 +17,13 @@ struct GameCommands: Commands {
     var mapMenuDisabled: Bool
 
     @Binding
+    var toggleDisplayGrid: Bool
+
+    @Binding
     var toggleDisplayResourceMarkers: Bool
 
     @Binding
     var toggleDisplayYields: Bool
-
-    @Binding
-    var toggleDisplayWater: Bool
 
     // debug
 
@@ -80,6 +80,12 @@ struct GameCommands: Commands {
 
         CommandMenu("Map") {
 
+            Toggle(isOn: self.$toggleDisplayGrid) {
+                Text("Show Grid")
+            }
+            .disabled(self.mapMenuDisabled)
+            .toggleStyle(CheckboxSquareToggleStyle())
+
             Toggle(isOn: self.$toggleDisplayResourceMarkers) {
                 Text("Show Resource Markers")
             }
@@ -88,12 +94,6 @@ struct GameCommands: Commands {
 
             Toggle(isOn: self.$toggleDisplayYields) {
                 Text("Show Yields")
-            }
-            .disabled(self.mapMenuDisabled)
-            .toggleStyle(CheckboxSquareToggleStyle())
-
-            Toggle(isOn: self.$toggleDisplayWater) {
-                Text("Show Fresh Water")
             }
             .disabled(self.mapMenuDisabled)
             .toggleStyle(CheckboxSquareToggleStyle())

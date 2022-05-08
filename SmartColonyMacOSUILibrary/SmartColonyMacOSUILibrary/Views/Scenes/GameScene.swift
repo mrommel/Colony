@@ -843,14 +843,14 @@ extension GameScene {
         self.mapNode?.hideYields()
     }
 
-    func showWater() {
+    func showGrid() {
 
-        self.mapNode?.showWater()
+        self.mapNode?.showGrid()
     }
 
-    func hideWater() {
+    func hideGrid() {
 
-        self.mapNode?.hideWater()
+        self.mapNode?.hideGrid()
     }
 
     func showResourceMarkers() {

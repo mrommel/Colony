@@ -29,7 +29,7 @@ private class TextureItem: Codable, Equatable {
     var foodSprite: SKSpriteNode?
     var productionSprite: SKSpriteNode?
     var goldSprite: SKSpriteNode?
-    var waterSprite: SKSpriteNode?
+    var gridSprite: SKSpriteNode?
     var riverSprite: SKSpriteNode?
     var improvementSprite: SKSpriteNode?
     var routeSprite: SKSpriteNode?
@@ -217,14 +217,14 @@ public class TextureUtils {
         return self.tileTextures?[point.x + self.wrapOffset, point.y]?.goldSprite
     }
 
-    public func set(waterSprite: SKSpriteNode?, at point: HexPoint) {
+    public func set(gridSprite: SKSpriteNode?, at point: HexPoint) {
 
-        self.tileTextures?[point.x + self.wrapOffset, point.y]?.waterSprite = waterSprite
+        self.tileTextures?[point.x + self.wrapOffset, point.y]?.gridSprite = gridSprite
     }
 
-    public func waterSprite(at point: HexPoint) -> SKSpriteNode? {
+    public func gridSprite(at point: HexPoint) -> SKSpriteNode? {
 
-        return self.tileTextures?[point.x + self.wrapOffset, point.y]?.waterSprite
+        return self.tileTextures?[point.x + self.wrapOffset, point.y]?.gridSprite
     }
 
     public func set(riverSprite: SKSpriteNode?, at point: HexPoint) {

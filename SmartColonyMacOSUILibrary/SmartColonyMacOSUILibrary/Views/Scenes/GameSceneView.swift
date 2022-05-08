@@ -97,10 +97,10 @@ struct GameSceneView: NSViewRepresentable {
             context.coordinator.gameScene?.hideResourceMarkers()
         }
 
-        if self.gameEnvironment.displayOptions.value.showWater {
-            context.coordinator.gameScene?.showWater()
+        if self.gameEnvironment.displayOptions.value.showGrid {
+            context.coordinator.gameScene?.showGrid()
         } else {
-            context.coordinator.gameScene?.hideWater()
+            context.coordinator.gameScene?.hideGrid()
         }
 
         context.coordinator.gameScene?.updateLayout()

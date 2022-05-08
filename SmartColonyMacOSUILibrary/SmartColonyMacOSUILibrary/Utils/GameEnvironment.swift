@@ -11,15 +11,17 @@ import Combine
 
 public struct MapDisplayOptions {
 
+    public var showGrid: Bool = false
     public var showResourceMarkers: Bool = true
-    public var showWater: Bool = false
     public var showYields: Bool = false
     public var showCitizen: Bool = false
-    public var showCompleteMap: Bool = false
+    
+    // lenses
     public var mapLens: MapLensType = .none
 
     // debug
     public var showHexCoordinates: Bool = false
+    public var showCompleteMap: Bool = false
 }
 
 extension EnvironmentValues {

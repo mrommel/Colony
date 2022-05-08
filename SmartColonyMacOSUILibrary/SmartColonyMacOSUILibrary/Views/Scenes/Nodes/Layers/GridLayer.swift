@@ -9,21 +9,19 @@ import SpriteKit
 import SmartAILibrary
 import SmartAssets
 
-class WaterLayer: BaseLayer {
+class GridLayer: BaseLayer {
 
     // MARK: intern classes
 
-    private class WaterLayerTile: BaseLayerTile {
+    private class GridLayerTile: BaseLayerTile {
 
         let visible: Bool
         let discovered: Bool
-        let waterTexture: String
 
-        init(point: HexPoint, visible: Bool, discovered: Bool, waterTexture: String) {
+        init(point: HexPoint, visible: Bool, discovered: Bool) {
 
             self.visible = visible
             self.discovered = discovered
-            self.waterTexture = waterTexture
 
             super.init(point: point)
         }
@@ -37,27 +35,26 @@ class WaterLayer: BaseLayer {
             hasher.combine(self.point)
             hasher.combine(self.visible)
             hasher.combine(self.discovered)
-            hasher.combine(self.waterTexture)
         }
     }
 
-    private class WaterLayerHasher: BaseLayerHasher<WaterLayerTile> {
+    private class GridLayerHasher: BaseLayerHasher<GridLayerTile> {
 
     }
 
     // MARK: variables
 
-    private var hasher: WaterLayerHasher?
+    private var hasher: GridLayerHasher?
 
-    static let kName: String = "WaterLayer"
+    static let kName: String = "GridLayer"
 
     // MARK: constructor
 
     override init(player: AbstractPlayer?) {
 
         super.init(player: player)
-        self.zPosition = Globals.ZLevels.water
-        self.name = WaterLayer.kName
+        self.zPosition = Globals.ZLevels.grid
+        self.name = GridLayer.kName
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -73,7 +70,7 @@ class WaterLayer: BaseLayer {
         }
 
         self.textureUtils = TextureUtils(with: gameModel)
-        self.hasher = WaterLayerHasher(with: gameModel)
+        self.hasher = GridLayerHasher(with: gameModel)
 
         self.rebuild()
     }
@@ -81,23 +78,23 @@ class WaterLayer: BaseLayer {
     /// handles all terrain
     func placeWaterHex(for point: HexPoint, at position: CGPoint) {
 
-        let image = ImageCache.shared.image(for: "water")
+        let image = ImageCache.shared.image(for: "grid") // <==
 
-        let waterSprite = SKSpriteNode(texture: SKTexture(image: image), size: WaterLayer.kTextureSize)
-        waterSprite.position = position
-        waterSprite.zPosition = Globals.ZLevels.water
-        waterSprite.anchorPoint = CGPoint(x: 0, y: 0)
-        waterSprite.color = .black
-        waterSprite.colorBlendFactor = 0.0
-        self.addChild(waterSprite)
+        let gridSprite = SKSpriteNode(texture: SKTexture(image: image), size: GridLayer.kTextureSize)
+        gridSprite.position = position
+        gridSprite.zPosition = Globals.ZLevels.grid
+        gridSprite.anchorPoint = CGPoint(x: 0, y: 0)
+        gridSprite.color = .black
+        gridSprite.colorBlendFactor = 0.0
+        self.addChild(gridSprite)
 
-        self.textureUtils?.set(waterSprite: waterSprite, at: point)
+        self.textureUtils?.set(gridSprite: gridSprite, at: point)
     }
 
     override func clear(at point: HexPoint) {
 
-        if let waterSprite = self.textureUtils?.waterSprite(at: point) {
-            self.removeChildren(in: [waterSprite])
+        if let gridSprite = self.textureUtils?.gridSprite(at: point) {
+            self.removeChildren(in: [gridSprite])
         }
     }
 
@@ -126,22 +123,16 @@ class WaterLayer: BaseLayer {
         }
     }
 
-    private func hash(for tile: AbstractTile?) -> WaterLayerTile {
+    private func hash(for tile: AbstractTile?) -> GridLayerTile {
 
         guard let tile = tile else {
             fatalError("cant get tile")
         }
 
-        var waterTexture: String = ""
-        if self.gameModel?.isFreshWater(at: tile.point) ?? false {
-            waterTexture = "water"
-        }
-
-        return WaterLayerTile(
+        return GridLayerTile(
             point: tile.point,
             visible: tile.isVisible(to: self.player) || self.showCompleteMap,
-            discovered: tile.isDiscovered(by: self.player),
-            waterTexture: waterTexture
+            discovered: tile.isDiscovered(by: self.player)
         )
     }
 }

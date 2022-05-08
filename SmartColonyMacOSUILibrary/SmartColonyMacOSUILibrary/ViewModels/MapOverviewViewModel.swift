@@ -76,6 +76,12 @@ public class MapOverviewViewModel: ObservableObject {
     var mapLensLegendViewModel: MapLensLegendViewModel
 
     @Published
+    var showMapOptions: Bool
+
+    @Published
+    var mapOptionsViewModel: MapOptionsViewModel
+
+    @Published
     var showMapMarker: Bool
 
     @Published
@@ -98,17 +104,20 @@ public class MapOverviewViewModel: ObservableObject {
     public init() {
 
         self.showMapLens = false
+        self.showMapOptions = false
         self.showMapMarker = false
         self.showMapMarkerPicker = false
         self.showMapMarkerWaiting = false
 
         self.selectedMapLens = MapLensType.none
         self.mapLensLegendViewModel = MapLensLegendViewModel()
+        self.mapOptionsViewModel = MapOptionsViewModel()
         self.mapMarkersViewModel = MapMarkersViewModel()
         self.mapMarkerWaitingViewModel = MapMarkerWaitingViewModel()
         self.mapMarkerPickerViewModel = MapMarkerPickerViewModel()
 
         self.mapMarkersViewModel.delegate = self
+        self.mapOptionsViewModel.delegate = self
         self.mapMarkerWaitingViewModel.delegate = self
         self.mapMarkerPickerViewModel.delegate = self
 
@@ -222,7 +231,8 @@ public class MapOverviewViewModel: ObservableObject {
 
     func mapOptionClicked() {
 
-        print("mapOptionClicked")
+        self.showMapOptions = !self.showMapOptions
+        // self.mapOptionsViewModel.update() ?
     }
 
     func assign(game: GameModel?) {
@@ -480,5 +490,33 @@ extension MapOverviewViewModel: MapMarkerWaitingViewModelDelegate {
         self.showMapMarker = false
         self.showMapMarkerWaiting = false
         self.showMapMarkerPicker = false
+    }
+}
+
+extension MapOverviewViewModel: MapOptionsViewModelDelegate {
+
+    func changeShowGrid(to value: Bool) {
+
+        self.gameEnvironment.displayOptions.value.showGrid = value
+    }
+
+    func changeShowResourceIcons(to value: Bool) {
+
+        self.gameEnvironment.displayOptions.value.showResourceMarkers = value
+    }
+
+    func changeShowYieldsIcons(to value: Bool) {
+
+        self.gameEnvironment.displayOptions.value.showYields = value
+    }
+
+    func changeShowHexCoords(to value: Bool) {
+
+        self.gameEnvironment.displayOptions.value.showHexCoordinates = value
+    }
+
+    func changeShowCompleteMap(to value: Bool) {
+
+        self.gameEnvironment.displayOptions.value.showCompleteMap = value
     }
 }
