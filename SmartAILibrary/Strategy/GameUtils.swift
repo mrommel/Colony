@@ -13,6 +13,7 @@ public class GameUtils {
     public static func setupSmallGrass(
         human humanLeader: LeaderType = .trajan,
         ai aiLeader: LeaderType = .alexander,
+        handicap: HandicapType = .chieftain,
         discover: Bool = false) -> GameModel {
 
         let barbarianPlayer = Player(leader: .barbar, isHuman: false)
@@ -31,7 +32,7 @@ public class GameUtils {
             type: .continents,
             leader: humanLeader,
             aiLeaders: [aiLeader],
-            handicap: .chieftain,
+            handicap: handicap,
             seed: 42
         )
 

@@ -39,6 +39,8 @@ extension NSBezierPath {
 
 class CityObject {
 
+    static let rangeAttackActionKey: String = "rangeAttackActionKey"
+
     weak var city: AbstractCity?
     weak var gameModel: GameModel?
 
@@ -46,6 +48,7 @@ class CityObject {
 
     // internal UI elements
     private var sprite: SKSpriteNode
+    private var attackSprite: SKSpriteNode
 
     private var strengthBackground: SKShapeNode?
     private var strengthIconNode: SKSpriteNode?
@@ -61,6 +64,12 @@ class CityObject {
     private var productionProgressNode: SKSpriteNode?
     private var productionProgressLabel: SKLabelNode?
     private var productionNode: SKSpriteNode?
+
+    // attack atlases
+    var atlasAttackSouth: ObjectTextureAtlas?
+    var atlasAttackNorth: ObjectTextureAtlas?
+    var atlasAttackEast: ObjectTextureAtlas?
+    var atlasAttackWest: ObjectTextureAtlas?
 
     init(city: AbstractCity?, in gameModel: GameModel?) {
 
@@ -79,11 +88,93 @@ class CityObject {
         self.sprite.position = HexPoint.toScreen(hex: city.location)
         self.sprite.zPosition = Globals.ZLevels.city
         self.sprite.anchorPoint = CGPoint.lowerLeft
+
+        self.attackSprite = SKSpriteNode(
+            texture: SKTexture(image: ImageCache.shared.image(for: "district-empty")),
+            size: CityLayer.kTextureSize
+        )
+        self.attackSprite.position = HexPoint.toScreen(hex: city.location)
+        self.attackSprite.zPosition = Globals.ZLevels.cityAttack
+        self.attackSprite.anchorPoint = CGPoint.lowerLeft
+
+        self.setupAttackAnimations()
     }
 
     func addTo(node parent: SKNode) {
 
         parent.addChild(self.sprite)
+        parent.addChild(self.attackSprite)
+    }
+
+    func setupAttackAnimations() {
+
+        self.atlasAttackSouth = SlpTextureAtlasLoader.atlas(
+            for: "projectile", part: .south, player: .customBlue
+        )
+
+        self.atlasAttackNorth = SlpTextureAtlasLoader.atlas(
+            for: "projectile", part: .north, player: .customBlue
+        )
+
+        self.atlasAttackEast = SlpTextureAtlasLoader.atlas(
+            for: "projectile", part: .west, mirror: true, player: .customBlue
+        )
+
+        self.atlasAttackWest = SlpTextureAtlasLoader.atlas(
+            for: "projectile", part: .west, player: .customBlue
+        )
+    }
+
+    // animation is relative to city location (so it starts at 0,0)
+    private func animateAttack(from: HexPoint, to: HexPoint, on atlas: ObjectTextureAtlas?, completion block: @escaping () -> Swift.Void) {
+
+        if let atlas = atlas {
+            self.attackSprite.position = HexPoint.toScreen(hex: from)
+            let attackFrames = atlas.textures.map { SKTexture(image: $0) }
+            let attack = SKAction.animate(with: [attackFrames/*, attackFrames, attackFrames*/].flatMap { $0 }, timePerFrame: atlas.timePerFrame / 2.0)
+            let move = SKAction.move(to: HexPoint.toScreen(hex: to), duration: attack.duration)
+            let animate = SKAction.group([attack, move])
+            // let animate = SKAction.repeatForever(attack)
+            self.attackSprite.run(animate/*, withKey: CityObject.rangeAttackActionKey*/, completion: {
+                block()
+                self.attackSprite.texture = SKTexture(image: ImageCache.shared.image(for: "district-empty"))
+                self.attackSprite.position = HexPoint.toScreen(hex: from)
+            })
+        } else {
+            // self.sprite.position = HexPoint.toScreen(hex: hex)
+            block()
+        }
+    }
+
+    private func attack(from: HexPoint, to: HexPoint, completion block: @escaping () -> Swift.Void) {
+
+        if from == to {
+            return
+        }
+
+        let direction = HexPoint.screenDirection(from: from, towards: to)
+
+        switch direction {
+
+        case .north:
+            self.animateAttack(from: from, to: to, on: self.atlasAttackNorth, completion: block)
+        case .northeast, .southeast:
+            self.animateAttack(from: from, to: to, on: self.atlasAttackEast, completion: block)
+        case .south:
+            self.animateAttack(from: from, to: to, on: self.atlasAttackSouth, completion: block)
+        case .southwest, .northwest:
+            self.animateAttack(from: from, to: to, on: self.atlasAttackWest, completion: block)
+        }
+    }
+
+    func attack(towards point: HexPoint) {
+
+        guard let city = self.city as? City else {
+            fatalError("cant get unit")
+        }
+
+        // self.animationQueue.enqueue(.attack(from: source, to: point))
+        self.attack(from: city.location, to: point, completion: { print("ready attack by city") })
     }
 
     func updateCityBanner() {

@@ -49,6 +49,7 @@ class TestUI: UserInterfaceDelegate {
     func move(unit: AbstractUnit?, on points: [HexPoint]) {}
     func refresh(unit: AbstractUnit?) {}
     func animate(unit: AbstractUnit?, animation: UnitAnimationType) {}
+    func animate(city: AbstractCity?, animation: CityAnimationType) {}
 
     func clearAttackFocus() {}
 
@@ -71,6 +72,10 @@ class TestUI: UserInterfaceDelegate {
     func showTooltip(at point: HexPoint, type: TooltipType, delay: Double) {}
 
     func focus(on location: HexPoint) {}
+
+    func animationsAreRunning(for leader: LeaderType) -> Bool {
+        return true
+    }
 }
 
 // swiftlint:disable force_try type_body_length
@@ -98,10 +103,13 @@ class DebugViewModel: ObservableObject {
 
         DispatchQueue.global(qos: .background).async {
 
-            let gameModel = GameUtils.setupSmallGrass(human: .alexander, ai: .victoria, discover: true)
+            let gameModel = GameUtils.setupSmallGrass(human: .alexander, ai: .victoria, handicap: .deity, discover: true)
             let humanPlayer = gameModel.humanPlayer()!
             let aiPlayer = gameModel.player(for: .victoria)!
             let barbarianPlayer = gameModel.barbarianPlayer()!
+
+            // barbarian turn allowed
+            gameModel.set(currentTurn: 25)
 
             // AI
             aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
@@ -127,6 +135,10 @@ class DebugViewModel: ObservableObject {
             let barbarianWarriorUnit = Unit(at: HexPoint(x: 3, y: 6), type: .barbarianWarrior, owner: barbarianPlayer)
             gameModel.add(unit: barbarianWarriorUnit)
             gameModel.userInterface?.show(unit: barbarianWarriorUnit, at: HexPoint(x: 3, y: 6))
+
+            let barbarianArcherUnit = Unit(at: HexPoint(x: 3, y: 7), type: .barbarianArcher, owner: barbarianPlayer)
+            gameModel.add(unit: barbarianArcherUnit)
+            gameModel.userInterface?.show(unit: barbarianArcherUnit, at: HexPoint(x: 3, y: 7))
 
             DispatchQueue.main.async {
                 self.delegate?.prepared(game: gameModel)
@@ -424,11 +436,13 @@ class DebugViewModel: ObservableObject {
             aiPlayer.doDeclareWar(to: humanPlayer, in: gameModel)
 
             // add combat units
-            let warriorUnit = Unit(at: HexPoint(x: 20, y: 7), type: .warrior, owner: humanPlayer)
-            gameModel.add(unit: warriorUnit)
-            gameModel.userInterface?.show(unit: warriorUnit, at: HexPoint(x: 20, y: 7))
+            let warriorUnit1 = Unit(at: HexPoint(x: 20, y: 7), type: .warrior, owner: humanPlayer)
+            warriorUnit1.rename(to: "Warrior1")
+            gameModel.add(unit: warriorUnit1)
+            gameModel.userInterface?.show(unit: warriorUnit1, at: HexPoint(x: 20, y: 7))
 
             let warriorUnit2 = Unit(at: HexPoint(x: 21, y: 7), type: .warrior, owner: humanPlayer)
+            warriorUnit2.rename(to: "Warrior2")
             gameModel.add(unit: warriorUnit2)
             gameModel.userInterface?.show(unit: warriorUnit2, at: HexPoint(x: 21, y: 7))
 

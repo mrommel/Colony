@@ -12,7 +12,7 @@ import SmartAILibrary
 protocol BottomLeftBarViewModelDelegate: AnyObject {
 
     func handleMainButtonClicked()
-    func areAnimationsFinished() -> Bool
+    func areAnimationsRunning() -> Bool
 }
 
 enum GameSceneTurnState {
@@ -148,7 +148,7 @@ public class BottomLeftBarViewModel: ObservableObject {
             }
         } else {
             if let delegate = self.delegate {
-                if !delegate.areAnimationsFinished() {
+                if delegate.areAnimationsRunning() {
                     // print("--- not finished")
                     self.showWaitingButton()
                 } else {
@@ -219,11 +219,12 @@ public class BottomLeftBarViewModel: ObservableObject {
 
         if humanPlayer.blockingNotification() != nil {
             canClickButton = true
-        }
-
-        if let delegate = self.delegate {
-            if delegate.areAnimationsFinished() {
-                canClickButton = true
+        } else {
+            // only check for running animations, if there is nothing blocking left
+            if let delegate = self.delegate {
+                if !delegate.areAnimationsRunning() {
+                    canClickButton = true
+                }
             }
         }
 

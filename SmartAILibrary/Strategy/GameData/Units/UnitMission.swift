@@ -8,7 +8,16 @@
 
 import Foundation
 
-public class UnitMission {
+public class UnitMission: Codable {
+
+    enum CodingKeys: CodingKey {
+
+        case type
+        case buildType
+        case target
+        case path
+        case options
+    }
 
     weak var unit: AbstractUnit?
     let type: UnitMissionType
@@ -36,6 +45,28 @@ public class UnitMission {
         if type.needsTarget() && (target == nil && path == nil) {
             fatalError("need target")
         }
+    }
+
+    required public init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.type = try container.decode(UnitMissionType.self, forKey: .type)
+        self.buildType = try container.decodeIfPresent(BuildType.self, forKey: .buildType)
+        self.target = try container.decodeIfPresent(HexPoint.self, forKey: .target)
+        self.path = try container.decodeIfPresent(HexPath.self, forKey: .path)
+        self.options = try container.decode(MoveOptions.self, forKey: .options)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.type, forKey: .type)
+        try container.encode(self.buildType, forKey: .buildType)
+        try container.encode(self.target, forKey: .target)
+        try container.encode(self.path, forKey: .path)
+        try container.encode(self.options, forKey: .options)
     }
 
     /// Initiate a mission

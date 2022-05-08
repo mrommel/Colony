@@ -12,7 +12,9 @@ import SmartAssets
 class GameScene: BaseScene {
 
     // Constants
-    let forceTouchLevel: CGFloat = 2.0
+    private static let kTooltipTrigger: Double = 2.0
+    private static let kTooltipDuration: Double = 2.0
+    private static let kGameUpdateIntervall: Double = 0.5
 
     // UI variables
     internal var mapNode: MapNode?
@@ -22,7 +24,7 @@ class GameScene: BaseScene {
     var lastUpdated: TimeInterval = -1
     let gameUpdateBackgroundQueue: DispatchQueue = DispatchQueue(label: "gameUpdateBackgroundQueue", qos: .background, attributes: .concurrent)
     var gameUpdateMutex: Bool = true // means: can enter gameUpdate
-    let pathfinderQueue: DispatchQueue = DispatchQueue(label: "pathfinderQueue", qos: .background, attributes: .concurrent)
+    let pathfinderQueue: DispatchQueue = DispatchQueue(label: "pathfinderBackgroundQueue", qos: .background, attributes: .concurrent)
 
     var hoverLocation: HexPoint = .invalid
     var hoverTime: TimeInterval = -1
@@ -99,28 +101,27 @@ class GameScene: BaseScene {
 
     override func update(_ currentTime: TimeInterval) {
 
-        guard let gameModel = self.viewModel?.gameModel else {
-            return
-        }
+        // only check once per x sec
+        if self.lastExecuted + GameScene.kGameUpdateIntervall < currentTime {
 
-        // mitigation
-        if self.viewModel?.shouldRebuild ?? false {
+            guard let gameModel = self.viewModel?.gameModel else {
+                return
+            }
 
-            self.setupMap()
-            self.viewModel?.shouldRebuild = false
-        }
+            // mitigation
+            if self.viewModel?.shouldRebuild ?? false {
 
-        // update animation checker
-        if let state = self.mapNode?.unitLayer.areAnimationsFinished() {
-            self.viewModel?.animationsAreRunning = state
-        } else {
-            self.viewModel?.animationsAreRunning = false
-        }
+                self.setupMap()
+                self.viewModel?.shouldRebuild = false
+            }
 
-        // only check once per 0.5 sec
-        if self.lastExecuted + 0.5 < currentTime {
-
-            self.lastExecuted = currentTime
+            // update animation checker
+            let currentLeader: LeaderType = gameModel.activePlayer()?.leader ?? .none
+            if let state = self.mapNode?.unitLayer.animationsAreRunning(for: currentLeader) {
+                self.viewModel?.animationsAreRunning = state
+            } else {
+                self.viewModel?.animationsAreRunning = true
+            }
 
             guard let humanPlayer = gameModel.humanPlayer() else {
                 fatalError("cant get human")
@@ -138,12 +139,12 @@ class GameScene: BaseScene {
                     self.viewModel?.delegate?.changeUITurnState(to: .humanTurns)
                     _ = self.viewModel?.delegate?.checkPopups()
 
-                    if self.viewModel!.readyUpdatingHuman {
+                    // update all units strengths
+                    for unit in gameModel.units(of: humanPlayer) {
+                        self.mapNode?.unitLayer.update(unit: unit)
+                    }
 
-                        // update all units strengths
-                        for unit in gameModel.units(of: humanPlayer) {
-                            self.mapNode?.unitLayer.update(unit: unit)
-                        }
+                    if self.viewModel!.readyUpdatingHuman {
 
                         self.viewModel!.readyUpdatingHuman = false
 
@@ -169,10 +170,35 @@ class GameScene: BaseScene {
                         self.gameUpdateMutex = false
                         self.gameUpdateBackgroundQueue.async {
                             // print("-----------> before AI processing")
-                            gameModel.update()
-                            self.gameUpdateMutex = true
-                            // print("-----------> after AI processing")
+                            if let activePlayer = gameModel.activePlayer() {
+
+                                guard !activePlayer.isHuman() else {
+                                    fatalError("something wrong")
+                                }
+
+                                gameModel.update()
+
+                                // print("-----------> after AI processing")
+                                // self.viewModel!.readyUpdatingAI = true
+
+                                // update all units animations + strengths
+                                for unit in gameModel.units(of: activePlayer) {
+                                    self.mapNode?.unitLayer.update(unit: unit)
+                                }
+
+                                // update animation checker
+                                let currentLeader: LeaderType = activePlayer.leader
+                                if let state = self.mapNode?.unitLayer.animationsAreRunning(for: currentLeader) {
+                                    self.viewModel?.animationsAreRunning = state
+                                } else {
+                                    self.viewModel?.animationsAreRunning = true
+                                }
+                            } else {
+                                gameModel.update()
+                            }
+
                             self.viewModel!.readyUpdatingAI = true
+                            self.gameUpdateMutex = true
                         }
                     }
                 }
@@ -201,6 +227,8 @@ class GameScene: BaseScene {
                 self.mapNode?.set(mapLens: mapLens)
                 self.viewModel?.hideMapLens()
             }
+
+            self.lastExecuted = currentTime
         }
 
         // only update view models once per 5 sex
@@ -213,34 +241,43 @@ class GameScene: BaseScene {
         }
 
         // if the cursor is more than 2 seconds on the same tile - show tooltip
-        if (currentTime - self.hoverTime) > 2.0 {
+        if (currentTime - self.hoverTime) > GameScene.kTooltipTrigger {
 
-            if self.viewModel?.unitSelectionMode != .pick {
-                return
-            }
-
-            if self.viewModel?.delegate?.selectedUnit != nil {
-                return
-            }
-
-            guard let tile = gameModel.tile(at: self.hoverLocation) else {
-                return
-            }
-
-            guard let humanPlayer = gameModel.humanPlayer() else {
-                fatalError("cant get human")
-            }
-
-            guard tile.isDiscovered(by: humanPlayer) else {
-                return
-            }
-
-            self.showTooltip(at: self.hoverLocation, type: .tileInfo(tile: tile), delay: 3.0)
-
-            // reset values
-            self.hoverTime = -1
-            self.hoverLocation = .invalid
+            self.checkTileHoverTooltip()
         }
+    }
+
+    private func checkTileHoverTooltip() {
+
+        guard let gameModel = self.viewModel?.gameModel else {
+            return
+        }
+
+        if self.viewModel?.unitSelectionMode != .pick {
+            return
+        }
+
+        if self.viewModel?.delegate?.selectedUnit != nil {
+            return
+        }
+
+        guard let tile = gameModel.tile(at: self.hoverLocation) else {
+            return
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        guard tile.isDiscovered(by: humanPlayer) else {
+            return
+        }
+
+        self.showTooltip(at: self.hoverLocation, type: .tileInfo(tile: tile), delay: GameScene.kTooltipDuration)
+
+        // reset values
+        self.hoverTime = -1
+        self.hoverLocation = .invalid
     }
 
     override func updateLayout() {
@@ -573,7 +610,7 @@ extension GameScene {
                             self.viewModel?.delegate?.hideCombatBanner()
                             self.viewModel?.unitSelectionMode = .pick
 
-                            self.mapNode?.unitLayer.clearAttackFocus()
+                            self.mapNode?.unitLayer.hideAttackFocus()
                         }
                     }
 
@@ -601,7 +638,7 @@ extension GameScene {
                             self.viewModel?.delegate?.hideCombatBanner()
                             self.viewModel?.unitSelectionMode = .pick
 
-                            self.mapNode?.unitLayer.clearAttackFocus()
+                            self.mapNode?.unitLayer.hideAttackFocus()
                         }
                     }
 
@@ -636,7 +673,7 @@ extension GameScene {
                             self.viewModel?.delegate?.hideCombatBanner()
                             self.viewModel?.unitSelectionMode = .pick
 
-                            self.mapNode?.unitLayer.clearAttackFocus()
+                            self.mapNode?.unitLayer.hideAttackFocus()
                         }
                     }
 
@@ -664,7 +701,7 @@ extension GameScene {
                             self.viewModel?.delegate?.hideCombatBanner()
                             self.viewModel?.unitSelectionMode = .pick
 
-                            self.mapNode?.unitLayer.clearAttackFocus()
+                            self.mapNode?.unitLayer.hideAttackFocus()
                         }
                     }
 

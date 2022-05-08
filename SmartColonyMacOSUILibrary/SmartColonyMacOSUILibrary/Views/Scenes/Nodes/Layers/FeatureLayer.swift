@@ -186,11 +186,11 @@ class FeatureLayer: BaseLayer {
             if feature == .mountains {
 
                 // N
-                let neighborNE = pt.neighbor(in: .northeast)
-                let neighborSE = pt.neighbor(in: .southeast)
-                let neighborS = pt.neighbor(in: .south)
-                let neighborSW = pt.neighbor(in: .southwest)
-                let neighborNW = pt.neighbor(in: .northwest)
+                let neighborNE = gameModel.wrap(point: pt.neighbor(in: .northeast))
+                let neighborSE = gameModel.wrap(point: pt.neighbor(in: .southeast))
+                let neighborS = gameModel.wrap(point: pt.neighbor(in: .south))
+                let neighborSW = gameModel.wrap(point: pt.neighbor(in: .southwest))
+                let neighborNW = gameModel.wrap(point: pt.neighbor(in: .northwest))
 
                 // let neighborFeatureN = gameModel.tile(at: pt.neighbor(in: .north))?.feature() ?? .none
 
@@ -250,7 +250,7 @@ class FeatureLayer: BaseLayer {
         }
     }
 
-    func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
+    func placeTileHex(for tile: AbstractTile, and point: HexPoint, at position: CGPoint, alpha: CGFloat) {
 
         let feature: FeatureType = tile.feature()
         let pattern: FeaturePatternType = self.patternArray![tile.point] ?? .none
@@ -337,7 +337,7 @@ class FeatureLayer: BaseLayer {
                 featureSprite.colorBlendFactor = 1.0 - alpha
                 self.addChild(featureSprite)
 
-                self.textureUtils?.set(featureSprite: featureSprite, at: tile.point)
+                self.textureUtils?.set(featureSprite: featureSprite, at: point)
             }
         }
 
@@ -355,7 +355,7 @@ class FeatureLayer: BaseLayer {
                 mountainsCalderaSprite.colorBlendFactor = 1.0 - alpha
                 self.addChild(mountainsCalderaSprite)
 
-                self.textureUtils?.set(mountainsCalderaSprite: mountainsCalderaSprite, at: tile.point)
+                self.textureUtils?.set(mountainsCalderaSprite: mountainsCalderaSprite, at: point)
             }
         }
 
@@ -373,48 +373,60 @@ class FeatureLayer: BaseLayer {
                 iceSprite.colorBlendFactor = 1.0 - alpha
                 self.addChild(iceSprite)
 
-                self.textureUtils?.set(iceSprite: iceSprite, at: tile.point)
+                self.textureUtils?.set(iceSprite: iceSprite, at: point)
             }
         }
     }
 
-    func clear(tile: AbstractTile?) {
+    override func clear(at point: HexPoint) {
 
-        guard let textureUtils = self.textureUtils else {
-            fatalError("cant get textureUtils")
+        let alternatePoint = self.alternatePoint(for: point)
+
+        if let featureSprite = self.textureUtils?.featureSprite(at: point) {
+            self.removeChildren(in: [featureSprite])
         }
 
-        if let tile = tile {
-            if let featureSprite = textureUtils.featureSprite(at: tile.point) {
-                self.removeChildren(in: [featureSprite])
-            }
+        if let featureSprite = self.textureUtils?.featureSprite(at: alternatePoint) {
+            self.removeChildren(in: [featureSprite])
+        }
 
-            if let mountainsCalderaSprite = textureUtils.mountainsCalderaSprite(at: tile.point) {
-                self.removeChildren(in: [mountainsCalderaSprite])
-            }
+        if let mountainsCalderaSprite = self.textureUtils?.mountainsCalderaSprite(at: point) {
+            self.removeChildren(in: [mountainsCalderaSprite])
+        }
 
-            if let iceSprite = textureUtils.iceSprite(at: tile.point) {
-                self.removeChildren(in: [iceSprite])
-            }
+        if let mountainsCalderaSprite = self.textureUtils?.mountainsCalderaSprite(at: alternatePoint) {
+            self.removeChildren(in: [mountainsCalderaSprite])
+        }
+
+        if let iceSprite = self.textureUtils?.iceSprite(at: point) {
+            self.removeChildren(in: [iceSprite])
+        }
+
+        if let iceSprite = self.textureUtils?.iceSprite(at: alternatePoint) {
+            self.removeChildren(in: [iceSprite])
         }
     }
 
     override func update(tile: AbstractTile?) {
 
         if let tile = tile {
-            let pt = tile.point
 
             let currentHashValue = self.hash(for: tile)
-            if !self.hasher!.has(hash: currentHashValue, at: pt) {
+            if !self.hasher!.has(hash: currentHashValue, at: tile.point) {
 
-                self.clear(tile: tile)
+                self.clear(at: tile.point)
 
-                let screenPoint = HexPoint.toScreen(hex: pt)
+                let originalPoint = tile.point
+                let originalScreenPoint = HexPoint.toScreen(hex: originalPoint)
+                let alternatePoint = self.alternatePoint(for: originalPoint)
+                let alternateScreenPoint = HexPoint.toScreen(hex: alternatePoint)
 
                 if tile.isVisible(to: self.player) || self.showCompleteMap {
-                    self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
+                    self.placeTileHex(for: tile, and: originalPoint, at: originalScreenPoint, alpha: 1.0)
+                    self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint, alpha: 1.0)
                 } else if tile.isDiscovered(by: self.player) {
-                    self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+                    self.placeTileHex(for: tile, and: originalPoint, at: originalScreenPoint, alpha: 0.5)
+                    self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint, alpha: 0.5)
                 }
 
                 self.hasher?.update(hash: currentHashValue, at: tile.point)

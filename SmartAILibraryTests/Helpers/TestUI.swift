@@ -45,6 +45,7 @@ class TestUI: UserInterfaceDelegate {
     func move(unit: AbstractUnit?, on points: [HexPoint]) {}
     func refresh(unit: AbstractUnit?) {}
     func animate(unit: AbstractUnit?, animation: UnitAnimationType) {}
+    func animate(city: AbstractCity?, animation: CityAnimationType) {}
 
     func clearAttackFocus() {}
 
@@ -72,4 +73,6 @@ class TestUI: UserInterfaceDelegate {
     func showTooltip(at point: HexPoint, type: TooltipType, delay: Double) {}
 
     func focus(on location: HexPoint) {}
+
+    func animationsAreRunning(for leader: LeaderType) -> Bool { return false }
 }

@@ -321,7 +321,18 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "idle")
 
         case .slinger:
-            return ObjectTextureAtlas(template: "slinger-idle-", range: 0..<10)
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+
+            guard let atlas = SlpTextureAtlasLoader.atlas(for: "slinger-idle",
+                                                          part: .southWest,
+                                                          palette: palette.colors,
+                                                          player: .customBlue) else {
+                fatalError("cant get atlas")
+            }
+
+            return atlas.repeatFirst(amount: 50, timePerFrame: 0.1)
 
         case .archer:
             let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
@@ -440,10 +451,10 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "south")
 
         case .trader:
-            // return ObjectTextureAtlas(template: "caravan-south-", range: 0..<12)
             guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
                 fatalError("cant load palette named: 'AOE1_50500'")
             }
+
             return SlpTextureAtlasLoader.atlas(for: "caravane-walk", part: .south, palette: palette.colors, player: .customBlue)
 
             // ancient
@@ -456,7 +467,11 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "south")
 
         case .slinger:
-            return ObjectTextureAtlas(template: "slinger-south-", range: 0..<10)
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+
+            return SlpTextureAtlasLoader.atlas(for: "slinger-walk", part: .south, palette: palette.colors, player: .customBlue)
 
         case .archer:
             let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
@@ -558,10 +573,10 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "north")
 
         case .trader:
-            // return ObjectTextureAtlas(template: "caravan-north-", range: 0..<12)
             guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
                 fatalError("cant load palette named: 'AOE1_50500'")
             }
+
             return SlpTextureAtlasLoader.atlas(for: "caravane-walk", part: .north, palette: palette.colors, player: .customBlue)
 
             // ancient
@@ -574,7 +589,11 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "north")
 
         case .slinger:
-            return ObjectTextureAtlas(template: "slinger-north-", range: 0..<10)
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+
+            return SlpTextureAtlasLoader.atlas(for: "slinger-walk", part: .north, palette: palette.colors, player: .customBlue)
 
         case .archer:
             let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
@@ -676,10 +695,10 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west", mirror: true)
 
         case .trader:
-            // return ObjectTextureAtlas(template: "caravan-east-", range: 0..<12)
             guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
                 fatalError("cant load palette named: 'AOE1_50500'")
             }
+
             return SlpTextureAtlasLoader.atlas(for: "caravane-walk", part: .west, mirror: true, palette: palette.colors, player: .customBlue)
 
             // ancient
@@ -692,7 +711,11 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west", mirror: true)
 
         case .slinger:
-            return ObjectTextureAtlas(template: "slinger-east-", range: 0..<10)
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+
+            return SlpTextureAtlasLoader.atlas(for: "slinger-walk", part: .west, mirror: true, palette: palette.colors, player: .customBlue)
 
         case .archer:
             let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
@@ -794,10 +817,10 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west")
 
         case .trader:
-            // return ObjectTextureAtlas(template: "caravan-west-", range: 0..<12)
             guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
                 fatalError("cant load palette named: 'AOE1_50500'")
             }
+
             return SlpTextureAtlasLoader.atlas(for: "caravane-walk", part: .west, palette: palette.colors, player: .customBlue)
 
             // ancient
@@ -810,7 +833,11 @@ extension UnitType {
             return textureAtlas?.objectTextureAtlas(for: "walk", in: "west")
 
         case .slinger:
-            return ObjectTextureAtlas(template: "slinger-west-", range: 0..<10)
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+
+            return SlpTextureAtlasLoader.atlas(for: "slinger-walk", part: .west, palette: palette.colors, player: .customBlue)
 
         case .archer:
             let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
@@ -888,6 +915,110 @@ extension UnitType {
 
         case .scientist: return nil
         case .writer: return nil
+        }
+    }
+
+    public var attackSouthAtlas: ObjectTextureAtlas? {
+
+        let bundle = Bundle.init(for: Textures.self)
+
+        switch self {
+
+        case .warrior:
+            let textureAtlas = TextureAtlasLoader.load(named: "warrior", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "attack", in: "south")
+
+        case .slinger:
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+
+            return SlpTextureAtlasLoader.atlas(for: "slinger-attack", part: .south, palette: palette.colors, player: .customBlue)
+
+        case .archer:
+            let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "attack", in: "south")
+
+        default:
+            return nil
+        }
+    }
+
+    public var attackNorthAtlas: ObjectTextureAtlas? {
+
+        let bundle = Bundle.init(for: Textures.self)
+
+        switch self {
+
+        case .warrior:
+            let textureAtlas = TextureAtlasLoader.load(named: "warrior", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "attack", in: "north")
+
+        case .slinger:
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+
+            return SlpTextureAtlasLoader.atlas(for: "slinger-attack", part: .north, palette: palette.colors, player: .customBlue)
+
+        case .archer:
+            let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "attack", in: "north")
+
+        default:
+            return nil
+        }
+    }
+
+    public var attackEastAtlas: ObjectTextureAtlas? {
+
+        let bundle = Bundle.init(for: Textures.self)
+
+        switch self {
+
+        case .warrior:
+            let textureAtlas = TextureAtlasLoader.load(named: "warrior", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "attack", in: "west", mirror: true)
+
+        case .slinger:
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+
+            return SlpTextureAtlasLoader.atlas(for: "slinger-attack", part: .west, mirror: true, palette: palette.colors, player: .customBlue)
+
+        case .archer:
+            let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "attack", in: "west", mirror: true)
+
+        default:
+            return nil
+        }
+    }
+
+    public var attackWestAtlas: ObjectTextureAtlas? {
+
+        let bundle = Bundle.init(for: Textures.self)
+
+        switch self {
+
+        case .warrior:
+            let textureAtlas = TextureAtlasLoader.load(named: "warrior", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "attack", in: "west")
+
+        case .slinger:
+            guard let palette = SlpPalette.palette(named: "AOE1_50500") else {
+                fatalError("cant load palette named: 'AOE1_50500'")
+            }
+
+            return SlpTextureAtlasLoader.atlas(for: "slinger-attack", part: .west, palette: palette.colors, player: .customBlue)
+
+        case .archer:
+            let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "attack", in: "west")
+
+        default:
+            return nil
         }
     }
 }

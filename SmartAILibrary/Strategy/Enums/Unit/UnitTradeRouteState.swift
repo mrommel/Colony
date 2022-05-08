@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum UnitTradeRouteState {
+enum UnitTradeRouteState: String, Codable {
 
     case active
     case expired

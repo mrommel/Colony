@@ -277,6 +277,9 @@ public class Unit: AbstractUnit {
         case tacticalTarget
         case garrisoned
 
+        case missions
+        case missionTimer
+
         case moves
         case setUpForRangedAttack
         case experience
@@ -294,6 +297,7 @@ public class Unit: AbstractUnit {
         case buildType
         case buildCharges
         case automation
+        case tradeRouteData
     }
 
     public let type: UnitType
@@ -412,9 +416,10 @@ public class Unit: AbstractUnit {
 
         self.processedInTurnValue = try container.decode(Bool.self, forKey: .processedInTurn)
         self.deployFromOperationTurnValue = try container.decode(Int.self, forKey: .deployFromOperationTurn)
+        self.tradeRouteDataValue = try container.decodeIfPresent(UnitTradeRouteData.self, forKey: .tradeRouteData)
 
-        self.missions = Stack<UnitMission>()
-        self.missionTimerValue = 0
+        self.missions = Stack<UnitMission>(array: try container.decode([UnitMission].self, forKey: .missions))
+        self.missionTimerValue = try container.decode(Int.self, forKey: .missionTimer)
 
         self.activityTypeValue = try container.decode(UnitActivityType.self, forKey: .activityType)
         self.buildTypeValue = try container.decode(BuildType.self, forKey: .buildType)
@@ -423,6 +428,7 @@ public class Unit: AbstractUnit {
 
         // post process
         self.promotions?.postProcess(by: self)
+        self.missions.forEach { $0.unit = self }
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -462,6 +468,9 @@ public class Unit: AbstractUnit {
         try container.encode(self.buildTypeValue, forKey: .buildType)
         try container.encode(self.buildChargesValue, forKey: .buildCharges)
         try container.encode(self.automationType, forKey: .automation)
+        try container.encodeIfPresent(self.tradeRouteDataValue, forKey: .tradeRouteData)
+        try container.encode(self.missions.toArray(), forKey: .missions)
+        try container.encode(self.missionTimerValue, forKey: .missionTimer)
     }
 
     // MARK: public methods
@@ -1242,7 +1251,7 @@ public class Unit: AbstractUnit {
 
                     gameModel.userInterface?.askForConfirmation(
                         title: "Declare War?",
-                        question: "Da you really want to declare war on \(defenderUnit.player?.leader.name())",
+                        question: "Do you really want to declare war on \(defenderUnit.player?.leader.name())",
                         confirm: "Declare War",
                         cancel: "Cancel",
                         completion: { _ in
@@ -2084,11 +2093,6 @@ public class Unit: AbstractUnit {
             }
         }*/
 
-        // if entering a city, hide the unit
-        if newPlot.isCity() {
-            gameModel.userInterface?.enterCity(unit: self, at: oldPlot.point)
-        }
-
         self.doMobilize(in: gameModel) // unfortify
 
         // needs to be here so that the square is considered visible when we move into it...
@@ -2214,6 +2218,11 @@ public class Unit: AbstractUnit {
         } else {
             // teleport
             // SetPosition(pNewPlot);
+        }
+
+        // if entering a city, hide the unit
+        if newPlot.isCity() {
+            gameModel.userInterface?.enterCity(unit: self, at: oldPlot.point)
         }
 
         /*if self.hasCargo() {
@@ -2450,7 +2459,7 @@ public class Unit: AbstractUnit {
 
         self.moveLocations.append(target)
 
-        if self.moveLocations.count == 20 /*|| self.isHuman()*/ {
+        if (!self.moveLocations.isEmpty && self.movesValue == 0) || self.isHuman() {
             self.publishQueuedVisualizationMoves(in: gameModel)
         }
     }

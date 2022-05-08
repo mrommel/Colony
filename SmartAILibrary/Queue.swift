@@ -8,20 +8,20 @@
 
 import Foundation
 
-public class Queue<T> {
+public struct Queue<T> {
 
-    var list = [T]()
+    fileprivate var list = [T]()
 
     public init() {
 
     }
 
-    public func enqueue(_ element: T) {
+    public mutating func enqueue(_ element: T) {
 
         self.list.append(element)
     }
 
-    public func dequeue() -> T? {
+    public mutating func dequeue() -> T? {
 
         if !self.list.isEmpty {
             return self.list.removeFirst()
@@ -42,5 +42,13 @@ public class Queue<T> {
     public var isEmpty: Bool {
 
         return self.list.isEmpty
+    }
+
+    var head: T? {
+        return self.list.first
+    }
+
+    var tail: T? {
+        return self.list.last
     }
 }

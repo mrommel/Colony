@@ -104,11 +104,15 @@ class BarbarianAI: Codable {
     }
 
     /// Camp cleared, so reset counter
-    func doBarbCampCleared(at point: HexPoint) {
+    func doBarbCampCleared(by leader: LeaderType, at point: HexPoint, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
 
         self.barbCampSpawnCounter[point] = -16
 
-        // pPlot->AddArchaeologicalRecord(CvTypes::getARTIFACT_BARBARIAN_CAMP(), ePlayer, NO_PLAYER);
+        gameModel.tile(at: point)?.addArchaeologicalRecord(with: .barbarianCamp, era: gameModel.worldEra(), leader1: leader, leader2: .none)
     }
 
     /// CvBarbarians::DoCamps()

@@ -3386,6 +3386,11 @@ public class City: AbstractCity {
             fatalError("cant get wonders")
         }
 
+        // only major player can build wonders
+        if !player.isHuman() && !player.isMajorAI() {
+            return false
+        }
+
         if wonders.has(wonder: wonderType) {
             return false
         }
@@ -3466,6 +3471,11 @@ public class City: AbstractCity {
 
         guard let tile = gameModel.tile(at: location) else {
             fatalError("cant get tile")
+        }
+
+        // only major player can build wonders
+        if !player.isHuman() && !player.isMajorAI() {
+            return false
         }
 
         // cant build wonders in cities, districts or other wonders
@@ -4343,9 +4353,11 @@ public class City: AbstractCity {
         // 2=>3 =>> 15+8+1^1.5=24
         // 3=>4 =>> 15+16+2^1.5=34
 
+        let tmpPopulationValue = max(1, self.populationValue)
+
         var growthThreshold = 15.0 /* BASE_CITY_GROWTH_THRESHOLD */
-        growthThreshold += (self.populationValue - 1.0) * 8.0 /* CITY_GROWTH_MULTIPLIER */
-        growthThreshold += pow(self.populationValue - 1.0, 1.5 /* CITY_GROWTH_EXPONENT */ )
+        growthThreshold += (tmpPopulationValue - 1.0) * 8.0 /* CITY_GROWTH_MULTIPLIER */
+        growthThreshold += pow(tmpPopulationValue - 1.0, 1.5 /* CITY_GROWTH_EXPONENT */ )
 
         return growthThreshold
     }

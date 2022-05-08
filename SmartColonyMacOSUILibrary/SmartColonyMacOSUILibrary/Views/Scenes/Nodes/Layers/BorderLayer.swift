@@ -84,7 +84,7 @@ class BorderLayer: BaseLayer {
         self.rebuild()
     }
 
-    func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
+    func placeTileHex(for tile: AbstractTile, and point: HexPoint, at position: CGPoint, alpha: CGFloat) {
 
         guard let gameModel = self.gameModel else {
             fatalError("gameModel not set")
@@ -106,7 +106,7 @@ class BorderLayer: BaseLayer {
                     borderMainSprite.colorBlendFactor = 1.0
                     self.addChild(borderMainSprite)
 
-                    self.textureUtils?.set(mainBorderSprite: borderMainSprite, at: tile.point)
+                    self.textureUtils?.set(mainBorderSprite: borderMainSprite, at: point)
                 }
 
                 if let textureAccentName = self.textures?.borderAccentTexture(at: tile.point, in: player.area) {
@@ -121,7 +121,7 @@ class BorderLayer: BaseLayer {
                     borderAccentSprite.colorBlendFactor = 1.0
                     self.addChild(borderAccentSprite)
 
-                    self.textureUtils?.set(accentBorderSprite: borderAccentSprite, at: tile.point)
+                    self.textureUtils?.set(accentBorderSprite: borderAccentSprite, at: point)
 
                     return
                 }
@@ -129,37 +129,44 @@ class BorderLayer: BaseLayer {
         }
     }
 
-    func clear(tile: AbstractTile?) {
+    override func clear(at point: HexPoint) {
 
-        guard let textureUtils = self.textureUtils else {
-            fatalError("cant get textureUtils")
+        let alternatePoint = self.alternatePoint(for: point)
+
+        if let borderSprite = self.textureUtils?.mainBorderSprite(at: point) {
+            self.removeChildren(in: [borderSprite])
         }
 
-        if let tile = tile {
-            if let borderSprite = textureUtils.mainBorderSprite(at: tile.point) {
-                self.removeChildren(in: [borderSprite])
-            }
+        if let borderSprite = self.textureUtils?.accentBorderSprite(at: point) {
+            self.removeChildren(in: [borderSprite])
+        }
 
-            if let borderSprite = textureUtils.accentBorderSprite(at: tile.point) {
-                self.removeChildren(in: [borderSprite])
-            }
+        if let borderSprite = self.textureUtils?.mainBorderSprite(at: alternatePoint) {
+            self.removeChildren(in: [borderSprite])
+        }
+
+        if let borderSprite = self.textureUtils?.accentBorderSprite(at: alternatePoint) {
+            self.removeChildren(in: [borderSprite])
         }
     }
 
     override func update(tile: AbstractTile?) {
 
         if let tile = tile {
-            let pt = tile.point
 
             let currentHashValue = self.hash(for: tile)
-            if !self.hasher!.has(hash: currentHashValue, at: pt) {
+            if !self.hasher!.has(hash: currentHashValue, at: tile.point) {
 
-                self.clear(tile: tile)
+                self.clear(at: tile.point)
 
-                let screenPoint = HexPoint.toScreen(hex: pt)
+                let originalPoint = tile.point
+                let originalScreenPoint = HexPoint.toScreen(hex: originalPoint)
+                let alternatePoint = self.alternatePoint(for: originalPoint)
+                let alternateScreenPoint = HexPoint.toScreen(hex: alternatePoint)
 
                 if tile.isVisible(to: self.player) || self.showCompleteMap {
-                    self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
+                    self.placeTileHex(for: tile, and: originalPoint, at: originalScreenPoint, alpha: 1.0)
+                    self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint, alpha: 1.0)
                 }
 
                 self.hasher?.update(hash: currentHashValue, at: tile.point)

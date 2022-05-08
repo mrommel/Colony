@@ -48,7 +48,7 @@ class MapLensLayer: BaseLayer {
         self.rebuild()
     }
 
-    func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
+    func placeTileHex(for tile: AbstractTile, and point: HexPoint, at position: CGPoint, alpha: CGFloat) {
 
         guard let gameModel = self.gameModel else {
             fatalError("gameModel not set")
@@ -123,36 +123,40 @@ class MapLensLayer: BaseLayer {
             lensSprite.colorBlendFactor = 1.0
             self.addChild(lensSprite)
 
-            self.textureUtils?.set(lensSprite: lensSprite, at: tile.point)
+            self.textureUtils?.set(lensSprite: lensSprite, at: point)
         }
     }
 
-    func clear(tile: AbstractTile?) {
+    override func clear(at point: HexPoint) {
 
-        guard let textureUtils = self.textureUtils else {
-            fatalError("cant get textureUtils")
+        let alternatePoint = self.alternatePoint(for: point)
+
+        if let lensSprite = self.textureUtils?.lensSprite(at: point) {
+            self.removeChildren(in: [lensSprite])
         }
 
-        if let tile = tile {
-            if let lensSprite = textureUtils.lensSprite(at: tile.point) {
-                self.removeChildren(in: [lensSprite])
-            }
+        if let lensSprite = self.textureUtils?.lensSprite(at: alternatePoint) {
+            self.removeChildren(in: [lensSprite])
         }
     }
 
     override func update(tile: AbstractTile?) {
 
         if let tile = tile {
-            let pt = tile.point
 
-            self.clear(tile: tile)
+            self.clear(at: tile.point)
 
-            let screenPoint = HexPoint.toScreen(hex: pt)
+            let originalPoint = tile.point
+            let originalScreenPoint = HexPoint.toScreen(hex: originalPoint)
+            let alternatePoint = self.alternatePoint(for: originalPoint)
+            let alternateScreenPoint = HexPoint.toScreen(hex: alternatePoint)
 
             if tile.isVisible(to: self.player) || self.showCompleteMap {
-                self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
+                self.placeTileHex(for: tile, and: originalPoint, at: originalScreenPoint, alpha: 1.0)
+                self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint, alpha: 1.0)
             } else if tile.isDiscovered(by: self.player) {
-                self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+                self.placeTileHex(for: tile, and: originalPoint, at: originalScreenPoint, alpha: 0.5)
+                self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint, alpha: 0.5)
             }
         }
     }

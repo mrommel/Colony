@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct MoveOptions: OptionSet {
+public struct MoveOptions: OptionSet, Codable {
 
     public let rawValue: Int
 

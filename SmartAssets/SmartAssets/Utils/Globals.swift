@@ -32,6 +32,7 @@ public struct Globals {
         public static let mountain: CGFloat = 5.0
         public static let cityName: CGFloat = 5.1
         public static let city: CGFloat = 5.2
+        public static let cityAttack: CGFloat = 5.3
 
         // public static let improvementUpper: CGFloat = 5.25 // # not implemented yet
         public static let districtEmpty: CGFloat = 6.01

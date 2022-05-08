@@ -2118,7 +2118,7 @@ public class Player: AbstractPlayer {
 
     public func estimateNextAge(in gameModel: GameModel?) -> AgeType {
 
-        let eraScore = self.momentsVal?.eraScore() ?? 0
+        let eraScore: Int = self.eraScore()
         let thresholds = self.ageThresholds(in: gameModel)
 
         if eraScore < thresholds.lower {
@@ -2257,10 +2257,11 @@ public class Player: AbstractPlayer {
 
     public func endTurn(in gameModel: GameModel?) {
 
-        guard isTurnActive() == true else {
+        guard self.isTurnActive() == true else {
             fatalError("try to end an inactive turn")
         }
 
+        print("--- unit animation running: \(gameModel?.userInterface?.animationsAreRunning(for: self.leader)) ---")
         print("--- end turn for \(self.isHuman() ? "HUMAN": "AI") player \(self.leader) ---")
 
         self.turnActive = false
@@ -5994,7 +5995,7 @@ public class Player: AbstractPlayer {
                 }
             }
 
-            gameModel.doBarbCampCleared(at: tile.point)
+            gameModel.doBarbCampCleared(by: self.leader, at: tile.point)
 
             self.addMoment(of: .barbarianCampDestroyed, in: gameModel)
 

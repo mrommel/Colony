@@ -608,7 +608,7 @@ public class SlpFrameData {
             commandOffsets[index] = try reader.read()
         }
 
-        let commands: Queue<SlpRenderCommandType> = Queue<SlpRenderCommandType>()
+        var commands: Queue<SlpRenderCommandType> = Queue<SlpRenderCommandType>()
 
         for y in 0..<Int(header.height) {
 

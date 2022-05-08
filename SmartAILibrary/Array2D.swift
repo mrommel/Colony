@@ -26,13 +26,13 @@ open class Array2D<T: Equatable & Codable>: Codable {
         get {
             precondition(x < self.width, "Column \(x) Index is out of range. Array2D<T>(columns: \(self.width), rows:\(self.height))")
             precondition(y < self.height, "Row \(y) Index is out of range. Array2D<T>(columns: \(self.width), rows:\(self.height))")
-            return array[y * self.width + x]
+            return self.array[y * self.width + x]
         }
 
         set {
             precondition(x < self.width, "Column \(x) Index is out of range. Array2D<T>(columns: \(self.width), rows:\(self.height))")
             precondition(y < self.height, "Row \(y) Index is out of range. Array2D<T>(columns: \(self.width), rows:\(self.height))")
-            array[y * self.width + x] = newValue
+            self.array[y * self.width + x] = newValue
         }
     }
 
@@ -109,11 +109,11 @@ extension Array2D {
     public subscript(gridPoint: HexPoint) -> T? {
 
         get {
-            return array[(gridPoint.y * self.width) + gridPoint.x]
+            return self.array[(gridPoint.y * self.width) + gridPoint.x]
         }
 
         set {
-            array[(gridPoint.y * self.width) + gridPoint.x] = newValue
+            self.array[(gridPoint.y * self.width) + gridPoint.x] = newValue
         }
     }
 

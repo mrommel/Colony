@@ -286,7 +286,7 @@ class DistrictLayer: BaseLayer {
         }
     }
 
-    func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
+    func placeTileHex(for tile: AbstractTile, and point: HexPoint, at position: CGPoint, alpha: CGFloat) {
 
         let district = tile.district()
         let buildingDistrict = tile.buildingDistrict()
@@ -315,7 +315,7 @@ class DistrictLayer: BaseLayer {
             districtSprite.colorBlendFactor = 1.0 - alpha
             self.addChild(districtSprite)
 
-            self.textureUtils?.set(emptyDistrictSprite: districtSprite, at: tile.point)
+            self.textureUtils?.set(emptyDistrictSprite: districtSprite, at: point)
 
             if let firstBuildingDistrictTextureName = self.firstBuildingDistrictTexture(for: district, city: city) {
 
@@ -329,7 +329,7 @@ class DistrictLayer: BaseLayer {
                 districtSprite.colorBlendFactor = 1.0 - alpha
                 self.addChild(districtSprite)
 
-                self.textureUtils?.set(firstBuildingDistrictSprite: districtSprite, at: tile.point)
+                self.textureUtils?.set(firstBuildingDistrictSprite: districtSprite, at: point)
             }
 
             if let secondBuildingDistrictTextureName = self.secondBuildingDistrictTexture(for: district, city: city) {
@@ -344,7 +344,7 @@ class DistrictLayer: BaseLayer {
                 districtSprite.colorBlendFactor = 1.0 - alpha
                 self.addChild(districtSprite)
 
-                self.textureUtils?.set(secondBuildingDistrictSprite: districtSprite, at: tile.point)
+                self.textureUtils?.set(secondBuildingDistrictSprite: districtSprite, at: point)
             }
 
             if let thirdBuildingDistrictTextureName = self.thirdBuildingDistrictTexture(for: district, city: city) {
@@ -359,7 +359,7 @@ class DistrictLayer: BaseLayer {
                 districtSprite.colorBlendFactor = 1.0 - alpha
                 self.addChild(districtSprite)
 
-                self.textureUtils?.set(thirdBuildingDistrictSprite: districtSprite, at: tile.point)
+                self.textureUtils?.set(thirdBuildingDistrictSprite: districtSprite, at: point)
             }
 
         } else if buildingDistrict != .none {
@@ -375,7 +375,7 @@ class DistrictLayer: BaseLayer {
             districtBuildingSprite.colorBlendFactor = 1.0 - alpha
             self.addChild(districtBuildingSprite)
 
-            self.textureUtils?.set(emptyDistrictSprite: districtBuildingSprite, at: tile.point)
+            self.textureUtils?.set(emptyDistrictSprite: districtBuildingSprite, at: point)
 
             // icon that this district is in the building
             let buildingImage = ImageCache.shared.image(for: DistrictLayer.buildingTextureName)
@@ -388,51 +388,67 @@ class DistrictLayer: BaseLayer {
             districtBuildingSprite2.colorBlendFactor = 1.0 - alpha
             self.addChild(districtBuildingSprite2)
 
-            self.textureUtils?.set(firstBuildingDistrictSprite: districtBuildingSprite2, at: tile.point)
+            self.textureUtils?.set(firstBuildingDistrictSprite: districtBuildingSprite2, at: point)
         }
     }
 
-    func clear(tile: AbstractTile?) {
+    override func clear(at point: HexPoint) {
 
-        guard let textureUtils = self.textureUtils else {
-            fatalError("cant get textureUtils")
+        let alternatePoint = self.alternatePoint(for: point)
+
+        if let districtSprite = self.textureUtils?.emptyDistrictSprite(at: point) {
+            self.removeChildren(in: [districtSprite])
         }
 
-        if let tile = tile {
-            if let districtSprite = textureUtils.emptyDistrictSprite(at: tile.point) {
-                self.removeChildren(in: [districtSprite])
-            }
+        if let districtSprite = self.textureUtils?.firstBuildingDistrictSprite(at: point) {
+            self.removeChildren(in: [districtSprite])
+        }
 
-            if let districtSprite = textureUtils.firstBuildingDistrictSprite(at: tile.point) {
-                self.removeChildren(in: [districtSprite])
-            }
+        if let districtSprite = self.textureUtils?.secondBuildingDistrictSprite(at: point) {
+            self.removeChildren(in: [districtSprite])
+        }
 
-            if let districtSprite = textureUtils.secondBuildingDistrictSprite(at: tile.point) {
-                self.removeChildren(in: [districtSprite])
-            }
+        if let districtSprite = self.textureUtils?.thirdBuildingDistrictSprite(at: point) {
+            self.removeChildren(in: [districtSprite])
+        }
 
-            if let districtSprite = textureUtils.thirdBuildingDistrictSprite(at: tile.point) {
-                self.removeChildren(in: [districtSprite])
-            }
+        if let districtSprite = self.textureUtils?.emptyDistrictSprite(at: alternatePoint) {
+            self.removeChildren(in: [districtSprite])
+        }
+
+        if let districtSprite = self.textureUtils?.firstBuildingDistrictSprite(at: alternatePoint) {
+            self.removeChildren(in: [districtSprite])
+        }
+
+        if let districtSprite = self.textureUtils?.secondBuildingDistrictSprite(at: alternatePoint) {
+            self.removeChildren(in: [districtSprite])
+        }
+
+        if let districtSprite = self.textureUtils?.thirdBuildingDistrictSprite(at: alternatePoint) {
+            self.removeChildren(in: [districtSprite])
         }
     }
 
     override func update(tile: AbstractTile?) {
 
         if let tile = tile {
-            let pt = tile.point
 
             let currentHashValue = self.hash(for: tile)
-            if !self.hasher!.has(hash: currentHashValue, at: pt) {
+            if !self.hasher!.has(hash: currentHashValue, at: tile.point) {
 
-                self.clear(tile: tile)
+                self.clear(at: tile.point)
 
-                let screenPoint = HexPoint.toScreen(hex: pt)
+                let originalPoint = tile.point
+                let originalScreenPoint = HexPoint.toScreen(hex: originalPoint)
+                let alternatePoint = self.alternatePoint(for: originalPoint)
+                let alternateScreenPoint = HexPoint.toScreen(hex: alternatePoint)
 
                 if tile.isVisible(to: self.player) || self.showCompleteMap {
-                    self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
+                    self.placeTileHex(for: tile, and: originalPoint, at: originalScreenPoint, alpha: 1.0)
+                    self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint, alpha: 1.0)
                 } else if tile.isDiscovered(by: self.player) {
-                    self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+                    self.placeTileHex(for: tile, and: originalPoint, at: originalScreenPoint, alpha: 0.5)
+                    self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint, alpha: 0.5)
                 }
 
                 self.hasher?.update(hash: currentHashValue, at: tile.point)

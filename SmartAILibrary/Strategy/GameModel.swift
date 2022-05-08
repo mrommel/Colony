@@ -326,13 +326,10 @@ open class GameModel: Codable {
         }
     }
 
-    func activePlayer() -> AbstractPlayer? {
+    public func activePlayer() -> AbstractPlayer? {
 
-        for player in self.players {
-
-            if player.isAlive() && player.isActive() {
-                return player
-            }
+        for player in self.players where player.isAlive() && player.isActive() {
+            return player
         }
 
         return nil
@@ -340,11 +337,8 @@ open class GameModel: Codable {
 
     func updatePlayers(in gameModel: GameModel?) {
 
-        for player in self.players {
-
-            if player.isAlive() && player.isActive() {
-                player.updateNotifications(in: gameModel)
-            }
+        for player in self.players where player.isAlive() && player.isActive() {
+            player.updateNotifications(in: gameModel)
         }
     }
 
@@ -719,7 +713,6 @@ open class GameModel: Codable {
         // GC.GetEngineUserInterface()->doTurn();
 
         self.barbarianAI?.doCamps(in: self)
-
         self.barbarianAI?.doUnits(in: self)
 
         // incrementGameTurn();
@@ -1094,6 +1087,11 @@ open class GameModel: Codable {
     public func isStartTurn() -> Bool {
 
         return self.currentTurn == 0
+    }
+
+    public func set(currentTurn: Int) {
+
+        self.currentTurn = currentTurn
     }
 
     // https://gaming.stackexchange.com/questions/51233/what-is-the-turn-length-in-civilization
@@ -1508,6 +1506,11 @@ open class GameModel: Codable {
         return self.map.wrap(point: point)
     }
 
+    public func wrappedX() -> Bool {
+
+        return self.map.wrapX
+    }
+
     public func tile(at point: HexPoint) -> AbstractTile? {
 
         return self.map.tile(at: point)
@@ -1716,7 +1719,8 @@ open class GameModel: Codable {
         let options = MoveTypeIgnoreUnitsOptions(
             unitMapType: unitMapType,
             canEmbark: canEmbark,
-            canEnterOcean: canEnterOcean
+            canEnterOcean: canEnterOcean,
+            wrapX: self.map.wrapX
         )
         return MoveTypeIgnoreUnitsPathfinderDataSource(in: self.map, for: movementType, for: player, options: options)
     }
@@ -2378,9 +2382,9 @@ extension GameModel {
         self.barbarianAI?.doCampAttacked(at: point)
     }
 
-    func doBarbCampCleared(at point: HexPoint) {
+    func doBarbCampCleared(by leader: LeaderType, at point: HexPoint) {
 
-        self.barbarianAI?.doBarbCampCleared(at: point)
+        self.barbarianAI?.doBarbCampCleared(by: leader, at: point, in: self)
 
         // check quests - is there still a camp
         for cityStatePlayer in self.players {

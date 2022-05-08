@@ -76,27 +76,28 @@ class UnitLayer: SKNode {
         print("inited with: \(self.unitObjects.count) visible units")
     }
 
-    /// are all unit animations finished - means all units in idle state
+    /// has any unit animations running - means at last one units not in idle state
     /// used to disabled the turn button
     ///
     /// - Returns: `true`if all animations are finished
-    func areAnimationsFinished() -> Bool {
+    func animationsAreRunning(for leader: LeaderType) -> Bool {
 
-        var animationsFinished: Bool = true
+        var animationsAreRunning: Bool = false
 
-        for unitObject in self.unitObjects {
+        for unitObject in self.unitObjects where unitObject.unit?.leader == leader {
 
-            switch unitObject.currentAnimation {
+            if !unitObject.animationQueueEmpty() {
+                animationsAreRunning = true
+            }
 
-            case .idle:
+            if case .idle(location: _) = unitObject.currentAnimation {
                 // NOOP
-                break
-            default:
-                animationsFinished = false
+            } else {
+                animationsAreRunning = true
             }
         }
 
-        return animationsFinished
+        return animationsAreRunning
     }
 
     func show(unit: AbstractUnit?, at location: HexPoint) {
@@ -129,6 +130,7 @@ class UnitLayer: SKNode {
 
             // add to canvas
             unitObject.addTo(node: self)
+            unitObject.delegate = self
 
             // make idle
             // unitObject.showIdle()
@@ -173,6 +175,22 @@ class UnitLayer: SKNode {
 
             unitObject.fortify()
             // unitObject.showFortified()
+        }
+    }
+
+    func attack(unit: AbstractUnit?, from source: HexPoint, towards location: HexPoint) {
+
+        if let unitObject = self.unitObject(of: unit) {
+
+            unitObject.attack(from: source, towards: location)
+        }
+    }
+
+    func rangeAttack(unit: AbstractUnit?, from source: HexPoint, towards location: HexPoint) {
+
+        if let unitObject = self.unitObject(of: unit) {
+
+            unitObject.rangeAttack(from: source, towards: location)
         }
     }
 
@@ -231,7 +249,7 @@ class UnitLayer: SKNode {
         }
     }
 
-    func clearAttackFocus() {
+    func hideAttackFocus() {
 
         for attackFocusNode in self.attackFocusNodes {
             attackFocusNode?.removeFromParent()
@@ -477,5 +495,14 @@ class UnitLayer: SKNode {
                 self.unitObjects.removeAll(where: { $0.identifier == unitObject.identifier })
             }
         }
+    }
+}
+
+extension UnitLayer: UnitObjectDelegate {
+
+    func clearFocus() {
+
+        self.hideFocus()
+        self.hideAttackFocus()
     }
 }

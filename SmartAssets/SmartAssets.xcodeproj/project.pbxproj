@@ -89,6 +89,8 @@
 		C9AC100126DE68A800B65288 /* UnitPromotionTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC100026DE68A800B65288 /* UnitPromotionTypeExtension.swift */; };
 		C9B60BF2269DCF6500F10177 /* PantheonTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B60BF1269DCF6500F10177 /* PantheonTypeExtension.swift */; };
 		C9B71F12278F09210091BADD /* Religions.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9B71F11278F09210091BADD /* Religions.strings */; };
+		C9B806FD28259B34002DF8E4 /* arrow.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9B806FC28259B34002DF8E4 /* arrow.slp */; };
+		C9B807002825BEC3002DF8E4 /* projectile.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9B806FE2825BEC1002DF8E4 /* projectile.slp */; };
 		C9BB56DA276915FD00053AE7 /* Civics.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9BB56D9276915FD00053AE7 /* Civics.strings */; };
 		C9BB56DC27692FE600053AE7 /* Civilizations.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9BB56DB27692FE600053AE7 /* Civilizations.strings */; };
 		C9C1699927DCF61000E61088 /* Leaders.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9C1699827DCF61000E61088 /* Leaders.strings */; };
@@ -120,6 +122,9 @@
 		C9E87BC1264DB54900514B9A /* DistrictTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BC0264DB54900514B9A /* DistrictTypeExtension.swift */; };
 		C9E87BC3264DB58100514B9A /* BuildTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BC2264DB58100514B9A /* BuildTypeExtension.swift */; };
 		C9EA3CD7281D3893005ECCFF /* MapMarkerTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EA3CD6281D3893005ECCFF /* MapMarkerTypeExtension.swift */; };
+		C9EA3CE72820FE77005ECCFF /* slinger-walk.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9EA3CE42820FE74005ECCFF /* slinger-walk.slp */; };
+		C9EA3CE82820FE77005ECCFF /* slinger-attack.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9EA3CE52820FE75005ECCFF /* slinger-attack.slp */; };
+		C9EA3CE92820FE77005ECCFF /* slinger-idle.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9EA3CE62820FE76005ECCFF /* slinger-idle.slp */; };
 		C9F9638D27C56DED00073CC7 /* SlpFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F9638C27C56DED00073CC7 /* SlpFile.swift */; };
 		C9F9639F27C6423800073CC7 /* SlpLoadingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F9639D27C6422300073CC7 /* SlpLoadingTests.swift */; };
 		C9F963A227C6429000073CC7 /* merchant-idle.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9F963A127C6429000073CC7 /* merchant-idle.slp */; };
@@ -237,6 +242,8 @@
 		C9AC100026DE68A800B65288 /* UnitPromotionTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitPromotionTypeExtension.swift; sourceTree = "<group>"; };
 		C9B60BF1269DCF6500F10177 /* PantheonTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantheonTypeExtension.swift; sourceTree = "<group>"; };
 		C9B71F11278F09210091BADD /* Religions.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Religions.strings; sourceTree = "<group>"; };
+		C9B806FC28259B34002DF8E4 /* arrow.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = arrow.slp; sourceTree = "<group>"; };
+		C9B806FE2825BEC1002DF8E4 /* projectile.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = projectile.slp; sourceTree = "<group>"; };
 		C9BB56D9276915FD00053AE7 /* Civics.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Civics.strings; sourceTree = "<group>"; };
 		C9BB56DB27692FE600053AE7 /* Civilizations.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Civilizations.strings; sourceTree = "<group>"; };
 		C9C1699827DCF61000E61088 /* Leaders.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Leaders.strings; sourceTree = "<group>"; };
@@ -268,6 +275,9 @@
 		C9E87BC0264DB54900514B9A /* DistrictTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictTypeExtension.swift; sourceTree = "<group>"; };
 		C9E87BC2264DB58100514B9A /* BuildTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildTypeExtension.swift; sourceTree = "<group>"; };
 		C9EA3CD6281D3893005ECCFF /* MapMarkerTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkerTypeExtension.swift; sourceTree = "<group>"; };
+		C9EA3CE42820FE74005ECCFF /* slinger-walk.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "slinger-walk.slp"; sourceTree = "<group>"; };
+		C9EA3CE52820FE75005ECCFF /* slinger-attack.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "slinger-attack.slp"; sourceTree = "<group>"; };
+		C9EA3CE62820FE76005ECCFF /* slinger-idle.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "slinger-idle.slp"; sourceTree = "<group>"; };
 		C9F9638C27C56DED00073CC7 /* SlpFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlpFile.swift; sourceTree = "<group>"; };
 		C9F9639D27C6422300073CC7 /* SlpLoadingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlpLoadingTests.swift; sourceTree = "<group>"; };
 		C9F963A127C6429000073CC7 /* merchant-idle.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "merchant-idle.slp"; sourceTree = "<group>"; };
@@ -501,10 +511,15 @@
 			isa = PBXGroup;
 			children = (
 				C9E80CD127C7CCE60048216B /* AOE1_50500.pal */,
+				C9B806FC28259B34002DF8E4 /* arrow.slp */,
+				C9B806FE2825BEC1002DF8E4 /* projectile.slp */,
 				C9E80CCA27C7BE360048216B /* caravane-idle.slp */,
 				C9E80CC927C7BE350048216B /* caravane-walk.slp */,
 				C9E80CCF27C7CCC70048216B /* merchant-idle.slp */,
 				C9CB992027C6C17D00946E77 /* merchant-walk.slp */,
+				C9EA3CE52820FE75005ECCFF /* slinger-attack.slp */,
+				C9EA3CE62820FE76005ECCFF /* slinger-idle.slp */,
+				C9EA3CE42820FE74005ECCFF /* slinger-walk.slp */,
 			);
 			path = Slps;
 			sourceTree = "<group>";
@@ -624,16 +639,19 @@
 			files = (
 				C9E6762D27CC238C009514CB /* CityStates.strings in Resources */,
 				C9C1699927DCF61000E61088 /* Leaders.strings in Resources */,
+				C9B807002825BEC3002DF8E4 /* projectile.slp in Resources */,
 				C9A0984E261CB6930098C5E1 /* crossbowman.png in Resources */,
 				C9A09852261CB6930098C5E1 /* builder.xml in Resources */,
 				C9A09859261CB6930098C5E1 /* spearman.xml in Resources */,
 				C9A25C1327023BD50071B186 /* prophet.xml in Resources */,
 				C9A09851261CB6930098C5E1 /* archer.xml in Resources */,
+				C9EA3CE72820FE77005ECCFF /* slinger-walk.slp in Resources */,
 				C9BB56DC27692FE600053AE7 /* Civilizations.strings in Resources */,
 				C988EAE7261B916800300C39 /* Units.xcassets in Resources */,
 				C9022F962608ED1500C6773A /* Icons.xcassets in Resources */,
 				C9BB56DA276915FD00053AE7 /* Civics.strings in Resources */,
 				C9E80CD027C7CCC70048216B /* merchant-idle.slp in Resources */,
+				C9B806FD28259B34002DF8E4 /* arrow.slp in Resources */,
 				C9C234A52768EEB400905C97 /* CityNames.strings in Resources */,
 				C970A5F62794876300381603 /* Wonders.strings in Resources */,
 				C9CD3193278CB711002D53C4 /* Moments.strings in Resources */,
@@ -654,6 +672,7 @@
 				C9A09853261CB6930098C5E1 /* horseman.xml in Resources */,
 				C970A5F42794841F00381603 /* Governments.strings in Resources */,
 				C91C92AA276533EB009A1167 /* Localizable.strings in Resources */,
+				C9EA3CE82820FE77005ECCFF /* slinger-attack.slp in Resources */,
 				C9A09857261CB6930098C5E1 /* archer.png in Resources */,
 				C9A09849261CB6930098C5E1 /* man_at_arms.png in Resources */,
 				C9A0984C261CB6930098C5E1 /* warrior.png in Resources */,
@@ -664,6 +683,7 @@
 				C9A09846261CB6930098C5E1 /* knight.xml in Resources */,
 				C98E68B72577D8C900BD93CA /* Tiles.xcassets in Resources */,
 				C9A09858261CB6930098C5E1 /* warrior.xml in Resources */,
+				C9EA3CE92820FE77005ECCFF /* slinger-idle.slp in Resources */,
 				C9E80CCC27C7BE360048216B /* caravane-idle.slp in Resources */,
 				C9A0984A261CB6930098C5E1 /* pikeman.xml in Resources */,
 				C92D6B8E27D9D88A002EA5C5 /* Diplomacy.strings in Resources */,

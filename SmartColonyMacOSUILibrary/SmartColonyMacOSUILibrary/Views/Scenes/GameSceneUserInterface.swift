@@ -91,7 +91,7 @@ extension GameScene: UserInterfaceDelegate {
         DispatchQueue.main.async {
             self.mapNode?.unitLayer.hideFocus()
             self.mapNode?.unitLayer.clearPathSpriteBuffer()
-            self.mapNode?.unitLayer.clearAttackFocus()
+            self.mapNode?.unitLayer.hideAttackFocus()
             self.viewModel?.delegate?.selectedCity = nil
             self.viewModel?.delegate?.selectedUnit = nil
             self.viewModel?.combatUnitTarget = nil
@@ -157,19 +157,46 @@ extension GameScene: UserInterfaceDelegate {
 
     func animate(unit: AbstractUnit?, animation: UnitAnimationType) {
 
-        /*if animation == .fortify {
+        switch animation {
+
+        case .fortify:
             DispatchQueue.main.async {
                 self.mapNode?.unitLayer.fortify(unit: unit)
             }
-        } else {
+
+        case .attack(let from, let to):
+            DispatchQueue.main.async {
+                self.mapNode?.unitLayer.attack(unit: unit, from: from, towards: to)
+            }
+
+        case .rangeAttack(let from, let to):
+            DispatchQueue.main.async {
+                self.mapNode?.unitLayer.rangeAttack(unit: unit, from: from, towards: to)
+            }
+
+        default:
             print("cant show unknown animation: \(animation)")
-        }*/
+        }
+    }
+
+    func animate(city: AbstractCity?, animation: CityAnimationType) {
+
+        switch animation {
+
+        case .rangeAttack(_, let to):
+            DispatchQueue.main.async {
+                self.mapNode?.cityLayer.rangeAttackUnit(at: to, by: city)
+            }
+
+        default:
+            print("cant show unknown animation: \(animation)")
+        }
     }
 
     func clearAttackFocus() {
 
         DispatchQueue.main.async {
-            self.mapNode?.unitLayer.clearAttackFocus()
+            self.mapNode?.unitLayer.hideAttackFocus()
         }
     }
 
@@ -451,5 +478,14 @@ extension GameScene: UserInterfaceDelegate {
     func focus(on location: HexPoint) {
 
         self.viewModel?.focus(on: location)
+    }
+
+    func animationsAreRunning(for leader: LeaderType) -> Bool {
+
+        guard let mapNode = self.mapNode else {
+            return false
+        }
+
+        return mapNode.unitLayer.animationsAreRunning(for: leader)
     }
 }

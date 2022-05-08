@@ -136,7 +136,7 @@ class MapNode: SKNode {
         self.addChild(self.improvementLayer)
         self.addChild(self.borderLayer)
         self.addChild(self.tooltipLayer)
-        self.addChild(self.hexCoordLayer) // ???
+        // self.addChild(self.hexCoordLayer) // ???
         self.addChild(self.districtLayer)
         self.addChild(self.wonderLayer)
         self.addChild(self.mapMarkerLayer)
@@ -336,6 +336,10 @@ class MapNode: SKNode {
     }
 
     func update(tile: AbstractTile?) {
+
+        guard let point = tile?.point else {
+            fatalError("cant get tile location")
+        }
 
         self.terrainLayer.update(tile: tile)
         self.featureLayer.update(tile: tile)

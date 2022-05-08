@@ -90,6 +90,7 @@ class BaseLayer: SKNode {
     var textures: Textures?
 
     var showCompleteMap: Bool = false
+    var wrapOverlap: Int = 0
 
     // MARK: constructor
 
@@ -112,16 +113,38 @@ class BaseLayer: SKNode {
 
         let mapSize = gameModel.mapSize()
 
+        self.wrapOverlap = mapSize.width() / 2
+
+        // try wrapping
         for x in 0..<mapSize.width() {
             for y in 0..<mapSize.height() {
-                if let tile = gameModel.tile(at: HexPoint(x: x, y: y)) {
+                let point: HexPoint = HexPoint(x: x, y: y)
+                if let tile = gameModel.tile(at: point) {
                     self.update(tile: tile)
                 }
             }
         }
     }
 
+    func alternatePoint(for point: HexPoint) -> HexPoint {
+
+        if point.x >= self.wrapOverlap {
+            return HexPoint(x: point.x - 2 * self.wrapOverlap, y: point.y)
+        }
+
+        if point.x < self.wrapOverlap {
+            return HexPoint(x: point.x + 2 * self.wrapOverlap, y: point.y)
+        }
+
+        return point
+    }
+
     func update(tile: AbstractTile?) {
+
+        fatalError("must be over written by all sub classes")
+    }
+
+    func clear(at point: HexPoint) {
 
         fatalError("must be over written by all sub classes")
     }

@@ -20,14 +20,18 @@ public extension SKNode {
         if let block = block {
             let completionAction = SKAction.run(block)
             let compositeAction = SKAction.sequence([action, completionAction])
-            run(compositeAction, withKey: withKey)
+            self.run(compositeAction, withKey: withKey)
         } else {
-            run(action, withKey: withKey)
+            self.run(action, withKey: withKey)
         }
     }
 }
 
 extension SKNode {
+
+    func actionForKeyIsRunning(key: String) -> Bool {
+        return self.action(forKey: key) != nil ? true : false
+    }
 
     var positionInScene: CGPoint? {
 
