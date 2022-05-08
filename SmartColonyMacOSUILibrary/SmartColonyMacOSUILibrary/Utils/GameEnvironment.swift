@@ -15,7 +15,7 @@ public struct MapDisplayOptions {
     public var showResourceMarkers: Bool = true
     public var showYields: Bool = false
     public var showCitizen: Bool = false
-    
+
     // lenses
     public var mapLens: MapLensType = .none
 

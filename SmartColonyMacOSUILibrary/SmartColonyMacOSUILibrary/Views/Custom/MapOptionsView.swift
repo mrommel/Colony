@@ -42,7 +42,7 @@ struct MapOptionsView: View {
                         Text("Show Yield Icons")
                     }
                     .toggleStyle(CheckboxSquareToggleStyle())
-                    
+
                     #if DEBUG
                     Divider()
 
