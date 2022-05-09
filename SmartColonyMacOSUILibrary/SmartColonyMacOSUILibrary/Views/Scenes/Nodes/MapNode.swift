@@ -148,6 +148,41 @@ class MapNode: SKNode {
 
     // MARK: methods
 
+    func refresh(with mapOptions: MapDisplayOptions) {
+
+        if mapOptions.showGrid {
+            self.showGrid()
+        } else {
+            self.hideGrid()
+        }
+
+        if mapOptions.showResourceMarkers {
+            self.showResourceMarker()
+        } else {
+            self.hideResourceMarker()
+        }
+
+        if mapOptions.showYields {
+            self.showYields()
+        } else {
+            self.hideYields()
+        }
+
+        if mapOptions.showHexCoordinates {
+            self.showHexCoords()
+        } else {
+            self.hideHexCoords()
+        }
+
+        if mapOptions.showCompleteMap {
+            self.showCompleteMap()
+        } else {
+            self.showVisibleMap()
+        }
+
+        self.set(mapLens: mapOptions.mapLens)
+    }
+
     func showYields() {
 
         if self.childNode(withName: YieldLayer.kName) == nil {
@@ -336,10 +371,6 @@ class MapNode: SKNode {
     }
 
     func update(tile: AbstractTile?) {
-
-        guard let point = tile?.point else {
-            fatalError("cant get tile location")
-        }
 
         self.terrainLayer.update(tile: tile)
         self.featureLayer.update(tile: tile)

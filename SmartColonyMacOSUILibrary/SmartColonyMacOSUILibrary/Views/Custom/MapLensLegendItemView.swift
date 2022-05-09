@@ -20,6 +20,8 @@ public struct MapLensLegendItemView: View {
                 .frame(width: 16, height: 16)
 
             Label(self.viewModel.legendTitle)
+
+            Spacer(minLength: 4)
         }
     }
 }

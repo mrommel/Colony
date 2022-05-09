@@ -378,23 +378,23 @@ public class GameViewModel: ObservableObject {
     // MARK: map display options
 
     @Published
+    public var mapOptionShowGrid: Bool = false {
+        didSet {
+            self.gameEnvironment.changeShowGrid(to: self.mapOptionShowGrid)
+        }
+    }
+
+    @Published
     public var mapOptionShowResourceMarkers: Bool = false {
         didSet {
-            self.gameEnvironment.displayOptions.value.showResourceMarkers = self.mapOptionShowResourceMarkers
+            self.gameEnvironment.changeShowResourceMarkers(to: self.mapOptionShowResourceMarkers)
         }
     }
 
     @Published
     public var mapOptionShowYields: Bool = false {
         didSet {
-            self.gameEnvironment.displayOptions.value.showYields = self.mapOptionShowYields
-        }
-    }
-
-    @Published
-    public var mapOptionShowGrid: Bool = false {
-        didSet {
-            self.gameEnvironment.displayOptions.value.showGrid = self.mapOptionShowGrid
+            self.gameEnvironment.changeShowYieldsMarkers(to: self.mapOptionShowYields)
         }
     }
 
@@ -403,14 +403,18 @@ public class GameViewModel: ObservableObject {
     @Published
     public var mapOptionShowHexCoordinates: Bool = false {
         didSet {
-            self.gameEnvironment.displayOptions.value.showHexCoordinates = self.mapOptionShowHexCoordinates
+            var displayOptions = self.gameEnvironment.displayOptions.value
+            displayOptions.showHexCoordinates = self.mapOptionShowHexCoordinates
+            self.gameEnvironment.displayOptions.send(displayOptions)
         }
     }
 
     @Published
     public var mapOptionShowCompleteMap: Bool = false {
         didSet {
-            self.gameEnvironment.displayOptions.value.showCompleteMap = self.mapOptionShowCompleteMap
+            var displayOptions = self.gameEnvironment.displayOptions.value
+            displayOptions.showCompleteMap = self.mapOptionShowCompleteMap
+            self.gameEnvironment.displayOptions.send(displayOptions)
         }
     }
 

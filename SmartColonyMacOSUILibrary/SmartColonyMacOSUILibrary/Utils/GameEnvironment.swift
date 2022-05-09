@@ -64,4 +64,25 @@ public class GameEnvironment: EnvironmentKey {
     public func moveCursor(to value: HexPoint) {
         self.cursor.send(value)
     }
+
+    public func changeShowGrid(to value: Bool) {
+
+        var displayOptions = self.displayOptions.value
+        displayOptions.showGrid = value
+        self.displayOptions.send(displayOptions)
+    }
+
+    public func changeShowResourceMarkers(to value: Bool) {
+
+        var displayOptions = self.displayOptions.value
+        displayOptions.showResourceMarkers = value
+        self.displayOptions.send(displayOptions)
+    }
+
+    public func changeShowYieldsMarkers(to value: Bool) {
+
+        var displayOptions = self.displayOptions.value
+        displayOptions.showYields = value
+        self.displayOptions.send(displayOptions)
+    }
 }

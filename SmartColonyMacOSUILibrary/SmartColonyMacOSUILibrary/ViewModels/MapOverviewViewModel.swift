@@ -497,26 +497,36 @@ extension MapOverviewViewModel: MapOptionsViewModelDelegate {
 
     func changeShowGrid(to value: Bool) {
 
-        self.gameEnvironment.displayOptions.value.showGrid = value
+        var displayOptions = self.gameEnvironment.displayOptions.value
+        displayOptions.showGrid = value
+        self.gameEnvironment.displayOptions.send(displayOptions)
     }
 
     func changeShowResourceIcons(to value: Bool) {
 
-        self.gameEnvironment.displayOptions.value.showResourceMarkers = value
+        var displayOptions = self.gameEnvironment.displayOptions.value
+        displayOptions.showResourceMarkers = value
+        self.gameEnvironment.displayOptions.send(displayOptions)
     }
 
     func changeShowYieldsIcons(to value: Bool) {
 
-        self.gameEnvironment.displayOptions.value.showYields = value
+        var displayOptions = self.gameEnvironment.displayOptions.value
+        displayOptions.showYields = value
+        self.gameEnvironment.displayOptions.send(displayOptions)
     }
 
     func changeShowHexCoords(to value: Bool) {
 
-        self.gameEnvironment.displayOptions.value.showHexCoordinates = value
+        var displayOptions = self.gameEnvironment.displayOptions.value
+        displayOptions.showHexCoordinates = value
+        self.gameEnvironment.displayOptions.send(displayOptions)
     }
 
     func changeShowCompleteMap(to value: Bool) {
 
-        self.gameEnvironment.displayOptions.value.showCompleteMap = value
+        var displayOptions = self.gameEnvironment.displayOptions.value
+        displayOptions.showCompleteMap = value
+        self.gameEnvironment.displayOptions.send(displayOptions)
     }
 }

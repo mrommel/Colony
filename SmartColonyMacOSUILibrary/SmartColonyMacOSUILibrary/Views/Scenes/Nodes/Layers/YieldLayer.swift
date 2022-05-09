@@ -172,12 +172,10 @@ class YieldLayer: BaseLayer {
                 let alternatePoint = self.alternatePoint(for: originalPoint)
                 let alternateScreenPoint = HexPoint.toScreen(hex: alternatePoint)
 
+                // yields are only displayed for directly visible tiles
                 if tile.isVisible(to: self.player) || self.showCompleteMap {
                     self.placeTileHex(for: tile, and: originalPoint, at: originalScreenPoint, alpha: 1.0)
                     self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint, alpha: 1.0)
-                } else if tile.isDiscovered(by: self.player) {
-                    self.placeTileHex(for: tile, and: originalPoint, at: originalScreenPoint, alpha: 0.5)
-                    self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint, alpha: 0.5)
                 }
 
                 self.hasher?.update(hash: currentHashValue, at: tile.point)

@@ -265,7 +265,7 @@ extension GameViewModel {
         }
         print("- load \(unitTextures) unit textures")
 
-        // populate cache with ui textures
+        // populate cache with ui / misc textures
         let textureNames: [String] = [
             "water", "focus-attack1", "focus-attack2", "focus-attack3",
             "focus1", "focus2", "focus3", "focus4", "focus5", "focus6",
@@ -286,7 +286,7 @@ extension GameViewModel {
             "unit-canvas", "menu", "menu-background", "speed-standard", "city-states",
             "jump-to", "hint", "gossip-background", "remove",
             "suzerain-cultural", "suzerain-inactive", "suzerain-industrial", "suzerain-militaristic",
-            "suzerain-religious", "suzerain-scientific", "suzerain-trade"
+            "suzerain-religious", "suzerain-scientific", "suzerain-trade", "grid"
         ]
         print("- load \(textureNames.count) misc textures")
         for textureName in textureNames {

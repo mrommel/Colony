@@ -76,9 +76,9 @@ class GridLayer: BaseLayer {
     }
 
     /// handles all terrain
-    func placeWaterHex(for point: HexPoint, at position: CGPoint) {
+    func placeTileHex(for tile: AbstractTile, and point: HexPoint, at position: CGPoint) {
 
-        let image = ImageCache.shared.image(for: "grid") // <==
+        let image = ImageCache.shared.image(for: "grid")
 
         let gridSprite = SKSpriteNode(texture: SKTexture(image: image), size: GridLayer.kTextureSize)
         gridSprite.position = position
@@ -100,10 +100,6 @@ class GridLayer: BaseLayer {
 
     override func update(tile: AbstractTile?) {
 
-        guard let gameModel = self.gameModel else {
-            fatalError("gameModel not set")
-        }
-
         if let tile = tile {
 
             let point = tile.point
@@ -112,10 +108,14 @@ class GridLayer: BaseLayer {
 
                 self.clear(at: point)
 
-                let screenPoint = HexPoint.toScreen(hex: point)
+                let originalPoint = tile.point
+                let originalScreenPoint = HexPoint.toScreen(hex: originalPoint)
+                let alternatePoint = self.alternatePoint(for: originalPoint)
+                let alternateScreenPoint = HexPoint.toScreen(hex: alternatePoint)
 
-                if tile.isVisible(to: self.player) && gameModel.isFreshWater(at: point) || self.showCompleteMap {
-                    self.placeWaterHex(for: point, at: screenPoint)
+                if tile.isDiscovered(by: self.player) || self.showCompleteMap {
+                    self.placeTileHex(for: tile, and: originalPoint, at: originalScreenPoint)
+                    self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint)
                 }
 
                 self.hasher?.update(hash: currentHashValue, at: point)
