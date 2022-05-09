@@ -85,4 +85,18 @@ public class GameEnvironment: EnvironmentKey {
         displayOptions.showYields = value
         self.displayOptions.send(displayOptions)
     }
+
+    public func changeShowHexCoords(to value: Bool) {
+
+        var displayOptions = self.displayOptions.value
+        displayOptions.showHexCoordinates = value
+        self.displayOptions.send(displayOptions)
+    }
+
+    public func changeShowCompleteMap(to value: Bool) {
+
+        var displayOptions = self.displayOptions.value
+        displayOptions.showCompleteMap = value
+        self.displayOptions.send(displayOptions)
+    }
 }

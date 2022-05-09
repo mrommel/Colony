@@ -403,18 +403,14 @@ public class GameViewModel: ObservableObject {
     @Published
     public var mapOptionShowHexCoordinates: Bool = false {
         didSet {
-            var displayOptions = self.gameEnvironment.displayOptions.value
-            displayOptions.showHexCoordinates = self.mapOptionShowHexCoordinates
-            self.gameEnvironment.displayOptions.send(displayOptions)
+            self.gameEnvironment.changeShowHexCoords(to: self.mapOptionShowHexCoordinates)
         }
     }
 
     @Published
     public var mapOptionShowCompleteMap: Bool = false {
         didSet {
-            var displayOptions = self.gameEnvironment.displayOptions.value
-            displayOptions.showCompleteMap = self.mapOptionShowCompleteMap
-            self.gameEnvironment.displayOptions.send(displayOptions)
+            self.gameEnvironment.changeShowCompleteMap(to: self.mapOptionShowCompleteMap)
         }
     }
 

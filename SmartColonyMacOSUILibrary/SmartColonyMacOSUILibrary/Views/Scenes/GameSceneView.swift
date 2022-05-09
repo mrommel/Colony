@@ -73,36 +73,6 @@ struct GameSceneView: NSViewRepresentable {
             context.coordinator.gameScene?.zoom(to: self.magnification)
         }
 
-        if self.gameEnvironment.displayOptions.value.showHexCoordinates {
-            context.coordinator.gameScene?.showHexCoords()
-        } else {
-            context.coordinator.gameScene?.hideHexCoords()
-        }
-
-        if self.gameEnvironment.displayOptions.value.showCompleteMap {
-            context.coordinator.gameScene?.showCompleteMap()
-        } else {
-            context.coordinator.gameScene?.showVisibleMap()
-        }
-
-        if self.gameEnvironment.displayOptions.value.showYields {
-            context.coordinator.gameScene?.showYields()
-        } else {
-            context.coordinator.gameScene?.hideYields()
-        }
-
-        if self.gameEnvironment.displayOptions.value.showResourceMarkers {
-            context.coordinator.gameScene?.showResourceMarkers()
-        } else {
-            context.coordinator.gameScene?.hideResourceMarkers()
-        }
-
-        if self.gameEnvironment.displayOptions.value.showGrid {
-            context.coordinator.gameScene?.showGrid()
-        } else {
-            context.coordinator.gameScene?.hideGrid()
-        }
-
         context.coordinator.gameScene?.updateLayout()
     }
 }
