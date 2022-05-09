@@ -202,7 +202,7 @@ public class BaseMapHandler {
 
                     if let area = tile.area {
                         if area.number(of: ImprovementType.goodyHut) < ((area.points.count + tilesPerGoody / 2) / tilesPerGoody) {
-                            
+
                             if ImprovementType.goodyHut.isGoodyHutPossible(on: tile) {
                                 tile.set(improvement: ImprovementType.goodyHut)
                                 goodyHutsAdded += 1
