@@ -208,7 +208,7 @@ public class BaseMapHandler {
                                 goodyHutsAdded += 1
 
                                 // goodyhuts should not be to near to each other
-                                points.removeAll(where: { $0.distance(to: tile.point) <= goodyRange })
+                                points.removeAll(where: { $0.distance(to: tile.point, wrapX: grid.wrapX ? grid.size.width() : -1) <= goodyRange })
                             }
                         }
                     }
