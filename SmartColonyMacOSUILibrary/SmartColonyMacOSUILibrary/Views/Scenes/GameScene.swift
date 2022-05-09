@@ -223,9 +223,10 @@ class GameScene: BaseScene {
                 self.viewModel?.unFocus()
             }
 
-            if let mapLens = self.viewModel?.mapLens() {
-                self.mapNode?.set(mapLens: mapLens)
-                self.viewModel?.hideMapLens()
+            if let mapOptions = self.viewModel?.shouldRefreshMapOptions() {
+
+                self.mapNode?.refresh(with: mapOptions)
+                self.viewModel?.resetRefreshMapOptions()
             }
 
             self.lastExecuted = currentTime
@@ -843,14 +844,14 @@ extension GameScene {
         self.mapNode?.hideYields()
     }
 
-    func showWater() {
+    func showGrid() {
 
-        self.mapNode?.showWater()
+        self.mapNode?.showGrid()
     }
 
-    func hideWater() {
+    func hideGrid() {
 
-        self.mapNode?.hideWater()
+        self.mapNode?.hideGrid()
     }
 
     func showResourceMarkers() {

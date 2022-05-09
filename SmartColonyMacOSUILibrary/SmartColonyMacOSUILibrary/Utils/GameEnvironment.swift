@@ -11,15 +11,17 @@ import Combine
 
 public struct MapDisplayOptions {
 
+    public var showGrid: Bool = false
     public var showResourceMarkers: Bool = true
-    public var showWater: Bool = false
     public var showYields: Bool = false
     public var showCitizen: Bool = false
-    public var showCompleteMap: Bool = false
+
+    // lenses
     public var mapLens: MapLensType = .none
 
     // debug
     public var showHexCoordinates: Bool = false
+    public var showCompleteMap: Bool = false
 }
 
 extension EnvironmentValues {
@@ -61,5 +63,40 @@ public class GameEnvironment: EnvironmentKey {
 
     public func moveCursor(to value: HexPoint) {
         self.cursor.send(value)
+    }
+
+    public func changeShowGrid(to value: Bool) {
+
+        var displayOptions = self.displayOptions.value
+        displayOptions.showGrid = value
+        self.displayOptions.send(displayOptions)
+    }
+
+    public func changeShowResourceMarkers(to value: Bool) {
+
+        var displayOptions = self.displayOptions.value
+        displayOptions.showResourceMarkers = value
+        self.displayOptions.send(displayOptions)
+    }
+
+    public func changeShowYieldsMarkers(to value: Bool) {
+
+        var displayOptions = self.displayOptions.value
+        displayOptions.showYields = value
+        self.displayOptions.send(displayOptions)
+    }
+
+    public func changeShowHexCoords(to value: Bool) {
+
+        var displayOptions = self.displayOptions.value
+        displayOptions.showHexCoordinates = value
+        self.displayOptions.send(displayOptions)
+    }
+
+    public func changeShowCompleteMap(to value: Bool) {
+
+        var displayOptions = self.displayOptions.value
+        displayOptions.showCompleteMap = value
+        self.displayOptions.send(displayOptions)
     }
 }

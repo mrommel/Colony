@@ -13,7 +13,7 @@ public struct Globals {
     public struct ZLevels {
 
         public static let terrain: CGFloat = 1.0
-        public static let water: CGFloat = 1.1
+        public static let grid: CGFloat = 1.1
         public static let underwater: CGFloat = 1.2
         public static let caldera: CGFloat = 1.5
 

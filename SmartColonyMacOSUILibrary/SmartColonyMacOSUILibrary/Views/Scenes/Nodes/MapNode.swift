@@ -29,7 +29,7 @@ class MapNode: SKNode {
 
     // can be shown by map options
     var yieldLayer: YieldLayer
-    var waterLayer: WaterLayer
+    var gridLayer: GridLayer
     var hexCoordLayer: HexCoordLayer
     var mapLensLayer: MapLensLayer
     var mapMarkerLayer: MapMarkerLayer // default on
@@ -94,9 +94,9 @@ class MapNode: SKNode {
         self.yieldLayer.populate(with: self.game)
         self.yieldLayer.zPosition = Globals.ZLevels.yields
 
-        self.waterLayer = WaterLayer(player: humanPlayer)
-        self.waterLayer.populate(with: self.game)
-        self.waterLayer.zPosition = Globals.ZLevels.water
+        self.gridLayer = GridLayer(player: humanPlayer)
+        self.gridLayer.populate(with: self.game)
+        self.gridLayer.zPosition = Globals.ZLevels.grid
 
         self.tooltipLayer = TooltipLayer(player: humanPlayer)
         self.tooltipLayer.populate(with: self.game)
@@ -148,6 +148,41 @@ class MapNode: SKNode {
 
     // MARK: methods
 
+    func refresh(with mapOptions: MapDisplayOptions) {
+
+        if mapOptions.showGrid {
+            self.showGrid()
+        } else {
+            self.hideGrid()
+        }
+
+        if mapOptions.showResourceMarkers {
+            self.showResourceMarker()
+        } else {
+            self.hideResourceMarker()
+        }
+
+        if mapOptions.showYields {
+            self.showYields()
+        } else {
+            self.hideYields()
+        }
+
+        if mapOptions.showHexCoordinates {
+            self.showHexCoords()
+        } else {
+            self.hideHexCoords()
+        }
+
+        if mapOptions.showCompleteMap {
+            self.showCompleteMap()
+        } else {
+            self.showVisibleMap()
+        }
+
+        self.set(mapLens: mapOptions.mapLens)
+    }
+
     func showYields() {
 
         if self.childNode(withName: YieldLayer.kName) == nil {
@@ -176,17 +211,17 @@ class MapNode: SKNode {
         }
     }
 
-    func showWater() {
+    func showGrid() {
 
-        if self.childNode(withName: WaterLayer.kName) == nil {
-            self.addChild(self.waterLayer)
+        if self.childNode(withName: GridLayer.kName) == nil {
+            self.addChild(self.gridLayer)
         }
     }
 
-    func hideWater() {
+    func hideGrid() {
 
-        if self.childNode(withName: WaterLayer.kName) != nil {
-            self.waterLayer.removeFromParent()
+        if self.childNode(withName: GridLayer.kName) != nil {
+            self.gridLayer.removeFromParent()
         }
     }
 
@@ -270,8 +305,8 @@ class MapNode: SKNode {
         self.improvementLayer.rebuild()
         self.yieldLayer.showCompleteMap = true
         self.yieldLayer.rebuild()
-        self.waterLayer.showCompleteMap = true
-        self.waterLayer.rebuild()
+        self.gridLayer.showCompleteMap = true
+        self.gridLayer.rebuild()
         self.borderLayer.showCompleteMap = true
         self.borderLayer.rebuild()
         // self.addChild(self.tooltipLayer)
@@ -314,8 +349,8 @@ class MapNode: SKNode {
         self.improvementLayer.rebuild()
         self.yieldLayer.showCompleteMap = false
         self.yieldLayer.rebuild()
-        self.waterLayer.showCompleteMap = false
-        self.waterLayer.rebuild()
+        self.gridLayer.showCompleteMap = false
+        self.gridLayer.rebuild()
         self.borderLayer.showCompleteMap = false
         self.borderLayer.rebuild()
         // self.addChild(self.tooltipLayer)
@@ -337,10 +372,6 @@ class MapNode: SKNode {
 
     func update(tile: AbstractTile?) {
 
-        guard let point = tile?.point else {
-            fatalError("cant get tile location")
-        }
-
         self.terrainLayer.update(tile: tile)
         self.featureLayer.update(tile: tile)
         self.resourceLayer.update(tile: tile)
@@ -349,7 +380,7 @@ class MapNode: SKNode {
         self.improvementLayer.update(tile: tile)
         self.boardLayer.update(tile: tile)
         self.yieldLayer.update(tile: tile)
-        self.waterLayer.update(tile: tile)
+        self.gridLayer.update(tile: tile)
         self.borderLayer.update(tile: tile)
         self.hexCoordLayer.update(tile: tile)
         self.districtLayer.update(tile: tile)

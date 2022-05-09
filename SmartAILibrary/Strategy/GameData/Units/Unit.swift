@@ -4194,7 +4194,7 @@ public class Unit: AbstractUnit {
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
 
-            let turnsNeeded = path.count / self.moves()
+            let turnsNeeded = path.count / self.maxMoves(in: gameModel)
             return turnsNeeded <= turns
         }
 

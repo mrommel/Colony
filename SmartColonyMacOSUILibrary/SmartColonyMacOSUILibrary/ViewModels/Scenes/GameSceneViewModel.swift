@@ -24,7 +24,7 @@ public class GameSceneViewModel: ObservableObject {
     @Published
     var gameModel: GameModel? {
         willSet {
-            objectWillChange.send()
+            self.objectWillChange.send()
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
 
@@ -66,6 +66,7 @@ public class GameSceneViewModel: ObservableObject {
 
     private var centerOn: HexPoint?
     private var lens: MapLensType?
+    private var refreshMapOptions: MapDisplayOptions?
     internal var shouldRebuild: Bool = false
     internal var animationsAreRunning: Bool = false
 
@@ -82,6 +83,22 @@ public class GameSceneViewModel: ObservableObject {
         self.shouldRebuild = true
     }
 
+    public func update(with mapOptions: MapDisplayOptions?) {
+
+        // this will force MapNode to update
+        self.refreshMapOptions = mapOptions
+    }
+
+    public func shouldRefreshMapOptions() -> MapDisplayOptions? {
+
+        return self.refreshMapOptions
+    }
+
+    public func resetRefreshMapOptions() {
+
+        self.refreshMapOptions = nil
+    }
+
     func focus(on point: HexPoint) {
 
         self.centerOn = point
@@ -95,21 +112,6 @@ public class GameSceneViewModel: ObservableObject {
     func focus() -> HexPoint? {
 
         return self.centerOn
-    }
-
-    func show(mapLens: MapLensType) {
-
-        self.lens = mapLens
-    }
-
-    func hideMapLens() {
-
-        self.lens = nil
-    }
-
-    func mapLens() -> MapLensType? {
-
-        return self.lens
     }
 
     func updateRect(at point: HexPoint, size: CGSize) {

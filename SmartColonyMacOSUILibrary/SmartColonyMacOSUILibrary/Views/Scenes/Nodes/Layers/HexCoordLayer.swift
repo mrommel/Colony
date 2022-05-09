@@ -56,7 +56,7 @@ class HexCoordLayer: BaseLayer {
     override init(player: AbstractPlayer?) {
 
         super.init(player: player)
-        self.zPosition = Globals.ZLevels.water
+        self.zPosition = Globals.ZLevels.hexCoords
         self.name = HexCoordLayer.kName
     }
 

@@ -40,6 +40,8 @@ public struct MapOverviewView: View {
                 self.mapMarkerWaitingView
 
                 self.mapMarkersView
+
+                self.mapOptionsView
             }
 
             self.legendView
@@ -171,6 +173,17 @@ public struct MapOverviewView: View {
                             .strokeBorder(Color.white, lineWidth: 1)
                             .background(Color(Globals.Colors.dialogBackground))
                     )
+            )
+        } else {
+            return AnyView(EmptyView())
+        }
+    }
+
+    var mapOptionsView: some View {
+
+        if self.viewModel.showMapOptions {
+            return AnyView(
+                MapOptionsView(viewModel: self.viewModel.mapOptionsViewModel)
             )
         } else {
             return AnyView(EmptyView())
