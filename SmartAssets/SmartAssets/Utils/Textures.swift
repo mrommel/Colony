@@ -190,6 +190,17 @@ public class Textures {
         return textureName
     }
 
+    public func featureTextureIsUpper(for tile: AbstractTile) -> Bool {
+
+        let feature: FeatureType = tile.feature()
+
+        if feature == .forest || feature == .rainforest {
+            return true
+        }
+
+        return false
+    }
+
     public func riverTexture(at point: HexPoint) -> String? {
 
         guard let game = self.gameModel else {

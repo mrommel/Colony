@@ -180,7 +180,7 @@ public class BaseMapHandler {
     }
 
     // CvMapGenerator::addGoodies()
-    func addGoodies(on grid: MapModel?) {
+    func addGoodyHuts(on grid: MapModel?) {
 
         guard let grid = grid else {
             fatalError("cant get grid")
@@ -188,19 +188,11 @@ public class BaseMapHandler {
 
         grid.analyze()
 
-        var points: [HexPoint] = []
-
-        for x in 0..<grid.size.width() {
-            for y in 0..<grid.size.height() {
-                points.append(HexPoint(x: x, y: y))
-            }
-        }
-
-        points.shuffle()
+        var points: [HexPoint] = grid.points().shuffled
 
         let tilesPerGoody = 40
         var goodyHutsAdded: Int = 0
-        // <GoodyRange>3</GoodyRange>
+        let goodyRange: Int = 3
 
         for point in points {
 
@@ -210,9 +202,13 @@ public class BaseMapHandler {
 
                     if let area = tile.area {
                         if area.number(of: ImprovementType.goodyHut) < ((area.points.count + tilesPerGoody / 2) / tilesPerGoody) {
+                            
                             if ImprovementType.goodyHut.isGoodyHutPossible(on: tile) {
                                 tile.set(improvement: ImprovementType.goodyHut)
                                 goodyHutsAdded += 1
+
+                                // goodyhuts should not be to near to each other
+                                points.removeAll(where: { $0.distance(to: tile.point) <= goodyRange })
                             }
                         }
                     }

@@ -22,6 +22,7 @@ public struct Globals {
         public static let river: CGFloat = 3.0
         public static let feature: CGFloat = 3.2
         public static let path: CGFloat = 3.3
+        public static let featureUpper: CGFloat = 3.5
         public static let resource: CGFloat = 3.9
 
         public static let improvement: CGFloat = 4.0

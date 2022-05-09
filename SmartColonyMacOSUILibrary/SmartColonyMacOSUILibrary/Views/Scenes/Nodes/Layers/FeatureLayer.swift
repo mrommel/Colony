@@ -259,6 +259,7 @@ class FeatureLayer: BaseLayer {
         if feature != .none {
 
             var textureName: String?
+            var upperTexture: Bool = false
 
             switch pattern {
 
@@ -267,6 +268,7 @@ class FeatureLayer: BaseLayer {
 
                     textureName = tmpTextureName
                 }
+                upperTexture = self.textures?.featureTextureIsUpper(for: tile) ?? false
 
             case .mountain3SE(tile: let tile):
 
@@ -331,7 +333,7 @@ class FeatureLayer: BaseLayer {
 
                 let featureSprite = SKSpriteNode(texture: SKTexture(image: image), size: FeatureLayer.kTextureSize)
                 featureSprite.position = position
-                featureSprite.zPosition = Globals.ZLevels.feature // feature.zLevel
+                featureSprite.zPosition = upperTexture ? Globals.ZLevels.featureUpper : Globals.ZLevels.feature
                 featureSprite.anchorPoint = CGPoint(x: 0, y: 0)
                 featureSprite.color = .black
                 featureSprite.colorBlendFactor = 1.0 - alpha
