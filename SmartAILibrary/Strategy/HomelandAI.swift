@@ -2212,6 +2212,7 @@ public class HomelandAI {
             }
         } else {
             print("builder has no directive")
+            unit.doCancelOrder(in: gameModel)
         }
 
         return false

@@ -97,7 +97,7 @@ public enum CityStateCategory {
         case .militaristic:
             return CityStateCategoryData(
                 name: "TXT_KEY_CITY_STATE_CATEGORY_MILITARISTIC_NAME",
-                color: .yellow,
+                color: .red,
                 firstEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_MILITARISTIC_FIRST_ENVOY_BONUS",
                 thirdEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_MILITARISTIC_THIRD_ENVOY_BONUS",
                 sixthEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_MILITARISTIC_SIXTH_ENVOY_BONUS"
@@ -124,7 +124,7 @@ public enum CityStateCategory {
         case .trade:
             return CityStateCategoryData(
                 name: "TXT_KEY_CITY_STATE_CATEGORY_TRADE_NAME",
-                color: .red,
+                color: .yellow,
                 firstEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_TRADE_FIRST_ENVOY_BONUS",
                 thirdEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_TRADE_THIRD_ENVOY_BONUS",
                 sixthEnvoyBonus: "TXT_KEY_CITY_STATE_CATEGORY_TRADE_SIXTH_ENVOY_BONUS"
