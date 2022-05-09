@@ -25,7 +25,7 @@ public class MapLoader: BaseMapHandler {
                 let map = try JSONDecoder().decode(MapModel.self, from: jsonData)
 
                 self.placeResources(on: map)
-                self.addGoodies(on: map)
+                self.addGoodyHuts(on: map)
 
                 let startPositioner = StartPositioner(on: map, for: numberOfPlayers, and: 3)
                 startPositioner.generateRegions()

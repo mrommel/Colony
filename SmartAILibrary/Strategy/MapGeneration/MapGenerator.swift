@@ -169,7 +169,7 @@ public class MapGenerator: BaseMapHandler {
 
         usleep(10000) // will sleep for 10 milliseconds
 
-        self.addGoodies(on: grid)
+        self.addGoodyHuts(on: grid)
 
         if let completionHandler = self.progressHandler {
             completionHandler(0.99, "TXT_KEY_MAP_GENERATOR_GOODIES")
