@@ -2367,7 +2367,7 @@ public class Unit: AbstractUnit {
 
                 if self.canMove(into: loopPlot.point, options: MoveOptions.none, in: gameModel) {
 
-                    if gameModel.unit(at: loopPlot.point, of: .combat) == nil {
+                    if gameModel.unit(at: loopPlot.point, of: self.unitMapType()) == nil {
                         if !loopPlot.hasOwner() || player.isEqual(to: loopPlot.owner()) {
 
                             if loopPlot.isDiscovered(by: player) {
@@ -4181,6 +4181,11 @@ public class Unit: AbstractUnit {
 
         guard let gameModel = gameModel else {
             fatalError("cant get game")
+        }
+
+        if self.location == point {
+            // already there
+            return true
         }
 
         let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(

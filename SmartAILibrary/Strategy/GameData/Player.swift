@@ -3123,9 +3123,6 @@ public class Player: AbstractPlayer {
             self.homelandAI?.doTurn(in: gameModel)
         } else {
 
-            // Update tactical AI
-            self.tacticalAI?.commandeerUnits(in: gameModel)
-
             // Now let the tactical AI run.  Putting it after the operations update allows units who have
             // just been handed off to the tactical AI to get a move in the same turn they switch between
             // AI subsystems

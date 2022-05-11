@@ -928,22 +928,29 @@ public class MapGenerator: BaseMapHandler {
 
 		self.springLocations.removeAll()
 
-		for x in 0..<width {
-			for y in 0..<height {
+        let springHeight = heightMap.maximum * 0.5
 
-				if let height = heightMap[x, y] {
-					if height > 0.8 {
-						let gridPoint = HexPoint(x: x, y: y)
+        for point in self.points().shuffled() {
 
-                        // make sure no neighbors
-                        let distancesToExistingSpringLocation = self.springLocations.map({ $0.distance(to: gridPoint) })
-                        if distancesToExistingSpringLocation.min() ?? 5 > 1 {
-                            self.springLocations.append(gridPoint)
+            if let height = heightMap[point] {
+                if height > springHeight {
+
+                    // make sure no neighbors
+                    let distancesToExistingSpringLocations = self.springLocations.map({ $0.distance(to: point) })
+
+                    if let minimalDistanceToExistingSpringLocations = distancesToExistingSpringLocations.min() {
+                        if minimalDistanceToExistingSpringLocations > 1 {
+                            self.springLocations.append(point)
                         }
-					}
-				}
-			}
-		}
+                    } else {
+                        // no distance yet
+                        self.springLocations.append(point)
+                    }
+                }
+            }
+        }
+
+        print("found \(self.springLocations.count) spring locations")
 	}
 
 	func add(rivers numberOfRivers: Int, on heightMap: HeightMap) -> [River] {

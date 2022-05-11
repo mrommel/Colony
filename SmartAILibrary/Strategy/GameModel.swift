@@ -493,7 +493,7 @@ open class GameModel: Codable {
                             } else {
 
                                 if player.hasReadyUnit(in: self) /*&& !player.GetTacticalAI()->IsInQueuedAttack(pReadyUnit))*/ {
-                                    let waitTime = 10
+                                    let waitTime = 5
 
                                     if self.turnSlice() - player.lastSliceMoved() > waitTime {
                                         print("GAME HANG - Please show and send save. Stuck units will have their turn ended so game can advance.")
@@ -1867,6 +1867,10 @@ open class GameModel: Codable {
     }
 
     func calculateInfluenceDistance(from cityLocation: HexPoint, to targetDestination: HexPoint, limit: Int, abc: Bool) -> Int {
+
+        if cityLocation == targetDestination {
+            return 0
+        }
 
         let influencePathfinderDataSource = InfluencePathfinderDataSource(in: self.map, cityLoction: cityLocation)
         let influencePathfinder = AStarPathfinder(with: influencePathfinderDataSource)

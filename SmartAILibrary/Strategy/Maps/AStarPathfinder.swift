@@ -9,8 +9,12 @@
 import Foundation
 
 public protocol PathfinderDataSource {
+
     func walkableAdjacentTilesCoords(forTileCoord tileCoord: HexPoint) -> [HexPoint]
     func costToMove(fromTileCoord: HexPoint, toAdjacentTileCoord toTileCoord: HexPoint) -> Double
+
+    func wrapX() -> Int
+    func useCache() -> Bool
 }
 
 /** A single step on the computed path; used by the A* pathfinding algorithm */
@@ -55,6 +59,91 @@ extension AStarPathStep: CustomDebugStringConvertible {
     }
 }
 
+struct AStarPathfinderCacheIdentifier {
+
+    let start: HexPoint
+    let end: HexPoint
+
+    init(start: HexPoint, end: HexPoint) {
+
+        self.start = start
+        self.end = end
+    }
+}
+
+extension AStarPathfinderCacheIdentifier: Hashable {
+
+    func hash(into hasher: inout Hasher) {
+
+        hasher.combine(self.start)
+        hasher.combine(self.end)
+    }
+
+    static func == (lhs: AStarPathfinderCacheIdentifier, rhs: AStarPathfinderCacheIdentifier) -> Bool {
+
+        return lhs.start == rhs.start && lhs.end == rhs.end
+    }
+}
+
+// https://dzenanhamzic.com/2016/12/19/a-star-a-algorithm-with-caching-java-implementation/
+class AStarPathfinderCache {
+
+    private var cache: [AStarPathfinderCacheIdentifier: HexPath]
+    private let serialQueue = DispatchQueue(label: "AStarPathfinderCache")
+
+    static let shared = AStarPathfinderCache()
+
+    private init() {
+
+        self.cache = [AStarPathfinderCacheIdentifier: HexPath]()
+    }
+
+    public func hasCached(for identifier: AStarPathfinderCacheIdentifier) -> Bool {
+
+        return self.serialQueue.sync {
+            self.cache[identifier] != nil
+        }
+    }
+
+    public func hasCached(start: HexPoint, end: HexPoint) -> Bool {
+
+        let identifier = AStarPathfinderCacheIdentifier(start: start, end: end)
+        return self.serialQueue.sync {
+            self.cache[identifier] != nil
+        }
+    }
+
+    public func path(for identifier: AStarPathfinderCacheIdentifier) -> HexPath {
+
+        return self.serialQueue.sync {
+            self.cache[identifier]!
+        }
+    }
+
+    public func path(start: HexPoint, end: HexPoint) -> HexPath {
+
+        let identifier = AStarPathfinderCacheIdentifier(start: start, end: end)
+        return self.serialQueue.sync {
+            self.cache[identifier]!
+        }
+    }
+
+    public func put(path: HexPath, for identifier: AStarPathfinderCacheIdentifier) {
+
+        self.serialQueue.sync {
+            self.cache[identifier] = path
+        }
+    }
+
+    public func put(path: HexPath, start: HexPoint, end: HexPoint) {
+
+        let identifier = AStarPathfinderCacheIdentifier(start: start, end: end)
+        self.serialQueue.sync {
+            self.cache[identifier] = path
+        }
+    }
+}
+
 /** A pathfinder based on the A* algorithm to find the shortest path between two locations */
 public class AStarPathfinder {
 
@@ -66,16 +155,53 @@ public class AStarPathfinder {
     }
 
     private func insertStep(step: AStarPathStep, inOpenSteps openSteps: inout [AStarPathStep]) {
+
         openSteps.append(step)
         openSteps = openSteps.sorted { return $0.fScore <= $1.fScore }
     }
 
     func hScoreFromCoord(fromCoord: HexPoint, toCoord: HexPoint) -> Double {
 
-        return Double(fromCoord.distance(to: toCoord))
+        return Double(fromCoord.distance(to: toCoord, wrapX: dataSource.wrapX()))
+    }
+
+    /**
+     * Concatenate new part of the route with pre-cached route
+     * @return Full route (new and cached one combined)
+     */
+    private func mergePathWithCache(fromTileCoord: HexPoint, toTileCoord: HexPoint, currentStep: AStarPathStep) -> HexPath? {
+
+        // print("this part of the path:["+ startNode.getLocation()+", to:"+ goal +"]is already in cache.");
+        var newPath = convertStepsToShortestPath(lastStep: currentStep)
+        let cachedSubRoute = AStarPathfinderCache.shared.path(start: currentStep.position, end: toTileCoord)
+
+        for index in 0..<cachedSubRoute.pathWithoutFirst().count {
+            let point = cachedSubRoute[index].0
+            let cost = cachedSubRoute[index].1
+            newPath.append(point: point, cost: cost)
+        }
+
+        // cache the whole route
+        AStarPathfinderCache.shared.put(path: newPath, start: fromTileCoord, end: toTileCoord)
+
+        // return result
+        return newPath
     }
 
     public func shortestPath(fromTileCoord: HexPoint, toTileCoord: HexPoint) -> HexPath? {
+
+        if fromTileCoord == toTileCoord {
+            return nil
+        }
+
+        // check if route has already once been found and return it from cache
+        if dataSource.useCache() {
+            if AStarPathfinderCache.shared.hasCached(start: fromTileCoord, end: toTileCoord) {
+                return AStarPathfinderCache.shared.path(start: fromTileCoord, end: toTileCoord)
+            }
+        }
+
+        // print("shortestPath( (x: \(fromTileCoord.x), y: \(fromTileCoord.y)) x (x: \(toTileCoord.x), y: \(toTileCoord.y)))")
 
         var closedSteps = Set<AStarPathStep>()
 
@@ -88,9 +214,24 @@ public class AStarPathfinder {
             let currentStep = openSteps.remove(at: 0)
             closedSteps.insert(currentStep)
 
+            // check if there is cached route from this node to the end
+            if dataSource.useCache() {
+                if AStarPathfinderCache.shared.hasCached(start: currentStep.position, end: toTileCoord) {
+                    return mergePathWithCache(fromTileCoord: fromTileCoord, toTileCoord: toTileCoord, currentStep: currentStep)
+                }
+            }
+
             // If the current step is the desired tile coordinate, we are done!
             if currentStep.position == toTileCoord {
-                return convertStepsToShortestPath(lastStep: currentStep)
+
+                let path = convertStepsToShortestPath(lastStep: currentStep)
+
+                // feed into cache
+                if dataSource.useCache() {
+                    AStarPathfinderCache.shared.put(path: path, start: fromTileCoord, end: toTileCoord)
+                }
+
+                return path
             }
 
             // Get the adjacent tiles coords of the current step
@@ -144,6 +285,10 @@ public class AStarPathfinder {
     }
 
     func doesPathExist(fromTileCoord: HexPoint, toTileCoord: HexPoint) -> Bool {
+
+        if fromTileCoord == toTileCoord {
+            return false
+        }
 
         return self.shortestPath(fromTileCoord: fromTileCoord, toTileCoord: toTileCoord) != nil
     }

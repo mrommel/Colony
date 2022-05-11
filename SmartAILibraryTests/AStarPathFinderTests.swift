@@ -11,6 +11,7 @@ import Foundation
 import XCTest
 @testable import SmartAILibrary
 
+// swiftlint:disable force_try type_body_length
 class AStarPathFinderTests: XCTestCase {
 
     func testUnitUnawarePathWithoutObstacle() {
@@ -373,7 +374,7 @@ class AStarPathFinderTests: XCTestCase {
         }
     }
 
-    func testUnitAwarePathWithoutWrapping() throws {
+    func testUnitIgnorePathWithoutWrapping() throws {
 
         // GIVEN
         let barbarianPlayer = Player(leader: .barbar, isHuman: false)
@@ -415,7 +416,49 @@ class AStarPathFinderTests: XCTestCase {
         }
     }
 
-    func testUnitAwarePathWithWrapping() throws {
+    func testUnitAwarePathWithoutWrapping() throws {
+
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let aiPlayer = Player(leader: .victoria, isHuman: false)
+        aiPlayer.initialize()
+
+        let humanPlayer = Player(leader: .alexander, isHuman: true)
+        humanPlayer.initialize()
+
+        let mapModel = MapUtils.mapFilled(with: .plains, sized: .duel, seed: 42, wrapX: false)
+
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
+
+        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
+            for: .walk,
+            for: humanPlayer,
+            unitMapType: .combat,
+            canEmbark: false,
+            canEnterOcean: false
+        )
+        let pathFinder = AStarPathfinder(with: pathFinderDataSource)
+
+        // WHEN
+        let path = pathFinder.shortestPath(fromTileCoord: HexPoint(x: 0, y: 2), toTileCoord: HexPoint(x: 31, y: 2))
+
+        // THEN
+        XCTAssertNotNil(path, "no path found")
+        if let path = path {
+            XCTAssertEqual(path.count, 31)
+            XCTAssertEqual(path.cost, 31.0)
+        }
+    }
+
+    func testUnitIgnorePathWithWrapping() throws {
 
         // GIVEN
         let barbarianPlayer = Player(leader: .barbar, isHuman: false)
@@ -438,6 +481,48 @@ class AStarPathFinderTests: XCTestCase {
         )
 
         let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
+            for: .walk,
+            for: humanPlayer,
+            unitMapType: .combat,
+            canEmbark: false,
+            canEnterOcean: false
+        )
+        let pathFinder = AStarPathfinder(with: pathFinderDataSource)
+
+        // WHEN
+        let path = pathFinder.shortestPath(fromTileCoord: HexPoint(x: 0, y: 2), toTileCoord: HexPoint(x: 31, y: 2))
+
+        // THEN
+        XCTAssertNotNil(path, "no path found")
+        if let path = path {
+            XCTAssertEqual(path.count, 1)
+            XCTAssertEqual(path.cost, 1.0)
+        }
+    }
+
+    func testUnitAwarePathWithWrapping() throws {
+
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let aiPlayer = Player(leader: .victoria, isHuman: false)
+        aiPlayer.initialize()
+
+        let humanPlayer = Player(leader: .alexander, isHuman: true)
+        humanPlayer.initialize()
+
+        let mapModel = MapUtils.mapFilled(with: .plains, sized: .duel, seed: 42, wrapX: true)
+
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
+
+        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
             for: .walk,
             for: humanPlayer,
             unitMapType: .combat,

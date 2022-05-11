@@ -136,13 +136,18 @@ public class TacticalAI: Codable {
     /// Update the AI for units
     func doTurn(in gameModel: GameModel?) {
 
+        // DropOldFocusAreas();
         self.findTacticalTargets(in: gameModel)
+
+        // do this after updating the target list!
+        self.recruitUnits(in: gameModel)
 
         // Loop through each dominance zone assigning moves
         self.processDominanceZones(in: gameModel)
     }
 
-    func commandeerUnits(in gameModel: GameModel?) {
+    /// Mark all the units that will be under tactical AI control this turn
+    func recruitUnits(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -166,7 +171,6 @@ public class TacticalAI: Codable {
                 if unit.task() == .explore || !unit.canMove() {
                     continue
                 } else if player.leader == .barbar {
-
                     // We want ALL the barbarians that are not guarding a camp
                     unit.set(tacticalMove: .unassigned)
                     self.currentTurnUnits.append(unit)

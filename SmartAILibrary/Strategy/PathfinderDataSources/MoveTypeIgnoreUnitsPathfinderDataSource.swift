@@ -31,14 +31,21 @@ class MoveTypeIgnoreUnitsPathfinderDataSource: PathfinderDataSource {
     let mapModel: MapModel?
     let movementType: UnitMovementType
     let player: AbstractPlayer?
+    let wrapXValue: Int
     let options: MoveTypeIgnoreUnitsOptions
 
-    init(in mapModel: MapModel?, for movementType: UnitMovementType, for player: AbstractPlayer?, options: MoveTypeIgnoreUnitsOptions) {
+    init(in mapModelRef: MapModel?, for movementType: UnitMovementType, for player: AbstractPlayer?, options: MoveTypeIgnoreUnitsOptions) {
 
-        self.mapModel = mapModel
+        self.mapModel = mapModelRef
         self.movementType = movementType
         self.player = player
         self.options = options
+
+        guard let mapModel = self.mapModel else {
+            fatalError("cant get mapModel")
+        }
+
+        self.wrapXValue = mapModel.wrapX ? mapModel.size.width() : -1
     }
 
     func walkableAdjacentTilesCoords(forTileCoord coord: HexPoint) -> [HexPoint] {
@@ -124,5 +131,15 @@ class MoveTypeIgnoreUnitsPathfinderDataSource: PathfinderDataSource {
         }
 
         return UnitMovementType.max
+    }
+
+    func wrapX() -> Int {
+
+        return self.wrapXValue
+    }
+
+    func useCache() -> Bool {
+
+        return false
     }
 }

@@ -31,15 +31,22 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
     let gameModel: GameModel?
     let movementType: UnitMovementType
     let player: AbstractPlayer?
+    let wrapXValue: Int
     let options: MoveTypeUnitAwareOptions
 
-    init(in gameModel: GameModel?, for movementType: UnitMovementType, for player: AbstractPlayer?, options: MoveTypeUnitAwareOptions) {
+    init(in gameModelRef: GameModel?, for movementType: UnitMovementType, for player: AbstractPlayer?, options: MoveTypeUnitAwareOptions) {
 
-        self.gameModel = gameModel
+        self.gameModel = gameModelRef
         self.movementType = movementType
         self.player = player
 
         self.options = options
+
+        guard let gameModel = gameModelRef else {
+            fatalError("cant get gameModel")
+        }
+
+        self.wrapXValue = gameModel.wrappedX() ? gameModel.mapSize().width() : -1
     }
 
     func walkableAdjacentTilesCoords(forTileCoord coord: HexPoint) -> [HexPoint] {
@@ -233,5 +240,15 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
         }
 
         return UnitMovementType.max
+    }
+
+    func wrapX() -> Int {
+
+        return self.wrapXValue
+    }
+
+    func useCache() -> Bool {
+
+        return true
     }
 }
