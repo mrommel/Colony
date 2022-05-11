@@ -2132,74 +2132,15 @@ public class Unit: AbstractUnit {
 
             if loopPlayer.isAlive() {
 
-                // Human can't be met by an AI spotting him.
-                // if !player.isHuman() || loopPlayer.isHuman() {
+                if newPlot.isVisible(to: loopPlayer) {
 
-                    if newPlot.isVisible(to: loopPlayer) {
+                    // check if we have met this guy already
+                    if !player.hasMet(with: loopPlayer) {
 
-                        // check if we have met this guy already
-                        if !player.hasMet(with: loopPlayer) {
-
-                            // do the hello, if not
-                            loopPlayer.doFirstContact(with: player, in: gameModel)
-                            player.doFirstContact(with: loopPlayer, in: gameModel)
-                        }
+                        // do the hello, if not
+                        loopPlayer.doFirstContact(with: player, in: gameModel)
+                        player.doFirstContact(with: loopPlayer, in: gameModel)
                     }
-                // }
-            }
-        }
-
-        // If a Unit is adjacent to someone's borders, meet them
-        for adjacentPoint in newLocation.neighbors() {
-
-            if let adjacentPlot = gameModel.tile(at: adjacentPoint) {
-
-                // Owned by someone
-                if let adjacentOwner = adjacentPlot.owner() {
-
-                    if !player.isEqual(to: adjacentOwner) && !player.hasMet(with: adjacentOwner) && adjacentOwner.isAlive() {
-                        diplomacyAI.doFirstContact(with: adjacentOwner, in: gameModel)
-                        adjacentOwner.doFirstContact(with: player, in: gameModel)
-                    }
-                }
-
-                // Have a naval unit here?
-                if self.isBarbarian() && self.domain() == .sea && adjacentPlot.terrain().isWater() {
-
-                    /*UnitHandle pAdjacentUnit = pAdjacentPlot->getBestDefender(NO_PLAYER, BARBARIAN_PLAYER, NULL, true);
-                    if (pAdjacentUnit)
-                    {
-                        GET_PLAYER(pAdjacentUnit->getOwner()).GetPlayerTraits()->CheckForBarbarianConversion(pAdjacentPlot);
-                    }*/
-                }
-
-                // Natural wonder that provides free promotions?
-                let feature = adjacentPlot.feature()
-                if feature.isNaturalWonder() {
-
-                    // check if wonder is discovered by player already
-                    if !player.hasDiscovered(naturalWonder: feature) {
-                        player.doDiscover(naturalWonder: feature)
-                        player.addMoment(of: .discoveryOfANaturalWonder(naturalWonder: feature), in: gameModel)
-
-                        if player.isHuman() {
-                            player.notifications()?.add(notification: .naturalWonderDiscovered(location: adjacentPoint))
-                        }
-                    }
-
-                    if !techs.eurekaTriggered(for: .astrology) {
-                        techs.triggerEureka(for: .astrology, in: gameModel)
-                    }
-
-                    /*PromotionTypes ePromotion = (PromotionTypes)GC.getFeatureInfo(eFeature)->getAdjacentUnitFreePromotion();
-                    if (ePromotion != NO_PROMOTION)
-                    {
-                        // Is this a valid Promotion for the UnitCombatType?
-                        if (m_pUnitInfo->GetUnitCombatType() != NO_UNITCOMBAT && ::IsPromotionValidForUnitCombatType(ePromotion, getUnitType()))
-                        {
-                            setHasPromotion(ePromotion, true);
-                        }
-                    }*/
                 }
             }
         }

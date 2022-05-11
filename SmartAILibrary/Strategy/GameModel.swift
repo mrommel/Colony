@@ -1937,6 +1937,29 @@ open class GameModel: Codable {
                     }
                 }
 
+                // found Natural wonder
+                let feature = tile.feature()
+                if feature.isNaturalWonder() {
+
+                    guard let techs = player.techs else {
+                        fatalError("cant get techs")
+                    }
+
+                    // check if wonder is discovered by player already
+                    if !player.hasDiscovered(naturalWonder: feature) {
+                        player.doDiscover(naturalWonder: feature)
+                        player.addMoment(of: .discoveryOfANaturalWonder(naturalWonder: feature), in: self)
+
+                        if player.isHuman() {
+                            player.notifications()?.add(notification: .naturalWonderDiscovered(location: location))
+                        }
+                    }
+
+                    if !techs.eurekaTriggered(for: .astrology) {
+                        techs.triggerEureka(for: .astrology, in: self)
+                    }
+                }
+
                 tile.sight(by: player)
                 tile.discover(by: player, in: self)
                 player.checkWorldCircumnavigated(in: self)
