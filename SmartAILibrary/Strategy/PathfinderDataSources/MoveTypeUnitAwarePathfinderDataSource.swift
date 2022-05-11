@@ -15,14 +15,16 @@ class MoveTypeUnitAwareOptions {
     let unitMapType: UnitMapType
     let canEmbark: Bool
     let canEnterOcean: Bool
+    let wrapX: Bool
 
-    init(ignoreSight: Bool = true, ignoreOwner: Bool = false, unitMapType: UnitMapType, canEmbark: Bool, canEnterOcean: Bool) {
+    init(ignoreSight: Bool = true, ignoreOwner: Bool = false, unitMapType: UnitMapType, canEmbark: Bool, canEnterOcean: Bool, wrapX: Bool) {
 
         self.ignoreSight = ignoreSight
         self.ignoreOwner = ignoreOwner
         self.unitMapType = unitMapType
         self.canEmbark = canEmbark
         self.canEnterOcean = canEnterOcean
+        self.wrapX = wrapX
     }
 }
 
@@ -46,7 +48,7 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
             fatalError("cant get gameModel")
         }
 
-        self.wrapXValue = gameModel.wrappedX() ? gameModel.mapSize().width() : -1
+        self.wrapXValue = gameModel.wrappedX() || options.wrapX ? gameModel.mapSize().width() : -1
     }
 
     func walkableAdjacentTilesCoords(forTileCoord coord: HexPoint) -> [HexPoint] {

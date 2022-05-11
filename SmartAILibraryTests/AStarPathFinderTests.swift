@@ -11,7 +11,7 @@ import Foundation
 import XCTest
 @testable import SmartAILibrary
 
-// swiftlint:disable force_try type_body_length
+// swiftlint:disable type_body_length
 class AStarPathFinderTests: XCTestCase {
 
     func testUnitUnawarePathWithoutObstacle() {

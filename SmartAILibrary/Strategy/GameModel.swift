@@ -1732,7 +1732,8 @@ open class GameModel: Codable {
             ignoreOwner: ignoreOwner,
             unitMapType: unitMapType,
             canEmbark: canEmbark,
-            canEnterOcean: canEnterOcean
+            canEnterOcean: canEnterOcean,
+            wrapX: self.map.wrapX
         )
         return MoveTypeUnitAwarePathfinderDataSource(in: self, for: movementType, for: player, options: options)
     }
