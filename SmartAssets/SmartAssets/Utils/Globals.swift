@@ -46,19 +46,18 @@ public struct Globals {
         public static let yields: CGFloat = 6.3
         public static let hexCoords: CGFloat = 6.95 // debug
 
-        public static let unit: CGFloat = 7.0
+        public static let mapLens: CGFloat = 7.0
+        public static let mapMarkers: CGFloat = 7.1
 
-        public static let unitType: CGFloat = 8.0
-
-        public static let unitStrength: CGFloat = 10.0
+        public static let unit: CGFloat = 8.0
+        public static let unitType: CGFloat = 8.1
+        public static let unitStrength: CGFloat = 8.2
 
         public static let citizen: CGFloat = 20.0
 
         public static let labels: CGFloat = 50.0
 
         public static let tooltips: CGFloat = 50.5
-        public static let mapLens: CGFloat = 50.7
-        public static let mapMarkers: CGFloat = 50.8
 
         public static let sceneElements: CGFloat = 51.0
         public static let dialogs: CGFloat = 52.0

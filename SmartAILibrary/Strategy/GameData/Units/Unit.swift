@@ -2331,7 +2331,9 @@ public class Unit: AbstractUnit {
         }
 
         if let bestPlot = bestPlot {
-            print("Jump to nearest valid plot within range by \(self.type) , X: \(bestPlot.point.x), Y: \(bestPlot.point.y), From X: \(self.location.x), Y: \(self.location.y)")
+            let fromString = "(x: \(self.location.x), y: \(self.location.y))"
+            let toString = "(x: \(bestPlot.point.x), y: \(bestPlot.point.y))"
+            print("Jump to nearest valid plot within range by \(self.type), from: \(fromString) to: \(toString)")
             self.set(location: bestPlot.point, in: gameModel)
             self.publishQueuedVisualizationMoves(in: gameModel)
         } else {
