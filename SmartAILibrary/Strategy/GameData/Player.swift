@@ -3857,17 +3857,17 @@ public class Player: AbstractPlayer {
             // If this is the first city (or we still aren't getting tech for some other reason) notify the player
             if techs.needToChooseTech() && self.science(in: gameModel) > 0.0 {
 
-                // if self.isActive() {
                 self.notifications()?.add(notification: .techNeeded)
-                // }
             }
 
             // If this is the first city (or ..) notify the player
             if civics.needToChooseCivic() && self.culture(in: gameModel, consume: false) > 0.0 {
 
-                // if self.isActive() {
                 self.notifications()?.add(notification: .civicNeeded)
-                // }
+            }
+
+            if isCapital {
+                self.notifications()?.add(notification: .policiesNeeded)
             }
 
         } else {

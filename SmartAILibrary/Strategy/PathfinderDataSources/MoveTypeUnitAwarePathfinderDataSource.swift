@@ -180,19 +180,19 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                                 allowMovement = true
                             } else if fromTile.isWater() && toTile.isWater() && self.options.canEmbark {
 
-                                let embarkedMovementCosts = toTile.movementCost(for: .swim, from: fromTile)
+                                let embarkedMovementCosts = toTile.movementCost(for: .swim, from: fromTile, wrapX: self.wrapXValue)
                                 if embarkedMovementCosts < UnitMovementType.max {
                                     allowMovement = true
                                 }
                             } else if fromTile.isLand() && toTile.isLand() {
 
-                                let normalMovementCosts = toTile.movementCost(for: self.movementType, from: fromTile)
+                                let normalMovementCosts = toTile.movementCost(for: self.movementType, from: fromTile, wrapX: self.wrapXValue)
                                 if normalMovementCosts < UnitMovementType.max {
                                     allowMovement = true
                                 }
                             }
                         } else {
-                            let normalMovementCosts = toTile.movementCost(for: self.movementType, from: fromTile)
+                            let normalMovementCosts = toTile.movementCost(for: self.movementType, from: fromTile, wrapX: self.wrapXValue)
                             if normalMovementCosts < UnitMovementType.max {
                                 allowMovement = true
                             }
@@ -233,11 +233,11 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                 } else if fromTile.isWater() && toTile.isLand() {
                     return 2.0
                 } else if fromTile.isWater() && toTile.isWater() {
-                    return toTile.movementCost(for: .swim, from: fromTile)
+                    return toTile.movementCost(for: .swim, from: fromTile, wrapX: self.wrapXValue)
                 }
             }
 
-            let normalMovementCosts = min(2, toTile.movementCost(for: self.movementType, from: fromTile))
+            let normalMovementCosts = min(2, toTile.movementCost(for: self.movementType, from: fromTile, wrapX: self.wrapXValue))
             return normalMovementCosts
         }
 

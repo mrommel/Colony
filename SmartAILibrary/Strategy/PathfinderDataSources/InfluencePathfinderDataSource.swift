@@ -78,7 +78,7 @@ class InfluencePathfinderDataSource: PathfinderDataSource {
             }
         }
 
-        if fromTile.isRiverToCross(towards: toTile) {
+        if fromTile.isRiverToCross(towards: toTile, wrapX: self.wrapXValue) {
             cost += 1 /* INFLUENCE_RIVER_COST */
         }
 

@@ -107,7 +107,7 @@ class MoveTypeIgnoreUnitsPathfinderDataSource: PathfinderDataSource {
 
                     if let fromTile = mapModel.tile(at: coord) {
 
-                        if toTile.movementCost(for: self.movementType, from: fromTile)  < UnitMovementType.max {
+                        if toTile.movementCost(for: self.movementType, from: fromTile, wrapX: self.wrapXValue)  < UnitMovementType.max {
                             walkableCoords.append(neighbor)
                         }
                     }
@@ -127,7 +127,7 @@ class MoveTypeIgnoreUnitsPathfinderDataSource: PathfinderDataSource {
         if let toTile = mapModel.tile(at: toTileCoord),
             let fromTile = mapModel.tile(at: fromTileCoord) {
 
-            return toTile.movementCost(for: self.movementType, from: fromTile)
+            return toTile.movementCost(for: self.movementType, from: fromTile, wrapX: self.wrapXValue)
         }
 
         return UnitMovementType.max

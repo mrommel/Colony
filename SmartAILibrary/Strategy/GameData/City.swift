@@ -4619,7 +4619,7 @@ public class City: AbstractCity {
             if let tile = gameModel.tile(at: self.location) {
 
                 if let attackerTile = gameModel.tile(at: attacker.location) {
-                    if tile.isRiverToCross(towards: attackerTile) {
+                    if tile.isRiverToCross(towards: attackerTile, wrapX: gameModel.wrappedX() ? gameModel.mapSize().width() : -1) {
                         modifiers.append(CombatModifier(value: 5, title: "River defense"))
                     }
                 }

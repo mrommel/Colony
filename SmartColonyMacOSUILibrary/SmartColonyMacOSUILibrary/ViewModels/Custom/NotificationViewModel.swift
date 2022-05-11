@@ -78,6 +78,20 @@ class NotificationViewModel: ObservableObject, Identifiable {
 
     func click() {
 
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        guard humanPlayer.isActive() else {
+            // only open dialog when human is active
+            self.expanded = false
+            return
+        }
+
         // we need to expand the details
         self.expanded = !self.expanded
 
