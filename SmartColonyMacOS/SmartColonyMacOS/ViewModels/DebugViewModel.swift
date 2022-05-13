@@ -123,7 +123,7 @@ class DebugViewModel: ObservableObject {
             try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
-                humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+                humanCity.buildQueue.append(item: BuildableItem(buildingType: .granary))
                 humanCity.assign(governor: .reyna)
             }
 
@@ -171,7 +171,7 @@ class DebugViewModel: ObservableObject {
             try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
-                humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+                humanCity.buildQueue.append(item: BuildableItem(buildingType: .granary))
             }
 
             let humanTraderUnit = Unit(at: HexPoint(x: 2, y: 6), type: .trader, owner: humanPlayer)
@@ -250,7 +250,7 @@ class DebugViewModel: ObservableObject {
                 fatalError()
             }
 
-            humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+            humanCity.buildQueue.append(item: BuildableItem(buildingType: .granary))
             humanPlayer.treasury?.changeGold(by: 1000)
 
             var x = 0
@@ -308,7 +308,7 @@ class DebugViewModel: ObservableObject {
             try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
-                humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+                humanCity.buildQueue.append(item: BuildableItem(buildingType: .granary))
                 try! humanCity.districts?.build(district: .holySite, at: HexPoint(x: 3, y: 4))
             }
 
@@ -371,7 +371,7 @@ class DebugViewModel: ObservableObject {
             try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
-                humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+                humanCity.buildQueue.append(item: BuildableItem(buildingType: .granary))
 
                 humanCity.assign(governor: .amani)
 
@@ -429,7 +429,7 @@ class DebugViewModel: ObservableObject {
             try! humanPlayer.civics?.discover(civic: .militaryTradition, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
-                humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+                humanCity.buildQueue.append(item: BuildableItem(buildingType: .granary))
             }
 
             humanPlayer.doFirstContact(with: aiPlayer, in: gameModel)
@@ -644,7 +644,7 @@ class DebugViewModel: ObservableObject {
             try! humanPlayer.civics?.setCurrent(civic: .codeOfLaws, in: gameModel)
 
             if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
-                humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+                humanCity.buildQueue.append(item: BuildableItem(buildingType: .granary))
             }
 
             // add scout units

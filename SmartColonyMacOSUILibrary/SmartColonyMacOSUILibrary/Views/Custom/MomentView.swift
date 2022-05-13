@@ -26,8 +26,9 @@ struct MomentView: View {
                 .frame(width: 184, height: 134)
                 .padding(.all, 8)
 
-            Label(self.viewModel.summaryText)
-                .toolTip(self.viewModel.tooltipText)
+            TooltipContainerView(self.viewModel.tooltipText) {
+                Label(self.viewModel.summaryText)
+            }
 
             HStack {
 

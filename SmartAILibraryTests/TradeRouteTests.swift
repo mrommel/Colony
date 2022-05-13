@@ -80,7 +80,7 @@ class TradeRouteTests: XCTestCase {
         try! humanPlayer.government?.set(policyCardSet: PolicyCardSet(cards: [.godKing, .discipline]))
 
         if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
-            humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+            humanCity.buildQueue.append(item: BuildableItem(buildingType: .granary))
         }
 
         let traderUnit = Unit(at: HexPoint(x: 2, y: 4), type: .trader, owner: humanPlayer)
@@ -178,13 +178,13 @@ class TradeRouteTests: XCTestCase {
         humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
 
         if let humanCapital = gameModel.city(at: HexPoint(x: 3, y: 5)) {
-            humanCapital.buildQueue.add(item: BuildableItem(buildingType: .granary))
+            humanCapital.buildQueue.append(item: BuildableItem(buildingType: .granary))
         }
 
         // Human - city 2
         humanPlayer.found(at: HexPoint(x: 8, y: 5), named: "Human City", in: gameModel)
         let humanCity = gameModel.city(at: HexPoint(x: 8, y: 5))
-        humanCity?.buildQueue.add(item: BuildableItem(buildingType: .granary))
+        humanCity?.buildQueue.append(item: BuildableItem(buildingType: .granary))
 
         let traderUnit = Unit(at: HexPoint(x: 4, y: 5), type: .trader, owner: humanPlayer)
         traderUnit.origin = HexPoint(x: 3, y: 5)
@@ -291,7 +291,7 @@ class TradeRouteTests: XCTestCase {
         humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
 
         if let humanCapital = gameModel.city(at: HexPoint(x: 3, y: 5)) {
-            humanCapital.buildQueue.add(item: BuildableItem(buildingType: .granary))
+            humanCapital.buildQueue.append(item: BuildableItem(buildingType: .granary))
         }
 
         // City State - city 2

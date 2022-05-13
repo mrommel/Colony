@@ -66,14 +66,15 @@ struct UnitBannerView: View {
     private var commandsView: some View {
 
         HStack(alignment: .bottom, spacing: 1) {
-            Image(nsImage: self.viewModel.listImage())
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 32, height: 32)
-                .onTapGesture {
-                    self.viewModel.listClicked()
-                }
-                .toolTip("Unit list")
+            TooltipContainerView("Unit list") {
+                Image(nsImage: self.viewModel.listImage())
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 32, height: 32)
+                    .onTapGesture {
+                        self.viewModel.listClicked()
+                    }
+            }
 
             Spacer()
                 .frame(minHeight: 0, maxHeight: 50)

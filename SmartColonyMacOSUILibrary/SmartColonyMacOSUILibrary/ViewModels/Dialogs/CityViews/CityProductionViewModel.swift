@@ -102,7 +102,7 @@ class CityProductionViewModel: ObservableObject {
 
                 if districts.has(district: districtType) {
 
-                    let districtModel = DistrictViewModel(districtType: districtType, active: true)
+                    let districtModel = DistrictViewModel(districtType: districtType, at: HexPoint.invalid, active: true)
                     districtModel.delegate = self
 
                     // filter buildingTypes
@@ -132,7 +132,7 @@ class CityProductionViewModel: ObservableObject {
                     let productionCost = districtType.productionCost()
                     let productionPerTurn = city.productionPerTurn(in: gameModel)
                     let turns = productionPerTurn > 0 ? Int(ceil(Double(productionCost) / productionPerTurn)) : 1000
-                    let districtModel = DistrictViewModel(districtType: districtType, turns: turns, active: false)
+                    let districtModel = DistrictViewModel(districtType: districtType, at: HexPoint.invalid, turns: turns, active: false)
                     districtModel.delegate = self
                     return DistrictSectionViewModel(districtViewModel: districtModel, buildingViewModels: [])
                 }
@@ -147,7 +147,7 @@ class CityProductionViewModel: ObservableObject {
                 let productionCost = wonderType.productionCost()
                 let productionPerTurn = city.productionPerTurn(in: gameModel)
                 let turns = productionPerTurn > 0 ? Int(ceil(Double(productionCost) / productionPerTurn)) : 1000
-                let wonderViewModel = WonderViewModel(wonderType: wonderType, turns: turns)
+                let wonderViewModel = WonderViewModel(wonderType: wonderType, at: HexPoint.invalid, turns: turns)
                 wonderViewModel.delegate = self
                 return wonderViewModel
             }
@@ -156,6 +156,98 @@ class CityProductionViewModel: ObservableObject {
             self.hexagonGridViewModel.update(for: city, with: gameModel)
             self.hexagonGridViewModel.updateWorkingTiles(in: gameModel)
             self.showLocationPicker = false
+        }
+    }
+
+    func onDroppedQueueItem(at index: Int, _ items: [NSItemProvider]) {
+
+        if let firstProviderItem: NSItemProvider = items.first {
+
+            firstProviderItem.loadObject(ofClass: UnitViewModel.self) { viewModelRepresentation, _ in
+
+                if let unitViewModel = viewModelRepresentation as? UnitViewModel {
+
+                    // remove at old location
+                    if let oldIndex = self.queueViewModels.firstIndex(where: { $0.uuid == unitViewModel.uuid }) {
+                        self.city?.buildQueue.remove(at: oldIndex)
+
+                        let newIndex = index < oldIndex ? index : index - 1
+
+                        // add item at new Index
+                        self.city?.buildQueue.insert(item: BuildableItem(unitType: unitViewModel.unitType), at: newIndex)
+                    }
+
+                    // rebuild visible queue
+                    DispatchQueue.main.async {
+                        self.updateBuildQueue()
+                    }
+                }
+            }
+
+            firstProviderItem.loadObject(ofClass: BuildingViewModel.self) { viewModelRepresentation, _ in
+
+                if let buildingViewModel = viewModelRepresentation as? BuildingViewModel {
+
+                    // remove at old location
+                    if let oldIndex = self.queueViewModels.firstIndex(where: { $0.uuid == buildingViewModel.uuid }) {
+                        self.city?.buildQueue.remove(at: oldIndex)
+
+                        let newIndex = index < oldIndex ? index : index - 1
+
+                        // add item at new Index
+                        self.city?.buildQueue.insert(item: BuildableItem(buildingType: buildingViewModel.buildingType), at: newIndex)
+                    }
+
+                    // rebuild visible queue
+                    DispatchQueue.main.async {
+                        self.updateBuildQueue()
+                    }
+                }
+            }
+
+            firstProviderItem.loadObject(ofClass: DistrictViewModel.self) { viewModelRepresentation, _ in
+
+                if let districtViewModel = viewModelRepresentation as? DistrictViewModel {
+
+                    // remove at old location
+                    if let oldIndex = self.queueViewModels.firstIndex(where: { $0.uuid == districtViewModel.uuid }) {
+                        self.city?.buildQueue.remove(at: oldIndex)
+
+                        let newIndex = index < oldIndex ? index : index - 1
+
+                        // add item at new Index
+                        let buildableItem = BuildableItem(districtType: districtViewModel.districtType, at: districtViewModel.location)
+                        self.city?.buildQueue.insert(item: buildableItem, at: newIndex)
+                    }
+
+                    // rebuild visible queue
+                    DispatchQueue.main.async {
+                        self.updateBuildQueue()
+                    }
+                }
+            }
+
+            firstProviderItem.loadObject(ofClass: WonderViewModel.self) { viewModelRepresentation, _ in
+
+                if let wonderViewModel = viewModelRepresentation as? WonderViewModel {
+
+                    // remove at old location
+                    if let oldIndex = self.queueViewModels.firstIndex(where: { $0.uuid == wonderViewModel.uuid }) {
+                        self.city?.buildQueue.remove(at: oldIndex)
+
+                        let newIndex = index < oldIndex ? index : index - 1
+
+                        // add item at new Index
+                        let buildableItem = BuildableItem(wonderType: wonderViewModel.wonderType, at: wonderViewModel.location)
+                        self.city?.buildQueue.insert(item: buildableItem, at: newIndex)
+                    }
+                }
+
+                // rebuild visible queue
+                DispatchQueue.main.async {
+                    self.updateBuildQueue()
+                }
+            }
         }
     }
 
@@ -198,7 +290,7 @@ class CityProductionViewModel: ObservableObject {
                 let productionCost = districtType.productionCost()
 
                 let turns = productionPerTurn > 0.0 ? Int(ceil(Double(productionCost) / productionPerTurn)) : 100
-                let districtViewModel = DistrictViewModel(districtType: districtType, turns: turns, active: false, at: index)
+                let districtViewModel = DistrictViewModel(districtType: districtType, at: currentBuilding.location!, turns: turns, active: false, at: index)
                 districtViewModel.delegate = self.queueManager
                 tmpBuildQueueModels.append(districtViewModel)
 
@@ -224,7 +316,7 @@ class CityProductionViewModel: ObservableObject {
                 let productionCost = wonderType.productionCost()
 
                 let turns = productionPerTurn > 0.0 ? Int(ceil(Double(productionCost) / productionPerTurn)) : 100
-                let wonderViewModel = WonderViewModel(wonderType: wonderType, turns: turns, at: index)
+                let wonderViewModel = WonderViewModel(wonderType: wonderType, at: currentBuilding.location!, turns: turns, at: index)
                 wonderViewModel.delegate = self.queueManager
                 tmpBuildQueueModels.append(wonderViewModel)
 

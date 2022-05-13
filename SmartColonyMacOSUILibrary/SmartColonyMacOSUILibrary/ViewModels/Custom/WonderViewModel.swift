@@ -14,12 +14,28 @@ protocol WonderViewModelDelegate: AnyObject {
     func clicked(on wonderType: WonderType, at index: Int, in gameModel: GameModel?)
 }
 
-class WonderViewModel: QueueViewModel, ObservableObject {
+enum WonderViewModelError: Error {
+
+    case invalidType
+}
+
+final class WonderViewModel: QueueViewModel, Codable, ObservableObject {
+
+    enum CodingKeys: CodingKey {
+
+        case uuid
+        case wonderType
+        case location
+        case turns
+        case index
+        case showYields
+    }
 
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
 
     let wonderType: WonderType
+    let location: HexPoint
     let turns: Int
     let index: Int
     let showYields: Bool
@@ -29,9 +45,10 @@ class WonderViewModel: QueueViewModel, ObservableObject {
 
     weak var delegate: WonderViewModelDelegate?
 
-    init(wonderType: WonderType, turns: Int, showYields: Bool = false, at index: Int = -1) {
+    init(wonderType: WonderType, at location: HexPoint, turns: Int, showYields: Bool = false, at index: Int = -1) {
 
         self.wonderType = wonderType
+        self.location = location
         self.turns = turns
         self.showYields = showYields
         self.index = index
@@ -54,6 +71,50 @@ class WonderViewModel: QueueViewModel, ObservableObject {
         self.toolTip = toolTipText
 
         super.init(queueType: .wonder)
+    }
+
+    required init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.wonderType = try container.decode(WonderType.self, forKey: .wonderType)
+        self.location = try container.decode(HexPoint.self, forKey: .location)
+        self.turns = try container.decode(Int.self, forKey: .turns)
+        self.index = try container.decode(Int.self, forKey: .index)
+        self.showYields = try container.decode(Bool.self, forKey: .showYields)
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: wonderType.name().localized() + "\n\n",
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        let tokenizer = LabelTokenizer()
+        let effects = tokenizer.bulletPointList(
+            from: wonderType.effects().map { $0.localized() },
+            with: Globals.Attributs.tooltipContentAttributs
+        )
+        toolTipText.append(effects)
+
+        self.toolTip = toolTipText
+
+        super.init(queueType: .wonder)
+
+        self.uuid = try container.decode(String.self, forKey: .uuid)
+    }
+
+    func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.uuid, forKey: .uuid)
+        try container.encode(self.wonderType, forKey: .wonderType)
+        try container.encode(self.location, forKey: .location)
+        try container.encode(self.turns, forKey: .turns)
+        try container.encode(self.index, forKey: .index)
+        try container.encode(self.showYields, forKey: .showYields)
     }
 
     func icon() -> NSImage {
@@ -115,15 +176,41 @@ class WonderViewModel: QueueViewModel, ObservableObject {
     }
 }
 
-/*extension WonderViewModel: Hashable {
-    
-    static func == (lhs: WonderViewModel, rhs: WonderViewModel) -> Bool {
-        
-        return lhs.wonderType == rhs.wonderType
+extension WonderViewModel: NSItemProviderReading, NSItemProviderWriting {
+
+    static var writableTypeIdentifiersForItemProvider: [String] {
+        return [(kUTTypeData) as String]
     }
-    
-    func hash(into hasher: inout Hasher) {
-        
-        hasher.combine(self.wonderType)
+
+    func loadData(withTypeIdentifier typeIdentifier: String, forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
+
+        let progress = Progress(totalUnitCount: 100)
+
+        do {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            let data = try encoder.encode(self)
+            progress.completedUnitCount = 100
+            completionHandler(data, nil)
+        } catch {
+            completionHandler(nil, error)
+        }
+
+        return progress
     }
-}*/
+
+    static var readableTypeIdentifiersForItemProvider: [String] {
+        return [(kUTTypeData) as String]
+    }
+
+    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> WonderViewModel {
+
+        let decoder = JSONDecoder()
+        do {
+            let queueViewModel = try decoder.decode(WonderViewModel.self, from: data)
+            return queueViewModel
+        } catch {
+            throw WonderViewModelError.invalidType
+        }
+    }
+}

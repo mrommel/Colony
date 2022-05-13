@@ -56,6 +56,15 @@
         }
       },
       {
+        "package": "SwiftUITooltip",
+        "repositoryURL": "https://github.com/quassum/SwiftUI-Tooltip.git",
+        "state": {
+          "branch": null,
+          "revision": "9f617c20169fb260b887ac4a21497238a1bb1032",
+          "version": "1.2.0"
+        }
+      },
+      {
         "package": "SwizzleHelper",
         "repositoryURL": "https://github.com/mrommel/SwizzleHelper.git",
         "state": {

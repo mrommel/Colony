@@ -36,9 +36,14 @@ public class BuildQueue: Codable {
         try container.encode(self.items, forKey: .items)
     }
 
-    public func add(item: BuildableItem) {
+    public func append(item: BuildableItem) {
 
         self.items.append(item)
+    }
+
+    public func insert(item: BuildableItem, at index: Int) {
+
+        self.items.insert(item, at: index)
     }
 
     public func remove(item: BuildableItem) {

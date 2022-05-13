@@ -14,12 +14,29 @@ protocol DistrictViewModelDelegate: AnyObject {
     func clicked(on districtType: DistrictType, at index: Int, in gameModel: GameModel?)
 }
 
-class DistrictViewModel: QueueViewModel, ObservableObject {
+enum DistrictViewModelError: Error {
+
+    case invalidType
+}
+
+final class DistrictViewModel: QueueViewModel, Codable, ObservableObject {
+
+    enum CodingKeys: CodingKey {
+
+        case uuid
+        case districtType
+        case location
+        case turns
+        case index
+        case showYields
+        case active
+    }
 
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
 
     let districtType: DistrictType
+    let location: HexPoint
     let turns: Int
     let index: Int
     let showYields: Bool
@@ -31,9 +48,10 @@ class DistrictViewModel: QueueViewModel, ObservableObject {
 
     weak var delegate: DistrictViewModelDelegate?
 
-    init(districtType: DistrictType, turns: Int = -1, active: Bool, showYields: Bool = false, at index: Int = -1) {
+    init(districtType: DistrictType, at location: HexPoint, turns: Int = -1, active: Bool, showYields: Bool = false, at index: Int = -1) {
 
         self.districtType = districtType
+        self.location = location
         self.turns = active ? -1 : turns
         self.active = active
         self.showYields = showYields
@@ -57,6 +75,52 @@ class DistrictViewModel: QueueViewModel, ObservableObject {
         self.toolTip = toolTipText
 
         super.init(queueType: .district)
+    }
+
+    required init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.districtType = try container.decode(DistrictType.self, forKey: .districtType)
+        self.location = try container.decode(HexPoint.self, forKey: .location)
+        self.turns = try container.decode(Int.self, forKey: .turns)
+        self.index = try container.decode(Int.self, forKey: .index)
+        self.showYields = try container.decode(Bool.self, forKey: .showYields)
+        self.active = try container.decode(Bool.self, forKey: .active)
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: districtType.name().localized() + "\n\n",
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        let tokenizer = LabelTokenizer()
+        let effects = tokenizer.bulletPointList(
+            from: districtType.effects().map { $0.localized() },
+            with: Globals.Attributs.tooltipContentAttributs
+        )
+        toolTipText.append(effects)
+
+        self.toolTip = toolTipText
+
+        super.init(queueType: .district)
+
+        self.uuid = try container.decode(String.self, forKey: .uuid)
+    }
+
+    func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.uuid, forKey: .uuid)
+        try container.encode(self.districtType, forKey: .districtType)
+        try container.encode(self.location, forKey: .location)
+        try container.encode(self.turns, forKey: .turns)
+        try container.encode(self.index, forKey: .index)
+        try container.encode(self.showYields, forKey: .showYields)
+        try container.encode(self.active, forKey: .active)
     }
 
     func icon() -> NSImage {
@@ -97,7 +161,7 @@ class DistrictViewModel: QueueViewModel, ObservableObject {
             return []
         }
 
-        return [] // FIXME
+        return []
     }
 
     func fontColor() -> Color {
@@ -125,5 +189,44 @@ class DistrictViewModel: QueueViewModel, ObservableObject {
         }
 
         self.delegate?.clicked(on: self.districtType, at: self.index, in: gameModel)
+    }
+}
+
+extension DistrictViewModel: NSItemProviderReading, NSItemProviderWriting {
+
+    static var writableTypeIdentifiersForItemProvider: [String] {
+        return [(kUTTypeData) as String]
+    }
+
+    func loadData(withTypeIdentifier typeIdentifier: String, forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
+
+        let progress = Progress(totalUnitCount: 100)
+
+        do {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            let data = try encoder.encode(self)
+            progress.completedUnitCount = 100
+            completionHandler(data, nil)
+        } catch {
+            completionHandler(nil, error)
+        }
+
+        return progress
+    }
+
+    static var readableTypeIdentifiersForItemProvider: [String] {
+        return [(kUTTypeData) as String]
+    }
+
+    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> DistrictViewModel {
+
+        let decoder = JSONDecoder()
+        do {
+            let queueViewModel = try decoder.decode(DistrictViewModel.self, from: data)
+            return queueViewModel
+        } catch {
+            throw DistrictViewModelError.invalidType
+        }
     }
 }

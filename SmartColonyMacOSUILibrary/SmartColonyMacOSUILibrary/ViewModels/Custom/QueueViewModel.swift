@@ -7,9 +7,9 @@
 
 import SmartAILibrary
 
-class QueueViewModel {
+class QueueViewModel: NSObject {
 
-    let uuid: String
+    var uuid: String
     let queueType: BuildableItemType
 
     init(queueType: BuildableItemType) {
@@ -19,16 +19,15 @@ class QueueViewModel {
     }
 }
 
-extension QueueViewModel: Hashable {
+extension QueueViewModel {
 
     static func == (lhs: QueueViewModel, rhs: QueueViewModel) -> Bool {
 
         return lhs.queueType == rhs.queueType && lhs.uuid == rhs.uuid
     }
 
-    func hash(into hasher: inout Hasher) {
+    override var hash: Int {
 
-        hasher.combine(self.uuid)
-        hasher.combine(self.queueType)
+        return self.uuid.hashValue ^ self.queueType.hashValue
     }
 }

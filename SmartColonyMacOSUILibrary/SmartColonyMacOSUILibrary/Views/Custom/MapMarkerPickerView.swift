@@ -39,14 +39,15 @@ struct MapMarkerPickerView: View {
 
                 ForEach(self.viewModel.districtMarkerViewModels, id: \.self) { markerViewModel in
 
-                    Image(nsImage: markerViewModel.image())
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .border(Color(self.viewModel.selectionColor(of: markerViewModel.type)), width: 1, cornerRadius: 4)
-                        .toolTip(markerViewModel.toolTip())
-                        .onTapGesture {
-                            self.viewModel.selectedType = markerViewModel.type
-                        }
+                    TooltipContainerView(markerViewModel.toolTip()) {
+                        Image(nsImage: markerViewModel.image())
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .border(Color(self.viewModel.selectionColor(of: markerViewModel.type)), width: 1, cornerRadius: 4)
+                            .onTapGesture {
+                                self.viewModel.selectedType = markerViewModel.type
+                            }
+                    }
                 }
             }
 
@@ -56,14 +57,15 @@ struct MapMarkerPickerView: View {
 
                 ForEach(self.viewModel.wonderMarkerViewModels, id: \.self) { markerViewModel in
 
+                    TooltipContainerView(markerViewModel.toolTip()) {
                     Image(nsImage: markerViewModel.image())
                         .resizable()
                         .frame(width: 24, height: 24)
                         .border(Color(self.viewModel.selectionColor(of: markerViewModel.type)), width: 1, cornerRadius: 4)
-                        .toolTip(markerViewModel.toolTip())
                         .onTapGesture {
                             self.viewModel.selectedType = markerViewModel.type
                         }
+                    }
                 }
             }
 

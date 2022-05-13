@@ -218,7 +218,7 @@ class AccessLevelTests: XCTestCase {
         try! playerAlexander.government?.set(policyCardSet: PolicyCardSet(cards: [.godKing, .discipline]))
 
         if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
-            humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+            humanCity.buildQueue.append(item: BuildableItem(buildingType: .granary))
         }
 
         let traderUnit = Unit(at: HexPoint(x: 2, y: 4), type: .trader, owner: playerAlexander)
@@ -298,7 +298,7 @@ class AccessLevelTests: XCTestCase {
         try! playerAlexander.government?.set(policyCardSet: PolicyCardSet(cards: [.godKing, .discipline]))
 
         if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
-            humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+            humanCity.buildQueue.append(item: BuildableItem(buildingType: .granary))
         }
 
         let traderUnit = Unit(at: HexPoint(x: 2, y: 4), type: .trader, owner: playerAlexander)

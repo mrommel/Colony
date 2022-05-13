@@ -76,7 +76,7 @@ class CityBuildingsViewModel: ObservableObject {
 
             self.districtSectionViewModels = constructedDistrictTypes.map { districtType in
 
-                let districtModel = DistrictViewModel(districtType: districtType, active: true)
+                let districtModel = DistrictViewModel(districtType: districtType, at: HexPoint.invalid, active: true)
                 districtModel.delegate = self
 
                 // filter buildingTypes
@@ -104,7 +104,7 @@ class CityBuildingsViewModel: ObservableObject {
             }
             self.wonderViewModels = constructedWonderTypes.map { wonderType in
 
-                let wonderViewModel = WonderViewModel(wonderType: wonderType, turns: -1, showYields: true)
+                let wonderViewModel = WonderViewModel(wonderType: wonderType, at: HexPoint.invalid, turns: -1, showYields: true)
                 wonderViewModel.delegate = self
                 return wonderViewModel
             }

@@ -14,37 +14,39 @@ struct UnitView: View {
     var viewModel: UnitViewModel
 
     var body: some View {
-        HStack(alignment: .center, spacing: 8) {
 
-            Image(nsImage: self.viewModel.icon())
-                .resizable()
-                .frame(width: 24, height: 24, alignment: .topLeading)
-                .padding(.leading, 16)
-                .padding(.top, 9)
+        TooltipContainerView(self.viewModel.toolTip) {
+            HStack(alignment: .center, spacing: 8) {
 
-            Text(self.viewModel.title())
-                .padding(.top, 9)
+                Image(nsImage: self.viewModel.icon())
+                    .resizable()
+                    .frame(width: 24, height: 24, alignment: .topLeading)
+                    .padding(.leading, 16)
+                    .padding(.top, 9)
 
-            Spacer()
+                Text(self.viewModel.title())
+                    .padding(.top, 9)
 
-            Text(self.viewModel.turnsText())
-                .padding(.top, 9)
-                .padding(.trailing, 0)
+                Spacer()
 
-            Image(nsImage: self.viewModel.costTypeIcon())
-                .resizable()
-                .frame(width: 24, height: 24, alignment: .topLeading)
-                .padding(.trailing, 16)
-                .padding(.top, 9)
-        }
-        .frame(width: 300, height: 42, alignment: .topLeading)
-        .background(
-            Image(nsImage: self.viewModel.background())
-                .resizable(capInsets: EdgeInsets(all: 15))
-        )
-        .toolTip(self.viewModel.toolTip)
-        .onTapGesture {
-            self.viewModel.clicked()
+                Text(self.viewModel.turnsText())
+                    .padding(.top, 9)
+                    .padding(.trailing, 0)
+
+                Image(nsImage: self.viewModel.costTypeIcon())
+                    .resizable()
+                    .frame(width: 24, height: 24, alignment: .topLeading)
+                    .padding(.trailing, 16)
+                    .padding(.top, 9)
+            }
+            .frame(width: 300, height: 42, alignment: .topLeading)
+            .background(
+                Image(nsImage: self.viewModel.background())
+                    .resizable(capInsets: EdgeInsets(all: 15))
+            )
+            .onTapGesture {
+                self.viewModel.clicked()
+            }
         }
     }
 }

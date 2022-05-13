@@ -14,7 +14,22 @@ protocol BuildingViewModelDelegate: AnyObject {
     func clicked(on buildingType: BuildingType, at index: Int)
 }
 
-class BuildingViewModel: QueueViewModel, ObservableObject {
+enum BuildingViewModelError: Error {
+
+    case invalidType
+}
+
+final class BuildingViewModel: QueueViewModel, Codable, ObservableObject {
+
+    enum CodingKeys: CodingKey {
+
+        case uuid
+        case buildingType
+        case turns
+        case index
+        case showYields
+        case active
+    }
 
     let buildingType: BuildingType
     let turns: Int
@@ -54,6 +69,50 @@ class BuildingViewModel: QueueViewModel, ObservableObject {
         self.toolTip = toolTipText
 
         super.init(queueType: .building)
+    }
+
+    required init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.buildingType = try container.decode(BuildingType.self, forKey: .buildingType)
+        self.turns = try container.decode(Int.self, forKey: .turns)
+        self.index = try container.decode(Int.self, forKey: .index)
+        self.showYields = try container.decode(Bool.self, forKey: .showYields)
+        self.active = try container.decode(Bool.self, forKey: .active)
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: buildingType.name().localized() + "\n\n",
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        let tokenizer = LabelTokenizer()
+        let effects = tokenizer.bulletPointList(
+            from: buildingType.effects().map { $0.localized() },
+            with: Globals.Attributs.tooltipContentAttributs
+        )
+        toolTipText.append(effects)
+
+        self.toolTip = toolTipText
+
+        super.init(queueType: .building)
+
+        self.uuid = try container.decode(String.self, forKey: .uuid)
+    }
+
+    func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.uuid, forKey: .uuid)
+        try container.encode(self.buildingType, forKey: .buildingType)
+        try container.encode(self.turns, forKey: .turns)
+        try container.encode(self.index, forKey: .index)
+        try container.encode(self.showYields, forKey: .showYields)
+        try container.encode(self.active, forKey: .active)
     }
 
     func icon() -> NSImage {
@@ -116,5 +175,45 @@ class BuildingViewModel: QueueViewModel, ObservableObject {
     func clicked() {
 
         self.delegate?.clicked(on: self.buildingType, at: self.index)
+    }
+}
+
+extension BuildingViewModel: NSItemProviderReading, NSItemProviderWriting {
+
+    static var writableTypeIdentifiersForItemProvider: [String] {
+        return [(kUTTypeData) as String]
+    }
+
+    func loadData(withTypeIdentifier typeIdentifier: String, forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
+
+        let progress = Progress(totalUnitCount: 100)
+
+        do {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            let data = try encoder.encode(self)
+            progress.completedUnitCount = 100
+            completionHandler(data, nil)
+        } catch {
+
+            completionHandler(nil, error)
+        }
+
+        return progress
+    }
+
+    static var readableTypeIdentifiersForItemProvider: [String] {
+        return [(kUTTypeData) as String]
+    }
+
+    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> BuildingViewModel {
+
+        let decoder = JSONDecoder()
+        do {
+            let queueViewModel = try decoder.decode(BuildingViewModel.self, from: data)
+            return queueViewModel
+        } catch {
+            throw BuildingViewModelError.invalidType
+        }
     }
 }

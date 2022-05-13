@@ -22,19 +22,20 @@ struct CityStateView: View {
 
         HStack(spacing: 2) {
 
-            ZStack(alignment: .topLeading) {
-                Image(nsImage: self.viewModel.cityStateImage())
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .padding(.leading, 8)
+            TooltipContainerView(self.viewModel.questHintToolTip()) {
+                ZStack(alignment: .topLeading) {
+                    Image(nsImage: self.viewModel.cityStateImage())
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .padding(.leading, 8)
 
-                Image(nsImage: self.viewModel.questHintImage())
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .padding(.top, -4)
+                    Image(nsImage: self.viewModel.questHintImage())
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .padding(.top, -4)
+                }
+                    .frame(width: 32, height: 24)
             }
-                .frame(width: 32, height: 24)
-                .toolTip(self.viewModel.questHintToolTip())
 
             Text(self.viewModel.name)
                 .frame(width: 100, height: 24, alignment: .leading)
@@ -42,43 +43,47 @@ struct CityStateView: View {
             Stepper("\(self.viewModel.envoys)", value: self.$viewModel.envoys)
                 .frame(width: 48, height: 24)
 
-            VStack(spacing: 0) {
-                Text("1")
-                    .font(.system(size: 6))
+            TooltipContainerView(self.viewModel.bonusText1()) {
+                VStack(spacing: 0) {
+                    Text("1")
+                        .font(.system(size: 6))
 
-                Image(nsImage: self.viewModel.bonusImage1())
-                    .resizable()
-                    .frame(width: 16, height: 16)
+                    Image(nsImage: self.viewModel.bonusImage1())
+                        .resizable()
+                        .frame(width: 16, height: 16)
+                }
+                .frame(width: 16, height: 24)
             }
-            .frame(width: 16, height: 24)
-            .toolTip(self.viewModel.bonusText1())
 
-            VStack(spacing: 0) {
-                Text("3")
-                    .font(.system(size: 6))
+            TooltipContainerView(self.viewModel.bonusText3()) {
+                VStack(spacing: 0) {
+                    Text("3")
+                        .font(.system(size: 6))
 
-                Image(nsImage: self.viewModel.bonusImage3())
-                    .resizable()
-                    .frame(width: 16, height: 16)
+                    Image(nsImage: self.viewModel.bonusImage3())
+                        .resizable()
+                        .frame(width: 16, height: 16)
+                }
+                .frame(width: 16, height: 24)
             }
-            .frame(width: 16, height: 24)
-            .toolTip(self.viewModel.bonusText3())
 
-            VStack(spacing: 0) {
-                Text("6")
-                    .font(.system(size: 6))
+            TooltipContainerView(self.viewModel.bonusText6()) {
+                VStack(spacing: 0) {
+                    Text("6")
+                        .font(.system(size: 6))
 
-                Image(nsImage: self.viewModel.bonusImage6())
-                    .resizable()
-                    .frame(width: 16, height: 16)
+                    Image(nsImage: self.viewModel.bonusImage6())
+                        .resizable()
+                        .frame(width: 16, height: 16)
+                }
+                .frame(width: 16, height: 24)
             }
-            .frame(width: 16, height: 24)
-            .toolTip(self.viewModel.bonusText6())
 
-            Image(nsImage: self.viewModel.suzerainImage())
-                .resizable()
-                .frame(width: 20, height: 20)
-                .toolTip(self.viewModel.suzerainText())
+            TooltipContainerView(self.viewModel.suzerainText()) {
+                Image(nsImage: self.viewModel.suzerainImage())
+                    .resizable()
+                    .frame(width: 20, height: 20)
+            }
 
             VStack(alignment: .leading, spacing: 0) {
                 Text("TXT_KEY_CITY_STATE_SUZERAIN".localized())

@@ -42,33 +42,49 @@ struct CityProductionView: View {
 
     var queueView: some View {
 
-        ScrollView(.vertical, showsIndicators: true, content: {
-
+        // ScrollView(.vertical, showsIndicators: true) {
+        VStack {
             if self.viewModel.queueViewModels.isEmpty {
                 Text("Please add a unit / building / wonder")
                     .font(.headline)
                     .padding(.top, 10)
-            }
+            } else {
+                List {
+                    ForEach(self.viewModel.queueViewModels, id: \.self) { queueViewModel in
 
-            ForEach(self.viewModel.queueViewModels, id: \.self) { queueViewModel in
+                        // swiftlint:disable force_cast
+                        switch queueViewModel.queueType {
 
-                // swiftlint:disable force_cast
-                switch queueViewModel.queueType {
-
-                case .unit:
-                    UnitView(viewModel: queueViewModel as! UnitViewModel)
-                case .district:
-                    DistrictView(viewModel: queueViewModel as! DistrictViewModel)
-                case .building:
-                    BuildingView(viewModel: queueViewModel as! BuildingViewModel)
-                case .wonder:
-                    WonderView(viewModel: queueViewModel as! WonderViewModel)
-                default:
-                    Text("type \(queueViewModel.queueType.rawValue)")
+                        case .unit:
+                            UnitView(viewModel: queueViewModel as! UnitViewModel)
+                                .onDrag {
+                                    NSItemProvider(object: (queueViewModel as! UnitViewModel))
+                                }
+                        case .district:
+                            DistrictView(viewModel: queueViewModel as! DistrictViewModel)
+                                .onDrag {
+                                    NSItemProvider(object: (queueViewModel as! DistrictViewModel))
+                                }
+                        case .building:
+                            BuildingView(viewModel: queueViewModel as! BuildingViewModel)
+                                .onDrag {
+                                    NSItemProvider(object: (queueViewModel as! BuildingViewModel))
+                                }
+                        case .wonder:
+                            WonderView(viewModel: queueViewModel as! WonderViewModel)
+                                .onDrag {
+                                    NSItemProvider(object: (queueViewModel as! WonderViewModel))
+                                }
+                        default:
+                            Text("type \(queueViewModel.queueType.rawValue)")
+                        }
+                        // swiftlint:enable force_cast
+                    }
+                    .onInsert(of: ["public.item"], perform: self.viewModel.onDroppedQueueItem)
                 }
-                // swiftlint:enable force_cast
+                .background(Globals.Style.dialogBackground)
             }
-        })
+        }
         .frame(width: 340, height: 300, alignment: .top)
     }
 

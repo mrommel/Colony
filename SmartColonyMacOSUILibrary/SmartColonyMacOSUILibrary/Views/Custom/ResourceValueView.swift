@@ -16,20 +16,21 @@ struct ResourceValueView: View {
 
     public var body: some View {
 
-        HStack(alignment: .center, spacing: 4) {
-            Image(nsImage: self.viewModel.iconImage())
-                .resizable()
-                .frame(width: 14, height: 14, alignment: .center)
+        TooltipContainerView(self.viewModel.tooltip) {
+            HStack(alignment: .center, spacing: 4) {
+                Image(nsImage: self.viewModel.iconImage())
+                    .resizable()
+                    .frame(width: 14, height: 14, alignment: .center)
 
-            Text(self.viewModel.valueText)
-                .foregroundColor(Color.white)
-                .font(.caption)
+                Text(self.viewModel.valueText)
+                    .foregroundColor(Color.white)
+                    .font(.caption)
+            }
+            .padding(.leading, 4)
+            .padding(.trailing, 4)
+            .padding(.top, 2)
+            .padding(.bottom, 2)
         }
-        .padding(.leading, 4)
-        .padding(.trailing, 4)
-        .padding(.top, 2)
-        .padding(.bottom, 2)
-        .toolTip(self.viewModel.tooltip)
     }
 }
 

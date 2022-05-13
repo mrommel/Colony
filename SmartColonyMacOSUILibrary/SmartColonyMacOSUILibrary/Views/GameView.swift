@@ -40,10 +40,6 @@ public struct GameView: View {
                     self.viewModel.gameSceneViewModel.update(with: options)
                 }
 
-            NotificationsView(viewModel: self.viewModel.notificationsViewModel)
-
-            BottomLeftBarView(viewModel: self.viewModel.bottomLeftBarViewModel)
-
             Group {
 
                 CityBannerView(viewModel: self.viewModel.cityBannerViewModel)
@@ -55,11 +51,15 @@ public struct GameView: View {
 
             Group {
 
-                BottomRightBarView(viewModel: self.viewModel.bottomRightBarViewModel)
+                HeaderView(viewModel: self.viewModel.headerViewModel)
 
                 TopBarView(viewModel: self.viewModel.topBarViewModel)
 
-                HeaderView(viewModel: self.viewModel.headerViewModel)
+                NotificationsView(viewModel: self.viewModel.notificationsViewModel)
+
+                BottomRightBarView(viewModel: self.viewModel.bottomRightBarViewModel)
+
+                BottomLeftBarView(viewModel: self.viewModel.bottomLeftBarViewModel)
             }
 
             Group {

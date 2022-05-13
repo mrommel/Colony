@@ -14,7 +14,7 @@ class AchievementViewModel: ObservableObject, Identifiable {
     // private
     let id: UUID = UUID()
     let imageName: String
-    let toolTipText: NSAttributedString
+    let toolTip: NSAttributedString
 
     @Published
     var image: NSImage
@@ -22,7 +22,7 @@ class AchievementViewModel: ObservableObject, Identifiable {
     init(imageName: String, toolTipText: NSAttributedString) {
 
         self.imageName = imageName
-        self.toolTipText = toolTipText
+        self.toolTip = toolTipText
 
         self.image = ImageCache.shared.image(for: imageName).copy() as! NSImage
     }

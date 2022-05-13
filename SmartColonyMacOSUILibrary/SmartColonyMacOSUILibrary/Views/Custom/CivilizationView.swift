@@ -21,10 +21,11 @@ struct CivilizationView: View {
 
     var body: some View {
 
-        Image(nsImage: self.viewModel.image())
-            .resizable()
-            .frame(width: 42, height: 42)
-            .toolTip(self.viewModel.toolTip)
+        TooltipContainerView(self.viewModel.toolTip) {
+            Image(nsImage: self.viewModel.image())
+                .resizable()
+                .frame(width: 42, height: 42)
+        }
     }
 }
 

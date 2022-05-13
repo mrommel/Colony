@@ -20,29 +20,30 @@ struct HeaderButtonView: View {
 
     public var body: some View {
 
-        ZStack(alignment: .topLeading) {
+        TooltipContainerView(self.viewModel.toolTip()) {
+            ZStack(alignment: .topLeading) {
 
-            Image(nsImage: self.viewModel.icon())
-                .resizable()
-                .frame(width: 38, height: 38, alignment: .center)
-                .padding(.top, 4)
-                .padding(.leading, 9.5)
+                Image(nsImage: self.viewModel.icon())
+                    .resizable()
+                    .frame(width: 38, height: 38, alignment: .center)
+                    .padding(.top, 4)
+                    .padding(.leading, 9.5)
 
-            Image(nsImage: self.viewModel.alertImage())
-                .resizable()
-                .frame(width: 38, height: 38, alignment: .center)
-                .padding(.top, 4)
-                .padding(.leading, 9.5)
-                .onTapGesture {
-                    self.viewModel.clicked()
-                }
-        }
-        .frame(width: 56, height: 47, alignment: .topLeading)
-        .background(
-            Image(nsImage: ImageCache.shared.image(for: "header-bar-button"))
-                .resizable()
+                Image(nsImage: self.viewModel.alertImage())
+                    .resizable()
+                    .frame(width: 38, height: 38, alignment: .center)
+                    .padding(.top, 4)
+                    .padding(.leading, 9.5)
+                    .onTapGesture {
+                        self.viewModel.clicked()
+                    }
+            }
+            .frame(width: 56, height: 47, alignment: .topLeading)
+            .background(
+                Image(nsImage: ImageCache.shared.image(for: "header-bar-button"))
+                    .resizable()
             )
-        .toolTip(self.viewModel.toolTip())
+        }
     }
 }
 
