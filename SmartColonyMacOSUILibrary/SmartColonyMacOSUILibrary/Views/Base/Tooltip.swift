@@ -21,6 +21,7 @@ public struct TooltipContainerView<Content: View>: View {
 
     @State private var tooltipShown: Bool = false
     @State private var side: TooltipSide = .bottom
+    private var tooltipConfig = DefaultTooltipConfig()
 
     public init(_ textRef: String?, side: TooltipSide = .bottom, @ViewBuilder content: () -> Content) {
 
@@ -31,6 +32,8 @@ public struct TooltipContainerView<Content: View>: View {
             self.tooltipText = NSAttributedString(string: "-")
         }
         self.side = side
+        self.tooltipConfig.borderColor = Color(red: 0.072, green: 0.119, blue: 0.155)
+        self.tooltipConfig.backgroundColor = Color(red: 0.894, green: 0.894, blue: 0.894)
     }
 
     public init(_ attributedTextRef: NSAttributedString?, side: TooltipSide = .bottom, @ViewBuilder content: () -> Content) {
@@ -42,6 +45,8 @@ public struct TooltipContainerView<Content: View>: View {
             self.tooltipText = NSAttributedString(string: "-")
         }
         self.side = side
+        self.tooltipConfig.borderColor = Color(red: 0.072, green: 0.119, blue: 0.155)
+        self.tooltipConfig.backgroundColor = Color(red: 0.894, green: 0.894, blue: 0.894)
     }
 
     public var body: some View {
@@ -50,7 +55,7 @@ public struct TooltipContainerView<Content: View>: View {
             .onHover { over in
                 self.tooltipShown = over
             }
-            .tooltip(self.tooltipShown, side: self.side) {
+            .tooltip(self.tooltipShown, side: self.side, config: self.tooltipConfig) {
                 Label(self.tooltipText)
             }
     }

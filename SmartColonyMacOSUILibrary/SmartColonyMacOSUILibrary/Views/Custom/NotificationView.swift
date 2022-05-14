@@ -21,7 +21,7 @@ struct NotificationView: View {
 
     public var body: some View {
 
-        TooltipContainerView(self.viewModel.toolTip) {
+        TooltipContainerView(self.viewModel.toolTip, side: .trailing) {
 
             ZStack(alignment: .topLeading) {
 
