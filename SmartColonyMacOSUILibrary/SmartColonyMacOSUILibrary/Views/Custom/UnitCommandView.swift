@@ -24,7 +24,7 @@ struct UnitCommandView: View {
 
     var body: some View {
 
-        TooltipContainerView(self.viewModel.toolTip()) {
+        TooltipContainerView(self.viewModel.toolTip(), side: .top) {
             Image(nsImage: self.viewModel.image())
                 .resizable()
                 .aspectRatio(contentMode: .fit)

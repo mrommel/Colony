@@ -20,8 +20,9 @@ public struct TooltipContainerView<Content: View>: View {
     @ViewBuilder var content: Content
 
     @State private var tooltipShown: Bool = false
+    @State private var side: TooltipSide = .bottom
 
-    public init(_ textRef: String?, @ViewBuilder content: () -> Content) {
+    public init(_ textRef: String?, side: TooltipSide = .bottom, @ViewBuilder content: () -> Content) {
 
         self.content = content()
         if let text = textRef {
@@ -29,9 +30,10 @@ public struct TooltipContainerView<Content: View>: View {
         } else {
             self.tooltipText = NSAttributedString(string: "-")
         }
+        self.side = side
     }
 
-    public init(_ attributedTextRef: NSAttributedString?, @ViewBuilder content: () -> Content) {
+    public init(_ attributedTextRef: NSAttributedString?, side: TooltipSide = .bottom, @ViewBuilder content: () -> Content) {
 
         self.content = content()
         if let attributedText = attributedTextRef {
@@ -39,6 +41,7 @@ public struct TooltipContainerView<Content: View>: View {
         } else {
             self.tooltipText = NSAttributedString(string: "-")
         }
+        self.side = side
     }
 
     public var body: some View {
@@ -47,7 +50,7 @@ public struct TooltipContainerView<Content: View>: View {
             .onHover { over in
                 self.tooltipShown = over
             }
-            .tooltip(self.tooltipShown, side: .bottom) {
+            .tooltip(self.tooltipShown, side: self.side) {
                 Label(self.tooltipText)
             }
     }
