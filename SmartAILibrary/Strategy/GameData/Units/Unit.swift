@@ -1243,26 +1243,6 @@ public class Unit: AbstractUnit {
             fatalError("cant get diplomacyAI")
         }
 
-        if unitPlayer.isHuman() {
-
-            if let defenderUnit = gameModel.unit(at: destination, of: .combat) {
-
-                if !diplomacyAI.isAtWar(with: defenderUnit.player) && !defenderUnit.isBarbarian() {
-
-                    gameModel.userInterface?.askForConfirmation(
-                        title: "Declare War?",
-                        question: "Do you really want to declare war on \(defenderUnit.player?.leader.name())",
-                        confirm: "Declare War",
-                        cancel: "Cancel",
-                        completion: { _ in
-                            diplomacyAI.doDeclareWar(to: defenderUnit.player, in: gameModel)
-                        })
-
-                    return false
-                }
-            }
-        }
-
         guard let path = self.pathIgnoreUnits(towards: destination, in: gameModel) else {
             return false
         }

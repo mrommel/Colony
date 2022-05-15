@@ -34,6 +34,7 @@ public struct TooltipContainerView<Content: View>: View {
         self.side = side
         self.tooltipConfig.borderColor = Color(red: 0.072, green: 0.119, blue: 0.155)
         self.tooltipConfig.backgroundColor = Color(red: 0.894, green: 0.894, blue: 0.894)
+        self.tooltipConfig.side = side
     }
 
     public init(_ attributedTextRef: NSAttributedString?, side: TooltipSide = .bottom, @ViewBuilder content: () -> Content) {
@@ -47,6 +48,7 @@ public struct TooltipContainerView<Content: View>: View {
         self.side = side
         self.tooltipConfig.borderColor = Color(red: 0.072, green: 0.119, blue: 0.155)
         self.tooltipConfig.backgroundColor = Color(red: 0.894, green: 0.894, blue: 0.894)
+        self.tooltipConfig.side = side
     }
 
     public var body: some View {

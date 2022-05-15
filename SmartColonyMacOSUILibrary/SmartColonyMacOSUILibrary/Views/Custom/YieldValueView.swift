@@ -16,7 +16,7 @@ struct YieldValueView: View {
 
     public var body: some View {
 
-        TooltipContainerView(self.viewModel.tooltip) {
+        TooltipContainerView(self.viewModel.tooltip, side: .trailingBottom) {
             HStack(alignment: .center, spacing: 4) {
                 Image(nsImage: self.viewModel.iconImage())
                     .resizable()

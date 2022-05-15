@@ -1002,6 +1002,46 @@ extension GameViewModel: GameViewModelDelegate {
             fatalError("cant get game")
         }
 
+        guard let attackerPlayer = attacker?.player else {
+            fatalError("cant get attacker player")
+        }
+
+        guard let defenderPlayer = defender?.player else {
+            fatalError("cant get defender player")
+        }
+
+        guard let attackerDiplomacyAI = attackerPlayer.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+
+        if attackerPlayer.isHuman() {
+
+            if let defenderUnit = defender {
+
+                guard !defenderUnit.isHuman() else {
+                    return
+                }
+
+                if !attackerPlayer.isAtWar(with: defenderPlayer) && !defenderPlayer.isBarbarian() {
+
+                    let defenderPlayerName = defenderPlayer.leader.name().localized()
+
+                    gameModel.userInterface?.askForConfirmation(
+                        title: "Declare War?",
+                        question: "Do you really want to declare war on \(defenderPlayerName)?",
+                        confirm: "Declare War",
+                        cancel: "Cancel",
+                        completion: { confirmed in
+                            if confirmed {
+                                attackerPlayer.doDeclareWar(to: defenderPlayer, in: gameModel)
+                            }
+                        })
+
+                    return
+                }
+            }
+        }
+
         if !attacker!.doAttack(into: defender!.location, steps: 1, in: gameModel) {
             print("attack failed")
         }
@@ -1011,6 +1051,46 @@ extension GameViewModel: GameViewModelDelegate {
 
         guard let gameModel = self.gameEnvironment.game.value else {
             fatalError("cant get game")
+        }
+
+        guard let attackerPlayer = attacker?.player else {
+            fatalError("cant get attacker player")
+        }
+
+        guard let defenderPlayer = defender?.player else {
+            fatalError("cant get defender player")
+        }
+
+        guard let attackerDiplomacyAI = attackerPlayer.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+
+        if attackerPlayer.isHuman() {
+
+            if let defenderUnit = defender {
+
+                guard !defenderUnit.isHuman() else {
+                    return
+                }
+
+                if !attackerPlayer.isAtWar(with: defenderPlayer) && !defenderPlayer.isBarbarian() {
+
+                    let defenderPlayerName = defenderPlayer.leader.name().localized()
+
+                    gameModel.userInterface?.askForConfirmation(
+                        title: "Declare War?",
+                        question: "Do you really want to declare war on \(defenderPlayerName)?",
+                        confirm: "Declare War",
+                        cancel: "Cancel",
+                        completion: { confirmed in
+                            if confirmed {
+                                attackerPlayer.doDeclareWar(to: defenderPlayer, in: gameModel)
+                            }
+                        })
+
+                    return
+                }
+            }
         }
 
         if !attacker!.doAttack(into: defender!.location, steps: 1, in: gameModel) {
