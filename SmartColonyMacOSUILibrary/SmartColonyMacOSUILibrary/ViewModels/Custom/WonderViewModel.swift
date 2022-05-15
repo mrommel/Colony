@@ -19,7 +19,7 @@ enum WonderViewModelError: Error {
     case invalidType
 }
 
-final class WonderViewModel: QueueViewModel, Codable, ObservableObject {
+final class WonderViewModel: QueueViewModel, Codable {
 
     enum CodingKeys: CodingKey {
 

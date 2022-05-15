@@ -54,6 +54,7 @@ struct CivicView: View {
                                 AchievementView(viewModel: achievementViewModel)
                                     .id("civic-\(self.viewModel.id)-\(achievementViewModel.id)")
                                     .frame(width: 16, height: 16)
+                                    .zIndex(51)
                             }
                         }
                         .padding(.top, 0)
@@ -72,6 +73,7 @@ struct CivicView: View {
                     .padding(.top, 1)
             }
             .frame(width: 150, height: 45, alignment: .topLeading)
+            .zIndex(50)
             .background(
                 Image(nsImage: self.viewModel.background())
                     .resizable(capInsets: EdgeInsets(all: 14))

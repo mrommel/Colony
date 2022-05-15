@@ -1890,6 +1890,7 @@ public class Unit: AbstractUnit {
         return captureDef.capturingPlayer == nil || captureDef.captureUnitType == nil ? nil : captureDef
     }
 
+    // CvUnit::setXY
     private func set(
         location newLocation: HexPoint,
         group: Bool = false,
@@ -1965,12 +1966,19 @@ public class Unit: AbstractUnit {
 
                         if diplomacyAI.isAtWar(with: loopUnit.player) {
 
-                            if loopUnit.type.captureType() == nil && loopUnit.canDefend() { // Unit somehow ended up on top of an enemy combat unit
+                            if loopUnit.type.captureType() == nil && loopUnit.canDefend() {
+                                // Unit somehow ended up on top of an enemy combat unit
+                                if !newPlot.isCity() {
+                                    if !loopUnit.jumpToNearestValidPlotWithin(range: 1, in: gameModel) {
+                                        loopUnit.doKill(delayed: false, by: self.player, in: gameModel)
+                                    }
+                                } else {
+                                    // kPlayer.DoYieldsFromKill(this, pLoopUnit);
+                                    loopUnit.doKill(delayed: false, by: self.player, in: gameModel)
+                                }
 
-                                fatalError("should not happen - this is a combat scenario")
-
-                            } else { // Ran into a noncombat unit
-
+                            } else {
+                                // Ran into a noncombat unit
                                 var doCapture = false
 
                                 // Some units can't capture civilians. Embarked units are also not captured, they're simply killed. And some aren't a type that gets captured.

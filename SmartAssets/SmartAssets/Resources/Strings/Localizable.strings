@@ -53,6 +53,13 @@
 "TXT_KEY_MAP_GENERATOR_POSITIONS" = "start positions identified";
 "TXT_KEY_MAP_GENERATOR_GOODIES" = "added goodies";
 
+// city dialog
+"TXT_KEY_EMPTY_QUEUE" = "Please add a unit / building / wonder";
+"TXT_KEY_UNITS" = "Units";
+"TXT_KEY_DISTRICTS_AND_BUILDINGS" = "Districts and Buildings";
+"TXT_KEY_WONDERS" = "Wonders";
+"TXT_KEY_SELECT_LOCATION" = "Select Location";
+
 // raze or liberate dialog
 "TXT_KEY_CITY_RAZE_OR_LIBERATE_TITLE" = "City captured";
 "TXT_KEY_CITY_NAME_LABEL" = "City Name:";

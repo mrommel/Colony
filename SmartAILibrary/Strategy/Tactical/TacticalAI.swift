@@ -7711,7 +7711,7 @@ public class TacticalAI: Codable {
         }
 
         // Start up first attack
-        if firstAttackCity && firstCity  != nil {
+        if firstAttackCity && firstCity != nil {
             self.launchAttack(for: firstCity, target: target, firstAttack: true, ranged: firstAttackRanged, in: gameModel)
         } else if !firstAttackCity && firstAttacker != nil {
             self.launchAttack(for: firstAttacker, target: target, firstAttack: true, ranged: firstAttackRanged, in: gameModel)

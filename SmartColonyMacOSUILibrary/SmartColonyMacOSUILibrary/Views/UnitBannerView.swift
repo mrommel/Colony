@@ -66,7 +66,7 @@ struct UnitBannerView: View {
     private var commandsView: some View {
 
         HStack(alignment: .bottom, spacing: 1) {
-            TooltipContainerView("Unit list") {
+            TooltipContainerView("Unit list", side: .top) {
                 Image(nsImage: self.viewModel.listImage())
                     .resizable()
                     .aspectRatio(contentMode: .fit)

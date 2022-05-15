@@ -19,7 +19,7 @@ enum DistrictViewModelError: Error {
     case invalidType
 }
 
-final class DistrictViewModel: QueueViewModel, Codable, ObservableObject {
+final class DistrictViewModel: QueueViewModel, Codable {
 
     enum CodingKeys: CodingKey {
 

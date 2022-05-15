@@ -19,7 +19,7 @@ enum BuildingViewModelError: Error {
     case invalidType
 }
 
-final class BuildingViewModel: QueueViewModel, Codable, ObservableObject {
+final class BuildingViewModel: QueueViewModel, Codable {
 
     enum CodingKeys: CodingKey {
 

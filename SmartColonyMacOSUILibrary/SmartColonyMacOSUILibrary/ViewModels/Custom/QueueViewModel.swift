@@ -7,7 +7,7 @@
 
 import SmartAILibrary
 
-class QueueViewModel: NSObject {
+class QueueViewModel: NSObject, ObservableObject {
 
     var uuid: String
     let queueType: BuildableItemType

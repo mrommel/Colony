@@ -20,7 +20,7 @@ enum UnitViewModelError: Error {
     case invalidType
 }
 
-final class UnitViewModel: QueueViewModel, Codable, ObservableObject {
+final class UnitViewModel: QueueViewModel, Codable {
 
     enum CodingKeys: CodingKey {
 
