@@ -259,6 +259,10 @@
 "TXT_KEY_ENVOY" = "ENVOY";
 "TXT_KEY_ENVOYS" = "ENVOYS";
 
+"TXT_KEY_DECLARE_WAR_TITLE" = "Declare War?";
+"TXT_KEY_DECLARE_WAR_QUESTION" = "Do you really want to declare war on %@?";
+"TXT_KEY_DECLARE_WAR_TEXT" = "Declare War";
+
 // policy card types
 "TXT_KEY_POLICY_CARD_TYPE_MILITARY_TITLE" = "Military";
 "TXT_KEY_POLICY_CARD_TYPE_ECONOMIC_TITLE" = "Economic";
