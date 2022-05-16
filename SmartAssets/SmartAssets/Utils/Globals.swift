@@ -19,23 +19,21 @@ public struct Globals {
 
         public static let snow: CGFloat = 2.0
 
-        public static let river: CGFloat = 3.0
-        public static let feature: CGFloat = 3.2
+        public static let feature: CGFloat = 3.0
+        public static let river: CGFloat = 3.1
+        public static let border: CGFloat = 3.2
         public static let path: CGFloat = 3.3
-        public static let featureUpper: CGFloat = 3.5
-        public static let resource: CGFloat = 3.9
+        public static let resource: CGFloat = 3.4
+        public static let improvement: CGFloat = 3.5
+        public static let route: CGFloat = 3.6
+        public static let focus: CGFloat = 3.7
+        public static let featureUpper: CGFloat = 3.8
+        public static let mountain: CGFloat = 3.9
 
-        public static let improvement: CGFloat = 4.0
-        public static let route: CGFloat = 4.1
-        public static let border: CGFloat = 4.2
-        public static let focus: CGFloat = 4.3
+        public static let cityName: CGFloat = 5.0
+        public static let city: CGFloat = 5.1
+        public static let cityAttack: CGFloat = 5.2
 
-        public static let mountain: CGFloat = 5.0
-        public static let cityName: CGFloat = 5.1
-        public static let city: CGFloat = 5.2
-        public static let cityAttack: CGFloat = 5.3
-
-        // public static let improvementUpper: CGFloat = 5.25 // # not implemented yet
         public static let districtEmpty: CGFloat = 6.01
         public static let districtFirst: CGFloat = 6.02
         public static let districtSecond: CGFloat = 6.03
@@ -43,11 +41,11 @@ public struct Globals {
         public static let districtIcon: CGFloat = 6.05
         public static let wonder: CGFloat = 6.1
         public static let resourceMarker: CGFloat = 6.2
-        public static let yields: CGFloat = 6.3
-        public static let hexCoords: CGFloat = 6.95 // debug
+        public static let yieldsMarker: CGFloat = 6.3
+        public static let hexCoordLabel: CGFloat = 6.95 // debug
 
         public static let mapLens: CGFloat = 7.0
-        public static let mapMarkers: CGFloat = 7.1
+        public static let mapMarker: CGFloat = 7.1
 
         public static let unit: CGFloat = 8.0
         public static let unitType: CGFloat = 8.1

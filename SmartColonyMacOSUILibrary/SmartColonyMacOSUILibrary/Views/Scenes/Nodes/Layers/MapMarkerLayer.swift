@@ -56,7 +56,7 @@ class MapMarkerLayer: BaseLayer {
     override init(player: AbstractPlayer?) {
 
         super.init(player: player)
-        self.zPosition = Globals.ZLevels.mapMarkers
+        self.zPosition = Globals.ZLevels.mapMarker
         self.name = MapMarkerLayer.kName
     }
 
@@ -89,7 +89,7 @@ class MapMarkerLayer: BaseLayer {
             // place texture
             let markerSprite = SKSpriteNode(texture: SKTexture(image: image), size: MapMarkerLayer.kTextureSize)
             markerSprite.position = position
-            markerSprite.zPosition = Globals.ZLevels.mapMarkers
+            markerSprite.zPosition = Globals.ZLevels.mapMarker
             markerSprite.anchorPoint = CGPoint(x: 0, y: 0)
             markerSprite.color = .black
             markerSprite.colorBlendFactor = 1.0 - alpha
