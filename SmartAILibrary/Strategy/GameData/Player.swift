@@ -3135,11 +3135,6 @@ public class Player: AbstractPlayer {
             fatalError("cant get gameModel")
         }
 
-        // doTurnUnitsPre(); // AI_doTurnUnitsPre
-
-        // Start: TACTICAL AI UNIT PROCESSING
-        self.tacticalAI?.doTurn(in: gameModel)
-
         // Start: OPERATIONAL AI UNIT PROCESSING
         self.operations?.doDelayedDeath(in: gameModel)
         self.armies?.doDelayedDeath()
@@ -3185,21 +3180,9 @@ public class Player: AbstractPlayer {
                     }
                 case .none:
                     fatalError("Unit with no Domain")
-                /*default:
-                    if pass == 3 {
-                        loopUnit.doTurn(in: gameModel)
-                    }*/
                 }
             }
         }
-
-        /*if (GetID() == GC.getGame().getActivePlayer())
-        {
-            GC.GetEngineUserInterface()->setDirty(Waypoints_DIRTY_BIT, true);
-            GC.GetEngineUserInterface()->setDirty(SelectionButtons_DIRTY_BIT, true);
-        }*/
-
-        // GC.GetEngineUserInterface()->setDirty(UnitInfo_DIRTY_BIT, true);
 
         self.doTurnUnitsPost(in: gameModel) // AI_doTurnUnitsPost();
     }
