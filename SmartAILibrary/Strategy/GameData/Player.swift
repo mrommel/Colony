@@ -1680,16 +1680,8 @@ public class Player: AbstractPlayer {
                                 return false
                             }
 
-                            if let requiredTech = unitType.requiredTech() {
-                                if !questPlayer.has(tech: requiredTech) {
-                                    return false
-                                }
-                            }
-
-                            if let requiredCivic = unitType.requiredCivic() {
-                                if !questPlayer.has(civic: requiredCivic) {
-                                    return false
-                                }
+                            if !self.canTrain(unitType: unitType, continueFlag: false, testVisible: false, ignoreCost: true, ignoreUniqueUnitStatus: false) {
+                                return false
                             }
 
                             return true
