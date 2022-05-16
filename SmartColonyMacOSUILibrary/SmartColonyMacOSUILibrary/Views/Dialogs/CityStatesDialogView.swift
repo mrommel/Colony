@@ -43,7 +43,7 @@ struct CityStatesDialogView: View {
 
                                     CityStateView(viewModel: cityStateViewModel)
                                         .padding(.leading, 4)
-                                        .zIndex(50 - Doubel(index))
+                                        .zIndex(50 - Double(index))
                                 }
                             }
 
