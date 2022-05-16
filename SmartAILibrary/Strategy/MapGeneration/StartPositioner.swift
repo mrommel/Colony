@@ -273,6 +273,7 @@ class StartPositioner {
         // sort human to the end
         self.startLocations.sort(by: { !$0.isHuman && $1.isHuman })
 
+        /*
         // debug
         var allLeaders = aiLeaders
         allLeaders.append(human)
@@ -294,6 +295,7 @@ class StartPositioner {
                 }
             }
         }
+         */
     }
 
     private func divideIntoRegions(numOfDivisions: Int, area: HexArea) {
@@ -305,7 +307,7 @@ class StartPositioner {
         case 1:
             let averageFertility = Double(area.points.map({ self.fertilityMap[$0]! }).reduce(0, +)) / Double(area.points.count)
 
-            print("add start area with \(averageFertility) fertility and \(area.points.count) points")
+            // print("add start area with \(averageFertility) fertility and \(area.points.count) points")
 
             self.startAreas.append(StartArea(area: area, averageFertility: averageFertility, used: false))
 

@@ -74,11 +74,27 @@ class TacticalTarget: Codable {
         case .none: return false
 
             // always valid
-        case .city, .cityToDefend, .lowPriorityCivilian, .mediumPriorityCivilian, .highPriorityCivilian, .veryHighPriorityCivilian, .lowPriorityUnit, .mediumPriorityUnit, .highPriorityUnit:
+        case .city,
+                .cityToDefend,
+                .lowPriorityCivilian,
+                .mediumPriorityCivilian,
+                .highPriorityCivilian,
+                .veryHighPriorityCivilian,
+                .lowPriorityUnit,
+                .mediumPriorityUnit,
+                .highPriorityUnit:
             return true
 
             // land targets
-        case .barbarianCamp, .improvement, .improvementToDefend, .defensiveBastion, .ancientRuins, .tradeUnitLand, .tradeUnitLandPlot, .citadel, .improvementResource:
+        case .barbarianCamp,
+                .improvement,
+                .improvementToDefend,
+                .defensiveBastion,
+                .ancientRuins,
+                .tradeUnitLand,
+                .tradeUnitLandPlot,
+                .citadel,
+                .improvementResource:
             return domain == .land
 
             // sea targets

@@ -135,6 +135,8 @@ open class GameModel: Codable {
         self.barbarianAI = BarbarianAI(with: self)
 
         self.doUpdateDiplomaticVictory()
+
+        AStarPathfinderCache.shared.reset()
     }
 
     public required init(from decoder: Decoder) throws {
@@ -219,6 +221,8 @@ open class GameModel: Codable {
         }
 
         self.doUpdateDiplomaticVictory()
+
+        AStarPathfinderCache.shared.reset()
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -2997,7 +3001,7 @@ extension GameModel {
 
     func aiLoggingEnabled() -> Bool {
 
-        return true
+        return false
     }
 }
 

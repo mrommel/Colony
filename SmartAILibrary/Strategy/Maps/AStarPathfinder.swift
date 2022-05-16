@@ -142,6 +142,13 @@ class AStarPathfinderCache {
             self.cache[identifier] = path
         }
     }
+
+    internal func reset() {
+
+        self.serialQueue.sync {
+            self.cache.removeAll()
+        }
+    }
 }
 
 /** A pathfinder based on the A* algorithm to find the shortest path between two locations */

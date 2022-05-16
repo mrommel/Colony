@@ -218,7 +218,7 @@ struct CityProductionView_Previews: PreviewProvider {
             )
 
         CityProductionView(viewModel: cityProductionViewModel)
-            //.environment(\.gameEnvironment, environment)
+            // .environment(\.gameEnvironment, environment)
             .previewDisplayName("Picker")
     }
 }
