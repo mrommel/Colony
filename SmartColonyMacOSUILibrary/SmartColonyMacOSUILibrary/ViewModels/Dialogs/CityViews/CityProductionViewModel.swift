@@ -269,7 +269,6 @@ class CityProductionViewModel: ObservableObject {
             switch currentBuilding.type {
 
             case .unit:
-                print("-- unit --")
                 guard let unitType = currentBuilding.unitType else {
                     fatalError("no unit type given")
                 }
@@ -282,7 +281,6 @@ class CityProductionViewModel: ObservableObject {
                 tmpBuildQueueModels.append(unitViewModel)
 
             case .district:
-                print("-- district --")
                 guard let districtType = currentBuilding.districtType else {
                     fatalError("no district type given")
                 }
@@ -290,12 +288,13 @@ class CityProductionViewModel: ObservableObject {
                 let productionCost = districtType.productionCost()
 
                 let turns = productionPerTurn > 0.0 ? Int(ceil(Double(productionCost) / productionPerTurn)) : 100
-                let districtViewModel = DistrictViewModel(districtType: districtType, at: currentBuilding.location!, turns: turns, active: false, at: index)
+                let districtViewModel = DistrictViewModel(
+                    districtType: districtType, at: currentBuilding.location!, turns: turns, active: false, at: index
+                )
                 districtViewModel.delegate = self.queueManager
                 tmpBuildQueueModels.append(districtViewModel)
 
             case .building:
-                print("-- building --")
                 guard let buildingType = currentBuilding.buildingType else {
                     fatalError("no building type given")
                 }
@@ -308,7 +307,6 @@ class CityProductionViewModel: ObservableObject {
                 tmpBuildQueueModels.append(buildingViewModel)
 
             case .wonder:
-                print("-- wonder --")
                 guard let wonderType = currentBuilding.wonderType else {
                     fatalError("no wonder type given")
                 }

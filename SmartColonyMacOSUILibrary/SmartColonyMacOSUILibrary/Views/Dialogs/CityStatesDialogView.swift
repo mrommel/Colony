@@ -39,10 +39,11 @@ struct CityStatesDialogView: View {
                             // list of known city states
                             LazyVStack(alignment: .leading) {
 
-                                ForEach(self.viewModel.cityStateViewModels, id: \.self) { cityStateViewModel in
+                                ForEach(Array(self.viewModel.cityStateViewModels.enumerated()), id: \.element) { index, cityStateViewModel in
 
                                     CityStateView(viewModel: cityStateViewModel)
                                         .padding(.leading, 4)
+                                        .zIndex(50 - Doubel(index))
                                 }
                             }
 

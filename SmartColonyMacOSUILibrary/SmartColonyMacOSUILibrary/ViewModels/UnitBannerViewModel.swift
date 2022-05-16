@@ -213,6 +213,19 @@ class UnitBannerViewModel: ObservableObject {
         self.delegate?.showUnitListDialog()
     }
 
+    func unitListTooltip() -> NSAttributedString {
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: "List of all units",
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        return toolTipText
+    }
+
     // swiftlint:disable cyclomatic_complexity
     func handle(command: CommandType) {
 
@@ -231,7 +244,7 @@ class UnitBannerViewModel: ObservableObject {
 
                 gameModel.userInterface?.askForInput(
                     title: "TXT_KEY_RENAME".localized(),
-                    summary: "Please provide a new Name:",
+                    summary: "TXT_KEY_MISC_PROVIDE_NAME".localized(),
                     value: selectedUnit.name(),
                     confirm: "TXT_KEY_RENAME".localized(),
                     cancel: "TXT_KEY_CANCEL".localized(),
@@ -254,8 +267,8 @@ class UnitBannerViewModel: ObservableObject {
                 let cityName = player.newCityName(in: gameModel) // not localized !
 
                 gameModel.userInterface?.askForInput(
-                    title: "City Name",
-                    summary: "Please provide a name:",
+                    title: "TXT_KEY_MISC_PROVIDE_CITY_NAME".localized(),
+                    summary: "TXT_KEY_MISC_PROVIDE_NAME".localized(),
                     value: cityName.localized(),
                     confirm: "TXT_KEY_FOUND".localized(),
                     cancel: "TXT_KEY_CANCEL".localized(),
@@ -442,10 +455,10 @@ class UnitBannerViewModel: ObservableObject {
             if let selectedUnit = self.selectedUnit {
 
                 gameModel.userInterface?.askForConfirmation(
-                    title: "Disband",
-                    question: "Do you really want to disband \(selectedUnit.name())?",
-                    confirm: "Disband",
-                    cancel: "Cancel",
+                    title: "TXT_KEY_DISBAND".localized(),
+                    question: "TXT_KEY_MISC_CONFIRM_DISBAND".localizedWithFormat(with: [selectedUnit.name()]),
+                    confirm: "TXT_KEY_DISBAND".localized(),
+                    cancel: "TXT_KEY_CANCEL".localized(),
                     completion: { disband in
 
                     if disband {
@@ -547,7 +560,7 @@ class UnitBannerViewModel: ObservableObject {
                 }
 
                 gameModel.userInterface?.askForSelection(
-                    title: "Found Religion",
+                    title: "TXT_KEY_MISC_FOUND_RELIGION".localized(),
                     items: selectableItems,
                     completion: { selectedIndex in
 
@@ -585,10 +598,10 @@ class UnitBannerViewModel: ObservableObject {
             if let selectedUnit = self.selectedUnit {
 
                 gameModel.userInterface?.askForConfirmation(
-                    title: "Activate Great Person",
-                    question: "Do you really want to activate \(selectedUnit.greatPerson.name())?",
-                    confirm: "Activate",
-                    cancel: "Cancel",
+                    title: "TXT_KEY_MISC_ACTIVATE_GREAT_PERSON".localized(),
+                    question: "TXT_KEY_MISC_CONFIRM_ACTIVATE".localizedWithFormat(with: [selectedUnit.greatPerson.name()]),
+                    confirm: "TXT_KEY_ACTIVATE".localized(),
+                    cancel: "TXT_KEY_CANCEL".localized(),
                     completion: { confirmed in
 
                         if confirmed {
@@ -624,7 +637,7 @@ class UnitBannerViewModel: ObservableObject {
                 }
 
                 gameModel.userInterface?.askForSelection(
-                    title: "Select City to transfer to",
+                    title: "TXT_KEY_MISC_SELECT_TRANSFER_CITY".localized(),
                     items: selectableItems,
                     completion: { selectedIndex in
 

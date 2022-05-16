@@ -50,11 +50,11 @@ class UnitCommandViewModel: ObservableObject {
         )
         toolTipText.append(title)
 
-        let effects = NSAttributedString(
+        /* let effects = NSAttributedString(
             string: "\n\nDescription \(Int.random(number: 10))",
             attributes: Globals.Attributs.tooltipContentAttributs
         )
-        toolTipText.append(effects)
+        toolTipText.append(effects)*/
 
         return toolTipText
     }
