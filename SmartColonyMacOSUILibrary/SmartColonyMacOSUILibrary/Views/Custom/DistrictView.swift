@@ -15,40 +15,39 @@ struct DistrictView: View {
 
     var body: some View {
 
-        TooltipContainerView(self.viewModel.toolTip) {
-            HStack(alignment: .center, spacing: 10) {
-
-                Image(nsImage: self.viewModel.icon())
-                    .resizable()
-                    .frame(width: 24, height: 24, alignment: .topLeading)
-                    .padding(.leading, 16)
-                    .padding(.top, 9)
-
-                Text(self.viewModel.title())
-                    .foregroundColor(self.viewModel.fontColor())
-                    .padding(.top, 9)
-
-                Spacer()
-
-                Text(self.viewModel.turnsText())
-                    .padding(.top, 9)
-                    .padding(.trailing, 0)
-
-                Image(nsImage: self.viewModel.turnsIcon())
-                    .resizable()
-                    .frame(width: 24, height: 24, alignment: .topLeading)
-                    .padding(.trailing, 16)
-                    .padding(.top, 9)
-            }
-            .frame(width: 300, height: 42, alignment: .topLeading)
-            .background(
-                Image(nsImage: self.viewModel.background())
-                    .resizable(capInsets: EdgeInsets(all: 15))
-            )
-            .onTapGesture {
-                self.viewModel.clicked()
-            }
+        HStack(alignment: .center, spacing: 10) {
+            
+            Image(nsImage: self.viewModel.icon())
+                .resizable()
+                .frame(width: 24, height: 24, alignment: .topLeading)
+                .padding(.leading, 16)
+                .padding(.top, 9)
+            
+            Text(self.viewModel.title())
+                .foregroundColor(self.viewModel.fontColor())
+                .padding(.top, 9)
+            
+            Spacer()
+            
+            Text(self.viewModel.turnsText())
+                .padding(.top, 9)
+                .padding(.trailing, 0)
+            
+            Image(nsImage: self.viewModel.turnsIcon())
+                .resizable()
+                .frame(width: 24, height: 24, alignment: .topLeading)
+                .padding(.trailing, 16)
+                .padding(.top, 9)
         }
+        .frame(width: 300, height: 42, alignment: .topLeading)
+        .background(
+            Image(nsImage: self.viewModel.background())
+                .resizable(capInsets: EdgeInsets(all: 15))
+        )
+        .onTapGesture {
+            self.viewModel.clicked()
+        }
+        .tooltip(self.viewModel.toolTip)
     }
 }
 

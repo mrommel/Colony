@@ -24,15 +24,14 @@ struct UnitCommandView: View {
 
     var body: some View {
 
-        TooltipContainerView(self.viewModel.toolTip(), side: .top) {
-            Image(nsImage: self.viewModel.image())
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: self.imageWidth, height: self.imageHeight)
-                .onTapGesture {
-                    self.viewModel.clicked()
-                }
-        }
+        Image(nsImage: self.viewModel.image())
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: self.imageWidth, height: self.imageHeight)
+            .onTapGesture {
+                self.viewModel.clicked()
+            }
+            .tooltip(self.viewModel.toolTip(), side: .top)
     }
 }
 

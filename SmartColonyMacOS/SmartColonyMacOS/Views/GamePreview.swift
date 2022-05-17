@@ -28,26 +28,23 @@ struct GamePreview: View {
 
         HStack(alignment: .center, spacing: 17.5) {
 
-            TooltipContainerView(self.viewModel.civilizationToolTip()) {
-                Image(nsImage: self.viewModel.civilizationImage())
-                    .resizable()
-                    .frame(width: 32, height: 32)
-                    .clipShape(Circle())
-            }
+            Image(nsImage: self.viewModel.civilizationImage())
+                .resizable()
+                .frame(width: 32, height: 32)
+                .clipShape(Circle())
+                .tooltip(self.viewModel.civilizationToolTip())
 
-            TooltipContainerView(self.viewModel.leaderToolTip()) {
-                Image(nsImage: self.viewModel.leaderImage())
-                    .resizable()
-                    .frame(width: 32, height: 32)
-                    .clipShape(Circle())
-            }
+            Image(nsImage: self.viewModel.leaderImage())
+                .resizable()
+                .frame(width: 32, height: 32)
+                .clipShape(Circle())
+                .tooltip(self.viewModel.leaderToolTip())
 
-            TooltipContainerView(self.viewModel.handicapToolTip()) {
-                Image(nsImage: self.viewModel.handicapImage())
-                    .resizable()
-                    .frame(width: 32, height: 32)
-                    .clipShape(Circle())
-            }
+            Image(nsImage: self.viewModel.handicapImage())
+                .resizable()
+                .frame(width: 32, height: 32)
+                .clipShape(Circle())
+                .tooltip(self.viewModel.handicapToolTip())
 
             Image(nsImage: self.viewModel.speedImage())
                 .resizable()

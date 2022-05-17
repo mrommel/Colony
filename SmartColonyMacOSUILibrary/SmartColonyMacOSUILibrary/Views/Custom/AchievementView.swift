@@ -19,14 +19,13 @@ struct AchievementView: View {
     }
 
     public var body: some View {
-
-        TooltipContainerView(self.viewModel.toolTip, side: .trailingBottom) {
-            Image(nsImage: self.viewModel.image)
-                .resizable()
-                .frame(width: 16, height: 16, alignment: .topLeading)
-                .padding(.trailing, 0)
-                .padding(.leading, 0)
-        }
+        
+        Image(nsImage: self.viewModel.image)
+            .resizable()
+            .frame(width: 16, height: 16, alignment: .topLeading)
+            .padding(.trailing, 0)
+            .padding(.leading, 0)
+            .tooltip(self.viewModel.toolTip, side: .trailingBottom)
     }
 }
 

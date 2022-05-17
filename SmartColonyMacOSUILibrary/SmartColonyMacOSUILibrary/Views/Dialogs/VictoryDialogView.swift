@@ -161,10 +161,9 @@ struct VictoryDialogView: View {
                         Text("\(victoryRankingViewModel.index)")
                             .frame(width: 20)
 
-                        TooltipContainerView(victoryRankingViewModel.toolTip()) {
-                            Text(victoryRankingViewModel.name)
-                                .frame(width: 150)
-                        }
+                        Text(victoryRankingViewModel.name)
+                            .frame(width: 150)
+                            .tooltip(victoryRankingViewModel.toolTip())
 
                         Spacer()
 

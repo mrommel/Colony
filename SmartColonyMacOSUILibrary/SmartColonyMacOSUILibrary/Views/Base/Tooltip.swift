@@ -9,12 +9,28 @@ import SwiftUI
 import SmartAssets
 import SwiftUITooltip
 
+/// add view modifier to show tooltip string / attributed string
+///
+/// view
+///    .tooltip("content text")
+///
+extension View {
+
+    public func tooltip(_ textRef: String?, side: TooltipSide = .bottom) -> some View {
+        TooltipContainerView(textRef, side: side) { self }
+    }
+
+    public func tooltip(_ attributedTextRef: NSAttributedString?, side: TooltipSide = .bottom) -> some View {
+        TooltipContainerView(attributedTextRef, side: side) { self }
+    }
+}
+
 /// container view to show tooltip string / attributed string
 ///
 /// TooltipContainerView("tooltip text") {
 ///    Text("content text")
 /// }
-public struct TooltipContainerView<Content: View>: View {
+private struct TooltipContainerView<Content: View>: View {
 
     private var tooltipText: NSAttributedString
     @ViewBuilder var content: Content
@@ -22,7 +38,7 @@ public struct TooltipContainerView<Content: View>: View {
     @State private var tooltipShown: Bool = false
     private var tooltipConfig = DefaultTooltipConfig()
 
-    public init(_ textRef: String?, side: TooltipSide = .bottom, @ViewBuilder content: () -> Content) {
+    init(_ textRef: String?, side: TooltipSide = .bottom, @ViewBuilder content: () -> Content) {
 
         self.content = content()
         if let text = textRef {
@@ -36,7 +52,7 @@ public struct TooltipContainerView<Content: View>: View {
         self.tooltipConfig.side = side
     }
 
-    public init(_ attributedTextRef: NSAttributedString?, side: TooltipSide = .bottom, @ViewBuilder content: () -> Content) {
+    init(_ attributedTextRef: NSAttributedString?, side: TooltipSide = .bottom, @ViewBuilder content: () -> Content) {
 
         self.content = content()
         if let attributedText = attributedTextRef {
@@ -50,7 +66,7 @@ public struct TooltipContainerView<Content: View>: View {
         self.tooltipConfig.side = side
     }
 
-    public var body: some View {
+    var body: some View {
 
         self.content
             .onHover { over in

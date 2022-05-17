@@ -21,49 +21,47 @@ struct NotificationView: View {
 
     public var body: some View {
 
-        TooltipContainerView(self.viewModel.toolTip, side: .trailing) {
-
-            ZStack(alignment: .topLeading) {
-
-                Image(nsImage: self.viewModel.background())
-                    .resizable()
-                    .frame(width: 61, height: 65, alignment: .center)
-
-                Image(nsImage: self.viewModel.icon())
-                    .resizable()
-                    .frame(width: 40, height: 40, alignment: .center)
-                    .padding(.top, 13.5)
-                    .padding(.leading, 14)
-
-                Circle()
-                    .fill(Color.white.opacity(0.01))
-                    .frame(width: 40, height: 40)
-                    .padding(.top, 13.5)
-                    .padding(.leading, 14)
-                    .onTapGesture {
-                        self.viewModel.click()
-                    }
-
-                if self.viewModel.amount > 1 {
-                    Text("\(self.viewModel.amount)")
-                        .frame(width: 8, height: 8, alignment: .center)
-                        .padding(4)
-                        .background(
-                            Circle()
-                                .strokeBorder(Color.orange, lineWidth: 1)
-                                .background(Circle().fill(Color(Globals.Colors.dialogCenter)))
-                                .padding(1)
-                        )
-                        .offset(x: 8, y: 44)
+        ZStack(alignment: .topLeading) {
+            
+            Image(nsImage: self.viewModel.background())
+                .resizable()
+                .frame(width: 61, height: 65, alignment: .center)
+            
+            Image(nsImage: self.viewModel.icon())
+                .resizable()
+                .frame(width: 40, height: 40, alignment: .center)
+                .padding(.top, 13.5)
+                .padding(.leading, 14)
+            
+            Circle()
+                .fill(Color.white.opacity(0.01))
+                .frame(width: 40, height: 40)
+                .padding(.top, 13.5)
+                .padding(.leading, 14)
+                .onTapGesture {
+                    self.viewModel.click()
                 }
-
-                if self.viewModel.expanded {
-                    NotificationDetailView(viewModel: self.viewModel.detailViewModel)
-                        .offset(x: 70, y: 0)
-                }
+            
+            if self.viewModel.amount > 1 {
+                Text("\(self.viewModel.amount)")
+                    .frame(width: 8, height: 8, alignment: .center)
+                    .padding(4)
+                    .background(
+                        Circle()
+                            .strokeBorder(Color.orange, lineWidth: 1)
+                            .background(Circle().fill(Color(Globals.Colors.dialogCenter)))
+                            .padding(1)
+                    )
+                    .offset(x: 8, y: 44)
             }
-            .frame(height: 65, alignment: .leading)
+            
+            if self.viewModel.expanded {
+                NotificationDetailView(viewModel: self.viewModel.detailViewModel)
+                    .offset(x: 70, y: 0)
+            }
         }
+        .frame(height: 65, alignment: .leading)
+        .tooltip(self.viewModel.toolTip, side: .trailing)
     }
 }
 
