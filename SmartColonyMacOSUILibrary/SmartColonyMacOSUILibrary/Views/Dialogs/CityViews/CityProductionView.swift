@@ -63,8 +63,6 @@ struct CityProductionView: View {
     @ObservedObject
     var viewModel: CityProductionViewModel
 
-    private var gridItemLayout = [GridItem(.fixed(300))]
-
     public init(viewModel: CityProductionViewModel) {
 
         self.viewModel = viewModel
