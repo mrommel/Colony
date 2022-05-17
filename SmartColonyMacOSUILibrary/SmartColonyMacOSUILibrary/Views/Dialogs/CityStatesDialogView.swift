@@ -41,7 +41,7 @@ struct CityStatesDialogView: View {
 
                                 ForEach(Array(self.viewModel.cityStateViewModels.enumerated()), id: \.element) { index, cityStateViewModel in
 
-                                    CityStateView(viewModel: cityStateViewModel)
+                                    CityStateView(viewModel: cityStateViewModel, zIndex: 50 - Double(index))
                                         .padding(.leading, 4)
                                         .zIndex(50 - Double(index))
                                 }

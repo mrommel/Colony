@@ -37,7 +37,7 @@ struct MapMarkerPickerView: View {
 
             LazyVGrid(columns: gridItemLayout, alignment: .leading, spacing: 2) {
 
-                ForEach(self.viewModel.districtMarkerViewModels, id: \.self) { markerViewModel in
+                ForEach(Array(self.viewModel.districtMarkerViewModels.enumerated()), id: \.element) { index, markerViewModel in
 
                     Image(nsImage: markerViewModel.image())
                         .resizable()
@@ -46,6 +46,7 @@ struct MapMarkerPickerView: View {
                         .onTapGesture {
                             self.viewModel.selectedType = markerViewModel.type
                         }
+                        .zIndex(Double(400 - index))
                         .tooltip(markerViewModel.toolTip())
                 }
             }
@@ -54,7 +55,7 @@ struct MapMarkerPickerView: View {
 
             LazyVGrid(columns: gridItemLayout, alignment: .leading, spacing: 2) {
 
-                ForEach(self.viewModel.wonderMarkerViewModels, id: \.self) { markerViewModel in
+                ForEach(Array(self.viewModel.wonderMarkerViewModels.enumerated()), id: \.element) { index, markerViewModel in
 
                     Image(nsImage: markerViewModel.image())
                         .resizable()
@@ -63,6 +64,7 @@ struct MapMarkerPickerView: View {
                         .onTapGesture {
                             self.viewModel.selectedType = markerViewModel.type
                         }
+                        .zIndex(Double(200 - index))
                         .tooltip(markerViewModel.toolTip())
                 }
             }

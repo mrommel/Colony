@@ -353,6 +353,10 @@ class UnitLayer: SKNode {
                     textureName += "-out"
                 }
 
+                guard ImageCache.shared.exists(key: textureName) else {
+                    continue
+                }
+
                 let pathImage = ImageCache.shared.image(for: textureName)
 
                 let pathSprite = SKSpriteNode(texture: SKTexture(image: pathImage), size: UnitLayer.kTextureSize)

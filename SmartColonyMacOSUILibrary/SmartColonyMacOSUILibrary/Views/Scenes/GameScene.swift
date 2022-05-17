@@ -581,7 +581,11 @@ extension GameScene: MouseAwareDelegate {
                 return
             }
 
-            let position = HexPoint(screen: location)
+            var position = HexPoint(screen: location)
+
+            if gameModel.wrappedX() {
+                position = gameModel.wrap(point: position)
+            }
 
             if position != selectedUnit.location {
 
@@ -653,6 +657,10 @@ extension GameScene: MouseAwareDelegate {
 
     func customMouseUp(with event: NSEvent) {
 
+        guard let gameModel = self.viewModel?.gameModel else {
+            fatalError("cant get game")
+        }
+
         let location = event.location(in: self)
         let touchLocation = self.convert(location, to: self.viewHex!)
 
@@ -664,7 +672,11 @@ extension GameScene: MouseAwareDelegate {
             fatalError("cant get selection mode")
         }
 
-        let position = HexPoint(screen: location)
+        var position = HexPoint(screen: location)
+
+        if gameModel.wrappedX() {
+            position = gameModel.wrap(point: position)
+        }
 
         if unitSelectionMode == .marker {
             self.viewModel?.delegate?.selectMarker(at: position)

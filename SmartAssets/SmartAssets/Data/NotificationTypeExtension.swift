@@ -122,11 +122,11 @@ extension NotificationType {
         case .questCityStateGiven(cityState: _, quest: _):
             return "quest given"
         case .momentAdded(type: _):
-            return "moment added"
+            return "Moment added"
         case .tradeRouteCapacityIncreased:
             return "Capacity for Trade Routes has increased"
         case .naturalWonderDiscovered(location: _):
-            return "natural wonder discovered"
+            return "Matural wonder discovered"
         case .continentDiscovered:
             return "new continent discovered"
         case .wonderBuilt:
@@ -233,7 +233,7 @@ extension NotificationType {
         case .naturalWonderDiscovered(location: let location):
             if let tile = gameModel.tile(at: location) {
                 if tile.feature().isNaturalWonder() {
-                    return "natural wonder \(tile.feature()) discovered"
+                    return "You have discovered the Natural wonder \(tile.feature()) "
                 }
             }
             return "natural wonder discovered"
