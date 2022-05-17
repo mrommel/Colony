@@ -111,6 +111,7 @@ struct CityProductionView: View {
             Text("TXT_KEY_UNITS".localized())
                 .font(.headline)
                 .padding(.top, 10)
+                .zIndex(500.1)
 
             ForEach(Array(self.viewModel.unitViewModels.enumerated()), id: \.element) { index, unitViewModel in
 
@@ -124,18 +125,15 @@ struct CityProductionView: View {
                 .font(.headline)
                 .zIndex(400.1)
 
-            LazyVGrid(columns: gridItemLayout, spacing: 10) {
+            ForEach(Array(self.viewModel.districtSectionViewModels.enumerated()), id: \.element) { dindex, districtSectionViewModel in
 
-                ForEach(Array(self.viewModel.districtSectionViewModels.enumerated()), id: \.element) { dindex, districtSectionViewModel in
+                DistrictView(viewModel: districtSectionViewModel.districtViewModel)
+                    .zIndex(400.0 - Double(5 * dindex)) // needed for tooltip
 
-                    DistrictView(viewModel: districtSectionViewModel.districtViewModel)
-                        .zIndex(400.0 - Double(5 * dindex)) // needed for tooltip
+                ForEach(Array(districtSectionViewModel.buildingViewModels.enumerated()), id: \.element) { bindex, buildingViewModel in
 
-                    ForEach(Array(districtSectionViewModel.buildingViewModels.enumerated()), id: \.element) { bindex, buildingViewModel in
-
-                        BuildingView(viewModel: buildingViewModel)
-                            .zIndex(400.0 - Double(5 * dindex) - 1.0 - Double(bindex)) // needed for tooltip
-                    }
+                    BuildingView(viewModel: buildingViewModel)
+                        .zIndex(400.0 - Double(5 * dindex) - 1.0 - Double(bindex)) // needed for tooltip
                 }
             }
 
