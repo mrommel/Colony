@@ -200,6 +200,7 @@ public class MapOverviewViewModel: ObservableObject {
 
         if self.showMapMarker {
             self.showMapMarkerWaiting = false
+            self.mapMarkersViewModel.updateMarkers()
         }
     }
 

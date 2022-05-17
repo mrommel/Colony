@@ -13,8 +13,7 @@ struct CityStateView: View {
     @ObservedObject
     var viewModel: CityStateViewModel
 
-    @State
-    var zIndexValue: Double
+    let zIndexValue: Double
 
     public init(viewModel: CityStateViewModel, zIndex: Double) {
 
@@ -39,7 +38,7 @@ struct CityStateView: View {
             }
             .frame(width: 32, height: 24)
             .zIndex(self.zIndexValue)
-            .tooltip(self.viewModel.questHintToolTip())
+            .tooltip(self.viewModel.questHintToolTip(), side: .trailingBottom)
 
             Text(self.viewModel.name)
                 .frame(width: 100, height: 24, alignment: .leading)
