@@ -8,6 +8,19 @@
 import SwiftUI
 import SmartAILibrary
 import SmartAssets
+import Introspect
+
+extension List {
+    /// List on macOS uses an opaque background with no option for
+    /// removing/changing it. listRowBackground() doesn't work either.
+    /// This workaround works because List is backed by NSTableView.
+    func removeBackground() -> some View {
+        return introspectTableView { tableView in
+            tableView.backgroundColor = .clear
+            tableView.enclosingScrollView!.drawsBackground = false
+        }
+    }
+}
 
 struct BuildableItemView: View {
 
@@ -78,17 +91,19 @@ struct CityProductionView: View {
 
     var queueView: some View {
 
-        // ScrollView(.vertical, showsIndicators: true) {
         VStack {
             if self.viewModel.queueViewModels.isEmpty {
                 Text("TXT_KEY_EMPTY_QUEUE".localized())
                     .font(.headline)
                     .padding(.top, 10)
+
+                Spacer()
             } else {
                 self.queueListView
             }
         }
         .frame(width: 340, height: 300, alignment: .top)
+        .background(Color.clear)
     }
 
     var queueListView: some View {
@@ -101,7 +116,8 @@ struct CityProductionView: View {
             }
             .onInsert(of: ["public.item"], perform: self.viewModel.onDroppedQueueItem)
         }
-        .background(Color.clear)
+        .removeBackground()
+        .frame(width: 340, height: 300, alignment: .top)
     }
 
     var buildableItemsView: some View {

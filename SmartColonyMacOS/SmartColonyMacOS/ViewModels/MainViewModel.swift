@@ -139,16 +139,24 @@ extension MainViewModel: MenuViewModelDelegate {
 
     func resumeGame() {
 
-        let directory = NSTemporaryDirectory()
-        let fileName = "current.clny"
+        self.presentedView = .loadingGame
+        self.mapMenuDisabled = false
 
-        // This returns a URL? even though it is an NSURL class method
-        let fullURL = NSURL.fileURL(withPathComponents: [directory, fileName])
+        DispatchQueue.global(qos: .userInitiated).async {
 
-        let reader = GameLoader()
-        let gameModel = reader.load(from: fullURL)
+            let directory = NSTemporaryDirectory()
+            let fileName = "current.clny"
 
-        self.created(game: gameModel)
+            // This returns a URL? even though it is an NSURL class method
+            let fullURL = NSURL.fileURL(withPathComponents: [directory, fileName])
+
+            let reader = GameLoader()
+            let gameModel = reader.load(from: fullURL)
+
+            DispatchQueue.main.async {
+                self.created(game: gameModel)
+            }
+        }
     }
 
     func newGameStarted() {
