@@ -19,7 +19,7 @@ struct AchievementView: View {
     }
 
     public var body: some View {
-        
+
         Image(nsImage: self.viewModel.image)
             .resizable()
             .frame(width: 16, height: 16, alignment: .topLeading)

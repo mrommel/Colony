@@ -247,4 +247,25 @@ extension NotificationType {
             return "You have acquired \(cityName)"
         }
     }
+
+    public func tooltip(in gameModel: GameModel?) -> NSAttributedString {
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: self.title(), // already localized
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        toolTipText.append(NSAttributedString(string: "\n"))
+
+        let content = NSAttributedString(
+            string: self.message(in: gameModel), // already localized
+            attributes: Globals.Attributs.tooltipContentAttributs
+        )
+        toolTipText.append(content)
+
+        return toolTipText
+    }
 }

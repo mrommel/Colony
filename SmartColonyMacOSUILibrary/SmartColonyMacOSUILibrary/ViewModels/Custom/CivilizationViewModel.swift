@@ -14,23 +14,14 @@ class CivilizationViewModel: ObservableObject {
     private var id: UUID = UUID()
 
     @Published
-    var toolTip: NSMutableAttributedString
+    var toolTip: NSAttributedString
 
     private let civilization: CivilizationType
 
     init(civilization: CivilizationType) {
 
         self.civilization = civilization
-
-        let tooltipText = NSMutableAttributedString()
-
-        let leaderName = NSAttributedString(
-            string: civilization.name().localized(),
-            attributes: Globals.Attributs.tooltipTitleAttributs
-        )
-        tooltipText.append(leaderName)
-
-        self.toolTip = tooltipText
+        self.toolTip = civilization.toolTip()
     }
 
     func image() -> NSImage {

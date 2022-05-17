@@ -20,14 +20,14 @@ struct LeaderView: View {
                 Image(nsImage: self.viewModel.badgeImage())
                     .resizable()
                     .frame(width: 52, height: 52)
-                
+
                 Image(nsImage: self.viewModel.image())
                     .resizable()
                     .frame(width: 42, height: 42)
                     .onTapGesture {
                         self.viewModel.clicked()
                     }
-                
+
                 Image(nsImage: self.viewModel.approachImage)
                     .resizable()
                     .frame(width: 16, height: 16)

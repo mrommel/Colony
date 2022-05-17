@@ -248,7 +248,7 @@ extension View {
     }
 }
 
-struct TrackinAreaView<Content>: View where Content : View {
+struct TrackinAreaView<Content>: View where Content: View {
     let onMove: (NSPoint) -> Void
     let content: () -> Content
 
@@ -274,7 +274,7 @@ struct TrackingAreaRepresentable<Content>: NSViewRepresentable where Content: Vi
     }
 }
 
-class TrackingNSHostingView<Content>: NSHostingView<Content> where Content : View {
+class TrackingNSHostingView<Content>: NSHostingView<Content> where Content: View {
     let onMove: (NSPoint) -> Void
 
     init(onMove: @escaping (NSPoint) -> Void, rootView: Content) {

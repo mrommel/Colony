@@ -16,22 +16,22 @@ struct UnitView: View {
     var body: some View {
 
         HStack(alignment: .center, spacing: 8) {
-            
+
             Image(nsImage: self.viewModel.icon())
                 .resizable()
                 .frame(width: 24, height: 24, alignment: .topLeading)
                 .padding(.leading, 16)
                 .padding(.top, 9)
-            
+
             Text(self.viewModel.title())
                 .padding(.top, 9)
-            
+
             Spacer()
-            
+
             Text(self.viewModel.turnsText())
                 .padding(.top, 9)
                 .padding(.trailing, 0)
-            
+
             Image(nsImage: self.viewModel.costTypeIcon())
                 .resizable()
                 .frame(width: 24, height: 24, alignment: .topLeading)

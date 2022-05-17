@@ -58,23 +58,7 @@ final class UnitViewModel: QueueViewModel, Codable {
         self.enabled = enabled
         self.unit = nil
         self.index = index
-
-        let toolTipText = NSMutableAttributedString()
-
-        let title = NSAttributedString(
-            string: unitType.name().localized() + "\n\n",
-            attributes: Globals.Attributs.tooltipTitleAttributs
-        )
-        toolTipText.append(title)
-
-        let tokenizer = LabelTokenizer()
-        let effects = tokenizer.bulletPointList(
-            from: unitType.effects().map { $0.localized() },
-            with: Globals.Attributs.tooltipContentAttributs
-        )
-        toolTipText.append(effects)
-
-        self.toolTip = toolTipText
+        self.toolTip = unitType.toolTip()
 
         super.init(queueType: .unit)
     }
@@ -88,23 +72,7 @@ final class UnitViewModel: QueueViewModel, Codable {
         self.enabled = true
         self.unit = unit
         self.index = index
-
-        let toolTipText = NSMutableAttributedString()
-
-        let title = NSAttributedString(
-            string: unitType.name().localized() + "\n\n",
-            attributes: Globals.Attributs.tooltipTitleAttributs
-        )
-        toolTipText.append(title)
-
-        let tokenizer = LabelTokenizer()
-        let effects = tokenizer.bulletPointList(
-            from: unitType.effects(),
-            with: Globals.Attributs.tooltipContentAttributs
-        )
-        toolTipText.append(effects)
-
-        self.toolTip = toolTipText
+        self.toolTip = unitType.toolTip()
 
         super.init(queueType: .unit)
     }
@@ -120,23 +88,7 @@ final class UnitViewModel: QueueViewModel, Codable {
         self.index = try container.decode(Int.self, forKey: .index)
         self.enabled = try container.decode(Bool.self, forKey: .enabled)
         self.unit = nil
-
-        let toolTipText = NSMutableAttributedString()
-
-        let title = NSAttributedString(
-            string: unitType.name().localized() + "\n\n",
-            attributes: Globals.Attributs.tooltipTitleAttributs
-        )
-        toolTipText.append(title)
-
-        let tokenizer = LabelTokenizer()
-        let effects = tokenizer.bulletPointList(
-            from: unitType.effects().map { $0.localized() },
-            with: Globals.Attributs.tooltipContentAttributs
-        )
-        toolTipText.append(effects)
-
-        self.toolTip = toolTipText
+        self.toolTip = self.unitType.toolTip()
 
         super.init(queueType: .unit)
 

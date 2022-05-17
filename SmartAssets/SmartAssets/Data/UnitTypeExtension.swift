@@ -19,9 +19,10 @@ extension UnitType {
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
         toolTipText.append(title)
+        toolTipText.append(NSAttributedString(string: "\n\n"))
 
         let effects = NSAttributedString(
-            string: self.effects().reduce("\n\n", { $0 + $1.localized() + "\n" }),
+            string: self.effects().reduce("", { $0 + $1.localized() + "\n" }),
             attributes: Globals.Attributs.tooltipContentAttributs
         )
         toolTipText.append(effects)

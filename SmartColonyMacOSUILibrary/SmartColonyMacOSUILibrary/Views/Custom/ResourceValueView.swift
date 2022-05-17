@@ -20,7 +20,7 @@ struct ResourceValueView: View {
             Image(nsImage: self.viewModel.iconImage())
                 .resizable()
                 .frame(width: 14, height: 14, alignment: .center)
-            
+
             Text(self.viewModel.valueText)
                 .foregroundColor(Color.white)
                 .font(.caption)

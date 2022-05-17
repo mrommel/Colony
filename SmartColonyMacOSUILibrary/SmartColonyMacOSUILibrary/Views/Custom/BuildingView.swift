@@ -16,23 +16,23 @@ struct BuildingView: View {
     var body: some View {
 
         HStack(alignment: .center, spacing: 10) {
-            
+
             Image(nsImage: self.viewModel.icon())
                 .resizable()
                 .frame(width: 24, height: 24, alignment: .topLeading)
                 .padding(.leading, 16)
                 .padding(.top, 9)
-            
+
             Text(self.viewModel.title())
                 .padding(.top, 9)
-            
+
             Spacer()
-            
+
             if self.viewModel.showYields {
-                
+
                 HStack(alignment: .center, spacing: 0) {
                     ForEach(self.viewModel.yieldValueViewModels(), id: \.self) { yieldValueViewModel in
-                        
+
                         YieldValueView(viewModel: yieldValueViewModel)
                             .padding(.trailing, 0)
                             .padding(.leading, -8)
@@ -45,7 +45,7 @@ struct BuildingView: View {
                 Text(self.viewModel.turnsText())
                     .padding(.top, 9)
                     .padding(.trailing, 0)
-                
+
                 Image(nsImage: self.viewModel.turnsIcon())
                     .resizable()
                     .frame(width: 24, height: 24, alignment: .topLeading)

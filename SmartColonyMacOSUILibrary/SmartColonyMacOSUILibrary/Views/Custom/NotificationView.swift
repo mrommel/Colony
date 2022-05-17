@@ -22,17 +22,17 @@ struct NotificationView: View {
     public var body: some View {
 
         ZStack(alignment: .topLeading) {
-            
+
             Image(nsImage: self.viewModel.background())
                 .resizable()
                 .frame(width: 61, height: 65, alignment: .center)
-            
+
             Image(nsImage: self.viewModel.icon())
                 .resizable()
                 .frame(width: 40, height: 40, alignment: .center)
                 .padding(.top, 13.5)
                 .padding(.leading, 14)
-            
+
             Circle()
                 .fill(Color.white.opacity(0.01))
                 .frame(width: 40, height: 40)
@@ -41,7 +41,7 @@ struct NotificationView: View {
                 .onTapGesture {
                     self.viewModel.click()
                 }
-            
+
             if self.viewModel.amount > 1 {
                 Text("\(self.viewModel.amount)")
                     .frame(width: 8, height: 8, alignment: .center)
@@ -54,7 +54,7 @@ struct NotificationView: View {
                     )
                     .offset(x: 8, y: 44)
             }
-            
+
             if self.viewModel.expanded {
                 NotificationDetailView(viewModel: self.viewModel.detailViewModel)
                     .offset(x: 70, y: 0)

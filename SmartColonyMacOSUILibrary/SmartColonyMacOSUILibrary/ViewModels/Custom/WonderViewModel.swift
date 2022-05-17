@@ -52,23 +52,7 @@ final class WonderViewModel: QueueViewModel, Codable {
         self.turns = turns
         self.showYields = showYields
         self.index = index
-
-        let toolTipText = NSMutableAttributedString()
-
-        let title = NSAttributedString(
-            string: wonderType.name().localized() + "\n\n",
-            attributes: Globals.Attributs.tooltipTitleAttributs
-        )
-        toolTipText.append(title)
-
-        let tokenizer = LabelTokenizer()
-        let effects = tokenizer.bulletPointList(
-            from: wonderType.effects().map { $0.localized() },
-            with: Globals.Attributs.tooltipContentAttributs
-        )
-        toolTipText.append(effects)
-
-        self.toolTip = toolTipText
+        self.toolTip = wonderType.toolTip()
 
         super.init(queueType: .wonder)
     }
@@ -82,23 +66,7 @@ final class WonderViewModel: QueueViewModel, Codable {
         self.turns = try container.decode(Int.self, forKey: .turns)
         self.index = try container.decode(Int.self, forKey: .index)
         self.showYields = try container.decode(Bool.self, forKey: .showYields)
-
-        let toolTipText = NSMutableAttributedString()
-
-        let title = NSAttributedString(
-            string: wonderType.name().localized() + "\n\n",
-            attributes: Globals.Attributs.tooltipTitleAttributs
-        )
-        toolTipText.append(title)
-
-        let tokenizer = LabelTokenizer()
-        let effects = tokenizer.bulletPointList(
-            from: wonderType.effects().map { $0.localized() },
-            with: Globals.Attributs.tooltipContentAttributs
-        )
-        toolTipText.append(effects)
-
-        self.toolTip = toolTipText
+        self.toolTip = wonderType.toolTip()
 
         super.init(queueType: .wonder)
 

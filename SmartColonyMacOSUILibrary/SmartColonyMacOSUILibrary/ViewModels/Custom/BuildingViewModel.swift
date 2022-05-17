@@ -50,23 +50,7 @@ final class BuildingViewModel: QueueViewModel, Codable {
         self.showYields = showYields
         self.index = index
         self.active = active
-
-        let toolTipText = NSMutableAttributedString()
-
-        let title = NSAttributedString(
-            string: buildingType.name().localized() + "\n\n",
-            attributes: Globals.Attributs.tooltipTitleAttributs
-        )
-        toolTipText.append(title)
-
-        let tokenizer = LabelTokenizer()
-        let effects = tokenizer.bulletPointList(
-            from: buildingType.effects().map { $0.localized() },
-            with: Globals.Attributs.tooltipContentAttributs
-        )
-        toolTipText.append(effects)
-
-        self.toolTip = toolTipText
+        self.toolTip = buildingType.toolTip()
 
         super.init(queueType: .building)
     }
@@ -80,23 +64,7 @@ final class BuildingViewModel: QueueViewModel, Codable {
         self.index = try container.decode(Int.self, forKey: .index)
         self.showYields = try container.decode(Bool.self, forKey: .showYields)
         self.active = try container.decode(Bool.self, forKey: .active)
-
-        let toolTipText = NSMutableAttributedString()
-
-        let title = NSAttributedString(
-            string: buildingType.name().localized() + "\n\n",
-            attributes: Globals.Attributs.tooltipTitleAttributs
-        )
-        toolTipText.append(title)
-
-        let tokenizer = LabelTokenizer()
-        let effects = tokenizer.bulletPointList(
-            from: buildingType.effects().map { $0.localized() },
-            with: Globals.Attributs.tooltipContentAttributs
-        )
-        toolTipText.append(effects)
-
-        self.toolTip = toolTipText
+        self.toolTip = buildingType.toolTip()
 
         super.init(queueType: .building)
 

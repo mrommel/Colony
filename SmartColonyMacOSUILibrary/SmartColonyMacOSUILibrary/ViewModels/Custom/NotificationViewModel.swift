@@ -49,17 +49,15 @@ class NotificationViewModel: ObservableObject, Identifiable {
 
         self.type = firstItem.type
 
-        let toolTipText = NSMutableAttributedString()
-
-        let title = NSAttributedString(
-            string: firstItem.type.title(),
-            attributes: Globals.Attributs.tooltipTitleAttributs
-        )
-        toolTipText.append(title)
-
-        self.toolTip = toolTipText
+        self.toolTip = NSAttributedString(string: "")
 
         self.detailViewModel = NotificationDetailViewModel(title: "default", texts: ["default"])
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        self.toolTip = firstItem.type.tooltip(in: gameModel)
     }
 
     func icon() -> NSImage {

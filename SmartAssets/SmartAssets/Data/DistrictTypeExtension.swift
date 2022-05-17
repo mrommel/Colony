@@ -18,7 +18,7 @@ extension DistrictType {
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
         toolTipText.append(title)
-        toolTipText.append(NSAttributedString(string: "\n"))
+        toolTipText.append(NSAttributedString(string: "\n\n"))
 
         let tokenizer = LabelTokenizer()
         for effect in self.effects() {

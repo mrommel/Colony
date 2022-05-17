@@ -56,23 +56,7 @@ final class DistrictViewModel: QueueViewModel, Codable {
         self.active = active
         self.showYields = showYields
         self.index = index
-
-        let toolTipText = NSMutableAttributedString()
-
-        let title = NSAttributedString(
-            string: districtType.name().localized() + "\n\n",
-            attributes: Globals.Attributs.tooltipTitleAttributs
-        )
-        toolTipText.append(title)
-
-        let tokenizer = LabelTokenizer()
-        let effects = tokenizer.bulletPointList(
-            from: districtType.effects().map { $0.localized() },
-            with: Globals.Attributs.tooltipContentAttributs
-        )
-        toolTipText.append(effects)
-
-        self.toolTip = toolTipText
+        self.toolTip = districtType.toolTip()
 
         super.init(queueType: .district)
     }
@@ -87,23 +71,7 @@ final class DistrictViewModel: QueueViewModel, Codable {
         self.index = try container.decode(Int.self, forKey: .index)
         self.showYields = try container.decode(Bool.self, forKey: .showYields)
         self.active = try container.decode(Bool.self, forKey: .active)
-
-        let toolTipText = NSMutableAttributedString()
-
-        let title = NSAttributedString(
-            string: districtType.name().localized() + "\n\n",
-            attributes: Globals.Attributs.tooltipTitleAttributs
-        )
-        toolTipText.append(title)
-
-        let tokenizer = LabelTokenizer()
-        let effects = tokenizer.bulletPointList(
-            from: districtType.effects().map { $0.localized() },
-            with: Globals.Attributs.tooltipContentAttributs
-        )
-        toolTipText.append(effects)
-
-        self.toolTip = toolTipText
+        self.toolTip = districtType.toolTip()
 
         super.init(queueType: .district)
 
