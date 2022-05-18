@@ -39,8 +39,7 @@ struct CityGoldPurchaseView: View {
 
             ForEach(Array(self.viewModel.unitViewModels.enumerated()), id: \.element) { index, unitViewModel in
 
-                UnitView(viewModel: unitViewModel)
-                    .zIndex(500 - Double(index))
+                UnitView(viewModel: unitViewModel, zIndex: 500 - Double(index))
             }
 
             Divider()
@@ -50,12 +49,12 @@ struct CityGoldPurchaseView: View {
                 .zIndex(400.1)
 
             ForEach(Array(self.viewModel.districtSectionViewModels.enumerated()), id: \.element) { dindex, districtSectionViewModel in
-                
+
                 DistrictView(viewModel: districtSectionViewModel.districtViewModel)
                     .zIndex(400.0 - Double(5 * dindex)) // needed for tooltip
-                
+
                 ForEach(Array(districtSectionViewModel.buildingViewModels.enumerated()), id: \.element) { bindex, buildingViewModel in
-                    
+
                     BuildingView(viewModel: buildingViewModel)
                         .zIndex(400.0 - Double(5 * dindex) - 1.0 - Double(bindex)) // needed for tooltip
                 }

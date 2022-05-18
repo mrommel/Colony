@@ -81,7 +81,7 @@ struct BaseDialogView<Content>: View where Content: View {
     let viewModel: BaseDialogViewModel
     var content: Content
 
-    public init(title: String, mode: DialogMode, buttonText: String = "Okay", viewModel: BaseDialogViewModel, @ViewBuilder content: () -> Content) {
+    public init(title: String, mode: DialogMode, buttonText: String = "TXT_KEY_OKAY".localized(), viewModel: BaseDialogViewModel, @ViewBuilder content: () -> Content) {
 
         self.title = title
         self.mode = mode

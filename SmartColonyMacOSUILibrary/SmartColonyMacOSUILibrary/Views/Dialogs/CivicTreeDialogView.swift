@@ -37,14 +37,13 @@ struct CivicTreeDialogView: View {
 
                     LazyHGrid(rows: gridItemLayout, spacing: 20) {
 
-                        ForEach(self.viewModel.civicGridViewModels) { civicViewModel in
+                        ForEach(Array(self.viewModel.civicGridViewModels.enumerated()), id: \.element) { index, civicViewModel in
 
-                            CivicView(viewModel: civicViewModel)
+                            CivicView(viewModel: civicViewModel, zIndex: 500 - Double(index))
                                 .padding(0)
                                 .onTapGesture {
                                     civicViewModel.selectCivic()
                                 }
-                                .id("civic-\(civicViewModel.id)")
                         }
                     }
                 })
@@ -52,7 +51,7 @@ struct CivicTreeDialogView: View {
                 Button(action: {
                     self.viewModel.closeDialog()
                 }, label: {
-                    Text("Okay")
+                    Text("TXT_KEY_OKAY".localized())
                 })
             }
             .padding(.bottom, 45)

@@ -13,6 +13,14 @@ struct UnitView: View {
     @ObservedObject
     var viewModel: UnitViewModel
 
+    let zIndexValue: Double
+
+    public init(viewModel: UnitViewModel, zIndex: Double) {
+
+        self.viewModel = viewModel
+        self.zIndexValue = zIndex
+    }
+
     var body: some View {
 
         HStack(alignment: .center, spacing: 8) {
@@ -46,6 +54,7 @@ struct UnitView: View {
         .onTapGesture {
             self.viewModel.clicked()
         }
+        .zIndex(self.zIndexValue)
         .tooltip(self.viewModel.toolTip)
     }
 }
@@ -58,12 +67,12 @@ struct UnitView_Previews: PreviewProvider {
         let _ = GameViewModel(preloadAssets: true)
 
         let viewModel = UnitViewModel(unitType: .archer, turns: 6)
-        UnitView(viewModel: viewModel)
+        UnitView(viewModel: viewModel, zIndex: 50)
 
         let player = Player(leader: .alexander)
         let unit = SmartAILibrary.Unit(at: HexPoint.zero, type: .settler, owner: player)
         let viewModel2 = UnitViewModel(unit: unit)
-        UnitView(viewModel: viewModel2)
+        UnitView(viewModel: viewModel2, zIndex: 50)
     }
 }
 #endif

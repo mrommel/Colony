@@ -13,9 +13,12 @@ struct CivicView: View {
     @ObservedObject
     var viewModel: CivicViewModel
 
-    public init(viewModel: CivicViewModel) {
+    let zIndexValue: Double
+
+    public init(viewModel: CivicViewModel, zIndex: Double) {
 
         self.viewModel = viewModel
+        self.zIndexValue = zIndex
     }
 
     public var body: some View {
@@ -54,7 +57,7 @@ struct CivicView: View {
                                 AchievementView(viewModel: achievementViewModel)
                                     .id("civic-\(self.viewModel.id)-\(achievementViewModel.id)")
                                     .frame(width: 16, height: 16)
-                                    .zIndex(51)
+                                    .zIndex(self.zIndexValue + 1)
                             }
                         }
                         .padding(.top, 0)
@@ -73,7 +76,7 @@ struct CivicView: View {
                     .padding(.top, 1)
             }
             .frame(width: 150, height: 45, alignment: .topLeading)
-            .zIndex(50)
+            .zIndex(self.zIndexValue)
             .background(
                 Image(nsImage: self.viewModel.background())
                     .resizable(capInsets: EdgeInsets(all: 14))
@@ -93,11 +96,11 @@ struct CivicView_Previews: PreviewProvider {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
-        CivicView(viewModel: CivicViewModel(civicType: .codeOfLaws, state: .possible, boosted: true, turns: 27))
+        CivicView(viewModel: CivicViewModel(civicType: .codeOfLaws, state: .possible, boosted: true, turns: 27), zIndex: 50)
 
-        CivicView(viewModel: CivicViewModel(civicType: .guilds, state: .selected, boosted: false, turns: -1))
+        CivicView(viewModel: CivicViewModel(civicType: .guilds, state: .selected, boosted: false, turns: -1), zIndex: 50)
 
-        CivicView(viewModel: CivicViewModel(civicType: .feudalism, state: .researched, boosted: true, turns: -1))
+        CivicView(viewModel: CivicViewModel(civicType: .feudalism, state: .researched, boosted: true, turns: -1), zIndex: 50)
     }
 }
 #endif

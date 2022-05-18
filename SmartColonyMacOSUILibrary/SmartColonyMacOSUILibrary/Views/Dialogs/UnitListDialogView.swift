@@ -26,7 +26,7 @@ struct UnitListDialogView: View {
 
                     Spacer()
 
-                    Text("Units")
+                    Text("TXT_KEY_UNITS".localized())
                         .font(.title2)
                         .bold()
                         .padding()
@@ -38,14 +38,16 @@ struct UnitListDialogView: View {
 
                     LazyVGrid(columns: gridItemLayout, spacing: 10) {
 
-                        ForEach(self.viewModel.unitViewModels, id: \.self) { unitViewModel in
+                        ForEach(Array(self.viewModel.unitViewModels.enumerated()), id: \.element) { index, unitViewModel in
 
-                            UnitView(viewModel: unitViewModel)
+                            UnitView(viewModel: unitViewModel, zIndex: 500 - Double(index))
                                 .padding(0)
                                 .onTapGesture {
                                     unitViewModel.clicked()
                                 }
                         }
+
+                        Spacer(minLength: 100)
                     }
                 })
                 .frame(width: 340, height: 325, alignment: .center)
@@ -54,7 +56,7 @@ struct UnitListDialogView: View {
                 Button(action: {
                     self.viewModel.closeDialog()
                 }, label: {
-                    Text("Okay")
+                    Text("TXT_KEY_OKAY".localized())
                 })
             }
             .padding(.bottom, 45)

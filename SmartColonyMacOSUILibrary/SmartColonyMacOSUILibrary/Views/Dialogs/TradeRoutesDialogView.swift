@@ -41,7 +41,7 @@ struct TradeRoutesDialogView: View {
                 Button(action: {
                     self.viewModel.closeDialog()
                 }, label: {
-                    Text("Okay")
+                    Text("TXT_KEY_OKAY".localized())
                 })
                 .buttonStyle(DialogButtonStyle())
             }

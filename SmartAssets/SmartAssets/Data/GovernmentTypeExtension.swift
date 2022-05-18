@@ -18,7 +18,7 @@ extension GovernmentType {
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
         toolTipText.append(title)
-        toolTipText.append(NSAttributedString(string: "\n\n"))
+        toolTipText.append(NSAttributedString(string: "\n"))
 
         let tokenizer = LabelTokenizer()
         for effect in [self.bonus1Summary(), self.bonus2Summary()] {

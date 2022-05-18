@@ -32,7 +32,7 @@ struct BuildableItemView: View {
         switch self.viewModel.queueType {
 
         case .unit:
-            UnitView(viewModel: self.viewModel as! UnitViewModel)
+            UnitView(viewModel: self.viewModel as! UnitViewModel, zIndex: 50)
                 .onDrag {
                     NSItemProvider(object: (self.viewModel as! UnitViewModel))
                 }
@@ -129,8 +129,7 @@ struct CityProductionView: View {
 
             ForEach(Array(self.viewModel.unitViewModels.enumerated()), id: \.element) { index, unitViewModel in
 
-                UnitView(viewModel: unitViewModel)
-                    .zIndex(500.0 - Double(index)) // needed for tooltip
+                UnitView(viewModel: unitViewModel, zIndex: 500.0 - Double(index))
             }
 
             Divider()

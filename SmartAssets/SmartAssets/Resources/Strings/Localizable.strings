@@ -19,6 +19,7 @@
 "TXT_KEY_FOUND" = "Found";
 "TXT_KEY_RENAME" = "Rename";
 "TXT_KEY_CANCEL" = "Cancel";
+"TXT_KEY_OKAY" = "Okay";
 "TXT_KEY_CLOSE" = "Close";
 "TXT_KEY_START" = "Start";
 "TXT_KEY_QUIT" = "Quit";
@@ -33,6 +34,7 @@
 "TXT_KEY_CONTINUE" = "Continue";
 "TXT_KEY_DISBAND" = "Disband";
 "TXT_KEY_ACTIVATE" = "Activate";
+"TXT_KEY_CONFIRM" = "Do you confirm?";
 
 // create game
 "TXT_KEY_CHOOSE_LEADER" = "Choose Leader";

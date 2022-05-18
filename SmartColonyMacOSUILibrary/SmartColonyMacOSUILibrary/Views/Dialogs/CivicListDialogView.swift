@@ -32,15 +32,16 @@ struct CivicListDialogView: View {
 
                     LazyVStack(spacing: 4) {
 
-                        ForEach(self.viewModel.civicListViewModels) { civicViewModel in
+                        ForEach(Array(self.viewModel.civicListViewModels.enumerated()), id: \.element) { index, civicViewModel in
 
-                            CivicView(viewModel: civicViewModel)
+                            CivicView(viewModel: civicViewModel, zIndex: 500 - Double(index))
                                 .padding(0)
                                 .onTapGesture {
                                     civicViewModel.selectCivic()
                                 }
-                                .id("civic-\(civicViewModel.id)")
                         }
+
+                        Spacer(minLength: 100)
                     }
                 })
             }

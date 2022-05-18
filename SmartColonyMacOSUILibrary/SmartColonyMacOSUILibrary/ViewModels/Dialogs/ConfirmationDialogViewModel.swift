@@ -32,9 +32,9 @@ class ConfirmationDialogViewModel: ObservableObject {
     init() {
 
         self.title = "Title"
-        self.question = "Do you confirm?"
-        self.okayText = "Okay"
-        self.cancelText = "Cancel"
+        self.question = "TXT_KEY_CONFIRM".localized()
+        self.okayText = "TXT_KEY_OKAY".localized()
+        self.cancelText = "TXT_KEY_CANCEL".localized()
     }
 
 #if DEBUG
