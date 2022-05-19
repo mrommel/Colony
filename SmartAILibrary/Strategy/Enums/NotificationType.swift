@@ -53,7 +53,7 @@ public enum NotificationType {
 
     case naturalWonderDiscovered(location: HexPoint) // 29
     case continentDiscovered(location: HexPoint, continentName: String) // 30
-    case wonderBuilt // 31
+    case wonderBuilt(wonder: WonderType, civilization: CivilizationType) // 31
 
     case cityCanShoot(cityName: String, location: HexPoint) // 32
     case cityAcquired(cityName: String, location: HexPoint) // 33
@@ -90,7 +90,7 @@ public enum NotificationType {
         .tradeRouteCapacityIncreased,
         .naturalWonderDiscovered(location: HexPoint.invalid),
         .continentDiscovered(location: HexPoint.invalid, continentName: ""),
-        .wonderBuilt,
+        .wonderBuilt(wonder: WonderType.apadana, civilization: CivilizationType.unmet),
         .cityCanShoot(cityName: "", location: HexPoint.invalid),
         .cityAcquired(cityName: "", location: HexPoint.invalid)
     ]
@@ -161,7 +161,7 @@ public enum NotificationType {
             return 29
         case .continentDiscovered(location: _, continentName: _):
             return 30
-        case .wonderBuilt:
+        case .wonderBuilt(wonder: _, civilization: _):
             return 31
         case .cityCanShoot(cityName: _, location: _):
             return 32
@@ -191,6 +191,8 @@ extension NotificationType: Codable {
         case questValue // QuestType
         case momentValue // MomentType
         case continentNameValue // String
+        case wonderValue // WonderType
+        case civilizationValue // CivilizationType
     }
 
     public init(from decoder: Decoder) throws {
@@ -291,7 +293,9 @@ extension NotificationType: Codable {
             let continentName = try container.decode(String.self, forKey: .continentNameValue)
             self = .continentDiscovered(location: location, continentName: continentName)
         case 31:
-            self = .wonderBuilt
+            let wonder = try container.decode(WonderType.self, forKey: .wonderValue)
+            let civilization = try container.decode(CivilizationType.self, forKey: .civilizationValue)
+            self = .wonderBuilt(wonder: wonder, civilization: civilization)
         case 32:
             let cityName = try container.decode(String.self, forKey: .cityNameValue)
             let location = try container.decode(HexPoint.self, forKey: .locationValue)
@@ -430,8 +434,10 @@ extension NotificationType: Codable {
             try container.encode(location, forKey: .locationValue)
             try container.encode(continentName, forKey: .continentNameValue)
 
-        case .wonderBuilt:
+        case .wonderBuilt(wonder: let wonder, civilization: let civilization):
             try container.encode(31, forKey: .rawValue)
+            try container.encode(wonder, forKey: .wonderValue)
+            try container.encode(civilization, forKey: .civilizationValue)
 
         case .cityCanShoot(cityName: let cityName, location: let location):
             try container.encode(32, forKey: .rawValue)
@@ -535,8 +541,9 @@ extension NotificationType: Equatable {
               .continentDiscovered(location: let rhsLocation, continentName: let rhsContinentName)):
             return lhsLocation == rhsLocation && lhsContinentName == rhsContinentName
 
-        case (.wonderBuilt, .wonderBuilt):
-            return true
+        case (.wonderBuilt(wonder: let lhsWonder, civilization: let lhsCivilization),
+            .wonderBuilt(wonder: let rhsWonder, civilization: let rhsCivilization)):
+            return lhsWonder == rhsWonder && lhsCivilization == rhsCivilization
 
         case (.cityCanShoot(cityName: let lhsCityName, location: let lhsLocation),
             .cityCanShoot(cityName: let rhsCityName, location: let rhsLocation)):
@@ -676,8 +683,10 @@ extension NotificationType: Hashable {
             hasher.combine(location)
             hasher.combine(continentName)
 
-        case .wonderBuilt:
+        case .wonderBuilt(wonder: let wonder, civilization: let civilization):
             hasher.combine(31)
+            hasher.combine(wonder)
+            hasher.combine(civilization)
 
         case .cityCanShoot(cityName: let cityName, location: let location):
             hasher.combine(32)

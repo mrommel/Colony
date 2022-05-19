@@ -3293,7 +3293,15 @@ public class City: AbstractCity {
                 gameModel.userInterface?.showPopup(popupType: .wonderBuilt(wonder: wonderType))
             } else {
                 // inform human about foreign wonder built
-                gameModel.humanPlayer()?.notifications()?.add(notification: .wonderBuilt)
+                if player.hasMet(with: gameModel.humanPlayer()) {
+                    // human known this player
+                    gameModel.humanPlayer()?.notifications()?
+                        .add(notification: .wonderBuilt(wonder: wonderType, civilization: player.leader.civilization()))
+                } else {
+                    // human has not met this player
+                    gameModel.humanPlayer()?.notifications()?
+                        .add(notification: .wonderBuilt(wonder: wonderType, civilization: .unmet))
+                }
             }
 
         } catch {

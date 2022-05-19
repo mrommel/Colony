@@ -104,9 +104,9 @@ class NotificationViewModel: ObservableObject, Identifiable {
             }
 
             self.detailViewModel = NotificationDetailViewModel(
-                title: "\(items.count) \(firstItem.type.title())",
+                title: "\(items.count) \(firstItem.type.message())",
                 texts: items.map { item in
-                    item.type.message(in: gameModel)
+                    item.type.summary(in: gameModel)
                 }
             )
             self.detailViewModel.delegate = self
