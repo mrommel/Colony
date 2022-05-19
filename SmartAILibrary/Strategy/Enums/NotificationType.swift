@@ -26,9 +26,9 @@ public enum NotificationType {
     case cityGrowth(cityName: String, population: Int, location: HexPoint) // 9
     case starving(cityName: String, location: HexPoint) // 10 parameter: city
 
-    case diplomaticDeclaration // 11 parameter: player
+    case diplomaticDeclaration // 11 parameter: player?
     case war(leader: LeaderType) // 12
-    case enemyInTerritory // 13 parameter: location, player
+    case enemyInTerritory(cityName: String) // 13
 
     case unitPromotion(location: HexPoint) // 14
     case unitNeedsOrders(location: HexPoint) // 15
@@ -72,7 +72,7 @@ public enum NotificationType {
         .starving(cityName: "", location: HexPoint.invalid),
         .diplomaticDeclaration,
         .war(leader: LeaderType.none),
-        .enemyInTerritory,
+        .enemyInTerritory(cityName: ""),
         .unitPromotion(location: HexPoint.invalid),
         .unitNeedsOrders(location: HexPoint.invalid),
         .unitDied(location: HexPoint.invalid),
@@ -125,7 +125,7 @@ public enum NotificationType {
             return 11
         case .war:
             return 12
-        case .enemyInTerritory:
+        case .enemyInTerritory(cityName: _):
             return 13
         case .unitPromotion:
             return 14
@@ -237,8 +237,9 @@ extension NotificationType: Codable {
         case 12: // parameter: player
             let leader = try container.decode(LeaderType.self, forKey: .leaderValue)
             self = .war(leader: leader)
-        case 13: // parameter: location, player
-            self = .enemyInTerritory
+        case 13:
+            let cityName = try container.decode(String.self, forKey: .cityNameValue)
+            self = .enemyInTerritory(cityName: cityName)
         case 14:
             let location = try container.decode(HexPoint.self, forKey: .locationValue)
             self = .unitPromotion(location: location)
@@ -361,8 +362,9 @@ extension NotificationType: Codable {
             try container.encode(12, forKey: .rawValue)
             try container.encode(leader, forKey: .leaderValue)
 
-        case .enemyInTerritory:
+        case .enemyInTerritory(cityName: let cityName):
             try container.encode(13, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityNameValue)
 
         case .unitPromotion(location: let location):
             try container.encode(14, forKey: .rawValue)
@@ -460,34 +462,49 @@ extension NotificationType: Equatable {
 
         case (.turn, .turn):
             return true
+
         case (.generic, .generic):
             return true
+
         case (.techNeeded, .techNeeded):
             return true
+
         case (.civicNeeded, .civicNeeded):
             return true
+
         case (.productionNeeded, .productionNeeded):
             return true
+
         case (.canChangeGovernment, .canChangeGovernment):
             return true
+
         case (.policiesNeeded, .policiesNeeded):
             return true
+
         case (.canFoundPantheon, .canFoundPantheon):
             return true
+
         case (.governorTitleAvailable, .governorTitleAvailable):
             return true
+
         case (.cityGrowth, .cityGrowth):
             return true
+
         case (.starving, .starving):
             return true
+
         case (.diplomaticDeclaration, .diplomaticDeclaration):
             return true
+
         case (.war, .war):
             return true
-        case (.enemyInTerritory, .enemyInTerritory):
-            return true
+
+        case (.enemyInTerritory(cityName: let lhsCityName), .enemyInTerritory(cityName: let rhsCityName)):
+            return lhsCityName == rhsCityName
+
         case (.unitPromotion, .unitPromotion):
             return true
+
         case (.unitNeedsOrders, .unitNeedsOrders):
             return true
 

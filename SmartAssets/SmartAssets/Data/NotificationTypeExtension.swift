@@ -75,10 +75,10 @@ extension NotificationType {
             return "-"
 
         case .techNeeded:
-            return "TXT_KEY_NOTIFICATION_CHOOSE_TECH_MESSAGE".localized() 
+            return "TXT_KEY_NOTIFICATION_CHOOSE_TECH_MESSAGE".localized()
 
         case .civicNeeded:
-            return "TXT_KEY_NOTIFICATION_CHOOSE_CIVIC_MESSAGE".localized() 
+            return "TXT_KEY_NOTIFICATION_CHOOSE_CIVIC_MESSAGE".localized()
 
         case .productionNeeded(cityName: _, location: _):
             return "TXT_KEY_NOTIFICATION_CHOOSE_CITY_PRODUCTION_MESSAGE".localized()
@@ -205,39 +205,37 @@ extension NotificationType {
             return "TXT_KEY_NOTIFICATION_CHOOSE_PANTHEON_SUMMARY".localized()
 
         case .governorTitleAvailable:
-            return "You have a governor title you can spent."
+            return "TXT_KEY_NOTIFICATION_GOVERNOR_TITLE_GAINED_SUMMARY".localized()
 
         case .cityGrowth(cityName: let cityName, population: let population, location: _):
-            return "The City of \(cityName) now has \(population) Citizens! " +
-                "The new Citizen will automatically work the land near the City for additional " +
-                "Food, Production or Gold."
+            return "TXT_KEY_NOTIFICATION_CITY_GROWN_SUMMARY".localizedWithFormat(with: [cityName, population])
 
         case .starving(cityName: let cityName, location: _):
-            return "\(cityName) does not provide enough [Food] Food for its people to eat. If this continues, it will lose [Citizen] Citizens!" // LOC_NOTIFICATION_CITY_STARVING_SUMMARY
+            return "TXT_KEY_NOTIFICATION_CITY_STARVING_SUMMARY".localizedWithFormat(with: [cityName])
 
         case .diplomaticDeclaration:
-            return "diplomaticDeclaration"
+            return "TXT_KEY_NOTIFICATION_DIPLOMATIC_DECLARATION_SUMMARY".localized()
 
         case .war(leader: let leader):
-            return "\(leader.name()) has declared war on you!"
+            return "TXT_KEY_NOTIFICATION_DECLARE_WAR_SUMMARY".localizedWithFormat(with: [leader.name().localized()])
 
-        case .enemyInTerritory:
-            return "An enemy unit has been spotted in our territory!"
+        case .enemyInTerritory(cityName: let cityName):
+            return "TXT_KEY_NOTIFICATION_ENEMY_IN_TERRITORY_SUMMARY".localizedWithFormat(with: [cityName])
 
         case .unitPromotion(location: _):
-            return "A unit has gained enough experience in combat. You can choose a Promotion for this unit."
+            return "TXT_KEY_NOTIFICATION_UNIT_PROMOTION_AVAILABLE_SUMMARY".localized()
 
         case .unitNeedsOrders(location: _):
-            return "Move a unit or have it perform an operation." // LOC_NOTIFICATION_COMMAND_UNITS_SUMMARY
+            return "TXT_KEY_NOTIFICATION_COMMAND_UNITS_SUMMARY".localized()
 
         case .unitDied(location: _):
-            return "A unit died"
+            return "TXT_KEY_NOTIFICATION_UNIT_DIED_SUMMARY".localized()
 
         case .greatPersonJoined:
-            return "greatPersonJoined"
+            return "TXT_KEY_NOTIFICATION_GREAT_PERSON_JOINED_SUMMARY".localized()
 
         case .canRecruitGreatPerson(greatPerson: let greatPerson):
-            return "You have earned \(greatPerson.name()), and need to choose whether to accept them or pass on them." // LOC_NOTIFICATION_CLAIM_GREAT_PERSON_SUMMARY
+            return "TXT_KEY_NOTIFICATION_CLAIM_GREAT_PERSON_SUMMARY".localizedWithFormat(with: [greatPerson.name().localized()])
 
         case .cityLost(location: let location):
 
@@ -245,72 +243,72 @@ extension NotificationType {
                 fatalError("cant get city")
             }
 
-            if let newOwnerName = city.player?.leader.name() {
-                return "\(city.name) has been conquered by \(newOwnerName)"
+            if let newOwnerName = city.player?.leader.name().localized() {
+                return "TXT_KEY_NOTIFICATION_CITY_CONQUERED_SUMMARY".localizedWithFormat(with: [city.name.localized(), newOwnerName])
             }
 
-            return "\(city.name) has been conquered"
+            return "TXT_KEY_NOTIFICATION_CITY_CONQUERED_BY_UNMET_SUMMARY".localizedWithFormat(with: [city.name.localized()])
 
         case .goodyHutDiscovered(location: let location):
 
             if let city = gameModel.nearestCity(at: location, of: gameModel.humanPlayer()) {
-                return "Goodyhut near \(city.name) discovered"
+                return "TXT_KEY_NOTIFICATION_DISCOVER_GOODY_HUT_NEAR_CITY_SUMMARY".localizedWithFormat(with: [city.name.localized()])
             }
 
-            return "Goodyhut discovered"
+            return "TXT_KEY_NOTIFICATION_DISCOVER_GOODY_HUT_SUMMARY".localized()
 
         case .barbarianCampDiscovered(location: let location):
 
             if let city = gameModel.nearestCity(at: location, of: gameModel.humanPlayer()) {
-                return "Barbarian Camp near \(city.name) discovered"
+                return "TXT_KEY_NOTIFICATION_NEW_BARBARIAN_CAMP_NEAR_CITY_SUMMARY".localizedWithFormat(with: [city.name.localized()])
             }
 
-            return "Barbarian Camp discovered"
+            return "TXT_KEY_NOTIFICATION_NEW_BARBARIAN_CAMP_SUMMARY".localized()
 
         case .metCityState(cityState: let cityState, first: _):
-            return "Met City State \(cityState.name().localized())"
+            return "TXT_KEY_NOTIFICATION_PLAYER_MET_MESSAGE_CITY_STATE_SUMMARY".localizedWithFormat(with: [cityState.name().localized()])
 
         case .waiting:
-            return "Waiting"
+            return "TXT_KEY_NOTIFICATION_WAITING_SUMMARY".localized()
 
         case .questCityStateFulfilled(cityState: let cityState, quest: _):
-            return "You completed a quest for the \(cityState.name().localized()) and earned a reward: 1 [Envoy] Envoy." // LOC_NOTIFICATION_CITYSTATE_QUEST_COMPLETED_SUMMARY
+            return "TXT_KEY_NOTIFICATION_CITYSTATE_QUEST_COMPLETED_SUMMARY".localizedWithFormat(with: [cityState.name().localized()])
 
-        case .questCityStateObsolete(cityState: _, quest: _):
-            return "quest obsolete"
+        case .questCityStateObsolete(cityState: let cityState, quest: _):
+            return "TXT_KEY_NOTIFICATION_CITYSTATE_QUEST_OBSOLETE_SUMMARY".localizedWithFormat(with: [cityState.name().localized()])
 
         case .questCityStateGiven(cityState: let cityState, quest: let quest):
-            return "The \(cityState.name().localized()) has given you a new quest: \(quest.summary().localized())." // LOC_NOTIFICATION_CITYSTATE_QUEST_GIVEN_SUMMARY
+            return "TXT_KEY_NOTIFICATION_CITYSTATE_QUEST_GIVEN_SUMMARY".localizedWithFormat(with: [cityState.name().localized(), quest.summary().localized()])
 
         case .momentAdded(type: let messageType):
             return messageType.summary().localized()
 
         case .tradeRouteCapacityIncreased:
-            return "You are now able to create and maintain more [TradeRoute] Trade Routes than before." // LOC_NOTIFICATION_TRADE_ROUTE_CAPACITY_INCREASED_SUMMARY
+            return "TXT_KEY_NOTIFICATION_TRADE_ROUTE_CAPACITY_INCREASED_SUMMARY".localized()
 
         case .naturalWonderDiscovered(location: let location):
             if let tile = gameModel.tile(at: location) {
                 if tile.feature().isNaturalWonder() {
-                    return "You have discovered the Natural wonder \(tile.feature().name().localized()) " // LOC_NOTIFICATION_DISCOVER_NATURAL_WONDER_SUMMARY
+                    return "TXT_KEY_NOTIFICATION_DISCOVER_NATURAL_WONDER_SUMMARY".localizedWithFormat(with: [tile.feature().name().localized()])
                 }
             }
-            return "Natural Wonder Discovered" // LOC_NOTIFICATION_DISCOVER_NATURAL_WONDER_MESSAGE
+            return "TXT_KEY_NOTIFICATION_DISCOVER_NATURAL_WONDER_MESSAGE".localized()
 
         case .continentDiscovered(location: _, continentName: let continentName):
-            return "We have discovered a new continent. Our explorer is naming it \(continentName)." // LOC_NOTIFICATION_DISCOVER_CONTINENT_SUMMARY
+            return "TXT_KEY_NOTIFICATION_DISCOVER_CONTINENT_SUMMARY".localizedWithFormat(with: [continentName])
 
         case .wonderBuilt(wonder: let wonderType, civilization: let civilizationType):
             if civilizationType == .unmet {
-                return "An unmet player has finished building the world wonder \(wonderType.name().localized())." // LOC_NOTIFICATION_WONDER_COMPLETED_UNMET_PLAYER_SUMMARY
+                return "TXT_KEY_NOTIFICATION_WONDER_COMPLETED_UNMET_PLAYER_SUMMARY".localizedWithFormat(with: [wonderType.name().localized()])
             } else {
-                return "\(civilizationType.name().localized()) has finished building the world wonder \(wonderType.name().localized())." // LOC_NOTIFICATION_WONDER_COMPLETED_SUMMARY
+                return "TXT_KEY_NOTIFICATION_WONDER_COMPLETED_SUMMARY".localizedWithFormat(with: [civilizationType.name().localized(), wonderType.name().localized()])
             }
 
         case .cityCanShoot(cityName: let cityName, location: _):
-            return "Your city \(cityName) can perform a ranged attack upon an enemy!" // -
+            return "TXT_KEY_NOTIFICATION_CITY_RANGE_ATTACK_SUMMARY".localizedWithFormat(with: [cityName])
 
         case .cityAcquired(cityName: let cityName, location: _):
-            return "You conquered \(cityName) this turn. Decide whether to liberate, raze, or keep it." // LOC_NOTIFICATION_CONSIDER_RAZE_CITY_SUMMARY
+            return "TXT_KEY_NOTIFICATION_CONSIDER_RAZE_CITY_SUMMARY".localizedWithFormat(with: [cityName])
         }
     }
 

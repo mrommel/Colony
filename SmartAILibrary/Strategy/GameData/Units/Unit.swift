@@ -2228,7 +2228,8 @@ public class Unit: AbstractUnit {
             if diplomacyAI.isAtWar(with: plotOwner) {
 
                 if plotOwner.isEqual(to: gameModel.humanPlayer()) {
-                    plotOwner.notifications()?.add(notification: .enemyInTerritory)
+                    let cityName = newPlot.workingCity()?.name ?? "-"
+                    plotOwner.notifications()?.add(notification: .enemyInTerritory(cityName: cityName))
                 }
             }
         }
