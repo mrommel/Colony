@@ -58,6 +58,8 @@ public enum NotificationType {
     case cityCanShoot(cityName: String, location: HexPoint) // 32
     case cityAcquired(cityName: String, location: HexPoint) // 33
 
+    case envoyEarned // 34
+
     public static var all: [NotificationType] = [
         .turn,
         .generic,
@@ -92,7 +94,8 @@ public enum NotificationType {
         .continentDiscovered(location: HexPoint.invalid, continentName: ""),
         .wonderBuilt(wonder: WonderType.apadana, civilization: CivilizationType.unmet),
         .cityCanShoot(cityName: "", location: HexPoint.invalid),
-        .cityAcquired(cityName: "", location: HexPoint.invalid)
+        .cityAcquired(cityName: "", location: HexPoint.invalid),
+        .envoyEarned
     ]
 
     func value() -> Int {
@@ -167,6 +170,8 @@ public enum NotificationType {
             return 32
         case .cityAcquired(cityName: _, location: _):
             return 33
+        case .envoyEarned:
+            return 34
         }
     }
 
@@ -305,6 +310,8 @@ extension NotificationType: Codable {
             let cityName = try container.decode(String.self, forKey: .cityNameValue)
             let location = try container.decode(HexPoint.self, forKey: .locationValue)
             self = .cityAcquired(cityName: cityName, location: location)
+        case 34:
+            self = .envoyEarned
 
         default:
             fatalError("value \(rawValue) not handled")
@@ -450,6 +457,9 @@ extension NotificationType: Codable {
             try container.encode(33, forKey: .rawValue)
             try container.encode(cityName, forKey: .cityNameValue)
             try container.encode(location, forKey: .locationValue)
+
+        case .envoyEarned:
+            try container.encode(34, forKey: .rawValue)
         }
     }
 }
@@ -571,6 +581,9 @@ extension NotificationType: Equatable {
             .cityAcquired(cityName: let rhsCityName, location: let rhsLocation)):
 
             return lhsCityName == rhsCityName && lhsLocation == rhsLocation
+
+        case (.envoyEarned, .envoyEarned):
+            return true
 
         default:
             if lhs.value() == rhs.value() {
@@ -714,6 +727,9 @@ extension NotificationType: Hashable {
             hasher.combine(33)
             hasher.combine(cityName)
             hasher.combine(location)
+
+        case .envoyEarned:
+            hasher.combine(34)
         }
     }
 }

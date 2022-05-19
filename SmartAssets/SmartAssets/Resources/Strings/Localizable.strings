@@ -307,6 +307,9 @@
 "TXT_KEY_NOTIFICATION_CONSIDER_RAZE_CITY_MESSAGE" = "Raze or Keep City"; // LOC_NOTIFICATION_CONSIDER_RAZE_CITY_MESSAGE
 "TXT_KEY_NOTIFICATION_CONSIDER_RAZE_CITY_SUMMARY" = "You conquered %@ this turn. Decide whether to liberate, raze, or keep it."; // LOC_NOTIFICATION_CONSIDER_RAZE_CITY_SUMMARY
 
+// envoyEarned
+"TXT_KEY_NOTIFICATION_GIVE_INFLUENCE_TOKEN_MESSAGE" = "Send Envoy"; // LOC_NOTIFICATION_GIVE_INFLUENCE_TOKEN_MESSAGE
+"TXT_KEY_NOTIFICATION_GIVE_INFLUENCE_TOKEN_SUMMARY" = "You have earned an [Envoy] Envoy, and may send it to a city-state for bonuses."; // LOC_NOTIFICATION_GIVE_INFLUENCE_TOKEN_SUMMARY
 
 // Advisor texts
 "TXT_KEY_ECONOMICAISTRATEGY_NEED_RECON" = "We should continue exploring the world to discover abandoned villages, natural wonders, and other civilizations!";

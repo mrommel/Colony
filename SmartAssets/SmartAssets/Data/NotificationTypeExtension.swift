@@ -59,6 +59,7 @@ extension NotificationType {
         case .wonderBuilt: return "button-wonderBuilt"
         case .cityCanShoot: return "button-cityCanShoot"
         case .cityAcquired: return "button-cityAcquired"
+        case .envoyEarned: return "button-envoyEarned"
         }
     }
 
@@ -169,6 +170,9 @@ extension NotificationType {
 
         case .cityAcquired(cityName: _, location: _):
             return "TXT_KEY_NOTIFICATION_CONSIDER_RAZE_CITY_MESSAGE".localized()
+
+        case .envoyEarned:
+            return "TXT_KEY_NOTIFICATION_GIVE_INFLUENCE_TOKEN_MESSAGE".localized()
         }
     }
 
@@ -193,7 +197,8 @@ extension NotificationType {
             return "TXT_KEY_NOTIFICATION_CHOOSE_CIVIC_SUMMARY".localized()
 
         case .productionNeeded(cityName: let cityName, location: _):
-            return "TXT_KEY_NOTIFICATION_CHOOSE_CITY_PRODUCTION_SUMMARY".localizedWithFormat(with: [cityName])
+            return "TXT_KEY_NOTIFICATION_CHOOSE_CITY_PRODUCTION_SUMMARY"
+                .localizedWithFormat(with: [cityName])
 
         case .canChangeGovernment:
             return "TXT_KEY_NOTIFICATION_CONSIDER_GOVERNMENT_CHANGE_SUMMARY".localized()
@@ -208,7 +213,8 @@ extension NotificationType {
             return "TXT_KEY_NOTIFICATION_GOVERNOR_TITLE_GAINED_SUMMARY".localized()
 
         case .cityGrowth(cityName: let cityName, population: let population, location: _):
-            return "TXT_KEY_NOTIFICATION_CITY_GROWN_SUMMARY".localizedWithFormat(with: [cityName, population])
+            return "TXT_KEY_NOTIFICATION_CITY_GROWN_SUMMARY"
+                .localizedWithFormat(with: [cityName, population])
 
         case .starving(cityName: let cityName, location: _):
             return "TXT_KEY_NOTIFICATION_CITY_STARVING_SUMMARY".localizedWithFormat(with: [cityName])
@@ -217,10 +223,12 @@ extension NotificationType {
             return "TXT_KEY_NOTIFICATION_DIPLOMATIC_DECLARATION_SUMMARY".localized()
 
         case .war(leader: let leader):
-            return "TXT_KEY_NOTIFICATION_DECLARE_WAR_SUMMARY".localizedWithFormat(with: [leader.name().localized()])
+            return "TXT_KEY_NOTIFICATION_DECLARE_WAR_SUMMARY"
+                .localizedWithFormat(with: [leader.name().localized()])
 
         case .enemyInTerritory(cityName: let cityName):
-            return "TXT_KEY_NOTIFICATION_ENEMY_IN_TERRITORY_SUMMARY".localizedWithFormat(with: [cityName])
+            return "TXT_KEY_NOTIFICATION_ENEMY_IN_TERRITORY_SUMMARY"
+                .localizedWithFormat(with: [cityName])
 
         case .unitPromotion(location: _):
             return "TXT_KEY_NOTIFICATION_UNIT_PROMOTION_AVAILABLE_SUMMARY".localized()
@@ -235,7 +243,8 @@ extension NotificationType {
             return "TXT_KEY_NOTIFICATION_GREAT_PERSON_JOINED_SUMMARY".localized()
 
         case .canRecruitGreatPerson(greatPerson: let greatPerson):
-            return "TXT_KEY_NOTIFICATION_CLAIM_GREAT_PERSON_SUMMARY".localizedWithFormat(with: [greatPerson.name().localized()])
+            return "TXT_KEY_NOTIFICATION_CLAIM_GREAT_PERSON_SUMMARY"
+                .localizedWithFormat(with: [greatPerson.name().localized()])
 
         case .cityLost(location: let location):
 
@@ -244,15 +253,18 @@ extension NotificationType {
             }
 
             if let newOwnerName = city.player?.leader.name().localized() {
-                return "TXT_KEY_NOTIFICATION_CITY_CONQUERED_SUMMARY".localizedWithFormat(with: [city.name.localized(), newOwnerName])
+                return "TXT_KEY_NOTIFICATION_CITY_CONQUERED_SUMMARY"
+                    .localizedWithFormat(with: [city.name.localized(), newOwnerName])
             }
 
-            return "TXT_KEY_NOTIFICATION_CITY_CONQUERED_BY_UNMET_SUMMARY".localizedWithFormat(with: [city.name.localized()])
+            return "TXT_KEY_NOTIFICATION_CITY_CONQUERED_BY_UNMET_SUMMARY"
+                .localizedWithFormat(with: [city.name.localized()])
 
         case .goodyHutDiscovered(location: let location):
 
             if let city = gameModel.nearestCity(at: location, of: gameModel.humanPlayer()) {
-                return "TXT_KEY_NOTIFICATION_DISCOVER_GOODY_HUT_NEAR_CITY_SUMMARY".localizedWithFormat(with: [city.name.localized()])
+                return "TXT_KEY_NOTIFICATION_DISCOVER_GOODY_HUT_NEAR_CITY_SUMMARY"
+                    .localizedWithFormat(with: [city.name.localized()])
             }
 
             return "TXT_KEY_NOTIFICATION_DISCOVER_GOODY_HUT_SUMMARY".localized()
@@ -260,25 +272,30 @@ extension NotificationType {
         case .barbarianCampDiscovered(location: let location):
 
             if let city = gameModel.nearestCity(at: location, of: gameModel.humanPlayer()) {
-                return "TXT_KEY_NOTIFICATION_NEW_BARBARIAN_CAMP_NEAR_CITY_SUMMARY".localizedWithFormat(with: [city.name.localized()])
+                return "TXT_KEY_NOTIFICATION_NEW_BARBARIAN_CAMP_NEAR_CITY_SUMMARY"
+                    .localizedWithFormat(with: [city.name.localized()])
             }
 
             return "TXT_KEY_NOTIFICATION_NEW_BARBARIAN_CAMP_SUMMARY".localized()
 
         case .metCityState(cityState: let cityState, first: _):
-            return "TXT_KEY_NOTIFICATION_PLAYER_MET_MESSAGE_CITY_STATE_SUMMARY".localizedWithFormat(with: [cityState.name().localized()])
+            return "TXT_KEY_NOTIFICATION_PLAYER_MET_MESSAGE_CITY_STATE_SUMMARY"
+                .localizedWithFormat(with: [cityState.name().localized()])
 
         case .waiting:
             return "TXT_KEY_NOTIFICATION_WAITING_SUMMARY".localized()
 
         case .questCityStateFulfilled(cityState: let cityState, quest: _):
-            return "TXT_KEY_NOTIFICATION_CITYSTATE_QUEST_COMPLETED_SUMMARY".localizedWithFormat(with: [cityState.name().localized()])
+            return "TXT_KEY_NOTIFICATION_CITYSTATE_QUEST_COMPLETED_SUMMARY"
+                .localizedWithFormat(with: [cityState.name().localized()])
 
         case .questCityStateObsolete(cityState: let cityState, quest: _):
-            return "TXT_KEY_NOTIFICATION_CITYSTATE_QUEST_OBSOLETE_SUMMARY".localizedWithFormat(with: [cityState.name().localized()])
+            return "TXT_KEY_NOTIFICATION_CITYSTATE_QUEST_OBSOLETE_SUMMARY"
+                .localizedWithFormat(with: [cityState.name().localized()])
 
         case .questCityStateGiven(cityState: let cityState, quest: let quest):
-            return "TXT_KEY_NOTIFICATION_CITYSTATE_QUEST_GIVEN_SUMMARY".localizedWithFormat(with: [cityState.name().localized(), quest.summary().localized()])
+            return "TXT_KEY_NOTIFICATION_CITYSTATE_QUEST_GIVEN_SUMMARY"
+                .localizedWithFormat(with: [cityState.name().localized(), quest.summary().localized()])
 
         case .momentAdded(type: let messageType):
             return messageType.summary().localized()
@@ -289,26 +306,35 @@ extension NotificationType {
         case .naturalWonderDiscovered(location: let location):
             if let tile = gameModel.tile(at: location) {
                 if tile.feature().isNaturalWonder() {
-                    return "TXT_KEY_NOTIFICATION_DISCOVER_NATURAL_WONDER_SUMMARY".localizedWithFormat(with: [tile.feature().name().localized()])
+                    return "TXT_KEY_NOTIFICATION_DISCOVER_NATURAL_WONDER_SUMMARY"
+                        .localizedWithFormat(with: [tile.feature().name().localized()])
                 }
             }
             return "TXT_KEY_NOTIFICATION_DISCOVER_NATURAL_WONDER_MESSAGE".localized()
 
         case .continentDiscovered(location: _, continentName: let continentName):
-            return "TXT_KEY_NOTIFICATION_DISCOVER_CONTINENT_SUMMARY".localizedWithFormat(with: [continentName])
+            return "TXT_KEY_NOTIFICATION_DISCOVER_CONTINENT_SUMMARY"
+                .localizedWithFormat(with: [continentName])
 
         case .wonderBuilt(wonder: let wonderType, civilization: let civilizationType):
             if civilizationType == .unmet {
-                return "TXT_KEY_NOTIFICATION_WONDER_COMPLETED_UNMET_PLAYER_SUMMARY".localizedWithFormat(with: [wonderType.name().localized()])
+                return "TXT_KEY_NOTIFICATION_WONDER_COMPLETED_UNMET_PLAYER_SUMMARY"
+                    .localizedWithFormat(with: [wonderType.name().localized()])
             } else {
-                return "TXT_KEY_NOTIFICATION_WONDER_COMPLETED_SUMMARY".localizedWithFormat(with: [civilizationType.name().localized(), wonderType.name().localized()])
+                return "TXT_KEY_NOTIFICATION_WONDER_COMPLETED_SUMMARY"
+                    .localizedWithFormat(with: [civilizationType.name().localized(), wonderType.name().localized()])
             }
 
         case .cityCanShoot(cityName: let cityName, location: _):
-            return "TXT_KEY_NOTIFICATION_CITY_RANGE_ATTACK_SUMMARY".localizedWithFormat(with: [cityName])
+            return "TXT_KEY_NOTIFICATION_CITY_RANGE_ATTACK_SUMMARY"
+                .localizedWithFormat(with: [cityName])
 
         case .cityAcquired(cityName: let cityName, location: _):
-            return "TXT_KEY_NOTIFICATION_CONSIDER_RAZE_CITY_SUMMARY".localizedWithFormat(with: [cityName])
+            return "TXT_KEY_NOTIFICATION_CONSIDER_RAZE_CITY_SUMMARY"
+                .localizedWithFormat(with: [cityName])
+
+        case .envoyEarned:
+            return "TXT_KEY_NOTIFICATION_GIVE_INFLUENCE_TOKEN_SUMMARY".localized()
         }
     }
 
