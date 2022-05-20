@@ -238,6 +238,10 @@ public class NotificationItem: Codable, Equatable {
             gameModel?.userInterface?.focus(on: location)
             self.dismiss(in: gameModel)
 
+        case .envoyEarned:
+            gameModel?.userInterface?.showScreen(screenType: .cityStates, city: nil, other: nil, data: nil)
+            self.dismiss(in: gameModel)
+
         default:
             print("activate \(self.type) not handled")
         }
@@ -415,6 +419,9 @@ public class NotificationItem: Codable, Equatable {
             return city.madeAttack()
 
         case .cityAcquired(cityName: _, location: _):
+            return false
+
+        case .envoyEarned:
             return false
 
         default:
