@@ -226,7 +226,7 @@ public struct DiplomaticDialogView: View {
                 }, label: {
                     VStack(spacing: 2) {
                         Text("TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_TITLE".localized())
-                        
+
                         Label("TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_SUMMARY".localized())
                             .font(.footnote)
                     }
