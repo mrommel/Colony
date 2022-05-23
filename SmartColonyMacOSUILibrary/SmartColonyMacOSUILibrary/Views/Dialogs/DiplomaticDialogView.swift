@@ -182,7 +182,10 @@ public struct DiplomaticDialogView: View {
                 Button(action: {
                     self.viewModel.declareFriendshipClicked()
                 }, label: {
-                    Text("TXT_KEY_DIPLOMACY_ACTION_DECLARE_FRIENDSHIP_TITLE".localized())
+                    VStack(spacing: 2) {
+                        Text("TXT_KEY_DIPLOMACY_ACTION_DECLARE_FRIENDSHIP_TITLE".localized())
+                    }
+                    .tooltip("TXT_KEY_DIPLOMACY_ACTION_DECLARE_FRIENDSHIP_TOOLTIP".localized())
                 })
                     .buttonStyle(GameButtonStyle())
             }
@@ -197,6 +200,7 @@ public struct DiplomaticDialogView: View {
                         Label("TXT_KEY_DIPLOMACY_ACTION_DELEGATION_SUMMARY".localized())
                             .font(.footnote)
                     }
+                    .tooltip("TXT_KEY_DIPLOMACY_ACTION_DELEGATION_TOOLTIP".localized())
                 })
                     .buttonStyle(GameButtonStyle())
             }
@@ -205,7 +209,13 @@ public struct DiplomaticDialogView: View {
                 Button(action: {
                     self.viewModel.denounceClicked()
                 }, label: {
-                    Text("TXT_KEY_DIPLOMACY_ACTION_DENOUNCE_TITLE".localized())
+                    VStack(spacing: 2) {
+                        Text("TXT_KEY_DIPLOMACY_ACTION_DENOUNCE_TITLE".localized())
+
+                        Label("TXT_KEY_DIPLOMACY_ACTION_DENOUNCE_SUMMARY".localized())
+                            .font(.footnote)
+                    }
+                    .tooltip("TXT_KEY_DIPLOMACY_ACTION_DENOUNCE_TOOLTIP".localized())
                 })
                     .buttonStyle(GameButtonStyle())
             }
@@ -216,10 +226,11 @@ public struct DiplomaticDialogView: View {
                 }, label: {
                     VStack(spacing: 2) {
                         Text("TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_TITLE".localized())
-
+                        
                         Label("TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_SUMMARY".localized())
                             .font(.footnote)
                     }
+                    .tooltip("TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_TOOLTIP".localized())
                 })
                     .buttonStyle(GameButtonStyle())
             }

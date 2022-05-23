@@ -34,12 +34,22 @@
 "TXT_KEY_DIPLOMACY_RELATIONSHIP_REASONS" = "Reasons for current relationship";
 "TXT_KEY_DIPLOMACY_RELATIONSHIP_RAISE" = "To [green]raise[/green] your relationship you could:";
 
-"TXT_KEY_DIPLOMACY_ACTION_DECLARE_FRIENDSHIP_TITLE" = "Declare Friendship";
-"TXT_KEY_DIPLOMACY_ACTION_DELEGATION_TITLE" = "Send Delegation";
+// actions
+"TXT_KEY_DIPLOMACY_ACTION_DECLARE_FRIENDSHIP_TITLE" = "Declare Friendship"; // LOC_DIPLOACTION_DECLARE_FRIENDSHIP_NAME
+"TXT_KEY_DIPLOMACY_ACTION_DECLARE_FRIENDSHIP_TOOLTIP" = "Formally state your intention to maintain friendly relations with this power. While a friend you will be eligible for an Alliance but will not be able to declare a formal war on this power."; // LOC_DIPLOACTION_DECLARE_FRIENDSHIP_DESCRIPTION
+
+"TXT_KEY_DIPLOMACY_ACTION_DELEGATION_TITLE" = "Send Delegation"; // LOC_DIPLOACTION_DIPLOMATIC_DELEGATION_NAME
 "TXT_KEY_DIPLOMACY_ACTION_DELEGATION_SUMMARY" = "Costs 25 [Gold] Gold";
+"TXT_KEY_DIPLOMACY_ACTION_DELEGATION_TOOLTIP" = "Send a delegation with a gift of [Gold] Gold for this power. If accepted, the recipient will be a bit friendlier and you will gain a level of Access. Lasts until you gain the Diplomatic Service Civic."; // LOC_DIPLOACTION_DIPLOMATIC_DELEGATION_DESCRIPTION
+
 "TXT_KEY_DIPLOMACY_ACTION_DENOUNCE_TITLE" = "Denounce";
+"TXT_KEY_DIPLOMACY_ACTION_DENOUNCE_SUMMARY" = "Generates [blue]25[/blue] [Grievances] Grievances";
+"TXT_KEY_DIPLOMACY_ACTION_DENOUNCE_TOOLTIP" = "Used to formally state your unhappiness with this power. A formal declaration of war (with or without a Casus Belli) can follow after 5 additional turns have passed."; // LOC_DIPLOACTION_DENOUNCE_DESCRIPTION
+
 "TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_TITLE" = "Declare Surprise War";
-"TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_SUMMARY" = "Warmonger penalty: [red]heavy[/red]";
+"TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_SUMMARY" = "Generates [red]150[/red] [Grievances] Grievances";
+"TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_TOOLTIP" = "Used to immediately start a war. Normal warmonger penalties increased by 50%."; // LOC_DIPLOACTION_DECLARE_SURPRISE_WAR_DESCRIPTION
+
 "TXT_KEY_DIPLOMACY_ACTION_MAKE_DEAL_TITLE" = "Make Deal";
 
 // messageIntro

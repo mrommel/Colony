@@ -307,6 +307,7 @@ public class LabelTokenizer {
 
         case "[red]": return .red
         case "[green]": return .green
+        case "[blue]": return .blue
 
         default: return nil
         }
