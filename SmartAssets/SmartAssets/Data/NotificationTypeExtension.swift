@@ -350,10 +350,8 @@ extension NotificationType {
 
         toolTipText.append(NSAttributedString(string: "\n"))
 
-        let content = NSAttributedString(
-            string: self.summary(in: gameModel), // already localized
-            attributes: Globals.Attributs.tooltipContentAttributs
-        )
+        let tokenizer = LabelTokenizer()
+        let content = tokenizer.convert(text: self.summary(in: gameModel), with: Globals.Attributs.tooltipContentAttributs)
         toolTipText.append(content)
 
         return toolTipText
