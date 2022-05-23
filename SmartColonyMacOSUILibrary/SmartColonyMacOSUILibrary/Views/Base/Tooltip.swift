@@ -6,58 +6,74 @@
 //
 
 import SwiftUI
-import CustomToolTip
 import SmartAssets
+import SwiftUITooltip
 
-// https://stackoverflow.com/questions/63217860/how-to-add-tooltip-on-macos-10-15-with-swiftui
-struct ToolTip: NSViewRepresentable {
+/// add view modifier to show tooltip string / attributed string
+///
+/// view
+///    .tooltip("content text")
+///
+extension View {
 
-    let toolTipText: NSAttributedString
-
-    func makeNSView(context: NSViewRepresentableContext<ToolTip>) -> NSView {
-
-        let view = NSView()
-        return view
+    public func tooltip(_ textRef: String?, side: TooltipSide = .bottom) -> some View {
+        TooltipContainerView(textRef, side: side) { self }
     }
 
-    func updateNSView(_ nsView: NSView, context: NSViewRepresentableContext<ToolTip>) {
-
-        // configure tooltip
-        CustomToolTip.defaultBackgroundColor = Globals.Colors.toolTipBackgroundColor
-        CustomToolTip.defaultBorderColor = Globals.Colors.toolTipBorderColor
-
-        nsView.addCustomToolTip(from: self.toolTipText)
+    public func tooltip(_ attributedTextRef: NSAttributedString?, side: TooltipSide = .bottom) -> some View {
+        TooltipContainerView(attributedTextRef, side: side) { self }
     }
 }
 
-// hit testing effect: https://stackoverflow.com/questions/58235820/swiftui-overlay-cancels-touches
-public extension View {
+/// container view to show tooltip string / attributed string
+///
+/// TooltipContainerView("tooltip text") {
+///    Text("content text")
+/// }
+private struct TooltipContainerView<Content: View>: View {
 
-    func toolTip(_ toolTipText: String) -> some View {
+    private var tooltipText: NSAttributedString
+    @ViewBuilder var content: Content
 
-        self.overlay(
-            ToolTip(toolTipText: NSAttributedString(string: toolTipText))
-                .allowsHitTesting(false) // !!! must be exactly here
-        )
-    }
+    @State private var tooltipShown: Bool = false
+    private var tooltipConfig = DefaultTooltipConfig()
 
-    func toolTip(_ toolTipText: NSAttributedString) -> some View {
+    init(_ textRef: String?, side: TooltipSide = .bottom, @ViewBuilder content: () -> Content) {
 
-        self.overlay(
-            ToolTip(toolTipText: toolTipText)
-                .allowsHitTesting(false) // !!! must be exactly here
-        )
-    }
-
-    func toolTip(_ toolTipText: NSAttributedString?) -> some View {
-
-        if let toolTipText = toolTipText {
-            return AnyView(self.overlay(
-                ToolTip(toolTipText: toolTipText)
-                    .allowsHitTesting(false) // !!! must be exactly here
-            ))
+        self.content = content()
+        if let text = textRef {
+            self.tooltipText = NSAttributedString(string: text)
         } else {
-            return AnyView(EmptyView())
+            self.tooltipText = NSAttributedString(string: "-")
         }
+
+        self.tooltipConfig.borderColor = Color(red: 0.072, green: 0.119, blue: 0.155)
+        self.tooltipConfig.backgroundColor = Color(red: 0.894, green: 0.894, blue: 0.894)
+        self.tooltipConfig.side = side
+    }
+
+    init(_ attributedTextRef: NSAttributedString?, side: TooltipSide = .bottom, @ViewBuilder content: () -> Content) {
+
+        self.content = content()
+        if let attributedText = attributedTextRef {
+            self.tooltipText = attributedText
+        } else {
+            self.tooltipText = NSAttributedString(string: "-")
+        }
+
+        self.tooltipConfig.borderColor = Color(red: 0.072, green: 0.119, blue: 0.155)
+        self.tooltipConfig.backgroundColor = Color(red: 0.894, green: 0.894, blue: 0.894)
+        self.tooltipConfig.side = side
+    }
+
+    var body: some View {
+
+        self.content
+            .onHover { over in
+                self.tooltipShown = over
+            }
+            .tooltip(self.tooltipShown, config: self.tooltipConfig) {
+                Label(self.tooltipText)
+            }
     }
 }

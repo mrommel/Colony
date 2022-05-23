@@ -20,10 +20,13 @@ struct HeaderView: View {
             VStack(alignment: .leading, spacing: 0) {
 
                 self.leftButtons
+                    .zIndex(50)
 
                 TechProgressView(viewModel: self.viewModel.techProgressViewModel)
+                    .zIndex(49)
 
                 CivicProgressView(viewModel: self.viewModel.civicProgressViewModel)
+                    .zIndex(48)
             }
             .padding(.top, 24)
 
@@ -32,12 +35,14 @@ struct HeaderView: View {
             VStack(alignment: .trailing, spacing: 0) {
 
                 self.rightButtons
-                    .padding(.top, 24)
+                    .zIndex(50)
 
                 self.leaderButtons
+                    .zIndex(49)
                     .padding(.top, 8)
                     .padding(.trailing, 8)
             }
+            .padding(.top, 24)
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
     }

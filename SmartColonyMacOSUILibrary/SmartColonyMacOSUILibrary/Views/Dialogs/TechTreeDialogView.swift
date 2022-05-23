@@ -37,14 +37,13 @@ struct TechTreeDialogView: View {
 
                     LazyHGrid(rows: gridItemLayout, spacing: 20) {
 
-                        ForEach(self.viewModel.techGridViewModels) { techViewModel in
+                        ForEach(Array(self.viewModel.techGridViewModels.enumerated()), id: \.element) { index, techViewModel in
 
-                            TechView(viewModel: techViewModel)
+                            TechView(viewModel: techViewModel, zIndex: 500 - Double(index))
                                 .padding(0)
                                 .onTapGesture {
                                     techViewModel.selectTech()
                                 }
-                                .id("tech-\(techViewModel.id)")
                         }
                     }
                 })
@@ -52,7 +51,7 @@ struct TechTreeDialogView: View {
                 Button(action: {
                     self.viewModel.closeDialog()
                 }, label: {
-                    Text("Okay")
+                    Text("TXT_KEY_OKAY".localized())
                 })
             }
             .padding(.bottom, 45)

@@ -88,6 +88,7 @@
 		C94816C126A82DB000765029 /* TradeCityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94816C026A82DB000765029 /* TradeCityView.swift */; };
 		C94CE28726DCDA4F00B58A9C /* CombatBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94CE28626DCDA4F00B58A9C /* CombatBannerView.swift */; };
 		C94CE28926DCDA6400B58A9C /* CombatBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94CE28826DCDA6400B58A9C /* CombatBannerViewModel.swift */; };
+		C94D7A6B282E3F3000BA74DC /* SwiftUITooltip in Frameworks */ = {isa = PBXBuildFile; productRef = C94D7A6A282E3F3000BA74DC /* SwiftUITooltip */; };
 		C94E2E1227B50035006866BB /* GameMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94E2E1127B50035006866BB /* GameMenuView.swift */; };
 		C94F94DE27295C1E006BF135 /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94F94DD27295C1E006BF135 /* Tooltip.swift */; };
 		C950F98B26427C560057A7D1 /* GameSceneUserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F98A26427C560057A7D1 /* GameSceneUserInterface.swift */; };
@@ -231,6 +232,7 @@
 		C9A8F0DD2651A63100584199 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A8F0DC2651A63100584199 /* NotificationViewModel.swift */; };
 		C9A8F0DF2651A6CB00584199 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A8F0DE2651A6CB00584199 /* NotificationView.swift */; };
 		C9AA64FD26559C4200907DE1 /* GameButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AA64FC26559C4200907DE1 /* GameButtonStyle.swift */; };
+		C9AB369A2833D34000E0DAE8 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = C9AB36992833D34000E0DAE8 /* Introspect */; };
 		C9AC0FF926DE62B700B65288 /* SelectPromotionDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0FF826DE62B700B65288 /* SelectPromotionDialogView.swift */; };
 		C9AC0FFB26DE635C00B65288 /* SelectPromotionDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0FFA26DE635C00B65288 /* SelectPromotionDialogViewModel.swift */; };
 		C9AC0FFD26DE649B00B65288 /* PromotionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0FFC26DE649B00B65288 /* PromotionViewModel.swift */; };
@@ -685,6 +687,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C94D7A6B282E3F3000BA74DC /* SwiftUITooltip in Frameworks */,
+				C9AB369A2833D34000E0DAE8 /* Introspect in Frameworks */,
 				C99A887E2607A06C003B8B73 /* SmartAILibrary.framework in Frameworks */,
 				C95C7A76273827E300B2CE1A /* Charts in Frameworks */,
 				C99A88842607A190003B8B73 /* SmartAssets.framework in Frameworks */,
@@ -1290,12 +1294,13 @@
 			buildRules = (
 			);
 			dependencies = (
-				C9641C8C27C6CDEB00FE446B /* PBXTargetDependency */,
 			);
 			name = SmartColonyMacOSUILibrary;
 			packageProductDependencies = (
 				C95C7A75273827E300B2CE1A /* Charts */,
 				C99EB0F8274BD27C00D2FAE6 /* CustomToolTip */,
+				C94D7A6A282E3F3000BA74DC /* SwiftUITooltip */,
+				C9AB36992833D34000E0DAE8 /* Introspect */,
 			);
 			productName = SmartColonyMacOSUILibrary;
 			productReference = C99A885C26079F4C003B8B73 /* SmartColonyMacOSUILibrary.framework */;
@@ -1349,6 +1354,8 @@
 			packageReferences = (
 				C95C7A74273827E300B2CE1A /* XCRemoteSwiftPackageReference "Charts" */,
 				C99EB0F7274BD27C00D2FAE6 /* XCRemoteSwiftPackageReference "CustomToolTip" */,
+				C94D7A69282E3F3000BA74DC /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */,
+				C9AB36982833D34000E0DAE8 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = C99A885D26079F4C003B8B73 /* Products */;
 			projectDirPath = "";
@@ -1729,10 +1736,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C9641C8C27C6CDEB00FE446B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = C9641C8B27C6CDEB00FE446B /* CustomToolTip */;
-		};
 		C9F963B327C65DC000073CC7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C99A885B26079F4C003B8B73 /* SmartColonyMacOSUILibrary */;
@@ -1980,6 +1983,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		C94D7A69282E3F3000BA74DC /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/quassum/SwiftUI-Tooltip.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		C95C7A74273827E300B2CE1A /* XCRemoteSwiftPackageReference "Charts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/danielgindi/Charts.git";
@@ -1996,22 +2007,36 @@
 				minimumVersion = 1.0.8;
 			};
 		};
+		C9AB36982833D34000E0DAE8 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C94D7A6A282E3F3000BA74DC /* SwiftUITooltip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C94D7A69282E3F3000BA74DC /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */;
+			productName = SwiftUITooltip;
+		};
 		C95C7A75273827E300B2CE1A /* Charts */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C95C7A74273827E300B2CE1A /* XCRemoteSwiftPackageReference "Charts" */;
 			productName = Charts;
 		};
-		C9641C8B27C6CDEB00FE446B /* CustomToolTip */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = CustomToolTip;
-		};
 		C99EB0F8274BD27C00D2FAE6 /* CustomToolTip */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C99EB0F7274BD27C00D2FAE6 /* XCRemoteSwiftPackageReference "CustomToolTip" */;
 			productName = CustomToolTip;
+		};
+		C9AB36992833D34000E0DAE8 /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C9AB36982833D34000E0DAE8 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

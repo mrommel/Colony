@@ -17,11 +17,16 @@ class TradeRoutePathfinderDataSource: PathfinderDataSource {
     let targetLocation: HexPoint
 
     var tradingPostLocations: [HexPoint] = []
+    let wrapXValue: Int
 
     init(for player: AbstractPlayer?,
          from startLocation: HexPoint,
          to targetLocation: HexPoint,
-         in gameModel: GameModel?) {
+         in gameModelRef: GameModel?) {
+
+        guard let gameModel = gameModelRef else {
+            fatalError("cant get gameModel")
+        }
 
         self.player = player
 
@@ -29,6 +34,8 @@ class TradeRoutePathfinderDataSource: PathfinderDataSource {
         self.targetLocation = targetLocation
 
         self.gameModel = gameModel
+
+        self.wrapXValue = gameModel.wrappedX() ? gameModel.mapSize().width() : -1
     }
 
     func walkableAdjacentTilesCoords(forTileCoord coord: HexPoint) -> [HexPoint] {
@@ -148,5 +155,15 @@ class TradeRoutePathfinderDataSource: PathfinderDataSource {
         }
 
         return true
+    }
+
+    func wrapX() -> Int {
+
+        return self.wrapXValue
+    }
+
+    func useCache() -> Bool {
+
+        return false
     }
 }

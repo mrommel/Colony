@@ -14,6 +14,7 @@ struct WonderView: View {
     var viewModel: WonderViewModel
 
     var body: some View {
+
         HStack(alignment: .center, spacing: 10) {
 
             Image(nsImage: self.viewModel.icon())
@@ -57,10 +58,10 @@ struct WonderView: View {
             Image(nsImage: self.viewModel.background())
                 .resizable(capInsets: EdgeInsets(all: 15))
         )
-        .toolTip(self.viewModel.toolTip)
         .onTapGesture {
             self.viewModel.clicked()
         }
+        .tooltip(self.viewModel.toolTip)
     }
 }
 
@@ -71,9 +72,9 @@ struct WonderView_Previews: PreviewProvider {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
-        WonderView(viewModel: WonderViewModel(wonderType: .pyramids, turns: 34))
+        WonderView(viewModel: WonderViewModel(wonderType: .pyramids, at: HexPoint.invalid, turns: 34))
 
-        WonderView(viewModel: WonderViewModel(wonderType: .pyramids, turns: 34, showYields: true))
+        WonderView(viewModel: WonderViewModel(wonderType: .pyramids, at: HexPoint.invalid, turns: 34, showYields: true))
     }
 }
 #endif

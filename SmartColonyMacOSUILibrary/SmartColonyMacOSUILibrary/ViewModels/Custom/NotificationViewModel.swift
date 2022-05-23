@@ -49,17 +49,15 @@ class NotificationViewModel: ObservableObject, Identifiable {
 
         self.type = firstItem.type
 
-        let toolTipText = NSMutableAttributedString()
-
-        let title = NSAttributedString(
-            string: firstItem.type.title(),
-            attributes: Globals.Attributs.tooltipTitleAttributs
-        )
-        toolTipText.append(title)
-
-        self.toolTip = toolTipText
+        self.toolTip = NSAttributedString(string: "")
 
         self.detailViewModel = NotificationDetailViewModel(title: "default", texts: ["default"])
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        self.toolTip = firstItem.type.tooltip(in: gameModel)
     }
 
     func icon() -> NSImage {
@@ -78,6 +76,20 @@ class NotificationViewModel: ObservableObject, Identifiable {
 
     func click() {
 
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        guard humanPlayer.isActive() else {
+            // only open dialog when human is active
+            self.expanded = false
+            return
+        }
+
         // we need to expand the details
         self.expanded = !self.expanded
 
@@ -92,9 +104,9 @@ class NotificationViewModel: ObservableObject, Identifiable {
             }
 
             self.detailViewModel = NotificationDetailViewModel(
-                title: "\(items.count) \(firstItem.type.title())",
+                title: "\(items.count) \(firstItem.type.message())",
                 texts: items.map { item in
-                    item.type.message(in: gameModel)
+                    item.type.summary(in: gameModel)
                 }
             )
             self.detailViewModel.delegate = self

@@ -110,7 +110,7 @@ class LeaderViewModel: ObservableObject {
         let numCities = cities.count
         let numPopulation = cities.map { $0?.population() ?? 0 }.reduce(0, +)
         let citiesName = NSAttributedString(
-            string: "\nCities: \(numCities) Population: \(numPopulation)",
+            string: "\nCities: \(numCities)\nPopulation: \(numPopulation)",
             attributes: Globals.Attributs.tooltipContentAttributs
         )
         tooltipText.append(citiesName)

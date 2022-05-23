@@ -13,9 +13,12 @@ struct CityStateView: View {
     @ObservedObject
     var viewModel: CityStateViewModel
 
-    public init(viewModel: CityStateViewModel) {
+    let zIndexValue: Double
+
+    public init(viewModel: CityStateViewModel, zIndex: Double) {
 
         self.viewModel = viewModel
+        self.zIndexValue = zIndex
     }
 
     var body: some View {
@@ -33,8 +36,9 @@ struct CityStateView: View {
                     .frame(width: 20, height: 20)
                     .padding(.top, -4)
             }
-                .frame(width: 32, height: 24)
-                .toolTip(self.viewModel.questHintToolTip())
+            .frame(width: 32, height: 24)
+            .zIndex(self.zIndexValue)
+            .tooltip(self.viewModel.questHintToolTip(), side: .trailingBottom)
 
             Text(self.viewModel.name)
                 .frame(width: 100, height: 24, alignment: .leading)
@@ -51,7 +55,8 @@ struct CityStateView: View {
                     .frame(width: 16, height: 16)
             }
             .frame(width: 16, height: 24)
-            .toolTip(self.viewModel.bonusText1())
+            .zIndex(self.zIndexValue)
+            .tooltip(self.viewModel.bonusText1())
 
             VStack(spacing: 0) {
                 Text("3")
@@ -62,7 +67,8 @@ struct CityStateView: View {
                     .frame(width: 16, height: 16)
             }
             .frame(width: 16, height: 24)
-            .toolTip(self.viewModel.bonusText3())
+            .zIndex(self.zIndexValue)
+            .tooltip(self.viewModel.bonusText3())
 
             VStack(spacing: 0) {
                 Text("6")
@@ -73,12 +79,14 @@ struct CityStateView: View {
                     .frame(width: 16, height: 16)
             }
             .frame(width: 16, height: 24)
-            .toolTip(self.viewModel.bonusText6())
+            .zIndex(self.zIndexValue)
+            .tooltip(self.viewModel.bonusText6())
 
             Image(nsImage: self.viewModel.suzerainImage())
                 .resizable()
                 .frame(width: 20, height: 20)
-                .toolTip(self.viewModel.suzerainText())
+                .zIndex(self.zIndexValue)
+                .tooltip(self.viewModel.suzerainText())
 
             VStack(alignment: .leading, spacing: 0) {
                 Text("TXT_KEY_CITY_STATE_SUZERAIN".localized())
@@ -136,7 +144,7 @@ struct CityStateView_Previews: PreviewProvider {
             quest: .trainUnit(type: .builder),
             envoys: 1
         )
-        CityStateView(viewModel: viewModel0)
+        CityStateView(viewModel: viewModel0, zIndex: 4)
 
         let viewModel1 = CityStateView_Previews.viewModel(
             cityState: .akkad,
@@ -144,7 +152,7 @@ struct CityStateView_Previews: PreviewProvider {
             quest: .none,
             envoys: 4
         )
-        CityStateView(viewModel: viewModel1)
+        CityStateView(viewModel: viewModel1, zIndex: 4)
     }
 }
 #endif

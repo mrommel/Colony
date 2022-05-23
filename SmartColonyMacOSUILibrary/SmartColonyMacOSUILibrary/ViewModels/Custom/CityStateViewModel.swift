@@ -117,9 +117,12 @@ class CityStateViewModel: ObservableObject {
         return texture.tint(with: active ? self.cityState.category().color() : .gray)
     }
 
-    func bonusText1() -> String {
+    func bonusText1() -> NSAttributedString {
 
-        return self.cityState.bonus(for: .first)
+        return NSAttributedString(
+            string: self.cityState.bonus(for: .first),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
     }
 
     func bonusImage3() -> NSImage {
@@ -129,9 +132,12 @@ class CityStateViewModel: ObservableObject {
         return texture.tint(with: active ? self.cityState.category().color() : .gray)
     }
 
-    func bonusText3() -> String {
+    func bonusText3() -> NSAttributedString {
 
-        return self.cityState.bonus(for: .third)
+        return NSAttributedString(
+            string: self.cityState.bonus(for: .third),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
     }
 
     func bonusImage6() -> NSImage {
@@ -141,9 +147,12 @@ class CityStateViewModel: ObservableObject {
         return texture.tint(with: active ? self.cityState.category().color() : .gray)
     }
 
-    func bonusText6() -> String {
+    func bonusText6() -> NSAttributedString {
 
-        return self.cityState.bonus(for: .sixth)
+        return NSAttributedString(
+            string: self.cityState.bonus(for: .sixth),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
     }
 
     func suzerainImage() -> NSImage {
@@ -151,9 +160,12 @@ class CityStateViewModel: ObservableObject {
         return ImageCache.shared.image(for: self.cityState.suzerainTexture(active: true))
     }
 
-    func suzerainText() -> String {
+    func suzerainText() -> NSAttributedString {
 
-        return self.cityState.bonus(for: .suzerain)
+        return NSAttributedString(
+            string: self.cityState.bonus(for: .suzerain),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
     }
 
     func jumpToImage() -> NSImage {

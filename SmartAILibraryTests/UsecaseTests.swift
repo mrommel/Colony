@@ -335,13 +335,13 @@ class UsecaseTests: XCTestCase {
         let playerTrajanWarrior = Unit(at: HexPoint(x: 15, y: 15), type: .warrior, owner: playerTrajan)
         gameModel.add(unit: playerTrajanWarrior)
 
-        let playerAugustusBuilder = Unit(at: HexPoint(x: 16, y: 15), type: .builder, owner: playerTrajan)
-        gameModel.add(unit: playerAugustusBuilder)
+        let playerTrajanBuilder = Unit(at: HexPoint(x: 16, y: 15), type: .builder, owner: playerTrajan)
+        gameModel.add(unit: playerTrajanBuilder)
 
         // initial city
-        let cityAugustria = City(name: "Augustria", at: HexPoint(x: 15, y: 15), capital: true, owner: playerTrajan)
-        cityAugustria.initialize(in: gameModel)
-        gameModel.add(city: cityAugustria)
+        let trajanCity = City(name: "Trajania", at: HexPoint(x: 15, y: 15), capital: true, owner: playerTrajan)
+        trajanCity.initialize(in: gameModel)
+        gameModel.add(city: trajanCity)
 
         playerTrajanWarrior.doGarrison(in: gameModel)
 
@@ -362,12 +362,6 @@ class UsecaseTests: XCTestCase {
 
         // THEN
         XCTAssertEqual(mapModel.improvement(at: HexPoint(x: 16, y: 15)), .farm)
-        /*if let buildMission = playerAugustusBuilder.peekMission() {
-            XCTAssertEqual(buildMission.type, .build)
-            XCTAssertEqual(buildMission.buildType, .farm)
-        } else {
-            XCTFail()
-        }*/
     }
 
     func testBuilderBuildsSomewhere() {

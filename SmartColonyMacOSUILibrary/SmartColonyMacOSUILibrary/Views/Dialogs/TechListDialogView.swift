@@ -32,15 +32,16 @@ struct TechListDialogView: View {
 
                     LazyVStack(spacing: 4) {
 
-                        ForEach(self.viewModel.techListViewModels) { techViewModel in
+                        ForEach(Array(self.viewModel.techListViewModels.enumerated()), id: \.element) { index, techViewModel in
 
-                            TechView(viewModel: techViewModel)
+                            TechView(viewModel: techViewModel, zIndex: 50 - Double(index))
                                 .padding(0)
                                 .onTapGesture {
                                     techViewModel.selectTech()
                                 }
-                                .id("tech-\(techViewModel.id)")
                         }
+
+                        Spacer(minLength: 100)
                     }
                 })
             }

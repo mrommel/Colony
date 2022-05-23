@@ -170,7 +170,7 @@ class CivicViewModel: ObservableObject, Identifiable {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: "envoy",
-                    toolTipText: NSAttributedString(string: toolTipText)
+                    toolTipText: NSAttributedString(string: toolTipText, attributes: Globals.Attributs.tooltipTitleAttributs)
                 )
             )
         }

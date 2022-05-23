@@ -37,23 +37,19 @@ struct CityStatesDialogView: View {
                             Text("TXT_KEY_CITY_STATE_NONE_MET_YET".localized())
                         } else {
                             // list of known city states
-                            LazyVStack(alignment: .leading) {
+                            ForEach(Array(self.viewModel.cityStateViewModels.enumerated()), id: \.element) { index, cityStateViewModel in
 
-                                ForEach(self.viewModel.cityStateViewModels, id: \.self) { cityStateViewModel in
-
-                                    CityStateView(viewModel: cityStateViewModel)
-                                        .padding(.leading, 4)
-                                }
+                                CityStateView(viewModel: cityStateViewModel, zIndex: 50 - Double(index))
+                                    .padding(.leading, 4)
+                                    .zIndex(50 - Double(index))
                             }
 
                             // list of enabled bonuses
-                            LazyVStack(alignment: .leading) {
+                            ForEach(self.viewModel.envoyEffectViewModels, id: \.self) { envoyEffectViewModel in
 
-                                ForEach(self.viewModel.envoyEffectViewModels, id: \.self) { envoyEffectViewModel in
-
-                                    EnvoyEffectView(viewModel: envoyEffectViewModel)
-                                        .padding(.leading, 4)
-                                }
+                                EnvoyEffectView(viewModel: envoyEffectViewModel)
+                                    .padding(.leading, 4)
+                                    .zIndex(0)
                             }
                         }
 

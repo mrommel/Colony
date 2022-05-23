@@ -27,7 +27,7 @@ struct MomentView: View {
                 .padding(.all, 8)
 
             Label(self.viewModel.summaryText)
-                .toolTip(self.viewModel.tooltipText)
+                .tooltip(self.viewModel.tooltipText)
 
             HStack {
 

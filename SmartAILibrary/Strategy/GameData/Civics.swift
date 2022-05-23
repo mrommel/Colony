@@ -181,7 +181,12 @@ class Civics: AbstractCivics {
         }
 
         if civic.envoys() > 0 {
-            self.player?.changeEnvoys(by: civic.envoys())
+            player.changeEnvoys(by: civic.envoys())
+
+            // notify player about envoy to spend
+            if player.isHuman() {
+                player.notifications()?.add(notification: .envoyEarned)
+            }
         }
 
         // check if this civic is the first of a new era

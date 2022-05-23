@@ -3293,7 +3293,15 @@ public class City: AbstractCity {
                 gameModel.userInterface?.showPopup(popupType: .wonderBuilt(wonder: wonderType))
             } else {
                 // inform human about foreign wonder built
-                gameModel.humanPlayer()?.notifications()?.add(notification: .wonderBuilt)
+                if player.hasMet(with: gameModel.humanPlayer()) {
+                    // human known this player
+                    gameModel.humanPlayer()?.notifications()?
+                        .add(notification: .wonderBuilt(wonder: wonderType, civilization: player.leader.civilization()))
+                } else {
+                    // human has not met this player
+                    gameModel.humanPlayer()?.notifications()?
+                        .add(notification: .wonderBuilt(wonder: wonderType, civilization: .unmet))
+                }
             }
 
         } catch {
@@ -3912,12 +3920,12 @@ public class City: AbstractCity {
 
     public func startTraining(unit unitType: UnitType) {
 
-        self.buildQueue.add(item: BuildableItem(unitType: unitType))
+        self.buildQueue.append(item: BuildableItem(unitType: unitType))
     }
 
     public func startBuilding(building buildingType: BuildingType) {
 
-        self.buildQueue.add(item: BuildableItem(buildingType: buildingType))
+        self.buildQueue.append(item: BuildableItem(buildingType: buildingType))
     }
 
     public func startBuilding(wonder wonderType: WonderType, at location: HexPoint, in gameModel: GameModel?) {
@@ -3929,7 +3937,7 @@ public class City: AbstractCity {
         tile.startBuilding(wonder: wonderType)
         gameModel?.userInterface?.refresh(tile: tile)
 
-        self.buildQueue.add(item: BuildableItem(wonderType: wonderType, at: location))
+        self.buildQueue.append(item: BuildableItem(wonderType: wonderType, at: location))
 
         // send gossip
         gameModel?.sendGossip(type: .wonderStarted(wonder: wonderType, cityName: self.name), of: self.player)
@@ -3944,12 +3952,12 @@ public class City: AbstractCity {
         tile.startBuilding(district: districtType)
         gameModel?.userInterface?.refresh(tile: tile)
 
-        self.buildQueue.add(item: BuildableItem(districtType: districtType, at: location))
+        self.buildQueue.append(item: BuildableItem(districtType: districtType, at: location))
     }
 
     public func startBuilding(project projectType: ProjectType, at point: HexPoint, in gameModel: GameModel?) {
 
-        self.buildQueue.add(item: BuildableItem(projectType: projectType, at: location))
+        self.buildQueue.append(item: BuildableItem(projectType: projectType, at: location))
     }
 
     public func canPurchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
@@ -4619,7 +4627,7 @@ public class City: AbstractCity {
             if let tile = gameModel.tile(at: self.location) {
 
                 if let attackerTile = gameModel.tile(at: attacker.location) {
-                    if tile.isRiverToCross(towards: attackerTile) {
+                    if tile.isRiverToCross(towards: attackerTile, wrapX: gameModel.wrappedX() ? gameModel.mapSize().width() : -1) {
                         modifiers.append(CombatModifier(value: 5, title: "River defense"))
                     }
                 }

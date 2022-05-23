@@ -14,6 +14,7 @@ struct DistrictView: View {
     var viewModel: DistrictViewModel
 
     var body: some View {
+
         HStack(alignment: .center, spacing: 10) {
 
             Image(nsImage: self.viewModel.icon())
@@ -43,10 +44,10 @@ struct DistrictView: View {
             Image(nsImage: self.viewModel.background())
                 .resizable(capInsets: EdgeInsets(all: 15))
         )
-        .toolTip(self.viewModel.toolTip)
         .onTapGesture {
             self.viewModel.clicked()
         }
+        .tooltip(self.viewModel.toolTip)
     }
 }
 
@@ -57,9 +58,9 @@ struct DistrictView_Previews: PreviewProvider {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
-        DistrictView(viewModel: DistrictViewModel(districtType: .campus, turns: 6, active: true))
+        DistrictView(viewModel: DistrictViewModel(districtType: .campus, at: HexPoint.invalid, turns: 6, active: true))
 
-        DistrictView(viewModel: DistrictViewModel(districtType: .encampment, turns: 3, active: false))
+        DistrictView(viewModel: DistrictViewModel(districtType: .encampment, at: HexPoint.invalid, turns: 3, active: false))
     }
 }
 #endif

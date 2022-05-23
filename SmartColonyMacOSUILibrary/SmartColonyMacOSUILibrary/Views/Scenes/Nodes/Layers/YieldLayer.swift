@@ -62,7 +62,7 @@ class YieldLayer: BaseLayer {
     override init(player: AbstractPlayer?) {
 
         super.init(player: player)
-        self.zPosition = Globals.ZLevels.yields
+        self.zPosition = Globals.ZLevels.yieldsMarker
         self.name = YieldLayer.kName
     }
 
@@ -97,7 +97,7 @@ class YieldLayer: BaseLayer {
 
             let foodSprite = SKSpriteNode(texture: SKTexture(image: image), size: YieldLayer.kTextureSize)
             foodSprite.position = position
-            foodSprite.zPosition = Globals.ZLevels.yields
+            foodSprite.zPosition = Globals.ZLevels.yieldsMarker
             foodSprite.anchorPoint = CGPoint(x: 0, y: 0)
             foodSprite.color = .black
             foodSprite.colorBlendFactor = 1.0 - alpha
@@ -113,7 +113,7 @@ class YieldLayer: BaseLayer {
 
             let productionSprite = SKSpriteNode(texture: SKTexture(image: image), size: YieldLayer.kTextureSize)
             productionSprite.position = position
-            productionSprite.zPosition = Globals.ZLevels.yields
+            productionSprite.zPosition = Globals.ZLevels.yieldsMarker
             productionSprite.anchorPoint = CGPoint(x: 0, y: 0)
             productionSprite.color = .black
             productionSprite.colorBlendFactor = 1.0 - alpha
@@ -129,7 +129,7 @@ class YieldLayer: BaseLayer {
 
             let goldSprite = SKSpriteNode(texture: SKTexture(image: image), size: YieldLayer.kTextureSize)
             goldSprite.position = position
-            goldSprite.zPosition = Globals.ZLevels.yields
+            goldSprite.zPosition = Globals.ZLevels.yieldsMarker
             goldSprite.anchorPoint = CGPoint(x: 0, y: 0)
             goldSprite.color = .black
             goldSprite.colorBlendFactor = 1.0 - alpha

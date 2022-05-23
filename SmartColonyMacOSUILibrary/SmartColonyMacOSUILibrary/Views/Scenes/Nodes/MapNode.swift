@@ -92,7 +92,7 @@ class MapNode: SKNode {
 
         self.yieldLayer = YieldLayer(player: humanPlayer)
         self.yieldLayer.populate(with: self.game)
-        self.yieldLayer.zPosition = Globals.ZLevels.yields
+        self.yieldLayer.zPosition = Globals.ZLevels.yieldsMarker
 
         self.gridLayer = GridLayer(player: humanPlayer)
         self.gridLayer.populate(with: self.game)
@@ -104,7 +104,7 @@ class MapNode: SKNode {
 
         self.hexCoordLayer = HexCoordLayer(player: humanPlayer)
         self.hexCoordLayer.populate(with: self.game)
-        self.hexCoordLayer.zPosition = Globals.ZLevels.hexCoords
+        self.hexCoordLayer.zPosition = Globals.ZLevels.hexCoordLabel
 
         self.mapLensLayer = MapLensLayer(player: humanPlayer)
         self.mapLensLayer.populate(with: self.game)
@@ -120,7 +120,7 @@ class MapNode: SKNode {
 
         self.mapMarkerLayer = MapMarkerLayer(player: humanPlayer)
         self.mapMarkerLayer.populate(with: self.game)
-        self.mapMarkerLayer.zPosition = Globals.ZLevels.mapMarkers
+        self.mapMarkerLayer.zPosition = Globals.ZLevels.mapMarker
 
         super.init()
         self.zPosition = 51

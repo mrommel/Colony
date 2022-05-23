@@ -1243,26 +1243,6 @@ public class Unit: AbstractUnit {
             fatalError("cant get diplomacyAI")
         }
 
-        if unitPlayer.isHuman() {
-
-            if let defenderUnit = gameModel.unit(at: destination, of: .combat) {
-
-                if !diplomacyAI.isAtWar(with: defenderUnit.player) && !defenderUnit.isBarbarian() {
-
-                    gameModel.userInterface?.askForConfirmation(
-                        title: "Declare War?",
-                        question: "Do you really want to declare war on \(defenderUnit.player?.leader.name())",
-                        confirm: "Declare War",
-                        cancel: "Cancel",
-                        completion: { _ in
-                            diplomacyAI.doDeclareWar(to: defenderUnit.player, in: gameModel)
-                        })
-
-                    return false
-                }
-            }
-        }
-
         guard let path = self.pathIgnoreUnits(towards: destination, in: gameModel) else {
             return false
         }
@@ -1910,6 +1890,7 @@ public class Unit: AbstractUnit {
         return captureDef.capturingPlayer == nil || captureDef.captureUnitType == nil ? nil : captureDef
     }
 
+    // CvUnit::setXY
     private func set(
         location newLocation: HexPoint,
         group: Bool = false,
@@ -1985,12 +1966,19 @@ public class Unit: AbstractUnit {
 
                         if diplomacyAI.isAtWar(with: loopUnit.player) {
 
-                            if loopUnit.type.captureType() == nil && loopUnit.canDefend() { // Unit somehow ended up on top of an enemy combat unit
+                            if loopUnit.type.captureType() == nil && loopUnit.canDefend() {
+                                // Unit somehow ended up on top of an enemy combat unit
+                                if !newPlot.isCity() {
+                                    if !loopUnit.jumpToNearestValidPlotWithin(range: 1, in: gameModel) {
+                                        loopUnit.doKill(delayed: false, by: self.player, in: gameModel)
+                                    }
+                                } else {
+                                    // kPlayer.DoYieldsFromKill(this, pLoopUnit);
+                                    loopUnit.doKill(delayed: false, by: self.player, in: gameModel)
+                                }
 
-                                fatalError("should not happen - this is a combat scenario")
-
-                            } else { // Ran into a noncombat unit
-
+                            } else {
+                                // Ran into a noncombat unit
                                 var doCapture = false
 
                                 // Some units can't capture civilians. Embarked units are also not captured, they're simply killed. And some aren't a type that gets captured.
@@ -2132,74 +2120,15 @@ public class Unit: AbstractUnit {
 
             if loopPlayer.isAlive() {
 
-                // Human can't be met by an AI spotting him.
-                // if !player.isHuman() || loopPlayer.isHuman() {
+                if newPlot.isVisible(to: loopPlayer) {
 
-                    if newPlot.isVisible(to: loopPlayer) {
+                    // check if we have met this guy already
+                    if !player.hasMet(with: loopPlayer) {
 
-                        // check if we have met this guy already
-                        if !player.hasMet(with: loopPlayer) {
-
-                            // do the hello, if not
-                            loopPlayer.doFirstContact(with: player, in: gameModel)
-                            player.doFirstContact(with: loopPlayer, in: gameModel)
-                        }
+                        // do the hello, if not
+                        loopPlayer.doFirstContact(with: player, in: gameModel)
+                        player.doFirstContact(with: loopPlayer, in: gameModel)
                     }
-                // }
-            }
-        }
-
-        // If a Unit is adjacent to someone's borders, meet them
-        for adjacentPoint in newLocation.neighbors() {
-
-            if let adjacentPlot = gameModel.tile(at: adjacentPoint) {
-
-                // Owned by someone
-                if let adjacentOwner = adjacentPlot.owner() {
-
-                    if !player.isEqual(to: adjacentOwner) && !player.hasMet(with: adjacentOwner) && adjacentOwner.isAlive() {
-                        diplomacyAI.doFirstContact(with: adjacentOwner, in: gameModel)
-                        adjacentOwner.doFirstContact(with: player, in: gameModel)
-                    }
-                }
-
-                // Have a naval unit here?
-                if self.isBarbarian() && self.domain() == .sea && adjacentPlot.terrain().isWater() {
-
-                    /*UnitHandle pAdjacentUnit = pAdjacentPlot->getBestDefender(NO_PLAYER, BARBARIAN_PLAYER, NULL, true);
-                    if (pAdjacentUnit)
-                    {
-                        GET_PLAYER(pAdjacentUnit->getOwner()).GetPlayerTraits()->CheckForBarbarianConversion(pAdjacentPlot);
-                    }*/
-                }
-
-                // Natural wonder that provides free promotions?
-                let feature = adjacentPlot.feature()
-                if feature.isNaturalWonder() {
-
-                    // check if wonder is discovered by player already
-                    if !player.hasDiscovered(naturalWonder: feature) {
-                        player.doDiscover(naturalWonder: feature)
-                        player.addMoment(of: .discoveryOfANaturalWonder(naturalWonder: feature), in: gameModel)
-
-                        if player.isHuman() {
-                            player.notifications()?.add(notification: .naturalWonderDiscovered(location: adjacentPoint))
-                        }
-                    }
-
-                    if !techs.eurekaTriggered(for: .astrology) {
-                        techs.triggerEureka(for: .astrology, in: gameModel)
-                    }
-
-                    /*PromotionTypes ePromotion = (PromotionTypes)GC.getFeatureInfo(eFeature)->getAdjacentUnitFreePromotion();
-                    if (ePromotion != NO_PROMOTION)
-                    {
-                        // Is this a valid Promotion for the UnitCombatType?
-                        if (m_pUnitInfo->GetUnitCombatType() != NO_UNITCOMBAT && ::IsPromotionValidForUnitCombatType(ePromotion, getUnitType()))
-                        {
-                            setHasPromotion(ePromotion, true);
-                        }
-                    }*/
                 }
             }
         }
@@ -2299,7 +2228,8 @@ public class Unit: AbstractUnit {
             if diplomacyAI.isAtWar(with: plotOwner) {
 
                 if plotOwner.isEqual(to: gameModel.humanPlayer()) {
-                    plotOwner.notifications()?.add(notification: .enemyInTerritory)
+                    let cityName = newPlot.workingCity()?.name ?? "-"
+                    plotOwner.notifications()?.add(notification: .enemyInTerritory(cityName: cityName))
                 }
             }
         }
@@ -2367,7 +2297,7 @@ public class Unit: AbstractUnit {
 
                 if self.canMove(into: loopPlot.point, options: MoveOptions.none, in: gameModel) {
 
-                    if gameModel.unit(at: loopPlot.point, of: .combat) == nil {
+                    if gameModel.unit(at: loopPlot.point, of: self.unitMapType()) == nil {
                         if !loopPlot.hasOwner() || player.isEqual(to: loopPlot.owner()) {
 
                             if loopPlot.isDiscovered(by: player) {
@@ -2390,7 +2320,9 @@ public class Unit: AbstractUnit {
         }
 
         if let bestPlot = bestPlot {
-            print("Jump to nearest valid plot within range by \(self.type) , X: \(bestPlot.point.x), Y: \(bestPlot.point.y), From X: \(self.location.x), Y: \(self.location.y)")
+            let fromString = "(x: \(self.location.x), y: \(self.location.y))"
+            let toString = "(x: \(bestPlot.point.x), y: \(bestPlot.point.y))"
+            print("Jump to nearest valid plot within range by \(self.type), from: \(fromString) to: \(toString)")
             self.set(location: bestPlot.point, in: gameModel)
             self.publishQueuedVisualizationMoves(in: gameModel)
         } else {
@@ -4181,6 +4113,11 @@ public class Unit: AbstractUnit {
 
         guard let gameModel = gameModel else {
             fatalError("cant get game")
+        }
+
+        if self.location == point {
+            // already there
+            return true
         }
 
         let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(

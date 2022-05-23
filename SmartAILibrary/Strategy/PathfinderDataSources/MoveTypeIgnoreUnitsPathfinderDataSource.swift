@@ -31,14 +31,21 @@ class MoveTypeIgnoreUnitsPathfinderDataSource: PathfinderDataSource {
     let mapModel: MapModel?
     let movementType: UnitMovementType
     let player: AbstractPlayer?
+    let wrapXValue: Int
     let options: MoveTypeIgnoreUnitsOptions
 
-    init(in mapModel: MapModel?, for movementType: UnitMovementType, for player: AbstractPlayer?, options: MoveTypeIgnoreUnitsOptions) {
+    init(in mapModelRef: MapModel?, for movementType: UnitMovementType, for player: AbstractPlayer?, options: MoveTypeIgnoreUnitsOptions) {
 
-        self.mapModel = mapModel
+        self.mapModel = mapModelRef
         self.movementType = movementType
         self.player = player
         self.options = options
+
+        guard let mapModel = self.mapModel else {
+            fatalError("cant get mapModel")
+        }
+
+        self.wrapXValue = mapModel.wrapX ? mapModel.size.width() : -1
     }
 
     func walkableAdjacentTilesCoords(forTileCoord coord: HexPoint) -> [HexPoint] {
@@ -100,7 +107,7 @@ class MoveTypeIgnoreUnitsPathfinderDataSource: PathfinderDataSource {
 
                     if let fromTile = mapModel.tile(at: coord) {
 
-                        if toTile.movementCost(for: self.movementType, from: fromTile)  < UnitMovementType.max {
+                        if toTile.movementCost(for: self.movementType, from: fromTile, wrapX: self.wrapXValue)  < UnitMovementType.max {
                             walkableCoords.append(neighbor)
                         }
                     }
@@ -120,9 +127,19 @@ class MoveTypeIgnoreUnitsPathfinderDataSource: PathfinderDataSource {
         if let toTile = mapModel.tile(at: toTileCoord),
             let fromTile = mapModel.tile(at: fromTileCoord) {
 
-            return toTile.movementCost(for: self.movementType, from: fromTile)
+            return toTile.movementCost(for: self.movementType, from: fromTile, wrapX: self.wrapXValue)
         }
 
         return UnitMovementType.max
+    }
+
+    func wrapX() -> Int {
+
+        return self.wrapXValue
+    }
+
+    func useCache() -> Bool {
+
+        return false
     }
 }

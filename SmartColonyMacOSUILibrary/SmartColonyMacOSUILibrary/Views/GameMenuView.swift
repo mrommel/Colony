@@ -117,19 +117,19 @@ struct GameMenuView: View {
                 .resizable()
                 .frame(width: 32, height: 32)
                 .clipShape(Circle())
-                .toolTip(self.viewModel.civilizationToolTip())
+                .tooltip(self.viewModel.civilizationToolTip())
 
             Image(nsImage: self.viewModel.leaderImage())
                 .resizable()
                 .frame(width: 32, height: 32)
                 .clipShape(Circle())
-                .toolTip(self.viewModel.leaderToolTip())
+                .tooltip(self.viewModel.leaderToolTip())
 
             Image(nsImage: self.viewModel.handicapImage())
                 .resizable()
                 .frame(width: 32, height: 32)
                 .clipShape(Circle())
-                .toolTip(self.viewModel.handicapToolTip())
+                .tooltip(self.viewModel.handicapToolTip())
 
             Image(nsImage: self.viewModel.speedImage())
                 .resizable()

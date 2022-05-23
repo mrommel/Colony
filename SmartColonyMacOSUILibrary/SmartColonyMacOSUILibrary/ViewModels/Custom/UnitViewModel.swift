@@ -15,7 +15,23 @@ protocol UnitViewModelDelegate: AnyObject {
     func clicked(on unit: AbstractUnit?, at index: Int)
 }
 
-class UnitViewModel: QueueViewModel, ObservableObject {
+enum UnitViewModelError: Error {
+
+    case invalidType
+}
+
+final class UnitViewModel: QueueViewModel, Codable {
+
+    enum CodingKeys: CodingKey {
+
+        case uuid
+        case unitType
+        case turns
+        case gold
+        case faith
+        case index
+        case enabled
+    }
 
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
@@ -42,23 +58,7 @@ class UnitViewModel: QueueViewModel, ObservableObject {
         self.enabled = enabled
         self.unit = nil
         self.index = index
-
-        let toolTipText = NSMutableAttributedString()
-
-        let title = NSAttributedString(
-            string: unitType.name().localized() + "\n\n",
-            attributes: Globals.Attributs.tooltipTitleAttributs
-        )
-        toolTipText.append(title)
-
-        let tokenizer = LabelTokenizer()
-        let effects = tokenizer.bulletPointList(
-            from: unitType.effects().map { $0.localized() },
-            with: Globals.Attributs.tooltipContentAttributs
-        )
-        toolTipText.append(effects)
-
-        self.toolTip = toolTipText
+        self.toolTip = unitType.toolTip()
 
         super.init(queueType: .unit)
     }
@@ -72,25 +72,40 @@ class UnitViewModel: QueueViewModel, ObservableObject {
         self.enabled = true
         self.unit = unit
         self.index = index
-
-        let toolTipText = NSMutableAttributedString()
-
-        let title = NSAttributedString(
-            string: unitType.name().localized() + "\n\n",
-            attributes: Globals.Attributs.tooltipTitleAttributs
-        )
-        toolTipText.append(title)
-
-        let tokenizer = LabelTokenizer()
-        let effects = tokenizer.bulletPointList(
-            from: unitType.effects(),
-            with: Globals.Attributs.tooltipContentAttributs
-        )
-        toolTipText.append(effects)
-
-        self.toolTip = toolTipText
+        self.toolTip = unitType.toolTip()
 
         super.init(queueType: .unit)
+    }
+
+    required init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.unitType = try container.decode(UnitType.self, forKey: .unitType)
+        self.turns = try container.decode(Int.self, forKey: .turns)
+        self.gold = try container.decode(Int.self, forKey: .gold)
+        self.faith = try container.decode(Int.self, forKey: .faith)
+        self.index = try container.decode(Int.self, forKey: .index)
+        self.enabled = try container.decode(Bool.self, forKey: .enabled)
+        self.unit = nil
+        self.toolTip = self.unitType.toolTip()
+
+        super.init(queueType: .unit)
+
+        self.uuid = try container.decode(String.self, forKey: .uuid)
+    }
+
+    func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.uuid, forKey: .uuid)
+        try container.encode(self.unitType, forKey: .unitType)
+        try container.encode(self.turns, forKey: .turns)
+        try container.encode(self.gold, forKey: .gold)
+        try container.encode(self.faith, forKey: .faith)
+        try container.encode(self.index, forKey: .index)
+        try container.encode(self.enabled, forKey: .enabled)
     }
 
     func icon() -> NSImage {
@@ -176,15 +191,42 @@ class UnitViewModel: QueueViewModel, ObservableObject {
     }
 }
 
-/*extension UnitViewModel: Hashable {
-    
-    static func == (lhs: UnitViewModel, rhs: UnitViewModel) -> Bool {
-        
-        return lhs.unitType == rhs.unitType
+extension UnitViewModel: NSItemProviderReading, NSItemProviderWriting {
+
+    static var writableTypeIdentifiersForItemProvider: [String] {
+        return [(kUTTypeData) as String]
     }
-    
-    func hash(into hasher: inout Hasher) {
-        
-        hasher.combine(self.unitType)
+
+    func loadData(withTypeIdentifier typeIdentifier: String, forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
+
+        let progress = Progress(totalUnitCount: 100)
+
+        do {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            let data = try encoder.encode(self)
+            progress.completedUnitCount = 100
+            completionHandler(data, nil)
+        } catch {
+
+            completionHandler(nil, error)
+        }
+
+        return progress
     }
-}*/
+
+    static var readableTypeIdentifiersForItemProvider: [String] {
+        return [(kUTTypeData) as String]
+    }
+
+    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> UnitViewModel {
+
+        let decoder = JSONDecoder()
+        do {
+            let queueViewModel = try decoder.decode(UnitViewModel.self, from: data)
+            return queueViewModel
+        } catch {
+            throw UnitViewModelError.invalidType
+        }
+    }
+}

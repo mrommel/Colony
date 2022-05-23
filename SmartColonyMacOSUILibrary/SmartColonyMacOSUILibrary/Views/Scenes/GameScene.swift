@@ -262,6 +262,10 @@ class GameScene: BaseScene {
             return
         }
 
+        guard self.hoverLocation != .invalid else {
+            return
+        }
+
         guard let tile = gameModel.tile(at: self.hoverLocation) else {
             return
         }
@@ -361,7 +365,104 @@ extension SKScene {
 
 extension GameScene {
 
-    override func mouseDown(with event: NSEvent) {
+    func updateCommands(for unit: AbstractUnit?) {
+
+        guard let sceneCombatMode = self.viewModel?.unitSelectionMode else {
+            return
+        }
+
+        if let unit = unit {
+
+            switch sceneCombatMode {
+
+            case .pick:
+                let commands = unit.commands(in: self.viewModel?.gameModel)
+                self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: commands, in: self.viewModel?.gameModel)
+
+            case .meleeUnitTargets, .rangedUnitTargets:
+                let commands = [Command(type: .cancelAttack, location: HexPoint.invalid)]
+                self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: commands, in: self.viewModel?.gameModel)
+
+            case .rangedCityTargets:
+                // NOOP
+                break
+
+            case .marker:
+                // NOOP
+                break
+            }
+        } else {
+            self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: [], in: nil)
+        }
+    }
+}
+
+extension GameScene {
+
+    func showHexCoords() {
+
+        self.mapNode?.showHexCoords()
+    }
+
+    func hideHexCoords() {
+
+        self.mapNode?.hideHexCoords()
+    }
+
+    func showCompleteMap() {
+
+        self.mapNode?.showCompleteMap()
+    }
+
+    func showVisibleMap() {
+
+        self.mapNode?.showVisibleMap()
+    }
+
+    func showYields() {
+
+        self.mapNode?.showYields()
+    }
+
+    func hideYields() {
+
+        self.mapNode?.hideYields()
+    }
+
+    func showGrid() {
+
+        self.mapNode?.showGrid()
+    }
+
+    func hideGrid() {
+
+        self.mapNode?.hideGrid()
+    }
+
+    func showResourceMarkers() {
+
+        self.mapNode?.showResourceMarker()
+    }
+
+    func hideResourceMarkers() {
+
+        self.mapNode?.hideResourceMarker()
+    }
+
+    func currentMapLens() -> MapLensType {
+
+        return self.mapNode?.currentMapLens() ?? .none
+    }
+
+    func set(mapLens: MapLensType) {
+
+        self.mapNode?.set(mapLens: mapLens)
+    }
+}
+
+extension GameScene: MouseAwareDelegate {
+
+    func customMouseDown(with event: NSEvent) {
 
         guard let gameModel = self.viewModel?.gameModel else {
             print("cant get game")
@@ -440,7 +541,7 @@ extension GameScene {
         }
     }
 
-    override func rightMouseDown(with event: NSEvent) {
+    func customRightMouseDown(with event: NSEvent) {
 
         if self.viewModel?.delegate?.selectedUnit != nil {
             self.unselect()
@@ -448,7 +549,7 @@ extension GameScene {
         }
     }
 
-    override func mouseMoved(with event: NSEvent) {
+    func customMouseMoved(with event: NSEvent) {
 
         let location = event.location(in: self)
         let touchLocation = self.convert(location, to: self.viewHex!) // / 3.0
@@ -465,7 +566,7 @@ extension GameScene {
         }
     }
 
-    override func mouseDragged(with event: NSEvent) {
+    func customMouseDragged(with event: NSEvent) {
 
         guard let gameModel = self.viewModel?.gameModel else {
             fatalError("cant get game")
@@ -480,7 +581,11 @@ extension GameScene {
                 return
             }
 
-            let position = HexPoint(screen: location)
+            var position = HexPoint(screen: location)
+
+            if gameModel.wrappedX() {
+                position = gameModel.wrap(point: position)
+            }
 
             if position != selectedUnit.location {
 
@@ -550,7 +655,11 @@ extension GameScene {
         }
     }
 
-    override func mouseUp(with event: NSEvent) {
+    func customMouseUp(with event: NSEvent) {
+
+        guard let gameModel = self.viewModel?.gameModel else {
+            fatalError("cant get game")
+        }
 
         let location = event.location(in: self)
         let touchLocation = self.convert(location, to: self.viewHex!)
@@ -563,7 +672,11 @@ extension GameScene {
             fatalError("cant get selection mode")
         }
 
-        let position = HexPoint(screen: location)
+        var position = HexPoint(screen: location)
+
+        if gameModel.wrappedX() {
+            position = gameModel.wrap(point: position)
+        }
 
         if unitSelectionMode == .marker {
             self.viewModel?.delegate?.selectMarker(at: position)
@@ -774,103 +887,5 @@ extension GameScene {
         }
 
         self.previousLocation = .zero
-    }
-
-    override func scrollWheel(with event: NSEvent) {
-        print("scroll")
-    }
-
-    func updateCommands(for unit: AbstractUnit?) {
-
-        guard let sceneCombatMode = self.viewModel?.unitSelectionMode else {
-            return
-        }
-
-        if let unit = unit {
-
-            switch sceneCombatMode {
-
-            case .pick:
-                let commands = unit.commands(in: self.viewModel?.gameModel)
-                self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: commands, in: self.viewModel?.gameModel)
-
-            case .meleeUnitTargets, .rangedUnitTargets:
-                let commands = [Command(type: .cancelAttack, location: HexPoint.invalid)]
-                self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: commands, in: self.viewModel?.gameModel)
-
-            case .rangedCityTargets:
-                // NOOP
-                break
-
-            case .marker:
-                // NOOP
-                break
-            }
-        } else {
-            self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: [], in: nil)
-        }
-    }
-}
-
-extension GameScene {
-
-    func showHexCoords() {
-
-        self.mapNode?.showHexCoords()
-    }
-
-    func hideHexCoords() {
-
-        self.mapNode?.hideHexCoords()
-    }
-
-    func showCompleteMap() {
-
-        self.mapNode?.showCompleteMap()
-    }
-
-    func showVisibleMap() {
-
-        self.mapNode?.showVisibleMap()
-    }
-
-    func showYields() {
-
-        self.mapNode?.showYields()
-    }
-
-    func hideYields() {
-
-        self.mapNode?.hideYields()
-    }
-
-    func showGrid() {
-
-        self.mapNode?.showGrid()
-    }
-
-    func hideGrid() {
-
-        self.mapNode?.hideGrid()
-    }
-
-    func showResourceMarkers() {
-
-        self.mapNode?.showResourceMarker()
-    }
-
-    func hideResourceMarkers() {
-
-        self.mapNode?.hideResourceMarker()
-    }
-
-    func currentMapLens() -> MapLensType {
-
-        return self.mapNode?.currentMapLens() ?? .none
-    }
-
-    func set(mapLens: MapLensType) {
-
-        self.mapNode?.set(mapLens: mapLens)
     }
 }

@@ -61,7 +61,7 @@ struct NotificationView: View {
             }
         }
         .frame(height: 65, alignment: .leading)
-        .toolTip(self.viewModel.toolTip)
+        .tooltip(self.viewModel.toolTip, side: .trailing)
     }
 }
 

@@ -218,7 +218,7 @@ extension TopBarViewModel {
 
         if !cities.isEmpty {
 
-            let scienceFromCities = player.scienceFromCities(in: gameModel)
+            let scienceFromCities = String(format: "%.1f", player.scienceFromCities(in: gameModel))
             let citiesYield = NSAttributedString(
                 string: "\n+\(scienceFromCities) from Cities",
                 attributes: Globals.Attributs.tooltipContentAttributs
@@ -231,7 +231,7 @@ extension TopBarViewModel {
                     continue
                 }
 
-                let scienceFromCity = city.sciencePerTurn(in: gameModel)
+                let scienceFromCity = String(format: "%.1f", city.sciencePerTurn(in: gameModel))
                 let cityYield = NSAttributedString(
                     string: "\n   +\(scienceFromCity) from \(city.name)",
                     attributes: Globals.Attributs.tooltipContentAttributs
@@ -273,7 +273,7 @@ extension TopBarViewModel {
 
             var cultureYields = player.cultureFromCities(in: gameModel)
             cultureYields.set(percentage: 1.0)
-            let cultureFromCities = cultureYields.calc()
+            let cultureFromCities = String(format: "%.1f", cultureYields.calc())
             let citiesYield = NSAttributedString(
                 string: "\n+\(cultureFromCities) from Cities",
                 attributes: Globals.Attributs.tooltipContentAttributs
@@ -286,7 +286,7 @@ extension TopBarViewModel {
                     continue
                 }
 
-                let cultureFromCity = city.culturePerTurn(in: gameModel)
+                let cultureFromCity = String(format: "%.1f", city.culturePerTurn(in: gameModel))
                 let cityYield = NSAttributedString(
                     string: "\n   +\(cultureFromCity) from \(city.name)",
                     attributes: Globals.Attributs.tooltipContentAttributs
@@ -294,7 +294,7 @@ extension TopBarViewModel {
                 tooltipText.append(cityYield)
             }
 
-            let cultureFromCityStates = player.cultureFromCityStates(in: gameModel).calc()
+            let cultureFromCityStates = String(format: "%.1f", player.cultureFromCityStates(in: gameModel).calc())
             let cityStateYield = NSAttributedString(
                 string: "\n+\(cultureFromCityStates) from City States",
                 attributes: Globals.Attributs.tooltipContentAttributs
@@ -333,7 +333,7 @@ extension TopBarViewModel {
 
         if !cities.isEmpty {
 
-            let faithFromCities = player.faithFromCities(in: gameModel)
+            let faithFromCities = String(format: "%.1f", player.faithFromCities(in: gameModel))
             let citiesYield = NSAttributedString(
                 string: "\n+\(faithFromCities) from Cities",
                 attributes: Globals.Attributs.tooltipContentAttributs
@@ -346,7 +346,7 @@ extension TopBarViewModel {
                     continue
                 }
 
-                let faithFromCity = city.faithPerTurn(in: gameModel)
+                let faithFromCity = String(format: "%.1f", city.faithPerTurn(in: gameModel))
                 let cityYield = NSAttributedString(
                     string: "\n   +\(faithFromCity) from \(city.name)",
                     attributes: Globals.Attributs.tooltipContentAttributs
@@ -511,7 +511,7 @@ extension TopBarViewModel {
 
         if !cities.isEmpty {
 
-            let tourismFromCities = tourism.currentTourism(in: gameModel)
+            let tourismFromCities = String(format: "%.1f", tourism.currentTourism(in: gameModel))
             let citiesYield = NSAttributedString(
                 string: "\n+\(tourismFromCities) from Cities",
                 attributes: Globals.Attributs.tooltipContentAttributs
@@ -524,7 +524,7 @@ extension TopBarViewModel {
                     continue
                 }
 
-                let tourismFromCity = city.baseTourism(in: gameModel)
+                let tourismFromCity = String(format: "%.1f", city.baseTourism(in: gameModel))
                 let cityYield = NSAttributedString(
                     string: "\n   +\(tourismFromCity) from \(city.name)",
                     attributes: Globals.Attributs.tooltipContentAttributs

@@ -136,13 +136,18 @@ public class TacticalAI: Codable {
     /// Update the AI for units
     func doTurn(in gameModel: GameModel?) {
 
+        // DropOldFocusAreas();
         self.findTacticalTargets(in: gameModel)
+
+        // do this after updating the target list!
+        self.recruitUnits(in: gameModel)
 
         // Loop through each dominance zone assigning moves
         self.processDominanceZones(in: gameModel)
     }
 
-    func commandeerUnits(in gameModel: GameModel?) {
+    /// Mark all the units that will be under tactical AI control this turn
+    func recruitUnits(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -166,7 +171,6 @@ public class TacticalAI: Codable {
                 if unit.task() == .explore || !unit.canMove() {
                     continue
                 } else if player.leader == .barbar {
-
                     // We want ALL the barbarians that are not guarding a camp
                     unit.set(tacticalMove: .unassigned)
                     self.currentTurnUnits.append(unit)
@@ -2531,11 +2535,10 @@ public class TacticalAI: Codable {
         let tacticalAnalysisMap = gameModel.tacticalAnalysisMap()
 
         // Barbarian processing is straightforward -- just one big list of priorites and everything is considered at once
-        if player?.leader == .barbar {
+        if self.player?.leader == .barbar {
             self.establishBarbarianPriorities(in: gameModel.currentTurn)
             self.extractTargets()
             self.assignBarbarianMoves(in: gameModel)
-
         } else {
             self.establishTacticalPriorities()
             self.updatePostures(in: gameModel)
@@ -2553,7 +2556,7 @@ public class TacticalAI: Codable {
 
                         // Is this move of the right type for this zone?
                         var match = false
-                        if move.moveType == .closeOnTarget {   // This one okay for all zones
+                        if move.moveType == .closeOnTarget {   // This one is okay for all zones
                             match = true
                         } else if postureType == .withdraw && move.moveType == .postureWithdraw {
                             match = true
@@ -2599,12 +2602,6 @@ public class TacticalAI: Codable {
                 }
             }
         }
-    }
-
-    /// Sift through the target list and find just those that apply to the dominance zone we are currently looking at
-    private func extractTarget(for dominanceZone: TacticalAnalysisMap.TacticalDominanceZone?) {
-
-        fatalError("not implemented yet")
     }
 
     /// Choose which tactics to run and assign units to it
@@ -6787,7 +6784,7 @@ public class TacticalAI: Codable {
                     continue
                 }
 
-                if let defender = gameModel.unit(at: targetLocation, of: .combat) {
+                if let defender = gameModel.visibleEnemy(at: targetLocation, for: self.player) {
 
                     unitCanAttack = self.findUnitsWithinStrikingDistance(towards: targetLocation, numTurnsAway: 1, noRangedUnits: false, navalOnly: false, in: gameModel)
                     cityCanAttack = self.findCitiesWithinStrikingDistance(of: targetLocation, in: gameModel)
@@ -7707,13 +7704,13 @@ public class TacticalAI: Codable {
         }
 
         // Start up first attack
-        if firstAttackCity && firstCity  != nil {
+        if firstAttackCity && firstCity != nil {
             self.launchAttack(for: firstCity, target: target, firstAttack: true, ranged: firstAttackRanged, in: gameModel)
         } else if !firstAttackCity && firstAttacker != nil {
             self.launchAttack(for: firstAttacker, target: target, firstAttack: true, ranged: firstAttackRanged, in: gameModel)
-        } else {
+        } /*else {
             fatalError("no gonna happen")
-        }
+        }*/
     }
 
     /// Remove a unit that we've allocated from list of units to move this turn
@@ -7760,9 +7757,9 @@ public class TacticalAI: Codable {
 
         let rangedStr = ranged ? "ranged " : ""
         if firstAttack {
-            print("Made initial \(rangedStr) attack with \(unit.name()) towards \(target.target)")
+            print("Made initial \(rangedStr)attack with \(unit.name()) towards \(target.target)")
         } else {
-            print("Made follow-on \(rangedStr) attack with \(unit.name()) towards \(target.target)")
+            print("Made follow-on \(rangedStr)attack with \(unit.name()) towards \(target.target)")
         }
 
         let sendAttack = unit.moves() > 0 && !unit.isOutOfAttacks()
@@ -7877,19 +7874,25 @@ public class TacticalAI: Codable {
                     if nextInList.seriesId == seriesId {
 
                         // Calling LaunchAttack can be recursive if the launched combat is resolved immediately.
-                        // We'll make a copy of the iterator's contents before erasing.  This is not technically needed because
+                        // We'll make a copy of the iterator's contents before erasing. This is not technically needed because
                         // the current queue is a std::list and iterators don't invalidate on erase, but we'll be safe, in case
                         // the container type changes.
+                        let newCityTarget = nextInList.attackerCity
+                        let newUnitTarget = nextInList.attackerUnit
+                        let newTarget = nextInList.target
+                        let newRanged = nextInList.ranged
+
+                        self.queuedAttacks.remove(at: index + 1)
+
                         if nextInList.cityAttack {
-                            self.launchAttack(for: nextInList.attackerCity, target: nextInList.target, firstAttack: false, ranged: nextInList.ranged, in: gameModel)
+                            self.launchAttack(for: newCityTarget, target: newTarget, firstAttack: false, ranged: newRanged, in: gameModel)
                         } else {
-                            self.launchAttack(for: nextInList.attackerUnit, target: nextInList.target, firstAttack: false, ranged: nextInList.ranged, in: gameModel)
+                            self.launchAttack(for: newUnitTarget, target: newTarget, firstAttack: false, ranged: newRanged, in: gameModel)
                         }
+                    } else {
+                        self.queuedAttacks.remove(at: index + 1)
                     }
-
-                    self.queuedAttacks.remove(at: index + 1)
                 }
-
             }
         }
     }

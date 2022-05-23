@@ -24,7 +24,7 @@ struct CivilizationView: View {
         Image(nsImage: self.viewModel.image())
             .resizable()
             .frame(width: 42, height: 42)
-            .toolTip(self.viewModel.toolTip)
+            .tooltip(self.viewModel.toolTip)
     }
 }
 

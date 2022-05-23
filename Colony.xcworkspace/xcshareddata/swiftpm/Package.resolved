@@ -56,6 +56,24 @@
         }
       },
       {
+        "package": "Introspect",
+        "repositoryURL": "https://github.com/siteline/SwiftUI-Introspect.git",
+        "state": {
+          "branch": null,
+          "revision": "f2616860a41f9d9932da412a8978fec79c06fe24",
+          "version": "0.1.4"
+        }
+      },
+      {
+        "package": "SwiftUITooltip",
+        "repositoryURL": "https://github.com/quassum/SwiftUI-Tooltip.git",
+        "state": {
+          "branch": null,
+          "revision": "9f617c20169fb260b887ac4a21497238a1bb1032",
+          "version": "1.2.0"
+        }
+      },
+      {
         "package": "SwizzleHelper",
         "repositoryURL": "https://github.com/mrommel/SwizzleHelper.git",
         "state": {

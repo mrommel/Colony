@@ -15,14 +15,16 @@ class MoveTypeUnitAwareOptions {
     let unitMapType: UnitMapType
     let canEmbark: Bool
     let canEnterOcean: Bool
+    let wrapX: Bool
 
-    init(ignoreSight: Bool = true, ignoreOwner: Bool = false, unitMapType: UnitMapType, canEmbark: Bool, canEnterOcean: Bool) {
+    init(ignoreSight: Bool = true, ignoreOwner: Bool = false, unitMapType: UnitMapType, canEmbark: Bool, canEnterOcean: Bool, wrapX: Bool) {
 
         self.ignoreSight = ignoreSight
         self.ignoreOwner = ignoreOwner
         self.unitMapType = unitMapType
         self.canEmbark = canEmbark
         self.canEnterOcean = canEnterOcean
+        self.wrapX = wrapX
     }
 }
 
@@ -31,15 +33,22 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
     let gameModel: GameModel?
     let movementType: UnitMovementType
     let player: AbstractPlayer?
+    let wrapXValue: Int
     let options: MoveTypeUnitAwareOptions
 
-    init(in gameModel: GameModel?, for movementType: UnitMovementType, for player: AbstractPlayer?, options: MoveTypeUnitAwareOptions) {
+    init(in gameModelRef: GameModel?, for movementType: UnitMovementType, for player: AbstractPlayer?, options: MoveTypeUnitAwareOptions) {
 
-        self.gameModel = gameModel
+        self.gameModel = gameModelRef
         self.movementType = movementType
         self.player = player
 
         self.options = options
+
+        guard let gameModel = gameModelRef else {
+            fatalError("cant get gameModel")
+        }
+
+        self.wrapXValue = gameModel.wrappedX() || options.wrapX ? gameModel.mapSize().width() : -1
     }
 
     func walkableAdjacentTilesCoords(forTileCoord coord: HexPoint) -> [HexPoint] {
@@ -171,19 +180,19 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                                 allowMovement = true
                             } else if fromTile.isWater() && toTile.isWater() && self.options.canEmbark {
 
-                                let embarkedMovementCosts = toTile.movementCost(for: .swim, from: fromTile)
+                                let embarkedMovementCosts = toTile.movementCost(for: .swim, from: fromTile, wrapX: self.wrapXValue)
                                 if embarkedMovementCosts < UnitMovementType.max {
                                     allowMovement = true
                                 }
                             } else if fromTile.isLand() && toTile.isLand() {
 
-                                let normalMovementCosts = toTile.movementCost(for: self.movementType, from: fromTile)
+                                let normalMovementCosts = toTile.movementCost(for: self.movementType, from: fromTile, wrapX: self.wrapXValue)
                                 if normalMovementCosts < UnitMovementType.max {
                                     allowMovement = true
                                 }
                             }
                         } else {
-                            let normalMovementCosts = toTile.movementCost(for: self.movementType, from: fromTile)
+                            let normalMovementCosts = toTile.movementCost(for: self.movementType, from: fromTile, wrapX: self.wrapXValue)
                             if normalMovementCosts < UnitMovementType.max {
                                 allowMovement = true
                             }
@@ -224,14 +233,24 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                 } else if fromTile.isWater() && toTile.isLand() {
                     return 2.0
                 } else if fromTile.isWater() && toTile.isWater() {
-                    return toTile.movementCost(for: .swim, from: fromTile)
+                    return toTile.movementCost(for: .swim, from: fromTile, wrapX: self.wrapXValue)
                 }
             }
 
-            let normalMovementCosts = min(2, toTile.movementCost(for: self.movementType, from: fromTile))
+            let normalMovementCosts = min(2, toTile.movementCost(for: self.movementType, from: fromTile, wrapX: self.wrapXValue))
             return normalMovementCosts
         }
 
         return UnitMovementType.max
+    }
+
+    func wrapX() -> Int {
+
+        return self.wrapXValue
+    }
+
+    func useCache() -> Bool {
+
+        return true
     }
 }

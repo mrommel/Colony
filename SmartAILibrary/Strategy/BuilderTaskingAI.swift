@@ -887,6 +887,10 @@ public class BuilderTaskingAI {
             fatalError("cant get target tile")
         }
 
+        if unit.location == tile.point {
+            return 0
+        }
+
         // If this plot is far away, we'll just use its distance as an estimate of the time to get there (to avoid hitting the path finder)
         // We'll be sure to check later to make sure we have a real path before we execute this
         if unit.domain() == .land && !tile.sameContinent(as: targetTile) && !unit.canEverEmbark() {

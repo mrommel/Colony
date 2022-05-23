@@ -41,8 +41,8 @@ struct HeaderButtonView: View {
         .background(
             Image(nsImage: ImageCache.shared.image(for: "header-bar-button"))
                 .resizable()
-            )
-        .toolTip(self.viewModel.toolTip())
+        )
+        .tooltip(self.viewModel.toolTip())
     }
 }
 

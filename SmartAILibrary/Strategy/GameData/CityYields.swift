@@ -1972,7 +1972,7 @@ extension City {
         if let tile = gameModel.tile(at: self.location) {
             for neighbor in self.location.neighbors() {
                 if let neighborTile = gameModel.tile(at: neighbor) {
-                    if tile.isRiverToCross(towards: neighborTile) {
+                    if tile.isRiverToCross(towards: neighborTile, wrapX: gameModel.wrappedX() ? gameModel.mapSize().width() : -1) {
                         return 5
                     }
                 }
@@ -2010,7 +2010,7 @@ extension City {
             if let tile = gameModel.tile(at: self.location) {
                 for neighbor in self.location.neighbors() {
                     if let neighborTile = gameModel.tile(at: neighbor) {
-                        if tile.isRiverToCross(towards: neighborTile) {
+                        if tile.isRiverToCross(towards: neighborTile, wrapX: gameModel.wrappedX() ? gameModel.mapSize().width() : -1) {
                             hasFreshWater = true
                         }
                     }

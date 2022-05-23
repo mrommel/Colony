@@ -18,9 +18,10 @@ extension CivicType {
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
         toolTipText.append(title)
+        toolTipText.append(NSAttributedString(string: "\n\n"))
 
         let eureka = NSAttributedString(
-            string: "\n\n" + self.inspirationSummary().localized(),
+            string: self.inspirationSummary().localized(),
             attributes: Globals.Attributs.tooltipContentAttributs
         )
         toolTipText.append(eureka)

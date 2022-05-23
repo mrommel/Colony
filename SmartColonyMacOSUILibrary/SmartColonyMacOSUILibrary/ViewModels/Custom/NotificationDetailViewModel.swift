@@ -14,6 +14,9 @@ protocol NotificationDetailViewModelDelegate: AnyObject {
 
 class NotificationDetailViewModel: ObservableObject {
 
+    @Environment(\.gameEnvironment)
+    var gameEnvironment: GameEnvironment
+
     @Published
     var titleText: String
 
@@ -40,10 +43,36 @@ class NotificationDetailViewModel: ObservableObject {
 
     func clicked() {
 
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        guard humanPlayer.isActive() else {
+            // only open dialog when human is active
+            return
+        }
+
         self.delegate?.clickedContent(with: self.selected)
     }
 
     func selectNextClicked() {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        guard humanPlayer.isActive() else {
+            // only open dialog when human is active
+            return
+        }
 
         self.selected = (self.selected + 1) % self.texts.count
         self.selectedText = self.texts[self.selected]

@@ -26,59 +26,37 @@ public enum HeaderButtonType: CaseIterable {
 
         switch self {
 
-        case .science:
-            return "TXT_KEY_HEADER_SCIENCE"
-        case .culture:
-            return "TXT_KEY_HEADER_CULTURE"
-        case .government:
-            return "TXT_KEY_HEADER_GOVERNMENT"
-        case .religion:
-            return "TXT_KEY_HEADER_RELIGION"
-        case .greatPeople:
-            return "TXT_KEY_HEADER_GREAT_PEOPLE"
-        case .moments:
-            return "TXT_KEY_HEADER_MOMENTS"
-        case .governors:
-            return "TXT_KEY_HEADER_GOVERNORS"
+        case .science: return "TXT_KEY_HEADER_SCIENCE"
+        case .culture: return "TXT_KEY_HEADER_CULTURE"
+        case .government: return "TXT_KEY_HEADER_GOVERNMENT"
+        case .religion: return "TXT_KEY_HEADER_RELIGION"
+        case .greatPeople: return "TXT_KEY_HEADER_GREAT_PEOPLE"
+        case .moments: return "TXT_KEY_HEADER_MOMENTS"
+        case .governors: return "TXT_KEY_HEADER_GOVERNORS"
 
-        case .ranking:
-            return "TXT_KEY_HEADER_RANKING"
-        case .cityStates:
-            return "TXT_KEY_HEADER_CITY_STATES"
-        case .tradeRoutes:
-            return "TXT_KEY_HEADER_TRADE_ROUTES"
-        case .eraProgress:
-            return "TXT_KEY_HEADER_ERA_PROGRESS"
+        case .ranking: return "TXT_KEY_HEADER_RANKING"
+        case .cityStates: return "TXT_KEY_HEADER_CITY_STATES"
+        case .tradeRoutes: return "TXT_KEY_HEADER_TRADE_ROUTES"
+        case .eraProgress: return "TXT_KEY_HEADER_ERA_PROGRESS"
         }
     }
 
-    public func iconTexture(for state: Bool) -> String {
+    public func iconTexture() -> String {
 
         switch self {
 
-        case .science:
-            return state ? "header-button-science-active" : "header-button-science-disabled"
-        case .culture:
-            return state ? "header-button-culture-active" : "header-button-culture-disabled"
-        case .government:
-            return state ? "header-button-government-active" : "header-button-government-disabled"
-        case .religion:
-            return state ? "header-button-religion-active" : "header-button-religion-disabled"
-        case .greatPeople:
-            return state ? "header-button-greatPeople-active" : "header-button-greatPeople-disabled"
-        case .moments:
-            return state ? "header-button-moments-active" : "header-button-moments-disabled"
-        case .governors:
-            return state ? "header-button-governors-active" : "header-button-governors-disabled"
+        case .science: return "header-button-science"
+        case .culture: return "header-button-culture"
+        case .government: return "header-button-government"
+        case .religion: return "header-button-religion"
+        case .greatPeople: return "header-button-greatPeople"
+        case .moments: return "header-button-moments"
+        case .governors: return "header-button-governors"
 
-        case .ranking:
-            return state ?  "header-button-ranking-active" : "header-button-ranking-disabled"
-        case .cityStates:
-            return state ?  "header-button-cityStates-active" : "header-button-cityStates-disabled"
-        case .tradeRoutes:
-            return state ? "header-button-tradeRoutes-active" : "header-button-tradeRoutes-disabled"
-        case .eraProgress:
-            return state ? "header-button-eraProgress-active" : "header-button-eraProgress-disabled"
+        case .ranking: return "header-button-ranking"
+        case .cityStates: return "header-button-cityStates"
+        case .tradeRoutes: return "header-button-tradeRoutes"
+        case .eraProgress: return "header-button-eraProgress"
         }
     }
 }

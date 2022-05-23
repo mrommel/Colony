@@ -31,7 +31,7 @@ struct UnitCommandView: View {
             .onTapGesture {
                 self.viewModel.clicked()
             }
-            .toolTip(self.viewModel.toolTip())
+            .tooltip(self.viewModel.toolTip(), side: .top)
     }
 }
 

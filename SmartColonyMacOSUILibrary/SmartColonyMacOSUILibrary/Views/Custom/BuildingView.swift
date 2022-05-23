@@ -14,6 +14,7 @@ struct BuildingView: View {
     var viewModel: BuildingViewModel
 
     var body: some View {
+
         HStack(alignment: .center, spacing: 10) {
 
             Image(nsImage: self.viewModel.icon())
@@ -57,10 +58,10 @@ struct BuildingView: View {
             Image(nsImage: self.viewModel.background())
                 .resizable(capInsets: EdgeInsets(all: 15))
         )
-        .toolTip(self.viewModel.toolTip)
         .onTapGesture {
             self.viewModel.clicked()
         }
+        .tooltip(self.viewModel.toolTip)
     }
 }
 

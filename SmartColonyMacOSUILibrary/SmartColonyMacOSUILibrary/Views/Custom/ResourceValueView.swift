@@ -29,7 +29,7 @@ struct ResourceValueView: View {
         .padding(.trailing, 4)
         .padding(.top, 2)
         .padding(.bottom, 2)
-        .toolTip(self.viewModel.tooltip)
+        .tooltip(self.viewModel.tooltip)
     }
 }
 

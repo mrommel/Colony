@@ -163,6 +163,9 @@ extension SelectTradeCityDialogViewModel: TradeCityViewModelDelegate {
         if var path = pathFinder.shortestPath(fromTileCoord: startLocation, toTileCoord: selectedLocation) {
 
             path.prepend(point: startLocation, cost: 0.0)
+            if path.last?.0 != selectedLocation {
+                path.append(point: selectedLocation, cost: 0.0)
+            }
 
             let tradeRoute = TradeRoute(path: path)
             let yields = tradeRoute.yields(in: gameModel)

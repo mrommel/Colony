@@ -197,11 +197,8 @@ public enum MapSize {
 
     private static func bestMatch(for width: Int, and height: Int) -> MapSize {
 
-        for size in MapSize.all {
-
-            if size.numberOfTiles() >= width * height {
-                return size
-            }
+        for size in MapSize.all where size.numberOfTiles() >= width * height {
+            return size
         }
 
         return .standard

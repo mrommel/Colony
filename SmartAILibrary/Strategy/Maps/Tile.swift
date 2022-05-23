@@ -241,12 +241,12 @@ public protocol AbstractTile: Codable, NSCopying {
     func isRiverInNorth() -> Bool
     func isRiverInNorthEast() -> Bool
     func isRiverInSouthEast() -> Bool
-    func isRiverToCross(towards target: AbstractTile) -> Bool
+    func isRiverToCross(towards target: AbstractTile, wrapX wrapXValue: Int) -> Bool
     func resetRiver()
     func set(river: River?, with flow: FlowDirection) throws
     func isRiverIn(flow: FlowDirection) -> Bool
 
-    func movementCost(for movementType: UnitMovementType, from source: AbstractTile) -> Double
+    func movementCost(for movementType: UnitMovementType, from source: AbstractTile, wrapX wrapXValue: Int) -> Double
     func isValidDomainFor(unit: AbstractUnit?) -> Bool
     func isValidDomainForAction(of unit: AbstractUnit?) -> Bool
 
@@ -1698,7 +1698,7 @@ public class Tile: AbstractTile {
 
     /// cost to enter a terrain given the specified movementType
     /// -1.0 means not possible
-    public func movementCost(for movementType: UnitMovementType, from source: AbstractTile) -> Double {
+    public func movementCost(for movementType: UnitMovementType, from source: AbstractTile, wrapX wrapXValue: Int = -1) -> Double {
 
         // start with terrain cost
         var terrainCost = self.terrain().movementCost(for: movementType)
@@ -1725,7 +1725,7 @@ public class Tile: AbstractTile {
 
         // add river crossing cost
         var riverCost: Double = 0.0
-        if source.isRiverToCross(towards: self) {
+        if source.isRiverToCross(towards: self, wrapX: wrapXValue) {
             riverCost = 3.0 // FIXME - river cost per movementType
         }
 
@@ -1767,14 +1767,14 @@ public class Tile: AbstractTile {
         return terrainCost + hillCosts + featureCosts + riverCost
     }
 
-    func isNeighbor(to candidate: HexPoint) -> Bool {
+    func isNeighbor(to candidate: HexPoint, wrapX wrapXValue: Int = -1) -> Bool {
 
-        return self.point.distance(to: candidate) == 1
+        return self.point.distance(to: candidate, wrapX: wrapXValue) == 1
     }
 
-    public func isRiverToCross(towards target: AbstractTile) -> Bool {
+    public func isRiverToCross(towards target: AbstractTile, wrapX wrapXValue: Int = -1) -> Bool {
 
-        if !self.isNeighbor(to: target.point) {
+        if !self.isNeighbor(to: target.point, wrapX: wrapXValue) {
             return false
         }
 

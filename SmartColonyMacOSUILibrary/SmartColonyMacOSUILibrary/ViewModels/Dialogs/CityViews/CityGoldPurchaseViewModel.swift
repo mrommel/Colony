@@ -82,7 +82,7 @@ class CityGoldPurchaseViewModel: ObservableObject {
             }
             self.districtSectionViewModels = possibleDistrictTypes.map { districtType in
 
-                let districtModel = DistrictViewModel(districtType: districtType, active: true)
+                let districtModel = DistrictViewModel(districtType: districtType, at: HexPoint.invalid, active: true)
                 // districtModel.delegate = self
 
                 // filter buildingTypes

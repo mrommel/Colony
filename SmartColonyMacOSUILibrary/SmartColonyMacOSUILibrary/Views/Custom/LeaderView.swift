@@ -17,7 +17,6 @@ struct LeaderView: View {
 
         if self.viewModel.show {
             ZStack {
-
                 Image(nsImage: self.viewModel.badgeImage())
                     .resizable()
                     .frame(width: 52, height: 52)
@@ -36,7 +35,7 @@ struct LeaderView: View {
                     .padding(.trailing, 24)
             }
             .frame(width: 52, height: 52)
-            .toolTip(self.viewModel.toolTip)
+            .tooltip(self.viewModel.toolTip)
         } else {
             EmptyView()
         }

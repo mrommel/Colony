@@ -142,6 +142,10 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
 
             tradeRoutePath.prepend(point: originCityLocation, cost: 0.0)
 
+            if tradeRoutePath.last?.0 != targetCityLocation {
+                tradeRoutePath.append(point: targetCityLocation, cost: 0.0)
+            }
+
             let tradeRoute = TradeRoute(path: tradeRoutePath)
             trader?.start(tradeRoute: tradeRoute, in: gameModel)
             self.routes.append(tradeRoute)

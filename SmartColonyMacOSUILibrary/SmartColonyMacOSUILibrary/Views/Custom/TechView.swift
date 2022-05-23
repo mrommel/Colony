@@ -13,9 +13,12 @@ struct TechView: View {
     @ObservedObject
     var viewModel: TechViewModel
 
-    public init(viewModel: TechViewModel) {
+    let zIndexValue: Double
+
+    public init(viewModel: TechViewModel, zIndex: Double) {
 
         self.viewModel = viewModel
+        self.zIndexValue = zIndex
     }
 
     public var body: some View {
@@ -53,6 +56,7 @@ struct TechView: View {
                                 AchievementView(viewModel: achievementViewModel)
                                     .id("tech-\(self.viewModel.id)-\(achievementViewModel.id)")
                                     .frame(width: 16, height: 16)
+                                    .zIndex(self.zIndexValue + 1)
                             }
                         }
                         .padding(.top, 0)
@@ -71,6 +75,7 @@ struct TechView: View {
                     .padding(.top, 1)
             }
             .frame(width: 150, height: 45, alignment: .topLeading)
+            .zIndex(self.zIndexValue)
             .background(
                 Image(nsImage: self.viewModel.background())
                     .resizable(capInsets: EdgeInsets(all: 14))
@@ -90,13 +95,13 @@ struct TechView_Previews: PreviewProvider {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
-        TechView(viewModel: TechViewModel(techType: .archery, state: .possible, boosted: true, turns: 27))
+        TechView(viewModel: TechViewModel(techType: .archery, state: .possible, boosted: true, turns: 27), zIndex: 50)
 
-        TechView(viewModel: TechViewModel(techType: .astrology, state: .selected, boosted: false, turns: -1))
+        TechView(viewModel: TechViewModel(techType: .astrology, state: .selected, boosted: false, turns: -1), zIndex: 50)
 
-        TechView(viewModel: TechViewModel(techType: .animalHusbandry, state: .researched, boosted: true, turns: -1))
+        TechView(viewModel: TechViewModel(techType: .animalHusbandry, state: .researched, boosted: true, turns: -1), zIndex: 50)
 
-        TechView(viewModel: TechViewModel(techType: .flight, state: .disabled, boosted: true, turns: 45))
+        TechView(viewModel: TechViewModel(techType: .flight, state: .disabled, boosted: true, turns: 45), zIndex: 50)
     }
 }
 #endif

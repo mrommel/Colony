@@ -93,7 +93,7 @@ struct ChangePolicyDialogView: View {
                 Button(action: {
                     self.viewModel.closeAndSaveDialog()
                 }, label: {
-                    Text("Okay")
+                    Text("TXT_KEY_OKAY".localized())
                 })
             }
             .padding(.bottom, 45)

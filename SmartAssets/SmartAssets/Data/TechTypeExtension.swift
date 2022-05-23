@@ -18,9 +18,10 @@ extension TechType {
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
         toolTipText.append(title)
+        toolTipText.append(NSAttributedString(string: "\n\n"))
 
         let eureka = NSAttributedString(
-            string: "\n\n" + self.eurekaSummary().localized(),
+            string: self.eurekaSummary().localized(),
             attributes: Globals.Attributs.tooltipContentAttributs
         )
         toolTipText.append(eureka)

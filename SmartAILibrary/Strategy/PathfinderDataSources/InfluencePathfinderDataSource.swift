@@ -12,11 +12,18 @@ class InfluencePathfinderDataSource: PathfinderDataSource {
 
     let mapModel: MapModel?
     let cityLoction: HexPoint
+    let wrapXValue: Int
 
-    init(in mapModel: MapModel?, cityLoction: HexPoint) {
+    init(in mapModelRef: MapModel?, cityLoction: HexPoint) {
 
-        self.mapModel = mapModel
+        self.mapModel = mapModelRef
         self.cityLoction = cityLoction
+
+        guard let mapModel = self.mapModel else {
+            fatalError("cant get mapModel")
+        }
+
+        self.wrapXValue = mapModel.wrapX ? mapModel.size.width() : -1
     }
 
     func walkableAdjacentTilesCoords(forTileCoord tileCoord: HexPoint) -> [HexPoint] {
@@ -71,7 +78,7 @@ class InfluencePathfinderDataSource: PathfinderDataSource {
             }
         }
 
-        if fromTile.isRiverToCross(towards: toTile) {
+        if fromTile.isRiverToCross(towards: toTile, wrapX: self.wrapXValue) {
             cost += 1 /* INFLUENCE_RIVER_COST */
         }
 
@@ -90,5 +97,15 @@ class InfluencePathfinderDataSource: PathfinderDataSource {
 
         cost = max(1, cost)
         return Double(cost)
+    }
+
+    func wrapX() -> Int {
+
+        return self.wrapXValue
+    }
+
+    func useCache() -> Bool {
+
+        return false
     }
 }

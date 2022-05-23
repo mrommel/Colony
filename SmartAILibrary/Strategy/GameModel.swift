@@ -135,6 +135,8 @@ open class GameModel: Codable {
         self.barbarianAI = BarbarianAI(with: self)
 
         self.doUpdateDiplomaticVictory()
+
+        AStarPathfinderCache.shared.reset()
     }
 
     public required init(from decoder: Decoder) throws {
@@ -219,6 +221,8 @@ open class GameModel: Codable {
         }
 
         self.doUpdateDiplomaticVictory()
+
+        AStarPathfinderCache.shared.reset()
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -493,7 +497,7 @@ open class GameModel: Codable {
                             } else {
 
                                 if player.hasReadyUnit(in: self) /*&& !player.GetTacticalAI()->IsInQueuedAttack(pReadyUnit))*/ {
-                                    let waitTime = 10
+                                    let waitTime = 5
 
                                     if self.turnSlice() - player.lastSliceMoved() > waitTime {
                                         print("GAME HANG - Please show and send save. Stuck units will have their turn ended so game can advance.")
@@ -1732,7 +1736,8 @@ open class GameModel: Codable {
             ignoreOwner: ignoreOwner,
             unitMapType: unitMapType,
             canEmbark: canEmbark,
-            canEnterOcean: canEnterOcean
+            canEnterOcean: canEnterOcean,
+            wrapX: self.map.wrapX
         )
         return MoveTypeUnitAwarePathfinderDataSource(in: self, for: movementType, for: player, options: options)
     }
@@ -1868,6 +1873,10 @@ open class GameModel: Codable {
 
     func calculateInfluenceDistance(from cityLocation: HexPoint, to targetDestination: HexPoint, limit: Int, abc: Bool) -> Int {
 
+        if cityLocation == targetDestination {
+            return 0
+        }
+
         let influencePathfinderDataSource = InfluencePathfinderDataSource(in: self.map, cityLoction: cityLocation)
         let influencePathfinder = AStarPathfinder(with: influencePathfinderDataSource)
 
@@ -1929,6 +1938,29 @@ open class GameModel: Codable {
                                 }
                             }
                         }
+                    }
+                }
+
+                // found Natural wonder
+                let feature = tile.feature()
+                if feature.isNaturalWonder() {
+
+                    guard let techs = player.techs else {
+                        fatalError("cant get techs")
+                    }
+
+                    // check if wonder is discovered by player already
+                    if !player.hasDiscovered(naturalWonder: feature) {
+                        player.doDiscover(naturalWonder: feature)
+                        player.addMoment(of: .discoveryOfANaturalWonder(naturalWonder: feature), in: self)
+
+                        if player.isHuman() {
+                            player.notifications()?.add(notification: .naturalWonderDiscovered(location: location))
+                        }
+                    }
+
+                    if !techs.eurekaTriggered(for: .astrology) {
+                        techs.triggerEureka(for: .astrology, in: self)
                     }
                 }
 
@@ -2969,7 +3001,7 @@ extension GameModel {
 
     func aiLoggingEnabled() -> Bool {
 
-        return true
+        return false
     }
 }
 

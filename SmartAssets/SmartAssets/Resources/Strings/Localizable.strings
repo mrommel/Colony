@@ -19,6 +19,7 @@
 "TXT_KEY_FOUND" = "Found";
 "TXT_KEY_RENAME" = "Rename";
 "TXT_KEY_CANCEL" = "Cancel";
+"TXT_KEY_OKAY" = "Okay";
 "TXT_KEY_CLOSE" = "Close";
 "TXT_KEY_START" = "Start";
 "TXT_KEY_QUIT" = "Quit";
@@ -31,6 +32,9 @@
 "TXT_KEY_LOAD_GAME" = "Load Game";
 "TXT_KEY_OPTIONS" = "Options";
 "TXT_KEY_CONTINUE" = "Continue";
+"TXT_KEY_DISBAND" = "Disband";
+"TXT_KEY_ACTIVATE" = "Activate";
+"TXT_KEY_CONFIRM" = "Do you confirm?";
 
 // create game
 "TXT_KEY_CHOOSE_LEADER" = "Choose Leader";
@@ -52,6 +56,13 @@
 "TXT_KEY_MAP_GENERATOR_OCEANS" = "oceans identified";
 "TXT_KEY_MAP_GENERATOR_POSITIONS" = "start positions identified";
 "TXT_KEY_MAP_GENERATOR_GOODIES" = "added goodies";
+
+// city dialog
+"TXT_KEY_EMPTY_QUEUE" = "Please add a unit / building / wonder";
+"TXT_KEY_UNITS" = "Units";
+"TXT_KEY_DISTRICTS_AND_BUILDINGS" = "Districts and Buildings";
+"TXT_KEY_WONDERS" = "Wonders";
+"TXT_KEY_SELECT_LOCATION" = "Select Location";
 
 // raze or liberate dialog
 "TXT_KEY_CITY_RAZE_OR_LIBERATE_TITLE" = "City captured";
@@ -153,6 +164,152 @@
 "TXT_KEY_MISC_ENEMY_UNIT_WITHDRAW" = "An enemy %@ (%d damage) attacked your %@ (%d damage)!"; // attacker name, attacker damage, defender name, defender damage
 "TXT_KEY_MISC_YOU_CONQUERED_ENEMY_CITY" = "Your %@ (%d damage) captured the enemy City of %@!"; // attacker name, attacker damage, defender city name TXT_KEY_MISC_YOU_UNIT_CAPTURED_ENEMY_CITY
 "TXT_KEY_MISC_YOU_CITY_WAS_CONQUERED" = "While defending, your City of %4$@ was captured by %2$@ %1$@ (%3$d damage)!"; // attacker name, attacker player, attacker damage, defender name TXT_KEY_MISC_YOU_CITY_WAS_CAPTURED
+
+"TXT_KEY_MISC_PROVIDE_CITY_NAME" = "City Name";
+"TXT_KEY_MISC_PROVIDE_NAME" = "Please provide a new Name:";
+"TXT_KEY_MISC_CONFIRM_DISBAND" = "Do you really want to disband %@?";
+"TXT_KEY_MISC_ACTIVATE_GREAT_PERSON" = "Activate Great Person";
+"TXT_KEY_MISC_CONFIRM_ACTIVATE" = "Do you really want to activate %@?";
+"TXT_KEY_MISC_FOUND_RELIGION" = "Found Religion";
+"TXT_KEY_MISC_SELECT_TRANSFER_CITY" = "Select City to transfer to";
+
+// notifications
+
+// techNeeded
+"TXT_KEY_NOTIFICATION_CHOOSE_TECH_MESSAGE" = "Choose a Technology"; // LOC_NOTIFICATION_CHOOSE_TECH_MESSAGE
+"TXT_KEY_NOTIFICATION_CHOOSE_TECH_SUMMARY" = "Choose a new technology to begin research."; // LOC_NOTIFICATION_CHOOSE_TECH_SUMMARY
+
+// civicNeeded
+"TXT_KEY_NOTIFICATION_CHOOSE_CIVIC_MESSAGE" = "Choose a Civic"; // LOC_NOTIFICATION_CHOOSE_CIVIC_MESSAGE
+"TXT_KEY_NOTIFICATION_CHOOSE_CIVIC_SUMMARY" = "Choose a new civic to begin developing."; // LOC_NOTIFICATION_CHOOSE_CIVIC_SUMMARY
+
+// productionNeeded
+"TXT_KEY_NOTIFICATION_CHOOSE_CITY_PRODUCTION_MESSAGE" = "Choose Production"; // LOC_NOTIFICATION_CHOOSE_CITY_PRODUCTION_MESSAGE
+"TXT_KEY_NOTIFICATION_CHOOSE_CITY_PRODUCTION_SUMMARY" = "Production has completed in %@. Choose what we shall produce next."; // LOC_NOTIFICATION_CHOOSE_CITY_PRODUCTION_SUMMARY
+
+// canChangeGovernment
+"TXT_KEY_NOTIFICATION_CONSIDER_GOVERNMENT_CHANGE_MESSAGE" = "Consider Changing Governments"; // LOC_NOTIFICATION_CONSIDER_GOVERNMENT_CHANGE_MESSAGE
+"TXT_KEY_NOTIFICATION_CONSIDER_GOVERNMENT_CHANGE_SUMMARY" = "You finished a civic that unlocked a new government. You should consider switching to that form of rule."; // LOC_NOTIFICATION_CONSIDER_GOVERNMENT_CHANGE_SUMMARY
+
+// policiesNeeded
+"TXT_KEY_NOTIFICATION_FILL_CIVIC_SLOT_MESSAGE" = "Fill Policy Slot"; // LOC_NOTIFICATION_FILL_CIVIC_SLOT_MESSAGE
+"TXT_KEY_NOTIFICATION_FILL_CIVIC_SLOT_SUMMARY" = "A policy needs to be added to our government."; // LOC_NOTIFICATION_FILL_CIVIC_SLOT_SUMMARY
+
+// canFoundPantheon
+"TXT_KEY_NOTIFICATION_CHOOSE_PANTHEON_MESSAGE" = "Choose Pantheon"; // LOC_NOTIFICATION_CHOOSE_PANTHEON_MESSAGE
+"TXT_KEY_NOTIFICATION_CHOOSE_PANTHEON_SUMMARY" = "You have enough faith to choose a pantheon!";
+
+// governorTitleAvailable
+"TXT_KEY_NOTIFICATION_GOVERNOR_TITLE_GAINED_MESSAGE" = "Governor title!";
+"TXT_KEY_NOTIFICATION_GOVERNOR_TITLE_GAINED_SUMMARY" = "You have a governor title you can spent.";
+
+// cityGrowth
+"TXT_KEY_NOTIFICATION_CITY_GROWN_MESSAGE" = "%@ has grown"; // -
+"TXT_KEY_NOTIFICATION_CITY_GROWN_SUMMARY" = "The City of %@ now has %d Citizens! The new Citizen will automatically work the land near the City for additional Food, Production or Gold."; // -
+
+// starving
+"TXT_KEY_NOTIFICATION_CITY_STARVING_MESSAGE" = "City Starving!"; // LOC_NOTIFICATION_CITY_STARVING_MESSAGE
+"TXT_KEY_NOTIFICATION_CITY_STARVING_SUMMARY" = "%@ does not provide enough [Food] Food for its people to eat. If this continues, it will lose [Citizen] Citizens!";
+
+// diplomaticDeclaration
+"TXT_KEY_NOTIFICATION_DIPLOMATIC_DECLARATION_MESSAGE" = "diplomaticDeclaration";
+"TXT_KEY_NOTIFICATION_DIPLOMATIC_DECLARATION_SUMMARY" = "diplomaticDeclaration";
+
+// war
+"TXT_KEY_NOTIFICATION_DECLARE_WAR_MESSAGE" = "Declaration of war"; // LOC_NOTIFICATION_DECLARE_WAR_MESSAGE
+"TXT_KEY_NOTIFICATION_DECLARE_WAR_SUMMARY" = "%@ has declared war on you!";
+
+// enemyInTerritory
+"TXT_KEY_NOTIFICATION_ENEMY_IN_TERRITORY_MESSAGE" = "Enemy Inside Borders"; // LOC_NOTIFICATION_ENEMY_IN_TERRITORY_MESSAGE
+"TXT_KEY_NOTIFICATION_ENEMY_IN_TERRITORY_SUMMARY" = "Enemy troops have been spotted inside our borders near the city of %@."; // LOC_NOTIFICATION_ENEMY_IN_TERRITORY_SUMMARY
+
+// unitPromotion
+"TXT_KEY_NOTIFICATION_UNIT_PROMOTION_AVAILABLE_MESSAGE" = "Unit available for promotion"; // LOC_NOTIFICATION_UNIT_PROMOTION_AVAILABLE_MESSAGE
+"TXT_KEY_NOTIFICATION_UNIT_PROMOTION_AVAILABLE_SUMMARY" = "A unit has gained enough experience in combat. You can choose a Promotion for this unit.";
+
+// unitNeedsOrders
+"TXT_KEY_NOTIFICATION_COMMAND_UNITS_MESSAGE" = "Command Units"; // LOC_NOTIFICATION_COMMAND_UNITS_MESSAGE
+"TXT_KEY_NOTIFICATION_COMMAND_UNITS_SUMMARY" = "Move a unit or have it perform an operation."; // LOC_NOTIFICATION_COMMAND_UNITS_SUMMARY
+
+// unitDied
+"TXT_KEY_NOTIFICATION_UNIT_DIED_MESSAGE" = "Unit Killed"; // LOC_NOTIFICATION_UNIT_DIED
+"TXT_KEY_NOTIFICATION_UNIT_DIED_SUMMARY" = "A unit died";
+
+// greatPersonJoined:
+"TXT_KEY_NOTIFICATION_GREAT_PERSON_JOINED_MESSAGE" = "greatPersonJoined"; // -
+"TXT_KEY_NOTIFICATION_GREAT_PERSON_JOINED_SUMMARY" = "greatPersonJoined";
+
+// canRecruitGreatPerson
+"TXT_KEY_NOTIFICATION_CLAIM_GREAT_PERSON_MESSAGE" = "Claim Great Person"; // LOC_NOTIFICATION_CLAIM_GREAT_PERSON_MESSAGE
+"TXT_KEY_NOTIFICATION_CLAIM_GREAT_PERSON_SUMMARY" = "You have earned %@, and need to choose whether to accept them or pass on them."; // LOC_NOTIFICATION_CLAIM_GREAT_PERSON_SUMMARY
+
+// cityLost
+"TXT_KEY_NOTIFICATION_CITY_CONQUERED_MESSAGE" = "City conquered"; // LOC_NOTIFICATION_CITY_LOST_MESSAGE
+"TXT_KEY_NOTIFICATION_CITY_CONQUERED_SUMMARY" = "The city of %@ has been captured by %@."; // LOC_NOTIFICATION_CITY_LOST_SUMMARY
+"TXT_KEY_NOTIFICATION_CITY_CONQUERED_BY_UNMET_SUMMARY" = "The city of %@ has been captured."; // -
+
+// goodyHutDiscovered
+"TXT_KEY_NOTIFICATION_DISCOVER_GOODY_HUT_MESSAGE" = "Tribal Village Discovered"; // LOC_NOTIFICATION_DISCOVER_GOODY_HUT_MESSAGE
+"TXT_KEY_NOTIFICATION_DISCOVER_GOODY_HUT_NEAR_CITY_SUMMARY" = "You have found a village inhabited by a friendly tribe near %@.";
+"TXT_KEY_NOTIFICATION_DISCOVER_GOODY_HUT_SUMMARY" = "You have found a village inhabited by a friendly tribe."; // LOC_NOTIFICATION_DISCOVER_GOODY_HUT_SUMMARY
+
+// barbarianCampDiscovered
+"TXT_KEY_NOTIFICATION_NEW_BARBARIAN_CAMP_MESSAGE" = "New Barbarian Outpost"; // LOC_NOTIFICATION_NEW_BARBARIAN_CAMP_MESSAGE
+"TXT_KEY_NOTIFICATION_NEW_BARBARIAN_CAMP_NEAR_CITY_SUMMARY" = "We have received rumors that a new tribe of Barbarians have moved into the region near %@.";
+"TXT_KEY_NOTIFICATION_NEW_BARBARIAN_CAMP_SUMMARY" = "We have received rumors that a new tribe of Barbarians have moved into a nearby region."; // LOC_NOTIFICATION_NEW_BARBARIAN_CAMP_SUMMARY
+
+// metCityState
+"TXT_KEY_NOTIFICATION_PLAYER_MET_MESSAGE_CITY_STATE_MESSAGE" = "Met city-state"; // LOC_NOTIFICATION_PLAYER_MET_MESSAGE_CITY_STATE
+"TXT_KEY_NOTIFICATION_PLAYER_MET_MESSAGE_CITY_STATE_SUMMARY" = "You have met the city-state %@";
+
+// waiting
+"TXT_KEY_NOTIFICATION_WAITING_MESSAGE" = "Waiting";
+"TXT_KEY_NOTIFICATION_WAITING_SUMMARY" = "Waiting";
+
+// questCityStateFulfilled
+"TXT_KEY_NOTIFICATION_CITYSTATE_QUEST_COMPLETED_MESSAGE" = "City-State Quest Complete"; // LOC_NOTIFICATION_CITYSTATE_QUEST_COMPLETED_MESSAGE
+"TXT_KEY_NOTIFICATION_CITYSTATE_QUEST_COMPLETED_SUMMARY" = "You completed a quest for the %@ and earned a reward: 1 [Envoy] Envoy."; // LOC_NOTIFICATION_CITYSTATE_QUEST_COMPLETED_SUMMARY
+
+// questCityStateObsolete
+"TXT_KEY_NOTIFICATION_CITYSTATE_QUEST_OBSOLETE_MESSAGE" = "City-State Quest Obsolete";
+"TXT_KEY_NOTIFICATION_CITYSTATE_QUEST_OBSOLETE_SUMMARY" = "The Quest of the City-State  %@ is obsolete.";
+
+// questCityStateGiven
+"TXT_KEY_NOTIFICATION_CITYSTATE_QUEST_GIVEN_MESSAGE" = "New City-State Quest"; // LOC_NOTIFICATION_CITYSTATE_QUEST_GIVEN_MESSAGE
+"TXT_KEY_NOTIFICATION_CITYSTATE_QUEST_GIVEN_SUMMARY" = "The %@ has given you a new quest: %@."; // LOC_NOTIFICATION_CITYSTATE_QUEST_GIVEN_SUMMARY
+
+// momentAdded
+"TXT_KEY_NOTIFICATION_MOMENT_ADDED" = "Moment added";
+// "TXT_KEY_NOTIFICATION_" = "";
+
+// tradeRouteCapacityIncreased
+"TXT_KEY_NOTIFICATION_TRADE_ROUTE_CAPACITY_INCREASED_MESSAGE" = "Increased Trade Route Capacity"; // LOC_NOTIFICATION_TRADE_ROUTE_CAPACITY_INCREASED_MESSAGE
+"TXT_KEY_NOTIFICATION_TRADE_ROUTE_CAPACITY_INCREASED_SUMMARY" = "You are now able to create and maintain more [TradeRoute] Trade Routes than before."; // LOC_NOTIFICATION_TRADE_ROUTE_CAPACITY_INCREASED_SUMMARY
+
+// naturalWonderDiscovered
+"TXT_KEY_NOTIFICATION_DISCOVER_NATURAL_WONDER_MESSAGE" = "Natural Wonder Discovered"; // LOC_NOTIFICATION_DISCOVER_NATURAL_WONDER_MESSAGE
+"TXT_KEY_NOTIFICATION_DISCOVER_NATURAL_WONDER_SUMMARY" = "You have discovered the Natural wonder %@."; // LOC_NOTIFICATION_DISCOVER_NATURAL_WONDER_SUMMARY;
+
+// continentDiscovered
+"TXT_KEY_NOTIFICATION_DISCOVER_CONTINENT_MESSAGE" = "New Continent Discovered"; // LOC_NOTIFICATION_DISCOVER_CONTINENT_MESSAGE
+"TXT_KEY_NOTIFICATION_DISCOVER_CONTINENT_SUMMARY" = "We have discovered a new continent. Our explorer is naming it %@."; // LOC_NOTIFICATION_DISCOVER_CONTINENT_SUMMARY
+
+// wonderBuilt
+"TXT_KEY_NOTIFICATION_WONDER_COMPLETED_MESSAGE" = "Wonder Completed"; // LOC_NOTIFICATION_WONDER_COMPLETED_MESSAGE
+"TXT_KEY_NOTIFICATION_WONDER_COMPLETED_UNMET_PLAYER_SUMMARY" = "An unmet player has finished building the world wonder %@."; // LOC_NOTIFICATION_WONDER_COMPLETED_UNMET_PLAYER_SUMMARY
+"TXT_KEY_NOTIFICATION_WONDER_COMPLETED_SUMMARY" = "%@ has finished building the world wonder %@."; // LOC_NOTIFICATION_WONDER_COMPLETED_SUMMARY
+
+// cityCanShoot
+"TXT_KEY_NOTIFICATION_CITY_RANGE_ATTACK_MESSAGE" = "City Ranged Attack"; // LOC_NOTIFICATION_CITY_RANGE_ATTACK_MESSAGE
+"TXT_KEY_NOTIFICATION_CITY_RANGE_ATTACK_SUMMARY" = "Your city %@ can perform a ranged attack upon an enemy!"; // -
+
+// cityAcquired
+"TXT_KEY_NOTIFICATION_CONSIDER_RAZE_CITY_MESSAGE" = "Raze or Keep City"; // LOC_NOTIFICATION_CONSIDER_RAZE_CITY_MESSAGE
+"TXT_KEY_NOTIFICATION_CONSIDER_RAZE_CITY_SUMMARY" = "You conquered %@ this turn. Decide whether to liberate, raze, or keep it."; // LOC_NOTIFICATION_CONSIDER_RAZE_CITY_SUMMARY
+
+// envoyEarned
+"TXT_KEY_NOTIFICATION_GIVE_INFLUENCE_TOKEN_MESSAGE" = "Send Envoy"; // LOC_NOTIFICATION_GIVE_INFLUENCE_TOKEN_MESSAGE
+"TXT_KEY_NOTIFICATION_GIVE_INFLUENCE_TOKEN_SUMMARY" = "You have earned an [Envoy] Envoy, and may send it to a city-state for bonuses."; // LOC_NOTIFICATION_GIVE_INFLUENCE_TOKEN_SUMMARY
 
 // Advisor texts
 "TXT_KEY_ECONOMICAISTRATEGY_NEED_RECON" = "We should continue exploring the world to discover abandoned villages, natural wonders, and other civilizations!";
@@ -256,8 +413,12 @@
 
 // governor / envoy texts
 "TXT_KEY_GOVERNOR_TITLE" = "Governor title";
-"TXT_KEY_ENVOY" = "ENVOY";
-"TXT_KEY_ENVOYS" = "ENVOYS";
+"TXT_KEY_ENVOY" = "Envoy";
+"TXT_KEY_ENVOYS" = "Envoys";
+
+"TXT_KEY_DECLARE_WAR_TITLE" = "Declare War?";
+"TXT_KEY_DECLARE_WAR_QUESTION" = "Do you really want to declare war on %@?";
+"TXT_KEY_DECLARE_WAR_TEXT" = "Declare War";
 
 // policy card types
 "TXT_KEY_POLICY_CARD_TYPE_MILITARY_TITLE" = "Military";

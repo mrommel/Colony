@@ -86,4 +86,17 @@ extension CivilizationType {
         case .unmet: return "civilization-unmet"
         }
     }
+
+    public func toolTip() -> NSAttributedString {
+
+        let tooltipText = NSMutableAttributedString()
+
+        let civilizationName = NSAttributedString(
+            string: self.name().localized(),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        tooltipText.append(civilizationName)
+
+        return tooltipText
+    }
 }

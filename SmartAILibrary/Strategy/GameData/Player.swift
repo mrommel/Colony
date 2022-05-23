@@ -1680,16 +1680,8 @@ public class Player: AbstractPlayer {
                                 return false
                             }
 
-                            if let requiredTech = unitType.requiredTech() {
-                                if !questPlayer.has(tech: requiredTech) {
-                                    return false
-                                }
-                            }
-
-                            if let requiredCivic = unitType.requiredCivic() {
-                                if !questPlayer.has(civic: requiredCivic) {
-                                    return false
-                                }
+                            if !self.canTrain(unitType: unitType, continueFlag: false, testVisible: false, ignoreCost: true, ignoreUniqueUnitStatus: false) {
+                                return false
                             }
 
                             return true
@@ -3123,9 +3115,6 @@ public class Player: AbstractPlayer {
             self.homelandAI?.doTurn(in: gameModel)
         } else {
 
-            // Update tactical AI
-            self.tacticalAI?.commandeerUnits(in: gameModel)
-
             // Now let the tactical AI run.  Putting it after the operations update allows units who have
             // just been handed off to the tactical AI to get a move in the same turn they switch between
             // AI subsystems
@@ -3145,11 +3134,6 @@ public class Player: AbstractPlayer {
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-
-        // doTurnUnitsPre(); // AI_doTurnUnitsPre
-
-        // Start: TACTICAL AI UNIT PROCESSING
-        self.tacticalAI?.doTurn(in: gameModel)
 
         // Start: OPERATIONAL AI UNIT PROCESSING
         self.operations?.doDelayedDeath(in: gameModel)
@@ -3196,21 +3180,9 @@ public class Player: AbstractPlayer {
                     }
                 case .none:
                     fatalError("Unit with no Domain")
-                /*default:
-                    if pass == 3 {
-                        loopUnit.doTurn(in: gameModel)
-                    }*/
                 }
             }
         }
-
-        /*if (GetID() == GC.getGame().getActivePlayer())
-        {
-            GC.GetEngineUserInterface()->setDirty(Waypoints_DIRTY_BIT, true);
-            GC.GetEngineUserInterface()->setDirty(SelectionButtons_DIRTY_BIT, true);
-        }*/
-
-        // GC.GetEngineUserInterface()->setDirty(UnitInfo_DIRTY_BIT, true);
 
         self.doTurnUnitsPost(in: gameModel) // AI_doTurnUnitsPost();
     }
@@ -3860,17 +3832,17 @@ public class Player: AbstractPlayer {
             // If this is the first city (or we still aren't getting tech for some other reason) notify the player
             if techs.needToChooseTech() && self.science(in: gameModel) > 0.0 {
 
-                // if self.isActive() {
                 self.notifications()?.add(notification: .techNeeded)
-                // }
             }
 
             // If this is the first city (or ..) notify the player
             if civics.needToChooseCivic() && self.culture(in: gameModel, consume: false) > 0.0 {
 
-                // if self.isActive() {
                 self.notifications()?.add(notification: .civicNeeded)
-                // }
+            }
+
+            if isCapital {
+                self.notifications()?.add(notification: .policiesNeeded)
             }
 
         } else {

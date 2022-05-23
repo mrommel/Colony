@@ -84,7 +84,7 @@ class TileImprovementTests: XCTestCase {
         try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
 
         if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
-            humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+            humanCity.buildQueue.append(item: BuildableItem(buildingType: .granary))
 
             for pointToClaim in HexPoint(x: 3, y: 5).areaWith(radius: 2) {
                 if let tileToClaim = gameModel.tile(at: pointToClaim) {

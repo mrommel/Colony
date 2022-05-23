@@ -193,7 +193,13 @@ class TradeRoutesDialogViewModel: ObservableObject {
                     continue
                 }
 
-                if let path = pathFinder.shortestPath(fromTileCoord: sourceCity.location, toTileCoord: targetCity.location) {
+                if var path = pathFinder.shortestPath(fromTileCoord: sourceCity.location, toTileCoord: targetCity.location) {
+
+                    path.prepend(point: sourceCity.location, cost: 0.0)
+
+                    if path.last?.0 != targetCity.location {
+                        path.append(point: targetCity.location, cost: 0.0)
+                    }
 
                     let title = targetCity.name
                     let tradeRoute = TradeRoute(path: path)

@@ -56,7 +56,7 @@ class HexCoordLayer: BaseLayer {
     override init(player: AbstractPlayer?) {
 
         super.init(player: player)
-        self.zPosition = Globals.ZLevels.hexCoords
+        self.zPosition = Globals.ZLevels.hexCoordLabel
         self.name = HexCoordLayer.kName
     }
 
@@ -83,7 +83,7 @@ class HexCoordLayer: BaseLayer {
         let hexCoordSprite = SKLabelNode(text: text)
         hexCoordSprite.fontSize = 8.0
         hexCoordSprite.position = position + CGPoint(x: 24, y: 14)
-        hexCoordSprite.zPosition = Globals.ZLevels.hexCoords
+        hexCoordSprite.zPosition = Globals.ZLevels.hexCoordLabel
         hexCoordSprite.color = .black
         hexCoordSprite.colorBlendFactor = 0.0
         self.addChild(hexCoordSprite)
