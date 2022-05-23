@@ -353,8 +353,7 @@ extension GameViewModel {
             )
         }
 
-        let headerTextureNames: [String] = HeaderButtonType.allCases
-            .flatMap { [$0.iconTexture(for: false), $0.iconTexture(for: true)] }
+        let headerTextureNames: [String] = HeaderButtonType.allCases.map { $0.iconTexture() }
             + ["header-alert"]
         print("- load \(headerTextureNames.count) header textures")
         for textureName in headerTextureNames {
