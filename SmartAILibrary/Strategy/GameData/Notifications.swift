@@ -312,7 +312,7 @@ public class NotificationItem: Codable, Equatable {
             return false
 
         case .canChangeGovernment:
-            return false
+            return true
 
         case .policiesNeeded:
 
