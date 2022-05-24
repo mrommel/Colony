@@ -164,6 +164,8 @@ public class MapOverviewViewModel: ObservableObject {
         return ImageCache.shared.image(for: "map-overview-canvas")
     }
 
+    // MARK: map lenses
+
     func mapLensImage() -> NSImage {
 
         if self.showMapLens {
@@ -186,6 +188,13 @@ public class MapOverviewViewModel: ObservableObject {
         }
     }
 
+    func mapLensToolTip() -> NSAttributedString {
+
+        return NSAttributedString(string: "Map Lenses")
+    }
+
+    // MARK: map markers
+
     func mapMarkerImage() -> NSImage {
 
         return ImageCache.shared.image(for: "map-marker")
@@ -202,6 +211,11 @@ public class MapOverviewViewModel: ObservableObject {
             self.showMapMarkerWaiting = false
             self.mapMarkersViewModel.updateMarkers()
         }
+    }
+
+    func mapMarkerToolTip() -> NSAttributedString {
+
+        return NSAttributedString(string: "Map Marker")
     }
 
     func addMarkerClicked() {
@@ -225,6 +239,8 @@ public class MapOverviewViewModel: ObservableObject {
         self.showMapMarkerWaiting = false
     }
 
+    // MARK: map options
+
     func mapOptionImage() -> NSImage {
 
         return ImageCache.shared.image(for: "map-options")
@@ -234,6 +250,11 @@ public class MapOverviewViewModel: ObservableObject {
 
         self.showMapOptions = !self.showMapOptions
         // self.mapOptionsViewModel.update() ?
+    }
+
+    func mapOptionToolTip() -> NSAttributedString {
+
+        return NSAttributedString(string: "Map Options")
     }
 
     func assign(game: GameModel?) {

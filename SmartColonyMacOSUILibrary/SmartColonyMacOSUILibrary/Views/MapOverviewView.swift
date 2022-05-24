@@ -101,6 +101,7 @@ public struct MapOverviewView: View {
                 .onTapGesture {
                     self.viewModel.mapMarkerClicked()
                 }
+                .tooltip(self.viewModel.mapMarkerToolTip())
 
             Image(nsImage: self.viewModel.mapOptionImage())
                 .resizable()
@@ -109,6 +110,7 @@ public struct MapOverviewView: View {
                 .onTapGesture {
                     self.viewModel.mapOptionClicked()
                 }
+                .tooltip(self.viewModel.mapOptionToolTip())
 
             Image(nsImage: self.viewModel.mapLensImage())
                 .resizable()
@@ -117,6 +119,7 @@ public struct MapOverviewView: View {
                 .onTapGesture {
                     self.viewModel.mapLensClicked()
                 }
+                .tooltip(self.viewModel.mapLensToolTip())
         }
         .offset(x: -8.0, y: -93.0)
     }

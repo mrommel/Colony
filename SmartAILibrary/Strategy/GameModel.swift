@@ -480,7 +480,9 @@ open class GameModel: Codable {
                     if !player.isAutoMoves() || needsAIUpdate {
 
                         if needsAIUpdate || !player.isHuman() {
+                            // ------- this is where the important stuff happens! --------------
                             player.unitUpdate(in: self)
+                            print("updateMoves() : player.unitUpdate() called for player \(player.leader.name())")
                         }
 
                         let readyUnitsNow = player.countReadyUnits(in: self)

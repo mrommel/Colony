@@ -6091,16 +6091,17 @@ public class TacticalAI: Codable {
         // Loop through all remaining units
         for currentTurnUnitRef in self.currentTurnUnits {
 
-            if let currentTurnUnit = currentTurnUnitRef {
+            guard let currentTurnUnit = currentTurnUnitRef else {
+                continue
+            }
 
-                // Barbarians and air units aren't handled by the operational or homeland AIs
-                if currentTurnUnit.player?.leader == .barbar || currentTurnUnit.domain() == .air {
+            // Barbarians and air units aren't handled by the operational or homeland AIs
+            if currentTurnUnit.player?.leader == .barbar || currentTurnUnit.domain() == .air {
 
-                    currentTurnUnit.push(mission: UnitMission(type: .skip), in: gameModel)
-                    currentTurnUnit.set(turnProcessed: true)
+                currentTurnUnit.push(mission: UnitMission(type: .skip), in: gameModel)
+                currentTurnUnit.set(turnProcessed: true)
 
-                    print("<< TacticalAI - barbarian ### Unassigned \(currentTurnUnit.name()) at \(currentTurnUnit.location)")
-                }
+                print("<< TacticalAI - barbarian ### Unassigned \(currentTurnUnit.name()) at \(currentTurnUnit.location)")
             }
         }
     }
@@ -6913,6 +6914,7 @@ public class TacticalAI: Codable {
         }
     }
 
+    /// Assigns a barbarian to go protect an undefended camp
     func plotGuardBarbarianCamp(in gameModel: GameModel?) {
 
         guard let player = self.player else {

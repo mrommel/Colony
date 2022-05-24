@@ -100,7 +100,6 @@
 		C99A88792607A063003B8B73 /* SmartColonyMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartColonyMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99EA75C26BD945B006FAA40 /* PediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PediaView.swift; sourceTree = "<group>"; };
 		C99EA75E26BD9493006FAA40 /* PediaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PediaViewModel.swift; sourceTree = "<group>"; };
-		C99EB0F6274BCFF400D2FAE6 /* CustomToolTip */ = {isa = PBXFileReference; lastKnownFileType = folder; name = CustomToolTip; path = ../../CustomToolTip; sourceTree = "<group>"; };
 		C9B0D6652716B86600F3AA1C /* SmartColonyMacOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartColonyMacOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9B0D6672716B86600F3AA1C /* SmartColonyMacOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartColonyMacOSTests.swift; sourceTree = "<group>"; };
 		C9F6EB16260790850052140C /* SmartColony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartColony.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -192,7 +191,6 @@
 		C99EB0F5274BCFF400D2FAE6 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				C99EB0F6274BCFF400D2FAE6 /* CustomToolTip */,
 			);
 			name = Packages;
 			sourceTree = "<group>";

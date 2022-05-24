@@ -3745,6 +3745,10 @@ public class City: AbstractCity {
             fatalError("cant get player")
         }
 
+        guard let districts = self.districts else {
+            fatalError("cant get city districts")
+        }
+
         // city states cant build settlers or prophets
         if player.isCityState() && (unitType == .settler || unitType == .prophet) {
             return false
@@ -3783,7 +3787,7 @@ public class City: AbstractCity {
         if unitType.unitClass() == .navalMelee || unitType.unitClass() == .navalRanged ||
             unitType.unitClass() == .navalRaider || unitType.unitClass() == .navalCarrier {
 
-            if !self.isCoastal(in: gameModel) {
+            if !self.isCoastal(in: gameModel) && !districts.has(district: .harbor) {
                 return false
             }
         }
