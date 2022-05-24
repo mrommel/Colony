@@ -3745,8 +3745,8 @@ public class City: AbstractCity {
             fatalError("cant get player")
         }
 
-        // city states cant build settlers
-        if player.isCityState() && unitType == .settler {
+        // city states cant build settlers or prophets
+        if player.isCityState() && (unitType == .settler || unitType == .prophet) {
             return false
         }
 

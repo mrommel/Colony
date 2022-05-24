@@ -3283,6 +3283,11 @@ public class DiplomaticAI: Codable {
             return false
         }
 
+        // player is not at war with his self
+        if player.isEqual(to: otherPlayer) {
+            return false
+        }
+
         if player.isBarbarian() {
             return true
         }

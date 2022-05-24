@@ -501,6 +501,16 @@ open class GameModel: Codable {
 
                                     if self.turnSlice() - player.lastSliceMoved() > waitTime {
                                         print("GAME HANG - Please show and send save. Stuck units will have their turn ended so game can advance.")
+                                        // debug
+                                        for unitRef in self.units(of: player) {
+
+                                            guard let unit = unitRef else {
+                                                continue
+                                            }
+
+                                            print("GAME HANG - unit of \(player.leader.name()) has no orders: \(unit.name()) at \(unit.location)")
+                                        }
+                                        // debug
                                         player.endTurnsForReadyUnits(in: self)
                                     }
                                 }

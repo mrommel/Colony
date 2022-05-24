@@ -26,7 +26,7 @@ public class TacticalAI: Codable {
         case temporaryZones
         case allTargets
 
-        case movePriotityTurn
+        case movePriorityTurn
     }
 
     var player: Player?
@@ -56,7 +56,7 @@ public class TacticalAI: Codable {
     var generalsToMove: [OperationUnit]
     var paratroopersToMove: [OperationUnit]
 
-    var movePriotityTurn: Int = 0
+    var movePriorityTurn: Int = 0
     var currentSeriesId: Int = -1
 
     static let recruitRange = 10 // AI_TACTICAL_RECRUIT_RANGE
@@ -120,7 +120,7 @@ public class TacticalAI: Codable {
         self.generalsToMove = []
         self.paratroopersToMove = []
 
-        self.movePriotityTurn = try container.decode(Int.self, forKey: .movePriotityTurn)
+        self.movePriorityTurn = try container.decode(Int.self, forKey: .movePriorityTurn)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -130,7 +130,7 @@ public class TacticalAI: Codable {
         try container.encode(self.temporaryZones, forKey: .temporaryZones)
         try container.encode(self.allTargets, forKey: .allTargets)
 
-        try container.encode(self.movePriotityTurn, forKey: .movePriotityTurn)
+        try container.encode(self.movePriorityTurn, forKey: .movePriorityTurn)
     }
 
     /// Update the AI for units
@@ -7915,12 +7915,12 @@ public class TacticalAI: Codable {
     private func establishBarbarianPriorities(in turn: Int) {
 
         // Only establish priorities once per turn
-        if turn <= self.movePriotityTurn {
+        if turn <= self.movePriorityTurn {
             return
         }
 
         self.movePriorityList.removeAll()
-        self.movePriotityTurn = turn
+        self.movePriorityTurn = turn
 
         // Loop through each possible tactical move (other than "none" or "unassigned")
         for barbarianTacticalMove in TacticalMoveType.allBarbarianMoves {
@@ -8239,14 +8239,13 @@ public class TacticalAI: Codable {
 
                     if tile.isVisible(to: player) {
 
-                        // Make sure I am not a barbarian who can not move into owned territory this early in the game
-                        if self.player?.leader != .barbar || barbsAllowedYet {
-
-                            validPlot = true
-                        } else {
-                            if !tile.hasOwner() {
+                        // Make sure player is not a barbarian who can not move into owned territory this early in the game
+                        if player.isBarbarian() {
+                            if barbsAllowedYet || !tile.hasOwner() {
                                 validPlot = true
                             }
+                        } else {
+                            validPlot = true
                         }
 
                         if validPlot {
@@ -8300,9 +8299,11 @@ public class TacticalAI: Codable {
                                     newTarget.unit = unitRef
                                     newTarget.damage = unit.damage()
                                     self.allTargets.append(newTarget)
+                                    continue
                                 }
+                            }
 
-                            } else if tile.has(improvement: .barbarianCamp) {
+                            if tile.has(improvement: .barbarianCamp) {
 
                                 // ... undefended camp?
                                 newTarget.targetType = .barbarianCamp
@@ -8678,7 +8679,7 @@ public class TacticalAI: Codable {
         return list
     }
 
-    /// Do we already have a queued attack running on this plot? Return series ID if yes, -1 if no.
+    /// Do we already have a queued attack running on this plot? Return series ID if yes, nil if no.
     func isAlreadyTargeted(at point: HexPoint) -> QueuedAttack? {
 
         if !self.queuedAttacks.isEmpty {
