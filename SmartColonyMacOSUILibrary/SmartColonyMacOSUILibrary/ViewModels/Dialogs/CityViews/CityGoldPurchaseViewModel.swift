@@ -96,9 +96,9 @@ class CityGoldPurchaseViewModel: ObservableObject {
                 let buildingViewModels: [BuildingViewModel] = possibleBuildingTypes.map { buildingType in
 
                     let goldCost = city.goldPurchaseCost(of: buildingType)
-                    let enabled = goldCost < (humanPlayer.treasury?.value() ?? 0.0)
+                    var enabled = goldCost < (humanPlayer.treasury?.value() ?? 0.0)
                     if city.buildQueue.isBuilding(building: buildingType) {
-                        // buildingNode.disable()
+                        enabled = false
                     }
                     let buildingViewModel = BuildingViewModel(buildingType: buildingType, gold: Int(goldCost), active: enabled)
                     buildingViewModel.delegate = self
