@@ -629,7 +629,7 @@ public class CityCitizens: Codable {
             return
         }
 
-        fatalError("cant find entry for \(buildingType)")
+        print("cant find entry for \(buildingType)")
     }
 
     func numForcedSpecialists(in buildingType: BuildingType) -> Int {
