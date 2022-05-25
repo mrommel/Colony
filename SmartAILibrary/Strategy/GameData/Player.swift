@@ -2253,7 +2253,7 @@ public class Player: AbstractPlayer {
             fatalError("try to end an inactive turn")
         }
 
-        print("--- unit animation running: \(gameModel?.userInterface?.animationsAreRunning(for: self.leader)) ---")
+        // print("--- unit animation running: \(gameModel?.userInterface?.animationsAreRunning(for: self.leader)) ---")
         print("--- end turn for \(self.isHuman() ? "HUMAN": "AI") player \(self.leader) ---")
 
         self.turnActive = false

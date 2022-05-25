@@ -482,7 +482,7 @@ open class GameModel: Codable {
                         if needsAIUpdate || !player.isHuman() {
                             // ------- this is where the important stuff happens! --------------
                             player.unitUpdate(in: self)
-                            print("updateMoves() : player.unitUpdate() called for player \(player.leader.name())")
+                            // print("updateMoves() : player.unitUpdate() called for player \(player.leader.name())")
                         }
 
                         let readyUnitsNow = player.countReadyUnits(in: self)
@@ -1971,7 +1971,7 @@ open class GameModel: Codable {
                         player.addMoment(of: .discoveryOfANaturalWonder(naturalWonder: feature), in: self)
 
                         if player.isHuman() {
-                            player.notifications()?.add(notification: .naturalWonderDiscovered(location: location))
+                            player.notifications()?.add(notification: .naturalWonderDiscovered(location: areaPoint))
                         }
                     }
 

@@ -190,7 +190,7 @@ public class MapOverviewViewModel: ObservableObject {
 
     func mapLensToolTip() -> NSAttributedString {
 
-        return NSAttributedString(string: "Map Lenses")
+        return NSAttributedString(string: "Map Lenses", attributes: Globals.Attributs.tooltipContentAttributs)
     }
 
     // MARK: map markers
@@ -215,7 +215,7 @@ public class MapOverviewViewModel: ObservableObject {
 
     func mapMarkerToolTip() -> NSAttributedString {
 
-        return NSAttributedString(string: "Map Marker")
+        return NSAttributedString(string: "Map Marker", attributes: Globals.Attributs.tooltipContentAttributs)
     }
 
     func addMarkerClicked() {
@@ -254,7 +254,7 @@ public class MapOverviewViewModel: ObservableObject {
 
     func mapOptionToolTip() -> NSAttributedString {
 
-        return NSAttributedString(string: "Map Options")
+        return NSAttributedString(string: "Map Options", attributes: Globals.Attributs.tooltipContentAttributs)
     }
 
     func assign(game: GameModel?) {
