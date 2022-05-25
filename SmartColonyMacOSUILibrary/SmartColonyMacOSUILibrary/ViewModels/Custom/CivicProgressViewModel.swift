@@ -144,7 +144,7 @@ class CivicProgressViewModel: ObservableObject {
         if self.civicType.hasGovernorTitle() {
             achievementViewModels.append(
                 AchievementViewModel(
-                    imageName: "header-button-governors-active",
+                    imageName: "header-button-governors",
                     toolTipText: NSAttributedString(string: "TXT_KEY_GOVERNOR_TITLE".localized())
                 )
             )

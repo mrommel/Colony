@@ -63,6 +63,7 @@
 "TXT_KEY_DISTRICTS_AND_BUILDINGS" = "Districts and Buildings";
 "TXT_KEY_WONDERS" = "Wonders";
 "TXT_KEY_SELECT_LOCATION" = "Select Location";
+"TXT_KEY_CITY_POPULATION_COUNT" = "Population: %d";
 
 // raze or liberate dialog
 "TXT_KEY_CITY_RAZE_OR_LIBERATE_TITLE" = "City captured";

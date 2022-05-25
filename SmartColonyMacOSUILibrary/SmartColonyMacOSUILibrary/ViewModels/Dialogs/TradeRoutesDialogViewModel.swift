@@ -110,7 +110,7 @@ class TradeRoutesDialogViewModel: ObservableObject {
                     fatalError("cant get end city")
                 }
 
-                let title = "\(startCity.name) to \(endCity.name)"
+                let title = "\(startCity.name.localized()) to \(endCity.name.localized())"
                 let yields = tradeRouteData.yields(in: gameModel)
                 let remainingTurns = tradeRouteData.expiresInTurns(for: unit, in: gameModel)
 
@@ -156,7 +156,7 @@ class TradeRoutesDialogViewModel: ObservableObject {
                     fatalError("cant get end city")
                 }
 
-                let title = "\(startCity.name) to \(endCity.name)"
+                let title = "\(startCity.name.localized()) to \(endCity.name.localized())"
                 let yields = tradeRouteData.yields(in: gameModel)
                 let remainingTurns = tradeRouteData.expiresInTurns(for: unit, in: gameModel)
 
@@ -201,7 +201,7 @@ class TradeRoutesDialogViewModel: ObservableObject {
                         path.append(point: targetCity.location, cost: 0.0)
                     }
 
-                    let title = targetCity.name
+                    let title = targetCity.name.localized()
                     let tradeRoute = TradeRoute(path: path)
                     let yields = tradeRoute.yields(in: gameModel)
 

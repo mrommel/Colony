@@ -2947,11 +2947,28 @@ public class City: AbstractCity {
             fatalError("cant get player government")
         }
 
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
         guard let buildings = self.buildings else {
             fatalError("cant get buildings")
         }
 
-        let unit = Unit(at: self.location, type: unitType, owner: self.player)
+        var unitLocation = self.location
+
+        if unitType.movementType() == .swim || unitType.movementType() == .swimShallow {
+            if !self.isCoastal(in: gameModel) && districts.has(district: .harbor) {
+
+                guard let harborLocation = districts.location(of: .harbor) else {
+                    fatalError("cant get harbor location")
+                }
+
+                unitLocation = harborLocation
+            }
+        }
+
+        let unit = Unit(at: unitLocation, type: unitType, owner: self.player)
 
         if unitType == .builder {
             // Guildmaster - All Builders trained in city get +1 build charge.
@@ -3004,7 +3021,7 @@ public class City: AbstractCity {
         unit.set(experienceModifier: experienceModifier)
 
         gameModel?.add(unit: unit)
-        gameModel?.userInterface?.show(unit: unit, at: self.location)
+        gameModel?.userInterface?.show(unit: unit, at: unitLocation)
 
         self.updateEurekas(in: gameModel)
 
@@ -3745,8 +3762,12 @@ public class City: AbstractCity {
             fatalError("cant get player")
         }
 
-        // city states cant build settlers
-        if player.isCityState() && unitType == .settler {
+        guard let districts = self.districts else {
+            fatalError("cant get city districts")
+        }
+
+        // city states cant build settlers or prophets
+        if player.isCityState() && (unitType == .settler || unitType == .prophet) {
             return false
         }
 
@@ -3783,7 +3804,7 @@ public class City: AbstractCity {
         if unitType.unitClass() == .navalMelee || unitType.unitClass() == .navalRanged ||
             unitType.unitClass() == .navalRaider || unitType.unitClass() == .navalCarrier {
 
-            if !self.isCoastal(in: gameModel) {
+            if !self.isCoastal(in: gameModel) && !districts.has(district: .harbor) {
                 return false
             }
         }

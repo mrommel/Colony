@@ -33,6 +33,7 @@ struct YieldValueView: View {
             Image(nsImage: self.viewModel.backgroundImage())
                 .resizable(capInsets: EdgeInsets(all: 8))
         )
+        .zIndex(600)
         .tooltip(self.viewModel.tooltip, side: .trailingBottom)
     }
 }

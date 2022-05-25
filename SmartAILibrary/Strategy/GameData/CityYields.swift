@@ -1500,7 +1500,8 @@ extension City {
         sciencePerTurn += YieldValues(value: self.scienceFromPopulation())
         sciencePerTurn += YieldValues(value: self.scienceFromTradeRoutes(in: gameModel))
         sciencePerTurn += self.scienceFromGovernors()
-        sciencePerTurn += YieldValues(value: self.baseYieldRateFromSpecialists.weight(of: .science))
+        // this is broken - not sure why
+        // sciencePerTurn += YieldValues(value: self.baseYieldRateFromSpecialists.weight(of: .science))
         sciencePerTurn += self.scienceFromEnvoys(in: gameModel)
 
         // cap yields based on loyalty
@@ -1710,7 +1711,7 @@ extension City {
 
     private func scienceFromGovernors() -> YieldValues {
 
-        var scienceFromGovernors: YieldValues = YieldValues(value: 0.0, percentage: 1.0)
+        var scienceFromGovernors: YieldValues = YieldValues(value: 0.0, percentage: 0.0)
 
         // +1 Science per turn for each Citizen in the city.
         if self.hasGovernorTitle(of: .researcher) {

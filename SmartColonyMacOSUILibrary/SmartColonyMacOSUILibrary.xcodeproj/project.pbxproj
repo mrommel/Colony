@@ -183,7 +183,6 @@
 		C99AB18E27477FB900BF0B4D /* WonderLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99AB18D27477FB900BF0B4D /* WonderLayer.swift */; };
 		C99EA75926BD72DE006FAA40 /* ReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EA75826BD72DE006FAA40 /* ReplyView.swift */; };
 		C99EA75B26BD74F0006FAA40 /* ReplyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EA75A26BD74F0006FAA40 /* ReplyViewModel.swift */; };
-		C99EB0F9274BD27C00D2FAE6 /* CustomToolTip in Frameworks */ = {isa = PBXBuildFile; productRef = C99EB0F8274BD27C00D2FAE6 /* CustomToolTip */; };
 		C9A12B6F26FAFE370094B980 /* HeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A12B6E26FAFE370094B980 /* HeaderViewModel.swift */; };
 		C9A12B7126FB0C420094B980 /* CityLoyaltyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A12B7026FB0C420094B980 /* CityLoyaltyViewModel.swift */; };
 		C9A12B7326FB0CD90094B980 /* CityLoyaltyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A12B7226FB0CD90094B980 /* CityLoyaltyView.swift */; };
@@ -692,7 +691,6 @@
 				C99A887E2607A06C003B8B73 /* SmartAILibrary.framework in Frameworks */,
 				C95C7A76273827E300B2CE1A /* Charts in Frameworks */,
 				C99A88842607A190003B8B73 /* SmartAssets.framework in Frameworks */,
-				C99EB0F9274BD27C00D2FAE6 /* CustomToolTip in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1298,7 +1296,6 @@
 			name = SmartColonyMacOSUILibrary;
 			packageProductDependencies = (
 				C95C7A75273827E300B2CE1A /* Charts */,
-				C99EB0F8274BD27C00D2FAE6 /* CustomToolTip */,
 				C94D7A6A282E3F3000BA74DC /* SwiftUITooltip */,
 				C9AB36992833D34000E0DAE8 /* Introspect */,
 			);
@@ -1353,7 +1350,6 @@
 			mainGroup = C99A885226079F4C003B8B73;
 			packageReferences = (
 				C95C7A74273827E300B2CE1A /* XCRemoteSwiftPackageReference "Charts" */,
-				C99EB0F7274BD27C00D2FAE6 /* XCRemoteSwiftPackageReference "CustomToolTip" */,
 				C94D7A69282E3F3000BA74DC /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */,
 				C9AB36982833D34000E0DAE8 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
@@ -1999,14 +1995,6 @@
 				minimumVersion = 4.0.0;
 			};
 		};
-		C99EB0F7274BD27C00D2FAE6 /* XCRemoteSwiftPackageReference "CustomToolTip" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mrommel/CustomToolTip";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.8;
-			};
-		};
 		C9AB36982833D34000E0DAE8 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
@@ -2027,11 +2015,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C95C7A74273827E300B2CE1A /* XCRemoteSwiftPackageReference "Charts" */;
 			productName = Charts;
-		};
-		C99EB0F8274BD27C00D2FAE6 /* CustomToolTip */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C99EB0F7274BD27C00D2FAE6 /* XCRemoteSwiftPackageReference "CustomToolTip" */;
-			productName = CustomToolTip;
 		};
 		C9AB36992833D34000E0DAE8 /* Introspect */ = {
 			isa = XCSwiftPackageProductDependency;

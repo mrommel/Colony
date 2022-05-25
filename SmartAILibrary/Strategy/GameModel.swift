@@ -480,7 +480,9 @@ open class GameModel: Codable {
                     if !player.isAutoMoves() || needsAIUpdate {
 
                         if needsAIUpdate || !player.isHuman() {
+                            // ------- this is where the important stuff happens! --------------
                             player.unitUpdate(in: self)
+                            print("updateMoves() : player.unitUpdate() called for player \(player.leader.name())")
                         }
 
                         let readyUnitsNow = player.countReadyUnits(in: self)
@@ -501,6 +503,20 @@ open class GameModel: Codable {
 
                                     if self.turnSlice() - player.lastSliceMoved() > waitTime {
                                         print("GAME HANG - Please show and send save. Stuck units will have their turn ended so game can advance.")
+                                        // debug
+                                        for unitRef in self.units(of: player) {
+
+                                            guard let unit = unitRef else {
+                                                continue
+                                            }
+
+                                            guard unit.readyToMove() else {
+                                                continue
+                                            }
+
+                                            print("GAME HANG - unit of \(player.leader.name()) has no orders: \(unit.name()) at \(unit.location)")
+                                        }
+                                        // debug
                                         player.endTurnsForReadyUnits(in: self)
                                     }
                                 }

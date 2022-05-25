@@ -7,6 +7,7 @@
 */
 
 // https://civilization.fandom.com/wiki/Module:Data/Civ6/RF/Moments
+// https://github.com/Windrist/Civilization-VI-Vietnamese-Language-Pack/blob/c79caf89ec5299b082d2c6a95212986cfda32125/en_US_Assets/en_US_Expansion2/Text/en_US/Expansion1_Moments_Text.xml
 
 // admiralDefeatsEnemy
 "TXT_KEY_MOMENT_ADMIRAL_DEFEATS_ENEMY_TITLE" = "Admiral Defeats Enemy";
@@ -29,8 +30,8 @@
 "TXT_KEY_MOMENT_CITY_NEAR_VOLCANO_SUMMARY" = "A city is placed within 2 tiles of a volcano that could erupt.";
 
 // cityOfAwe
-"TXT_KEY_MOMENT_CITY_OF_AWE_TITLE" = "City of Awe";
-"TXT_KEY_MOMENT_CITY_OF_AWE_SUMMARY" = "A city is placed within 2 tiles of a natural wonder.";
+"TXT_KEY_MOMENT_CITY_OF_AWE_TITLE" = "City of Awe"; // LOC_MOMENT_CITY_BUILT_NEAR_NATURAL_WONDER
+"TXT_KEY_MOMENT_CITY_OF_AWE_SUMMARY" = "A city is placed within 2 tiles of a natural wonder."; // LOC_MOMENT_CITY_BUILT_NEAR_NATURAL_WONDER_DESCRIPTION
 
 // cityOnNewContinent
 "TXT_KEY_MOMENT_CITY_ON_NEW_CONTINENT_TITLE" = "City on New Continent";

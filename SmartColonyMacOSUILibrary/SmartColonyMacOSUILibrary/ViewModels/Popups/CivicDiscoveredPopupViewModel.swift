@@ -78,7 +78,7 @@ class CivicDiscoveredPopupViewModel: ObservableObject {
         }
 
         if self.civicType.hasGovernorTitle() {
-            iconTextureNames.append("header-button-governors-active")
+            iconTextureNames.append("header-button-governors")
         }
 
         if self.civicType.envoys() > 0 {

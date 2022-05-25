@@ -226,7 +226,7 @@ extension NotificationType {
             return "TXT_KEY_NOTIFICATION_DECLARE_WAR_SUMMARY"
                 .localizedWithFormat(with: [leader.name().localized()])
 
-        case .enemyInTerritory(cityName: let cityName):
+        case .enemyInTerritory(location: _, cityName: let cityName):
             return "TXT_KEY_NOTIFICATION_ENEMY_IN_TERRITORY_SUMMARY"
                 .localizedWithFormat(with: [cityName])
 
@@ -350,10 +350,8 @@ extension NotificationType {
 
         toolTipText.append(NSAttributedString(string: "\n"))
 
-        let content = NSAttributedString(
-            string: self.summary(in: gameModel), // already localized
-            attributes: Globals.Attributs.tooltipContentAttributs
-        )
+        let tokenizer = LabelTokenizer()
+        let content = tokenizer.convert(text: self.summary(in: gameModel), with: Globals.Attributs.tooltipContentAttributs)
         toolTipText.append(content)
 
         return toolTipText

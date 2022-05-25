@@ -2046,13 +2046,13 @@ public class Tile: AbstractTile {
             }
         }
 
-        // Military Tactics - To Boost: Build 3 mines
-        if !techs.eurekaTriggered(for: .militaryTactics) {
+        // Apprenticeship - To Boost: Build 3 mines
+        if !techs.eurekaTriggered(for: .apprenticeship) {
             if improvementType == .mine {
-                techs.changeEurekaValue(for: .militaryTactics, change: 1)
+                techs.changeEurekaValue(for: .apprenticeship, change: 1)
 
-                if techs.eurekaValue(for: .militaryTactics) >= 3 {
-                    techs.triggerEureka(for: .militaryTactics, in: gameModel)
+                if techs.eurekaValue(for: .apprenticeship) >= 3 {
+                    techs.triggerEureka(for: .apprenticeship, in: gameModel)
                 }
             }
         }

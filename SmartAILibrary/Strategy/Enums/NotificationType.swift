@@ -28,7 +28,7 @@ public enum NotificationType {
 
     case diplomaticDeclaration // 11 parameter: player?
     case war(leader: LeaderType) // 12
-    case enemyInTerritory(cityName: String) // 13
+    case enemyInTerritory(location: HexPoint, cityName: String) // 13
 
     case unitPromotion(location: HexPoint) // 14
     case unitNeedsOrders(location: HexPoint) // 15
@@ -74,7 +74,7 @@ public enum NotificationType {
         .starving(cityName: "", location: HexPoint.invalid),
         .diplomaticDeclaration,
         .war(leader: LeaderType.none),
-        .enemyInTerritory(cityName: ""),
+        .enemyInTerritory(location: HexPoint.invalid, cityName: ""),
         .unitPromotion(location: HexPoint.invalid),
         .unitNeedsOrders(location: HexPoint.invalid),
         .unitDied(location: HexPoint.invalid),
@@ -243,8 +243,9 @@ extension NotificationType: Codable {
             let leader = try container.decode(LeaderType.self, forKey: .leaderValue)
             self = .war(leader: leader)
         case 13:
+            let location = try container.decode(HexPoint.self, forKey: .locationValue)
             let cityName = try container.decode(String.self, forKey: .cityNameValue)
-            self = .enemyInTerritory(cityName: cityName)
+            self = .enemyInTerritory(location: location, cityName: cityName)
         case 14:
             let location = try container.decode(HexPoint.self, forKey: .locationValue)
             self = .unitPromotion(location: location)
@@ -369,8 +370,9 @@ extension NotificationType: Codable {
             try container.encode(12, forKey: .rawValue)
             try container.encode(leader, forKey: .leaderValue)
 
-        case .enemyInTerritory(cityName: let cityName):
+        case .enemyInTerritory(location: let location, cityName: let cityName):
             try container.encode(13, forKey: .rawValue)
+            try container.encode(location, forKey: .locationValue)
             try container.encode(cityName, forKey: .cityNameValue)
 
         case .unitPromotion(location: let location):
@@ -509,8 +511,9 @@ extension NotificationType: Equatable {
         case (.war, .war):
             return true
 
-        case (.enemyInTerritory(cityName: let lhsCityName), .enemyInTerritory(cityName: let rhsCityName)):
-            return lhsCityName == rhsCityName
+        case (.enemyInTerritory(location: let lhsLocation, cityName: let lhsCityName),
+            .enemyInTerritory(location: let rhsLocation, cityName: let rhsCityName)):
+            return lhsLocation == rhsLocation && lhsCityName == rhsCityName
 
         case (.unitPromotion, .unitPromotion):
             return true
@@ -642,8 +645,10 @@ extension NotificationType: Hashable {
         case .war:
             hasher.combine(12)
 
-        case .enemyInTerritory:
+        case .enemyInTerritory(location: let location, cityName: let cityName):
             hasher.combine(13)
+            hasher.combine(location)
+            hasher.combine(cityName)
 
         case .unitPromotion:
             hasher.combine(14)

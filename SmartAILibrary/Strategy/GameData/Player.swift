@@ -3106,26 +3106,17 @@ public class Player: AbstractPlayer {
         }*/
     }
 
+    // CvPlayerAI::AI_unitUpdate()
     public func unitUpdate(in gameModel: GameModel?) {
 
         // Now its the homeland AI's turn.
         if self.isHuman() {
-            // The homeland AI goes first.
-            self.homelandAI?.findAutomatedUnits(in: gameModel)
             self.homelandAI?.doTurn(in: gameModel)
         } else {
-
             // Now let the tactical AI run.  Putting it after the operations update allows units who have
             // just been handed off to the tactical AI to get a move in the same turn they switch between
-            // AI subsystems
             self.tacticalAI?.doTurn(in: gameModel)
-
-            // Skip homeland AI processing if a barbarian
-            if !self.isBarbarian() && !self.isFreeCity() {
-                // Now its the homeland AI's turn.
-                self.homelandAI?.recruitUnits(in: gameModel)
-                self.homelandAI?.doTurn(in: gameModel)
-            }
+            self.homelandAI?.doTurn(in: gameModel)
         }
     }
 

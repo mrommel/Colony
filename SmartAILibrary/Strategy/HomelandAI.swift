@@ -307,8 +307,34 @@ public class HomelandAI {
     /// Update the AI for units
     func doTurn(in gameModel: GameModel?) {
 
+        guard let gameModel = gameModel else {
+            fatalError("no gameModel given")
+        }
+
         guard let player = self.player else {
             fatalError("no player given")
+        }
+
+        // no homeland for barbarians
+        if player.isBarbarian() {
+            for loopUnitRef in gameModel.units(of: player) {
+
+                guard let loopUnit = loopUnitRef else {
+                    continue
+                }
+
+                if !loopUnit.processedInTurn() {
+                    loopUnit.set(turnProcessed: true)
+                }
+            }
+
+            return
+        }
+
+        if player.isHuman() {
+            self.findAutomatedUnits(in: gameModel)
+        } else {
+            self.recruitUnits(in: gameModel)
         }
 
         // Make sure we have a unit to handle
