@@ -538,6 +538,11 @@ class BarbarianAI: Codable {
 
         for unitTypeLoop in UnitType.all {
 
+            // only barbarian unit types are allowed
+            guard unitTypeLoop.civilization() == .barbarian else {
+                continue
+            }
+
             var valid = false
 
             if let type = unitTypeLoop.unitType(for: .barbarian) {

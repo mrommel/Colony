@@ -185,6 +185,7 @@ public struct DiplomaticDialogView: View {
                     VStack(spacing: 2) {
                         Text("TXT_KEY_DIPLOMACY_ACTION_DECLARE_FRIENDSHIP_TITLE".localized())
                     }
+                    .zIndex(50)
                     .tooltip("TXT_KEY_DIPLOMACY_ACTION_DECLARE_FRIENDSHIP_TOOLTIP".localized())
                 })
                     .buttonStyle(GameButtonStyle())
@@ -200,6 +201,7 @@ public struct DiplomaticDialogView: View {
                         Label("TXT_KEY_DIPLOMACY_ACTION_DELEGATION_SUMMARY".localized())
                             .font(.footnote)
                     }
+                    .zIndex(49)
                     .tooltip("TXT_KEY_DIPLOMACY_ACTION_DELEGATION_TOOLTIP".localized())
                 })
                     .buttonStyle(GameButtonStyle())
@@ -215,6 +217,7 @@ public struct DiplomaticDialogView: View {
                         Label("TXT_KEY_DIPLOMACY_ACTION_DENOUNCE_SUMMARY".localized())
                             .font(.footnote)
                     }
+                    .zIndex(48)
                     .tooltip("TXT_KEY_DIPLOMACY_ACTION_DENOUNCE_TOOLTIP".localized())
                 })
                     .buttonStyle(GameButtonStyle())
@@ -230,6 +233,7 @@ public struct DiplomaticDialogView: View {
                         Label("TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_SUMMARY".localized())
                             .font(.footnote)
                     }
+                    .zIndex(47)
                     .tooltip("TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_TOOLTIP".localized())
                 })
                     .buttonStyle(GameButtonStyle())
@@ -239,9 +243,13 @@ public struct DiplomaticDialogView: View {
                 Button(action: {
                     self.viewModel.makeDealClicked()
                 }, label: {
-                    Text("TXT_KEY_DIPLOMACY_ACTION_MAKE_DEAL_TITLE".localized())
+                    VStack(spacing: 2) {
+                        Text("TXT_KEY_DIPLOMACY_ACTION_MAKE_DEAL_TITLE".localized())
+                    }
+                    .zIndex(46)
+                    .tooltip("TXT_KEY_DIPLOMACY_ACTION_MAKE_DEAL_TOOLTIP".localized())
                 })
-                    .buttonStyle(GameButtonStyle())
+                .buttonStyle(GameButtonStyle())
             }
         }
         .frame(width: 360)

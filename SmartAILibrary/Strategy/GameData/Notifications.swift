@@ -242,6 +242,10 @@ public class NotificationItem: Codable, Equatable {
             gameModel?.userInterface?.showScreen(screenType: .cityStates, city: nil, other: nil, data: nil)
             self.dismiss(in: gameModel)
 
+        case .enemyInTerritory(location: let location, cityName: _):
+            gameModel?.userInterface?.focus(on: location)
+            self.dismiss(in: gameModel)
+
         default:
             print("activate \(self.type) not handled")
         }
@@ -423,6 +427,19 @@ public class NotificationItem: Codable, Equatable {
 
         case .envoyEarned:
             return false
+
+        case .enemyInTerritory(location: let location, cityName: _):
+            guard let currentPlayer = player else {
+                fatalError("cant get player")
+            }
+
+            for unit in gameModel.units(at: location) {
+                if currentPlayer.isAtWar(with: unit?.player) {
+                    return false
+                }
+            }
+
+            return true
 
         default:
             return false

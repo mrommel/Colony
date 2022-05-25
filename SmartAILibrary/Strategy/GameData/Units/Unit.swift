@@ -2229,7 +2229,7 @@ public class Unit: AbstractUnit {
 
                 if plotOwner.isEqual(to: gameModel.humanPlayer()) {
                     let cityName = newPlot.workingCity()?.name ?? "-"
-                    plotOwner.notifications()?.add(notification: .enemyInTerritory(cityName: cityName))
+                    plotOwner.notifications()?.add(notification: .enemyInTerritory(location: newLocation, cityName: cityName))
                 }
             }
         }

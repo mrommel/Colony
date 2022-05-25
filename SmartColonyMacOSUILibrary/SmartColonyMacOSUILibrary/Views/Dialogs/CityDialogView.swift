@@ -36,22 +36,22 @@ struct CityDialogView: View {
 
                     HStack(alignment: .center) {
                         YieldValueView(viewModel: self.viewModel.scienceYieldViewModel)
-                            .zIndex(50)
+                            .zIndex(600)
 
                         YieldValueView(viewModel: self.viewModel.cultureYieldViewModel)
-                            .zIndex(50)
+                            .zIndex(600)
 
                         YieldValueView(viewModel: self.viewModel.foodYieldViewModel)
-                            .zIndex(50)
+                            .zIndex(600)
 
                         YieldValueView(viewModel: self.viewModel.productionYieldViewModel)
-                            .zIndex(50)
+                            .zIndex(600)
 
                         YieldValueView(viewModel: self.viewModel.goldYieldViewModel)
-                            .zIndex(50)
+                            .zIndex(600)
 
                         YieldValueView(viewModel: self.viewModel.faithYieldViewModel)
-                            .zIndex(50)
+                            .zIndex(600)
                     }
 
                     Divider()

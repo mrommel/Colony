@@ -510,6 +510,10 @@ open class GameModel: Codable {
                                                 continue
                                             }
 
+                                            guard unit.readyToMove() else {
+                                                continue
+                                            }
+
                                             print("GAME HANG - unit of \(player.leader.name()) has no orders: \(unit.name()) at \(unit.location)")
                                         }
                                         // debug

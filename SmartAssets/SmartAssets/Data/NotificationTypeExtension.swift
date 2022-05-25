@@ -226,7 +226,7 @@ extension NotificationType {
             return "TXT_KEY_NOTIFICATION_DECLARE_WAR_SUMMARY"
                 .localizedWithFormat(with: [leader.name().localized()])
 
-        case .enemyInTerritory(cityName: let cityName):
+        case .enemyInTerritory(location: _, cityName: let cityName):
             return "TXT_KEY_NOTIFICATION_ENEMY_IN_TERRITORY_SUMMARY"
                 .localizedWithFormat(with: [cityName])
 
