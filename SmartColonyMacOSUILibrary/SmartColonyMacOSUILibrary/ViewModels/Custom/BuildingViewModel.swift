@@ -26,6 +26,7 @@ final class BuildingViewModel: QueueViewModel, Codable {
         case uuid
         case buildingType
         case turns
+        case gold
         case index
         case showYields
         case active
@@ -33,6 +34,7 @@ final class BuildingViewModel: QueueViewModel, Codable {
 
     let buildingType: BuildingType
     let turns: Int
+    let gold: Int
     let index: Int
     let showYields: Bool
 
@@ -47,6 +49,20 @@ final class BuildingViewModel: QueueViewModel, Codable {
 
         self.buildingType = buildingType
         self.turns = turns
+        self.gold = -1
+        self.showYields = showYields
+        self.index = index
+        self.active = active
+        self.toolTip = buildingType.toolTip()
+
+        super.init(queueType: .building)
+    }
+
+    init(buildingType: BuildingType, gold: Int, active: Bool = true, showYields: Bool = false, at index: Int = -1) {
+
+        self.buildingType = buildingType
+        self.turns = -1
+        self.gold = gold
         self.showYields = showYields
         self.index = index
         self.active = active
@@ -61,6 +77,7 @@ final class BuildingViewModel: QueueViewModel, Codable {
 
         self.buildingType = try container.decode(BuildingType.self, forKey: .buildingType)
         self.turns = try container.decode(Int.self, forKey: .turns)
+        self.gold = try container.decode(Int.self, forKey: .gold)
         self.index = try container.decode(Int.self, forKey: .index)
         self.showYields = try container.decode(Bool.self, forKey: .showYields)
         self.active = try container.decode(Bool.self, forKey: .active)
@@ -78,6 +95,7 @@ final class BuildingViewModel: QueueViewModel, Codable {
         try container.encode(self.uuid, forKey: .uuid)
         try container.encode(self.buildingType, forKey: .buildingType)
         try container.encode(self.turns, forKey: .turns)
+        try container.encode(self.gold, forKey: .gold)
         try container.encode(self.index, forKey: .index)
         try container.encode(self.showYields, forKey: .showYields)
         try container.encode(self.active, forKey: .active)
@@ -95,20 +113,36 @@ final class BuildingViewModel: QueueViewModel, Codable {
 
     func turnsText() -> String {
 
-        if self.turns == -1 {
-            return ""
+        if self.turns != -1 {
+            return "\(self.turns)"
         }
 
-        return "\(self.turns)"
+        if self.gold != -1 {
+            return "\(self.gold)"
+        }
+
+        /* if self.faith != -1 {
+            return "\(self.faith)"
+        } */
+
+        return ""
     }
 
     func turnsIcon() -> NSImage {
 
-        if self.turns == -1 {
-            return NSImage()
+        if self.turns != -1 {
+            return Globals.Icons.turns
         }
 
-        return Globals.Icons.turns
+        if self.gold != -1 {
+            return Globals.Icons.gold
+        }
+
+        /* if self.faith != -1 {
+            return Globals.Icons.faith
+        } */
+
+        return NSImage()
     }
 
     func background() -> NSImage {

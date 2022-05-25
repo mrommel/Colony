@@ -32,32 +32,29 @@ struct CityDialogView: View {
 
                 VStack(spacing: 10) {
 
-                    Text("Population: \(self.viewModel.population)")
+                    Text("TXT_KEY_CITY_POPULATION_COUNT".localizedWithFormat(with: [self.viewModel.population]))
 
                     HStack(alignment: .center) {
                         YieldValueView(viewModel: self.viewModel.scienceYieldViewModel)
-                            .zIndex(600)
 
                         YieldValueView(viewModel: self.viewModel.cultureYieldViewModel)
-                            .zIndex(600)
 
                         YieldValueView(viewModel: self.viewModel.foodYieldViewModel)
-                            .zIndex(600)
 
                         YieldValueView(viewModel: self.viewModel.productionYieldViewModel)
-                            .zIndex(600)
 
                         YieldValueView(viewModel: self.viewModel.goldYieldViewModel)
-                            .zIndex(600)
 
                         YieldValueView(viewModel: self.viewModel.faithYieldViewModel)
-                            .zIndex(600)
                     }
+                    .zIndex(600)
 
                     Divider()
+                        .zIndex(500)
 
                     self.detailView
                         .frame(width: 700, height: 300, alignment: .top)
+                        .zIndex(500)
 
                     Spacer(minLength: 0)
 
@@ -76,13 +73,14 @@ struct CityDialogView: View {
                             })
                         }
                     }
+                    .zIndex(400)
 
                     Divider()
 
                     Button(action: {
                         self.viewModel.closeDialog()
                     }, label: {
-                        Text("Cancel")
+                        Text("TXT_KEY_CANCEL".localized())
                     })
                     .padding(.bottom, 8)
                 }
