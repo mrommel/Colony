@@ -912,7 +912,7 @@ public class BuilderTaskingAI {
             let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
             // let path = astar.shortestPath(fromTileCoord: unit.location, toTileCoord: tile.point)
-            let result = pathFinder.turnsToReachTarget(for: unit, to: tile.point)
+            let result = pathFinder.turnsToReachTarget(for: unit, to: tile.point, in: gameModel)
             if result == Int.max {
                 return -1
             }

@@ -199,7 +199,7 @@ class NavalBombardmentOperation: NavalOperation {
 
                                 if adjacentPlot.terrain() == .shore {
 
-                                    let turns = pathFinder.turnsToReachTarget(for: initialUnit, to: adjacentPlot.point)
+                                    let turns = pathFinder.turnsToReachTarget(for: initialUnit, to: adjacentPlot.point, in: gameModel)
 
                                     if turns < Int.max && turns < bestTurns {
 

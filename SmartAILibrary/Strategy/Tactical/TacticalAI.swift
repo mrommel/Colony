@@ -5972,7 +5972,7 @@ public class TacticalAI: Codable {
                                 canEnterOcean: self.player!.canEnterOcean()
                             )
                             let pathFinder = AStarPathfinder(with: pathFinderDataSource)
-                            let moves = pathFinder.turnsToReachTarget(for: loopUnit, to: target.point)
+                            let moves = pathFinder.turnsToReachTarget(for: loopUnit, to: target.point, in: gameModel)
 
                             if moves != Int.max && (turnsAway == -1 || (turnsAway == 0 && loopUnit.location == target.point) || moves <= turnsAway) {
 

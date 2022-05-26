@@ -303,19 +303,19 @@ public class AStarPathfinder {
     /// How many turns will it take a unit to get to a target plot (returns MAX_INT if can't reach at all; returns 0 if makes it in 1 turn and has movement left)
     // Should call it with bIgnoreStacking true if want foolproof way to see if can make it in 0 turns (since that way doesn't open
     // open the 2nd layer of the pathfinder)
-    func turnsToReachTarget(for unit: AbstractUnit?, to target: HexPoint) -> Int {
+    func turnsToReachTarget(for unit: AbstractUnit?, to target: HexPoint, in gameModel: GameModel?) -> Int {
 
         guard let unit = unit else {
             fatalError("cant get unit")
         }
 
-        guard unit.moves() > 0 else {
+        guard unit.maxMoves(in: gameModel) > 0 else {
             return Int.max
         }
 
         if let path = self.shortestPath(fromTileCoord: unit.location, toTileCoord: target) {
             let cost = path.cost
-            return Int(cost) / unit.moves()
+            return Int(cost) / unit.maxMoves(in: gameModel)
         }
 
         return Int.max

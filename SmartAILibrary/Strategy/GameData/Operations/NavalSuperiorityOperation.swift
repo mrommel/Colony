@@ -185,7 +185,7 @@ class NavalSuperiorityOperation: NavalOperation {
                         break
                     }
 
-                    let turnsCalculated = pathFinder.turnsToReachTarget(for: unit, to: plot)
+                    let turnsCalculated = pathFinder.turnsToReachTarget(for: unit, to: plot, in: gameModel)
 
                     if turnsCalculated != Int.max {
 
@@ -203,7 +203,7 @@ class NavalSuperiorityOperation: NavalOperation {
                     }
                 } else {
 
-                    let turnsCalculated = pathFinder.turnsToReachTarget(for: unit, to: plot)
+                    let turnsCalculated = pathFinder.turnsToReachTarget(for: unit, to: plot, in: gameModel)
 
                     if turnsCalculated != Int.max {
 
