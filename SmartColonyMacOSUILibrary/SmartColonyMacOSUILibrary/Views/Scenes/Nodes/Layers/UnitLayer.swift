@@ -431,10 +431,6 @@ class UnitLayer: SKNode {
                     if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: hex) {
 
                         unitObject.move(on: path)
-                        /*unitObject.showWalk(on: path, completion: {
-                            unitObject.showIdle()
-                        })*/
-
                         return
                     }
                 }

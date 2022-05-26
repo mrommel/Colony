@@ -309,6 +309,10 @@ public class AStarPathfinder {
             fatalError("cant get unit")
         }
 
+        guard unit.moves() > 0 else {
+            return Int.max
+        }
+
         if let path = self.shortestPath(fromTileCoord: unit.location, toTileCoord: target) {
             let cost = path.cost
             return Int(cost) / unit.moves()
