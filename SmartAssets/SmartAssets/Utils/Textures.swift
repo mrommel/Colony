@@ -198,6 +198,10 @@ public class Textures {
             return true
         }
 
+        if feature == .mountEverest || feature == .mountKilimanjaro {
+            return true
+        }
+
         return false
     }
 
