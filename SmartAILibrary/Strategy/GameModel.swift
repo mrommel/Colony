@@ -222,7 +222,7 @@ open class GameModel: Codable {
 
         self.doUpdateDiplomaticVictory()
 
-        // sight embassies & delegations
+        // sight for embassies & delegations
         for player in self.players {
 
             for loopPlayer in self.players {
@@ -231,7 +231,7 @@ open class GameModel: Codable {
                     continue
                 }
 
-                if player.hasEmbassy(with: loopPlayer) || player.hasSentDelegation(with: loopPlayer) {
+                if player.hasEmbassy(with: loopPlayer) || player.hasSentDelegation(to: loopPlayer) {
 
                     guard let capital = self.capital(of: loopPlayer) else {
                         print("cant get capital of other player")

@@ -109,7 +109,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     func isOpenBordersTradingAllowed() -> Bool
     func hasEmbassy(with otherPlayer: AbstractPlayer?) -> Bool
-    func hasSentDelegation(with otherPlayer: AbstractPlayer?) -> Bool
+    func hasSentDelegation(to otherPlayer: AbstractPlayer?) -> Bool
     func isAllowsOpenBorders(with otherPlayer: AbstractPlayer?) -> Bool
     func isAllowEmbassyTradingAllowed() -> Bool
 
@@ -1097,13 +1097,13 @@ public class Player: AbstractPlayer {
         return diplomacyAI.hasEmbassy(with: otherPlayer)
     }
 
-    public func hasSentDelegation(with otherPlayer: AbstractPlayer?) -> Bool {
+    public func hasSentDelegation(to otherPlayer: AbstractPlayer?) -> Bool {
 
         guard let diplomacyAI = self.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
 
-        return diplomacyAI.hasSentDelegation(with: otherPlayer)
+        return diplomacyAI.hasSentDelegation(to: otherPlayer)
     }
 
     public func isAllowsOpenBorders(with otherPlayer: AbstractPlayer?) -> Bool {
