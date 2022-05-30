@@ -4312,6 +4312,13 @@ public class City: AbstractCity {
                 techs.triggerEureka(for: .shipBuilding, in: gameModel)
             }
         }
+
+        // economics - build 2 banks
+        if !techs.eurekaTriggered(for: .economics) {
+            if player.numberBuildings(of: .bank, in: gameModel) >= 2 {
+                techs.triggerEureka(for: .economics, in: gameModel)
+            }
+        }
     }
 
     public func doSpawn(greatPerson: GreatPerson, in gameModel: GameModel?) {

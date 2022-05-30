@@ -47,7 +47,7 @@ public enum BuildingType: Int, Codable {
     // renaissance
     case renaissanceWalls // https://civilization.fandom.com/wiki/Renaissance_Walls_(Civ6)
     case shipyard // https://civilization.fandom.com/wiki/Shipyard_(Civ6)
-    // case bank // https://civilization.fandom.com/wiki/Bank_(Civ6)
+    case bank // https://civilization.fandom.com/wiki/Bank_(Civ6)
     // case artMuseum // https://civilization.fandom.com/wiki/Art_Museum_(Civ6)
     // case archaeologicalMuseum // https://civilization.fandom.com/wiki/Archaeological_Museum_(Civ6)
 
@@ -998,6 +998,37 @@ public enum BuildingType: Int, Codable {
                     Flavor(type: .militaryTraining, value: 7)
                 ]
             )
+
+        case .bank:
+            // https://civilization.fandom.com/wiki/Bank_(Civ6)
+            return BuildingTypeData(
+                name: "Bank",
+                effects: [
+                    "+5 [Gold] Gold (boosted by Free Market Policy Card)",
+                    "+1 [Citizen] Citizen slot",
+                    "+1 [GreatMerchant] Great Merchant point per turn",
+                    "+4 [Gold] Gold with each Trade City-States with 6 [Envoy] Envoys"
+                    // "+2 Great Works Slots for any type with Great Merchant Giovanni de' Medici activated." // #
+                ],
+                category: .economic,
+                era: .renaissance,
+                district: .commercialHub,
+                requiredTech: .banking,
+                requiredCivic: nil,
+                requiredBuildingsOr: [],
+                obsoleteBuildingsOr: [],
+                productionCost: 290,
+                goldCost: 290,
+                faithCost: -1,
+                maintenanceCost: 0,
+                yields: Yields(food: 0, production: 0, gold: 5),
+                defense: 0,
+                slots: [],
+                specialSlots: SpecialistSlots(type: .merchant, amount: 1),
+                flavours: [
+                    Flavor(type: .gold, value: 8)
+                ]
+            )
         }
     }
 
@@ -1038,6 +1069,7 @@ public enum BuildingType: Int, Codable {
         case .renaissanceWalls: return true
         case .shipyard: return true
         case .armory: return true
+        case .bank: return true
         }
     }
 }

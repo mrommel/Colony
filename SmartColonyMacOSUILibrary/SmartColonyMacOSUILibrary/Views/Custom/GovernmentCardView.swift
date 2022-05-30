@@ -33,11 +33,12 @@ struct GovernmentCardView: View {
 
                 HStack {
 
-                    ForEach(self.viewModel.cardImages(), id: \.self) { cardImage in
+                    ForEach(Array(self.viewModel.cardImages().enumerated()), id: \.offset) { index, cardImage in
                         Image(nsImage: cardImage)
                             .resizable()
                             .frame(width: 36, height: 36, alignment: .topLeading)
                             .padding(.leading, -15)
+                            .id(index)
                     }
                 }
                 .padding(.top, 20)

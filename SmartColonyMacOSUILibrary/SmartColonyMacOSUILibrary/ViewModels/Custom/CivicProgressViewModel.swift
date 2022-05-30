@@ -145,7 +145,10 @@ class CivicProgressViewModel: ObservableObject {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: "header-button-governors",
-                    toolTipText: NSAttributedString(string: "TXT_KEY_GOVERNOR_TITLE".localized())
+                    toolTipText: NSAttributedString(
+                        string: "TXT_KEY_GOVERNOR_TITLE".localized(),
+                        attributes: Globals.Attributs.tooltipTitleAttributs
+                    )
                 )
             )
         }
@@ -162,7 +165,10 @@ class CivicProgressViewModel: ObservableObject {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: "envoy",
-                    toolTipText: NSAttributedString(string: toolTipText)
+                    toolTipText: NSAttributedString(
+                        string: toolTipText,
+                        attributes: Globals.Attributs.tooltipTitleAttributs
+                    )
                 )
             )
         }

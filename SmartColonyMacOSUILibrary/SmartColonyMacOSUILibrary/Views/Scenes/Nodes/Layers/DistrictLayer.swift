@@ -216,9 +216,9 @@ class DistrictLayer: BaseLayer {
             return nil
 
         case .commercialHub:
-            /*if city.has(building: .bank) {
+            if city.has(building: .bank) {
                 return "district-commercialHub-bank"
-            }*/
+            }
 
             return nil
 

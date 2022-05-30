@@ -293,6 +293,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     // buildings / districts
     func canPurchaseInAnyCity(building: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
     func numberOfDistricts(of districtType: DistrictType, in gameModel: GameModel?) -> Int
+    func numberBuildings(of buildingType: BuildingType, in gameModel: GameModel?) -> Int
 
     // religion
     func faithPurchaseType() -> FaithPurchaseType
@@ -6546,6 +6547,28 @@ public class Player: AbstractPlayer {
         }
 
         return numberOfDistricts
+    }
+
+    public func numberBuildings(of buildingType: BuildingType, in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var numberOfBuildings = 0
+
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(building: buildingType) {
+                numberOfBuildings += 1
+            }
+        }
+
+        return numberOfBuildings
     }
 
     // MARK: religion methods

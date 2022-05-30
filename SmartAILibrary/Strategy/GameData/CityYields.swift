@@ -164,6 +164,12 @@ extension City {
             greatPeoplePoints.greatGeneral += 1
         }
 
+        // market
+        if buildings.has(building: .bank) {
+            // +1 Great Merchant point per turn
+            greatPeoplePoints.greatMerchant += 1
+        }
+
         return greatPeoplePoints
     }
 
@@ -1454,12 +1460,12 @@ extension City {
 
         for effect in effects {
 
-            // +4 Gold Gold in the Capital Capital.
+            // +4 Gold in the Capital Capital.
             if effect.isEqual(category: .trade, at: .first) && self.capitalValue {
                 goldFromEnvoys += 4.0
             }
 
-            // +2 Gold Gold in every Market and Lighthouse building.
+            // +2 Gold in every Market and Lighthouse building.
             if effect.isEqual(category: .trade, at: .third) {
                 if self.has(building: .market) {
                     goldFromEnvoys += 2.0
@@ -1470,12 +1476,11 @@ extension City {
                 }
             }
 
-            // +2 Gold Gold in every Bank and Shipyard building.
+            // +2 Gold in every Bank and Shipyard building.
             if effect.cityState.category() == .trade && effect.level == .sixth {
-                fatalError("not handled")
-                /*if self.has(building: .bank) {
+                if self.has(building: .bank) {
                     goldFromEnvoys += 2.0
-                }*/
+                }
 
                 if self.has(building: .shipyard) {
                     goldFromEnvoys += 2.0

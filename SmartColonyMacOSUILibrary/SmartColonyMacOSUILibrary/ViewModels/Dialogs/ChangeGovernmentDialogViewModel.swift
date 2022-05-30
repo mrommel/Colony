@@ -9,7 +9,9 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
-class ChangeGovernmentSectionViewModel {
+class ChangeGovernmentSectionViewModel: Identifiable {
+
+    let id: UUID = UUID()
 
     let era: EraType
     let governmentCardViewModels: [GovernmentCardViewModel]
@@ -30,12 +32,13 @@ extension ChangeGovernmentSectionViewModel: Hashable {
 
     static func == (lhs: ChangeGovernmentSectionViewModel, rhs: ChangeGovernmentSectionViewModel) -> Bool {
 
-        return lhs.era == rhs.era
+        return lhs.era == rhs.era && lhs.id == rhs.id
     }
 
     func hash(into hasher: inout Hasher) {
 
         hasher.combine(self.era)
+        hasher.combine(self.id)
     }
 }
 

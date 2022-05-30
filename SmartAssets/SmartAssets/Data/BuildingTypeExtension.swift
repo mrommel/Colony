@@ -63,6 +63,7 @@ extension BuildingType {
             // renaissance
         case .renaissanceWalls: return "building-renaissanceWalls"
         case .shipyard: return "building-shipyard"
+        case .bank: return "building-bank"
 
             //
         }
