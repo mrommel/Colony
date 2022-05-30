@@ -120,7 +120,7 @@ class CityStateViewModel: ObservableObject {
     func bonusText1() -> NSAttributedString {
 
         return NSAttributedString(
-            string: self.cityState.bonus(for: .first),
+            string: self.cityState.bonus(for: .first).localized(),
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
     }
@@ -135,7 +135,7 @@ class CityStateViewModel: ObservableObject {
     func bonusText3() -> NSAttributedString {
 
         return NSAttributedString(
-            string: self.cityState.bonus(for: .third),
+            string: self.cityState.bonus(for: .third).localized(),
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
     }
@@ -150,7 +150,7 @@ class CityStateViewModel: ObservableObject {
     func bonusText6() -> NSAttributedString {
 
         return NSAttributedString(
-            string: self.cityState.bonus(for: .sixth),
+            string: self.cityState.bonus(for: .sixth).localized(),
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
     }
@@ -163,12 +163,12 @@ class CityStateViewModel: ObservableObject {
     func suzerainText() -> NSAttributedString {
 
         return NSAttributedString(
-            string: self.cityState.bonus(for: .suzerain),
+            string: self.cityState.bonus(for: .suzerain).localized(),
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
     }
 
-    func jumpToImage() -> NSImage {
+    func centerImage() -> NSImage {
 
         return ImageCache.shared.image(for: "jump-to")
     }
@@ -176,6 +176,14 @@ class CityStateViewModel: ObservableObject {
     func centerClicked() {
 
         self.delegate?.center(on: self.cityState)
+    }
+
+    func centerText() -> NSAttributedString {
+
+        return NSAttributedString(
+            string: "TXT_KEY_CITY_STATE_CENTER".localizedWithFormat(with: [self.cityState.name().localized()]),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
     }
 }
 

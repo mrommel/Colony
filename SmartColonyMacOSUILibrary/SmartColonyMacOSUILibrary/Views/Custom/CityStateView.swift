@@ -97,13 +97,15 @@ struct CityStateView: View {
             }
             .frame(width: 42, height: 24)
 
-            Image(nsImage: self.viewModel.jumpToImage())
+            Image(nsImage: self.viewModel.centerImage())
                 .resizable()
                 .frame(width: 24, height: 24)
                 .padding(.trailing, 6)
                 .onTapGesture {
                     self.viewModel.centerClicked()
                 }
+                .zIndex(self.zIndexValue)
+                .tooltip(self.viewModel.centerText())
         }
         .frame(width: 340, height: 32)
         .background(
