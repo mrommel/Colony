@@ -97,7 +97,7 @@ public enum BuildingType: Int, Codable {
             .medievalWalls, .workshop, .armory,
 
             // renaissance
-            .renaissanceWalls, .shipyard
+            .renaissanceWalls, .shipyard, .bank
 
             // industrial
 
@@ -300,11 +300,10 @@ public enum BuildingType: Int, Codable {
         case .ancientWalls:
             // https://civilization.fandom.com/wiki/Ancient_Walls_(Civ6)
             return BuildingTypeData(
-                name: "Ancient Walls",
+                name: "TXT_KEY_BUILDING_ANCIENT_WALL_TITLE",
                 effects: [
-                    "Provides Walls around the City Center and Encampment districts that allow " +
-                        "Ranged Strikes from their location. Must be defeated before a city can be assaulted.",
-                    "+100 Outer Defense Strength"
+                    "TXT_KEY_BUILDING_ANCIENT_WALL_EFFECT0",
+                    "TXT_KEY_BUILDING_ANCIENT_WALL_EFFECT1"
                 ],
                 category: .defensive,
                 era: .ancient,
@@ -334,14 +333,15 @@ public enum BuildingType: Int, Codable {
         case .barracks:
             // https://civilization.fandom.com/wiki/Barracks_(Civ6)
             return BuildingTypeData(
-                name: "Barracks",
+                name: "TXT_KEY_BUILDING_BARRACKS_TITLE",
                 effects: [
-                    "+25% combat experience for all melee, ranged and anti-cavalry land units trained in this city.",
-                    "May not be built in an Encampment district that already has a Stable.",
-                    "+1 [Production] Production",
-                    "+1 [Housing] Housing",
-                    "+1 [Citizen] Citizen slot",
-                    "+1 [GreatGeneral] Great General point per turn"],
+                    "TXT_KEY_BUILDING_BARRACKS_EFFECT0",
+                    "TXT_KEY_BUILDING_BARRACKS_EFFECT1",
+                    "TXT_KEY_BUILDING_BARRACKS_EFFECT2",
+                    "TXT_KEY_BUILDING_BARRACKS_EFFECT3",
+                    "TXT_KEY_BUILDING_BARRACKS_EFFECT4",
+                    "TXT_KEY_BUILDING_BARRACKS_EFFECT5"
+                ],
                 category: .military,
                 era: .ancient,
                 district: .encampment,

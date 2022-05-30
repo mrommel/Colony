@@ -47,6 +47,7 @@
 		C97ACD0327D673A000AD0721 /* CityStateQuestExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97ACD0227D673A000AD0721 /* CityStateQuestExtension.swift */; };
 		C980E77326E0C60F0089053A /* CombatResultTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C980E77226E0C60F0089053A /* CombatResultTypeExtension.swift */; };
 		C98115E327F9868F00BFA5FD /* caravane-idle.slp in Resources */ = {isa = PBXBuildFile; fileRef = C98115E127F9866900BFA5FD /* caravane-idle.slp */; };
+		C985037F28454D9A0074A025 /* Buildings.strings in Resources */ = {isa = PBXBuildFile; fileRef = C985037E28454D990074A025 /* Buildings.strings */; };
 		C988EAE7261B916800300C39 /* Units.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C988EAE6261B916800300C39 /* Units.xcassets */; };
 		C98E68B12577D28E00BD93CA /* FeatureTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E68AE2577D28E00BD93CA /* FeatureTypeExtension.swift */; };
 		C98E68B22577D28E00BD93CA /* ResourceTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E68AF2577D28E00BD93CA /* ResourceTypeExtension.swift */; };
@@ -199,6 +200,7 @@
 		C97ACD0227D673A000AD0721 /* CityStateQuestExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityStateQuestExtension.swift; sourceTree = "<group>"; };
 		C980E77226E0C60F0089053A /* CombatResultTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatResultTypeExtension.swift; sourceTree = "<group>"; };
 		C98115E127F9866900BFA5FD /* caravane-idle.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "caravane-idle.slp"; sourceTree = "<group>"; };
+		C985037E28454D990074A025 /* Buildings.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Buildings.strings; sourceTree = "<group>"; };
 		C988EAE6261B916800300C39 /* Units.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Units.xcassets; sourceTree = "<group>"; };
 		C98E68AE2577D28E00BD93CA /* FeatureTypeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureTypeExtension.swift; sourceTree = "<group>"; };
 		C98E68AF2577D28E00BD93CA /* ResourceTypeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTypeExtension.swift; sourceTree = "<group>"; };
@@ -492,6 +494,7 @@
 				C970A5F52794876300381603 /* Wonders.strings */,
 				C92D6B8D27D9D88A002EA5C5 /* Diplomacy.strings */,
 				C9C1699827DCF61000E61088 /* Leaders.strings */,
+				C985037E28454D990074A025 /* Buildings.strings */,
 			);
 			path = Strings;
 			sourceTree = "<group>";
@@ -665,6 +668,7 @@
 				C9A25C1427023BD50071B186 /* prophet.png in Resources */,
 				C9A09848261CB6930098C5E1 /* spearman.png in Resources */,
 				C9E80CD227C7CCE60048216B /* AOE1_50500.pal in Resources */,
+				C985037F28454D9A0074A025 /* Buildings.strings in Resources */,
 				C9A09847261CB6930098C5E1 /* horseman.png in Resources */,
 				C932BA842774AC4E00F4640D /* Dedications.strings in Resources */,
 				C9A0984F261CB6930098C5E1 /* long_swordman.png in Resources */,

@@ -1,0 +1,161 @@
+/* 
+  Buildings.strings
+  SmartAssets
+
+  Created by Michael Rommel on 30.05.22.
+  
+*/
+
+// "TXT_KEY_BUILDING__TITLE" = "";
+
+// ancientWalls
+"TXT_KEY_BUILDING_ANCIENT_WALL_TITLE" = "Ancient Walls";
+"TXT_KEY_BUILDING_ANCIENT_WALL_EFFECT0" = "Provides Walls around the City Center and Encampment districts that allow Ranged Strikes from their location. Must be defeated before a city can be assaulted.";
+"TXT_KEY_BUILDING_ANCIENT_WALL_EFFECT1" = "+100 Outer Defense Strength";
+
+// barracks
+"TXT_KEY_BUILDING_BARRACKS_TITLE" = "Barracks";
+"TXT_KEY_BUILDING_BARRACKS_EFFECT0" = "+25% combat experience for all melee, ranged and anti-cavalry land units trained in this city.";
+"TXT_KEY_BUILDING_BARRACKS_EFFECT1" = "May not be built in an Encampment district that already has a Stable.";
+"TXT_KEY_BUILDING_BARRACKS_EFFECT2" = "+1 [Production] Production";
+"TXT_KEY_BUILDING_BARRACKS_EFFECT3" = "+1 [Housing] Housing";
+"TXT_KEY_BUILDING_BARRACKS_EFFECT4" = "+1 [Citizen] Citizen slot";
+"TXT_KEY_BUILDING_BARRACKS_EFFECT5" = "+1 [GreatGeneral] Great General point per turn";
+
+/*
+// granary
+"Granary",
+"+1 [Food] Food",
+"+2 [Housing] Housing"
+
+// grove
+"Grove",
+"+1 [Food] Food and [Faith] Faith to adjacent unimproved tiles with Charming Appeal",
+"+2 [Food] Food, [Faith] Faith and [Culture] Culture for adjacent unimproved tiles with Breathtaking Appeal"
+
+// library
+"Library",
+"+2 [Science] Science",
+"+1 [Citizen] Citizen slot",
+"+1 [GreatScientist] Great Scientist point per turn"
+
+// monument
+"Monument",
+"+2 [Culture] Culture",
+"+1 Loyalty",
+"+1 [Culture] Culture if city is at maximum Loyalty."
+
+// palace
+"Palace",
+"+1 [Culture] Culture",
+"+5 [Gold] Gold",
+"+2 [Production] Production"
+"+2 [Science] Science",
+"+1 [Housing] Housing",
+"+2 Amenity from entertainment"
+
+// shrine
+"Shrine",
+"+2 [Faith] Faith",
+"+1 [Citizen] Citizen slot",
+"+1 [GreatProphet] Great Prophet point per turn.",
+"Allows the purchasing of Missionaries with Faith." // #
+
+// waterMill
+"Water Mill",
+"+1 [Food] Food",
+"+1 [Production] Production",
+"Bonus resources improved by Farms gain +1 [Food] Food each." // #
+
+// classical
+
+// amphitheater
+"Amphitheater",
+"+2 [Culture] Culture",
+"+1 [Citizen] Citizen slot",
+"+1 [GreatWriter] Great Writer point per turn",
+"+2 Great Work of Writing slot"
+
+// lighthouse
+"Lighthouse",
+"+25% combat experience for all naval units trained in this city.",
+"+1 [Food] Food",
+"+1 [Gold] Gold",
+"+1 [Housing] Housing (+2 additional Housing if City Center is adjacent to Coast)",
+"+1 [Citizen] Citizen slot",
+"+1 [GreatAdmiral] Great Admiral point per turn"
+
+// stable
+"Stable",
+"+25% combat experience for all cavalry and siege class units trained in this city.",
+"May not be built in an Encampment district that already has a Barracks",
+"+1 Production Production",
+"+1 [Housing] Housing",
+"+1 [Citizen] Citizen slot",
+"+1 [GreatGeneral] Great General point per turn"
+
+// arena
+"Arena",
+"+2 Amenities",
+"+1 [Culture] Culture",
+"+1 [Tourism] Tourism (with Conservation)"
+
+// market
+"Market",
+"+3 [Gold] Gold",
+"+1 [Citizen] Citizen slot",
+"+1 [GreatMerchant] Great Merchant point per turn"
+
+// temple
+"Temple",
+"+4 [Faith] Faith",
+"+1 [Citizen] Citizen slot",
+"+1 [GreatProphet] Great Prophet point per turn",
+"+1 [Relic] Relic slot",
+"Allows the purchasing of Apostles, Gurus, and Inquisitors (after an Apostle uses its Launch Inquisition ability) with Faith Faith."
+
+// --------------------------------------
+// medieval
+
+// medievalWalls
+"Medieval Walls",
+"+100 Outer Defense Strength",
+"+2 [Housing] Housing under the Monarchy Government." // #
+
+// workshop
+"Workshop",
+"+3 [Production] Production",
+"+1 [Citizen] Citizen slot",
+"+1 [GreatEngineer] Great Engineer point per turn"
+
+// armory
+"Armory",
+"+2 [Production] Production",
+"+1 [Citizen] Citizen slot"
+"+1 [GreatGeneral] Great General point per turn",
+"+25% combat experience for all military land units trained in this city",
+"Allows training of Military Engineers in this city", // #
+"Strategic Resource stockpiles increased by 10" // #
+
+// --------------------------------------
+// renaissance
+
+// renaissanceWalls
+"Renaissance Walls",
+"+100 Outer Defense Strength"
+
+// shipyard
+"Shipyard",
+"+25% combat experience for all naval units trained in this city.",
+"Bonus Production equal to the adjacency Gold bonus of its district.",
+"+1 [Production] Production to all unimproved Coast and Lake tiles in the city.",
+"+1 [Citizen] Citizen slot",
+"+1 [GreatAdmiral] Great Admiral point per turn"
+
+// bank
+"Bank"
+"+5 [Gold] Gold (boosted by Free Market Policy Card)",
+"+1 [Citizen] Citizen slot",
+"+1 [GreatMerchant] Great Merchant point per turn",
+"+4 [Gold] Gold with each Trade City-States with 6 [Envoy] Envoys"
+*/

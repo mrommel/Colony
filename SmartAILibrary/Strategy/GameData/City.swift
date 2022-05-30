@@ -5404,7 +5404,11 @@ public class City: AbstractCity {
 
             if let loopPlot = gameModel.tile(at: point) {
 
-                if loopPlot.hasOwner() {
+                guard !loopPlot.hasOwner() else {
+                    continue
+                }
+
+                guard !loopPlot.isWorked() else {
                     continue
                 }
 
