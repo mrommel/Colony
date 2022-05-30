@@ -222,6 +222,26 @@ open class GameModel: Codable {
 
         self.doUpdateDiplomaticVictory()
 
+        // sight embassies & delegations
+        for player in self.players {
+
+            for loopPlayer in self.players {
+
+                guard !player.isEqual(to: loopPlayer) else {
+                    continue
+                }
+
+                if player.hasEmbassy(with: loopPlayer) || player.hasSentDelegation(with: loopPlayer) {
+
+                    guard let capital = self.capital(of: loopPlayer) else {
+                        print("cant get capital of other player")
+                        continue
+                    }
+                    self.sight(at: capital.location, sight: 3, for: player)
+                }
+            }
+        }
+
         AStarPathfinderCache.shared.reset()
     }
 

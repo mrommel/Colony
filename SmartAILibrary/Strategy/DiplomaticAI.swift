@@ -2907,7 +2907,7 @@ public class DiplomaticAI: Codable {
             return false
         }
 
-        if self.hasSendDelegation(to: otherPlayer) {
+        if self.hasSentDelegation(to: otherPlayer) {
             return false
         }
 
@@ -2923,13 +2923,13 @@ public class DiplomaticAI: Codable {
         return false
     }
 
-    public func hasSendDelegation(to otherPlayer: AbstractPlayer?) -> Bool {
+    public func hasSentDelegation(to otherPlayer: AbstractPlayer?) -> Bool {
 
         guard let playerDiplomacy = self.player?.diplomacyAI else {
             fatalError("cant get player diplomacyAI")
         }
 
-        return playerDiplomacy.playerDict.hasDelegation(with: otherPlayer)
+        return playerDiplomacy.playerDict.hasSentDelegation(with: otherPlayer)
     }
 
     public func doSendDelegation(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {

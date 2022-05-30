@@ -237,7 +237,7 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
         var tmpRaiseAccessLevelTexts: [String] = []
 
-        if !humanPlayerDiplomacyAI.hasSendDelegation(to: otherPlayer) && !humanPlayerDiplomacyAI.hasEmbassy(with: otherPlayer) {
+        if !humanPlayerDiplomacyAI.hasSentDelegation(to: otherPlayer) && !humanPlayerDiplomacyAI.hasEmbassy(with: otherPlayer) {
             // LOC_VIZSOURCE_ACTION_DELEGATE
             tmpRaiseAccessLevelTexts.append("TXT_KEY_DIPLOMACY_RAISE_ACCESS_LEVEL_ACTION_DELEGATE".localized())
         }
