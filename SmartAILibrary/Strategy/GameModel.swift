@@ -231,6 +231,10 @@ open class GameModel: Codable {
                     continue
                 }
 
+                guard player.hasMet(with: loopPlayer) else {
+                    continue
+                }
+
                 if player.hasEmbassy(with: loopPlayer) || player.hasSentDelegation(to: loopPlayer) {
 
                     guard let capital = self.capital(of: loopPlayer) else {

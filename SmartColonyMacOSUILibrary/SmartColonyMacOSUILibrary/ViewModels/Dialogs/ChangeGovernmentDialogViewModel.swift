@@ -54,6 +54,17 @@ class ChangeGovernmentDialogViewModel: ObservableObject {
         self.update()
     }
 
+    func select(government: GovernmentType) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            return
+        }
+
+        gameModel.humanPlayer()?.government?.set(governmentType: government, in: gameModel)
+
+        self.delegate?.closeDialog()
+    }
+
     func closeDialog() {
 
         self.delegate?.closeDialog()

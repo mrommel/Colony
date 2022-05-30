@@ -2283,8 +2283,8 @@ public class HomelandAI {
             }
 
             // if we can't get there this turn, forget it
-            let path = unit.path(towards: point, options: .none, in: gameModel)
-            if path == nil || path!.count > 1 {
+            let turns = unit.turnsToReach(at: point, in: gameModel)
+            if turns == Int.max || turns > 1 {
                 continue
             }
 

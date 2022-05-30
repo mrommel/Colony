@@ -16,7 +16,7 @@
 "TXT_KEY_CITY_STATE_AVAILABLE_QUEST" = "Available Quest";
 "TXT_KEY_CITY_STATE_REWARD" = "Reward: 1 [Envoy] Envoy";
 "TXT_KEY_CITY_STATE_BONUSES" = "Bonuses";
-"TXT_KEY_CITY_STATE_CENTER" = "Center on %@"
+"TXT_KEY_CITY_STATE_CENTER" = "Center on %@";
 
 "TXT_KEY_CITY_STATE_TITLES" = "City-States";
 "TXT_KEY_CITY_STATE_TITLE" = "City-State";

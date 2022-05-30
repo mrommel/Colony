@@ -65,6 +65,9 @@
 "TXT_KEY_SELECT_LOCATION" = "Select Location";
 "TXT_KEY_CITY_POPULATION_COUNT" = "Population: %d";
 
+// government dialog
+"TXT_KEY_SELECT_GOVERNMENT" = "Select Government";
+
 // raze or liberate dialog
 "TXT_KEY_CITY_RAZE_OR_LIBERATE_TITLE" = "City captured";
 "TXT_KEY_CITY_NAME_LABEL" = "City Name:";

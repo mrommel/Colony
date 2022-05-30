@@ -105,7 +105,7 @@ struct CityStateView: View {
                     self.viewModel.centerClicked()
                 }
                 .zIndex(self.zIndexValue)
-                .tooltip(self.viewModel.centerText())
+                .tooltip(self.viewModel.centerText(), side: .leadingBottom)
         }
         .frame(width: 340, height: 32)
         .background(

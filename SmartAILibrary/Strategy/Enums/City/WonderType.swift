@@ -1151,9 +1151,19 @@ public enum WonderType: Int, Codable {
                 return false
             }
 
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             return tile.terrain() == .desert || tile.has(feature: .floodplains)
 
         case .hangingGardens:
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             // Must be built next to a River.
             return gameModel.river(at: point)
 
@@ -1163,9 +1173,19 @@ public enum WonderType: Int, Codable {
                 return false
             }
 
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             return true
 
         case .stonehenge:
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             // Must be built on flat land adjacent to Stone.
             guard tile.isLand() && !tile.hasHills() else {
                 return false
@@ -1174,6 +1194,11 @@ public enum WonderType: Int, Codable {
             return self.adjacentTo(resource: .stone, on: point, in: gameModel)
 
         case .templeOfArtemis:
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             // Must be built next to a Camp.
             return self.adjacentTo(improvement: .camp, on: point, in: gameModel)
 
@@ -1195,6 +1220,11 @@ public enum WonderType: Int, Codable {
                 return false
             }
 
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             guard self.adjacentTo(building: .library, on: point, in: gameModel) else {
                 return false
             }
@@ -1202,6 +1232,11 @@ public enum WonderType: Int, Codable {
             return self.adjacentTo(district: .campus, on: point, in: gameModel)
 
         case .apadana:
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             // Must be built adjacent to a Capital.
             for player in gameModel.players {
                 for cityRef in gameModel.cities(of: player) {
@@ -1224,6 +1259,11 @@ public enum WonderType: Int, Codable {
                 return false
             }
 
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             guard self.adjacentTo(building: .arena, on: point, in: gameModel) else {
                 return false
             }
@@ -1239,6 +1279,11 @@ public enum WonderType: Int, Codable {
             return self.adjacentTo(district: .harbor, on: point, in: gameModel)
 
         case .jebelBarkal:
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             // Must be built on a Desert Hills tile.
             return tile.terrain() == .desert
 
@@ -1273,11 +1318,21 @@ public enum WonderType: Int, Codable {
                 return false
             }
 
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             return tile.terrain() == .desert || tile.has(feature: .floodplains)
 
         case .terracottaArmy:
             // Must be built on flat Grassland or Plains adjacent to an Encampment district with a Barracks or Stable.
             guard tile.isLand() && !tile.hasHills() else {
+                return false
+            }
+
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
                 return false
             }
 
@@ -1302,6 +1357,11 @@ public enum WonderType: Int, Codable {
                 return false
             }
 
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             guard self.adjacentTo(building: .barracks, on: point, in: gameModel) else {
                 return false
             }
@@ -1314,19 +1374,39 @@ public enum WonderType: Int, Codable {
                 return false
             }
 
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             return self.adjacentTo(district: .encampment, on: point, in: gameModel)
 
         case .angkorWat:
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             // Must be built adjacent to an Aqueduct district.
             return self.adjacentTo(district: .aqueduct, on: point, in: gameModel)
 
         case .chichenItza:
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             // Must be built on Rainforest.
             return tile.has(feature: .rainforest)
 
         case .hagiaSophia:
             // Must be built on flat land adjacent to a Holy Site district, and player must have founded a religion.
             guard !tile.hasHills() && tile.isLand() else {
+                return false
+            }
+
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
                 return false
             }
 
@@ -1338,7 +1418,7 @@ public enum WonderType: Int, Codable {
 
         case .hueyTeocalli:
             // Must be built on a Lake tile adjacent to land.
-            guard !tile.has(feature: .lake) else {
+            guard tile.has(feature: .lake) else {
                 return false
             }
 
@@ -1362,6 +1442,11 @@ public enum WonderType: Int, Codable {
                 return false
             }
 
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             var nextToCoast: Bool = false
 
             for neighbor in point.neighbors() {
@@ -1377,6 +1462,11 @@ public enum WonderType: Int, Codable {
 
             return nextToCoast
         case .kotokuIn:
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             // Must be built adjacent to a Holy Site with a Temple.
             guard self.adjacentTo(district: .holySite, on: point, in: gameModel) else {
                 return false
@@ -1388,6 +1478,11 @@ public enum WonderType: Int, Codable {
 
             return true
         case .meenakshiTemple:
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             // Must be built adjacent to a Holy Site district, and player must have founded a religion.
             guard hasReligion else {
                 return false
@@ -1395,6 +1490,11 @@ public enum WonderType: Int, Codable {
             return self.adjacentTo(district: .holySite, on: point, in: gameModel)
 
         case .montStMichel:
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             // Must be built on Floodplains or Marsh.
             guard tile.has(feature: .floodplains) || tile.has(feature: .marsh) else {
                 return false
@@ -1405,6 +1505,11 @@ public enum WonderType: Int, Codable {
         case .universityOfSankore:
             // Must be built on a Desert or Desert Hill adjacent to a Campus with a University.
             guard tile.terrain() == .desert else {
+                return false
+            }
+
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
                 return false
             }
 
@@ -1419,6 +1524,11 @@ public enum WonderType: Int, Codable {
             return true
 
         case .casaDeContratacion:
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             // Must be built adjacent to a Government Plaza.
             // return self.adjacentTo(district: .governmentPlaza, on: point, in: gameModel)
             return true
@@ -1429,11 +1539,21 @@ public enum WonderType: Int, Codable {
                 return false
             }
 
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             return self.adjacentTo(district: .cityCenter, on: point, in: gameModel)
 
         case .greatZimbabwe:
             // Must be built adjacent to Cattle and a Commercial Hub district with a Market.
             if !self.adjacentTo(resource: .cattle, on: point, in: gameModel) {
+                return false
+            }
+
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
                 return false
             }
 
@@ -1448,6 +1568,11 @@ public enum WonderType: Int, Codable {
             return true
 
         case .potalaPalace:
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             // Must be built on a Hill adjacent to a Mountain.
             guard tile.hasHills() else {
                 return false
@@ -1456,10 +1581,20 @@ public enum WonderType: Int, Codable {
             return self.adjacentTo(feature: .mountains, on: point, in: gameModel)
 
         case .stBasilsCathedral:
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             // Must be built adjacent to a City Center
             return self.adjacentTo(district: .cityCenter, on: point, in: gameModel)
 
         case .tajMahal:
+            // no mountains
+            guard !tile.has(feature: .mountains) else {
+                return false
+            }
+
             // Must be built next to a River.
             return gameModel.river(at: point)
 

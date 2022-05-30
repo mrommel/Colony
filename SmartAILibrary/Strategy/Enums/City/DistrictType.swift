@@ -533,6 +533,16 @@ public enum DistrictType: Int, Codable {
             fatalError("cant get tile")
         }
 
+        // Districts and wonders (except for Machu Picchu) cannot be placed on Mountains tiles.
+        if tile.has(feature: .mountains) {
+            return false
+        }
+
+        // natural wonders cant be used for districts
+        if tile.feature().isNaturalWonder() {
+            return false
+        }
+
         switch self {
 
         case .none: return false

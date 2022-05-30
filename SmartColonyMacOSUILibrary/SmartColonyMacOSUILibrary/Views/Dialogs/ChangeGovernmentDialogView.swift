@@ -23,7 +23,7 @@ struct ChangeGovernmentDialogView: View {
     var body: some View {
         Group {
             VStack(spacing: 10) {
-                Text("Select Government")
+                Text("TXT_KEY_SELECT_GOVERNMENT".localized())
                     .font(.title2)
                     .bold()
                     .padding()
@@ -36,9 +36,12 @@ struct ChangeGovernmentDialogView: View {
 
                             Section(header: Text(sectionViewModel.title()).font(.title)) {
 
-                                ForEach(sectionViewModel.governmentCardViewModels, id: \.self) { governmentCardViewModel in
+                                ForEach(sectionViewModel.governmentCardViewModels) { governmentCardViewModel in
 
                                     GovernmentCardView(viewModel: governmentCardViewModel)
+                                        .onTapGesture {
+                                            self.viewModel.select(government: governmentCardViewModel.governmentType)
+                                        }
                                 }
                             }
                         }
