@@ -147,6 +147,16 @@ extension String {
             )
         }
 
+        if self.starts(with: "TXT_KEY_BUILDING_") {
+            return NSLocalizedString(
+                self,
+                tableName: "Buildings",
+                bundle: Bundle.init(for: Textures.self),
+                value: "",
+                comment: comment ?? ""
+            )
+        }
+
         if self.starts(with: "TXT_KEY_") {
             return NSLocalizedString(
                 self,

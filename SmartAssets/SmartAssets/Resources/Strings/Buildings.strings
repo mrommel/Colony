@@ -6,7 +6,8 @@
   
 */
 
-// "TXT_KEY_BUILDING__TITLE" = "";
+// --------------------------------------
+// ancient
 
 // ancientWalls
 "TXT_KEY_BUILDING_ANCIENT_WALL_TITLE" = "Ancient Walls";
@@ -22,140 +23,140 @@
 "TXT_KEY_BUILDING_BARRACKS_EFFECT4" = "+1 [Citizen] Citizen slot";
 "TXT_KEY_BUILDING_BARRACKS_EFFECT5" = "+1 [GreatGeneral] Great General point per turn";
 
-/*
+
 // granary
-"Granary",
-"+1 [Food] Food",
-"+2 [Housing] Housing"
+"TXT_KEY_BUILDING_GRANARY_TITLE" = "Granary";
+"TXT_KEY_BUILDING_GRANARY_EFFECT0" = "+1 [Food] Food";
+"TXT_KEY_BUILDING_GRANARY_EFFECT1" = "+2 [Housing] Housing";
 
 // grove
-"Grove",
-"+1 [Food] Food and [Faith] Faith to adjacent unimproved tiles with Charming Appeal",
-"+2 [Food] Food, [Faith] Faith and [Culture] Culture for adjacent unimproved tiles with Breathtaking Appeal"
+"TXT_KEY_BUILDING_GROVE_TITLE" = "Grove";
+"TXT_KEY_BUILDING_GROVE_EFFECT0" = "+1 [Food] Food and [Faith] Faith to adjacent unimproved tiles with Charming Appeal";
+"TXT_KEY_BUILDING_GROVE_EFFECT1" = "+2 [Food] Food, [Faith] Faith and [Culture] Culture for adjacent unimproved tiles with Breathtaking Appeal";
 
 // library
-"Library",
-"+2 [Science] Science",
-"+1 [Citizen] Citizen slot",
-"+1 [GreatScientist] Great Scientist point per turn"
+"TXT_KEY_BUILDING_LIBRARY_TITLE" = "Library";
+"TXT_KEY_BUILDING_LIBRARY_EFFECT0" = "+2 [Science] Science";
+"TXT_KEY_BUILDING_LIBRARY_EFFECT1" = "+1 [Citizen] Citizen slot";
+"TXT_KEY_BUILDING_LIBRARY_EFFECT2" = "+1 [GreatScientist] Great Scientist point per turn";
 
 // monument
-"Monument",
-"+2 [Culture] Culture",
-"+1 Loyalty",
-"+1 [Culture] Culture if city is at maximum Loyalty."
+"TXT_KEY_BUILDING_MONUMENT_TITLE" = "Monument";
+"TXT_KEY_BUILDING_MONUMENT_EFFECT0" = "+2 [Culture] Culture";
+"TXT_KEY_BUILDING_MONUMENT_EFFECT1" = "+1 Loyalty";
+"TXT_KEY_BUILDING_MONUMENT_EFFECT2" = "+1 [Culture] Culture if city is at maximum Loyalty.";
 
 // palace
-"Palace",
-"+1 [Culture] Culture",
-"+5 [Gold] Gold",
-"+2 [Production] Production"
-"+2 [Science] Science",
-"+1 [Housing] Housing",
-"+2 Amenity from entertainment"
+"TXT_KEY_BUILDING_PALACE_TITLE" = "Palace";
+"TXT_KEY_BUILDING_PALACE_EFFECT0" = "+1 [Culture] Culture";
+"TXT_KEY_BUILDING_PALACE_EFFECT1" = "+5 [Gold] Gold";
+"TXT_KEY_BUILDING_PALACE_EFFECT2" = "+2 [Production] Production";
+"TXT_KEY_BUILDING_PALACE_EFFECT3" = "+2 [Science] Science";
+"TXT_KEY_BUILDING_PALACE_EFFECT4" = "+1 [Housing] Housing";
+"TXT_KEY_BUILDING_PALACE_EFFECT5" = "+2 Amenity from entertainment";
 
 // shrine
-"Shrine",
-"+2 [Faith] Faith",
-"+1 [Citizen] Citizen slot",
-"+1 [GreatProphet] Great Prophet point per turn.",
-"Allows the purchasing of Missionaries with Faith." // #
+"TXT_KEY_BUILDING_SHRINE_TITLE" = "Shrine";
+"TXT_KEY_BUILDING_SHRINE_EFFECT0" = "+2 [Faith] Faith";
+"TXT_KEY_BUILDING_SHRINE_EFFECT1" = "+1 [Citizen] Citizen slot";
+"TXT_KEY_BUILDING_SHRINE_EFFECT2" = "+1 [GreatProphet] Great Prophet point per turn.";
+"TXT_KEY_BUILDING_SHRINE_EFFECT3" = "Allows the purchasing of Missionaries with Faith."; // #
 
 // waterMill
-"Water Mill",
-"+1 [Food] Food",
-"+1 [Production] Production",
-"Bonus resources improved by Farms gain +1 [Food] Food each." // #
+"TXT_KEY_BUILDING_WATER_MILL_TITLE" = "Water Mill";
+"TXT_KEY_BUILDING_WATER_MILL_EFFECT0" = "+1 [Food] Food";
+"TXT_KEY_BUILDING_WATER_MILL_EFFECT1" = "+1 [Production] Production";
+"TXT_KEY_BUILDING_WATER_MILL_EFFECT2" = "Bonus resources improved by Farms gain +1 [Food] Food each."; // #
 
+// --------------------------------------
 // classical
 
 // amphitheater
-"Amphitheater",
-"+2 [Culture] Culture",
-"+1 [Citizen] Citizen slot",
-"+1 [GreatWriter] Great Writer point per turn",
-"+2 Great Work of Writing slot"
+"TXT_KEY_BUILDING_AMPHITHEATER_TITLE" = "Amphitheater";
+"TXT_KEY_BUILDING_AMPHITHEATER_EFFECT0" = "+2 [Culture] Culture";
+"TXT_KEY_BUILDING_AMPHITHEATER_EFFECT1" = "+1 [Citizen] Citizen slot";
+"TXT_KEY_BUILDING_AMPHITHEATER_EFFECT2" = "+1 [GreatWriter] Great Writer point per turn";
+"TXT_KEY_BUILDING_AMPHITHEATER_EFFECT3" = "+2 Great Work of Writing slot";
 
 // lighthouse
-"Lighthouse",
-"+25% combat experience for all naval units trained in this city.",
-"+1 [Food] Food",
-"+1 [Gold] Gold",
-"+1 [Housing] Housing (+2 additional Housing if City Center is adjacent to Coast)",
-"+1 [Citizen] Citizen slot",
-"+1 [GreatAdmiral] Great Admiral point per turn"
+"TXT_KEY_BUILDING_LIGHTHOUSE_TITLE" = "Lighthouse";
+"TXT_KEY_BUILDING_LIGHTHOUSE_EFFECT0" = "+25% combat experience for all naval units trained in this city.";
+"TXT_KEY_BUILDING_LIGHTHOUSE_EFFECT1" = "+1 [Food] Food";
+"TXT_KEY_BUILDING_LIGHTHOUSE_EFFECT2" = "+1 [Gold] Gold";
+"TXT_KEY_BUILDING_LIGHTHOUSE_EFFECT3" = "+1 [Housing] Housing (+2 additional Housing if City Center is adjacent to Coast)";
+"TXT_KEY_BUILDING_LIGHTHOUSE_EFFECT4" = "+1 [Citizen] Citizen slot";
+"TXT_KEY_BUILDING_LIGHTHOUSE_EFFECT5" = "+1 [GreatAdmiral] Great Admiral point per turn";
 
 // stable
-"Stable",
-"+25% combat experience for all cavalry and siege class units trained in this city.",
-"May not be built in an Encampment district that already has a Barracks",
-"+1 Production Production",
-"+1 [Housing] Housing",
-"+1 [Citizen] Citizen slot",
-"+1 [GreatGeneral] Great General point per turn"
+"TXT_KEY_BUILDING_STABLE_TITLE" = "Stable";
+"TXT_KEY_BUILDING_STABLE_EFFECT0" = "+25% combat experience for all cavalry and siege class units trained in this city.";
+"TXT_KEY_BUILDING_STABLE_EFFECT1" = "May not be built in an Encampment district that already has a Barracks";
+"TXT_KEY_BUILDING_STABLE_EFFECT2" = "+1 Production Production";
+"TXT_KEY_BUILDING_STABLE_EFFECT3" = "+1 [Housing] Housing";
+"TXT_KEY_BUILDING_STABLE_EFFECT4" = "+1 [Citizen] Citizen slot";
+"TXT_KEY_BUILDING_STABLE_EFFECT5" = "+1 [GreatGeneral] Great General point per turn";
 
 // arena
-"Arena",
-"+2 Amenities",
-"+1 [Culture] Culture",
-"+1 [Tourism] Tourism (with Conservation)"
+"TXT_KEY_BUILDING_ARENA_TITLE" = "Arena";
+"TXT_KEY_BUILDING_ARENA_EFFECT0" = "+2 Amenities";
+"TXT_KEY_BUILDING_ARENA_EFFECT1" = "+1 [Culture] Culture";
+"TXT_KEY_BUILDING_ARENA_EFFECT2" = "+1 [Tourism] Tourism (with Conservation)";
 
 // market
-"Market",
-"+3 [Gold] Gold",
-"+1 [Citizen] Citizen slot",
-"+1 [GreatMerchant] Great Merchant point per turn"
+"TXT_KEY_BUILDING_MARKET_TITLE" = "Market";
+"TXT_KEY_BUILDING_MARKET_EFFECT0" = "+3 [Gold] Gold";
+"TXT_KEY_BUILDING_MARKET_EFFECT1" = "+1 [Citizen] Citizen slot";
+"TXT_KEY_BUILDING_MARKET_EFFECT2" = "+1 [GreatMerchant] Great Merchant point per turn";
 
 // temple
-"Temple",
-"+4 [Faith] Faith",
-"+1 [Citizen] Citizen slot",
-"+1 [GreatProphet] Great Prophet point per turn",
-"+1 [Relic] Relic slot",
-"Allows the purchasing of Apostles, Gurus, and Inquisitors (after an Apostle uses its Launch Inquisition ability) with Faith Faith."
+"TXT_KEY_BUILDING_TEMPLE_TITLE" = "Temple";
+"TXT_KEY_BUILDING_TEMPLE_EFFECT0" = "+4 [Faith] Faith";
+"TXT_KEY_BUILDING_TEMPLE_EFFECT1" = "+1 [Citizen] Citizen slot";
+"TXT_KEY_BUILDING_TEMPLE_EFFECT2" = "+1 [GreatProphet] Great Prophet point per turn";
+"TXT_KEY_BUILDING_TEMPLE_EFFECT3" = "+1 [Relic] Relic slot";
+"TXT_KEY_BUILDING_TEMPLE_EFFECT4" = "Allows the purchasing of Apostles, Gurus, and Inquisitors (after an Apostle uses its Launch Inquisition ability) with [Faith] Faith.";
 
 // --------------------------------------
 // medieval
 
 // medievalWalls
-"Medieval Walls",
-"+100 Outer Defense Strength",
-"+2 [Housing] Housing under the Monarchy Government." // #
+"TXT_KEY_BUILDING_MEDIEVAL_WALLS_TITLE" = "Medieval Walls";
+"TXT_KEY_BUILDING_MEDIEVAL_WALLS_EFFECT0" = "+100 Outer Defense Strength";
+"TXT_KEY_BUILDING_MEDIEVAL_WALLS_EFFECT1" = "+2 [Housing] Housing under the Monarchy Government."; // #
 
 // workshop
-"Workshop",
-"+3 [Production] Production",
-"+1 [Citizen] Citizen slot",
-"+1 [GreatEngineer] Great Engineer point per turn"
+"TXT_KEY_BUILDING_WORKSHOP_TITLE" = "Workshop";
+"TXT_KEY_BUILDING_WORKSHOP_EFFECT0" = "+3 [Production] Production";
+"TXT_KEY_BUILDING_WORKSHOP_EFFECT1" = "+1 [Citizen] Citizen slot";
+"TXT_KEY_BUILDING_WORKSHOP_EFFECT2" = "+1 [GreatEngineer] Great Engineer point per turn";
 
 // armory
-"Armory",
-"+2 [Production] Production",
-"+1 [Citizen] Citizen slot"
-"+1 [GreatGeneral] Great General point per turn",
-"+25% combat experience for all military land units trained in this city",
-"Allows training of Military Engineers in this city", // #
-"Strategic Resource stockpiles increased by 10" // #
+"TXT_KEY_BUILDING_ARMORY_TITLE" = "Armory";
+"TXT_KEY_BUILDING_ARMORY_EFFECT0" = "+2 [Production] Production";
+"TXT_KEY_BUILDING_ARMORY_EFFECT1" = "+1 [Citizen] Citizen slot";
+"TXT_KEY_BUILDING_ARMORY_EFFECT2" = "+1 [GreatGeneral] Great General point per turn";
+"TXT_KEY_BUILDING_ARMORY_EFFECT3" = "+25% combat experience for all military land units trained in this city";
+"TXT_KEY_BUILDING_ARMORY_EFFECT4" = "Allows training of Military Engineers in this city"; // #
+"TXT_KEY_BUILDING_ARMORY_EFFECT5" = "Strategic Resource stockpiles increased by 10";
 
 // --------------------------------------
 // renaissance
 
 // renaissanceWalls
-"Renaissance Walls",
-"+100 Outer Defense Strength"
+"TXT_KEY_BUILDING_RENAISSANCE_WALLS_TITLE" = "Renaissance Walls";
+"TXT_KEY_BUILDING_RENAISSANCE_WALLS_EFFECT0" = "+100 Outer Defense Strength";
 
 // shipyard
-"Shipyard",
-"+25% combat experience for all naval units trained in this city.",
-"Bonus Production equal to the adjacency Gold bonus of its district.",
-"+1 [Production] Production to all unimproved Coast and Lake tiles in the city.",
-"+1 [Citizen] Citizen slot",
-"+1 [GreatAdmiral] Great Admiral point per turn"
+"TXT_KEY_BUILDING_SHIPYARD_TITLE" = "Shipyard";
+"TXT_KEY_BUILDING_SHIPYARD_EFFECT0" = "+25% combat experience for all naval units trained in this city.";
+"TXT_KEY_BUILDING_SHIPYARD_EFFECT1" = "Bonus Production equal to the adjacency Gold bonus of its district.";
+"TXT_KEY_BUILDING_SHIPYARD_EFFECT2" = "+1 [Production] Production to all unimproved Coast and Lake tiles in the city.";
+"TXT_KEY_BUILDING_SHIPYARD_EFFECT3" = "+1 [Citizen] Citizen slot";
+"TXT_KEY_BUILDING_SHIPYARD_EFFECT4" = "+1 [GreatAdmiral] Great Admiral point per turn";
 
 // bank
-"Bank"
-"+5 [Gold] Gold (boosted by Free Market Policy Card)",
-"+1 [Citizen] Citizen slot",
-"+1 [GreatMerchant] Great Merchant point per turn",
-"+4 [Gold] Gold with each Trade City-States with 6 [Envoy] Envoys"
-*/
+"TXT_KEY_BUILDING_BANK_TITLE" = "Bank";
+"TXT_KEY_BUILDING_BANK_EFFECT0" = "+5 [Gold] Gold (boosted by Free Market Policy Card)";
+"TXT_KEY_BUILDING_BANK_EFFECT1" = "+1 [Citizen] Citizen slot";
+"TXT_KEY_BUILDING_BANK_EFFECT2" = "+1 [GreatMerchant] Great Merchant point per turn";
+"TXT_KEY_BUILDING_BANK_EFFECT3" = "+4 [Gold] Gold with each Trade City-States with 6 [Envoy] Envoys";

@@ -481,6 +481,8 @@ public class Player: AbstractPlayer {
         case markers
     }
 
+    private let kBaseStockPileAmount: Double = 50.0
+
     public var leader: LeaderType
     internal var isAliveVal: Bool
     internal let isHumanVal: Bool
@@ -870,7 +872,7 @@ public class Player: AbstractPlayer {
         self.resourceMaxStockpile = ResourceInventory()
 
         for resource in ResourceType.strategic {
-            self.resourceMaxStockpile?.add(weight: 50, for: resource)
+            self.resourceMaxStockpile?.add(weight: kBaseStockPileAmount, for: resource)
         }
     }
 
@@ -2292,7 +2294,7 @@ public class Player: AbstractPlayer {
         }
 
         self.doEurekas(in: gameModel)
-        self.doResourceStockpile()
+        self.doResourceStockpile(in: gameModel)
         self.doSpaceRace(in: gameModel)
         self.tourism?.doTurn(in: gameModel)
 
@@ -2689,11 +2691,23 @@ public class Player: AbstractPlayer {
         // 
     }
 
-    func doResourceStockpile() {
+    func doResourceStockpile(in gameModel: GameModel?) {
 
         guard let resourceStockpile = self.resourceStockpile,
               let resourceMaxStockpile = self.resourceMaxStockpile else {
             fatalError("cant get stock piles")
+        }
+
+        // check max stockpile
+        for resource in ResourceType.strategic {
+
+            var amount: Double = kBaseStockPileAmount
+
+            // Strategic Resource stockpiles increased by 10
+            let numArmories = self.numberBuildings(of: .armory, in: gameModel)
+            amount += 10.0 * Double(numArmories)
+
+            self.resourceMaxStockpile?.set(weight: amount, for: resource)
         }
 
         for resource in ResourceType.strategic {

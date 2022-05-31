@@ -369,10 +369,10 @@ public enum BuildingType: Int, Codable {
         case .granary:
             // https://civilization.fandom.com/wiki/Granary_(Civ6)
             return BuildingTypeData(
-                name: "Granary",
+                name: "TXT_KEY_BUILDING_GRANARY_TITLE",
                 effects: [
-                    "+1 [Food] Food",
-                    "+2 [Housing] Housing"
+                    "TXT_KEY_BUILDING_GRANARY_EFFECT0",
+                    "TXT_KEY_BUILDING_GRANARY_EFFECT1"
                 ],
                 category: .population,
                 era: .ancient,
@@ -404,10 +404,10 @@ public enum BuildingType: Int, Codable {
         case .grove:
             // https://civilization.fandom.com/wiki/Grove_(Civ6)
             return BuildingTypeData(
-                name: "Grove",
+                name: "TXT_KEY_BUILDING_GROVE_TITLE",
                 effects: [
-                    "+1 [Food] Food and [Faith] Faith to adjacent unimproved tiles with Charming Appeal",
-                    "+2 [Food] Food, [Faith] Faith and [Culture] Culture for adjacent unimproved tiles with Breathtaking Appeal"
+                    "TXT_KEY_BUILDING_GROVE_EFFECT0",
+                    "TXT_KEY_BUILDING_GROVE_EFFECT1"
                 ],
                 category: .conservation,
                 era: .ancient,
@@ -433,11 +433,11 @@ public enum BuildingType: Int, Codable {
         case .library:
             // https://civilization.fandom.com/wiki/Library_(Civ6)
             return BuildingTypeData(
-                name: "Library",
+                name: "TXT_KEY_BUILDING_LIBRARY_TITLE",
                 effects: [
-                    "+2 [Science] Science",
-                    "+1 [Citizen] Citizen slot",
-                    "+1 [GreatScientist] Great Scientist point per turn"
+                    "TXT_KEY_BUILDING_LIBRARY_EFFECT0",
+                    "TXT_KEY_BUILDING_LIBRARY_EFFECT1",
+                    "TXT_KEY_BUILDING_LIBRARY_EFFECT2"
                 ],
                 category: .scientific,
                 era: .ancient,
@@ -466,11 +466,11 @@ public enum BuildingType: Int, Codable {
         case .monument:
             // https://civilization.fandom.com/wiki/Monument_(Civ6)
             return BuildingTypeData(
-                name: "Monument",
+                name: "TXT_KEY_BUILDING_MONUMENT_TITLE",
                 effects: [
-                    "+2 [Culture] Culture",
-                    "+1 Loyalty",
-                    "+1 [Culture] Culture if city is at maximum Loyalty."
+                    "TXT_KEY_BUILDING_MONUMENT_EFFECT0",
+                    "TXT_KEY_BUILDING_MONUMENT_EFFECT1",
+                    "TXT_KEY_BUILDING_MONUMENT_EFFECT2"
                 ],
                 category: .cultural,
                 era: .ancient,
@@ -513,14 +513,14 @@ public enum BuildingType: Int, Codable {
         case .palace:
             // https://civilization.fandom.com/wiki/Palace_(Civ6)
             return BuildingTypeData(
-                name: "Palace",
+                name: "TXT_KEY_BUILDING_PALACE_TITLE",
                 effects: [
-                    "+1 [Culture] Culture",
-                    "+5 [Gold] Gold",
-                    "+2 [Production] Production",
-                    "+2 [Science] Science",
-                    "+1 [Housing] Housing",
-                    "+2 Amenity from entertainment"
+                    "TXT_KEY_BUILDING_PALACE_EFFECT0",
+                    "TXT_KEY_BUILDING_PALACE_EFFECT1",
+                    "TXT_KEY_BUILDING_PALACE_EFFECT2",
+                    "TXT_KEY_BUILDING_PALACE_EFFECT3",
+                    "TXT_KEY_BUILDING_PALACE_EFFECT4",
+                    "TXT_KEY_BUILDING_PALACE_EFFECT5"
                 ],
                 category: .government,
                 era: .ancient,
@@ -543,12 +543,12 @@ public enum BuildingType: Int, Codable {
         case .shrine:
             // https://civilization.fandom.com/wiki/Shrine_(Civ6)
             return BuildingTypeData(
-                name: "Shrine",
+                name: "TXT_KEY_BUILDING_SHRINE_TITLE",
                 effects: [
-                    "+2 [Faith] Faith",
-                    "+1 [Citizen] Citizen slot",
-                    "+1 [GreatProphet] Great Prophet point per turn.",
-                    "Allows the purchasing of Missionaries with Faith." // #
+                    "TXT_KEY_BUILDING_SHRINE_EFFECT0",
+                    "TXT_KEY_BUILDING_SHRINE_EFFECT1",
+                    "TXT_KEY_BUILDING_SHRINE_EFFECT2",
+                    "TXT_KEY_BUILDING_SHRINE_EFFECT3" // #
                 ],
                 category: .religious,
                 era: .ancient,
@@ -581,11 +581,11 @@ public enum BuildingType: Int, Codable {
         case .waterMill:
             // https://civilization.fandom.com/wiki/Water_Mill_(Civ6)
             return BuildingTypeData(
-                name: "Water Mill",
+                name: "TXT_KEY_BUILDING_WATER_MILL_TITLE",
                 effects: [
-                    "+1 [Food] Food",
-                    "+1 [Production] Production",
-                    "Bonus resources improved by Farms gain +1 [Food] Food each." // #
+                    "TXT_KEY_BUILDING_WATER_MILL_EFFECT0",
+                    "TXT_KEY_BUILDING_WATER_MILL_EFFECT1",
+                    "TXT_KEY_BUILDING_WATER_MILL_EFFECT2" // #
                 ],
                 category: .military,
                 era: .ancient,
@@ -612,16 +612,18 @@ public enum BuildingType: Int, Codable {
                 ]
             )
 
+            // --------------------------------------
             // classical
+
         case .amphitheater:
             // https://civilization.fandom.com/wiki/Amphitheater_(Civ6)
             return BuildingTypeData(
-                name: "Amphitheater",
+                name: "TXT_KEY_BUILDING_AMPHITHEATER_TITLE",
                 effects: [
-                    "+2 [Culture] Culture",
-                    "+1 [Citizen] Citizen slot",
-                    "+1 [GreatWriter] Great Writer point per turn",
-                    "+2 Great Work of Writing slot"
+                    "TXT_KEY_BUILDING_AMPHITHEATER_EFFECT0",
+                    "TXT_KEY_BUILDING_AMPHITHEATER_EFFECT1",
+                    "TXT_KEY_BUILDING_AMPHITHEATER_EFFECT2",
+                    "TXT_KEY_BUILDING_AMPHITHEATER_EFFECT3"
                 ],
                 category: .cultural,
                 era: .classical,
@@ -647,14 +649,14 @@ public enum BuildingType: Int, Codable {
         case .lighthouse:
             // https://civilization.fandom.com/wiki/Lighthouse_(Civ6)
             return BuildingTypeData(
-                name: "Lighthouse",
+                name: "TXT_KEY_BUILDING_LIGHTHOUSE_TITLE",
                 effects: [
-                    "+25% combat experience for all naval units trained in this city.",
-                    "+1 [Food] Food",
-                    "+1 [Gold] Gold",
-                    "+1 [Housing] Housing (+2 additional Housing if City Center is adjacent to Coast)",
-                    "+1 [Citizen] Citizen slot",
-                    "+1 [GreatAdmiral] Great Admiral point per turn"
+                    "TXT_KEY_BUILDING_LIGHTHOUSE_EFFECT0",
+                    "TXT_KEY_BUILDING_LIGHTHOUSE_EFFECT1",
+                    "TXT_KEY_BUILDING_LIGHTHOUSE_EFFECT2",
+                    "TXT_KEY_BUILDING_LIGHTHOUSE_EFFECT3",
+                    "TXT_KEY_BUILDING_LIGHTHOUSE_EFFECT4",
+                    "TXT_KEY_BUILDING_LIGHTHOUSE_EFFECT5"
                 ],
                 category: .cultural,
                 era: .classical,
@@ -684,14 +686,14 @@ public enum BuildingType: Int, Codable {
         case .stable:
             // https://civilization.fandom.com/wiki/Stable_(Civ6)
             return BuildingTypeData(
-                name: "Stable",
+                name: "TXT_KEY_BUILDING_STABLE_TITLE",
                 effects: [
-                    "+25% combat experience for all cavalry and siege class units trained in this city.",
-                    "May not be built in an Encampment district that already has a Barracks",
-                    "+1 Production Production",
-                    "+1 [Housing] Housing",
-                    "+1 [Citizen] Citizen slot",
-                    "+1 [GreatGeneral] Great General point per turn"
+                    "TXT_KEY_BUILDING_STABLE_EFFECT0",
+                    "TXT_KEY_BUILDING_STABLE_EFFECT1",
+                    "TXT_KEY_BUILDING_STABLE_EFFECT2",
+                    "TXT_KEY_BUILDING_STABLE_EFFECT3",
+                    "TXT_KEY_BUILDING_STABLE_EFFECT4",
+                    "TXT_KEY_BUILDING_STABLE_EFFECT5"
                 ],
                 category: .military,
                 era: .classical,
@@ -721,11 +723,11 @@ public enum BuildingType: Int, Codable {
         case .arena:
             // https://civilization.fandom.com/wiki/Arena_(Civ6)
             return BuildingTypeData(
-                name: "Arena",
+                name: "TXT_KEY_BUILDING_ARENA_TITLE",
                 effects: [
-                    "+2 Amenities",
-                    "+1 [Culture] Culture",
-                    "+1 [Tourism] Tourism (with Conservation)"
+                    "TXT_KEY_BUILDING_ARENA_EFFECT0",
+                    "TXT_KEY_BUILDING_ARENA_EFFECT1",
+                    "TXT_KEY_BUILDING_ARENA_EFFECT2"
                 ],
                 category: .entertainment,
                 era: .classical,
@@ -766,11 +768,11 @@ public enum BuildingType: Int, Codable {
         case .market:
             // https://civilization.fandom.com/wiki/Market_(Civ6)
             return BuildingTypeData(
-                name: "Market",
+                name: "TXT_KEY_BUILDING_MARKET_TITLE",
                 effects: [
-                    "+3 [Gold] Gold",
-                    "+1 [Citizen] Citizen slot",
-                    "+1 [GreatMerchant] Great Merchant point per turn"
+                    "TXT_KEY_BUILDING_MARKET_EFFECT0",
+                    "TXT_KEY_BUILDING_MARKET_EFFECT1",
+                    "TXT_KEY_BUILDING_MARKET_EFFECT2"
                 ],
                 category: .economic,
                 era: .classical,
@@ -801,13 +803,13 @@ public enum BuildingType: Int, Codable {
         case .temple:
             // https://civilization.fandom.com/wiki/Temple_(Civ6)
             return BuildingTypeData(
-                name: "Temple",
+                name: "TXT_KEY_BUILDING_TEMPLE_TITLE",
                 effects: [
-                    "+4 [Faith] Faith",
-                    "+1 [Citizen] Citizen slot",
-                    "+1 [GreatProphet] Great Prophet point per turn",
-                    "+1 [Relic] Relic slot",
-                    "Allows the purchasing of Apostles, Gurus, and Inquisitors (after an Apostle uses its Launch Inquisition ability) with Faith Faith."
+                    "TXT_KEY_BUILDING_TEMPLE_EFFECT0",
+                    "TXT_KEY_BUILDING_TEMPLE_EFFECT1",
+                    "TXT_KEY_BUILDING_TEMPLE_EFFECT2",
+                    "TXT_KEY_BUILDING_TEMPLE_EFFECT3",
+                    "TXT_KEY_BUILDING_TEMPLE_EFFECT4"
                 ],
                 category: .religious,
                 era: .classical,
@@ -836,10 +838,10 @@ public enum BuildingType: Int, Codable {
         case .medievalWalls:
             // https://civilization.fandom.com/wiki/Medieval_Walls_(Civ6)
             return BuildingTypeData(
-                name: "Medieval Walls",
+                name: "TXT_KEY_BUILDING_MEDIEVAL_WALLS_TITLE",
                 effects: [
-                    "+100 Outer Defense Strength",
-                    "+2 [Housing] Housing under the Monarchy Government." // #
+                    "TXT_KEY_BUILDING_MEDIEVAL_WALLS_EFFECT0",
+                    "TXT_KEY_BUILDING_MEDIEVAL_WALLS_EFFECT1" // #
                 ],
                 category: .defensive,
                 era: .medieval,
@@ -869,11 +871,11 @@ public enum BuildingType: Int, Codable {
         case .workshop:
             // https://civilization.fandom.com/wiki/Workshop_(Civ6)
             return BuildingTypeData(
-                name: "Workshop",
+                name: "TXT_KEY_BUILDING_WORKSHOP_TITLE",
                 effects: [
-                    "+3 [Production] Production",
-                    "+1 [Citizen] Citizen slot",
-                    "+1 [GreatEngineer] Great Engineer point per turn"
+                    "TXT_KEY_BUILDING_WORKSHOP_EFFECT0",
+                    "TXT_KEY_BUILDING_WORKSHOP_EFFECT1",
+                    "TXT_KEY_BUILDING_WORKSHOP_EFFECT2"
                 ],
                 category: .production,
                 era: .medieval,
@@ -898,14 +900,14 @@ public enum BuildingType: Int, Codable {
         case .armory:
             // https://civilization.fandom.com/wiki/Armory_(Civ6)
             return BuildingTypeData(
-                name: "Armory",
+                name: "TXT_KEY_BUILDING_ARMORY_TITLE",
                 effects: [
-                    "+2 [Production] Production",
-                    "+1 [Citizen] Citizen slot",
-                    "+1 [GreatGeneral] Great General point per turn",
-                    "+25% combat experience for all military land units trained in this city",
-                    "Allows training of Military Engineers in this city", // #
-                    "Strategic Resource stockpiles increased by 10" // #
+                    "TXT_KEY_BUILDING_ARMORY_EFFECT0",
+                    "TXT_KEY_BUILDING_ARMORY_EFFECT1",
+                    "TXT_KEY_BUILDING_ARMORY_EFFECT2",
+                    "TXT_KEY_BUILDING_ARMORY_EFFECT3",
+                    "TXT_KEY_BUILDING_ARMORY_EFFECT4", // #
+                    "TXT_KEY_BUILDING_ARMORY_EFFECT5" // #
                 ],
                 category: .military,
                 era: .medieval,
@@ -938,9 +940,9 @@ public enum BuildingType: Int, Codable {
         case .renaissanceWalls:
             // https://civilization.fandom.com/wiki/Renaissance_Walls_(Civ6)
             return BuildingTypeData(
-                name: "Renaissance Walls",
+                name: "TXT_KEY_BUILDING_RENAISSANCE_WALLS_TITLE",
                 effects: [
-                    "+100 Outer Defense Strength"
+                    "TXT_KEY_BUILDING_RENAISSANCE_WALLS_EFFECT0"
                 ],
                 category: .defensive,
                 era: .renaissance,
@@ -970,13 +972,13 @@ public enum BuildingType: Int, Codable {
         case .shipyard:
             // https://civilization.fandom.com/wiki/Shipyard_(Civ6)
             return BuildingTypeData(
-                name: "Shipyard",
+                name: "TXT_KEY_BUILDING_SHIPYARD_TITLE",
                 effects: [
-                    "+25% combat experience for all naval units trained in this city.",
-                    "Bonus Production equal to the adjacency Gold bonus of its district.",
-                    "+1 [Production] Production to all unimproved Coast and Lake tiles in the city.",
-                    "+1 [Citizen] Citizen slot",
-                    "+1 [GreatAdmiral] Great Admiral point per turn"
+                    "TXT_KEY_BUILDING_SHIPYARD_EFFECT0",
+                    "TXT_KEY_BUILDING_SHIPYARD_EFFECT1",
+                    "TXT_KEY_BUILDING_SHIPYARD_EFFECT2",
+                    "TXT_KEY_BUILDING_SHIPYARD_EFFECT3",
+                    "TXT_KEY_BUILDING_SHIPYARD_EFFECT4"
                 ],
                 category: .maritime,
                 era: .renaissance,
@@ -1002,12 +1004,12 @@ public enum BuildingType: Int, Codable {
         case .bank:
             // https://civilization.fandom.com/wiki/Bank_(Civ6)
             return BuildingTypeData(
-                name: "Bank",
+                name: "TXT_KEY_BUILDING_BANK_TITLE",
                 effects: [
-                    "+5 [Gold] Gold (boosted by Free Market Policy Card)",
-                    "+1 [Citizen] Citizen slot",
-                    "+1 [GreatMerchant] Great Merchant point per turn",
-                    "+4 [Gold] Gold with each Trade City-States with 6 [Envoy] Envoys"
+                    "TXT_KEY_BUILDING_BANK_EFFECT0",
+                    "TXT_KEY_BUILDING_BANK_EFFECT1",
+                    "TXT_KEY_BUILDING_BANK_EFFECT2",
+                    "TXT_KEY_BUILDING_BANK_EFFECT3"
                     // "+2 Great Works Slots for any type with Great Merchant Giovanni de' Medici activated." // #
                 ],
                 category: .economic,
