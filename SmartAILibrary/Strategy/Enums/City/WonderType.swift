@@ -193,7 +193,9 @@ public enum WonderType: Int, Codable {
                 flavours: []
             )
 
+            // -------------------------
             // ancient
+
         case .greatBath:
             // https://civilization.fandom.com/wiki/Great_Bath_(Civ6)
             return WonderTypeData(
@@ -212,17 +214,20 @@ public enum WonderType: Int, Codable {
                 amenities: 1.0,
                 yields: Yields(food: 0.0, production: 0.0, gold: 0.0, housing: 3.0),
                 slots: [],
-                flavours: [Flavor(type: .wonder, value: 15), Flavor(type: .religion, value: 10)]
+                flavours: [
+                    Flavor(type: .wonder, value: 15),
+                    Flavor(type: .religion, value: 10)
+                ]
             )
 
         case .etemenanki:
             // https://civilization.fandom.com/wiki/Etemenanki_(Civ6)
             return WonderTypeData(
-                name: "Etemenanki",
+                name: "TXT_KEY_WONDER_ETEMENANKI_TITLE",
                 effects: [
-                    "+2 [Science] Science and +1 [Production] Production to all Marsh tiles in your empire.",
-                    "+1 [Science] Science and +1 [Production] Production on all Floodplains tiles in this city.",
-                    "+2 [Science] Science"
+                    "TXT_KEY_WONDER_ETEMENANKI_EFFECT1",
+                    "TXT_KEY_WONDER_ETEMENANKI_EFFECT2",
+                    "TXT_KEY_WONDER_ETEMENANKI_EFFECT3"
                 ],
                 era: .ancient,
                 productionCost: 220,
@@ -231,16 +236,19 @@ public enum WonderType: Int, Codable {
                 amenities: 0,
                 yields: Yields(food: 0.0, production: 0.0, gold: 0.0, science: 2.0),
                 slots: [],
-                flavours: [Flavor(type: .science, value: 7), Flavor(type: .production, value: 3)]
+                flavours: [
+                    Flavor(type: .science, value: 7),
+                    Flavor(type: .production, value: 3)
+                ]
             )
 
         case .hangingGardens:
             // https://civilization.fandom.com/wiki/Hanging_Gardens_(Civ6)
             return WonderTypeData(
-                name: "Hanging Gardens",
+                name: "TXT_KEY_WONDER_HANGING_GARDENS_TITLE",
                 effects: [
-                    "Increases growth by 15% in all cities.",
-                    "+2 [Housing] Housing"
+                    "TXT_KEY_WONDER_HANGING_GARDENS_EFFECT1",
+                    "TXT_KEY_WONDER_HANGING_GARDENS_EFFECT2"
                 ],
                 era: .ancient,
                 productionCost: 180,
@@ -257,12 +265,11 @@ public enum WonderType: Int, Codable {
 
         case .stonehenge:
             // https://civilization.fandom.com/wiki/Stonehenge_(Civ6)
-            // Great Prophets may found a religion on Stonehenge instead of a Holy Site.
             return WonderTypeData(
-                name: "Stonehenge",
+                name: "TXT_KEY_WONDER_STONEHENGE_TITLE",
                 effects: [
-                    "+2 [Faith] Faith",
-                    "Grants a free [GreatProphet] Great Prophet."
+                    "TXT_KEY_WONDER_STONEHENGE_EFFECT1",
+                    "TXT_KEY_WONDER_STONEHENGE_EFFECT2"
                 ],
                 era: .ancient,
                 productionCost: 180,
@@ -280,11 +287,11 @@ public enum WonderType: Int, Codable {
         case .templeOfArtemis:
             // https://civilization.fandom.com/wiki/Temple_of_Artemis_(Civ6)
             return WonderTypeData(
-                name: "Temple of Artemis",
+                name: "TXT_KEY_WONDER_TEMPLE_OF_ARTEMIS_TITLE",
                 effects: [
-                    "+4 [Food] Food",
-                    "+3 [Housing] Housing",
-                    "Each Camp, Pasture, and Plantation improvement within 4 tiles of this wonder provides +1 Amenity."
+                    "TXT_KEY_WONDER_TEMPLE_OF_ARTEMIS_EFFECT1",
+                    "TXT_KEY_WONDER_TEMPLE_OF_ARTEMIS_EFFECT2",
+                    "TXT_KEY_WONDER_TEMPLE_OF_ARTEMIS_EFFECT3"
                 ],
                 era: .ancient,
                 productionCost: 180,
@@ -302,11 +309,11 @@ public enum WonderType: Int, Codable {
         case .pyramids:
             // https://civilization.fandom.com/wiki/Pyramids_(Civ6)
             return WonderTypeData(
-                name: "Pyramids",
+                name: "TXT_KEY_WONDER_PYRAMIDS_TITLE",
                 effects: [
-                    "+2 [Culture] Culture",
-                    "Grants a free Builder.",
-                    "All Builders can build 1 extra improvement."
+                    "TXT_KEY_WONDER_PYRAMIDS_EFFECT1",
+                    "TXT_KEY_WONDER_PYRAMIDS_EFFECT2",
+                    "TXT_KEY_WONDER_PYRAMIDS_EFFECT3"
                 ],
                 era: .ancient,
                 productionCost: 220,
@@ -324,12 +331,12 @@ public enum WonderType: Int, Codable {
         case .oracle:
             // https://civilization.fandom.com/wiki/Oracle_(Civ6)
             return WonderTypeData(
-                name: "Oracle",
+                name: "TXT_KEY_WONDER_ORACLE_TITLE",
                 effects: [
-                    "+1 [Culture] Culture",
-                    "+1 [Faith] Faith",
-                    "Patronage of Great People costs 25% less Faith.", // #
-                    "Districts in this city provide +2 Great Person points of their type."
+                    "TXT_KEY_WONDER_ORACLE_EFFECT1",
+                    "TXT_KEY_WONDER_ORACLE_EFFECT2",
+                    "TXT_KEY_WONDER_ORACLE_EFFECT3", // #
+                    "TXT_KEY_WONDER_ORACLE_EFFECT4"
                 ],
                 era: .ancient,
                 productionCost: 290,
@@ -344,15 +351,17 @@ public enum WonderType: Int, Codable {
                 ]
             )
 
+            // -------------------------
             // classical
+
         case .greatLighthouse:
             // https://civilization.fandom.com/wiki/Great_Lighthouse_(Civ6)
             return WonderTypeData(
-                name: "Great Lighthouse",
+                name: "TXT_KEY_WONDER_GREAT_LIGHTHOUSE_TITLE",
                 effects: [
-                    "+1 Movement for all naval units.",
-                    "+3 [Gold] Gold",
-                    "+1 [GreatAdmiral] Great Admiral point per turn"
+                    "TXT_KEY_WONDER_GREAT_LIGHTHOUSE_EFFECT1",
+                    "TXT_KEY_WONDER_GREAT_LIGHTHOUSE_EFFECT2",
+                    "TXT_KEY_WONDER_GREAT_LIGHTHOUSE_EFFECT3"
                 ],
                 era: .classical,
                 productionCost: 290,
@@ -372,13 +381,13 @@ public enum WonderType: Int, Codable {
         case .greatLibrary:
             // https://civilization.fandom.com/wiki/Great_Library_(Civ6)
             return WonderTypeData(
-                name: "Great Library",
+                name: "TXT_KEY_WONDER_GREAT_LIBRARY_TITLE",
                 effects: [
-                    "+2 [Science] Science",
-                    "+1 [GreatScientist] Great Scientist point per turn",
-                    "+2 Great Works of Writing slots",
-                    "Receive boosts to all Ancient and Classical era technologies.",
-                    "+1 [GreatWriter] Great Writer point per turn"
+                    "TXT_KEY_WONDER_GREAT_LIBRARY_EFFECT1",
+                    "TXT_KEY_WONDER_GREAT_LIBRARY_EFFECT2",
+                    "TXT_KEY_WONDER_GREAT_LIBRARY_EFFECT3",
+                    "TXT_KEY_WONDER_GREAT_LIBRARY_EFFECT4",
+                    "TXT_KEY_WONDER_GREAT_LIBRARY_EFFECT5"
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -396,10 +405,10 @@ public enum WonderType: Int, Codable {
         case .apadana:
             // https://civilization.fandom.com/wiki/Apadana_(Civ6)
             return WonderTypeData(
-                name: "Apadana",
+                name: "TXT_KEY_WONDER_APADANA_TITLE",
                 effects: [
-                    "+2 Great Work slots",
-                    "+2 [Envoy] Envoys when you build a wonder, including Apadana, in this city." // #
+                    "TXT_KEY_WONDER_APADANA_EFFECT1",
+                    "TXT_KEY_WONDER_APADANA_EFFECT2" // #
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -417,10 +426,9 @@ public enum WonderType: Int, Codable {
         case .colosseum:
             // https://civilization.fandom.com/wiki/Colosseum_(Civ6)
             return WonderTypeData(
-                name: "Colosseum",
+                name: "TXT_KEY_WONDER_COLOSSEUM_TITLE",
                 effects: [
-                    "+2 [Culture] Culture, +2 Loyalty, +2 [Amenities] Amenities from entertainment " +
-                        "to each City Center within 6 tiles."
+                    "TXT_KEY_WONDER_COLOSSEUM_EFFECT1"
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -438,12 +446,12 @@ public enum WonderType: Int, Codable {
         case .colossus:
             // https://civilization.fandom.com/wiki/Colossus_(Civ6)
             return WonderTypeData(
-                name: "Colossus",
+                name: "TXT_KEY_WONDER_COLOSSUS_TITLE",
                 effects: [
-                    "+3 [Gold] Gold",
-                    "+1 [GreatAdmiral] Great Admiral point per turn",
-                    "+1 [TradeRoute] Trade Route capacity",
-                    "Grants a Trader unit."
+                    "TXT_KEY_WONDER_COLOSSUS_EFFECT1",
+                    "TXT_KEY_WONDER_COLOSSUS_EFFECT2",
+                    "TXT_KEY_WONDER_COLOSSUS_EFFECT3",
+                    "TXT_KEY_WONDER_COLOSSUS_EFFECT4"
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -462,10 +470,10 @@ public enum WonderType: Int, Codable {
         case .jebelBarkal:
             // https://civilization.fandom.com/wiki/Jebel_Barkal_(Civ6)
             return WonderTypeData(
-                name: "Jebel Barkal",
+                name: "TXT_KEY_WONDER_JEBEL_BARKAL_TITLE",
                 effects: [
-                    "Awards 2 Iron.", // #
-                    "Provides +4 [Faith] Faith to all your cities that are within 6 tiles."
+                    "TXT_KEY_WONDER_JEBEL_BARKAL_EFFECT1", // #
+                    "TXT_KEY_WONDER_JEBEL_BARKAL_EFFECT2"
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -483,10 +491,10 @@ public enum WonderType: Int, Codable {
         case .mausoleumAtHalicarnassus:
             // https://civilization.fandom.com/wiki/Mausoleum_at_Halicarnassus_(Civ6)
             return WonderTypeData(
-                name: "Mausoleum at Halicarnassus",
+                name: "TXT_KEY_WONDER_MAUSOLEUM_AT_HALICARNASSUS_TITLE",
                 effects: [
-                    "+1 [Science] Science, +1 [Faith] Faith and +1 [Culture] Culture on all Coast tiles in this city.",
-                    "All [GreatEngineer] Great Engineers have an additional charge." // #
+                    "TXT_KEY_WONDER_MAUSOLEUM_AT_HALICARNASSUS_EFFECT1",
+                    "TXT_KEY_WONDER_MAUSOLEUM_AT_HALICARNASSUS_EFFECT2" // #
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -506,10 +514,10 @@ public enum WonderType: Int, Codable {
         case .mahabodhiTemple:
             // https://civilization.fandom.com/wiki/Mahabodhi_Temple_(Civ6)
             return WonderTypeData(
-                name: "Mahabodhi Temple",
+                name: "TXT_KEY_WONDER_MAHABODHI_TEMPLE_TITLE",
                 effects: [
-                    "+4 [Faith] Faith",
-                    "Grants 2 Apostles." // #
+                    "TXT_KEY_WONDER_MAHABODHI_TEMPLE_EFFECT1",
+                    "TXT_KEY_WONDER_MAHABODHI_TEMPLE_EFFECT2" // #
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -527,9 +535,9 @@ public enum WonderType: Int, Codable {
         case .petra:
             // https://civilization.fandom.com/wiki/Petra_(Civ6)
             return WonderTypeData(
-                name: "Petra",
+                name: "TXT_KEY_WONDER_PETRA_TITLE",
                 effects: [
-                    "+2 [Food] Food, +2 [Gold] Gold and +1 [Production] Production on all Desert tiles for this city (non-Floodplains)."
+                    "TXT_KEY_WONDER_ETRA_EFFECT1"
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -548,9 +556,11 @@ public enum WonderType: Int, Codable {
         case .terracottaArmy:
             // https://civilization.fandom.com/wiki/Terracotta_Army_(Civ6)
             return WonderTypeData(
-                name: "Terracotta Army",
-                effects: ["+2 [GreatGeneral] Great General points per turn",
-                          "All current land units gain a promotion level."], // #
+                name: "TXT_KEY_WONDER_TERRACOTTA_ARMY_TITLE",
+                effects: [
+                    "TXT_KEY_WONDER_TERRACOTTA_ARMY_EFFECT1",
+                    "TXT_KEY_WONDER_TERRACOTTA_ARMY_EFFECT2" // #
+                ],
                 era: .classical,
                 productionCost: 400,
                 requiredTech: .construction,
@@ -567,11 +577,10 @@ public enum WonderType: Int, Codable {
         case .machuPicchu:
             // https://civilization.fandom.com/wiki/Machu_Picchu_(Civ6)
             return WonderTypeData(
-                name: "Machu Picchu",
+                name: "TXT_KEY_WONDER_MACHU_PICCHU_TITLE",
                 effects: [
-                    "+4 [Gold] Gold",
-                    "Mountain tiles provide a standard adjacency bonus to Commercial Hub, " +
-                        "Theater Square and Industrial Zone districts in all cities." // #
+                    "TXT_KEY_WONDER_MACHU_PICCHU_EFFECT1",
+                    "TXT_KEY_WONDER_MACHU_PICCHU_EFFECT2" // #
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -586,11 +595,11 @@ public enum WonderType: Int, Codable {
         case .statueOfZeus:
             // https://civilization.fandom.com/wiki/Statue_of_Zeus_(Civ6)
             return WonderTypeData(
-                name: "Statue of Zeus",
+                name: "TXT_KEY_WONDER_STATUE_OF_ZEUS_TITLE",
                 effects: [
-                    "+3 [Gold] Gold",
-                    "Grants 3 Spearmen, 3 Archers, and a Battering Ram.",
-                    "+50% [Production] Production towards anti-cavalry units."
+                    "TXT_KEY_WONDER_STATUE_OF_ZEUS_EFFECT1",
+                    "TXT_KEY_WONDER_STATUE_OF_ZEUS_EFFECT2",
+                    "TXT_KEY_WONDER_STATUE_OF_ZEUS_EFFECT3"
                 ],
                 era: .classical,
                 productionCost: 400,
@@ -602,16 +611,18 @@ public enum WonderType: Int, Codable {
                 flavours: [Flavor(type: .gold, value: 7)]
             )
 
+            // -------------------------------
             // medieval
+
         case .alhambra:
             // https://civilization.fandom.com/wiki/Alhambra_(Civ6)
             return WonderTypeData(
-                name: "Alhambra",
+                name: "TXT_KEY_WONDER_ALHAMBRA_TITLE",
                 effects: [
-                    "+2 Amenities",
-                    "+2 [GreatGeneral] Great General points per turn",
-                    "+1 Military policy slot",
-                    "Provides the same defensive bonuses as the Fort improvement" // #
+                    "TXT_KEY_WONDER_ALHAMBRA_EFFECT1",
+                    "TXT_KEY_WONDER_ALHAMBRA_EFFECT2",
+                    "TXT_KEY_WONDER_ALHAMBRA_EFFECT3",
+                    "TXT_KEY_WONDER_ALHAMBRA_EFFECT4" // #
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -629,11 +640,11 @@ public enum WonderType: Int, Codable {
         case .angkorWat:
             // https://civilization.fandom.com/wiki/Angkor_Wat_(Civ6)
             return WonderTypeData(
-                name: "Angkor Wat",
+                name: "TXT_KEY_WONDER_ANGKOR_WAT_TITLE",
                 effects: [
-                    "+2 [Faith] Faith",
-                    "+1 [Citizen] Population in all current cities when built.",
-                    "+1 [Housing] Housing in all cities."
+                    "TXT_KEY_WONDER_ANGKOR_WAT_EFFECT1",
+                    "TXT_KEY_WONDER_ANGKOR_WAT_EFFECT2",
+                    "TXT_KEY_WONDER_ANGKOR_WAT_EFFECT3"
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -651,9 +662,9 @@ public enum WonderType: Int, Codable {
         case .chichenItza:
             // https://civilization.fandom.com/wiki/Chichen_Itza_(Civ6)
             return WonderTypeData(
-                name: "Chichen Itza",
+                name: "TXT_KEY_WONDER_CHICHEN_ITZA_TITLE",
                 effects: [
-                    "+2 [Culture] Culture and +1 [Production] Production to all Rainforest tiles for this city."
+                    "TXT_KEY_WONDER_CHICHEN_ITZA_EFFECT1"
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -670,10 +681,10 @@ public enum WonderType: Int, Codable {
         case .hagiaSophia:
             // https://civilization.fandom.com/wiki/Hagia_Sophia_(Civ6)
             return WonderTypeData(
-                name: "Hagia Sophia",
+                name: "TXT_KEY_WONDER_HAGIA_SOPHIA_TITLE",
                 effects: [
-                    "+4 [Faith] Faith",
-                    "Missionaries and Apostles can use Spread Religion 1 extra time." // #
+                    "TXT_KEY_WONDER_HAGIA_SOPHIA_EFFECT1",
+                    "TXT_KEY_WONDER_HAGIA_SOPHIA_EFFECT2" // #
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -690,11 +701,10 @@ public enum WonderType: Int, Codable {
         case .hueyTeocalli:
             // https://civilization.fandom.com/wiki/Huey_Teocalli_(Civ6)
             return WonderTypeData(
-                name: "Huey Teocalli",
+                name: "TXT_KEY_WONDER_HUEY_TEOCALLI_TITLE",
                 effects: [
-                    "+1 Amenity from entertainment for each Lake tile within one tile of Huey Teocalli. " +
-                        "(This includes the Lake tile where the wonder is placed.)",
-                    "+1 [Food] Food and +1 [Production] Production for each Lake tile in your empire."
+                    "TXT_KEY_WONDER_HUEY_TEOCALLI_EFFECT1",
+                    "TXT_KEY_WONDER_HUEY_TEOCALLI_EFFECT2"
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -711,12 +721,10 @@ public enum WonderType: Int, Codable {
         case .kilwaKisiwani:
             // https://civilization.fandom.com/wiki/Kilwa_Kisiwani_(Civ6)
             return WonderTypeData(
-                name: "Kilwa Kisiwani",
+                name: "TXT_KEY_WONDER_KILWA_KISIWANI_TITLE",
                 effects: [
-                    "+3 [Envoy] Envoys when built.", // #
-                    "When you are the Suzerain of a City-State this city receives a +15% boost to the yield " +
-                    "provided by that City-State. If you are the Suzerain to 2 or more City-States of that " +
-                    "type an additional +15% boost is given to all your cities." // #
+                    "TXT_KEY_WONDER_KILWA_KISIWANI_EFFECT1", // #
+                    "TXT_KEY_WONDER_KILWA_KISIWANI_EFFECT2" // #
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -733,11 +741,10 @@ public enum WonderType: Int, Codable {
         case .kotokuIn:
             // https://civilization.fandom.com/wiki/Kotoku-in_(Civ6)
             return WonderTypeData(
-                name: "Kotoku-in",
+                name: "TXT_KEY_WONDER_KOTOKU_IN_TITLE",
                 effects: [
-                    "+20% [Faith] Faith in this city.",
-                    "Grants 4 Warrior Monks (if player has founded a religion or if there is " +
-                        "a majority religion for this player or city)." // #
+                    "TXT_KEY_WONDER_KOTOKU_IN_EFFECT1",
+                    "TXT_KEY_WONDER_KOTOKU_IN_EFFECT2" // #
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -754,12 +761,12 @@ public enum WonderType: Int, Codable {
         case .meenakshiTemple:
             // https://civilization.fandom.com/wiki/Meenakshi_Temple_(Civ6)
             return WonderTypeData(
-                name: "Meenakshi Temple",
+                name: "TXT_KEY_WONDER_MEENAKSHI_TEMPLE_TITLE",
                 effects: [
-                    "+3 [Faith] Faith.",
-                    "+2 Gurus.", // #
-                    "Gurus are 30% cheaper to purchase.", // #
-                    "Religious units adjacent to Gurus receive +5 Religious Strength in Theological Combat and +1 Movement." // #
+                    "TXT_KEY_WONDER_MEENAKSHI_TEMPLE_EFFECT1",
+                    "TXT_KEY_WONDER_MEENAKSHI_TEMPLE_EFFECT2", // #
+                    "TXT_KEY_WONDER_MEENAKSHI_TEMPLE_EFFECT3", // #
+                    "TXT_KEY_WONDER_MEENAKSHI_TEMPLE_EFFECT4" // #
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -776,12 +783,11 @@ public enum WonderType: Int, Codable {
         case .montStMichel:
             // https://civilization.fandom.com/wiki/Mont_St._Michel_(Civ6)
             return WonderTypeData(
-                name: "Mont St. Michel",
+                name: "TXT_KEY_WONDER_MONT_ST_MICHEL_TITLE",
                 effects: [
-                    "+2 [Faith] Faith",
-                    "2 [Relic] Relic slots",
-                    "All Apostles you create gain the Martyr ability in addition to a " +
-                        "second ability you choose normally." // #
+                    "TXT_KEY_WONDER_MONT_ST_MICHEL_EFFECT1",
+                    "TXT_KEY_WONDER_MONT_ST_MICHEL_EFFECT2",
+                    "TXT_KEY_WONDER_MONT_ST_MICHEL_EFFECT3" // #
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -798,14 +804,14 @@ public enum WonderType: Int, Codable {
         case .universityOfSankore:
             // https://civilization.fandom.com/wiki/University_of_Sankore_(Civ6)
             return WonderTypeData(
-                name: "University of Sankore",
+                name: "TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_TITLE",
                 effects: [
-                    "+3 [Science] Science",
-                    "+1 [Faith] Faith",
-                    "+2 [GreatScientist] Great Scientist points per turn", // #
-                    "Other civilizations' Trade Routes to this city provide +1 Science and +1 Gold for them", // #
-                    "+2 [Science] Science for every Trade Route to this city", // #
-                    "Domestic [TradeRoute] Trade Routes give an additional +1 [Faith] Faith to this city" // #
+                    "TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT1",
+                    "TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT2",
+                    "TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT3", // #
+                    "TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT4", // #
+                    "TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT5", // #
+                    "TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT6" // #
                 ],
                 era: .medieval,
                 productionCost: 710,
@@ -847,10 +853,10 @@ public enum WonderType: Int, Codable {
         case .forbiddenCity:
             // https://civilization.fandom.com/wiki/Forbidden_City_(Civ6)
             return WonderTypeData(
-                name: "Forbidden City",
+                name: "TXT_KEY_WONDER_FORBIDDEN_CITY_TITLE",
                 effects: [
-                    "+1 Wildcard policy slot", // #
-                    "+5 [Culture] Culture"
+                    "TXT_KEY_WONDER_FORBIDDEN_CITY_EFFECT1", // #
+                    "TXT_KEY_WONDER_FORBIDDEN_CITY_EFFECT2"
                 ],
                 era: .renaissance,
                 productionCost: 920,
@@ -867,12 +873,12 @@ public enum WonderType: Int, Codable {
         case .greatZimbabwe:
             // https://civilization.fandom.com/wiki/Great_Zimbabwe_(Civ6)
             return WonderTypeData(
-                name: "Great Zimbabwe",
+                name: "TXT_KEY_WONDER_GREAT_ZIMBABWE_TITLE",
                 effects: [
-                    "+1 [TradeRoute] Trade Route", // #
-                    "+5 [Gold] Gold",
-                    "+2 [GreatMerchant] Great Merchant points per turn", // #
-                    "Trade Routes from this city get +2 Gold for every bonus resource within 3 tiles of the city and in this city's territory" // #
+                    "TXT_KEY_WONDER_GREAT_ZIMBABWE_EFFECT1", // #
+                    "TXT_KEY_WONDER_GREAT_ZIMBABWE_EFFECT2",
+                    "TXT_KEY_WONDER_GREAT_ZIMBABWE_EFFECT3", // #
+                    "TXT_KEY_WONDER_GREAT_ZIMBABWE_EFFECT4" // #
                 ],
                 era: .renaissance,
                 productionCost: 920,
@@ -890,12 +896,12 @@ public enum WonderType: Int, Codable {
             // https://civilization.fandom.com/wiki/Potala_Palace_(Civ6)
             // It must be built on Hills adjacent to Mountains.
             return WonderTypeData(
-                name: "Potala Palace",
+                name: "TXT_KEY_WONDER_POTALA_PALACE_TITLE",
                 effects: [
-                    "+1 Diplomatic policy slot", // #
-                    "+2 [Culture] Culture",
-                    "+3 [Faith] Faith",
-                    "+1 Diplomatic Victory Point when built" // #
+                    "TXT_KEY_WONDER_POTALA_PALACE_EFFECT1", // #
+                    "TXT_KEY_WONDER_POTALA_PALACE_EFFECT2",
+                    "TXT_KEY_WONDER_POTALA_PALACE_EFFECT3",
+                    "TXT_KEY_WONDER_POTALA_PALACE_EFFECT4" // #
                 ],
                 era: .renaissance,
                 productionCost: 1060,
@@ -914,11 +920,11 @@ public enum WonderType: Int, Codable {
         case .stBasilsCathedral:
             // https://civilization.fandom.com/wiki/St._Basil%27s_Cathedral_(Civ6)
             return WonderTypeData(
-                name: "St. Basil's Cathedral",
+                name: "TXT_KEY_WONDER_ST_BASILS_CATHEDRAL_TITLE",
                 effects: [
-                    "+3 [Relic] Relic slots",
-                    "+100% Religious Tourism from this city.", // #
-                    "+1 [Food] Food, +1 [Production] Production, and +1 [Culture] Culture on all Tundra tiles for this city." // #
+                    "TXT_KEY_WONDER_ST_BASILS_CATHEDRAL_EFFECT1",
+                    "TXT_KEY_WONDER_ST_BASILS_CATHEDRAL_EFFECT2", // #
+                    "TXT_KEY_WONDER_ST_BASILS_CATHEDRAL_EFFECT3" // #
                 ],
                 era: .renaissance,
                 productionCost: 920,
@@ -936,10 +942,9 @@ public enum WonderType: Int, Codable {
             // https://civilization.fandom.com/wiki/Taj_Mahal_(Civ6)
             // It must be built along a River.
             return WonderTypeData(
-                name: "Taj Mahal",
+                name: "TXT_KEY_WONDER_TAJ_MAHAL_TITLE",
                 effects: [
-                    "+1 Era Score from Historic Moment earned after this wonder is complete if that Moment " +
-                    "is usually worth 2 or more Era Score." // #
+                    "TXT_KEY_WONDER_TAJ_MAHAL_EFFECT1" // #
                 ],
                 era: .renaissance,
                 productionCost: 920,
@@ -957,13 +962,12 @@ public enum WonderType: Int, Codable {
             // https://civilization.fandom.com/wiki/Torre_de_Bel%C3%A9m_(Civ6)
             //  It must be built on Coast adjacent to land and a Harbor. It cannot be built on a Lake.
             return WonderTypeData(
-                name: "Torre de Belém",
+                name: "TXT_KEY_WONDER_TORRE_DE_BELEM_TITLE",
                 effects: [
-                    "International [TradeRoute] Trade Route from this city receive +2 [Gold] Gold for every luxury resource at the destination", // #
-                    "When the Torre de Belém is constructed, cities not on your home continent " +
-                        "receive the lowest Production cost building they can currently construct", // #
-                    "+5 [Gold] Gold",
-                    "+1 [GreatAdmiral] Great Admiral point per turn" // #
+                    "TXT_KEY_WONDER_TORRE_DE_BELEM_EFFECT1", // #
+                    "TXT_KEY_WONDER_TORRE_DE_BELEM_EFFECT2", // #
+                    "TXT_KEY_WONDER_TORRE_DE_BELEM_EFFECT3",
+                    "TXT_KEY_WONDER_TORRE_DE_BELEM_EFFECT4" // #
                 ],
                 era: .renaissance,
                 productionCost: 920,
@@ -981,10 +985,10 @@ public enum WonderType: Int, Codable {
             // https://civilization.fandom.com/wiki/Venetian_Arsenal_(Civ6)
             // It must be built on Coast adjacent to an Industrial Zone. It cannot be built on a Lake.
             return WonderTypeData(
-                name: "Venetian Arsenal",
+                name: "TXT_KEY_WONDER_VENETIAN_ARSENAL_TITLE",
                 effects: [
-                    "+2 [GreatEngineer] Great Engineer points per turn", // #
-                    "Receive a second naval unit each time you train a naval unit." // #
+                    "TXT_KEY_WONDER_VENETIAN_ARSENAL_EFFECT1", // #
+                    "TXT_KEY_WONDER_VENETIAN_ARSENAL_EFFECT2" // #
                 ],
                 era: .renaissance,
                 productionCost: 920,

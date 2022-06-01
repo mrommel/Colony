@@ -27,7 +27,7 @@ public enum MomentType: Hashable {
     case cityNearVolcano(cityName: String) // 5
     case cityOfAwe(cityName: String) // 6
     case cityOnNewContinent(cityName: String, continentName: String) // 7
-    // case cityStatesFirstSuzerain 8
+    case cityStatesFirstSuzerain(cityState: CityStateType) // 8
     // case cityStateArmyLeviedNearEnemy 9
     // case climateChangePhase 10
     case darkAgeBegins // 11
@@ -197,7 +197,7 @@ public enum MomentType: Hashable {
         .cityNearVolcano(cityName: ""),
         .cityOfAwe(cityName: ""),
         .cityOnNewContinent(cityName: "", continentName: ""),
-        // .cityStatesFirstSuzerain
+        .cityStatesFirstSuzerain(cityState: CityStateType.akkad),
         // .cityStateArmyLeviedNearEnemy
         // .climateChangePhase
         .darkAgeBegins,
@@ -494,7 +494,15 @@ public enum MomentType: Hashable {
                 eraScore: 2
             )
 
-        // City-State's First Suzerain
+        case .cityStatesFirstSuzerain(cityState: _):
+            return MomentTypeData(
+                name: "TXT_KEY_MOMENT_CITY_STATES_FIRST_SUZERAIN_TITLE",
+                summary: "TXT_KEY_MOMENT_CITY_STATES_FIRST_SUZERAIN_SUMMARY",
+                category: .major,
+                eraScore: 2,
+                maxEra: .medieval
+            )
+
         // City-State Army Levied Near Enemy
         // Climate Change Phase
 
@@ -1432,7 +1440,7 @@ public enum MomentType: Hashable {
         case .dedicationTriggered(dedicationType: _):
             return MomentTypeData(
                 name: "Dedication triggered",
-                summary: "",
+                summary: "Dedication triggered",
                 category: .hidden,
                 eraScore: 1
             )
@@ -2402,7 +2410,8 @@ extension MomentType: Equatable {
             return true
         case (.cityOnNewContinent(cityName: _, continentName: _), .cityOnNewContinent(cityName: _, continentName: _)):
             return true
-        // case cityStatesFirstSuzerain
+        case (.cityStatesFirstSuzerain(cityState: _), .cityStatesFirstSuzerain(cityState: _)):
+            return true // it does not matter what city state - this can happen only once
         // case cityStateArmyLeviedNearEnemy
         // case climateChangePhase
         case (.darkAgeBegins, .darkAgeBegins):

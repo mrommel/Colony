@@ -108,7 +108,7 @@ final class BuildingViewModel: QueueViewModel, Codable {
 
     func title() -> String {
 
-        return self.buildingType.name()
+        return self.buildingType.name().localized()
     }
 
     func turnsText() -> String {

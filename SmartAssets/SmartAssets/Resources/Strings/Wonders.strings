@@ -14,615 +14,173 @@
 "TXT_KEY_WONDER_GREAT_BATH_EFFECT4" = "-50% [Production] Production and [Food] Food yields from Flood damage."; // #
 "TXT_KEY_WONDER_GREAT_BATH_EFFECT5" = "+1 [Faith] Faith for every time a tile belonging to this city has been Flooded."; // #
 
-/*
+// etemenanki
+"TXT_KEY_WONDER_ETEMENANKI_TITLE" = "Etemenanki";
+"TXT_KEY_WONDER_ETEMENANKI_EFFECT1" = "+2 [Science] Science and +1 [Production] Production to all Marsh tiles in your empire.";
+"TXT_KEY_WONDER_ETEMENANKI_EFFECT2" = "+1 [Science] Science and +1 [Production] Production on all Floodplains tiles in this city.";
+"TXT_KEY_WONDER_ETEMENANKI_EFFECT3" = "+2 [Science] Science";
 
-case .etemenanki:
-    // https://civilization.fandom.com/wiki/Etemenanki_(Civ6)
-    return WonderTypeData(
-        name: "Etemenanki",
-        effects: [
-            "+2 [Science] Science and +1 [Production] Production to all Marsh tiles in your empire.",
-            "+1 [Science] Science and +1 [Production] Production on all Floodplains tiles in this city.",
-            "+2 [Science] Science"
-        ],
-        era: .ancient,
-        productionCost: 220,
-        requiredTech: .writing,
-        requiredCivic: nil,
-        amenities: 0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0, science: 2.0),
-        slots: [],
-        flavours: [Flavor(type: .science, value: 7), Flavor(type: .production, value: 3)]
-    )
+// hangingGardens
+"TXT_KEY_WONDER_HANGING_GARDENS_TITLE" = "Hanging Gardens";
+"TXT_KEY_WONDER_HANGING_GARDENS_EFFECT1" = "Increases growth by 15% in all cities.";
+"TXT_KEY_WONDER_HANGING_GARDENS_EFFECT2" = "+2 [Housing] Housing";
 
-case .hangingGardens:
-    // https://civilization.fandom.com/wiki/Hanging_Gardens_(Civ6)
-    return WonderTypeData(
-        name: "Hanging Gardens",
-        effects: [
-            "Increases growth by 15% in all cities.",
-            "+2 [Housing] Housing"
-        ],
-        era: .ancient,
-        productionCost: 180,
-        requiredTech: .irrigation,
-        requiredCivic: nil,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0, housing: 2.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .wonder, value: 20),
-            Flavor(type: .growth, value: 20)
-        ]
-    )
+// stonehenge
+"TXT_KEY_WONDER_STONEHENGE_TITLE" = "Stonehenge";
+"TXT_KEY_WONDER_STONEHENGE_EFFECT1" = "+2 [Faith] Faith";
+"TXT_KEY_WONDER_STONEHENGE_EFFECT2" = "Grants a free [GreatProphet] Great Prophet.";
 
-case .stonehenge:
-    // https://civilization.fandom.com/wiki/Stonehenge_(Civ6)
-    // Great Prophets may found a religion on Stonehenge instead of a Holy Site.
-    return WonderTypeData(
-        name: "Stonehenge",
-        effects: [
-            "+2 [Faith] Faith",
-            "Grants a free [GreatProphet] Great Prophet."
-        ],
-        era: .ancient,
-        productionCost: 180,
-        requiredTech: .astrology,
-        requiredCivic: nil,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0, faith: 2.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .wonder, value: 25),
-            Flavor(type: .culture, value: 20)
-        ]
-    )
+// templeOfArtemis
+"TXT_KEY_WONDER_TEMPLE_OF_ARTEMIS_TITLE" = "Temple of Artemis";
+"TXT_KEY_WONDER_TEMPLE_OF_ARTEMIS_EFFECT1" = "+4 [Food] Food";
+"TXT_KEY_WONDER_TEMPLE_OF_ARTEMIS_EFFECT2" = "+3 [Housing] Housing";
+"TXT_KEY_WONDER_TEMPLE_OF_ARTEMIS_EFFECT3" = "Each Camp, Pasture, and Plantation improvement within 4 tiles of this wonder provides +1 [Amenity] Amenity.";
 
-case .templeOfArtemis:
-    // https://civilization.fandom.com/wiki/Temple_of_Artemis_(Civ6)
-    return WonderTypeData(
-        name: "Temple of Artemis",
-        effects: [
-            "+4 [Food] Food",
-            "+3 [Housing] Housing",
-            "Each Camp, Pasture, and Plantation improvement within 4 tiles of this wonder provides +1 Amenity."
-        ],
-        era: .ancient,
-        productionCost: 180,
-        requiredTech: .archery,
-        requiredCivic: nil,
-        amenities: 0.0,
-        yields: Yields(food: 4.0, production: 0.0, gold: 0.0, housing: 3.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .wonder, value: 20),
-            Flavor(type: .growth, value: 10)
-        ]
-    )
+// pyramids
+"TXT_KEY_WONDER_PYRAMIDS_TITLE" = "Pyramids";
+"TXT_KEY_WONDER_PYRAMIDS_EFFECT1" = "+2 [Culture] Culture";
+"TXT_KEY_WONDER_PYRAMIDS_EFFECT2" = "Grants a free Builder.";
+"TXT_KEY_WONDER_PYRAMIDS_EFFECT3" = "All Builders can build 1 extra improvement.";
 
-case .pyramids:
-    // https://civilization.fandom.com/wiki/Pyramids_(Civ6)
-    return WonderTypeData(
-        name: "Pyramids",
-        effects: [
-            "+2 [Culture] Culture",
-            "Grants a free Builder.",
-            "All Builders can build 1 extra improvement."
-        ],
-        era: .ancient,
-        productionCost: 220,
-        requiredTech: .masonry,
-        requiredCivic: nil,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 2.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .wonder, value: 25),
-            Flavor(type: .culture, value: 20)
-        ]
-    )
+// oracle
+"TXT_KEY_WONDER_ORACLE_TITLE" = "Oracle";
+"TXT_KEY_WONDER_ORACLE_EFFECT1" = "+1 [Culture] Culture";
+"TXT_KEY_WONDER_ORACLE_EFFECT2" = "+1 [Faith] Faith";
+"TXT_KEY_WONDER_ORACLE_EFFECT3" = "Patronage of Great People costs 25% less Faith."; // #
+"TXT_KEY_WONDER_ORACLE_EFFECT4" = "Districts in this city provide +2 Great Person points of their type.";
 
-case .oracle:
-    // https://civilization.fandom.com/wiki/Oracle_(Civ6)
-    return WonderTypeData(
-        name: "Oracle",
-        effects: [
-            "+1 [Culture] Culture",
-            "+1 [Faith] Faith",
-            "Patronage of Great People costs 25% less Faith.", // #
-            "Districts in this city provide +2 Great Person points of their type."
-        ],
-        era: .ancient,
-        productionCost: 290,
-        requiredTech: nil,
-        requiredCivic: .mysticism,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 1.0, faith: 1.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .wonder, value: 20),
-            Flavor(type: .culture, value: 15)
-        ]
-    )
+// ---------------------------------------------
+// classical
 
-    // classical
-case .greatLighthouse:
-    // https://civilization.fandom.com/wiki/Great_Lighthouse_(Civ6)
-    return WonderTypeData(
-        name: "Great Lighthouse",
-        effects: [
-            "+1 Movement for all naval units.",
-            "+3 [Gold] Gold",
-            "+1 [GreatAdmiral] Great Admiral point per turn"
-        ],
-        era: .classical,
-        productionCost: 290,
-        requiredTech: .celestialNavigation,
-        requiredCivic: nil,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 3.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .greatPeople, value: 20),
-            Flavor(type: .gold, value: 15),
-            Flavor(type: .navalGrowth, value: 10),
-            Flavor(type: .navalRecon, value: 8)
-        ]
-    )
+// greatLighthouse
+"TXT_KEY_WONDER_GREAT_LIGHTHOUSE_TITLE" = "Great Lighthouse";
+"TXT_KEY_WONDER_GREAT_LIGHTHOUSE_EFFECT1" = "+1 Movement for all naval units.";
+"TXT_KEY_WONDER_GREAT_LIGHTHOUSE_EFFECT2" = "+3 [Gold] Gold";
+"TXT_KEY_WONDER_GREAT_LIGHTHOUSE_EFFECT3" = "+1 [GreatAdmiral] Great Admiral point per turn";
 
-case .greatLibrary:
-    // https://civilization.fandom.com/wiki/Great_Library_(Civ6)
-    return WonderTypeData(
-        name: "Great Library",
-        effects: [
-            "+2 [Science] Science",
-            "+1 [GreatScientist] Great Scientist point per turn",
-            "+2 Great Works of Writing slots",
-            "Receive boosts to all Ancient and Classical era technologies.",
-            "+1 [GreatWriter] Great Writer point per turn"
-        ],
-        era: .classical,
-        productionCost: 400,
-        requiredTech: nil,
-        requiredCivic: .recordedHistory,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0, science: 2.0),
-        slots: [.written, .written],
-        flavours: [
-            Flavor(type: .science, value: 20),
-            Flavor(type: .greatPeople, value: 15)
-        ]
-    )
+// greatLibrary
+"TXT_KEY_WONDER_GREAT_LIBRARY_TITLE" = "Great Library";
+"TXT_KEY_WONDER_GREAT_LIBRARY_EFFECT1" = "+2 [Science] Science";
+"TXT_KEY_WONDER_GREAT_LIBRARY_EFFECT2" = "+1 [GreatScientist] Great Scientist point per turn";
+"TXT_KEY_WONDER_GREAT_LIBRARY_EFFECT3" = "+2 Great Works of Writing slots";
+"TXT_KEY_WONDER_GREAT_LIBRARY_EFFECT4" = "Receive boosts to all Ancient and Classical era technologies.";
+"TXT_KEY_WONDER_GREAT_LIBRARY_EFFECT5" = "+1 [GreatWriter] Great Writer point per turn";
 
-case .apadana:
-    // https://civilization.fandom.com/wiki/Apadana_(Civ6)
-    return WonderTypeData(
-        name: "Apadana",
-        effects: [
-            "+2 Great Work slots",
-            "+2 [Envoy] Envoys when you build a wonder, including Apadana, in this city." // #
-        ],
-        era: .classical,
-        productionCost: 400,
-        requiredTech: nil,
-        requiredCivic: .politicalPhilosophy,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
-        slots: [.any, .any],
-        flavours: [
-            Flavor(type: .diplomacy, value: 20),
-            Flavor(type: .culture, value: 7)
-        ]
-    )
+// apadana
+"TXT_KEY_WONDER_APADANA_TITLE" = "Apadana";
+"TXT_KEY_WONDER_APADANA_EFFECT1" = "+2 Great Work slots";
+"TXT_KEY_WONDER_APADANA_EFFECT2" = "+2 [Envoy] Envoys when you build a wonder, including Apadana, in this city."; // #
 
-case .colosseum:
-    // https://civilization.fandom.com/wiki/Colosseum_(Civ6)
-    return WonderTypeData(
-        name: "Colosseum",
-        effects: [
-            "+2 [Culture] Culture, +2 Loyalty, +2 [Amenities] Amenities from entertainment " +
-                "to each City Center within 6 tiles."
-        ],
-        era: .classical,
-        productionCost: 400,
-        requiredTech: nil,
-        requiredCivic: .gamesAndRecreation,
-        amenities: 0.0, // is handled differently !
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 2.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .happiness, value: 20),
-            Flavor(type: .culture, value: 10)
-        ]
-    )
+// colosseum
+"TXT_KEY_WONDER_COLOSSEUM_TITLE" = "Colosseum";
+"TXT_KEY_WONDER_COLOSSEUM_EFFECT1" = "+2 [Culture] Culture, +2 Loyalty, +2 [Amenities] Amenities from entertainment to each City Center within 6 tiles.";
 
-case .colossus:
-    // https://civilization.fandom.com/wiki/Colossus_(Civ6)
-    return WonderTypeData(
-        name: "Colossus",
-        effects: [
-            "+3 [Gold] Gold",
-            "+1 [GreatAdmiral] Great Admiral point per turn",
-            "+1 [TradeRoute] Trade Route capacity",
-            "Grants a Trader unit."
-        ],
-        era: .classical,
-        productionCost: 400,
-        requiredTech: .shipBuilding,
-        requiredCivic: nil,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 3.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .gold, value: 12),
-            Flavor(type: .naval, value: 14),
-            Flavor(type: .navalRecon, value: 3)
-        ]
-    )
+// colossus
+"TXT_KEY_WONDER_COLOSSUS_TITLE" = "Colossus";
+"TXT_KEY_WONDER_COLOSSUS_EFFECT1" = "+3 [Gold] Gold";
+"TXT_KEY_WONDER_COLOSSUS_EFFECT2" = "+1 [GreatAdmiral] Great Admiral point per turn";
+"TXT_KEY_WONDER_COLOSSUS_EFFECT3" = "+1 [TradeRoute] Trade Route capacity";
+"TXT_KEY_WONDER_COLOSSUS_EFFECT4" = "Grants a Trader unit.";
 
-case .jebelBarkal:
-    // https://civilization.fandom.com/wiki/Jebel_Barkal_(Civ6)
-    return WonderTypeData(
-        name: "Jebel Barkal",
-        effects: [
-            "Awards 2 Iron.", // #
-            "Provides +4 [Faith] Faith to all your cities that are within 6 tiles."
-        ],
-        era: .classical,
-        productionCost: 400,
-        requiredTech: .ironWorking,
-        requiredCivic: nil,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .religion, value: 12),
-            Flavor(type: .tileImprovement, value: 7)
-        ]
-    )
+// jebelBarkal
+"TXT_KEY_WONDER_JEBEL_BARKAL_TITLE" = "Jebel Barkal";
+"TXT_KEY_WONDER_JEBEL_BARKAL_EFFECT1" = "Awards 2 Iron."; // #
+"TXT_KEY_WONDER_JEBEL_BARKAL_EFFECT2" = "Provides +4 [Faith] Faith to all your cities that are within 6 tiles.";
 
-case .mausoleumAtHalicarnassus:
-    // https://civilization.fandom.com/wiki/Mausoleum_at_Halicarnassus_(Civ6)
-    return WonderTypeData(
-        name: "Mausoleum at Halicarnassus",
-        effects: [
-            "+1 [Science] Science, +1 [Faith] Faith and +1 [Culture] Culture on all Coast tiles in this city.",
-            "All [GreatEngineer] Great Engineers have an additional charge." // #
-        ],
-        era: .classical,
-        productionCost: 400,
-        requiredTech: nil,
-        requiredCivic: .defensiveTactics,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0, science: 1.0, faith: 1.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .tileImprovement, value: 7),
-            Flavor(type: .science, value: 5),
-            Flavor(type: .religion, value: 5),
-            Flavor(type: .culture, value: 7)
-        ]
-    )
+// mausoleumAtHalicarnassus
+"TXT_KEY_WONDER_MAUSOLEUM_AT_HALICARNASSUS_TITLE" = "Mausoleum at Halicarnassus";
+"TXT_KEY_WONDER_MAUSOLEUM_AT_HALICARNASSUS_EFFECT1" = "+1 [Science] Science, +1 [Faith] Faith and +1 [Culture] Culture on all Coast tiles in this city.";
+"TXT_KEY_WONDER_MAUSOLEUM_AT_HALICARNASSUS_EFFECT2" = "All [GreatEngineer] Great Engineers have an additional charge."; // #
 
-case .mahabodhiTemple:
-    // https://civilization.fandom.com/wiki/Mahabodhi_Temple_(Civ6)
-    return WonderTypeData(
-        name: "Mahabodhi Temple",
-        effects: [
-            "+4 [Faith] Faith",
-            "Grants 2 Apostles." // #
-        ],
-        era: .classical,
-        productionCost: 400,
-        requiredTech: nil,
-        requiredCivic: .theology,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0, faith: 4.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .religion, value: 20),
-            Flavor(type: .greatPeople, value: 7)
-        ]
-    )
+// mahabodhiTemple
+"TXT_KEY_WONDER_MAHABODHI_TEMPLE_TITLE" = "Mahabodhi Temple";
+"TXT_KEY_WONDER_MAHABODHI_TEMPLE_EFFECT1" = "+4 [Faith] Faith";
+"TXT_KEY_WONDER_MAHABODHI_TEMPLE_EFFECT2" = "Grants 2 Apostles."; // #
 
-case .petra:
-    // https://civilization.fandom.com/wiki/Petra_(Civ6)
-    return WonderTypeData(
-        name: "Petra",
-        effects: [
-            "+2 [Food] Food, +2 [Gold] Gold and +1 [Production] Production on all Desert tiles for this city (non-Floodplains)."
-        ],
-        era: .classical,
-        productionCost: 400,
-        requiredTech: .mathematics,
-        requiredCivic: nil,
-        amenities: 0.0,
-        yields: Yields(food: 2.0, production: 1.0, gold: 2.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .tileImprovement, value: 10),
-            Flavor(type: .growth, value: 12),
-            Flavor(type: .gold, value: 10)
-        ]
-    )
+// petra
+"TXT_KEY_WONDER_PETRA_TITLE" = "Petra";
+"TXT_KEY_WONDER_ETRA_EFFECT1" = "+2 [Food] Food, +2 [Gold] Gold and +1 [Production] Production on all Desert tiles for this city (non-Floodplains).";
 
-case .terracottaArmy:
-    // https://civilization.fandom.com/wiki/Terracotta_Army_(Civ6)
-    return WonderTypeData(
-        name: "Terracotta Army",
-        effects: ["+2 [GreatGeneral] Great General points per turn",
-                  "All current land units gain a promotion level."], // #
-        era: .classical,
-        productionCost: 400,
-        requiredTech: .construction,
-        requiredCivic: nil,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .greatPeople, value: 10),
-            Flavor(type: .militaryTraining, value: 7)
-        ]
-    )
+// terracottaArmy
+"TXT_KEY_WONDER_TERRACOTTA_ARMY_TITLE" = "Terracotta Army";
+"TXT_KEY_WONDER_TERRACOTTA_ARMY_EFFECT1" = "+2 [GreatGeneral] Great General points per turn";
+"TXT_KEY_WONDER_TERRACOTTA_ARMY_EFFECT2" = "All current land units gain a promotion level."; // #
 
-case .machuPicchu:
-    // https://civilization.fandom.com/wiki/Machu_Picchu_(Civ6)
-    return WonderTypeData(
-        name: "Machu Picchu",
-        effects: [
-            "+4 [Gold] Gold",
-            "Mountain tiles provide a standard adjacency bonus to Commercial Hub, " +
-                "Theater Square and Industrial Zone districts in all cities." // #
-        ],
-        era: .classical,
-        productionCost: 400,
-        requiredTech: .engineering,
-        requiredCivic: nil,
-        amenities: 0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 4.0),
-        slots: [],
-        flavours: [Flavor(type: .production, value: 7)]
-    )
+// machuPicchu
+"TXT_KEY_WONDER_MACHU_PICCHU_TITLE" = "Machu Picchu";
+"TXT_KEY_WONDER_MACHU_PICCHU_EFFECT1" = "+4 [Gold] Gold";
+"TXT_KEY_WONDER_MACHU_PICCHU_EFFECT2" = "Mountain tiles provide a standard adjacency bonus to Commercial Hub, Theater Square and Industrial Zone districts in all cities."; // #
 
-case .statueOfZeus:
-    // https://civilization.fandom.com/wiki/Statue_of_Zeus_(Civ6)
-    return WonderTypeData(
-        name: "Statue of Zeus",
-        effects: [
-            "+3 [Gold] Gold",
-            "Grants 3 Spearmen, 3 Archers, and a Battering Ram.",
-            "+50% [Production] Production towards anti-cavalry units."
-        ],
-        era: .classical,
-        productionCost: 400,
-        requiredTech: nil,
-        requiredCivic: .militaryTraining,
-        amenities: 0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 3.0),
-        slots: [],
-        flavours: [Flavor(type: .gold, value: 7)]
-    )
+// statueOfZeus
+"TXT_KEY_WONDER_STATUE_OF_ZEUS_TITLE" = "Statue of Zeus";
+"TXT_KEY_WONDER_STATUE_OF_ZEUS_EFFECT1" = "+3 [Gold] Gold";
+"TXT_KEY_WONDER_STATUE_OF_ZEUS_EFFECT2" = "Grants 3 Spearmen, 3 Archers, and a Battering Ram.";
+"TXT_KEY_WONDER_STATUE_OF_ZEUS_EFFECT3" = "+50% [Production] Production towards anti-cavalry units.";
 
-    // medieval
-case .alhambra:
-    // https://civilization.fandom.com/wiki/Alhambra_(Civ6)
-    return WonderTypeData(
-        name: "Alhambra",
-        effects: [
-            "+2 Amenities",
-            "+2 [GreatGeneral] Great General points per turn",
-            "+1 Military policy slot",
-            "Provides the same defensive bonuses as the Fort improvement" // #
-        ],
-        era: .medieval,
-        productionCost: 710,
-        requiredTech: .castles,
-        requiredCivic: nil,
-        amenities: 2,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .greatPeople, value: 8),
-            Flavor(type: .cityDefense, value: 5)
-        ]
-    )
+// ------------------------------------------
+// medieval
 
-case .angkorWat:
-    // https://civilization.fandom.com/wiki/Angkor_Wat_(Civ6)
-    return WonderTypeData(
-        name: "Angkor Wat",
-        effects: [
-            "+2 [Faith] Faith",
-            "+1 [Citizen] Population in all current cities when built.",
-            "+1 [Housing] Housing in all cities."
-        ],
-        era: .medieval,
-        productionCost: 710,
-        requiredTech: nil,
-        requiredCivic: .medievalFaires,
-        amenities: 0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0, faith: 2),
-        slots: [],
-        flavours: [
-            Flavor(type: .growth, value: 10),
-            Flavor(type: .religion, value: 2)
-        ]
-    )
+// alhambra
+"TXT_KEY_WONDER_ALHAMBRA_TITLE" = "Alhambra";
+"TXT_KEY_WONDER_ALHAMBRA_EFFECT1" = "+2 Amenities";
+"TXT_KEY_WONDER_ALHAMBRA_EFFECT2" = "+2 [GreatGeneral] Great General points per turn";
+"TXT_KEY_WONDER_ALHAMBRA_EFFECT3" = "+1 Military policy slot";
+"TXT_KEY_WONDER_ALHAMBRA_EFFECT4" = "Provides the same defensive bonuses as the Fort improvement"; // #
 
-case .chichenItza:
-    // https://civilization.fandom.com/wiki/Chichen_Itza_(Civ6)
-    return WonderTypeData(
-        name: "Chichen Itza",
-        effects: [
-            "+2 [Culture] Culture and +1 [Production] Production to all Rainforest tiles for this city."
-        ],
-        era: .medieval,
-        productionCost: 710,
-        requiredTech: nil,
-        requiredCivic: .guilds,
-        amenities: 0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .production, value: 4)
-        ]
-    )
+// angkorWat
+"TXT_KEY_WONDER_ANGKOR_WAT_TITLE" = "Angkor Wat";
+"TXT_KEY_WONDER_ANGKOR_WAT_EFFECT1" = "+2 [Faith] Faith";
+"TXT_KEY_WONDER_ANGKOR_WAT_EFFECT2" = "+1 [Citizen] Population in all current cities when built.";
+"TXT_KEY_WONDER_ANGKOR_WAT_EFFECT3" = "+1 [Housing] Housing in all cities.";
 
-case .hagiaSophia:
-    // https://civilization.fandom.com/wiki/Hagia_Sophia_(Civ6)
-    return WonderTypeData(
-        name: "Hagia Sophia",
-        effects: [
-            "+4 [Faith] Faith",
-            "Missionaries and Apostles can use Spread Religion 1 extra time." // #
-        ],
-        era: .medieval,
-        productionCost: 710,
-        requiredTech: .buttress,
-        requiredCivic: nil,
-        amenities: 0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0, faith: 4),
-        slots: [],
-        flavours: [
-            Flavor(type: .religion, value: 10)
-        ]
-    )
+// chichenItza
+"TXT_KEY_WONDER_CHICHEN_ITZA_TITLE" = "Chichen Itza";
+"TXT_KEY_WONDER_CHICHEN_ITZA_EFFECT1" = "+2 [Culture] Culture and +1 [Production] Production to all Rainforest tiles for this city.";
 
-case .hueyTeocalli:
-    // https://civilization.fandom.com/wiki/Huey_Teocalli_(Civ6)
-    return WonderTypeData(
-        name: "Huey Teocalli",
-        effects: [
-            "+1 Amenity from entertainment for each Lake tile within one tile of Huey Teocalli. " +
-                "(This includes the Lake tile where the wonder is placed.)",
-            "+1 [Food] Food and +1 [Production] Production for each Lake tile in your empire."
-        ],
-        era: .medieval,
-        productionCost: 710,
-        requiredTech: .militaryTactics,
-        requiredCivic: nil,
-        amenities: 0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .growth, value: 7)
-        ]
-    )
+// hagiaSophia
+"TXT_KEY_WONDER_HAGIA_SOPHIA_TITLE" = "Hagia Sophia";
+"TXT_KEY_WONDER_HAGIA_SOPHIA_EFFECT1" = "+4 [Faith] Faith";
+"TXT_KEY_WONDER_HAGIA_SOPHIA_EFFECT2" = "Missionaries and Apostles can use Spread Religion 1 extra time."; // #
 
-case .kilwaKisiwani:
-    // https://civilization.fandom.com/wiki/Kilwa_Kisiwani_(Civ6)
-    return WonderTypeData(
-        name: "Kilwa Kisiwani",
-        effects: [
-            "+3 [Envoy] Envoys when built.", // #
-            "When you are the Suzerain of a City-State this city receives a +15% boost to the yield " +
-            "provided by that City-State. If you are the Suzerain to 2 or more City-States of that " +
-            "type an additional +15% boost is given to all your cities." // #
-        ],
-        era: .medieval,
-        productionCost: 710,
-        requiredTech: .machinery,
-        requiredCivic: nil,
-        amenities: 0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .diplomacy, value: 4)
-        ]
-    )
+// hueyTeocalli
+"TXT_KEY_WONDER_HUEY_TEOCALLI_TITLE" = "Huey Teocalli";
+"TXT_KEY_WONDER_HUEY_TEOCALLI_EFFECT1" = "+1 Amenity from entertainment for each Lake tile within one tile of Huey Teocalli. (This includes the Lake tile where the wonder is placed.)";
+"TXT_KEY_WONDER_HUEY_TEOCALLI_EFFECT2" = "+1 [Food] Food and +1 [Production] Production for each Lake tile in your empire.";
 
-case .kotokuIn:
-    // https://civilization.fandom.com/wiki/Kotoku-in_(Civ6)
-    return WonderTypeData(
-        name: "Kotoku-in",
-        effects: [
-            "+20% [Faith] Faith in this city.",
-            "Grants 4 Warrior Monks (if player has founded a religion or if there is " +
-                "a majority religion for this player or city)." // #
-        ],
-        era: .medieval,
-        productionCost: 710,
-        requiredTech: nil,
-        requiredCivic: .divineRight,
-        amenities: 0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .religion, value: 10)
-        ]
-    )
+// kilwaKisiwani
+"TXT_KEY_WONDER_KILWA_KISIWANI_TITLE" = "Kilwa Kisiwani";
+"TXT_KEY_WONDER_KILWA_KISIWANI_EFFECT1" = "+3 [Envoy] Envoys when built."; // #
+"TXT_KEY_WONDER_KILWA_KISIWANI_EFFECT2" = "When you are the Suzerain of a City-State this city receives a +15% boost to the yield provided by that City-State. If you are the Suzerain to 2 or more City-States of that type an additional +15% boost is given to all your cities."; // #
 
-case .meenakshiTemple:
-    // https://civilization.fandom.com/wiki/Meenakshi_Temple_(Civ6)
-    return WonderTypeData(
-        name: "Meenakshi Temple",
-        effects: [
-            "+3 [Faith] Faith.",
-            "+2 Gurus.", // #
-            "Gurus are 30% cheaper to purchase.", // #
-            "Religious units adjacent to Gurus receive +5 Religious Strength in Theological Combat and +1 Movement." // #
-        ],
-        era: .medieval,
-        productionCost: 710,
-        requiredTech: nil,
-        requiredCivic: .civilService,
-        amenities: 0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0, faith: 3),
-        slots: [],
-        flavours: [
-            Flavor(type: .religion, value: 10)
-        ]
-    )
+// kotokuIn
+"TXT_KEY_WONDER_KOTOKU_IN_TITLE" = "Kotoku-in";
+"TXT_KEY_WONDER_KOTOKU_IN_EFFECT1" = "+20% [Faith] Faith in this city.";
+"TXT_KEY_WONDER_KOTOKU_IN_EFFECT2" = "Grants 4 Warrior Monks (if player has founded a religion or if there is a majority religion for this player or city)."; // #
 
-case .montStMichel:
-    // https://civilization.fandom.com/wiki/Mont_St._Michel_(Civ6)
-    return WonderTypeData(
-        name: "Mont St. Michel",
-        effects: [
-            "+2 [Faith] Faith",
-            "2 [Relic] Relic slots",
-            "All Apostles you create gain the Martyr ability in addition to a " +
-                "second ability you choose normally." // #
-        ],
-        era: .medieval,
-        productionCost: 710,
-        requiredTech: nil,
-        requiredCivic: .divineRight,
-        amenities: 0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0, faith: 2),
-        slots: [.relic, .relic],
-        flavours: [
-            Flavor(type: .religion, value: 10)
-        ]
-    )
+// meenakshiTemple
+"TXT_KEY_WONDER_MEENAKSHI_TEMPLE_TITLE" = "Meenakshi Temple";
+"TXT_KEY_WONDER_MEENAKSHI_TEMPLE_EFFECT1" = "+3 [Faith] Faith.";
+"TXT_KEY_WONDER_MEENAKSHI_TEMPLE_EFFECT2" = "+2 Gurus."; // #
+"TXT_KEY_WONDER_MEENAKSHI_TEMPLE_EFFECT3" = "Gurus are 30% cheaper to purchase."; // #
+"TXT_KEY_WONDER_MEENAKSHI_TEMPLE_EFFECT4" = "Religious units adjacent to Gurus receive +5 Religious Strength in Theological Combat and +1 Movement."; // #
 
-case .universityOfSankore:
-    // https://civilization.fandom.com/wiki/University_of_Sankore_(Civ6)
-    return WonderTypeData(
-        name: "University of Sankore",
-        effects: [
-            "+3 [Science] Science",
-            "+1 [Faith] Faith",
-            "+2 [GreatScientist] Great Scientist points per turn", // #
-            "Other civilizations' Trade Routes to this city provide +1 Science and +1 Gold for them", // #
-            "+2 [Science] Science for every Trade Route to this city", // #
-            "Domestic [TradeRoute] Trade Routes give an additional +1 [Faith] Faith to this city" // #
-        ],
-        era: .medieval,
-        productionCost: 710,
-        requiredTech: .education,
-        requiredCivic: nil,
-        amenities: 0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0, science: 3, faith: 1),
-        slots: [],
-        flavours: [
-            Flavor(type: .science, value: 8),
-            Flavor(type: .gold, value: 3)
-        ]
-    )
+// montStMichel
+"TXT_KEY_WONDER_MONT_ST_MICHEL_TITLE" = "Mont St. Michel";
+"TXT_KEY_WONDER_MONT_ST_MICHEL_EFFECT1" = "+2 [Faith] Faith";
+"TXT_KEY_WONDER_MONT_ST_MICHEL_EFFECT2" = "2 [Relic] Relic slots";
+"TXT_KEY_WONDER_MONT_ST_MICHEL_EFFECT3" = "All Apostles you create gain the Martyr ability in addition to a second ability you choose normally."; // #
 
-    // renaissance
-*/
+// universityOfSankore
+"TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_TITLE" = "University of Sankore";
+"TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT1" = "+3 [Science] Science";
+"TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT2" = "+1 [Faith] Faith";
+"TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT3" = "+2 [GreatScientist] Great Scientist points per turn"; // #
+"TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT4" = "Other civilizations' Trade Routes to this city provide +1 [Science] Science and +1 [Gold] Gold for them"; // #
+"TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT5" = "+2 [Science] Science for every Trade Route to this city"; // #
+"TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT6" = "Domestic [TradeRoute] Trade Routes give an additional +1 [Faith] Faith to this city"; // #
+
+// ---------------------------------------------
+// renaissance
 
 // casaDeContratacion
 "TXT_KEY_WONDER_CASA_DE_CONTRATACIO_TITLE" = "Casa de Contratación";
@@ -630,161 +188,43 @@ case .universityOfSankore:
 "TXT_KEY_WONDER_CASA_DE_CONTRATACIO_EFFECT2" = "Gain 3 Governor Titles.";
 "TXT_KEY_WONDER_CASA_DE_CONTRATACIO_EFFECT3" = "All your cities on your non-home continent with a Governor gain +15% [Production] Production, +15% [Faith] Faith and +15% [Gold] Gold."; // #
 
-/*
-case .forbiddenCity:
-    // https://civilization.fandom.com/wiki/Forbidden_City_(Civ6)
-    return WonderTypeData(
-        name: "Forbidden City",
-        effects: [
-            "+1 Wildcard policy slot", // #
-            "+5 [Culture] Culture"
-        ],
-        era: .renaissance,
-        productionCost: 920,
-        requiredTech: .printing,
-        requiredCivic: nil,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 5.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .culture, value: 8)
-        ]
-    )
+// forbiddenCity
+"TXT_KEY_WONDER_FORBIDDEN_CITY_TITLE" = "Forbidden City";
+"TXT_KEY_WONDER_FORBIDDEN_CITY_EFFECT1" = "+1 Wildcard policy slot"; // #
+"TXT_KEY_WONDER_FORBIDDEN_CITY_EFFECT2" = "+5 [Culture] Culture";
 
-case .greatZimbabwe:
-    // https://civilization.fandom.com/wiki/Great_Zimbabwe_(Civ6)
-    return WonderTypeData(
-        name: "Great Zimbabwe",
-        effects: [
-            "+1 [TradeRoute] Trade Route", // #
-            "+5 [Gold] Gold",
-            "+2 [GreatMerchant] Great Merchant points per turn", // #
-            "Trade Routes from this city get +2 Gold for every bonus resource within 3 tiles of the city and in this city's territory" // #
-        ],
-        era: .renaissance,
-        productionCost: 920,
-        requiredTech: .banking,
-        requiredCivic: nil,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 5.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .gold, value: 8)
-        ]
-    )
+// greatZimbabwe
+"TXT_KEY_WONDER_GREAT_ZIMBABWE_TITLE" = "Great Zimbabwe";
+"TXT_KEY_WONDER_GREAT_ZIMBABWE_EFFECT1" = "+1 [TradeRoute] Trade Route"; // #
+"TXT_KEY_WONDER_GREAT_ZIMBABWE_EFFECT2" = "+5 [Gold] Gold";
+"TXT_KEY_WONDER_GREAT_ZIMBABWE_EFFECT3" = "+2 [GreatMerchant] Great Merchant points per turn"; // #
+"TXT_KEY_WONDER_GREAT_ZIMBABWE_EFFECT4" = "Trade Routes from this city get +2 [Gold] Gold for every bonus resource within 3 tiles of the city and in this city's territory"; // #
 
-case .potalaPalace:
-    // https://civilization.fandom.com/wiki/Potala_Palace_(Civ6)
-    // It must be built on Hills adjacent to Mountains.
-    return WonderTypeData(
-        name: "Potala Palace",
-        effects: [
-            "+1 Diplomatic policy slot", // #
-            "+2 [Culture] Culture",
-            "+3 [Faith] Faith",
-            "+1 Diplomatic Victory Point when built" // #
-        ],
-        era: .renaissance,
-        productionCost: 1060,
-        requiredTech: .astronomy,
-        requiredCivic: nil,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 2.0, faith: 3.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .diplomacy, value: 7),
-            Flavor(type: .culture, value: 3),
-            Flavor(type: .religion, value: 3)
-        ]
-    )
+// potalaPalace
+"TXT_KEY_WONDER_POTALA_PALACE_TITLE" = "Potala Palace";
+"TXT_KEY_WONDER_POTALA_PALACE_EFFECT1" = "+1 Diplomatic policy slot"; // #
+"TXT_KEY_WONDER_POTALA_PALACE_EFFECT2" = "+2 [Culture] Culture";
+"TXT_KEY_WONDER_POTALA_PALACE_EFFECT3" = "+3 [Faith] Faith";
+"TXT_KEY_WONDER_POTALA_PALACE_EFFECT4" = "+1 Diplomatic Victory Point when built"; // #
 
-case .stBasilsCathedral:
-    // https://civilization.fandom.com/wiki/St._Basil%27s_Cathedral_(Civ6)
-    return WonderTypeData(
-        name: "St. Basil's Cathedral",
-        effects: [
-            "+3 [Relic] Relic slots",
-            "+100% Religious Tourism from this city.", // #
-            "+1 [Food] Food, +1 [Production] Production, and +1 [Culture] Culture on all Tundra tiles for this city." // #
-        ],
-        era: .renaissance,
-        productionCost: 920,
-        requiredTech: nil,
-        requiredCivic: .reformedChurch,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
-        slots: [.relic, .relic, .relic],
-        flavours: [
-            Flavor(type: .religion, value: 10)
-        ]
-    )
+// stBasilsCathedral
+"TXT_KEY_WONDER_ST_BASILS_CATHEDRAL_TITLE" = "St. Basil's Cathedral";
+"TXT_KEY_WONDER_ST_BASILS_CATHEDRAL_EFFECT1" = "+3 [Relic] Relic slots";
+"TXT_KEY_WONDER_ST_BASILS_CATHEDRAL_EFFECT2" = "+100% Religious Tourism from this city."; // #
+"TXT_KEY_WONDER_ST_BASILS_CATHEDRAL_EFFECT3" = "+1 [Food] Food, +1 [Production] Production, and +1 [Culture] Culture on all Tundra tiles for this city."; // #
 
-case .tajMahal:
-    // https://civilization.fandom.com/wiki/Taj_Mahal_(Civ6)
-    // It must be built along a River.
-    return WonderTypeData(
-        name: "Taj Mahal",
-        effects: [
-            "+1 Era Score from Historic Moment earned after this wonder is complete if that Moment " +
-            "is usually worth 2 or more Era Score." // #
-        ],
-        era: .renaissance,
-        productionCost: 920,
-        requiredTech: nil,
-        requiredCivic: .humanism,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .religion, value: 2)
-        ]
-    )
+// tajMahal
+"TXT_KEY_WONDER_TAJ_MAHAL_TITLE" = "Taj Mahal";
+"TXT_KEY_WONDER_TAJ_MAHAL_EFFECT1" = "+1 Era Score from Historic Moment earned after this wonder is complete if that Moment is usually worth 2 or more Era Score."; // #
 
-case .torreDeBelem:
-    // https://civilization.fandom.com/wiki/Torre_de_Bel%C3%A9m_(Civ6)
-    //  It must be built on Coast adjacent to land and a Harbor. It cannot be built on a Lake.
-    return WonderTypeData(
-        name: "Torre de Belém",
-        effects: [
-            "International [TradeRoute] Trade Route from this city receive +2 [Gold] Gold for every luxury resource at the destination", // #
-            "When the Torre de Belém is constructed, cities not on your home continent " +
-                "receive the lowest Production cost building they can currently construct", // #
-            "+5 [Gold] Gold",
-            "+1 [GreatAdmiral] Great Admiral point per turn" // #
-        ],
-        era: .renaissance,
-        productionCost: 920,
-        requiredTech: nil,
-        requiredCivic: .mercantilism,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 5.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .gold, value: 8)
-        ]
-    )
+// torreDeBelem
+"TXT_KEY_WONDER_TORRE_DE_BELEM_TITLE" = "Torre de Belém";
+"TXT_KEY_WONDER_TORRE_DE_BELEM_EFFECT1" = "International [TradeRoute] Trade Route from this city receive +2 [Gold] Gold for every luxury resource at the destination"; // #
+"TXT_KEY_WONDER_TORRE_DE_BELEM_EFFECT2" = "When the Torre de Belém is constructed, cities not on your home continent receive the lowest Production cost building they can currently construct"; // #
+"TXT_KEY_WONDER_TORRE_DE_BELEM_EFFECT3" = "+5 [Gold] Gold";
+"TXT_KEY_WONDER_TORRE_DE_BELEM_EFFECT4" = "+1 [GreatAdmiral] Great Admiral point per turn"; // #
 
-case .venetianArsenal:
-    // https://civilization.fandom.com/wiki/Venetian_Arsenal_(Civ6)
-    // It must be built on Coast adjacent to an Industrial Zone. It cannot be built on a Lake.
-    return WonderTypeData(
-        name: "Venetian Arsenal",
-        effects: [
-            "+2 [GreatEngineer] Great Engineer points per turn", // #
-            "Receive a second naval unit each time you train a naval unit." // #
-        ],
-        era: .renaissance,
-        productionCost: 920,
-        requiredTech: .massProduction,
-        requiredCivic: nil,
-        amenities: 0.0,
-        yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
-        slots: [],
-        flavours: [
-            Flavor(type: .navalGrowth, value: 8),
-            Flavor(type: .naval, value: 3)
-        ]
-    )
-
-}
-*/
+// venetianArsenal
+"TXT_KEY_WONDER_VENETIAN_ARSENAL_TITLE" = "Venetian Arsenal";
+"TXT_KEY_WONDER_VENETIAN_ARSENAL_EFFECT1" = "+2 [GreatEngineer] Great Engineer points per turn"; // #
+"TXT_KEY_WONDER_VENETIAN_ARSENAL_EFFECT2" = "Receive a second naval unit each time you train a naval unit."; // #
