@@ -4684,11 +4684,14 @@ public class Player: AbstractPlayer {
                 continue
             }
 
-            if loopCity.has(district: .harbor) || loopCity.has(district: .commercialHub) {
-                numberOfTradingCapacity += 1
-            }
+            // Each city with a Commercial Hub or a Harbor (or, from Rise and Fall onwards, a Market or a Lighthouse)
+            // increases a civilization's Trading Capacity by one. These bonuses are not cumulative: a city with both
+            // a Commercial Hub/Market and a Harbor/Lighthouse adds only one Trading Capacity, not two.
+            if loopCity.has(district: .harbor) ||
+                loopCity.has(district: .commercialHub) ||
+                loopCity.has(building: .market) ||
+                loopCity.has(building: .lighthouse) {
 
-            if loopCity.has(building: .market) || loopCity.has(building: .lighthouse) {
                 numberOfTradingCapacity += 1
             }
 

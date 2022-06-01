@@ -3139,7 +3139,7 @@ public class City: AbstractCity {
                         continue
                     }
 
-                    if !neighborTile.hasOwner() {
+                    if !neighborTile.hasOwner() && !neighborTile.isWorked() {
                         self.doAcquirePlot(at: neighborPoint, in: gameModel)
                     }
                 }
