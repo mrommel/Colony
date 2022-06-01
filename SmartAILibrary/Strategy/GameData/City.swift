@@ -5187,7 +5187,8 @@ public class City: AbstractCity {
         var distance = gameModel.calculateInfluenceDistance(from: self.location, to: point, limit: City.workRadius, abc: false)
 
         // Critical hit!
-        if point.distance(to: self.location) > City.workRadius {
+        let wrapX: Int? = gameModel.wrappedX() ? gameModel.mapSize().width() : nil
+        if point.distance(to: self.location, wrapX: wrapX) > City.workRadius {
             return nil
         }
 

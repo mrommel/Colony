@@ -87,6 +87,7 @@ struct HexagonView_Previews: PreviewProvider {
 
         let viewModel = HexagonViewModel(
             at: HexPoint(x: 1, y: 1),
+            screenPoint: HexPoint.toScreen(hex: HexPoint(x: 1, y: 1)),
             tileColor: NSColor.lightGreen,
             mountains: nil,
             hills: nil,
