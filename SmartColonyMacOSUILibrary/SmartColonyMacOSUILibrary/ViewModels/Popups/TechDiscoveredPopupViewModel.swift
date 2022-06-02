@@ -44,6 +44,8 @@ class TechDiscoveredPopupViewModel: ObservableObject {
 
         let quotes = self.techType.quoteTexts()
         self.quoteText = !quotes.isEmpty ? quotes.randomItem().localized() : "-"
+
+        self.achievementViewModels = self.achievements()
     }
 
     func icon() -> NSImage {
@@ -61,6 +63,7 @@ class TechDiscoveredPopupViewModel: ObservableObject {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: buildingType.iconTexture(),
+                    mode: .medium,
                     toolTipText: buildingType.toolTip()
                 )
             )
@@ -70,6 +73,7 @@ class TechDiscoveredPopupViewModel: ObservableObject {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: unitType.typeTexture(),
+                    mode: .medium,
                     toolTipText: unitType.toolTip()
                 )
             )
@@ -79,6 +83,7 @@ class TechDiscoveredPopupViewModel: ObservableObject {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: wonderType.iconTexture(),
+                    mode: .medium,
                     toolTipText: wonderType.toolTip()
                 )
             )
@@ -88,6 +93,7 @@ class TechDiscoveredPopupViewModel: ObservableObject {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: buildType.iconTexture(),
+                    mode: .medium,
                     toolTipText: buildType.toolTip()
                 )
             )
@@ -97,6 +103,7 @@ class TechDiscoveredPopupViewModel: ObservableObject {
             achievementViewModels.append(
                 AchievementViewModel(
                     imageName: districtType.iconTexture(),
+                    mode: .medium,
                     toolTipText: districtType.toolTip()
                 )
             )

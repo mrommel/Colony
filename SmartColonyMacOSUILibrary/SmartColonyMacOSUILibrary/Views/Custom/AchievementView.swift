@@ -22,7 +22,7 @@ struct AchievementView: View {
 
         Image(nsImage: self.viewModel.image)
             .resizable()
-            // .frame(width: 16, height: 16, alignment: .topLeading)
+            .frame(width: self.viewModel.mode.size(), height: self.viewModel.mode.size(), alignment: .topLeading)
             .padding(.trailing, 0)
             .padding(.leading, 0)
             .tooltip(self.viewModel.toolTip, side: .trailingBottom)

@@ -66,7 +66,8 @@
 "TXT_KEY_CITY_POPULATION_COUNT" = "Population: %d";
 
 // tech discovered dialog
-"TXT_KEY_TECH_DISCOVERED_UNLOCKED" = "Unlocked by this Tech";
+"TXT_KEY_TECHS_DISCOVERED_UNLOCKED" = "Unlocked by this Tech";
+"TXT_KEY_CIVICS_DISCOVERED_UNLOCKED" = "Unlocked by this Civic";
 
 // government dialog
 "TXT_KEY_SELECT_GOVERNMENT" = "Select Government";

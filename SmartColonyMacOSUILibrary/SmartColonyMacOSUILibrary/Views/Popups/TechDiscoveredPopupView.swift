@@ -45,7 +45,7 @@ struct TechDiscoveredPopupView: View {
                         .padding(.leading, 20)
                         .padding(.trailing, 20)
 
-                    Text("TXT_KEY_TECH_DISCOVERED_UNLOCKED".localized())
+                    Text("TXT_KEY_TECHS_DISCOVERED_UNLOCKED".localized())
                         .font(.caption)
                         .padding(.bottom, 0)
 
@@ -77,7 +77,7 @@ struct TechDiscoveredPopupView: View {
                     Button(action: {
                         self.viewModel.closePopup()
                     }, label: {
-                        Text("TXT_KEY_CANCEL".localized())
+                        Text("TXT_KEY_CLOSE".localized())
                     })
                     .padding(.bottom, 8)
                 }
