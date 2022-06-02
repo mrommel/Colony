@@ -64,6 +64,7 @@
 "TXT_KEY_WONDERS" = "Wonders";
 "TXT_KEY_SELECT_LOCATION" = "Select Location";
 "TXT_KEY_CITY_POPULATION_COUNT" = "Population: %d";
+"TXT_KEY_CITY_NO_PRODUCTION" = "Nothing being produced";
 
 // tech discovered dialog
 "TXT_KEY_TECHS_DISCOVERED_UNLOCKED" = "Unlocked by this Tech";

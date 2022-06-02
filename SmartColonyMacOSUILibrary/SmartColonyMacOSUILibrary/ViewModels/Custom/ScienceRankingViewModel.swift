@@ -27,8 +27,8 @@ class ScienceRankingViewModel: ObservableObject {
     init(civilization: CivilizationType, leader: LeaderType, science: Int) {
 
         self.civilization = civilization
-        self.toolTip = leader.name()
-        self.leaderName = leader.name()
+        self.toolTip = leader.name().localized()
+        self.leaderName = leader.name().localized()
         self.science = science
     }
 

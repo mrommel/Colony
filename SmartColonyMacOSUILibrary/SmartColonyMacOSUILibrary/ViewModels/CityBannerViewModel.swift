@@ -206,12 +206,12 @@ class CityBannerViewModel: ObservableObject {
 
         if let buildableItem = city.currentBuildableItem() {
             self.productionTextureName = buildableItem.iconTexture()
-            self.productionTitle = buildableItem.name()
+            self.productionTitle = buildableItem.name().localized()
             self.productionEffects = buildableItem.effects()
-                .map { NSAttributedString(string: $0, attributes: Globals.Attributs.cityBannerAttributs) }
+                .map { NSAttributedString(string: $0.localized(), attributes: Globals.Attributs.cityBannerAttributs) }
         } else {
             self.productionTextureName = "questionmark"
-            self.productionTitle = "Nothing being produced"
+            self.productionTitle = "TXT_KEY_CITY_NO_PRODUCTION".localized()
             self.productionEffects = []
         }
 
@@ -264,7 +264,6 @@ class CityBannerViewModel: ObservableObject {
 
     func listClicked() {
 
-        print("open city list")
         self.delegate?.showCityListDialog()
     }
 
@@ -291,7 +290,6 @@ class CityBannerViewModel: ObservableObject {
 
     func handle(command: CityCommandType) {
 
-        print("handle command: \(command)")
         switch command {
 
         case .showRangedAttackTargets(city: let city):

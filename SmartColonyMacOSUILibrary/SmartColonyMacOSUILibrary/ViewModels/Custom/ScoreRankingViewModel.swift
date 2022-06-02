@@ -27,8 +27,8 @@ class ScoreRankingViewModel: ObservableObject {
     init(civilization: CivilizationType, leader: LeaderType, score: Int) {
 
         self.civilization = civilization
-        self.toolTip = leader.name()
-        self.leaderName = leader.name()
+        self.toolTip = leader.name().localized()
+        self.leaderName = leader.name().localized()
         self.score = score
     }
 

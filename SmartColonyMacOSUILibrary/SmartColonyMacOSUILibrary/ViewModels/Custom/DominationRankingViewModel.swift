@@ -30,8 +30,8 @@ class DominationRankingViewModel: ObservableObject {
         capturedCapitals: [CivilizationType]) {
 
         self.civilization = civilization
-        self.toolTip = leader.name()
-        self.leaderName = leader.name()
+        self.toolTip = leader.name().localized()
+        self.leaderName = leader.name().localized()
         self.capturedCapitals = capturedCapitals.map {
             return CivilizationViewModel(civilization: $0)
         }

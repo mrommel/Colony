@@ -883,7 +883,7 @@ open class GameModel: Codable {
 
         for player in self.players {
 
-            if player.isBarbarian() || player.isFreeCity() {
+            guard player.isMajorAI() || player.isHuman() else {
                 continue
             }
 
@@ -912,7 +912,7 @@ open class GameModel: Codable {
 
         for player in self.players {
 
-            if player.isBarbarian() || player.isFreeCity() {
+            guard player.isMajorAI() || player.isHuman() else {
                 continue
             }
 
@@ -939,9 +939,13 @@ open class GameModel: Codable {
         // Calculate who owns the most original capitals by iterating through all civs
         // and finding out who owns their original capital now.
         var numOriginalCapitals: [LeaderType: Int] = [:]
-        let playerNum: Int = self.players.filter { !$0.isBarbarian() && !$0.isFreeCity() }.count
+        let playerNum: Int = self.players.filter { $0.isMajorAI() || $0.isHuman() }.count
 
         for player in self.players {
+
+            guard player.isMajorAI() || player.isHuman() else {
+                continue
+            }
 
             if player.originalCapitalLocation() != HexPoint.invalid {
 
@@ -989,7 +993,7 @@ open class GameModel: Codable {
 
         for player in self.players {
 
-            if player.isBarbarian() || player.isFreeCity() {
+            guard player.isMajorAI() || player.isHuman() else {
                 continue
             }
 
@@ -1016,7 +1020,7 @@ open class GameModel: Codable {
 
             for player in self.players {
 
-                if player.isBarbarian() || player.isFreeCity() {
+                guard player.isMajorAI() || player.isHuman() else {
                     continue
                 }
 
@@ -1048,7 +1052,7 @@ open class GameModel: Codable {
         // loop thru all players
         for player in self.players {
 
-            if player.isBarbarian() || player.isFreeCity() {
+            guard player.isMajorAI() || player.isHuman() else {
                 continue
             }
 

@@ -76,7 +76,7 @@ class OverallRankingDialogViewModel: ObservableObject {
             } else {
                 let leaderingPlayer = gameModel.player(for: leadingLeaderType)
                 if humanPlayer.hasMet(with: leaderingPlayer) {
-                    summary = "TXT_KEY_RANKING_OTHER_LEADING".localizedWithFormat(with: [leadingLeaderType.name()])
+                    summary = "TXT_KEY_RANKING_OTHER_LEADING".localizedWithFormat(with: [leadingLeaderType.name().localized()])
                 } else {
                     summary = "TXT_KEY_RANKING_UNMET_LEADING".localized()
                 }
