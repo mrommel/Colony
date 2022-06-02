@@ -681,11 +681,15 @@ public class Unit: AbstractUnit {
 
     func upgradeCost(to unitType: UnitType) -> Int {
 
-        guard let government = self.player?.government else {
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let government = player.government else {
             fatalError("cant get player government")
         }
 
-        var baseUpgradeCost = unitType.productionCost() / 2
+        var baseUpgradeCost = player.productionCost(of: unitType) / 2
         var modifierUpgradeCost = 100
 
         // professionalArmy - 50% Gold discount on all unit upgrades.

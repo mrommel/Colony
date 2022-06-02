@@ -59,6 +59,7 @@ extension BuildingType {
         case .medievalWalls: return "building-medievalWalls"
         case .workshop: return "building-workshop"
         case .armory: return "building-armory"
+        case .university: return "building-university"
 
             // renaissance
         case .renaissanceWalls: return "building-renaissanceWalls"

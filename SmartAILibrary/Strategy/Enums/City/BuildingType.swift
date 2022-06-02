@@ -1098,6 +1098,7 @@ public enum BuildingType: Int, Codable {
         case .temple: return true
         case .medievalWalls: return true //
         case .workshop: return true
+        case .university: return true
         case .renaissanceWalls: return true
         case .shipyard: return true
         case .armory: return true

@@ -289,6 +289,9 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool
     func countUnitsWith(defaultTask: UnitTaskType, in gameModel: GameModel?) -> Int
     func hasBusyUnitOrCity() -> Bool
+    func changeTrainedSettlers(by value: Int)
+    func numOfTrainedSettlers() -> Int
+    func productionCost(of unitType: UnitType) -> Int
 
     // buildings / districts
     func canPurchaseInAnyCity(building: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
@@ -474,6 +477,7 @@ public class Player: AbstractPlayer {
         case hasWorldCircumnavigated
         case establishedTradingPosts
         case tradingCapacity
+        case trainedSettlers
 
         case cramped
         case combatThisTurn
@@ -571,6 +575,7 @@ public class Player: AbstractPlayer {
     private var hasWorldCircumnavigatedVal: Bool = false
     private var establishedTradingPosts: [LeaderType] = []
     private var tradingCapacityValue: Int = 0
+    private var trainedSettlersValue: Int = 1 // first settler is not trained but counts
 
     private var crampedValue: Bool = false
     private var combatThisTurnValue: Bool = false
@@ -697,6 +702,7 @@ public class Player: AbstractPlayer {
         self.hasWorldCircumnavigatedVal = try container.decode(Bool.self, forKey: .hasWorldCircumnavigated)
         self.establishedTradingPosts = try container.decode([LeaderType].self, forKey: .establishedTradingPosts)
         self.tradingCapacityValue = try container.decode(Int.self, forKey: .tradingCapacity)
+        self.trainedSettlersValue = try container.decode(Int.self, forKey: .trainedSettlers)
 
         self.crampedValue = try container.decode(Bool.self, forKey: .cramped)
         self.combatThisTurnValue = try container.decodeIfPresent(Bool.self, forKey: .combatThisTurn) ?? false
@@ -818,6 +824,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.hasWorldCircumnavigatedVal, forKey: .hasWorldCircumnavigated)
         try container.encode(self.establishedTradingPosts, forKey: .establishedTradingPosts)
         try container.encode(self.tradingCapacityValue, forKey: .tradingCapacity)
+        try container.encode(self.trainedSettlersValue, forKey: .trainedSettlers)
 
         try container.encode(self.crampedValue, forKey: .cramped)
         try container.encode(self.combatThisTurnValue, forKey: .combatThisTurn)
@@ -4563,6 +4570,26 @@ public class Player: AbstractPlayer {
         return false
     }
 
+    public func changeTrainedSettlers(by value: Int) {
+
+        self.trainedSettlersValue += value
+    }
+
+    public func numOfTrainedSettlers() -> Int {
+
+        return self.trainedSettlersValue
+    }
+
+    public func productionCost(of unitType: UnitType) -> Int {
+
+        if unitType == .settler {
+            // The Production Production cost of a Settler scales according to the following formula, in which x is the number of Settlers you've trained (including your initial one): 30*x+50
+            return 30 * self.trainedSettlersValue + 50
+        }
+
+        return unitType.productionCost()
+    }
+
     public func isAutoMoves() -> Bool {
 
         return self.autoMovesValue
@@ -6393,7 +6420,7 @@ public class Player: AbstractPlayer {
         }
 
         if !ignoreCost {
-            if unitType.productionCost() == -1 {
+            if unitType.productionCost() < 0 {
                 return false
             }
         }

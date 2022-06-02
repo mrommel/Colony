@@ -2970,6 +2970,10 @@ public class City: AbstractCity {
 
         let unit = Unit(at: unitLocation, type: unitType, owner: self.player)
 
+        if unitType == .settler {
+            player.changeTrainedSettlers(by: 1)
+        }
+
         if unitType == .builder {
             // Guildmaster - All Builders trained in city get +1 build charge.
             if self.hasGovernorTitle(of: .guildmaster) {
@@ -4140,7 +4144,7 @@ public class City: AbstractCity {
         // monumentality + golden - Civilian units may be purchased with Faith.
         if player.has(dedication: .monumentality) && player.currentAge() == .golden {
             if unitType.unitClass() == .civilian {
-                return Double(unitType.productionCost())
+                return Double(player.productionCost(of: unitType))
             }
         }
 
@@ -4366,7 +4370,7 @@ public class City: AbstractCity {
     public func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int {
 
         if let buildingTypeItem = self.buildQueue.building(of: buildingType) {
-            return Int(buildingTypeItem.productionLeft() / self.productionLastTurnValue)
+            return Int(buildingTypeItem.productionLeft(for: self.player) / self.productionLastTurnValue)
         }
 
         return 100
@@ -4375,7 +4379,7 @@ public class City: AbstractCity {
     public func unitProductionTurnsLeft(for unitType: UnitType) -> Int {
 
         if let unitTypeItem = self.buildQueue.unit(of: unitType) {
-            return Int(unitTypeItem.productionLeft() / self.productionLastTurnValue)
+            return Int(unitTypeItem.productionLeft(for: self.player) / self.productionLastTurnValue)
         }
 
         return 100
@@ -4384,7 +4388,7 @@ public class City: AbstractCity {
     public func districtProductionTurnsLeft(for districtType: DistrictType) -> Int {
 
         if let districtTypeItem = self.buildQueue.district(of: districtType) {
-            return Int(districtTypeItem.productionLeft() / self.productionLastTurnValue)
+            return Int(districtTypeItem.productionLeft(for: self.player) / self.productionLastTurnValue)
         }
 
         return 100
@@ -4393,7 +4397,7 @@ public class City: AbstractCity {
     public func wonderProductionTurnsLeft(for wonderType: WonderType) -> Int {
 
         if let wonderTypeItem = self.buildQueue.wonder(of: wonderType) {
-            return Int(wonderTypeItem.productionLeft() / self.productionLastTurnValue)
+            return Int(wonderTypeItem.productionLeft(for: self.player) / self.productionLastTurnValue)
         }
 
         return 100
@@ -4434,7 +4438,7 @@ public class City: AbstractCity {
 
             currentBuilding.add(production: productionPerTurn)
 
-            if currentBuilding.ready() {
+            if currentBuilding.ready(for: player) {
 
                 self.buildQueue.pop()
 
