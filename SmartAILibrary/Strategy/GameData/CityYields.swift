@@ -134,6 +134,12 @@ extension City {
 
         let greatPeoplePoints: GreatPersonPoints = GreatPersonPoints()
 
+        // library
+        if buildings.has(building: .library) {
+            // +1 Great Scientist point per turn
+            greatPeoplePoints.greatScientist += 1
+        }
+
         // shrine
         if buildings.has(building: .shrine) {
             // +1 Great Prophet point per turn.
@@ -192,6 +198,12 @@ extension City {
         if buildings.has(building: .armory) {
             // +1 Great General point per turn
             greatPeoplePoints.greatGeneral += 1
+        }
+
+        // university
+        if buildings.has(building: .university) {
+            // +1 Great Scientist point per turn
+            greatPeoplePoints.greatScientist += 1
         }
 
         // market
@@ -1786,8 +1798,7 @@ extension City {
             }
 
             // +2 Science Science in every University building.
-            if effect.isEqual(category: .scientific, at: .sixth) /* && (self.has(building: .university) */ {
-                fatalError("not handled")
+            if effect.isEqual(category: .scientific, at: .sixth) && self.has(building: .university) {
                 scienceFromEnvoys += YieldValues(value: 2.0)
             }
 

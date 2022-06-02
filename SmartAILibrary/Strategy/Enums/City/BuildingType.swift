@@ -42,7 +42,7 @@ public enum BuildingType: Int, Codable {
     // case foreignMinistry
     // case grandMastersChapel
     // case intelligenceAgency
-    // case university
+    case university // https://civilization.fandom.com/wiki/University_(Civ6)
 
     // renaissance
     case renaissanceWalls // https://civilization.fandom.com/wiki/Renaissance_Walls_(Civ6)
@@ -94,7 +94,7 @@ public enum BuildingType: Int, Codable {
             .amphitheater, .lighthouse, .stable, .arena, .market, .temple,
 
             // medieval
-            .medievalWalls, .workshop, .armory,
+            .medievalWalls, .workshop, .armory, .university,
 
             // renaissance
             .renaissanceWalls, .shipyard, .bank
@@ -931,6 +931,36 @@ public enum BuildingType: Int, Codable {
                     Flavor(type: .defense, value: 4),
                     Flavor(type: .wonder, value: 1),
                     Flavor(type: .production, value: 1)
+                ]
+            )
+
+        case .university:
+            // https://civilization.fandom.com/wiki/University_(Civ6)
+            return BuildingTypeData(
+                name: "TXT_KEY_BUILDING_UNIVERSITY_TITLE",
+                effects: [
+                    "TXT_KEY_BUILDING_UNIVERSITY_EFFECT0",
+                    "TXT_KEY_BUILDING_UNIVERSITY_EFFECT1",
+                    "TXT_KEY_BUILDING_UNIVERSITY_EFFECT2",
+                    "TXT_KEY_BUILDING_UNIVERSITY_EFFECT3"
+                ],
+                category: .scientific,
+                era: .medieval,
+                district: .campus,
+                requiredTech: .education,
+                requiredCivic: nil,
+                requiredBuildingsOr: [.library],
+                obsoleteBuildingsOr: [],
+                productionCost: 250,
+                goldCost: 250,
+                faithCost: -1,
+                maintenanceCost: 2,
+                yields: Yields(food: 0, production: 0, gold: 0, science: 4, housing: 1),
+                defense: 0,
+                slots: [],
+                specialSlots: SpecialistSlots(type: .scientist, amount: 1),
+                flavours: [
+                    Flavor(type: .science, value: 8)
                 ]
             )
 

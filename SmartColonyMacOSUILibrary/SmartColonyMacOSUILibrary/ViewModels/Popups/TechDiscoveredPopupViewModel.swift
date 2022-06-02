@@ -18,7 +18,7 @@ class TechDiscoveredPopupViewModel: ObservableObject {
     var nameText: String
 
     @Published
-    var techViewModels: [TechViewModel] = []
+    var achievementViewModels: [AchievementViewModel] = []
 
     @Published
     var quoteText: String
@@ -32,6 +32,8 @@ class TechDiscoveredPopupViewModel: ObservableObject {
         self.title = "TXT_KEY_RESEARCH_COMPLETED".localized()
         self.nameText = "-"
         self.quoteText = "-"
+
+        self.achievementViewModels = self.achievements()
     }
 
     func update(for techType: TechType) {
@@ -49,33 +51,58 @@ class TechDiscoveredPopupViewModel: ObservableObject {
         return ImageCache.shared.image(for: self.techType.iconTexture())
     }
 
-    func achievements() -> [NSImage] {
+    private func achievements() -> [AchievementViewModel] {
 
-        var iconTextureNames: [String] = []
+        var achievementViewModels: [AchievementViewModel] = []
 
         let achievements = self.techType.achievements()
 
         for buildingType in achievements.buildingTypes {
-            iconTextureNames.append(buildingType.iconTexture())
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: buildingType.iconTexture(),
+                    toolTipText: buildingType.toolTip()
+                )
+            )
         }
 
         for unitType in achievements.unitTypes {
-            iconTextureNames.append(unitType.typeTexture())
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: unitType.typeTexture(),
+                    toolTipText: unitType.toolTip()
+                )
+            )
         }
 
         for wonderType in achievements.wonderTypes {
-            iconTextureNames.append(wonderType.iconTexture())
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: wonderType.iconTexture(),
+                    toolTipText: wonderType.toolTip()
+                )
+            )
         }
 
         for buildType in achievements.buildTypes {
-            iconTextureNames.append(buildType.iconTexture())
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: buildType.iconTexture(),
+                    toolTipText: buildType.toolTip()
+                )
+            )
         }
 
         for districtType in achievements.districtTypes {
-            iconTextureNames.append(districtType.iconTexture())
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: districtType.iconTexture(),
+                    toolTipText: districtType.toolTip()
+                )
+            )
         }
 
-        return iconTextureNames.map { ImageCache.shared.image(for: $0) }
+        return achievementViewModels
     }
 
     func closePopup() {

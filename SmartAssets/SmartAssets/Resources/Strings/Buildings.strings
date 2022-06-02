@@ -139,6 +139,13 @@
 "TXT_KEY_BUILDING_ARMORY_EFFECT4" = "Allows training of Military Engineers in this city"; // #
 "TXT_KEY_BUILDING_ARMORY_EFFECT5" = "Strategic Resource stockpiles increased by 10";
 
+// university
+"TXT_KEY_BUILDING_UNIVERSITY_TITLE" = "University";
+"TXT_KEY_BUILDING_UNIVERSITY_EFFECT0" = "+4 [Science] Science";
+"TXT_KEY_BUILDING_UNIVERSITY_EFFECT1" = "+1 [Housing] Housing";
+"TXT_KEY_BUILDING_UNIVERSITY_EFFECT2" = "+1 [Citizen] Citizen slot";
+"TXT_KEY_BUILDING_UNIVERSITY_EFFECT3" = "+1 [GreatScientist] Great Scientist point per turn";
+
 // --------------------------------------
 // renaissance
 
