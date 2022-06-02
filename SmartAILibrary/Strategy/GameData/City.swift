@@ -3194,8 +3194,12 @@ public class City: AbstractCity {
             fatalError("cant get player civics")
         }
 
+        guard let wonders = self.wonders else {
+            fatalError("cant get city wonders")
+        }
+
         do {
-            try self.wonders?.build(wonder: wonderType)
+            try wonders.build(wonder: wonderType)
             self.greatWorks?.addPlaces(for: wonderType)
 
             // moments
@@ -3295,6 +3299,28 @@ public class City: AbstractCity {
                 // let extraApostle = Unit(at: self.location, type: .apostle, owner: self.player)
                 // gameModel?.add(unit: extraApostle)
                 // gameModel?.userInterface?.show(unit: extraApostle)
+            }
+
+            // apadana
+            if wonders.has(wonder: .apadana) {
+                // +2 [Envoy] Envoys when you build a wonder, including Apadana, in this city.
+                player.changeEnvoys(by: 2)
+
+                // notify player about envoy to spend
+                if player.isHuman() {
+                    player.notifications()?.add(notification: .envoyEarned)
+                }
+            }
+
+            // kilwaKisiwani
+            if wonderType == .kilwaKisiwani {
+                // +3 [Envoy] Envoys when built.
+                player.changeEnvoys(by: 2)
+
+                // notify player about envoy to spend
+                if player.isHuman() {
+                    player.notifications()?.add(notification: .envoyEarned)
+                }
             }
 
             // Drama and Poetry - Build a Wonder.

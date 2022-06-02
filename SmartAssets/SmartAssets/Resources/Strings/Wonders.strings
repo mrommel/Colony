@@ -69,7 +69,7 @@
 // apadana
 "TXT_KEY_WONDER_APADANA_TITLE" = "Apadana";
 "TXT_KEY_WONDER_APADANA_EFFECT1" = "+2 Great Work slots";
-"TXT_KEY_WONDER_APADANA_EFFECT2" = "+2 [Envoy] Envoys when you build a wonder, including Apadana, in this city."; // #
+"TXT_KEY_WONDER_APADANA_EFFECT2" = "+2 [Envoy] Envoys when you build a wonder, including Apadana, in this city.";
 
 // colosseum
 "TXT_KEY_WONDER_COLOSSEUM_TITLE" = "Colosseum";
@@ -174,10 +174,10 @@
 "TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_TITLE" = "University of Sankore";
 "TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT1" = "+3 [Science] Science";
 "TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT2" = "+1 [Faith] Faith";
-"TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT3" = "+2 [GreatScientist] Great Scientist points per turn"; // #
-"TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT4" = "Other civilizations' Trade Routes to this city provide +1 [Science] Science and +1 [Gold] Gold for them"; // #
-"TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT5" = "+2 [Science] Science for every Trade Route to this city"; // #
-"TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT6" = "Domestic [TradeRoute] Trade Routes give an additional +1 [Faith] Faith to this city"; // #
+"TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT3" = "+2 [GreatScientist] Great Scientist points per turn";
+"TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT4" = "Other civilizations' Trade Routes to this city provide +1 [Science] Science and +1 [Gold] Gold for them";
+"TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT5" = "+2 [Science] Science for every Trade Route to this city";
+"TXT_KEY_WONDER_UNIVERSITY_OF_SANKORE_EFFECT6" = "Domestic [TradeRoute] Trade Routes give an additional +1 [Faith] Faith to this city";
 
 // ---------------------------------------------
 // renaissance
@@ -197,7 +197,7 @@
 "TXT_KEY_WONDER_GREAT_ZIMBABWE_TITLE" = "Great Zimbabwe";
 "TXT_KEY_WONDER_GREAT_ZIMBABWE_EFFECT1" = "+1 [TradeRoute] Trade Route";
 "TXT_KEY_WONDER_GREAT_ZIMBABWE_EFFECT2" = "+5 [Gold] Gold";
-"TXT_KEY_WONDER_GREAT_ZIMBABWE_EFFECT3" = "+2 [GreatMerchant] Great Merchant points per turn"; // #
+"TXT_KEY_WONDER_GREAT_ZIMBABWE_EFFECT3" = "+2 [GreatMerchant] Great Merchant points per turn"; 
 "TXT_KEY_WONDER_GREAT_ZIMBABWE_EFFECT4" = "Trade Routes from this city get +2 [Gold] Gold for every bonus resource within 3 tiles of the city and in this city's territory"; // #
 
 // potalaPalace
@@ -222,9 +222,9 @@
 "TXT_KEY_WONDER_TORRE_DE_BELEM_EFFECT1" = "International [TradeRoute] Trade Route from this city receive +2 [Gold] Gold for every luxury resource at the destination"; // #
 "TXT_KEY_WONDER_TORRE_DE_BELEM_EFFECT2" = "When the Torre de Belém is constructed, cities not on your home continent receive the lowest Production cost building they can currently construct"; // #
 "TXT_KEY_WONDER_TORRE_DE_BELEM_EFFECT3" = "+5 [Gold] Gold";
-"TXT_KEY_WONDER_TORRE_DE_BELEM_EFFECT4" = "+1 [GreatAdmiral] Great Admiral point per turn"; // #
+"TXT_KEY_WONDER_TORRE_DE_BELEM_EFFECT4" = "+1 [GreatAdmiral] Great Admiral point per turn";
 
 // venetianArsenal
 "TXT_KEY_WONDER_VENETIAN_ARSENAL_TITLE" = "Venetian Arsenal";
-"TXT_KEY_WONDER_VENETIAN_ARSENAL_EFFECT1" = "+2 [GreatEngineer] Great Engineer points per turn"; // #
+"TXT_KEY_WONDER_VENETIAN_ARSENAL_EFFECT1" = "+2 [GreatEngineer] Great Engineer points per turn";
 "TXT_KEY_WONDER_VENETIAN_ARSENAL_EFFECT2" = "Receive a second naval unit each time you train a naval unit."; // #

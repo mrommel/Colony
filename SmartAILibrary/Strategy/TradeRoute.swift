@@ -142,6 +142,12 @@ public class TradeRoute: Codable {
                 yields.gold += 2.0
                 yields.culture += 1.0
             }
+
+            // universityOfSankore - Domestic Trade Routes give an additional +1 Faith to this city
+            if endCity.has(wonder: .universityOfSankore) {
+                yields.faith += 1.0
+            }
+
         } else {
 
             yields += endDistricts.foreignTradeYields()
@@ -173,6 +179,12 @@ public class TradeRoute: Codable {
                 yields.culture += 2.0 * numberOfSpecialtyDistricts
                 yields.gold += 1.0 * numberOfSpecialtyDistricts
             }
+
+            // universityOfSankore - Other civilizations' Trade Routes to this city provide +1 Science and +1 Gold for them
+            if endCity.has(wonder: .universityOfSankore) {
+                yields.science += 1.0
+                yields.gold += 1.0
+            }
         }
 
         if startPlayerGovernment.has(card: .caravansaries) {
@@ -184,6 +196,11 @@ public class TradeRoute: Codable {
 
             yields.culture += 1.0
             yields.science += 1.0
+        }
+
+        // universityOfSankore - +2 Science for every Trade Route to this city
+        if endCity.has(wonder: .universityOfSankore) {
+            yields.science += 2.0
         }
 
         /*

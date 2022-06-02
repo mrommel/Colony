@@ -93,10 +93,34 @@ extension City {
             greatPeoplePoints.greatGeneral += 2
         }
 
+        // universityOfSankore
+        if wonders.has(wonder: .universityOfSankore) {
+            // +2 Great Scientist points per turn
+            greatPeoplePoints.greatScientist += 2
+        }
+
+        // greatZimbabwe
+        if wonders.has(wonder: .greatZimbabwe) {
+            // +2 Great Merchant points per turn
+            greatPeoplePoints.greatMerchant += 2
+        }
+
         // casaDeContratacion
         if wonders.has(wonder: .casaDeContratacion) {
-            // +3 [GreatMerchant] Great Merchant points per turn
+            // +3 Great Merchant points per turn
             greatPeoplePoints.greatMerchant += 3
+        }
+
+        // venetianArsenal
+        if wonders.has(wonder: .venetianArsenal) {
+            // +2 Great Engineer points per turn
+            greatPeoplePoints.greatEngineer += 2
+        }
+
+        // torreDeBelem
+        if wonders.has(wonder: .torreDeBelem) {
+            // +1 Great Admiral point per turn
+            greatPeoplePoints.greatAdmiral += 1
         }
 
         return greatPeoplePoints
