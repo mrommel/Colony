@@ -184,25 +184,25 @@
 
 // casaDeContratacion
 "TXT_KEY_WONDER_CASA_DE_CONTRATACIO_TITLE" = "Casa de Contratación";
-"TXT_KEY_WONDER_CASA_DE_CONTRATACIO_EFFECT1" = "+3 [GreatMerchant] Great Merchant points per turn"; // #
+"TXT_KEY_WONDER_CASA_DE_CONTRATACIO_EFFECT1" = "+3 [GreatMerchant] Great Merchant points per turn";
 "TXT_KEY_WONDER_CASA_DE_CONTRATACIO_EFFECT2" = "Gain 3 Governor Titles.";
 "TXT_KEY_WONDER_CASA_DE_CONTRATACIO_EFFECT3" = "All your cities on your non-home continent with a Governor gain +15% [Production] Production, +15% [Faith] Faith and +15% [Gold] Gold."; // #
 
 // forbiddenCity
 "TXT_KEY_WONDER_FORBIDDEN_CITY_TITLE" = "Forbidden City";
-"TXT_KEY_WONDER_FORBIDDEN_CITY_EFFECT1" = "+1 Wildcard policy slot"; // #
+"TXT_KEY_WONDER_FORBIDDEN_CITY_EFFECT1" = "+1 Wildcard policy slot";
 "TXT_KEY_WONDER_FORBIDDEN_CITY_EFFECT2" = "+5 [Culture] Culture";
 
 // greatZimbabwe
 "TXT_KEY_WONDER_GREAT_ZIMBABWE_TITLE" = "Great Zimbabwe";
-"TXT_KEY_WONDER_GREAT_ZIMBABWE_EFFECT1" = "+1 [TradeRoute] Trade Route"; // #
+"TXT_KEY_WONDER_GREAT_ZIMBABWE_EFFECT1" = "+1 [TradeRoute] Trade Route";
 "TXT_KEY_WONDER_GREAT_ZIMBABWE_EFFECT2" = "+5 [Gold] Gold";
 "TXT_KEY_WONDER_GREAT_ZIMBABWE_EFFECT3" = "+2 [GreatMerchant] Great Merchant points per turn"; // #
 "TXT_KEY_WONDER_GREAT_ZIMBABWE_EFFECT4" = "Trade Routes from this city get +2 [Gold] Gold for every bonus resource within 3 tiles of the city and in this city's territory"; // #
 
 // potalaPalace
 "TXT_KEY_WONDER_POTALA_PALACE_TITLE" = "Potala Palace";
-"TXT_KEY_WONDER_POTALA_PALACE_EFFECT1" = "+1 Diplomatic policy slot"; // #
+"TXT_KEY_WONDER_POTALA_PALACE_EFFECT1" = "+1 Diplomatic policy slot";
 "TXT_KEY_WONDER_POTALA_PALACE_EFFECT2" = "+2 [Culture] Culture";
 "TXT_KEY_WONDER_POTALA_PALACE_EFFECT3" = "+3 [Faith] Faith";
 "TXT_KEY_WONDER_POTALA_PALACE_EFFECT4" = "+1 Diplomatic Victory Point when built"; // #

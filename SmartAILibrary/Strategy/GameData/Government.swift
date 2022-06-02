@@ -458,6 +458,16 @@ public class Government: AbstractGovernment {
                 policyCardSlots.military += 1
             }
 
+            // forbiddenCity: +1 Wildcard policy slot
+            if player.has(wonder: .forbiddenCity, in: gameModel) {
+                policyCardSlots.wildcard += 1
+            }
+
+            // potalaPalace: +1 Diplomatic policy slot
+            if player.has(wonder: .potalaPalace, in: gameModel) {
+                policyCardSlots.diplomatic += 1
+            }
+
             return policyCardSlots
         }
 

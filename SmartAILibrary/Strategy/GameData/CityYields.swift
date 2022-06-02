@@ -93,6 +93,12 @@ extension City {
             greatPeoplePoints.greatGeneral += 2
         }
 
+        // casaDeContratacion
+        if wonders.has(wonder: .casaDeContratacion) {
+            // +3 [GreatMerchant] Great Merchant points per turn
+            greatPeoplePoints.greatMerchant += 3
+        }
+
         return greatPeoplePoints
     }
 

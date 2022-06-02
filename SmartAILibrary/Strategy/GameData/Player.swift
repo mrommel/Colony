@@ -4674,7 +4674,7 @@ public class Player: AbstractPlayer {
         }
 
         if self.leader.civilization().ability() == .satrapies && civics.has(civic: .politicalPhilosophy) {
-            // Gains +1 TradeRoute6 Trade Route capacity with Political Philosophy.
+            // Gains +1 Trade Route capacity with Political Philosophy.
             numberOfTradingCapacity += 1
         }
 
@@ -4687,15 +4687,16 @@ public class Player: AbstractPlayer {
             // Each city with a Commercial Hub or a Harbor (or, from Rise and Fall onwards, a Market or a Lighthouse)
             // increases a civilization's Trading Capacity by one. These bonuses are not cumulative: a city with both
             // a Commercial Hub/Market and a Harbor/Lighthouse adds only one Trading Capacity, not two.
-            if loopCity.has(district: .harbor) ||
-                loopCity.has(district: .commercialHub) ||
+            if /*loopCity.has(district: .harbor) ||
+                loopCity.has(district: .commercialHub) ||*/
                 loopCity.has(building: .market) ||
                 loopCity.has(building: .lighthouse) {
 
                 numberOfTradingCapacity += 1
             }
 
-            if loopCity.has(wonder: .colossus) {
+            // The effects of the Colossus and Great Zimbabwe wonders increase Trading Capacity by one.
+            if loopCity.has(wonder: .colossus) || loopCity.has(wonder: .greatZimbabwe) {
                 // +1 Trade Route capacity
                 numberOfTradingCapacity += 1
             }
