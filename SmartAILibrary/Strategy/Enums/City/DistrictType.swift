@@ -23,7 +23,7 @@ public enum DistrictType: Int, Codable {
     case industrialZone
     case preserve
     case entertainmentComplex
-    // waterPark
+    case waterPark
     case aqueduct
     case neighborhood
     // canal
@@ -47,7 +47,7 @@ public enum DistrictType: Int, Codable {
             .industrialZone,
             .preserve,
             .entertainmentComplex,
-            // waterPark
+            .waterPark,
             .aqueduct,
             .neighborhood,
             // canal
@@ -360,6 +360,27 @@ public enum DistrictType: Int, Codable {
                 ]
             )
 
+        case .waterPark:
+            // https://civilization.fandom.com/wiki/Water_Park_(Civ6)?so=search
+            return DistrictTypeData(
+                name: "Water Park",
+                specialty: true,
+                effects: [
+                    "+1 [Amenity] Amenity from entertainment to parent city.", // #
+                    "[Amenities] Amenities from the Aquarium and Aquatics Center buildings extend to cities whose City Centers are up to 9 tiles away from the district. (Stacks with Entertainment Complex.)", // #
+                    "+1 Appeal to adjacent tiles" // #
+                ],
+                productionCost: 54,
+                maintenanceCost: 1,
+                requiredTech: nil,
+                requiredCivic: .naturalHistory,
+                domesticTradeYields: Yields(food: 1, production: 0, gold: 0),
+                foreignTradeYields: Yields(food: 1, production: 0, gold: 0),
+                flavours: [
+                    Flavor(type: .amenities, value: 7)
+                ]
+            )
+
         case .commercialHub:
             // https://civilization.fandom.com/wiki/Commercial_Hub_(Civ6)
             return DistrictTypeData(
@@ -505,9 +526,9 @@ public enum DistrictType: Int, Codable {
                 name: "Government Plaza",
                 specialty: true,
                 effects: [
-                    "+8 Loyalty to this city.",
-                    "+1 adjacency bonus to all adjacent districts.",
-                    "Awards +1 [Governor] Governor Title."
+                    "+8 Loyalty to this city.", // #
+                    "+1 adjacency bonus to all adjacent districts.", // #
+                    "Awards +1 [Governor] Governor Title." // #
                 ],
                 productionCost: 30,
                 maintenanceCost: 1,
@@ -554,10 +575,10 @@ public enum DistrictType: Int, Codable {
         case .holySite: return tile.isLand()
         case .encampment: return tile.isLand()
         case .commercialHub: return tile.isLand()
-        case .harbor: return tile.terrain() == .shore // must be built on water
+        case .harbor: return tile.terrain() == .shore // must be built on water adjacent to land
         case .entertainmentComplex: return tile.isLand()
         case .industrialZone: return tile.isLand()
-            // waterPark
+        case .waterPark: return tile.terrain() == .shore || tile.has(feature: .lake) // # must be built on a Coast or Lake tile adjacent to land.
         case .aqueduct: return self.canBuildAqueduct(on: tile.point, in: gameModel)
         case .neighborhood: return tile.isLand()
             // canal

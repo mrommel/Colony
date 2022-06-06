@@ -189,9 +189,10 @@ class DistrictLayer: BaseLayer {
             return nil
 
         case .campus:
-            /*if city.has(building: .university) {
+            if city.has(building: .university) {
                 return "district-campus-university"
-            }*/
+            }
+            
             return nil
 
         case .holySite:
@@ -202,9 +203,9 @@ class DistrictLayer: BaseLayer {
             return nil
 
         case .encampment:
-            /*if city.has(building: .armory) {
+            if city.has(building: .armory) {
                 return "district-encampment-armory"
-            }*/
+            }
 
             return nil
 
@@ -223,9 +224,9 @@ class DistrictLayer: BaseLayer {
             return nil
 
         case .industrialZone:
-            /*if city.has(building: .factory) {
+            if city.has(building: .factory) {
                 return "district-industrialZone-factory"
-            }*/
+            }
 
             return nil
 
@@ -259,25 +260,25 @@ class DistrictLayer: BaseLayer {
             return nil
 
         case .encampment:
-            /*if city.has(building: .militaryAcademy) {
+            if city.has(building: .militaryAcademy) {
                 return "district-encampment-militaryAcademy"
-            } */
+            }
 
             return nil
 
         case .commercialHub:
-            /*if city.has(building: .stockExchange) {
+            if city.has(building: .stockExchange) {
                 return "district-commercialHub-stockExchange"
-            }*/
+            }
 
             return nil
 
         case .industrialZone:
-            /*if city.has(building: .coalPowerPlant) {
+            if city.has(building: .coalPowerPlant) {
                 return "district-industrialZone-coalPowerPlant"
-            } else if city.has(building: .nuclearPowerPlant) {
-             return "district-industrialZone-nuclearPowerPlant"
-         }*/
+            } /*else if city.has(building: .nuclearPowerPlant) {
+                return "district-industrialZone-nuclearPowerPlant"
+            }*/
 
             return nil
 

@@ -54,19 +54,35 @@ extension BuildingType {
         case .arena: return "building-arena"
         case .market: return "building-market"
         case .temple: return "building-temple"
+        case .ancestralHall: return "building-ancestralHall"
+        case .audienceChamber: return "building-audienceChamber"
+        case .warlordsThrone: return "building-warlordsThrone"
 
             // medieval
         case .medievalWalls: return "building-medievalWalls"
         case .workshop: return "building-workshop"
         case .armory: return "building-armory"
+        case .foreignMinistry: return "building-foreignMinistry"
+        case .grandMastersChapel: return "building-grandMastersChapel"
+        case .intelligenceAgency: return "building-intelligenceAgency"
         case .university: return "building-university"
 
             // renaissance
         case .renaissanceWalls: return "building-renaissanceWalls"
         case .shipyard: return "building-shipyard"
         case .bank: return "building-bank"
+        case .artMuseum: return "building-artMuseum"
+        case .archaeologicalMuseum: return "building-archaeologicalMuseum"
 
-            //
+            // industrial
+        case .aquarium: return "building-aquarium"
+        case .coalPowerPlant: return "building-coalPowerPlant"
+        case .factory: return "building-factory"
+        case .ferrisWheel: return "building-ferrisWheel"
+        case .militaryAcademy: return "building-militaryAcademy"
+        case .sewer: return "building-sewer"
+        case .stockExchange: return "building-stockExchange"
+        case .zoo: return "building-zoo"
         }
     }
 }

@@ -31,35 +31,35 @@ public enum BuildingType: Int, Codable {
     case arena // https://civilization.fandom.com/wiki/Arena_(Civ6)
     case market // https://civilization.fandom.com/wiki/Market_(Civ6)
     case temple // https://civilization.fandom.com/wiki/Temple_(Civ6)
-    // case ancestralHall
-    // case audienceChamber
-    // case warlordsThrone
+    case ancestralHall
+    case audienceChamber
+    case warlordsThrone
 
     // medieval
     case medievalWalls // https://civilization.fandom.com/wiki/Medieval_Walls_(Civ6)
     case workshop // https://civilization.fandom.com/wiki/Workshop_(Civ6)
     case armory // https://civilization.fandom.com/wiki/Armory_(Civ6)
-    // case foreignMinistry
-    // case grandMastersChapel
-    // case intelligenceAgency
+    case foreignMinistry
+    case grandMastersChapel
+    case intelligenceAgency
     case university // https://civilization.fandom.com/wiki/University_(Civ6)
 
     // renaissance
     case renaissanceWalls // https://civilization.fandom.com/wiki/Renaissance_Walls_(Civ6)
     case shipyard // https://civilization.fandom.com/wiki/Shipyard_(Civ6)
     case bank // https://civilization.fandom.com/wiki/Bank_(Civ6)
-    // case artMuseum // https://civilization.fandom.com/wiki/Art_Museum_(Civ6)
-    // case archaeologicalMuseum // https://civilization.fandom.com/wiki/Archaeological_Museum_(Civ6)
+    case artMuseum // https://civilization.fandom.com/wiki/Art_Museum_(Civ6)
+    case archaeologicalMuseum // https://civilization.fandom.com/wiki/Archaeological_Museum_(Civ6)
 
     // industrial
-    // case aquarium // https://civilization.fandom.com/wiki/Aquarium_(Civ6)
-    // case coalPowerPlant // https://civilization.fandom.com/wiki/Coal_Power_Plant_(Civ6)
-    // case factory // https://civilization.fandom.com/wiki/Factory_(Civ6)
-    // case ferrisWheel // https://civilization.fandom.com/wiki/Ferris_Wheel_(Civ6)
-    // case militaryAcademy // https://civilization.fandom.com/wiki/Military_Academy_(Civ6)
-    // case sewer // https://civilization.fandom.com/wiki/Sewer_(Civ6)
-    // case stockExchange // https://civilization.fandom.com/wiki/Stock_Exchange_(Civ6)
-    // case zoo // https://civilization.fandom.com/wiki/Zoo_(Civ6)
+    case aquarium // https://civilization.fandom.com/wiki/Aquarium_(Civ6)
+    case coalPowerPlant // https://civilization.fandom.com/wiki/Coal_Power_Plant_(Civ6)
+    case factory // https://civilization.fandom.com/wiki/Factory_(Civ6)
+    case ferrisWheel // https://civilization.fandom.com/wiki/Ferris_Wheel_(Civ6)
+    case militaryAcademy // https://civilization.fandom.com/wiki/Military_Academy_(Civ6)
+    case sewer // https://civilization.fandom.com/wiki/Sewer_(Civ6)
+    case stockExchange // https://civilization.fandom.com/wiki/Stock_Exchange_(Civ6)
+    case zoo // https://civilization.fandom.com/wiki/Zoo_(Civ6)
 
     // modern
     // case broadcastCenter // https://civilization.fandom.com/wiki/Broadcast_Center_(Civ6)
@@ -91,15 +91,21 @@ public enum BuildingType: Int, Codable {
                 .palace, .shrine, .waterMill,
 
             // classical
-            .amphitheater, .lighthouse, .stable, .arena, .market, .temple,
+            .amphitheater, .lighthouse, .stable, .arena, .market, .temple, .ancestralHall,
+            .audienceChamber, .warlordsThrone,
 
             // medieval
-            .medievalWalls, .workshop, .armory, .university,
+            .medievalWalls, .workshop, .armory, .foreignMinistry, .grandMastersChapel,
+                .intelligenceAgency, .university,
 
             // renaissance
-            .renaissanceWalls, .shipyard, .bank
+            .renaissanceWalls, .shipyard, .bank, .artMuseum, .archaeologicalMuseum,
 
             // industrial
+            .aquarium, .coalPowerPlant, .factory, .ferrisWheel, .militaryAcademy,
+            .sewer, .stockExchange, .zoo
+
+            // modern
 
             // atomic
         ]
@@ -254,6 +260,7 @@ public enum BuildingType: Int, Codable {
         let requiredTech: TechType?
         let requiredCivic: CivicType?
         let requiredBuildingsOr: [BuildingType] // means one of them is needed
+        let requiredGovermentsOr: [GovernmentType] // means one of them is needed
         let obsoleteBuildingsOr: [BuildingType] // means one built will prevent this building
         let productionCost: Int
         let goldCost: Int
@@ -282,6 +289,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: nil,
                 requiredCivic: nil,
                 requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 0,
                 goldCost: -1,
@@ -311,6 +319,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: .masonry,
                 requiredCivic: nil,
                 requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 80,
                 goldCost: 80,
@@ -348,6 +357,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: .bronzeWorking,
                 requiredCivic: nil,
                 requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [.stable],
                 productionCost: 90,
                 goldCost: 90,
@@ -380,6 +390,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: .pottery,
                 requiredCivic: nil,
                 requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 65,
                 goldCost: 65,
@@ -415,6 +426,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: nil,
                 requiredCivic: .mysticism,
                 requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 150,
                 goldCost: 150,
@@ -445,6 +457,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: .writing,
                 requiredCivic: nil,
                 requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 90,
                 goldCost: 90,
@@ -478,6 +491,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: nil,
                 requiredCivic: nil,
                 requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 60,
                 goldCost: 60,
@@ -528,6 +542,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: nil,
                 requiredCivic: nil,
                 requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 0,
                 goldCost: -1,
@@ -556,6 +571,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: .astrology,
                 requiredCivic: nil,
                 requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 70,
                 goldCost: 70,
@@ -593,6 +609,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: .wheel,
                 requiredCivic: nil,
                 requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 80,
                 goldCost: 80,
@@ -631,6 +648,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: nil,
                 requiredCivic: .dramaAndPoetry,
                 requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 150,
                 goldCost: 150,
@@ -664,6 +682,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: .celestialNavigation,
                 requiredCivic: nil,
                 requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 120,
                 goldCost: 120,
@@ -701,6 +720,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: .horsebackRiding,
                 requiredCivic: nil,
                 requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [.barracks],
                 productionCost: 120,
                 goldCost: 120,
@@ -735,6 +755,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: nil,
                 requiredCivic: .gamesAndRecreation,
                 requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 150,
                 goldCost: 150,
@@ -780,6 +801,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: .currency,
                 requiredCivic: nil,
                 requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 120,
                 goldCost: 120,
@@ -817,6 +839,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: nil,
                 requiredCivic: .theology,
                 requiredBuildingsOr: [.shrine],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 120,
                 goldCost: 120,
@@ -829,6 +852,98 @@ public enum BuildingType: Int, Codable {
                 flavours: [
                     Flavor(type: .greatPeople, value: 5),
                     Flavor(type: .religion, value: 10)
+                ]
+            )
+
+        case .ancestralHall:
+            // https://civilization.fandom.com/wiki/Ancestral_Hall_(Civ6)
+            return BuildingTypeData(
+                name: "Ancestral Hall",
+                effects: [
+                    "50% increased [Production] Production toward Settlers in this city", // #
+                    "New cities receive a free Builder", // #
+                    "Awards +1 [Governor] Governor Title" // #
+                ],
+                category: .government,
+                era: .classical,
+                district: .governmentPlaza,
+                requiredTech: nil,
+                requiredCivic: nil,
+                requiredBuildingsOr: [],
+                requiredGovermentsOr: [.autocracy, .classicalRepublic, .oligarchy],
+                obsoleteBuildingsOr: [.audienceChamber, .warlordsThrone],
+                productionCost: 150,
+                goldCost: 150,
+                faithCost: -1,
+                maintenanceCost: 1,
+                yields: Yields(food: 0, production: 0, gold: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: nil,
+                flavours: [
+                    Flavor(type: .growth, value: 2),
+                    Flavor(type: .tileImprovement, value: 4)
+                ]
+            )
+
+        case .audienceChamber:
+            // https://civilization.fandom.com/wiki/Audience_Chamber_(Civ6)
+            return BuildingTypeData(
+                name: "Audience Chamber",
+                effects: [
+                    "+2 [Amenities] Amenities and +4 [Housing] Housing in Cities with Governors.", // #
+                    "-2 Loyalty in Cities without Governors.", // #
+                    "Awards +1 [Governor] Governor Title." // #
+                ],
+                category: .government,
+                era: .classical,
+                district: .governmentPlaza,
+                requiredTech: nil,
+                requiredCivic: nil,
+                requiredBuildingsOr: [],
+                requiredGovermentsOr: [.autocracy, .classicalRepublic, .oligarchy],
+                obsoleteBuildingsOr: [.ancestralHall, .warlordsThrone],
+                productionCost: 150,
+                goldCost: 150,
+                faithCost: -1,
+                maintenanceCost: 1,
+                yields: Yields(food: 0, production: 0, gold: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: nil,
+                flavours: [
+                    Flavor(type: .growth, value: 4),
+                    Flavor(type: .amenities, value: 2)
+                ]
+            )
+
+        case .warlordsThrone:
+            // https://civilization.fandom.com/wiki/Warlord%27s_Throne_(Civ6)
+            return BuildingTypeData(
+                name: "Warlord's Throne",
+                effects: [
+                    "Capturing an enemy City grants 20% bonus [Production] Production in all Cities for 5 turns.", // #
+                    "Awards +1 [Governor] Governor Title." // #
+                ],
+                category: .government,
+                era: .classical,
+                district: .governmentPlaza,
+                requiredTech: nil,
+                requiredCivic: nil,
+                requiredBuildingsOr: [],
+                requiredGovermentsOr: [.autocracy, .classicalRepublic, .oligarchy],
+                obsoleteBuildingsOr: [.ancestralHall, .audienceChamber],
+                productionCost: 150,
+                goldCost: 150,
+                faithCost: -1,
+                maintenanceCost: 1,
+                yields: Yields(food: 0, production: 0, gold: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: nil,
+                flavours: [
+                    Flavor(type: .production, value: 3),
+                    Flavor(type: .offense, value: 2)
                 ]
             )
 
@@ -849,6 +964,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: .castles,
                 requiredCivic: nil,
                 requiredBuildingsOr: [.ancientWalls],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 225,
                 goldCost: -1,
@@ -883,6 +999,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: .apprenticeship,
                 requiredCivic: nil,
                 requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 195,
                 goldCost: 195,
@@ -915,6 +1032,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: .militaryEngineering,
                 requiredCivic: nil,
                 requiredBuildingsOr: [.barracks, .stable],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 195,
                 goldCost: 195,
@@ -934,6 +1052,99 @@ public enum BuildingType: Int, Codable {
                 ]
             )
 
+        case .foreignMinistry:
+            //
+            return BuildingTypeData(
+                name: "Foreign Ministry",
+                effects: [
+                    "Levying City-States costs half [Gold] Gold.", // #
+                    "City-State units gain +4 [Strength] Combat Strength if you are the City-State's Suzerain (including levied units).", // #
+                    "Awards +1 [Governor] Governor Title.", // #
+                    "+3 [DiplomaticFavor] Diplomatic Favor." // #
+                ],
+                category: .government,
+                era: .medieval,
+                district: .governmentPlaza,
+                requiredTech: nil,
+                requiredCivic: nil,
+                requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
+                obsoleteBuildingsOr: [.grandMastersChapel, .intelligenceAgency],
+                productionCost: 290,
+                goldCost: 290,
+                faithCost: -1,
+                maintenanceCost: 2,
+                yields: Yields(food: 0, production: 0, gold: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: nil,
+                flavours: [
+                    // Flavor(type: .cityState, value: 6),
+                    Flavor(type: .diplomacy, value: 6),
+                ]
+            )
+
+        case .grandMastersChapel:
+            // https://civilization.fandom.com/wiki/Grand_Master%27s_Chapel_(Civ6)
+            return BuildingTypeData(
+                name: "Grand Master's Chapel",
+                effects: [
+                    "Grants the ability to buy land military units with [Faith] Faith.",
+                    "Pillaging improvements and [District] Districts provides bonus [Faith] Faith.",
+                    "Awards +1 [Governor] Governor Title.",
+                    "+5 [Faith] Faith."
+                ],
+                category: .government,
+                era: .medieval,
+                district: .governmentPlaza,
+                requiredTech: nil,
+                requiredCivic: nil,
+                requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
+                obsoleteBuildingsOr: [.foreignMinistry, .intelligenceAgency],
+                productionCost: 290,
+                goldCost: 290,
+                faithCost: -1,
+                maintenanceCost: 2,
+                yields: Yields(food: 0, production: 0, gold: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: nil,
+                flavours: [
+                    Flavor(type: .religion, value: 6),
+                ]
+            )
+
+        case .intelligenceAgency:
+            // https://civilization.fandom.com/wiki/Intelligence_Agency_(Civ6)
+            return BuildingTypeData(
+                name: "Intelligence Agency",
+                effects: [
+                    "+1 Spy and Spy capacity.",
+                    "All Spy Operations have a higher chance of success.",
+                    "Awards +1 [Governor] Governor Title."
+                ],
+                category: .government,
+                era: .medieval,
+                district: .governmentPlaza,
+                requiredTech: nil,
+                requiredCivic: nil,
+                requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
+                obsoleteBuildingsOr: [.foreignMinistry, .grandMastersChapel],
+                productionCost: 290,
+                goldCost: 290,
+                faithCost: -1,
+                maintenanceCost: 2,
+                yields: Yields(food: 0, production: 0, gold: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: nil,
+                flavours: [
+                    Flavor(type: .diplomacy, value: 4),
+                ]
+            )
+
         case .university:
             // https://civilization.fandom.com/wiki/University_(Civ6)
             return BuildingTypeData(
@@ -950,6 +1161,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: .education,
                 requiredCivic: nil,
                 requiredBuildingsOr: [.library],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 250,
                 goldCost: 250,
@@ -958,7 +1170,7 @@ public enum BuildingType: Int, Codable {
                 yields: Yields(food: 0, production: 0, gold: 0, science: 4, housing: 1),
                 defense: 0,
                 slots: [],
-                specialSlots: SpecialistSlots(type: .scientist, amount: 1),
+                specialSlots: SpecialistSlots(type: .citizen, amount: 1),
                 flavours: [
                     Flavor(type: .science, value: 8)
                 ]
@@ -980,6 +1192,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: .siegeTactics,
                 requiredCivic: nil,
                 requiredBuildingsOr: [.medievalWalls],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 305,
                 goldCost: -1,
@@ -1016,6 +1229,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: .massProduction,
                 requiredCivic: nil,
                 requiredBuildingsOr: [.lighthouse],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 290,
                 goldCost: 290,
@@ -1024,7 +1238,7 @@ public enum BuildingType: Int, Codable {
                 yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
                 defense: 0,
                 slots: [],
-                specialSlots: SpecialistSlots(type: .captain, amount: 1),
+                specialSlots: SpecialistSlots(type: .citizen, amount: 1),
                 flavours: [
                     Flavor(type: .naval, value: 7),
                     Flavor(type: .militaryTraining, value: 7)
@@ -1048,6 +1262,7 @@ public enum BuildingType: Int, Codable {
                 requiredTech: .banking,
                 requiredCivic: nil,
                 requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
                 obsoleteBuildingsOr: [],
                 productionCost: 290,
                 goldCost: 290,
@@ -1056,9 +1271,323 @@ public enum BuildingType: Int, Codable {
                 yields: Yields(food: 0, production: 0, gold: 5),
                 defense: 0,
                 slots: [],
-                specialSlots: SpecialistSlots(type: .merchant, amount: 1),
+                specialSlots: SpecialistSlots(type: .citizen, amount: 1),
                 flavours: [
                     Flavor(type: .gold, value: 8)
+                ]
+            )
+
+        case .artMuseum:
+            // https://civilization.fandom.com/wiki/Art_Museum_(Civ6)
+            return BuildingTypeData(
+                name: "Art Museum",
+                effects: [
+                    "+2 [Culture] Culture",
+                    "+1 [Citizen] Citizen slot",
+                    "+1 [GreatWriter] Great Writer point per turn", // #
+                    "+2 [GreatArtist] Great Artist points per turn", // #
+                    "+3 [Sculpture] [Portrait] [Landscape] [ReligiousArt] Great Work of Art slots"
+                ],
+                category: .cultural,
+                era: .renaissance,
+                district: .theatherSquare,
+                requiredTech: nil,
+                requiredCivic: .humanism,
+                requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
+                obsoleteBuildingsOr: [.archaeologicalMuseum],
+                productionCost: 290,
+                goldCost: 290,
+                faithCost: -1,
+                maintenanceCost: 2,
+                yields: Yields(food: 0, production: 0, gold: 0, culture: 2),
+                defense: 0,
+                slots: [.artwork, .artwork, .artwork],
+                specialSlots: BuildingType.SpecialistSlots(type: .citizen, amount: 1),
+                flavours: [
+                    Flavor(type: .culture, value: 7)
+                ]
+            )
+
+        case .archaeologicalMuseum:
+            // https://civilization.fandom.com/wiki/Archaeological_Museum_(Civ6)
+            return BuildingTypeData(
+                name: "Archaeological Museum",
+                effects: [
+                    "+2 [Culture] Culture",
+                    "+1 [Citizen] Citizen slot",
+                    "+1 [GreatWriter] Great Writer point per turn", // #
+                    "+2 [GreatArtist] Great Artist points per turn", // #
+                    "+3 [Artifact] Artifact slots",
+                    "Allows training and maintaining 1 Archaeologist, while there are free [Artifact] Artifact slots in the Museum"
+                ],
+                category: .cultural,
+                era: .renaissance,
+                district: .theatherSquare,
+                requiredTech: nil,
+                requiredCivic: .humanism,
+                requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
+                obsoleteBuildingsOr: [.artMuseum],
+                productionCost: 290,
+                goldCost: 290,
+                faithCost: -1,
+                maintenanceCost: 2,
+                yields: Yields(food: 0, production: 0, gold: 0, culture: 2),
+                defense: 0,
+                slots: [.artifact, .artifact, .artifact],
+                specialSlots: BuildingType.SpecialistSlots(type: .citizen, amount: 1),
+                flavours: [
+                    Flavor(type: .culture, value: 7)
+                ]
+            )
+
+            // ////////////////////////////////
+            // industrial
+        case .aquarium:
+            // https://civilization.fandom.com/wiki/Aquarium_(Civ6)
+            return BuildingTypeData(
+                name: "Aquarium",
+                effects: [
+                    "+1 [Amenity] Amenity from entertainment. This bonus extends to each City Center within 9 tiles. This bonus applies once to a city, and multiple copies of this building within 9 tiles of a City Center do not provide additional bonuses.", // #
+                    "+1 [Science] Science to each coastal resource, [Shipwreck] Shipwreck, and Reef tile in this city." // #
+                ],
+                category: .entertainment,
+                era: .industrial,
+                district: .waterPark,
+                requiredTech: nil,
+                requiredCivic: .naturalHistory,
+                requiredBuildingsOr: [.ferrisWheel],
+                requiredGovermentsOr: [],
+                obsoleteBuildingsOr: [],
+                productionCost: 360,
+                goldCost: 360,
+                faithCost: -1,
+                maintenanceCost: 2,
+                yields: Yields(food: 0, production: 0, gold: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: nil,
+                flavours: [
+                    Flavor(type: .amenities, value: 5)
+                ]
+            )
+
+        case .coalPowerPlant:
+            // https://civilization.fandom.com/wiki/Coal_Power_Plant_(Civ6)
+            return BuildingTypeData(
+                name: "Coal Power Plant",
+                effects: [
+                    "Grants bonus [Production] Production equal to the district's current adjacency bonus.", // #
+                    "Converts [Coal] Coal into [Power] Power for this city and other cities whose City Centers are within 6 tiles. (Conversion rate: 1 [Coal] Coal → 4 [Power] Power)", // #
+                    "+1 [Citizen] Citizen slot.",
+                    "+1 [Production] Production additionally per Specialist in this district", // #
+                    "+1 [GreatEngineer] Great Engineer point per turn.", // #
+                    "Heavy CO2 emissions into the atmosphere." // #
+                ],
+                category: .production,
+                era: .industrial,
+                district: .industrialZone,
+                requiredTech: .industrialization,
+                requiredCivic: nil,
+                requiredBuildingsOr: [.factory /*, .electronicsFactory*/], // #
+                requiredGovermentsOr: [],
+                obsoleteBuildingsOr: [],
+                productionCost: 300,
+                goldCost: 300,
+                faithCost: -1,
+                maintenanceCost: 3,
+                yields: Yields(food: 0, production: 0, gold: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: BuildingType.SpecialistSlots(type: .citizen, amount: 1),
+                flavours: [
+                    Flavor(type: .production, value: 7)
+                ]
+            )
+
+        case .factory:
+            // https://civilization.fandom.com/wiki/Factory_(Civ6)
+            return BuildingTypeData(
+                name: "Factory",
+                effects: [
+                    "+3 [Production] Production to all city centers within 6 tiles", // #
+                    "+1 [Citizen] Citizen slot", // #
+                    "+1 [GreatEngineer] Great Engineer point per turn" // #
+                ],
+                category: .production,
+                era: .industrial,
+                district: .industrialZone,
+                requiredTech: .industrialization,
+                requiredCivic: nil,
+                requiredBuildingsOr: [.workshop],
+                requiredGovermentsOr: [],
+                obsoleteBuildingsOr: [],
+                productionCost: 330,
+                goldCost: 330,
+                faithCost: -1,
+                maintenanceCost: 2,
+                yields: Yields(food: 0, production: 0, gold: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: BuildingType.SpecialistSlots(type: .citizen, amount: 1),
+                flavours: [
+                    Flavor(type: .production, value: 8)
+                ]
+            )
+
+        case .ferrisWheel:
+            // https://civilization.fandom.com/wiki/Ferris_Wheel_(Civ6)
+            return BuildingTypeData(
+                name: "Ferris Wheel",
+                effects: [
+                    "+2 [Amenities] Amenities from entertainment", // #
+                    "+2 [Tourism] Tourism", // #
+                    "+3 [Culture] Culture"
+                ],
+                category: .entertainment,
+                era: .industrial,
+                district: .waterPark,
+                requiredTech: nil,
+                requiredCivic: .naturalHistory,
+                requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
+                obsoleteBuildingsOr: [],
+                productionCost: 290,
+                goldCost: 290,
+                faithCost: -1,
+                maintenanceCost: 1,
+                yields: Yields(food: 0, production: 0, gold: 0, culture: 3),
+                defense: 0,
+                slots: [],
+                specialSlots: nil,
+                flavours: [
+                    Flavor(type: .amenities, value: 7),
+                    Flavor(type: .culture, value: 4)
+                ]
+            )
+
+        case .militaryAcademy:
+            // https://civilization.fandom.com/wiki/Military_Academy_(Civ6)
+            return BuildingTypeData(
+                name: "Military Academy",
+                effects: [
+                    "+25% combat experience for all land units trained in this city", // #
+                    "Allows faster Corps and Army training", // #
+                    "+4 [Production] Production",
+                    "+1 [Housing] Housing",
+                    "+1 [Citizen] Citizen slot",
+                    "+1 [Production] Production additionally per Specialist in this district", // #
+                    "+1 [GreatGeneral] Great General point per turn", // #
+                    "Strategic Resource stockpiles increased by 10" // #
+                ],
+                category: .military,
+                era: .industrial,
+                district: .encampment,
+                requiredTech: .militaryScience,
+                requiredCivic: nil,
+                requiredBuildingsOr: [.armory],
+                requiredGovermentsOr: [],
+                obsoleteBuildingsOr: [],
+                productionCost: 330,
+                goldCost: 330,
+                faithCost: -1,
+                maintenanceCost: 2,
+                yields: Yields(food: 0, production: 4, gold: 0, housing: 1),
+                defense: 0,
+                slots: [],
+                specialSlots: BuildingType.SpecialistSlots(type: .citizen, amount: 1),
+                flavours: [
+                    Flavor(type: .offense, value: 4),
+                    Flavor(type: .production, value: 4)
+                ]
+            )
+
+        case .sewer:
+            // https://civilization.fandom.com/wiki/Sewer_(Civ6)
+            return BuildingTypeData(
+                name: "Sewer",
+                effects: [
+                    "+2 [Housing] Housing" // #
+                ],
+                category: .infrastructure,
+                era: .industrial,
+                district: .cityCenter,
+                requiredTech: .sanitation,
+                requiredCivic: nil,
+                requiredBuildingsOr: [],
+                requiredGovermentsOr: [],
+                obsoleteBuildingsOr: [],
+                productionCost: 200,
+                goldCost: 200,
+                faithCost: -1,
+                maintenanceCost: 2,
+                yields: Yields(food: 0, production: 0, gold: 0, housing: 2),
+                defense: 0,
+                slots: [],
+                specialSlots: nil,
+                flavours: [
+                    Flavor(type: .growth, value: 7)
+                ]
+            )
+
+        case .stockExchange:
+            // https://civilization.fandom.com/wiki/Stock_Exchange_(Civ6)
+            return BuildingTypeData(
+                name: "Stock Exchange",
+                effects: [
+                    "+7 [Gold] Gold additionally when [Power] Powered. Base Load: 3 [Power] Power", // #
+                    "+1 [Citizen] Citizen slot",
+                    "+2 [Gold] Gold additionally per Specialist in this district", // #
+                    "+1 [GreatMerchant] Great Merchant point per turn." // #
+                ],
+                category: .economic,
+                era: .industrial,
+                district: .commercialHub,
+                requiredTech: .economics,
+                requiredCivic: nil,
+                requiredBuildingsOr: [.bank],
+                requiredGovermentsOr: [],
+                obsoleteBuildingsOr: [],
+                productionCost: 330,
+                goldCost: 330,
+                faithCost: -1,
+                maintenanceCost: 0,
+                yields: Yields(food: 0, production: 0, gold: 7),
+                defense: 0,
+                slots: [],
+                specialSlots: BuildingType.SpecialistSlots(type: .citizen, amount: 1),
+                flavours: [
+                    Flavor(type: .gold, value: 10)
+                ]
+            )
+
+        case .zoo:
+            // https://civilization.fandom.com/wiki/Zoo_(Civ6)
+            return BuildingTypeData(
+                name: "Zoo",
+                effects: [
+                    "+1 [Amenity] Amenity from Entertainment to all City Centers within 6 tiles of this Zoo's Entertainment Complex", // #
+                    "+1 [Science] Science to each Rainforest and Marsh tile in this city" // #
+                ],
+                category: .entertainment,
+                era: .industrial,
+                district: .entertainmentComplex,
+                requiredTech: nil,
+                requiredCivic: .naturalHistory,
+                requiredBuildingsOr: [.arena],
+                requiredGovermentsOr: [],
+                obsoleteBuildingsOr: [],
+                productionCost: 360,
+                goldCost: 360,
+                faithCost: -1,
+                maintenanceCost: 2,
+                yields: Yields(food: 0, production: 0, gold: 0),
+                defense: 0,
+                slots: [],
+                specialSlots: nil,
+                flavours: [
+                    Flavor(type: .amenities, value: 6)
                 ]
             )
         }
@@ -1078,6 +1607,7 @@ public enum BuildingType: Int, Codable {
 
         case .none: return false
 
+            // ancient
         case .ancientWalls: return true
         case .barracks: return true
         case .granary: return true
@@ -1086,23 +1616,47 @@ public enum BuildingType: Int, Codable {
         case .monument: return true
         case .palace: return false
         case .shrine: return true
+
+            // classic
         case .waterMill:
-            // It can be built in the City Center if the city is next to a River.
+            // It can be built in the City Center, if the city is next to a River.
             return gameModel.river(at: city.location)
-            //
+
         case .amphitheater: return true
         case .lighthouse: return true
         case .stable: return true
         case .arena: return true
         case .market: return true
         case .temple: return true
+        case .ancestralHall: return true
+        case .audienceChamber: return true
+        case .warlordsThrone: return true
+
+            // medieval
         case .medievalWalls: return true //
         case .workshop: return true
+        case .armory: return true
+        case .foreignMinistry: return true
+        case .grandMastersChapel: return true
+        case .intelligenceAgency: return true
         case .university: return true
+
+            // renaissance
         case .renaissanceWalls: return true
         case .shipyard: return true
-        case .armory: return true
         case .bank: return true
+        case .artMuseum: return true
+        case .archaeologicalMuseum: return true
+
+            // industrial
+        case .aquarium: return true
+        case .coalPowerPlant: return true
+        case .factory: return true
+        case .ferrisWheel: return true
+        case .militaryAcademy: return true
+        case .sewer: return true
+        case .stockExchange: return true
+        case .zoo: return true
         }
     }
 }

@@ -46,7 +46,7 @@ extension DistrictType {
         case .industrialZone: return "districtType-industrial"
         case .preserve: return "districtType-preserve"
         case .entertainmentComplex: return "districtType-entertainment"
-        // waterPark
+        case .waterPark: return "districtType-waterPark"
         case .aqueduct: return "districtType-aqueduct"
         case .neighborhood: return "districtType-neighborhood"
         // canal
@@ -73,7 +73,7 @@ extension DistrictType {
         case .industrialZone: return "district-industrialZone-icon"
         case .preserve: return "district-preserve-icon"
         case .entertainmentComplex: return "district-entertainment-icon"
-        // waterPark
+        case .waterPark: return "district-waterPark-icon"
         case .aqueduct: return "district-aqueduct-icon"
         case .neighborhood: return "district-neighborhood-icon"
         // canal
@@ -100,7 +100,7 @@ extension DistrictType {
         case .industrialZone: return "district-industrialZone-empty"
         case .preserve: return "district-empty"
         case .entertainmentComplex: return "district-empty"
-        // waterPark
+        case .waterPark: return "district-empty" // this will stay empty - it's on water
         case .aqueduct: return "district-empty"
         case .neighborhood: return "district-empty"
         // canal
