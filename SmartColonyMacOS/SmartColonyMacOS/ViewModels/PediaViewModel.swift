@@ -205,7 +205,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         self.summary = "Building that can be built with \(building.productionCost()) [Production] production. " +
             "It requires \(requiredText) to be researched."
         var detailText = "Effects: \n"
-        building.effects().forEach { detailText += ("* " + $0 + "\n") }
+        building.effects().forEach { detailText += ("* " + $0.localized() + "\n") }
         self.detail = detailText
         self.imageName = building.iconTexture()
     }
@@ -225,7 +225,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
             "It requires \(requiredText) to be researched."
 
         var detailText = "Effects: \n"
-        district.effects().forEach { detailText += ("* " + $0 + "\n") }
+        district.effects().forEach { detailText += ("* " + $0.localized() + "\n") }
         self.detail = detailText
         self.imageName = district.iconTexture()
     }

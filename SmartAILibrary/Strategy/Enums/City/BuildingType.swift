@@ -1090,7 +1090,7 @@ public enum BuildingType: Int, Codable {
                 name: "Grand Master's Chapel",
                 effects: [
                     "Grants the ability to buy land military units with [Faith] Faith.",
-                    "Pillaging improvements and [District] Districts provides bonus [Faith] Faith.",
+                    "Pillaging improvements and Districts provides bonus [Faith] Faith.",
                     "Awards +1 [Governor] Governor Title.",
                     "+5 [Faith] Faith."
                 ],
