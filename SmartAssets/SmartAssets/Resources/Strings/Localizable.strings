@@ -1017,3 +1017,106 @@
 // card - twilightValor
 "TXT_KEY_POLICY_CARD_TWILIGHT_VALOR_TITLE" = "Twilight Valor";
 "TXT_KEY_POLICY_CARD_TWILIGHT_VALOR_BONUS" = "All units +5 [Strength] Combat Strength for all melee attack units. BUT: Cannot heal outside your territory.";
+
+
+// --------------------------------
+// goodies
+
+"TXT_KEY_GOODY_REWARD_RECEIVED_TITLE" = "Received Goodies";
+"TXT_KEY_GOODY_REWARD_RECEIVED_SUMMARY" = "The people from a tribal village gave you a present.";
+
+// goldMinorGift
+"TXT_KEY_GOODY_REWARD_MINOR_GOLD_TITLE" = "Gold gift (minor)";
+"TXT_KEY_GOODY_REWARD_MINOR_GOLD_EFFECT" = "Receive a gift of 40 [Gold] Gold from the villagers.";
+
+// goldMediumGift
+"TXT_KEY_GOODY_REWARD_MEDIUM_GOLD_TITLE" = "Gold gift (medium)";
+"TXT_KEY_GOODY_REWARD_MEDIUM_GOLD_EFFECT" = "Receive a gift of 75 [Gold] Gold from the villagers.";
+
+// goldMajorGift
+"TXT_KEY_GOODY_REWARD_MAJOR_GOLD_TITLE" = "Gold gift (major)";
+"TXT_KEY_GOODY_REWARD_MAJOR_GOLD_EFFECT" = "Receive a gift of 120 [Gold] Gold from the villagers.";
+
+// civicMinorBoost
+"TXT_KEY_GOODY_REWARD_MINOR_CIVIC_BOOST_TITLE" = "Civic boost (minor)";
+"TXT_KEY_GOODY_REWARD_MINOR_CIVIC_BOOST_EFFECT" = "Villagers share the secrets of their well-ordered society: Receive 1 [Inspiration] Inspiration.";
+
+// civicMajorBoost
+"TXT_KEY_GOODY_REWARD_MAJOR_CIVIC_BOOST_TITLE" = "Civic boost (major)";
+"TXT_KEY_GOODY_REWARD_MAJOR_CIVIC_BOOST_EFFECT" = "Villagers share the secrets of their well-ordered society: Receive 2 [Inspiration] Inspiration.";
+
+// relic
+"TXT_KEY_GOODY_REWARD_RELIC_TITLE" = "Relic";
+"TXT_KEY_GOODY_REWARD_RELIC_EFFECT" = "Villagers give you their sacred [Relic] Relic.";
+
+// faithMinorGift
+"TXT_KEY_GOODY_REWARD_MINOR_FAITH_BOOST_TITLE" = "Faith boost (minor)";
+"TXT_KEY_GOODY_REWARD_MINOR_FAITH_BOOST_EFFECT" = "Villagers pray for you: Receive 20 [Faith] Faith.";
+
+// faithMediumGift
+"TXT_KEY_GOODY_REWARD_MEDIUM_FAITH_BOOST_TITLE" = "Faith boost (medium)";
+"TXT_KEY_GOODY_REWARD_MEDIUM_FAITH_BOOST_EFFECT" = "Villagers pray for you: Receive 60 [Faith] Faith.";
+
+// faithMajorGift
+"TXT_KEY_GOODY_REWARD_MAJOR_FAITH_BOOST_TITLE" = "Faith boost (major)";
+"TXT_KEY_GOODY_REWARD_MAJOR_FAITH_BOOST_EFFECT" = "Villagers pray for you: Receive 100 [Faith] Faith.";
+
+// scienceMinorGift
+"TXT_KEY_GOODY_REWARD_MINOR_TECH_BOOST_TITLE" = "Tech boost (minor)";
+"TXT_KEY_GOODY_REWARD_MINOR_TECH_BOOST_EFFECT" = "Villagers share their technological secrets: Receive 1 [Eureka] Eureka.";
+
+// scienceMajorGift
+"TXT_KEY_GOODY_REWARD_MAJOR_TECH_BOOST_TITLE" = "Tech boost (major)";
+"TXT_KEY_GOODY_REWARD_MAJOR_TECH_BOOST_EFFECT" = "Villagers share their technological secrets: Receive 2 [Eureka] Eurekas.";
+
+// freeTech
+"TXT_KEY_GOODY_REWARD_FREE_TECH_TITLE" = "Free Technology";
+"TXT_KEY_GOODY_REWARD_FREE_TECH_EFFECT" = "Villagers share their technological secrets: Receive 1 free technology (not a Eureka).";
+
+// diplomacyMinorBoost
+"TXT_KEY_GOODY_REWARD_MINOR_DIPLOMACY_BOOST_TITLE" = "Diplomacy boost (minor)";
+"TXT_KEY_GOODY_REWARD_MINOR_DIPLOMACY_BOOST_EFFECT" = "Villagers spread the fame of your civilization: Receive 20 [DiplomaticFavor] Diplomatic Favor.";
+
+// freeEnvoy
+"TXT_KEY_GOODY_REWARD_FREE_ENVOY_TITLE" = "Free Envoy";
+"TXT_KEY_GOODY_REWARD_FREE_ENVOY_EFFECT" = "Villagers help you contact nearby city-state: Receive 1 [Envoy] Envoy.";
+
+// diplomacyMajorBoost
+"TXT_KEY_GOODY_REWARD_MAJOR_DIPLOMACY_BOOST_TITLE" = "Diplomacy boost (major)";
+"TXT_KEY_GOODY_REWARD_MAJOR_DIPLOMACY_BOOST_EFFECT" = "Villagers share their government secrets: Receive 1 [Governor] Governor Title.";
+
+// freeScout
+"TXT_KEY_GOODY_REWARD_FREE_SCOUT_TITLE" = "Free Scout";
+"TXT_KEY_GOODY_REWARD_FREE_SCOUT_EFFECT" = "A Scout unit from the village joins you.";
+
+// healing
+"TXT_KEY_GOODY_REWARD_UNIT_HEALING_TITLE" = "Healing";
+"TXT_KEY_GOODY_REWARD_UNIT_HEALING_EFFECT" = "The villagers Heal the wounds of the unit which activated the village (if it was wounded).";
+
+// freeResource
+"TXT_KEY_GOODY_REWARD_FREE_RESOURCE_TITLE" = "Free resource";
+"TXT_KEY_GOODY_REWARD_FREE_RESOURCE_EFFECT" = "Receive from the villagers 20 units of the most advanced Strategic resource you've uncovered.";
+
+// experienceBoost
+"TXT_KEY_GOODY_REWARD_EXPERIENCE_BOOST_TITLE" = "Experience boost";
+"TXT_KEY_GOODY_REWARD_EXPERIENCE_BOOST_EFFECT" = "Villagers train your men: Get an XP boost for the military unit which activated the village.";
+
+// unitUpgrade
+"TXT_KEY_GOODY_REWARD_UNIT_UPGRADE_TITLE" = "Unit upgrade";
+"TXT_KEY_GOODY_REWARD_UNIT_UPGRADE_EFFECT" = "Your unit has been upgraded.";
+
+// additionalPopulation
+"TXT_KEY_GOODY_REWARD_ADDITIONAL_POPULATION_TITLE" = "Additional population";
+"TXT_KEY_GOODY_REWARD_ADDITIONAL_POPULATION_EFFECT" = "Survivors decide to join you: Receive a free [Citizen] Citizen in your nearest city.";
+
+// freeBuilder
+"TXT_KEY_GOODY_REWARD_FREE_BUILDER_TITLE" = "Free Builder";
+"TXT_KEY_GOODY_REWARD_FREE_BUILDER_EFFECT" = "A Builder unit from the village comes to work for you.";
+
+// freeTrader
+"TXT_KEY_GOODY_REWARD_FREE_TRADER_TITLE" = "Free Trader";
+"TXT_KEY_GOODY_REWARD_FREE_TRADER_EFFECT" = "A Trader unit from the village comes to work for you.";
+
+// freeSettler
+"TXT_KEY_GOODY_REWARD_FREE_SETTLER_TITLE" = "Free Settler";
+"TXT_KEY_GOODY_REWARD_FREE_SETTLER_EFFECT" = "A Settler unit from the village joins you.";
