@@ -190,6 +190,10 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "grievances")
         }
 
+        public static var shipwreck: NSImage {
+            return Icons.loadCachedTexture(with: "shipwreck")
+        }
+
         public static var greatPerson: NSImage {
             return Icons.loadCachedTexture(with: "greatPerson")
         }
@@ -236,6 +240,22 @@ public extension Globals {
 
         public static var artifact: NSImage {
             return Icons.loadCachedTexture(with: "artifact")
+        }
+
+        public static var sculpture: NSImage {
+            return Icons.loadCachedTexture(with: "greatWorkSculpture")
+        }
+
+        public static var portrait: NSImage {
+            return Icons.loadCachedTexture(with: "greatWorkPortraitArtwork")
+        }
+
+        public static var landscape: NSImage {
+            return Icons.loadCachedTexture(with: "greatWorkLandscapeArtwork")
+        }
+
+        public static var religiousArt: NSImage {
+            return Icons.loadCachedTexture(with: "greatWorkReligiousArtwork")
         }
 
         public static var greatWorkOfWriting: NSImage {
