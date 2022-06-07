@@ -177,23 +177,23 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         self.title = civilization.name().localized()
         self.summary = "Civilization"
-        self.detail = "Civilization with the ability " + civilization.ability().name()
+        self.detail = "Civilization with the ability " + civilization.ability().name().localized()
         self.imageName = civilization.iconTexture()
     }
 
     init(unit: UnitType) {
 
-        self.title = unit.name()
+        self.title = unit.name().localized()
         self.summary = "Unit of class \(unit.unitClass().name())"
         var detailText = "Effects: \n"
-        unit.effects().forEach { detailText += ("* " + $0 + "\n") }
+        unit.effects().forEach { detailText += ("* " + $0.localized() + "\n") }
         self.detail = detailText
         self.imageName = unit.portraitTexture()
     }
 
     init(building: BuildingType) {
 
-        self.title = building.name()
+        self.title = building.name().localized()
 
         var requiredText = ""
         if let requiredTech = building.requiredTech() {

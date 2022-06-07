@@ -858,11 +858,11 @@ public enum BuildingType: Int, Codable {
         case .ancestralHall:
             // https://civilization.fandom.com/wiki/Ancestral_Hall_(Civ6)
             return BuildingTypeData(
-                name: "Ancestral Hall",
+                name: "TXT_KEY_BUILDING_ANCESTRAL_HALL_TITLE",
                 effects: [
-                    "50% increased [Production] Production toward Settlers in this city", // #
-                    "New cities receive a free Builder", // #
-                    "Awards +1 [Governor] Governor Title" // #
+                    "TXT_KEY_BUILDING_ANCESTRAL_HALL_EFFECT1", // #
+                    "TXT_KEY_BUILDING_ANCESTRAL_HALL_EFFECT2", // #
+                    "TXT_KEY_BUILDING_ANCESTRAL_HALL_EFFECT3" // #
                 ],
                 category: .government,
                 era: .classical,
@@ -889,11 +889,11 @@ public enum BuildingType: Int, Codable {
         case .audienceChamber:
             // https://civilization.fandom.com/wiki/Audience_Chamber_(Civ6)
             return BuildingTypeData(
-                name: "Audience Chamber",
+                name: "TXT_KEY_BUILDING_AUDIENCE_CHAMBER_TITLE",
                 effects: [
-                    "+2 [Amenities] Amenities and +4 [Housing] Housing in Cities with Governors.", // #
-                    "-2 Loyalty in Cities without Governors.", // #
-                    "Awards +1 [Governor] Governor Title." // #
+                    "TXT_KEY_BUILDING_AUDIENCE_CHAMBER_EFFECT1", // #
+                    "TXT_KEY_BUILDING_AUDIENCE_CHAMBER_EFFECT2", // #
+                    "TXT_KEY_BUILDING_AUDIENCE_CHAMBER_EFFECT3" // #
                 ],
                 category: .government,
                 era: .classical,
@@ -920,10 +920,10 @@ public enum BuildingType: Int, Codable {
         case .warlordsThrone:
             // https://civilization.fandom.com/wiki/Warlord%27s_Throne_(Civ6)
             return BuildingTypeData(
-                name: "Warlord's Throne",
+                name: "TXT_KEY_BUILDING_WARLORDS_THRONE_TITLE",
                 effects: [
-                    "Capturing an enemy City grants 20% bonus [Production] Production in all Cities for 5 turns.", // #
-                    "Awards +1 [Governor] Governor Title." // #
+                    "TXT_KEY_BUILDING_WARLORDS_THRONE_EFFECT1", // #
+                    "TXT_KEY_BUILDING_WARLORDS_THRONE_EFFECT2" // #
                 ],
                 category: .government,
                 era: .classical,
@@ -1055,12 +1055,12 @@ public enum BuildingType: Int, Codable {
         case .foreignMinistry:
             //
             return BuildingTypeData(
-                name: "Foreign Ministry",
+                name: "TXT_KEY_BUILDING_FOREIGN_MINISTRY_TITLE",
                 effects: [
-                    "Levying City-States costs half [Gold] Gold.", // #
-                    "City-State units gain +4 [Strength] Combat Strength if you are the City-State's Suzerain (including levied units).", // #
-                    "Awards +1 [Governor] Governor Title.", // #
-                    "+3 [DiplomaticFavor] Diplomatic Favor." // #
+                    "TXT_KEY_BUILDING_FOREIGN_MINISTRY_EFFECT1", // #
+                    "TXT_KEY_BUILDING_FOREIGN_MINISTRY_EFFECT2", // #
+                    "TXT_KEY_BUILDING_FOREIGN_MINISTRY_EFFECT3", // #
+                    "TXT_KEY_BUILDING_FOREIGN_MINISTRY_EFFECT4" // #
                 ],
                 category: .government,
                 era: .medieval,
@@ -1087,12 +1087,12 @@ public enum BuildingType: Int, Codable {
         case .grandMastersChapel:
             // https://civilization.fandom.com/wiki/Grand_Master%27s_Chapel_(Civ6)
             return BuildingTypeData(
-                name: "Grand Master's Chapel",
+                name: "TXT_KEY_BUILDING_GRAND_MASTERS_CHAPEL_TITLE",
                 effects: [
-                    "Grants the ability to buy land military units with [Faith] Faith.",
-                    "Pillaging improvements and Districts provides bonus [Faith] Faith.",
-                    "Awards +1 [Governor] Governor Title.",
-                    "+5 [Faith] Faith."
+                    "TXT_KEY_BUILDING_GRAND_MASTERS_CHAPEL_EFFECT1",
+                    "TXT_KEY_BUILDING_GRAND_MASTERS_CHAPEL_EFFECT2",
+                    "TXT_KEY_BUILDING_GRAND_MASTERS_CHAPEL_EFFECT3",
+                    "TXT_KEY_BUILDING_GRAND_MASTERS_CHAPEL_EFFECT4"
                 ],
                 category: .government,
                 era: .medieval,
@@ -1106,7 +1106,7 @@ public enum BuildingType: Int, Codable {
                 goldCost: 290,
                 faithCost: -1,
                 maintenanceCost: 2,
-                yields: Yields(food: 0, production: 0, gold: 0),
+                yields: Yields(food: 0, production: 0, gold: 0, faith: 5),
                 defense: 0,
                 slots: [],
                 specialSlots: nil,
@@ -1118,11 +1118,11 @@ public enum BuildingType: Int, Codable {
         case .intelligenceAgency:
             // https://civilization.fandom.com/wiki/Intelligence_Agency_(Civ6)
             return BuildingTypeData(
-                name: "Intelligence Agency",
+                name: "TXT_KEY_BUILDING_INTELLIGENCE_AGENCY_TITLE",
                 effects: [
-                    "+1 Spy and Spy capacity.",
-                    "All Spy Operations have a higher chance of success.",
-                    "Awards +1 [Governor] Governor Title."
+                    "TXT_KEY_BUILDING_INTELLIGENCE_AGENCY_EFFECT1",
+                    "TXT_KEY_BUILDING_INTELLIGENCE_AGENCY_EFFECT2",
+                    "TXT_KEY_BUILDING_INTELLIGENCE_AGENCY_EFFECT3"
                 ],
                 category: .government,
                 era: .medieval,
@@ -1280,13 +1280,13 @@ public enum BuildingType: Int, Codable {
         case .artMuseum:
             // https://civilization.fandom.com/wiki/Art_Museum_(Civ6)
             return BuildingTypeData(
-                name: "Art Museum",
+                name: "TXT_KEY_BUILDING_ART_MUSEUM_TITLE",
                 effects: [
-                    "+2 [Culture] Culture",
-                    "+1 [Citizen] Citizen slot",
-                    "+1 [GreatWriter] Great Writer point per turn", // #
-                    "+2 [GreatArtist] Great Artist points per turn", // #
-                    "+3 [Sculpture] [Portrait] [Landscape] [ReligiousArt] Great Work of Art slots"
+                    "TXT_KEY_BUILDING_ART_MUSEUM_EFFECT1",
+                    "TXT_KEY_BUILDING_ART_MUSEUM_EFFECT2",
+                    "TXT_KEY_BUILDING_ART_MUSEUM_EFFECT3", // #
+                    "TXT_KEY_BUILDING_ART_MUSEUM_EFFECT4", // #
+                    "TXT_KEY_BUILDING_ART_MUSEUM_EFFECT5"
                 ],
                 category: .cultural,
                 era: .renaissance,
@@ -1312,14 +1312,14 @@ public enum BuildingType: Int, Codable {
         case .archaeologicalMuseum:
             // https://civilization.fandom.com/wiki/Archaeological_Museum_(Civ6)
             return BuildingTypeData(
-                name: "Archaeological Museum",
+                name: "TXT_KEY_BUILDING_ARCHAEOLOGICAL_MUSEUM_TITLE",
                 effects: [
-                    "+2 [Culture] Culture",
-                    "+1 [Citizen] Citizen slot",
-                    "+1 [GreatWriter] Great Writer point per turn", // #
-                    "+2 [GreatArtist] Great Artist points per turn", // #
-                    "+3 [Artifact] Artifact slots",
-                    "Allows training and maintaining 1 Archaeologist, while there are free [Artifact] Artifact slots in the Museum"
+                    "TXT_KEY_BUILDING_ARCHAEOLOGICAL_MUSEUM_EFFECT1",
+                    "TXT_KEY_BUILDING_ARCHAEOLOGICAL_MUSEUM_EFFECT2",
+                    "TXT_KEY_BUILDING_ARCHAEOLOGICAL_MUSEUM_EFFECT3", // #
+                    "TXT_KEY_BUILDING_ARCHAEOLOGICAL_MUSEUM_EFFECT4", // #
+                    "TXT_KEY_BUILDING_ARCHAEOLOGICAL_MUSEUM_EFFECT5",
+                    "TXT_KEY_BUILDING_ARCHAEOLOGICAL_MUSEUM_EFFECT6"
                 ],
                 category: .cultural,
                 era: .renaissance,
@@ -1347,10 +1347,10 @@ public enum BuildingType: Int, Codable {
         case .aquarium:
             // https://civilization.fandom.com/wiki/Aquarium_(Civ6)
             return BuildingTypeData(
-                name: "Aquarium",
+                name: "TXT_KEY_BUILDING_AQUARIUM_TITLE",
                 effects: [
-                    "+1 [Amenity] Amenity from entertainment. This bonus extends to each City Center within 9 tiles. This bonus applies once to a city, and multiple copies of this building within 9 tiles of a City Center do not provide additional bonuses.", // #
-                    "+1 [Science] Science to each coastal resource, [Shipwreck] Shipwreck, and Reef tile in this city." // #
+                    "TXT_KEY_BUILDING_AQUARIUM_EFFECT1", // #
+                    "TXT_KEY_BUILDING_AQUARIUM_EFFECT2" // #
                 ],
                 category: .entertainment,
                 era: .industrial,
@@ -1376,14 +1376,14 @@ public enum BuildingType: Int, Codable {
         case .coalPowerPlant:
             // https://civilization.fandom.com/wiki/Coal_Power_Plant_(Civ6)
             return BuildingTypeData(
-                name: "Coal Power Plant",
+                name: "TXT_KEY_BUILDING_COAL_POWER_PLANT_TITLE",
                 effects: [
-                    "Grants bonus [Production] Production equal to the district's current adjacency bonus.", // #
-                    "Converts [Coal] Coal into [Power] Power for this city and other cities whose City Centers are within 6 tiles. (Conversion rate: 1 [Coal] Coal → 4 [Power] Power)", // #
-                    "+1 [Citizen] Citizen slot.",
-                    "+1 [Production] Production additionally per Specialist in this district", // #
-                    "+1 [GreatEngineer] Great Engineer point per turn.", // #
-                    "Heavy CO2 emissions into the atmosphere." // #
+                    "TXT_KEY_BUILDING_COAL_POWER_PLANT_EFFECT1", // #
+                    "TXT_KEY_BUILDING_COAL_POWER_PLANT_EFFECT2", // #
+                    "TXT_KEY_BUILDING_COAL_POWER_PLANT_EFFECT3",
+                    "TXT_KEY_BUILDING_COAL_POWER_PLANT_EFFECT4", // #
+                    "TXT_KEY_BUILDING_COAL_POWER_PLANT_EFFECT5", // #
+                    "TXT_KEY_BUILDING_COAL_POWER_PLANT_EFFECT6" // #
                 ],
                 category: .production,
                 era: .industrial,
@@ -1409,11 +1409,11 @@ public enum BuildingType: Int, Codable {
         case .factory:
             // https://civilization.fandom.com/wiki/Factory_(Civ6)
             return BuildingTypeData(
-                name: "Factory",
+                name: "TXT_KEY_BUILDING_FACTORY_TITLE",
                 effects: [
-                    "+3 [Production] Production to all city centers within 6 tiles", // #
-                    "+1 [Citizen] Citizen slot", // #
-                    "+1 [GreatEngineer] Great Engineer point per turn" // #
+                    "TXT_KEY_BUILDING_FACTORY_EFFECT1", // #
+                    "TXT_KEY_BUILDING_FACTORY_EFFECT2", // #
+                    "TXT_KEY_BUILDING_FACTORY_EFFECT3" // #
                 ],
                 category: .production,
                 era: .industrial,
@@ -1439,11 +1439,11 @@ public enum BuildingType: Int, Codable {
         case .ferrisWheel:
             // https://civilization.fandom.com/wiki/Ferris_Wheel_(Civ6)
             return BuildingTypeData(
-                name: "Ferris Wheel",
+                name: "TXT_KEY_BUILDING_FERRIS_WHEEL_TITLE",
                 effects: [
-                    "+2 [Amenities] Amenities from entertainment", // #
-                    "+2 [Tourism] Tourism", // #
-                    "+3 [Culture] Culture"
+                    "TXT_KEY_BUILDING_FERRIS_WHEEL_EFFECT1", // #
+                    "TXT_KEY_BUILDING_FERRIS_WHEEL_EFFECT2", // #
+                    "TXT_KEY_BUILDING_FERRIS_WHEEL_EFFECT3"
                 ],
                 category: .entertainment,
                 era: .industrial,
@@ -1470,16 +1470,16 @@ public enum BuildingType: Int, Codable {
         case .militaryAcademy:
             // https://civilization.fandom.com/wiki/Military_Academy_(Civ6)
             return BuildingTypeData(
-                name: "Military Academy",
+                name: "TXT_KEY_BUILDING_MILITARY_ACADEMY_TITLE",
                 effects: [
-                    "+25% combat experience for all land units trained in this city", // #
-                    "Allows faster Corps and Army training", // #
-                    "+4 [Production] Production",
-                    "+1 [Housing] Housing",
-                    "+1 [Citizen] Citizen slot",
-                    "+1 [Production] Production additionally per Specialist in this district", // #
-                    "+1 [GreatGeneral] Great General point per turn", // #
-                    "Strategic Resource stockpiles increased by 10" // #
+                    "TXT_KEY_BUILDING_MILITARY_ACADEMY_EFFECT1", // #
+                    "TXT_KEY_BUILDING_MILITARY_ACADEMY_EFFECT2", // #
+                    "TXT_KEY_BUILDING_MILITARY_ACADEMY_EFFECT3",
+                    "TXT_KEY_BUILDING_MILITARY_ACADEMY_EFFECT4",
+                    "TXT_KEY_BUILDING_MILITARY_ACADEMY_EFFECT5",
+                    "TXT_KEY_BUILDING_MILITARY_ACADEMY_EFFECT6", // #
+                    "TXT_KEY_BUILDING_MILITARY_ACADEMY_EFFECT7", // #
+                    "TXT_KEY_BUILDING_MILITARY_ACADEMY_EFFECT8" // #
                 ],
                 category: .military,
                 era: .industrial,
@@ -1506,9 +1506,9 @@ public enum BuildingType: Int, Codable {
         case .sewer:
             // https://civilization.fandom.com/wiki/Sewer_(Civ6)
             return BuildingTypeData(
-                name: "Sewer",
+                name: "TXT_KEY_BUILDING_SEWER_TITLE",
                 effects: [
-                    "+2 [Housing] Housing" // #
+                    "TXT_KEY_BUILDING_SEWER_EFFECT1"
                 ],
                 category: .infrastructure,
                 era: .industrial,
@@ -1534,12 +1534,12 @@ public enum BuildingType: Int, Codable {
         case .stockExchange:
             // https://civilization.fandom.com/wiki/Stock_Exchange_(Civ6)
             return BuildingTypeData(
-                name: "Stock Exchange",
+                name: "TXT_KEY_BUILDING_STOCK_EXCHANGE_TITLE",
                 effects: [
-                    "+7 [Gold] Gold additionally when [Power] Powered. Base Load: 3 [Power] Power", // #
-                    "+1 [Citizen] Citizen slot",
-                    "+2 [Gold] Gold additionally per Specialist in this district", // #
-                    "+1 [GreatMerchant] Great Merchant point per turn." // #
+                    "TXT_KEY_BUILDING_STOCK_EXCHANGE_EFFECT1", // #
+                    "TXT_KEY_BUILDING_STOCK_EXCHANGE_EFFECT2",
+                    "TXT_KEY_BUILDING_STOCK_EXCHANGE_EFFECT3", // #
+                    "TXT_KEY_BUILDING_STOCK_EXCHANGE_EFFECT4" // #
                 ],
                 category: .economic,
                 era: .industrial,
@@ -1565,10 +1565,10 @@ public enum BuildingType: Int, Codable {
         case .zoo:
             // https://civilization.fandom.com/wiki/Zoo_(Civ6)
             return BuildingTypeData(
-                name: "Zoo",
+                name: "TXT_KEY_BUILDING_ZOO_TITLE",
                 effects: [
-                    "+1 [Amenity] Amenity from Entertainment to all City Centers within 6 tiles of this Zoo's Entertainment Complex", // #
-                    "+1 [Science] Science to each Rainforest and Marsh tile in this city" // #
+                    "TXT_KEY_BUILDING_ZOO_EFFECT1", // #
+                    "TXT_KEY_BUILDING_ZOO_EFFECT2" // #
                 ],
                 category: .entertainment,
                 era: .industrial,
