@@ -192,7 +192,7 @@ class DistrictLayer: BaseLayer {
             if city.has(building: .university) {
                 return "district-campus-university"
             }
-            
+
             return nil
 
         case .holySite:

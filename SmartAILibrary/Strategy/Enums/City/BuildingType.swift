@@ -1080,7 +1080,7 @@ public enum BuildingType: Int, Codable {
                 specialSlots: nil,
                 flavours: [
                     // Flavor(type: .cityState, value: 6),
-                    Flavor(type: .diplomacy, value: 6),
+                    Flavor(type: .diplomacy, value: 6)
                 ]
             )
 
@@ -1111,7 +1111,7 @@ public enum BuildingType: Int, Codable {
                 slots: [],
                 specialSlots: nil,
                 flavours: [
-                    Flavor(type: .religion, value: 6),
+                    Flavor(type: .religion, value: 6)
                 ]
             )
 
@@ -1141,7 +1141,7 @@ public enum BuildingType: Int, Codable {
                 slots: [],
                 specialSlots: nil,
                 flavours: [
-                    Flavor(type: .diplomacy, value: 4),
+                    Flavor(type: .diplomacy, value: 4)
                 ]
             )
 
