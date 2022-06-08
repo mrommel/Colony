@@ -128,7 +128,7 @@ public enum MapMarkerType: String, Codable {
 
         // districts
         .cityCenter, .holySite, .campus, .theatherSquare, .commercialHub, .encampment,
-        .harbor, .industrialZone, .preserve, .entertainmentComplex, /* .waterPark, */ .aqueduct,
+        .harbor, .industrialZone, .preserve, .entertainmentComplex, .waterPark, .aqueduct,
         .neighborhood, /* .canal, .dam, .areodrome, */ .spaceport, .governmentPlaza /* .diplomaticQuarter, */
     ]
 
