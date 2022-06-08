@@ -2076,7 +2076,16 @@ extension City {
             fatalError("cant get buildings")
         }
 
-        return buildings.housing()
+        var housingFromBuildings: Double = 0.0
+
+        housingFromBuildings += buildings.housing()
+
+        // audienceChamber - +2 Amenities and +4 Housing in Cities with Governors.
+        if buildings.has(building: .audienceChamber) && self.governor() != nil {
+            housingFromBuildings += 4
+        }
+
+        return housingFromBuildings
     }
 
     public func housingFromDistricts(in gameModel: GameModel?) -> Double {

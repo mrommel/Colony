@@ -98,7 +98,7 @@ final class DistrictViewModel: QueueViewModel, Codable {
 
     func title() -> String {
 
-        return self.districtType.name()
+        return self.districtType.name().localized()
     }
 
     func turnsText() -> String {

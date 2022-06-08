@@ -1425,8 +1425,16 @@ public class City: AbstractCity {
         if self.has(building: .monument) {
             otherFactors += 1
         }
+
         // +8 if the city has constructed the Government Plaza.
+        if self.has(district: .governmentPlaza) {
+            otherFactors += 8
+        }
+
         // -2 if the Audience Chamber has been constructed in the civilization's Government Plaza district and the city is without a Governor.
+        if self.has(building: .audienceChamber) && self.governor() == nil {
+            otherFactors -= 2
+        }
 
         // ////////////////////////////
         // additionally
@@ -1737,6 +1745,11 @@ public class City: AbstractCity {
             if buildings.has(building: building) {
                 amenitiesFromBuildings += Double(building.amenities())
             }
+        }
+
+        // audienceChamber - +2 Amenities and +4 Housing in Cities with Governors.
+        if buildings.has(building: .audienceChamber) && self.governor() != nil {
+            amenitiesFromBuildings += 2
         }
 
         return amenitiesFromBuildings
@@ -2689,7 +2702,7 @@ public class City: AbstractCity {
                 production += Double(districts.numberOfBuiltDistricts())
             }
 
-            // +20% Civ6Production Production towards Medieval, Renaissance, and Industrial Wonders.
+            // +20% Production towards Medieval, Renaissance, and Industrial Wonders.
             if player.leader.civilization().ability() == .grandTour {
                 if let wonderType = self.productionWonderType() {
                     if wonderType.era() == .ancient || wonderType.era() == .classical {
@@ -2698,7 +2711,7 @@ public class City: AbstractCity {
                 }
             }
 
-            // +15% Civ6Production Production towards District (Civ6) Districts and wonders built next to a river.
+            // +15% Production towards District (Civ6) Districts and wonders built next to a river.
             if player.leader.civilization().ability() == .iteru {
                 if gameModel.river(at: self.location) {
                     if self.productionWonderType() != nil || self.productionDistrictType() != nil {
@@ -2806,6 +2819,13 @@ public class City: AbstractCity {
                     if unitType.unitClass() == .antiCavalry {
                         modifierPercentage += 0.50
                     }
+                }
+            }
+
+            // ancestralHall - 50% increased Production toward Settlers in this city
+            if self.has(building: .ancestralHall) {
+                if let unitType = self.productionUnitType() {
+                    modifierPercentage += 0.50
                 }
             }
 
@@ -2982,7 +3002,7 @@ public class City: AbstractCity {
 
         var unitLocation = self.location
 
-        if unitType.movementType() == .swim || unitType.movementType() == .swimShallow {
+        if unitType.domain() == .sea {
             if !self.isCoastal(in: gameModel) && districts.has(district: .harbor) {
 
                 guard let harborLocation = districts.location(of: .harbor) else {
@@ -2994,6 +3014,12 @@ public class City: AbstractCity {
         }
 
         let unit = Unit(at: unitLocation, type: unitType, owner: self.player)
+        var secondUnit: Unit?
+
+        if self.has(wonder: .venetianArsenal) && unitType.domain() == .sea {
+            // Receive a second naval unit each time you train a naval unit.
+            secondUnit = Unit(at: unitLocation, type: unitType, owner: self.player)
+        }
 
         if unitType == .settler {
             player.changeTrainedSettlers(by: 1)
@@ -3048,9 +3074,15 @@ public class City: AbstractCity {
         }
 
         unit.set(experienceModifier: experienceModifier)
+        secondUnit?.set(experienceModifier: experienceModifier)
 
         gameModel?.add(unit: unit)
         gameModel?.userInterface?.show(unit: unit, at: unitLocation)
+
+        if let secondUnit = secondUnit {
+            gameModel?.add(unit: secondUnit)
+            gameModel?.userInterface?.show(unit: secondUnit, at: unitLocation)
+        }
 
         self.updateEurekas(in: gameModel)
 
@@ -3195,6 +3227,11 @@ public class City: AbstractCity {
                         player.addMoment(of: .worldsFirstNeighborhood, in: gameModel)
                     }
                 }
+            }
+
+            if districtType == .governmentPlaza {
+                // governmentPlaza - Awards +1 Governor Title.
+                player.addGovernorTitle()
             }
 
             // send gossip
@@ -3355,7 +3392,7 @@ public class City: AbstractCity {
             // kilwaKisiwani
             if wonderType == .kilwaKisiwani {
                 // +3 [Envoy] Envoys when built.
-                player.changeEnvoys(by: 2)
+                player.changeEnvoys(by: 3)
 
                 // notify player about envoy to spend
                 if player.isHuman() {
@@ -3873,7 +3910,7 @@ public class City: AbstractCity {
             }
         }
 
-        // only coastal cities can build ships
+        // only coastal cities (or cities with harbors) can build ships
         if unitType.unitClass() == .navalMelee || unitType.unitClass() == .navalRanged ||
             unitType.unitClass() == .navalRaider || unitType.unitClass() == .navalCarrier {
 

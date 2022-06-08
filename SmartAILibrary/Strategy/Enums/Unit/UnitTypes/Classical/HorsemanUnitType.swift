@@ -18,7 +18,7 @@ internal class HorsemanUnitType: UnitTypeData {
             baseType: .horseman,
             domain: .land,
             effects: [
-                "First unit with a Movement Movement of 4.",
+                "First unit with a [Movement] Movement of 4.",
                 "Ignores enemy zone of control."
             ],
             abilities: [

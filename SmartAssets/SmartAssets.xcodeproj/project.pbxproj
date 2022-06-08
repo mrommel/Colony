@@ -109,6 +109,7 @@
 		C9CD3195278D6499002D53C4 /* MomentTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CD3194278D6499002D53C4 /* MomentTypeExtension.swift */; };
 		C9CD3197278D7571002D53C4 /* VictoryTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CD3196278D7571002D53C4 /* VictoryTypeExtension.swift */; };
 		C9D5D25326F8630A00009817 /* GovernorTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D5D25226F8630A00009817 /* GovernorTypeExtension.swift */; };
+		C9E6630E2850DA4D0077DB26 /* Districts.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9E6630D2850DA4D0077DB26 /* Districts.strings */; };
 		C9E6762D27CC238C009514CB /* CityStates.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9E6762C27CC238C009514CB /* CityStates.strings */; };
 		C9E80CCB27C7BE360048216B /* caravane-walk.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9E80CC927C7BE350048216B /* caravane-walk.slp */; };
 		C9E80CCC27C7BE360048216B /* caravane-idle.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9E80CCA27C7BE360048216B /* caravane-idle.slp */; };
@@ -263,6 +264,7 @@
 		C9CD3194278D6499002D53C4 /* MomentTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentTypeExtension.swift; sourceTree = "<group>"; };
 		C9CD3196278D7571002D53C4 /* VictoryTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VictoryTypeExtension.swift; sourceTree = "<group>"; };
 		C9D5D25226F8630A00009817 /* GovernorTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorTypeExtension.swift; sourceTree = "<group>"; };
+		C9E6630D2850DA4D0077DB26 /* Districts.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Districts.strings; sourceTree = "<group>"; };
 		C9E6762C27CC238C009514CB /* CityStates.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = CityStates.strings; sourceTree = "<group>"; };
 		C9E80CC927C7BE350048216B /* caravane-walk.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "caravane-walk.slp"; sourceTree = "<group>"; };
 		C9E80CCA27C7BE360048216B /* caravane-idle.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "caravane-idle.slp"; sourceTree = "<group>"; };
@@ -495,6 +497,7 @@
 				C92D6B8D27D9D88A002EA5C5 /* Diplomacy.strings */,
 				C9C1699827DCF61000E61088 /* Leaders.strings */,
 				C985037E28454D990074A025 /* Buildings.strings */,
+				C9E6630D2850DA4D0077DB26 /* Districts.strings */,
 			);
 			path = Strings;
 			sourceTree = "<group>";
@@ -658,6 +661,7 @@
 				C9C234A52768EEB400905C97 /* CityNames.strings in Resources */,
 				C970A5F62794876300381603 /* Wonders.strings in Resources */,
 				C9CD3193278CB711002D53C4 /* Moments.strings in Resources */,
+				C9E6630E2850DA4D0077DB26 /* Districts.strings in Resources */,
 				C9E80CCB27C7BE360048216B /* caravane-walk.slp in Resources */,
 				C9A09855261CB6930098C5E1 /* scout.png in Resources */,
 				C9A0985B261CB6930098C5E1 /* man_at_arms.xml in Resources */,

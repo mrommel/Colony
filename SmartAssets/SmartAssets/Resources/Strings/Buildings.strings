@@ -118,14 +118,14 @@
 
 // ancestralHall
 "TXT_KEY_BUILDING_ANCESTRAL_HALL_TITLE" = "Ancestral Hall";
-"TXT_KEY_BUILDING_ANCESTRAL_HALL_EFFECT1" = "50% increased [Production] Production toward Settlers in this city"; // #
-"TXT_KEY_BUILDING_ANCESTRAL_HALL_EFFECT2" = "New cities receive a free Builder"; // #
+"TXT_KEY_BUILDING_ANCESTRAL_HALL_EFFECT1" = "50% increased [Production] Production toward Settlers in this city";
+"TXT_KEY_BUILDING_ANCESTRAL_HALL_EFFECT2" = "New cities receive a free Builder";
 "TXT_KEY_BUILDING_ANCESTRAL_HALL_EFFECT3" = "Awards +1 [Governor] Governor Title";
 
 // audienceChamber
 "TXT_KEY_BUILDING_AUDIENCE_CHAMBER_TITLE" = "Audience Chamber";
-"TXT_KEY_BUILDING_AUDIENCE_CHAMBER_EFFECT1" = "+2 [Amenities] Amenities and +4 [Housing] Housing in Cities with Governors."; // #
-"TXT_KEY_BUILDING_AUDIENCE_CHAMBER_EFFECT2" = "-2 Loyalty in Cities without Governors."; // #
+"TXT_KEY_BUILDING_AUDIENCE_CHAMBER_EFFECT1" = "+2 [Amenities] Amenities and +4 [Housing] Housing in Cities with Governors.";
+"TXT_KEY_BUILDING_AUDIENCE_CHAMBER_EFFECT2" = "-2 Loyalty in Cities without Governors.";
 "TXT_KEY_BUILDING_AUDIENCE_CHAMBER_EFFECT3" = "Awards +1 [Governor] Governor Title.";
 
 // warlordsThrone

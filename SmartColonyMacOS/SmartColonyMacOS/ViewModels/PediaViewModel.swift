@@ -212,7 +212,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
     init(district: DistrictType) {
 
-        self.title = district.name()
+        self.title = district.name().localized()
 
         var requiredText = ""
         if let requiredTech = district.requiredTech() {
@@ -278,10 +278,10 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         var detailText = "Enables: "
         var enables: [String] = []
-        enables += tech.achievements().buildTypes.map { $0.name() }
-        enables += tech.achievements().buildingTypes.map { $0.name() }
-        enables += tech.achievements().districtTypes.map { $0.name() }
-        enables += tech.achievements().unitTypes.map { $0.name() }
+        enables += tech.achievements().buildTypes.map { $0.name().localized() }
+        enables += tech.achievements().buildingTypes.map { $0.name().localized() }
+        enables += tech.achievements().districtTypes.map { $0.name().localized() }
+        enables += tech.achievements().unitTypes.map { $0.name().localized() }
         enables += tech.achievements().wonderTypes.map { $0.name().localized() }
         detailText += ListFormatter.localizedString(byJoining: enables)
         detailText += "\n"
@@ -301,12 +301,12 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         var detailText = "Enables: "
         var enables: [String] = []
-        enables += civic.achievements().buildTypes.map { $0.name() }
-        enables += civic.achievements().buildingTypes.map { $0.name() }
-        enables += civic.achievements().districtTypes.map { $0.name() }
+        enables += civic.achievements().buildTypes.map { $0.name().localized() }
+        enables += civic.achievements().buildingTypes.map { $0.name().localized() }
+        enables += civic.achievements().districtTypes.map { $0.name().localized() }
         enables += civic.achievements().governments.map { $0.name().localized() }
         enables += civic.achievements().policyCards.map { $0.name().localized() }
-        enables += civic.achievements().unitTypes.map { $0.name() }
+        enables += civic.achievements().unitTypes.map { $0.name().localized() }
         enables += civic.achievements().wonderTypes.map { $0.name().localized() }
         detailText += ListFormatter.localizedString(byJoining: enables)
         detailText += "\n"

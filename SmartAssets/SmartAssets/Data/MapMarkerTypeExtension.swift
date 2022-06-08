@@ -21,36 +21,37 @@ extension MapMarkerType {
         // districts
 
         case .cityCenter:
-            return DistrictType.cityCenter.name()
+            return DistrictType.cityCenter.name().localized()
 
         case .holySite:
-            return DistrictType.holySite.name()
+            return DistrictType.holySite.name().localized()
 
         case .campus:
-            return DistrictType.campus.name()
+            return DistrictType.campus.name().localized()
 
         case .theatherSquare:
-            return DistrictType.theatherSquare.name()
+            return DistrictType.theatherSquare.name().localized()
 
         case .encampment:
-            return DistrictType.encampment.name()
+            return DistrictType.encampment.name().localized()
 
         case .commercialHub:
-            return DistrictType.commercialHub.name()
+            return DistrictType.commercialHub.name().localized()
 
         case .harbor:
-            return DistrictType.harbor.name()
+            return DistrictType.harbor.name().localized()
 
         case .industrialZone:
-            return DistrictType.industrialZone.name()
+            return DistrictType.industrialZone.name().localized()
 
         case .preserve:
-            return DistrictType.preserve.name()
+            return DistrictType.preserve.name().localized()
 
         case .entertainmentComplex:
             return DistrictType.entertainmentComplex.name()
 
-        // case .waterPark:
+        case .waterPark:
+            return DistrictType.waterPark.name()
 
         case .aqueduct:
             return DistrictType.aqueduct.name()
@@ -63,10 +64,10 @@ extension MapMarkerType {
         // areodrome
 
         case .spaceport:
-            return DistrictType.spaceport.name()
+            return DistrictType.spaceport.name().localized()
 
         case .governmentPlaza:
-            return DistrictType.governmentPlaza.name()
+            return DistrictType.governmentPlaza.name().localized()
 
         // case diplomaticQuarter
 
@@ -228,7 +229,8 @@ extension MapMarkerType {
         case .entertainmentComplex:
             return DistrictType.entertainmentComplex.iconTexture()
 
-        // case .waterPark:
+        case .waterPark:
+            return DistrictType.waterPark.iconTexture()
 
         case .aqueduct:
             return DistrictType.aqueduct.iconTexture()
@@ -407,7 +409,8 @@ extension MapMarkerType {
         case .entertainmentComplex:
             return "mapMarker-district-entertainmentComplex"
 
-        // case .waterPark:
+        case .waterPark:
+            return "mapMarker-district-waterPark"
 
         case .aqueduct:
             return "mapMarker-district-aqueduct"

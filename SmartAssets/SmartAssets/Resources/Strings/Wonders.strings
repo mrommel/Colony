@@ -149,7 +149,7 @@
 
 // kilwaKisiwani
 "TXT_KEY_WONDER_KILWA_KISIWANI_TITLE" = "Kilwa Kisiwani";
-"TXT_KEY_WONDER_KILWA_KISIWANI_EFFECT1" = "+3 [Envoy] Envoys when built."; // #
+"TXT_KEY_WONDER_KILWA_KISIWANI_EFFECT1" = "+3 [Envoy] Envoys when built.";
 "TXT_KEY_WONDER_KILWA_KISIWANI_EFFECT2" = "When you are the Suzerain of a City-State this city receives a +15% boost to the yield provided by that City-State. If you are the Suzerain to 2 or more City-States of that type an additional +15% boost is given to all your cities."; // #
 
 // kotokuIn
@@ -227,4 +227,4 @@
 // venetianArsenal
 "TXT_KEY_WONDER_VENETIAN_ARSENAL_TITLE" = "Venetian Arsenal";
 "TXT_KEY_WONDER_VENETIAN_ARSENAL_EFFECT1" = "+2 [GreatEngineer] Great Engineer points per turn";
-"TXT_KEY_WONDER_VENETIAN_ARSENAL_EFFECT2" = "Receive a second naval unit each time you train a naval unit."; // #
+"TXT_KEY_WONDER_VENETIAN_ARSENAL_EFFECT2" = "Receive a second naval unit each time you train a naval unit.";

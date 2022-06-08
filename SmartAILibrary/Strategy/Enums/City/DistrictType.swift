@@ -180,10 +180,10 @@ public enum DistrictType: Int, Codable {
         case .cityCenter:
             // https://civilization.fandom.com/wiki/City_Center_(Civ6)
             return DistrictTypeData(
-                name: "CityCenter",
+                name: "TXT_KEY_DISTRICT_CITY_CENTER_TITLE",
                 specialty: false,
                 effects: [
-                    "Main District. Must be captured to capture the entire City. Has Defenses and a Ranged Strike (after building Walls)."
+                    "TXT_KEY_DISTRICT_CITY_CENTER_EFFECT1"
                 ],
                 productionCost: 0,
                 maintenanceCost: 0,
@@ -199,16 +199,15 @@ public enum DistrictType: Int, Codable {
         case .campus:
             // https://civilization.fandom.com/wiki/Campus_(Civ6)
             return DistrictTypeData(
-                name: "Campus",
+                name: "TXT_KEY_DISTRICT_CAMPUS_TITLE",
                 specialty: true,
                 effects: [
-                    "Major bonus (+2 [Science] Science) for each adjacent Geothermal Fissure and Reef tile.",
-                    // "Major bonus (+2 Science) for each adjacent Pamukkale tile.", // #
-                    "Major bonus (+2 [Science] Science) for each adjacent Great Barrier Reef tile.",
-                    "Standard bonus (+1 [Science] Science) for each adjacent Mountain tile.",
-                    "Minor bonus (+½ [Science] Science) for each adjacent Rainforest and district tile.",
-                    "+1 [GreatScientist] Great Scientist point per turn.",
-                    "Specialists add +2 [Science] Science each" // #
+                    "TXT_KEY_DISTRICT_CAMPUS_EFFECT1",
+                    "TXT_KEY_DISTRICT_CAMPUS_EFFECT2",
+                    "TXT_KEY_DISTRICT_CAMPUS_EFFECT3",
+                    "TXT_KEY_DISTRICT_CAMPUS_EFFECT4",
+                    "TXT_KEY_DISTRICT_CAMPUS_EFFECT5",
+                    "TXT_KEY_DISTRICT_CAMPUS_EFFECT6"
                 ],
                 productionCost: 54,
                 maintenanceCost: 1,
@@ -224,19 +223,18 @@ public enum DistrictType: Int, Codable {
         case .theatherSquare:
             // https://civilization.fandom.com/wiki/Theater_Square_(Civ6)
             return DistrictTypeData(
-                name: "Theater Square",
+                name: "TXT_KEY_DISTRICT_THEATER_SQUARE_TITLE",
                 specialty: true,
                 effects: [
-                    "Major bonus (+2 [Culture] Culture) for each adjacent Wonder",
-                    "Major bonus (+2 [Culture] Culture) for each adjacent Water Park or Entertainment Complex district tile",
-                    // "Major bonus (+2 Culture) for each adjacent Pamukkale tile",
-                    "Minor bonus (+½ [Culture] Culture) for each adjacent district tile",
-                    "+1 [GreatWriter] Great Writer point per turn",
-                    "+1 [GreatArtist] Great Artist point per turn",
-                    "+1 [GreatMusician] Great Musician point per turn",
-                    "Buildings have slots for Great Works and Artifacts",
-                    "Specialists add +2 [Culture] Culture each", // #
-                    "+1 Appeal to adjacent tiles" // #
+                    "TXT_KEY_DISTRICT_THEATER_SQUARE_EFFECT1",
+                    "TXT_KEY_DISTRICT_THEATER_SQUARE_EFFECT2",
+                    "TXT_KEY_DISTRICT_THEATER_SQUARE_EFFECT3",
+                    "TXT_KEY_DISTRICT_THEATER_SQUARE_EFFECT4",
+                    "TXT_KEY_DISTRICT_THEATER_SQUARE_EFFECT5",
+                    "TXT_KEY_DISTRICT_THEATER_SQUARE_EFFECT6",
+                    "TXT_KEY_DISTRICT_THEATER_SQUARE_EFFECT7",
+                    "TXT_KEY_DISTRICT_THEATER_SQUARE_EFFECT8",
+                    "TXT_KEY_DISTRICT_THEATER_SQUARE_EFFECT9"
                 ],
                 productionCost: 54,
                 maintenanceCost: 1,
@@ -253,19 +251,19 @@ public enum DistrictType: Int, Codable {
         case .holySite:
             // https://civilization.fandom.com/wiki/Holy_Site_(Civ6)
             return DistrictTypeData(
-                name: "HolySite",
+                name: "TXT_KEY_DISTRICT_HOLY_SITE_TITLE",
                 specialty: true,
                 effects: [
-                    "Major bonus (+2 [Faith] Faith) for each adjacent Natural Wonder",
-                    "Standard bonus (+1 [Faith] Faith) for each adjacent Mountain tile",
-                    "Standard bonus (+1 [Faith] Faith) for each adjacent Pamukkale tile",
-                    "Minor bonus (+½ [Faith] Faith) for each adjacent District tile and each adjacent unimproved Woods tile",
-                    "+1 [GreatProphet] Great Prophet point per turn",
-                    "A religion can be founded in the Holy Site",
-                    "Religious units can be purchased in a city with a Holy Site, spawning in the Holy Site or if that's unavailable in the City Center",
-                    "Religious units heal in a Holy Site district and in tiles adjacent to it",
-                    "Specialists add +2 [Faith] Faith each",
-                    "+1 Appeal to adjacent tiles"
+                    "TXT_KEY_DISTRICT_HOLY_SITE_EFFECT1",
+                    "TXT_KEY_DISTRICT_HOLY_SITE_EFFECT2",
+                    "TXT_KEY_DISTRICT_HOLY_SITE_EFFECT3",
+                    "TXT_KEY_DISTRICT_HOLY_SITE_EFFECT4",
+                    "TXT_KEY_DISTRICT_HOLY_SITE_EFFECT5",
+                    "TXT_KEY_DISTRICT_HOLY_SITE_EFFECT6",
+                    "TXT_KEY_DISTRICT_HOLY_SITE_EFFECT7",
+                    "TXT_KEY_DISTRICT_HOLY_SITE_EFFECT8",
+                    "TXT_KEY_DISTRICT_HOLY_SITE_EFFECT9",
+                    "TXT_KEY_DISTRICT_HOLY_SITE_EFFECT10"
                 ],
                 productionCost: 54,
                 maintenanceCost: 1,
@@ -281,18 +279,18 @@ public enum DistrictType: Int, Codable {
         case .encampment:
             // https://civilization.fandom.com/wiki/Encampment_(Civ6)
             return DistrictTypeData(
-                name: "Encampment",
+                name: "TXT_KEY_DISTRICT_ENCAMPMENT_TITLE",
                 specialty: true,
                 effects: [
-                    "+1 [GreatGeneral] Great General point per turn",
-                    "Acquires Outer Defenses and Ranged Strike along with the City Center once Walls have been built", // #
-                    "Blocks movement of foreign units to this tile, unless the district is pillaged", // #
-                    "Spawns all land military units the city produces or purchases", // #
-                    "Provides XP bonus to units built in it once buildings have been added to the district", // #
-                    "When a Military Academy is built, parent city may also build units as Corps and Armies", // #
-                    "Specialists provide +1 [Production] Production and 2 Gold each", // #
-                    "Gives its parent city the ability to build land units with only 1 count of the relative Strategic Resource", // #
-                    "Increases Strategic Resource stockpiles by 10 for each building inside" // #
+                    "TXT_KEY_DISTRICT_ENCAMPMENT_EFFECT1",
+                    "TXT_KEY_DISTRICT_ENCAMPMENT_EFFECT2",
+                    "TXT_KEY_DISTRICT_ENCAMPMENT_EFFECT3",
+                    "TXT_KEY_DISTRICT_ENCAMPMENT_EFFECT4",
+                    "TXT_KEY_DISTRICT_ENCAMPMENT_EFFECT5",
+                    "TXT_KEY_DISTRICT_ENCAMPMENT_EFFECT6",
+                    "TXT_KEY_DISTRICT_ENCAMPMENT_EFFECT7",
+                    "TXT_KEY_DISTRICT_ENCAMPMENT_EFFECT8",
+                    "TXT_KEY_DISTRICT_ENCAMPMENT_EFFECT9"
                 ],
                 productionCost: 54,
                 maintenanceCost: 0,
@@ -309,21 +307,21 @@ public enum DistrictType: Int, Codable {
         case .harbor:
             // https://civilization.fandom.com/wiki/Harbor_(Civ6)
             return DistrictTypeData(
-                name: "Harbor",
+                name: "TXT_KEY_DISTRICT_HARBOR_TITLE",
                 specialty: true,
                 effects: [
-                    "Major bonus (+2 [Gold] Gold) for being adjacent to the City Center",
-                    "Standard bonus (+1 [Gold] Gold) for each adjacent Sea resource",
-                    "Minor bonus (+½ [Gold] Gold) for each adjacent District",
-                    "+1 [GreatAdmiral] Great Admiral point per turn",
-                    "+1 Trade Route capacity if this city doesn't already have a Commercial Hub. (Requires a Lighthouse)", // #
-                    "Allows its parent city to build ships, even if the City Center is inland", // #
-                    "Newly produced or purchased ships will spawn at the Harbor tile (as long as the Harbor tile is unoccupied)", // #
-                    "Removes movement penalties for units Embarking to and from its tile (even if the district is still under construction)", // #
-                    "Allows its parent city to build Ships requiring Strategic Resources with only 1 count of the relevant resource", // #
-                    "When the Seaport is built, the parent city may construct Fleets and Armadas", // #
-                    "Buildings grant experience bonuses to ships built in this city", // #
-                    "Specialists add +2 [Gold] Gold and +1 [Food] Food each" // #
+                    "TXT_KEY_DISTRICT_HARBOR_EFFECT1",
+                    "TXT_KEY_DISTRICT_HARBOR_EFFECT2",
+                    "TXT_KEY_DISTRICT_HARBOR_EFFECT3",
+                    "TXT_KEY_DISTRICT_HARBOR_EFFECT4",
+                    "TXT_KEY_DISTRICT_HARBOR_EFFECT5",
+                    "TXT_KEY_DISTRICT_HARBOR_EFFECT6",
+                    "TXT_KEY_DISTRICT_HARBOR_EFFECT7",
+                    "TXT_KEY_DISTRICT_HARBOR_EFFECT8",
+                    "TXT_KEY_DISTRICT_HARBOR_EFFECT9",
+                    "TXT_KEY_DISTRICT_HARBOR_EFFECT10",
+                    "TXT_KEY_DISTRICT_HARBOR_EFFECT11",
+                    "TXT_KEY_DISTRICT_HARBOR_EFFECT12"
                 ],
                 productionCost: 54,
                 maintenanceCost: 0,
@@ -340,14 +338,14 @@ public enum DistrictType: Int, Codable {
         case .entertainmentComplex:
             // https://civilization.fandom.com/wiki/Entertainment_Complex_(Civ6)
             return DistrictTypeData(
-                name: "Entertainment Complex",
+                name: "TXT_KEY_DISTRICT_ENTERTAINMENT_COMPLEX_TITLE",
                 specialty: true,
                 effects: [
-                    "+1 [Amenity] Amenity from entertainment to parent city", // #
-                    "Amenities from the Zoo and Stadium buildings extend to cities whose City Centers are up to 6 tiles away from the district. (Stacks with Water Park.)", // #
-                    "Domestic Destination: +1 [Food] Food.", // #
-                    "International Destination: +1 [Food] Food.", // #
-                    "+1 Appeal to adjacent tiles" // #
+                    "TXT_KEY_DISTRICT_ENTERTAINMENT_COMPLEX_EFFECT1",
+                    "TXT_KEY_DISTRICT_ENTERTAINMENT_COMPLEX_EFFECT2",
+                    "TXT_KEY_DISTRICT_ENTERTAINMENT_COMPLEX_EFFECT3",
+                    "TXT_KEY_DISTRICT_ENTERTAINMENT_COMPLEX_EFFECT4",
+                    "TXT_KEY_DISTRICT_ENTERTAINMENT_COMPLEX_EFFECT5"
                 ],
                 productionCost: 54,
                 maintenanceCost: 1,
@@ -363,12 +361,12 @@ public enum DistrictType: Int, Codable {
         case .waterPark:
             // https://civilization.fandom.com/wiki/Water_Park_(Civ6)?so=search
             return DistrictTypeData(
-                name: "Water Park",
+                name: "TXT_KEY_DISTRICT_WATER_PARK_TITLE",
                 specialty: true,
                 effects: [
-                    "+1 [Amenity] Amenity from entertainment to parent city.", // #
-                    "[Amenities] Amenities from the Aquarium and Aquatics Center buildings extend to cities whose City Centers are up to 9 tiles away from the district. (Stacks with Entertainment Complex.)", // #
-                    "+1 Appeal to adjacent tiles" // #
+                    "TXT_KEY_DISTRICT_WATER_PARK_EFFECT1",
+                    "TXT_KEY_DISTRICT_WATER_PARK_EFFECT2",
+                    "TXT_KEY_DISTRICT_WATER_PARK_EFFECT3"
                 ],
                 productionCost: 54,
                 maintenanceCost: 1,
@@ -384,15 +382,14 @@ public enum DistrictType: Int, Codable {
         case .commercialHub:
             // https://civilization.fandom.com/wiki/Commercial_Hub_(Civ6)
             return DistrictTypeData(
-                name: "Commercial Hub",
+                name: "TXT_KEY_DISTRICT_COMMERCIAL_HUB_TITLE",
                 specialty: true,
                 effects: [
-                    "Major bonus (+2 [Gold] Gold) for a nearby River or a Harbor District.",
-                    // "Major bonus (+2 Gold) for each adjacent Pamukkale tile.", // #
-                    "Minor bonus (+½ [Gold] Gold) for each nearby District.",
-                    "+1 [TradeRoute] Trade Route capacity if this city doesn't already have a Harbor. (Requires a Market)", // #
-                    "+1 [GreatMerchant] Great Merchant point per turn",
-                    "Specialists add +4 [Gold] Gold each" // #
+                    "TXT_KEY_DISTRICT_COMMERCIAL_HUB_EFFECT1",
+                    "TXT_KEY_DISTRICT_COMMERCIAL_HUB_EFFECT2",
+                    "TXT_KEY_DISTRICT_COMMERCIAL_HUB_EFFECT3",
+                    "TXT_KEY_DISTRICT_COMMERCIAL_HUB_EFFECT4",
+                    "TXT_KEY_DISTRICT_COMMERCIAL_HUB_EFFECT5"
                 ],
                 productionCost: 54,
                 maintenanceCost: 0,
@@ -408,15 +405,15 @@ public enum DistrictType: Int, Codable {
         case .industrialZone:
             // https://civilization.fandom.com/wiki/Industrial_Zone_(Civ6)
             return DistrictTypeData(
-                name: "Industrial Zone",
+                name: "TXT_KEY_DISTRICT_INDUSTRIAL_ZONE_TITLE",
                 specialty: true,
                 effects: [
-                    "Standard bonus (+1 [Production] Production) for each adjacent Mine or a Quarry",
-                    "Minor bonus (+½ [Production] Production) for each adjacent district tile",
-                    "+1 [GreatEngineer] Great Engineer point per turn",
-                    "Lowers the Appeal of nearby tiles", // #
-                    "Production from Factory and Power Plant buildings extends to cities whose City Centers are within 6 tiles of this district", // #
-                    "Specialists provide +2 [Production] Production each" // #
+                    "TXT_KEY_DISTRICT_INDUSTRIAL_ZONE_EFFECT1",
+                    "TXT_KEY_DISTRICT_INDUSTRIAL_ZONE_EFFECT2",
+                    "TXT_KEY_DISTRICT_INDUSTRIAL_ZONE_EFFECT3",
+                    "TXT_KEY_DISTRICT_INDUSTRIAL_ZONE_EFFECT4",
+                    "TXT_KEY_DISTRICT_INDUSTRIAL_ZONE_EFFECT5",
+                    "TXT_KEY_DISTRICT_INDUSTRIAL_ZONE_EFFECT6"
                 ],
                 productionCost: 54,
                 maintenanceCost: 0,
@@ -432,12 +429,12 @@ public enum DistrictType: Int, Codable {
         case .preserve:
             // https://civilization.fandom.com/wiki/Preserve_(Civ6)
             return DistrictTypeData(
-                name: "Preserve",
+                name: "TXT_KEY_DISTRICT_PRESERVE_TITLE",
                 specialty: true,
                 effects: [
-                    "Grants up to 3 Housing Housing based on tile's Appeal",
-                    "+1 Appeal to adjacent tiles",
-                    "Initiate a Culture Bomb on adjacent unowned tiles"
+                    "TXT_KEY_DISTRICT_PRESERVE_EFFECT1",
+                    "TXT_KEY_DISTRICT_PRESERVE_EFFECT2",
+                    "TXT_KEY_DISTRICT_PRESERVE_EFFECT3"
                 ],
                 productionCost: 54,
                 maintenanceCost: 0,
@@ -455,15 +452,15 @@ public enum DistrictType: Int, Codable {
         case .aqueduct:
             // https://civilization.fandom.com/wiki/Aqueduct_(Civ6)
             return DistrictTypeData(
-                name: "Aqueduct",
+                name: "TXT_KEY_DISTRICT_AQUEDUCT_TITLE",
                 specialty: false,
                 effects: [
-                    "Cities that do not yet have existing fresh water receive up to 6 [Housing] Housing.",
-                    "Cities that already have existing fresh water will instead get 2 [Housing] Housing.",
-                    "Prevents [Food] Food loss during droughts.", // #
-                    "+1 Amenity if adjacent to a Geothermal Fissure.", // #
-                    "Military Engineers can spend a charge to complete 20% (rounding down) of an Aqueduct's production.", // #
-                    "Does not depend on Citizen Population." // #
+                    "TXT_KEY_DISTRICT_AQUEDUCT_EFFECT1",
+                    "TXT_KEY_DISTRICT_AQUEDUCT_EFFECT2",
+                    "TXT_KEY_DISTRICT_AQUEDUCT_EFFECT3",
+                    "TXT_KEY_DISTRICT_AQUEDUCT_EFFECT4",
+                    "TXT_KEY_DISTRICT_AQUEDUCT_EFFECT5",
+                    "TXT_KEY_DISTRICT_AQUEDUCT_EFFECT6"
                 ],
                 productionCost: 36,
                 maintenanceCost: 0,
@@ -480,10 +477,10 @@ public enum DistrictType: Int, Codable {
         case .neighborhood:
             // https://civilization.fandom.com/wiki/Neighborhood_(Civ6)
             return DistrictTypeData(
-                name: "Neighborhood",
+                name: "TXT_KEY_DISTRICT_NEIGHBORHOOD_TITLE",
                 specialty: false,
                 effects: [
-                    "A district in your city that provides [Housing] Housing based on the Appeal of the tile."
+                    "TXT_KEY_DISTRICT_NEIGHBORHOOD_EFFECT1"
                 ],
                 productionCost: 54,
                 maintenanceCost: 0,
@@ -504,10 +501,10 @@ public enum DistrictType: Int, Codable {
         case .spaceport:
             // https://civilization.fandom.com/wiki/Spaceport_(Civ6)
             return DistrictTypeData(
-                name: "Spaceport",
+                name: "TXT_KEY_DISTRICT_SPACEPORT_TITLE",
                 specialty: false,
                 effects: [
-                    "Allows development of the Space Race projects, which are the way to [Science] Science Victory."
+                    "TXT_KEY_DISTRICT_SPACEPORT_EFFECT1"
                 ],
                 productionCost: 1800,
                 maintenanceCost: 0,
@@ -523,12 +520,12 @@ public enum DistrictType: Int, Codable {
         case .governmentPlaza:
             // https://civilization.fandom.com/wiki/Government_Plaza_(Civ6)
             return DistrictTypeData(
-                name: "Government Plaza",
+                name: "TXT_KEY_DISTRICT_GOVERNMENT_PLAZA_TITLE",
                 specialty: true,
                 effects: [
-                    "+8 Loyalty to this city.", // #
-                    "+1 adjacency bonus to all adjacent districts.", // #
-                    "Awards +1 [Governor] Governor Title." // #
+                    "TXT_KEY_DISTRICT_GOVERNMENT_PLAZA_EFFECT1",
+                    "TXT_KEY_DISTRICT_GOVERNMENT_PLAZA_EFFECT2",
+                    "TXT_KEY_DISTRICT_GOVERNMENT_PLAZA_EFFECT3"
                 ],
                 productionCost: 30,
                 maintenanceCost: 1,

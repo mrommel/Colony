@@ -218,6 +218,9 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func has(civic: CivicType) -> Bool
     func addGovernorTitle()
 
+    // buildings
+    func has(building: BuildingType, in gameModel: GameModel?) -> Bool
+
     // wonders
     func has(wonder: WonderType, in gameModel: GameModel?) -> Bool
     func city(with wonder: WonderType, in gameModel: GameModel?) -> AbstractCity?
@@ -3650,6 +3653,26 @@ public class Player: AbstractPlayer {
     public func addGovernorTitle() {
 
         self.governors?.addTitle()
+    }
+
+    public func has(building buildingType: BuildingType, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(building: buildingType) {
+                return true
+            }
+        }
+
+        return false
     }
 
     public func has(wonder wonderType: WonderType, in gameModel: GameModel?) -> Bool {

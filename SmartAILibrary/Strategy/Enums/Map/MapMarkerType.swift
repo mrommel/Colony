@@ -23,7 +23,7 @@ public enum MapMarkerType: String, Codable {
     case industrialZone
     case preserve
     case entertainmentComplex
-    // waterPark
+    case waterPark
     case aqueduct
     case neighborhood
     // canal
@@ -104,7 +104,7 @@ public enum MapMarkerType: String, Codable {
 
         // districts
         .cityCenter, .holySite, .campus, .theatherSquare, .commercialHub, .encampment,
-        .harbor, .industrialZone, .preserve, .entertainmentComplex, /* .waterPark, */ .aqueduct,
+        .harbor, .industrialZone, .preserve, .entertainmentComplex, .waterPark, .aqueduct,
         .neighborhood, /* .canal, .dam, .areodrome, */ .spaceport, .governmentPlaza, /* .diplomaticQuarter, */
 
         // wonders - ancient
