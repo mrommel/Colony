@@ -117,8 +117,8 @@ class CityGrowthViewModel: ObservableObject {
             }
             self.foodConsumption = "-\(String(format: "%.1f", city.foodConsumption()))"
             self.foodSurplus = String(format: "%.1f", (city.lastTurnFoodHarvested() - city.foodConsumption()))
-            self.amenitiesModifier = String(format: "%.1f", city.amenitiesModifier(in: gameModel))
-            self.housingModifier = String(format: "%.1f", city.housingModifier(in: gameModel))
+            self.amenitiesModifier = String(format: "%.1f", city.amenitiesGrowthModifier(in: gameModel))
+            self.housingModifier = String(format: "%.1f", city.housingGrowthModifier(in: gameModel))
             self.lastTurnFoodEarned = String(format: "%.1f", city.lastTurnFoodEarned())
             self.growthInTurns = "\(city.growthInTurns()) turns"
 
@@ -127,7 +127,7 @@ class CityGrowthViewModel: ObservableObject {
             let amenitiesFromEntertainmentValue = city.amenitiesFromDistrict(in: gameModel) +
                 city.amenitiesFromBuildings() + city.amenitiesFromWonders(in: gameModel)
             self.amenitiesFromEntertainment = "\(amenitiesFromEntertainmentValue)"
-            self.amenitiesFromReligion = "0"
+            self.amenitiesFromReligion = "0" // city.amenitiesFromReligion(in: gameModel)
             self.amenitiesFromWarWeariness = "\(city.amenitiesForWarWeariness())"
             self.amenitiesFromCivics = "0"
 

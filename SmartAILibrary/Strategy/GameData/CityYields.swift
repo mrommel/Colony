@@ -434,6 +434,7 @@ extension City {
         }
 
         let hasHueyTeocalli = player.has(wonder: .hueyTeocalli, in: gameModel)
+        let hasStBasilsCathedral = player.has(wonder: .stBasilsCathedral, in: gameModel)
         var productionValue: Double = 0.0
 
         if let centerTile = gameModel.tile(at: self.location) {
@@ -460,6 +461,12 @@ extension City {
                     // motherRussia
                     if workedTile.terrain() == .tundra && player.leader.civilization().ability() == .motherRussia {
                         // Tundra tiles provide +1 Faith and +1 Production, in addition to their usual yields.
+                        productionValue += 1.0
+                    }
+
+                    // stBasilsCathedral
+                    if workedTile.terrain() == .tundra && hasStBasilsCathedral {
+                        // +1 Food, +1 Production, and +1 Culture on all Tundra tiles for this city.
                         productionValue += 1.0
                     }
 
@@ -992,7 +999,12 @@ extension City {
             fatalError("no cityCitizens provided")
         }
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         var cultureFromTiles: Double = 0.0
+        let hasStBasilsCathedral = player.has(wonder: .stBasilsCathedral, in: gameModel)
 
         if let centerTile = gameModel.tile(at: self.location) {
 
@@ -1013,6 +1025,12 @@ extension City {
                     // city has chichenItza: +2 Culture and +1 Production to all Rainforest tiles for this city.
                     if adjacentTile.has(feature: .rainforest) && self.has(wonder: .chichenItza) {
                         cultureFromTiles += 2.0
+                    }
+
+                    // stBasilsCathedral
+                    if adjacentTile.terrain() == .tundra && hasStBasilsCathedral {
+                        // +1 Food, +1 Production, and +1 Culture on all Tundra tiles for this city.
+                        cultureFromTiles += 1.0
                     }
 
                     // godOfTheOpenSky - +1 Culture from Pastures.
@@ -1502,7 +1520,7 @@ extension City {
 
         for effect in effects {
 
-            // +4 Gold in the Capital Capital.
+            // +4 Gold in the Capital.
             if effect.isEqual(category: .trade, at: .first) && self.capitalValue {
                 goldFromEnvoys += 4.0
             }
@@ -1862,6 +1880,7 @@ extension City {
         }
 
         let hasHueyTeocalli = player.has(wonder: .hueyTeocalli, in: gameModel)
+        let hasStBasilsCathedral = player.has(wonder: .stBasilsCathedral, in: gameModel)
         var foodValue: Double = 0.0
 
         if let centerTile = gameModel.tile(at: self.location) {
@@ -1894,6 +1913,12 @@ extension City {
 
                     // +1 Food and +1 Production for each Lake tile in your empire.
                     if adjacentTile.has(feature: .lake) && hasHueyTeocalli {
+                        foodValue += 1.0
+                    }
+
+                    // stBasilsCathedral
+                    if adjacentTile.terrain() == .tundra && hasStBasilsCathedral {
+                        // +1 Food, +1 Production, and +1 Culture on all Tundra tiles for this city.
                         foodValue += 1.0
                     }
 

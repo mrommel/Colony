@@ -185,7 +185,7 @@
 // casaDeContratacion
 "TXT_KEY_WONDER_CASA_DE_CONTRATACIO_TITLE" = "Casa de Contratación";
 "TXT_KEY_WONDER_CASA_DE_CONTRATACIO_EFFECT1" = "+3 [GreatMerchant] Great Merchant points per turn";
-"TXT_KEY_WONDER_CASA_DE_CONTRATACIO_EFFECT2" = "Gain 3 Governor Titles.";
+"TXT_KEY_WONDER_CASA_DE_CONTRATACIO_EFFECT2" = "Gain 3 [Governor] Governor Titles.";
 "TXT_KEY_WONDER_CASA_DE_CONTRATACIO_EFFECT3" = "All your cities on your non-home continent with a Governor gain +15% [Production] Production, +15% [Faith] Faith and +15% [Gold] Gold."; // #
 
 // forbiddenCity
@@ -211,7 +211,7 @@
 "TXT_KEY_WONDER_ST_BASILS_CATHEDRAL_TITLE" = "St. Basil's Cathedral";
 "TXT_KEY_WONDER_ST_BASILS_CATHEDRAL_EFFECT1" = "+3 [Relic] Relic slots";
 "TXT_KEY_WONDER_ST_BASILS_CATHEDRAL_EFFECT2" = "+100% Religious Tourism from this city."; // #
-"TXT_KEY_WONDER_ST_BASILS_CATHEDRAL_EFFECT3" = "+1 [Food] Food, +1 [Production] Production, and +1 [Culture] Culture on all Tundra tiles for this city."; // #
+"TXT_KEY_WONDER_ST_BASILS_CATHEDRAL_EFFECT3" = "+1 [Food] Food, +1 [Production] Production, and +1 [Culture] Culture on all Tundra tiles for this city.";
 
 // tajMahal
 "TXT_KEY_WONDER_TAJ_MAHAL_TITLE" = "Taj Mahal";

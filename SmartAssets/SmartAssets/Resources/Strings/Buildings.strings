@@ -120,18 +120,18 @@
 "TXT_KEY_BUILDING_ANCESTRAL_HALL_TITLE" = "Ancestral Hall";
 "TXT_KEY_BUILDING_ANCESTRAL_HALL_EFFECT1" = "50% increased [Production] Production toward Settlers in this city"; // #
 "TXT_KEY_BUILDING_ANCESTRAL_HALL_EFFECT2" = "New cities receive a free Builder"; // #
-"TXT_KEY_BUILDING_ANCESTRAL_HALL_EFFECT3" = "Awards +1 [Governor] Governor Title"; // #
+"TXT_KEY_BUILDING_ANCESTRAL_HALL_EFFECT3" = "Awards +1 [Governor] Governor Title";
 
 // audienceChamber
 "TXT_KEY_BUILDING_AUDIENCE_CHAMBER_TITLE" = "Audience Chamber";
 "TXT_KEY_BUILDING_AUDIENCE_CHAMBER_EFFECT1" = "+2 [Amenities] Amenities and +4 [Housing] Housing in Cities with Governors."; // #
 "TXT_KEY_BUILDING_AUDIENCE_CHAMBER_EFFECT2" = "-2 Loyalty in Cities without Governors."; // #
-"TXT_KEY_BUILDING_AUDIENCE_CHAMBER_EFFECT3" = "Awards +1 [Governor] Governor Title."; // #
+"TXT_KEY_BUILDING_AUDIENCE_CHAMBER_EFFECT3" = "Awards +1 [Governor] Governor Title.";
 
 // warlordsThrone
 "TXT_KEY_BUILDING_WARLORDS_THRONE_TITLE" = "Warlord's Throne";
 "TXT_KEY_BUILDING_WARLORDS_THRONE_EFFECT1" = "Capturing an enemy City grants 20% bonus [Production] Production in all Cities for 5 turns."; // #
-"TXT_KEY_BUILDING_WARLORDS_THRONE_EFFECT2" = "Awards +1 [Governor] Governor Title."; // #
+"TXT_KEY_BUILDING_WARLORDS_THRONE_EFFECT2" = "Awards +1 [Governor] Governor Title.";
 
 // --------------------------------------
 // medieval
@@ -160,21 +160,21 @@
 "TXT_KEY_BUILDING_FOREIGN_MINISTRY_TITLE" = "Foreign Ministry";
 "TXT_KEY_BUILDING_FOREIGN_MINISTRY_EFFECT1" = "Levying City-States costs half [Gold] Gold."; // #
 "TXT_KEY_BUILDING_FOREIGN_MINISTRY_EFFECT2" = "City-State units gain +4 [Strength] Combat Strength if you are the City-State's Suzerain (including levied units)."; // #
-"TXT_KEY_BUILDING_FOREIGN_MINISTRY_EFFECT3" = "Awards +1 [Governor] Governor Title."; // #
+"TXT_KEY_BUILDING_FOREIGN_MINISTRY_EFFECT3" = "Awards +1 [Governor] Governor Title.";
 "TXT_KEY_BUILDING_FOREIGN_MINISTRY_EFFECT4" = "+3 [DiplomaticFavor] Diplomatic Favor."; // #
 
 // grandMastersChapel
 "TXT_KEY_BUILDING_GRAND_MASTERS_CHAPEL_TITLE" = "Grand Master's Chapel";
 "TXT_KEY_BUILDING_GRAND_MASTERS_CHAPEL_EFFECT1" = "Grants the ability to buy land military units with [Faith] Faith."; // #
 "TXT_KEY_BUILDING_GRAND_MASTERS_CHAPEL_EFFECT2" = "Pillaging improvements and Districts provides bonus [Faith] Faith."; // #
-"TXT_KEY_BUILDING_GRAND_MASTERS_CHAPEL_EFFECT3" = "Awards +1 [Governor] Governor Title."; // #
+"TXT_KEY_BUILDING_GRAND_MASTERS_CHAPEL_EFFECT3" = "Awards +1 [Governor] Governor Title.";
 "TXT_KEY_BUILDING_GRAND_MASTERS_CHAPEL_EFFECT4" = "+5 [Faith] Faith.";
 
 // intelligenceAgency
 "TXT_KEY_BUILDING_INTELLIGENCE_AGENCY_TITLE" = "Intelligence Agency";
 "TXT_KEY_BUILDING_INTELLIGENCE_AGENCY_EFFECT1" = "+1 Spy and Spy capacity."; // #
 "TXT_KEY_BUILDING_INTELLIGENCE_AGENCY_EFFECT2" = "All Spy Operations have a higher chance of success."; // #
-"TXT_KEY_BUILDING_INTELLIGENCE_AGENCY_EFFECT3" = "Awards +1 [Governor] Governor Title."; // #
+"TXT_KEY_BUILDING_INTELLIGENCE_AGENCY_EFFECT3" = "Awards +1 [Governor] Governor Title.";
 
 // university
 "TXT_KEY_BUILDING_UNIVERSITY_TITLE" = "University";

@@ -142,8 +142,8 @@ public protocol AbstractCity: AnyObject, Codable {
 
     func lastTurnFoodHarvested() -> Double
     // ...
-    func amenitiesModifier(in gameModel: GameModel?) -> Double
-    func housingModifier(in gameModel: GameModel?) -> Double
+    func amenitiesGrowthModifier(in gameModel: GameModel?) -> Double
+    func housingGrowthModifier(in gameModel: GameModel?) -> Double
     func lastTurnFoodEarned() -> Double
     func growthInTurns() -> Int
     func maxGrowthInTurns() -> Int
@@ -2001,7 +2001,7 @@ public class City: AbstractCity {
     }
 
     // https://civilization.fandom.com/wiki/Amenities_(Civ6)
-    public func amenitiesModifier(in gameModel: GameModel?) -> Double {
+    public func amenitiesGrowthModifier(in gameModel: GameModel?) -> Double {
 
         switch self.amenitiesState(in: gameModel) {
 
@@ -2016,7 +2016,7 @@ public class City: AbstractCity {
     }
 
     // https://civilization.fandom.com/wiki/Housing_(Civ6)
-    public func housingModifier(in gameModel: GameModel?) -> Double {
+    public func housingGrowthModifier(in gameModel: GameModel?) -> Double {
 
         let housing = self.housingPerTurn(in: gameModel)
         let housingDiff = Int(housing) - Int(self.populationValue)
@@ -2032,14 +2032,10 @@ public class City: AbstractCity {
         }
     }
 
-    public func doGrowth(in gameModel: GameModel?) {
+    public func wonderGrowthModifier(in gameModel: GameModel?) -> Double {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
-        }
-
-        guard let cityCitizens = self.cityCitizens else {
-            fatalError("cant get cityCitizens")
         }
 
         guard let player = self.player else {
@@ -2054,10 +2050,42 @@ public class City: AbstractCity {
             wonderModifier += 0.15
         }
 
+        return wonderModifier
+    }
+
+    public func religionGrowthModifier(in gameModel: GameModel?) -> Double {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        var religionModifier: Double = 1.0
+
         // fertilityRites
         if player.religion?.pantheon() == .fertilityRites {
             // City growth rate is 10% higher.
-            wonderModifier = 0.10
+            religionModifier = 0.10
+        }
+
+        return religionModifier
+    }
+
+    public func doGrowth(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("cant get cityCitizens")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
         }
 
         // update housing value
@@ -2077,14 +2105,11 @@ public class City: AbstractCity {
             }
         }
 
-        // housing
-        foodDiff *= self.housingModifier(in: gameModel)
-
-        // amenities
-        foodDiff *= self.amenitiesModifier(in: gameModel)
-
-        // wonder - fixme move to function
-        foodDiff *= wonderModifier
+        // modifier
+        foodDiff *= self.housingGrowthModifier(in: gameModel)
+        foodDiff *= self.amenitiesGrowthModifier(in: gameModel)
+        foodDiff *= self.wonderGrowthModifier(in: gameModel)
+        foodDiff *= self.religionGrowthModifier(in: gameModel)
 
         self.setLastTurn(foodEarned: foodDiff)
 
@@ -3063,6 +3088,17 @@ public class City: AbstractCity {
                 }
             }
 
+            if buildingType == .warlordsThrone ||
+                buildingType == .audienceChamber ||
+                buildingType == .ancestralHall ||
+                buildingType == .foreignMinistry ||
+                buildingType == .grandMastersChapel ||
+                buildingType == .intelligenceAgency {
+
+                // Awards +1 [Governor] Governor Title.
+                self.player?.addGovernorTitle()
+            }
+
             self.greatWorks?.addPlaces(for: buildingType)
 
             // send gossip
@@ -3327,7 +3363,14 @@ public class City: AbstractCity {
                 }
             }
 
-            // Drama and Poetry - Build a Wonder.
+            if wonderType == .casaDeContratacion {
+                // Gain 3 [Governor] Governor Titles.
+                player.addGovernorTitle()
+                player.addGovernorTitle()
+                player.addGovernorTitle()
+            }
+
+            // inspiration: Drama and Poetry - Build a Wonder.
             if !civics.inspirationTriggered(for: .dramaAndPoetry) {
                 civics.triggerInspiration(for: .dramaAndPoetry, in: gameModel)
             }
