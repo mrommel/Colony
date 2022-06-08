@@ -13,17 +13,20 @@ class UnitLayer: SKNode {
 
     static let kTextureWidth: Int = 48
     static let kTextureSize: CGSize = CGSize(width: kTextureWidth, height: kTextureWidth)
-    static let focusActionKey: String = "focusActionKey"
+    static let focusActionOriginalKey: String = "focusActionKey"
+    static let focusActionAlternateKey: String = "focusActionAlternateKey"
     static let focusAttackActionKey: String = "focusAttackActionKey"
 
     let player: AbstractPlayer?
     weak var gameModel: GameModel?
     var textureUtils: TextureUtils?
+    var wrapOverlap: Int = 0
 
     private var unitObjects: [UnitObject]
 
     // focus
-    private var focusNode: SKSpriteNode?
+    private var focusNodeOriginal: SKSpriteNode?
+    private var focusNodeAlternate: SKSpriteNode?
     private var atlasFocus: ObjectTextureAtlas?
     private var attackFocusNodes: [SKSpriteNode?] = []
     private var atlasAttackFocus: ObjectTextureAtlas?
@@ -64,6 +67,10 @@ class UnitLayer: SKNode {
         }
 
         self.textureUtils = TextureUtils(with: gameModel)
+
+        let mapSize = gameModel.mapSize()
+
+        self.wrapOverlap = mapSize.width() / 2
 
         for player in gameModel.players {
 
@@ -118,23 +125,45 @@ class UnitLayer: SKNode {
             }
         }
 
-        // already shown, no need to add
-        if let unitObject = self.unitObject(of: unit) {
+        // original: already shown, no need to add
+        if let unitObject = self.originalUnitObject(of: unit) {
 
             unitObject.show(at: location)
             unitObject.update()
 
         } else {
 
-            let unitObject = UnitObject(unit: unit, in: self.gameModel)
+            let unitObject = UnitObject(unit: unit, mode: .original, at: location, in: self.gameModel)
 
             // add to canvas
             unitObject.addTo(node: self)
             unitObject.delegate = self
 
             // make idle
-            // unitObject.showIdle()
             unitObject.show(at: location)
+            unitObject.update()
+
+            // keep reference
+            self.unitObjects.append(unitObject)
+        }
+
+        // alternate: already shown, no need to add
+        let alternateLocation = self.alternatePoint(for: location)
+        if let unitObject = self.alternateUnitObject(of: unit) {
+
+            unitObject.show(at: alternateLocation)
+            unitObject.update()
+
+        } else {
+
+            let unitObject = UnitObject(unit: unit, mode: .alternate, at: alternateLocation, in: self.gameModel)
+
+            // add to canvas
+            unitObject.addTo(node: self)
+            unitObject.delegate = self
+
+            // make idle
+            unitObject.show(at: alternateLocation)
             unitObject.update()
 
             // keep reference
@@ -148,8 +177,13 @@ class UnitLayer: SKNode {
             fatalError("cant get unit")
         }
 
-        if let unitObject = self.unitObject(of: unit) {
+        if let unitObject = self.originalUnitObject(of: unit) {
             unitObject.hide(at: location)
+        }
+
+        if let unitObject = self.alternateUnitObject(of: unit) {
+            let alternateLocation = self.alternatePoint(for: location)
+            unitObject.hide(at: alternateLocation)
         }
     }
 
@@ -159,8 +193,13 @@ class UnitLayer: SKNode {
             fatalError("cant get unit")
         }
 
-        if let unitObject = self.unitObject(of: unit) {
+        if let unitObject = self.originalUnitObject(of: unit) {
             unitObject.enterCity(at: location)
+        }
+
+        if let unitObject = self.alternateUnitObject(of: unit) {
+            let alternateLocation = self.alternatePoint(for: location)
+            unitObject.enterCity(at: alternateLocation)
         }
     }
 
@@ -171,51 +210,125 @@ class UnitLayer: SKNode {
 
     func fortify(unit: AbstractUnit?) {
 
-        if let unitObject = self.unitObject(of: unit) {
+        if let unitObject = self.originalUnitObject(of: unit) {
 
             unitObject.fortify()
-            // unitObject.showFortified()
+        }
+
+        if let unitObject = self.alternateUnitObject(of: unit) {
+
+            unitObject.fortify()
         }
     }
 
     func attack(unit: AbstractUnit?, from source: HexPoint, towards location: HexPoint) {
 
-        if let unitObject = self.unitObject(of: unit) {
+        if let unitObject = self.originalUnitObject(of: unit) {
 
             unitObject.attack(from: source, towards: location)
+        }
+
+        if let unitObject = self.alternateUnitObject(of: unit) {
+
+            let alternateSource = self.alternatePoint(for: source)
+            let alternateLocation = self.alternatePoint(for: location)
+            unitObject.attack(from: alternateSource, towards: alternateLocation)
         }
     }
 
     func rangeAttack(unit: AbstractUnit?, from source: HexPoint, towards location: HexPoint) {
 
-        if let unitObject = self.unitObject(of: unit) {
+        if let unitObject = self.originalUnitObject(of: unit) {
 
             unitObject.rangeAttack(from: source, towards: location)
         }
+
+        if let unitObject = self.alternateUnitObject(of: unit) {
+
+            let alternateSource = self.alternatePoint(for: source)
+            let alternateLocation = self.alternatePoint(for: location)
+            unitObject.rangeAttack(from: alternateSource, towards: alternateLocation)
+        }
     }
 
-    private func unitObject(at location: HexPoint) -> UnitObject? {
+    private func originalUnitObject(at location: HexPoint) -> UnitObject? {
 
-        for object in self.unitObjects where object.unit?.location == location {
-            return object
+        for unitObject in self.unitObjects where unitObject.mode == .original && unitObject.unit?.location == location {
+
+            return unitObject
         }
 
         return nil
     }
 
-    private func unitObject(of unit: AbstractUnit?) -> UnitObject? {
+    private func originalUnitObject(of unit: AbstractUnit?) -> UnitObject? {
 
         guard let unit = unit else {
             fatalError("cant get unit")
         }
 
-        for object in self.unitObjects {
-            if unit.isEqual(to: object.unit) {
-                return object
-            }
+        for unitObject in self.unitObjects where unitObject.mode == .original && unit.isEqual(to: unitObject.unit) {
+
+            return unitObject
         }
 
         return nil
+    }
+
+    private func alternateUnitObject(at location: HexPoint) -> UnitObject? {
+
+        guard let gameModel = self.gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        let originalLocation = location
+        let wrappedLocation = gameModel.wrap(point: location)
+
+        for unitObject in self.unitObjects where
+            unitObject.mode == .alternate &&
+            (unitObject.unit?.location == originalLocation || unitObject.unit?.location == wrappedLocation) {
+
+            return unitObject
+        }
+
+        return nil
+    }
+
+    private func alternateUnitObject(of unit: AbstractUnit?) -> UnitObject? {
+
+        guard let gameModel = self.gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
+
+        let originalLocation = unit.location
+        let wrappedLocation = gameModel.wrap(point: unit.location)
+
+        for unitObject in self.unitObjects where
+            unitObject.mode == .alternate &&
+            unitObject.unit?.type == unit.type &&
+            (unitObject.unit?.location == originalLocation || unitObject.unit?.location == wrappedLocation) {
+
+            return unitObject
+        }
+
+        return nil
+    }
+
+    func alternatePoint(for point: HexPoint) -> HexPoint {
+
+        if point.x >= self.wrapOverlap {
+            return HexPoint(x: point.x - 2 * self.wrapOverlap, y: point.y)
+        }
+
+        if point.x < self.wrapOverlap {
+            return HexPoint(x: point.x + 2 * self.wrapOverlap, y: point.y)
+        }
+
+        return point
     }
 
     func showFocus(for unit: AbstractUnit?) {
@@ -224,29 +337,103 @@ class UnitLayer: SKNode {
             fatalError("cant get unit")
         }
 
-        if self.focusNode != nil {
-            self.focusNode?.removeAction(forKey: UnitLayer.focusActionKey)
-            self.focusNode?.removeFromParent()
-            self.focusNode = nil
-        }
+        self.hideFocus()
 
         let focusImage = ImageCache.shared.image(for: "focus1")
-        self.focusNode = SKSpriteNode(texture: SKTexture(image: focusImage), size: UnitLayer.kTextureSize)
-        self.focusNode?.position = HexPoint.toScreen(hex: unit.location)
-        self.focusNode?.zPosition = Globals.ZLevels.focus
-        self.focusNode?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+
+        // original point
+        let originalPoint = unit.location
+        self.focusNodeOriginal = SKSpriteNode(texture: SKTexture(image: focusImage), size: UnitLayer.kTextureSize)
+        self.focusNodeOriginal?.position = HexPoint.toScreen(hex: originalPoint)
+        self.focusNodeOriginal?.zPosition = Globals.ZLevels.focus
+        self.focusNodeOriginal?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
 
         if let atlas = self.atlasFocus {
 
             let focusFrames = atlas.textures.map { SKTexture(image: $0) }
             let focusAnimation = SKAction.repeatForever(SKAction.animate(with: focusFrames, timePerFrame: atlas.timePerFrame))
 
-            self.focusNode?.run(focusAnimation, withKey: UnitLayer.focusActionKey, completion: { })
+            self.focusNodeOriginal?.run(focusAnimation, withKey: UnitLayer.focusActionOriginalKey, completion: { })
         }
 
-        if let focusNode = self.focusNode {
-            self.addChild(focusNode)
+        if let focusNodeOriginal = self.focusNodeOriginal {
+            self.addChild(focusNodeOriginal)
         }
+
+        // alternate point
+        let alternatePoint = self.alternatePoint(for: unit.location)
+        self.focusNodeAlternate = SKSpriteNode(texture: SKTexture(image: focusImage), size: UnitLayer.kTextureSize)
+        self.focusNodeAlternate?.position = HexPoint.toScreen(hex: alternatePoint)
+        self.focusNodeAlternate?.zPosition = Globals.ZLevels.focus
+        self.focusNodeAlternate?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+
+        if let atlas = self.atlasFocus {
+
+            let focusFrames = atlas.textures.map { SKTexture(image: $0) }
+            let focusAnimation = SKAction.repeatForever(SKAction.animate(with: focusFrames, timePerFrame: atlas.timePerFrame))
+
+            self.focusNodeAlternate?.run(focusAnimation, withKey: UnitLayer.focusActionAlternateKey, completion: { })
+        }
+
+        if let focusNodeAlternate = self.focusNodeAlternate {
+            self.addChild(focusNodeAlternate)
+        }
+    }
+
+    func hideFocus() {
+
+        if self.focusNodeOriginal != nil {
+            self.focusNodeOriginal?.removeAction(forKey: UnitLayer.focusActionOriginalKey)
+            self.focusNodeOriginal?.removeFromParent()
+            self.focusNodeOriginal = nil
+        }
+
+        if self.focusNodeAlternate != nil {
+            self.focusNodeAlternate?.removeAction(forKey: UnitLayer.focusActionAlternateKey)
+            self.focusNodeAlternate?.removeFromParent()
+            self.focusNodeAlternate = nil
+        }
+    }
+
+    func showAttackFocus(at point: HexPoint) {
+
+        let focusImage = ImageCache.shared.image(for: "focus-attack1")
+
+        // original attack focus
+        let originalPoint = point
+        let originalAttackFocusNode = SKSpriteNode(texture: SKTexture(image: focusImage), size: UnitLayer.kTextureSize)
+        originalAttackFocusNode.position = HexPoint.toScreen(hex: originalPoint)
+        originalAttackFocusNode.zPosition = Globals.ZLevels.focus
+        originalAttackFocusNode.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+
+        if let atlas = self.atlasAttackFocus {
+
+            let focusFrames = atlas.textures.map { SKTexture(image: $0) }
+            let focusAnimation = SKAction.repeatForever(SKAction.animate(with: focusFrames, timePerFrame: atlas.timePerFrame))
+
+            originalAttackFocusNode.run(focusAnimation, withKey: UnitLayer.focusAttackActionKey, completion: { })
+        }
+
+        self.attackFocusNodes.append(originalAttackFocusNode)
+        self.addChild(originalAttackFocusNode)
+
+        // alternate attack focus
+        let alternatePoint = self.alternatePoint(for: point)
+        let alternateAttackFocusNode = SKSpriteNode(texture: SKTexture(image: focusImage), size: UnitLayer.kTextureSize)
+        alternateAttackFocusNode.position = HexPoint.toScreen(hex: alternatePoint)
+        alternateAttackFocusNode.zPosition = Globals.ZLevels.focus
+        alternateAttackFocusNode.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+
+        if let atlas = self.atlasAttackFocus {
+
+            let focusFrames = atlas.textures.map { SKTexture(image: $0) }
+            let focusAnimation = SKAction.repeatForever(SKAction.animate(with: focusFrames, timePerFrame: atlas.timePerFrame))
+
+            alternateAttackFocusNode.run(focusAnimation, withKey: UnitLayer.focusAttackActionKey, completion: { })
+        }
+
+        self.attackFocusNodes.append(alternateAttackFocusNode)
+        self.addChild(alternateAttackFocusNode)
     }
 
     func hideAttackFocus() {
@@ -256,35 +443,6 @@ class UnitLayer: SKNode {
         }
 
         self.attackFocusNodes.removeAll()
-    }
-
-    func showAttackFocus(at point: HexPoint) {
-
-        let focusImage = ImageCache.shared.image(for: "focus-attack1")
-        let attackFocusNode = SKSpriteNode(texture: SKTexture(image: focusImage), size: UnitLayer.kTextureSize)
-        attackFocusNode.position = HexPoint.toScreen(hex: point)
-        attackFocusNode.zPosition = Globals.ZLevels.focus
-        attackFocusNode.anchorPoint = CGPoint(x: 0.0, y: 0.0)
-
-        if let atlas = self.atlasAttackFocus {
-
-            let focusFrames = atlas.textures.map { SKTexture(image: $0) }
-            let focusAnimation = SKAction.repeatForever(SKAction.animate(with: focusFrames, timePerFrame: atlas.timePerFrame))
-
-            attackFocusNode.run(focusAnimation, withKey: UnitLayer.focusAttackActionKey, completion: { })
-        }
-
-        self.attackFocusNodes.append(attackFocusNode)
-        self.addChild(attackFocusNode)
-    }
-
-    func hideFocus() {
-
-        if self.focusNode != nil {
-            self.focusNode?.removeAction(forKey: UnitLayer.focusActionKey)
-            self.focusNode?.removeFromParent()
-            self.focusNode = nil
-        }
     }
 
     func clearPathSpriteBuffer() {
@@ -313,10 +471,6 @@ class UnitLayer: SKNode {
 
         if let dir = firstPoint.direction(towards: secondPoint) {
             let textureName = "path-start-\(dir.short())"
-
-            // if !isReallyMovementLeft {
-            //     textureName += "-out"
-            // }
 
             let pathImage = ImageCache.shared.image(for: textureName)
 
@@ -401,48 +555,12 @@ class UnitLayer: SKNode {
         }
     }
 
-    func move(unit: AbstractUnit?, to hex: HexPoint) {
-
-        guard let gameModel = self.gameModel else {
-            fatalError("gameModel not set")
-        }
-
-        if let selectedUnit = unit {
-
-            if self.unitObject(of: selectedUnit) == nil {
-                self.show(unit: selectedUnit, at: selectedUnit.location)
-                print("show")
-            }
-
-            if let unitObject = self.unitObject(at: selectedUnit.location) {
-
-                if gameModel.valid(point: hex) {
-
-                    let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
-                        for: selectedUnit.movementType(),
-                        for: selectedUnit.player,
-                        ignoreOwner: false,
-                        unitMapType: selectedUnit.unitMapType(),
-                        canEmbark: selectedUnit.canEverEmbark(),
-                        canEnterOcean: selectedUnit.player!.canEnterOcean()
-                    )
-                    let pathFinder = AStarPathfinder(with: pathFinderDataSource)
-
-                    if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: hex) {
-
-                        unitObject.move(on: path)
-                        return
-                    }
-                }
-            }
-        }
-    }
-
     func move(unit: AbstractUnit?, on path: HexPath) {
 
         if let selectedUnit = unit {
 
-            if let unitObject = self.unitObject(of: selectedUnit) {
+            // original
+            if let unitObject = self.originalUnitObject(of: selectedUnit) {
 
                 unitObject.move(on: path)
             } else {
@@ -450,9 +568,26 @@ class UnitLayer: SKNode {
                 // most likely foreign unit
                 self.show(unit: selectedUnit, at: selectedUnit.location)
 
-                if let unitObject = self.unitObject(of: selectedUnit) {
+                if let unitObject = self.originalUnitObject(of: selectedUnit) {
 
                     unitObject.move(on: path)
+                }
+            }
+
+            // alternate
+            let alternatePath = HexPath(points: path.points().map { self.alternatePoint(for: $0) }, costs: path.costs)
+            let alternatePoint = self.alternatePoint(for: selectedUnit.location)
+            if let unitObject = self.alternateUnitObject(of: selectedUnit) {
+
+                unitObject.move(on: alternatePath)
+            } else {
+
+                // most likely foreign unit
+                self.show(unit: selectedUnit, at: alternatePoint)
+
+                if let unitObject = self.alternateUnitObject(of: selectedUnit) {
+
+                    unitObject.move(on: alternatePath)
                 }
             }
         }
@@ -460,7 +595,16 @@ class UnitLayer: SKNode {
 
     func update(unit: AbstractUnit?) {
 
-        if let unitObject = unitObject(of: unit) {
+        if let unitObject = self.originalUnitObject(of: unit) {
+
+            if unit?.isDelayedDeath() ?? false {
+                unitObject.hide(at: unit?.location ?? .invalid)
+            }
+
+            unitObject.update()
+        }
+
+        if let unitObject = self.alternateUnitObject(of: unit) {
 
             if unit?.isDelayedDeath() ?? false {
                 unitObject.hide(at: unit?.location ?? .invalid)

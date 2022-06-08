@@ -11,7 +11,7 @@ import Foundation
 public struct HexPath: Decodable {
 
     fileprivate var pointsValue: [HexPoint]
-    fileprivate var costs: [Double]
+    fileprivate var costsValue: [Double]
 
     enum CodingKeys: String, CodingKey {
         case points
@@ -22,18 +22,18 @@ public struct HexPath: Decodable {
 
     public init() {
         self.pointsValue = []
-        self.costs = []
+        self.costsValue = []
     }
 
     public init(point: HexPoint, cost: Double, path: HexPath) {
         self.pointsValue = [point] + path.pointsValue
-        self.costs = [cost] + path.costs
+        self.costsValue = [cost] + path.costsValue
     }
 
     public init(points: [HexPoint], costs: [Double]) {
 
         self.pointsValue = points
-        self.costs = costs
+        self.costsValue = costs
     }
 
     public init(from decoder: Decoder) throws {
@@ -41,7 +41,7 @@ public struct HexPath: Decodable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
 
         self.pointsValue = try values.decode([HexPoint].self, forKey: .points)
-        self.costs = try values.decode([Double].self, forKey: .costs)
+        self.costsValue = try values.decode([Double].self, forKey: .costs)
     }
 
     // MARK: properties
@@ -50,9 +50,14 @@ public struct HexPath: Decodable {
         return self.pointsValue.count
     }
 
-    var cost: Double {
+    public var cost: Double {
 
-        return self.costs.reduce(0.0, +)
+        return self.costsValue.reduce(0.0, +)
+    }
+
+    public var costs: [Double] {
+
+        return self.costsValue
     }
 
     public var isEmpty: Bool {
@@ -70,7 +75,7 @@ public struct HexPath: Decodable {
 
     public var first: (HexPoint, Double)? {
 
-        if let firstPoint = self.pointsValue.first, let firstCost = self.costs.first {
+        if let firstPoint = self.pointsValue.first, let firstCost = self.costsValue.first {
             return (firstPoint, firstCost)
         }
 
@@ -83,12 +88,12 @@ public struct HexPath: Decodable {
             return nil
         }
 
-        return (self.pointsValue[1], self.costs[1])
+        return (self.pointsValue[1], self.costsValue[1])
     }
 
     public var last: (HexPoint, Double)? {
 
-        if let lastPoint = self.pointsValue.last, let lastCost = self.costs.last {
+        if let lastPoint = self.pointsValue.last, let lastCost = self.costsValue.last {
             return (lastPoint, lastCost)
         }
 
@@ -101,7 +106,7 @@ public struct HexPath: Decodable {
         var index = 0
 
         repeat {
-            result.append(point: self.pointsValue[index], cost: self.costs[index])
+            result.append(point: self.pointsValue[index], cost: self.costsValue[index])
             index += 1
         } while result.cost <= Double(moves) && index < self.count
 
@@ -128,9 +133,9 @@ public struct HexPath: Decodable {
         var index = 0
         repeat {
             let newPoints = Array(self.pointsValue.suffix(from: 1))
-            let newCosts = Array(self.costs.suffix(from: 1))
+            let newCosts = Array(self.costsValue.suffix(from: 1))
             self.pointsValue = newPoints
-            self.costs = newCosts
+            self.costsValue = newCosts
             index += 1
         } while index < cropIndex
     }
@@ -140,19 +145,19 @@ public struct HexPath: Decodable {
     public mutating func append(point: HexPoint, cost: Double) {
 
         self.pointsValue.append(point)
-        self.costs.append(cost)
+        self.costsValue.append(cost)
     }
 
     public mutating func prepend(point: HexPoint, cost: Double) {
 
         self.pointsValue.prepend(point)
-        self.costs.prepend(cost)
+        self.costsValue.prepend(cost)
     }
 
     public func pathWithoutFirst() -> HexPath {
 
         let newPoints = Array(self.pointsValue.suffix(from: 1))
-        let newCosts = Array(self.costs.suffix(from: 1))
+        let newCosts = Array(self.costsValue.suffix(from: 1))
 
         return HexPath(points: newPoints, costs: newCosts)
     }
@@ -160,7 +165,7 @@ public struct HexPath: Decodable {
     public func pathWithoutLast() -> HexPath {
 
         let newPoints = Array(self.pointsValue.prefix(upTo: self.count - 1))
-        let newCosts = Array(self.costs.prefix(upTo: self.count - 1))
+        let newCosts = Array(self.costsValue.prefix(upTo: self.count - 1))
 
         return HexPath(points: newPoints, costs: newCosts)
     }
@@ -172,7 +177,7 @@ public struct HexPath: Decodable {
         }
 
         let newPoints = Array(self.pointsValue.prefix(upTo: self.count - items))
-        let newCosts = Array(self.costs.prefix(upTo: self.count - items))
+        let newCosts = Array(self.costsValue.prefix(upTo: self.count - items))
 
         return HexPath(points: newPoints, costs: newCosts)
     }
@@ -184,7 +189,7 @@ public struct HexPath: Decodable {
 
     public func reversed() -> HexPath {
 
-        return HexPath(points: self.pointsValue.reversed(), costs: self.costs.reversed())
+        return HexPath(points: self.pointsValue.reversed(), costs: self.costsValue.reversed())
     }
 
     func endTurnPlot(for unit: AbstractUnit?) -> HexPoint? {
@@ -200,7 +205,7 @@ public struct HexPath: Decodable {
 
         while moves > 0 {
 
-            moves -= self.costs[index]
+            moves -= self.costsValue[index]
             index += 1
         }
 
@@ -210,7 +215,7 @@ public struct HexPath: Decodable {
     public subscript(index: Int) -> (HexPoint, Double) {
 
         precondition(index < self.pointsValue.count, "Index \(index) is out of range")
-        return (self.pointsValue[index], self.costs[index])
+        return (self.pointsValue[index], self.costsValue[index])
     }
 }
 
@@ -253,7 +258,7 @@ extension HexPath: Encodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.pointsValue, forKey: .points)
-        try container.encode(self.costs, forKey: .costs)
+        try container.encode(self.costsValue, forKey: .costs)
     }
 }
 

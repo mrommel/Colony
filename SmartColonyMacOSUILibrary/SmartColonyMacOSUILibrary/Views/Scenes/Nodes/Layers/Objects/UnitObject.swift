@@ -14,6 +14,12 @@ protocol UnitObjectDelegate: AnyObject {
     func clearFocus()
 }
 
+enum UnitObjectMode {
+
+    case original
+    case alternate
+}
+
 class UnitObject {
 
     static let idleActionKey: String = "idleActionKey"
@@ -43,6 +49,7 @@ class UnitObject {
     weak var gameModel: GameModel?
 
     let identifier: String
+    let mode: UnitObjectMode
 
     var atlasIdle: ObjectTextureAtlas?
     var atlasFortified: ObjectTextureAtlas?
@@ -75,10 +82,11 @@ class UnitObject {
 
     weak var delegate: UnitObjectDelegate?
 
-    init(unit: AbstractUnit?, in gameModel: GameModel?) {
+    init(unit: AbstractUnit?, mode: UnitObjectMode, at location: HexPoint, in gameModel: GameModel?) {
 
         self.identifier = UUID.init().uuidString
         self.unit = unit
+        self.mode = mode
         self.gameModel = gameModel
 
         guard let unit = self.unit else {
@@ -89,12 +97,12 @@ class UnitObject {
             fatalError("cant get civilization")
         }
 
-        self.currentAnimation = .idle(location: unit.location)
+        self.currentAnimation = .idle(location: location)
 
         let unitImage = ImageCache.shared.image(for: unit.type.spriteName)
         let unitTexture = SKTexture(image: unitImage)
         self.sprite = SKSpriteNode(texture: unitTexture, color: .black, size: BaseLayer.kTextureSize)
-        self.sprite.position = HexPoint.toScreen(hex: unit.location)
+        self.sprite.position = HexPoint.toScreen(hex: location)
         self.sprite.zPosition = Globals.ZLevels.unit
         self.sprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
 
@@ -413,7 +421,7 @@ class UnitObject {
         self.sprite.removeAction(forKey: UnitObject.fortifiedActionKey)
 
         // just to be sure
-        self.sprite.position = HexPoint.toScreen(hex: unit.location)
+        self.sprite.position = HexPoint.toScreen(hex: location)
 
         var idleAtlas: ObjectTextureAtlas
         if unit.isEmbarked() {
