@@ -186,7 +186,7 @@ public struct DiplomaticDialogView: View {
                         Text("TXT_KEY_DIPLOMACY_ACTION_DECLARE_FRIENDSHIP_TITLE".localized())
                     }
                     .zIndex(50)
-                    .tooltip("TXT_KEY_DIPLOMACY_ACTION_DECLARE_FRIENDSHIP_TOOLTIP".localized())
+                    .tooltip(self.viewModel.declareFriendshipTooltip())
                 })
                     .buttonStyle(GameButtonStyle())
             }
@@ -202,7 +202,7 @@ public struct DiplomaticDialogView: View {
                             .font(.footnote)
                     }
                     .zIndex(49)
-                    .tooltip("TXT_KEY_DIPLOMACY_ACTION_DELEGATION_TOOLTIP".localized())
+                    .tooltip(self.viewModel.sendDelegationTooltip())
                 })
                     .buttonStyle(GameButtonStyle())
             }
@@ -218,7 +218,7 @@ public struct DiplomaticDialogView: View {
                             .font(.footnote)
                     }
                     .zIndex(48)
-                    .tooltip("TXT_KEY_DIPLOMACY_ACTION_DENOUNCE_TOOLTIP".localized())
+                    .tooltip(self.viewModel.denounceTooltip())
                 })
                     .buttonStyle(GameButtonStyle())
             }
@@ -234,7 +234,7 @@ public struct DiplomaticDialogView: View {
                             .font(.footnote)
                     }
                     .zIndex(47)
-                    .tooltip("TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_TOOLTIP".localized())
+                    .tooltip(self.viewModel.declareWarTooltip())
                 })
                     .buttonStyle(GameButtonStyle())
             }
@@ -247,7 +247,7 @@ public struct DiplomaticDialogView: View {
                         Text("TXT_KEY_DIPLOMACY_ACTION_MAKE_DEAL_TITLE".localized())
                     }
                     .zIndex(46)
-                    .tooltip("TXT_KEY_DIPLOMACY_ACTION_MAKE_DEAL_TOOLTIP".localized())
+                    .tooltip(self.viewModel.makeDealTooltip())
                 })
                 .buttonStyle(GameButtonStyle())
             }
