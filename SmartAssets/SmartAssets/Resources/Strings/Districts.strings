@@ -1,0 +1,139 @@
+/* 
+  Districts.strings
+  SmartAssets
+
+  Created by Michael Rommel on 08.06.22.
+  
+*/
+
+// cityCenter
+"TXT_KEY_DISTRICT_CITY_CENTER_TITLE" = "CityCenter";
+"TXT_KEY_DISTRICT_CITY_CENTER_EFFECT1" = "Main District. Must be captured to capture the entire City. Has Defenses and a Ranged Strike (after building Walls).";
+
+// campus
+"TXT_KEY_DISTRICT_CAMPUS_TITLE" = "Campus";
+"TXT_KEY_DISTRICT_CAMPUS_EFFECT1" = "Major bonus (+2 [Science] Science) for each adjacent Geothermal Fissure and Reef tile.";
+// "Major bonus (+2 Science) for each adjacent Pamukkale tile.", // #
+"TXT_KEY_DISTRICT_CAMPUS_EFFECT2" = "Major bonus (+2 [Science] Science) for each adjacent Great Barrier Reef tile.";
+"TXT_KEY_DISTRICT_CAMPUS_EFFECT3" = "Standard bonus (+1 [Science] Science) for each adjacent Mountain tile.";
+"TXT_KEY_DISTRICT_CAMPUS_EFFECT4" = "Minor bonus (+½ [Science] Science) for each adjacent Rainforest and district tile.";
+"TXT_KEY_DISTRICT_CAMPUS_EFFECT5" = "+1 [GreatScientist] Great Scientist point per turn.";
+"TXT_KEY_DISTRICT_CAMPUS_EFFECT6" = "Specialists add +2 [Science] Science each"; // #
+
+// theatherSquare
+"TXT_KEY_DISTRICT_THEATER_SQUARE_TITLE" = "Theater Square";
+"TXT_KEY_DISTRICT_THEATER_SQUARE_EFFECT1" = "Major bonus (+2 [Culture] Culture) for each adjacent Wonder";
+"TXT_KEY_DISTRICT_THEATER_SQUARE_EFFECT2" = "Major bonus (+2 [Culture] Culture) for each adjacent Water Park or Entertainment Complex district tile";
+// "Major bonus (+2 Culture) for each adjacent Pamukkale tile",
+"TXT_KEY_DISTRICT_THEATER_SQUARE_EFFECT3" = "Minor bonus (+½ [Culture] Culture) for each adjacent district tile";
+"TXT_KEY_DISTRICT_THEATER_SQUARE_EFFECT4" = "+1 [GreatWriter] Great Writer point per turn";
+"TXT_KEY_DISTRICT_THEATER_SQUARE_EFFECT5" = "+1 [GreatArtist] Great Artist point per turn";
+"TXT_KEY_DISTRICT_THEATER_SQUARE_EFFECT6" = "+1 [GreatMusician] Great Musician point per turn";
+"TXT_KEY_DISTRICT_THEATER_SQUARE_EFFECT7" = "Buildings have slots for Great Works and Artifacts";
+"TXT_KEY_DISTRICT_THEATER_SQUARE_EFFECT8" = "Specialists add +2 [Culture] Culture each"; // #
+"TXT_KEY_DISTRICT_THEATER_SQUARE_EFFECT9" = "+1 Appeal to adjacent tiles";
+
+// holySite
+"TXT_KEY_DISTRICT_HOLY_SITE_TITLE" = "Holy Site";
+"TXT_KEY_DISTRICT_HOLY_SITE_EFFECT1" = "Major bonus (+2 [Faith] Faith) for each adjacent Natural Wonder";
+"TXT_KEY_DISTRICT_HOLY_SITE_EFFECT2" = "Standard bonus (+1 [Faith] Faith) for each adjacent Mountain tile";
+"TXT_KEY_DISTRICT_HOLY_SITE_EFFECT3" = "Standard bonus (+1 [Faith] Faith) for each adjacent Pamukkale tile";
+"TXT_KEY_DISTRICT_HOLY_SITE_EFFECT4" = "Minor bonus (+½ [Faith] Faith) for each adjacent District tile and each adjacent unimproved Woods tile";
+"TXT_KEY_DISTRICT_HOLY_SITE_EFFECT5" = "+1 [GreatProphet] Great Prophet point per turn";
+"TXT_KEY_DISTRICT_HOLY_SITE_EFFECT6" = "A religion can be founded in the Holy Site";
+"TXT_KEY_DISTRICT_HOLY_SITE_EFFECT7" = "Religious units can be purchased in a city with a Holy Site, spawning in the Holy Site or if that's unavailable in the City Center";
+"TXT_KEY_DISTRICT_HOLY_SITE_EFFECT8" = "Religious units heal in a Holy Site district and in tiles adjacent to it";
+"TXT_KEY_DISTRICT_HOLY_SITE_EFFECT9" = "Specialists add +2 [Faith] Faith each";
+"TXT_KEY_DISTRICT_HOLY_SITE_EFFECT10" = "+1 Appeal to adjacent tiles";
+
+// encampment
+"TXT_KEY_DISTRICT_ENCAMPMENT_TITLE" = "Encampment";
+"TXT_KEY_DISTRICT_ENCAMPMENT_EFFECT1" = "+1 [GreatGeneral] Great General point per turn";
+"TXT_KEY_DISTRICT_ENCAMPMENT_EFFECT2" = "Acquires Outer Defenses and Ranged Strike along with the City Center once Walls have been built"; // #
+"TXT_KEY_DISTRICT_ENCAMPMENT_EFFECT3" = "Blocks movement of foreign units to this tile, unless the district is pillaged"; // #
+"TXT_KEY_DISTRICT_ENCAMPMENT_EFFECT4" = "Spawns all land military units the city produces or purchases"; // #
+"TXT_KEY_DISTRICT_ENCAMPMENT_EFFECT5" = "Provides XP bonus to units built in it once buildings have been added to the district"; // #
+"TXT_KEY_DISTRICT_ENCAMPMENT_EFFECT6" = "When a Military Academy is built, parent city may also build units as Corps and Armies"; // #
+"TXT_KEY_DISTRICT_ENCAMPMENT_EFFECT7" = "Specialists provide +1 [Production] Production and 2 Gold each"; // #
+"TXT_KEY_DISTRICT_ENCAMPMENT_EFFECT8" = "Gives its parent city the ability to build land units with only 1 count of the relative Strategic Resource"; // #
+"TXT_KEY_DISTRICT_ENCAMPMENT_EFFECT9" = "Increases Strategic Resource stockpiles by 10 for each building inside"; // #
+
+// harbor
+"TXT_KEY_DISTRICT_HARBOR_TITLE" = "Harbor";
+"TXT_KEY_DISTRICT_HARBOR_EFFECT1" = "Major bonus (+2 [Gold] Gold) for being adjacent to the City Center";
+"TXT_KEY_DISTRICT_HARBOR_EFFECT2" = "Standard bonus (+1 [Gold] Gold) for each adjacent Sea resource";
+"TXT_KEY_DISTRICT_HARBOR_EFFECT3" = "Minor bonus (+½ [Gold] Gold) for each adjacent District";
+"TXT_KEY_DISTRICT_HARBOR_EFFECT4" = "+1 [GreatAdmiral] Great Admiral point per turn";
+"TXT_KEY_DISTRICT_HARBOR_EFFECT5" = "+1 Trade Route capacity if this city doesn't already have a Commercial Hub. (Requires a Lighthouse)"; // #
+"TXT_KEY_DISTRICT_HARBOR_EFFECT6" = "Allows its parent city to build ships, even if the City Center is inland";
+"TXT_KEY_DISTRICT_HARBOR_EFFECT7" = "Newly produced or purchased ships will spawn at the Harbor tile (as long as the Harbor tile is unoccupied)"; // #
+"TXT_KEY_DISTRICT_HARBOR_EFFECT8" = "Removes movement penalties for units Embarking to and from its tile (even if the district is still under construction)"; // #
+"TXT_KEY_DISTRICT_HARBOR_EFFECT9" = "Allows its parent city to build Ships requiring Strategic Resources with only 1 count of the relevant resource"; // #
+"TXT_KEY_DISTRICT_HARBOR_EFFECT10" = "When the Seaport is built, the parent city may construct Fleets and Armadas"; // #
+"TXT_KEY_DISTRICT_HARBOR_EFFECT11" = "Buildings grant experience bonuses to ships built in this city"; // #
+"TXT_KEY_DISTRICT_HARBOR_EFFECT12" = "Specialists add +2 [Gold] Gold and +1 [Food] Food each"; // #
+
+// entertainmentComplex
+"TXT_KEY_DISTRICT_ENTERTAINMENT_COMPLEX_TITLE" = "Entertainment Complex";
+"TXT_KEY_DISTRICT_ENTERTAINMENT_COMPLEX_EFFECT1" = "+1 [Amenity] Amenity from entertainment to parent city"; // #
+"TXT_KEY_DISTRICT_ENTERTAINMENT_COMPLEX_EFFECT2" = "Amenities from the Zoo and Stadium buildings extend to cities whose City Centers are up to 6 tiles away from the district. (Stacks with Water Park.)"; // #
+"TXT_KEY_DISTRICT_ENTERTAINMENT_COMPLEX_EFFECT3" = "Domestic Destination: +1 [Food] Food."; // #
+"TXT_KEY_DISTRICT_ENTERTAINMENT_COMPLEX_EFFECT4" = "International Destination: +1 [Food] Food."; // #
+"TXT_KEY_DISTRICT_ENTERTAINMENT_COMPLEX_EFFECT5" = "+1 Appeal to adjacent tiles"; // #
+
+// waterPark
+"TXT_KEY_DISTRICT_WATER_PARK_TITLE" = "Water Park";
+"TXT_KEY_DISTRICT_WATER_PARK_EFFECT1" = "+1 [Amenity] Amenity from entertainment to parent city."; // #
+"TXT_KEY_DISTRICT_WATER_PARK_EFFECT2" = "[Amenities] Amenities from the Aquarium and Aquatics Center buildings extend to cities whose City Centers are up to 9 tiles away from the district. (Stacks with Entertainment Complex.)"; // #
+"TXT_KEY_DISTRICT_WATER_PARK_EFFECT3" = "+1 Appeal to adjacent tiles";
+
+// commercialHub
+"TXT_KEY_DISTRICT_COMMERCIAL_HUB_TITLE" = "Commercial Hub";
+"TXT_KEY_DISTRICT_COMMERCIAL_HUB_EFFECT1" = "Major bonus (+2 [Gold] Gold) for a nearby River or a Harbor District.";
+// "Major bonus (+2 Gold) for each adjacent Pamukkale tile.", // #
+"TXT_KEY_DISTRICT_COMMERCIAL_HUB_EFFECT2" = "Minor bonus (+½ [Gold] Gold) for each nearby District.";
+"TXT_KEY_DISTRICT_COMMERCIAL_HUB_EFFECT3" = "+1 [TradeRoute] Trade Route capacity if this city doesn't already have a Harbor. (Requires a Market)"; // #
+"TXT_KEY_DISTRICT_COMMERCIAL_HUB_EFFECT4" = "+1 [GreatMerchant] Great Merchant point per turn";
+"TXT_KEY_DISTRICT_COMMERCIAL_HUB_EFFECT5" = "Specialists add +4 [Gold] Gold each"; // #
+
+// industrialZone
+"TXT_KEY_DISTRICT_INDUSTRIAL_ZONE_TITLE" = "Industrial Zone";
+"TXT_KEY_DISTRICT_INDUSTRIAL_ZONE_EFFECT1" = "Standard bonus (+1 [Production] Production) for each adjacent Mine or a Quarry";
+"TXT_KEY_DISTRICT_INDUSTRIAL_ZONE_EFFECT2" = "Minor bonus (+½ [Production] Production) for each adjacent district tile";
+"TXT_KEY_DISTRICT_INDUSTRIAL_ZONE_EFFECT3" = "+1 [GreatEngineer] Great Engineer point per turn";
+"TXT_KEY_DISTRICT_INDUSTRIAL_ZONE_EFFECT4" = "Lowers the Appeal of nearby tiles";
+"TXT_KEY_DISTRICT_INDUSTRIAL_ZONE_EFFECT5" = "Production from Factory and Power Plant buildings extends to cities whose City Centers are within 6 tiles of this district"; // #
+"TXT_KEY_DISTRICT_INDUSTRIAL_ZONE_EFFECT6" = "Specialists provide +2 [Production] Production each"; // #
+
+// preserve
+"TXT_KEY_DISTRICT_PRESERVE_TITLE" = "Preserve";
+"TXT_KEY_DISTRICT_PRESERVE_EFFECT1" = "Grants up to 3 Housing Housing based on tile's Appeal";
+"TXT_KEY_DISTRICT_PRESERVE_EFFECT2" = "+1 Appeal to adjacent tiles";
+"TXT_KEY_DISTRICT_PRESERVE_EFFECT3" = "Initiate a Culture Bomb on adjacent unowned tiles";
+
+// aqueduct
+"TXT_KEY_DISTRICT_AQUEDUCT_TITLE" = "Aqueduct";
+"TXT_KEY_DISTRICT_AQUEDUCT_EFFECT1" = "Cities that do not yet have existing fresh water receive up to 6 [Housing] Housing.";
+"TXT_KEY_DISTRICT_AQUEDUCT_EFFECT2" = "Cities that already have existing fresh water will instead get 2 [Housing] Housing.";
+"TXT_KEY_DISTRICT_AQUEDUCT_EFFECT3" = "Prevents [Food] Food loss during droughts."; // #
+"TXT_KEY_DISTRICT_AQUEDUCT_EFFECT4" = "+1 [Amenity] Amenity if adjacent to a Geothermal Fissure."; // #
+"TXT_KEY_DISTRICT_AQUEDUCT_EFFECT5" = "Military Engineers can spend a charge to complete 20% (rounding down) of an Aqueduct's production."; // #
+"TXT_KEY_DISTRICT_AQUEDUCT_EFFECT6" = "Does not depend on Citizen Population."; // #
+
+// neighborhood
+"TXT_KEY_DISTRICT_NEIGHBORHOOD_TITLE" = "Neighborhood";
+"TXT_KEY_DISTRICT_NEIGHBORHOOD_EFFECT1" = "A district in your city that provides [Housing] Housing based on the Appeal of the tile.";
+
+// canal
+// dam
+// areodrome
+
+// spaceport
+"TXT_KEY_DISTRICT_SPACEPORT_TITLE" = "Spaceport";
+"TXT_KEY_DISTRICT_SPACEPORT_EFFECT1" = "Allows development of the Space Race projects, which are the way to [Science] Science Victory.";
+
+// governmentPlaza
+"TXT_KEY_DISTRICT_GOVERNMENT_PLAZA_TITLE" = "Government Plaza";
+"TXT_KEY_DISTRICT_GOVERNMENT_PLAZA_EFFECT1" = "+8 Loyalty to this city.";
+"TXT_KEY_DISTRICT_GOVERNMENT_PLAZA_EFFECT2" = "+1 adjacency bonus to all adjacent districts."; // #
+"TXT_KEY_DISTRICT_GOVERNMENT_PLAZA_EFFECT3" = "Awards +1 [Governor] Governor Title.";

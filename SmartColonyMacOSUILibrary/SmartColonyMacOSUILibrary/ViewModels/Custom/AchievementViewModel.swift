@@ -9,6 +9,21 @@ import SwiftUI
 import Cocoa
 import SmartAssets
 
+enum AchievementMode {
+
+    case small
+    case medium
+
+    func size() -> CGFloat {
+
+        switch self {
+
+        case .small: return 16
+        case .medium: return 32
+        }
+    }
+}
+
 class AchievementViewModel: ObservableObject, Identifiable {
 
     // private
@@ -19,10 +34,14 @@ class AchievementViewModel: ObservableObject, Identifiable {
     @Published
     var image: NSImage
 
-    init(imageName: String, toolTipText: NSAttributedString) {
+    @Published
+    var mode: AchievementMode
+
+    init(imageName: String, mode: AchievementMode = .small, toolTipText: NSAttributedString) {
 
         self.imageName = imageName
         self.toolTip = toolTipText
+        self.mode = mode
 
         self.image = ImageCache.shared.image(for: imageName).copy() as! NSImage
     }

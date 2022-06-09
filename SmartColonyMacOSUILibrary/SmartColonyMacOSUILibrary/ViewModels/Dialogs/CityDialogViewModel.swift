@@ -64,7 +64,11 @@ class CityDialogViewModel: ObservableObject {
 
     private var city: AbstractCity?
 
-    weak var delegate: GameViewModelDelegate?
+    weak var delegate: GameViewModelDelegate? {
+        didSet {
+            self.goldPurchaseViewModel.delegate = self.delegate
+        }
+    }
 
     init(city: AbstractCity? = nil) {
 

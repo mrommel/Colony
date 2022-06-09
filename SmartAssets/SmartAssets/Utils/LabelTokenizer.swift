@@ -49,6 +49,7 @@ public enum LabelImageType {
     case diplomaticFavor
     case envoy
     case grievances
+    case shipwreck
 
     case greatPerson
     case greatAdmiral
@@ -63,6 +64,10 @@ public enum LabelImageType {
 
     case relic
     case artifact
+    case sculpture
+    case portrait
+    case landscape
+    case religiousArt
     case greatWorkOfWriting
 
     case darkAge
@@ -113,6 +118,7 @@ public enum LabelImageType {
         case "[DiplomaticFavor]": return .diplomaticFavor
         case "[Envoy]": return .envoy
         case "[Grievances]": return .grievances
+        case "[Shipwreck]": return .shipwreck
 
         case "[GreatPerson]": return .greatPerson
         case "[GreatAdmiral]": return .greatAdmiral
@@ -127,6 +133,10 @@ public enum LabelImageType {
 
         case "[Relic]": return .relic
         case "[Artifact]": return .artifact
+        case "[Sculpture]": return .sculpture
+        case "[Portrait]": return .portrait
+        case "[Landscape]": return .landscape
+        case "[ReligiousArt]": return .religiousArt
         case "[GreatWorkOfWriting]": return .greatWorkOfWriting
 
         case "[DarkAge]": return .darkAge
@@ -179,6 +189,7 @@ public enum LabelImageType {
         case .diplomaticFavor: return Globals.Icons.diplomaticFavor
         case .envoy: return Globals.Icons.envoy
         case .grievances: return Globals.Icons.grievances
+        case .shipwreck: return Globals.Icons.shipwreck
 
         case .greatPerson: return Globals.Icons.greatPerson
         case .greatAdmiral: return Globals.Icons.greatAdmiral
@@ -193,6 +204,10 @@ public enum LabelImageType {
 
         case .relic: return Globals.Icons.relic
         case .artifact: return Globals.Icons.artifact
+        case .sculpture: return Globals.Icons.sculpture
+        case .portrait: return Globals.Icons.portrait
+        case .landscape: return Globals.Icons.landscape
+        case .religiousArt: return Globals.Icons.religiousArt
         case .greatWorkOfWriting: return Globals.Icons.greatWorkOfWriting
 
         case .darkAge: return Globals.Icons.darkAge

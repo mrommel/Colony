@@ -22,7 +22,7 @@ extension WonderType {
 
         let tokenizer = LabelTokenizer()
         for effect in self.effects() {
-            let effectText = tokenizer.convert(text: effect, with: Globals.Attributs.tooltipContentAttributs)
+            let effectText = tokenizer.convert(text: effect.localized(), with: Globals.Attributs.tooltipContentAttributs)
             toolTipText.append(NSAttributedString(string: "\n"))
             toolTipText.append(effectText)
         }

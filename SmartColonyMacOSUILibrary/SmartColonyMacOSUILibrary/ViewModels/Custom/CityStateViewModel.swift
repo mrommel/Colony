@@ -27,10 +27,10 @@ class CityStateViewModel: ObservableObject {
     @Published
     var envoys: Int = 0 {
         didSet {
-            print("number of envoys updated: \(oldValue) => \(self.envoys)")
+            // print("number of envoys updated: \(oldValue) => \(self.envoys)")
 
             if envoys < 0 {
-                print("envoys cannot be negativ - reseting")
+                // print("envoys cannot be negativ - reseting")
                 envoys = 0
                 return
             }
@@ -40,20 +40,20 @@ class CityStateViewModel: ObservableObject {
                 if delta == 1 {
                     if delegate.assignEnvoy(to: self.cityState) {
                         // success
-                        print("envoy assigned to \(self.cityState)")
+                        // print("envoy assigned to \(self.cityState)")
                         return
                     }
                 } else if delta == -1 {
                     if delegate.unassignEnvoy(from: self.cityState) {
                         // success
-                        print("envoy unassigned from \(self.cityState)")
+                        // print("envoy unassigned from \(self.cityState)")
                         return
                     }
                 }
             }
 
             // reset
-            print("envoys cannot be set - reseting to \(oldValue)")
+            // print("envoys cannot be set - reseting to \(oldValue)")
             envoys = oldValue
         }
     }
@@ -120,7 +120,7 @@ class CityStateViewModel: ObservableObject {
     func bonusText1() -> NSAttributedString {
 
         return NSAttributedString(
-            string: self.cityState.bonus(for: .first),
+            string: self.cityState.bonus(for: .first).localized(),
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
     }
@@ -135,7 +135,7 @@ class CityStateViewModel: ObservableObject {
     func bonusText3() -> NSAttributedString {
 
         return NSAttributedString(
-            string: self.cityState.bonus(for: .third),
+            string: self.cityState.bonus(for: .third).localized(),
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
     }
@@ -150,7 +150,7 @@ class CityStateViewModel: ObservableObject {
     func bonusText6() -> NSAttributedString {
 
         return NSAttributedString(
-            string: self.cityState.bonus(for: .sixth),
+            string: self.cityState.bonus(for: .sixth).localized(),
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
     }
@@ -163,12 +163,12 @@ class CityStateViewModel: ObservableObject {
     func suzerainText() -> NSAttributedString {
 
         return NSAttributedString(
-            string: self.cityState.bonus(for: .suzerain),
+            string: self.cityState.bonus(for: .suzerain).localized(),
             attributes: Globals.Attributs.tooltipTitleAttributs
         )
     }
 
-    func jumpToImage() -> NSImage {
+    func centerImage() -> NSImage {
 
         return ImageCache.shared.image(for: "jump-to")
     }
@@ -176,6 +176,14 @@ class CityStateViewModel: ObservableObject {
     func centerClicked() {
 
         self.delegate?.center(on: self.cityState)
+    }
+
+    func centerText() -> NSAttributedString {
+
+        return NSAttributedString(
+            string: "TXT_KEY_CITY_STATE_CENTER".localizedWithFormat(with: [self.cityState.name().localized()]),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
     }
 }
 

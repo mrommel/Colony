@@ -14,6 +14,12 @@ protocol UnitObjectDelegate: AnyObject {
     func clearFocus()
 }
 
+enum UnitObjectMode {
+
+    case original
+    case alternate
+}
+
 class UnitObject {
 
     static let idleActionKey: String = "idleActionKey"
@@ -43,6 +49,7 @@ class UnitObject {
     weak var gameModel: GameModel?
 
     let identifier: String
+    let mode: UnitObjectMode
 
     var atlasIdle: ObjectTextureAtlas?
     var atlasFortified: ObjectTextureAtlas?
@@ -75,10 +82,11 @@ class UnitObject {
 
     weak var delegate: UnitObjectDelegate?
 
-    init(unit: AbstractUnit?, in gameModel: GameModel?) {
+    init(unit: AbstractUnit?, mode: UnitObjectMode, at location: HexPoint, in gameModel: GameModel?) {
 
         self.identifier = UUID.init().uuidString
         self.unit = unit
+        self.mode = mode
         self.gameModel = gameModel
 
         guard let unit = self.unit else {
@@ -89,12 +97,12 @@ class UnitObject {
             fatalError("cant get civilization")
         }
 
-        self.currentAnimation = .idle(location: unit.location)
+        self.currentAnimation = .idle(location: location)
 
         let unitImage = ImageCache.shared.image(for: unit.type.spriteName)
         let unitTexture = SKTexture(image: unitImage)
         self.sprite = SKSpriteNode(texture: unitTexture, color: .black, size: BaseLayer.kTextureSize)
-        self.sprite.position = HexPoint.toScreen(hex: unit.location)
+        self.sprite.position = HexPoint.toScreen(hex: location)
         self.sprite.zPosition = Globals.ZLevels.unit
         self.sprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
 
@@ -140,23 +148,26 @@ class UnitObject {
         parent.addChild(self.sprite)
     }
 
-    private func animateWalk(to hex: HexPoint, on atlas: ObjectTextureAtlas?, completion block: @escaping () -> Swift.Void) {
+    private func animateWalk(from: HexPoint, to: HexPoint, on atlas: ObjectTextureAtlas?, completion block: @escaping () -> Swift.Void) {
 
         self.sprite.removeAction(forKey: UnitObject.idleActionKey)
         self.sprite.removeAction(forKey: UnitObject.fortifiedActionKey)
+
+        let isNeighbor = from.isNeighbor(of: to, wrapX: nil) // no wrap
 
         if let atlas = atlas {
             let walkFrames = atlas.textures.map { SKTexture(image: $0) }
             let walk = SKAction.animate(with: [walkFrames, walkFrames, walkFrames].flatMap { $0 }, timePerFrame: atlas.timePerFrame)
 
-            let move = SKAction.move(to: HexPoint.toScreen(hex: hex), duration: walk.duration)
+            let move = isNeighbor ? SKAction.move(to: HexPoint.toScreen(hex: to), duration: walk.duration) : SKAction.init()
 
             let animate = SKAction.group([walk, move])
             self.sprite.run(animate, withKey: UnitObject.walkActionKey, completion: {
+                self.sprite.position = HexPoint.toScreen(hex: to)
                 block()
             })
         } else {
-            self.sprite.position = HexPoint.toScreen(hex: hex)
+            self.sprite.position = HexPoint.toScreen(hex: to)
             block()
         }
     }
@@ -178,27 +189,27 @@ class UnitObject {
 
         case .north:
             if showEmbarked {
-                self.animateWalk(to: to, on: UnitObject.atlasEmbarkedNorth, completion: block)
+                self.animateWalk(from: from, to: to, on: UnitObject.atlasEmbarkedNorth, completion: block)
             } else {
-                self.animateWalk(to: to, on: self.atlasWalkNorth, completion: block)
+                self.animateWalk(from: from, to: to, on: self.atlasWalkNorth, completion: block)
             }
         case .northeast, .southeast:
             if showEmbarked {
-                self.animateWalk(to: to, on: UnitObject.atlasEmbarkedEast, completion: block)
+                self.animateWalk(from: from, to: to, on: UnitObject.atlasEmbarkedEast, completion: block)
             } else {
-                self.animateWalk(to: to, on: self.atlasWalkEast, completion: block)
+                self.animateWalk(from: from, to: to, on: self.atlasWalkEast, completion: block)
             }
         case .south:
             if showEmbarked {
-                self.animateWalk(to: to, on: UnitObject.atlasEmbarkedSouth, completion: block)
+                self.animateWalk(from: from, to: to, on: UnitObject.atlasEmbarkedSouth, completion: block)
             } else {
-                self.animateWalk(to: to, on: self.atlasWalkSouth, completion: block)
+                self.animateWalk(from: from, to: to, on: self.atlasWalkSouth, completion: block)
             }
         case .southwest, .northwest:
             if showEmbarked {
-                self.animateWalk(to: to, on: UnitObject.atlasEmbarkedWest, completion: block)
+                self.animateWalk(from: from, to: to, on: UnitObject.atlasEmbarkedWest, completion: block)
             } else {
-                self.animateWalk(to: to, on: self.atlasWalkWest, completion: block)
+                self.animateWalk(from: from, to: to, on: self.atlasWalkWest, completion: block)
             }
         }
     }
@@ -410,7 +421,7 @@ class UnitObject {
         self.sprite.removeAction(forKey: UnitObject.fortifiedActionKey)
 
         // just to be sure
-        self.sprite.position = HexPoint.toScreen(hex: unit.location)
+        self.sprite.position = HexPoint.toScreen(hex: location)
 
         var idleAtlas: ObjectTextureAtlas
         if unit.isEmbarked() {

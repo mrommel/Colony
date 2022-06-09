@@ -70,7 +70,6 @@
 "TXT_KEY_RELIGION_PANTHEON_GODDESS_OF_THE_HUNT_TITLE" = "Goddess of the Hunt";
 "TXT_KEY_RELIGION_PANTHEON_GODDESS_OF_THE_HUNT_BONUS" = "+1 [Food] Food and +1 [Production] Production from Camps.";
 
-
 // initiationRites
 "TXT_KEY_RELIGION_PANTHEON_INITIATION_RITES_TITLE" = "Initiation Rites";
 "TXT_KEY_RELIGION_PANTHEON_INITIATION_RITES_BONUS" = "+50 [Faith] Faith for each Barbarian Outpost cleared. The unit that cleared the Barbarian Outpost heals +100 HP.";

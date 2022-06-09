@@ -23,6 +23,7 @@ class HexagonViewModel: ObservableObject {
     var showCitizenIcons: Bool
 
     let point: HexPoint
+    let screenPoint: CGPoint
 
     @Published
     var tileColor: NSColor
@@ -61,6 +62,7 @@ class HexagonViewModel: ObservableObject {
     weak var delegate: HexagonViewModelDelegate?
 
     init(at point: HexPoint,
+         screenPoint: CGPoint,
          tileColor: NSColor,
          mountains mountainsTextureName: String?,
          hills hillsTextureName: String?,
@@ -73,6 +75,7 @@ class HexagonViewModel: ObservableObject {
          showCitizenIcons: Bool) {
 
         self.point = point
+        self.screenPoint = screenPoint
         self.tileColor = tileColor
         self.mountainsTextureName = mountainsTextureName
         self.hillsTextureName = hillsTextureName
@@ -153,8 +156,7 @@ class HexagonViewModel: ObservableObject {
 
     func offset() -> CGSize {
 
-        let screenPoint = HexPoint.toScreen(hex: self.point)
-        return CGSize(fromPoint: CGPoint(x: screenPoint.x, y: -screenPoint.y))
+        return CGSize(fromPoint: CGPoint(x: self.screenPoint.x, y: -self.screenPoint.y))
     }
 
     func showMountains() -> Bool {

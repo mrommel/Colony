@@ -93,6 +93,36 @@ extension City {
             greatPeoplePoints.greatGeneral += 2
         }
 
+        // universityOfSankore
+        if wonders.has(wonder: .universityOfSankore) {
+            // +2 Great Scientist points per turn
+            greatPeoplePoints.greatScientist += 2
+        }
+
+        // greatZimbabwe
+        if wonders.has(wonder: .greatZimbabwe) {
+            // +2 Great Merchant points per turn
+            greatPeoplePoints.greatMerchant += 2
+        }
+
+        // casaDeContratacion
+        if wonders.has(wonder: .casaDeContratacion) {
+            // +3 Great Merchant points per turn
+            greatPeoplePoints.greatMerchant += 3
+        }
+
+        // venetianArsenal
+        if wonders.has(wonder: .venetianArsenal) {
+            // +2 Great Engineer points per turn
+            greatPeoplePoints.greatEngineer += 2
+        }
+
+        // torreDeBelem
+        if wonders.has(wonder: .torreDeBelem) {
+            // +1 Great Admiral point per turn
+            greatPeoplePoints.greatAdmiral += 1
+        }
+
         return greatPeoplePoints
     }
 
@@ -103,6 +133,12 @@ extension City {
         }
 
         let greatPeoplePoints: GreatPersonPoints = GreatPersonPoints()
+
+        // library
+        if buildings.has(building: .library) {
+            // +1 Great Scientist point per turn
+            greatPeoplePoints.greatScientist += 1
+        }
 
         // shrine
         if buildings.has(building: .shrine) {
@@ -162,6 +198,18 @@ extension City {
         if buildings.has(building: .armory) {
             // +1 Great General point per turn
             greatPeoplePoints.greatGeneral += 1
+        }
+
+        // university
+        if buildings.has(building: .university) {
+            // +1 Great Scientist point per turn
+            greatPeoplePoints.greatScientist += 1
+        }
+
+        // market
+        if buildings.has(building: .bank) {
+            // +1 Great Merchant point per turn
+            greatPeoplePoints.greatMerchant += 1
         }
 
         return greatPeoplePoints
@@ -386,6 +434,7 @@ extension City {
         }
 
         let hasHueyTeocalli = player.has(wonder: .hueyTeocalli, in: gameModel)
+        let hasStBasilsCathedral = player.has(wonder: .stBasilsCathedral, in: gameModel)
         var productionValue: Double = 0.0
 
         if let centerTile = gameModel.tile(at: self.location) {
@@ -412,6 +461,12 @@ extension City {
                     // motherRussia
                     if workedTile.terrain() == .tundra && player.leader.civilization().ability() == .motherRussia {
                         // Tundra tiles provide +1 Faith and +1 Production, in addition to their usual yields.
+                        productionValue += 1.0
+                    }
+
+                    // stBasilsCathedral
+                    if workedTile.terrain() == .tundra && hasStBasilsCathedral {
+                        // +1 Food, +1 Production, and +1 Culture on all Tundra tiles for this city.
                         productionValue += 1.0
                     }
 
@@ -944,7 +999,12 @@ extension City {
             fatalError("no cityCitizens provided")
         }
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         var cultureFromTiles: Double = 0.0
+        let hasStBasilsCathedral = player.has(wonder: .stBasilsCathedral, in: gameModel)
 
         if let centerTile = gameModel.tile(at: self.location) {
 
@@ -965,6 +1025,12 @@ extension City {
                     // city has chichenItza: +2 Culture and +1 Production to all Rainforest tiles for this city.
                     if adjacentTile.has(feature: .rainforest) && self.has(wonder: .chichenItza) {
                         cultureFromTiles += 2.0
+                    }
+
+                    // stBasilsCathedral
+                    if adjacentTile.terrain() == .tundra && hasStBasilsCathedral {
+                        // +1 Food, +1 Production, and +1 Culture on all Tundra tiles for this city.
+                        cultureFromTiles += 1.0
                     }
 
                     // godOfTheOpenSky - +1 Culture from Pastures.
@@ -1454,12 +1520,12 @@ extension City {
 
         for effect in effects {
 
-            // +4 Gold Gold in the Capital Capital.
+            // +4 Gold in the Capital.
             if effect.isEqual(category: .trade, at: .first) && self.capitalValue {
                 goldFromEnvoys += 4.0
             }
 
-            // +2 Gold Gold in every Market and Lighthouse building.
+            // +2 Gold in every Market and Lighthouse building.
             if effect.isEqual(category: .trade, at: .third) {
                 if self.has(building: .market) {
                     goldFromEnvoys += 2.0
@@ -1470,12 +1536,11 @@ extension City {
                 }
             }
 
-            // +2 Gold Gold in every Bank and Shipyard building.
+            // +2 Gold in every Bank and Shipyard building.
             if effect.cityState.category() == .trade && effect.level == .sixth {
-                fatalError("not handled")
-                /*if self.has(building: .bank) {
+                if self.has(building: .bank) {
                     goldFromEnvoys += 2.0
-                }*/
+                }
 
                 if self.has(building: .shipyard) {
                     goldFromEnvoys += 2.0
@@ -1751,8 +1816,7 @@ extension City {
             }
 
             // +2 Science Science in every University building.
-            if effect.isEqual(category: .scientific, at: .sixth) /* && (self.has(building: .university) */ {
-                fatalError("not handled")
+            if effect.isEqual(category: .scientific, at: .sixth) && self.has(building: .university) {
                 scienceFromEnvoys += YieldValues(value: 2.0)
             }
 
@@ -1803,6 +1867,10 @@ extension City {
             fatalError("no cityCitizens provided")
         }
 
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+
         guard let wonders = self.wonders else {
             fatalError("cant get wonders")
         }
@@ -1812,6 +1880,7 @@ extension City {
         }
 
         let hasHueyTeocalli = player.has(wonder: .hueyTeocalli, in: gameModel)
+        let hasStBasilsCathedral = player.has(wonder: .stBasilsCathedral, in: gameModel)
         var foodValue: Double = 0.0
 
         if let centerTile = gameModel.tile(at: self.location) {
@@ -1847,8 +1916,22 @@ extension City {
                         foodValue += 1.0
                     }
 
-                    // goddessOfTheHunt - +1 [Food] Food and +1 [Production] Production from Camps.
+                    // stBasilsCathedral
+                    if adjacentTile.terrain() == .tundra && hasStBasilsCathedral {
+                        // +1 Food, +1 Production, and +1 Culture on all Tundra tiles for this city.
+                        foodValue += 1.0
+                    }
+
+                    // goddessOfTheHunt - +1 Food and +1 Production from Camps.
                     if adjacentTile.improvement() == .camp && self.player?.religion?.pantheon() == .goddessOfTheHunt {
+                        foodValue += 1.0
+                    }
+
+                    // waterMill - Bonus resources improved by Farms gain +1 Food each.
+                    if buildings.has(building: .waterMill) &&
+                        adjacentTile.improvement() == .farm &&
+                        adjacentTile.resource(for: self.player).usage() == .bonus {
+
                         foodValue += 1.0
                     }
                 }
@@ -1993,7 +2076,16 @@ extension City {
             fatalError("cant get buildings")
         }
 
-        return buildings.housing()
+        var housingFromBuildings: Double = 0.0
+
+        housingFromBuildings += buildings.housing()
+
+        // audienceChamber - +2 Amenities and +4 Housing in Cities with Governors.
+        if buildings.has(building: .audienceChamber) && self.governor() != nil {
+            housingFromBuildings += 4
+        }
+
+        return housingFromBuildings
     }
 
     public func housingFromDistricts(in gameModel: GameModel?) -> Double {
@@ -2081,29 +2173,40 @@ extension City {
             fatalError("cant get districts")
         }
 
-        var housingFromDistricts: Double = 0.0
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
 
-        // All cities with a district receive +1 Housing6 Housing and +1 Amenities6 Amenity.
+        var housingFromGovernment: Double = 0.0
+
+        // All cities with a district receive +1 Housing and +1 Amenity.
         if government.currentGovernment() == .classicalRepublic {
 
             if districts.hasAny() {
-                housingFromDistricts += 1.0
+                housingFromGovernment += 1.0
             }
         }
 
-        // .. and +1 Housing6 Housing per District.
+        // .. and +1 Housing per District.
         if government.currentGovernment() == .democracy {
-            housingFromDistricts += Double(districts.numberOfBuiltDistricts())
+            housingFromGovernment += Double(districts.numberOfBuiltDistricts())
         }
 
-        // +1 Housing6 Housing in all cities with at least 2 specialty districts.
+        // +1 Housing in all cities with at least 2 specialty districts.
         if government.has(card: .insulae) {
             if districts.numberOfBuiltDistricts() >= 2 {
-                housingFromDistricts += 1.0
+                housingFromGovernment += 1.0
             }
         }
 
-        return housingFromDistricts
+        // medievalWalls: +2 Housing under the Monarchy Government.
+        if government.currentGovernment() == .monarchy {
+            if buildings.has(building: .medievalWalls) {
+                housingFromGovernment += 2.0
+            }
+        }
+
+        return housingFromGovernment
     }
 
     public func housingFromWonders(in gameModel: GameModel?) -> Double {

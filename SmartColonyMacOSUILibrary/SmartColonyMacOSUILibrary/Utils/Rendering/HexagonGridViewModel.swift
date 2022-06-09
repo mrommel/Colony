@@ -148,67 +148,65 @@ class HexagonGridViewModel: ObservableObject {
         self.showCitizenIcons = self.mode == .citizen
 
         var tmpHexagonViewModels: [HexagonViewModel] = []
+        let area = city.location.areaWith(radius: 12)
 
-        let mapSize = gameModel.mapSize()
+        for loopPoint in area {
 
-        for y in 0..<mapSize.height() {
-            for x in 0..<mapSize.width() {
+            let correctedLoopPoint = gameModel.wrap(point: loopPoint)
 
-                guard city.location.distanceTo(x: x, y: y) < 12 else {
-                    continue
-                }
-
-                guard let tile = gameModel.tile(x: x, y: y) else {
-                    continue
-                }
-
-                let color: NSColor = self.tileColor(of: tile, for: humanPlayer)
-                let mountainsTexture: String? = self.mountainsTextureName(of: tile, for: humanPlayer)
-                let hillsTexture: String? = self.hillsTextureName(of: tile, for: humanPlayer)
-                let forestTexture: String? = self.forestTextureName(of: tile, for: humanPlayer)
-                let resourceTexture: String? = self.resourceTextureName(of: tile, for: humanPlayer)
-                let cityTexture: String? = self.cityTextureName(of: tile, for: humanPlayer)
-                let improvementTexture: String? = self.improvementTextureName(of: tile, for: humanPlayer)
-                var tileActionTextureName: String?
-                var cost: Int?
-
-                switch self.mode {
-
-                case .empty:
-                    // NOOP
-                    break
-                case .citizen:
-                    let tileAction = self.tileAction(of: tile, with: city, for: humanPlayer, in: gameModel)
-                    tileActionTextureName = tileAction.textureName
-                    if tileAction == TileActionType.purchasable || tileAction == TileActionType.nonPurchasable {
-                        cost = city.buyPlotCost(at: HexPoint(x: x, y: y), in: gameModel)
-                    }
-                case .districtLocation(type: let districtType):
-                    if city.canBuild(district: districtType, at: tile.point, in: gameModel) {
-                        tileActionTextureName = TileActionType.districtAvailable.textureName
-                    }
-                case .wonderLocation(type: let wonderType):
-                    if city.canBuild(wonder: wonderType, at: tile.point, in: gameModel) {
-                        tileActionTextureName = TileActionType.wonderAvailable.textureName
-                    }
-                }
-
-                let hexagonViewModel = HexagonViewModel(
-                    at: tile.point,
-                    tileColor: color,
-                    mountains: mountainsTexture,
-                    hills: hillsTexture,
-                    forest: forestTexture,
-                    resource: resourceTexture,
-                    city: cityTexture,
-                    improvement: improvementTexture,
-                    tileActionTextureName: tileActionTextureName,
-                    cost: cost,
-                    showCitizenIcons: self.showCitizenIcons
-                )
-                hexagonViewModel.delegate = self
-                tmpHexagonViewModels.append(hexagonViewModel)
+            guard let tile = gameModel.tile(at: correctedLoopPoint) else {
+                continue
             }
+
+            let screenPoint = HexPoint.toScreen(hex: loopPoint)
+
+            let color: NSColor = self.tileColor(of: tile, for: humanPlayer)
+            let mountainsTexture: String? = self.mountainsTextureName(of: tile, for: humanPlayer)
+            let hillsTexture: String? = self.hillsTextureName(of: tile, for: humanPlayer)
+            let forestTexture: String? = self.forestTextureName(of: tile, for: humanPlayer)
+            let resourceTexture: String? = self.resourceTextureName(of: tile, for: humanPlayer)
+            let cityTexture: String? = self.cityTextureName(of: tile, for: humanPlayer)
+            let improvementTexture: String? = self.improvementTextureName(of: tile, for: humanPlayer)
+            var tileActionTextureName: String?
+            var cost: Int?
+
+            switch self.mode {
+
+            case .empty:
+                // NOOP
+                break
+            case .citizen:
+                let tileAction = self.tileAction(of: tile, with: city, for: humanPlayer, in: gameModel)
+                tileActionTextureName = tileAction.textureName
+                if tileAction == TileActionType.purchasable || tileAction == TileActionType.nonPurchasable {
+                    cost = city.buyPlotCost(at: correctedLoopPoint, in: gameModel)
+                }
+            case .districtLocation(type: let districtType):
+                if city.canBuild(district: districtType, at: tile.point, in: gameModel) {
+                    tileActionTextureName = TileActionType.districtAvailable.textureName
+                }
+            case .wonderLocation(type: let wonderType):
+                if city.canBuild(wonder: wonderType, at: tile.point, in: gameModel) {
+                    tileActionTextureName = TileActionType.wonderAvailable.textureName
+                }
+            }
+
+            let hexagonViewModel = HexagonViewModel(
+                at: tile.point,
+                screenPoint: screenPoint,
+                tileColor: color,
+                mountains: mountainsTexture,
+                hills: hillsTexture,
+                forest: forestTexture,
+                resource: resourceTexture,
+                city: cityTexture,
+                improvement: improvementTexture,
+                tileActionTextureName: tileActionTextureName,
+                cost: cost,
+                showCitizenIcons: self.showCitizenIcons
+            )
+            hexagonViewModel.delegate = self
+            tmpHexagonViewModels.append(hexagonViewModel)
         }
 
         DispatchQueue.main.async {

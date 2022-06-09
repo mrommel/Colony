@@ -1413,7 +1413,7 @@ class DiplomaticPlayerDict: Codable {
         }
     }
 
-    public func hasDelegation(with otherPlayer: AbstractPlayer?) -> Bool {
+    public func hasSentDelegation(with otherPlayer: AbstractPlayer?) -> Bool {
 
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.hasDelegationValue

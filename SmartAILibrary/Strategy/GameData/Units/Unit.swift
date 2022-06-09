@@ -681,11 +681,15 @@ public class Unit: AbstractUnit {
 
     func upgradeCost(to unitType: UnitType) -> Int {
 
-        guard let government = self.player?.government else {
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let government = player.government else {
             fatalError("cant get player government")
         }
 
-        var baseUpgradeCost = unitType.productionCost() / 2
+        var baseUpgradeCost = player.productionCost(of: unitType) / 2
         var modifierUpgradeCost = 100
 
         // professionalArmy - 50% Gold discount on all unit upgrades.
@@ -3386,6 +3390,22 @@ public class Unit: AbstractUnit {
         }
 
         player.found(at: self.location, named: name, in: gameModel)
+
+        // ancestralHall - New cities receive a free Builder
+        if player.has(building: .ancestralHall, in: gameModel) {
+
+            guard let newCity = gameModel.city(at: self.location) else {
+                fatalError("cant get new city")
+            }
+
+            // hack - add fake money - it will be removed once the builder is purchased
+            let purchaseCost = newCity.goldPurchaseCost(of: .builder, in: gameModel)
+            player.treasury?.changeGold(by: purchaseCost)
+
+            // now purchase the builder
+            newCity.purchase(unit: .builder, with: .gold, in: gameModel)
+        }
+
         self.doKill(delayed: false, by: nil, in: gameModel)
 
         return true

@@ -8,6 +8,7 @@
 
 // https://civilization.fandom.com/wiki/Module:Data/Civ6/RF/Moments
 // https://github.com/Windrist/Civilization-VI-Vietnamese-Language-Pack/blob/c79caf89ec5299b082d2c6a95212986cfda32125/en_US_Assets/en_US_Expansion2/Text/en_US/Expansion1_Moments_Text.xml
+// https://github.com/thuydx/civilization-vi-vietnamese/blob/029ffcb7941ec01c2184977e274aa85b1da0bff8/Vietnamese/DLC/Expansion2/Text/en_US/Expansion1_Moments_Text.xml
 
 // admiralDefeatsEnemy
 "TXT_KEY_MOMENT_ADMIRAL_DEFEATS_ENEMY_TITLE" = "Admiral Defeats Enemy";
@@ -37,7 +38,10 @@
 "TXT_KEY_MOMENT_CITY_ON_NEW_CONTINENT_TITLE" = "City on New Continent";
 "TXT_KEY_MOMENT_CITY_OF_NEW_CONTINENT_SUMMARY" = "A city is placed on a continent you have not yet settled.";
 
-// City-State's First Suzerain
+// cityStatesFirstSuzerain
+"TXT_KEY_MOMENT_CITY_STATES_FIRST_SUZERAIN_TITLE" = "City-State's First Suzerain"; // LOC_MOMENT_PLAYER_GAVE_ENVOY_BECAME_SUZERAIN_FIRST_IN_WORLD
+"TXT_KEY_MOMENT_CITY_STATES_FIRST_SUZERAIN_SUMMARY" = "You have become the first Suzerain of this city-state."; // LOC_MOMENT_PLAYER_GAVE_ENVOY_BECAME_SUZERAIN_FIRST_IN_WORLD_DESCRIPTION
+
 // City-State Army Levied Near Enemy
 // Climate Change Phase
 

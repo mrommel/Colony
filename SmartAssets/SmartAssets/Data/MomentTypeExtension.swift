@@ -21,7 +21,7 @@ extension MomentType {
         case .cityNearVolcano(cityName: _): return "moment-cityNearVolcano"
         case .cityOfAwe(cityName: _): return "moment-default"
         case .cityOnNewContinent: return "moment-cityOnNewContinent"
-            // City-State's First Suzerain
+        case .cityStatesFirstSuzerain(cityState: _): return "moment-default"
             // City-State Army Levied Near Enemy
             // Climate Change Phase
         case .darkAgeBegins: return "moment-default"

@@ -109,6 +109,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     func isOpenBordersTradingAllowed() -> Bool
     func hasEmbassy(with otherPlayer: AbstractPlayer?) -> Bool
+    func hasSentDelegation(to otherPlayer: AbstractPlayer?) -> Bool
     func isAllowsOpenBorders(with otherPlayer: AbstractPlayer?) -> Bool
     func isAllowEmbassyTradingAllowed() -> Bool
 
@@ -217,6 +218,9 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func has(civic: CivicType) -> Bool
     func addGovernorTitle()
 
+    // buildings
+    func has(building: BuildingType, in gameModel: GameModel?) -> Bool
+
     // wonders
     func has(wonder: WonderType, in gameModel: GameModel?) -> Bool
     func city(with wonder: WonderType, in gameModel: GameModel?) -> AbstractCity?
@@ -288,10 +292,14 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool
     func countUnitsWith(defaultTask: UnitTaskType, in gameModel: GameModel?) -> Int
     func hasBusyUnitOrCity() -> Bool
+    func changeTrainedSettlers(by value: Int)
+    func numOfTrainedSettlers() -> Int
+    func productionCost(of unitType: UnitType) -> Int
 
     // buildings / districts
     func canPurchaseInAnyCity(building: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
     func numberOfDistricts(of districtType: DistrictType, in gameModel: GameModel?) -> Int
+    func numberBuildings(of buildingType: BuildingType, in gameModel: GameModel?) -> Int
 
     // religion
     func faithPurchaseType() -> FaithPurchaseType
@@ -472,12 +480,15 @@ public class Player: AbstractPlayer {
         case hasWorldCircumnavigated
         case establishedTradingPosts
         case tradingCapacity
+        case trainedSettlers
 
         case cramped
         case combatThisTurn
 
         case markers
     }
+
+    private let kBaseStockPileAmount: Double = 50.0
 
     public var leader: LeaderType
     internal var isAliveVal: Bool
@@ -567,6 +578,7 @@ public class Player: AbstractPlayer {
     private var hasWorldCircumnavigatedVal: Bool = false
     private var establishedTradingPosts: [LeaderType] = []
     private var tradingCapacityValue: Int = 0
+    private var trainedSettlersValue: Int = 1 // first settler is not trained but counts
 
     private var crampedValue: Bool = false
     private var combatThisTurnValue: Bool = false
@@ -693,6 +705,7 @@ public class Player: AbstractPlayer {
         self.hasWorldCircumnavigatedVal = try container.decode(Bool.self, forKey: .hasWorldCircumnavigated)
         self.establishedTradingPosts = try container.decode([LeaderType].self, forKey: .establishedTradingPosts)
         self.tradingCapacityValue = try container.decode(Int.self, forKey: .tradingCapacity)
+        self.trainedSettlersValue = try container.decode(Int.self, forKey: .trainedSettlers)
 
         self.crampedValue = try container.decode(Bool.self, forKey: .cramped)
         self.combatThisTurnValue = try container.decodeIfPresent(Bool.self, forKey: .combatThisTurn) ?? false
@@ -814,6 +827,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.hasWorldCircumnavigatedVal, forKey: .hasWorldCircumnavigated)
         try container.encode(self.establishedTradingPosts, forKey: .establishedTradingPosts)
         try container.encode(self.tradingCapacityValue, forKey: .tradingCapacity)
+        try container.encode(self.trainedSettlersValue, forKey: .trainedSettlers)
 
         try container.encode(self.crampedValue, forKey: .cramped)
         try container.encode(self.combatThisTurnValue, forKey: .combatThisTurn)
@@ -868,7 +882,7 @@ public class Player: AbstractPlayer {
         self.resourceMaxStockpile = ResourceInventory()
 
         for resource in ResourceType.strategic {
-            self.resourceMaxStockpile?.add(weight: 50, for: resource)
+            self.resourceMaxStockpile?.add(weight: kBaseStockPileAmount, for: resource)
         }
     }
 
@@ -1094,6 +1108,15 @@ public class Player: AbstractPlayer {
         }
 
         return diplomacyAI.hasEmbassy(with: otherPlayer)
+    }
+
+    public func hasSentDelegation(to otherPlayer: AbstractPlayer?) -> Bool {
+
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+
+        return diplomacyAI.hasSentDelegation(to: otherPlayer)
     }
 
     public func isAllowsOpenBorders(with otherPlayer: AbstractPlayer?) -> Bool {
@@ -1468,6 +1491,10 @@ public class Player: AbstractPlayer {
                 if let playerWithMostEnvoys = gameModel.playerWithMostEnvoys(in: cityState) {
                     if playerWithMostEnvoys.isEqual(to: self) {
                         cityStatePlayer.set(suzerain: self.leader)
+
+                        if gameModel.anyHasMoment(of: .cityStatesFirstSuzerain(cityState: cityState)) {
+                            self.addMoment(of: .cityStatesFirstSuzerain(cityState: cityState), in: gameModel)
+                        }
                     }
                 } else {
                     // no player with most envoys
@@ -2281,7 +2308,7 @@ public class Player: AbstractPlayer {
         }
 
         self.doEurekas(in: gameModel)
-        self.doResourceStockpile()
+        self.doResourceStockpile(in: gameModel)
         self.doSpaceRace(in: gameModel)
         self.tourism?.doTurn(in: gameModel)
 
@@ -2678,11 +2705,23 @@ public class Player: AbstractPlayer {
         // 
     }
 
-    func doResourceStockpile() {
+    func doResourceStockpile(in gameModel: GameModel?) {
 
         guard let resourceStockpile = self.resourceStockpile,
               let resourceMaxStockpile = self.resourceMaxStockpile else {
             fatalError("cant get stock piles")
+        }
+
+        // check max stockpile
+        for resource in ResourceType.strategic {
+
+            var amount: Double = kBaseStockPileAmount
+
+            // Strategic Resource stockpiles increased by 10
+            let numArmories = self.numberBuildings(of: .armory, in: gameModel)
+            amount += 10.0 * Double(numArmories)
+
+            self.resourceMaxStockpile?.set(weight: amount, for: resource)
         }
 
         for resource in ResourceType.strategic {
@@ -3616,6 +3655,26 @@ public class Player: AbstractPlayer {
         self.governors?.addTitle()
     }
 
+    public func has(building buildingType: BuildingType, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(building: buildingType) {
+                return true
+            }
+        }
+
+        return false
+    }
+
     public func has(wonder wonderType: WonderType, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
@@ -4534,6 +4593,26 @@ public class Player: AbstractPlayer {
         return false
     }
 
+    public func changeTrainedSettlers(by value: Int) {
+
+        self.trainedSettlersValue += value
+    }
+
+    public func numOfTrainedSettlers() -> Int {
+
+        return self.trainedSettlersValue
+    }
+
+    public func productionCost(of unitType: UnitType) -> Int {
+
+        if unitType == .settler {
+            // The Production Production cost of a Settler scales according to the following formula, in which x is the number of Settlers you've trained (including your initial one): 30*x+50
+            return 30 * self.trainedSettlersValue + 50
+        }
+
+        return unitType.productionCost()
+    }
+
     public func isAutoMoves() -> Bool {
 
         return self.autoMovesValue
@@ -4645,7 +4724,7 @@ public class Player: AbstractPlayer {
         }
 
         if self.leader.civilization().ability() == .satrapies && civics.has(civic: .politicalPhilosophy) {
-            // Gains +1 TradeRoute6 Trade Route capacity with Political Philosophy.
+            // Gains +1 Trade Route capacity with Political Philosophy.
             numberOfTradingCapacity += 1
         }
 
@@ -4655,15 +4734,19 @@ public class Player: AbstractPlayer {
                 continue
             }
 
-            if loopCity.has(district: .harbor) || loopCity.has(district: .commercialHub) {
+            // Each city with a Commercial Hub or a Harbor (or, from Rise and Fall onwards, a Market or a Lighthouse)
+            // increases a civilization's Trading Capacity by one. These bonuses are not cumulative: a city with both
+            // a Commercial Hub/Market and a Harbor/Lighthouse adds only one Trading Capacity, not two.
+            if /*loopCity.has(district: .harbor) ||
+                loopCity.has(district: .commercialHub) ||*/
+                loopCity.has(building: .market) ||
+                loopCity.has(building: .lighthouse) {
+
                 numberOfTradingCapacity += 1
             }
 
-            if loopCity.has(building: .market) || loopCity.has(building: .lighthouse) {
-                numberOfTradingCapacity += 1
-            }
-
-            if loopCity.has(wonder: .colossus) {
+            // The effects of the Colossus and Great Zimbabwe wonders increase Trading Capacity by one.
+            if loopCity.has(wonder: .colossus) || loopCity.has(wonder: .greatZimbabwe) {
                 // +1 Trade Route capacity
                 numberOfTradingCapacity += 1
             }
@@ -6360,7 +6443,7 @@ public class Player: AbstractPlayer {
         }
 
         if !ignoreCost {
-            if unitType.productionCost() == -1 {
+            if unitType.productionCost() < 0 {
                 return false
             }
         }
@@ -6536,6 +6619,28 @@ public class Player: AbstractPlayer {
         }
 
         return numberOfDistricts
+    }
+
+    public func numberBuildings(of buildingType: BuildingType, in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var numberOfBuildings = 0
+
+        for cityRef in gameModel.cities(of: self) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(building: buildingType) {
+                numberOfBuildings += 1
+            }
+        }
+
+        return numberOfBuildings
     }
 
     // MARK: religion methods

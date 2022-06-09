@@ -110,7 +110,7 @@ public enum NotificationType {
             return 2
         case .civicNeeded:
             return 3
-        case .productionNeeded:
+        case .productionNeeded(cityName: _, location: _):
             return 4
         case .canChangeGovernment:
             return 5
@@ -337,8 +337,10 @@ extension NotificationType: Codable {
         case .civicNeeded:
             try container.encode(3, forKey: .rawValue)
 
-        case .productionNeeded:
+        case .productionNeeded(cityName: let cityName, location: let location):
             try container.encode(4, forKey: .rawValue)
+            try container.encode(cityName, forKey: .cityNameValue)
+            try container.encode(location, forKey: .locationValue)
 
         case .canChangeGovernment:
             try container.encode(5, forKey: .rawValue)
@@ -484,8 +486,9 @@ extension NotificationType: Equatable {
         case (.civicNeeded, .civicNeeded):
             return true
 
-        case (.productionNeeded, .productionNeeded):
-            return true
+        case (.productionNeeded(cityName: let lhsCityName, location: let lhsLocation),
+            .productionNeeded(cityName: let rhsCityName, location: let rhsLocation)):
+            return lhsCityName == rhsCityName && lhsLocation == rhsLocation
 
         case (.canChangeGovernment, .canChangeGovernment):
             return true

@@ -332,9 +332,9 @@ extension HexPoint {
         self.init(cube: HexCube(screen: screenPoint))
     }
 
-    func isNeighbor(of point: HexPoint) -> Bool {
+    public func isNeighbor(of point: HexPoint, wrapX: Int? = nil) -> Bool {
 
-        return self.distance(to: point) == 1
+        return self.distance(to: point, wrapX: wrapX) == 1
     }
 
     public func neighbor(in direction: HexDirection, and distance: Int = 1) -> HexPoint {

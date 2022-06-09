@@ -142,8 +142,8 @@ public protocol AbstractCity: AnyObject, Codable {
 
     func lastTurnFoodHarvested() -> Double
     // ...
-    func amenitiesModifier(in gameModel: GameModel?) -> Double
-    func housingModifier(in gameModel: GameModel?) -> Double
+    func amenitiesGrowthModifier(in gameModel: GameModel?) -> Double
+    func housingGrowthModifier(in gameModel: GameModel?) -> Double
     func lastTurnFoodEarned() -> Double
     func growthInTurns() -> Int
     func maxGrowthInTurns() -> Int
@@ -1425,8 +1425,16 @@ public class City: AbstractCity {
         if self.has(building: .monument) {
             otherFactors += 1
         }
+
         // +8 if the city has constructed the Government Plaza.
+        if self.has(district: .governmentPlaza) {
+            otherFactors += 8
+        }
+
         // -2 if the Audience Chamber has been constructed in the civilization's Government Plaza district and the city is without a Governor.
+        if self.has(building: .audienceChamber) && self.governor() == nil {
+            otherFactors -= 2
+        }
 
         // ////////////////////////////
         // additionally
@@ -1739,6 +1747,11 @@ public class City: AbstractCity {
             }
         }
 
+        // audienceChamber - +2 Amenities and +4 Housing in Cities with Governors.
+        if buildings.has(building: .audienceChamber) && self.governor() != nil {
+            amenitiesFromBuildings += 2
+        }
+
         return amenitiesFromBuildings
     }
 
@@ -2001,7 +2014,7 @@ public class City: AbstractCity {
     }
 
     // https://civilization.fandom.com/wiki/Amenities_(Civ6)
-    public func amenitiesModifier(in gameModel: GameModel?) -> Double {
+    public func amenitiesGrowthModifier(in gameModel: GameModel?) -> Double {
 
         switch self.amenitiesState(in: gameModel) {
 
@@ -2016,7 +2029,7 @@ public class City: AbstractCity {
     }
 
     // https://civilization.fandom.com/wiki/Housing_(Civ6)
-    public func housingModifier(in gameModel: GameModel?) -> Double {
+    public func housingGrowthModifier(in gameModel: GameModel?) -> Double {
 
         let housing = self.housingPerTurn(in: gameModel)
         let housingDiff = Int(housing) - Int(self.populationValue)
@@ -2032,14 +2045,10 @@ public class City: AbstractCity {
         }
     }
 
-    public func doGrowth(in gameModel: GameModel?) {
+    public func wonderGrowthModifier(in gameModel: GameModel?) -> Double {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
-        }
-
-        guard let cityCitizens = self.cityCitizens else {
-            fatalError("cant get cityCitizens")
         }
 
         guard let player = self.player else {
@@ -2054,10 +2063,42 @@ public class City: AbstractCity {
             wonderModifier += 0.15
         }
 
+        return wonderModifier
+    }
+
+    public func religionGrowthModifier(in gameModel: GameModel?) -> Double {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        var religionModifier: Double = 1.0
+
         // fertilityRites
         if player.religion?.pantheon() == .fertilityRites {
             // City growth rate is 10% higher.
-            wonderModifier = 0.10
+            religionModifier = 0.10
+        }
+
+        return religionModifier
+    }
+
+    public func doGrowth(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("cant get cityCitizens")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
         }
 
         // update housing value
@@ -2077,14 +2118,11 @@ public class City: AbstractCity {
             }
         }
 
-        // housing
-        foodDiff *= self.housingModifier(in: gameModel)
-
-        // amenities
-        foodDiff *= self.amenitiesModifier(in: gameModel)
-
-        // wonder - fixme move to function
-        foodDiff *= wonderModifier
+        // modifier
+        foodDiff *= self.housingGrowthModifier(in: gameModel)
+        foodDiff *= self.amenitiesGrowthModifier(in: gameModel)
+        foodDiff *= self.wonderGrowthModifier(in: gameModel)
+        foodDiff *= self.religionGrowthModifier(in: gameModel)
 
         self.setLastTurn(foodEarned: foodDiff)
 
@@ -2664,7 +2702,7 @@ public class City: AbstractCity {
                 production += Double(districts.numberOfBuiltDistricts())
             }
 
-            // +20% Civ6Production Production towards Medieval, Renaissance, and Industrial Wonders.
+            // +20% Production towards Medieval, Renaissance, and Industrial Wonders.
             if player.leader.civilization().ability() == .grandTour {
                 if let wonderType = self.productionWonderType() {
                     if wonderType.era() == .ancient || wonderType.era() == .classical {
@@ -2673,7 +2711,7 @@ public class City: AbstractCity {
                 }
             }
 
-            // +15% Civ6Production Production towards District (Civ6) Districts and wonders built next to a river.
+            // +15% Production towards District (Civ6) Districts and wonders built next to a river.
             if player.leader.civilization().ability() == .iteru {
                 if gameModel.river(at: self.location) {
                     if self.productionWonderType() != nil || self.productionDistrictType() != nil {
@@ -2781,6 +2819,13 @@ public class City: AbstractCity {
                     if unitType.unitClass() == .antiCavalry {
                         modifierPercentage += 0.50
                     }
+                }
+            }
+
+            // ancestralHall - 50% increased Production toward Settlers in this city
+            if self.has(building: .ancestralHall) {
+                if let unitType = self.productionUnitType() {
+                    modifierPercentage += 0.50
                 }
             }
 
@@ -2957,7 +3002,7 @@ public class City: AbstractCity {
 
         var unitLocation = self.location
 
-        if unitType.movementType() == .swim || unitType.movementType() == .swimShallow {
+        if unitType.domain() == .sea {
             if !self.isCoastal(in: gameModel) && districts.has(district: .harbor) {
 
                 guard let harborLocation = districts.location(of: .harbor) else {
@@ -2969,6 +3014,16 @@ public class City: AbstractCity {
         }
 
         let unit = Unit(at: unitLocation, type: unitType, owner: self.player)
+        var secondUnit: Unit?
+
+        if self.has(wonder: .venetianArsenal) && unitType.domain() == .sea {
+            // Receive a second naval unit each time you train a naval unit.
+            secondUnit = Unit(at: unitLocation, type: unitType, owner: self.player)
+        }
+
+        if unitType == .settler {
+            player.changeTrainedSettlers(by: 1)
+        }
 
         if unitType == .builder {
             // Guildmaster - All Builders trained in city get +1 build charge.
@@ -3019,9 +3074,15 @@ public class City: AbstractCity {
         }
 
         unit.set(experienceModifier: experienceModifier)
+        secondUnit?.set(experienceModifier: experienceModifier)
 
         gameModel?.add(unit: unit)
         gameModel?.userInterface?.show(unit: unit, at: unitLocation)
+
+        if let secondUnit = secondUnit {
+            gameModel?.add(unit: secondUnit)
+            gameModel?.userInterface?.show(unit: secondUnit, at: unitLocation)
+        }
 
         self.updateEurekas(in: gameModel)
 
@@ -3057,6 +3118,17 @@ public class City: AbstractCity {
                 if buildingType.yields().science > 0 {
                     player.addMoment(of: .dedicationTriggered(dedicationType: .freeInquiry), in: gameModel)
                 }
+            }
+
+            if buildingType == .warlordsThrone ||
+                buildingType == .audienceChamber ||
+                buildingType == .ancestralHall ||
+                buildingType == .foreignMinistry ||
+                buildingType == .grandMastersChapel ||
+                buildingType == .intelligenceAgency {
+
+                // Awards +1 [Governor] Governor Title.
+                self.player?.addGovernorTitle()
             }
 
             self.greatWorks?.addPlaces(for: buildingType)
@@ -3139,7 +3211,7 @@ public class City: AbstractCity {
                         continue
                     }
 
-                    if !neighborTile.hasOwner() {
+                    if !neighborTile.hasOwner() && !neighborTile.isWorked() {
                         self.doAcquirePlot(at: neighborPoint, in: gameModel)
                     }
                 }
@@ -3155,6 +3227,11 @@ public class City: AbstractCity {
                         player.addMoment(of: .worldsFirstNeighborhood, in: gameModel)
                     }
                 }
+            }
+
+            if districtType == .governmentPlaza {
+                // governmentPlaza - Awards +1 Governor Title.
+                player.addGovernorTitle()
             }
 
             // send gossip
@@ -3194,8 +3271,12 @@ public class City: AbstractCity {
             fatalError("cant get player civics")
         }
 
+        guard let wonders = self.wonders else {
+            fatalError("cant get city wonders")
+        }
+
         do {
-            try self.wonders?.build(wonder: wonderType)
+            try wonders.build(wonder: wonderType)
             self.greatWorks?.addPlaces(for: wonderType)
 
             // moments
@@ -3297,7 +3378,36 @@ public class City: AbstractCity {
                 // gameModel?.userInterface?.show(unit: extraApostle)
             }
 
-            // Drama and Poetry - Build a Wonder.
+            // apadana
+            if wonders.has(wonder: .apadana) {
+                // +2 [Envoy] Envoys when you build a wonder, including Apadana, in this city.
+                player.changeEnvoys(by: 2)
+
+                // notify player about envoy to spend
+                if player.isHuman() {
+                    player.notifications()?.add(notification: .envoyEarned)
+                }
+            }
+
+            // kilwaKisiwani
+            if wonderType == .kilwaKisiwani {
+                // +3 [Envoy] Envoys when built.
+                player.changeEnvoys(by: 3)
+
+                // notify player about envoy to spend
+                if player.isHuman() {
+                    player.notifications()?.add(notification: .envoyEarned)
+                }
+            }
+
+            if wonderType == .casaDeContratacion {
+                // Gain 3 [Governor] Governor Titles.
+                player.addGovernorTitle()
+                player.addGovernorTitle()
+                player.addGovernorTitle()
+            }
+
+            // inspiration: Drama and Poetry - Build a Wonder.
             if !civics.inspirationTriggered(for: .dramaAndPoetry) {
                 civics.triggerInspiration(for: .dramaAndPoetry, in: gameModel)
             }
@@ -3800,7 +3910,7 @@ public class City: AbstractCity {
             }
         }
 
-        // only coastal cities can build ships
+        // only coastal cities (or cities with harbors) can build ships
         if unitType.unitClass() == .navalMelee || unitType.unitClass() == .navalRanged ||
             unitType.unitClass() == .navalRaider || unitType.unitClass() == .navalCarrier {
 
@@ -4114,7 +4224,7 @@ public class City: AbstractCity {
         // monumentality + golden - Civilian units may be purchased with Faith.
         if player.has(dedication: .monumentality) && player.currentAge() == .golden {
             if unitType.unitClass() == .civilian {
-                return Double(unitType.productionCost())
+                return Double(player.productionCost(of: unitType))
             }
         }
 
@@ -4312,6 +4422,13 @@ public class City: AbstractCity {
                 techs.triggerEureka(for: .shipBuilding, in: gameModel)
             }
         }
+
+        // economics - build 2 banks
+        if !techs.eurekaTriggered(for: .economics) {
+            if player.numberBuildings(of: .bank, in: gameModel) >= 2 {
+                techs.triggerEureka(for: .economics, in: gameModel)
+            }
+        }
     }
 
     public func doSpawn(greatPerson: GreatPerson, in gameModel: GameModel?) {
@@ -4333,7 +4450,7 @@ public class City: AbstractCity {
     public func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int {
 
         if let buildingTypeItem = self.buildQueue.building(of: buildingType) {
-            return Int(buildingTypeItem.productionLeft() / self.productionLastTurnValue)
+            return Int(buildingTypeItem.productionLeft(for: self.player) / self.productionLastTurnValue)
         }
 
         return 100
@@ -4342,7 +4459,7 @@ public class City: AbstractCity {
     public func unitProductionTurnsLeft(for unitType: UnitType) -> Int {
 
         if let unitTypeItem = self.buildQueue.unit(of: unitType) {
-            return Int(unitTypeItem.productionLeft() / self.productionLastTurnValue)
+            return Int(unitTypeItem.productionLeft(for: self.player) / self.productionLastTurnValue)
         }
 
         return 100
@@ -4351,7 +4468,7 @@ public class City: AbstractCity {
     public func districtProductionTurnsLeft(for districtType: DistrictType) -> Int {
 
         if let districtTypeItem = self.buildQueue.district(of: districtType) {
-            return Int(districtTypeItem.productionLeft() / self.productionLastTurnValue)
+            return Int(districtTypeItem.productionLeft(for: self.player) / self.productionLastTurnValue)
         }
 
         return 100
@@ -4360,7 +4477,7 @@ public class City: AbstractCity {
     public func wonderProductionTurnsLeft(for wonderType: WonderType) -> Int {
 
         if let wonderTypeItem = self.buildQueue.wonder(of: wonderType) {
-            return Int(wonderTypeItem.productionLeft() / self.productionLastTurnValue)
+            return Int(wonderTypeItem.productionLeft(for: self.player) / self.productionLastTurnValue)
         }
 
         return 100
@@ -4401,7 +4518,7 @@ public class City: AbstractCity {
 
             currentBuilding.add(production: productionPerTurn)
 
-            if currentBuilding.ready() {
+            if currentBuilding.ready(for: player) {
 
                 self.buildQueue.pop()
 
@@ -5180,7 +5297,8 @@ public class City: AbstractCity {
         var distance = gameModel.calculateInfluenceDistance(from: self.location, to: point, limit: City.workRadius, abc: false)
 
         // Critical hit!
-        if point.distance(to: self.location) > City.workRadius {
+        let wrapX: Int? = gameModel.wrappedX() ? gameModel.mapSize().width() : nil
+        if point.distance(to: self.location, wrapX: wrapX) > City.workRadius {
             return nil
         }
 
@@ -5397,7 +5515,11 @@ public class City: AbstractCity {
 
             if let loopPlot = gameModel.tile(at: point) {
 
-                if loopPlot.hasOwner() {
+                guard !loopPlot.hasOwner() else {
+                    continue
+                }
+
+                guard !loopPlot.isWorked() else {
                     continue
                 }
 

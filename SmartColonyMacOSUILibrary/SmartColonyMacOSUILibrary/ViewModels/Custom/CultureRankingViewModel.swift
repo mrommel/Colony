@@ -38,8 +38,8 @@ class CultureRankingViewModel: ObservableObject {
         maxOtherDomesticTourists: Int) {
 
         self.civilization = civilization
-        self.toolTip = leader.name()
-        self.leaderName = leader.name()
+        self.toolTip = leader.name().localized()
+        self.leaderName = leader.name().localized()
         self.domesticTourists = domesticTourists
         self.visitingTourists = visitingTourists
         self.maxOtherDomesticTourists = maxOtherDomesticTourists

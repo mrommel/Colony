@@ -34,7 +34,7 @@
 // reformTheCoinage
 "TXT_KEY_DEDICATION_REFORM_COINAGE_TITLE" = "Reform the Coinage";
 "TXT_KEY_DEDICATION_REFORM_COINAGE_NORMAL_EFFECT" = "Gain +1 Era Score each time you successfully complete a [TradeRoute] Trade Route.";
-"TXT_KEY_DEDICATION_REFORM_COINAGE_GOLDEN_EFFECT" = "Your Traders cannot be Plundered. International [TradeRoute] Trade Routes provide +3 [Gold] Gold per specialty [District] District in the foreign city.";
+"TXT_KEY_DEDICATION_REFORM_COINAGE_GOLDEN_EFFECT" = "Your Traders cannot be Plundered. International [TradeRoute] Trade Routes provide +3 [Gold] Gold per specialty District in the foreign city.";
 
 // heartbeatOfSteam
 "TXT_KEY_DEDICATION_HEARTBEAT_STEAM_TITLE" = "Heartbeat of Steam";

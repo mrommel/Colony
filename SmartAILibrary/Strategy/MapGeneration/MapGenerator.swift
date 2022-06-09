@@ -398,7 +398,9 @@ public class MapGenerator: BaseMapHandler {
 				if self.plots[x, y] == PlotType.sea {
 
                     // check is next continent
-                    let nextToContinent: Bool = gridPoint.neighbors().map { grid.terrain(at: $0).isLand() }.reduce(false) { $0 || $1 }
+                    let nextToContinent: Bool = gridPoint.neighbors()
+                        .map { grid.terrain(at: $0).isLand() }
+                        .contains(true)
 
 					if heightMap[x, y]! > 0.1 || nextToContinent {
                         grid.set(terrain: .shore, at: gridPoint)
@@ -442,6 +444,41 @@ public class MapGenerator: BaseMapHandler {
                         grid.set(terrain: .shore, at: gridPoint)
                     }
                 }
+            }
+        }
+
+        // Expanding coasts (MapGenerator.Lua)
+        // Chance for each eligible plot to become an expansion is 1 / iExpansionDiceroll.
+        // Default is two passes at 1/4 chance per eligible plot on each pass.
+        for _ in 0..<2 {
+            var shallowWaterPlots: [HexPoint] = []
+            for x in 0..<width {
+                for y in 0..<height {
+                    let gridPoint = HexPoint(x: x, y: y)
+
+                    if grid.terrain(at: gridPoint) == .ocean {
+                        var isAdjacentToShallowWater: Bool = false
+                        for neighbor in gridPoint.neighbors() {
+
+                            guard let neighborTile = grid.tile(at: neighbor) else {
+                                continue
+                            }
+
+                            if neighborTile.terrain() == .shore && Int.random(number: 5) == 0 {
+                                isAdjacentToShallowWater = true
+                                break
+                            }
+                        }
+
+                        if isAdjacentToShallowWater {
+                            shallowWaterPlots.append(gridPoint)
+                        }
+                    }
+                }
+            }
+
+            for shallowWaterPlot in shallowWaterPlots {
+                grid.set(terrain: .shore, at: shallowWaterPlot)
             }
         }
 
@@ -666,7 +703,9 @@ public class MapGenerator: BaseMapHandler {
                 if tile.isWater() {
 
                     var canHaveIce = false
-                    if grid.canHave(feature: .ice, at: gridPoint) && !grid.river(at: gridPoint) && (y == 0 || y == grid.size.height() - 1) /*&& self.climateZones[x, y] == .polar*/ {
+                    if grid.canHave(feature: .ice, at: gridPoint) &&
+                        !grid.river(at: gridPoint) && (y == 0 || y == grid.size.height() - 1) {
+
                         waterTilesWithIcePossible.append(gridPoint)
                         canHaveIce = true
                     }
@@ -713,7 +752,9 @@ public class MapGenerator: BaseMapHandler {
                 floodPlainsFeatures += 1
 
                 continue
-            } else if grid.canHave(feature: .oasis, at: featureLocation) && (oasisFeatures * 100 / landTilesWithFeaturePossible.count) <= oasisPercent {
+            } else if grid.canHave(feature: .oasis, at: featureLocation) &&
+                        (oasisFeatures * 100 / landTilesWithFeaturePossible.count) <= oasisPercent {
+
                 gridRef?.set(feature: .oasis, at: featureLocation)
                 oasisFeatures += 1
 
@@ -724,11 +765,15 @@ public class MapGenerator: BaseMapHandler {
                 // First check to add Marsh
                 gridRef?.set(feature: .marsh, at: featureLocation)
                 marshFeatures += 1
-            } else if grid.canHave(feature: .rainforest, at: featureLocation) && (rainForestFeatures * 100 / landTilesWithFeaturePossible.count) <= rainForestPercent {
+            } else if grid.canHave(feature: .rainforest, at: featureLocation) &&
+                        (rainForestFeatures * 100 / landTilesWithFeaturePossible.count) <= rainForestPercent {
+
                 // First check to add Jungle
                 gridRef?.set(feature: .rainforest, at: featureLocation)
                 rainForestFeatures += 1
-            } else if grid.canHave(feature: .forest, at: featureLocation) && (forestFeatures * 100 / landTilesWithFeaturePossible.count) <= forestPercent {
+            } else if grid.canHave(feature: .forest, at: featureLocation) &&
+                        (forestFeatures * 100 / landTilesWithFeaturePossible.count) <= forestPercent {
+
                 // First check to add Forest
                 gridRef?.set(feature: .forest, at: featureLocation)
                 forestFeatures += 1

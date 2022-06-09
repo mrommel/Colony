@@ -401,13 +401,24 @@ public class Government: AbstractGovernment {
 
     public func set(governmentType: GovernmentType, in gameModel: GameModel?) {
 
-        self.currentGovernmentVal = governmentType
-        self.policyCardsVal = PolicyCardSet() // reset card selection
+        if self.currentGovernmentVal != governmentType {
 
-        self.player?.doUpdateTradeRouteCapacity(in: gameModel)
+            guard let player = self.player else {
+                fatalError("cant get player to change government type")
+            }
 
-        // send gossip to other players
-        gameModel?.sendGossip(type: .governmentChange(government: governmentType), of: self.player)
+            self.currentGovernmentVal = governmentType
+            self.policyCardsVal = PolicyCardSet() // reset card selection
+
+            if player.isHuman() {
+                player.notifications()?.add(notification: .policiesNeeded)
+            }
+
+            player.doUpdateTradeRouteCapacity(in: gameModel)
+
+            // send gossip to other players
+            gameModel?.sendGossip(type: .governmentChange(government: governmentType), of: player)
+        }
     }
 
     public func set(policyCardSet: AbstractPolicyCardSet) throws {
@@ -445,6 +456,16 @@ public class Government: AbstractGovernment {
             // alhambra: +1 Military policy slot
             if player.has(wonder: .alhambra, in: gameModel) {
                 policyCardSlots.military += 1
+            }
+
+            // forbiddenCity: +1 Wildcard policy slot
+            if player.has(wonder: .forbiddenCity, in: gameModel) {
+                policyCardSlots.wildcard += 1
+            }
+
+            // potalaPalace: +1 Diplomatic policy slot
+            if player.has(wonder: .potalaPalace, in: gameModel) {
+                policyCardSlots.diplomatic += 1
             }
 
             return policyCardSlots

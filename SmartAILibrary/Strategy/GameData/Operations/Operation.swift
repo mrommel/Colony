@@ -726,9 +726,12 @@ public class Operation: Codable, Equatable {
     /// Returns true when we should abort the operation totally (besides when we have lost all units in it)
     func shouldAbort(in gameModel: GameModel?) -> Bool {
 
-        guard let gameModel = gameModel,
-              let army = self.army else {
+        guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
+        }
+
+        guard let army = self.army else {
+            return true
         }
 
         // Mark units in successful operation

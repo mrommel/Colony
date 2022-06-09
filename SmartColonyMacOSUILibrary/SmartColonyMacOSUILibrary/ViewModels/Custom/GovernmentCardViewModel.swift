@@ -14,7 +14,9 @@ protocol GovernmentCardViewModelDelegate: AnyObject {
     func update()
 }
 
-class GovernmentCardViewModel: ObservableObject, Hashable {
+class GovernmentCardViewModel: ObservableObject, Identifiable {
+
+    let id: UUID = UUID()
 
     // variables
     let governmentType: GovernmentType
@@ -59,14 +61,18 @@ class GovernmentCardViewModel: ObservableObject, Hashable {
 
         return ImageCache.shared.image(for: self.governmentType.ambientTexture()).crop(toSize: NSSize(width: 300, height: 100))!
     }
+}
+
+extension GovernmentCardViewModel: Hashable {
 
     static func == (lhs: GovernmentCardViewModel, rhs: GovernmentCardViewModel) -> Bool {
 
-        return lhs.governmentType == rhs.governmentType
+        return lhs.governmentType == rhs.governmentType && lhs.id == rhs.id
     }
 
     func hash(into hasher: inout Hasher) {
 
+        hasher.combine(self.id)
         hasher.combine(self.governmentType)
     }
 }

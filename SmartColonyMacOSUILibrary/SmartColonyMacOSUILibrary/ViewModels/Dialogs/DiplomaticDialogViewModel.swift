@@ -237,7 +237,7 @@ public class DiplomaticDialogViewModel: ObservableObject {
 
         var tmpRaiseAccessLevelTexts: [String] = []
 
-        if !humanPlayerDiplomacyAI.hasSendDelegation(to: otherPlayer) && !humanPlayerDiplomacyAI.hasEmbassy(with: otherPlayer) {
+        if !humanPlayerDiplomacyAI.hasSentDelegation(to: otherPlayer) && !humanPlayerDiplomacyAI.hasEmbassy(with: otherPlayer) {
             // LOC_VIZSOURCE_ACTION_DELEGATE
             tmpRaiseAccessLevelTexts.append("TXT_KEY_DIPLOMACY_RAISE_ACCESS_LEVEL_ACTION_DELEGATE".localized())
         }
@@ -408,6 +408,19 @@ public class DiplomaticDialogViewModel: ObservableObject {
         self.updateGossip()
     }
 
+    func declareFriendshipTooltip() -> NSAttributedString {
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: "TXT_KEY_DIPLOMACY_ACTION_DECLARE_FRIENDSHIP_TOOLTIP".localized(),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        return toolTipText
+    }
+
     func sendDelegationClicked() {
 
         guard let gameModel = self.gameEnvironment.game.value else {
@@ -425,6 +438,19 @@ public class DiplomaticDialogViewModel: ObservableObject {
         self.updateActions()
         self.updateAccessLevel()
         self.updateGossip()
+    }
+
+    func sendDelegationTooltip() -> NSAttributedString {
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: "TXT_KEY_DIPLOMACY_ACTION_DELEGATION_TOOLTIP".localized(),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        return toolTipText
     }
 
     func sendEmbassyClicked() {
@@ -464,6 +490,19 @@ public class DiplomaticDialogViewModel: ObservableObject {
         self.updateGossip()
     }
 
+    func denounceTooltip() -> NSAttributedString {
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: "TXT_KEY_DIPLOMACY_ACTION_DENOUNCE_TOOLTIP".localized(),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        return toolTipText
+    }
+
     func declareSurpriseWarClicked() {
 
         guard let gameModel = self.gameEnvironment.game.value else {
@@ -483,9 +522,35 @@ public class DiplomaticDialogViewModel: ObservableObject {
         self.updateGossip()
     }
 
+    func declareWarTooltip() -> NSAttributedString {
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: "TXT_KEY_DIPLOMACY_ACTION_DECLARE_WAR_TOOLTIP".localized(),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        return toolTipText
+    }
+
     func makeDealClicked() {
 
         // change something on the UI !
+    }
+
+    func makeDealTooltip() -> NSAttributedString {
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: "TXT_KEY_DIPLOMACY_ACTION_MAKE_DEAL_TOOLTIP".localized(),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        return toolTipText
     }
 
     func closeDialog() {

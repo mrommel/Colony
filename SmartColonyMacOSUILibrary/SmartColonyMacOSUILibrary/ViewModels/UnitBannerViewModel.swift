@@ -404,6 +404,11 @@ class UnitBannerViewModel: ObservableObject {
             if let selectedUnit = self.selectedUnit {
                 self.unitActionBackgroundQueue.async {
                     selectedUnit.doPillage(in: gameModel)
+
+                    DispatchQueue.main.async {
+                        let commands = selectedUnit.commands(in: gameModel)
+                        self.selectedUnitChanged(to: selectedUnit, commands: commands, in: gameModel)
+                    }
                 }
             }
 
@@ -477,8 +482,14 @@ class UnitBannerViewModel: ObservableObject {
             if let selectedUnit = self.selectedUnit {
                 self.unitActionBackgroundQueue.async {
                     selectedUnit.doCancelOrder(in: gameModel)
+
+                    DispatchQueue.main.async {
+                        let commands = selectedUnit.commands(in: gameModel)
+                        self.selectedUnitChanged(to: selectedUnit, commands: commands, in: gameModel)
+                    }
                 }
             }
+
         case .upgrade:
             if let selectedUnit = self.selectedUnit {
                 if let upgradeUnitType = selectedUnit.upgradeType() {

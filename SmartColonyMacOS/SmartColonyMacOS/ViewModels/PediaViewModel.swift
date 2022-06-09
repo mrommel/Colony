@@ -177,23 +177,23 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         self.title = civilization.name().localized()
         self.summary = "Civilization"
-        self.detail = "Civilization with the ability " + civilization.ability().name()
+        self.detail = "Civilization with the ability " + civilization.ability().name().localized()
         self.imageName = civilization.iconTexture()
     }
 
     init(unit: UnitType) {
 
-        self.title = unit.name()
+        self.title = unit.name().localized()
         self.summary = "Unit of class \(unit.unitClass().name())"
         var detailText = "Effects: \n"
-        unit.effects().forEach { detailText += ("* " + $0 + "\n") }
+        unit.effects().forEach { detailText += ("* " + $0.localized() + "\n") }
         self.detail = detailText
         self.imageName = unit.portraitTexture()
     }
 
     init(building: BuildingType) {
 
-        self.title = building.name()
+        self.title = building.name().localized()
 
         var requiredText = ""
         if let requiredTech = building.requiredTech() {
@@ -205,14 +205,14 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         self.summary = "Building that can be built with \(building.productionCost()) [Production] production. " +
             "It requires \(requiredText) to be researched."
         var detailText = "Effects: \n"
-        building.effects().forEach { detailText += ("* " + $0 + "\n") }
+        building.effects().forEach { detailText += ("* " + $0.localized() + "\n") }
         self.detail = detailText
         self.imageName = building.iconTexture()
     }
 
     init(district: DistrictType) {
 
-        self.title = district.name()
+        self.title = district.name().localized()
 
         var requiredText = ""
         if let requiredTech = district.requiredTech() {
@@ -225,7 +225,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
             "It requires \(requiredText) to be researched."
 
         var detailText = "Effects: \n"
-        district.effects().forEach { detailText += ("* " + $0 + "\n") }
+        district.effects().forEach { detailText += ("* " + $0.localized() + "\n") }
         self.detail = detailText
         self.imageName = district.iconTexture()
     }
@@ -278,10 +278,10 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         var detailText = "Enables: "
         var enables: [String] = []
-        enables += tech.achievements().buildTypes.map { $0.name() }
-        enables += tech.achievements().buildingTypes.map { $0.name() }
-        enables += tech.achievements().districtTypes.map { $0.name() }
-        enables += tech.achievements().unitTypes.map { $0.name() }
+        enables += tech.achievements().buildTypes.map { $0.name().localized() }
+        enables += tech.achievements().buildingTypes.map { $0.name().localized() }
+        enables += tech.achievements().districtTypes.map { $0.name().localized() }
+        enables += tech.achievements().unitTypes.map { $0.name().localized() }
         enables += tech.achievements().wonderTypes.map { $0.name().localized() }
         detailText += ListFormatter.localizedString(byJoining: enables)
         detailText += "\n"
@@ -301,12 +301,12 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
 
         var detailText = "Enables: "
         var enables: [String] = []
-        enables += civic.achievements().buildTypes.map { $0.name() }
-        enables += civic.achievements().buildingTypes.map { $0.name() }
-        enables += civic.achievements().districtTypes.map { $0.name() }
+        enables += civic.achievements().buildTypes.map { $0.name().localized() }
+        enables += civic.achievements().buildingTypes.map { $0.name().localized() }
+        enables += civic.achievements().districtTypes.map { $0.name().localized() }
         enables += civic.achievements().governments.map { $0.name().localized() }
         enables += civic.achievements().policyCards.map { $0.name().localized() }
-        enables += civic.achievements().unitTypes.map { $0.name() }
+        enables += civic.achievements().unitTypes.map { $0.name().localized() }
         enables += civic.achievements().wonderTypes.map { $0.name().localized() }
         detailText += ListFormatter.localizedString(byJoining: enables)
         detailText += "\n"

@@ -47,6 +47,7 @@
 		C97ACD0327D673A000AD0721 /* CityStateQuestExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97ACD0227D673A000AD0721 /* CityStateQuestExtension.swift */; };
 		C980E77326E0C60F0089053A /* CombatResultTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C980E77226E0C60F0089053A /* CombatResultTypeExtension.swift */; };
 		C98115E327F9868F00BFA5FD /* caravane-idle.slp in Resources */ = {isa = PBXBuildFile; fileRef = C98115E127F9866900BFA5FD /* caravane-idle.slp */; };
+		C985037F28454D9A0074A025 /* Buildings.strings in Resources */ = {isa = PBXBuildFile; fileRef = C985037E28454D990074A025 /* Buildings.strings */; };
 		C988EAE7261B916800300C39 /* Units.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C988EAE6261B916800300C39 /* Units.xcassets */; };
 		C98E68B12577D28E00BD93CA /* FeatureTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E68AE2577D28E00BD93CA /* FeatureTypeExtension.swift */; };
 		C98E68B22577D28E00BD93CA /* ResourceTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E68AF2577D28E00BD93CA /* ResourceTypeExtension.swift */; };
@@ -108,6 +109,7 @@
 		C9CD3195278D6499002D53C4 /* MomentTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CD3194278D6499002D53C4 /* MomentTypeExtension.swift */; };
 		C9CD3197278D7571002D53C4 /* VictoryTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CD3196278D7571002D53C4 /* VictoryTypeExtension.swift */; };
 		C9D5D25326F8630A00009817 /* GovernorTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D5D25226F8630A00009817 /* GovernorTypeExtension.swift */; };
+		C9E6630E2850DA4D0077DB26 /* Districts.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9E6630D2850DA4D0077DB26 /* Districts.strings */; };
 		C9E6762D27CC238C009514CB /* CityStates.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9E6762C27CC238C009514CB /* CityStates.strings */; };
 		C9E80CCB27C7BE360048216B /* caravane-walk.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9E80CC927C7BE350048216B /* caravane-walk.slp */; };
 		C9E80CCC27C7BE360048216B /* caravane-idle.slp in Resources */ = {isa = PBXBuildFile; fileRef = C9E80CCA27C7BE360048216B /* caravane-idle.slp */; };
@@ -199,6 +201,7 @@
 		C97ACD0227D673A000AD0721 /* CityStateQuestExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityStateQuestExtension.swift; sourceTree = "<group>"; };
 		C980E77226E0C60F0089053A /* CombatResultTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatResultTypeExtension.swift; sourceTree = "<group>"; };
 		C98115E127F9866900BFA5FD /* caravane-idle.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "caravane-idle.slp"; sourceTree = "<group>"; };
+		C985037E28454D990074A025 /* Buildings.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Buildings.strings; sourceTree = "<group>"; };
 		C988EAE6261B916800300C39 /* Units.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Units.xcassets; sourceTree = "<group>"; };
 		C98E68AE2577D28E00BD93CA /* FeatureTypeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureTypeExtension.swift; sourceTree = "<group>"; };
 		C98E68AF2577D28E00BD93CA /* ResourceTypeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTypeExtension.swift; sourceTree = "<group>"; };
@@ -261,6 +264,7 @@
 		C9CD3194278D6499002D53C4 /* MomentTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentTypeExtension.swift; sourceTree = "<group>"; };
 		C9CD3196278D7571002D53C4 /* VictoryTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VictoryTypeExtension.swift; sourceTree = "<group>"; };
 		C9D5D25226F8630A00009817 /* GovernorTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorTypeExtension.swift; sourceTree = "<group>"; };
+		C9E6630D2850DA4D0077DB26 /* Districts.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Districts.strings; sourceTree = "<group>"; };
 		C9E6762C27CC238C009514CB /* CityStates.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = CityStates.strings; sourceTree = "<group>"; };
 		C9E80CC927C7BE350048216B /* caravane-walk.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "caravane-walk.slp"; sourceTree = "<group>"; };
 		C9E80CCA27C7BE360048216B /* caravane-idle.slp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "caravane-idle.slp"; sourceTree = "<group>"; };
@@ -492,6 +496,8 @@
 				C970A5F52794876300381603 /* Wonders.strings */,
 				C92D6B8D27D9D88A002EA5C5 /* Diplomacy.strings */,
 				C9C1699827DCF61000E61088 /* Leaders.strings */,
+				C985037E28454D990074A025 /* Buildings.strings */,
+				C9E6630D2850DA4D0077DB26 /* Districts.strings */,
 			);
 			path = Strings;
 			sourceTree = "<group>";
@@ -655,6 +661,7 @@
 				C9C234A52768EEB400905C97 /* CityNames.strings in Resources */,
 				C970A5F62794876300381603 /* Wonders.strings in Resources */,
 				C9CD3193278CB711002D53C4 /* Moments.strings in Resources */,
+				C9E6630E2850DA4D0077DB26 /* Districts.strings in Resources */,
 				C9E80CCB27C7BE360048216B /* caravane-walk.slp in Resources */,
 				C9A09855261CB6930098C5E1 /* scout.png in Resources */,
 				C9A0985B261CB6930098C5E1 /* man_at_arms.xml in Resources */,
@@ -665,6 +672,7 @@
 				C9A25C1427023BD50071B186 /* prophet.png in Resources */,
 				C9A09848261CB6930098C5E1 /* spearman.png in Resources */,
 				C9E80CD227C7CCE60048216B /* AOE1_50500.pal in Resources */,
+				C985037F28454D9A0074A025 /* Buildings.strings in Resources */,
 				C9A09847261CB6930098C5E1 /* horseman.png in Resources */,
 				C932BA842774AC4E00F4640D /* Dedications.strings in Resources */,
 				C9A0984F261CB6930098C5E1 /* long_swordman.png in Resources */,

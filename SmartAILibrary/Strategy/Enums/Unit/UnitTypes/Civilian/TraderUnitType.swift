@@ -18,7 +18,7 @@ internal class TraderUnitType: UnitTypeData {
             baseType: .trader,
             domain: .land,
             effects: [
-                "May make and maintain a single Trade Route Trade Route. Automatically creates Roads as it travels.",
+                "May make and maintain a single [TradeRoute] Trade Route. Automatically creates Roads as it travels.",
                 "Production cost is progressive."
             ],
             abilities: [

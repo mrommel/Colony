@@ -204,6 +204,8 @@ class Civics: AbstractCivics {
             }
         }
 
+        self.updateInspirations(in: gameModel)
+
         // check quests
         for quest in player.ownQuests(in: gameModel) {
 
@@ -228,6 +230,11 @@ class Civics: AbstractCivics {
 
             gameModel?.checkArchaeologySites()
         }
+    }
+
+    func updateInspirations(in gameModel: GameModel?) {
+
+        // NOOP
     }
 
     func needToChooseCivic() -> Bool {

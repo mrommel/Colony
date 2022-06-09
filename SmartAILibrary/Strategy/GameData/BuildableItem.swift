@@ -129,6 +129,7 @@ public class BuildableItem: Codable {
             self.districtType = nil
             self.projectType = nil
             self.location = nil
+
         case .building:
             self.unitType = nil
             self.buildingType = try container.decode(BuildingType.self, forKey: .building)
@@ -136,6 +137,7 @@ public class BuildableItem: Codable {
             self.districtType = nil
             self.projectType = nil
             self.location = nil
+
         case .wonder:
             self.unitType = nil
             self.buildingType = nil
@@ -143,6 +145,7 @@ public class BuildableItem: Codable {
             self.districtType = nil
             self.projectType = nil
             self.location = try container.decode(HexPoint.self, forKey: .location)
+
         case .district:
             self.unitType = nil
             self.buildingType = nil
@@ -150,6 +153,7 @@ public class BuildableItem: Codable {
             self.districtType = try container.decode(DistrictType.self, forKey: .district)
             self.projectType = nil
             self.location = try container.decode(HexPoint.self, forKey: .location)
+
         case .project:
             self.unitType = nil
             self.buildingType = nil
@@ -181,13 +185,17 @@ public class BuildableItem: Codable {
         self.production += productionDelta
     }
 
-    func productionLeft() -> Double {
+    func productionLeft(for player: AbstractPlayer?) -> Double {
+
+        guard let player = player else {
+            fatalError("cant get player")
+        }
 
         switch self.type {
 
         case .unit:
             if let unitType = self.unitType {
-                return Double(unitType.productionCost()) - self.production
+                return Double(player.productionCost(of: unitType)) - self.production
             }
 
             return 0.0
@@ -218,9 +226,13 @@ public class BuildableItem: Codable {
         }
     }
 
-    func ready() -> Bool {
+    func ready(for player: AbstractPlayer?) -> Bool {
 
-        return self.productionLeft() <= 0
+        guard let player = player else {
+            fatalError("cant get player")
+        }
+
+        return self.productionLeft(for: player) <= 0
     }
 }
 

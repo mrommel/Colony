@@ -20,13 +20,13 @@ class GoodyHutRewardPopupViewModel: ObservableObject {
 
     init() {
 
-        self.title = "Received Goodies"
-        self.text = "The people from a tribal village gave you a present."
+        self.title = "TXT_KEY_GOODY_REWARD_RECEIVED_TITLE".localized()
+        self.text = "TXT_KEY_GOODY_REWARD_RECEIVED_SUMMARY".localized()
     }
 
     func update(for goodyHutType: GoodyType, at location: HexPoint) {
 
-        self.text = "The people from a tribal village gave you a present. \(goodyHutType.effect())"
+        self.text = "TXT_KEY_GOODY_REWARD_RECEIVED_SUMMARY".localized() + " " + goodyHutType.effect().localized()
     }
 
     func closePopup() {

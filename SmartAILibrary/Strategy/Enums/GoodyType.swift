@@ -105,24 +105,24 @@ public enum GoodyType: Int, Codable {
             // gold
         case .goldMinorGift:
             return GoodyTypeData(
-                name: "Gold gift (minor)",
-                effect: "Receive a gift of 40 Gold from the villagers.",
+                name: "TXT_KEY_GOODY_REWARD_MINOR_GOLD_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_MINOR_GOLD_EFFECT",
                 category: .gold,
                 minimalTurn: 0,
                 probability: 55
             )
         case .goldMediumGift:
             return GoodyTypeData(
-                name: "Gold gift (medium)",
-                effect: "Receive a gift of 75 Gold from the villagers.",
+                name: "TXT_KEY_GOODY_REWARD_MEDIUM_GOLD_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_MEDIUM_GOLD_EFFECT",
                 category: .gold,
                 minimalTurn: 20,
                 probability: 30
             )
         case .goldMajorGift:
             return GoodyTypeData(
-                name: "Gold gift (major)",
-                effect: "Receive a gift of 120 Gold from the villagers.",
+                name: "TXT_KEY_GOODY_REWARD_MAJOR_GOLD_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_MAJOR_GOLD_EFFECT",
                 category: .gold,
                 minimalTurn: 40,
                 probability: 15
@@ -131,168 +131,168 @@ public enum GoodyType: Int, Codable {
             // culture
         case .civicMinorBoost:
             return GoodyTypeData(
-                name: "Civic boost (minor)",
-                effect: "Villagers share the secrets of their well-ordered society: Receive 1 Inspiration.",
+                name: "TXT_KEY_GOODY_REWARD_MINOR_CIVIC_BOOST_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_MINOR_CIVIC_BOOST_EFFECT",
                 category: .culture,
                 minimalTurn: 0,
                 probability: 55
             )
         case .civicMajorBoost:
             return GoodyTypeData(
-                name: "Civic boost (major)",
-                effect: "Villagers share the secrets of their well-ordered society: Receive 2 Inspiration.",
+                name: "TXT_KEY_GOODY_REWARD_MAJOR_CIVIC_BOOST_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_MAJOR_CIVIC_BOOST_EFFECT",
                 category: .culture,
                 minimalTurn: 30,
                 probability: 30
             )
         case .relic:
             return GoodyTypeData(
-                name: "Relic",
-                effect: "Villagers give you their sacred Relic.",
+                name: "TXT_KEY_GOODY_REWARD_RELIC_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_RELIC_EFFECT",
                 category: .culture,
                 minimalTurn: 0,
                 probability: 15
             )
         case .faithMinorGift:
             return GoodyTypeData(
-                name: "Faith boost (minor)",
-                effect: "Villagers pray for you: Receive 20 Faith.",
+                name: "TXT_KEY_GOODY_REWARD_MINOR_FAITH_BOOST_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_MINOR_FAITH_BOOST_EFFECT",
                 category: .faith,
                 minimalTurn: 20,
                 probability: 55
             )
         case .faithMediumGift:
             return GoodyTypeData(
-                name: "Faith boost (medium)",
-                effect: "Villagers pray for you: Receive 60 Faith.",
+                name: "TXT_KEY_GOODY_REWARD_MEDIUM_FAITH_BOOST_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_MEDIUM_FAITH_BOOST_EFFECT",
                 category: .faith,
                 minimalTurn: 40,
                 probability: 30
             )
         case .faithMajorGift:
             return GoodyTypeData(
-                name: "Faith boost (major)",
-                effect: "Villagers pray for you: Receive 100 Faith.",
+                name: "TXT_KEY_GOODY_REWARD_MAJOR_FAITH_BOOST_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_MAJOR_FAITH_BOOST_EFFECT",
                 category: .faith,
                 minimalTurn: 60,
                 probability: 15
             )
         case .scienceMinorGift:
             return GoodyTypeData(
-                name: "Tech boost (minor)",
-                effect: "Villagers share their technological secrets: Receive 1 Eureka.",
+                name: "TXT_KEY_GOODY_REWARD_MINOR_TECH_BOOST_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_MINOR_TECH_BOOST_EFFECT",
                 category: .science,
                 minimalTurn: 0,
                 probability: 55
             )
         case .scienceMajorGift:
             return GoodyTypeData(
-                name: "Tech boost (major)",
-                effect: "Villagers share their technological secrets: Receive 2 Eurekas.",
+                name: "TXT_KEY_GOODY_REWARD_MAJOR_TECH_BOOST_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_MAJOR_TECH_BOOST_EFFECT",
                 category: .science,
                 minimalTurn: 30,
                 probability: 30
             )
         case .freeTech:
             return GoodyTypeData(
-                name: "Free Technology",
-                effect: "Villagers share their technological secrets: Receive 1 free technology (not a Eureka).",
+                name: "TXT_KEY_GOODY_REWARD_FREE_TECH_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_FREE_TECH_EFFECT",
                 category: .science,
                 minimalTurn: 50,
                 probability: 15
             )
         case .diplomacyMinorBoost:
             return GoodyTypeData(
-                name: "Diplomacy boost (minor)",
-                effect: "Villagers spread the fame of your civilization: Receive 20 Diplomatic Favor.",
+                name: "TXT_KEY_GOODY_REWARD_MINOR_DIPLOMACY_BOOST_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_MINOR_DIPLOMACY_BOOST_EFFECT",
                 category: .diplomacy,
                 minimalTurn: 30,
                 probability: 45
             )
         case .freeEnvoy:
             return GoodyTypeData(
-                name: "Free Envoy",
-                effect: "Villagers help you contact nearby city-state: Receive 1 Envoy.",
+                name: "TXT_KEY_GOODY_REWARD_FREE_ENVOY_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_FREE_ENVOY_EFFECT",
                 category: .diplomacy,
                 minimalTurn: 0,
                 probability: 40
             )
         case .diplomacyMajorBoost:
             return GoodyTypeData(
-                name: "Diplomacy boost (major)",
-                effect: "Villagers share their government secrets: Receive 1 Governor Title.",
+                name: "TXT_KEY_GOODY_REWARD_MAJOR_DIPLOMACY_BOOST_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_MAJOR_DIPLOMACY_BOOST_EFFECT",
                 category: .diplomacy,
                 minimalTurn: 30,
                 probability: 15
             )
         case .freeScout:
             return GoodyTypeData(
-                name: "Free Scout",
-                effect: "A Scout unit from the village joins you.",
+                name: "TXT_KEY_GOODY_REWARD_FREE_SCOUT_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_FREE_SCOUT_EFFECT",
                 category: .military,
                 minimalTurn: 0,
                 probability: 30
             )
         case .healing:
             return GoodyTypeData(
-                name: "Healing",
-                effect: "The villagers Heal the wounds of the unit which activated the village (if it was wounded).",
+                name: "TXT_KEY_GOODY_REWARD_UNIT_HEALING_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_UNIT_HEALING_EFFECT",
                 category: .military,
                 minimalTurn: 0,
                 probability: 25
             )
         case .freeResource:
             return GoodyTypeData(
-                name: "Free resource",
-                effect: "Receive from the villagers 20 units of the most advanced Strategic resource you've uncovered.",
+                name: "TXT_KEY_GOODY_REWARD_FREE_RESOURCE_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_FREE_RESOURCE_EFFECT",
                 category: .military,
                 minimalTurn: 0,
                 probability: 20
             )
         case .experienceBoost:
             return GoodyTypeData(
-                name: "Experience boost",
-                effect: "Villagers train your men: Get an XP boost for the military unit which activated the village.",
+                name: "TXT_KEY_GOODY_REWARD_EXPERIENCE_BOOST_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_EXPERIENCE_BOOST_EFFECT",
                 category: .military,
                 minimalTurn: 0,
                 probability: 20
             )
         case .unitUpgrade:
             return GoodyTypeData(
-                name: "Unit upgrade",
-                effect: "Your unit has been upgraded.",
+                name: "TXT_KEY_GOODY_REWARD_UNIT_UPGRADE_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_UNIT_UPGRADE_EFFECT",
                 category: .military,
                 minimalTurn: 0,
                 probability: 5
             )
         case .additionalPopulation:
             return GoodyTypeData(
-                name: "Additional population",
-                effect: "Survivors decide to join you: Receive a free Citizen in your nearest city.",
+                name: "TXT_KEY_GOODY_REWARD_ADDITIONAL_POPULATION_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_ADDITIONAL_POPULATION_EFFECT",
                 category: .survivors,
                 minimalTurn: 0,
                 probability: 40
             )
         case .freeBuilder:
             return GoodyTypeData(
-                name: "Free Builder",
-                effect: "A Builder unit from the village comes to work for you.",
+                name: "TXT_KEY_GOODY_REWARD_FREE_BUILDER_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_FREE_BUILDER_EFFECT",
                 category: .survivors,
                 minimalTurn: 0,
                 probability: 30
             )
         case .freeTrader:
             return GoodyTypeData(
-                name: "Free Trader",
-                effect: "A Trader unit from the village comes to work for you.",
+                name: "TXT_KEY_GOODY_REWARD_FREE_TRADER_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_FREE_TRADER_EFFECT",
                 category: .survivors,
                 minimalTurn: 15,
                 probability: 25
             )
         case .freeSettler:
             return GoodyTypeData(
-                name: "Free Settler",
-                effect: "A Settler unit from the village joins you.",
+                name: "TXT_KEY_GOODY_REWARD_FREE_SETTLER_TITLE",
+                effect: "TXT_KEY_GOODY_REWARD_FREE_SETTLER_EFFECT",
                 category: .survivors,
                 minimalTurn: 0,
                 probability: 5

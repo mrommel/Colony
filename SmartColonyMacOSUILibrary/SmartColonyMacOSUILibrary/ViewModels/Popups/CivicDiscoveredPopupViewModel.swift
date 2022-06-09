@@ -18,7 +18,7 @@ class CivicDiscoveredPopupViewModel: ObservableObject {
     var nameText: String
 
     @Published
-    var civicViewModels: [CivicViewModel] = []
+    var achievementViewModels: [AchievementViewModel] = []
 
     @Published
     var quoteText: String
@@ -32,6 +32,8 @@ class CivicDiscoveredPopupViewModel: ObservableObject {
         self.title = "TXT_KEY_RESEARCH_COMPLETED".localized()
         self.nameText = "-"
         self.quoteText = "-"
+
+        self.achievementViewModels = self.achievements()
     }
 
     func update(for civicType: CivicType) {
@@ -40,6 +42,8 @@ class CivicDiscoveredPopupViewModel: ObservableObject {
         self.nameText = self.civicType.name().localized()
         let quotes = self.civicType.quoteTexts()
         self.quoteText = !quotes.isEmpty ? quotes.randomItem().localized() : "-"
+
+        self.achievementViewModels = self.achievements()
     }
 
     func icon() -> NSImage {
@@ -47,45 +51,111 @@ class CivicDiscoveredPopupViewModel: ObservableObject {
         return ImageCache.shared.image(for: self.civicType.iconTexture())
     }
 
-    func achievements() -> [NSImage] {
+    private func achievements() -> [AchievementViewModel] {
 
-        var iconTextureNames: [String] = []
+        var achievementViewModels: [AchievementViewModel] = []
 
         let achievements = self.civicType.achievements()
 
+        for governmentType in achievements.governments {
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: governmentType.iconTexture(),
+                    mode: .medium,
+                    toolTipText: governmentType.toolTip()
+                )
+            )
+        }
+
         for buildingType in achievements.buildingTypes {
-            iconTextureNames.append(buildingType.iconTexture())
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: buildingType.iconTexture(),
+                    mode: .medium,
+                    toolTipText: buildingType.toolTip()
+                )
+            )
         }
 
         for unitType in achievements.unitTypes {
-            iconTextureNames.append(unitType.typeTexture())
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: unitType.typeTexture(),
+                    mode: .medium,
+                    toolTipText: unitType.toolTip()
+                )
+            )
         }
 
         for wonderType in achievements.wonderTypes {
-            iconTextureNames.append(wonderType.iconTexture())
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: wonderType.iconTexture(),
+                    mode: .medium,
+                    toolTipText: wonderType.toolTip()
+                )
+            )
         }
 
         for buildType in achievements.buildTypes {
-            iconTextureNames.append(buildType.iconTexture())
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: buildType.iconTexture(),
+                    mode: .medium,
+                    toolTipText: buildType.toolTip()
+                )
+            )
         }
 
         for districtType in achievements.districtTypes {
-            iconTextureNames.append(districtType.iconTexture())
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: districtType.iconTexture(),
+                    mode: .medium,
+                    toolTipText: districtType.toolTip()
+                )
+            )
         }
 
         for policyCard in achievements.policyCards {
-            iconTextureNames.append(policyCard.iconTexture())
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: policyCard.iconTexture(),
+                    mode: .medium,
+                    toolTipText: policyCard.toolTip()
+                )
+            )
         }
 
         if self.civicType.hasGovernorTitle() {
-            iconTextureNames.append("header-button-governors")
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: "header-button-governors",
+                    mode: .medium,
+                    toolTipText: NSAttributedString(string: "TXT_KEY_GOVERNOR_TITLE".localized())
+                )
+            )
         }
 
         if self.civicType.envoys() > 0 {
-            iconTextureNames.append("envoy")
+
+            var toolTipText = ""
+            if self.civicType.envoys() == 1 {
+                toolTipText = "1 " + "TXT_KEY_ENVOY".localized()
+            } else {
+                toolTipText = "\(self.civicType.envoys()) " + "TXT_KEY_ENVOYS".localized()
+            }
+
+            achievementViewModels.append(
+                AchievementViewModel(
+                    imageName: "envoy",
+                    mode: .medium,
+                    toolTipText: NSAttributedString(string: toolTipText, attributes: Globals.Attributs.tooltipTitleAttributs)
+                )
+            )
         }
 
-        return iconTextureNames.map { ImageCache.shared.image(for: $0) }
+        return achievementViewModels
     }
 
     func closePopup() {

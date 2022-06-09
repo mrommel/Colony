@@ -35,9 +35,9 @@ class ReligiousRankingViewModel: ObservableObject {
     ) {
 
         self.civilization = civilization
-        self.toolTip = leader.name()
-        self.leaderName = leader.name()
-        self.religionName = religion.name()
+        self.toolTip = leader.name().localized()
+        self.leaderName = leader.name().localized()
+        self.religionName = religion.name().localized()
         self.convertedCivilizations = convertedCivilizations.map {
             return CivilizationViewModel(civilization: $0)
         }

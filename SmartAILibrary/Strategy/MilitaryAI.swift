@@ -1893,7 +1893,7 @@ public class MilitaryAI: Codable {
             if adjacentPlot.terrain() == .shore {
 
                 if let unit = unit {
-                    if pathFinder.turnsToReachTarget(for: unit, to: adjacentPoint) < Int.max {
+                    if pathFinder.turnsToReachTarget(for: unit, to: adjacentPoint, in: gameModel) < Int.max {
 
                         let distance = unit.location.distance(to: adjacentPoint)
 

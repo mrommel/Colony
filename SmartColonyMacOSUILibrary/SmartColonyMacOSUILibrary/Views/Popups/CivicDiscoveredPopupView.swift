@@ -45,26 +45,23 @@ struct CivicDiscoveredPopupView: View {
                         .padding(.leading, 20)
                         .padding(.trailing, 20)
 
-                    Text("Unlocked by this Tech")
+                    Text("TXT_KEY_CIVICS_DISCOVERED_UNLOCKED".localized())
                         .font(.caption)
                         .padding(.bottom, 0)
 
-                    HStack {
+                    LazyHStack(spacing: 2) {
 
-                        ForEach(self.viewModel.achievements(), id: \.self) { achievement in
+                        ForEach(self.viewModel.achievementViewModels, id: \.self) { achievementViewModel in
 
-                            Image(nsImage: achievement)
-                                .resizable()
-                                .frame(width: 12, height: 12, alignment: .topLeading)
-                                .padding(.trailing, 0)
-                                .padding(.leading, 0)
+                            AchievementView(viewModel: achievementViewModel)
+                                .id("tech-\(achievementViewModel.id)")
+                                .frame(width: 32, height: 32)
+                                .zIndex(51)
                         }
-                        .padding(.top, 2)
-                        .padding(.trailing, 0)
-                        .padding(.leading, 0)
                     }
+                    .padding(.top, 0)
+                    .padding(.trailing, 0)
                     .padding(.leading, 0)
-                    .padding(.bottom, 10)
 
                     GroupBox {
 
@@ -80,7 +77,7 @@ struct CivicDiscoveredPopupView: View {
                     Button(action: {
                         self.viewModel.closePopup()
                     }, label: {
-                        Text("Close")
+                        Text("TXT_KEY_CLOSE".localized())
                     })
                     .padding(.bottom, 8)
                 }
