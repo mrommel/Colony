@@ -1492,7 +1492,7 @@ public class Player: AbstractPlayer {
                     if playerWithMostEnvoys.isEqual(to: self) {
                         cityStatePlayer.set(suzerain: self.leader)
 
-                        if gameModel.anyHasMoment(of: .cityStatesFirstSuzerain(cityState: cityState)) {
+                        if !gameModel.anyHasMoment(of: .cityStatesFirstSuzerain(cityState: cityState)) {
                             self.addMoment(of: .cityStatesFirstSuzerain(cityState: cityState), in: gameModel)
                         }
                     }

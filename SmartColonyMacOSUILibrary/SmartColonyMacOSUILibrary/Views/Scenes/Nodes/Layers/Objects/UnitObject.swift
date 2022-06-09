@@ -339,14 +339,14 @@ class UnitObject {
                     case .attack(from: let from, to: let to):
                         // print("## Animation: \(unit.name()) attack started ##")
                         self.attack(from: from, to: to) {
-                            self.currentAnimation = .idle(location: to)
+                            self.currentAnimation = .idle(location: from)
                             // print("## Animation: \(unit.name()) attack ended ##")
                         }
 
                     case .rangeAttack(from: let from, to: let to):
                         // print("## Animation: \(unit.name()) range attack started ##")
                         self.attack(from: from, to: to) {
-                            self.currentAnimation = .idle(location: to)
+                            self.currentAnimation = .idle(location: from)
                             // print("## Animation: \(unit.name()) range attack ended ##")
                         }
 
