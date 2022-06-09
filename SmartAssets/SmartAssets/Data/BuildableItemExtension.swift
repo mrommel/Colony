@@ -73,12 +73,12 @@ extension BuildableItem {
 
         case .building:
             if let buildingType = self.buildingType {
-                return buildingType.effects()
+                return buildingType.effects().map { $0.localized() }
             }
             return []
         case .unit:
             if let unitType = self.unitType {
-                return unitType.effects()
+                return unitType.effects().map { $0.localized() }
             }
             return []
         case .wonder:
@@ -88,7 +88,7 @@ extension BuildableItem {
             return []
         case .district:
             if let districtType = self.districtType {
-                return districtType.effects()
+                return districtType.effects().map { $0.localized() }
             }
             return []
         case .project:
